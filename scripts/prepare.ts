@@ -94,7 +94,7 @@ async function writeRulesIndex(pkg: PackageInfo) {
 
   const ruleDir = join(pkg.path, 'rules')
 
-  const index = `module.exports = {\n${pkg.rules.map(i => `  '${i.name}': () => require('./${relative(ruleDir, i.entry)}'),`).join('\n')}\n}\n`
+  const index = `module.exports = {\n${pkg.rules.map(i => `  '${i.name}': () => require('./${relative(ruleDir, i.entry).replace(/\\/g, '/')}'),`).join('\n')}\n}\n`
 
   await fs.mkdir(ruleDir, { recursive: true })
   await fs.writeFile(join(ruleDir, 'index.js'), index, 'utf-8')
@@ -118,7 +118,7 @@ async function writeREADME(pkg: PackageInfo) {
 async function writeVitePressRewrite(packages: PackageInfo[]) {
   const lines = packages
     .flatMap(pkg => pkg.rules
-      .map(i => `  '${relative(cwd, i.docsEntry)}': 'rules/${pkg.shortId}/${i.name}.md',`),
+      .map(i => `  '${relative(cwd, i.docsEntry).replace(/\\/g, '/')}': 'rules/${pkg.shortId}/${i.name}.md',`),
     )
 
   const index = `export default {\n${lines.join('\n')}\n}\n`
