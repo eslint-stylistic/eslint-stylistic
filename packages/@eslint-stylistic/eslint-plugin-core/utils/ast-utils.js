@@ -880,19 +880,19 @@ function isConstant(scope, node, inBooleanPosition) {
     case 'ObjectExpression':
 
       /**
-             * In theory objects like:
-             *
-             * `{toString: () => a}`
-             * `{valueOf: () => a}`
-             *
-             * Or a classes like:
-             *
-             * `class { static toString() { return a } }`
-             * `class { static valueOf() { return a } }`
-             *
-             * Are not constant verifiably when `inBooleanPosition` is
-             * false, but it's an edge case we've opted not to handle.
-             */
+       * In theory objects like:
+       *
+       * `{toString: () => a}`
+       * `{valueOf: () => a}`
+       *
+       * Or a classes like:
+       *
+       * `class { static toString() { return a } }`
+       * `class { static valueOf() { return a } }`
+       *
+       * Are not constant verifiably when `inBooleanPosition` is
+       * false, but it's an edge case we've opted not to handle.
+       */
       return true
     case 'TemplateLiteral':
       return (inBooleanPosition && node.quasis.some(quasi => quasi.value.cooked.length))
@@ -1000,12 +1000,12 @@ module.exports = {
   STATEMENT_LIST_PARENTS,
 
   /**
-     * Determines whether two adjacent tokens are on the same line.
-     * @param {Object} left The left token object.
-     * @param {Object} right The right token object.
-     * @returns {boolean} Whether or not the tokens are on the same line.
-     * @public
-     */
+   * Determines whether two adjacent tokens are on the same line.
+   * @param {object} left The left token object.
+   * @param {object} right The right token object.
+   * @returns {boolean} Whether or not the tokens are on the same line.
+   * @public
+   */
   isTokenOnSameLine(left, right) {
     return left.loc.end.line === right.loc.start.line
   },
@@ -1050,10 +1050,10 @@ module.exports = {
   isEqToken,
 
   /**
-     * Checks whether or not a given node is a string literal.
-     * @param {ASTNode} node A node to check.
-     * @returns {boolean} `true` if the node is a string literal.
-     */
+   * Checks whether or not a given node is a string literal.
+   * @param {ASTNode} node A node to check.
+   * @returns {boolean} `true` if the node is a string literal.
+   */
   isStringLiteral(node) {
     return (
       (node.type === 'Literal' && typeof node.value === 'string')
@@ -1062,48 +1062,48 @@ module.exports = {
   },
 
   /**
-     * Checks whether a given node is a breakable statement or not.
-     * The node is breakable if the node is one of the following type:
-     *
-     * - DoWhileStatement
-     * - ForInStatement
-     * - ForOfStatement
-     * - ForStatement
-     * - SwitchStatement
-     * - WhileStatement
-     * @param {ASTNode} node A node to check.
-     * @returns {boolean} `true` if the node is breakable.
-     */
+   * Checks whether a given node is a breakable statement or not.
+   * The node is breakable if the node is one of the following type:
+   *
+   * - DoWhileStatement
+   * - ForInStatement
+   * - ForOfStatement
+   * - ForStatement
+   * - SwitchStatement
+   * - WhileStatement
+   * @param {ASTNode} node A node to check.
+   * @returns {boolean} `true` if the node is breakable.
+   */
   isBreakableStatement(node) {
     return breakableTypePattern.test(node.type)
   },
 
   /**
-     * Gets references which are non initializer and writable.
-     * @param {Reference[]} references An array of references.
-     * @returns {Reference[]} An array of only references which are non initializer and writable.
-     * @public
-     */
+   * Gets references which are non initializer and writable.
+   * @param {Reference[]} references An array of references.
+   * @returns {Reference[]} An array of only references which are non initializer and writable.
+   * @public
+   */
   getModifyingReferences(references) {
     return references.filter(isModifyingReference)
   },
 
   /**
-     * Validate that a string passed in is surrounded by the specified character
-     * @param {string} val The text to check.
-     * @param {string} character The character to see if it's surrounded by.
-     * @returns {boolean} True if the text is surrounded by the character, false if not.
-     * @private
-     */
+   * Validate that a string passed in is surrounded by the specified character
+   * @param {string} val The text to check.
+   * @param {string} character The character to see if it's surrounded by.
+   * @returns {boolean} True if the text is surrounded by the character, false if not.
+   * @private
+   */
   isSurroundedBy(val, character) {
     return val[0] === character && val[val.length - 1] === character
   },
 
   /**
-     * Returns whether the provided node is an ESLint directive comment or not
-     * @param {Line|Block} node The comment token to be checked
-     * @returns {boolean} `true` if the node is an ESLint directive comment
-     */
+   * Returns whether the provided node is an ESLint directive comment or not
+   * @param {Line|Block} node The comment token to be checked
+   * @returns {boolean} `true` if the node is an ESLint directive comment
+   */
   isDirectiveComment(node) {
     const comment = node.value.trim()
 
@@ -1114,23 +1114,23 @@ module.exports = {
   },
 
   /**
-     * Gets the trailing statement of a given node.
-     *
-     *     if (code)
-     *         consequent;
-     *
-     * When taking this `IfStatement`, returns `consequent;` statement.
-     * @param {ASTNode} A node to get.
-     * @returns {ASTNode|null} The trailing statement's node.
-     */
+   * Gets the trailing statement of a given node.
+   *
+   *     if (code)
+   *         consequent;
+   *
+   * When taking this `IfStatement`, returns `consequent;` statement.
+   * @param {ASTNode} A node to get.
+   * @returns {ASTNode|null} The trailing statement's node.
+   */
   getTrailingStatement: esutils.ast.trailingStatement,
 
   /**
-     * Finds the variable by a given name in a given scope and its upper scopes.
-     * @param {eslint-scope.Scope} initScope A scope to start find.
-     * @param {string} name A variable name to find.
-     * @returns {eslint-scope.Variable|null} A found variable or `null`.
-     */
+   * Finds the variable by a given name in a given scope and its upper scopes.
+   * @param {eslint-scope.Scope} initScope A scope to start find.
+   * @param {string} name A variable name to find.
+   * @returns {eslint-scope.Variable|null} A found variable or `null`.
+   */
   getVariableByName(initScope, name) {
     let scope = initScope
 
@@ -1147,33 +1147,33 @@ module.exports = {
   },
 
   /**
-     * Checks whether or not a given function node is the default `this` binding.
-     *
-     * First, this checks the node:
-     *
-     * - The given node is not in `PropertyDefinition#value` position.
-     * - The given node is not `StaticBlock`.
-     * - The function name does not start with uppercase. It's a convention to capitalize the names
-     *   of constructor functions. This check is not performed if `capIsConstructor` is set to `false`.
-     * - The function does not have a JSDoc comment that has a @this tag.
-     *
-     * Next, this checks the location of the node.
-     * If the location is below, this judges `this` is valid.
-     *
-     * - The location is not on an object literal.
-     * - The location is not assigned to a variable which starts with an uppercase letter. Applies to anonymous
-     *   functions only, as the name of the variable is considered to be the name of the function in this case.
-     *   This check is not performed if `capIsConstructor` is set to `false`.
-     * - The location is not on an ES2015 class.
-     * - Its `bind`/`call`/`apply` method is not called directly.
-     * - The function is not a callback of array methods (such as `.forEach()`) if `thisArg` is given.
-     * @param {ASTNode} node A function node to check. It also can be an implicit function, like `StaticBlock`
-     * or any expression that is `PropertyDefinition#value` node.
-     * @param {SourceCode} sourceCode A SourceCode instance to get comments.
-     * @param {boolean} [capIsConstructor = true] `false` disables the assumption that functions which name starts
-     * with an uppercase or are assigned to a variable which name starts with an uppercase are constructors.
-     * @returns {boolean} The function node is the default `this` binding.
-     */
+   * Checks whether or not a given function node is the default `this` binding.
+   *
+   * First, this checks the node:
+   *
+   * - The given node is not in `PropertyDefinition#value` position.
+   * - The given node is not `StaticBlock`.
+   * - The function name does not start with uppercase. It's a convention to capitalize the names
+   *   of constructor functions. This check is not performed if `capIsConstructor` is set to `false`.
+   * - The function does not have a JSDoc comment that has a @this tag.
+   *
+   * Next, this checks the location of the node.
+   * If the location is below, this judges `this` is valid.
+   *
+   * - The location is not on an object literal.
+   * - The location is not assigned to a variable which starts with an uppercase letter. Applies to anonymous
+   *   functions only, as the name of the variable is considered to be the name of the function in this case.
+   *   This check is not performed if `capIsConstructor` is set to `false`.
+   * - The location is not on an ES2015 class.
+   * - Its `bind`/`call`/`apply` method is not called directly.
+   * - The function is not a callback of array methods (such as `.forEach()`) if `thisArg` is given.
+   * @param {ASTNode} node A function node to check. It also can be an implicit function, like `StaticBlock`
+   * or any expression that is `PropertyDefinition#value` node.
+   * @param {SourceCode} sourceCode A SourceCode instance to get comments.
+   * @param {boolean} [capIsConstructor] `false` disables the assumption that functions which name starts
+   * with an uppercase or are assigned to a variable which name starts with an uppercase are constructors.
+   * @returns {boolean} The function node is the default `this` binding.
+   */
   isDefaultThisBinding(node, sourceCode, { capIsConstructor = true } = {}) {
     /*
          * Class field initializers are implicit functions, but ESTree doesn't have the AST node of field initializers.
@@ -1352,11 +1352,11 @@ module.exports = {
   },
 
   /**
-     * Get the precedence level based on the node type
-     * @param {ASTNode} node node to evaluate
-     * @returns {int} precedence level
-     * @private
-     */
+   * Get the precedence level based on the node type
+   * @param {ASTNode} node node to evaluate
+   * @returns {int} precedence level
+   * @private
+   */
   getPrecedence(node) {
     switch (node.type) {
       case 'SequenceExpression':
@@ -1452,28 +1452,28 @@ module.exports = {
   },
 
   /**
-     * Checks whether the given node is an empty block node or not.
-     * @param {ASTNode|null} node The node to check.
-     * @returns {boolean} `true` if the node is an empty block.
-     */
+   * Checks whether the given node is an empty block node or not.
+   * @param {ASTNode|null} node The node to check.
+   * @returns {boolean} `true` if the node is an empty block.
+   */
   isEmptyBlock(node) {
     return Boolean(node && node.type === 'BlockStatement' && node.body.length === 0)
   },
 
   /**
-     * Checks whether the given node is an empty function node or not.
-     * @param {ASTNode|null} node The node to check.
-     * @returns {boolean} `true` if the node is an empty function.
-     */
+   * Checks whether the given node is an empty function node or not.
+   * @param {ASTNode|null} node The node to check.
+   * @returns {boolean} `true` if the node is an empty function.
+   */
   isEmptyFunction(node) {
     return isFunction(node) && module.exports.isEmptyBlock(node.body)
   },
 
   /**
-     * Get directives from directive prologue of a Program or Function node.
-     * @param {ASTNode} node The node to check.
-     * @returns {ASTNode[]} The directives found in the directive prologue.
-     */
+   * Get directives from directive prologue of a Program or Function node.
+   * @param {ASTNode} node The node to check.
+   * @returns {ASTNode[]} The directives found in the directive prologue.
+   */
   getDirectivePrologue(node) {
     const directives = []
 
@@ -1506,108 +1506,108 @@ module.exports = {
   },
 
   /**
-     * Determines whether this node is a decimal integer literal. If a node is a decimal integer literal, a dot added
-     * after the node will be parsed as a decimal point, rather than a property-access dot.
-     * @param {ASTNode} node The node to check.
-     * @returns {boolean} `true` if this node is a decimal integer.
-     * @example
-     *
-     * 0         // true
-     * 5         // true
-     * 50        // true
-     * 5_000     // true
-     * 1_234_56  // true
-     * 08        // true
-     * 0192      // true
-     * 5.        // false
-     * .5        // false
-     * 5.0       // false
-     * 5.00_00   // false
-     * 05        // false
-     * 0x5       // false
-     * 0b101     // false
-     * 0b11_01   // false
-     * 0o5       // false
-     * 5e0       // false
-     * 5e1_000   // false
-     * 5n        // false
-     * 1_000n    // false
-     * "5"       // false
-     *
-     */
+   * Determines whether this node is a decimal integer literal. If a node is a decimal integer literal, a dot added
+   * after the node will be parsed as a decimal point, rather than a property-access dot.
+   * @param {ASTNode} node The node to check.
+   * @returns {boolean} `true` if this node is a decimal integer.
+   * @example
+   *
+   * 0         // true
+   * 5         // true
+   * 50        // true
+   * 5_000     // true
+   * 1_234_56  // true
+   * 08        // true
+   * 0192      // true
+   * 5.        // false
+   * .5        // false
+   * 5.0       // false
+   * 5.00_00   // false
+   * 05        // false
+   * 0x5       // false
+   * 0b101     // false
+   * 0b11_01   // false
+   * 0o5       // false
+   * 5e0       // false
+   * 5e1_000   // false
+   * 5n        // false
+   * 1_000n    // false
+   * "5"       // false
+   *
+   */
   isDecimalInteger(node) {
     return node.type === 'Literal' && typeof node.value === 'number'
             && DECIMAL_INTEGER_PATTERN.test(node.raw)
   },
 
   /**
-     * Determines whether this token is a decimal integer numeric token.
-     * This is similar to isDecimalInteger(), but for tokens.
-     * @param {Token} token The token to check.
-     * @returns {boolean} `true` if this token is a decimal integer.
-     */
+   * Determines whether this token is a decimal integer numeric token.
+   * This is similar to isDecimalInteger(), but for tokens.
+   * @param {Token} token The token to check.
+   * @returns {boolean} `true` if this token is a decimal integer.
+   */
   isDecimalIntegerNumericToken(token) {
     return token.type === 'Numeric' && DECIMAL_INTEGER_PATTERN.test(token.value)
   },
 
   /**
-     * Gets the name and kind of the given function node.
-     *
-     * - `function foo() {}`  .................... `function 'foo'`
-     * - `(function foo() {})`  .................. `function 'foo'`
-     * - `(function() {})`  ...................... `function`
-     * - `function* foo() {}`  ................... `generator function 'foo'`
-     * - `(function* foo() {})`  ................. `generator function 'foo'`
-     * - `(function*() {})`  ..................... `generator function`
-     * - `() => {}`  ............................. `arrow function`
-     * - `async () => {}`  ....................... `async arrow function`
-     * - `({ foo: function foo() {} })`  ......... `method 'foo'`
-     * - `({ foo: function() {} })`  ............. `method 'foo'`
-     * - `({ ['foo']: function() {} })`  ......... `method 'foo'`
-     * - `({ [foo]: function() {} })`  ........... `method`
-     * - `({ foo() {} })`  ....................... `method 'foo'`
-     * - `({ foo: function* foo() {} })`  ........ `generator method 'foo'`
-     * - `({ foo: function*() {} })`  ............ `generator method 'foo'`
-     * - `({ ['foo']: function*() {} })`  ........ `generator method 'foo'`
-     * - `({ [foo]: function*() {} })`  .......... `generator method`
-     * - `({ *foo() {} })`  ...................... `generator method 'foo'`
-     * - `({ foo: async function foo() {} })`  ... `async method 'foo'`
-     * - `({ foo: async function() {} })`  ....... `async method 'foo'`
-     * - `({ ['foo']: async function() {} })`  ... `async method 'foo'`
-     * - `({ [foo]: async function() {} })`  ..... `async method`
-     * - `({ async foo() {} })`  ................. `async method 'foo'`
-     * - `({ get foo() {} })`  ................... `getter 'foo'`
-     * - `({ set foo(a) {} })`  .................. `setter 'foo'`
-     * - `class A { constructor() {} }`  ......... `constructor`
-     * - `class A { foo() {} }`  ................. `method 'foo'`
-     * - `class A { *foo() {} }`  ................ `generator method 'foo'`
-     * - `class A { async foo() {} }`  ........... `async method 'foo'`
-     * - `class A { ['foo']() {} }`  ............. `method 'foo'`
-     * - `class A { *['foo']() {} }`  ............ `generator method 'foo'`
-     * - `class A { async ['foo']() {} }`  ....... `async method 'foo'`
-     * - `class A { [foo]() {} }`  ............... `method`
-     * - `class A { *[foo]() {} }`  .............. `generator method`
-     * - `class A { async [foo]() {} }`  ......... `async method`
-     * - `class A { get foo() {} }`  ............. `getter 'foo'`
-     * - `class A { set foo(a) {} }`  ............ `setter 'foo'`
-     * - `class A { static foo() {} }`  .......... `static method 'foo'`
-     * - `class A { static *foo() {} }`  ......... `static generator method 'foo'`
-     * - `class A { static async foo() {} }`  .... `static async method 'foo'`
-     * - `class A { static get foo() {} }`  ...... `static getter 'foo'`
-     * - `class A { static set foo(a) {} }`  ..... `static setter 'foo'`
-     * - `class A { foo = () => {}; }`  .......... `method 'foo'`
-     * - `class A { foo = function() {}; }`  ..... `method 'foo'`
-     * - `class A { foo = function bar() {}; }`  . `method 'foo'`
-     * - `class A { static foo = () => {}; }`  ... `static method 'foo'`
-     * - `class A { '#foo' = () => {}; }`  ....... `method '#foo'`
-     * - `class A { #foo = () => {}; }`  ......... `private method #foo`
-     * - `class A { static #foo = () => {}; }`  .. `static private method #foo`
-     * - `class A { '#foo'() {} }`  .............. `method '#foo'`
-     * - `class A { #foo() {} }`  ................ `private method #foo`
-     * - `class A { static #foo() {} }`  ......... `static private method #foo`
-     * @param {ASTNode} node The function node to get.
-     * @returns {string} The name and kind of the function node.
-     */
+   * Gets the name and kind of the given function node.
+   *
+   * - `function foo() {}`  .................... `function 'foo'`
+   * - `(function foo() {})`  .................. `function 'foo'`
+   * - `(function() {})`  ...................... `function`
+   * - `function* foo() {}`  ................... `generator function 'foo'`
+   * - `(function* foo() {})`  ................. `generator function 'foo'`
+   * - `(function*() {})`  ..................... `generator function`
+   * - `() => {}`  ............................. `arrow function`
+   * - `async () => {}`  ....................... `async arrow function`
+   * - `({ foo: function foo() {} })`  ......... `method 'foo'`
+   * - `({ foo: function() {} })`  ............. `method 'foo'`
+   * - `({ ['foo']: function() {} })`  ......... `method 'foo'`
+   * - `({ [foo]: function() {} })`  ........... `method`
+   * - `({ foo() {} })`  ....................... `method 'foo'`
+   * - `({ foo: function* foo() {} })`  ........ `generator method 'foo'`
+   * - `({ foo: function*() {} })`  ............ `generator method 'foo'`
+   * - `({ ['foo']: function*() {} })`  ........ `generator method 'foo'`
+   * - `({ [foo]: function*() {} })`  .......... `generator method`
+   * - `({ *foo() {} })`  ...................... `generator method 'foo'`
+   * - `({ foo: async function foo() {} })`  ... `async method 'foo'`
+   * - `({ foo: async function() {} })`  ....... `async method 'foo'`
+   * - `({ ['foo']: async function() {} })`  ... `async method 'foo'`
+   * - `({ [foo]: async function() {} })`  ..... `async method`
+   * - `({ async foo() {} })`  ................. `async method 'foo'`
+   * - `({ get foo() {} })`  ................... `getter 'foo'`
+   * - `({ set foo(a) {} })`  .................. `setter 'foo'`
+   * - `class A { constructor() {} }`  ......... `constructor`
+   * - `class A { foo() {} }`  ................. `method 'foo'`
+   * - `class A { *foo() {} }`  ................ `generator method 'foo'`
+   * - `class A { async foo() {} }`  ........... `async method 'foo'`
+   * - `class A { ['foo']() {} }`  ............. `method 'foo'`
+   * - `class A { *['foo']() {} }`  ............ `generator method 'foo'`
+   * - `class A { async ['foo']() {} }`  ....... `async method 'foo'`
+   * - `class A { [foo]() {} }`  ............... `method`
+   * - `class A { *[foo]() {} }`  .............. `generator method`
+   * - `class A { async [foo]() {} }`  ......... `async method`
+   * - `class A { get foo() {} }`  ............. `getter 'foo'`
+   * - `class A { set foo(a) {} }`  ............ `setter 'foo'`
+   * - `class A { static foo() {} }`  .......... `static method 'foo'`
+   * - `class A { static *foo() {} }`  ......... `static generator method 'foo'`
+   * - `class A { static async foo() {} }`  .... `static async method 'foo'`
+   * - `class A { static get foo() {} }`  ...... `static getter 'foo'`
+   * - `class A { static set foo(a) {} }`  ..... `static setter 'foo'`
+   * - `class A { foo = () => {}; }`  .......... `method 'foo'`
+   * - `class A { foo = function() {}; }`  ..... `method 'foo'`
+   * - `class A { foo = function bar() {}; }`  . `method 'foo'`
+   * - `class A { static foo = () => {}; }`  ... `static method 'foo'`
+   * - `class A { '#foo' = () => {}; }`  ....... `method '#foo'`
+   * - `class A { #foo = () => {}; }`  ......... `private method #foo`
+   * - `class A { static #foo = () => {}; }`  .. `static private method #foo`
+   * - `class A { '#foo'() {} }`  .............. `method '#foo'`
+   * - `class A { #foo() {} }`  ................ `private method #foo`
+   * - `class A { static #foo() {} }`  ......... `static private method #foo`
+   * @param {ASTNode} node The function node to get.
+   * @returns {string} The name and kind of the function node.
+   */
   getFunctionNameWithKind(node) {
     const parent = node.parent
     const tokens = []
@@ -1668,102 +1668,102 @@ module.exports = {
   },
 
   /**
-     * Gets the location of the given function node for reporting.
-     *
-     * - `function foo() {}`
-     *    ^^^^^^^^^^^^
-     * - `(function foo() {})`
-     *     ^^^^^^^^^^^^
-     * - `(function() {})`
-     *     ^^^^^^^^
-     * - `function* foo() {}`
-     *    ^^^^^^^^^^^^^
-     * - `(function* foo() {})`
-     *     ^^^^^^^^^^^^^
-     * - `(function*() {})`
-     *     ^^^^^^^^^
-     * - `() => {}`
-     *       ^^
-     * - `async () => {}`
-     *             ^^
-     * - `({ foo: function foo() {} })`
-     *       ^^^^^^^^^^^^^^^^^
-     * - `({ foo: function() {} })`
-     *       ^^^^^^^^^^^^^
-     * - `({ ['foo']: function() {} })`
-     *       ^^^^^^^^^^^^^^^^^
-     * - `({ [foo]: function() {} })`
-     *       ^^^^^^^^^^^^^^^
-     * - `({ foo() {} })`
-     *       ^^^
-     * - `({ foo: function* foo() {} })`
-     *       ^^^^^^^^^^^^^^^^^^
-     * - `({ foo: function*() {} })`
-     *       ^^^^^^^^^^^^^^
-     * - `({ ['foo']: function*() {} })`
-     *       ^^^^^^^^^^^^^^^^^^
-     * - `({ [foo]: function*() {} })`
-     *       ^^^^^^^^^^^^^^^^
-     * - `({ *foo() {} })`
-     *       ^^^^
-     * - `({ foo: async function foo() {} })`
-     *       ^^^^^^^^^^^^^^^^^^^^^^^
-     * - `({ foo: async function() {} })`
-     *       ^^^^^^^^^^^^^^^^^^^
-     * - `({ ['foo']: async function() {} })`
-     *       ^^^^^^^^^^^^^^^^^^^^^^^
-     * - `({ [foo]: async function() {} })`
-     *       ^^^^^^^^^^^^^^^^^^^^^
-     * - `({ async foo() {} })`
-     *       ^^^^^^^^^
-     * - `({ get foo() {} })`
-     *       ^^^^^^^
-     * - `({ set foo(a) {} })`
-     *       ^^^^^^^
-     * - `class A { constructor() {} }`
-     *              ^^^^^^^^^^^
-     * - `class A { foo() {} }`
-     *              ^^^
-     * - `class A { *foo() {} }`
-     *              ^^^^
-     * - `class A { async foo() {} }`
-     *              ^^^^^^^^^
-     * - `class A { ['foo']() {} }`
-     *              ^^^^^^^
-     * - `class A { *['foo']() {} }`
-     *              ^^^^^^^^
-     * - `class A { async ['foo']() {} }`
-     *              ^^^^^^^^^^^^^
-     * - `class A { [foo]() {} }`
-     *              ^^^^^
-     * - `class A { *[foo]() {} }`
-     *              ^^^^^^
-     * - `class A { async [foo]() {} }`
-     *              ^^^^^^^^^^^
-     * - `class A { get foo() {} }`
-     *              ^^^^^^^
-     * - `class A { set foo(a) {} }`
-     *              ^^^^^^^
-     * - `class A { static foo() {} }`
-     *              ^^^^^^^^^^
-     * - `class A { static *foo() {} }`
-     *              ^^^^^^^^^^^
-     * - `class A { static async foo() {} }`
-     *              ^^^^^^^^^^^^^^^^
-     * - `class A { static get foo() {} }`
-     *              ^^^^^^^^^^^^^^
-     * - `class A { static set foo(a) {} }`
-     *              ^^^^^^^^^^^^^^
-     * - `class A { foo = function() {} }`
-     *              ^^^^^^^^^^^^^^
-     * - `class A { static foo = function() {} }`
-     *              ^^^^^^^^^^^^^^^^^^^^^
-     * - `class A { foo = (a, b) => {} }`
-     *              ^^^^^^
-     * @param {ASTNode} node The function node to get.
-     * @param {SourceCode} sourceCode The source code object to get tokens.
-     * @returns {string} The location of the function node for reporting.
-     */
+   * Gets the location of the given function node for reporting.
+   *
+   * - `function foo() {}`
+   *    ^^^^^^^^^^^^
+   * - `(function foo() {})`
+   *     ^^^^^^^^^^^^
+   * - `(function() {})`
+   *     ^^^^^^^^
+   * - `function* foo() {}`
+   *    ^^^^^^^^^^^^^
+   * - `(function* foo() {})`
+   *     ^^^^^^^^^^^^^
+   * - `(function*() {})`
+   *     ^^^^^^^^^
+   * - `() => {}`
+   *       ^^
+   * - `async () => {}`
+   *             ^^
+   * - `({ foo: function foo() {} })`
+   *       ^^^^^^^^^^^^^^^^^
+   * - `({ foo: function() {} })`
+   *       ^^^^^^^^^^^^^
+   * - `({ ['foo']: function() {} })`
+   *       ^^^^^^^^^^^^^^^^^
+   * - `({ [foo]: function() {} })`
+   *       ^^^^^^^^^^^^^^^
+   * - `({ foo() {} })`
+   *       ^^^
+   * - `({ foo: function* foo() {} })`
+   *       ^^^^^^^^^^^^^^^^^^
+   * - `({ foo: function*() {} })`
+   *       ^^^^^^^^^^^^^^
+   * - `({ ['foo']: function*() {} })`
+   *       ^^^^^^^^^^^^^^^^^^
+   * - `({ [foo]: function*() {} })`
+   *       ^^^^^^^^^^^^^^^^
+   * - `({ *foo() {} })`
+   *       ^^^^
+   * - `({ foo: async function foo() {} })`
+   *       ^^^^^^^^^^^^^^^^^^^^^^^
+   * - `({ foo: async function() {} })`
+   *       ^^^^^^^^^^^^^^^^^^^
+   * - `({ ['foo']: async function() {} })`
+   *       ^^^^^^^^^^^^^^^^^^^^^^^
+   * - `({ [foo]: async function() {} })`
+   *       ^^^^^^^^^^^^^^^^^^^^^
+   * - `({ async foo() {} })`
+   *       ^^^^^^^^^
+   * - `({ get foo() {} })`
+   *       ^^^^^^^
+   * - `({ set foo(a) {} })`
+   *       ^^^^^^^
+   * - `class A { constructor() {} }`
+   *              ^^^^^^^^^^^
+   * - `class A { foo() {} }`
+   *              ^^^
+   * - `class A { *foo() {} }`
+   *              ^^^^
+   * - `class A { async foo() {} }`
+   *              ^^^^^^^^^
+   * - `class A { ['foo']() {} }`
+   *              ^^^^^^^
+   * - `class A { *['foo']() {} }`
+   *              ^^^^^^^^
+   * - `class A { async ['foo']() {} }`
+   *              ^^^^^^^^^^^^^
+   * - `class A { [foo]() {} }`
+   *              ^^^^^
+   * - `class A { *[foo]() {} }`
+   *              ^^^^^^
+   * - `class A { async [foo]() {} }`
+   *              ^^^^^^^^^^^
+   * - `class A { get foo() {} }`
+   *              ^^^^^^^
+   * - `class A { set foo(a) {} }`
+   *              ^^^^^^^
+   * - `class A { static foo() {} }`
+   *              ^^^^^^^^^^
+   * - `class A { static *foo() {} }`
+   *              ^^^^^^^^^^^
+   * - `class A { static async foo() {} }`
+   *              ^^^^^^^^^^^^^^^^
+   * - `class A { static get foo() {} }`
+   *              ^^^^^^^^^^^^^^
+   * - `class A { static set foo(a) {} }`
+   *              ^^^^^^^^^^^^^^
+   * - `class A { foo = function() {} }`
+   *              ^^^^^^^^^^^^^^
+   * - `class A { static foo = function() {} }`
+   *              ^^^^^^^^^^^^^^^^^^^^^
+   * - `class A { foo = (a, b) => {} }`
+   *              ^^^^^^
+   * @param {ASTNode} node The function node to get.
+   * @param {SourceCode} sourceCode The source code object to get tokens.
+   * @returns {string} The location of the function node for reporting.
+   */
   getFunctionHeadLoc(node, sourceCode) {
     const parent = node.parent
     let start = null
@@ -1791,49 +1791,49 @@ module.exports = {
   },
 
   /**
-     * Gets next location when the result is not out of bound, otherwise returns null.
-     *
-     * Assumptions:
-     *
-     * - The given location represents a valid location in the given source code.
-     * - Columns are 0-based.
-     * - Lines are 1-based.
-     * - Column immediately after the last character in a line (not incl. linebreaks) is considered to be a valid location.
-     * - If the source code ends with a linebreak, `sourceCode.lines` array will have an extra element (empty string) at the end.
-     *   The start (column 0) of that extra line is considered to be a valid location.
-     *
-     * Examples of successive locations (line, column):
-     *
-     * code: foo
-     * locations: (1, 0) -> (1, 1) -> (1, 2) -> (1, 3) -> null
-     *
-     * code: foo<LF>
-     * locations: (1, 0) -> (1, 1) -> (1, 2) -> (1, 3) -> (2, 0) -> null
-     *
-     * code: foo<CR><LF>
-     * locations: (1, 0) -> (1, 1) -> (1, 2) -> (1, 3) -> (2, 0) -> null
-     *
-     * code: a<LF>b
-     * locations: (1, 0) -> (1, 1) -> (2, 0) -> (2, 1) -> null
-     *
-     * code: a<LF>b<LF>
-     * locations: (1, 0) -> (1, 1) -> (2, 0) -> (2, 1) -> (3, 0) -> null
-     *
-     * code: a<CR><LF>b<CR><LF>
-     * locations: (1, 0) -> (1, 1) -> (2, 0) -> (2, 1) -> (3, 0) -> null
-     *
-     * code: a<LF><LF>
-     * locations: (1, 0) -> (1, 1) -> (2, 0) -> (3, 0) -> null
-     *
-     * code: <LF>
-     * locations: (1, 0) -> (2, 0) -> null
-     *
-     * code:
-     * locations: (1, 0) -> null
-     * @param {SourceCode} sourceCode The sourceCode
-     * @param {{line: number, column: number}} location The location
-     * @returns {{line: number, column: number} | null} Next location
-     */
+   * Gets next location when the result is not out of bound, otherwise returns null.
+   *
+   * Assumptions:
+   *
+   * - The given location represents a valid location in the given source code.
+   * - Columns are 0-based.
+   * - Lines are 1-based.
+   * - Column immediately after the last character in a line (not incl. linebreaks) is considered to be a valid location.
+   * - If the source code ends with a linebreak, `sourceCode.lines` array will have an extra element (empty string) at the end.
+   *   The start (column 0) of that extra line is considered to be a valid location.
+   *
+   * Examples of successive locations (line, column):
+   *
+   * code: foo
+   * locations: (1, 0) -> (1, 1) -> (1, 2) -> (1, 3) -> null
+   *
+   * code: foo<LF>
+   * locations: (1, 0) -> (1, 1) -> (1, 2) -> (1, 3) -> (2, 0) -> null
+   *
+   * code: foo<CR><LF>
+   * locations: (1, 0) -> (1, 1) -> (1, 2) -> (1, 3) -> (2, 0) -> null
+   *
+   * code: a<LF>b
+   * locations: (1, 0) -> (1, 1) -> (2, 0) -> (2, 1) -> null
+   *
+   * code: a<LF>b<LF>
+   * locations: (1, 0) -> (1, 1) -> (2, 0) -> (2, 1) -> (3, 0) -> null
+   *
+   * code: a<CR><LF>b<CR><LF>
+   * locations: (1, 0) -> (1, 1) -> (2, 0) -> (2, 1) -> (3, 0) -> null
+   *
+   * code: a<LF><LF>
+   * locations: (1, 0) -> (1, 1) -> (2, 0) -> (3, 0) -> null
+   *
+   * code: <LF>
+   * locations: (1, 0) -> (2, 0) -> null
+   *
+   * code:
+   * locations: (1, 0) -> null
+   * @param {SourceCode} sourceCode The sourceCode
+   * @param {{line: number, column: number}} location The location
+   * @returns {{line: number, column: number} | null} Next location
+   */
   getNextLocation(sourceCode, { line, column }) {
     if (column < sourceCode.lines[line - 1].length) {
       return {
@@ -1853,12 +1853,12 @@ module.exports = {
   },
 
   /**
-     * Gets the parenthesized text of a node. This is similar to sourceCode.getText(node), but it also includes any parentheses
-     * surrounding the node.
-     * @param {SourceCode} sourceCode The source code object
-     * @param {ASTNode} node An expression node
-     * @returns {string} The text representing the node, with all surrounding parentheses included
-     */
+   * Gets the parenthesized text of a node. This is similar to sourceCode.getText(node), but it also includes any parentheses
+   * surrounding the node.
+   * @param {SourceCode} sourceCode The source code object
+   * @param {ASTNode} node An expression node
+   * @returns {string} The text representing the node, with all surrounding parentheses included
+   */
   getParenthesisedText(sourceCode, node) {
     let leftToken = sourceCode.getFirstToken(node)
     let rightToken = sourceCode.getLastToken(node)
@@ -1879,10 +1879,10 @@ module.exports = {
   },
 
   /**
-     * Determine if a node has a possibility to be an Error object
-     * @param {ASTNode} node ASTNode to check
-     * @returns {boolean} True if there is a chance it contains an Error obj
-     */
+   * Determine if a node has a possibility to be an Error object
+   * @param {ASTNode} node ASTNode to check
+   * @returns {boolean} True if there is a chance it contains an Error obj
+   */
   couldBeError(node) {
     switch (node.type) {
       case 'Identifier':
@@ -1903,10 +1903,10 @@ module.exports = {
           return module.exports.couldBeError(node.left) || module.exports.couldBeError(node.right)
 
         /**
-                 * All other assignment operators are mathematical assignment operators (arithmetic or bitwise).
-                 * An assignment expression with a mathematical operator can either evaluate to a primitive value,
-                 * or throw, depending on the operands. Thus, it cannot evaluate to an `Error` object.
-                 */
+         * All other assignment operators are mathematical assignment operators (arithmetic or bitwise).
+         * An assignment expression with a mathematical operator can either evaluate to a primitive value,
+         * or throw, depending on the operands. Thus, it cannot evaluate to an `Error` object.
+         */
         return false
 
       case 'SequenceExpression': {
@@ -1937,10 +1937,10 @@ module.exports = {
   },
 
   /**
-     * Check if a given node is a numeric literal or not.
-     * @param {ASTNode} node The node to check.
-     * @returns {boolean} `true` if the node is a number or bigint literal.
-     */
+   * Check if a given node is a numeric literal or not.
+   * @param {ASTNode} node The node to check.
+   * @returns {boolean} `true` if the node is a number or bigint literal.
+   */
   isNumericLiteral(node) {
     return (
       node.type === 'Literal'
@@ -1949,12 +1949,12 @@ module.exports = {
   },
 
   /**
-     * Determines whether two tokens can safely be placed next to each other without merging into a single token
-     * @param {Token|string} leftValue The left token. If this is a string, it will be tokenized and the last token will be used.
-     * @param {Token|string} rightValue The right token. If this is a string, it will be tokenized and the first token will be used.
-     * @returns {boolean} If the tokens cannot be safely placed next to each other, returns `false`. If the tokens can be placed
-     * next to each other, behavior is undefined (although it should return `true` in most cases).
-     */
+   * Determines whether two tokens can safely be placed next to each other without merging into a single token
+   * @param {Token|string} leftValue The left token. If this is a string, it will be tokenized and the last token will be used.
+   * @param {Token|string} rightValue The right token. If this is a string, it will be tokenized and the first token will be used.
+   * @returns {boolean} If the tokens cannot be safely placed next to each other, returns `false`. If the tokens can be placed
+   * next to each other, behavior is undefined (although it should return `true` in most cases).
+   */
   canTokensBeAdjacent(leftValue, rightValue) {
     const espreeOptions = {
       ecmaVersion: espree.latestEcmaVersion,
@@ -2058,12 +2058,12 @@ module.exports = {
   },
 
   /**
-     * Get the `loc` object of a given name in a `/*globals` directive comment.
-     * @param {SourceCode} sourceCode The source code to convert index to loc.
-     * @param {Comment} comment The `/*globals` directive comment which include the name.
-     * @param {string} name The name to find.
-     * @returns {SourceLocation} The `loc` object.
-     */
+   * Get the `loc` object of a given name in a `/*globals` directive comment.
+   * @param {SourceCode} sourceCode The source code to convert index to loc.
+   * @param {Comment} comment The `/*globals` directive comment which include the name.
+   * @param {string} name The name to find.
+   * @returns {SourceLocation} The `loc` object.
+   */
   getNameLocationInGlobalDirectiveComment(sourceCode, comment, name) {
     const namePattern = new RegExp(`[\\s,]${escapeRegExp(name)}(?:$|[\\s,:])`, 'gu')
 
@@ -2088,26 +2088,26 @@ module.exports = {
   },
 
   /**
-     * Determines whether the given raw string contains an octal escape sequence
-     * or a non-octal decimal escape sequence ("\8", "\9").
-     *
-     * "\1", "\2" ... "\7", "\8", "\9"
-     * "\00", "\01" ... "\07", "\08", "\09"
-     *
-     * "\0", when not followed by a digit, is not an octal escape sequence.
-     * @param {string} rawString A string in its raw representation.
-     * @returns {boolean} `true` if the string contains at least one octal escape sequence
-     * or at least one non-octal decimal escape sequence.
-     */
+   * Determines whether the given raw string contains an octal escape sequence
+   * or a non-octal decimal escape sequence ("\8", "\9").
+   *
+   * "\1", "\2" ... "\7", "\8", "\9"
+   * "\00", "\01" ... "\07", "\08", "\09"
+   *
+   * "\0", when not followed by a digit, is not an octal escape sequence.
+   * @param {string} rawString A string in its raw representation.
+   * @returns {boolean} `true` if the string contains at least one octal escape sequence
+   * or at least one non-octal decimal escape sequence.
+   */
   hasOctalOrNonOctalDecimalEscapeSequence(rawString) {
     return OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN.test(rawString)
   },
 
   /**
-     * Determines whether the given node is a template literal without expressions.
-     * @param {ASTNode} node Node to check.
-     * @returns {boolean} True if the node is a template literal without expressions.
-     */
+   * Determines whether the given node is a template literal without expressions.
+   * @param {ASTNode} node Node to check.
+   * @returns {boolean} True if the node is a template literal without expressions.
+   */
   isStaticTemplateLiteral(node) {
     return node.type === 'TemplateLiteral' && node.expressions.length === 0
   },

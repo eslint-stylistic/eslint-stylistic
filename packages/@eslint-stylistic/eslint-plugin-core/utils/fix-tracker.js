@@ -21,10 +21,10 @@ const astUtils = require('./ast-utils')
  */
 class FixTracker {
   /**
-     * Create a new FixTracker.
-     * @param {ruleFixer} fixer A ruleFixer instance.
-     * @param {SourceCode} sourceCode A SourceCode object for the current code.
-     */
+   * Create a new FixTracker.
+   * @param {ruleFixer} fixer A ruleFixer instance.
+   * @param {SourceCode} sourceCode A SourceCode object for the current code.
+   */
   constructor(fixer, sourceCode) {
     this.fixer = fixer
     this.sourceCode = sourceCode
@@ -32,24 +32,24 @@ class FixTracker {
   }
 
   /**
-     * Mark the given range as "retained", meaning that other fixes may not
-     * may not modify this region in the same pass.
-     * @param {int[]} range The range to retain.
-     * @returns {FixTracker} The same RuleFixer, for chained calls.
-     */
+   * Mark the given range as "retained", meaning that other fixes may not
+   * may not modify this region in the same pass.
+   * @param {int[]} range The range to retain.
+   * @returns {FixTracker} The same RuleFixer, for chained calls.
+   */
   retainRange(range) {
     this.retainedRange = range
     return this
   }
 
   /**
-     * Given a node, find the function containing it (or the entire program) and
-     * mark it as retained, meaning that other fixes may not modify it in this
-     * pass. This is useful for avoiding conflicts in fixes that modify control
-     * flow.
-     * @param {ASTNode} node The node to use as a starting point.
-     * @returns {FixTracker} The same RuleFixer, for chained calls.
-     */
+   * Given a node, find the function containing it (or the entire program) and
+   * mark it as retained, meaning that other fixes may not modify it in this
+   * pass. This is useful for avoiding conflicts in fixes that modify control
+   * flow.
+   * @param {ASTNode} node The node to use as a starting point.
+   * @returns {FixTracker} The same RuleFixer, for chained calls.
+   */
   retainEnclosingFunction(node) {
     const functionNode = astUtils.getUpperFunction(node)
 
@@ -57,14 +57,14 @@ class FixTracker {
   }
 
   /**
-     * Given a node or token, find the token before and afterward, and mark that
-     * range as retained, meaning that other fixes may not modify it in this
-     * pass. This is useful for avoiding conflicts in fixes that make a small
-     * change to the code where the AST should not be changed.
-     * @param {ASTNode|Token} nodeOrToken The node or token to use as a starting
-     *      point. The token to the left and right are use in the range.
-     * @returns {FixTracker} The same RuleFixer, for chained calls.
-     */
+   * Given a node or token, find the token before and afterward, and mark that
+   * range as retained, meaning that other fixes may not modify it in this
+   * pass. This is useful for avoiding conflicts in fixes that make a small
+   * change to the code where the AST should not be changed.
+   * @param {ASTNode|Token} nodeOrToken The node or token to use as a starting
+   *      point. The token to the left and right are use in the range.
+   * @returns {FixTracker} The same RuleFixer, for chained calls.
+   */
   retainSurroundingTokens(nodeOrToken) {
     const tokenBefore = this.sourceCode.getTokenBefore(nodeOrToken) || nodeOrToken
     const tokenAfter = this.sourceCode.getTokenAfter(nodeOrToken) || nodeOrToken
@@ -73,12 +73,12 @@ class FixTracker {
   }
 
   /**
-     * Create a fix command that replaces the given range with the given text,
-     * accounting for any retained ranges.
-     * @param {int[]} range The range to remove in the fix.
-     * @param {string} text The text to insert in place of the range.
-     * @returns {Object} The fix command.
-     */
+   * Create a fix command that replaces the given range with the given text,
+   * accounting for any retained ranges.
+   * @param {int[]} range The range to remove in the fix.
+   * @param {string} text The text to insert in place of the range.
+   * @returns {object} The fix command.
+   */
   replaceTextRange(range, text) {
     let actualRange
 
@@ -101,11 +101,11 @@ class FixTracker {
   }
 
   /**
-     * Create a fix command that removes the given node or token, accounting for
-     * any retained ranges.
-     * @param {ASTNode|Token} nodeOrToken The node or token to remove.
-     * @returns {Object} The fix command.
-     */
+   * Create a fix command that removes the given node or token, accounting for
+   * any retained ranges.
+   * @param {ASTNode|Token} nodeOrToken The node or token to remove.
+   * @returns {object} The fix command.
+   */
   remove(nodeOrToken) {
     return this.replaceTextRange(nodeOrToken.range, '')
   }

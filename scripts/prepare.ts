@@ -1,7 +1,7 @@
 import { basename, dirname, join, relative, resolve } from 'node:path'
 import process from 'node:process'
 import fs from 'node:fs/promises'
-import fg, { async } from 'fast-glob'
+import fg from 'fast-glob'
 
 interface RuleInfo {
   name: string

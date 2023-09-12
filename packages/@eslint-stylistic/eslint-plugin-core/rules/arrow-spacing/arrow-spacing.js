@@ -63,10 +63,10 @@ module.exports = {
     const sourceCode = context.sourceCode
 
     /**
-         * Get tokens of arrow(`=>`) and before/after arrow.
-         * @param {ASTNode} node The arrow function node.
-         * @returns {Object} Tokens of arrow and before/after arrow.
-         */
+     * Get tokens of arrow(`=>`) and before/after arrow.
+     * @param {ASTNode} node The arrow function node.
+     * @returns {object} Tokens of arrow and before/after arrow.
+     */
     function getTokens(node) {
       const arrow = sourceCode.getTokenBefore(node.body, astUtils.isArrowToken)
 
@@ -79,8 +79,8 @@ module.exports = {
 
     /**
      * Count spaces before/after arrow(`=>`) token.
-     * @param {Object} tokens Tokens before/after arrow.
-     * @returns {Object} count of space before/after arrow.
+     * @param {object} tokens Tokens before/after arrow.
+     * @returns {object} count of space before/after arrow.
      */
     function countSpaces(tokens) {
       const before = tokens.arrow.range[0] - tokens.before.range[1]

@@ -23,9 +23,9 @@ const debug = require('debug')('eslint:rules')
  */
 class LazyLoadingRuleMap extends Map {
   /**
-     * Initialize this map.
-     * @param {Array<[string, function(): Rule]>} loaders The rule loaders.
-     */
+   * Initialize this map.
+   * @param {Array<[string, function(): Rule]>} loaders The rule loaders.
+   */
   constructor(loaders) {
     let remaining = loaders.length
 
@@ -56,11 +56,11 @@ class LazyLoadingRuleMap extends Map {
   }
 
   /**
-     * Get a rule.
-     * Each rule will be loaded on the first access.
-     * @param {string} ruleId The rule ID to get.
-     * @returns {Rule|undefined} The rule.
-     */
+   * Get a rule.
+   * Each rule will be loaded on the first access.
+   * @param {string} ruleId The rule ID to get.
+   * @returns {Rule|undefined} The rule.
+   */
   get(ruleId) {
     const load = super.get(ruleId)
 
@@ -68,29 +68,29 @@ class LazyLoadingRuleMap extends Map {
   }
 
   /**
-     * Iterate rules.
-     * @returns {IterableIterator<Rule>} Rules.
-     */
+   * Iterate rules.
+   * @returns {IterableIterator<Rule>} Rules.
+   */
   *values() {
     for (const load of super.values())
       yield load()
   }
 
   /**
-     * Iterate rules.
-     * @returns {IterableIterator<[string, Rule]>} Rules.
-     */
+   * Iterate rules.
+   * @returns {IterableIterator<[string, Rule]>} Rules.
+   */
   *entries() {
     for (const [ruleId, load] of super.entries())
       yield [ruleId, load()]
   }
 
   /**
-     * Call a function with each rule.
-     * @param {Function} callbackFn The callback function.
-     * @param {any} [thisArg] The object to pass to `this` of the callback function.
-     * @returns {void}
-     */
+   * Call a function with each rule.
+   * @param {Function} callbackFn The callback function.
+   * @param {any} [thisArg] The object to pass to `this` of the callback function.
+   * @returns {void}
+   */
   forEach(callbackFn, thisArg) {
     for (const [ruleId, load] of super.entries())
       callbackFn.call(thisArg, load(), ruleId, this)

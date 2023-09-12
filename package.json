@@ -17,7 +17,7 @@
     "docs:preview": "vitepress preview docs"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.41.0",
+    "@antfu/eslint-config": "^0.41.2",
     "@antfu/ni": "^0.21.8",
     "@antfu/utils": "^0.7.6",
     "@rollup/plugin-commonjs": "^25.0.4",
