@@ -1,5 +1,5 @@
 {
-  "name": "@eslint-stylistic/eslint-plugin-typescript",
+  "name": "eslint-plugin-stylistic-ts",
   "version": "0.0.0-0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -7,12 +7,12 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git",
-    "directory": "packages/@eslint-stylistic/eslint-plugin-typescript"
+    "directory": "packages/eslint-plugin-stylistic-ts"
   },
   "bugs": {
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
   },
-  "main": "./index.js",
+  "main": "./dist/index.js",
   "files": [
     "dist"
   ]

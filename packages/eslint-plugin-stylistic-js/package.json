@@ -1,5 +1,5 @@
 {
-  "name": "@eslint-stylistic/eslint-plugin-core",
+  "name": "eslint-plugin-stylistic-js",
   "version": "0.0.0-0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -7,12 +7,12 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git",
-    "directory": "packages/@eslint-stylistic/eslint-plugin-core"
+    "directory": "packages/eslint-plugin-stylistic-js"
   },
   "bugs": {
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
   },
-  "main": "./index.js",
+  "main": "./dist/index.js",
   "files": [
     "dist"
   ],
@@ -22,7 +22,7 @@
   },
   "dependencies": {
     "acorn": "^8.10.0",
-    "escape-string-regexp": "^5.0.0",
+    "escape-string-regexp": "^4.0.0",
     "eslint-visitor-keys": "^3.4.3",
     "espree": "^9.6.1",
     "esutils": "^2.0.3"

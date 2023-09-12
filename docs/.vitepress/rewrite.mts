@@ -1,3 +1,3 @@
 export default {
-  'packages/@eslint-stylistic/eslint-plugin-core/rules/arrow-spacing/arrow-spacing.md': 'rules/arrow-spacing.md',
+  'packages/eslint-plugin-stylistic-js/rules/arrow-spacing/arrow-spacing.md': 'rules/js/arrow-spacing.md',
 }

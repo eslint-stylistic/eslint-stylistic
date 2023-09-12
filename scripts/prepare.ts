@@ -14,6 +14,7 @@ interface RuleInfo {
 interface PackageInfo {
   name: string
   pkgId: string
+  shortId: string
   rules: RuleInfo[]
   path: string
 }
@@ -42,6 +43,7 @@ run()
 
 async function readPackage(path: string): Promise<PackageInfo> {
   const pkgId = relative(join(cwd, 'packages'), path).replace('eslint-plugin-', '')
+  const shortId = pkgId.replace('stylistic-', '')
   const pkgJSON = JSON.parse(await fs.readFile(join(path, 'package.json'), 'utf-8'))
   console.log(`Preparing ${path}`)
   const rulesDir = await fg('rules/*', {
@@ -66,6 +68,7 @@ async function readPackage(path: string): Promise<PackageInfo> {
 
   return {
     name: pkgJSON.name,
+    shortId,
     pkgId,
     path,
     rules,
@@ -73,6 +76,9 @@ async function readPackage(path: string): Promise<PackageInfo> {
 }
 
 async function writeRulesIndex(pkg: PackageInfo) {
+  if (!pkg.rules.length)
+    return
+
   const ruleDir = join(pkg.path, 'rules')
 
   const index = `module.exports = {\n${pkg.rules.map(i => `  '${i.name}': () => require('./${relative(ruleDir, i.entry)}'),`).join('\n')}\n}\n`
@@ -82,9 +88,12 @@ async function writeRulesIndex(pkg: PackageInfo) {
 }
 
 async function writeVitePressRewrite(packages: PackageInfo[]) {
-  const rules = packages.flatMap(i => i.rules)
+  const lines = packages
+    .flatMap(pkg => pkg.rules
+      .map(i => `  '${relative(cwd, i.docsEntry)}': 'rules/${pkg.shortId}/${i.name}.md',`),
+    )
 
-  const index = `export default {\n${rules.map(i => `  '${relative(cwd, i.docsEntry)}': 'rules/${i.name}.md',`).join('\n')}\n}\n`
+  const index = `export default {\n${lines.join('\n')}\n}\n`
 
   await fs.writeFile(join(cwd, 'docs', '.vitepress', 'rewrite.mts'), index, 'utf-8')
 }
