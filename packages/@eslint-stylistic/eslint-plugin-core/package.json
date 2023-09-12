@@ -15,5 +15,16 @@
   "main": "./index.js",
   "files": [
     "dist"
-  ]
+  ],
+  "scripts": {
+    "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {
+    "acorn": "^8.10.0",
+    "escape-string-regexp": "^5.0.0",
+    "eslint-visitor-keys": "^3.4.3",
+    "espree": "^9.6.1",
+    "esutils": "^2.0.3"
+  }
 }

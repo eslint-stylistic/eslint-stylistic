@@ -1,3 +1,7 @@
 {
-  "extends": "@antfu"
+  "extends": "@antfu",
+  "ignorePatterns": ["*.md"],
+  "rules": {
+    "no-void": "off"
+  }
 }
