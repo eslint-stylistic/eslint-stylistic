@@ -99,7 +99,7 @@ async function run() {
       await fs.writeFile(join(target, name, `${name}.js`), js, 'utf-8')
 
       const md = await fs.readFile(join(root, 'docs/src/rules', `${name}.md`), 'utf-8')
-      await fs.writeFile(join(target, name, `${name}.md`), md, 'utf-8')
+      await fs.writeFile(join(target, name, 'README.md'), md, 'utf-8')
 
       let test = await fs.readFile(join(root, 'tests/lib/rules', `${name}.js`), 'utf-8')
       test = test
