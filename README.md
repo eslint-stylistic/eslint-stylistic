@@ -1,5 +1,5 @@
 <p align="center">
-<img src="./.github/logo.svg" width="150">
+<img src="./docs/public/logo.svg" width="150">
 </p>
 
 <h1 align="center">ESLint Stylistic</h1>
