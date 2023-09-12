@@ -97,7 +97,7 @@ async function writeRulesIndex(pkg: PackageInfo) {
   const index = `module.exports = {\n${pkg.rules.map(i => `  '${i.name}': () => require('./${relative(ruleDir, i.entry)}'),`).join('\n')}\n}\n`
 
   await fs.mkdir(ruleDir, { recursive: true })
-  await fs.writeFile(join(ruleDir, '/index.js'), index, 'utf-8')
+  await fs.writeFile(join(ruleDir, 'index.js'), index, 'utf-8')
 }
 
 async function writeREADME(pkg: PackageInfo) {
