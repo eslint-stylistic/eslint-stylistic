@@ -10,5 +10,9 @@
     "resolveJsonModule": true,
     "skipLibCheck": true,
     "skipDefaultLibCheck": true
-  }
+  },
+  "exclude": [
+    "dist",
+    "node_modules"
+  ]
 }

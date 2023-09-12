@@ -12,5 +12,8 @@
   "bugs": {
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
   },
-  "main": "./index.js"
+  "main": "./index.js",
+  "files": [
+    "dist"
+  ]
 }
