@@ -1,4 +1,3 @@
-/* eslint-disable no-mixed-operators */
 /**
  * @fileoverview Common utils for AST.
  * @author Gyandeep Singh

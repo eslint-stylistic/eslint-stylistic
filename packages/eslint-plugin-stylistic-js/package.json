@@ -25,6 +25,7 @@
     "escape-string-regexp": "^4.0.0",
     "eslint-visitor-keys": "^3.4.3",
     "espree": "^9.6.1",
-    "esutils": "^2.0.3"
+    "esutils": "^2.0.3",
+    "graphemer": "^1.4.0"
   }
 }

@@ -2,17 +2,21 @@
  * @fileoverview Tests for arrow-spacing
  * @author Jxck
  */
-import { createRequire } from 'node:module'
-import * as ESLint from 'eslint'
+'use strict'
 
-const require = createRequire(import.meta.url)
+// ------------------------------------------------------------------------------
+// Requirements
+// ------------------------------------------------------------------------------
+//
+
+const { RuleTester } = require('eslint')
 const rule = require('./arrow-spacing')
 
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-const ruleTester = new ESLint.RuleTester({ parserOptions: { ecmaVersion: 6 } })
+const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
 
 const valid = [
   {

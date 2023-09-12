@@ -1,7 +1,14 @@
 {
   "extends": "@antfu",
-  "ignorePatterns": ["*.md"],
+  "ignorePatterns": [
+    "*.md",
+    "**/fixtures/**"
+  ],
   "rules": {
-    "no-void": "off"
+    "no-void": "off",
+    "no-template-curly-in-string": "off",
+    "no-mixed-operators": "off",
+    "max-statements-per-line": "off",
+    "no-cond-assign": "off"
   }
 }

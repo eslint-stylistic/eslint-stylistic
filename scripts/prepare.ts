@@ -27,9 +27,12 @@ interface RuleMeta {
 const cwd = process.cwd()
 
 async function run() {
-  const paths = await fg('./packages/**/package.json', {
+  const paths = await fg('./packages/*/package.json', {
     onlyFiles: true,
     absolute: true,
+    ignore: [
+      'node_modules',
+    ],
   })
 
   const packages = await Promise.all(paths.map(i => readPackage(dirname(i))))
