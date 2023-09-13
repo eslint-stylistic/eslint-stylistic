@@ -2,7 +2,8 @@
   "extends": "@antfu",
   "ignorePatterns": [
     "*.md",
-    "**/fixtures/**"
+    "**/fixtures/**",
+    "packages/metadata/metadata.ts"
   ],
   "rules": {
     "no-void": "off",

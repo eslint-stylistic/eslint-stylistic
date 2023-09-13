@@ -1,6 +1,6 @@
 import { fileURLToPath } from 'node:url'
 import { defineConfig } from 'vitepress'
-import rewrites from './rewrite.mjs'
+import rewrites from './rewrites.mjs'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({

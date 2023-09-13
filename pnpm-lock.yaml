@@ -20,6 +20,9 @@ importers:
       '@rollup/plugin-commonjs':
         specifier: ^25.0.4
         version: 25.0.4(rollup@3.29.1)
+      '@types/eslint':
+        specifier: ^8.44.2
+        version: 8.44.2
       '@types/node':
         specifier: ^20.6.0
         version: 20.6.0
@@ -98,6 +101,8 @@ importers:
         version: 1.4.0
 
   packages/eslint-plugin-stylistic-ts: {}
+
+  packages/metadata: {}
 
 packages:
 
@@ -1477,6 +1482,13 @@ packages:
 
   /@types/chai@4.3.5:
     resolution: {integrity: sha512-mEo1sAde+UCE6b2hxn332f1g1E8WfYRu6p5SvTKr2ZKC1f7gFJXk4h5PyGP9Dt6gCaG8y8XhwnXWC6Iy2cmBng==}
+    dev: true
+
+  /@types/eslint@8.44.2:
+    resolution: {integrity: sha512-sdPRb9K6iL5XZOmBubg8yiFp5yS/JdUDQsq5e6h95km91MCYMuvp7mh1fjPEYUhvHepKpZOjnEaMBR4PxjWDzg==}
+    dependencies:
+      '@types/estree': 1.0.0
+      '@types/json-schema': 7.0.12
     dev: true
 
   /@types/estree@1.0.0:

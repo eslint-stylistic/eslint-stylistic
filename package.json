@@ -21,6 +21,7 @@
     "@antfu/ni": "^0.21.8",
     "@antfu/utils": "^0.7.6",
     "@rollup/plugin-commonjs": "^25.0.4",
+    "@types/eslint": "^8.44.2",
     "@types/node": "^20.6.0",
     "bumpp": "^9.2.0",
     "eslint": "^8.49.0",
