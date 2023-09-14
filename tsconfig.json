@@ -16,9 +16,9 @@
     "node_modules"
   ],
   "include": [
-    "packages",
-    "scripts",
-    "docs/.vitepress/**/*.mts",
+    "**/*.ts",
+    "**/*.mts",
+    "docs/.vitepress/**/*.ts",
     "docs/.vitepress/**/*.vue"
   ]
 }

@@ -12,9 +12,8 @@
     "test": "vitest",
     "typecheck": "tsc --noEmit",
     "prepare": "simple-git-hooks && esno scripts/prepare.ts",
-    "docs": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs"
+    "docs": "pnpm -C docs run dev",
+    "docs:build": "pnpm -C docs run build"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.41.2",
@@ -35,9 +34,9 @@
     "simple-git-hooks": "^2.9.0",
     "typescript": "^5.2.2",
     "unbuild": "^2.0.0",
-    "unplugin-vue-components": "^0.25.2",
+
     "vite": "^4.4.9",
-    "vitepress": "1.0.0-rc.12",
+
     "vitest": "^0.34.4",
     "vue": "^3.3.4"
   },

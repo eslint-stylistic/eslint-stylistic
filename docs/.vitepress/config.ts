@@ -1,8 +1,9 @@
 import { fileURLToPath } from 'node:url'
 import type { DefaultTheme } from 'vitepress'
 import { defineConfig } from 'vitepress'
-import Components from 'unplugin-vue-components/vite'
+import MarkdownItContainer from 'markdown-it-container'
 import { packages } from '../../packages/metadata'
+import vite from './vite.config'
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -26,22 +27,30 @@ export default defineConfig({
       light: 'vitesse-light',
       dark: 'vitesse-dark',
     },
+    config(md) {
+      MarkdownItContainer(md, 'correct', {
+        render(tokens, idx) {
+          if (tokens[idx].nesting === 1)
+            return '<CustomWrapper type="correct">'
+          else
+            return '</CustomWrapper>\n'
+        },
+      })
+      MarkdownItContainer(md, 'incorrect', {
+        render(tokens, idx) {
+          if (tokens[idx].nesting === 1)
+            return '<CustomWrapper type="incorrect">'
+          else
+            return '</CustomWrapper>\n'
+        },
+      })
+    },
   },
 
   srcDir: fileURLToPath(new URL('../..', import.meta.url)),
   cleanUrls: true,
 
-  vite: {
-    plugins: [
-      Components({
-        dirs: [
-          fileURLToPath(new URL('./components', import.meta.url)),
-        ],
-        include: [/\.vue$/, /\.vue\?vue/, /\.md$/],
-        extensions: ['vue', 'md'],
-      }),
-    ],
-  },
+  vite,
 
   themeConfig: {
     logo: '/logo.svg',
