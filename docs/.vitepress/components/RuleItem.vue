@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import type { PackageInfo, RuleInfo } from '../../../packages/metadata'
 
-const props = defineProps<{
+defineProps<{
   rule: RuleInfo
   package: PackageInfo
 }>()

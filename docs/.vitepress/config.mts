@@ -19,6 +19,8 @@ export default defineConfig({
     'docs/:name(.+).md': ':name.md',
   },
 
+  ignoreDeadLinks: true,
+
   markdown: {
     theme: {
       light: 'vitesse-light',
