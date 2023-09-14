@@ -10,8 +10,8 @@ hero:
     alt: ESLint Stylistic Logo
   actions:
     - theme: brand
-      text: Rules
-      link: /rules/arrow-spacing
+      text: View All Rules
+      link: /packages
 
 features:
   - title: Feature A

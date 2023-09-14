@@ -1,6 +1,6 @@
 {
   "compilerOptions": {
-    "target": "es2020",
+    "target": "esnext",
     "module": "esnext",
     "lib": ["esnext"],
     "moduleResolution": "Bundler",
@@ -14,5 +14,11 @@
   "exclude": [
     "dist",
     "node_modules"
+  ],
+  "include": [
+    "packages",
+    "scripts",
+    "docs/.vitepress/**/*.mts",
+    "docs/.vitepress/**/*.vue"
   ]
 }
