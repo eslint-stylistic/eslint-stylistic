@@ -10,6 +10,7 @@
     "@iconify-json/ri": "^1.1.12",
     "@types/markdown-it-container": "^2.0.6",
     "@unocss/reset": "^0.55.7",
+    "gray-matter": "^4.0.3",
     "markdown-it-container": "^3.0.0",
     "unocss": "^0.55.7",
     "unplugin-vue-components": "^0.25.2",

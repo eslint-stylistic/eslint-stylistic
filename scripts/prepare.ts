@@ -45,10 +45,10 @@ async function readPackage(path: string): Promise<PackageInfo> {
   const shortId = pkgId.replace('stylistic-', '')
   const pkgJSON = JSON.parse(await fs.readFile(join(path, 'package.json'), 'utf-8'))
   console.log(`Preparing ${path}`)
-  const rulesDir = await fg('rules/*', {
+  const rulesDir = (await fg('rules/*', {
     cwd: path,
     onlyDirectories: true,
-  })
+  })).sort()
 
   const rules = await Promise.all(
     rulesDir.map(async (ruleDir) => {

@@ -17,10 +17,10 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
     "rules": []
   },
   {
-    "name": "eslint-plugin-stylistic-ts",
-    "shortId": "ts",
-    "pkgId": "stylistic-ts",
-    "path": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-stylistic-ts",
+    "name": "@eslint-stylistic/metadata",
+    "shortId": "metadata",
+    "pkgId": "metadata",
+    "path": "/Users/antfu/i/eslint-stylistic/packages/metadata",
     "rules": []
   },
   {
@@ -642,10 +642,10 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
     ]
   },
   {
-    "name": "@eslint-stylistic/metadata",
-    "shortId": "metadata",
-    "pkgId": "metadata",
-    "path": "/Users/antfu/i/eslint-stylistic/packages/metadata",
+    "name": "eslint-plugin-stylistic-ts",
+    "shortId": "ts",
+    "pkgId": "stylistic-ts",
+    "path": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-stylistic-ts",
     "rules": []
   }
 ])
