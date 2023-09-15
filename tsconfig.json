@@ -5,6 +5,7 @@
     "lib": ["esnext"],
     "moduleResolution": "Bundler",
     "esModuleInterop": true,
+    "allowJs": true,
     "strict": true,
     "strictNullChecks": true,
     "resolveJsonModule": true,
@@ -16,6 +17,7 @@
     "node_modules"
   ],
   "include": [
+    "**/*.js",
     "**/*.ts",
     "**/*.mts",
     "docs/.vitepress/**/*.ts",

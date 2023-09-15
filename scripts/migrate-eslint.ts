@@ -85,8 +85,8 @@ async function run() {
           'require("../../utils/ast-utils")',
         )
         .replaceAll(
-          'import(\'../shared/types\')',
-          'import(\'eslint\')',
+          'import(\'../shared/types\').Rule',
+          'import(\'eslint\').Rule.RuleModule',
         )
         .replaceAll(
           '../shared/string-utils',
@@ -96,6 +96,7 @@ async function run() {
           'require("./utils/keywords")',
           'require("../../utils/keywords")',
         )
+      // js = `// @ts-check\n${js}`
       await fs.writeFile(join(target, name, `${name}.js`), js, 'utf-8')
 
       const md = await fs.readFile(join(root, 'docs/src/rules', `${name}.md`), 'utf-8')

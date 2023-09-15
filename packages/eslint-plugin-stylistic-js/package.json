@@ -18,6 +18,7 @@
   ],
   "scripts": {
     "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",
+    "dev": "rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild --watch",
     "prepublishOnly": "pnpm build"
   },
   "dependencies": {

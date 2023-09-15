@@ -60,7 +60,7 @@ function isCloseParenOfTemplate(token) {
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule} */
+/** @type {import('eslint').Rule.RuleModule} */
 module.exports = {
   meta: {
     type: 'layout',

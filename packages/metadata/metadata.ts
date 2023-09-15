@@ -17,13 +17,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
     "rules": []
   },
   {
-    "name": "@eslint-stylistic/metadata",
-    "shortId": "metadata",
-    "pkgId": "metadata",
-    "path": "/Users/antfu/i/eslint-stylistic/packages/metadata",
-    "rules": []
-  },
-  {
     "name": "eslint-plugin-stylistic-js",
     "shortId": "js",
     "pkgId": "stylistic-js",
@@ -640,6 +633,13 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       }
     ]
+  },
+  {
+    "name": "@eslint-stylistic/metadata",
+    "shortId": "metadata",
+    "pkgId": "metadata",
+    "path": "/Users/antfu/i/eslint-stylistic/packages/metadata",
+    "rules": []
   },
   {
     "name": "eslint-plugin-stylistic-ts",
