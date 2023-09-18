@@ -3,7 +3,7 @@
   "ignorePatterns": [
     "*.md",
     "**/fixtures/**",
-    "packages/metadata/metadata.ts"
+    "packages/metadata/src/metadata.ts"
   ],
   "rules": {
     "no-void": "off",

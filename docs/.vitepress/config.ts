@@ -2,7 +2,7 @@ import { fileURLToPath } from 'node:url'
 import type { DefaultTheme } from 'vitepress'
 import { defineConfig } from 'vitepress'
 import MarkdownItContainer from 'markdown-it-container'
-import { packages } from '../../packages/metadata'
+import { packages } from '../../packages/metadata/src'
 import vite from './vite.config'
 
 const mainPackages = packages.filter(p => p.rules.length)

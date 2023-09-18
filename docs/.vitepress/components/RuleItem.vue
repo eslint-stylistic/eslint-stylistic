@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { PackageInfo, RuleInfo } from '../../../packages/metadata'
+import type { PackageInfo, RuleInfo } from '@eslint-stylistic/metadata'
 
 defineProps<{
   rule: RuleInfo

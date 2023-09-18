@@ -5,9 +5,14 @@ import { defineConfig } from 'vite'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 import graymatter from 'gray-matter'
-import { packages } from '../../packages/metadata'
+import { packages } from '../../packages/metadata/src'
 
 export default defineConfig({
+  resolve: {
+    alias: {
+      '@eslint-stylistic/metadata': fileURLToPath(new URL('../../packages/metadata/src/index.ts', import.meta.url)),
+    },
+  },
   plugins: [
     Components({
       dirs: [

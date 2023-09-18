@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { packages } from '../../../packages/metadata'
+import { packages } from '@eslint-stylistic/metadata'
 </script>
 
 <template>

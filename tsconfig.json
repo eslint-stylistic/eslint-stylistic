@@ -1,6 +1,7 @@
 {
   "compilerOptions": {
     "target": "esnext",
+    "rootDir": ".",
     "module": "esnext",
     "lib": ["esnext"],
     "moduleResolution": "Bundler",
@@ -10,7 +11,12 @@
     "strictNullChecks": true,
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "skipDefaultLibCheck": true
+    "skipDefaultLibCheck": true,
+    "paths": {
+      "@eslint-stylistic/metadata": [
+        "./packages/metadata/src/index.ts"
+      ]
+    }
   },
   "exclude": [
     "dist",
