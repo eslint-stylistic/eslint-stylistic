@@ -628,7 +628,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
     ]
   },
   {
-    "name": "@stylistic/eslint-packages-metadata",
+    "name": "@eslint-stylistic/metadata",
     "shortId": "metadata",
     "pkgId": "@stylistic/metadata",
     "path": "/Users/antfu/i/eslint-stylistic/packages/metadata",

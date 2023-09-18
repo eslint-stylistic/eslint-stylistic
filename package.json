@@ -12,8 +12,8 @@
     "test": "vitest",
     "typecheck": "tsc --noEmit",
     "prepare": "simple-git-hooks && esno scripts/prepare.ts",
-    "docs": "pnpm -C docs run dev",
-    "docs:build": "pnpm -C docs run build"
+    "docs": "pnpm -C docs run docs:dev",
+    "docs:build": "pnpm -C docs run docs:build"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^0.42.0",
