@@ -88,6 +88,10 @@ async function run() {
             '\'./',
           )
           .replaceAll(
+            '\'../../src/util',
+            '\'../../util',
+          )
+          .replaceAll(
             'eslint "@typescript-eslint/internal',
             '',
           )

@@ -8,7 +8,7 @@ import type { TSESLint } from '@typescript-eslint/utils'
 import type {
   InferMessageIdsTypeFromRule,
   InferOptionsTypeFromRule,
-} from '../../src/util'
+} from '../../util'
 import rule from './type-annotation-spacing'
 
 type MessageIds = InferMessageIdsTypeFromRule<typeof rule>
