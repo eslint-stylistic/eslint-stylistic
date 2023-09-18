@@ -14,7 +14,6 @@
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
   },
   "main": "./dist/index.cjs",
-  "types": "./dist/index.d.ts",
   "files": [
     "dist"
   ],
