@@ -21,6 +21,12 @@ export default {
             'eslint.config.js',
             'eslint.config.cjs',
             'eslint.config.ts',
+            '**/eslint-config-*/index.js',
+            '**/eslint-config-*/src/index.js',
+            '**/eslint-config-*/src/index.ts',
+            '**/eslint-config/index.js',
+            '**/eslint-config/src/index.js',
+            '**/eslint-config/src/index.ts',
           ],
           rules: {
             '@stylistic/migrate/rules': 'error',
