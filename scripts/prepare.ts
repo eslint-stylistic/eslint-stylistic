@@ -2,6 +2,7 @@ import { basename, dirname, join, relative, resolve } from 'node:path'
 import process from 'node:process'
 import fs from 'node:fs/promises'
 import { existsSync } from 'node:fs'
+import { pathToFileURL } from 'node:url'
 import fg from 'fast-glob'
 import type { PackageInfo, RuleInfo } from '../packages/metadata'
 
@@ -56,8 +57,9 @@ async function readPackage(path: string): Promise<PackageInfo> {
       if (!existsSync(entry))
         entry = join(path, ruleDir, `${name}.js`).replace(/\\/g, '/')
 
-      const mode = await import(entry)
-      const meta = mode.default?.meta
+      const url = pathToFileURL(entry).href
+      const mod = await import(url)
+      const meta = mod.default?.meta
       const rule: RuleInfo = {
         name,
         ruleId: `${pkgId}/${name}`,
