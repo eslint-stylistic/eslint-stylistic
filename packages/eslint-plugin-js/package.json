@@ -1,5 +1,5 @@
 {
-  "name": "eslint-plugin-stylistic-js",
+  "name": "@stylistic/eslint-plugin-js",
   "version": "0.0.0-0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -7,7 +7,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git",
-    "directory": "packages/eslint-plugin-stylistic-js"
+    "directory": "packages/eslint-plugin-js"
   },
   "bugs": {
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"

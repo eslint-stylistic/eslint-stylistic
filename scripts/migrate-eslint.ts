@@ -5,7 +5,7 @@ import { basename, join } from 'node:path'
 import fg from 'fast-glob'
 
 const root = fileURLToPath(new URL('../../eslint', import.meta.url))
-const target = fileURLToPath(new URL('../packages/eslint-plugin-stylistic-js/rules', import.meta.url))
+const target = fileURLToPath(new URL('../packages/eslint-plugin-js/rules', import.meta.url))
 
 // based on https://github.com/eslint/eslint/issues/17522#issuecomment-1712158461
 const names = [

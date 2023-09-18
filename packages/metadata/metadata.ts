@@ -3,30 +3,23 @@ import type { PackageInfo } from './types'
 
 export const packages: Readonly<PackageInfo[]> = Object.freeze([
   {
-    "name": "eslint-config-stylistic",
-    "shortId": "eslint-config-stylistic",
-    "pkgId": "eslint-config-stylistic",
-    "path": "/Users/antfu/i/eslint-stylistic/packages/eslint-config-stylistic",
+    "name": "@stylistic/eslint-config",
+    "shortId": "eslint-config",
+    "pkgId": "@stylistic/eslint-config",
+    "path": "/Users/antfu/i/eslint-stylistic/packages/eslint-config",
     "rules": []
   },
   {
-    "name": "eslint-plugin-stylistic",
-    "shortId": "stylistic",
-    "pkgId": "stylistic",
-    "path": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-stylistic",
-    "rules": []
-  },
-  {
-    "name": "eslint-plugin-stylistic-js",
+    "name": "@stylistic/eslint-plugin-js",
     "shortId": "js",
-    "pkgId": "stylistic-js",
-    "path": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-stylistic-js",
+    "pkgId": "@stylistic/js",
+    "path": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-js",
     "rules": [
       {
         "name": "array-bracket-newline",
-        "ruleId": "stylistic-js/array-bracket-newline",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/array-bracket-newline/array-bracket-newline.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/array-bracket-newline/README.md",
+        "ruleId": "@stylistic/js/array-bracket-newline",
+        "entry": "packages/eslint-plugin-js/rules/array-bracket-newline/array-bracket-newline.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/array-bracket-newline/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -37,9 +30,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "array-bracket-spacing",
-        "ruleId": "stylistic-js/array-bracket-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/array-bracket-spacing/array-bracket-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/array-bracket-spacing/README.md",
+        "ruleId": "@stylistic/js/array-bracket-spacing",
+        "entry": "packages/eslint-plugin-js/rules/array-bracket-spacing/array-bracket-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/array-bracket-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -50,9 +43,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "array-element-newline",
-        "ruleId": "stylistic-js/array-element-newline",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/array-element-newline/array-element-newline.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/array-element-newline/README.md",
+        "ruleId": "@stylistic/js/array-element-newline",
+        "entry": "packages/eslint-plugin-js/rules/array-element-newline/array-element-newline.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/array-element-newline/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -63,9 +56,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "arrow-spacing",
-        "ruleId": "stylistic-js/arrow-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/arrow-spacing/arrow-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/arrow-spacing/README.md",
+        "ruleId": "@stylistic/js/arrow-spacing",
+        "entry": "packages/eslint-plugin-js/rules/arrow-spacing/arrow-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/arrow-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -76,9 +69,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "block-spacing",
-        "ruleId": "stylistic-js/block-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/block-spacing/block-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/block-spacing/README.md",
+        "ruleId": "@stylistic/js/block-spacing",
+        "entry": "packages/eslint-plugin-js/rules/block-spacing/block-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/block-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -89,9 +82,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "comma-spacing",
-        "ruleId": "stylistic-js/comma-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/comma-spacing/comma-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/comma-spacing/README.md",
+        "ruleId": "@stylistic/js/comma-spacing",
+        "entry": "packages/eslint-plugin-js/rules/comma-spacing/comma-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/comma-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -102,9 +95,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "computed-property-spacing",
-        "ruleId": "stylistic-js/computed-property-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/computed-property-spacing/computed-property-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/computed-property-spacing/README.md",
+        "ruleId": "@stylistic/js/computed-property-spacing",
+        "entry": "packages/eslint-plugin-js/rules/computed-property-spacing/computed-property-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/computed-property-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -115,9 +108,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "func-call-spacing",
-        "ruleId": "stylistic-js/func-call-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/func-call-spacing/func-call-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/func-call-spacing/README.md",
+        "ruleId": "@stylistic/js/func-call-spacing",
+        "entry": "packages/eslint-plugin-js/rules/func-call-spacing/func-call-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/func-call-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -128,9 +121,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "function-call-argument-newline",
-        "ruleId": "stylistic-js/function-call-argument-newline",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/function-call-argument-newline/function-call-argument-newline.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/function-call-argument-newline/README.md",
+        "ruleId": "@stylistic/js/function-call-argument-newline",
+        "entry": "packages/eslint-plugin-js/rules/function-call-argument-newline/function-call-argument-newline.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/function-call-argument-newline/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -141,9 +134,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "function-paren-newline",
-        "ruleId": "stylistic-js/function-paren-newline",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/function-paren-newline/function-paren-newline.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/function-paren-newline/README.md",
+        "ruleId": "@stylistic/js/function-paren-newline",
+        "entry": "packages/eslint-plugin-js/rules/function-paren-newline/function-paren-newline.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/function-paren-newline/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -154,9 +147,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "generator-star-spacing",
-        "ruleId": "stylistic-js/generator-star-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/generator-star-spacing/generator-star-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/generator-star-spacing/README.md",
+        "ruleId": "@stylistic/js/generator-star-spacing",
+        "entry": "packages/eslint-plugin-js/rules/generator-star-spacing/generator-star-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/generator-star-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -167,9 +160,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "implicit-arrow-linebreak",
-        "ruleId": "stylistic-js/implicit-arrow-linebreak",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/implicit-arrow-linebreak/implicit-arrow-linebreak.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/implicit-arrow-linebreak/README.md",
+        "ruleId": "@stylistic/js/implicit-arrow-linebreak",
+        "entry": "packages/eslint-plugin-js/rules/implicit-arrow-linebreak/implicit-arrow-linebreak.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/implicit-arrow-linebreak/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -180,9 +173,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "indent",
-        "ruleId": "stylistic-js/indent",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/indent/indent.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/indent/README.md",
+        "ruleId": "@stylistic/js/indent",
+        "entry": "packages/eslint-plugin-js/rules/indent/indent.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/indent/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -193,9 +186,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "key-spacing",
-        "ruleId": "stylistic-js/key-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/key-spacing/key-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/key-spacing/README.md",
+        "ruleId": "@stylistic/js/key-spacing",
+        "entry": "packages/eslint-plugin-js/rules/key-spacing/key-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/key-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -206,9 +199,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "keyword-spacing",
-        "ruleId": "stylistic-js/keyword-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/keyword-spacing/keyword-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/keyword-spacing/README.md",
+        "ruleId": "@stylistic/js/keyword-spacing",
+        "entry": "packages/eslint-plugin-js/rules/keyword-spacing/keyword-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/keyword-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -219,9 +212,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "linebreak-style",
-        "ruleId": "stylistic-js/linebreak-style",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/linebreak-style/linebreak-style.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/linebreak-style/README.md",
+        "ruleId": "@stylistic/js/linebreak-style",
+        "entry": "packages/eslint-plugin-js/rules/linebreak-style/linebreak-style.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/linebreak-style/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -232,9 +225,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "lines-around-comment",
-        "ruleId": "stylistic-js/lines-around-comment",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/lines-around-comment/lines-around-comment.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/lines-around-comment/README.md",
+        "ruleId": "@stylistic/js/lines-around-comment",
+        "entry": "packages/eslint-plugin-js/rules/lines-around-comment/lines-around-comment.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/lines-around-comment/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -245,9 +238,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "lines-around-directive",
-        "ruleId": "stylistic-js/lines-around-directive",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/lines-around-directive/lines-around-directive.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/lines-around-directive/README.md",
+        "ruleId": "@stylistic/js/lines-around-directive",
+        "entry": "packages/eslint-plugin-js/rules/lines-around-directive/lines-around-directive.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/lines-around-directive/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -258,9 +251,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "lines-between-class-members",
-        "ruleId": "stylistic-js/lines-between-class-members",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/lines-between-class-members/lines-between-class-members.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/lines-between-class-members/README.md",
+        "ruleId": "@stylistic/js/lines-between-class-members",
+        "entry": "packages/eslint-plugin-js/rules/lines-between-class-members/lines-between-class-members.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/lines-between-class-members/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -271,9 +264,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "multiline-ternary",
-        "ruleId": "stylistic-js/multiline-ternary",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/multiline-ternary/multiline-ternary.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/multiline-ternary/README.md",
+        "ruleId": "@stylistic/js/multiline-ternary",
+        "entry": "packages/eslint-plugin-js/rules/multiline-ternary/multiline-ternary.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/multiline-ternary/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -284,9 +277,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "newline-after-var",
-        "ruleId": "stylistic-js/newline-after-var",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/newline-after-var/newline-after-var.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/newline-after-var/README.md",
+        "ruleId": "@stylistic/js/newline-after-var",
+        "entry": "packages/eslint-plugin-js/rules/newline-after-var/newline-after-var.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/newline-after-var/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -297,9 +290,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "newline-before-return",
-        "ruleId": "stylistic-js/newline-before-return",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/newline-before-return/newline-before-return.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/newline-before-return/README.md",
+        "ruleId": "@stylistic/js/newline-before-return",
+        "entry": "packages/eslint-plugin-js/rules/newline-before-return/newline-before-return.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/newline-before-return/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -310,9 +303,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "newline-per-chained-call",
-        "ruleId": "stylistic-js/newline-per-chained-call",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/newline-per-chained-call/newline-per-chained-call.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/newline-per-chained-call/README.md",
+        "ruleId": "@stylistic/js/newline-per-chained-call",
+        "entry": "packages/eslint-plugin-js/rules/newline-per-chained-call/newline-per-chained-call.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/newline-per-chained-call/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -323,9 +316,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "no-mixed-spaces-and-tabs",
-        "ruleId": "stylistic-js/no-mixed-spaces-and-tabs",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/no-mixed-spaces-and-tabs/no-mixed-spaces-and-tabs.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/no-mixed-spaces-and-tabs/README.md",
+        "ruleId": "@stylistic/js/no-mixed-spaces-and-tabs",
+        "entry": "packages/eslint-plugin-js/rules/no-mixed-spaces-and-tabs/no-mixed-spaces-and-tabs.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-mixed-spaces-and-tabs/README.md",
         "meta": {
           "docs": {
             "description": "Disallow mixed spaces and tabs for indentation",
@@ -335,9 +328,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "no-multi-spaces",
-        "ruleId": "stylistic-js/no-multi-spaces",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/no-multi-spaces/no-multi-spaces.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/no-multi-spaces/README.md",
+        "ruleId": "@stylistic/js/no-multi-spaces",
+        "entry": "packages/eslint-plugin-js/rules/no-multi-spaces/no-multi-spaces.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-multi-spaces/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -348,9 +341,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "no-multiple-empty-lines",
-        "ruleId": "stylistic-js/no-multiple-empty-lines",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/no-multiple-empty-lines/no-multiple-empty-lines.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/no-multiple-empty-lines/README.md",
+        "ruleId": "@stylistic/js/no-multiple-empty-lines",
+        "entry": "packages/eslint-plugin-js/rules/no-multiple-empty-lines/no-multiple-empty-lines.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-multiple-empty-lines/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -361,9 +354,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "no-spaced-func",
-        "ruleId": "stylistic-js/no-spaced-func",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/no-spaced-func/no-spaced-func.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/no-spaced-func/README.md",
+        "ruleId": "@stylistic/js/no-spaced-func",
+        "entry": "packages/eslint-plugin-js/rules/no-spaced-func/no-spaced-func.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-spaced-func/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -374,9 +367,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "no-trailing-spaces",
-        "ruleId": "stylistic-js/no-trailing-spaces",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/no-trailing-spaces/no-trailing-spaces.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/no-trailing-spaces/README.md",
+        "ruleId": "@stylistic/js/no-trailing-spaces",
+        "entry": "packages/eslint-plugin-js/rules/no-trailing-spaces/no-trailing-spaces.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-trailing-spaces/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -387,9 +380,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "no-whitespace-before-property",
-        "ruleId": "stylistic-js/no-whitespace-before-property",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/no-whitespace-before-property/no-whitespace-before-property.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/no-whitespace-before-property/README.md",
+        "ruleId": "@stylistic/js/no-whitespace-before-property",
+        "entry": "packages/eslint-plugin-js/rules/no-whitespace-before-property/no-whitespace-before-property.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-whitespace-before-property/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -400,9 +393,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "object-curly-newline",
-        "ruleId": "stylistic-js/object-curly-newline",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/object-curly-newline/object-curly-newline.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/object-curly-newline/README.md",
+        "ruleId": "@stylistic/js/object-curly-newline",
+        "entry": "packages/eslint-plugin-js/rules/object-curly-newline/object-curly-newline.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/object-curly-newline/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -413,9 +406,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "object-curly-spacing",
-        "ruleId": "stylistic-js/object-curly-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/object-curly-spacing/object-curly-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/object-curly-spacing/README.md",
+        "ruleId": "@stylistic/js/object-curly-spacing",
+        "entry": "packages/eslint-plugin-js/rules/object-curly-spacing/object-curly-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/object-curly-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -426,9 +419,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "object-property-newline",
-        "ruleId": "stylistic-js/object-property-newline",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/object-property-newline/object-property-newline.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/object-property-newline/README.md",
+        "ruleId": "@stylistic/js/object-property-newline",
+        "entry": "packages/eslint-plugin-js/rules/object-property-newline/object-property-newline.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/object-property-newline/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -439,9 +432,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "operator-linebreak",
-        "ruleId": "stylistic-js/operator-linebreak",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/operator-linebreak/operator-linebreak.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/operator-linebreak/README.md",
+        "ruleId": "@stylistic/js/operator-linebreak",
+        "entry": "packages/eslint-plugin-js/rules/operator-linebreak/operator-linebreak.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/operator-linebreak/README.md",
         "meta": {
           "fixable": "code",
           "docs": {
@@ -452,9 +445,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "padded-blocks",
-        "ruleId": "stylistic-js/padded-blocks",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/padded-blocks/padded-blocks.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/padded-blocks/README.md",
+        "ruleId": "@stylistic/js/padded-blocks",
+        "entry": "packages/eslint-plugin-js/rules/padded-blocks/padded-blocks.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/padded-blocks/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -465,9 +458,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "padding-line-between-statements",
-        "ruleId": "stylistic-js/padding-line-between-statements",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/padding-line-between-statements/padding-line-between-statements.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/padding-line-between-statements/README.md",
+        "ruleId": "@stylistic/js/padding-line-between-statements",
+        "entry": "packages/eslint-plugin-js/rules/padding-line-between-statements/padding-line-between-statements.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/padding-line-between-statements/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -478,9 +471,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "rest-spread-spacing",
-        "ruleId": "stylistic-js/rest-spread-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/rest-spread-spacing/rest-spread-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/rest-spread-spacing/README.md",
+        "ruleId": "@stylistic/js/rest-spread-spacing",
+        "entry": "packages/eslint-plugin-js/rules/rest-spread-spacing/rest-spread-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/rest-spread-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -491,9 +484,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "semi-spacing",
-        "ruleId": "stylistic-js/semi-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/semi-spacing/semi-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/semi-spacing/README.md",
+        "ruleId": "@stylistic/js/semi-spacing",
+        "entry": "packages/eslint-plugin-js/rules/semi-spacing/semi-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/semi-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -504,9 +497,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "space-before-blocks",
-        "ruleId": "stylistic-js/space-before-blocks",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/space-before-blocks/space-before-blocks.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/space-before-blocks/README.md",
+        "ruleId": "@stylistic/js/space-before-blocks",
+        "entry": "packages/eslint-plugin-js/rules/space-before-blocks/space-before-blocks.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/space-before-blocks/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -517,9 +510,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "space-before-function-paren",
-        "ruleId": "stylistic-js/space-before-function-paren",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/space-before-function-paren/space-before-function-paren.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/space-before-function-paren/README.md",
+        "ruleId": "@stylistic/js/space-before-function-paren",
+        "entry": "packages/eslint-plugin-js/rules/space-before-function-paren/space-before-function-paren.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/space-before-function-paren/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -530,9 +523,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "space-in-parens",
-        "ruleId": "stylistic-js/space-in-parens",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/space-in-parens/space-in-parens.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/space-in-parens/README.md",
+        "ruleId": "@stylistic/js/space-in-parens",
+        "entry": "packages/eslint-plugin-js/rules/space-in-parens/space-in-parens.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/space-in-parens/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -543,9 +536,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "space-infix-ops",
-        "ruleId": "stylistic-js/space-infix-ops",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/space-infix-ops/space-infix-ops.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/space-infix-ops/README.md",
+        "ruleId": "@stylistic/js/space-infix-ops",
+        "entry": "packages/eslint-plugin-js/rules/space-infix-ops/space-infix-ops.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/space-infix-ops/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -556,9 +549,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "space-unary-ops",
-        "ruleId": "stylistic-js/space-unary-ops",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/space-unary-ops/space-unary-ops.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/space-unary-ops/README.md",
+        "ruleId": "@stylistic/js/space-unary-ops",
+        "entry": "packages/eslint-plugin-js/rules/space-unary-ops/space-unary-ops.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/space-unary-ops/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -569,9 +562,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "spaced-comment",
-        "ruleId": "stylistic-js/spaced-comment",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/spaced-comment/spaced-comment.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/spaced-comment/README.md",
+        "ruleId": "@stylistic/js/spaced-comment",
+        "entry": "packages/eslint-plugin-js/rules/spaced-comment/spaced-comment.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/spaced-comment/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -582,9 +575,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "switch-colon-spacing",
-        "ruleId": "stylistic-js/switch-colon-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/switch-colon-spacing/switch-colon-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/switch-colon-spacing/README.md",
+        "ruleId": "@stylistic/js/switch-colon-spacing",
+        "entry": "packages/eslint-plugin-js/rules/switch-colon-spacing/switch-colon-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/switch-colon-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -595,9 +588,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "template-curly-spacing",
-        "ruleId": "stylistic-js/template-curly-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/template-curly-spacing/template-curly-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/template-curly-spacing/README.md",
+        "ruleId": "@stylistic/js/template-curly-spacing",
+        "entry": "packages/eslint-plugin-js/rules/template-curly-spacing/template-curly-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/template-curly-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -608,9 +601,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "template-tag-spacing",
-        "ruleId": "stylistic-js/template-tag-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/template-tag-spacing/template-tag-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/template-tag-spacing/README.md",
+        "ruleId": "@stylistic/js/template-tag-spacing",
+        "entry": "packages/eslint-plugin-js/rules/template-tag-spacing/template-tag-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/template-tag-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -621,9 +614,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       },
       {
         "name": "yield-star-spacing",
-        "ruleId": "stylistic-js/yield-star-spacing",
-        "entry": "packages/eslint-plugin-stylistic-js/rules/yield-star-spacing/yield-star-spacing.js",
-        "docsEntry": "packages/eslint-plugin-stylistic-js/rules/yield-star-spacing/README.md",
+        "ruleId": "@stylistic/js/yield-star-spacing",
+        "entry": "packages/eslint-plugin-js/rules/yield-star-spacing/yield-star-spacing.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/yield-star-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -635,17 +628,17 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
     ]
   },
   {
-    "name": "@eslint-stylistic/metadata",
+    "name": "@stylistic/eslint-packages-metadata",
     "shortId": "metadata",
-    "pkgId": "metadata",
+    "pkgId": "@stylistic/metadata",
     "path": "/Users/antfu/i/eslint-stylistic/packages/metadata",
     "rules": []
   },
   {
-    "name": "eslint-plugin-stylistic-ts",
+    "name": "@stylistic/eslint-plugin-ts",
     "shortId": "ts",
-    "pkgId": "stylistic-ts",
-    "path": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-stylistic-ts",
+    "pkgId": "@stylistic/ts",
+    "path": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts",
     "rules": []
   }
 ])

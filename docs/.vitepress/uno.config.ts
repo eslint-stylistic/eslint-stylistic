@@ -11,4 +11,9 @@ export default defineConfig({
     presetAttributify(),
     presetIcons(),
   ],
+  safelist: [
+    'font-mono',
+    'mt--4',
+    'no-underline!',
+  ],
 })

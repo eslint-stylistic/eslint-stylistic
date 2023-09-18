@@ -1,5 +1,5 @@
 {
-  "name": "eslint-config-stylistic",
+  "name": "@stylistic/eslint-config",
   "version": "0.0.0-0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -7,7 +7,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git",
-    "directory": "packages/eslint-config-stylistic"
+    "directory": "packages/eslint-config"
   },
   "bugs": {
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
@@ -15,5 +15,9 @@
   "main": "./index.js",
   "files": [
     "index.js"
-  ]
+  ],
+  "dependencies": {
+    "@stylistic/eslint-plugin-js": "workspace:*",
+    "@stylistic/eslint-plugin-ts": "workspace:*"
+  }
 }

@@ -6,6 +6,7 @@ import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 import graymatter from 'gray-matter'
 import { packages } from '../../packages/metadata'
+import rules from '../../packages/eslint-plugin-stylistic-js/rules'
 
 export default defineConfig({
   plugins: [
@@ -35,7 +36,7 @@ function MarkdownTransform(): Plugin {
       const ruleName = basename(dirname(id))
       const pkgName = basename(dirname(dirname(dirname(id))))
 
-      const pkg = packages.find(p => p.name === pkgName)
+      const pkg = packages.find(p => p.name.includes(pkgName))
       const rule = pkg?.rules.find(r => r.name === ruleName)
 
       if (!pkg || !rule)
@@ -46,7 +47,16 @@ function MarkdownTransform(): Plugin {
         content,
       } = graymatter(code)
 
-      content = `# \`${rule.name}\`\n\n${content}`
+      content = [
+        `<a href="/packages#${pkg.name}" class="font-mono no-underline!">${rule.ruleId.slice(0, -rule.name.length)}</a>`,
+        `<h1 class="font-mono mt--4">${rule.name}</h1>`,
+        '',
+        '\n',
+        content.replaceAll(
+          `eslint ${rule.name}:`,
+          `eslint ${rule.ruleId}:`,
+        ),
+      ].join('\n')
 
       return graymatter.stringify(content, { data })
     },

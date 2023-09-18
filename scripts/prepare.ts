@@ -41,8 +41,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze(${JSON.stringify(
 run()
 
 async function readPackage(path: string): Promise<PackageInfo> {
-  const pkgId = relative(join(cwd, 'packages'), path).replace('eslint-plugin-', '')
-  const shortId = pkgId.replace('stylistic-', '')
+  const dir = relative(join(cwd, 'packages'), path)
+  const pkgId = `@stylistic/${dir.replace('eslint-plugin-', '')}`
+  const shortId = pkgId.replace('@stylistic/', '')
   const pkgJSON = JSON.parse(await fs.readFile(join(path, 'package.json'), 'utf-8'))
   console.log(`Preparing ${path}`)
   const rulesDir = (await fg('rules/*', {
