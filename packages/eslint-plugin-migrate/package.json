@@ -1,14 +1,14 @@
 {
-  "name": "@eslint-stylistic/metadata",
+  "name": "@stylistic/eslint-plugin-migrate",
   "version": "0.0.1",
-  "description": "Metadata for eslint-stylistic packages",
+  "description": "ESLint plugin to migrate built-in rules to stylistic rules",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git",
-    "directory": "packages/metadata"
+    "directory": "packages/eslint-plugin-migrate"
   },
   "bugs": {
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
@@ -23,7 +23,8 @@
     "stub": "unbuild --stub",
     "prepublishOnly": "unbuild"
   },
-  "devDependencies": {
-    "unbuild": "^2.0.0"
+  "dependencies": {
+    "@eslint-stylistic/metadata": "workspace:*",
+    "@typescript-eslint/utils": "^6.7.0"
   }
 }

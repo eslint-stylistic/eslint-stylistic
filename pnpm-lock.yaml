@@ -20,6 +20,15 @@ importers:
       '@rollup/plugin-commonjs':
         specifier: ^25.0.4
         version: 25.0.4(rollup@3.29.2)
+      '@stylistic/eslint-plugin-js':
+        specifier: workspace:*
+        version: link:packages/eslint-plugin-js
+      '@stylistic/eslint-plugin-migrate':
+        specifier: workspace:*
+        version: link:packages/eslint-plugin-migrate
+      '@stylistic/eslint-plugin-ts':
+        specifier: workspace:*
+        version: link:packages/eslint-plugin-ts
       '@types/eslint':
         specifier: ^8.44.2
         version: 8.44.2
@@ -141,6 +150,15 @@ importers:
         specifier: ^1.4.0
         version: 1.4.0
 
+  packages/eslint-plugin-migrate:
+    dependencies:
+      '@eslint-stylistic/metadata':
+        specifier: workspace:*
+        version: link:../metadata
+      '@typescript-eslint/utils':
+        specifier: ^6.7.0
+        version: 6.7.0(eslint@8.49.0)(typescript@5.2.2)
+
   packages/eslint-plugin-ts:
     dependencies:
       '@typescript-eslint/scope-manager':
@@ -169,7 +187,11 @@ importers:
         specifier: ^6.7.0
         version: 6.7.0(@eslint/eslintrc@2.1.2)(eslint@8.49.0)(typescript@5.2.2)
 
-  packages/metadata: {}
+  packages/metadata:
+    devDependencies:
+      unbuild:
+        specifier: ^2.0.0
+        version: 2.0.0(typescript@5.2.2)
 
 packages:
 

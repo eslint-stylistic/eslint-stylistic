@@ -1,6 +1,8 @@
 export interface RuleInfo {
   name: string
   ruleId: string
+  originalId: string
+
   entry: string
   docsEntry: string
   meta?: RuleMeta
