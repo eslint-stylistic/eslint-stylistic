@@ -10,6 +10,21 @@
     "no-template-curly-in-string": "off",
     "no-mixed-operators": "off",
     "max-statements-per-line": "off",
-    "no-cond-assign": "off"
-  }
+    "no-cond-assign": "off",
+
+    "eslint-comments/no-unused-enable": "off",
+    "jsdoc/check-param-names": "off",
+    "unicorn/prefer-number-properties": "off",
+
+    "@typescript-eslint/no-require-import": "off",
+    "@typescript-eslint/no-var-requires": "off"
+  },
+  "overrides": [
+    {
+      "files": ["*.ts"],
+      "rules": {
+        "@typescript-eslint/no-require-imports": "off"
+      }
+    }
+  ]
 }

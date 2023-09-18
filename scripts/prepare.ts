@@ -1,11 +1,9 @@
 import { basename, dirname, join, relative, resolve } from 'node:path'
 import process from 'node:process'
 import fs from 'node:fs/promises'
-import { createRequire } from 'node:module'
+import { existsSync } from 'node:fs'
 import fg from 'fast-glob'
 import type { PackageInfo, RuleInfo } from '../packages/metadata'
-
-const require = createRequire(import.meta.url)
 
 const cwd = process.cwd()
 
@@ -54,12 +52,16 @@ async function readPackage(path: string): Promise<PackageInfo> {
   const rules = await Promise.all(
     rulesDir.map(async (ruleDir) => {
       const name = basename(ruleDir)
-      const meta = require(resolve(path, ruleDir, `${name}.js`)).meta
+      let entry = join(path, ruleDir, `${name}.ts`).replace(/\\/g, '/')
+      if (!existsSync(entry))
+        entry = join(path, ruleDir, `${name}.js`).replace(/\\/g, '/')
+
+      const mode = await import(entry)
+      const meta = mode.default?.meta
       const rule: RuleInfo = {
         name,
         ruleId: `${pkgId}/${name}`,
-        // TODO: check if entry exists
-        entry: relative(cwd, resolve(path, ruleDir, `${name}.js`)).replace(/\\/g, '/'),
+        entry,
         // TODO: check if entry exists
         docsEntry: relative(cwd, resolve(path, ruleDir, 'README.md')).replace(/\\/g, '/'),
         meta: {
@@ -88,10 +90,23 @@ async function writeRulesIndex(pkg: PackageInfo) {
 
   const ruleDir = join(pkg.path, 'rules')
 
-  const index = `module.exports = {\n${pkg.rules.map(i => `  '${i.name}': () => require('./${relative(ruleDir, i.entry).replace(/\\/g, '/')}'),`).join('\n')}\n}\n`
-
   await fs.mkdir(ruleDir, { recursive: true })
-  await fs.writeFile(join(ruleDir, 'index.js'), index, 'utf-8')
+
+  if (pkg.shortId === 'js') {
+    const index = `module.exports = {\n${pkg.rules.map(i => `  '${i.name}': () => require('./${relative(ruleDir, i.entry).replace(/\\/g, '/')}'),`).join('\n')}\n}\n`
+    await fs.writeFile(join(ruleDir, 'index.js'), index, 'utf-8')
+  }
+  else {
+    const index = [
+      ...pkg.rules.map(i => `import ${camelCase(i.name)} from './${i.name}/${i.name}'`),
+      '',
+      'export default {',
+      ...pkg.rules.map(i => `  '${i.name}': ${camelCase(i.name)},`),
+      '}',
+      '',
+    ].join('\n')
+    await fs.writeFile(join(ruleDir, 'index.ts'), index, 'utf-8')
+  }
 }
 
 async function writeREADME(pkg: PackageInfo) {
@@ -107,4 +122,10 @@ async function writeREADME(pkg: PackageInfo) {
   ]
 
   await fs.writeFile(join(pkg.path, 'rules.md'), lines.join('\n'), 'utf-8')
+}
+
+function camelCase(str: string) {
+  return str
+    .replace(/[^\d\w_-]+/, '')
+    .replace(/-([a-z])/g, (_, c) => c.toUpperCase())
 }

@@ -1,3 +1,13 @@
+/**
+ * This script migrates rules from the ESLint repo to this repo.
+ *
+ * Before running this script, you need to clone the ESLint repo to ../eslint.
+ *
+ * ```sh
+ * esno scripts/migrate-eslint.ts
+ * pnpm run lint --fix
+ * ```
+ */
 import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import fs from 'node:fs/promises'

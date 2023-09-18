@@ -5,6 +5,8 @@ import MarkdownItContainer from 'markdown-it-container'
 import { packages } from '../../packages/metadata'
 import vite from './vite.config'
 
+const mainPackages = packages.filter(p => p.rules.length)
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'ESLint Stylistic',
@@ -62,9 +64,18 @@ export default defineConfig({
 
     sidebar: Object.assign(
       // @ts-expect-error anyway
-      ...packages.map((pkg) => {
+      ...mainPackages.map((pkg) => {
         return {
           [`/rules/${pkg.shortId}`]: [
+            {
+              text: 'Other Packages',
+              items: mainPackages
+                .filter(i => i.name !== pkg.name)
+                .map(pkg => ({
+                  text: pkg.name,
+                  link: `/packages#${pkg.shortId}`,
+                })),
+            },
             {
               text: pkg.name,
               items: pkg.rules.map((rule): DefaultTheme.SidebarItem => ({
@@ -75,6 +86,17 @@ export default defineConfig({
           ],
         }
       }),
+      {
+        '/': [
+          {
+            text: 'Packages',
+            items: mainPackages.map(pkg => ({
+              text: pkg.name,
+              link: `/packages#${pkg.shortId}`,
+            })),
+          },
+        ],
+      },
     ),
 
     socialLinks: [
