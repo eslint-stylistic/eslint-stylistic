@@ -43,7 +43,6 @@ function arrayGroupByToMap<T, Key extends number | string>(
 
     if (existing)
       existing.push(item)
-
     else
       groups.set(key, [item])
   }
@@ -156,7 +155,7 @@ type RequireKeys<
 > = ExcludeKeys<TObj, TKeys> & { [k in TKeys]-?: Exclude<TObj[k], undefined> }
 
 function getEnumNames<T extends string>(myEnum: Record<T, unknown>): T[] {
-  return Object.keys(myEnum).filter(x => isNaN(Number.parseInt(x))) as T[]
+  return Object.keys(myEnum).filter(x => isNaN(parseInt(x))) as T[]
 }
 
 /**

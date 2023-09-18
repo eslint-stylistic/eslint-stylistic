@@ -634,6 +634,174 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
     "path": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts",
     "rules": [
       {
+        "name": "block-spacing",
+        "ruleId": "@stylistic/ts/block-spacing",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/block-spacing/block-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/block-spacing/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Disallow or enforce spaces inside of blocks after opening block and before closing block"
+          }
+        }
+      },
+      {
+        "name": "brace-style",
+        "ruleId": "@stylistic/ts/brace-style",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/brace-style/brace-style.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/brace-style/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce consistent brace style for blocks"
+          }
+        }
+      },
+      {
+        "name": "comma-dangle",
+        "ruleId": "@stylistic/ts/comma-dangle",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/comma-dangle/comma-dangle.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/comma-dangle/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require or disallow trailing commas"
+          }
+        }
+      },
+      {
+        "name": "comma-spacing",
+        "ruleId": "@stylistic/ts/comma-spacing",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/comma-spacing/comma-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/comma-spacing/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce consistent spacing before and after commas"
+          }
+        }
+      },
+      {
+        "name": "func-call-spacing",
+        "ruleId": "@stylistic/ts/func-call-spacing",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/func-call-spacing/func-call-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/func-call-spacing/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require or disallow spacing between function identifiers and their invocations"
+          }
+        }
+      },
+      {
+        "name": "indent",
+        "ruleId": "@stylistic/ts/indent",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/indent/indent.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/indent/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce consistent indentation"
+          }
+        }
+      },
+      {
+        "name": "key-spacing",
+        "ruleId": "@stylistic/ts/key-spacing",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/key-spacing/key-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/key-spacing/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce consistent spacing between property names and type annotations in types and interfaces"
+          }
+        }
+      },
+      {
+        "name": "keyword-spacing",
+        "ruleId": "@stylistic/ts/keyword-spacing",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/keyword-spacing/keyword-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/keyword-spacing/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce consistent spacing before and after keywords"
+          }
+        }
+      },
+      {
+        "name": "lines-around-comment",
+        "ruleId": "@stylistic/ts/lines-around-comment",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/lines-around-comment/lines-around-comment.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/lines-around-comment/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require empty lines around comments"
+          }
+        }
+      },
+      {
+        "name": "lines-between-class-members",
+        "ruleId": "@stylistic/ts/lines-between-class-members",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/lines-between-class-members/lines-between-class-members.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/lines-between-class-members/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require or disallow an empty line between class members"
+          }
+        }
+      },
+      {
+        "name": "member-delimiter-style",
+        "ruleId": "@stylistic/ts/member-delimiter-style",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/member-delimiter-style/member-delimiter-style.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/member-delimiter-style/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require a specific member delimiter style for interfaces and type literals"
+          }
+        }
+      },
+      {
+        "name": "no-extra-parens",
+        "ruleId": "@stylistic/ts/no-extra-parens",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/no-extra-parens/no-extra-parens.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/no-extra-parens/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow unnecessary parentheses"
+          }
+        }
+      },
+      {
+        "name": "padding-line-between-statements",
+        "ruleId": "@stylistic/ts/padding-line-between-statements",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/padding-line-between-statements/padding-line-between-statements.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/padding-line-between-statements/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require or disallow padding lines between statements"
+          }
+        }
+      },
+      {
+        "name": "quotes",
+        "ruleId": "@stylistic/ts/quotes",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/quotes/quotes.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/quotes/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce the consistent use of either backticks, double, or single quotes"
+          }
+        }
+      },
+      {
         "name": "semi",
         "ruleId": "@stylistic/ts/semi",
         "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/semi/semi.ts",
@@ -642,6 +810,54 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "code",
           "docs": {
             "description": "Require or disallow semicolons instead of ASI"
+          }
+        }
+      },
+      {
+        "name": "space-before-blocks",
+        "ruleId": "@stylistic/ts/space-before-blocks",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/space-before-blocks/space-before-blocks.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/space-before-blocks/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce consistent spacing before blocks"
+          }
+        }
+      },
+      {
+        "name": "space-before-function-paren",
+        "ruleId": "@stylistic/ts/space-before-function-paren",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/space-before-function-paren/space-before-function-paren.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/space-before-function-paren/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce consistent spacing before function parenthesis"
+          }
+        }
+      },
+      {
+        "name": "space-infix-ops",
+        "ruleId": "@stylistic/ts/space-infix-ops",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/space-infix-ops/space-infix-ops.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/space-infix-ops/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require spacing around infix operators"
+          }
+        }
+      },
+      {
+        "name": "type-annotation-spacing",
+        "ruleId": "@stylistic/ts/type-annotation-spacing",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/type-annotation-spacing/type-annotation-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/type-annotation-spacing/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require consistent spacing around type annotations"
           }
         }
       }
