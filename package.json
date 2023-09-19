@@ -9,10 +9,11 @@
     "dev": "pnpm -r run dev",
     "stub": "pnpm -r run stub",
     "lint": "eslint . --cache",
+    "update": "esno scripts/prepare.ts",
     "release": "bumpp -r && pnpm -r publish",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
-    "prepare": "simple-git-hooks && esno scripts/prepare.ts",
+    "prepare": "simple-git-hooks",
     "docs": "pnpm -C docs run docs:dev",
     "docs:build": "pnpm -C docs run docs:build"
   },

@@ -3,6 +3,13 @@ import type { PackageInfo, RuleInfo } from './types'
 
 export const packages: Readonly<PackageInfo[]> = Object.freeze([
   {
+    "name": "@eslint-stylistic/metadata",
+    "shortId": "metadata",
+    "pkgId": "@stylistic/metadata",
+    "path": "/Users/antfu/i/eslint-stylistic/packages/metadata",
+    "rules": []
+  },
+  {
     "name": "@stylistic/eslint-config",
     "shortId": "eslint-config",
     "pkgId": "@stylistic/eslint-config",
@@ -772,6 +779,13 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
     ]
   },
   {
+    "name": "@stylistic/eslint-plugin-migrate",
+    "shortId": "migrate",
+    "pkgId": "@stylistic/migrate",
+    "path": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-migrate",
+    "rules": []
+  },
+  {
     "name": "@stylistic/eslint-plugin-ts",
     "shortId": "ts",
     "pkgId": "@stylistic/ts",
@@ -999,20 +1013,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       }
     ]
-  },
-  {
-    "name": "@stylistic/eslint-plugin-migrate",
-    "shortId": "migrate",
-    "pkgId": "@stylistic/migrate",
-    "path": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-migrate",
-    "rules": []
-  },
-  {
-    "name": "@eslint-stylistic/metadata",
-    "shortId": "metadata",
-    "pkgId": "@stylistic/metadata",
-    "path": "/Users/antfu/i/eslint-stylistic/packages/metadata",
-    "rules": []
   }
 ])
 

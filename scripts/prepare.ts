@@ -19,6 +19,8 @@ async function run() {
 
   const packages = await Promise.all(paths.map(i => readPackage(dirname(i))))
 
+  packages.sort((a, b) => a.name.localeCompare(b.name))
+
   await Promise.all(packages.flatMap(i => [
     writeRulesIndex(i),
     writeREADME(i),
