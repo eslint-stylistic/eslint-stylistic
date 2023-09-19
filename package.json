@@ -28,7 +28,6 @@
     "@types/eslint": "^8.44.2",
     "@types/fs-extra": "^11.0.2",
     "@types/node": "^20.6.2",
-    "@types/semver": "^7.5.2",
     "bumpp": "^9.2.0",
     "eslint": "^8.49.0",
     "esno": "^0.17.0",

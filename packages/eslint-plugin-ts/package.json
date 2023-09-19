@@ -30,8 +30,7 @@
     "@typescript-eslint/scope-manager": "^6.7.0",
     "@typescript-eslint/type-utils": "^6.7.0",
     "@typescript-eslint/utils": "^6.7.0",
-    "graphemer": "^1.4.0",
-    "semver": "^7.5.4"
+    "graphemer": "^1.4.0"
   },
   "devDependencies": {
     "@typescript-eslint/rule-tester": "^6.7.0"

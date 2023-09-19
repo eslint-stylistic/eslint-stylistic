@@ -38,9 +38,6 @@ importers:
       '@types/node':
         specifier: ^20.6.2
         version: 20.6.2
-      '@types/semver':
-        specifier: ^7.5.2
-        version: 7.5.2
       bumpp:
         specifier: ^9.2.0
         version: 9.2.0
@@ -179,9 +176,6 @@ importers:
       graphemer:
         specifier: ^1.4.0
         version: 1.4.0
-      semver:
-        specifier: ^7.5.4
-        version: 7.5.4
       typescript:
         specifier: '*'
         version: 5.2.2
