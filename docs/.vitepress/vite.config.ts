@@ -27,6 +27,7 @@ export default defineConfig({
     ),
     MarkdownTransform(),
   ],
+  publicDir: fileURLToPath(new URL('../public', import.meta.url)),
 })
 
 function MarkdownTransform(): Plugin {
