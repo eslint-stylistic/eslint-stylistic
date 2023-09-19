@@ -13,7 +13,7 @@ export default defineConfig({
   ],
   safelist: [
     'font-mono',
-    'mt--4',
+    'mb0!',
     'no-underline!',
   ],
 })

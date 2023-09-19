@@ -7,6 +7,21 @@ import vite from './vite.config'
 
 const mainPackages = packages.filter(p => p.rules.length)
 
+const GUIDES: DefaultTheme.NavItemWithLink[] = [
+  { text: 'Getting Started', link: '/guide/getting-started' },
+  { text: 'Why', link: '/guide/why' },
+  { text: 'Migration', link: '/guide/migration' },
+]
+
+const CONTRIBUTES: DefaultTheme.NavItemWithLink[] = [
+  { text: 'Project Progress', link: '/contribute/project-progress' },
+]
+
+const packageNames: Record<string, string> = {
+  js: 'JavaScript Rules',
+  ts: 'TypeScript Rules',
+}
+
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'ESLint Stylistic',
@@ -59,6 +74,11 @@ export default defineConfig({
 
     nav: [
       { text: 'Home', link: '/' },
+      { text: 'Guide', items: GUIDES },
+      {
+        text: 'Contribute',
+        items: CONTRIBUTES,
+      },
       { text: 'Rules', link: '/packages' },
     ],
 
@@ -68,16 +88,7 @@ export default defineConfig({
         return {
           [`/rules/${pkg.shortId}`]: [
             {
-              text: 'Other Packages',
-              items: mainPackages
-                .filter(i => i.name !== pkg.name)
-                .map(pkg => ({
-                  text: pkg.name,
-                  link: `/packages#${pkg.shortId}`,
-                })),
-            },
-            {
-              text: pkg.name,
+              text: packageNames[pkg.shortId] || pkg.name,
               items: pkg.rules.map((rule): DefaultTheme.SidebarItem => ({
                 text: rule.name,
                 link: `/rules/${pkg.shortId}/${rule.name}`,
@@ -89,9 +100,17 @@ export default defineConfig({
       {
         '/': [
           {
+            text: 'Guide',
+            items: GUIDES,
+          },
+          {
+            text: 'Contribute',
+            items: CONTRIBUTES,
+          },
+          {
             text: 'Packages',
             items: mainPackages.map(pkg => ({
-              text: pkg.name,
+              text: packageNames[pkg.shortId] || pkg.name,
               link: `/packages#${pkg.shortId}`,
             })),
           },
@@ -103,4 +122,16 @@ export default defineConfig({
       { icon: 'github', link: 'https://github.com/eslint-stylistic/eslint-stylistic' },
     ],
   },
+
+  head: [
+    ['meta', { name: 'theme-color', content: '#ffffff' }],
+    ['link', { rel: 'icon', href: '/logo.svg', type: 'image/svg+xml' }],
+    ['meta', { name: 'author', content: 'ESLint Stylistic Team' }],
+    ['meta', { property: 'og:title', content: 'ESLint Stylistic' }],
+    ['meta', { property: 'og:image', content: 'https://eslint.style/og.png' }],
+    ['meta', { property: 'og:description', content: 'Stylistic Formatting for ESLint' }],
+    ['meta', { name: 'twitter:card', content: 'summary_large_image' }],
+    ['meta', { name: 'twitter:image', content: 'https://eslint.style/og.png' }],
+    ['meta', { name: 'viewport', content: 'width=device-width, initial-scale=1.0, viewport-fit=cover' }],
+  ],
 })

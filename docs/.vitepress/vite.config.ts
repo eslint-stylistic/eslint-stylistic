@@ -66,8 +66,9 @@ function MarkdownTransform(): Plugin {
         )
 
       content = [
-        `<a href="/packages#${pkg.name}" class="font-mono no-underline!">${rule.ruleId.slice(0, -rule.name.length)}</a>`,
-        `<h1 class="font-mono mt--4">${rule.name}</h1>`,
+        `<p class="mb0!"><a href="/packages#${pkg.name}" class="font-mono no-underline!">${rule.ruleId.slice(0, -rule.name.length)}</a></p>`,
+        '',
+        `# <samp>${rule.name}</samp>`,
         '',
         '\n',
         content,
