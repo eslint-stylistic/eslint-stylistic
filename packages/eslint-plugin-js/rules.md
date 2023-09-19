@@ -7,8 +7,11 @@
 | [`@stylistic/js/array-element-newline`](./rules/array-element-newline) | Enforce line breaks after each array element | ✅ |  |
 | [`@stylistic/js/arrow-spacing`](./rules/arrow-spacing) | Enforce consistent spacing before and after the arrow in arrow functions | ✅ |  |
 | [`@stylistic/js/block-spacing`](./rules/block-spacing) | Disallow or enforce spaces inside of blocks after opening block and before closing block | ✅ |  |
+| [`@stylistic/js/brace-style`](./rules/brace-style) | Enforce consistent brace style for blocks | ✅ |  |
 | [`@stylistic/js/comma-spacing`](./rules/comma-spacing) | Enforce consistent spacing before and after commas | ✅ |  |
+| [`@stylistic/js/comma-style`](./rules/comma-style) | Enforce consistent comma style | ✅ |  |
 | [`@stylistic/js/computed-property-spacing`](./rules/computed-property-spacing) | Enforce consistent spacing inside computed property brackets | ✅ |  |
+| [`@stylistic/js/dot-location`](./rules/dot-location) | Enforce consistent newlines before and after dots | ✅ |  |
 | [`@stylistic/js/func-call-spacing`](./rules/func-call-spacing) | Require or disallow spacing between function identifiers and their invocations | ✅ |  |
 | [`@stylistic/js/function-call-argument-newline`](./rules/function-call-argument-newline) | Enforce line breaks between arguments of a function call | ✅ |  |
 | [`@stylistic/js/function-paren-newline`](./rules/function-paren-newline) | Enforce consistent line breaks inside function parentheses | ✅ |  |
@@ -29,16 +32,20 @@
 | [`@stylistic/js/no-multi-spaces`](./rules/no-multi-spaces) | Disallow multiple spaces | ✅ |  |
 | [`@stylistic/js/no-multiple-empty-lines`](./rules/no-multiple-empty-lines) | Disallow multiple empty lines | ✅ |  |
 | [`@stylistic/js/no-spaced-func`](./rules/no-spaced-func) | Disallow spacing between function identifiers and their applications (deprecated) | ✅ |  |
+| [`@stylistic/js/no-tabs`](./rules/no-tabs) | Disallow all tabs |  |  |
 | [`@stylistic/js/no-trailing-spaces`](./rules/no-trailing-spaces) | Disallow trailing whitespace at the end of lines | ✅ |  |
 | [`@stylistic/js/no-whitespace-before-property`](./rules/no-whitespace-before-property) | Disallow whitespace before properties | ✅ |  |
+| [`@stylistic/js/nonblock-statement-body-position`](./rules/nonblock-statement-body-position) | Enforce the location of single-line statements | ✅ |  |
 | [`@stylistic/js/object-curly-newline`](./rules/object-curly-newline) | Enforce consistent line breaks after opening and before closing braces | ✅ |  |
 | [`@stylistic/js/object-curly-spacing`](./rules/object-curly-spacing) | Enforce consistent spacing inside braces | ✅ |  |
 | [`@stylistic/js/object-property-newline`](./rules/object-property-newline) | Enforce placing object properties on separate lines | ✅ |  |
+| [`@stylistic/js/one-var-declaration-per-line`](./rules/one-var-declaration-per-line) | Require or disallow newlines around variable declarations | ✅ |  |
 | [`@stylistic/js/operator-linebreak`](./rules/operator-linebreak) | Enforce consistent linebreak style for operators | ✅ |  |
 | [`@stylistic/js/padded-blocks`](./rules/padded-blocks) | Require or disallow padding within blocks | ✅ |  |
 | [`@stylistic/js/padding-line-between-statements`](./rules/padding-line-between-statements) | Require or disallow padding lines between statements | ✅ |  |
 | [`@stylistic/js/rest-spread-spacing`](./rules/rest-spread-spacing) | Enforce spacing between rest and spread operators and their expressions | ✅ |  |
 | [`@stylistic/js/semi-spacing`](./rules/semi-spacing) | Enforce consistent spacing before and after semicolons | ✅ |  |
+| [`@stylistic/js/semi-style`](./rules/semi-style) | Enforce location of semicolons | ✅ |  |
 | [`@stylistic/js/space-before-blocks`](./rules/space-before-blocks) | Enforce consistent spacing before blocks | ✅ |  |
 | [`@stylistic/js/space-before-function-paren`](./rules/space-before-function-paren) | Enforce consistent spacing before `function` definition opening parenthesis | ✅ |  |
 | [`@stylistic/js/space-in-parens`](./rules/space-in-parens) | Enforce consistent spacing inside parentheses | ✅ |  |

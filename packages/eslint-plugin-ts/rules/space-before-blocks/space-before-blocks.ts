@@ -1,14 +1,15 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 
-import * as util from '../../util'
+import type { InferMessageIdsTypeFromRule, InferOptionsTypeFromRule } from '../../util'
+import { createRule, isTokenOnSameLine } from '../../util'
 import { getESLintCoreRule } from '../../util/getESLintCoreRule'
 
 const baseRule = getESLintCoreRule('space-before-blocks')
 
-export type Options = util.InferOptionsTypeFromRule<typeof baseRule>
-export type MessageIds = util.InferMessageIdsTypeFromRule<typeof baseRule>
+export type Options = InferOptionsTypeFromRule<typeof baseRule>
+export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
 
-export default util.createRule<Options, MessageIds>({
+export default createRule<Options, MessageIds>({
   name: 'space-before-blocks',
   meta: {
     type: 'layout',
@@ -43,7 +44,7 @@ export default util.createRule<Options, MessageIds>({
       node: TSESTree.Token | TSESTree.TSInterfaceBody,
     ): void {
       const precedingToken = sourceCode.getTokenBefore(node)
-      if (precedingToken && util.isTokenOnSameLine(precedingToken, node)) {
+      if (precedingToken && isTokenOnSameLine(precedingToken, node)) {
         //  -- TODO - switch once our min ESLint version is 6.7.0
         const hasSpace = sourceCode.isSpaceBetweenTokens(
           precedingToken,

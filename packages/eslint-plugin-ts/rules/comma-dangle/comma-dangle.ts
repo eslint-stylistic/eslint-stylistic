@@ -1,8 +1,8 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import { createRule, isCommaToken } from '../../util'
 import type { InferMessageIdsTypeFromRule, InferOptionsTypeFromRule } from '../../util'
+import { createRule, isCommaToken } from '../../util'
 import { getESLintCoreRule } from '../../util/getESLintCoreRule'
 
 const baseRule = getESLintCoreRule('comma-dangle')
@@ -175,9 +175,9 @@ export default createRule<Options, MessageIds>({
 
     return {
       ...rules,
-      TSEnumDeclaration: (predicate as any)[normalizedOptions.enums],
-      TSTypeParameterDeclaration: (predicate as any)[normalizedOptions.generics],
-      TSTupleType: (predicate as any)[normalizedOptions.tuples],
+      TSEnumDeclaration: predicate[normalizedOptions.enums],
+      TSTypeParameterDeclaration: predicate[normalizedOptions.generics],
+      TSTupleType: predicate[normalizedOptions.tuples],
     }
   },
 })

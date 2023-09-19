@@ -86,6 +86,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "brace-style",
+        "ruleId": "@stylistic/js/brace-style",
+        "originalId": "brace-style",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-js/rules/brace-style/brace-style.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/brace-style/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce consistent brace style for blocks",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "comma-spacing",
         "ruleId": "@stylistic/js/comma-spacing",
         "originalId": "comma-spacing",
@@ -100,6 +114,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "comma-style",
+        "ruleId": "@stylistic/js/comma-style",
+        "originalId": "comma-style",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-js/rules/comma-style/comma-style.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/comma-style/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce consistent comma style",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "computed-property-spacing",
         "ruleId": "@stylistic/js/computed-property-spacing",
         "originalId": "computed-property-spacing",
@@ -109,6 +137,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Enforce consistent spacing inside computed property brackets",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "dot-location",
+        "ruleId": "@stylistic/js/dot-location",
+        "originalId": "dot-location",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-js/rules/dot-location/dot-location.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/dot-location/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce consistent newlines before and after dots",
             "recommended": false
           }
         }
@@ -393,6 +435,19 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "no-tabs",
+        "ruleId": "@stylistic/js/no-tabs",
+        "originalId": "no-tabs",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-js/rules/no-tabs/no-tabs.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-tabs/README.md",
+        "meta": {
+          "docs": {
+            "description": "Disallow all tabs",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "no-trailing-spaces",
         "ruleId": "@stylistic/js/no-trailing-spaces",
         "originalId": "no-trailing-spaces",
@@ -416,6 +471,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Disallow whitespace before properties",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "nonblock-statement-body-position",
+        "ruleId": "@stylistic/js/nonblock-statement-body-position",
+        "originalId": "nonblock-statement-body-position",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-js/rules/nonblock-statement-body-position/nonblock-statement-body-position.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/nonblock-statement-body-position/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce the location of single-line statements",
             "recommended": false
           }
         }
@@ -458,6 +527,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Enforce placing object properties on separate lines",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "one-var-declaration-per-line",
+        "ruleId": "@stylistic/js/one-var-declaration-per-line",
+        "originalId": "one-var-declaration-per-line",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-js/rules/one-var-declaration-per-line/one-var-declaration-per-line.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/one-var-declaration-per-line/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require or disallow newlines around variable declarations",
             "recommended": false
           }
         }
@@ -528,6 +611,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Enforce consistent spacing before and after semicolons",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "semi-style",
+        "ruleId": "@stylistic/js/semi-style",
+        "originalId": "semi-style",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-js/rules/semi-style/semi-style.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/semi-style/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce location of semicolons",
             "recommended": false
           }
         }
@@ -673,20 +770,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       }
     ]
-  },
-  {
-    "name": "@eslint-stylistic/metadata",
-    "shortId": "metadata",
-    "pkgId": "@stylistic/metadata",
-    "path": "/Users/antfu/i/eslint-stylistic/packages/metadata",
-    "rules": []
-  },
-  {
-    "name": "@stylistic/eslint-plugin-migrate",
-    "shortId": "migrate",
-    "pkgId": "@stylistic/migrate",
-    "path": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-migrate",
-    "rules": []
   },
   {
     "name": "@stylistic/eslint-plugin-ts",
@@ -838,15 +921,15 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
-        "name": "no-extra-parens",
-        "ruleId": "@stylistic/ts/no-extra-parens",
-        "originalId": "@typescript-eslint/no-extra-parens",
-        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/no-extra-parens/no-extra-parens.ts",
-        "docsEntry": "packages/eslint-plugin-ts/rules/no-extra-parens/README.md",
+        "name": "object-curly-spacing",
+        "ruleId": "@stylistic/ts/object-curly-spacing",
+        "originalId": "@typescript-eslint/object-curly-spacing",
+        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/object-curly-spacing/object-curly-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/object-curly-spacing/README.md",
         "meta": {
-          "fixable": "code",
+          "fixable": "whitespace",
           "docs": {
-            "description": "Disallow unnecessary parentheses"
+            "description": "Enforce consistent spacing inside braces"
           }
         }
       },
@@ -860,32 +943,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Require or disallow padding lines between statements"
-          }
-        }
-      },
-      {
-        "name": "quotes",
-        "ruleId": "@stylistic/ts/quotes",
-        "originalId": "@typescript-eslint/quotes",
-        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/quotes/quotes.ts",
-        "docsEntry": "packages/eslint-plugin-ts/rules/quotes/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Enforce the consistent use of either backticks, double, or single quotes"
-          }
-        }
-      },
-      {
-        "name": "semi",
-        "ruleId": "@stylistic/ts/semi",
-        "originalId": "@typescript-eslint/semi",
-        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/semi/semi.ts",
-        "docsEntry": "packages/eslint-plugin-ts/rules/semi/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Require or disallow semicolons instead of ASI"
           }
         }
       },
@@ -942,6 +999,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       }
     ]
+  },
+  {
+    "name": "@stylistic/eslint-plugin-migrate",
+    "shortId": "migrate",
+    "pkgId": "@stylistic/migrate",
+    "path": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-migrate",
+    "rules": []
+  },
+  {
+    "name": "@eslint-stylistic/metadata",
+    "shortId": "metadata",
+    "pkgId": "@stylistic/metadata",
+    "path": "/Users/antfu/i/eslint-stylistic/packages/metadata",
+    "rules": []
   }
 ])
 

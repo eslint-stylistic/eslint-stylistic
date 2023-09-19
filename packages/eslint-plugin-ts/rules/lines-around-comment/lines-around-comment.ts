@@ -1,13 +1,14 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 
-import * as util from '../../util'
+import type { InferMessageIdsTypeFromRule, InferOptionsTypeFromRule } from '../../util'
+import { createRule, isCommentToken, isTokenOnSameLine } from '../../util'
 import { getESLintCoreRule } from '../../util/getESLintCoreRule'
 
 const baseRule = getESLintCoreRule('lines-around-comment')
 
-export type Options = util.InferOptionsTypeFromRule<typeof baseRule>
-export type MessageIds = util.InferMessageIdsTypeFromRule<typeof baseRule>
+export type Options = InferOptionsTypeFromRule<typeof baseRule>
+export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
 
 const COMMENTS_IGNORE_PATTERN
   = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
@@ -42,7 +43,7 @@ function getCommentLineNums(comments: TSESTree.Comment[]): number[] {
   return lines
 }
 
-export default util.createRule<Options, MessageIds>({
+export default createRule<Options, MessageIds>({
   name: 'lines-around-comment',
   meta: {
     type: 'layout',
@@ -162,9 +163,9 @@ export default util.createRule<Options, MessageIds>({
         currentToken = sourceCode.getTokenBefore(currentToken, {
           includeComments: true,
         })
-      } while (currentToken && util.isCommentToken(currentToken))
+      } while (currentToken && isCommentToken(currentToken))
 
-      if (currentToken && util.isTokenOnSameLine(currentToken, token))
+      if (currentToken && isTokenOnSameLine(currentToken, token))
         return true
 
       currentToken = token
@@ -172,9 +173,9 @@ export default util.createRule<Options, MessageIds>({
         currentToken = sourceCode.getTokenAfter(currentToken, {
           includeComments: true,
         })
-      } while (currentToken && util.isCommentToken(currentToken))
+      } while (currentToken && isCommentToken(currentToken))
 
-      if (currentToken && util.isTokenOnSameLine(token, currentToken))
+      if (currentToken && isTokenOnSameLine(token, currentToken))
         return true
 
       return false
@@ -346,8 +347,8 @@ export default util.createRule<Options, MessageIds>({
         && before
         && !commentAndEmptyLines.has(prevLineNum)
         && !(
-          util.isCommentToken(previousTokenOrComment!)
-          && util.isTokenOnSameLine(previousTokenOrComment, token)
+          isCommentToken(previousTokenOrComment!)
+          && isTokenOnSameLine(previousTokenOrComment, token)
         )
       ) {
         const lineStart = token.range[0] - token.loc.start.column
@@ -368,8 +369,8 @@ export default util.createRule<Options, MessageIds>({
         && after
         && !commentAndEmptyLines.has(nextLineNum)
         && !(
-          util.isCommentToken(nextTokenOrComment!)
-          && util.isTokenOnSameLine(token, nextTokenOrComment)
+          isCommentToken(nextTokenOrComment!)
+          && isTokenOnSameLine(token, nextTokenOrComment)
         )
       ) {
         context.report({

@@ -13,10 +13,8 @@
 | [`@stylistic/ts/lines-around-comment`](./rules/lines-around-comment) | Require empty lines around comments | ✅ |  |
 | [`@stylistic/ts/lines-between-class-members`](./rules/lines-between-class-members) | Require or disallow an empty line between class members | ✅ |  |
 | [`@stylistic/ts/member-delimiter-style`](./rules/member-delimiter-style) | Require a specific member delimiter style for interfaces and type literals | ✅ |  |
-| [`@stylistic/ts/no-extra-parens`](./rules/no-extra-parens) | Disallow unnecessary parentheses | ✅ |  |
+| [`@stylistic/ts/object-curly-spacing`](./rules/object-curly-spacing) | Enforce consistent spacing inside braces | ✅ |  |
 | [`@stylistic/ts/padding-line-between-statements`](./rules/padding-line-between-statements) | Require or disallow padding lines between statements | ✅ |  |
-| [`@stylistic/ts/quotes`](./rules/quotes) | Enforce the consistent use of either backticks, double, or single quotes | ✅ |  |
-| [`@stylistic/ts/semi`](./rules/semi) | Require or disallow semicolons instead of ASI | ✅ |  |
 | [`@stylistic/ts/space-before-blocks`](./rules/space-before-blocks) | Enforce consistent spacing before blocks | ✅ |  |
 | [`@stylistic/ts/space-before-function-paren`](./rules/space-before-function-paren) | Enforce consistent spacing before function parenthesis | ✅ |  |
 | [`@stylistic/ts/space-infix-ops`](./rules/space-infix-ops) | Require spacing around infix operators | ✅ |  |

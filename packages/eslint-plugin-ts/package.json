@@ -26,6 +26,7 @@
     "typescript": "*"
   },
   "dependencies": {
+    "@stylistic/eslint-plugin-js": "workspace:*",
     "@typescript-eslint/scope-manager": "^6.7.0",
     "@typescript-eslint/type-utils": "^6.7.0",
     "@typescript-eslint/utils": "^6.7.0",

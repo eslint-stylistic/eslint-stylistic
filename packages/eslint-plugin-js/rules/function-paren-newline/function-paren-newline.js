@@ -69,7 +69,7 @@ module.exports = {
     else if (rawOption === 'always')
       minItems = 0
     else if (rawOption === 'never')
-      minItems = Number.POSITIVE_INFINITY
+      minItems = Infinity
     else
       minItems = null
 

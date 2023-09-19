@@ -32,14 +32,18 @@ const names = [
   'lines-around-comment',
   'lines-between-class-members',
   'member-delimiter-style',
-  'no-extra-parens',
   'padding-line-between-statements',
-  'quotes',
-  'semi',
   'space-before-blocks',
   'space-before-function-paren',
   'space-infix-ops',
   'type-annotation-spacing',
+  'object-curly-spacing',
+
+  // Discuraged in typescript-eslint, but not deprecated in ESLint
+  // Waiting for the coordination
+  // 'quotes',
+  // 'semi',
+  // 'no-extra-parens',
 ]
 
 async function run() {
@@ -64,10 +68,25 @@ async function run() {
       await fs.mkdir(join(target, name), { recursive: true })
 
       let js = await fs.readFile(rule, 'utf-8')
+      const utils: string[] = []
       js = js
         .replaceAll(
           '\'../util',
           '\'../../util',
+        )
+        // find all `util.xxx` and collect them
+        .replaceAll(/util\.(\w+)/g, (_, name) => {
+          utils.push(name)
+          return name
+        })
+        // rewrite namespace import to named import
+        .replace(
+          'import * as util from \'../../util\'',
+          `import { ${utils.join(', ')} } from '../../util'`,
+        )
+        .replace(
+          /eslint-disable-next-line eslint-plugin\/.*/g,
+          '',
         )
         .replaceAll(
           'eslint-disable-next-line deprecation/deprecation',

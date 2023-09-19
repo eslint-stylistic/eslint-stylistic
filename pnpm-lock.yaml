@@ -161,6 +161,9 @@ importers:
 
   packages/eslint-plugin-ts:
     dependencies:
+      '@stylistic/eslint-plugin-js':
+        specifier: workspace:*
+        version: link:../eslint-plugin-js
       '@typescript-eslint/scope-manager':
         specifier: ^6.7.0
         version: 6.7.0

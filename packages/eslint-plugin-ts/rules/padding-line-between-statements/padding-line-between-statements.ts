@@ -1,7 +1,7 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import * as util from '../../util'
+import { createRule, isClosingBraceToken, isFunction, isNotSemicolonToken, isParenthesized, isSemicolonToken, isTokenOnSameLine } from '../../util'
 
 /**
  * This rule is a replica of padding-line-between-statements.
@@ -141,7 +141,7 @@ function isIIFEStatement(node: TSESTree.Node): boolean {
       while (node.type === AST_NODE_TYPES.SequenceExpression)
         node = node.expressions[node.expressions.length - 1]
 
-      return util.isFunction(node)
+      return isFunction(node)
     }
   }
   return false
@@ -198,9 +198,9 @@ function isBlockLikeStatement(
     return true
 
   // Checks the last token is a closing brace of blocks.
-  const lastToken = sourceCode.getLastToken(node, util.isNotSemicolonToken)
+  const lastToken = sourceCode.getLastToken(node, isNotSemicolonToken)
   const belongingNode
-    = lastToken && util.isClosingBraceToken(lastToken)
+    = lastToken && isClosingBraceToken(lastToken)
       ? sourceCode.getNodeByRangeIndex(lastToken.range[0])
       : null
 
@@ -225,10 +225,10 @@ function isDirective(
     node.type === AST_NODE_TYPES.ExpressionStatement
     && (node.parent?.type === AST_NODE_TYPES.Program
       || (node.parent?.type === AST_NODE_TYPES.BlockStatement
-        && util.isFunction(node.parent.parent)))
+        && isFunction(node.parent.parent)))
     && node.expression.type === AST_NODE_TYPES.Literal
     && typeof node.expression.value === 'string'
-    && !util.isParenthesized(node.expression, sourceCode)
+    && !isParenthesized(node.expression, sourceCode)
   )
 }
 
@@ -328,7 +328,7 @@ function getActualLastToken(
     = prevToken
     && nextToken
     && prevToken.range[0] >= node.range[0]
-    && util.isSemicolonToken(semiToken)
+    && isSemicolonToken(semiToken)
     && semiToken.loc.start.line !== prevToken.loc.end.line
     && semiToken.loc.end.line === nextToken.loc.start.line
 
@@ -457,14 +457,14 @@ function verifyForAlways(
            * @private
            */
           filter(token) {
-            if (util.isTokenOnSameLine(prevToken, token)) {
+            if (isTokenOnSameLine(prevToken, token)) {
               prevToken = token
               return false
             }
             return true
           },
         })! || nextNode
-      const insertText = util.isTokenOnSameLine(prevToken, nextToken)
+      const insertText = isTokenOnSameLine(prevToken, nextToken)
         ? '\n\n'
         : '\n'
 
@@ -574,7 +574,7 @@ const StatementTypes: Record<string, NodeTestObject> = {
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-export default util.createRule<Options, MessageIds>({
+export default createRule<Options, MessageIds>({
   name: 'padding-line-between-statements',
   meta: {
     type: 'layout',
