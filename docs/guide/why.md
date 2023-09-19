@@ -4,7 +4,7 @@ This project was initiated as ESLint and `typescript-eslint` teams [decided to d
 
 ## Linters vs. Formatters
 
-You might have seen some discussions discouraging using ESLint to format source code, as Linters and Formatters are tools in different scopes. While we generally agree that ESLint would not be the most efficient tool to do formatting, we see that currently ESLint with auto-fix is still the best tool to do **source code** formatting, as it provide fine-grained control of each rule, having incrediable extensibility, and respects the input of the source code.
+You might have seen some discussions discouraging using ESLint to format source code, as Linters and Formatters are tools in different scopes. While we generally agree that ESLint would not be the most efficient tool to do formatting, we see that currently ESLint with auto-fix is still the best tool to do **source code** formatting, as it provide fine-grained control of each rule, having incredible extensibility, and respects the input of the source code.
 
 The popular formatters like [Prettier](https://github.com/prettier/prettier) and [dprint](https://dprint.dev/) are great on formatting code. However, the main issue we see is that their ["read-and-reprints"](https://prettier.io/docs/en/) approach **throw away all the stylistic information from the source code**, meaning that we can't preserve the styles that we consider more "human-readable".
 
@@ -16,7 +16,7 @@ Here are two examples that Prettier and dprint would force the code wrap/unwrap 
 
 This behaviour is [mandatory](https://github.com/prettier/prettier/issues/3468) as it's the side-effect for their approach fundamentally.
 
-With stylistic rules in ESLint, we are able to achieve similiar formatting compatibility while retain the original code style as the authors/teams' intention, and doing the fix in one-go.
+With stylistic rules in ESLint, we are able to achieve similar formatting compatibility while retain the original code style as the authors/teams' intention, and doing the fix in one-go.
 
 This project is maintained for those who cares such details and want to have full control of the code style.
 
