@@ -3,13 +3,6 @@ import type { PackageInfo, RuleInfo } from './types'
 
 export const packages: Readonly<PackageInfo[]> = Object.freeze([
   {
-    "name": "@eslint-stylistic/metadata",
-    "shortId": "metadata",
-    "pkgId": "@stylistic/metadata",
-    "path": "/Users/antfu/i/eslint-stylistic/packages/metadata",
-    "rules": []
-  },
-  {
     "name": "@stylistic/eslint-config",
     "shortId": "eslint-config",
     "pkgId": "@stylistic/eslint-config",
@@ -818,19 +811,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
-        "name": "comma-dangle",
-        "ruleId": "@stylistic/ts/comma-dangle",
-        "originalId": "@typescript-eslint/comma-dangle",
-        "entry": "/Users/antfu/i/eslint-stylistic/packages/eslint-plugin-ts/rules/comma-dangle/comma-dangle.ts",
-        "docsEntry": "packages/eslint-plugin-ts/rules/comma-dangle/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Require or disallow trailing commas"
-          }
-        }
-      },
-      {
         "name": "comma-spacing",
         "ruleId": "@stylistic/ts/comma-spacing",
         "originalId": "@typescript-eslint/comma-spacing",
@@ -1013,6 +993,13 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       }
     ]
+  },
+  {
+    "name": "@eslint-stylistic/metadata",
+    "shortId": "metadata",
+    "pkgId": "@stylistic/metadata",
+    "path": "/Users/antfu/i/eslint-stylistic/packages/metadata",
+    "rules": []
   }
 ])
 

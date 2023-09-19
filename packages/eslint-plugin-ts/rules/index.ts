@@ -1,6 +1,5 @@
 import blockSpacing from './block-spacing/block-spacing'
 import braceStyle from './brace-style/brace-style'
-import commaDangle from './comma-dangle/comma-dangle'
 import commaSpacing from './comma-spacing/comma-spacing'
 import funcCallSpacing from './func-call-spacing/func-call-spacing'
 import indent from './indent/indent'
@@ -19,7 +18,6 @@ import typeAnnotationSpacing from './type-annotation-spacing/type-annotation-spa
 export default {
   'block-spacing': blockSpacing,
   'brace-style': braceStyle,
-  'comma-dangle': commaDangle,
   'comma-spacing': commaSpacing,
   'func-call-spacing': funcCallSpacing,
   'indent': indent,

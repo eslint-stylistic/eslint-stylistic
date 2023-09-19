@@ -9,24 +9,22 @@ import type { PackageInfo, RuleInfo } from '../packages/metadata/src/types'
 const cwd = process.cwd()
 
 async function run() {
-  const paths = await fg('./packages/*/package.json', {
+  const paths = (await fg('./packages/*/package.json', {
     onlyFiles: true,
     absolute: true,
     ignore: [
       'node_modules',
     ],
   })
+  ).sort()
 
-  const packages = await Promise.all(paths.map(i => readPackage(dirname(i))))
-
-  packages.sort((a, b) => a.name.localeCompare(b.name))
-
-  await Promise.all(packages.flatMap(i => [
-    writeRulesIndex(i),
-    writeREADME(i),
-  ]))
-
-  // await writeVitePressRewrite(packages)
+  const packages: PackageInfo[] = []
+  for (const path of paths) {
+    const pkg = await readPackage(dirname(path))
+    await writeRulesIndex(pkg)
+    await writeREADME(pkg)
+    packages.push(pkg)
+  }
 
   await fs.writeFile(
     join(cwd, 'packages', 'metadata', 'src', 'metadata.ts'), `

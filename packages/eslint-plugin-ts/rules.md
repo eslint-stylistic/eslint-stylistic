@@ -4,7 +4,6 @@
 | --- | --- | --- | --- |
 | [`@stylistic/ts/block-spacing`](./rules/block-spacing) | Disallow or enforce spaces inside of blocks after opening block and before closing block | ✅ |  |
 | [`@stylistic/ts/brace-style`](./rules/brace-style) | Enforce consistent brace style for blocks | ✅ |  |
-| [`@stylistic/ts/comma-dangle`](./rules/comma-dangle) | Require or disallow trailing commas | ✅ |  |
 | [`@stylistic/ts/comma-spacing`](./rules/comma-spacing) | Enforce consistent spacing before and after commas | ✅ |  |
 | [`@stylistic/ts/func-call-spacing`](./rules/func-call-spacing) | Require or disallow spacing between function identifiers and their invocations | ✅ |  |
 | [`@stylistic/ts/indent`](./rules/indent) | Enforce consistent indentation | ✅ |  |
