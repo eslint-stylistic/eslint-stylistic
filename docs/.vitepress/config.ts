@@ -79,7 +79,13 @@ export default defineConfig({
         text: 'Contribute',
         items: CONTRIBUTES,
       },
-      { text: 'Rules', link: '/packages' },
+      {
+        text: 'Rules',
+        items: mainPackages.map(pkg => ({
+          text: packageNames[pkg.shortId] || pkg.name,
+          link: `/packages/${pkg.shortId}`,
+        })),
+      },
     ],
 
     sidebar: Object.assign(
@@ -111,7 +117,7 @@ export default defineConfig({
             text: 'Packages',
             items: mainPackages.map(pkg => ({
               text: packageNames[pkg.shortId] || pkg.name,
-              link: `/packages#${pkg.shortId}`,
+              link: `/packages/${pkg.shortId}`,
             })),
           },
         ],

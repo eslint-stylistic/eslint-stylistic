@@ -6,8 +6,8 @@
   "license": "MIT",
   "scripts": {
     "build": "pnpm -r run build",
-    "dev": "pnpm -r run dev",
-    "stub": "pnpm -r run stub",
+    "dev": "pnpm -r --parallel run dev",
+    "stub": "pnpm -r --parallel run stub",
     "lint": "eslint . --cache",
     "update": "esno scripts/prepare.ts",
     "release": "bumpp -r && pnpm -r publish",
