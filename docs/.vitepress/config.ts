@@ -11,6 +11,7 @@ const GUIDES: DefaultTheme.NavItemWithLink[] = [
   { text: 'Getting Started', link: '/guide/getting-started' },
   { text: 'Why', link: '/guide/why' },
   { text: 'Migration', link: '/guide/migration' },
+  { text: 'FAQ', link: '/guide/faq' },
 ]
 
 const CONTRIBUTES: DefaultTheme.NavItemWithLink[] = [
