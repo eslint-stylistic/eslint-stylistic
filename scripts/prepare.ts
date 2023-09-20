@@ -100,7 +100,7 @@ async function writeRulesIndex(pkg: PackageInfo) {
   await fs.mkdir(ruleDir, { recursive: true })
 
   if (pkg.shortId === 'js') {
-    const index = `module.exports = {\n${pkg.rules.map(i => `  '${i.name}': () => require('./${relative(ruleDir, i.entry).replace(/\\/g, '/')}'),`).join('\n')}\n}\n`
+    const index = `module.exports = {\n${pkg.rules.map(i => `  '${i.name}': require('./${relative(ruleDir, i.entry).replace(/\\/g, '/')}'),`).join('\n')}\n}\n`
     await fs.writeFile(join(ruleDir, 'index.js'), index, 'utf-8')
   }
   else {
