@@ -21,9 +21,9 @@ Add the following settings to your `.vscode/settings.json`:
 }
 ```
 
-## The error messages (squiggly line) for code style is annoying
+## The error messages (squiggly lines) for code style are annoying
 
-If you are using VS Code, you can override those warning with the following config in your `.vscode/settings.json`:
+If you are using VS Code, you can override them with the following settings in your `.vscode/settings.json`:
 
 ```jsonc
 {
@@ -36,7 +36,7 @@ If you are using VS Code, you can override those warning with the following conf
 }
 ```
 
-It tells VS Code to not show errors in your editor but still have the ability to auto-fix them.
+This tells VS Code to not show errors in your editor, but still have the ability to auto-fix them.
 
 ## How can I migrate?
 

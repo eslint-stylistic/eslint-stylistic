@@ -8,12 +8,12 @@ Before you start migrating, check the [project progress](/contribute/project-pro
 
 For production projects, we would recommend to wait a bit longer, until ESLint officially announces the deprecation list.
 
-At the current stage, the package itself is already useable. You are more then happy to see you start trying it out and give us feedbacks.
+At the current stage, the packages are already useable. We are more then happy to see you start trying them out and give us feedbacks.
 
 The benefit of migrating:
 
 - Clear scope of rules, you can see more clearly what rules are related to code style by the prefix `@stylistic/`
-- Better IDE experience, you can config your IDE to [hide the error messages for code style rules](/guide/faq#the-error-messages-squiggly-line-for-code-style-is-annoying) with scoping and does require to list manually.
+- Better IDE experience, you can config your IDE to [hide the error messages for code style rules](/guide/faq#the-error-messages-squiggly-lines-for-code-style-are-annoying) with scoping and does require to list manually.
 - Future proof, the rules in core will no longer be updated and might be removed at some point. The maintenance work will be shifted to here.
 
 The downside of migrating **now**:
