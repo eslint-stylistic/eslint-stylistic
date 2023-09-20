@@ -26,7 +26,7 @@ module.exports = {
 };
 ```
 
-You can also try out our [migration plugin](../eslint-plugin-migrate) to automated the migration process.
+You can also try out our [migration plugin](/guide/migration) to automated the migration process.
 
 ## Rules
 
