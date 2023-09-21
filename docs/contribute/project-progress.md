@@ -11,7 +11,7 @@ Also check out our [project plans](https://github.com/eslint-stylistic/eslint-st
 Setup migration scripts, docs, tools, etc. 
 
 - During this process we are aiming for 1:1 rules migration, and will not consider improvements or changes to the rules.
-- We will use scripts to migrate the rules from ESLint's codebase to this repo (no manually editting), to keep in sync, until stage 2.
+- We will use scripts to migrate the rules from ESLint's codebase to this repo (no manual editing), to keep them in sync, until stage 2.
 
 ## 👉 2. Waiting for ESLint's announcement
 
