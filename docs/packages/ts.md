@@ -4,6 +4,10 @@ TypeScript stylistic rules for ESLint, migrated from [`typescript-eslint`](https
 
 Credits to all contributors who have committed to the original rules.
 
+::: tip
+Recommended to use [`@stylistic/eslint-plugin`](/packages/default), which support both JavaScript and TypeScript rules automatically, without the need to manually overrides.
+:::
+
 ## Install
 
 ```sh

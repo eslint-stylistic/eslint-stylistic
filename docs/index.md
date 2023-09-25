@@ -13,11 +13,8 @@ hero:
       text: Get Started
       link: /guide/getting-started
     - theme: alt
-      text: JavaScript Rules
-      link: /packages/js
-    - theme: alt
-      text: TypeScript Rules
-      link: /packages/ts
+      text: Rules
+      link: /packages/default
     - theme: alt
       text: Why
       link: /guide/why

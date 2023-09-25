@@ -1,5 +1,5 @@
 {
-  "name": "@stylistic/eslint-plugin-ts",
+  "name": "@stylistic/eslint-plugin",
   "version": "0.0.4",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -7,7 +7,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git",
-    "directory": "packages/eslint-plugin-ts"
+    "directory": "packages/eslint-plugin"
   },
   "bugs": {
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
@@ -26,12 +26,6 @@
   },
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:*",
-    "@typescript-eslint/scope-manager": "^6.7.0",
-    "@typescript-eslint/type-utils": "^6.7.0",
-    "@typescript-eslint/utils": "^6.7.0",
-    "graphemer": "^1.4.0"
-  },
-  "devDependencies": {
-    "@typescript-eslint/rule-tester": "^6.7.0"
+    "@stylistic/eslint-plugin-ts": "workspace:*"
   }
 }

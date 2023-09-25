@@ -5,24 +5,6 @@
 import { requiresQuoting } from '@typescript-eslint/type-utils'
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import * as ts from 'typescript'
-
-const DEFINITION_EXTENSIONS = [
-  ts.Extension.Dts,
-  ts.Extension.Dcts,
-  ts.Extension.Dmts,
-] as const
-/**
- * Check if the context file name is *.d.ts or *.d.tsx
- */
-function isDefinitionFile(fileName: string): boolean {
-  const lowerFileName = fileName.toLowerCase()
-  for (const definitionExt of DEFINITION_EXTENSIONS) {
-    if (lowerFileName.endsWith(definitionExt))
-      return true
-  }
-  return false
-}
 
 /**
  * Upper cases the first character or the string
@@ -220,7 +202,6 @@ export {
   getEnumNames,
   getNameFromIndexSignature,
   getNameFromMember,
-  isDefinitionFile,
   MemberNameType,
   RequireKeys,
   typeNodeRequiresParentheses,
