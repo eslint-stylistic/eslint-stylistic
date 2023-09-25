@@ -18,6 +18,12 @@ const CONTRIBUTES: DefaultTheme.NavItemWithLink[] = [
   { text: 'Project Progress', link: '/contribute/project-progress' },
 ]
 
+const PACKAGES: DefaultTheme.NavItemWithLink[] = [
+  { text: 'Default', link: '/packages/default' },
+  { text: 'JavaScript', link: '/packages/js' },
+  { text: 'TypeScript', link: '/packages/ts' },
+]
+
 const packageNames: Record<string, string> = {
   js: 'JavaScript Rules',
   ts: 'TypeScript Rules',
@@ -30,8 +36,10 @@ export default defineConfig({
   rewrites: {
     // rewrite rules to /rules/js/:name
     ...Object.fromEntries(
-      packages.flatMap(pkg => pkg.rules
-        .map(r => [r.docsEntry, `rules/${pkg.shortId}/${r.name}.md`])),
+      packages
+        .filter(i => i.shortId !== 'default')
+        .flatMap(pkg => pkg.rules
+          .map(r => [r.docsEntry, `rules/${pkg.shortId}/${r.name}.md`])),
     ),
     // rewrite docs markdown because we set the `srcDir` to the root of the monorepo
     'docs/:name(.+).md': ':name.md',
@@ -80,11 +88,8 @@ export default defineConfig({
         items: CONTRIBUTES,
       },
       {
-        text: 'Rules',
-        items: mainPackages.map(pkg => ({
-          text: packageNames[pkg.shortId] || pkg.name,
-          link: `/packages/${pkg.shortId}`,
-        })),
+        text: 'Packages',
+        items: PACKAGES,
       },
     ],
 
@@ -93,6 +98,10 @@ export default defineConfig({
       ...mainPackages.map((pkg) => {
         return {
           [`/rules/${pkg.shortId}`]: [
+            {
+              text: 'Packages',
+              items: PACKAGES,
+            },
             {
               text: packageNames[pkg.shortId] || pkg.name,
               items: pkg.rules.map((rule): DefaultTheme.SidebarItem => ({
@@ -115,10 +124,7 @@ export default defineConfig({
           },
           {
             text: 'Packages',
-            items: mainPackages.map(pkg => ({
-              text: packageNames[pkg.shortId] || pkg.name,
-              link: `/packages/${pkg.shortId}`,
-            })),
+            items: PACKAGES,
           },
         ],
       },

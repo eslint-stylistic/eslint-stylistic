@@ -26,6 +26,25 @@ async function run() {
     packages.push(pkg)
   }
 
+  const packageJs = packages.find(i => i.shortId === 'js')!
+  const packageTs = packages.find(i => i.shortId === 'ts')!
+  const packageGeneral = packages.find(i => i.name === '@stylistic/eslint-plugin')!
+
+  // merge rules
+  packageGeneral.rules = [...new Set([
+    ...packageJs.rules.map(i => i.name),
+    ...packageTs.rules.map(i => i.name),
+  ])]
+    .map((name) => {
+      const rule = packageTs.rules.find(i => i.name === name) || packageJs.rules.find(i => i.name === name)!
+      return {
+        ...rule,
+        ruleId: `@stylistic/${name}`,
+        originalId: undefined,
+      }
+    })
+  packageGeneral.shortId = 'default'
+
   await fs.writeFile(
     join(cwd, 'packages', 'metadata', 'src', 'metadata.ts'),
 `
@@ -68,8 +87,10 @@ async function readPackage(path: string): Promise<PackageInfo> {
         ruleId: `${pkgId}/${name}`,
         originalId: shortId === 'js'
           ? name
-          : `@typescript-eslint/${name}`,
-        entry,
+          : shortId === 'ts'
+            ? `@typescript-eslint/${name}`
+            : '',
+        entry: relative(cwd, entry).replace(/\\/g, '/'),
         // TODO: check if entry exists
         docsEntry: relative(cwd, resolve(path, ruleDir, 'README.md')).replace(/\\/g, '/'),
         meta: {

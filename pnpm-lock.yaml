@@ -126,6 +126,18 @@ importers:
         specifier: workspace:*
         version: link:../eslint-plugin-ts
 
+  packages/eslint-plugin:
+    dependencies:
+      '@stylistic/eslint-plugin-js':
+        specifier: workspace:*
+        version: link:../eslint-plugin-js
+      '@stylistic/eslint-plugin-ts':
+        specifier: workspace:*
+        version: link:../eslint-plugin-ts
+      eslint:
+        specifier: '*'
+        version: 8.50.0
+
   packages/eslint-plugin-js:
     dependencies:
       acorn:
@@ -176,9 +188,6 @@ importers:
       graphemer:
         specifier: ^1.4.0
         version: 1.4.0
-      typescript:
-        specifier: '*'
-        version: 5.2.2
     devDependencies:
       '@typescript-eslint/rule-tester':
         specifier: ^6.7.0
@@ -1296,7 +1305,7 @@ packages:
       ajv: 6.12.6
       debug: 4.3.4
       espree: 9.6.1
-      globals: 13.19.0
+      globals: 13.22.0
       ignore: 5.2.4
       import-fresh: 3.3.0
       js-yaml: 4.1.0
@@ -3314,7 +3323,7 @@ packages:
       file-entry-cache: 6.0.1
       find-up: 5.0.0
       glob-parent: 6.0.2
-      globals: 13.19.0
+      globals: 13.22.0
       graphemer: 1.4.0
       ignore: 5.2.4
       imurmurhash: 0.1.4
@@ -3625,7 +3634,6 @@ packages:
     engines: {node: '>=8'}
     dependencies:
       type-fest: 0.20.2
-    dev: true
 
   /globby@11.1.0:
     resolution: {integrity: sha512-jhIXaOzy1sb8IyocaruWSn1TjmnBVs8Ayhcy83rmxNJ8q2uWKCAj3CnJY+KpGSXCueAPc0i05kVvVKtP1t9S3g==}
