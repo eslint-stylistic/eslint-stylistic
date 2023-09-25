@@ -11,17 +11,18 @@ const baseRule = getESLintCoreRule('keyword-spacing')
 export type Options = InferOptionsTypeFromRule<typeof baseRule>
 export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
 
+// eslint-disable-next-line ts/no-unsafe-assignment
 const baseSchema = Array.isArray(baseRule.meta.schema)
   ? baseRule.meta.schema[0]
   : baseRule.meta.schema
 const schema = deepMerge(
-
+  // eslint-disable-next-line ts/no-unsafe-argument -- https://github.com/microsoft/TypeScript/issues/17002
   baseSchema,
   {
     properties: {
       overrides: {
         properties: {
-
+          // eslint-disable-next-line ts/no-unsafe-assignment, ts/no-unsafe-member-access
           type: baseSchema.properties.overrides.properties.import,
         },
       },

@@ -8,6 +8,7 @@
 | [`@stylistic/js/arrow-spacing`](./rules/arrow-spacing) | Enforce consistent spacing before and after the arrow in arrow functions | ✅ |  |
 | [`@stylistic/js/block-spacing`](./rules/block-spacing) | Disallow or enforce spaces inside of blocks after opening block and before closing block | ✅ |  |
 | [`@stylistic/js/brace-style`](./rules/brace-style) | Enforce consistent brace style for blocks | ✅ |  |
+| [`@stylistic/js/comma-dangle`](./rules/comma-dangle) | Require or disallow trailing commas | ✅ |  |
 | [`@stylistic/js/comma-spacing`](./rules/comma-spacing) | Enforce consistent spacing before and after commas | ✅ |  |
 | [`@stylistic/js/comma-style`](./rules/comma-style) | Enforce consistent comma style | ✅ |  |
 | [`@stylistic/js/computed-property-spacing`](./rules/computed-property-spacing) | Enforce consistent spacing inside computed property brackets | ✅ |  |
@@ -43,7 +44,9 @@
 | [`@stylistic/js/operator-linebreak`](./rules/operator-linebreak) | Enforce consistent linebreak style for operators | ✅ |  |
 | [`@stylistic/js/padded-blocks`](./rules/padded-blocks) | Require or disallow padding within blocks | ✅ |  |
 | [`@stylistic/js/padding-line-between-statements`](./rules/padding-line-between-statements) | Require or disallow padding lines between statements | ✅ |  |
+| [`@stylistic/js/quotes`](./rules/quotes) | Enforce the consistent use of either backticks, double, or single quotes | ✅ |  |
 | [`@stylistic/js/rest-spread-spacing`](./rules/rest-spread-spacing) | Enforce spacing between rest and spread operators and their expressions | ✅ |  |
+| [`@stylistic/js/semi`](./rules/semi) | Require or disallow semicolons instead of ASI | ✅ |  |
 | [`@stylistic/js/semi-spacing`](./rules/semi-spacing) | Enforce consistent spacing before and after semicolons | ✅ |  |
 | [`@stylistic/js/semi-style`](./rules/semi-style) | Enforce location of semicolons | ✅ |  |
 | [`@stylistic/js/space-before-blocks`](./rules/space-before-blocks) | Enforce consistent spacing before blocks | ✅ |  |

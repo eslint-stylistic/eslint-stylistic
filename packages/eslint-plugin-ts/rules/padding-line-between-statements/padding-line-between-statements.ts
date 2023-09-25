@@ -629,7 +629,7 @@ export default createRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     const sourceCode = context.getSourceCode()
-
+    // eslint-disable-next-line no-restricted-syntax -- We need all raw options.
     const configureList = context.options || []
 
     type Scope = {

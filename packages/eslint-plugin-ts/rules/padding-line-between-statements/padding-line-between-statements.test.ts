@@ -1,3 +1,4 @@
+/* eslint-disable eslint-comments/no-use */
 // this rule tests new lines which prettier tries to fix, breaking the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 /* eslint-enable eslint-comments/no-use */

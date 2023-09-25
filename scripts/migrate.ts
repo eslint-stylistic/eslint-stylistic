@@ -37,6 +37,12 @@ const commonRules = [
   'space-before-blocks',
   'space-before-function-paren',
   'space-infix-ops',
+
+  // Discuraged in typescript-eslint, but not deprecated in ESLint
+  // Waiting for the coordination
+  'comma-dangle',
+  'quotes',
+  'semi',
 ]
 
 // based on https://github.com/eslint/eslint/issues/17522#issuecomment-1712158461
@@ -90,13 +96,6 @@ const tsRules = [
   ...commonRules,
   'member-delimiter-style',
   'type-annotation-spacing',
-
-  // Discuraged in typescript-eslint, but not deprecated in ESLint
-  // Waiting for the coordination
-  // 'comma-dangle',
-  // 'quotes',
-  // 'semi',
-  // 'no-extra-parens',
 ]
 
 async function migrateJS() {
@@ -180,7 +179,7 @@ async function migrateTS() {
   if (!existsSync(root))
     throw new Error(`ESLint repo ${root} does not exist`)
 
-  await fs.copy(join(root, 'packages/eslint-plugin/src/util'), join(targetRoot, 'util'), { overwrite: true })
+  // await fs.copy(join(root, 'packages/eslint-plugin/src/util'), join(targetRoot, 'util'), { overwrite: true })
 
   const rules = await fg('packages/eslint-plugin/src/rules/*.ts', {
     cwd: root,
@@ -220,6 +219,10 @@ async function migrateTS() {
         )
         .replaceAll(
           'eslint-disable-next-line deprecation/deprecation',
+          '',
+        )
+        .replaceAll(
+          'eslint-disable-next-line ts/',
           '',
         )
       // js = `// @ts-check\n${js}`

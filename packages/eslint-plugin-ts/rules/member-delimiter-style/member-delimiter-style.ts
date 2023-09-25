@@ -7,7 +7,7 @@ import { createRule, deepMerge } from '../../util'
 type Delimiter = 'comma' | 'none' | 'semi'
 // need type's implicit index sig for deepMerge
 // eslint-disable-next-line ts/consistent-type-definitions
-type TypeOptions = {
+interface TypeOptions {
   delimiter?: Delimiter
   requireLast?: boolean
 }
@@ -15,7 +15,7 @@ type TypeOptionsWithType = TypeOptions & {
   type: string
 }
 // eslint-disable-next-line ts/consistent-type-definitions
-type BaseOptions = {
+interface BaseOptions {
   multiline?: TypeOptions
   singleline?: TypeOptions
 }

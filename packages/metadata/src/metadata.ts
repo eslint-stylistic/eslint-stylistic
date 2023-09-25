@@ -100,6 +100,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "comma-dangle",
+        "ruleId": "@stylistic/js/comma-dangle",
+        "originalId": "comma-dangle",
+        "entry": "packages/eslint-plugin-js/rules/comma-dangle/comma-dangle.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/comma-dangle/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require or disallow trailing commas",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "comma-spacing",
         "ruleId": "@stylistic/js/comma-spacing",
         "originalId": "comma-spacing",
@@ -588,6 +602,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "quotes",
+        "ruleId": "@stylistic/js/quotes",
+        "originalId": "quotes",
+        "entry": "packages/eslint-plugin-js/rules/quotes/quotes.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/quotes/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce the consistent use of either backticks, double, or single quotes",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "rest-spread-spacing",
         "ruleId": "@stylistic/js/rest-spread-spacing",
         "originalId": "rest-spread-spacing",
@@ -597,6 +625,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Enforce spacing between rest and spread operators and their expressions",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "semi",
+        "ruleId": "@stylistic/js/semi",
+        "originalId": "semi",
+        "entry": "packages/eslint-plugin-js/rules/semi/semi.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/semi/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require or disallow semicolons instead of ASI",
             "recommended": false
           }
         }
@@ -811,6 +853,19 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "comma-dangle",
+        "ruleId": "@stylistic/ts/comma-dangle",
+        "originalId": "@typescript-eslint/comma-dangle",
+        "entry": "packages/eslint-plugin-ts/rules/comma-dangle/comma-dangle.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/comma-dangle/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require or disallow trailing commas"
+          }
+        }
+      },
+      {
         "name": "comma-spacing",
         "ruleId": "@stylistic/ts/comma-spacing",
         "originalId": "@typescript-eslint/comma-spacing",
@@ -937,6 +992,32 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Require or disallow padding lines between statements"
+          }
+        }
+      },
+      {
+        "name": "quotes",
+        "ruleId": "@stylistic/ts/quotes",
+        "originalId": "@typescript-eslint/quotes",
+        "entry": "packages/eslint-plugin-ts/rules/quotes/quotes.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/quotes/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce the consistent use of either backticks, double, or single quotes"
+          }
+        }
+      },
+      {
+        "name": "semi",
+        "ruleId": "@stylistic/ts/semi",
+        "originalId": "@typescript-eslint/semi",
+        "entry": "packages/eslint-plugin-ts/rules/semi/semi.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/semi/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require or disallow semicolons instead of ASI"
           }
         }
       },
@@ -1073,6 +1154,18 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Enforce consistent brace style for blocks"
+          }
+        }
+      },
+      {
+        "name": "comma-dangle",
+        "ruleId": "@stylistic/comma-dangle",
+        "entry": "packages/eslint-plugin-ts/rules/comma-dangle/comma-dangle.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/comma-dangle/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require or disallow trailing commas"
           }
         }
       },
@@ -1521,6 +1614,18 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "quotes",
+        "ruleId": "@stylistic/quotes",
+        "entry": "packages/eslint-plugin-ts/rules/quotes/quotes.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/quotes/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce the consistent use of either backticks, double, or single quotes"
+          }
+        }
+      },
+      {
         "name": "rest-spread-spacing",
         "ruleId": "@stylistic/rest-spread-spacing",
         "entry": "packages/eslint-plugin-js/rules/rest-spread-spacing/rest-spread-spacing.js",
@@ -1530,6 +1635,18 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "docs": {
             "description": "Enforce spacing between rest and spread operators and their expressions",
             "recommended": false
+          }
+        }
+      },
+      {
+        "name": "semi",
+        "ruleId": "@stylistic/semi",
+        "entry": "packages/eslint-plugin-ts/rules/semi/semi.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/semi/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require or disallow semicolons instead of ASI"
           }
         }
       },
