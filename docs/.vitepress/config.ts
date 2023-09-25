@@ -31,8 +31,7 @@ export default defineConfig({
     // rewrite rules to /rules/js/:name
     ...Object.fromEntries(
       packages.flatMap(pkg => pkg.rules
-        .map(r => [r.docsEntry, `rules/${pkg.shortId}/${r.name}.md`]),
-      ),
+        .map(r => [r.docsEntry, `rules/${pkg.shortId}/${r.name}.md`])),
     ),
     // rewrite docs markdown because we set the `srcDir` to the root of the monorepo
     'docs/:name(.+).md': ':name.md',

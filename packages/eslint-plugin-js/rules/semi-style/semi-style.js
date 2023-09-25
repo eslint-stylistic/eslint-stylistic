@@ -16,11 +16,19 @@ const astUtils = require('../../utils/ast-utils')
 // ------------------------------------------------------------------------------
 
 const SELECTOR = [
-  'BreakStatement', 'ContinueStatement', 'DebuggerStatement',
-  'DoWhileStatement', 'ExportAllDeclaration',
-  'ExportDefaultDeclaration', 'ExportNamedDeclaration',
-  'ExpressionStatement', 'ImportDeclaration', 'ReturnStatement',
-  'ThrowStatement', 'VariableDeclaration', 'PropertyDefinition',
+  'BreakStatement',
+  'ContinueStatement',
+  'DebuggerStatement',
+  'DoWhileStatement',
+  'ExportAllDeclaration',
+  'ExportDefaultDeclaration',
+  'ExportNamedDeclaration',
+  'ExpressionStatement',
+  'ImportDeclaration',
+  'ReturnStatement',
+  'ThrowStatement',
+  'VariableDeclaration',
+  'PropertyDefinition',
 ].join(',')
 
 /**

@@ -6,7 +6,7 @@ import { createRule, deepMerge } from '../../util'
 
 type Delimiter = 'comma' | 'none' | 'semi'
 // need type's implicit index sig for deepMerge
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+// eslint-disable-next-line ts/consistent-type-definitions
 type TypeOptions = {
   delimiter?: Delimiter
   requireLast?: boolean
@@ -14,7 +14,7 @@ type TypeOptions = {
 type TypeOptionsWithType = TypeOptions & {
   type: string
 }
-// eslint-disable-next-line @typescript-eslint/consistent-type-definitions
+// eslint-disable-next-line ts/consistent-type-definitions
 type BaseOptions = {
   multiline?: TypeOptions
   singleline?: TypeOptions
@@ -54,9 +54,7 @@ function isLastTokenEndOfLine(token: LastTokenType, line: string): boolean {
   return positionInLine === line.length - 1
 }
 
-function isCommentsEndOfLine(token: LastTokenType,
-  comments: LastTokenType | undefined,
-  line: string): boolean {
+function isCommentsEndOfLine(token: LastTokenType, comments: LastTokenType | undefined, line: string): boolean {
   if (!comments)
     return false
 

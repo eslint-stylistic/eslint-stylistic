@@ -41,14 +41,12 @@ module.exports = {
       unexpected: {
         messageId: 'unexpectedLineBreak',
         check: (prevToken, currentToken) => prevToken.loc.end.line !== currentToken.loc.start.line,
-        createFix: (token, tokenBefore) => fixer =>
-          fixer.replaceTextRange([tokenBefore.range[1], token.range[0]], ' '),
+        createFix: (token, tokenBefore) => fixer => fixer.replaceTextRange([tokenBefore.range[1], token.range[0]], ' '),
       },
       missing: {
         messageId: 'missingLineBreak',
         check: (prevToken, currentToken) => prevToken.loc.end.line === currentToken.loc.start.line,
-        createFix: (token, tokenBefore) => fixer =>
-          fixer.replaceTextRange([tokenBefore.range[1], token.range[0]], '\n'),
+        createFix: (token, tokenBefore) => fixer => fixer.replaceTextRange([tokenBefore.range[1], token.range[0]], '\n'),
       },
     }
 

@@ -1,32 +1,32 @@
 {
   "compilerOptions": {
     "target": "esnext",
-    "rootDir": ".",
-    "module": "esnext",
     "lib": ["esnext"],
+    "module": "esnext",
+    "rootDir": ".",
     "moduleResolution": "Bundler",
-    "esModuleInterop": true,
-    "allowJs": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "resolveJsonModule": true,
-    "skipLibCheck": true,
-    "skipDefaultLibCheck": true,
     "paths": {
       "@eslint-stylistic/metadata": [
         "./packages/metadata/src/index.ts"
       ]
-    }
+    },
+    "resolveJsonModule": true,
+    "allowJs": true,
+    "esModuleInterop": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "skipDefaultLibCheck": true,
+    "skipLibCheck": true
   },
-  "exclude": [
-    "dist",
-    "node_modules"
-  ],
   "include": [
     "**/*.js",
     "**/*.ts",
     "**/*.mts",
     "docs/.vitepress/**/*.ts",
     "docs/.vitepress/**/*.vue"
+  ],
+  "exclude": [
+    "dist",
+    "node_modules"
   ]
 }

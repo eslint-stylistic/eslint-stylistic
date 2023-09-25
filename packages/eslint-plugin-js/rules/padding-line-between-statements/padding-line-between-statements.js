@@ -31,8 +31,7 @@ const CJS_IMPORT = /^require\(/u
  */
 function newKeywordTester(keyword) {
   return {
-    test: (node, sourceCode) =>
-      sourceCode.getFirstToken(node).value === keyword,
+    test: (node, sourceCode) => sourceCode.getFirstToken(node).value === keyword,
   }
 }
 
@@ -44,8 +43,7 @@ function newKeywordTester(keyword) {
  */
 function newSinglelineKeywordTester(keyword) {
   return {
-    test: (node, sourceCode) =>
-      node.loc.start.line === node.loc.end.line
+    test: (node, sourceCode) => node.loc.start.line === node.loc.end.line
             && sourceCode.getFirstToken(node).value === keyword,
   }
 }
@@ -58,8 +56,7 @@ function newSinglelineKeywordTester(keyword) {
  */
 function newMultilineKeywordTester(keyword) {
   return {
-    test: (node, sourceCode) =>
-      node.loc.start.line !== node.loc.end.line
+    test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
             && sourceCode.getFirstToken(node).value === keyword,
   }
 }
@@ -72,8 +69,7 @@ function newMultilineKeywordTester(keyword) {
  */
 function newNodeTypeTester(type) {
   return {
-    test: node =>
-      node.type === type,
+    test: node => node.type === type,
   }
 }
 
@@ -304,14 +300,12 @@ const StatementTypes = {
     test: (node, sourceCode) => isBlockLikeStatement(sourceCode, node),
   },
   'cjs-export': {
-    test: (node, sourceCode) =>
-      node.type === 'ExpressionStatement'
+    test: (node, sourceCode) => node.type === 'ExpressionStatement'
             && node.expression.type === 'AssignmentExpression'
             && CJS_EXPORT.test(sourceCode.getText(node.expression.left)),
   },
   'cjs-import': {
-    test: (node, sourceCode) =>
-      node.type === 'VariableDeclaration'
+    test: (node, sourceCode) => node.type === 'VariableDeclaration'
             && node.declarations.length > 0
             && Boolean(node.declarations[0].init)
             && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init)),
@@ -326,13 +320,11 @@ const StatementTypes = {
     test: isIIFEStatement,
   },
   'multiline-block-like': {
-    test: (node, sourceCode) =>
-      node.loc.start.line !== node.loc.end.line
+    test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
             && isBlockLikeStatement(sourceCode, node),
   },
   'multiline-expression': {
-    test: node =>
-      node.loc.start.line !== node.loc.end.line
+    test: node => node.loc.start.line !== node.loc.end.line
             && node.type === 'ExpressionStatement'
             && !astUtils.isDirective(node),
   },

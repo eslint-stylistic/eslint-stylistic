@@ -522,7 +522,8 @@ module.exports = {
      */
     function getPropertyWhitespace(property) {
       const whitespace = /(\s*):(\s*)/u.exec(sourceCode.getText().slice(
-        property.key.range[1], property.value.range[0],
+        property.key.range[1],
+        property.value.range[0],
       ))
 
       if (whitespace) {
