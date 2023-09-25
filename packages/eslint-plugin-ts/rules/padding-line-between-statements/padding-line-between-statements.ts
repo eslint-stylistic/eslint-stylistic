@@ -500,13 +500,11 @@ const StatementTypes: Record<string, NodeTestObject> = {
   'iife': { test: isIIFEStatement },
 
   'multiline-block-like': {
-    test: (node, sourceCode) =>
-      node.loc.start.line !== node.loc.end.line
+    test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
       && isBlockLikeStatement(node, sourceCode),
   },
   'multiline-expression': {
-    test: (node, sourceCode) =>
-      node.loc.start.line !== node.loc.end.line
+    test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
       && node.type === AST_NODE_TYPES.ExpressionStatement
       && !isDirectivePrologue(node, sourceCode),
   },

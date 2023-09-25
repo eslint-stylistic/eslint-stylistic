@@ -1,5 +1,6 @@
 {
   "name": "@eslint-stylistic/monorepo",
+  "type": "module",
   "version": "0.0.4",
   "private": true,
   "packageManager": "pnpm@8.7.6",
@@ -18,7 +19,7 @@
     "docs:build": "pnpm -C docs run docs:build"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.43.1",
+    "@antfu/eslint-config": "^1.0.0-beta.8",
     "@antfu/ni": "^0.21.8",
     "@antfu/utils": "^0.7.6",
     "@rollup/plugin-commonjs": "^25.0.4",

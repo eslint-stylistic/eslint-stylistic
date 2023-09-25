@@ -598,13 +598,11 @@ type Foo = string | {
     const validCases = [...acc.valid]
     const invalidCases = [...acc.invalid]
 
-    const codeCases = testCase.code.map(code =>
-      [
-        '', // newline to make test error messages nicer
+    const codeCases = testCase.code.map(code => [
+      '', // newline to make test error messages nicer
         `// ${testCase.node}`, // add comment to easily identify which node a test belongs to
         code.trim(), // remove leading/trailing spaces from the case
-      ].join('\n'),
-    )
+    ].join('\n'))
 
     codeCases.forEach((code) => {
       // valid test case is just the code
