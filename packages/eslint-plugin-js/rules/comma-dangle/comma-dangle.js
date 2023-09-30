@@ -78,7 +78,7 @@ module.exports = {
     docs: {
       description: 'Require or disallow trailing commas',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/comma-dangle',
+      url: 'https://eslint.style/rules/js/comma-dangle',
     },
 
     fixable: 'code',

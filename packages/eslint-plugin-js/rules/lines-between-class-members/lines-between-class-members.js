@@ -37,7 +37,7 @@ module.exports = {
     docs: {
       description: 'Require or disallow an empty line between class members',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/lines-between-class-members',
+      url: 'https://eslint.style/rules/js/lines-between-class-members',
     },
 
     fixable: 'whitespace',

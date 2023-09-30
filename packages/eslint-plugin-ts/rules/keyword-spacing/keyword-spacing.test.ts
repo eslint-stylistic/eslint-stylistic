@@ -120,7 +120,7 @@ ruleTester.run('keyword-spacing', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: 'import type * as Foo from \'foo\'',
+      code: "import type * as Foo from 'foo'",
       options: [BOTH],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
@@ -169,7 +169,7 @@ ruleTester.run('keyword-spacing', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: 'import type{SavedQueries} from \'./SavedQueries.js\';',
+      code: "import type{SavedQueries} from './SavedQueries.js';",
       options: [
         {
           before: true,
@@ -182,7 +182,7 @@ ruleTester.run('keyword-spacing', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: 'import type{SavedQueries} from\'./SavedQueries.js\';',
+      code: "import type{SavedQueries} from'./SavedQueries.js';",
       options: [
         {
           before: true,
@@ -192,7 +192,7 @@ ruleTester.run('keyword-spacing', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: 'import type http from \'node:http\';',
+      code: "import type http from 'node:http';",
       options: [
         {
           before: true,
@@ -205,7 +205,7 @@ ruleTester.run('keyword-spacing', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: 'import type http from\'node:http\';',
+      code: "import type http from'node:http';",
       options: [
         {
           before: true,
@@ -301,8 +301,8 @@ ruleTester.run('keyword-spacing', rule, {
       errors: unexpectedAfter('type'),
     },
     {
-      code: 'import type {SavedQueries} from \'./SavedQueries.js\';',
-      output: 'import type{SavedQueries} from \'./SavedQueries.js\';',
+      code: "import type {SavedQueries} from './SavedQueries.js';",
+      output: "import type{SavedQueries} from './SavedQueries.js';",
       options: [
         {
           before: true,
@@ -316,8 +316,8 @@ ruleTester.run('keyword-spacing', rule, {
       errors: unexpectedAfter('type'),
     },
     {
-      code: 'import type {SavedQueries} from \'./SavedQueries.js\';',
-      output: 'import type{SavedQueries} from\'./SavedQueries.js\';',
+      code: "import type {SavedQueries} from './SavedQueries.js';",
+      output: "import type{SavedQueries} from'./SavedQueries.js';",
       options: [
         {
           before: true,

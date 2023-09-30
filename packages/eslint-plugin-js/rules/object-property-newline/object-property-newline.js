@@ -17,7 +17,7 @@ module.exports = {
     docs: {
       description: 'Enforce placing object properties on separate lines',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/object-property-newline',
+      url: 'https://eslint.style/rules/js/object-property-newline',
     },
 
     schema: [
@@ -40,7 +40,7 @@ module.exports = {
     fixable: 'whitespace',
 
     messages: {
-      propertiesOnNewlineAll: 'Object properties must go on a new line if they aren\'t all on the same line.',
+      propertiesOnNewlineAll: "Object properties must go on a new line if they aren't all on the same line.",
       propertiesOnNewline: 'Object properties must go on a new line.',
     },
   },

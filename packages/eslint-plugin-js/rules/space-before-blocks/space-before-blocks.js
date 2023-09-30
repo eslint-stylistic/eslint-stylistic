@@ -42,7 +42,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent spacing before blocks',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/space-before-blocks',
+      url: 'https://eslint.style/rules/js/space-before-blocks',
     },
 
     fixable: 'whitespace',

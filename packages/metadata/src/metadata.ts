@@ -170,6 +170,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "eol-last",
+        "ruleId": "@stylistic/js/eol-last",
+        "originalId": "eol-last",
+        "entry": "packages/eslint-plugin-js/rules/eol-last/eol-last.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/eol-last/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require or disallow newline at the end of files",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "func-call-spacing",
         "ruleId": "@stylistic/js/func-call-spacing",
         "originalId": "func-call-spacing",
@@ -249,6 +263,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Enforce consistent indentation",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "jsx-quotes",
+        "ruleId": "@stylistic/js/jsx-quotes",
+        "originalId": "jsx-quotes",
+        "entry": "packages/eslint-plugin-js/rules/jsx-quotes/jsx-quotes.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/jsx-quotes/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce the consistent use of either double or single quotes in JSX attributes",
             "recommended": false
           }
         }
@@ -338,6 +366,32 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "max-len",
+        "ruleId": "@stylistic/js/max-len",
+        "originalId": "max-len",
+        "entry": "packages/eslint-plugin-js/rules/max-len/max-len.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/max-len/README.md",
+        "meta": {
+          "docs": {
+            "description": "Enforce a maximum line length",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "max-statements-per-line",
+        "ruleId": "@stylistic/js/max-statements-per-line",
+        "originalId": "max-statements-per-line",
+        "entry": "packages/eslint-plugin-js/rules/max-statements-per-line/max-statements-per-line.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/max-statements-per-line/README.md",
+        "meta": {
+          "docs": {
+            "description": "Enforce a maximum number of statements allowed per line",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "multiline-ternary",
         "ruleId": "@stylistic/js/multiline-ternary",
         "originalId": "multiline-ternary",
@@ -347,6 +401,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Enforce newlines between operands of ternary expressions",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "new-parens",
+        "ruleId": "@stylistic/js/new-parens",
+        "originalId": "new-parens",
+        "entry": "packages/eslint-plugin-js/rules/new-parens/new-parens.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/new-parens/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce or disallow parentheses when invoking a constructor with no arguments",
             "recommended": false
           }
         }
@@ -389,6 +457,75 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Require a newline after each call in a method chain",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "no-confusing-arrow",
+        "ruleId": "@stylistic/js/no-confusing-arrow",
+        "originalId": "no-confusing-arrow",
+        "entry": "packages/eslint-plugin-js/rules/no-confusing-arrow/no-confusing-arrow.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-confusing-arrow/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow arrow functions where they could be confused with comparisons",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "no-extra-parens",
+        "ruleId": "@stylistic/js/no-extra-parens",
+        "originalId": "no-extra-parens",
+        "entry": "packages/eslint-plugin-js/rules/no-extra-parens/no-extra-parens.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-extra-parens/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow unnecessary parentheses",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "no-extra-semi",
+        "ruleId": "@stylistic/js/no-extra-semi",
+        "originalId": "no-extra-semi",
+        "entry": "packages/eslint-plugin-js/rules/no-extra-semi/no-extra-semi.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-extra-semi/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow unnecessary semicolons",
+            "recommended": true
+          }
+        }
+      },
+      {
+        "name": "no-floating-decimal",
+        "ruleId": "@stylistic/js/no-floating-decimal",
+        "originalId": "no-floating-decimal",
+        "entry": "packages/eslint-plugin-js/rules/no-floating-decimal/no-floating-decimal.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-floating-decimal/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow leading or trailing decimal points in numeric literals",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "no-mixed-operators",
+        "ruleId": "@stylistic/js/no-mixed-operators",
+        "originalId": "no-mixed-operators",
+        "entry": "packages/eslint-plugin-js/rules/no-mixed-operators/no-mixed-operators.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-mixed-operators/README.md",
+        "meta": {
+          "docs": {
+            "description": "Disallow mixed binary operators",
             "recommended": false
           }
         }
@@ -602,6 +739,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "quote-props",
+        "ruleId": "@stylistic/js/quote-props",
+        "originalId": "quote-props",
+        "entry": "packages/eslint-plugin-js/rules/quote-props/quote-props.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/quote-props/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require quotes around object literal property names",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "quotes",
         "ruleId": "@stylistic/js/quotes",
         "originalId": "quotes",
@@ -793,6 +944,34 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Require or disallow spacing between template tags and their literals",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "wrap-iife",
+        "ruleId": "@stylistic/js/wrap-iife",
+        "originalId": "wrap-iife",
+        "entry": "packages/eslint-plugin-js/rules/wrap-iife/wrap-iife.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/wrap-iife/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require parentheses around immediate `function` invocations",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "wrap-regex",
+        "ruleId": "@stylistic/js/wrap-regex",
+        "originalId": "wrap-regex",
+        "entry": "packages/eslint-plugin-js/rules/wrap-regex/wrap-regex.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/wrap-regex/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require parenthesis around regex literals",
             "recommended": false
           }
         }
@@ -1221,6 +1400,19 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "eol-last",
+        "ruleId": "@stylistic/eol-last",
+        "entry": "packages/eslint-plugin-js/rules/eol-last/eol-last.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/eol-last/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require or disallow newline at the end of files",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "func-call-spacing",
         "ruleId": "@stylistic/func-call-spacing",
         "entry": "packages/eslint-plugin-ts/rules/func-call-spacing/func-call-spacing.ts",
@@ -1293,6 +1485,19 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Enforce consistent indentation"
+          }
+        }
+      },
+      {
+        "name": "jsx-quotes",
+        "ruleId": "@stylistic/jsx-quotes",
+        "entry": "packages/eslint-plugin-js/rules/jsx-quotes/jsx-quotes.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/jsx-quotes/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce the consistent use of either double or single quotes in JSX attributes",
+            "recommended": false
           }
         }
       },
@@ -1371,6 +1576,30 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "max-len",
+        "ruleId": "@stylistic/max-len",
+        "entry": "packages/eslint-plugin-js/rules/max-len/max-len.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/max-len/README.md",
+        "meta": {
+          "docs": {
+            "description": "Enforce a maximum line length",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "max-statements-per-line",
+        "ruleId": "@stylistic/max-statements-per-line",
+        "entry": "packages/eslint-plugin-js/rules/max-statements-per-line/max-statements-per-line.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/max-statements-per-line/README.md",
+        "meta": {
+          "docs": {
+            "description": "Enforce a maximum number of statements allowed per line",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "multiline-ternary",
         "ruleId": "@stylistic/multiline-ternary",
         "entry": "packages/eslint-plugin-js/rules/multiline-ternary/multiline-ternary.js",
@@ -1379,6 +1608,19 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Enforce newlines between operands of ternary expressions",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "new-parens",
+        "ruleId": "@stylistic/new-parens",
+        "entry": "packages/eslint-plugin-js/rules/new-parens/new-parens.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/new-parens/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce or disallow parentheses when invoking a constructor with no arguments",
             "recommended": false
           }
         }
@@ -1418,6 +1660,70 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Require a newline after each call in a method chain",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "no-confusing-arrow",
+        "ruleId": "@stylistic/no-confusing-arrow",
+        "entry": "packages/eslint-plugin-js/rules/no-confusing-arrow/no-confusing-arrow.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-confusing-arrow/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow arrow functions where they could be confused with comparisons",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "no-extra-parens",
+        "ruleId": "@stylistic/no-extra-parens",
+        "entry": "packages/eslint-plugin-js/rules/no-extra-parens/no-extra-parens.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-extra-parens/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow unnecessary parentheses",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "no-extra-semi",
+        "ruleId": "@stylistic/no-extra-semi",
+        "entry": "packages/eslint-plugin-js/rules/no-extra-semi/no-extra-semi.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-extra-semi/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow unnecessary semicolons",
+            "recommended": true
+          }
+        }
+      },
+      {
+        "name": "no-floating-decimal",
+        "ruleId": "@stylistic/no-floating-decimal",
+        "entry": "packages/eslint-plugin-js/rules/no-floating-decimal/no-floating-decimal.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-floating-decimal/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow leading or trailing decimal points in numeric literals",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "no-mixed-operators",
+        "ruleId": "@stylistic/no-mixed-operators",
+        "entry": "packages/eslint-plugin-js/rules/no-mixed-operators/no-mixed-operators.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/no-mixed-operators/README.md",
+        "meta": {
+          "docs": {
+            "description": "Disallow mixed binary operators",
             "recommended": false
           }
         }
@@ -1614,6 +1920,19 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "quote-props",
+        "ruleId": "@stylistic/quote-props",
+        "entry": "packages/eslint-plugin-js/rules/quote-props/quote-props.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/quote-props/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require quotes around object literal property names",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "quotes",
         "ruleId": "@stylistic/quotes",
         "entry": "packages/eslint-plugin-ts/rules/quotes/quotes.ts",
@@ -1786,6 +2105,32 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Require or disallow spacing between template tags and their literals",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "wrap-iife",
+        "ruleId": "@stylistic/wrap-iife",
+        "entry": "packages/eslint-plugin-js/rules/wrap-iife/wrap-iife.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/wrap-iife/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require parentheses around immediate `function` invocations",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "wrap-regex",
+        "ruleId": "@stylistic/wrap-regex",
+        "entry": "packages/eslint-plugin-js/rules/wrap-regex/wrap-regex.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/wrap-regex/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require parenthesis around regex literals",
             "recommended": false
           }
         }

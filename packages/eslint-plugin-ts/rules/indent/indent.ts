@@ -245,7 +245,8 @@ export default createRule<Options, MessageIds>({
           properties: (
             node.members as (TSESTree.TSEnumMember | TSESTree.TypeElement)[]
           ).map(
-            member => TSPropertySignatureToProperty(member) as TSESTree.Property,
+            member =>
+              TSPropertySignatureToProperty(member) as TSESTree.Property,
           ),
 
           // location data
@@ -330,10 +331,11 @@ export default createRule<Options, MessageIds>({
         return rules['BlockStatement, ClassBody']({
           type: AST_NODE_TYPES.ClassBody,
           body: node.body.map(
-            p => TSPropertySignatureToProperty(
-              p,
-              AST_NODE_TYPES.PropertyDefinition,
-            ) as TSESTree.PropertyDefinition,
+            p =>
+              TSPropertySignatureToProperty(
+                p,
+                AST_NODE_TYPES.PropertyDefinition,
+              ) as TSESTree.PropertyDefinition,
           ),
 
           // location data

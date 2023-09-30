@@ -20,7 +20,7 @@ module.exports = {
     docs: {
       description: 'Require or disallow newlines around directives',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/lines-around-directive',
+      url: 'https://eslint.style/rules/js/lines-around-directive',
     },
 
     schema: [{

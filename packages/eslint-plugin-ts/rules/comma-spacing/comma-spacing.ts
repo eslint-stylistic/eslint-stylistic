@@ -44,8 +44,8 @@ export default createRule<Options, MessageIds>({
       },
     ],
     messages: {
-      unexpected: 'There should be no space {{loc}} \',\'.',
-      missing: 'A space is required {{loc}} \',\'.',
+      unexpected: `There should be no space {{loc}} ','.`,
+      missing: `A space is required {{loc}} ','.`,
     },
   },
   defaultOptions: [
@@ -121,12 +121,13 @@ export default createRule<Options, MessageIds>({
             loc: 'before',
           },
           messageId: spaceBefore ? 'missing' : 'unexpected',
-          fix: fixer => spaceBefore
-            ? fixer.insertTextBefore(commaToken, ' ')
-            : fixer.replaceTextRange(
-              [prevToken.range[1], commaToken.range[0]],
-              '',
-            ),
+          fix: fixer =>
+            spaceBefore
+              ? fixer.insertTextBefore(commaToken, ' ')
+              : fixer.replaceTextRange(
+                [prevToken.range[1], commaToken.range[0]],
+                '',
+              ),
         })
       }
 
@@ -155,12 +156,13 @@ export default createRule<Options, MessageIds>({
             loc: 'after',
           },
           messageId: spaceAfter ? 'missing' : 'unexpected',
-          fix: fixer => spaceAfter
-            ? fixer.insertTextAfter(commaToken, ' ')
-            : fixer.replaceTextRange(
-              [commaToken.range[1], nextToken.range[0]],
-              '',
-            ),
+          fix: fixer =>
+            spaceAfter
+              ? fixer.insertTextAfter(commaToken, ' ')
+              : fixer.replaceTextRange(
+                [commaToken.range[1], nextToken.range[0]],
+                '',
+              ),
         })
       }
     }

@@ -23,7 +23,7 @@ module.exports = {
     docs: {
       description: 'Require or disallow spacing around embedded expressions of template strings',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/template-curly-spacing',
+      url: 'https://eslint.style/rules/js/template-curly-spacing',
     },
 
     fixable: 'whitespace',
@@ -32,10 +32,10 @@ module.exports = {
       { enum: ['always', 'never'] },
     ],
     messages: {
-      expectedBefore: 'Expected space(s) before \'}\'.',
-      expectedAfter: 'Expected space(s) after \'${\'.',
-      unexpectedBefore: 'Unexpected space(s) before \'}\'.',
-      unexpectedAfter: 'Unexpected space(s) after \'${\'.',
+      expectedBefore: "Expected space(s) before '}'.",
+      expectedAfter: "Expected space(s) after '${'.",
+      unexpectedBefore: "Unexpected space(s) before '}'.",
+      unexpectedAfter: "Unexpected space(s) after '${'.",
     },
   },
 

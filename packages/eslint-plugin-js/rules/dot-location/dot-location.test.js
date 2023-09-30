@@ -24,8 +24,8 @@ ruleTester.run('dot-location', rule, {
     'obj. \nprop',
     'obj.\n prop',
     '(obj).\nprop',
-    'obj\n[\'prop\']',
-    'obj[\'prop\']',
+    "obj\n['prop']",
+    "obj['prop']",
     {
       code: 'obj.\nprop',
       options: ['object'],

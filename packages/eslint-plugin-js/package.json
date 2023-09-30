@@ -22,6 +22,7 @@
     "prepublishOnly": "pnpm build"
   },
   "dependencies": {
+    "@eslint-community/eslint-utils": "^4.4.0",
     "acorn": "^8.10.0",
     "escape-string-regexp": "^4.0.0",
     "eslint-visitor-keys": "^3.4.3",

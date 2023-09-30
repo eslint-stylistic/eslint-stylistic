@@ -35,24 +35,24 @@ ruleTester.run('array-bracket-spacing', rule, {
 
   valid: [
     { code: 'var foo = obj[ 1 ]', options: ['always'] },
-    { code: 'var foo = obj[ \'foo\' ];', options: ['always'] },
+    { code: "var foo = obj[ 'foo' ];", options: ['always'] },
     { code: 'var foo = obj[ [ 1, 1 ] ];', options: ['always'] },
 
     // always - singleValue
-    { code: 'var foo = [\'foo\']', options: ['always', { singleValue: false }] },
+    { code: "var foo = ['foo']", options: ['always', { singleValue: false }] },
     { code: 'var foo = [2]', options: ['always', { singleValue: false }] },
     { code: 'var foo = [[ 1, 1 ]]', options: ['always', { singleValue: false }] },
-    { code: 'var foo = [{ \'foo\': \'bar\' }]', options: ['always', { singleValue: false }] },
+    { code: "var foo = [{ 'foo': 'bar' }]", options: ['always', { singleValue: false }] },
     { code: 'var foo = [bar]', options: ['always', { singleValue: false }] },
 
     // always - objectsInArrays
-    { code: 'var foo = [{ \'bar\': \'baz\' }, 1,  5 ];', options: ['always', { objectsInArrays: false }] },
-    { code: 'var foo = [ 1, 5, { \'bar\': \'baz\' }];', options: ['always', { objectsInArrays: false }] },
-    { code: 'var foo = [{\n\'bar\': \'baz\', \n\'qux\': [{ \'bar\': \'baz\' }], \n\'quxx\': 1 \n}]', options: ['always', { objectsInArrays: false }] },
-    { code: 'var foo = [{ \'bar\': \'baz\' }]', options: ['always', { objectsInArrays: false }] },
-    { code: 'var foo = [{ \'bar\': \'baz\' }, 1, { \'bar\': \'baz\' }];', options: ['always', { objectsInArrays: false }] },
-    { code: 'var foo = [ 1, { \'bar\': \'baz\' }, 5 ];', options: ['always', { objectsInArrays: false }] },
-    { code: 'var foo = [ 1, { \'bar\': \'baz\' }, [{ \'bar\': \'baz\' }] ];', options: ['always', { objectsInArrays: false }] },
+    { code: "var foo = [{ 'bar': 'baz' }, 1,  5 ];", options: ['always', { objectsInArrays: false }] },
+    { code: "var foo = [ 1, 5, { 'bar': 'baz' }];", options: ['always', { objectsInArrays: false }] },
+    { code: "var foo = [{\n'bar': 'baz', \n'qux': [{ 'bar': 'baz' }], \n'quxx': 1 \n}]", options: ['always', { objectsInArrays: false }] },
+    { code: "var foo = [{ 'bar': 'baz' }]", options: ['always', { objectsInArrays: false }] },
+    { code: "var foo = [{ 'bar': 'baz' }, 1, { 'bar': 'baz' }];", options: ['always', { objectsInArrays: false }] },
+    { code: "var foo = [ 1, { 'bar': 'baz' }, 5 ];", options: ['always', { objectsInArrays: false }] },
+    { code: "var foo = [ 1, { 'bar': 'baz' }, [{ 'bar': 'baz' }] ];", options: ['always', { objectsInArrays: false }] },
     { code: 'var foo = [ function(){} ];', options: ['always', { objectsInArrays: false }] },
 
     // always - arraysInArrays
@@ -61,20 +61,20 @@ ruleTester.run('array-bracket-spacing', rule, {
     { code: 'var foo = [ arr[i], arr[j] ];', options: ['always', { arraysInArrays: false }] },
 
     // always - arraysInArrays, objectsInArrays
-    { code: 'var arr = [[ 1, 2 ], 2, 3, { \'foo\': \'bar\' }];', options: ['always', { arraysInArrays: false, objectsInArrays: false }] },
+    { code: "var arr = [[ 1, 2 ], 2, 3, { 'foo': 'bar' }];", options: ['always', { arraysInArrays: false, objectsInArrays: false }] },
 
     // always - arraysInArrays, objectsInArrays, singleValue
-    { code: 'var arr = [[ 1, 2 ], [2], 3, { \'foo\': \'bar\' }];', options: ['always', { arraysInArrays: false, objectsInArrays: false, singleValue: false }] },
+    { code: "var arr = [[ 1, 2 ], [2], 3, { 'foo': 'bar' }];", options: ['always', { arraysInArrays: false, objectsInArrays: false, singleValue: false }] },
 
     // always
     { code: 'obj[ foo ]', options: ['always'] },
     { code: 'obj[\nfoo\n]', options: ['always'] },
-    { code: 'obj[ \'foo\' ]', options: ['always'] },
-    { code: 'obj[ \'foo\' + \'bar\' ]', options: ['always'] },
+    { code: "obj[ 'foo' ]", options: ['always'] },
+    { code: "obj[ 'foo' + 'bar' ]", options: ['always'] },
     { code: 'obj[ obj2[ foo ] ]', options: ['always'] },
     { code: 'obj.map(function(item) { return [\n1,\n2,\n3,\n4\n]; })', options: ['always'] },
-    { code: 'obj[ \'map\' ](function(item) { return [\n1,\n2,\n3,\n4\n]; })', options: ['always'] },
-    { code: 'obj[ \'for\' + \'Each\' ](function(item) { return [\n1,\n2,\n3,\n4\n]; })', options: ['always'] },
+    { code: "obj[ 'map' ](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ['always'] },
+    { code: "obj[ 'for' + 'Each' ](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ['always'] },
 
     { code: 'var arr = [ 1, 2, 3, 4 ];', options: ['always'] },
     { code: 'var arr = [ [ 1, 2 ], 2, 3, 4 ];', options: ['always'] },
@@ -82,7 +82,7 @@ ruleTester.run('array-bracket-spacing', rule, {
     { code: 'var foo = [];', options: ['always'] },
 
     // singleValue: false, objectsInArrays: true, arraysInArrays
-    { code: 'this.db.mappings.insert([\n { alias: \'a\', url: \'http://www.amazon.de\' },\n { alias: \'g\', url: \'http://www.google.de\' }\n], function() {});', options: ['always', { singleValue: false, objectsInArrays: true, arraysInArrays: true }] },
+    { code: "this.db.mappings.insert([\n { alias: 'a', url: 'http://www.amazon.de' },\n { alias: 'g', url: 'http://www.google.de' }\n], function() {});", options: ['always', { singleValue: false, objectsInArrays: true, arraysInArrays: true }] },
 
     // always - destructuring assignment
     { code: 'var [ x, y ] = z', options: ['always'], parserOptions: { ecmaVersion: 6 } },
@@ -101,13 +101,13 @@ ruleTester.run('array-bracket-spacing', rule, {
 
     // never
     { code: 'obj[foo]', options: ['never'] },
-    { code: 'obj[\'foo\']', options: ['never'] },
-    { code: 'obj[\'foo\' + \'bar\']', options: ['never'] },
-    { code: 'obj[\'foo\'+\'bar\']', options: ['never'] },
+    { code: "obj['foo']", options: ['never'] },
+    { code: "obj['foo' + 'bar']", options: ['never'] },
+    { code: "obj['foo'+'bar']", options: ['never'] },
     { code: 'obj[obj2[foo]]', options: ['never'] },
     { code: 'obj.map(function(item) { return [\n1,\n2,\n3,\n4\n]; })', options: ['never'] },
-    { code: 'obj[\'map\'](function(item) { return [\n1,\n2,\n3,\n4\n]; })', options: ['never'] },
-    { code: 'obj[\'for\' + \'Each\'](function(item) { return [\n1,\n2,\n3,\n4\n]; })', options: ['never'] },
+    { code: "obj['map'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ['never'] },
+    { code: "obj['for' + 'Each'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ['never'] },
     { code: 'var arr = [1, 2, 3, 4];', options: ['never'] },
     { code: 'var arr = [[1, 2], 2, 3, 4];', options: ['never'] },
     { code: 'var arr = [\n1, 2, 3, 4\n];', options: ['never'] },
@@ -132,20 +132,20 @@ ruleTester.run('array-bracket-spacing', rule, {
     { code: '[x, { y, z } ] = arr;', options: ['never', { objectsInArrays: true }], parserOptions: { ecmaVersion: 6 } },
 
     // never - singleValue
-    { code: 'var foo = [ \'foo\' ]', options: ['never', { singleValue: true }] },
+    { code: "var foo = [ 'foo' ]", options: ['never', { singleValue: true }] },
     { code: 'var foo = [ 2 ]', options: ['never', { singleValue: true }] },
     { code: 'var foo = [ [1, 1] ]', options: ['never', { singleValue: true }] },
-    { code: 'var foo = [ {\'foo\': \'bar\'} ]', options: ['never', { singleValue: true }] },
+    { code: "var foo = [ {'foo': 'bar'} ]", options: ['never', { singleValue: true }] },
     { code: 'var foo = [ bar ]', options: ['never', { singleValue: true }] },
 
     // never - objectsInArrays
-    { code: 'var foo = [ {\'bar\': \'baz\'}, 1, 5];', options: ['never', { objectsInArrays: true }] },
-    { code: 'var foo = [1, 5, {\'bar\': \'baz\'} ];', options: ['never', { objectsInArrays: true }] },
-    { code: 'var foo = [ {\n\'bar\': \'baz\', \n\'qux\': [ {\'bar\': \'baz\'} ], \n\'quxx\': 1 \n} ]', options: ['never', { objectsInArrays: true }] },
-    { code: 'var foo = [ {\'bar\': \'baz\'} ]', options: ['never', { objectsInArrays: true }] },
-    { code: 'var foo = [ {\'bar\': \'baz\'}, 1, {\'bar\': \'baz\'} ];', options: ['never', { objectsInArrays: true }] },
-    { code: 'var foo = [1, {\'bar\': \'baz\'} , 5];', options: ['never', { objectsInArrays: true }] },
-    { code: 'var foo = [1, {\'bar\': \'baz\'}, [ {\'bar\': \'baz\'} ]];', options: ['never', { objectsInArrays: true }] },
+    { code: "var foo = [ {'bar': 'baz'}, 1, 5];", options: ['never', { objectsInArrays: true }] },
+    { code: "var foo = [1, 5, {'bar': 'baz'} ];", options: ['never', { objectsInArrays: true }] },
+    { code: "var foo = [ {\n'bar': 'baz', \n'qux': [ {'bar': 'baz'} ], \n'quxx': 1 \n} ]", options: ['never', { objectsInArrays: true }] },
+    { code: "var foo = [ {'bar': 'baz'} ]", options: ['never', { objectsInArrays: true }] },
+    { code: "var foo = [ {'bar': 'baz'}, 1, {'bar': 'baz'} ];", options: ['never', { objectsInArrays: true }] },
+    { code: "var foo = [1, {'bar': 'baz'} , 5];", options: ['never', { objectsInArrays: true }] },
+    { code: "var foo = [1, {'bar': 'baz'}, [ {'bar': 'baz'} ]];", options: ['never', { objectsInArrays: true }] },
     { code: 'var foo = [function(){}];', options: ['never', { objectsInArrays: true }] },
     { code: 'var foo = [];', options: ['never', { objectsInArrays: true }] },
 
@@ -158,19 +158,19 @@ ruleTester.run('array-bracket-spacing', rule, {
     { code: 'var arr = [ [1, 2], [ [ [ 1 ] ] ], 3, 4];', options: ['never', { arraysInArrays: true, singleValue: true }] },
 
     // never - arraysInArrays, objectsInArrays
-    { code: 'var arr = [ [1, 2], 2, 3, {\'foo\': \'bar\'} ];', options: ['never', { arraysInArrays: true, objectsInArrays: true }] },
+    { code: "var arr = [ [1, 2], 2, 3, {'foo': 'bar'} ];", options: ['never', { arraysInArrays: true, objectsInArrays: true }] },
 
     // should not warn
     { code: 'var foo = {};', options: ['never'] },
     { code: 'var foo = [];', options: ['never'] },
 
-    { code: 'var foo = [{\'bar\':\'baz\'}, 1, {\'bar\': \'baz\'}];', options: ['never'] },
-    { code: 'var foo = [{\'bar\': \'baz\'}];', options: ['never'] },
-    { code: 'var foo = [{\n\'bar\': \'baz\', \n\'qux\': [{\'bar\': \'baz\'}], \n\'quxx\': 1 \n}]', options: ['never'] },
-    { code: 'var foo = [1, {\'bar\': \'baz\'}, 5];', options: ['never'] },
-    { code: 'var foo = [{\'bar\': \'baz\'}, 1,  5];', options: ['never'] },
-    { code: 'var foo = [1, 5, {\'bar\': \'baz\'}];', options: ['never'] },
-    { code: 'var obj = {\'foo\': [1, 2]}', options: ['never'] },
+    { code: "var foo = [{'bar':'baz'}, 1, {'bar': 'baz'}];", options: ['never'] },
+    { code: "var foo = [{'bar': 'baz'}];", options: ['never'] },
+    { code: "var foo = [{\n'bar': 'baz', \n'qux': [{'bar': 'baz'}], \n'quxx': 1 \n}]", options: ['never'] },
+    { code: "var foo = [1, {'bar': 'baz'}, 5];", options: ['never'] },
+    { code: "var foo = [{'bar': 'baz'}, 1,  5];", options: ['never'] },
+    { code: "var foo = [1, 5, {'bar': 'baz'}];", options: ['never'] },
+    { code: "var obj = {'foo': [1, 2]}", options: ['never'] },
 
     // destructuring with type annotation
     { code: '([ a, b ]: Array<any>) => {}', options: ['always'], parser: parser('flow-destructuring-1'), parserOptions: { ecmaVersion: 6 } },
@@ -199,8 +199,8 @@ ruleTester.run('array-bracket-spacing', rule, {
 
     // objectsInArrays
     {
-      code: 'var foo = [ { \'bar\': \'baz\' }, 1,  5];',
-      output: 'var foo = [{ \'bar\': \'baz\' }, 1,  5 ];',
+      code: "var foo = [ { 'bar': 'baz' }, 1,  5];",
+      output: "var foo = [{ 'bar': 'baz' }, 1,  5 ];",
       options: ['always', { objectsInArrays: false }],
       errors: [
         {
@@ -228,8 +228,8 @@ ruleTester.run('array-bracket-spacing', rule, {
       ],
     },
     {
-      code: 'var foo = [1, 5, { \'bar\': \'baz\' } ];',
-      output: 'var foo = [ 1, 5, { \'bar\': \'baz\' }];',
+      code: "var foo = [1, 5, { 'bar': 'baz' } ];",
+      output: "var foo = [ 1, 5, { 'bar': 'baz' }];",
       options: ['always', { objectsInArrays: false }],
       errors: [
         {
@@ -257,8 +257,8 @@ ruleTester.run('array-bracket-spacing', rule, {
       ],
     },
     {
-      code: 'var foo = [ { \'bar\':\'baz\' }, 1, { \'bar\': \'baz\' } ];',
-      output: 'var foo = [{ \'bar\':\'baz\' }, 1, { \'bar\': \'baz\' }];',
+      code: "var foo = [ { 'bar':'baz' }, 1, { 'bar': 'baz' } ];",
+      output: "var foo = [{ 'bar':'baz' }, 1, { 'bar': 'baz' }];",
       options: ['always', { objectsInArrays: false }],
       errors: [
         {
@@ -288,8 +288,8 @@ ruleTester.run('array-bracket-spacing', rule, {
 
     // singleValue
     {
-      code: 'var obj = [ \'foo\' ];',
-      output: 'var obj = [\'foo\'];',
+      code: "var obj = [ 'foo' ];",
+      output: "var obj = ['foo'];",
       options: ['always', { singleValue: false }],
       errors: [
         {
@@ -317,8 +317,8 @@ ruleTester.run('array-bracket-spacing', rule, {
       ],
     },
     {
-      code: 'var obj = [\'foo\' ];',
-      output: 'var obj = [\'foo\'];',
+      code: "var obj = ['foo' ];",
+      output: "var obj = ['foo'];",
       options: ['always', { singleValue: false }],
       errors: [
         {
@@ -335,8 +335,8 @@ ruleTester.run('array-bracket-spacing', rule, {
       ],
     },
     {
-      code: 'var obj = [\'foo\'];',
-      output: 'var obj = [ \'foo\' ];',
+      code: "var obj = ['foo'];",
+      output: "var obj = [ 'foo' ];",
       options: ['never', { singleValue: true }],
       errors: [
         {

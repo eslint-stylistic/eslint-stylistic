@@ -18,7 +18,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent spacing before and after commas',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/comma-spacing',
+      url: 'https://eslint.style/rules/js/comma-spacing',
     },
 
     fixable: 'whitespace',
@@ -41,8 +41,8 @@ module.exports = {
     ],
 
     messages: {
-      missing: 'A space is required {{loc}} \',\'.',
-      unexpected: 'There should be no space {{loc}} \',\'.',
+      missing: "A space is required {{loc}} ','.",
+      unexpected: "There should be no space {{loc}} ','.",
     },
   },
 

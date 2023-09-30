@@ -19,7 +19,7 @@ module.exports = {
     docs: {
       description: 'Disallow multiple spaces',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/no-multi-spaces',
+      url: 'https://eslint.style/rules/js/no-multi-spaces',
     },
 
     fixable: 'whitespace',
@@ -47,7 +47,7 @@ module.exports = {
     ],
 
     messages: {
-      multipleSpaces: 'Multiple spaces found before \'{{displayValue}}\'.',
+      multipleSpaces: "Multiple spaces found before '{{displayValue}}'.",
     },
   },
 

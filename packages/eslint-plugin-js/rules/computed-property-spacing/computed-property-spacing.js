@@ -18,7 +18,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent spacing inside computed property brackets',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/computed-property-spacing',
+      url: 'https://eslint.style/rules/js/computed-property-spacing',
     },
 
     fixable: 'whitespace',
@@ -40,11 +40,11 @@ module.exports = {
     ],
 
     messages: {
-      unexpectedSpaceBefore: 'There should be no space before \'{{tokenValue}}\'.',
-      unexpectedSpaceAfter: 'There should be no space after \'{{tokenValue}}\'.',
+      unexpectedSpaceBefore: "There should be no space before '{{tokenValue}}'.",
+      unexpectedSpaceAfter: "There should be no space after '{{tokenValue}}'.",
 
-      missingSpaceBefore: 'A space is required before \'{{tokenValue}}\'.',
-      missingSpaceAfter: 'A space is required after \'{{tokenValue}}\'.',
+      missingSpaceBefore: "A space is required before '{{tokenValue}}'.",
+      missingSpaceAfter: "A space is required after '{{tokenValue}}'.",
     },
   },
 

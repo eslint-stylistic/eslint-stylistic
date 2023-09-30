@@ -23,7 +23,7 @@ module.exports = {
     docs: {
       description: 'Require or disallow padding within blocks',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/padded-blocks',
+      url: 'https://eslint.style/rules/js/padded-blocks',
     },
 
     fixable: 'whitespace',

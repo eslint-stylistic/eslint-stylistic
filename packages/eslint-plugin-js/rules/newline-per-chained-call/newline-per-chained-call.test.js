@@ -19,7 +19,7 @@ const rule = require('./newline-per-chained-call')
 const ruleTester = new RuleTester()
 
 ruleTester.run('newline-per-chained-call', rule, {
-  valid: ['_\n.chain({})\n.map(foo)\n.filter(bar)\n.value();', 'a.b.c.d.e.f', 'a()\n.b()\n.c\n.e', 'var a = m1.m2(); var b = m1.m2();\nvar c = m1.m2()', 'var a = m1()\n.m2();', 'var a = m1();', 'a()\n.b().c.e.d()', 'a().b().c.e.d()', 'a.b.c.e.d()', 'var a = window\n.location\n.href\n.match(/(^[^#]*)/)[0];', 'var a = window[\'location\']\n.href\n.match(/(^[^#]*)/)[0];', 'var a = window[\'location\'].href.match(/(^[^#]*)/)[0];', {
+  valid: ['_\n.chain({})\n.map(foo)\n.filter(bar)\n.value();', 'a.b.c.d.e.f', 'a()\n.b()\n.c\n.e', 'var a = m1.m2(); var b = m1.m2();\nvar c = m1.m2()', 'var a = m1()\n.m2();', 'var a = m1();', 'a()\n.b().c.e.d()', 'a().b().c.e.d()', 'a.b.c.e.d()', 'var a = window\n.location\n.href\n.match(/(^[^#]*)/)[0];', "var a = window['location']\n.href\n.match(/(^[^#]*)/)[0];", "var a = window['location'].href.match(/(^[^#]*)/)[0];", {
     code: 'var a = m1().m2.m3();',
     options: [{
       ignoreChainWithDepth: 3,
@@ -148,7 +148,7 @@ ruleTester.run('newline-per-chained-call', rule, {
       '    // Param',
       '    // Param',
       '    // Param',
-      '}).on(\'response\', function(response) {',
+      "}).on('response', function(response) {",
       '    // Do something with response.',
       '    // Do something with response.',
       '    // Do something with response.',
@@ -159,7 +159,7 @@ ruleTester.run('newline-per-chained-call', rule, {
       '    // Do something with response.',
       '    // Do something with response.',
       '    // Do something with response.',
-      '}).on(\'error\', function(error) {',
+      "}).on('error', function(error) {",
       '    // Do something with error.',
       '    // Do something with error.',
       '    // Do something with error.',
@@ -177,7 +177,7 @@ ruleTester.run('newline-per-chained-call', rule, {
       '    // Param',
       '    // Param',
       '    // Param',
-      '}).on(\'response\', function(response) {',
+      "}).on('response', function(response) {",
       '    // Do something with response.',
       '    // Do something with response.',
       '    // Do something with response.',
@@ -189,7 +189,7 @@ ruleTester.run('newline-per-chained-call', rule, {
       '    // Do something with response.',
       '    // Do something with response.',
       '})',
-      '.on(\'error\', function(error) {',
+      ".on('error', function(error) {",
       '    // Do something with error.',
       '    // Do something with error.',
       '    // Do something with error.',
@@ -220,20 +220,20 @@ ruleTester.run('newline-per-chained-call', rule, {
     }],
   }, {
     code: [
-      'anObject.method1().method2()[\'method\' + n]()[aCondition ?',
-      '    \'method3\' :',
-      '    \'method4\']()',
+      "anObject.method1().method2()['method' + n]()[aCondition ?",
+      "    'method3' :",
+      "    'method4']()",
     ].join('\n'),
     output: [
       'anObject.method1().method2()',
-      '[\'method\' + n]()',
+      "['method' + n]()",
       '[aCondition ?',
-      '    \'method3\' :',
-      '    \'method4\']()',
+      "    'method3' :",
+      "    'method4']()",
     ].join('\n'),
     errors: [{
       messageId: 'expected',
-      data: { callee: '[\'method\' + n]' },
+      data: { callee: "['method' + n]" },
       line: 1,
       column: 29,
       endLine: 1,
@@ -247,12 +247,12 @@ ruleTester.run('newline-per-chained-call', rule, {
       endColumn: 15,
     }],
   }, {
-    code: 'foo.bar()[\'foo\' + \u2029 + \'bar\']()',
-    output: 'foo.bar()\n[\'foo\' + \u2029 + \'bar\']()',
+    code: "foo.bar()['foo' + \u2029 + 'bar']()",
+    output: "foo.bar()\n['foo' + \u2029 + 'bar']()",
     options: [{ ignoreChainWithDepth: 1 }],
     errors: [{
       messageId: 'expected',
-      data: { callee: '[\'foo\' + ' },
+      data: { callee: "['foo' + " },
       line: 1,
       column: 10,
       endLine: 2,

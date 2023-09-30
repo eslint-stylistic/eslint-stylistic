@@ -22,7 +22,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent spacing before or after unary operators',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/space-unary-ops',
+      url: 'https://eslint.style/rules/js/space-unary-ops',
     },
 
     fixable: 'whitespace',
@@ -50,12 +50,12 @@ module.exports = {
       },
     ],
     messages: {
-      unexpectedBefore: 'Unexpected space before unary operator \'{{operator}}\'.',
-      unexpectedAfter: 'Unexpected space after unary operator \'{{operator}}\'.',
-      unexpectedAfterWord: 'Unexpected space after unary word operator \'{{word}}\'.',
-      wordOperator: 'Unary word operator \'{{word}}\' must be followed by whitespace.',
-      operator: 'Unary operator \'{{operator}}\' must be followed by whitespace.',
-      beforeUnaryExpressions: 'Space is required before unary expressions \'{{token}}\'.',
+      unexpectedBefore: "Unexpected space before unary operator '{{operator}}'.",
+      unexpectedAfter: "Unexpected space after unary operator '{{operator}}'.",
+      unexpectedAfterWord: "Unexpected space after unary word operator '{{word}}'.",
+      wordOperator: "Unary word operator '{{word}}' must be followed by whitespace.",
+      operator: "Unary operator '{{operator}}' must be followed by whitespace.",
+      beforeUnaryExpressions: "Space is required before unary expressions '{{token}}'.",
     },
   },
 

@@ -140,6 +140,9 @@ importers:
 
   packages/eslint-plugin-js:
     dependencies:
+      '@eslint-community/eslint-utils':
+        specifier: ^4.4.0
+        version: 4.4.0(eslint@8.50.0)
       acorn:
         specifier: ^8.10.0
         version: 8.10.0

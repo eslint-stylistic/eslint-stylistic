@@ -17,7 +17,7 @@ module.exports = {
     docs: {
       description: 'Enforce line breaks between arguments of a function call',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/function-call-argument-newline',
+      url: 'https://eslint.style/rules/js/function-call-argument-newline',
     },
 
     fixable: 'whitespace',
@@ -41,12 +41,14 @@ module.exports = {
       unexpected: {
         messageId: 'unexpectedLineBreak',
         check: (prevToken, currentToken) => prevToken.loc.end.line !== currentToken.loc.start.line,
-        createFix: (token, tokenBefore) => fixer => fixer.replaceTextRange([tokenBefore.range[1], token.range[0]], ' '),
+        createFix: (token, tokenBefore) => fixer =>
+          fixer.replaceTextRange([tokenBefore.range[1], token.range[0]], ' '),
       },
       missing: {
         messageId: 'missingLineBreak',
         check: (prevToken, currentToken) => prevToken.loc.end.line === currentToken.loc.start.line,
-        createFix: (token, tokenBefore) => fixer => fixer.replaceTextRange([tokenBefore.range[1], token.range[0]], '\n'),
+        createFix: (token, tokenBefore) => fixer =>
+          fixer.replaceTextRange([tokenBefore.range[1], token.range[0]], '\n'),
       },
     }
 

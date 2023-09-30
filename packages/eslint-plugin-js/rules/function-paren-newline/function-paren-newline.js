@@ -22,7 +22,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent line breaks inside function parentheses',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/function-paren-newline',
+      url: 'https://eslint.style/rules/js/function-paren-newline',
     },
 
     fixable: 'whitespace',
@@ -48,11 +48,11 @@ module.exports = {
     ],
 
     messages: {
-      expectedBefore: 'Expected newline before \')\'.',
-      expectedAfter: 'Expected newline after \'(\'.',
+      expectedBefore: "Expected newline before ')'.",
+      expectedAfter: "Expected newline after '('.",
       expectedBetween: 'Expected newline between arguments/params.',
-      unexpectedBefore: 'Unexpected newline before \')\'.',
-      unexpectedAfter: 'Unexpected newline after \'(\'.',
+      unexpectedBefore: "Unexpected newline before ')'.",
+      unexpectedAfter: "Unexpected newline after '('.",
     },
   },
 

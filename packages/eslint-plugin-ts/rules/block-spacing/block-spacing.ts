@@ -41,7 +41,8 @@ export default createRule<Options, MessageIds>({
       // guaranteed for enums
       // This is the only change made here from the base rule
       return sourceCode.getFirstToken(node, {
-        filter: token => token.type === AST_TOKEN_TYPES.Punctuator && token.value === '{',
+        filter: token =>
+          token.type === AST_TOKEN_TYPES.Punctuator && token.value === '{',
       }) as TSESTree.PunctuatorToken
     }
 

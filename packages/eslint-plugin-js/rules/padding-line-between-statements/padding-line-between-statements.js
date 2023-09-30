@@ -69,7 +69,8 @@ function newMultilineKeywordTester(keyword) {
  */
 function newNodeTypeTester(type) {
   return {
-    test: node => node.type === type,
+    test: node =>
+      node.type === type,
   }
 }
 
@@ -324,7 +325,8 @@ const StatementTypes = {
             && isBlockLikeStatement(sourceCode, node),
   },
   'multiline-expression': {
-    test: node => node.loc.start.line !== node.loc.end.line
+    test: node =>
+      node.loc.start.line !== node.loc.end.line
             && node.type === 'ExpressionStatement'
             && !astUtils.isDirective(node),
   },
@@ -374,7 +376,7 @@ module.exports = {
     docs: {
       description: 'Require or disallow padding lines between statements',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/padding-line-between-statements',
+      url: 'https://eslint.style/rules/js/padding-line-between-statements',
     },
 
     fixable: 'whitespace',

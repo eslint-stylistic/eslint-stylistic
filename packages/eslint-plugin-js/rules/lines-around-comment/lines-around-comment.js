@@ -57,7 +57,7 @@ module.exports = {
     docs: {
       description: 'Require empty lines around comments',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/lines-around-comment',
+      url: 'https://eslint.style/rules/js/lines-around-comment',
     },
 
     fixable: 'whitespace',

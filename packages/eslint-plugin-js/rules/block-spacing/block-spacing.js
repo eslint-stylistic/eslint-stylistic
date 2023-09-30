@@ -19,7 +19,7 @@ module.exports = {
     docs: {
       description: 'Disallow or enforce spaces inside of blocks after opening block and before closing block',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/block-spacing',
+      url: 'https://eslint.style/rules/js/block-spacing',
     },
 
     fixable: 'whitespace',
@@ -29,8 +29,8 @@ module.exports = {
     ],
 
     messages: {
-      missing: 'Requires a space {{location}} \'{{token}}\'.',
-      extra: 'Unexpected space(s) {{location}} \'{{token}}\'.',
+      missing: "Requires a space {{location}} '{{token}}'.",
+      extra: "Unexpected space(s) {{location}} '{{token}}'.",
     },
   },
 

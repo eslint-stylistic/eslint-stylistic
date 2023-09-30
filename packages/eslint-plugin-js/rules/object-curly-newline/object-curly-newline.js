@@ -155,7 +155,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent line breaks after opening and before closing braces',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/object-curly-newline',
+      url: 'https://eslint.style/rules/js/object-curly-newline',
     },
 
     fixable: 'whitespace',

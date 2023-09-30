@@ -68,7 +68,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent spacing before and after keywords',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/keyword-spacing',
+      url: 'https://eslint.style/rules/js/keyword-spacing',
     },
 
     fixable: 'whitespace',
@@ -619,7 +619,7 @@ module.exports = {
       'Property': checkSpacingForProperty,
 
       // To avoid conflicts with `space-infix-ops`, e.g. `a > this.b`
-      'BinaryExpression[operator=\'>\']': function (node) {
+      "BinaryExpression[operator='>']": function (node) {
         const operatorToken = sourceCode.getTokenBefore(node.right, astUtils.isNotOpeningParenToken)
 
         tokensToIgnore.add(operatorToken)

@@ -163,7 +163,8 @@ export default createRule<Options, MessageIds>({
             end: rightToken.loc.start,
           },
           messageId: 'unexpected',
-          fix: fixer => fixer.removeRange([leftToken.range[1], rightToken.range[0]]),
+          fix: fixer =>
+            fixer.removeRange([leftToken.range[1], rightToken.range[0]]),
         })
       }
       else if (

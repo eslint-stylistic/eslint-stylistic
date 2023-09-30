@@ -19,7 +19,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent spacing before and after semicolons',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/semi-spacing',
+      url: 'https://eslint.style/rules/js/semi-spacing',
     },
 
     fixable: 'whitespace',

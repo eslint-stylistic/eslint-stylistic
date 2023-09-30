@@ -149,7 +149,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent spacing after the `//` or `/*` in a comment',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/spaced-comment',
+      url: 'https://eslint.style/rules/js/spaced-comment',
     },
 
     fixable: 'whitespace',
@@ -220,11 +220,11 @@ module.exports = {
 
     messages: {
       unexpectedSpaceAfterMarker: 'Unexpected space or tab after marker ({{refChar}}) in comment.',
-      expectedExceptionAfter: 'Expected exception block, space or tab after \'{{refChar}}\' in comment.',
-      unexpectedSpaceBefore: 'Unexpected space or tab before \'*/\' in comment.',
-      unexpectedSpaceAfter: 'Unexpected space or tab after \'{{refChar}}\' in comment.',
-      expectedSpaceBefore: 'Expected space or tab before \'*/\' in comment.',
-      expectedSpaceAfter: 'Expected space or tab after \'{{refChar}}\' in comment.',
+      expectedExceptionAfter: "Expected exception block, space or tab after '{{refChar}}' in comment.",
+      unexpectedSpaceBefore: "Unexpected space or tab before '*/' in comment.",
+      unexpectedSpaceAfter: "Unexpected space or tab after '{{refChar}}' in comment.",
+      expectedSpaceBefore: "Expected space or tab before '*/' in comment.",
+      expectedSpaceAfter: "Expected space or tab after '{{refChar}}' in comment.",
     },
   },
 

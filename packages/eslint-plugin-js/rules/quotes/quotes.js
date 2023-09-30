@@ -18,11 +18,11 @@ const astUtils = require('../../utils/ast-utils')
 const QUOTE_SETTINGS = {
   double: {
     quote: '"',
-    alternateQuote: '\'',
+    alternateQuote: "'",
     description: 'doublequote',
   },
   single: {
-    quote: '\'',
+    quote: "'",
     alternateQuote: '"',
     description: 'singlequote',
   },
@@ -82,7 +82,7 @@ module.exports = {
     docs: {
       description: 'Enforce the consistent use of either backticks, double, or single quotes',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/quotes',
+      url: 'https://eslint.style/rules/js/quotes',
     },
 
     fixable: 'code',

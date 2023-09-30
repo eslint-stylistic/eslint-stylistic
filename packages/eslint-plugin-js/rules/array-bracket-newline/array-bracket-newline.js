@@ -19,7 +19,7 @@ module.exports = {
     docs: {
       description: 'Enforce linebreaks after opening and before closing array brackets',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/array-bracket-newline',
+      url: 'https://eslint.style/rules/js/array-bracket-newline',
     },
 
     fixable: 'whitespace',
@@ -48,10 +48,10 @@ module.exports = {
     ],
 
     messages: {
-      unexpectedOpeningLinebreak: 'There should be no linebreak after \'[\'.',
-      unexpectedClosingLinebreak: 'There should be no linebreak before \']\'.',
-      missingOpeningLinebreak: 'A linebreak is required after \'[\'.',
-      missingClosingLinebreak: 'A linebreak is required before \']\'.',
+      unexpectedOpeningLinebreak: "There should be no linebreak after '['.",
+      unexpectedClosingLinebreak: "There should be no linebreak before ']'.",
+      missingOpeningLinebreak: "A linebreak is required after '['.",
+      missingClosingLinebreak: "A linebreak is required before ']'.",
     },
   },
 

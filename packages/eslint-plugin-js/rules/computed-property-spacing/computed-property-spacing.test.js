@@ -23,20 +23,20 @@ ruleTester.run('computed-property-spacing', rule, {
 
     // default - never
     'obj[foo]',
-    'obj[\'foo\']',
+    "obj['foo']",
     { code: 'var x = {[b]: a}', parserOptions: { ecmaVersion: 6 } },
 
     // always
     { code: 'obj[ foo ]', options: ['always'] },
     { code: 'obj[\nfoo\n]', options: ['always'] },
-    { code: 'obj[ \'foo\' ]', options: ['always'] },
-    { code: 'obj[ \'foo\' + \'bar\' ]', options: ['always'] },
+    { code: "obj[ 'foo' ]", options: ['always'] },
+    { code: "obj[ 'foo' + 'bar' ]", options: ['always'] },
     { code: 'obj[ obj2[ foo ] ]', options: ['always'] },
     { code: 'obj.map(function(item) { return [\n1,\n2,\n3,\n4\n]; })', options: ['always'] },
-    { code: 'obj[ \'map\' ](function(item) { return [\n1,\n2,\n3,\n4\n]; })', options: ['always'] },
-    { code: 'obj[ \'for\' + \'Each\' ](function(item) { return [\n1,\n2,\n3,\n4\n]; })', options: ['always'] },
+    { code: "obj[ 'map' ](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ['always'] },
+    { code: "obj[ 'for' + 'Each' ](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ['always'] },
     { code: 'var foo = obj[ 1 ]', options: ['always'] },
-    { code: 'var foo = obj[ \'foo\' ];', options: ['always'] },
+    { code: "var foo = obj[ 'foo' ];", options: ['always'] },
     { code: 'var foo = obj[ [1, 1] ];', options: ['always'] },
 
     // always - objectLiteralComputedProperties
@@ -51,17 +51,17 @@ ruleTester.run('computed-property-spacing', rule, {
 
     // never
     { code: 'obj[foo]', options: ['never'] },
-    { code: 'obj[\'foo\']', options: ['never'] },
-    { code: 'obj[\'foo\' + \'bar\']', options: ['never'] },
-    { code: 'obj[\'foo\'+\'bar\']', options: ['never'] },
+    { code: "obj['foo']", options: ['never'] },
+    { code: "obj['foo' + 'bar']", options: ['never'] },
+    { code: "obj['foo'+'bar']", options: ['never'] },
     { code: 'obj[obj2[foo]]', options: ['never'] },
     { code: 'obj.map(function(item) { return [\n1,\n2,\n3,\n4\n]; })', options: ['never'] },
-    { code: 'obj[\'map\'](function(item) { return [\n1,\n2,\n3,\n4\n]; })', options: ['never'] },
-    { code: 'obj[\'for\' + \'Each\'](function(item) { return [\n1,\n2,\n3,\n4\n]; })', options: ['never'] },
+    { code: "obj['map'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ['never'] },
+    { code: "obj['for' + 'Each'](function(item) { return [\n1,\n2,\n3,\n4\n]; })", options: ['never'] },
     { code: 'obj[\nfoo]', options: ['never'] },
     { code: 'obj[foo\n]', options: ['never'] },
     { code: 'var foo = obj[1]', options: ['never'] },
-    { code: 'var foo = obj[\'foo\'];', options: ['never'] },
+    { code: "var foo = obj['foo'];", options: ['never'] },
     { code: 'var foo = obj[[ 1, 1 ]];', options: ['never'] },
 
     // never - objectLiteralComputedProperties

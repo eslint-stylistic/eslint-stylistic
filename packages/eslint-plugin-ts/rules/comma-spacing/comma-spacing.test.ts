@@ -13,14 +13,14 @@ const ruleTester = new RuleTester({
 
 ruleTester.run('comma-spacing', rule, {
   valid: [
-    'foo(1, true/* comment */, \'text\');',
-    'foo(1, true /* comment */, \'text\');',
-    'foo(1, true/* comment *//* comment */, \'text\');',
-    'foo(1, true/* comment */ /* comment */, \'text\');',
-    'foo(1, true, /* comment */ \'text\');',
-    'foo(1, // comment\n true, /* comment */ \'text\');',
+    "foo(1, true/* comment */, 'text');",
+    "foo(1, true /* comment */, 'text');",
+    "foo(1, true/* comment *//* comment */, 'text');",
+    "foo(1, true/* comment */ /* comment */, 'text');",
+    "foo(1, true, /* comment */ 'text');",
+    "foo(1, // comment\n true, /* comment */ 'text');",
     {
-      code: 'foo(1, // comment\n true,/* comment */ \'text\');',
+      code: "foo(1, // comment\n true,/* comment */ 'text');",
       options: [{ before: false, after: false }],
     },
     'const a = 1, b = 2;',
@@ -36,9 +36,9 @@ ruleTester.run('comma-spacing', rule, {
     'const foo = [, 2, 3];',
     'const foo = [1, , 3];',
     'const foo = [1, 2, 3];',
-    'const foo = {\'foo\':\'foo\', \'baz\':\'baz\'};',
-    'const foo = {\'foo\':\'foo\', \'baz\':\n\'baz\'};',
-    'const foo = {\'foo\':\n\'foo\', \'baz\':\n\'baz\'};',
+    "const foo = {'foo':'foo', 'baz':'baz'};",
+    "const foo = {'foo':'foo', 'baz':\n'baz'};",
+    "const foo = {'foo':\n'foo', 'baz':\n'baz'};",
     'function foo(a, b){}',
     'function foo(a, b = 1){}',
     'function foo(a = 1, b, c){}',
@@ -55,19 +55,19 @@ ruleTester.run('comma-spacing', rule, {
     'go.boom((a + b), 10)',
     'go.boom((a + b), 10, (4))',
     'const x = [ (a + c), (b + b) ]',
-    '[\'  ,  \']',
+    "['  ,  ']",
     '[`  ,  `]',
     '`${[1, 2]}`',
     'fn(a, b,)',
     'const fn = (a, b,) => {}',
     'const fn = function (a, b,) {}',
-    'foo(/,/, \'a\')',
-    'const x = \',,,,,\';',
-    'const code = \'var foo = 1, bar = 3;\'',
-    '[\'apples\', \n \'oranges\'];',
-    '{x: \'var x,y,z\'}',
+    "foo(/,/, 'a')",
+    "const x = ',,,,,';",
+    "const code = 'var foo = 1, bar = 3;'",
+    "['apples', \n 'oranges'];",
+    "{x: 'var x,y,z'}",
     {
-      code: 'const foo = {\'foo\':\n\'bar\' ,\'baz\':\n\'qur\'};',
+      code: "const foo = {'foo':\n'bar' ,'baz':\n'qur'};",
       options: [{ before: true, after: false }],
     },
     {
@@ -127,7 +127,7 @@ ruleTester.run('comma-spacing', rule, {
       options: [{ before: true, after: false }],
     },
     {
-      code: 'const obj = {\'foo\':\'bar\' , \'baz\':\'qur\'};',
+      code: "const obj = {'foo':'bar' , 'baz':'qur'};",
       options: [{ before: true, after: true }],
     },
     {
@@ -298,8 +298,8 @@ ruleTester.run('comma-spacing', rule, {
     'const arr = [,, 3];',
     'const arr = [1, 2, 3,];',
     'const arr = [1, 2, 3, ];',
-    'const obj = {\'foo\':\'bar\', \'baz\':\'qur\', };',
-    'const obj = {\'foo\':\'bar\', \'baz\':\'qur\',};',
+    "const obj = {'foo':'bar', 'baz':'qur', };",
+    "const obj = {'foo':'bar', 'baz':'qur',};",
     { code: 'const arr = [ ,];', options: [{ before: true, after: false }] },
     { code: 'const arr = [, ];', options: [{ before: true, after: false }] },
     { code: 'const arr = [ , ];', options: [{ before: true, after: false }] },
@@ -439,7 +439,7 @@ ruleTester.run('comma-spacing', rule, {
           data: { loc: 'before' },
         },
         {
-          messageId: 'missing',
+          messageId: `missing`,
           column: 16,
           line: 1,
           data: { loc: 'after' },
@@ -504,8 +504,8 @@ ruleTester.run('comma-spacing', rule, {
       ],
     },
     {
-      code: 'const obj = {\'foo\':\n\'bar\', \'baz\':\n\'qur\'};',
-      output: 'const obj = {\'foo\':\n\'bar\' ,\'baz\':\n\'qur\'};',
+      code: "const obj = {'foo':\n'bar', 'baz':\n'qur'};",
+      output: "const obj = {'foo':\n'bar' ,'baz':\n'qur'};",
       options: [{ before: true, after: false }],
       errors: [
         {
@@ -581,8 +581,8 @@ ruleTester.run('comma-spacing', rule, {
       ],
     },
     {
-      code: 'const obj = {\'foo\':\n\'bar\',\'baz\':\n\'qur\'};',
-      output: 'const obj = {\'foo\':\n\'bar\' , \'baz\':\n\'qur\'};',
+      code: "const obj = {'foo':\n'bar','baz':\n'qur'};",
+      output: "const obj = {'foo':\n'bar' , 'baz':\n'qur'};",
       options: [{ before: true, after: true }],
       errors: [
         {
@@ -735,8 +735,8 @@ ruleTester.run('comma-spacing', rule, {
       ],
     },
     {
-      code: 'foo(1, true/* comment */ , \'foo\');',
-      output: 'foo(1, true/* comment */, \'foo\');',
+      code: "foo(1, true/* comment */ , 'foo');",
+      output: "foo(1, true/* comment */, 'foo');",
       errors: [
         {
           messageId: 'unexpected',
@@ -747,8 +747,8 @@ ruleTester.run('comma-spacing', rule, {
       ],
     },
     {
-      code: 'foo(1, true,/* comment */ \'foo\');',
-      output: 'foo(1, true, /* comment */ \'foo\');',
+      code: "foo(1, true,/* comment */ 'foo');",
+      output: "foo(1, true, /* comment */ 'foo');",
       errors: [
         {
           messageId: 'missing',
@@ -759,8 +759,8 @@ ruleTester.run('comma-spacing', rule, {
       ],
     },
     {
-      code: 'foo(404,// comment\n true, \'hello\');',
-      output: 'foo(404, // comment\n true, \'hello\');',
+      code: "foo(404,// comment\n true, 'hello');",
+      output: "foo(404, // comment\n true, 'hello');",
       errors: [
         {
           messageId: 'missing',

@@ -23,7 +23,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent linebreak style for operators',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/operator-linebreak',
+      url: 'https://eslint.style/rules/js/operator-linebreak',
     },
 
     schema: [
@@ -47,10 +47,10 @@ module.exports = {
     fixable: 'code',
 
     messages: {
-      operatorAtBeginning: '\'{{operator}}\' should be placed at the beginning of the line.',
-      operatorAtEnd: '\'{{operator}}\' should be placed at the end of the line.',
-      badLinebreak: 'Bad line breaking before and after \'{{operator}}\'.',
-      noLinebreak: 'There should be no line break before or after \'{{operator}}\'.',
+      operatorAtBeginning: "'{{operator}}' should be placed at the beginning of the line.",
+      operatorAtEnd: "'{{operator}}' should be placed at the end of the line.",
+      badLinebreak: "Bad line breaking before and after '{{operator}}'.",
+      noLinebreak: "There should be no line break before or after '{{operator}}'.",
     },
   },
 

@@ -18,7 +18,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent spacing inside braces',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/object-curly-spacing',
+      url: 'https://eslint.style/rules/js/object-curly-spacing',
     },
 
     fixable: 'whitespace',
@@ -42,10 +42,10 @@ module.exports = {
     ],
 
     messages: {
-      requireSpaceBefore: 'A space is required before \'{{token}}\'.',
-      requireSpaceAfter: 'A space is required after \'{{token}}\'.',
-      unexpectedSpaceBefore: 'There should be no space before \'{{token}}\'.',
-      unexpectedSpaceAfter: 'There should be no space after \'{{token}}\'.',
+      requireSpaceBefore: "A space is required before '{{token}}'.",
+      requireSpaceAfter: "A space is required after '{{token}}'.",
+      unexpectedSpaceBefore: "There should be no space before '{{token}}'.",
+      unexpectedSpaceAfter: "There should be no space after '{{token}}'.",
     },
   },
 

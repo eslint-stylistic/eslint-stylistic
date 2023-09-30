@@ -23,7 +23,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent linebreak style',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/linebreak-style',
+      url: 'https://eslint.style/rules/js/linebreak-style',
     },
 
     fixable: 'whitespace',
@@ -34,8 +34,8 @@ module.exports = {
       },
     ],
     messages: {
-      expectedLF: 'Expected linebreaks to be \'LF\' but found \'CRLF\'.',
-      expectedCRLF: 'Expected linebreaks to be \'CRLF\' but found \'LF\'.',
+      expectedLF: "Expected linebreaks to be 'LF' but found 'CRLF'.",
+      expectedCRLF: "Expected linebreaks to be 'CRLF' but found 'LF'.",
     },
   },
 

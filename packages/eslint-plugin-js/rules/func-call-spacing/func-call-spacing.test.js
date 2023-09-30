@@ -36,7 +36,7 @@ ruleTester.run('func-call-spacing', rule, {
     '( f()() )(0)',
     '(function(){ if (foo) { bar(); } }());',
     'f(0, (1))',
-    'describe/**/(\'foo\', function () {});',
+    "describe/**/('foo', function () {});",
     'new (foo())',
     {
       code: 'import(source)',
@@ -101,7 +101,7 @@ ruleTester.run('func-call-spacing', rule, {
       options: ['never'],
     },
     {
-      code: 'describe/**/(\'foo\', function () {});',
+      code: "describe/**/('foo', function () {});",
       options: ['never'],
     },
     {

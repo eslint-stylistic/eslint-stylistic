@@ -490,7 +490,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent indentation',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/indent',
+      url: 'https://eslint.style/rules/js/indent',
     },
 
     fixable: 'whitespace',

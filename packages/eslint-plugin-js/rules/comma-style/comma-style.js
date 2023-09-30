@@ -19,7 +19,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent comma style',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/comma-style',
+      url: 'https://eslint.style/rules/js/comma-style',
     },
 
     fixable: 'code',
@@ -43,9 +43,9 @@ module.exports = {
     ],
 
     messages: {
-      unexpectedLineBeforeAndAfterComma: 'Bad line breaking before and after \',\'.',
-      expectedCommaFirst: '\',\' should be placed first.',
-      expectedCommaLast: '\',\' should be placed last.',
+      unexpectedLineBeforeAndAfterComma: "Bad line breaking before and after ','.",
+      expectedCommaFirst: "',' should be placed first.",
+      expectedCommaLast: "',' should be placed last.",
     },
   },
 

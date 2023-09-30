@@ -136,7 +136,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent spacing between keys and values in object literal properties',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/key-spacing',
+      url: 'https://eslint.style/rules/js/key-spacing',
     },
 
     fixable: 'whitespace',
@@ -301,10 +301,10 @@ module.exports = {
       ],
     }],
     messages: {
-      extraKey: 'Extra space after {{computed}}key \'{{key}}\'.',
-      extraValue: 'Extra space before value for {{computed}}key \'{{key}}\'.',
-      missingKey: 'Missing space after {{computed}}key \'{{key}}\'.',
-      missingValue: 'Missing space before value for {{computed}}key \'{{key}}\'.',
+      extraKey: "Extra space after {{computed}}key '{{key}}'.",
+      extraValue: "Extra space before value for {{computed}}key '{{key}}'.",
+      missingKey: "Missing space after {{computed}}key '{{key}}'.",
+      missingValue: "Missing space before value for {{computed}}key '{{key}}'.",
     },
   },
 

@@ -37,9 +37,6 @@ const commonRules = [
   'space-before-blocks',
   'space-before-function-paren',
   'space-infix-ops',
-
-  // Discuraged in typescript-eslint, but not deprecated in ESLint
-  // Waiting for the coordination
   'comma-dangle',
   'quotes',
   'semi',
@@ -55,16 +52,26 @@ const jsRules = [
   'comma-style',
   'computed-property-spacing',
   'dot-location',
+  'eol-last',
   'function-call-argument-newline',
   'function-paren-newline',
   'generator-star-spacing',
   'implicit-arrow-linebreak',
+  'jsx-quotes',
   'linebreak-style',
   'lines-around-directive',
+  'max-len',
+  'max-statements-per-line',
   'multiline-ternary',
+  'new-parens',
   'newline-after-var',
   'newline-before-return',
   'newline-per-chained-call',
+  'no-confusing-arrow',
+  'no-extra-parens',
+  'no-extra-semi',
+  'no-floating-decimal',
+  'no-mixed-operators',
   'no-mixed-spaces-and-tabs',
   'no-multi-spaces',
   'no-multiple-empty-lines',
@@ -78,6 +85,7 @@ const jsRules = [
   'one-var-declaration-per-line',
   'operator-linebreak',
   'padded-blocks',
+  'quote-props',
   'rest-spread-spacing',
   'semi-spacing',
   'semi-style',
@@ -87,6 +95,8 @@ const jsRules = [
   'switch-colon-spacing',
   'template-curly-spacing',
   'template-tag-spacing',
+  'wrap-iife',
+  'wrap-regex',
   'yield-star-spacing',
 ]
 
@@ -125,6 +135,10 @@ async function migrateJS() {
         .replaceAll(
           'require("./utils/ast-utils")',
           'require("../../utils/ast-utils")',
+        )
+        .replaceAll(
+          'https://eslint.org/docs/latest/rules/',
+          'https://eslint.style/rules/js/',
         )
         .replaceAll(
           'import(\'../shared/types\').Rule',
@@ -222,8 +236,8 @@ async function migrateTS() {
           '',
         )
         .replaceAll(
-          'eslint-disable-next-line ts/',
-          '',
+          ' @typescript-eslint/',
+          ' ts/',
         )
       // js = `// @ts-check\n${js}`
       await fs.writeFile(join(target, name, `${name}.ts`), js, 'utf-8')

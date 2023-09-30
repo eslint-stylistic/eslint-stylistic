@@ -22,7 +22,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent spacing before and after the arrow in arrow functions',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/arrow-spacing',
+      url: 'https://eslint.style/rules/js/arrow-spacing',
     },
 
     fixable: 'whitespace',

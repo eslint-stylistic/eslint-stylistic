@@ -24,7 +24,7 @@ module.exports = {
     docs: {
       description: 'Disallow all tabs',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/no-tabs',
+      url: 'https://eslint.style/rules/js/no-tabs',
     },
     schema: [{
       type: 'object',

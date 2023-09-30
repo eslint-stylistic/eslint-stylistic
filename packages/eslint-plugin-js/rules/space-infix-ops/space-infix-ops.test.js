@@ -37,7 +37,7 @@ ruleTester.run('space-infix-ops', rule, {
     'a = b',
     'a ? b : c',
     'var a = b',
-    { code: 'const my_object = {key: \'value\'};', parserOptions: { ecmaVersion: 6 } },
+    { code: "const my_object = {key: 'value'};", parserOptions: { ecmaVersion: 6 } },
     { code: 'var {a = 0} = bar;', parserOptions: { ecmaVersion: 6 } },
     { code: 'function foo(a = 0) { }', parserOptions: { ecmaVersion: 6 } },
     { code: 'a ** b', parserOptions: { ecmaVersion: 7 } },
@@ -47,7 +47,7 @@ ruleTester.run('space-infix-ops', rule, {
     // Type Annotations
     { code: 'function foo(a: number = 0) { }', parser: parser('type-annotations/function-parameter-type-annotation'), parserOptions: { ecmaVersion: 6 } },
     { code: 'function foo(): Bar { }', parser: parser('type-annotations/function-return-type-annotation'), parserOptions: { ecmaVersion: 6 } },
-    { code: 'var foo: Bar = \'\';', parser: parser('type-annotations/variable-declaration-init-type-annotation'), parserOptions: { ecmaVersion: 6 } },
+    { code: "var foo: Bar = '';", parser: parser('type-annotations/variable-declaration-init-type-annotation'), parserOptions: { ecmaVersion: 6 } },
     { code: 'const foo = function(a: number = 0): Bar { };', parser: parser('type-annotations/function-expression-type-annotation'), parserOptions: { ecmaVersion: 6 } },
 
     // TypeScript Type Aliases
@@ -61,7 +61,7 @@ ruleTester.run('space-infix-ops', rule, {
     // Class Fields
     { code: 'class C { a; }', parserOptions: { ecmaVersion: 2022 } },
     { code: 'class C { a = b; }', parserOptions: { ecmaVersion: 2022 } },
-    { code: 'class C { \'a\' = b; }', parserOptions: { ecmaVersion: 2022 } },
+    { code: "class C { 'a' = b; }", parserOptions: { ecmaVersion: 2022 } },
     { code: 'class C { [a] = b; }', parserOptions: { ecmaVersion: 2022 } },
     { code: 'class C { #a = b; }', parserOptions: { ecmaVersion: 2022 } },
   ],
@@ -401,8 +401,8 @@ ruleTester.run('space-infix-ops', rule, {
       }],
     },
     {
-      code: 'const my_object={key: \'value\'}',
-      output: 'const my_object = {key: \'value\'}',
+      code: "const my_object={key: 'value'}",
+      output: "const my_object = {key: 'value'}",
       parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'missingSpace',
@@ -455,8 +455,8 @@ ruleTester.run('space-infix-ops', rule, {
       }],
     },
     {
-      code: '\'foo\'in{}',
-      output: '\'foo\' in {}',
+      code: "'foo'in{}",
+      output: "'foo' in {}",
       errors: [{
         messageId: 'missingSpace',
         data: { operator: 'in' },
@@ -466,8 +466,8 @@ ruleTester.run('space-infix-ops', rule, {
       }],
     },
     {
-      code: '\'foo\'instanceof{}',
-      output: '\'foo\' instanceof {}',
+      code: "'foo'instanceof{}",
+      output: "'foo' instanceof {}",
       errors: [{
         messageId: 'missingSpace',
         data: { operator: 'instanceof' },

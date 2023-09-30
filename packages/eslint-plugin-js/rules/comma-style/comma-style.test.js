@@ -21,17 +21,17 @@ ruleTester.run('comma-style', rule, {
 
   valid: [
     'var foo = 1, bar = 3;',
-    'var foo = {\'a\': 1, \'b\': 2};',
+    "var foo = {'a': 1, 'b': 2};",
     'var foo = [1, 2];',
     'var foo = [, 2];',
     'var foo = [1, ];',
-    'var foo = [\'apples\', \n \'oranges\'];',
-    'var foo = {\'a\': 1, \n \'b\': 2, \n\'c\': 3};',
-    'var foo = {\'a\': 1, \n \'b\': 2, \'c\':\n 3};',
-    'var foo = {\'a\': 1, \n \'b\': 2, \'c\': [{\'d\': 1}, \n {\'e\': 2}, \n {\'f\': 3}]};',
+    "var foo = ['apples', \n 'oranges'];",
+    "var foo = {'a': 1, \n 'b': 2, \n'c': 3};",
+    "var foo = {'a': 1, \n 'b': 2, 'c':\n 3};",
+    "var foo = {'a': 1, \n 'b': 2, 'c': [{'d': 1}, \n {'e': 2}, \n {'f': 3}]};",
     'var foo = [1, \n2, \n3];',
     'function foo(){var a=[1,\n 2]}',
-    'function foo(){return {\'a\': 1,\n\'b\': 2}}',
+    "function foo(){return {'a': 1,\n'b': 2}}",
     'var foo = \n1, \nbar = \n2;',
     'var foo = [\n(bar),\nbaz\n];',
     'var foo = [\n(bar\n),\nbaz\n];',
@@ -39,30 +39,30 @@ ruleTester.run('comma-style', rule, {
     'new Foo(a\n,b);',
     { code: 'var foo = [\n(bar\n)\n,baz\n];', options: ['first'] },
     'var foo = \n1, \nbar = [1,\n2,\n3]',
-    { code: 'var foo = [\'apples\'\n,\'oranges\'];', options: ['first'] },
+    { code: "var foo = ['apples'\n,'oranges'];", options: ['first'] },
     { code: 'var foo = 1, bar = 2;', options: ['first'] },
     { code: 'var foo = 1 \n ,bar = 2;', options: ['first'] },
-    { code: 'var foo = {\'a\': 1 \n ,\'b\': 2 \n,\'c\': 3};', options: ['first'] },
+    { code: "var foo = {'a': 1 \n ,'b': 2 \n,'c': 3};", options: ['first'] },
     { code: 'var foo = [1 \n ,2 \n, 3];', options: ['first'] },
-    { code: 'function foo(){return {\'a\': 1\n,\'b\': 2}}', options: ['first'] },
+    { code: "function foo(){return {'a': 1\n,'b': 2}}", options: ['first'] },
     { code: 'function foo(){var a=[1\n, 2]}', options: ['first'] },
     { code: 'new Foo(a,\nb);', options: ['first'] },
     'f(1\n, 2);',
     'function foo(a\n, b) { return a + b; }',
     {
-      code: 'var a = \'a\',\no = \'o\';',
+      code: "var a = 'a',\no = 'o';",
       options: ['first', { exceptions: { VariableDeclaration: true } }],
     },
     {
-      code: 'var arr = [\'a\',\n\'o\'];',
+      code: "var arr = ['a',\n'o'];",
       options: ['first', { exceptions: { ArrayExpression: true } }],
     },
     {
-      code: 'var obj = {a: \'a\',\nb: \'b\'};',
+      code: "var obj = {a: 'a',\nb: 'b'};",
       options: ['first', { exceptions: { ObjectExpression: true } }],
     },
     {
-      code: 'var a = \'a\',\no = \'o\',\narr = [1,\n2];',
+      code: "var a = 'a',\no = 'o',\narr = [1,\n2];",
       options: ['first', { exceptions: { VariableDeclaration: true, ArrayExpression: true } }],
     },
     {
@@ -70,7 +70,7 @@ ruleTester.run('comma-style', rule, {
       options: ['first', { exceptions: { ArrayExpression: true, ObjectExpression: true } }],
     },
     {
-      code: 'var a = \'a\',\nar ={fst:1,\nsnd: [1,\n2]};',
+      code: "var a = 'a',\nar ={fst:1,\nsnd: [1,\n2]};",
       options: ['first', {
         exceptions: {
           ArrayExpression: true,
@@ -98,7 +98,7 @@ ruleTester.run('comma-style', rule, {
       },
     },
     {
-      code: 'import { a\n, b } from \'./source\';',
+      code: "import { a\n, b } from './source';",
       parserOptions: {
         ecmaVersion: 6,
         sourceType: 'module',
@@ -111,13 +111,13 @@ ruleTester.run('comma-style', rule, {
       },
     },
     {
-      code: 'var {foo\n, bar} = {foo:\'apples\', bar:\'oranges\'};',
+      code: "var {foo\n, bar} = {foo:'apples', bar:'oranges'};",
       parserOptions: {
         ecmaVersion: 6,
       },
     },
     {
-      code: 'var {foo\n, bar} = {foo:\'apples\', bar:\'oranges\'};',
+      code: "var {foo\n, bar} = {foo:'apples', bar:'oranges'};",
       options: ['first', {
         exceptions: {
           ObjectPattern: true,
@@ -196,7 +196,7 @@ ruleTester.run('comma-style', rule, {
       },
     },
     {
-      code: 'import { a\n, b } from \'./source\';',
+      code: "import { a\n, b } from './source';",
       options: ['last', {
         exceptions: {
           ImportDeclaration: true,
@@ -208,7 +208,7 @@ ruleTester.run('comma-style', rule, {
       },
     },
     {
-      code: 'var {foo\n, bar} = {foo:\'apples\', bar:\'oranges\'};',
+      code: "var {foo\n, bar} = {foo:'apples', bar:'oranges'};",
       options: ['last', {
         exceptions: {
           ObjectPattern: true,
@@ -265,7 +265,7 @@ ruleTester.run('comma-style', rule, {
       },
     },
     {
-      code: 'const arr = [\n ,\'fifi\' \n]',
+      code: "const arr = [\n ,'fifi' \n]",
       options: ['first'],
       parserOptions: {
         ecmaVersion: 6,
@@ -360,16 +360,16 @@ ruleTester.run('comma-style', rule, {
       }],
     },
     {
-      code: 'var foo = [\'apples\'\n, \'oranges\'];',
-      output: 'var foo = [\'apples\',\n \'oranges\'];',
+      code: "var foo = ['apples'\n, 'oranges'];",
+      output: "var foo = ['apples',\n 'oranges'];",
       errors: [{
         messageId: 'expectedCommaLast',
         type: 'Literal',
       }],
     },
     {
-      code: 'var [foo\n, bar] = [\'apples\', \'oranges\'];',
-      output: 'var [foo,\n bar] = [\'apples\', \'oranges\'];',
+      code: "var [foo\n, bar] = ['apples', 'oranges'];",
+      output: "var [foo,\n bar] = ['apples', 'oranges'];",
       options: ['last', {
         exceptions: {
           ArrayPattern: false,
@@ -475,8 +475,8 @@ ruleTester.run('comma-style', rule, {
       }],
     },
     {
-      code: 'import { a\n, b } from \'./source\';',
-      output: 'import { a,\n b } from \'./source\';',
+      code: "import { a\n, b } from './source';",
+      output: "import { a,\n b } from './source';",
       options: ['last', {
         exceptions: {
           ImportDeclaration: false,
@@ -492,8 +492,8 @@ ruleTester.run('comma-style', rule, {
       }],
     },
     {
-      code: 'var {foo\n, bar} = {foo:\'apples\', bar:\'oranges\'};',
-      output: 'var {foo,\n bar} = {foo:\'apples\', bar:\'oranges\'};',
+      code: "var {foo\n, bar} = {foo:'apples', bar:'oranges'};",
+      output: "var {foo,\n bar} = {foo:'apples', bar:'oranges'};",
       options: ['last', {
         exceptions: {
           ObjectPattern: false,
@@ -528,8 +528,8 @@ ruleTester.run('comma-style', rule, {
       }],
     },
     {
-      code: 'var foo = [\'apples\', \n \'oranges\'];',
-      output: 'var foo = [\'apples\' \n ,\'oranges\'];',
+      code: "var foo = ['apples', \n 'oranges'];",
+      output: "var foo = ['apples' \n ,'oranges'];",
       options: ['first'],
       errors: [{
         messageId: 'expectedCommaFirst',
@@ -537,8 +537,8 @@ ruleTester.run('comma-style', rule, {
       }],
     },
     {
-      code: 'var foo = {\'a\': 1, \n \'b\': 2\n ,\'c\': 3};',
-      output: 'var foo = {\'a\': 1 \n ,\'b\': 2\n ,\'c\': 3};',
+      code: "var foo = {'a': 1, \n 'b': 2\n ,'c': 3};",
+      output: "var foo = {'a': 1 \n ,'b': 2\n ,'c': 3};",
       options: ['first'],
       errors: [{
         messageId: 'expectedCommaFirst',
@@ -546,8 +546,8 @@ ruleTester.run('comma-style', rule, {
       }],
     },
     {
-      code: 'var a = \'a\',\no = \'o\',\narr = [1,\n2];',
-      output: 'var a = \'a\',\no = \'o\',\narr = [1\n,2];',
+      code: "var a = 'a',\no = 'o',\narr = [1,\n2];",
+      output: "var a = 'a',\no = 'o',\narr = [1\n,2];",
       options: ['first', { exceptions: { VariableDeclaration: true } }],
       errors: [{
         messageId: 'expectedCommaFirst',
@@ -555,8 +555,8 @@ ruleTester.run('comma-style', rule, {
       }],
     },
     {
-      code: 'var a = \'a\',\nobj = {a: \'a\',\nb: \'b\'};',
-      output: 'var a = \'a\',\nobj = {a: \'a\'\n,b: \'b\'};',
+      code: "var a = 'a',\nobj = {a: 'a',\nb: 'b'};",
+      output: "var a = 'a',\nobj = {a: 'a'\n,b: 'b'};",
       options: ['first', { exceptions: { VariableDeclaration: true } }],
       errors: [{
         messageId: 'expectedCommaFirst',
@@ -564,8 +564,8 @@ ruleTester.run('comma-style', rule, {
       }],
     },
     {
-      code: 'var a = \'a\',\nobj = {a: \'a\',\nb: \'b\'};',
-      output: 'var a = \'a\'\n,obj = {a: \'a\',\nb: \'b\'};',
+      code: "var a = 'a',\nobj = {a: 'a',\nb: 'b'};",
+      output: "var a = 'a'\n,obj = {a: 'a',\nb: 'b'};",
       options: ['first', { exceptions: { ObjectExpression: true } }],
       errors: [{
         messageId: 'expectedCommaFirst',
@@ -573,8 +573,8 @@ ruleTester.run('comma-style', rule, {
       }],
     },
     {
-      code: 'var a = \'a\',\narr = [1,\n2];',
-      output: 'var a = \'a\'\n,arr = [1,\n2];',
+      code: "var a = 'a',\narr = [1,\n2];",
+      output: "var a = 'a'\n,arr = [1,\n2];",
       options: ['first', { exceptions: { ArrayExpression: true } }],
       errors: [{
         messageId: 'expectedCommaFirst',
@@ -582,8 +582,8 @@ ruleTester.run('comma-style', rule, {
       }],
     },
     {
-      code: 'var ar =[1,\n{a: \'a\',\nb: \'b\'}];',
-      output: 'var ar =[1,\n{a: \'a\'\n,b: \'b\'}];',
+      code: "var ar =[1,\n{a: 'a',\nb: 'b'}];",
+      output: "var ar =[1,\n{a: 'a'\n,b: 'b'}];",
       options: ['first', { exceptions: { ArrayExpression: true } }],
       errors: [{
         messageId: 'expectedCommaFirst',
@@ -591,8 +591,8 @@ ruleTester.run('comma-style', rule, {
       }],
     },
     {
-      code: 'var ar =[1,\n{a: \'a\',\nb: \'b\'}];',
-      output: 'var ar =[1\n,{a: \'a\',\nb: \'b\'}];',
+      code: "var ar =[1,\n{a: 'a',\nb: 'b'}];",
+      output: "var ar =[1\n,{a: 'a',\nb: 'b'}];",
       options: ['first', { exceptions: { ObjectExpression: true } }],
       errors: [{
         messageId: 'expectedCommaFirst',

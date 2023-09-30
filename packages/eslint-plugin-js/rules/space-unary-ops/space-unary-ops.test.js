@@ -761,8 +761,8 @@ ruleTester.run('space-unary-ops', rule, {
       }],
     },
     {
-      code: 'async function foo() { await{foo: \'bar\'} }',
-      output: 'async function foo() { await {foo: \'bar\'} }',
+      code: "async function foo() { await{foo: 'bar'} }",
+      output: "async function foo() { await {foo: 'bar'} }",
       parserOptions: { ecmaVersion: 8 },
       errors: [{
         messageId: 'wordOperator',
@@ -773,8 +773,8 @@ ruleTester.run('space-unary-ops', rule, {
       }],
     },
     {
-      code: 'async function foo() { await{baz: \'qux\'} }',
-      output: 'async function foo() { await {baz: \'qux\'} }',
+      code: "async function foo() { await{baz: 'qux'} }",
+      output: "async function foo() { await {baz: 'qux'} }",
       options: [{ words: false, overrides: { await: true } }],
       parserOptions: { ecmaVersion: 8 },
       errors: [{

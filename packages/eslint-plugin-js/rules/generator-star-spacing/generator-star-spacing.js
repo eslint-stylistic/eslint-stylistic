@@ -33,7 +33,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent spacing around `*` operators in generator functions',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/generator-star-spacing',
+      url: 'https://eslint.style/rules/js/generator-star-spacing',
     },
 
     fixable: 'whitespace',

@@ -19,7 +19,7 @@ module.exports = {
     docs: {
       description: 'Enforce consistent brace style for blocks',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/brace-style',
+      url: 'https://eslint.style/rules/js/brace-style',
     },
 
     schema: [

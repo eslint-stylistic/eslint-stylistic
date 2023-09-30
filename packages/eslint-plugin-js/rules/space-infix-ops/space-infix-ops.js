@@ -18,7 +18,7 @@ module.exports = {
     docs: {
       description: 'Require spacing around infix operators',
       recommended: false,
-      url: 'https://eslint.org/docs/latest/rules/space-infix-ops',
+      url: 'https://eslint.style/rules/js/space-infix-ops',
     },
 
     fixable: 'whitespace',
@@ -37,7 +37,7 @@ module.exports = {
     ],
 
     messages: {
-      missingSpace: 'Operator \'{{operator}}\' must be spaced.',
+      missingSpace: "Operator '{{operator}}' must be spaced.",
     },
   },
 

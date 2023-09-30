@@ -13,22 +13,32 @@
 | [`@stylistic/js/comma-style`](./rules/comma-style) | Enforce consistent comma style | ✅ |  |
 | [`@stylistic/js/computed-property-spacing`](./rules/computed-property-spacing) | Enforce consistent spacing inside computed property brackets | ✅ |  |
 | [`@stylistic/js/dot-location`](./rules/dot-location) | Enforce consistent newlines before and after dots | ✅ |  |
+| [`@stylistic/js/eol-last`](./rules/eol-last) | Require or disallow newline at the end of files | ✅ |  |
 | [`@stylistic/js/func-call-spacing`](./rules/func-call-spacing) | Require or disallow spacing between function identifiers and their invocations | ✅ |  |
 | [`@stylistic/js/function-call-argument-newline`](./rules/function-call-argument-newline) | Enforce line breaks between arguments of a function call | ✅ |  |
 | [`@stylistic/js/function-paren-newline`](./rules/function-paren-newline) | Enforce consistent line breaks inside function parentheses | ✅ |  |
 | [`@stylistic/js/generator-star-spacing`](./rules/generator-star-spacing) | Enforce consistent spacing around `*` operators in generator functions | ✅ |  |
 | [`@stylistic/js/implicit-arrow-linebreak`](./rules/implicit-arrow-linebreak) | Enforce the location of arrow function bodies | ✅ |  |
 | [`@stylistic/js/indent`](./rules/indent) | Enforce consistent indentation | ✅ |  |
+| [`@stylistic/js/jsx-quotes`](./rules/jsx-quotes) | Enforce the consistent use of either double or single quotes in JSX attributes | ✅ |  |
 | [`@stylistic/js/key-spacing`](./rules/key-spacing) | Enforce consistent spacing between keys and values in object literal properties | ✅ |  |
 | [`@stylistic/js/keyword-spacing`](./rules/keyword-spacing) | Enforce consistent spacing before and after keywords | ✅ |  |
 | [`@stylistic/js/linebreak-style`](./rules/linebreak-style) | Enforce consistent linebreak style | ✅ |  |
 | [`@stylistic/js/lines-around-comment`](./rules/lines-around-comment) | Require empty lines around comments | ✅ |  |
 | [`@stylistic/js/lines-around-directive`](./rules/lines-around-directive) | Require or disallow newlines around directives | ✅ |  |
 | [`@stylistic/js/lines-between-class-members`](./rules/lines-between-class-members) | Require or disallow an empty line between class members | ✅ |  |
+| [`@stylistic/js/max-len`](./rules/max-len) | Enforce a maximum line length |  |  |
+| [`@stylistic/js/max-statements-per-line`](./rules/max-statements-per-line) | Enforce a maximum number of statements allowed per line |  |  |
 | [`@stylistic/js/multiline-ternary`](./rules/multiline-ternary) | Enforce newlines between operands of ternary expressions | ✅ |  |
+| [`@stylistic/js/new-parens`](./rules/new-parens) | Enforce or disallow parentheses when invoking a constructor with no arguments | ✅ |  |
 | [`@stylistic/js/newline-after-var`](./rules/newline-after-var) | Require or disallow an empty line after variable declarations | ✅ |  |
 | [`@stylistic/js/newline-before-return`](./rules/newline-before-return) | Require an empty line before `return` statements | ✅ |  |
 | [`@stylistic/js/newline-per-chained-call`](./rules/newline-per-chained-call) | Require a newline after each call in a method chain | ✅ |  |
+| [`@stylistic/js/no-confusing-arrow`](./rules/no-confusing-arrow) | Disallow arrow functions where they could be confused with comparisons | ✅ |  |
+| [`@stylistic/js/no-extra-parens`](./rules/no-extra-parens) | Disallow unnecessary parentheses | ✅ |  |
+| [`@stylistic/js/no-extra-semi`](./rules/no-extra-semi) | Disallow unnecessary semicolons | ✅ | ✅ |
+| [`@stylistic/js/no-floating-decimal`](./rules/no-floating-decimal) | Disallow leading or trailing decimal points in numeric literals | ✅ |  |
+| [`@stylistic/js/no-mixed-operators`](./rules/no-mixed-operators) | Disallow mixed binary operators |  |  |
 | [`@stylistic/js/no-mixed-spaces-and-tabs`](./rules/no-mixed-spaces-and-tabs) | Disallow mixed spaces and tabs for indentation |  | ✅ |
 | [`@stylistic/js/no-multi-spaces`](./rules/no-multi-spaces) | Disallow multiple spaces | ✅ |  |
 | [`@stylistic/js/no-multiple-empty-lines`](./rules/no-multiple-empty-lines) | Disallow multiple empty lines | ✅ |  |
@@ -44,6 +54,7 @@
 | [`@stylistic/js/operator-linebreak`](./rules/operator-linebreak) | Enforce consistent linebreak style for operators | ✅ |  |
 | [`@stylistic/js/padded-blocks`](./rules/padded-blocks) | Require or disallow padding within blocks | ✅ |  |
 | [`@stylistic/js/padding-line-between-statements`](./rules/padding-line-between-statements) | Require or disallow padding lines between statements | ✅ |  |
+| [`@stylistic/js/quote-props`](./rules/quote-props) | Require quotes around object literal property names | ✅ |  |
 | [`@stylistic/js/quotes`](./rules/quotes) | Enforce the consistent use of either backticks, double, or single quotes | ✅ |  |
 | [`@stylistic/js/rest-spread-spacing`](./rules/rest-spread-spacing) | Enforce spacing between rest and spread operators and their expressions | ✅ |  |
 | [`@stylistic/js/semi`](./rules/semi) | Require or disallow semicolons instead of ASI | ✅ |  |
@@ -58,4 +69,6 @@
 | [`@stylistic/js/switch-colon-spacing`](./rules/switch-colon-spacing) | Enforce spacing around colons of switch statements | ✅ |  |
 | [`@stylistic/js/template-curly-spacing`](./rules/template-curly-spacing) | Require or disallow spacing around embedded expressions of template strings | ✅ |  |
 | [`@stylistic/js/template-tag-spacing`](./rules/template-tag-spacing) | Require or disallow spacing between template tags and their literals | ✅ |  |
+| [`@stylistic/js/wrap-iife`](./rules/wrap-iife) | Require parentheses around immediate `function` invocations | ✅ |  |
+| [`@stylistic/js/wrap-regex`](./rules/wrap-regex) | Require parenthesis around regex literals | ✅ |  |
 | [`@stylistic/js/yield-star-spacing`](./rules/yield-star-spacing) | Require or disallow spacing around the `*` in `yield*` expressions | ✅ |  |

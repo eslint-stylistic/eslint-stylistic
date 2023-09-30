@@ -307,8 +307,8 @@ ruleTester.run('keyword-spacing', rule, {
     { code: 'async function wrap() { a > await a }', options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
 
     // not conflict with `space-unary-ops`
-    { code: 'async function wrap() { !await\'a\' }', parserOptions: { ecmaVersion: 8 } },
-    { code: 'async function wrap() { ! await \'a\' }', options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
+    { code: "async function wrap() { !await'a' }", parserOptions: { ecmaVersion: 8 } },
+    { code: "async function wrap() { ! await 'a' }", options: [NEITHER], parserOptions: { ecmaVersion: 8 } },
 
     // not conflict with `template-curly-spacing`
     { code: 'async function wrap() { `${await a}` }', parserOptions: { ecmaVersion: 8 } },
