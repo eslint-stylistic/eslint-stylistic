@@ -28,23 +28,6 @@ We provides an ESLint plugin for migrating built-in stylistic rules to the `@sty
 npm i -D @stylistic/eslint-plugin-migrate
 ```
 
-#### Preset Usage
-
-Extend the `plugin:@stylistic/migrate/recommended` preset in your ESLint configuration. It will check the `.eslintrc.{js|json}` file and the `eslint-config-*/index.js` files in your workspace automatically.
-
-```js
-// .eslintrc.js
-module.exports = {
-  extends: [
-    'plugin:@stylistic/migrate/recommended'
-  ],
-};
-```
-
-#### Manual Usage
-
-You can install the plugin manually:
-
 ```js
 // .eslintrc.js
 module.exports = {
@@ -54,14 +37,20 @@ module.exports = {
 }
 ```
 
-And opt-in to your eslint configure file by adding `/* eslint @stylistic/migrate/rules: "error" */` to the top of your file:
+And opt-in to your eslint configure file by adding eslint comments to the top of your file:
 
 ```js
-/* eslint @stylistic/migrate/rules: "error" */
+// Migrate built-in rules to @stylistic/js namespace
+/* eslint @stylistic/migrate/migrate-js: "error" */
+
+// Migrate `@typescript-eslint` rules to @stylistic/ts namespace
+/* eslint @stylistic/migrate/migrate-ts: "error" */
 
 module.exports = {
   rules: {
-    indent: ['error', 2], // Error: Use @stylistic/indent instead
+    indent: ['error', 2], // Error: Use @stylistic/js/indent instead
+
+    '@typescript-eslint/indent': ['error', 2], // Error: Use @stylistic/ts/indent instead
   }
 }
 ```

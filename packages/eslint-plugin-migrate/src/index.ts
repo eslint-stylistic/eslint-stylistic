@@ -1,38 +1,11 @@
-import migrate from './migrate'
+import migrate from './rules/migrate'
+import migrateTs from './rules/migrate-ts'
+import migrateJs from './rules/migrate-js'
 
 export default {
   rules: {
-    rules: migrate,
-  },
-  configs: {
-    recommended: {
-      plugins: [
-        '@stylistic/migrate',
-      ],
-      overrides: [
-        {
-          files: [
-            '.eslintrc.js',
-            '.eslintrc.cjs',
-            '.eslintrc.json',
-            'eslintrc.js',
-            'eslintrc.cjs',
-            'eslintrc.json',
-            'eslint.config.js',
-            'eslint.config.cjs',
-            'eslint.config.ts',
-            '**/eslint-config-*/index.js',
-            '**/eslint-config-*/src/index.js',
-            '**/eslint-config-*/src/index.ts',
-            '**/eslint-config/index.js',
-            '**/eslint-config/src/index.js',
-            '**/eslint-config/src/index.ts',
-          ],
-          rules: {
-            '@stylistic/migrate/rules': 'error',
-          },
-        },
-      ],
-    },
+    migrate,
+    'migrate-ts': migrateTs,
+    'migrate-js': migrateJs,
   },
 }
