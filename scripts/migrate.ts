@@ -20,6 +20,8 @@ import { fileURLToPath } from 'node:url'
 import { basename, join } from 'node:path'
 import fs from 'fs-extra'
 import fg from 'fast-glob'
+import type { JSONSchema4 } from 'json-schema'
+import { compile } from 'json-schema-to-typescript'
 
 // Rules that are common in both ESLint and typescript-eslint (TS overrides them)
 const commonRules = [
@@ -273,10 +275,44 @@ async function migrateTS() {
     }),
   )
 
-  const ruleTypes = filteredRules.map((rule) => {
+  const ruleTypes = await Promise.all(filteredRules.map(async (rule) => {
     const name = basename(rule, '.ts')
-    return `'@stylistic/ts/${name}': []`
-  }, '')
+    const module = await import(join(root, 'packages', 'eslint-plugin', 'dist', 'rules', `${name}`))
+    const meta = module.default.default.meta
+
+    let schemas = meta.schema as JSONSchema4[] ?? []
+
+    if (!Array.isArray(schemas))
+      schemas = [schemas]
+
+    let ruleDef = '['
+
+    const options = await Promise.all(schemas.map(async (schema) => {
+      try {
+        const compiledSchema = await compile(schema, name, {
+          bannerComment: '',
+          format: false,
+        })
+        // TODO @Shinigami92 2023-10-06: this does not work, because the compiled schema sometimes extracts multiple types
+        // we need to write each rule to a separate file and import them...
+        return `(${
+          compiledSchema
+            .replace(/^export type \w+ \=/, '')
+            .replace(/^export interface \w+ /, '')
+        })?`
+      }
+      catch {
+        // TODO @Shinigami92 2023-10-06: check why this errors and how we can solve it
+        return 'unknown?'
+      }
+    }))
+
+    ruleDef += options.join(', ')
+
+    ruleDef += ']'
+
+    return `'@stylistic/ts/${name}': ${ruleDef}`
+  }))
 
   await fs.writeFile(
     join(targetRoot, 'src', 'eslint-define-config-support.d.ts'),
