@@ -1,6 +1,7 @@
 .cache
 .DS_Store
 .idea
+.pnpm-store
 *.log
 *.tgz
 coverage
