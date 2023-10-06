@@ -201,11 +201,14 @@ async function migrateTS() {
     absolute: true,
   })
 
+  const filteredRules = rules.filter((rule) => {
+    const name = basename(rule, '.ts')
+    return (tsRules.includes(name))
+  })
+
   await Promise.all(
-    rules.map(async (rule) => {
+    filteredRules.map(async (rule) => {
       const name = basename(rule, '.ts')
-      if (!tsRules.includes(name))
-        return
 
       console.log(`Migrating ${name}`)
       await fs.mkdir(join(target, name), { recursive: true })
@@ -268,6 +271,24 @@ async function migrateTS() {
         await fs.writeFile(join(target, name, `${name}.test.ts`), test, 'utf-8')
       }
     }),
+  )
+
+  const ruleTypes = filteredRules.map((rule) => {
+    const name = basename(rule, '.ts')
+    return `'@stylistic/ts/${name}': []`
+  }, '')
+
+  await fs.writeFile(
+    join(targetRoot, 'src', 'eslint-define-config-support.d.ts'),
+    `declare module 'eslint-define-config' {
+  export interface CustomRuleOptions {
+    ${ruleTypes.join('\n    ')}
+  }
+}
+
+export {}
+`,
+    'utf-8',
   )
 }
 
