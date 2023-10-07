@@ -36,7 +36,7 @@ importers:
         specifier: ^11.0.2
         version: 11.0.2
       '@types/json-schema':
-        specifier: ~7.0.13
+        specifier: ^7.0.13
         version: 7.0.13
       '@types/node':
         specifier: ^20.7.2
@@ -45,7 +45,7 @@ importers:
         specifier: ^9.2.0
         version: 9.2.0
       change-case:
-        specifier: ~5.0.2
+        specifier: ^5.0.2
         version: 5.0.2
       eslint:
         specifier: ^8.50.0
@@ -60,10 +60,10 @@ importers:
         specifier: ^11.1.1
         version: 11.1.1
       json-schema:
-        specifier: ~0.4.0
+        specifier: ^0.4.0
         version: 0.4.0
       json-schema-to-typescript:
-        specifier: ~13.1.1
+        specifier: ^13.1.1
         version: 13.1.1
       lint-staged:
         specifier: ^14.0.1
@@ -1863,7 +1863,7 @@ packages:
       eslint: ^7.0.0 || ^8.0.0
     dependencies:
       '@eslint-community/eslint-utils': 4.4.0(eslint@8.50.0)
-      '@types/json-schema': 7.0.12
+      '@types/json-schema': 7.0.13
       '@types/semver': 7.5.2
       '@typescript-eslint/scope-manager': 6.7.2
       '@typescript-eslint/types': 6.7.2
