@@ -93,8 +93,7 @@ export default defineConfig({
       },
     ],
 
-    sidebar: Object.assign(
-      // @ts-expect-error anyway
+    sidebar: {
       ...mainPackages.map((pkg) => {
         return {
           [`/rules/${pkg.shortId}`]: [
@@ -112,23 +111,21 @@ export default defineConfig({
           ],
         }
       }),
-      {
-        '/': [
-          {
-            text: 'Guide',
-            items: GUIDES,
-          },
-          {
-            text: 'Contribute',
-            items: CONTRIBUTES,
-          },
-          {
-            text: 'Packages',
-            items: PACKAGES,
-          },
-        ],
-      },
-    ),
+      '/': [
+        {
+          text: 'Guide',
+          items: GUIDES,
+        },
+        {
+          text: 'Contribute',
+          items: CONTRIBUTES,
+        },
+        {
+          text: 'Packages',
+          items: PACKAGES,
+        },
+      ],
+    },
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/eslint-stylistic/eslint-stylistic' },
