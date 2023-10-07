@@ -6,8 +6,4 @@
   publish = "docs/.vitepress/dist"
   command = "pnpm run docs:build"
 
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
 
