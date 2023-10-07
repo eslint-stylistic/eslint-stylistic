@@ -289,6 +289,8 @@ async function migrateTS() {
       schemas = [schemas]
 
     const options = await Promise.all(schemas.map(async (schema, index) => {
+      schema = JSON.parse(JSON.stringify(schema).replace(/\#\/items\/0\/\$defs\//g, '#/$defs/'))
+
       try {
         return await compile(schema, `Schema${index}`, {
           bannerComment: '',
@@ -298,8 +300,8 @@ async function migrateTS() {
           },
         })
       }
-      catch {
-        // TODO @Shinigami92 2023-10-06: check why this errors and how we can solve it
+      catch (error) {
+        console.warn(`Failed to compile schema Schema${index} for rule ${name}. Falling back to unknown.`)
         return `export type Schema${index} = unknown\n`
       }
     }))
