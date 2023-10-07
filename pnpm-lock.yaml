@@ -44,6 +44,9 @@ importers:
       bumpp:
         specifier: ^9.2.0
         version: 9.2.0
+      change-case:
+        specifier: ~5.0.2
+        version: 5.0.2
       eslint:
         specifier: ^8.50.0
         version: 8.50.0
@@ -121,7 +124,7 @@ importers:
         version: 0.25.2(rollup@3.29.4)(vue@3.3.4)
       vitepress:
         specifier: 1.0.0-rc.20
-        version: 1.0.0-rc.20(@algolia/client-search@4.19.1)(@types/node@20.7.2)(postcss@8.4.27)(search-insights@2.8.2)
+        version: 1.0.0-rc.20(@algolia/client-search@4.19.1)(@types/node@20.7.2)(change-case@5.0.2)(postcss@8.4.27)(search-insights@2.8.2)
       vue:
         specifier: ^3.3.4
         version: 3.3.4
@@ -2249,7 +2252,7 @@ packages:
       - vue
     dev: true
 
-  /@vueuse/integrations@10.4.1(focus-trap@7.5.2)(vue@3.3.4):
+  /@vueuse/integrations@10.4.1(change-case@5.0.2)(focus-trap@7.5.2)(vue@3.3.4):
     resolution: {integrity: sha512-uRBPyG5Lxoh1A/J+boiioPT3ELEAPEo4t8W6Mr4yTKIQBeW/FcbsotZNPr4k9uz+3QEksMmflWloS9wCnypM7g==}
     peerDependencies:
       async-validator: '*'
@@ -2292,6 +2295,7 @@ packages:
     dependencies:
       '@vueuse/core': 10.4.1(vue@3.3.4)
       '@vueuse/shared': 10.4.1(vue@3.3.4)
+      change-case: 5.0.2
       focus-trap: 7.5.2
       vue-demi: 0.14.6(vue@3.3.4)
     transitivePeerDependencies:
@@ -2582,6 +2586,10 @@ packages:
   /chalk@5.3.0:
     resolution: {integrity: sha512-dLitG79d+GV1Nb/VYcCDFivJeK1hiukt9QjRNVOsUtTy1rR1YJsmpGGTZ3qJos+uw7WmWF4wUwBd9jxjocFC2w==}
     engines: {node: ^12.17.0 || ^14.13 || >=16.0.0}
+    dev: true
+
+  /change-case@5.0.2:
+    resolution: {integrity: sha512-tH6YZXViaeC2/Mnt8m4gSmbZfNorC2rhwCX2bXw8SYZWr8ljCPB7iA+1TLG9t7yroWBFauc63LlOZ1gucMVCWw==}
     dev: true
 
   /character-entities-legacy@1.1.4:
@@ -5383,7 +5391,7 @@ packages:
       fsevents: 2.3.2
     dev: true
 
-  /vitepress@1.0.0-rc.20(@algolia/client-search@4.19.1)(@types/node@20.7.2)(postcss@8.4.27)(search-insights@2.8.2):
+  /vitepress@1.0.0-rc.20(@algolia/client-search@4.19.1)(@types/node@20.7.2)(change-case@5.0.2)(postcss@8.4.27)(search-insights@2.8.2):
     resolution: {integrity: sha512-CykMUJ8JLxLcGWek0ew3wln4RYbsOd1+0YzXITTpajggpynm2S331TNkJVOkHrMRc6GYe3y4pS40GfgcW0ZwAw==}
     hasBin: true
     peerDependencies:
@@ -5400,7 +5408,7 @@ packages:
       '@types/markdown-it': 13.0.1
       '@vue/devtools-api': 6.5.0
       '@vueuse/core': 10.4.1(vue@3.3.4)
-      '@vueuse/integrations': 10.4.1(focus-trap@7.5.2)(vue@3.3.4)
+      '@vueuse/integrations': 10.4.1(change-case@5.0.2)(focus-trap@7.5.2)(vue@3.3.4)
       focus-trap: 7.5.2
       mark.js: 8.11.1
       minisearch: 6.1.0
