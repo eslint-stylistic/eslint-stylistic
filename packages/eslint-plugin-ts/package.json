@@ -5,12 +5,20 @@
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
   "repository": {
+    "directory": "packages/eslint-plugin-ts",
     "type": "git",
-    "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git",
-    "directory": "packages/eslint-plugin-ts"
+    "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git"
   },
   "bugs": {
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
+  },
+  "exports": {
+    ".": {
+      "require": "./dist/index.js"
+    },
+    "./eslint-define-config-support": {
+      "types": "./dts/eslint-define-config-support.d.ts"
+    }
   },
   "main": "./dist/index.js",
   "files": [

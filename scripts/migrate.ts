@@ -420,7 +420,7 @@ export type RuleOptions = [${options.map((_, index) => `Schema${index}?`).join('
   })
 
   await fs.writeFile(
-    join(targetRoot, 'src', 'eslint-define-config-support.d.ts'),
+    join(targetRoot, 'dts', 'eslint-define-config-support.d.ts'),
     `${ruleOptionsImports.join('\n')}
 
 declare module 'eslint-define-config' {
