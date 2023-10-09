@@ -17,6 +17,5 @@
 | [`@stylistic/jsx/jsx-one-expression-per-line`](./rules/jsx-one-expression-per-line) | Require one JSX element per line | ✅ |  |
 | [`@stylistic/jsx/jsx-props-no-multi-spaces`](./rules/jsx-props-no-multi-spaces) | Disallow multiple spaces between inline JSX props | ✅ |  |
 | [`@stylistic/jsx/jsx-sort-props`](./rules/jsx-sort-props) | Enforce props alphabetical sorting | ✅ |  |
-| [`@stylistic/jsx/jsx-space-before-closing`](./rules/jsx-space-before-closing) | Enforce spacing before closing bracket in JSX | ✅ |  |
 | [`@stylistic/jsx/jsx-tag-spacing`](./rules/jsx-tag-spacing) | Enforce whitespace in and around the JSX opening and closing brackets | ✅ |  |
 | [`@stylistic/jsx/jsx-wrap-multilines`](./rules/jsx-wrap-multilines) | Disallow missing parentheses around multiline JSX | ✅ |  |

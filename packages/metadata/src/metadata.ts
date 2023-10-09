@@ -1209,20 +1209,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
-        "name": "jsx-space-before-closing",
-        "ruleId": "@stylistic/jsx/jsx-space-before-closing",
-        "originalId": "react/jsx-space-before-closing",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-space-before-closing/jsx-space-before-closing.js",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-space-before-closing/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Enforce spacing before closing bracket in JSX",
-            "recommended": false
-          }
-        }
-      },
-      {
         "name": "jsx-tag-spacing",
         "ruleId": "@stylistic/jsx/jsx-tag-spacing",
         "originalId": "react/jsx-tag-spacing",
@@ -2623,19 +2609,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "code",
           "docs": {
             "description": "Enforce props alphabetical sorting",
-            "recommended": false
-          }
-        }
-      },
-      {
-        "name": "jsx-space-before-closing",
-        "ruleId": "@stylistic/jsx-space-before-closing",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-space-before-closing/jsx-space-before-closing.js",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-space-before-closing/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Enforce spacing before closing bracket in JSX",
             "recommended": false
           }
         }

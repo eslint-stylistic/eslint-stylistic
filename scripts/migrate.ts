@@ -130,7 +130,6 @@ const jsxRules = [
   // 'jsx-props-no-spreading',
   // 'jsx-sort-default-props',
   'jsx-sort-props',
-  'jsx-space-before-closing',
   'jsx-tag-spacing',
   'jsx-wrap-multilines',
 ]

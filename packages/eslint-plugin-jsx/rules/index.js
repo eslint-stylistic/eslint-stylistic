@@ -14,7 +14,6 @@ module.exports = {
   'jsx-one-expression-per-line': require('./jsx-one-expression-per-line/jsx-one-expression-per-line.js'),
   'jsx-props-no-multi-spaces': require('./jsx-props-no-multi-spaces/jsx-props-no-multi-spaces.js'),
   'jsx-sort-props': require('./jsx-sort-props/jsx-sort-props.js'),
-  'jsx-space-before-closing': require('./jsx-space-before-closing/jsx-space-before-closing.js'),
   'jsx-tag-spacing': require('./jsx-tag-spacing/jsx-tag-spacing.js'),
   'jsx-wrap-multilines': require('./jsx-wrap-multilines/jsx-wrap-multilines.js'),
 }
