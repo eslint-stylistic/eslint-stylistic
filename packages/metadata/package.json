@@ -1,6 +1,6 @@
 {
   "name": "@eslint-stylistic/metadata",
-  "version": "0.0.6",
+  "version": "0.0.7",
   "description": "Metadata for eslint-stylistic packages",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
