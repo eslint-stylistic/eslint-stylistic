@@ -28,15 +28,17 @@ async function run() {
 
   const packageJs = packages.find(i => i.shortId === 'js')!
   const packageTs = packages.find(i => i.shortId === 'ts')!
+  const packageJsx = packages.find(i => i.shortId === 'jsx')!
   const packageGeneral = packages.find(i => i.name === '@stylistic/eslint-plugin')!
 
   // merge rules
   packageGeneral.rules = [...new Set([
     ...packageJs.rules.map(i => i.name),
     ...packageTs.rules.map(i => i.name),
+    ...packageJsx.rules.map(i => i.name),
   ])]
     .map((name) => {
-      const rule = packageTs.rules.find(i => i.name === name) || packageJs.rules.find(i => i.name === name)!
+      const rule = packageTs.rules.find(i => i.name === name) || packageJs.rules.find(i => i.name === name)! || packageJsx.rules.find(i => i.name === name)!
       return {
         ...rule,
         ruleId: `@stylistic/${name}`,
