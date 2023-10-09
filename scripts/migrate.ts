@@ -18,8 +18,11 @@
 import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { basename, join } from 'node:path'
+import { pascalCase } from 'change-case'
 import fs from 'fs-extra'
 import fg from 'fast-glob'
+import type { JSONSchema4 } from 'json-schema'
+import { compile } from 'json-schema-to-typescript'
 
 // Rules that are common in both ESLint and typescript-eslint (TS overrides them)
 const commonRules = [
@@ -134,7 +137,8 @@ const jsxRules = [
 
 async function migrateJS() {
   const root = fileURLToPath(new URL('../../eslint', import.meta.url))
-  const target = fileURLToPath(new URL('../packages/eslint-plugin-js/rules', import.meta.url))
+  const targetRoot = fileURLToPath(new URL('../packages/eslint-plugin-js', import.meta.url))
+  const target = join(targetRoot, 'rules')
 
   if (!existsSync(root))
     throw new Error(`ESLint repo ${root} does not exist`)
@@ -145,11 +149,15 @@ async function migrateJS() {
     absolute: true,
   })
 
+  const filteredRules = rules.filter((rule) => {
+    const name = basename(rule, '.js')
+    return (jsRules.includes(name))
+  })
+
+  // Copy over the js file
   await Promise.all(
-    rules.map(async (rule) => {
+    filteredRules.map(async (rule) => {
       const name = basename(rule, '.js')
-      if (!jsRules.includes(name))
-        return
 
       console.log(`Migrating ${name}`)
       await fs.mkdir(join(target, name), { recursive: true })
@@ -207,6 +215,70 @@ async function migrateJS() {
       await fs.writeFile(join(target, name, `${name}.test.js`), test, 'utf-8')
     }),
   )
+
+  // Write types.d.ts files for eslint-define-config support
+  await Promise.all(filteredRules.map(async (rule) => {
+    const name = basename(rule, '.js')
+    const module = await import(join(root, 'lib', 'rules', `${name}`))
+    const meta = module.default.meta
+
+    let schemas = meta.schema as JSONSchema4[] ?? []
+
+    if (!Array.isArray(schemas))
+      schemas = [schemas]
+
+    const options = await Promise.all(schemas.map(async (schema, index) => {
+      schema = JSON.parse(JSON.stringify(schema).replace(/\#\/items\/0\/\$defs\//g, '#/$defs/'))
+
+      try {
+        return await compile(schema, `Schema${index}`, {
+          bannerComment: '',
+          style: {
+            semi: false,
+            singleQuote: true,
+          },
+        })
+      }
+      catch (error) {
+        console.warn(`Failed to compile schema Schema${index} for rule ${name}. Falling back to unknown.`)
+        return `export type Schema${index} = unknown\n`
+      }
+    }))
+
+    await fs.writeFile(
+      join(target, name, 'types.d.ts'),
+      `${options.join('\n')}
+export type RuleOptions = [${options.map((_, index) => `Schema${index}?`).join(', ')}]
+`,
+      'utf-8',
+    )
+  }))
+
+  // Write eslint-define-config support file
+  const ruleOptionsImports = filteredRules.map((rule) => {
+    const name = basename(rule, '.js')
+    return `import type { RuleOptions as ${pascalCase(name)}RuleOptions } from '../rules/${name}/types'`
+  })
+
+  const ruleTypes = filteredRules.map((rule) => {
+    const name = basename(rule, '.js')
+    return `'@stylistic/js/${name}': ${pascalCase(name)}RuleOptions`
+  })
+
+  await fs.writeFile(
+    join(targetRoot, 'src', 'eslint-define-config-support.d.ts'),
+    `${ruleOptionsImports.join('\n')}
+
+declare module 'eslint-define-config' {
+  export interface CustomRuleOptions {
+    ${ruleTypes.join('\n    ')}
+  }
+}
+
+export {}
+`,
+    'utf-8',
+  )
 }
 
 async function migrateTS() {
@@ -225,11 +297,15 @@ async function migrateTS() {
     absolute: true,
   })
 
+  const filteredRules = rules.filter((rule) => {
+    const name = basename(rule, '.ts')
+    return (tsRules.includes(name))
+  })
+
+  // Copy over the js file
   await Promise.all(
-    rules.map(async (rule) => {
+    filteredRules.map(async (rule) => {
       const name = basename(rule, '.ts')
-      if (!tsRules.includes(name))
-        return
 
       console.log(`Migrating ${name}`)
       await fs.mkdir(join(target, name), { recursive: true })
@@ -292,6 +368,70 @@ async function migrateTS() {
         await fs.writeFile(join(target, name, `${name}.test.ts`), test, 'utf-8')
       }
     }),
+  )
+
+  // Write types.d.ts files for eslint-define-config support
+  await Promise.all(filteredRules.map(async (rule) => {
+    const name = basename(rule, '.ts')
+    const module = await import(join(root, 'packages', 'eslint-plugin', 'dist', 'rules', `${name}`))
+    const meta = module.default.default.meta
+
+    let schemas = meta.schema as JSONSchema4[] ?? []
+
+    if (!Array.isArray(schemas))
+      schemas = [schemas]
+
+    const options = await Promise.all(schemas.map(async (schema, index) => {
+      schema = JSON.parse(JSON.stringify(schema).replace(/\#\/items\/0\/\$defs\//g, '#/$defs/'))
+
+      try {
+        return await compile(schema, `Schema${index}`, {
+          bannerComment: '',
+          style: {
+            semi: false,
+            singleQuote: true,
+          },
+        })
+      }
+      catch (error) {
+        console.warn(`Failed to compile schema Schema${index} for rule ${name}. Falling back to unknown.`)
+        return `export type Schema${index} = unknown\n`
+      }
+    }))
+
+    await fs.writeFile(
+      join(targetRoot, 'rules', name, 'types.d.ts'),
+      `${options.join('\n')}
+export type RuleOptions = [${options.map((_, index) => `Schema${index}?`).join(', ')}]
+`,
+      'utf-8',
+    )
+  }))
+
+  // Write eslint-define-config support file
+  const ruleOptionsImports = filteredRules.map((rule) => {
+    const name = basename(rule, '.ts')
+    return `import type { RuleOptions as ${pascalCase(name)}RuleOptions } from '../rules/${name}/types'`
+  })
+
+  const ruleTypes = filteredRules.map((rule) => {
+    const name = basename(rule, '.ts')
+    return `'@stylistic/ts/${name}': ${pascalCase(name)}RuleOptions`
+  })
+
+  await fs.writeFile(
+    join(targetRoot, 'dts', 'eslint-define-config-support.d.ts'),
+    `${ruleOptionsImports.join('\n')}
+
+declare module 'eslint-define-config' {
+  export interface CustomRuleOptions {
+    ${ruleTypes.join('\n    ')}
+  }
+}
+
+export {}
+`,
+    'utf-8',
   )
 }
 
