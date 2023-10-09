@@ -5,9 +5,9 @@
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
   "repository": {
+    "directory": "packages/eslint-plugin",
     "type": "git",
-    "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git",
-    "directory": "packages/eslint-plugin"
+    "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git"
   },
   "bugs": {
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
@@ -26,6 +26,7 @@
   },
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:*",
+    "@stylistic/eslint-plugin-jsx": "workspace:*",
     "@stylistic/eslint-plugin-ts": "workspace:*"
   }
 }

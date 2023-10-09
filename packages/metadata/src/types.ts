@@ -17,7 +17,7 @@ export interface PackageInfo {
 }
 
 export interface RuleMeta {
-  fixable?: 'code' | 'whitespace'
+  fixable?: 'code' | 'whitespace' | null
   docs?: {
     description?: string
     recommended?: boolean
