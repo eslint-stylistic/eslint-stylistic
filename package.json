@@ -11,7 +11,7 @@
     "stub": "pnpm -r --parallel run stub",
     "lint": "eslint . --cache",
     "update": "esno scripts/prepare.ts",
-    "release": "bumpp -r && pnpm -r publish",
+    "release": "bumpp -r && pnpm -r publish --access public",
     "test": "vitest",
     "typecheck": "tsc --noEmit",
     "prepare": "simple-git-hooks",
