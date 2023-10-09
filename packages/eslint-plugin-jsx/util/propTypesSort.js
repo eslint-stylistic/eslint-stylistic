@@ -4,7 +4,7 @@
 
 'use strict'
 
-const toSorted = require('array.prototype.tosorted')
+const toSorted = [...arr].sort(compareFn)
 
 const astUtil = require('./ast')
 

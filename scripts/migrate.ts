@@ -333,7 +333,7 @@ async function migrateJSX() {
         )
         .replaceAll(
           "require('array.prototype.tosorted')",
-          '(arr, compareFn) => arr.toSorted(compareFn)',
+          '(arr, compareFn) => [...arr].sort(compareFn)',
         )
         .replaceAll(
           "require('string.prototype.matchall')",

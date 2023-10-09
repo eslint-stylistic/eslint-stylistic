@@ -8,7 +8,7 @@
 const propName = require('jsx-ast-utils/propName')
 
 const includes = (arr, value) => arr.includes(value)
-const toSorted = (arr, compareFn) => arr.toSorted(compareFn)
+const toSorted = (arr, compareFn) => [...arr].sort(compareFn)
 
 const docsUrl = require('../../util/docsUrl')
 const jsxUtil = require('../../util/jsx')

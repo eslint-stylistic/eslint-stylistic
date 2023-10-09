@@ -31,5 +31,6 @@ export default defineConfig({
     ...Object.keys(pkg.peerDependencies || []),
     'jsx-ast-utils/propName',
     'jsx-ast-utils/elementType',
+    'node:process',
   ],
 })
