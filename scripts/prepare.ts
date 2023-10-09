@@ -89,7 +89,9 @@ async function readPackage(path: string): Promise<PackageInfo> {
           ? name
           : shortId === 'ts'
             ? `@typescript-eslint/${name}`
-            : '',
+            : shortId === 'jsx'
+              ? `react/${name}`
+              : '',
         entry: relative(cwd, entry).replace(/\\/g, '/'),
         // TODO: check if entry exists
         docsEntry: relative(cwd, resolve(path, ruleDir, 'README.md')).replace(/\\/g, '/'),
@@ -122,7 +124,7 @@ async function writeRulesIndex(pkg: PackageInfo) {
 
   await fs.mkdir(ruleDir, { recursive: true })
 
-  if (pkg.shortId === 'js') {
+  if (pkg.shortId === 'js' || pkg.shortId === 'jsx') {
     const index = `module.exports = {\n${pkg.rules.map(i => `  '${i.name}': require('./${relative(ruleDir, i.entry).replace(/\\/g, '/')}'),`).join('\n')}\n}\n`
     await fs.writeFile(join(ruleDir, 'index.js'), index, 'utf-8')
   }

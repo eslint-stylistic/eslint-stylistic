@@ -108,6 +108,30 @@ const tsRules = [
   'type-annotation-spacing',
 ]
 
+// Manually picked
+const jsxRules = [
+  'jsx-child-element-spacing',
+  'jsx-closing-bracket-location',
+  'jsx-closing-tag-location',
+  'jsx-curly-brace-presence',
+  'jsx-curly-newline',
+  'jsx-curly-spacing',
+  'jsx-equals-spacing',
+  'jsx-first-prop-new-line',
+  'jsx-indent-props',
+  'jsx-indent',
+  'jsx-max-props-per-line',
+  'jsx-newline',
+  'jsx-one-expression-per-line',
+  'jsx-props-no-multi-spaces',
+  // 'jsx-props-no-spreading',
+  // 'jsx-sort-default-props',
+  'jsx-sort-props',
+  'jsx-space-before-closing',
+  'jsx-tag-spacing',
+  'jsx-wrap-multilines',
+]
+
 async function migrateJS() {
   const root = fileURLToPath(new URL('../../eslint', import.meta.url))
   const target = fileURLToPath(new URL('../packages/eslint-plugin-js/rules', import.meta.url))
@@ -271,7 +295,80 @@ async function migrateTS() {
   )
 }
 
+async function migrateJSX() {
+  const root = fileURLToPath(new URL('../../eslint-plugin-react', import.meta.url))
+  const target = fileURLToPath(new URL('../packages/eslint-plugin-jsx/rules', import.meta.url))
+
+  if (!existsSync(root))
+    throw new Error(`eslint-plugin-react repo ${root} does not exist`)
+
+  const rules = await fg('lib/rules/*.js', {
+    cwd: root,
+    onlyFiles: true,
+    absolute: true,
+  })
+
+  await Promise.all(
+    rules.map(async (rule) => {
+      const name = basename(rule, '.js')
+      if (!jsxRules.includes(name))
+        return
+
+      console.log(`Migrating ${name}`)
+      await fs.mkdir(join(target, name), { recursive: true })
+
+      let js = await fs.readFile(rule, 'utf-8')
+      js = js
+        .replaceAll(
+          "require('../util",
+          "require('../../util",
+        )
+        .replaceAll(
+          "require('object.hasown/polyfill')()",
+          `(obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)`,
+        )
+        .replaceAll(
+          "require('array-includes')",
+          '(arr, value) => arr.includes(value)',
+        )
+        .replaceAll(
+          "require('array.prototype.tosorted')",
+          '(arr, compareFn) => [...arr].sort(compareFn)',
+        )
+        .replaceAll(
+          "require('string.prototype.matchall')",
+          '(s, v) => s.matchAll(v)',
+        )
+      // js = `// @ts-check\n${js}`
+      await fs.writeFile(join(target, name, `${name}.js`), js, 'utf-8')
+
+      const docsUrl = join(root, 'docs/rules', `${name}.md`)
+      if (fs.existsSync(docsUrl)) {
+        let md = await fs.readFile(docsUrl, 'utf-8')
+        md = md.replaceAll(
+          'react/jsx-',
+          '@stylistic/jsx/jsx-',
+        )
+        await fs.writeFile(join(target, name, 'README.md'), md, 'utf-8')
+      }
+
+      let test = await fs.readFile(join(root, 'tests/lib/rules', `${name}.js`), 'utf-8')
+      test = test
+        .replaceAll(
+          "require('../../../lib/rules",
+          "require('.",
+        )
+        .replaceAll(
+          "require('../../helpers",
+          "require('../../tests/helpers",
+        )
+      await fs.writeFile(join(target, name, `${name}.test.js`), test, 'utf-8')
+    }),
+  )
+}
+
 ;(async () => {
   await migrateTS()
   await migrateJS()
+  await migrateJSX()
 })()

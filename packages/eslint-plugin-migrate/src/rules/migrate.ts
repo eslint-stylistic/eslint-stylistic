@@ -4,6 +4,7 @@ import { createEslintRule, createRuleListener } from '../shared'
 
 const ts = packages.find(p => p.shortId === 'ts')!
 const js = packages.find(p => p.shortId === 'js')!
+const jsx = packages.find(p => p.shortId === 'jsx')!
 
 export default createEslintRule<[Pick<MigrationOption, 'namespaceTo'>], 'migrate'>({
   name: 'migrate',
@@ -34,6 +35,11 @@ export default createEslintRule<[Pick<MigrationOption, 'namespaceTo'>], 'migrate
           namespaceFrom: '@typescript-eslint',
           namespaceTo: options[0].namespaceTo,
           rules: ts.rules,
+        },
+        {
+          namespaceFrom: 'react',
+          namespaceTo: options[0].namespaceTo,
+          rules: jsx.rules,
         },
       ],
     )
