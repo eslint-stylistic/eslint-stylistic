@@ -22,11 +22,13 @@ const PACKAGES: DefaultTheme.NavItemWithLink[] = [
   { text: 'Default', link: '/packages/default' },
   { text: 'JavaScript', link: '/packages/js' },
   { text: 'TypeScript', link: '/packages/ts' },
+  { text: 'JSX', link: '/packages/jsx' },
 ]
 
 const packageNames: Record<string, string> = {
   js: 'JavaScript Rules',
   ts: 'TypeScript Rules',
+  jsx: 'JSX Rules',
 }
 
 // https://vitepress.dev/reference/site-config

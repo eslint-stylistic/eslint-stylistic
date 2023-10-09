@@ -342,9 +342,13 @@ async function migrateJSX() {
       // js = `// @ts-check\n${js}`
       await fs.writeFile(join(target, name, `${name}.js`), js, 'utf-8')
 
-      const docsUrl = join(root, 'docs/src/rules', `${name}.md`)
+      const docsUrl = join(root, 'docs/rules', `${name}.md`)
       if (fs.existsSync(docsUrl)) {
-        const md = await fs.readFile(docsUrl, 'utf-8')
+        let md = await fs.readFile(docsUrl, 'utf-8')
+        md = md.replaceAll(
+          'react/jsx-',
+          '@stylistic/jsx/jsx-',
+        )
         await fs.writeFile(join(target, name, 'README.md'), md, 'utf-8')
       }
 

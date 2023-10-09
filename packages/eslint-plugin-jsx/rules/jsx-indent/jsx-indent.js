@@ -1,6 +1,7 @@
 /**
  * @fileoverview Validate JSX indentation
  * @author Yannick Croissant
+ *
  * This rule has been ported and modified from eslint and nodeca.
  * @author Vitaly Puzrin
  * @author Gyandeep Singh
