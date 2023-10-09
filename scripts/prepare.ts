@@ -111,7 +111,7 @@ async function readPackage(path: string): Promise<PackageInfo> {
     name: pkgJSON.name,
     shortId,
     pkgId,
-    path,
+    path: relative(cwd, path),
     rules,
   }
 }
