@@ -1,3 +1,3 @@
 module.exports = {
-  rules: require('../rules'),
+  rules: require('../rules/index.js'),
 }
