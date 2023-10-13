@@ -15,7 +15,8 @@
   "exports": {
     ".": {
       "types": "./dts/index.d.ts",
-      "require": "./dist/index.js"
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
     },
     "./define-config-support": {
       "types": "./dts/define-config-support.d.ts"
