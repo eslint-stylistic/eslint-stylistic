@@ -216,9 +216,20 @@ async function migrateJS() {
   )
 
   // Write types.d.ts files for eslint-define-config support
-  await Promise.all(filteredRules.map(async (rule) => {
-    const name = basename(rule, '.js')
-    const module = await import(join(root, 'lib', 'rules', `${name}`))
+  await generateDTS('@stylistic/js', filteredRules, root, target, targetRoot)
+}
+
+async function generateDTS(
+  prefix: string,
+  rules: string[],
+  root: string,
+  target: string,
+  targetRoot: string,
+  rulesPath = ['lib', 'rules'],
+) {
+  await Promise.all(rules.map(async (rule) => {
+    const name = basename(rule).replace(/\.\w+$/, '')
+    const module = await import(join(root, ...rulesPath, `${name}`))
     const meta = module.default.meta
 
     let schemas = meta.schema as JSONSchema4[] ?? []
@@ -246,36 +257,32 @@ async function migrateJS() {
 
     await fs.writeFile(
       join(target, name, 'types.d.ts'),
-      `${options.join('\n')}
+`${options.join('\n')}
 export type RuleOptions = [${options.map((_, index) => `Schema${index}?`).join(', ')}]
 `,
-      'utf-8',
+'utf-8',
     )
   }))
 
   // Write eslint-define-config support file
-  const ruleOptionsImports = filteredRules.map((rule) => {
-    const name = basename(rule, '.js')
+  const ruleOptionsImports = rules.map((rule) => {
+    const name = basename(rule).replace(/\.\w+$/, '')
     return `import type { RuleOptions as ${pascalCase(name)}RuleOptions } from '../rules/${name}/types'`
   })
 
-  await generateRulesDTS('@stylistic/js', targetRoot, ruleOptionsImports, filteredRules)
-}
-
-async function generateRulesDTS(prefix: string, targetRoot: string, ruleOptionsImports: string[], filteredRules: string[]) {
   await fs.writeFile(
     join(targetRoot, 'dts', 'rule-options.d.ts'),
 `${ruleOptionsImports.join('\n')}
 
 export interface RuleOptions {
-  ${filteredRules.map((rule) => {
+  ${rules.map((rule) => {
 const name = basename(rule).replace(/\.\w+$/, '')
 return `'${prefix}/${name}': ${pascalCase(name)}RuleOptions`
 }).join('\n    ')}
 }
 
 export interface UnprefixedRuleOptions {
-  ${filteredRules.map((rule) => {
+  ${rules.map((rule) => {
 const name = basename(rule).replace(/\.\w+$/, '')
 return `'${name}': ${pascalCase(name)}RuleOptions`
 }).join('\n    ')}
@@ -388,55 +395,20 @@ async function migrateTS() {
   )
 
   // Write types.d.ts files for eslint-define-config support
-  await Promise.all(filteredRules.map(async (rule) => {
-    const name = basename(rule, '.ts')
-    const module = await import(join(root, 'packages', 'eslint-plugin', 'dist', 'rules', `${name}`))
-    const meta = module.default.default.meta
-
-    let schemas = meta.schema as JSONSchema4[] ?? []
-
-    if (!Array.isArray(schemas))
-      schemas = [schemas]
-
-    const options = await Promise.all(schemas.map(async (schema, index) => {
-      schema = JSON.parse(JSON.stringify(schema).replace(/\#\/items\/0\/\$defs\//g, '#/$defs/'))
-
-      try {
-        return await compile(schema, `Schema${index}`, {
-          bannerComment: '',
-          style: {
-            semi: false,
-            singleQuote: true,
-          },
-        })
-      }
-      catch (error) {
-        console.warn(`Failed to compile schema Schema${index} for rule ${name}. Falling back to unknown.`)
-        return `export type Schema${index} = unknown\n`
-      }
-    }))
-
-    await fs.writeFile(
-      join(targetRoot, 'rules', name, 'types.d.ts'),
-      `${options.join('\n')}
-export type RuleOptions = [${options.map((_, index) => `Schema${index}?`).join(', ')}]
-`,
-      'utf-8',
-    )
-  }))
-
-  // Write eslint-define-config support file
-  const ruleOptionsImports = filteredRules.map((rule) => {
-    const name = basename(rule, '.ts')
-    return `import type { RuleOptions as ${pascalCase(name)}RuleOptions } from '../rules/${name}/types'`
-  })
-
-  await generateRulesDTS('@stylistic/ts', targetRoot, ruleOptionsImports, filteredRules)
+  await generateDTS(
+    '@stylistic/ts',
+    filteredRules,
+    root,
+    target,
+    targetRoot,
+    ['packages', 'eslint-plugin', 'src', 'rules'],
+  )
 }
 
 async function migrateJSX() {
   const root = fileURLToPath(new URL('../../eslint-plugin-react', import.meta.url))
   const target = fileURLToPath(new URL('../packages/eslint-plugin-jsx/rules', import.meta.url))
+  const targetRoot = fileURLToPath(new URL('../packages/eslint-plugin-jsx', import.meta.url))
 
   if (!existsSync(root))
     throw new Error(`eslint-plugin-react repo ${root} does not exist`)
@@ -447,8 +419,13 @@ async function migrateJSX() {
     absolute: true,
   })
 
+  const filteredRules = rules.filter((rule) => {
+    const name = basename(rule, '.js')
+    return (jsxRules.includes(name))
+  })
+
   await Promise.all(
-    rules.map(async (rule) => {
+    filteredRules.map(async (rule) => {
       const name = basename(rule, '.js')
       if (!jsxRules.includes(name))
         return
@@ -504,6 +481,9 @@ async function migrateJSX() {
       await fs.writeFile(join(target, name, `${name}.test.js`), test, 'utf-8')
     }),
   )
+
+  // Write types.d.ts files for eslint-define-config support
+  await generateDTS('@stylistic/jsx', filteredRules, root, target, targetRoot)
 }
 
 ;(async () => {
