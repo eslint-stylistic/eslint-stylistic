@@ -18,7 +18,6 @@ const baseRule = getESLintCoreRule('key-spacing')
 export type Options = InferOptionsTypeFromRule<typeof baseRule>
 export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
 
-// eslint-disable-next-line ts/no-unsafe-assignment
 const baseSchema = Array.isArray(baseRule.meta.schema)
   ? baseRule.meta.schema[0]
   : baseRule.meta.schema

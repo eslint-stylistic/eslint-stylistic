@@ -290,13 +290,13 @@ ruleTester.run('no-multiple-empty-lines', rule, {
     },
     {
       code:
-            "'foo';\n"
+            '\'foo\';\n'
             + '\n'
             + '\n'
             + '`bar`;\n'
             + '`baz`;',
       output:
-            "'foo';\n"
+            '\'foo\';\n'
             + '\n'
             + '`bar`;\n'
             + '`baz`;',

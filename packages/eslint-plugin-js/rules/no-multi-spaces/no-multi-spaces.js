@@ -47,7 +47,7 @@ module.exports = {
     ],
 
     messages: {
-      multipleSpaces: "Multiple spaces found before '{{displayValue}}'.",
+      multipleSpaces: 'Multiple spaces found before \'{{displayValue}}\'.',
     },
   },
 

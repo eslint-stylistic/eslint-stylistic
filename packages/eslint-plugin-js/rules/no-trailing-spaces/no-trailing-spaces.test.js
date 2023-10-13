@@ -183,11 +183,11 @@ ruleTester.run('no-trailing-spaces', rule, {
       code:
             '\n'
             + 'measAr.push("<dl></dl>",  \n'
-            + "         \" </dt><dd class ='pta-res'>\");",
+            + '         " </dt><dd class =\'pta-res\'>");',
       output:
             '\n'
             + 'measAr.push("<dl></dl>",\n'
-            + "         \" </dt><dd class ='pta-res'>\");",
+            + '         " </dt><dd class =\'pta-res\'>");',
       errors: [{
         messageId: 'trailingSpace',
         type: 'Program',
@@ -196,10 +196,10 @@ ruleTester.run('no-trailing-spaces', rule, {
     {
       code:
             'measAr.push("<dl></dl>",  \n'
-            + "         \" </dt><dd class ='pta-res'>\");",
+            + '         " </dt><dd class =\'pta-res\'>");',
       output:
             'measAr.push("<dl></dl>",\n'
-            + "         \" </dt><dd class ='pta-res'>\");",
+            + '         " </dt><dd class =\'pta-res\'>");',
       errors: [{
         messageId: 'trailingSpace',
         type: 'Program',
@@ -324,8 +324,8 @@ ruleTester.run('no-trailing-spaces', rule, {
       }],
     },
     {
-      code: "var a = 'bar';  \n \n\t",
-      output: "var a = 'bar';\n \n\t",
+      code: 'var a = \'bar\';  \n \n\t',
+      output: 'var a = \'bar\';\n \n\t',
       options: [{
         skipBlankLines: true,
       }],
@@ -339,8 +339,8 @@ ruleTester.run('no-trailing-spaces', rule, {
       }],
     },
     {
-      code: "var a = 'foo';   \nvar b = 'bar';  \n  \n",
-      output: "var a = 'foo';\nvar b = 'bar';\n  \n",
+      code: 'var a = \'foo\';   \nvar b = \'bar\';  \n  \n',
+      output: 'var a = \'foo\';\nvar b = \'bar\';\n  \n',
       options: [{
         skipBlankLines: true,
       }],
@@ -474,8 +474,8 @@ ruleTester.run('no-trailing-spaces', rule, {
 
     // Tests for ignoreComments flag.
     {
-      code: "var foo = 'bar'; ",
-      output: "var foo = 'bar';",
+      code: 'var foo = \'bar\'; ',
+      output: 'var foo = \'bar\';',
       options: [{ ignoreComments: true }],
       errors: [
         {

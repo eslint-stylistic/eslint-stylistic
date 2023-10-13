@@ -301,10 +301,10 @@ module.exports = {
       ],
     }],
     messages: {
-      extraKey: "Extra space after {{computed}}key '{{key}}'.",
-      extraValue: "Extra space before value for {{computed}}key '{{key}}'.",
-      missingKey: "Missing space after {{computed}}key '{{key}}'.",
-      missingValue: "Missing space before value for {{computed}}key '{{key}}'.",
+      extraKey: 'Extra space after {{computed}}key \'{{key}}\'.',
+      extraValue: 'Extra space before value for {{computed}}key \'{{key}}\'.',
+      missingKey: 'Missing space after {{computed}}key \'{{key}}\'.',
+      missingValue: 'Missing space before value for {{computed}}key \'{{key}}\'.',
     },
   },
 

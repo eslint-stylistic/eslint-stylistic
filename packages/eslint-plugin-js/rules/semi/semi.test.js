@@ -29,8 +29,8 @@ ruleTester.run('semi', rule, {
     'for (var a in b){}',
     'for (var i;;){}',
     'if (true) {}\n;[global, extended].forEach(function(){});',
-    "throw new Error('foo');",
-    { code: "throw new Error('foo')", options: ['never'] },
+    'throw new Error(\'foo\');',
+    { code: 'throw new Error(\'foo\')', options: ['never'] },
     { code: 'var x = 5', options: ['never'] },
     { code: 'var x =5, y', options: ['never'] },
     { code: 'foo()', options: ['never'] },
@@ -40,7 +40,7 @@ ruleTester.run('semi', rule, {
     { code: 'x = foo()', options: ['never'] },
     { code: 'if (true) {}\n;[global, extended].forEach(function(){})', options: ['never'] },
     { code: '(function bar() {})\n;(function foo(){})', options: ['never'] },
-    { code: ";/foo/.test('bar')", options: ['never'] },
+    { code: ';/foo/.test(\'bar\')', options: ['never'] },
     { code: ';+5', options: ['never'] },
     { code: ';-foo()', options: ['never'] },
     { code: 'a++\nb++', options: ['never'] },
@@ -191,12 +191,12 @@ ruleTester.run('semi', rule, {
     { code: 'var A = class { a() {} b() {} };', parserOptions: { ecmaVersion: 6 } },
     { code: 'class A { static {} }', parserOptions: { ecmaVersion: 2022 } },
 
-    { code: "import theDefault, { named1, named2 } from 'src/mylib';", parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
-    { code: "import theDefault, { named1, named2 } from 'src/mylib'", options: ['never'], parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
+    { code: 'import theDefault, { named1, named2 } from \'src/mylib\';', parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
+    { code: 'import theDefault, { named1, named2 } from \'src/mylib\'', options: ['never'], parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
 
     // exports, "always"
-    { code: "export * from 'foo';", parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
-    { code: "export { foo } from 'foo';", parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
+    { code: 'export * from \'foo\';', parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
+    { code: 'export { foo } from \'foo\';', parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
     { code: 'var foo = 0;export { foo };', parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
     { code: 'export var foo;', parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
     { code: 'export function foo () { }', parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
@@ -213,8 +213,8 @@ ruleTester.run('semi', rule, {
     { code: 'export default foo += 42;', parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
 
     // exports, "never"
-    { code: "export * from 'foo'", options: ['never'], parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
-    { code: "export { foo } from 'foo'", options: ['never'], parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
+    { code: 'export * from \'foo\'', options: ['never'], parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
+    { code: 'export { foo } from \'foo\'', options: ['never'], parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
     { code: 'var foo = 0; export { foo }', options: ['never'], parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
     { code: 'export var foo', options: ['never'], parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
     { code: 'export function foo () { }', options: ['never'], parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
@@ -580,8 +580,8 @@ ruleTester.run('semi', rule, {
   ],
   invalid: [
     {
-      code: "import * as utils from './utils'",
-      output: "import * as utils from './utils';",
+      code: 'import * as utils from \'./utils\'',
+      output: 'import * as utils from \'./utils\';',
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{
         messageId: 'missingSemi',
@@ -593,8 +593,8 @@ ruleTester.run('semi', rule, {
       }],
     },
     {
-      code: "import { square, diag } from 'lib'",
-      output: "import { square, diag } from 'lib';",
+      code: 'import { square, diag } from \'lib\'',
+      output: 'import { square, diag } from \'lib\';',
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{
         messageId: 'missingSemi',
@@ -606,8 +606,8 @@ ruleTester.run('semi', rule, {
       }],
     },
     {
-      code: "import { default as foo } from 'lib'",
-      output: "import { default as foo } from 'lib';",
+      code: 'import { default as foo } from \'lib\'',
+      output: 'import { default as foo } from \'lib\';',
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{
         messageId: 'missingSemi',
@@ -619,8 +619,8 @@ ruleTester.run('semi', rule, {
       }],
     },
     {
-      code: "import 'src/mylib'",
-      output: "import 'src/mylib';",
+      code: 'import \'src/mylib\'',
+      output: 'import \'src/mylib\';',
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{
         messageId: 'missingSemi',
@@ -632,8 +632,8 @@ ruleTester.run('semi', rule, {
       }],
     },
     {
-      code: "import theDefault, { named1, named2 } from 'src/mylib'",
-      output: "import theDefault, { named1, named2 } from 'src/mylib';",
+      code: 'import theDefault, { named1, named2 } from \'src/mylib\'',
+      output: 'import theDefault, { named1, named2 } from \'src/mylib\';',
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{
         messageId: 'missingSemi',
@@ -862,8 +862,8 @@ ruleTester.run('semi', rule, {
       }],
     },
     {
-      code: "throw new Error('foo')",
-      output: "throw new Error('foo');",
+      code: 'throw new Error(\'foo\')',
+      output: 'throw new Error(\'foo\');',
       errors: [{
         messageId: 'missingSemi',
         type: 'ThrowStatement',
@@ -920,8 +920,8 @@ ruleTester.run('semi', rule, {
     },
 
     {
-      code: "throw new Error('foo');",
-      output: "throw new Error('foo')",
+      code: 'throw new Error(\'foo\');',
+      output: 'throw new Error(\'foo\')',
       options: ['never'],
       errors: [{
         messageId: 'extraSemi',
@@ -1103,8 +1103,8 @@ ruleTester.run('semi', rule, {
       }],
     },
     {
-      code: "import theDefault, { named1, named2 } from 'src/mylib';",
-      output: "import theDefault, { named1, named2 } from 'src/mylib'",
+      code: 'import theDefault, { named1, named2 } from \'src/mylib\';',
+      output: 'import theDefault, { named1, named2 } from \'src/mylib\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{
@@ -1484,8 +1484,8 @@ ruleTester.run('semi', rule, {
 
     // exports, "always"
     {
-      code: "export * from 'foo'",
-      output: "export * from 'foo';",
+      code: 'export * from \'foo\'',
+      output: 'export * from \'foo\';',
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{
         messageId: 'missingSemi',
@@ -1497,8 +1497,8 @@ ruleTester.run('semi', rule, {
       }],
     },
     {
-      code: "export { foo } from 'foo'",
-      output: "export { foo } from 'foo';",
+      code: 'export { foo } from \'foo\'',
+      output: 'export { foo } from \'foo\';',
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{
         messageId: 'missingSemi',
@@ -1616,8 +1616,8 @@ ruleTester.run('semi', rule, {
 
     // exports, "never"
     {
-      code: "export * from 'foo';",
-      output: "export * from 'foo'",
+      code: 'export * from \'foo\';',
+      output: 'export * from \'foo\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{
@@ -1630,8 +1630,8 @@ ruleTester.run('semi', rule, {
       }],
     },
     {
-      code: "export { foo } from 'foo';",
-      output: "export { foo } from 'foo'",
+      code: 'export { foo } from \'foo\';',
+      output: 'export { foo } from \'foo\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{

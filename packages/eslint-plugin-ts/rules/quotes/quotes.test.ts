@@ -1,4 +1,3 @@
-/* eslint-disable eslint-comments/no-use */
 // this rule tests quotes, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 /* eslint-enable eslint-comments/no-use */
@@ -40,7 +39,7 @@ const useBacktick = {
 ruleTester.run('quotes', rule, {
   valid: [
     {
-      code: "declare module '*.html' {}",
+      code: 'declare module \'*.html\' {}',
       options: ['backtick'],
     },
     {
@@ -55,7 +54,7 @@ ruleTester.run('quotes', rule, {
     /** ESLint */
     'var foo = "bar";',
     {
-      code: "var foo = 'bar';",
+      code: 'var foo = \'bar\';',
       options: ['single'],
     },
     {
@@ -80,7 +79,7 @@ ruleTester.run('quotes', rule, {
       ],
     },
     {
-      code: "var foo = '\"';",
+      code: 'var foo = \'"\';',
       options: [
         'double',
         {
@@ -175,7 +174,7 @@ ruleTester.run('quotes', rule, {
       options: ['backtick'],
     },
     {
-      code: "var foo = `bar 'baz'`;",
+      code: 'var foo = `bar \'baz\'`;',
       options: ['backtick'],
     },
     {
@@ -254,7 +253,7 @@ ruleTester.run('quotes', rule, {
 
     // Backticks are also okay if allowTemplateLiterals
     {
-      code: "var foo = `bar 'foo' baz` + 'bar';",
+      code: 'var foo = `bar \'foo\' baz` + \'bar\';',
       options: [
         'single',
         {
@@ -272,7 +271,7 @@ ruleTester.run('quotes', rule, {
       ],
     },
     {
-      code: "var foo = `bar 'foo' baz` + `bar`;",
+      code: 'var foo = `bar \'foo\' baz` + `bar`;',
       options: [
         'backtick',
         {
@@ -295,7 +294,7 @@ ruleTester.run('quotes', rule, {
       options: ['backtick'],
     },
     {
-      code: "(function() { 'use strict'; 'use strong'; 'use asm'; var foo = `backtick`; })();",
+      code: '(function() { \'use strict\'; \'use strong\'; \'use asm\'; var foo = `backtick`; })();',
       options: ['backtick'],
     },
     {
@@ -318,7 +317,7 @@ ruleTester.run('quotes', rule, {
     },
     // `backtick` should not warn import with require.
     {
-      code: "import moment = require('moment');",
+      code: 'import moment = require(\'moment\');',
       options: ['backtick'],
     },
     // `backtick` should not warn property/method names (not computed).
@@ -327,11 +326,11 @@ ruleTester.run('quotes', rule, {
       options: ['backtick'],
     },
     {
-      code: "class Foo { 'bar'(){} }",
+      code: 'class Foo { \'bar\'(){} }',
       options: ['backtick'],
     },
     {
-      code: "class Foo { static ''(){} }",
+      code: 'class Foo { static \'\'(){} }',
       options: ['backtick'],
     },
 
@@ -511,30 +510,30 @@ abstract class Foo {
 
   invalid: [
     {
-      code: "var foo = 'bar';",
+      code: 'var foo = \'bar\';',
       output: 'var foo = "bar";',
       errors: [useDoubleQuote],
     },
     {
       code: 'var foo = "bar";',
-      output: "var foo = 'bar';",
+      output: 'var foo = \'bar\';',
       options: ['single'],
       errors: [useSingleQuote],
     },
     {
       code: 'var foo = `bar`;',
-      output: "var foo = 'bar';",
+      output: 'var foo = \'bar\';',
       options: ['single'],
       errors: [useSingleQuote],
     },
     {
-      code: "var foo = 'don\\'t';",
+      code: 'var foo = \'don\\\'t\';',
       output: 'var foo = "don\'t";',
       errors: [useDoubleQuote],
     },
     {
       code: 'var msg = "Plugin \'" + name + "\' not found"',
-      output: "var msg = 'Plugin \\'' + name + '\\' not found'",
+      output: 'var msg = \'Plugin \\\'\' + name + \'\\\' not found\'',
       options: ['single'],
       errors: [
         { ...useSingleQuote, column: 11 },
@@ -542,7 +541,7 @@ abstract class Foo {
       ],
     },
     {
-      code: "var foo = 'bar';",
+      code: 'var foo = \'bar\';',
       output: 'var foo = "bar";',
       options: ['double'],
       errors: [useDoubleQuote],
@@ -555,7 +554,7 @@ abstract class Foo {
     },
     {
       code: 'var foo = "bar";',
-      output: "var foo = 'bar';",
+      output: 'var foo = \'bar\';',
       options: [
         'single',
         {
@@ -565,7 +564,7 @@ abstract class Foo {
       errors: [useSingleQuote],
     },
     {
-      code: "var foo = 'bar';",
+      code: 'var foo = \'bar\';',
       output: 'var foo = "bar";',
       options: [
         'double',
@@ -576,7 +575,7 @@ abstract class Foo {
       errors: [useDoubleQuote],
     },
     {
-      code: "var foo = '\\\\';",
+      code: 'var foo = \'\\\\\';',
       output: 'var foo = "\\\\";',
       options: [
         'double',
@@ -588,7 +587,7 @@ abstract class Foo {
     },
     {
       code: 'var foo = "bar";',
-      output: "var foo = 'bar';",
+      output: 'var foo = \'bar\';',
       options: [
         'single',
         {
@@ -598,7 +597,7 @@ abstract class Foo {
       errors: [useSingleQuote],
     },
     {
-      code: "var foo = 'bar';",
+      code: 'var foo = \'bar\';',
       output: 'var foo = "bar";',
       options: [
         'double',
@@ -609,13 +608,13 @@ abstract class Foo {
       errors: [useDoubleQuote],
     },
     {
-      code: "var foo = 'bar';",
+      code: 'var foo = \'bar\';',
       output: 'var foo = `bar`;',
       options: ['backtick'],
       errors: [useBacktick],
     },
     {
-      code: "var foo = 'b${x}a$r';",
+      code: 'var foo = \'b${x}a$r\';',
       output: 'var foo = `b\\${x}a$r`;',
       options: ['backtick'],
       errors: [useBacktick],
@@ -638,7 +637,7 @@ abstract class Foo {
       errors: [useBacktick],
     },
     {
-      code: "var foo = 'bar';",
+      code: 'var foo = \'bar\';',
       output: 'var foo = `bar`;',
       options: [
         'backtick',
@@ -678,7 +677,7 @@ abstract class Foo {
       errors: [useBacktick, useBacktick],
     },
     {
-      code: "class Foo { ['a'](){} static ['b'](){} }",
+      code: 'class Foo { [\'a\'](){} static [\'b\'](){} }',
       output: 'class Foo { [`a`](){} static [`b`](){} }',
       options: ['backtick'],
       errors: [useBacktick, useBacktick],
@@ -687,7 +686,7 @@ abstract class Foo {
     // https://github.com/eslint/eslint/issues/7084
     {
       code: '<div blah={"blah"} />',
-      output: "<div blah={'blah'} />",
+      output: '<div blah={\'blah\'} />',
       options: [`single`],
       parserOptions: {
         ecmaFeatures: {
@@ -697,7 +696,7 @@ abstract class Foo {
       errors: [useSingleQuote],
     },
     {
-      code: "<div blah={'blah'} />",
+      code: '<div blah={\'blah\'} />',
       output: '<div blah={"blah"} />',
       options: ['double'],
       parserOptions: {
@@ -708,7 +707,7 @@ abstract class Foo {
       errors: [useDoubleQuote],
     },
     {
-      code: "<div blah={'blah'} />",
+      code: '<div blah={\'blah\'} />',
       output: '<div blah={`blah`} />',
       options: ['backtick'],
       parserOptions: {

@@ -194,33 +194,33 @@ ruleTester.run('no-extra-semi', rule, {
 
     // https://github.com/eslint/eslint/issues/16988
     {
-      code: "; 'use strict'",
+      code: '; \'use strict\'',
       output: null,
       errors: [{ messageId: 'unexpected', type: 'EmptyStatement' }],
     },
     {
-      code: "; ; 'use strict'",
-      output: " ; 'use strict'",
+      code: '; ; \'use strict\'',
+      output: ' ; \'use strict\'',
       errors: [{ messageId: 'unexpected', type: 'EmptyStatement' }, { messageId: 'unexpected', type: 'EmptyStatement' }],
     },
     {
-      code: "debugger;\n;\n'use strict'",
+      code: 'debugger;\n;\n\'use strict\'',
       output: null,
       errors: [{ messageId: 'unexpected', type: 'EmptyStatement', line: 2 }],
     },
     {
-      code: "function foo() { ; 'bar'; }",
+      code: 'function foo() { ; \'bar\'; }',
       output: null,
       errors: [{ messageId: 'unexpected', type: 'EmptyStatement' }],
     },
     {
-      code: "{ ; 'foo'; }",
-      output: "{  'foo'; }",
+      code: '{ ; \'foo\'; }',
+      output: '{  \'foo\'; }',
       errors: [{ messageId: 'unexpected', type: 'EmptyStatement' }],
     },
     {
-      code: "; ('use strict');",
-      output: " ('use strict');",
+      code: '; (\'use strict\');',
+      output: ' (\'use strict\');',
       errors: [{ messageId: 'unexpected', type: 'EmptyStatement' }],
     },
     {

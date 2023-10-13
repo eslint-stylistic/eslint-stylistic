@@ -6,10 +6,9 @@ const process = require('node:process')
  * @param {string} message - Message to log.
  */
 function error(message) {
-  if (!/=-(f|-format)=/.test(process.argv.join('='))) {
-    // eslint-disable-next-line no-console
+  if (!/=-(f|-format)=/.test(process.argv.join('=')))
+
     console.error(message)
-  }
 }
 
 module.exports = error

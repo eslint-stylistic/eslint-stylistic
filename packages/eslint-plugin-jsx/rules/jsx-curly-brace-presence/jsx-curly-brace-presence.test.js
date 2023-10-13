@@ -5,7 +5,7 @@
 
 'use strict'
 
-/* eslint-disable quotes */ // For better readability on tests involving quotes
+// For better readability on tests involving quotes
 
 // ------------------------------------------------------------------------------
 // Requirements

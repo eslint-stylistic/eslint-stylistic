@@ -20,26 +20,26 @@ const ruleTester = new RuleTester()
 
 ruleTester.run('semi-spacing', rule, {
   valid: [
-    "var a = 'b';",
-    "var a = 'b ; c';",
-    "var a = 'b',\nc = 'd';",
+    'var a = \'b\';',
+    'var a = \'b ; c\';',
+    'var a = \'b\',\nc = \'d\';',
     'var a = function() {};',
     ';(function(){}());',
-    "var a = 'b'\n;(function(){}())",
+    'var a = \'b\'\n;(function(){}())',
     'debugger\n;(function(){}())',
     'while (true) { break; }',
     'while (true) { continue; }',
     'debugger;',
     'function foo() { return; }',
-    "throw new Error('foo');",
+    'throw new Error(\'foo\');',
     'for (var i = 0; i < 10; i++) {}',
     'for (;;) {}',
     {
-      code: "var a = 'b' ;",
+      code: 'var a = \'b\' ;',
       options: [{ before: true, after: true }],
     },
     {
-      code: "var a = 'b';c = 'd';",
+      code: 'var a = \'b\';c = \'d\';',
       options: [{ before: false, after: false }],
     },
     {
@@ -78,8 +78,8 @@ ruleTester.run('semi-spacing', rule, {
   ],
   invalid: [
     {
-      code: "var a = 'b'  ;",
-      output: "var a = 'b';",
+      code: 'var a = \'b\'  ;',
+      output: 'var a = \'b\';',
       errors: [
         {
           messageId: 'unexpectedWhitespaceBefore',
@@ -92,8 +92,8 @@ ruleTester.run('semi-spacing', rule, {
       ],
     },
     {
-      code: "var a = 'b' ;",
-      output: "var a = 'b';",
+      code: 'var a = \'b\' ;',
+      output: 'var a = \'b\';',
       errors: [
         {
           messageId: 'unexpectedWhitespaceBefore',
@@ -106,8 +106,8 @@ ruleTester.run('semi-spacing', rule, {
       ],
     },
     {
-      code: "var a = 'b',\nc = 'd' ;",
-      output: "var a = 'b',\nc = 'd';",
+      code: 'var a = \'b\',\nc = \'d\' ;',
+      output: 'var a = \'b\',\nc = \'d\';',
       errors: [{ messageId: 'unexpectedWhitespaceBefore', type: 'VariableDeclaration', line: 2, column: 8 }],
     },
     {
@@ -121,8 +121,8 @@ ruleTester.run('semi-spacing', rule, {
       errors: [{ messageId: 'unexpectedWhitespaceBefore', type: 'VariableDeclaration', line: 2, column: 2 }],
     },
     {
-      code: "/^a$/.test('b') ;",
-      output: "/^a$/.test('b');",
+      code: '/^a$/.test(\'b\') ;',
+      output: '/^a$/.test(\'b\');',
       errors: [{ messageId: 'unexpectedWhitespaceBefore', type: 'ExpressionStatement', line: 1, column: 16 }],
     },
     {
@@ -151,8 +151,8 @@ ruleTester.run('semi-spacing', rule, {
       errors: [{ messageId: 'unexpectedWhitespaceBefore', type: 'ReturnStatement', line: 1, column: 24 }],
     },
     {
-      code: "throw new Error('foo') ;",
-      output: "throw new Error('foo');",
+      code: 'throw new Error(\'foo\') ;',
+      output: 'throw new Error(\'foo\');',
       errors: [{ messageId: 'unexpectedWhitespaceBefore', type: 'ThrowStatement', line: 1, column: 23 }],
     },
     {
@@ -164,8 +164,8 @@ ruleTester.run('semi-spacing', rule, {
       ],
     },
     {
-      code: "var a = 'b';c = 'd';",
-      output: "var a = 'b'; c = 'd';",
+      code: 'var a = \'b\';c = \'d\';',
+      output: 'var a = \'b\'; c = \'d\';',
       errors: [
         {
           messageId: 'missingWhitespaceAfter',
@@ -178,8 +178,8 @@ ruleTester.run('semi-spacing', rule, {
       ],
     },
     {
-      code: "var a = 'b';",
-      output: "var a = 'b' ;",
+      code: 'var a = \'b\';',
+      output: 'var a = \'b\' ;',
       options: [{ before: true, after: true }],
       errors: [
         {
@@ -193,8 +193,8 @@ ruleTester.run('semi-spacing', rule, {
       ],
     },
     {
-      code: "var a = 'b'; c = 'd';",
-      output: "var a = 'b';c = 'd';",
+      code: 'var a = \'b\'; c = \'d\';',
+      output: 'var a = \'b\';c = \'d\';',
       options: [{ before: false, after: false }],
       errors: [
         {
@@ -208,8 +208,8 @@ ruleTester.run('semi-spacing', rule, {
       ],
     },
     {
-      code: "var a = 'b';   c = 'd';",
-      output: "var a = 'b';c = 'd';",
+      code: 'var a = \'b\';   c = \'d\';',
+      output: 'var a = \'b\';c = \'d\';',
       options: [{ before: false, after: false }],
       errors: [
         {
@@ -277,8 +277,8 @@ ruleTester.run('semi-spacing', rule, {
       ],
     },
     {
-      code: "import Foo from 'bar' ;",
-      output: "import Foo from 'bar';",
+      code: 'import Foo from \'bar\' ;',
+      output: 'import Foo from \'bar\';',
       options: [{ before: false, after: true }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -286,8 +286,8 @@ ruleTester.run('semi-spacing', rule, {
       ],
     },
     {
-      code: "import * as foo from 'bar' ;",
-      output: "import * as foo from 'bar';",
+      code: 'import * as foo from \'bar\' ;',
+      output: 'import * as foo from \'bar\';',
       options: [{ before: false, after: true }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -304,8 +304,8 @@ ruleTester.run('semi-spacing', rule, {
       ],
     },
     {
-      code: "export * from 'foo' ;",
-      output: "export * from 'foo';",
+      code: 'export * from \'foo\' ;',
+      output: 'export * from \'foo\';',
       options: [{ before: false, after: true }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [

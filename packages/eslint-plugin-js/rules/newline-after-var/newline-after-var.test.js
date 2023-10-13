@@ -19,7 +19,7 @@ const rule = require('./newline-after-var')
 
 // Valid for both "Always" and "Never"
 const NO_VAR = 'console.log(greet);'
-const ONLY_VAR = "var greet = 'hello';"
+const ONLY_VAR = 'var greet = \'hello\';'
 const FOR_LOOP_WITH_LET = 'for(let a = 1; a < 1; a++){\n break;\n}'
 const FOR_LOOP_WITH_VAR = 'for(var a = 1; a < 1; a++){\n break;\n}'
 const FOR_IN_LOOP_WITH_LET = 'for(let a in obj){\n break;\n}'
@@ -29,66 +29,66 @@ const FOR_OF_LOOP_WITH_VAR = 'for(var a in obj){\n break;\n}'
 const EXPORT_WITH_LET = 'export let a = 1;\nexport let b = 2;'
 const EXPORT_WITH_VAR = 'export var a = 1;\nexport var b = 2;'
 const EXPORT_WITH_CONST = 'export const a = 1;\nexport const b = 2;'
-const END_OF_FUNCTION = "function example() {\nvar greet = 'hello'\n}"
-const END_OF_FUNCTION_EXPRESSION = "var f = function() {\nvar greet = 'hello'\n};"
-const END_OF_ARROW_FUNCTION = "() => {\nvar greet = 'hello';\n}"
+const END_OF_FUNCTION = 'function example() {\nvar greet = \'hello\'\n}'
+const END_OF_FUNCTION_EXPRESSION = 'var f = function() {\nvar greet = \'hello\'\n};'
+const END_OF_ARROW_FUNCTION = '() => {\nvar greet = \'hello\';\n}'
 const END_OF_BLOCK = '{\nvar foo;\n}'
 const END_OF_IF = 'if(true) {\nvar foo;\n}'
 const END_OF_SWITCH = 'switch(a) {\ncase 0:\nvar foo;\n}'
 
 // Valid for "Always"
-const ONE_BLANK = "var greet = 'hello';\n\nconsole.log(greet);"
-const TWO_BLANKS = "var greet = 'hello';\n\n\nconsole.log(greet);"
-const THREE_BLANKS = "var greet = 'hello';\n\n\n\nconsole.log(greet);"
-const ONE_BLANK_WITH_TRAILING_WS = "var greet = 'hello';    \n\nconsole.log(greet);"
-const ONE_BLANK_WITH_INLINE_COMMENT = "var greet = 'hello'; // inline comment\n\nconsole.log(greet);"
-const NEXT_LINE_COMMENT_ONE_BLANK = "var greet = 'hello';\n// next-line comment\n\nconsole.log(greet);"
-const NEXT_LINE_BLOCK_COMMENT_ONE_BLANK = "var greet = 'hello';\n/* block comment\nblock comment */\n\nconsole.log(greet);"
-const NEXT_LINE_TWO_COMMENTS_ONE_BLANK = "var greet = 'hello';\n// next-line comment\n// second-line comment\n\nconsole.log(greet);"
-const NEXT_LINE_COMMENT_BLOCK_COMMENT_ONE_BLANK = "var greet = 'hello';\n// next-line comment\n/* block comment\nblock comment */\n\nconsole.log(greet);"
-const MIXED_COMMENT_ONE_BLANK = "var greet = 'hello';\n// inline comment\nvar name = 'world';\n\nconsole.log(greet, name);"
-const MIXED_BLOCK_COMMENT_ONE_BLANK = "var greet = 'hello';\n/* block comment\nblock comment */\nvar name = 'world';\n\nconsole.log(greet, name);"
-const MULTI_VAR_ONE_BLANK = "var greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);"
-const MULTI_VAR_NO_BREAK_ONE_BLANK = "var greet = 'hello';var name = 'world';\n\nconsole.log(greet, name);"
-const MULTI_DEC_ONE_BLANK = "var greet = 'hello', name = 'world';\n\nconsole.log(greet, name);"
-const MULTI_LINE_ONE_BLANK = "var greet = 'hello',\nname = 'world';\n\nconsole.log(greet, name);"
-const MULTI_LINE_ONE_BLANK_WITH_COMMENTS = "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\n\nconsole.log(greet, name);"
-const MULTI_LINE_NEXT_LINE_COMMENT_ONE_BLANK = "var greet = 'hello',\nname = 'world';\n// next-line comment\n\nconsole.log(greet);"
-const MULTI_LINE_NEXT_LINE_BLOCK_COMMENT_ONE_BLANK = "var greet = 'hello',\nname = 'world';\n/* block comment\nblock comment */\n\nconsole.log(greet);"
-const LET_ONE_BLANK = "let greet = 'hello';\n\nconsole.log(greet);"
-const CONST_ONE_BLANK = "const greet = 'hello';\n\nconsole.log(greet);"
-const MIXED_LET_VAR = "let greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);"
-const MIXED_CONST_VAR = "const greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);"
-const MIXED_LET_CONST = "let greet = 'hello';\nconst name = 'world';\n\nconsole.log(greet, name);"
-const NOT_END_OF_FUNCTION_ONE_BLANK = "function example() {\nvar greet = 'hello';\n\nconsole.log(greet);\n}"
-const NOT_END_OF_FUNCTION_EXPRESSION_ONE_BLANK = "var f = function() {\nvar greet = 'hello';\n\nconsole.log(greet);\n};"
-const NOT_END_OF_ARROW_FUNCTION_ONE_BLANK = "() => {\nvar greet = 'hello';\n\nconsole.log(greet);\n}"
+const ONE_BLANK = 'var greet = \'hello\';\n\nconsole.log(greet);'
+const TWO_BLANKS = 'var greet = \'hello\';\n\n\nconsole.log(greet);'
+const THREE_BLANKS = 'var greet = \'hello\';\n\n\n\nconsole.log(greet);'
+const ONE_BLANK_WITH_TRAILING_WS = 'var greet = \'hello\';    \n\nconsole.log(greet);'
+const ONE_BLANK_WITH_INLINE_COMMENT = 'var greet = \'hello\'; // inline comment\n\nconsole.log(greet);'
+const NEXT_LINE_COMMENT_ONE_BLANK = 'var greet = \'hello\';\n// next-line comment\n\nconsole.log(greet);'
+const NEXT_LINE_BLOCK_COMMENT_ONE_BLANK = 'var greet = \'hello\';\n/* block comment\nblock comment */\n\nconsole.log(greet);'
+const NEXT_LINE_TWO_COMMENTS_ONE_BLANK = 'var greet = \'hello\';\n// next-line comment\n// second-line comment\n\nconsole.log(greet);'
+const NEXT_LINE_COMMENT_BLOCK_COMMENT_ONE_BLANK = 'var greet = \'hello\';\n// next-line comment\n/* block comment\nblock comment */\n\nconsole.log(greet);'
+const MIXED_COMMENT_ONE_BLANK = 'var greet = \'hello\';\n// inline comment\nvar name = \'world\';\n\nconsole.log(greet, name);'
+const MIXED_BLOCK_COMMENT_ONE_BLANK = 'var greet = \'hello\';\n/* block comment\nblock comment */\nvar name = \'world\';\n\nconsole.log(greet, name);'
+const MULTI_VAR_ONE_BLANK = 'var greet = \'hello\';\nvar name = \'world\';\n\nconsole.log(greet, name);'
+const MULTI_VAR_NO_BREAK_ONE_BLANK = 'var greet = \'hello\';var name = \'world\';\n\nconsole.log(greet, name);'
+const MULTI_DEC_ONE_BLANK = 'var greet = \'hello\', name = \'world\';\n\nconsole.log(greet, name);'
+const MULTI_LINE_ONE_BLANK = 'var greet = \'hello\',\nname = \'world\';\n\nconsole.log(greet, name);'
+const MULTI_LINE_ONE_BLANK_WITH_COMMENTS = 'var greet = \'hello\', // inline comment\nname = \'world\'; // inline comment\n\nconsole.log(greet, name);'
+const MULTI_LINE_NEXT_LINE_COMMENT_ONE_BLANK = 'var greet = \'hello\',\nname = \'world\';\n// next-line comment\n\nconsole.log(greet);'
+const MULTI_LINE_NEXT_LINE_BLOCK_COMMENT_ONE_BLANK = 'var greet = \'hello\',\nname = \'world\';\n/* block comment\nblock comment */\n\nconsole.log(greet);'
+const LET_ONE_BLANK = 'let greet = \'hello\';\n\nconsole.log(greet);'
+const CONST_ONE_BLANK = 'const greet = \'hello\';\n\nconsole.log(greet);'
+const MIXED_LET_VAR = 'let greet = \'hello\';\nvar name = \'world\';\n\nconsole.log(greet, name);'
+const MIXED_CONST_VAR = 'const greet = \'hello\';\nvar name = \'world\';\n\nconsole.log(greet, name);'
+const MIXED_LET_CONST = 'let greet = \'hello\';\nconst name = \'world\';\n\nconsole.log(greet, name);'
+const NOT_END_OF_FUNCTION_ONE_BLANK = 'function example() {\nvar greet = \'hello\';\n\nconsole.log(greet);\n}'
+const NOT_END_OF_FUNCTION_EXPRESSION_ONE_BLANK = 'var f = function() {\nvar greet = \'hello\';\n\nconsole.log(greet);\n};'
+const NOT_END_OF_ARROW_FUNCTION_ONE_BLANK = '() => {\nvar greet = \'hello\';\n\nconsole.log(greet);\n}'
 const ONE_BLANK_BEFORE_CASE = 'switch(a) {\ncase 0:\nvar foo;\n\ncase 1:}'
 
 // Valid for "Never"
-const NO_BREAK = "var greet = 'hello';console.log(greet);"
-const NO_BLANK = "var greet = 'hello';\nconsole.log(greet);"
-const NO_BLANK_WITH_TRAILING_WS = "var greet = 'hello';    \nconsole.log(greet);"
-const NO_BLANK_WITH_INLINE_COMMENT = "var greet = 'hello'; // inline comment\nconsole.log(greet);"
-const NEXT_LINE_COMMENT = "var greet = 'hello';\n// next-line comment\nconsole.log(greet);"
-const NEXT_LINE_BLOCK_COMMENT = "var greet = 'hello';\n/* block comment\nblock comment */\nconsole.log(greet);"
-const NEXT_LINE_TWO_COMMENTS_NO_BLANK = "var greet = 'hello';\n// next-line comment\n// second-line comment\nconsole.log(greet);"
-const NEXT_LINE_COMMENT_BLOCK_COMMENT_NO_BLANK = "var greet = 'hello';\n// next-line comment\n/* block comment\nblock comment */\nconsole.log(greet);"
-const MIXED_COMMENT_NO_BLANK = "var greet = 'hello';\n// inline comment\nvar name = 'world';\nconsole.log(greet, name);"
-const MIXED_BLOCK_COMMENT_NO_BLANK = "var greet = 'hello';\n/* block comment\nblock comment */\nvar name = 'world';\nconsole.log(greet, name);"
-const MULTI_VAR_NO_BREAK = "var greet = 'hello';var name = 'world';console.log(greet, name);"
-const MULTI_VAR_NO_BLANK = "var greet = 'hello';\nvar name = 'world';\nconsole.log(greet, name);"
-const MULTI_DEC_NO_BREAK = "var greet = 'hello', name = 'world';console.log(greet, name);"
-const MULTI_DEC_NO_BLANK = "var greet = 'hello', name = 'world';\nconsole.log(greet, name);"
-const MULTI_LINE_NO_BLANK = "var greet = 'hello',\nname = 'world';\nconsole.log(greet, name);"
-const MULTI_LINE_NO_BLANK_WITH_COMMENTS = "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\nconsole.log(greet, name);"
-const MULTI_LINE_NEXT_LINE_COMMENT = "var greet = 'hello',\nname = 'world';\n// next-line comment\nconsole.log(greet);"
-const MULTI_LINE_NEXT_LINE_BLOCK_COMMENT = "var greet = 'hello',\nname = 'world';\n/* block comment\nblock comment */\nconsole.log(greet);"
-const LET_NO_BLANK = "let greet = 'hello';\nconsole.log(greet);"
-const CONST_NO_BLANK = "const greet = 'hello';\nconsole.log(greet);"
-const NOT_END_OF_FUNCTION = "function example() {\nvar greet = 'hello';\nconsole.log(greet);\n}"
-const NOT_END_OF_FUNCTION_EXPRESSION = "var f = function() {\nvar greet = 'hello';\nconsole.log(greet);\n};"
-const NOT_END_OF_ARROW_FUNCTION = "() => {\nvar greet = 'hello';\nconsole.log(greet);\n}"
+const NO_BREAK = 'var greet = \'hello\';console.log(greet);'
+const NO_BLANK = 'var greet = \'hello\';\nconsole.log(greet);'
+const NO_BLANK_WITH_TRAILING_WS = 'var greet = \'hello\';    \nconsole.log(greet);'
+const NO_BLANK_WITH_INLINE_COMMENT = 'var greet = \'hello\'; // inline comment\nconsole.log(greet);'
+const NEXT_LINE_COMMENT = 'var greet = \'hello\';\n// next-line comment\nconsole.log(greet);'
+const NEXT_LINE_BLOCK_COMMENT = 'var greet = \'hello\';\n/* block comment\nblock comment */\nconsole.log(greet);'
+const NEXT_LINE_TWO_COMMENTS_NO_BLANK = 'var greet = \'hello\';\n// next-line comment\n// second-line comment\nconsole.log(greet);'
+const NEXT_LINE_COMMENT_BLOCK_COMMENT_NO_BLANK = 'var greet = \'hello\';\n// next-line comment\n/* block comment\nblock comment */\nconsole.log(greet);'
+const MIXED_COMMENT_NO_BLANK = 'var greet = \'hello\';\n// inline comment\nvar name = \'world\';\nconsole.log(greet, name);'
+const MIXED_BLOCK_COMMENT_NO_BLANK = 'var greet = \'hello\';\n/* block comment\nblock comment */\nvar name = \'world\';\nconsole.log(greet, name);'
+const MULTI_VAR_NO_BREAK = 'var greet = \'hello\';var name = \'world\';console.log(greet, name);'
+const MULTI_VAR_NO_BLANK = 'var greet = \'hello\';\nvar name = \'world\';\nconsole.log(greet, name);'
+const MULTI_DEC_NO_BREAK = 'var greet = \'hello\', name = \'world\';console.log(greet, name);'
+const MULTI_DEC_NO_BLANK = 'var greet = \'hello\', name = \'world\';\nconsole.log(greet, name);'
+const MULTI_LINE_NO_BLANK = 'var greet = \'hello\',\nname = \'world\';\nconsole.log(greet, name);'
+const MULTI_LINE_NO_BLANK_WITH_COMMENTS = 'var greet = \'hello\', // inline comment\nname = \'world\'; // inline comment\nconsole.log(greet, name);'
+const MULTI_LINE_NEXT_LINE_COMMENT = 'var greet = \'hello\',\nname = \'world\';\n// next-line comment\nconsole.log(greet);'
+const MULTI_LINE_NEXT_LINE_BLOCK_COMMENT = 'var greet = \'hello\',\nname = \'world\';\n/* block comment\nblock comment */\nconsole.log(greet);'
+const LET_NO_BLANK = 'let greet = \'hello\';\nconsole.log(greet);'
+const CONST_NO_BLANK = 'const greet = \'hello\';\nconsole.log(greet);'
+const NOT_END_OF_FUNCTION = 'function example() {\nvar greet = \'hello\';\nconsole.log(greet);\n}'
+const NOT_END_OF_FUNCTION_EXPRESSION = 'var f = function() {\nvar greet = \'hello\';\nconsole.log(greet);\n};'
+const NOT_END_OF_ARROW_FUNCTION = '() => {\nvar greet = \'hello\';\nconsole.log(greet);\n}'
 const NO_BLANK_BEFORE_CASE = 'switch(a) {\ncase 0:\nvar foo;\ncase 1:}'
 
 const ALWAYS_ERROR = {

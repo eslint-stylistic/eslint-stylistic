@@ -619,7 +619,7 @@ module.exports = {
       'Property': checkSpacingForProperty,
 
       // To avoid conflicts with `space-infix-ops`, e.g. `a > this.b`
-      "BinaryExpression[operator='>']": function (node) {
+      'BinaryExpression[operator=\'>\']': function (node) {
         const operatorToken = sourceCode.getTokenBefore(node.right, astUtils.isNotOpeningParenToken)
 
         tokensToIgnore.add(operatorToken)

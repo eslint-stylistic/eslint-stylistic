@@ -25,7 +25,7 @@ ruleTester.run('no-multi-spaces', rule, {
     'var a = 1, b = 2;',
     'var arr = [1, 2];',
     'var arr = [ (1), (2) ];',
-    "var obj = {'a': 1, 'b': (2)};",
+    'var obj = {\'a\': 1, \'b\': (2)};',
     '\t\tvar x = 5,\n\t\t    y = 2;',
     'a, b',
     'a >>> b',
@@ -160,11 +160,11 @@ ruleTester.run('no-multi-spaces', rule, {
       }],
     },
     {
-      code: "var arr = {'a': 1,  'b': 2};",
-      output: "var arr = {'a': 1, 'b': 2};",
+      code: 'var arr = {\'a\': 1,  \'b\': 2};',
+      output: 'var arr = {\'a\': 1, \'b\': 2};',
       errors: [{
         messageId: 'multipleSpaces',
-        data: { displayValue: "'b'" },
+        data: { displayValue: '\'b\'' },
         type: 'String',
         column: 19,
         endColumn: 21,

@@ -1,4 +1,3 @@
-/* eslint-disable eslint-comments/no-use */
 // this rule tests the position of braces, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 /* eslint-enable eslint-comments/no-use */
@@ -88,52 +87,52 @@ ruleTester.run('object-curly-spacing', rule, {
 
     // always - import / export
     {
-      code: "import door from 'room'",
+      code: 'import door from \'room\'',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import * as door from 'room'",
+      code: 'import * as door from \'room\'',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import { door } from 'room'",
+      code: 'import { door } from \'room\'',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import {\ndoor } from 'room'",
+      code: 'import {\ndoor } from \'room\'',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import { /**/door/**/ } from 'room'",
+      code: 'import { /**/door/**/ } from \'room\'',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import { //\ndoor } from 'room'",
+      code: 'import { //\ndoor } from \'room\'',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export { door } from 'room'",
+      code: 'export { door } from \'room\'',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import { house, mouse } from 'caravan'",
+      code: 'import { house, mouse } from \'caravan\'',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import house, { mouse } from 'caravan'",
+      code: 'import house, { mouse } from \'caravan\'',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import door, { house, mouse } from 'caravan'",
+      code: 'import door, { house, mouse } from \'caravan\'',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
@@ -143,42 +142,42 @@ ruleTester.run('object-curly-spacing', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import 'room'",
+      code: 'import \'room\'',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import { bar as x } from 'foo';",
+      code: 'import { bar as x } from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import { x, } from 'foo';",
+      code: 'import { x, } from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import {\nx,\n} from 'foo';",
+      code: 'import {\nx,\n} from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export { x, } from 'foo';",
+      code: 'export { x, } from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export {\nx,\n} from 'foo';",
+      code: 'export {\nx,\n} from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export { /**/x/**/ } from 'foo';",
+      code: 'export { /**/x/**/ } from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export { //\nx } from 'foo';",
+      code: 'export { //\nx } from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
@@ -198,7 +197,7 @@ ruleTester.run('object-curly-spacing', rule, {
 
     // always - objectsInObjects
     {
-      code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};",
+      code: 'var obj = { \'foo\': { \'bar\': 1, \'baz\': 2 }};',
       options: ['always', { objectsInObjects: false }],
     },
     {
@@ -213,7 +212,7 @@ ruleTester.run('object-curly-spacing', rule, {
 
     // always - arraysInObjects
     {
-      code: "var obj = { 'foo': [ 1, 2 ]};",
+      code: 'var obj = { \'foo\': [ 1, 2 ]};',
       options: ['always', { arraysInObjects: false }],
     },
     {
@@ -223,13 +222,13 @@ ruleTester.run('object-curly-spacing', rule, {
 
     // always - arraysInObjects, objectsInObjects
     {
-      code: "var obj = { 'qux': [ 1, 2 ], 'foo': { 'bar': 1, 'baz': 2 }};",
+      code: 'var obj = { \'qux\': [ 1, 2 ], \'foo\': { \'bar\': 1, \'baz\': 2 }};',
       options: ['always', { arraysInObjects: false, objectsInObjects: false }],
     },
 
     // always - arraysInObjects, objectsInObjects (reverse)
     {
-      code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }, 'qux': [ 1, 2 ]};",
+      code: 'var obj = { \'foo\': { \'bar\': 1, \'baz\': 2 }, \'qux\': [ 1, 2 ]};',
       options: ['always', { arraysInObjects: false, objectsInObjects: false }],
     },
 
@@ -330,52 +329,52 @@ ruleTester.run('object-curly-spacing', rule, {
 
     // never - import / export
     {
-      code: "import door from 'room'",
+      code: 'import door from \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import * as door from 'room'",
+      code: 'import * as door from \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import {door} from 'room'",
+      code: 'import {door} from \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export {door} from 'room'",
+      code: 'export {door} from \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import {/* */ door} from 'room'",
+      code: 'import {/* */ door} from \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export {/* */ door} from 'room'",
+      code: 'export {/* */ door} from \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import {door /* */} from 'room'",
+      code: 'import {door /* */} from \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export {door /* */} from 'room'",
+      code: 'export {door /* */} from \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import {//\n door} from 'room'",
+      code: 'import {//\n door} from \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export {//\n door} from 'room'",
+      code: 'export {//\n door} from \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
@@ -385,12 +384,12 @@ ruleTester.run('object-curly-spacing', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import { // line comment exception\n door} from 'room'",
+      code: 'import { // line comment exception\n door} from \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export { // line comment exception\n door} from 'room'",
+      code: 'export { // line comment exception\n door} from \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
@@ -400,22 +399,22 @@ ruleTester.run('object-curly-spacing', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import {\ndoor} from 'room'",
+      code: 'import {\ndoor} from \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export {\ndoor\n} from 'room'",
+      code: 'export {\ndoor\n} from \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import {house,mouse} from 'caravan'",
+      code: 'import {house,mouse} from \'caravan\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import {house, mouse} from 'caravan'",
+      code: 'import {house, mouse} from \'caravan\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
@@ -425,42 +424,42 @@ ruleTester.run('object-curly-spacing', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import 'room'",
+      code: 'import \'room\'',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import x, {bar} from 'foo';",
+      code: 'import x, {bar} from \'foo\';',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import x, {bar, baz} from 'foo';",
+      code: 'import x, {bar, baz} from \'foo\';',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import {bar as y} from 'foo';",
+      code: 'import {bar as y} from \'foo\';',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import {x,} from 'foo';",
+      code: 'import {x,} from \'foo\';',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import {\nx,\n} from 'foo';",
+      code: 'import {\nx,\n} from \'foo\';',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export {x,} from 'foo';",
+      code: 'export {x,} from \'foo\';',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export {\nx,\n} from 'foo';",
+      code: 'export {\nx,\n} from \'foo\';',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
@@ -470,7 +469,7 @@ ruleTester.run('object-curly-spacing', rule, {
 
     // never - objectsInObjects
     {
-      code: "var obj = {'foo': {'bar': 1, 'baz': 2} };",
+      code: 'var obj = {\'foo\': {\'bar\': 1, \'baz\': 2} };',
       options: ['never', { objectsInObjects: true }],
     },
 
@@ -483,11 +482,11 @@ ruleTester.run('object-curly-spacing', rule, {
     { code: 'var {a: {}} = foo;', parserOptions: { ecmaVersion: 6 } },
     { code: 'var {a: []} = foo;', parserOptions: { ecmaVersion: 6 } },
     {
-      code: "import {} from 'foo';",
+      code: 'import {} from \'foo\';',
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export {} from 'foo';",
+      code: 'export {} from \'foo\';',
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
@@ -515,12 +514,12 @@ ruleTester.run('object-curly-spacing', rule, {
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: "import {} from 'foo';",
+      code: 'import {} from \'foo\';',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "export {} from 'foo';",
+      code: 'export {} from \'foo\';',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
@@ -573,65 +572,65 @@ ruleTester.run('object-curly-spacing', rule, {
 
     // default - mapped types
     {
-      code: "const x:{[k in 'union']: number}",
+      code: 'const x:{[k in \'union\']: number}',
     },
     {
-      code: "const x:{ // line-comment\n[k in 'union']: number\n}",
+      code: 'const x:{ // line-comment\n[k in \'union\']: number\n}',
     },
     {
-      code: "const x:{// line-comment\n[k in 'union']: number\n}",
+      code: 'const x:{// line-comment\n[k in \'union\']: number\n}',
     },
     {
-      code: "const x:{/* inline-comment */[k in 'union']: number/* inline-comment */}",
+      code: 'const x:{/* inline-comment */[k in \'union\']: number/* inline-comment */}',
     },
     {
-      code: "const x:{\n[k in 'union']: number\n}",
+      code: 'const x:{\n[k in \'union\']: number\n}',
     },
     {
-      code: "const x:{[k in 'union']: {[k in 'union']: number}}",
+      code: 'const x:{[k in \'union\']: {[k in \'union\']: number}}',
     },
     {
-      code: "const x:{[k in 'union']: [number]}",
+      code: 'const x:{[k in \'union\']: [number]}',
     },
     {
-      code: "const x:{[k in 'union']: value}",
+      code: 'const x:{[k in \'union\']: value}',
     },
 
     // never - mapped types
     {
-      code: "const x:{[k in 'union']: {[k in 'union']: number} }",
+      code: 'const x:{[k in \'union\']: {[k in \'union\']: number} }',
       options: ['never', { objectsInObjects: true }],
     },
     {
-      code: "const x:{[k in 'union']: {[k in 'union']: number}}",
+      code: 'const x:{[k in \'union\']: {[k in \'union\']: number}}',
       options: ['never', { objectsInObjects: false }],
     },
     {
-      code: "const x:{[k in 'union']: () => {[k in 'union']: number} }",
+      code: 'const x:{[k in \'union\']: () => {[k in \'union\']: number} }',
       options: ['never', { objectsInObjects: true }],
     },
     {
-      code: "const x:{[k in 'union']: () => {[k in 'union']: number}}",
+      code: 'const x:{[k in \'union\']: () => {[k in \'union\']: number}}',
       options: ['never', { objectsInObjects: false }],
     },
     {
-      code: "const x:{[k in 'union']: [ number ]}",
+      code: 'const x:{[k in \'union\']: [ number ]}',
       options: ['never', { arraysInObjects: false }],
     },
     {
-      code: "const x:{ [k in 'union']: value}",
+      code: 'const x:{ [k in \'union\']: value}',
       options: ['never', { arraysInObjects: true }],
     },
     {
-      code: "const x:{[k in 'union']: value}",
+      code: 'const x:{[k in \'union\']: value}',
       options: ['never', { arraysInObjects: false }],
     },
     {
-      code: "const x:{ [k in 'union']: [number] }",
+      code: 'const x:{ [k in \'union\']: [number] }',
       options: ['never', { arraysInObjects: true }],
     },
     {
-      code: "const x:{[k in 'union']: [number]}",
+      code: 'const x:{[k in \'union\']: [number]}',
       options: ['never', { arraysInObjects: false }],
     },
 
@@ -679,63 +678,63 @@ ruleTester.run('object-curly-spacing', rule, {
 
     // always - mapped types
     {
-      code: "const x:{ [k in 'union']: number }",
+      code: 'const x:{ [k in \'union\']: number }',
       options: ['always'],
     },
     {
-      code: "const x:{ // line-comment\n[k in 'union']: number\n}",
+      code: 'const x:{ // line-comment\n[k in \'union\']: number\n}',
       options: ['always'],
     },
     {
-      code: "const x:{ /* inline-comment */ [k in 'union']: number /* inline-comment */ }",
+      code: 'const x:{ /* inline-comment */ [k in \'union\']: number /* inline-comment */ }',
       options: ['always'],
     },
     {
-      code: "const x:{\n[k in 'union']: number\n}",
+      code: 'const x:{\n[k in \'union\']: number\n}',
       options: ['always'],
     },
     {
-      code: "const x:{ [k in 'union']: [number] }",
+      code: 'const x:{ [k in \'union\']: [number] }',
       options: ['always'],
     },
 
     // always - mapped types - objectsInObjects
     {
-      code: "const x:{ [k in 'union']: { [k in 'union']: number } }",
+      code: 'const x:{ [k in \'union\']: { [k in \'union\']: number } }',
       options: ['always', { objectsInObjects: true }],
     },
     {
-      code: "const x:{ [k in 'union']: { [k in 'union']: number }}",
+      code: 'const x:{ [k in \'union\']: { [k in \'union\']: number }}',
       options: ['always', { objectsInObjects: false }],
     },
     {
-      code: "const x:{ [k in 'union']: () => { [k in 'union']: number } }",
+      code: 'const x:{ [k in \'union\']: () => { [k in \'union\']: number } }',
       options: ['always', { objectsInObjects: true }],
     },
     {
-      code: "const x:{ [k in 'union']: () => { [k in 'union']: number }}",
+      code: 'const x:{ [k in \'union\']: () => { [k in \'union\']: number }}',
       options: ['always', { objectsInObjects: false }],
     },
 
     // always - mapped types - arraysInObjects
     {
-      code: "type x = { [k in 'union']: number }",
+      code: 'type x = { [k in \'union\']: number }',
       options: ['always'],
     },
     {
-      code: "const x:{ [k in 'union']: [number] }",
+      code: 'const x:{ [k in \'union\']: [number] }',
       options: ['always', { arraysInObjects: true }],
     },
     {
-      code: "const x:{ [k in 'union']: value }",
+      code: 'const x:{ [k in \'union\']: value }',
       options: ['always', { arraysInObjects: true }],
     },
     {
-      code: "const x:{[k in 'union']: value }",
+      code: 'const x:{[k in \'union\']: value }',
       options: ['always', { arraysInObjects: false }],
     },
     {
-      code: "const x:{[k in 'union']: [number]}",
+      code: 'const x:{[k in \'union\']: [number]}',
       options: ['always', { arraysInObjects: false }],
     },
 
@@ -816,8 +815,8 @@ ruleTester.run('object-curly-spacing', rule, {
 
   invalid: [
     {
-      code: "import {bar} from 'foo.js';",
-      output: "import { bar } from 'foo.js';",
+      code: 'import {bar} from \'foo.js\';',
+      output: 'import { bar } from \'foo.js\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -842,8 +841,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "import { bar as y} from 'foo.js';",
-      output: "import { bar as y } from 'foo.js';",
+      code: 'import { bar as y} from \'foo.js\';',
+      output: 'import { bar as y } from \'foo.js\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -859,8 +858,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "import {bar as y} from 'foo.js';",
-      output: "import { bar as y } from 'foo.js';",
+      code: 'import {bar as y} from \'foo.js\';',
+      output: 'import { bar as y } from \'foo.js\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -885,8 +884,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "import { bar} from 'foo.js';",
-      output: "import { bar } from 'foo.js';",
+      code: 'import { bar} from \'foo.js\';',
+      output: 'import { bar } from \'foo.js\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -902,8 +901,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "import x, { bar} from 'foo';",
-      output: "import x, { bar } from 'foo';",
+      code: 'import x, { bar} from \'foo\';',
+      output: 'import x, { bar } from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -919,8 +918,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "import x, { bar/* */} from 'foo';",
-      output: "import x, { bar/* */ } from 'foo';",
+      code: 'import x, { bar/* */} from \'foo\';',
+      output: 'import x, { bar/* */ } from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -936,8 +935,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "import x, {/* */bar } from 'foo';",
-      output: "import x, { /* */bar } from 'foo';",
+      code: 'import x, {/* */bar } from \'foo\';',
+      output: 'import x, { /* */bar } from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -953,8 +952,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "import x, {//\n bar } from 'foo';",
-      output: "import x, { //\n bar } from 'foo';",
+      code: 'import x, {//\n bar } from \'foo\';',
+      output: 'import x, { //\n bar } from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -970,8 +969,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "import x, { bar, baz} from 'foo';",
-      output: "import x, { bar, baz } from 'foo';",
+      code: 'import x, { bar, baz} from \'foo\';',
+      output: 'import x, { bar, baz } from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -987,8 +986,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "import x, {bar} from 'foo';",
-      output: "import x, { bar } from 'foo';",
+      code: 'import x, {bar} from \'foo\';',
+      output: 'import x, { bar } from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -1013,8 +1012,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "import x, {bar, baz} from 'foo';",
-      output: "import x, { bar, baz } from 'foo';",
+      code: 'import x, {bar, baz} from \'foo\';',
+      output: 'import x, { bar, baz } from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -1039,8 +1038,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "import {bar,} from 'foo';",
-      output: "import { bar, } from 'foo';",
+      code: 'import {bar,} from \'foo\';',
+      output: 'import { bar, } from \'foo\';',
       options: ['always'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -1065,8 +1064,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "import { bar, } from 'foo';",
-      output: "import {bar,} from 'foo';",
+      code: 'import { bar, } from \'foo\';',
+      output: 'import {bar,} from \'foo\';',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -1091,8 +1090,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "import { /* */ bar, /* */ } from 'foo';",
-      output: "import {/* */ bar, /* */} from 'foo';",
+      code: 'import { /* */ bar, /* */ } from \'foo\';',
+      output: 'import {/* */ bar, /* */} from \'foo\';',
       options: ['never'],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
@@ -1212,8 +1211,8 @@ ruleTester.run('object-curly-spacing', rule, {
 
     // always - arraysInObjects
     {
-      code: "var obj = { 'foo': [ 1, 2 ] };",
-      output: "var obj = { 'foo': [ 1, 2 ]};",
+      code: 'var obj = { \'foo\': [ 1, 2 ] };',
+      output: 'var obj = { \'foo\': [ 1, 2 ]};',
       options: ['always', { arraysInObjects: false }],
       errors: [
         {
@@ -1228,8 +1227,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "var obj = { 'foo': [ 1, 2 ] , 'bar': [ 'baz', 'qux' ] };",
-      output: "var obj = { 'foo': [ 1, 2 ] , 'bar': [ 'baz', 'qux' ]};",
+      code: 'var obj = { \'foo\': [ 1, 2 ] , \'bar\': [ \'baz\', \'qux\' ] };',
+      output: 'var obj = { \'foo\': [ 1, 2 ] , \'bar\': [ \'baz\', \'qux\' ]};',
       options: ['always', { arraysInObjects: false }],
       errors: [
         {
@@ -1246,8 +1245,8 @@ ruleTester.run('object-curly-spacing', rule, {
 
     // always-objectsInObjects
     {
-      code: "var obj = { 'foo': { 'bar': 1, 'baz': 2 } };",
-      output: "var obj = { 'foo': { 'bar': 1, 'baz': 2 }};",
+      code: 'var obj = { \'foo\': { \'bar\': 1, \'baz\': 2 } };',
+      output: 'var obj = { \'foo\': { \'bar\': 1, \'baz\': 2 }};',
       options: ['always', { objectsInObjects: false }],
       errors: [
         {
@@ -1262,8 +1261,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "var obj = { 'foo': [ 1, 2 ] , 'bar': { 'baz': 1, 'qux': 2 } };",
-      output: "var obj = { 'foo': [ 1, 2 ] , 'bar': { 'baz': 1, 'qux': 2 }};",
+      code: 'var obj = { \'foo\': [ 1, 2 ] , \'bar\': { \'baz\': 1, \'qux\': 2 } };',
+      output: 'var obj = { \'foo\': [ 1, 2 ] , \'bar\': { \'baz\': 1, \'qux\': 2 }};',
       options: ['always', { objectsInObjects: false }],
       errors: [
         {
@@ -1411,8 +1410,8 @@ ruleTester.run('object-curly-spacing', rule, {
 
     // never-objectsInObjects
     {
-      code: "var obj = {'foo': {'bar': 1, 'baz': 2}};",
-      output: "var obj = {'foo': {'bar': 1, 'baz': 2} };",
+      code: 'var obj = {\'foo\': {\'bar\': 1, \'baz\': 2}};',
+      output: 'var obj = {\'foo\': {\'bar\': 1, \'baz\': 2} };',
       options: ['never', { objectsInObjects: true }],
       errors: [
         {
@@ -1427,8 +1426,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "var obj = {'foo': [1, 2] , 'bar': {'baz': 1, 'qux': 2}};",
-      output: "var obj = {'foo': [1, 2] , 'bar': {'baz': 1, 'qux': 2} };",
+      code: 'var obj = {\'foo\': [1, 2] , \'bar\': {\'baz\': 1, \'qux\': 2}};',
+      output: 'var obj = {\'foo\': [1, 2] , \'bar\': {\'baz\': 1, \'qux\': 2} };',
       options: ['never', { objectsInObjects: true }],
       errors: [
         {
@@ -1988,8 +1987,8 @@ ruleTester.run('object-curly-spacing', rule, {
 
     // never - arraysInObjects
     {
-      code: "var obj = {'foo': [1, 2]};",
-      output: "var obj = {'foo': [1, 2] };",
+      code: 'var obj = {\'foo\': [1, 2]};',
+      output: 'var obj = {\'foo\': [1, 2] };',
       options: ['never', { arraysInObjects: true }],
       errors: [
         {
@@ -2004,8 +2003,8 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "var obj = {'foo': [1, 2] , 'bar': ['baz', 'qux']};",
-      output: "var obj = {'foo': [1, 2] , 'bar': ['baz', 'qux'] };",
+      code: 'var obj = {\'foo\': [1, 2] , \'bar\': [\'baz\', \'qux\']};',
+      output: 'var obj = {\'foo\': [1, 2] , \'bar\': [\'baz\', \'qux\'] };',
       options: ['never', { arraysInObjects: true }],
       errors: [
         {
@@ -2083,27 +2082,27 @@ ruleTester.run('object-curly-spacing', rule, {
 
     // never - mapped types
     {
-      code: "type x = { [k in 'union']: number }",
-      output: "type x = {[k in 'union']: number}",
+      code: 'type x = { [k in \'union\']: number }',
+      output: 'type x = {[k in \'union\']: number}',
       errors: [
         { messageId: 'unexpectedSpaceAfter' },
         { messageId: 'unexpectedSpaceBefore' },
       ],
     },
     {
-      code: "type x = { [k in 'union']: number}",
-      output: "type x = {[k in 'union']: number}",
+      code: 'type x = { [k in \'union\']: number}',
+      output: 'type x = {[k in \'union\']: number}',
       errors: [{ messageId: 'unexpectedSpaceAfter' }],
     },
     {
-      code: "type x = {[k in 'union']: number }",
-      output: "type x = {[k in 'union']: number}",
+      code: 'type x = {[k in \'union\']: number }',
+      output: 'type x = {[k in \'union\']: number}',
       errors: [{ messageId: 'unexpectedSpaceBefore' }],
     },
     // always - mapped types
     {
-      code: "type x = {[k in 'union']: number}",
-      output: "type x = { [k in 'union']: number }",
+      code: 'type x = {[k in \'union\']: number}',
+      output: 'type x = { [k in \'union\']: number }',
       options: ['always'],
       errors: [
         { messageId: 'requireSpaceAfter' },
@@ -2111,21 +2110,21 @@ ruleTester.run('object-curly-spacing', rule, {
       ],
     },
     {
-      code: "type x = {[k in 'union']: number }",
-      output: "type x = { [k in 'union']: number }",
+      code: 'type x = {[k in \'union\']: number }',
+      output: 'type x = { [k in \'union\']: number }',
       options: ['always'],
       errors: [{ messageId: 'requireSpaceAfter' }],
     },
     {
-      code: "type x = { [k in 'union']: number}",
-      output: "type x = { [k in 'union']: number }",
+      code: 'type x = { [k in \'union\']: number}',
+      output: 'type x = { [k in \'union\']: number }',
       options: ['always'],
       errors: [{ messageId: 'requireSpaceBefore' }],
     },
     // Mapped and literal types mix
     {
-      code: "type x = { [k in 'union']: { [k: string]: number } }",
-      output: "type x = {[k in 'union']: {[k: string]: number}}",
+      code: 'type x = { [k in \'union\']: { [k: string]: number } }',
+      output: 'type x = {[k in \'union\']: {[k: string]: number}}',
       errors: [
         { messageId: 'unexpectedSpaceAfter' },
         { messageId: 'unexpectedSpaceAfter' },

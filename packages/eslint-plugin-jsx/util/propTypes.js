@@ -152,7 +152,6 @@ module.exports = function propTypesInstructions(context, components, utils) {
     return customValidators.includes(validator)
   }
 
-  /* eslint-disable no-use-before-define */
   /** @type {TypeDeclarationBuilders} */
   const typeDeclarationBuilders = {
     GenericTypeAnnotation(annotation, parentName, seen) {

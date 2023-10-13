@@ -103,7 +103,7 @@ export default createRule<Options, MessageIds>({
       'only-multiline': allowCommaIfMultiline,
       'never': forbidComma,
       // https://github.com/typescript-eslint/typescript-eslint/issues/7220
-      // eslint-disable-next-line ts/explicit-function-return-type, ts/no-empty-function
+
       'ignore': () => {},
     }
 

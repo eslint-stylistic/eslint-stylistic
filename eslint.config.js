@@ -13,8 +13,8 @@ export default antfu(
     rules: {
       'no-void': 'off',
       'no-template-curly-in-string': 'off',
-      'no-mixed-operators': 'off',
-      'max-statements-per-line': 'off',
+      'style/no-mixed-operators': 'off',
+      'style/max-statements-per-line': 'off',
       'no-cond-assign': 'off',
 
       'eslint-comments/no-unused-enable': 'off',

@@ -185,11 +185,11 @@ ruleTester.run('spaced-comment', rule, {
       options: ['always'],
     },
     {
-      code: "// space only at start; valid since balanced doesn't apply to line comments",
+      code: '// space only at start; valid since balanced doesn\'t apply to line comments',
       options: ['always', { block: { balanced: true } }],
     },
     {
-      code: "//space only at end; valid since balanced doesn't apply to line comments ",
+      code: '//space only at end; valid since balanced doesn\'t apply to line comments ',
       options: ['never', { block: { balanced: true } }],
     },
 

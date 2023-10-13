@@ -1,4 +1,3 @@
-/* eslint-disable eslint-comments/no-use */
 // this rule tests the spacing, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 /* eslint-enable eslint-comments/no-use */
@@ -27,7 +26,7 @@ ruleTester.run('func-call-spacing', rule, {
       'f( (0) )',
       '(function(){ if (foo) { bar(); } }());',
       'f(0, (1))',
-      "describe/**/('foo', function () {});",
+      'describe/**/(\'foo\', function () {});',
       'new (foo())',
       '( f )( 0 )',
       '( (f) )( (0) )',
@@ -53,8 +52,8 @@ ruleTester.run('func-call-spacing', rule, {
       'f?.( (0) )',
       '(function(){ if (foo) { bar(); } }?.());',
       'f?.(0, (1))',
-      "describe/**/?.('foo', function () {});",
-      "describe?./**/('foo', function () {});",
+      'describe/**/?.(\'foo\', function () {});',
+      'describe?./**/(\'foo\', function () {});',
       '( f )?.( 0 )',
       '( (f) )?.( (0) )',
       '( f?.()() )(0)',

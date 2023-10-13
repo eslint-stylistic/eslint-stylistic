@@ -232,11 +232,11 @@ ruleTester.run('no-extra-parens', rule, {
     '({a:0}.a ? b : c)',
 
     // RegExp literal is allowed to have parens (#1589)
-    "var isA = (/^a$/).test('a');",
+    'var isA = (/^a$/).test(\'a\');',
     'var regex = (/^a$/);',
     'function a(){ return (/^a$/); }',
-    "function a(){ return (/^a$/).test('a'); }",
-    "var isA = ((/^a$/)).test('a');",
+    'function a(){ return (/^a$/).test(\'a\'); }',
+    'var isA = ((/^a$/)).test(\'a\');',
 
     // IIFE is allowed to have parens in any position (#655)
     'var foo = (function() { return bar(); }())',
@@ -571,7 +571,7 @@ ruleTester.run('no-extra-parens', rule, {
     { code: 'var foo = (function(){}.apply())', options: ['all', { enforceForFunctionPrototypeMethods: false }] },
     { code: 'var foo = (function(){}).call(arg)', options: ['all', { enforceForFunctionPrototypeMethods: false }] },
     { code: 'var foo = (function(){}.apply(arg))', options: ['all', { enforceForFunctionPrototypeMethods: false }] },
-    { code: "var foo = (function(){}['call']())", options: ['all', { enforceForFunctionPrototypeMethods: false }] },
+    { code: 'var foo = (function(){}[\'call\']())', options: ['all', { enforceForFunctionPrototypeMethods: false }] },
     { code: 'var foo = (function(){})[`apply`]()', options: ['all', { enforceForFunctionPrototypeMethods: false }] },
     { code: 'var foo = ((function(){})).call()', options: ['all', { enforceForFunctionPrototypeMethods: false }] },
     { code: 'var foo = ((function(){}).apply())', options: ['all', { enforceForFunctionPrototypeMethods: false }] },
@@ -755,7 +755,7 @@ ruleTester.run('no-extra-parens', rule, {
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
     },
     {
-      code: "if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log('good');",
+      code: 'if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log(\'good\');',
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
     },
     {
@@ -1855,8 +1855,8 @@ ruleTester.run('no-extra-parens', rule, {
       ],
     },
     {
-      code: "var foo = function(){}[('call')]()",
-      output: "var foo = function(){}['call']()",
+      code: 'var foo = function(){}[(\'call\')]()',
+      output: 'var foo = function(){}[\'call\']()',
       options: ['all', { enforceForFunctionPrototypeMethods: false }],
       errors: [
         {
@@ -2021,8 +2021,8 @@ ruleTester.run('no-extra-parens', rule, {
       1,
     ),
     invalid(
-      "for ((foo['bar'])of baz);",
-      "for (foo['bar']of baz);",
+      'for ((foo[\'bar\'])of baz);',
+      'for (foo[\'bar\']of baz);',
       'MemberExpression',
       1,
     ),
@@ -3063,8 +3063,8 @@ ruleTester.run('no-extra-parens', rule, {
       { parserOptions: { ecmaVersion: 2020 } },
     ),
     invalid(
-      "import((source = 'foo.js'))",
-      "import(source = 'foo.js')",
+      'import((source = \'foo.js\'))',
+      'import(source = \'foo.js\')',
       'AssignmentExpression',
       1,
       { parserOptions: { ecmaVersion: 2020 } },
@@ -3259,8 +3259,8 @@ ruleTester.run('no-extra-parens', rule, {
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: "if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log('good');",
-      output: "if (/** @type {Compiler | MultiCompiler} */options.hooks) console.log('good');",
+      code: 'if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log(\'good\');',
+      output: 'if (/** @type {Compiler | MultiCompiler} */options.hooks) console.log(\'good\');',
       options: ['all'],
       errors: [{ messageId: 'unexpected' }],
     },
@@ -3309,8 +3309,8 @@ ruleTester.run('no-extra-parens', rule, {
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: "if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log('good');",
-      output: "if (/** @type {Compiler | MultiCompiler} */options.hooks) console.log('good');",
+      code: 'if (/** @type {Compiler | MultiCompiler} */(options).hooks) console.log(\'good\');',
+      output: 'if (/** @type {Compiler | MultiCompiler} */options.hooks) console.log(\'good\');',
       options: ['all', { allowParensAfterCommentPattern: 'invalid' }],
       errors: [{ messageId: 'unexpected' }],
     },
@@ -3463,21 +3463,21 @@ ruleTester.run('no-extra-parens', rule, {
     ),
 
     // Potential directives (no autofix)
-    invalid("('use strict');", null),
-    invalid("function f() { ('abc'); }", null),
-    invalid("(function () { ('abc'); })();", null),
-    invalid("_ = () => { ('abc'); };", null),
-    invalid("'use strict';(\"foobar\");", null),
-    invalid("foo(); ('bar');", null),
+    invalid('(\'use strict\');', null),
+    invalid('function f() { (\'abc\'); }', null),
+    invalid('(function () { (\'abc\'); })();', null),
+    invalid('_ = () => { (\'abc\'); };', null),
+    invalid('\'use strict\';("foobar");', null),
+    invalid('foo(); (\'bar\');', null),
     invalid('foo = { bar() { ; ("baz"); } };', null),
 
     // Directive lookalikes
     invalid('(12345);', '12345;'),
-    invalid("(('foobar'));", "('foobar');"),
+    invalid('((\'foobar\'));', '(\'foobar\');'),
     invalid('(`foobar`);', '`foobar`;'),
-    invalid("void ('foobar');", "void 'foobar';"),
-    invalid("_ = () => ('abc');", "_ = () => 'abc';"),
-    invalid("if (foo) ('bar');", "if (foo) 'bar';"),
-    invalid("const foo = () => ('bar');", "const foo = () => 'bar';"),
+    invalid('void (\'foobar\');', 'void \'foobar\';'),
+    invalid('_ = () => (\'abc\');', '_ = () => \'abc\';'),
+    invalid('if (foo) (\'bar\');', 'if (foo) \'bar\';'),
+    invalid('const foo = () => (\'bar\');', 'const foo = () => \'bar\';'),
   ],
 })

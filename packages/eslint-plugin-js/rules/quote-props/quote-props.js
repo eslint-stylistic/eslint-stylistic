@@ -69,13 +69,13 @@ module.exports = {
 
     fixable: 'code',
     messages: {
-      requireQuotesDueToReservedWord: "Properties should be quoted as '{{property}}' is a reserved word.",
-      inconsistentlyQuotedProperty: "Inconsistently quoted property '{{key}}' found.",
-      unnecessarilyQuotedProperty: "Unnecessarily quoted property '{{property}}' found.",
-      unquotedReservedProperty: "Unquoted reserved word '{{property}}' used as key.",
-      unquotedNumericProperty: "Unquoted number literal '{{property}}' used as key.",
-      unquotedPropertyFound: "Unquoted property '{{property}}' found.",
-      redundantQuoting: "Properties shouldn't be quoted as all quotes are redundant.",
+      requireQuotesDueToReservedWord: 'Properties should be quoted as \'{{property}}\' is a reserved word.',
+      inconsistentlyQuotedProperty: 'Inconsistently quoted property \'{{key}}\' found.',
+      unnecessarilyQuotedProperty: 'Unnecessarily quoted property \'{{property}}\' found.',
+      unquotedReservedProperty: 'Unquoted reserved word \'{{property}}\' used as key.',
+      unquotedNumericProperty: 'Unquoted number literal \'{{property}}\' used as key.',
+      unquotedPropertyFound: 'Unquoted property \'{{property}}\' found.',
+      redundantQuoting: 'Properties shouldn\'t be quoted as all quotes are redundant.',
     },
   },
 

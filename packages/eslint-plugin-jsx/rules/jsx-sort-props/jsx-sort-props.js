@@ -280,7 +280,7 @@ function generateFixerFunction(node, context, reservedList) {
  * @param {boolean | Array<string>} reservedFirst The `reservedFirst` option
  * @return {Function|undefined} If an error is detected, a function to generate the error message, otherwise, `undefined`
  */
-// eslint-disable-next-line consistent-return
+
 function validateReservedFirstConfig(context, reservedFirst) {
   if (reservedFirst) {
     if (Array.isArray(reservedFirst)) {

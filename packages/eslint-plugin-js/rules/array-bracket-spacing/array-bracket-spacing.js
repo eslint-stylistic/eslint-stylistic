@@ -45,10 +45,10 @@ module.exports = {
     ],
 
     messages: {
-      unexpectedSpaceAfter: "There should be no space after '{{tokenValue}}'.",
-      unexpectedSpaceBefore: "There should be no space before '{{tokenValue}}'.",
-      missingSpaceAfter: "A space is required after '{{tokenValue}}'.",
-      missingSpaceBefore: "A space is required before '{{tokenValue}}'.",
+      unexpectedSpaceAfter: 'There should be no space after \'{{tokenValue}}\'.',
+      unexpectedSpaceBefore: 'There should be no space before \'{{tokenValue}}\'.',
+      missingSpaceAfter: 'A space is required after \'{{tokenValue}}\'.',
+      missingSpaceBefore: 'A space is required before \'{{tokenValue}}\'.',
     },
   },
   create(context) {

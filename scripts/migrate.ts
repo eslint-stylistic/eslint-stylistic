@@ -436,23 +436,23 @@ async function migrateJSX() {
       let js = await fs.readFile(rule, 'utf-8')
       js = js
         .replaceAll(
-          "require('../util",
-          "require('../../util",
+          'require(\'../util',
+          'require(\'../../util',
         )
         .replaceAll(
-          "require('object.hasown/polyfill')()",
+          'require(\'object.hasown/polyfill\')()',
           `(obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)`,
         )
         .replaceAll(
-          "require('array-includes')",
+          'require(\'array-includes\')',
           '(arr, value) => arr.includes(value)',
         )
         .replaceAll(
-          "require('array.prototype.tosorted')",
+          'require(\'array.prototype.tosorted\')',
           '(arr, compareFn) => [...arr].sort(compareFn)',
         )
         .replaceAll(
-          "require('string.prototype.matchall')",
+          'require(\'string.prototype.matchall\')',
           '(s, v) => s.matchAll(v)',
         )
       // js = `// @ts-check\n${js}`
@@ -471,12 +471,12 @@ async function migrateJSX() {
       let test = await fs.readFile(join(root, 'tests/lib/rules', `${name}.js`), 'utf-8')
       test = test
         .replaceAll(
-          "require('../../../lib/rules",
-          "require('.",
+          'require(\'../../../lib/rules',
+          'require(\'.',
         )
         .replaceAll(
-          "require('../../helpers",
-          "require('../../tests/helpers",
+          'require(\'../../helpers',
+          'require(\'../../tests/helpers',
         )
       await fs.writeFile(join(target, name, `${name}.test.js`), test, 'utf-8')
     }),

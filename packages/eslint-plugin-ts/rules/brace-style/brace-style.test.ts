@@ -1,4 +1,3 @@
-/* eslint-disable eslint-comments/no-use */
 // this rule tests the position of braces, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 /* eslint-enable eslint-comments/no-use */
@@ -257,7 +256,7 @@ catch (e)
       options: ['1tbs', { allowSingleLine: true }],
     },
     {
-      code: "switch (foo) {  case 'bar': break; }",
+      code: 'switch (foo) {  case \'bar\': break; }',
       options: ['1tbs', { allowSingleLine: true }],
     },
     {
@@ -653,8 +652,8 @@ if (f) {
       errors: [{ messageId: 'nextLineOpen' }, { messageId: 'singleLineClose' }],
     },
     {
-      code: "switch (foo) \n { \n case 'bar': break; }",
-      output: "switch (foo) { \n case 'bar': break; \n}",
+      code: 'switch (foo) \n { \n case \'bar\': break; }',
+      output: 'switch (foo) { \n case \'bar\': break; \n}',
       errors: [{ messageId: 'nextLineOpen' }, { messageId: 'singleLineClose' }],
     },
     {

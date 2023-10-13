@@ -454,19 +454,19 @@ ruleTester.run('object-curly-newline', rule, {
         'import {',
         '    a,',
         ' b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: 'always' }],
     },
     {
       code: [
-        "import {a as a, b} from 'module';",
+        'import {a as a, b} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: 'never' }],
     },
     {
       code: [
-        "import { a, } from 'module';",
+        'import { a, } from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: { multiline: true } }],
     },
@@ -475,7 +475,7 @@ ruleTester.run('object-curly-newline', rule, {
         'import {',
         'a, ',
         'b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: { multiline: true } }],
     },
@@ -483,13 +483,13 @@ ruleTester.run('object-curly-newline', rule, {
       code: [
         'import {',
         ' a,',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: { consistent: true } }],
     },
     {
       code: [
-        "import { a } from 'module';",
+        'import { a } from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: { consistent: true } }],
     },
@@ -497,18 +497,18 @@ ruleTester.run('object-curly-newline', rule, {
       code: [
         'import {',
         'a, b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: { minProperties: 2 } }],
     },
     {
       code: [
-        "import {a, b} from 'module';",
+        'import {a, b} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: { minProperties: 3 } }],
     },
     {
-      code: "import DefaultExport, {a} from 'module';",
+      code: 'import DefaultExport, {a} from \'module\';',
       options: [{ ImportDeclaration: { minProperties: 2 } }],
     },
 
@@ -526,13 +526,13 @@ ruleTester.run('object-curly-newline', rule, {
         'var a = 0, b = 0;',
         'export {',
         'a as a, b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ExportDeclaration: 'always' }],
     },
     {
       code: [
-        "export { a } from 'module';",
+        'export { a } from \'module\';',
       ].join('\n'),
       options: [{ ExportDeclaration: { multiline: true } }],
     },
@@ -541,14 +541,14 @@ ruleTester.run('object-curly-newline', rule, {
         'export {',
         'a, ',
         'b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ExportDeclaration: { multiline: true } }],
     },
     {
       code: [
         'export {a, ',
-        "b} from 'module';",
+        'b} from \'module\';',
       ].join('\n'),
       options: [{ ExportDeclaration: { consistent: true } }],
     },
@@ -556,13 +556,13 @@ ruleTester.run('object-curly-newline', rule, {
       code: [
         'export {',
         'a, b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ExportDeclaration: { minProperties: 2 } }],
     },
     {
       code: [
-        "export {a, b} from 'module';",
+        'export {a, b} from \'module\';',
       ].join('\n'),
       options: [{ ExportDeclaration: { minProperties: 3 } }],
     },
@@ -1529,11 +1529,11 @@ ruleTester.run('object-curly-newline', rule, {
         'import {',
         '    a,',
         ' b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       output: [
         'import {a,',
-        " b} from 'module';",
+        ' b} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: 'never' }],
       errors: [
@@ -1543,12 +1543,12 @@ ruleTester.run('object-curly-newline', rule, {
     },
     {
       code: [
-        "import {a, b} from 'module';",
+        'import {a, b} from \'module\';',
       ].join('\n'),
       output: [
         'import {',
         'a, b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: 'always' }],
       errors: [
@@ -1558,12 +1558,12 @@ ruleTester.run('object-curly-newline', rule, {
     },
     {
       code: [
-        "import {a as c, b} from 'module';",
+        'import {a as c, b} from \'module\';',
       ].join('\n'),
       output: [
         'import {',
         'a as c, b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: 'always' }],
       errors: [
@@ -1574,13 +1574,13 @@ ruleTester.run('object-curly-newline', rule, {
     {
       code: [
         'import {a, ',
-        "b} from 'module';",
+        'b} from \'module\';',
       ].join('\n'),
       output: [
         'import {',
         'a, ',
         'b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: { multiline: true } }],
       errors: [
@@ -1592,11 +1592,11 @@ ruleTester.run('object-curly-newline', rule, {
       code: [
         'import {a, ',
         'b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       output: [
         'import {a, ',
-        "b} from 'module';",
+        'b} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: { consistent: true } }],
       errors: [
@@ -1606,10 +1606,10 @@ ruleTester.run('object-curly-newline', rule, {
     {
       code: [
         'import {a, b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       output: [
-        "import {a, b} from 'module';",
+        'import {a, b} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: { consistent: true } }],
       errors: [
@@ -1618,12 +1618,12 @@ ruleTester.run('object-curly-newline', rule, {
     },
     {
       code: [
-        "import {a, b} from 'module';",
+        'import {a, b} from \'module\';',
       ].join('\n'),
       output: [
         'import {',
         'a, b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: { minProperties: 2 } }],
       errors: [
@@ -1635,10 +1635,10 @@ ruleTester.run('object-curly-newline', rule, {
       code: [
         'import {',
         'a, b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       output: [
-        "import {a, b} from 'module';",
+        'import {a, b} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: { minProperties: 3 } }],
       errors: [
@@ -1647,11 +1647,11 @@ ruleTester.run('object-curly-newline', rule, {
       ],
     },
     {
-      code: "import DefaultExport, {a, b} from 'module';",
+      code: 'import DefaultExport, {a, b} from \'module\';',
       output: [
         'import DefaultExport, {',
         'a, b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ImportDeclaration: { minProperties: 2 } }],
       errors: [
@@ -1682,12 +1682,12 @@ ruleTester.run('object-curly-newline', rule, {
     },
     {
       code: [
-        "export {a as a, b} from 'module';",
+        'export {a as a, b} from \'module\';',
       ].join('\n'),
       output: [
         'export {',
         'a as a, b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ExportDeclaration: 'always' }],
       errors: [
@@ -1698,13 +1698,13 @@ ruleTester.run('object-curly-newline', rule, {
     {
       code: [
         'export {a, ',
-        "b} from 'module';",
+        'b} from \'module\';',
       ].join('\n'),
       output: [
         'export {',
         'a, ',
         'b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ExportDeclaration: { multiline: true } }],
       errors: [
@@ -1716,11 +1716,11 @@ ruleTester.run('object-curly-newline', rule, {
       code: [
         'export {a, ',
         'b,',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       output: [
         'export {a, ',
-        "b,} from 'module';",
+        'b,} from \'module\';',
       ].join('\n'),
       options: [{ ExportDeclaration: { consistent: true } }],
       errors: [
@@ -1730,10 +1730,10 @@ ruleTester.run('object-curly-newline', rule, {
     {
       code: [
         'export {a, b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       output: [
-        "export {a, b} from 'module';",
+        'export {a, b} from \'module\';',
       ].join('\n'),
       options: [{ ExportDeclaration: { consistent: true } }],
       errors: [
@@ -1742,12 +1742,12 @@ ruleTester.run('object-curly-newline', rule, {
     },
     {
       code: [
-        "export {a, b,} from 'module';",
+        'export {a, b,} from \'module\';',
       ].join('\n'),
       output: [
         'export {',
         'a, b,',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       options: [{ ExportDeclaration: { minProperties: 2 } }],
       errors: [
@@ -1759,10 +1759,10 @@ ruleTester.run('object-curly-newline', rule, {
       code: [
         'export {',
         'a, b',
-        "} from 'module';",
+        '} from \'module\';',
       ].join('\n'),
       output: [
-        "export {a, b} from 'module';",
+        'export {a, b} from \'module\';',
       ].join('\n'),
       options: [{ ExportDeclaration: { minProperties: 3 } }],
       errors: [
