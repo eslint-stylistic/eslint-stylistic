@@ -259,24 +259,42 @@ export type RuleOptions = [${options.map((_, index) => `Schema${index}?`).join('
     return `import type { RuleOptions as ${pascalCase(name)}RuleOptions } from '../rules/${name}/types'`
   })
 
-  const ruleTypes = filteredRules.map((rule) => {
-    const name = basename(rule, '.js')
-    return `'@stylistic/js/${name}': ${pascalCase(name)}RuleOptions`
-  })
+  await generateRulesDTS('@stylistic/js', targetRoot, ruleOptionsImports, filteredRules)
+}
+
+async function generateRulesDTS(prefix: string, targetRoot: string, ruleOptionsImports: string[], filteredRules: string[]) {
+  await fs.writeFile(
+    join(targetRoot, 'dts', 'rule-options.d.ts'),
+`${ruleOptionsImports.join('\n')}
+
+export interface RuleOptions {
+  ${filteredRules.map((rule) => {
+const name = basename(rule).replace(/\.\w+$/, '')
+return `'${prefix}/${name}': ${pascalCase(name)}RuleOptions`
+}).join('\n    ')}
+}
+
+export interface UnprefixedRuleOptions {
+  ${filteredRules.map((rule) => {
+const name = basename(rule).replace(/\.\w+$/, '')
+return `'${name}': ${pascalCase(name)}RuleOptions`
+}).join('\n    ')}
+}
+`,
+'utf-8',
+  )
 
   await fs.writeFile(
-    join(targetRoot, 'src', 'eslint-define-config-support.d.ts'),
-    `${ruleOptionsImports.join('\n')}
+    join(targetRoot, 'dts', 'define-config-support.d.ts'),
+`import type { RuleOptions } from './rule-options'
 
 declare module 'eslint-define-config' {
-  export interface CustomRuleOptions {
-    ${ruleTypes.join('\n    ')}
-  }
+  export interface CustomRuleOptions extends RuleOptions {}
 }
 
 export {}
 `,
-    'utf-8',
+'utf-8',
   )
 }
 
@@ -413,25 +431,7 @@ export type RuleOptions = [${options.map((_, index) => `Schema${index}?`).join('
     return `import type { RuleOptions as ${pascalCase(name)}RuleOptions } from '../rules/${name}/types'`
   })
 
-  const ruleTypes = filteredRules.map((rule) => {
-    const name = basename(rule, '.ts')
-    return `'@stylistic/ts/${name}': ${pascalCase(name)}RuleOptions`
-  })
-
-  await fs.writeFile(
-    join(targetRoot, 'dts', 'eslint-define-config-support.d.ts'),
-    `${ruleOptionsImports.join('\n')}
-
-declare module 'eslint-define-config' {
-  export interface CustomRuleOptions {
-    ${ruleTypes.join('\n    ')}
-  }
-}
-
-export {}
-`,
-    'utf-8',
-  )
+  await generateRulesDTS('@stylistic/ts', targetRoot, ruleOptionsImports, filteredRules)
 }
 
 async function migrateJSX() {
