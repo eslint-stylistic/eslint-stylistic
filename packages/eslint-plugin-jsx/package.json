@@ -14,6 +14,7 @@
   },
   "exports": {
     ".": {
+      "types": "./dts/index.d.ts",
       "require": "./dist/index.js"
     },
     "./define-config-support": {
@@ -24,6 +25,7 @@
     }
   },
   "main": "./dist/index.js",
+  "types": "./dts/index.d.ts",
   "files": [
     "dist",
     "dts"
@@ -44,9 +46,9 @@
     "@babel/plugin-syntax-do-expressions": "^7.22.5",
     "@babel/plugin-syntax-function-bind": "^7.22.5",
     "@babel/preset-react": "^7.22.15",
-    "@typescript-eslint/parser": "^6.7.4",
+    "@typescript-eslint/parser": "^6.7.5",
     "babel-eslint": "^10.1.0",
-    "eslint": "^8.50.0",
+    "eslint": "^8.51.0",
     "semver": "^7.5.4",
     "typescript-eslint-parser": "^22.0.0"
   }

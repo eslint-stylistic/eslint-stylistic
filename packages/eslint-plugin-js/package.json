@@ -14,6 +14,7 @@
   },
   "exports": {
     ".": {
+      "types": "./dts/index.d.ts",
       "require": "./dist/index.js"
     },
     "./define-config-support": {
@@ -24,6 +25,7 @@
     }
   },
   "main": "./dist/index.js",
+  "types": "./dts/index.d.ts",
   "files": [
     "dist",
     "dts"

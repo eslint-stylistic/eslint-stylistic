@@ -8,13 +8,13 @@
   },
   "devDependencies": {
     "@iconify-json/ri": "^1.1.12",
-    "@types/markdown-it-container": "^2.0.6",
-    "@unocss/reset": "^0.56.2",
+    "@types/markdown-it-container": "^2.0.7",
+    "@unocss/reset": "^0.56.5",
     "gray-matter": "^4.0.3",
     "markdown-it-container": "^3.0.0",
-    "unocss": "^0.56.2",
+    "unocss": "^0.56.5",
     "unplugin-vue-components": "^0.25.2",
-    "vitepress": "1.0.0-rc.20",
+    "vitepress": "1.0.0-rc.21",
     "vue": "^3.3.4"
   }
 }

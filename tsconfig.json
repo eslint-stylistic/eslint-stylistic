@@ -2,24 +2,49 @@
   "compilerOptions": {
     "target": "esnext",
     "lib": ["esnext"],
-    "module": "esnext",
     "rootDir": ".",
+    "module": "esnext",
     "moduleResolution": "Bundler",
     "paths": {
       "@eslint-stylistic/metadata": [
         "./packages/metadata/src/index.ts"
+      ],
+      "@stylistic/eslint-plugin-js": [
+        "./packages/eslint-plugin-js/dts/index.d.ts"
+      ],
+      "@stylistic/eslint-plugin-js/rule-options": [
+        "./packages/eslint-plugin-js/dts/rule-options.d.ts"
+      ],
+      "@stylistic/eslint-plugin-ts": [
+        "./packages/eslint-plugin-ts/dts/index.d.ts"
+      ],
+      "@stylistic/eslint-plugin-ts/rule-options": [
+        "./packages/eslint-plugin-ts/dts/rule-options.d.ts"
+      ],
+      "@stylistic/eslint-plugin-jsx/rule-options": [
+        "./packages/eslint-plugin-jsx/dts/rule-options.d.ts"
+      ],
+      "@stylistic/eslint-plugin-jsx": [
+        "./packages/eslint-plugin-jsx/dts/index.d.ts"
+      ],
+      "@stylistic/eslint-plugin/rule-options": [
+        "./packages/eslint-plugin/dts/rule-options.d.ts"
+      ],
+      "@stylistic/eslint-plugin": [
+        "./packages/eslint-plugin/dts/index.d.ts"
       ]
     },
     "resolveJsonModule": true,
     "allowJs": true,
-    "esModuleInterop": true,
     "strict": true,
     "strictNullChecks": true,
+    "esModuleInterop": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
   },
   "include": [
     "**/*.js",
+    "**/*.d.ts",
     "**/*.ts",
     "**/*.mts",
     "docs/.vitepress/**/*.ts",
