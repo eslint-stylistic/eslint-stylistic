@@ -1,7 +1,15 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import { createRule, isClosingBraceToken, isFunction, isNotSemicolonToken, isParenthesized, isSemicolonToken, isTokenOnSameLine } from '../../util'
+import {
+  createRule,
+  isClosingBraceToken,
+  isFunction,
+  isNotSemicolonToken,
+  isParenthesized,
+  isSemicolonToken,
+  isTokenOnSameLine,
+} from '../../util'
 
 /**
  * This rule is a replica of padding-line-between-statements.

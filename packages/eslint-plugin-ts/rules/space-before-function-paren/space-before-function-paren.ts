@@ -152,6 +152,7 @@ export default createRule<Options, MessageIds>({
         rightToken = sourceCode.getFirstToken(node, isOpeningParenToken)!
         leftToken = sourceCode.getTokenBefore(rightToken)!
       }
+
       //  -- TODO - switch once our min ESLint version is 6.7.0
       const hasSpacing = sourceCode.isSpaceBetweenTokens(leftToken, rightToken)
 

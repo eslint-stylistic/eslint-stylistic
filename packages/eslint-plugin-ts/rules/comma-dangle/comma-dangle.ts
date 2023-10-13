@@ -1,7 +1,10 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import type { InferMessageIdsTypeFromRule, InferOptionsTypeFromRule } from '../../util'
+import type {
+  InferMessageIdsTypeFromRule,
+  InferOptionsTypeFromRule,
+} from '../../util'
 import { createRule, isCommaToken } from '../../util'
 import { getESLintCoreRule } from '../../util/getESLintCoreRule'
 

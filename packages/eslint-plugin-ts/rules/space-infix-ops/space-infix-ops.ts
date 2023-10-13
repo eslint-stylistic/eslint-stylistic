@@ -1,6 +1,9 @@
 import { AST_TOKEN_TYPES, TSESTree } from '@typescript-eslint/utils'
 
-import type { InferMessageIdsTypeFromRule, InferOptionsTypeFromRule } from '../../util'
+import type {
+  InferMessageIdsTypeFromRule,
+  InferOptionsTypeFromRule,
+} from '../../util'
 import { createRule, isNotOpeningParenToken } from '../../util'
 import { getESLintCoreRule } from '../../util/getESLintCoreRule'
 
