@@ -12,6 +12,14 @@
   "bugs": {
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
   },
+  "exports": {
+    ".": {
+      "require": "./dist/index.js"
+    },
+    "./define-config-support": {
+      "types": "./dts/define-config-support.d.ts"
+    }
+  },
   "main": "./dist/index.js",
   "files": [
     "dist"

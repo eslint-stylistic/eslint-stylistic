@@ -16,8 +16,8 @@
     ".": {
       "require": "./dist/index.js"
     },
-    "./eslint-define-config-support": {
-      "types": "./dts/eslint-define-config-support.d.ts"
+    "./define-config-support": {
+      "types": "./dts/define-config-support.d.ts"
     }
   },
   "main": "./dist/index.js",
