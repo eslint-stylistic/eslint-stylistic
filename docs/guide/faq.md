@@ -4,6 +4,20 @@
 
 Refer to [Why](/guide/why).
 
+## What are Stylistic Rules?
+
+According to [TypeScript ESLint's definition](https://typescript-eslint.io/linting/troubleshooting/formatting/#eslint-core-and-formatting), most lint rules fall into one of two to three categories:
+
+---
+
+- **Logical**: Rules that care about the logic in runtime behavior of code (such as missing awaits or invalid logical checks).
+- **Stylistic**: Rules that care about style concerns which do impact runtime behavior of code, but generally not logic. These are mostly around naming or which roughly-equivalent syntax constructs to use (such as function declarations vs. arrow functions).
+  - **Formatting**: Stylistic rules that care only about trivia (semicolons, whitespace, etc.) without impacting the runtime behavior of the code. These rules conflict with dedicated formatters such as Prettier.
+
+---
+
+For ESLint Stylistic, our main scope is the **formatting** and **stylistic** rules inherited from `eslint` / `@typescript-eslint`. We will maintain some stylistic rules, but not all stylistic rules will be included, depends whether the upstream projects want to keep them or not. We are welcoming new rules proposed by the community in the future when we move to the maintenance stage and developed the infrastructure for introducing experimental rules. Track on [Project Progress](/contribute/project-progress) for more details.
+
 ## How to auto-format on save?
 
 ##### VS Code
