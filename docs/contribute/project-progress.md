@@ -17,9 +17,15 @@ Setup migration scripts, docs, tools, etc.
 
 Then we will have a clear image of what rules to be included in this repo.
 
-## 3. Iterations & Maintenance
+## 3. Maintenance
 
 Releases, bugfixes, and might introduce new rules based on community feedback.
 
 - The effort of maintaining those formatting/stylistic rules will be shift from ESLint/`typescript-eslint` teams to this repo. We can start to consider improvements and changes to the rules.
 - Collaborate with ESLint/`typescript-eslint` teams to redirect users in their docs to migrate to this project for formatting rules.
+
+## 4. Refactors
+
+- Rewrite JS and JSX rules in TypeScript for better long-term maintenance.
+- Fuse JS/TS/JSX rules into a single package, and merge their docs. After this, separate packages for JS/TS/JSX will be deprecated.
+- Introduce an `experimental` mechanism that ships new rules and features as a separate opt-in package, to collect early feedbacks.
