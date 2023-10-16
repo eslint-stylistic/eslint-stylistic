@@ -19,3 +19,4 @@
 | [`@stylistic/jsx/jsx-sort-props`](./rules/jsx-sort-props) | Enforce props alphabetical sorting | ✅ |  |
 | [`@stylistic/jsx/jsx-tag-spacing`](./rules/jsx-tag-spacing) | Enforce whitespace in and around the JSX opening and closing brackets | ✅ |  |
 | [`@stylistic/jsx/jsx-wrap-multilines`](./rules/jsx-wrap-multilines) | Disallow missing parentheses around multiline JSX | ✅ |  |
+| [`@stylistic/jsx/self-closing-comp`](./rules/self-closing-comp) | Disallow extra closing tags for components without children | ✅ |  |

@@ -16,4 +16,5 @@ module.exports = {
   'jsx-sort-props': require('./jsx-sort-props/jsx-sort-props.js'),
   'jsx-tag-spacing': require('./jsx-tag-spacing/jsx-tag-spacing.js'),
   'jsx-wrap-multilines': require('./jsx-wrap-multilines/jsx-wrap-multilines.js'),
+  'self-closing-comp': require('./self-closing-comp/self-closing-comp.js'),
 }

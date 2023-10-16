@@ -132,6 +132,7 @@ const jsxRules = [
   'jsx-sort-props',
   'jsx-tag-spacing',
   'jsx-wrap-multilines',
+  'self-closing-comp',
 ]
 
 async function migrateJS() {

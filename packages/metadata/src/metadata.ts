@@ -1235,6 +1235,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
             "recommended": false
           }
         }
+      },
+      {
+        "name": "self-closing-comp",
+        "ruleId": "@stylistic/jsx/self-closing-comp",
+        "originalId": "react/self-closing-comp",
+        "entry": "packages/eslint-plugin-jsx/rules/self-closing-comp/self-closing-comp.js",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/self-closing-comp/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow extra closing tags for components without children",
+            "recommended": false
+          }
+        }
       }
     ]
   },
@@ -2635,6 +2649,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "code",
           "docs": {
             "description": "Disallow missing parentheses around multiline JSX",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "self-closing-comp",
+        "ruleId": "@stylistic/jsx/self-closing-comp",
+        "originalId": "react/self-closing-comp",
+        "entry": "packages/eslint-plugin-jsx/rules/self-closing-comp/self-closing-comp.js",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/self-closing-comp/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow extra closing tags for components without children",
             "recommended": false
           }
         }

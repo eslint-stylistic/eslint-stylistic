@@ -15,6 +15,7 @@ import type { RuleOptions as JsxPropsNoMultiSpacesRuleOptions } from '../rules/j
 import type { RuleOptions as JsxSortPropsRuleOptions } from '../rules/jsx-sort-props/types'
 import type { RuleOptions as JsxTagSpacingRuleOptions } from '../rules/jsx-tag-spacing/types'
 import type { RuleOptions as JsxWrapMultilinesRuleOptions } from '../rules/jsx-wrap-multilines/types'
+import type { RuleOptions as SelfClosingCompRuleOptions } from '../rules/self-closing-comp/types'
 
 export interface RuleOptions {
   '@stylistic/jsx/jsx-child-element-spacing': JsxChildElementSpacingRuleOptions
@@ -34,6 +35,7 @@ export interface RuleOptions {
   '@stylistic/jsx/jsx-sort-props': JsxSortPropsRuleOptions
   '@stylistic/jsx/jsx-tag-spacing': JsxTagSpacingRuleOptions
   '@stylistic/jsx/jsx-wrap-multilines': JsxWrapMultilinesRuleOptions
+  '@stylistic/jsx/self-closing-comp': SelfClosingCompRuleOptions
 }
 
 export interface UnprefixedRuleOptions {
@@ -54,4 +56,5 @@ export interface UnprefixedRuleOptions {
   'jsx-sort-props': JsxSortPropsRuleOptions
   'jsx-tag-spacing': JsxTagSpacingRuleOptions
   'jsx-wrap-multilines': JsxWrapMultilinesRuleOptions
+  'jsx-self-closing-comp': SelfClosingCompRuleOptions
 }
