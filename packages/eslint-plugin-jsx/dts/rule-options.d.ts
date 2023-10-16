@@ -35,7 +35,7 @@ export interface RuleOptions {
   '@stylistic/jsx/jsx-sort-props': JsxSortPropsRuleOptions
   '@stylistic/jsx/jsx-tag-spacing': JsxTagSpacingRuleOptions
   '@stylistic/jsx/jsx-wrap-multilines': JsxWrapMultilinesRuleOptions
-  '@stylistic/jsx/self-closing-comp': SelfClosingCompRuleOptions
+  '@stylistic/jsx/jsx-self-closing-comp': SelfClosingCompRuleOptions
 }
 
 export interface UnprefixedRuleOptions {

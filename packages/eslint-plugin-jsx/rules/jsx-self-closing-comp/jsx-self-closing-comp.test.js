@@ -11,7 +11,7 @@
 
 const RuleTester = require('eslint').RuleTester
 const parsers = require('../../tests/helpers/parsers')
-const rule = require('./self-closing-comp')
+const rule = require('./jsx-self-closing-comp')
 
 const parserOptions = {
   ecmaVersion: 2018,

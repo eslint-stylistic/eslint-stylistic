@@ -1,4 +1,4 @@
-# Disallow extra closing tags for components without children (`react/self-closing-comp`)
+# Disallow extra closing tags for components without children (`@stylistic/jsx/jsx-self-closing-comp`)
 
 🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
 
@@ -40,7 +40,7 @@ The rule can take one argument to select types of tags, which should be self-clo
 
 ```js
 ...
-"react/self-closing-comp": ["error", {
+"@stylistic/jsx/jsx-self-closing-comp": ["error", {
   "component": true,
   "html": true
 }]
