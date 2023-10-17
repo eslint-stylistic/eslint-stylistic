@@ -1,6 +1,7 @@
 import type { RuleOptions as ArrayBracketNewlineRuleOptions } from '../rules/array-bracket-newline/types'
 import type { RuleOptions as ArrayBracketSpacingRuleOptions } from '../rules/array-bracket-spacing/types'
 import type { RuleOptions as ArrayElementNewlineRuleOptions } from '../rules/array-element-newline/types'
+import type { RuleOptions as ArrowParensRuleOptions } from '../rules/arrow-parens/types'
 import type { RuleOptions as ArrowSpacingRuleOptions } from '../rules/arrow-spacing/types'
 import type { RuleOptions as BlockSpacingRuleOptions } from '../rules/block-spacing/types'
 import type { RuleOptions as BraceStyleRuleOptions } from '../rules/brace-style/types'
@@ -21,14 +22,11 @@ import type { RuleOptions as KeySpacingRuleOptions } from '../rules/key-spacing/
 import type { RuleOptions as KeywordSpacingRuleOptions } from '../rules/keyword-spacing/types'
 import type { RuleOptions as LinebreakStyleRuleOptions } from '../rules/linebreak-style/types'
 import type { RuleOptions as LinesAroundCommentRuleOptions } from '../rules/lines-around-comment/types'
-import type { RuleOptions as LinesAroundDirectiveRuleOptions } from '../rules/lines-around-directive/types'
 import type { RuleOptions as LinesBetweenClassMembersRuleOptions } from '../rules/lines-between-class-members/types'
 import type { RuleOptions as MaxLenRuleOptions } from '../rules/max-len/types'
 import type { RuleOptions as MaxStatementsPerLineRuleOptions } from '../rules/max-statements-per-line/types'
 import type { RuleOptions as MultilineTernaryRuleOptions } from '../rules/multiline-ternary/types'
 import type { RuleOptions as NewParensRuleOptions } from '../rules/new-parens/types'
-import type { RuleOptions as NewlineAfterVarRuleOptions } from '../rules/newline-after-var/types'
-import type { RuleOptions as NewlineBeforeReturnRuleOptions } from '../rules/newline-before-return/types'
 import type { RuleOptions as NewlinePerChainedCallRuleOptions } from '../rules/newline-per-chained-call/types'
 import type { RuleOptions as NoConfusingArrowRuleOptions } from '../rules/no-confusing-arrow/types'
 import type { RuleOptions as NoExtraParensRuleOptions } from '../rules/no-extra-parens/types'
@@ -38,7 +36,6 @@ import type { RuleOptions as NoMixedOperatorsRuleOptions } from '../rules/no-mix
 import type { RuleOptions as NoMixedSpacesAndTabsRuleOptions } from '../rules/no-mixed-spaces-and-tabs/types'
 import type { RuleOptions as NoMultiSpacesRuleOptions } from '../rules/no-multi-spaces/types'
 import type { RuleOptions as NoMultipleEmptyLinesRuleOptions } from '../rules/no-multiple-empty-lines/types'
-import type { RuleOptions as NoSpacedFuncRuleOptions } from '../rules/no-spaced-func/types'
 import type { RuleOptions as NoTabsRuleOptions } from '../rules/no-tabs/types'
 import type { RuleOptions as NoTrailingSpacesRuleOptions } from '../rules/no-trailing-spaces/types'
 import type { RuleOptions as NoWhitespaceBeforePropertyRuleOptions } from '../rules/no-whitespace-before-property/types'
@@ -73,6 +70,7 @@ export interface RuleOptions {
   '@stylistic/js/array-bracket-newline': ArrayBracketNewlineRuleOptions
   '@stylistic/js/array-bracket-spacing': ArrayBracketSpacingRuleOptions
   '@stylistic/js/array-element-newline': ArrayElementNewlineRuleOptions
+  '@stylistic/js/arrow-parens': ArrowParensRuleOptions
   '@stylistic/js/arrow-spacing': ArrowSpacingRuleOptions
   '@stylistic/js/block-spacing': BlockSpacingRuleOptions
   '@stylistic/js/brace-style': BraceStyleRuleOptions
@@ -93,14 +91,11 @@ export interface RuleOptions {
   '@stylistic/js/keyword-spacing': KeywordSpacingRuleOptions
   '@stylistic/js/linebreak-style': LinebreakStyleRuleOptions
   '@stylistic/js/lines-around-comment': LinesAroundCommentRuleOptions
-  '@stylistic/js/lines-around-directive': LinesAroundDirectiveRuleOptions
   '@stylistic/js/lines-between-class-members': LinesBetweenClassMembersRuleOptions
   '@stylistic/js/max-len': MaxLenRuleOptions
   '@stylistic/js/max-statements-per-line': MaxStatementsPerLineRuleOptions
   '@stylistic/js/multiline-ternary': MultilineTernaryRuleOptions
   '@stylistic/js/new-parens': NewParensRuleOptions
-  '@stylistic/js/newline-after-var': NewlineAfterVarRuleOptions
-  '@stylistic/js/newline-before-return': NewlineBeforeReturnRuleOptions
   '@stylistic/js/newline-per-chained-call': NewlinePerChainedCallRuleOptions
   '@stylistic/js/no-confusing-arrow': NoConfusingArrowRuleOptions
   '@stylistic/js/no-extra-parens': NoExtraParensRuleOptions
@@ -110,7 +105,6 @@ export interface RuleOptions {
   '@stylistic/js/no-mixed-spaces-and-tabs': NoMixedSpacesAndTabsRuleOptions
   '@stylistic/js/no-multi-spaces': NoMultiSpacesRuleOptions
   '@stylistic/js/no-multiple-empty-lines': NoMultipleEmptyLinesRuleOptions
-  '@stylistic/js/no-spaced-func': NoSpacedFuncRuleOptions
   '@stylistic/js/no-tabs': NoTabsRuleOptions
   '@stylistic/js/no-trailing-spaces': NoTrailingSpacesRuleOptions
   '@stylistic/js/no-whitespace-before-property': NoWhitespaceBeforePropertyRuleOptions
@@ -146,6 +140,7 @@ export interface UnprefixedRuleOptions {
   'array-bracket-newline': ArrayBracketNewlineRuleOptions
   'array-bracket-spacing': ArrayBracketSpacingRuleOptions
   'array-element-newline': ArrayElementNewlineRuleOptions
+  'arrow-parens': ArrowParensRuleOptions
   'arrow-spacing': ArrowSpacingRuleOptions
   'block-spacing': BlockSpacingRuleOptions
   'brace-style': BraceStyleRuleOptions
@@ -166,14 +161,11 @@ export interface UnprefixedRuleOptions {
   'keyword-spacing': KeywordSpacingRuleOptions
   'linebreak-style': LinebreakStyleRuleOptions
   'lines-around-comment': LinesAroundCommentRuleOptions
-  'lines-around-directive': LinesAroundDirectiveRuleOptions
   'lines-between-class-members': LinesBetweenClassMembersRuleOptions
   'max-len': MaxLenRuleOptions
   'max-statements-per-line': MaxStatementsPerLineRuleOptions
   'multiline-ternary': MultilineTernaryRuleOptions
   'new-parens': NewParensRuleOptions
-  'newline-after-var': NewlineAfterVarRuleOptions
-  'newline-before-return': NewlineBeforeReturnRuleOptions
   'newline-per-chained-call': NewlinePerChainedCallRuleOptions
   'no-confusing-arrow': NoConfusingArrowRuleOptions
   'no-extra-parens': NoExtraParensRuleOptions
@@ -183,7 +175,6 @@ export interface UnprefixedRuleOptions {
   'no-mixed-spaces-and-tabs': NoMixedSpacesAndTabsRuleOptions
   'no-multi-spaces': NoMultiSpacesRuleOptions
   'no-multiple-empty-lines': NoMultipleEmptyLinesRuleOptions
-  'no-spaced-func': NoSpacedFuncRuleOptions
   'no-tabs': NoTabsRuleOptions
   'no-trailing-spaces': NoTrailingSpacesRuleOptions
   'no-whitespace-before-property': NoWhitespaceBeforePropertyRuleOptions

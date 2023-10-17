@@ -131,17 +131,15 @@ module.exports = {
                 end: lastTokenOfTest.loc.end,
               },
               messageId: 'expectedTestCons',
-              fix: fixer => (hasComments
-                ? null
-                : (
-                    fixer.replaceTextRange(
-                      [
-                        lastTokenOfTest.range[1],
-                        questionToken.range[0],
-                      ],
-                      '\n',
-                    )
-                  )),
+              fix: fixer => (hasComments ? null : (
+                fixer.replaceTextRange(
+                  [
+                    lastTokenOfTest.range[1],
+                    questionToken.range[0],
+                  ],
+                  '\n',
+                )
+              )),
             })
           }
 
@@ -153,17 +151,15 @@ module.exports = {
                 end: lastTokenOfConsequent.loc.end,
               },
               messageId: 'expectedConsAlt',
-              fix: fixer => (hasComments
-                ? null
-                : (
-                    fixer.replaceTextRange(
-                      [
-                        lastTokenOfConsequent.range[1],
-                        colonToken.range[0],
-                      ],
-                      '\n',
-                    )
-                  )),
+              fix: fixer => (hasComments ? null : (
+                fixer.replaceTextRange(
+                  [
+                    lastTokenOfConsequent.range[1],
+                    colonToken.range[0],
+                  ],
+                  '\n',
+                )
+              )),
             })
           }
         }

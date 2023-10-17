@@ -201,15 +201,13 @@ module.exports = {
                 = options.objectsInArraysException && isObjectType(firstElement)
                 || options.arraysInArraysException && isArrayType(firstElement)
                 || options.singleElementException && node.elements.length === 1
-                  ? !options.spaced
-                  : options.spaced
+                  ? !options.spaced : options.spaced
 
       const closingBracketMustBeSpaced
                 = options.objectsInArraysException && isObjectType(lastElement)
                 || options.arraysInArraysException && isArrayType(lastElement)
                 || options.singleElementException && node.elements.length === 1
-                  ? !options.spaced
-                  : options.spaced
+                  ? !options.spaced : options.spaced
 
       if (astUtils.isTokenOnSameLine(first, second)) {
         if (openingBracketMustBeSpaced && !sourceCode.isSpaceBetweenTokens(first, second))

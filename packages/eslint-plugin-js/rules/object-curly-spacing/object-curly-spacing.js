@@ -188,9 +188,7 @@ module.exports = {
         const closingCurlyBraceMustBeSpaced = (
           options.arraysInObjectsException && penultimateType === 'ArrayExpression'
                     || options.objectsInObjectsException && (penultimateType === 'ObjectExpression' || penultimateType === 'ObjectPattern')
-        )
-          ? !options.spaced
-          : options.spaced
+        ) ? !options.spaced : options.spaced
 
         const lastSpaced = sourceCode.isSpaceBetweenTokens(penultimate, last)
 

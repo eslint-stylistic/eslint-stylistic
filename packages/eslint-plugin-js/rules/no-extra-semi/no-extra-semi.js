@@ -65,9 +65,16 @@ module.exports = {
         node: nodeOrToken,
         messageId: 'unexpected',
         fix: isFixable(nodeOrToken)
-          ? fixer => /*                         * Expand the replacement range to include the surrounding                         * tokens to avoid conflicting with semi.                         * https://github.com/eslint/eslint/issues/7928                         */ new FixTracker(fixer, context.sourceCode)
-            .retainSurroundingTokens(nodeOrToken)
-            .remove(nodeOrToken)
+          ? fixer =>
+
+          /*
+                         * Expand the replacement range to include the surrounding
+                         * tokens to avoid conflicting with semi.
+                         * https://github.com/eslint/eslint/issues/7928
+                         */
+            new FixTracker(fixer, context.sourceCode)
+              .retainSurroundingTokens(nodeOrToken)
+              .remove(nodeOrToken)
           : null,
       })
     }
