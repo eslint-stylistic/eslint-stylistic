@@ -1,7 +1,7 @@
 import type { ESLint } from 'eslint'
 import type { UnprefixedRuleOptions } from './rule-options'
 
-export * from './rule-options'
+export type * from './rule-options'
 
 declare const plugin: {
   rules: {

@@ -140,6 +140,7 @@ const jsxRules = [
   'jsx-sort-props',
   'jsx-tag-spacing',
   'jsx-wrap-multilines',
+  ['self-closing-comp', 'jsx-self-closing-comp'],
 ]
 
 async function migrateJS() {
@@ -234,11 +235,13 @@ async function generateDTS(
   target: string,
   targetRoot: string,
   rulesPath = ['lib', 'rules'],
+  aliases: [string, string][] = [],
 ) {
   await Promise.all(rules.map(async (rule) => {
     const name = basename(rule).replace(/\.\w+$/, '')
     const module = await import(join(root, ...rulesPath, `${name}`))
     const meta = module.default.meta
+    const alias = aliases.find(i => i[0] === name)?.[1] || name
 
     let schemas = meta.schema as JSONSchema4[] ?? []
 
@@ -264,7 +267,7 @@ async function generateDTS(
     }))
 
     await fs.writeFile(
-      join(target, name, 'types.d.ts'),
+      join(target, alias, 'types.d.ts'),
 `${options.join('\n')}
 export type RuleOptions = [${options.map((_, index) => `Schema${index}?`).join(', ')}]
 `,
@@ -427,19 +430,21 @@ async function migrateJSX() {
     absolute: true,
   })
 
+  const jsxRulesNames = jsxRules.map(rule => Array.isArray(rule) ? rule[0] : rule)
+
   const filteredRules = rules.filter((rule) => {
     const name = basename(rule, '.js')
-    return (jsxRules.includes(name))
+    return (jsxRulesNames.includes(name))
   })
 
   await Promise.all(
     filteredRules.map(async (rule) => {
       const name = basename(rule, '.js')
-      if (!jsxRules.includes(name))
-        return
+      const match = jsxRules.find(i => i === name || i[0] === name)
+      const alias = Array.isArray(match) ? match[1] : name
 
       console.log(`Migrating ${name}`)
-      await fs.mkdir(join(target, name), { recursive: true })
+      await fs.mkdir(join(target, alias), { recursive: true })
 
       let js = await fs.readFile(rule, 'utf-8')
       js = js
@@ -464,16 +469,21 @@ async function migrateJSX() {
           '(s, v) => s.matchAll(v)',
         )
       // js = `// @ts-check\n${js}`
-      await fs.writeFile(join(target, name, `${name}.js`), js, 'utf-8')
+      await fs.writeFile(join(target, alias, `${alias}.js`), js, 'utf-8')
 
       const docsUrl = join(root, 'docs/rules', `${name}.md`)
       if (fs.existsSync(docsUrl)) {
         let md = await fs.readFile(docsUrl, 'utf-8')
-        md = md.replaceAll(
-          'react/jsx-',
-          '@stylistic/jsx/jsx-',
-        )
-        await fs.writeFile(join(target, name, 'README.md'), md, 'utf-8')
+        md = md
+          .replaceAll(
+            'react/jsx-',
+            '@stylistic/jsx/jsx-',
+          )
+          .replaceAll(
+            `react/${name}`,
+            `@stylistic/jsx/${alias}`,
+          )
+        await fs.writeFile(join(target, alias, 'README.md'), md, 'utf-8')
       }
 
       let test = await fs.readFile(join(root, 'tests/lib/rules', `${name}.js`), 'utf-8')
@@ -486,12 +496,20 @@ async function migrateJSX() {
           'require(\'../../helpers',
           'require(\'../../tests/helpers',
         )
-      await fs.writeFile(join(target, name, `${name}.test.js`), test, 'utf-8')
+      await fs.writeFile(join(target, alias, `${alias}.test.js`), test, 'utf-8')
     }),
   )
 
   // Write types.d.ts files for eslint-define-config support
-  await generateDTS('@stylistic/jsx', filteredRules, root, target, targetRoot)
+  await generateDTS(
+    '@stylistic/jsx',
+    filteredRules,
+    root,
+    target,
+    targetRoot,
+    undefined,
+    jsxRules.filter(i => Array.isArray(i)) as [string, string][],
+  )
 }
 
 ;(async () => {

@@ -12,6 +12,7 @@ import type { RuleOptions as JsxMaxPropsPerLineRuleOptions } from '../rules/jsx-
 import type { RuleOptions as JsxNewlineRuleOptions } from '../rules/jsx-newline/types'
 import type { RuleOptions as JsxOneExpressionPerLineRuleOptions } from '../rules/jsx-one-expression-per-line/types'
 import type { RuleOptions as JsxPropsNoMultiSpacesRuleOptions } from '../rules/jsx-props-no-multi-spaces/types'
+import type { RuleOptions as JsxSelfClosingCompRuleOptions } from '../rules/jsx-self-closing-comp/types'
 import type { RuleOptions as JsxSortPropsRuleOptions } from '../rules/jsx-sort-props/types'
 import type { RuleOptions as JsxTagSpacingRuleOptions } from '../rules/jsx-tag-spacing/types'
 import type { RuleOptions as JsxWrapMultilinesRuleOptions } from '../rules/jsx-wrap-multilines/types'
@@ -31,6 +32,7 @@ export interface RuleOptions {
   '@stylistic/jsx/jsx-newline': JsxNewlineRuleOptions
   '@stylistic/jsx/jsx-one-expression-per-line': JsxOneExpressionPerLineRuleOptions
   '@stylistic/jsx/jsx-props-no-multi-spaces': JsxPropsNoMultiSpacesRuleOptions
+  '@stylistic/jsx/jsx-self-closing-comp': JsxSelfClosingCompRuleOptions
   '@stylistic/jsx/jsx-sort-props': JsxSortPropsRuleOptions
   '@stylistic/jsx/jsx-tag-spacing': JsxTagSpacingRuleOptions
   '@stylistic/jsx/jsx-wrap-multilines': JsxWrapMultilinesRuleOptions
@@ -51,6 +53,7 @@ export interface UnprefixedRuleOptions {
   'jsx-newline': JsxNewlineRuleOptions
   'jsx-one-expression-per-line': JsxOneExpressionPerLineRuleOptions
   'jsx-props-no-multi-spaces': JsxPropsNoMultiSpacesRuleOptions
+  'jsx-self-closing-comp': JsxSelfClosingCompRuleOptions
   'jsx-sort-props': JsxSortPropsRuleOptions
   'jsx-tag-spacing': JsxTagSpacingRuleOptions
   'jsx-wrap-multilines': JsxWrapMultilinesRuleOptions

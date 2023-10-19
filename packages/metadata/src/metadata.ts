@@ -1195,6 +1195,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "jsx-self-closing-comp",
+        "ruleId": "@stylistic/jsx/jsx-self-closing-comp",
+        "originalId": "react/self-closing-comp",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/jsx-self-closing-comp.js",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow extra closing tags for components without children",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "jsx-sort-props",
         "ruleId": "@stylistic/jsx/jsx-sort-props",
         "originalId": "react/jsx-sort-props",
@@ -2596,6 +2610,19 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "code",
           "docs": {
             "description": "Disallow multiple spaces between inline JSX props",
+            "recommended": false
+          }
+        }
+      },
+      {
+        "name": "jsx-self-closing-comp",
+        "ruleId": "@stylistic/jsx-self-closing-comp",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/jsx-self-closing-comp.js",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow extra closing tags for components without children",
             "recommended": false
           }
         }
