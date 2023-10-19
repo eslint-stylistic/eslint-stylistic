@@ -16,21 +16,21 @@ npm i -D @stylistic/eslint-plugin-js
 
 Add `@stylistic/js` to your plugins list, and rename [stylistic rules](#rules) adding `@stylistic/js` prefix:
 
-```diff
+```js
 // .eslintrc.js
 module.exports = {
   plugins: [
-+   '@stylistic/js'
+    '@stylistic/js' // [!code ++]
   ],
   rules: {
--   'indent': ['error', 2],
-+   '@stylistic/js/indent': ['error', 2],
+    'indent': ['error', 2], // [!code --]
+    '@stylistic/js/indent': ['error', 2], // [!code ++]
     // ...  
   }
-};
+}
 ```
 
-You can also try out our [migration plugin](/guide/migration) to automated the migration process.
+Check out the [migration guide](/guide/migration) for more details.
 
 ## Rules
 

@@ -1,8 +1,12 @@
 # @stylistic/eslint-plugin
 
-Stylistic rules for ESLint, works for both JavaScript and TypeScript.
+Stylistic rules for ESLint, works for both JavaScript, TypeScript and JSX.
 
-This plugin is a merge of [`@stylistic/eslint-plugin-js`](./js) and [`@stylistic/eslint-plugin-ts`](./ts). You don't need to override the rules manually.
+This plugin is a merge all three plugins:
+
+- [`@stylistic/eslint-plugin-js`](./js)
+- [`@stylistic/eslint-plugin-ts`](./ts)
+- [`@stylistic/eslint-plugin-jsx`](./jsx)
 
 ## Install
 
@@ -12,21 +16,21 @@ npm i -D @stylistic/eslint-plugin
 
 Add `@stylistic` to your plugins list, and rename [stylistic rules](#rules) adding `@stylistic` prefix:
 
-```diff
+```js
 // .eslintrc.js
 module.exports = {
   plugins: [
-+   '@stylistic'
+    '@stylistic' // [!code ++]
   ],
   rules: {
--   'indent': ['error', 2],
-+   '@stylistic/indent': ['error', 2],
-    // ...  
+    'indent': ['error', 2], // [!code --]
+    '@stylistic/indent': ['error', 2], // [!code ++]
+    // ...
   }
-};
+}
 ```
 
-You can also try out our [migration plugin](/guide/migration) to automated the migration process.
+Check out the [migration guide](/guide/migration) for more details.
 
 ## Rules
 

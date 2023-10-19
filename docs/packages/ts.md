@@ -16,25 +16,25 @@ npm i -D @stylistic/eslint-plugin-ts
 
 Add `@stylistic/ts` to your plugins list, and rename [stylistic rules](#rules) from `@typescript-eslint/` prefix to `@stylistic/ts/`:
 
-```diff
+```js
 // .eslintrc.js
 module.exports = {
   plugins: [
     '@typescript-eslint',
-+   '@stylistic/ts',
+    '@stylistic/ts', // [!code ++]
   ],
   parser: '@typescript-eslint/parser',
   rules: {
--   '@typescript-eslint/indent': ['error', 2],
-+   '@stylistic/ts/indent': ['error', 2],
-    // ...  
+    '@typescript-eslint/indent': ['error', 2], // [!code --]
+    '@stylistic/ts/indent': ['error', 2], // [!code ++]
+    // ...
   }
 };
 ```
 
 Note that this package only contains stylistic rules. You still need to install `@typescript-eslint/parser` and `@typescript-eslint/eslint-plugin` to parse and lint your TypeScript code.
 
-You can also try out our [migration plugin](/guide/migration) to automated the migration process.
+Check out the [migration guide](/guide/migration) for more details.
 
 ## Rules
 

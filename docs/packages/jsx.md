@@ -16,21 +16,21 @@ npm i -D @stylistic/eslint-plugin-jsx
 
 Add `@stylistic/jsx` to your plugins list, and rename [stylistic rules](#rules) adding `@stylistic/js` prefix:
 
-```diff
+```ts
 // .eslintrc.js
 module.exports = {
   plugins: [
-+   '@stylistic/jsx'
+   '@stylistic/jsx' // [!code ++]
   ],
   rules: {
--   'react/jsx-indent': ['error', 2],
-+   '@stylistic/jsx/jsx-indent': ['error', 2],
+    'react/jsx-indent': ['error', 2], // [!code --]
+    '@stylistic/jsx/jsx-indent': ['error', 2], // [!code ++]
     // ...  
   }
 };
 ```
 
-You can also try out our [migration plugin](/guide/migration) to automated the migration process.
+Check out the [migration guide](/guide/migration) for more details.
 
 ## Rules
 
