@@ -48,9 +48,9 @@
     "@babel/plugin-syntax-do-expressions": "^7.22.5",
     "@babel/plugin-syntax-function-bind": "^7.22.5",
     "@babel/preset-react": "^7.22.15",
-    "@typescript-eslint/parser": "^6.7.5",
+    "@typescript-eslint/parser": "^6.8.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^8.51.0",
+    "eslint": "^8.52.0",
     "semver": "^7.5.4",
     "typescript-eslint-parser": "^22.0.0"
   }

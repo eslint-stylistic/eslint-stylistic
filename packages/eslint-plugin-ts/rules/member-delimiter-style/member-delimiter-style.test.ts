@@ -1,6 +1,5 @@
 // this rule tests the delimiter, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
-/* eslint-enable eslint-comments/no-use */
 
 import { RuleTester } from '@typescript-eslint/rule-tester'
 

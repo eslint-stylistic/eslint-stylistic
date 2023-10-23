@@ -232,7 +232,6 @@ module.exports = function propTypesInstructions(context, components, utils) {
       }
     },
   }
-  /* eslint-enable no-use-before-define */
 
   /**
    * Resolve the type annotation for a given node.

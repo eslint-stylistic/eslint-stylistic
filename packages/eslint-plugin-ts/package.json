@@ -42,12 +42,12 @@
   },
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:*",
-    "@typescript-eslint/scope-manager": "^6.7.5",
-    "@typescript-eslint/type-utils": "^6.7.5",
-    "@typescript-eslint/utils": "^6.7.5",
+    "@typescript-eslint/scope-manager": "^6.8.0",
+    "@typescript-eslint/type-utils": "^6.8.0",
+    "@typescript-eslint/utils": "^6.8.0",
     "graphemer": "^1.4.0"
   },
   "devDependencies": {
-    "@typescript-eslint/rule-tester": "^6.7.5"
+    "@typescript-eslint/rule-tester": "^6.8.0"
   }
 }
