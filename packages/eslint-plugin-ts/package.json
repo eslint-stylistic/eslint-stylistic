@@ -29,7 +29,8 @@
   "types": "./dts/index.d.ts",
   "files": [
     "dist",
-    "dts"
+    "dts",
+    "rules/**/*.d.ts"
   ],
   "scripts": {
     "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",
