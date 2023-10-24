@@ -17,4 +17,4 @@ export type Schema0 =
     },
   ]
 
-export type RuleOptions = [Schema0?]
+export type RuleOptions = Schema0

@@ -134,4 +134,4 @@ export type Schema0 = {
   next: StatementType
 }[]
 
-export type RuleOptions = [Schema0?]
+export type RuleOptions = Schema0
