@@ -14,4 +14,4 @@ export type BasicConfig =
     minItems?: number | null
   }
 
-export type RuleOptions = [Schema0?]
+export type RuleOptions = Schema0

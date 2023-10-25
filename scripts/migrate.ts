@@ -266,10 +266,17 @@ async function generateDTS(
       }
     }))
 
+    const optionTypes = options.map((_, index) => `Schema${index}?`)
+    const ruleOptionTypeValue = Array.isArray(meta.schema)
+      ? `[${optionTypes.join(', ')}]`
+      : meta.schema
+        ? 'Schema0'
+        : '[]'
+
     await fs.writeFile(
       join(target, alias, 'types.d.ts'),
 `${options.join('\n')}
-export type RuleOptions = [${options.map((_, index) => `Schema${index}?`).join(', ')}]
+export type RuleOptions = ${ruleOptionTypeValue}
 `,
 'utf-8',
     )
