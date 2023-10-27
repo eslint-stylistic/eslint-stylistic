@@ -34,6 +34,13 @@ Add the following settings to your `.vscode/settings.json`:
   },
 }
 ```
+##### JetBrains IDEs
+
+- Open the Settings dialog (`Ctrl + Alt + S`)
+- Go to `Languages & Frameworks -> JavaScript -> Code Quality Tools -> ESLint`
+- Select the `Run eslint --fix on save` checkbox.
+
+Refert to [JetBrains Docs](https://www.jetbrains.com/help/idea/eslint.html#ws_eslint_configure_run_eslint_on_save
 
 ## The error messages (squiggly lines) for code style are annoying
 
