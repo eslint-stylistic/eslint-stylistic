@@ -6,11 +6,11 @@ Before you start migrating, check the [project progress](/contribute/project-pro
 
 ## When Should I Migrate?
 
-For production projects, we would recommend to wait a bit longer, until ESLint officially announces the deprecation list.
+For production projects, we would recommend waiting a bit longer, until ESLint officially announces the deprecation list.
 
-At the current stage, the packages are already useable. We are more then happy to see you start trying them out and give us feedbacks.
+At the current stage, the packages are already useable. We are more then happy to see you start trying them out and give us feedback.
 
-The benefit of migrating:
+The benefits of migrating:
 
 - Clear scope of rules, you can see more clearly what rules are related to code style by the prefix `@stylistic/`
 - Better IDE experience, you can config your IDE to [hide the error messages for code style rules](/guide/faq#the-error-messages-squiggly-lines-for-code-style-are-annoying) with scoping and does require to list manually.
@@ -18,7 +18,7 @@ The benefit of migrating:
 
 The downside of migrating **now**:
 
-- We are still waiting for ESLint and `typescript-eslint` teams to announce the official deprecation list. We suggest to pin the dependency version to avoid unexpected breakage.
+- We are still waiting for ESLint and `typescript-eslint` teams to announce the official deprecation list. We suggest pinning the dependency version to avoid unexpected breakage.
 
 ## Manual Migrate
 
@@ -38,7 +38,7 @@ There are two ways to migrate your project to ESLint Stylistic:
 
 ### Approach 1: Migrate to Single Plugin
 
-To make the rules configuration easier, we merged all these 3 plugins into one single plugin.
+To make the rules configuration easier, we merged all three plugins into one single plugin.
 
 ```sh
 npm i -D @stylistic/eslint-plugin
@@ -69,7 +69,7 @@ module.exports = {
 }
 ```
 
-And usually typescript-eslint would ask you to disable able the built-in rules, in favor of the `@typescript-eslint` version. With ESLint Stylistic, you only need one rule to handle both JavaScript and TypeScript.
+And usually typescript-eslint would ask you to disable the built-in rules, in favor of the `@typescript-eslint` version. With ESLint Stylistic, you only need one rule to handle both JavaScript and TypeScript:
 
 ```js
 // .eslintrc.js
@@ -158,7 +158,7 @@ module.exports = {
 
 ## ESLint Migrate Plugin
 
-We provides an ESLint plugin for migrating built-in stylistic rules to the `@stylistic` namespace.
+We provide an ESLint plugin for migrating built-in stylistic rules to the `@stylistic` namespace.
 
 ```sh
 npm i -D @stylistic/eslint-plugin-migrate
