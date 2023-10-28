@@ -58,6 +58,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "arrow-parens",
+        "ruleId": "@stylistic/js/arrow-parens",
+        "originalId": "arrow-parens",
+        "entry": "packages/eslint-plugin-js/rules/arrow-parens/arrow-parens.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/arrow-parens/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require parentheses around arrow function arguments",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "arrow-spacing",
         "ruleId": "@stylistic/js/arrow-spacing",
         "originalId": "arrow-spacing",
@@ -338,20 +352,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
-        "name": "lines-around-directive",
-        "ruleId": "@stylistic/js/lines-around-directive",
-        "originalId": "lines-around-directive",
-        "entry": "packages/eslint-plugin-js/rules/lines-around-directive/lines-around-directive.js",
-        "docsEntry": "packages/eslint-plugin-js/rules/lines-around-directive/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require or disallow newlines around directives",
-            "recommended": false
-          }
-        }
-      },
-      {
         "name": "lines-between-class-members",
         "ruleId": "@stylistic/js/lines-between-class-members",
         "originalId": "lines-between-class-members",
@@ -415,34 +415,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "code",
           "docs": {
             "description": "Enforce or disallow parentheses when invoking a constructor with no arguments",
-            "recommended": false
-          }
-        }
-      },
-      {
-        "name": "newline-after-var",
-        "ruleId": "@stylistic/js/newline-after-var",
-        "originalId": "newline-after-var",
-        "entry": "packages/eslint-plugin-js/rules/newline-after-var/newline-after-var.js",
-        "docsEntry": "packages/eslint-plugin-js/rules/newline-after-var/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require or disallow an empty line after variable declarations",
-            "recommended": false
-          }
-        }
-      },
-      {
-        "name": "newline-before-return",
-        "ruleId": "@stylistic/js/newline-before-return",
-        "originalId": "newline-before-return",
-        "entry": "packages/eslint-plugin-js/rules/newline-before-return/newline-before-return.js",
-        "docsEntry": "packages/eslint-plugin-js/rules/newline-before-return/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require an empty line before `return` statements",
             "recommended": false
           }
         }
@@ -567,20 +539,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Disallow multiple empty lines",
-            "recommended": false
-          }
-        }
-      },
-      {
-        "name": "no-spaced-func",
-        "ruleId": "@stylistic/js/no-spaced-func",
-        "originalId": "no-spaced-func",
-        "entry": "packages/eslint-plugin-js/rules/no-spaced-func/no-spaced-func.js",
-        "docsEntry": "packages/eslint-plugin-js/rules/no-spaced-func/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Disallow spacing between function identifiers and their applications (deprecated)",
             "recommended": false
           }
         }
@@ -1197,7 +1155,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       {
         "name": "jsx-self-closing-comp",
         "ruleId": "@stylistic/jsx/jsx-self-closing-comp",
-        "originalId": "react/self-closing-comp",
+        "originalId": "react/jsx-self-closing-comp",
         "entry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/jsx-self-closing-comp.js",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/README.md",
         "meta": {
@@ -1560,6 +1518,19 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "arrow-parens",
+        "ruleId": "@stylistic/arrow-parens",
+        "entry": "packages/eslint-plugin-js/rules/arrow-parens/arrow-parens.js",
+        "docsEntry": "packages/eslint-plugin-js/rules/arrow-parens/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require parentheses around arrow function arguments",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "arrow-spacing",
         "ruleId": "@stylistic/arrow-spacing",
         "entry": "packages/eslint-plugin-js/rules/arrow-spacing/arrow-spacing.js",
@@ -1811,19 +1782,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
-        "name": "lines-around-directive",
-        "ruleId": "@stylistic/lines-around-directive",
-        "entry": "packages/eslint-plugin-js/rules/lines-around-directive/lines-around-directive.js",
-        "docsEntry": "packages/eslint-plugin-js/rules/lines-around-directive/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require or disallow newlines around directives",
-            "recommended": false
-          }
-        }
-      },
-      {
         "name": "lines-between-class-members",
         "ruleId": "@stylistic/lines-between-class-members",
         "entry": "packages/eslint-plugin-ts/rules/lines-between-class-members/lines-between-class-members.ts",
@@ -1881,32 +1839,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "code",
           "docs": {
             "description": "Enforce or disallow parentheses when invoking a constructor with no arguments",
-            "recommended": false
-          }
-        }
-      },
-      {
-        "name": "newline-after-var",
-        "ruleId": "@stylistic/newline-after-var",
-        "entry": "packages/eslint-plugin-js/rules/newline-after-var/newline-after-var.js",
-        "docsEntry": "packages/eslint-plugin-js/rules/newline-after-var/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require or disallow an empty line after variable declarations",
-            "recommended": false
-          }
-        }
-      },
-      {
-        "name": "newline-before-return",
-        "ruleId": "@stylistic/newline-before-return",
-        "entry": "packages/eslint-plugin-js/rules/newline-before-return/newline-before-return.js",
-        "docsEntry": "packages/eslint-plugin-js/rules/newline-before-return/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require an empty line before `return` statements",
             "recommended": false
           }
         }
@@ -2022,19 +1954,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Disallow multiple empty lines",
-            "recommended": false
-          }
-        }
-      },
-      {
-        "name": "no-spaced-func",
-        "ruleId": "@stylistic/no-spaced-func",
-        "entry": "packages/eslint-plugin-js/rules/no-spaced-func/no-spaced-func.js",
-        "docsEntry": "packages/eslint-plugin-js/rules/no-spaced-func/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Disallow spacing between function identifiers and their applications (deprecated)",
             "recommended": false
           }
         }
