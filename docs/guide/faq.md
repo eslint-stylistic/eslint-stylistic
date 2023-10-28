@@ -40,7 +40,7 @@ Add the following settings to your `.vscode/settings.json`:
 - Go to `Languages & Frameworks -> JavaScript -> Code Quality Tools -> ESLint`
 - Select the `Run eslint --fix on save` checkbox.
 
-Refer to [JetBrains Docs](https://www.jetbrains.com/help/idea/eslint.html#ws_eslint_configure_run_eslint_on_save
+Refer to [JetBrains Docs](https://www.jetbrains.com/help/idea/eslint.html#ws_eslint_configure_run_eslint_on_save)
 
 ## The error messages (squiggly lines) for code style are annoying
 
