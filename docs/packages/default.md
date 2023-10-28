@@ -2,7 +2,7 @@
 
 Stylistic rules for ESLint, works for both JavaScript, TypeScript and JSX.
 
-This plugin is a merge all three plugins:
+This plugin provides the rules from:
 
 - [`@stylistic/eslint-plugin-js`](./js)
 - [`@stylistic/eslint-plugin-ts`](./ts)
@@ -14,7 +14,7 @@ This plugin is a merge all three plugins:
 npm i -D @stylistic/eslint-plugin
 ```
 
-Add `@stylistic` to your plugins list, and rename [stylistic rules](#rules) adding `@stylistic` prefix:
+Add `@stylistic` to your plugins list, and prefix [stylistic rules](#rules) with `@stylistic`:
 
 ```js
 // .eslintrc.js

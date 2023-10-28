@@ -1,11 +1,11 @@
 # @stylistic/eslint-plugin-jsx
 
-JSX stylistic rules for ESLint, migrated from [`eslint-plugin-react`](https://github.com/jsx-eslint/eslint-plugin-react). Decoupled from React and support generic JSX syntax.
+JSX stylistic rules for ESLint, migrated from [`eslint-plugin-react`](https://github.com/jsx-eslint/eslint-plugin-react). Decoupled from React and supports generic JSX syntax.
 
 Credits to all contributors who have committed to the original rules.
 
 ::: tip
-Recommended to use [`@stylistic/eslint-plugin`](/packages/default), which support both JavaScript and TypeScript rules automatically, without the need to manually overrides.
+We recommend using [`@stylistic/eslint-plugin`](/packages/default) as it includes the rules for both JavaScript and TypeScript
 :::
 
 ## Install
@@ -14,7 +14,7 @@ Recommended to use [`@stylistic/eslint-plugin`](/packages/default), which suppor
 npm i -D @stylistic/eslint-plugin-jsx
 ```
 
-Add `@stylistic/jsx` to your plugins list, and rename [stylistic rules](#rules) adding `@stylistic/js` prefix:
+Add `@stylistic/jsx` to your plugins list, and change the prefix for [stylistic rules](#rules) from `react` to  `@stylistic/js`:
 
 ```ts
 // .eslintrc.js

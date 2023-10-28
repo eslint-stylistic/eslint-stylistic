@@ -5,7 +5,7 @@ JavaScript stylistic rules for ESLint, migrated from [eslint core](https://githu
 Credits to all contributors who have committed to the original rules.
 
 ::: tip
-Recommended to use [`@stylistic/eslint-plugin`](/packages/default), which support both JavaScript and TypeScript rules automatically, without the need to manually overrides.
+We recommend using [`@stylistic/eslint-plugin`](/packages/default) as it includes the rules for both JavaScript and TypeScript
 :::
 
 ## Install
@@ -14,7 +14,7 @@ Recommended to use [`@stylistic/eslint-plugin`](/packages/default), which suppor
 npm i -D @stylistic/eslint-plugin-js
 ```
 
-Add `@stylistic/js` to your plugins list, and rename [stylistic rules](#rules) adding `@stylistic/js` prefix:
+Add `@stylistic/js` to your plugins list, and prefix [stylistic rules](#rules) with `@stylistic/js`:
 
 ```js
 // .eslintrc.js
