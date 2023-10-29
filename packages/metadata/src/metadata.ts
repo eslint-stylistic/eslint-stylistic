@@ -1367,6 +1367,32 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "no-extra-parens",
+        "ruleId": "@stylistic/ts/no-extra-parens",
+        "originalId": "@typescript-eslint/no-extra-parens",
+        "entry": "packages/eslint-plugin-ts/rules/no-extra-parens/no-extra-parens.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/no-extra-parens/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow unnecessary parentheses"
+          }
+        }
+      },
+      {
+        "name": "no-extra-semi",
+        "ruleId": "@stylistic/ts/no-extra-semi",
+        "originalId": "@typescript-eslint/no-extra-semi",
+        "entry": "packages/eslint-plugin-ts/rules/no-extra-semi/no-extra-semi.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/no-extra-semi/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow unnecessary semicolons"
+          }
+        }
+      },
+      {
         "name": "object-curly-spacing",
         "ruleId": "@stylistic/ts/object-curly-spacing",
         "originalId": "@typescript-eslint/object-curly-spacing",
@@ -1872,26 +1898,24 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       {
         "name": "no-extra-parens",
         "ruleId": "@stylistic/no-extra-parens",
-        "entry": "packages/eslint-plugin-js/rules/no-extra-parens/no-extra-parens.js",
-        "docsEntry": "packages/eslint-plugin-js/rules/no-extra-parens/README.md",
+        "entry": "packages/eslint-plugin-ts/rules/no-extra-parens/no-extra-parens.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/no-extra-parens/README.md",
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow unnecessary parentheses",
-            "recommended": false
+            "description": "Disallow unnecessary parentheses"
           }
         }
       },
       {
         "name": "no-extra-semi",
         "ruleId": "@stylistic/no-extra-semi",
-        "entry": "packages/eslint-plugin-js/rules/no-extra-semi/no-extra-semi.js",
-        "docsEntry": "packages/eslint-plugin-js/rules/no-extra-semi/README.md",
+        "entry": "packages/eslint-plugin-ts/rules/no-extra-semi/no-extra-semi.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/no-extra-semi/README.md",
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow unnecessary semicolons",
-            "recommended": true
+            "description": "Disallow unnecessary semicolons"
           }
         }
       },

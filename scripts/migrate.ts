@@ -24,6 +24,9 @@ import fg from 'fast-glob'
 import type { JSONSchema4 } from 'json-schema'
 import { compile } from 'json-schema-to-typescript'
 
+// If overriding the existing rules
+const OVERRIDES = false
+
 // Based on https://github.com/eslint/eslint/issues/17522#issuecomment-1764916381
 const jsRules = [
   'array-bracket-newline',
@@ -167,6 +170,10 @@ async function migrateJS() {
     filteredRules.map(async (rule) => {
       const name = basename(rule, '.js')
 
+      if (!OVERRIDES && existsSync(join(target, name))) {
+        console.log(`Skipped ${name}`)
+        return
+      }
       console.log(`Migrating ${name}`)
       await fs.mkdir(join(target, name), { recursive: true })
 
@@ -341,13 +348,18 @@ async function migrateTS() {
 
   const filteredRules = rules.filter((rule) => {
     const name = basename(rule, '.ts')
-    return (tsRules.includes(name))
+    return (tsRules.includes(name)) || (jsRules.includes(name))
   })
 
   // Copy over the js file
   await Promise.all(
     filteredRules.map(async (rule) => {
       const name = basename(rule, '.ts')
+
+      if (!OVERRIDES && existsSync(join(target, name))) {
+        console.log(`Skipped ${name}`)
+        return
+      }
 
       console.log(`Migrating ${name}`)
       await fs.mkdir(join(target, name), { recursive: true })
@@ -450,7 +462,12 @@ async function migrateJSX() {
       const match = jsxRules.find(i => i === name || i[0] === name)
       const alias = Array.isArray(match) ? match[1] : name
 
-      console.log(`Migrating ${name}`)
+      if (!OVERRIDES && existsSync(join(target, alias))) {
+        console.log(`Skipped ${alias}`)
+        return
+      }
+
+      console.log(`Migrating ${alias}`)
       await fs.mkdir(join(target, alias), { recursive: true })
 
       let js = await fs.readFile(rule, 'utf-8')

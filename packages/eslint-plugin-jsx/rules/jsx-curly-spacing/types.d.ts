@@ -37,4 +37,4 @@ export interface BasicConfig {
   [k: string]: unknown
 }
 
-export type RuleOptions = [Schema0?]
+export type RuleOptions = Schema0

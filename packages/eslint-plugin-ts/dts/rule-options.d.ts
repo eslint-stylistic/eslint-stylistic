@@ -9,6 +9,8 @@ import type { RuleOptions as KeywordSpacingRuleOptions } from '../rules/keyword-
 import type { RuleOptions as LinesAroundCommentRuleOptions } from '../rules/lines-around-comment/types'
 import type { RuleOptions as LinesBetweenClassMembersRuleOptions } from '../rules/lines-between-class-members/types'
 import type { RuleOptions as MemberDelimiterStyleRuleOptions } from '../rules/member-delimiter-style/types'
+import type { RuleOptions as NoExtraParensRuleOptions } from '../rules/no-extra-parens/types'
+import type { RuleOptions as NoExtraSemiRuleOptions } from '../rules/no-extra-semi/types'
 import type { RuleOptions as ObjectCurlySpacingRuleOptions } from '../rules/object-curly-spacing/types'
 import type { RuleOptions as PaddingLineBetweenStatementsRuleOptions } from '../rules/padding-line-between-statements/types'
 import type { RuleOptions as QuotesRuleOptions } from '../rules/quotes/types'
@@ -30,6 +32,8 @@ export interface RuleOptions {
   '@stylistic/ts/lines-around-comment': LinesAroundCommentRuleOptions
   '@stylistic/ts/lines-between-class-members': LinesBetweenClassMembersRuleOptions
   '@stylistic/ts/member-delimiter-style': MemberDelimiterStyleRuleOptions
+  '@stylistic/ts/no-extra-parens': NoExtraParensRuleOptions
+  '@stylistic/ts/no-extra-semi': NoExtraSemiRuleOptions
   '@stylistic/ts/object-curly-spacing': ObjectCurlySpacingRuleOptions
   '@stylistic/ts/padding-line-between-statements': PaddingLineBetweenStatementsRuleOptions
   '@stylistic/ts/quotes': QuotesRuleOptions
@@ -52,6 +56,8 @@ export interface UnprefixedRuleOptions {
   'lines-around-comment': LinesAroundCommentRuleOptions
   'lines-between-class-members': LinesBetweenClassMembersRuleOptions
   'member-delimiter-style': MemberDelimiterStyleRuleOptions
+  'no-extra-parens': NoExtraParensRuleOptions
+  'no-extra-semi': NoExtraSemiRuleOptions
   'object-curly-spacing': ObjectCurlySpacingRuleOptions
   'padding-line-between-statements': PaddingLineBetweenStatementsRuleOptions
   'quotes': QuotesRuleOptions
