@@ -35,13 +35,16 @@ function MarkdownTransform(): Plugin {
     name: 'local:markdown-transform',
     enforce: 'pre',
     transform(code, id) {
-      if (!id.endsWith('README.md'))
+      if (!id.endsWith('README.md') && !id.endsWith('README.alias.md'))
         return null
 
+      const isDefaultPackage = id.endsWith('README.alias.md')
       const ruleName = basename(dirname(id))
-      const pkgName = basename(dirname(dirname(dirname(id))))
+      const pkgName = isDefaultPackage
+        ? 'default'
+        : basename(dirname(dirname(dirname(id))))
 
-      const pkg = packages.find(p => p.name.includes(pkgName))
+      const pkg = packages.find(p => p.shortId === pkgName || p.name.includes(pkgName))
       const rule = pkg?.rules.find(r => r.name === ruleName)
 
       if (!pkg || !rule)
@@ -56,10 +59,6 @@ function MarkdownTransform(): Plugin {
         .replaceAll(
           `eslint ${rule.name}:`,
           `eslint ${rule.ruleId}:`,
-        )
-        .replace(
-          /> 🛑.*(\n>.*)*/,
-          '',
         )
         .replaceAll(
           '@typescript-eslint/',

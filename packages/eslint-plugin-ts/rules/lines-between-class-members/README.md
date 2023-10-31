@@ -2,11 +2,8 @@
 description: 'Require or disallow an empty line between class members.'
 ---
 
-> 🛑 This file is source code, not the primary documentation location! 🛑
->
-> See **https://typescript-eslint.io/rules/lines-between-class-members** for documentation.
 
-This rule extends the base [`eslint/lines-between-class-members`](https://eslint.org/docs/rules/lines-between-class-members) rule.
+This rule extends the base [`lines-between-class-members`](/rules/js/lines-between-class-members) rule.
 It adds support for ignoring overload methods in a class.
 
 ## Options

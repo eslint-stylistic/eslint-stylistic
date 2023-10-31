@@ -7,13 +7,7 @@ const props = defineProps<{
   package: PackageInfo
 }>()
 
-const shortId = computed(() => {
-  if (props.package.shortId === 'default') {
-    const docsEntry = props.rule.docsEntry
-    return docsEntry.includes('eslint-plugin-ts') ? 'ts' : docsEntry.includes('eslint-plugin-jsx') ? 'jsx' : 'js'
-  }
-  return props.package.shortId
-})
+const shortId = computed(() => props.package.shortId)
 </script>
 
 <template>

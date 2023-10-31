@@ -38,7 +38,7 @@ async function run() {
     ...packageJsx.rules.map(i => i.name),
   ])]
     .map((name) => {
-      const rule = packageTs.rules.find(i => i.name === name) || packageJs.rules.find(i => i.name === name)! || packageJsx.rules.find(i => i.name === name)!
+      const rule = packageJs.rules.find(i => i.name === name)! || packageTs.rules.find(i => i.name === name)! || packageJsx.rules.find(i => i.name === name)!
       return {
         ...rule,
         ruleId: `@stylistic/${name}`,

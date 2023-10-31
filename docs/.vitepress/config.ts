@@ -1,4 +1,6 @@
 import { fileURLToPath } from 'node:url'
+import { basename, dirname, join } from 'node:path'
+import fs from 'node:fs/promises'
 import type { DefaultTheme } from 'vitepress'
 import { defineConfig } from 'vitepress'
 import MarkdownItContainer from 'markdown-it-container'
@@ -6,6 +8,8 @@ import { packages } from '../../packages/metadata/src'
 import vite from './vite.config'
 
 const mainPackages = packages.filter(p => p.rules.length)
+const defaultPackage = packages.find(p => p.shortId === 'default')!
+const projectRoot = fileURLToPath(new URL('../..', import.meta.url))
 
 const GUIDES: DefaultTheme.NavItemWithLink[] = [
   { text: 'Getting Started', link: '/guide/getting-started' },
@@ -26,10 +30,27 @@ const PACKAGES: DefaultTheme.NavItemWithLink[] = [
 ]
 
 const packageNames: Record<string, string> = {
+  default: 'All Rules',
   js: 'JavaScript Rules',
   ts: 'TypeScript Rules',
   jsx: 'JSX Rules',
 }
+
+// Because VitePress does not support rewrite single source to multiple targets,
+// we have to duplicate the markdown files for the aliases.
+await Promise.all(
+  defaultPackage.rules.map(async (rule) => {
+    const newPath = join(
+      dirname(rule.docsEntry),
+    `${basename(rule.docsEntry, '.md')}.alias.md`,
+    )
+    await fs.copyFile(
+      join(projectRoot, rule.docsEntry),
+      join(projectRoot, newPath),
+    )
+    rule.docsEntry = newPath
+  }),
+)
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
@@ -39,7 +60,6 @@ export default defineConfig({
     // rewrite rules to /rules/js/:name
     ...Object.fromEntries(
       packages
-        .filter(i => i.shortId !== 'default')
         .flatMap(pkg => pkg.rules
           .map(r => [r.docsEntry, `rules/${pkg.shortId}/${r.name}.md`])),
     ),

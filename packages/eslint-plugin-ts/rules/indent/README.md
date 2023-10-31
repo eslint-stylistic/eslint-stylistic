@@ -2,9 +2,6 @@
 description: 'Enforce consistent indentation.'
 ---
 
-> 🛑 This file is source code, not the primary documentation location! 🛑
->
-> See **https://typescript-eslint.io/rules/indent** for documentation.
 
 ## Warning
 
@@ -14,5 +11,5 @@ Please read [Issue #1824: Problems with the indent rule](https://github.com/type
 
 :::
 
-This rule extends the base [`eslint/indent`](https://eslint.org/docs/rules/indent) rule.
+This rule extends the base [`indent`](/rules/js/indent) rule.
 It adds support for TypeScript nodes.
