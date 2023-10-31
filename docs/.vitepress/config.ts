@@ -10,6 +10,7 @@ import vite from './vite.config'
 const mainPackages = packages.filter(p => p.rules.length)
 const defaultPackage = packages.find(p => p.shortId === 'default')!
 const projectRoot = fileURLToPath(new URL('../..', import.meta.url))
+const version = JSON.parse(await fs.readFile(join(projectRoot, 'package.json'), 'utf-8')).version
 
 const GUIDES: DefaultTheme.NavItemWithLink[] = [
   { text: 'Getting Started', link: '/guide/getting-started' },
@@ -27,6 +28,10 @@ const PACKAGES: DefaultTheme.NavItemWithLink[] = [
   { text: 'JavaScript', link: '/packages/js' },
   { text: 'TypeScript', link: '/packages/ts' },
   { text: 'JSX', link: '/packages/jsx' },
+]
+
+const VERSIONS: DefaultTheme.NavItemWithLink[] = [
+  { text: `v${version} (current)`, link: '/' },
 ]
 
 const packageNames: Record<string, string> = {
@@ -113,6 +118,10 @@ export default defineConfig({
         text: 'Packages',
         items: PACKAGES,
       },
+      {
+        text: `v${version}`,
+        items: VERSIONS,
+      },
     ],
 
     sidebar: Object.assign(
@@ -154,6 +163,7 @@ export default defineConfig({
 
     socialLinks: [
       { icon: 'github', link: 'https://github.com/eslint-stylistic/eslint-stylistic' },
+      { icon: 'discord', link: 'https://eslint.style/chat' },
     ],
   },
 
