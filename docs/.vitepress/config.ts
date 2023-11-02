@@ -160,6 +160,15 @@ export default defineConfig({
       ],
     },
 
+    editLink: {
+      // don't add docs/:path, missing tsconfig file
+      pattern: 'https://github.com/eslint-stylistic/eslint-stylistic/edit/main/:path',
+      text: 'Suggest changes to this page',
+    },
+    search: {
+      provider: 'local',
+    },
+
     socialLinks: [
       { icon: 'github', link: 'https://github.com/eslint-stylistic/eslint-stylistic' },
       { icon: 'discord', link: 'https://eslint.style/chat' },
@@ -167,7 +176,7 @@ export default defineConfig({
 
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright OpenJS Foundation and other contributors, www.openjsf.org.<br>Copyright © 2023-PRESENT Anthony Fu and ESLint Stylistic contributors.',
+      copyright: 'Copyright OpenJS Foundation and other contributors, www.openjsf.org.<br>Copyright © 2023-PRESENT ESLint Stylistic contributors.',
     },
   },
 
