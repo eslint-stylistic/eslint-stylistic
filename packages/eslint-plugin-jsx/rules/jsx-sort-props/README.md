@@ -1,8 +1,4 @@
-# Enforce props alphabetical sorting (`@stylistic/jsx/jsx-sort-props`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
+Enforce props alphabetical sorting.
 
 Some developers prefer to sort props names alphabetically to be able to find necessary props easier at the later time. Others feel that it adds complexity and becomes burden to maintain.
 

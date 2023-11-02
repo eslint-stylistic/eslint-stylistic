@@ -128,7 +128,7 @@ export default defineConfig({
       // @ts-expect-error anyway
       ...mainPackages.map((pkg) => {
         return {
-          [`/rules/${pkg.shortId}`]: [
+          [`/rules/${pkg.shortId}/`]: [
             {
               text: 'Packages',
               items: PACKAGES,

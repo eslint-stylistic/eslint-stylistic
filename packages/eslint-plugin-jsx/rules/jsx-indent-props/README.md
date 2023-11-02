@@ -1,10 +1,4 @@
-# Enforce props indentation in JSX (`@stylistic/jsx/jsx-indent-props`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
-
-This option validates a specific indentation style for props.
+Enforce props indentation in JSX.
 
 ## Rule Details
 

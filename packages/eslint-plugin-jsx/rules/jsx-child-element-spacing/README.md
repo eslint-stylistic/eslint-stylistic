@@ -1,6 +1,4 @@
-# Enforce or disallow spaces inside of curly braces in JSX attributes and expressions (`@stylistic/jsx/jsx-child-element-spacing`)
-
-<!-- end auto-generated rule header -->
+Enforce or disallow spaces inside of curly braces in JSX attributes and expressions 
 
 ## Rule Details
 

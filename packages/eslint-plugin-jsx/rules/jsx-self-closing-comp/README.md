@@ -1,8 +1,4 @@
-# Disallow extra closing tags for components without children (`@stylistic/jsx/jsx-self-closing-comp`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
+Disallow extra closing tags for components without children.
 
 Components without children can be self-closed to avoid unnecessary extra closing tag.
 

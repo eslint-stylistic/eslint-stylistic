@@ -1,8 +1,4 @@
-# Require or prevent a new line after jsx elements and expressions (`@stylistic/jsx/jsx-newline`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
+Require or prevent a new line after jsx elements and expressions
 
 ## Rule Details
 

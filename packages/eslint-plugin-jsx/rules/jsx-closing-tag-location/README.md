@@ -1,9 +1,3 @@
-# Enforce closing tag location for multiline JSX (`@stylistic/jsx/jsx-closing-tag-location`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
-
 Enforce the closing tag location for multiline JSX elements.
 
 ## Rule Details

@@ -1,10 +1,4 @@
-# Require one JSX element per line (`@stylistic/jsx/jsx-one-expression-per-line`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
-
-This option limits every line in JSX to one expression each.
+Require one JSX element per line.
 
 Note: The fixer will insert line breaks between any expression that are on the same line.
 

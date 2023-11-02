@@ -1,12 +1,4 @@
-# Enforce maximum of props on a single line in JSX (`@stylistic/jsx/jsx-max-props-per-line`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
-
-Limiting the maximum of props on a single line can improve readability.
-
-Note: The fixer does not include indentation. Please rerun lint to correct those errors.
+Enforce maximum of props on a single line in JSX.
 
 ## Rule Details
 

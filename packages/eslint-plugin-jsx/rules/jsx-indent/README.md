@@ -1,10 +1,4 @@
-# Enforce JSX indentation (`@stylistic/jsx/jsx-indent`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
-
-This option validates a specific indentation style for JSX.
+Enforce JSX indentation.
 
 Note: The fixer will fix whitespace and tabs indentation.
 

@@ -1,8 +1,4 @@
-# Disallow multiple spaces between inline JSX props (`@stylistic/jsx/jsx-props-no-multi-spaces`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
+Disallow multiple spaces between inline JSX props.
 
 Enforces that there is exactly one space between all attributes and after tag name and the first attribute in the same line.
 

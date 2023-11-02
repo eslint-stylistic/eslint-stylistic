@@ -1,10 +1,4 @@
-# Enforce consistent linebreaks in curly braces in JSX attributes and expressions (`@stylistic/jsx/jsx-curly-newline`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
-
-Many style guides require or disallow newlines inside of jsx curly expressions.
+Enforce consistent linebreaks in curly braces in JSX attributes and expressions.
 
 ## Rule Details
 

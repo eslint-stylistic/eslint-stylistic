@@ -1,12 +1,4 @@
-# Enforce proper position of the first property in JSX (`@stylistic/jsx/jsx-first-prop-new-line`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
-
-Ensure correct position of the first property.
-
-Note: The fixer does not include indentation. Please rerun lint to correct those errors.
+Enforce proper position of the first property in JSX.
 
 ## Rule Details
 

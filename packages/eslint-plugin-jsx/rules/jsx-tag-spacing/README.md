@@ -1,8 +1,4 @@
-# Enforce whitespace in and around the JSX opening and closing brackets (`@stylistic/jsx/jsx-tag-spacing`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
+Enforce whitespace in and around the JSX opening and closing brackets.
 
 Enforce or forbid spaces after the opening bracket, before the closing bracket, before the closing bracket of self-closing elements, and between the angle bracket and slash of JSX closing or self-closing elements.
 

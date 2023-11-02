@@ -1,8 +1,4 @@
-# Disallow missing parentheses around multiline JSX (`@stylistic/jsx/jsx-wrap-multilines`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
+Disallow missing parentheses around multiline JSX.
 
 Wrapping multiline JSX in parentheses can improve readability and/or convenience.
 

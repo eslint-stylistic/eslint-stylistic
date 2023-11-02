@@ -1,10 +1,4 @@
-# Enforce or disallow spaces around equal signs in JSX attributes (`@stylistic/jsx/jsx-equals-spacing`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
-
-Some style guides require or disallow spaces around equal signs.
+Enforce or disallow spaces around equal signs in JSX attributes.
 
 ## Rule Details
 

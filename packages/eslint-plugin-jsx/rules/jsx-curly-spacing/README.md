@@ -1,10 +1,4 @@
-# Enforce or disallow spaces inside of curly braces in JSX attributes and expressions (`@stylistic/jsx/jsx-curly-spacing`)
-
-🔧 This rule is automatically fixable by the [`--fix` CLI option](https://eslint.org/docs/latest/user-guide/command-line-interface#--fix).
-
-<!-- end auto-generated rule header -->
-
-While formatting preferences are very personal, a number of style guides require or disallow spaces between curly braces.
+Enforce or disallow spaces inside of curly braces in JSX attributes and expressions.
 
 ## Rule Details
 
