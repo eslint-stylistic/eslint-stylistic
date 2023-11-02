@@ -26,10 +26,10 @@ ruleTester.run('template-tag-spacing', rule, {
     'tag`hello ${name}`',
     { code: 'tag`hello ${name}`', options: ['never'] },
     { code: 'tag `hello ${name}`', options: ['always'] },
-    "tag/*here's a comment*/`Hello world`",
-    { code: "tag/*here's a comment*/`Hello world`", options: ['never'] },
-    { code: "tag /*here's a comment*/`Hello world`", options: ['always'] },
-    { code: "tag/*here's a comment*/ `Hello world`", options: ['always'] },
+    'tag/*here\'s a comment*/`Hello world`',
+    { code: 'tag/*here\'s a comment*/`Hello world`', options: ['never'] },
+    { code: 'tag /*here\'s a comment*/`Hello world`', options: ['always'] },
+    { code: 'tag/*here\'s a comment*/ `Hello world`', options: ['always'] },
     'new tag`name`',
     { code: 'new tag`name`', options: ['never'] },
     { code: 'new tag `name`', options: ['always'] },
@@ -86,8 +86,8 @@ ruleTester.run('template-tag-spacing', rule, {
       }],
     },
     {
-      code: "tag /*here's a comment*/`Hello world`",
-      output: "tag/*here's a comment*/`Hello world`",
+      code: 'tag /*here\'s a comment*/`Hello world`',
+      output: 'tag/*here\'s a comment*/`Hello world`',
       options: ['never'],
       errors: [{
         messageId: 'unexpected',
@@ -98,8 +98,8 @@ ruleTester.run('template-tag-spacing', rule, {
       }],
     },
     {
-      code: "tag/*here's a comment*/ `Hello world`",
-      output: "tag/*here's a comment*/`Hello world`",
+      code: 'tag/*here\'s a comment*/ `Hello world`',
+      output: 'tag/*here\'s a comment*/`Hello world`',
       options: ['never'],
       errors: [{
         messageId: 'unexpected',
@@ -110,8 +110,8 @@ ruleTester.run('template-tag-spacing', rule, {
       }],
     },
     {
-      code: "tag/*here's a comment*/`Hello world`",
-      output: "tag /*here's a comment*/`Hello world`",
+      code: 'tag/*here\'s a comment*/`Hello world`',
+      output: 'tag /*here\'s a comment*/`Hello world`',
       options: ['always'],
       errors: [{
         messageId: 'missing',
@@ -122,7 +122,7 @@ ruleTester.run('template-tag-spacing', rule, {
       }],
     },
     {
-      code: "tag // here's a comment \n`bar`",
+      code: 'tag // here\'s a comment \n`bar`',
       output: null,
       errors: [{
         messageId: 'unexpected',
@@ -133,7 +133,7 @@ ruleTester.run('template-tag-spacing', rule, {
       }],
     },
     {
-      code: "tag // here's a comment \n`bar`",
+      code: 'tag // here\'s a comment \n`bar`',
       output: null,
       options: ['never'],
       errors: [{

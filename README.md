@@ -7,6 +7,7 @@
 
 <p align="center">
 <a href="https://eslint.style">Documentation</a> |
+<a href="https://eslint.style/chat">Discord</a> |
 <a href="https://eslint.style/guide/why">Why</a> |
 <a href="https://eslint.style/guide/migration">Migration</a> |
 <a href="https://eslint.style/contribute/project-progress">Project Progress</a>

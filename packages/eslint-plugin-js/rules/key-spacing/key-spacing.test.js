@@ -46,7 +46,7 @@ ruleTester.run('key-spacing', rule, {
       afterColon: true,
     }],
   }, {
-    code: "foo({ 'default': function(){}});",
+    code: 'foo({ \'default\': function(){}});',
     options: [{
       beforeColon: false,
       afterColon: true,
@@ -58,13 +58,13 @@ ruleTester.run('key-spacing', rule, {
       afterColon: true,
     }],
   }, {
-    code: "var obj = {'key' :42 };",
+    code: 'var obj = {\'key\' :42 };',
     options: [{
       beforeColon: true,
       afterColon: false,
     }],
   }, {
-    code: "({a : foo, b : bar})['a'];",
+    code: '({a : foo, b : bar})[\'a\'];',
     options: [{
       beforeColon: true,
       afterColon: true,
@@ -72,8 +72,8 @@ ruleTester.run('key-spacing', rule, {
   }, {
     code: [
       'var obj = {',
-      "    'a'     : (42 - 12),",
-      "    foobar  : 'value',",
+      '    \'a\'     : (42 - 12),',
+      '    foobar  : \'value\',',
       '    [(expr)]: val',
       '};',
     ].join('\n'),
@@ -85,8 +85,8 @@ ruleTester.run('key-spacing', rule, {
     code: [
       'callExpr(arg, {',
       '    key       :val,',
-      "    'another' :false,",
-      "    [compute] :'value'",
+      '    \'another\' :false,',
+      '    [compute] :\'value\'',
       '});',
     ].join('\n'),
     options: [{
@@ -99,7 +99,7 @@ ruleTester.run('key-spacing', rule, {
     code: [
       'var obj = {',
       '    a:        (42 - 12),',
-      "    'foobar': 'value',",
+      '    \'foobar\': \'value\',',
       '    bat:      function() {',
       '        return this.a;',
       '    },',
@@ -112,7 +112,7 @@ ruleTester.run('key-spacing', rule, {
   }, {
     code: [
       'callExpr(arg, {',
-      "    'asdf' :val,",
+      '    \'asdf\' :val,',
       '    foobar :false,',
       '    key :   value',
       '});',
@@ -173,10 +173,10 @@ ruleTester.run('key-spacing', rule, {
     code: '({ get fn() {} })',
     options: [{ align: 'colon' }],
   }, {
-    code: "var obj = {foo: 'fee', bar: 'bam'};",
+    code: 'var obj = {foo: \'fee\', bar: \'bam\'};',
     options: [{ align: 'colon' }],
   }, {
-    code: "var obj = {a: 'foo', bar: 'bam'};",
+    code: 'var obj = {a: \'foo\', bar: \'bam\'};',
     options: [{ align: 'colon' }],
   }, {
     code: [
@@ -204,8 +204,8 @@ ruleTester.run('key-spacing', rule, {
     options: [{ align: 'colon' }],
   }, {
     code: [
-      "var a = 'a';",
-      "var b = 'b';",
+      'var a = \'a\';',
+      'var b = \'b\';',
       '',
       'export default {',
       '    a,',
@@ -318,7 +318,7 @@ ruleTester.run('key-spacing', rule, {
 
   // https://github.com/eslint/eslint/issues/4763
   {
-    code: "({a : foo, ...x, b : bar})['a'];",
+    code: '({a : foo, ...x, b : bar})[\'a\'];',
     options: [{
       beforeColon: true,
       afterColon: true,
@@ -327,9 +327,9 @@ ruleTester.run('key-spacing', rule, {
   }, {
     code: [
       'var obj = {',
-      "    'a'     : (42 - 12),",
+      '    \'a\'     : (42 - 12),',
       '    ...x,',
-      "    foobar  : 'value',",
+      '    foobar  : \'value\',',
       '    [(expr)]: val',
       '};',
     ].join('\n'),
@@ -343,8 +343,8 @@ ruleTester.run('key-spacing', rule, {
       '    key       :val,',
       '    ...x,',
       '    ...y,',
-      "    'another' :false,",
-      "    [compute] :'value'",
+      '    \'another\' :false,',
+      '    [compute] :\'value\'',
       '});',
     ].join('\n'),
     options: [{
@@ -358,7 +358,7 @@ ruleTester.run('key-spacing', rule, {
       'var obj = {',
       '    a:        (42 - 12),',
       '    ...x,',
-      "    'foobar': 'value',",
+      '    \'foobar\': \'value\',',
       '    bat:      function() {',
       '        return this.a;',
       '    },',
@@ -699,8 +699,8 @@ ruleTester.run('key-spacing', rule, {
       '    f:function() {',
       '        var test = true;',
       '    },',
-      "    stateName : 'NY',",
-      "    borough   : 'Brooklyn',",
+      '    stateName : \'NY\',',
+      '    borough   : \'Brooklyn\',',
       '    zip       : 11201,',
       '    f2        : function() {',
       '        var test2 = true;',
@@ -774,7 +774,7 @@ ruleTester.run('key-spacing', rule, {
   }, {
     code: [
       'var obj = {',
-      "    foo : 1, 'bar' : 2, baz : 3, longlonglong : 4",
+      '    foo : 1, \'bar\' : 2, baz : 3, longlonglong : 4',
       '}',
     ].join('\n'),
     options: [{
@@ -791,7 +791,7 @@ ruleTester.run('key-spacing', rule, {
   }, {
     code: [
       'var obj = {',
-      "    foo: 1, 'bar': 2, baz: 3",
+      '    foo: 1, \'bar\': 2, baz: 3',
       '}',
     ].join('\n'),
     options: [{
@@ -830,7 +830,7 @@ ruleTester.run('key-spacing', rule, {
       },
     }],
   }, {
-    code: "var obj = { foo:1, 'bar':2, baz:3, longlonglong:4 }",
+    code: 'var obj = { foo:1, \'bar\':2, baz:3, longlonglong:4 }',
     options: [{
       singleLine: {
         beforeColon: false,
@@ -844,7 +844,7 @@ ruleTester.run('key-spacing', rule, {
     code: [
       'var obj = {',
       '    foo         : 1,',
-      "    'bar'       : 2, baz         : 3, longlonglong: 4",
+      '    \'bar\'       : 2, baz         : 3, longlonglong: 4',
       '}',
     ].join('\n'),
     options: [{
@@ -860,7 +860,7 @@ ruleTester.run('key-spacing', rule, {
     code: [
       'var obj = {',
       '    foo:          1,',
-      "    'bar':        2, baz:          3, longlonglong: 4",
+      '    \'bar\':        2, baz:          3, longlonglong: 4',
       '}',
     ].join('\n'),
     options: [{
@@ -876,7 +876,7 @@ ruleTester.run('key-spacing', rule, {
     code: [
       'var obj = {',
       '    foo         : 1,',
-      "    'bar'       : 2, baz         : 3,",
+      '    \'bar\'       : 2, baz         : 3,',
       '    longlonglong: 4',
       '}',
     ].join('\n'),
@@ -893,7 +893,7 @@ ruleTester.run('key-spacing', rule, {
     code: [
       'var obj = {',
       '    foo:          1,',
-      "    'bar':        2, baz:          3,",
+      '    \'bar\':        2, baz:          3,',
       '    longlonglong: 4',
       '}',
     ].join('\n'),
@@ -1086,8 +1086,8 @@ ruleTester.run('key-spacing', rule, {
     options: [{ align: 'value' }],
   }],
   invalid: [{
-    code: "var a ={'key' : value };",
-    output: "var a ={'key':value };",
+    code: 'var a ={\'key\' : value };',
+    output: 'var a ={\'key\':value };',
     options: [{
       beforeColon: false,
       afterColon: false,
@@ -1114,8 +1114,8 @@ ruleTester.run('key-spacing', rule, {
       },
     ],
   }, {
-    code: "var a ={'key' :value };",
-    output: "var a ={'key': value };",
+    code: 'var a ={\'key\' :value };',
+    output: 'var a ={\'key\': value };',
     options: [{
       beforeColon: false,
       afterColon: true,
@@ -1142,8 +1142,8 @@ ruleTester.run('key-spacing', rule, {
       },
     ],
   }, {
-    code: "var a ={'key'\n : \nvalue };",
-    output: "var a ={'key':value };",
+    code: 'var a ={\'key\'\n : \nvalue };',
+    output: 'var a ={\'key\':value };',
     options: [{
       beforeColon: false,
       afterColon: false,
@@ -1170,8 +1170,8 @@ ruleTester.run('key-spacing', rule, {
       },
     ],
   }, {
-    code: "var bat = function() { return { foo:bar, 'key': value }; };",
-    output: "var bat = function() { return { foo:bar, 'key':value }; };",
+    code: 'var bat = function() { return { foo:bar, \'key\': value }; };',
+    output: 'var bat = function() { return { foo:bar, \'key\':value }; };',
     options: [{
       beforeColon: false,
       afterColon: false,
@@ -1194,8 +1194,8 @@ ruleTester.run('key-spacing', rule, {
     parserOptions: { ecmaVersion: 6 },
     errors: [{ messageId: 'missingValue', data: { computed: 'computed ', key: 'a + b' }, type: 'Identifier', line: 1, column: 25 }],
   }, {
-    code: "fn({ foo:bar, 'key' :value });",
-    output: "fn({ foo:bar, 'key':value });",
+    code: 'fn({ foo:bar, \'key\' :value });',
+    output: 'fn({ foo:bar, \'key\':value });',
     options: [{
       beforeColon: false,
       afterColon: false,
@@ -1210,16 +1210,16 @@ ruleTester.run('key-spacing', rule, {
     }],
     errors: [{ messageId: 'missingValue', data: { computed: '', key: 'prop' }, type: 'Literal', line: 1, column: 18 }],
   }, {
-    code: "({'a' : foo, b: bar() }).b();",
-    output: "({'a' : foo, b : bar() }).b();",
+    code: '({\'a\' : foo, b: bar() }).b();',
+    output: '({\'a\' : foo, b : bar() }).b();',
     options: [{
       beforeColon: true,
       afterColon: true,
     }],
     errors: [{ messageId: 'missingKey', data: { computed: '', key: 'b' }, type: 'Identifier', line: 1, column: 14 }],
   }, {
-    code: "({'a'  :foo(), b:  bar() }).b();",
-    output: "({'a' : foo(), b : bar() }).b();",
+    code: '({\'a\'  :foo(), b:  bar() }).b();',
+    output: '({\'a\' : foo(), b : bar() }).b();',
     options: [{
       beforeColon: true,
       afterColon: true,
@@ -1243,14 +1243,14 @@ ruleTester.run('key-spacing', rule, {
       'obj = {',
       '    key:   value,',
       '    foobar:fn(),',
-      "    'a'   : (2 * 2)",
+      '    \'a\'   : (2 * 2)',
       '};',
     ].join('\n'),
     output: [
       'obj = {',
       '    key   : value,',
       '    foobar: fn(),',
-      "    'a'   : (2 * 2)",
+      '    \'a\'   : (2 * 2)',
       '};',
     ].join('\n'),
     options: [{
@@ -1264,7 +1264,7 @@ ruleTester.run('key-spacing', rule, {
   }, {
     code: [
       '({',
-      "    'a' : val,",
+      '    \'a\' : val,',
       '    foo:fn(),',
       '    b    :[42],',
       '    c   :call()',
@@ -1272,7 +1272,7 @@ ruleTester.run('key-spacing', rule, {
     ].join('\n'),
     output: [
       '({',
-      "    'a' :val,",
+      '    \'a\' :val,',
       '    foo :fn(),',
       '    b   :[42],',
       '    c   :call()',
@@ -1292,18 +1292,18 @@ ruleTester.run('key-spacing', rule, {
     code: [
       'var obj = {',
       '    a:    fn(),',
-      "    'b' : 42,",
+      '    \'b\' : 42,',
       '    foo:(bar),',
-      "    bat: 'valid',",
+      '    bat: \'valid\',',
       '    [a] : value',
       '};',
     ].join('\n'),
     output: [
       'var obj = {',
       '    a:   fn(),',
-      "    'b': 42,",
+      '    \'b\': 42,',
       '    foo: (bar),',
-      "    bat: 'valid',",
+      '    bat: \'valid\',',
       '    [a]: value',
       '};',
     ].join('\n'),
@@ -1322,7 +1322,7 @@ ruleTester.run('key-spacing', rule, {
       'foo = {',
       '    a:  value,',
       '    b :  42,',
-      "    foo :['a'],",
+      '    foo :[\'a\'],',
       '    bar : call()',
       '};',
     ].join('\n'),
@@ -1330,7 +1330,7 @@ ruleTester.run('key-spacing', rule, {
       'foo = {',
       '    a :  value,',
       '    b :  42,',
-      "    foo :['a'],",
+      '    foo :[\'a\'],',
       '    bar :call()',
       '};',
     ].join('\n'),
@@ -1398,20 +1398,20 @@ ruleTester.run('key-spacing', rule, {
       'foo = {',
       '    key1: 42,',
       '    // still the same group',
-      "    key12: '42', /*",
+      '    key12: \'42\', /*',
       '',
       '    */',
-      "    key123: 'forty two'",
+      '    key123: \'forty two\'',
       '};',
     ].join('\n'),
     output: [
       'foo = {',
       '    key1:   42,',
       '    // still the same group',
-      "    key12:  '42', /*",
+      '    key12:  \'42\', /*',
       '',
       '    */',
-      "    key123: 'forty two'",
+      '    key123: \'forty two\'',
       '};',
     ].join('\n'),
     options: [{
@@ -1434,8 +1434,8 @@ ruleTester.run('key-spacing', rule, {
       { messageId: 'missingValue', data: { computed: '', key: 'key' }, line: 1, column: 13, type: 'BinaryExpression' },
     ],
   }, {
-    code: "var obj = {a  : 'foo', bar: 'bam'};",
-    output: "var obj = {a: 'foo', bar: 'bam'};",
+    code: 'var obj = {a  : \'foo\', bar: \'bam\'};',
+    output: 'var obj = {a: \'foo\', bar: \'bam\'};',
     options: [{ align: 'colon' }],
     errors: [
       { messageId: 'extraKey', data: { computed: '', key: 'a' }, line: 1, column: 13, type: 'Identifier' },
@@ -1881,15 +1881,15 @@ ruleTester.run('key-spacing', rule, {
   }, {
     code: [
       'obj = {',
-      "   get fx() { return 'f'; },",
-      "   get gx() { return 'g'; },",
+      '   get fx() { return \'f\'; },',
+      '   get gx() { return \'g\'; },',
       '   ex:e',
       '};',
     ].join('\n'),
     output: [
       'obj = {',
-      "   get fx() { return 'f'; },",
-      "   get gx() { return 'g'; },",
+      '   get fx() { return \'f\'; },',
+      '   get gx() { return \'g\'; },',
       '   ex: e',
       '};',
     ].join('\n'),
@@ -1905,15 +1905,15 @@ ruleTester.run('key-spacing', rule, {
   }, {
     code: [
       'obj = {',
-      "   get fx() { return 'f'; },",
-      "   get gx() { return 'g'; },",
+      '   get fx() { return \'f\'; },',
+      '   get gx() { return \'g\'; },',
       '   ex : e',
       '};',
     ].join('\n'),
     output: [
       'obj = {',
-      "   get fx() { return 'f'; },",
-      "   get gx() { return 'g'; },",
+      '   get fx() { return \'f\'; },',
+      '   get gx() { return \'g\'; },',
       '   ex: e',
       '};',
     ].join('\n'),
@@ -2196,12 +2196,12 @@ ruleTester.run('key-spacing', rule, {
   }, {
     code: [
       'var obj = {',
-      "    foo:1, 'bar':2, baz:3",
+      '    foo:1, \'bar\':2, baz:3',
       '}',
     ].join('\n'),
     output: [
       'var obj = {',
-      "    foo : 1, 'bar' : 2, baz : 3",
+      '    foo : 1, \'bar\' : 2, baz : 3',
       '}',
     ].join('\n'),
     options: [{
@@ -2226,12 +2226,12 @@ ruleTester.run('key-spacing', rule, {
   }, {
     code: [
       'var obj = {',
-      "    foo : 1, 'bar' : 2, baz : 3, longlonglong : 4",
+      '    foo : 1, \'bar\' : 2, baz : 3, longlonglong : 4',
       '}',
     ].join('\n'),
     output: [
       'var obj = {',
-      "    foo: 1, 'bar': 2, baz: 3, longlonglong: 4",
+      '    foo: 1, \'bar\': 2, baz: 3, longlonglong: 4',
       '}',
     ].join('\n'),
     options: [{
@@ -2292,8 +2292,8 @@ ruleTester.run('key-spacing', rule, {
       { messageId: 'missingValue', data: { computed: '', key: 'bar' }, line: 2, column: 9, type: 'Literal' },
     ],
   }, {
-    code: "var obj = { foo: 1, 'bar': 2, baz :3, longlonglong :4 }",
-    output: "var obj = { foo:1, 'bar':2, baz:3, longlonglong:4 }",
+    code: 'var obj = { foo: 1, \'bar\': 2, baz :3, longlonglong :4 }',
+    output: 'var obj = { foo:1, \'bar\':2, baz:3, longlonglong:4 }',
     options: [{
       singleLine: {
         beforeColon: false,
@@ -2313,13 +2313,13 @@ ruleTester.run('key-spacing', rule, {
     code: [
       'var obj = {',
       '    foo: 1,',
-      "    'bar': 2, baz: 3, longlonglong: 4",
+      '    \'bar\': 2, baz: 3, longlonglong: 4',
       '}',
     ].join('\n'),
     output: [
       'var obj = {',
       '    foo         : 1,',
-      "    'bar'       : 2, baz         : 3, longlonglong: 4",
+      '    \'bar\'       : 2, baz         : 3, longlonglong: 4',
       '}',
     ].join('\n'),
     options: [{
@@ -2340,14 +2340,14 @@ ruleTester.run('key-spacing', rule, {
     code: [
       'var obj = {',
       '    foo : 1,',
-      "    'bar' : 2, baz : 3,",
+      '    \'bar\' : 2, baz : 3,',
       '    longlonglong: 4',
       '}',
     ].join('\n'),
     output: [
       'var obj = {',
       '    foo         : 1,',
-      "    'bar'       : 2, baz         : 3,",
+      '    \'bar\'       : 2, baz         : 3,',
       '    longlonglong: 4',
       '}',
     ].join('\n'),
@@ -2369,14 +2369,14 @@ ruleTester.run('key-spacing', rule, {
     code: [
       'var obj = {',
       '    foo: 1,',
-      "    'bar': 2, baz: 3,",
+      '    \'bar\': 2, baz: 3,',
       '    longlonglong: 4',
       '}',
     ].join('\n'),
     output: [
       'var obj = {',
       '    foo:          1,',
-      "    'bar':        2, baz:          3,",
+      '    \'bar\':        2, baz:          3,',
       '    longlonglong: 4',
       '}',
     ].join('\n'),

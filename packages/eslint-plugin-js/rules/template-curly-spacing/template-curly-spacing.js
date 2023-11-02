@@ -32,10 +32,10 @@ module.exports = {
       { enum: ['always', 'never'] },
     ],
     messages: {
-      expectedBefore: "Expected space(s) before '}'.",
-      expectedAfter: "Expected space(s) after '${'.",
-      unexpectedBefore: "Unexpected space(s) before '}'.",
-      unexpectedAfter: "Unexpected space(s) after '${'.",
+      expectedBefore: 'Expected space(s) before \'}\'.',
+      expectedAfter: 'Expected space(s) after \'${\'.',
+      unexpectedBefore: 'Unexpected space(s) before \'}\'.',
+      unexpectedAfter: 'Unexpected space(s) after \'${\'.',
     },
   },
 

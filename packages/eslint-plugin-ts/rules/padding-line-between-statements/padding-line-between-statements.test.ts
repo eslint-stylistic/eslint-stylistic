@@ -1,7 +1,5 @@
-/* eslint-disable eslint-comments/no-use */
 // this rule tests new lines which prettier tries to fix, breaking the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
-/* eslint-enable eslint-comments/no-use */
 
 import { RuleTester } from '@typescript-eslint/rule-tester'
 
@@ -18,7 +16,7 @@ const ruleTester = new RuleTester({
 ruleTester.run('padding-line-between-statements', rule, {
   valid: [
     // do nothing if no options.
-    "'use strict'; foo(); if (a) { bar(); }",
+    '\'use strict\'; foo(); if (a) { bar(); }',
 
     // do nothing for single statement.
     {
@@ -269,7 +267,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "'use strict'\n\nfoo()",
+      code: '\'use strict\'\n\nfoo()',
       options: [
         { blankLine: 'never', prev: '*', next: '*' },
         { blankLine: 'always', prev: 'directive', next: '*' },
@@ -297,7 +295,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "'use '+'strict'\nfoo()",
+      code: '\'use \'+\'strict\'\nfoo()',
       options: [
         { blankLine: 'never', prev: '*', next: '*' },
         { blankLine: 'always', prev: 'directive', next: '*' },
@@ -499,7 +497,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "'use strict'\nfoo()",
+      code: '\'use strict\'\nfoo()',
       options: [
         { blankLine: 'never', prev: '*', next: '*' },
         { blankLine: 'always', prev: 'expression', next: '*' },
@@ -892,7 +890,7 @@ ruleTester.run('padding-line-between-statements', rule, {
     // ----------------------------------------------------------------------
 
     {
-      code: "import 'a'\n\nfoo()",
+      code: 'import \'a\'\n\nfoo()',
       options: [
         { blankLine: 'never', prev: '*', next: '*' },
         { blankLine: 'always', prev: 'import', next: '*' },
@@ -900,7 +898,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import a from 'a'\n\nfoo()",
+      code: 'import a from \'a\'\n\nfoo()',
       options: [
         { blankLine: 'never', prev: '*', next: '*' },
         { blankLine: 'always', prev: 'import', next: '*' },
@@ -908,7 +906,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import * as a from 'a'\n\nfoo()",
+      code: 'import * as a from \'a\'\n\nfoo()',
       options: [
         { blankLine: 'never', prev: '*', next: '*' },
         { blankLine: 'always', prev: 'import', next: '*' },
@@ -916,7 +914,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "import {a} from 'a'\n\nfoo()",
+      code: 'import {a} from \'a\'\n\nfoo()',
       options: [
         { blankLine: 'never', prev: '*', next: '*' },
         { blankLine: 'always', prev: 'import', next: '*' },
@@ -924,7 +922,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: "const a=require('a')\nfoo()",
+      code: 'const a=require(\'a\')\nfoo()',
       options: [
         { blankLine: 'never', prev: '*', next: '*' },
         { blankLine: 'always', prev: 'import', next: '*' },
@@ -1305,7 +1303,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should ignore a `var` with no following token
     {
-      code: "var greet = 'hello';",
+      code: 'var greet = \'hello\';',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1316,7 +1314,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello';",
+      code: 'var greet = \'hello\';',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1329,7 +1327,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should allow no line break in "never" mode
     {
-      code: "var greet = 'hello';console.log(greet);",
+      code: 'var greet = \'hello\';console.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1342,7 +1340,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should allow no blank line in "never" mode
     {
-      code: "var greet = 'hello';\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1355,7 +1353,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should allow one blank line in "always" mode
     {
-      code: "var greet = 'hello';\n\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1368,7 +1366,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should allow two or more blank lines in "always" mode
     {
-      code: "var greet = 'hello';\n\n\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n\n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1379,7 +1377,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello';\n\n\n\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n\n\n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1392,7 +1390,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should allow trailing whitespace after the `var`
     {
-      code: "var greet = 'hello';    \n\nconsole.log(greet);",
+      code: 'var greet = \'hello\';    \n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1403,7 +1401,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello';    \nconsole.log(greet);",
+      code: 'var greet = \'hello\';    \nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1416,7 +1414,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should allow inline comments after the `var`
     {
-      code: "var greet = 'hello'; // inline comment\n\nconsole.log(greet);",
+      code: 'var greet = \'hello\'; // inline comment\n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1427,7 +1425,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello'; // inline comment\nconsole.log(greet);",
+      code: 'var greet = \'hello\'; // inline comment\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1440,7 +1438,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should allow a comment on the next line in "never" mode
     {
-      code: "var greet = 'hello';\n// next-line comment\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n// next-line comment\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1451,7 +1449,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello';\n/* block comment\nblock comment */\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n/* block comment\nblock comment */\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1464,7 +1462,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should allow comments on the next line followed by a blank in "always" mode
     {
-      code: "var greet = 'hello';\n// next-line comment\n\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n// next-line comment\n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1475,7 +1473,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello';\n/* block comment\nblock comment */\n\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n/* block comment\nblock comment */\n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1486,7 +1484,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello';\n// next-line comment\n// second-line comment\n\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n// next-line comment\n// second-line comment\n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1499,7 +1497,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should allow comments on the next line followed by no blank in "never" mode
     {
-      code: "var greet = 'hello';\n// next-line comment\n// second-line comment\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n// next-line comment\n// second-line comment\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1510,7 +1508,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello';\n// next-line comment\n/* block comment\nblock comment */\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n// next-line comment\n/* block comment\nblock comment */\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1523,7 +1521,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should allow another `var` statement to follow without blank line
     {
-      code: "var greet = 'hello';var name = 'world';console.log(greet, name);",
+      code: 'var greet = \'hello\';var name = \'world\';console.log(greet, name);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1534,7 +1532,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello';\nvar name = 'world';\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\';\nvar name = \'world\';\nconsole.log(greet, name);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1545,7 +1543,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\';\nvar name = \'world\';\n\nconsole.log(greet, name);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1558,7 +1556,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should allow a comment directly between `var` statements
     {
-      code: "var greet = 'hello';\n// inline comment\nvar name = 'world';\n\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\';\n// inline comment\nvar name = \'world\';\n\nconsole.log(greet, name);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1569,7 +1567,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello';\n/* block comment\nblock comment */\nvar name = 'world';\n\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\';\n/* block comment\nblock comment */\nvar name = \'world\';\n\nconsole.log(greet, name);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1580,7 +1578,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello';\n// inline comment\nvar name = 'world';\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\';\n// inline comment\nvar name = \'world\';\nconsole.log(greet, name);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1591,7 +1589,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello';\n/* block comment\nblock comment */\nvar name = 'world';\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\';\n/* block comment\nblock comment */\nvar name = \'world\';\nconsole.log(greet, name);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1604,7 +1602,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should handle single `var` statement with multiple declarations
     {
-      code: "var greet = 'hello', name = 'world';console.log(greet, name);",
+      code: 'var greet = \'hello\', name = \'world\';console.log(greet, name);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1615,7 +1613,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello', name = 'world';\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\', name = \'world\';\nconsole.log(greet, name);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1626,7 +1624,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello', name = 'world';\n\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\', name = \'world\';\n\nconsole.log(greet, name);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1639,7 +1637,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should handle single `var` statement with multi-line declaration
     {
-      code: "var greet = 'hello',\nname = 'world';\n\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\',\nname = \'world\';\n\nconsole.log(greet, name);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1650,7 +1648,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello',\nname = 'world';\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\',\nname = \'world\';\nconsole.log(greet, name);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1661,7 +1659,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\n\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\', // inline comment\nname = \'world\'; // inline comment\n\nconsole.log(greet, name);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1672,7 +1670,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\', // inline comment\nname = \'world\'; // inline comment\nconsole.log(greet, name);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1683,7 +1681,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello',\nname = 'world';\n// next-line comment\nconsole.log(greet);",
+      code: 'var greet = \'hello\',\nname = \'world\';\n// next-line comment\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1694,7 +1692,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var greet = 'hello',\nname = 'world';\n/* block comment\nblock comment */\nconsole.log(greet);",
+      code: 'var greet = \'hello\',\nname = \'world\';\n/* block comment\nblock comment */\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1707,7 +1705,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should handle ES6 `let` block binding
     {
-      code: "let greet = 'hello';\n\nconsole.log(greet);",
+      code: 'let greet = \'hello\';\n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1718,7 +1716,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "let greet = 'hello';\nconsole.log(greet);",
+      code: 'let greet = \'hello\';\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1731,7 +1729,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should handle ES6 `const` block binding
     {
-      code: "const greet = 'hello';\n\nconsole.log(greet);",
+      code: 'const greet = \'hello\';\n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1742,7 +1740,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "const greet = 'hello';\nconsole.log(greet);",
+      code: 'const greet = \'hello\';\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1755,7 +1753,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should handle a mix of `var`, `let`, or `const`
     {
-      code: "let greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
+      code: 'let greet = \'hello\';\nvar name = \'world\';\n\nconsole.log(greet, name);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1766,7 +1764,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "const greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
+      code: 'const greet = \'hello\';\nvar name = \'world\';\n\nconsole.log(greet, name);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1777,7 +1775,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "let greet = 'hello';\nconst name = 'world';\n\nconsole.log(greet, name);",
+      code: 'let greet = \'hello\';\nconst name = \'world\';\n\nconsole.log(greet, name);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1954,7 +1952,7 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // should allow no blank line at end of block
     {
-      code: "function example() {\nvar greet = 'hello'\n}",
+      code: 'function example() {\nvar greet = \'hello\'\n}',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1965,7 +1963,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "function example() {\nvar greet = 'hello'\n}",
+      code: 'function example() {\nvar greet = \'hello\'\n}',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1976,7 +1974,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "function example() {\nvar greet = 'hello';\nconsole.log(greet);\n}",
+      code: 'function example() {\nvar greet = \'hello\';\nconsole.log(greet);\n}',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1987,7 +1985,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var f = function() {\nvar greet = 'hello'\n};",
+      code: 'var f = function() {\nvar greet = \'hello\'\n};',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -1998,7 +1996,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var f = function() {\nvar greet = 'hello'\n};",
+      code: 'var f = function() {\nvar greet = \'hello\'\n};',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -2009,7 +2007,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "var f = function() {\nvar greet = 'hello';\nconsole.log(greet);\n};",
+      code: 'var f = function() {\nvar greet = \'hello\';\nconsole.log(greet);\n};',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -2020,7 +2018,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "() => {\nvar greet = 'hello';\n}",
+      code: '() => {\nvar greet = \'hello\';\n}',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -2031,7 +2029,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "() => {\nvar greet = 'hello';\n}",
+      code: '() => {\nvar greet = \'hello\';\n}',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -2042,7 +2040,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: "() => {\nvar greet = 'hello';\nconsole.log(greet);\n}",
+      code: '() => {\nvar greet = \'hello\';\nconsole.log(greet);\n}',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -2401,15 +2399,15 @@ var a = 1
       options: [{ blankLine: 'always', prev: '*', next: 'return' }],
     },
     {
-      code: "function a() {\nswitch (b) {\ncase 'b': return;\n}\n}",
+      code: 'function a() {\nswitch (b) {\ncase \'b\': return;\n}\n}',
       options: [{ blankLine: 'always', prev: '*', next: 'return' }],
     },
     {
-      code: "function a() {\nswitch (b) {\ncase 'b':\nreturn;\n}\n}",
+      code: 'function a() {\nswitch (b) {\ncase \'b\':\nreturn;\n}\n}',
       options: [{ blankLine: 'always', prev: '*', next: 'return' }],
     },
     {
-      code: "function a() {\nswitch (b) {\ncase 'b': {\nreturn;\n}\n}\n}",
+      code: 'function a() {\nswitch (b) {\ncase \'b\': {\nreturn;\n}\n}\n}',
       options: [{ blankLine: 'always', prev: '*', next: 'return' }],
     },
     {
@@ -3075,14 +3073,14 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "'use strict'\nfoo()",
-      output: "'use strict'\n\nfoo()",
+      code: '\'use strict\'\nfoo()',
+      output: '\'use strict\'\n\nfoo()',
       options: [{ blankLine: 'always', prev: 'directive', next: '*' }],
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "'use asm'\nfoo()",
-      output: "'use asm'\n\nfoo()",
+      code: '\'use asm\'\nfoo()',
+      output: '\'use asm\'\n\nfoo()',
       options: [{ blankLine: 'always', prev: 'directive', next: '*' }],
       errors: [{ messageId: 'expectedBlankLine' }],
     },
@@ -3664,43 +3662,43 @@ var a = 1
     // ----------------------------------------------------------------------
 
     {
-      code: "import a from 'a'\n\nfoo()",
-      output: "import a from 'a'\nfoo()",
+      code: 'import a from \'a\'\n\nfoo()',
+      output: 'import a from \'a\'\nfoo()',
       options: [{ blankLine: 'never', prev: 'import', next: '*' }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpectedBlankLine' }],
     },
     {
-      code: "import * as a from 'a'\n\nfoo()",
-      output: "import * as a from 'a'\nfoo()",
+      code: 'import * as a from \'a\'\n\nfoo()',
+      output: 'import * as a from \'a\'\nfoo()',
       options: [{ blankLine: 'never', prev: 'import', next: '*' }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpectedBlankLine' }],
     },
     {
-      code: "import {a} from 'a'\n\nfoo()",
-      output: "import {a} from 'a'\nfoo()",
+      code: 'import {a} from \'a\'\n\nfoo()',
+      output: 'import {a} from \'a\'\nfoo()',
       options: [{ blankLine: 'never', prev: 'import', next: '*' }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpectedBlankLine' }],
     },
     {
-      code: "import a from 'a'\nfoo()",
-      output: "import a from 'a'\n\nfoo()",
+      code: 'import a from \'a\'\nfoo()',
+      output: 'import a from \'a\'\n\nfoo()',
       options: [{ blankLine: 'always', prev: 'import', next: '*' }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "import * as a from 'a'\nfoo()",
-      output: "import * as a from 'a'\n\nfoo()",
+      code: 'import * as a from \'a\'\nfoo()',
+      output: 'import * as a from \'a\'\n\nfoo()',
       options: [{ blankLine: 'always', prev: 'import', next: '*' }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "import {a} from 'a'\nfoo()",
-      output: "import {a} from 'a'\n\nfoo()",
+      code: 'import {a} from \'a\'\nfoo()',
+      output: 'import {a} from \'a\'\n\nfoo()',
       options: [{ blankLine: 'always', prev: 'import', next: '*' }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'expectedBlankLine' }],
@@ -4046,8 +4044,8 @@ var a = 1
 
     // should disallow no line break in "always" mode
     {
-      code: "var greet = 'hello';console.log(greet);",
-      output: "var greet = 'hello';\n\nconsole.log(greet);",
+      code: 'var greet = \'hello\';console.log(greet);',
+      output: 'var greet = \'hello\';\n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4059,9 +4057,9 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello';var name = 'world';console.log(greet, name);",
+      code: 'var greet = \'hello\';var name = \'world\';console.log(greet, name);',
       output:
-        "var greet = 'hello';var name = 'world';\n\nconsole.log(greet, name);",
+        'var greet = \'hello\';var name = \'world\';\n\nconsole.log(greet, name);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4073,9 +4071,9 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello', name = 'world';console.log(greet, name);",
+      code: 'var greet = \'hello\', name = \'world\';console.log(greet, name);',
       output:
-        "var greet = 'hello', name = 'world';\n\nconsole.log(greet, name);",
+        'var greet = \'hello\', name = \'world\';\n\nconsole.log(greet, name);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4089,8 +4087,8 @@ var a = 1
 
     // should disallow no blank line in "always" mode
     {
-      code: "var greet = 'hello';\nconsole.log(greet);",
-      output: "var greet = 'hello';\n\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\nconsole.log(greet);',
+      output: 'var greet = \'hello\';\n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4102,8 +4100,8 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello';    \nconsole.log(greet);",
-      output: "var greet = 'hello';\n    \nconsole.log(greet);",
+      code: 'var greet = \'hello\';    \nconsole.log(greet);',
+      output: 'var greet = \'hello\';\n    \nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4115,8 +4113,8 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello'; // inline comment\nconsole.log(greet);",
-      output: "var greet = 'hello'; // inline comment\n\nconsole.log(greet);",
+      code: 'var greet = \'hello\'; // inline comment\nconsole.log(greet);',
+      output: 'var greet = \'hello\'; // inline comment\n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4128,9 +4126,9 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello';\nvar name = 'world';\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\';\nvar name = \'world\';\nconsole.log(greet, name);',
       output:
-        "var greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
+        'var greet = \'hello\';\nvar name = \'world\';\n\nconsole.log(greet, name);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4142,9 +4140,9 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello', name = 'world';\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\', name = \'world\';\nconsole.log(greet, name);',
       output:
-        "var greet = 'hello', name = 'world';\n\nconsole.log(greet, name);",
+        'var greet = \'hello\', name = \'world\';\n\nconsole.log(greet, name);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4156,9 +4154,9 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello',\nname = 'world';\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\',\nname = \'world\';\nconsole.log(greet, name);',
       output:
-        "var greet = 'hello',\nname = 'world';\n\nconsole.log(greet, name);",
+        'var greet = \'hello\',\nname = \'world\';\n\nconsole.log(greet, name);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4170,8 +4168,8 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "let greet = 'hello';\nconsole.log(greet);",
-      output: "let greet = 'hello';\n\nconsole.log(greet);",
+      code: 'let greet = \'hello\';\nconsole.log(greet);',
+      output: 'let greet = \'hello\';\n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4183,8 +4181,8 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "const greet = 'hello';\nconsole.log(greet);",
-      output: "const greet = 'hello';\n\nconsole.log(greet);",
+      code: 'const greet = \'hello\';\nconsole.log(greet);',
+      output: 'const greet = \'hello\';\n\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4196,9 +4194,9 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "function example() {\nvar greet = 'hello';\nconsole.log(greet);\n}",
+      code: 'function example() {\nvar greet = \'hello\';\nconsole.log(greet);\n}',
       output:
-        "function example() {\nvar greet = 'hello';\n\nconsole.log(greet);\n}",
+        'function example() {\nvar greet = \'hello\';\n\nconsole.log(greet);\n}',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4210,9 +4208,9 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "var f = function() {\nvar greet = 'hello';\nconsole.log(greet);\n};",
+      code: 'var f = function() {\nvar greet = \'hello\';\nconsole.log(greet);\n};',
       output:
-        "var f = function() {\nvar greet = 'hello';\n\nconsole.log(greet);\n};",
+        'var f = function() {\nvar greet = \'hello\';\n\nconsole.log(greet);\n};',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4224,8 +4222,8 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "() => {\nvar greet = 'hello';\nconsole.log(greet);\n}",
-      output: "() => {\nvar greet = 'hello';\n\nconsole.log(greet);\n}",
+      code: '() => {\nvar greet = \'hello\';\nconsole.log(greet);\n}',
+      output: '() => {\nvar greet = \'hello\';\n\nconsole.log(greet);\n}',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4239,8 +4237,8 @@ var a = 1
 
     // should disallow blank lines in "never" mode
     {
-      code: "var greet = 'hello';\n\nconsole.log(greet);",
-      output: "var greet = 'hello';\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n\nconsole.log(greet);',
+      output: 'var greet = \'hello\';\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4252,8 +4250,8 @@ var a = 1
       errors: [{ messageId: 'unexpectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello';\n\n\nconsole.log(greet);",
-      output: "var greet = 'hello';\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n\n\nconsole.log(greet);',
+      output: 'var greet = \'hello\';\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4265,8 +4263,8 @@ var a = 1
       errors: [{ messageId: 'unexpectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello';\n\n\n\nconsole.log(greet);",
-      output: "var greet = 'hello';\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n\n\n\nconsole.log(greet);',
+      output: 'var greet = \'hello\';\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4278,8 +4276,8 @@ var a = 1
       errors: [{ messageId: 'unexpectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello';    \n\nconsole.log(greet);",
-      output: "var greet = 'hello';    \nconsole.log(greet);",
+      code: 'var greet = \'hello\';    \n\nconsole.log(greet);',
+      output: 'var greet = \'hello\';    \nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4291,8 +4289,8 @@ var a = 1
       errors: [{ messageId: 'unexpectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello'; // inline comment\n\nconsole.log(greet);",
-      output: "var greet = 'hello'; // inline comment\nconsole.log(greet);",
+      code: 'var greet = \'hello\'; // inline comment\n\nconsole.log(greet);',
+      output: 'var greet = \'hello\'; // inline comment\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4304,9 +4302,9 @@ var a = 1
       errors: [{ messageId: 'unexpectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello';\nvar name = 'world';\n\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\';\nvar name = \'world\';\n\nconsole.log(greet, name);',
       output:
-        "var greet = 'hello';\nvar name = 'world';\nconsole.log(greet, name);",
+        'var greet = \'hello\';\nvar name = \'world\';\nconsole.log(greet, name);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4318,8 +4316,8 @@ var a = 1
       errors: [{ messageId: 'unexpectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello', name = 'world';\n\nconsole.log(greet, name);",
-      output: "var greet = 'hello', name = 'world';\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\', name = \'world\';\n\nconsole.log(greet, name);',
+      output: 'var greet = \'hello\', name = \'world\';\nconsole.log(greet, name);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4331,9 +4329,9 @@ var a = 1
       errors: [{ messageId: 'unexpectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello',\nname = 'world';\n\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\',\nname = \'world\';\n\nconsole.log(greet, name);',
       output:
-        "var greet = 'hello',\nname = 'world';\nconsole.log(greet, name);",
+        'var greet = \'hello\',\nname = \'world\';\nconsole.log(greet, name);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4345,9 +4343,9 @@ var a = 1
       errors: [{ messageId: 'unexpectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\n\nconsole.log(greet, name);",
+      code: 'var greet = \'hello\', // inline comment\nname = \'world\'; // inline comment\n\nconsole.log(greet, name);',
       output:
-        "var greet = 'hello', // inline comment\nname = 'world'; // inline comment\nconsole.log(greet, name);",
+        'var greet = \'hello\', // inline comment\nname = \'world\'; // inline comment\nconsole.log(greet, name);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4359,8 +4357,8 @@ var a = 1
       errors: [{ messageId: 'unexpectedBlankLine' }],
     },
     {
-      code: "let greet = 'hello';\n\nconsole.log(greet);",
-      output: "let greet = 'hello';\nconsole.log(greet);",
+      code: 'let greet = \'hello\';\n\nconsole.log(greet);',
+      output: 'let greet = \'hello\';\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4372,8 +4370,8 @@ var a = 1
       errors: [{ messageId: 'unexpectedBlankLine' }],
     },
     {
-      code: "const greet = 'hello';\n\nconsole.log(greet);",
-      output: "const greet = 'hello';\nconsole.log(greet);",
+      code: 'const greet = \'hello\';\n\nconsole.log(greet);',
+      output: 'const greet = \'hello\';\nconsole.log(greet);',
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4387,9 +4385,9 @@ var a = 1
 
     // should disallow a comment on the next line that's not in turn followed by a blank in "always" mode
     {
-      code: "var greet = 'hello';\n// next-line comment\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n// next-line comment\nconsole.log(greet);',
       output:
-        "var greet = 'hello';\n\n// next-line comment\nconsole.log(greet);",
+        'var greet = \'hello\';\n\n// next-line comment\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4401,9 +4399,9 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello';\n/* block comment\nblock comment */\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n/* block comment\nblock comment */\nconsole.log(greet);',
       output:
-        "var greet = 'hello';\n\n/* block comment\nblock comment */\nconsole.log(greet);",
+        'var greet = \'hello\';\n\n/* block comment\nblock comment */\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4415,9 +4413,9 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello',\nname = 'world';\n// next-line comment\nconsole.log(greet);",
+      code: 'var greet = \'hello\',\nname = \'world\';\n// next-line comment\nconsole.log(greet);',
       output:
-        "var greet = 'hello',\nname = 'world';\n\n// next-line comment\nconsole.log(greet);",
+        'var greet = \'hello\',\nname = \'world\';\n\n// next-line comment\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4429,9 +4427,9 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello',\nname = 'world';\n/* block comment\nblock comment */\nconsole.log(greet);",
+      code: 'var greet = \'hello\',\nname = \'world\';\n/* block comment\nblock comment */\nconsole.log(greet);',
       output:
-        "var greet = 'hello',\nname = 'world';\n\n/* block comment\nblock comment */\nconsole.log(greet);",
+        'var greet = \'hello\',\nname = \'world\';\n\n/* block comment\nblock comment */\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4443,9 +4441,9 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello';\n// next-line comment\n// second-line comment\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n// next-line comment\n// second-line comment\nconsole.log(greet);',
       output:
-        "var greet = 'hello';\n\n// next-line comment\n// second-line comment\nconsole.log(greet);",
+        'var greet = \'hello\';\n\n// next-line comment\n// second-line comment\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {
@@ -4457,9 +4455,9 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: "var greet = 'hello';\n// next-line comment\n/* block comment\nblock comment */\nconsole.log(greet);",
+      code: 'var greet = \'hello\';\n// next-line comment\n/* block comment\nblock comment */\nconsole.log(greet);',
       output:
-        "var greet = 'hello';\n\n// next-line comment\n/* block comment\nblock comment */\nconsole.log(greet);",
+        'var greet = \'hello\';\n\n// next-line comment\n/* block comment\nblock comment */\nconsole.log(greet);',
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         {

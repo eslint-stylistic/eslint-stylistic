@@ -43,9 +43,9 @@ module.exports = {
     ],
 
     messages: {
-      unexpectedLineBeforeAndAfterComma: "Bad line breaking before and after ','.",
-      expectedCommaFirst: "',' should be placed first.",
-      expectedCommaLast: "',' should be placed last.",
+      unexpectedLineBeforeAndAfterComma: 'Bad line breaking before and after \',\'.',
+      expectedCommaFirst: '\',\' should be placed first.',
+      expectedCommaLast: '\',\' should be placed last.',
     },
   },
 

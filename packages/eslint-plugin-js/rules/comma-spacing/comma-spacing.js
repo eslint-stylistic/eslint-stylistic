@@ -41,8 +41,8 @@ module.exports = {
     ],
 
     messages: {
-      missing: "A space is required {{loc}} ','.",
-      unexpected: "There should be no space {{loc}} ','.",
+      missing: 'A space is required {{loc}} \',\'.',
+      unexpected: 'There should be no space {{loc}} \',\'.',
     },
   },
 

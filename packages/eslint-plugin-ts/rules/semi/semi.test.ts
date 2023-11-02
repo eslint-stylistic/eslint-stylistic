@@ -1,7 +1,5 @@
-/* eslint-disable eslint-comments/no-use */
 // this rule tests the semis, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
-/* eslint-enable eslint-comments/no-use */
 
 import { RuleTester } from '@typescript-eslint/rule-tester'
 import type { TSESLint } from '@typescript-eslint/utils'
@@ -53,7 +51,7 @@ ruleTester.run('semi', rule, {
       code: '(function bar() {})\n;(function foo(){})',
       options: neverOption,
     },
-    { code: ";/foo/.test('bar')", options: neverOption },
+    { code: ';/foo/.test(\'bar\')', options: neverOption },
     { code: ';+5', options: neverOption },
     { code: ';-foo()', options: neverOption },
     { code: 'a++\nb++', options: neverOption },
@@ -239,7 +237,7 @@ class PanCamera extends FreeCamera {
       'setTimeout(function() {foo = "bar";});',
       'for (var a in b){}',
       'if (true) {}\n;[global, extended].forEach(function(){});',
-      "throw new Error('foo');",
+      'throw new Error(\'foo\');',
       'debugger;',
       '++\nfoo;',
       'for (let thing of {}) {\n  console.log(thing);\n}',
@@ -248,11 +246,11 @@ class PanCamera extends FreeCamera {
       // method definitions don't have a semicolon.
       'class A { a() {} b() {} }',
       'var A = class { a() {} b() {} };',
-      "import theDefault, { named1, named2 } from 'src/mylib';",
+      'import theDefault, { named1, named2 } from \'src/mylib\';',
 
       // exports, "always"
-      "export * from 'foo';",
-      "export { foo } from 'foo';",
+      'export * from \'foo\';',
+      'export { foo } from \'foo\';',
       'export var foo;',
       'export function foo () { }',
       'export function* foo () { }',
@@ -817,8 +815,8 @@ class PanCamera extends FreeCamera {
 
       //     // ESLint
       {
-        code: "throw new Error('foo');",
-        output: "throw new Error('foo')",
+        code: 'throw new Error(\'foo\');',
+        output: 'throw new Error(\'foo\')',
         errors: [
           {
             line: 1,
@@ -916,8 +914,8 @@ class PanCamera extends FreeCamera {
         ],
       },
       {
-        code: "import theDefault, { named1, named2 } from 'src/mylib';",
-        output: "import theDefault, { named1, named2 } from 'src/mylib'",
+        code: 'import theDefault, { named1, named2 } from \'src/mylib\';',
+        output: 'import theDefault, { named1, named2 } from \'src/mylib\'',
         errors: [
           {
             line: 1,
@@ -934,8 +932,8 @@ class PanCamera extends FreeCamera {
         ],
       },
       {
-        code: "import * as utils from './utils';",
-        output: "import * as utils from './utils'",
+        code: 'import * as utils from \'./utils\';',
+        output: 'import * as utils from \'./utils\'',
         errors: [
           {
             line: 1,
@@ -943,8 +941,8 @@ class PanCamera extends FreeCamera {
         ],
       },
       {
-        code: "import { square, diag } from 'lib';",
-        output: "import { square, diag } from 'lib'",
+        code: 'import { square, diag } from \'lib\';',
+        output: 'import { square, diag } from \'lib\'',
         errors: [
           {
             line: 1,
@@ -952,8 +950,8 @@ class PanCamera extends FreeCamera {
         ],
       },
       {
-        code: "import { default as foo } from 'lib';",
-        output: "import { default as foo } from 'lib'",
+        code: 'import { default as foo } from \'lib\';',
+        output: 'import { default as foo } from \'lib\'',
         errors: [
           {
             line: 1,
@@ -961,8 +959,8 @@ class PanCamera extends FreeCamera {
         ],
       },
       {
-        code: "import 'src/mylib';",
-        output: "import 'src/mylib'",
+        code: 'import \'src/mylib\';',
+        output: 'import \'src/mylib\'',
         errors: [
           {
             line: 1,
@@ -984,8 +982,8 @@ class PanCamera extends FreeCamera {
 
       // exports, "never"
       {
-        code: "export * from 'foo';",
-        output: "export * from 'foo'",
+        code: 'export * from \'foo\';',
+        output: 'export * from \'foo\'',
         errors: [
           {
             line: 1,
@@ -993,8 +991,8 @@ class PanCamera extends FreeCamera {
         ],
       },
       {
-        code: "export { foo } from 'foo';",
-        output: "export { foo } from 'foo'",
+        code: 'export { foo } from \'foo\';',
+        output: 'export { foo } from \'foo\'',
         errors: [
           {
             line: 1,

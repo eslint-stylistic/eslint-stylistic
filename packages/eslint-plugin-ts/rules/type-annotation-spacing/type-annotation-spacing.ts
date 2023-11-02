@@ -1,6 +1,15 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 
-import { createRule, isClassOrTypeElement, isFunction, isFunctionOrFunctionType, isIdentifier, isTSConstructorType, isTSFunctionType, isVariableDeclarator } from '../../util'
+import {
+  createRule,
+  isClassOrTypeElement,
+  isFunction,
+  isFunctionOrFunctionType,
+  isIdentifier,
+  isTSConstructorType,
+  isTSFunctionType,
+  isVariableDeclarator,
+} from '../../util'
 
 interface WhitespaceRule {
   readonly before?: boolean
@@ -98,12 +107,12 @@ export default createRule<Options, MessageIds>({
     },
     fixable: 'whitespace',
     messages: {
-      expectedSpaceAfter: "Expected a space after the '{{type}}'.",
-      expectedSpaceBefore: "Expected a space before the '{{type}}'.",
-      unexpectedSpaceAfter: "Unexpected space after the '{{type}}'.",
-      unexpectedSpaceBefore: "Unexpected space before the '{{type}}'.",
+      expectedSpaceAfter: 'Expected a space after the \'{{type}}\'.',
+      expectedSpaceBefore: 'Expected a space before the \'{{type}}\'.',
+      unexpectedSpaceAfter: 'Unexpected space after the \'{{type}}\'.',
+      unexpectedSpaceBefore: 'Unexpected space before the \'{{type}}\'.',
       unexpectedSpaceBetween:
-        "Unexpected space between the '{{previousToken}}' and the '{{type}}'.",
+        'Unexpected space between the \'{{previousToken}}\' and the \'{{type}}\'.',
     },
     schema: [
       {

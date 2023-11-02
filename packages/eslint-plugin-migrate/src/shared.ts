@@ -23,7 +23,9 @@ export function createRuleListener(
   function findRule(fromName: string) {
     for (const set of sets) {
       const {
-        namespaceFrom, namespaceTo, rules,
+        namespaceFrom,
+        namespaceTo,
+        rules,
       } = set
       const ruleName = namespaceFrom
         ? fromName?.startsWith(`${namespaceFrom}/`)

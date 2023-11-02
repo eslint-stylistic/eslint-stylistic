@@ -20,4 +20,4 @@ With stylistic rules in ESLint, we are able to achieve similar formatting compat
 
 This project is maintained for those who cares such details and want to have full control of the code style.
 
-If you are interested in learning more, we recommended reading [Anthony Fu](https://antfu.me/)'s [*Why I don't use Prettier*](https://antfu.me/posts/why-not-prettier) post.
+If you are interested in learning more, we recommend reading [Anthony Fu](https://antfu.me/)'s [*Why I don't use Prettier*](https://antfu.me/posts/why-not-prettier) post.

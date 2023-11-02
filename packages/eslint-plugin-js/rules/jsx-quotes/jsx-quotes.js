@@ -24,10 +24,10 @@ const QUOTE_SETTINGS = {
     },
   },
   'prefer-single': {
-    quote: "'",
+    quote: '\'',
     description: 'doublequote',
     convert(str) {
-      return str.replace(/"/gu, "'")
+      return str.replace(/"/gu, '\'')
     },
   },
 }

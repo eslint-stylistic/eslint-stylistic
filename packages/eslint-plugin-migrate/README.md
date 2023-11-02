@@ -4,4 +4,4 @@
 
 An ESLint plugin for migrating built-in stylistic rules to the `@stylistic` namespace.
 
-[**Documentations**](https://eslint.style/guide/migration#eslint-migrate-plugin)
+[**Documentations**](https://eslint.style/guide/migration)

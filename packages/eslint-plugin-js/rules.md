@@ -5,6 +5,7 @@
 | [`@stylistic/js/array-bracket-newline`](./rules/array-bracket-newline) | Enforce linebreaks after opening and before closing array brackets | ✅ |  |
 | [`@stylistic/js/array-bracket-spacing`](./rules/array-bracket-spacing) | Enforce consistent spacing inside array brackets | ✅ |  |
 | [`@stylistic/js/array-element-newline`](./rules/array-element-newline) | Enforce line breaks after each array element | ✅ |  |
+| [`@stylistic/js/arrow-parens`](./rules/arrow-parens) | Require parentheses around arrow function arguments | ✅ |  |
 | [`@stylistic/js/arrow-spacing`](./rules/arrow-spacing) | Enforce consistent spacing before and after the arrow in arrow functions | ✅ |  |
 | [`@stylistic/js/block-spacing`](./rules/block-spacing) | Disallow or enforce spaces inside of blocks after opening block and before closing block | ✅ |  |
 | [`@stylistic/js/brace-style`](./rules/brace-style) | Enforce consistent brace style for blocks | ✅ |  |
@@ -25,14 +26,11 @@
 | [`@stylistic/js/keyword-spacing`](./rules/keyword-spacing) | Enforce consistent spacing before and after keywords | ✅ |  |
 | [`@stylistic/js/linebreak-style`](./rules/linebreak-style) | Enforce consistent linebreak style | ✅ |  |
 | [`@stylistic/js/lines-around-comment`](./rules/lines-around-comment) | Require empty lines around comments | ✅ |  |
-| [`@stylistic/js/lines-around-directive`](./rules/lines-around-directive) | Require or disallow newlines around directives | ✅ |  |
 | [`@stylistic/js/lines-between-class-members`](./rules/lines-between-class-members) | Require or disallow an empty line between class members | ✅ |  |
 | [`@stylistic/js/max-len`](./rules/max-len) | Enforce a maximum line length |  |  |
 | [`@stylistic/js/max-statements-per-line`](./rules/max-statements-per-line) | Enforce a maximum number of statements allowed per line |  |  |
 | [`@stylistic/js/multiline-ternary`](./rules/multiline-ternary) | Enforce newlines between operands of ternary expressions | ✅ |  |
 | [`@stylistic/js/new-parens`](./rules/new-parens) | Enforce or disallow parentheses when invoking a constructor with no arguments | ✅ |  |
-| [`@stylistic/js/newline-after-var`](./rules/newline-after-var) | Require or disallow an empty line after variable declarations | ✅ |  |
-| [`@stylistic/js/newline-before-return`](./rules/newline-before-return) | Require an empty line before `return` statements | ✅ |  |
 | [`@stylistic/js/newline-per-chained-call`](./rules/newline-per-chained-call) | Require a newline after each call in a method chain | ✅ |  |
 | [`@stylistic/js/no-confusing-arrow`](./rules/no-confusing-arrow) | Disallow arrow functions where they could be confused with comparisons | ✅ |  |
 | [`@stylistic/js/no-extra-parens`](./rules/no-extra-parens) | Disallow unnecessary parentheses | ✅ |  |
@@ -42,7 +40,6 @@
 | [`@stylistic/js/no-mixed-spaces-and-tabs`](./rules/no-mixed-spaces-and-tabs) | Disallow mixed spaces and tabs for indentation |  | ✅ |
 | [`@stylistic/js/no-multi-spaces`](./rules/no-multi-spaces) | Disallow multiple spaces | ✅ |  |
 | [`@stylistic/js/no-multiple-empty-lines`](./rules/no-multiple-empty-lines) | Disallow multiple empty lines | ✅ |  |
-| [`@stylistic/js/no-spaced-func`](./rules/no-spaced-func) | Disallow spacing between function identifiers and their applications (deprecated) | ✅ |  |
 | [`@stylistic/js/no-tabs`](./rules/no-tabs) | Disallow all tabs |  |  |
 | [`@stylistic/js/no-trailing-spaces`](./rules/no-trailing-spaces) | Disallow trailing whitespace at the end of lines | ✅ |  |
 | [`@stylistic/js/no-whitespace-before-property`](./rules/no-whitespace-before-property) | Disallow whitespace before properties | ✅ |  |

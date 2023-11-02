@@ -1,5 +1,4 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
-/* eslint-enable eslint-comments/no-use */
 
 import { RuleTester } from '@typescript-eslint/rule-tester'
 import type { TSESLint } from '@typescript-eslint/utils'

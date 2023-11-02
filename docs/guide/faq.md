@@ -4,6 +4,20 @@
 
 Refer to [Why](/guide/why).
 
+## What are Stylistic Rules?
+
+According to [`typescript-eslint`'s definition](https://typescript-eslint.io/linting/troubleshooting/formatting/#eslint-core-and-formatting), most lint rules fall into one of two to three categories:
+
+---
+
+- **Logical**: Rules that care about the logic in runtime behavior of code (such as missing awaits or invalid logical checks).
+- **Stylistic**: Rules that care about style concerns which do impact runtime behavior of code, but generally not logic. These are mostly around naming or which roughly-equivalent syntax constructs to use (such as function declarations vs. arrow functions).
+  - **Formatting**: Stylistic rules that care only about trivia (semicolons, whitespace, etc.) without impacting the runtime behavior of the code. These rules conflict with dedicated formatters such as Prettier.
+
+---
+
+For ESLint Stylistic, our main scope is the **formatting** and **stylistic** rules inherited from `eslint` / `typescript-eslint`. We will maintain some stylistic rules, but not all stylistic rules will be included. It depends whether the upstream projects want to keep them. We are welcoming new rules proposed by the community in the future when we move to the maintenance stage and develop the infrastructure for introducing experimental rules. Track on [Project Progress](/contribute/project-progress) for more details.
+
 ## How to auto-format on save?
 
 ##### VS Code
@@ -20,6 +34,13 @@ Add the following settings to your `.vscode/settings.json`:
   },
 }
 ```
+##### JetBrains IDEs
+
+- Open the Settings dialog (`Ctrl + Alt + S`)
+- Go to `Languages & Frameworks -> JavaScript -> Code Quality Tools -> ESLint`
+- Select the `Run eslint --fix on save` checkbox.
+
+Refer to [JetBrains Docs](https://www.jetbrains.com/help/idea/eslint.html#ws_eslint_configure_run_eslint_on_save)
 
 ## The error messages (squiggly lines) for code style are annoying
 

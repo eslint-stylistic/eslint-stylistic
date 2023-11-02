@@ -37,8 +37,8 @@ module.exports = {
       },
     ],
     messages: {
-      missing: "Missing '()' invoking a constructor.",
-      unnecessary: "Unnecessary '()' invoking a constructor with no arguments.",
+      missing: 'Missing \'()\' invoking a constructor.',
+      unnecessary: 'Unnecessary \'()\' invoking a constructor with no arguments.',
     },
   },
 

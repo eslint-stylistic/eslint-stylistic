@@ -437,9 +437,7 @@ class OffsetStorage {
                     && offsetInfo.from.loc.start.line === token.loc.start.line
                     && !/^\s*?\n/u.test(token.value)
                     && !offsetInfo.force
-        )
-          ? 0
-          : offsetInfo.offset * this._indentSize
+        ) ? 0 : offsetInfo.offset * this._indentSize
 
         this._desiredIndentCache.set(
           token,
@@ -1158,9 +1156,7 @@ module.exports = {
           offsets.setDesiredOffset(colonToken, firstToken, 1)
 
           offsets.setDesiredOffset(firstConsequentToken, firstToken, firstConsequentToken.type === 'Punctuator'
-                        && options.offsetTernaryExpressions
-            ? 2
-            : 1)
+                        && options.offsetTernaryExpressions ? 2 : 1)
 
           /*
                      * The alternate and the consequent should usually have the same indentation.
@@ -1186,9 +1182,7 @@ module.exports = {
              * having no expected indentation.
              */
             offsets.setDesiredOffset(firstAlternateToken, firstToken, firstAlternateToken.type === 'Punctuator'
-                            && options.offsetTernaryExpressions
-              ? 2
-              : 1)
+                            && options.offsetTernaryExpressions ? 2 : 1)
           }
         }
       },

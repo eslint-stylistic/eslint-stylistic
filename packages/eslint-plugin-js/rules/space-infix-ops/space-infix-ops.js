@@ -37,7 +37,7 @@ module.exports = {
     ],
 
     messages: {
-      missingSpace: "Operator '{{operator}}' must be spaced.",
+      missingSpace: 'Operator \'{{operator}}\' must be spaced.',
     },
   },
 

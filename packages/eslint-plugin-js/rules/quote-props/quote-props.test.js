@@ -20,23 +20,23 @@ const ruleTester = new RuleTester()
 
 ruleTester.run('quote-props', rule, {
   valid: [
-    "({ '0': 0 })",
-    "({ 'a': 0 })",
+    '({ \'0\': 0 })',
+    '({ \'a\': 0 })',
     '({ "a": 0 })',
-    "({ 'null': 0 })",
-    "({ 'true': 0 })",
-    "({ 'a-b': 0 })",
-    "({ 'if': 0 })",
-    "({ '@': 0 })",
+    '({ \'null\': 0 })',
+    '({ \'true\': 0 })',
+    '({ \'a-b\': 0 })',
+    '({ \'if\': 0 })',
+    '({ \'@\': 0 })',
 
-    { code: "({ 'a': 0, b(){} })", parserOptions: { ecmaVersion: 6 } },
+    { code: '({ \'a\': 0, b(){} })', parserOptions: { ecmaVersion: 6 } },
     { code: '({ [x]: 0 });', env: { es6: true } },
     { code: '({ x });', env: { es6: true } },
     { code: '({ a: 0, b(){} })', options: ['as-needed'], parserOptions: { ecmaVersion: 6 } },
     { code: '({ a: 0, [x]: 1 })', options: ['as-needed'], env: { es6: true } },
     { code: '({ a: 0, x })', options: ['as-needed'], env: { es6: true } },
-    { code: "({ '@': 0, [x]: 1 })", options: ['as-needed'], env: { es6: true } },
-    { code: "({ '@': 0, x })", options: ['as-needed'], env: { es6: true } },
+    { code: '({ \'@\': 0, [x]: 1 })', options: ['as-needed'], env: { es6: true } },
+    { code: '({ \'@\': 0, x })', options: ['as-needed'], env: { es6: true } },
     { code: '({ a: 0, b: 0 })', options: ['as-needed'] },
     { code: '({ a: 0, 0: 0 })', options: ['as-needed'] },
     { code: '({ a: 0, true: 0 })', options: ['as-needed'] },
@@ -44,35 +44,35 @@ ruleTester.run('quote-props', rule, {
     { code: '({ a: 0, if: 0 })', options: ['as-needed'] },
     { code: '({ a: 0, while: 0 })', options: ['as-needed'] },
     { code: '({ a: 0, volatile: 0 })', options: ['as-needed'] },
-    { code: "({ a: 0, '-b': 0 })", options: ['as-needed'] },
-    { code: "({ a: 0, '@': 0 })", options: ['as-needed'] },
-    { code: "({ a: 0, '0x0': 0 })", options: ['as-needed'] },
-    { code: "({ ' 0': 0, '0x0': 0 })", options: ['as-needed'] },
-    { code: "({ '0 ': 0 })", options: ['as-needed'] },
-    { code: "({ 'hey//meh': 0 })", options: ['as-needed'] },
-    { code: "({ 'hey/*meh': 0 })", options: ['as-needed'] },
-    { code: "({ 'hey/*meh*/': 0 })", options: ['as-needed'] },
-    { code: "({ 'a': 0, '-b': 0 })", options: ['consistent'] },
-    { code: "({ 'true': 0, 'b': 0 })", options: ['consistent'] },
+    { code: '({ a: 0, \'-b\': 0 })', options: ['as-needed'] },
+    { code: '({ a: 0, \'@\': 0 })', options: ['as-needed'] },
+    { code: '({ a: 0, \'0x0\': 0 })', options: ['as-needed'] },
+    { code: '({ \' 0\': 0, \'0x0\': 0 })', options: ['as-needed'] },
+    { code: '({ \'0 \': 0 })', options: ['as-needed'] },
+    { code: '({ \'hey//meh\': 0 })', options: ['as-needed'] },
+    { code: '({ \'hey/*meh\': 0 })', options: ['as-needed'] },
+    { code: '({ \'hey/*meh*/\': 0 })', options: ['as-needed'] },
+    { code: '({ \'a\': 0, \'-b\': 0 })', options: ['consistent'] },
+    { code: '({ \'true\': 0, \'b\': 0 })', options: ['consistent'] },
     { code: '({ null: 0, a: 0 })', options: ['consistent'] },
     { code: '({ a: 0, b: 0 })', options: ['consistent'] },
-    { code: "({ 'a': 1, [x]: 0 });", options: ['consistent'], env: { es6: true } },
-    { code: "({ 'a': 1, x });", options: ['consistent'], env: { es6: true } },
+    { code: '({ \'a\': 1, [x]: 0 });', options: ['consistent'], env: { es6: true } },
+    { code: '({ \'a\': 1, x });', options: ['consistent'], env: { es6: true } },
     { code: '({ a: 0, b: 0 })', options: ['consistent-as-needed'] },
     { code: '({ a: 0, null: 0 })', options: ['consistent-as-needed'] },
-    { code: "({ 'a': 0, '-b': 0 })", options: ['consistent-as-needed'] },
-    { code: "({ '@': 0, 'B': 0 })", options: ['consistent-as-needed'] },
-    { code: "({ 'while': 0, 'B': 0 })", options: ['consistent-as-needed', { keywords: true }] },
-    { code: "({ '@': 0, 'B': 0 })", options: ['consistent-as-needed', { keywords: true }] },
-    { code: "({ '@': 1, [x]: 0 });", options: ['consistent-as-needed'], env: { es6: true } },
-    { code: "({ '@': 1, x });", options: ['consistent-as-needed'], env: { es6: true } },
+    { code: '({ \'a\': 0, \'-b\': 0 })', options: ['consistent-as-needed'] },
+    { code: '({ \'@\': 0, \'B\': 0 })', options: ['consistent-as-needed'] },
+    { code: '({ \'while\': 0, \'B\': 0 })', options: ['consistent-as-needed', { keywords: true }] },
+    { code: '({ \'@\': 0, \'B\': 0 })', options: ['consistent-as-needed', { keywords: true }] },
+    { code: '({ \'@\': 1, [x]: 0 });', options: ['consistent-as-needed'], env: { es6: true } },
+    { code: '({ \'@\': 1, x });', options: ['consistent-as-needed'], env: { es6: true } },
     { code: '({ a: 1, [x]: 0 });', options: ['consistent-as-needed'], env: { es6: true } },
     { code: '({ a: 1, x });', options: ['consistent-as-needed'], env: { es6: true } },
-    { code: "({ a: 0, 'if': 0 })", options: ['as-needed', { keywords: true }] },
-    { code: "({ a: 0, 'while': 0 })", options: ['as-needed', { keywords: true }] },
-    { code: "({ a: 0, 'volatile': 0 })", options: ['as-needed', { keywords: true }] },
-    { code: "({'unnecessary': 1, 'if': 0})", options: ['as-needed', { keywords: true, unnecessary: false }] },
-    { code: "({'1': 1})", options: ['as-needed', { numbers: true }] },
+    { code: '({ a: 0, \'if\': 0 })', options: ['as-needed', { keywords: true }] },
+    { code: '({ a: 0, \'while\': 0 })', options: ['as-needed', { keywords: true }] },
+    { code: '({ a: 0, \'volatile\': 0 })', options: ['as-needed', { keywords: true }] },
+    { code: '({\'unnecessary\': 1, \'if\': 0})', options: ['as-needed', { keywords: true, unnecessary: false }] },
+    { code: '({\'1\': 1})', options: ['as-needed', { numbers: true }] },
     { code: '({1: 1, x: 2})', options: ['consistent', { numbers: true }] },
     { code: '({1: 1, x: 2})', options: ['consistent-as-needed', { numbers: true }] },
     { code: '({ ...x })', options: ['as-needed'], parserOptions: { ecmaVersion: 2018 } },
@@ -82,13 +82,13 @@ ruleTester.run('quote-props', rule, {
     { code: '({ 1n: 1 })', options: ['as-needed', { numbers: false }], parserOptions: { ecmaVersion: 2020 } },
     { code: '({ 1n: 1 })', options: ['consistent'], parserOptions: { ecmaVersion: 2020 } },
     { code: '({ 1n: 1 })', options: ['consistent-as-needed'], parserOptions: { ecmaVersion: 2020 } },
-    { code: "({ '99999999999999999': 1 })", options: ['as-needed'], parserOptions: { ecmaVersion: 2020 } },
-    { code: "({ '1n': 1 })", options: ['as-needed'], parserOptions: { ecmaVersion: 2020 } },
+    { code: '({ \'99999999999999999\': 1 })', options: ['as-needed'], parserOptions: { ecmaVersion: 2020 } },
+    { code: '({ \'1n\': 1 })', options: ['as-needed'], parserOptions: { ecmaVersion: 2020 } },
     { code: '({ 1_0: 1 })', options: ['as-needed'], parserOptions: { ecmaVersion: 2021 } },
     { code: '({ 1_0: 1 })', options: ['as-needed', { numbers: false }], parserOptions: { ecmaVersion: 2021 } },
-    { code: "({ '1_0': 1 })", options: ['as-needed'], parserOptions: { ecmaVersion: 2021 } },
-    { code: "({ '1_0': 1 })", options: ['as-needed', { numbers: false }], parserOptions: { ecmaVersion: 2021 } },
-    { code: "({ '1_0': 1 })", options: ['as-needed', { numbers: true }], parserOptions: { ecmaVersion: 2021 } },
+    { code: '({ \'1_0\': 1 })', options: ['as-needed'], parserOptions: { ecmaVersion: 2021 } },
+    { code: '({ \'1_0\': 1 })', options: ['as-needed', { numbers: false }], parserOptions: { ecmaVersion: 2021 } },
+    { code: '({ \'1_0\': 1 })', options: ['as-needed', { numbers: true }], parserOptions: { ecmaVersion: 2021 } },
     { code: '({ 1_0: 1, 1: 1 })', options: ['consistent-as-needed'], parserOptions: { ecmaVersion: 2021 } },
   ],
   invalid: [{
@@ -100,15 +100,15 @@ ruleTester.run('quote-props', rule, {
       type: 'Property',
     }],
   }, {
-    code: "({ 0: '0' })",
-    output: "({ \"0\": '0' })",
+    code: '({ 0: \'0\' })',
+    output: '({ "0": \'0\' })',
     errors: [{
       messageId: 'unquotedPropertyFound',
       data: { property: '0' },
       type: 'Property',
     }],
   }, {
-    code: "({ 'a': 0 })",
+    code: '({ \'a\': 0 })',
     output: '({ a: 0 })',
     options: ['as-needed'],
     errors: [{
@@ -117,7 +117,7 @@ ruleTester.run('quote-props', rule, {
       type: 'Property',
     }],
   }, {
-    code: "({ 'null': 0 })",
+    code: '({ \'null\': 0 })',
     output: '({ null: 0 })',
     options: ['as-needed'],
     errors: [{
@@ -126,7 +126,7 @@ ruleTester.run('quote-props', rule, {
       type: 'Property',
     }],
   }, {
-    code: "({ 'true': 0 })",
+    code: '({ \'true\': 0 })',
     output: '({ true: 0 })',
     options: ['as-needed'],
     errors: [{
@@ -135,7 +135,7 @@ ruleTester.run('quote-props', rule, {
       type: 'Property',
     }],
   }, {
-    code: "({ '0': 0 })",
+    code: '({ \'0\': 0 })',
     output: '({ 0: 0 })',
     options: ['as-needed'],
     errors: [{
@@ -144,8 +144,8 @@ ruleTester.run('quote-props', rule, {
       type: 'Property',
     }],
   }, {
-    code: "({ '-a': 0, b: 0 })",
-    output: "({ '-a': 0, \"b\": 0 })",
+    code: '({ \'-a\': 0, b: 0 })',
+    output: '({ \'-a\': 0, "b": 0 })',
     options: ['consistent'],
     errors: [{
       messageId: 'inconsistentlyQuotedProperty',
@@ -153,8 +153,8 @@ ruleTester.run('quote-props', rule, {
       type: 'Property',
     }],
   }, {
-    code: "({ a: 0, 'b': 0 })",
-    output: "({ \"a\": 0, 'b': 0 })",
+    code: '({ a: 0, \'b\': 0 })',
+    output: '({ "a": 0, \'b\': 0 })',
     options: ['consistent'],
     errors: [{
       messageId: 'inconsistentlyQuotedProperty',
@@ -162,8 +162,8 @@ ruleTester.run('quote-props', rule, {
       type: 'Property',
     }],
   }, {
-    code: "({ '-a': 0, b: 0 })",
-    output: "({ '-a': 0, \"b\": 0 })",
+    code: '({ \'-a\': 0, b: 0 })',
+    output: '({ \'-a\': 0, "b": 0 })',
     options: ['consistent-as-needed'],
     errors: [{
       messageId: 'inconsistentlyQuotedProperty',
@@ -171,7 +171,7 @@ ruleTester.run('quote-props', rule, {
       type: 'Property',
     }],
   }, {
-    code: "({ 'a': 0, 'b': 0 })",
+    code: '({ \'a\': 0, \'b\': 0 })',
     output: '({ a: 0, b: 0 })',
     options: ['consistent-as-needed'],
     errors: [
@@ -179,7 +179,7 @@ ruleTester.run('quote-props', rule, {
       { messageId: 'redundantQuoting', type: 'Property' },
     ],
   }, {
-    code: "({ 'a': 0, [x]: 0 })",
+    code: '({ \'a\': 0, [x]: 0 })',
     output: '({ a: 0, [x]: 0 })',
     options: ['consistent-as-needed'],
     env: { es6: true },
@@ -187,7 +187,7 @@ ruleTester.run('quote-props', rule, {
       { messageId: 'redundantQuoting', type: 'Property' },
     ],
   }, {
-    code: "({ 'a': 0, x })",
+    code: '({ \'a\': 0, x })',
     output: '({ a: 0, x })',
     options: ['consistent-as-needed'],
     env: { es6: true },
@@ -195,7 +195,7 @@ ruleTester.run('quote-props', rule, {
       messageId: 'redundantQuoting', type: 'Property',
     }],
   }, {
-    code: "({ 'true': 0, 'null': 0 })",
+    code: '({ \'true\': 0, \'null\': 0 })',
     output: '({ true: 0, null: 0 })',
     options: ['consistent-as-needed'],
     errors: [
@@ -203,8 +203,8 @@ ruleTester.run('quote-props', rule, {
       { messageId: 'redundantQuoting', type: 'Property' },
     ],
   }, {
-    code: "({ true: 0, 'null': 0 })",
-    output: "({ \"true\": 0, 'null': 0 })",
+    code: '({ true: 0, \'null\': 0 })',
+    output: '({ "true": 0, \'null\': 0 })',
     options: ['consistent'],
     errors: [{
       messageId: 'inconsistentlyQuotedProperty',
@@ -212,7 +212,7 @@ ruleTester.run('quote-props', rule, {
       type: 'Property',
     }],
   }, {
-    code: "({ 'a': 0, 'b': 0 })",
+    code: '({ \'a\': 0, \'b\': 0 })',
     output: '({ a: 0, b: 0 })',
     options: ['consistent-as-needed', { keywords: true }],
     errors: [
@@ -236,8 +236,8 @@ ruleTester.run('quote-props', rule, {
       },
     ],
   }, {
-    code: "({ while: 0, 'b': 0 })",
-    output: "({ \"while\": 0, 'b': 0 })",
+    code: '({ while: 0, \'b\': 0 })',
+    output: '({ "while": 0, \'b\': 0 })',
     options: ['consistent-as-needed', { keywords: true }],
     errors: [{
       messageId: 'requireQuotesDueToReservedWord',
@@ -246,7 +246,7 @@ ruleTester.run('quote-props', rule, {
 
     }],
   }, {
-    code: "({ foo: 0, 'bar': 0 })",
+    code: '({ foo: 0, \'bar\': 0 })',
     output: '({ foo: 0, bar: 0 })',
     options: ['consistent-as-needed', { keywords: true }],
     errors: [
@@ -255,13 +255,13 @@ ruleTester.run('quote-props', rule, {
   }, {
     code:
         '({\n'
-        + "  /* a */ 'prop1' /* b */ : /* c */ value1 /* d */ ,\n"
+        + '  /* a */ \'prop1\' /* b */ : /* c */ value1 /* d */ ,\n'
         + '  /* e */ prop2 /* f */ : /* g */ value2 /* h */,\n'
         + '  /* i */ "prop3" /* j */ : /* k */ value3 /* l */\n'
         + '})',
     output:
         '({\n'
-        + "  /* a */ 'prop1' /* b */ : /* c */ value1 /* d */ ,\n"
+        + '  /* a */ \'prop1\' /* b */ : /* c */ value1 /* d */ ,\n'
         + '  /* e */ "prop2" /* f */ : /* g */ value2 /* h */,\n'
         + '  /* i */ "prop3" /* j */ : /* k */ value3 /* l */\n'
         + '})',
@@ -291,7 +291,7 @@ ruleTester.run('quote-props', rule, {
       { messageId: 'redundantQuoting', type: 'Property' },
     ],
   }, {
-    code: "({'if': 0})",
+    code: '({\'if\': 0})',
     output: '({if: 0})',
     options: ['as-needed'],
     errors: [{
@@ -300,7 +300,7 @@ ruleTester.run('quote-props', rule, {
       type: 'Property',
     }],
   }, {
-    code: "({'synchronized': 0})",
+    code: '({\'synchronized\': 0})',
     output: '({synchronized: 0})',
     options: ['as-needed'],
     errors: [{
@@ -318,8 +318,8 @@ ruleTester.run('quote-props', rule, {
       type: 'Property',
     }],
   }, {
-    code: "({'unnecessary': 1, if: 0})",
-    output: "({'unnecessary': 1, \"if\": 0})",
+    code: '({\'unnecessary\': 1, if: 0})',
+    output: '({\'unnecessary\': 1, "if": 0})',
     options: ['as-needed', { keywords: true, unnecessary: false }],
     errors: [{
       messageId: 'unquotedReservedProperty',
@@ -418,8 +418,8 @@ ruleTester.run('quote-props', rule, {
       data: { property: '8' },
     }],
   }, {
-    code: "({ 1_000: a, '1_000': b })",
-    output: "({ \"1000\": a, '1_000': b })",
+    code: '({ 1_000: a, \'1_000\': b })',
+    output: '({ "1000": a, \'1_000\': b })',
     options: ['consistent-as-needed'],
     parserOptions: { ecmaVersion: 2021 },
     errors: [{

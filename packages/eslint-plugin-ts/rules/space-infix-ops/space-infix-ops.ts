@@ -1,6 +1,9 @@
 import { AST_TOKEN_TYPES, TSESTree } from '@typescript-eslint/utils'
 
-import type { InferMessageIdsTypeFromRule, InferOptionsTypeFromRule } from '../../util'
+import type {
+  InferMessageIdsTypeFromRule,
+  InferOptionsTypeFromRule,
+} from '../../util'
 import { createRule, isNotOpeningParenToken } from '../../util'
 import { getESLintCoreRule } from '../../util/getESLintCoreRule'
 
@@ -24,7 +27,7 @@ export default createRule<Options, MessageIds>({
     schema: baseRule.meta.schema,
     messages: {
       // @ts-expect-error -- we report on this messageId so we need to ensure it's there in case ESLint changes in future
-      missingSpace: "Operator '{{operator}}' must be spaced.",
+      missingSpace: 'Operator \'{{operator}}\' must be spaced.',
       ...baseRule.meta.messages,
     },
   },

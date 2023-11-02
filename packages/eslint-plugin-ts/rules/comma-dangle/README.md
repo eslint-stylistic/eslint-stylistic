@@ -2,11 +2,8 @@
 description: 'Require or disallow trailing commas.'
 ---
 
-> 🛑 This file is source code, not the primary documentation location! 🛑
->
-> See **https://typescript-eslint.io/rules/comma-dangle** for documentation.
 
-This rule extends the base [`eslint/comma-dangle`](https://eslint.org/docs/rules/comma-dangle) rule.
+This rule extends the base [`comma-dangle`](/rules/js/comma-dangle) rule.
 It adds support for TypeScript syntax.
 
 See the [ESLint documentation](https://eslint.org/docs/rules/comma-dangle) for more details on the `comma-dangle` rule.

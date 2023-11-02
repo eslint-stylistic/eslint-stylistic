@@ -2,11 +2,8 @@
 description: 'Enforce consistent spacing before blocks.'
 ---
 
-> 🛑 This file is source code, not the primary documentation location! 🛑
->
-> See **https://typescript-eslint.io/rules/space-before-blocks** for documentation.
 
-This rule extends the base [`eslint/space-before-blocks`](https://eslint.org/docs/rules/space-before-blocks) rule.
+This rule extends the base [`space-before-blocks`](/rules/js/space-before-blocks) rule.
 It adds support for interfaces and enums.
 
 <!-- tabs -->

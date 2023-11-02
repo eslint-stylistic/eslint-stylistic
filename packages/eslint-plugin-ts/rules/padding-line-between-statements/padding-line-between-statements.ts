@@ -1,7 +1,15 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import { createRule, isClosingBraceToken, isFunction, isNotSemicolonToken, isParenthesized, isSemicolonToken, isTokenOnSameLine } from '../../util'
+import {
+  createRule,
+  isClosingBraceToken,
+  isFunction,
+  isNotSemicolonToken,
+  isParenthesized,
+  isSemicolonToken,
+  isTokenOnSameLine,
+} from '../../util'
 
 /**
  * This rule is a replica of padding-line-between-statements.
@@ -629,7 +637,7 @@ export default createRule<Options, MessageIds>({
   defaultOptions: [],
   create(context) {
     const sourceCode = context.getSourceCode()
-    // eslint-disable-next-line no-restricted-syntax -- We need all raw options.
+
     const configureList = context.options || []
 
     type Scope = {

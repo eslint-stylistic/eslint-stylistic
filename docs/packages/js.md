@@ -5,7 +5,7 @@ JavaScript stylistic rules for ESLint, migrated from [eslint core](https://githu
 Credits to all contributors who have committed to the original rules.
 
 ::: tip
-Recommended to use [`@stylistic/eslint-plugin`](/packages/default), which support both JavaScript and TypeScript rules automatically, without the need to manually overrides.
+We recommend using [`@stylistic/eslint-plugin`](/packages/default) as it includes the rules for both JavaScript and TypeScript
 :::
 
 ## Install
@@ -14,23 +14,23 @@ Recommended to use [`@stylistic/eslint-plugin`](/packages/default), which suppor
 npm i -D @stylistic/eslint-plugin-js
 ```
 
-Add `@stylistic/js` to your plugins list, and rename [stylistic rules](#rules) adding `@stylistic/js` prefix:
+Add `@stylistic/js` to your plugins list, and prefix [stylistic rules](#rules) with `@stylistic/js`:
 
-```diff
+```js
 // .eslintrc.js
 module.exports = {
   plugins: [
-+   '@stylistic/js'
+    '@stylistic/js' // [!code ++]
   ],
   rules: {
--   'indent': ['error', 2],
-+   '@stylistic/js/indent': ['error', 2],
+    'indent': ['error', 2], // [!code --]
+    '@stylistic/js/indent': ['error', 2], // [!code ++]
     // ...  
   }
-};
+}
 ```
 
-You can also try out our [migration plugin](/guide/migration) to automated the migration process.
+Check out the [migration guide](/guide/migration) for more details.
 
 ## Rules
 

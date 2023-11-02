@@ -514,8 +514,8 @@ ruleTester.run('wrap-iife', rule, {
       errors: [wrapInvocationError],
     },
     {
-      code: "window.bar = function() { return 3; }['call'](this, arg1);",
-      output: "window.bar = (function() { return 3; })['call'](this, arg1);",
+      code: 'window.bar = function() { return 3; }[\'call\'](this, arg1);',
+      output: 'window.bar = (function() { return 3; })[\'call\'](this, arg1);',
       options: ['inside', { functionPrototypeMethods: true }],
       errors: [wrapInvocationError],
     },

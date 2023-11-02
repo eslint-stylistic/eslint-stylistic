@@ -34,7 +34,7 @@ ruleTester.run('new-parens', rule, {
     'var a = new foo.Bar();',
     'var a = (new Foo()).bar;',
     {
-      code: "new Storage<RootState>('state');",
+      code: 'new Storage<RootState>(\'state\');',
       parser: parser('typescript-parsers/new-parens'),
     },
 
@@ -51,9 +51,9 @@ ruleTester.run('new-parens', rule, {
     { code: 'var a = (new Date);', options: ['never'] },
     { code: 'var a = new foo.Bar;', options: ['never'] },
     { code: 'var a = (new Foo).bar;', options: ['never'] },
-    { code: "var a = new Person('Name')", options: ['never'] },
-    { code: "var a = new Person('Name', 12)", options: ['never'] },
-    { code: "var a = new ((Person))('Name');", options: ['never'] },
+    { code: 'var a = new Person(\'Name\')', options: ['never'] },
+    { code: 'var a = new Person(\'Name\', 12)', options: ['never'] },
+    { code: 'var a = new ((Person))(\'Name\');', options: ['never'] },
   ],
   invalid: [
 

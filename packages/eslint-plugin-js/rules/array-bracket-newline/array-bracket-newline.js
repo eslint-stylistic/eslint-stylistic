@@ -48,10 +48,10 @@ module.exports = {
     ],
 
     messages: {
-      unexpectedOpeningLinebreak: "There should be no linebreak after '['.",
-      unexpectedClosingLinebreak: "There should be no linebreak before ']'.",
-      missingOpeningLinebreak: "A linebreak is required after '['.",
-      missingClosingLinebreak: "A linebreak is required before ']'.",
+      unexpectedOpeningLinebreak: 'There should be no linebreak after \'[\'.',
+      unexpectedClosingLinebreak: 'There should be no linebreak before \']\'.',
+      missingOpeningLinebreak: 'A linebreak is required after \'[\'.',
+      missingClosingLinebreak: 'A linebreak is required before \']\'.',
     },
   },
 

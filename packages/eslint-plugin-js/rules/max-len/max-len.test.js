@@ -60,10 +60,10 @@ ruleTester.run('max-len', rule, {
       code: 'var /*inline-comment*/ i = 1; // with really long trailing comment',
       options: [40, 4, { ignoreComments: true }],
     }, {
-      code: "foo('http://example.com/this/is/?a=longish&url=in#here');",
+      code: 'foo(\'http://example.com/this/is/?a=longish&url=in#here\');',
       options: [40, 4, { ignoreUrls: true }],
     }, {
-      code: "foo(bar(bazz('this is a long'), 'line of'), 'stuff');",
+      code: 'foo(bar(bazz(\'this is a long\'), \'line of\'), \'stuff\');',
       options: [40, 4, { ignorePattern: 'foo.+bazz\\(' }],
     }, {
       code:
@@ -100,7 +100,7 @@ ruleTester.run('max-len', rule, {
 
     // ignoreStrings, ignoreTemplateLiterals and ignoreRegExpLiterals options
     {
-      code: "var foo = veryLongIdentifier;\nvar bar = 'this is a very long string';",
+      code: 'var foo = veryLongIdentifier;\nvar bar = \'this is a very long string\';',
       options: [29, 4, { ignoreStrings: true }],
     },
     {
@@ -182,13 +182,13 @@ ruleTester.run('max-len', rule, {
 
     // Multi-code-point unicode glyphs
     {
-      code: "'🙂😀😆😎😊😜😉👍'",
+      code: '\'🙂😀😆😎😊😜😉👍\'',
       options: [10],
     },
 
     // Astral symbols in pattern (only matched by unicode regexes)
     {
-      code: "var longNameLongName = '𝌆𝌆'",
+      code: 'var longNameLongName = \'𝌆𝌆\'',
       options: [5, { ignorePattern: '𝌆{2}' }],
     },
 
@@ -418,8 +418,8 @@ ruleTester.run('max-len', rule, {
     },
     {
       code:
-                "var foobar = 'this line isn\\'t matched by the regexp';\n"
-                + "var fizzbuzz = 'but this one is matched by the regexp';\n",
+                'var foobar = \'this line isn\\\'t matched by the regexp\';\n'
+                + 'var fizzbuzz = \'but this one is matched by the regexp\';\n',
       options: [20, 4, { ignorePattern: 'fizzbuzz' }],
       errors: [
         {
@@ -434,7 +434,7 @@ ruleTester.run('max-len', rule, {
       ],
     },
     {
-      code: "var longLine = 'will trigger'; // even with a comment",
+      code: 'var longLine = \'will trigger\'; // even with a comment',
       options: [10, 4, { ignoreComments: true }],
       errors: [
         {
@@ -464,7 +464,7 @@ ruleTester.run('max-len', rule, {
       ],
     },
     {
-      code: "foo('http://example.com/this/is/?a=longish&url=in#here');",
+      code: 'foo(\'http://example.com/this/is/?a=longish&url=in#here\');',
       options: [40, 4], // ignoreUrls is disabled
       errors: [
         {
@@ -478,7 +478,7 @@ ruleTester.run('max-len', rule, {
         },
       ],
     }, {
-      code: "foo(bar(bazz('this is a long'), 'line of'), 'stuff');",
+      code: 'foo(bar(bazz(\'this is a long\'), \'line of\'), \'stuff\');',
       options: [40, 4], // ignorePattern is disabled
       errors: [
         {
@@ -691,7 +691,7 @@ ruleTester.run('max-len', rule, {
     // check comments with the same length as non-comments - https://github.com/eslint/eslint/issues/6564
     {
       code: '// This commented line has precisely 51 characters.\n'
-                  + "var x = 'This line also has exactly 51 characters';",
+                  + 'var x = \'This line also has exactly 51 characters\';',
       options: [20, { ignoreComments: true }],
       errors: [
         {
@@ -708,7 +708,7 @@ ruleTester.run('max-len', rule, {
 
     // ignoreStrings and ignoreTemplateLiterals options
     {
-      code: "var foo = veryLongIdentifier;\nvar bar = 'this is a very long string';",
+      code: 'var foo = veryLongIdentifier;\nvar bar = \'this is a very long string\';',
       options: [29, { ignoreStrings: false, ignoreTemplateLiterals: true }],
       errors: [
         {
@@ -738,7 +738,7 @@ ruleTester.run('max-len', rule, {
       ],
     },
     {
-      code: "var foo = veryLongIdentifier;\nvar bar = new RegExp('this is a very very long pattern');",
+      code: 'var foo = veryLongIdentifier;\nvar bar = new RegExp(\'this is a very very long pattern\');',
       options: [29, { ignoreStrings: false, ignoreRegExpLiterals: true }],
       errors: [
         {
@@ -827,7 +827,7 @@ ruleTester.run('max-len', rule, {
 
     // Multi-code-point unicode glyphs
     {
-      code: "'🙁😁😟☹️😣😖😩😱👎'",
+      code: '\'🙁😁😟☹️😣😖😩😱👎\'',
       options: [10],
       errors: [
         {

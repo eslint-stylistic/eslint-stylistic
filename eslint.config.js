@@ -13,8 +13,8 @@ export default antfu(
     rules: {
       'no-void': 'off',
       'no-template-curly-in-string': 'off',
-      'no-mixed-operators': 'off',
-      'max-statements-per-line': 'off',
+      'style/no-mixed-operators': 'off',
+      'style/max-statements-per-line': 'off',
       'no-cond-assign': 'off',
 
       'eslint-comments/no-unused-enable': 'off',
@@ -23,6 +23,8 @@ export default antfu(
       'jsdoc/no-types': 'off',
       'unicorn/prefer-number-properties': 'off',
 
+      'style/multiline-ternary': 'off',
+
       'ts/no-require-import': 'off',
       'ts/no-var-requires': 'off',
       'ts/no-require-imports': 'off',
@@ -30,10 +32,11 @@ export default antfu(
   },
   {
     files: [
-      '**/*.test.js',
+      '**/*.test.{js,ts}',
     ],
     rules: {
       'antfu/consistent-list-newline': 'off',
+      'node/prefer-global/process': 'off',
     },
   },
 )

@@ -18,11 +18,11 @@ const astUtils = require('../../utils/ast-utils')
 const QUOTE_SETTINGS = {
   double: {
     quote: '"',
-    alternateQuote: "'",
+    alternateQuote: '\'',
     description: 'doublequote',
   },
   single: {
-    quote: "'",
+    quote: '\'',
     alternateQuote: '"',
     description: 'singlequote',
   },

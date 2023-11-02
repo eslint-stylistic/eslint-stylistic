@@ -40,7 +40,7 @@ module.exports = {
     fixable: 'whitespace',
 
     messages: {
-      propertiesOnNewlineAll: "Object properties must go on a new line if they aren't all on the same line.",
+      propertiesOnNewlineAll: 'Object properties must go on a new line if they aren\'t all on the same line.',
       propertiesOnNewline: 'Object properties must go on a new line.',
     },
   },

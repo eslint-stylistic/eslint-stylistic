@@ -1,7 +1,10 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import type { InferMessageIdsTypeFromRule, InferOptionsTypeFromRule } from '../../util'
+import type {
+  InferMessageIdsTypeFromRule,
+  InferOptionsTypeFromRule,
+} from '../../util'
 import { createRule, isCommaToken } from '../../util'
 import { getESLintCoreRule } from '../../util/getESLintCoreRule'
 
@@ -100,7 +103,7 @@ export default createRule<Options, MessageIds>({
       'only-multiline': allowCommaIfMultiline,
       'never': forbidComma,
       // https://github.com/typescript-eslint/typescript-eslint/issues/7220
-      // eslint-disable-next-line ts/explicit-function-return-type, ts/no-empty-function
+
       'ignore': () => {},
     }
 

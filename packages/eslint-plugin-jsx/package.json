@@ -1,0 +1,57 @@
+{
+  "name": "@stylistic/eslint-plugin-jsx",
+  "version": "1.0.0",
+  "author": "Anthony Fu <anthonyfu117@hotmail.com>",
+  "license": "MIT",
+  "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
+  "repository": {
+    "directory": "packages/eslint-plugin-jsx",
+    "type": "git",
+    "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git"
+  },
+  "bugs": {
+    "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
+  },
+  "exports": {
+    ".": {
+      "types": "./dts/index.d.ts",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./define-config-support": {
+      "types": "./dts/define-config-support.d.ts"
+    },
+    "./rule-options": {
+      "types": "./dts/rule-options.d.ts"
+    }
+  },
+  "main": "./dist/index.js",
+  "types": "./dts/index.d.ts",
+  "files": [
+    "dist",
+    "dts",
+    "rules/**/*.d.ts"
+  ],
+  "scripts": {
+    "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",
+    "dev": "rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild --watch",
+    "prepublishOnly": "pnpm build"
+  },
+  "dependencies": {
+    "@stylistic/eslint-plugin-js": "workspace:^",
+    "estraverse": "^5.3.0",
+    "jsx-ast-utils": "^3.3.5"
+  },
+  "devDependencies": {
+    "@babel/eslint-parser": "^7.22.15",
+    "@babel/plugin-syntax-decorators": "^7.22.10",
+    "@babel/plugin-syntax-do-expressions": "^7.22.5",
+    "@babel/plugin-syntax-function-bind": "^7.22.5",
+    "@babel/preset-react": "^7.22.15",
+    "@typescript-eslint/parser": "^6.8.0",
+    "babel-eslint": "^10.1.0",
+    "eslint": "^8.52.0",
+    "semver": "^7.5.4",
+    "typescript-eslint-parser": "^22.0.0"
+  }
+}

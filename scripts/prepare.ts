@@ -28,15 +28,17 @@ async function run() {
 
   const packageJs = packages.find(i => i.shortId === 'js')!
   const packageTs = packages.find(i => i.shortId === 'ts')!
+  const packageJsx = packages.find(i => i.shortId === 'jsx')!
   const packageGeneral = packages.find(i => i.name === '@stylistic/eslint-plugin')!
 
   // merge rules
   packageGeneral.rules = [...new Set([
     ...packageJs.rules.map(i => i.name),
     ...packageTs.rules.map(i => i.name),
+    ...packageJsx.rules.map(i => i.name),
   ])]
     .map((name) => {
-      const rule = packageTs.rules.find(i => i.name === name) || packageJs.rules.find(i => i.name === name)!
+      const rule = packageJs.rules.find(i => i.name === name)! || packageTs.rules.find(i => i.name === name)! || packageJsx.rules.find(i => i.name === name)!
       return {
         ...rule,
         ruleId: `@stylistic/${name}`,
@@ -89,7 +91,9 @@ async function readPackage(path: string): Promise<PackageInfo> {
           ? name
           : shortId === 'ts'
             ? `@typescript-eslint/${name}`
-            : '',
+            : shortId === 'jsx'
+              ? `react/${name}`
+              : '',
         entry: relative(cwd, entry).replace(/\\/g, '/'),
         // TODO: check if entry exists
         docsEntry: relative(cwd, resolve(path, ruleDir, 'README.md')).replace(/\\/g, '/'),
@@ -109,7 +113,7 @@ async function readPackage(path: string): Promise<PackageInfo> {
     name: pkgJSON.name,
     shortId,
     pkgId,
-    path,
+    path: relative(cwd, path),
     rules,
   }
 }
@@ -122,7 +126,7 @@ async function writeRulesIndex(pkg: PackageInfo) {
 
   await fs.mkdir(ruleDir, { recursive: true })
 
-  if (pkg.shortId === 'js') {
+  if (pkg.shortId === 'js' || pkg.shortId === 'jsx') {
     const index = `module.exports = {\n${pkg.rules.map(i => `  '${i.name}': require('./${relative(ruleDir, i.entry).replace(/\\/g, '/')}'),`).join('\n')}\n}\n`
     await fs.writeFile(join(ruleDir, 'index.js'), index, 'utf-8')
   }

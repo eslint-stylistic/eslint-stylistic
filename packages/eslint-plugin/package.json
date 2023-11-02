@@ -1,20 +1,35 @@
 {
   "name": "@stylistic/eslint-plugin",
-  "version": "0.0.6",
+  "version": "1.0.0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
   "repository": {
+    "directory": "packages/eslint-plugin",
     "type": "git",
-    "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git",
-    "directory": "packages/eslint-plugin"
+    "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git"
   },
   "bugs": {
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
   },
+  "exports": {
+    ".": {
+      "types": "./dts/index.d.ts",
+      "require": "./dist/index.js",
+      "default": "./dist/index.js"
+    },
+    "./define-config-support": {
+      "types": "./dts/define-config-support.d.ts"
+    },
+    "./rule-options": {
+      "types": "./dts/rule-options.d.ts"
+    }
+  },
   "main": "./dist/index.js",
+  "types": "./dts/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "dts"
   ],
   "scripts": {
     "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",
@@ -26,6 +41,7 @@
   },
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:*",
+    "@stylistic/eslint-plugin-jsx": "workspace:*",
     "@stylistic/eslint-plugin-ts": "workspace:*"
   }
 }

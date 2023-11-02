@@ -2,9 +2,6 @@
 description: 'Require a specific member delimiter style for interfaces and type literals.'
 ---
 
-> 🛑 This file is source code, not the primary documentation location! 🛑
->
-> See **https://typescript-eslint.io/rules/member-delimiter-style** for documentation.
 
 TypeScript allows three delimiters between members in interfaces and type aliases:
 

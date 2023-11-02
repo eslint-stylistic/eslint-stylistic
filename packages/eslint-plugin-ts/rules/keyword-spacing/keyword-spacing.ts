@@ -2,7 +2,10 @@ import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import type { JSONSchema4 } from '@typescript-eslint/utils/json-schema'
 
-import type { InferMessageIdsTypeFromRule, InferOptionsTypeFromRule } from '../../util'
+import type {
+  InferMessageIdsTypeFromRule,
+  InferOptionsTypeFromRule,
+} from '../../util'
 import { NullThrowsReasons, createRule, deepMerge, nullThrows } from '../../util'
 import { getESLintCoreRule } from '../../util/getESLintCoreRule'
 
@@ -11,18 +14,17 @@ const baseRule = getESLintCoreRule('keyword-spacing')
 export type Options = InferOptionsTypeFromRule<typeof baseRule>
 export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
 
-// eslint-disable-next-line ts/no-unsafe-assignment
 const baseSchema = Array.isArray(baseRule.meta.schema)
   ? baseRule.meta.schema[0]
   : baseRule.meta.schema
 const schema = deepMerge(
-  // eslint-disable-next-line ts/no-unsafe-argument -- https://github.com/microsoft/TypeScript/issues/17002
+
   baseSchema,
   {
     properties: {
       overrides: {
         properties: {
-          // eslint-disable-next-line ts/no-unsafe-assignment, ts/no-unsafe-member-access
+
           type: baseSchema.properties.overrides.properties.import,
         },
       },

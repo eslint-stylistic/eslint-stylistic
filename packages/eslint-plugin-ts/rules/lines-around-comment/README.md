@@ -2,11 +2,8 @@
 description: 'Require empty lines around comments.'
 ---
 
-> 🛑 This file is source code, not the primary documentation location! 🛑
->
-> See **https://typescript-eslint.io/rules/lines-around-comment** for documentation.
 
-This rule extends the base [`eslint/lines-around-comment`](https://eslint.org/docs/rules/lines-around-comment) rule.
+This rule extends the base [`lines-around-comment`](/rules/js/lines-around-comment) rule.
 It adds support for TypeScript syntax.
 
 See the [ESLint documentation](https://eslint.org/docs/rules/lines-around-comment) for more details on the `lines-around-comment` rule.

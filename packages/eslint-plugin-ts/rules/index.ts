@@ -9,6 +9,8 @@ import keywordSpacing from './keyword-spacing/keyword-spacing'
 import linesAroundComment from './lines-around-comment/lines-around-comment'
 import linesBetweenClassMembers from './lines-between-class-members/lines-between-class-members'
 import memberDelimiterStyle from './member-delimiter-style/member-delimiter-style'
+import noExtraParens from './no-extra-parens/no-extra-parens'
+import noExtraSemi from './no-extra-semi/no-extra-semi'
 import objectCurlySpacing from './object-curly-spacing/object-curly-spacing'
 import paddingLineBetweenStatements from './padding-line-between-statements/padding-line-between-statements'
 import quotes from './quotes/quotes'
@@ -30,6 +32,8 @@ export default {
   'lines-around-comment': linesAroundComment,
   'lines-between-class-members': linesBetweenClassMembers,
   'member-delimiter-style': memberDelimiterStyle,
+  'no-extra-parens': noExtraParens,
+  'no-extra-semi': noExtraSemi,
   'object-curly-spacing': objectCurlySpacing,
   'padding-line-between-statements': paddingLineBetweenStatements,
   'quotes': quotes,

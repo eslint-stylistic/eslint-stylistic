@@ -4,14 +4,21 @@ ESLint Stylistic is a collection of stylistic rules for ESLint, migrated from `e
 
 ## Packages
 
+ESLint Stylistic is migrated from 3 different sources packages:
+
+- `eslint` -> [`@stylistic/eslint-plugin-js`](/packages/js)
+  - Built-in stylistic rules for JavaScript
+- `@typescript-eslint/eslint-plugin` -> [`@stylistic/eslint-plugin-ts`](/packages/ts)
+  - Stylistic rules for TypeScript
+- `eslint-plugin-react` -> [`@stylistic/eslint-plugin-jsx`](/packages/jsx)
+  - Stylistic rules for framework-agnostic JSX
+
+We also provide an unified plugin [`@stylistic/eslint-plugin`](/packages/default) that merges rules from all 3 plugins.
+
 ::: tip
-Before you start, check the [project progress](/contribute/project-progress) first to see the current status and understand potential breaking changes to migrate.
+Check the [project progress](/contribute/project-progress) first to learn more about the current status of this project.
 :::
 
-Currently provides two packages for JavaScript and TypeScript:
+## Migration
 
-- [`@stylistic/eslint-plugin`](/packages/default) - Stylistic rules works for both JavaScript and TypeScript **(recommended)**
-- [`@stylistic/eslint-plugin-js`](/packages/js) - JavaScript stylistic rules ported from `eslint` core
-- [`@stylistic/eslint-plugin-ts`](/packages/ts) - TypeScript stylistic rules ported from `@typescript-eslint`
-
-Check their documentation for more details.
+Please refer to the [migration guide](/guide/migration) for more details.
