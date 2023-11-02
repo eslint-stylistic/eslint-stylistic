@@ -118,13 +118,13 @@ importers:
         version: 3.0.0
       unocss:
         specifier: ^0.56.5
-        version: 0.56.5(postcss@8.4.27)(rollup@3.29.4)(vite@4.5.0)
+        version: 0.56.5(postcss@8.4.31)(rollup@3.29.4)(vite@4.5.0)
       unplugin-vue-components:
         specifier: ^0.25.2
         version: 0.25.2(rollup@3.29.4)(vue@3.3.6)
       vitepress:
-        specifier: 1.0.0-rc.23
-        version: 1.0.0-rc.23(@algolia/client-search@4.19.1)(@types/node@20.8.7)(change-case@5.1.2)(postcss@8.4.27)(search-insights@2.8.2)(typescript@5.2.2)
+        specifier: 1.0.0-rc.24
+        version: 1.0.0-rc.24(@algolia/client-search@4.19.1)(@types/node@20.8.7)(change-case@5.1.2)(postcss@8.4.31)(search-insights@2.8.2)(typescript@5.2.2)
       vue:
         specifier: ^3.3.6
         version: 3.3.6(typescript@5.2.2)
@@ -305,6 +305,9 @@ packages:
     peerDependencies:
       '@algolia/client-search': '>= 4.9.1 < 6'
       algoliasearch: '>= 4.9.1 < 6'
+    peerDependenciesMeta:
+      '@algolia/client-search':
+        optional: true
     dependencies:
       '@algolia/client-search': 4.19.1
       algoliasearch: 4.19.1
@@ -2304,7 +2307,7 @@ packages:
       sirv: 2.0.3
     dev: true
 
-  /@unocss/postcss@0.56.5(postcss@8.4.27):
+  /@unocss/postcss@0.56.5(postcss@8.4.31):
     resolution: {integrity: sha512-oDY1vCdrCQZx/oxDkq3z77a0RoO+WVQT090oDZzLFO/cPWH3elSOHwnoJU/KzrpJLbUFpyTQKZ/k3VbBaEdGTA==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -2316,7 +2319,7 @@ packages:
       css-tree: 2.3.1
       fast-glob: 3.3.1
       magic-string: 0.30.3
-      postcss: 8.4.27
+      postcss: 8.4.31
     dev: true
 
   /@unocss/preset-attributify@0.56.5:
@@ -2445,6 +2448,17 @@ packages:
       vite: 4.5.0(@types/node@20.8.7)
     transitivePeerDependencies:
       - rollup
+    dev: true
+
+  /@vitejs/plugin-vue@4.3.1(vite@4.5.0)(vue@3.3.6):
+    resolution: {integrity: sha512-tUBEtWcF7wFtII7ayNiLNDTCE1X1afySEo+XNVMNkFXaThENyCowIEX095QqbJZGTgoOcSVDJGlnde2NG4jtbQ==}
+    engines: {node: ^14.18.0 || >=16.0.0}
+    peerDependencies:
+      vite: ^4.0.0
+      vue: ^3.2.25
+    dependencies:
+      vite: 4.5.0(@types/node@20.8.7)
+      vue: 3.3.6(typescript@5.2.2)
     dev: true
 
   /@vitest/expect@0.34.6:
@@ -5367,15 +5381,6 @@ packages:
       util-deprecate: 1.0.2
     dev: true
 
-  /postcss@8.4.27:
-    resolution: {integrity: sha512-gY/ACJtJPSmUFPDCHtX78+01fHa64FaU4zaaWfuh1MhGJISufJAH4cun6k/8fwsHYeK4UQmENQK+tRLCFJE8JQ==}
-    engines: {node: ^10 || ^12 || >=14}
-    dependencies:
-      nanoid: 3.3.6
-      picocolors: 1.0.0
-      source-map-js: 1.0.2
-    dev: true
-
   /postcss@8.4.31:
     resolution: {integrity: sha512-PS08Iboia9mts/2ygV3eLpY5ghnUcfLV/EXTOW1E2qYxJKGGBUtNjN76FYHnMs36RmARn41bC0AZmn+rR0OVpQ==}
     engines: {node: ^10 || ^12 || >=14}
@@ -6150,7 +6155,7 @@ packages:
     engines: {node: '>= 10.0.0'}
     dev: true
 
-  /unocss@0.56.5(postcss@8.4.27)(rollup@3.29.4)(vite@4.5.0):
+  /unocss@0.56.5(postcss@8.4.31)(rollup@3.29.4)(vite@4.5.0):
     resolution: {integrity: sha512-tO+9St4CntSjHpLXZqBo0/etS06MtvFF1NEny/qFJCL9sCopWwmDKuzW6/LIb4wfqZLdMpVFoEACMNv8nP849A==}
     engines: {node: '>=14'}
     peerDependencies:
@@ -6166,7 +6171,7 @@ packages:
       '@unocss/cli': 0.56.5(rollup@3.29.4)
       '@unocss/core': 0.56.5
       '@unocss/extractor-arbitrary-variants': 0.56.5
-      '@unocss/postcss': 0.56.5(postcss@8.4.27)
+      '@unocss/postcss': 0.56.5(postcss@8.4.31)
       '@unocss/preset-attributify': 0.56.5
       '@unocss/preset-icons': 0.56.5
       '@unocss/preset-mini': 0.56.5
@@ -6321,14 +6326,14 @@ packages:
     dependencies:
       '@types/node': 20.8.7
       esbuild: 0.18.17
-      postcss: 8.4.27
+      postcss: 8.4.31
       rollup: 3.29.4
     optionalDependencies:
       fsevents: 2.3.2
     dev: true
 
-  /vitepress@1.0.0-rc.23(@algolia/client-search@4.19.1)(@types/node@20.8.7)(change-case@5.1.2)(postcss@8.4.27)(search-insights@2.8.2)(typescript@5.2.2):
-    resolution: {integrity: sha512-0YoBt8aFgbRt2JtYaCeTqq4W21q5lbGso+g1ZwkYYS35ExJxORssRJunhFuUcby8QeN4BP/88QDgsVSIVLAfXQ==}
+  /vitepress@1.0.0-rc.24(@algolia/client-search@4.19.1)(@types/node@20.8.7)(change-case@5.1.2)(postcss@8.4.31)(search-insights@2.8.2)(typescript@5.2.2):
+    resolution: {integrity: sha512-RpnL8cnOGwiRlBbrYQUm9sYkJbtyOt/wYXk2diTcokY4yvks/5lq9LuSt+MURWB6ZqwpSNHvTmxgaSfLoG0/OA==}
     hasBin: true
     peerDependencies:
       markdown-it-mathjax3: ^4.3.2
@@ -6342,13 +6347,14 @@ packages:
       '@docsearch/css': 3.5.2
       '@docsearch/js': 3.5.2(@algolia/client-search@4.19.1)(search-insights@2.8.2)
       '@types/markdown-it': 13.0.4
+      '@vitejs/plugin-vue': 4.3.1(vite@4.5.0)(vue@3.3.6)
       '@vue/devtools-api': 6.5.1
       '@vueuse/core': 10.5.0(vue@3.3.6)
       '@vueuse/integrations': 10.5.0(change-case@5.1.2)(focus-trap@7.5.4)(vue@3.3.6)
       focus-trap: 7.5.4
       mark.js: 8.11.1
       minisearch: 6.1.0
-      postcss: 8.4.27
+      postcss: 8.4.31
       shiki: 0.14.5
       vite: 4.5.0(@types/node@20.8.7)
       vue: 3.3.6(typescript@5.2.2)

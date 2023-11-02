@@ -21,9 +21,12 @@ hero:
 
 features:
   - title: Fully Customizable
+    icon: 🛠️
     details: Fine-tune the every single rule to fit your needs.
   - title: One-stop
+    icon: 👌
     details: Formatting and Linting in one-go, configure once and auto-fix once.
   - title: JavaScript & TypeScript
+    icon: 📦
     details: Support both JavaScript and TypeScript.
 ---
