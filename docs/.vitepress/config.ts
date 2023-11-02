@@ -176,7 +176,7 @@ export default defineConfig({
 
     footer: {
       message: 'Released under the MIT License.',
-      copyright: 'Copyright OpenJS Foundation and other contributors, www.openjsf.org.<br>Copyright © 2023-PRESENT Anthony Fu and ESLint Stylistic contributors.',
+      copyright: 'Copyright OpenJS Foundation and other contributors, www.openjsf.org.<br>Copyright © 2023-PRESENT ESLint Stylistic contributors.',
     },
   },
 
