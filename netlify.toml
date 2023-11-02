@@ -11,9 +11,3 @@
   to = "https://discord.gg/Xta6huNhVv"
   status = 302
   force = true
-
-[[redirects]]
-  from = "/*"
-  to = "/index.html"
-  status = 200
-
