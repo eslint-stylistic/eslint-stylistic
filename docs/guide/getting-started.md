@@ -15,10 +15,10 @@ ESLint Stylistic is migrated from 3 different sources packages:
 
 We also provide an unified plugin [`@stylistic/eslint-plugin`](/packages/default) that merges rules from all 3 plugins.
 
-## Migration
-
 ::: tip
-Before you start, check the [project progress](/contribute/project-progress) first to see the current status and understand potential breaking changes to migrate.
+Check the [project progress](/contribute/project-progress) first to learn more about the current status of this project.
 :::
+
+## Migration
 
 Please refer to the [migration guide](/guide/migration) for more details.

@@ -1,9 +1,5 @@
 # Migration
 
-::: tip
-Before you start migrating, check the [project progress](/contribute/project-progress) first to see the current status and understand potential breaking changes.
-:::
-
 ## When Should I Migrate?
 
 For production projects, we would recommend waiting a bit longer, until ESLint officially announces the deprecation list.
@@ -12,13 +8,13 @@ At the current stage, the packages are already useable. We are more then happy t
 
 The benefits of migrating:
 
+- Future-proof, the rules in core will no longer be updated and might be removed at some point. The maintenance work will be shifted to here.
 - Clear scope of rules, you can see more clearly what rules are related to code style by the prefix `@stylistic/`
 - Better IDE experience, you can config your IDE to [hide the error messages for code style rules](/guide/faq#the-error-messages-squiggly-lines-for-code-style-are-annoying) with scoping and does require to list manually.
-- Future proof, the rules in core will no longer be updated and might be removed at some point. The maintenance work will be shifted to here.
 
-The downside of migrating **now**:
-
-- We are still waiting for ESLint and `typescript-eslint` teams to announce the official deprecation list. We suggest pinning the dependency version to avoid unexpected breakage.
+::: tip
+Check the [project progress](/contribute/project-progress) first to learn more about the current status of this project.
+:::
 
 ## Manual Migrate
 

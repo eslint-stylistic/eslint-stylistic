@@ -17,23 +17,18 @@ Setup migration scripts, docs, tools, etc.
 
 ESLint has [announced the deprecation list](https://eslint.org/blog/2023/10/deprecating-formatting-rules/), and we have migrated all the rules included in the list.
 
-## 👉 3. Maintenance
+## ✅ 3. Drop-in Release
 
-Releases, bugfixes, and might introduce new rules based on community feedback.
+The release of v1.0.0 serve as the 1:1 drop-in replacement of the deprecated rules.
 
 - The effort of maintaining those formatting/stylistic rules will be shift from ESLint/`typescript-eslint` teams to this repo. We can start to consider improvements and changes to the rules.
 - Collaborate with ESLint/`typescript-eslint` teams to redirect users in their docs to migrate to this project for formatting rules.
 
-We aim to release v1.0 soon as the 1:1 drop-in replacement.
+## 👉 4. Maintenance & Refactors
 
-Things to do:
+[👋 **We need your help**! Join our Discord server and let us know if you are interested in contributing.](https://eslint.style/chat)
 
-- Verify if migrated rules work well with various of projects
-- Clean up and unify the docs
-- Find more maintainers
-- Release v1.0
-
-## 4. Refactors
+Bugfixes, beleases, and might introduce new rules based on community feedback.
 
 - Rewrite JS and JSX rules in TypeScript for better long-term maintenance.
 - Fuse JS/TS/JSX rules into a single package, and merge their docs. After this, separate packages for JS/TS/JSX will be deprecated.
