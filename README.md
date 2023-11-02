@@ -23,4 +23,7 @@ This project was initiated as ESLint and `typescript-eslint` teams [decided to d
 
 ## License
 
-[MIT](./LICENSE)
+[MIT](./LICENSE) License
+
+&copy; OpenJS Foundation and other contributors, <www.openjsf.org><br>
+&copy; 2023-PRESENT [Anthony Fu](https://github.com/antfu) and ESLint Stylistic contributors
