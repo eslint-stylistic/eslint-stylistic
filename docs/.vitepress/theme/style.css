@@ -8,7 +8,7 @@
  *
  * Each colors have exact same color scale system with 3 levels of solid
  * colors with different brightness, and 1 soft color.
- * 
+ *
  * - `XXX-1`: The most solid color used mainly for colored text. It must
  *   satisfy the contrast ratio against when used on top of `XXX-soft`.
  *
@@ -45,9 +45,10 @@
 
 
 :root {
-  --vp-c-teal-1: #34b2ae;
-  --vp-c-teal-2: #3aafcc;
-  --vp-c-teal-3: #56b5cd;
+  --vp-c-teal-1: #287f94;
+  --vp-c-teal-2: #1e6b80;
+  --vp-c-teal-3: #459db2;
+
   --vp-c-teal-soft: rgba(100, 237, 255, 0.14);
 }
 
@@ -58,7 +59,7 @@
   --vp-c-teal-soft: rgba(100, 229, 255, 0.16);
 }
 
- :root {
+:root {
   --vp-c-default-1: var(--vp-c-gray-1);
   --vp-c-default-2: var(--vp-c-gray-2);
   --vp-c-default-3: var(--vp-c-gray-3);
@@ -85,6 +86,19 @@
   --vp-c-danger-soft: var(--vp-c-red-soft);
 }
 
+:root {
+  -vp-c-text-1: rgba(42, 40, 47);
+  -vp-c-text-2: rgba(42, 40, 47, 0.78);
+  -vp-c-text-3: rgba(42, 40, 47, 0.56);
+  --black-text-1: rgba(42, 40, 47);
+}
+
+.dark {
+  --vp-c-text-1: rgba(255, 255, 245, 0.86);
+  --vp-c-text-2: rgba(235, 235, 245, 0.6);
+  --vp-c-text-3: rgba(235, 235, 245, 0.38);
+}
+
 /**
  * Component: Button
  * -------------------------------------------------------------------------- */
@@ -92,13 +106,22 @@
 :root {
   --vp-button-brand-border: transparent;
   --vp-button-brand-text: var(--vp-c-white);
-  --vp-button-brand-bg: var(--vp-c-brand-3);
+  --vp-button-brand-bg: var(--vp-c-brand-1);
   --vp-button-brand-hover-border: transparent;
   --vp-button-brand-hover-text: var(--vp-c-white);
   --vp-button-brand-hover-bg: var(--vp-c-brand-2);
   --vp-button-brand-active-border: transparent;
   --vp-button-brand-active-text: var(--vp-c-white);
   --vp-button-brand-active-bg: var(--vp-c-brand-1);
+}
+
+.dark {
+  --vp-button-brand-text: var(--black-text-1);
+  --vp-button-brand-bg: var(--vp-c-brand-2);
+  --vp-button-brand-hover-text: var(--black-text-1);
+  --vp-button-brand-hover-bg: var(--vp-c-brand-1);
+  --vp-button-brand-active-text: var(--black-text-1);
+  --vp-button-brand-active-bg: var(--vp-c-brand-3);
 }
 
 /**
@@ -151,4 +174,3 @@
 .DocSearch {
   --docsearch-primary-color: var(--vp-c-brand-1) !important;
 }
-
