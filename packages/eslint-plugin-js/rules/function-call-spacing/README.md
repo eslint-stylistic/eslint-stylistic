@@ -1,11 +1,11 @@
 ---
-title: func-call-spacing
+title: function-call-spacing
 rule_type: layout
 related_rules:
 - no-spaced-func
 ---
 
-
+> This rule is renamed from `func-call-spacing`
 
 When calling a function, developers may insert optional whitespace between the function's name and the parentheses that invoke it. The following pairs of function calls are equivalent:
 
@@ -40,7 +40,7 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 ::: incorrect
 
 ```js
-/*eslint func-call-spacing: ["error", "never"]*/
+/*eslint function-call-spacing: ["error", "never"]*/
 
 fn ();
 
@@ -55,7 +55,7 @@ Examples of **correct** code for this rule with the default `"never"` option:
 ::: correct
 
 ```js
-/*eslint func-call-spacing: ["error", "never"]*/
+/*eslint function-call-spacing: ["error", "never"]*/
 
 fn();
 ```
@@ -69,7 +69,7 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ::: incorrect
 
 ```js
-/*eslint func-call-spacing: ["error", "always"]*/
+/*eslint function-call-spacing: ["error", "always"]*/
 
 fn();
 
@@ -84,7 +84,7 @@ Examples of **correct** code for this rule with the `"always"` option:
 ::: correct
 
 ```js
-/*eslint func-call-spacing: ["error", "always"]*/
+/*eslint function-call-spacing: ["error", "always"]*/
 
 fn ();
 ```
@@ -100,7 +100,7 @@ Examples of **incorrect** code for this rule with `allowNewlines` option enabled
 ::: incorrect
 
 ```js
-/*eslint func-call-spacing: ["error", "always", { "allowNewlines": true }]*/
+/*eslint function-call-spacing: ["error", "always", { "allowNewlines": true }]*/
 
 fn();
 ```
@@ -112,7 +112,7 @@ Examples of **correct** code for this rule with the `allowNewlines` option enabl
 ::: correct
 
 ```js
-/*eslint func-call-spacing: ["error", "always", { "allowNewlines": true }]*/
+/*eslint function-call-spacing: ["error", "always", { "allowNewlines": true }]*/
 
 fn (); // Newlines are never required.
 

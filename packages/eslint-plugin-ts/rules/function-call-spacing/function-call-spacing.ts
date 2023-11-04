@@ -20,7 +20,7 @@ export type MessageIds =
   | 'unexpectedWhitespace'
 
 export default createRule<Options, MessageIds>({
-  name: 'func-call-spacing',
+  name: 'function-call-spacing',
   meta: {
     type: 'layout',
     docs: {

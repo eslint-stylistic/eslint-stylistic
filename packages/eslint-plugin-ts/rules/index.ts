@@ -2,7 +2,7 @@ import blockSpacing from './block-spacing/block-spacing'
 import braceStyle from './brace-style/brace-style'
 import commaDangle from './comma-dangle/comma-dangle'
 import commaSpacing from './comma-spacing/comma-spacing'
-import funcCallSpacing from './func-call-spacing/func-call-spacing'
+import functionCallSpacing from './function-call-spacing/function-call-spacing'
 import indent from './indent/indent'
 import keySpacing from './key-spacing/key-spacing'
 import keywordSpacing from './keyword-spacing/keyword-spacing'
@@ -25,7 +25,7 @@ export default {
   'brace-style': braceStyle,
   'comma-dangle': commaDangle,
   'comma-spacing': commaSpacing,
-  'func-call-spacing': funcCallSpacing,
+  'function-call-spacing': functionCallSpacing,
   'indent': indent,
   'key-spacing': keySpacing,
   'keyword-spacing': keywordSpacing,

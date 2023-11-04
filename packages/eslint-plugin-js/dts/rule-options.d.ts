@@ -11,7 +11,7 @@ import type { RuleOptions as CommaStyleRuleOptions } from '../rules/comma-style/
 import type { RuleOptions as ComputedPropertySpacingRuleOptions } from '../rules/computed-property-spacing/types'
 import type { RuleOptions as DotLocationRuleOptions } from '../rules/dot-location/types'
 import type { RuleOptions as EolLastRuleOptions } from '../rules/eol-last/types'
-import type { RuleOptions as FuncCallSpacingRuleOptions } from '../rules/func-call-spacing/types'
+import type { RuleOptions as FunctionCallSpacingRuleOptions } from '../rules/function-call-spacing/types'
 import type { RuleOptions as FunctionCallArgumentNewlineRuleOptions } from '../rules/function-call-argument-newline/types'
 import type { RuleOptions as FunctionParenNewlineRuleOptions } from '../rules/function-paren-newline/types'
 import type { RuleOptions as GeneratorStarSpacingRuleOptions } from '../rules/generator-star-spacing/types'
@@ -80,7 +80,7 @@ export interface RuleOptions {
   '@stylistic/js/computed-property-spacing': ComputedPropertySpacingRuleOptions
   '@stylistic/js/dot-location': DotLocationRuleOptions
   '@stylistic/js/eol-last': EolLastRuleOptions
-  '@stylistic/js/func-call-spacing': FuncCallSpacingRuleOptions
+  '@stylistic/js/function-call-spacing': FunctionCallSpacingRuleOptions
   '@stylistic/js/function-call-argument-newline': FunctionCallArgumentNewlineRuleOptions
   '@stylistic/js/function-paren-newline': FunctionParenNewlineRuleOptions
   '@stylistic/js/generator-star-spacing': GeneratorStarSpacingRuleOptions
@@ -150,7 +150,7 @@ export interface UnprefixedRuleOptions {
   'computed-property-spacing': ComputedPropertySpacingRuleOptions
   'dot-location': DotLocationRuleOptions
   'eol-last': EolLastRuleOptions
-  'func-call-spacing': FuncCallSpacingRuleOptions
+  'function-call-spacing': FunctionCallSpacingRuleOptions
   'function-call-argument-newline': FunctionCallArgumentNewlineRuleOptions
   'function-paren-newline': FunctionParenNewlineRuleOptions
   'generator-star-spacing': GeneratorStarSpacingRuleOptions

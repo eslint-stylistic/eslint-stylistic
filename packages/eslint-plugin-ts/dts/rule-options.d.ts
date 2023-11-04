@@ -2,7 +2,7 @@ import type { RuleOptions as BlockSpacingRuleOptions } from '../rules/block-spac
 import type { RuleOptions as BraceStyleRuleOptions } from '../rules/brace-style/types'
 import type { RuleOptions as CommaDangleRuleOptions } from '../rules/comma-dangle/types'
 import type { RuleOptions as CommaSpacingRuleOptions } from '../rules/comma-spacing/types'
-import type { RuleOptions as FuncCallSpacingRuleOptions } from '../rules/func-call-spacing/types'
+import type { RuleOptions as FunctionCallSpacingRuleOptions } from '../rules/function-call-spacing/types'
 import type { RuleOptions as IndentRuleOptions } from '../rules/indent/types'
 import type { RuleOptions as KeySpacingRuleOptions } from '../rules/key-spacing/types'
 import type { RuleOptions as KeywordSpacingRuleOptions } from '../rules/keyword-spacing/types'
@@ -25,7 +25,7 @@ export interface RuleOptions {
   '@stylistic/ts/brace-style': BraceStyleRuleOptions
   '@stylistic/ts/comma-dangle': CommaDangleRuleOptions
   '@stylistic/ts/comma-spacing': CommaSpacingRuleOptions
-  '@stylistic/ts/func-call-spacing': FuncCallSpacingRuleOptions
+  '@stylistic/ts/function-call-spacing': FunctionCallSpacingRuleOptions
   '@stylistic/ts/indent': IndentRuleOptions
   '@stylistic/ts/key-spacing': KeySpacingRuleOptions
   '@stylistic/ts/keyword-spacing': KeywordSpacingRuleOptions
@@ -49,7 +49,7 @@ export interface UnprefixedRuleOptions {
   'brace-style': BraceStyleRuleOptions
   'comma-dangle': CommaDangleRuleOptions
   'comma-spacing': CommaSpacingRuleOptions
-  'func-call-spacing': FuncCallSpacingRuleOptions
+  'function-call-spacing': FunctionCallSpacingRuleOptions
   'indent': IndentRuleOptions
   'key-spacing': KeySpacingRuleOptions
   'keyword-spacing': KeywordSpacingRuleOptions

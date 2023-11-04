@@ -206,7 +206,7 @@ let obj1 = {
     foo:function() {}
 };
 
-// Avoid conflict with `func-call-spacing`
+// Avoid conflict with `function-call-spacing`
 class A extends B {
     constructor() {
         super();

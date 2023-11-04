@@ -1,5 +1,5 @@
 /**
- * @fileoverview Tests for func-call-spacing rule.
+ * @fileoverview Tests for function-call-spacing rule.
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
@@ -10,7 +10,7 @@
 // ------------------------------------------------------------------------------
 
 const { RuleTester } = require('eslint')
-const rule = require('./func-call-spacing')
+const rule = require('./function-call-spacing')
 
 // ------------------------------------------------------------------------------
 // Tests
@@ -18,7 +18,7 @@ const rule = require('./func-call-spacing')
 
 const ruleTester = new RuleTester()
 
-ruleTester.run('func-call-spacing', rule, {
+ruleTester.run('function-call-spacing', rule, {
   valid: [
 
     // default ("never")

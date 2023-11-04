@@ -4,14 +4,14 @@
 import { RuleTester } from '@typescript-eslint/rule-tester'
 import type { TSESLint } from '@typescript-eslint/utils'
 
-import type { MessageIds, Options } from './func-call-spacing'
-import rule from './func-call-spacing'
+import type { MessageIds, Options } from './function-call-spacing'
+import rule from './function-call-spacing'
 
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 })
 
-ruleTester.run('func-call-spacing', rule, {
+ruleTester.run('function-call-spacing', rule, {
   valid: [
     ...[
       'f();',
