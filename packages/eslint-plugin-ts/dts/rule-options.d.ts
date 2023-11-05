@@ -106,13 +106,14 @@ export interface RuleOptions {
    */
   '@stylistic/ts/object-curly-spacing': ObjectCurlySpacingRuleOptions
   /**
-   * This rule extends the base
+   * This rule extends the base {@link https://eslint.style/rules/js/padding-line-between-statements padding-line-between-statements} rule.
+   * It adds support for TypeScript constructs such as interface and type.
    * @see {@link https://eslint.style/rules/ts/padding-line-between-statements}
    */
   '@stylistic/ts/padding-line-between-statements': PaddingLineBetweenStatementsRuleOptions
   /**
-   * This rule extends the base {@link https://eslint.style/rules/js/padding-line-between-statements padding-line-between-statements} rule.
-   * It adds support for TypeScript constructs such as interface and type.
+   * This rule extends the base {@link https://eslint.style/rules/js/quotes quotes} rule.
+   * It adds support for TypeScript features which allow quoted names, but not backtick quoted names.
    * @see {@link https://eslint.style/rules/ts/quotes}
    */
   '@stylistic/ts/quotes': QuotesRuleOptions
