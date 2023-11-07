@@ -182,10 +182,12 @@ function isReturningOnlyNull(ASTnode, context) {
 }
 
 /**
+ * Returns the name of the prop given the JSXAttribute object.
+ *
  * Ported from `jsx-ast-utils/propName` to reduce bundle size
+ * @see https://github.com/jsx-eslint/jsx-ast-utils/blob/main/src/propName.js
  */
-function getPropName(...args) {
-  const prop = args.length > 0 && args[0] !== undefined ? args[0] : {}
+function getPropName(prop = {}) {
   if (!prop.type || prop.type !== 'JSXAttribute')
     throw new Error('The prop must be a JSXAttribute collected by the AST parser.')
   if (prop.name.type === 'JSXNamespacedName')
@@ -193,10 +195,7 @@ function getPropName(...args) {
   return prop.name.name
 }
 
-function resolveMemberExpressions(...args) {
-  const object = args.length > 0 && args[0] !== undefined ? args[0] : {}
-  const property = args.length > 1 && args[1] !== undefined ? args[1] : {}
-
+function resolveMemberExpressions(object = {}, property = {}) {
   if (object.type === 'JSXMemberExpression')
     return `${resolveMemberExpressions(object.object, object.property)}.${property.name}`
 
@@ -205,11 +204,12 @@ function resolveMemberExpressions(...args) {
 
 /**
  * Returns the tagName associated with a JSXElement.
+ *
  * Ported from `jsx-ast-utils/elementType` to reduce bundle size
+ * @see https://github.com/jsx-eslint/jsx-ast-utils/blob/main/src/elementType.js
  */
-function getElementType(...args) {
-  const node = args.length > 0 && args[0] !== undefined ? args[0] : {}
-  const name = node.name
+function getElementType(node = {}) {
+  const { name } = node
 
   if (node.type === 'JSXOpeningFragment')
     return '<>'
@@ -218,11 +218,7 @@ function getElementType(...args) {
     throw new Error('The argument provided is not a JSXElement node.')
 
   if (name.type === 'JSXMemberExpression') {
-    const _name$object = name.object
-    const object = _name$object === undefined ? {} : _name$object
-    const _name$property = name.property
-    const property = _name$property === undefined ? {} : _name$property
-
+    const { object = {}, property = {} } = name
     return resolveMemberExpressions(object, property)
   }
 
