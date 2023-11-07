@@ -126,7 +126,8 @@ export default defineConfig({
       },
     ],
 
-    sidebar: {
+    sidebar: Object.assign(
+      {},
       ...mainPackages.map((pkg) => {
         return {
           [`/rules/${pkg.shortId}/`]: [
@@ -144,21 +145,23 @@ export default defineConfig({
           ],
         }
       }),
-      '/': [
-        {
-          text: 'Guide',
-          items: GUIDES,
-        },
-        {
-          text: 'Contribute',
-          items: CONTRIBUTES,
-        },
-        {
-          text: 'Packages',
-          items: PACKAGES,
-        },
-      ],
-    },
+      {
+        '/': [
+          {
+            text: 'Guide',
+            items: GUIDES,
+          },
+          {
+            text: 'Contribute',
+            items: CONTRIBUTES,
+          },
+          {
+            text: 'Packages',
+            items: PACKAGES,
+          },
+        ],
+      },
+    ),
 
     editLink: {
       // don't add docs/:path, missing tsconfig file
