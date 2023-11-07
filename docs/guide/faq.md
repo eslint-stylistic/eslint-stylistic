@@ -10,13 +10,13 @@ According to [`typescript-eslint`'s definition](https://typescript-eslint.io/lin
 
 ---
 
-- **Logical**: Rules that care about the logic in runtime behavior of code (such as missing awaits or invalid logical checks).
-- **Stylistic**: Rules that care about style concerns which do impact runtime behavior of code, but generally not logic. These are mostly around naming or which roughly-equivalent syntax constructs to use (such as function declarations vs. arrow functions).
-  - **Formatting**: Stylistic rules that care only about trivia (semicolons, whitespace, etc.) without impacting the runtime behavior of the code. These rules conflict with dedicated formatters such as Prettier.
+- **Logical**: Rules that are concerned with the logic and runtime behavior of code (such as missing awaits or invalid logical checks).
+- **Stylistic**: Rules that focus on style concerns which do not generally impact the runtime behavior of code. These are mostly about naming or which roughly equivalent syntax constructs to use (such as function declarations vs. arrow functions).
+  - **Formatting**: A subset of Stylistic rules that are solely concerned with trivia (semicolons, whitespace, etc.) and do not affect the runtime behavior of the code. These rules may conflict with dedicated formatters such as Prettier.
 
 ---
 
-For ESLint Stylistic, our main scope is the **formatting** and **stylistic** rules inherited from `eslint` / `typescript-eslint`. We will maintain some stylistic rules, but not all stylistic rules will be included. It depends whether the upstream projects want to keep them. We are welcoming new rules proposed by the community in the future when we move to the maintenance stage and develop the infrastructure for introducing experimental rules. Track on [Project Progress](/contribute/project-progress) for more details.
+For ESLint Stylistic, our primary focus is on the **formatting** and **stylistic** rules inherited from `eslint` and `typescript-eslint`. We will maintain some stylistic rules; however, not all will be included. Their inclusion depends on whether the upstream projects choose to retain them. We welcome new rules proposed by the community for the future when we move into the maintenance phase and develop the infrastructure to introduce experimental rules. For more details, track the [Project Progress](/contribute/project-progress).
 
 ## How to auto-format on save?
 
