@@ -294,15 +294,21 @@ export type RuleOptions = ${ruleOptionTypeValue}
     const name = basename(rule).replace(/\.\w+$/, '')
     return `import type { RuleOptions as ${pascalCase(name)}RuleOptions } from '../rules/${name}/types'`
   })
+  // For generating jsdoc
+  const docsLink = `https://eslint.style/rules/${prefix.replace('@stylistic/', '')}/`
 
   await fs.writeFile(
     join(targetRoot, 'dts', 'rule-options.d.ts'),
 `${ruleOptionsImports.join('\n')}
 
 export interface RuleOptions {
-  ${rules.map((rule) => {
+  ${rules.flatMap((rule) => {
 const name = basename(rule).replace(/\.\w+$/, '')
-return `'${prefix}/${name}': ${pascalCase(name)}RuleOptions`
+const link = docsLink + name
+return [
+  `/** @see {@link ${link}} */`,
+  `'${prefix}/${name}': ${pascalCase(name)}RuleOptions`,
+]
 }).join('\n    ')}
 }
 
