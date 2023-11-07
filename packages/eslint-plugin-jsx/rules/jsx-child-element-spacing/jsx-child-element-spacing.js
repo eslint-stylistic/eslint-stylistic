@@ -1,5 +1,3 @@
-'use strict'
-
 const docsUrl = require('../../util/docsUrl')
 const report = require('../../util/report')
 
