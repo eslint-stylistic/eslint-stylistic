@@ -5,8 +5,6 @@
 
 'use strict'
 
-const propName = require('jsx-ast-utils/propName')
-
 const includes = (arr, value) => arr.includes(value)
 const toSorted = (arr, compareFn) => [...arr].sort(compareFn)
 
@@ -58,8 +56,8 @@ function shouldSortToEnd(node) {
 }
 
 function contextCompare(a, b, options) {
-  let aProp = propName(a)
-  let bProp = propName(b)
+  let aProp = jsxUtil.getPropName(a)
+  let bProp = jsxUtil.getPropName(b)
 
   const aSortToEnd = shouldSortToEnd(a)
   const bSortToEnd = shouldSortToEnd(b)
@@ -416,8 +414,8 @@ module.exports = {
           if (decl.type === 'JSXSpreadAttribute')
             return attrs[idx + 1]
 
-          let previousPropName = propName(memo)
-          let currentPropName = propName(decl)
+          let previousPropName = jsxUtil.getPropName(memo)
+          let currentPropName = jsxUtil.getPropName(decl)
           const previousValue = memo.value
           const currentValue = decl.value
           const previousIsCallback = isCallbackPropName(previousPropName)

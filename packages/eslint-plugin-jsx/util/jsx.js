@@ -4,8 +4,6 @@
 
 'use strict'
 
-const elementType = require('jsx-ast-utils/elementType')
-
 const astUtil = require('./ast')
 const isCreateElement = require('./isCreateElement')
 const variableUtil = require('./variable')
@@ -20,7 +18,7 @@ const COMPAT_TAG_REGEX = /^[a-z]/
  * @returns {boolean} Whether or not the node corresponds to a DOM element.
  */
 function isDOMComponent(node) {
-  const name = elementType(node)
+  const name = getElementType(node)
   return COMPAT_TAG_REGEX.test(name)
 }
 
@@ -183,6 +181,57 @@ function isReturningOnlyNull(ASTnode, context) {
   return found && !foundSomethingElse
 }
 
+/**
+ * Ported from `jsx-ast-utils/propName` to reduce bundle size
+ */
+function getPropName(...args) {
+  const prop = args.length > 0 && args[0] !== undefined ? args[0] : {}
+  if (!prop.type || prop.type !== 'JSXAttribute')
+    throw new Error('The prop must be a JSXAttribute collected by the AST parser.')
+  if (prop.name.type === 'JSXNamespacedName')
+    return `${prop.name.namespace.name}:${prop.name.name.name}`
+  return prop.name.name
+}
+
+function resolveMemberExpressions(...args) {
+  const object = args.length > 0 && args[0] !== undefined ? args[0] : {}
+  const property = args.length > 1 && args[1] !== undefined ? args[1] : {}
+
+  if (object.type === 'JSXMemberExpression')
+    return `${resolveMemberExpressions(object.object, object.property)}.${property.name}`
+
+  return `${object.name}.${property.name}`
+}
+
+/**
+ * Returns the tagName associated with a JSXElement.
+ * Ported from `jsx-ast-utils/elementType` to reduce bundle size
+ */
+function getElementType(...args) {
+  const node = args.length > 0 && args[0] !== undefined ? args[0] : {}
+  const name = node.name
+
+  if (node.type === 'JSXOpeningFragment')
+    return '<>'
+
+  if (!name)
+    throw new Error('The argument provided is not a JSXElement node.')
+
+  if (name.type === 'JSXMemberExpression') {
+    const _name$object = name.object
+    const object = _name$object === undefined ? {} : _name$object
+    const _name$property = name.property
+    const property = _name$property === undefined ? {} : _name$property
+
+    return resolveMemberExpressions(object, property)
+  }
+
+  if (name.type === 'JSXNamespacedName')
+    return `${name.namespace.name}:${name.name.name}`
+
+  return node.name.name
+}
+
 module.exports = {
   isDOMComponent,
   isFragment,
@@ -191,4 +240,5 @@ module.exports = {
   isWhiteSpaces,
   isReturningJSX,
   isReturningOnlyNull,
+  getPropName,
 }
