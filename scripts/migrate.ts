@@ -18,7 +18,6 @@
 import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { basename, join } from 'node:path'
-import { pascalCase } from 'change-case'
 import fs from 'fs-extra'
 import fg from 'fast-glob'
 import type { JSONSchema4 } from 'json-schema'
@@ -288,46 +287,6 @@ export type RuleOptions = ${ruleOptionTypeValue}
 'utf-8',
     )
   }))
-
-  // Write eslint-define-config support file
-  const ruleOptionsImports = rules.map((rule) => {
-    const name = basename(rule).replace(/\.\w+$/, '')
-    return `import type { RuleOptions as ${pascalCase(name)}RuleOptions } from '../rules/${name}/types'`
-  })
-
-  await fs.writeFile(
-    join(targetRoot, 'dts', 'rule-options.d.ts'),
-`${ruleOptionsImports.join('\n')}
-
-export interface RuleOptions {
-  ${rules.map((rule) => {
-const name = basename(rule).replace(/\.\w+$/, '')
-return `'${prefix}/${name}': ${pascalCase(name)}RuleOptions`
-}).join('\n    ')}
-}
-
-export interface UnprefixedRuleOptions {
-  ${rules.map((rule) => {
-const name = basename(rule).replace(/\.\w+$/, '')
-return `'${name}': ${pascalCase(name)}RuleOptions`
-}).join('\n    ')}
-}
-`,
-'utf-8',
-  )
-
-  await fs.writeFile(
-    join(targetRoot, 'dts', 'define-config-support.d.ts'),
-`import type { RuleOptions } from './rule-options'
-
-declare module 'eslint-define-config' {
-  export interface CustomRuleOptions extends RuleOptions {}
-}
-
-export {}
-`,
-'utf-8',
-  )
 }
 
 async function migrateTS() {

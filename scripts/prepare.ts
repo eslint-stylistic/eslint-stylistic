@@ -4,6 +4,7 @@ import fs from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
 import fg from 'fast-glob'
+import { pascalCase } from 'change-case'
 import type { PackageInfo, RuleInfo } from '../packages/metadata/src/types'
 
 const cwd = process.cwd()
@@ -23,6 +24,7 @@ async function run() {
     const pkg = await readPackage(dirname(path))
     await writeRulesIndex(pkg)
     await writeREADME(pkg)
+    await writePackageDTS(pkg)
     packages.push(pkg)
   }
 
@@ -141,6 +143,63 @@ async function writeRulesIndex(pkg: PackageInfo) {
     ].join('\n')
     await fs.writeFile(join(ruleDir, 'index.ts'), index, 'utf-8')
   }
+}
+
+async function writePackageDTS(pkg: PackageInfo) {
+  if (!pkg.rules.length)
+    return
+
+  const lines = [
+    ...pkg.rules.map((rule) => {
+      const name = basename(rule.name).replace(/\.\w+$/, '')
+      return `import type { RuleOptions as ${pascalCase(name)}RuleOptions } from '../rules/${name}/types'`
+    }),
+    '',
+    'export interface RuleOptions {',
+    ...pkg.rules.flatMap((rule) => {
+      const name = basename(rule.name).replace(/\.\w+$/, '')
+      return [
+        '  /**',
+        `   * ${rule.meta?.docs?.description || ''}`,
+        `   * @see https://eslint.style/rules/${pkg.shortId}/${rule.name}`,
+        '   */',
+        `  '${pkg.name.replace('eslint-plugin-', '')}/${rule.name}': ${pascalCase(name)}RuleOptions`,
+      ]
+    }),
+    '}',
+    '',
+    'export interface UnprefixedRuleOptions {',
+    ...pkg.rules.flatMap((rule) => {
+      const name = basename(rule.name).replace(/\.\w+$/, '')
+      return [
+        '  /**',
+        `   * ${rule.meta?.docs?.description || ''}`,
+        `   * @see https://eslint.style/rules/${pkg.shortId}/${rule.name}`,
+        '   */',
+        `  '${rule.name}': ${pascalCase(name)}RuleOptions`,
+      ]
+    }),
+    '}',
+  ]
+
+  await fs.writeFile(
+    join(pkg.path, 'dts', 'rule-options.d.ts'),
+    lines.join('\n'),
+    'utf-8',
+  )
+
+  await fs.writeFile(
+    join(pkg.path, 'dts', 'define-config-support.d.ts'),
+`import type { RuleOptions } from './rule-options'
+
+declare module 'eslint-define-config' {
+  export interface CustomRuleOptions extends RuleOptions {}
+}
+
+export {}
+`,
+'utf-8',
+  )
 }
 
 async function writeREADME(pkg: PackageInfo) {
