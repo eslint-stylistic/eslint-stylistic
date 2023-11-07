@@ -21,70 +21,217 @@ import type { RuleOptions as SpaceInfixOpsRuleOptions } from '../rules/space-inf
 import type { RuleOptions as TypeAnnotationSpacingRuleOptions } from '../rules/type-annotation-spacing/types'
 
 export interface RuleOptions {
-  /** @see {@link https://eslint.style/rules/ts/block-spacing} */
+  /**
+   * Disallow or enforce spaces inside of blocks after opening block and before closing block
+   * @see https://eslint.style/rules/ts/block-spacing
+   */
   '@stylistic/ts/block-spacing': BlockSpacingRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/brace-style} */
+  /**
+   * Enforce consistent brace style for blocks
+   * @see https://eslint.style/rules/ts/brace-style
+   */
   '@stylistic/ts/brace-style': BraceStyleRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/comma-dangle} */
+  /**
+   * Require or disallow trailing commas
+   * @see https://eslint.style/rules/ts/comma-dangle
+   */
   '@stylistic/ts/comma-dangle': CommaDangleRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/comma-spacing} */
+  /**
+   * Enforce consistent spacing before and after commas
+   * @see https://eslint.style/rules/ts/comma-spacing
+   */
   '@stylistic/ts/comma-spacing': CommaSpacingRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/func-call-spacing} */
+  /**
+   * Require or disallow spacing between function identifiers and their invocations
+   * @see https://eslint.style/rules/ts/func-call-spacing
+   */
   '@stylistic/ts/func-call-spacing': FuncCallSpacingRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/indent} */
+  /**
+   * Enforce consistent indentation
+   * @see https://eslint.style/rules/ts/indent
+   */
   '@stylistic/ts/indent': IndentRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/key-spacing} */
+  /**
+   * Enforce consistent spacing between property names and type annotations in types and interfaces
+   * @see https://eslint.style/rules/ts/key-spacing
+   */
   '@stylistic/ts/key-spacing': KeySpacingRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/keyword-spacing} */
+  /**
+   * Enforce consistent spacing before and after keywords
+   * @see https://eslint.style/rules/ts/keyword-spacing
+   */
   '@stylistic/ts/keyword-spacing': KeywordSpacingRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/lines-around-comment} */
+  /**
+   * Require empty lines around comments
+   * @see https://eslint.style/rules/ts/lines-around-comment
+   */
   '@stylistic/ts/lines-around-comment': LinesAroundCommentRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/lines-between-class-members} */
+  /**
+   * Require or disallow an empty line between class members
+   * @see https://eslint.style/rules/ts/lines-between-class-members
+   */
   '@stylistic/ts/lines-between-class-members': LinesBetweenClassMembersRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/member-delimiter-style} */
+  /**
+   * Require a specific member delimiter style for interfaces and type literals
+   * @see https://eslint.style/rules/ts/member-delimiter-style
+   */
   '@stylistic/ts/member-delimiter-style': MemberDelimiterStyleRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/no-extra-parens} */
+  /**
+   * Disallow unnecessary parentheses
+   * @see https://eslint.style/rules/ts/no-extra-parens
+   */
   '@stylistic/ts/no-extra-parens': NoExtraParensRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/no-extra-semi} */
+  /**
+   * Disallow unnecessary semicolons
+   * @see https://eslint.style/rules/ts/no-extra-semi
+   */
   '@stylistic/ts/no-extra-semi': NoExtraSemiRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/object-curly-spacing} */
+  /**
+   * Enforce consistent spacing inside braces
+   * @see https://eslint.style/rules/ts/object-curly-spacing
+   */
   '@stylistic/ts/object-curly-spacing': ObjectCurlySpacingRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/padding-line-between-statements} */
+  /**
+   * Require or disallow padding lines between statements
+   * @see https://eslint.style/rules/ts/padding-line-between-statements
+   */
   '@stylistic/ts/padding-line-between-statements': PaddingLineBetweenStatementsRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/quotes} */
+  /**
+   * Enforce the consistent use of either backticks, double, or single quotes
+   * @see https://eslint.style/rules/ts/quotes
+   */
   '@stylistic/ts/quotes': QuotesRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/semi} */
+  /**
+   * Require or disallow semicolons instead of ASI
+   * @see https://eslint.style/rules/ts/semi
+   */
   '@stylistic/ts/semi': SemiRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/space-before-blocks} */
+  /**
+   * Enforce consistent spacing before blocks
+   * @see https://eslint.style/rules/ts/space-before-blocks
+   */
   '@stylistic/ts/space-before-blocks': SpaceBeforeBlocksRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/space-before-function-paren} */
+  /**
+   * Enforce consistent spacing before function parenthesis
+   * @see https://eslint.style/rules/ts/space-before-function-paren
+   */
   '@stylistic/ts/space-before-function-paren': SpaceBeforeFunctionParenRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/space-infix-ops} */
+  /**
+   * Require spacing around infix operators
+   * @see https://eslint.style/rules/ts/space-infix-ops
+   */
   '@stylistic/ts/space-infix-ops': SpaceInfixOpsRuleOptions
-  /** @see {@link https://eslint.style/rules/ts/type-annotation-spacing} */
+  /**
+   * Require consistent spacing around type annotations
+   * @see https://eslint.style/rules/ts/type-annotation-spacing
+   */
   '@stylistic/ts/type-annotation-spacing': TypeAnnotationSpacingRuleOptions
 }
 
 export interface UnprefixedRuleOptions {
+  /**
+   * Disallow or enforce spaces inside of blocks after opening block and before closing block
+   * @see https://eslint.style/rules/ts/block-spacing
+   */
   'block-spacing': BlockSpacingRuleOptions
+  /**
+   * Enforce consistent brace style for blocks
+   * @see https://eslint.style/rules/ts/brace-style
+   */
   'brace-style': BraceStyleRuleOptions
+  /**
+   * Require or disallow trailing commas
+   * @see https://eslint.style/rules/ts/comma-dangle
+   */
   'comma-dangle': CommaDangleRuleOptions
+  /**
+   * Enforce consistent spacing before and after commas
+   * @see https://eslint.style/rules/ts/comma-spacing
+   */
   'comma-spacing': CommaSpacingRuleOptions
+  /**
+   * Require or disallow spacing between function identifiers and their invocations
+   * @see https://eslint.style/rules/ts/func-call-spacing
+   */
   'func-call-spacing': FuncCallSpacingRuleOptions
+  /**
+   * Enforce consistent indentation
+   * @see https://eslint.style/rules/ts/indent
+   */
   'indent': IndentRuleOptions
+  /**
+   * Enforce consistent spacing between property names and type annotations in types and interfaces
+   * @see https://eslint.style/rules/ts/key-spacing
+   */
   'key-spacing': KeySpacingRuleOptions
+  /**
+   * Enforce consistent spacing before and after keywords
+   * @see https://eslint.style/rules/ts/keyword-spacing
+   */
   'keyword-spacing': KeywordSpacingRuleOptions
+  /**
+   * Require empty lines around comments
+   * @see https://eslint.style/rules/ts/lines-around-comment
+   */
   'lines-around-comment': LinesAroundCommentRuleOptions
+  /**
+   * Require or disallow an empty line between class members
+   * @see https://eslint.style/rules/ts/lines-between-class-members
+   */
   'lines-between-class-members': LinesBetweenClassMembersRuleOptions
+  /**
+   * Require a specific member delimiter style for interfaces and type literals
+   * @see https://eslint.style/rules/ts/member-delimiter-style
+   */
   'member-delimiter-style': MemberDelimiterStyleRuleOptions
+  /**
+   * Disallow unnecessary parentheses
+   * @see https://eslint.style/rules/ts/no-extra-parens
+   */
   'no-extra-parens': NoExtraParensRuleOptions
+  /**
+   * Disallow unnecessary semicolons
+   * @see https://eslint.style/rules/ts/no-extra-semi
+   */
   'no-extra-semi': NoExtraSemiRuleOptions
+  /**
+   * Enforce consistent spacing inside braces
+   * @see https://eslint.style/rules/ts/object-curly-spacing
+   */
   'object-curly-spacing': ObjectCurlySpacingRuleOptions
+  /**
+   * Require or disallow padding lines between statements
+   * @see https://eslint.style/rules/ts/padding-line-between-statements
+   */
   'padding-line-between-statements': PaddingLineBetweenStatementsRuleOptions
+  /**
+   * Enforce the consistent use of either backticks, double, or single quotes
+   * @see https://eslint.style/rules/ts/quotes
+   */
   'quotes': QuotesRuleOptions
+  /**
+   * Require or disallow semicolons instead of ASI
+   * @see https://eslint.style/rules/ts/semi
+   */
   'semi': SemiRuleOptions
+  /**
+   * Enforce consistent spacing before blocks
+   * @see https://eslint.style/rules/ts/space-before-blocks
+   */
   'space-before-blocks': SpaceBeforeBlocksRuleOptions
+  /**
+   * Enforce consistent spacing before function parenthesis
+   * @see https://eslint.style/rules/ts/space-before-function-paren
+   */
   'space-before-function-paren': SpaceBeforeFunctionParenRuleOptions
+  /**
+   * Require spacing around infix operators
+   * @see https://eslint.style/rules/ts/space-infix-ops
+   */
   'space-infix-ops': SpaceInfixOpsRuleOptions
+  /**
+   * Require consistent spacing around type annotations
+   * @see https://eslint.style/rules/ts/type-annotation-spacing
+   */
   'type-annotation-spacing': TypeAnnotationSpacingRuleOptions
 }
