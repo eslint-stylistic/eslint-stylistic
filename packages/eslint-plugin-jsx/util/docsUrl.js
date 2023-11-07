@@ -1,7 +1,7 @@
 'use strict'
 
 function docsUrl(ruleName) {
-  return `https://github.com/jsx-eslint/eslint-plugin-react/tree/master/docs/rules/${ruleName}.md`
+  return `https://eslint.style/rules/jsx/${ruleName}`
 }
 
 module.exports = docsUrl
