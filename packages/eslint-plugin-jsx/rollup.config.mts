@@ -29,8 +29,6 @@ export default defineConfig({
   external: [
     ...Object.keys(pkg.dependencies || []),
     ...Object.keys(pkg.peerDependencies || []),
-    'jsx-ast-utils/propName',
-    'jsx-ast-utils/elementType',
     'node:process',
   ],
 })
