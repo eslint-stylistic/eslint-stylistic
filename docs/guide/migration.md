@@ -4,13 +4,13 @@
 
 For production projects, we would recommend waiting a bit longer, until ESLint officially announces the deprecation list.
 
-At the current stage, the packages are already useable. We are more then happy to see you start trying them out and give us feedback.
+At the current stage, the packages are already usable. We are more than happy to see you start trying them out and giving us feedback.
 
 The benefits of migrating:
 
-- Future-proof, the rules in core will no longer be updated and might be removed at some point. The maintenance work will be shifted to here.
-- Clear scope of rules, you can see more clearly what rules are related to code style by the prefix `@stylistic/`
-- Better IDE experience, you can config your IDE to [hide the error messages for code style rules](/guide/faq#the-error-messages-squiggly-lines-for-code-style-are-annoying) with scoping and does require to list manually.
+- Future-proof; the rules in core will no longer be updated and might be removed at some point. The maintenance work will be shifted to here.
+- Clear scope of rules; you can see more clearly what rules are related to code style by the prefix `@stylistic/`
+- Better IDE experience; you can configure your IDE to [hide the error messages for code style rules](/guide/faq#the-error-messages-squiggly-lines-for-code-style-are-annoying) with scoping and not require listing manually.
 
 ::: tip
 Check the [project progress](/contribute/project-progress) first to learn more about the current status of this project.
@@ -22,7 +22,7 @@ ESLint Stylistic is migrated from 3 different sources packages:
 
 - `eslint` -> `@stylistic/eslint-plugin-js`
   - Built-in stylistic rules for JavaScript
-- `@typescript-eslint/eslint-plugin` -> `@stylistic/eslint-plugin-ts` 
+- `@typescript-eslint/eslint-plugin` -> `@stylistic/eslint-plugin-ts`
   - Stylistic rules for TypeScript
 - `eslint-plugin-react` -> `@stylistic/eslint-plugin-jsx`
   - Framework-agnostic JSX rules
@@ -87,7 +87,7 @@ module.exports = {
 
 ### Approach 2: Migrate to 1-to-1 Plugins
 
-To make the migration easier, we also provide 1-to-1 mapping plugins for each source package. Different from the [single plugin](#approach-1-migrate-to-single-plugin), you need to install 3 different packages with additional prefixes in rules.
+To make the migration easier, we also provide a 1-to-1 mapping for each source package's plugins. Unlike the [single plugin approach](#approach-1-migrate-to-single-plugin), you need to install 3 different packages with additional prefixes in the rules.
 
 #### ESLint Code (JavaScript)
 
