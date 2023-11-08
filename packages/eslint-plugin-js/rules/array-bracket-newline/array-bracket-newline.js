@@ -102,8 +102,10 @@ export default {
      */
     function normalizeOptions(options) {
       const value = normalizeOptionValue(options)
+
       return { ArrayExpression: value, ArrayPattern: value }
     }
+
     /**
      * Reports that there shouldn't be a linebreak after the first token
      * @param {ASTNode} node The node to report in the event of an error.
@@ -117,8 +119,10 @@ export default {
         messageId: 'unexpectedOpeningLinebreak',
         fix(fixer) {
           const nextToken = sourceCode.getTokenAfter(token, { includeComments: true })
+
           if (astUtils.isCommentToken(nextToken))
             return null
+
           return fixer.removeRange([token.range[1], nextToken.range[0]])
         },
       })
@@ -137,8 +141,10 @@ export default {
         messageId: 'unexpectedClosingLinebreak',
         fix(fixer) {
           const previousToken = sourceCode.getTokenBefore(token, { includeComments: true })
+
           if (astUtils.isCommentToken(previousToken))
             return null
+
           return fixer.removeRange([previousToken.range[1], token.range[0]])
         },
       })
@@ -193,16 +199,24 @@ export default {
       const lastIncComment = sourceCode.getTokenBefore(closeBracket, { includeComments: true })
       const first = sourceCode.getTokenAfter(openBracket)
       const last = sourceCode.getTokenBefore(closeBracket)
-      const needsLinebreaks = (elements.length >= options.minItems
-        || (options.multiline
+      const needsLinebreaks = (
+        elements.length >= options.minItems
+        || (
+          options.multiline
           && elements.length > 0
-          && firstIncComment.loc.start.line !== lastIncComment.loc.end.line)
-        || (elements.length === 0
+          && firstIncComment.loc.start.line !== lastIncComment.loc.end.line
+        )
+        || (
+          elements.length === 0
           && firstIncComment.type === 'Block'
           && firstIncComment.loc.start.line !== lastIncComment.loc.end.line
-          && firstIncComment === lastIncComment)
-        || (options.consistent
-          && openBracket.loc.end.line !== first.loc.start.line))
+          && firstIncComment === lastIncComment
+        )
+        || (
+          options.consistent
+          && openBracket.loc.end.line !== first.loc.start.line
+        )
+      )
 
       /*
        * Use tokens or comments to check multiline or not.
