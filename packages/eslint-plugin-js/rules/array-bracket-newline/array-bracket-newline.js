@@ -3,16 +3,14 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-'use strict'
-
-const astUtils = require('../../utils/ast-utils')
+import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -201,46 +199,43 @@ module.exports = {
       const lastIncComment = sourceCode.getTokenBefore(closeBracket, { includeComments: true })
       const first = sourceCode.getTokenAfter(openBracket)
       const last = sourceCode.getTokenBefore(closeBracket)
-
       const needsLinebreaks = (
         elements.length >= options.minItems
-                || (
-                  options.multiline
-                    && elements.length > 0
-                    && firstIncComment.loc.start.line !== lastIncComment.loc.end.line
-                )
-                || (
-                  elements.length === 0
-                    && firstIncComment.type === 'Block'
-                    && firstIncComment.loc.start.line !== lastIncComment.loc.end.line
-                    && firstIncComment === lastIncComment
-                )
-                || (
-                  options.consistent
-                    && openBracket.loc.end.line !== first.loc.start.line
-                )
+        || (
+          options.multiline
+          && elements.length > 0
+          && firstIncComment.loc.start.line !== lastIncComment.loc.end.line
+        )
+        || (
+          elements.length === 0
+          && firstIncComment.type === 'Block'
+          && firstIncComment.loc.start.line !== lastIncComment.loc.end.line
+          && firstIncComment === lastIncComment
+        )
+        || (
+          options.consistent
+          && openBracket.loc.end.line !== first.loc.start.line
+        )
       )
 
       /*
-             * Use tokens or comments to check multiline or not.
-             * But use only tokens to check whether linebreaks are needed.
-             * This allows:
-             *     var arr = [ // eslint-disable-line foo
-             *         'a'
-             *     ]
-             */
+       * Use tokens or comments to check multiline or not.
+       * But use only tokens to check whether linebreaks are needed.
+       * This allows:
+       *     var arr = [ // eslint-disable-line foo
+       *         'a'
+       *     ]
+       */
 
       if (needsLinebreaks) {
         if (astUtils.isTokenOnSameLine(openBracket, first))
           reportRequiredBeginningLinebreak(node, openBracket)
-
         if (astUtils.isTokenOnSameLine(last, closeBracket))
           reportRequiredEndingLinebreak(node, closeBracket)
       }
       else {
         if (!astUtils.isTokenOnSameLine(openBracket, first))
           reportNoBeginningLinebreak(node, openBracket)
-
         if (!astUtils.isTokenOnSameLine(last, closeBracket))
           reportNoEndingLinebreak(node, closeBracket)
       }
