@@ -3,7 +3,7 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-import astUtils from '../../utils/ast-utils.js'
+import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
