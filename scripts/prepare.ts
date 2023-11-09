@@ -128,21 +128,16 @@ async function writeRulesIndex(pkg: PackageInfo) {
 
   await fs.mkdir(ruleDir, { recursive: true })
 
-  if (pkg.shortId === 'js' || pkg.shortId === 'jsx') {
-    const index = `module.exports = {\n${pkg.rules.map(i => `  '${i.name}': require('./${relative(ruleDir, i.entry).replace(/\\/g, '/')}'),`).join('\n')}\n}\n`
-    await fs.writeFile(join(ruleDir, 'index.js'), index, 'utf-8')
-  }
-  else {
-    const index = [
-      ...pkg.rules.map(i => `import ${camelCase(i.name)} from './${i.name}/${i.name}'`),
-      '',
-      'export default {',
-      ...pkg.rules.map(i => `  '${i.name}': ${camelCase(i.name)},`),
-      '}',
-      '',
-    ].join('\n')
-    await fs.writeFile(join(ruleDir, 'index.ts'), index, 'utf-8')
-  }
+  const index = [
+    ...pkg.rules.map(i => `import ${camelCase(i.name)} from './${i.name}/${i.name}'`),
+    '',
+    'export default {',
+    ...pkg.rules.map(i => `  '${i.name}': ${camelCase(i.name)},`),
+    '}',
+    '',
+  ].join('\n')
+  const ext = (pkg.shortId === 'js' || pkg.shortId === 'jsx') ? 'js' : 'ts'
+  await fs.writeFile(join(ruleDir, `index.${ext}`), index, 'utf-8')
 }
 
 async function writePackageDTS(pkg: PackageInfo) {
