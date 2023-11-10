@@ -3,11 +3,9 @@
  * @author Ross Solomon
  */
 
-'use strict'
-
-const astUtil = require('../../util/ast')
-const docsUrl = require('../../util/docsUrl')
-const report = require('../../util/report')
+import astUtil from '../../util/ast'
+import docsUrl from '../../util/docsUrl'
+import report from '../../util/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -18,7 +16,7 @@ const messages = {
   matchIndent: 'Expected closing tag to match indentation of opening.',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Enforce closing tag location for multiline JSX',

@@ -30,11 +30,9 @@
  THE SOFTWARE.
  */
 
-'use strict'
-
-const astUtil = require('../../util/ast')
-const docsUrl = require('../../util/docsUrl')
-const reportC = require('../../util/report')
+import astUtil from '../../util/ast'
+import docsUrl from '../../util/docsUrl'
+import reportC from '../../util/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -44,7 +42,7 @@ const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Enforce props indentation in JSX',

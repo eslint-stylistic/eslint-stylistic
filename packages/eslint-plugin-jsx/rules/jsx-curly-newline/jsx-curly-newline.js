@@ -2,10 +2,8 @@
  * @fileoverview enforce consistent line breaks inside jsx curly
  */
 
-'use strict'
-
-const docsUrl = require('../../util/docsUrl')
-const report = require('../../util/report')
+import docsUrl from '../../util/docsUrl'
+import report from '../../util/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -41,7 +39,7 @@ const messages = {
   unexpectedAfter: 'Unexpected newline after \'{\'.',
 }
 
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

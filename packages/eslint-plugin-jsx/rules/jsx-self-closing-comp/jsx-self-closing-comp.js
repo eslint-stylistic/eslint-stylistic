@@ -3,11 +3,9 @@
  * @author Yannick Croissant
  */
 
-'use strict'
-
-const docsUrl = require('../../util/docsUrl')
-const jsxUtil = require('../../util/jsx')
-const report = require('../../util/report')
+import docsUrl from '../../util/docsUrl'
+import jsxUtil from '../../util/jsx'
+import report from '../../util/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -19,7 +17,7 @@ const messages = {
   notSelfClosing: 'Empty components are self-closing',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Disallow extra closing tags for components without children',

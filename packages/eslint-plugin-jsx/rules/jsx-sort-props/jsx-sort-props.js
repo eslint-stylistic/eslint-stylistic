@@ -3,14 +3,12 @@
  * @author Ilya Volodin, Yannick Croissant
  */
 
-'use strict'
+import docsUrl from '../../util/docsUrl'
+import jsxUtil from '../../util/jsx'
+import report from '../../util/report'
 
 const includes = (arr, value) => arr.includes(value)
 const toSorted = (arr, compareFn) => [...arr].sort(compareFn)
-
-const docsUrl = require('../../util/docsUrl')
-const jsxUtil = require('../../util/jsx')
-const report = require('../../util/report')
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -336,7 +334,7 @@ function reportNodeAttribute(nodeAttribute, errorType, node, context, reservedLi
   })
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Enforce props alphabetical sorting',

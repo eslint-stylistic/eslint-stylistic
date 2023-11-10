@@ -3,10 +3,8 @@
  * @author Joachim Seminck
  */
 
-'use strict'
-
-const docsUrl = require('../../util/docsUrl')
-const report = require('../../util/report')
+import docsUrl from '../../util/docsUrl'
+import report from '../../util/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -17,7 +15,7 @@ const messages = {
   propOnSameLine: 'Property should be placed on the same line as the component declaration',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Enforce proper position of the first property in JSX',

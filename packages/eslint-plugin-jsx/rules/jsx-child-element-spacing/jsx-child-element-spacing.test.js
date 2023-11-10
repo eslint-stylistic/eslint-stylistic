@@ -1,8 +1,6 @@
-'use strict'
-
-const RuleTester = require('eslint').RuleTester
-const parsers = require('../../tests/helpers/parsers')
-const rule = require('./jsx-child-element-spacing')
+import { RuleTester } from 'eslint'
+import parsers from '../../tests/helpers/parsers'
+import rule from './jsx-child-element-spacing'
 
 const parserOptions = {
   sourceType: 'module',
