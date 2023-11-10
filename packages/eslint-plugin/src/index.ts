@@ -7,5 +7,6 @@ export default {
     ...js.rules,
     ...jsx.rules,
     ...ts.rules,
+    indent: js.rules.indent,
   },
 }
