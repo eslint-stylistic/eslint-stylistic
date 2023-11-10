@@ -3,14 +3,8 @@
  * @author Jxck <https://github.com/Jxck>
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./no-confusing-arrow')
+import { RuleTester } from 'eslint'
+import rule from './no-confusing-arrow'
 
 // ------------------------------------------------------------------------------
 // Tests

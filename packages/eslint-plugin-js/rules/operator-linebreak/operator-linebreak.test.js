@@ -2,14 +2,9 @@
  * @fileoverview Operator linebreak rule tests
  * @author Benoît Zugmeyer
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./operator-linebreak')
+import { RuleTester } from 'eslint'
+import rule from './operator-linebreak'
 
 // ------------------------------------------------------------------------------
 // Tests

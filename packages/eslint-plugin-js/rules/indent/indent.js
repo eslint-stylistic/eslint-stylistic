@@ -6,13 +6,7 @@
  * @author Gyandeep Singh
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -481,7 +475,7 @@ const ELEMENT_LIST_SCHEMA = {
 }
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

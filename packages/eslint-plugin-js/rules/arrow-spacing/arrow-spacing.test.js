@@ -2,15 +2,10 @@
  * @fileoverview Tests for arrow-spacing
  * @author Jxck
  */
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
 //
 
-const { RuleTester } = require('eslint')
-const rule = require('./arrow-spacing')
+import { RuleTester } from 'eslint'
+import rule from './arrow-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests

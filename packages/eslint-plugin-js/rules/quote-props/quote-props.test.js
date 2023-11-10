@@ -3,14 +3,8 @@
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./quote-props')
+import { RuleTester } from 'eslint'
+import rule from './quote-props'
 
 // ------------------------------------------------------------------------------
 // Tests

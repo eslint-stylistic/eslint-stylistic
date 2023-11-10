@@ -3,14 +3,8 @@
  * @author Ilya Volodin
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const eslintUtils = require('@eslint-community/eslint-utils')
-const astUtils = require('../../utils/ast-utils')
+import eslintUtils from '@eslint-community/eslint-utils'
+import astUtils from '../../utils/ast-utils'
 
 // ----------------------------------------------------------------------
 // Helpers
@@ -38,7 +32,7 @@ function isCalleeOfNewExpression(node) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

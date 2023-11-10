@@ -2,15 +2,10 @@
  * @fileoverview enforce the location of arrow function bodies
  * @author Sharmila Jesupaul
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const { unIndent } = require('../../utils/test-utils')
-const rule = require('./implicit-arrow-linebreak')
+import { RuleTester } from 'eslint'
+import { unIndent } from '../../utils/test-utils'
+import rule from './implicit-arrow-linebreak'
 
 const EXPECTED_LINEBREAK = { messageId: 'expected' }
 const UNEXPECTED_LINEBREAK = { messageId: 'unexpected' }

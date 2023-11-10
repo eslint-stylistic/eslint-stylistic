@@ -2,15 +2,10 @@
  * @fileoverview Test enforcement of lines around comments.
  * @author Jamund Ferguson
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const { unIndent } = require('../../utils/test-utils')
-const rule = require('./lines-around-comment')
+import { RuleTester } from 'eslint'
+import { unIndent } from '../../utils/test-utils'
+import rule from './lines-around-comment'
 
 // ------------------------------------------------------------------------------
 // Tests

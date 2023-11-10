@@ -2,10 +2,8 @@
  * @fileoverview Source code for spaced-comments rule
  * @author Gyandeep Singh
  */
-'use strict'
-
-const escapeRegExp = require('escape-string-regexp')
-const astUtils = require('../../utils/ast-utils')
+import escapeRegExp from 'escape-string-regexp'
+import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -142,7 +140,7 @@ function createNeverStylePattern(markers) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
 

@@ -3,21 +3,15 @@
  * @author Nicholas C. Zakas
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
-const FixTracker = require('../../utils/fix-tracker')
+import astUtils from '../../utils/ast-utils'
+import FixTracker from '../../utils/fix-tracker'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
 

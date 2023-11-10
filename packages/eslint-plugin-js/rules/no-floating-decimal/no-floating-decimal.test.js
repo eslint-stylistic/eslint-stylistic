@@ -3,14 +3,8 @@
  * @author James Allardice
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./no-floating-decimal')
+import { RuleTester } from 'eslint'
+import rule from './no-floating-decimal'
 
 // ------------------------------------------------------------------------------
 // Tests

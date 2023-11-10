@@ -2,22 +2,17 @@
  * @fileoverview Rule to flag non-quoted property names in object literals.
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const espree = require('espree')
-const astUtils = require('../../utils/ast-utils')
-const keywords = require('../../utils/keywords')
+import * as espree from 'espree'
+import astUtils from '../../utils/ast-utils'
+import keywords from '../../utils/keywords'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
 

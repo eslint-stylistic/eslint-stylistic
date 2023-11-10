@@ -3,14 +3,8 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./template-curly-spacing')
+import { RuleTester } from 'eslint'
+import rule from './template-curly-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests

@@ -11,7 +11,7 @@ const { isEqToken } = require('../../utils/ast-utils')
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

@@ -3,14 +3,8 @@
  * @author Jamund Ferguson
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./generator-star-spacing')
+import { RuleTester } from 'eslint'
+import rule from './generator-star-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests

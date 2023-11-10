@@ -3,14 +3,8 @@
  * @author Alberto Rodríguez
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./one-var-declaration-per-line')
+import { RuleTester } from 'eslint'
+import rule from './one-var-declaration-per-line'
 
 // ------------------------------------------------------------------------------
 // Fixtures

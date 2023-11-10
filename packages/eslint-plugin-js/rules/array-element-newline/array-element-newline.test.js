@@ -3,14 +3,8 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./array-element-newline')
+import { RuleTester } from 'eslint'
+import rule from './array-element-newline'
 
 // ------------------------------------------------------------------------------
 // Tests

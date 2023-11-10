@@ -3,13 +3,7 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -148,7 +142,7 @@ function areLineBreaksRequired(node, options, first, last) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

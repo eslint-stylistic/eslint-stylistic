@@ -2,13 +2,9 @@
  * @fileoverview Rule to flag missing semicolons.
  * @author Nicholas C. Zakas
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
+import astUtils from '../../utils/ast-utils'
 
-const astUtils = require('../../utils/ast-utils')
 const FixTracker = require('../../utils/fix-tracker')
 
 // ------------------------------------------------------------------------------
@@ -16,7 +12,7 @@ const FixTracker = require('../../utils/fix-tracker')
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

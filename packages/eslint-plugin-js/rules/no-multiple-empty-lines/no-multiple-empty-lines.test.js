@@ -2,14 +2,9 @@
  * @fileoverview Disallows multiple blank lines.
  * @author Greg Cochard
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./no-multiple-empty-lines')
+import { RuleTester } from 'eslint'
+import rule from './no-multiple-empty-lines'
 
 // ------------------------------------------------------------------------------
 // Helpers

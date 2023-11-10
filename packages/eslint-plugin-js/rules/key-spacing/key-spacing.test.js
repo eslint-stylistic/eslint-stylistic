@@ -3,14 +3,8 @@
  * @author Brandon Mills
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./key-spacing')
+import { RuleTester } from 'eslint'
+import rule from './key-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests

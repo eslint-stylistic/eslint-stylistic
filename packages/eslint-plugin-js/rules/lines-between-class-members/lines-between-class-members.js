@@ -2,13 +2,8 @@
  * @fileoverview Rule to check empty newline between class members
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -30,7 +25,7 @@ const ClassMemberTypes = {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

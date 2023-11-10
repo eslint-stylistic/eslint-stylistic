@@ -3,14 +3,8 @@
  * @author Jonathan Wilsson
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./template-tag-spacing')
+import { RuleTester } from 'eslint'
+import rule from './template-tag-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests

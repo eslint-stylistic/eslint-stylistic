@@ -3,14 +3,8 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
-const keywords = require('../../utils/keywords')
+import astUtils from '../../utils/ast-utils'
+import keywords from '../../utils/keywords'
 
 // ------------------------------------------------------------------------------
 // Constants
@@ -61,7 +55,7 @@ function isCloseParenOfTemplate(token) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

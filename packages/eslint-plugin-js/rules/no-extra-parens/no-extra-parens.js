@@ -8,11 +8,11 @@
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-const { isParenthesized: isParenthesizedRaw } = require('@eslint-community/eslint-utils')
-const astUtils = require('../../utils/ast-utils.js')
+import { isParenthesized as isParenthesizedRaw } from '@eslint-community/eslint-utils'
+import astUtils from '../../utils/ast-utils'
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

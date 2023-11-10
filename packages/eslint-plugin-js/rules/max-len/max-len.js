@@ -64,7 +64,7 @@ const OPTIONS_OR_INTEGER_SCHEMA = {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

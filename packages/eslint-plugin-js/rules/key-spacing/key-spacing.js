@@ -2,14 +2,9 @@
  * @fileoverview Rule to specify spacing of object literal keys and values
  * @author Brandon Mills
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
-const { getGraphemeCount } = require('../../utils/string-utils')
+import astUtils from '../../utils/ast-utils'
+import { getGraphemeCount } from '../../utils/string-utils'
 
 /**
  * Checks whether a string contains a line terminator as defined in
@@ -129,7 +124,7 @@ function initOptions(toOptions, fromOptions) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

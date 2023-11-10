@@ -2,15 +2,10 @@
  * @fileoverview Disallows or enforces spaces inside of object literals.
  * @author Jamund Ferguson
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const resolvePath = require('node:path').resolve
-const { RuleTester } = require('eslint')
-const rule = require('./object-curly-spacing')
+import { resolve as resolvePath } from 'node:path'
+import { RuleTester } from 'eslint'
+import rule from './object-curly-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests
