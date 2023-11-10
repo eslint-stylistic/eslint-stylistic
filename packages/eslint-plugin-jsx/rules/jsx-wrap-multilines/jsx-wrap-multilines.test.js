@@ -3,15 +3,9 @@
  * @author Yannick Croissant
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const RuleTester = require('eslint').RuleTester
-const parsers = require('../../tests/helpers/parsers')
-const rule = require('./jsx-wrap-multilines')
+import { RuleTester } from 'eslint'
+import parsers from '../../tests/helpers/parsers'
+import rule from './jsx-wrap-multilines'
 
 const parserOptions = {
   ecmaVersion: 2018,

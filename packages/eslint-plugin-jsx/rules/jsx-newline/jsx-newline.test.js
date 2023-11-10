@@ -4,15 +4,9 @@
  * @author Joseph Stiles
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const RuleTester = require('eslint').RuleTester
-const parsers = require('../../tests/helpers/parsers')
-const rule = require('./jsx-newline')
+import { RuleTester } from 'eslint'
+import parsers from '../../tests/helpers/parsers'
+import rule from './jsx-newline'
 
 const parserOptions = {
   ecmaVersion: 2018,

@@ -30,14 +30,12 @@
  THE SOFTWARE.
  */
 
-'use strict'
+import astUtil from '../../util/ast'
+import docsUrl from '../../util/docsUrl'
+import reportC from '../../util/report'
+import jsxUtil from '../../util/jsx'
 
 const matchAll = (s, v) => s.matchAll(v)
-
-const astUtil = require('../../util/ast')
-const docsUrl = require('../../util/docsUrl')
-const reportC = require('../../util/report')
-const jsxUtil = require('../../util/jsx')
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -47,7 +45,7 @@ const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Enforce JSX indentation',

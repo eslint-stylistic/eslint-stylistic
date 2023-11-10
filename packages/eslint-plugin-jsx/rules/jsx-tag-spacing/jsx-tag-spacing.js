@@ -3,11 +3,9 @@
  * @author Diogo Franco (Kovensky)
  */
 
-'use strict'
-
-const getTokenBeforeClosingBracket = require('../../util/getTokenBeforeClosingBracket')
-const docsUrl = require('../../util/docsUrl')
-const report = require('../../util/report')
+import getTokenBeforeClosingBracket from '../../util/getTokenBeforeClosingBracket'
+import docsUrl from '../../util/docsUrl'
+import report from '../../util/report'
 
 const messages = {
   selfCloseSlashNoSpace: 'Whitespace is forbidden between `/` and `>`; write `/>`',
@@ -259,7 +257,7 @@ const optionDefaults = {
   beforeClosing: 'allow',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Enforce whitespace in and around the JSX opening and closing brackets',

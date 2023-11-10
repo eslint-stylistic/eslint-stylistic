@@ -3,11 +3,9 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
-'use strict'
-
-const docsUrl = require('../../util/docsUrl')
-const jsxUtil = require('../../util/jsx')
-const report = require('../../util/report')
+import docsUrl from '../../util/docsUrl'
+import jsxUtil from '../../util/jsx'
+import report from '../../util/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -21,7 +19,7 @@ const messages = {
   moveToNewLine: '`{{descriptor}}` must be placed on a new line',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Require one JSX element per line',

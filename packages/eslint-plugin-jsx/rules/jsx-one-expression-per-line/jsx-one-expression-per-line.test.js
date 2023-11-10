@@ -3,15 +3,9 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const RuleTester = require('eslint').RuleTester
-const parsers = require('../../tests/helpers/parsers')
-const rule = require('./jsx-one-expression-per-line')
+import { RuleTester } from 'eslint'
+import parsers from '../../tests/helpers/parsers'
+import rule from './jsx-one-expression-per-line'
 
 const parserOptions = {
   ecmaVersion: 2018,

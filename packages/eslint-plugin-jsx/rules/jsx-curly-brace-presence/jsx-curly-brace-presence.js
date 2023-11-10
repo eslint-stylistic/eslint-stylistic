@@ -4,13 +4,11 @@
  * @author Simon Lydell
  */
 
-'use strict'
+import docsUrl from '../../util/docsUrl'
+import jsxUtil from '../../util/jsx'
+import report from '../../util/report'
 
 const arrayIncludes = (arr, value) => arr.includes(value)
-
-const docsUrl = require('../../util/docsUrl')
-const jsxUtil = require('../../util/jsx')
-const report = require('../../util/report')
 
 // ------------------------------------------------------------------------------
 // Constants
@@ -36,7 +34,7 @@ const messages = {
   missingCurly: 'Need to wrap this literal in a JSX expression.',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes',

@@ -3,13 +3,12 @@
  * @author Yannick Croissant
  */
 
-'use strict'
+import docsUrl from '../../util/docsUrl'
+import jsxUtil from '../../util/jsx'
+import reportC from '../../util/report'
+import { isParenthesized } from '../../util/ast'
 
 const has = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
-const docsUrl = require('../../util/docsUrl')
-const jsxUtil = require('../../util/jsx')
-const reportC = require('../../util/report')
-const isParenthesized = require('../../util/ast').isParenthesized
 
 // ------------------------------------------------------------------------------
 // Constants
@@ -34,7 +33,7 @@ const messages = {
   parensOnNewLines: 'Parentheses around JSX should be on separate lines',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Disallow missing parentheses around multiline JSX',
