@@ -1,8 +1,8 @@
 "use strict";
 
-const assert = require("assert");
-const { ScopeManager, Referencer } = require("eslint-scope");
-const vk = require("eslint-visitor-keys");
+import assert from "assert";
+import { ScopeManager, Referencer } from "eslint-scope";
+import vk from "eslint-visitor-keys";
 
 class EnhancedReferencer extends Referencer {
     visitClass(node) {
