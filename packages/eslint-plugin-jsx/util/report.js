@@ -1,5 +1,3 @@
-'use strict'
-
 import getMessageData from './message'
 
 export default function report(context, message, messageId, data) {
