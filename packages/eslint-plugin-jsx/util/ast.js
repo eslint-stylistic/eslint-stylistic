@@ -1,9 +1,6 @@
 /**
  * @fileoverview Utility functions for AST
  */
-
-'use strict'
-
 import { traverse as _traverse } from 'estraverse'
 
 /**
@@ -25,38 +22,6 @@ function traverse(ASTnode, visitor) {
   })
 
   _traverse(ASTnode, opts)
-}
-
-function loopNodes(nodes) {
-  for (let i = nodes.length - 1; i >= 0; i--) {
-    if (nodes[i].type === 'ReturnStatement')
-      return nodes[i]
-
-    if (nodes[i].type === 'SwitchStatement') {
-      const j = nodes[i].cases.length - 1
-      if (j >= 0)
-        return loopNodes(nodes[i].cases[j].consequent)
-    }
-  }
-  return false
-}
-
-/**
- * Find a return statement in the current node
- *
- * @param {ASTNode} node The AST node being checked
- * @returns {ASTNode | false}
- */
-function findReturnStatement(node) {
-  if (
-    (!node.value || !node.value.body || !node.value.body.body)
-    && (!node.body || !node.body.body)
-  )
-    return false
-
-  const bodyNodes = node.value ? node.value.body.body : node.body.body
-
-  return loopNodes(bodyNodes)
 }
 
 /**
@@ -133,48 +98,6 @@ function traverseReturns(ASTNode, context, onReturn) {
 }
 
 /**
- * Get node with property's name
- * @param {object} node - Property.
- * @returns {object} Property name node.
- */
-function getPropertyNameNode(node) {
-  if (node.key || ['MethodDefinition', 'Property'].includes(node.type))
-    return node.key
-
-  if (node.type === 'MemberExpression')
-    return node.property
-
-  return null
-}
-
-/**
- * Get properties name
- * @param {object} node - Property.
- * @returns {string} Property name.
- */
-function getPropertyName(node) {
-  const nameNode = getPropertyNameNode(node)
-  return nameNode ? nameNode.name : ''
-}
-
-/**
- * Get properties for a given AST node
- * @param {ASTNode} node The AST node being checked.
- * @returns {Array} Properties array.
- */
-function getComponentProperties(node) {
-  switch (node.type) {
-    case 'ClassDeclaration':
-    case 'ClassExpression':
-      return node.body.body
-    case 'ObjectExpression':
-      return node.properties
-    default:
-      return []
-  }
-}
-
-/**
  * Gets the first node in a line from the initial node, excluding whitespace.
  * @param {object} context The node to check
  * @param {ASTNode} node The node to check
@@ -210,94 +133,6 @@ function isNodeFirstInLine(context, node) {
 }
 
 /**
- * Checks if the node is a function or arrow function expression.
- * @param {ASTNode} node The node to check
- * @return {boolean} true if it's a function-like expression
- */
-function isFunctionLikeExpression(node) {
-  return node.type === 'FunctionExpression' || node.type === 'ArrowFunctionExpression'
-}
-
-/**
- * Checks if the node is a function.
- * @param {ASTNode} node The node to check
- * @return {boolean} true if it's a function
- */
-function isFunction(node) {
-  return node.type === 'FunctionExpression' || node.type === 'FunctionDeclaration'
-}
-
-/**
- * Checks if node is a function declaration or expression or arrow function.
- * @param {ASTNode} node The node to check
- * @return {boolean} true if it's a function-like
- */
-function isFunctionLike(node) {
-  return node.type === 'FunctionDeclaration' || isFunctionLikeExpression(node)
-}
-
-/**
- * Checks if the node is a class.
- * @param {ASTNode} node The node to check
- * @return {boolean} true if it's a class
- */
-function isClass(node) {
-  return node.type === 'ClassDeclaration' || node.type === 'ClassExpression'
-}
-
-/**
- * Check if we are in a class constructor
- * @param {Context} context
- * @return {boolean}
- */
-function inConstructor(context) {
-  let scope = context.getScope()
-  while (scope) {
-    if (scope.block && scope.block.parent && scope.block.parent.kind === 'constructor')
-      return true
-
-    scope = scope.upper
-  }
-  return false
-}
-
-/**
- * Removes quotes from around an identifier.
- * @param {string} string the identifier to strip
- * @returns {string}
- */
-function stripQuotes(string) {
-  return string.replace(/^'|'$/g, '')
-}
-
-/**
- * Retrieve the name of a key node
- * @param {Context} context The AST node with the key.
- * @param {any} node The AST node with the key.
- * @return {string | undefined} the name of the key
- */
-function getKeyValue(context, node) {
-  if (node.type === 'ObjectTypeProperty') {
-    const tokens = context.getSourceCode().getFirstTokens(node, 2)
-    return (tokens[0].value === '+' || tokens[0].value === '-'
-      ? tokens[1].value
-      : stripQuotes(tokens[0].value)
-    )
-  }
-  if (node.type === 'GenericTypeAnnotation')
-    return node.id.name
-
-  if (node.type === 'ObjectTypeAnnotation')
-    return
-
-  const key = node.key || node.argument
-  if (!key)
-    return
-
-  return key.type === 'Identifier' ? key.name : key.value
-}
-
-/**
  * Checks if a node is surrounded by parenthesis.
  *
  * @param {object} context - Context from the rule
@@ -314,155 +149,10 @@ function isParenthesized(context, node) {
     && nextToken.value === ')' && nextToken.range[0] >= node.range[1]
 }
 
-/**
- * Checks if a node is being assigned a value: props.bar = 'bar'
- * @param {ASTNode} node The AST node being checked.
- * @returns {boolean}
- */
-function isAssignmentLHS(node) {
-  return (
-    node.parent
-    && node.parent.type === 'AssignmentExpression'
-    && node.parent.left === node
-  )
-}
-
-/**
- * Extracts the expression node that is wrapped inside a TS type assertion
- *
- * @param {ASTNode} node - potential TS node
- * @returns {ASTNode} - unwrapped expression node
- */
-function unwrapTSAsExpression(node) {
-  if (node && node.type === 'TSAsExpression')
-    return node.expression
-  return node
-}
-
-function isTSTypeReference(node) {
-  if (!node)
-    return false
-  const nodeType = node.type
-  return nodeType === 'TSTypeReference'
-}
-
-function isTSTypeAnnotation(node) {
-  if (!node)
-    return false
-  const nodeType = node.type
-  return nodeType === 'TSTypeAnnotation'
-}
-
-function isTSTypeLiteral(node) {
-  if (!node)
-    return false
-  const nodeType = node.type
-  return nodeType === 'TSTypeLiteral'
-}
-
-function isTSIntersectionType(node) {
-  if (!node)
-    return false
-  const nodeType = node.type
-  return nodeType === 'TSIntersectionType'
-}
-
-function isTSInterfaceHeritage(node) {
-  if (!node)
-    return false
-  const nodeType = node.type
-  return nodeType === 'TSInterfaceHeritage'
-}
-
-function isTSInterfaceDeclaration(node) {
-  if (!node)
-    return false
-  let nodeType = node.type
-  if (node.type === 'ExportNamedDeclaration' && node.declaration)
-    nodeType = node.declaration.type
-
-  return nodeType === 'TSInterfaceDeclaration'
-}
-
-function isTSTypeDeclaration(node) {
-  if (!node)
-    return false
-  let nodeType = node.type
-  let nodeKind = node.kind
-  if (node.type === 'ExportNamedDeclaration' && node.declaration) {
-    nodeType = node.declaration.type
-    nodeKind = node.declaration.kind
-  }
-  return nodeType === 'VariableDeclaration' && nodeKind === 'type'
-}
-
-function isTSTypeAliasDeclaration(node) {
-  if (!node)
-    return false
-  let nodeType = node.type
-  if (node.type === 'ExportNamedDeclaration' && node.declaration) {
-    nodeType = node.declaration.type
-    return nodeType === 'TSTypeAliasDeclaration' && node.exportKind === 'type'
-  }
-  return nodeType === 'TSTypeAliasDeclaration'
-}
-
-function isTSParenthesizedType(node) {
-  if (!node)
-    return false
-  const nodeType = node.type
-  return nodeType === 'TSTypeAliasDeclaration'
-}
-
-function isTSFunctionType(node) {
-  if (!node)
-    return false
-  const nodeType = node.type
-  return nodeType === 'TSFunctionType'
-}
-
-function isTSTypeQuery(node) {
-  if (!node)
-    return false
-  const nodeType = node.type
-  return nodeType === 'TSTypeQuery'
-}
-
-function isTSTypeParameterInstantiation(node) {
-  if (!node)
-    return false
-  const nodeType = node.type
-  return nodeType === 'TSTypeParameterInstantiation'
-}
-
 export {
   traverse,
-  findReturnStatement,
   getFirstNodeInLine,
-  getPropertyName,
-  getPropertyNameNode,
-  getComponentProperties,
-  getKeyValue,
   isParenthesized,
-  isAssignmentLHS,
-  isClass,
-  isFunction,
-  isFunctionLikeExpression,
-  isFunctionLike,
-  inConstructor,
   isNodeFirstInLine,
-  unwrapTSAsExpression,
   traverseReturns,
-  isTSTypeReference,
-  isTSTypeAnnotation,
-  isTSTypeLiteral,
-  isTSIntersectionType,
-  isTSInterfaceHeritage,
-  isTSInterfaceDeclaration,
-  isTSTypeAliasDeclaration,
-  isTSParenthesizedType,
-  isTSFunctionType,
-  isTSTypeQuery,
-  isTSTypeParameterInstantiation,
-  isTSTypeDeclaration,
 }

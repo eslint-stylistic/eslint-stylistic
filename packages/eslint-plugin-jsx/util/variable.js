@@ -4,16 +4,6 @@
  */
 
 /**
- * Search a particular variable in a list
- * @param {Array} variables The variables list.
- * @param {string} name The name of the variable to search.
- * @returns {boolean} True if the variable was found, false if not.
- */
-function findVariable(variables, name) {
-  return variables.some(variable => variable.name === name)
-}
-
-/**
  * Find and return a particular variable in a list
  * @param {Array} variables The variables list.
  * @param {string} name The name of the variable to search.
@@ -80,7 +70,6 @@ function getLatestVariableDefinition(variable) {
 }
 
 export {
-  findVariable,
   findVariableByName,
   getVariable,
   variablesInScope,
