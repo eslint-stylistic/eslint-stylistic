@@ -3,7 +3,7 @@
  * @author Yannick Croissant
  */
 
-import docsUrl from '../../util/docsUrl'
+import { docsUrl } from '../../util/docsUrl'
 import { isJSX } from '../../util/jsx'
 import reportC from '../../util/report'
 import { isParenthesized } from '../../util/ast'

@@ -3,8 +3,8 @@
  * @author Diogo Franco (Kovensky)
  */
 
-import getTokenBeforeClosingBracket from '../../util/getTokenBeforeClosingBracket'
-import docsUrl from '../../util/docsUrl'
+import { getTokenBeforeClosingBracket } from '../../util/getTokenBeforeClosingBracket'
+import { docsUrl } from '../../util/docsUrl'
 import report from '../../util/report'
 
 const messages = {

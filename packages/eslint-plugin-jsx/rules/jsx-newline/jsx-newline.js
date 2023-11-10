@@ -4,7 +4,7 @@
  * @author Joseph Stiles
  */
 
-import docsUrl from '../../util/docsUrl'
+import { docsUrl } from '../../util/docsUrl'
 import report from '../../util/report'
 
 // ------------------------------------------------------------------------------

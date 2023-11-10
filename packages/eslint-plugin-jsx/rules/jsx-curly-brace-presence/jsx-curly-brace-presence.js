@@ -4,7 +4,7 @@
  * @author Simon Lydell
  */
 
-import docsUrl from '../../util/docsUrl'
+import { docsUrl } from '../../util/docsUrl'
 import { isJSX, isWhiteSpaces } from '../../util/jsx'
 import report from '../../util/report'
 

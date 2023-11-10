@@ -3,7 +3,7 @@
  * @author Ilya Volodin, Yannick Croissant
  */
 
-import docsUrl from '../../util/docsUrl'
+import { docsUrl } from '../../util/docsUrl'
 import { getPropName, isDOMComponent } from '../../util/jsx'
 import report from '../../util/report'
 

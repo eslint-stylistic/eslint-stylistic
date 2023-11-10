@@ -31,7 +31,7 @@
  */
 
 import { getFirstNodeInLine, isNodeFirstInLine } from '../../util/ast'
-import docsUrl from '../../util/docsUrl'
+import { docsUrl } from '../../util/docsUrl'
 import reportC from '../../util/report'
 import { isJSX, isReturningJSX } from '../../util/jsx'
 

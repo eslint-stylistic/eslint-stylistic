@@ -3,7 +3,7 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
-import docsUrl from '../../util/docsUrl'
+import { docsUrl } from '../../util/docsUrl'
 import { isWhiteSpaces } from '../../util/jsx'
 import report from '../../util/report'
 
