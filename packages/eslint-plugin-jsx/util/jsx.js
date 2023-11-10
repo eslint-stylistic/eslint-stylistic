@@ -4,9 +4,9 @@
 
 'use strict'
 
-const astUtil = require('./ast')
-const isCreateElement = require('./isCreateElement')
-const variableUtil = require('./variable')
+import { traverse, traverseReturns } from './ast'
+import isCreateElement from './isCreateElement'
+import { findVariableByName } from './variable'
 
 // See https://github.com/babel/babel/blob/ce420ba51c68591e057696ef43e028f41c6e04cd/packages/babel-types/src/validators/react/isCompatTag.js
 // for why we only test for the first character
@@ -117,7 +117,7 @@ function isReturningJSX(ASTnode, context, strict, ignoreNull) {
 
         return false
       case 'Identifier': {
-        const variable = variableUtil.findVariableByName(context, node.name)
+        const variable = findVariableByName(context, node.name)
         return isJSX(variable)
       }
       default:
@@ -126,7 +126,7 @@ function isReturningJSX(ASTnode, context, strict, ignoreNull) {
   }
 
   let found = false
-  astUtil.traverseReturns(ASTnode, context, (node, breakTraverse) => {
+  traverseReturns(ASTnode, context, (node, breakTraverse) => {
     if (isJSXValue(node)) {
       found = true
       breakTraverse()
@@ -146,9 +146,9 @@ function isReturningJSX(ASTnode, context, strict, ignoreNull) {
 function isReturningOnlyNull(ASTnode, context) {
   let found = false
   let foundSomethingElse = false
-  astUtil.traverseReturns(ASTnode, context, (node) => {
+  traverseReturns(ASTnode, context, (node) => {
     // Traverse return statement
-    astUtil.traverse(node, {
+    traverse(node, {
       enter(childNode) {
         const setFound = () => {
           found = true
@@ -228,7 +228,7 @@ function getElementType(node = {}) {
   return node.name.name
 }
 
-module.exports = {
+export {
   isDOMComponent,
   isFragment,
   isJSX,

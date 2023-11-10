@@ -3,7 +3,7 @@
  * @author Ross Solomon
  */
 
-import astUtil from '../../util/ast'
+import { isNodeFirstInLine } from '../../util/ast'
 import docsUrl from '../../util/docsUrl'
 import report from '../../util/report'
 
@@ -40,7 +40,7 @@ export default {
       if (opening.loc.start.column === node.loc.start.column)
         return
 
-      const messageId = astUtil.isNodeFirstInLine(context, node)
+      const messageId = isNodeFirstInLine(context, node)
         ? 'matchIndent'
         : 'onOwnLine'
       report(context, messages[messageId], messageId, {
@@ -48,7 +48,7 @@ export default {
         loc: node.loc,
         fix(fixer) {
           const indent = Array(opening.loc.start.column + 1).join(' ')
-          if (astUtil.isNodeFirstInLine(context, node)) {
+          if (isNodeFirstInLine(context, node)) {
             return fixer.replaceTextRange(
               [node.range[0] - node.loc.start.column, node.range[0]],
               indent,

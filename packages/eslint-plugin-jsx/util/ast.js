@@ -4,8 +4,7 @@
 
 'use strict'
 
-const estraverse = require('estraverse')
-// const pragmaUtil = require('./pragma');
+import { traverse as _traverse } from 'estraverse'
 
 /**
  * Wrapper for estraverse.traverse
@@ -25,7 +24,7 @@ function traverse(ASTnode, visitor) {
     JSXFragment: ['children'],
   })
 
-  estraverse.traverse(ASTnode, opts)
+  _traverse(ASTnode, opts)
 }
 
 function loopNodes(nodes) {
@@ -436,7 +435,7 @@ function isTSTypeParameterInstantiation(node) {
   return nodeType === 'TSTypeParameterInstantiation'
 }
 
-module.exports = {
+export {
   traverse,
   findReturnStatement,
   getFirstNodeInLine,

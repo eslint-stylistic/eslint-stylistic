@@ -30,7 +30,7 @@
  THE SOFTWARE.
  */
 
-import astUtil from '../../util/ast'
+import { isNodeFirstInLine } from '../../util/ast'
 import docsUrl from '../../util/docsUrl'
 import reportC from '../../util/report'
 
@@ -186,7 +186,7 @@ export default {
         }
         if (
           node.type !== 'ArrayExpression' && node.type !== 'ObjectExpression'
-          && nodeIndent !== nestedIndent && astUtil.isNodeFirstInLine(context, node)
+          && nodeIndent !== nestedIndent && isNodeFirstInLine(context, node)
         )
           report(node, nestedIndent, nodeIndent)
       })

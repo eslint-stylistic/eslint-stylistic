@@ -1,7 +1,7 @@
 'use strict'
 
-const pragmaUtil = require('./pragma')
-const variableUtil = require('./variable')
+import { getFromContext } from './pragma'
+import { getLatestVariableDefinition, getVariable, variablesInScope } from './variable'
 
 /**
  * Check if variable is destructured from pragma import
@@ -10,12 +10,12 @@ const variableUtil = require('./variable')
  * @param {Context} context eslint context
  * @returns {boolean} True if createElement is destructured from the pragma
  */
-module.exports = function isDestructuredFromPragmaImport(variable, context) {
-  const pragma = pragmaUtil.getFromContext(context)
-  const variables = variableUtil.variablesInScope(context)
-  const variableInScope = variableUtil.getVariable(variables, variable)
+export default function isDestructuredFromPragmaImport(variable, context) {
+  const pragma = getFromContext(context)
+  const variables = variablesInScope(context)
+  const variableInScope = getVariable(variables, variable)
   if (variableInScope) {
-    const latestDef = variableUtil.getLatestVariableDefinition(variableInScope)
+    const latestDef = getLatestVariableDefinition(variableInScope)
     if (latestDef) {
       // check if latest definition is a variable declaration: 'variable = value'
       if (latestDef.node.type === 'VariableDeclarator' && latestDef.node.init) {

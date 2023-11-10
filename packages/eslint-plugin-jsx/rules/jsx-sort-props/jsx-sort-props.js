@@ -4,7 +4,7 @@
  */
 
 import docsUrl from '../../util/docsUrl'
-import jsxUtil from '../../util/jsx'
+import { getPropName, isDOMComponent } from '../../util/jsx'
 import report from '../../util/report'
 
 const includes = (arr, value) => arr.includes(value)
@@ -54,8 +54,8 @@ function shouldSortToEnd(node) {
 }
 
 function contextCompare(a, b, options) {
-  let aProp = jsxUtil.getPropName(a)
-  let bProp = jsxUtil.getPropName(b)
+  let aProp = getPropName(a)
+  let bProp = getPropName(b)
 
   const aSortToEnd = shouldSortToEnd(a)
   const bSortToEnd = shouldSortToEnd(b)
@@ -406,14 +406,14 @@ export default {
 
       JSXOpeningElement(node) {
         // `dangerouslySetInnerHTML` is only "reserved" on DOM components
-        const nodeReservedList = reservedFirst && !jsxUtil.isDOMComponent(node) ? reservedList.filter(prop => prop !== 'dangerouslySetInnerHTML') : reservedList
+        const nodeReservedList = reservedFirst && !isDOMComponent(node) ? reservedList.filter(prop => prop !== 'dangerouslySetInnerHTML') : reservedList
 
         node.attributes.reduce((memo, decl, idx, attrs) => {
           if (decl.type === 'JSXSpreadAttribute')
             return attrs[idx + 1]
 
-          let previousPropName = jsxUtil.getPropName(memo)
-          let currentPropName = jsxUtil.getPropName(decl)
+          let previousPropName = getPropName(memo)
+          let currentPropName = getPropName(decl)
           const previousValue = memo.value
           const currentValue = decl.value
           const previousIsCallback = isCallbackPropName(previousPropName)

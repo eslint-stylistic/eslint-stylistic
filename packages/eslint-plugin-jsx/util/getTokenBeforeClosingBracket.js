@@ -1,5 +1,3 @@
-'use strict'
-
 /**
  * Find the token before the closing bracket.
  * @param {ASTNode} node - The JSX element node.
@@ -13,4 +11,4 @@ function getTokenBeforeClosingBracket(node) {
   return attributes[attributes.length - 1]
 }
 
-module.exports = getTokenBeforeClosingBracket
+export default getTokenBeforeClosingBracket

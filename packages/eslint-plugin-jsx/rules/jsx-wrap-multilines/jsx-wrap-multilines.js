@@ -4,7 +4,7 @@
  */
 
 import docsUrl from '../../util/docsUrl'
-import jsxUtil from '../../util/jsx'
+import { isJSX } from '../../util/jsx'
 import reportC from '../../util/report'
 import { isParenthesized } from '../../util/ast'
 
@@ -132,7 +132,7 @@ export default {
     }
 
     function check(node, type) {
-      if (!node || !jsxUtil.isJSX(node))
+      if (!node || !isJSX(node))
         return
 
       const sourceCode = context.getSourceCode()

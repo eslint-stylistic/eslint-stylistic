@@ -1,8 +1,8 @@
 'use strict'
 
-const getMessageData = require('./message')
+import getMessageData from './message'
 
-module.exports = function report(context, message, messageId, data) {
+export default function report(context, message, messageId, data) {
   context.report(
     Object.assign(
       getMessageData(messageId, message),

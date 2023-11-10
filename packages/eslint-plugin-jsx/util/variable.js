@@ -3,8 +3,6 @@
  * @author Yannick Croissant
  */
 
-'use strict'
-
 /**
  * Search a particular variable in a list
  * @param {Array} variables The variables list.
@@ -81,7 +79,7 @@ function getLatestVariableDefinition(variable) {
   return variable.defs[variable.defs.length - 1]
 }
 
-module.exports = {
+export {
   findVariable,
   findVariableByName,
   getVariable,

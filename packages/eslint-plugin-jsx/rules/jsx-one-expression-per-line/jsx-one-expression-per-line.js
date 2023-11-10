@@ -4,7 +4,7 @@
  */
 
 import docsUrl from '../../util/docsUrl'
-import jsxUtil from '../../util/jsx'
+import { isWhiteSpaces } from '../../util/jsx'
 import report from '../../util/report'
 
 // ------------------------------------------------------------------------------
@@ -94,7 +94,7 @@ export default {
         let countNewLinesAfterContent = 0
 
         if (child.type === 'Literal' || child.type === 'JSXText') {
-          if (jsxUtil.isWhiteSpaces(child.raw))
+          if (isWhiteSpaces(child.raw))
             return
 
           countNewLinesBeforeContent = (child.raw.match(/^\s*\n/g) || []).length

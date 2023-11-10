@@ -5,7 +5,7 @@
  */
 
 import docsUrl from '../../util/docsUrl'
-import jsxUtil from '../../util/jsx'
+import { isJSX, isWhiteSpaces } from '../../util/jsx'
 import report from '../../util/report'
 
 const arrayIncludes = (arr, value) => arr.includes(value)
@@ -120,7 +120,7 @@ export default {
     function containsWhitespaceExpression(child) {
       if (child.type === 'JSXExpressionContainer') {
         const value = child.expression.value
-        return value ? jsxUtil.isWhiteSpaces(value) : false
+        return value ? isWhiteSpaces(value) : false
       }
       return false
     }
@@ -170,7 +170,7 @@ export default {
           const expression = JSXExpressionNode.expression
 
           let textToReplace
-          if (jsxUtil.isJSX(expression)) {
+          if (isJSX(expression)) {
             const sourceCode = context.getSourceCode()
             textToReplace = sourceCode.getText(expression)
           }
@@ -184,7 +184,7 @@ export default {
                 : expression.raw.slice(1, -1)
               }"`
             }
-            else if (jsxUtil.isJSX(expression)) {
+            else if (isJSX(expression)) {
               const sourceCode = context.getSourceCode()
 
               textToReplace = sourceCode.getText(expression)
@@ -204,7 +204,7 @@ export default {
       report(context, messages.missingCurly, 'missingCurly', {
         node: literalNode,
         fix(fixer) {
-          if (jsxUtil.isJSX(literalNode))
+          if (isJSX(literalNode))
             return fixer.replaceText(literalNode, `{${context.getSourceCode().getText(literalNode)}}`)
 
           // If a HTML entity name is found, bail out because it can be fixed
@@ -229,7 +229,7 @@ export default {
     }
 
     function isWhiteSpaceLiteral(node) {
-      return node.type && node.type === 'Literal' && node.value && jsxUtil.isWhiteSpaces(node.value)
+      return node.type && node.type === 'Literal' && node.value && isWhiteSpaces(node.value)
     }
 
     function isStringWithTrailingWhiteSpaces(value) {
@@ -261,7 +261,7 @@ export default {
           )
           && !containsMultilineComment(expression.value)
           && !needToEscapeCharacterForJSX(expression.raw, JSXExpressionNode) && (
-          jsxUtil.isJSX(JSXExpressionNode.parent)
+          isJSX(JSXExpressionNode.parent)
           || !containsQuoteCharacters(expression.value)
         )
       )
@@ -275,7 +275,7 @@ export default {
         && !containsQuoteCharacters(expression.quasis[0].value.cooked)
       )
         reportUnnecessaryCurly(JSXExpressionNode)
-      else if (jsxUtil.isJSX(expression))
+      else if (isJSX(expression))
         reportUnnecessaryCurly(JSXExpressionNode)
     }
 
@@ -285,7 +285,7 @@ export default {
           && typeof config.props === 'string'
           && config.props === ruleCondition
       ) || (
-        jsxUtil.isJSX(parent)
+        isJSX(parent)
           && typeof config.children === 'string'
           && config.children === ruleCondition
       )
@@ -341,7 +341,7 @@ export default {
 
       // If there are adjacent `JsxExpressionContainer` then there is no need,
       // to check for unnecessary curly braces.
-      if (jsxUtil.isJSX(parent) && hasAdjacentJsxExpressionContainers(node, parent.children))
+      if (isJSX(parent) && hasAdjacentJsxExpressionContainers(node, parent.children))
         return false
 
       if (containsWhitespaceExpression(node) && hasAdjacentJsx(node, parent.children))
@@ -358,7 +358,7 @@ export default {
     }
 
     function shouldCheckForMissingCurly(node, config) {
-      if (jsxUtil.isJSX(node))
+      if (isJSX(node))
         return config.propElementValues !== OPTION_IGNORE
 
       if (

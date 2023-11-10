@@ -30,10 +30,10 @@
  THE SOFTWARE.
  */
 
-import astUtil from '../../util/ast'
+import { getFirstNodeInLine, isNodeFirstInLine } from '../../util/ast'
 import docsUrl from '../../util/docsUrl'
 import reportC from '../../util/report'
-import jsxUtil from '../../util/jsx'
+import { isJSX, isReturningJSX } from '../../util/jsx'
 
 const matchAll = (s, v) => s.matchAll(v)
 
@@ -299,7 +299,7 @@ export default {
       const isCorrectAlternateInCondExp = isAlternateInConditionalExp(node) && (nodeIndent - indent) === 0
       if (
         nodeIndent !== indent
-        && astUtil.isNodeFirstInLine(context, node)
+        && isNodeFirstInLine(context, node)
         && !isCorrectRightInLogicalExp
         && !isCorrectAlternateInCondExp
       )
@@ -374,7 +374,7 @@ export default {
 
       const nameIndent = getNodeIndent(node.name)
       const lastToken = context.getSourceCode().getLastToken(node.value)
-      const firstInLine = astUtil.getFirstNodeInLine(context, lastToken)
+      const firstInLine = getFirstNodeInLine(context, lastToken)
       const indent = node.name.loc.start.line === firstInLine.loc.start.line ? 0 : nameIndent
       checkNodesIndent(firstInLine, indent)
     }
@@ -409,7 +409,7 @@ export default {
       ReturnStatement(node) {
         if (
           !node.parent
-          || !jsxUtil.isJSX(node.argument)
+          || !isJSX(node.argument)
         )
           return
 
@@ -419,7 +419,7 @@ export default {
 
         if (
           !fn
-          || !jsxUtil.isReturningJSX(node, context, true)
+          || !isReturningJSX(node, context, true)
         )
           return
 

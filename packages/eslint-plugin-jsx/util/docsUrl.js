@@ -4,4 +4,4 @@ function docsUrl(ruleName) {
   return `https://eslint.style/rules/jsx/${ruleName}`
 }
 
-module.exports = docsUrl
+export default docsUrl

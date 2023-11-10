@@ -4,7 +4,7 @@
  */
 
 import docsUrl from '../../util/docsUrl'
-import jsxUtil from '../../util/jsx'
+import { isDOMComponent } from '../../util/jsx'
 import report from '../../util/report'
 
 // ------------------------------------------------------------------------------
@@ -50,7 +50,7 @@ export default {
       return (
         node.name
         && (node.name.type === 'JSXIdentifier' || node.name.type === 'JSXMemberExpression')
-        && !jsxUtil.isDOMComponent(node)
+        && !isDOMComponent(node)
       )
     }
 
@@ -73,7 +73,7 @@ export default {
       const configuration = Object.assign({}, optionDefaults, context.options[0])
       return (
         (configuration.component && isComponent(node))
-        || (configuration.html && jsxUtil.isDOMComponent(node))
+        || (configuration.html && isDOMComponent(node))
       ) && !node.selfClosing && (childrenIsEmpty(node) || childrenIsMultilineSpaces(node))
     }
 

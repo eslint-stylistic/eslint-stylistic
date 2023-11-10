@@ -66,7 +66,7 @@ function getFromContext(context) {
   return pragma
 }
 
-module.exports = {
+export {
   getCreateClassFromContext,
   getFragmentFromContext,
   getFromContext,

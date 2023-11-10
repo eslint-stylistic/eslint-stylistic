@@ -1,5 +1,4 @@
-'use strict'
-const process = require('node:process')
+import process from 'node:process'
 
 /**
  * Logs out a message if there is no format option set.
@@ -12,4 +11,4 @@ function log(message) {
   }
 }
 
-module.exports = log
+export default log
