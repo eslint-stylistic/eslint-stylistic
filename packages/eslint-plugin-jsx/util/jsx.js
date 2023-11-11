@@ -2,7 +2,7 @@
  * @fileoverview Utility functions for JSX
  */
 import { traverseReturns } from './ast'
-import isCreateElement from './isCreateElement'
+import { isCreateElement } from './isCreateElement'
 import { findVariableByName } from './variable'
 
 // See https://github.com/babel/babel/blob/ce420ba51c68591e057696ef43e028f41c6e04cd/packages/babel-types/src/validators/react/isCompatTag.js

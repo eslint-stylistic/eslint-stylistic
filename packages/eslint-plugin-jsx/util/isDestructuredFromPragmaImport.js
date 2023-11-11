@@ -8,7 +8,7 @@ import { getLatestVariableDefinition, getVariable, variablesInScope } from './va
  * @param {Context} context eslint context
  * @returns {boolean} True if createElement is destructured from the pragma
  */
-export default function isDestructuredFromPragmaImport(variable, context) {
+export function isDestructuredFromPragmaImport(variable, context) {
   const pragma = getFromContext(context)
   const variables = variablesInScope(context)
   const variableInScope = getVariable(variables, variable)

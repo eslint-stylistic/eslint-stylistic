@@ -1,5 +1,5 @@
 import { getFromContext } from './pragma'
-import isDestructuredFromPragmaImport from './isDestructuredFromPragmaImport'
+import { isDestructuredFromPragmaImport } from './isDestructuredFromPragmaImport'
 
 /**
  * Checks if the node is a createElement call
@@ -7,7 +7,7 @@ import isDestructuredFromPragmaImport from './isDestructuredFromPragmaImport'
  * @param {Context} context - The AST node being checked.
  * @returns {boolean} - True if node is a createElement call object literal, False if not.
  */
-export default function isCreateElement(node, context) {
+export function isCreateElement(node, context) {
   if (
     node.callee
     && node.callee.type === 'MemberExpression'

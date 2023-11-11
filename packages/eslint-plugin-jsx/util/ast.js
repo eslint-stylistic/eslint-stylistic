@@ -9,7 +9,7 @@ import { traverse as _traverse } from 'estraverse'
  * @param {ASTNode} ASTnode The AST node being checked
  * @param {object} visitor Visitor Object for estraverse
  */
-function traverse(ASTnode, visitor) {
+export function traverse(ASTnode, visitor) {
   const opts = Object.assign({}, {
     fallback(node) {
       return Object.keys(node).filter(key => key === 'children' || key === 'argument')
@@ -34,7 +34,7 @@ function traverse(ASTnode, visitor) {
  *   Function to execute for each returnStatement found
  * @returns {undefined}
  */
-function traverseReturns(ASTNode, context, onReturn) {
+export function traverseReturns(ASTNode, context, onReturn) {
   const nodeType = ASTNode.type
 
   if (nodeType === 'ReturnStatement') {
@@ -103,7 +103,7 @@ function traverseReturns(ASTNode, context, onReturn) {
  * @param {ASTNode} node The node to check
  * @return {ASTNode} the first node in the line
  */
-function getFirstNodeInLine(context, node) {
+export function getFirstNodeInLine(context, node) {
   const sourceCode = context.getSourceCode()
   let token = node
   let lines
@@ -125,7 +125,7 @@ function getFirstNodeInLine(context, node) {
  * @param {ASTNode} node The node to check
  * @return {boolean} true if it's the first node in its line
  */
-function isNodeFirstInLine(context, node) {
+export function isNodeFirstInLine(context, node) {
   const token = getFirstNodeInLine(context, node)
   const startLine = node.loc.start.line
   const endLine = token ? token.loc.end.line : -1
@@ -139,7 +139,7 @@ function isNodeFirstInLine(context, node) {
  * @param {ASTNode} node - Node to be checked
  * @returns {boolean}
  */
-function isParenthesized(context, node) {
+export function isParenthesized(context, node) {
   const sourceCode = context.getSourceCode()
   const previousToken = sourceCode.getTokenBefore(node)
   const nextToken = sourceCode.getTokenAfter(node)
@@ -147,12 +147,4 @@ function isParenthesized(context, node) {
   return !!previousToken && !!nextToken
     && previousToken.value === '(' && previousToken.range[1] <= node.range[0]
     && nextToken.value === ')' && nextToken.range[0] >= node.range[1]
-}
-
-export {
-  traverse,
-  getFirstNodeInLine,
-  isParenthesized,
-  isNodeFirstInLine,
-  traverseReturns,
 }
