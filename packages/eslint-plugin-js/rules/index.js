@@ -13,6 +13,7 @@ module.exports = {
   'dot-location': require('./dot-location/dot-location.js'),
   'eol-last': require('./eol-last/eol-last.js'),
   'func-call-spacing': require('./func-call-spacing/func-call-spacing.js'),
+  'function-call-spacing': require('./func-call-spacing/func-call-spacing.js'),
   'function-call-argument-newline': require('./function-call-argument-newline/function-call-argument-newline.js'),
   'function-paren-newline': require('./function-paren-newline/function-paren-newline.js'),
   'generator-star-spacing': require('./generator-star-spacing/generator-star-spacing.js'),

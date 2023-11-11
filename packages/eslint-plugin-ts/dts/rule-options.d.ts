@@ -47,6 +47,11 @@ export interface RuleOptions {
    */
   '@stylistic/ts/func-call-spacing': FuncCallSpacingRuleOptions
   /**
+   * Require or disallow spacing between function identifiers and their invocations
+   * @see https://eslint.style/rules/ts/func-call-spacing
+   */
+  '@stylistic/ts/function-call-spacing': FuncCallSpacingRuleOptions
+  /**
    * Enforce consistent indentation
    * @see https://eslint.style/rules/ts/indent
    */
@@ -154,6 +159,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/ts/func-call-spacing
    */
   'func-call-spacing': FuncCallSpacingRuleOptions
+  /**
+   * Require or disallow spacing between function identifiers and their invocations
+   * @see https://eslint.style/rules/ts/func-call-spacing
+   */
+  'function-call-spacing': FuncCallSpacingRuleOptions
   /**
    * Enforce consistent indentation
    * @see https://eslint.style/rules/ts/indent

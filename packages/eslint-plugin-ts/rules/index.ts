@@ -26,6 +26,7 @@ export default {
   'comma-dangle': commaDangle,
   'comma-spacing': commaSpacing,
   'func-call-spacing': funcCallSpacing,
+  'function-call-spacing': funcCallSpacing,
   'indent': indent,
   'key-spacing': keySpacing,
   'keyword-spacing': keywordSpacing,

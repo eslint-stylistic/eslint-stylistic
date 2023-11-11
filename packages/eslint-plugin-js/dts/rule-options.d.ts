@@ -138,6 +138,11 @@ export interface RuleOptions {
    */
   '@stylistic/js/func-call-spacing': FuncCallSpacingRuleOptions
   /**
+   * Require or disallow spacing between function identifiers and their invocations
+   * @see https://eslint.style/rules/js/func-call-spacing
+   */
+  '@stylistic/js/function-call-spacing': FuncCallSpacingRuleOptions
+  /**
    * Enforce line breaks between arguments of a function call
    * @see https://eslint.style/rules/js/function-call-argument-newline
    */
@@ -475,6 +480,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/js/func-call-spacing
    */
   'func-call-spacing': FuncCallSpacingRuleOptions
+  /**
+   * Require or disallow spacing between function identifiers and their invocations
+   * @see https://eslint.style/rules/js/func-call-spacing
+   */
+  'function-call-spacing': FunctionCallSpacingRuleOptions
   /**
    * Enforce line breaks between arguments of a function call
    * @see https://eslint.style/rules/js/function-call-argument-newline
