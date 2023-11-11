@@ -2,14 +2,9 @@
  * @fileoverview Test for spaced-comments
  * @author Gyandeep Singh
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./spaced-comment')
+import { RuleTester } from 'eslint'
+import rule from './spaced-comment'
 
 // ------------------------------------------------------------------------------
 // Tests

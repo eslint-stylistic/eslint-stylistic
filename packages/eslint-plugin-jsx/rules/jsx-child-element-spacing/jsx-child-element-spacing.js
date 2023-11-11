@@ -1,5 +1,5 @@
-const docsUrl = require('../../util/docsUrl')
-const report = require('../../util/report')
+import { docsUrl } from '../../util/docsUrl'
+import report from '../../util/report'
 
 // This list is taken from https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements
 
@@ -42,7 +42,7 @@ const messages = {
   spacingBeforeNext: 'Ambiguous spacing before next element {{element}}',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Enforce or disallow spaces inside of curly braces in JSX attributes and expressions',

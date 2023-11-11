@@ -30,11 +30,9 @@
  THE SOFTWARE.
  */
 
-'use strict'
-
-const astUtil = require('../../util/ast')
-const docsUrl = require('../../util/docsUrl')
-const reportC = require('../../util/report')
+import { isNodeFirstInLine } from '../../util/ast'
+import { docsUrl } from '../../util/docsUrl'
+import reportC from '../../util/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -44,7 +42,7 @@ const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Enforce props indentation in JSX',
@@ -188,7 +186,7 @@ module.exports = {
         }
         if (
           node.type !== 'ArrayExpression' && node.type !== 'ObjectExpression'
-          && nodeIndent !== nestedIndent && astUtil.isNodeFirstInLine(context, node)
+          && nodeIndent !== nestedIndent && isNodeFirstInLine(context, node)
         )
           report(node, nestedIndent, nodeIndent)
       })

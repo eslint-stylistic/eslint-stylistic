@@ -2,13 +2,8 @@
  * @fileoverview Enforces empty lines around comments.
  * @author Jamund Ferguson
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { COMMENTS_IGNORE_PATTERN, isCommentToken, isOpeningBraceToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -50,7 +45,7 @@ function getCommentLineNums(comments) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -131,7 +126,7 @@ module.exports = {
   create(context) {
     const options = Object.assign({}, context.options[0])
     const ignorePattern = options.ignorePattern
-    const defaultIgnoreRegExp = astUtils.COMMENTS_IGNORE_PATTERN
+    const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN
     const customIgnoreRegExp = new RegExp(ignorePattern, 'u')
     const applyDefaultIgnorePatterns = options.applyDefaultIgnorePatterns !== false
 
@@ -156,17 +151,17 @@ module.exports = {
 
       do
         currentToken = sourceCode.getTokenBefore(currentToken, { includeComments: true })
-      while (currentToken && astUtils.isCommentToken(currentToken))
+      while (currentToken && isCommentToken(currentToken))
 
-      if (currentToken && astUtils.isTokenOnSameLine(currentToken, token))
+      if (currentToken && isTokenOnSameLine(currentToken, token))
         return true
 
       currentToken = token
       do
         currentToken = sourceCode.getTokenAfter(currentToken, { includeComments: true })
-      while (currentToken && astUtils.isCommentToken(currentToken))
+      while (currentToken && isCommentToken(currentToken))
 
-      if (currentToken && astUtils.isTokenOnSameLine(token, currentToken))
+      if (currentToken && isTokenOnSameLine(token, currentToken))
         return true
 
       return false
@@ -239,7 +234,7 @@ module.exports = {
         }
         else if (parent.type === 'SwitchStatement') {
           parentStartNodeOrToken = sourceCode.getTokenAfter(parent.discriminant, {
-            filter: astUtils.isOpeningBraceToken,
+            filter: isOpeningBraceToken,
           }) // opening brace of the switch statement
         }
 
@@ -399,7 +394,7 @@ module.exports = {
 
       // check for newline before
       if (!exceptionStartAllowed && before && !commentAndEmptyLines.has(prevLineNum)
-                    && !(astUtils.isCommentToken(previousTokenOrComment) && astUtils.isTokenOnSameLine(previousTokenOrComment, token))) {
+                    && !(isCommentToken(previousTokenOrComment) && isTokenOnSameLine(previousTokenOrComment, token))) {
         const lineStart = token.range[0] - token.loc.start.column
         const range = [lineStart, lineStart]
 
@@ -414,7 +409,7 @@ module.exports = {
 
       // check for newline after
       if (!exceptionEndAllowed && after && !commentAndEmptyLines.has(nextLineNum)
-                    && !(astUtils.isCommentToken(nextTokenOrComment) && astUtils.isTokenOnSameLine(token, nextTokenOrComment))) {
+                    && !(isCommentToken(nextTokenOrComment) && isTokenOnSameLine(token, nextTokenOrComment))) {
         context.report({
           node: token,
           messageId: 'after',

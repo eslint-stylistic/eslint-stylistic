@@ -3,25 +3,19 @@
  * @author Dmitriy Shekhovtsov
  * @author Gyandeep Singh
  */
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const fs = require('node:fs')
-const path = require('node:path')
-const { RuleTester } = require('eslint')
+import { readFileSync } from 'node:fs'
+import { join } from 'node:path'
+import { RuleTester } from 'eslint'
+import parser from '../../fixtures/fixture-parser'
+import { unIndent } from '../../utils/test-utils'
+import rule from './indent'
 
 // ------------------------------------------------------------------------------
 // Helpers
 // ------------------------------------------------------------------------------
 
-const fixture = fs.readFileSync(path.join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
-const fixedFixture = fs.readFileSync(path.join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')
-const parser = require('../../fixtures/fixture-parser')
-const { unIndent } = require('../../utils/test-utils')
-const rule = require('./indent')
+const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
+const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')
 
 /**
  * Create error message object for failure cases with a single 'found' indentation type

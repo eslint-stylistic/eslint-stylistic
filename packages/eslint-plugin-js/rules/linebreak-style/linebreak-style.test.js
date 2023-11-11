@@ -2,14 +2,9 @@
  * @fileoverview No mixed linebreaks
  * @author Erik Mueller
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./linebreak-style')
+import { RuleTester } from 'eslint'
+import rule from './linebreak-style'
 
 // ------------------------------------------------------------------------------
 // Tests

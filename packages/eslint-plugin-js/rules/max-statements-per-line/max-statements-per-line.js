@@ -2,20 +2,15 @@
  * @fileoverview Specify the maximum number of statements allowed per line.
  * @author Kenneth Williams
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { isNotSemicolonToken } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -83,7 +78,7 @@ module.exports = {
      * @returns {Token} The actual last token.
      */
     function getActualLastToken(node) {
-      return sourceCode.getLastToken(node, astUtils.isNotSemicolonToken)
+      return sourceCode.getLastToken(node, isNotSemicolonToken)
     }
 
     /**

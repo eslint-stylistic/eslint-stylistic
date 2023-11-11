@@ -2,14 +2,13 @@
  * @fileoverview Require or disallow newline at the end of files
  * @author Nodeca Team <https://github.com/nodeca>
  */
-'use strict'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

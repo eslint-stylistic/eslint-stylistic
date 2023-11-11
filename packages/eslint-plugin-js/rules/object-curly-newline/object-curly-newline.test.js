@@ -3,15 +3,9 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const resolvePath = require('node:path').resolve
-const { RuleTester } = require('eslint')
-const rule = require('./object-curly-newline')
+import { resolve as resolvePath } from 'node:path'
+import { RuleTester } from 'eslint'
+import rule from './object-curly-newline'
 
 // ------------------------------------------------------------------------------
 // Tests

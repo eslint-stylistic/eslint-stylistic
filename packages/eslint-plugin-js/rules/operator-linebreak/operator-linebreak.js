@@ -3,20 +3,14 @@
  * @author Benoît Zugmeyer
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { createGlobalLinebreakMatcher, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -84,8 +78,8 @@ module.exports = {
         const tokenAfter = sourceCode.getTokenAfter(operatorToken)
         const textBefore = sourceCode.text.slice(tokenBefore.range[1], operatorToken.range[0])
         const textAfter = sourceCode.text.slice(operatorToken.range[1], tokenAfter.range[0])
-        const hasLinebreakBefore = !astUtils.isTokenOnSameLine(tokenBefore, operatorToken)
-        const hasLinebreakAfter = !astUtils.isTokenOnSameLine(operatorToken, tokenAfter)
+        const hasLinebreakBefore = !isTokenOnSameLine(tokenBefore, operatorToken)
+        const hasLinebreakAfter = !isTokenOnSameLine(operatorToken, tokenAfter)
         let newTextBefore, newTextAfter
 
         if (hasLinebreakBefore !== hasLinebreakAfter && desiredStyle !== 'none') {
@@ -107,7 +101,7 @@ module.exports = {
           newTextAfter = textBefore
         }
         else {
-          const LINEBREAK_REGEX = astUtils.createGlobalLinebreakMatcher()
+          const LINEBREAK_REGEX = createGlobalLinebreakMatcher()
 
           // Otherwise, if no linebreak is desired and no comments interfere, replace the linebreaks with empty strings.
           newTextBefore = desiredStyle === 'before' || textBefore.trim() ? textBefore : textBefore.replace(LINEBREAK_REGEX, '')
@@ -149,14 +143,14 @@ module.exports = {
       const fix = getFixer(operatorToken, style)
 
       // if single line
-      if (astUtils.isTokenOnSameLine(leftToken, operatorToken)
-                    && astUtils.isTokenOnSameLine(operatorToken, rightToken)) {
+      if (isTokenOnSameLine(leftToken, operatorToken)
+                    && isTokenOnSameLine(operatorToken, rightToken)) {
 
         // do nothing.
 
       }
-      else if (operatorStyleOverride !== 'ignore' && !astUtils.isTokenOnSameLine(leftToken, operatorToken)
-                    && !astUtils.isTokenOnSameLine(operatorToken, rightToken)) {
+      else if (operatorStyleOverride !== 'ignore' && !isTokenOnSameLine(leftToken, operatorToken)
+                    && !isTokenOnSameLine(operatorToken, rightToken)) {
         // lone operator
         context.report({
           node,
@@ -168,7 +162,7 @@ module.exports = {
           fix,
         })
       }
-      else if (style === 'before' && astUtils.isTokenOnSameLine(leftToken, operatorToken)) {
+      else if (style === 'before' && isTokenOnSameLine(leftToken, operatorToken)) {
         context.report({
           node,
           loc: operatorToken.loc,
@@ -179,7 +173,7 @@ module.exports = {
           fix,
         })
       }
-      else if (style === 'after' && astUtils.isTokenOnSameLine(operatorToken, rightToken)) {
+      else if (style === 'after' && isTokenOnSameLine(operatorToken, rightToken)) {
         context.report({
           node,
           loc: operatorToken.loc,

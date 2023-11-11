@@ -1,11 +1,5 @@
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./function-call-argument-newline')
+import { RuleTester } from 'eslint'
+import rule from './function-call-argument-newline'
 
 // ------------------------------------------------------------------------------
 // Tests

@@ -3,8 +3,6 @@
  * @author Yannick Croissant
  */
 
-'use strict'
-
 const JSX_ANNOTATION_REGEX = /@jsx\s+([^\s]+)/
 // Does not check for reserved keywords or unicode characters
 const JS_IDENTIFIER_REGEX = /^[_$a-zA-Z][_$a-zA-Z0-9]*$/
@@ -13,39 +11,7 @@ const JS_IDENTIFIER_REGEX = /^[_$a-zA-Z][_$a-zA-Z0-9]*$/
  * @param {Context} context
  * @returns {string}
  */
-function getCreateClassFromContext(context) {
-  let pragma = 'createReactClass'
-  // .eslintrc shared settings (https://eslint.org/docs/user-guide/configuring#adding-shared-settings)
-  if (context.settings.react && context.settings.react.createClass)
-    pragma = context.settings.react.createClass
-
-  if (!JS_IDENTIFIER_REGEX.test(pragma))
-    throw new Error(`createClass pragma ${pragma} is not a valid function name`)
-
-  return pragma
-}
-
-/**
- * @param {Context} context
- * @returns {string}
- */
-function getFragmentFromContext(context) {
-  let pragma = 'Fragment'
-  // .eslintrc shared settings (https://eslint.org/docs/user-guide/configuring#adding-shared-settings)
-  if (context.settings.react && context.settings.react.fragment)
-    pragma = context.settings.react.fragment
-
-  if (!JS_IDENTIFIER_REGEX.test(pragma))
-    throw new Error(`Fragment pragma ${pragma} is not a valid identifier`)
-
-  return pragma
-}
-
-/**
- * @param {Context} context
- * @returns {string}
- */
-function getFromContext(context) {
+export function getFromContext(context) {
   let pragma = 'React'
 
   const sourceCode = context.getSourceCode()
@@ -64,10 +30,4 @@ function getFromContext(context) {
     throw new Error(`React pragma ${pragma} is not a valid identifier`)
 
   return pragma
-}
-
-module.exports = {
-  getCreateClassFromContext,
-  getFragmentFromContext,
-  getFromContext,
 }

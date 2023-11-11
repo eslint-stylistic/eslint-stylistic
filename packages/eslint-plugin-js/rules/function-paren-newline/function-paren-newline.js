@@ -2,20 +2,15 @@
  * @fileoverview enforce consistent line breaks inside function parentheses
  * @author Teddy Katz
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -107,8 +102,8 @@ module.exports = {
       const rightParen = parens.rightParen
       const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)
       const tokenBeforeRightParen = sourceCode.getTokenBefore(rightParen)
-      const hasLeftNewline = !astUtils.isTokenOnSameLine(leftParen, tokenAfterLeftParen)
-      const hasRightNewline = !astUtils.isTokenOnSameLine(tokenBeforeRightParen, rightParen)
+      const hasLeftNewline = !isTokenOnSameLine(leftParen, tokenAfterLeftParen)
+      const hasRightNewline = !isTokenOnSameLine(tokenBeforeRightParen, rightParen)
       const needsNewlines = shouldHaveNewlines(elements, hasLeftNewline)
 
       if (hasLeftNewline && !needsNewlines) {
@@ -163,7 +158,7 @@ module.exports = {
     function validateArguments(parens, elements) {
       const leftParen = parens.leftParen
       const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)
-      const hasLeftNewline = !astUtils.isTokenOnSameLine(leftParen, tokenAfterLeftParen)
+      const hasLeftNewline = !isTokenOnSameLine(leftParen, tokenAfterLeftParen)
       const needsNewlines = shouldHaveNewlines(elements, hasLeftNewline)
 
       for (let i = 0; i <= elements.length - 2; i++) {
@@ -194,8 +189,8 @@ module.exports = {
         case 'NewExpression':
           if (!node.arguments.length
                         && !(
-                          astUtils.isOpeningParenToken(sourceCode.getLastToken(node, { skip: 1 }))
-                            && astUtils.isClosingParenToken(sourceCode.getLastToken(node))
+                          isOpeningParenToken(sourceCode.getLastToken(node, { skip: 1 }))
+                            && isClosingParenToken(sourceCode.getLastToken(node))
                             && node.callee.range[1] < node.range[1]
                         )
           ) {
@@ -207,15 +202,15 @@ module.exports = {
 
         case 'CallExpression':
           return {
-            leftParen: sourceCode.getTokenAfter(node.callee, astUtils.isOpeningParenToken),
+            leftParen: sourceCode.getTokenAfter(node.callee, isOpeningParenToken),
             rightParen: sourceCode.getLastToken(node),
           }
 
         case 'FunctionDeclaration':
         case 'FunctionExpression': {
-          const leftParen = sourceCode.getFirstToken(node, astUtils.isOpeningParenToken)
+          const leftParen = sourceCode.getFirstToken(node, isOpeningParenToken)
           const rightParen = node.params.length
-            ? sourceCode.getTokenAfter(node.params[node.params.length - 1], astUtils.isClosingParenToken)
+            ? sourceCode.getTokenAfter(node.params[node.params.length - 1], isClosingParenToken)
             : sourceCode.getTokenAfter(leftParen)
 
           return { leftParen, rightParen }
@@ -224,13 +219,13 @@ module.exports = {
         case 'ArrowFunctionExpression': {
           const firstToken = sourceCode.getFirstToken(node, { skip: (node.async ? 1 : 0) })
 
-          if (!astUtils.isOpeningParenToken(firstToken)) {
+          if (!isOpeningParenToken(firstToken)) {
             // If the ArrowFunctionExpression has a single param without parens, return null.
             return null
           }
 
           const rightParen = node.params.length
-            ? sourceCode.getTokenAfter(node.params[node.params.length - 1], astUtils.isClosingParenToken)
+            ? sourceCode.getTokenAfter(node.params[node.params.length - 1], isClosingParenToken)
             : sourceCode.getTokenAfter(firstToken)
 
           return {
@@ -269,7 +264,7 @@ module.exports = {
 
         if (node.type === 'ImportExpression')
           params = [node.source]
-        else if (astUtils.isFunction(node))
+        else if (isFunction(node))
           params = node.params
         else
           params = node.arguments

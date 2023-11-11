@@ -1,12 +1,9 @@
 /**
  * @fileoverview Utility functions for JSX
  */
-
-'use strict'
-
-const astUtil = require('./ast')
-const isCreateElement = require('./isCreateElement')
-const variableUtil = require('./variable')
+import { traverseReturns } from './ast'
+import { isCreateElement } from './isCreateElement'
+import { findVariableByName } from './variable'
 
 // See https://github.com/babel/babel/blob/ce420ba51c68591e057696ef43e028f41c6e04cd/packages/babel-types/src/validators/react/isCompatTag.js
 // for why we only test for the first character
@@ -23,51 +20,12 @@ function isDOMComponent(node) {
 }
 
 /**
- * Test whether a JSXElement is a fragment
- * @param {JSXElement} node
- * @param {string} reactPragma
- * @param {string} fragmentPragma
- * @returns {boolean}
- */
-function isFragment(node, reactPragma, fragmentPragma) {
-  const name = node.openingElement.name
-
-  // <Fragment>
-  if (name.type === 'JSXIdentifier' && name.name === fragmentPragma)
-    return true
-
-  // <React.Fragment>
-  if (
-    name.type === 'JSXMemberExpression'
-    && name.object.type === 'JSXIdentifier'
-    && name.object.name === reactPragma
-    && name.property.type === 'JSXIdentifier'
-    && name.property.name === fragmentPragma
-  )
-    return true
-
-  return false
-}
-
-/**
  * Checks if a node represents a JSX element or fragment.
  * @param {object} node - node to check.
  * @returns {boolean} Whether or not the node if a JSX element or fragment.
  */
 function isJSX(node) {
   return node && ['JSXElement', 'JSXFragment'].includes(node.type)
-}
-
-/**
- * Check if node is like `key={...}` as in `<Foo key={...} />`
- * @param {ASTNode} node
- * @returns {boolean}
- */
-function isJSXAttributeKey(node) {
-  return node.type === 'JSXAttribute'
-    && node.name
-    && node.name.type === 'JSXIdentifier'
-    && node.name.name === 'key'
 }
 
 /**
@@ -117,7 +75,7 @@ function isReturningJSX(ASTnode, context, strict, ignoreNull) {
 
         return false
       case 'Identifier': {
-        const variable = variableUtil.findVariableByName(context, node.name)
+        const variable = findVariableByName(context, node.name)
         return isJSX(variable)
       }
       default:
@@ -126,7 +84,7 @@ function isReturningJSX(ASTnode, context, strict, ignoreNull) {
   }
 
   let found = false
-  astUtil.traverseReturns(ASTnode, context, (node, breakTraverse) => {
+  traverseReturns(ASTnode, context, (node, breakTraverse) => {
     if (isJSXValue(node)) {
       found = true
       breakTraverse()
@@ -134,51 +92,6 @@ function isReturningJSX(ASTnode, context, strict, ignoreNull) {
   })
 
   return found
-}
-
-/**
- * Check if the node is returning only null values
- *
- * @param {ASTNode} ASTnode The AST node being checked
- * @param {Context} context The context of `ASTNode`.
- * @returns {boolean} True if the node is returning only null values
- */
-function isReturningOnlyNull(ASTnode, context) {
-  let found = false
-  let foundSomethingElse = false
-  astUtil.traverseReturns(ASTnode, context, (node) => {
-    // Traverse return statement
-    astUtil.traverse(node, {
-      enter(childNode) {
-        const setFound = () => {
-          found = true
-          this.skip()
-        }
-        const setFoundSomethingElse = () => {
-          foundSomethingElse = true
-          this.skip()
-        }
-        switch (childNode.type) {
-          case 'ReturnStatement':
-            break
-          case 'ConditionalExpression':
-            if (childNode.consequent.value === null && childNode.alternate.value === null)
-              setFound()
-
-            break
-          case 'Literal':
-            if (childNode.value === null)
-              setFound()
-
-            break
-          default:
-            setFoundSomethingElse()
-        }
-      },
-    })
-  })
-
-  return found && !foundSomethingElse
 }
 
 /**
@@ -228,13 +141,10 @@ function getElementType(node = {}) {
   return node.name.name
 }
 
-module.exports = {
+export {
   isDOMComponent,
-  isFragment,
   isJSX,
-  isJSXAttributeKey,
   isWhiteSpaces,
   isReturningJSX,
-  isReturningOnlyNull,
   getPropName,
 }

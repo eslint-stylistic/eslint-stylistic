@@ -2,15 +2,10 @@
  * @fileoverview Disallows or enforces spaces inside of brackets.
  * @author Ian Christian Myers
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const path = require('node:path')
-const { RuleTester } = require('eslint')
-const rule = require('./array-bracket-spacing')
+import { resolve } from 'node:path'
+import { RuleTester } from 'eslint'
+import rule from './array-bracket-spacing'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -22,7 +17,7 @@ const rule = require('./array-bracket-spacing')
  * @returns {string} The path to the specified parser.
  */
 function parser(name) {
-  return path.resolve(__dirname, `../../fixtures/parsers/array-bracket-spacing/${name}.js`)
+  return resolve(__dirname, `../../fixtures/parsers/array-bracket-spacing/${name}.js`)
 }
 
 // ------------------------------------------------------------------------------

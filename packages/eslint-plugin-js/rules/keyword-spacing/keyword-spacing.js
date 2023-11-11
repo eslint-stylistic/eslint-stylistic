@@ -3,14 +3,8 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
-const keywords = require('../../utils/keywords')
+import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import keywords from '../../utils/keywords'
 
 // ------------------------------------------------------------------------------
 // Constants
@@ -61,7 +55,7 @@ function isCloseParenOfTemplate(token) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -124,7 +118,7 @@ module.exports = {
                 && (CHECK_TYPE.test(prevToken.type) || pattern.test(prevToken.value))
                 && !isOpenParenOfTemplate(prevToken)
                 && !tokensToIgnore.has(prevToken)
-                && astUtils.isTokenOnSameLine(prevToken, token)
+                && isTokenOnSameLine(prevToken, token)
                 && !sourceCode.isSpaceBetweenTokens(prevToken, token)
       ) {
         context.report({
@@ -151,7 +145,7 @@ module.exports = {
                 && (CHECK_TYPE.test(prevToken.type) || pattern.test(prevToken.value))
                 && !isOpenParenOfTemplate(prevToken)
                 && !tokensToIgnore.has(prevToken)
-                && astUtils.isTokenOnSameLine(prevToken, token)
+                && isTokenOnSameLine(prevToken, token)
                 && sourceCode.isSpaceBetweenTokens(prevToken, token)
       ) {
         context.report({
@@ -178,7 +172,7 @@ module.exports = {
                 && (CHECK_TYPE.test(nextToken.type) || pattern.test(nextToken.value))
                 && !isCloseParenOfTemplate(nextToken)
                 && !tokensToIgnore.has(nextToken)
-                && astUtils.isTokenOnSameLine(token, nextToken)
+                && isTokenOnSameLine(token, nextToken)
                 && !sourceCode.isSpaceBetweenTokens(token, nextToken)
       ) {
         context.report({
@@ -205,7 +199,7 @@ module.exports = {
                 && (CHECK_TYPE.test(nextToken.type) || pattern.test(nextToken.value))
                 && !isCloseParenOfTemplate(nextToken)
                 && !tokensToIgnore.has(nextToken)
-                && astUtils.isTokenOnSameLine(token, nextToken)
+                && isTokenOnSameLine(token, nextToken)
                 && sourceCode.isSpaceBetweenTokens(token, nextToken)
       ) {
         context.report({
@@ -330,7 +324,7 @@ module.exports = {
      */
     function checkSpacingAroundTokenBefore(node) {
       if (node) {
-        const token = sourceCode.getTokenBefore(node, astUtils.isKeywordToken)
+        const token = sourceCode.getTokenBefore(node, isKeywordToken)
 
         checkSpacingAround(token)
       }
@@ -406,7 +400,7 @@ module.exports = {
     function checkSpacingForForInStatement(node) {
       checkSpacingAroundFirstToken(node)
 
-      const inToken = sourceCode.getTokenBefore(node.right, astUtils.isNotOpeningParenToken)
+      const inToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)
       const previousToken = sourceCode.getTokenBefore(inToken)
 
       if (previousToken.type !== 'PrivateIdentifier')
@@ -430,7 +424,7 @@ module.exports = {
         checkSpacingAroundFirstToken(node)
       }
 
-      const ofToken = sourceCode.getTokenBefore(node.right, astUtils.isNotOpeningParenToken)
+      const ofToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)
       const previousToken = sourceCode.getTokenBefore(ofToken)
 
       if (previousToken.type !== 'PrivateIdentifier')
@@ -620,7 +614,7 @@ module.exports = {
 
       // To avoid conflicts with `space-infix-ops`, e.g. `a > this.b`
       'BinaryExpression[operator=\'>\']': function (node) {
-        const operatorToken = sourceCode.getTokenBefore(node.right, astUtils.isNotOpeningParenToken)
+        const operatorToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)
 
         tokensToIgnore.add(operatorToken)
       },

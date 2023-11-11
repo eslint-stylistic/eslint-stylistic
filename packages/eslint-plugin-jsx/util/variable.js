@@ -3,25 +3,13 @@
  * @author Yannick Croissant
  */
 
-'use strict'
-
-/**
- * Search a particular variable in a list
- * @param {Array} variables The variables list.
- * @param {string} name The name of the variable to search.
- * @returns {boolean} True if the variable was found, false if not.
- */
-function findVariable(variables, name) {
-  return variables.some(variable => variable.name === name)
-}
-
 /**
  * Find and return a particular variable in a list
  * @param {Array} variables The variables list.
  * @param {string} name The name of the variable to search.
  * @returns {object} Variable if the variable was found, null if not.
  */
-function getVariable(variables, name) {
+export function getVariable(variables, name) {
   return variables.find(variable => variable.name === name)
 }
 
@@ -33,7 +21,7 @@ function getVariable(variables, name) {
  * @param {object} context The current rule context.
  * @returns {Array} The variables list
  */
-function variablesInScope(context) {
+export function variablesInScope(context) {
   let scope = context.getScope()
   let variables = scope.variables
 
@@ -57,7 +45,7 @@ function variablesInScope(context) {
  * @param  {string} name Name of the variable to look for.
  * @returns {ASTNode|null} Return null if the variable could not be found, ASTNode otherwise.
  */
-function findVariableByName(context, name) {
+export function findVariableByName(context, name) {
   const variable = getVariable(variablesInScope(context), name)
 
   if (!variable || !variable.defs[0] || !variable.defs[0].node)
@@ -77,14 +65,6 @@ function findVariableByName(context, name) {
  * @param {object} variable
  * @returns {object | undefined} The latest variable definition or undefined.
  */
-function getLatestVariableDefinition(variable) {
+export function getLatestVariableDefinition(variable) {
   return variable.defs[variable.defs.length - 1]
-}
-
-module.exports = {
-  findVariable,
-  findVariableByName,
-  getVariable,
-  variablesInScope,
-  getLatestVariableDefinition,
 }

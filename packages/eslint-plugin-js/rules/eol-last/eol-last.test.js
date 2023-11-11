@@ -2,14 +2,9 @@
  * @fileoverview Tests for eol-last rule.
  * @author Nodeca Team <https://github.com/nodeca>
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./eol-last')
+import { RuleTester } from 'eslint'
+import rule from './eol-last'
 
 // ------------------------------------------------------------------------------
 // Tests

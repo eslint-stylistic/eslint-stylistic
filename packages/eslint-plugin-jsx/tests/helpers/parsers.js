@@ -1,7 +1,4 @@
-'use strict'
-
 const entries = object => Object.entries(object)
-
 const flatMap = (array, callback) => array.flatMap(callback)
 
 function minEcmaVersion(features, parserOptions) {
@@ -173,4 +170,4 @@ const parsers = {
   },
 }
 
-module.exports = parsers
+export default parsers

@@ -2,14 +2,9 @@
  * @fileoverview tests to validate spacing before and after comma.
  * @author Vignesh Anand.
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./comma-spacing')
+import { RuleTester } from 'eslint'
+import rule from './comma-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests

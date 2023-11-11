@@ -3,19 +3,13 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { LINEBREAKS, STATEMENT_LIST_PARENTS, isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
 // ------------------------------------------------------------------------------
 
-const LT = `[${Array.from(astUtils.LINEBREAKS).join('')}]`
+const LT = `[${Array.from(LINEBREAKS).join('')}]`
 const PADDING_LINE_SEQUENCE = new RegExp(
   String.raw`^(\s*?${LT})\s*${LT}(\s*;?)$`,
   'u',
@@ -82,12 +76,12 @@ function newNodeTypeTester(type) {
  */
 function isIIFEStatement(node) {
   if (node.type === 'ExpressionStatement') {
-    let call = astUtils.skipChainExpression(node.expression)
+    let call = skipChainExpression(node.expression)
 
     if (call.type === 'UnaryExpression')
-      call = astUtils.skipChainExpression(call.argument)
+      call = skipChainExpression(call.argument)
 
-    return call.type === 'CallExpression' && astUtils.isFunction(call.callee)
+    return call.type === 'CallExpression' && isFunction(call.callee)
   }
   return false
 }
@@ -113,8 +107,8 @@ function isBlockLikeStatement(sourceCode, node) {
     return true
 
   // Checks the last token is a closing brace of blocks.
-  const lastToken = sourceCode.getLastToken(node, astUtils.isNotSemicolonToken)
-  const belongingNode = lastToken && astUtils.isClosingBraceToken(lastToken)
+  const lastToken = sourceCode.getLastToken(node, isNotSemicolonToken)
+  const belongingNode = lastToken && isClosingBraceToken(lastToken)
     ? sourceCode.getNodeByRangeIndex(lastToken.range[0])
     : null
 
@@ -145,7 +139,7 @@ function getActualLastToken(sourceCode, node) {
     prevToken
         && nextToken
         && prevToken.range[0] >= node.range[0]
-        && astUtils.isSemicolonToken(semiToken)
+        && isSemicolonToken(semiToken)
         && semiToken.loc.start.line !== prevToken.loc.end.line
         && semiToken.loc.end.line === nextToken.loc.start.line,
   )
@@ -261,7 +255,7 @@ function verifyForAlways(context, prevNode, nextNode, paddingLines) {
            * @private
            */
           filter(token) {
-            if (astUtils.isTokenOnSameLine(prevToken, token)) {
+            if (isTokenOnSameLine(prevToken, token)) {
               prevToken = token
               return false
             }
@@ -269,7 +263,7 @@ function verifyForAlways(context, prevNode, nextNode, paddingLines) {
           },
         },
       ) || nextNode
-      const insertText = astUtils.isTokenOnSameLine(prevToken, nextToken)
+      const insertText = isTokenOnSameLine(prevToken, nextToken)
         ? '\n\n'
         : '\n'
 
@@ -312,10 +306,10 @@ const StatementTypes = {
             && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init)),
   },
   'directive': {
-    test: astUtils.isDirective,
+    test: isDirective,
   },
   'expression': {
-    test: node => node.type === 'ExpressionStatement' && !astUtils.isDirective(node),
+    test: node => node.type === 'ExpressionStatement' && !isDirective(node),
   },
   'iife': {
     test: isIIFEStatement,
@@ -328,7 +322,7 @@ const StatementTypes = {
     test: node =>
       node.loc.start.line !== node.loc.end.line
             && node.type === 'ExpressionStatement'
-            && !astUtils.isDirective(node),
+            && !isDirective(node),
   },
 
   'multiline-const': newMultilineKeywordTester('const'),
@@ -369,7 +363,7 @@ const StatementTypes = {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -521,7 +515,7 @@ module.exports = {
     function verify(node) {
       const parentType = node.parent.type
       const validParent
-                = astUtils.STATEMENT_LIST_PARENTS.has(parentType)
+                = STATEMENT_LIST_PARENTS.has(parentType)
                 || parentType === 'SwitchStatement'
 
       if (!validParent)

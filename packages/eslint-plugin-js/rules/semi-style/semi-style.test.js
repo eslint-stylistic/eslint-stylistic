@@ -3,14 +3,8 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./semi-style')
+import { RuleTester } from 'eslint'
+import rule from './semi-style'
 
 // ------------------------------------------------------------------------------
 // Tests

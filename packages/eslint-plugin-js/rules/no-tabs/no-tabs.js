@@ -3,8 +3,6 @@
  * @author Gyandeep Singh
  */
 
-'use strict'
-
 // ------------------------------------------------------------------------------
 // Helpers
 // ------------------------------------------------------------------------------
@@ -17,7 +15,7 @@ const anyNonWhitespaceRegex = /\S/u
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

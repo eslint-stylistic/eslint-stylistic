@@ -2,14 +2,9 @@
  * @fileoverview enforce the location of single-line statements
  * @author Teddy Katz
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./nonblock-statement-body-position')
+import { RuleTester } from 'eslint'
+import rule from './nonblock-statement-body-position'
 
 const EXPECTED_LINEBREAK = { messageId: 'expectLinebreak' }
 const UNEXPECTED_LINEBREAK = { messageId: 'expectNoLinebreak' }

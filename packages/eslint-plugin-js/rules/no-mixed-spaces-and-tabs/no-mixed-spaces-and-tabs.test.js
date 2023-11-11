@@ -2,14 +2,9 @@
  * @fileoverview Disallow mixed spaces and tabs for indentation
  * @author Jary Niebur
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./no-mixed-spaces-and-tabs')
+import { RuleTester } from 'eslint'
+import rule from './no-mixed-spaces-and-tabs'
 
 // ------------------------------------------------------------------------------
 // Tests

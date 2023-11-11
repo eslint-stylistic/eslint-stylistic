@@ -3,15 +3,9 @@
  * @author Yannick Croissant
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const RuleTester = require('eslint').RuleTester
-const parsers = require('../../tests/helpers/parsers')
-const rule = require('./jsx-max-props-per-line')
+import { RuleTester } from 'eslint'
+import parsers from '../../tests/helpers/parsers'
+import rule from './jsx-max-props-per-line'
 
 const parserOptions = {
   ecmaVersion: 2018,

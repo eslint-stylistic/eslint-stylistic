@@ -3,10 +3,8 @@
  * @author ryym
  */
 
-'use strict'
-
-const docsUrl = require('../../util/docsUrl')
-const report = require('../../util/report')
+import { docsUrl } from '../../util/docsUrl'
+import report from '../../util/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -19,7 +17,7 @@ const messages = {
   needSpaceAfter: 'A space is required after \'=\'',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Enforce or disallow spaces around equal signs in JSX attributes',

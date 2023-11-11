@@ -3,15 +3,9 @@
  * @author Michael Ficarra
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const parser = require('../../fixtures/fixture-parser')
-const rule = require('./space-infix-ops')
+import { RuleTester } from 'eslint'
+import parser from '../../fixtures/fixture-parser'
+import rule from './space-infix-ops'
 
 // ------------------------------------------------------------------------------
 // Tests

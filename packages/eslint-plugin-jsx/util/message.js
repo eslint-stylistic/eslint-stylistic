@@ -1,5 +1,3 @@
-'use strict'
-
-module.exports = function getMessageData(messageId) {
+export default function getMessageData(messageId) {
   return { messageId }
 }

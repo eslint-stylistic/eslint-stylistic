@@ -1,4 +1,4 @@
-var espree = require("espree");
+import espree from "espree";
 
 exports.parseForESLint = function(code, options) {
     return {

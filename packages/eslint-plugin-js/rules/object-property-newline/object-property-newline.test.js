@@ -3,14 +3,8 @@
  * @author Vitor Balocco
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./object-property-newline')
+import { RuleTester } from 'eslint'
+import rule from './object-property-newline'
 
 // ------------------------------------------------------------------------------
 // Tests

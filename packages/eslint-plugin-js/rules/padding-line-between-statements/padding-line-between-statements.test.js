@@ -3,14 +3,8 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./padding-line-between-statements')
+import { RuleTester } from 'eslint'
+import rule from './padding-line-between-statements'
 
 // ------------------------------------------------------------------------------
 // Tests

@@ -3,14 +3,8 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./func-call-spacing')
+import { RuleTester } from 'eslint'
+import rule from './func-call-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests

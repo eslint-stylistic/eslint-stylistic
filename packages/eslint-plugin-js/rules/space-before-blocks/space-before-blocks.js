@@ -3,13 +3,7 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { getSwitchCaseColonToken, isArrowToken, isColonToken, isFunction, isKeywordToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -25,7 +19,7 @@ function isFunctionBody(node) {
 
   return (
     node.type === 'BlockStatement'
-        && astUtils.isFunction(parent)
+        && isFunction(parent)
         && parent.body === node
   )
 }
@@ -35,7 +29,7 @@ function isFunctionBody(node) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -116,16 +110,16 @@ module.exports = {
      */
     function isConflicted(precedingToken, node) {
       return (
-        astUtils.isArrowToken(precedingToken)
+        isArrowToken(precedingToken)
                 || (
-                  astUtils.isKeywordToken(precedingToken)
+                  isKeywordToken(precedingToken)
                     && !isFunctionBody(node)
                 )
                 || (
-                  astUtils.isColonToken(precedingToken)
+                  isColonToken(precedingToken)
                     && node.parent
                     && node.parent.type === 'SwitchCase'
-                    && precedingToken === astUtils.getSwitchCaseColonToken(node.parent, sourceCode)
+                    && precedingToken === getSwitchCaseColonToken(node.parent, sourceCode)
                 )
       )
     }
@@ -138,7 +132,7 @@ module.exports = {
     function checkPrecedingSpace(node) {
       const precedingToken = sourceCode.getTokenBefore(node)
 
-      if (precedingToken && !isConflicted(precedingToken, node) && astUtils.isTokenOnSameLine(precedingToken, node)) {
+      if (precedingToken && !isConflicted(precedingToken, node) && isTokenOnSameLine(precedingToken, node)) {
         const hasSpace = sourceCode.isSpaceBetweenTokens(precedingToken, node)
         let requireSpace
         let requireNoSpace

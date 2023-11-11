@@ -2,20 +2,15 @@
  * @fileoverview Rule to disallow whitespace before properties
  * @author Kai Cataldo
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { isDecimalInteger, isOpeningBracketToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -58,7 +53,7 @@ module.exports = {
         fix(fixer) {
           let replacementText = ''
 
-          if (!node.computed && !node.optional && astUtils.isDecimalInteger(node.object)) {
+          if (!node.computed && !node.optional && isDecimalInteger(node.object)) {
             /*
                          * If the object is a number literal, fixing it to something like 5.toString() would cause a SyntaxError.
                          * Don't fix this case.
@@ -89,11 +84,11 @@ module.exports = {
         let rightToken
         let leftToken
 
-        if (!astUtils.isTokenOnSameLine(node.object, node.property))
+        if (!isTokenOnSameLine(node.object, node.property))
           return
 
         if (node.computed) {
-          rightToken = sourceCode.getTokenBefore(node.property, astUtils.isOpeningBracketToken)
+          rightToken = sourceCode.getTokenBefore(node.property, isOpeningBracketToken)
           leftToken = sourceCode.getTokenBefore(rightToken, node.optional ? 1 : 0)
         }
         else {

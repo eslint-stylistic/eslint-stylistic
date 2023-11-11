@@ -3,13 +3,7 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -148,7 +142,7 @@ function areLineBreaksRequired(node, options, first, last) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -221,8 +215,8 @@ module.exports = {
 
       const needsLineBreaks = areLineBreaksRequired(node, options, first, last)
 
-      const hasCommentsFirstToken = astUtils.isCommentToken(first)
-      const hasCommentsLastToken = astUtils.isCommentToken(last)
+      const hasCommentsFirstToken = isCommentToken(first)
+      const hasCommentsLastToken = isCommentToken(last)
 
       /*
              * Use tokens or comments to check multiline or not.
@@ -236,7 +230,7 @@ module.exports = {
       last = sourceCode.getTokenBefore(closeBrace)
 
       if (needsLineBreaks) {
-        if (astUtils.isTokenOnSameLine(openBrace, first)) {
+        if (isTokenOnSameLine(openBrace, first)) {
           context.report({
             messageId: 'expectedLinebreakAfterOpeningBrace',
             node,
@@ -249,7 +243,7 @@ module.exports = {
             },
           })
         }
-        if (astUtils.isTokenOnSameLine(last, closeBrace)) {
+        if (isTokenOnSameLine(last, closeBrace)) {
           context.report({
             messageId: 'expectedLinebreakBeforeClosingBrace',
             node,
@@ -265,8 +259,8 @@ module.exports = {
       }
       else {
         const consistent = options.consistent
-        const hasLineBreakBetweenOpenBraceAndFirst = !astUtils.isTokenOnSameLine(openBrace, first)
-        const hasLineBreakBetweenCloseBraceAndLast = !astUtils.isTokenOnSameLine(last, closeBrace)
+        const hasLineBreakBetweenOpenBraceAndFirst = !isTokenOnSameLine(openBrace, first)
+        const hasLineBreakBetweenCloseBraceAndLast = !isTokenOnSameLine(last, closeBrace)
 
         if (
           (!consistent && hasLineBreakBetweenOpenBraceAndFirst)

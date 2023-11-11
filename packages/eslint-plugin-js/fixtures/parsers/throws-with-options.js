@@ -1,6 +1,6 @@
 "use strict";
 
-const espree = require("espree");
+import espree from "espree";
 
 exports.parse = (sourceText, options) => {
     if (options.ecmaVersion) {

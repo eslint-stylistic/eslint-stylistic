@@ -1,7 +1,7 @@
 "use strict";
 
-const assert = require("assert");
-const vk = require("eslint-visitor-keys");
+import assert from "assert";
+import vk from "eslint-visitor-keys";
 const KEYS = vk.unionWith({
     ClassDeclaration: ["experimentalDecorators"],
     ClassExpression: ["experimentalDecorators"]

@@ -2,14 +2,9 @@
  * @fileoverview Disallows or enforces spaces inside computed properties.
  * @author Jamund Ferguson
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./computed-property-spacing')
+import { RuleTester } from 'eslint'
+import rule from './computed-property-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests

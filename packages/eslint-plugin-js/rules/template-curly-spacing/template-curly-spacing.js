@@ -3,20 +3,14 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -55,7 +49,7 @@ module.exports = {
       const prevToken = sourceCode.getTokenBefore(token, { includeComments: true })
       const hasSpace = sourceCode.isSpaceBetween(prevToken, token)
 
-      if (!astUtils.isTokenOnSameLine(prevToken, token))
+      if (!isTokenOnSameLine(prevToken, token))
         return
 
       if (always && !hasSpace) {
@@ -96,7 +90,7 @@ module.exports = {
       const nextToken = sourceCode.getTokenAfter(token, { includeComments: true })
       const hasSpace = sourceCode.isSpaceBetween(token, nextToken)
 
-      if (!astUtils.isTokenOnSameLine(token, nextToken))
+      if (!isTokenOnSameLine(token, nextToken))
         return
 
       if (always && !hasSpace) {

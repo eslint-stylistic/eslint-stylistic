@@ -3,14 +3,8 @@
  * @author Kai Cataldo
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./multiline-ternary')
+import { RuleTester } from 'eslint'
+import rule from './multiline-ternary'
 
 // ------------------------------------------------------------------------------
 // Tests

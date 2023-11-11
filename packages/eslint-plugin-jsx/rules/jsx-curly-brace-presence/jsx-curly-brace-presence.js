@@ -4,13 +4,11 @@
  * @author Simon Lydell
  */
 
-'use strict'
+import { docsUrl } from '../../util/docsUrl'
+import { isJSX, isWhiteSpaces } from '../../util/jsx'
+import report from '../../util/report'
 
 const arrayIncludes = (arr, value) => arr.includes(value)
-
-const docsUrl = require('../../util/docsUrl')
-const jsxUtil = require('../../util/jsx')
-const report = require('../../util/report')
 
 // ------------------------------------------------------------------------------
 // Constants
@@ -36,7 +34,7 @@ const messages = {
   missingCurly: 'Need to wrap this literal in a JSX expression.',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes',
@@ -122,7 +120,7 @@ module.exports = {
     function containsWhitespaceExpression(child) {
       if (child.type === 'JSXExpressionContainer') {
         const value = child.expression.value
-        return value ? jsxUtil.isWhiteSpaces(value) : false
+        return value ? isWhiteSpaces(value) : false
       }
       return false
     }
@@ -172,7 +170,7 @@ module.exports = {
           const expression = JSXExpressionNode.expression
 
           let textToReplace
-          if (jsxUtil.isJSX(expression)) {
+          if (isJSX(expression)) {
             const sourceCode = context.getSourceCode()
             textToReplace = sourceCode.getText(expression)
           }
@@ -186,7 +184,7 @@ module.exports = {
                 : expression.raw.slice(1, -1)
               }"`
             }
-            else if (jsxUtil.isJSX(expression)) {
+            else if (isJSX(expression)) {
               const sourceCode = context.getSourceCode()
 
               textToReplace = sourceCode.getText(expression)
@@ -206,7 +204,7 @@ module.exports = {
       report(context, messages.missingCurly, 'missingCurly', {
         node: literalNode,
         fix(fixer) {
-          if (jsxUtil.isJSX(literalNode))
+          if (isJSX(literalNode))
             return fixer.replaceText(literalNode, `{${context.getSourceCode().getText(literalNode)}}`)
 
           // If a HTML entity name is found, bail out because it can be fixed
@@ -231,7 +229,7 @@ module.exports = {
     }
 
     function isWhiteSpaceLiteral(node) {
-      return node.type && node.type === 'Literal' && node.value && jsxUtil.isWhiteSpaces(node.value)
+      return node.type && node.type === 'Literal' && node.value && isWhiteSpaces(node.value)
     }
 
     function isStringWithTrailingWhiteSpaces(value) {
@@ -263,7 +261,7 @@ module.exports = {
           )
           && !containsMultilineComment(expression.value)
           && !needToEscapeCharacterForJSX(expression.raw, JSXExpressionNode) && (
-          jsxUtil.isJSX(JSXExpressionNode.parent)
+          isJSX(JSXExpressionNode.parent)
           || !containsQuoteCharacters(expression.value)
         )
       )
@@ -277,7 +275,7 @@ module.exports = {
         && !containsQuoteCharacters(expression.quasis[0].value.cooked)
       )
         reportUnnecessaryCurly(JSXExpressionNode)
-      else if (jsxUtil.isJSX(expression))
+      else if (isJSX(expression))
         reportUnnecessaryCurly(JSXExpressionNode)
     }
 
@@ -287,7 +285,7 @@ module.exports = {
           && typeof config.props === 'string'
           && config.props === ruleCondition
       ) || (
-        jsxUtil.isJSX(parent)
+        isJSX(parent)
           && typeof config.children === 'string'
           && config.children === ruleCondition
       )
@@ -343,7 +341,7 @@ module.exports = {
 
       // If there are adjacent `JsxExpressionContainer` then there is no need,
       // to check for unnecessary curly braces.
-      if (jsxUtil.isJSX(parent) && hasAdjacentJsxExpressionContainers(node, parent.children))
+      if (isJSX(parent) && hasAdjacentJsxExpressionContainers(node, parent.children))
         return false
 
       if (containsWhitespaceExpression(node) && hasAdjacentJsx(node, parent.children))
@@ -360,7 +358,7 @@ module.exports = {
     }
 
     function shouldCheckForMissingCurly(node, config) {
-      if (jsxUtil.isJSX(node))
+      if (isJSX(node))
         return config.propElementValues !== OPTION_IGNORE
 
       if (

@@ -1,7 +1,5 @@
-'use strict'
-
-const pragmaUtil = require('./pragma')
-const isDestructuredFromPragmaImport = require('./isDestructuredFromPragmaImport')
+import { getFromContext } from './pragma'
+import { isDestructuredFromPragmaImport } from './isDestructuredFromPragmaImport'
 
 /**
  * Checks if the node is a createElement call
@@ -9,13 +7,13 @@ const isDestructuredFromPragmaImport = require('./isDestructuredFromPragmaImport
  * @param {Context} context - The AST node being checked.
  * @returns {boolean} - True if node is a createElement call object literal, False if not.
  */
-module.exports = function isCreateElement(node, context) {
+export function isCreateElement(node, context) {
   if (
     node.callee
     && node.callee.type === 'MemberExpression'
     && node.callee.property.name === 'createElement'
     && node.callee.object
-    && node.callee.object.name === pragmaUtil.getFromContext(context)
+    && node.callee.object.name === getFromContext(context)
   )
     return true
 

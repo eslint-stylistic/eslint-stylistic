@@ -2,15 +2,10 @@
  * @fileoverview Tests for space-before-function-paren.
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const baseParser = require('../../fixtures/fixture-parser')
-const rule = require('./space-before-function-paren')
+import { RuleTester } from 'eslint'
+import baseParser from '../../fixtures/fixture-parser'
+import rule from './space-before-function-paren'
 
 // ------------------------------------------------------------------------------
 // Tests

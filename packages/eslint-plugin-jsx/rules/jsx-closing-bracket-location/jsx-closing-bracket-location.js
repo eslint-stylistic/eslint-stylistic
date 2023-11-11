@@ -3,11 +3,10 @@
  * @author Yannick Croissant
  */
 
-'use strict'
+import { docsUrl } from '../../util/docsUrl'
+import report from '../../util/report'
 
 const has = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
-const docsUrl = require('../../util/docsUrl')
-const report = require('../../util/report')
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -17,7 +16,7 @@ const messages = {
   bracketLocation: 'The closing bracket must be {{location}}{{details}}',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Enforce closing bracket location in JSX',

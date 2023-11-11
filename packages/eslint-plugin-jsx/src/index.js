@@ -1,3 +1,5 @@
-module.exports = {
-  rules: require('../rules'),
+import rules from '../rules'
+
+export default {
+  rules,
 }

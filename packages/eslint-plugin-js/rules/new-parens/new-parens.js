@@ -3,13 +3,7 @@
  * @author Ilya Volodin
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { isClosingParenToken, isOpeningParenToken } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -20,7 +14,7 @@ const astUtils = require('../../utils/ast-utils')
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -54,11 +48,11 @@ module.exports = {
           return // if there are arguments, there have to be parens
 
         const lastToken = sourceCode.getLastToken(node)
-        const hasLastParen = lastToken && astUtils.isClosingParenToken(lastToken)
+        const hasLastParen = lastToken && isClosingParenToken(lastToken)
 
         // `hasParens` is true only if the new expression ends with its own parens, e.g., new new foo() does not end with its own parens
         const hasParens = hasLastParen
-                    && astUtils.isOpeningParenToken(sourceCode.getTokenBefore(lastToken))
+                    && isOpeningParenToken(sourceCode.getTokenBefore(lastToken))
                     && node.callee.range[1] < node.range[1]
 
         if (always) {
