@@ -1,21 +1,16 @@
 import { ESLintUtils } from '@typescript-eslint/utils'
 
 export * from './astUtils'
-export * from './collectUnusedVariables'
 export * from './createRule'
-export * from './getFunctionHeadLoc'
-export * from './getStaticStringValue'
 export * from './getStringLength'
-export * from './getThisExpression'
-export * from './getWrappingFixer'
 export * from './isNodeEqual'
 export * from './isNullLiteral'
 export * from './isUndefinedIdentifier'
 export * from './misc'
-export * from './objectIterators'
 
 // this is done for convenience - saves migrating all of the old rules
 export * from '@typescript-eslint/type-utils'
+
 const {
   applyDefault,
   deepMerge,
@@ -24,9 +19,9 @@ const {
   nullThrows,
   NullThrowsReasons,
 } = ESLintUtils
-type InferMessageIdsTypeFromRule<T> =
-  ESLintUtils.InferMessageIdsTypeFromRule<T>
-type InferOptionsTypeFromRule<T> = ESLintUtils.InferOptionsTypeFromRule<T>
+
+export type InferMessageIdsTypeFromRule<T> = ESLintUtils.InferMessageIdsTypeFromRule<T>
+export type InferOptionsTypeFromRule<T> = ESLintUtils.InferOptionsTypeFromRule<T>
 
 export {
   applyDefault,
@@ -34,7 +29,5 @@ export {
   isObjectNotArray,
   getParserServices,
   nullThrows,
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
   NullThrowsReasons,
 }
