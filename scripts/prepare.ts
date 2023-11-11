@@ -25,6 +25,7 @@ async function run() {
     await writeRulesIndex(pkg)
     await writeREADME(pkg)
     await writePackageDTS(pkg)
+    await updateExports(pkg)
     packages.push(pkg)
   }
 
@@ -175,6 +176,7 @@ async function writePackageDTS(pkg: PackageInfo) {
       ]
     }),
     '}',
+    '',
   ]
 
   await fs.writeFile(
@@ -195,6 +197,30 @@ export {}
 `,
 'utf-8',
   )
+}
+
+async function updateExports(pkg: PackageInfo) {
+  if (!pkg.rules.length)
+    return
+
+  const pkgJson = JSON.parse(await fs.readFile(join(pkg.path, 'package.json'), 'utf-8'))
+  pkgJson.exports = {
+    '.': {
+      types: './dts/index.d.ts',
+      require: './dist/index.js',
+      default: './dist/index.js',
+    },
+    './define-config-support': {
+      types: './dts/define-config-support.d.ts',
+    },
+    './rule-options': {
+      types: './dts/rule-options.d.ts',
+    },
+    ...Object.fromEntries(
+      pkg.rules.map(i => [`./rules/${i.name}`, `./dist/${i.name}.js`]),
+    ),
+  }
+  await fs.writeFile(join(pkg.path, 'package.json'), `${JSON.stringify(pkgJson, null, 2)}\n`, 'utf-8')
 }
 
 async function writeREADME(pkg: PackageInfo) {

@@ -23,7 +23,25 @@
     },
     "./rule-options": {
       "types": "./dts/rule-options.d.ts"
-    }
+    },
+    "./rules/jsx-child-element-spacing": "./dist/jsx-child-element-spacing.js",
+    "./rules/jsx-closing-bracket-location": "./dist/jsx-closing-bracket-location.js",
+    "./rules/jsx-closing-tag-location": "./dist/jsx-closing-tag-location.js",
+    "./rules/jsx-curly-brace-presence": "./dist/jsx-curly-brace-presence.js",
+    "./rules/jsx-curly-newline": "./dist/jsx-curly-newline.js",
+    "./rules/jsx-curly-spacing": "./dist/jsx-curly-spacing.js",
+    "./rules/jsx-equals-spacing": "./dist/jsx-equals-spacing.js",
+    "./rules/jsx-first-prop-new-line": "./dist/jsx-first-prop-new-line.js",
+    "./rules/jsx-indent": "./dist/jsx-indent.js",
+    "./rules/jsx-indent-props": "./dist/jsx-indent-props.js",
+    "./rules/jsx-max-props-per-line": "./dist/jsx-max-props-per-line.js",
+    "./rules/jsx-newline": "./dist/jsx-newline.js",
+    "./rules/jsx-one-expression-per-line": "./dist/jsx-one-expression-per-line.js",
+    "./rules/jsx-props-no-multi-spaces": "./dist/jsx-props-no-multi-spaces.js",
+    "./rules/jsx-self-closing-comp": "./dist/jsx-self-closing-comp.js",
+    "./rules/jsx-sort-props": "./dist/jsx-sort-props.js",
+    "./rules/jsx-tag-spacing": "./dist/jsx-tag-spacing.js",
+    "./rules/jsx-wrap-multilines": "./dist/jsx-wrap-multilines.js"
   },
   "main": "./dist/index.js",
   "types": "./dts/index.d.ts",
