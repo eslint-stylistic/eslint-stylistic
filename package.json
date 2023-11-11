@@ -44,6 +44,7 @@
     "pnpm": "^8.10.2",
     "rimraf": "^5.0.5",
     "rollup": "^4.3.0",
+    "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.0",
     "semver": "^7.5.4",
     "simple-git-hooks": "^2.9.0",
