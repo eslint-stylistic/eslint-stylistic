@@ -65,7 +65,7 @@ export default createRule<Options, MessageIds>({
       ...nodesToCheck,
       ExportDefaultDeclaration(node): void {
         if (node.declaration.type !== AST_NODE_TYPES.TSInterfaceDeclaration)
-          rules.ExportDefaultDeclaration(node)
+          rules.ExportDefaultDeclaration!(node)
       },
     }
   },

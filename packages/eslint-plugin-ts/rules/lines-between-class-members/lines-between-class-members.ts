@@ -69,7 +69,7 @@ export default createRule<Options, MessageIds>({
           ? node.body.filter(node => !isOverload(node))
           : node.body
 
-        rules.ClassBody({ ...node, body })
+        rules.ClassBody!({ ...node, body })
       },
     }
   },

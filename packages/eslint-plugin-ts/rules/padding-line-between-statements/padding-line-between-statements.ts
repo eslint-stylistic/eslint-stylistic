@@ -2,13 +2,15 @@ import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import {
-  createRule,
   isClosingBraceToken,
   isFunction,
   isNotSemicolonToken,
   isParenthesized,
   isSemicolonToken,
   isTokenOnSameLine,
+} from '@typescript-eslint/utils/ast-utils'
+import {
+  createRule,
 } from '../../utils'
 
 /**

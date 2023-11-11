@@ -1,11 +1,12 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
+import { isCommaToken } from '@typescript-eslint/utils/ast-utils'
 import type {
   InferMessageIdsTypeFromRule,
   InferOptionsTypeFromRule,
 } from '../../utils'
-import { createRule, isCommaToken } from '../../utils'
+import { createRule } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
 
 const baseRule = getESLintCoreRule('comma-dangle')

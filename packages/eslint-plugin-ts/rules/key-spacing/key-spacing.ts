@@ -1,6 +1,10 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
+import {
+  isClosingBracketToken,
+  isColonToken,
+} from '@typescript-eslint/utils/ast-utils'
 import type {
   InferMessageIdsTypeFromRule,
   InferOptionsTypeFromRule,
@@ -8,8 +12,6 @@ import type {
 import {
   createRule,
   getStringLength,
-  isClosingBracketToken,
-  isColonToken,
 } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
 

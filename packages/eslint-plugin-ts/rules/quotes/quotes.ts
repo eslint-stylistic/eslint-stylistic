@@ -66,11 +66,11 @@ export default createRule<Options, MessageIds>({
         if (option === 'backtick' && isAllowedAsNonBacktick(node))
           return
 
-        rules.Literal(node)
+        rules.Literal!(node)
       },
 
       TemplateLiteral(node): void {
-        rules.TemplateLiteral(node)
+        rules.TemplateLiteral!(node)
       },
     }
   },
