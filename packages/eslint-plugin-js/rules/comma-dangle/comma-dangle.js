@@ -3,13 +3,7 @@
  * @author Ian Christian Myers
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { getNextLocation, isCommaToken } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -71,7 +65,7 @@ function normalizeOptions(optionValue, ecmaVersion) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -193,7 +187,7 @@ module.exports = {
         default: {
           const nextToken = sourceCode.getTokenAfter(lastItem)
 
-          if (astUtils.isCommaToken(nextToken))
+          if (isCommaToken(nextToken))
             return nextToken
 
           return sourceCode.getLastToken(lastItem)
@@ -235,7 +229,7 @@ module.exports = {
 
       const trailingToken = getTrailingToken(node, lastItem)
 
-      if (astUtils.isCommaToken(trailingToken)) {
+      if (isCommaToken(trailingToken)) {
         context.report({
           node: lastItem,
           loc: trailingToken.loc,
@@ -286,7 +280,7 @@ module.exports = {
           node: lastItem,
           loc: {
             start: trailingToken.loc.end,
-            end: astUtils.getNextLocation(sourceCode, trailingToken.loc.end),
+            end: getNextLocation(sourceCode, trailingToken.loc.end),
           },
           messageId: 'missing',
           *fix(fixer) {

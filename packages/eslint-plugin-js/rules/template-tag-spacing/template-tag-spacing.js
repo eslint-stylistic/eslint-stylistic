@@ -3,14 +3,12 @@
  * @author Jonathan Wilsson
  */
 
-'use strict'
-
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

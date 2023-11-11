@@ -3,13 +3,11 @@
  * @author Stephen Wade
  */
 
-'use strict'
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const Graphemer = require('graphemer').default
+import Graphemer from 'graphemer'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -21,28 +19,12 @@ const ASCII_REGEX = /^[\u0000-\u007F]*$/u
 /** @type {Graphemer | undefined} */
 let splitter
 
-// ------------------------------------------------------------------------------
-// Public Interface
-// ------------------------------------------------------------------------------
-
-/**
- * Converts the first letter of a string to uppercase.
- * @param {string} string The string to operate on
- * @returns {string} The converted string
- */
-function upperCaseFirst(string) {
-  if (string.length <= 1)
-    return string.toUpperCase()
-
-  return string[0].toUpperCase() + string.slice(1)
-}
-
 /**
  * Counts graphemes in a given string.
  * @param {string} value A string to count graphemes.
  * @returns {number} The number of graphemes in `value`.
  */
-function getGraphemeCount(value) {
+export function getGraphemeCount(value) {
   if (ASCII_REGEX.test(value))
     return value.length
 
@@ -50,9 +32,4 @@ function getGraphemeCount(value) {
     splitter = new Graphemer()
 
   return splitter.countGraphemes(value)
-}
-
-module.exports = {
-  upperCaseFirst,
-  getGraphemeCount,
 }

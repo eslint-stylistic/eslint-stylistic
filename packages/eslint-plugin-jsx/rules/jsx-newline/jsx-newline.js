@@ -4,10 +4,8 @@
  * @author Joseph Stiles
  */
 
-'use strict'
-
-const docsUrl = require('../../util/docsUrl')
-const report = require('../../util/report')
+import { docsUrl } from '../../utils/docsUrl'
+import report from '../../utils/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -23,7 +21,7 @@ function isMultilined(node) {
   return node && node.loc.start.line !== node.loc.end.line
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Require or prevent a new line after jsx elements and expressions.',

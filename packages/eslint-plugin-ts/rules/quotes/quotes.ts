@@ -4,9 +4,9 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import type {
   InferMessageIdsTypeFromRule,
   InferOptionsTypeFromRule,
-} from '../../util'
-import { createRule } from '../../util'
-import { getESLintCoreRule } from '../../util/getESLintCoreRule'
+} from '../../utils'
+import { createRule } from '../../utils'
+import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
 
 const baseRule = getESLintCoreRule('quotes')
 
@@ -66,11 +66,11 @@ export default createRule<Options, MessageIds>({
         if (option === 'backtick' && isAllowedAsNonBacktick(node))
           return
 
-        rules.Literal(node)
+        rules.Literal!(node)
       },
 
       TemplateLiteral(node): void {
-        rules.TemplateLiteral(node)
+        rules.TemplateLiteral!(node)
       },
     }
   },

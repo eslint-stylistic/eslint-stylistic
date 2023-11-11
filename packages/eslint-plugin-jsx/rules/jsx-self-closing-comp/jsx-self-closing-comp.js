@@ -3,11 +3,9 @@
  * @author Yannick Croissant
  */
 
-'use strict'
-
-const docsUrl = require('../../util/docsUrl')
-const jsxUtil = require('../../util/jsx')
-const report = require('../../util/report')
+import { docsUrl } from '../../utils/docsUrl'
+import { isDOMComponent } from '../../utils/jsx'
+import report from '../../utils/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -19,7 +17,7 @@ const messages = {
   notSelfClosing: 'Empty components are self-closing',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Disallow extra closing tags for components without children',
@@ -52,7 +50,7 @@ module.exports = {
       return (
         node.name
         && (node.name.type === 'JSXIdentifier' || node.name.type === 'JSXMemberExpression')
-        && !jsxUtil.isDOMComponent(node)
+        && !isDOMComponent(node)
       )
     }
 
@@ -75,7 +73,7 @@ module.exports = {
       const configuration = Object.assign({}, optionDefaults, context.options[0])
       return (
         (configuration.component && isComponent(node))
-        || (configuration.html && jsxUtil.isDOMComponent(node))
+        || (configuration.html && isDOMComponent(node))
       ) && !node.selfClosing && (childrenIsEmpty(node) || childrenIsMultilineSpaces(node))
     }
 

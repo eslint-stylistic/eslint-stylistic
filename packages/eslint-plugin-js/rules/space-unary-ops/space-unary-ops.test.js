@@ -2,14 +2,9 @@
  * @fileoverview This rule should require or disallow spaces before or after unary operations.
  * @author Marcin Kumorek
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./space-unary-ops')
+import { RuleTester } from 'eslint'
+import rule from './space-unary-ops'
 
 // ------------------------------------------------------------------------------
 // Tests

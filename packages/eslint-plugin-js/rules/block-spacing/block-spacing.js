@@ -3,16 +3,14 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-const util = require('../../utils/ast-utils')
+import { isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -72,7 +70,7 @@ module.exports = {
      */
     function isValid(left, right) {
       return (
-        !util.isTokenOnSameLine(left, right)
+        !isTokenOnSameLine(left, right)
                 || sourceCode.isSpaceBetweenTokens(left, right) === always
       )
     }

@@ -3,20 +3,14 @@
  * @author Erik Mueller
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -69,7 +63,7 @@ module.exports = {
         const expectedLF = linebreakStyle === 'unix'
         const expectedLFChars = expectedLF ? '\n' : '\r\n'
         const source = sourceCode.getText()
-        const pattern = astUtils.createGlobalLinebreakMatcher()
+        const pattern = createGlobalLinebreakMatcher()
         let match
 
         let i = 0

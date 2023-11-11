@@ -4,9 +4,7 @@
  * @author Jxck <https://github.com/Jxck>
  */
 
-'use strict'
-
-const astUtils = require('../../utils/ast-utils.js')
+import { isParenthesised } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -26,7 +24,7 @@ function isConditional(node) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
 
@@ -67,7 +65,7 @@ module.exports = {
       const body = node.body
 
       if (isConditional(body)
-                && !(allowParens && astUtils.isParenthesised(sourceCode, body))
+                && !(allowParens && isParenthesised(sourceCode, body))
                 && !(onlyOneSimpleParam && !(node.params.length === 1 && node.params[0].type === 'Identifier'))) {
         context.report({
           node,

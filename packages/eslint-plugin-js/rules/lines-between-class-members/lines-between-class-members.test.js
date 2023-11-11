@@ -3,14 +3,8 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./lines-between-class-members')
+import { RuleTester } from 'eslint'
+import rule from './lines-between-class-members'
 
 // ------------------------------------------------------------------------------
 // Helpers

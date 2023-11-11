@@ -1,70 +1,143 @@
-module.exports = {
-  'array-bracket-newline': require('./array-bracket-newline/array-bracket-newline.js'),
-  'array-bracket-spacing': require('./array-bracket-spacing/array-bracket-spacing.js'),
-  'array-element-newline': require('./array-element-newline/array-element-newline.js'),
-  'arrow-parens': require('./arrow-parens/arrow-parens.js'),
-  'arrow-spacing': require('./arrow-spacing/arrow-spacing.js'),
-  'block-spacing': require('./block-spacing/block-spacing.js'),
-  'brace-style': require('./brace-style/brace-style.js'),
-  'comma-dangle': require('./comma-dangle/comma-dangle.js'),
-  'comma-spacing': require('./comma-spacing/comma-spacing.js'),
-  'comma-style': require('./comma-style/comma-style.js'),
-  'computed-property-spacing': require('./computed-property-spacing/computed-property-spacing.js'),
-  'dot-location': require('./dot-location/dot-location.js'),
-  'eol-last': require('./eol-last/eol-last.js'),
-  'func-call-spacing': require('./func-call-spacing/func-call-spacing.js'),
-  'function-call-argument-newline': require('./function-call-argument-newline/function-call-argument-newline.js'),
-  'function-call-spacing': require('./func-call-spacing/func-call-spacing.js'),
-  'function-paren-newline': require('./function-paren-newline/function-paren-newline.js'),
-  'generator-star-spacing': require('./generator-star-spacing/generator-star-spacing.js'),
-  'implicit-arrow-linebreak': require('./implicit-arrow-linebreak/implicit-arrow-linebreak.js'),
-  'indent': require('./indent/indent.js'),
-  'jsx-quotes': require('./jsx-quotes/jsx-quotes.js'),
-  'key-spacing': require('./key-spacing/key-spacing.js'),
-  'keyword-spacing': require('./keyword-spacing/keyword-spacing.js'),
-  'linebreak-style': require('./linebreak-style/linebreak-style.js'),
-  'lines-around-comment': require('./lines-around-comment/lines-around-comment.js'),
-  'lines-between-class-members': require('./lines-between-class-members/lines-between-class-members.js'),
-  'max-len': require('./max-len/max-len.js'),
-  'max-statements-per-line': require('./max-statements-per-line/max-statements-per-line.js'),
-  'multiline-ternary': require('./multiline-ternary/multiline-ternary.js'),
-  'new-parens': require('./new-parens/new-parens.js'),
-  'newline-per-chained-call': require('./newline-per-chained-call/newline-per-chained-call.js'),
-  'no-confusing-arrow': require('./no-confusing-arrow/no-confusing-arrow.js'),
-  'no-extra-parens': require('./no-extra-parens/no-extra-parens.js'),
-  'no-extra-semi': require('./no-extra-semi/no-extra-semi.js'),
-  'no-floating-decimal': require('./no-floating-decimal/no-floating-decimal.js'),
-  'no-mixed-operators': require('./no-mixed-operators/no-mixed-operators.js'),
-  'no-mixed-spaces-and-tabs': require('./no-mixed-spaces-and-tabs/no-mixed-spaces-and-tabs.js'),
-  'no-multi-spaces': require('./no-multi-spaces/no-multi-spaces.js'),
-  'no-multiple-empty-lines': require('./no-multiple-empty-lines/no-multiple-empty-lines.js'),
-  'no-tabs': require('./no-tabs/no-tabs.js'),
-  'no-trailing-spaces': require('./no-trailing-spaces/no-trailing-spaces.js'),
-  'no-whitespace-before-property': require('./no-whitespace-before-property/no-whitespace-before-property.js'),
-  'nonblock-statement-body-position': require('./nonblock-statement-body-position/nonblock-statement-body-position.js'),
-  'object-curly-newline': require('./object-curly-newline/object-curly-newline.js'),
-  'object-curly-spacing': require('./object-curly-spacing/object-curly-spacing.js'),
-  'object-property-newline': require('./object-property-newline/object-property-newline.js'),
-  'one-var-declaration-per-line': require('./one-var-declaration-per-line/one-var-declaration-per-line.js'),
-  'operator-linebreak': require('./operator-linebreak/operator-linebreak.js'),
-  'padded-blocks': require('./padded-blocks/padded-blocks.js'),
-  'padding-line-between-statements': require('./padding-line-between-statements/padding-line-between-statements.js'),
-  'quote-props': require('./quote-props/quote-props.js'),
-  'quotes': require('./quotes/quotes.js'),
-  'rest-spread-spacing': require('./rest-spread-spacing/rest-spread-spacing.js'),
-  'semi': require('./semi/semi.js'),
-  'semi-spacing': require('./semi-spacing/semi-spacing.js'),
-  'semi-style': require('./semi-style/semi-style.js'),
-  'space-before-blocks': require('./space-before-blocks/space-before-blocks.js'),
-  'space-before-function-paren': require('./space-before-function-paren/space-before-function-paren.js'),
-  'space-in-parens': require('./space-in-parens/space-in-parens.js'),
-  'space-infix-ops': require('./space-infix-ops/space-infix-ops.js'),
-  'space-unary-ops': require('./space-unary-ops/space-unary-ops.js'),
-  'spaced-comment': require('./spaced-comment/spaced-comment.js'),
-  'switch-colon-spacing': require('./switch-colon-spacing/switch-colon-spacing.js'),
-  'template-curly-spacing': require('./template-curly-spacing/template-curly-spacing.js'),
-  'template-tag-spacing': require('./template-tag-spacing/template-tag-spacing.js'),
-  'wrap-iife': require('./wrap-iife/wrap-iife.js'),
-  'wrap-regex': require('./wrap-regex/wrap-regex.js'),
-  'yield-star-spacing': require('./yield-star-spacing/yield-star-spacing.js'),
+/**
+ * This file is GENERATED by scripts/prepare.ts
+ * DO NOT EDIT THIS FILE DIRECTLY
+ */
+
+import arrayBracketNewline from './array-bracket-newline/array-bracket-newline'
+import arrayBracketSpacing from './array-bracket-spacing/array-bracket-spacing'
+import arrayElementNewline from './array-element-newline/array-element-newline'
+import arrowParens from './arrow-parens/arrow-parens'
+import arrowSpacing from './arrow-spacing/arrow-spacing'
+import blockSpacing from './block-spacing/block-spacing'
+import braceStyle from './brace-style/brace-style'
+import commaDangle from './comma-dangle/comma-dangle'
+import commaSpacing from './comma-spacing/comma-spacing'
+import commaStyle from './comma-style/comma-style'
+import computedPropertySpacing from './computed-property-spacing/computed-property-spacing'
+import dotLocation from './dot-location/dot-location'
+import eolLast from './eol-last/eol-last'
+import funcCallSpacing from './func-call-spacing/func-call-spacing'
+import functionCallArgumentNewline from './function-call-argument-newline/function-call-argument-newline'
+import functionParenNewline from './function-paren-newline/function-paren-newline'
+import generatorStarSpacing from './generator-star-spacing/generator-star-spacing'
+import implicitArrowLinebreak from './implicit-arrow-linebreak/implicit-arrow-linebreak'
+import indent from './indent/indent'
+import jsxQuotes from './jsx-quotes/jsx-quotes'
+import keySpacing from './key-spacing/key-spacing'
+import keywordSpacing from './keyword-spacing/keyword-spacing'
+import linebreakStyle from './linebreak-style/linebreak-style'
+import linesAroundComment from './lines-around-comment/lines-around-comment'
+import linesBetweenClassMembers from './lines-between-class-members/lines-between-class-members'
+import maxLen from './max-len/max-len'
+import maxStatementsPerLine from './max-statements-per-line/max-statements-per-line'
+import multilineTernary from './multiline-ternary/multiline-ternary'
+import newParens from './new-parens/new-parens'
+import newlinePerChainedCall from './newline-per-chained-call/newline-per-chained-call'
+import noConfusingArrow from './no-confusing-arrow/no-confusing-arrow'
+import noExtraParens from './no-extra-parens/no-extra-parens'
+import noExtraSemi from './no-extra-semi/no-extra-semi'
+import noFloatingDecimal from './no-floating-decimal/no-floating-decimal'
+import noMixedOperators from './no-mixed-operators/no-mixed-operators'
+import noMixedSpacesAndTabs from './no-mixed-spaces-and-tabs/no-mixed-spaces-and-tabs'
+import noMultiSpaces from './no-multi-spaces/no-multi-spaces'
+import noMultipleEmptyLines from './no-multiple-empty-lines/no-multiple-empty-lines'
+import noTabs from './no-tabs/no-tabs'
+import noTrailingSpaces from './no-trailing-spaces/no-trailing-spaces'
+import noWhitespaceBeforeProperty from './no-whitespace-before-property/no-whitespace-before-property'
+import nonblockStatementBodyPosition from './nonblock-statement-body-position/nonblock-statement-body-position'
+import objectCurlyNewline from './object-curly-newline/object-curly-newline'
+import objectCurlySpacing from './object-curly-spacing/object-curly-spacing'
+import objectPropertyNewline from './object-property-newline/object-property-newline'
+import oneVarDeclarationPerLine from './one-var-declaration-per-line/one-var-declaration-per-line'
+import operatorLinebreak from './operator-linebreak/operator-linebreak'
+import paddedBlocks from './padded-blocks/padded-blocks'
+import paddingLineBetweenStatements from './padding-line-between-statements/padding-line-between-statements'
+import quoteProps from './quote-props/quote-props'
+import quotes from './quotes/quotes'
+import restSpreadSpacing from './rest-spread-spacing/rest-spread-spacing'
+import semi from './semi/semi'
+import semiSpacing from './semi-spacing/semi-spacing'
+import semiStyle from './semi-style/semi-style'
+import spaceBeforeBlocks from './space-before-blocks/space-before-blocks'
+import spaceBeforeFunctionParen from './space-before-function-paren/space-before-function-paren'
+import spaceInParens from './space-in-parens/space-in-parens'
+import spaceInfixOps from './space-infix-ops/space-infix-ops'
+import spaceUnaryOps from './space-unary-ops/space-unary-ops'
+import spacedComment from './spaced-comment/spaced-comment'
+import switchColonSpacing from './switch-colon-spacing/switch-colon-spacing'
+import templateCurlySpacing from './template-curly-spacing/template-curly-spacing'
+import templateTagSpacing from './template-tag-spacing/template-tag-spacing'
+import wrapIife from './wrap-iife/wrap-iife'
+import wrapRegex from './wrap-regex/wrap-regex'
+import yieldStarSpacing from './yield-star-spacing/yield-star-spacing'
+
+export default {
+  'array-bracket-newline': arrayBracketNewline,
+  'array-bracket-spacing': arrayBracketSpacing,
+  'array-element-newline': arrayElementNewline,
+  'arrow-parens': arrowParens,
+  'arrow-spacing': arrowSpacing,
+  'block-spacing': blockSpacing,
+  'brace-style': braceStyle,
+  'comma-dangle': commaDangle,
+  'comma-spacing': commaSpacing,
+  'comma-style': commaStyle,
+  'computed-property-spacing': computedPropertySpacing,
+  'dot-location': dotLocation,
+  'eol-last': eolLast,
+  'func-call-spacing': funcCallSpacing,
+  'function-call-argument-newline': functionCallArgumentNewline,
+  'function-call-spacing': funcCallSpacing,
+  'function-paren-newline': functionParenNewline,
+  'generator-star-spacing': generatorStarSpacing,
+  'implicit-arrow-linebreak': implicitArrowLinebreak,
+  'indent': indent,
+  'jsx-quotes': jsxQuotes,
+  'key-spacing': keySpacing,
+  'keyword-spacing': keywordSpacing,
+  'linebreak-style': linebreakStyle,
+  'lines-around-comment': linesAroundComment,
+  'lines-between-class-members': linesBetweenClassMembers,
+  'max-len': maxLen,
+  'max-statements-per-line': maxStatementsPerLine,
+  'multiline-ternary': multilineTernary,
+  'new-parens': newParens,
+  'newline-per-chained-call': newlinePerChainedCall,
+  'no-confusing-arrow': noConfusingArrow,
+  'no-extra-parens': noExtraParens,
+  'no-extra-semi': noExtraSemi,
+  'no-floating-decimal': noFloatingDecimal,
+  'no-mixed-operators': noMixedOperators,
+  'no-mixed-spaces-and-tabs': noMixedSpacesAndTabs,
+  'no-multi-spaces': noMultiSpaces,
+  'no-multiple-empty-lines': noMultipleEmptyLines,
+  'no-tabs': noTabs,
+  'no-trailing-spaces': noTrailingSpaces,
+  'no-whitespace-before-property': noWhitespaceBeforeProperty,
+  'nonblock-statement-body-position': nonblockStatementBodyPosition,
+  'object-curly-newline': objectCurlyNewline,
+  'object-curly-spacing': objectCurlySpacing,
+  'object-property-newline': objectPropertyNewline,
+  'one-var-declaration-per-line': oneVarDeclarationPerLine,
+  'operator-linebreak': operatorLinebreak,
+  'padded-blocks': paddedBlocks,
+  'padding-line-between-statements': paddingLineBetweenStatements,
+  'quote-props': quoteProps,
+  'quotes': quotes,
+  'rest-spread-spacing': restSpreadSpacing,
+  'semi': semi,
+  'semi-spacing': semiSpacing,
+  'semi-style': semiStyle,
+  'space-before-blocks': spaceBeforeBlocks,
+  'space-before-function-paren': spaceBeforeFunctionParen,
+  'space-in-parens': spaceInParens,
+  'space-infix-ops': spaceInfixOps,
+  'space-unary-ops': spaceUnaryOps,
+  'spaced-comment': spacedComment,
+  'switch-colon-spacing': switchColonSpacing,
+  'template-curly-spacing': templateCurlySpacing,
+  'template-tag-spacing': templateTagSpacing,
+  'wrap-iife': wrapIife,
+  'wrap-regex': wrapRegex,
+  'yield-star-spacing': yieldStarSpacing,
 }

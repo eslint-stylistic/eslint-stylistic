@@ -3,11 +3,9 @@
  * @author Ross Solomon
  */
 
-'use strict'
-
-const astUtil = require('../../util/ast')
-const docsUrl = require('../../util/docsUrl')
-const report = require('../../util/report')
+import { isNodeFirstInLine } from '../../utils/ast'
+import { docsUrl } from '../../utils/docsUrl'
+import report from '../../utils/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -18,7 +16,7 @@ const messages = {
   matchIndent: 'Expected closing tag to match indentation of opening.',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Enforce closing tag location for multiline JSX',
@@ -42,7 +40,7 @@ module.exports = {
       if (opening.loc.start.column === node.loc.start.column)
         return
 
-      const messageId = astUtil.isNodeFirstInLine(context, node)
+      const messageId = isNodeFirstInLine(context, node)
         ? 'matchIndent'
         : 'onOwnLine'
       report(context, messages[messageId], messageId, {
@@ -50,7 +48,7 @@ module.exports = {
         loc: node.loc,
         fix(fixer) {
           const indent = Array(opening.loc.start.column + 1).join(' ')
-          if (astUtil.isNodeFirstInLine(context, node)) {
+          if (isNodeFirstInLine(context, node)) {
             return fixer.replaceTextRange(
               [node.range[0] - node.loc.start.column, node.range[0]],
               indent,

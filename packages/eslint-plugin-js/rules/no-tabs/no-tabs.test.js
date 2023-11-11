@@ -2,14 +2,9 @@
  * @fileoverview Tests for no-tabs rule
  * @author Gyandeep Singh
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./no-tabs')
+import { RuleTester } from 'eslint'
+import rule from './no-tabs'
 
 // ------------------------------------------------------------------------------
 // Tests

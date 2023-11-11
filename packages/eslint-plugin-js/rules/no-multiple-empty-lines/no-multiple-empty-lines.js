@@ -3,14 +3,13 @@
  * implementation adapted from the no-trailing-spaces rule.
  * @author Greg Cochard
  */
-'use strict'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

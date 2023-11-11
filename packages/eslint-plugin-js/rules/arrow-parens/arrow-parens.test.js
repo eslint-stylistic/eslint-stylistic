@@ -3,17 +3,11 @@
  * @author Jxck
  */
 
-'use strict'
+import { RuleTester } from 'eslint'
+import fixtureParser from '../../test-utils/fixture-parser'
+import rule from './arrow-parens'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const baseParser = require('../../fixtures/fixture-parser')
-const rule = require('./arrow-parens')
-
-const parser = baseParser.bind(null, 'arrow-parens')
+const parser = fixtureParser.bind(null, 'arrow-parens')
 
 // ------------------------------------------------------------------------------
 // Tests

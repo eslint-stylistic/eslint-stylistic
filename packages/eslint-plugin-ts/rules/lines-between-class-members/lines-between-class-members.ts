@@ -5,9 +5,9 @@ import type { JSONSchema4 } from '@typescript-eslint/utils/json-schema'
 import type {
   InferMessageIdsTypeFromRule,
   InferOptionsTypeFromRule,
-} from '../../util'
-import { createRule, deepMerge } from '../../util'
-import { getESLintCoreRule } from '../../util/getESLintCoreRule'
+} from '../../utils'
+import { createRule, deepMerge } from '../../utils'
+import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
 
 const baseRule = getESLintCoreRule('lines-between-class-members')
 
@@ -69,7 +69,7 @@ export default createRule<Options, MessageIds>({
           ? node.body.filter(node => !isOverload(node))
           : node.body
 
-        rules.ClassBody({ ...node, body })
+        rules.ClassBody!({ ...node, body })
       },
     }
   },

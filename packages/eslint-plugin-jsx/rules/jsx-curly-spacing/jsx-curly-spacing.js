@@ -9,11 +9,10 @@
  * @author Erik Wendel
  */
 
-'use strict'
+import { docsUrl } from '../../utils/docsUrl'
+import report from '../../utils/report'
 
 const has = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
-const docsUrl = require('../../util/docsUrl')
-const report = require('../../util/report')
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -34,7 +33,7 @@ const messages = {
   spaceNeededBefore: 'A space is required before \'{{token}}\'',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Enforce or disallow spaces inside of curly braces in JSX attributes and expressions',

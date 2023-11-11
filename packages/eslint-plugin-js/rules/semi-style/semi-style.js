@@ -3,13 +3,7 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -76,7 +70,7 @@ function isLastChild(node) {
 }
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -107,8 +101,8 @@ module.exports = {
     function check(semiToken, expected) {
       const prevToken = sourceCode.getTokenBefore(semiToken)
       const nextToken = sourceCode.getTokenAfter(semiToken)
-      const prevIsSameLine = !prevToken || astUtils.isTokenOnSameLine(prevToken, semiToken)
-      const nextIsSameLine = !nextToken || astUtils.isTokenOnSameLine(semiToken, nextToken)
+      const prevIsSameLine = !prevToken || isTokenOnSameLine(prevToken, semiToken)
+      const nextIsSameLine = !nextToken || isTokenOnSameLine(semiToken, nextToken)
 
       if ((expected === 'last' && !prevIsSameLine) || (expected === 'first' && !nextIsSameLine)) {
         context.report({
@@ -140,13 +134,13 @@ module.exports = {
 
         const lastToken = sourceCode.getLastToken(node)
 
-        if (astUtils.isSemicolonToken(lastToken))
+        if (isSemicolonToken(lastToken))
           check(lastToken, option)
       },
 
       ForStatement(node) {
-        const firstSemi = node.init && sourceCode.getTokenAfter(node.init, astUtils.isSemicolonToken)
-        const secondSemi = node.test && sourceCode.getTokenAfter(node.test, astUtils.isSemicolonToken)
+        const firstSemi = node.init && sourceCode.getTokenAfter(node.init, isSemicolonToken)
+        const secondSemi = node.test && sourceCode.getTokenAfter(node.test, isSemicolonToken)
 
         if (firstSemi)
           check(firstSemi, 'last')

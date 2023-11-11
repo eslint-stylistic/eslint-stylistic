@@ -2,11 +2,13 @@ import type { TSESTree } from '@typescript-eslint/utils'
 
 import {
   LINEBREAK_MATCHER,
-  createRule,
   isNotOptionalChainPunctuator,
   isOpeningParenToken,
   isOptionalCallExpression,
-} from '../../util'
+} from '@typescript-eslint/utils/ast-utils'
+import {
+  createRule,
+} from '../../utils'
 
 export type Options = [
   'always' | 'never',

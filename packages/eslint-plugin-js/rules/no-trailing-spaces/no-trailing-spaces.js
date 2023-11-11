@@ -2,20 +2,15 @@
  * @fileoverview Disallow trailing spaces at the end of lines.
  * @author Nodeca Team <https://github.com/nodeca>
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -119,7 +114,7 @@ module.exports = {
         const re = new RegExp(NONBLANK, 'u')
         const skipMatch = new RegExp(SKIP_BLANK, 'u')
         const lines = sourceCode.lines
-        const linebreaks = sourceCode.getText().match(astUtils.createGlobalLinebreakMatcher())
+        const linebreaks = sourceCode.getText().match(createGlobalLinebreakMatcher())
         const comments = sourceCode.getAllComments()
         const commentLineNumbers = getCommentLineNumbers(comments)
 

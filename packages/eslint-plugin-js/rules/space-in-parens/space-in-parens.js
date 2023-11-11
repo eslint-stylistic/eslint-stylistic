@@ -2,16 +2,15 @@
  * @fileoverview Disallows or enforces spaces inside of parentheses.
  * @author Jonathan Rajavuori
  */
-'use strict'
 
-const astUtils = require('../../utils/ast-utils')
+import { isClosingParenToken, isOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -132,7 +131,7 @@ module.exports = {
       if (sourceCode.isSpaceBetweenTokens(openingParenToken, tokenAfterOpeningParen))
         return false
 
-      if (!options.empty && astUtils.isClosingParenToken(tokenAfterOpeningParen))
+      if (!options.empty && isClosingParenToken(tokenAfterOpeningParen))
         return false
 
       if (ALWAYS)
@@ -148,7 +147,7 @@ module.exports = {
      * @returns {boolean} True if the opening paren has a disallowed space
      */
     function openerRejectsSpace(openingParenToken, tokenAfterOpeningParen) {
-      if (!astUtils.isTokenOnSameLine(openingParenToken, tokenAfterOpeningParen))
+      if (!isTokenOnSameLine(openingParenToken, tokenAfterOpeningParen))
         return false
 
       if (tokenAfterOpeningParen.type === 'Line')
@@ -173,7 +172,7 @@ module.exports = {
       if (sourceCode.isSpaceBetweenTokens(tokenBeforeClosingParen, closingParenToken))
         return false
 
-      if (!options.empty && astUtils.isOpeningParenToken(tokenBeforeClosingParen))
+      if (!options.empty && isOpeningParenToken(tokenBeforeClosingParen))
         return false
 
       if (ALWAYS)
@@ -189,7 +188,7 @@ module.exports = {
      * @returns {boolean} True if the closing paren has a disallowed space
      */
     function closerRejectsSpace(tokenBeforeClosingParen, closingParenToken) {
-      if (!astUtils.isTokenOnSameLine(tokenBeforeClosingParen, closingParenToken))
+      if (!isTokenOnSameLine(tokenBeforeClosingParen, closingParenToken))
         return false
 
       if (!sourceCode.isSpaceBetweenTokens(tokenBeforeClosingParen, closingParenToken))
@@ -215,7 +214,7 @@ module.exports = {
           const nextToken = tokens[i + 1]
 
           // if token is not an opening or closing paren token, do nothing
-          if (!astUtils.isOpeningParenToken(token) && !astUtils.isClosingParenToken(token))
+          if (!isOpeningParenToken(token) && !isClosingParenToken(token))
             return
 
           // if token is an opening paren and is not followed by a required space

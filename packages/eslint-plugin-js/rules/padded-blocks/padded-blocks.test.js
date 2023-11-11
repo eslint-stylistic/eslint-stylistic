@@ -3,14 +3,8 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./padded-blocks')
+import { RuleTester } from 'eslint'
+import rule from './padded-blocks'
 
 // ------------------------------------------------------------------------------
 // Tests

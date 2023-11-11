@@ -3,21 +3,15 @@
  * @author Nicholas C. Zakas
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
-const FixTracker = require('../../utils/fix-tracker')
+import { isClosingBraceToken, isSemicolonToken, isTopLevelExpressionStatement } from '../../utils/ast-utils'
+import FixTracker from '../../utils/fix-tracker'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
 
@@ -52,7 +46,7 @@ module.exports = {
 
       const stringNode = sourceCode.getNodeByRangeIndex(nextToken.range[0])
 
-      return !astUtils.isTopLevelExpressionStatement(stringNode.parent)
+      return !isTopLevelExpressionStatement(stringNode.parent)
     }
 
     /**
@@ -87,10 +81,10 @@ module.exports = {
      */
     function checkForPartOfClassBody(firstToken) {
       for (let token = firstToken;
-        token.type === 'Punctuator' && !astUtils.isClosingBraceToken(token);
+        token.type === 'Punctuator' && !isClosingBraceToken(token);
         token = sourceCode.getTokenAfter(token)
       ) {
-        if (astUtils.isSemicolonToken(token))
+        if (isSemicolonToken(token))
           report(token)
       }
     }

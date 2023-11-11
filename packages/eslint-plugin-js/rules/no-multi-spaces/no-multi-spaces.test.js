@@ -2,14 +2,9 @@
  * @fileoverview tests for checking multiple spaces.
  * @author Vignesh Anand aka vegetableman
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./no-multi-spaces')
+import { RuleTester } from 'eslint'
+import rule from './no-multi-spaces'
 
 // ------------------------------------------------------------------------------
 // Tests

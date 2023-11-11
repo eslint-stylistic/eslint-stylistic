@@ -2,14 +2,9 @@
  * @fileoverview Disallows or enforces spaces inside of parentheses.
  * @author Jonathan Rajavuori
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./space-in-parens')
+import { RuleTester } from 'eslint'
+import rule from './space-in-parens'
 
 // ------------------------------------------------------------------------------
 // Tests

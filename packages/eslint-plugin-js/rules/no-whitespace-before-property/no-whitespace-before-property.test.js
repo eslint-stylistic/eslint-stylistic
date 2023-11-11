@@ -2,14 +2,9 @@
  * @fileoverview Rule to disallow whitespace before properties
  * @author Kai Cataldo
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./no-whitespace-before-property')
+import { RuleTester } from 'eslint'
+import rule from './no-whitespace-before-property'
 
 // ------------------------------------------------------------------------------
 // Tests

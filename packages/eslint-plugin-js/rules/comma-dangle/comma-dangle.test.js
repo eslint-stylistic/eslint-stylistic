@@ -3,17 +3,10 @@
  * @author Ian Christian Myers
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const path = require('node:path')
-const { RuleTester } = require('eslint')
-const { unIndent } = require('../../utils/test-utils')
-// const FlatRuleTester = require('../../../lib/rule-tester/flat-rule-tester')
-const rule = require('./comma-dangle')
+import { resolve } from 'node:path'
+import { RuleTester } from 'eslint'
+import { unIndent } from '../../test-utils/unindent'
+import rule from './comma-dangle'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -25,9 +18,9 @@ const rule = require('./comma-dangle')
  * @returns {string} The path to the specified parser.
  */
 function parser(name) {
-  return path.resolve(
+  return resolve(
     __dirname,
-        `../../fixtures/parsers/comma-dangle/${name}.js`,
+        `../../test-utils/parsers/comma-dangle/${name}.js`,
   )
 }
 

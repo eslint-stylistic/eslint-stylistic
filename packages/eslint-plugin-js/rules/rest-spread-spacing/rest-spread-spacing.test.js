@@ -3,14 +3,8 @@
  * @author Kai Cataldo
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./rest-spread-spacing')
+import { RuleTester } from 'eslint'
+import rule from './rest-spread-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests

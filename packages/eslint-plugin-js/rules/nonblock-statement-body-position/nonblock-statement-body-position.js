@@ -2,7 +2,6 @@
  * @fileoverview enforce the location of single-line statements
  * @author Teddy Katz
  */
-'use strict'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -11,7 +10,7 @@
 const POSITION_SCHEMA = { enum: ['beside', 'below', 'any'] }
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

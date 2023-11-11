@@ -1,6 +1,6 @@
 {
   "name": "@stylistic/eslint-plugin-ts",
-  "version": "1.0.1",
+  "version": "1.1.0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
@@ -23,7 +23,29 @@
     },
     "./rule-options": {
       "types": "./dts/rule-options.d.ts"
-    }
+    },
+    "./rules/block-spacing": "./dist/block-spacing.js",
+    "./rules/brace-style": "./dist/brace-style.js",
+    "./rules/comma-dangle": "./dist/comma-dangle.js",
+    "./rules/comma-spacing": "./dist/comma-spacing.js",
+    "./rules/func-call-spacing": "./dist/func-call-spacing.js",
+    "./rules/function-call-spacing": "./dist/function-call-spacing.js",
+    "./rules/indent": "./dist/indent.js",
+    "./rules/key-spacing": "./dist/key-spacing.js",
+    "./rules/keyword-spacing": "./dist/keyword-spacing.js",
+    "./rules/lines-around-comment": "./dist/lines-around-comment.js",
+    "./rules/lines-between-class-members": "./dist/lines-between-class-members.js",
+    "./rules/member-delimiter-style": "./dist/member-delimiter-style.js",
+    "./rules/no-extra-parens": "./dist/no-extra-parens.js",
+    "./rules/no-extra-semi": "./dist/no-extra-semi.js",
+    "./rules/object-curly-spacing": "./dist/object-curly-spacing.js",
+    "./rules/padding-line-between-statements": "./dist/padding-line-between-statements.js",
+    "./rules/quotes": "./dist/quotes.js",
+    "./rules/semi": "./dist/semi.js",
+    "./rules/space-before-blocks": "./dist/space-before-blocks.js",
+    "./rules/space-before-function-paren": "./dist/space-before-function-paren.js",
+    "./rules/space-infix-ops": "./dist/space-infix-ops.js",
+    "./rules/type-annotation-spacing": "./dist/type-annotation-spacing.js"
   },
   "main": "./dist/index.js",
   "types": "./dts/index.d.ts",
@@ -42,8 +64,6 @@
   },
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:*",
-    "@typescript-eslint/scope-manager": "^6.10.0",
-    "@typescript-eslint/type-utils": "^6.10.0",
     "@typescript-eslint/utils": "^6.10.0",
     "graphemer": "^1.4.0"
   },

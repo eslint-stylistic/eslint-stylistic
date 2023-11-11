@@ -2,13 +2,15 @@ import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 
 import {
-  createRule,
   isClosingBraceToken,
   isClosingBracketToken,
   isClosingParenToken,
   isCommaToken,
   isTokenOnSameLine,
-} from '../../util'
+} from '@typescript-eslint/utils/ast-utils'
+import {
+  createRule,
+} from '../../utils'
 
 type Options = [
   {

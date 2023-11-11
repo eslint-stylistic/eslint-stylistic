@@ -6,13 +6,7 @@
  * @author Gyandeep Singh
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { STATEMENT_LIST_PARENTS, createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -481,7 +475,7 @@ const ELEMENT_LIST_SCHEMA = {
 }
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -801,7 +795,7 @@ module.exports = {
      */
     function countTrailingLinebreaks(string) {
       const trailingWhitespace = string.match(/\s*$/u)[0]
-      const linebreakMatches = trailingWhitespace.match(astUtils.createGlobalLinebreakMatcher())
+      const linebreakMatches = trailingWhitespace.match(createGlobalLinebreakMatcher())
 
       return linebreakMatches === null ? 0 : linebreakMatches.length
     }
@@ -823,7 +817,7 @@ module.exports = {
       function getFirstToken(element) {
         let token = sourceCode.getTokenBefore(element)
 
-        while (astUtils.isOpeningParenToken(token) && token !== startToken)
+        while (isOpeningParenToken(token) && token !== startToken)
           token = sourceCode.getTokenBefore(token)
 
         return sourceCode.getTokenAfter(token)
@@ -885,14 +879,14 @@ module.exports = {
      */
     function addBlocklessNodeIndent(node) {
       if (node.type !== 'BlockStatement') {
-        const lastParentToken = sourceCode.getTokenBefore(node, astUtils.isNotOpeningParenToken)
+        const lastParentToken = sourceCode.getTokenBefore(node, isNotOpeningParenToken)
 
         let firstBodyToken = sourceCode.getFirstToken(node)
         let lastBodyToken = sourceCode.getLastToken(node)
 
         while (
-          astUtils.isOpeningParenToken(sourceCode.getTokenBefore(firstBodyToken))
-                    && astUtils.isClosingParenToken(sourceCode.getTokenAfter(lastBodyToken))
+          isOpeningParenToken(sourceCode.getTokenBefore(firstBodyToken))
+                    && isClosingParenToken(sourceCode.getTokenAfter(lastBodyToken))
         ) {
           firstBodyToken = sourceCode.getTokenBefore(firstBodyToken)
           lastBodyToken = sourceCode.getTokenAfter(lastBodyToken)
@@ -911,7 +905,7 @@ module.exports = {
       let openingParen
 
       if (node.arguments.length)
-        openingParen = sourceCode.getFirstTokenBetween(node.callee, node.arguments[0], astUtils.isOpeningParenToken)
+        openingParen = sourceCode.getFirstTokenBetween(node.callee, node.arguments[0], isOpeningParenToken)
       else
         openingParen = sourceCode.getLastToken(node, 1)
 
@@ -925,8 +919,8 @@ module.exports = {
              * This logic is copied from `MemberExpression`'s.
              */
       if (node.optional) {
-        const dotToken = sourceCode.getTokenAfter(node.callee, astUtils.isQuestionDotToken)
-        const calleeParenCount = sourceCode.getTokensBetween(node.callee, dotToken, { filter: astUtils.isClosingParenToken }).length
+        const dotToken = sourceCode.getTokenAfter(node.callee, isQuestionDotToken)
+        const calleeParenCount = sourceCode.getTokensBetween(node.callee, dotToken, { filter: isClosingParenToken }).length
         const firstTokenOfCallee = calleeParenCount
           ? sourceCode.getTokenBefore(node.callee, { skip: calleeParenCount - 1 })
           : sourceCode.getFirstToken(node.callee)
@@ -958,9 +952,9 @@ module.exports = {
       for (let i = 0; i < tokens.length; i++) {
         const nextToken = tokens[i]
 
-        if (astUtils.isOpeningParenToken(nextToken))
+        if (isOpeningParenToken(nextToken))
           parenStack.push(nextToken)
-        else if (astUtils.isClosingParenToken(nextToken))
+        else if (isClosingParenToken(nextToken))
           parenPairs.push({ left: parenStack.pop(), right: nextToken })
       }
 
@@ -1048,7 +1042,7 @@ module.exports = {
     const baseOffsetListeners = {
       'ArrayExpression, ArrayPattern': function (node) {
         const openingBracket = sourceCode.getFirstToken(node)
-        const closingBracket = sourceCode.getTokenAfter([...node.elements].reverse().find(_ => _) || openingBracket, astUtils.isClosingBracketToken)
+        const closingBracket = sourceCode.getTokenAfter([...node.elements].reverse().find(_ => _) || openingBracket, isClosingBracketToken)
 
         addElementListIndent(node.elements, openingBracket, closingBracket, options.ArrayExpression)
       },
@@ -1057,7 +1051,7 @@ module.exports = {
         const openingCurly = sourceCode.getFirstToken(node)
         const closingCurly = sourceCode.getTokenAfter(
           node.properties.length ? node.properties[node.properties.length - 1] : openingCurly,
-          astUtils.isClosingBraceToken,
+          isClosingBraceToken,
         )
 
         addElementListIndent(node.properties, openingCurly, closingCurly, options.ObjectExpression)
@@ -1066,9 +1060,9 @@ module.exports = {
       ArrowFunctionExpression(node) {
         const maybeOpeningParen = sourceCode.getFirstToken(node, { skip: node.async ? 1 : 0 })
 
-        if (astUtils.isOpeningParenToken(maybeOpeningParen)) {
+        if (isOpeningParenToken(maybeOpeningParen)) {
           const openingParen = maybeOpeningParen
-          const closingParen = sourceCode.getTokenBefore(node.body, astUtils.isClosingParenToken)
+          const closingParen = sourceCode.getTokenBefore(node.body, isClosingParenToken)
 
           parameterParens.add(openingParen)
           parameterParens.add(closingParen)
@@ -1118,7 +1112,7 @@ module.exports = {
                  * For blocks that aren't lone statements, ensure that the opening curly brace
                  * is aligned with the parent.
                  */
-        if (!astUtils.STATEMENT_LIST_PARENTS.has(node.parent.type))
+        if (!STATEMENT_LIST_PARENTS.has(node.parent.type))
           offsets.setDesiredOffset(sourceCode.getFirstToken(node), sourceCode.getFirstToken(node.parent), 0)
 
         addElementListIndent(node.body, sourceCode.getFirstToken(node), sourceCode.getLastToken(node), blockIndentLevel)
@@ -1128,7 +1122,7 @@ module.exports = {
 
       'ClassDeclaration[superClass], ClassExpression[superClass]': function (node) {
         const classToken = sourceCode.getFirstToken(node)
-        const extendsToken = sourceCode.getTokenBefore(node.superClass, astUtils.isNotOpeningParenToken)
+        const extendsToken = sourceCode.getTokenBefore(node.superClass, isNotOpeningParenToken)
 
         offsets.setDesiredOffsets([extendsToken.range[0], node.body.range[0]], classToken, 1)
       },
@@ -1142,7 +1136,7 @@ module.exports = {
         //     foo < 0 ? baz :
         //     /*else*/ qiz ;
         if (!options.flatTernaryExpressions
-                    || !astUtils.isTokenOnSameLine(node.test, node.consequent)
+                    || !isTokenOnSameLine(node.test, node.consequent)
                     || isOnFirstLineOfStatement(firstToken, node)
         ) {
           const questionMarkToken = sourceCode.getFirstTokenBetween(node.test, node.consequent, token => token.type === 'Punctuator' && token.value === '?')
@@ -1191,7 +1185,7 @@ module.exports = {
 
       ExportNamedDeclaration(node) {
         if (node.declaration === null) {
-          const closingCurly = sourceCode.getLastToken(node, astUtils.isClosingBraceToken)
+          const closingCurly = sourceCode.getLastToken(node, isClosingBraceToken)
 
           // Indent the specifiers in `export {foo, bar, baz}`
           addElementListIndent(node.specifiers, sourceCode.getFirstToken(node, { skip: 1 }), closingCurly, 1)
@@ -1257,15 +1251,15 @@ module.exports = {
         for (const nodeToCheck of nodesToCheck) {
           const lastToken = sourceCode.getLastToken(nodeToCheck)
 
-          if (astUtils.isSemicolonToken(lastToken)) {
+          if (isSemicolonToken(lastToken)) {
             const tokenBeforeLast = sourceCode.getTokenBefore(lastToken)
             const tokenAfterLast = sourceCode.getTokenAfter(lastToken)
 
             // override indentation of `;` only if its line looks like a semicolon-first style line
             if (
-              !astUtils.isTokenOnSameLine(tokenBeforeLast, lastToken)
+              !isTokenOnSameLine(tokenBeforeLast, lastToken)
                             && tokenAfterLast
-                            && astUtils.isTokenOnSameLine(lastToken, tokenAfterLast)
+                            && isTokenOnSameLine(lastToken, tokenAfterLast)
             ) {
               offsets.setDesiredOffset(
                 lastToken,
@@ -1279,8 +1273,8 @@ module.exports = {
 
       ImportDeclaration(node) {
         if (node.specifiers.some(specifier => specifier.type === 'ImportSpecifier')) {
-          const openingCurly = sourceCode.getFirstToken(node, astUtils.isOpeningBraceToken)
-          const closingCurly = sourceCode.getLastToken(node, astUtils.isClosingBraceToken)
+          const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)
+          const closingCurly = sourceCode.getLastToken(node, isClosingBraceToken)
 
           addElementListIndent(node.specifiers.filter(specifier => specifier.type === 'ImportSpecifier'), openingCurly, closingCurly, options.ImportDeclaration)
         }
@@ -1309,10 +1303,10 @@ module.exports = {
 
       'MemberExpression, JSXMemberExpression, MetaProperty': function (node) {
         const object = node.type === 'MetaProperty' ? node.meta : node.object
-        const firstNonObjectToken = sourceCode.getFirstTokenBetween(object, node.property, astUtils.isNotClosingParenToken)
+        const firstNonObjectToken = sourceCode.getFirstTokenBetween(object, node.property, isNotClosingParenToken)
         const secondNonObjectToken = sourceCode.getTokenAfter(firstNonObjectToken)
 
-        const objectParenCount = sourceCode.getTokensBetween(object, node.property, { filter: astUtils.isClosingParenToken }).length
+        const objectParenCount = sourceCode.getTokensBetween(object, node.property, { filter: isClosingParenToken }).length
         const firstObjectToken = objectParenCount
           ? sourceCode.getTokenBefore(object, { skip: objectParenCount - 1 })
           : sourceCode.getFirstToken(object)
@@ -1362,14 +1356,14 @@ module.exports = {
       NewExpression(node) {
         // Only indent the arguments if the NewExpression has parens (e.g. `new Foo(bar)` or `new Foo()`, but not `new Foo`
         if (node.arguments.length > 0
-                        || astUtils.isClosingParenToken(sourceCode.getLastToken(node))
-                        && astUtils.isOpeningParenToken(sourceCode.getLastToken(node, 1)))
+                        || isClosingParenToken(sourceCode.getLastToken(node))
+                        && isOpeningParenToken(sourceCode.getLastToken(node, 1)))
           addFunctionCallIndent(node)
       },
 
       Property(node) {
         if (!node.shorthand && !node.method && node.kind === 'init') {
-          const colon = sourceCode.getFirstTokenBetween(node.key, node.value, astUtils.isColonToken)
+          const colon = sourceCode.getFirstTokenBetween(node.key, node.value, isColonToken)
 
           offsets.ignoreToken(sourceCode.getTokenAfter(colon))
         }
@@ -1382,8 +1376,8 @@ module.exports = {
 
         // Indent key.
         if (node.computed) {
-          const bracketTokenL = sourceCode.getTokenBefore(node.key, astUtils.isOpeningBracketToken)
-          const bracketTokenR = keyLastToken = sourceCode.getTokenAfter(node.key, astUtils.isClosingBracketToken)
+          const bracketTokenL = sourceCode.getTokenBefore(node.key, isOpeningBracketToken)
+          const bracketTokenR = keyLastToken = sourceCode.getTokenAfter(node.key, isClosingBracketToken)
           const keyRange = [bracketTokenL.range[1], bracketTokenR.range[0]]
 
           if (bracketTokenL !== firstToken)
@@ -1401,15 +1395,15 @@ module.exports = {
 
         // Indent initializer.
         if (node.value) {
-          const eqToken = sourceCode.getTokenBefore(node.value, astUtils.isEqToken)
+          const eqToken = sourceCode.getTokenBefore(node.value, isEqToken)
           const valueToken = sourceCode.getTokenAfter(eqToken)
 
           offsets.setDesiredOffset(eqToken, keyLastToken, 1)
           offsets.setDesiredOffset(valueToken, eqToken, 1)
-          if (astUtils.isSemicolonToken(maybeSemicolonToken))
+          if (isSemicolonToken(maybeSemicolonToken))
             offsets.setDesiredOffset(maybeSemicolonToken, eqToken, 1)
         }
-        else if (astUtils.isSemicolonToken(maybeSemicolonToken)) {
+        else if (isSemicolonToken(maybeSemicolonToken)) {
           offsets.setDesiredOffset(maybeSemicolonToken, keyLastToken, 1)
         }
       },
@@ -1422,7 +1416,7 @@ module.exports = {
       },
 
       SwitchStatement(node) {
-        const openingCurly = sourceCode.getTokenAfter(node.discriminant, astUtils.isOpeningBraceToken)
+        const openingCurly = sourceCode.getTokenAfter(node.discriminant, isOpeningBraceToken)
         const closingCurly = sourceCode.getLastToken(node)
 
         offsets.setDesiredOffsets([openingCurly.range[1], closingCurly.range[0]], openingCurly, options.SwitchCase)
@@ -1431,7 +1425,7 @@ module.exports = {
           sourceCode.getTokensBetween(
             node.cases[node.cases.length - 1],
             closingCurly,
-            { includeComments: true, filter: astUtils.isCommentToken },
+            { includeComments: true, filter: isCommentToken },
           ).forEach(token => offsets.ignoreToken(token))
         }
       },
@@ -1506,13 +1500,13 @@ module.exports = {
           offsets.setDesiredOffsets(node.range, firstToken, variableIndent)
         }
 
-        if (astUtils.isSemicolonToken(lastToken))
+        if (isSemicolonToken(lastToken))
           offsets.ignoreToken(lastToken)
       },
 
       VariableDeclarator(node) {
         if (node.init) {
-          const equalOperator = sourceCode.getTokenBefore(node.init, astUtils.isNotOpeningParenToken)
+          const equalOperator = sourceCode.getTokenBefore(node.init, isNotOpeningParenToken)
           const tokenAfterOperator = sourceCode.getTokenAfter(equalOperator)
 
           offsets.ignoreToken(equalOperator)
@@ -1573,7 +1567,7 @@ module.exports = {
         const firstToken = sourceCode.getFirstToken(node)
         const slashToken = sourceCode.getLastToken(node, { skip: 1 })
         const closingToken = sourceCode.getLastToken(node)
-        const tokenToMatch = astUtils.isTokenOnSameLine(slashToken, closingToken) ? slashToken : closingToken
+        const tokenToMatch = isTokenOnSameLine(slashToken, closingToken) ? slashToken : closingToken
 
         offsets.setDesiredOffsets(node.range, firstToken, 1)
         offsets.matchOffsetOf(firstToken, tokenToMatch)
@@ -1723,7 +1717,7 @@ module.exports = {
               continue
             }
 
-            if (astUtils.isCommentToken(firstTokenOfLine)) {
+            if (isCommentToken(firstTokenOfLine)) {
               const tokenBefore = precedingTokens.get(firstTokenOfLine)
               const tokenAfter = tokenBefore ? sourceCode.getTokenAfter(tokenBefore) : sourceCode.ast.tokens[0]
               const mayAlignWithBefore = tokenBefore && !hasBlankLinesBetween(tokenBefore, firstTokenOfLine)
@@ -1736,7 +1730,7 @@ module.exports = {
                              * // comment
                              * ;(async () => {})()
                              */
-              if (tokenAfter && astUtils.isSemicolonToken(tokenAfter) && !astUtils.isTokenOnSameLine(firstTokenOfLine, tokenAfter))
+              if (tokenAfter && isSemicolonToken(tokenAfter) && !isTokenOnSameLine(firstTokenOfLine, tokenAfter))
                 offsets.setDesiredOffset(firstTokenOfLine, tokenAfter, 0)
 
               // If a comment matches the expected indentation of the token immediately before or after, don't report it.

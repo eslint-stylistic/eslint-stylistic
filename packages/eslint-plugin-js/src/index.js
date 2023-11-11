@@ -1,3 +1,5 @@
-module.exports = {
-  rules: require('../rules/index.js'),
+import rules from '../rules'
+
+export default {
+  rules,
 }

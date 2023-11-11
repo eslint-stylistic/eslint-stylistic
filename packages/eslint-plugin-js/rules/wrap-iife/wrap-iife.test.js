@@ -3,14 +3,8 @@
  * @author Ilya Volodin
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./wrap-iife')
+import { RuleTester } from 'eslint'
+import rule from './wrap-iife'
 
 // ------------------------------------------------------------------------------
 // Tests

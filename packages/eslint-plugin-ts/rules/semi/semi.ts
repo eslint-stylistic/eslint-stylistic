@@ -4,9 +4,9 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import type {
   InferMessageIdsTypeFromRule,
   InferOptionsTypeFromRule,
-} from '../../util'
-import { createRule } from '../../util'
-import { getESLintCoreRule } from '../../util/getESLintCoreRule'
+} from '../../utils'
+import { createRule } from '../../utils'
+import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
 
 const baseRule = getESLintCoreRule('semi')
 
@@ -65,7 +65,7 @@ export default createRule<Options, MessageIds>({
       ...nodesToCheck,
       ExportDefaultDeclaration(node): void {
         if (node.declaration.type !== AST_NODE_TYPES.TSInterfaceDeclaration)
-          rules.ExportDefaultDeclaration(node)
+          rules.ExportDefaultDeclaration!(node)
       },
     }
   },

@@ -3,16 +3,11 @@
  * @author Toru Nagashima
  */
 
-'use strict'
+import { RuleTester } from 'eslint'
+import parser from '../../test-utils/fixture-parser'
+import rule from './keyword-spacing'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const parser = require('../../fixtures/fixture-parser')
-const fixtureParser = require('../../fixtures/fixture-parser')
-const rule = require('./keyword-spacing')
+const fixtureParser = parser
 
 // ------------------------------------------------------------------------------
 // Helpers

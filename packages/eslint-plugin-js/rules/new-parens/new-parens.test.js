@@ -3,15 +3,9 @@
  * @author Ilya Volodin
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const parser = require('../../fixtures/fixture-parser')
-const rule = require('./new-parens')
+import { RuleTester } from 'eslint'
+import parser from '../../test-utils/fixture-parser'
+import rule from './new-parens'
 
 // ------------------------------------------------------------------------------
 // Tests

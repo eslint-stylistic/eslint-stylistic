@@ -3,11 +3,9 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
-'use strict'
-
-const docsUrl = require('../../util/docsUrl')
-const jsxUtil = require('../../util/jsx')
-const report = require('../../util/report')
+import { docsUrl } from '../../utils/docsUrl'
+import { isWhiteSpaces } from '../../utils/jsx'
+import report from '../../utils/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -21,7 +19,7 @@ const messages = {
   moveToNewLine: '`{{descriptor}}` must be placed on a new line',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Require one JSX element per line',
@@ -96,7 +94,7 @@ module.exports = {
         let countNewLinesAfterContent = 0
 
         if (child.type === 'Literal' || child.type === 'JSXText') {
-          if (jsxUtil.isWhiteSpaces(child.raw))
+          if (isWhiteSpaces(child.raw))
             return
 
           countNewLinesBeforeContent = (child.raw.match(/^\s*\n/g) || []).length

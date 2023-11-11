@@ -3,13 +3,7 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { isStringLiteral, isSurroundedBy } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Constants
@@ -37,7 +31,7 @@ const QUOTE_SETTINGS = {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -70,14 +64,14 @@ module.exports = {
      * @public
      */
     function usesExpectedQuotes(node) {
-      return node.value.includes(setting.quote) || astUtils.isSurroundedBy(node.raw, setting.quote)
+      return node.value.includes(setting.quote) || isSurroundedBy(node.raw, setting.quote)
     }
 
     return {
       JSXAttribute(node) {
         const attributeValue = node.value
 
-        if (attributeValue && astUtils.isStringLiteral(attributeValue) && !usesExpectedQuotes(attributeValue)) {
+        if (attributeValue && isStringLiteral(attributeValue) && !usesExpectedQuotes(attributeValue)) {
           context.report({
             node: attributeValue,
             messageId: 'unexpected',

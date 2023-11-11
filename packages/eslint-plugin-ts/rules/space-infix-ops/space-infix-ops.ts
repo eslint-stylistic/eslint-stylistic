@@ -1,11 +1,12 @@
 import { AST_TOKEN_TYPES, TSESTree } from '@typescript-eslint/utils'
 
+import { isNotOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
 import type {
   InferMessageIdsTypeFromRule,
   InferOptionsTypeFromRule,
-} from '../../util'
-import { createRule, isNotOpeningParenToken } from '../../util'
-import { getESLintCoreRule } from '../../util/getESLintCoreRule'
+} from '../../utils'
+import { createRule } from '../../utils'
+import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
 
 const baseRule = getESLintCoreRule('space-infix-ops')
 
@@ -26,7 +27,6 @@ export default createRule<Options, MessageIds>({
     hasSuggestions: baseRule.meta.hasSuggestions,
     schema: baseRule.meta.schema,
     messages: {
-      // @ts-expect-error -- we report on this messageId so we need to ensure it's there in case ESLint changes in future
       missingSpace: 'Operator \'{{operator}}\' must be spaced.',
       ...baseRule.meta.messages,
     },

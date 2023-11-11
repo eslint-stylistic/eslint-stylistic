@@ -1,12 +1,13 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 
+import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 import type {
   InferMessageIdsTypeFromRule,
   InferOptionsTypeFromRule,
-} from '../../util'
-import { createRule, isTokenOnSameLine } from '../../util'
-import { getESLintCoreRule } from '../../util/getESLintCoreRule'
+} from '../../utils'
+import { createRule } from '../../utils'
+import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
 
 const baseRule = getESLintCoreRule('block-spacing')
 

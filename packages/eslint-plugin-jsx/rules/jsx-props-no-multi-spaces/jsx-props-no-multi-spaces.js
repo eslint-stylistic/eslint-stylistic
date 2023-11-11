@@ -3,10 +3,8 @@
  * @author Adrian Moennich
  */
 
-'use strict'
-
-const docsUrl = require('../../util/docsUrl')
-const report = require('../../util/report')
+import { docsUrl } from '../../utils/docsUrl'
+import report from '../../utils/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -17,7 +15,7 @@ const messages = {
   onlyOneSpace: 'Expected only one space between “{{prop1}}” and “{{prop2}}”',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Disallow multiple spaces between inline JSX props',

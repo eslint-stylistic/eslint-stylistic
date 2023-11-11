@@ -3,14 +3,8 @@
  * @author Greg Cochard
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./dot-location')
+import { RuleTester } from 'eslint'
+import rule from './dot-location'
 
 // ------------------------------------------------------------------------------
 // Tests

@@ -1,7 +1,6 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 
 import {
-  createRule,
   isClassOrTypeElement,
   isFunction,
   isFunctionOrFunctionType,
@@ -9,7 +8,10 @@ import {
   isTSConstructorType,
   isTSFunctionType,
   isVariableDeclarator,
-} from '../../util'
+} from '@typescript-eslint/utils/ast-utils'
+import {
+  createRule,
+} from '../../utils'
 
 interface WhitespaceRule {
   readonly before?: boolean

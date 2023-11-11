@@ -1,7 +1,8 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import { createRule, isOpeningParenToken } from '../../util'
+import { isOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
+import { createRule } from '../../utils'
 
 type Option = 'always' | 'never'
 type FuncOption = Option | 'ignore'

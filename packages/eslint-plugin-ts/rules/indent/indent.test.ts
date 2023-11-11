@@ -7,7 +7,7 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import type {
   InferMessageIdsTypeFromRule,
   InferOptionsTypeFromRule,
-} from '../../util'
+} from '../../utils'
 import rule from './indent'
 
 type MessageIds = InferMessageIdsTypeFromRule<typeof rule>

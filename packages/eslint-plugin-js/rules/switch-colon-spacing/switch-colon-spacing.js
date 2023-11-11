@@ -3,20 +3,14 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { getSwitchCaseColonToken, isClosingBraceToken, isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -60,8 +54,8 @@ module.exports = {
      */
     function isValidSpacing(left, right, expected) {
       return (
-        astUtils.isClosingBraceToken(right)
-                || !astUtils.isTokenOnSameLine(left, right)
+        isClosingBraceToken(right)
+                || !isTokenOnSameLine(left, right)
                 || sourceCode.isSpaceBetweenTokens(left, right) === expected
       )
     }
@@ -78,7 +72,7 @@ module.exports = {
         right,
         {
           includeComments: true,
-          filter: astUtils.isCommentToken,
+          filter: isCommentToken,
         },
       ) !== null
     }
@@ -103,7 +97,7 @@ module.exports = {
 
     return {
       SwitchCase(node) {
-        const colonToken = astUtils.getSwitchCaseColonToken(node, sourceCode)
+        const colonToken = getSwitchCaseColonToken(node, sourceCode)
         const beforeToken = sourceCode.getTokenBefore(colonToken)
         const afterToken = sourceCode.getTokenAfter(colonToken)
 

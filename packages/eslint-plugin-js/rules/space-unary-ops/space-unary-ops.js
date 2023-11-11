@@ -2,20 +2,15 @@
  * @fileoverview This rule should require or disallow spaces before or after unary operations.
  * @author Marcin Kumorek
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { canTokensBeAdjacent } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -128,7 +123,7 @@ module.exports = {
      * @returns {void}
      */
     function verifyWordDoesntHaveSpaces(node, firstToken, secondToken, word) {
-      if (astUtils.canTokensBeAdjacent(firstToken, secondToken)) {
+      if (canTokensBeAdjacent(firstToken, secondToken)) {
         if (secondToken.range[0] > firstToken.range[1]) {
           context.report({
             node,
@@ -251,7 +246,7 @@ module.exports = {
               operator: firstToken.value,
             },
             fix(fixer) {
-              if (astUtils.canTokensBeAdjacent(firstToken, secondToken))
+              if (canTokensBeAdjacent(firstToken, secondToken))
                 return fixer.removeRange([firstToken.range[1], secondToken.range[0]])
 
               return null

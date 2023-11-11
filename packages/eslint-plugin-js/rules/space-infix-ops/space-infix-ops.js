@@ -2,16 +2,15 @@
  * @fileoverview Require spaces around infix operators
  * @author Michael Ficarra
  */
-'use strict'
 
-const { isEqToken } = require('../../utils/ast-utils')
+import { isEqToken } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

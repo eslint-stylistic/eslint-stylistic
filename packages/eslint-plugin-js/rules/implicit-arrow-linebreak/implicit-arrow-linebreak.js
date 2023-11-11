@@ -2,15 +2,14 @@
  * @fileoverview enforce the location of arrow function bodies
  * @author Sharmila Jesupaul
  */
-'use strict'
 
-const { isCommentToken, isNotOpeningParenToken } = require('../../utils/ast-utils')
+import { isCommentToken, isNotOpeningParenToken } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

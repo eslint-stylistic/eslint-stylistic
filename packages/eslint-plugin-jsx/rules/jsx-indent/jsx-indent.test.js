@@ -3,17 +3,11 @@
  * @author Yannick Croissant
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const RuleTester = require('eslint').RuleTester
-const semver = require('semver')
-const eslintVersion = require('eslint/package.json').version
-const parsers = require('../../tests/helpers/parsers')
-const rule = require('./jsx-indent')
+import { RuleTester } from 'eslint'
+import semver from 'semver'
+import { version as eslintVersion } from 'eslint/package.json'
+import parsers from '../../tests/helpers/parsers'
+import rule from './jsx-indent'
 
 const parserOptions = {
   ecmaVersion: 2018,

@@ -3,14 +3,8 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./block-spacing')
+import { RuleTester } from 'eslint'
+import rule from './block-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests

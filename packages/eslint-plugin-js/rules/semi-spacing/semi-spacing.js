@@ -3,16 +3,14 @@
  * @author Mathias Schreck
  */
 
-'use strict'
-
-const astUtils = require('../../utils/ast-utils')
+import { isClosingBraceToken, isClosingParenToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -68,7 +66,7 @@ module.exports = {
     function hasLeadingSpace(token) {
       const tokenBefore = sourceCode.getTokenBefore(token)
 
-      return tokenBefore && astUtils.isTokenOnSameLine(tokenBefore, token) && sourceCode.isSpaceBetweenTokens(tokenBefore, token)
+      return tokenBefore && isTokenOnSameLine(tokenBefore, token) && sourceCode.isSpaceBetweenTokens(tokenBefore, token)
     }
 
     /**
@@ -79,7 +77,7 @@ module.exports = {
     function hasTrailingSpace(token) {
       const tokenAfter = sourceCode.getTokenAfter(token)
 
-      return tokenAfter && astUtils.isTokenOnSameLine(token, tokenAfter) && sourceCode.isSpaceBetweenTokens(token, tokenAfter)
+      return tokenAfter && isTokenOnSameLine(token, tokenAfter) && sourceCode.isSpaceBetweenTokens(token, tokenAfter)
     }
 
     /**
@@ -90,7 +88,7 @@ module.exports = {
     function isLastTokenInCurrentLine(token) {
       const tokenAfter = sourceCode.getTokenAfter(token)
 
-      return !(tokenAfter && astUtils.isTokenOnSameLine(token, tokenAfter))
+      return !(tokenAfter && isTokenOnSameLine(token, tokenAfter))
     }
 
     /**
@@ -101,7 +99,7 @@ module.exports = {
     function isFirstTokenInCurrentLine(token) {
       const tokenBefore = sourceCode.getTokenBefore(token)
 
-      return !(tokenBefore && astUtils.isTokenOnSameLine(token, tokenBefore))
+      return !(tokenBefore && isTokenOnSameLine(token, tokenBefore))
     }
 
     /**
@@ -112,7 +110,7 @@ module.exports = {
     function isBeforeClosingParen(token) {
       const nextToken = sourceCode.getTokenAfter(token)
 
-      return (nextToken && astUtils.isClosingBraceToken(nextToken) || astUtils.isClosingParenToken(nextToken))
+      return (nextToken && isClosingBraceToken(nextToken) || isClosingParenToken(nextToken))
     }
 
     /**
@@ -134,7 +132,7 @@ module.exports = {
      * @returns {void}
      */
     function checkSemicolonSpacing(token, node) {
-      if (astUtils.isSemicolonToken(token)) {
+      if (isSemicolonToken(token)) {
         if (hasLeadingSpace(token)) {
           if (!requireSpaceBefore) {
             const tokenBefore = sourceCode.getTokenBefore(token)

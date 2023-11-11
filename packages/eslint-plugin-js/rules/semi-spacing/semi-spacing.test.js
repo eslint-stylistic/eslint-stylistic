@@ -3,14 +3,8 @@
  * @author Mathias Schreck
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./semi-spacing')
+import { RuleTester } from 'eslint'
+import rule from './semi-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests

@@ -3,14 +3,12 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-'use strict'
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const { RuleTester } = require('eslint')
-const rule = require('./array-bracket-newline')
+import { RuleTester } from 'eslint'
+import rule from './array-bracket-newline.js'
 
 // ------------------------------------------------------------------------------
 // Tests
@@ -23,9 +21,9 @@ ruleTester.run('array-bracket-newline', rule, {
   valid: [
 
     /*
-         * ArrayExpression
-         * "default" { multiline: true }
-         */
+     * ArrayExpression
+     * "default" { multiline: true }
+     */
     'var foo = [];',
     'var foo = [1];',
     'var foo = /* any comment */[1];',
@@ -500,9 +498,9 @@ ruleTester.run('array-bracket-newline', rule, {
     },
 
     /*
-         * ArrayExpression
-         * "always"
-         */
+     * ArrayExpression
+     * "always"
+     */
     {
       code: 'var foo = [[1,2]]',
       output: 'var foo = [\n[\n1,2\n]\n]',
@@ -1581,9 +1579,9 @@ ruleTester.run('array-bracket-newline', rule, {
     },
 
     /*
-         * extra test cases
-         * "always"
-         */
+     * extra test cases
+     * "always"
+     */
     {
       code: 'var foo = [\n1, 2];',
       output: 'var foo = [\n1, 2\n];',
