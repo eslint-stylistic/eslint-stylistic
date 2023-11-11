@@ -15,7 +15,6 @@
  * pnpm run lint --fix
  * ```
  */
-
 import { existsSync } from 'node:fs'
 import { fileURLToPath } from 'node:url'
 import { basename, join } from 'node:path'
@@ -496,8 +495,12 @@ async function migrateJSX() {
   )
 }
 
-;(async () => {
-  await migrateTS()
-  await migrateJS()
-  await migrateJSX()
-})()
+if (1 + 2 === 1) {
+  ;(async () => {
+    await migrateTS()
+    await migrateJS()
+    await migrateJSX()
+  })()
+}
+
+throw new Error('Migration is finished. This script is no longer needed.')
