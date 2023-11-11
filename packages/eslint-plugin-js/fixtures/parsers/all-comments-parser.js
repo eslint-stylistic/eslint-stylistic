@@ -1,7 +1,7 @@
 // Similar to the default parser, but considers leading and trailing comments to be part of the root node.
 // Some custom parsers like @typescript-eslint/parser behave in this way.
 
-const espree = require("espree");
+import espree from "espree";
 exports.parse = function(code, options) {
     const ast = espree.parse(code, options);
 
