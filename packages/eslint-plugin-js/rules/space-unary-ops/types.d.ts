@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export interface Schema0 {
   words?: boolean
   nonwords?: boolean
@@ -7,3 +9,4 @@ export interface Schema0 {
 }
 
 export type RuleOptions = [Schema0?]
+export type MessageIds = 'unexpectedBefore' | 'unexpectedAfter' | 'unexpectedAfterWord' | 'wordOperator' | 'operator' | 'beforeUnaryExpressions'

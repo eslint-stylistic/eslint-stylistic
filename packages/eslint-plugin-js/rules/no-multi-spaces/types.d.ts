@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export interface Schema0 {
   exceptions?: {
     /**
@@ -10,3 +12,4 @@ export interface Schema0 {
 }
 
 export type RuleOptions = [Schema0?]
+export type MessageIds = 'multipleSpaces'

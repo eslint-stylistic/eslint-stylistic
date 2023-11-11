@@ -10,7 +10,7 @@
     "dev": "pnpm -r --parallel run dev",
     "stub": "pnpm -r --parallel run stub",
     "lint": "eslint . --cache",
-    "update": "esno scripts/prepare.ts",
+    "update": "esno scripts/update.ts",
     "release": "bumpp -r && esno scripts/publish.ts",
     "test": "vitest",
     "typecheck": "tsc --noEmit",

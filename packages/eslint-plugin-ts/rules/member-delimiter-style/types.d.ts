@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export type MultiLineOption = 'none' | 'semi' | 'comma'
 export type SingleLineOption = 'semi' | 'comma'
 
@@ -28,3 +30,4 @@ export interface DelimiterConfig {
 }
 
 export type RuleOptions = [Schema0?]
+export type MessageIds = 'unexpectedComma' | 'unexpectedSemi' | 'expectedComma' | 'expectedSemi'

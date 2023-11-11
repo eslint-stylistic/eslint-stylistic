@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export type Schema0 = 'always' | 'never'
 
 export interface Schema1 {
@@ -15,3 +17,4 @@ export interface Schema1 {
 }
 
 export type RuleOptions = [Schema0?, Schema1?]
+export type MessageIds = 'unexpectedSpaceAfterMarker' | 'expectedExceptionAfter' | 'unexpectedSpaceBefore' | 'unexpectedSpaceAfter' | 'expectedSpaceBefore' | 'expectedSpaceAfter'

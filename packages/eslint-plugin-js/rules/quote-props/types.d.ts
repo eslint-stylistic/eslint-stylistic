@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export type Schema0 =
   | []
   | ['always' | 'as-needed' | 'consistent' | 'consistent-as-needed']
@@ -13,3 +15,4 @@ export type Schema0 =
   ]
 
 export type RuleOptions = Schema0
+export type MessageIds = 'requireQuotesDueToReservedWord' | 'inconsistentlyQuotedProperty' | 'unnecessarilyQuotedProperty' | 'unquotedReservedProperty' | 'unquotedNumericProperty' | 'unquotedPropertyFound' | 'redundantQuoting'

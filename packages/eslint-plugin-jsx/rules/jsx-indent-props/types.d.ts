@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export type Schema0 =
   | ('tab' | 'first')
   | number
@@ -8,3 +10,4 @@ export type Schema0 =
   }
 
 export type RuleOptions = [Schema0?]
+export type MessageIds = 'wrongIndent'

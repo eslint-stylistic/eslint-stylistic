@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export type Schema0 =
   | {
     code?: number
@@ -42,3 +44,4 @@ export interface Schema2 {
 }
 
 export type RuleOptions = [Schema0?, Schema1?, Schema2?]
+export type MessageIds = 'max' | 'maxComment'
