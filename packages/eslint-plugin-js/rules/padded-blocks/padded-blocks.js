@@ -3,7 +3,7 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -197,7 +197,7 @@ export default {
       const blockHasTopPadding = isPaddingBetweenTokens(tokenBeforeFirst, firstBlockToken)
       const blockHasBottomPadding = isPaddingBetweenTokens(lastBlockToken, tokenAfterLast)
 
-      if (options.allowSingleLineBlocks && astUtils.isTokenOnSameLine(tokenBeforeFirst, tokenAfterLast))
+      if (options.allowSingleLineBlocks && isTokenOnSameLine(tokenBeforeFirst, tokenAfterLast))
         return
 
       if (requirePaddingFor(node)) {

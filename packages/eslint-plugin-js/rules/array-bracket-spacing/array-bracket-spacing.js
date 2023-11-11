@@ -3,7 +3,7 @@
  * @author Jamund Ferguson
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -208,7 +208,7 @@ export default {
                 || options.singleElementException && node.elements.length === 1
                   ? !options.spaced : options.spaced
 
-      if (astUtils.isTokenOnSameLine(first, second)) {
+      if (isTokenOnSameLine(first, second)) {
         if (openingBracketMustBeSpaced && !sourceCode.isSpaceBetweenTokens(first, second))
           reportRequiredBeginningSpace(node, first)
 
@@ -216,7 +216,7 @@ export default {
           reportNoBeginningSpace(node, first)
       }
 
-      if (first !== penultimate && astUtils.isTokenOnSameLine(penultimate, last)) {
+      if (first !== penultimate && isTokenOnSameLine(penultimate, last)) {
         if (closingBracketMustBeSpaced && !sourceCode.isSpaceBetweenTokens(penultimate, last))
           reportRequiredEndingSpace(node, last)
 

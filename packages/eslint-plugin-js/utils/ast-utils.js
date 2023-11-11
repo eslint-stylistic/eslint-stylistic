@@ -24,19 +24,23 @@ const arrayOrTypedArrayPattern = /Array$/u
 const bindOrCallOrApplyPattern = /^(?:bind|call|apply)$/u
 const thisTagPattern = /^[\s*]*@this/mu
 
-const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
-const ESLINT_DIRECTIVE_PATTERN = /^(?:eslint[- ]|(?:globals?|exported) )/u
-const LINEBREAKS = new Set(['\r\n', '\r', '\n', '\u2028', '\u2029'])
+export { createGlobalLinebreakMatcher }
+export const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
+export const ESLINT_DIRECTIVE_PATTERN = /^(?:eslint[- ]|(?:globals?|exported) )/u
+
+export const LINEBREAKS = new Set(['\r\n', '\r', '\n', '\u2028', '\u2029'])
+export const LINEBREAK_MATCHER = lineBreakPattern
+export const SHEBANG_MATCHER = shebangPattern
 
 // A set of node types that can contain a list of statements
-const STATEMENT_LIST_PARENTS = new Set(['Program', 'BlockStatement', 'StaticBlock', 'SwitchCase'])
+export const STATEMENT_LIST_PARENTS = new Set(['Program', 'BlockStatement', 'StaticBlock', 'SwitchCase'])
 
-const DECIMAL_INTEGER_PATTERN = /^(?:0|0[0-7]*[89]\d*|[1-9](?:_?\d)*)$/u
+export const DECIMAL_INTEGER_PATTERN = /^(?:0|0[0-7]*[89]\d*|[1-9](?:_?\d)*)$/u
 
 // Tests the presence of at least one LegacyOctalEscapeSequence or NonOctalDecimalEscapeSequence in a raw string
-const OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN = /^(?:[^\\]|\\.)*\\(?:[1-9]|0[0-9])/su
+export const OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN = /^(?:[^\\]|\\.)*\\(?:[1-9]|0[0-9])/su
 
-const LOGICAL_ASSIGNMENT_OPERATORS = new Set(['&&=', '||=', '??='])
+export const LOGICAL_ASSIGNMENT_OPERATORS = new Set(['&&=', '||=', '??='])
 
 /**
  * Checks reference if is non initializer and writable.
@@ -46,7 +50,7 @@ const LOGICAL_ASSIGNMENT_OPERATORS = new Set(['&&=', '||=', '??='])
  * @returns {boolean} Success/Failure
  * @private
  */
-function isModifyingReference(reference, index, references) {
+export function isModifyingReference(reference, index, references) {
   const identifier = reference.identifier
 
   /*
@@ -69,7 +73,7 @@ function isModifyingReference(reference, index, references) {
  * @param {string} s The string to check.
  * @returns {boolean} `true` if the string starts with uppercase.
  */
-function startsWithUpperCase(s) {
+export function startsWithUpperCase(s) {
   return s[0] !== s[0].toLocaleLowerCase()
 }
 
@@ -78,7 +82,7 @@ function startsWithUpperCase(s) {
  * @param {ASTNode} node A function node to check.
  * @returns {boolean} Whether or not a node is a constructor.
  */
-function isES5Constructor(node) {
+export function isES5Constructor(node) {
   return (node.id && startsWithUpperCase(node.id.name))
 }
 
@@ -87,7 +91,7 @@ function isES5Constructor(node) {
  * @param {ASTNode} node A start node to find.
  * @returns {Node|null} A found function node.
  */
-function getUpperFunction(node) {
+export function getUpperFunction(node) {
   for (let currentNode = node; currentNode; currentNode = currentNode.parent) {
     if (anyFunctionPattern.test(currentNode.type))
       return currentNode
@@ -105,7 +109,7 @@ function getUpperFunction(node) {
  * @param {ASTNode|null} node A node to check.
  * @returns {boolean} `true` if the node is a function node.
  */
-function isFunction(node) {
+export function isFunction(node) {
   return Boolean(node && anyFunctionPattern.test(node.type))
 }
 
@@ -121,7 +125,7 @@ function isFunction(node) {
  * @param {ASTNode|null} node A node to check.
  * @returns {boolean} `true` if the node is a loop node.
  */
-function isLoop(node) {
+export function isLoop(node) {
   return Boolean(node && anyLoopPattern.test(node.type))
 }
 
@@ -130,7 +134,7 @@ function isLoop(node) {
  * @param {ASTNode} node The node to check.
  * @returns {boolean} `true` if the node is in a loop.
  */
-function isInLoop(node) {
+export function isInLoop(node) {
   for (let currentNode = node; currentNode && !isFunction(currentNode); currentNode = currentNode.parent) {
     if (isLoop(currentNode))
       return true
@@ -144,7 +148,7 @@ function isInLoop(node) {
  * @param {ASTNode} node The node to check
  * @returns {boolean} `true` if the node is a `null` literal
  */
-function isNullLiteral(node) {
+export function isNullLiteral(node) {
   /*
      * Checking `node.value === null` does not guarantee that a literal is a null literal.
      * When parsing values that cannot be represented in the current environment (e.g. unicode
@@ -161,7 +165,7 @@ function isNullLiteral(node) {
  * @returns {boolean} Whether or not the node is a `null` or `undefined`.
  * @public
  */
-function isNullOrUndefined(node) {
+export function isNullOrUndefined(node) {
   return (
     isNullLiteral(node)
         || (node.type === 'Identifier' && node.name === 'undefined')
@@ -174,7 +178,7 @@ function isNullOrUndefined(node) {
  * @param {ASTNode} node A node to check.
  * @returns {boolean} Whether or not the node is callee.
  */
-function isCallee(node) {
+export function isCallee(node) {
   return node.parent.type === 'CallExpression' && node.parent.callee === node
 }
 
@@ -187,7 +191,7 @@ function isCallee(node) {
  * @param {ASTNode} node Expression node.
  * @returns {string|null} String value if it can be determined. Otherwise, `null`.
  */
-function getStaticStringValue(node) {
+export function getStaticStringValue(node) {
   switch (node.type) {
     case 'Literal':
       if (node.value === null) {
@@ -248,7 +252,7 @@ function getStaticStringValue(node) {
  * @param {ASTNode} node The node to get.
  * @returns {string|null} The property name if static. Otherwise, null.
  */
-function getStaticPropertyName(node) {
+export function getStaticPropertyName(node) {
   let prop
 
   switch (node && node.type) {
@@ -283,7 +287,7 @@ function getStaticPropertyName(node) {
  * @param {ASTNode} node The node to address.
  * @returns {ASTNode} The `ChainExpression#expression` value if the node is a `ChainExpression` node. Otherwise, the node.
  */
-function skipChainExpression(node) {
+export function skipChainExpression(node) {
   return node && node.type === 'ChainExpression' ? node.expression : node
 }
 
@@ -293,7 +297,7 @@ function skipChainExpression(node) {
  * @param {string | RegExp} expected The expected string value or pattern.
  * @returns {boolean} `true` if the `actual` is an expected value.
  */
-function checkText(actual, expected) {
+export function checkText(actual, expected) {
   return typeof expected === 'string'
     ? actual === expected
     : expected.test(actual)
@@ -305,7 +309,7 @@ function checkText(actual, expected) {
  * @param {string | RegExp} name The expected name or the expected pattern of the object name.
  * @returns {boolean} `true` if the node is an Identifier node with the name.
  */
-function isSpecificId(node, name) {
+export function isSpecificId(node, name) {
   return node.type === 'Identifier' && checkText(node.name, name)
 }
 
@@ -318,7 +322,7 @@ function isSpecificId(node, name) {
  * @returns {boolean} `true` if the node is member access with the object name and property name pair.
  * The node is a `MemberExpression` or `ChainExpression`.
  */
-function isSpecificMemberAccess(node, objectName, propertyName) {
+export function isSpecificMemberAccess(node, objectName, propertyName) {
   const checkNode = skipChainExpression(node)
 
   if (checkNode.type !== 'MemberExpression')
@@ -343,7 +347,7 @@ function isSpecificMemberAccess(node, objectName, propertyName) {
  * @param {ASTNode} right The other Literal node to compare.
  * @returns {boolean} `true` if the two literal nodes are the same value.
  */
-function equalLiteralValue(left, right) {
+export function equalLiteralValue(left, right) {
   // RegExp literal.
   if (left.regex || right.regex) {
     return Boolean(
@@ -372,7 +376,7 @@ function equalLiteralValue(left, right) {
  * @param {boolean} [disableStaticComputedKey] Don't address `a.b` and `a["b"]` are the same if `true`. For backward compatibility.
  * @returns {boolean} `true` if both sides match and reference the same value.
  */
-function isSameReference(left, right, disableStaticComputedKey = false) {
+export function isSameReference(left, right, disableStaticComputedKey = false) {
   if (left.type !== right.type) {
     // Handle `a.b` and `a?.b` are samely.
     if (left.type === 'ChainExpression')
@@ -433,7 +437,7 @@ function isSameReference(left, right, disableStaticComputedKey = false) {
  * @param {ASTNode} node A node to check.
  * @returns {boolean} Whether or not the node is a `Reflect.apply`.
  */
-function isReflectApply(node) {
+export function isReflectApply(node) {
   return isSpecificMemberAccess(node, 'Reflect', 'apply')
 }
 
@@ -442,7 +446,7 @@ function isReflectApply(node) {
  * @param {ASTNode} node A node to check.
  * @returns {boolean} Whether or not the node is a `Array.from`.
  */
-function isArrayFromMethod(node) {
+export function isArrayFromMethod(node) {
   return isSpecificMemberAccess(node, arrayOrTypedArrayPattern, 'from')
 }
 
@@ -451,7 +455,7 @@ function isArrayFromMethod(node) {
  * @param {ASTNode} node A node to check.
  * @returns {boolean} Whether or not the node is a method which expects a function as a first argument, and `thisArg` as a second argument.
  */
-function isMethodWhichHasThisArg(node) {
+export function isMethodWhichHasThisArg(node) {
   return isSpecificMemberAccess(node, null, arrayMethodWithThisArgPattern)
 }
 
@@ -460,7 +464,7 @@ function isMethodWhichHasThisArg(node) {
  * @param {Function} f The function to negate.
  * @returns {Function} Negated function.
  */
-function negate(f) {
+export function negate(f) {
   return token => !f(token)
 }
 
@@ -470,7 +474,7 @@ function negate(f) {
  * @param {SourceCode} sourceCode A SourceCode instance to get comments.
  * @returns {boolean} Whether or not the node has a `@this` tag in its comments.
  */
-function hasJSDocThisTag(node, sourceCode) {
+export function hasJSDocThisTag(node, sourceCode) {
   const jsdocComment = sourceCode.getJSDocComment(node)
 
   if (jsdocComment && thisTagPattern.test(jsdocComment.value))
@@ -490,7 +494,7 @@ function hasJSDocThisTag(node, sourceCode) {
  * @returns {boolean} True if the node is parenthesised.
  * @private
  */
-function isParenthesised(sourceCode, node) {
+export function isParenthesised(sourceCode, node) {
   const previousToken = sourceCode.getTokenBefore(node)
   const nextToken = sourceCode.getTokenAfter(node)
 
@@ -504,7 +508,7 @@ function isParenthesised(sourceCode, node) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is a `=` token.
  */
-function isEqToken(token) {
+export function isEqToken(token) {
   return token.value === '=' && token.type === 'Punctuator'
 }
 
@@ -513,7 +517,7 @@ function isEqToken(token) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is an arrow token.
  */
-function isArrowToken(token) {
+export function isArrowToken(token) {
   return token.value === '=>' && token.type === 'Punctuator'
 }
 
@@ -522,7 +526,7 @@ function isArrowToken(token) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is a comma token.
  */
-function isCommaToken(token) {
+export function isCommaToken(token) {
   return token.value === ',' && token.type === 'Punctuator'
 }
 
@@ -531,7 +535,7 @@ function isCommaToken(token) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is a dot token.
  */
-function isDotToken(token) {
+export function isDotToken(token) {
   return token.value === '.' && token.type === 'Punctuator'
 }
 
@@ -540,7 +544,7 @@ function isDotToken(token) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is a `?.` token.
  */
-function isQuestionDotToken(token) {
+export function isQuestionDotToken(token) {
   return token.value === '?.' && token.type === 'Punctuator'
 }
 
@@ -549,7 +553,7 @@ function isQuestionDotToken(token) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is a semicolon token.
  */
-function isSemicolonToken(token) {
+export function isSemicolonToken(token) {
   return token.value === ';' && token.type === 'Punctuator'
 }
 
@@ -558,7 +562,7 @@ function isSemicolonToken(token) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is a colon token.
  */
-function isColonToken(token) {
+export function isColonToken(token) {
   return token.value === ':' && token.type === 'Punctuator'
 }
 
@@ -567,7 +571,7 @@ function isColonToken(token) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is an opening parenthesis token.
  */
-function isOpeningParenToken(token) {
+export function isOpeningParenToken(token) {
   return token.value === '(' && token.type === 'Punctuator'
 }
 
@@ -576,7 +580,7 @@ function isOpeningParenToken(token) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is a closing parenthesis token.
  */
-function isClosingParenToken(token) {
+export function isClosingParenToken(token) {
   return token.value === ')' && token.type === 'Punctuator'
 }
 
@@ -585,7 +589,7 @@ function isClosingParenToken(token) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is an opening square bracket token.
  */
-function isOpeningBracketToken(token) {
+export function isOpeningBracketToken(token) {
   return token.value === '[' && token.type === 'Punctuator'
 }
 
@@ -594,7 +598,7 @@ function isOpeningBracketToken(token) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is a closing square bracket token.
  */
-function isClosingBracketToken(token) {
+export function isClosingBracketToken(token) {
   return token.value === ']' && token.type === 'Punctuator'
 }
 
@@ -603,7 +607,7 @@ function isClosingBracketToken(token) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is an opening brace token.
  */
-function isOpeningBraceToken(token) {
+export function isOpeningBraceToken(token) {
   return token.value === '{' && token.type === 'Punctuator'
 }
 
@@ -612,7 +616,7 @@ function isOpeningBraceToken(token) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is a closing brace token.
  */
-function isClosingBraceToken(token) {
+export function isClosingBraceToken(token) {
   return token.value === '}' && token.type === 'Punctuator'
 }
 
@@ -621,7 +625,7 @@ function isClosingBraceToken(token) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is a comment token.
  */
-function isCommentToken(token) {
+export function isCommentToken(token) {
   return token.type === 'Line' || token.type === 'Block' || token.type === 'Shebang'
 }
 
@@ -630,7 +634,7 @@ function isCommentToken(token) {
  * @param {Token} token The token to check.
  * @returns {boolean} `true` if the token is a keyword token.
  */
-function isKeywordToken(token) {
+export function isKeywordToken(token) {
   return token.type === 'Keyword'
 }
 
@@ -640,7 +644,7 @@ function isKeywordToken(token) {
  * @param {SourceCode} sourceCode The source code object to get tokens.
  * @returns {Token} `(` token.
  */
-function getOpeningParenOfParams(node, sourceCode) {
+export function getOpeningParenOfParams(node, sourceCode) {
   // If the node is an arrow function and doesn't have parens, this returns the identifier of the first param.
   if (node.type === 'ArrowFunctionExpression' && node.params.length === 1) {
     const argToken = sourceCode.getFirstToken(node.params[0])
@@ -662,7 +666,7 @@ function getOpeningParenOfParams(node, sourceCode) {
  * @param {SourceCode} sourceCode The ESLint source code object.
  * @returns {boolean} the source code for the given node.
  */
-function equalTokens(left, right, sourceCode) {
+export function equalTokens(left, right, sourceCode) {
   const tokensL = sourceCode.getTokens(left)
   const tokensR = sourceCode.getTokens(right)
 
@@ -688,7 +692,7 @@ function equalTokens(left, right, sourceCode) {
  * @returns {boolean} `true` if the node is `&&` or `||`.
  * @see https://tc39.es/ecma262/#prod-ShortCircuitExpression
  */
-function isLogicalExpression(node) {
+export function isLogicalExpression(node) {
   return (
     node.type === 'LogicalExpression'
             && (node.operator === '&&' || node.operator === '||')
@@ -706,7 +710,7 @@ function isLogicalExpression(node) {
  * @param {ASTNode} node The node to check.
  * @returns {boolean} `true` if the node is `??`.
  */
-function isCoalesceExpression(node) {
+export function isCoalesceExpression(node) {
   return node.type === 'LogicalExpression' && node.operator === '??'
 }
 
@@ -716,7 +720,7 @@ function isCoalesceExpression(node) {
  * @param {ASTNode} right Another node to check.
  * @returns {boolean} `true` if the two nodes are the pair of a logical expression and a coalesce expression.
  */
-function isMixedLogicalAndCoalesceExpressions(left, right) {
+export function isMixedLogicalAndCoalesceExpressions(left, right) {
   return (
     (isLogicalExpression(left) && isCoalesceExpression(right))
             || (isCoalesceExpression(left) && isLogicalExpression(right))
@@ -728,7 +732,7 @@ function isMixedLogicalAndCoalesceExpressions(left, right) {
  * @param {string} operator The operator to check.
  * @returns {boolean} `true` if the operator is a logical assignment operator.
  */
-function isLogicalAssignmentOperator(operator) {
+export function isLogicalAssignmentOperator(operator) {
   return LOGICAL_ASSIGNMENT_OPERATORS.has(operator)
 }
 
@@ -738,7 +742,7 @@ function isLogicalAssignmentOperator(operator) {
  * @param {SourceCode} sourceCode The source code object to get tokens.
  * @returns {Token} The colon token of the node.
  */
-function getSwitchCaseColonToken(node, sourceCode) {
+export function getSwitchCaseColonToken(node, sourceCode) {
   if (node.test)
     return sourceCode.getTokenAfter(node.test, isColonToken)
 
@@ -755,7 +759,7 @@ function getSwitchCaseColonToken(node, sourceCode) {
  *   - `ExportAllDeclaration#exported`
  * @returns {string} The module export name.
  */
-function getModuleExportName(node) {
+export function getModuleExportName(node) {
   if (node.type === 'Identifier')
     return node.name
 
@@ -769,7 +773,7 @@ function getModuleExportName(node) {
  * @returns {boolean | null} `true` when node is truthy, `false` when node is falsy,
  *  `null` when it cannot be determined.
  */
-function getBooleanValue(node) {
+export function getBooleanValue(node) {
   if (node.value === null) {
     /*
          * it might be a null literal or bigint/regex literal in unsupported environments .
@@ -796,7 +800,7 @@ function getBooleanValue(node) {
  * @param {string} operator The operator of the main LogicalExpression.
  * @returns {boolean} true when condition short circuits whole condition
  */
-function isLogicalIdentity(node, operator) {
+export function isLogicalIdentity(node, operator) {
   switch (node.type) {
     case 'Literal':
       return (operator === '||' && getBooleanValue(node) === true)
@@ -833,7 +837,7 @@ function isLogicalIdentity(node, operator) {
  * @param {ASTNode} node An identifier node to check.
  * @returns {boolean} `true` if the identifier is a reference to a global variable.
  */
-function isReferenceToGlobalVariable(scope, node) {
+export function isReferenceToGlobalVariable(scope, node) {
   const reference = scope.references.find(ref => ref.identifier === node)
 
   return Boolean(
@@ -855,7 +859,7 @@ function isReferenceToGlobalVariable(scope, node) {
  * @returns {boolean} true when node's truthiness is constant
  * @private
  */
-function isConstant(scope, node, inBooleanPosition) {
+export function isConstant(scope, node, inBooleanPosition) {
   // node.elements can return null values in the case of sparse arrays ex. [,]
   if (!node)
     return true
@@ -959,7 +963,7 @@ function isConstant(scope, node, inBooleanPosition) {
  * @returns {boolean} Whether or not the node is an ExpressionStatement at the top level of a
  * file or function body.
  */
-function isTopLevelExpressionStatement(node) {
+export function isTopLevelExpressionStatement(node) {
   if (node.type !== 'ExpressionStatement')
     return false
 
@@ -973,7 +977,7 @@ function isTopLevelExpressionStatement(node) {
  * @param {ASTNode} node The node to check.
  * @returns {boolean} `true` if the node is a part of directive prologue.
  */
-function isDirective(node) {
+export function isDirective(node) {
   return node.type === 'ExpressionStatement' && typeof node.directive === 'string'
 }
 
@@ -984,28 +988,28 @@ function isDirective(node) {
  * @returns {boolean} Whether or not the tokens are on the same line.
  * @public
  */
-function isTokenOnSameLine(left, right) {
+export function isTokenOnSameLine(left, right) {
   return left.loc.end.line === right.loc.start.line
 }
 
-const isNotClosingBraceToken = negate(isClosingBraceToken)
-const isNotClosingBracketToken = negate(isClosingBracketToken)
-const isNotClosingParenToken = negate(isClosingParenToken)
-const isNotColonToken = negate(isColonToken)
-const isNotCommaToken = negate(isCommaToken)
-const isNotDotToken = negate(isDotToken)
-const isNotQuestionDotToken = negate(isQuestionDotToken)
-const isNotOpeningBraceToken = negate(isOpeningBraceToken)
-const isNotOpeningBracketToken = negate(isOpeningBracketToken)
-const isNotOpeningParenToken = negate(isOpeningParenToken)
-const isNotSemicolonToken = negate(isSemicolonToken)
+export const isNotClosingBraceToken = negate(isClosingBraceToken)
+export const isNotClosingBracketToken = negate(isClosingBracketToken)
+export const isNotClosingParenToken = negate(isClosingParenToken)
+export const isNotColonToken = negate(isColonToken)
+export const isNotCommaToken = negate(isCommaToken)
+export const isNotDotToken = negate(isDotToken)
+export const isNotQuestionDotToken = negate(isQuestionDotToken)
+export const isNotOpeningBraceToken = negate(isOpeningBraceToken)
+export const isNotOpeningBracketToken = negate(isOpeningBracketToken)
+export const isNotOpeningParenToken = negate(isOpeningParenToken)
+export const isNotSemicolonToken = negate(isSemicolonToken)
 
 /**
  * Checks whether or not a given node is a string literal.
  * @param {ASTNode} node A node to check.
  * @returns {boolean} `true` if the node is a string literal.
  */
-function isStringLiteral(node) {
+export function isStringLiteral(node) {
   return (
     (node.type === 'Literal' && typeof node.value === 'string')
           || node.type === 'TemplateLiteral'
@@ -1025,7 +1029,7 @@ function isStringLiteral(node) {
  * @param {ASTNode} node A node to check.
  * @returns {boolean} `true` if the node is breakable.
  */
-function isBreakableStatement(node) {
+export function isBreakableStatement(node) {
   return breakableTypePattern.test(node.type)
 }
 
@@ -1035,7 +1039,7 @@ function isBreakableStatement(node) {
  * @returns {Reference[]} An array of only references which are non initializer and writable.
  * @public
  */
-function getModifyingReferences(references) {
+export function getModifyingReferences(references) {
   return references.filter(isModifyingReference)
 }
 
@@ -1046,7 +1050,7 @@ function getModifyingReferences(references) {
  * @returns {boolean} True if the text is surrounded by the character, false if not.
  * @private
  */
-function isSurroundedBy(val, character) {
+export function isSurroundedBy(val, character) {
   return val[0] === character && val[val.length - 1] === character
 }
 
@@ -1055,7 +1059,7 @@ function isSurroundedBy(val, character) {
  * @param {Line|Block} node The comment token to be checked
  * @returns {boolean} `true` if the node is an ESLint directive comment
  */
-function isDirectiveComment(node) {
+export function isDirectiveComment(node) {
   const comment = node.value.trim()
 
   return (
@@ -1064,160 +1068,104 @@ function isDirectiveComment(node) {
   )
 }
 
-// ------------------------------------------------------------------------------
-// Public Interface
-// ------------------------------------------------------------------------------
+/**
+ * Gets the trailing statement of a given node.
+ *
+ *     if (code)
+ *         consequent;
+ *
+ * When taking this `IfStatement`, returns `consequent;` statement.
+ * @param {ASTNode} A node to get.
+ * @returns {ASTNode|null} The trailing statement's node.
+ */
+export const getTrailingStatement = ast.trailingStatement
 
-export default {
-  COMMENTS_IGNORE_PATTERN,
-  LINEBREAKS,
-  LINEBREAK_MATCHER: lineBreakPattern,
-  SHEBANG_MATCHER: shebangPattern,
-  STATEMENT_LIST_PARENTS,
+/**
+ * Finds the variable by a given name in a given scope and its upper scopes.
+ * @param {eslint-scope.Scope} initScope A scope to start find.
+ * @param {string} name A variable name to find.
+ * @returns {eslint-scope.Variable|null} A found variable or `null`.
+ */
+export function getVariableByName(initScope, name) {
+  let scope = initScope
 
-  isTokenOnSameLine,
-  isNullOrUndefined,
-  isCallee,
-  isES5Constructor,
-  getUpperFunction,
-  isFunction,
-  isLoop,
-  isInLoop,
-  isArrayFromMethod,
-  isParenthesised,
-  createGlobalLinebreakMatcher,
-  equalTokens,
+  while (scope) {
+    const variable = scope.set.get(name)
 
-  isArrowToken,
-  isClosingBraceToken,
-  isClosingBracketToken,
-  isClosingParenToken,
-  isColonToken,
-  isCommaToken,
-  isCommentToken,
-  isDotToken,
-  isQuestionDotToken,
-  isKeywordToken,
-  isNotClosingBraceToken,
-  isNotClosingBracketToken,
-  isNotClosingParenToken,
-  isNotColonToken,
-  isNotCommaToken,
-  isNotDotToken,
-  isNotQuestionDotToken,
-  isNotOpeningBraceToken,
-  isNotOpeningBracketToken,
-  isNotOpeningParenToken,
-  isNotSemicolonToken,
-  isOpeningBraceToken,
-  isOpeningBracketToken,
-  isOpeningParenToken,
-  isSemicolonToken,
-  isEqToken,
-  isStringLiteral,
+    if (variable)
+      return variable
 
-  isBreakableStatement,
-  getModifyingReferences,
-  isSurroundedBy,
-  isDirectiveComment,
-  /**
-   * Gets the trailing statement of a given node.
-   *
-   *     if (code)
-   *         consequent;
-   *
-   * When taking this `IfStatement`, returns `consequent;` statement.
-   * @param {ASTNode} A node to get.
-   * @returns {ASTNode|null} The trailing statement's node.
-   */
-  getTrailingStatement: ast.trailingStatement,
+    scope = scope.upper
+  }
 
-  /**
-   * Finds the variable by a given name in a given scope and its upper scopes.
-   * @param {eslint-scope.Scope} initScope A scope to start find.
-   * @param {string} name A variable name to find.
-   * @returns {eslint-scope.Variable|null} A found variable or `null`.
-   */
-  getVariableByName(initScope, name) {
-    let scope = initScope
+  return null
+}
 
-    while (scope) {
-      const variable = scope.set.get(name)
-
-      if (variable)
-        return variable
-
-      scope = scope.upper
-    }
-
-    return null
-  },
-
-  /**
-   * Checks whether or not a given function node is the default `this` binding.
-   *
-   * First, this checks the node:
-   *
-   * - The given node is not in `PropertyDefinition#value` position.
-   * - The given node is not `StaticBlock`.
-   * - The function name does not start with uppercase. It's a convention to capitalize the names
-   *   of constructor functions. This check is not performed if `capIsConstructor` is set to `false`.
-   * - The function does not have a JSDoc comment that has a @this tag.
-   *
-   * Next, this checks the location of the node.
-   * If the location is below, this judges `this` is valid.
-   *
-   * - The location is not on an object literal.
-   * - The location is not assigned to a variable which starts with an uppercase letter. Applies to anonymous
-   *   functions only, as the name of the variable is considered to be the name of the function in this case.
-   *   This check is not performed if `capIsConstructor` is set to `false`.
-   * - The location is not on an ES2015 class.
-   * - Its `bind`/`call`/`apply` method is not called directly.
-   * - The function is not a callback of array methods (such as `.forEach()`) if `thisArg` is given.
-   * @param {ASTNode} node A function node to check. It also can be an implicit function, like `StaticBlock`
-   * or any expression that is `PropertyDefinition#value` node.
-   * @param {SourceCode} sourceCode A SourceCode instance to get comments.
-   * @param {boolean} [capIsConstructor] `false` disables the assumption that functions which name starts
-   * with an uppercase or are assigned to a variable which name starts with an uppercase are constructors.
-   * @returns {boolean} The function node is the default `this` binding.
-   */
-  isDefaultThisBinding(node, sourceCode, { capIsConstructor = true } = {}) {
-    /*
+/**
+ * Checks whether or not a given function node is the default `this` binding.
+ *
+ * First, this checks the node:
+ *
+ * - The given node is not in `PropertyDefinition#value` position.
+ * - The given node is not `StaticBlock`.
+ * - The function name does not start with uppercase. It's a convention to capitalize the names
+ *   of constructor functions. This check is not performed if `capIsConstructor` is set to `false`.
+ * - The function does not have a JSDoc comment that has a @this tag.
+ *
+ * Next, this checks the location of the node.
+ * If the location is below, this judges `this` is valid.
+ *
+ * - The location is not on an object literal.
+ * - The location is not assigned to a variable which starts with an uppercase letter. Applies to anonymous
+ *   functions only, as the name of the variable is considered to be the name of the function in this case.
+ *   This check is not performed if `capIsConstructor` is set to `false`.
+ * - The location is not on an ES2015 class.
+ * - Its `bind`/`call`/`apply` method is not called directly.
+ * - The function is not a callback of array methods (such as `.forEach()`) if `thisArg` is given.
+ * @param {ASTNode} node A function node to check. It also can be an implicit function, like `StaticBlock`
+ * or any expression that is `PropertyDefinition#value` node.
+ * @param {SourceCode} sourceCode A SourceCode instance to get comments.
+ * @param {boolean} [capIsConstructor] `false` disables the assumption that functions which name starts
+ * with an uppercase or are assigned to a variable which name starts with an uppercase are constructors.
+ * @returns {boolean} The function node is the default `this` binding.
+ */
+export function isDefaultThisBinding(node, sourceCode, { capIsConstructor = true } = {}) {
+  /*
          * Class field initializers are implicit functions, but ESTree doesn't have the AST node of field initializers.
          * Therefore, A expression node at `PropertyDefinition#value` is a function.
          * In this case, `this` is always not default binding.
          */
-    if (node.parent.type === 'PropertyDefinition' && node.parent.value === node)
-      return false
+  if (node.parent.type === 'PropertyDefinition' && node.parent.value === node)
+    return false
 
-    // Class static blocks are implicit functions. In this case, `this` is always not default binding.
-    if (node.type === 'StaticBlock')
-      return false
+  // Class static blocks are implicit functions. In this case, `this` is always not default binding.
+  if (node.type === 'StaticBlock')
+    return false
 
-    if (
-      (capIsConstructor && isES5Constructor(node))
+  if (
+    (capIsConstructor && isES5Constructor(node))
             || hasJSDocThisTag(node, sourceCode)
-    )
-      return false
+  )
+    return false
 
-    const isAnonymous = node.id === null
-    let currentNode = node
+  const isAnonymous = node.id === null
+  let currentNode = node
 
-    while (currentNode) {
-      const parent = currentNode.parent
+  while (currentNode) {
+    const parent = currentNode.parent
 
-      switch (parent.type) {
-        /*
+    switch (parent.type) {
+      /*
                  * Looks up the destination.
                  * e.g., obj.foo = nativeFoo || function foo() { ... };
                  */
-        case 'LogicalExpression':
-        case 'ConditionalExpression':
-        case 'ChainExpression':
-          currentNode = parent
-          break
+      case 'LogicalExpression':
+      case 'ConditionalExpression':
+      case 'ChainExpression':
+        currentNode = parent
+        break
 
-          /*
+        /*
                  * If the upper function is IIFE, checks the destination of the return value.
                  * e.g.
                  *   obj.foo = (function() {
@@ -1228,23 +1176,23 @@ export default {
                  *     function foo() { ... }
                  *   )();
                  */
-        case 'ReturnStatement': {
-          const func = getUpperFunction(parent)
+      case 'ReturnStatement': {
+        const func = getUpperFunction(parent)
 
-          if (func === null || !isCallee(func))
-            return true
+        if (func === null || !isCallee(func))
+          return true
 
-          currentNode = func.parent
-          break
-        }
-        case 'ArrowFunctionExpression':
-          if (currentNode !== parent.body || !isCallee(parent))
-            return true
+        currentNode = func.parent
+        break
+      }
+      case 'ArrowFunctionExpression':
+        if (currentNode !== parent.body || !isCallee(parent))
+          return true
 
-          currentNode = parent.parent
-          break
+        currentNode = parent.parent
+        break
 
-          /*
+        /*
                  * e.g.
                  *   var obj = { foo() { ... } };
                  *   var obj = { foo: function() { ... } };
@@ -1255,238 +1203,238 @@ export default {
                  *   class A { static foo() { ... } }
                  *   class A { foo = function() { ... } }
                  */
-        case 'Property':
-        case 'PropertyDefinition':
-        case 'MethodDefinition':
-          return parent.value !== currentNode
+      case 'Property':
+      case 'PropertyDefinition':
+      case 'MethodDefinition':
+        return parent.value !== currentNode
 
-          /*
+        /*
                  * e.g.
                  *   obj.foo = function foo() { ... };
                  *   Foo = function() { ... };
                  *   [obj.foo = function foo() { ... }] = a;
                  *   [Foo = function() { ... }] = a;
                  */
-        case 'AssignmentExpression':
-        case 'AssignmentPattern':
-          if (parent.left.type === 'MemberExpression')
-            return false
+      case 'AssignmentExpression':
+      case 'AssignmentPattern':
+        if (parent.left.type === 'MemberExpression')
+          return false
 
-          if (
-            capIsConstructor
+        if (
+          capIsConstructor
                         && isAnonymous
                         && parent.left.type === 'Identifier'
                         && startsWithUpperCase(parent.left.name)
-          )
-            return false
+        )
+          return false
 
-          return true
+        return true
 
-          /*
+        /*
                  * e.g.
                  *   var Foo = function() { ... };
                  */
-        case 'VariableDeclarator':
-          return !(
-            capIsConstructor
+      case 'VariableDeclarator':
+        return !(
+          capIsConstructor
                         && isAnonymous
                         && parent.init === currentNode
                         && parent.id.type === 'Identifier'
                         && startsWithUpperCase(parent.id.name)
-          )
+        )
 
-          /*
+        /*
                  * e.g.
                  *   var foo = function foo() { ... }.bind(obj);
                  *   (function foo() { ... }).call(obj);
                  *   (function foo() { ... }).apply(obj, []);
                  */
-        case 'MemberExpression':
-          if (
-            parent.object === currentNode
+      case 'MemberExpression':
+        if (
+          parent.object === currentNode
                         && isSpecificMemberAccess(parent, null, bindOrCallOrApplyPattern)
-          ) {
-            const maybeCalleeNode = parent.parent.type === 'ChainExpression'
-              ? parent.parent
-              : parent
+        ) {
+          const maybeCalleeNode = parent.parent.type === 'ChainExpression'
+            ? parent.parent
+            : parent
 
-            return !(
-              isCallee(maybeCalleeNode)
+          return !(
+            isCallee(maybeCalleeNode)
                             && maybeCalleeNode.parent.arguments.length >= 1
                             && !isNullOrUndefined(maybeCalleeNode.parent.arguments[0])
-            )
-          }
-          return true
+          )
+        }
+        return true
 
-          /*
+        /*
                  * e.g.
                  *   Reflect.apply(function() {}, obj, []);
                  *   Array.from([], function() {}, obj);
                  *   list.forEach(function() {}, obj);
                  */
-        case 'CallExpression':
-          if (isReflectApply(parent.callee)) {
-            return (
-              parent.arguments.length !== 3
+      case 'CallExpression':
+        if (isReflectApply(parent.callee)) {
+          return (
+            parent.arguments.length !== 3
                             || parent.arguments[0] !== currentNode
                             || isNullOrUndefined(parent.arguments[1])
-            )
-          }
-          if (isArrayFromMethod(parent.callee)) {
-            return (
-              parent.arguments.length !== 3
+          )
+        }
+        if (isArrayFromMethod(parent.callee)) {
+          return (
+            parent.arguments.length !== 3
                             || parent.arguments[1] !== currentNode
                             || isNullOrUndefined(parent.arguments[2])
-            )
-          }
-          if (isMethodWhichHasThisArg(parent.callee)) {
-            return (
-              parent.arguments.length !== 2
+          )
+        }
+        if (isMethodWhichHasThisArg(parent.callee)) {
+          return (
+            parent.arguments.length !== 2
                             || parent.arguments[0] !== currentNode
                             || isNullOrUndefined(parent.arguments[1])
-            )
-          }
-          return true
-
-          // Otherwise `this` is default.
-        default:
-          return true
-      }
-    }
-
-    /* c8 ignore next */
-    return true
-  },
-
-  /**
-   * Get the precedence level based on the node type
-   * @param {ASTNode} node node to evaluate
-   * @returns {int} precedence level
-   * @private
-   */
-  getPrecedence(node) {
-    switch (node.type) {
-      case 'SequenceExpression':
-        return 0
-
-      case 'AssignmentExpression':
-      case 'ArrowFunctionExpression':
-      case 'YieldExpression':
-        return 1
-
-      case 'ConditionalExpression':
-        return 3
-
-      case 'LogicalExpression':
-        switch (node.operator) {
-          case '||':
-          case '??':
-            return 4
-          case '&&':
-            return 5
-
-                    // no default
+          )
         }
+        return true
 
-        /* falls through */
-
-      case 'BinaryExpression':
-
-        switch (node.operator) {
-          case '|':
-            return 6
-          case '^':
-            return 7
-          case '&':
-            return 8
-          case '==':
-          case '!=':
-          case '===':
-          case '!==':
-            return 9
-          case '<':
-          case '<=':
-          case '>':
-          case '>=':
-          case 'in':
-          case 'instanceof':
-            return 10
-          case '<<':
-          case '>>':
-          case '>>>':
-            return 11
-          case '+':
-          case '-':
-            return 12
-          case '*':
-          case '/':
-          case '%':
-            return 13
-          case '**':
-            return 15
-
-                    // no default
-        }
-
-        /* falls through */
-
-      case 'UnaryExpression':
-      case 'AwaitExpression':
-        return 16
-
-      case 'UpdateExpression':
-        return 17
-
-      case 'CallExpression':
-      case 'ChainExpression':
-      case 'ImportExpression':
-        return 18
-
-      case 'NewExpression':
-        return 19
-
+        // Otherwise `this` is default.
       default:
-        if (node.type in eslintVisitorKeys)
-          return 20
+        return true
+    }
+  }
 
-        /*
+  /* c8 ignore next */
+  return true
+}
+
+/**
+ * Get the precedence level based on the node type
+ * @param {ASTNode} node node to evaluate
+ * @returns {int} precedence level
+ * @private
+ */
+export function getPrecedence(node) {
+  switch (node.type) {
+    case 'SequenceExpression':
+      return 0
+
+    case 'AssignmentExpression':
+    case 'ArrowFunctionExpression':
+    case 'YieldExpression':
+      return 1
+
+    case 'ConditionalExpression':
+      return 3
+
+    case 'LogicalExpression':
+      switch (node.operator) {
+        case '||':
+        case '??':
+          return 4
+        case '&&':
+          return 5
+
+                    // no default
+      }
+
+      /* falls through */
+
+    case 'BinaryExpression':
+
+      switch (node.operator) {
+        case '|':
+          return 6
+        case '^':
+          return 7
+        case '&':
+          return 8
+        case '==':
+        case '!=':
+        case '===':
+        case '!==':
+          return 9
+        case '<':
+        case '<=':
+        case '>':
+        case '>=':
+        case 'in':
+        case 'instanceof':
+          return 10
+        case '<<':
+        case '>>':
+        case '>>>':
+          return 11
+        case '+':
+        case '-':
+          return 12
+        case '*':
+        case '/':
+        case '%':
+          return 13
+        case '**':
+          return 15
+
+                    // no default
+      }
+
+      /* falls through */
+
+    case 'UnaryExpression':
+    case 'AwaitExpression':
+      return 16
+
+    case 'UpdateExpression':
+      return 17
+
+    case 'CallExpression':
+    case 'ChainExpression':
+    case 'ImportExpression':
+      return 18
+
+    case 'NewExpression':
+      return 19
+
+    default:
+      if (node.type in eslintVisitorKeys)
+        return 20
+
+      /*
                  * if the node is not a standard node that we know about, then assume it has the lowest precedence
                  * this will mean that rules will wrap unknown nodes in parentheses where applicable instead of
                  * unwrapping them and potentially changing the meaning of the code or introducing a syntax error.
                  */
-        return -1
-    }
-  },
+      return -1
+  }
+}
 
-  /**
-   * Checks whether the given node is an empty block node or not.
-   * @param {ASTNode|null} node The node to check.
-   * @returns {boolean} `true` if the node is an empty block.
-   */
-  isEmptyBlock(node) {
-    return Boolean(node && node.type === 'BlockStatement' && node.body.length === 0)
-  },
+/**
+ * Checks whether the given node is an empty block node or not.
+ * @param {ASTNode|null} node The node to check.
+ * @returns {boolean} `true` if the node is an empty block.
+ */
+export function isEmptyBlock(node) {
+  return Boolean(node && node.type === 'BlockStatement' && node.body.length === 0)
+}
 
-  /**
-   * Checks whether the given node is an empty function node or not.
-   * @param {ASTNode|null} node The node to check.
-   * @returns {boolean} `true` if the node is an empty function.
-   */
-  isEmptyFunction(node) {
-    return isFunction(node) && isEmptyBlock(node.body)
-  },
+/**
+ * Checks whether the given node is an empty function node or not.
+ * @param {ASTNode|null} node The node to check.
+ * @returns {boolean} `true` if the node is an empty function.
+ */
+export function isEmptyFunction(node) {
+  return isFunction(node) && isEmptyBlock(node.body)
+}
 
-  /**
-   * Get directives from directive prologue of a Program or Function node.
-   * @param {ASTNode} node The node to check.
-   * @returns {ASTNode[]} The directives found in the directive prologue.
-   */
-  getDirectivePrologue(node) {
-    const directives = []
+/**
+ * Get directives from directive prologue of a Program or Function node.
+ * @param {ASTNode} node The node to check.
+ * @returns {ASTNode[]} The directives found in the directive prologue.
+ */
+export function getDirectivePrologue(node) {
+  const directives = []
 
-    // Directive prologues only occur at the top of files or functions.
-    if (
-      node.type === 'Program'
+  // Directive prologues only occur at the top of files or functions.
+  if (
+    node.type === 'Program'
             || node.type === 'FunctionDeclaration'
             || node.type === 'FunctionExpression'
 
@@ -1495,646 +1443,626 @@ export default {
              * `() => "use strict";` returns the string `"use strict"`.
              */
             || (node.type === 'ArrowFunctionExpression' && node.body.type === 'BlockStatement')
-    ) {
-      const statements = node.type === 'Program' ? node.body : node.body.body
+  ) {
+    const statements = node.type === 'Program' ? node.body : node.body.body
 
-      for (const statement of statements) {
-        if (
-          statement.type === 'ExpressionStatement'
+    for (const statement of statements) {
+      if (
+        statement.type === 'ExpressionStatement'
                     && statement.expression.type === 'Literal'
-        )
-          directives.push(statement)
-        else
-          break
-      }
-    }
-
-    return directives
-  },
-
-  /**
-   * Determines whether this node is a decimal integer literal. If a node is a decimal integer literal, a dot added
-   * after the node will be parsed as a decimal point, rather than a property-access dot.
-   * @param {ASTNode} node The node to check.
-   * @returns {boolean} `true` if this node is a decimal integer.
-   * @example
-   *
-   * 0         // true
-   * 5         // true
-   * 50        // true
-   * 5_000     // true
-   * 1_234_56  // true
-   * 08        // true
-   * 0192      // true
-   * 5.        // false
-   * .5        // false
-   * 5.0       // false
-   * 5.00_00   // false
-   * 05        // false
-   * 0x5       // false
-   * 0b101     // false
-   * 0b11_01   // false
-   * 0o5       // false
-   * 5e0       // false
-   * 5e1_000   // false
-   * 5n        // false
-   * 1_000n    // false
-   * "5"       // false
-   *
-   */
-  isDecimalInteger(node) {
-    return node.type === 'Literal' && typeof node.value === 'number'
-            && DECIMAL_INTEGER_PATTERN.test(node.raw)
-  },
-
-  /**
-   * Determines whether this token is a decimal integer numeric token.
-   * This is similar to isDecimalInteger(), but for tokens.
-   * @param {Token} token The token to check.
-   * @returns {boolean} `true` if this token is a decimal integer.
-   */
-  isDecimalIntegerNumericToken(token) {
-    return token.type === 'Numeric' && DECIMAL_INTEGER_PATTERN.test(token.value)
-  },
-
-  /**
-   * Gets the name and kind of the given function node.
-   *
-   * - `function foo() {}`  .................... `function 'foo'`
-   * - `(function foo() {})`  .................. `function 'foo'`
-   * - `(function() {})`  ...................... `function`
-   * - `function* foo() {}`  ................... `generator function 'foo'`
-   * - `(function* foo() {})`  ................. `generator function 'foo'`
-   * - `(function*() {})`  ..................... `generator function`
-   * - `() => {}`  ............................. `arrow function`
-   * - `async () => {}`  ....................... `async arrow function`
-   * - `({ foo: function foo() {} })`  ......... `method 'foo'`
-   * - `({ foo: function() {} })`  ............. `method 'foo'`
-   * - `({ ['foo']: function() {} })`  ......... `method 'foo'`
-   * - `({ [foo]: function() {} })`  ........... `method`
-   * - `({ foo() {} })`  ....................... `method 'foo'`
-   * - `({ foo: function* foo() {} })`  ........ `generator method 'foo'`
-   * - `({ foo: function*() {} })`  ............ `generator method 'foo'`
-   * - `({ ['foo']: function*() {} })`  ........ `generator method 'foo'`
-   * - `({ [foo]: function*() {} })`  .......... `generator method`
-   * - `({ *foo() {} })`  ...................... `generator method 'foo'`
-   * - `({ foo: async function foo() {} })`  ... `async method 'foo'`
-   * - `({ foo: async function() {} })`  ....... `async method 'foo'`
-   * - `({ ['foo']: async function() {} })`  ... `async method 'foo'`
-   * - `({ [foo]: async function() {} })`  ..... `async method`
-   * - `({ async foo() {} })`  ................. `async method 'foo'`
-   * - `({ get foo() {} })`  ................... `getter 'foo'`
-   * - `({ set foo(a) {} })`  .................. `setter 'foo'`
-   * - `class A { constructor() {} }`  ......... `constructor`
-   * - `class A { foo() {} }`  ................. `method 'foo'`
-   * - `class A { *foo() {} }`  ................ `generator method 'foo'`
-   * - `class A { async foo() {} }`  ........... `async method 'foo'`
-   * - `class A { ['foo']() {} }`  ............. `method 'foo'`
-   * - `class A { *['foo']() {} }`  ............ `generator method 'foo'`
-   * - `class A { async ['foo']() {} }`  ....... `async method 'foo'`
-   * - `class A { [foo]() {} }`  ............... `method`
-   * - `class A { *[foo]() {} }`  .............. `generator method`
-   * - `class A { async [foo]() {} }`  ......... `async method`
-   * - `class A { get foo() {} }`  ............. `getter 'foo'`
-   * - `class A { set foo(a) {} }`  ............ `setter 'foo'`
-   * - `class A { static foo() {} }`  .......... `static method 'foo'`
-   * - `class A { static *foo() {} }`  ......... `static generator method 'foo'`
-   * - `class A { static async foo() {} }`  .... `static async method 'foo'`
-   * - `class A { static get foo() {} }`  ...... `static getter 'foo'`
-   * - `class A { static set foo(a) {} }`  ..... `static setter 'foo'`
-   * - `class A { foo = () => {}; }`  .......... `method 'foo'`
-   * - `class A { foo = function() {}; }`  ..... `method 'foo'`
-   * - `class A { foo = function bar() {}; }`  . `method 'foo'`
-   * - `class A { static foo = () => {}; }`  ... `static method 'foo'`
-   * - `class A { '#foo' = () => {}; }`  ....... `method '#foo'`
-   * - `class A { #foo = () => {}; }`  ......... `private method #foo`
-   * - `class A { static #foo = () => {}; }`  .. `static private method #foo`
-   * - `class A { '#foo'() {} }`  .............. `method '#foo'`
-   * - `class A { #foo() {} }`  ................ `private method #foo`
-   * - `class A { static #foo() {} }`  ......... `static private method #foo`
-   * @param {ASTNode} node The function node to get.
-   * @returns {string} The name and kind of the function node.
-   */
-  getFunctionNameWithKind(node) {
-    const parent = node.parent
-    const tokens = []
-
-    if (parent.type === 'MethodDefinition' || parent.type === 'PropertyDefinition') {
-      // The proposal uses `static` word consistently before visibility words: https://github.com/tc39/proposal-static-class-features
-      if (parent.static)
-        tokens.push('static')
-
-      if (!parent.computed && parent.key.type === 'PrivateIdentifier')
-        tokens.push('private')
-    }
-    if (node.async)
-      tokens.push('async')
-
-    if (node.generator)
-      tokens.push('generator')
-
-    if (parent.type === 'Property' || parent.type === 'MethodDefinition') {
-      if (parent.kind === 'constructor')
-        return 'constructor'
-
-      if (parent.kind === 'get')
-        tokens.push('getter')
-      else if (parent.kind === 'set')
-        tokens.push('setter')
+      )
+        directives.push(statement)
       else
-        tokens.push('method')
+        break
     }
-    else if (parent.type === 'PropertyDefinition') {
+  }
+
+  return directives
+}
+
+/**
+ * Determines whether this node is a decimal integer literal. If a node is a decimal integer literal, a dot added
+ * after the node will be parsed as a decimal point, rather than a property-access dot.
+ * @param {ASTNode} node The node to check.
+ * @returns {boolean} `true` if this node is a decimal integer.
+ * @example
+ *
+ * 0         // true
+ * 5         // true
+ * 50        // true
+ * 5_000     // true
+ * 1_234_56  // true
+ * 08        // true
+ * 0192      // true
+ * 5.        // false
+ * .5        // false
+ * 5.0       // false
+ * 5.00_00   // false
+ * 05        // false
+ * 0x5       // false
+ * 0b101     // false
+ * 0b11_01   // false
+ * 0o5       // false
+ * 5e0       // false
+ * 5e1_000   // false
+ * 5n        // false
+ * 1_000n    // false
+ * "5"       // false
+ *
+ */
+export function isDecimalInteger(node) {
+  return node.type === 'Literal' && typeof node.value === 'number'
+            && DECIMAL_INTEGER_PATTERN.test(node.raw)
+}
+
+/**
+ * Determines whether this token is a decimal integer numeric token.
+ * This is similar to isDecimalInteger(), but for tokens.
+ * @param {Token} token The token to check.
+ * @returns {boolean} `true` if this token is a decimal integer.
+ */
+export function isDecimalIntegerNumericToken(token) {
+  return token.type === 'Numeric' && DECIMAL_INTEGER_PATTERN.test(token.value)
+}
+
+/**
+ * Gets the name and kind of the given function node.
+ *
+ * - `function foo() {}`  .................... `function 'foo'`
+ * - `(function foo() {})`  .................. `function 'foo'`
+ * - `(function() {})`  ...................... `function`
+ * - `function* foo() {}`  ................... `generator function 'foo'`
+ * - `(function* foo() {})`  ................. `generator function 'foo'`
+ * - `(function*() {})`  ..................... `generator function`
+ * - `() => {}`  ............................. `arrow function`
+ * - `async () => {}`  ....................... `async arrow function`
+ * - `({ foo: function foo() {} })`  ......... `method 'foo'`
+ * - `({ foo: function() {} })`  ............. `method 'foo'`
+ * - `({ ['foo']: function() {} })`  ......... `method 'foo'`
+ * - `({ [foo]: function() {} })`  ........... `method`
+ * - `({ foo() {} })`  ....................... `method 'foo'`
+ * - `({ foo: function* foo() {} })`  ........ `generator method 'foo'`
+ * - `({ foo: function*() {} })`  ............ `generator method 'foo'`
+ * - `({ ['foo']: function*() {} })`  ........ `generator method 'foo'`
+ * - `({ [foo]: function*() {} })`  .......... `generator method`
+ * - `({ *foo() {} })`  ...................... `generator method 'foo'`
+ * - `({ foo: async function foo() {} })`  ... `async method 'foo'`
+ * - `({ foo: async function() {} })`  ....... `async method 'foo'`
+ * - `({ ['foo']: async function() {} })`  ... `async method 'foo'`
+ * - `({ [foo]: async function() {} })`  ..... `async method`
+ * - `({ async foo() {} })`  ................. `async method 'foo'`
+ * - `({ get foo() {} })`  ................... `getter 'foo'`
+ * - `({ set foo(a) {} })`  .................. `setter 'foo'`
+ * - `class A { constructor() {} }`  ......... `constructor`
+ * - `class A { foo() {} }`  ................. `method 'foo'`
+ * - `class A { *foo() {} }`  ................ `generator method 'foo'`
+ * - `class A { async foo() {} }`  ........... `async method 'foo'`
+ * - `class A { ['foo']() {} }`  ............. `method 'foo'`
+ * - `class A { *['foo']() {} }`  ............ `generator method 'foo'`
+ * - `class A { async ['foo']() {} }`  ....... `async method 'foo'`
+ * - `class A { [foo]() {} }`  ............... `method`
+ * - `class A { *[foo]() {} }`  .............. `generator method`
+ * - `class A { async [foo]() {} }`  ......... `async method`
+ * - `class A { get foo() {} }`  ............. `getter 'foo'`
+ * - `class A { set foo(a) {} }`  ............ `setter 'foo'`
+ * - `class A { static foo() {} }`  .......... `static method 'foo'`
+ * - `class A { static *foo() {} }`  ......... `static generator method 'foo'`
+ * - `class A { static async foo() {} }`  .... `static async method 'foo'`
+ * - `class A { static get foo() {} }`  ...... `static getter 'foo'`
+ * - `class A { static set foo(a) {} }`  ..... `static setter 'foo'`
+ * - `class A { foo = () => {}; }`  .......... `method 'foo'`
+ * - `class A { foo = function() {}; }`  ..... `method 'foo'`
+ * - `class A { foo = function bar() {}; }`  . `method 'foo'`
+ * - `class A { static foo = () => {}; }`  ... `static method 'foo'`
+ * - `class A { '#foo' = () => {}; }`  ....... `method '#foo'`
+ * - `class A { #foo = () => {}; }`  ......... `private method #foo`
+ * - `class A { static #foo = () => {}; }`  .. `static private method #foo`
+ * - `class A { '#foo'() {} }`  .............. `method '#foo'`
+ * - `class A { #foo() {} }`  ................ `private method #foo`
+ * - `class A { static #foo() {} }`  ......... `static private method #foo`
+ * @param {ASTNode} node The function node to get.
+ * @returns {string} The name and kind of the function node.
+ */
+export function getFunctionNameWithKind(node) {
+  const parent = node.parent
+  const tokens = []
+
+  if (parent.type === 'MethodDefinition' || parent.type === 'PropertyDefinition') {
+    // The proposal uses `static` word consistently before visibility words: https://github.com/tc39/proposal-static-class-features
+    if (parent.static)
+      tokens.push('static')
+
+    if (!parent.computed && parent.key.type === 'PrivateIdentifier')
+      tokens.push('private')
+  }
+  if (node.async)
+    tokens.push('async')
+
+  if (node.generator)
+    tokens.push('generator')
+
+  if (parent.type === 'Property' || parent.type === 'MethodDefinition') {
+    if (parent.kind === 'constructor')
+      return 'constructor'
+
+    if (parent.kind === 'get')
+      tokens.push('getter')
+    else if (parent.kind === 'set')
+      tokens.push('setter')
+    else
       tokens.push('method')
+  }
+  else if (parent.type === 'PropertyDefinition') {
+    tokens.push('method')
+  }
+  else {
+    if (node.type === 'ArrowFunctionExpression')
+      tokens.push('arrow')
+
+    tokens.push('function')
+  }
+
+  if (parent.type === 'Property' || parent.type === 'MethodDefinition' || parent.type === 'PropertyDefinition') {
+    if (!parent.computed && parent.key.type === 'PrivateIdentifier') {
+      tokens.push(`#${parent.key.name}`)
     }
     else {
-      if (node.type === 'ArrowFunctionExpression')
-        tokens.push('arrow')
+      const name = getStaticPropertyName(parent)
 
-      tokens.push('function')
+      if (name !== null)
+        tokens.push(`'${name}'`)
+      else if (node.id)
+        tokens.push(`'${node.id.name}'`)
     }
+  }
+  else if (node.id) {
+    tokens.push(`'${node.id.name}'`)
+  }
 
-    if (parent.type === 'Property' || parent.type === 'MethodDefinition' || parent.type === 'PropertyDefinition') {
-      if (!parent.computed && parent.key.type === 'PrivateIdentifier') {
-        tokens.push(`#${parent.key.name}`)
-      }
-      else {
-        const name = getStaticPropertyName(parent)
+  return tokens.join(' ')
+}
 
-        if (name !== null)
-          tokens.push(`'${name}'`)
-        else if (node.id)
-          tokens.push(`'${node.id.name}'`)
-      }
-    }
-    else if (node.id) {
-      tokens.push(`'${node.id.name}'`)
-    }
+/**
+ * Gets the location of the given function node for reporting.
+ *
+ * - `function foo() {}`
+ *    ^^^^^^^^^^^^
+ * - `(function foo() {})`
+ *     ^^^^^^^^^^^^
+ * - `(function() {})`
+ *     ^^^^^^^^
+ * - `function* foo() {}`
+ *    ^^^^^^^^^^^^^
+ * - `(function* foo() {})`
+ *     ^^^^^^^^^^^^^
+ * - `(function*() {})`
+ *     ^^^^^^^^^
+ * - `() => {}`
+ *       ^^
+ * - `async () => {}`
+ *             ^^
+ * - `({ foo: function foo() {} })`
+ *       ^^^^^^^^^^^^^^^^^
+ * - `({ foo: function() {} })`
+ *       ^^^^^^^^^^^^^
+ * - `({ ['foo']: function() {} })`
+ *       ^^^^^^^^^^^^^^^^^
+ * - `({ [foo]: function() {} })`
+ *       ^^^^^^^^^^^^^^^
+ * - `({ foo() {} })`
+ *       ^^^
+ * - `({ foo: function* foo() {} })`
+ *       ^^^^^^^^^^^^^^^^^^
+ * - `({ foo: function*() {} })`
+ *       ^^^^^^^^^^^^^^
+ * - `({ ['foo']: function*() {} })`
+ *       ^^^^^^^^^^^^^^^^^^
+ * - `({ [foo]: function*() {} })`
+ *       ^^^^^^^^^^^^^^^^
+ * - `({ *foo() {} })`
+ *       ^^^^
+ * - `({ foo: async function foo() {} })`
+ *       ^^^^^^^^^^^^^^^^^^^^^^^
+ * - `({ foo: async function() {} })`
+ *       ^^^^^^^^^^^^^^^^^^^
+ * - `({ ['foo']: async function() {} })`
+ *       ^^^^^^^^^^^^^^^^^^^^^^^
+ * - `({ [foo]: async function() {} })`
+ *       ^^^^^^^^^^^^^^^^^^^^^
+ * - `({ async foo() {} })`
+ *       ^^^^^^^^^
+ * - `({ get foo() {} })`
+ *       ^^^^^^^
+ * - `({ set foo(a) {} })`
+ *       ^^^^^^^
+ * - `class A { constructor() {} }`
+ *              ^^^^^^^^^^^
+ * - `class A { foo() {} }`
+ *              ^^^
+ * - `class A { *foo() {} }`
+ *              ^^^^
+ * - `class A { async foo() {} }`
+ *              ^^^^^^^^^
+ * - `class A { ['foo']() {} }`
+ *              ^^^^^^^
+ * - `class A { *['foo']() {} }`
+ *              ^^^^^^^^
+ * - `class A { async ['foo']() {} }`
+ *              ^^^^^^^^^^^^^
+ * - `class A { [foo]() {} }`
+ *              ^^^^^
+ * - `class A { *[foo]() {} }`
+ *              ^^^^^^
+ * - `class A { async [foo]() {} }`
+ *              ^^^^^^^^^^^
+ * - `class A { get foo() {} }`
+ *              ^^^^^^^
+ * - `class A { set foo(a) {} }`
+ *              ^^^^^^^
+ * - `class A { static foo() {} }`
+ *              ^^^^^^^^^^
+ * - `class A { static *foo() {} }`
+ *              ^^^^^^^^^^^
+ * - `class A { static async foo() {} }`
+ *              ^^^^^^^^^^^^^^^^
+ * - `class A { static get foo() {} }`
+ *              ^^^^^^^^^^^^^^
+ * - `class A { static set foo(a) {} }`
+ *              ^^^^^^^^^^^^^^
+ * - `class A { foo = function() {} }`
+ *              ^^^^^^^^^^^^^^
+ * - `class A { static foo = function() {} }`
+ *              ^^^^^^^^^^^^^^^^^^^^^
+ * - `class A { foo = (a, b) => {} }`
+ *              ^^^^^^
+ * @param {ASTNode} node The function node to get.
+ * @param {SourceCode} sourceCode The source code object to get tokens.
+ * @returns {string} The location of the function node for reporting.
+ */
+export function getFunctionHeadLoc(node, sourceCode) {
+  const parent = node.parent
+  let start = null
+  let end = null
 
-    return tokens.join(' ')
-  },
+  if (parent.type === 'Property' || parent.type === 'MethodDefinition' || parent.type === 'PropertyDefinition') {
+    start = parent.loc.start
+    end = getOpeningParenOfParams(node, sourceCode).loc.start
+  }
+  else if (node.type === 'ArrowFunctionExpression') {
+    const arrowToken = sourceCode.getTokenBefore(node.body, isArrowToken)
 
-  /**
-   * Gets the location of the given function node for reporting.
-   *
-   * - `function foo() {}`
-   *    ^^^^^^^^^^^^
-   * - `(function foo() {})`
-   *     ^^^^^^^^^^^^
-   * - `(function() {})`
-   *     ^^^^^^^^
-   * - `function* foo() {}`
-   *    ^^^^^^^^^^^^^
-   * - `(function* foo() {})`
-   *     ^^^^^^^^^^^^^
-   * - `(function*() {})`
-   *     ^^^^^^^^^
-   * - `() => {}`
-   *       ^^
-   * - `async () => {}`
-   *             ^^
-   * - `({ foo: function foo() {} })`
-   *       ^^^^^^^^^^^^^^^^^
-   * - `({ foo: function() {} })`
-   *       ^^^^^^^^^^^^^
-   * - `({ ['foo']: function() {} })`
-   *       ^^^^^^^^^^^^^^^^^
-   * - `({ [foo]: function() {} })`
-   *       ^^^^^^^^^^^^^^^
-   * - `({ foo() {} })`
-   *       ^^^
-   * - `({ foo: function* foo() {} })`
-   *       ^^^^^^^^^^^^^^^^^^
-   * - `({ foo: function*() {} })`
-   *       ^^^^^^^^^^^^^^
-   * - `({ ['foo']: function*() {} })`
-   *       ^^^^^^^^^^^^^^^^^^
-   * - `({ [foo]: function*() {} })`
-   *       ^^^^^^^^^^^^^^^^
-   * - `({ *foo() {} })`
-   *       ^^^^
-   * - `({ foo: async function foo() {} })`
-   *       ^^^^^^^^^^^^^^^^^^^^^^^
-   * - `({ foo: async function() {} })`
-   *       ^^^^^^^^^^^^^^^^^^^
-   * - `({ ['foo']: async function() {} })`
-   *       ^^^^^^^^^^^^^^^^^^^^^^^
-   * - `({ [foo]: async function() {} })`
-   *       ^^^^^^^^^^^^^^^^^^^^^
-   * - `({ async foo() {} })`
-   *       ^^^^^^^^^
-   * - `({ get foo() {} })`
-   *       ^^^^^^^
-   * - `({ set foo(a) {} })`
-   *       ^^^^^^^
-   * - `class A { constructor() {} }`
-   *              ^^^^^^^^^^^
-   * - `class A { foo() {} }`
-   *              ^^^
-   * - `class A { *foo() {} }`
-   *              ^^^^
-   * - `class A { async foo() {} }`
-   *              ^^^^^^^^^
-   * - `class A { ['foo']() {} }`
-   *              ^^^^^^^
-   * - `class A { *['foo']() {} }`
-   *              ^^^^^^^^
-   * - `class A { async ['foo']() {} }`
-   *              ^^^^^^^^^^^^^
-   * - `class A { [foo]() {} }`
-   *              ^^^^^
-   * - `class A { *[foo]() {} }`
-   *              ^^^^^^
-   * - `class A { async [foo]() {} }`
-   *              ^^^^^^^^^^^
-   * - `class A { get foo() {} }`
-   *              ^^^^^^^
-   * - `class A { set foo(a) {} }`
-   *              ^^^^^^^
-   * - `class A { static foo() {} }`
-   *              ^^^^^^^^^^
-   * - `class A { static *foo() {} }`
-   *              ^^^^^^^^^^^
-   * - `class A { static async foo() {} }`
-   *              ^^^^^^^^^^^^^^^^
-   * - `class A { static get foo() {} }`
-   *              ^^^^^^^^^^^^^^
-   * - `class A { static set foo(a) {} }`
-   *              ^^^^^^^^^^^^^^
-   * - `class A { foo = function() {} }`
-   *              ^^^^^^^^^^^^^^
-   * - `class A { static foo = function() {} }`
-   *              ^^^^^^^^^^^^^^^^^^^^^
-   * - `class A { foo = (a, b) => {} }`
-   *              ^^^^^^
-   * @param {ASTNode} node The function node to get.
-   * @param {SourceCode} sourceCode The source code object to get tokens.
-   * @returns {string} The location of the function node for reporting.
-   */
-  getFunctionHeadLoc(node, sourceCode) {
-    const parent = node.parent
-    let start = null
-    let end = null
+    start = arrowToken.loc.start
+    end = arrowToken.loc.end
+  }
+  else {
+    start = node.loc.start
+    end = getOpeningParenOfParams(node, sourceCode).loc.start
+  }
 
-    if (parent.type === 'Property' || parent.type === 'MethodDefinition' || parent.type === 'PropertyDefinition') {
-      start = parent.loc.start
-      end = getOpeningParenOfParams(node, sourceCode).loc.start
-    }
-    else if (node.type === 'ArrowFunctionExpression') {
-      const arrowToken = sourceCode.getTokenBefore(node.body, isArrowToken)
+  return {
+    end: Object.assign({}, end),
+    start: Object.assign({}, start),
+  }
+}
 
-      start = arrowToken.loc.start
-      end = arrowToken.loc.end
-    }
-    else {
-      start = node.loc.start
-      end = getOpeningParenOfParams(node, sourceCode).loc.start
-    }
-
+/**
+ * Gets next location when the result is not out of bound, otherwise returns null.
+ *
+ * Assumptions:
+ *
+ * - The given location represents a valid location in the given source code.
+ * - Columns are 0-based.
+ * - Lines are 1-based.
+ * - Column immediately after the last character in a line (not incl. linebreaks) is considered to be a valid location.
+ * - If the source code ends with a linebreak, `sourceCode.lines` array will have an extra element (empty string) at the end.
+ *   The start (column 0) of that extra line is considered to be a valid location.
+ *
+ * Examples of successive locations (line, column):
+ *
+ * code: foo
+ * locations: (1, 0) -> (1, 1) -> (1, 2) -> (1, 3) -> null
+ *
+ * code: foo<LF>
+ * locations: (1, 0) -> (1, 1) -> (1, 2) -> (1, 3) -> (2, 0) -> null
+ *
+ * code: foo<CR><LF>
+ * locations: (1, 0) -> (1, 1) -> (1, 2) -> (1, 3) -> (2, 0) -> null
+ *
+ * code: a<LF>b
+ * locations: (1, 0) -> (1, 1) -> (2, 0) -> (2, 1) -> null
+ *
+ * code: a<LF>b<LF>
+ * locations: (1, 0) -> (1, 1) -> (2, 0) -> (2, 1) -> (3, 0) -> null
+ *
+ * code: a<CR><LF>b<CR><LF>
+ * locations: (1, 0) -> (1, 1) -> (2, 0) -> (2, 1) -> (3, 0) -> null
+ *
+ * code: a<LF><LF>
+ * locations: (1, 0) -> (1, 1) -> (2, 0) -> (3, 0) -> null
+ *
+ * code: <LF>
+ * locations: (1, 0) -> (2, 0) -> null
+ *
+ * code:
+ * locations: (1, 0) -> null
+ * @param {SourceCode} sourceCode The sourceCode
+ * @param {{line: number, column: number}} location The location
+ * @returns {{line: number, column: number} | null} Next location
+ */
+export function getNextLocation(sourceCode, { column, line }) {
+  if (column < sourceCode.lines[line - 1].length) {
     return {
-      start: Object.assign({}, start),
-      end: Object.assign({}, end),
+      column: column + 1,
+      line,
     }
-  },
+  }
 
-  /**
-   * Gets next location when the result is not out of bound, otherwise returns null.
-   *
-   * Assumptions:
-   *
-   * - The given location represents a valid location in the given source code.
-   * - Columns are 0-based.
-   * - Lines are 1-based.
-   * - Column immediately after the last character in a line (not incl. linebreaks) is considered to be a valid location.
-   * - If the source code ends with a linebreak, `sourceCode.lines` array will have an extra element (empty string) at the end.
-   *   The start (column 0) of that extra line is considered to be a valid location.
-   *
-   * Examples of successive locations (line, column):
-   *
-   * code: foo
-   * locations: (1, 0) -> (1, 1) -> (1, 2) -> (1, 3) -> null
-   *
-   * code: foo<LF>
-   * locations: (1, 0) -> (1, 1) -> (1, 2) -> (1, 3) -> (2, 0) -> null
-   *
-   * code: foo<CR><LF>
-   * locations: (1, 0) -> (1, 1) -> (1, 2) -> (1, 3) -> (2, 0) -> null
-   *
-   * code: a<LF>b
-   * locations: (1, 0) -> (1, 1) -> (2, 0) -> (2, 1) -> null
-   *
-   * code: a<LF>b<LF>
-   * locations: (1, 0) -> (1, 1) -> (2, 0) -> (2, 1) -> (3, 0) -> null
-   *
-   * code: a<CR><LF>b<CR><LF>
-   * locations: (1, 0) -> (1, 1) -> (2, 0) -> (2, 1) -> (3, 0) -> null
-   *
-   * code: a<LF><LF>
-   * locations: (1, 0) -> (1, 1) -> (2, 0) -> (3, 0) -> null
-   *
-   * code: <LF>
-   * locations: (1, 0) -> (2, 0) -> null
-   *
-   * code:
-   * locations: (1, 0) -> null
-   * @param {SourceCode} sourceCode The sourceCode
-   * @param {{line: number, column: number}} location The location
-   * @returns {{line: number, column: number} | null} Next location
-   */
-  getNextLocation(sourceCode, { line, column }) {
-    if (column < sourceCode.lines[line - 1].length) {
-      return {
-        line,
-        column: column + 1,
-      }
+  if (line < sourceCode.lines.length) {
+    return {
+      column: 0,
+      line: line + 1,
     }
+  }
 
-    if (line < sourceCode.lines.length) {
-      return {
-        line: line + 1,
-        column: 0,
-      }
-    }
+  return null
+}
 
-    return null
-  },
+/**
+ * Gets the parenthesized text of a node. This is similar to sourceCode.getText(node), but it also includes any parentheses
+ * surrounding the node.
+ * @param {SourceCode} sourceCode The source code object
+ * @param {ASTNode} node An expression node
+ * @returns {string} The text representing the node, with all surrounding parentheses included
+ */
+export function getParenthesisedText(sourceCode, node) {
+  let leftToken = sourceCode.getFirstToken(node)
+  let rightToken = sourceCode.getLastToken(node)
 
-  /**
-   * Gets the parenthesized text of a node. This is similar to sourceCode.getText(node), but it also includes any parentheses
-   * surrounding the node.
-   * @param {SourceCode} sourceCode The source code object
-   * @param {ASTNode} node An expression node
-   * @returns {string} The text representing the node, with all surrounding parentheses included
-   */
-  getParenthesisedText(sourceCode, node) {
-    let leftToken = sourceCode.getFirstToken(node)
-    let rightToken = sourceCode.getLastToken(node)
-
-    while (
-      sourceCode.getTokenBefore(leftToken)
+  while (
+    sourceCode.getTokenBefore(leftToken)
             && sourceCode.getTokenBefore(leftToken).type === 'Punctuator'
             && sourceCode.getTokenBefore(leftToken).value === '('
             && sourceCode.getTokenAfter(rightToken)
             && sourceCode.getTokenAfter(rightToken).type === 'Punctuator'
             && sourceCode.getTokenAfter(rightToken).value === ')'
-    ) {
-      leftToken = sourceCode.getTokenBefore(leftToken)
-      rightToken = sourceCode.getTokenAfter(rightToken)
+  ) {
+    leftToken = sourceCode.getTokenBefore(leftToken)
+    rightToken = sourceCode.getTokenAfter(rightToken)
+  }
+
+  return sourceCode.getText().slice(leftToken.range[0], rightToken.range[1])
+}
+
+/**
+ * Determine if a node has a possibility to be an Error object
+ * @param {ASTNode} node ASTNode to check
+ * @returns {boolean} True if there is a chance it contains an Error obj
+ */
+export function couldBeError(node) {
+  switch (node.type) {
+    case 'Identifier':
+    case 'CallExpression':
+    case 'NewExpression':
+    case 'MemberExpression':
+    case 'TaggedTemplateExpression':
+    case 'YieldExpression':
+    case 'AwaitExpression':
+    case 'ChainExpression':
+      return true // possibly an error object.
+
+    case 'AssignmentExpression':
+      if (['=', '&&='].includes(node.operator))
+        return couldBeError(node.right)
+
+      if (['||=', '??='].includes(node.operator))
+        return couldBeError(node.left) || couldBeError(node.right)
+
+      /**
+       * All other assignment operators are mathematical assignment operators (arithmetic or bitwise).
+       * An assignment expression with a mathematical operator can either evaluate to a primitive value,
+       * or throw, depending on the operands. Thus, it cannot evaluate to an `Error` object.
+       */
+      return false
+
+    case 'SequenceExpression': {
+      const exprs = node.expressions
+
+      return exprs.length !== 0 && couldBeError(exprs[exprs.length - 1])
     }
 
-    return sourceCode.getText().slice(leftToken.range[0], rightToken.range[1])
-  },
+    case 'LogicalExpression':
 
-  /**
-   * Determine if a node has a possibility to be an Error object
-   * @param {ASTNode} node ASTNode to check
-   * @returns {boolean} True if there is a chance it contains an Error obj
-   */
-  couldBeError(node) {
-    switch (node.type) {
-      case 'Identifier':
-      case 'CallExpression':
-      case 'NewExpression':
-      case 'MemberExpression':
-      case 'TaggedTemplateExpression':
-      case 'YieldExpression':
-      case 'AwaitExpression':
-      case 'ChainExpression':
-        return true // possibly an error object.
-
-      case 'AssignmentExpression':
-        if (['=', '&&='].includes(node.operator))
-          return couldBeError(node.right)
-
-        if (['||=', '??='].includes(node.operator))
-          return couldBeError(node.left) || couldBeError(node.right)
-
-        /**
-         * All other assignment operators are mathematical assignment operators (arithmetic or bitwise).
-         * An assignment expression with a mathematical operator can either evaluate to a primitive value,
-         * or throw, depending on the operands. Thus, it cannot evaluate to an `Error` object.
-         */
-        return false
-
-      case 'SequenceExpression': {
-        const exprs = node.expressions
-
-        return exprs.length !== 0 && couldBeError(exprs[exprs.length - 1])
-      }
-
-      case 'LogicalExpression':
-
-        /*
+      /*
                  * If the && operator short-circuits, the left side was falsy and therefore not an error, and if it
                  * doesn't short-circuit, it takes the value from the right side, so the right side must always be
                  * a plausible error. A future improvement could verify that the left side could be truthy by
                  * excluding falsy literals.
                  */
-        if (node.operator === '&&')
-          return couldBeError(node.right)
+      if (node.operator === '&&')
+        return couldBeError(node.right)
 
-        return couldBeError(node.left) || couldBeError(node.right)
+      return couldBeError(node.left) || couldBeError(node.right)
 
-      case 'ConditionalExpression':
-        return couldBeError(node.consequent) || couldBeError(node.alternate)
+    case 'ConditionalExpression':
+      return couldBeError(node.consequent) || couldBeError(node.alternate)
 
-      default:
-        return false
-    }
-  },
+    default:
+      return false
+  }
+}
 
-  /**
-   * Check if a given node is a numeric literal or not.
-   * @param {ASTNode} node The node to check.
-   * @returns {boolean} `true` if the node is a number or bigint literal.
-   */
-  isNumericLiteral(node) {
-    return (
-      node.type === 'Literal'
+/**
+ * Check if a given node is a numeric literal or not.
+ * @param {ASTNode} node The node to check.
+ * @returns {boolean} `true` if the node is a number or bigint literal.
+ */
+export function isNumericLiteral(node) {
+  return (
+    node.type === 'Literal'
             && (typeof node.value === 'number' || Boolean(node.bigint))
-    )
-  },
+  )
+}
 
-  /**
-   * Determines whether two tokens can safely be placed next to each other without merging into a single token
-   * @param {Token|string} leftValue The left token. If this is a string, it will be tokenized and the last token will be used.
-   * @param {Token|string} rightValue The right token. If this is a string, it will be tokenized and the first token will be used.
-   * @returns {boolean} If the tokens cannot be safely placed next to each other, returns `false`. If the tokens can be placed
-   * next to each other, behavior is undefined (although it should return `true` in most cases).
-   */
-  canTokensBeAdjacent(leftValue, rightValue) {
-    const espreeOptions = {
-      ecmaVersion: latestEcmaVersion,
-      comment: true,
-      range: true,
+/**
+ * Determines whether two tokens can safely be placed next to each other without merging into a single token
+ * @param {Token|string} leftValue The left token. If this is a string, it will be tokenized and the last token will be used.
+ * @param {Token|string} rightValue The right token. If this is a string, it will be tokenized and the first token will be used.
+ * @returns {boolean} If the tokens cannot be safely placed next to each other, returns `false`. If the tokens can be placed
+ * next to each other, behavior is undefined (although it should return `true` in most cases).
+ */
+export function canTokensBeAdjacent(leftValue, rightValue) {
+  const espreeOptions = {
+    comment: true,
+    ecmaVersion: latestEcmaVersion,
+    range: true,
+  }
+
+  let leftToken
+
+  if (typeof leftValue === 'string') {
+    let tokens
+
+    try {
+      tokens = tokenize(leftValue, espreeOptions)
+    }
+    catch {
+      return false
     }
 
-    let leftToken
+    const comments = tokens.comments
 
-    if (typeof leftValue === 'string') {
-      let tokens
+    leftToken = tokens[tokens.length - 1]
+    if (comments.length) {
+      const lastComment = comments[comments.length - 1]
 
-      try {
-        tokens = tokenize(leftValue, espreeOptions)
-      }
-      catch {
-        return false
-      }
-
-      const comments = tokens.comments
-
-      leftToken = tokens[tokens.length - 1]
-      if (comments.length) {
-        const lastComment = comments[comments.length - 1]
-
-        if (!leftToken || lastComment.range[0] > leftToken.range[0])
-          leftToken = lastComment
-      }
+      if (!leftToken || lastComment.range[0] > leftToken.range[0])
+        leftToken = lastComment
     }
-    else {
-      leftToken = leftValue
-    }
+  }
+  else {
+    leftToken = leftValue
+  }
 
-    /*
+  /*
          * If a hashbang comment was passed as a token object from SourceCode,
          * its type will be "Shebang" because of the way ESLint itself handles hashbangs.
          * If a hashbang comment was passed in a string and then tokenized in this function,
          * its type will be "Hashbang" because of the way Espree tokenizes hashbangs.
          */
-    if (leftToken.type === 'Shebang' || leftToken.type === 'Hashbang')
-      return false
-
-    let rightToken
-
-    if (typeof rightValue === 'string') {
-      let tokens
-
-      try {
-        tokens = tokenize(rightValue, espreeOptions)
-      }
-      catch {
-        return false
-      }
-
-      const comments = tokens.comments
-
-      rightToken = tokens[0]
-      if (comments.length) {
-        const firstComment = comments[0]
-
-        if (!rightToken || firstComment.range[0] < rightToken.range[0])
-          rightToken = firstComment
-      }
-    }
-    else {
-      rightToken = rightValue
-    }
-
-    if (leftToken.type === 'Punctuator' || rightToken.type === 'Punctuator') {
-      if (leftToken.type === 'Punctuator' && rightToken.type === 'Punctuator') {
-        const PLUS_TOKENS = new Set(['+', '++'])
-        const MINUS_TOKENS = new Set(['-', '--'])
-
-        return !(
-          PLUS_TOKENS.has(leftToken.value) && PLUS_TOKENS.has(rightToken.value)
-                    || MINUS_TOKENS.has(leftToken.value) && MINUS_TOKENS.has(rightToken.value)
-        )
-      }
-      if (leftToken.type === 'Punctuator' && leftToken.value === '/')
-        return !['Block', 'Line', 'RegularExpression'].includes(rightToken.type)
-
-      return true
-    }
-
-    if (
-      leftToken.type === 'String' || rightToken.type === 'String'
-            || leftToken.type === 'Template' || rightToken.type === 'Template'
-    )
-      return true
-
-    if (leftToken.type !== 'Numeric' && rightToken.type === 'Numeric' && rightToken.value.startsWith('.'))
-      return true
-
-    if (leftToken.type === 'Block' || rightToken.type === 'Block' || rightToken.type === 'Line')
-      return true
-
-    if (rightToken.type === 'PrivateIdentifier')
-      return true
-
+  if (leftToken.type === 'Shebang' || leftToken.type === 'Hashbang')
     return false
-  },
 
-  /**
-   * Get the `loc` object of a given name in a `/*globals` directive comment.
-   * @param {SourceCode} sourceCode The source code to convert index to loc.
-   * @param {Comment} comment The `/*globals` directive comment which include the name.
-   * @param {string} name The name to find.
-   * @returns {SourceLocation} The `loc` object.
-   */
-  getNameLocationInGlobalDirectiveComment(sourceCode, comment, name) {
-    const namePattern = new RegExp(`[\\s,]${escapeRegExp(name)}(?:$|[\\s,:])`, 'gu')
+  let rightToken
 
-    // To ignore the first text "global".
-    namePattern.lastIndex = comment.value.indexOf('global') + 6
+  if (typeof rightValue === 'string') {
+    let tokens
 
-    // Search a given variable name.
-    const match = namePattern.exec(comment.value)
+    try {
+      tokens = tokenize(rightValue, espreeOptions)
+    }
+    catch {
+      return false
+    }
 
-    // Convert the index to loc.
-    const start = sourceCode.getLocFromIndex(
-      comment.range[0]
+    const comments = tokens.comments
+
+    rightToken = tokens[0]
+    if (comments.length) {
+      const firstComment = comments[0]
+
+      if (!rightToken || firstComment.range[0] < rightToken.range[0])
+        rightToken = firstComment
+    }
+  }
+  else {
+    rightToken = rightValue
+  }
+
+  if (leftToken.type === 'Punctuator' || rightToken.type === 'Punctuator') {
+    if (leftToken.type === 'Punctuator' && rightToken.type === 'Punctuator') {
+      const PLUS_TOKENS = new Set(['+', '++'])
+      const MINUS_TOKENS = new Set(['-', '--'])
+
+      return !(
+        PLUS_TOKENS.has(leftToken.value) && PLUS_TOKENS.has(rightToken.value)
+                    || MINUS_TOKENS.has(leftToken.value) && MINUS_TOKENS.has(rightToken.value)
+      )
+    }
+    if (leftToken.type === 'Punctuator' && leftToken.value === '/')
+      return !['Block', 'Line', 'RegularExpression'].includes(rightToken.type)
+
+    return true
+  }
+
+  if (
+    leftToken.type === 'String' || rightToken.type === 'String'
+            || leftToken.type === 'Template' || rightToken.type === 'Template'
+  )
+    return true
+
+  if (leftToken.type !== 'Numeric' && rightToken.type === 'Numeric' && rightToken.value.startsWith('.'))
+    return true
+
+  if (leftToken.type === 'Block' || rightToken.type === 'Block' || rightToken.type === 'Line')
+    return true
+
+  if (rightToken.type === 'PrivateIdentifier')
+    return true
+
+  return false
+}
+
+/**
+ * Get the `loc` object of a given name in a `/*globals` directive comment.
+ * @param {SourceCode} sourceCode The source code to convert index to loc.
+ * @param {Comment} comment The `/*globals` directive comment which include the name.
+ * @param {string} name The name to find.
+ * @returns {SourceLocation} The `loc` object.
+ */
+export function getNameLocationInGlobalDirectiveComment(sourceCode, comment, name) {
+  const namePattern = new RegExp(`[\\s,]${escapeRegExp(name)}(?:$|[\\s,:])`, 'gu')
+
+  // To ignore the first text "global".
+  namePattern.lastIndex = comment.value.indexOf('global') + 6
+
+  // Search a given variable name.
+  const match = namePattern.exec(comment.value)
+
+  // Convert the index to loc.
+  const start = sourceCode.getLocFromIndex(
+    comment.range[0]
             + '/*'.length
             + (match ? match.index + 1 : 0),
-    )
-    const end = {
-      line: start.line,
-      column: start.column + (match ? name.length : 1),
-    }
+  )
+  const end = {
+    column: start.column + (match ? name.length : 1),
+    line: start.line,
+  }
 
-    return { start, end }
-  },
+  return { end, start }
+}
 
-  /**
-   * Determines whether the given raw string contains an octal escape sequence
-   * or a non-octal decimal escape sequence ("\8", "\9").
-   *
-   * "\1", "\2" ... "\7", "\8", "\9"
-   * "\00", "\01" ... "\07", "\08", "\09"
-   *
-   * "\0", when not followed by a digit, is not an octal escape sequence.
-   * @param {string} rawString A string in its raw representation.
-   * @returns {boolean} `true` if the string contains at least one octal escape sequence
-   * or at least one non-octal decimal escape sequence.
-   */
-  hasOctalOrNonOctalDecimalEscapeSequence(rawString) {
-    return OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN.test(rawString)
-  },
+/**
+ * Determines whether the given raw string contains an octal escape sequence
+ * or a non-octal decimal escape sequence ("\8", "\9").
+ *
+ * "\1", "\2" ... "\7", "\8", "\9"
+ * "\00", "\01" ... "\07", "\08", "\09"
+ *
+ * "\0", when not followed by a digit, is not an octal escape sequence.
+ * @param {string} rawString A string in its raw representation.
+ * @returns {boolean} `true` if the string contains at least one octal escape sequence
+ * or at least one non-octal decimal escape sequence.
+ */
+export function hasOctalOrNonOctalDecimalEscapeSequence(rawString) {
+  return OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN.test(rawString)
+}
 
-  /**
-   * Determines whether the given node is a template literal without expressions.
-   * @param {ASTNode} node Node to check.
-   * @returns {boolean} True if the node is a template literal without expressions.
-   */
-  isStaticTemplateLiteral(node) {
-    return node.type === 'TemplateLiteral' && node.expressions.length === 0
-  },
-
-  isReferenceToGlobalVariable,
-  isLogicalExpression,
-  isCoalesceExpression,
-  isMixedLogicalAndCoalesceExpressions,
-  isNullLiteral,
-  getStaticStringValue,
-  getStaticPropertyName,
-  skipChainExpression,
-  isSpecificId,
-  isSpecificMemberAccess,
-  equalLiteralValue,
-  isSameReference,
-  isLogicalAssignmentOperator,
-  getSwitchCaseColonToken,
-  getModuleExportName,
-  isConstant,
-  isTopLevelExpressionStatement,
-  isDirective,
+/**
+ * Determines whether the given node is a template literal without expressions.
+ * @param {ASTNode} node Node to check.
+ * @returns {boolean} True if the node is a template literal without expressions.
+ */
+export function isStaticTemplateLiteral(node) {
+  return node.type === 'TemplateLiteral' && node.expressions.length === 0
 }

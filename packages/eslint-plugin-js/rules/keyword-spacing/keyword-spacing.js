@@ -3,7 +3,7 @@
  * @author Toru Nagashima
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import keywords from '../../utils/keywords'
 
 // ------------------------------------------------------------------------------
@@ -118,7 +118,7 @@ export default {
                 && (CHECK_TYPE.test(prevToken.type) || pattern.test(prevToken.value))
                 && !isOpenParenOfTemplate(prevToken)
                 && !tokensToIgnore.has(prevToken)
-                && astUtils.isTokenOnSameLine(prevToken, token)
+                && isTokenOnSameLine(prevToken, token)
                 && !sourceCode.isSpaceBetweenTokens(prevToken, token)
       ) {
         context.report({
@@ -145,7 +145,7 @@ export default {
                 && (CHECK_TYPE.test(prevToken.type) || pattern.test(prevToken.value))
                 && !isOpenParenOfTemplate(prevToken)
                 && !tokensToIgnore.has(prevToken)
-                && astUtils.isTokenOnSameLine(prevToken, token)
+                && isTokenOnSameLine(prevToken, token)
                 && sourceCode.isSpaceBetweenTokens(prevToken, token)
       ) {
         context.report({
@@ -172,7 +172,7 @@ export default {
                 && (CHECK_TYPE.test(nextToken.type) || pattern.test(nextToken.value))
                 && !isCloseParenOfTemplate(nextToken)
                 && !tokensToIgnore.has(nextToken)
-                && astUtils.isTokenOnSameLine(token, nextToken)
+                && isTokenOnSameLine(token, nextToken)
                 && !sourceCode.isSpaceBetweenTokens(token, nextToken)
       ) {
         context.report({
@@ -199,7 +199,7 @@ export default {
                 && (CHECK_TYPE.test(nextToken.type) || pattern.test(nextToken.value))
                 && !isCloseParenOfTemplate(nextToken)
                 && !tokensToIgnore.has(nextToken)
-                && astUtils.isTokenOnSameLine(token, nextToken)
+                && isTokenOnSameLine(token, nextToken)
                 && sourceCode.isSpaceBetweenTokens(token, nextToken)
       ) {
         context.report({
@@ -324,7 +324,7 @@ export default {
      */
     function checkSpacingAroundTokenBefore(node) {
       if (node) {
-        const token = sourceCode.getTokenBefore(node, astUtils.isKeywordToken)
+        const token = sourceCode.getTokenBefore(node, isKeywordToken)
 
         checkSpacingAround(token)
       }
@@ -400,7 +400,7 @@ export default {
     function checkSpacingForForInStatement(node) {
       checkSpacingAroundFirstToken(node)
 
-      const inToken = sourceCode.getTokenBefore(node.right, astUtils.isNotOpeningParenToken)
+      const inToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)
       const previousToken = sourceCode.getTokenBefore(inToken)
 
       if (previousToken.type !== 'PrivateIdentifier')
@@ -424,7 +424,7 @@ export default {
         checkSpacingAroundFirstToken(node)
       }
 
-      const ofToken = sourceCode.getTokenBefore(node.right, astUtils.isNotOpeningParenToken)
+      const ofToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)
       const previousToken = sourceCode.getTokenBefore(ofToken)
 
       if (previousToken.type !== 'PrivateIdentifier')
@@ -614,7 +614,7 @@ export default {
 
       // To avoid conflicts with `space-infix-ops`, e.g. `a > this.b`
       'BinaryExpression[operator=\'>\']': function (node) {
-        const operatorToken = sourceCode.getTokenBefore(node.right, astUtils.isNotOpeningParenToken)
+        const operatorToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)
 
         tokensToIgnore.add(operatorToken)
       },

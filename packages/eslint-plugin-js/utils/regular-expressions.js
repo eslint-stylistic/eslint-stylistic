@@ -6,7 +6,7 @@
 
 import { RegExpValidator } from '@eslint-community/regexpp'
 
-const REGEXPP_LATEST_ECMA_VERSION = 2024
+export const REGEXPP_LATEST_ECMA_VERSION = 2024
 
 /**
  * Checks if the given regular expression pattern would be valid with the `u` flag.
@@ -16,7 +16,7 @@ const REGEXPP_LATEST_ECMA_VERSION = 2024
  * `false` if the pattern would be invalid with the `u` flag or the configured
  * ecmaVersion doesn't support the `u` flag.
  */
-function isValidWithUnicodeFlag(ecmaVersion, pattern) {
+export function isValidWithUnicodeFlag(ecmaVersion, pattern) {
   if (ecmaVersion <= 5) { // ecmaVersion <= 5 doesn't support the 'u' flag
     return false
   }
@@ -33,9 +33,4 @@ function isValidWithUnicodeFlag(ecmaVersion, pattern) {
   }
 
   return true
-}
-
-export {
-  isValidWithUnicodeFlag,
-  REGEXPP_LATEST_ECMA_VERSION,
 }

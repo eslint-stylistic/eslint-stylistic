@@ -3,7 +3,7 @@
  * @author Jamund Ferguson
  */
 
-import astUtils from '../../utils/ast-utils'
+import { COMMENTS_IGNORE_PATTERN, isCommentToken, isOpeningBraceToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -126,7 +126,7 @@ export default {
   create(context) {
     const options = Object.assign({}, context.options[0])
     const ignorePattern = options.ignorePattern
-    const defaultIgnoreRegExp = astUtils.COMMENTS_IGNORE_PATTERN
+    const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN
     const customIgnoreRegExp = new RegExp(ignorePattern, 'u')
     const applyDefaultIgnorePatterns = options.applyDefaultIgnorePatterns !== false
 
@@ -151,17 +151,17 @@ export default {
 
       do
         currentToken = sourceCode.getTokenBefore(currentToken, { includeComments: true })
-      while (currentToken && astUtils.isCommentToken(currentToken))
+      while (currentToken && isCommentToken(currentToken))
 
-      if (currentToken && astUtils.isTokenOnSameLine(currentToken, token))
+      if (currentToken && isTokenOnSameLine(currentToken, token))
         return true
 
       currentToken = token
       do
         currentToken = sourceCode.getTokenAfter(currentToken, { includeComments: true })
-      while (currentToken && astUtils.isCommentToken(currentToken))
+      while (currentToken && isCommentToken(currentToken))
 
-      if (currentToken && astUtils.isTokenOnSameLine(token, currentToken))
+      if (currentToken && isTokenOnSameLine(token, currentToken))
         return true
 
       return false
@@ -234,7 +234,7 @@ export default {
         }
         else if (parent.type === 'SwitchStatement') {
           parentStartNodeOrToken = sourceCode.getTokenAfter(parent.discriminant, {
-            filter: astUtils.isOpeningBraceToken,
+            filter: isOpeningBraceToken,
           }) // opening brace of the switch statement
         }
 
@@ -394,7 +394,7 @@ export default {
 
       // check for newline before
       if (!exceptionStartAllowed && before && !commentAndEmptyLines.has(prevLineNum)
-                    && !(astUtils.isCommentToken(previousTokenOrComment) && astUtils.isTokenOnSameLine(previousTokenOrComment, token))) {
+                    && !(isCommentToken(previousTokenOrComment) && isTokenOnSameLine(previousTokenOrComment, token))) {
         const lineStart = token.range[0] - token.loc.start.column
         const range = [lineStart, lineStart]
 
@@ -409,7 +409,7 @@ export default {
 
       // check for newline after
       if (!exceptionEndAllowed && after && !commentAndEmptyLines.has(nextLineNum)
-                    && !(astUtils.isCommentToken(nextTokenOrComment) && astUtils.isTokenOnSameLine(token, nextTokenOrComment))) {
+                    && !(isCommentToken(nextTokenOrComment) && isTokenOnSameLine(token, nextTokenOrComment))) {
         context.report({
           node: token,
           messageId: 'after',

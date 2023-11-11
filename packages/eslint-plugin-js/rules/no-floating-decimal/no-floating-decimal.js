@@ -3,7 +3,7 @@
  * @author James Allardice
  */
 
-import astUtils from '../../utils/ast-utils'
+import { canTokensBeAdjacent } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -42,7 +42,7 @@ export default {
                 const tokenBefore = sourceCode.getTokenBefore(node)
                 const needsSpaceBefore = tokenBefore
                                     && tokenBefore.range[1] === node.range[0]
-                                    && !astUtils.canTokensBeAdjacent(tokenBefore, `0${node.raw}`)
+                                    && !canTokensBeAdjacent(tokenBefore, `0${node.raw}`)
 
                 return fixer.insertTextBefore(node, needsSpaceBefore ? ' 0' : '0')
               },

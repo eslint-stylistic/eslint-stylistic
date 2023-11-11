@@ -3,7 +3,7 @@
  * @author Nodeca Team <https://github.com/nodeca>
  */
 
-import astUtils from '../../utils/ast-utils'
+import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -114,7 +114,7 @@ export default {
         const re = new RegExp(NONBLANK, 'u')
         const skipMatch = new RegExp(SKIP_BLANK, 'u')
         const lines = sourceCode.lines
-        const linebreaks = sourceCode.getText().match(astUtils.createGlobalLinebreakMatcher())
+        const linebreaks = sourceCode.getText().match(createGlobalLinebreakMatcher())
         const comments = sourceCode.getAllComments()
         const commentLineNumbers = getCommentLineNumbers(comments)
 

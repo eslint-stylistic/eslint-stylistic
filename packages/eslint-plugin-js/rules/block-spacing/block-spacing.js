@@ -3,7 +3,7 @@
  * @author Toru Nagashima
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -70,7 +70,7 @@ export default {
      */
     function isValid(left, right) {
       return (
-        !astUtils.isTokenOnSameLine(left, right)
+        !isTokenOnSameLine(left, right)
                 || sourceCode.isSpaceBetweenTokens(left, right) === always
       )
     }

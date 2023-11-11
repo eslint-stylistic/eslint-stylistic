@@ -3,7 +3,7 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import astUtils from '../../utils/ast-utils'
+import { LINEBREAK_MATCHER, isNotQuestionDotToken, isOpeningParenToken } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -80,7 +80,7 @@ export default {
     function checkSpacing(node, leftToken, rightToken) {
       const textBetweenTokens = text.slice(leftToken.range[1], rightToken.range[0]).replace(/\/\*.*?\*\//gu, '')
       const hasWhitespace = /\s/u.test(textBetweenTokens)
-      const hasNewline = hasWhitespace && astUtils.LINEBREAK_MATCHER.test(textBetweenTokens)
+      const hasNewline = hasWhitespace && LINEBREAK_MATCHER.test(textBetweenTokens)
 
       /*
              * never allowNewlines hasWhitespace hasNewline message
@@ -196,8 +196,8 @@ export default {
       'CallExpression, NewExpression': function (node) {
         const lastToken = sourceCode.getLastToken(node)
         const lastCalleeToken = sourceCode.getLastToken(node.callee)
-        const parenToken = sourceCode.getFirstTokenBetween(lastCalleeToken, lastToken, astUtils.isOpeningParenToken)
-        const prevToken = parenToken && sourceCode.getTokenBefore(parenToken, astUtils.isNotQuestionDotToken)
+        const parenToken = sourceCode.getFirstTokenBetween(lastCalleeToken, lastToken, isOpeningParenToken)
+        const prevToken = parenToken && sourceCode.getTokenBefore(parenToken, isNotQuestionDotToken)
 
         // Parens in NewExpression are optional
         if (!(parenToken && parenToken.range[1] < node.range[1]))

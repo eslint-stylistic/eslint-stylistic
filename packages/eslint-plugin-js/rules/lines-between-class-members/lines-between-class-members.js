@@ -3,7 +3,7 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -127,9 +127,9 @@ export default {
       const nextToken = sourceCode.getFirstToken(nextNode) // skip possible lone `;` between nodes
 
       const isSemicolonLessStyle = (
-        astUtils.isSemicolonToken(lastToken)
-                && !astUtils.isTokenOnSameLine(prevToken, lastToken)
-                && astUtils.isTokenOnSameLine(lastToken, nextToken)
+        isSemicolonToken(lastToken)
+                && !isTokenOnSameLine(prevToken, lastToken)
+                && isTokenOnSameLine(lastToken, nextToken)
       )
 
       return isSemicolonLessStyle
@@ -217,7 +217,7 @@ export default {
         for (let i = 0; i < body.length - 1; i++) {
           const curFirst = sourceCode.getFirstToken(body[i])
           const { curLast, nextFirst } = getBoundaryTokens(body[i], body[i + 1])
-          const isMulti = !astUtils.isTokenOnSameLine(curFirst, curLast)
+          const isMulti = !isTokenOnSameLine(curFirst, curLast)
           const skip = !isMulti && options[1].exceptAfterSingleLine
           const beforePadding = findLastConsecutiveTokenAfter(curLast, nextFirst, 1)
           const afterPadding = findFirstConsecutiveTokenBefore(nextFirst, curLast, 1)

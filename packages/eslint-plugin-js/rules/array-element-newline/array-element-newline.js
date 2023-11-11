@@ -3,7 +3,7 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isCommaToken, isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -151,10 +151,10 @@ export default {
         },
         messageId: 'unexpectedLineBreak',
         fix(fixer) {
-          if (astUtils.isCommentToken(tokenBefore))
+          if (isCommentToken(tokenBefore))
             return null
 
-          if (!astUtils.isTokenOnSameLine(tokenBefore, token))
+          if (!isTokenOnSameLine(tokenBefore, token))
             return fixer.replaceTextRange([tokenBefore.range[1], token.range[0]], ' ')
 
           /*
@@ -173,7 +173,7 @@ export default {
                      */
           const twoTokensBefore = sourceCode.getTokenBefore(tokenBefore, { includeComments: true })
 
-          if (astUtils.isCommentToken(twoTokensBefore))
+          if (isCommentToken(twoTokensBefore))
             return null
 
           return fixer.replaceTextRange([twoTokensBefore.range[1], tokenBefore.range[0]], '')
@@ -244,11 +244,11 @@ export default {
         if (i === 0 || element === null || previousElement === null)
           continue
 
-        const commaToken = sourceCode.getFirstTokenBetween(previousElement, element, astUtils.isCommaToken)
+        const commaToken = sourceCode.getFirstTokenBetween(previousElement, element, isCommaToken)
         const lastTokenOfPreviousElement = sourceCode.getTokenBefore(commaToken)
         const firstTokenOfCurrentElement = sourceCode.getTokenAfter(commaToken)
 
-        if (!astUtils.isTokenOnSameLine(lastTokenOfPreviousElement, firstTokenOfCurrentElement))
+        if (!isTokenOnSameLine(lastTokenOfPreviousElement, firstTokenOfCurrentElement))
           linebreaksCount++
       }
 
@@ -271,16 +271,16 @@ export default {
         if (i === 0 || element === null || previousElement === null)
           return
 
-        const commaToken = sourceCode.getFirstTokenBetween(previousElement, element, astUtils.isCommaToken)
+        const commaToken = sourceCode.getFirstTokenBetween(previousElement, element, isCommaToken)
         const lastTokenOfPreviousElement = sourceCode.getTokenBefore(commaToken)
         const firstTokenOfCurrentElement = sourceCode.getTokenAfter(commaToken)
 
         if (needsLinebreaks) {
-          if (astUtils.isTokenOnSameLine(lastTokenOfPreviousElement, firstTokenOfCurrentElement))
+          if (isTokenOnSameLine(lastTokenOfPreviousElement, firstTokenOfCurrentElement))
             reportRequiredLineBreak(firstTokenOfCurrentElement)
         }
         else {
-          if (!astUtils.isTokenOnSameLine(lastTokenOfPreviousElement, firstTokenOfCurrentElement))
+          if (!isTokenOnSameLine(lastTokenOfPreviousElement, firstTokenOfCurrentElement))
             reportNoLineBreak(firstTokenOfCurrentElement)
         }
       })

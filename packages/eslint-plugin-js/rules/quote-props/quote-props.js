@@ -4,7 +4,7 @@
  */
 
 import * as espree from 'espree'
-import astUtils from '../../utils/ast-utils'
+import { isNumericLiteral } from '../../utils/ast-utils'
 import keywords from '../../utils/keywords'
 
 // ------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ export default {
           fix: fixer => fixer.replaceText(key, getQuotedKey(key)),
         })
       }
-      else if (NUMBERS && key.type === 'Literal' && astUtils.isNumericLiteral(key)) {
+      else if (NUMBERS && key.type === 'Literal' && isNumericLiteral(key)) {
         context.report({
           node,
           messageId: 'unquotedNumericProperty',

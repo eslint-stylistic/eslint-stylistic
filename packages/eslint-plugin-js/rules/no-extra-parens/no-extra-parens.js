@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 
 import { isParenthesized as isParenthesizedRaw } from '@eslint-community/eslint-utils'
-import astUtils from '../../utils/ast-utils'
+import { canTokensBeAdjacent, getPrecedence, getStaticPropertyName, isClosingParenToken, isDecimalInteger, isMixedLogicalAndCoalesceExpressions, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isTopLevelExpressionStatement, skipChainExpression } from '../../utils/ast-utils'
 
 /** @type {import('eslint').Rule.RuleModule} */
 export default {
@@ -73,7 +73,7 @@ export default {
     const sourceCode = context.sourceCode
 
     const tokensToIgnore = new WeakSet()
-    const precedence = astUtils.getPrecedence
+    const precedence = getPrecedence
     const ALL_NODES = context.options[0] !== 'functions'
     const EXCEPT_COND_ASSIGN = ALL_NODES && context.options[1] && context.options[1].conditionalAssign === false
     const EXCEPT_COND_TERNARY = ALL_NODES && context.options[1] && context.options[1].ternaryOperandBinaryExpressions === false
@@ -103,17 +103,17 @@ export default {
      * @private
      */
     function isImmediateFunctionPrototypeMethodCall(node) {
-      const callNode = astUtils.skipChainExpression(node)
+      const callNode = skipChainExpression(node)
 
       if (callNode.type !== 'CallExpression')
         return false
 
-      const callee = astUtils.skipChainExpression(callNode.callee)
+      const callee = skipChainExpression(callNode.callee)
 
       return (
         callee.type === 'MemberExpression'
                 && callee.object.type === 'FunctionExpression'
-                && ['call', 'apply'].includes(astUtils.getStaticPropertyName(callee))
+                && ['call', 'apply'].includes(getStaticPropertyName(callee))
       )
     }
 
@@ -261,8 +261,8 @@ export default {
                 || (
 
       // The expression should end with its own parens, e.g., new new foo() is not a new expression with parens
-                  astUtils.isOpeningParenToken(penultimateToken)
-                    && astUtils.isClosingParenToken(lastToken)
+                  isOpeningParenToken(penultimateToken)
+                    && isClosingParenToken(lastToken)
                     && newExpression.callee.range[1] < newExpression.range[1]
                 )
     }
@@ -336,7 +336,7 @@ export default {
       return tokenBeforeLeftParen
                 && tokenBeforeLeftParen.range[1] === leftParenToken.range[0]
                 && leftParenToken.range[1] === tokenAfterLeftParen.range[0]
-                && !astUtils.canTokensBeAdjacent(tokenBeforeLeftParen, tokenAfterLeftParen)
+                && !canTokensBeAdjacent(tokenBeforeLeftParen, tokenAfterLeftParen)
     }
 
     /**
@@ -353,7 +353,7 @@ export default {
 
       return rightParenToken && tokenAfterRightParen
                 && !sourceCode.isSpaceBetweenTokens(rightParenToken, tokenAfterRightParen)
-                && !astUtils.canTokensBeAdjacent(tokenBeforeRightParen, tokenAfterRightParen)
+                && !canTokensBeAdjacent(tokenBeforeRightParen, tokenAfterRightParen)
     }
 
     /**
@@ -362,7 +362,7 @@ export default {
      * @returns {boolean} `true` if the given node is an IIFE
      */
     function isIIFE(node) {
-      const maybeCallNode = astUtils.skipChainExpression(node)
+      const maybeCallNode = skipChainExpression(node)
 
       return maybeCallNode.type === 'CallExpression' && maybeCallNode.callee.type === 'FunctionExpression'
     }
@@ -398,7 +398,7 @@ export default {
       if (isParenthesisedTwice(node))
         return true
 
-      return !astUtils.isTopLevelExpressionStatement(node.parent)
+      return !isTopLevelExpressionStatement(node.parent)
     }
 
     /**
@@ -553,7 +553,7 @@ export default {
       if (!shouldSkipLeft && hasExcessParens(node.left)) {
         if (
           !(['AwaitExpression', 'UnaryExpression'].includes(node.left.type) && isExponentiation)
-                    && !astUtils.isMixedLogicalAndCoalesceExpressions(node.left, node)
+                    && !isMixedLogicalAndCoalesceExpressions(node.left, node)
                     && (leftPrecedence > prec || (leftPrecedence === prec && !isExponentiation))
                     || isParenthesisedTwice(node.left)
         )
@@ -562,7 +562,7 @@ export default {
 
       if (!shouldSkipRight && hasExcessParens(node.right)) {
         if (
-          !astUtils.isMixedLogicalAndCoalesceExpressions(node.right, node)
+          !isMixedLogicalAndCoalesceExpressions(node.right, node)
                     && (rightPrecedence > prec || (rightPrecedence === prec && isExponentiation))
                     || isParenthesisedTwice(node.right)
         )
@@ -608,21 +608,21 @@ export default {
      */
     function checkExpressionOrExportStatement(node) {
       const firstToken = isParenthesised(node) ? sourceCode.getTokenBefore(node) : sourceCode.getFirstToken(node)
-      const secondToken = sourceCode.getTokenAfter(firstToken, astUtils.isNotOpeningParenToken)
+      const secondToken = sourceCode.getTokenAfter(firstToken, isNotOpeningParenToken)
       const thirdToken = secondToken ? sourceCode.getTokenAfter(secondToken) : null
-      const tokenAfterClosingParens = secondToken ? sourceCode.getTokenAfter(secondToken, astUtils.isNotClosingParenToken) : null
+      const tokenAfterClosingParens = secondToken ? sourceCode.getTokenAfter(secondToken, isNotClosingParenToken) : null
 
       if (
-        astUtils.isOpeningParenToken(firstToken)
+        isOpeningParenToken(firstToken)
                 && (
-                  astUtils.isOpeningBraceToken(secondToken)
+                  isOpeningBraceToken(secondToken)
                     || secondToken.type === 'Keyword' && (
                       secondToken.value === 'function'
                         || secondToken.value === 'class'
                         || secondToken.value === 'let'
                             && tokenAfterClosingParens
                             && (
-                              astUtils.isOpeningBracketToken(tokenAfterClosingParens)
+                              isOpeningBracketToken(tokenAfterClosingParens)
                                 || tokenAfterClosingParens.type === 'Identifier'
                             )
                     )
@@ -824,10 +824,10 @@ export default {
           return
 
         if (node.body.type !== 'BlockStatement') {
-          const firstBodyToken = sourceCode.getFirstToken(node.body, astUtils.isNotOpeningParenToken)
+          const firstBodyToken = sourceCode.getFirstToken(node.body, isNotOpeningParenToken)
           const tokenBeforeFirst = sourceCode.getTokenBefore(firstBodyToken)
 
-          if (astUtils.isOpeningParenToken(tokenBeforeFirst) && astUtils.isOpeningBraceToken(firstBodyToken))
+          if (isOpeningParenToken(tokenBeforeFirst) && isOpeningBraceToken(firstBodyToken))
             tokensToIgnore.add(firstBodyToken)
 
           if (hasExcessParensWithPrecedence(node.body, PRECEDENCE_OF_ASSIGNMENT_EXPR))
@@ -887,12 +887,12 @@ export default {
 
       ForInStatement(node) {
         if (node.left.type !== 'VariableDeclaration') {
-          const firstLeftToken = sourceCode.getFirstToken(node.left, astUtils.isNotOpeningParenToken)
+          const firstLeftToken = sourceCode.getFirstToken(node.left, isNotOpeningParenToken)
 
           if (
             firstLeftToken.value === 'let'
-                        && astUtils.isOpeningBracketToken(
-                          sourceCode.getTokenAfter(firstLeftToken, astUtils.isNotClosingParenToken),
+                        && isOpeningBracketToken(
+                          sourceCode.getTokenAfter(firstLeftToken, isNotClosingParenToken),
                         )
           ) {
             // ForInStatement#left expression cannot start with `let[`.
@@ -909,7 +909,7 @@ export default {
 
       ForOfStatement(node) {
         if (node.left.type !== 'VariableDeclaration') {
-          const firstLeftToken = sourceCode.getFirstToken(node.left, astUtils.isNotOpeningParenToken)
+          const firstLeftToken = sourceCode.getFirstToken(node.left, isNotOpeningParenToken)
 
           if (firstLeftToken.value === 'let') {
             // ForOfStatement#left expression cannot start with `let`.
@@ -933,12 +933,12 @@ export default {
 
         if (node.init) {
           if (node.init.type !== 'VariableDeclaration') {
-            const firstToken = sourceCode.getFirstToken(node.init, astUtils.isNotOpeningParenToken)
+            const firstToken = sourceCode.getFirstToken(node.init, isNotOpeningParenToken)
 
             if (
               firstToken.value === 'let'
-                            && astUtils.isOpeningBracketToken(
-                              sourceCode.getTokenAfter(firstToken, astUtils.isNotClosingParenToken),
+                            && isOpeningBracketToken(
+                              sourceCode.getTokenAfter(firstToken, isNotClosingParenToken),
                             )
             ) {
               // ForStatement#init expression cannot start with `let[`.
@@ -1051,7 +1051,7 @@ export default {
                     && (
                       node.computed
                         || !(
-                          astUtils.isDecimalInteger(node.object)
+                          isDecimalInteger(node.object)
 
                             // RegExp literal is allowed to have parens (#1589)
                             || (node.object.type === 'Literal' && node.object.regex)

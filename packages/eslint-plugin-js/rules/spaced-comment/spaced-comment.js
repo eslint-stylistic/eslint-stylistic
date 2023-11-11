@@ -3,7 +3,7 @@
  * @author Gyandeep Singh
  */
 import escapeRegExp from 'escape-string-regexp'
-import astUtils from '../../utils/ast-utils'
+import { LINEBREAKS } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -78,7 +78,7 @@ function createExceptionsPattern(exceptions) {
       pattern += exceptions.map(escapeAndRepeat).join('|')
       pattern += ')'
     }
-    pattern += `(?:$|[${Array.from(astUtils.LINEBREAKS).join('')}]))`
+    pattern += `(?:$|[${Array.from(LINEBREAKS).join('')}]))`
   }
 
   return pattern

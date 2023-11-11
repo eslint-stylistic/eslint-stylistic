@@ -3,7 +3,7 @@
  * @author Jxck
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isArrowToken } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -63,7 +63,7 @@ export default {
      * @returns {object} Tokens of arrow and before/after arrow.
      */
     function getTokens(node) {
-      const arrow = sourceCode.getTokenBefore(node.body, astUtils.isArrowToken)
+      const arrow = sourceCode.getTokenBefore(node.body, isArrowToken)
 
       return {
         before: sourceCode.getTokenBefore(arrow),

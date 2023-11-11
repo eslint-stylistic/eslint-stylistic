@@ -3,7 +3,7 @@
  * @author Kai Cataldo
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isNotClosingParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -48,8 +48,8 @@ export default {
 
     return {
       ConditionalExpression(node) {
-        const questionToken = sourceCode.getTokenAfter(node.test, astUtils.isNotClosingParenToken)
-        const colonToken = sourceCode.getTokenAfter(node.consequent, astUtils.isNotClosingParenToken)
+        const questionToken = sourceCode.getTokenAfter(node.test, isNotClosingParenToken)
+        const colonToken = sourceCode.getTokenAfter(node.consequent, isNotClosingParenToken)
 
         const firstTokenOfTest = sourceCode.getFirstToken(node)
         const lastTokenOfTest = sourceCode.getTokenBefore(questionToken)
@@ -57,8 +57,8 @@ export default {
         const lastTokenOfConsequent = sourceCode.getTokenBefore(colonToken)
         const firstTokenOfAlternate = sourceCode.getTokenAfter(colonToken)
 
-        const areTestAndConsequentOnSameLine = astUtils.isTokenOnSameLine(lastTokenOfTest, firstTokenOfConsequent)
-        const areConsequentAndAlternateOnSameLine = astUtils.isTokenOnSameLine(lastTokenOfConsequent, firstTokenOfAlternate)
+        const areTestAndConsequentOnSameLine = isTokenOnSameLine(lastTokenOfTest, firstTokenOfConsequent)
+        const areConsequentAndAlternateOnSameLine = isTokenOnSameLine(lastTokenOfConsequent, firstTokenOfAlternate)
 
         const hasComments = !!sourceCode.getCommentsInside(node).length
 
@@ -76,8 +76,8 @@ export default {
                   return null
 
                 const fixers = []
-                const areTestAndQuestionOnSameLine = astUtils.isTokenOnSameLine(lastTokenOfTest, questionToken)
-                const areQuestionAndConsOnSameLine = astUtils.isTokenOnSameLine(questionToken, firstTokenOfConsequent)
+                const areTestAndQuestionOnSameLine = isTokenOnSameLine(lastTokenOfTest, questionToken)
+                const areQuestionAndConsOnSameLine = isTokenOnSameLine(questionToken, firstTokenOfConsequent)
 
                 if (!areTestAndQuestionOnSameLine)
                   fixers.push(fixer.removeRange([lastTokenOfTest.range[1], questionToken.range[0]]))
@@ -103,8 +103,8 @@ export default {
                   return null
 
                 const fixers = []
-                const areConsAndColonOnSameLine = astUtils.isTokenOnSameLine(lastTokenOfConsequent, colonToken)
-                const areColonAndAltOnSameLine = astUtils.isTokenOnSameLine(colonToken, firstTokenOfAlternate)
+                const areConsAndColonOnSameLine = isTokenOnSameLine(lastTokenOfConsequent, colonToken)
+                const areColonAndAltOnSameLine = isTokenOnSameLine(colonToken, firstTokenOfAlternate)
 
                 if (!areConsAndColonOnSameLine)
                   fixers.push(fixer.removeRange([lastTokenOfConsequent.range[1], colonToken.range[0]]))

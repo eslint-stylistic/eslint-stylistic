@@ -4,7 +4,7 @@
  */
 
 import eslintUtils from '@eslint-community/eslint-utils'
-import astUtils from '../../utils/ast-utils'
+import { getStaticPropertyName, isParenthesised, skipChainExpression } from '../../utils/ast-utils'
 
 // ----------------------------------------------------------------------
 // Helpers
@@ -79,7 +79,7 @@ export default {
      * @private
      */
     function isWrappedInAnyParens(node) {
-      return astUtils.isParenthesised(sourceCode, node)
+      return isParenthesised(sourceCode, node)
     }
 
     /**
@@ -98,7 +98,7 @@ export default {
      * @returns {ASTNode} node that is the function expression of the given IIFE, or null if none exist
      */
     function getFunctionNodeFromIIFE(node) {
-      const callee = astUtils.skipChainExpression(node.callee)
+      const callee = skipChainExpression(node.callee)
 
       if (callee.type === 'FunctionExpression')
         return callee
@@ -106,7 +106,7 @@ export default {
       if (includeFunctionPrototypeMethods
                 && callee.type === 'MemberExpression'
                 && callee.object.type === 'FunctionExpression'
-                && (astUtils.getStaticPropertyName(callee) === 'call' || astUtils.getStaticPropertyName(callee) === 'apply')
+                && (getStaticPropertyName(callee) === 'call' || getStaticPropertyName(callee) === 'apply')
       )
         return callee.object
 

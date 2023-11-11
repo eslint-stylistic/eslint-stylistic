@@ -3,7 +3,7 @@
  * @author Erik Mueller
  */
 
-import astUtils from '../../utils/ast-utils'
+import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -63,7 +63,7 @@ export default {
         const expectedLF = linebreakStyle === 'unix'
         const expectedLFChars = expectedLF ? '\n' : '\r\n'
         const source = sourceCode.getText()
-        const pattern = astUtils.createGlobalLinebreakMatcher()
+        const pattern = createGlobalLinebreakMatcher()
         let match
 
         let i = 0

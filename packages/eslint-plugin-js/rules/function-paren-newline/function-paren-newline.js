@@ -3,7 +3,7 @@
  * @author Teddy Katz
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -102,8 +102,8 @@ export default {
       const rightParen = parens.rightParen
       const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)
       const tokenBeforeRightParen = sourceCode.getTokenBefore(rightParen)
-      const hasLeftNewline = !astUtils.isTokenOnSameLine(leftParen, tokenAfterLeftParen)
-      const hasRightNewline = !astUtils.isTokenOnSameLine(tokenBeforeRightParen, rightParen)
+      const hasLeftNewline = !isTokenOnSameLine(leftParen, tokenAfterLeftParen)
+      const hasRightNewline = !isTokenOnSameLine(tokenBeforeRightParen, rightParen)
       const needsNewlines = shouldHaveNewlines(elements, hasLeftNewline)
 
       if (hasLeftNewline && !needsNewlines) {
@@ -158,7 +158,7 @@ export default {
     function validateArguments(parens, elements) {
       const leftParen = parens.leftParen
       const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)
-      const hasLeftNewline = !astUtils.isTokenOnSameLine(leftParen, tokenAfterLeftParen)
+      const hasLeftNewline = !isTokenOnSameLine(leftParen, tokenAfterLeftParen)
       const needsNewlines = shouldHaveNewlines(elements, hasLeftNewline)
 
       for (let i = 0; i <= elements.length - 2; i++) {
@@ -189,8 +189,8 @@ export default {
         case 'NewExpression':
           if (!node.arguments.length
                         && !(
-                          astUtils.isOpeningParenToken(sourceCode.getLastToken(node, { skip: 1 }))
-                            && astUtils.isClosingParenToken(sourceCode.getLastToken(node))
+                          isOpeningParenToken(sourceCode.getLastToken(node, { skip: 1 }))
+                            && isClosingParenToken(sourceCode.getLastToken(node))
                             && node.callee.range[1] < node.range[1]
                         )
           ) {
@@ -202,15 +202,15 @@ export default {
 
         case 'CallExpression':
           return {
-            leftParen: sourceCode.getTokenAfter(node.callee, astUtils.isOpeningParenToken),
+            leftParen: sourceCode.getTokenAfter(node.callee, isOpeningParenToken),
             rightParen: sourceCode.getLastToken(node),
           }
 
         case 'FunctionDeclaration':
         case 'FunctionExpression': {
-          const leftParen = sourceCode.getFirstToken(node, astUtils.isOpeningParenToken)
+          const leftParen = sourceCode.getFirstToken(node, isOpeningParenToken)
           const rightParen = node.params.length
-            ? sourceCode.getTokenAfter(node.params[node.params.length - 1], astUtils.isClosingParenToken)
+            ? sourceCode.getTokenAfter(node.params[node.params.length - 1], isClosingParenToken)
             : sourceCode.getTokenAfter(leftParen)
 
           return { leftParen, rightParen }
@@ -219,13 +219,13 @@ export default {
         case 'ArrowFunctionExpression': {
           const firstToken = sourceCode.getFirstToken(node, { skip: (node.async ? 1 : 0) })
 
-          if (!astUtils.isOpeningParenToken(firstToken)) {
+          if (!isOpeningParenToken(firstToken)) {
             // If the ArrowFunctionExpression has a single param without parens, return null.
             return null
           }
 
           const rightParen = node.params.length
-            ? sourceCode.getTokenAfter(node.params[node.params.length - 1], astUtils.isClosingParenToken)
+            ? sourceCode.getTokenAfter(node.params[node.params.length - 1], isClosingParenToken)
             : sourceCode.getTokenAfter(firstToken)
 
           return {
@@ -264,7 +264,7 @@ export default {
 
         if (node.type === 'ImportExpression')
           params = [node.source]
-        else if (astUtils.isFunction(node))
+        else if (isFunction(node))
           params = node.params
         else
           params = node.arguments

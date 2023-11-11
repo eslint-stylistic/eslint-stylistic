@@ -3,7 +3,7 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -120,7 +120,7 @@ export default {
         fix(fixer) {
           const nextToken = sourceCode.getTokenAfter(token, { includeComments: true })
 
-          if (astUtils.isCommentToken(nextToken))
+          if (isCommentToken(nextToken))
             return null
 
           return fixer.removeRange([token.range[1], nextToken.range[0]])
@@ -142,7 +142,7 @@ export default {
         fix(fixer) {
           const previousToken = sourceCode.getTokenBefore(token, { includeComments: true })
 
-          if (astUtils.isCommentToken(previousToken))
+          if (isCommentToken(previousToken))
             return null
 
           return fixer.removeRange([previousToken.range[1], token.range[0]])
@@ -228,15 +228,15 @@ export default {
        */
 
       if (needsLinebreaks) {
-        if (astUtils.isTokenOnSameLine(openBracket, first))
+        if (isTokenOnSameLine(openBracket, first))
           reportRequiredBeginningLinebreak(node, openBracket)
-        if (astUtils.isTokenOnSameLine(last, closeBracket))
+        if (isTokenOnSameLine(last, closeBracket))
           reportRequiredEndingLinebreak(node, closeBracket)
       }
       else {
-        if (!astUtils.isTokenOnSameLine(openBracket, first))
+        if (!isTokenOnSameLine(openBracket, first))
           reportNoBeginningLinebreak(node, openBracket)
-        if (!astUtils.isTokenOnSameLine(last, closeBracket))
+        if (!isTokenOnSameLine(last, closeBracket))
           reportNoEndingLinebreak(node, closeBracket)
       }
     }

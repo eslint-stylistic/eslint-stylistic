@@ -3,7 +3,7 @@
  * @author Toru Nagashima
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -49,7 +49,7 @@ export default {
       const prevToken = sourceCode.getTokenBefore(token, { includeComments: true })
       const hasSpace = sourceCode.isSpaceBetween(prevToken, token)
 
-      if (!astUtils.isTokenOnSameLine(prevToken, token))
+      if (!isTokenOnSameLine(prevToken, token))
         return
 
       if (always && !hasSpace) {
@@ -90,7 +90,7 @@ export default {
       const nextToken = sourceCode.getTokenAfter(token, { includeComments: true })
       const hasSpace = sourceCode.isSpaceBetween(token, nextToken)
 
-      if (!astUtils.isTokenOnSameLine(token, nextToken))
+      if (!isTokenOnSameLine(token, nextToken))
         return
 
       if (always && !hasSpace) {

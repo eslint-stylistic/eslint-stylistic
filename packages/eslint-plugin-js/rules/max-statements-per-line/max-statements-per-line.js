@@ -3,7 +3,7 @@
  * @author Kenneth Williams
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isNotSemicolonToken } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -78,7 +78,7 @@ export default {
      * @returns {Token} The actual last token.
      */
     function getActualLastToken(node) {
-      return sourceCode.getLastToken(node, astUtils.isNotSemicolonToken)
+      return sourceCode.getLastToken(node, isNotSemicolonToken)
     }
 
     /**

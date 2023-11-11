@@ -3,7 +3,7 @@
  * @author Toru Nagashima
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -215,8 +215,8 @@ export default {
 
       const needsLineBreaks = areLineBreaksRequired(node, options, first, last)
 
-      const hasCommentsFirstToken = astUtils.isCommentToken(first)
-      const hasCommentsLastToken = astUtils.isCommentToken(last)
+      const hasCommentsFirstToken = isCommentToken(first)
+      const hasCommentsLastToken = isCommentToken(last)
 
       /*
              * Use tokens or comments to check multiline or not.
@@ -230,7 +230,7 @@ export default {
       last = sourceCode.getTokenBefore(closeBrace)
 
       if (needsLineBreaks) {
-        if (astUtils.isTokenOnSameLine(openBrace, first)) {
+        if (isTokenOnSameLine(openBrace, first)) {
           context.report({
             messageId: 'expectedLinebreakAfterOpeningBrace',
             node,
@@ -243,7 +243,7 @@ export default {
             },
           })
         }
-        if (astUtils.isTokenOnSameLine(last, closeBrace)) {
+        if (isTokenOnSameLine(last, closeBrace)) {
           context.report({
             messageId: 'expectedLinebreakBeforeClosingBrace',
             node,
@@ -259,8 +259,8 @@ export default {
       }
       else {
         const consistent = options.consistent
-        const hasLineBreakBetweenOpenBraceAndFirst = !astUtils.isTokenOnSameLine(openBrace, first)
-        const hasLineBreakBetweenCloseBraceAndLast = !astUtils.isTokenOnSameLine(last, closeBrace)
+        const hasLineBreakBetweenOpenBraceAndFirst = !isTokenOnSameLine(openBrace, first)
+        const hasLineBreakBetweenCloseBraceAndLast = !isTokenOnSameLine(last, closeBrace)
 
         if (
           (!consistent && hasLineBreakBetweenOpenBraceAndFirst)

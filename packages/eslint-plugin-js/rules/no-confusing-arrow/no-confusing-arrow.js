@@ -4,7 +4,7 @@
  * @author Jxck <https://github.com/Jxck>
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isParenthesised } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -65,7 +65,7 @@ export default {
       const body = node.body
 
       if (isConditional(body)
-                && !(allowParens && astUtils.isParenthesised(sourceCode, body))
+                && !(allowParens && isParenthesised(sourceCode, body))
                 && !(onlyOneSimpleParam && !(node.params.length === 1 && node.params[0].type === 'Identifier'))) {
         context.report({
           node,

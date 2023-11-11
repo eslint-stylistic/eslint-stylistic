@@ -3,7 +3,7 @@
  * @author Jxck
  */
 
-import astUtils from '../../utils/ast-utils'
+import { canTokensBeAdjacent, isClosingParenToken, isOpeningParenToken } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -77,7 +77,7 @@ export default {
 
       if (
         tokenBeforeParams
-                && astUtils.isOpeningParenToken(tokenBeforeParams)
+                && isOpeningParenToken(tokenBeforeParams)
                 && node.range[0] <= tokenBeforeParams.range[0]
       )
         return tokenBeforeParams
@@ -92,7 +92,7 @@ export default {
      * @returns {Token} the closing paren of parameters.
      */
     function getClosingParenOfParams(node) {
-      return sourceCode.getTokenAfter(node.params[0], astUtils.isClosingParenToken)
+      return sourceCode.getTokenAfter(node.params[0], isClosingParenToken)
     }
 
     /**
@@ -160,7 +160,7 @@ export default {
               if (
                 tokenBeforeOpeningParen
                                 && tokenBeforeOpeningParen.range[1] === openingParen.range[0]
-                                && !astUtils.canTokensBeAdjacent(tokenBeforeOpeningParen, sourceCode.getFirstToken(param))
+                                && !canTokensBeAdjacent(tokenBeforeOpeningParen, sourceCode.getFirstToken(param))
               )
                 yield fixer.insertTextBefore(openingParen, ' ')
 

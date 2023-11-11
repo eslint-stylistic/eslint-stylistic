@@ -3,7 +3,7 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isOpeningParenToken } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -87,7 +87,7 @@ export default {
     function getConfigForFunction(node) {
       if (node.type === 'ArrowFunctionExpression') {
         // Always ignore non-async functions and arrow functions without parens, e.g. async foo => bar
-        if (node.async && astUtils.isOpeningParenToken(sourceCode.getFirstToken(node, { skip: 1 })))
+        if (node.async && isOpeningParenToken(sourceCode.getFirstToken(node, { skip: 1 })))
           return overrideConfig.asyncArrow || baseConfig
       }
       else if (isNamedFunction(node)) {
@@ -113,7 +113,7 @@ export default {
       if (functionConfig === 'ignore')
         return
 
-      const rightToken = sourceCode.getFirstToken(node, astUtils.isOpeningParenToken)
+      const rightToken = sourceCode.getFirstToken(node, isOpeningParenToken)
       const leftToken = sourceCode.getTokenBefore(rightToken)
       const hasSpacing = sourceCode.isSpaceBetweenTokens(leftToken, rightToken)
 

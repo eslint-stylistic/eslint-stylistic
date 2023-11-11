@@ -3,7 +3,7 @@
  * @author Ian Christian Myers
  */
 
-import astUtils from '../../utils/ast-utils'
+import { STATEMENT_LIST_PARENTS, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -84,9 +84,9 @@ export default {
       const tokenBeforeOpeningCurly = sourceCode.getTokenBefore(openingCurly)
       const tokenAfterOpeningCurly = sourceCode.getTokenAfter(openingCurly)
       const tokenBeforeClosingCurly = sourceCode.getTokenBefore(closingCurly)
-      const singleLineException = params.allowSingleLine && astUtils.isTokenOnSameLine(openingCurly, closingCurly)
+      const singleLineException = params.allowSingleLine && isTokenOnSameLine(openingCurly, closingCurly)
 
-      if (style !== 'allman' && !astUtils.isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly)) {
+      if (style !== 'allman' && !isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly)) {
         context.report({
           node: openingCurly,
           messageId: 'nextLineOpen',
@@ -94,7 +94,7 @@ export default {
         })
       }
 
-      if (style === 'allman' && astUtils.isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly) && !singleLineException) {
+      if (style === 'allman' && isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly) && !singleLineException) {
         context.report({
           node: openingCurly,
           messageId: 'sameLineOpen',
@@ -102,7 +102,7 @@ export default {
         })
       }
 
-      if (astUtils.isTokenOnSameLine(openingCurly, tokenAfterOpeningCurly) && tokenAfterOpeningCurly !== closingCurly && !singleLineException) {
+      if (isTokenOnSameLine(openingCurly, tokenAfterOpeningCurly) && tokenAfterOpeningCurly !== closingCurly && !singleLineException) {
         context.report({
           node: openingCurly,
           messageId: 'blockSameLine',
@@ -110,7 +110,7 @@ export default {
         })
       }
 
-      if (tokenBeforeClosingCurly !== openingCurly && !singleLineException && astUtils.isTokenOnSameLine(tokenBeforeClosingCurly, closingCurly)) {
+      if (tokenBeforeClosingCurly !== openingCurly && !singleLineException && isTokenOnSameLine(tokenBeforeClosingCurly, closingCurly)) {
         context.report({
           node: closingCurly,
           messageId: 'singleLineClose',
@@ -127,7 +127,7 @@ export default {
     function validateCurlyBeforeKeyword(curlyToken) {
       const keywordToken = sourceCode.getTokenAfter(curlyToken)
 
-      if (style === '1tbs' && !astUtils.isTokenOnSameLine(curlyToken, keywordToken)) {
+      if (style === '1tbs' && !isTokenOnSameLine(curlyToken, keywordToken)) {
         context.report({
           node: curlyToken,
           messageId: 'nextLineClose',
@@ -135,7 +135,7 @@ export default {
         })
       }
 
-      if (style !== '1tbs' && astUtils.isTokenOnSameLine(curlyToken, keywordToken)) {
+      if (style !== '1tbs' && isTokenOnSameLine(curlyToken, keywordToken)) {
         context.report({
           node: curlyToken,
           messageId: 'sameLineClose',
@@ -150,7 +150,7 @@ export default {
 
     return {
       BlockStatement(node) {
-        if (!astUtils.STATEMENT_LIST_PARENTS.has(node.parent.type))
+        if (!STATEMENT_LIST_PARENTS.has(node.parent.type))
           validateCurlyPair(sourceCode.getFirstToken(node), sourceCode.getLastToken(node))
       },
       StaticBlock(node) {

@@ -3,7 +3,7 @@
  * @author Ian Christian Myers
  */
 
-import astUtils from '../../utils/ast-utils'
+import { getNextLocation, isCommaToken } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -187,7 +187,7 @@ export default {
         default: {
           const nextToken = sourceCode.getTokenAfter(lastItem)
 
-          if (astUtils.isCommaToken(nextToken))
+          if (isCommaToken(nextToken))
             return nextToken
 
           return sourceCode.getLastToken(lastItem)
@@ -229,7 +229,7 @@ export default {
 
       const trailingToken = getTrailingToken(node, lastItem)
 
-      if (astUtils.isCommaToken(trailingToken)) {
+      if (isCommaToken(trailingToken)) {
         context.report({
           node: lastItem,
           loc: trailingToken.loc,
@@ -280,7 +280,7 @@ export default {
           node: lastItem,
           loc: {
             start: trailingToken.loc.end,
-            end: astUtils.getNextLocation(sourceCode, trailingToken.loc.end),
+            end: getNextLocation(sourceCode, trailingToken.loc.end),
           },
           messageId: 'missing',
           *fix(fixer) {

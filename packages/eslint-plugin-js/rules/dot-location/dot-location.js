@@ -3,7 +3,7 @@
  * @author Greg Cochard
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isDecimalIntegerNumericToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -55,13 +55,13 @@ export default {
         // `obj` expression can be parenthesized, but those paren tokens are not a part of the `obj` node.
         const tokenBeforeDot = sourceCode.getTokenBefore(dotToken)
 
-        if (!astUtils.isTokenOnSameLine(tokenBeforeDot, dotToken)) {
+        if (!isTokenOnSameLine(tokenBeforeDot, dotToken)) {
           context.report({
             node,
             loc: dotToken.loc,
             messageId: 'expectedDotAfterObject',
             *fix(fixer) {
-              if (dotToken.value.startsWith('.') && astUtils.isDecimalIntegerNumericToken(tokenBeforeDot))
+              if (dotToken.value.startsWith('.') && isDecimalIntegerNumericToken(tokenBeforeDot))
                 yield fixer.insertTextAfter(tokenBeforeDot, ` ${dotToken.value}`)
               else
                 yield fixer.insertTextAfter(tokenBeforeDot, dotToken.value)
@@ -71,7 +71,7 @@ export default {
           })
         }
       }
-      else if (!astUtils.isTokenOnSameLine(dotToken, property)) {
+      else if (!isTokenOnSameLine(dotToken, property)) {
         context.report({
           node,
           loc: dotToken.loc,

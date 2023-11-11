@@ -3,7 +3,7 @@
  * @author Nicholas C. Zakas
  */
 
-import astUtils from '../../utils/ast-utils'
+import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import FixTracker from '../../utils/fix-tracker'
 
 // ------------------------------------------------------------------------------
@@ -102,7 +102,7 @@ export default {
         messageId = 'missingSemi'
         loc = {
           start: lastToken.loc.end,
-          end: astUtils.getNextLocation(sourceCode, lastToken.loc.end),
+          end: getNextLocation(sourceCode, lastToken.loc.end),
         }
         fix = function (fixer) {
           return fixer.insertTextAfter(lastToken, ';')
@@ -141,8 +141,8 @@ export default {
 
       return (
         !nextToken
-                || astUtils.isClosingBraceToken(nextToken)
-                || astUtils.isSemicolonToken(nextToken)
+                || isClosingBraceToken(nextToken)
+                || isSemicolonToken(nextToken)
       )
     }
 
@@ -152,7 +152,7 @@ export default {
      * @returns {boolean} `true` if the token is the closing brace of an arrow function.
      */
     function isEndOfArrowBlock(lastToken) {
-      if (!astUtils.isClosingBraceToken(lastToken))
+      if (!isClosingBraceToken(lastToken))
         return false
 
       const node = sourceCode.getNodeByRangeIndex(lastToken.range[0])
@@ -217,7 +217,7 @@ export default {
       const prevToken = sourceCode.getLastToken(node, 1)
       const nextToken = sourceCode.getTokenAfter(node)
 
-      return !!nextToken && astUtils.isTokenOnSameLine(prevToken, nextToken)
+      return !!nextToken && isTokenOnSameLine(prevToken, nextToken)
     }
 
     /**
@@ -345,7 +345,7 @@ export default {
      * @returns {void}
      */
     function checkForSemicolon(node) {
-      const isSemi = astUtils.isSemicolonToken(sourceCode.getLastToken(node))
+      const isSemi = isSemicolonToken(sourceCode.getLastToken(node))
 
       if (never) {
         if (isSemi && canRemoveSemicolon(node))

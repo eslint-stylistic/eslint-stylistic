@@ -3,7 +3,7 @@
  * @author Toru Nagashima
  */
 
-import astUtils from '../../utils/ast-utils'
+import { getSwitchCaseColonToken, isClosingBraceToken, isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -54,8 +54,8 @@ export default {
      */
     function isValidSpacing(left, right, expected) {
       return (
-        astUtils.isClosingBraceToken(right)
-                || !astUtils.isTokenOnSameLine(left, right)
+        isClosingBraceToken(right)
+                || !isTokenOnSameLine(left, right)
                 || sourceCode.isSpaceBetweenTokens(left, right) === expected
       )
     }
@@ -72,7 +72,7 @@ export default {
         right,
         {
           includeComments: true,
-          filter: astUtils.isCommentToken,
+          filter: isCommentToken,
         },
       ) !== null
     }
@@ -97,7 +97,7 @@ export default {
 
     return {
       SwitchCase(node) {
-        const colonToken = astUtils.getSwitchCaseColonToken(node, sourceCode)
+        const colonToken = getSwitchCaseColonToken(node, sourceCode)
         const beforeToken = sourceCode.getTokenBefore(colonToken)
         const afterToken = sourceCode.getTokenAfter(colonToken)
 

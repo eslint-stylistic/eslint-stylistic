@@ -3,7 +3,7 @@
  * @author Vignesh Anand aka vegetableman
  */
 
-import astUtils from '../../utils/ast-utils'
+import { LINEBREAK_MATCHER, isCommaToken, isNotClosingParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -82,7 +82,7 @@ export default {
     function getReplacedText(styleType, text) {
       switch (styleType) {
         case 'between':
-          return `,${text.replace(astUtils.LINEBREAK_MATCHER, '')}`
+          return `,${text.replace(LINEBREAK_MATCHER, '')}`
 
         case 'first':
           return `${text},`
@@ -126,16 +126,16 @@ export default {
      */
     function validateCommaItemSpacing(previousItemToken, commaToken, currentItemToken, reportItem) {
       // if single line
-      if (astUtils.isTokenOnSameLine(commaToken, currentItemToken)
-                    && astUtils.isTokenOnSameLine(previousItemToken, commaToken)) {
+      if (isTokenOnSameLine(commaToken, currentItemToken)
+                    && isTokenOnSameLine(previousItemToken, commaToken)) {
 
         // do nothing.
 
       }
-      else if (!astUtils.isTokenOnSameLine(commaToken, currentItemToken)
-                    && !astUtils.isTokenOnSameLine(previousItemToken, commaToken)) {
+      else if (!isTokenOnSameLine(commaToken, currentItemToken)
+                    && !isTokenOnSameLine(previousItemToken, commaToken)) {
         const comment = sourceCode.getCommentsAfter(commaToken)[0]
-        const styleType = comment && comment.type === 'Block' && astUtils.isTokenOnSameLine(commaToken, comment)
+        const styleType = comment && comment.type === 'Block' && isTokenOnSameLine(commaToken, comment)
           ? style
           : 'between'
 
@@ -147,7 +147,7 @@ export default {
           fix: getFixerFunction(styleType, previousItemToken, commaToken, currentItemToken),
         })
       }
-      else if (style === 'first' && !astUtils.isTokenOnSameLine(commaToken, currentItemToken)) {
+      else if (style === 'first' && !isTokenOnSameLine(commaToken, currentItemToken)) {
         context.report({
           node: reportItem,
           loc: commaToken.loc,
@@ -155,7 +155,7 @@ export default {
           fix: getFixerFunction(style, previousItemToken, commaToken, currentItemToken),
         })
       }
-      else if (style === 'last' && astUtils.isTokenOnSameLine(commaToken, currentItemToken)) {
+      else if (style === 'last' && isTokenOnSameLine(commaToken, currentItemToken)) {
         context.report({
           node: reportItem,
           loc: commaToken.loc,
@@ -199,11 +199,11 @@ export default {
                      * All comparisons are done based on these tokens directly, so
                      * they are always valid regardless of an undefined item.
                      */
-          if (astUtils.isCommaToken(commaToken))
+          if (isCommaToken(commaToken))
             validateCommaItemSpacing(previousItemToken, commaToken, currentItemToken, reportItem)
 
           if (item) {
-            const tokenAfterItem = sourceCode.getTokenAfter(item, astUtils.isNotClosingParenToken)
+            const tokenAfterItem = sourceCode.getTokenAfter(item, isNotClosingParenToken)
 
             previousItemToken = tokenAfterItem
               ? sourceCode.getTokenBefore(tokenAfterItem)
@@ -224,7 +224,7 @@ export default {
           const lastToken = sourceCode.getLastToken(node)
           const nextToLastToken = sourceCode.getTokenBefore(lastToken)
 
-          if (astUtils.isCommaToken(nextToLastToken)) {
+          if (isCommaToken(nextToLastToken)) {
             validateCommaItemSpacing(
               sourceCode.getTokenBefore(nextToLastToken),
               nextToLastToken,

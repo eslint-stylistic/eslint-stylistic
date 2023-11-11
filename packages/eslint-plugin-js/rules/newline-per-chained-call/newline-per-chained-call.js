@@ -4,7 +4,7 @@
  * @author Burak Yigit Kaya
  */
 
-import astUtils from '../../utils/ast-utils'
+import { LINEBREAK_MATCHER, isNotClosingParenToken, isTokenOnSameLine, skipChainExpression } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -74,7 +74,7 @@ export default {
      */
     function getPropertyText(node) {
       const prefix = getPrefix(node)
-      const lines = sourceCode.getText(node.property).split(astUtils.LINEBREAK_MATCHER)
+      const lines = sourceCode.getText(node.property).split(LINEBREAK_MATCHER)
       const suffix = node.computed && lines.length === 1 ? ']' : ''
 
       return prefix + lines[0] + suffix
@@ -82,21 +82,21 @@ export default {
 
     return {
       'CallExpression:exit': function (node) {
-        const callee = astUtils.skipChainExpression(node.callee)
+        const callee = skipChainExpression(node.callee)
 
         if (callee.type !== 'MemberExpression')
           return
 
-        let parent = astUtils.skipChainExpression(callee.object)
+        let parent = skipChainExpression(callee.object)
         let depth = 1
 
         while (parent && parent.callee) {
           depth += 1
-          parent = astUtils.skipChainExpression(astUtils.skipChainExpression(parent.callee).object)
+          parent = skipChainExpression(skipChainExpression(parent.callee).object)
         }
 
-        if (depth > ignoreChainWithDepth && astUtils.isTokenOnSameLine(callee.object, callee.property)) {
-          const firstTokenAfterObject = sourceCode.getTokenAfter(callee.object, astUtils.isNotClosingParenToken)
+        if (depth > ignoreChainWithDepth && isTokenOnSameLine(callee.object, callee.property)) {
+          const firstTokenAfterObject = sourceCode.getTokenAfter(callee.object, isNotClosingParenToken)
 
           context.report({
             node: callee.property,

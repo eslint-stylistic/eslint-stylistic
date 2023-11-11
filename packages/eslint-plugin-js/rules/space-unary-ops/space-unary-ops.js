@@ -3,7 +3,7 @@
  * @author Marcin Kumorek
  */
 
-import astUtils from '../../utils/ast-utils'
+import { canTokensBeAdjacent } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -123,7 +123,7 @@ export default {
      * @returns {void}
      */
     function verifyWordDoesntHaveSpaces(node, firstToken, secondToken, word) {
-      if (astUtils.canTokensBeAdjacent(firstToken, secondToken)) {
+      if (canTokensBeAdjacent(firstToken, secondToken)) {
         if (secondToken.range[0] > firstToken.range[1]) {
           context.report({
             node,
@@ -246,7 +246,7 @@ export default {
               operator: firstToken.value,
             },
             fix(fixer) {
-              if (astUtils.canTokensBeAdjacent(firstToken, secondToken))
+              if (canTokensBeAdjacent(firstToken, secondToken))
                 return fixer.removeRange([firstToken.range[1], secondToken.range[0]])
 
               return null

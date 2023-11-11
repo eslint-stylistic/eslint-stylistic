@@ -3,7 +3,7 @@
  * @author Nicholas C. Zakas
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isClosingBraceToken, isSemicolonToken, isTopLevelExpressionStatement } from '../../utils/ast-utils'
 import FixTracker from '../../utils/fix-tracker'
 
 // ------------------------------------------------------------------------------
@@ -46,7 +46,7 @@ export default {
 
       const stringNode = sourceCode.getNodeByRangeIndex(nextToken.range[0])
 
-      return !astUtils.isTopLevelExpressionStatement(stringNode.parent)
+      return !isTopLevelExpressionStatement(stringNode.parent)
     }
 
     /**
@@ -81,10 +81,10 @@ export default {
      */
     function checkForPartOfClassBody(firstToken) {
       for (let token = firstToken;
-        token.type === 'Punctuator' && !astUtils.isClosingBraceToken(token);
+        token.type === 'Punctuator' && !isClosingBraceToken(token);
         token = sourceCode.getTokenAfter(token)
       ) {
-        if (astUtils.isSemicolonToken(token))
+        if (isSemicolonToken(token))
           report(token)
       }
     }

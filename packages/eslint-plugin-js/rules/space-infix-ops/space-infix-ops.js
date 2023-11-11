@@ -3,7 +3,7 @@
  * @author Michael Ficarra
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isEqToken } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -169,7 +169,7 @@ export default {
                  * tokens may exist between `node.key` and `=`.
                  * Therefore, find the `=` from the right.
                  */
-        const operatorToken = sourceCode.getTokenBefore(node.value, astUtils.isEqToken)
+        const operatorToken = sourceCode.getTokenBefore(node.value, isEqToken)
         const leftToken = sourceCode.getTokenBefore(operatorToken)
         const rightToken = sourceCode.getTokenAfter(operatorToken)
 

@@ -3,7 +3,7 @@
  * @author Vignesh Anand aka vegetableman.
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isCommaToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -114,7 +114,7 @@ export default {
         if (element === null) {
           token = sourceCode.getTokenAfter(previousToken)
 
-          if (astUtils.isCommaToken(token))
+          if (isCommaToken(token))
             commaTokensToIgnore.push(token)
         }
         else {
@@ -132,7 +132,7 @@ export default {
     return {
       'Program:exit': function () {
         tokensAndComments.forEach((token, i) => {
-          if (!astUtils.isCommaToken(token))
+          if (!isCommaToken(token))
             return
 
           const previousToken = tokensAndComments[i - 1]
@@ -140,7 +140,7 @@ export default {
 
           if (
             previousToken
-                        && !astUtils.isCommaToken(previousToken) // ignore spacing between two commas
+                        && !isCommaToken(previousToken) // ignore spacing between two commas
 
                         /*
                          * `commaTokensToIgnore` are ending commas of `null` elements (array holes/elisions).
@@ -155,19 +155,19 @@ export default {
                          */
                         && !commaTokensToIgnore.includes(token)
 
-                        && astUtils.isTokenOnSameLine(previousToken, token)
+                        && isTokenOnSameLine(previousToken, token)
                         && options.before !== sourceCode.isSpaceBetweenTokens(previousToken, token)
           )
             report(token, 'before', previousToken)
 
           if (
             nextToken
-                        && !astUtils.isCommaToken(nextToken) // ignore spacing between two commas
-                        && !astUtils.isClosingParenToken(nextToken) // controlled by space-in-parens
-                        && !astUtils.isClosingBracketToken(nextToken) // controlled by array-bracket-spacing
-                        && !astUtils.isClosingBraceToken(nextToken) // controlled by object-curly-spacing
+                        && !isCommaToken(nextToken) // ignore spacing between two commas
+                        && !isClosingParenToken(nextToken) // controlled by space-in-parens
+                        && !isClosingBracketToken(nextToken) // controlled by array-bracket-spacing
+                        && !isClosingBraceToken(nextToken) // controlled by object-curly-spacing
                         && !(!options.after && nextToken.type === 'Line') // special case, allow space before line comment
-                        && astUtils.isTokenOnSameLine(token, nextToken)
+                        && isTokenOnSameLine(token, nextToken)
                         && options.after !== sourceCode.isSpaceBetweenTokens(token, nextToken)
           )
             report(token, 'after', nextToken)

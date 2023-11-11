@@ -3,7 +3,7 @@
  * @author Jamund Ferguson
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isClosingBraceToken, isClosingBracketToken, isNotCommaToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -167,7 +167,7 @@ export default {
      * @returns {void}
      */
     function validateBraceSpacing(node, first, second, penultimate, last) {
-      if (astUtils.isTokenOnSameLine(first, second)) {
+      if (isTokenOnSameLine(first, second)) {
         const firstSpaced = sourceCode.isSpaceBetweenTokens(first, second)
 
         if (options.spaced && !firstSpaced)
@@ -177,10 +177,10 @@ export default {
           reportNoBeginningSpace(node, first)
       }
 
-      if (astUtils.isTokenOnSameLine(penultimate, last)) {
+      if (isTokenOnSameLine(penultimate, last)) {
         const shouldCheckPenultimate = (
-          options.arraysInObjectsException && astUtils.isClosingBracketToken(penultimate)
-                    || options.objectsInObjectsException && astUtils.isClosingBraceToken(penultimate)
+          options.arraysInObjectsException && isClosingBracketToken(penultimate)
+                    || options.objectsInObjectsException && isClosingBraceToken(penultimate)
         )
         const penultimateType = shouldCheckPenultimate && sourceCode.getNodeByRangeIndex(penultimate.range[0]).type
 
@@ -213,7 +213,7 @@ export default {
     function getClosingBraceOfObject(node) {
       const lastProperty = node.properties[node.properties.length - 1]
 
-      return sourceCode.getTokenAfter(lastProperty, astUtils.isClosingBraceToken)
+      return sourceCode.getTokenAfter(lastProperty, isClosingBraceToken)
     }
 
     /**
@@ -252,7 +252,7 @@ export default {
         firstSpecifier = node.specifiers[1]
 
       const first = sourceCode.getTokenBefore(firstSpecifier)
-      const last = sourceCode.getTokenAfter(lastSpecifier, astUtils.isNotCommaToken)
+      const last = sourceCode.getTokenAfter(lastSpecifier, isNotCommaToken)
       const second = sourceCode.getTokenAfter(first, { includeComments: true })
       const penultimate = sourceCode.getTokenBefore(last, { includeComments: true })
 
@@ -271,7 +271,7 @@ export default {
       const firstSpecifier = node.specifiers[0]
       const lastSpecifier = node.specifiers[node.specifiers.length - 1]
       const first = sourceCode.getTokenBefore(firstSpecifier)
-      const last = sourceCode.getTokenAfter(lastSpecifier, astUtils.isNotCommaToken)
+      const last = sourceCode.getTokenAfter(lastSpecifier, isNotCommaToken)
       const second = sourceCode.getTokenAfter(first, { includeComments: true })
       const penultimate = sourceCode.getTokenBefore(last, { includeComments: true })
 

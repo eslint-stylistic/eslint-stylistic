@@ -3,7 +3,7 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import astUtils from '../../utils/ast-utils'
+import { isStringLiteral, isSurroundedBy } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Constants
@@ -64,14 +64,14 @@ export default {
      * @public
      */
     function usesExpectedQuotes(node) {
-      return node.value.includes(setting.quote) || astUtils.isSurroundedBy(node.raw, setting.quote)
+      return node.value.includes(setting.quote) || isSurroundedBy(node.raw, setting.quote)
     }
 
     return {
       JSXAttribute(node) {
         const attributeValue = node.value
 
-        if (attributeValue && astUtils.isStringLiteral(attributeValue) && !usesExpectedQuotes(attributeValue)) {
+        if (attributeValue && isStringLiteral(attributeValue) && !usesExpectedQuotes(attributeValue)) {
           context.report({
             node: attributeValue,
             messageId: 'unexpected',
