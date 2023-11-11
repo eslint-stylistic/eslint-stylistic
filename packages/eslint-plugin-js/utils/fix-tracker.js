@@ -7,7 +7,7 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
-import { getUpperFunction } from './ast-utils'
+import astUtils from './ast-utils'
 
 // ------------------------------------------------------------------------------
 // Public Interface
@@ -50,7 +50,7 @@ class FixTracker {
    * @returns {FixTracker} The same RuleFixer, for chained calls.
    */
   retainEnclosingFunction(node) {
-    const functionNode = getUpperFunction(node)
+    const functionNode = astUtils.getUpperFunction(node)
 
     return this.retainRange(functionNode ? functionNode.range : this.sourceCode.ast.range)
   }
