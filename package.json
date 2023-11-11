@@ -23,6 +23,7 @@
     "@antfu/ni": "^0.21.9",
     "@antfu/utils": "^0.7.6",
     "@rollup/plugin-commonjs": "^25.0.7",
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@stylistic/eslint-plugin-js": "workspace:*",
     "@stylistic/eslint-plugin-migrate": "workspace:*",
     "@stylistic/eslint-plugin-ts": "workspace:*",

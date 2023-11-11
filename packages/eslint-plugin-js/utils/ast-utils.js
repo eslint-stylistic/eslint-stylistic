@@ -8,9 +8,7 @@
 // ------------------------------------------------------------------------------
 
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
-import { ast } from 'esutils'
 import { latestEcmaVersion, tokenize } from 'espree'
-import { createGlobalLinebreakMatcher, lineBreakPattern } from './shared/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -18,19 +16,27 @@ import { createGlobalLinebreakMatcher, lineBreakPattern } from './shared/ast-uti
 
 const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
 
-export { createGlobalLinebreakMatcher }
 export const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
 
-export const LINEBREAKS = new Set(['\r\n', '\r', '\n', '\u2028', '\u2029'])
-export const LINEBREAK_MATCHER = lineBreakPattern
+export const LINEBREAKS = /* @__PURE__ */ new Set(['\r\n', '\r', '\n', '\u2028', '\u2029'])
+export const LINEBREAK_MATCHER = /\r\n|[\r\n\u2028\u2029]/u
 
 // A set of node types that can contain a list of statements
-export const STATEMENT_LIST_PARENTS = new Set(['Program', 'BlockStatement', 'StaticBlock', 'SwitchCase'])
+export const STATEMENT_LIST_PARENTS = /* @__PURE__ */ new Set(['Program', 'BlockStatement', 'StaticBlock', 'SwitchCase'])
 
 export const DECIMAL_INTEGER_PATTERN = /^(?:0|0[0-7]*[89]\d*|[1-9](?:_?\d)*)$/u
 
 // Tests the presence of at least one LegacyOctalEscapeSequence or NonOctalDecimalEscapeSequence in a raw string
 export const OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN = /^(?:[^\\]|\\.)*\\(?:[1-9]|0[0-9])/su
+
+/**
+ * Creates a version of the `lineBreakPattern` regex with the global flag.
+ * Global regexes are mutable, so this needs to be a function instead of a constant.
+ * @returns {RegExp} A global regular expression that matches line terminators
+ */
+export function createGlobalLinebreakMatcher() {
+  return new RegExp(lineBreakPattern.source, 'gu')
+}
 
 /**
  * Finds a function node from ancestors of a node.
@@ -461,18 +467,6 @@ export function isStringLiteral(node) {
 export function isSurroundedBy(val, character) {
   return val[0] === character && val[val.length - 1] === character
 }
-
-/**
- * Gets the trailing statement of a given node.
- *
- *     if (code)
- *         consequent;
- *
- * When taking this `IfStatement`, returns `consequent;` statement.
- * @param {ASTNode} A node to get.
- * @returns {ASTNode|null} The trailing statement's node.
- */
-export const getTrailingStatement = ast.trailingStatement
 
 /**
  * Get the precedence level based on the node type

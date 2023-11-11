@@ -8,7 +8,21 @@
 // ------------------------------------------------------------------------------
 
 import { isParenthesized as isParenthesizedRaw } from '@eslint-community/eslint-utils'
-import { canTokensBeAdjacent, getPrecedence, getStaticPropertyName, isClosingParenToken, isDecimalInteger, isMixedLogicalAndCoalesceExpressions, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isTopLevelExpressionStatement, skipChainExpression } from '../../utils/ast-utils'
+import {
+  canTokensBeAdjacent,
+  getPrecedence,
+  getStaticPropertyName,
+  isClosingParenToken,
+  isDecimalInteger,
+  isMixedLogicalAndCoalesceExpressions,
+  isNotClosingParenToken,
+  isNotOpeningParenToken,
+  isOpeningBraceToken,
+  isOpeningBracketToken,
+  isOpeningParenToken,
+  isTopLevelExpressionStatement,
+  skipChainExpression,
+} from '../../utils/ast-utils'
 
 /** @type {import('eslint').Rule.RuleModule} */
 export default {

@@ -3,7 +3,7 @@
  * @author Ilya Volodin
  */
 
-import eslintUtils from '@eslint-community/eslint-utils'
+import { isParenthesized } from '@eslint-community/eslint-utils'
 import { getStaticPropertyName, isParenthesised, skipChainExpression } from '../../utils/ast-utils'
 
 // ----------------------------------------------------------------------
@@ -89,7 +89,7 @@ export default {
      * @private
      */
     function isWrappedInGroupingParens(node) {
-      return eslintUtils.isParenthesized(1, node, sourceCode)
+      return isParenthesized(1, node, sourceCode)
     }
 
     /**
