@@ -230,11 +230,11 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "ruleId": "@stylistic/js/function-call-spacing",
         "originalId": "func-call-spacing",
         "entry": "packages/eslint-plugin-js/rules/func-call-spacing/func-call-spacing.js",
-        "docsEntry": "packages/eslint-plugin-js/rules/func-call-spacing/README.md",
+        "docsEntry": "packages/eslint-plugin-js/rules/function-call-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow spacing between function identifiers and their invocations",
+            "description": "Require or disallow spacing between function identifiers and their invocations. Alias of `func-call-spacing`.",
             "recommended": false
           }
         }
@@ -1307,11 +1307,11 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "ruleId": "@stylistic/ts/function-call-spacing",
         "originalId": "@typescript-eslint/func-call-spacing",
         "entry": "packages/eslint-plugin-ts/rules/func-call-spacing/func-call-spacing.ts",
-        "docsEntry": "packages/eslint-plugin-ts/rules/func-call-spacing/README.md",
+        "docsEntry": "packages/eslint-plugin-ts/rules/function-call-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow spacing between function identifiers and their invocations"
+            "description": "Require or disallow spacing between function identifiers and their invocations. Alias of `func-call-spacing`."
           }
         }
       },
@@ -1730,11 +1730,11 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "function-call-spacing",
         "ruleId": "@stylistic/function-call-spacing",
         "entry": "packages/eslint-plugin-js/rules/func-call-spacing/func-call-spacing.js",
-        "docsEntry": "packages/eslint-plugin-js/rules/func-call-spacing/README.md",
+        "docsEntry": "packages/eslint-plugin-js/rules/function-call-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow spacing between function identifiers and their invocations",
+            "description": "Require or disallow spacing between function identifiers and their invocations. Alias of `func-call-spacing`.",
             "recommended": false
           }
         }

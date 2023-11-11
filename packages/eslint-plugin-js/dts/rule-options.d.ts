@@ -144,7 +144,7 @@ export interface RuleOptions {
    */
   '@stylistic/js/function-call-argument-newline': FunctionCallArgumentNewlineRuleOptions
   /**
-   * Require or disallow spacing between function identifiers and their invocations
+   * Require or disallow spacing between function identifiers and their invocations. Alias of `func-call-spacing`.
    * @see https://eslint.style/rules/js/func-call-spacing
    */
   '@stylistic/js/function-call-spacing': FunctionCallSpacingRuleOptions
@@ -487,7 +487,7 @@ export interface UnprefixedRuleOptions {
    */
   'function-call-argument-newline': FunctionCallArgumentNewlineRuleOptions
   /**
-   * Require or disallow spacing between function identifiers and their invocations
+   * Require or disallow spacing between function identifiers and their invocations. Alias of `func-call-spacing`.
    * @see https://eslint.style/rules/js/func-call-spacing
    */
   'function-call-spacing': FunctionCallSpacingRuleOptions

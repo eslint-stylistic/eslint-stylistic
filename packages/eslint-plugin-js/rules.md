@@ -17,7 +17,7 @@
 | [`@stylistic/js/eol-last`](./rules/eol-last) | Require or disallow newline at the end of files | ✅ |  |
 | [`@stylistic/js/func-call-spacing`](./rules/func-call-spacing) | Require or disallow spacing between function identifiers and their invocations | ✅ |  |
 | [`@stylistic/js/function-call-argument-newline`](./rules/function-call-argument-newline) | Enforce line breaks between arguments of a function call | ✅ |  |
-| [`@stylistic/js/function-call-spacing`](./rules/function-call-spacing) | Require or disallow spacing between function identifiers and their invocations. Alias of `func-call-spacing`. | ✅ |  |
+| [`@stylistic/js/function-call-spacing`](./rules/function-call-spacing) | Require or disallow spacing between function identifiers and their invocations. Alias of `func-call-spacing`.. Alias of `func-call-spacing`. | ✅ |  |
 | [`@stylistic/js/function-paren-newline`](./rules/function-paren-newline) | Enforce consistent line breaks inside function parentheses | ✅ |  |
 | [`@stylistic/js/generator-star-spacing`](./rules/generator-star-spacing) | Enforce consistent spacing around `*` operators in generator functions | ✅ |  |
 | [`@stylistic/js/implicit-arrow-linebreak`](./rules/implicit-arrow-linebreak) | Enforce the location of arrow function bodies | ✅ |  |

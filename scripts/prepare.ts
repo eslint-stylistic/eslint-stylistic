@@ -85,8 +85,10 @@ async function readPackage(path: string): Promise<PackageInfo> {
       const realName = basename(ruleDir)
       const name = getAlias(realName)
 
+      const docsDir = ruleDir
+
       if (realName !== name) {
-        const pathSegments = ruleDir.split('/')
+        const pathSegments = docsDir.split('/')
         pathSegments.pop()
         pathSegments.push(name)
         ruleDir = pathSegments.join('/')
@@ -111,11 +113,13 @@ async function readPackage(path: string): Promise<PackageInfo> {
               : '',
         entry: relative(cwd, entry).replace(/\\/g, '/'),
         // TODO: check if entry exists
-        docsEntry: relative(cwd, resolve(path, ruleDir, 'README.md')).replace(/\\/g, '/'),
+        docsEntry: relative(cwd, resolve(path, docsDir, 'README.md')).replace(/\\/g, '/'),
         meta: {
           fixable: meta?.fixable,
           docs: {
-            description: meta?.docs?.description,
+            description: realName !== name
+              ? `${meta?.docs?.description}. Alias of \`${name}\`.`
+              : meta?.docs?.description,
             recommended: meta?.docs?.recommended,
           },
         },
