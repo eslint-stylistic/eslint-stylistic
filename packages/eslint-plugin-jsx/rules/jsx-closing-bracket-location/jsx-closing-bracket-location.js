@@ -3,8 +3,8 @@
  * @author Yannick Croissant
  */
 
-import { docsUrl } from '../../util/docsUrl'
-import report from '../../util/report'
+import { docsUrl } from '../../utils/docsUrl'
+import report from '../../utils/report'
 
 const has = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
 

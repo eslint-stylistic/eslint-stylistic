@@ -4,9 +4,9 @@
  * @author Simon Lydell
  */
 
-import { docsUrl } from '../../util/docsUrl'
-import { isJSX, isWhiteSpaces } from '../../util/jsx'
-import report from '../../util/report'
+import { docsUrl } from '../../utils/docsUrl'
+import { isJSX, isWhiteSpaces } from '../../utils/jsx'
+import report from '../../utils/report'
 
 const arrayIncludes = (arr, value) => arr.includes(value)
 

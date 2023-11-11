@@ -9,7 +9,7 @@ import {
   isTSConstructorType,
   isTSFunctionType,
   isVariableDeclarator,
-} from '../../util'
+} from '../../utils'
 
 interface WhitespaceRule {
   readonly before?: boolean

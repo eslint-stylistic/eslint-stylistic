@@ -30,10 +30,10 @@
  THE SOFTWARE.
  */
 
-import { getFirstNodeInLine, isNodeFirstInLine } from '../../util/ast'
-import { docsUrl } from '../../util/docsUrl'
-import reportC from '../../util/report'
-import { isJSX, isReturningJSX } from '../../util/jsx'
+import { getFirstNodeInLine, isNodeFirstInLine } from '../../utils/ast'
+import { docsUrl } from '../../utils/docsUrl'
+import reportC from '../../utils/report'
+import { isJSX, isReturningJSX } from '../../utils/jsx'
 
 const matchAll = (s, v) => s.matchAll(v)
 

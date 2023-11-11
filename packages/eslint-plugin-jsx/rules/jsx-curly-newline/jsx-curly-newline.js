@@ -2,8 +2,8 @@
  * @fileoverview enforce consistent line breaks inside jsx curly
  */
 
-import { docsUrl } from '../../util/docsUrl'
-import report from '../../util/report'
+import { docsUrl } from '../../utils/docsUrl'
+import report from '../../utils/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition

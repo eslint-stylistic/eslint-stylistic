@@ -3,9 +3,9 @@
  * @author Yannick Croissant
  */
 
-import { docsUrl } from '../../util/docsUrl'
-import { isDOMComponent } from '../../util/jsx'
-import report from '../../util/report'
+import { docsUrl } from '../../utils/docsUrl'
+import { isDOMComponent } from '../../utils/jsx'
+import report from '../../utils/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition

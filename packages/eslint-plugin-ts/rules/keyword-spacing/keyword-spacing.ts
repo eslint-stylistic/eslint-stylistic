@@ -5,9 +5,9 @@ import type { JSONSchema4 } from '@typescript-eslint/utils/json-schema'
 import type {
   InferMessageIdsTypeFromRule,
   InferOptionsTypeFromRule,
-} from '../../util'
-import { NullThrowsReasons, createRule, deepMerge, nullThrows } from '../../util'
-import { getESLintCoreRule } from '../../util/getESLintCoreRule'
+} from '../../utils'
+import { NullThrowsReasons, createRule, deepMerge, nullThrows } from '../../utils'
+import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
 
 const baseRule = getESLintCoreRule('keyword-spacing')
 

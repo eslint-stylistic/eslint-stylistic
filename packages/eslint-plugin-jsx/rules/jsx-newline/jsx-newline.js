@@ -4,8 +4,8 @@
  * @author Joseph Stiles
  */
 
-import { docsUrl } from '../../util/docsUrl'
-import report from '../../util/report'
+import { docsUrl } from '../../utils/docsUrl'
+import report from '../../utils/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition

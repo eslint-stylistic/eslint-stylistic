@@ -5,7 +5,7 @@
 
 import { resolve } from 'node:path'
 import { RuleTester } from 'eslint'
-import { unIndent } from '../../utils/test-utils'
+import { unIndent } from '../../test-utils/unindent'
 import rule from './comma-dangle'
 
 // ------------------------------------------------------------------------------

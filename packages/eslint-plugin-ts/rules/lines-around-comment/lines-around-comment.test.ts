@@ -1,6 +1,6 @@
 import { RuleTester } from '@typescript-eslint/rule-tester'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
-import { unIndent } from '../../../eslint-plugin-js/utils/test-utils'
+import { unIndent } from '../../../eslint-plugin-js/test-utils/unindent'
 
 import rule from './lines-around-comment'
 

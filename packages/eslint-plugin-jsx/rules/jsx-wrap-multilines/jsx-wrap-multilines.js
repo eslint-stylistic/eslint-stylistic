@@ -3,10 +3,10 @@
  * @author Yannick Croissant
  */
 
-import { docsUrl } from '../../util/docsUrl'
-import { isJSX } from '../../util/jsx'
-import reportC from '../../util/report'
-import { isParenthesized } from '../../util/ast'
+import { docsUrl } from '../../utils/docsUrl'
+import { isJSX } from '../../utils/jsx'
+import reportC from '../../utils/report'
+import { isParenthesized } from '../../utils/ast'
 
 const has = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
 

@@ -4,14 +4,14 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import type {
   InferMessageIdsTypeFromRule,
   InferOptionsTypeFromRule,
-} from '../../util'
+} from '../../utils'
 import {
   createRule,
   getStringLength,
   isClosingBracketToken,
   isColonToken,
-} from '../../util'
-import { getESLintCoreRule } from '../../util/getESLintCoreRule'
+} from '../../utils'
+import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
 
 const baseRule = getESLintCoreRule('key-spacing')
 

@@ -8,7 +8,7 @@ import {
   isClosingParenToken,
   isCommaToken,
   isTokenOnSameLine,
-} from '../../util'
+} from '../../utils'
 
 type Options = [
   {

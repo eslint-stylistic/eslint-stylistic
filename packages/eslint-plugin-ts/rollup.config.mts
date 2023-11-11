@@ -34,7 +34,7 @@ export default defineConfig([
         format: 'cjs',
         sourcemap: true,
         manualChunks(id) {
-          if (id.includes('/util/'))
+          if (id.includes('/utils/'))
             return 'utils'
         },
         chunkFileNames: '[name].js',

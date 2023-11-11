@@ -3,9 +3,9 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
-import { docsUrl } from '../../util/docsUrl'
-import { isWhiteSpaces } from '../../util/jsx'
-import report from '../../util/report'
+import { docsUrl } from '../../utils/docsUrl'
+import { isWhiteSpaces } from '../../utils/jsx'
+import report from '../../utils/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition

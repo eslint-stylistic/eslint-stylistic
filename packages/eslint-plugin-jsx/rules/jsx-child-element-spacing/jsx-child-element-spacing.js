@@ -1,5 +1,5 @@
-import { docsUrl } from '../../util/docsUrl'
-import report from '../../util/report'
+import { docsUrl } from '../../utils/docsUrl'
+import report from '../../utils/report'
 
 // This list is taken from https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements
 

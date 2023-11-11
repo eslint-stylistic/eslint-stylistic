@@ -30,9 +30,9 @@
  THE SOFTWARE.
  */
 
-import { isNodeFirstInLine } from '../../util/ast'
-import { docsUrl } from '../../util/docsUrl'
-import reportC from '../../util/report'
+import { isNodeFirstInLine } from '../../utils/ast'
+import { docsUrl } from '../../utils/docsUrl'
+import reportC from '../../utils/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition

@@ -3,9 +3,9 @@
  * @author Ilya Volodin, Yannick Croissant
  */
 
-import { docsUrl } from '../../util/docsUrl'
-import { getPropName, isDOMComponent } from '../../util/jsx'
-import report from '../../util/report'
+import { docsUrl } from '../../utils/docsUrl'
+import { getPropName, isDOMComponent } from '../../utils/jsx'
+import report from '../../utils/report'
 
 const includes = (arr, value) => arr.includes(value)
 const toSorted = (arr, compareFn) => [...arr].sort(compareFn)

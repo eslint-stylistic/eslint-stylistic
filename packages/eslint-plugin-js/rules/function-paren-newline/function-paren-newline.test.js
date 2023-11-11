@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import { unIndent } from '../../utils/test-utils'
+import { unIndent } from '../../test-utils/unindent'
 import fixtureParser from '../../test-utils/fixture-parser'
 import rule from './function-paren-newline'
 

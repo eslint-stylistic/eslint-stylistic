@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import { unIndent } from '../../utils/test-utils'
+import { unIndent } from '../../test-utils/unindent'
 import rule from './implicit-arrow-linebreak'
 
 const EXPECTED_LINEBREAK = { messageId: 'expected' }

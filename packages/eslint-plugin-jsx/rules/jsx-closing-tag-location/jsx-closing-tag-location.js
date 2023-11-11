@@ -3,9 +3,9 @@
  * @author Ross Solomon
  */
 
-import { isNodeFirstInLine } from '../../util/ast'
-import { docsUrl } from '../../util/docsUrl'
-import report from '../../util/report'
+import { isNodeFirstInLine } from '../../utils/ast'
+import { docsUrl } from '../../utils/docsUrl'
+import report from '../../utils/report'
 
 // ------------------------------------------------------------------------------
 // Rule Definition

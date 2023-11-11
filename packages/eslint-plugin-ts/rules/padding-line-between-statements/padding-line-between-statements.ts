@@ -9,7 +9,7 @@ import {
   isParenthesized,
   isSemicolonToken,
   isTokenOnSameLine,
-} from '../../util'
+} from '../../utils'
 
 /**
  * This rule is a replica of padding-line-between-statements.

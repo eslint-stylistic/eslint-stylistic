@@ -3,9 +3,9 @@
  * @author Diogo Franco (Kovensky)
  */
 
-import { getTokenBeforeClosingBracket } from '../../util/getTokenBeforeClosingBracket'
-import { docsUrl } from '../../util/docsUrl'
-import report from '../../util/report'
+import { getTokenBeforeClosingBracket } from '../../utils/getTokenBeforeClosingBracket'
+import { docsUrl } from '../../utils/docsUrl'
+import report from '../../utils/report'
 
 const messages = {
   selfCloseSlashNoSpace: 'Whitespace is forbidden between `/` and `>`; write `/>`',

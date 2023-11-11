@@ -6,7 +6,7 @@ import {
   isNotOptionalChainPunctuator,
   isOpeningParenToken,
   isOptionalCallExpression,
-} from '../../util'
+} from '../../utils'
 
 export type Options = [
   'always' | 'never',

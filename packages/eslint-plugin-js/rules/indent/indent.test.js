@@ -7,7 +7,7 @@ import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
-import { unIndent } from '../../utils/test-utils'
+import { unIndent } from '../../test-utils/unindent'
 import rule from './indent'
 
 // ------------------------------------------------------------------------------
