@@ -4,7 +4,7 @@
 import { RuleTester } from '@typescript-eslint/rule-tester'
 import type { TSESLint } from '@typescript-eslint/utils'
 
-import type { MessageIds, Options } from './keyword-spacing'
+import type { MessageIds, RuleOptions } from './types'
 import rule from './keyword-spacing'
 
 // ------------------------------------------------------------------------------
@@ -32,7 +32,7 @@ const NEITHER = { before: false, after: false }
  * @param value A value to override.
  * @returns An option object to test an 'overrides' option.
  */
-function overrides(keyword: string, value: Options[0]): Options[0] {
+function overrides(keyword: string, value: RuleOptions[0] = {}): RuleOptions[0] {
   return {
     before: value.before === false,
     after: value.after === false,

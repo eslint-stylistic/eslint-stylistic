@@ -3,21 +3,11 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import { isOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
 import { createRule } from '../../utils'
+import type { MessageIds, RuleOptions } from './types'
 
-type Option = 'always' | 'never'
-type FuncOption = Option | 'ignore'
+type FuncOption = 'always' | 'never' | 'ignore'
 
-export type Options = [
-  | Option
-  | {
-    anonymous?: FuncOption
-    named?: FuncOption
-    asyncArrow?: FuncOption
-  },
-]
-export type MessageIds = 'missing' | 'unexpected'
-
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'space-before-function-paren',
   meta: {
     type: 'layout',

@@ -2,7 +2,7 @@ import type { UnprefixedRuleOptions } from '@stylistic/eslint-plugin-js'
 import jsRules from '@stylistic/eslint-plugin-js'
 import type { TSESLint } from '@typescript-eslint/utils'
 
-export function getESLintCoreRule(ruleId: keyof UnprefixedRuleOptions) {
+export function getESLintCoreRule(ruleId: Exclude<keyof UnprefixedRuleOptions, symbol>) {
   if (ruleId in jsRules.rules)
     // TODO: fix this type
     return jsRules.rules[ruleId] as TSESLint.RuleModule<any, readonly any[]>
