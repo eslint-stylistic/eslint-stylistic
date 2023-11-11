@@ -243,12 +243,6 @@ importers:
       '@stylistic/eslint-plugin-js':
         specifier: workspace:*
         version: link:../eslint-plugin-js
-      '@typescript-eslint/scope-manager':
-        specifier: ^6.10.0
-        version: 6.10.0
-      '@typescript-eslint/type-utils':
-        specifier: ^6.10.0
-        version: 6.10.0(eslint@8.53.0)(typescript@5.2.2)
       '@typescript-eslint/utils':
         specifier: ^6.10.0
         version: 6.10.0(eslint@8.53.0)(typescript@5.2.2)
@@ -2117,6 +2111,7 @@ packages:
       typescript: 5.2.2
     transitivePeerDependencies:
       - supports-color
+    dev: true
 
   /@typescript-eslint/types@6.10.0:
     resolution: {integrity: sha512-36Fq1PWh9dusgo3vH7qmQAj5/AZqARky1Wi6WpINxB6SkQdY5vQoT2/7rW7uBIsPDcvvGCLi4r10p0OJ7ITAeg==}
