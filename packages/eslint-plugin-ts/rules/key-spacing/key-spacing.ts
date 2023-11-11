@@ -28,6 +28,11 @@ function at<T>(arr: T[], position: number): T | undefined {
   return arr[position]
 }
 
+type UnionToIntersection<U> =
+  (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never
+
+type OptionsUnion = UnionToIntersection<Exclude<RuleOptions[0], undefined>>
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'key-spacing',
   meta: {
@@ -43,7 +48,8 @@ export default createRule<RuleOptions, MessageIds>({
     messages: baseRule.meta.messages,
   },
   defaultOptions: [{}],
-  create(context, [options = {}]) {
+  create(context, [_options]) {
+    const options: OptionsUnion = _options || {}
     const sourceCode = context.getSourceCode()
     const baseRules = baseRule.create(context)
 
@@ -335,14 +341,15 @@ export default createRule<RuleOptions, MessageIds>({
       node: TSESTree.Node,
       { singleLine }: { singleLine: boolean },
     ): void {
-      const beforeColon
-        = (singleLine
+      const beforeColon = (
+        singleLine
           ? options.singleLine
             ? options.singleLine.beforeColon
             : options.beforeColon
           : options.multiLine
             ? options.multiLine.beforeColon
-            : options.beforeColon) ?? false
+            : options.beforeColon
+      ) ?? false
       const expectedWhitespaceBeforeColon = beforeColon ? 1 : 0
       const afterColon
         = (singleLine

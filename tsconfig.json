@@ -10,7 +10,6 @@
         "./packages/metadata/src/index.ts"
       ],
       "@stylistic/eslint-plugin-js": [
-        "./packages/eslint-plugin-js/src/index.js",
         "./packages/eslint-plugin-js/dts/index.d.ts"
       ],
       "@stylistic/eslint-plugin-ts": [
@@ -18,7 +17,6 @@
         "./packages/eslint-plugin-ts/dts/index.d.ts"
       ],
       "@stylistic/eslint-plugin-jsx": [
-        "./packages/eslint-plugin-jsx/src/index.js",
         "./packages/eslint-plugin-jsx/dts/index.d.ts"
       ],
       "@stylistic/eslint-plugin": [
@@ -27,7 +25,7 @@
       ]
     },
     "resolveJsonModule": true,
-    "allowJs": true,
+    "allowJs": false,
     "strict": true,
     "strictNullChecks": true,
     "esModuleInterop": true,
@@ -35,7 +33,6 @@
     "skipLibCheck": true
   },
   "include": [
-    "**/*.js",
     "**/*.d.ts",
     "**/*.ts",
     "**/*.mts",

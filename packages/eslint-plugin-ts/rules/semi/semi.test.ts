@@ -4,7 +4,7 @@
 import { RuleTester } from '@typescript-eslint/rule-tester'
 import type { TSESLint } from '@typescript-eslint/utils'
 
-import type { MessageIds, Options } from './semi'
+import type { MessageIds, RuleOptions } from './types'
 import rule from './semi'
 
 const ruleTester = new RuleTester({
@@ -16,8 +16,8 @@ const ruleTester = new RuleTester({
   },
 })
 
-const neverOption: Options = ['never']
-const neverOptionWithoutContinuationChars: Options = [
+const neverOption: RuleOptions = ['never']
+const neverOptionWithoutContinuationChars: RuleOptions = [
   'never',
   { beforeStatementContinuationChars: 'never' },
 ]
@@ -264,7 +264,7 @@ class PanCamera extends FreeCamera {
       'export default (foo) => foo.bar();',
       'export default foo = 42;',
       'export default foo += 42;',
-    ].reduce<TSESLint.ValidTestCase<Options>[]>((acc, code) => {
+    ].reduce<TSESLint.ValidTestCase<RuleOptions>[]>((acc, code) => {
       acc.push({
         code,
         options: ['always'],
@@ -1077,7 +1077,7 @@ class PanCamera extends FreeCamera {
           },
         ],
       },
-    ].reduce<TSESLint.InvalidTestCase<MessageIds, Options>[]>((acc, test) => {
+    ].reduce<TSESLint.InvalidTestCase<MessageIds, RuleOptions>[]>((acc, test) => {
       acc.push({
         code: test.code.replace(/;/g, ''),
         output: test.code,
