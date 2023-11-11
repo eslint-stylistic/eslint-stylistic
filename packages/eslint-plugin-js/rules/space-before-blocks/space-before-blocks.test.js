@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import fixtureParser from '../../fixtures/fixture-parser'
+import fixtureParser from '../../test-utils/fixture-parser'
 import rule from './space-before-blocks'
 
 // ------------------------------------------------------------------------------

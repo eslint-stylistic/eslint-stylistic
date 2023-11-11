@@ -17,7 +17,7 @@ import rule from './array-bracket-spacing'
  * @returns {string} The path to the specified parser.
  */
 function parser(name) {
-  return resolve(__dirname, `../../fixtures/parsers/array-bracket-spacing/${name}.js`)
+  return resolve(__dirname, `../../test-utils/parsers/array-bracket-spacing/${name}.js`)
 }
 
 // ------------------------------------------------------------------------------

@@ -20,7 +20,7 @@ import rule from './comma-dangle'
 function parser(name) {
   return resolve(
     __dirname,
-        `../../fixtures/parsers/comma-dangle/${name}.js`,
+        `../../test-utils/parsers/comma-dangle/${name}.js`,
   )
 }
 

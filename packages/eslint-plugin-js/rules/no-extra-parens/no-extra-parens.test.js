@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parser from '../../fixtures/fixture-parser'
+import parser from '../../test-utils/fixture-parser'
 import rule from './no-extra-parens'
 
 // ------------------------------------------------------------------------------

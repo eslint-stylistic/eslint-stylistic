@@ -169,7 +169,7 @@ ruleTester.run('object-curly-spacing', rule, {
     {
       code: 'function foo ({a, b}: Props) {\n}',
       options: ['never'],
-      parser: resolvePath(__dirname, '../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-valid'),
+      parser: resolvePath(__dirname, '../../test-utils/parsers/object-curly-spacing/flow-stub-parser-never-valid'),
     },
   ],
 
@@ -1388,7 +1388,7 @@ ruleTester.run('object-curly-spacing', rule, {
       code: 'function foo ({a, b }: Props) {\n}',
       output: 'function foo ({a, b}: Props) {\n}',
       options: ['never'],
-      parser: resolvePath(__dirname, '../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid'),
+      parser: resolvePath(__dirname, '../../test-utils/parsers/object-curly-spacing/flow-stub-parser-never-invalid'),
       errors: [
         {
           messageId: 'unexpectedSpaceBefore',

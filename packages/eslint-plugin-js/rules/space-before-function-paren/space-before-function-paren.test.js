@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import baseParser from '../../fixtures/fixture-parser'
+import baseParser from '../../test-utils/fixture-parser'
 import rule from './space-before-function-paren'
 
 // ------------------------------------------------------------------------------
