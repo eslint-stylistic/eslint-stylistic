@@ -4,12 +4,12 @@ on:
   push:
     branches:
       - main
-      - refactor/esm
+      - dev
 
   pull_request:
     branches:
       - main
-      - refactor/esm
+      - dev
 
 jobs:
   lint:
