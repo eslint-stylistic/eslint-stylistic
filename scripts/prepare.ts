@@ -9,6 +9,10 @@ import type { PackageInfo, RuleInfo } from '../packages/metadata/src/types'
 
 const cwd = process.cwd()
 
+const aliases: Record<string, string> = {
+  'function-call-spacing': 'func-call-spacing',
+}
+
 async function run() {
   const paths = (await fg('./packages/*/package.json', {
     onlyFiles: true,
@@ -78,7 +82,16 @@ async function readPackage(path: string): Promise<PackageInfo> {
 
   const rules = await Promise.all(
     rulesDir.map(async (ruleDir) => {
-      const name = basename(ruleDir)
+      const realName = basename(ruleDir)
+      const name = getAlias(realName)
+
+      if (realName !== name) {
+        const pathSegments = ruleDir.split('/')
+        pathSegments.pop()
+        pathSegments.push(name)
+        ruleDir = pathSegments.join('/')
+      }
+
       let entry = join(path, ruleDir, `${name}.ts`).replace(/\\/g, '/')
       if (!existsSync(entry))
         entry = join(path, ruleDir, `${name}.js`).replace(/\\/g, '/')
@@ -87,8 +100,8 @@ async function readPackage(path: string): Promise<PackageInfo> {
       const mod = await import(url)
       const meta = mod.default?.meta
       const rule: RuleInfo = {
-        name,
-        ruleId: `${pkgId}/${name}`,
+        name: realName,
+        ruleId: `${pkgId}/${realName}`,
         originalId: shortId === 'js'
           ? name
           : shortId === 'ts'
@@ -134,7 +147,7 @@ async function writeRulesIndex(pkg: PackageInfo) {
   }
   else {
     const index = [
-      ...pkg.rules.map(i => `import ${camelCase(i.name)} from './${i.name}/${i.name}'`),
+      ...pkg.rules.map(i => `import ${camelCase(i.name)} from './${getAlias(i.name)}/${getAlias(i.name)}'`),
       '',
       'export default {',
       ...pkg.rules.map(i => `  '${i.name}': ${camelCase(i.name)},`),
@@ -151,8 +164,9 @@ async function writePackageDTS(pkg: PackageInfo) {
 
   const lines = [
     ...pkg.rules.map((rule) => {
-      const name = basename(rule.name).replace(/\.\w+$/, '')
-      return `import type { RuleOptions as ${pascalCase(name)}RuleOptions } from '../rules/${name}/types'`
+      const alias = getAlias(rule.name)
+      const name = basename(alias).replace(/\.\w+$/, '')
+      return `import type { RuleOptions as ${pascalCase(rule.name)}RuleOptions } from '../rules/${name}/types'`
     }),
     '',
     'export interface RuleOptions {',
@@ -161,7 +175,7 @@ async function writePackageDTS(pkg: PackageInfo) {
       return [
         '  /**',
         `   * ${rule.meta?.docs?.description || ''}`,
-        `   * @see https://eslint.style/rules/${pkg.shortId}/${rule.name}`,
+        `   * @see https://eslint.style/rules/${pkg.shortId}/${getAlias(rule.name)}`,
         '   */',
         `  '${pkg.name.replace('eslint-plugin-', '')}/${rule.name}': ${pascalCase(name)}RuleOptions`,
       ]
@@ -174,12 +188,13 @@ async function writePackageDTS(pkg: PackageInfo) {
       return [
         '  /**',
         `   * ${rule.meta?.docs?.description || ''}`,
-        `   * @see https://eslint.style/rules/${pkg.shortId}/${rule.name}`,
+        `   * @see https://eslint.style/rules/${pkg.shortId}/${getAlias(rule.name)}`,
         '   */',
         `  '${rule.name}': ${pascalCase(name)}RuleOptions`,
       ]
     }),
     '}',
+    '',
   ]
 
   await fs.writeFile(
@@ -206,12 +221,21 @@ async function writeREADME(pkg: PackageInfo) {
   if (!pkg.rules.length)
     return
 
+  const description = (i: RuleInfo) => {
+    const desc = i.meta?.docs?.description || ''
+
+    if (i.name !== getAlias(i.name))
+      return `${desc}. Alias of \`${getAlias(i.name)}\`.`
+
+    return desc
+  }
+
   const lines = [
     `# ${pkg.name}`,
     '',
     '| Rule ID | Description | Fixable | Recommended |',
     '| --- | --- | --- | --- |',
-    ...pkg.rules.map(i => `| [\`${i.ruleId}\`](./rules/${i.name}) | ${i.meta?.docs?.description || ''} | ${i.meta?.fixable ? '✅' : ''} | ${i.meta?.docs?.recommended ? '✅' : ''} |`),
+    ...pkg.rules.map(i => `| [\`${i.ruleId}\`](./rules/${i.name}) | ${description(i)} | ${i.meta?.fixable ? '✅' : ''} | ${i.meta?.docs?.recommended ? '✅' : ''} |`),
   ]
 
   await fs.writeFile(join(pkg.path, 'rules.md'), lines.join('\n'), 'utf-8')
@@ -221,4 +245,11 @@ function camelCase(str: string) {
   return str
     .replace(/[^\d\w_-]+/, '')
     .replace(/-([a-z])/g, (_, c) => c.toUpperCase())
+}
+
+function getAlias(name: string): string {
+  if (aliases[name])
+    return aliases[name]
+
+  return name
 }

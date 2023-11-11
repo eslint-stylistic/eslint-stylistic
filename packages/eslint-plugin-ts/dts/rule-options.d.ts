@@ -3,6 +3,7 @@ import type { RuleOptions as BraceStyleRuleOptions } from '../rules/brace-style/
 import type { RuleOptions as CommaDangleRuleOptions } from '../rules/comma-dangle/types'
 import type { RuleOptions as CommaSpacingRuleOptions } from '../rules/comma-spacing/types'
 import type { RuleOptions as FuncCallSpacingRuleOptions } from '../rules/func-call-spacing/types'
+import type { RuleOptions as FunctionCallSpacingRuleOptions } from '../rules/func-call-spacing/types'
 import type { RuleOptions as IndentRuleOptions } from '../rules/indent/types'
 import type { RuleOptions as KeySpacingRuleOptions } from '../rules/key-spacing/types'
 import type { RuleOptions as KeywordSpacingRuleOptions } from '../rules/keyword-spacing/types'
@@ -50,7 +51,7 @@ export interface RuleOptions {
    * Require or disallow spacing between function identifiers and their invocations
    * @see https://eslint.style/rules/ts/func-call-spacing
    */
-  '@stylistic/ts/function-call-spacing': FuncCallSpacingRuleOptions
+  '@stylistic/ts/function-call-spacing': FunctionCallSpacingRuleOptions
   /**
    * Enforce consistent indentation
    * @see https://eslint.style/rules/ts/indent
@@ -163,7 +164,7 @@ export interface UnprefixedRuleOptions {
    * Require or disallow spacing between function identifiers and their invocations
    * @see https://eslint.style/rules/ts/func-call-spacing
    */
-  'function-call-spacing': FuncCallSpacingRuleOptions
+  'function-call-spacing': FunctionCallSpacingRuleOptions
   /**
    * Enforce consistent indentation
    * @see https://eslint.style/rules/ts/indent
