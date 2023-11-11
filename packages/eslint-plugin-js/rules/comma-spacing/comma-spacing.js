@@ -2,7 +2,6 @@
  * @fileoverview Comma spacing - validates spacing before and after comma
  * @author Vignesh Anand aka vegetableman.
  */
-'use strict'
 
 import astUtils from '../../utils/ast-utils'
 

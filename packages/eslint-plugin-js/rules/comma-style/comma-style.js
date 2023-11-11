@@ -3,8 +3,6 @@
  * @author Vignesh Anand aka vegetableman
  */
 
-'use strict'
-
 import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------

@@ -2,7 +2,6 @@
  * @fileoverview Disallows or enforces spaces inside computed properties.
  * @author Jamund Ferguson
  */
-'use strict'
 
 import astUtils from '../../utils/ast-utils'
 

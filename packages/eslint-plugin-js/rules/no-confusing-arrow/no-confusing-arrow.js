@@ -4,8 +4,6 @@
  * @author Jxck <https://github.com/Jxck>
  */
 
-'use strict'
-
 import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------

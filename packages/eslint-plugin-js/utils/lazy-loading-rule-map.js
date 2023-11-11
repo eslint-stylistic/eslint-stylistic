@@ -2,9 +2,10 @@
  * @fileoverview `Map` to load rules lazily.
  * @author Toru Nagashima <https://github.com/mysticatea>
  */
-'use strict'
 
-const debug = require('debug')('eslint:rules')
+import Debug from 'debug'
+
+const debug = Debug('eslint:rules')
 
 /** @typedef {import("./types").Rule} Rule */
 
@@ -108,4 +109,4 @@ Object.defineProperties(LazyLoadingRuleMap.prototype, {
   },
 })
 
-module.exports = { LazyLoadingRuleMap }
+export default { LazyLoadingRuleMap }

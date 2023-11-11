@@ -2,7 +2,6 @@
  * @fileoverview Disallows or enforces spaces inside of parentheses.
  * @author Jonathan Rajavuori
  */
-'use strict'
 
 import astUtils from '../../utils/ast-utils'
 

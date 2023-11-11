@@ -2,7 +2,6 @@
  * @fileoverview Disallow parenthesising higher precedence subexpressions.
  * @author Michael Ficarra
  */
-'use strict'
 
 // ------------------------------------------------------------------------------
 // Rule Definition

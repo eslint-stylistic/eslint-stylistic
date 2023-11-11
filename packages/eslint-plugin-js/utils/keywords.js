@@ -2,9 +2,8 @@
  * @fileoverview A shared list of ES3 keywords.
  * @author Josh Perez
  */
-'use strict'
 
-module.exports = [
+export default [
   'abstract',
   'boolean',
   'break',

@@ -2,9 +2,8 @@
  * @fileoverview enforce the location of arrow function bodies
  * @author Sharmila Jesupaul
  */
-'use strict'
 
-const { isCommentToken, isNotOpeningParenToken } = require('../../utils/ast-utils')
+import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -46,7 +45,7 @@ export default {
       if (node.body.type === 'BlockStatement')
         return
 
-      const arrowToken = sourceCode.getTokenBefore(node.body, isNotOpeningParenToken)
+      const arrowToken = sourceCode.getTokenBefore(node.body, astUtils.isNotOpeningParenToken)
       const firstTokenOfBody = sourceCode.getTokenAfter(arrowToken)
 
       if (arrowToken.loc.end.line === firstTokenOfBody.loc.start.line && option === 'below') {
@@ -61,7 +60,7 @@ export default {
           node: firstTokenOfBody,
           messageId: 'unexpected',
           fix(fixer) {
-            if (sourceCode.getFirstTokenBetween(arrowToken, firstTokenOfBody, { includeComments: true, filter: isCommentToken }))
+            if (sourceCode.getFirstTokenBetween(arrowToken, firstTokenOfBody, { includeComments: true, filter: astUtils.isCommentToken }))
               return null
 
             return fixer.replaceTextRange([arrowToken.range[1], firstTokenOfBody.range[0]], ' ')

@@ -3,7 +3,7 @@
  * @author Toru Nagashima
  */
 
-const astUtils = require('../../utils/ast-utils.js')
+import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers

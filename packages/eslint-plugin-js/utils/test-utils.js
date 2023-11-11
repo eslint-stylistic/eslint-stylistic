@@ -2,19 +2,13 @@
  * @fileoverview Utilities used in tests
  */
 
-'use strict'
-
-// -----------------------------------------------------------------------------
-// Helpers
-// -----------------------------------------------------------------------------
-
 /**
  * Prevents leading spaces in a multiline template literal from appearing in the resulting string
  * @param {string[]} strings The strings in the template literal
  * @param {any[]} values The interpolation values in the template literal.
  * @returns {string} The template literal, with spaces removed from all lines
  */
-function unIndent(strings, ...values) {
+export function unIndent(strings, ...values) {
   const text = strings
     .map((s, i) => (i === 0 ? s : values[i - 1] + s))
     .join('')
@@ -23,12 +17,4 @@ function unIndent(strings, ...values) {
   const minLineIndent = Math.min(...lineIndents)
 
   return lines.map(line => line.slice(minLineIndent)).join('\n')
-}
-
-// -----------------------------------------------------------------------------
-// Exports
-// -----------------------------------------------------------------------------
-
-module.exports = {
-  unIndent,
 }

@@ -3,9 +3,7 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-const util = require('../../utils/ast-utils')
+import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -72,7 +70,7 @@ export default {
      */
     function isValid(left, right) {
       return (
-        !util.isTokenOnSameLine(left, right)
+        !astUtils.isTokenOnSameLine(left, right)
                 || sourceCode.isSpaceBetweenTokens(left, right) === always
       )
     }

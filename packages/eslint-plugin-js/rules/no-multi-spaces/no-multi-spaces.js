@@ -3,8 +3,6 @@
  * @author Nicholas C. Zakas
  */
 
-'use strict'
-
 import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------

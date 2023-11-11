@@ -2,7 +2,6 @@
  * @fileoverview Disallow mixed spaces and tabs for indentation
  * @author Jary Niebur
  */
-'use strict'
 
 // ------------------------------------------------------------------------------
 // Rule Definition

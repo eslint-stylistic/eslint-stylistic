@@ -3,22 +3,15 @@
  * @author Gyandeep Singh
  */
 
-'use strict'
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const { KEYS: eslintVisitorKeys } = require('eslint-visitor-keys')
-const esutils = require('esutils')
-const espree = require('espree')
-const escapeRegExp = require('escape-string-regexp')
-const {
-  breakableTypePattern,
-  createGlobalLinebreakMatcher,
-  lineBreakPattern,
-  shebangPattern,
-} = require('./shared/ast-utils')
+import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
+import { ast } from 'esutils'
+import { latestEcmaVersion, tokenize } from 'espree'
+import escapeRegExp from 'escape-string-regexp'
+import { breakableTypePattern, createGlobalLinebreakMatcher, lineBreakPattern, shebangPattern } from './shared/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -677,12 +670,9 @@ function equalTokens(left, right, sourceCode) {
     return false
 
   for (let i = 0; i < tokensL.length; ++i) {
-    if (tokensL[i].type !== tokensR[i].type
-            || tokensL[i].value !== tokensR[i].value
-    )
+    if (tokensL[i].type !== tokensR[i].type || tokensL[i].value !== tokensR[i].value)
       return false
   }
-
   return true
 }
 
@@ -987,28 +977,105 @@ function isDirective(node) {
   return node.type === 'ExpressionStatement' && typeof node.directive === 'string'
 }
 
+/**
+ * Determines whether two adjacent tokens are on the same line.
+ * @param {object} left The left token object.
+ * @param {object} right The right token object.
+ * @returns {boolean} Whether or not the tokens are on the same line.
+ * @public
+ */
+function isTokenOnSameLine(left, right) {
+  return left.loc.end.line === right.loc.start.line
+}
+
+const isNotClosingBraceToken = negate(isClosingBraceToken)
+const isNotClosingBracketToken = negate(isClosingBracketToken)
+const isNotClosingParenToken = negate(isClosingParenToken)
+const isNotColonToken = negate(isColonToken)
+const isNotCommaToken = negate(isCommaToken)
+const isNotDotToken = negate(isDotToken)
+const isNotQuestionDotToken = negate(isQuestionDotToken)
+const isNotOpeningBraceToken = negate(isOpeningBraceToken)
+const isNotOpeningBracketToken = negate(isOpeningBracketToken)
+const isNotOpeningParenToken = negate(isOpeningParenToken)
+const isNotSemicolonToken = negate(isSemicolonToken)
+
+/**
+ * Checks whether or not a given node is a string literal.
+ * @param {ASTNode} node A node to check.
+ * @returns {boolean} `true` if the node is a string literal.
+ */
+function isStringLiteral(node) {
+  return (
+    (node.type === 'Literal' && typeof node.value === 'string')
+          || node.type === 'TemplateLiteral'
+  )
+}
+
+/**
+ * Checks whether a given node is a breakable statement or not.
+ * The node is breakable if the node is one of the following type:
+ *
+ * - DoWhileStatement
+ * - ForInStatement
+ * - ForOfStatement
+ * - ForStatement
+ * - SwitchStatement
+ * - WhileStatement
+ * @param {ASTNode} node A node to check.
+ * @returns {boolean} `true` if the node is breakable.
+ */
+function isBreakableStatement(node) {
+  return breakableTypePattern.test(node.type)
+}
+
+/**
+ * Gets references which are non initializer and writable.
+ * @param {Reference[]} references An array of references.
+ * @returns {Reference[]} An array of only references which are non initializer and writable.
+ * @public
+ */
+function getModifyingReferences(references) {
+  return references.filter(isModifyingReference)
+}
+
+/**
+ * Validate that a string passed in is surrounded by the specified character
+ * @param {string} val The text to check.
+ * @param {string} character The character to see if it's surrounded by.
+ * @returns {boolean} True if the text is surrounded by the character, false if not.
+ * @private
+ */
+function isSurroundedBy(val, character) {
+  return val[0] === character && val[val.length - 1] === character
+}
+
+/**
+ * Returns whether the provided node is an ESLint directive comment or not
+ * @param {Line|Block} node The comment token to be checked
+ * @returns {boolean} `true` if the node is an ESLint directive comment
+ */
+function isDirectiveComment(node) {
+  const comment = node.value.trim()
+
+  return (
+    node.type === 'Line' && comment.startsWith('eslint-')
+          || node.type === 'Block' && ESLINT_DIRECTIVE_PATTERN.test(comment)
+  )
+}
+
 // ------------------------------------------------------------------------------
 // Public Interface
 // ------------------------------------------------------------------------------
 
-module.exports = {
+export default {
   COMMENTS_IGNORE_PATTERN,
   LINEBREAKS,
   LINEBREAK_MATCHER: lineBreakPattern,
   SHEBANG_MATCHER: shebangPattern,
   STATEMENT_LIST_PARENTS,
 
-  /**
-   * Determines whether two adjacent tokens are on the same line.
-   * @param {object} left The left token object.
-   * @param {object} right The right token object.
-   * @returns {boolean} Whether or not the tokens are on the same line.
-   * @public
-   */
-  isTokenOnSameLine(left, right) {
-    return left.loc.end.line === right.loc.start.line
-  },
-
+  isTokenOnSameLine,
   isNullOrUndefined,
   isCallee,
   isES5Constructor,
@@ -1031,87 +1098,28 @@ module.exports = {
   isDotToken,
   isQuestionDotToken,
   isKeywordToken,
-  isNotClosingBraceToken: negate(isClosingBraceToken),
-  isNotClosingBracketToken: negate(isClosingBracketToken),
-  isNotClosingParenToken: negate(isClosingParenToken),
-  isNotColonToken: negate(isColonToken),
-  isNotCommaToken: negate(isCommaToken),
-  isNotDotToken: negate(isDotToken),
-  isNotQuestionDotToken: negate(isQuestionDotToken),
-  isNotOpeningBraceToken: negate(isOpeningBraceToken),
-  isNotOpeningBracketToken: negate(isOpeningBracketToken),
-  isNotOpeningParenToken: negate(isOpeningParenToken),
-  isNotSemicolonToken: negate(isSemicolonToken),
+  isNotClosingBraceToken,
+  isNotClosingBracketToken,
+  isNotClosingParenToken,
+  isNotColonToken,
+  isNotCommaToken,
+  isNotDotToken,
+  isNotQuestionDotToken,
+  isNotOpeningBraceToken,
+  isNotOpeningBracketToken,
+  isNotOpeningParenToken,
+  isNotSemicolonToken,
   isOpeningBraceToken,
   isOpeningBracketToken,
   isOpeningParenToken,
   isSemicolonToken,
   isEqToken,
+  isStringLiteral,
 
-  /**
-   * Checks whether or not a given node is a string literal.
-   * @param {ASTNode} node A node to check.
-   * @returns {boolean} `true` if the node is a string literal.
-   */
-  isStringLiteral(node) {
-    return (
-      (node.type === 'Literal' && typeof node.value === 'string')
-            || node.type === 'TemplateLiteral'
-    )
-  },
-
-  /**
-   * Checks whether a given node is a breakable statement or not.
-   * The node is breakable if the node is one of the following type:
-   *
-   * - DoWhileStatement
-   * - ForInStatement
-   * - ForOfStatement
-   * - ForStatement
-   * - SwitchStatement
-   * - WhileStatement
-   * @param {ASTNode} node A node to check.
-   * @returns {boolean} `true` if the node is breakable.
-   */
-  isBreakableStatement(node) {
-    return breakableTypePattern.test(node.type)
-  },
-
-  /**
-   * Gets references which are non initializer and writable.
-   * @param {Reference[]} references An array of references.
-   * @returns {Reference[]} An array of only references which are non initializer and writable.
-   * @public
-   */
-  getModifyingReferences(references) {
-    return references.filter(isModifyingReference)
-  },
-
-  /**
-   * Validate that a string passed in is surrounded by the specified character
-   * @param {string} val The text to check.
-   * @param {string} character The character to see if it's surrounded by.
-   * @returns {boolean} True if the text is surrounded by the character, false if not.
-   * @private
-   */
-  isSurroundedBy(val, character) {
-    return val[0] === character && val[val.length - 1] === character
-  },
-
-  /**
-   * Returns whether the provided node is an ESLint directive comment or not
-   * @param {Line|Block} node The comment token to be checked
-   * @returns {boolean} `true` if the node is an ESLint directive comment
-   */
-  isDirectiveComment(node) {
-    const comment = node.value.trim()
-
-    return (
-      node.type === 'Line' && comment.startsWith('eslint-')
-            || node.type === 'Block' && ESLINT_DIRECTIVE_PATTERN.test(comment)
-    )
-  },
-
+  isBreakableStatement,
+  getModifyingReferences,
+  isSurroundedBy,
+  isDirectiveComment,
   /**
    * Gets the trailing statement of a given node.
    *
@@ -1122,7 +1130,7 @@ module.exports = {
    * @param {ASTNode} A node to get.
    * @returns {ASTNode|null} The trailing statement's node.
    */
-  getTrailingStatement: esutils.ast.trailingStatement,
+  getTrailingStatement: ast.trailingStatement,
 
   /**
    * Finds the variable by a given name in a given scope and its upper scopes.
@@ -1465,7 +1473,7 @@ module.exports = {
    * @returns {boolean} `true` if the node is an empty function.
    */
   isEmptyFunction(node) {
-    return isFunction(node) && module.exports.isEmptyBlock(node.body)
+    return isFunction(node) && isEmptyBlock(node.body)
   },
 
   /**
@@ -1896,10 +1904,10 @@ module.exports = {
 
       case 'AssignmentExpression':
         if (['=', '&&='].includes(node.operator))
-          return module.exports.couldBeError(node.right)
+          return couldBeError(node.right)
 
         if (['||=', '??='].includes(node.operator))
-          return module.exports.couldBeError(node.left) || module.exports.couldBeError(node.right)
+          return couldBeError(node.left) || couldBeError(node.right)
 
         /**
          * All other assignment operators are mathematical assignment operators (arithmetic or bitwise).
@@ -1911,7 +1919,7 @@ module.exports = {
       case 'SequenceExpression': {
         const exprs = node.expressions
 
-        return exprs.length !== 0 && module.exports.couldBeError(exprs[exprs.length - 1])
+        return exprs.length !== 0 && couldBeError(exprs[exprs.length - 1])
       }
 
       case 'LogicalExpression':
@@ -1923,12 +1931,12 @@ module.exports = {
                  * excluding falsy literals.
                  */
         if (node.operator === '&&')
-          return module.exports.couldBeError(node.right)
+          return couldBeError(node.right)
 
-        return module.exports.couldBeError(node.left) || module.exports.couldBeError(node.right)
+        return couldBeError(node.left) || couldBeError(node.right)
 
       case 'ConditionalExpression':
-        return module.exports.couldBeError(node.consequent) || module.exports.couldBeError(node.alternate)
+        return couldBeError(node.consequent) || couldBeError(node.alternate)
 
       default:
         return false
@@ -1956,7 +1964,7 @@ module.exports = {
    */
   canTokensBeAdjacent(leftValue, rightValue) {
     const espreeOptions = {
-      ecmaVersion: espree.latestEcmaVersion,
+      ecmaVersion: latestEcmaVersion,
       comment: true,
       range: true,
     }
@@ -1967,7 +1975,7 @@ module.exports = {
       let tokens
 
       try {
-        tokens = espree.tokenize(leftValue, espreeOptions)
+        tokens = tokenize(leftValue, espreeOptions)
       }
       catch {
         return false
@@ -2002,7 +2010,7 @@ module.exports = {
       let tokens
 
       try {
-        tokens = espree.tokenize(rightValue, espreeOptions)
+        tokens = tokenize(rightValue, espreeOptions)
       }
       catch {
         return false

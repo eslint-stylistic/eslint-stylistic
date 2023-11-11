@@ -3,8 +3,6 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-'use strict'
-
 import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------

@@ -1,5 +1,3 @@
-'use strict'
-
 import { getFromContext } from './pragma'
 import isDestructuredFromPragmaImport from './isDestructuredFromPragmaImport'
 

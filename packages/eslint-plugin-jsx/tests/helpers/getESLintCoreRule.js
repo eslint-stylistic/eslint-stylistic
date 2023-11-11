@@ -1,5 +1,3 @@
-'use strict'
-
 import jsRules from '@stylistic/eslint-plugin-js'
 
 function getESLintCoreRule(ruleId) {

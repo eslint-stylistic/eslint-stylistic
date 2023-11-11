@@ -2,7 +2,6 @@
  * @fileoverview enforce the location of single-line statements
  * @author Teddy Katz
  */
-'use strict'
 
 // ------------------------------------------------------------------------------
 // Rule Definition

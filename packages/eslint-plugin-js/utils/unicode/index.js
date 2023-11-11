@@ -1,11 +1,7 @@
 /**
  * @author Toru Nagashima <https://github.com/mysticatea>
  */
-'use strict'
-
-module.exports = {
-  isCombiningCharacter: require('./is-combining-character'),
-  isEmojiModifier: require('./is-emoji-modifier'),
-  isRegionalIndicatorSymbol: require('./is-regional-indicator-symbol'),
-  isSurrogatePair: require('./is-surrogate-pair'),
-}
+export * from './is-combining-character'
+export * from './is-emoji-modifier'
+export * from './is-regional-indicator-symbol'
+export * from './is-surrogate-pair'

@@ -2,9 +2,8 @@
  * @fileoverview Require spaces around infix operators
  * @author Michael Ficarra
  */
-'use strict'
 
-const { isEqToken } = require('../../utils/ast-utils')
+import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -170,7 +169,7 @@ export default {
                  * tokens may exist between `node.key` and `=`.
                  * Therefore, find the `=` from the right.
                  */
-        const operatorToken = sourceCode.getTokenBefore(node.value, isEqToken)
+        const operatorToken = sourceCode.getTokenBefore(node.value, astUtils.isEqToken)
         const leftToken = sourceCode.getTokenBefore(operatorToken)
         const rightToken = sourceCode.getTokenAfter(operatorToken)
 

@@ -4,8 +4,6 @@
  * @author Burak Yigit Kaya
  */
 
-'use strict'
-
 import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------

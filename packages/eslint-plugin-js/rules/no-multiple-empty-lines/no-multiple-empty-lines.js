@@ -3,7 +3,6 @@
  * implementation adapted from the no-trailing-spaces rule.
  * @author Greg Cochard
  */
-'use strict'
 
 // ------------------------------------------------------------------------------
 // Rule Definition

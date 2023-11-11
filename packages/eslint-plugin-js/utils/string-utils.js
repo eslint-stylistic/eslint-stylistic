@@ -3,13 +3,11 @@
  * @author Stephen Wade
  */
 
-'use strict'
-
 // ------------------------------------------------------------------------------
 // Requirements
 // ------------------------------------------------------------------------------
 
-const Graphemer = require('graphemer').default
+import Graphemer from 'graphemer'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -52,7 +50,7 @@ function getGraphemeCount(value) {
   return splitter.countGraphemes(value)
 }
 
-module.exports = {
+export {
   upperCaseFirst,
   getGraphemeCount,
 }

@@ -4,8 +4,7 @@
  */
 
 import astUtils from '../../utils/ast-utils'
-
-const FixTracker = require('../../utils/fix-tracker')
+import FixTracker from '../../utils/fix-tracker'
 
 // ------------------------------------------------------------------------------
 // Rule Definition

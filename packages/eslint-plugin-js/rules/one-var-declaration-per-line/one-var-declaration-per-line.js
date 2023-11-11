@@ -2,7 +2,6 @@
  * @fileoverview Rule to check multiple var declarations per line
  * @author Alberto Rodríguez
  */
-'use strict'
 
 // ------------------------------------------------------------------------------
 // Rule Definition

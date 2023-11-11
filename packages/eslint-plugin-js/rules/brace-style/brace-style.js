@@ -3,8 +3,6 @@
  * @author Ian Christian Myers
  */
 
-'use strict'
-
 import astUtils from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------

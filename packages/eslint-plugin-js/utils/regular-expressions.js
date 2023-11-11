@@ -4,9 +4,7 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-const { RegExpValidator } = require('@eslint-community/regexpp')
+import { RegExpValidator } from '@eslint-community/regexpp'
 
 const REGEXPP_LATEST_ECMA_VERSION = 2024
 
@@ -37,7 +35,7 @@ function isValidWithUnicodeFlag(ecmaVersion, pattern) {
   return true
 }
 
-module.exports = {
+export {
   isValidWithUnicodeFlag,
   REGEXPP_LATEST_ECMA_VERSION,
 }
