@@ -35,7 +35,7 @@ export const OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN = /^(?:[^\\]|\\.)*\\(?:[1
  * @returns {RegExp} A global regular expression that matches line terminators
  */
 export function createGlobalLinebreakMatcher() {
-  return new RegExp(lineBreakPattern.source, 'gu')
+  return new RegExp(LINEBREAK_MATCHER.source, 'gu')
 }
 
 /**
