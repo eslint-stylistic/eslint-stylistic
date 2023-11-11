@@ -2,17 +2,12 @@ import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 
 import { isCommentToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
-import type {
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
-} from '../../utils'
+
 import { createRule } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = getESLintCoreRule('lines-around-comment')
-
-export type Options = InferOptionsTypeFromRule<typeof baseRule>
-export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
 
 const COMMENTS_IGNORE_PATTERN
   = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
@@ -47,7 +42,7 @@ function getCommentLineNums(comments: TSESTree.Comment[]): number[] {
   return lines
 }
 
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'lines-around-comment',
   meta: {
     type: 'layout',
@@ -424,8 +419,8 @@ export default createRule<Options, MessageIds>({
     const rules = baseRule.create(proxiedContext)
 
     return {
-      Program(): void {
-        rules.Program()
+      Program(node): void {
+        rules.Program!(node)
 
         comments.forEach((token) => {
           if (token.type === AST_TOKEN_TYPES.Line) {

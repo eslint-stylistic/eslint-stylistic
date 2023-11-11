@@ -11,16 +11,9 @@ import {
 import {
   createRule,
 } from '../../utils'
+import type { MessageIds, RuleOptions } from './types'
 
-type Options = [
-  {
-    before: boolean
-    after: boolean
-  },
-]
-type MessageIds = 'missing' | 'unexpected'
-
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'comma-spacing',
   meta: {
     type: 'layout',
@@ -56,7 +49,8 @@ export default createRule<Options, MessageIds>({
       after: true,
     },
   ],
-  create(context, [{ before: spaceBefore, after: spaceAfter }]) {
+  create(context, [options = {}]) {
+    const { before: spaceBefore, after: spaceAfter } = options
     const sourceCode = context.getSourceCode()
     const tokensAndComments = sourceCode.tokensAndComments
     const ignoredTokens = new Set<TSESTree.PunctuatorToken>()

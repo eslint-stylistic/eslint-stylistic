@@ -270,13 +270,14 @@ async function generateDTS(
       schema = JSON.parse(JSON.stringify(schema).replace(/\#\/items\/0\/\$defs\//g, '#/$defs/'))
 
       try {
-        return await compileSchema(schema, `Schema${index}`, {
+        const compiled = await compileSchema(schema, `Schema${index}`, {
           bannerComment: '',
           style: {
             semi: false,
             singleQuote: true,
           },
         })
+        return compiled
       }
       catch (error) {
         console.warn(`Failed to compile schema Schema${index} for rule ${rule.name}. Falling back to unknown.`)
@@ -296,54 +297,11 @@ async function generateDTS(
       ...options,
       `export type RuleOptions = ${ruleOptionTypeValue}`,
       `export type MessageIds = ${messageIds.map(i => `'${i}'`).join(' | ') || 'never'}`,
+      '',
     ]
 
     await fs.writeFile(resolve(cwd, rule.entry, '..', 'types.d.ts'), lines.join('\n'), 'utf-8')
   })
-  //   await Promise.all(rules.map(async (rule) => {
-  //     const name = basename(rule).replace(/\.\w+$/, '')
-  //     const module = await import(join(root, ...rulesPath, `${name}`))
-  //     const meta = module.default.meta
-  //     const alias = aliases.find(i => i[0] === name)?.[1] || name
-
-  //     let schemas = meta.schema as JSONSchema4[] ?? []
-
-  //     if (!Array.isArray(schemas))
-  //       schemas = [schemas]
-
-  //     const options = await Promise.all(schemas.map(async (schema, index) => {
-  //       schema = JSON.parse(JSON.stringify(schema).replace(/\#\/items\/0\/\$defs\//g, '#/$defs/'))
-
-  //       try {
-  //         return await compileSchema(schema, `Schema${index}`, {
-  //           bannerComment: '',
-  //           style: {
-  //             semi: false,
-  //             singleQuote: true,
-  //           },
-  //         })
-  //       }
-  //       catch (error) {
-  //         console.warn(`Failed to compile schema Schema${index} for rule ${name}. Falling back to unknown.`)
-  //         return `export type Schema${index} = unknown\n`
-  //       }
-  //     }))
-
-  //     const optionTypes = options.map((_, index) => `Schema${index}?`)
-  //     const ruleOptionTypeValue = Array.isArray(meta.schema)
-  //       ? `[${optionTypes.join(', ')}]`
-  //       : meta.schema
-  //         ? 'Schema0'
-  //         : '[]'
-
-//     await fs.writeFile(
-//       join(target, alias, 'types.d.ts'),
-// `${options.join('\n')}
-// export type RuleOptions = ${ruleOptionTypeValue}
-// `,
-// 'utf-8',
-//     )
-//   }))
 }
 
 function camelCase(str: string) {

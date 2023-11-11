@@ -5,20 +5,14 @@ import {
   isClosingBracketToken,
   isColonToken,
 } from '@typescript-eslint/utils/ast-utils'
-import type {
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
-} from '../../utils'
 import {
   createRule,
   getStringLength,
 } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = getESLintCoreRule('key-spacing')
-
-export type Options = InferOptionsTypeFromRule<typeof baseRule>
-export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
 
 const baseSchema = Array.isArray(baseRule.meta.schema)
   ? baseRule.meta.schema[0]
@@ -34,7 +28,7 @@ function at<T>(arr: T[], position: number): T | undefined {
   return arr[position]
 }
 
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'key-spacing',
   meta: {
     type: 'layout',
@@ -49,8 +43,7 @@ export default createRule<Options, MessageIds>({
     messages: baseRule.meta.messages,
   },
   defaultOptions: [{}],
-
-  create(context, [options]) {
+  create(context, [options = {}]) {
     const sourceCode = context.getSourceCode()
     const baseRules = baseRule.create(context)
 
