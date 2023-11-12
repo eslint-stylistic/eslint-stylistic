@@ -8,7 +8,7 @@
 // ------------------------------------------------------------------------------
 
 import { RuleTester } from 'eslint'
-import rule from './array-bracket-newline.js'
+import rule from './array-bracket-newline'
 
 // ------------------------------------------------------------------------------
 // Tests

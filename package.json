@@ -28,6 +28,7 @@
     "@stylistic/eslint-plugin-migrate": "workspace:*",
     "@stylistic/eslint-plugin-ts": "workspace:*",
     "@types/eslint": "^8.44.7",
+    "@types/estree": "^1.0.5",
     "@types/fs-extra": "^11.0.4",
     "@types/json-schema": "^7.0.15",
     "@types/node": "^20.9.0",

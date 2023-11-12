@@ -16,15 +16,14 @@ import Graphemer from 'graphemer'
 // eslint-disable-next-line no-control-regex -- intentionally including control characters
 const ASCII_REGEX = /^[\u0000-\u007F]*$/u
 
-/** @type {Graphemer | undefined} */
-let splitter
+let splitter: Graphemer | undefined
 
 /**
  * Counts graphemes in a given string.
- * @param {string} value A string to count graphemes.
- * @returns {number} The number of graphemes in `value`.
+ * @param value A string to count graphemes.
+ * @returns The number of graphemes in `value`.
  */
-export function getGraphemeCount(value) {
+export function getGraphemeCount(value: string) {
   if (ASCII_REGEX.test(value))
     return value.length
 

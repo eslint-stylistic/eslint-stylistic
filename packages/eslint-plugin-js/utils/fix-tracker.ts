@@ -7,7 +7,9 @@
 // Requirements
 // ------------------------------------------------------------------------------
 
+import type { AST, Rule, SourceCode } from 'eslint'
 import { getUpperFunction } from './ast-utils'
+import type { ASTNode } from './types'
 
 // ------------------------------------------------------------------------------
 // Public Interface
@@ -19,14 +21,17 @@ import { getUpperFunction } from './ast-utils'
  * replaced so that other fixes won't touch that region in the same pass.
  */
 class FixTracker {
+  retainedRange: number[] | null
+
   /**
    * Create a new FixTracker.
-   * @param {ruleFixer} fixer A ruleFixer instance.
-   * @param {SourceCode} sourceCode A SourceCode object for the current code.
+   * @param fixer A ruleFixer instance.
+   * @param sourceCode A SourceCode object for the current code.
    */
-  constructor(fixer, sourceCode) {
-    this.fixer = fixer
-    this.sourceCode = sourceCode
+  constructor(
+    public fixer: Rule.RuleFixer,
+    public sourceCode: SourceCode,
+  ) {
     this.retainedRange = null
   }
 
@@ -36,7 +41,7 @@ class FixTracker {
    * @param {int[]} range The range to retain.
    * @returns {FixTracker} The same RuleFixer, for chained calls.
    */
-  retainRange(range) {
+  retainRange(range: number[]) {
     this.retainedRange = range
     return this
   }
@@ -49,7 +54,7 @@ class FixTracker {
    * @param {ASTNode} node The node to use as a starting point.
    * @returns {FixTracker} The same RuleFixer, for chained calls.
    */
-  retainEnclosingFunction(node) {
+  retainEnclosingFunction(node: ASTNode) {
     const functionNode = getUpperFunction(node)
 
     return this.retainRange(functionNode ? functionNode.range : this.sourceCode.ast.range)
@@ -64,7 +69,7 @@ class FixTracker {
    *      point. The token to the left and right are use in the range.
    * @returns {FixTracker} The same RuleFixer, for chained calls.
    */
-  retainSurroundingTokens(nodeOrToken) {
+  retainSurroundingTokens(nodeOrToken: AST.Token) {
     const tokenBefore = this.sourceCode.getTokenBefore(nodeOrToken) || nodeOrToken
     const tokenAfter = this.sourceCode.getTokenAfter(nodeOrToken) || nodeOrToken
 
@@ -78,8 +83,8 @@ class FixTracker {
    * @param {string} text The text to insert in place of the range.
    * @returns {object} The fix command.
    */
-  replaceTextRange(range, text) {
-    let actualRange
+  replaceTextRange(range: [number, number], text: string) {
+    let actualRange: AST.Range
 
     if (this.retainedRange) {
       actualRange = [
@@ -105,7 +110,7 @@ class FixTracker {
    * @param {ASTNode|Token} nodeOrToken The node or token to remove.
    * @returns {object} The fix command.
    */
-  remove(nodeOrToken) {
+  remove(nodeOrToken: ASTNode | AST.Token) {
     return this.replaceTextRange(nodeOrToken.range, '')
   }
 }
