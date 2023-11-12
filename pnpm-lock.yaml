@@ -147,15 +147,6 @@ importers:
         specifier: ^3.3.8
         version: 3.3.8(typescript@5.2.2)
 
-  packages/eslint-config:
-    dependencies:
-      '@stylistic/eslint-plugin-js':
-        specifier: workspace:*
-        version: link:../eslint-plugin-js
-      '@stylistic/eslint-plugin-ts':
-        specifier: workspace:*
-        version: link:../eslint-plugin-ts
-
   packages/eslint-plugin:
     dependencies:
       '@stylistic/eslint-plugin-js':
