@@ -3,19 +3,10 @@
  * @author Stephen Wade
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
 import Graphemer from 'graphemer'
-
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
 
 // eslint-disable-next-line no-control-regex -- intentionally including control characters
 const ASCII_REGEX = /^[\u0000-\u007F]*$/u
-
 let splitter: Graphemer | undefined
 
 /**
@@ -26,9 +17,7 @@ let splitter: Graphemer | undefined
 export function getGraphemeCount(value: string) {
   if (ASCII_REGEX.test(value))
     return value.length
-
   if (!splitter)
     splitter = new Graphemer()
-
   return splitter.countGraphemes(value)
 }

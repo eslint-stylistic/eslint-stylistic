@@ -3,10 +3,6 @@
  * @author Gyandeep Singh
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
 import type * as ESTree from 'estree'
 import type { TSESTree } from '@typescript-eslint/utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
@@ -16,10 +12,6 @@ import { latestEcmaVersion, tokenize } from 'espree'
 import type { SourceCode } from 'eslint'
 import type { AstNode } from 'rollup'
 import type { ASTNode, Token } from './types'
-
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
 
 const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
 

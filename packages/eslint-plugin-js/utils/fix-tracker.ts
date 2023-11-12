@@ -3,17 +3,9 @@
  * @author Alan Pierce
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
 import type { AST, Rule, SourceCode } from 'eslint'
 import { getUpperFunction } from './ast-utils'
 import type { ASTNode } from './types'
-
-// ------------------------------------------------------------------------------
-// Public Interface
-// ------------------------------------------------------------------------------
 
 /**
  * A helper class to combine fix options into a fix command. Currently, it
