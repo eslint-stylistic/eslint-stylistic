@@ -3,13 +3,15 @@
  * @author Yannick Croissant
  */
 
+import type { Rule, Scope } from 'eslint'
+
 /**
  * Find and return a particular variable in a list
  * @param {Array} variables The variables list.
  * @param {string} name The name of the variable to search.
  * @returns {object} Variable if the variable was found, null if not.
  */
-export function getVariable(variables, name) {
+export function getVariable(variables: Scope.Variable[], name: string) {
   return variables.find(variable => variable.name === name)
 }
 
@@ -21,12 +23,12 @@ export function getVariable(variables, name) {
  * @param {object} context The current rule context.
  * @returns {Array} The variables list
  */
-export function variablesInScope(context) {
+export function variablesInScope(context: Rule.RuleContext) {
   let scope = context.getScope()
   let variables = scope.variables
 
   while (scope.type !== 'global') {
-    scope = scope.upper
+    scope = scope.upper!
     variables = scope.variables.concat(variables)
   }
   if (scope.childScopes.length) {
@@ -45,7 +47,7 @@ export function variablesInScope(context) {
  * @param  {string} name Name of the variable to look for.
  * @returns {ASTNode|null} Return null if the variable could not be found, ASTNode otherwise.
  */
-export function findVariableByName(context, name) {
+export function findVariableByName(context: Rule.RuleContext, name: string) {
   const variable = getVariable(variablesInScope(context), name)
 
   if (!variable || !variable.defs[0] || !variable.defs[0].node)
@@ -65,6 +67,6 @@ export function findVariableByName(context, name) {
  * @param {object} variable
  * @returns {object | undefined} The latest variable definition or undefined.
  */
-export function getLatestVariableDefinition(variable) {
+export function getLatestVariableDefinition(variable: Scope.Variable) {
   return variable.defs[variable.defs.length - 1]
 }

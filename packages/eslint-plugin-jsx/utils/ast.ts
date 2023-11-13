@@ -1,7 +1,11 @@
 /**
  * @fileoverview Utility functions for AST
  */
+import type { AST, Rule } from 'eslint'
+import type ESTraverse from 'estraverse'
 import { traverse as _traverse } from 'estraverse'
+import type { FunctionDeclaration } from 'estree'
+import type { ASTNode, ESNode } from './types'
 
 /**
  * Wrapper for estraverse.traverse
@@ -9,9 +13,9 @@ import { traverse as _traverse } from 'estraverse'
  * @param {ASTNode} ASTnode The AST node being checked
  * @param {object} visitor Visitor Object for estraverse
  */
-export function traverse(ASTnode, visitor) {
+export function traverse(ASTnode: ESNode, visitor: ESTraverse.Visitor) {
   const opts = Object.assign({}, {
-    fallback(node) {
+    fallback(node: ASTNode) {
       return Object.keys(node).filter(key => key === 'children' || key === 'argument')
     },
   }, visitor)
@@ -34,7 +38,11 @@ export function traverse(ASTnode, visitor) {
  *   Function to execute for each returnStatement found
  * @returns {undefined}
  */
-export function traverseReturns(ASTNode, context, onReturn) {
+export function traverseReturns(
+  ASTNode: ESNode,
+  context: Rule.RuleContext,
+  onReturn: (returnValue: ESNode | null | undefined, breakTraverse: () => void) => void,
+) {
   const nodeType = ASTNode.type
 
   if (nodeType === 'ReturnStatement') {
@@ -73,7 +81,7 @@ export function traverseReturns(ASTNode, context, onReturn) {
   )
     return
 
-  traverse(ASTNode.body, {
+  traverse((ASTNode as FunctionDeclaration).body, {
     enter(node) {
       const breakTraverse = () => {
         this.break()
@@ -103,18 +111,17 @@ export function traverseReturns(ASTNode, context, onReturn) {
  * @param {ASTNode} node The node to check
  * @return {ASTNode} the first node in the line
  */
-export function getFirstNodeInLine(context, node) {
+export function getFirstNodeInLine(context: Rule.RuleContext, node: ESNode) {
   const sourceCode = context.getSourceCode()
-  let token = node
-  let lines
+  let token: ESNode | AST.Token = node
+  let lines: string[] | null = null
   do {
-    token = sourceCode.getTokenBefore(token)
+    token = sourceCode.getTokenBefore(token)!
     lines = token.type === 'JSXText'
       ? token.value.split('\n')
       : null
   } while (
-    token.type === 'JSXText'
-        && /^\s*$/.test(lines[lines.length - 1])
+    token.type === 'JSXText' && lines && /^\s*$/.test(lines[lines.length - 1])
   )
   return token
 }
@@ -125,9 +132,9 @@ export function getFirstNodeInLine(context, node) {
  * @param {ASTNode} node The node to check
  * @return {boolean} true if it's the first node in its line
  */
-export function isNodeFirstInLine(context, node) {
+export function isNodeFirstInLine(context: Rule.RuleContext, node: ESNode) {
   const token = getFirstNodeInLine(context, node)
-  const startLine = node.loc.start.line
+  const startLine = node.loc!.start.line
   const endLine = token ? token.loc.end.line : -1
   return startLine !== endLine
 }
@@ -139,12 +146,12 @@ export function isNodeFirstInLine(context, node) {
  * @param {ASTNode} node - Node to be checked
  * @returns {boolean}
  */
-export function isParenthesized(context, node) {
+export function isParenthesized(context: Rule.RuleContext, node: ESNode) {
   const sourceCode = context.getSourceCode()
   const previousToken = sourceCode.getTokenBefore(node)
   const nextToken = sourceCode.getTokenAfter(node)
 
   return !!previousToken && !!nextToken
-    && previousToken.value === '(' && previousToken.range[1] <= node.range[0]
-    && nextToken.value === ')' && nextToken.range[0] >= node.range[1]
+    && previousToken.value === '(' && previousToken.range[1] <= node.range![0]
+    && nextToken.value === ')' && nextToken.range[0] >= node.range![1]
 }

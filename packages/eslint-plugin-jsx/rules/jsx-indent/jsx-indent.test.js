@@ -6,7 +6,7 @@
 import { RuleTester } from 'eslint'
 import semver from 'semver'
 import { version as eslintVersion } from 'eslint/package.json'
-import parsers from '../../tests/helpers/parsers'
+import parsers from '../../test-utils/parsers'
 import rule from './jsx-indent'
 
 const parserOptions = {

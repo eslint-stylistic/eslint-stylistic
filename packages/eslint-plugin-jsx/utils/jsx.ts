@@ -5,7 +5,7 @@ import type { Rule } from 'eslint'
 import { traverseReturns } from './ast'
 import { isCreateElement } from './isCreateElement'
 import { findVariableByName } from './variable'
-import type { ASTNode, Tree } from './types'
+import type { ASTNode, ESNode, Tree } from './types'
 
 // See https://github.com/babel/babel/blob/ce420ba51c68591e057696ef43e028f41c6e04cd/packages/babel-types/src/validators/react/isCompatTag.js
 // for why we only test for the first character
@@ -49,7 +49,7 @@ export function isWhiteSpaces(value: string): boolean {
  * @returns {boolean} True if the node is returning JSX or null, false if not
  */
 export function isReturningJSX(ASTnode: ASTNode, context: Rule.RuleContext, strict = false, ignoreNull = false) {
-  const isJSXValue = (node: ASTNode): boolean => {
+  const isJSXValue = (node: ASTNode | ESNode | null | undefined): boolean => {
     if (!node)
       return false
 
@@ -70,7 +70,7 @@ export function isReturningJSX(ASTnode: ASTNode, context: Rule.RuleContext, stri
       case 'JSXFragment':
         return true
       case 'CallExpression':
-        return isCreateElement(node, context)
+        return isCreateElement(node as Tree.CallExpression, context)
       case 'Literal':
         if (!ignoreNull && node.value === null)
           return true
@@ -85,7 +85,7 @@ export function isReturningJSX(ASTnode: ASTNode, context: Rule.RuleContext, stri
   }
 
   let found = false
-  traverseReturns(ASTnode, context, (node, breakTraverse) => {
+  traverseReturns(ASTnode as ESNode, context, (node, breakTraverse) => {
     if (isJSXValue(node)) {
       found = true
       breakTraverse()

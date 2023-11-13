@@ -1,7 +1,7 @@
 import type { Rule } from 'eslint'
 import { getFromContext } from './pragma'
 import { isDestructuredFromPragmaImport } from './isDestructuredFromPragmaImport'
-import type { ASTNode, Tree } from './types'
+import type { Tree } from './types'
 
 /**
  * Checks if the node is a createElement call

@@ -1,3 +1,4 @@
+import type { Rule } from 'eslint'
 import { getFromContext } from './pragma'
 import { getLatestVariableDefinition, getVariable, variablesInScope } from './variable'
 
@@ -8,7 +9,7 @@ import { getLatestVariableDefinition, getVariable, variablesInScope } from './va
  * @param {Context} context eslint context
  * @returns {boolean} True if createElement is destructured from the pragma
  */
-export function isDestructuredFromPragmaImport(variable, context) {
+export function isDestructuredFromPragmaImport(variable: string, context: Rule.RuleContext) {
   const pragma = getFromContext(context)
   const variables = variablesInScope(context)
   const variableInScope = getVariable(variables, variable)

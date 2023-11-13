@@ -38,6 +38,9 @@ importers:
       '@types/eslint':
         specifier: ^8.44.7
         version: 8.44.7
+      '@types/estraverse':
+        specifier: ^5.1.6
+        version: 5.1.6
       '@types/estree':
         specifier: ^1.0.5
         version: 1.0.5
@@ -53,6 +56,9 @@ importers:
       '@types/semver':
         specifier: ^7.5.5
         version: 7.5.5
+      '@typescript-eslint/utils':
+        specifier: ^6.10.0
+        version: 6.10.0(eslint@8.53.0)(typescript@5.2.2)
       bumpp:
         specifier: ^9.2.0
         version: 9.2.0
@@ -1749,7 +1755,7 @@ packages:
       rollup:
         optional: true
     dependencies:
-      '@types/estree': 1.0.0
+      '@types/estree': 1.0.5
       estree-walker: 2.0.2
       picomatch: 2.3.1
       rollup: 3.29.4
@@ -1941,8 +1947,10 @@ packages:
       '@types/json-schema': 7.0.15
     dev: true
 
-  /@types/estree@1.0.0:
-    resolution: {integrity: sha512-WulqXMDUTYAXCjZnk6JtIHPigp55cVtDgDrO2gHRwhyJto21+1zbVCtOYB2L1F9w4qCQ0rOGWBnBe0FNTiEJIQ==}
+  /@types/estraverse@5.1.6:
+    resolution: {integrity: sha512-IL4TOP+KA2BvqAv4jWQ1HXzIeQ4AecgY8SBgdLMIlkMll8nki/OB1z0LGU/K8y3udZuyBvjOG97j/RE1cgUlCA==}
+    dependencies:
+      '@types/estree': 1.0.5
     dev: true
 
   /@types/estree@1.0.5:
