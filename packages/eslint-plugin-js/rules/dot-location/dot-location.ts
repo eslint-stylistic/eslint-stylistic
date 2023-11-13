@@ -3,14 +3,15 @@
  * @author Greg Cochard
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
 import { isDecimalIntegerNumericToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -21,6 +22,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['object', 'property'],
       },
     ],
@@ -46,15 +48,15 @@ export default {
      * @param {ASTNode} node The `MemberExpression` node.
      * @returns {void}
      */
-    function checkDotLocation(node) {
+    function checkDotLocation(node: TSESTree.MemberExpression) {
       const property = node.property
       const dotToken = sourceCode.getTokenBefore(property)
 
-      if (onObject) {
+      if (onObject && dotToken) {
         // `obj` expression can be parenthesized, but those paren tokens are not a part of the `obj` node.
         const tokenBeforeDot = sourceCode.getTokenBefore(dotToken)
 
-        if (!isTokenOnSameLine(tokenBeforeDot, dotToken)) {
+        if (tokenBeforeDot && !isTokenOnSameLine(tokenBeforeDot, dotToken)) {
           context.report({
             node,
             loc: dotToken.loc,
@@ -70,7 +72,7 @@ export default {
           })
         }
       }
-      else if (!isTokenOnSameLine(dotToken, property)) {
+      else if (!isTokenOnSameLine(dotToken, property) && dotToken) {
         context.report({
           node,
           loc: dotToken.loc,
@@ -88,8 +90,8 @@ export default {
      * @param {ASTNode} node The node to check.
      * @returns {void}
      */
-    function checkNode(node) {
-      if (!node.computed)
+    function checkNode(node: TSESTree.MemberExpression) {
+      if (node.type === 'MemberExpression' && !node.computed)
         checkDotLocation(node)
     }
 
@@ -97,4 +99,4 @@ export default {
       MemberExpression: checkNode,
     }
   },
-}
+})
