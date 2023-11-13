@@ -3,6 +3,8 @@ import jsx from '@stylistic/eslint-plugin-jsx'
 import ts from '@stylistic/eslint-plugin-ts'
 import { configs } from '../configs'
 
+export * from '../dts'
+
 export default {
   rules: {
     ...js.rules,

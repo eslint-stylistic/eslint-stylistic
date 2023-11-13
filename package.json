@@ -20,6 +20,7 @@
   },
   "devDependencies": {
     "@antfu/eslint-config": "^1.1.0",
+    "@antfu/eslint-define-config": "1.23.0-2",
     "@antfu/ni": "^0.21.9",
     "@antfu/utils": "^0.7.6",
     "@rollup/plugin-commonjs": "^25.0.7",
