@@ -11,7 +11,7 @@ import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 import { latestEcmaVersion, tokenize } from 'espree'
 import type { SourceCode } from 'eslint'
 import type { AstNode } from 'rollup'
-import type { ASTNode, Token } from './types'
+import type { ASTNode, ESNode, Token } from './types'
 
 const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
 
@@ -437,7 +437,7 @@ export function isDirective(node: ASTNode) {
  * @returns {boolean} Whether or not the tokens are on the same line.
  * @public
  */
-export function isTokenOnSameLine(left: Token | null, right: Token | null) {
+export function isTokenOnSameLine(left: Token | ESNode | null, right: Token | ESNode | null) {
   return left?.loc?.end.line === right?.loc?.start.line
 }
 
