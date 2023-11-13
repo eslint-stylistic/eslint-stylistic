@@ -13,7 +13,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "array-bracket-newline",
         "ruleId": "@stylistic/js/array-bracket-newline",
         "originalId": "array-bracket-newline",
-        "entry": "packages/eslint-plugin-js/rules/array-bracket-newline/array-bracket-newline.js",
+        "entry": "packages/eslint-plugin-js/rules/array-bracket-newline/array-bracket-newline.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/array-bracket-newline/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -1501,7 +1501,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       {
         "name": "array-bracket-newline",
         "ruleId": "@stylistic/array-bracket-newline",
-        "entry": "packages/eslint-plugin-js/rules/array-bracket-newline/array-bracket-newline.js",
+        "entry": "packages/eslint-plugin-js/rules/array-bracket-newline/array-bracket-newline.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/array-bracket-newline/README.md",
         "meta": {
           "fixable": "whitespace",
