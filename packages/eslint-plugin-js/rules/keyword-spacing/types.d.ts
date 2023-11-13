@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export interface Schema0 {
   before?: boolean
   after?: boolean
@@ -278,3 +280,4 @@ export interface Schema0 {
 }
 
 export type RuleOptions = [Schema0?]
+export type MessageIds = 'expectedBefore' | 'expectedAfter' | 'unexpectedBefore' | 'unexpectedAfter'

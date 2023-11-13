@@ -3,8 +3,6 @@
  * @author Jamund Ferguson
  */
 
-'use strict'
-
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
@@ -26,7 +24,7 @@ const OVERRIDE_SCHEMA = {
 }
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export interface Schema0 {
   before?: boolean
   after?: boolean
@@ -16,3 +18,4 @@ export interface SpacingConfig {
 }
 
 export type RuleOptions = [Schema0?]
+export type MessageIds = 'expectedSpaceAfter' | 'expectedSpaceBefore' | 'unexpectedSpaceAfter' | 'unexpectedSpaceBefore' | 'unexpectedSpaceBetween'

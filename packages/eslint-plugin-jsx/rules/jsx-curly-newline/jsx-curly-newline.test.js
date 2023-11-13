@@ -2,15 +2,9 @@
  * @fileoverview enforce consistent line breaks inside jsx curly
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const RuleTester = require('eslint').RuleTester
-const parsers = require('../../tests/helpers/parsers')
-const rule = require('./jsx-curly-newline')
+import { RuleTester } from 'eslint'
+import parsers from '../../tests/helpers/parsers'
+import rule from './jsx-curly-newline'
 
 const parserOptions = {
   ecmaVersion: 2018,

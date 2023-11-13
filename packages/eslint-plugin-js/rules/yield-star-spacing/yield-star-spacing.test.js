@@ -3,14 +3,8 @@
  * @author Bryan Smith
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./yield-star-spacing')
+import { RuleTester } from 'eslint'
+import rule from './yield-star-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests

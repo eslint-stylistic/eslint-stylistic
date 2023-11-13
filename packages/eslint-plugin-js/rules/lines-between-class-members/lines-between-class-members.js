@@ -2,13 +2,8 @@
  * @fileoverview Rule to check empty newline between class members
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -30,7 +25,7 @@ const ClassMemberTypes = {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -132,9 +127,9 @@ module.exports = {
       const nextToken = sourceCode.getFirstToken(nextNode) // skip possible lone `;` between nodes
 
       const isSemicolonLessStyle = (
-        astUtils.isSemicolonToken(lastToken)
-                && !astUtils.isTokenOnSameLine(prevToken, lastToken)
-                && astUtils.isTokenOnSameLine(lastToken, nextToken)
+        isSemicolonToken(lastToken)
+                && !isTokenOnSameLine(prevToken, lastToken)
+                && isTokenOnSameLine(lastToken, nextToken)
       )
 
       return isSemicolonLessStyle
@@ -222,7 +217,7 @@ module.exports = {
         for (let i = 0; i < body.length - 1; i++) {
           const curFirst = sourceCode.getFirstToken(body[i])
           const { curLast, nextFirst } = getBoundaryTokens(body[i], body[i + 1])
-          const isMulti = !astUtils.isTokenOnSameLine(curFirst, curLast)
+          const isMulti = !isTokenOnSameLine(curFirst, curLast)
           const skip = !isMulti && options[1].exceptAfterSingleLine
           const beforePadding = findLastConsecutiveTokenAfter(curLast, nextFirst, 1)
           const afterPadding = findFirstConsecutiveTokenBefore(nextFirst, curLast, 1)

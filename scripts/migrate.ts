@@ -297,7 +297,7 @@ async function migrateTS() {
   if (!existsSync(root))
     throw new Error(`ESLint repo ${root} does not exist`)
 
-  // await fs.copy(join(root, 'packages/eslint-plugin/src/util'), join(targetRoot, 'util'), { overwrite: true })
+  // await fs.copy(join(root, 'packages/eslint-plugin/src/utils'), join(targetRoot, 'util'), { overwrite: true })
 
   const rules = await fg('packages/eslint-plugin/src/rules/*.ts', {
     cwd: root,
@@ -327,8 +327,8 @@ async function migrateTS() {
       const utils: string[] = []
       js = js
         .replaceAll(
-          '\'../util',
-          '\'../../util',
+          '\'../utils',
+          '\'../../utils',
         )
         // find all `util.xxx` and collect them
         .replaceAll(/util\.(\w+)/g, (_, name) => {
@@ -338,7 +338,7 @@ async function migrateTS() {
         // rewrite namespace import to named import
         .replace(
           'import * as util from \'../../util\'',
-          `import { ${utils.join(', ')} } from '../../util'`,
+          `import { ${utils.join(', ')} } from '../../utils'`,
         )
         .replace(
           /eslint-disable-next-line eslint-plugin\/.*/g,
@@ -367,8 +367,8 @@ async function migrateTS() {
             '\'./',
           )
           .replaceAll(
-            '\'../../src/util',
-            '\'../../util',
+            '\'../../src/utils',
+            '\'../../utils',
           )
           .replaceAll(
             'eslint "@typescript-eslint/internal',
@@ -432,8 +432,8 @@ async function migrateJSX() {
       let js = await fs.readFile(rule, 'utf-8')
       js = js
         .replaceAll(
-          'require(\'../util',
-          'require(\'../../util',
+          'require(\'../utils',
+          'require(\'../../utils',
         )
         .replaceAll(
           'require(\'object.hasown/polyfill\')()',
@@ -495,8 +495,12 @@ async function migrateJSX() {
   )
 }
 
-;(async () => {
-  await migrateTS()
-  await migrateJS()
-  await migrateJSX()
-})()
+if (1 + 2 === 1) {
+  ;(async () => {
+    await migrateTS()
+    await migrateJS()
+    await migrateJSX()
+  })()
+}
+
+throw new Error('Migration is finished. This script is no longer needed.')

@@ -2,14 +2,9 @@
  * @fileoverview Comma style
  * @author Vignesh Anand aka vegetableman
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./comma-style')
+import { RuleTester } from 'eslint'
+import rule from './comma-style'
 
 // ------------------------------------------------------------------------------
 // Tests

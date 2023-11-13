@@ -2,17 +2,11 @@
  * @fileoverview enforce consistent line breaks inside function parentheses
  * @author Teddy Katz
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-
-const { unIndent } = require('../../utils/test-utils')
-const fixtureParser = require('../../fixtures/fixture-parser')
-const rule = require('./function-paren-newline')
+import { RuleTester } from 'eslint'
+import { unIndent } from '../../test-utils/unindent'
+import fixtureParser from '../../test-utils/fixture-parser'
+import rule from './function-paren-newline'
 
 // ------------------------------------------------------------------------------
 // Tests

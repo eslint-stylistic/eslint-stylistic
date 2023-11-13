@@ -3,14 +3,8 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./no-mixed-operators')
+import { RuleTester } from 'eslint'
+import rule from './no-mixed-operators'
 
 // ------------------------------------------------------------------------------
 // Tests

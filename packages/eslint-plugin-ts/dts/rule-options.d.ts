@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 import type { RuleOptions as BlockSpacingRuleOptions } from '../rules/block-spacing/types'
 import type { RuleOptions as BraceStyleRuleOptions } from '../rules/brace-style/types'
 import type { RuleOptions as CommaDangleRuleOptions } from '../rules/comma-dangle/types'

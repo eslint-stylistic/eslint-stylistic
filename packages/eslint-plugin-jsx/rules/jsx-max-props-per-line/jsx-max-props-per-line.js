@@ -3,10 +3,8 @@
  * @author Yannick Croissant
  */
 
-'use strict'
-
-const docsUrl = require('../../util/docsUrl')
-const report = require('../../util/report')
+import { docsUrl } from '../../utils/docsUrl'
+import report from '../../utils/report'
 
 function getPropName(context, propNode) {
   if (propNode.type === 'JSXSpreadAttribute')
@@ -23,7 +21,7 @@ const messages = {
   newLine: 'Prop `{{prop}}` must be placed on a new line',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Enforce maximum of props on a single line in JSX',

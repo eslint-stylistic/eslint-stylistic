@@ -4,14 +4,8 @@ import { RuleTester } from '@typescript-eslint/rule-tester'
 import type { TSESLint } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import type {
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
-} from '../../util'
 import rule from './indent'
-
-type MessageIds = InferMessageIdsTypeFromRule<typeof rule>
-type Options = InferOptionsTypeFromRule<typeof rule>
+import type { MessageIds, RuleOptions } from './types'
 
 /**
  * Marks a test case as a plain javascript case which should be indented the same
@@ -590,7 +584,7 @@ type Foo = string | {
             `,
     ],
   },
-].reduce<TSESLint.RunTests<MessageIds, Options>>(
+].reduce<TSESLint.RunTests<MessageIds, RuleOptions>>(
   (acc, testCase) => {
     const indent = '    '
 

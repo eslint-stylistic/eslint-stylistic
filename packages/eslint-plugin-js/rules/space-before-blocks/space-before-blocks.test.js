@@ -3,15 +3,9 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const fixtureParser = require('../../fixtures/fixture-parser')
-const rule = require('./space-before-blocks')
+import { RuleTester } from 'eslint'
+import fixtureParser from '../../test-utils/fixture-parser'
+import rule from './space-before-blocks'
 
 // ------------------------------------------------------------------------------
 // Tests

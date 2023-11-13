@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export type Schema0 =
   | []
   | [
@@ -38,3 +40,4 @@ export interface BasicConfig {
 }
 
 export type RuleOptions = Schema0
+export type MessageIds = 'noNewlineAfter' | 'noNewlineBefore' | 'noSpaceAfter' | 'noSpaceBefore' | 'spaceNeededAfter' | 'spaceNeededBefore'

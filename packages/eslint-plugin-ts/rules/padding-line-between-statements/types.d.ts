@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export type PaddingType = 'any' | 'never' | 'always'
 export type StatementType =
   | (
@@ -135,3 +137,4 @@ export type Schema0 = {
 }[]
 
 export type RuleOptions = Schema0
+export type MessageIds = 'unexpectedBlankLine' | 'expectedBlankLine'

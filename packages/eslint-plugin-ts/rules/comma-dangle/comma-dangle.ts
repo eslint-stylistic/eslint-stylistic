@@ -1,21 +1,18 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import type {
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
-} from '../../util'
-import { createRule, isCommaToken } from '../../util'
-import { getESLintCoreRule } from '../../util/getESLintCoreRule'
+import { isCommaToken } from '@typescript-eslint/utils/ast-utils'
+
+import { createRule } from '../../utils'
+import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = getESLintCoreRule('comma-dangle')
 
-export type Options = InferOptionsTypeFromRule<typeof baseRule>
-export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
-
-type Option = Options[0]
+type Extract<T> = T extends Record<any, any> ? T : never
+type Option = RuleOptions[0]
 type NormalizedOptions = Required<
-  Pick<Exclude<Option, string>, 'enums' | 'generics' | 'tuples'>
+  Pick<Extract<Exclude<Option, string>>, 'enums' | 'generics' | 'tuples'>
 >
 
 const OPTION_VALUE_SCHEME = [
@@ -27,7 +24,7 @@ const OPTION_VALUE_SCHEME = [
 
 const DEFAULT_OPTION_VALUE = 'never'
 
-function normalizeOptions(options: Option): NormalizedOptions {
+function normalizeOptions(options: Option = {}): NormalizedOptions {
   if (typeof options === 'string') {
     return {
       enums: options,
@@ -42,7 +39,7 @@ function normalizeOptions(options: Option): NormalizedOptions {
   }
 }
 
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'comma-dangle',
   meta: {
     type: 'layout',

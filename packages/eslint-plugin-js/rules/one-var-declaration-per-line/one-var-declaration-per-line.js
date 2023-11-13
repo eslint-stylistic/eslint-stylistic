@@ -2,14 +2,13 @@
  * @fileoverview Rule to check multiple var declarations per line
  * @author Alberto Rodríguez
  */
-'use strict'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
 

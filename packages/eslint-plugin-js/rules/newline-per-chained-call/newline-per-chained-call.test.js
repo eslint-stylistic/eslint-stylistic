@@ -3,14 +3,8 @@
  * @author Rajendra Patil
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./newline-per-chained-call')
+import { RuleTester } from 'eslint'
+import rule from './newline-per-chained-call'
 
 // ------------------------------------------------------------------------------
 // Tests

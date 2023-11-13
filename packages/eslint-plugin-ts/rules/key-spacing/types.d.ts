@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export type Schema0 =
   | {
     align?:
@@ -52,3 +54,4 @@ export type Schema0 =
   }
 
 export type RuleOptions = [Schema0?]
+export type MessageIds = 'extraKey' | 'extraValue' | 'missingKey' | 'missingValue'

@@ -3,13 +3,8 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-const { RuleTester } = require('eslint')
-const rule = require('./max-len')
+import { RuleTester } from 'eslint'
+import rule from './max-len'
 
 // ------------------------------------------------------------------------------
 // Tests

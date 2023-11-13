@@ -2,15 +2,10 @@
  * @fileoverview Disallows or enforces spaces inside of object literals.
  * @author Jamund Ferguson
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const resolvePath = require('node:path').resolve
-const { RuleTester } = require('eslint')
-const rule = require('./object-curly-spacing')
+import { resolve as resolvePath } from 'node:path'
+import { RuleTester } from 'eslint'
+import rule from './object-curly-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests
@@ -174,7 +169,7 @@ ruleTester.run('object-curly-spacing', rule, {
     {
       code: 'function foo ({a, b}: Props) {\n}',
       options: ['never'],
-      parser: resolvePath(__dirname, '../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-valid'),
+      parser: resolvePath(__dirname, '../../test-utils/parsers/object-curly-spacing/flow-stub-parser-never-valid'),
     },
   ],
 
@@ -1393,7 +1388,7 @@ ruleTester.run('object-curly-spacing', rule, {
       code: 'function foo ({a, b }: Props) {\n}',
       output: 'function foo ({a, b}: Props) {\n}',
       options: ['never'],
-      parser: resolvePath(__dirname, '../../fixtures/parsers/object-curly-spacing/flow-stub-parser-never-invalid'),
+      parser: resolvePath(__dirname, '../../test-utils/parsers/object-curly-spacing/flow-stub-parser-never-invalid'),
       errors: [
         {
           messageId: 'unexpectedSpaceBefore',

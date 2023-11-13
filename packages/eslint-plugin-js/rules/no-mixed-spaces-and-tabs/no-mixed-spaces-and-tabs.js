@@ -2,14 +2,13 @@
  * @fileoverview Disallow mixed spaces and tabs for indentation
  * @author Jary Niebur
  */
-'use strict'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

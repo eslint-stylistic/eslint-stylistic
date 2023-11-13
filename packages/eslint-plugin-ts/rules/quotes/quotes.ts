@@ -1,19 +1,13 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import type {
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
-} from '../../util'
-import { createRule } from '../../util'
-import { getESLintCoreRule } from '../../util/getESLintCoreRule'
+import { createRule } from '../../utils'
+import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = getESLintCoreRule('quotes')
 
-export type Options = InferOptionsTypeFromRule<typeof baseRule>
-export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
-
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'quotes',
   meta: {
     type: 'layout',
@@ -66,11 +60,11 @@ export default createRule<Options, MessageIds>({
         if (option === 'backtick' && isAllowedAsNonBacktick(node))
           return
 
-        rules.Literal(node)
+        rules.Literal!(node)
       },
 
       TemplateLiteral(node): void {
-        rules.TemplateLiteral(node)
+        rules.TemplateLiteral!(node)
       },
     }
   },

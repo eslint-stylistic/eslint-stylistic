@@ -1,3 +1,7 @@
+<!--
+/* GENERATED, DO NOT EDIT DIRECTLY */
+-->
+
 # @stylistic/eslint-plugin-ts
 
 | Rule ID | Description | Fixable | Recommended |

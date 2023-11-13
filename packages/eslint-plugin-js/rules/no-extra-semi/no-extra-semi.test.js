@@ -3,14 +3,8 @@
  * @author Nicholas C. Zakas
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./no-extra-semi')
+import { RuleTester } from 'eslint'
+import rule from './no-extra-semi'
 
 // ------------------------------------------------------------------------------
 // Tests

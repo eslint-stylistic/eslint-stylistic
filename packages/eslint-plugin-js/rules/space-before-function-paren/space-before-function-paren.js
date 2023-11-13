@@ -2,20 +2,15 @@
  * @fileoverview Rule to validate spacing before function paren.
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { isOpeningParenToken } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -92,7 +87,7 @@ module.exports = {
     function getConfigForFunction(node) {
       if (node.type === 'ArrowFunctionExpression') {
         // Always ignore non-async functions and arrow functions without parens, e.g. async foo => bar
-        if (node.async && astUtils.isOpeningParenToken(sourceCode.getFirstToken(node, { skip: 1 })))
+        if (node.async && isOpeningParenToken(sourceCode.getFirstToken(node, { skip: 1 })))
           return overrideConfig.asyncArrow || baseConfig
       }
       else if (isNamedFunction(node)) {
@@ -118,7 +113,7 @@ module.exports = {
       if (functionConfig === 'ignore')
         return
 
-      const rightToken = sourceCode.getFirstToken(node, astUtils.isOpeningParenToken)
+      const rightToken = sourceCode.getFirstToken(node, isOpeningParenToken)
       const leftToken = sourceCode.getTokenBefore(rightToken)
       const hasSpacing = sourceCode.isSpaceBetweenTokens(leftToken, rightToken)
 

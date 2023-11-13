@@ -4,14 +4,8 @@
 import { RuleTester } from '@typescript-eslint/rule-tester'
 import type { TSESLint } from '@typescript-eslint/utils'
 
-import type {
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
-} from '../../util'
 import rule from './type-annotation-spacing'
-
-type MessageIds = InferMessageIdsTypeFromRule<typeof rule>
-type Options = InferOptionsTypeFromRule<typeof rule>
+import type { MessageIds, RuleOptions } from './types'
 
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
@@ -6562,7 +6556,7 @@ type Foo = {
 const operators = ['+?:', '-?:']
 
 ruleTester.run('type-annotation-spacing', rule, {
-  valid: operators.reduce<TSESLint.ValidTestCase<Options>[]>(
+  valid: operators.reduce<TSESLint.ValidTestCase<RuleOptions>[]>(
     (validCases, operator) =>
       validCases.concat([
         {
@@ -6604,7 +6598,7 @@ ruleTester.run('type-annotation-spacing', rule, {
       ]),
     [],
   ),
-  invalid: operators.reduce<TSESLint.InvalidTestCase<MessageIds, Options>[]>(
+  invalid: operators.reduce<TSESLint.InvalidTestCase<MessageIds, RuleOptions>[]>(
     (invalidCases, operator) =>
       invalidCases.concat([
         // space before + after cases

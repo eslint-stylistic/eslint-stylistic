@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 import type { RuleOptions as JsxChildElementSpacingRuleOptions } from '../rules/jsx-child-element-spacing/types'
 import type { RuleOptions as JsxClosingBracketLocationRuleOptions } from '../rules/jsx-closing-bracket-location/types'
 import type { RuleOptions as JsxClosingTagLocationRuleOptions } from '../rules/jsx-closing-tag-location/types'

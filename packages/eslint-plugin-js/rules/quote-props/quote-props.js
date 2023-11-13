@@ -2,22 +2,17 @@
  * @fileoverview Rule to flag non-quoted property names in object literals.
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const espree = require('espree')
-const astUtils = require('../../utils/ast-utils')
-const keywords = require('../../utils/keywords')
+import * as espree from 'espree'
+import { isNumericLiteral } from '../../utils/ast-utils'
+import keywords from '../../utils/keywords'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
 
@@ -180,7 +175,7 @@ module.exports = {
           fix: fixer => fixer.replaceText(key, getQuotedKey(key)),
         })
       }
-      else if (NUMBERS && key.type === 'Literal' && astUtils.isNumericLiteral(key)) {
+      else if (NUMBERS && key.type === 'Literal' && isNumericLiteral(key)) {
         context.report({
           node,
           messageId: 'unquotedNumericProperty',

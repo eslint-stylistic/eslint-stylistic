@@ -3,13 +3,7 @@
  * @author Matt DuVall <http://www.mattduvall.com/>, Brandon Payton
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { LINEBREAKS, hasOctalOrNonOctalDecimalEscapeSequence, isParenthesised, isSurroundedBy, isTopLevelExpressionStatement } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Constants
@@ -34,7 +28,7 @@ const QUOTE_SETTINGS = {
 }
 
 // An unescaped newline is a newline preceded by an even number of backslashes.
-const UNESCAPED_LINEBREAK_PATTERN = new RegExp(String.raw`(^|[^\\])(\\\\)*[${Array.from(astUtils.LINEBREAKS).join('')}]`, 'u')
+const UNESCAPED_LINEBREAK_PATTERN = new RegExp(String.raw`(^|[^\\])(\\\\)*[${Array.from(LINEBREAKS).join('')}]`, 'u')
 
 /**
  * Switches quoting of javascript string between ' " and `
@@ -75,7 +69,7 @@ const AVOID_ESCAPE = 'avoid-escape'
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -166,7 +160,7 @@ module.exports = {
         node.type === 'ExpressionStatement'
                 && node.expression.type === 'Literal'
                 && typeof node.expression.value === 'string'
-                && !astUtils.isParenthesised(sourceCode, node.expression)
+                && !isParenthesised(sourceCode, node.expression)
       )
     }
 
@@ -178,7 +172,7 @@ module.exports = {
      * @private
      */
     function isExpressionInOrJustAfterDirectivePrologue(node) {
-      if (!astUtils.isTopLevelExpressionStatement(node.parent))
+      if (!isTopLevelExpressionStatement(node.parent))
         return false
 
       const block = node.parent.parent
@@ -209,7 +203,7 @@ module.exports = {
       switch (parent.type) {
         // Directive Prologues.
         case 'ExpressionStatement':
-          return !astUtils.isParenthesised(sourceCode, node) && isExpressionInOrJustAfterDirectivePrologue(node)
+          return !isParenthesised(sourceCode, node) && isExpressionInOrJustAfterDirectivePrologue(node)
 
           // LiteralPropertyName.
         case 'Property':
@@ -274,10 +268,10 @@ module.exports = {
         if (settings && typeof val === 'string') {
           let isValid = (quoteOption === 'backtick' && isAllowedAsNonBacktick(node))
                         || isJSXLiteral(node)
-                        || astUtils.isSurroundedBy(rawVal, settings.quote)
+                        || isSurroundedBy(rawVal, settings.quote)
 
           if (!isValid && avoidEscape)
-            isValid = astUtils.isSurroundedBy(rawVal, settings.alternateQuote) && rawVal.includes(settings.quote)
+            isValid = isSurroundedBy(rawVal, settings.alternateQuote) && rawVal.includes(settings.quote)
 
           if (!isValid) {
             context.report({
@@ -287,7 +281,7 @@ module.exports = {
                 description: settings.description,
               },
               fix(fixer) {
-                if (quoteOption === 'backtick' && astUtils.hasOctalOrNonOctalDecimalEscapeSequence(rawVal)) {
+                if (quoteOption === 'backtick' && hasOctalOrNonOctalDecimalEscapeSequence(rawVal)) {
                   /*
                                      * An octal or non-octal decimal escape sequence in a template literal would
                                      * produce syntax error, even in non-strict mode.
@@ -318,7 +312,7 @@ module.exports = {
             description: settings.description,
           },
           fix(fixer) {
-            if (astUtils.isTopLevelExpressionStatement(node.parent) && !astUtils.isParenthesised(sourceCode, node)) {
+            if (isTopLevelExpressionStatement(node.parent) && !isParenthesised(sourceCode, node)) {
               /*
                              * TemplateLiterals aren't actually directives, but fixing them might turn
                              * them into directives and change the behavior of the code.

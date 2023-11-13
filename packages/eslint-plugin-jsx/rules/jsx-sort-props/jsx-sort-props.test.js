@@ -3,17 +3,11 @@
  * @author Yannick Croissant
  */
 
-'use strict'
-
-// -----------------------------------------------------------------------------
-// Requirements
-// -----------------------------------------------------------------------------
-
-const RuleTester = require('eslint').RuleTester
-const semver = require('semver')
-const eslintPkg = require('eslint/package.json')
-const parsers = require('../../tests/helpers/parsers')
-const rule = require('./jsx-sort-props')
+import { RuleTester } from 'eslint'
+import semver from 'semver'
+import eslintPkg from 'eslint/package.json'
+import parsers from '../../tests/helpers/parsers'
+import rule from './jsx-sort-props'
 
 const parserOptions = {
   ecmaVersion: 2018,

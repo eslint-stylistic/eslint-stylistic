@@ -30,14 +30,12 @@
  THE SOFTWARE.
  */
 
-'use strict'
+import { getFirstNodeInLine, isNodeFirstInLine } from '../../utils/ast'
+import { docsUrl } from '../../utils/docsUrl'
+import reportC from '../../utils/report'
+import { isJSX, isReturningJSX } from '../../utils/jsx'
 
 const matchAll = (s, v) => s.matchAll(v)
-
-const astUtil = require('../../util/ast')
-const docsUrl = require('../../util/docsUrl')
-const reportC = require('../../util/report')
-const jsxUtil = require('../../util/jsx')
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -47,7 +45,7 @@ const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
 }
 
-module.exports = {
+export default {
   meta: {
     docs: {
       description: 'Enforce JSX indentation',
@@ -301,7 +299,7 @@ module.exports = {
       const isCorrectAlternateInCondExp = isAlternateInConditionalExp(node) && (nodeIndent - indent) === 0
       if (
         nodeIndent !== indent
-        && astUtil.isNodeFirstInLine(context, node)
+        && isNodeFirstInLine(context, node)
         && !isCorrectRightInLogicalExp
         && !isCorrectAlternateInCondExp
       )
@@ -376,7 +374,7 @@ module.exports = {
 
       const nameIndent = getNodeIndent(node.name)
       const lastToken = context.getSourceCode().getLastToken(node.value)
-      const firstInLine = astUtil.getFirstNodeInLine(context, lastToken)
+      const firstInLine = getFirstNodeInLine(context, lastToken)
       const indent = node.name.loc.start.line === firstInLine.loc.start.line ? 0 : nameIndent
       checkNodesIndent(firstInLine, indent)
     }
@@ -411,7 +409,7 @@ module.exports = {
       ReturnStatement(node) {
         if (
           !node.parent
-          || !jsxUtil.isJSX(node.argument)
+          || !isJSX(node.argument)
         )
           return
 
@@ -421,7 +419,7 @@ module.exports = {
 
         if (
           !fn
-          || !jsxUtil.isReturningJSX(node, context, true)
+          || !isReturningJSX(node, context, true)
         )
           return
 

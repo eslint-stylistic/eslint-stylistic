@@ -2,13 +2,8 @@
  * @fileoverview Rule to require parens in arrow function arguments.
  * @author Jxck
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { canTokensBeAdjacent, isClosingParenToken, isOpeningParenToken } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -28,7 +23,7 @@ function hasBlockBody(node) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -82,7 +77,7 @@ module.exports = {
 
       if (
         tokenBeforeParams
-                && astUtils.isOpeningParenToken(tokenBeforeParams)
+                && isOpeningParenToken(tokenBeforeParams)
                 && node.range[0] <= tokenBeforeParams.range[0]
       )
         return tokenBeforeParams
@@ -97,7 +92,7 @@ module.exports = {
      * @returns {Token} the closing paren of parameters.
      */
     function getClosingParenOfParams(node) {
-      return sourceCode.getTokenAfter(node.params[0], astUtils.isClosingParenToken)
+      return sourceCode.getTokenAfter(node.params[0], isClosingParenToken)
     }
 
     /**
@@ -165,7 +160,7 @@ module.exports = {
               if (
                 tokenBeforeOpeningParen
                                 && tokenBeforeOpeningParen.range[1] === openingParen.range[0]
-                                && !astUtils.canTokensBeAdjacent(tokenBeforeOpeningParen, sourceCode.getFirstToken(param))
+                                && !canTokensBeAdjacent(tokenBeforeOpeningParen, sourceCode.getFirstToken(param))
               )
                 yield fixer.insertTextBefore(openingParen, ' ')
 

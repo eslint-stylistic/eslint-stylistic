@@ -3,13 +3,7 @@
  * @author Toru Nagashima
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils.js')
+import { getPrecedence, isNotClosingParenToken, isParenthesised } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -83,7 +77,7 @@ function getChildNode(node) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
 
@@ -140,7 +134,7 @@ module.exports = {
         !includesBothInAGroup(options.groups, a.operator, b.type === 'ConditionalExpression' ? '?:' : b.operator)
                 || (
                   options.allowSamePrecedence
-                    && astUtils.getPrecedence(a) === astUtils.getPrecedence(b)
+                    && getPrecedence(a) === getPrecedence(b)
                 )
       )
     }
@@ -156,7 +150,7 @@ module.exports = {
     function isMixedWithParent(node) {
       return (
         node.operator !== node.parent.operator
-                && !astUtils.isParenthesised(sourceCode, node)
+                && !isParenthesised(sourceCode, node)
       )
     }
 
@@ -167,7 +161,7 @@ module.exports = {
      * @returns {Token} The operator token of the node.
      */
     function getOperatorToken(node) {
-      return sourceCode.getTokenAfter(getChildNode(node), astUtils.isNotClosingParenToken)
+      return sourceCode.getTokenAfter(getChildNode(node), isNotClosingParenToken)
     }
 
     /**

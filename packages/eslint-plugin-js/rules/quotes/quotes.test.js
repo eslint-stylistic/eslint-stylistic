@@ -3,14 +3,8 @@
  * @author Matt DuVall <http://www.mattduvall.com/>, Michael Paulukonis
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./quotes')
+import { RuleTester } from 'eslint'
+import rule from './quotes'
 
 // ------------------------------------------------------------------------------
 // Tests

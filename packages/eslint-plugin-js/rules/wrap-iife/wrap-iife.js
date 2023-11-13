@@ -3,14 +3,8 @@
  * @author Ilya Volodin
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const eslintUtils = require('@eslint-community/eslint-utils')
-const astUtils = require('../../utils/ast-utils')
+import { isParenthesized } from '@eslint-community/eslint-utils'
+import { getStaticPropertyName, isParenthesised, skipChainExpression } from '../../utils/ast-utils'
 
 // ----------------------------------------------------------------------
 // Helpers
@@ -38,7 +32,7 @@ function isCalleeOfNewExpression(node) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -85,7 +79,7 @@ module.exports = {
      * @private
      */
     function isWrappedInAnyParens(node) {
-      return astUtils.isParenthesised(sourceCode, node)
+      return isParenthesised(sourceCode, node)
     }
 
     /**
@@ -95,7 +89,7 @@ module.exports = {
      * @private
      */
     function isWrappedInGroupingParens(node) {
-      return eslintUtils.isParenthesized(1, node, sourceCode)
+      return isParenthesized(1, node, sourceCode)
     }
 
     /**
@@ -104,7 +98,7 @@ module.exports = {
      * @returns {ASTNode} node that is the function expression of the given IIFE, or null if none exist
      */
     function getFunctionNodeFromIIFE(node) {
-      const callee = astUtils.skipChainExpression(node.callee)
+      const callee = skipChainExpression(node.callee)
 
       if (callee.type === 'FunctionExpression')
         return callee
@@ -112,7 +106,7 @@ module.exports = {
       if (includeFunctionPrototypeMethods
                 && callee.type === 'MemberExpression'
                 && callee.object.type === 'FunctionExpression'
-                && (astUtils.getStaticPropertyName(callee) === 'call' || astUtils.getStaticPropertyName(callee) === 'apply')
+                && (getStaticPropertyName(callee) === 'call' || getStaticPropertyName(callee) === 'apply')
       )
         return callee.object
 

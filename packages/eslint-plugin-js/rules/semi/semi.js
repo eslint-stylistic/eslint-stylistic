@@ -2,21 +2,16 @@
  * @fileoverview Rule to flag missing semicolons.
  * @author Nicholas C. Zakas
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
-const FixTracker = require('../../utils/fix-tracker')
+import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import FixTracker from '../../utils/fix-tracker'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -107,7 +102,7 @@ module.exports = {
         messageId = 'missingSemi'
         loc = {
           start: lastToken.loc.end,
-          end: astUtils.getNextLocation(sourceCode, lastToken.loc.end),
+          end: getNextLocation(sourceCode, lastToken.loc.end),
         }
         fix = function (fixer) {
           return fixer.insertTextAfter(lastToken, ';')
@@ -117,11 +112,11 @@ module.exports = {
         messageId = 'extraSemi'
         loc = lastToken.loc
         fix = function (fixer) {
-          /*
-                     * Expand the replacement range to include the surrounding
-                     * tokens to avoid conflicting with no-extra-semi.
-                     * https://github.com/eslint/eslint/issues/7928
-                     */
+          /**
+           * Expand the replacement range to include the surrounding
+           * tokens to avoid conflicting with no-extra-semi.
+           * https://github.com/eslint/eslint/issues/7928
+           */
           return new FixTracker(fixer, sourceCode)
             .retainSurroundingTokens(lastToken)
             .remove(lastToken)
@@ -146,8 +141,8 @@ module.exports = {
 
       return (
         !nextToken
-                || astUtils.isClosingBraceToken(nextToken)
-                || astUtils.isSemicolonToken(nextToken)
+        || isClosingBraceToken(nextToken)
+        || isSemicolonToken(nextToken)
       )
     }
 
@@ -157,7 +152,7 @@ module.exports = {
      * @returns {boolean} `true` if the token is the closing brace of an arrow function.
      */
     function isEndOfArrowBlock(lastToken) {
-      if (!astUtils.isClosingBraceToken(lastToken))
+      if (!isClosingBraceToken(lastToken))
         return false
 
       const node = sourceCode.getNodeByRangeIndex(lastToken.range[0])
@@ -187,23 +182,23 @@ module.exports = {
              */
       const needsNameCheck = !node.computed && node.key.type === 'Identifier'
 
-      /*
-             * Certain names are problematic unless they also have a
-             * a way to distinguish between keywords and property
-             * names.
-             */
+      /**
+       * Certain names are problematic unless they also have a
+       * a way to distinguish between keywords and property
+       * names.
+       */
       if (needsNameCheck && unsafeClassFieldNames.has(node.key.name)) {
-        /*
-                 * Special case: If the field name is `static`,
-                 * it is only valid if the field is marked as static,
-                 * so "static static" is okay but "static" is not.
-                 */
+        /**
+         * Special case: If the field name is `static`,
+         * it is only valid if the field is marked as static,
+         * so "static static" is okay but "static" is not.
+         */
         const isStaticStatic = node.static && node.key.name === 'static'
 
-        /*
-                 * For other unsafe names, we only care if there is no
-                 * initializer. No initializer = hazard.
-                 */
+        /**
+         * For other unsafe names, we only care if there is no
+         * initializer. No initializer = hazard.
+         */
         if (!isStaticStatic && !node.value)
           return true
       }
@@ -222,7 +217,7 @@ module.exports = {
       const prevToken = sourceCode.getLastToken(node, 1)
       const nextToken = sourceCode.getTokenAfter(node)
 
-      return !!nextToken && astUtils.isTokenOnSameLine(prevToken, nextToken)
+      return !!nextToken && isTokenOnSameLine(prevToken, nextToken)
     }
 
     /**
@@ -350,15 +345,15 @@ module.exports = {
      * @returns {void}
      */
     function checkForSemicolon(node) {
-      const isSemi = astUtils.isSemicolonToken(sourceCode.getLastToken(node))
+      const isSemi = isSemicolonToken(sourceCode.getLastToken(node))
 
       if (never) {
         if (isSemi && canRemoveSemicolon(node))
           report(node, true)
         else if (
           !isSemi && beforeStatementContinuationChars === 'always'
-                    && node.type !== 'PropertyDefinition'
-                    && maybeAsiHazardBefore(sourceCode.getTokenAfter(node))
+                  && node.type !== 'PropertyDefinition'
+                  && maybeAsiHazardBefore(sourceCode.getTokenAfter(node))
         )
           report(node)
       }

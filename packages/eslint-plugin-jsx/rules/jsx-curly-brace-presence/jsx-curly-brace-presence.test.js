@@ -3,19 +3,13 @@
  * @author Jacky Ho
  */
 
-'use strict'
-
 // For better readability on tests involving quotes
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const RuleTester = require('eslint').RuleTester
-const semver = require('semver')
-const eslintPkg = require('eslint/package.json')
-const parsers = require('../../tests/helpers/parsers')
-const rule = require('./jsx-curly-brace-presence')
+import { RuleTester } from 'eslint'
+import semver from 'semver'
+import eslintPkg from 'eslint/package.json'
+import parsers from '../../tests/helpers/parsers'
+import rule from './jsx-curly-brace-presence'
 
 const parserOptions = {
   sourceType: 'module',

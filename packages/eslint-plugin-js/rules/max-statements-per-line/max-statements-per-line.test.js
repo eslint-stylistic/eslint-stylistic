@@ -3,14 +3,8 @@
  * @author Kenneth Williams
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./max-statements-per-line')
+import { RuleTester } from 'eslint'
+import rule from './max-statements-per-line'
 
 // ------------------------------------------------------------------------------
 // Tests

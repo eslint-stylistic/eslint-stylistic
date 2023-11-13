@@ -1,18 +1,14 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 
-import type {
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
-} from '../../util'
-import { createRule, isTokenOnSameLine } from '../../util'
-import { getESLintCoreRule } from '../../util/getESLintCoreRule'
+import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
+
+import { createRule } from '../../utils'
+import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = getESLintCoreRule('space-before-blocks')
 
-export type Options = InferOptionsTypeFromRule<typeof baseRule>
-export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
-
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'space-before-blocks',
   meta: {
     type: 'layout',
@@ -24,9 +20,7 @@ export default createRule<Options, MessageIds>({
     hasSuggestions: baseRule.meta.hasSuggestions,
     schema: baseRule.meta.schema,
     messages: {
-      // @ts-expect-error -- we report on this messageId so we need to ensure it's there in case ESLint changes in future
       unexpectedSpace: 'Unexpected space before opening brace.',
-      // @ts-expect-error -- we report on this messageId so we need to ensure it's there in case ESLint changes in future
       missingSpace: 'Missing space before opening brace.',
       ...baseRule.meta.messages,
     },

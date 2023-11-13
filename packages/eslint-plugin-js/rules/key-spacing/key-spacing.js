@@ -2,14 +2,9 @@
  * @fileoverview Rule to specify spacing of object literal keys and values
  * @author Brandon Mills
  */
-'use strict'
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
-const { getGraphemeCount } = require('../../utils/string-utils')
+import { LINEBREAK_MATCHER, getStaticPropertyName, isColonToken } from '../../utils/ast-utils'
+import { getGraphemeCount } from '../../utils/string-utils'
 
 /**
  * Checks whether a string contains a line terminator as defined in
@@ -18,7 +13,7 @@ const { getGraphemeCount } = require('../../utils/string-utils')
  * @returns {boolean} True if str contains a line terminator.
  */
 function containsLineTerminator(str) {
-  return astUtils.LINEBREAK_MATCHER.test(str)
+  return LINEBREAK_MATCHER.test(str)
 }
 
 /**
@@ -129,7 +124,7 @@ function initOptions(toOptions, fromOptions) {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -345,7 +340,7 @@ module.exports = {
      * @returns {ASTNode} The colon punctuator.
      */
     function getNextColon(node) {
-      return sourceCode.getTokenAfter(node, astUtils.isColonToken)
+      return sourceCode.getTokenAfter(node, isColonToken)
     }
 
     /**
@@ -418,7 +413,7 @@ module.exports = {
       if (property.computed)
         return sourceCode.getText().slice(key.range[0], key.range[1])
 
-      return astUtils.getStaticPropertyName(property)
+      return getStaticPropertyName(property)
     }
 
     /**

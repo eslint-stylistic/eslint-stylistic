@@ -3,15 +3,9 @@
  * @author Ian Christian Myers
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const { unIndent } = require('../../utils/test-utils')
-const rule = require('./brace-style')
+import { RuleTester } from 'eslint'
+import { unIndent } from '../../test-utils/unindent'
+import rule from './brace-style'
 
 // ------------------------------------------------------------------------------
 // Tests

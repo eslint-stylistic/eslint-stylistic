@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export type Schema0 =
   | ('before' | 'after' | 'both' | 'neither')
   | {
@@ -6,3 +8,4 @@ export type Schema0 =
   }
 
 export type RuleOptions = [Schema0?]
+export type MessageIds = 'missingBefore' | 'missingAfter' | 'unexpectedBefore' | 'unexpectedAfter'

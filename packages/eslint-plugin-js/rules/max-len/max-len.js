@@ -3,8 +3,6 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-'use strict'
-
 // ------------------------------------------------------------------------------
 // Constants
 // ------------------------------------------------------------------------------
@@ -64,7 +62,7 @@ const OPTIONS_OR_INTEGER_SCHEMA = {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 

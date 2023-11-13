@@ -3,20 +3,14 @@
  * @author James Allardice
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const astUtils = require('../../utils/ast-utils')
+import { canTokensBeAdjacent } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'suggestion',
 
@@ -48,7 +42,7 @@ module.exports = {
                 const tokenBefore = sourceCode.getTokenBefore(node)
                 const needsSpaceBefore = tokenBefore
                                     && tokenBefore.range[1] === node.range[0]
-                                    && !astUtils.canTokensBeAdjacent(tokenBefore, `0${node.raw}`)
+                                    && !canTokensBeAdjacent(tokenBefore, `0${node.raw}`)
 
                 return fixer.insertTextBefore(node, needsSpaceBefore ? ' 0' : '0')
               },

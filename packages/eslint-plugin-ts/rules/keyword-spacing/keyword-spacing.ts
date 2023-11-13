@@ -2,17 +2,11 @@ import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import type { JSONSchema4 } from '@typescript-eslint/utils/json-schema'
 
-import type {
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
-} from '../../util'
-import { NullThrowsReasons, createRule, deepMerge, nullThrows } from '../../util'
-import { getESLintCoreRule } from '../../util/getESLintCoreRule'
+import { NullThrowsReasons, createRule, deepMerge, nullThrows } from '../../utils'
+import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = getESLintCoreRule('keyword-spacing')
-
-export type Options = InferOptionsTypeFromRule<typeof baseRule>
-export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
 
 const baseSchema = Array.isArray(baseRule.meta.schema)
   ? baseRule.meta.schema[0]
@@ -24,7 +18,6 @@ const schema = deepMerge(
     properties: {
       overrides: {
         properties: {
-
           type: baseSchema.properties.overrides.properties.import,
         },
       },
@@ -32,7 +25,7 @@ const schema = deepMerge(
   },
 ) as unknown as JSONSchema4
 
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'keyword-spacing',
   meta: {
     type: 'layout',
@@ -46,8 +39,8 @@ export default createRule<Options, MessageIds>({
     messages: baseRule.meta.messages,
   },
   defaultOptions: [{}],
-
-  create(context, [{ after, overrides }]) {
+  create(context, [options]) {
+    const { after, overrides } = options ?? {}
     const sourceCode = context.getSourceCode()
     const baseRules = baseRule.create(context)
     return {
@@ -68,7 +61,7 @@ export default createRule<Options, MessageIds>({
         asToken.type = AST_TOKEN_TYPES.Keyword
 
         // use this selector just because it is just a call to `checkSpacingAroundFirstToken`
-        baseRules.DebuggerStatement(asToken as never)
+        baseRules.DebuggerStatement!(asToken as never)
 
         // make sure to reset the type afterward so we don't permanently mutate the AST
         asToken.type = oldTokenType

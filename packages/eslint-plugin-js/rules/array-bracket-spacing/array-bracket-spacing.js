@@ -2,16 +2,15 @@
  * @fileoverview Disallows or enforces spaces inside of array brackets.
  * @author Jamund Ferguson
  */
-'use strict'
 
-const astUtils = require('../../utils/ast-utils')
+import { isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -209,7 +208,7 @@ module.exports = {
                 || options.singleElementException && node.elements.length === 1
                   ? !options.spaced : options.spaced
 
-      if (astUtils.isTokenOnSameLine(first, second)) {
+      if (isTokenOnSameLine(first, second)) {
         if (openingBracketMustBeSpaced && !sourceCode.isSpaceBetweenTokens(first, second))
           reportRequiredBeginningSpace(node, first)
 
@@ -217,7 +216,7 @@ module.exports = {
           reportNoBeginningSpace(node, first)
       }
 
-      if (first !== penultimate && astUtils.isTokenOnSameLine(penultimate, last)) {
+      if (first !== penultimate && isTokenOnSameLine(penultimate, last)) {
         if (closingBracketMustBeSpaced && !sourceCode.isSpaceBetweenTokens(penultimate, last))
           reportRequiredEndingSpace(node, last)
 

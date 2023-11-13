@@ -2,16 +2,15 @@
  * @fileoverview Disallows or enforces spaces inside computed properties.
  * @author Jamund Ferguson
  */
-'use strict'
 
-const astUtils = require('../../utils/ast-utils')
+import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '../../utils/ast-utils'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-module.exports = {
+export default {
   meta: {
     type: 'layout',
 
@@ -152,14 +151,14 @@ module.exports = {
 
         const property = node[propertyName]
 
-        const before = sourceCode.getTokenBefore(property, astUtils.isOpeningBracketToken)
+        const before = sourceCode.getTokenBefore(property, isOpeningBracketToken)
         const first = sourceCode.getTokenAfter(before, { includeComments: true })
-        const after = sourceCode.getTokenAfter(property, astUtils.isClosingBracketToken)
+        const after = sourceCode.getTokenAfter(property, isClosingBracketToken)
         const last = sourceCode.getTokenBefore(after, { includeComments: true })
 
-        if (astUtils.isTokenOnSameLine(before, first)) {
+        if (isTokenOnSameLine(before, first)) {
           if (propertyNameMustBeSpaced) {
-            if (!sourceCode.isSpaceBetweenTokens(before, first) && astUtils.isTokenOnSameLine(before, first))
+            if (!sourceCode.isSpaceBetweenTokens(before, first) && isTokenOnSameLine(before, first))
               reportRequiredBeginningSpace(node, before)
           }
           else {
@@ -168,9 +167,9 @@ module.exports = {
           }
         }
 
-        if (astUtils.isTokenOnSameLine(last, after)) {
+        if (isTokenOnSameLine(last, after)) {
           if (propertyNameMustBeSpaced) {
-            if (!sourceCode.isSpaceBetweenTokens(last, after) && astUtils.isTokenOnSameLine(last, after))
+            if (!sourceCode.isSpaceBetweenTokens(last, after) && isTokenOnSameLine(last, after))
               reportRequiredEndingSpace(node, after)
           }
           else {

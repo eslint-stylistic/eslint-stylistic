@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 import type { RuleOptions as ArrayBracketNewlineRuleOptions } from '../rules/array-bracket-newline/types'
 import type { RuleOptions as ArrayBracketSpacingRuleOptions } from '../rules/array-bracket-spacing/types'
 import type { RuleOptions as ArrayElementNewlineRuleOptions } from '../rules/array-element-newline/types'

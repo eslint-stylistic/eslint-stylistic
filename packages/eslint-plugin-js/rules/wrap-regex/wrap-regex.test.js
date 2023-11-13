@@ -3,14 +3,8 @@
  * @author Nicholas C. Zakas
  */
 
-'use strict'
-
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
-const { RuleTester } = require('eslint')
-const rule = require('./wrap-regex')
+import { RuleTester } from 'eslint'
+import rule from './wrap-regex'
 
 // ------------------------------------------------------------------------------
 // Tests

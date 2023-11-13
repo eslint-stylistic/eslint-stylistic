@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export interface Schema0 {
   beforeBlockComment?: boolean
   afterBlockComment?: boolean
@@ -17,3 +19,4 @@ export interface Schema0 {
 }
 
 export type RuleOptions = [Schema0?]
+export type MessageIds = 'after' | 'before'

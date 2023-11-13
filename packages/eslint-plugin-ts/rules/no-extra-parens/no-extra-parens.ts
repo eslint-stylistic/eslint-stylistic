@@ -3,19 +3,15 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import type {
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
-} from '../../util'
-import { createRule, isOpeningParenToken, isTypeAssertion } from '../../util'
-import { getESLintCoreRule } from '../../util/getESLintCoreRule'
+import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
+
+import { createRule } from '../../utils'
+import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = getESLintCoreRule('no-extra-parens')
 
-type Options = InferOptionsTypeFromRule<typeof baseRule>
-type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
-
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',
   meta: {
     type: 'layout',
@@ -123,13 +119,13 @@ export default createRule<Options, MessageIds>({
       // ArrayExpression
       ArrowFunctionExpression(node) {
         if (!isTypeAssertion(node.body))
-          return rules.ArrowFunctionExpression(node)
+          return rules.ArrowFunctionExpression!(node)
       },
       // AssignmentExpression
       AwaitExpression(node) {
         if (isTypeAssertion(node.argument)) {
           // reduces the precedence of the node so the rule thinks it needs to be wrapped
-          return rules.AwaitExpression({
+          return rules.AwaitExpression!({
             ...node,
             argument: {
               ...node.argument,
@@ -137,13 +133,13 @@ export default createRule<Options, MessageIds>({
             },
           })
         }
-        return rules.AwaitExpression(node)
+        return rules.AwaitExpression!(node)
       },
       'BinaryExpression': binaryExp,
       'CallExpression': callExp,
       ClassDeclaration(node) {
         if (node.superClass?.type === AST_NODE_TYPES.TSAsExpression) {
-          return rules.ClassDeclaration({
+          return rules.ClassDeclaration!({
             ...node,
             superClass: {
               ...node.superClass,
@@ -151,11 +147,11 @@ export default createRule<Options, MessageIds>({
             },
           })
         }
-        return rules.ClassDeclaration(node)
+        return rules.ClassDeclaration!(node)
       },
       ClassExpression(node) {
         if (node.superClass?.type === AST_NODE_TYPES.TSAsExpression) {
-          return rules.ClassExpression({
+          return rules.ClassExpression!({
             ...node,
             superClass: {
               ...node.superClass,
@@ -163,12 +159,12 @@ export default createRule<Options, MessageIds>({
             },
           })
         }
-        return rules.ClassExpression(node)
+        return rules.ClassExpression!(node)
       },
       ConditionalExpression(node) {
         // reduces the precedence of the node so the rule thinks it needs to be wrapped
         if (isTypeAssertion(node.test)) {
-          return rules.ConditionalExpression({
+          return rules.ConditionalExpression!({
             ...node,
             test: {
               ...node.test,
@@ -177,7 +173,7 @@ export default createRule<Options, MessageIds>({
           })
         }
         if (isTypeAssertion(node.consequent)) {
-          return rules.ConditionalExpression({
+          return rules.ConditionalExpression!({
             ...node,
             consequent: {
               ...node.consequent,
@@ -187,7 +183,7 @@ export default createRule<Options, MessageIds>({
         }
         if (isTypeAssertion(node.alternate)) {
           // reduces the precedence of the node so the rule thinks it needs to be wrapped
-          return rules.ConditionalExpression({
+          return rules.ConditionalExpression!({
             ...node,
             alternate: {
               ...node.alternate,
@@ -195,43 +191,43 @@ export default createRule<Options, MessageIds>({
             },
           })
         }
-        return rules.ConditionalExpression(node)
+        return rules.ConditionalExpression!(node)
       },
       // DoWhileStatement
       // ForIn and ForOf are guarded by eslint version
       ForStatement(node) {
         // make the rule skip the piece by removing it entirely
         if (node.init && isTypeAssertion(node.init)) {
-          return rules.ForStatement({
+          return rules.ForStatement!({
             ...node,
             init: null,
           })
         }
         if (node.test && isTypeAssertion(node.test)) {
-          return rules.ForStatement({
+          return rules.ForStatement!({
             ...node,
             test: null,
           })
         }
         if (node.update && isTypeAssertion(node.update)) {
-          return rules.ForStatement({
+          return rules.ForStatement!({
             ...node,
             update: null,
           })
         }
 
-        return rules.ForStatement(node)
+        return rules.ForStatement!(node)
       },
       'ForStatement > *.init:exit': function (node: TSESTree.Node) {
         if (!isTypeAssertion(node))
-          return rules['ForStatement > *.init:exit'](node)
+          return (rules as any)['ForStatement > *.init:exit'](node)
       },
       // IfStatement
       'LogicalExpression': binaryExp,
       MemberExpression(node) {
         if (isTypeAssertion(node.object)) {
           // reduces the precedence of the node so the rule thinks it needs to be wrapped
-          return rules.MemberExpression({
+          return rules.MemberExpression!({
             ...node,
             object: {
               ...node.object,
@@ -240,7 +236,7 @@ export default createRule<Options, MessageIds>({
           })
         }
 
-        return rules.MemberExpression(node)
+        return rules.MemberExpression!(node)
       },
       'NewExpression': callExp,
       // ObjectExpression
@@ -248,16 +244,16 @@ export default createRule<Options, MessageIds>({
       // SequenceExpression
       SpreadElement(node) {
         if (!isTypeAssertion(node.argument))
-          return rules.SpreadElement(node)
+          return rules.SpreadElement!(node)
       },
       SwitchCase(node) {
         if (node.test && !isTypeAssertion(node.test))
-          return rules.SwitchCase(node)
+          return rules.SwitchCase!(node)
       },
       // SwitchStatement
       ThrowStatement(node) {
         if (node.argument && !isTypeAssertion(node.argument))
-          return rules.ThrowStatement(node)
+          return rules.ThrowStatement!(node)
       },
       'UnaryExpression': unaryUpdateExpression,
       'UpdateExpression': unaryUpdateExpression,
@@ -266,7 +262,7 @@ export default createRule<Options, MessageIds>({
       // WithStatement - i'm not going to even bother implementing this terrible and never used feature
       YieldExpression(node) {
         if (node.argument && !isTypeAssertion(node.argument))
-          return rules.YieldExpression(node)
+          return rules.YieldExpression!(node)
       },
     }
     if (rules.ForInStatement && rules.ForOfStatement) {
@@ -277,12 +273,12 @@ export default createRule<Options, MessageIds>({
           return
         }
 
-        return rules.ForInStatement(node)
+        return rules.ForInStatement!(node)
       }
       overrides.ForOfStatement = function (node): void {
         if (isTypeAssertion(node.right)) {
           // makes the rule skip checking of the right
-          return rules.ForOfStatement({
+          return rules.ForOfStatement!({
             ...node,
             type: AST_NODE_TYPES.ForOfStatement,
             right: {
@@ -292,7 +288,7 @@ export default createRule<Options, MessageIds>({
           })
         }
 
-        return rules.ForOfStatement(node)
+        return rules.ForOfStatement!(node)
       }
     }
     else {
@@ -301,7 +297,7 @@ export default createRule<Options, MessageIds>({
       ): void {
         if (isTypeAssertion(node.right)) {
           // makes the rule skip checking of the right
-          return rules['ForInStatement, ForOfStatement']({
+          return (rules as any)['ForInStatement, ForOfStatement']({
             ...node,
             type: AST_NODE_TYPES.ForOfStatement as any,
             right: {
@@ -311,7 +307,7 @@ export default createRule<Options, MessageIds>({
           })
         }
 
-        return rules['ForInStatement, ForOfStatement'](node)
+        return (rules as any)['ForInStatement, ForOfStatement'](node)
       }
     }
     return Object.assign({}, rules, overrides)
