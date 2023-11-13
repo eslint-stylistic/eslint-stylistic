@@ -187,6 +187,65 @@ module.exports = {
 }
 ```
 
+## Disable Legacy Rules
+
+In cases that you are extending some presets that still include legacy rules and haven't migrated, we provide configuration presets to disable them all.
+
+::: code-group
+
+```js [Legacy Config]
+// .eslintrc.js
+module.exports = {
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    // ...
+    'plugin:@stylistic/disable-legacy', // [!code ++]
+  ],
+  plugins: [
+    '@stylistic'
+  ],
+  rules: {
+    '@stylistic/semi': 'error',
+    // ...
+  }
+}
+```
+
+```js [Flat Config]
+// eslint.config.js
+import { FlatCompat } from '@eslint/eslintrc'
+import StylisticPlugin from '@stylistic/eslint-plugin'
+
+const compat = new FlatCompat()
+
+export default [
+  // `extends` is not supported in flat config, can you use `@eslint/eslintrc` to handle it
+  ...compat({
+     extends: [
+      'eslint:recommended',
+      'plugin:@typescript-eslint/recommended',
+      // ...
+    ],
+  }),
+  // override the legacy rules
+  StylisticPlugin.configs['disable-legacy'], // [!code ++],
+  // your own rules
+  {
+    plugin: {
+      stylistic: StylisticPlugin
+    },
+    rules: {
+      'stylistic/semi': 'error',
+      // ...
+    }
+  }
+]
+```
+
+:::
+
+
 ## Packages Metadata
 
 If you want to handle the migration on your own, we also expose the metadata for easier programmatic usage.

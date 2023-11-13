@@ -3,12 +3,8 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-// ------------------------------------------------------------------------------
-// Requirements
-// ------------------------------------------------------------------------------
-
 import { RuleTester } from 'eslint'
-import rule from './array-bracket-newline.js'
+import rule from './array-bracket-newline'
 
 // ------------------------------------------------------------------------------
 // Tests
@@ -17,9 +13,7 @@ import rule from './array-bracket-newline.js'
 const ruleTester = new RuleTester()
 
 ruleTester.run('array-bracket-newline', rule, {
-
   valid: [
-
     /*
      * ArrayExpression
      * "default" { multiline: true }

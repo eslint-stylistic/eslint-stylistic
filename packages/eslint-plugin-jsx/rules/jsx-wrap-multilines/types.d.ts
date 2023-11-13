@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export interface Schema0 {
   declaration?: true | false | 'ignore' | 'parens' | 'parens-new-line'
   assignment?: true | false | 'ignore' | 'parens' | 'parens-new-line'
@@ -9,3 +11,4 @@ export interface Schema0 {
 }
 
 export type RuleOptions = [Schema0?]
+export type MessageIds = 'missingParens' | 'parensOnNewLines'

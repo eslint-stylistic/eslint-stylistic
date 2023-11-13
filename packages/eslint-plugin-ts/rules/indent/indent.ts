@@ -7,17 +7,12 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import type {
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
-} from '../../utils'
+import type { RuleFunction } from '@typescript-eslint/utils/ts-eslint'
 import { createRule } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = getESLintCoreRule('indent')
-
-type Options = InferOptionsTypeFromRule<typeof baseRule>
-type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
 
 const KNOWN_NODES = new Set([
   // Class properties aren't yet supported by eslint...
@@ -87,7 +82,7 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.Decorator,
 ])
 
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'indent',
   meta: {
     type: 'layout',
@@ -123,7 +118,7 @@ export default createRule<Options, MessageIds>({
       },
     })
 
-    const rules = baseRule.create(contextWithDefaults)
+    const rules = baseRule.create(contextWithDefaults) as Record<string, RuleFunction<any>>
 
     /**
      * Converts from a TSPropertySignature to a Property

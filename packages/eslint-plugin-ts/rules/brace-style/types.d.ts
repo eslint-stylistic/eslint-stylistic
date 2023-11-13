@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export type Schema0 = '1tbs' | 'stroustrup' | 'allman'
 
 export interface Schema1 {
@@ -5,3 +7,4 @@ export interface Schema1 {
 }
 
 export type RuleOptions = [Schema0?, Schema1?]
+export type MessageIds = 'nextLineOpen' | 'sameLineOpen' | 'blockSameLine' | 'nextLineClose' | 'singleLineClose' | 'sameLineClose'

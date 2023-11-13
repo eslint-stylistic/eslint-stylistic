@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export type Schema0 =
   | ('always' | 'never' | 'consistent' | 'multiline' | 'multiline-arguments')
   | {
@@ -5,3 +7,4 @@ export type Schema0 =
   }
 
 export type RuleOptions = [Schema0?]
+export type MessageIds = 'expectedBefore' | 'expectedAfter' | 'expectedBetween' | 'unexpectedBefore' | 'unexpectedAfter'

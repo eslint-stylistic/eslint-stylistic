@@ -4,13 +4,15 @@
  */
 
 import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ESNode, Token } from '../../utils/types'
+import type { RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -65,7 +67,7 @@ export default {
      * @param {string | object | undefined} option An option value to parse.
      * @returns {{multiline: boolean, minItems: number}} Normalized option object.
      */
-    function normalizeOptionValue(option) {
+    function normalizeOptionValue(option: RuleOptions[0]) {
       let consistent = false
       let multiline = false
       let minItems = 0
@@ -75,7 +77,7 @@ export default {
           consistent = true
           minItems = Number.POSITIVE_INFINITY
         }
-        else if (option === 'always' || option.minItems === 0) {
+        else if (option === 'always' || (typeof option !== 'string' && option.minItems === 0)) {
           minItems = 0
         }
         else if (option === 'never') {
@@ -100,7 +102,7 @@ export default {
      * @param {string | object | undefined} options An option value to parse.
      * @returns {{ArrayExpression: {multiline: boolean, minItems: number}, ArrayPattern: {multiline: boolean, minItems: number}}} Normalized option object.
      */
-    function normalizeOptions(options) {
+    function normalizeOptions(options: RuleOptions[0]) {
       const value = normalizeOptionValue(options)
 
       return { ArrayExpression: value, ArrayPattern: value }
@@ -112,7 +114,7 @@ export default {
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportNoBeginningLinebreak(node, token) {
+    function reportNoBeginningLinebreak(node: ESNode, token: Token) {
       context.report({
         node,
         loc: token.loc,
@@ -120,10 +122,10 @@ export default {
         fix(fixer) {
           const nextToken = sourceCode.getTokenAfter(token, { includeComments: true })
 
-          if (isCommentToken(nextToken))
+          if (!nextToken || isCommentToken(nextToken))
             return null
 
-          return fixer.removeRange([token.range[1], nextToken.range[0]])
+          return fixer.removeRange([token.range[1], nextToken.range![0]])
         },
       })
     }
@@ -134,7 +136,7 @@ export default {
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportNoEndingLinebreak(node, token) {
+    function reportNoEndingLinebreak(node: ESNode, token: Token) {
       context.report({
         node,
         loc: token.loc,
@@ -142,10 +144,10 @@ export default {
         fix(fixer) {
           const previousToken = sourceCode.getTokenBefore(token, { includeComments: true })
 
-          if (isCommentToken(previousToken))
+          if (!previousToken || isCommentToken(previousToken))
             return null
 
-          return fixer.removeRange([previousToken.range[1], token.range[0]])
+          return fixer.removeRange([previousToken.range![1], token.range[0]])
         },
       })
     }
@@ -156,7 +158,7 @@ export default {
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportRequiredBeginningLinebreak(node, token) {
+    function reportRequiredBeginningLinebreak(node: ESNode, token: Token) {
       context.report({
         node,
         loc: token.loc,
@@ -173,7 +175,7 @@ export default {
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportRequiredEndingLinebreak(node, token) {
+    function reportRequiredEndingLinebreak(node: ESNode, token: Token) {
       context.report({
         node,
         loc: token.loc,
@@ -189,27 +191,29 @@ export default {
      * @param {ASTNode} node A node to check. This is an ArrayExpression node or an ArrayPattern node.
      * @returns {void}
      */
-    function check(node) {
+    function check(node: ESNode) {
+      // @ts-expect-error type cast
       const elements = node.elements
       const normalizedOptions = normalizeOptions(context.options[0])
+      // @ts-expect-error type cast
       const options = normalizedOptions[node.type]
-      const openBracket = sourceCode.getFirstToken(node)
-      const closeBracket = sourceCode.getLastToken(node)
-      const firstIncComment = sourceCode.getTokenAfter(openBracket, { includeComments: true })
-      const lastIncComment = sourceCode.getTokenBefore(closeBracket, { includeComments: true })
-      const first = sourceCode.getTokenAfter(openBracket)
-      const last = sourceCode.getTokenBefore(closeBracket)
+      const openBracket = sourceCode.getFirstToken(node)!
+      const closeBracket = sourceCode.getLastToken(node)!
+      const firstIncComment = sourceCode.getTokenAfter(openBracket, { includeComments: true })!
+      const lastIncComment = sourceCode.getTokenBefore(closeBracket, { includeComments: true })!
+      const first = sourceCode.getTokenAfter(openBracket)!
+      const last = sourceCode.getTokenBefore(closeBracket)!
       const needsLinebreaks = (
         elements.length >= options.minItems
         || (
           options.multiline
           && elements.length > 0
-          && firstIncComment.loc.start.line !== lastIncComment.loc.end.line
+          && firstIncComment.loc!.start.line !== lastIncComment.loc!.end.line
         )
         || (
           elements.length === 0
           && firstIncComment.type === 'Block'
-          && firstIncComment.loc.start.line !== lastIncComment.loc.end.line
+          && firstIncComment.loc!.start.line !== lastIncComment.loc!.end.line
           && firstIncComment === lastIncComment
         )
         || (
@@ -250,4 +254,4 @@ export default {
       ArrayExpression: check,
     }
   },
-}
+})

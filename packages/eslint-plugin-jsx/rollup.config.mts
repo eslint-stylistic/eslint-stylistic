@@ -2,11 +2,12 @@ import fs from 'node:fs/promises'
 import { basename, dirname } from 'node:path'
 import { defineConfig } from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
+import esbuild from 'rollup-plugin-esbuild'
 
 const pkg = JSON.parse(await fs.readFile(new URL('./package.json', import.meta.url), 'utf-8'))
 
 export default defineConfig({
-  input: 'src/index.js',
+  input: 'src/index.ts',
   output: [
     {
       dir: 'dist',
@@ -14,6 +15,8 @@ export default defineConfig({
       manualChunks(id) {
         if (id.includes('util'))
           return 'utils'
+        if (id.includes('configs'))
+          return 'configs'
         if (id.includes('rules')) {
           const name = basename(dirname(id))
           if (name !== 'rules')
@@ -25,6 +28,7 @@ export default defineConfig({
   ],
   plugins: [
     commonjs(),
+    esbuild(),
   ],
   external: [
     ...Object.keys(pkg.dependencies || []),

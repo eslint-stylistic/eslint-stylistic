@@ -9,19 +9,9 @@ import {
 import {
   createRule,
 } from '../../utils'
+import type { MessageIds, RuleOptions } from './types'
 
-export type Options = [
-  'always' | 'never',
-  {
-    allowNewlines?: boolean
-  }?,
-]
-export type MessageIds =
-  | 'missing'
-  | 'unexpectedNewline'
-  | 'unexpectedWhitespace'
-
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'func-call-spacing',
   meta: {
     type: 'layout',
@@ -74,7 +64,7 @@ export default createRule<Options, MessageIds>({
       missing: 'Missing space between function name and paren.',
     },
   },
-  defaultOptions: ['never', {}],
+  defaultOptions: ['never', {}] as unknown as RuleOptions,
   create(context, [option, config]) {
     const sourceCode = context.getSourceCode()
     const text = sourceCode.getText()

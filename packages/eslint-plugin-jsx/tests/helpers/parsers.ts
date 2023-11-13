@@ -1,7 +1,4 @@
-const entries = object => Object.entries(object)
-const flatMap = (array, callback) => array.flatMap(callback)
-
-function minEcmaVersion(features, parserOptions) {
+function minEcmaVersion(features: any, parserOptions: any) {
   const minEcmaVersionForFeatures = {
     'class fields': 2022,
     'optional chaining': 2020,
@@ -10,14 +7,14 @@ function minEcmaVersion(features, parserOptions) {
   // eslint-disable-next-line prefer-spread
   const result = Math.max.apply(
     Math,
-    [].concat(
-      (parserOptions && parserOptions.ecmaVersion) || [],
-      flatMap(entries(minEcmaVersionForFeatures), (entry) => {
+    [
+      (parserOptions && parserOptions.ecmaVersion) || '',
+      ...Object.entries(minEcmaVersionForFeatures).flatMap((entry) => {
         const f = entry[0]
         const y = entry[1]
         return features.has(f) ? y : []
       }),
-    ).map(y => (y > 5 && y < 2015 ? y + 2009 : y)), // normalize editions to years
+    ].filter(Boolean).map(y => (y > 5 && y < 2015 ? y + 2009 : y)), // normalize editions to years
   )
   return Number.isFinite(result) ? result : undefined
 }
@@ -28,7 +25,7 @@ const parsers = {
   // 'TYPESCRIPT_ESLINT': 'typescript-eslint-parser',
   '@TYPESCRIPT_ESLINT': require.resolve('@typescript-eslint/parser'),
   'skipDueToMultiErrorSorting': true,
-  'babelParserOptions': function parserOptions(test, features) {
+  'babelParserOptions': function parserOptions(test: any, features: any) {
     return Object.assign({}, test.parserOptions, {
       requireConfigFile: false,
       babelOptions: {
@@ -56,7 +53,7 @@ const parsers = {
       ),
     })
   },
-  'tsParserOptions': function parserOptions(test, features) {
+  'tsParserOptions': function parserOptions(test: any, features: any) {
     return {
       ...test.parserOptions,
       ecmaFeatures: {
@@ -66,8 +63,8 @@ const parsers = {
       },
     }
   },
-  'all': function all(tests) {
-    const t = flatMap(tests, (test) => {
+  'all': function all(tests: any) {
+    const t = tests.flatMap((test: any) => {
       if (typeof test === 'string')
         test = { code: test }
 
@@ -75,19 +72,19 @@ const parsers = {
         delete test.features
         return test
       }
-      const features = new Set([].concat(test.features || []))
+      const features = new Set<string>(test.features || [])
       delete test.features
 
       const es = minEcmaVersion(features, test.parserOptions)
 
-      function addComment(testObject, parser) {
-        const extras = [].concat(
+      function addComment(testObject: any, parser: any) {
+        const extras = [
           `features: [${Array.from(features).join(',')}]`,
           `parser: ${parser}`,
-          testObject.parserOptions ? `parserOptions: ${JSON.stringify(testObject.parserOptions)}` : [],
-          testObject.options ? `options: ${JSON.stringify(testObject.options)}` : [],
-          testObject.settings ? `settings: ${JSON.stringify(testObject.settings)}` : [],
-        )
+          testObject.parserOptions ? `parserOptions: ${JSON.stringify(testObject.parserOptions)}` : '',
+          testObject.options ? `options: ${JSON.stringify(testObject.options)}` : '',
+          testObject.settings ? `settings: ${JSON.stringify(testObject.settings)}` : '',
+        ]
 
         const extraComment = `\n// ${extras.join(', ')}`
 
@@ -102,9 +99,9 @@ const parsers = {
           && typeof testObject.errors !== 'number'
           && {
             errors: testObject.errors.map(
-              (errorObject) => {
+              (errorObject: any) => {
                 const nextSuggestions = errorObject.suggestions && {
-                  suggestions: errorObject.suggestions.map(suggestion => Object.assign({}, suggestion, {
+                  suggestions: errorObject.suggestions.map((suggestion: any) => Object.assign({}, suggestion, {
                     output: suggestion.output + extraComment,
                   })),
                 }

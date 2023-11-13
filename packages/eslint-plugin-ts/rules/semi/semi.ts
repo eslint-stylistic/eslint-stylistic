@@ -1,19 +1,11 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-
-import type {
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
-} from '../../utils'
 import { createRule } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = getESLintCoreRule('semi')
-
-export type Options = InferOptionsTypeFromRule<typeof baseRule>
-export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
-
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'semi',
   meta: {
     type: 'layout',
@@ -33,7 +25,7 @@ export default createRule<Options, MessageIds>({
       omitLastInOneLineBlock: false,
       beforeStatementContinuationChars: 'any',
     },
-  ],
+  ] as unknown as RuleOptions,
   create(context) {
     const rules = baseRule.create(context)
     const checkForSemicolon

@@ -1,21 +1,15 @@
 import { AST_TOKEN_TYPES, TSESTree } from '@typescript-eslint/utils'
 
 import { isNotOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
-import type {
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
-} from '../../utils'
 import { createRule } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = getESLintCoreRule('space-infix-ops')
 
-export type Options = InferOptionsTypeFromRule<typeof baseRule>
-export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
-
 const UNIONS = ['|', '&']
 
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'space-infix-ops',
   meta: {
     type: 'layout',

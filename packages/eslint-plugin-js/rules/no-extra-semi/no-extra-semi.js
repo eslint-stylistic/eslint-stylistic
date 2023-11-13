@@ -59,16 +59,14 @@ export default {
         node: nodeOrToken,
         messageId: 'unexpected',
         fix: isFixable(nodeOrToken)
-          ? fixer =>
-
-          /*
-                         * Expand the replacement range to include the surrounding
-                         * tokens to avoid conflicting with semi.
-                         * https://github.com/eslint/eslint/issues/7928
-                         */
-            new FixTracker(fixer, context.sourceCode)
-              .retainSurroundingTokens(nodeOrToken)
-              .remove(nodeOrToken)
+          /**
+           * Expand the replacement range to include the surrounding
+           * tokens to avoid conflicting with semi.
+           * https://github.com/eslint/eslint/issues/7928
+           */
+          ? fixer => new FixTracker(fixer, context.sourceCode)
+            .retainSurroundingTokens(nodeOrToken)
+            .remove(nodeOrToken)
           : null,
       })
     }
@@ -90,7 +88,6 @@ export default {
     }
 
     return {
-
       /**
        * Reports this empty statement, except if the parent node is a loop.
        * @param {Node} node A EmptyStatement node to be reported.

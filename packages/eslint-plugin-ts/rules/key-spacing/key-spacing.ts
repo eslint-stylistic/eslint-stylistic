@@ -5,20 +5,14 @@ import {
   isClosingBracketToken,
   isColonToken,
 } from '@typescript-eslint/utils/ast-utils'
-import type {
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
-} from '../../utils'
 import {
   createRule,
   getStringLength,
 } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = getESLintCoreRule('key-spacing')
-
-export type Options = InferOptionsTypeFromRule<typeof baseRule>
-export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
 
 const baseSchema = Array.isArray(baseRule.meta.schema)
   ? baseRule.meta.schema[0]
@@ -34,7 +28,12 @@ function at<T>(arr: T[], position: number): T | undefined {
   return arr[position]
 }
 
-export default createRule<Options, MessageIds>({
+type UnionToIntersection<U> =
+  (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never
+
+type OptionsUnion = UnionToIntersection<Exclude<RuleOptions[0], undefined>>
+
+export default createRule<RuleOptions, MessageIds>({
   name: 'key-spacing',
   meta: {
     type: 'layout',
@@ -49,8 +48,8 @@ export default createRule<Options, MessageIds>({
     messages: baseRule.meta.messages,
   },
   defaultOptions: [{}],
-
-  create(context, [options]) {
+  create(context, [_options]) {
+    const options: OptionsUnion = _options || {}
     const sourceCode = context.getSourceCode()
     const baseRules = baseRule.create(context)
 
@@ -342,14 +341,15 @@ export default createRule<Options, MessageIds>({
       node: TSESTree.Node,
       { singleLine }: { singleLine: boolean },
     ): void {
-      const beforeColon
-        = (singleLine
+      const beforeColon = (
+        singleLine
           ? options.singleLine
             ? options.singleLine.beforeColon
             : options.beforeColon
           : options.multiLine
             ? options.multiLine.beforeColon
-            : options.beforeColon) ?? false
+            : options.beforeColon
+      ) ?? false
       const expectedWhitespaceBeforeColon = beforeColon ? 1 : 0
       const afterColon
         = (singleLine

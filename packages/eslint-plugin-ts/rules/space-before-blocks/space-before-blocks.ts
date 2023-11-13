@@ -1,19 +1,14 @@
 import type { TSESTree } from '@typescript-eslint/utils'
 
 import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
-import type {
-  InferMessageIdsTypeFromRule,
-  InferOptionsTypeFromRule,
-} from '../../utils'
+
 import { createRule } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = getESLintCoreRule('space-before-blocks')
 
-export type Options = InferOptionsTypeFromRule<typeof baseRule>
-export type MessageIds = InferMessageIdsTypeFromRule<typeof baseRule>
-
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'space-before-blocks',
   meta: {
     type: 'layout',

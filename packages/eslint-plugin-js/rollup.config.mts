@@ -8,7 +8,7 @@ import resolve from '@rollup/plugin-node-resolve'
 const pkg = JSON.parse(await fs.readFile(new URL('./package.json', import.meta.url), 'utf-8'))
 
 export default defineConfig({
-  input: 'src/index.js',
+  input: 'src/index.ts',
   output: [
     {
       dir: 'dist',
@@ -16,6 +16,8 @@ export default defineConfig({
       manualChunks(id) {
         if (id.includes('utils'))
           return 'utils'
+        if (id.includes('configs'))
+          return 'configs'
         if (id.includes('rules')) {
           const name = basename(dirname(id))
           if (name !== 'rules')

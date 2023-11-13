@@ -16,9 +16,6 @@ const {
   NullThrowsReasons,
 } = ESLintUtils
 
-export type InferMessageIdsTypeFromRule<T> = ESLintUtils.InferMessageIdsTypeFromRule<T>
-export type InferOptionsTypeFromRule<T> = ESLintUtils.InferOptionsTypeFromRule<T>
-
 export {
   applyDefault,
   deepMerge,

@@ -4,7 +4,7 @@
 import { RuleTester } from '@typescript-eslint/rule-tester'
 import type { TSESLint } from '@typescript-eslint/utils'
 
-import type { MessageIds, Options } from './func-call-spacing'
+import type { MessageIds, RuleOptions } from './types'
 import rule from './func-call-spacing'
 
 const ruleTester = new RuleTester({
@@ -71,7 +71,7 @@ ruleTester.run('func-call-spacing', rule, {
       '( f )?.<a>( 0 )',
       '( (f) )?.<a>( (0) )',
       '( f()() )?.<a>(0)',
-    ].map<TSESLint.ValidTestCase<Options>>(code => ({
+    ].map<TSESLint.ValidTestCase<RuleOptions>>(code => ({
       code,
       options: ['never'],
     })),
@@ -103,7 +103,7 @@ ruleTester.run('func-call-spacing', rule, {
       'f?.b ();',
       'f?.b ()?.c ();',
       'f?.b<a> (b, b)',
-    ].map<TSESLint.ValidTestCase<Options>>(code => ({
+    ].map<TSESLint.ValidTestCase<RuleOptions>>(code => ({
       code,
       options: ['always'],
     })),
@@ -123,7 +123,7 @@ ruleTester.run('func-call-spacing', rule, {
       // optional call
       'f?.b \n ();',
       'f\n() ()?.b \n()\n ()',
-    ].map<TSESLint.ValidTestCase<Options>>(code => ({
+    ].map<TSESLint.ValidTestCase<RuleOptions>>(code => ({
       code,
       options: ['always', { allowNewlines: true }],
     })),
@@ -256,7 +256,7 @@ var a = foo
         code: 'f\r\n();',
         output: null, // no change
       },
-    ].map<TSESLint.InvalidTestCase<MessageIds, Options>>(code => ({
+    ].map<TSESLint.InvalidTestCase<MessageIds, RuleOptions>>(code => ({
       options: ['never'],
       errors: [
         {
@@ -292,7 +292,7 @@ var a = foo
         code: 'f(0) (1)',
         output: 'f (0) (1)',
       },
-    ].map<TSESLint.InvalidTestCase<MessageIds, Options>>(code => ({
+    ].map<TSESLint.InvalidTestCase<MessageIds, RuleOptions>>(code => ({
       options: ['always'],
       errors: [
         {
@@ -401,7 +401,7 @@ var a = foo
         code: 'f\r\n();',
         output: 'f ();',
       },
-    ].map<TSESLint.InvalidTestCase<MessageIds, Options>>(code => ({
+    ].map<TSESLint.InvalidTestCase<MessageIds, RuleOptions>>(code => ({
       options: ['always'],
       errors: [
         {
@@ -470,7 +470,7 @@ var a = foo
           },
         ],
       },
-    ].map<TSESLint.InvalidTestCase<MessageIds, Options>>(code => ({
+    ].map<TSESLint.InvalidTestCase<MessageIds, RuleOptions>>(code => ({
       options: ['always', { allowNewlines: true }],
       errors: [
         {
@@ -488,7 +488,7 @@ var a = foo
       'f\n?.();',
       'f?.\n();',
       'f\n?.\n();',
-    ].reduce<TSESLint.InvalidTestCase<MessageIds, Options>[]>((acc, code) => {
+    ].reduce<TSESLint.InvalidTestCase<MessageIds, RuleOptions>[]>((acc, code) => {
       acc.push(
         {
           options: ['always', { allowNewlines: true }],

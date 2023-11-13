@@ -1,3 +1,5 @@
+/* GENERATED, DO NOT EDIT DIRECTLY */
+
 export type Schema0 =
   | ('after-props' | 'props-aligned' | 'tag-aligned' | 'line-aligned')
   | {
@@ -9,3 +11,4 @@ export type Schema0 =
   }
 
 export type RuleOptions = [Schema0?]
+export type MessageIds = 'bracketLocation'
