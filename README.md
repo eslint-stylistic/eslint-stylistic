@@ -15,6 +15,7 @@
 
 <p align="center">
 <a href="https://npmjs.com/package/@stylistic/eslint-plugin-js"><img src="https://img.shields.io/npm/v/@stylistic/eslint-plugin-js?style=flat&colorA=080f12&colorB=34b2ae" alt="npm version"></a>
+<a href="https://npmjs.com/package/@stylistic/eslint-plugin-js"><img src="https://img.shields.io/npm/dm/@stylistic/eslint-plugin-js?style=flat&colorA=080f12&colorB=34b2ae" alt="npm downloads"></a>
 </p>
 
 Community-maintained stylistic/formatting ESLint rules for JavaScript and TypeScript.
