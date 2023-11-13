@@ -20,6 +20,6 @@ export interface RuleMeta {
   fixable?: 'code' | 'whitespace' | null
   docs?: {
     description?: string
-    recommended?: boolean
+    recommended?: boolean | 'stylistic'
   }
 }

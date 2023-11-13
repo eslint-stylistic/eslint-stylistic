@@ -4,9 +4,9 @@
 
 import { basename, dirname, join, relative, resolve } from 'node:path'
 import process from 'node:process'
-import fs from 'node:fs/promises'
 import { existsSync } from 'node:fs'
 import { pathToFileURL } from 'node:url'
+import fs from 'fs-extra'
 import fg from 'fast-glob'
 import { pascalCase } from 'change-case'
 import type { JSONSchema4 } from 'json-schema'
@@ -37,6 +37,7 @@ async function run() {
     await generateDTS(pkg)
     await writePackageDTS(pkg)
     await updateExports(pkg)
+    await generateConfigs(pkg)
     packages.push(pkg)
   }
 
@@ -56,10 +57,18 @@ async function run() {
       return {
         ...rule,
         ruleId: `@stylistic/${name}`,
-        originalId: undefined,
       }
     })
   packageGeneral.shortId = 'default'
+
+  await generateConfigs({
+    ...packageGeneral,
+    rules: [
+      ...packageJs.rules,
+      ...packageTs.rules,
+      ...packageJsx.rules,
+    ],
+  })
 
   await fs.writeFile(
     join(cwd, 'packages', 'metadata', 'src', 'metadata.ts'),
@@ -307,6 +316,24 @@ async function generateDTS(
 
     await fs.writeFile(resolve(cwd, rule.entry, '..', 'types.d.ts'), lines.join('\n'), 'utf-8')
   })
+}
+
+async function generateConfigs(pkg: PackageInfo) {
+  if (!pkg.rules.length)
+    return
+  await fs.ensureDir(join(pkg.path, 'configs'))
+
+  const disabledRules = Object.fromEntries(pkg.rules.map(i => [i.originalId, 0] as const))
+
+  await fs.writeFile(
+    join(pkg.path, 'configs', 'disable-legacy.ts'),
+    [
+      header,
+      `export default ${JSON.stringify({ rules: disabledRules }, null, 2)}`,
+      '',
+    ].join('\n'),
+    'utf-8',
+  )
 }
 
 function camelCase(str: string) {

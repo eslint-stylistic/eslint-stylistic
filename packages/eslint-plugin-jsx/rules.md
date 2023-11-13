@@ -6,7 +6,7 @@
 
 | Rule ID | Description | Fixable | Recommended |
 | --- | --- | --- | --- |
-| [`@stylistic/jsx/jsx-child-element-spacing`](./rules/jsx-child-element-spacing) | Enforce or disallow spaces inside of curly braces in JSX attributes and expressions |  |  |
+| [`@stylistic/jsx/jsx-child-element-spacing`](./rules/jsx-child-element-spacing) | Enforce or disallow spaces inside of curly braces in JSX attributes and expressions |  | ✅ |
 | [`@stylistic/jsx/jsx-closing-bracket-location`](./rules/jsx-closing-bracket-location) | Enforce closing bracket location in JSX | ✅ |  |
 | [`@stylistic/jsx/jsx-closing-tag-location`](./rules/jsx-closing-tag-location) | Enforce closing tag location for multiline JSX | ✅ |  |
 | [`@stylistic/jsx/jsx-curly-brace-presence`](./rules/jsx-curly-brace-presence) | Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes | ✅ |  |

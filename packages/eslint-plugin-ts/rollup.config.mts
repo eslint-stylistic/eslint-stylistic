@@ -33,6 +33,8 @@ export default defineConfig([
         dir: 'dist',
         format: 'cjs',
         manualChunks(id) {
+          if (id.includes('configs'))
+            return 'configs'
           if (id.includes('/utils/'))
             return 'utils'
         },

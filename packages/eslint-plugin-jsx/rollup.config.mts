@@ -15,6 +15,8 @@ export default defineConfig({
       manualChunks(id) {
         if (id.includes('util'))
           return 'utils'
+        if (id.includes('configs'))
+          return 'configs'
         if (id.includes('rules')) {
           const name = basename(dirname(id))
           if (name !== 'rules')
