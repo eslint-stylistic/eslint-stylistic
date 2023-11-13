@@ -1,5 +1,11 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+// TODO: remove this once every rule is migrated to TypeScript
+// eslint-disable-next-line ts/ban-ts-comment
+// @ts-nocheck
+
+import type Rules from '../dts/index.d'
+
 import arrayBracketNewline from './array-bracket-newline/array-bracket-newline'
 import arrayBracketSpacing from './array-bracket-spacing/array-bracket-spacing'
 import arrayElementNewline from './array-element-newline/array-element-newline'
@@ -67,6 +73,8 @@ import templateTagSpacing from './template-tag-spacing/template-tag-spacing'
 import wrapIife from './wrap-iife/wrap-iife'
 import wrapRegex from './wrap-regex/wrap-regex'
 import yieldStarSpacing from './yield-star-spacing/yield-star-spacing'
+
+export type * from '../dts/index.d'
 
 export default {
   'array-bracket-newline': arrayBracketNewline,
@@ -136,4 +144,4 @@ export default {
   'wrap-iife': wrapIife,
   'wrap-regex': wrapRegex,
   'yield-star-spacing': yieldStarSpacing,
-}
+} as unknown as typeof Rules

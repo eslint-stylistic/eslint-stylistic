@@ -139,17 +139,24 @@ async function writeRulesIndex(pkg: PackageInfo) {
 
   await fs.mkdir(ruleDir, { recursive: true })
 
+  const noCheck = (pkg.shortId === 'js' || pkg.shortId === 'jsx')
+
   const index = [
     header,
+    noCheck ? '\n// TODO: remove this once every rule is migrated to TypeScript\n// eslint-disable-next-line ts/ban-ts-comment\n// @ts-nocheck\n' : '',
+    'import type Rules from \'../dts/index.d\'',
+    '',
     ...pkg.rules.map(i => `import ${camelCase(i.name)} from './${i.name}/${i.name}'`),
+    '',
+    'export type * from \'../dts/index.d\'',
     '',
     'export default {',
     ...pkg.rules.map(i => `  '${i.name}': ${camelCase(i.name)},`),
-    '}',
+    '} as unknown as typeof Rules',
     '',
   ].join('\n')
-  const ext = (pkg.shortId === 'js' || pkg.shortId === 'jsx') ? 'js' : 'ts'
-  await fs.writeFile(join(ruleDir, `index.${ext}`), index, 'utf-8')
+
+  await fs.writeFile(join(ruleDir, `index.ts`), index, 'utf-8')
 }
 
 async function writePackageDTS(pkg: PackageInfo) {

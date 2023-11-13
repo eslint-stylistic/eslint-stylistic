@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+import type Rules from '../dts/index.d'
+
 import blockSpacing from './block-spacing/block-spacing'
 import braceStyle from './brace-style/brace-style'
 import commaDangle from './comma-dangle/comma-dangle'
@@ -21,6 +23,8 @@ import spaceBeforeBlocks from './space-before-blocks/space-before-blocks'
 import spaceBeforeFunctionParen from './space-before-function-paren/space-before-function-paren'
 import spaceInfixOps from './space-infix-ops/space-infix-ops'
 import typeAnnotationSpacing from './type-annotation-spacing/type-annotation-spacing'
+
+export type * from '../dts/index.d'
 
 export default {
   'block-spacing': blockSpacing,
@@ -44,4 +48,4 @@ export default {
   'space-before-function-paren': spaceBeforeFunctionParen,
   'space-infix-ops': spaceInfixOps,
   'type-annotation-spacing': typeAnnotationSpacing,
-}
+} as unknown as typeof Rules

@@ -4,13 +4,6 @@ import type { PackageInfo, RuleInfo } from './types'
 
 export const packages: Readonly<PackageInfo[]> = Object.freeze([
   {
-    "name": "@stylistic/eslint-config",
-    "shortId": "eslint-config",
-    "pkgId": "@stylistic/eslint-config",
-    "path": "packages/eslint-config",
-    "rules": []
-  },
-  {
     "name": "@stylistic/eslint-plugin-js",
     "shortId": "js",
     "pkgId": "@stylistic/js",

@@ -7,7 +7,7 @@ import esbuild from 'rollup-plugin-esbuild'
 const pkg = JSON.parse(await fs.readFile(new URL('./package.json', import.meta.url), 'utf-8'))
 
 export default defineConfig({
-  input: 'src/index.js',
+  input: 'src/index.ts',
   output: [
     {
       dir: 'dist',
