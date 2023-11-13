@@ -4,7 +4,7 @@
  */
 
 import type * as ESTree from 'estree'
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 
 // @ts-expect-error missing types
@@ -396,11 +396,10 @@ export function isMixedLogicalAndCoalesceExpressions(left: ASTNode, right: ASTNo
  * @param {SourceCode} sourceCode The source code object to get tokens.
  * @returns {Token} The colon token of the node.
  */
-export function getSwitchCaseColonToken(node: ASTNode, sourceCode: SourceCode) {
+export function getSwitchCaseColonToken(node: ASTNode, sourceCode: TSESLint.SourceCode) {
   if ('test' in node && node.test)
-    return sourceCode.getTokenAfter(node.test as ESTree.Node, isColonToken)
-
-  return sourceCode.getFirstToken(node as ESTree.Node, 1)
+    return sourceCode.getTokenAfter(node.test, token => isColonToken(token))
+  return sourceCode.getFirstToken(node, 1)
 }
 
 /**

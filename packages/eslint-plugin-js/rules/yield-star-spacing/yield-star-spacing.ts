@@ -3,12 +3,11 @@
  * @author Bryan Smith
  */
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -23,6 +22,7 @@ export default {
       {
         oneOf: [
           {
+            type: 'string',
             enum: ['before', 'after', 'both', 'neither'],
           },
           {
@@ -47,17 +47,17 @@ export default {
   create(context) {
     const sourceCode = context.sourceCode
 
-    const mode = (function (option) {
-      if (!option || typeof option === 'string') {
+    const mode = (function (option = 'after') {
+      if (typeof option === 'string') {
         return {
           before: { before: true, after: false },
           after: { before: false, after: true },
           both: { before: true, after: true },
           neither: { before: false, after: false },
-        }[option || 'after']
+        }[option]
       }
       return option
-    }(context.options[0]))
+    }(context.options[0])) as { before: boolean; after: boolean }
 
     /**
      * Checks the spacing between two tokens before or after the star token.
@@ -68,17 +68,15 @@ export default {
      *     token if side is "after".
      * @returns {void}
      */
-    function checkSpacing(side, leftToken, rightToken) {
+    function checkSpacing(side: 'before' | 'after', leftToken: Token, rightToken: Token) {
       if (sourceCode.isSpaceBetweenTokens(leftToken, rightToken) !== mode[side]) {
         const after = leftToken.value === '*'
         const spaceRequired = mode[side]
         const node = after ? leftToken : rightToken
-        let messageId = ''
 
-        if (spaceRequired)
-          messageId = side === 'before' ? 'missingBefore' : 'missingAfter'
-        else
-          messageId = side === 'before' ? 'unexpectedBefore' : 'unexpectedAfter'
+        const messageId = spaceRequired
+          ? (side === 'before' ? 'missingBefore' : 'missingAfter')
+          : (side === 'before' ? 'unexpectedBefore' : 'unexpectedAfter')
 
         context.report({
           node,
@@ -101,8 +99,8 @@ export default {
      * @param {ASTNode} node A yield expression node.
      * @returns {void}
      */
-    function checkExpression(node) {
-      if (!node.delegate)
+    function checkExpression(node: ASTNode) {
+      if (!('delegate' in node && node.delegate))
         return
 
       const tokens = sourceCode.getFirstTokens(node, 3)
@@ -118,4 +116,4 @@ export default {
       YieldExpression: checkExpression,
     }
   },
-}
+})

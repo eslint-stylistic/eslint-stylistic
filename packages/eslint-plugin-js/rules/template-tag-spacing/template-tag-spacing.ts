@@ -3,12 +3,14 @@
  * @author Jonathan Wilsson
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
+import { createRule } from '../../utils/createRule'
+
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -20,7 +22,10 @@ export default {
     fixable: 'whitespace',
 
     schema: [
-      { enum: ['always', 'never'] },
+      {
+        type: 'string',
+        enum: ['always', 'never'],
+      },
     ],
     messages: {
       unexpected: 'Unexpected space between template tag and template literal.',
@@ -38,9 +43,9 @@ export default {
      * @returns {void}
      * @private
      */
-    function checkSpacing(node) {
-      const tagToken = sourceCode.getTokenBefore(node.quasi)
-      const literalToken = sourceCode.getFirstToken(node.quasi)
+    function checkSpacing(node: TSESTree.TaggedTemplateExpression) {
+      const tagToken = sourceCode.getTokenBefore(node.quasi)!
+      const literalToken = sourceCode.getFirstToken(node.quasi)!
       const hasWhitespace = sourceCode.isSpaceBetweenTokens(tagToken, literalToken)
 
       if (never && hasWhitespace) {
@@ -84,4 +89,4 @@ export default {
       TaggedTemplateExpression: checkSpacing,
     }
   },
-}
+})

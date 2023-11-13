@@ -5,14 +5,14 @@
 
 import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ESNode, Token } from '../../utils/types'
-import type { RuleOptions } from './types'
+import type { ASTNode, Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -27,6 +27,7 @@ export default createRule({
       {
         oneOf: [
           {
+            type: 'string',
             enum: ['always', 'never', 'consistent'],
           },
           {
@@ -113,7 +114,7 @@ export default createRule({
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportNoBeginningLinebreak(node: ESNode, token: Token) {
+    function reportNoBeginningLinebreak(node: ASTNode, token: Token) {
       context.report({
         node,
         loc: token.loc,
@@ -135,7 +136,7 @@ export default createRule({
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportNoEndingLinebreak(node: ESNode, token: Token) {
+    function reportNoEndingLinebreak(node: ASTNode, token: Token) {
       context.report({
         node,
         loc: token.loc,
@@ -157,7 +158,7 @@ export default createRule({
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportRequiredBeginningLinebreak(node: ESNode, token: Token) {
+    function reportRequiredBeginningLinebreak(node: ASTNode, token: Token) {
       context.report({
         node,
         loc: token.loc,
@@ -174,7 +175,7 @@ export default createRule({
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportRequiredEndingLinebreak(node: ESNode, token: Token) {
+    function reportRequiredEndingLinebreak(node: ASTNode, token: Token) {
       context.report({
         node,
         loc: token.loc,
@@ -190,7 +191,7 @@ export default createRule({
      * @param {ASTNode} node A node to check. This is an ArrayExpression node or an ArrayPattern node.
      * @returns {void}
      */
-    function check(node: ESNode) {
+    function check(node: ASTNode) {
       // @ts-expect-error type cast
       const elements = node.elements
       const normalizedOptions = normalizeOptions(context.options[0])
