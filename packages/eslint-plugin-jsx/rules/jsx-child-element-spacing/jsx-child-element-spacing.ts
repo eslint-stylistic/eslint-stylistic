@@ -1,5 +1,7 @@
+import type { TSESTree } from '@typescript-eslint/utils'
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import report from '../../utils/report'
+import type { ASTNode } from '../../utils/types'
 
 // This list is taken from https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements
 
@@ -42,40 +44,38 @@ const messages = {
   spacingBeforeNext: 'Ambiguous spacing before next element {{element}}',
 }
 
-export default {
+export default createRule({
   meta: {
+    type: 'layout',
     docs: {
       description: 'Enforce or disallow spaces inside of curly braces in JSX attributes and expressions',
-      category: 'Stylistic Issues',
-      recommended: false,
+      recommended: 'stylistic',
       url: docsUrl('jsx-child-element-spacing'),
     },
-    fixable: null,
-
     messages,
-
     schema: [],
   },
   create(context) {
     const TEXT_FOLLOWING_ELEMENT_PATTERN = /^\s*\n\s*\S/
     const TEXT_PRECEDING_ELEMENT_PATTERN = /\S\s*\n\s*$/
 
-    const elementName = node => (
+    const elementName = (node: TSESTree.JSXElement) => (
       node.openingElement
       && node.openingElement.name
       && node.openingElement.name.type === 'JSXIdentifier'
       && node.openingElement.name.name
-    )
+    ) || ''
 
-    const isInlineElement = node => (
+    const isInlineElement = (node: ASTNode) => (
       node.type === 'JSXElement'
       && INLINE_ELEMENTS.has(elementName(node))
     )
 
-    const handleJSX = (node) => {
-      let lastChild = null
-      let child = null;
-      (node.children.concat([null])).forEach((nextChild) => {
+    const handleJSX = (node: TSESTree.JSXElement | TSESTree.JSXFragment) => {
+      let lastChild: ASTNode | null = null
+      let child: ASTNode | null = null
+
+      ;[...node.children, null].forEach((nextChild) => {
         if (
           (lastChild || nextChild)
           && (!lastChild || isInlineElement(lastChild))
@@ -83,21 +83,23 @@ export default {
           && (!nextChild || isInlineElement(nextChild))
           && true
         ) {
-          if (lastChild && child.value.match(TEXT_FOLLOWING_ELEMENT_PATTERN)) {
-            report(context, messages.spacingAfterPrev, 'spacingAfterPrev', {
+          if (lastChild && String(child.value).match(TEXT_FOLLOWING_ELEMENT_PATTERN)) {
+            context.report({
+              messageId: 'spacingAfterPrev',
               node: lastChild,
               loc: lastChild.loc.end,
               data: {
-                element: elementName(lastChild),
+                element: elementName(lastChild as TSESTree.JSXElement),
               },
             })
           }
-          else if (nextChild && child.value.match(TEXT_PRECEDING_ELEMENT_PATTERN)) {
-            report(context, messages.spacingBeforeNext, 'spacingBeforeNext', {
+          else if (nextChild && String(child.value).match(TEXT_PRECEDING_ELEMENT_PATTERN)) {
+            context.report({
+              messageId: 'spacingBeforeNext',
               node: nextChild,
               loc: nextChild.loc.start,
               data: {
-                element: elementName(nextChild),
+                element: elementName(nextChild as TSESTree.JSXElement),
               },
             })
           }
@@ -112,4 +114,4 @@ export default {
       JSXFragment: handleJSX,
     }
   },
-}
+})

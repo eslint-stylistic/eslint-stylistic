@@ -4,13 +4,6 @@ import type { PackageInfo, RuleInfo } from './types'
 
 export const packages: Readonly<PackageInfo[]> = Object.freeze([
   {
-    "name": "@stylistic/eslint-config",
-    "shortId": "eslint-config",
-    "pkgId": "@stylistic/eslint-config",
-    "path": "packages/eslint-config",
-    "rules": []
-  },
-  {
     "name": "@stylistic/eslint-plugin-js",
     "shortId": "js",
     "pkgId": "@stylistic/js",
@@ -20,7 +13,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "array-bracket-newline",
         "ruleId": "@stylistic/js/array-bracket-newline",
         "originalId": "array-bracket-newline",
-        "entry": "packages/eslint-plugin-js/rules/array-bracket-newline/array-bracket-newline.js",
+        "entry": "packages/eslint-plugin-js/rules/array-bracket-newline/array-bracket-newline.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/array-bracket-newline/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -1508,7 +1501,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       {
         "name": "array-bracket-newline",
         "ruleId": "@stylistic/array-bracket-newline",
-        "entry": "packages/eslint-plugin-js/rules/array-bracket-newline/array-bracket-newline.js",
+        "entry": "packages/eslint-plugin-js/rules/array-bracket-newline/array-bracket-newline.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/array-bracket-newline/README.md",
         "meta": {
           "fixable": "whitespace",

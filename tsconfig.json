@@ -10,14 +10,13 @@
         "./packages/metadata/src/index.ts"
       ],
       "@stylistic/eslint-plugin-js": [
-        "./packages/eslint-plugin-js/dts/index.d.ts"
+        "./packages/eslint-plugin-js/src/index.ts"
       ],
       "@stylistic/eslint-plugin-ts": [
-        "./packages/eslint-plugin-ts/src/index.ts",
-        "./packages/eslint-plugin-ts/dts/index.d.ts"
+        "./packages/eslint-plugin-ts/src/index.ts"
       ],
       "@stylistic/eslint-plugin-jsx": [
-        "./packages/eslint-plugin-jsx/dts/index.d.ts"
+        "./packages/eslint-plugin-jsx/src/index.ts"
       ],
       "@stylistic/eslint-plugin": [
         "./packages/eslint-plugin/src/index.ts",

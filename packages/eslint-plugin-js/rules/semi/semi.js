@@ -112,11 +112,11 @@ export default {
         messageId = 'extraSemi'
         loc = lastToken.loc
         fix = function (fixer) {
-          /*
-                     * Expand the replacement range to include the surrounding
-                     * tokens to avoid conflicting with no-extra-semi.
-                     * https://github.com/eslint/eslint/issues/7928
-                     */
+          /**
+           * Expand the replacement range to include the surrounding
+           * tokens to avoid conflicting with no-extra-semi.
+           * https://github.com/eslint/eslint/issues/7928
+           */
           return new FixTracker(fixer, sourceCode)
             .retainSurroundingTokens(lastToken)
             .remove(lastToken)
@@ -141,8 +141,8 @@ export default {
 
       return (
         !nextToken
-                || isClosingBraceToken(nextToken)
-                || isSemicolonToken(nextToken)
+        || isClosingBraceToken(nextToken)
+        || isSemicolonToken(nextToken)
       )
     }
 
@@ -182,23 +182,23 @@ export default {
              */
       const needsNameCheck = !node.computed && node.key.type === 'Identifier'
 
-      /*
-             * Certain names are problematic unless they also have a
-             * a way to distinguish between keywords and property
-             * names.
-             */
+      /**
+       * Certain names are problematic unless they also have a
+       * a way to distinguish between keywords and property
+       * names.
+       */
       if (needsNameCheck && unsafeClassFieldNames.has(node.key.name)) {
-        /*
-                 * Special case: If the field name is `static`,
-                 * it is only valid if the field is marked as static,
-                 * so "static static" is okay but "static" is not.
-                 */
+        /**
+         * Special case: If the field name is `static`,
+         * it is only valid if the field is marked as static,
+         * so "static static" is okay but "static" is not.
+         */
         const isStaticStatic = node.static && node.key.name === 'static'
 
-        /*
-                 * For other unsafe names, we only care if there is no
-                 * initializer. No initializer = hazard.
-                 */
+        /**
+         * For other unsafe names, we only care if there is no
+         * initializer. No initializer = hazard.
+         */
         if (!isStaticStatic && !node.value)
           return true
       }
@@ -352,8 +352,8 @@ export default {
           report(node, true)
         else if (
           !isSemi && beforeStatementContinuationChars === 'always'
-                    && node.type !== 'PropertyDefinition'
-                    && maybeAsiHazardBefore(sourceCode.getTokenAfter(node))
+                  && node.type !== 'PropertyDefinition'
+                  && maybeAsiHazardBefore(sourceCode.getTokenAfter(node))
         )
           report(node)
       }
