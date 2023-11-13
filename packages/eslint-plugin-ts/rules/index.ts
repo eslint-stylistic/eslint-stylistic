@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-import type Rules from '../dts/index.d'
+import type { Rules } from '../dts'
 
 import blockSpacing from './block-spacing/block-spacing'
 import braceStyle from './brace-style/brace-style'
@@ -24,8 +24,6 @@ import spaceBeforeFunctionParen from './space-before-function-paren/space-before
 import spaceInfixOps from './space-infix-ops/space-infix-ops'
 import typeAnnotationSpacing from './type-annotation-spacing/type-annotation-spacing'
 
-export type * from '../dts/index.d'
-
 export default {
   'block-spacing': blockSpacing,
   'brace-style': braceStyle,
@@ -48,4 +46,4 @@ export default {
   'space-before-function-paren': spaceBeforeFunctionParen,
   'space-infix-ops': spaceInfixOps,
   'type-annotation-spacing': typeAnnotationSpacing,
-} as unknown as typeof Rules
+} as unknown as Rules

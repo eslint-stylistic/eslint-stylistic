@@ -4,7 +4,7 @@
 // eslint-disable-next-line ts/ban-ts-comment
 // @ts-nocheck
 
-import type Rules from '../dts/index.d'
+import type { Rules } from '../dts'
 
 import jsxChildElementSpacing from './jsx-child-element-spacing/jsx-child-element-spacing'
 import jsxClosingBracketLocation from './jsx-closing-bracket-location/jsx-closing-bracket-location'
@@ -25,8 +25,6 @@ import jsxSortProps from './jsx-sort-props/jsx-sort-props'
 import jsxTagSpacing from './jsx-tag-spacing/jsx-tag-spacing'
 import jsxWrapMultilines from './jsx-wrap-multilines/jsx-wrap-multilines'
 
-export type * from '../dts/index.d'
-
 export default {
   'jsx-child-element-spacing': jsxChildElementSpacing,
   'jsx-closing-bracket-location': jsxClosingBracketLocation,
@@ -46,4 +44,4 @@ export default {
   'jsx-sort-props': jsxSortProps,
   'jsx-tag-spacing': jsxTagSpacing,
   'jsx-wrap-multilines': jsxWrapMultilines,
-} as unknown as typeof Rules
+} as unknown as Rules

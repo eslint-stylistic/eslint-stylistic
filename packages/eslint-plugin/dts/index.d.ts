@@ -3,10 +3,12 @@ import type { UnprefixedRuleOptions } from './rule-options'
 
 export type * from './rule-options'
 
+export type Rules = {
+  [K in keyof UnprefixedRuleOptions]: ESLint.RuleModule
+}
+
 declare const plugin: {
-  rules: {
-    [K in keyof UnprefixedRuleOptions]: ESLint.RuleModule
-  }
+  rules: Rules
 }
 
 export default plugin

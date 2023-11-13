@@ -144,15 +144,13 @@ async function writeRulesIndex(pkg: PackageInfo) {
   const index = [
     header,
     noCheck ? '\n// TODO: remove this once every rule is migrated to TypeScript\n// eslint-disable-next-line ts/ban-ts-comment\n// @ts-nocheck\n' : '',
-    'import type Rules from \'../dts/index.d\'',
+    'import type { Rules } from \'../dts\'',
     '',
     ...pkg.rules.map(i => `import ${camelCase(i.name)} from './${i.name}/${i.name}'`),
     '',
-    'export type * from \'../dts/index.d\'',
-    '',
     'export default {',
     ...pkg.rules.map(i => `  '${i.name}': ${camelCase(i.name)},`),
-    '} as unknown as typeof Rules',
+    '} as unknown as Rules',
     '',
   ].join('\n')
 

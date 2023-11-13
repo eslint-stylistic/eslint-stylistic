@@ -4,7 +4,7 @@
 // eslint-disable-next-line ts/ban-ts-comment
 // @ts-nocheck
 
-import type Rules from '../dts/index.d'
+import type { Rules } from '../dts'
 
 import arrayBracketNewline from './array-bracket-newline/array-bracket-newline'
 import arrayBracketSpacing from './array-bracket-spacing/array-bracket-spacing'
@@ -74,8 +74,6 @@ import wrapIife from './wrap-iife/wrap-iife'
 import wrapRegex from './wrap-regex/wrap-regex'
 import yieldStarSpacing from './yield-star-spacing/yield-star-spacing'
 
-export type * from '../dts/index.d'
-
 export default {
   'array-bracket-newline': arrayBracketNewline,
   'array-bracket-spacing': arrayBracketSpacing,
@@ -144,4 +142,4 @@ export default {
   'wrap-iife': wrapIife,
   'wrap-regex': wrapRegex,
   'yield-star-spacing': yieldStarSpacing,
-} as unknown as typeof Rules
+} as unknown as Rules
