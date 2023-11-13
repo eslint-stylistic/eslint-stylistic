@@ -19,8 +19,8 @@ import commaStyle from './comma-style/comma-style'
 import computedPropertySpacing from './computed-property-spacing/computed-property-spacing'
 import dotLocation from './dot-location/dot-location'
 import eolLast from './eol-last/eol-last'
-import funcCallSpacing from './func-call-spacing/func-call-spacing'
 import functionCallArgumentNewline from './function-call-argument-newline/function-call-argument-newline'
+import functionCallSpacing from './function-call-spacing/function-call-spacing'
 import functionParenNewline from './function-paren-newline/function-paren-newline'
 import generatorStarSpacing from './generator-star-spacing/generator-star-spacing'
 import implicitArrowLinebreak from './implicit-arrow-linebreak/implicit-arrow-linebreak'
@@ -88,9 +88,9 @@ export default {
   'computed-property-spacing': computedPropertySpacing,
   'dot-location': dotLocation,
   'eol-last': eolLast,
-  'func-call-spacing': funcCallSpacing,
+  'func-call-spacing': functionCallSpacing,
   'function-call-argument-newline': functionCallArgumentNewline,
-  'function-call-spacing': funcCallSpacing,
+  'function-call-spacing': functionCallSpacing,
   'function-paren-newline': functionParenNewline,
   'generator-star-spacing': generatorStarSpacing,
   'implicit-arrow-linebreak': implicitArrowLinebreak,

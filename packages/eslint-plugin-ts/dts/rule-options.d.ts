@@ -4,8 +4,7 @@ import type { RuleOptions as BlockSpacingRuleOptions } from '../rules/block-spac
 import type { RuleOptions as BraceStyleRuleOptions } from '../rules/brace-style/types'
 import type { RuleOptions as CommaDangleRuleOptions } from '../rules/comma-dangle/types'
 import type { RuleOptions as CommaSpacingRuleOptions } from '../rules/comma-spacing/types'
-import type { RuleOptions as FuncCallSpacingRuleOptions } from '../rules/func-call-spacing/types'
-import type { RuleOptions as FunctionCallSpacingRuleOptions } from '../rules/func-call-spacing/types'
+import type { RuleOptions as FunctionCallSpacingRuleOptions } from '../rules/function-call-spacing/types'
 import type { RuleOptions as IndentRuleOptions } from '../rules/indent/types'
 import type { RuleOptions as KeySpacingRuleOptions } from '../rules/key-spacing/types'
 import type { RuleOptions as KeywordSpacingRuleOptions } from '../rules/keyword-spacing/types'
@@ -45,13 +44,13 @@ export interface RuleOptions {
    */
   '@stylistic/ts/comma-spacing': CommaSpacingRuleOptions
   /**
-   * Require or disallow spacing between function identifiers and their invocations
-   * @see https://eslint.style/rules/ts/func-call-spacing
+   * Require or disallow spacing between function identifiers and their invocations. Alias of `function-call-spacing`.
+   * @see https://eslint.style/rules/ts/function-call-spacing
    */
-  '@stylistic/ts/func-call-spacing': FuncCallSpacingRuleOptions
+  '@stylistic/ts/func-call-spacing': FunctionCallSpacingRuleOptions
   /**
-   * Require or disallow spacing between function identifiers and their invocations. Alias of `func-call-spacing`.
-   * @see https://eslint.style/rules/ts/func-call-spacing
+   * Require or disallow spacing between function identifiers and their invocations
+   * @see https://eslint.style/rules/ts/function-call-spacing
    */
   '@stylistic/ts/function-call-spacing': FunctionCallSpacingRuleOptions
   /**
@@ -158,13 +157,13 @@ export interface UnprefixedRuleOptions {
    */
   'comma-spacing': CommaSpacingRuleOptions
   /**
-   * Require or disallow spacing between function identifiers and their invocations
-   * @see https://eslint.style/rules/ts/func-call-spacing
+   * Require or disallow spacing between function identifiers and their invocations. Alias of `function-call-spacing`.
+   * @see https://eslint.style/rules/ts/function-call-spacing
    */
-  'func-call-spacing': FuncCallSpacingRuleOptions
+  'func-call-spacing': FunctionCallSpacingRuleOptions
   /**
-   * Require or disallow spacing between function identifiers and their invocations. Alias of `func-call-spacing`.
-   * @see https://eslint.style/rules/ts/func-call-spacing
+   * Require or disallow spacing between function identifiers and their invocations
+   * @see https://eslint.style/rules/ts/function-call-spacing
    */
   'function-call-spacing': FunctionCallSpacingRuleOptions
   /**
