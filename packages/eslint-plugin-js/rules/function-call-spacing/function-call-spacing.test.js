@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import rule from './func-call-spacing'
+import rule from './function-call-spacing'
 
 // ------------------------------------------------------------------------------
 // Tests
@@ -12,7 +12,7 @@ import rule from './func-call-spacing'
 
 const ruleTester = new RuleTester()
 
-ruleTester.run('func-call-spacing', rule, {
+ruleTester.run('function-call-spacing', rule, {
   valid: [
 
     // default ("never")

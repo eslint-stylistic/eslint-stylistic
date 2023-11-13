@@ -19,6 +19,16 @@ const header = `
 
 const cwd = process.cwd()
 
+// Alias / Source
+const aliases: Record<string, string> = {
+  'func-call-spacing': 'function-call-spacing',
+}
+
+const originalIdMap: Record<string, string> = {
+  'function-call-spacing': 'func-call-spacing',
+  '@typescript-eslint/function-call-spacing': '@typescript-eslint/func-call-spacing',
+}
+
 async function run() {
   const paths = (await fg('./packages/*/package.json', {
     onlyFiles: true,
@@ -98,7 +108,18 @@ async function readPackage(path: string): Promise<PackageInfo> {
 
   const rules = await Promise.all(
     rulesDir.map(async (ruleDir) => {
-      const name = basename(ruleDir)
+      const realName = basename(ruleDir)
+      const name = resolveAlias(realName)
+
+      const docsDir = ruleDir
+
+      if (realName !== name) {
+        const pathSegments = docsDir.split('/')
+        pathSegments.pop()
+        pathSegments.push(name)
+        ruleDir = pathSegments.join('/')
+      }
+
       let entry = join(path, ruleDir, `${name}.ts`).replace(/\\/g, '/')
       if (!existsSync(entry))
         entry = join(path, ruleDir, `${name}.js`).replace(/\\/g, '/')
@@ -106,23 +127,26 @@ async function readPackage(path: string): Promise<PackageInfo> {
       const url = pathToFileURL(entry).href
       const mod = await import(url)
       const meta = mod.default?.meta
+      const originalId = shortId === 'js'
+        ? name
+        : shortId === 'ts'
+          ? `@typescript-eslint/${name}`
+          : shortId === 'jsx'
+            ? `react/${name}`
+            : ''
       const rule: RuleInfo = {
-        name,
-        ruleId: `${pkgId}/${name}`,
-        originalId: shortId === 'js'
-          ? name
-          : shortId === 'ts'
-            ? `@typescript-eslint/${name}`
-            : shortId === 'jsx'
-              ? `react/${name}`
-              : '',
+        name: realName,
+        ruleId: `${pkgId}/${realName}`,
+        originalId: originalIdMap[originalId] || originalId,
         entry: relative(cwd, entry).replace(/\\/g, '/'),
         // TODO: check if entry exists
-        docsEntry: relative(cwd, resolve(path, ruleDir, 'README.md')).replace(/\\/g, '/'),
+        docsEntry: relative(cwd, resolve(path, docsDir, 'README.md')).replace(/\\/g, '/'),
         meta: {
           fixable: meta?.fixable,
           docs: {
-            description: meta?.docs?.description,
+            description: realName !== name
+              ? `${meta?.docs?.description}. Alias of \`${name}\`.`
+              : meta?.docs?.description,
             recommended: meta?.docs?.recommended,
           },
         },
@@ -155,10 +179,12 @@ async function writeRulesIndex(pkg: PackageInfo) {
     noCheck ? '\n// TODO: remove this once every rule is migrated to TypeScript\n// eslint-disable-next-line ts/ban-ts-comment\n// @ts-nocheck\n' : '',
     'import type { Rules } from \'../dts\'',
     '',
-    ...pkg.rules.map(i => `import ${camelCase(i.name)} from './${i.name}/${i.name}'`),
+    ...pkg.rules
+      .filter(i => !(i.name in aliases))
+      .map(i => `import ${camelCase(i.name)} from './${i.name}/${i.name}'`),
     '',
     'export default {',
-    ...pkg.rules.map(i => `  '${i.name}': ${camelCase(i.name)},`),
+    ...pkg.rules.map(i => `  '${i.name}': ${camelCase(resolveAlias(i.name))},`),
     '} as unknown as Rules',
     '',
   ].join('\n')
@@ -172,33 +198,34 @@ async function writePackageDTS(pkg: PackageInfo) {
 
   const lines = [
     header,
-    ...pkg.rules.map((rule) => {
-      const name = basename(rule.name).replace(/\.\w+$/, '')
-      return `import type { RuleOptions as ${pascalCase(name)}RuleOptions } from '../rules/${name}/types'`
-    }),
+    ...pkg.rules
+      .filter(r => !(r.name in aliases))
+      .map((rule) => {
+        return `import type { RuleOptions as ${pascalCase(rule.name)}RuleOptions } from '../rules/${rule.name}/types'`
+      }),
     '',
     'export interface RuleOptions {',
     ...pkg.rules.flatMap((rule) => {
-      const name = basename(rule.name).replace(/\.\w+$/, '')
+      const original = resolveAlias(rule.name)
       return [
         '  /**',
         `   * ${rule.meta?.docs?.description || ''}`,
-        `   * @see https://eslint.style/rules/${pkg.shortId}/${rule.name}`,
+        `   * @see https://eslint.style/rules/${pkg.shortId}/${original}`,
         '   */',
-        `  '${pkg.name.replace('eslint-plugin-', '')}/${rule.name}': ${pascalCase(name)}RuleOptions`,
+        `  '${pkg.name.replace('eslint-plugin-', '')}/${rule.name}': ${pascalCase(original)}RuleOptions`,
       ]
     }),
     '}',
     '',
     'export interface UnprefixedRuleOptions {',
     ...pkg.rules.flatMap((rule) => {
-      const name = basename(rule.name).replace(/\.\w+$/, '')
+      const original = resolveAlias(rule.name)
       return [
         '  /**',
         `   * ${rule.meta?.docs?.description || ''}`,
-        `   * @see https://eslint.style/rules/${pkg.shortId}/${rule.name}`,
+        `   * @see https://eslint.style/rules/${pkg.shortId}/${original}`,
         '   */',
-        `  '${rule.name}': ${pascalCase(name)}RuleOptions`,
+        `  '${rule.name}': ${pascalCase(original)}RuleOptions`,
       ]
     }),
     '}',
@@ -254,6 +281,15 @@ async function writeREADME(pkg: PackageInfo) {
   if (!pkg.rules.length)
     return
 
+  const description = (i: RuleInfo) => {
+    const desc = i.meta?.docs?.description || ''
+
+    if (i.name !== resolveAlias(i.name))
+      return `${desc}. Alias of \`${resolveAlias(i.name)}\`.`
+
+    return desc
+  }
+
   const lines = [
     '<!--',
     header.trim(),
@@ -263,7 +299,7 @@ async function writeREADME(pkg: PackageInfo) {
     '',
     '| Rule ID | Description | Fixable | Recommended |',
     '| --- | --- | --- | --- |',
-    ...pkg.rules.map(i => `| [\`${i.ruleId}\`](./rules/${i.name}) | ${i.meta?.docs?.description || ''} | ${i.meta?.fixable ? '✅' : ''} | ${i.meta?.docs?.recommended ? '✅' : ''} |`),
+    ...pkg.rules.map(i => `| [\`${i.ruleId}\`](./rules/${i.name}) | ${description(i)} | ${i.meta?.fixable ? '✅' : ''} | ${i.meta?.docs?.recommended ? '✅' : ''} |`),
   ]
 
   await fs.writeFile(join(pkg.path, 'rules.md'), lines.join('\n'), 'utf-8')
@@ -340,4 +376,10 @@ function camelCase(str: string) {
   return str
     .replace(/[^\d\w_-]+/, '')
     .replace(/-([a-z])/g, (_, c) => c.toUpperCase())
+}
+
+function resolveAlias(name: string): string {
+  if (aliases[name])
+    return aliases[name]
+  return name
 }

@@ -29,6 +29,7 @@
     "./rules/comma-dangle": "./dist/comma-dangle.js",
     "./rules/comma-spacing": "./dist/comma-spacing.js",
     "./rules/func-call-spacing": "./dist/func-call-spacing.js",
+    "./rules/function-call-spacing": "./dist/function-call-spacing.js",
     "./rules/indent": "./dist/indent.js",
     "./rules/key-spacing": "./dist/key-spacing.js",
     "./rules/keyword-spacing": "./dist/keyword-spacing.js",

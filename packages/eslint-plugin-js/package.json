@@ -39,6 +39,7 @@
     "./rules/eol-last": "./dist/eol-last.js",
     "./rules/func-call-spacing": "./dist/func-call-spacing.js",
     "./rules/function-call-argument-newline": "./dist/function-call-argument-newline.js",
+    "./rules/function-call-spacing": "./dist/function-call-spacing.js",
     "./rules/function-paren-newline": "./dist/function-paren-newline.js",
     "./rules/generator-star-spacing": "./dist/generator-star-spacing.js",
     "./rules/implicit-arrow-linebreak": "./dist/implicit-arrow-linebreak.js",
