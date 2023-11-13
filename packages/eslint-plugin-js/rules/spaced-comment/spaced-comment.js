@@ -142,7 +142,7 @@ function createNeverStylePattern(markers) {
 /** @type {import('eslint').Rule.RuleModule} */
 export default {
   meta: {
-    type: 'suggestion',
+    type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing after the `//` or `/*` in a comment',

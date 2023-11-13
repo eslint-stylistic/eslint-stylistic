@@ -14,7 +14,7 @@ import keywords from '../../utils/keywords'
 /** @type {import('eslint').Rule.RuleModule} */
 export default {
   meta: {
-    type: 'suggestion',
+    type: 'layout',
 
     docs: {
       description: 'Require quotes around object literal property names',
