@@ -4,7 +4,7 @@
  * @returns {Token} The token before the closing bracket.
  */
 export function getTokenBeforeClosingBracket(node) {
-  const attributes = node.attributes
+  const attributes = 'attributes' in node && node.attributes
   if (!attributes || attributes.length === 0)
     return node.name
 

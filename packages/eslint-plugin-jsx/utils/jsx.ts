@@ -1,9 +1,11 @@
 /**
  * @fileoverview Utility functions for JSX
  */
+import type { Rule } from 'eslint'
 import { traverseReturns } from './ast'
 import { isCreateElement } from './isCreateElement'
 import { findVariableByName } from './variable'
+import type { ASTNode, Tree } from './types'
 
 // See https://github.com/babel/babel/blob/ce420ba51c68591e057696ef43e028f41c6e04cd/packages/babel-types/src/validators/react/isCompatTag.js
 // for why we only test for the first character
@@ -14,7 +16,7 @@ const COMPAT_TAG_REGEX = /^[a-z]/
  * @param {object} node - JSXOpeningElement to check.
  * @returns {boolean} Whether or not the node corresponds to a DOM element.
  */
-function isDOMComponent(node) {
+export function isDOMComponent(node: Tree.JSXOpeningElement | Tree.JSXOpeningFragment) {
   const name = getElementType(node)
   return COMPAT_TAG_REGEX.test(name)
 }
@@ -24,7 +26,7 @@ function isDOMComponent(node) {
  * @param {object} node - node to check.
  * @returns {boolean} Whether or not the node if a JSX element or fragment.
  */
-function isJSX(node) {
+export function isJSX(node: ASTNode): node is (Tree.JSXElement | Tree.JSXFragment) {
   return node && ['JSXElement', 'JSXFragment'].includes(node.type)
 }
 
@@ -33,7 +35,7 @@ function isJSX(node) {
  * @param {string} value
  * @returns {boolean}
  */
-function isWhiteSpaces(value) {
+export function isWhiteSpaces(value: string): boolean {
   return typeof value === 'string' ? /^\s*$/.test(value) : false
 }
 
@@ -46,8 +48,8 @@ function isWhiteSpaces(value) {
  * @param {boolean} [ignoreNull] If true, null return values will be ignored
  * @returns {boolean} True if the node is returning JSX or null, false if not
  */
-function isReturningJSX(ASTnode, context, strict, ignoreNull) {
-  const isJSXValue = (node) => {
+export function isReturningJSX(ASTnode: ASTNode, context: Rule.RuleContext, strict = false, ignoreNull = false) {
+  const isJSXValue = (node: ASTNode): boolean => {
     if (!node)
       return false
 
@@ -72,7 +74,6 @@ function isReturningJSX(ASTnode, context, strict, ignoreNull) {
       case 'Literal':
         if (!ignoreNull && node.value === null)
           return true
-
         return false
       case 'Identifier': {
         const variable = findVariableByName(context, node.name)
@@ -100,7 +101,7 @@ function isReturningJSX(ASTnode, context, strict, ignoreNull) {
  * Ported from `jsx-ast-utils/propName` to reduce bundle size
  * @see https://github.com/jsx-eslint/jsx-ast-utils/blob/main/src/propName.js
  */
-function getPropName(prop = {}) {
+export function getPropName(prop: Tree.JSXAttribute | Tree.JSXSpreadAttribute) {
   if (!prop.type || prop.type !== 'JSXAttribute')
     throw new Error('The prop must be a JSXAttribute collected by the AST parser.')
   if (prop.name.type === 'JSXNamespacedName')
@@ -108,7 +109,7 @@ function getPropName(prop = {}) {
   return prop.name.name
 }
 
-function resolveMemberExpressions(object = {}, property = {}) {
+function resolveMemberExpressions(object: Tree.JSXMemberExpression | Tree.JSXTagNameExpression, property: Tree.JSXIdentifier): string {
   if (object.type === 'JSXMemberExpression')
     return `${resolveMemberExpressions(object.object, object.property)}.${property.name}`
 
@@ -121,30 +122,21 @@ function resolveMemberExpressions(object = {}, property = {}) {
  * Ported from `jsx-ast-utils/elementType` to reduce bundle size
  * @see https://github.com/jsx-eslint/jsx-ast-utils/blob/main/src/elementType.js
  */
-function getElementType(node = {}) {
-  const { name } = node
-
+export function getElementType(node: Tree.JSXOpeningElement | Tree.JSXOpeningFragment) {
   if (node.type === 'JSXOpeningFragment')
     return '<>'
 
+  const { name } = node
   if (!name)
     throw new Error('The argument provided is not a JSXElement node.')
 
   if (name.type === 'JSXMemberExpression') {
-    const { object = {}, property = {} } = name
+    const { object, property } = name
     return resolveMemberExpressions(object, property)
   }
 
   if (name.type === 'JSXNamespacedName')
     return `${name.namespace.name}:${name.name.name}`
 
-  return node.name.name
-}
-
-export {
-  isDOMComponent,
-  isJSX,
-  isWhiteSpaces,
-  isReturningJSX,
-  getPropName,
+  return (node.name as Tree.JSXIdentifier).name
 }
