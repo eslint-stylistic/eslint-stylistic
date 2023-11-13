@@ -3,12 +3,10 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
+import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -31,7 +29,7 @@ export default {
     return {
 
       Literal(node) {
-        const token = sourceCode.getFirstToken(node)
+        const token = sourceCode.getFirstToken(node)!
         const nodeType = token.type
 
         if (nodeType === 'RegularExpression') {
@@ -51,4 +49,4 @@ export default {
       },
     }
   },
-}
+})

@@ -110,16 +110,16 @@ export default {
     function isConflicted(precedingToken, node) {
       return (
         isArrowToken(precedingToken)
-                || (
-                  isKeywordToken(precedingToken)
-                    && !isFunctionBody(node)
-                )
-                || (
-                  isColonToken(precedingToken)
-                    && node.parent
-                    && node.parent.type === 'SwitchCase'
-                    && precedingToken === getSwitchCaseColonToken(node.parent, sourceCode)
-                )
+          || (
+            isKeywordToken(precedingToken)
+              && !isFunctionBody(node)
+          )
+          || (
+            isColonToken(precedingToken)
+              && node.parent
+              && node.parent.type === 'SwitchCase'
+              && precedingToken === getSwitchCaseColonToken(node.parent, sourceCode)
+          )
       )
     }
 

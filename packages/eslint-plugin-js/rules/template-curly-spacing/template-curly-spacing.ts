@@ -4,13 +4,14 @@
  */
 
 import { isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { Token } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -22,7 +23,10 @@ export default {
     fixable: 'whitespace',
 
     schema: [
-      { enum: ['always', 'never'] },
+      {
+        type: 'string',
+        enum: ['always', 'never'],
+      },
     ],
     messages: {
       expectedBefore: 'Expected space(s) before \'}\'.',
@@ -41,12 +45,12 @@ export default {
      * @param {Token} token A token to check. This is a Template token.
      * @returns {void}
      */
-    function checkSpacingBefore(token) {
+    function checkSpacingBefore(token: Token) {
       if (!token.value.startsWith('}'))
         return // starts with a backtick, this is the first template element in the template literal
 
-      const prevToken = sourceCode.getTokenBefore(token, { includeComments: true })
-      const hasSpace = sourceCode.isSpaceBetween(prevToken, token)
+      const prevToken = sourceCode.getTokenBefore(token, { includeComments: true })!
+      const hasSpace = sourceCode.isSpaceBetween!(prevToken, token)
 
       if (!isTokenOnSameLine(prevToken, token))
         return
@@ -82,12 +86,12 @@ export default {
      * @param {Token} token A token to check. This is a Template token.
      * @returns {void}
      */
-    function checkSpacingAfter(token) {
+    function checkSpacingAfter(token: Token) {
       if (!token.value.endsWith('${'))
         return // ends with a backtick, this is the last template element in the template literal
 
-      const nextToken = sourceCode.getTokenAfter(token, { includeComments: true })
-      const hasSpace = sourceCode.isSpaceBetween(token, nextToken)
+      const nextToken = sourceCode.getTokenAfter(token, { includeComments: true })!
+      const hasSpace = sourceCode.isSpaceBetween!(token, nextToken)
 
       if (!isTokenOnSameLine(token, nextToken))
         return
@@ -120,11 +124,11 @@ export default {
 
     return {
       TemplateElement(node) {
-        const token = sourceCode.getFirstToken(node)
+        const token = sourceCode.getFirstToken(node)!
 
         checkSpacingBefore(token)
         checkSpacingAfter(token)
       },
     }
   },
-}
+})
