@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Disallow or enforce spaces inside of blocks after opening block and before closing block',
-      recommended: false,
       url: 'https://eslint.style/rules/js/block-spacing',
     },
 

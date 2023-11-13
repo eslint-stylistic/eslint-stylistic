@@ -29,7 +29,6 @@ export default {
 
     docs: {
       description: 'Require parentheses around arrow function arguments',
-      recommended: false,
       url: 'https://eslint.style/rules/js/arrow-parens',
     },
 

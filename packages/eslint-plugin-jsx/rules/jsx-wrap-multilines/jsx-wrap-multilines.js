@@ -38,7 +38,6 @@ export default {
     docs: {
       description: 'Disallow missing parentheses around multiline JSX',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-wrap-multilines'),
     },
     fixable: 'code',

@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce newlines between operands of ternary expressions',
-      recommended: false,
       url: 'https://eslint.style/rules/js/multiline-ternary',
     },
 

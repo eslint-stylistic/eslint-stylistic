@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Disallow multiple spaces',
-      recommended: false,
       url: 'https://eslint.style/rules/js/no-multi-spaces',
     },
 

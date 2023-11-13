@@ -14,7 +14,6 @@ export default {
 
     docs: {
       description: 'Require or disallow spacing between template tags and their literals',
-      recommended: false,
       url: 'https://eslint.style/rules/js/template-tag-spacing',
     },
 

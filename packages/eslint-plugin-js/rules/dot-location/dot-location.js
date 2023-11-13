@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent newlines before and after dots',
-      recommended: false,
       url: 'https://eslint.style/rules/js/dot-location',
     },
 

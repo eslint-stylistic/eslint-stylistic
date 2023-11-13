@@ -14,7 +14,6 @@ export default {
 
     docs: {
       description: 'Require or disallow newline at the end of files',
-      recommended: false,
       url: 'https://eslint.style/rules/js/eol-last',
     },
 

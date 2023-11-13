@@ -14,7 +14,6 @@ export default {
 
     docs: {
       description: 'Require or disallow spacing around the `*` in `yield*` expressions',
-      recommended: false,
       url: 'https://eslint.style/rules/js/yield-star-spacing',
     },
 

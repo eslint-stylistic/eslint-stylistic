@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent spacing inside array brackets',
-      recommended: false,
       url: 'https://eslint.style/rules/js/array-bracket-spacing',
     },
 

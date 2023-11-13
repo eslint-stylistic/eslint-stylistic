@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Disallow leading or trailing decimal points in numeric literals',
-      recommended: false,
       url: 'https://eslint.style/rules/js/no-floating-decimal',
     },
 

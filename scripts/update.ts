@@ -147,7 +147,6 @@ async function readPackage(path: string): Promise<PackageInfo> {
             description: realName !== name
               ? `${meta?.docs?.description}. Alias of \`${name}\`.`
               : meta?.docs?.description,
-            recommended: meta?.docs?.recommended,
           },
         },
       }

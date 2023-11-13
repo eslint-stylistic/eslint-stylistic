@@ -20,7 +20,6 @@ export default {
     docs: {
       description: 'Enforce proper position of the first property in JSX',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-first-prop-new-line'),
     },
     fixable: 'code',

@@ -21,7 +21,6 @@ export default {
 
     docs: {
       description: 'Disallow all tabs',
-      recommended: false,
       url: 'https://eslint.style/rules/js/no-tabs',
     },
     schema: [{

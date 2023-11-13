@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent spacing inside computed property brackets',
-      recommended: false,
       url: 'https://eslint.style/rules/js/computed-property-spacing',
     },
 

@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Require or disallow spacing between function identifiers and their invocations',
-      recommended: false,
       url: 'https://eslint.style/rules/js/func-call-spacing',
     },
 

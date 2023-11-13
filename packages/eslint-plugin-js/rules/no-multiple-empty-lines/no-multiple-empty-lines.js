@@ -15,7 +15,6 @@ export default {
 
     docs: {
       description: 'Disallow multiple empty lines',
-      recommended: false,
       url: 'https://eslint.style/rules/js/no-multiple-empty-lines',
     },
 

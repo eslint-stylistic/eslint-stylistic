@@ -14,7 +14,6 @@ export default {
 
     docs: {
       description: 'Require or disallow newlines around variable declarations',
-      recommended: false,
       url: 'https://eslint.style/rules/js/one-var-declaration-per-line',
     },
 

@@ -47,7 +47,6 @@ export default {
     docs: {
       description: 'Enforce props indentation in JSX',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-indent-props'),
     },
     fixable: 'code',

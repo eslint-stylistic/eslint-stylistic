@@ -18,7 +18,6 @@ export default createRule({
 
     docs: {
       description: 'Enforce linebreaks after opening and before closing array brackets',
-      recommended: false,
       url: 'https://eslint.style/rules/js/array-bracket-newline',
     },
 

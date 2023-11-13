@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Require or disallow spacing around embedded expressions of template strings',
-      recommended: false,
       url: 'https://eslint.style/rules/js/template-curly-spacing',
     },
 

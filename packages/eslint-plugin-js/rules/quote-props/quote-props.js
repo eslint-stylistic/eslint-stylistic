@@ -18,7 +18,6 @@ export default {
 
     docs: {
       description: 'Require quotes around object literal property names',
-      recommended: false,
       url: 'https://eslint.style/rules/js/quote-props',
     },
 

@@ -26,7 +26,6 @@ export default {
     docs: {
       description: 'Require or prevent a new line after jsx elements and expressions.',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-newline'),
     },
     fixable: 'code',

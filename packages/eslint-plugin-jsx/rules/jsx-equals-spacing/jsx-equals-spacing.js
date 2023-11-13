@@ -22,7 +22,6 @@ export default {
     docs: {
       description: 'Enforce or disallow spaces around equal signs in JSX attributes',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-equals-spacing'),
     },
     fixable: 'code',

@@ -17,7 +17,6 @@ export default {
 
     docs: {
       description: 'Require a newline after each call in a method chain',
-      recommended: false,
       url: 'https://eslint.style/rules/js/newline-per-chained-call',
     },
 

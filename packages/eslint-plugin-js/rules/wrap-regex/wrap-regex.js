@@ -14,7 +14,6 @@ export default {
 
     docs: {
       description: 'Require parenthesis around regex literals',
-      recommended: false,
       url: 'https://eslint.style/rules/js/wrap-regex',
     },
 

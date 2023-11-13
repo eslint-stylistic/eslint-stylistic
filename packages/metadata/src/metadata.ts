@@ -18,8 +18,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce linebreaks after opening and before closing array brackets",
-            "recommended": false
+            "description": "Enforce linebreaks after opening and before closing array brackets"
           }
         }
       },
@@ -32,8 +31,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing inside array brackets",
-            "recommended": false
+            "description": "Enforce consistent spacing inside array brackets"
           }
         }
       },
@@ -46,8 +44,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce line breaks after each array element",
-            "recommended": false
+            "description": "Enforce line breaks after each array element"
           }
         }
       },
@@ -60,8 +57,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require parentheses around arrow function arguments",
-            "recommended": false
+            "description": "Require parentheses around arrow function arguments"
           }
         }
       },
@@ -74,8 +70,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing before and after the arrow in arrow functions",
-            "recommended": false
+            "description": "Enforce consistent spacing before and after the arrow in arrow functions"
           }
         }
       },
@@ -88,8 +83,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Disallow or enforce spaces inside of blocks after opening block and before closing block",
-            "recommended": false
+            "description": "Disallow or enforce spaces inside of blocks after opening block and before closing block"
           }
         }
       },
@@ -102,8 +96,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent brace style for blocks",
-            "recommended": false
+            "description": "Enforce consistent brace style for blocks"
           }
         }
       },
@@ -116,8 +109,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require or disallow trailing commas",
-            "recommended": false
+            "description": "Require or disallow trailing commas"
           }
         }
       },
@@ -130,8 +122,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing before and after commas",
-            "recommended": false
+            "description": "Enforce consistent spacing before and after commas"
           }
         }
       },
@@ -144,8 +135,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce consistent comma style",
-            "recommended": false
+            "description": "Enforce consistent comma style"
           }
         }
       },
@@ -158,8 +148,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing inside computed property brackets",
-            "recommended": false
+            "description": "Enforce consistent spacing inside computed property brackets"
           }
         }
       },
@@ -172,8 +161,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce consistent newlines before and after dots",
-            "recommended": false
+            "description": "Enforce consistent newlines before and after dots"
           }
         }
       },
@@ -186,8 +174,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow newline at the end of files",
-            "recommended": false
+            "description": "Require or disallow newline at the end of files"
           }
         }
       },
@@ -200,8 +187,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow spacing between function identifiers and their invocations. Alias of `function-call-spacing`.",
-            "recommended": false
+            "description": "Require or disallow spacing between function identifiers and their invocations. Alias of `function-call-spacing`."
           }
         }
       },
@@ -214,8 +200,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce line breaks between arguments of a function call",
-            "recommended": false
+            "description": "Enforce line breaks between arguments of a function call"
           }
         }
       },
@@ -228,8 +213,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow spacing between function identifiers and their invocations",
-            "recommended": false
+            "description": "Require or disallow spacing between function identifiers and their invocations"
           }
         }
       },
@@ -242,8 +226,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent line breaks inside function parentheses",
-            "recommended": false
+            "description": "Enforce consistent line breaks inside function parentheses"
           }
         }
       },
@@ -256,8 +239,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing around `*` operators in generator functions",
-            "recommended": false
+            "description": "Enforce consistent spacing around `*` operators in generator functions"
           }
         }
       },
@@ -270,8 +252,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce the location of arrow function bodies",
-            "recommended": false
+            "description": "Enforce the location of arrow function bodies"
           }
         }
       },
@@ -284,8 +265,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent indentation",
-            "recommended": false
+            "description": "Enforce consistent indentation"
           }
         }
       },
@@ -298,8 +278,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce the consistent use of either double or single quotes in JSX attributes",
-            "recommended": false
+            "description": "Enforce the consistent use of either double or single quotes in JSX attributes"
           }
         }
       },
@@ -312,8 +291,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing between keys and values in object literal properties",
-            "recommended": false
+            "description": "Enforce consistent spacing between keys and values in object literal properties"
           }
         }
       },
@@ -326,8 +304,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing before and after keywords",
-            "recommended": false
+            "description": "Enforce consistent spacing before and after keywords"
           }
         }
       },
@@ -340,8 +317,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent linebreak style",
-            "recommended": false
+            "description": "Enforce consistent linebreak style"
           }
         }
       },
@@ -354,8 +330,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require empty lines around comments",
-            "recommended": false
+            "description": "Require empty lines around comments"
           }
         }
       },
@@ -368,8 +343,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow an empty line between class members",
-            "recommended": false
+            "description": "Require or disallow an empty line between class members"
           }
         }
       },
@@ -381,8 +355,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin-js/rules/max-len/README.md",
         "meta": {
           "docs": {
-            "description": "Enforce a maximum line length",
-            "recommended": false
+            "description": "Enforce a maximum line length"
           }
         }
       },
@@ -394,8 +367,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin-js/rules/max-statements-per-line/README.md",
         "meta": {
           "docs": {
-            "description": "Enforce a maximum number of statements allowed per line",
-            "recommended": false
+            "description": "Enforce a maximum number of statements allowed per line"
           }
         }
       },
@@ -408,8 +380,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce newlines between operands of ternary expressions",
-            "recommended": false
+            "description": "Enforce newlines between operands of ternary expressions"
           }
         }
       },
@@ -422,8 +393,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce or disallow parentheses when invoking a constructor with no arguments",
-            "recommended": false
+            "description": "Enforce or disallow parentheses when invoking a constructor with no arguments"
           }
         }
       },
@@ -436,8 +406,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require a newline after each call in a method chain",
-            "recommended": false
+            "description": "Require a newline after each call in a method chain"
           }
         }
       },
@@ -450,8 +419,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow arrow functions where they could be confused with comparisons",
-            "recommended": false
+            "description": "Disallow arrow functions where they could be confused with comparisons"
           }
         }
       },
@@ -464,8 +432,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow unnecessary parentheses",
-            "recommended": false
+            "description": "Disallow unnecessary parentheses"
           }
         }
       },
@@ -478,8 +445,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow unnecessary semicolons",
-            "recommended": true
+            "description": "Disallow unnecessary semicolons"
           }
         }
       },
@@ -492,8 +458,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow leading or trailing decimal points in numeric literals",
-            "recommended": false
+            "description": "Disallow leading or trailing decimal points in numeric literals"
           }
         }
       },
@@ -505,8 +470,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin-js/rules/no-mixed-operators/README.md",
         "meta": {
           "docs": {
-            "description": "Disallow mixed binary operators",
-            "recommended": false
+            "description": "Disallow mixed binary operators"
           }
         }
       },
@@ -518,8 +482,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin-js/rules/no-mixed-spaces-and-tabs/README.md",
         "meta": {
           "docs": {
-            "description": "Disallow mixed spaces and tabs for indentation",
-            "recommended": true
+            "description": "Disallow mixed spaces and tabs for indentation"
           }
         }
       },
@@ -532,8 +495,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Disallow multiple spaces",
-            "recommended": false
+            "description": "Disallow multiple spaces"
           }
         }
       },
@@ -546,8 +508,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Disallow multiple empty lines",
-            "recommended": false
+            "description": "Disallow multiple empty lines"
           }
         }
       },
@@ -559,8 +520,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin-js/rules/no-tabs/README.md",
         "meta": {
           "docs": {
-            "description": "Disallow all tabs",
-            "recommended": false
+            "description": "Disallow all tabs"
           }
         }
       },
@@ -573,8 +533,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Disallow trailing whitespace at the end of lines",
-            "recommended": false
+            "description": "Disallow trailing whitespace at the end of lines"
           }
         }
       },
@@ -587,8 +546,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Disallow whitespace before properties",
-            "recommended": false
+            "description": "Disallow whitespace before properties"
           }
         }
       },
@@ -601,8 +559,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce the location of single-line statements",
-            "recommended": false
+            "description": "Enforce the location of single-line statements"
           }
         }
       },
@@ -615,8 +572,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent line breaks after opening and before closing braces",
-            "recommended": false
+            "description": "Enforce consistent line breaks after opening and before closing braces"
           }
         }
       },
@@ -629,8 +585,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing inside braces",
-            "recommended": false
+            "description": "Enforce consistent spacing inside braces"
           }
         }
       },
@@ -643,8 +598,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce placing object properties on separate lines",
-            "recommended": false
+            "description": "Enforce placing object properties on separate lines"
           }
         }
       },
@@ -657,8 +611,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow newlines around variable declarations",
-            "recommended": false
+            "description": "Require or disallow newlines around variable declarations"
           }
         }
       },
@@ -671,8 +624,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce consistent linebreak style for operators",
-            "recommended": false
+            "description": "Enforce consistent linebreak style for operators"
           }
         }
       },
@@ -685,8 +637,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow padding within blocks",
-            "recommended": false
+            "description": "Require or disallow padding within blocks"
           }
         }
       },
@@ -699,8 +650,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow padding lines between statements",
-            "recommended": false
+            "description": "Require or disallow padding lines between statements"
           }
         }
       },
@@ -713,8 +663,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require quotes around object literal property names",
-            "recommended": false
+            "description": "Require quotes around object literal property names"
           }
         }
       },
@@ -727,8 +676,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce the consistent use of either backticks, double, or single quotes",
-            "recommended": false
+            "description": "Enforce the consistent use of either backticks, double, or single quotes"
           }
         }
       },
@@ -741,8 +689,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce spacing between rest and spread operators and their expressions",
-            "recommended": false
+            "description": "Enforce spacing between rest and spread operators and their expressions"
           }
         }
       },
@@ -755,8 +702,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require or disallow semicolons instead of ASI",
-            "recommended": false
+            "description": "Require or disallow semicolons instead of ASI"
           }
         }
       },
@@ -769,8 +715,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing before and after semicolons",
-            "recommended": false
+            "description": "Enforce consistent spacing before and after semicolons"
           }
         }
       },
@@ -783,8 +728,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce location of semicolons",
-            "recommended": false
+            "description": "Enforce location of semicolons"
           }
         }
       },
@@ -797,8 +741,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing before blocks",
-            "recommended": false
+            "description": "Enforce consistent spacing before blocks"
           }
         }
       },
@@ -811,8 +754,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing before `function` definition opening parenthesis",
-            "recommended": false
+            "description": "Enforce consistent spacing before `function` definition opening parenthesis"
           }
         }
       },
@@ -825,8 +767,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing inside parentheses",
-            "recommended": false
+            "description": "Enforce consistent spacing inside parentheses"
           }
         }
       },
@@ -839,8 +780,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require spacing around infix operators",
-            "recommended": false
+            "description": "Require spacing around infix operators"
           }
         }
       },
@@ -853,8 +793,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing before or after unary operators",
-            "recommended": false
+            "description": "Enforce consistent spacing before or after unary operators"
           }
         }
       },
@@ -867,8 +806,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing after the `//` or `/*` in a comment",
-            "recommended": false
+            "description": "Enforce consistent spacing after the `//` or `/*` in a comment"
           }
         }
       },
@@ -881,8 +819,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce spacing around colons of switch statements",
-            "recommended": false
+            "description": "Enforce spacing around colons of switch statements"
           }
         }
       },
@@ -895,8 +832,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow spacing around embedded expressions of template strings",
-            "recommended": false
+            "description": "Require or disallow spacing around embedded expressions of template strings"
           }
         }
       },
@@ -909,8 +845,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow spacing between template tags and their literals",
-            "recommended": false
+            "description": "Require or disallow spacing between template tags and their literals"
           }
         }
       },
@@ -923,8 +858,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require parentheses around immediate `function` invocations",
-            "recommended": false
+            "description": "Require parentheses around immediate `function` invocations"
           }
         }
       },
@@ -937,8 +871,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require parenthesis around regex literals",
-            "recommended": false
+            "description": "Require parenthesis around regex literals"
           }
         }
       },
@@ -951,8 +884,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow spacing around the `*` in `yield*` expressions",
-            "recommended": false
+            "description": "Require or disallow spacing around the `*` in `yield*` expressions"
           }
         }
       }
@@ -972,8 +904,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-child-element-spacing/README.md",
         "meta": {
           "docs": {
-            "description": "Enforce or disallow spaces inside of curly braces in JSX attributes and expressions",
-            "recommended": "stylistic"
+            "description": "Enforce or disallow spaces inside of curly braces in JSX attributes and expressions"
           }
         }
       },
@@ -986,8 +917,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce closing bracket location in JSX",
-            "recommended": false
+            "description": "Enforce closing bracket location in JSX"
           }
         }
       },
@@ -1000,8 +930,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce closing tag location for multiline JSX",
-            "recommended": false
+            "description": "Enforce closing tag location for multiline JSX"
           }
         }
       },
@@ -1014,8 +943,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes",
-            "recommended": false
+            "description": "Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes"
           }
         }
       },
@@ -1028,8 +956,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent linebreaks in curly braces in JSX attributes and expressions",
-            "recommended": false
+            "description": "Enforce consistent linebreaks in curly braces in JSX attributes and expressions"
           }
         }
       },
@@ -1042,8 +969,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce or disallow spaces inside of curly braces in JSX attributes and expressions",
-            "recommended": false
+            "description": "Enforce or disallow spaces inside of curly braces in JSX attributes and expressions"
           }
         }
       },
@@ -1056,8 +982,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce or disallow spaces around equal signs in JSX attributes",
-            "recommended": false
+            "description": "Enforce or disallow spaces around equal signs in JSX attributes"
           }
         }
       },
@@ -1070,8 +995,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce proper position of the first property in JSX",
-            "recommended": false
+            "description": "Enforce proper position of the first property in JSX"
           }
         }
       },
@@ -1084,8 +1008,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce JSX indentation",
-            "recommended": false
+            "description": "Enforce JSX indentation"
           }
         }
       },
@@ -1098,8 +1021,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce props indentation in JSX",
-            "recommended": false
+            "description": "Enforce props indentation in JSX"
           }
         }
       },
@@ -1112,8 +1034,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce maximum of props on a single line in JSX",
-            "recommended": false
+            "description": "Enforce maximum of props on a single line in JSX"
           }
         }
       },
@@ -1126,8 +1047,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require or prevent a new line after jsx elements and expressions.",
-            "recommended": false
+            "description": "Require or prevent a new line after jsx elements and expressions."
           }
         }
       },
@@ -1140,8 +1060,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require one JSX element per line",
-            "recommended": false
+            "description": "Require one JSX element per line"
           }
         }
       },
@@ -1154,8 +1073,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow multiple spaces between inline JSX props",
-            "recommended": false
+            "description": "Disallow multiple spaces between inline JSX props"
           }
         }
       },
@@ -1168,8 +1086,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow extra closing tags for components without children",
-            "recommended": false
+            "description": "Disallow extra closing tags for components without children"
           }
         }
       },
@@ -1182,8 +1099,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce props alphabetical sorting",
-            "recommended": false
+            "description": "Enforce props alphabetical sorting"
           }
         }
       },
@@ -1196,8 +1112,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce whitespace in and around the JSX opening and closing brackets",
-            "recommended": false
+            "description": "Enforce whitespace in and around the JSX opening and closing brackets"
           }
         }
       },
@@ -1210,8 +1125,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow missing parentheses around multiline JSX",
-            "recommended": false
+            "description": "Disallow missing parentheses around multiline JSX"
           }
         }
       }
@@ -1533,8 +1447,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce linebreaks after opening and before closing array brackets",
-            "recommended": false
+            "description": "Enforce linebreaks after opening and before closing array brackets"
           }
         }
       },
@@ -1547,8 +1460,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing inside array brackets",
-            "recommended": false
+            "description": "Enforce consistent spacing inside array brackets"
           }
         }
       },
@@ -1561,8 +1473,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce line breaks after each array element",
-            "recommended": false
+            "description": "Enforce line breaks after each array element"
           }
         }
       },
@@ -1575,8 +1486,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require parentheses around arrow function arguments",
-            "recommended": false
+            "description": "Require parentheses around arrow function arguments"
           }
         }
       },
@@ -1589,8 +1499,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing before and after the arrow in arrow functions",
-            "recommended": false
+            "description": "Enforce consistent spacing before and after the arrow in arrow functions"
           }
         }
       },
@@ -1603,8 +1512,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Disallow or enforce spaces inside of blocks after opening block and before closing block",
-            "recommended": false
+            "description": "Disallow or enforce spaces inside of blocks after opening block and before closing block"
           }
         }
       },
@@ -1617,8 +1525,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent brace style for blocks",
-            "recommended": false
+            "description": "Enforce consistent brace style for blocks"
           }
         }
       },
@@ -1631,8 +1538,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require or disallow trailing commas",
-            "recommended": false
+            "description": "Require or disallow trailing commas"
           }
         }
       },
@@ -1645,8 +1551,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing before and after commas",
-            "recommended": false
+            "description": "Enforce consistent spacing before and after commas"
           }
         }
       },
@@ -1659,8 +1564,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce consistent comma style",
-            "recommended": false
+            "description": "Enforce consistent comma style"
           }
         }
       },
@@ -1673,8 +1577,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing inside computed property brackets",
-            "recommended": false
+            "description": "Enforce consistent spacing inside computed property brackets"
           }
         }
       },
@@ -1687,8 +1590,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce consistent newlines before and after dots",
-            "recommended": false
+            "description": "Enforce consistent newlines before and after dots"
           }
         }
       },
@@ -1701,8 +1603,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow newline at the end of files",
-            "recommended": false
+            "description": "Require or disallow newline at the end of files"
           }
         }
       },
@@ -1715,8 +1616,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow spacing between function identifiers and their invocations. Alias of `function-call-spacing`.",
-            "recommended": false
+            "description": "Require or disallow spacing between function identifiers and their invocations. Alias of `function-call-spacing`."
           }
         }
       },
@@ -1729,8 +1629,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce line breaks between arguments of a function call",
-            "recommended": false
+            "description": "Enforce line breaks between arguments of a function call"
           }
         }
       },
@@ -1743,8 +1642,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow spacing between function identifiers and their invocations",
-            "recommended": false
+            "description": "Require or disallow spacing between function identifiers and their invocations"
           }
         }
       },
@@ -1757,8 +1655,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent line breaks inside function parentheses",
-            "recommended": false
+            "description": "Enforce consistent line breaks inside function parentheses"
           }
         }
       },
@@ -1771,8 +1668,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing around `*` operators in generator functions",
-            "recommended": false
+            "description": "Enforce consistent spacing around `*` operators in generator functions"
           }
         }
       },
@@ -1785,8 +1681,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce the location of arrow function bodies",
-            "recommended": false
+            "description": "Enforce the location of arrow function bodies"
           }
         }
       },
@@ -1799,8 +1694,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent indentation",
-            "recommended": false
+            "description": "Enforce consistent indentation"
           }
         }
       },
@@ -1813,8 +1707,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce the consistent use of either double or single quotes in JSX attributes",
-            "recommended": false
+            "description": "Enforce the consistent use of either double or single quotes in JSX attributes"
           }
         }
       },
@@ -1827,8 +1720,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing between keys and values in object literal properties",
-            "recommended": false
+            "description": "Enforce consistent spacing between keys and values in object literal properties"
           }
         }
       },
@@ -1841,8 +1733,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing before and after keywords",
-            "recommended": false
+            "description": "Enforce consistent spacing before and after keywords"
           }
         }
       },
@@ -1855,8 +1746,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent linebreak style",
-            "recommended": false
+            "description": "Enforce consistent linebreak style"
           }
         }
       },
@@ -1869,8 +1759,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require empty lines around comments",
-            "recommended": false
+            "description": "Require empty lines around comments"
           }
         }
       },
@@ -1883,8 +1772,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow an empty line between class members",
-            "recommended": false
+            "description": "Require or disallow an empty line between class members"
           }
         }
       },
@@ -1896,8 +1784,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin-js/rules/max-len/README.md",
         "meta": {
           "docs": {
-            "description": "Enforce a maximum line length",
-            "recommended": false
+            "description": "Enforce a maximum line length"
           }
         }
       },
@@ -1909,8 +1796,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin-js/rules/max-statements-per-line/README.md",
         "meta": {
           "docs": {
-            "description": "Enforce a maximum number of statements allowed per line",
-            "recommended": false
+            "description": "Enforce a maximum number of statements allowed per line"
           }
         }
       },
@@ -1923,8 +1809,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce newlines between operands of ternary expressions",
-            "recommended": false
+            "description": "Enforce newlines between operands of ternary expressions"
           }
         }
       },
@@ -1937,8 +1822,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce or disallow parentheses when invoking a constructor with no arguments",
-            "recommended": false
+            "description": "Enforce or disallow parentheses when invoking a constructor with no arguments"
           }
         }
       },
@@ -1951,8 +1835,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require a newline after each call in a method chain",
-            "recommended": false
+            "description": "Require a newline after each call in a method chain"
           }
         }
       },
@@ -1965,8 +1848,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow arrow functions where they could be confused with comparisons",
-            "recommended": false
+            "description": "Disallow arrow functions where they could be confused with comparisons"
           }
         }
       },
@@ -1979,8 +1861,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow unnecessary parentheses",
-            "recommended": false
+            "description": "Disallow unnecessary parentheses"
           }
         }
       },
@@ -1993,8 +1874,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow unnecessary semicolons",
-            "recommended": true
+            "description": "Disallow unnecessary semicolons"
           }
         }
       },
@@ -2007,8 +1887,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow leading or trailing decimal points in numeric literals",
-            "recommended": false
+            "description": "Disallow leading or trailing decimal points in numeric literals"
           }
         }
       },
@@ -2020,8 +1899,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin-js/rules/no-mixed-operators/README.md",
         "meta": {
           "docs": {
-            "description": "Disallow mixed binary operators",
-            "recommended": false
+            "description": "Disallow mixed binary operators"
           }
         }
       },
@@ -2033,8 +1911,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin-js/rules/no-mixed-spaces-and-tabs/README.md",
         "meta": {
           "docs": {
-            "description": "Disallow mixed spaces and tabs for indentation",
-            "recommended": true
+            "description": "Disallow mixed spaces and tabs for indentation"
           }
         }
       },
@@ -2047,8 +1924,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Disallow multiple spaces",
-            "recommended": false
+            "description": "Disallow multiple spaces"
           }
         }
       },
@@ -2061,8 +1937,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Disallow multiple empty lines",
-            "recommended": false
+            "description": "Disallow multiple empty lines"
           }
         }
       },
@@ -2074,8 +1949,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin-js/rules/no-tabs/README.md",
         "meta": {
           "docs": {
-            "description": "Disallow all tabs",
-            "recommended": false
+            "description": "Disallow all tabs"
           }
         }
       },
@@ -2088,8 +1962,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Disallow trailing whitespace at the end of lines",
-            "recommended": false
+            "description": "Disallow trailing whitespace at the end of lines"
           }
         }
       },
@@ -2102,8 +1975,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Disallow whitespace before properties",
-            "recommended": false
+            "description": "Disallow whitespace before properties"
           }
         }
       },
@@ -2116,8 +1988,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce the location of single-line statements",
-            "recommended": false
+            "description": "Enforce the location of single-line statements"
           }
         }
       },
@@ -2130,8 +2001,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent line breaks after opening and before closing braces",
-            "recommended": false
+            "description": "Enforce consistent line breaks after opening and before closing braces"
           }
         }
       },
@@ -2144,8 +2014,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing inside braces",
-            "recommended": false
+            "description": "Enforce consistent spacing inside braces"
           }
         }
       },
@@ -2158,8 +2027,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce placing object properties on separate lines",
-            "recommended": false
+            "description": "Enforce placing object properties on separate lines"
           }
         }
       },
@@ -2172,8 +2040,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow newlines around variable declarations",
-            "recommended": false
+            "description": "Require or disallow newlines around variable declarations"
           }
         }
       },
@@ -2186,8 +2053,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce consistent linebreak style for operators",
-            "recommended": false
+            "description": "Enforce consistent linebreak style for operators"
           }
         }
       },
@@ -2200,8 +2066,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow padding within blocks",
-            "recommended": false
+            "description": "Require or disallow padding within blocks"
           }
         }
       },
@@ -2214,8 +2079,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow padding lines between statements",
-            "recommended": false
+            "description": "Require or disallow padding lines between statements"
           }
         }
       },
@@ -2228,8 +2092,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require quotes around object literal property names",
-            "recommended": false
+            "description": "Require quotes around object literal property names"
           }
         }
       },
@@ -2242,8 +2105,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce the consistent use of either backticks, double, or single quotes",
-            "recommended": false
+            "description": "Enforce the consistent use of either backticks, double, or single quotes"
           }
         }
       },
@@ -2256,8 +2118,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce spacing between rest and spread operators and their expressions",
-            "recommended": false
+            "description": "Enforce spacing between rest and spread operators and their expressions"
           }
         }
       },
@@ -2270,8 +2131,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require or disallow semicolons instead of ASI",
-            "recommended": false
+            "description": "Require or disallow semicolons instead of ASI"
           }
         }
       },
@@ -2284,8 +2144,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing before and after semicolons",
-            "recommended": false
+            "description": "Enforce consistent spacing before and after semicolons"
           }
         }
       },
@@ -2298,8 +2157,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce location of semicolons",
-            "recommended": false
+            "description": "Enforce location of semicolons"
           }
         }
       },
@@ -2312,8 +2170,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing before blocks",
-            "recommended": false
+            "description": "Enforce consistent spacing before blocks"
           }
         }
       },
@@ -2326,8 +2183,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing before `function` definition opening parenthesis",
-            "recommended": false
+            "description": "Enforce consistent spacing before `function` definition opening parenthesis"
           }
         }
       },
@@ -2340,8 +2196,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing inside parentheses",
-            "recommended": false
+            "description": "Enforce consistent spacing inside parentheses"
           }
         }
       },
@@ -2354,8 +2209,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require spacing around infix operators",
-            "recommended": false
+            "description": "Require spacing around infix operators"
           }
         }
       },
@@ -2368,8 +2222,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing before or after unary operators",
-            "recommended": false
+            "description": "Enforce consistent spacing before or after unary operators"
           }
         }
       },
@@ -2382,8 +2235,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent spacing after the `//` or `/*` in a comment",
-            "recommended": false
+            "description": "Enforce consistent spacing after the `//` or `/*` in a comment"
           }
         }
       },
@@ -2396,8 +2248,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce spacing around colons of switch statements",
-            "recommended": false
+            "description": "Enforce spacing around colons of switch statements"
           }
         }
       },
@@ -2410,8 +2261,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow spacing around embedded expressions of template strings",
-            "recommended": false
+            "description": "Require or disallow spacing around embedded expressions of template strings"
           }
         }
       },
@@ -2424,8 +2274,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow spacing between template tags and their literals",
-            "recommended": false
+            "description": "Require or disallow spacing between template tags and their literals"
           }
         }
       },
@@ -2438,8 +2287,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require parentheses around immediate `function` invocations",
-            "recommended": false
+            "description": "Require parentheses around immediate `function` invocations"
           }
         }
       },
@@ -2452,8 +2300,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require parenthesis around regex literals",
-            "recommended": false
+            "description": "Require parenthesis around regex literals"
           }
         }
       },
@@ -2466,8 +2313,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require or disallow spacing around the `*` in `yield*` expressions",
-            "recommended": false
+            "description": "Require or disallow spacing around the `*` in `yield*` expressions"
           }
         }
       },
@@ -2505,8 +2351,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-child-element-spacing/README.md",
         "meta": {
           "docs": {
-            "description": "Enforce or disallow spaces inside of curly braces in JSX attributes and expressions",
-            "recommended": "stylistic"
+            "description": "Enforce or disallow spaces inside of curly braces in JSX attributes and expressions"
           }
         }
       },
@@ -2519,8 +2364,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce closing bracket location in JSX",
-            "recommended": false
+            "description": "Enforce closing bracket location in JSX"
           }
         }
       },
@@ -2533,8 +2377,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce closing tag location for multiline JSX",
-            "recommended": false
+            "description": "Enforce closing tag location for multiline JSX"
           }
         }
       },
@@ -2547,8 +2390,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes",
-            "recommended": false
+            "description": "Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes"
           }
         }
       },
@@ -2561,8 +2403,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce consistent linebreaks in curly braces in JSX attributes and expressions",
-            "recommended": false
+            "description": "Enforce consistent linebreaks in curly braces in JSX attributes and expressions"
           }
         }
       },
@@ -2575,8 +2416,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce or disallow spaces inside of curly braces in JSX attributes and expressions",
-            "recommended": false
+            "description": "Enforce or disallow spaces inside of curly braces in JSX attributes and expressions"
           }
         }
       },
@@ -2589,8 +2429,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce or disallow spaces around equal signs in JSX attributes",
-            "recommended": false
+            "description": "Enforce or disallow spaces around equal signs in JSX attributes"
           }
         }
       },
@@ -2603,8 +2442,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce proper position of the first property in JSX",
-            "recommended": false
+            "description": "Enforce proper position of the first property in JSX"
           }
         }
       },
@@ -2617,8 +2455,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce JSX indentation",
-            "recommended": false
+            "description": "Enforce JSX indentation"
           }
         }
       },
@@ -2631,8 +2468,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce props indentation in JSX",
-            "recommended": false
+            "description": "Enforce props indentation in JSX"
           }
         }
       },
@@ -2645,8 +2481,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce maximum of props on a single line in JSX",
-            "recommended": false
+            "description": "Enforce maximum of props on a single line in JSX"
           }
         }
       },
@@ -2659,8 +2494,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require or prevent a new line after jsx elements and expressions.",
-            "recommended": false
+            "description": "Require or prevent a new line after jsx elements and expressions."
           }
         }
       },
@@ -2673,8 +2507,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Require one JSX element per line",
-            "recommended": false
+            "description": "Require one JSX element per line"
           }
         }
       },
@@ -2687,8 +2520,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow multiple spaces between inline JSX props",
-            "recommended": false
+            "description": "Disallow multiple spaces between inline JSX props"
           }
         }
       },
@@ -2701,8 +2533,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow extra closing tags for components without children",
-            "recommended": false
+            "description": "Disallow extra closing tags for components without children"
           }
         }
       },
@@ -2715,8 +2546,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Enforce props alphabetical sorting",
-            "recommended": false
+            "description": "Enforce props alphabetical sorting"
           }
         }
       },
@@ -2729,8 +2559,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce whitespace in and around the JSX opening and closing brackets",
-            "recommended": false
+            "description": "Enforce whitespace in and around the JSX opening and closing brackets"
           }
         }
       },
@@ -2743,8 +2572,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow missing parentheses around multiline JSX",
-            "recommended": false
+            "description": "Disallow missing parentheses around multiline JSX"
           }
         }
       }

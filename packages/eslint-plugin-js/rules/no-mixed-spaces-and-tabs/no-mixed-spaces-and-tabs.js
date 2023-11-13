@@ -14,7 +14,6 @@ export default {
 
     docs: {
       description: 'Disallow mixed spaces and tabs for indentation',
-      recommended: true,
       url: 'https://eslint.style/rules/js/no-mixed-spaces-and-tabs',
     },
 

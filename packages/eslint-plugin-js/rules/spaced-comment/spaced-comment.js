@@ -146,7 +146,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent spacing after the `//` or `/*` in a comment',
-      recommended: false,
       url: 'https://eslint.style/rules/js/spaced-comment',
     },
 

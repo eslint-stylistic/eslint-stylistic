@@ -17,7 +17,6 @@ export default {
 
     docs: {
       description: 'Disallow unnecessary semicolons',
-      recommended: true,
       url: 'https://eslint.style/rules/js/no-extra-semi',
     },
 

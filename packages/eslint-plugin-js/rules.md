@@ -39,10 +39,10 @@
 | [`@stylistic/js/newline-per-chained-call`](./rules/newline-per-chained-call) | Require a newline after each call in a method chain | ✅ |  |
 | [`@stylistic/js/no-confusing-arrow`](./rules/no-confusing-arrow) | Disallow arrow functions where they could be confused with comparisons | ✅ |  |
 | [`@stylistic/js/no-extra-parens`](./rules/no-extra-parens) | Disallow unnecessary parentheses | ✅ |  |
-| [`@stylistic/js/no-extra-semi`](./rules/no-extra-semi) | Disallow unnecessary semicolons | ✅ | ✅ |
+| [`@stylistic/js/no-extra-semi`](./rules/no-extra-semi) | Disallow unnecessary semicolons | ✅ |  |
 | [`@stylistic/js/no-floating-decimal`](./rules/no-floating-decimal) | Disallow leading or trailing decimal points in numeric literals | ✅ |  |
 | [`@stylistic/js/no-mixed-operators`](./rules/no-mixed-operators) | Disallow mixed binary operators |  |  |
-| [`@stylistic/js/no-mixed-spaces-and-tabs`](./rules/no-mixed-spaces-and-tabs) | Disallow mixed spaces and tabs for indentation |  | ✅ |
+| [`@stylistic/js/no-mixed-spaces-and-tabs`](./rules/no-mixed-spaces-and-tabs) | Disallow mixed spaces and tabs for indentation |  |  |
 | [`@stylistic/js/no-multi-spaces`](./rules/no-multi-spaces) | Disallow multiple spaces | ✅ |  |
 | [`@stylistic/js/no-multiple-empty-lines`](./rules/no-multiple-empty-lines) | Disallow multiple empty lines | ✅ |  |
 | [`@stylistic/js/no-tabs`](./rules/no-tabs) | Disallow all tabs |  |  |

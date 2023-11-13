@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Require spacing around infix operators',
-      recommended: false,
       url: 'https://eslint.style/rules/js/space-infix-ops',
     },
 

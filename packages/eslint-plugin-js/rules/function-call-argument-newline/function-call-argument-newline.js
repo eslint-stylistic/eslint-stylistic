@@ -14,7 +14,6 @@ export default {
 
     docs: {
       description: 'Enforce line breaks between arguments of a function call',
-      recommended: false,
       url: 'https://eslint.style/rules/js/function-call-argument-newline',
     },
 

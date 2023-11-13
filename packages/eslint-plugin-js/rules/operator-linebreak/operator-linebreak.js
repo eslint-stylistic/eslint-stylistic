@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent linebreak style for operators',
-      recommended: false,
       url: 'https://eslint.style/rules/js/operator-linebreak',
     },
 

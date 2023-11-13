@@ -38,7 +38,6 @@ export default {
 
     docs: {
       description: 'Require parentheses around immediate `function` invocations',
-      recommended: false,
       url: 'https://eslint.style/rules/js/wrap-iife',
     },
 

@@ -31,7 +31,6 @@ export default {
 
     docs: {
       description: 'Disallow unnecessary parentheses',
-      recommended: false,
       url: 'https://eslint.style/rules/js/no-extra-parens',
     },
 

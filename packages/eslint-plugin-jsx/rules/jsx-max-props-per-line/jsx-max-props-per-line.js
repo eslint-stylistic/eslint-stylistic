@@ -26,7 +26,6 @@ export default {
     docs: {
       description: 'Enforce maximum of props on a single line in JSX',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-max-props-per-line'),
     },
     fixable: 'code',

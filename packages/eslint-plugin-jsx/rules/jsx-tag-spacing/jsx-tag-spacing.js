@@ -262,7 +262,6 @@ export default {
     docs: {
       description: 'Enforce whitespace in and around the JSX opening and closing brackets',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-tag-spacing'),
     },
     fixable: 'whitespace',

@@ -20,7 +20,6 @@ export default {
 
     docs: {
       description: 'Enforce or disallow parentheses when invoking a constructor with no arguments',
-      recommended: false,
       url: 'https://eslint.style/rules/js/new-parens',
     },
 

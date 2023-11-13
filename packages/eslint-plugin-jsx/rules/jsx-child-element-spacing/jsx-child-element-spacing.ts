@@ -49,7 +49,6 @@ export default createRule({
     type: 'layout',
     docs: {
       description: 'Enforce or disallow spaces inside of curly braces in JSX attributes and expressions',
-      recommended: 'stylistic',
       url: docsUrl('jsx-child-element-spacing'),
     },
     messages,

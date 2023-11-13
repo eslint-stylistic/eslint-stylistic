@@ -481,7 +481,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent indentation',
-      recommended: false,
       url: 'https://eslint.style/rules/js/indent',
     },
 

@@ -15,7 +15,6 @@ export default {
 
     docs: {
       description: 'Enforce the location of arrow function bodies',
-      recommended: false,
       url: 'https://eslint.style/rules/js/implicit-arrow-linebreak',
     },
 

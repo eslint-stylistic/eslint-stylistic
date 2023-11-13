@@ -35,7 +35,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent spacing before blocks',
-      recommended: false,
       url: 'https://eslint.style/rules/js/space-before-blocks',
     },
 

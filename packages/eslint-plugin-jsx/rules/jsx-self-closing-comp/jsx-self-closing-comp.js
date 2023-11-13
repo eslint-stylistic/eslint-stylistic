@@ -22,7 +22,6 @@ export default {
     docs: {
       description: 'Disallow extra closing tags for components without children',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('self-closing-comp'),
     },
     fixable: 'code',

@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Require or disallow padding within blocks',
-      recommended: false,
       url: 'https://eslint.style/rules/js/padded-blocks',
     },
 

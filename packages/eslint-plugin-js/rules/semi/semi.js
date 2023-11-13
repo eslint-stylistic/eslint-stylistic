@@ -17,7 +17,6 @@ export default {
 
     docs: {
       description: 'Require or disallow semicolons instead of ASI',
-      recommended: false,
       url: 'https://eslint.style/rules/js/semi',
     },
 
