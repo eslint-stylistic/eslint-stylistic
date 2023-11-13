@@ -436,7 +436,7 @@ export function isDirective(node: ASTNode) {
  * @returns {boolean} Whether or not the tokens are on the same line.
  * @public
  */
-export function isTokenOnSameLine(left: Token | ESNode | null, right: Token | ESNode | null) {
+export function isTokenOnSameLine(left: Token | ESNode | ASTNode | null, right: Token | ESNode | ASTNode | null) {
   return left?.loc?.end.line === right?.loc?.start.line
 }
 

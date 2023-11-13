@@ -3,10 +3,9 @@
  * @author Greg Cochard
  */
 
-import type { MemberExpression } from 'estree'
+import type { TSESTree } from '@typescript-eslint/utils'
 import { isDecimalIntegerNumericToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ESNode } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -23,6 +22,7 @@ export default createRule({
 
     schema: [
       {
+        type: 'string',
         enum: ['object', 'property'],
       },
     ],
@@ -48,7 +48,7 @@ export default createRule({
      * @param {ASTNode} node The `MemberExpression` node.
      * @returns {void}
      */
-    function checkDotLocation(node: MemberExpression) {
+    function checkDotLocation(node: TSESTree.MemberExpression) {
       const property = node.property
       const dotToken = sourceCode.getTokenBefore(property)
 
@@ -90,7 +90,7 @@ export default createRule({
      * @param {ASTNode} node The node to check.
      * @returns {void}
      */
-    function checkNode(node: ESNode) {
+    function checkNode(node: TSESTree.MemberExpression) {
       if (node.type === 'MemberExpression' && !node.computed)
         checkDotLocation(node)
     }
