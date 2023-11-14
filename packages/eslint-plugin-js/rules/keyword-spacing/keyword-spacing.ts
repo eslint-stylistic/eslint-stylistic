@@ -3,7 +3,7 @@
  * @author Toru Nagashima
  */
 
-import { AST_NODE_TYPES, type JSONSchema, type TSESTree } from '@typescript-eslint/utils'
+import type { JSONSchema, TSESTree } from '@typescript-eslint/utils'
 import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import keywords from '../../utils/keywords'
 import { createRule } from '../../utils/createRule'
@@ -422,8 +422,14 @@ export default createRule({
       checkSpacingAroundFirstToken(node)
 
       const inToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
+      const previousToken = sourceCode.getTokenBefore(inToken)
 
-      checkSpacingBefore(inToken)
+      // @ts-expect-error espree has PrivateIdentifier in tokens
+      // https://github.com/eslint/espree/blob/1584ddb00f0b4e3ada764ac86ae20e1480003de3/lib/token-translator.js#L22C23-L22C23
+      // but TSESTree.Token has not
+      if (previousToken.type !== 'PrivateIdentifier')
+        checkSpacingBefore(inToken)
+
       checkSpacingAfter(inToken)
     }
 
@@ -443,8 +449,14 @@ export default createRule({
       }
 
       const ofToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
+      const previousToken = sourceCode.getTokenBefore(ofToken)
 
-      checkSpacingBefore(ofToken)
+      // @ts-expect-error espree has PrivateIdentifier in tokens
+      // https://github.com/eslint/espree/blob/1584ddb00f0b4e3ada764ac86ae20e1480003de3/lib/token-translator.js#L22C23-L22C23
+      // but TSESTree.Token has not
+      if (previousToken.type !== 'PrivateIdentifier')
+        checkSpacingBefore(ofToken)
+
       checkSpacingAfter(ofToken)
     }
 
@@ -482,9 +494,9 @@ export default createRule({
       }
 
       if (
-        (node.type === AST_NODE_TYPES.ExportNamedDeclaration
-          || node.type === AST_NODE_TYPES.ExportAllDeclaration
-          || node.type === AST_NODE_TYPES.ImportDeclaration)
+        (node.type === 'ExportNamedDeclaration'
+          || node.type === 'ExportAllDeclaration'
+          || node.type === 'ImportDeclaration')
         && node.source
       ) {
         const fromToken = sourceCode.getTokenBefore(node.source)!
@@ -543,14 +555,14 @@ export default createRule({
      * @returns {void}
      */
     function checkSpacingForProperty(node: TSESTree.MethodDefinition | TSESTree.PropertyDefinition | TSESTree.Property) {
-      if (node.type === AST_NODE_TYPES.MethodDefinition || node.type === AST_NODE_TYPES.PropertyDefinition)
+      if (node.type === 'MethodDefinition' || node.type === 'PropertyDefinition' && node.static)
         checkSpacingAroundFirstToken(node)
 
       if (
-        ((node.type === AST_NODE_TYPES.MethodDefinition
-          || node.type === AST_NODE_TYPES.Property)
+        ((node.type === 'MethodDefinition'
+          || node.type === 'Property')
           && (node.kind === 'get' || node.kind === 'set'))
-        || (((node.type === AST_NODE_TYPES.Property && node.method)
+        || (((node.type === 'Property' && node.method)
           || node.type === 'MethodDefinition')
           && 'async' in node.value
           && node.value.async)
