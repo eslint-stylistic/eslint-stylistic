@@ -5,7 +5,7 @@
 
 import { RuleTester } from 'eslint'
 import { unIndent } from '../../test-utils/unindent'
-import fixtureParser from '../../test-utils/fixture-parser'
+import parser from '../../test-utils/fixture-parser'
 import rule from './function-paren-newline'
 
 // ------------------------------------------------------------------------------
@@ -595,7 +595,7 @@ ruleTester.run('function-paren-newline', rule, {
                 method6(3, () => {});
             `,
           options: ['multiline'],
-          parser: fixtureParser('function-paren-newline', 'arrow-function-return-type'),
+          parser: parser('function-paren-newline/arrow-function-return-type'),
         },
   ],
 
@@ -1485,7 +1485,7 @@ ruleTester.run('function-paren-newline', rule, {
                 method6(3, () => {});
             `,
       options: ['never'],
-      parser: fixtureParser('function-paren-newline', 'arrow-function-return-type'),
+      parser: parser('function-paren-newline/arrow-function-return-type'),
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
   ],

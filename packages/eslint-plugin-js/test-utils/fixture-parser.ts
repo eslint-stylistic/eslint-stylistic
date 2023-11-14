@@ -9,7 +9,11 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
  * @param arguments - The path containing the parser.
  * @returns The path to the specified parser.
  */
-export default function parser(...args: string[]) {
+export default function parserResolver(...args: string[]) {
   const name = args.pop()
   return path.resolve(__dirname, 'parsers', ...args, `${name}.js`)
+}
+
+export function createParserResolver(...pre: string[]) {
+  return (...args: string[]) => parserResolver(...pre, ...args)
 }

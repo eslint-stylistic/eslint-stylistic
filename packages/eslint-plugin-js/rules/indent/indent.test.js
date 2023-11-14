@@ -11315,7 +11315,7 @@ ruleTester.run('indent', rule, {
                     foo
                 }: bar) => baz
             `,
-      parser: require.resolve('../../test-utils/parsers/babel-eslint7/object-pattern-with-annotation'),
+      parser: parser('babel-eslint7/object-pattern-with-annotation'),
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
@@ -11329,7 +11329,7 @@ ruleTester.run('indent', rule, {
                     foo
                 ]: bar) => baz
             `,
-      parser: require.resolve('../../test-utils/parsers/babel-eslint7/array-pattern-with-annotation'),
+      parser: parser('babel-eslint7/array-pattern-with-annotation'),
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
@@ -11343,7 +11343,7 @@ ruleTester.run('indent', rule, {
                     foo
                 }: {}) => baz
             `,
-      parser: require.resolve('../../test-utils/parsers/babel-eslint7/object-pattern-with-object-annotation'),
+      parser: parser('babel-eslint7/object-pattern-with-object-annotation'),
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {

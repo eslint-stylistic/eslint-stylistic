@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import baseParser from '../../test-utils/fixture-parser'
+import parser from '../../test-utils/fixture-parser'
 import rule from './space-before-function-paren'
 
 // ------------------------------------------------------------------------------
@@ -105,7 +105,7 @@ ruleTester.run('space-before-function-paren', rule, {
     },
     {
       code: 'type TransformFunction = (el: ASTElement, code: string) => string;',
-      parser: baseParser('babel-eslint7', 'function-type-annotation'),
+      parser: parser('babel-eslint7', 'function-type-annotation'),
     },
 
     // Async arrow functions
