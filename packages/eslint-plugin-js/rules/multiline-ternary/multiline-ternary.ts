@@ -4,13 +4,14 @@
  */
 
 import { isNotClosingParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -21,6 +22,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['always', 'always-multiline', 'never'],
       },
     ],
@@ -47,14 +49,14 @@ export default {
 
     return {
       ConditionalExpression(node) {
-        const questionToken = sourceCode.getTokenAfter(node.test, isNotClosingParenToken)
-        const colonToken = sourceCode.getTokenAfter(node.consequent, isNotClosingParenToken)
+        const questionToken = sourceCode.getTokenAfter(node.test, isNotClosingParenToken)!
+        const colonToken = sourceCode.getTokenAfter(node.consequent, isNotClosingParenToken)!
 
-        const firstTokenOfTest = sourceCode.getFirstToken(node)
-        const lastTokenOfTest = sourceCode.getTokenBefore(questionToken)
-        const firstTokenOfConsequent = sourceCode.getTokenAfter(questionToken)
-        const lastTokenOfConsequent = sourceCode.getTokenBefore(colonToken)
-        const firstTokenOfAlternate = sourceCode.getTokenAfter(colonToken)
+        const firstTokenOfTest = sourceCode.getFirstToken(node)!
+        const lastTokenOfTest = sourceCode.getTokenBefore(questionToken)!
+        const firstTokenOfConsequent = sourceCode.getTokenAfter(questionToken)!
+        const lastTokenOfConsequent = sourceCode.getTokenBefore(colonToken)!
+        const firstTokenOfAlternate = sourceCode.getTokenAfter(colonToken)!
 
         const areTestAndConsequentOnSameLine = isTokenOnSameLine(lastTokenOfTest, firstTokenOfConsequent)
         const areConsequentAndAlternateOnSameLine = isTokenOnSameLine(lastTokenOfConsequent, firstTokenOfAlternate)
@@ -163,4 +165,4 @@ export default {
       },
     }
   },
-}
+})
