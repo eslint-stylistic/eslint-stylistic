@@ -3,12 +3,15 @@
  * @author Alberto Rodríguez
  */
 
+import type { AST_NODE_TYPES, TSESTree } from '@typescript-eslint/utils'
+import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
+
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -19,6 +22,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['always', 'initializations'],
       },
     ],
@@ -43,7 +47,7 @@ export default {
      * @param {string} keyword keyword to test
      * @returns {boolean} True if `keyword` is a variant of for specifier
      */
-    function isForTypeSpecifier(keyword) {
+    function isForTypeSpecifier(keyword: AST_NODE_TYPES) {
       return keyword === 'ForStatement' || keyword === 'ForInStatement' || keyword === 'ForOfStatement'
     }
 
@@ -53,12 +57,12 @@ export default {
      * @param {ASTNode} node `VariableDeclaration` node to test
      * @returns {void}
      */
-    function checkForNewLine(node) {
+    function checkForNewLine(node: TSESTree.VariableDeclaration) {
       if (isForTypeSpecifier(node.parent.type))
         return
 
       const declarations = node.declarations
-      let prev
+      let prev: TSESTree.LetOrConstOrVarDeclarator
 
       declarations.forEach((current) => {
         if (prev && prev.loc.end.line === current.loc.start.line) {
@@ -83,4 +87,4 @@ export default {
       VariableDeclaration: checkForNewLine,
     }
   },
-}
+})

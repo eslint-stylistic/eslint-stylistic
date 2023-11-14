@@ -17,7 +17,7 @@ import rule from './one-var-declaration-per-line'
  * @param {int} column column number
  * @returns {object} Error object
  */
-function errorAt(line, column) {
+function errorAt(line: number, column: number) {
   return {
     messageId: 'expectVarOnNewline',
     type: 'VariableDeclaration',
