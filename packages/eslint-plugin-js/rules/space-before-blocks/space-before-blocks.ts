@@ -3,7 +3,11 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
 import { getSwitchCaseColonToken, isArrowToken, isColonToken, isFunction, isKeywordToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -14,7 +18,7 @@ import { getSwitchCaseColonToken, isArrowToken, isColonToken, isFunction, isKeyw
  * @param {ASTNode} node the node to check.
  * @returns {boolean} `true` if the node is function body.
  */
-function isFunctionBody(node) {
+function isFunctionBody(node: ASTNode) {
   const parent = node.parent
 
   return (
@@ -28,8 +32,7 @@ function isFunctionBody(node) {
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -44,18 +47,22 @@ export default {
       {
         oneOf: [
           {
+            type: 'string',
             enum: ['always', 'never'],
           },
           {
             type: 'object',
             properties: {
               keywords: {
+                type: 'string',
                 enum: ['always', 'never', 'off'],
               },
               functions: {
+                type: 'string',
                 enum: ['always', 'never', 'off'],
               },
               classes: {
+                type: 'string',
                 enum: ['always', 'never', 'off'],
               },
             },
@@ -107,15 +114,17 @@ export default {
      * @param {ASTNode|Token} node `BlockStatement` node or `{` token of a `SwitchStatement` node.
      * @returns {boolean} `true` if requiring or disallowing spaces before the given block could produce conflicts with other rules.
      */
-    function isConflicted(precedingToken, node) {
+    function isConflicted(precedingToken: Token, node: ASTNode | Token) {
       return (
         isArrowToken(precedingToken)
           || (
             isKeywordToken(precedingToken)
+              // @ts-expect-error type cast
               && !isFunctionBody(node)
           )
           || (
             isColonToken(precedingToken)
+              && 'parent' in node
               && node.parent
               && node.parent.type === 'SwitchCase'
               && precedingToken === getSwitchCaseColonToken(node.parent, sourceCode)
@@ -128,14 +137,16 @@ export default {
      * @param {ASTNode|Token} node The AST node of a BlockStatement.
      * @returns {void} undefined.
      */
-    function checkPrecedingSpace(node) {
+    function checkPrecedingSpace(node: ASTNode | Token) {
       const precedingToken = sourceCode.getTokenBefore(node)
 
       if (precedingToken && !isConflicted(precedingToken, node) && isTokenOnSameLine(precedingToken, node)) {
+        // @ts-expect-error type cast
         const hasSpace = sourceCode.isSpaceBetweenTokens(precedingToken, node)
         let requireSpace
         let requireNoSpace
 
+        // @ts-expect-error type cast
         if (isFunctionBody(node)) {
           requireSpace = alwaysFunctions
           requireNoSpace = neverFunctions
@@ -175,14 +186,14 @@ export default {
      * @param {ASTNode} node The node of a SwitchStatement.
      * @returns {void} undefined.
      */
-    function checkSpaceBeforeCaseBlock(node) {
+    function checkSpaceBeforeCaseBlock(node: TSESTree.SwitchStatement) {
       const cases = node.cases
-      let openingBrace
+      let openingBrace: Token
 
       if (cases.length > 0)
-        openingBrace = sourceCode.getTokenBefore(cases[0])
+        openingBrace = sourceCode.getTokenBefore(cases[0])!
       else
-        openingBrace = sourceCode.getLastToken(node, 1)
+        openingBrace = sourceCode.getLastToken(node, 1)!
 
       checkPrecedingSpace(openingBrace)
     }
@@ -193,4 +204,4 @@ export default {
       SwitchStatement: checkSpaceBeforeCaseBlock,
     }
   },
-}
+})
