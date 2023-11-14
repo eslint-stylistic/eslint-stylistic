@@ -4,12 +4,14 @@
  * @author Greg Cochard
  */
 
+import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
+
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -55,7 +57,7 @@ export default {
     let maxEOF = max
     let maxBOF = max
 
-    if (context.options.length) {
+    if (context.options.length && context.options[0]) {
       max = context.options[0].max
       maxEOF = typeof context.options[0].maxEOF !== 'undefined' ? context.options[0].maxEOF : max
       maxBOF = typeof context.options[0].maxBOF !== 'undefined' ? context.options[0].maxBOF : max
@@ -83,7 +85,7 @@ export default {
         return allLines
 
         // Given a list of lines, first get a list of line numbers that are non-empty.
-          .reduce((nonEmptyLineNumbers, line, index) => {
+          .reduce<number[]>((nonEmptyLineNumbers, line, index) => {
             if (line.trim() || templateLiteralLines.has(index + 1))
               nonEmptyLineNumbers.push(index + 1)
 
@@ -95,7 +97,7 @@ export default {
 
         // Given two line numbers of non-empty lines, report the lines between if the difference is too large.
           .reduce((lastLineNumber, lineNumber) => {
-            let messageId, maxAllowed
+            let messageId: MessageIds, maxAllowed: number
 
             if (lastLineNumber === 0) {
               messageId = 'blankBeginningOfFile'
@@ -145,4 +147,4 @@ export default {
       },
     }
   },
-}
+})

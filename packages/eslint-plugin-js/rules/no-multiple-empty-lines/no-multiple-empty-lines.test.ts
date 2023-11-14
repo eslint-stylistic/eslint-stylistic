@@ -16,7 +16,7 @@ import rule from './no-multiple-empty-lines'
  * @returns {object} the expected error message object
  * @private
  */
-function getExpectedError(lines) {
+function getExpectedError(lines: number) {
   return {
     messageId: 'consecutiveBlank',
     data: {
@@ -34,7 +34,7 @@ function getExpectedError(lines) {
  * @returns {object} the expected error message object
  * @private
  */
-function getExpectedErrorEOF(lines) {
+function getExpectedErrorEOF(lines: number) {
   return {
     messageId: 'blankEndOfFile',
     data: {
@@ -51,7 +51,7 @@ function getExpectedErrorEOF(lines) {
  * @returns {object} the expected error message object
  * @private
  */
-function getExpectedErrorBOF(lines) {
+function getExpectedErrorBOF(lines: number) {
   return {
     messageId: 'blankBeginningOfFile',
     data: {
