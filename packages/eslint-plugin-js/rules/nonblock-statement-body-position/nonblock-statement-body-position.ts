@@ -3,14 +3,19 @@
  * @author Teddy Katz
  */
 
+import type { JSONSchema, TSESTree } from '@typescript-eslint/utils'
+import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
+
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-const POSITION_SCHEMA = { enum: ['beside', 'below', 'any'] }
+type KeywordName = keyof NonNullable<NonNullable<RuleOptions['1']>['overrides']>
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+const POSITION_SCHEMA: JSONSchema.JSONSchema4 = { type: 'string', enum: ['beside', 'below', 'any'] }
+
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -24,8 +29,10 @@ export default {
     schema: [
       POSITION_SCHEMA,
       {
+        type: 'object',
         properties: {
           overrides: {
+            type: 'object',
             properties: {
               if: POSITION_SCHEMA,
               else: POSITION_SCHEMA,
@@ -58,7 +65,7 @@ export default {
      * @param {string} keywordName The name of a keyword, e.g. 'if'
      * @returns {string} The applicable option for the keyword, e.g. 'beside'
      */
-    function getOption(keywordName) {
+    function getOption(keywordName: KeywordName) {
       return context.options[1] && context.options[1].overrides && context.options[1].overrides[keywordName]
                 || context.options[0]
                 || 'beside'
@@ -70,13 +77,13 @@ export default {
      * @param {string} keywordName The applicable keyword name for the single-line statement
      * @returns {void}
      */
-    function validateStatement(node, keywordName) {
+    function validateStatement(node: TSESTree.Statement, keywordName: KeywordName) {
       const option = getOption(keywordName)
 
       if (node.type === 'BlockStatement' || option === 'any')
         return
 
-      const tokenBefore = sourceCode.getTokenBefore(node)
+      const tokenBefore = sourceCode.getTokenBefore(node)!
 
       if (tokenBefore.loc.end.line === node.loc.start.line && option === 'below') {
         context.report({
@@ -118,4 +125,4 @@ export default {
       ForOfStatement: node => validateStatement(node.body, 'for'),
     }
   },
-}
+})
