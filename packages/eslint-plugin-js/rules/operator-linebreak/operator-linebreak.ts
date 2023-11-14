@@ -3,14 +3,17 @@
  * @author Benoît Zugmeyer
  */
 
+import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { createGlobalLinebreakMatcher, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -21,7 +24,15 @@ export default {
 
     schema: [
       {
-        enum: ['after', 'before', 'none', null],
+        oneOf: [
+          {
+            type: 'string',
+            enum: ['after', 'before', 'none'],
+          },
+          {
+            type: 'null',
+          },
+        ],
       },
       {
         type: 'object',
@@ -29,6 +40,7 @@ export default {
           overrides: {
             type: 'object',
             additionalProperties: {
+              type: 'string',
               enum: ['after', 'before', 'none', 'ignore'],
             },
           },
@@ -71,10 +83,10 @@ export default {
      * @param {string} desiredStyle The style for the rule. One of 'before', 'after', 'none'
      * @returns {Function} A fixer function
      */
-    function getFixer(operatorToken, desiredStyle) {
+    function getFixer(operatorToken: Token, desiredStyle: string): TSESLint.ReportFixFunction {
       return (fixer) => {
-        const tokenBefore = sourceCode.getTokenBefore(operatorToken)
-        const tokenAfter = sourceCode.getTokenAfter(operatorToken)
+        const tokenBefore = sourceCode.getTokenBefore(operatorToken)!
+        const tokenAfter = sourceCode.getTokenAfter(operatorToken)!
         const textBefore = sourceCode.text.slice(tokenBefore.range[1], operatorToken.range[0])
         const textAfter = sourceCode.text.slice(operatorToken.range[1], tokenAfter.range[0])
         const hasLinebreakBefore = !isTokenOnSameLine(tokenBefore, operatorToken)
@@ -128,13 +140,13 @@ export default {
      * @private
      * @returns {void}
      */
-    function validateNode(node, rightSide, operator) {
+    function validateNode(node: ASTNode, rightSide: ASTNode, operator: string) {
       /*
              * Find the operator token by searching from the right side, because between the left side and the operator
              * there could be additional tokens from type annotations. Search specifically for the token which
              * value equals the operator, in order to skip possible opening parentheses before the right side node.
              */
-      const operatorToken = sourceCode.getTokenBefore(rightSide, token => token.value === operator)
+      const operatorToken = sourceCode.getTokenBefore(rightSide, token => token.value === operator)!
       const leftToken = sourceCode.getTokenBefore(operatorToken)
       const rightToken = sourceCode.getTokenAfter(operatorToken)
       const operatorStyleOverride = styleOverrides[operator]
@@ -201,7 +213,7 @@ export default {
      * @param {BinaryExpression|LogicalExpression|AssignmentExpression} node node to be validated
      * @returns {void}
      */
-    function validateBinaryExpression(node) {
+    function validateBinaryExpression(node: TSESTree.BinaryExpression | TSESTree.LogicalExpression | TSESTree.AssignmentExpression) {
       validateNode(node, node.right, node.operator)
     }
 
@@ -227,4 +239,4 @@ export default {
       },
     }
   },
-}
+})
