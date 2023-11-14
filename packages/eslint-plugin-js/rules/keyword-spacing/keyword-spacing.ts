@@ -3,8 +3,11 @@
  * @author Toru Nagashima
  */
 
+import { AST_NODE_TYPES, type JSONSchema, type TSESTree } from '@typescript-eslint/utils'
 import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import keywords from '../../utils/keywords'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Token } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Constants
@@ -37,7 +40,7 @@ const KEYS = keywords.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of'
  * @param {Token} token A token to check.
  * @returns {boolean} `true` if the token is a "Template" token ends with "${".
  */
-function isOpenParenOfTemplate(token) {
+function isOpenParenOfTemplate(token: Token) {
   return token.type === 'Template' && TEMPLATE_OPEN_PAREN.test(token.value)
 }
 
@@ -46,7 +49,7 @@ function isOpenParenOfTemplate(token) {
  * @param {Token} token A token to check.
  * @returns {boolean} `true` if the token is a "Template" token starts with "}".
  */
-function isCloseParenOfTemplate(token) {
+function isCloseParenOfTemplate(token: Token) {
   return token.type === 'Template' && TEMPLATE_CLOSE_PAREN.test(token.value)
 }
 
@@ -54,8 +57,7 @@ function isCloseParenOfTemplate(token) {
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -74,7 +76,7 @@ export default {
           after: { type: 'boolean', default: true },
           overrides: {
             type: 'object',
-            properties: KEYS.reduce((retv, key) => {
+            properties: KEYS.reduce<Record<string, JSONSchema.JSONSchema4>>((retv, key) => {
               retv[key] = {
                 type: 'object',
                 properties: {
@@ -110,7 +112,7 @@ export default {
      * @param {RegExp} pattern A pattern of the previous token to check.
      * @returns {void}
      */
-    function expectSpaceBefore(token, pattern) {
+    function expectSpaceBefore(token: Token, pattern: RegExp) {
       const prevToken = sourceCode.getTokenBefore(token)
 
       if (prevToken
@@ -123,6 +125,7 @@ export default {
         context.report({
           loc: token.loc,
           messageId: 'expectedBefore',
+          // @ts-expect-error index signature for string is missing
           data: token,
           fix(fixer) {
             return fixer.insertTextBefore(token, ' ')
@@ -137,7 +140,7 @@ export default {
      * @param {RegExp} pattern A pattern of the previous token to check.
      * @returns {void}
      */
-    function unexpectSpaceBefore(token, pattern) {
+    function unexpectSpaceBefore(token: Token, pattern: RegExp) {
       const prevToken = sourceCode.getTokenBefore(token)
 
       if (prevToken
@@ -150,6 +153,7 @@ export default {
         context.report({
           loc: { start: prevToken.loc.end, end: token.loc.start },
           messageId: 'unexpectedBefore',
+          // @ts-expect-error index signature for string is missing
           data: token,
           fix(fixer) {
             return fixer.removeRange([prevToken.range[1], token.range[0]])
@@ -164,7 +168,7 @@ export default {
      * @param {RegExp} pattern A pattern of the next token to check.
      * @returns {void}
      */
-    function expectSpaceAfter(token, pattern) {
+    function expectSpaceAfter(token: Token, pattern: RegExp) {
       const nextToken = sourceCode.getTokenAfter(token)
 
       if (nextToken
@@ -177,6 +181,7 @@ export default {
         context.report({
           loc: token.loc,
           messageId: 'expectedAfter',
+          // @ts-expect-error index signature for string is missing
           data: token,
           fix(fixer) {
             return fixer.insertTextAfter(token, ' ')
@@ -191,7 +196,7 @@ export default {
      * @param {RegExp} pattern A pattern of the next token to check.
      * @returns {void}
      */
-    function unexpectSpaceAfter(token, pattern) {
+    function unexpectSpaceAfter(token: Token, pattern: RegExp) {
       const nextToken = sourceCode.getTokenAfter(token)
 
       if (nextToken
@@ -204,6 +209,7 @@ export default {
         context.report({
           loc: { start: token.loc.end, end: nextToken.loc.start },
           messageId: 'unexpectedAfter',
+          // @ts-expect-error index signature for string is missing
           data: token,
           fix(fixer) {
             return fixer.removeRange([token.range[1], nextToken.range[0]])
@@ -219,7 +225,17 @@ export default {
      *      Keys are keywords (there are for every keyword).
      *      Values are instances of `{"before": function, "after": function}`.
      */
-    function parseOptions(options = {}) {
+    function parseOptions(options: {
+      before?: boolean
+      after?: boolean
+      overrides?: Record<string, {
+        before: boolean
+        after: boolean
+      }>
+    } = {}): Record<string, {
+      before: (token: Token, pattern?: RegExp) => void
+      after: (token: Token, pattern?: RegExp) => void
+    }> {
       const before = options.before !== false
       const after = options.after !== false
       const defaultValue = {
@@ -260,7 +276,7 @@ export default {
      *      token to check.
      * @returns {void}
      */
-    function checkSpacingBefore(token, pattern) {
+    function checkSpacingBefore(token: Token, pattern?: RegExp) {
       checkMethodMap[token.value].before(token, pattern || PREV_TOKEN)
     }
 
@@ -272,7 +288,7 @@ export default {
      *      token to check.
      * @returns {void}
      */
-    function checkSpacingAfter(token, pattern) {
+    function checkSpacingAfter(token: Token, pattern?: RegExp) {
       checkMethodMap[token.value].after(token, pattern || NEXT_TOKEN)
     }
 
@@ -281,7 +297,7 @@ export default {
      * @param {Token} token A token to report.
      * @returns {void}
      */
-    function checkSpacingAround(token) {
+    function checkSpacingAround(token: Token) {
       checkSpacingBefore(token)
       checkSpacingAfter(token)
     }
@@ -292,7 +308,7 @@ export default {
      * @param {ASTNode|null} node A node to report.
      * @returns {void}
      */
-    function checkSpacingAroundFirstToken(node) {
+    function checkSpacingAroundFirstToken(node: ASTNode | null) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
       if (firstToken && firstToken.type === 'Keyword')
@@ -308,7 +324,7 @@ export default {
      * @param {ASTNode|null} node A node to report.
      * @returns {void}
      */
-    function checkSpacingBeforeFirstToken(node) {
+    function checkSpacingBeforeFirstToken(node: ASTNode | null) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
       if (firstToken && firstToken.type === 'Keyword')
@@ -321,11 +337,12 @@ export default {
      * @param {ASTNode|null} node A node to report.
      * @returns {void}
      */
-    function checkSpacingAroundTokenBefore(node) {
+    function checkSpacingAroundTokenBefore(node: ASTNode | null) {
       if (node) {
         const token = sourceCode.getTokenBefore(node, isKeywordToken)
 
-        checkSpacingAround(token)
+        if (token)
+          checkSpacingAround(token)
       }
     }
 
@@ -335,7 +352,12 @@ export default {
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForFunction(node) {
+    function checkSpacingForFunction(
+      node:
+      | TSESTree.FunctionDeclaration
+      | TSESTree.ArrowFunctionExpression
+      | TSESTree.FunctionExpression,
+    ) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
       if (firstToken
@@ -351,7 +373,7 @@ export default {
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForClass(node) {
+    function checkSpacingForClass(node: TSESTree.ClassDeclaration | TSESTree.ClassExpression) {
       checkSpacingAroundFirstToken(node)
       checkSpacingAroundTokenBefore(node.superClass)
     }
@@ -362,7 +384,7 @@ export default {
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForIfStatement(node) {
+    function checkSpacingForIfStatement(node: TSESTree.IfStatement) {
       checkSpacingAroundFirstToken(node)
       checkSpacingAroundTokenBefore(node.alternate)
     }
@@ -373,7 +395,7 @@ export default {
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForTryStatement(node) {
+    function checkSpacingForTryStatement(node: TSESTree.TryStatement) {
       checkSpacingAroundFirstToken(node)
       checkSpacingAroundFirstToken(node.handler)
       checkSpacingAroundTokenBefore(node.finalizer)
@@ -385,7 +407,7 @@ export default {
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForDoWhileStatement(node) {
+    function checkSpacingForDoWhileStatement(node: TSESTree.DoWhileStatement) {
       checkSpacingAroundFirstToken(node)
       checkSpacingAroundTokenBefore(node.test)
     }
@@ -396,15 +418,12 @@ export default {
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForForInStatement(node) {
+    function checkSpacingForForInStatement(node: TSESTree.ForInStatement) {
       checkSpacingAroundFirstToken(node)
 
-      const inToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)
-      const previousToken = sourceCode.getTokenBefore(inToken)
+      const inToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
 
-      if (previousToken.type !== 'PrivateIdentifier')
-        checkSpacingBefore(inToken)
-
+      checkSpacingBefore(inToken)
       checkSpacingAfter(inToken)
     }
 
@@ -414,21 +433,18 @@ export default {
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForForOfStatement(node) {
+    function checkSpacingForForOfStatement(node: TSESTree.ForOfStatement) {
       if (node.await) {
-        checkSpacingBefore(sourceCode.getFirstToken(node, 0))
-        checkSpacingAfter(sourceCode.getFirstToken(node, 1))
+        checkSpacingBefore(sourceCode.getFirstToken(node, 0)!)
+        checkSpacingAfter(sourceCode.getFirstToken(node, 1)!)
       }
       else {
         checkSpacingAroundFirstToken(node)
       }
 
-      const ofToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)
-      const previousToken = sourceCode.getTokenBefore(ofToken)
+      const ofToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
 
-      if (previousToken.type !== 'PrivateIdentifier')
-        checkSpacingBefore(ofToken)
-
+      checkSpacingBefore(ofToken)
       checkSpacingAfter(ofToken)
     }
 
@@ -443,24 +459,35 @@ export default {
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForModuleDeclaration(node) {
-      const firstToken = sourceCode.getFirstToken(node)
+    function checkSpacingForModuleDeclaration(
+      node:
+      | TSESTree.ExportNamedDeclaration
+      | TSESTree.ExportDefaultDeclaration
+      | TSESTree.ExportAllDeclaration
+      | TSESTree.ImportDeclaration,
+    ) {
+      const firstToken = sourceCode.getFirstToken(node)!
 
       checkSpacingBefore(firstToken, PREV_TOKEN_M)
       checkSpacingAfter(firstToken, NEXT_TOKEN_M)
 
       if (node.type === 'ExportDefaultDeclaration')
-        checkSpacingAround(sourceCode.getTokenAfter(firstToken))
+        checkSpacingAround(sourceCode.getTokenAfter(firstToken)!)
 
       if (node.type === 'ExportAllDeclaration' && node.exported) {
-        const asToken = sourceCode.getTokenBefore(node.exported)
+        const asToken = sourceCode.getTokenBefore(node.exported)!
 
         checkSpacingBefore(asToken, PREV_TOKEN_M)
         checkSpacingAfter(asToken, NEXT_TOKEN_M)
       }
 
-      if (node.source) {
-        const fromToken = sourceCode.getTokenBefore(node.source)
+      if (
+        (node.type === AST_NODE_TYPES.ExportNamedDeclaration
+          || node.type === AST_NODE_TYPES.ExportAllDeclaration
+          || node.type === AST_NODE_TYPES.ImportDeclaration)
+        && node.source
+      ) {
+        const fromToken = sourceCode.getTokenBefore(node.source)!
 
         checkSpacingBefore(fromToken, PREV_TOKEN_M)
         checkSpacingAfter(fromToken, NEXT_TOKEN_M)
@@ -473,9 +500,9 @@ export default {
      * @param {ASTNode} node An `ImportSpecifier` node to check.
      * @returns {void}
      */
-    function checkSpacingForImportSpecifier(node) {
+    function checkSpacingForImportSpecifier(node: TSESTree.ImportSpecifier) {
       if (node.imported.range[0] !== node.local.range[0]) {
-        const asToken = sourceCode.getTokenBefore(node.local)
+        const asToken = sourceCode.getTokenBefore(node.local)!
 
         checkSpacingBefore(asToken, PREV_TOKEN_M)
       }
@@ -487,9 +514,9 @@ export default {
      * @param {ASTNode} node An `ExportSpecifier` node to check.
      * @returns {void}
      */
-    function checkSpacingForExportSpecifier(node) {
+    function checkSpacingForExportSpecifier(node: TSESTree.ExportSpecifier) {
       if (node.local.range[0] !== node.exported.range[0]) {
-        const asToken = sourceCode.getTokenBefore(node.exported)
+        const asToken = sourceCode.getTokenBefore(node.exported)!
 
         checkSpacingBefore(asToken, PREV_TOKEN_M)
         checkSpacingAfter(asToken, NEXT_TOKEN_M)
@@ -502,8 +529,8 @@ export default {
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForImportNamespaceSpecifier(node) {
-      const asToken = sourceCode.getFirstToken(node, 1)
+    function checkSpacingForImportNamespaceSpecifier(node: TSESTree.ImportNamespaceSpecifier) {
+      const asToken = sourceCode.getFirstToken(node, 1)!
 
       checkSpacingBefore(asToken, PREV_TOKEN_M)
     }
@@ -515,16 +542,18 @@ export default {
      * @throws {Error} If unable to find token get, set, or async beside method name.
      * @returns {void}
      */
-    function checkSpacingForProperty(node) {
-      if (node.static)
+    function checkSpacingForProperty(node: TSESTree.MethodDefinition | TSESTree.PropertyDefinition | TSESTree.Property) {
+      if (node.type === AST_NODE_TYPES.MethodDefinition || node.type === AST_NODE_TYPES.PropertyDefinition)
         checkSpacingAroundFirstToken(node)
 
-      if (node.kind === 'get'
-                || node.kind === 'set'
-                || (
-                  (node.method || node.type === 'MethodDefinition')
-                    && node.value.async
-                )
+      if (
+        ((node.type === AST_NODE_TYPES.MethodDefinition
+          || node.type === AST_NODE_TYPES.Property)
+          && (node.kind === 'get' || node.kind === 'set'))
+        || (((node.type === AST_NODE_TYPES.Property && node.method)
+          || node.type === 'MethodDefinition')
+          && 'async' in node.value
+          && node.value.async)
       ) {
         const token = sourceCode.getTokenBefore(
           node.key,
@@ -553,8 +582,8 @@ export default {
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForAwaitExpression(node) {
-      checkSpacingBefore(sourceCode.getFirstToken(node))
+    function checkSpacingForAwaitExpression(node: TSESTree.AwaitExpression) {
+      checkSpacingBefore(sourceCode.getFirstToken(node)!)
     }
 
     return {
@@ -612,11 +641,11 @@ export default {
       'Property': checkSpacingForProperty,
 
       // To avoid conflicts with `space-infix-ops`, e.g. `a > this.b`
-      'BinaryExpression[operator=\'>\']': function (node) {
-        const operatorToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)
+      'BinaryExpression[operator=\'>\']': function (node: TSESTree.BinaryExpression) {
+        const operatorToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
 
         tokensToIgnore.add(operatorToken)
       },
     }
   },
-}
+})
