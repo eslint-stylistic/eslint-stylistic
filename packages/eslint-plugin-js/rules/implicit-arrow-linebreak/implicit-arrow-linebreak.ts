@@ -3,13 +3,15 @@
  * @author Sharmila Jesupaul
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
 import { isCommentToken, isNotOpeningParenToken } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -22,6 +24,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['beside', 'below'],
       },
     ],
@@ -40,12 +43,12 @@ export default {
      * @param {ASTNode} node The arrow function body
      * @returns {void}
      */
-    function validateExpression(node) {
+    function validateExpression(node: TSESTree.ArrowFunctionExpression) {
       if (node.body.type === 'BlockStatement')
         return
 
-      const arrowToken = sourceCode.getTokenBefore(node.body, isNotOpeningParenToken)
-      const firstTokenOfBody = sourceCode.getTokenAfter(arrowToken)
+      const arrowToken = sourceCode.getTokenBefore(node.body, isNotOpeningParenToken)!
+      const firstTokenOfBody = sourceCode.getTokenAfter(arrowToken)!
 
       if (arrowToken.loc.end.line === firstTokenOfBody.loc.start.line && option === 'below') {
         context.report({
@@ -75,4 +78,4 @@ export default {
       ArrowFunctionExpression: node => validateExpression(node),
     }
   },
-}
+})
