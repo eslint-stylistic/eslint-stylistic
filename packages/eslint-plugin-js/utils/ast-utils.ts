@@ -451,7 +451,7 @@ export const isNotSemicolonToken = negate(isSemicolonToken)
  * @param {ASTNode} node A node to check.
  * @returns {boolean} `true` if the node is a string literal.
  */
-export function isStringLiteral(node: ASTNode) {
+export function isStringLiteral(node: ASTNode): node is TSESTree.StringLiteral | TSESTree.TemplateLiteral {
   return (
     (node.type === 'Literal' && typeof node.value === 'string')
           || node.type === 'TemplateLiteral'

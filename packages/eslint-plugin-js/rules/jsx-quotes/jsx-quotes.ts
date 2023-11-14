@@ -3,13 +3,21 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
 import { isStringLiteral, isSurroundedBy } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
 
 // ------------------------------------------------------------------------------
 // Constants
 // ------------------------------------------------------------------------------
 
-const QUOTE_SETTINGS = {
+interface QuoteSetting {
+  quote: string
+  description: string
+  convert(str: string): string
+}
+
+const QUOTE_SETTINGS: Record<string, QuoteSetting> = {
   'prefer-double': {
     quote: '"',
     description: 'singlequote',
@@ -31,7 +39,7 @@ const QUOTE_SETTINGS = {
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -44,6 +52,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['prefer-single', 'prefer-double'],
       },
     ],
@@ -62,7 +71,7 @@ export default {
      * @returns {boolean} Whether or not the string literal used the expected quotes.
      * @public
      */
-    function usesExpectedQuotes(node) {
+    function usesExpectedQuotes(node: TSESTree.StringLiteral) {
       return node.value.includes(setting.quote) || isSurroundedBy(node.raw, setting.quote)
     }
 
@@ -85,4 +94,4 @@ export default {
       },
     }
   },
-}
+})
