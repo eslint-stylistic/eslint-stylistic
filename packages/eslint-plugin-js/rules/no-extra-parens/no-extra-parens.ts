@@ -7,7 +7,9 @@
 // Rule Definition
 // ------------------------------------------------------------------------------
 
+// @ts-expect-error missing types https://github.com/eslint-community/eslint-utils/pull/60
 import { isParenthesized as isParenthesizedRaw } from '@eslint-community/eslint-utils'
+import type { TSESTree } from '@typescript-eslint/utils'
 import {
   canTokensBeAdjacent,
   getPrecedence,
@@ -23,9 +25,11 @@ import {
   isTopLevelExpressionStatement,
   skipChainExpression,
 } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -42,6 +46,7 @@ export default {
           type: 'array',
           items: [
             {
+              type: 'string',
               enum: ['functions'],
             },
           ],
@@ -52,6 +57,7 @@ export default {
           type: 'array',
           items: [
             {
+              type: 'string',
               enum: ['all'],
             },
             {
@@ -61,7 +67,7 @@ export default {
                 ternaryOperandBinaryExpressions: { type: 'boolean' },
                 nestedBinaryExpressions: { type: 'boolean' },
                 returnAssign: { type: 'boolean' },
-                ignoreJSX: { enum: ['none', 'all', 'single-line', 'multi-line'] },
+                ignoreJSX: { type: 'string', enum: ['none', 'all', 'single-line', 'multi-line'] },
                 enforceForArrowConditionals: { type: 'boolean' },
                 enforceForSequenceExpressions: { type: 'boolean' },
                 enforceForNewInMemberExpressions: { type: 'boolean' },
@@ -106,7 +112,12 @@ export default {
     const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' })
     const PRECEDENCE_OF_UPDATE_EXPR = precedence({ type: 'UpdateExpression' })
 
-    let reportsBuffer
+    type ReportsBuffer = {
+      upper: ReportsBuffer
+      inExpressionNodes: ASTNode[]
+      reports: { node: ASTNode; finishReport: () => void }[]
+    } | undefined
+    let reportsBuffer: ReportsBuffer
 
     /**
      * Determines whether the given node is a `call` or `apply` method call, invoked directly on a `FunctionExpression` node.
@@ -115,7 +126,7 @@ export default {
      * @returns {boolean} True if the node is an immediate `call` or `apply` method call.
      * @private
      */
-    function isImmediateFunctionPrototypeMethodCall(node) {
+    function isImmediateFunctionPrototypeMethodCall(node: ASTNode) {
       const callNode = skipChainExpression(node)
 
       if (callNode.type !== 'CallExpression')
@@ -126,7 +137,7 @@ export default {
       return (
         callee.type === 'MemberExpression'
                 && callee.object.type === 'FunctionExpression'
-                && ['call', 'apply'].includes(getStaticPropertyName(callee))
+                && ['call', 'apply'].includes(getStaticPropertyName(callee)!)
       )
     }
 
@@ -136,7 +147,7 @@ export default {
      * @returns {boolean} True if the rule should be enforced for this node.
      * @private
      */
-    function ruleApplies(node) {
+    function ruleApplies(node: ASTNode) {
       if (node.type === 'JSXElement' || node.type === 'JSXFragment') {
         const isSingleLine = node.loc.start.line === node.loc.end.line
 
@@ -176,7 +187,7 @@ export default {
      * @returns {boolean} True if the node is parenthesised.
      * @private
      */
-    function isParenthesised(node) {
+    function isParenthesised(node: ASTNode) {
       return isParenthesizedRaw(1, node, sourceCode)
     }
 
@@ -186,7 +197,7 @@ export default {
      * @returns {boolean} True if the node is doubly parenthesised.
      * @private
      */
-    function isParenthesisedTwice(node) {
+    function isParenthesisedTwice(node: ASTNode) {
       return isParenthesizedRaw(2, node, sourceCode)
     }
 
@@ -196,7 +207,7 @@ export default {
      * @returns {boolean} True if the node is incorrectly parenthesised.
      * @private
      */
-    function hasExcessParens(node) {
+    function hasExcessParens(node: ASTNode) {
       return ruleApplies(node) && isParenthesised(node)
     }
 
@@ -207,7 +218,7 @@ export default {
      * @returns {boolean} True if the node is has an unexpected extra pair of parentheses.
      * @private
      */
-    function hasDoubleExcessParens(node) {
+    function hasDoubleExcessParens(node: ASTNode) {
       return ruleApplies(node) && isParenthesisedTwice(node)
     }
 
@@ -221,7 +232,7 @@ export default {
      * @returns {boolean} True if the node is has an unexpected extra pair of parentheses.
      * @private
      */
-    function hasExcessParensWithPrecedence(node, precedenceLowerLimit) {
+    function hasExcessParensWithPrecedence(node: ASTNode, precedenceLowerLimit: number) {
       if (ruleApplies(node) && isParenthesised(node)) {
         if (
           precedence(node) >= precedenceLowerLimit
@@ -238,8 +249,8 @@ export default {
      * @returns {boolean} True if the assignment can be parenthesised.
      * @private
      */
-    function isCondAssignException(node) {
-      return EXCEPT_COND_ASSIGN && node.test.type === 'AssignmentExpression'
+    function isCondAssignException(node: TSESTree.ConditionalExpression | TSESTree.DoWhileStatement | TSESTree.WhileStatement | TSESTree.IfStatement | TSESTree.ForStatement) {
+      return EXCEPT_COND_ASSIGN && node.test && node.test.type === 'AssignmentExpression'
     }
 
     /**
@@ -248,8 +259,8 @@ export default {
      * @returns {boolean} True if the node is in a return statement.
      * @private
      */
-    function isInReturnStatement(node) {
-      for (let currentNode = node; currentNode; currentNode = currentNode.parent) {
+    function isInReturnStatement(node: ASTNode) {
+      for (let currentNode = node; currentNode; currentNode = currentNode.parent!) {
         if (
           currentNode.type === 'ReturnStatement'
                     || (currentNode.type === 'ArrowFunctionExpression' && currentNode.body.type !== 'BlockStatement')
@@ -266,9 +277,9 @@ export default {
      * @returns {boolean} True if the constructor is called with parens.
      * @private
      */
-    function isNewExpressionWithParens(newExpression) {
-      const lastToken = sourceCode.getLastToken(newExpression)
-      const penultimateToken = sourceCode.getTokenBefore(lastToken)
+    function isNewExpressionWithParens(newExpression: TSESTree.NewExpression) {
+      const lastToken = sourceCode.getLastToken(newExpression)!
+      const penultimateToken = sourceCode.getTokenBefore(lastToken)!
 
       return newExpression.arguments.length > 0
                 || (
@@ -286,7 +297,7 @@ export default {
      * @returns {boolean} True if the node is or contains an assignment expression.
      * @private
      */
-    function containsAssignment(node) {
+    function containsAssignment(node: ASTNode) {
       if (node.type === 'AssignmentExpression')
         return true
 
@@ -294,8 +305,8 @@ export default {
                     && (node.consequent.type === 'AssignmentExpression' || node.alternate.type === 'AssignmentExpression'))
         return true
 
-      if ((node.left && node.left.type === 'AssignmentExpression')
-                    || (node.right && node.right.type === 'AssignmentExpression'))
+      if ('left' in node && ((node.left && node.left.type === 'AssignmentExpression')
+                    || (node.right && node.right.type === 'AssignmentExpression')))
         return true
 
       return false
@@ -307,7 +318,7 @@ export default {
      * @returns {boolean} True if the assignment can be parenthesised.
      * @private
      */
-    function isReturnAssignException(node) {
+    function isReturnAssignException(node: ASTNode) {
       if (!EXCEPT_RETURN_ASSIGN || !isInReturnStatement(node))
         return false
 
@@ -328,7 +339,7 @@ export default {
      * @returns {boolean} True if the node is incorrectly parenthesised.
      * @private
      */
-    function hasExcessParensNoLineTerminator(token, node) {
+    function hasExcessParensNoLineTerminator(token: Token, node: ASTNode) {
       if (token.loc.end.line === node.loc.start.line)
         return hasExcessParens(node)
 
@@ -341,10 +352,10 @@ export default {
      * @returns {boolean} `true` if a space should be inserted before the node
      * @private
      */
-    function requiresLeadingSpace(node) {
-      const leftParenToken = sourceCode.getTokenBefore(node)
-      const tokenBeforeLeftParen = sourceCode.getTokenBefore(leftParenToken, { includeComments: true })
-      const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParenToken, { includeComments: true })
+    function requiresLeadingSpace(node: ASTNode) {
+      const leftParenToken = sourceCode.getTokenBefore(node)!
+      const tokenBeforeLeftParen = sourceCode.getTokenBefore(leftParenToken, { includeComments: true })!
+      const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParenToken, { includeComments: true })!
 
       return tokenBeforeLeftParen
                 && tokenBeforeLeftParen.range[1] === leftParenToken.range[0]
@@ -358,11 +369,11 @@ export default {
      * @returns {boolean} `true` if a space should be inserted after the node
      * @private
      */
-    function requiresTrailingSpace(node) {
+    function requiresTrailingSpace(node: ASTNode) {
       const nextTwoTokens = sourceCode.getTokensAfter(node, { count: 2 })
       const rightParenToken = nextTwoTokens[0]
       const tokenAfterRightParen = nextTwoTokens[1]
-      const tokenBeforeRightParen = sourceCode.getLastToken(node)
+      const tokenBeforeRightParen = sourceCode.getLastToken(node)!
 
       return rightParenToken && tokenAfterRightParen
                 && !sourceCode.isSpaceBetweenTokens(rightParenToken, tokenAfterRightParen)
@@ -374,7 +385,7 @@ export default {
      * @param {ASTNode} node The node to check
      * @returns {boolean} `true` if the given node is an IIFE
      */
-    function isIIFE(node) {
+    function isIIFE(node: ASTNode) {
       const maybeCallNode = skipChainExpression(node)
 
       return maybeCallNode.type === 'CallExpression' && maybeCallNode.callee.type === 'FunctionExpression'
@@ -387,7 +398,7 @@ export default {
      * @param {ASTNode} [node] The node to check
      * @returns {boolean} `true` if the given node can be a valid assignment target
      */
-    function canBeAssignmentTarget(node) {
+    function canBeAssignmentTarget(node: ASTNode) {
       return node && (node.type === 'Identifier' || node.type === 'MemberExpression')
     }
 
@@ -403,7 +414,7 @@ export default {
      * @returns {boolean} Whether or not the node is fixable.
      * @private
      */
-    function isFixable(node) {
+    function isFixable(node: ASTNode) {
       // if it's not a string literal it can be autofixed
       if (node.type !== 'Literal' || typeof node.value !== 'string')
         return true
@@ -420,15 +431,15 @@ export default {
      * @returns {void}
      * @private
      */
-    function report(node) {
-      const leftParenToken = sourceCode.getTokenBefore(node)
-      const rightParenToken = sourceCode.getTokenAfter(node)
+    function report(node: ASTNode) {
+      const leftParenToken = sourceCode.getTokenBefore(node)!
+      const rightParenToken = sourceCode.getTokenAfter(node)!
 
       if (!isParenthesisedTwice(node)) {
-        if (tokensToIgnore.has(sourceCode.getFirstToken(node)))
+        if (tokensToIgnore.has(sourceCode.getFirstToken(node)!))
           return
 
-        if (isIIFE(node) && !isParenthesised(node.callee))
+        if (isIIFE(node) && !('callee' in node && isParenthesised(node.callee)))
           return
 
         if (ALLOW_PARENS_AFTER_COMMENT_PATTERN) {
@@ -481,8 +492,8 @@ export default {
      * @returns {void}
      * @private
      */
-    function checkArgumentWithPrecedence(node) {
-      if (hasExcessParensWithPrecedence(node.argument, precedence(node)))
+    function checkArgumentWithPrecedence(node: ASTNode) {
+      if ('argument' in node && node.argument && hasExcessParensWithPrecedence(node.argument, precedence(node)))
         report(node.argument)
     }
 
@@ -491,11 +502,13 @@ export default {
      * @param {ASTNode} node MemberExpression node to evaluate
      * @returns {boolean} true if found, false if not
      */
-    function doesMemberExpressionContainCallExpression(node) {
+    function doesMemberExpressionContainCallExpression(node: TSESTree.MemberExpression) {
       let currentNode = node.object
       let currentNodeType = node.object.type
 
       while (currentNodeType === 'MemberExpression') {
+        if (!('object' in currentNode))
+          break
         currentNode = currentNode.object
         currentNodeType = currentNode.type
       }
@@ -509,7 +522,7 @@ export default {
      * @returns {void}
      * @private
      */
-    function checkCallNew(node) {
+    function checkCallNew(node: TSESTree.CallExpression | TSESTree.NewExpression) {
       const callee = node.callee
 
       if (hasExcessParensWithPrecedence(callee, precedence(node))) {
@@ -520,6 +533,7 @@ export default {
 
                         // (new A)(); new (new A)();
                         || (
+                          // @ts-expect-error comment above
                           callee.type === 'NewExpression'
                             && !isNewExpressionWithParens(callee)
                             && !(
@@ -537,7 +551,8 @@ export default {
 
                         // (a?.b)(); (a?.())();
                         || (
-                          !node.optional
+                          (!('optional' in node) || !node.optional)
+                            // @ts-expect-error comment above
                             && callee.type === 'ChainExpression'
                         )
                     )
@@ -555,7 +570,7 @@ export default {
      * @returns {void}
      * @private
      */
-    function checkBinaryLogical(node) {
+    function checkBinaryLogical(node: TSESTree.BinaryExpression | TSESTree.LogicalExpression) {
       const prec = precedence(node)
       const leftPrecedence = precedence(node.left)
       const rightPrecedence = precedence(node.right)
@@ -588,7 +603,7 @@ export default {
      * @param {ASTNode} node The node of class declarations to check.
      * @returns {void}
      */
-    function checkClass(node) {
+    function checkClass(node: TSESTree.ClassExpression | TSESTree.ClassDeclaration) {
       if (!node.superClass)
         return
 
@@ -609,7 +624,7 @@ export default {
      * @param {ASTNode} node The node of spread elements/properties to check.
      * @returns {void}
      */
-    function checkSpreadOperator(node) {
+    function checkSpreadOperator(node: TSESTree.SpreadElement) {
       if (hasExcessParensWithPrecedence(node.argument, PRECEDENCE_OF_ASSIGNMENT_EXPR))
         report(node.argument)
     }
@@ -619,9 +634,9 @@ export default {
      * @param {ASTNode} node The ExpressionStatement.expression or ExportDefaultDeclaration.declaration node
      * @returns {void}
      */
-    function checkExpressionOrExportStatement(node) {
-      const firstToken = isParenthesised(node) ? sourceCode.getTokenBefore(node) : sourceCode.getFirstToken(node)
-      const secondToken = sourceCode.getTokenAfter(firstToken, isNotOpeningParenToken)
+    function checkExpressionOrExportStatement(node: TSESTree.ExportDefaultDeclaration | TSESTree.ExpressionStatement | TSESTree.DefaultExportDeclarations) {
+      const firstToken = isParenthesised(node) ? sourceCode.getTokenBefore(node)! : sourceCode.getFirstToken(node)!
+      const secondToken = sourceCode.getTokenAfter(firstToken, isNotOpeningParenToken)!
       const thirdToken = secondToken ? sourceCode.getTokenAfter(secondToken) : null
       const tokenAfterClosingParens = secondToken ? sourceCode.getTokenAfter(secondToken, isNotClosingParenToken) : null
 
@@ -659,15 +674,15 @@ export default {
      * @returns {ASTNode[]} Path, including both nodes.
      * @throws {Error} If the given node does not have the specified ancestor.
      */
-    function pathToAncestor(node, ancestor) {
+    function pathToAncestor(node: ASTNode, ancestor: ASTNode) {
       const path = [node]
-      let currentNode = node
+      let currentNode: ASTNode | null | undefined = node
 
       while (currentNode !== ancestor) {
         currentNode = currentNode.parent
 
         /* c8 ignore start */
-        if (currentNode === null)
+        if (currentNode === null || currentNode === undefined)
           throw new Error('Nodes are not in the ancestor-descendant relationship.')
         /* c8 ignore stop */
 
@@ -684,7 +699,7 @@ export default {
      * @returns {ASTNode[]} Path, including both nodes.
      * @throws {Error} If the given node does not have the specified descendant.
      */
-    function pathToDescendant(node, descendant) {
+    function pathToDescendant(node: ASTNode, descendant: ASTNode) {
       return pathToAncestor(descendant, node).reverse()
     }
 
@@ -695,7 +710,7 @@ export default {
      * @param {ASTNode} child Child of the node, ancestor of the same 'in' expression or the 'in' expression itself.
      * @returns {boolean} True if the keyword 'in' would be interpreted as the 'in' operator, without any parenthesis.
      */
-    function isSafelyEnclosingInExpression(node, child) {
+    function isSafelyEnclosingInExpression(node: ASTNode, child: ASTNode) {
       switch (node.type) {
         case 'ArrayExpression':
         case 'ArrayPattern':
@@ -706,9 +721,11 @@ export default {
           return true
         case 'ArrowFunctionExpression':
         case 'FunctionExpression':
+          // @ts-expect-error type cast
           return node.params.includes(child)
         case 'CallExpression':
         case 'NewExpression':
+          // @ts-expect-error type cast
           return node.arguments.includes(child)
         case 'MemberExpression':
           return node.computed && node.property === child
@@ -737,15 +754,15 @@ export default {
      * @returns {void}
      */
     function endCurrentReportsBuffering() {
-      const { upper, inExpressionNodes, reports } = reportsBuffer
+      const { upper, inExpressionNodes, reports } = reportsBuffer ?? {}
 
       if (upper) {
-        upper.inExpressionNodes.push(...inExpressionNodes)
-        upper.reports.push(...reports)
+        upper.inExpressionNodes.push(...inExpressionNodes ?? [])
+        upper.reports.push(...reports ?? [])
       }
       else {
         // flush remaining reports
-        reports.forEach(({ finishReport }) => finishReport())
+        reports?.forEach(({ finishReport }) => finishReport())
       }
 
       reportsBuffer = upper
@@ -756,8 +773,8 @@ export default {
      * @param {ASTNode} node Node to check.
      * @returns {boolean} True if the node is in the current buffer, false otherwise.
      */
-    function isInCurrentReportsBuffer(node) {
-      return reportsBuffer.reports.some(r => r.node === node)
+    function isInCurrentReportsBuffer(node: ASTNode) {
+      return reportsBuffer?.reports.some(r => r.node === node)
     }
 
     /**
@@ -765,8 +782,9 @@ export default {
      * @param {ASTNode} node Node to remove.
      * @returns {void}
      */
-    function removeFromCurrentReportsBuffer(node) {
-      reportsBuffer.reports = reportsBuffer.reports.filter(r => r.node !== node)
+    function removeFromCurrentReportsBuffer(node: ASTNode) {
+      if (reportsBuffer)
+        reportsBuffer.reports = reportsBuffer.reports.filter(r => r.node !== node)
     }
 
     /**
@@ -774,11 +792,11 @@ export default {
      * @param {ASTNode} node node to check.
      * @returns {boolean} True if the node is a MemberExpression at NewExpression's callee. false otherwise.
      */
-    function isMemberExpInNewCallee(node) {
+    function isMemberExpInNewCallee(node: ASTNode): boolean {
       if (node.type === 'MemberExpression') {
         return node.parent.type === 'NewExpression' && node.parent.callee === node
           ? true
-          : node.parent.object === node && isMemberExpInNewCallee(node.parent)
+          : 'object' in node.parent && node.parent.object === node && isMemberExpInNewCallee(node.parent)
       }
       return false
     }
@@ -801,7 +819,7 @@ export default {
      * operator is one of `=`, `&&=`, `||=` or `??=` and the right-hand side is an anonymous
      * class or function; otherwise, `false`.
      */
-    function isAnonymousFunctionAssignmentException({ left, operator, right }) {
+    function isAnonymousFunctionAssignmentException({ left, operator, right }: TSESTree.AssignmentExpression) {
       if (left.type === 'Identifier' && ['=', '&&=', '||=', '??='].includes(operator)) {
         const rhsType = right.type
 
@@ -817,13 +835,13 @@ export default {
     return {
       ArrayExpression(node) {
         node.elements
-          .filter(e => e && hasExcessParensWithPrecedence(e, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          .filter((e): e is NonNullable<typeof e> => !!e && hasExcessParensWithPrecedence(e, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           .forEach(report)
       },
 
       ArrayPattern(node) {
         node.elements
-          .filter(e => canBeAssignmentTarget(e) && hasExcessParens(e))
+          .filter((e): e is NonNullable<typeof e> => e && canBeAssignmentTarget(e) && hasExcessParens(e))
           .forEach(report)
       },
 
@@ -837,8 +855,8 @@ export default {
           return
 
         if (node.body.type !== 'BlockStatement') {
-          const firstBodyToken = sourceCode.getFirstToken(node.body, isNotOpeningParenToken)
-          const tokenBeforeFirst = sourceCode.getTokenBefore(firstBodyToken)
+          const firstBodyToken = sourceCode.getFirstToken(node.body, isNotOpeningParenToken)!
+          const tokenBeforeFirst = sourceCode.getTokenBefore(firstBodyToken)!
 
           if (isOpeningParenToken(tokenBeforeFirst) && isOpeningBraceToken(firstBodyToken))
             tokensToIgnore.add(firstBodyToken)
@@ -900,12 +918,12 @@ export default {
 
       ForInStatement(node) {
         if (node.left.type !== 'VariableDeclaration') {
-          const firstLeftToken = sourceCode.getFirstToken(node.left, isNotOpeningParenToken)
+          const firstLeftToken = sourceCode.getFirstToken(node.left, isNotOpeningParenToken)!
 
           if (
             firstLeftToken.value === 'let'
                         && isOpeningBracketToken(
-                          sourceCode.getTokenAfter(firstLeftToken, isNotClosingParenToken),
+                          sourceCode.getTokenAfter(firstLeftToken, isNotClosingParenToken)!,
                         )
           ) {
             // ForInStatement#left expression cannot start with `let[`.
@@ -922,7 +940,7 @@ export default {
 
       ForOfStatement(node) {
         if (node.left.type !== 'VariableDeclaration') {
-          const firstLeftToken = sourceCode.getFirstToken(node.left, isNotOpeningParenToken)
+          const firstLeftToken = sourceCode.getFirstToken(node.left, isNotOpeningParenToken)!
 
           if (firstLeftToken.value === 'let') {
             // ForOfStatement#left expression cannot start with `let`.
@@ -946,12 +964,12 @@ export default {
 
         if (node.init) {
           if (node.init.type !== 'VariableDeclaration') {
-            const firstToken = sourceCode.getFirstToken(node.init, isNotOpeningParenToken)
+            const firstToken = sourceCode.getFirstToken(node.init, isNotOpeningParenToken)!
 
             if (
               firstToken.value === 'let'
                             && isOpeningBracketToken(
-                              sourceCode.getTokenAfter(firstToken, isNotClosingParenToken),
+                              sourceCode.getTokenAfter(firstToken, isNotClosingParenToken)!,
                             )
             ) {
               // ForStatement#init expression cannot start with `let[`.
@@ -976,10 +994,10 @@ export default {
                  *      for (let a = b in c; ;);
                  */
 
-        if (reportsBuffer.reports.length) {
+        if (reportsBuffer?.reports.length) {
           reportsBuffer.inExpressionNodes.forEach((inExpressionNode) => {
             const path = pathToDescendant(node, inExpressionNode)
-            let nodeToExclude
+            let nodeToExclude: ASTNode | null = null
 
             for (let i = 0; i < path.length; i++) {
               const pathNode = path[i]
@@ -1019,8 +1037,9 @@ export default {
               }
             }
 
-            // Exclude the node from the list (i.e. treat parentheses as necessary)
-            removeFromCurrentReportsBuffer(nodeToExclude)
+            if (nodeToExclude)
+              // Exclude the node from the list (i.e. treat parentheses as necessary)
+              removeFromCurrentReportsBuffer(nodeToExclude)
           })
         }
 
@@ -1054,7 +1073,7 @@ export default {
           : hasExcessParens(node.object)
                     && !(
                       isImmediateFunctionPrototypeMethodCall(node.parent)
-                        && node.parent.callee === node
+                        && 'callee' in node.parent && node.parent.callee === node
                         && IGNORE_FUNCTION_PROTOTYPE_METHODS
                     )
 
@@ -1067,7 +1086,7 @@ export default {
                           isDecimalInteger(node.object)
 
                             // RegExp literal is allowed to have parens (#1589)
-                            || (node.object.type === 'Literal' && node.object.regex)
+                            || (node.object.type === 'Literal' && 'regex' in node.object && node.object.regex)
                         )
                     )
         )
@@ -1094,7 +1113,7 @@ export default {
           report(node.property)
       },
 
-      'MethodDefinition[computed=true]': function (node) {
+      'MethodDefinition[computed=true]': function (node: TSESTree.MethodDefinition) {
         if (hasExcessParensWithPrecedence(node.key, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           report(node.key)
       },
@@ -1103,7 +1122,7 @@ export default {
 
       ObjectExpression(node) {
         node.properties
-          .filter(property => property.value && hasExcessParensWithPrecedence(property.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          .filter((property): property is TSESTree.Property => property.type === 'Property' && property.value && hasExcessParensWithPrecedence(property.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           .forEach(property => report(property.value))
       },
 
@@ -1112,8 +1131,8 @@ export default {
           .filter((property) => {
             const value = property.value
 
-            return canBeAssignmentTarget(value) && hasExcessParens(value)
-          }).forEach(property => report(property.value))
+            return value && canBeAssignmentTarget(value) && hasExcessParens(value)
+          }).forEach(property => report(property.value!))
       },
 
       Property(node) {
@@ -1147,10 +1166,11 @@ export default {
           return
 
         if (node.argument
+                        && returnToken
                         && hasExcessParensNoLineTerminator(returnToken, node.argument)
 
                         // RegExp literal is allowed to have parens (#1589)
-                        && !(node.argument.type === 'Literal' && node.argument.regex))
+                        && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex))
           report(node.argument)
       },
 
@@ -1175,7 +1195,7 @@ export default {
       ThrowStatement(node) {
         const throwToken = sourceCode.getFirstToken(node)
 
-        if (hasExcessParensNoLineTerminator(throwToken, node.argument))
+        if (throwToken && node.argument && hasExcessParensNoLineTerminator(throwToken, node.argument))
           report(node.argument)
       },
 
@@ -1186,7 +1206,7 @@ export default {
         }
         else {
           const { argument } = node
-          const operatorToken = sourceCode.getLastToken(node)
+          const operatorToken = sourceCode.getLastToken(node)!
 
           if (argument.loc.end.line === operatorToken.loc.start.line) {
             checkArgumentWithPrecedence(node)
@@ -1204,7 +1224,7 @@ export default {
           node.init && hasExcessParensWithPrecedence(node.init, PRECEDENCE_OF_ASSIGNMENT_EXPR)
 
                     // RegExp literal is allowed to have parens (#1589)
-                    && !(node.init.type === 'Literal' && node.init.regex)
+                    && !(node.init.type === 'Literal' && 'regex' in node.init && node.init.regex)
         )
           report(node.init)
       },
@@ -1224,6 +1244,7 @@ export default {
           const yieldToken = sourceCode.getFirstToken(node)
 
           if ((precedence(node.argument) >= precedence(node)
+                            && yieldToken
                             && hasExcessParensNoLineTerminator(yieldToken, node.argument))
                             || hasDoubleExcessParens(node.argument))
             report(node.argument)
@@ -1235,7 +1256,6 @@ export default {
 
       'SpreadElement': checkSpreadOperator,
       'SpreadProperty': checkSpreadOperator,
-      'ExperimentalSpreadProperty': checkSpreadOperator,
 
       TemplateLiteral(node) {
         node.expressions
@@ -1254,4 +1274,4 @@ export default {
       },
     }
   },
-}
+})
