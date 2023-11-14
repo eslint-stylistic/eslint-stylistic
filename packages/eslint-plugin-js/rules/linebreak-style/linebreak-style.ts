@@ -3,14 +3,15 @@
  * @author Erik Mueller
  */
 
+import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -23,6 +24,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['unix', 'windows'],
       },
     ],
@@ -46,7 +48,7 @@ export default {
      * @returns {Function} Fixer function
      * @private
      */
-    function createFix(range, text) {
+    function createFix(range: Readonly<TSESTree.Range>, text: string): TSESLint.ReportFixFunction {
       return function (fixer) {
         return fixer.replaceTextRange(range, text)
       }
@@ -73,7 +75,7 @@ export default {
             continue
 
           const index = match.index
-          const range = [index, index + match[0].length]
+          const range = [index, index + match[0].length] as const
 
           context.report({
             node,
@@ -94,4 +96,4 @@ export default {
       },
     }
   },
-}
+})
