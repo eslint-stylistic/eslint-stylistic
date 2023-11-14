@@ -6,16 +6,11 @@
 import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
-type RuleOptions = ['unix' | 'windows']
-
-type MessageIds =
-  | 'expectedLF'
-  | 'expectedCRLF'
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {
