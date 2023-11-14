@@ -4,13 +4,15 @@
  */
 
 import { isNotSemicolonToken } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -44,7 +46,7 @@ export default {
 
     let lastStatementLine = 0
     let numberOfStatementsOnThisLine = 0
-    let firstExtraStatement
+    let firstExtraStatement: ASTNode | null = null
 
     // --------------------------------------------------------------------------
     // Helpers
@@ -76,7 +78,7 @@ export default {
      * @param {ASTNode} node A node to get. This is a node except EmptyStatement.
      * @returns {Token} The actual last token.
      */
-    function getActualLastToken(node) {
+    function getActualLastToken(node: ASTNode) {
       return sourceCode.getLastToken(node, isNotSemicolonToken)
     }
 
@@ -86,7 +88,7 @@ export default {
      * @param {ASTNode} node A node to check.
      * @returns {void}
      */
-    function enterStatement(node) {
+    function enterStatement(node: ASTNode) {
       const line = node.loc.start.line
 
       /*
@@ -94,8 +96,9 @@ export default {
              * `if (a) foo();` is counted as 1.
              * But `if (a) foo(); else foo();` should be counted as 2.
              */
-      if (SINGLE_CHILD_ALLOWED.test(node.parent.type)
-                && node.parent.alternate !== node
+      if (node.parent
+                && SINGLE_CHILD_ALLOWED.test(node.parent.type)
+                && (!('alternate' in node.parent) || node.parent.alternate !== node)
       )
         return
 
@@ -119,8 +122,8 @@ export default {
      * @param {ASTNode} node A node to check.
      * @returns {void}
      */
-    function leaveStatement(node) {
-      const line = getActualLastToken(node).loc.end.line
+    function leaveStatement(node: ASTNode) {
+      const line = getActualLastToken(node)!.loc.end.line
 
       // Update state.
       if (line !== lastStatementLine) {
@@ -185,4 +188,4 @@ export default {
       'Program:exit': reportFirstExtraStatementAndClear,
     }
   },
-}
+})
