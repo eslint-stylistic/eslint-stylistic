@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent line breaks inside function parentheses',
-      recommended: false,
       url: 'https://eslint.style/rules/js/function-paren-newline',
     },
 

@@ -35,7 +35,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent spacing before blocks',
-      recommended: false,
       url: 'https://eslint.style/rules/js/space-before-blocks',
     },
 
@@ -111,16 +110,16 @@ export default {
     function isConflicted(precedingToken, node) {
       return (
         isArrowToken(precedingToken)
-                || (
-                  isKeywordToken(precedingToken)
-                    && !isFunctionBody(node)
-                )
-                || (
-                  isColonToken(precedingToken)
-                    && node.parent
-                    && node.parent.type === 'SwitchCase'
-                    && precedingToken === getSwitchCaseColonToken(node.parent, sourceCode)
-                )
+          || (
+            isKeywordToken(precedingToken)
+              && !isFunctionBody(node)
+          )
+          || (
+            isColonToken(precedingToken)
+              && node.parent
+              && node.parent.type === 'SwitchCase'
+              && precedingToken === getSwitchCaseColonToken(node.parent, sourceCode)
+          )
       )
     }
 

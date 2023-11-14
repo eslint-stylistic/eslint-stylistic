@@ -46,7 +46,6 @@ export default {
     docs: {
       description: 'Enforce consistent linebreaks in curly braces in JSX attributes and expressions',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-curly-newline'),
     },
 

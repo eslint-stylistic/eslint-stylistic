@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent spacing inside parentheses',
-      recommended: false,
       url: 'https://eslint.style/rules/js/space-in-parens',
     },
 

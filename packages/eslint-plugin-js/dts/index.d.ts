@@ -1,4 +1,4 @@
-import type { ESLint } from 'eslint'
+import type { ESLint, Linter } from 'eslint'
 import type { UnprefixedRuleOptions } from './rule-options'
 
 export type * from './rule-options'
@@ -9,6 +9,9 @@ export type Rules = {
 
 declare const plugin: {
   rules: Rules
+  configs: {
+    'disable-legacy': Linter.FlatConfig
+  }
 }
 
 export default plugin

@@ -76,7 +76,6 @@ export default {
 
     docs: {
       description: 'Enforce location of semicolons',
-      recommended: false,
       url: 'https://eslint.style/rules/js/semi-style',
     },
 

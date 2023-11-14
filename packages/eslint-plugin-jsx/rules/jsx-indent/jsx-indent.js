@@ -50,7 +50,6 @@ export default {
     docs: {
       description: 'Enforce JSX indentation',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-indent'),
     },
     fixable: 'whitespace',

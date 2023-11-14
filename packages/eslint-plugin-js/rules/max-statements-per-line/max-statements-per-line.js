@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce a maximum number of statements allowed per line',
-      recommended: false,
       url: 'https://eslint.style/rules/js/max-statements-per-line',
     },
 

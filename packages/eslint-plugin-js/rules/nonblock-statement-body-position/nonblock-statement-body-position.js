@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce the location of single-line statements',
-      recommended: false,
       url: 'https://eslint.style/rules/js/nonblock-statement-body-position',
     },
 

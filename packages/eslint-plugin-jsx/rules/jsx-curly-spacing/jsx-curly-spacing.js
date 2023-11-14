@@ -38,7 +38,6 @@ export default {
     docs: {
       description: 'Enforce or disallow spaces inside of curly braces in JSX attributes and expressions',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-curly-spacing'),
     },
     fixable: 'code',

@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce line breaks after each array element',
-      recommended: false,
       url: 'https://eslint.style/rules/js/array-element-newline',
     },
 

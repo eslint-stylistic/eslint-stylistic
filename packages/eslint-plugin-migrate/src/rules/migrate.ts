@@ -17,7 +17,17 @@ export default createEslintRule<[Pick<MigrationOption, 'namespaceTo'>], 'migrate
     messages: {
       migrate: 'Should migrate stylistic rule \'{{from}}\' to \'{{to}}\'',
     },
-    schema: undefined!,
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          namespaceTo: {
+            type: 'string',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
   },
   defaultOptions: [{
     namespaceTo: '@stylistic',

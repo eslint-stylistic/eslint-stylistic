@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Disallow whitespace before properties',
-      recommended: false,
       url: 'https://eslint.style/rules/js/no-whitespace-before-property',
     },
 

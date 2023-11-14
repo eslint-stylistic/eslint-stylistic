@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent spacing inside braces',
-      recommended: false,
       url: 'https://eslint.style/rules/js/object-curly-spacing',
     },
 

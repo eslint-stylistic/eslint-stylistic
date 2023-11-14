@@ -369,7 +369,6 @@ export default {
 
     docs: {
       description: 'Require or disallow padding lines between statements',
-      recommended: false,
       url: 'https://eslint.style/rules/js/padding-line-between-statements',
     },
 

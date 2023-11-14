@@ -339,7 +339,6 @@ export default {
     docs: {
       description: 'Enforce props alphabetical sorting',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-sort-props'),
     },
     fixable: 'code',

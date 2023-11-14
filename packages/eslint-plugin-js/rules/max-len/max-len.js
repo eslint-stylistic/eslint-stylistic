@@ -68,7 +68,6 @@ export default {
 
     docs: {
       description: 'Enforce a maximum line length',
-      recommended: false,
       url: 'https://eslint.style/rules/js/max-len',
     },
 

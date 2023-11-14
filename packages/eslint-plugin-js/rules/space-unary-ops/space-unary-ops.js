@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent spacing before or after unary operators',
-      recommended: false,
       url: 'https://eslint.style/rules/js/space-unary-ops',
     },
 

@@ -8,7 +8,7 @@
 import { RuleTester } from 'eslint'
 import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
-import parsers from '../../tests/helpers/parsers'
+import parsers from '../../test-utils/parsers'
 import rule from './jsx-curly-brace-presence'
 
 const parserOptions = {

@@ -10,7 +10,8 @@
 | [`@stylistic/ts/brace-style`](./rules/brace-style) | Enforce consistent brace style for blocks | ✅ |  |
 | [`@stylistic/ts/comma-dangle`](./rules/comma-dangle) | Require or disallow trailing commas | ✅ |  |
 | [`@stylistic/ts/comma-spacing`](./rules/comma-spacing) | Enforce consistent spacing before and after commas | ✅ |  |
-| [`@stylistic/ts/func-call-spacing`](./rules/func-call-spacing) | Require or disallow spacing between function identifiers and their invocations | ✅ |  |
+| [`@stylistic/ts/func-call-spacing`](./rules/func-call-spacing) | Require or disallow spacing between function identifiers and their invocations. Alias of `function-call-spacing`.. Alias of `function-call-spacing`. | ✅ |  |
+| [`@stylistic/ts/function-call-spacing`](./rules/function-call-spacing) | Require or disallow spacing between function identifiers and their invocations | ✅ |  |
 | [`@stylistic/ts/indent`](./rules/indent) | Enforce consistent indentation | ✅ |  |
 | [`@stylistic/ts/key-spacing`](./rules/key-spacing) | Enforce consistent spacing between property names and type annotations in types and interfaces | ✅ |  |
 | [`@stylistic/ts/keyword-spacing`](./rules/keyword-spacing) | Enforce consistent spacing before and after keywords | ✅ |  |

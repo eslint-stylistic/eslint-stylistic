@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce spacing around colons of switch statements',
-      recommended: false,
       url: 'https://eslint.style/rules/js/switch-colon-spacing',
     },
 

@@ -8,7 +8,20 @@ const valids = [
       '@stylistic/indent': 'error',
     },
   },
-].map(json => `module.exports = ${JSON.stringify(json, null, 2)}`)
+].flatMap(json => [
+  {
+    code: `module.exports = ${JSON.stringify(json, null, 2)}`,
+    filename: '.eslintrc.js',
+  },
+  {
+    code: `${JSON.stringify(json, null, 2)}`,
+    filename: '.eslintrc.json',
+  },
+  {
+    code: `export default ${JSON.stringify(json, null, 2)}`,
+    filename: 'eslint.config.js',
+  },
+])
 
 const invalids = [
   [
@@ -50,12 +63,29 @@ const invalids = [
       namespaceTo: 'style',
     },
   ],
-].map(([from, to, options]) => ({
-  code: `module.exports = ${JSON.stringify(from, null, 2)}`,
-  output: `module.exports = ${JSON.stringify(to, null, 2)}`,
-  errors: [{ messageId: 'migrate' }],
-  options: [options] as any,
-}))
+].flatMap(([from, to, options = {}]) => [
+  {
+    code: `module.exports = ${JSON.stringify(from, null, 2)}`,
+    output: `module.exports = ${JSON.stringify(to, null, 2)}`,
+    filename: '.eslintrc.js',
+    errors: [{ messageId: 'migrate' }],
+    options: [options] as any,
+  },
+  {
+    code: `${JSON.stringify(from, null, 2)}`,
+    output: `${JSON.stringify(to, null, 2)}`,
+    filename: '.eslintrc.json',
+    errors: [{ messageId: 'migrate' }],
+    options: [options] as any,
+  },
+  {
+    code: `export default ${JSON.stringify(from, null, 2)}`,
+    output: `export default ${JSON.stringify(to, null, 2)}`,
+    filename: 'eslint.config.js',
+    errors: [{ messageId: 'migrate' }],
+    options: [options] as any,
+  },
+])
 
 const ruleTester: RuleTester = new RuleTester()
 

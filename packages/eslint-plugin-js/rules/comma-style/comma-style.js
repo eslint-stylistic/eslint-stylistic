@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent comma style',
-      recommended: false,
       url: 'https://eslint.style/rules/js/comma-style',
     },
 

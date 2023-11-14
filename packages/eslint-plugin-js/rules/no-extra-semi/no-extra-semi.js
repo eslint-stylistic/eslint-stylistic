@@ -13,11 +13,10 @@ import FixTracker from '../../utils/fix-tracker'
 /** @type {import('eslint').Rule.RuleModule} */
 export default {
   meta: {
-    type: 'suggestion',
+    type: 'layout',
 
     docs: {
       description: 'Disallow unnecessary semicolons',
-      recommended: true,
       url: 'https://eslint.style/rules/js/no-extra-semi',
     },
 

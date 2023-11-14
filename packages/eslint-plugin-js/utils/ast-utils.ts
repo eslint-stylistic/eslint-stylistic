@@ -4,14 +4,14 @@
  */
 
 import type * as ESTree from 'estree'
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
 import type { SourceCode } from 'eslint'
 import type { AstNode } from 'rollup'
-import type { ASTNode, Token } from './types'
+import type { ASTNode, ESNode, Token } from './types'
 
 const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
 
@@ -396,11 +396,10 @@ export function isMixedLogicalAndCoalesceExpressions(left: ASTNode, right: ASTNo
  * @param {SourceCode} sourceCode The source code object to get tokens.
  * @returns {Token} The colon token of the node.
  */
-export function getSwitchCaseColonToken(node: ASTNode, sourceCode: SourceCode) {
+export function getSwitchCaseColonToken(node: ASTNode, sourceCode: TSESLint.SourceCode) {
   if ('test' in node && node.test)
-    return sourceCode.getTokenAfter(node.test as ESTree.Node, isColonToken)
-
-  return sourceCode.getFirstToken(node as ESTree.Node, 1)
+    return sourceCode.getTokenAfter(node.test, token => isColonToken(token))
+  return sourceCode.getFirstToken(node, 1)
 }
 
 /**
@@ -437,7 +436,7 @@ export function isDirective(node: ASTNode) {
  * @returns {boolean} Whether or not the tokens are on the same line.
  * @public
  */
-export function isTokenOnSameLine(left: Token | null, right: Token | null) {
+export function isTokenOnSameLine(left: Token | ESNode | ASTNode | null, right: Token | ESNode | ASTNode | null) {
   return left?.loc?.end.line === right?.loc?.start.line
 }
 

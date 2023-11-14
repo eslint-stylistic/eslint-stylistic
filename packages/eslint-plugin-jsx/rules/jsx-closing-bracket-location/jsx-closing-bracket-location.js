@@ -21,7 +21,6 @@ export default {
     docs: {
       description: 'Enforce closing bracket location in JSX',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-closing-bracket-location'),
     },
     fixable: 'code',

@@ -21,7 +21,6 @@ export default {
     docs: {
       description: 'Enforce closing tag location for multiline JSX',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-closing-tag-location'),
     },
     fixable: 'whitespace',

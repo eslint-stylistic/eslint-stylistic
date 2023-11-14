@@ -61,7 +61,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent spacing before and after keywords',
-      recommended: false,
       url: 'https://eslint.style/rules/js/keyword-spacing',
     },
 

@@ -3,7 +3,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parsers from '../../tests/helpers/parsers'
+import parsers from '../../test-utils/parsers'
 import rule from './jsx-curly-newline'
 
 const parserOptions = {

@@ -30,7 +30,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent spacing around `*` operators in generator functions',
-      recommended: false,
       url: 'https://eslint.style/rules/js/generator-star-spacing',
     },
 

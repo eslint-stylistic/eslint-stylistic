@@ -37,7 +37,6 @@ export default {
 
     docs: {
       description: 'Enforce the consistent use of either double or single quotes in JSX attributes',
-      recommended: false,
       url: 'https://eslint.style/rules/js/jsx-quotes',
     },
 

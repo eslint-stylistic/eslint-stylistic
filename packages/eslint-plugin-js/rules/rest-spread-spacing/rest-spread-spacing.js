@@ -14,7 +14,6 @@ export default {
 
     docs: {
       description: 'Enforce spacing between rest and spread operators and their expressions',
-      recommended: false,
       url: 'https://eslint.style/rules/js/rest-spread-spacing',
     },
 

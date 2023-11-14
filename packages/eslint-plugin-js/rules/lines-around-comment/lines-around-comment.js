@@ -51,7 +51,6 @@ export default {
 
     docs: {
       description: 'Require empty lines around comments',
-      recommended: false,
       url: 'https://eslint.style/rules/js/lines-around-comment',
     },
 

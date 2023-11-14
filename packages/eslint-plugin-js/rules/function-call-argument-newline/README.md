@@ -3,7 +3,7 @@ title: function-call-argument-newline
 rule_type: layout
 related_rules:
 - function-paren-newline
-- func-call-spacing
+- function-call-spacing
 - object-property-newline
 - array-element-newline
 ---

@@ -26,11 +26,10 @@ function isConditional(node) {
 /** @type {import('eslint').Rule.RuleModule} */
 export default {
   meta: {
-    type: 'suggestion',
+    type: 'layout',
 
     docs: {
       description: 'Disallow arrow functions where they could be confused with comparisons',
-      recommended: false,
       url: 'https://eslint.style/rules/js/no-confusing-arrow',
     },
 

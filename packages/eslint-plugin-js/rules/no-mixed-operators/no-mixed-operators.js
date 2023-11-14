@@ -79,11 +79,10 @@ function getChildNode(node) {
 /** @type {import('eslint').Rule.RuleModule} */
 export default {
   meta: {
-    type: 'suggestion',
+    type: 'layout',
 
     docs: {
       description: 'Disallow mixed binary operators',
-      recommended: false,
       url: 'https://eslint.style/rules/js/no-mixed-operators',
     },
 

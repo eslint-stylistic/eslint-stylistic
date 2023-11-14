@@ -148,7 +148,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent line breaks after opening and before closing braces',
-      recommended: false,
       url: 'https://eslint.style/rules/js/object-curly-newline',
     },
 

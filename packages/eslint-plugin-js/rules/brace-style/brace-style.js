@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent brace style for blocks',
-      recommended: false,
       url: 'https://eslint.style/rules/js/brace-style',
     },
 

@@ -39,7 +39,6 @@ export default {
     docs: {
       description: 'Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-curly-brace-presence'),
     },
     fixable: 'code',

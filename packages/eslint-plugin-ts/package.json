@@ -1,6 +1,6 @@
 {
   "name": "@stylistic/eslint-plugin-ts",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
@@ -29,6 +29,7 @@
     "./rules/comma-dangle": "./dist/comma-dangle.js",
     "./rules/comma-spacing": "./dist/comma-spacing.js",
     "./rules/func-call-spacing": "./dist/func-call-spacing.js",
+    "./rules/function-call-spacing": "./dist/function-call-spacing.js",
     "./rules/indent": "./dist/indent.js",
     "./rules/key-spacing": "./dist/key-spacing.js",
     "./rules/keyword-spacing": "./dist/keyword-spacing.js",

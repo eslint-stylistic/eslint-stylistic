@@ -13,8 +13,8 @@ import type { RuleOptions as CommaStyleRuleOptions } from '../rules/comma-style/
 import type { RuleOptions as ComputedPropertySpacingRuleOptions } from '../rules/computed-property-spacing/types'
 import type { RuleOptions as DotLocationRuleOptions } from '../rules/dot-location/types'
 import type { RuleOptions as EolLastRuleOptions } from '../rules/eol-last/types'
-import type { RuleOptions as FuncCallSpacingRuleOptions } from '../rules/func-call-spacing/types'
 import type { RuleOptions as FunctionCallArgumentNewlineRuleOptions } from '../rules/function-call-argument-newline/types'
+import type { RuleOptions as FunctionCallSpacingRuleOptions } from '../rules/function-call-spacing/types'
 import type { RuleOptions as FunctionParenNewlineRuleOptions } from '../rules/function-paren-newline/types'
 import type { RuleOptions as GeneratorStarSpacingRuleOptions } from '../rules/generator-star-spacing/types'
 import type { RuleOptions as ImplicitArrowLinebreakRuleOptions } from '../rules/implicit-arrow-linebreak/types'
@@ -135,15 +135,20 @@ export interface RuleOptions {
    */
   '@stylistic/js/eol-last': EolLastRuleOptions
   /**
-   * Require or disallow spacing between function identifiers and their invocations
-   * @see https://eslint.style/rules/js/func-call-spacing
+   * Require or disallow spacing between function identifiers and their invocations. Alias of `function-call-spacing`.
+   * @see https://eslint.style/rules/js/function-call-spacing
    */
-  '@stylistic/js/func-call-spacing': FuncCallSpacingRuleOptions
+  '@stylistic/js/func-call-spacing': FunctionCallSpacingRuleOptions
   /**
    * Enforce line breaks between arguments of a function call
    * @see https://eslint.style/rules/js/function-call-argument-newline
    */
   '@stylistic/js/function-call-argument-newline': FunctionCallArgumentNewlineRuleOptions
+  /**
+   * Require or disallow spacing between function identifiers and their invocations
+   * @see https://eslint.style/rules/js/function-call-spacing
+   */
+  '@stylistic/js/function-call-spacing': FunctionCallSpacingRuleOptions
   /**
    * Enforce consistent line breaks inside function parentheses
    * @see https://eslint.style/rules/js/function-paren-newline
@@ -473,15 +478,20 @@ export interface UnprefixedRuleOptions {
    */
   'eol-last': EolLastRuleOptions
   /**
-   * Require or disallow spacing between function identifiers and their invocations
-   * @see https://eslint.style/rules/js/func-call-spacing
+   * Require or disallow spacing between function identifiers and their invocations. Alias of `function-call-spacing`.
+   * @see https://eslint.style/rules/js/function-call-spacing
    */
-  'func-call-spacing': FuncCallSpacingRuleOptions
+  'func-call-spacing': FunctionCallSpacingRuleOptions
   /**
    * Enforce line breaks between arguments of a function call
    * @see https://eslint.style/rules/js/function-call-argument-newline
    */
   'function-call-argument-newline': FunctionCallArgumentNewlineRuleOptions
+  /**
+   * Require or disallow spacing between function identifiers and their invocations
+   * @see https://eslint.style/rules/js/function-call-spacing
+   */
+  'function-call-spacing': FunctionCallSpacingRuleOptions
   /**
    * Enforce consistent line breaks inside function parentheses
    * @see https://eslint.style/rules/js/function-paren-newline

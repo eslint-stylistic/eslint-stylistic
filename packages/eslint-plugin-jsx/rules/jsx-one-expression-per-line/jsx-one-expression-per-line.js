@@ -24,7 +24,6 @@ export default {
     docs: {
       description: 'Require one JSX element per line',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-one-expression-per-line'),
     },
     fixable: 'whitespace',

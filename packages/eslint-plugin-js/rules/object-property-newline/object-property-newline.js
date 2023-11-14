@@ -14,7 +14,6 @@ export default {
 
     docs: {
       description: 'Enforce placing object properties on separate lines',
-      recommended: false,
       url: 'https://eslint.style/rules/js/object-property-newline',
     },
 

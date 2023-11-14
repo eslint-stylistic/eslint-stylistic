@@ -75,7 +75,6 @@ export default {
 
     docs: {
       description: 'Enforce the consistent use of either backticks, double, or single quotes',
-      recommended: false,
       url: 'https://eslint.style/rules/js/quotes',
     },
 

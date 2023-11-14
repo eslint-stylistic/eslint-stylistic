@@ -7,6 +7,7 @@ export default antfu(
     ignores: [
       '**/*.md',
       '**/fixtures/**',
+      '**/playground/**',
       'packages/metadata/src/metadata.ts',
     ],
   },

@@ -15,7 +15,20 @@ export default createEslintRule<[MigrationOption], 'migrate'>({
     messages: {
       migrate: 'Should migrate stylistic rule \'{{from}}\' to \'{{to}}\'',
     },
-    schema: undefined!,
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          namespaceTo: {
+            type: 'string',
+          },
+          namespaceFrom: {
+            type: 'string',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
   },
   defaultOptions: [{
     namespaceFrom: '@typescript-eslint',

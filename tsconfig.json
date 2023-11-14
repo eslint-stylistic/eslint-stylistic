@@ -19,12 +19,11 @@
         "./packages/eslint-plugin-jsx/src/index.ts"
       ],
       "@stylistic/eslint-plugin": [
-        "./packages/eslint-plugin/src/index.ts",
-        "./packages/eslint-plugin/dts/index.d.ts"
+        "./packages/eslint-plugin/src/index.ts"
       ]
     },
     "resolveJsonModule": true,
-    "allowJs": false,
+    "allowJs": true,
     "strict": true,
     "strictNullChecks": true,
     "esModuleInterop": true,
@@ -32,6 +31,7 @@
     "skipLibCheck": true
   },
   "include": [
+    "playground/eslint.config.js",
     "**/*.d.ts",
     "**/*.ts",
     "**/*.mts",

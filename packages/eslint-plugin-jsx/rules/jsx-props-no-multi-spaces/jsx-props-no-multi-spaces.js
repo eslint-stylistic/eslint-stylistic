@@ -20,7 +20,6 @@ export default {
     docs: {
       description: 'Disallow multiple spaces between inline JSX props',
       category: 'Stylistic Issues',
-      recommended: false,
       url: docsUrl('jsx-props-no-multi-spaces'),
     },
     fixable: 'code',

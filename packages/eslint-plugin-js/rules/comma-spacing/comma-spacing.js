@@ -16,7 +16,6 @@ export default {
 
     docs: {
       description: 'Enforce consistent spacing before and after commas',
-      recommended: false,
       url: 'https://eslint.style/rules/js/comma-spacing',
     },
 
