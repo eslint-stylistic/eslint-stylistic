@@ -39,33 +39,43 @@ ruleTester.run('no-mixed-spaces-and-tabs', rule, {
     },
     {
       code: '/*\n\t */`\n\t   `;',
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '/*\n\t */var a = `\n\t   `, b = `\n\t   `/*\t \n\t \n*/;',
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '/*\t `template inside comment` */',
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: 'var foo = `\t /* comment inside template\t */`;',
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '`\n\t   `;',
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '`\n\t   \n`;',
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '`\t   `;',
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: 'const foo = `${console}\n\t foo`;',
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '`\t   `;`   \t`',
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '`foo${ 5 }\t    `;',
+      parserOptions: { ecmaVersion: 6 },
     },
     '\' \t\\\n\t multiline string\';',
     '\'\t \\\n \tmultiline string\';',
@@ -263,6 +273,7 @@ ruleTester.run('no-mixed-spaces-and-tabs', rule, {
     {
       code: '`foo${\n \t  5 }bar`;',
       options: ['smart-tabs'],
+      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
@@ -276,6 +287,7 @@ ruleTester.run('no-mixed-spaces-and-tabs', rule, {
     },
     {
       code: '`foo${\n\t  5 }bar`;',
+      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
