@@ -4,14 +4,16 @@
  * @author Burak Yigit Kaya
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
 import { LINEBREAK_MATCHER, isNotClosingParenToken, isTokenOnSameLine, skipChainExpression } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -52,7 +54,7 @@ export default {
      * @param {ASTNode} node A MemberExpression node to get
      * @returns {string} The prefix of the node.
      */
-    function getPrefix(node) {
+    function getPrefix(node: TSESTree.MemberExpression) {
       if (node.computed) {
         if (node.optional)
           return '?.['
@@ -71,7 +73,7 @@ export default {
      * @param {ASTNode} node A MemberExpression node to get.
      * @returns {string} The property text of the node.
      */
-    function getPropertyText(node) {
+    function getPropertyText(node: TSESTree.MemberExpression) {
       const prefix = getPrefix(node)
       const lines = sourceCode.getText(node.property).split(LINEBREAK_MATCHER)
       const suffix = node.computed && lines.length === 1 ? ']' : ''
@@ -80,7 +82,7 @@ export default {
     }
 
     return {
-      'CallExpression:exit': function (node) {
+      'CallExpression:exit': function (node: TSESTree.CallExpression) {
         const callee = skipChainExpression(node.callee)
 
         if (callee.type !== 'MemberExpression')
@@ -89,13 +91,16 @@ export default {
         let parent = skipChainExpression(callee.object)
         let depth = 1
 
-        while (parent && parent.callee) {
+        while (parent && 'callee' in parent && parent.callee) {
           depth += 1
-          parent = skipChainExpression(skipChainExpression(parent.callee).object)
+          const parentCallee = skipChainExpression(parent.callee)
+          if (!('object' in parentCallee))
+            continue
+          parent = skipChainExpression(parentCallee)
         }
 
         if (depth > ignoreChainWithDepth && isTokenOnSameLine(callee.object, callee.property)) {
-          const firstTokenAfterObject = sourceCode.getTokenAfter(callee.object, isNotClosingParenToken)
+          const firstTokenAfterObject = sourceCode.getTokenAfter(callee.object, isNotClosingParenToken)!
 
           context.report({
             node: callee.property,
@@ -115,4 +120,4 @@ export default {
       },
     }
   },
-}
+})
