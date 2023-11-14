@@ -96,7 +96,7 @@ export default createRule<MessageIds, RuleOptions>({
           const parentCallee = skipChainExpression(parent.callee)
           if (!('object' in parentCallee))
             break
-          parent = skipChainExpression(parentCallee)
+          parent = skipChainExpression(parentCallee.object)
         }
 
         if (depth > ignoreChainWithDepth && isTokenOnSameLine(callee.object, callee.property)) {
