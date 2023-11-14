@@ -3,14 +3,17 @@
  * @author Nodeca Team <https://github.com/nodeca>
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
 import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -61,7 +64,7 @@ export default {
      * @param {int[]} fixRange Range based on the whole program
      * @returns {void}
      */
-    function report(node, location, fixRange) {
+    function report(node: ASTNode, location: TSESTree.Position | TSESTree.SourceLocation, fixRange: Readonly<TSESTree.Range>) {
       /*
              * Passing node is a bit dirty, because message data will contain big
              * text in `source`. But... who cares :) ?
@@ -83,7 +86,7 @@ export default {
      * @param {Array} comments An array of comment nodes.
      * @returns {number[]} An array of line numbers containing comments.
      */
-    function getCommentLineNumbers(comments) {
+    function getCommentLineNumbers(comments: TSESTree.Comment[]) {
       const lines = new Set()
 
       comments.forEach((comment) => {
@@ -118,7 +121,6 @@ export default {
         const commentLineNumbers = getCommentLineNumbers(comments)
 
         let totalLength = 0
-        let fixRange = []
 
         for (let i = 0, ii = lines.length; i < ii; i++) {
           const lineNumber = i + 1
@@ -165,7 +167,7 @@ export default {
               continue
             }
 
-            fixRange = [rangeStart, rangeEnd]
+            const fixRange = [rangeStart, rangeEnd] as const
 
             if (!ignoreComments || !commentLineNumbers.has(lineNumber))
               report(node, location, fixRange)
@@ -177,4 +179,4 @@ export default {
 
     }
   },
-}
+})
