@@ -4,6 +4,9 @@
  */
 
 import { isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -33,7 +36,7 @@ const SELECTOR = [
  * @param {Node} node A node to get child node list.
  * @returns {Node[]|null} The child node list.
  */
-function getChildren(node) {
+function getChildren(node: ASTNode) {
   const t = node.type
 
   if (
@@ -55,7 +58,9 @@ function getChildren(node) {
  * @param {Node} node A node to check.
  * @returns {boolean} `true` if the node is the last statement in the parent block.
  */
-function isLastChild(node) {
+function isLastChild(node: ASTNode) {
+  if (!node.parent)
+    return true
   const t = node.parent.type
 
   if (t === 'IfStatement' && node.parent.consequent === node && node.parent.alternate) { // before `else` keyword.
@@ -69,8 +74,7 @@ function isLastChild(node) {
   return nodeList !== null && nodeList[nodeList.length - 1] === node // before `}` or etc.
 }
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -79,7 +83,7 @@ export default {
       url: 'https://eslint.style/rules/js/semi-style',
     },
 
-    schema: [{ enum: ['last', 'first'] }],
+    schema: [{ type: 'string', enum: ['last', 'first'] }],
     fixable: 'whitespace',
 
     messages: {
@@ -97,7 +101,7 @@ export default {
      * @param {"first"|"last"} expected The expected location to check.
      * @returns {void}
      */
-    function check(semiToken, expected) {
+    function check(semiToken: Token, expected: 'last' | 'first') {
       const prevToken = sourceCode.getTokenBefore(semiToken)
       const nextToken = sourceCode.getTokenAfter(semiToken)
       const prevIsSameLine = !prevToken || isTokenOnSameLine(prevToken, semiToken)
@@ -131,7 +135,7 @@ export default {
         if (option === 'first' && isLastChild(node))
           return
 
-        const lastToken = sourceCode.getLastToken(node)
+        const lastToken = sourceCode.getLastToken(node)!
 
         if (isSemicolonToken(lastToken))
           check(lastToken, option)
@@ -149,4 +153,4 @@ export default {
       },
     }
   },
-}
+})
