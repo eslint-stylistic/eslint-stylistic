@@ -3,6 +3,8 @@
  * @author Gyandeep Singh
  */
 
+import { createRule } from '../../utils/createRule'
+
 // ------------------------------------------------------------------------------
 // Helpers
 // ------------------------------------------------------------------------------
@@ -14,8 +16,7 @@ const anyNonWhitespaceRegex = /\S/u
 // Public Interface
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -71,4 +72,4 @@ export default {
       },
     }
   },
-}
+})
