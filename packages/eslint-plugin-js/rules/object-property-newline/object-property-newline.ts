@@ -3,12 +3,14 @@
  * @author Vitor Balocco
  */
 
+import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
+
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -56,8 +58,8 @@ export default {
       ObjectExpression(node) {
         if (allowSameLine) {
           if (node.properties.length > 1) {
-            const firstTokenOfFirstProperty = sourceCode.getFirstToken(node.properties[0])
-            const lastTokenOfLastProperty = sourceCode.getLastToken(node.properties[node.properties.length - 1])
+            const firstTokenOfFirstProperty = sourceCode.getFirstToken(node.properties[0])!
+            const lastTokenOfLastProperty = sourceCode.getLastToken(node.properties[node.properties.length - 1])!
 
             if (firstTokenOfFirstProperty.loc.end.line === lastTokenOfLastProperty.loc.start.line) {
               // All keys and values are on the same line
@@ -67,8 +69,8 @@ export default {
         }
 
         for (let i = 1; i < node.properties.length; i++) {
-          const lastTokenOfPreviousProperty = sourceCode.getLastToken(node.properties[i - 1])
-          const firstTokenOfCurrentProperty = sourceCode.getFirstToken(node.properties[i])
+          const lastTokenOfPreviousProperty = sourceCode.getLastToken(node.properties[i - 1])!
+          const firstTokenOfCurrentProperty = sourceCode.getFirstToken(node.properties[i])!
 
           if (lastTokenOfPreviousProperty.loc.end.line === firstTokenOfCurrentProperty.loc.start.line) {
             context.report({
@@ -76,8 +78,8 @@ export default {
               loc: firstTokenOfCurrentProperty.loc,
               messageId,
               fix(fixer) {
-                const comma = sourceCode.getTokenBefore(firstTokenOfCurrentProperty)
-                const rangeAfterComma = [comma.range[1], firstTokenOfCurrentProperty.range[0]]
+                const comma = sourceCode.getTokenBefore(firstTokenOfCurrentProperty)!
+                const rangeAfterComma = [comma.range[1], firstTokenOfCurrentProperty.range[0]] as const
 
                 // Don't perform a fix if there are any comments between the comma and the next property.
                 if (sourceCode.text.slice(rangeAfterComma[0], rangeAfterComma[1]).trim())
@@ -91,4 +93,4 @@ export default {
       },
     }
   },
-}
+})
