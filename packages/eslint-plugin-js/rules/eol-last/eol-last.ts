@@ -9,7 +9,6 @@ import { createRule } from '../../utils/createRule'
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
 export default createRule({
   meta: {
     type: 'layout',
