@@ -34,11 +34,11 @@ const NEITHER = { before: false, after: false }
  * @param {object} value A value to override.
  * @returns {object} An option object to test an "overrides" option.
  */
-function override(keyword, value) {
+function override(keyword: string, value: { before?: boolean; after?: boolean }) {
   const retv = {
     before: value.before === false,
     after: value.after === false,
-    overrides: {},
+    overrides: <Record<string, { before?: boolean; after?: boolean }>>{},
   }
 
   retv.overrides[keyword] = value
@@ -51,7 +51,7 @@ function override(keyword, value) {
  * @param {string} keyword A keyword.
  * @returns {string[]} An error message.
  */
-function expectedBefore(keyword) {
+function expectedBefore(keyword: string) {
   return [{ messageId: 'expectedBefore', data: { value: keyword } }]
 }
 
@@ -60,7 +60,7 @@ function expectedBefore(keyword) {
  * @param {string} keyword A keyword.
  * @returns {string[]} An error message.
  */
-function expectedAfter(keyword) {
+function expectedAfter(keyword: string) {
   return [{ messageId: 'expectedAfter', data: { value: keyword } }]
 }
 
@@ -70,7 +70,7 @@ function expectedAfter(keyword) {
  * @param {string} keyword A keyword.
  * @returns {string[]} Error messages.
  */
-function expectedBeforeAndAfter(keyword) {
+function expectedBeforeAndAfter(keyword: string) {
   return [
     { messageId: 'expectedBefore', data: { value: keyword } },
     { messageId: 'expectedAfter', data: { value: keyword } },
@@ -82,7 +82,7 @@ function expectedBeforeAndAfter(keyword) {
  * @param {string} keyword A keyword.
  * @returns {string[]} An error message.
  */
-function unexpectedBefore(keyword) {
+function unexpectedBefore(keyword: string) {
   return [{ messageId: 'unexpectedBefore', data: { value: keyword } }]
 }
 
@@ -91,7 +91,7 @@ function unexpectedBefore(keyword) {
  * @param {string} keyword A keyword.
  * @returns {string[]} An error message.
  */
-function unexpectedAfter(keyword) {
+function unexpectedAfter(keyword: string) {
   return [{ messageId: 'unexpectedAfter', data: { value: keyword } }]
 }
 
@@ -101,7 +101,7 @@ function unexpectedAfter(keyword) {
  * @param {string} keyword A keyword.
  * @returns {string[]} Error messages.
  */
-function unexpectedBeforeAndAfter(keyword) {
+function unexpectedBeforeAndAfter(keyword: string) {
   return [
     { messageId: 'unexpectedBefore', data: { value: keyword } },
     { messageId: 'unexpectedAfter', data: { value: keyword } },
