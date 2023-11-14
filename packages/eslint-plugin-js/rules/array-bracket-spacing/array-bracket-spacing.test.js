@@ -3,22 +3,15 @@
  * @author Ian Christian Myers
  */
 
-import { resolve } from 'node:path'
 import { RuleTester } from 'eslint'
+import { createParserResolver } from '../../test-utils/fixture-parser'
 import rule from './array-bracket-spacing'
+
+const parser = createParserResolver('array-bracket-spacing')
 
 // ------------------------------------------------------------------------------
 // Helpers
 // ------------------------------------------------------------------------------
-
-/**
- * Gets the path to the specified parser.
- * @param {string} name The parser name to get.
- * @returns {string} The path to the specified parser.
- */
-function parser(name) {
-  return resolve(__dirname, `../../test-utils/parsers/array-bracket-spacing/${name}.js`)
-}
 
 // ------------------------------------------------------------------------------
 // Tests

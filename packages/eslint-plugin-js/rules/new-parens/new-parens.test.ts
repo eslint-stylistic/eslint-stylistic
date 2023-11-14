@@ -7,10 +7,6 @@ import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './new-parens'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const error = { messageId: 'missing', type: 'NewExpression' }
 const neverError = { messageId: 'unnecessary', type: 'NewExpression' }
 

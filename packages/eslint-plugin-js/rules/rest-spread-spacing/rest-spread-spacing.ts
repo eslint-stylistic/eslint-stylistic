@@ -3,12 +3,15 @@
  * @author Kai Cataldo
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
+import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
+
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -21,6 +24,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['always', 'never'],
       },
     ],
@@ -44,9 +48,13 @@ export default {
      * @param {ASTNode} node The node to check
      * @returns {void}
      */
-    function checkWhiteSpace(node) {
-      const operator = sourceCode.getFirstToken(node)
-      const nextToken = sourceCode.getTokenAfter(operator)
+    function checkWhiteSpace(
+      node:
+      | TSESTree.SpreadElement
+      | TSESTree.RestElement,
+    ) {
+      const operator = sourceCode.getFirstToken(node)!
+      const nextToken = sourceCode.getTokenAfter(operator)!
       const hasWhitespace = sourceCode.isSpaceBetweenTokens(operator, nextToken)
       let type
 
@@ -62,12 +70,6 @@ export default {
           if (node.parent.type === 'ObjectPattern')
             type += ' property'
 
-          break
-        case 'ExperimentalSpreadProperty':
-          type = 'spread property'
-          break
-        case 'ExperimentalRestProperty':
-          type = 'rest property'
           break
         default:
           return
@@ -111,8 +113,6 @@ export default {
     return {
       SpreadElement: checkWhiteSpace,
       RestElement: checkWhiteSpace,
-      ExperimentalSpreadProperty: checkWhiteSpace,
-      ExperimentalRestProperty: checkWhiteSpace,
     }
   },
-}
+})

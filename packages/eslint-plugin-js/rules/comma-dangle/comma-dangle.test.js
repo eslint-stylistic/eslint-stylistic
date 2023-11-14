@@ -3,30 +3,12 @@
  * @author Ian Christian Myers
  */
 
-import { resolve } from 'node:path'
 import { RuleTester } from 'eslint'
 import { unIndent } from '../../test-utils/unindent'
+import { createParserResolver } from '../../test-utils/fixture-parser'
 import rule from './comma-dangle'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
-/**
- * Gets the path to the parser of the given name.
- * @param {string} name The name of a parser to get.
- * @returns {string} The path to the specified parser.
- */
-function parser(name) {
-  return resolve(
-    __dirname,
-        `../../test-utils/parsers/comma-dangle/${name}.js`,
-  )
-}
-
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
+const parser = createParserResolver('comma-dangle')
 
 const ruleTester = new RuleTester()
 

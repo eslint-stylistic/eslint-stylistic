@@ -7,8 +7,6 @@ import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './keyword-spacing'
 
-const fixtureParser = parser
-
 // ------------------------------------------------------------------------------
 // Helpers
 // ------------------------------------------------------------------------------
@@ -1131,12 +1129,12 @@ ruleTester.run('keyword-spacing', rule, {
 
     {
       code: '<Thing> this.blah',
-      parser: fixtureParser('keyword-spacing', 'prefix-cast-operator-space'),
+      parser: parser('keyword-spacing', 'prefix-cast-operator-space'),
     },
     {
       code: '<Thing>this.blah',
       options: [override('this', { before: false })],
-      parser: fixtureParser('keyword-spacing', 'prefix-cast-operator-no-space'),
+      parser: parser('keyword-spacing', 'prefix-cast-operator-no-space'),
     },
 
     // not conflict with `array-bracket-spacing`
@@ -3420,13 +3418,13 @@ ruleTester.run('keyword-spacing', rule, {
       code: '<Thing> this.blah',
       output: '<Thing>this.blah',
       options: [override('this', { before: false })],
-      parser: fixtureParser('keyword-spacing', 'prefix-cast-operator-space'),
+      parser: parser('keyword-spacing', 'prefix-cast-operator-space'),
       errors: unexpectedBefore('this'),
     },
     {
       code: '<Thing>this.blah',
       output: '<Thing> this.blah',
-      parser: fixtureParser('keyword-spacing', 'prefix-cast-operator-no-space'),
+      parser: parser('keyword-spacing', 'prefix-cast-operator-no-space'),
       errors: expectedBefore('this'),
     },
 

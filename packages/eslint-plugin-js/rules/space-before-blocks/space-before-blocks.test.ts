@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import fixtureParser from '../../test-utils/fixture-parser'
+import parser from '../../test-utils/fixture-parser'
 import rule from './space-before-blocks'
 
 // ------------------------------------------------------------------------------
@@ -577,14 +577,14 @@ ruleTester.run('space-before-blocks', rule, {
     {
       code: 'class A { foo(bar: string): void{} }',
       output: 'class A { foo(bar: string): void {} }',
-      parser: fixtureParser('space-before-blocks', 'return-type-keyword-1'),
+      parser: parser('space-before-blocks', 'return-type-keyword-1'),
       errors: [expectedSpacingError],
     },
     {
       code: 'function foo(): null {}',
       output: 'function foo(): null{}',
       options: neverArgs,
-      parser: fixtureParser('space-before-blocks', 'return-type-keyword-2'),
+      parser: parser('space-before-blocks', 'return-type-keyword-2'),
       errors: [expectedNoSpacingError],
     },
 
