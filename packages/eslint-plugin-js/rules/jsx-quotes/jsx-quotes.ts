@@ -38,7 +38,6 @@ const QUOTE_SETTINGS: Record<string, QuoteSetting> = {
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
 export default createRule({
   meta: {
     type: 'layout',
