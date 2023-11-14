@@ -39,43 +39,33 @@ ruleTester.run('no-mixed-spaces-and-tabs', rule, {
     },
     {
       code: '/*\n\t */`\n\t   `;',
-      env: { es6: true },
     },
     {
       code: '/*\n\t */var a = `\n\t   `, b = `\n\t   `/*\t \n\t \n*/;',
-      env: { es6: true },
     },
     {
       code: '/*\t `template inside comment` */',
-      env: { es6: true },
     },
     {
       code: 'var foo = `\t /* comment inside template\t */`;',
-      env: { es6: true },
     },
     {
       code: '`\n\t   `;',
-      env: { es6: true },
     },
     {
       code: '`\n\t   \n`;',
-      env: { es6: true },
     },
     {
       code: '`\t   `;',
-      env: { es6: true },
     },
     {
       code: 'const foo = `${console}\n\t foo`;',
-      env: { es6: true },
     },
     {
       code: '`\t   `;`   \t`',
-      env: { es6: true },
     },
     {
       code: '`foo${ 5 }\t    `;',
-      env: { es6: true },
     },
     '\' \t\\\n\t multiline string\';',
     '\'\t \\\n \tmultiline string\';',
@@ -273,7 +263,6 @@ ruleTester.run('no-mixed-spaces-and-tabs', rule, {
     {
       code: '`foo${\n \t  5 }bar`;',
       options: ['smart-tabs'],
-      env: { es6: true },
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
@@ -287,7 +276,6 @@ ruleTester.run('no-mixed-spaces-and-tabs', rule, {
     },
     {
       code: '`foo${\n\t  5 }bar`;',
-      env: { es6: true },
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
