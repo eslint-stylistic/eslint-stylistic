@@ -205,9 +205,9 @@ export function negate<T extends Function>(f: T): T {
  * @returns {boolean} True if the node is parenthesised.
  * @private
  */
-export function isParenthesised(sourceCode: SourceCode, node: ASTNode) {
-  const previousToken = sourceCode.getTokenBefore(node as ESTree.Node)
-  const nextToken = sourceCode.getTokenAfter(node as ESTree.Node)
+export function isParenthesised(sourceCode: TSESLint.SourceCode, node: ASTNode) {
+  const previousToken = sourceCode.getTokenBefore(node)
+  const nextToken = sourceCode.getTokenAfter(node)
 
   return !!previousToken && !!nextToken
         && previousToken.value === '(' && previousToken.range[1] <= node.range![0]

@@ -4,7 +4,11 @@
  * @author Jxck <https://github.com/Jxck>
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
 import { isParenthesised } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -15,16 +19,15 @@ import { isParenthesised } from '../../utils/ast-utils'
  * @param {ASTNode} node node to test
  * @returns {boolean} `true` if the node is a conditional expression.
  */
-function isConditional(node) {
-  return node && node.type === 'ConditionalExpression'
+function isConditional(node: ASTNode) {
+  return node.type === 'ConditionalExpression'
 }
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -60,7 +63,7 @@ export default {
      * @param {ASTNode} node A node to check and report.
      * @returns {void}
      */
-    function checkArrowFunc(node) {
+    function checkArrowFunc(node: TSESTree.ArrowFunctionExpression) {
       const body = node.body
 
       if (isConditional(body)
@@ -71,7 +74,7 @@ export default {
           messageId: 'confusing',
           fix(fixer) {
             // if `allowParens` is not set to true don't bother wrapping in parens
-            return allowParens && fixer.replaceText(node.body, `(${sourceCode.getText(node.body)})`)
+            return allowParens ? fixer.replaceText(node.body, `(${sourceCode.getText(node.body)})`) : null
           },
         })
       }
@@ -81,4 +84,4 @@ export default {
       ArrowFunctionExpression: checkArrowFunc,
     }
   },
-}
+})
