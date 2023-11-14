@@ -39,43 +39,43 @@ ruleTester.run('no-mixed-spaces-and-tabs', rule, {
     },
     {
       code: '/*\n\t */`\n\t   `;',
-      env: { es6: true },
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '/*\n\t */var a = `\n\t   `, b = `\n\t   `/*\t \n\t \n*/;',
-      env: { es6: true },
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '/*\t `template inside comment` */',
-      env: { es6: true },
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: 'var foo = `\t /* comment inside template\t */`;',
-      env: { es6: true },
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '`\n\t   `;',
-      env: { es6: true },
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '`\n\t   \n`;',
-      env: { es6: true },
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '`\t   `;',
-      env: { es6: true },
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: 'const foo = `${console}\n\t foo`;',
-      env: { es6: true },
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '`\t   `;`   \t`',
-      env: { es6: true },
+      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '`foo${ 5 }\t    `;',
-      env: { es6: true },
+      parserOptions: { ecmaVersion: 6 },
     },
     '\' \t\\\n\t multiline string\';',
     '\'\t \\\n \tmultiline string\';',
@@ -273,7 +273,7 @@ ruleTester.run('no-mixed-spaces-and-tabs', rule, {
     {
       code: '`foo${\n \t  5 }bar`;',
       options: ['smart-tabs'],
-      env: { es6: true },
+      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
@@ -287,7 +287,7 @@ ruleTester.run('no-mixed-spaces-and-tabs', rule, {
     },
     {
       code: '`foo${\n\t  5 }bar`;',
-      env: { es6: true },
+      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',

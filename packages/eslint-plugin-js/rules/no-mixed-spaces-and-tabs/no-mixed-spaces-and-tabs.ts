@@ -3,12 +3,14 @@
  * @author Jary Niebur
  */
 
+import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
+
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -19,7 +21,15 @@ export default {
 
     schema: [
       {
-        enum: ['smart-tabs', true, false],
+        oneOf: [
+          {
+            type: 'string',
+            enum: ['smart-tabs'],
+          },
+          {
+            type: 'boolean',
+          },
+        ],
       },
     ],
 
@@ -31,7 +41,7 @@ export default {
   create(context) {
     const sourceCode = context.sourceCode
 
-    let smartTabs
+    let smartTabs: boolean
 
     switch (context.options[0]) {
       case true: // Support old syntax, maybe add deprecation warning here
@@ -106,4 +116,4 @@ export default {
       },
     }
   },
-}
+})
