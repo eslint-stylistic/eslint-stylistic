@@ -3,12 +3,22 @@
  * @author Alexey Gonchar <https://github.com/finico>
  */
 
+import type { ReportFixFunction } from '@typescript-eslint/utils/ts-eslint'
+import type { TSESTree } from '@typescript-eslint/utils'
+import { createRule } from '../../utils/createRule'
+import type { Token } from '../../utils/types'
+
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+interface Checker {
+  messageId: 'unexpectedLineBreak' | 'missingLineBreak'
+  check: (prevToken: Token, currentToken: Token) => boolean
+  createFix: (token: Token, tokenBefore: Token) => ReportFixFunction
+}
+
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -21,6 +31,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['always', 'never', 'consistent'],
       },
     ],
@@ -47,7 +58,7 @@ export default {
         createFix: (token, tokenBefore) => fixer =>
           fixer.replaceTextRange([tokenBefore.range[1], token.range[0]], '\n'),
       },
-    }
+    } as const satisfies Record<string, Checker>
 
     /**
      * Check all arguments for line breaks in the CallExpression
@@ -56,16 +67,16 @@ export default {
      * @returns {void}
      * @private
      */
-    function checkArguments(node, checker) {
+    function checkArguments(node: TSESTree.CallExpression | TSESTree.NewExpression, checker: Checker) {
       for (let i = 1; i < node.arguments.length; i++) {
-        const prevArgToken = sourceCode.getLastToken(node.arguments[i - 1])
-        const currentArgToken = sourceCode.getFirstToken(node.arguments[i])
+        const prevArgToken = sourceCode.getLastToken(node.arguments[i - 1])!
+        const currentArgToken = sourceCode.getFirstToken(node.arguments[i])!
 
         if (checker.check(prevArgToken, currentArgToken)) {
           const tokenBefore = sourceCode.getTokenBefore(
             currentArgToken,
             { includeComments: true },
-          )
+          )!
 
           const hasLineCommentBefore = tokenBefore.type === 'Line'
 
@@ -88,7 +99,7 @@ export default {
      * @returns {void}
      * @private
      */
-    function check(node) {
+    function check(node: TSESTree.CallExpression | TSESTree.NewExpression) {
       if (node.arguments.length < 2)
         return
 
@@ -104,7 +115,7 @@ export default {
         const firstArgToken = sourceCode.getLastToken(node.arguments[0])
         const secondArgToken = sourceCode.getFirstToken(node.arguments[1])
 
-        if (firstArgToken.loc.end.line === secondArgToken.loc.start.line)
+        if (firstArgToken?.loc.end.line === secondArgToken?.loc.start.line)
           checkArguments(node, checkers.unexpected)
         else
           checkArguments(node, checkers.missing)
@@ -116,4 +127,4 @@ export default {
       NewExpression: check,
     }
   },
-}
+})
