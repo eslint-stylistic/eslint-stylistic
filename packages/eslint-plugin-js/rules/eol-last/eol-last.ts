@@ -3,12 +3,13 @@
  * @author Nodeca Team <https://github.com/nodeca>
  */
 
+import { createRule } from '../../utils/createRule'
+
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -21,6 +22,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['always', 'never', 'unix', 'windows'],
       },
     ],
@@ -91,7 +93,7 @@ export default {
             messageId: 'unexpected',
             fix(fixer) {
               const finalEOLs = /(?:\r?\n)+$/u
-              const match = finalEOLs.exec(sourceCode.text)
+              const match = finalEOLs.exec(sourceCode.text)! // endsWithNewline is true
               const start = match.index
               const end = sourceCode.text.length
 
@@ -102,4 +104,4 @@ export default {
       },
     }
   },
-}
+})
