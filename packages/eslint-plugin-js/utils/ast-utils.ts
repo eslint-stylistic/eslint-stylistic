@@ -60,7 +60,7 @@ export function getUpperFunction(node: ASTNode) {
  * @param {ASTNode|null} node A node to check.
  * @returns {boolean} `true` if the node is a function node.
  */
-export function isFunction(node?: ASTNode | null) {
+export function isFunction(node?: ASTNode | null): node is TSESTree.ArrowFunctionExpression | TSESTree.FunctionDeclaration | TSESTree.FunctionExpression {
   return Boolean(node && anyFunctionPattern.test(node.type))
 }
 
