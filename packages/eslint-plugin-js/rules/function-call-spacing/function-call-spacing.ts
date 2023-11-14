@@ -3,14 +3,16 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
 import { LINEBREAK_MATCHER, isNotQuestionDotToken, isOpeningParenToken } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { Token } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -27,6 +29,7 @@ export default {
           type: 'array',
           items: [
             {
+              type: 'string',
               enum: ['never'],
             },
           ],
@@ -37,6 +40,7 @@ export default {
           type: 'array',
           items: [
             {
+              type: 'string',
               enum: ['always'],
             },
             {
@@ -76,7 +80,7 @@ export default {
      * @returns {void}
      * @private
      */
-    function checkSpacing(node, leftToken, rightToken) {
+    function checkSpacing(node: TSESTree.CallExpression | TSESTree.NewExpression | TSESTree.ImportExpression, leftToken: Token, rightToken: Token) {
       const textBetweenTokens = text.slice(leftToken.range[1], rightToken.range[0]).replace(/\/\*.*?\*\//gu, '')
       const hasWhitespace = /\s/u.test(textBetweenTokens)
       const hasNewline = hasWhitespace && LINEBREAK_MATCHER.test(textBetweenTokens)
@@ -122,7 +126,7 @@ export default {
               return null
 
             // If `?.` exists, it doesn't hide no-unexpected-multiline errors
-            if (node.optional)
+            if ('optional' in node && node.optional)
               return fixer.replaceTextRange([leftToken.range[1], rightToken.range[0]], '?.')
 
             /*
@@ -148,7 +152,7 @@ export default {
           },
           messageId: 'missing',
           fix(fixer) {
-            if (node.optional)
+            if ('optional' in node && node.optional)
               return null // Not sure if inserting a space to either before/after `?.` token.
 
             return fixer.insertTextBefore(rightToken, ' ')
@@ -169,15 +173,15 @@ export default {
                          * https://github.com/eslint/eslint/issues/7787
                          * But if `?.` exists, it doesn't hide no-unexpected-multiline errors
                          */
-            if (!node.optional)
+            if (!('optional' in node) || !node.optional)
               return null
 
             // Don't remove comments.
             if (sourceCode.commentsExistBetween(leftToken, rightToken))
               return null
 
-            const range = [leftToken.range[1], rightToken.range[0]]
-            const qdToken = sourceCode.getTokenAfter(leftToken)
+            const range = [leftToken.range[1], rightToken.range[0]] as const
+            const qdToken = sourceCode.getTokenAfter(leftToken)!
 
             if (qdToken.range[0] === leftToken.range[1])
               return fixer.replaceTextRange(range, '?. ')
@@ -192,11 +196,11 @@ export default {
     }
 
     return {
-      'CallExpression, NewExpression': function (node) {
-        const lastToken = sourceCode.getLastToken(node)
-        const lastCalleeToken = sourceCode.getLastToken(node.callee)
-        const parenToken = sourceCode.getFirstTokenBetween(lastCalleeToken, lastToken, isOpeningParenToken)
-        const prevToken = parenToken && sourceCode.getTokenBefore(parenToken, isNotQuestionDotToken)
+      'CallExpression, NewExpression': function (node: TSESTree.CallExpression | TSESTree.NewExpression) {
+        const lastToken = sourceCode.getLastToken(node)!
+        const lastCalleeToken = sourceCode.getLastToken(node.callee)!
+        const parenToken = sourceCode.getFirstTokenBetween(lastCalleeToken, lastToken, isOpeningParenToken)!
+        const prevToken = parenToken && sourceCode.getTokenBefore(parenToken, isNotQuestionDotToken)!
 
         // Parens in NewExpression are optional
         if (!(parenToken && parenToken.range[1] < node.range[1]))
@@ -206,11 +210,11 @@ export default {
       },
 
       ImportExpression(node) {
-        const leftToken = sourceCode.getFirstToken(node)
-        const rightToken = sourceCode.getTokenAfter(leftToken)
+        const leftToken = sourceCode.getFirstToken(node)!
+        const rightToken = sourceCode.getTokenAfter(leftToken)!
 
         checkSpacing(node, leftToken, rightToken)
       },
     }
   },
-}
+})
