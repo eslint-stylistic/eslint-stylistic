@@ -3,16 +3,21 @@
  * @author Toru Nagashima
  */
 
+import type { JSONSchema, TSESTree } from '@typescript-eslint/utils'
 import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Helpers
 // ------------------------------------------------------------------------------
 
 // Schema objects.
-const OPTION_VALUE = {
+const OPTION_VALUE: JSONSchema.JSONSchema4 = {
   oneOf: [
     {
+      type: 'string',
       enum: ['always', 'never'],
     },
     {
@@ -40,7 +45,7 @@ const OPTION_VALUE = {
  * @param {string | object | undefined} value An option value to parse.
  * @returns {{multiline: boolean, minProperties: number, consistent: boolean}} Normalized option object.
  */
-function normalizeOptionValue(value) {
+function normalizeOptionValue(value: any) {
   let multiline = false
   let minProperties = Number.POSITIVE_INFINITY
   let consistent = false
@@ -70,7 +75,7 @@ function normalizeOptionValue(value) {
  * @param {any} value The value to check
  * @returns {boolean} `true` if the value is an object, otherwise `false`
  */
-function isObject(value) {
+function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null
 }
 
@@ -79,7 +84,7 @@ function isObject(value) {
  * @param {any} option The option to check
  * @returns {boolean} `true` if the option is node-specific, otherwise `false`
  */
-function isNodeSpecificOption(option) {
+function isNodeSpecificOption(option: unknown) {
   return isObject(option) || typeof option === 'string'
 }
 
@@ -93,7 +98,7 @@ function isNodeSpecificOption(option) {
  *   ExportNamedDeclaration : {multiline: boolean, minProperties: number, consistent: boolean}
  * }} Normalized option object.
  */
-function normalizeOptions(options) {
+function normalizeOptions(options: any) {
   if (isObject(options) && Object.values(options).some(isNodeSpecificOption)) {
     return {
       ObjectExpression: normalizeOptionValue(options.ObjectExpression),
@@ -117,7 +122,16 @@ function normalizeOptions(options) {
  * @param {Token} last Last object property
  * @returns {boolean} `true` if node needs to be checked for missing line breaks
  */
-function areLineBreaksRequired(node, options, first, last) {
+function areLineBreaksRequired(
+  node:
+  | TSESTree.ObjectExpression
+  | TSESTree.ObjectPattern
+  | TSESTree.ImportDeclaration
+  | TSESTree.ExportNamedDeclaration,
+  options: { multiline: boolean; minProperties: number; consistent: boolean },
+  first: Token,
+  last: Token,
+) {
   let objectProperties
 
   if (node.type === 'ObjectExpression' || node.type === 'ObjectPattern') {
@@ -141,8 +155,7 @@ function areLineBreaksRequired(node, options, first, last) {
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -189,7 +202,13 @@ export default {
      * @param {ASTNode} node A node to check. This is an ObjectExpression, ObjectPattern, ImportDeclaration or ExportNamedDeclaration node.
      * @returns {void}
      */
-    function check(node) {
+    function check(
+      node:
+      | TSESTree.ObjectExpression
+      | TSESTree.ObjectPattern
+      | TSESTree.ImportDeclaration
+      | TSESTree.ExportNamedDeclaration,
+    ) {
       const options = normalizedOptions[node.type]
 
       if (
@@ -200,17 +219,17 @@ export default {
       )
         return
 
-      const openBrace = sourceCode.getFirstToken(node, token => token.value === '{')
+      const openBrace = sourceCode.getFirstToken(node, token => token.value === '{')!
 
-      let closeBrace
+      let closeBrace: Token
 
-      if (node.typeAnnotation)
-        closeBrace = sourceCode.getTokenBefore(node.typeAnnotation)
+      if (node.type === 'ObjectPattern' && node.typeAnnotation)
+        closeBrace = sourceCode.getTokenBefore(node.typeAnnotation)!
       else
-        closeBrace = sourceCode.getLastToken(node, token => token.value === '}')
+        closeBrace = sourceCode.getLastToken(node, token => token.value === '}')!
 
-      let first = sourceCode.getTokenAfter(openBrace, { includeComments: true })
-      let last = sourceCode.getTokenBefore(closeBrace, { includeComments: true })
+      let first = sourceCode.getTokenAfter(openBrace, { includeComments: true })!
+      let last = sourceCode.getTokenBefore(closeBrace, { includeComments: true })!
 
       const needsLineBreaks = areLineBreaksRequired(node, options, first, last)
 
@@ -225,8 +244,8 @@ export default {
              *         a: 1
              *     }
              */
-      first = sourceCode.getTokenAfter(openBrace)
-      last = sourceCode.getTokenBefore(closeBrace)
+      first = sourceCode.getTokenAfter(openBrace)!
+      last = sourceCode.getTokenBefore(closeBrace)!
 
       if (needsLineBreaks) {
         if (isTokenOnSameLine(openBrace, first)) {
@@ -309,4 +328,4 @@ export default {
       ExportNamedDeclaration: check,
     }
   },
-}
+})
