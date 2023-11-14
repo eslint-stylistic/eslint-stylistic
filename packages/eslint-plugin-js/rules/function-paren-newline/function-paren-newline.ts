@@ -3,14 +3,21 @@
  * @author Teddy Katz
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
 import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { Token } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+interface ParensPair {
+  leftParen: Token
+  rightParen: Token
+}
+
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -25,6 +32,7 @@ export default {
       {
         oneOf: [
           {
+            type: 'string',
             enum: ['always', 'never', 'consistent', 'multiline', 'multiline-arguments'],
           },
           {
@@ -56,7 +64,7 @@ export default {
     const multilineOption = rawOption === 'multiline'
     const multilineArgumentsOption = rawOption === 'multiline-arguments'
     const consistentOption = rawOption === 'consistent'
-    let minItems
+    let minItems: number | null = null
 
     if (typeof rawOption === 'object')
       minItems = rawOption.minItems
@@ -64,8 +72,6 @@ export default {
       minItems = 0
     else if (rawOption === 'never')
       minItems = Infinity
-    else
-      minItems = null
 
     // ----------------------------------------------------------------------
     // Helpers
@@ -77,7 +83,7 @@ export default {
      * @param {boolean} hasLeftNewline `true` if the left paren has a newline in the current code.
      * @returns {boolean} `true` if there should be newlines inside the function parens
      */
-    function shouldHaveNewlines(elements, hasLeftNewline) {
+    function shouldHaveNewlines(elements: TSESTree.CallExpressionArgument[] | TSESTree.Parameter[], hasLeftNewline: boolean) {
       if (multilineArgumentsOption && elements.length === 1)
         return hasLeftNewline
 
@@ -87,7 +93,7 @@ export default {
       if (consistentOption)
         return hasLeftNewline
 
-      return elements.length >= minItems
+      return minItems === null || elements.length >= minItems
     }
 
     /**
@@ -96,11 +102,11 @@ export default {
      * @param {ASTNode[]} elements The arguments or parameters in the list
      * @returns {void}
      */
-    function validateParens(parens, elements) {
+    function validateParens(parens: ParensPair, elements: TSESTree.CallExpressionArgument[] | TSESTree.Parameter[]) {
       const leftParen = parens.leftParen
       const rightParen = parens.rightParen
-      const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)
-      const tokenBeforeRightParen = sourceCode.getTokenBefore(rightParen)
+      const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)!
+      const tokenBeforeRightParen = sourceCode.getTokenBefore(rightParen)!
       const hasLeftNewline = !isTokenOnSameLine(leftParen, tokenAfterLeftParen)
       const hasRightNewline = !isTokenOnSameLine(tokenBeforeRightParen, rightParen)
       const needsNewlines = shouldHaveNewlines(elements, hasLeftNewline)
@@ -154,7 +160,7 @@ export default {
      * @param {ASTNode[]} elements The arguments or parameters in the list
      * @returns {void}
      */
-    function validateArguments(parens, elements) {
+    function validateArguments(parens: ParensPair, elements: TSESTree.CallExpressionArgument[] | TSESTree.Parameter[]) {
       const leftParen = parens.leftParen
       const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)
       const hasLeftNewline = !isTokenOnSameLine(leftParen, tokenAfterLeftParen)
@@ -183,13 +189,21 @@ export default {
      * Can also return `null` if an expression has no parens (e.g. a NewExpression with no arguments, or an ArrowFunctionExpression
      * with a single parameter)
      */
-    function getParenTokens(node) {
+    function getParenTokens(
+      node:
+      | TSESTree.ArrowFunctionExpression
+      | TSESTree.CallExpression
+      | TSESTree.FunctionDeclaration
+      | TSESTree.FunctionExpression
+      | TSESTree.ImportExpression
+      | TSESTree.NewExpression,
+    ): ParensPair | null {
       switch (node.type) {
         case 'NewExpression':
           if (!node.arguments.length
                         && !(
-                          isOpeningParenToken(sourceCode.getLastToken(node, { skip: 1 }))
-                            && isClosingParenToken(sourceCode.getLastToken(node))
+                          isOpeningParenToken(sourceCode.getLastToken(node, { skip: 1 })!)
+                            && isClosingParenToken(sourceCode.getLastToken(node)!)
                             && node.callee.range[1] < node.range[1]
                         )
           ) {
@@ -201,22 +215,22 @@ export default {
 
         case 'CallExpression':
           return {
-            leftParen: sourceCode.getTokenAfter(node.callee, isOpeningParenToken),
-            rightParen: sourceCode.getLastToken(node),
+            leftParen: sourceCode.getTokenAfter(node.callee, isOpeningParenToken)!,
+            rightParen: sourceCode.getLastToken(node)!,
           }
 
         case 'FunctionDeclaration':
         case 'FunctionExpression': {
-          const leftParen = sourceCode.getFirstToken(node, isOpeningParenToken)
+          const leftParen = sourceCode.getFirstToken(node, isOpeningParenToken)!
           const rightParen = node.params.length
-            ? sourceCode.getTokenAfter(node.params[node.params.length - 1], isClosingParenToken)
-            : sourceCode.getTokenAfter(leftParen)
+            ? sourceCode.getTokenAfter(node.params[node.params.length - 1], isClosingParenToken)!
+            : sourceCode.getTokenAfter(leftParen)!
 
           return { leftParen, rightParen }
         }
 
         case 'ArrowFunctionExpression': {
-          const firstToken = sourceCode.getFirstToken(node, { skip: (node.async ? 1 : 0) })
+          const firstToken = sourceCode.getFirstToken(node, { skip: (node.async ? 1 : 0) })!
 
           if (!isOpeningParenToken(firstToken)) {
             // If the ArrowFunctionExpression has a single param without parens, return null.
@@ -224,8 +238,8 @@ export default {
           }
 
           const rightParen = node.params.length
-            ? sourceCode.getTokenAfter(node.params[node.params.length - 1], isClosingParenToken)
-            : sourceCode.getTokenAfter(firstToken)
+            ? sourceCode.getTokenAfter(node.params[node.params.length - 1], isClosingParenToken)!
+            : sourceCode.getTokenAfter(firstToken)!
 
           return {
             leftParen: firstToken,
@@ -234,8 +248,8 @@ export default {
         }
 
         case 'ImportExpression': {
-          const leftParen = sourceCode.getFirstToken(node, 1)
-          const rightParen = sourceCode.getLastToken(node)
+          const leftParen = sourceCode.getFirstToken(node, 1)!
+          const rightParen = sourceCode.getLastToken(node)!
 
           return { leftParen, rightParen }
         }
@@ -257,7 +271,15 @@ export default {
         'FunctionExpression',
         'ImportExpression',
         'NewExpression',
-      ]](node) {
+      ].join(', ')](
+        node:
+          | TSESTree.ArrowFunctionExpression
+          | TSESTree.CallExpression
+          | TSESTree.FunctionDeclaration
+          | TSESTree.FunctionExpression
+          | TSESTree.ImportExpression
+          | TSESTree.NewExpression,
+      ) {
         const parens = getParenTokens(node)
         let params
 
@@ -277,4 +299,4 @@ export default {
       },
     }
   },
-}
+})
