@@ -156,7 +156,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "dot-location",
         "ruleId": "@stylistic/js/dot-location",
         "originalId": "dot-location",
-        "entry": "packages/eslint-plugin-js/rules/dot-location/dot-location.js",
+        "entry": "packages/eslint-plugin-js/rules/dot-location/dot-location.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/dot-location/README.md",
         "meta": {
           "fixable": "code",
@@ -827,7 +827,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "template-curly-spacing",
         "ruleId": "@stylistic/js/template-curly-spacing",
         "originalId": "template-curly-spacing",
-        "entry": "packages/eslint-plugin-js/rules/template-curly-spacing/template-curly-spacing.js",
+        "entry": "packages/eslint-plugin-js/rules/template-curly-spacing/template-curly-spacing.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/template-curly-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -840,7 +840,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "template-tag-spacing",
         "ruleId": "@stylistic/js/template-tag-spacing",
         "originalId": "template-tag-spacing",
-        "entry": "packages/eslint-plugin-js/rules/template-tag-spacing/template-tag-spacing.js",
+        "entry": "packages/eslint-plugin-js/rules/template-tag-spacing/template-tag-spacing.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/template-tag-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -853,7 +853,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "wrap-iife",
         "ruleId": "@stylistic/js/wrap-iife",
         "originalId": "wrap-iife",
-        "entry": "packages/eslint-plugin-js/rules/wrap-iife/wrap-iife.js",
+        "entry": "packages/eslint-plugin-js/rules/wrap-iife/wrap-iife.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/wrap-iife/README.md",
         "meta": {
           "fixable": "code",
@@ -866,7 +866,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "wrap-regex",
         "ruleId": "@stylistic/js/wrap-regex",
         "originalId": "wrap-regex",
-        "entry": "packages/eslint-plugin-js/rules/wrap-regex/wrap-regex.js",
+        "entry": "packages/eslint-plugin-js/rules/wrap-regex/wrap-regex.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/wrap-regex/README.md",
         "meta": {
           "fixable": "code",
@@ -879,7 +879,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "yield-star-spacing",
         "ruleId": "@stylistic/js/yield-star-spacing",
         "originalId": "yield-star-spacing",
-        "entry": "packages/eslint-plugin-js/rules/yield-star-spacing/yield-star-spacing.js",
+        "entry": "packages/eslint-plugin-js/rules/yield-star-spacing/yield-star-spacing.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/yield-star-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -1107,7 +1107,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-tag-spacing",
         "ruleId": "@stylistic/jsx/jsx-tag-spacing",
         "originalId": "react/jsx-tag-spacing",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-tag-spacing/jsx-tag-spacing.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-tag-spacing/jsx-tag-spacing.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-tag-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -1120,7 +1120,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-wrap-multilines",
         "ruleId": "@stylistic/jsx/jsx-wrap-multilines",
         "originalId": "react/jsx-wrap-multilines",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-wrap-multilines/jsx-wrap-multilines.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-wrap-multilines/jsx-wrap-multilines.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-wrap-multilines/README.md",
         "meta": {
           "fixable": "code",
@@ -1585,7 +1585,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "dot-location",
         "ruleId": "@stylistic/dot-location",
         "originalId": "dot-location",
-        "entry": "packages/eslint-plugin-js/rules/dot-location/dot-location.js",
+        "entry": "packages/eslint-plugin-js/rules/dot-location/dot-location.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/dot-location/README.md",
         "meta": {
           "fixable": "code",
@@ -2256,7 +2256,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "template-curly-spacing",
         "ruleId": "@stylistic/template-curly-spacing",
         "originalId": "template-curly-spacing",
-        "entry": "packages/eslint-plugin-js/rules/template-curly-spacing/template-curly-spacing.js",
+        "entry": "packages/eslint-plugin-js/rules/template-curly-spacing/template-curly-spacing.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/template-curly-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -2269,7 +2269,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "template-tag-spacing",
         "ruleId": "@stylistic/template-tag-spacing",
         "originalId": "template-tag-spacing",
-        "entry": "packages/eslint-plugin-js/rules/template-tag-spacing/template-tag-spacing.js",
+        "entry": "packages/eslint-plugin-js/rules/template-tag-spacing/template-tag-spacing.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/template-tag-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -2282,7 +2282,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "wrap-iife",
         "ruleId": "@stylistic/wrap-iife",
         "originalId": "wrap-iife",
-        "entry": "packages/eslint-plugin-js/rules/wrap-iife/wrap-iife.js",
+        "entry": "packages/eslint-plugin-js/rules/wrap-iife/wrap-iife.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/wrap-iife/README.md",
         "meta": {
           "fixable": "code",
@@ -2295,7 +2295,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "wrap-regex",
         "ruleId": "@stylistic/wrap-regex",
         "originalId": "wrap-regex",
-        "entry": "packages/eslint-plugin-js/rules/wrap-regex/wrap-regex.js",
+        "entry": "packages/eslint-plugin-js/rules/wrap-regex/wrap-regex.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/wrap-regex/README.md",
         "meta": {
           "fixable": "code",
@@ -2308,7 +2308,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "yield-star-spacing",
         "ruleId": "@stylistic/yield-star-spacing",
         "originalId": "yield-star-spacing",
-        "entry": "packages/eslint-plugin-js/rules/yield-star-spacing/yield-star-spacing.js",
+        "entry": "packages/eslint-plugin-js/rules/yield-star-spacing/yield-star-spacing.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/yield-star-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -2554,7 +2554,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-tag-spacing",
         "ruleId": "@stylistic/jsx-tag-spacing",
         "originalId": "react/jsx-tag-spacing",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-tag-spacing/jsx-tag-spacing.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-tag-spacing/jsx-tag-spacing.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-tag-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -2567,7 +2567,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-wrap-multilines",
         "ruleId": "@stylistic/jsx-wrap-multilines",
         "originalId": "react/jsx-wrap-multilines",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-wrap-multilines/jsx-wrap-multilines.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-wrap-multilines/jsx-wrap-multilines.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-wrap-multilines/README.md",
         "meta": {
           "fixable": "code",

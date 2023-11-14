@@ -5,6 +5,7 @@ import type { AST, Rule } from 'eslint'
 import type ESTraverse from 'estraverse'
 import { traverse as _traverse } from 'estraverse'
 import type { FunctionDeclaration } from 'estree'
+import type { TSESLint } from '@typescript-eslint/utils'
 import type { ASTNode, ESNode } from './types'
 
 /**
@@ -146,7 +147,7 @@ export function isNodeFirstInLine(context: Rule.RuleContext, node: ESNode) {
  * @param {ASTNode} node - Node to be checked
  * @returns {boolean}
  */
-export function isParenthesized(context: Rule.RuleContext, node: ESNode) {
+export function isParenthesized(context: TSESLint.RuleContext<any, any>, node: ASTNode): boolean {
   const sourceCode = context.getSourceCode()
   const previousToken = sourceCode.getTokenBefore(node)
   const nextToken = sourceCode.getTokenAfter(node)

@@ -6,6 +6,9 @@
 import { RuleTester } from 'eslint'
 import parsers from '../../test-utils/parsers'
 import rule from './jsx-tag-spacing'
+import type { RuleOptions } from './types'
+
+type Option = Exclude<RuleOptions[0], undefined>
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -21,7 +24,7 @@ const parserOptions = {
 
 // generate options object that disables checks other than the tested one
 
-function closingSlashOptions(option) {
+function closingSlashOptions(option: Option['closingSlash']) {
   return [
     {
       closingSlash: option,
@@ -32,7 +35,7 @@ function closingSlashOptions(option) {
   ]
 }
 
-function beforeSelfClosingOptions(option) {
+function beforeSelfClosingOptions(option: Option['beforeSelfClosing']) {
   return [
     {
       closingSlash: 'allow',
@@ -43,7 +46,7 @@ function beforeSelfClosingOptions(option) {
   ]
 }
 
-function afterOpeningOptions(option) {
+function afterOpeningOptions(option: Option['afterOpening']) {
   return [
     {
       closingSlash: 'allow',
@@ -54,7 +57,7 @@ function afterOpeningOptions(option) {
   ]
 }
 
-function beforeClosingOptions(option) {
+function beforeClosingOptions(option: Option['beforeClosing']) {
   return [
     {
       closingSlash: 'allow',

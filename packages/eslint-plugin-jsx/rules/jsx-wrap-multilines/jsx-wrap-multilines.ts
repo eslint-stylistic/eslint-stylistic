@@ -5,16 +5,12 @@
 
 import { docsUrl } from '../../utils/docsUrl'
 import { isJSX } from '../../utils/jsx'
-import reportC from '../../utils/report'
 import { isParenthesized } from '../../utils/ast'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
-const has = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
-
-// ------------------------------------------------------------------------------
-// Constants
-// ------------------------------------------------------------------------------
-
-const DEFAULTS = {
+const DEFAULTS: Required<Exclude<RuleOptions[0], undefined>> = {
   declaration: 'parens',
   assignment: 'parens',
   return: 'parens',
@@ -24,22 +20,20 @@ const DEFAULTS = {
   prop: 'ignore',
 }
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const messages = {
   missingParens: 'Missing parentheses around multilines JSX',
   parensOnNewLines: 'Parentheses around JSX should be on separate lines',
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
+
     docs: {
       description: 'Disallow missing parentheses around multiline JSX',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-wrap-multilines'),
     },
+
     fixable: 'code',
 
     messages,
@@ -49,24 +43,31 @@ export default {
       // true/false are for backwards compatibility
       properties: {
         declaration: {
+          type: ['string', 'boolean'],
           enum: [true, false, 'ignore', 'parens', 'parens-new-line'],
         },
         assignment: {
+          type: ['string', 'boolean'],
           enum: [true, false, 'ignore', 'parens', 'parens-new-line'],
         },
         return: {
+          type: ['string', 'boolean'],
           enum: [true, false, 'ignore', 'parens', 'parens-new-line'],
         },
         arrow: {
+          type: ['string', 'boolean'],
           enum: [true, false, 'ignore', 'parens', 'parens-new-line'],
         },
         condition: {
+          type: ['string', 'boolean'],
           enum: [true, false, 'ignore', 'parens', 'parens-new-line'],
         },
         logical: {
+          type: ['string', 'boolean'],
           enum: [true, false, 'ignore', 'parens', 'parens-new-line'],
         },
         prop: {
+          type: ['string', 'boolean'],
           enum: [true, false, 'ignore', 'parens', 'parens-new-line'],
         },
       },
@@ -75,21 +76,20 @@ export default {
   },
 
   create(context) {
-    function getOption(type) {
+    function getOption(type: keyof typeof DEFAULTS) {
       const userOptions = context.options[0] || {}
-      if (has(userOptions, type))
+      if (type in userOptions)
         return userOptions[type]
-
       return DEFAULTS[type]
     }
 
-    function isEnabled(type) {
+    function isEnabled(type: keyof typeof DEFAULTS) {
       const option = getOption(type)
       return option && option !== 'ignore'
     }
 
-    function needsOpeningNewLine(node) {
-      const previousToken = context.getSourceCode().getTokenBefore(node)
+    function needsOpeningNewLine(node: ASTNode) {
+      const previousToken = context.getSourceCode().getTokenBefore(node)!
 
       if (!isParenthesized(context, node))
         return false
@@ -100,8 +100,8 @@ export default {
       return false
     }
 
-    function needsClosingNewLine(node) {
-      const nextToken = context.getSourceCode().getTokenAfter(node)
+    function needsClosingNewLine(node: ASTNode) {
+      const nextToken = context.getSourceCode().getTokenAfter(node)!
 
       if (!isParenthesized(context, node))
         return false
@@ -112,68 +112,77 @@ export default {
       return false
     }
 
-    function isMultilines(node) {
+    function isMultilines(node: ASTNode) {
       return node.loc.start.line !== node.loc.end.line
     }
 
-    function report(node, messageId, fix) {
-      reportC(context, messages[messageId], messageId, {
-        node,
-        fix,
-      })
-    }
-
-    function trimTokenBeforeNewline(node, tokenBefore) {
+    function trimTokenBeforeNewline(node: ASTNode, tokenBefore: Token) {
       // if the token before the jsx is a bracket or curly brace
       // we don't want a space between the opening parentheses and the multiline jsx
       const isBracket = tokenBefore.value === '{' || tokenBefore.value === '['
       return `${tokenBefore.value.trim()}${isBracket ? '' : ' '}`
     }
 
-    function check(node, type) {
+    function check(node: ASTNode | null, type: keyof typeof DEFAULTS) {
       if (!node || !isJSX(node))
         return
 
       const sourceCode = context.getSourceCode()
       const option = getOption(type)
 
-      if ((option === true || option === 'parens') && !isParenthesized(context, node) && isMultilines(node))
-        report(node, 'missingParens', fixer => fixer.replaceText(node, `(${sourceCode.getText(node)})`))
+      if ((option === true || option === 'parens') && !isParenthesized(context, node) && isMultilines(node)) {
+        context.report({
+          node,
+          messageId: 'missingParens',
+          fix: fixer => fixer.replaceText(node, `(${sourceCode.getText(node)})`),
+        })
+      }
 
       if (option === 'parens-new-line' && isMultilines(node)) {
         if (!isParenthesized(context, node)) {
-          const tokenBefore = sourceCode.getTokenBefore(node, { includeComments: true })
-          const tokenAfter = sourceCode.getTokenAfter(node, { includeComments: true })
+          const tokenBefore = sourceCode.getTokenBefore(node, { includeComments: true })!
+          const tokenAfter = sourceCode.getTokenAfter(node, { includeComments: true })!
           const start = node.loc.start
           if (tokenBefore.loc.end.line < start.line) {
             // Strip newline after operator if parens newline is specified
-            report(
+            context.report({
               node,
-              'missingParens',
-              fixer => fixer.replaceTextRange(
-                [tokenBefore.range[0], tokenAfter && (tokenAfter.value === ';' || tokenAfter.value === '}') ? tokenAfter.range[0] : node.range[1]],
+              messageId: 'missingParens',
+              fix: fixer => fixer.replaceTextRange(
+                [
+                  tokenBefore.range[0],
+                  tokenAfter && (tokenAfter.value === ';' || tokenAfter.value === '}') ? tokenAfter.range[0] : node.range[1],
+                ],
                 `${trimTokenBeforeNewline(node, tokenBefore)}(\n${start.column > 0 ? ' '.repeat(start.column) : ''}${sourceCode.getText(node)}\n${start.column > 0 ? ' '.repeat(start.column - 2) : ''})`,
               ),
-            )
+            })
           }
           else {
-            report(node, 'missingParens', fixer => fixer.replaceText(node, `(\n${sourceCode.getText(node)}\n)`))
+            context.report({
+              node,
+              messageId: 'missingParens',
+              fix: fixer => fixer.replaceText(node, `(\n${sourceCode.getText(node)}\n)`),
+            })
           }
         }
         else {
           const needsOpening = needsOpeningNewLine(node)
           const needsClosing = needsClosingNewLine(node)
           if (needsOpening || needsClosing) {
-            report(node, 'parensOnNewLines', (fixer) => {
-              const text = sourceCode.getText(node)
-              let fixed = text
-              if (needsOpening)
-                fixed = `\n${fixed}`
+            context.report({
+              node,
+              messageId: 'parensOnNewLines',
+              fix: (fixer) => {
+                const text = sourceCode.getText(node)
+                let fixed = text
+                if (needsOpening)
+                  fixed = `\n${fixed}`
 
-              if (needsClosing)
-                fixed = `${fixed}\n`
+                if (needsClosing)
+                  fixed = `${fixed}\n`
 
-              return fixer.replaceText(node, fixed)
+                return fixer.replaceText(node, fixed)
+              },
             })
           }
         }
@@ -185,7 +194,6 @@ export default {
     // --------------------------------------------------------------------------
 
     return {
-
       VariableDeclarator(node) {
         const type = 'declaration'
         if (!isEnabled(type))
@@ -247,4 +255,4 @@ export default {
       },
     }
   },
-}
+})

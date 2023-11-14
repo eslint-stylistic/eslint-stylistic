@@ -609,7 +609,7 @@ const Component = props => (
 )
 `
 
-function addNewLineSymbols(code) {
+function addNewLineSymbols(code: string) {
   return code.replace(/\(</g, '(\n<').replace(/>\)/g, '>\n)')
 }
 

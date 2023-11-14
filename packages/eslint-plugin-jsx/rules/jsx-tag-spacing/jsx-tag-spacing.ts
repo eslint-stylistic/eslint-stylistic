@@ -3,9 +3,15 @@
  * @author Diogo Franco (Kovensky)
  */
 
+import type { TSESLint } from '@typescript-eslint/utils'
 import { getTokenBeforeClosingBracket } from '../../utils/getTokenBeforeClosingBracket'
 import { docsUrl } from '../../utils/docsUrl'
-import report from '../../utils/report'
+import { createRule } from '../../utils/createRule'
+import type { Token, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
+
+type Option = Exclude<RuleOptions[0], undefined>
+type Context = TSESLint.RuleContext<MessageIds, RuleOptions>
 
 const messages = {
   selfCloseSlashNoSpace: 'Whitespace is forbidden between `/` and `>`; write `/>`',
@@ -26,20 +32,25 @@ const messages = {
 // Validators
 // ------------------------------------------------------------------------------
 
-function validateClosingSlash(context, node, option) {
+function validateClosingSlash(
+  context: Context,
+  node: Tree.JSXOpeningElement | Tree.JSXClosingElement,
+  option: Option['closingSlash'],
+) {
   const sourceCode = context.getSourceCode()
 
   let adjacent
 
-  if (node.selfClosing) {
+  if ('selfClosing' in node && node.selfClosing) {
     const lastTokens = sourceCode.getLastTokens(node, 2)
 
     adjacent = !sourceCode.isSpaceBetweenTokens(lastTokens[0], lastTokens[1])
 
     if (option === 'never') {
       if (!adjacent) {
-        report(context, messages.selfCloseSlashNoSpace, 'selfCloseSlashNoSpace', {
+        context.report({
           node,
+          messageId: 'selfCloseSlashNoSpace',
           loc: {
             start: lastTokens[0].loc.start,
             end: lastTokens[1].loc.end,
@@ -51,8 +62,9 @@ function validateClosingSlash(context, node, option) {
       }
     }
     else if (option === 'always' && adjacent) {
-      report(context, messages.selfCloseSlashNeedSpace, 'selfCloseSlashNeedSpace', {
+      context.report({
         node,
+        messageId: 'selfCloseSlashNeedSpace',
         loc: {
           start: lastTokens[0].loc.start,
           end: lastTokens[1].loc.end,
@@ -70,8 +82,9 @@ function validateClosingSlash(context, node, option) {
 
     if (option === 'never') {
       if (!adjacent) {
-        report(context, messages.closeSlashNoSpace, 'closeSlashNoSpace', {
+        context.report({
           node,
+          messageId: 'closeSlashNoSpace',
           loc: {
             start: firstTokens[0].loc.start,
             end: firstTokens[1].loc.end,
@@ -83,8 +96,9 @@ function validateClosingSlash(context, node, option) {
       }
     }
     else if (option === 'always' && adjacent) {
-      report(context, messages.closeSlashNeedSpace, 'closeSlashNeedSpace', {
+      context.report({
         node,
+        messageId: 'closeSlashNeedSpace',
         loc: {
           start: firstTokens[0].loc.start,
           end: firstTokens[1].loc.end,
@@ -97,15 +111,20 @@ function validateClosingSlash(context, node, option) {
   }
 }
 
-function validateBeforeSelfClosing(context, node, option) {
+function validateBeforeSelfClosing(
+  context: Context,
+  node: Tree.JSXOpeningElement | Tree.JSXClosingElement,
+  option: Option['beforeSelfClosing'],
+) {
   const sourceCode = context.getSourceCode()
   const leftToken = getTokenBeforeClosingBracket(node)
-  const closingSlash = sourceCode.getTokenAfter(leftToken)
+  const closingSlash = sourceCode.getTokenAfter(leftToken)!
 
   if (node.loc.start.line !== node.loc.end.line && option === 'proportional-always') {
     if (leftToken.loc.end.line === closingSlash.loc.start.line) {
-      report(context, messages.beforeSelfCloseNeedNewline, 'beforeSelfCloseNeedNewline', {
+      context.report({
         node,
+        messageId: 'beforeSelfCloseNeedNewline',
         loc: leftToken.loc.end,
         fix(fixer) {
           return fixer.insertTextBefore(closingSlash, '\n')
@@ -118,11 +137,12 @@ function validateBeforeSelfClosing(context, node, option) {
   if (leftToken.loc.end.line !== closingSlash.loc.start.line)
     return
 
-  const adjacent = !sourceCode.isSpaceBetweenTokens(leftToken, closingSlash)
+  const adjacent = !sourceCode.isSpaceBetweenTokens(leftToken as unknown as Token, closingSlash)
 
   if ((option === 'always' || option === 'proportional-always') && adjacent) {
-    report(context, messages.beforeSelfCloseNeedSpace, 'beforeSelfCloseNeedSpace', {
+    context.report({
       node,
+      messageId: 'beforeSelfCloseNeedSpace',
       loc: closingSlash.loc.start,
       fix(fixer) {
         return fixer.insertTextBefore(closingSlash, ' ')
@@ -130,32 +150,38 @@ function validateBeforeSelfClosing(context, node, option) {
     })
   }
   else if (option === 'never' && !adjacent) {
-    report(context, messages.beforeSelfCloseNoSpace, 'beforeSelfCloseNoSpace', {
+    context.report({
       node,
+      messageId: 'beforeSelfCloseNoSpace',
       loc: closingSlash.loc.start,
       fix(fixer) {
-        const previousToken = sourceCode.getTokenBefore(closingSlash)
+        const previousToken = sourceCode.getTokenBefore(closingSlash)!
         return fixer.removeRange([previousToken.range[1], closingSlash.range[0]])
       },
     })
   }
 }
 
-function validateAfterOpening(context, node, option) {
+function validateAfterOpening(
+  context: Context,
+  node: Tree.JSXOpeningElement | Tree.JSXClosingElement,
+  option: Option['afterOpening'],
+) {
   const sourceCode = context.getSourceCode()
-  const openingToken = sourceCode.getTokenBefore(node.name)
+  const openingToken = sourceCode.getTokenBefore(node.name)!
 
   if (option === 'allow-multiline') {
     if (openingToken.loc.start.line !== node.name.loc.start.line)
       return
   }
 
-  const adjacent = !sourceCode.isSpaceBetweenTokens(openingToken, node.name)
+  const adjacent = !sourceCode.isSpaceBetweenTokens(openingToken, node.name as unknown as Token)
 
   if (option === 'never' || option === 'allow-multiline') {
     if (!adjacent) {
-      report(context, messages.afterOpenNoSpace, 'afterOpenNoSpace', {
+      context.report({
         node,
+        messageId: 'afterOpenNoSpace',
         loc: {
           start: openingToken.loc.start,
           end: node.name.loc.start,
@@ -167,8 +193,9 @@ function validateAfterOpening(context, node, option) {
     }
   }
   else if (option === 'always' && adjacent) {
-    report(context, messages.afterOpenNeedSpace, 'afterOpenNeedSpace', {
+    context.report({
       node,
+      messageId: 'afterOpenNeedSpace',
       loc: {
         start: openingToken.loc.start,
         end: node.name.loc.start,
@@ -180,19 +207,24 @@ function validateAfterOpening(context, node, option) {
   }
 }
 
-function validateBeforeClosing(context, node, option) {
+function validateBeforeClosing(
+  context: TSESLint.RuleContext<MessageIds, RuleOptions>,
+  node: Tree.JSXOpeningElement | Tree.JSXClosingElement,
+  option: Option['beforeClosing'],
+) {
   // Don't enforce this rule for self closing tags
-  if (!node.selfClosing) {
+  if (!('selfClosing' in node && node.selfClosing)) {
     const sourceCode = context.getSourceCode()
     const leftToken = option === 'proportional-always'
       ? getTokenBeforeClosingBracket(node)
       : sourceCode.getLastTokens(node, 2)[0]
-    const closingToken = sourceCode.getTokenAfter(leftToken)
+    const closingToken = sourceCode.getTokenAfter(leftToken)!
 
     if (node.loc.start.line !== node.loc.end.line && option === 'proportional-always') {
       if (leftToken.loc.end.line === closingToken.loc.start.line) {
-        report(context, messages.beforeCloseNeedNewline, 'beforeCloseNeedNewline', {
+        context.report({
           node,
+          messageId: 'beforeCloseNeedNewline',
           loc: leftToken.loc.end,
           fix(fixer) {
             return fixer.insertTextBefore(closingToken, '\n')
@@ -205,11 +237,12 @@ function validateBeforeClosing(context, node, option) {
     if (leftToken.loc.start.line !== closingToken.loc.start.line)
       return
 
-    const adjacent = !sourceCode.isSpaceBetweenTokens(leftToken, closingToken)
+    const adjacent = !sourceCode.isSpaceBetweenTokens(leftToken as unknown as Token, closingToken)
 
     if (option === 'never' && !adjacent) {
-      report(context, messages.beforeCloseNoSpace, 'beforeCloseNoSpace', {
+      context.report({
         node,
+        messageId: 'beforeCloseNoSpace',
         loc: {
           start: leftToken.loc.end,
           end: closingToken.loc.start,
@@ -220,20 +253,22 @@ function validateBeforeClosing(context, node, option) {
       })
     }
     else if (option === 'always' && adjacent) {
-      report(context, messages.beforeCloseNeedSpace, 'beforeCloseNeedSpace', {
+      context.report({
         node,
         loc: {
           start: leftToken.loc.end,
           end: closingToken.loc.start,
         },
+        messageId: 'beforeCloseNeedSpace',
         fix(fixer) {
           return fixer.insertTextBefore(closingToken, ' ')
         },
       })
     }
     else if (option === 'proportional-always' && node.type === 'JSXOpeningElement' && adjacent !== (node.loc.start.line === node.loc.end.line)) {
-      report(context, messages.beforeCloseNeedSpace, 'beforeCloseNeedSpace', {
+      context.report({
         node,
+        messageId: 'beforeCloseNeedSpace',
         loc: {
           start: leftToken.loc.end,
           end: closingToken.loc.start,
@@ -246,22 +281,19 @@ function validateBeforeClosing(context, node, option) {
   }
 }
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
-const optionDefaults = {
+const optionDefaults: Required<Option> = {
   closingSlash: 'never',
   beforeSelfClosing: 'always',
   afterOpening: 'never',
   beforeClosing: 'allow',
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
+
     docs: {
       description: 'Enforce whitespace in and around the JSX opening and closing brackets',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-tag-spacing'),
     },
     fixable: 'whitespace',
@@ -273,15 +305,19 @@ export default {
         type: 'object',
         properties: {
           closingSlash: {
+            type: 'string',
             enum: ['always', 'never', 'allow'],
           },
           beforeSelfClosing: {
+            type: 'string',
             enum: ['always', 'proportional-always', 'never', 'allow'],
           },
           afterOpening: {
+            type: 'string',
             enum: ['always', 'allow-multiline', 'never', 'allow'],
           },
           beforeClosing: {
+            type: 'string',
             enum: ['always', 'proportional-always', 'never', 'allow'],
           },
         },
@@ -319,4 +355,4 @@ export default {
       },
     }
   },
-}
+})

@@ -13,6 +13,7 @@
     "update": "esno scripts/update.ts && pnpm run lint --fix",
     "release": "bumpp -r && esno scripts/publish.ts",
     "test": "vitest",
+    "check": "pnpm run update && pnpm run build && pnpm run typecheck && pnpm run test --run",
     "typecheck": "vue-tsc --noEmit",
     "prepare": "simple-git-hooks",
     "docs": "pnpm -C docs run docs:dev",
