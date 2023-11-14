@@ -11,7 +11,13 @@ import { createRule } from '../../utils/createRule'
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-export default createRule({
+type RuleOptions = ['unix' | 'windows']
+
+type MessageIds =
+  | 'expectedLF'
+  | 'expectedCRLF'
+
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
