@@ -4,13 +4,14 @@
  */
 
 import { isCommentToken } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { Token } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -57,11 +58,11 @@ export default {
 
     /**
      * Formats value of given comment token for error message by truncating its length.
-     * @param {Token} token comment token
-     * @returns {string} formatted value
+     * @param token comment token
+     * @returns formatted value
      * @private
      */
-    function formatReportedCommentValue(token) {
+    function formatReportedCommentValue(token: Token): string {
       const valueLines = token.value.split('\n')
       const value = valueLines[0]
       const formattedValue = `${value.slice(0, 12)}...`
@@ -127,4 +128,4 @@ export default {
       },
     }
   },
-}
+})
