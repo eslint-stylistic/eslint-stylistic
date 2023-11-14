@@ -95,7 +95,7 @@ export default createRule<MessageIds, RuleOptions>({
           depth += 1
           const parentCallee = skipChainExpression(parent.callee)
           if (!('object' in parentCallee))
-            continue
+            break
           parent = skipChainExpression(parentCallee)
         }
 
