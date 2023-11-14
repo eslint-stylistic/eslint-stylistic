@@ -3,8 +3,11 @@
  * @author Brandon Mills
  */
 
+import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { LINEBREAK_MATCHER, getStaticPropertyName, isColonToken } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
 import { getGraphemeCount } from '../../utils/string-utils'
+import type { ASTNode } from '../../utils/types'
 
 /**
  * Checks whether a string contains a line terminator as defined in
@@ -12,7 +15,7 @@ import { getGraphemeCount } from '../../utils/string-utils'
  * @param {string} str String to test.
  * @returns {boolean} True if str contains a line terminator.
  */
-function containsLineTerminator(str) {
+function containsLineTerminator(str: string) {
   return LINEBREAK_MATCHER.test(str)
 }
 
@@ -21,7 +24,7 @@ function containsLineTerminator(str) {
  * @param {Array} arr An array.
  * @returns {any} Last element of arr.
  */
-function last(arr) {
+function last<T>(arr: T[]): T {
   return arr[arr.length - 1]
 }
 
@@ -30,7 +33,7 @@ function last(arr) {
  * @param {ASTNode} node AST Node being evaluated.
  * @returns {boolean} True if the node is a single line.
  */
-function isSingleLine(node) {
+function isSingleLine(node: ASTNode) {
   return (node.loc.end.line === node.loc.start.line)
 }
 
@@ -39,7 +42,7 @@ function isSingleLine(node) {
  * @param {ASTNode[]} properties List of Property AST nodes.
  * @returns {boolean} True if all properties is on a single line.
  */
-function isSingleLineProperties(properties) {
+function isSingleLineProperties(properties: ASTNode[]) {
   const [firstProp] = properties
   const lastProp = last(properties)
 
@@ -52,7 +55,7 @@ function isSingleLineProperties(properties) {
  * @param {object} fromOptions Object to be initialized from
  * @returns {object} The object with correctly initialized options and values
  */
-function initOptionProperty(toOptions, fromOptions) {
+function initOptionProperty(toOptions: any, fromOptions: any) {
   toOptions.mode = fromOptions.mode || 'strict'
 
   // Set value of beforeColon
@@ -91,7 +94,7 @@ function initOptionProperty(toOptions, fromOptions) {
  * @param {object} fromOptions Object to be initialized from
  * @returns {object} The object with correctly initialized options and values
  */
-function initOptions(toOptions, fromOptions) {
+function initOptions(toOptions: any, fromOptions: any) {
   if (typeof fromOptions.align === 'object') {
     // Initialize the alignment configuration
     toOptions.align = initOptionProperty({}, fromOptions.align)
@@ -123,8 +126,7 @@ function initOptions(toOptions, fromOptions) {
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -143,15 +145,18 @@ export default {
             align: {
               anyOf: [
                 {
+                  type: 'string',
                   enum: ['colon', 'value'],
                 },
                 {
                   type: 'object',
                   properties: {
                     mode: {
+                      type: 'string',
                       enum: ['strict', 'minimum'],
                     },
                     on: {
+                      type: 'string',
                       enum: ['colon', 'value'],
                     },
                     beforeColon: {
@@ -166,6 +171,7 @@ export default {
               ],
             },
             mode: {
+              type: 'string',
               enum: ['strict', 'minimum'],
             },
             beforeColon: {
@@ -184,6 +190,7 @@ export default {
               type: 'object',
               properties: {
                 mode: {
+                  type: 'string',
                   enum: ['strict', 'minimum'],
                 },
                 beforeColon: {
@@ -201,15 +208,18 @@ export default {
                 align: {
                   anyOf: [
                     {
+                      type: 'string',
                       enum: ['colon', 'value'],
                     },
                     {
                       type: 'object',
                       properties: {
                         mode: {
+                          type: 'string',
                           enum: ['strict', 'minimum'],
                         },
                         on: {
+                          type: 'string',
                           enum: ['colon', 'value'],
                         },
                         beforeColon: {
@@ -224,6 +234,7 @@ export default {
                   ],
                 },
                 mode: {
+                  type: 'string',
                   enum: ['strict', 'minimum'],
                 },
                 beforeColon: {
@@ -245,6 +256,7 @@ export default {
               type: 'object',
               properties: {
                 mode: {
+                  type: 'string',
                   enum: ['strict', 'minimum'],
                 },
                 beforeColon: {
@@ -260,6 +272,7 @@ export default {
               type: 'object',
               properties: {
                 mode: {
+                  type: 'string',
                   enum: ['strict', 'minimum'],
                 },
                 beforeColon: {
@@ -275,9 +288,11 @@ export default {
               type: 'object',
               properties: {
                 mode: {
+                  type: 'string',
                   enum: ['strict', 'minimum'],
                 },
                 on: {
+                  type: 'string',
                   enum: ['colon', 'value'],
                 },
                 beforeColon: {
@@ -324,11 +339,11 @@ export default {
      * @param {ASTNode} property Property node to check.
      * @returns {boolean} Whether the property is a key-value property.
      */
-    function isKeyValueProperty(property) {
+    function isKeyValueProperty(property: TSESTree.ObjectLiteralElement): property is TSESTree.Property {
       return !(
-        (property.method
-                || property.shorthand
-                || property.kind !== 'init' || property.type !== 'Property') // Could be "ExperimentalSpreadProperty" or "SpreadElement"
+        (('method' in property && property.method)
+                || ('shorthand' in property && property.shorthand)
+                || ('kind' in property && property.kind !== 'init') || property.type !== 'Property') // Could be "ExperimentalSpreadProperty" or "SpreadElement"
       )
     }
 
@@ -338,7 +353,7 @@ export default {
      * @param {ASTNode} node The node to start looking from.
      * @returns {ASTNode} The colon punctuator.
      */
-    function getNextColon(node) {
+    function getNextColon(node: ASTNode) {
       return sourceCode.getTokenAfter(node, isColonToken)
     }
 
@@ -348,8 +363,8 @@ export default {
      * @param {ASTNode} node The node to start looking from.
      * @returns {ASTNode} The last token before a colon punctuator.
      */
-    function getLastTokenBeforeColon(node) {
-      const colonToken = getNextColon(node)
+    function getLastTokenBeforeColon(node: ASTNode) {
+      const colonToken = getNextColon(node)!
 
       return sourceCode.getTokenBefore(colonToken)
     }
@@ -360,8 +375,8 @@ export default {
      * @param {ASTNode} node The node to start looking from.
      * @returns {ASTNode} The first token after a colon punctuator.
      */
-    function getFirstTokenAfterColon(node) {
-      const colonToken = getNextColon(node)
+    function getFirstTokenAfterColon(node: ASTNode) {
+      const colonToken = getNextColon(node)!
 
       return sourceCode.getTokenAfter(colonToken)
     }
@@ -372,9 +387,9 @@ export default {
      * @param {ASTNode} candidate The next Property that might be in the group.
      * @returns {boolean} True if the candidate property is part of the group.
      */
-    function continuesPropertyGroup(lastMember, candidate) {
+    function continuesPropertyGroup(lastMember: TSESTree.ObjectLiteralElement, candidate: TSESTree.ObjectLiteralElement) {
       const groupEndLine = lastMember.loc.start.line
-      const candidateValueStartLine = (isKeyValueProperty(candidate) ? getFirstTokenAfterColon(candidate.key) : candidate).loc.start.line
+      const candidateValueStartLine = (isKeyValueProperty(candidate) ? getFirstTokenAfterColon(candidate.key)! : candidate).loc.start.line
 
       if (candidateValueStartLine - groupEndLine <= 1)
         return true
@@ -406,7 +421,7 @@ export default {
      * @param {ASTNode} property Property node whose key to retrieve.
      * @returns {string} The property's key.
      */
-    function getKey(property) {
+    function getKey(property: TSESTree.Property) {
       const key = property.key
 
       if (property.computed)
@@ -425,7 +440,7 @@ export default {
      * @param {string} mode Value of the mode as "strict" or "minimum"
      * @returns {void}
      */
-    function report(property, side, whitespace, expected, mode) {
+    function report(property: TSESTree.Property, side: 'key' | 'value', whitespace: string, expected: number, mode: 'strict' | 'minimum') {
       const diff = whitespace.length - expected
 
       if ((
@@ -434,9 +449,9 @@ export default {
                 || diff > 0 && !expected && mode === 'minimum')
                 && !(expected && containsLineTerminator(whitespace))
       ) {
-        const nextColon = getNextColon(property.key)
-        const tokenBeforeColon = sourceCode.getTokenBefore(nextColon, { includeComments: true })
-        const tokenAfterColon = sourceCode.getTokenAfter(nextColon, { includeComments: true })
+        const nextColon = getNextColon(property.key)!
+        const tokenBeforeColon = sourceCode.getTokenBefore(nextColon, { includeComments: true })!
+        const tokenAfterColon = sourceCode.getTokenAfter(nextColon, { includeComments: true })!
         const isKeySide = side === 'key'
         const isExtra = diff > 0
         const diffAbs = Math.abs(diff)
@@ -447,10 +462,10 @@ export default {
         const missingLoc = isKeySide ? tokenBeforeColon.loc : tokenAfterColon.loc
         const loc = isExtra ? { start: locStart, end: locEnd } : missingLoc
 
-        let fix
+        let fix: TSESLint.ReportFixFunction
 
         if (isExtra) {
-          let range
+          let range: [number, number]
 
           // Remove whitespace
           if (isKeySide)
@@ -476,7 +491,7 @@ export default {
           }
         }
 
-        let messageId = ''
+        let messageId: 'extraKey' | 'extraValue' | 'missingKey' | 'missingValue'
 
         if (isExtra)
           messageId = side === 'key' ? 'extraKey' : 'extraValue'
@@ -502,9 +517,9 @@ export default {
      * @param {ASTNode} property Property of on object literal.
      * @returns {int} Width of the key.
      */
-    function getKeyWidth(property) {
-      const startToken = sourceCode.getFirstToken(property)
-      const endToken = getLastTokenBeforeColon(property.key)
+    function getKeyWidth(property: TSESTree.Property) {
+      const startToken = sourceCode.getFirstToken(property)!
+      const endToken = getLastTokenBeforeColon(property.key)!
 
       return getGraphemeCount(sourceCode.getText().slice(startToken.range[0], endToken.range[1]))
     }
@@ -514,7 +529,7 @@ export default {
      * @param {ASTNode} property Property node from an object literal.
      * @returns {object} Whitespace before and after the property's colon.
      */
-    function getPropertyWhitespace(property) {
+    function getPropertyWhitespace(property: TSESTree.Property) {
       const whitespace = /(\s*):(\s*)/u.exec(sourceCode.getText().slice(
         property.key.range[1],
         property.value.range[0],
@@ -534,11 +549,11 @@ export default {
      * @param {ASTNode} node ObjectExpression node being evaluated.
      * @returns {Array<ASTNode[]>} Groups of property AST node lists.
      */
-    function createGroups(node) {
+    function createGroups(node: TSESTree.ObjectExpression) {
       if (node.properties.length === 1)
         return [node.properties]
 
-      return node.properties.reduce((groups, property) => {
+      return node.properties.reduce<TSESTree.ObjectLiteralElement[][]>((groups, property) => {
         const currentGroup = last(groups)
         const prev = last(currentGroup)
 
@@ -558,7 +573,7 @@ export default {
      * @param {ASTNode[]} properties List of Property AST nodes.
      * @returns {void}
      */
-    function verifyGroupAlignment(properties) {
+    function verifyGroupAlignment(properties: TSESTree.Property[]) {
       const length = properties.length
       const widths = properties.map(getKeyWidth) // Width of keys, including quotes
       const align = alignmentOptions.on // "value" or "colon"
@@ -604,7 +619,7 @@ export default {
      * @param {object} lineOptions Configured singleLine or multiLine options
      * @returns {void}
      */
-    function verifySpacing(node, lineOptions) {
+    function verifySpacing(node: TSESTree.Property, lineOptions: { beforeColon: number; afterColon: number; mode: 'strict' | 'minimum' }) {
       const actual = getPropertyWhitespace(node)
 
       if (actual) { // Object literal getters/setters lack colons
@@ -619,7 +634,7 @@ export default {
      * @param {object} lineOptions Configured singleLine or multiLine options
      * @returns {void}
      */
-    function verifyListSpacing(properties, lineOptions) {
+    function verifyListSpacing(properties: TSESTree.Property[], lineOptions: { beforeColon: number; afterColon: number; mode: 'strict' | 'minimum' }) {
       const length = properties.length
 
       for (let i = 0; i < length; i++)
@@ -631,7 +646,7 @@ export default {
      * @param {ASTNode} node ObjectExpression node being evaluated.
      * @returns {void}
      */
-    function verifyAlignment(node) {
+    function verifyAlignment(node: TSESTree.ObjectExpression) {
       createGroups(node).forEach((group) => {
         const properties = group.filter(isKeyValueProperty)
 
@@ -664,4 +679,4 @@ export default {
       },
     }
   },
-}
+})
