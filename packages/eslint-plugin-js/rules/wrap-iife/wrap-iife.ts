@@ -5,7 +5,6 @@
 
 // @ts-expect-error missing types
 import { isParenthesized } from '@eslint-community/eslint-utils'
-import type { SourceCode } from 'eslint'
 import type { TSESTree } from '@typescript-eslint/utils'
 import { getStaticPropertyName, isParenthesised, skipChainExpression } from '../../utils/ast-utils'
 import type { ASTNode } from '../../utils/types'
@@ -72,7 +71,7 @@ export default createRule({
      * @private
      */
     function isWrappedInAnyParens(node: ASTNode) {
-      return isParenthesised(sourceCode as any as SourceCode, node)
+      return isParenthesised(sourceCode, node)
     }
 
     /**
