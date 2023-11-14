@@ -4,6 +4,7 @@
  */
 
 import { isClosingParenToken, isOpeningParenToken } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -13,8 +14,7 @@ import { isClosingParenToken, isOpeningParenToken } from '../../utils/ast-utils'
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -26,6 +26,7 @@ export default {
     fixable: 'code',
     schema: [
       {
+        type: 'string',
         enum: ['always', 'never'],
       },
     ],
@@ -46,12 +47,13 @@ export default {
         if (node.arguments.length !== 0)
           return // if there are arguments, there have to be parens
 
-        const lastToken = sourceCode.getLastToken(node)
+        const lastToken = sourceCode.getLastToken(node)!
         const hasLastParen = lastToken && isClosingParenToken(lastToken)
+        const tokenBeforeLastToken = sourceCode.getTokenBefore(lastToken)!
 
         // `hasParens` is true only if the new expression ends with its own parens, e.g., new new foo() does not end with its own parens
         const hasParens = hasLastParen
-                    && isOpeningParenToken(sourceCode.getTokenBefore(lastToken))
+                    && isOpeningParenToken(tokenBeforeLastToken)
                     && node.callee.range[1] < node.range[1]
 
         if (always) {
@@ -69,7 +71,7 @@ export default {
               node,
               messageId: 'unnecessary',
               fix: fixer => [
-                fixer.remove(sourceCode.getTokenBefore(lastToken)),
+                fixer.remove(tokenBeforeLastToken),
                 fixer.remove(lastToken),
                 fixer.insertTextBefore(node, '('),
                 fixer.insertTextAfter(node, ')'),
@@ -80,4 +82,4 @@ export default {
       },
     }
   },
-}
+})
