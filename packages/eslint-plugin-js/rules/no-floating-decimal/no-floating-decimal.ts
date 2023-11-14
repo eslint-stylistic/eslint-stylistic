@@ -4,13 +4,14 @@
  */
 
 import { canTokensBeAdjacent } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -58,4 +59,4 @@ export default {
       },
     }
   },
-}
+})
