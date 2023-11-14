@@ -23,21 +23,8 @@ export default createRule<RuleOptions, MessageIds>({
 
     return {
       ...rules,
-      'TSAbstractMethodDefinition, TSAbstractPropertyDefinition': function (
-        node: never,
-      ): void {
-        if (rules.MethodDefinition) {
-          // for ESLint <= v7
-          rules.MethodDefinition(node)
-        }
-        else if (rules['MethodDefinition, PropertyDefinition']) {
-          // for ESLint >= v8 < v8.3.0
-          rules['MethodDefinition, PropertyDefinition'](node)
-        }
-        else {
-          // for ESLint >= v8.3.0
-          rules['MethodDefinition, PropertyDefinition, StaticBlock']?.(node)
-        }
+      'TSAbstractMethodDefinition, TSAbstractPropertyDefinition': function (node: never): void {
+        rules['MethodDefinition, PropertyDefinition, StaticBlock']?.(node)
       },
     }
   },
