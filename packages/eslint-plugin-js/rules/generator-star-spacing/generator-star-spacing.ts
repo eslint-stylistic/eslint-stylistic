@@ -3,13 +3,19 @@
  * @author Jamund Ferguson
  */
 
+import type { JSONSchema4 } from '@typescript-eslint/utils/json-schema'
+import type { TSESTree } from '@typescript-eslint/utils'
+import { createRule } from '../../utils/createRule'
+import type { Token } from '../../utils/types'
+
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-const OVERRIDE_SCHEMA = {
+const OVERRIDE_SCHEMA: JSONSchema4 = {
   oneOf: [
     {
+      type: 'string',
       enum: ['before', 'after', 'both', 'neither'],
     },
     {
@@ -23,8 +29,7 @@ const OVERRIDE_SCHEMA = {
   ],
 }
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -39,6 +44,7 @@ export default {
       {
         oneOf: [
           {
+            type: 'string',
             enum: ['before', 'after', 'both', 'neither'],
           },
           {
@@ -78,12 +84,12 @@ export default {
      * @param {object} defaults The defaults to use if options are not present
      * @returns {object} the resolved object definition
      */
-    function optionToDefinition(option, defaults) {
+    function optionToDefinition(option: keyof typeof optionDefinitions | unknown, defaults: { before: boolean; after: boolean }) {
       if (!option)
         return defaults
 
       return typeof option === 'string'
-        ? optionDefinitions[option]
+        ? optionDefinitions[option as keyof typeof optionDefinitions]
         : Object.assign({}, defaults, option)
     }
 
@@ -104,7 +110,7 @@ export default {
      * @param {Token} token The token to check.
      * @returns {boolean} `true` if the token is a star token.
      */
-    function isStarToken(token) {
+    function isStarToken(token: Token) {
       return token.value === '*' && token.type === 'Punctuator'
     }
 
@@ -113,9 +119,9 @@ export default {
      * @param {ASTNode} node The function node to get.
      * @returns {Token} Found star token.
      */
-    function getStarToken(node) {
+    function getStarToken(node: TSESTree.FunctionDeclaration | TSESTree.FunctionExpression) {
       return sourceCode.getFirstToken(
-        (node.parent.method || node.parent.type === 'MethodDefinition') ? node.parent : node,
+        (('method' in node.parent && node.parent.method) || node.parent.type === 'MethodDefinition') ? node.parent : node,
         isStarToken,
       )
     }
@@ -125,7 +131,7 @@ export default {
      * @param {string} str the given string.
      * @returns {string} the capitalized string.
      */
-    function capitalize(str) {
+    function capitalize(str: string) {
       return str[0].toUpperCase() + str.slice(1)
     }
 
@@ -139,12 +145,12 @@ export default {
      *     token if side is "after".
      * @returns {void}
      */
-    function checkSpacing(kind, side, leftToken, rightToken) {
+    function checkSpacing(kind: keyof typeof modes, side: 'before' | 'after', leftToken: Token, rightToken: Token) {
       if (!!(rightToken.range[0] - leftToken.range[1]) !== modes[kind][side]) {
         const after = leftToken.value === '*'
         const spaceRequired = modes[kind][side]
         const node = after ? leftToken : rightToken
-        const messageId = `${spaceRequired ? 'missing' : 'unexpected'}${capitalize(side)}`
+        const messageId = `${spaceRequired ? 'missing' : 'unexpected'}${capitalize(side)}` as `${'missing' | 'unexpected'}${'After' | 'Before'}`
 
         context.report({
           node,
@@ -167,15 +173,15 @@ export default {
      * @param {ASTNode} node A function expression or declaration node.
      * @returns {void}
      */
-    function checkFunction(node) {
+    function checkFunction(node: TSESTree.FunctionDeclaration | TSESTree.FunctionExpression) {
       if (!node.generator)
         return
 
-      const starToken = getStarToken(node)
-      const prevToken = sourceCode.getTokenBefore(starToken)
-      const nextToken = sourceCode.getTokenAfter(starToken)
+      const starToken = getStarToken(node)!
+      const prevToken = sourceCode.getTokenBefore(starToken)!
+      const nextToken = sourceCode.getTokenAfter(starToken)!
 
-      let kind = 'named'
+      let kind: keyof typeof modes = 'named'
 
       if (node.parent.type === 'MethodDefinition' || (node.parent.type === 'Property' && node.parent.method))
         kind = 'method'
@@ -194,4 +200,4 @@ export default {
       FunctionExpression: checkFunction,
     }
   },
-}
+})
