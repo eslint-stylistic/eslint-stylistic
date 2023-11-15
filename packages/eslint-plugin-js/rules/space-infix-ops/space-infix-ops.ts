@@ -3,10 +3,9 @@
  * @author Michael Ficarra
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { createRule } from '../../utils/createRule'
 import { isEqToken } from '../../utils/ast-utils'
-import type { ASTNode, Token } from '../../utils/types'
+import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -102,10 +101,10 @@ export default createRule<MessageIds, RuleOptions>({
      * @private
      */
     function checkBinary(node:
-    | TSESTree.AssignmentExpression
-    | TSESTree.AssignmentPattern
-    | TSESTree.BinaryExpression
-    | TSESTree.LogicalExpression,
+    | Tree.AssignmentExpression
+    | Tree.AssignmentPattern
+    | Tree.BinaryExpression
+    | Tree.LogicalExpression,
     ) {
       const leftNode = 'typeAnnotation' in node.left ? node.left.typeAnnotation! : node.left
       const rightNode = node.right
@@ -126,7 +125,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node node to evaluate
      * @private
      */
-    function checkConditional(node: TSESTree.ConditionalExpression) {
+    function checkConditional(node: Tree.ConditionalExpression) {
       const nonSpacedConsequentNode = getFirstNonSpacedToken(node.test, node.consequent, '?')
       const nonSpacedAlternateNode = getFirstNonSpacedToken(node.consequent, node.alternate, ':')
 
@@ -142,7 +141,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node node to evaluate
      * @private
      */
-    function checkVar(node: TSESTree.VariableDeclarator) {
+    function checkVar(node: Tree.VariableDeclarator) {
       const leftNode = (node.id.typeAnnotation) ? node.id.typeAnnotation : node.id
       const rightNode = node.init
 

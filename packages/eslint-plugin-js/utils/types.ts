@@ -7,6 +7,7 @@ export type ASTNode = TSESTree.Node
 export type Token = TSESTree.Token
 export { TSESTree as Tree }
 export type RuleFixer = TSESLint.RuleFixer
+export type ReportFixFunction = TSESLint.ReportFixFunction
 export type NodeTypes = AST_NODE_TYPES
 export { JSONSchema } from '@typescript-eslint/utils'
 

@@ -3,9 +3,9 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { isStringLiteral, isSurroundedBy } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
+import type { Tree } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Constants
@@ -70,7 +70,7 @@ export default createRule({
      * @returns {boolean} Whether or not the string literal used the expected quotes.
      * @public
      */
-    function usesExpectedQuotes(node: TSESTree.StringLiteral) {
+    function usesExpectedQuotes(node: Tree.StringLiteral) {
       return node.value.includes(setting.quote) || isSurroundedBy(node.raw, setting.quote)
     }
 

@@ -3,9 +3,9 @@
  * @author Erik Mueller
  */
 
-import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
+import type { ReportFixFunction, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -49,7 +49,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {Function} Fixer function
      * @private
      */
-    function createFix(range: Readonly<TSESTree.Range>, text: string): TSESLint.ReportFixFunction {
+    function createFix(range: Readonly<Tree.Range>, text: string): ReportFixFunction {
       return function (fixer) {
         return fixer.replaceTextRange(range, text)
       }

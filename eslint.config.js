@@ -41,4 +41,23 @@ export default antfu(
       'node/prefer-global/process': 'off',
     },
   },
+  {
+    files: [
+      'packages/eslint-plugin-js/rules/**/*.ts',
+    ],
+    rules: {
+      'no-restricted-imports': ['error', {
+        paths: [
+          {
+            name: '@typescript-eslint/utils',
+            message: 'Import from "../../utils/types" instead',
+          },
+          {
+            name: '@typescript-eslint/utils/json-schema',
+            message: 'Import from "../../utils/types" instead',
+          },
+        ],
+      }],
+    },
+  },
 )

@@ -3,9 +3,9 @@
  * @author Gyandeep Singh
  */
 import escapeRegExp from 'escape-string-regexp'
-import type { TSESTree } from '@typescript-eslint/utils'
 import { LINEBREAKS } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
+import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -278,7 +278,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {string} refChar Character used for reference in the error message.
      * @returns {void}
      */
-    function reportBegin(node: TSESTree.Comment, messageId: MessageIds, match: RegExpExecArray | null, refChar: string) {
+    function reportBegin(node: Tree.Comment, messageId: MessageIds, match: RegExpExecArray | null, refChar: string) {
       const type = node.type.toLowerCase()
       const commentIdentifier = type === 'block' ? '/*' : '//'
 
@@ -311,7 +311,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {string} match An array of the matched whitespace characters.
      * @returns {void}
      */
-    function reportEnd(node: TSESTree.Comment, messageId: MessageIds, match: RegExpExecArray | null) {
+    function reportEnd(node: Tree.Comment, messageId: MessageIds, match: RegExpExecArray | null) {
       context.report({
         node,
         fix(fixer) {
@@ -334,7 +334,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node a comment node to check.
      * @returns {void}
      */
-    function checkCommentForSpace(node: TSESTree.Comment) {
+    function checkCommentForSpace(node: Tree.Comment) {
       const type = node.type.toLowerCase() as Style
       const rule = styleRules[type]
       const commentIdentifier = type === 'block' ? '/*' : '//'
