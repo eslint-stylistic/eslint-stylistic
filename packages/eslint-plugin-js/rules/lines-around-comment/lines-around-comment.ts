@@ -3,7 +3,11 @@
  * @author Jamund Ferguson
  */
 
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { COMMENTS_IGNORE_PATTERN, isCommentToken, isOpeningBraceToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -14,7 +18,7 @@ import { COMMENTS_IGNORE_PATTERN, isCommentToken, isOpeningBraceToken, isTokenOn
  * @param {Array} lines An array of each line of the file.
  * @returns {Array} An array of line numbers.
  */
-function getEmptyLineNums(lines) {
+function getEmptyLineNums(lines: string[]) {
   const emptyLines = lines.map((line, i) => ({
     code: line.trim(),
     num: i + 1,
@@ -28,8 +32,8 @@ function getEmptyLineNums(lines) {
  * @param {Array} comments An array of comment tokens.
  * @returns {Array} An array of line numbers.
  */
-function getCommentLineNums(comments) {
-  const lines = []
+function getCommentLineNums(comments: Token[]) {
+  const lines: number[] = []
 
   comments.forEach((token) => {
     const start = token.loc.start.line
@@ -44,8 +48,7 @@ function getCommentLineNums(comments) {
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -126,7 +129,7 @@ export default {
     const options = Object.assign({}, context.options[0])
     const ignorePattern = options.ignorePattern
     const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN
-    const customIgnoreRegExp = new RegExp(ignorePattern, 'u')
+    const customIgnoreRegExp = ignorePattern && new RegExp(ignorePattern, 'u')
     const applyDefaultIgnorePatterns = options.applyDefaultIgnorePatterns !== false
 
     options.beforeBlockComment = typeof options.beforeBlockComment !== 'undefined' ? options.beforeBlockComment : true
@@ -145,8 +148,8 @@ export default {
      * @param {token} token The comment token to check.
      * @returns {boolean} True if the comment is not alone.
      */
-    function codeAroundComment(token) {
-      let currentToken = token
+    function codeAroundComment(token: Token) {
+      let currentToken: Token | null = token
 
       do
         currentToken = sourceCode.getTokenBefore(currentToken, { includeComments: true })
@@ -172,10 +175,11 @@ export default {
      * @param {string} nodeType The parent type to check against.
      * @returns {boolean} True if the comment is inside nodeType.
      */
-    function isParentNodeType(parent, nodeType) {
+    function isParentNodeType<T extends AST_NODE_TYPES>(
+      parent: ASTNode,
+      nodeType: T,
+    ): parent is Extract<ASTNode, { type: T }> {
       return parent.type === nodeType
-                || (parent.body && parent.body.type === nodeType)
-                || (parent.consequent && parent.consequent.type === nodeType)
     }
 
     /**
@@ -183,7 +187,7 @@ export default {
      * @param {token} token The token to check.
      * @returns {ASTNode|null} The parent node that contains the given token.
      */
-    function getParentNodeOfToken(token) {
+    function getParentNodeOfToken(token: Token): ASTNode | null {
       const node = sourceCode.getNodeByRangeIndex(token.range[0])
 
       /*
@@ -208,7 +212,7 @@ export default {
       if (node && node.type === 'StaticBlock') {
         const openingBrace = sourceCode.getFirstToken(node, { skip: 1 }) // skip the `static` token
 
-        return token.range[0] >= openingBrace.range[0]
+        return openingBrace && token.range[0] >= openingBrace.range[0]
           ? node
           : null
       }
@@ -222,11 +226,11 @@ export default {
      * @param {string} nodeType The parent type to check against.
      * @returns {boolean} True if the comment is at parent start.
      */
-    function isCommentAtParentStart(token, nodeType) {
+    function isCommentAtParentStart(token: Token, nodeType: AST_NODE_TYPES) {
       const parent = getParentNodeOfToken(token)
 
       if (parent && isParentNodeType(parent, nodeType)) {
-        let parentStartNodeOrToken = parent
+        let parentStartNodeOrToken: Token | ASTNode | null = parent
 
         if (parent.type === 'StaticBlock') {
           parentStartNodeOrToken = sourceCode.getFirstToken(parent, { skip: 1 }) // opening brace of the static block
@@ -237,7 +241,7 @@ export default {
           }) // opening brace of the switch statement
         }
 
-        return token.loc.start.line - parentStartNodeOrToken.loc.start.line === 1
+        return !!parentStartNodeOrToken && token.loc.start.line - parentStartNodeOrToken.loc.start.line === 1
       }
 
       return false
@@ -249,7 +253,7 @@ export default {
      * @param {string} nodeType The parent type to check against.
      * @returns {boolean} True if the comment is at parent end.
      */
-    function isCommentAtParentEnd(token, nodeType) {
+    function isCommentAtParentEnd(token: Token, nodeType: AST_NODE_TYPES) {
       const parent = getParentNodeOfToken(token)
 
       return !!parent && isParentNodeType(parent, nodeType)
@@ -261,13 +265,13 @@ export default {
      * @param {token} token The Comment token.
      * @returns {boolean} True if the comment is at block start.
      */
-    function isCommentAtBlockStart(token) {
+    function isCommentAtBlockStart(token: Token) {
       return (
-        isCommentAtParentStart(token, 'ClassBody')
-                || isCommentAtParentStart(token, 'BlockStatement')
-                || isCommentAtParentStart(token, 'StaticBlock')
-                || isCommentAtParentStart(token, 'SwitchCase')
-                || isCommentAtParentStart(token, 'SwitchStatement')
+        isCommentAtParentStart(token, AST_NODE_TYPES.ClassBody)
+                || isCommentAtParentStart(token, AST_NODE_TYPES.BlockStatement)
+                || isCommentAtParentStart(token, AST_NODE_TYPES.StaticBlock)
+                || isCommentAtParentStart(token, AST_NODE_TYPES.SwitchCase)
+                || isCommentAtParentStart(token, AST_NODE_TYPES.SwitchStatement)
       )
     }
 
@@ -276,13 +280,13 @@ export default {
      * @param {token} token The Comment token.
      * @returns {boolean} True if the comment is at block end.
      */
-    function isCommentAtBlockEnd(token) {
+    function isCommentAtBlockEnd(token: Token) {
       return (
-        isCommentAtParentEnd(token, 'ClassBody')
-                || isCommentAtParentEnd(token, 'BlockStatement')
-                || isCommentAtParentEnd(token, 'StaticBlock')
-                || isCommentAtParentEnd(token, 'SwitchCase')
-                || isCommentAtParentEnd(token, 'SwitchStatement')
+        isCommentAtParentEnd(token, AST_NODE_TYPES.ClassBody)
+                || isCommentAtParentEnd(token, AST_NODE_TYPES.BlockStatement)
+                || isCommentAtParentEnd(token, AST_NODE_TYPES.StaticBlock)
+                || isCommentAtParentEnd(token, AST_NODE_TYPES.SwitchCase)
+                || isCommentAtParentEnd(token, AST_NODE_TYPES.SwitchStatement)
       )
     }
 
@@ -291,8 +295,8 @@ export default {
      * @param {token} token The Comment token.
      * @returns {boolean} True if the comment is at class start.
      */
-    function isCommentAtClassStart(token) {
-      return isCommentAtParentStart(token, 'ClassBody')
+    function isCommentAtClassStart(token: Token) {
+      return isCommentAtParentStart(token, AST_NODE_TYPES.ClassBody)
     }
 
     /**
@@ -300,8 +304,8 @@ export default {
      * @param {token} token The Comment token.
      * @returns {boolean} True if the comment is at class end.
      */
-    function isCommentAtClassEnd(token) {
-      return isCommentAtParentEnd(token, 'ClassBody')
+    function isCommentAtClassEnd(token: Token) {
+      return isCommentAtParentEnd(token, AST_NODE_TYPES.ClassBody)
     }
 
     /**
@@ -309,8 +313,9 @@ export default {
      * @param {token} token The Comment token.
      * @returns {boolean} True if the comment is at object start.
      */
-    function isCommentAtObjectStart(token) {
-      return isCommentAtParentStart(token, 'ObjectExpression') || isCommentAtParentStart(token, 'ObjectPattern')
+    function isCommentAtObjectStart(token: Token) {
+      return isCommentAtParentStart(token, AST_NODE_TYPES.ObjectExpression)
+        || isCommentAtParentStart(token, AST_NODE_TYPES.ObjectPattern)
     }
 
     /**
@@ -318,8 +323,9 @@ export default {
      * @param {token} token The Comment token.
      * @returns {boolean} True if the comment is at object end.
      */
-    function isCommentAtObjectEnd(token) {
-      return isCommentAtParentEnd(token, 'ObjectExpression') || isCommentAtParentEnd(token, 'ObjectPattern')
+    function isCommentAtObjectEnd(token: Token) {
+      return isCommentAtParentEnd(token, AST_NODE_TYPES.ObjectExpression)
+        || isCommentAtParentEnd(token, AST_NODE_TYPES.ObjectPattern)
     }
 
     /**
@@ -327,8 +333,9 @@ export default {
      * @param {token} token The Comment token.
      * @returns {boolean} True if the comment is at array start.
      */
-    function isCommentAtArrayStart(token) {
-      return isCommentAtParentStart(token, 'ArrayExpression') || isCommentAtParentStart(token, 'ArrayPattern')
+    function isCommentAtArrayStart(token: Token) {
+      return isCommentAtParentStart(token, AST_NODE_TYPES.ArrayExpression)
+        || isCommentAtParentStart(token, AST_NODE_TYPES.ArrayPattern)
     }
 
     /**
@@ -336,8 +343,14 @@ export default {
      * @param {token} token The Comment token.
      * @returns {boolean} True if the comment is at array end.
      */
-    function isCommentAtArrayEnd(token) {
-      return isCommentAtParentEnd(token, 'ArrayExpression') || isCommentAtParentEnd(token, 'ArrayPattern')
+    function isCommentAtArrayEnd(token: Token) {
+      return isCommentAtParentEnd(token, AST_NODE_TYPES.ArrayExpression)
+        || isCommentAtParentEnd(token, AST_NODE_TYPES.ArrayPattern)
+    }
+
+    interface BeforAndAfter {
+      before: boolean | undefined
+      after: boolean | undefined
     }
 
     /**
@@ -348,11 +361,11 @@ export default {
      * @param {boolean} opts.before Should have a newline before this line.
      * @returns {void}
      */
-    function checkForEmptyLine(token, opts) {
+    function checkForEmptyLine(token: Token, opts: BeforAndAfter) {
       if (applyDefaultIgnorePatterns && defaultIgnoreRegExp.test(token.value))
         return
 
-      if (ignorePattern && customIgnoreRegExp.test(token.value))
+      if (customIgnoreRegExp && customIgnoreRegExp.test(token.value))
         return
 
       let after = opts.after
@@ -395,7 +408,7 @@ export default {
       if (!exceptionStartAllowed && before && !commentAndEmptyLines.has(prevLineNum)
                     && !(isCommentToken(previousTokenOrComment) && isTokenOnSameLine(previousTokenOrComment, token))) {
         const lineStart = token.range[0] - token.loc.start.column
-        const range = [lineStart, lineStart]
+        const range = [lineStart, lineStart] as const
 
         context.report({
           node: token,
@@ -442,6 +455,7 @@ export default {
               })
             }
           }
+          // @ts-expect-error 'Shebang' is not in the type definition
           else if (token.type === 'Shebang') {
             if (options.afterHashbangComment) {
               checkForEmptyLine(token, {
@@ -454,4 +468,4 @@ export default {
       },
     }
   },
-}
+})
