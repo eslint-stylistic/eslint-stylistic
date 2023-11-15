@@ -3,10 +3,9 @@
  * @author Jamund Ferguson
  */
 
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { COMMENTS_IGNORE_PATTERN, isCommentToken, isOpeningBraceToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token } from '../../utils/types'
+import type { ASTNode, NodeTypes, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -175,7 +174,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {string} nodeType The parent type to check against.
      * @returns {boolean} True if the comment is inside nodeType.
      */
-    function isParentNodeType<T extends AST_NODE_TYPES>(
+    function isParentNodeType<T extends NodeTypes>(
       parent: ASTNode,
       nodeType: T,
     ): parent is Extract<ASTNode, { type: T }> {
@@ -226,7 +225,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {string} nodeType The parent type to check against.
      * @returns {boolean} True if the comment is at parent start.
      */
-    function isCommentAtParentStart(token: Token, nodeType: AST_NODE_TYPES) {
+    function isCommentAtParentStart(token: Token, nodeType: NodeTypes) {
       const parent = getParentNodeOfToken(token)
 
       if (parent && isParentNodeType(parent, nodeType)) {
@@ -253,7 +252,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {string} nodeType The parent type to check against.
      * @returns {boolean} True if the comment is at parent end.
      */
-    function isCommentAtParentEnd(token: Token, nodeType: AST_NODE_TYPES) {
+    function isCommentAtParentEnd(token: Token, nodeType: NodeTypes) {
       const parent = getParentNodeOfToken(token)
 
       return !!parent && isParentNodeType(parent, nodeType)
@@ -267,11 +266,11 @@ export default createRule<MessageIds, RuleOptions>({
      */
     function isCommentAtBlockStart(token: Token) {
       return (
-        isCommentAtParentStart(token, AST_NODE_TYPES.ClassBody)
-                || isCommentAtParentStart(token, AST_NODE_TYPES.BlockStatement)
-                || isCommentAtParentStart(token, AST_NODE_TYPES.StaticBlock)
-                || isCommentAtParentStart(token, AST_NODE_TYPES.SwitchCase)
-                || isCommentAtParentStart(token, AST_NODE_TYPES.SwitchStatement)
+        isCommentAtParentStart(token, 'ClassBody')
+      || isCommentAtParentStart(token, 'BlockStatement')
+      || isCommentAtParentStart(token, 'StaticBlock')
+      || isCommentAtParentStart(token, 'SwitchCase')
+      || isCommentAtParentStart(token, 'SwitchStatement')
       )
     }
 
@@ -282,11 +281,11 @@ export default createRule<MessageIds, RuleOptions>({
      */
     function isCommentAtBlockEnd(token: Token) {
       return (
-        isCommentAtParentEnd(token, AST_NODE_TYPES.ClassBody)
-                || isCommentAtParentEnd(token, AST_NODE_TYPES.BlockStatement)
-                || isCommentAtParentEnd(token, AST_NODE_TYPES.StaticBlock)
-                || isCommentAtParentEnd(token, AST_NODE_TYPES.SwitchCase)
-                || isCommentAtParentEnd(token, AST_NODE_TYPES.SwitchStatement)
+        isCommentAtParentEnd(token, 'ClassBody')
+      || isCommentAtParentEnd(token, 'BlockStatement')
+      || isCommentAtParentEnd(token, 'StaticBlock')
+      || isCommentAtParentEnd(token, 'SwitchCase')
+      || isCommentAtParentEnd(token, 'SwitchStatement')
       )
     }
 
@@ -296,7 +295,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {boolean} True if the comment is at class start.
      */
     function isCommentAtClassStart(token: Token) {
-      return isCommentAtParentStart(token, AST_NODE_TYPES.ClassBody)
+      return isCommentAtParentStart(token, 'ClassBody')
     }
 
     /**
@@ -305,7 +304,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {boolean} True if the comment is at class end.
      */
     function isCommentAtClassEnd(token: Token) {
-      return isCommentAtParentEnd(token, AST_NODE_TYPES.ClassBody)
+      return isCommentAtParentEnd(token, 'ClassBody')
     }
 
     /**
@@ -314,8 +313,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {boolean} True if the comment is at object start.
      */
     function isCommentAtObjectStart(token: Token) {
-      return isCommentAtParentStart(token, AST_NODE_TYPES.ObjectExpression)
-        || isCommentAtParentStart(token, AST_NODE_TYPES.ObjectPattern)
+      return isCommentAtParentStart(token, 'ObjectExpression')
+        || isCommentAtParentStart(token, 'ObjectPattern')
     }
 
     /**
@@ -324,8 +323,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {boolean} True if the comment is at object end.
      */
     function isCommentAtObjectEnd(token: Token) {
-      return isCommentAtParentEnd(token, AST_NODE_TYPES.ObjectExpression)
-        || isCommentAtParentEnd(token, AST_NODE_TYPES.ObjectPattern)
+      return isCommentAtParentEnd(token, 'ObjectExpression')
+        || isCommentAtParentEnd(token, 'ObjectPattern')
     }
 
     /**
@@ -334,8 +333,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {boolean} True if the comment is at array start.
      */
     function isCommentAtArrayStart(token: Token) {
-      return isCommentAtParentStart(token, AST_NODE_TYPES.ArrayExpression)
-        || isCommentAtParentStart(token, AST_NODE_TYPES.ArrayPattern)
+      return isCommentAtParentStart(token, 'ArrayExpression')
+        || isCommentAtParentStart(token, 'ArrayPattern')
     }
 
     /**
@@ -344,8 +343,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {boolean} True if the comment is at array end.
      */
     function isCommentAtArrayEnd(token: Token) {
-      return isCommentAtParentEnd(token, AST_NODE_TYPES.ArrayExpression)
-        || isCommentAtParentEnd(token, AST_NODE_TYPES.ArrayPattern)
+      return isCommentAtParentEnd(token, 'ArrayExpression')
+        || isCommentAtParentEnd(token, 'ArrayPattern')
     }
 
     interface BeforAndAfter {
