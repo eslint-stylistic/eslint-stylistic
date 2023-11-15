@@ -9,6 +9,7 @@ export { TSESTree as Tree }
 export type RuleFixer = TSESLint.RuleFixer
 export type ReportFixFunction = TSESLint.ReportFixFunction
 export type NodeTypes = AST_NODE_TYPES
+export type RuleListener = TSESLint.RuleListener
 export { JSONSchema } from '@typescript-eslint/utils'
 
 // Basic ESLint Types (only contains JS tokens)

@@ -5,7 +5,7 @@
 
 import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Tree } from '../../utils/types'
+import type { RuleListener, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -199,7 +199,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     if (enforceForClassMembers) {
       listeners.MethodDefinition
-                = listeners.PropertyDefinition = listeners.Property
+                = listeners.PropertyDefinition = listeners.Property as any // to pass type check
     }
 
     return listeners
