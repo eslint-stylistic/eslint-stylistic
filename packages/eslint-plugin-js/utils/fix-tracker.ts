@@ -3,7 +3,9 @@
  * @author Alan Pierce
  */
 
-import type { AST, Rule, SourceCode } from 'eslint'
+import type { AST } from 'eslint'
+import type { TSESTree } from '@typescript-eslint/utils'
+import type { RuleFixer, SourceCode } from '@typescript-eslint/utils/ts-eslint'
 import { getUpperFunction } from './ast-utils'
 import type { ASTNode } from './types'
 
@@ -21,7 +23,7 @@ class FixTracker {
    * @param sourceCode A SourceCode object for the current code.
    */
   constructor(
-    public fixer: Rule.RuleFixer,
+    public fixer: RuleFixer,
     public sourceCode: SourceCode,
   ) {
     this.retainedRange = null
@@ -61,7 +63,7 @@ class FixTracker {
    *      point. The token to the left and right are use in the range.
    * @returns {FixTracker} The same RuleFixer, for chained calls.
    */
-  retainSurroundingTokens(nodeOrToken: AST.Token) {
+  retainSurroundingTokens(nodeOrToken: TSESTree.Token | TSESTree.Node) {
     const tokenBefore = this.sourceCode.getTokenBefore(nodeOrToken) || nodeOrToken
     const tokenAfter = this.sourceCode.getTokenAfter(nodeOrToken) || nodeOrToken
 
@@ -102,7 +104,7 @@ class FixTracker {
    * @param {ASTNode|Token} nodeOrToken The node or token to remove.
    * @returns {object} The fix command.
    */
-  remove(nodeOrToken: ASTNode | AST.Token) {
+  remove(nodeOrToken: ASTNode | AST.Token | TSESTree.Token | TSESTree.Node) {
     return this.replaceTextRange(nodeOrToken.range, '')
   }
 }
