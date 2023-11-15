@@ -89,12 +89,12 @@ export default createRule<MessageIds, RuleOptions>({
           return
 
         if (node.computed) {
-          rightToken = sourceCode.getTokenBefore(node.property, isOpeningBracketToken) as Token
-          leftToken = sourceCode.getTokenBefore(rightToken, node.optional ? 1 : 0) as Token
+          rightToken = sourceCode.getTokenBefore(node.property, isOpeningBracketToken)!
+          leftToken = sourceCode.getTokenBefore(rightToken, node.optional ? 1 : 0)!
         }
         else {
-          rightToken = sourceCode.getFirstToken(node.property) as Token
-          leftToken = sourceCode.getTokenBefore(rightToken, 1) as Token
+          rightToken = sourceCode.getFirstToken(node.property)!
+          leftToken = sourceCode.getTokenBefore(rightToken, 1)!
         }
 
         if (sourceCode.isSpaceBetweenTokens(leftToken, rightToken))
