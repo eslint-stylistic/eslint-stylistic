@@ -192,9 +192,7 @@ export default createRule<MessageIds, RuleOptions>({
       | Tree.MemberExpression
       | Tree.MethodDefinition
 
-    const listeners: {
-      [K in NodeType['type']]?: (node: NodeType) => void
-    } = {
+    const listeners: RuleListener = {
       Property: checkSpacing<Tree.Property>('key'),
       MemberExpression: checkSpacing<Tree.MemberExpression>('property'),
     }
