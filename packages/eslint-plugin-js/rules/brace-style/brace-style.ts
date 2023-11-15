@@ -3,14 +3,20 @@
  * @author Ian Christian Myers
  */
 
-import { STATEMENT_LIST_PARENTS, isTokenOnSameLine } from '../../utils/ast-utils'
+import type { ReportFixFunction } from '@typescript-eslint/utils/ts-eslint'
+import {
+  STATEMENT_LIST_PARENTS,
+  isTokenOnSameLine,
+} from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { Token } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -21,6 +27,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['1tbs', 'stroustrup', 'allman'],
       },
       {
@@ -38,12 +45,17 @@ export default {
     fixable: 'whitespace',
 
     messages: {
-      nextLineOpen: 'Opening curly brace does not appear on the same line as controlling statement.',
-      sameLineOpen: 'Opening curly brace appears on the same line as controlling statement.',
+      nextLineOpen:
+        'Opening curly brace does not appear on the same line as controlling statement.',
+      sameLineOpen:
+        'Opening curly brace appears on the same line as controlling statement.',
       blockSameLine: 'Statement inside of curly braces should be on next line.',
-      nextLineClose: 'Closing curly brace does not appear on the same line as the subsequent block.',
-      singleLineClose: 'Closing curly brace should be on the same line as opening curly brace or on the line after the previous block.',
-      sameLineClose: 'Closing curly brace appears on the same line as the subsequent block.',
+      nextLineClose:
+        'Closing curly brace does not appear on the same line as the subsequent block.',
+      singleLineClose:
+        'Closing curly brace should be on the same line as opening curly brace or on the line after the previous block.',
+      sameLineClose:
+        'Closing curly brace appears on the same line as the subsequent block.',
     },
   },
 
@@ -62,8 +74,11 @@ export default {
      * @param {Token} secondToken The token after the unexpected newline
      * @returns {Function} A fixer function to remove the newlines between the tokens
      */
-    function removeNewlineBetween(firstToken, secondToken) {
-      const textRange = [firstToken.range[1], secondToken.range[0]]
+    function removeNewlineBetween(
+      firstToken: Token,
+      secondToken: Token,
+    ): ReportFixFunction | null {
+      const textRange = [firstToken.range[1], secondToken.range[0]] as const
       const textBetween = sourceCode.text.slice(textRange[0], textRange[1])
 
       // Don't do a fix if there is a comment between the tokens
@@ -79,21 +94,32 @@ export default {
      * @param {Token} closingCurly The closing curly bracket
      * @returns {void}
      */
-    function validateCurlyPair(openingCurly, closingCurly) {
-      const tokenBeforeOpeningCurly = sourceCode.getTokenBefore(openingCurly)
-      const tokenAfterOpeningCurly = sourceCode.getTokenAfter(openingCurly)
-      const tokenBeforeClosingCurly = sourceCode.getTokenBefore(closingCurly)
-      const singleLineException = params.allowSingleLine && isTokenOnSameLine(openingCurly, closingCurly)
+    function validateCurlyPair(openingCurly: Token, closingCurly: Token): void {
+      const tokenBeforeOpeningCurly = sourceCode.getTokenBefore(openingCurly)!
+      const tokenAfterOpeningCurly = sourceCode.getTokenAfter(openingCurly)!
+      const tokenBeforeClosingCurly = sourceCode.getTokenBefore(closingCurly)!
+      const singleLineException = params.allowSingleLine
+        && isTokenOnSameLine(openingCurly, closingCurly)
 
-      if (style !== 'allman' && !isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly)) {
+      if (
+        style !== 'allman'
+        && !isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly)
+      ) {
         context.report({
           node: openingCurly,
           messageId: 'nextLineOpen',
-          fix: removeNewlineBetween(tokenBeforeOpeningCurly, openingCurly),
+          fix: removeNewlineBetween(
+            tokenBeforeOpeningCurly!,
+            openingCurly,
+          ),
         })
       }
 
-      if (style === 'allman' && isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly) && !singleLineException) {
+      if (
+        style === 'allman'
+        && isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly)
+        && !singleLineException
+      ) {
         context.report({
           node: openingCurly,
           messageId: 'sameLineOpen',
@@ -101,7 +127,10 @@ export default {
         })
       }
 
-      if (isTokenOnSameLine(openingCurly, tokenAfterOpeningCurly) && tokenAfterOpeningCurly !== closingCurly && !singleLineException) {
+      if (
+        isTokenOnSameLine(openingCurly, tokenAfterOpeningCurly)
+        && tokenAfterOpeningCurly !== closingCurly && !singleLineException
+      ) {
         context.report({
           node: openingCurly,
           messageId: 'blockSameLine',
@@ -109,7 +138,10 @@ export default {
         })
       }
 
-      if (tokenBeforeClosingCurly !== openingCurly && !singleLineException && isTokenOnSameLine(tokenBeforeClosingCurly, closingCurly)) {
+      if (
+        tokenBeforeClosingCurly !== openingCurly && !singleLineException
+        && isTokenOnSameLine(tokenBeforeClosingCurly, closingCurly)
+      ) {
         context.report({
           node: closingCurly,
           messageId: 'singleLineClose',
@@ -123,8 +155,8 @@ export default {
      * @param {Token} curlyToken The closing curly token. This is assumed to precede a keyword token (such as `else` or `finally`).
      * @returns {void}
      */
-    function validateCurlyBeforeKeyword(curlyToken) {
-      const keywordToken = sourceCode.getTokenAfter(curlyToken)
+    function validateCurlyBeforeKeyword(curlyToken: Token): void {
+      const keywordToken = sourceCode.getTokenAfter(curlyToken)!
 
       if (style === '1tbs' && !isTokenOnSameLine(curlyToken, keywordToken)) {
         context.report({
@@ -149,39 +181,54 @@ export default {
 
     return {
       BlockStatement(node) {
-        if (!STATEMENT_LIST_PARENTS.has(node.parent.type))
-          validateCurlyPair(sourceCode.getFirstToken(node), sourceCode.getLastToken(node))
+        if (!STATEMENT_LIST_PARENTS.has(node.parent.type)) {
+          validateCurlyPair(
+            sourceCode.getFirstToken(node)!,
+            sourceCode.getLastToken(node)!,
+          )
+        }
       },
       StaticBlock(node) {
         validateCurlyPair(
-          sourceCode.getFirstToken(node, { skip: 1 }), // skip the `static` token
-          sourceCode.getLastToken(node),
+          sourceCode.getFirstToken(node, { skip: 1 })!, // skip the `static` token
+          sourceCode.getLastToken(node)!,
         )
       },
       ClassBody(node) {
-        validateCurlyPair(sourceCode.getFirstToken(node), sourceCode.getLastToken(node))
+        validateCurlyPair(
+          sourceCode.getFirstToken(node)!,
+          sourceCode.getLastToken(node)!,
+        )
       },
       SwitchStatement(node) {
         const closingCurly = sourceCode.getLastToken(node)
-        const openingCurly = sourceCode.getTokenBefore(node.cases.length ? node.cases[0] : closingCurly)
+        const openingCurly = sourceCode.getTokenBefore(
+          node.cases.length ? node.cases[0] : closingCurly!,
+        )
 
-        validateCurlyPair(openingCurly, closingCurly)
+        validateCurlyPair(openingCurly!, closingCurly!)
       },
       IfStatement(node) {
         if (node.consequent.type === 'BlockStatement' && node.alternate) {
           // Handle the keyword after the `if` block (before `else`)
-          validateCurlyBeforeKeyword(sourceCode.getLastToken(node.consequent))
+          validateCurlyBeforeKeyword(
+            sourceCode.getLastToken(node.consequent)!,
+          )
         }
       },
       TryStatement(node) {
         // Handle the keyword after the `try` block (before `catch` or `finally`)
-        validateCurlyBeforeKeyword(sourceCode.getLastToken(node.block))
+        validateCurlyBeforeKeyword(
+          sourceCode.getLastToken(node.block)!,
+        )
 
         if (node.handler && node.finalizer) {
           // Handle the keyword after the `catch` block (before `finally`)
-          validateCurlyBeforeKeyword(sourceCode.getLastToken(node.handler.body))
+          validateCurlyBeforeKeyword(
+            sourceCode.getLastToken(node.handler.body)!,
+          )
         }
       },
     }
   },
-}
+})
