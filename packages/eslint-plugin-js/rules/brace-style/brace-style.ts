@@ -69,10 +69,7 @@ export default createRule({
      * @param {Token} secondToken The token after the unexpected newline
      * @returns {Function} A fixer function to remove the newlines between the tokens
      */
-    function removeNewlineBetween(
-      firstToken: Token,
-      secondToken: Token,
-    ): ReportFixFunction | null {
+    function removeNewlineBetween(firstToken: Token, secondToken: Token): ReportFixFunction | null {
       const textRange = [firstToken.range[1], secondToken.range[0]] as const
       const textBetween = sourceCode.text.slice(textRange[0], textRange[1])
 
@@ -93,13 +90,9 @@ export default createRule({
       const tokenBeforeOpeningCurly = sourceCode.getTokenBefore(openingCurly)!
       const tokenAfterOpeningCurly = sourceCode.getTokenAfter(openingCurly)!
       const tokenBeforeClosingCurly = sourceCode.getTokenBefore(closingCurly)!
-      const singleLineException = params.allowSingleLine
-        && isTokenOnSameLine(openingCurly, closingCurly)
+      const singleLineException = params.allowSingleLine && isTokenOnSameLine(openingCurly, closingCurly)
 
-      if (
-        style !== 'allman'
-        && !isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly)
-      ) {
+      if (style !== 'allman' && !isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly)) {
         context.report({
           node: openingCurly,
           messageId: 'nextLineOpen',
@@ -110,11 +103,7 @@ export default createRule({
         })
       }
 
-      if (
-        style === 'allman'
-        && isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly)
-        && !singleLineException
-      ) {
+      if (style === 'allman' && isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly) && !singleLineException) {
         context.report({
           node: openingCurly,
           messageId: 'sameLineOpen',
@@ -122,10 +111,7 @@ export default createRule({
         })
       }
 
-      if (
-        isTokenOnSameLine(openingCurly, tokenAfterOpeningCurly)
-        && tokenAfterOpeningCurly !== closingCurly && !singleLineException
-      ) {
+      if (isTokenOnSameLine(openingCurly, tokenAfterOpeningCurly) && tokenAfterOpeningCurly !== closingCurly && !singleLineException) {
         context.report({
           node: openingCurly,
           messageId: 'blockSameLine',
@@ -133,10 +119,7 @@ export default createRule({
         })
       }
 
-      if (
-        tokenBeforeClosingCurly !== openingCurly && !singleLineException
-        && isTokenOnSameLine(tokenBeforeClosingCurly, closingCurly)
-      ) {
+      if (tokenBeforeClosingCurly !== openingCurly && !singleLineException && isTokenOnSameLine(tokenBeforeClosingCurly, closingCurly)) {
         context.report({
           node: closingCurly,
           messageId: 'singleLineClose',
@@ -176,12 +159,8 @@ export default createRule({
 
     return {
       BlockStatement(node) {
-        if (!STATEMENT_LIST_PARENTS.has(node.parent.type)) {
-          validateCurlyPair(
-            sourceCode.getFirstToken(node)!,
-            sourceCode.getLastToken(node)!,
-          )
-        }
+        if (!STATEMENT_LIST_PARENTS.has(node.parent.type))
+          validateCurlyPair(sourceCode.getFirstToken(node)!, sourceCode.getLastToken(node)!)
       },
       StaticBlock(node) {
         validateCurlyPair(
@@ -190,38 +169,27 @@ export default createRule({
         )
       },
       ClassBody(node) {
-        validateCurlyPair(
-          sourceCode.getFirstToken(node)!,
-          sourceCode.getLastToken(node)!,
-        )
+        validateCurlyPair(sourceCode.getFirstToken(node)!, sourceCode.getLastToken(node)!)
       },
       SwitchStatement(node) {
         const closingCurly = sourceCode.getLastToken(node)
-        const openingCurly = sourceCode.getTokenBefore(
-          node.cases.length ? node.cases[0] : closingCurly!,
-        )
+        const openingCurly = sourceCode.getTokenBefore(node.cases.length ? node.cases[0] : closingCurly!)
 
         validateCurlyPair(openingCurly!, closingCurly!)
       },
       IfStatement(node) {
         if (node.consequent.type === 'BlockStatement' && node.alternate) {
           // Handle the keyword after the `if` block (before `else`)
-          validateCurlyBeforeKeyword(
-            sourceCode.getLastToken(node.consequent)!,
-          )
+          validateCurlyBeforeKeyword(sourceCode.getLastToken(node.consequent)!)
         }
       },
       TryStatement(node) {
         // Handle the keyword after the `try` block (before `catch` or `finally`)
-        validateCurlyBeforeKeyword(
-          sourceCode.getLastToken(node.block)!,
-        )
+        validateCurlyBeforeKeyword(sourceCode.getLastToken(node.block)!)
 
         if (node.handler && node.finalizer) {
           // Handle the keyword after the `catch` block (before `finally`)
-          validateCurlyBeforeKeyword(
-            sourceCode.getLastToken(node.handler.body)!,
-          )
+          validateCurlyBeforeKeyword(sourceCode.getLastToken(node.handler.body)!)
         }
       },
     }
