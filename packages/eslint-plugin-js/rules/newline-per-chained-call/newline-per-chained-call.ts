@@ -4,9 +4,9 @@
  * @author Burak Yigit Kaya
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { LINEBREAK_MATCHER, isNotClosingParenToken, isTokenOnSameLine, skipChainExpression } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
+import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -54,7 +54,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node A MemberExpression node to get
      * @returns {string} The prefix of the node.
      */
-    function getPrefix(node: TSESTree.MemberExpression) {
+    function getPrefix(node: Tree.MemberExpression) {
       if (node.computed) {
         if (node.optional)
           return '?.['
@@ -73,7 +73,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node A MemberExpression node to get.
      * @returns {string} The property text of the node.
      */
-    function getPropertyText(node: TSESTree.MemberExpression) {
+    function getPropertyText(node: Tree.MemberExpression) {
       const prefix = getPrefix(node)
       const lines = sourceCode.getText(node.property).split(LINEBREAK_MATCHER)
       const suffix = node.computed && lines.length === 1 ? ']' : ''
@@ -82,7 +82,7 @@ export default createRule<MessageIds, RuleOptions>({
     }
 
     return {
-      'CallExpression:exit': function (node: TSESTree.CallExpression) {
+      'CallExpression:exit': function (node: Tree.CallExpression) {
         const callee = skipChainExpression(node.callee)
 
         if (callee.type !== 'MemberExpression')

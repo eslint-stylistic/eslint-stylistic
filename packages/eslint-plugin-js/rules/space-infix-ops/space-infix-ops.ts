@@ -3,14 +3,16 @@
  * @author Michael Ficarra
  */
 
+import { createRule } from '../../utils/createRule'
 import { isEqToken } from '../../utils/ast-utils'
+import type { ASTNode, Token, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -45,31 +47,29 @@ export default {
 
     /**
      * Returns the first token which violates the rule
-     * @param {ASTNode} left The left node of the main node
-     * @param {ASTNode} right The right node of the main node
-     * @param {string} op The operator of the main node
-     * @returns {object} The violator token or null
+     * @param left The left node of the main node
+     * @param right The right node of the main node
+     * @param op The operator of the main node
+     * @returns The violator token or null
      * @private
      */
-    function getFirstNonSpacedToken(left, right, op) {
-      const operator = sourceCode.getFirstTokenBetween(left, right, token => token.value === op)
-      const prev = sourceCode.getTokenBefore(operator)
-      const next = sourceCode.getTokenAfter(operator)
+    function getFirstNonSpacedToken(left: ASTNode, right: ASTNode, op: string) {
+      const operator = sourceCode.getFirstTokenBetween(left, right, token => token.value === op)!
+      const prev = sourceCode.getTokenBefore(operator)!
+      const next = sourceCode.getTokenAfter(operator)!
 
       if (!sourceCode.isSpaceBetweenTokens(prev, operator) || !sourceCode.isSpaceBetweenTokens(operator, next))
         return operator
-
       return null
     }
 
     /**
      * Reports an AST node as a rule violation
-     * @param {ASTNode} mainNode The node to report
-     * @param {object} culpritToken The token which has a problem
-     * @returns {void}
+     * @param mainNode The node to report
+     * @param culpritToken The token which has a problem
      * @private
      */
-    function report(mainNode, culpritToken) {
+    function report(mainNode: ASTNode, culpritToken: Token) {
       context.report({
         node: mainNode,
         loc: culpritToken.loc,
@@ -78,8 +78,8 @@ export default {
           operator: culpritToken.value,
         },
         fix(fixer) {
-          const previousToken = sourceCode.getTokenBefore(culpritToken)
-          const afterToken = sourceCode.getTokenAfter(culpritToken)
+          const previousToken = sourceCode.getTokenBefore(culpritToken)!
+          const afterToken = sourceCode.getTokenAfter(culpritToken)!
           let fixString = ''
 
           if (culpritToken.range[0] - previousToken.range[1] === 0)
@@ -97,16 +97,20 @@ export default {
 
     /**
      * Check if the node is binary then report
-     * @param {ASTNode} node node to evaluate
-     * @returns {void}
+     * @param node node to evaluate
      * @private
      */
-    function checkBinary(node) {
-      const leftNode = (node.left.typeAnnotation) ? node.left.typeAnnotation : node.left
+    function checkBinary(node:
+    | Tree.AssignmentExpression
+    | Tree.AssignmentPattern
+    | Tree.BinaryExpression
+    | Tree.LogicalExpression,
+    ) {
+      const leftNode = 'typeAnnotation' in node.left ? node.left.typeAnnotation! : node.left
       const rightNode = node.right
 
       // search for = in AssignmentPattern nodes
-      const operator = node.operator || '='
+      const operator = 'operator' in node ? node.operator : '='
 
       const nonSpacedNode = getFirstNonSpacedToken(leftNode, rightNode, operator)
 
@@ -118,11 +122,10 @@ export default {
 
     /**
      * Check if the node is conditional
-     * @param {ASTNode} node node to evaluate
-     * @returns {void}
+     * @param node node to evaluate
      * @private
      */
-    function checkConditional(node) {
+    function checkConditional(node: Tree.ConditionalExpression) {
       const nonSpacedConsequentNode = getFirstNonSpacedToken(node.test, node.consequent, '?')
       const nonSpacedAlternateNode = getFirstNonSpacedToken(node.consequent, node.alternate, ':')
 
@@ -135,11 +138,10 @@ export default {
 
     /**
      * Check if the node is a variable
-     * @param {ASTNode} node node to evaluate
-     * @returns {void}
+     * @param node node to evaluate
      * @private
      */
-    function checkVar(node) {
+    function checkVar(node: Tree.VariableDeclarator) {
       const leftNode = (node.id.typeAnnotation) ? node.id.typeAnnotation : node.id
       const rightNode = node.init
 
@@ -168,9 +170,9 @@ export default {
                  * tokens may exist between `node.key` and `=`.
                  * Therefore, find the `=` from the right.
                  */
-        const operatorToken = sourceCode.getTokenBefore(node.value, isEqToken)
-        const leftToken = sourceCode.getTokenBefore(operatorToken)
-        const rightToken = sourceCode.getTokenAfter(operatorToken)
+        const operatorToken = sourceCode.getTokenBefore(node.value, isEqToken)!
+        const leftToken = sourceCode.getTokenBefore(operatorToken)!
+        const rightToken = sourceCode.getTokenAfter(operatorToken)!
 
         if (
           !sourceCode.isSpaceBetweenTokens(leftToken, operatorToken)
@@ -180,4 +182,4 @@ export default {
       },
     }
   },
-}
+})

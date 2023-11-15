@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-export type Schema0 = 'after' | 'before' | 'none' | null
+export type Schema0 = ('after' | 'before' | 'none') | null
 
 export interface Schema1 {
   overrides?: {

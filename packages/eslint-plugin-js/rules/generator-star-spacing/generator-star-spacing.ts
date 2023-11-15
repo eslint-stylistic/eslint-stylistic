@@ -3,16 +3,14 @@
  * @author Jamund Ferguson
  */
 
-import type { JSONSchema4 } from '@typescript-eslint/utils/json-schema'
-import type { TSESTree } from '@typescript-eslint/utils'
 import { createRule } from '../../utils/createRule'
-import type { Token } from '../../utils/types'
+import type { JSONSchema, Token, Tree } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-const OVERRIDE_SCHEMA: JSONSchema4 = {
+const OVERRIDE_SCHEMA: JSONSchema.JSONSchema4 = {
   oneOf: [
     {
       type: 'string',
@@ -119,7 +117,7 @@ export default createRule({
      * @param {ASTNode} node The function node to get.
      * @returns {Token} Found star token.
      */
-    function getStarToken(node: TSESTree.FunctionDeclaration | TSESTree.FunctionExpression) {
+    function getStarToken(node: Tree.FunctionDeclaration | Tree.FunctionExpression) {
       return sourceCode.getFirstToken(
         (('method' in node.parent && node.parent.method) || node.parent.type === 'MethodDefinition') ? node.parent : node,
         isStarToken,
@@ -173,7 +171,7 @@ export default createRule({
      * @param {ASTNode} node A function expression or declaration node.
      * @returns {void}
      */
-    function checkFunction(node: TSESTree.FunctionDeclaration | TSESTree.FunctionExpression) {
+    function checkFunction(node: Tree.FunctionDeclaration | Tree.FunctionExpression) {
       if (!node.generator)
         return
 

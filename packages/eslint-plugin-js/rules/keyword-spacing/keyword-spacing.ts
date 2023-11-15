@@ -3,11 +3,10 @@
  * @author Toru Nagashima
  */
 
-import type { JSONSchema, TSESTree } from '@typescript-eslint/utils'
 import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import keywords from '../../utils/keywords'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token } from '../../utils/types'
+import type { ASTNode, JSONSchema, Token, Tree } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Constants
@@ -354,9 +353,9 @@ export default createRule({
      */
     function checkSpacingForFunction(
       node:
-      | TSESTree.FunctionDeclaration
-      | TSESTree.ArrowFunctionExpression
-      | TSESTree.FunctionExpression,
+      | Tree.FunctionDeclaration
+      | Tree.ArrowFunctionExpression
+      | Tree.FunctionExpression,
     ) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
@@ -373,7 +372,7 @@ export default createRule({
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForClass(node: TSESTree.ClassDeclaration | TSESTree.ClassExpression) {
+    function checkSpacingForClass(node: Tree.ClassDeclaration | Tree.ClassExpression) {
       checkSpacingAroundFirstToken(node)
       checkSpacingAroundTokenBefore(node.superClass)
     }
@@ -384,7 +383,7 @@ export default createRule({
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForIfStatement(node: TSESTree.IfStatement) {
+    function checkSpacingForIfStatement(node: Tree.IfStatement) {
       checkSpacingAroundFirstToken(node)
       checkSpacingAroundTokenBefore(node.alternate)
     }
@@ -395,7 +394,7 @@ export default createRule({
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForTryStatement(node: TSESTree.TryStatement) {
+    function checkSpacingForTryStatement(node: Tree.TryStatement) {
       checkSpacingAroundFirstToken(node)
       checkSpacingAroundFirstToken(node.handler)
       checkSpacingAroundTokenBefore(node.finalizer)
@@ -407,7 +406,7 @@ export default createRule({
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForDoWhileStatement(node: TSESTree.DoWhileStatement) {
+    function checkSpacingForDoWhileStatement(node: Tree.DoWhileStatement) {
       checkSpacingAroundFirstToken(node)
       checkSpacingAroundTokenBefore(node.test)
     }
@@ -418,7 +417,7 @@ export default createRule({
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForForInStatement(node: TSESTree.ForInStatement) {
+    function checkSpacingForForInStatement(node: Tree.ForInStatement) {
       checkSpacingAroundFirstToken(node)
 
       const inToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
@@ -426,7 +425,7 @@ export default createRule({
 
       // @ts-expect-error espree has PrivateIdentifier in tokens
       // https://github.com/eslint/espree/blob/1584ddb00f0b4e3ada764ac86ae20e1480003de3/lib/token-translator.js#L22C23-L22C23
-      // but TSESTree.Token has not
+      // but Tree.Token has not
       if (previousToken.type !== 'PrivateIdentifier')
         checkSpacingBefore(inToken)
 
@@ -439,7 +438,7 @@ export default createRule({
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForForOfStatement(node: TSESTree.ForOfStatement) {
+    function checkSpacingForForOfStatement(node: Tree.ForOfStatement) {
       if (node.await) {
         checkSpacingBefore(sourceCode.getFirstToken(node, 0)!)
         checkSpacingAfter(sourceCode.getFirstToken(node, 1)!)
@@ -453,7 +452,7 @@ export default createRule({
 
       // @ts-expect-error espree has PrivateIdentifier in tokens
       // https://github.com/eslint/espree/blob/1584ddb00f0b4e3ada764ac86ae20e1480003de3/lib/token-translator.js#L22C23-L22C23
-      // but TSESTree.Token has not
+      // but Tree.Token has not
       if (previousToken.type !== 'PrivateIdentifier')
         checkSpacingBefore(ofToken)
 
@@ -473,10 +472,10 @@ export default createRule({
      */
     function checkSpacingForModuleDeclaration(
       node:
-      | TSESTree.ExportNamedDeclaration
-      | TSESTree.ExportDefaultDeclaration
-      | TSESTree.ExportAllDeclaration
-      | TSESTree.ImportDeclaration,
+      | Tree.ExportNamedDeclaration
+      | Tree.ExportDefaultDeclaration
+      | Tree.ExportAllDeclaration
+      | Tree.ImportDeclaration,
     ) {
       const firstToken = sourceCode.getFirstToken(node)!
 
@@ -512,7 +511,7 @@ export default createRule({
      * @param {ASTNode} node An `ImportSpecifier` node to check.
      * @returns {void}
      */
-    function checkSpacingForImportSpecifier(node: TSESTree.ImportSpecifier) {
+    function checkSpacingForImportSpecifier(node: Tree.ImportSpecifier) {
       if (node.imported.range[0] !== node.local.range[0]) {
         const asToken = sourceCode.getTokenBefore(node.local)!
 
@@ -526,7 +525,7 @@ export default createRule({
      * @param {ASTNode} node An `ExportSpecifier` node to check.
      * @returns {void}
      */
-    function checkSpacingForExportSpecifier(node: TSESTree.ExportSpecifier) {
+    function checkSpacingForExportSpecifier(node: Tree.ExportSpecifier) {
       if (node.local.range[0] !== node.exported.range[0]) {
         const asToken = sourceCode.getTokenBefore(node.exported)!
 
@@ -541,7 +540,7 @@ export default createRule({
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForImportNamespaceSpecifier(node: TSESTree.ImportNamespaceSpecifier) {
+    function checkSpacingForImportNamespaceSpecifier(node: Tree.ImportNamespaceSpecifier) {
       const asToken = sourceCode.getFirstToken(node, 1)!
 
       checkSpacingBefore(asToken, PREV_TOKEN_M)
@@ -554,7 +553,7 @@ export default createRule({
      * @throws {Error} If unable to find token get, set, or async beside method name.
      * @returns {void}
      */
-    function checkSpacingForProperty(node: TSESTree.MethodDefinition | TSESTree.PropertyDefinition | TSESTree.Property) {
+    function checkSpacingForProperty(node: Tree.MethodDefinition | Tree.PropertyDefinition | Tree.Property) {
       if (node.type === 'MethodDefinition' || node.type === 'PropertyDefinition' && node.static)
         checkSpacingAroundFirstToken(node)
 
@@ -594,7 +593,7 @@ export default createRule({
      * @param {ASTNode} node A node to report.
      * @returns {void}
      */
-    function checkSpacingForAwaitExpression(node: TSESTree.AwaitExpression) {
+    function checkSpacingForAwaitExpression(node: Tree.AwaitExpression) {
       checkSpacingBefore(sourceCode.getFirstToken(node)!)
     }
 
@@ -653,7 +652,7 @@ export default createRule({
       'Property': checkSpacingForProperty,
 
       // To avoid conflicts with `space-infix-ops`, e.g. `a > this.b`
-      'BinaryExpression[operator=\'>\']': function (node: TSESTree.BinaryExpression) {
+      'BinaryExpression[operator=\'>\']': function (node: Tree.BinaryExpression) {
         const operatorToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
 
         tokensToIgnore.add(operatorToken)

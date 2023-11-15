@@ -3,10 +3,9 @@
  * @author Nodeca Team <https://github.com/nodeca>
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode } from '../../utils/types'
+import type { ASTNode, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -64,7 +63,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {int[]} fixRange Range based on the whole program
      * @returns {void}
      */
-    function report(node: ASTNode, location: TSESTree.Position | TSESTree.SourceLocation, fixRange: Readonly<TSESTree.Range>) {
+    function report(node: ASTNode, location: Tree.Position | Tree.SourceLocation, fixRange: Readonly<Tree.Range>) {
       /*
              * Passing node is a bit dirty, because message data will contain big
              * text in `source`. But... who cares :) ?
@@ -86,7 +85,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {Array} comments An array of comment nodes.
      * @returns {number[]} An array of line numbers containing comments.
      */
-    function getCommentLineNumbers(comments: TSESTree.Comment[]) {
+    function getCommentLineNumbers(comments: Tree.Comment[]) {
       const lines = new Set()
 
       comments.forEach((comment) => {

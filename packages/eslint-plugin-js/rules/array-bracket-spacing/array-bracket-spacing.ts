@@ -4,13 +4,15 @@
  */
 
 import { isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Token, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -23,6 +25,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['always', 'never'],
       },
       {
@@ -60,7 +63,7 @@ export default {
      * @param {object} option The option to exclude.
      * @returns {boolean} Whether or not the property is excluded.
      */
-    function isOptionSet(option) {
+    function isOptionSet(option: keyof NonNullable<RuleOptions[1]>) {
       return context.options[1] ? context.options[1][option] === !spaced : false
     }
 
@@ -81,8 +84,8 @@ export default {
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportNoBeginningSpace(node, token) {
-      const nextToken = sourceCode.getTokenAfter(token)
+    function reportNoBeginningSpace(node: ASTNode, token: Token) {
+      const nextToken = sourceCode.getTokenAfter(token)!
 
       context.report({
         node,
@@ -103,8 +106,8 @@ export default {
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportNoEndingSpace(node, token) {
-      const previousToken = sourceCode.getTokenBefore(token)
+    function reportNoEndingSpace(node: ASTNode, token: Token) {
+      const previousToken = sourceCode.getTokenBefore(token)!
 
       context.report({
         node,
@@ -125,7 +128,7 @@ export default {
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportRequiredBeginningSpace(node, token) {
+    function reportRequiredBeginningSpace(node: ASTNode, token: Token) {
       context.report({
         node,
         loc: token.loc,
@@ -145,7 +148,7 @@ export default {
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportRequiredEndingSpace(node, token) {
+    function reportRequiredEndingSpace(node: ASTNode, token: Token) {
       context.report({
         node,
         loc: token.loc,
@@ -164,7 +167,7 @@ export default {
      * @param {ASTNode} node The node to check.
      * @returns {boolean} Whether or not the node is an object type.
      */
-    function isObjectType(node) {
+    function isObjectType(node: ASTNode) {
       return node && (node.type === 'ObjectExpression' || node.type === 'ObjectPattern')
     }
 
@@ -173,7 +176,7 @@ export default {
      * @param {ASTNode} node The node to check.
      * @returns {boolean} Whether or not the node is an array type.
      */
-    function isArrayType(node) {
+    function isArrayType(node: ASTNode) {
       return node && (node.type === 'ArrayExpression' || node.type === 'ArrayPattern')
     }
 
@@ -182,28 +185,28 @@ export default {
      * @param {ASTNode} node The node we're checking for spacing
      * @returns {void}
      */
-    function validateArraySpacing(node) {
+    function validateArraySpacing(node: Tree.ArrayPattern | Tree.ArrayExpression) {
       if (options.spaced && node.elements.length === 0)
         return
 
-      const first = sourceCode.getFirstToken(node)
-      const second = sourceCode.getFirstToken(node, 1)
-      const last = node.typeAnnotation
-        ? sourceCode.getTokenBefore(node.typeAnnotation)
-        : sourceCode.getLastToken(node)
-      const penultimate = sourceCode.getTokenBefore(last)
+      const first = sourceCode.getFirstToken(node)!
+      const second = sourceCode.getFirstToken(node, 1)!
+      const last = node.type === 'ArrayPattern' && node.typeAnnotation
+        ? sourceCode.getTokenBefore(node.typeAnnotation)!
+        : sourceCode.getLastToken(node)!
+      const penultimate = sourceCode.getTokenBefore(last)!
       const firstElement = node.elements[0]
       const lastElement = node.elements[node.elements.length - 1]
 
       const openingBracketMustBeSpaced
-                = options.objectsInArraysException && isObjectType(firstElement)
-                || options.arraysInArraysException && isArrayType(firstElement)
+                = firstElement && options.objectsInArraysException && isObjectType(firstElement)
+                || firstElement && options.arraysInArraysException && isArrayType(firstElement)
                 || options.singleElementException && node.elements.length === 1
                   ? !options.spaced : options.spaced
 
       const closingBracketMustBeSpaced
-                = options.objectsInArraysException && isObjectType(lastElement)
-                || options.arraysInArraysException && isArrayType(lastElement)
+                = lastElement && options.objectsInArraysException && isObjectType(lastElement)
+                || lastElement && options.arraysInArraysException && isArrayType(lastElement)
                 || options.singleElementException && node.elements.length === 1
                   ? !options.spaced : options.spaced
 
@@ -233,4 +236,4 @@ export default {
       ArrayExpression: validateArraySpacing,
     }
   },
-}
+})

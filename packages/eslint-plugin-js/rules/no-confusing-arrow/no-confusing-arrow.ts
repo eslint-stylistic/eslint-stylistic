@@ -4,10 +4,9 @@
  * @author Jxck <https://github.com/Jxck>
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { isParenthesised } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode } from '../../utils/types'
+import type { ASTNode, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -63,7 +62,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node A node to check and report.
      * @returns {void}
      */
-    function checkArrowFunc(node: TSESTree.ArrowFunctionExpression) {
+    function checkArrowFunc(node: Tree.ArrowFunctionExpression) {
       const body = node.body
 
       if (isConditional(body)

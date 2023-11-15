@@ -9,7 +9,6 @@
 
 // @ts-expect-error missing types https://github.com/eslint-community/eslint-utils/pull/60
 import { isParenthesized as isParenthesizedRaw } from '@eslint-community/eslint-utils'
-import type { TSESTree } from '@typescript-eslint/utils'
 import {
   canTokensBeAdjacent,
   getPrecedence,
@@ -26,7 +25,7 @@ import {
   skipChainExpression,
 } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token } from '../../utils/types'
+import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({
@@ -251,7 +250,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {boolean} True if the assignment can be parenthesised.
      * @private
      */
-    function isCondAssignException(node: TSESTree.ConditionalExpression | TSESTree.DoWhileStatement | TSESTree.WhileStatement | TSESTree.IfStatement | TSESTree.ForStatement) {
+    function isCondAssignException(node: Tree.ConditionalExpression | Tree.DoWhileStatement | Tree.WhileStatement | Tree.IfStatement | Tree.ForStatement) {
       return EXCEPT_COND_ASSIGN && node.test && node.test.type === 'AssignmentExpression'
     }
 
@@ -279,7 +278,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {boolean} True if the constructor is called with parens.
      * @private
      */
-    function isNewExpressionWithParens(newExpression: TSESTree.NewExpression) {
+    function isNewExpressionWithParens(newExpression: Tree.NewExpression) {
       const lastToken = sourceCode.getLastToken(newExpression)!
       const penultimateToken = sourceCode.getTokenBefore(lastToken)!
 
@@ -504,7 +503,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node MemberExpression node to evaluate
      * @returns {boolean} true if found, false if not
      */
-    function doesMemberExpressionContainCallExpression(node: TSESTree.MemberExpression) {
+    function doesMemberExpressionContainCallExpression(node: Tree.MemberExpression) {
       let currentNode = node.object
       let currentNodeType = node.object.type
 
@@ -524,40 +523,39 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {void}
      * @private
      */
-    function checkCallNew(node: TSESTree.CallExpression | TSESTree.NewExpression) {
+    function checkCallNew(node: Tree.CallExpression | Tree.NewExpression) {
       const callee = node.callee
 
       if (hasExcessParensWithPrecedence(callee, precedence(node))) {
         if (
           hasDoubleExcessParens(callee)
-                    || !(
-                      isIIFE(node)
+          || !(
+            isIIFE(node)
+              // (new A)(); new (new A)();
+              || (
+                // @ts-expect-error comment above
+                callee.type === 'NewExpression'
+                  && !isNewExpressionWithParens(callee)
+                  && !(
+                    node.type === 'NewExpression'
+                      && !isNewExpressionWithParens(node)
+                  )
+              )
 
-                        // (new A)(); new (new A)();
-                        || (
-                          // @ts-expect-error comment above
-                          callee.type === 'NewExpression'
-                            && !isNewExpressionWithParens(callee)
-                            && !(
-                              node.type === 'NewExpression'
-                                && !isNewExpressionWithParens(node)
-                            )
-                        )
+              // new (a().b)(); new (a.b().c);
+              || (
+                node.type === 'NewExpression'
+                  && callee.type === 'MemberExpression'
+                  && doesMemberExpressionContainCallExpression(callee)
+              )
 
-                        // new (a().b)(); new (a.b().c);
-                        || (
-                          node.type === 'NewExpression'
-                            && callee.type === 'MemberExpression'
-                            && doesMemberExpressionContainCallExpression(callee)
-                        )
-
-                        // (a?.b)(); (a?.())();
-                        || (
-                          (!('optional' in node) || !node.optional)
-                            // @ts-expect-error comment above
-                            && callee.type === 'ChainExpression'
-                        )
-                    )
+              // (a?.b)(); (a?.())();
+              || (
+                (!('optional' in node) || !node.optional)
+                  // @ts-expect-error comment above
+                  && callee.type === 'ChainExpression'
+              )
+          )
         )
           report(node.callee)
       }
@@ -572,7 +570,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {void}
      * @private
      */
-    function checkBinaryLogical(node: TSESTree.BinaryExpression | TSESTree.LogicalExpression) {
+    function checkBinaryLogical(node: Tree.BinaryExpression | Tree.LogicalExpression) {
       const prec = precedence(node)
       const leftPrecedence = precedence(node.left)
       const rightPrecedence = precedence(node.right)
@@ -605,7 +603,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node The node of class declarations to check.
      * @returns {void}
      */
-    function checkClass(node: TSESTree.ClassExpression | TSESTree.ClassDeclaration) {
+    function checkClass(node: Tree.ClassExpression | Tree.ClassDeclaration) {
       if (!node.superClass)
         return
 
@@ -626,7 +624,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node The node of spread elements/properties to check.
      * @returns {void}
      */
-    function checkSpreadOperator(node: TSESTree.SpreadElement) {
+    function checkSpreadOperator(node: Tree.SpreadElement) {
       if (hasExcessParensWithPrecedence(node.argument, PRECEDENCE_OF_ASSIGNMENT_EXPR))
         report(node.argument)
     }
@@ -636,7 +634,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node The ExpressionStatement.expression or ExportDefaultDeclaration.declaration node
      * @returns {void}
      */
-    function checkExpressionOrExportStatement(node: TSESTree.ExportDefaultDeclaration | TSESTree.ExpressionStatement | TSESTree.DefaultExportDeclarations) {
+    function checkExpressionOrExportStatement(node: Tree.ExportDefaultDeclaration | Tree.ExpressionStatement | Tree.DefaultExportDeclarations) {
       const firstToken = isParenthesised(node) ? sourceCode.getTokenBefore(node)! : sourceCode.getFirstToken(node)!
       const secondToken = sourceCode.getTokenAfter(firstToken, isNotOpeningParenToken)!
       const thirdToken = secondToken ? sourceCode.getTokenAfter(secondToken) : null
@@ -821,7 +819,7 @@ export default createRule<MessageIds, RuleOptions>({
      * operator is one of `=`, `&&=`, `||=` or `??=` and the right-hand side is an anonymous
      * class or function; otherwise, `false`.
      */
-    function isAnonymousFunctionAssignmentException({ left, operator, right }: TSESTree.AssignmentExpression) {
+    function isAnonymousFunctionAssignmentException({ left, operator, right }: Tree.AssignmentExpression) {
       if (left.type === 'Identifier' && ['=', '&&=', '||=', '??='].includes(operator)) {
         const rhsType = right.type
 
@@ -1116,7 +1114,7 @@ export default createRule<MessageIds, RuleOptions>({
           report(node.property)
       },
 
-      'MethodDefinition[computed=true]': function (node: TSESTree.MethodDefinition) {
+      'MethodDefinition[computed=true]': function (node: Tree.MethodDefinition) {
         if (hasExcessParensWithPrecedence(node.key, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           report(node.key)
       },
@@ -1125,7 +1123,7 @@ export default createRule<MessageIds, RuleOptions>({
 
       ObjectExpression(node) {
         node.properties
-          .filter((property): property is TSESTree.Property => property.type === 'Property' && property.value && hasExcessParensWithPrecedence(property.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          .filter((property): property is Tree.Property => property.type === 'Property' && property.value && hasExcessParensWithPrecedence(property.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           .forEach(property => report(property.value))
       },
 
