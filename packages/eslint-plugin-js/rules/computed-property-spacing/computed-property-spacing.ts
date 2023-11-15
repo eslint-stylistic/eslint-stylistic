@@ -198,8 +198,8 @@ export default createRule<MessageIds, RuleOptions>({
     }
 
     if (enforceForClassMembers) {
-      listeners.MethodDefinition
-                = listeners.PropertyDefinition = listeners.Property as any // to pass type check
+      listeners.MethodDefinition = checkSpacing<Tree.MethodDefinition>('key')
+      listeners.PropertyDefinition = checkSpacing<Tree.PropertyDefinition>('key')
     }
 
     return listeners
