@@ -3,19 +3,13 @@
  * @author Ian Christian Myers
  */
 
-import type { ReportFixFunction } from '@typescript-eslint/utils/ts-eslint'
 import {
   STATEMENT_LIST_PARENTS,
   isTokenOnSameLine,
 } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Token } from '../../utils/types'
+import type { ReportFixFunction, Token } from '../../utils/types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
 export default createRule({
   meta: {
     type: 'layout',
