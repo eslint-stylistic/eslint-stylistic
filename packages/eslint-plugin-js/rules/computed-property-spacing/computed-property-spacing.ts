@@ -3,14 +3,16 @@
  * @author Jamund Ferguson
  */
 
+import type { TSESTree } from '@typescript-eslint/types'
 import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -23,6 +25,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['always', 'never'],
       },
       {
@@ -57,12 +60,11 @@ export default {
 
     /**
      * Reports that there shouldn't be a space after the first token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @param {Token} tokenAfter The token after `token`.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
+     * @param tokenAfter The token after `token`.
      */
-    function reportNoBeginningSpace(node, token, tokenAfter) {
+    function reportNoBeginningSpace(node: TSESTree.Node, token: TSESTree.Token, tokenAfter: TSESTree.Token): void {
       context.report({
         node,
         loc: { start: token.loc.end, end: tokenAfter.loc.start },
@@ -78,12 +80,11 @@ export default {
 
     /**
      * Reports that there shouldn't be a space before the last token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @param {Token} tokenBefore The token before `token`.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
+     * @param tokenBefore The token before `token`.
      */
-    function reportNoEndingSpace(node, token, tokenBefore) {
+    function reportNoEndingSpace(node: TSESTree.Node, token: TSESTree.Token, tokenBefore: TSESTree.Token): void {
       context.report({
         node,
         loc: { start: tokenBefore.loc.end, end: token.loc.start },
@@ -99,11 +100,10 @@ export default {
 
     /**
      * Reports that there should be a space after the first token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
-    function reportRequiredBeginningSpace(node, token) {
+    function reportRequiredBeginningSpace(node: TSESTree.Node, token: TSESTree.Token): void {
       context.report({
         node,
         loc: token.loc,
@@ -119,11 +119,10 @@ export default {
 
     /**
      * Reports that there should be a space before the last token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
-    function reportRequiredEndingSpace(node, token) {
+    function reportRequiredEndingSpace(node: TSESTree.Node, token: TSESTree.Token): void {
       context.report({
         node,
         loc: token.loc,
@@ -140,20 +139,20 @@ export default {
     /**
      * Returns a function that checks the spacing of a node on the property name
      * that was passed in.
-     * @param {string} propertyName The property on the node to check for spacing
-     * @returns {Function} A function that will check spacing on a node
+     * @param propertyName The property on the node to check for spacing
+     * @returns A function that will check spacing on a node
      */
-    function checkSpacing(propertyName) {
-      return function (node) {
+    function checkSpacing<T extends NodeType, const K extends keyof T = keyof T>(propertyName: K) {
+      return function (node: NodeType) {
         if (!node.computed)
           return
 
-        const property = node[propertyName]
+        const property = node[propertyName] as TSESTree.Token
 
-        const before = sourceCode.getTokenBefore(property, isOpeningBracketToken)
-        const first = sourceCode.getTokenAfter(before, { includeComments: true })
-        const after = sourceCode.getTokenAfter(property, isClosingBracketToken)
-        const last = sourceCode.getTokenBefore(after, { includeComments: true })
+        const before = sourceCode.getTokenBefore(property, isOpeningBracketToken)!
+        const first = sourceCode.getTokenAfter(before, { includeComments: true })!
+        const after = sourceCode.getTokenAfter(property, isClosingBracketToken)!
+        const last = sourceCode.getTokenBefore(after, { includeComments: true })!
 
         if (isTokenOnSameLine(before, first)) {
           if (propertyNameMustBeSpaced) {
@@ -183,9 +182,17 @@ export default {
     // Public
     // --------------------------------------------------------------------------
 
-    const listeners = {
-      Property: checkSpacing('key'),
-      MemberExpression: checkSpacing('property'),
+    type NodeType =
+      | TSESTree.Property
+      | TSESTree.PropertyDefinition
+      | TSESTree.MemberExpression
+      | TSESTree.MethodDefinition
+
+    const listeners: {
+      [K in NodeType['type']]?: (node: NodeType) => void
+    } = {
+      Property: checkSpacing<TSESTree.Property>('key'),
+      MemberExpression: checkSpacing<TSESTree.MemberExpression>('property'),
     }
 
     if (enforceForClassMembers) {
@@ -195,4 +202,4 @@ export default {
 
     return listeners
   },
-}
+})
