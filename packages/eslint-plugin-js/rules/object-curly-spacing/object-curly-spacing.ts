@@ -3,9 +3,8 @@
  * @author Jamund Ferguson
  */
 import { createRule } from '../../utils/createRule'
-
 import { isClosingBraceToken, isClosingBracketToken, isNotCommaToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import type { Token,ASTNode } from '../../utils/types'
+import type { ASTNode, RuleFixer, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -25,6 +24,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     schema: [
       {
+        type: 'string',
         enum: ['always', 'never'],
       },
       {
@@ -60,7 +60,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {object} option The option to exclude.
      * @returns {boolean} Whether or not the property is excluded.
      */
-    function isOptionSet(option) {
+    function isOptionSet(option: keyof NonNullable<RuleOptions[1]>): boolean {
       return context.options[1] ? context.options[1][option] === !spaced : false
     }
 
@@ -80,8 +80,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportNoBeginningSpace(node:ASTNode, token:Token) {
-      const nextToken = context.sourceCode.getTokenAfter(token, { includeComments: true })
+    function reportNoBeginningSpace(node: ASTNode, token: Token) {
+      const nextToken = context.sourceCode.getTokenAfter(token, { includeComments: true })!
 
       context.report({
         node,
@@ -90,7 +90,7 @@ export default createRule<MessageIds, RuleOptions>({
         data: {
           token: token.value,
         },
-        fix(fixer) {
+        fix(fixer: RuleFixer) {
           return fixer.removeRange([token.range[1], nextToken.range[0]])
         },
       })
@@ -102,8 +102,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportNoEndingSpace(node:ASTNode, token:Token) {
-      const previousToken = context.sourceCode.getTokenBefore(token, { includeComments: true })
+    function reportNoEndingSpace(node: ASTNode, token: Token) {
+      const previousToken = context.sourceCode.getTokenBefore(token, { includeComments: true })!
 
       context.report({
         node,
@@ -112,7 +112,7 @@ export default createRule<MessageIds, RuleOptions>({
         data: {
           token: token.value,
         },
-        fix(fixer) {
+        fix(fixer: RuleFixer) {
           return fixer.removeRange([previousToken.range[1], token.range[0]])
         },
       })
@@ -124,7 +124,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportRequiredBeginningSpace(node:ASTNode, token:Token) {
+    function reportRequiredBeginningSpace(node: ASTNode, token: Token) {
       context.report({
         node,
         loc: token.loc,
@@ -132,7 +132,7 @@ export default createRule<MessageIds, RuleOptions>({
         data: {
           token: token.value,
         },
-        fix(fixer) {
+        fix(fixer: RuleFixer) {
           return fixer.insertTextAfter(token, ' ')
         },
       })
@@ -144,7 +144,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportRequiredEndingSpace(node:ASTNode, token:Token) {
+    function reportRequiredEndingSpace(node: ASTNode, token: Token) {
       context.report({
         node,
         loc: token.loc,
@@ -152,7 +152,7 @@ export default createRule<MessageIds, RuleOptions>({
         data: {
           token: token.value,
         },
-        fix(fixer) {
+        fix(fixer: RuleFixer) {
           return fixer.insertTextBefore(token, ' ')
         },
       })
@@ -167,7 +167,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {Token} last The last token to check (should be closing brace)
      * @returns {void}
      */
-    function validateBraceSpacing(node:ASTNode, first:Token, second:Token, penultimate:Token, last:Token) {
+    function validateBraceSpacing(node: ASTNode, first: Token, second: Token, penultimate: Token, last: Token) {
       if (isTokenOnSameLine(first, second)) {
         const firstSpaced = sourceCode.isSpaceBetweenTokens(first, second)
 
@@ -183,7 +183,7 @@ export default createRule<MessageIds, RuleOptions>({
           options.arraysInObjectsException && isClosingBracketToken(penultimate)
                     || options.objectsInObjectsException && isClosingBraceToken(penultimate)
         )
-        const penultimateType = shouldCheckPenultimate && sourceCode.getNodeByRangeIndex(penultimate.range[0]).type
+        const penultimateType = shouldCheckPenultimate && sourceCode.getNodeByRangeIndex(penultimate.range[0])!.type
 
         const closingCurlyBraceMustBeSpaced = (
           options.arraysInObjectsException && penultimateType === 'ArrayExpression'
@@ -211,7 +211,9 @@ export default createRule<MessageIds, RuleOptions>({
      *      more properties.
      * @returns {Token} '}' token.
      */
-    function getClosingBraceOfObject(node:ASTNode) {
+    function getClosingBraceOfObject(node:
+    | Tree.ObjectExpression
+    | Tree.ObjectPattern) {
       const lastProperty = node.properties[node.properties.length - 1]
 
       return sourceCode.getTokenAfter(lastProperty, isClosingBraceToken)
@@ -222,14 +224,16 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node An ObjectExpression or ObjectPattern node to check.
      * @returns {void}
      */
-    function checkForObject(node:ASTNode) {
+    function checkForObject(node:
+    | Tree.ObjectExpression
+    | Tree.ObjectPattern) {
       if (node.properties.length === 0)
         return
 
-      const first = sourceCode.getFirstToken(node)
-      const last = getClosingBraceOfObject(node)
-      const second = sourceCode.getTokenAfter(first, { includeComments: true })
-      const penultimate = sourceCode.getTokenBefore(last, { includeComments: true })
+      const first = sourceCode.getFirstToken(node)!
+      const last = getClosingBraceOfObject(node)!
+      const second = sourceCode.getTokenAfter(first, { includeComments: true })!
+      const penultimate = sourceCode.getTokenBefore(last, { includeComments: true })!
 
       validateBraceSpacing(node, first, second, penultimate, last)
     }
@@ -239,7 +243,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node An ImportDeclaration node to check.
      * @returns {void}
      */
-    function checkForImport(node:ASTNode) {
+    function checkForImport(node: Tree.ImportDeclaration) {
       if (node.specifiers.length === 0)
         return
 
@@ -252,10 +256,10 @@ export default createRule<MessageIds, RuleOptions>({
       if (firstSpecifier.type !== 'ImportSpecifier')
         firstSpecifier = node.specifiers[1]
 
-      const first = sourceCode.getTokenBefore(firstSpecifier)
-      const last = sourceCode.getTokenAfter(lastSpecifier, isNotCommaToken)
-      const second = sourceCode.getTokenAfter(first, { includeComments: true })
-      const penultimate = sourceCode.getTokenBefore(last, { includeComments: true })
+      const first = sourceCode.getTokenBefore(firstSpecifier)!
+      const last = sourceCode.getTokenAfter(lastSpecifier, isNotCommaToken)!
+      const second = sourceCode.getTokenAfter(first, { includeComments: true })!
+      const penultimate = sourceCode.getTokenBefore(last, { includeComments: true })!
 
       validateBraceSpacing(node, first, second, penultimate, last)
     }
@@ -265,16 +269,16 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node An ExportNamedDeclaration node to check.
      * @returns {void}
      */
-    function checkForExport(node:ASTNode) {
+    function checkForExport(node: Tree.ExportNamedDeclaration) {
       if (node.specifiers.length === 0)
         return
 
       const firstSpecifier = node.specifiers[0]
       const lastSpecifier = node.specifiers[node.specifiers.length - 1]
-      const first = sourceCode.getTokenBefore(firstSpecifier)
-      const last = sourceCode.getTokenAfter(lastSpecifier, isNotCommaToken)
-      const second = sourceCode.getTokenAfter(first, { includeComments: true })
-      const penultimate = sourceCode.getTokenBefore(last, { includeComments: true })
+      const first = sourceCode.getTokenBefore(firstSpecifier)!
+      const last = sourceCode.getTokenAfter(lastSpecifier, isNotCommaToken)!
+      const second = sourceCode.getTokenAfter(first, { includeComments: true })!
+      const penultimate = sourceCode.getTokenBefore(last, { includeComments: true })!
 
       validateBraceSpacing(node, first, second, penultimate, last)
     }
@@ -298,5 +302,5 @@ export default createRule<MessageIds, RuleOptions>({
       ExportNamedDeclaration: checkForExport,
     }
   },
-}
+},
 )
