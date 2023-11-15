@@ -8,12 +8,13 @@ import type { RuleFixer } from '@typescript-eslint/utils/ts-eslint'
 import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import FixTracker from '../../utils/fix-tracker'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -81,9 +82,11 @@ export default createRule({
     const unsafeClassFieldFollowers = new Set(['*', 'in', 'instanceof'])
     const options = context.options[1]
     const never = context.options[0] === 'never'
-    const exceptOneLine = Boolean(options && options.omitLastInOneLineBlock)
-    const exceptOneLineClassBody = Boolean(options && options.omitLastInOneLineClassBody)
-    const beforeStatementContinuationChars = options && options.beforeStatementContinuationChars || 'any'
+    const exceptOneLine = Boolean(options && 'omitLastInOneLineBlock' in options && options.omitLastInOneLineBlock)
+    const exceptOneLineClassBody = Boolean(options && 'omitLastInOneLineClassBody' in options && options.omitLastInOneLineClassBody)
+    const beforeStatementContinuationChars = options
+      && 'beforeStatementContinuationChars' in options
+      && options.beforeStatementContinuationChars || 'any'
     const sourceCode = context.sourceCode
 
     // --------------------------------------------------------------------------
