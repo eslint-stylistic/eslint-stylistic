@@ -4,13 +4,15 @@
  */
 
 import { isClosingBraceToken, isClosingParenToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -53,16 +55,16 @@ export default {
     let requireSpaceAfter = true
 
     if (typeof config === 'object') {
-      requireSpaceBefore = config.before
-      requireSpaceAfter = config.after
+      requireSpaceBefore = config.before!
+      requireSpaceAfter = config.after!
     }
 
     /**
      * Checks if a given token has leading whitespace.
-     * @param {object} token The token to check.
+     * @param {Token} token The token to check.
      * @returns {boolean} True if the given token has leading space, false if not.
      */
-    function hasLeadingSpace(token) {
+    function hasLeadingSpace(token: Token) {
       const tokenBefore = sourceCode.getTokenBefore(token)
 
       return tokenBefore && isTokenOnSameLine(tokenBefore, token) && sourceCode.isSpaceBetweenTokens(tokenBefore, token)
@@ -70,10 +72,10 @@ export default {
 
     /**
      * Checks if a given token has trailing whitespace.
-     * @param {object} token The token to check.
+     * @param {Token} token The token to check.
      * @returns {boolean} True if the given token has trailing space, false if not.
      */
-    function hasTrailingSpace(token) {
+    function hasTrailingSpace(token: Token) {
       const tokenAfter = sourceCode.getTokenAfter(token)
 
       return tokenAfter && isTokenOnSameLine(token, tokenAfter) && sourceCode.isSpaceBetweenTokens(token, tokenAfter)
@@ -84,7 +86,7 @@ export default {
      * @param {Token} token The token to check.
      * @returns {boolean} Whether or not the token is the last in its line.
      */
-    function isLastTokenInCurrentLine(token) {
+    function isLastTokenInCurrentLine(token: Token) {
       const tokenAfter = sourceCode.getTokenAfter(token)
 
       return !(tokenAfter && isTokenOnSameLine(token, tokenAfter))
@@ -95,7 +97,7 @@ export default {
      * @param {Token} token The token to check.
      * @returns {boolean} Whether or not the token is the first in its line.
      */
-    function isFirstTokenInCurrentLine(token) {
+    function isFirstTokenInCurrentLine(token: Token) {
       const tokenBefore = sourceCode.getTokenBefore(token)
 
       return !(tokenBefore && isTokenOnSameLine(token, tokenBefore))
@@ -106,10 +108,10 @@ export default {
      * @param {Token} token The token to check.
      * @returns {boolean} Whether or not the next token of a given token is a closing parenthesis.
      */
-    function isBeforeClosingParen(token) {
+    function isBeforeClosingParen(token: Token) {
       const nextToken = sourceCode.getTokenAfter(token)
 
-      return (nextToken && isClosingBraceToken(nextToken) || isClosingParenToken(nextToken))
+      return (nextToken && isClosingBraceToken(nextToken) || isClosingParenToken(nextToken!))
     }
 
     /**
@@ -130,13 +132,13 @@ export default {
      * @param {ASTNode} node The corresponding node of the token.
      * @returns {void}
      */
-    function checkSemicolonSpacing(token, node) {
+    function checkSemicolonSpacing(token: Token, node: ASTNode) {
       if (isSemicolonToken(token)) {
         if (hasLeadingSpace(token)) {
           if (!requireSpaceBefore) {
             const tokenBefore = sourceCode.getTokenBefore(token)
             const loc = {
-              start: tokenBefore.loc.end,
+              start: tokenBefore!.loc.end,
               end: token.loc.start,
             }
 
@@ -145,7 +147,7 @@ export default {
               loc,
               messageId: 'unexpectedWhitespaceBefore',
               fix(fixer) {
-                return fixer.removeRange([tokenBefore.range[1], token.range[0]])
+                return fixer.removeRange([tokenBefore!.range[1], token.range[0]])
               },
             })
           }
@@ -171,7 +173,7 @@ export default {
               const tokenAfter = sourceCode.getTokenAfter(token)
               const loc = {
                 start: token.loc.end,
-                end: tokenAfter.loc.start,
+                end: tokenAfter!.loc.start,
               }
 
               context.report({
@@ -179,7 +181,7 @@ export default {
                 loc,
                 messageId: 'unexpectedWhitespaceAfter',
                 fix(fixer) {
-                  return fixer.removeRange([token.range[1], tokenAfter.range[0]])
+                  return fixer.removeRange([token.range[1], tokenAfter!.range[0]])
                 },
               })
             }
@@ -207,10 +209,10 @@ export default {
      * @param {ASTNode} node The node to check.
      * @returns {void}
      */
-    function checkNode(node) {
+    function checkNode(node: ASTNode) {
       const token = sourceCode.getLastToken(node)
 
-      checkSemicolonSpacing(token, node)
+      checkSemicolonSpacing(token!, node)
     }
 
     return {
@@ -228,12 +230,12 @@ export default {
       ExportDefaultDeclaration: checkNode,
       ForStatement(node) {
         if (node.init)
-          checkSemicolonSpacing(sourceCode.getTokenAfter(node.init), node)
+          checkSemicolonSpacing(sourceCode.getTokenAfter(node.init)!, node)
 
         if (node.test)
-          checkSemicolonSpacing(sourceCode.getTokenAfter(node.test), node)
+          checkSemicolonSpacing(sourceCode.getTokenAfter(node.test)!, node)
       },
       PropertyDefinition: checkNode,
     }
   },
-}
+})
