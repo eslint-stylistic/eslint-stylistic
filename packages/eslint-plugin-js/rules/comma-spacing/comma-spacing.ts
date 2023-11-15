@@ -3,14 +3,17 @@
  * @author Vignesh Anand aka vegetableman.
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
 import { isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isCommaToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -58,7 +61,7 @@ export default {
     // --------------------------------------------------------------------------
 
     // list of comma tokens to ignore for the check of leading whitespace
-    const commaTokensToIgnore = []
+    const commaTokensToIgnore: Token[] = []
 
     /**
      * Reports a spacing error with an appropriate message.
@@ -68,7 +71,7 @@ export default {
      * @returns {void}
      * @private
      */
-    function report(node, loc, otherNode) {
+    function report(node: ASTNode | Token, loc: 'before' | 'after', otherNode: ASTNode | Token) {
       context.report({
         node,
         fix(fixer) {
@@ -104,20 +107,20 @@ export default {
      * @param {ASTNode} node An ArrayExpression or ArrayPattern node.
      * @returns {void}
      */
-    function addNullElementsToIgnoreList(node) {
-      let previousToken = sourceCode.getFirstToken(node)
+    function addNullElementsToIgnoreList(node: TSESTree.ArrayExpression | TSESTree.ArrayPattern) {
+      let previousToken = sourceCode.getFirstToken(node)!
 
       node.elements.forEach((element) => {
-        let token
+        let token: Token
 
         if (element === null) {
-          token = sourceCode.getTokenAfter(previousToken)
+          token = sourceCode.getTokenAfter(previousToken)!
 
           if (isCommaToken(token))
             commaTokensToIgnore.push(token)
         }
         else {
-          token = sourceCode.getTokenAfter(element)
+          token = sourceCode.getTokenAfter(element)!
         }
 
         previousToken = token
@@ -177,4 +180,4 @@ export default {
 
     }
   },
-}
+})
