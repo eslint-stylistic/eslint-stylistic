@@ -3,14 +3,17 @@
  * @author Toru Nagashima
  */
 
+import type { TSESLint } from '@typescript-eslint/utils'
 import { getSwitchCaseColonToken, isClosingBraceToken, isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -51,7 +54,7 @@ export default {
      * @param {boolean} expected The expected spacing to check. `true` if there should be a space.
      * @returns {boolean} `true` if the spacing between the tokens is valid.
      */
-    function isValidSpacing(left, right, expected) {
+    function isValidSpacing(left: Token, right: Token, expected: boolean) {
       return (
         isClosingBraceToken(right)
                 || !isTokenOnSameLine(left, right)
@@ -65,7 +68,7 @@ export default {
      * @param {Token} right The right token to check.
      * @returns {boolean} `true` if comments exist between the given 2 tokens.
      */
-    function commentsExistBetween(left, right) {
+    function commentsExistBetween(left: Token, right: Token) {
       return sourceCode.getFirstTokenBetween(
         left,
         right,
@@ -84,7 +87,7 @@ export default {
      * @param {boolean} spacing The spacing style. `true` if there should be a space.
      * @returns {Fix|null} The fix object.
      */
-    function fix(fixer, left, right, spacing) {
+    function fix(fixer: TSESLint.RuleFixer, left: Token, right: Token, spacing: boolean) {
       if (commentsExistBetween(left, right))
         return null
 
@@ -96,9 +99,9 @@ export default {
 
     return {
       SwitchCase(node) {
-        const colonToken = getSwitchCaseColonToken(node, sourceCode)
-        const beforeToken = sourceCode.getTokenBefore(colonToken)
-        const afterToken = sourceCode.getTokenAfter(colonToken)
+        const colonToken = getSwitchCaseColonToken(node, sourceCode)!
+        const beforeToken = sourceCode.getTokenBefore(colonToken)!
+        const afterToken = sourceCode.getTokenAfter(colonToken)!
 
         if (!isValidSpacing(beforeToken, colonToken, beforeSpacing)) {
           context.report({
@@ -119,4 +122,4 @@ export default {
       },
     }
   },
-}
+})
