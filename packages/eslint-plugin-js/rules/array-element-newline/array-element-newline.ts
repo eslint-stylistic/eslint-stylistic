@@ -5,7 +5,7 @@
 
 import { isCommaToken, isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token } from '../../utils/types'
+import type { Token, Tree } from '../../utils/types'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -140,10 +140,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports that there shouldn't be a line break after the first token
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param token The token to use for the report.
      */
-    function reportNoLineBreak(token: Token) {
+    function reportNoLineBreak(token: Token): void {
       const tokenBefore = sourceCode.getTokenBefore(token, { includeComments: true })
 
       context.report({
@@ -159,20 +158,20 @@ export default createRule<MessageIds, RuleOptions>({
           if (!isTokenOnSameLine(tokenBefore, token))
             return fixer.replaceTextRange([tokenBefore!.range[1], token.range[0]], ' ')
 
-          /*
-                     * This will check if the comma is on the same line as the next element
-                     * Following array:
-                     * [
-                     *     1
-                     *     , 2
-                     *     , 3
-                     * ]
-                     *
-                     * will be fixed to:
-                     * [
-                     *     1, 2, 3
-                     * ]
-                     */
+          /**
+           * This will check if the comma is on the same line as the next element
+           * Following array:
+           * [
+           *     1
+           *     , 2
+           *     , 3
+           * ]
+           *
+           * will be fixed to:
+           * [
+           *     1, 2, 3
+           * ]
+           */
           const twoTokensBefore = sourceCode.getTokenBefore(tokenBefore!, { includeComments: true })
 
           if (isCommentToken(twoTokensBefore))
@@ -185,10 +184,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports that there should be a line break after the first token
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param token The token to use for the report.
      */
-    function reportRequiredLineBreak(token: Token) {
+    function reportRequiredLineBreak(token: Token): void {
       const tokenBefore = sourceCode.getTokenBefore(token, { includeComments: true })
 
       context.report({
@@ -205,14 +203,11 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports a given node if it violated this rule.
-     * @param {ASTNode} node A node to check. This is an ObjectExpression node or an ObjectPattern node.
-     * @returns {void}
+     * @param node A node to check. This is an ObjectExpression node or an ObjectPattern node.
      */
-    function check(node: ASTNode): void {
-      // @ts-expect-error type cast
+    function check(node: Tree.ArrayPattern | Tree.ArrayExpression): void {
       const elements = node.elements
       const normalizedOptions = normalizeOptions(context.options[0])
-      // @ts-expect-error type cast
       const options = normalizedOptions[node.type]
 
       if (!options)
@@ -220,18 +215,18 @@ export default createRule<MessageIds, RuleOptions>({
 
       let elementBreak = false
 
-      /*
-             * MULTILINE: true
-             * loop through every element and check
-             * if at least one element has linebreaks inside
-             * this ensures that following is not valid (due to elements are on the same line):
-             *
-             * [
-             *      1,
-             *      2,
-             *      3
-             * ]
-             */
+      /**
+       * MULTILINE: true
+       * loop through every element and check
+       * if at least one element has linebreaks inside
+       * this ensures that following is not valid (due to elements are on the same line):
+       *
+       * [
+       *      1,
+       *      2,
+       *      3
+       * ]
+       */
       if (options.multiline) {
         elementBreak = elements
           .filter((element: any) => element !== null)
@@ -239,9 +234,7 @@ export default createRule<MessageIds, RuleOptions>({
       }
 
       let linebreaksCount = 0
-      // @ts-expect-error type cast
       for (let i = 0; i < node.elements.length; i++) {
-        // @ts-expect-error type cast
         const element = node.elements[i]
 
         const previousElement = elements[i - 1]
@@ -266,11 +259,10 @@ export default createRule<MessageIds, RuleOptions>({
                 || (
                   options.consistent
                     && linebreaksCount > 0
-                    // @ts-expect-error type cast
                     && linebreaksCount < node.elements.length
                 )
       )
-      // @ts-expect-error type cast
+
       elements.forEach((element, i) => {
         const previousElement = elements[i - 1]
 
