@@ -4,39 +4,42 @@
  */
 
 import { isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Token, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require or disallow padding within blocks',
       url: 'https://eslint.style/rules/js/padded-blocks',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         oneOf: [
           {
+            type: 'string',
             enum: ['always', 'never'],
           },
           {
             type: 'object',
             properties: {
               blocks: {
+                type: 'string',
                 enum: ['always', 'never'],
               },
               switches: {
+                type: 'string',
                 enum: ['always', 'never'],
               },
               classes: {
+                type: 'string',
                 enum: ['always', 'never'],
               },
             },
@@ -61,9 +64,8 @@ export default {
       neverPadBlock: 'Block must not be padded by blank lines.',
     },
   },
-
   create(context) {
-    const options = {}
+    const options: Record<string, boolean> = {}
     const typeOptions = context.options[0] || 'always'
     const exceptOptions = context.options[1] || {}
 
@@ -95,15 +97,15 @@ export default {
      * @param {ASTNode} node A BlockStatement or SwitchStatement node from which to get the open brace.
      * @returns {Token} The token of the open brace.
      */
-    function getOpenBrace(node) {
+    function getOpenBrace(node: Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement | Tree.ClassBody): Token {
       if (node.type === 'SwitchStatement')
-        return sourceCode.getTokenBefore(node.cases[0])
+        return sourceCode.getTokenBefore(node.cases[0])!
 
       if (node.type === 'StaticBlock')
-        return sourceCode.getFirstToken(node, { skip: 1 }) // skip the `static` token
+        return sourceCode.getFirstToken(node, { skip: 1 })! // skip the `static` token
 
       // `BlockStatement` or `ClassBody`
-      return sourceCode.getFirstToken(node)
+      return sourceCode.getFirstToken(node)!
     }
 
     /**
@@ -111,7 +113,7 @@ export default {
      * @param {ASTNode|Token} node An AST node or token
      * @returns {boolean} True if node is a comment
      */
-    function isComment(node) {
+    function isComment(node: ASTNode | Token) {
       return node.type === 'Line' || node.type === 'Block'
     }
 
@@ -121,7 +123,7 @@ export default {
      * @param {Token} second The second token
      * @returns {boolean} True if there is at least a line between the tokens
      */
-    function isPaddingBetweenTokens(first, second) {
+    function isPaddingBetweenTokens(first: Token, second: Token) {
       return second.loc.start.line - first.loc.end.line >= 2
     }
 
@@ -130,13 +132,13 @@ export default {
      * @param {Token} token The token to check.
      * @returns {boolean} Whether or not the token is followed by a blank line.
      */
-    function getFirstBlockToken(token) {
+    function getFirstBlockToken(token: Token) {
       let prev
       let first = token
 
       do {
         prev = first
-        first = sourceCode.getTokenAfter(first, { includeComments: true })
+        first = sourceCode.getTokenAfter(first, { includeComments: true })!
       } while (isComment(first) && first.loc.start.line === prev.loc.end.line)
 
       return first
@@ -147,13 +149,13 @@ export default {
      * @param {Token} token The token to check
      * @returns {boolean} Whether or not the token is preceded by a blank line
      */
-    function getLastBlockToken(token) {
+    function getLastBlockToken(token: Token) {
       let last = token
       let next
 
       do {
         next = last
-        last = sourceCode.getTokenBefore(last, { includeComments: true })
+        last = sourceCode.getTokenBefore(last, { includeComments: true })!
       } while (isComment(last) && last.loc.end.line === next.loc.start.line)
 
       return last
@@ -165,7 +167,7 @@ export default {
      * @throws {Error} (Unreachable)
      * @returns {boolean} True if the node should be padded, false otherwise.
      */
-    function requirePaddingFor(node) {
+    function requirePaddingFor(node: ASTNode) {
       switch (node.type) {
         case 'BlockStatement':
         case 'StaticBlock':
@@ -186,13 +188,13 @@ export default {
      * @param {ASTNode} node The AST node of a BlockStatement.
      * @returns {void} undefined.
      */
-    function checkPadding(node) {
+    function checkPadding(node: Tree.BlockStatement | Tree.SwitchStatement | Tree.ClassBody) {
       const openBrace = getOpenBrace(node)
       const firstBlockToken = getFirstBlockToken(openBrace)
-      const tokenBeforeFirst = sourceCode.getTokenBefore(firstBlockToken, { includeComments: true })
-      const closeBrace = sourceCode.getLastToken(node)
+      const tokenBeforeFirst = sourceCode.getTokenBefore(firstBlockToken, { includeComments: true })!
+      const closeBrace = sourceCode.getLastToken(node)!
       const lastBlockToken = getLastBlockToken(closeBrace)
-      const tokenAfterLast = sourceCode.getTokenAfter(lastBlockToken, { includeComments: true })
+      const tokenAfterLast = sourceCode.getTokenAfter(lastBlockToken, { includeComments: true })!
       const blockHasTopPadding = isPaddingBetweenTokens(tokenBeforeFirst, firstBlockToken)
       const blockHasBottomPadding = isPaddingBetweenTokens(lastBlockToken, tokenAfterLast)
 
@@ -258,10 +260,10 @@ export default {
       }
     }
 
-    const rule = {}
+    const rule: Record<string, any> = {}
 
     if (Object.prototype.hasOwnProperty.call(options, 'switches')) {
-      rule.SwitchStatement = function (node) {
+      rule.SwitchStatement = function (node: Tree.SwitchStatement) {
         if (node.cases.length === 0)
           return
 
@@ -270,7 +272,7 @@ export default {
     }
 
     if (Object.prototype.hasOwnProperty.call(options, 'blocks')) {
-      rule.BlockStatement = function (node) {
+      rule.BlockStatement = function (node: Tree.BlockStatement) {
         if (node.body.length === 0)
           return
 
@@ -280,7 +282,7 @@ export default {
     }
 
     if (Object.prototype.hasOwnProperty.call(options, 'classes')) {
-      rule.ClassBody = function (node) {
+      rule.ClassBody = function (node: Tree.ClassBody) {
         if (node.body.length === 0)
           return
 
@@ -290,4 +292,4 @@ export default {
 
     return rule
   },
-}
+})
