@@ -3,10 +3,9 @@
  * @author Vignesh Anand aka vegetableman.
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isCommaToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token } from '../../utils/types'
+import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -107,7 +106,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node An ArrayExpression or ArrayPattern node.
      * @returns {void}
      */
-    function addNullElementsToIgnoreList(node: TSESTree.ArrayExpression | TSESTree.ArrayPattern) {
+    function addNullElementsToIgnoreList(node: Tree.ArrayExpression | Tree.ArrayPattern) {
       let previousToken = sourceCode.getFirstToken(node)!
 
       node.elements.forEach((element) => {
@@ -142,35 +141,35 @@ export default createRule<MessageIds, RuleOptions>({
 
           if (
             previousToken
-                        && !isCommaToken(previousToken) // ignore spacing between two commas
+            && !isCommaToken(previousToken) // ignore spacing between two commas
 
-                        /*
-                         * `commaTokensToIgnore` are ending commas of `null` elements (array holes/elisions).
-                         * In addition to spacing between two commas, this can also ignore:
-                         *
-                         *   - Spacing after `[` (controlled by array-bracket-spacing)
-                         *       Example: [ , ]
-                         *                 ^
-                         *   - Spacing after a comment (for backwards compatibility, this was possibly unintentional)
-                         *       Example: [a, /* * / ,]
-                         *                          ^
-                         */
-                        && !commaTokensToIgnore.includes(token)
+            /**
+             * `commaTokensToIgnore` are ending commas of `null` elements (array holes/elisions).
+             * In addition to spacing between two commas, this can also ignore:
+             *
+             *   - Spacing after `[` (controlled by array-bracket-spacing)
+             *       Example: [ , ]
+             *                 ^
+             *   - Spacing after a comment (for backwards compatibility, this was possibly unintentional)
+             *       Example: [a, /* * / ,]
+             *                          ^
+             */
+            && !commaTokensToIgnore.includes(token)
 
-                        && isTokenOnSameLine(previousToken, token)
-                        && options.before !== sourceCode.isSpaceBetweenTokens(previousToken, token)
+            && isTokenOnSameLine(previousToken, token)
+            && options.before !== sourceCode.isSpaceBetweenTokens(previousToken, token)
           )
             report(token, 'before', previousToken)
 
           if (
             nextToken
-                        && !isCommaToken(nextToken) // ignore spacing between two commas
-                        && !isClosingParenToken(nextToken) // controlled by space-in-parens
-                        && !isClosingBracketToken(nextToken) // controlled by array-bracket-spacing
-                        && !isClosingBraceToken(nextToken) // controlled by object-curly-spacing
-                        && !(!options.after && nextToken.type === 'Line') // special case, allow space before line comment
-                        && isTokenOnSameLine(token, nextToken)
-                        && options.after !== sourceCode.isSpaceBetweenTokens(token, nextToken)
+            && !isCommaToken(nextToken) // ignore spacing between two commas
+            && !isClosingParenToken(nextToken) // controlled by space-in-parens
+            && !isClosingBracketToken(nextToken) // controlled by array-bracket-spacing
+            && !isClosingBraceToken(nextToken) // controlled by object-curly-spacing
+            && !(!options.after && nextToken.type === 'Line') // special case, allow space before line comment
+            && isTokenOnSameLine(token, nextToken)
+            && options.after !== sourceCode.isSpaceBetweenTokens(token, nextToken)
           )
             report(token, 'after', nextToken)
         })

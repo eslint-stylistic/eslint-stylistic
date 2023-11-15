@@ -3,9 +3,9 @@
  * @author Sharmila Jesupaul
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { isCommentToken, isNotOpeningParenToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
+import type { Tree } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -43,7 +43,7 @@ export default createRule({
      * @param {ASTNode} node The arrow function body
      * @returns {void}
      */
-    function validateExpression(node: TSESTree.ArrowFunctionExpression) {
+    function validateExpression(node: Tree.ArrowFunctionExpression) {
       if (node.body.type === 'BlockStatement')
         return
 

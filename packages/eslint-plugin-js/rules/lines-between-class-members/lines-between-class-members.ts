@@ -4,17 +4,28 @@
  */
 
 import { isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Token } from '../../utils/types'
+import type { RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Helpers
 // ------------------------------------------------------------------------------
+
+type NodeTest = (
+  node: ASTNode
+) => boolean
+
+interface NodeTestObject {
+  test: NodeTest
+}
 
 /**
  * Types of class members.
  * Those have `test` method to check it matches to the given class member.
  * @private
  */
-const ClassMemberTypes = {
+const ClassMemberTypes: Record<string, NodeTestObject> = {
   '*': { test: () => true },
   'field': { test: node => node.type === 'PropertyDefinition' },
   'method': { test: node => node.type === 'MethodDefinition' },
@@ -24,8 +35,7 @@ const ClassMemberTypes = {
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -47,9 +57,9 @@ export default {
                 items: {
                   type: 'object',
                   properties: {
-                    blankLine: { enum: ['always', 'never'] },
-                    prev: { enum: ['method', 'field', '*'] },
-                    next: { enum: ['method', 'field', '*'] },
+                    blankLine: { type: 'string', enum: ['always', 'never'] },
+                    prev: { type: 'string', enum: ['method', 'field', '*'] },
+                    next: { type: 'string', enum: ['method', 'field', '*'] },
                   },
                   additionalProperties: false,
                   required: ['blankLine', 'prev', 'next'],
@@ -61,6 +71,7 @@ export default {
             required: ['enforce'],
           },
           {
+            type: 'string',
             enum: ['always', 'never'],
           },
         ],
@@ -83,7 +94,7 @@ export default {
   },
 
   create(context) {
-    const options = []
+    const options: RuleOptions = []
 
     options[0] = context.options[0] || 'always'
     options[1] = context.options[1] || { exceptAfterSingleLine: false }
@@ -120,8 +131,8 @@ export default {
      * @returns {Token} The actual last token of `node`.
      * @private
      */
-    function getBoundaryTokens(curNode, nextNode) {
-      const lastToken = sourceCode.getLastToken(curNode)
+    function getBoundaryTokens(curNode: ASTNode, nextNode: ASTNode) {
+      const lastToken = sourceCode.getLastToken(curNode)!
       const prevToken = sourceCode.getTokenBefore(lastToken)
       const nextToken = sourceCode.getFirstToken(nextNode) // skip possible lone `;` between nodes
 
@@ -138,13 +149,13 @@ export default {
 
     /**
      * Return the last token among the consecutive tokens that have no exceed max line difference in between, before the first token in the next member.
-     * @param {Token} prevLastToken The last token in the previous member node.
-     * @param {Token} nextFirstToken The first token in the next member node.
-     * @param {number} maxLine The maximum number of allowed line difference between consecutive tokens.
-     * @returns {Token} The last token among the consecutive tokens.
+     * @param prevLastToken The last token in the previous member node.
+     * @param nextFirstToken The first token in the next member node.
+     * @param maxLine The maximum number of allowed line difference between consecutive tokens.
+     * @returns  The last token among the consecutive tokens.
      */
-    function findLastConsecutiveTokenAfter(prevLastToken, nextFirstToken, maxLine) {
-      const after = sourceCode.getTokenAfter(prevLastToken, { includeComments: true })
+    function findLastConsecutiveTokenAfter(prevLastToken: Token, nextFirstToken: Token, maxLine: number): Token {
+      const after = sourceCode.getTokenAfter(prevLastToken, { includeComments: true })!
 
       if (after !== nextFirstToken && after.loc.start.line - prevLastToken.loc.end.line <= maxLine)
         return findLastConsecutiveTokenAfter(after, nextFirstToken, maxLine)
@@ -154,13 +165,13 @@ export default {
 
     /**
      * Return the first token among the consecutive tokens that have no exceed max line difference in between, after the last token in the previous member.
-     * @param {Token} nextFirstToken The first token in the next member node.
-     * @param {Token} prevLastToken The last token in the previous member node.
-     * @param {number} maxLine The maximum number of allowed line difference between consecutive tokens.
-     * @returns {Token} The first token among the consecutive tokens.
+     * @param nextFirstToken The first token in the next member node.
+     * @param prevLastToken The last token in the previous member node.
+     * @param maxLine The maximum number of allowed line difference between consecutive tokens.
+     * @returns The first token among the consecutive tokens.
      */
-    function findFirstConsecutiveTokenBefore(nextFirstToken, prevLastToken, maxLine) {
-      const before = sourceCode.getTokenBefore(nextFirstToken, { includeComments: true })
+    function findFirstConsecutiveTokenBefore(nextFirstToken: Token, prevLastToken: Token, maxLine: number): Token {
+      const before = sourceCode.getTokenBefore(nextFirstToken, { includeComments: true })!
 
       if (before !== prevLastToken && nextFirstToken.loc.start.line - before.loc.end.line <= maxLine)
         return findFirstConsecutiveTokenBefore(before, prevLastToken, maxLine)
@@ -170,33 +181,33 @@ export default {
 
     /**
      * Checks if there is a token or comment between two tokens.
-     * @param {Token} before The token before.
-     * @param {Token} after The token after.
-     * @returns {boolean} True if there is a token or comment between two tokens.
+     * @param before The token before.
+     * @param after The token after.
+     * @returns True if there is a token or comment between two tokens.
      */
-    function hasTokenOrCommentBetween(before, after) {
+    function hasTokenOrCommentBetween(before: Token, after: Token): boolean {
       return sourceCode.getTokensBetween(before, after, { includeComments: true }).length !== 0
     }
 
     /**
      * Checks whether the given node matches the given type.
-     * @param {ASTNode} node The class member node to check.
-     * @param {string} type The class member type to check.
-     * @returns {boolean} `true` if the class member node matched the type.
+     * @param node The class member node to check.
+     * @param type The class member type to check.
+     * @returns `true` if the class member node matched the type.
      * @private
      */
-    function match(node, type) {
+    function match(node: ASTNode, type: keyof typeof ClassMemberTypes): boolean {
       return ClassMemberTypes[type].test(node)
     }
 
     /**
      * Finds the last matched configuration from the configureList.
-     * @param {ASTNode} prevNode The previous node to match.
-     * @param {ASTNode} nextNode The current node to match.
-     * @returns {string|null} Padding type or `null` if no matches were found.
+     * @param prevNode The previous node to match.
+     * @param nextNode The current node to match.
+     * @returns Padding type or `null` if no matches were found.
      * @private
      */
-    function getPaddingType(prevNode, nextNode) {
+    function getPaddingType(prevNode: ASTNode, nextNode: ASTNode) {
       for (let i = configureList.length - 1; i >= 0; --i) {
         const configure = configureList[i]
         const matched
@@ -217,12 +228,12 @@ export default {
           const curFirst = sourceCode.getFirstToken(body[i])
           const { curLast, nextFirst } = getBoundaryTokens(body[i], body[i + 1])
           const isMulti = !isTokenOnSameLine(curFirst, curLast)
-          const skip = !isMulti && options[1].exceptAfterSingleLine
-          const beforePadding = findLastConsecutiveTokenAfter(curLast, nextFirst, 1)
-          const afterPadding = findFirstConsecutiveTokenBefore(nextFirst, curLast, 1)
+          const skip = !isMulti && options[1]!.exceptAfterSingleLine
+          const beforePadding = findLastConsecutiveTokenAfter(curLast!, nextFirst!, 1)
+          const afterPadding = findFirstConsecutiveTokenBefore(nextFirst!, curLast!, 1)
           const isPadded = afterPadding.loc.start.line - beforePadding.loc.end.line > 1
           const hasTokenInPadding = hasTokenOrCommentBetween(beforePadding, afterPadding)
-          const curLineLastToken = findLastConsecutiveTokenAfter(curLast, nextFirst, 0)
+          const curLineLastToken = findLastConsecutiveTokenAfter(curLast!, nextFirst!, 0)
           const paddingType = getPaddingType(body[i], body[i + 1])
 
           if (paddingType === 'never' && isPadded) {
@@ -255,4 +266,5 @@ export default {
       },
     }
   },
-}
+},
+)

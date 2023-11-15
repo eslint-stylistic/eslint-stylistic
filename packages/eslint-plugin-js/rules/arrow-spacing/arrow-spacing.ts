@@ -3,10 +3,9 @@
  * @author Jxck
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { isArrowToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Token } from '../../utils/types'
+import type { Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -64,7 +63,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node The arrow function node.
      * @returns {object} Tokens of arrow and before/after arrow.
      */
-    function getTokens(node: TSESTree.ArrowFunctionExpression) {
+    function getTokens(node: Tree.ArrowFunctionExpression) {
       const arrow = sourceCode.getTokenBefore(node.body, isArrowToken)!
 
       return {
@@ -93,7 +92,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node The arrow function node.
      * @returns {void}
      */
-    function spaces(node: TSESTree.ArrowFunctionExpression) {
+    function spaces(node: Tree.ArrowFunctionExpression) {
       const tokens = getTokens(node)
       const countSpace = countSpaces(tokens)
 

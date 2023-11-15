@@ -17,16 +17,25 @@ import rule from './indent'
 const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
 const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')
 
+type ErrorInput = [number, number | string, number | string, string]
+interface ErrorOutput {
+  messageId: string
+  data: {
+    expected: string
+    actual: string | number
+  }
+  type: string
+  line: number
+}
+
 /**
  * Create error message object for failure cases with a single 'found' indentation type
- * @param {string} providedIndentType indent type of string or tab
- * @param {Array} providedErrors error info
- * @returns {object} returns the error messages collection
- * @private
  */
-function expectedErrors(providedIndentType, providedErrors) {
-  let indentType
-  let errors
+function expectedErrors(providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
+function expectedErrors(providedIndentType: 'space' | 'tab', providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
+function expectedErrors(providedIndentType: any, providedErrors?: any): ErrorOutput[] {
+  let indentType: 'space' | 'tab'
+  let errors: Array<[number, number, number, string]>
 
   if (Array.isArray(providedIndentType)) {
     errors = Array.isArray(providedIndentType[0]) ? providedIndentType : [providedIndentType]
@@ -37,7 +46,7 @@ function expectedErrors(providedIndentType, providedErrors) {
     indentType = providedIndentType
   }
 
-  return errors.map(err => ({
+  return errors.map<ErrorOutput>(err => ({
     messageId: 'wrongIndentation',
     data: {
       expected: typeof err[1] === 'string' && typeof err[2] === 'string'

@@ -3,10 +3,9 @@
  * @author Teddy Katz
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Token } from '../../utils/types'
+import type { Token, Tree } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -83,7 +82,7 @@ export default createRule({
      * @param {boolean} hasLeftNewline `true` if the left paren has a newline in the current code.
      * @returns {boolean} `true` if there should be newlines inside the function parens
      */
-    function shouldHaveNewlines(elements: TSESTree.CallExpressionArgument[] | TSESTree.Parameter[], hasLeftNewline: boolean) {
+    function shouldHaveNewlines(elements: Tree.CallExpressionArgument[] | Tree.Parameter[], hasLeftNewline: boolean) {
       if (multilineArgumentsOption && elements.length === 1)
         return hasLeftNewline
 
@@ -102,7 +101,7 @@ export default createRule({
      * @param {ASTNode[]} elements The arguments or parameters in the list
      * @returns {void}
      */
-    function validateParens(parens: ParensPair, elements: TSESTree.CallExpressionArgument[] | TSESTree.Parameter[]) {
+    function validateParens(parens: ParensPair, elements: Tree.CallExpressionArgument[] | Tree.Parameter[]) {
       const leftParen = parens.leftParen
       const rightParen = parens.rightParen
       const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)!
@@ -160,7 +159,7 @@ export default createRule({
      * @param {ASTNode[]} elements The arguments or parameters in the list
      * @returns {void}
      */
-    function validateArguments(parens: ParensPair, elements: TSESTree.CallExpressionArgument[] | TSESTree.Parameter[]) {
+    function validateArguments(parens: ParensPair, elements: Tree.CallExpressionArgument[] | Tree.Parameter[]) {
       const leftParen = parens.leftParen
       const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)
       const hasLeftNewline = !isTokenOnSameLine(leftParen, tokenAfterLeftParen)
@@ -191,12 +190,12 @@ export default createRule({
      */
     function getParenTokens(
       node:
-      | TSESTree.ArrowFunctionExpression
-      | TSESTree.CallExpression
-      | TSESTree.FunctionDeclaration
-      | TSESTree.FunctionExpression
-      | TSESTree.ImportExpression
-      | TSESTree.NewExpression,
+      | Tree.ArrowFunctionExpression
+      | Tree.CallExpression
+      | Tree.FunctionDeclaration
+      | Tree.FunctionExpression
+      | Tree.ImportExpression
+      | Tree.NewExpression,
     ): ParensPair | null {
       switch (node.type) {
         case 'NewExpression':
@@ -273,12 +272,12 @@ export default createRule({
         'NewExpression',
       ].join(', ')](
         node:
-          | TSESTree.ArrowFunctionExpression
-          | TSESTree.CallExpression
-          | TSESTree.FunctionDeclaration
-          | TSESTree.FunctionExpression
-          | TSESTree.ImportExpression
-          | TSESTree.NewExpression,
+          | Tree.ArrowFunctionExpression
+          | Tree.CallExpression
+          | Tree.FunctionDeclaration
+          | Tree.FunctionExpression
+          | Tree.ImportExpression
+          | Tree.NewExpression,
       ) {
         const parens = getParenTokens(node)
         let params

@@ -3,10 +3,9 @@
  * @author Benoît Zugmeyer
  */
 
-import type { TSESLint } from '@typescript-eslint/utils'
 import { createGlobalLinebreakMatcher, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token, Tree } from '../../utils/types'
+import type { ASTNode, ReportFixFunction, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({
@@ -79,7 +78,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {string} desiredStyle The style for the rule. One of 'before', 'after', 'none'
      * @returns {Function} A fixer function
      */
-    function getFixer(operatorToken: Token, desiredStyle: string): TSESLint.ReportFixFunction {
+    function getFixer(operatorToken: Token, desiredStyle: string): ReportFixFunction {
       return (fixer) => {
         const tokenBefore = sourceCode.getTokenBefore(operatorToken)!
         const tokenAfter = sourceCode.getTokenAfter(operatorToken)!

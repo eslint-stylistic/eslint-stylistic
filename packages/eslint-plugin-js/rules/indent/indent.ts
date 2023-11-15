@@ -7,12 +7,11 @@
  */
 
 import { STATEMENT_LIST_PARENTS, createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import type { ASTNode, JSONSchema, NodeTypes, RuleFunction, RuleListener, SourceCode, Token, Tree } from '../../utils/types'
+import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
-const KNOWN_NODES = new Set([
+const KNOWN_NODES: Set<NodeTypes> = new Set([
   'AssignmentExpression',
   'AssignmentPattern',
   'ArrayExpression',
@@ -33,8 +32,6 @@ const KNOWN_NODES = new Set([
   'DoWhileStatement',
   'DebuggerStatement',
   'EmptyStatement',
-  'ExperimentalRestProperty',
-  'ExperimentalSpreadProperty',
   'ExpressionStatement',
   'ForStatement',
   'ForInStatement',
@@ -100,7 +97,9 @@ const KNOWN_NODES = new Set([
   'ImportDefaultSpecifier',
   'ImportNamespaceSpecifier',
   'ImportExpression',
-])
+] satisfies NodeTypes[])
+
+type Offset = 'first' | 'off' | number
 
 /*
  * General rule strategy:
@@ -120,12 +119,14 @@ const KNOWN_NODES = new Set([
  * This is intended to be a generic wrapper around a map with non-negative integer keys, so that the underlying implementation
  * can easily be swapped out.
  */
-class IndexMap {
+class IndexMap<T = any> {
+  _values: (T | undefined)[]
+
   /**
    * Creates an empty map
    * @param {number} maxKey The maximum key
    */
-  constructor(maxKey) {
+  constructor(maxKey: number) {
     // Initializing the array with the maximum expected size avoids dynamic reallocations that could degrade performance.
     this._values = Array(maxKey + 1)
   }
@@ -136,7 +137,7 @@ class IndexMap {
    * @param {any} value The entry's value
    * @returns {void}
    */
-  insert(key, value) {
+  insert(key: number, value: T) {
     this._values[key] = value
   }
 
@@ -145,7 +146,7 @@ class IndexMap {
    * @param {number} key The provided key
    * @returns {*|undefined} The value of the found entry, or undefined if no such entry exists.
    */
-  findLastNotAfter(key) {
+  findLastNotAfter(key: number): T | undefined {
     const values = this._values
 
     for (let index = key; index >= 0; index--) {
@@ -154,7 +155,6 @@ class IndexMap {
       if (value)
         return value
     }
-    return void 0
   }
 
   /**
@@ -163,8 +163,8 @@ class IndexMap {
    * @param {number} end The end of the range
    * @returns {void}
    */
-  deleteRange(start, end) {
-    this._values.fill(void 0, start, end)
+  deleteRange(start: number, end: number) {
+    this._values.fill(undefined, start, end)
   }
 }
 
@@ -172,10 +172,13 @@ class IndexMap {
  * A helper class to get token-based info related to indentation
  */
 class TokenInfo {
+  sourceCode: SourceCode
+  firstTokensByLineNumber: Map<number, Token>
+
   /**
    * @param {SourceCode} sourceCode A SourceCode object
    */
-  constructor(sourceCode) {
+  constructor(sourceCode: SourceCode) {
     this.sourceCode = sourceCode
     this.firstTokensByLineNumber = new Map()
     const tokens = sourceCode.tokensAndComments
@@ -196,7 +199,7 @@ class TokenInfo {
    * @param {Token|ASTNode} token a node or token
    * @returns {Token} The first token on the given line
    */
-  getFirstTokenOfLine(token) {
+  getFirstTokenOfLine(token: Token | ASTNode) {
     return this.firstTokensByLineNumber.get(token.loc.start.line)
   }
 
@@ -205,7 +208,7 @@ class TokenInfo {
    * @param {Token} token The token
    * @returns {boolean} `true` if the token is the first on its line
    */
-  isFirstTokenOfLine(token) {
+  isFirstTokenOfLine(token: Token | ASTNode) {
     return this.getFirstTokenOfLine(token) === token
   }
 
@@ -214,7 +217,7 @@ class TokenInfo {
    * @param {Token} token Token to examine. This should be the first token on its line.
    * @returns {string} The indentation characters that precede the token
    */
-  getTokenIndent(token) {
+  getTokenIndent(token: Token) {
     return this.sourceCode.text.slice(token.range[0] - token.loc.start.column, token.range[0])
   }
 }
@@ -223,26 +226,30 @@ class TokenInfo {
  * A class to store information on desired offsets of tokens from each other
  */
 class OffsetStorage {
+  _tokenInfo: TokenInfo
+  _indentSize: number
+  _indentType: string
+  _indexMap: IndexMap
+  _lockedFirstTokens: WeakMap<Token, Token> = new WeakMap()
+  _desiredIndentCache: WeakMap<Token, string> = new WeakMap()
+  _ignoredTokens: WeakSet<Token> = new WeakSet()
+
   /**
    * @param {TokenInfo} tokenInfo a TokenInfo instance
    * @param {number} indentSize The desired size of each indentation level
    * @param {string} indentType The indentation character
    * @param {number} maxIndex The maximum end index of any token
    */
-  constructor(tokenInfo, indentSize, indentType, maxIndex) {
+  constructor(tokenInfo: TokenInfo, indentSize: number, indentType: string, maxIndex: number) {
     this._tokenInfo = tokenInfo
     this._indentSize = indentSize
     this._indentType = indentType
 
     this._indexMap = new IndexMap(maxIndex)
     this._indexMap.insert(0, { offset: 0, from: null, force: false })
-
-    this._lockedFirstTokens = new WeakMap()
-    this._desiredIndentCache = new WeakMap()
-    this._ignoredTokens = new WeakSet()
   }
 
-  _getOffsetDescriptor(token) {
+  _getOffsetDescriptor(token: Token) {
     return this._indexMap.findLastNotAfter(token.range[0])
   }
 
@@ -254,14 +261,14 @@ class OffsetStorage {
    * @param {Token} offsetToken The second token, whose offset should be matched to the first token
    * @returns {void}
    */
-  matchOffsetOf(baseToken, offsetToken) {
-    /*
-         * lockedFirstTokens is a map from a token whose indentation is controlled by the "first" option to
-         * the token that it depends on. For example, with the `ArrayExpression: first` option, the first
-         * token of each element in the array after the first will be mapped to the first token of the first
-         * element. The desired indentation of each of these tokens is computed based on the desired indentation
-         * of the "first" element, rather than through the normal offset mechanism.
-         */
+  matchOffsetOf(baseToken: Token, offsetToken: Token) {
+    /**
+     * lockedFirstTokens is a map from a token whose indentation is controlled by the "first" option to
+     * the token that it depends on. For example, with the `ArrayExpression: first` option, the first
+     * token of each element in the array after the first will be mapped to the first token of the first
+     * element. The desired indentation of each of these tokens is computed based on the desired indentation
+     * of the "first" element, rather than through the normal offset mechanism.
+     */
     this._lockedFirstTokens.set(offsetToken, baseToken)
   }
 
@@ -321,8 +328,9 @@ class OffsetStorage {
    * @param {number} offset The desired indent level
    * @returns {void}
    */
-  setDesiredOffset(token, fromToken, offset) {
-    return this.setDesiredOffsets(token.range, fromToken, offset)
+  setDesiredOffset(token: Token | undefined | null, fromToken: Token | undefined | null, offset: Offset): void {
+    if (token)
+      this.setDesiredOffsets(token.range, fromToken, offset)
   }
 
   /**
@@ -350,20 +358,20 @@ class OffsetStorage {
    * @param {boolean} force `true` if this offset should not use the normal collapsing behavior. This should almost always be false.
    * @returns {void}
    */
-  setDesiredOffsets(range, fromToken, offset, force) {
-    /*
-         * Offset ranges are stored as a collection of nodes, where each node maps a numeric key to an offset
-         * descriptor. The tree for the example above would have the following nodes:
-         *
-         * * key: 0, value: { offset: 0, from: null }
-         * * key: 15, value: { offset: 1, from: barToken }
-         * * key: 30, value: { offset: 1, from: fooToken }
-         * * key: 43, value: { offset: 2, from: barToken }
-         * * key: 820, value: { offset: 1, from: bazToken }
-         *
-         * To find the offset descriptor for any given token, one needs to find the node with the largest key
-         * which is <= token.start. To make this operation fast, the nodes are stored in a map indexed by key.
-         */
+  setDesiredOffsets(range: [number, number], fromToken: Token | null | undefined, offset: Offset, force = false) {
+    /**
+     * Offset ranges are stored as a collection of nodes, where each node maps a numeric key to an offset
+     * descriptor. The tree for the example above would have the following nodes:
+     *
+     * key: 0, value: { offset: 0, from: null }
+     * key: 15, value: { offset: 1, from: barToken }
+     * key: 30, value: { offset: 1, from: fooToken }
+     * key: 43, value: { offset: 2, from: barToken }
+     * key: 820, value: { offset: 1, from: bazToken }
+     *
+     * To find the offset descriptor for any given token, one needs to find the node with the largest key
+     * which is <= token.start. To make this operation fast, the nodes are stored in a map indexed by key.
+     */
 
     const descriptorToInsert = { offset, from: fromToken, force }
 
@@ -378,19 +386,19 @@ class OffsetStorage {
     // Insert a new node into the map for this range
     this._indexMap.insert(range[0], descriptorToInsert)
 
-    /*
-         * To avoid circular offset dependencies, keep the `fromToken` token mapped to whatever it was mapped to previously,
-         * even if it's in the current range.
-         */
+    /**
+     * To avoid circular offset dependencies, keep the `fromToken` token mapped to whatever it was mapped to previously,
+     * even if it's in the current range.
+     */
     if (fromTokenIsInRange) {
       this._indexMap.insert(fromToken.range[0], fromTokenDescriptor)
       this._indexMap.insert(fromToken.range[1], descriptorToInsert)
     }
 
-    /*
-         * To avoid modifying the offset of tokens after the range, insert another node to keep the offset of the following
-         * tokens the same as it was before.
-         */
+    /**
+     * To avoid modifying the offset of tokens after the range, insert another node to keep the offset of the following
+     * tokens the same as it was before.
+     */
     this._indexMap.insert(range[1], descriptorAfterRange)
   }
 
@@ -399,29 +407,27 @@ class OffsetStorage {
    * @param {Token} token The token
    * @returns {string} The desired indent of the token
    */
-  getDesiredIndent(token) {
+  getDesiredIndent(token: Token) {
     if (!this._desiredIndentCache.has(token)) {
       if (this._ignoredTokens.has(token)) {
-        /*
-                 * If the token is ignored, use the actual indent of the token as the desired indent.
-                 * This ensures that no errors are reported for this token.
-                 */
+        /**
+         * If the token is ignored, use the actual indent of the token as the desired indent.
+         * This ensures that no errors are reported for this token.
+         */
         this._desiredIndentCache.set(
           token,
           this._tokenInfo.getTokenIndent(token),
         )
       }
       else if (this._lockedFirstTokens.has(token)) {
-        const firstToken = this._lockedFirstTokens.get(token)
+        const firstToken = this._lockedFirstTokens.get(token)!
 
         this._desiredIndentCache.set(
           token,
-
           // (indentation for the first element's line)
-          this.getDesiredIndent(this._tokenInfo.getFirstTokenOfLine(firstToken))
-
-                        // (space between the start of the first element's line and the first element)
-                        + this._indentType.repeat(firstToken.loc.start.column - this._tokenInfo.getFirstTokenOfLine(firstToken).loc.start.column),
+          this.getDesiredIndent(this._tokenInfo.getFirstTokenOfLine(firstToken)!)
+          // (space between the start of the first element's line and the first element)
+          + this._indentType.repeat(firstToken.loc.start.column - this._tokenInfo.getFirstTokenOfLine(firstToken)!.loc.start.column),
         )
       }
       else {
@@ -447,7 +453,7 @@ class OffsetStorage {
    * @param {Token} token The token
    * @returns {void}
    */
-  ignoreToken(token) {
+  ignoreToken(token: Token) {
     if (this._tokenInfo.isFirstTokenOfLine(token))
       this._ignoredTokens.add(token)
   }
@@ -457,25 +463,25 @@ class OffsetStorage {
    * @param {Token} token The token
    * @returns {Token} The token that the given token depends on, or `null` if the given token is at the top level
    */
-  getFirstDependency(token) {
+  getFirstDependency(token: Token) {
     return this._getOffsetDescriptor(token).from
   }
 }
 
-const ELEMENT_LIST_SCHEMA = {
+const ELEMENT_LIST_SCHEMA: JSONSchema.JSONSchema4 = {
   oneOf: [
     {
       type: 'integer',
       minimum: 0,
     },
     {
+      type: 'string',
       enum: ['first', 'off'],
     },
   ],
 }
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -490,6 +496,7 @@ export default {
       {
         oneOf: [
           {
+            type: 'string',
             enum: ['tab'],
           },
           {
@@ -527,6 +534,7 @@ export default {
                 minimum: 0,
               },
               {
+                type: 'string',
                 enum: ['off'],
               },
             ],
@@ -538,6 +546,7 @@ export default {
                 minimum: 0,
               },
               {
+                type: 'string',
                 enum: ['off'],
               },
             ],
@@ -596,6 +605,7 @@ export default {
             type: 'array',
             items: {
               type: 'string',
+              // @ts-expect-error Not sure the original intention
               not: {
                 pattern: ':exit$',
               },
@@ -624,9 +634,9 @@ export default {
     const options = {
       SwitchCase: 0,
       VariableDeclarator: {
-        var: DEFAULT_VARIABLE_INDENT,
-        let: DEFAULT_VARIABLE_INDENT,
-        const: DEFAULT_VARIABLE_INDENT,
+        var: DEFAULT_VARIABLE_INDENT as number | 'first',
+        let: DEFAULT_VARIABLE_INDENT as number | 'first',
+        const: DEFAULT_VARIABLE_INDENT as number | 'first',
       },
       outerIIFEBody: 1,
       FunctionDeclaration: {
@@ -650,6 +660,7 @@ export default {
       flatTernaryExpressions: false,
       ignoredNodes: [],
       ignoreComments: false,
+      offsetTernaryExpressions: false,
     }
 
     if (context.options.length) {
@@ -658,18 +669,19 @@ export default {
         indentType = 'tab'
       }
       else {
-        indentSize = context.options[0]
+        indentSize = context.options[0] ?? indentSize
         indentType = 'space'
       }
 
-      if (context.options[1]) {
-        Object.assign(options, context.options[1])
+      const userOptions = context.options[1]
+      if (userOptions) {
+        Object.assign(options, userOptions)
 
-        if (typeof options.VariableDeclarator === 'number' || options.VariableDeclarator === 'first') {
+        if (typeof userOptions.VariableDeclarator === 'number' || userOptions.VariableDeclarator === 'first') {
           options.VariableDeclarator = {
-            var: options.VariableDeclarator,
-            let: options.VariableDeclarator,
-            const: options.VariableDeclarator,
+            var: userOptions.VariableDeclarator,
+            let: userOptions.VariableDeclarator,
+            const: userOptions.VariableDeclarator,
           }
         }
       }
@@ -687,17 +699,17 @@ export default {
      * @param {int} actualTabs The actual number of indentation tabs that were found on this line
      * @returns {string} An error message for this line
      */
-    function createErrorMessageData(expectedAmount, actualSpaces, actualTabs) {
+    function createErrorMessageData(expectedAmount: number, actualSpaces: number, actualTabs: number) {
       const expectedStatement = `${expectedAmount} ${indentType}${expectedAmount === 1 ? '' : 's'}` // e.g. "2 tabs"
       const foundSpacesWord = `space${actualSpaces === 1 ? '' : 's'}` // e.g. "space"
       const foundTabsWord = `tab${actualTabs === 1 ? '' : 's'}` // e.g. "tabs"
       let foundStatement
 
       if (actualSpaces > 0) {
-        /*
-                 * Abbreviate the message if the expected indentation is also spaces.
-                 * e.g. 'Expected 4 spaces but found 2' rather than 'Expected 4 spaces but found 2 spaces'
-                 */
+        /**
+         * Abbreviate the message if the expected indentation is also spaces.
+         * e.g. 'Expected 4 spaces but found 2' rather than 'Expected 4 spaces but found 2 spaces'
+         */
         foundStatement = indentType === 'space' ? actualSpaces : `${actualSpaces} ${foundSpacesWord}`
       }
       else if (actualTabs > 0) {
@@ -718,7 +730,7 @@ export default {
      * @param {string} neededIndent Expected indentation string
      * @returns {void}
      */
-    function report(token, neededIndent) {
+    function report(token: Token, neededIndent: string) {
       const actualIndent = Array.from(tokenInfo.getTokenIndent(token))
       const numSpaces = actualIndent.filter(char => char === ' ').length
       const numTabs = actualIndent.filter(char => char === '\t').length
@@ -732,7 +744,7 @@ export default {
           end: { line: token.loc.start.line, column: token.loc.start.column },
         },
         fix(fixer) {
-          const range = [token.range[0] - token.loc.start.column, token.range[0]]
+          const range = [token.range[0] - token.loc.start.column, token.range[0]] as [number, number]
           const newText = neededIndent
 
           return fixer.replaceTextRange(range, newText)
@@ -746,11 +758,10 @@ export default {
      * @param {string} desiredIndent Desired indentation of the string
      * @returns {boolean} `true` if the token's indentation is correct
      */
-    function validateTokenIndent(token, desiredIndent) {
+    function validateTokenIndent(token: Token, desiredIndent: string): boolean {
       const indentation = tokenInfo.getTokenIndent(token)
 
       return indentation === desiredIndent
-
                 // To avoid conflicts with no-mixed-spaces-and-tabs, don't report mixed spaces and tabs.
                 || indentation.includes(' ') && indentation.includes('\t')
     }
@@ -760,18 +771,18 @@ export default {
      * @param {ASTNode} node The function node to check.
      * @returns {boolean} True if the node is the outer IIFE
      */
-    function isOuterIIFE(node) {
-      /*
-             * Verify that the node is an IIFE
-             */
+    function isOuterIIFE(node: ASTNode) {
+      /**
+       * Verify that the node is an IIFE
+       */
       if (!node.parent || node.parent.type !== 'CallExpression' || node.parent.callee !== node)
         return false
 
-      /*
-             * Navigate legal ancestors to determine whether this IIFE is outer.
-             * A "legal ancestor" is an expression or statement that causes the function to get executed immediately.
-             * For example, `!(function(){})()` is an outer IIFE even though it is preceded by a ! operator.
-             */
+      /**
+       * Navigate legal ancestors to determine whether this IIFE is outer.
+       * A "legal ancestor" is an expression or statement that causes the function to get executed immediately.
+       * For example, `!(function(){})()` is an outer IIFE even though it is preceded by a ! operator.
+       */
       let statement = node.parent && node.parent.parent
 
       while (
@@ -792,8 +803,8 @@ export default {
      * @returns {number} The number of JavaScript linebreaks that follow the last non-whitespace character,
      * or the total number of linebreaks if the string is all whitespace.
      */
-    function countTrailingLinebreaks(string) {
-      const trailingWhitespace = string.match(/\s*$/u)[0]
+    function countTrailingLinebreaks(string: string) {
+      const trailingWhitespace = string.match(/\s*$/u)![0]
       const linebreakMatches = trailingWhitespace.match(createGlobalLinebreakMatcher())
 
       return linebreakMatches === null ? 0 : linebreakMatches.length
@@ -807,19 +818,19 @@ export default {
      * @param {number|string} offset The amount that the elements should be offset
      * @returns {void}
      */
-    function addElementListIndent(elements, startToken, endToken, offset) {
+    function addElementListIndent(elements: (ASTNode | null)[], startToken: Token, endToken: Token, offset: number | string) {
       /**
        * Gets the first token of a given element, including surrounding parentheses.
        * @param {ASTNode} element A node in the `elements` list
        * @returns {Token} The first token of this element
        */
-      function getFirstToken(element) {
-        let token = sourceCode.getTokenBefore(element)
+      function getFirstToken(element: ASTNode) {
+        let token: Token = sourceCode.getTokenBefore(element)!
 
         while (isOpeningParenToken(token) && token !== startToken)
-          token = sourceCode.getTokenBefore(token)
+          token = sourceCode.getTokenBefore(token)!
 
-        return sourceCode.getTokenAfter(token)
+        return sourceCode.getTokenAfter(token)!
       }
 
       // Run through all the tokens in the list, and offset them by one indent level (mainly for comments, other things will end up overridden)
@@ -834,40 +845,40 @@ export default {
       if (offset === 'first' && elements.length && !elements[0])
         return
 
-      elements.forEach((element, index) => {
-        if (!element) {
-          // Skip holes in arrays
-          return
-        }
-        if (offset === 'off') {
-          // Ignore the first token of every element if the "off" option is used
-          offsets.ignoreToken(getFirstToken(element))
-        }
-
-        // Offset the following elements correctly relative to the first element
-        if (index === 0)
-          return
-
-        if (offset === 'first' && tokenInfo.isFirstTokenOfLine(getFirstToken(element))) {
-          offsets.matchOffsetOf(getFirstToken(elements[0]), getFirstToken(element))
-        }
-        else {
-          const previousElement = elements[index - 1]
-          const firstTokenOfPreviousElement = previousElement && getFirstToken(previousElement)
-          const previousElementLastToken = previousElement && sourceCode.getLastToken(previousElement)
-
-          if (
-            previousElement
-                        && previousElementLastToken.loc.end.line - countTrailingLinebreaks(previousElementLastToken.value) > startToken.loc.end.line
-          ) {
-            offsets.setDesiredOffsets(
-              [previousElement.range[1], element.range[1]],
-              firstTokenOfPreviousElement,
-              0,
-            )
+      elements
+        .forEach((element, index) => {
+          if (!element) {
+            // Skip holes in arrays
+            return
           }
-        }
-      })
+          if (offset === 'off') {
+            // Ignore the first token of every element if the "off" option is used
+            offsets.ignoreToken(getFirstToken(element))
+          }
+
+          // Offset the following elements correctly relative to the first element
+          if (index === 0)
+            return
+
+          if (offset === 'first' && tokenInfo.isFirstTokenOfLine(getFirstToken(element))) {
+            offsets.matchOffsetOf(getFirstToken(elements[0]!), getFirstToken(element))
+          }
+          else {
+            const previousElement = elements[index - 1]!
+            const firstTokenOfPreviousElement = previousElement && getFirstToken(previousElement)!
+            const previousElementLastToken = previousElement && sourceCode.getLastToken(previousElement)!
+
+            if (
+              previousElement && previousElementLastToken.loc.end.line - countTrailingLinebreaks(previousElementLastToken.value) > startToken.loc.end.line
+            ) {
+              offsets.setDesiredOffsets(
+                [previousElement.range[1], element.range[1]],
+                firstTokenOfPreviousElement,
+                0,
+              )
+            }
+          }
+        })
     }
 
     /**
@@ -876,19 +887,19 @@ export default {
      * @param {ASTNode} node node to examine
      * @returns {void}
      */
-    function addBlocklessNodeIndent(node) {
+    function addBlocklessNodeIndent(node: ASTNode) {
       if (node.type !== 'BlockStatement') {
-        const lastParentToken = sourceCode.getTokenBefore(node, isNotOpeningParenToken)
+        const lastParentToken = sourceCode.getTokenBefore(node, isNotOpeningParenToken)!
 
-        let firstBodyToken = sourceCode.getFirstToken(node)
-        let lastBodyToken = sourceCode.getLastToken(node)
+        let firstBodyToken = sourceCode.getFirstToken(node)!
+        let lastBodyToken = sourceCode.getLastToken(node)!
 
         while (
-          isOpeningParenToken(sourceCode.getTokenBefore(firstBodyToken))
-                    && isClosingParenToken(sourceCode.getTokenAfter(lastBodyToken))
+          isOpeningParenToken(sourceCode.getTokenBefore(firstBodyToken)!)
+                    && isClosingParenToken(sourceCode.getTokenAfter(lastBodyToken)!)
         ) {
-          firstBodyToken = sourceCode.getTokenBefore(firstBodyToken)
-          lastBodyToken = sourceCode.getTokenAfter(lastBodyToken)
+          firstBodyToken = sourceCode.getTokenBefore(firstBodyToken)!
+          lastBodyToken = sourceCode.getTokenAfter(lastBodyToken)!
         }
 
         offsets.setDesiredOffsets([firstBodyToken.range[0], lastBodyToken.range[1]], lastParentToken, 1)
@@ -900,30 +911,30 @@ export default {
      * @param {ASTNode} node A CallExpression or NewExpression node
      * @returns {void}
      */
-    function addFunctionCallIndent(node) {
+    function addFunctionCallIndent(node: Tree.CallExpression | Tree.NewExpression) {
       let openingParen
 
       if (node.arguments.length)
-        openingParen = sourceCode.getFirstTokenBetween(node.callee, node.arguments[0], isOpeningParenToken)
+        openingParen = sourceCode.getFirstTokenBetween(node.callee, node.arguments[0], isOpeningParenToken)!
       else
-        openingParen = sourceCode.getLastToken(node, 1)
+        openingParen = sourceCode.getLastToken(node, 1)!
 
-      const closingParen = sourceCode.getLastToken(node)
+      const closingParen = sourceCode.getLastToken(node)!
 
       parameterParens.add(openingParen)
       parameterParens.add(closingParen)
 
-      /*
-             * If `?.` token exists, set desired offset for that.
-             * This logic is copied from `MemberExpression`'s.
-             */
-      if (node.optional) {
-        const dotToken = sourceCode.getTokenAfter(node.callee, isQuestionDotToken)
+      /**
+       * If `?.` token exists, set desired offset for that.
+       * This logic is copied from `MemberExpression`'s.
+       */
+      if ('optional' in node && node.optional) {
+        const dotToken = sourceCode.getTokenAfter(node.callee, isQuestionDotToken)!
         const calleeParenCount = sourceCode.getTokensBetween(node.callee, dotToken, { filter: isClosingParenToken }).length
         const firstTokenOfCallee = calleeParenCount
-          ? sourceCode.getTokenBefore(node.callee, { skip: calleeParenCount - 1 })
-          : sourceCode.getFirstToken(node.callee)
-        const lastTokenOfCallee = sourceCode.getTokenBefore(dotToken)
+          ? sourceCode.getTokenBefore(node.callee, { skip: calleeParenCount - 1 })!
+          : sourceCode.getFirstToken(node.callee)!
+        const lastTokenOfCallee = sourceCode.getTokenBefore(dotToken)!
         const offsetBase = lastTokenOfCallee.loc.end.line === openingParen.loc.start.line
           ? lastTokenOfCallee
           : firstTokenOfCallee
@@ -931,8 +942,10 @@ export default {
         offsets.setDesiredOffset(dotToken, offsetBase, 1)
       }
 
-      const offsetAfterToken = node.callee.type === 'TaggedTemplateExpression' ? sourceCode.getFirstToken(node.callee.quasi) : openingParen
-      const offsetToken = sourceCode.getTokenBefore(offsetAfterToken)
+      const offsetAfterToken = node.callee.type === 'TaggedTemplateExpression'
+        ? sourceCode.getFirstToken(node.callee.quasi)!
+        : openingParen
+      const offsetToken = sourceCode.getTokenBefore(offsetAfterToken)!
 
       offsets.setDesiredOffset(openingParen, offsetToken, 0)
 
@@ -944,7 +957,7 @@ export default {
      * @param {Token[]} tokens A list of tokens
      * @returns {void}
      */
-    function addParensIndent(tokens) {
+    function addParensIndent(tokens: Token[]) {
       const parenStack = []
       const parenPairs = []
 
@@ -958,8 +971,8 @@ export default {
       }
 
       for (let i = parenPairs.length - 1; i >= 0; i--) {
-        const leftParen = parenPairs[i].left
-        const rightParen = parenPairs[i].right
+        const leftParen = parenPairs[i].left!
+        const rightParen = parenPairs[i].right!
 
         // We only want to handle parens around expressions, so exclude parentheses that are in function parameters and function call arguments.
         if (!parameterParens.has(leftParen) && !parameterParens.has(rightParen)) {
@@ -981,12 +994,12 @@ export default {
      * @param {ASTNode} node Unknown Node
      * @returns {void}
      */
-    function ignoreNode(node) {
+    function ignoreNode(node: ASTNode) {
       const unknownNodeTokens = new Set(sourceCode.getTokens(node, { includeComments: true }))
 
       unknownNodeTokens.forEach((token) => {
         if (!unknownNodeTokens.has(offsets.getFirstDependency(token))) {
-          const firstTokenOfLine = tokenInfo.getFirstTokenOfLine(token)
+          const firstTokenOfLine = tokenInfo.getFirstTokenOfLine(token)!
 
           if (token === firstTokenOfLine)
             offsets.ignoreToken(token)
@@ -1002,13 +1015,13 @@ export default {
      * @param {ASTNode} leafNode The expression node that the token belongs directly.
      * @returns {boolean} `true` if the token is on the first line of a statement.
      */
-    function isOnFirstLineOfStatement(token, leafNode) {
+    function isOnFirstLineOfStatement(token: Token, leafNode: ASTNode): boolean {
       let node = leafNode
 
       while (node.parent && !node.parent.type.endsWith('Statement') && !node.parent.type.endsWith('Declaration'))
         node = node.parent
 
-      node = node.parent
+      node = node.parent!
 
       return !node || node.loc.start.line === token.loc.start.line
     }
@@ -1021,7 +1034,7 @@ export default {
      * @returns {boolean} `true` if the tokens are on separate lines and
      *   there exists a blank line between them, `false` otherwise.
      */
-    function hasBlankLinesBetween(firstToken, secondToken) {
+    function hasBlankLinesBetween(firstToken: Token, secondToken: Token): boolean {
       const firstTokenLine = firstToken.loc.end.line
       const secondTokenLine = secondToken.loc.start.line
 
@@ -1036,32 +1049,32 @@ export default {
       return false
     }
 
-    const ignoredNodeFirstTokens = new Set()
+    const ignoredNodeFirstTokens = new Set<Token>()
 
-    const baseOffsetListeners = {
-      'ArrayExpression, ArrayPattern': function (node) {
-        const openingBracket = sourceCode.getFirstToken(node)
-        const closingBracket = sourceCode.getTokenAfter([...node.elements].reverse().find(_ => _) || openingBracket, isClosingBracketToken)
+    const baseOffsetListeners: RuleListener = {
+      'ArrayExpression, ArrayPattern': function (node: Tree.ArrayExpression | Tree.ArrayPattern) {
+        const openingBracket = sourceCode.getFirstToken(node)!
+        const closingBracket = sourceCode.getTokenAfter([...node.elements].reverse().find(_ => _) || openingBracket, isClosingBracketToken)!
 
         addElementListIndent(node.elements, openingBracket, closingBracket, options.ArrayExpression)
       },
 
-      'ObjectExpression, ObjectPattern': function (node) {
-        const openingCurly = sourceCode.getFirstToken(node)
+      'ObjectExpression, ObjectPattern': function (node: Tree.ObjectExpression | Tree.ObjectPattern) {
+        const openingCurly = sourceCode.getFirstToken(node)!
         const closingCurly = sourceCode.getTokenAfter(
           node.properties.length ? node.properties[node.properties.length - 1] : openingCurly,
           isClosingBraceToken,
-        )
+        )!
 
         addElementListIndent(node.properties, openingCurly, closingCurly, options.ObjectExpression)
       },
 
       ArrowFunctionExpression(node) {
-        const maybeOpeningParen = sourceCode.getFirstToken(node, { skip: node.async ? 1 : 0 })
+        const maybeOpeningParen = sourceCode.getFirstToken(node, { skip: node.async ? 1 : 0 })!
 
         if (isOpeningParenToken(maybeOpeningParen)) {
           const openingParen = maybeOpeningParen
-          const closingParen = sourceCode.getTokenBefore(node.body, isClosingParenToken)
+          const closingParen = sourceCode.getTokenBefore(node.body, isClosingParenToken)!
 
           parameterParens.add(openingParen)
           parameterParens.add(closingParen)
@@ -1072,30 +1085,30 @@ export default {
       },
 
       AssignmentExpression(node) {
-        const operator = sourceCode.getFirstTokenBetween(node.left, node.right, token => token.value === node.operator)
+        const operator = sourceCode.getFirstTokenBetween(node.left, node.right, token => token.value === node.operator)!
 
-        offsets.setDesiredOffsets([operator.range[0], node.range[1]], sourceCode.getLastToken(node.left), 1)
+        offsets.setDesiredOffsets([operator.range[0], node.range[1]], sourceCode.getLastToken(node.left)!, 1)
         offsets.ignoreToken(operator)
-        offsets.ignoreToken(sourceCode.getTokenAfter(operator))
+        offsets.ignoreToken(sourceCode.getTokenAfter(operator)!)
       },
 
-      'BinaryExpression, LogicalExpression': function (node) {
-        const operator = sourceCode.getFirstTokenBetween(node.left, node.right, token => token.value === node.operator)
+      'BinaryExpression, LogicalExpression': function (node: Tree.BinaryExpression | Tree.LogicalExpression) {
+        const operator = sourceCode.getFirstTokenBetween(node.left, node.right, token => token.value === node.operator)!
 
-        /*
-                 * For backwards compatibility, don't check BinaryExpression indents, e.g.
-                 * var foo = bar &&
-                 *                   baz;
-                 */
+        /**
+         * For backwards compatibility, don't check BinaryExpression indents, e.g.
+         * var foo = bar &&
+         *                   baz;
+         */
 
-        const tokenAfterOperator = sourceCode.getTokenAfter(operator)
+        const tokenAfterOperator = sourceCode.getTokenAfter(operator)!
 
         offsets.ignoreToken(operator)
         offsets.ignoreToken(tokenAfterOperator)
         offsets.setDesiredOffset(tokenAfterOperator, operator, 0)
       },
 
-      'BlockStatement, ClassBody': function (node) {
+      'BlockStatement, ClassBody': function (node: Tree.BlockStatement | Tree.ClassBody) {
         let blockIndentLevel
 
         if (node.parent && isOuterIIFE(node.parent))
@@ -1107,27 +1120,35 @@ export default {
         else
           blockIndentLevel = 1
 
-        /*
-                 * For blocks that aren't lone statements, ensure that the opening curly brace
-                 * is aligned with the parent.
-                 */
+        /**
+         * For blocks that aren't lone statements, ensure that the opening curly brace
+         * is aligned with the parent.
+         */
         if (!STATEMENT_LIST_PARENTS.has(node.parent.type))
-          offsets.setDesiredOffset(sourceCode.getFirstToken(node), sourceCode.getFirstToken(node.parent), 0)
+          offsets.setDesiredOffset(sourceCode.getFirstToken(node)!, sourceCode.getFirstToken(node.parent)!, 0)
 
-        addElementListIndent(node.body, sourceCode.getFirstToken(node), sourceCode.getLastToken(node), blockIndentLevel)
+        addElementListIndent(
+          node.body,
+          sourceCode.getFirstToken(node)!,
+          sourceCode.getLastToken(node)!,
+          blockIndentLevel,
+        )
       },
 
       'CallExpression': addFunctionCallIndent,
 
-      'ClassDeclaration[superClass], ClassExpression[superClass]': function (node) {
-        const classToken = sourceCode.getFirstToken(node)
-        const extendsToken = sourceCode.getTokenBefore(node.superClass, isNotOpeningParenToken)
+      'ClassDeclaration[superClass], ClassExpression[superClass]': function (node: Tree.ClassDeclaration) {
+        if (!node.superClass)
+          return
+
+        const classToken = sourceCode.getFirstToken(node)!
+        const extendsToken = sourceCode.getTokenBefore(node.superClass, isNotOpeningParenToken)!
 
         offsets.setDesiredOffsets([extendsToken.range[0], node.body.range[0]], classToken, 1)
       },
 
       ConditionalExpression(node) {
-        const firstToken = sourceCode.getFirstToken(node)
+        const firstToken = sourceCode.getFirstToken(node)!
 
         // `flatTernaryExpressions` option is for the following style:
         // var a =
@@ -1138,29 +1159,32 @@ export default {
                     || !isTokenOnSameLine(node.test, node.consequent)
                     || isOnFirstLineOfStatement(firstToken, node)
         ) {
-          const questionMarkToken = sourceCode.getFirstTokenBetween(node.test, node.consequent, token => token.type === 'Punctuator' && token.value === '?')
-          const colonToken = sourceCode.getFirstTokenBetween(node.consequent, node.alternate, token => token.type === 'Punctuator' && token.value === ':')
+          const questionMarkToken = sourceCode.getFirstTokenBetween(node.test, node.consequent, token => token.type === 'Punctuator' && token.value === '?')!
+          const colonToken = sourceCode.getFirstTokenBetween(node.consequent, node.alternate, token => token.type === 'Punctuator' && token.value === ':')!
 
-          const firstConsequentToken = sourceCode.getTokenAfter(questionMarkToken)
-          const lastConsequentToken = sourceCode.getTokenBefore(colonToken)
-          const firstAlternateToken = sourceCode.getTokenAfter(colonToken)
+          const firstConsequentToken = sourceCode.getTokenAfter(questionMarkToken)!
+          const lastConsequentToken = sourceCode.getTokenBefore(colonToken)!
+          const firstAlternateToken = sourceCode.getTokenAfter(colonToken)!
 
           offsets.setDesiredOffset(questionMarkToken, firstToken, 1)
           offsets.setDesiredOffset(colonToken, firstToken, 1)
 
-          offsets.setDesiredOffset(firstConsequentToken, firstToken, firstConsequentToken.type === 'Punctuator'
-                        && options.offsetTernaryExpressions ? 2 : 1)
+          offsets.setDesiredOffset(
+            firstConsequentToken,
+            firstToken,
+            firstConsequentToken.type === 'Punctuator' && options.offsetTernaryExpressions ? 2 : 1,
+          )
 
-          /*
-                     * The alternate and the consequent should usually have the same indentation.
-                     * If they share part of a line, align the alternate against the first token of the consequent.
-                     * This allows the alternate to be indented correctly in cases like this:
-                     * foo ? (
-                     *   bar
-                     * ) : ( // this '(' is aligned with the '(' above, so it's considered to be aligned with `foo`
-                     *   baz // as a result, `baz` is offset by 1 rather than 2
-                     * )
-                     */
+          /**
+           * The alternate and the consequent should usually have the same indentation.
+           * If they share part of a line, align the alternate against the first token of the consequent.
+           * This allows the alternate to be indented correctly in cases like this:
+           * foo ? (
+           *   bar
+           * ) : ( // this '(' is aligned with the '(' above, so it's considered to be aligned with `foo`
+           *   baz // as a result, `baz` is offset by 1 rather than 2
+           * )
+           */
           if (lastConsequentToken.loc.end.line === firstAlternateToken.loc.start.line) {
             offsets.setDesiredOffset(firstAlternateToken, firstConsequentToken, 0)
           }
@@ -1180,24 +1204,33 @@ export default {
         }
       },
 
-      'DoWhileStatement, WhileStatement, ForInStatement, ForOfStatement, WithStatement': node => addBlocklessNodeIndent(node.body),
+      'DoWhileStatement, WhileStatement, ForInStatement, ForOfStatement, WithStatement': function (
+        node:
+        | Tree.DoWhileStatement
+        | Tree.WhileStatement
+        | Tree.ForInStatement
+        | Tree.ForOfStatement
+        | Tree.WithStatement,
+      ) {
+        addBlocklessNodeIndent(node.body)
+      },
 
       ExportNamedDeclaration(node) {
         if (node.declaration === null) {
-          const closingCurly = sourceCode.getLastToken(node, isClosingBraceToken)
+          const closingCurly = sourceCode.getLastToken(node, isClosingBraceToken)!
 
           // Indent the specifiers in `export {foo, bar, baz}`
-          addElementListIndent(node.specifiers, sourceCode.getFirstToken(node, { skip: 1 }), closingCurly, 1)
+          addElementListIndent(node.specifiers, sourceCode.getFirstToken(node, { skip: 1 })!, closingCurly, 1)
 
           if (node.source) {
             // Indent everything after and including the `from` token in `export {foo, bar, baz} from 'qux'`
-            offsets.setDesiredOffsets([closingCurly.range[1], node.range[1]], sourceCode.getFirstToken(node), 1)
+            offsets.setDesiredOffsets([closingCurly.range[1], node.range[1]], sourceCode.getFirstToken(node)!, 1)
           }
         }
       },
 
       ForStatement(node) {
-        const forOpeningParen = sourceCode.getFirstToken(node, 1)
+        const forOpeningParen = sourceCode.getFirstToken(node, 1)!
 
         if (node.init)
           offsets.setDesiredOffsets(node.init.range, forOpeningParen, 1)
@@ -1211,9 +1244,9 @@ export default {
         addBlocklessNodeIndent(node.body)
       },
 
-      'FunctionDeclaration, FunctionExpression': function (node) {
-        const closingParen = sourceCode.getTokenBefore(node.body)
-        const openingParen = sourceCode.getTokenBefore(node.params.length ? node.params[0] : closingParen)
+      'FunctionDeclaration, FunctionExpression': function (node: Tree.FunctionDeclaration | Tree.FunctionExpression) {
+        const closingParen = sourceCode.getTokenBefore(node.body)!
+        const openingParen = sourceCode.getTokenBefore(node.params.length ? node.params[0] : closingParen)!
 
         parameterParens.add(openingParen)
         parameterParens.add(closingParen)
@@ -1226,16 +1259,18 @@ export default {
           addBlocklessNodeIndent(node.alternate)
       },
 
-      /*
-             * For blockless nodes with semicolon-first style, don't indent the semicolon.
-             * e.g.
-             * if (foo)
-             *     bar()
-             * ; [1, 2, 3].map(foo)
-             *
-             * Traversal into the node sets indentation of the semicolon, so we need to override it on exit.
-             */
-      ':matches(DoWhileStatement, ForStatement, ForInStatement, ForOfStatement, IfStatement, WhileStatement, WithStatement):exit': function (node) {
+      /**
+       * For blockless nodes with semicolon-first style, don't indent the semicolon.
+       * e.g.
+       * if (foo)
+       *     bar()
+       * ; [1, 2, 3].map(foo)
+       *
+       * Traversal into the node sets indentation of the semicolon, so we need to override it on exit.
+       */
+      ':matches(DoWhileStatement, ForStatement, ForInStatement, ForOfStatement, IfStatement, WhileStatement, WithStatement):exit': function (
+        node: Tree.DoWhileStatement | Tree.ForStatement | Tree.ForInStatement | Tree.ForOfStatement | Tree.IfStatement | Tree.WhileStatement | Tree.WithStatement,
+      ) {
         let nodesToCheck
 
         if (node.type === 'IfStatement') {
@@ -1248,7 +1283,7 @@ export default {
         }
 
         for (const nodeToCheck of nodesToCheck) {
-          const lastToken = sourceCode.getLastToken(nodeToCheck)
+          const lastToken = sourceCode.getLastToken(nodeToCheck)!
 
           if (isSemicolonToken(lastToken)) {
             const tokenBeforeLast = sourceCode.getTokenBefore(lastToken)
@@ -1262,7 +1297,7 @@ export default {
             ) {
               offsets.setDesiredOffset(
                 lastToken,
-                sourceCode.getFirstToken(node),
+                sourceCode.getFirstToken(node)!,
                 0,
               )
             }
@@ -1272,61 +1307,61 @@ export default {
 
       ImportDeclaration(node) {
         if (node.specifiers.some(specifier => specifier.type === 'ImportSpecifier')) {
-          const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)
-          const closingCurly = sourceCode.getLastToken(node, isClosingBraceToken)
+          const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
+          const closingCurly = sourceCode.getLastToken(node, isClosingBraceToken)!
 
           addElementListIndent(node.specifiers.filter(specifier => specifier.type === 'ImportSpecifier'), openingCurly, closingCurly, options.ImportDeclaration)
         }
 
-        const fromToken = sourceCode.getLastToken(node, token => token.type === 'Identifier' && token.value === 'from')
-        const sourceToken = sourceCode.getLastToken(node, token => token.type === 'String')
-        const semiToken = sourceCode.getLastToken(node, token => token.type === 'Punctuator' && token.value === ';')
+        const fromToken = sourceCode.getLastToken(node, token => token.type === 'Identifier' && token.value === 'from')!
+        const sourceToken = sourceCode.getLastToken(node, token => token.type === 'String')!
+        const semiToken = sourceCode.getLastToken(node, token => token.type === 'Punctuator' && token.value === ';')!
 
         if (fromToken) {
           const end = semiToken && semiToken.range[1] === sourceToken.range[1] ? node.range[1] : sourceToken.range[1]
 
-          offsets.setDesiredOffsets([fromToken.range[0], end], sourceCode.getFirstToken(node), 1)
+          offsets.setDesiredOffsets([fromToken.range[0], end], sourceCode.getFirstToken(node)!, 1)
         }
       },
 
       ImportExpression(node) {
-        const openingParen = sourceCode.getFirstToken(node, 1)
-        const closingParen = sourceCode.getLastToken(node)
+        const openingParen = sourceCode.getFirstToken(node, 1)!
+        const closingParen = sourceCode.getLastToken(node)!
 
         parameterParens.add(openingParen)
         parameterParens.add(closingParen)
-        offsets.setDesiredOffset(openingParen, sourceCode.getTokenBefore(openingParen), 0)
+        offsets.setDesiredOffset(openingParen, sourceCode.getTokenBefore(openingParen)!, 0)
 
         addElementListIndent([node.source], openingParen, closingParen, options.CallExpression.arguments)
       },
 
-      'MemberExpression, JSXMemberExpression, MetaProperty': function (node) {
+      'MemberExpression, JSXMemberExpression, MetaProperty': function (node: Tree.MemberExpression | Tree.JSXMemberExpression | Tree.MetaProperty) {
         const object = node.type === 'MetaProperty' ? node.meta : node.object
-        const firstNonObjectToken = sourceCode.getFirstTokenBetween(object, node.property, isNotClosingParenToken)
-        const secondNonObjectToken = sourceCode.getTokenAfter(firstNonObjectToken)
+        const firstNonObjectToken = sourceCode.getFirstTokenBetween(object, node.property, isNotClosingParenToken)!
+        const secondNonObjectToken = sourceCode.getTokenAfter(firstNonObjectToken)!
 
         const objectParenCount = sourceCode.getTokensBetween(object, node.property, { filter: isClosingParenToken }).length
         const firstObjectToken = objectParenCount
-          ? sourceCode.getTokenBefore(object, { skip: objectParenCount - 1 })
-          : sourceCode.getFirstToken(object)
-        const lastObjectToken = sourceCode.getTokenBefore(firstNonObjectToken)
-        const firstPropertyToken = node.computed ? firstNonObjectToken : secondNonObjectToken
+          ? sourceCode.getTokenBefore(object, { skip: objectParenCount - 1 })!
+          : sourceCode.getFirstToken(object)!
+        const lastObjectToken = sourceCode.getTokenBefore(firstNonObjectToken)!
+        const firstPropertyToken = ('computed' in node && node.computed) ? firstNonObjectToken : secondNonObjectToken
 
-        if (node.computed) {
+        if ('computed' in node && node.computed) {
           // For computed MemberExpressions, match the closing bracket with the opening bracket.
-          offsets.setDesiredOffset(sourceCode.getLastToken(node), firstNonObjectToken, 0)
+          offsets.setDesiredOffset(sourceCode.getLastToken(node)!, firstNonObjectToken, 0)
           offsets.setDesiredOffsets(node.property.range, firstNonObjectToken, 1)
         }
 
-        /*
-                 * If the object ends on the same line that the property starts, match against the last token
-                 * of the object, to ensure that the MemberExpression is not indented.
-                 *
-                 * Otherwise, match against the first token of the object, e.g.
-                 * foo
-                 *   .bar
-                 *   .baz // <-- offset by 1 from `foo`
-                 */
+        /**
+         * If the object ends on the same line that the property starts, match against the last token
+         * of the object, to ensure that the MemberExpression is not indented.
+         *
+         * Otherwise, match against the first token of the object, e.g.
+         * foo
+         *   .bar
+         *   .baz // <-- offset by 1 from `foo`
+         */
         const offsetBase = lastObjectToken.loc.end.line === firstPropertyToken.loc.start.line
           ? lastObjectToken
           : firstObjectToken
@@ -1335,11 +1370,11 @@ export default {
           // Match the dot (for non-computed properties) or the opening bracket (for computed properties) against the object.
           offsets.setDesiredOffset(firstNonObjectToken, offsetBase, options.MemberExpression)
 
-          /*
-                     * For computed MemberExpressions, match the first token of the property against the opening bracket.
-                     * Otherwise, match the first token of the property against the object.
-                     */
-          offsets.setDesiredOffset(secondNonObjectToken, node.computed ? firstNonObjectToken : offsetBase, options.MemberExpression)
+          /**
+           * For computed MemberExpressions, match the first token of the property against the opening bracket.
+           * Otherwise, match the first token of the property against the object.
+           */
+          offsets.setDesiredOffset(secondNonObjectToken, ('computed' in node && node.computed) ? firstNonObjectToken : offsetBase, options.MemberExpression)
         }
         else {
           // If the MemberExpression option is off, ignore the dot and the first token of the property.
@@ -1355,29 +1390,29 @@ export default {
       NewExpression(node) {
         // Only indent the arguments if the NewExpression has parens (e.g. `new Foo(bar)` or `new Foo()`, but not `new Foo`
         if (node.arguments.length > 0
-                        || isClosingParenToken(sourceCode.getLastToken(node))
-                        && isOpeningParenToken(sourceCode.getLastToken(node, 1)))
+                        || isClosingParenToken(sourceCode.getLastToken(node)!)
+                        && isOpeningParenToken(sourceCode.getLastToken(node, 1)!))
           addFunctionCallIndent(node)
       },
 
       Property(node) {
         if (!node.shorthand && !node.method && node.kind === 'init') {
-          const colon = sourceCode.getFirstTokenBetween(node.key, node.value, isColonToken)
+          const colon = sourceCode.getFirstTokenBetween(node.key, node.value, isColonToken)!
 
-          offsets.ignoreToken(sourceCode.getTokenAfter(colon))
+          offsets.ignoreToken(sourceCode.getTokenAfter(colon)!)
         }
       },
 
       PropertyDefinition(node) {
-        const firstToken = sourceCode.getFirstToken(node)
-        const maybeSemicolonToken = sourceCode.getLastToken(node)
+        const firstToken = sourceCode.getFirstToken(node)!
+        const maybeSemicolonToken = sourceCode.getLastToken(node)!
         let keyLastToken = null
 
         // Indent key.
         if (node.computed) {
-          const bracketTokenL = sourceCode.getTokenBefore(node.key, isOpeningBracketToken)
-          const bracketTokenR = keyLastToken = sourceCode.getTokenAfter(node.key, isClosingBracketToken)
-          const keyRange = [bracketTokenL.range[1], bracketTokenR.range[0]]
+          const bracketTokenL = sourceCode.getTokenBefore(node.key, isOpeningBracketToken)!
+          const bracketTokenR = keyLastToken = sourceCode.getTokenAfter(node.key, isClosingBracketToken)!
+          const keyRange = [bracketTokenL.range[1], bracketTokenR.range[0]] as [number, number]
 
           if (bracketTokenL !== firstToken)
             offsets.setDesiredOffset(bracketTokenL, firstToken, 0)
@@ -1386,7 +1421,7 @@ export default {
           offsets.setDesiredOffset(bracketTokenR, bracketTokenL, 0)
         }
         else {
-          const idToken = keyLastToken = sourceCode.getFirstToken(node.key)
+          const idToken = keyLastToken = sourceCode.getFirstToken(node.key)!
 
           if (idToken !== firstToken)
             offsets.setDesiredOffset(idToken, firstToken, 1)
@@ -1394,8 +1429,8 @@ export default {
 
         // Indent initializer.
         if (node.value) {
-          const eqToken = sourceCode.getTokenBefore(node.value, isEqToken)
-          const valueToken = sourceCode.getTokenAfter(eqToken)
+          const eqToken = sourceCode.getTokenBefore(node.value, isEqToken)!
+          const valueToken = sourceCode.getTokenAfter(eqToken)!
 
           offsets.setDesiredOffset(eqToken, keyLastToken, 1)
           offsets.setDesiredOffset(valueToken, eqToken, 1)
@@ -1407,16 +1442,16 @@ export default {
         }
       },
 
-      StaticBlock(node) {
-        const openingCurly = sourceCode.getFirstToken(node, { skip: 1 }) // skip the `static` token
-        const closingCurly = sourceCode.getLastToken(node)
+      StaticBlock(node: Tree.StaticBlock) {
+        const openingCurly = sourceCode.getFirstToken(node, { skip: 1 })! // skip the `static` token
+        const closingCurly = sourceCode.getLastToken(node)!
 
         addElementListIndent(node.body, openingCurly, closingCurly, options.StaticBlock.body)
       },
 
       SwitchStatement(node) {
-        const openingCurly = sourceCode.getTokenAfter(node.discriminant, isOpeningBraceToken)
-        const closingCurly = sourceCode.getLastToken(node)
+        const openingCurly = sourceCode.getTokenAfter(node.discriminant, isOpeningBraceToken)!
+        const closingCurly = sourceCode.getLastToken(node)!
 
         offsets.setDesiredOffsets([openingCurly.range[1], closingCurly.range[0]], openingCurly, options.SwitchCase)
 
@@ -1431,8 +1466,8 @@ export default {
 
       SwitchCase(node) {
         if (!(node.consequent.length === 1 && node.consequent[0].type === 'BlockStatement')) {
-          const caseKeyword = sourceCode.getFirstToken(node)
-          const tokenAfterCurrentCase = sourceCode.getTokenAfter(node)
+          const caseKeyword = sourceCode.getFirstToken(node)!
+          const tokenAfterCurrentCase = sourceCode.getTokenAfter(node)!
 
           offsets.setDesiredOffsets([caseKeyword.range[1], tokenAfterCurrentCase.range[0]], caseKeyword, 1)
         }
@@ -1453,13 +1488,13 @@ export default {
 
       VariableDeclaration(node) {
         let variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, node.kind)
-          ? options.VariableDeclarator[node.kind]
+          ? options.VariableDeclarator[node.kind as keyof typeof options.VariableDeclarator]
           : DEFAULT_VARIABLE_INDENT
 
-        const firstToken = sourceCode.getFirstToken(node)
-        const lastToken = sourceCode.getLastToken(node)
+        const firstToken = sourceCode.getFirstToken(node)!
+        const lastToken = sourceCode.getLastToken(node)!
 
-        if (options.VariableDeclarator[node.kind] === 'first') {
+        if (options.VariableDeclarator[node.kind as keyof typeof options.VariableDeclarator] === 'first') {
           if (node.declarations.length > 1) {
             addElementListIndent(
               node.declarations,
@@ -1474,25 +1509,25 @@ export default {
         }
 
         if (node.declarations[node.declarations.length - 1].loc.start.line > node.loc.start.line) {
-          /*
-                     * VariableDeclarator indentation is a bit different from other forms of indentation, in that the
-                     * indentation of an opening bracket sometimes won't match that of a closing bracket. For example,
-                     * the following indentations are correct:
-                     *
-                     * var foo = {
-                     *   ok: true
-                     * };
-                     *
-                     * var foo = {
-                     *     ok: true,
-                     *   },
-                     *   bar = 1;
-                     *
-                     * Account for when exiting the AST (after indentations have already been set for the nodes in
-                     * the declaration) by manually increasing the indentation level of the tokens in this declarator
-                     * on the same line as the start of the declaration, provided that there are declarators that
-                     * follow this one.
-                     */
+          /**
+           * VariableDeclarator indentation is a bit different from other forms of indentation, in that the
+           * indentation of an opening bracket sometimes won't match that of a closing bracket. For example,
+           * the following indentations are correct:
+           *
+           * var foo = {
+           *   ok: true
+           * };
+           *
+           * var foo = {
+           *     ok: true,
+           *   },
+           *   bar = 1;
+           *
+           * Account for when exiting the AST (after indentations have already been set for the nodes in
+           * the declaration) by manually increasing the indentation level of the tokens in this declarator
+           * on the same line as the start of the declaration, provided that there are declarators that
+           * follow this one.
+           */
           offsets.setDesiredOffsets(node.range, firstToken, variableIndent, true)
         }
         else {
@@ -1505,8 +1540,8 @@ export default {
 
       VariableDeclarator(node) {
         if (node.init) {
-          const equalOperator = sourceCode.getTokenBefore(node.init, isNotOpeningParenToken)
-          const tokenAfterOperator = sourceCode.getTokenAfter(equalOperator)
+          const equalOperator = sourceCode.getTokenBefore(node.init, isNotOpeningParenToken)!
+          const tokenAfterOperator = sourceCode.getTokenAfter(equalOperator)!
 
           offsets.ignoreToken(equalOperator)
           offsets.ignoreToken(tokenAfterOperator)
@@ -1515,29 +1550,37 @@ export default {
         }
       },
 
-      'JSXAttribute[value]': function (node) {
-        const equalsToken = sourceCode.getFirstTokenBetween(node.name, node.value, token => token.type === 'Punctuator' && token.value === '=')
+      'JSXAttribute[value]': function (node: Tree.JSXAttribute) {
+        if (!node.value)
+          return
+        const equalsToken = sourceCode.getFirstTokenBetween(node.name, node.value, token => token.type === 'Punctuator' && token.value === '=')!
 
         offsets.setDesiredOffsets([equalsToken.range[0], node.value.range[1]], sourceCode.getFirstToken(node.name), 1)
       },
 
       JSXElement(node) {
-        if (node.closingElement)
-          addElementListIndent(node.children, sourceCode.getFirstToken(node.openingElement), sourceCode.getFirstToken(node.closingElement), 1)
+        if (node.closingElement) {
+          addElementListIndent(
+            node.children,
+            sourceCode.getFirstToken(node.openingElement)!,
+            sourceCode.getFirstToken(node.closingElement)!,
+            1,
+          )
+        }
       },
 
       JSXOpeningElement(node) {
-        const firstToken = sourceCode.getFirstToken(node)
+        const firstToken = sourceCode.getFirstToken(node)!
         let closingToken
 
         if (node.selfClosing) {
-          closingToken = sourceCode.getLastToken(node, { skip: 1 })
-          offsets.setDesiredOffset(sourceCode.getLastToken(node), closingToken, 0)
+          closingToken = sourceCode.getLastToken(node, { skip: 1 })!
+          offsets.setDesiredOffset(sourceCode.getLastToken(node)!, closingToken, 0)
         }
         else {
-          closingToken = sourceCode.getLastToken(node)
+          closingToken = sourceCode.getLastToken(node)!
         }
-        offsets.setDesiredOffsets(node.name.range, sourceCode.getFirstToken(node))
+        offsets.setDesiredOffsets(node.name.range, sourceCode.getFirstToken(node), 0)
         addElementListIndent(node.attributes, firstToken, closingToken, 1)
       },
 
@@ -1548,24 +1591,24 @@ export default {
       },
 
       JSXFragment(node) {
-        const firstOpeningToken = sourceCode.getFirstToken(node.openingFragment)
-        const firstClosingToken = sourceCode.getFirstToken(node.closingFragment)
+        const firstOpeningToken = sourceCode.getFirstToken(node.openingFragment)!
+        const firstClosingToken = sourceCode.getFirstToken(node.closingFragment)!
 
         addElementListIndent(node.children, firstOpeningToken, firstClosingToken, 1)
       },
 
       JSXOpeningFragment(node) {
-        const firstToken = sourceCode.getFirstToken(node)
-        const closingToken = sourceCode.getLastToken(node)
+        const firstToken = sourceCode.getFirstToken(node)!
+        const closingToken = sourceCode.getLastToken(node)!
 
         offsets.setDesiredOffsets(node.range, firstToken, 1)
         offsets.matchOffsetOf(firstToken, closingToken)
       },
 
       JSXClosingFragment(node) {
-        const firstToken = sourceCode.getFirstToken(node)
-        const slashToken = sourceCode.getLastToken(node, { skip: 1 })
-        const closingToken = sourceCode.getLastToken(node)
+        const firstToken = sourceCode.getFirstToken(node)!
+        const slashToken = sourceCode.getLastToken(node, { skip: 1 })!
+        const closingToken = sourceCode.getLastToken(node)!
         const tokenToMatch = isTokenOnSameLine(slashToken, closingToken) ? slashToken : closingToken
 
         offsets.setDesiredOffsets(node.range, firstToken, 1)
@@ -1573,8 +1616,8 @@ export default {
       },
 
       JSXExpressionContainer(node) {
-        const openingCurly = sourceCode.getFirstToken(node)
-        const closingCurly = sourceCode.getLastToken(node)
+        const openingCurly = sourceCode.getFirstToken(node)!
+        const closingCurly = sourceCode.getLastToken(node)!
 
         offsets.setDesiredOffsets(
           [openingCurly.range[1], closingCurly.range[0]],
@@ -1584,8 +1627,8 @@ export default {
       },
 
       JSXSpreadAttribute(node) {
-        const openingCurly = sourceCode.getFirstToken(node)
-        const closingCurly = sourceCode.getLastToken(node)
+        const openingCurly = sourceCode.getFirstToken(node)!
+        const closingCurly = sourceCode.getLastToken(node)!
 
         offsets.setDesiredOffsets(
           [openingCurly.range[1], closingCurly.range[0]],
@@ -1594,7 +1637,7 @@ export default {
         )
       },
 
-      '*': function (node) {
+      '*': function (node: ASTNode) {
         const firstToken = sourceCode.getFirstToken(node)
 
         // Ensure that the children of every node are indented at least as much as the first token.
@@ -1603,47 +1646,47 @@ export default {
       },
     }
 
-    const listenerCallQueue = []
+    const listenerCallQueue: { listener?: RuleFunction<any>; node: ASTNode }[] = []
 
-    /*
-         * To ignore the indentation of a node:
-         * 1. Don't call the node's listener when entering it (if it has a listener)
-         * 2. Don't set any offsets against the first token of the node.
-         * 3. Call `ignoreNode` on the node sometime after exiting it and before validating offsets.
-         */
-    const offsetListeners = {}
+    /**
+     * To ignore the indentation of a node:
+     * 1. Don't call the node's listener when entering it (if it has a listener)
+     * 2. Don't set any offsets against the first token of the node.
+     * 3. Call `ignoreNode` on the node sometime after exiting it and before validating offsets.
+     */
+    const offsetListeners: Record<string, (node: ASTNode) => void> = {}
 
     for (const [selector, listener] of Object.entries(baseOffsetListeners)) {
-      /*
-             * Offset listener calls are deferred until traversal is finished, and are called as
-             * part of the final `Program:exit` listener. This is necessary because a node might
-             * be matched by multiple selectors.
-             *
-             * Example: Suppose there is an offset listener for `Identifier`, and the user has
-             * specified in configuration that `MemberExpression > Identifier` should be ignored.
-             * Due to selector specificity rules, the `Identifier` listener will get called first. However,
-             * if a given Identifier node is supposed to be ignored, then the `Identifier` offset listener
-             * should not have been called at all. Without doing extra selector matching, we don't know
-             * whether the Identifier matches the `MemberExpression > Identifier` selector until the
-             * `MemberExpression > Identifier` listener is called.
-             *
-             * To avoid this, the `Identifier` listener isn't called until traversal finishes and all
-             * ignored nodes are known.
-             */
-      offsetListeners[selector] = node => listenerCallQueue.push({ listener, node })
+      /**
+       * Offset listener calls are deferred until traversal is finished, and are called as
+       * part of the final `Program:exit` listener. This is necessary because a node might
+       * be matched by multiple selectors.
+       *
+       * Example: Suppose there is an offset listener for `Identifier`, and the user has
+       * specified in configuration that `MemberExpression > Identifier` should be ignored.
+       * Due to selector specificity rules, the `Identifier` listener will get called first. However,
+       * if a given Identifier node is supposed to be ignored, then the `Identifier` offset listener
+       * should not have been called at all. Without doing extra selector matching, we don't know
+       * whether the Identifier matches the `MemberExpression > Identifier` selector until the
+       * `MemberExpression > Identifier` listener is called.
+       *
+       * To avoid this, the `Identifier` listener isn't called until traversal finishes and all
+       * ignored nodes are known.
+       */
+      offsetListeners[selector] = node => listenerCallQueue.push({ listener: listener as RuleFunction<any>, node })
     }
 
     // For each ignored node selector, set up a listener to collect it into the `ignoredNodes` set.
-    const ignoredNodes = new Set()
+    const ignoredNodes = new Set<ASTNode>()
 
     /**
      * Ignores a node
      * @param {ASTNode} node The node to ignore
      * @returns {void}
      */
-    function addToIgnoredNodes(node) {
+    function addToIgnoredNodes(node: ASTNode): void {
       ignoredNodes.add(node)
-      ignoredNodeFirstTokens.add(sourceCode.getFirstToken(node))
+      ignoredNodeFirstTokens.add(sourceCode.getFirstToken(node)!)
     }
 
     const ignoredNodeListeners = options.ignoredNodes.reduce(
@@ -1651,19 +1694,19 @@ export default {
       {},
     )
 
-    /*
-         * Join the listeners, and add a listener to verify that all tokens actually have the correct indentation
-         * at the end.
-         *
-         * Using Object.assign will cause some offset listeners to be overwritten if the same selector also appears
-         * in `ignoredNodeListeners`. This isn't a problem because all of the matching nodes will be ignored,
-         * so those listeners wouldn't be called anyway.
-         */
+    /**
+     * Join the listeners, and add a listener to verify that all tokens actually have the correct indentation
+     * at the end.
+     *
+     * Using Object.assign will cause some offset listeners to be overwritten if the same selector also appears
+     * in `ignoredNodeListeners`. This isn't a problem because all of the matching nodes will be ignored,
+     * so those listeners wouldn't be called anyway.
+     */
     return Object.assign(
       offsetListeners,
       ignoredNodeListeners,
       {
-        '*:exit': function (node) {
+        '*:exit': function (node: ASTNode) {
           // If a node's type is nonstandard, we can't tell how its children should be offset, so ignore it.
           if (!KNOWN_NODES.has(node.type))
             addToIgnoredNodes(node)
@@ -1680,7 +1723,7 @@ export default {
             const nodeInfo = listenerCallQueue[i]
 
             if (!ignoredNodes.has(nodeInfo.node))
-              nodeInfo.listener(nodeInfo.node)
+              nodeInfo.listener?.(nodeInfo.node)
           }
 
           // Update the offsets for ignored nodes to prevent their child tokens from being reported.
@@ -1688,17 +1731,19 @@ export default {
 
           addParensIndent(sourceCode.ast.tokens)
 
-          /*
-                     * Create a Map from (tokenOrComment) => (precedingToken).
-                     * This is necessary because sourceCode.getTokenBefore does not handle a comment as an argument correctly.
-                     */
+          /**
+           * Create a Map from (tokenOrComment) => (precedingToken).
+           * This is necessary because sourceCode.getTokenBefore does not handle a comment as an argument correctly.
+           */
           const precedingTokens = new WeakMap()
 
           for (let i = 0; i < sourceCode.ast.comments.length; i++) {
             const comment = sourceCode.ast.comments[i]
 
-            const tokenOrCommentBefore = sourceCode.getTokenBefore(comment, { includeComments: true })
-            const hasToken = precedingTokens.has(tokenOrCommentBefore) ? precedingTokens.get(tokenOrCommentBefore) : tokenOrCommentBefore
+            const tokenOrCommentBefore = sourceCode.getTokenBefore(comment, { includeComments: true })!
+            const hasToken = precedingTokens.has(tokenOrCommentBefore)
+              ? precedingTokens.get(tokenOrCommentBefore)
+              : tokenOrCommentBefore
 
             precedingTokens.set(comment, hasToken)
           }
@@ -1709,7 +1754,7 @@ export default {
               continue
             }
 
-            const firstTokenOfLine = tokenInfo.firstTokensByLineNumber.get(i)
+            const firstTokenOfLine = tokenInfo.firstTokensByLineNumber.get(i)!
 
             if (firstTokenOfLine.loc.start.line !== i) {
               // Don't check the indentation of multi-line tokens (e.g. template literals or block comments) twice.
@@ -1722,33 +1767,33 @@ export default {
               const mayAlignWithBefore = tokenBefore && !hasBlankLinesBetween(tokenBefore, firstTokenOfLine)
               const mayAlignWithAfter = tokenAfter && !hasBlankLinesBetween(firstTokenOfLine, tokenAfter)
 
-              /*
-                             * If a comment precedes a line that begins with a semicolon token, align to that token, i.e.
-                             *
-                             * let foo
-                             * // comment
-                             * ;(async () => {})()
-                             */
+              /**
+               * If a comment precedes a line that begins with a semicolon token, align to that token, i.e.
+               *
+               * let foo
+               * // comment
+               * ;(async () => {})()
+               */
               if (tokenAfter && isSemicolonToken(tokenAfter) && !isTokenOnSameLine(firstTokenOfLine, tokenAfter))
                 offsets.setDesiredOffset(firstTokenOfLine, tokenAfter, 0)
 
               // If a comment matches the expected indentation of the token immediately before or after, don't report it.
               if (
-                mayAlignWithBefore && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenBefore))
-                                || mayAlignWithAfter && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenAfter))
+                mayAlignWithBefore && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenBefore)!)
+                                || mayAlignWithAfter && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenAfter)!)
               )
                 continue
             }
 
             // If the token matches the expected indentation, don't report it.
-            if (validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(firstTokenOfLine)))
+            if (validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(firstTokenOfLine)!))
               continue
 
             // Otherwise, report the token/comment.
-            report(firstTokenOfLine, offsets.getDesiredIndent(firstTokenOfLine))
+            report(firstTokenOfLine, offsets.getDesiredIndent(firstTokenOfLine)!)
           }
         },
       },
     )
   },
-}
+})

@@ -3,10 +3,9 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { LINEBREAK_MATCHER, isNotQuestionDotToken, isOpeningParenToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Token } from '../../utils/types'
+import type { Token, Tree } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -80,34 +79,34 @@ export default createRule({
      * @returns {void}
      * @private
      */
-    function checkSpacing(node: TSESTree.CallExpression | TSESTree.NewExpression | TSESTree.ImportExpression, leftToken: Token, rightToken: Token) {
+    function checkSpacing(node: Tree.CallExpression | Tree.NewExpression | Tree.ImportExpression, leftToken: Token, rightToken: Token) {
       const textBetweenTokens = text.slice(leftToken.range[1], rightToken.range[0]).replace(/\/\*.*?\*\//gu, '')
       const hasWhitespace = /\s/u.test(textBetweenTokens)
       const hasNewline = hasWhitespace && LINEBREAK_MATCHER.test(textBetweenTokens)
 
-      /*
-             * never allowNewlines hasWhitespace hasNewline message
-             * F     F             F             F          Missing space between function name and paren.
-             * F     F             F             T          (Invalid `!hasWhitespace && hasNewline`)
-             * F     F             T             T          Unexpected newline between function name and paren.
-             * F     F             T             F          (OK)
-             * F     T             T             F          (OK)
-             * F     T             T             T          (OK)
-             * F     T             F             T          (Invalid `!hasWhitespace && hasNewline`)
-             * F     T             F             F          Missing space between function name and paren.
-             * T     T             F             F          (Invalid `never && allowNewlines`)
-             * T     T             F             T          (Invalid `!hasWhitespace && hasNewline`)
-             * T     T             T             T          (Invalid `never && allowNewlines`)
-             * T     T             T             F          (Invalid `never && allowNewlines`)
-             * T     F             T             F          Unexpected space between function name and paren.
-             * T     F             T             T          Unexpected space between function name and paren.
-             * T     F             F             T          (Invalid `!hasWhitespace && hasNewline`)
-             * T     F             F             F          (OK)
-             *
-             * T                   T                        Unexpected space between function name and paren.
-             * F                   F                        Missing space between function name and paren.
-             * F     F                           T          Unexpected newline between function name and paren.
-             */
+      /**
+       * never allowNewlines hasWhitespace hasNewline message
+       * F     F             F             F          Missing space between function name and paren.
+       * F     F             F             T          (Invalid `!hasWhitespace && hasNewline`)
+       * F     F             T             T          Unexpected newline between function name and paren.
+       * F     F             T             F          (OK)
+       * F     T             T             F          (OK)
+       * F     T             T             T          (OK)
+       * F     T             F             T          (Invalid `!hasWhitespace && hasNewline`)
+       * F     T             F             F          Missing space between function name and paren.
+       * T     T             F             F          (Invalid `never && allowNewlines`)
+       * T     T             F             T          (Invalid `!hasWhitespace && hasNewline`)
+       * T     T             T             T          (Invalid `never && allowNewlines`)
+       * T     T             T             F          (Invalid `never && allowNewlines`)
+       * T     F             T             F          Unexpected space between function name and paren.
+       * T     F             T             T          Unexpected space between function name and paren.
+       * T     F             F             T          (Invalid `!hasWhitespace && hasNewline`)
+       * T     F             F             F          (OK)
+       *
+       * T                   T                        Unexpected space between function name and paren.
+       * F                   F                        Missing space between function name and paren.
+       * F     F                           T          Unexpected newline between function name and paren.
+       */
 
       if (never && hasWhitespace) {
         context.report({
@@ -129,10 +128,10 @@ export default createRule({
             if ('optional' in node && node.optional)
               return fixer.replaceTextRange([leftToken.range[1], rightToken.range[0]], '?.')
 
-            /*
-                         * Only autofix if there is no newline
-                         * https://github.com/eslint/eslint/issues/7787
-                         */
+            /**
+             * Only autofix if there is no newline
+             * https://github.com/eslint/eslint/issues/7787
+             */
             if (hasNewline)
               return null
 
@@ -196,7 +195,7 @@ export default createRule({
     }
 
     return {
-      'CallExpression, NewExpression': function (node: TSESTree.CallExpression | TSESTree.NewExpression) {
+      'CallExpression, NewExpression': function (node: Tree.CallExpression | Tree.NewExpression) {
         const lastToken = sourceCode.getLastToken(node)!
         const lastCalleeToken = sourceCode.getLastToken(node.callee)!
         const parenToken = sourceCode.getFirstTokenBetween(lastCalleeToken, lastToken, isOpeningParenToken)!

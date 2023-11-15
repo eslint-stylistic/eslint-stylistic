@@ -4,6 +4,9 @@
  */
 import escapeRegExp from 'escape-string-regexp'
 import { LINEBREAKS } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -14,7 +17,7 @@ import { LINEBREAKS } from '../../utils/ast-utils'
  * @param {string} s A string to escape.
  * @returns {string} An escaped string.
  */
-function escape(s) {
+function escape(s: string) {
   return `(?:${escapeRegExp(s)})`
 }
 
@@ -24,7 +27,7 @@ function escape(s) {
  * @param {string} s A string to escape.
  * @returns {string} An escaped string.
  */
-function escapeAndRepeat(s) {
+function escapeAndRepeat(s: string) {
   return `${escape(s)}+`
 }
 
@@ -34,7 +37,7 @@ function escapeAndRepeat(s) {
  * @param {string[]} [markers] A marker list.
  * @returns {string[]} A marker list.
  */
-function parseMarkersOption(markers) {
+function parseMarkersOption(markers: string[]) {
   // `*` is a marker for JSDoc comments.
   if (!markers.includes('*'))
     return markers.concat('*')
@@ -50,7 +53,7 @@ function parseMarkersOption(markers) {
  * @param {string[]} exceptions An exception pattern list.
  * @returns {string} A regular expression string for exceptions.
  */
-function createExceptionsPattern(exceptions) {
+function createExceptionsPattern(exceptions: string[]) {
   let pattern = ''
 
   /*
@@ -94,7 +97,7 @@ function createExceptionsPattern(exceptions) {
  * @param {string[]} exceptions An exception pattern list.
  * @returns {RegExp} A RegExp object for the beginning of a comment in `always` mode.
  */
-function createAlwaysStylePattern(markers, exceptions) {
+function createAlwaysStylePattern(markers: string[], exceptions: string[]) {
   let pattern = '^'
 
   /*
@@ -129,18 +132,27 @@ function createAlwaysStylePattern(markers, exceptions) {
  * @param {string[]} markers A marker list.
  * @returns {RegExp} A RegExp object for `never` mode.
  */
-function createNeverStylePattern(markers) {
+function createNeverStylePattern(markers: string[]) {
   const pattern = `^(${markers.map(escape).join('|')})?[ \t]+`
 
   return new RegExp(pattern, 'u')
+}
+
+type Style = 'block' | 'line'
+
+interface StyleRuleRegExp {
+  beginRegex: RegExp
+  endRegex: RegExp
+  hasExceptions: boolean
+  captureMarker: RegExp
+  markers: Set<string>
 }
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -153,6 +165,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['always', 'never'],
       },
       {
@@ -239,13 +252,14 @@ export default {
     const config = context.options[1] || {}
     const balanced = config.block && config.block.balanced
 
-    const styleRules = ['block', 'line'].reduce((rule, type) => {
-      const markers = parseMarkersOption(config[type] && config[type].markers || config.markers || [])
-      const exceptions = config[type] && config[type].exceptions || config.exceptions || []
+    const styleRules = ['block', 'line'].reduce((rule, type: string) => {
+      const nodeType = type as Style
+      const markers = parseMarkersOption(config[nodeType] && config[nodeType]?.markers || config.markers || [])
+      const exceptions = config[nodeType] && config[nodeType]?.exceptions || config.exceptions || []
       const endNeverPattern = '[ \t]+$'
 
       // Create RegExp object for valid patterns.
-      rule[type] = {
+      rule[nodeType] = {
         beginRegex: requireSpace ? createAlwaysStylePattern(markers, exceptions) : createNeverStylePattern(markers),
         endRegex: balanced && requireSpace ? new RegExp(`${createExceptionsPattern(exceptions)}$`, 'u') : new RegExp(endNeverPattern, 'u'),
         hasExceptions: exceptions.length > 0,
@@ -254,7 +268,7 @@ export default {
       }
 
       return rule
-    }, {})
+    }, {} as { [key in Style]: StyleRuleRegExp; })
 
     /**
      * Reports a beginning spacing error with an appropriate message.
@@ -264,7 +278,7 @@ export default {
      * @param {string} refChar Character used for reference in the error message.
      * @returns {void}
      */
-    function reportBegin(node, messageId, match, refChar) {
+    function reportBegin(node: Tree.Comment, messageId: MessageIds, match: RegExpExecArray | null, refChar: string) {
       const type = node.type.toLowerCase()
       const commentIdentifier = type === 'block' ? '/*' : '//'
 
@@ -280,8 +294,10 @@ export default {
 
             return fixer.insertTextAfterRange([start, end], ' ')
           }
-          end += match[0].length
-          return fixer.replaceTextRange([start, end], commentIdentifier + (match[1] ? match[1] : ''))
+          if (match)
+            end += match[0].length
+
+          return fixer.replaceTextRange([start, end], commentIdentifier + (match && match[1] ? match[1] : ''))
         },
         messageId,
         data: { refChar },
@@ -295,7 +311,7 @@ export default {
      * @param {string} match An array of the matched whitespace characters.
      * @returns {void}
      */
-    function reportEnd(node, messageId, match) {
+    function reportEnd(node: Tree.Comment, messageId: MessageIds, match: RegExpExecArray | null) {
       context.report({
         node,
         fix(fixer) {
@@ -303,7 +319,9 @@ export default {
             return fixer.insertTextAfterRange([node.range[0], node.range[1] - 2], ' ')
 
           const end = node.range[1] - 2
-          const start = end - match[0].length
+          let start = end
+          if (match)
+            start -= match[0].length
 
           return fixer.replaceTextRange([start, end], '')
         },
@@ -316,8 +334,8 @@ export default {
      * @param {ASTNode} node a comment node to check.
      * @returns {void}
      */
-    function checkCommentForSpace(node) {
-      const type = node.type.toLowerCase()
+    function checkCommentForSpace(node: Tree.Comment) {
+      const type = node.type.toLowerCase() as Style
       const rule = styleRules[type]
       const commentIdentifier = type === 'block' ? '/*' : '//'
 
@@ -341,7 +359,7 @@ export default {
         }
 
         if (balanced && type === 'block' && !endMatch)
-          reportEnd(node, 'expectedSpaceBefore')
+          reportEnd(node, 'expectedSpaceBefore', null)
       }
       else {
         if (beginMatch) {
@@ -360,8 +378,9 @@ export default {
       Program() {
         const comments = sourceCode.getAllComments()
 
+        // @ts-expect-error 'Shebang' is not in the type definition
         comments.filter(token => token.type !== 'Shebang').forEach(checkCommentForSpace)
       },
     }
   },
-}
+})

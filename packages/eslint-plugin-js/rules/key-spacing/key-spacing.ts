@@ -3,11 +3,10 @@
  * @author Brandon Mills
  */
 
-import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
 import { LINEBREAK_MATCHER, getStaticPropertyName, isColonToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import { getGraphemeCount } from '../../utils/string-utils'
-import type { ASTNode } from '../../utils/types'
+import type { ASTNode, ReportFixFunction, Tree } from '../../utils/types'
 
 /**
  * Checks whether a string contains a line terminator as defined in
@@ -339,7 +338,7 @@ export default createRule({
      * @param {ASTNode} property Property node to check.
      * @returns {boolean} Whether the property is a key-value property.
      */
-    function isKeyValueProperty(property: TSESTree.ObjectLiteralElement): property is TSESTree.Property {
+    function isKeyValueProperty(property: Tree.ObjectLiteralElement): property is Tree.Property {
       return !(
         (('method' in property && property.method)
                 || ('shorthand' in property && property.shorthand)
@@ -387,7 +386,7 @@ export default createRule({
      * @param {ASTNode} candidate The next Property that might be in the group.
      * @returns {boolean} True if the candidate property is part of the group.
      */
-    function continuesPropertyGroup(lastMember: TSESTree.ObjectLiteralElement, candidate: TSESTree.ObjectLiteralElement) {
+    function continuesPropertyGroup(lastMember: Tree.ObjectLiteralElement, candidate: Tree.ObjectLiteralElement) {
       const groupEndLine = lastMember.loc.start.line
       const candidateValueStartLine = (isKeyValueProperty(candidate) ? getFirstTokenAfterColon(candidate.key)! : candidate).loc.start.line
 
@@ -421,7 +420,7 @@ export default createRule({
      * @param {ASTNode} property Property node whose key to retrieve.
      * @returns {string} The property's key.
      */
-    function getKey(property: TSESTree.Property) {
+    function getKey(property: Tree.Property) {
       const key = property.key
 
       if (property.computed)
@@ -440,7 +439,7 @@ export default createRule({
      * @param {string} mode Value of the mode as "strict" or "minimum"
      * @returns {void}
      */
-    function report(property: TSESTree.Property, side: 'key' | 'value', whitespace: string, expected: number, mode: 'strict' | 'minimum') {
+    function report(property: Tree.Property, side: 'key' | 'value', whitespace: string, expected: number, mode: 'strict' | 'minimum') {
       const diff = whitespace.length - expected
 
       if ((
@@ -462,7 +461,7 @@ export default createRule({
         const missingLoc = isKeySide ? tokenBeforeColon.loc : tokenAfterColon.loc
         const loc = isExtra ? { start: locStart, end: locEnd } : missingLoc
 
-        let fix: TSESLint.ReportFixFunction
+        let fix: ReportFixFunction
 
         if (isExtra) {
           let range: [number, number]
@@ -517,7 +516,7 @@ export default createRule({
      * @param {ASTNode} property Property of on object literal.
      * @returns {int} Width of the key.
      */
-    function getKeyWidth(property: TSESTree.Property) {
+    function getKeyWidth(property: Tree.Property) {
       const startToken = sourceCode.getFirstToken(property)!
       const endToken = getLastTokenBeforeColon(property.key)!
 
@@ -529,7 +528,7 @@ export default createRule({
      * @param {ASTNode} property Property node from an object literal.
      * @returns {object} Whitespace before and after the property's colon.
      */
-    function getPropertyWhitespace(property: TSESTree.Property) {
+    function getPropertyWhitespace(property: Tree.Property) {
       const whitespace = /(\s*):(\s*)/u.exec(sourceCode.getText().slice(
         property.key.range[1],
         property.value.range[0],
@@ -549,11 +548,11 @@ export default createRule({
      * @param {ASTNode} node ObjectExpression node being evaluated.
      * @returns {Array<ASTNode[]>} Groups of property AST node lists.
      */
-    function createGroups(node: TSESTree.ObjectExpression) {
+    function createGroups(node: Tree.ObjectExpression) {
       if (node.properties.length === 1)
         return [node.properties]
 
-      return node.properties.reduce<TSESTree.ObjectLiteralElement[][]>((groups, property) => {
+      return node.properties.reduce<Tree.ObjectLiteralElement[][]>((groups, property) => {
         const currentGroup = last(groups)
         const prev = last(currentGroup)
 
@@ -573,7 +572,7 @@ export default createRule({
      * @param {ASTNode[]} properties List of Property AST nodes.
      * @returns {void}
      */
-    function verifyGroupAlignment(properties: TSESTree.Property[]) {
+    function verifyGroupAlignment(properties: Tree.Property[]) {
       const length = properties.length
       const widths = properties.map(getKeyWidth) // Width of keys, including quotes
       const align = alignmentOptions.on // "value" or "colon"
@@ -619,7 +618,7 @@ export default createRule({
      * @param {object} lineOptions Configured singleLine or multiLine options
      * @returns {void}
      */
-    function verifySpacing(node: TSESTree.Property, lineOptions: { beforeColon: number; afterColon: number; mode: 'strict' | 'minimum' }) {
+    function verifySpacing(node: Tree.Property, lineOptions: { beforeColon: number; afterColon: number; mode: 'strict' | 'minimum' }) {
       const actual = getPropertyWhitespace(node)
 
       if (actual) { // Object literal getters/setters lack colons
@@ -634,7 +633,7 @@ export default createRule({
      * @param {object} lineOptions Configured singleLine or multiLine options
      * @returns {void}
      */
-    function verifyListSpacing(properties: TSESTree.Property[], lineOptions: { beforeColon: number; afterColon: number; mode: 'strict' | 'minimum' }) {
+    function verifyListSpacing(properties: Tree.Property[], lineOptions: { beforeColon: number; afterColon: number; mode: 'strict' | 'minimum' }) {
       const length = properties.length
 
       for (let i = 0; i < length; i++)
@@ -646,7 +645,7 @@ export default createRule({
      * @param {ASTNode} node ObjectExpression node being evaluated.
      * @returns {void}
      */
-    function verifyAlignment(node: TSESTree.ObjectExpression) {
+    function verifyAlignment(node: Tree.ObjectExpression) {
       createGroups(node).forEach((group) => {
         const properties = group.filter(isKeyValueProperty)
 

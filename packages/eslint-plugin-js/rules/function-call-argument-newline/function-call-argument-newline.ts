@@ -3,10 +3,8 @@
  * @author Alexey Gonchar <https://github.com/finico>
  */
 
-import type { ReportFixFunction } from '@typescript-eslint/utils/ts-eslint'
-import type { TSESTree } from '@typescript-eslint/utils'
 import { createRule } from '../../utils/createRule'
-import type { Token } from '../../utils/types'
+import type { ReportFixFunction, Token, Tree } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -67,7 +65,7 @@ export default createRule({
      * @returns {void}
      * @private
      */
-    function checkArguments(node: TSESTree.CallExpression | TSESTree.NewExpression, checker: Checker) {
+    function checkArguments(node: Tree.CallExpression | Tree.NewExpression, checker: Checker) {
       for (let i = 1; i < node.arguments.length; i++) {
         const prevArgToken = sourceCode.getLastToken(node.arguments[i - 1])!
         const currentArgToken = sourceCode.getFirstToken(node.arguments[i])!
@@ -99,7 +97,7 @@ export default createRule({
      * @returns {void}
      * @private
      */
-    function check(node: TSESTree.CallExpression | TSESTree.NewExpression) {
+    function check(node: Tree.CallExpression | Tree.NewExpression) {
       if (node.arguments.length < 2)
         return
 
