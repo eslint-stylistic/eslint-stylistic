@@ -262,52 +262,52 @@ export default createRule<MessageIds, RuleOptions>({
       }
     }
     if (!exceptions.ObjectExpression) {
-      nodes.ObjectExpression = function (node: Tree.ObjectExpression) {
+      nodes.ObjectExpression = function (node) {
         validateComma(node, 'properties')
       }
     }
     if (!exceptions.ObjectPattern) {
-      nodes.ObjectPattern = function (node: Tree.ObjectPattern) {
+      nodes.ObjectPattern = function (node) {
         validateComma(node, 'properties')
       }
     }
     if (!exceptions.ArrayExpression) {
-      nodes.ArrayExpression = function (node: Tree.ArrayExpression) {
+      nodes.ArrayExpression = function (node) {
         validateComma(node, 'elements')
       }
     }
     if (!exceptions.ArrayPattern) {
-      nodes.ArrayPattern = function (node: Tree.ArrayPattern) {
+      nodes.ArrayPattern = function (node) {
         validateComma(node, 'elements')
       }
     }
     if (!exceptions.FunctionDeclaration) {
-      nodes.FunctionDeclaration = function (node: Tree.FunctionDeclaration) {
+      nodes.FunctionDeclaration = function (node) {
         validateComma(node, 'params')
       }
     }
     if (!exceptions.FunctionExpression) {
-      nodes.FunctionExpression = function (node: Tree.FunctionExpression) {
+      nodes.FunctionExpression = function (node) {
         validateComma(node, 'params')
       }
     }
     if (!exceptions.ArrowFunctionExpression) {
-      nodes.ArrowFunctionExpression = function (node: Tree.ArrowFunctionExpression) {
+      nodes.ArrowFunctionExpression = function (node) {
         validateComma(node, 'params')
       }
     }
     if (!exceptions.CallExpression) {
-      nodes.CallExpression = function (node: Tree.CallExpression) {
+      nodes.CallExpression = function (node) {
         validateComma(node, 'arguments')
       }
     }
     if (!exceptions.ImportDeclaration) {
-      nodes.ImportDeclaration = function (node: Tree.ImportDeclaration) {
+      nodes.ImportDeclaration = function (node) {
         validateComma(node, 'specifiers')
       }
     }
     if (!exceptions.NewExpression) {
-      nodes.NewExpression = function (node: Tree.NewExpression) {
+      nodes.NewExpression = function (node) {
         validateComma(node, 'arguments')
       }
     }
