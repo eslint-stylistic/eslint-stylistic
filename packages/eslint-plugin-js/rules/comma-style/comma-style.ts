@@ -5,7 +5,7 @@
 
 import { LINEBREAK_MATCHER, isCommaToken, isNotClosingParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { RuleFixer, RuleFunction, Token, Tree } from '../../utils/types'
+import type { NodeTypes, RuleFixer, RuleListener, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -61,7 +61,7 @@ export default createRule<MessageIds, RuleOptions>({
       ImportDeclaration: true,
       ObjectPattern: true,
       NewExpression: true,
-    } as Record<NodeType['type'], boolean>
+    } as Record<NodeTypes, boolean>
 
     if (context.options.length === 2 && Object.prototype.hasOwnProperty.call(context.options[1], 'exceptions')) {
       context.options[1] ??= { exceptions: {} }
@@ -254,7 +254,7 @@ export default createRule<MessageIds, RuleOptions>({
       | Tree.NewExpression
       | Tree.ArrowFunctionExpression
 
-    const nodes = {} as { [K in NodeType as K['type']]: RuleFunction<K> }
+    const nodes: RuleListener = {}
 
     if (!exceptions.VariableDeclaration) {
       nodes.VariableDeclaration = function (node) {
