@@ -15,7 +15,7 @@ const parser = createParserResolver('arrow-parens')
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
 
-const valid = [
+const valid: (string | RuleTester.ValidTestCase)[] = [
 
   // "always" (by default)
   '() => {}',
@@ -222,7 +222,7 @@ const valid = [
 
 const type = 'ArrowFunctionExpression'
 
-const invalid = [
+const invalid: RuleTester.InvalidTestCase[] = [
 
   // "always" (by default)
   {
