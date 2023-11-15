@@ -3,15 +3,17 @@
  * @author Nicholas C. Zakas
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
+import type { RuleFixer } from '@typescript-eslint/utils/ts-eslint'
 import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
 import FixTracker from '../../utils/fix-tracker'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule({
   meta: {
     type: 'layout',
 
@@ -28,12 +30,14 @@ export default {
           type: 'array',
           items: [
             {
+              type: 'string',
               enum: ['never'],
             },
             {
               type: 'object',
               properties: {
                 beforeStatementContinuationChars: {
+                  type: 'string',
                   enum: ['always', 'any', 'never'],
                 },
               },
@@ -47,6 +51,7 @@ export default {
           type: 'array',
           items: [
             {
+              type: 'string',
               enum: ['always'],
             },
             {
@@ -91,26 +96,26 @@ export default {
      * @param {boolean} missing True if the semicolon is missing.
      * @returns {void}
      */
-    function report(node, missing) {
-      const lastToken = sourceCode.getLastToken(node)
-      let messageId,
-        fix,
+    function report(node: TSESTree.Node, missing = false) {
+      const lastToken = sourceCode.getLastToken(node) as TSESTree.Token
+      let messageId: 'missingSemi' | 'extraSemi' = 'missingSemi'
+
+      let fix,
         loc
 
       if (!missing) {
-        messageId = 'missingSemi'
         loc = {
           start: lastToken.loc.end,
           end: getNextLocation(sourceCode, lastToken.loc.end),
-        }
-        fix = function (fixer) {
+        } as TSESTree.SourceLocation
+        fix = function (fixer: RuleFixer) {
           return fixer.insertTextAfter(lastToken, ';')
         }
       }
       else {
         messageId = 'extraSemi'
         loc = lastToken.loc
-        fix = function (fixer) {
+        fix = function (fixer: RuleFixer) {
           /**
            * Expand the replacement range to include the surrounding
            * tokens to avoid conflicting with no-extra-semi.
@@ -135,7 +140,7 @@ export default {
      * @param {Token} semiToken A semicolon token to check.
      * @returns {boolean} `true` if the next token is `;` or `}`.
      */
-    function isRedundantSemi(semiToken) {
+    function isRedundantSemi(semiToken: TSESTree.Token) {
       const nextToken = sourceCode.getTokenAfter(semiToken)
 
       return (
@@ -150,11 +155,11 @@ export default {
      * @param {Token} lastToken A token to check.
      * @returns {boolean} `true` if the token is the closing brace of an arrow function.
      */
-    function isEndOfArrowBlock(lastToken) {
+    function isEndOfArrowBlock(lastToken: TSESTree.Token) {
       if (!isClosingBraceToken(lastToken))
         return false
 
-      const node = sourceCode.getNodeByRangeIndex(lastToken.range[0])
+      const node = sourceCode.getNodeByRangeIndex(lastToken.range[0]) as TSESTree.Node
 
       return (
         node.type === 'BlockStatement'
@@ -171,7 +176,7 @@ export default {
      * @returns {boolean} `true` if the node cannot have the semicolon
      *      removed.
      */
-    function maybeClassFieldAsiHazard(node) {
+    function maybeClassFieldAsiHazard(node: TSESTree.Node) {
       if (node.type !== 'PropertyDefinition')
         return false
 
@@ -186,7 +191,7 @@ export default {
        * a way to distinguish between keywords and property
        * names.
        */
-      if (needsNameCheck && unsafeClassFieldNames.has(node.key.name)) {
+      if (needsNameCheck && 'name' in node.key && unsafeClassFieldNames.has(node.key.name)) {
         /**
          * Special case: If the field name is `static`,
          * it is only valid if the field is marked as static,
@@ -202,7 +207,7 @@ export default {
           return true
       }
 
-      const followingToken = sourceCode.getTokenAfter(node)
+      const followingToken = sourceCode.getTokenAfter(node) as TSESTree.Token
 
       return unsafeClassFieldFollowers.has(followingToken.value)
     }
@@ -212,7 +217,7 @@ export default {
      * @param {Node} node A statement node to check.
      * @returns {boolean} `true` if the node is on the same line with the next token.
      */
-    function isOnSameLineWithNextToken(node) {
+    function isOnSameLineWithNextToken(node: TSESTree.Node) {
       const prevToken = sourceCode.getLastToken(node, 1)
       const nextToken = sourceCode.getTokenAfter(node)
 
@@ -224,7 +229,7 @@ export default {
      * @param {Node} node A statement node to check.
      * @returns {boolean} `true` if the node can connect the next line.
      */
-    function maybeAsiHazardAfter(node) {
+    function maybeAsiHazardAfter(node: TSESTree.Node) {
       const t = node.type
 
       if (t === 'DoWhileStatement'
@@ -242,7 +247,8 @@ export default {
       if (t === 'ExportNamedDeclaration')
         return Boolean(node.declaration)
 
-      if (isEndOfArrowBlock(sourceCode.getLastToken(node, 1)))
+      const lastToken = sourceCode.getLastToken(node, 1) as TSESTree.Token
+      if (isEndOfArrowBlock(lastToken))
         return false
 
       return true
@@ -253,7 +259,7 @@ export default {
      * @param {Token} token A token to check.
      * @returns {boolean} `true` if the token is one of `[`, `(`, `/`, `+`, `-`, ```, `++`, and `--`.
      */
-    function maybeAsiHazardBefore(token) {
+    function maybeAsiHazardBefore(token: TSESTree.Token) {
       return (
         Boolean(token)
                 && OPT_OUT_PATTERN.test(token.value)
@@ -269,8 +275,9 @@ export default {
      * @param {Node} node A statement node to check.
      * @returns {boolean} whether the semicolon is unnecessary.
      */
-    function canRemoveSemicolon(node) {
-      if (isRedundantSemi(sourceCode.getLastToken(node)))
+    function canRemoveSemicolon(node: TSESTree.Node) {
+      const lastToken = sourceCode.getLastToken(node) as TSESTree.Token
+      if (isRedundantSemi(lastToken))
         return true // `;;` or `;}`
 
       if (maybeClassFieldAsiHazard(node))
@@ -287,7 +294,8 @@ export default {
       )
         return true // ASI works. This statement doesn't connect to the next.
 
-      if (!maybeAsiHazardBefore(sourceCode.getTokenAfter(node)))
+      const nextToken = sourceCode.getTokenAfter(node) as TSESTree.Token
+      if (!maybeAsiHazardBefore(nextToken))
         return true // ASI works. The next token doesn't connect to this statement.
 
       return false
@@ -300,8 +308,8 @@ export default {
      * @param {ASTNode} node The node to check.
      * @returns {boolean} whether the node is the last item in a one-liner block.
      */
-    function isLastInOneLinerBlock(node) {
-      const parent = node.parent
+    function isLastInOneLinerBlock(node: TSESTree.Node) {
+      const parent = node.parent as TSESTree.Node
       const nextToken = sourceCode.getTokenAfter(node)
 
       if (!nextToken || nextToken.value !== '}')
@@ -311,7 +319,7 @@ export default {
         return parent.loc.start.line === parent.loc.end.line
 
       if (parent.type === 'StaticBlock') {
-        const openingBrace = sourceCode.getFirstToken(parent, { skip: 1 }) // skip the `static` token
+        const openingBrace = sourceCode.getFirstToken(parent, { skip: 1 }) as TSESTree.Token
 
         return openingBrace.loc.start.line === parent.loc.end.line
       }
@@ -325,8 +333,8 @@ export default {
      * @param {ASTNode} node The node to check.
      * @returns {boolean} whether the node is the last item in a one-liner ClassBody.
      */
-    function isLastInOneLinerClassBody(node) {
-      const parent = node.parent
+    function isLastInOneLinerClassBody(node: TSESTree.Node) {
+      const parent = node.parent as TSESTree.Node
       const nextToken = sourceCode.getTokenAfter(node)
 
       if (!nextToken || nextToken.value !== '}')
@@ -343,16 +351,19 @@ export default {
      * @param {ASTNode} node The node to check.
      * @returns {void}
      */
-    function checkForSemicolon(node) {
-      const isSemi = isSemicolonToken(sourceCode.getLastToken(node))
+    function checkForSemicolon(node: TSESTree.Node) {
+      const lastToken = sourceCode.getLastToken(node) as TSESTree.Token
+      const isSemi = isSemicolonToken(lastToken)
 
       if (never) {
+        const nextToken = sourceCode.getTokenAfter(node) as TSESTree.Token
+
         if (isSemi && canRemoveSemicolon(node))
           report(node, true)
         else if (
           !isSemi && beforeStatementContinuationChars === 'always'
                   && node.type !== 'PropertyDefinition'
-                  && maybeAsiHazardBefore(sourceCode.getTokenAfter(node))
+                  && maybeAsiHazardBefore(nextToken)
         )
           report(node)
       }
@@ -373,11 +384,11 @@ export default {
      * @param {ASTNode} node The node to check.
      * @returns {void}
      */
-    function checkForSemicolonForVariableDeclaration(node) {
-      const parent = node.parent
+    function checkForSemicolonForVariableDeclaration(node: TSESTree.VariableDeclaration) {
+      const parent = node.parent as TSESTree.Node
 
       if ((parent.type !== 'ForStatement' || parent.init !== node)
-                && (!/^For(?:In|Of)Statement/u.test(parent.type) || parent.left !== node)
+                && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as TSESTree.ForInStatement).left !== node)
       )
         checkForSemicolon(node)
     }
@@ -408,4 +419,4 @@ export default {
       PropertyDefinition: checkForSemicolon,
     }
   },
-}
+})
