@@ -3,10 +3,9 @@
  * @author Marcin Kumorek
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { canTokensBeAdjacent } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token } from '../../utils/types'
+import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -164,7 +163,7 @@ export default createRule<MessageIds, RuleOptions>({
      * Verifies YieldExpressions satisfy spacing requirements
      * @param node AST node
      */
-    function checkForSpacesAfterYield(node: TSESTree.YieldExpression) {
+    function checkForSpacesAfterYield(node: Tree.YieldExpression) {
       const tokens = sourceCode.getFirstTokens(node, 3)
       const word = 'yield'
 
@@ -178,7 +177,7 @@ export default createRule<MessageIds, RuleOptions>({
      * Verifies AwaitExpressions satisfy spacing requirements
      * @param node AwaitExpression AST node
      */
-    function checkForSpacesAfterAwait(node: TSESTree.AwaitExpression) {
+    function checkForSpacesAfterAwait(node: Tree.AwaitExpression) {
       const tokens = sourceCode.getFirstTokens(node, 3)
 
       checkUnaryWordOperatorForSpaces(node, tokens[0], tokens[1], 'await')
@@ -191,9 +190,9 @@ export default createRule<MessageIds, RuleOptions>({
      * @param secondToken Second token in the expression
      */
     function verifyNonWordsHaveSpaces(node:
-    | TSESTree.UnaryExpression
-    | TSESTree.UpdateExpression
-    | TSESTree.NewExpression, firstToken: Token, secondToken: Token) {
+    | Tree.UnaryExpression
+    | Tree.UpdateExpression
+    | Tree.NewExpression, firstToken: Token, secondToken: Token) {
       if (('prefix' in node && node.prefix)) {
         if (isFirstBangInBangBangExpression(node))
           return
@@ -234,9 +233,9 @@ export default createRule<MessageIds, RuleOptions>({
      * @param secondToken Second token in the expression
      */
     function verifyNonWordsDontHaveSpaces(node:
-    | TSESTree.UnaryExpression
-    | TSESTree.UpdateExpression
-    | TSESTree.NewExpression, firstToken: Token, secondToken: Token) {
+    | Tree.UnaryExpression
+    | Tree.UpdateExpression
+    | Tree.NewExpression, firstToken: Token, secondToken: Token) {
       if (('prefix' in node && node.prefix)) {
         if (secondToken.range[0] > firstToken.range[1]) {
           context.report({
@@ -275,9 +274,9 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node AST node
      */
     function checkForSpaces(node:
-    | TSESTree.UnaryExpression
-    | TSESTree.UpdateExpression
-    | TSESTree.NewExpression,
+    | Tree.UnaryExpression
+    | Tree.UpdateExpression
+    | Tree.NewExpression,
     ) {
       const tokens = node.type === 'UpdateExpression' && !node.prefix
         ? sourceCode.getLastTokens(node, 2)
