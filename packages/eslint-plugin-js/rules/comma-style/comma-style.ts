@@ -3,11 +3,9 @@
  * @author Vignesh Anand aka vegetableman
  */
 
-import type { TSESTree } from '@typescript-eslint/types'
-import type { RuleFunction } from '@typescript-eslint/utils/ts-eslint'
 import { LINEBREAK_MATCHER, isCommaToken, isNotClosingParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { RuleFixer, Token } from '../../utils/types'
+import type { RuleFixer, RuleFunction, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -177,7 +175,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @private
      */
     function validateComma<T extends NodeType, const K extends keyof T>(node: T, property: K): void {
-      const items = node[property] as (TSESTree.Token | TSESTree.Node)[]
+      const items = node[property] as (Tree.Token | Tree.Node)[]
       const arrayLiteral = (node.type === 'ArrayExpression' || node.type === 'ArrayPattern')
 
       if (items.length > 1 || arrayLiteral) {
@@ -186,25 +184,25 @@ export default createRule<MessageIds, RuleOptions>({
 
         items.forEach((item) => {
           const commaToken = item ? sourceCode.getTokenBefore(item)! : previousItemToken
-          const currentItemToken = item ? sourceCode.getFirstToken(item as TSESTree.Node)! : sourceCode.getTokenAfter(commaToken)!
-          const reportItem = item ?? currentItemToken
+          const currentItemToken = item ? sourceCode.getFirstToken(item as Tree.Node)! : sourceCode.getTokenAfter(commaToken)!
+          const reportItem = item || currentItemToken
 
-          /*
-            * This works by comparing three token locations:
-            * - previousItemToken is the last token of the previous item
-            * - commaToken is the location of the comma before the current item
-            * - currentItemToken is the first token of the current item
-            *
-            * These values get switched around if item is undefined.
-            * previousItemToken will refer to the last token not belonging
-            * to the current item, which could be a comma or an opening
-            * square bracket. currentItemToken could be a comma.
-            *
-            * All comparisons are done based on these tokens directly, so
-            * they are always valid regardless of an undefined item.
-          */
+          /**
+           * This works by comparing three token locations:
+           * - previousItemToken is the last token of the previous item
+           * - commaToken is the location of the comma before the current item
+           * - currentItemToken is the first token of the current item
+           *
+           * These values get switched around if item is undefined.
+           * previousItemToken will refer to the last token not belonging
+           * to the current item, which could be a comma or an opening
+           * square bracket. currentItemToken could be a comma.
+           *
+           * All comparisons are done based on these tokens directly, so
+           * they are always valid regardless of an undefined item.
+           */
           if (isCommaToken(commaToken))
-            validateCommaItemSpacing(previousItemToken, commaToken, currentItemToken!, reportItem as TSESTree.Token)
+            validateCommaItemSpacing(previousItemToken, commaToken, currentItemToken!, reportItem as Tree.Token)
 
           if (item) {
             const tokenAfterItem = sourceCode.getTokenAfter(item, isNotClosingParenToken)
@@ -218,12 +216,12 @@ export default createRule<MessageIds, RuleOptions>({
           }
         })
 
-        /*
-          * Special case for array literals that have empty last items, such
-          * as [ 1, 2, ]. These arrays only have two items show up in the
-          * AST, so we need to look at the token to verify that there's no
-          * dangling comma.
-        */
+        /**
+         * Special case for array literals that have empty last items, such
+         * as [ 1, 2, ]. These arrays only have two items show up in the
+         * AST, so we need to look at the token to verify that there's no
+         * dangling comma.
+         */
         if (arrayLiteral) {
           const lastToken = sourceCode.getLastToken(node)!
           const nextToLastToken = sourceCode.getTokenBefore(lastToken)!
@@ -244,17 +242,17 @@ export default createRule<MessageIds, RuleOptions>({
     // Public
     // --------------------------------------------------------------------------
     type NodeType =
-      | TSESTree.VariableDeclaration
-      | TSESTree.ArrayExpression
-      | TSESTree.ObjectExpression
-      | TSESTree.ObjectPattern
-      | TSESTree.ArrayPattern
-      | TSESTree.FunctionDeclaration
-      | TSESTree.FunctionExpression
-      | TSESTree.CallExpression
-      | TSESTree.ImportDeclaration
-      | TSESTree.NewExpression
-      | TSESTree.ArrowFunctionExpression
+      | Tree.VariableDeclaration
+      | Tree.ArrayExpression
+      | Tree.ObjectExpression
+      | Tree.ObjectPattern
+      | Tree.ArrayPattern
+      | Tree.FunctionDeclaration
+      | Tree.FunctionExpression
+      | Tree.CallExpression
+      | Tree.ImportDeclaration
+      | Tree.NewExpression
+      | Tree.ArrowFunctionExpression
 
     const nodes = {} as { [K in NodeType as K['type']]: RuleFunction<K> }
 
@@ -264,52 +262,52 @@ export default createRule<MessageIds, RuleOptions>({
       }
     }
     if (!exceptions.ObjectExpression) {
-      nodes.ObjectExpression = function (node: TSESTree.ObjectExpression) {
+      nodes.ObjectExpression = function (node: Tree.ObjectExpression) {
         validateComma(node, 'properties')
       }
     }
     if (!exceptions.ObjectPattern) {
-      nodes.ObjectPattern = function (node: TSESTree.ObjectPattern) {
+      nodes.ObjectPattern = function (node: Tree.ObjectPattern) {
         validateComma(node, 'properties')
       }
     }
     if (!exceptions.ArrayExpression) {
-      nodes.ArrayExpression = function (node: TSESTree.ArrayExpression) {
+      nodes.ArrayExpression = function (node: Tree.ArrayExpression) {
         validateComma(node, 'elements')
       }
     }
     if (!exceptions.ArrayPattern) {
-      nodes.ArrayPattern = function (node: TSESTree.ArrayPattern) {
+      nodes.ArrayPattern = function (node: Tree.ArrayPattern) {
         validateComma(node, 'elements')
       }
     }
     if (!exceptions.FunctionDeclaration) {
-      nodes.FunctionDeclaration = function (node: TSESTree.FunctionDeclaration) {
+      nodes.FunctionDeclaration = function (node: Tree.FunctionDeclaration) {
         validateComma(node, 'params')
       }
     }
     if (!exceptions.FunctionExpression) {
-      nodes.FunctionExpression = function (node: TSESTree.FunctionExpression) {
+      nodes.FunctionExpression = function (node: Tree.FunctionExpression) {
         validateComma(node, 'params')
       }
     }
     if (!exceptions.ArrowFunctionExpression) {
-      nodes.ArrowFunctionExpression = function (node: TSESTree.ArrowFunctionExpression) {
+      nodes.ArrowFunctionExpression = function (node: Tree.ArrowFunctionExpression) {
         validateComma(node, 'params')
       }
     }
     if (!exceptions.CallExpression) {
-      nodes.CallExpression = function (node: TSESTree.CallExpression) {
+      nodes.CallExpression = function (node: Tree.CallExpression) {
         validateComma(node, 'arguments')
       }
     }
     if (!exceptions.ImportDeclaration) {
-      nodes.ImportDeclaration = function (node: TSESTree.ImportDeclaration) {
+      nodes.ImportDeclaration = function (node: Tree.ImportDeclaration) {
         validateComma(node, 'specifiers')
       }
     }
     if (!exceptions.NewExpression) {
-      nodes.NewExpression = function (node: TSESTree.NewExpression) {
+      nodes.NewExpression = function (node: Tree.NewExpression) {
         validateComma(node, 'arguments')
       }
     }

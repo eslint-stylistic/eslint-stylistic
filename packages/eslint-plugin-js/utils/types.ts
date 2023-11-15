@@ -10,6 +10,7 @@ export type RuleFixer = TSESLint.RuleFixer
 export type ReportFixFunction = TSESLint.ReportFixFunction
 export type NodeTypes = AST_NODE_TYPES
 export { JSONSchema } from '@typescript-eslint/utils'
+export type { RuleFunction } from '@typescript-eslint/utils/ts-eslint'
 
 // Basic ESLint Types (only contains JS tokens)
 export type ESToken = AST.Token
