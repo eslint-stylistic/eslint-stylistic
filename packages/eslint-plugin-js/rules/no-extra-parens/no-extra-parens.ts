@@ -109,7 +109,9 @@ export default createRule<MessageIds, RuleOptions>({
             && context.options[1].enforceForFunctionPrototypeMethods === false
     const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && context.options[1] && context.options[1].allowParensAfterCommentPattern
 
+    // @ts-expect-error other properties are not used
     const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' })
+    // @ts-expect-error other properties are not used
     const PRECEDENCE_OF_UPDATE_EXPR = precedence({ type: 'UpdateExpression' })
 
     type ReportsBuffer = {
@@ -893,6 +895,7 @@ export default createRule<MessageIds, RuleOptions>({
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.test.type))
                     && !isCondAssignException(node)
+                    // @ts-expect-error other properties are not used
                     && hasExcessParensWithPrecedence(node.test, precedence({ type: 'LogicalExpression', operator: '||' }))
         )
           report(node.test)
