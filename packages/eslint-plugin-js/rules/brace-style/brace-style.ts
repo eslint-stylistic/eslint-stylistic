@@ -45,17 +45,12 @@ export default createRule({
     fixable: 'whitespace',
 
     messages: {
-      nextLineOpen:
-        'Opening curly brace does not appear on the same line as controlling statement.',
-      sameLineOpen:
-        'Opening curly brace appears on the same line as controlling statement.',
+      nextLineOpen: 'Opening curly brace does not appear on the same line as controlling statement.',
+      sameLineOpen: 'Opening curly brace appears on the same line as controlling statement.',
       blockSameLine: 'Statement inside of curly braces should be on next line.',
-      nextLineClose:
-        'Closing curly brace does not appear on the same line as the subsequent block.',
-      singleLineClose:
-        'Closing curly brace should be on the same line as opening curly brace or on the line after the previous block.',
-      sameLineClose:
-        'Closing curly brace appears on the same line as the subsequent block.',
+      nextLineClose: 'Closing curly brace does not appear on the same line as the subsequent block.',
+      singleLineClose: 'Closing curly brace should be on the same line as opening curly brace or on the line after the previous block.',
+      sameLineClose: 'Closing curly brace appears on the same line as the subsequent block.',
     },
   },
 
