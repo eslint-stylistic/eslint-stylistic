@@ -3,9 +3,9 @@
  * @author Jamund Ferguson
  */
 
-import type { TSESTree } from '@typescript-eslint/types'
 import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
+import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -64,7 +64,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param token The token to use for the report.
      * @param tokenAfter The token after `token`.
      */
-    function reportNoBeginningSpace(node: TSESTree.Node, token: TSESTree.Token, tokenAfter: TSESTree.Token): void {
+    function reportNoBeginningSpace(node: Tree.Node, token: Tree.Token, tokenAfter: Tree.Token): void {
       context.report({
         node,
         loc: { start: token.loc.end, end: tokenAfter.loc.start },
@@ -84,7 +84,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param token The token to use for the report.
      * @param tokenBefore The token before `token`.
      */
-    function reportNoEndingSpace(node: TSESTree.Node, token: TSESTree.Token, tokenBefore: TSESTree.Token): void {
+    function reportNoEndingSpace(node: Tree.Node, token: Tree.Token, tokenBefore: Tree.Token): void {
       context.report({
         node,
         loc: { start: tokenBefore.loc.end, end: token.loc.start },
@@ -103,7 +103,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node The node to report in the event of an error.
      * @param token The token to use for the report.
      */
-    function reportRequiredBeginningSpace(node: TSESTree.Node, token: TSESTree.Token): void {
+    function reportRequiredBeginningSpace(node: Tree.Node, token: Tree.Token): void {
       context.report({
         node,
         loc: token.loc,
@@ -122,7 +122,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node The node to report in the event of an error.
      * @param token The token to use for the report.
      */
-    function reportRequiredEndingSpace(node: TSESTree.Node, token: TSESTree.Token): void {
+    function reportRequiredEndingSpace(node: Tree.Node, token: Tree.Token): void {
       context.report({
         node,
         loc: token.loc,
@@ -136,18 +136,22 @@ export default createRule<MessageIds, RuleOptions>({
       })
     }
 
+    type ExtractNodeKeys<T> = {
+      [K in keyof T]: T[K] extends Tree.Node ? K : never
+    }[keyof T]
+
     /**
      * Returns a function that checks the spacing of a node on the property name
      * that was passed in.
      * @param propertyName The property on the node to check for spacing
      * @returns A function that will check spacing on a node
      */
-    function checkSpacing<T extends NodeType, const K extends keyof T = keyof T>(propertyName: K) {
+    function checkSpacing<T extends NodeType, K = ExtractNodeKeys<T>>(propertyName: K) {
       return function (node: NodeType) {
         if (!node.computed)
           return
 
-        const property = node[propertyName] as TSESTree.Token
+        const property = node[propertyName as ExtractNodeKeys<typeof node>] as Tree.Node
 
         const before = sourceCode.getTokenBefore(property, isOpeningBracketToken)!
         const first = sourceCode.getTokenAfter(before, { includeComments: true })!
@@ -183,16 +187,16 @@ export default createRule<MessageIds, RuleOptions>({
     // --------------------------------------------------------------------------
 
     type NodeType =
-      | TSESTree.Property
-      | TSESTree.PropertyDefinition
-      | TSESTree.MemberExpression
-      | TSESTree.MethodDefinition
+      | Tree.Property
+      | Tree.PropertyDefinition
+      | Tree.MemberExpression
+      | Tree.MethodDefinition
 
     const listeners: {
       [K in NodeType['type']]?: (node: NodeType) => void
     } = {
-      Property: checkSpacing<TSESTree.Property>('key'),
-      MemberExpression: checkSpacing<TSESTree.MemberExpression>('property'),
+      Property: checkSpacing<Tree.Property>('key'),
+      MemberExpression: checkSpacing<Tree.MemberExpression>('property'),
     }
 
     if (enforceForClassMembers) {
