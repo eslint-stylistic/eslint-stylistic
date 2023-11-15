@@ -3,14 +3,17 @@
  * @author Jonathan Rajavuori
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
 import { isClosingParenToken, isOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -23,6 +26,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['always', 'never'],
       },
       {
@@ -31,6 +35,7 @@ export default {
           exceptions: {
             type: 'array',
             items: {
+              type: 'string',
               enum: ['{}', '[]', '()', 'empty'],
             },
             uniqueItems: true,
@@ -51,9 +56,17 @@ export default {
   create(context) {
     const ALWAYS = context.options[0] === 'always'
     const exceptionsArrayOptions = (context.options[1] && context.options[1].exceptions) || []
-    const options = {}
+    const options = {
+      braceException: false,
+      bracketException: false,
+      parenException: false,
+      empty: false,
+    }
 
-    let exceptions
+    let exceptions: { openers: string[]; closers: string[] } = {
+      openers: [],
+      closers: [],
+    }
 
     if (exceptionsArrayOptions.length) {
       options.braceException = exceptionsArrayOptions.includes('{}')
@@ -64,12 +77,12 @@ export default {
 
     /**
      * Produces an object with the opener and closer exception values
-     * @returns {object} `openers` and `closers` exception values
+     * @returns `openers` and `closers` exception values
      * @private
      */
     function getExceptions() {
-      const openers = []
-      const closers = []
+      const openers: string[] = []
+      const closers: string[] = []
 
       if (options.braceException) {
         openers.push('{')
@@ -104,29 +117,29 @@ export default {
 
     /**
      * Determines if a token is one of the exceptions for the opener paren
-     * @param {object} token The token to check
-     * @returns {boolean} True if the token is one of the exceptions for the opener paren
+     * @param token The token to check
+     * @returns True if the token is one of the exceptions for the opener paren
      */
-    function isOpenerException(token) {
+    function isOpenerException(token: Token) {
       return exceptions.openers.includes(token.value)
     }
 
     /**
      * Determines if a token is one of the exceptions for the closer paren
-     * @param {object} token The token to check
-     * @returns {boolean} True if the token is one of the exceptions for the closer paren
+     * @param token The token to check
+     * @returns True if the token is one of the exceptions for the closer paren
      */
-    function isCloserException(token) {
+    function isCloserException(token: Token) {
       return exceptions.closers.includes(token.value)
     }
 
     /**
      * Determines if an opening paren is immediately followed by a required space
-     * @param {object} openingParenToken The paren token
-     * @param {object} tokenAfterOpeningParen The token after it
-     * @returns {boolean} True if the opening paren is missing a required space
+     * @param openingParenToken The paren token
+     * @param tokenAfterOpeningParen The token after it
+     * @returns True if the opening paren is missing a required space
      */
-    function openerMissingSpace(openingParenToken, tokenAfterOpeningParen) {
+    function openerMissingSpace(openingParenToken: Token, tokenAfterOpeningParen: Token) {
       if (sourceCode.isSpaceBetweenTokens(openingParenToken, tokenAfterOpeningParen))
         return false
 
@@ -141,11 +154,11 @@ export default {
 
     /**
      * Determines if an opening paren is immediately followed by a disallowed space
-     * @param {object} openingParenToken The paren token
-     * @param {object} tokenAfterOpeningParen The token after it
-     * @returns {boolean} True if the opening paren has a disallowed space
+     * @param openingParenToken The paren token
+     * @param tokenAfterOpeningParen The token after it
+     * @returns True if the opening paren has a disallowed space
      */
-    function openerRejectsSpace(openingParenToken, tokenAfterOpeningParen) {
+    function openerRejectsSpace(openingParenToken: Token, tokenAfterOpeningParen: Token) {
       if (!isTokenOnSameLine(openingParenToken, tokenAfterOpeningParen))
         return false
 
@@ -163,11 +176,11 @@ export default {
 
     /**
      * Determines if a closing paren is immediately preceded by a required space
-     * @param {object} tokenBeforeClosingParen The token before the paren
-     * @param {object} closingParenToken The paren token
-     * @returns {boolean} True if the closing paren is missing a required space
+     * @param tokenBeforeClosingParen The token before the paren
+     * @param closingParenToken The paren token
+     * @returns True if the closing paren is missing a required space
      */
-    function closerMissingSpace(tokenBeforeClosingParen, closingParenToken) {
+    function closerMissingSpace(tokenBeforeClosingParen: Token, closingParenToken: Token) {
       if (sourceCode.isSpaceBetweenTokens(tokenBeforeClosingParen, closingParenToken))
         return false
 
@@ -182,11 +195,11 @@ export default {
 
     /**
      * Determines if a closer paren is immediately preceded by a disallowed space
-     * @param {object} tokenBeforeClosingParen The token before the paren
-     * @param {object} closingParenToken The paren token
-     * @returns {boolean} True if the closing paren has a disallowed space
+     * @param tokenBeforeClosingParen The token before the paren
+     * @param closingParenToken The paren token
+     * @returns True if the closing paren has a disallowed space
      */
-    function closerRejectsSpace(tokenBeforeClosingParen, closingParenToken) {
+    function closerRejectsSpace(tokenBeforeClosingParen: Token, closingParenToken: Token) {
       if (!isTokenOnSameLine(tokenBeforeClosingParen, closingParenToken))
         return false
 
@@ -204,7 +217,7 @@ export default {
     // --------------------------------------------------------------------------
 
     return {
-      Program: function checkParenSpaces(node) {
+      Program: function checkParenSpaces(node: TSESTree.Program) {
         exceptions = getExceptions()
         const tokens = sourceCode.tokensAndComments
 
@@ -267,4 +280,4 @@ export default {
       },
     }
   },
-}
+})
