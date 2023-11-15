@@ -3,14 +3,17 @@
  * @author Marcin Kumorek
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
 import { canTokensBeAdjacent } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -64,41 +67,39 @@ export default {
 
     /**
      * Check if the node is the first "!" in a "!!" convert to Boolean expression
-     * @param {ASTnode} node AST node
-     * @returns {boolean} Whether or not the node is first "!" in "!!"
+     * @param node AST node
+     * @returns Whether or not the node is first "!" in "!!"
      */
-    function isFirstBangInBangBangExpression(node) {
-      return node && node.type === 'UnaryExpression' && node.argument.operator === '!'
-                && node.argument && node.argument.type === 'UnaryExpression' && node.argument.operator === '!'
+    function isFirstBangInBangBangExpression(node: ASTNode) {
+      return node && node.type === 'UnaryExpression' && node.argument && node.argument.type === 'UnaryExpression' && node.argument.operator === '!'
     }
 
     /**
      * Checks if an override exists for a given operator.
-     * @param {string} operator Operator
-     * @returns {boolean} Whether or not an override has been provided for the operator
+     * @param operator Operator
+     * @returns Whether or not an override has been provided for the operator
      */
-    function overrideExistsForOperator(operator) {
+    function overrideExistsForOperator(operator: string) {
       return options.overrides && Object.prototype.hasOwnProperty.call(options.overrides, operator)
     }
 
     /**
      * Gets the value that the override was set to for this operator
-     * @param {string} operator Operator
-     * @returns {boolean} Whether or not an override enforces a space with this operator
+     * @param operator Operator
+     * @returns Whether or not an override enforces a space with this operator
      */
-    function overrideEnforcesSpaces(operator) {
-      return options.overrides[operator]
+    function overrideEnforcesSpaces(operator: string) {
+      return options.overrides?.[operator]
     }
 
     /**
      * Verify Unary Word Operator has spaces after the word operator
-     * @param {ASTnode} node AST node
-     * @param {object} firstToken first token from the AST node
-     * @param {object} secondToken second token from the AST node
-     * @param {string} word The word to be used for reporting
-     * @returns {void}
+     * @param node AST node
+     * @param firstToken first token from the AST node
+     * @param secondToken second token from the AST node
+     * @param word The word to be used for reporting
      */
-    function verifyWordHasSpaces(node, firstToken, secondToken, word) {
+    function verifyWordHasSpaces(node: ASTNode, firstToken: Token, secondToken: Token, word: string) {
       if (secondToken.range[0] === firstToken.range[1]) {
         context.report({
           node,
@@ -115,13 +116,12 @@ export default {
 
     /**
      * Verify Unary Word Operator doesn't have spaces after the word operator
-     * @param {ASTnode} node AST node
-     * @param {object} firstToken first token from the AST node
-     * @param {object} secondToken second token from the AST node
-     * @param {string} word The word to be used for reporting
-     * @returns {void}
+     * @param node AST node
+     * @param firstToken first token from the AST node
+     * @param secondToken second token from the AST node
+     * @param word The word to be used for reporting
      */
-    function verifyWordDoesntHaveSpaces(node, firstToken, secondToken, word) {
+    function verifyWordDoesntHaveSpaces(node: ASTNode, firstToken: Token, secondToken: Token, word: string) {
       if (canTokensBeAdjacent(firstToken, secondToken)) {
         if (secondToken.range[0] > firstToken.range[1]) {
           context.report({
@@ -140,13 +140,12 @@ export default {
 
     /**
      * Check Unary Word Operators for spaces after the word operator
-     * @param {ASTnode} node AST node
-     * @param {object} firstToken first token from the AST node
-     * @param {object} secondToken second token from the AST node
-     * @param {string} word The word to be used for reporting
-     * @returns {void}
+     * @param node AST node
+     * @param firstToken first token from the AST node
+     * @param secondToken second token from the AST node
+     * @param word The word to be used for reporting
      */
-    function checkUnaryWordOperatorForSpaces(node, firstToken, secondToken, word) {
+    function checkUnaryWordOperatorForSpaces(node: ASTNode, firstToken: Token, secondToken: Token, word: string) {
       if (overrideExistsForOperator(word)) {
         if (overrideEnforcesSpaces(word))
           verifyWordHasSpaces(node, firstToken, secondToken, word)
@@ -163,10 +162,9 @@ export default {
 
     /**
      * Verifies YieldExpressions satisfy spacing requirements
-     * @param {ASTnode} node AST node
-     * @returns {void}
+     * @param node AST node
      */
-    function checkForSpacesAfterYield(node) {
+    function checkForSpacesAfterYield(node: TSESTree.YieldExpression) {
       const tokens = sourceCode.getFirstTokens(node, 3)
       const word = 'yield'
 
@@ -178,10 +176,9 @@ export default {
 
     /**
      * Verifies AwaitExpressions satisfy spacing requirements
-     * @param {ASTNode} node AwaitExpression AST node
-     * @returns {void}
+     * @param node AwaitExpression AST node
      */
-    function checkForSpacesAfterAwait(node) {
+    function checkForSpacesAfterAwait(node: TSESTree.AwaitExpression) {
       const tokens = sourceCode.getFirstTokens(node, 3)
 
       checkUnaryWordOperatorForSpaces(node, tokens[0], tokens[1], 'await')
@@ -189,13 +186,15 @@ export default {
 
     /**
      * Verifies UnaryExpression, UpdateExpression and NewExpression have spaces before or after the operator
-     * @param {ASTnode} node AST node
-     * @param {object} firstToken First token in the expression
-     * @param {object} secondToken Second token in the expression
-     * @returns {void}
+     * @param node AST node
+     * @param firstToken First token in the expression
+     * @param secondToken Second token in the expression
      */
-    function verifyNonWordsHaveSpaces(node, firstToken, secondToken) {
-      if (node.prefix) {
+    function verifyNonWordsHaveSpaces(node:
+    | TSESTree.UnaryExpression
+    | TSESTree.UpdateExpression
+    | TSESTree.NewExpression, firstToken: Token, secondToken: Token) {
+      if (('prefix' in node && node.prefix)) {
         if (isFirstBangInBangBangExpression(node))
           return
 
@@ -230,13 +229,15 @@ export default {
 
     /**
      * Verifies UnaryExpression, UpdateExpression and NewExpression don't have spaces before or after the operator
-     * @param {ASTnode} node AST node
-     * @param {object} firstToken First token in the expression
-     * @param {object} secondToken Second token in the expression
-     * @returns {void}
+     * @param node AST node
+     * @param firstToken First token in the expression
+     * @param secondToken Second token in the expression
      */
-    function verifyNonWordsDontHaveSpaces(node, firstToken, secondToken) {
-      if (node.prefix) {
+    function verifyNonWordsDontHaveSpaces(node:
+    | TSESTree.UnaryExpression
+    | TSESTree.UpdateExpression
+    | TSESTree.NewExpression, firstToken: Token, secondToken: Token) {
+      if (('prefix' in node && node.prefix)) {
         if (secondToken.range[0] > firstToken.range[1]) {
           context.report({
             node,
@@ -271,10 +272,13 @@ export default {
 
     /**
      * Verifies UnaryExpression, UpdateExpression and NewExpression satisfy spacing requirements
-     * @param {ASTnode} node AST node
-     * @returns {void}
+     * @param node AST node
      */
-    function checkForSpaces(node) {
+    function checkForSpaces(node:
+    | TSESTree.UnaryExpression
+    | TSESTree.UpdateExpression
+    | TSESTree.NewExpression,
+    ) {
       const tokens = node.type === 'UpdateExpression' && !node.prefix
         ? sourceCode.getLastTokens(node, 2)
         : sourceCode.getFirstTokens(node, 2)
@@ -286,7 +290,7 @@ export default {
         return
       }
 
-      const operator = node.prefix ? tokens[0].value : tokens[1].value
+      const operator = ('prefix' in node && node.prefix) ? tokens[0].value : tokens[1].value
 
       if (overrideExistsForOperator(operator)) {
         if (overrideEnforcesSpaces(operator))
@@ -314,4 +318,4 @@ export default {
       AwaitExpression: checkForSpacesAfterAwait,
     }
   },
-}
+})
