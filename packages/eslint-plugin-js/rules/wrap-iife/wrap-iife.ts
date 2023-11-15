@@ -5,10 +5,10 @@
 
 // @ts-expect-error missing types
 import { isParenthesized } from '@eslint-community/eslint-utils'
-import type { TSESTree } from '@typescript-eslint/utils'
 import { getStaticPropertyName, isParenthesised, skipChainExpression } from '../../utils/ast-utils'
-import type { ASTNode } from '../../utils/types'
+import type { ASTNode, Tree } from '../../utils/types'
 import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
 
 /**
  * Check if the given node is callee of a `NewExpression` node
@@ -24,7 +24,7 @@ function isCalleeOfNewExpression(node: ASTNode) {
   return (maybeCallee.parent?.type === 'NewExpression' && maybeCallee.parent.callee === maybeCallee)
 }
 
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -89,7 +89,7 @@ export default createRule({
      * @param {ASTNode} node node to evaluate
      * @returns {ASTNode} node that is the function expression of the given IIFE, or null if none exist
      */
-    function getFunctionNodeFromIIFE(node: TSESTree.CallExpression) {
+    function getFunctionNodeFromIIFE(node: Tree.CallExpression) {
       const callee = skipChainExpression(node.callee)
 
       if (callee.type === 'FunctionExpression')

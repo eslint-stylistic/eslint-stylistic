@@ -3,14 +3,17 @@
  * @author Jxck
  */
 
+import type { TSESTree } from '@typescript-eslint/utils'
 import { isArrowToken } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -61,13 +64,13 @@ export default {
      * @param {ASTNode} node The arrow function node.
      * @returns {object} Tokens of arrow and before/after arrow.
      */
-    function getTokens(node) {
-      const arrow = sourceCode.getTokenBefore(node.body, isArrowToken)
+    function getTokens(node: TSESTree.ArrowFunctionExpression) {
+      const arrow = sourceCode.getTokenBefore(node.body, isArrowToken)!
 
       return {
-        before: sourceCode.getTokenBefore(arrow),
+        before: sourceCode.getTokenBefore(arrow)!,
         arrow,
-        after: sourceCode.getTokenAfter(arrow),
+        after: sourceCode.getTokenAfter(arrow)!,
       }
     }
 
@@ -76,7 +79,7 @@ export default {
      * @param {object} tokens Tokens before/after arrow.
      * @returns {object} count of space before/after arrow.
      */
-    function countSpaces(tokens) {
+    function countSpaces(tokens: { before: Token; arrow: Token; after: Token }) {
       const before = tokens.arrow.range[0] - tokens.before.range[1]
       const after = tokens.after.range[0] - tokens.arrow.range[1]
 
@@ -90,7 +93,7 @@ export default {
      * @param {ASTNode} node The arrow function node.
      * @returns {void}
      */
-    function spaces(node) {
+    function spaces(node: TSESTree.ArrowFunctionExpression) {
       const tokens = getTokens(node)
       const countSpace = countSpaces(tokens)
 
@@ -149,4 +152,4 @@ export default {
       ArrowFunctionExpression: spaces,
     }
   },
-}
+})

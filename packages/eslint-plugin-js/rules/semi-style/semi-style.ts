@@ -58,7 +58,7 @@ function getChildren(node: ASTNode) {
  * @param {Node} node A node to check.
  * @returns {boolean} `true` if the node is the last statement in the parent block.
  */
-function isLastChild(node: ASTNode) {
+function isLastChild(node: ASTNode): boolean {
   if (!node.parent)
     return true
   const t = node.parent.type
@@ -101,7 +101,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {"first"|"last"} expected The expected location to check.
      * @returns {void}
      */
-    function check(semiToken: Token, expected: 'last' | 'first') {
+    function check(semiToken: Token, expected: 'last' | 'first'): void {
       const prevToken = sourceCode.getTokenBefore(semiToken)
       const nextToken = sourceCode.getTokenAfter(semiToken)
       const prevIsSameLine = !prevToken || isTokenOnSameLine(prevToken, semiToken)
