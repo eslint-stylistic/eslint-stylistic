@@ -3,10 +3,9 @@
  * @author Toru Nagashima
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Token } from '../../utils/types'
+import type { Token, Tree } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -44,7 +43,7 @@ export default createRule({
      * @param {ASTNode} node A BlockStatement/StaticBlock/SwitchStatement node to get.
      * @returns {Token} The token of the open brace.
      */
-    function getOpenBrace(node: TSESTree.BlockStatement | TSESTree.StaticBlock | TSESTree.SwitchStatement): Token {
+    function getOpenBrace(node: Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement): Token {
       if (node.type === 'SwitchStatement') {
         if (node.cases.length > 0)
           return sourceCode.getTokenBefore(node.cases[0])!
@@ -82,7 +81,7 @@ export default createRule({
      * @param {ASTNode} node A BlockStatement/StaticBlock/SwitchStatement node to check.
      * @returns {void}
      */
-    function checkSpacingInsideBraces(node: TSESTree.BlockStatement | TSESTree.StaticBlock | TSESTree.SwitchStatement): void {
+    function checkSpacingInsideBraces(node: Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement): void {
       // Gets braces and the first/last token of content.
       const openBrace = getOpenBrace(node)
       const closeBrace = sourceCode.getLastToken(node)!
@@ -91,10 +90,10 @@ export default createRule({
 
       // Skip if the node is invalid or empty.
       if (openBrace.type !== 'Punctuator'
-                || openBrace.value !== '{'
-                || closeBrace.type !== 'Punctuator'
-                || closeBrace.value !== '}'
-                || firstToken === closeBrace
+        || openBrace.value !== '{'
+        || closeBrace.type !== 'Punctuator'
+        || closeBrace.value !== '}'
+        || firstToken === closeBrace
       )
         return
 

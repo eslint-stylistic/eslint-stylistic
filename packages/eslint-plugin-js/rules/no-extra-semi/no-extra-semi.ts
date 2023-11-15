@@ -4,14 +4,16 @@
  */
 
 import { isClosingBraceToken, isSemicolonToken, isTopLevelExpressionStatement } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
 import FixTracker from '../../utils/fix-tracker'
+import type { ASTNode, Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -37,7 +39,7 @@ export default {
      * @param {Token} nodeOrToken The node or token to check.
      * @returns {boolean} Whether or not the node is fixable.
      */
-    function isFixable(nodeOrToken) {
+    function isFixable(nodeOrToken: Token) {
       const nextToken = sourceCode.getTokenAfter(nodeOrToken)
 
       if (!nextToken || nextToken.type !== 'String')
@@ -45,27 +47,27 @@ export default {
 
       const stringNode = sourceCode.getNodeByRangeIndex(nextToken.range[0])
 
-      return !isTopLevelExpressionStatement(stringNode.parent)
+      return !isTopLevelExpressionStatement(stringNode!.parent!)
     }
 
     /**
      * Reports an unnecessary semicolon error.
-     * @param {Node|Token} nodeOrToken A node or a token to be reported.
+     * @param {ASTNode|Token} nodeOrToken A node or a token to be reported.
      * @returns {void}
      */
-    function report(nodeOrToken) {
+    function report(nodeOrToken: Token | ASTNode) {
       context.report({
         node: nodeOrToken,
         messageId: 'unexpected',
-        fix: isFixable(nodeOrToken)
+        fix: isFixable(nodeOrToken as Token)
           /**
            * Expand the replacement range to include the surrounding
            * tokens to avoid conflicting with semi.
            * https://github.com/eslint/eslint/issues/7928
            */
-          ? fixer => new FixTracker(fixer, context.sourceCode)
-            .retainSurroundingTokens(nodeOrToken)
-            .remove(nodeOrToken)
+          ? (fixer: any) => new FixTracker(fixer, context.sourceCode as any)
+              .retainSurroundingTokens(nodeOrToken as any)
+              .remove(nodeOrToken as ASTNode)
           : null,
       })
     }
@@ -76,10 +78,10 @@ export default {
      * @param {Token} firstToken The first token to check.
      * @returns {void}
      */
-    function checkForPartOfClassBody(firstToken) {
+    function checkForPartOfClassBody(firstToken: Token) {
       for (let token = firstToken;
         token.type === 'Punctuator' && !isClosingBraceToken(token);
-        token = sourceCode.getTokenAfter(token)
+        token = sourceCode.getTokenAfter(token)!
       ) {
         if (isSemicolonToken(token))
           report(token)
@@ -89,10 +91,10 @@ export default {
     return {
       /**
        * Reports this empty statement, except if the parent node is a loop.
-       * @param {Node} node A EmptyStatement node to be reported.
+       * @param {ASTNode} node A EmptyStatement node to be reported.
        * @returns {void}
        */
-      EmptyStatement(node) {
+      EmptyStatement(node: ASTNode) {
         const parent = node.parent
         const allowedParentTypes = [
           'ForStatement',
@@ -105,27 +107,27 @@ export default {
           'WithStatement',
         ]
 
-        if (!allowedParentTypes.includes(parent.type))
+        if (!allowedParentTypes.includes(parent!.type))
           report(node)
       },
 
       /**
        * Checks tokens from the head of this class body to the first MethodDefinition or the end of this class body.
-       * @param {Node} node A ClassBody node to check.
+       * @param {ASTNode} node A ClassBody node to check.
        * @returns {void}
        */
-      ClassBody(node) {
-        checkForPartOfClassBody(sourceCode.getFirstToken(node, 1)) // 0 is `{`.
+      ClassBody(node: ASTNode) {
+        checkForPartOfClassBody(sourceCode.getFirstToken(node, 1)!) // 0 is `{`.
       },
 
       /**
        * Checks tokens from this MethodDefinition to the next MethodDefinition or the end of this class body.
-       * @param {Node} node A MethodDefinition node of the start point.
+       * @param {ASTNode} node A MethodDefinition node of the start point.
        * @returns {void}
        */
-      'MethodDefinition, PropertyDefinition, StaticBlock': function (node) {
-        checkForPartOfClassBody(sourceCode.getTokenAfter(node))
+      'MethodDefinition, PropertyDefinition, StaticBlock': function (node: ASTNode) {
+        checkForPartOfClassBody(sourceCode.getTokenAfter(node)!)
       },
     }
   },
-}
+})

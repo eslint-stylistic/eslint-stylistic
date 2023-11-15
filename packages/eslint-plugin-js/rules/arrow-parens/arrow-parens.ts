@@ -3,10 +3,9 @@
  * @author Jxck
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { canTokensBeAdjacent, isClosingParenToken, isOpeningParenToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Token } from '../../utils/types'
+import type { Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -18,7 +17,7 @@ import type { MessageIds, RuleOptions } from './types'
  * @param {ASTNode} node `ArrowFunctionExpression` node.
  * @returns {boolean} `true` if the function has block body.
  */
-function hasBlockBody(node: TSESTree.ArrowFunctionExpression) {
+function hasBlockBody(node: Tree.ArrowFunctionExpression) {
   return node.body.type === 'BlockStatement'
 }
 
@@ -75,7 +74,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node `ArrowFunctionExpression` node.
      * @returns {Token|null} the opening paren, or `null` if the given arrow function doesn't have parens of parameters.
      */
-    function findOpeningParenOfParams(node: TSESTree.ArrowFunctionExpression) {
+    function findOpeningParenOfParams(node: Tree.ArrowFunctionExpression) {
       const tokenBeforeParams = sourceCode.getTokenBefore(node.params[0])
 
       if (
@@ -94,7 +93,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node `ArrowFunctionExpression` node.
      * @returns {Token} the closing paren of parameters.
      */
-    function getClosingParenOfParams(node: TSESTree.ArrowFunctionExpression) {
+    function getClosingParenOfParams(node: Tree.ArrowFunctionExpression) {
       return sourceCode.getTokenAfter(node.params[0], isClosingParenToken)
     }
 
@@ -105,7 +104,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {Token} openingParen Opening paren of parameters.
      * @returns {boolean} `true` if the function has at least one comment inside of parens of parameters.
      */
-    function hasCommentsInParensOfParams(node: TSESTree.ArrowFunctionExpression, openingParen: Token) {
+    function hasCommentsInParensOfParams(node: Tree.ArrowFunctionExpression, openingParen: Token) {
       return sourceCode.commentsExistBetween(openingParen, getClosingParenOfParams(node)!)
     }
 
@@ -118,14 +117,14 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {Token} openingParen Opening paren of parameters.
      * @returns {boolean} `true` if the function has at least one unexpected token.
      */
-    function hasUnexpectedTokensBeforeOpeningParen(node: TSESTree.ArrowFunctionExpression, openingParen: Token) {
+    function hasUnexpectedTokensBeforeOpeningParen(node: Tree.ArrowFunctionExpression, openingParen: Token) {
       const expectedCount = node.async ? 1 : 0
 
       return sourceCode.getFirstToken(node, { skip: expectedCount }) !== openingParen
     }
 
     return {
-      'ArrowFunctionExpression[params.length=1]': function (node: TSESTree.ArrowFunctionExpression) {
+      'ArrowFunctionExpression[params.length=1]': function (node: Tree.ArrowFunctionExpression) {
         const shouldHaveParens = !asNeeded || requireForBlockBody && hasBlockBody(node)
         const openingParen = findOpeningParenOfParams(node)
         const hasParens = openingParen !== null

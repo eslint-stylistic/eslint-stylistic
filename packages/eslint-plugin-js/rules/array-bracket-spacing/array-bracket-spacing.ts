@@ -3,10 +3,9 @@
  * @author Jamund Ferguson
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token } from '../../utils/types'
+import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -186,7 +185,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node The node we're checking for spacing
      * @returns {void}
      */
-    function validateArraySpacing(node: TSESTree.ArrayPattern | TSESTree.ArrayExpression) {
+    function validateArraySpacing(node: Tree.ArrayPattern | Tree.ArrayExpression) {
       if (options.spaced && node.elements.length === 0)
         return
 

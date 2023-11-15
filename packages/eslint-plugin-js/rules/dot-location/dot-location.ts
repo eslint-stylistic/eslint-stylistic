@@ -3,9 +3,9 @@
  * @author Greg Cochard
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { isDecimalIntegerNumericToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
+import type { Tree } from '../../utils/types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -48,7 +48,7 @@ export default createRule({
      * @param {ASTNode} node The `MemberExpression` node.
      * @returns {void}
      */
-    function checkDotLocation(node: TSESTree.MemberExpression) {
+    function checkDotLocation(node: Tree.MemberExpression) {
       const property = node.property
       const dotToken = sourceCode.getTokenBefore(property)
 
@@ -90,7 +90,7 @@ export default createRule({
      * @param {ASTNode} node The node to check.
      * @returns {void}
      */
-    function checkNode(node: TSESTree.MemberExpression) {
+    function checkNode(node: Tree.MemberExpression) {
       if (node.type === 'MemberExpression' && !node.computed)
         checkDotLocation(node)
     }
