@@ -3,13 +3,9 @@
  * @author Kai Cataldo
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { createRule } from '../../utils/createRule'
+import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {
@@ -50,8 +46,8 @@ export default createRule<MessageIds, RuleOptions>({
      */
     function checkWhiteSpace(
       node:
-      | TSESTree.SpreadElement
-      | TSESTree.RestElement,
+      | Tree.SpreadElement
+      | Tree.RestElement,
     ) {
       const operator = sourceCode.getFirstToken(node)!
       const nextToken = sourceCode.getTokenAfter(operator)!
@@ -105,10 +101,6 @@ export default createRule<MessageIds, RuleOptions>({
         })
       }
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       SpreadElement: checkWhiteSpace,

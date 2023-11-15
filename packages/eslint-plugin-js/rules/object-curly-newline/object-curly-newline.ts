@@ -3,10 +3,9 @@
  * @author Toru Nagashima
  */
 
-import type { JSONSchema, TSESTree } from '@typescript-eslint/utils'
 import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Token } from '../../utils/types'
+import type { JSONSchema, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -124,10 +123,10 @@ function normalizeOptions(options: any) {
  */
 function areLineBreaksRequired(
   node:
-  | TSESTree.ObjectExpression
-  | TSESTree.ObjectPattern
-  | TSESTree.ImportDeclaration
-  | TSESTree.ExportNamedDeclaration,
+  | Tree.ObjectExpression
+  | Tree.ObjectPattern
+  | Tree.ImportDeclaration
+  | Tree.ExportNamedDeclaration,
   options: { multiline: boolean; minProperties: number; consistent: boolean },
   first: Token,
   last: Token,
@@ -204,10 +203,10 @@ export default createRule<MessageIds, RuleOptions>({
      */
     function check(
       node:
-      | TSESTree.ObjectExpression
-      | TSESTree.ObjectPattern
-      | TSESTree.ImportDeclaration
-      | TSESTree.ExportNamedDeclaration,
+      | Tree.ObjectExpression
+      | Tree.ObjectPattern
+      | Tree.ImportDeclaration
+      | Tree.ExportNamedDeclaration,
     ) {
       const options = normalizedOptions[node.type]
 
@@ -236,14 +235,14 @@ export default createRule<MessageIds, RuleOptions>({
       const hasCommentsFirstToken = isCommentToken(first)
       const hasCommentsLastToken = isCommentToken(last)
 
-      /*
-             * Use tokens or comments to check multiline or not.
-             * But use only tokens to check whether line breaks are needed.
-             * This allows:
-             *     var obj = { // eslint-disable-line foo
-             *         a: 1
-             *     }
-             */
+      /**
+       * Use tokens or comments to check multiline or not.
+       * But use only tokens to check whether line breaks are needed.
+       * This allows:
+       *     var obj = { // eslint-disable-line foo
+       *         a: 1
+       *     }
+       */
       first = sourceCode.getTokenAfter(openBrace)!
       last = sourceCode.getTokenBefore(closeBrace)!
 
