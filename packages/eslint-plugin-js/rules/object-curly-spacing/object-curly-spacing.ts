@@ -2,15 +2,17 @@
  * @fileoverview Disallows or enforces spaces inside of object literals.
  * @author Jamund Ferguson
  */
+import { createRule } from '../../utils/createRule'
 
 import { isClosingBraceToken, isClosingBracketToken, isNotCommaToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import type { Token,ASTNode } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -78,7 +80,7 @@ export default {
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportNoBeginningSpace(node, token) {
+    function reportNoBeginningSpace(node:ASTNode, token:Token) {
       const nextToken = context.sourceCode.getTokenAfter(token, { includeComments: true })
 
       context.report({
@@ -100,7 +102,7 @@ export default {
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportNoEndingSpace(node, token) {
+    function reportNoEndingSpace(node:ASTNode, token:Token) {
       const previousToken = context.sourceCode.getTokenBefore(token, { includeComments: true })
 
       context.report({
@@ -122,7 +124,7 @@ export default {
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportRequiredBeginningSpace(node, token) {
+    function reportRequiredBeginningSpace(node:ASTNode, token:Token) {
       context.report({
         node,
         loc: token.loc,
@@ -142,7 +144,7 @@ export default {
      * @param {Token} token The token to use for the report.
      * @returns {void}
      */
-    function reportRequiredEndingSpace(node, token) {
+    function reportRequiredEndingSpace(node:ASTNode, token:Token) {
       context.report({
         node,
         loc: token.loc,
@@ -165,7 +167,7 @@ export default {
      * @param {Token} last The last token to check (should be closing brace)
      * @returns {void}
      */
-    function validateBraceSpacing(node, first, second, penultimate, last) {
+    function validateBraceSpacing(node:ASTNode, first:Token, second:Token, penultimate:Token, last:Token) {
       if (isTokenOnSameLine(first, second)) {
         const firstSpaced = sourceCode.isSpaceBetweenTokens(first, second)
 
@@ -209,7 +211,7 @@ export default {
      *      more properties.
      * @returns {Token} '}' token.
      */
-    function getClosingBraceOfObject(node) {
+    function getClosingBraceOfObject(node:ASTNode) {
       const lastProperty = node.properties[node.properties.length - 1]
 
       return sourceCode.getTokenAfter(lastProperty, isClosingBraceToken)
@@ -220,7 +222,7 @@ export default {
      * @param {ASTNode} node An ObjectExpression or ObjectPattern node to check.
      * @returns {void}
      */
-    function checkForObject(node) {
+    function checkForObject(node:ASTNode) {
       if (node.properties.length === 0)
         return
 
@@ -237,7 +239,7 @@ export default {
      * @param {ASTNode} node An ImportDeclaration node to check.
      * @returns {void}
      */
-    function checkForImport(node) {
+    function checkForImport(node:ASTNode) {
       if (node.specifiers.length === 0)
         return
 
@@ -263,7 +265,7 @@ export default {
      * @param {ASTNode} node An ExportNamedDeclaration node to check.
      * @returns {void}
      */
-    function checkForExport(node) {
+    function checkForExport(node:ASTNode) {
       if (node.specifiers.length === 0)
         return
 
@@ -297,3 +299,4 @@ export default {
     }
   },
 }
+)
