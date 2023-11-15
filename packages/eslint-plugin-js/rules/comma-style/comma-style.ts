@@ -4,13 +4,15 @@
  */
 
 import { LINEBREAK_MATCHER, isCommaToken, isNotClosingParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { NodeTypes, RuleFixer, RuleListener, Token, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -23,6 +25,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['first', 'last'],
       },
       {
@@ -58,13 +61,15 @@ export default {
       ImportDeclaration: true,
       ObjectPattern: true,
       NewExpression: true,
-    }
+    } as Record<NodeTypes, boolean>
 
     if (context.options.length === 2 && Object.prototype.hasOwnProperty.call(context.options[1], 'exceptions')) {
-      const keys = Object.keys(context.options[1].exceptions)
+      context.options[1] ??= { exceptions: {} }
+      const rawExceptions = context.options[1].exceptions!
+      const keys = Object.keys(rawExceptions)
 
       for (let i = 0; i < keys.length; i++)
-        exceptions[keys[i]] = context.options[1].exceptions[keys[i]]
+        exceptions[keys[i] as keyof typeof exceptions] = rawExceptions[keys[i]]
     }
 
     // --------------------------------------------------------------------------
@@ -73,12 +78,12 @@ export default {
 
     /**
      * Modified text based on the style
-     * @param {string} styleType Style type
-     * @param {string} text Source code text
-     * @returns {string} modified text
+     * @param styleType Style type
+     * @param text Source code text
+     * @returns modified text
      * @private
      */
-    function getReplacedText(styleType, text) {
+    function getReplacedText(styleType: string, text: string): string {
       switch (styleType) {
         case 'between':
           return `,${text.replace(LINEBREAK_MATCHER, '')}`
@@ -96,34 +101,33 @@ export default {
 
     /**
      * Determines the fixer function for a given style.
-     * @param {string} styleType comma style
-     * @param {ASTNode} previousItemToken The token to check.
-     * @param {ASTNode} commaToken The token to check.
-     * @param {ASTNode} currentItemToken The token to check.
-     * @returns {Function} Fixer function
+     * @param styleType comma style
+     * @param previousItemToken The token to check.
+     * @param commaToken The token to check.
+     * @param currentItemToken The token to check.
+     * @returns Fixer function
      * @private
      */
-    function getFixerFunction(styleType, previousItemToken, commaToken, currentItemToken) {
+    function getFixerFunction(styleType: string, previousItemToken: Token, commaToken: Token, currentItemToken: Token) {
       const text
                 = sourceCode.text.slice(previousItemToken.range[1], commaToken.range[0])
                 + sourceCode.text.slice(commaToken.range[1], currentItemToken.range[0])
-      const range = [previousItemToken.range[1], currentItemToken.range[0]]
+      const range = [previousItemToken.range[1], currentItemToken.range[0]] as const
 
-      return function (fixer) {
+      return function (fixer: RuleFixer) {
         return fixer.replaceTextRange(range, getReplacedText(styleType, text))
       }
     }
 
     /**
      * Validates the spacing around single items in lists.
-     * @param {Token} previousItemToken The last token from the previous item.
-     * @param {Token} commaToken The token representing the comma.
-     * @param {Token} currentItemToken The first token of the current item.
-     * @param {Token} reportItem The item to use when reporting an error.
-     * @returns {void}
+     * @param previousItemToken The last token from the previous item.
+     * @param commaToken The token representing the comma.
+     * @param currentItemToken The first token of the current item.
+     * @param reportItem The item to use when reporting an error.
      * @private
      */
-    function validateCommaItemSpacing(previousItemToken, commaToken, currentItemToken, reportItem) {
+    function validateCommaItemSpacing(previousItemToken: Token, commaToken: Token, currentItemToken: Token, reportItem: Token): void {
       // if single line
       if (isTokenOnSameLine(commaToken, currentItemToken)
                     && isTokenOnSameLine(previousItemToken, commaToken)) {
@@ -166,66 +170,65 @@ export default {
 
     /**
      * Checks the comma placement with regards to a declaration/property/element
-     * @param {ASTNode} node The binary expression node to check
-     * @param {string} property The property of the node containing child nodes.
+     * @param node The binary expression node to check
+     * @param property The property of the node containing child nodes.
      * @private
-     * @returns {void}
      */
-    function validateComma(node, property) {
-      const items = node[property]
+    function validateComma<T extends NodeType, const K extends keyof T>(node: T, property: K): void {
+      const items = node[property] as (Tree.Token | Tree.Node)[]
       const arrayLiteral = (node.type === 'ArrayExpression' || node.type === 'ArrayPattern')
 
       if (items.length > 1 || arrayLiteral) {
         // seed as opening [
-        let previousItemToken = sourceCode.getFirstToken(node)
+        let previousItemToken = sourceCode.getFirstToken(node)!
 
         items.forEach((item) => {
-          const commaToken = item ? sourceCode.getTokenBefore(item) : previousItemToken
-          const currentItemToken = item ? sourceCode.getFirstToken(item) : sourceCode.getTokenAfter(commaToken)
+          const commaToken = item ? sourceCode.getTokenBefore(item)! : previousItemToken
+          const currentItemToken = item ? sourceCode.getFirstToken(item as Tree.Node)! : sourceCode.getTokenAfter(commaToken)!
           const reportItem = item || currentItemToken
 
-          /*
-                     * This works by comparing three token locations:
-                     * - previousItemToken is the last token of the previous item
-                     * - commaToken is the location of the comma before the current item
-                     * - currentItemToken is the first token of the current item
-                     *
-                     * These values get switched around if item is undefined.
-                     * previousItemToken will refer to the last token not belonging
-                     * to the current item, which could be a comma or an opening
-                     * square bracket. currentItemToken could be a comma.
-                     *
-                     * All comparisons are done based on these tokens directly, so
-                     * they are always valid regardless of an undefined item.
-                     */
+          /**
+           * This works by comparing three token locations:
+           * - previousItemToken is the last token of the previous item
+           * - commaToken is the location of the comma before the current item
+           * - currentItemToken is the first token of the current item
+           *
+           * These values get switched around if item is undefined.
+           * previousItemToken will refer to the last token not belonging
+           * to the current item, which could be a comma or an opening
+           * square bracket. currentItemToken could be a comma.
+           *
+           * All comparisons are done based on these tokens directly, so
+           * they are always valid regardless of an undefined item.
+           */
           if (isCommaToken(commaToken))
-            validateCommaItemSpacing(previousItemToken, commaToken, currentItemToken, reportItem)
+            validateCommaItemSpacing(previousItemToken, commaToken, currentItemToken!, reportItem as Tree.Token)
 
           if (item) {
             const tokenAfterItem = sourceCode.getTokenAfter(item, isNotClosingParenToken)
 
             previousItemToken = tokenAfterItem
-              ? sourceCode.getTokenBefore(tokenAfterItem)
-              : sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1]
+              ? sourceCode.getTokenBefore(tokenAfterItem)!
+              : sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1] as ReturnType<typeof sourceCode.getLastToken>
           }
           else {
             previousItemToken = currentItemToken
           }
         })
 
-        /*
-                 * Special case for array literals that have empty last items, such
-                 * as [ 1, 2, ]. These arrays only have two items show up in the
-                 * AST, so we need to look at the token to verify that there's no
-                 * dangling comma.
-                 */
+        /**
+         * Special case for array literals that have empty last items, such
+         * as [ 1, 2, ]. These arrays only have two items show up in the
+         * AST, so we need to look at the token to verify that there's no
+         * dangling comma.
+         */
         if (arrayLiteral) {
-          const lastToken = sourceCode.getLastToken(node)
-          const nextToLastToken = sourceCode.getTokenBefore(lastToken)
+          const lastToken = sourceCode.getLastToken(node)!
+          const nextToLastToken = sourceCode.getTokenBefore(lastToken)!
 
           if (isCommaToken(nextToLastToken)) {
             validateCommaItemSpacing(
-              sourceCode.getTokenBefore(nextToLastToken),
+              sourceCode.getTokenBefore(nextToLastToken)!,
               nextToLastToken,
               lastToken,
               lastToken,
@@ -238,8 +241,20 @@ export default {
     // --------------------------------------------------------------------------
     // Public
     // --------------------------------------------------------------------------
+    type NodeType =
+      | Tree.VariableDeclaration
+      | Tree.ArrayExpression
+      | Tree.ObjectExpression
+      | Tree.ObjectPattern
+      | Tree.ArrayPattern
+      | Tree.FunctionDeclaration
+      | Tree.FunctionExpression
+      | Tree.CallExpression
+      | Tree.ImportDeclaration
+      | Tree.NewExpression
+      | Tree.ArrowFunctionExpression
 
-    const nodes = {}
+    const nodes: RuleListener = {}
 
     if (!exceptions.VariableDeclaration) {
       nodes.VariableDeclaration = function (node) {
@@ -299,4 +314,4 @@ export default {
 
     return nodes
   },
-}
+})
