@@ -4,13 +4,15 @@
  */
 
 import { isDecimalInteger, isOpeningBracketToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { Token, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -42,7 +44,7 @@ export default {
      * @returns {void}
      * @private
      */
-    function reportError(node, leftToken, rightToken) {
+    function reportError(node: Tree.MemberExpression, leftToken: Token, rightToken: Token) {
       context.report({
         node,
         messageId: 'unexpectedWhitespace',
@@ -79,20 +81,20 @@ export default {
     // --------------------------------------------------------------------------
 
     return {
-      MemberExpression(node) {
-        let rightToken
-        let leftToken
+      MemberExpression(node: Tree.MemberExpression) {
+        let rightToken: Token
+        let leftToken: Token
 
         if (!isTokenOnSameLine(node.object, node.property))
           return
 
         if (node.computed) {
-          rightToken = sourceCode.getTokenBefore(node.property, isOpeningBracketToken)
-          leftToken = sourceCode.getTokenBefore(rightToken, node.optional ? 1 : 0)
+          rightToken = sourceCode.getTokenBefore(node.property, isOpeningBracketToken) as Token
+          leftToken = sourceCode.getTokenBefore(rightToken, node.optional ? 1 : 0) as Token
         }
         else {
-          rightToken = sourceCode.getFirstToken(node.property)
-          leftToken = sourceCode.getTokenBefore(rightToken, 1)
+          rightToken = sourceCode.getFirstToken(node.property) as Token
+          leftToken = sourceCode.getTokenBefore(rightToken, 1) as Token
         }
 
         if (sourceCode.isSpaceBetweenTokens(leftToken, rightToken))
@@ -100,4 +102,4 @@ export default {
       },
     }
   },
-}
+})
