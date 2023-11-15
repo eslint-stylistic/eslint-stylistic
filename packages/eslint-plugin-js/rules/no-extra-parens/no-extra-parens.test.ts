@@ -21,7 +21,7 @@ import rule from './no-extra-parens'
  * @returns {object} result object
  * @private
  */
-function invalid(code, output, type, line, config) {
+function invalid(code: string, output: string | null, type?: string, line?: number | null, config?: any) {
   const result = {
     code,
     output,
@@ -30,13 +30,11 @@ function invalid(code, output, type, line, config) {
       {
         messageId: 'unexpected',
         type,
+        ...(line && { line }),
       },
     ],
     options: config && config.options || [],
   }
-
-  if (line)
-    result.errors[0].line = line
 
   return result
 }

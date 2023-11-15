@@ -10,7 +10,6 @@ import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
 import type { SourceCode } from 'eslint'
-import type { AstNode } from 'rollup'
 import type { ASTNode, ESNode, Token } from './types'
 
 const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
@@ -599,8 +598,7 @@ export function getPrecedence(node: ASTNode) {
  * "5"       // false
  *
  */
-export function isDecimalInteger(node: AstNode) {
-  // @ts-expect-error type-cast
+export function isDecimalInteger(node: ASTNode) {
   return node.type === 'Literal' && typeof node.value === 'number' && DECIMAL_INTEGER_PATTERN.test(node.raw)
 }
 
