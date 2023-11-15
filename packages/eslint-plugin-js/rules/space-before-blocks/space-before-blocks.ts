@@ -3,10 +3,9 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { getSwitchCaseColonToken, isArrowToken, isColonToken, isFunction, isKeywordToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token } from '../../utils/types'
+import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -18,13 +17,13 @@ import type { MessageIds, RuleOptions } from './types'
  * @param {ASTNode} node the node to check.
  * @returns {boolean} `true` if the node is function body.
  */
-function isFunctionBody(node: ASTNode) {
+function isFunctionBody(node: ASTNode): boolean {
   const parent = node.parent
 
   return (
     node.type === 'BlockStatement'
-        && isFunction(parent)
-        && parent.body === node
+      && isFunction(parent)
+      && parent.body === node
   )
 }
 
@@ -186,7 +185,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node The node of a SwitchStatement.
      * @returns {void} undefined.
      */
-    function checkSpaceBeforeCaseBlock(node: TSESTree.SwitchStatement) {
+    function checkSpaceBeforeCaseBlock(node: Tree.SwitchStatement) {
       const cases = node.cases
       let openingBrace: Token
 

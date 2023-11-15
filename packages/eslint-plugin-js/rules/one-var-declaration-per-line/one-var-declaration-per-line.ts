@@ -3,8 +3,8 @@
  * @author Alberto Rodríguez
  */
 
-import type { AST_NODE_TYPES, TSESTree } from '@typescript-eslint/utils'
 import { createRule } from '../../utils/createRule'
+import type { NodeTypes, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -47,7 +47,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {string} keyword keyword to test
      * @returns {boolean} True if `keyword` is a variant of for specifier
      */
-    function isForTypeSpecifier(keyword: AST_NODE_TYPES) {
+    function isForTypeSpecifier(keyword: NodeTypes) {
       return keyword === 'ForStatement' || keyword === 'ForInStatement' || keyword === 'ForOfStatement'
     }
 
@@ -57,12 +57,12 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node `VariableDeclaration` node to test
      * @returns {void}
      */
-    function checkForNewLine(node: TSESTree.VariableDeclaration) {
+    function checkForNewLine(node: Tree.VariableDeclaration) {
       if (isForTypeSpecifier(node.parent.type))
         return
 
       const declarations = node.declarations
-      let prev: TSESTree.LetOrConstOrVarDeclarator
+      let prev: Tree.LetOrConstOrVarDeclarator
 
       declarations.forEach((current) => {
         if (prev && prev.loc.end.line === current.loc.start.line) {

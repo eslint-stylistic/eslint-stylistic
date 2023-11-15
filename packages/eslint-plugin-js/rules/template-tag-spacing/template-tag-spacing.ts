@@ -3,14 +3,11 @@
  * @author Jonathan Wilsson
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { createRule } from '../../utils/createRule'
+import type { Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -43,7 +40,7 @@ export default createRule({
      * @returns {void}
      * @private
      */
-    function checkSpacing(node: TSESTree.TaggedTemplateExpression) {
+    function checkSpacing(node: Tree.TaggedTemplateExpression) {
       const tagToken = sourceCode.getTokenBefore(node.quasi)!
       const literalToken = sourceCode.getFirstToken(node.quasi)!
       const hasWhitespace = sourceCode.isSpaceBetweenTokens(tagToken, literalToken)

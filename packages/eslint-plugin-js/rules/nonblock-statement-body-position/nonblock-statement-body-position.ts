@@ -3,8 +3,8 @@
  * @author Teddy Katz
  */
 
-import type { JSONSchema, TSESTree } from '@typescript-eslint/utils'
 import { createRule } from '../../utils/createRule'
+import type { JSONSchema, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -13,7 +13,10 @@ import type { MessageIds, RuleOptions } from './types'
 
 type KeywordName = keyof NonNullable<NonNullable<RuleOptions['1']>['overrides']>
 
-const POSITION_SCHEMA: JSONSchema.JSONSchema4 = { type: 'string', enum: ['beside', 'below', 'any'] }
+const POSITION_SCHEMA: JSONSchema.JSONSchema4 = {
+  type: 'string',
+  enum: ['beside', 'below', 'any'],
+}
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {
@@ -77,7 +80,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {string} keywordName The applicable keyword name for the single-line statement
      * @returns {void}
      */
-    function validateStatement(node: TSESTree.Statement, keywordName: KeywordName) {
+    function validateStatement(node: Tree.Statement, keywordName: KeywordName) {
       const option = getOption(keywordName)
 
       if (node.type === 'BlockStatement' || option === 'any')

@@ -3,15 +3,11 @@
  * @author Benoît Zugmeyer
  */
 
-import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
+import type { TSESLint } from '@typescript-eslint/utils'
 import { createGlobalLinebreakMatcher, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token } from '../../utils/types'
+import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {
@@ -95,19 +91,20 @@ export default createRule<MessageIds, RuleOptions>({
 
         if (hasLinebreakBefore !== hasLinebreakAfter && desiredStyle !== 'none') {
           // If there is a comment before and after the operator, don't do a fix.
-          if (sourceCode.getTokenBefore(operatorToken, { includeComments: true }) !== tokenBefore
-                        && sourceCode.getTokenAfter(operatorToken, { includeComments: true }) !== tokenAfter)
-
+          if (
+            sourceCode.getTokenBefore(operatorToken, { includeComments: true }) !== tokenBefore
+            && sourceCode.getTokenAfter(operatorToken, { includeComments: true }) !== tokenAfter
+          )
             return null
 
-          /*
-                     * If there is only one linebreak and it's on the wrong side of the operator, swap the text before and after the operator.
-                     * foo &&
-                     *           bar
-                     * would get fixed to
-                     * foo
-                     *        && bar
-                     */
+          /**
+           * If there is only one linebreak and it's on the wrong side of the operator, swap the text before and after the operator.
+           * foo &&
+           *           bar
+           * would get fixed to
+           * foo
+           *        && bar
+           */
           newTextBefore = textAfter
           newTextAfter = textBefore
         }
@@ -141,11 +138,11 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {void}
      */
     function validateNode(node: ASTNode, rightSide: ASTNode, operator: string) {
-      /*
-             * Find the operator token by searching from the right side, because between the left side and the operator
-             * there could be additional tokens from type annotations. Search specifically for the token which
-             * value equals the operator, in order to skip possible opening parentheses before the right side node.
-             */
+      /**
+       * Find the operator token by searching from the right side, because between the left side and the operator
+       * there could be additional tokens from type annotations. Search specifically for the token which
+       * value equals the operator, in order to skip possible opening parentheses before the right side node.
+       */
       const operatorToken = sourceCode.getTokenBefore(rightSide, token => token.value === operator)!
       const leftToken = sourceCode.getTokenBefore(operatorToken)
       const rightToken = sourceCode.getTokenAfter(operatorToken)
@@ -154,14 +151,14 @@ export default createRule<MessageIds, RuleOptions>({
       const fix = getFixer(operatorToken, style)
 
       // if single line
-      if (isTokenOnSameLine(leftToken, operatorToken)
-                    && isTokenOnSameLine(operatorToken, rightToken)) {
-
+      if (isTokenOnSameLine(leftToken, operatorToken) && isTokenOnSameLine(operatorToken, rightToken)) {
         // do nothing.
-
       }
-      else if (operatorStyleOverride !== 'ignore' && !isTokenOnSameLine(leftToken, operatorToken)
-                    && !isTokenOnSameLine(operatorToken, rightToken)) {
+      else if (
+        operatorStyleOverride !== 'ignore'
+        && !isTokenOnSameLine(leftToken, operatorToken)
+        && !isTokenOnSameLine(operatorToken, rightToken)
+      ) {
         // lone operator
         context.report({
           node,
@@ -213,7 +210,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {BinaryExpression|LogicalExpression|AssignmentExpression} node node to be validated
      * @returns {void}
      */
-    function validateBinaryExpression(node: TSESTree.BinaryExpression | TSESTree.LogicalExpression | TSESTree.AssignmentExpression) {
+    function validateBinaryExpression(node: Tree.BinaryExpression | Tree.LogicalExpression | Tree.AssignmentExpression) {
       validateNode(node, node.right, node.operator)
     }
 

@@ -3,10 +3,9 @@
  * @author Toru Nagashima
  */
 
-import type { TSESLint } from '@typescript-eslint/utils'
 import { getSwitchCaseColonToken, isClosingBraceToken, isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Token } from '../../utils/types'
+import type { RuleFixer, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -87,7 +86,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {boolean} spacing The spacing style. `true` if there should be a space.
      * @returns {Fix|null} The fix object.
      */
-    function fix(fixer: TSESLint.RuleFixer, left: Token, right: Token, spacing: boolean) {
+    function fix(fixer: RuleFixer, left: Token, right: Token, spacing: boolean) {
       if (commentsExistBetween(left, right))
         return null
 
