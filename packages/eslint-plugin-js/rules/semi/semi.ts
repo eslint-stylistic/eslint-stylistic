@@ -8,6 +8,7 @@ import type { RuleFixer } from '@typescript-eslint/utils/ts-eslint'
 import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import FixTracker from '../../utils/fix-tracker'
+import type { ASTNode, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -99,8 +100,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {boolean} missing True if the semicolon is missing.
      * @returns {void}
      */
-    function report(node: TSESTree.Node, missing = false) {
-      const lastToken = sourceCode.getLastToken(node) as TSESTree.Token
+    function report(node: ASTNode, missing = false) {
+      const lastToken = sourceCode.getLastToken(node) as Token
       let messageId: 'missingSemi' | 'extraSemi' = 'missingSemi'
 
       let fix,
@@ -143,7 +144,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {Token} semiToken A semicolon token to check.
      * @returns {boolean} `true` if the next token is `;` or `}`.
      */
-    function isRedundantSemi(semiToken: TSESTree.Token) {
+    function isRedundantSemi(semiToken: Token) {
       const nextToken = sourceCode.getTokenAfter(semiToken)
 
       return (
@@ -158,11 +159,11 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {Token} lastToken A token to check.
      * @returns {boolean} `true` if the token is the closing brace of an arrow function.
      */
-    function isEndOfArrowBlock(lastToken: TSESTree.Token) {
+    function isEndOfArrowBlock(lastToken: Token) {
       if (!isClosingBraceToken(lastToken))
         return false
 
-      const node = sourceCode.getNodeByRangeIndex(lastToken.range[0]) as TSESTree.Node
+      const node = sourceCode.getNodeByRangeIndex(lastToken.range[0]) as ASTNode
 
       return (
         node.type === 'BlockStatement'
@@ -179,7 +180,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {boolean} `true` if the node cannot have the semicolon
      *      removed.
      */
-    function maybeClassFieldAsiHazard(node: TSESTree.Node) {
+    function maybeClassFieldAsiHazard(node: ASTNode) {
       if (node.type !== 'PropertyDefinition')
         return false
 
@@ -210,7 +211,7 @@ export default createRule<MessageIds, RuleOptions>({
           return true
       }
 
-      const followingToken = sourceCode.getTokenAfter(node) as TSESTree.Token
+      const followingToken = sourceCode.getTokenAfter(node) as Token
 
       return unsafeClassFieldFollowers.has(followingToken.value)
     }
@@ -220,7 +221,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {Node} node A statement node to check.
      * @returns {boolean} `true` if the node is on the same line with the next token.
      */
-    function isOnSameLineWithNextToken(node: TSESTree.Node) {
+    function isOnSameLineWithNextToken(node: ASTNode) {
       const prevToken = sourceCode.getLastToken(node, 1)
       const nextToken = sourceCode.getTokenAfter(node)
 
@@ -232,7 +233,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {Node} node A statement node to check.
      * @returns {boolean} `true` if the node can connect the next line.
      */
-    function maybeAsiHazardAfter(node: TSESTree.Node) {
+    function maybeAsiHazardAfter(node: ASTNode) {
       const t = node.type
 
       if (t === 'DoWhileStatement'
@@ -250,7 +251,7 @@ export default createRule<MessageIds, RuleOptions>({
       if (t === 'ExportNamedDeclaration')
         return Boolean(node.declaration)
 
-      const lastToken = sourceCode.getLastToken(node, 1) as TSESTree.Token
+      const lastToken = sourceCode.getLastToken(node, 1) as Token
       if (isEndOfArrowBlock(lastToken))
         return false
 
@@ -262,7 +263,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {Token} token A token to check.
      * @returns {boolean} `true` if the token is one of `[`, `(`, `/`, `+`, `-`, ```, `++`, and `--`.
      */
-    function maybeAsiHazardBefore(token: TSESTree.Token) {
+    function maybeAsiHazardBefore(token: Token) {
       return (
         Boolean(token)
                 && OPT_OUT_PATTERN.test(token.value)
@@ -278,8 +279,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {Node} node A statement node to check.
      * @returns {boolean} whether the semicolon is unnecessary.
      */
-    function canRemoveSemicolon(node: TSESTree.Node) {
-      const lastToken = sourceCode.getLastToken(node) as TSESTree.Token
+    function canRemoveSemicolon(node: ASTNode) {
+      const lastToken = sourceCode.getLastToken(node) as Token
       if (isRedundantSemi(lastToken))
         return true // `;;` or `;}`
 
@@ -297,7 +298,7 @@ export default createRule<MessageIds, RuleOptions>({
       )
         return true // ASI works. This statement doesn't connect to the next.
 
-      const nextToken = sourceCode.getTokenAfter(node) as TSESTree.Token
+      const nextToken = sourceCode.getTokenAfter(node) as Token
       if (!maybeAsiHazardBefore(nextToken))
         return true // ASI works. The next token doesn't connect to this statement.
 
@@ -311,8 +312,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node The node to check.
      * @returns {boolean} whether the node is the last item in a one-liner block.
      */
-    function isLastInOneLinerBlock(node: TSESTree.Node) {
-      const parent = node.parent as TSESTree.Node
+    function isLastInOneLinerBlock(node: ASTNode) {
+      const parent = node.parent as ASTNode
       const nextToken = sourceCode.getTokenAfter(node)
 
       if (!nextToken || nextToken.value !== '}')
@@ -322,7 +323,7 @@ export default createRule<MessageIds, RuleOptions>({
         return parent.loc.start.line === parent.loc.end.line
 
       if (parent.type === 'StaticBlock') {
-        const openingBrace = sourceCode.getFirstToken(parent, { skip: 1 }) as TSESTree.Token
+        const openingBrace = sourceCode.getFirstToken(parent, { skip: 1 }) as Token
 
         return openingBrace.loc.start.line === parent.loc.end.line
       }
@@ -336,8 +337,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node The node to check.
      * @returns {boolean} whether the node is the last item in a one-liner ClassBody.
      */
-    function isLastInOneLinerClassBody(node: TSESTree.Node) {
-      const parent = node.parent as TSESTree.Node
+    function isLastInOneLinerClassBody(node: ASTNode) {
+      const parent = node.parent as ASTNode
       const nextToken = sourceCode.getTokenAfter(node)
 
       if (!nextToken || nextToken.value !== '}')
@@ -354,12 +355,12 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node The node to check.
      * @returns {void}
      */
-    function checkForSemicolon(node: TSESTree.Node) {
-      const lastToken = sourceCode.getLastToken(node) as TSESTree.Token
+    function checkForSemicolon(node: ASTNode) {
+      const lastToken = sourceCode.getLastToken(node) as Token
       const isSemi = isSemicolonToken(lastToken)
 
       if (never) {
-        const nextToken = sourceCode.getTokenAfter(node) as TSESTree.Token
+        const nextToken = sourceCode.getTokenAfter(node) as Token
 
         if (isSemi && canRemoveSemicolon(node))
           report(node, true)
@@ -388,7 +389,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {void}
      */
     function checkForSemicolonForVariableDeclaration(node: TSESTree.VariableDeclaration) {
-      const parent = node.parent as TSESTree.Node
+      const parent = node.parent as ASTNode
 
       if ((parent.type !== 'ForStatement' || parent.init !== node)
                 && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as TSESTree.ForInStatement).left !== node)
