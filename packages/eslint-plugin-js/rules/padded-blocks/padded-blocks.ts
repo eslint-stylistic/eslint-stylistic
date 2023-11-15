@@ -3,10 +3,9 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token } from '../../utils/types'
+import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -98,7 +97,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node A BlockStatement or SwitchStatement node from which to get the open brace.
      * @returns {Token} The token of the open brace.
      */
-    function getOpenBrace(node: TSESTree.BlockStatement | TSESTree.StaticBlock | TSESTree.SwitchStatement | TSESTree.ClassBody): Token {
+    function getOpenBrace(node: Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement | Tree.ClassBody): Token {
       if (node.type === 'SwitchStatement')
         return sourceCode.getTokenBefore(node.cases[0])!
 
@@ -189,7 +188,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node The AST node of a BlockStatement.
      * @returns {void} undefined.
      */
-    function checkPadding(node: TSESTree.BlockStatement | TSESTree.SwitchStatement | TSESTree.ClassBody) {
+    function checkPadding(node: Tree.BlockStatement | Tree.SwitchStatement | Tree.ClassBody) {
       const openBrace = getOpenBrace(node)
       const firstBlockToken = getFirstBlockToken(openBrace)
       const tokenBeforeFirst = sourceCode.getTokenBefore(firstBlockToken, { includeComments: true })!
@@ -264,7 +263,7 @@ export default createRule<MessageIds, RuleOptions>({
     const rule: Record<string, any> = {}
 
     if (Object.prototype.hasOwnProperty.call(options, 'switches')) {
-      rule.SwitchStatement = function (node: TSESTree.SwitchStatement) {
+      rule.SwitchStatement = function (node: Tree.SwitchStatement) {
         if (node.cases.length === 0)
           return
 
@@ -273,7 +272,7 @@ export default createRule<MessageIds, RuleOptions>({
     }
 
     if (Object.prototype.hasOwnProperty.call(options, 'blocks')) {
-      rule.BlockStatement = function (node: TSESTree.BlockStatement) {
+      rule.BlockStatement = function (node: Tree.BlockStatement) {
         if (node.body.length === 0)
           return
 
@@ -283,7 +282,7 @@ export default createRule<MessageIds, RuleOptions>({
     }
 
     if (Object.prototype.hasOwnProperty.call(options, 'classes')) {
-      rule.ClassBody = function (node: TSESTree.ClassBody) {
+      rule.ClassBody = function (node: Tree.ClassBody) {
         if (node.body.length === 0)
           return
 
