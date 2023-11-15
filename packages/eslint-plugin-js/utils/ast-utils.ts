@@ -10,7 +10,6 @@ import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
 import type { SourceCode } from 'eslint'
-import type { AstNode } from 'rollup'
 import type { ASTNode, ESNode, Token } from './types'
 
 const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
@@ -60,7 +59,7 @@ export function getUpperFunction(node: ASTNode) {
  * @param {ASTNode|null} node A node to check.
  * @returns {boolean} `true` if the node is a function node.
  */
-export function isFunction(node?: ASTNode | null) {
+export function isFunction(node?: ASTNode | null): node is TSESTree.ArrowFunctionExpression | TSESTree.FunctionDeclaration | TSESTree.FunctionExpression {
   return Boolean(node && anyFunctionPattern.test(node.type))
 }
 
@@ -205,9 +204,9 @@ export function negate<T extends Function>(f: T): T {
  * @returns {boolean} True if the node is parenthesised.
  * @private
  */
-export function isParenthesised(sourceCode: SourceCode, node: ASTNode) {
-  const previousToken = sourceCode.getTokenBefore(node as ESTree.Node)
-  const nextToken = sourceCode.getTokenAfter(node as ESTree.Node)
+export function isParenthesised(sourceCode: TSESLint.SourceCode, node: ASTNode) {
+  const previousToken = sourceCode.getTokenBefore(node)
+  const nextToken = sourceCode.getTokenAfter(node)
 
   return !!previousToken && !!nextToken
         && previousToken.value === '(' && previousToken.range[1] <= node.range![0]
@@ -451,7 +450,7 @@ export const isNotSemicolonToken = negate(isSemicolonToken)
  * @param {ASTNode} node A node to check.
  * @returns {boolean} `true` if the node is a string literal.
  */
-export function isStringLiteral(node: ASTNode) {
+export function isStringLiteral(node: ASTNode): node is TSESTree.StringLiteral | TSESTree.TemplateLiteral {
   return (
     (node.type === 'Literal' && typeof node.value === 'string')
           || node.type === 'TemplateLiteral'
@@ -599,8 +598,7 @@ export function getPrecedence(node: ASTNode) {
  * "5"       // false
  *
  */
-export function isDecimalInteger(node: AstNode) {
-  // @ts-expect-error type-cast
+export function isDecimalInteger(node: ASTNode) {
   return node.type === 'Literal' && typeof node.value === 'number' && DECIMAL_INTEGER_PATTERN.test(node.raw)
 }
 

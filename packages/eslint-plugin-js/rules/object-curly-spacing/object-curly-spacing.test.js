@@ -3,8 +3,8 @@
  * @author Jamund Ferguson
  */
 
-import { resolve as resolvePath } from 'node:path'
 import { RuleTester } from 'eslint'
+import parser from '../../test-utils/fixture-parser'
 import rule from './object-curly-spacing'
 
 // ------------------------------------------------------------------------------
@@ -169,7 +169,7 @@ ruleTester.run('object-curly-spacing', rule, {
     {
       code: 'function foo ({a, b}: Props) {\n}',
       options: ['never'],
-      parser: resolvePath(__dirname, '../../test-utils/parsers/object-curly-spacing/flow-stub-parser-never-valid'),
+      parser: parser('object-curly-spacing/flow-stub-parser-never-valid'),
     },
   ],
 
@@ -1388,7 +1388,7 @@ ruleTester.run('object-curly-spacing', rule, {
       code: 'function foo ({a, b }: Props) {\n}',
       output: 'function foo ({a, b}: Props) {\n}',
       options: ['never'],
-      parser: resolvePath(__dirname, '../../test-utils/parsers/object-curly-spacing/flow-stub-parser-never-invalid'),
+      parser: parser('object-curly-spacing/flow-stub-parser-never-invalid'),
       errors: [
         {
           messageId: 'unexpectedSpaceBefore',
