@@ -155,7 +155,6 @@ class IndexMap<T = any> {
       if (value)
         return value
     }
-    return undefined
   }
 
   /**
@@ -454,9 +453,7 @@ class OffsetStorage {
    * @param {Token} token The token
    * @returns {void}
    */
-  ignoreToken(token: Token | null | undefined) {
-    if (!token)
-      return
+  ignoreToken(token: Token) {
     if (this._tokenInfo.isFirstTokenOfLine(token))
       this._ignoredTokens.add(token)
   }
@@ -849,7 +846,6 @@ export default createRule<MessageIds, RuleOptions>({
         return
 
       elements
-        .filter(Boolean)
         .forEach((element, index) => {
           if (!element) {
             // Skip holes in arrays
