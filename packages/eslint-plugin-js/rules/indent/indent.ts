@@ -32,8 +32,6 @@ const KNOWN_NODES: Set<NodeTypes> = new Set([
   'DoWhileStatement',
   'DebuggerStatement',
   'EmptyStatement',
-  // 'ExperimentalRestProperty',
-  // 'ExperimentalSpreadProperty',
   'ExpressionStatement',
   'ForStatement',
   'ForInStatement',
@@ -1700,14 +1698,14 @@ export default createRule<MessageIds, RuleOptions>({
       {},
     )
 
-    /*
-         * Join the listeners, and add a listener to verify that all tokens actually have the correct indentation
-         * at the end.
-         *
-         * Using Object.assign will cause some offset listeners to be overwritten if the same selector also appears
-         * in `ignoredNodeListeners`. This isn't a problem because all of the matching nodes will be ignored,
-         * so those listeners wouldn't be called anyway.
-         */
+    /**
+     * Join the listeners, and add a listener to verify that all tokens actually have the correct indentation
+     * at the end.
+     *
+     * Using Object.assign will cause some offset listeners to be overwritten if the same selector also appears
+     * in `ignoredNodeListeners`. This isn't a problem because all of the matching nodes will be ignored,
+     * so those listeners wouldn't be called anyway.
+     */
     return Object.assign(
       offsetListeners,
       ignoredNodeListeners,
