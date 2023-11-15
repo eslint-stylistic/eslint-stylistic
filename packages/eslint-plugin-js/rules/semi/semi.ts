@@ -3,12 +3,10 @@
  * @author Nicholas C. Zakas
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
-import type { RuleFixer } from '@typescript-eslint/utils/ts-eslint'
 import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import FixTracker from '../../utils/fix-tracker'
-import type { ASTNode, Token } from '../../utils/types'
+import type { ASTNode, RuleFixer, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -111,7 +109,7 @@ export default createRule<MessageIds, RuleOptions>({
         loc = {
           start: lastToken.loc.end,
           end: getNextLocation(sourceCode, lastToken.loc.end),
-        } as TSESTree.SourceLocation
+        } as Tree.SourceLocation
         fix = function (fixer: RuleFixer) {
           return fixer.insertTextAfter(lastToken, ';')
         }
@@ -388,11 +386,11 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} node The node to check.
      * @returns {void}
      */
-    function checkForSemicolonForVariableDeclaration(node: TSESTree.VariableDeclaration) {
+    function checkForSemicolonForVariableDeclaration(node: Tree.VariableDeclaration) {
       const parent = node.parent as ASTNode
 
       if ((parent.type !== 'ForStatement' || parent.init !== node)
-                && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as TSESTree.ForInStatement).left !== node)
+                && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as Tree.ForInStatement).left !== node)
       )
         checkForSemicolon(node)
     }
