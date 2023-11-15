@@ -3,10 +3,9 @@
  * @author Jonathan Rajavuori
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { isClosingParenToken, isOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Token } from '../../utils/types'
+import type { Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -217,7 +216,7 @@ export default createRule<MessageIds, RuleOptions>({
     // --------------------------------------------------------------------------
 
     return {
-      Program: function checkParenSpaces(node: TSESTree.Program) {
+      Program: function checkParenSpaces(node: Tree.Program) {
         exceptions = getExceptions()
         const tokens = sourceCode.tokensAndComments
 
