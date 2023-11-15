@@ -3,9 +3,9 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { isOpeningParenToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
+import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -68,9 +68,11 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node The function node.
      * @returns Whether the function has a name.
      */
-    function isNamedFunction(node: TSESTree.ArrowFunctionExpression
-    | TSESTree.FunctionDeclaration
-    | TSESTree.FunctionExpression) {
+    function isNamedFunction(node:
+    | Tree.ArrowFunctionExpression
+    | Tree.FunctionDeclaration
+    | Tree.FunctionExpression,
+    ) {
       if (node.id)
         return true
 
@@ -91,9 +93,11 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node The function node
      * @returns "always", "never", or "ignore"
      */
-    function getConfigForFunction(node: TSESTree.ArrowFunctionExpression
-    | TSESTree.FunctionDeclaration
-    | TSESTree.FunctionExpression) {
+    function getConfigForFunction(node:
+    | Tree.ArrowFunctionExpression
+    | Tree.FunctionDeclaration
+    | Tree.FunctionExpression,
+    ) {
       if (node.type === 'ArrowFunctionExpression') {
         // Always ignore non-async functions and arrow functions without parens, e.g. async foo => bar
         if (node.async && isOpeningParenToken(sourceCode.getFirstToken(node, { skip: 1 })!))
@@ -115,9 +119,11 @@ export default createRule<MessageIds, RuleOptions>({
      * Checks the parens of a function node
      * @param node A function node
      */
-    function checkFunction(node: TSESTree.ArrowFunctionExpression
-    | TSESTree.FunctionDeclaration
-    | TSESTree.FunctionExpression) {
+    function checkFunction(node:
+    | Tree.ArrowFunctionExpression
+    | Tree.FunctionDeclaration
+    | Tree.FunctionExpression,
+    ) {
       const functionConfig = getConfigForFunction(node)
 
       if (functionConfig === 'ignore')
