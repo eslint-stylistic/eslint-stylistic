@@ -7,7 +7,7 @@ export type ASTNode = TSESTree.Node
 export type Token = TSESTree.Token
 export { TSESTree as Tree }
 export type NodeTypes = `${AST_NODE_TYPES}`
-export { RuleFunction, RuleListener, SourceCode, RuleFixer, ReportFixFunction, RuleContext } from '@typescript-eslint/utils/ts-eslint'
+export { RuleFunction, RuleListener, SourceCode, RuleFixer, ReportFixFunction, RuleContext, EcmaVersion } from '@typescript-eslint/utils/ts-eslint'
 export { JSONSchema } from '@typescript-eslint/utils'
 
 // Basic ESLint Types (only contains JS tokens)

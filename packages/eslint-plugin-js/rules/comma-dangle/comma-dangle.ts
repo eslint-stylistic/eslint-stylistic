@@ -2,10 +2,9 @@
  * @fileoverview Rule to forbid or enforce dangling commas.
  * @author Ian Christian Myers
  */
-import type { EcmaVersion } from '@antfu/eslint-define-config'
 import { getNextLocation, isCommaToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode } from '../../utils/types'
+import type { ASTNode, EcmaVersion } from '../../utils/types'
 import type { MessageIds, RuleOptions, Value } from './types'
 
 // ------------------------------------------------------------------------------
@@ -40,7 +39,7 @@ function isTrailingCommaAllowed(lastItem: ASTNode) {
  * @param {number} ecmaVersion The normalized ECMAScript version.
  * @returns {object} The normalized option value.
  */
-function normalizeOptions(optionValue: RuleOptions[0], ecmaVersion: EcmaVersion | undefined) {
+function normalizeOptions(optionValue: RuleOptions[0], ecmaVersion: EcmaVersion | 'latest' | undefined) {
   if (typeof optionValue === 'string') {
     return {
       arrays: optionValue,
@@ -247,12 +246,12 @@ export default createRule<MessageIds, RuleOptions>({
             yield fixer.remove(trailingToken)
 
             /**
-            * Extend the range of the fix to include surrounding tokens to ensure
-            * that the element after which the comma is removed stays _last_.
-            * This intentionally makes conflicts in fix ranges with rules that may be
-            * adding or removing elements in the same autofix pass.
-            * https://github.com/eslint/eslint/issues/15660
-            */
+             * Extend the range of the fix to include surrounding tokens to ensure
+             * that the element after which the comma is removed stays _last_.
+             * This intentionally makes conflicts in fix ranges with rules that may be
+             * adding or removing elements in the same autofix pass.
+             * https://github.com/eslint/eslint/issues/15660
+             */
             yield fixer.insertTextBefore(sourceCode.getTokenBefore(trailingToken)!, '')
             yield fixer.insertTextAfter(sourceCode.getTokenAfter(trailingToken)!, '')
           },
