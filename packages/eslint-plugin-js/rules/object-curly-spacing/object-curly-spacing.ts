@@ -211,9 +211,11 @@ export default createRule<MessageIds, RuleOptions>({
      *      more properties.
      * @returns {Token} '}' token.
      */
-    function getClosingBraceOfObject(node:
-    | Tree.ObjectExpression
-    | Tree.ObjectPattern) {
+    function getClosingBraceOfObject(
+      node:
+        | Tree.ObjectExpression
+        | Tree.ObjectPattern,
+    ) {
       const lastProperty = node.properties[node.properties.length - 1]
 
       return sourceCode.getTokenAfter(lastProperty, isClosingBraceToken)
@@ -225,8 +227,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns {void}
      */
     function checkForObject(node:
-    | Tree.ObjectExpression
-    | Tree.ObjectPattern) {
+      | Tree.ObjectExpression
+      | Tree.ObjectPattern) {
       if (node.properties.length === 0)
         return
 

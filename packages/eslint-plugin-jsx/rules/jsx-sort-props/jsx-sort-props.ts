@@ -3,22 +3,33 @@
  * @author Ilya Volodin, Yannick Croissant
  */
 
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
 import { getPropName, isDOMComponent } from '../../utils/jsx'
-import report from '../../utils/report'
+import type { ASTNode, RuleContext, RuleFixer, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
-const includes = (arr, value) => arr.includes(value)
-const toSorted = (arr, compareFn) => [...arr].sort(compareFn)
+interface JsxCompareOptions {
+  ignoreCase: boolean
+  callbacksLast: boolean
+  shorthandFirst: boolean
+  shorthandLast: boolean
+  multiline: 'first' | 'ignore' | 'last'
+  noSortAlphabetically: boolean
+  reservedFirst: boolean | unknown[]
+  reservedList: unknown[]
+  locale: string
+}
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-function isCallbackPropName(name) {
+function isCallbackPropName(name: string) {
   return /^on[A-Z]/.test(name)
 }
 
-function isMultilineProp(node) {
+function isMultilineProp(node: ASTNode) {
   return node.loc.start.line !== node.loc.end.line
 }
 
@@ -41,19 +52,19 @@ const RESERVED_PROPS_LIST = [
   'ref',
 ]
 
-function isReservedPropName(name, list) {
+function isReservedPropName(name: unknown, list: unknown[]) {
   return list.includes(name)
 }
 
-let attributeMap
+let attributeMap: WeakMap<Tree.JSXAttribute, { end: number; hasComment: boolean }>
 // attributeMap = { end: endrange, hasComment: true||false if comment in between nodes exists, it needs to be sorted to end }
 
-function shouldSortToEnd(node) {
+function shouldSortToEnd(node: Tree.JSXAttribute) {
   const attr = attributeMap.get(node)
   return !!attr && !!attr.hasComment
 }
 
-function contextCompare(a, b, options) {
+function contextCompare(a: Tree.JSXAttribute, b: Tree.JSXAttribute, options: JsxCompareOptions) {
   let aProp = getPropName(a)
   let bProp = getPropName(b)
 
@@ -131,12 +142,12 @@ function contextCompare(a, b, options) {
  * @param {object} context The context of the rule
  * @return {Array<Array<JSXAttribute>>}
  */
-function getGroupsOfSortableAttributes(attributes, context) {
-  const sourceCode = context.getSourceCode()
+function getGroupsOfSortableAttributes(attributes: (Tree.JSXAttribute | Tree.JSXSpreadAttribute)[], context: Readonly<RuleContext<MessageIds, RuleOptions>>) {
+  const sourceCode = context.sourceCode
 
-  const sortableAttributeGroups = []
+  const sortableAttributeGroups: Tree.JSXAttribute[][] = []
   let groupCount = 0
-  function addtoSortableAttributeGroups(attribute) {
+  function addtoSortableAttributeGroups(attribute: Tree.JSXAttribute) {
     sortableAttributeGroups[groupCount - 1].push(attribute)
   }
 
@@ -144,7 +155,7 @@ function getGroupsOfSortableAttributes(attributes, context) {
     const attribute = attributes[i]
     const nextAttribute = attributes[i + 1]
     const attributeline = attribute.loc.start.line
-    let comment = []
+    let comment: Tree.Comment[] = []
     try {
       comment = sourceCode.getCommentsAfter(attribute)
     }
@@ -208,8 +219,8 @@ function getGroupsOfSortableAttributes(attributes, context) {
   return sortableAttributeGroups
 }
 
-function generateFixerFunction(node, context, reservedList) {
-  const sourceCode = context.getSourceCode()
+function generateFixerFunction(node: Tree.JSXOpeningElement, context: Readonly<RuleContext<MessageIds, RuleOptions>>, reservedList: unknown[]) {
+  const sourceCode = context.sourceCode
   const attributes = node.attributes.slice(0)
   const configuration = context.options[0] || {}
   const ignoreCase = configuration.ignoreCase || false
@@ -238,18 +249,18 @@ function generateFixerFunction(node, context, reservedList) {
   const sortableAttributeGroups = getGroupsOfSortableAttributes(attributes, context)
   const sortedAttributeGroups = sortableAttributeGroups
     .slice(0)
-    .map(group => toSorted(group, (a, b) => contextCompare(a, b, options)))
+    .map(group => [...group].sort((a, b) => contextCompare(a, b, options)))
 
-  return function fixFunction(fixer) {
-    const fixers = []
+  return function fixFunction(fixer: RuleFixer) {
+    const fixers: { range: [number, number]; text: string }[] = []
     let source = sourceCode.getText()
 
     sortableAttributeGroups.forEach((sortableGroup, ii) => {
       sortableGroup.forEach((attr, jj) => {
         const sortedAttr = sortedAttributeGroups[ii][jj]
-        const sortedAttrText = source.slice(sortedAttr.range[0], attributeMap.get(sortedAttr).end)
+        const sortedAttrText = source.slice(sortedAttr.range[0], attributeMap.get(sortedAttr)!.end)
         fixers.push({
-          range: [attr.range[0], attributeMap.get(attr).end],
+          range: [attr.range[0], attributeMap.get(attr)!.end],
           text: sortedAttrText,
         })
       })
@@ -277,7 +288,7 @@ function generateFixerFunction(node, context, reservedList) {
  * @return {Function|undefined} If an error is detected, a function to generate the error message, otherwise, `undefined`
  */
 
-function validateReservedFirstConfig(context, reservedFirst) {
+function validateReservedFirstConfig(context: Readonly<RuleContext<MessageIds, RuleOptions>>, reservedFirst: unknown[] | boolean) {
   if (reservedFirst) {
     if (Array.isArray(reservedFirst)) {
       // Only allow a subset of reserved words in customized lists
@@ -287,16 +298,18 @@ function validateReservedFirstConfig(context, reservedFirst) {
       ))
 
       if (reservedFirst.length === 0) {
-        return function Report(decl) {
-          report(context, messages.listIsEmpty, 'listIsEmpty', {
+        return function Report(decl: Tree.Node | Tree.Token) {
+          context.report({
             node: decl,
+            messageId: 'listIsEmpty',
           })
         }
       }
       if (nonReservedWords.length > 0) {
-        return function Report(decl) {
-          report(context, messages.noUnreservedProps, 'noUnreservedProps', {
+        return function Report(decl: Tree.Node | Tree.Token) {
+          context.report({
             node: decl,
+            messageId: 'noUnreservedProps',
             data: {
               unreservedWords: nonReservedWords.toString(),
             },
@@ -318,27 +331,30 @@ const reportedNodeAttributes = new WeakMap()
  * @param {object} context The context of the rule
  * @param {Array<string>} reservedList The list of reserved props
  */
-function reportNodeAttribute(nodeAttribute, errorType, node, context, reservedList) {
+function reportNodeAttribute(nodeAttribute: Tree.JSXAttribute | Tree.JSXSpreadAttribute, errorType: MessageIds, node: Tree.JSXOpeningElement, context: Readonly<RuleContext<MessageIds, RuleOptions>>, reservedList: unknown[]) {
   const errors = reportedNodeAttributes.get(nodeAttribute) || []
 
-  if (includes(errors, errorType))
+  if (errors.includes(errorType))
     return
 
   errors.push(errorType)
 
   reportedNodeAttributes.set(nodeAttribute, errors)
 
-  report(context, messages[errorType], errorType, {
-    node: nodeAttribute.name,
+  context.report({
+    node: (<Tree.JSXAttribute>nodeAttribute).name ?? '',
+    messageId: errorType,
     fix: generateFixerFunction(node, context, reservedList),
   })
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
+
     docs: {
       description: 'Enforce props alphabetical sorting',
-      category: 'Stylistic Issues',
+      recommended: 'stylistic',
       url: docsUrl('jsx-sort-props'),
     },
     fixable: 'code',
@@ -363,6 +379,7 @@ export default {
         },
         // Whether multiline properties should be listed first or last
         multiline: {
+          type: 'string',
           enum: ['ignore', 'first', 'last'],
           default: 'ignore',
         },
@@ -413,7 +430,7 @@ export default {
 
           let previousPropName = getPropName(memo)
           let currentPropName = getPropName(decl)
-          const previousValue = memo.value
+          const previousValue = (<Tree.JSXAttribute>memo).value
           const currentValue = decl.value
           const previousIsCallback = isCallbackPropName(previousPropName)
           const currentIsCallback = isCallbackPropName(currentPropName)
@@ -522,4 +539,4 @@ export default {
       },
     }
   },
-}
+})

@@ -377,9 +377,9 @@ export default createRule<RuleOptions, MessageIds>({
 
     function validateBody(
       body:
-      | TSESTree.ClassBody
-      | TSESTree.TSInterfaceBody
-      | TSESTree.TSTypeLiteral,
+        | TSESTree.ClassBody
+        | TSESTree.TSInterfaceBody
+        | TSESTree.TSTypeLiteral,
     ): void {
       const isSingleLine = body.loc.start.line === body.loc.end.line
 

@@ -5,7 +5,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parsers from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-newline'
 
 const parserOptions = {
@@ -21,7 +21,7 @@ const parserOptions = {
 // ------------------------------------------------------------------------------
 
 new RuleTester({ parserOptions }).run('jsx-newline', rule, {
-  valid: parsers.all([
+  valid: valids(
     {
       code: `
         <div>
@@ -197,8 +197,8 @@ new RuleTester({ parserOptions }).run('jsx-newline', rule, {
       `,
       options: [{ prevent: true, allowMultilines: true }],
     },
-  ]),
-  invalid: parsers.all([
+  ),
+  invalid: invalids(
     {
       code: `
         <div>
@@ -714,5 +714,5 @@ ${'    '}
         { messageId: 'prevent', line: 26 },
       ],
     },
-  ]),
+  ),
 })

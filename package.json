@@ -20,7 +20,7 @@
     "docs:build": "pnpm -C docs run docs:build"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^1.1.3",
+    "@antfu/eslint-config": "^1.1.4",
     "@antfu/eslint-define-config": "1.23.0-2",
     "@antfu/ni": "^0.21.9",
     "@antfu/utils": "^0.7.6",
@@ -41,7 +41,7 @@
     "bumpp": "^9.2.0",
     "change-case": "^5.1.2",
     "eslint": "^8.53.0",
-    "eslint-plugin-antfu": "^1.0.6",
+    "eslint-plugin-antfu": "^1.0.9",
     "esno": "^4.0.0",
     "execa": "^8.0.1",
     "fast-glob": "^3.3.2",
