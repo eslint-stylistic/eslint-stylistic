@@ -207,7 +207,7 @@ function validateAfterOpening(
 }
 
 function validateBeforeClosing(
-  context: TSESLint.RuleContext<MessageIds, RuleOptions>,
+  context: RuleContext<MessageIds, RuleOptions>,
   node: Tree.JSXOpeningElement | Tree.JSXClosingElement,
   option: Option['beforeClosing'],
 ) {
