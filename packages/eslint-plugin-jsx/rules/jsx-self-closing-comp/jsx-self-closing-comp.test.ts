@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parsers from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-self-closing-comp'
 
 const parserOptions = {
@@ -21,7 +21,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('self-closing-comp', rule, {
-  valid: parsers.all([
+  valid: valids(
     {
       code: 'var HelloJohn = <Hello name="John" />;',
     },
@@ -168,9 +168,9 @@ ruleTester.run('self-closing-comp', rule, {
       `,
       options: [{ html: true }],
     },
-  ]),
+  ),
 
-  invalid: parsers.all([
+  invalid: invalids(
     {
       code: 'var contentContainer = <div className="content"></div>;',
       output: 'var contentContainer = <div className="content" />;',
@@ -238,5 +238,5 @@ ruleTester.run('self-closing-comp', rule, {
       options: [{ html: true }],
       errors: [{ messageId: 'notSelfClosing' }],
     },
-  ]),
+  ),
 })

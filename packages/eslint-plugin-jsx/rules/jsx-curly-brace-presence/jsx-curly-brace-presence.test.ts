@@ -8,7 +8,7 @@
 import { RuleTester } from 'eslint'
 import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
-import parsers from '../../test-utils/parsers'
+import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-curly-brace-presence'
 
 const parserOptions = {
@@ -25,7 +25,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-curly-brace-presence', rule, {
-  valid: parsers.all(([] as any[]).concat(
+  valid: valids(
     {
       code: '<App {...props}>foo</App>',
     },
@@ -471,9 +471,9 @@ ruleTester.run('jsx-curly-brace-presence', rule, {
       code: '<App>{`${label}`}</App>',
       options: ['never'],
     },
-  )),
+  ),
 
-  invalid: parsers.all(([] as any[]).concat(
+  invalid: invalids(
     {
       code: '<App prop={`foo`} />',
       output: '<App prop="foo" />',
@@ -622,8 +622,8 @@ ruleTester.run('jsx-curly-brace-presence', rule, {
           some-complicated-exp
         </MyComponent>
       `,
-      parser: parsers['@BABEL_ESLINT'],
-      parserOptions: parsers.babelParserOptions({}, new Set()),
+      parser: BABEL_ESLINT,
+      parserOptions: babelParserOptions({}, new Set()),
       options: [{ children: 'never' }],
       errors: [
         { messageId: 'unnecessaryCurly', line: 3 },
@@ -934,5 +934,5 @@ ruleTester.run('jsx-curly-brace-presence', rule, {
       options: [{ props: 'never', children: 'never', propElementValues: 'never' }],
       features: ['no-ts'],
     },
-  )),
+  ),
 })

@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parsers from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-closing-tag-location'
 
 const parserOptions = {
@@ -21,7 +21,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-closing-tag-location', rule, {
-  valid: parsers.all(<RuleTester.ValidTestCase[]>[
+  valid: valids(
     {
       code: `
         <App>
@@ -48,9 +48,9 @@ ruleTester.run('jsx-closing-tag-location', rule, {
       `,
       features: ['fragment'],
     },
-  ]),
+  ),
 
-  invalid: parsers.all(<RuleTester.InvalidTestCase[]>[
+  invalid: invalids(
     {
       code: `
         <App>
@@ -103,5 +103,5 @@ ruleTester.run('jsx-closing-tag-location', rule, {
       `,
       errors: [{ messageId: 'onOwnLine' }],
     },
-  ]),
+  ),
 })

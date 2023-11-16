@@ -1,5 +1,5 @@
 import { RuleTester } from 'eslint'
-import parsers from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-child-element-spacing'
 
 const parserOptions = {
@@ -12,7 +12,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-child-element-spacing', rule, {
-  valid: parsers.all(<RuleTester.ValidTestCase[]>[
+  valid: valids(
     {
       code: `
         <App>
@@ -183,9 +183,9 @@ ruleTester.run('jsx-child-element-spacing', rule, {
         <App>A<br/>B</App>
       `,
     },
-  ]),
+  ),
 
-  invalid: parsers.all([
+  invalid: invalids(
     {
       code: `
         <App>
@@ -209,7 +209,6 @@ ruleTester.run('jsx-child-element-spacing', rule, {
           <a>bar</a>
         </>
       `,
-      // @ts-expect-error additonal property
       features: ['fragment'],
       errors: [
         {
@@ -307,5 +306,5 @@ ruleTester.run('jsx-child-element-spacing', rule, {
         },
       ],
     },
-  ]),
+  ),
 })
