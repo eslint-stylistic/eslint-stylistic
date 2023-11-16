@@ -4,13 +4,15 @@
  */
 
 import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { RuleListener, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -23,6 +25,7 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['always', 'never'],
       },
       {
@@ -57,12 +60,11 @@ export default {
 
     /**
      * Reports that there shouldn't be a space after the first token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @param {Token} tokenAfter The token after `token`.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
+     * @param tokenAfter The token after `token`.
      */
-    function reportNoBeginningSpace(node, token, tokenAfter) {
+    function reportNoBeginningSpace(node: Tree.Node, token: Tree.Token, tokenAfter: Tree.Token): void {
       context.report({
         node,
         loc: { start: token.loc.end, end: tokenAfter.loc.start },
@@ -78,12 +80,11 @@ export default {
 
     /**
      * Reports that there shouldn't be a space before the last token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @param {Token} tokenBefore The token before `token`.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
+     * @param tokenBefore The token before `token`.
      */
-    function reportNoEndingSpace(node, token, tokenBefore) {
+    function reportNoEndingSpace(node: Tree.Node, token: Tree.Token, tokenBefore: Tree.Token): void {
       context.report({
         node,
         loc: { start: tokenBefore.loc.end, end: token.loc.start },
@@ -99,11 +100,10 @@ export default {
 
     /**
      * Reports that there should be a space after the first token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
-    function reportRequiredBeginningSpace(node, token) {
+    function reportRequiredBeginningSpace(node: Tree.Node, token: Tree.Token): void {
       context.report({
         node,
         loc: token.loc,
@@ -119,11 +119,10 @@ export default {
 
     /**
      * Reports that there should be a space before the last token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
-    function reportRequiredEndingSpace(node, token) {
+    function reportRequiredEndingSpace(node: Tree.Node, token: Tree.Token): void {
       context.report({
         node,
         loc: token.loc,
@@ -137,23 +136,27 @@ export default {
       })
     }
 
+    type ExtractNodeKeys<T> = {
+      [K in keyof T]: T[K] extends Tree.Node ? K : never
+    }[keyof T]
+
     /**
      * Returns a function that checks the spacing of a node on the property name
      * that was passed in.
-     * @param {string} propertyName The property on the node to check for spacing
-     * @returns {Function} A function that will check spacing on a node
+     * @param propertyName The property on the node to check for spacing
+     * @returns A function that will check spacing on a node
      */
-    function checkSpacing(propertyName) {
-      return function (node) {
+    function checkSpacing<T extends NodeType, K = ExtractNodeKeys<T>>(propertyName: K) {
+      return function (node: NodeType) {
         if (!node.computed)
           return
 
-        const property = node[propertyName]
+        const property = node[propertyName as ExtractNodeKeys<typeof node>] as Tree.Node
 
-        const before = sourceCode.getTokenBefore(property, isOpeningBracketToken)
-        const first = sourceCode.getTokenAfter(before, { includeComments: true })
-        const after = sourceCode.getTokenAfter(property, isClosingBracketToken)
-        const last = sourceCode.getTokenBefore(after, { includeComments: true })
+        const before = sourceCode.getTokenBefore(property, isOpeningBracketToken)!
+        const first = sourceCode.getTokenAfter(before, { includeComments: true })!
+        const after = sourceCode.getTokenAfter(property, isClosingBracketToken)!
+        const last = sourceCode.getTokenBefore(after, { includeComments: true })!
 
         if (isTokenOnSameLine(before, first)) {
           if (propertyNameMustBeSpaced) {
@@ -183,16 +186,22 @@ export default {
     // Public
     // --------------------------------------------------------------------------
 
-    const listeners = {
-      Property: checkSpacing('key'),
-      MemberExpression: checkSpacing('property'),
+    type NodeType =
+      | Tree.Property
+      | Tree.PropertyDefinition
+      | Tree.MemberExpression
+      | Tree.MethodDefinition
+
+    const listeners: RuleListener = {
+      Property: checkSpacing<Tree.Property>('key'),
+      MemberExpression: checkSpacing<Tree.MemberExpression>('property'),
     }
 
     if (enforceForClassMembers) {
-      listeners.MethodDefinition
-                = listeners.PropertyDefinition = listeners.Property
+      listeners.MethodDefinition = checkSpacing<Tree.MethodDefinition>('key')
+      listeners.PropertyDefinition = checkSpacing<Tree.PropertyDefinition>('key')
     }
 
     return listeners
   },
-}
+})
