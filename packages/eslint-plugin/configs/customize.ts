@@ -26,6 +26,11 @@ export interface StylisticCustomizeOptions<Flat extends boolean = true> {
    */
   quotes?: 'single' | 'double'
   /**
+   * Whether to enable semicolons
+   * @default false
+   */
+  semi?: boolean
+  /**
    * Enable JSX support
    * @default true
    */
@@ -48,6 +53,7 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
     jsx = true,
     pluginName = '@stylistic',
     quotes = 'single',
+    semi = false,
   } = options
 
   let rules: Rules = {
@@ -131,7 +137,7 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
     '@stylistic/quote-props': ['error', 'consistent-as-needed'],
     '@stylistic/quotes': ['error', quotes, { allowTemplateLiterals: true, avoidEscape: false }],
     '@stylistic/rest-spread-spacing': ['error', 'never'],
-    '@stylistic/semi': ['error', 'never'],
+    '@stylistic/semi': ['error', semi ? 'always' : 'never'],
     '@stylistic/semi-spacing': ['error', { after: true, before: false }],
     '@stylistic/space-before-blocks': ['error', 'always'],
     '@stylistic/space-before-function-paren': ['error', { anonymous: 'always', asyncArrow: 'always', named: 'never' }],
