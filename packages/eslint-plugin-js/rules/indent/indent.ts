@@ -427,16 +427,16 @@ class OffsetStorage {
           // (indentation for the first element's line)
           this.getDesiredIndent(this._tokenInfo.getFirstTokenOfLine(firstToken)!)
           // (space between the start of the first element's line and the first element)
-          + this._indentType.repeat(firstToken.loc.start.column - this._tokenInfo.getFirstTokenOfLine(firstToken)!.loc.start.column),
+            + this._indentType.repeat(firstToken.loc.start.column - this._tokenInfo.getFirstTokenOfLine(firstToken)!.loc.start.column),
         )
       }
       else {
         const offsetInfo = this._getOffsetDescriptor(token)
         const offset = (
           offsetInfo.from
-                    && offsetInfo.from.loc.start.line === token.loc.start.line
-                    && !/^\s*?\n/u.test(token.value)
-                    && !offsetInfo.force
+          && offsetInfo.from.loc.start.line === token.loc.start.line
+          && !/^\s*?\n/u.test(token.value)
+          && !offsetInfo.force
         ) ? 0 : offsetInfo.offset * this._indentSize
 
         this._desiredIndentCache.set(
@@ -762,8 +762,8 @@ export default createRule<MessageIds, RuleOptions>({
       const indentation = tokenInfo.getTokenIndent(token)
 
       return indentation === desiredIndent
-                // To avoid conflicts with no-mixed-spaces-and-tabs, don't report mixed spaces and tabs.
-                || indentation.includes(' ') && indentation.includes('\t')
+        // To avoid conflicts with no-mixed-spaces-and-tabs, don't report mixed spaces and tabs.
+        || indentation.includes(' ') && indentation.includes('\t')
     }
 
     /**
@@ -787,10 +787,10 @@ export default createRule<MessageIds, RuleOptions>({
 
       while (
         statement.type === 'UnaryExpression' && ['!', '~', '+', '-'].includes(statement.operator)
-                || statement.type === 'AssignmentExpression'
-                || statement.type === 'LogicalExpression'
-                || statement.type === 'SequenceExpression'
-                || statement.type === 'VariableDeclarator'
+        || statement.type === 'AssignmentExpression'
+        || statement.type === 'LogicalExpression'
+        || statement.type === 'SequenceExpression'
+        || statement.type === 'VariableDeclarator'
       )
         statement = statement.parent
 
@@ -896,7 +896,7 @@ export default createRule<MessageIds, RuleOptions>({
 
         while (
           isOpeningParenToken(sourceCode.getTokenBefore(firstBodyToken)!)
-                    && isClosingParenToken(sourceCode.getTokenAfter(lastBodyToken)!)
+          && isClosingParenToken(sourceCode.getTokenAfter(lastBodyToken)!)
         ) {
           firstBodyToken = sourceCode.getTokenBefore(firstBodyToken)!
           lastBodyToken = sourceCode.getTokenAfter(lastBodyToken)!
@@ -1156,8 +1156,8 @@ export default createRule<MessageIds, RuleOptions>({
         //     foo < 0 ? baz :
         //     /*else*/ qiz ;
         if (!options.flatTernaryExpressions
-                    || !isTokenOnSameLine(node.test, node.consequent)
-                    || isOnFirstLineOfStatement(firstToken, node)
+          || !isTokenOnSameLine(node.test, node.consequent)
+          || isOnFirstLineOfStatement(firstToken, node)
         ) {
           const questionMarkToken = sourceCode.getFirstTokenBetween(node.test, node.consequent, token => token.type === 'Punctuator' && token.value === '?')!
           const colonToken = sourceCode.getFirstTokenBetween(node.consequent, node.alternate, token => token.type === 'Punctuator' && token.value === ':')!
@@ -1199,7 +1199,7 @@ export default createRule<MessageIds, RuleOptions>({
              * having no expected indentation.
              */
             offsets.setDesiredOffset(firstAlternateToken, firstToken, firstAlternateToken.type === 'Punctuator'
-                            && options.offsetTernaryExpressions ? 2 : 1)
+            && options.offsetTernaryExpressions ? 2 : 1)
           }
         }
       },
@@ -1292,8 +1292,8 @@ export default createRule<MessageIds, RuleOptions>({
             // override indentation of `;` only if its line looks like a semicolon-first style line
             if (
               !isTokenOnSameLine(tokenBeforeLast, lastToken)
-                            && tokenAfterLast
-                            && isTokenOnSameLine(lastToken, tokenAfterLast)
+              && tokenAfterLast
+              && isTokenOnSameLine(lastToken, tokenAfterLast)
             ) {
               offsets.setDesiredOffset(
                 lastToken,
@@ -1390,8 +1390,8 @@ export default createRule<MessageIds, RuleOptions>({
       NewExpression(node) {
         // Only indent the arguments if the NewExpression has parens (e.g. `new Foo(bar)` or `new Foo()`, but not `new Foo`
         if (node.arguments.length > 0
-                        || isClosingParenToken(sourceCode.getLastToken(node)!)
-                        && isOpeningParenToken(sourceCode.getLastToken(node, 1)!))
+          || isClosingParenToken(sourceCode.getLastToken(node)!)
+          && isOpeningParenToken(sourceCode.getLastToken(node, 1)!))
           addFunctionCallIndent(node)
       },
 
@@ -1780,7 +1780,7 @@ export default createRule<MessageIds, RuleOptions>({
               // If a comment matches the expected indentation of the token immediately before or after, don't report it.
               if (
                 mayAlignWithBefore && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenBefore)!)
-                                || mayAlignWithAfter && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenAfter)!)
+                || mayAlignWithAfter && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenAfter)!)
               )
                 continue
             }

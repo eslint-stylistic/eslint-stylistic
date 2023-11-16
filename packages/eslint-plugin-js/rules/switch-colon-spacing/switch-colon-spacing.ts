@@ -56,8 +56,8 @@ export default createRule<MessageIds, RuleOptions>({
     function isValidSpacing(left: Token, right: Token, expected: boolean) {
       return (
         isClosingBraceToken(right)
-                || !isTokenOnSameLine(left, right)
-                || sourceCode.isSpaceBetweenTokens(left, right) === expected
+        || !isTokenOnSameLine(left, right)
+        || sourceCode.isSpaceBetweenTokens(left, right) === expected
       )
     }
 

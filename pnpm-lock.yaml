@@ -71,6 +71,9 @@ importers:
       eslint:
         specifier: ^8.53.0
         version: 8.53.0
+      eslint-plugin-antfu:
+        specifier: ^1.0.5
+        version: 1.0.5(eslint@8.53.0)
       esno:
         specifier: ^4.0.0
         version: 4.0.0
@@ -432,7 +435,7 @@ packages:
       '@typescript-eslint/parser': 6.10.0(eslint@8.53.0)(typescript@5.2.2)
       eslint: 8.53.0
       eslint-config-flat-gitignore: 0.1.1
-      eslint-plugin-antfu: 1.0.2(eslint@8.53.0)
+      eslint-plugin-antfu: 1.0.5(eslint@8.53.0)
       eslint-plugin-eslint-comments: 3.2.0(eslint@8.53.0)
       eslint-plugin-i: 2.29.0(@typescript-eslint/parser@6.10.0)(eslint@8.53.0)
       eslint-plugin-jsdoc: 46.8.2(eslint@8.53.0)
@@ -3601,8 +3604,8 @@ packages:
       - supports-color
     dev: true
 
-  /eslint-plugin-antfu@1.0.2(eslint@8.53.0):
-    resolution: {integrity: sha512-elv/LVq+4h9oi7xza9EK93akujmTAGnL3e7aMVVWELjvIJuHcKj0GT6HjdgPDtuBdMnyyKN7fVKIpSNSqZnaIA==}
+  /eslint-plugin-antfu@1.0.5(eslint@8.53.0):
+    resolution: {integrity: sha512-BBPayHI+fS9uAPWPQ9wYOiTCuMHXU6d+JLsBqGXQxCckjX5ytpzcwxD2hIHV4ZTMNEGnkD6bFVo9+mNq3pDcow==}
     peerDependencies:
       eslint: '*'
     dependencies:

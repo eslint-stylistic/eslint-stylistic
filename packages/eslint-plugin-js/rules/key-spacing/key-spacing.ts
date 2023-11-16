@@ -341,8 +341,8 @@ export default createRule({
     function isKeyValueProperty(property: Tree.ObjectLiteralElement): property is Tree.Property {
       return !(
         (('method' in property && property.method)
-                || ('shorthand' in property && property.shorthand)
-                || ('kind' in property && property.kind !== 'init') || property.type !== 'Property') // Could be "ExperimentalSpreadProperty" or "SpreadElement"
+        || ('shorthand' in property && property.shorthand)
+        || ('kind' in property && property.kind !== 'init') || property.type !== 'Property') // Could be "ExperimentalSpreadProperty" or "SpreadElement"
       )
     }
 
@@ -402,8 +402,8 @@ export default createRule({
 
       if (
         leadingComments.length
-                && leadingComments[0].loc.start.line - groupEndLine <= 1
-                && candidateValueStartLine - last(leadingComments).loc.end.line <= 1
+        && leadingComments[0].loc.start.line - groupEndLine <= 1
+        && candidateValueStartLine - last(leadingComments).loc.end.line <= 1
       ) {
         for (let i = 1; i < leadingComments.length; i++) {
           if (leadingComments[i].loc.start.line - leadingComments[i - 1].loc.end.line > 1)
@@ -444,9 +444,9 @@ export default createRule({
 
       if ((
         diff && mode === 'strict'
-                || diff < 0 && mode === 'minimum'
-                || diff > 0 && !expected && mode === 'minimum')
-                && !(expected && containsLineTerminator(whitespace))
+        || diff < 0 && mode === 'minimum'
+        || diff > 0 && !expected && mode === 'minimum')
+        && !(expected && containsLineTerminator(whitespace))
       ) {
         const nextColon = getNextColon(property.key)!
         const tokenBeforeColon = sourceCode.getTokenBefore(nextColon, { includeComments: true })!

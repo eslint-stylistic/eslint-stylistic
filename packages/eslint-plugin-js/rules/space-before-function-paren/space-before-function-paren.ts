@@ -79,13 +79,13 @@ export default createRule<MessageIds, RuleOptions>({
       const parent = node.parent
 
       return parent.type === 'MethodDefinition'
-                || (parent.type === 'Property'
-                    && (
-                      parent.kind === 'get'
-                        || parent.kind === 'set'
-                        || parent.method
-                    )
-                )
+        || (parent.type === 'Property'
+        && (
+          parent.kind === 'get'
+          || parent.kind === 'set'
+          || parent.method
+        )
+        )
     }
 
     /**

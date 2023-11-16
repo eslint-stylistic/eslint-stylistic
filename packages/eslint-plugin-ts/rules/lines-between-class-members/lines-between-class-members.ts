@@ -52,7 +52,7 @@ export default createRule<RuleOptions, MessageIds>({
     function isOverload(node: TSESTree.Node): boolean {
       return (
         (node.type === AST_NODE_TYPES.TSAbstractMethodDefinition
-          || node.type === AST_NODE_TYPES.MethodDefinition)
+        || node.type === AST_NODE_TYPES.MethodDefinition)
         && node.value.type === AST_NODE_TYPES.TSEmptyBodyFunctionExpression
       )
     }

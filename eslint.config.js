@@ -30,6 +30,10 @@ export default antfu(
       'ts/no-require-import': 'off',
       'ts/no-var-requires': 'off',
       'ts/no-require-imports': 'off',
+
+      'antfu/indent-binary-ops': ['error', {
+        warn: false,
+      }],
     },
   },
   {

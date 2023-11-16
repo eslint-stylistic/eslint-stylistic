@@ -81,7 +81,7 @@ export default createRule<RuleOptions, MessageIds>({
         node.arguments.length === 1
         // is there any opening parenthesis in type arguments
         && sourceCode.getTokenAfter(node.callee, isOpeningParenToken)
-          !== sourceCode.getTokenBefore(node.arguments[0], isOpeningParenToken)
+        !== sourceCode.getTokenBefore(node.arguments[0], isOpeningParenToken)
       ) {
         return rule({
           ...node,

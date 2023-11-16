@@ -41,6 +41,7 @@
     "bumpp": "^9.2.0",
     "change-case": "^5.1.2",
     "eslint": "^8.53.0",
+    "eslint-plugin-antfu": "^1.0.5",
     "esno": "^4.0.0",
     "execa": "^8.0.1",
     "fast-glob": "^3.3.2",

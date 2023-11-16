@@ -85,18 +85,18 @@ export default createRule({
           // Ignore tokens that don't have 2 spaces between them or are on different lines
           if (
             !sourceCode.text.slice(leftToken.range[1], rightToken.range[0]).includes('  ')
-                        || leftToken.loc.end.line < rightToken.loc.start.line
+            || leftToken.loc.end.line < rightToken.loc.start.line
           )
             return
 
           // Ignore comments that are the last token on their line if `ignoreEOLComments` is active.
           if (
             ignoreEOLComments
-                        && isCommentToken(rightToken)
-                        && (
-                          leftIndex === tokensAndComments.length - 2
-                            || rightToken.loc.end.line < tokensAndComments[leftIndex + 2].loc.start.line
-                        )
+            && isCommentToken(rightToken)
+            && (
+              leftIndex === tokensAndComments.length - 2
+              || rightToken.loc.end.line < tokensAndComments[leftIndex + 2].loc.start.line
+            )
           )
             return
 

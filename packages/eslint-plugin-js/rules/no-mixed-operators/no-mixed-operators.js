@@ -131,10 +131,10 @@ export default {
 
       return (
         !includesBothInAGroup(options.groups, a.operator, b.type === 'ConditionalExpression' ? '?:' : b.operator)
-                || (
-                  options.allowSamePrecedence
-                    && getPrecedence(a) === getPrecedence(b)
-                )
+        || (
+          options.allowSamePrecedence
+          && getPrecedence(a) === getPrecedence(b)
+        )
       )
     }
 
@@ -149,7 +149,7 @@ export default {
     function isMixedWithParent(node) {
       return (
         node.operator !== node.parent.operator
-                && !isParenthesised(sourceCode, node)
+        && !isParenthesised(sourceCode, node)
       )
     }
 
@@ -203,8 +203,8 @@ export default {
     function check(node) {
       if (
         TARGET_NODE_TYPE.test(node.parent.type)
-                && isMixedWithParent(node)
-                && !shouldIgnore(node)
+        && isMixedWithParent(node)
+        && !shouldIgnore(node)
       )
         reportBothOperators(node)
     }

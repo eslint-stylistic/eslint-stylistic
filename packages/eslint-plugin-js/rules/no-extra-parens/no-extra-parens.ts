@@ -99,13 +99,13 @@ export default createRule<MessageIds, RuleOptions>({
     const EXCEPT_RETURN_ASSIGN = ALL_NODES && context.options[1] && context.options[1].returnAssign === false
     const IGNORE_JSX = ALL_NODES && context.options[1] && context.options[1].ignoreJSX
     const IGNORE_ARROW_CONDITIONALS = ALL_NODES && context.options[1]
-            && context.options[1].enforceForArrowConditionals === false
+      && context.options[1].enforceForArrowConditionals === false
     const IGNORE_SEQUENCE_EXPRESSIONS = ALL_NODES && context.options[1]
-            && context.options[1].enforceForSequenceExpressions === false
+      && context.options[1].enforceForSequenceExpressions === false
     const IGNORE_NEW_IN_MEMBER_EXPR = ALL_NODES && context.options[1]
-            && context.options[1].enforceForNewInMemberExpressions === false
+      && context.options[1].enforceForNewInMemberExpressions === false
     const IGNORE_FUNCTION_PROTOTYPE_METHODS = ALL_NODES && context.options[1]
-            && context.options[1].enforceForFunctionPrototypeMethods === false
+      && context.options[1].enforceForFunctionPrototypeMethods === false
     const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && context.options[1] && context.options[1].allowParensAfterCommentPattern
 
     // @ts-expect-error other properties are not used
@@ -137,8 +137,8 @@ export default createRule<MessageIds, RuleOptions>({
 
       return (
         callee.type === 'MemberExpression'
-                && callee.object.type === 'FunctionExpression'
-                && ['call', 'apply'].includes(getStaticPropertyName(callee)!)
+        && callee.object.type === 'FunctionExpression'
+        && ['call', 'apply'].includes(getStaticPropertyName(callee)!)
       )
     }
 
@@ -237,7 +237,7 @@ export default createRule<MessageIds, RuleOptions>({
       if (ruleApplies(node) && isParenthesised(node)) {
         if (
           precedence(node) >= precedenceLowerLimit
-                    || isParenthesisedTwice(node)
+          || isParenthesisedTwice(node)
         )
           return true
       }
@@ -264,7 +264,7 @@ export default createRule<MessageIds, RuleOptions>({
       for (let currentNode = node; currentNode; currentNode = currentNode.parent!) {
         if (
           currentNode.type === 'ReturnStatement'
-                    || (currentNode.type === 'ArrowFunctionExpression' && currentNode.body.type !== 'BlockStatement')
+          || (currentNode.type === 'ArrowFunctionExpression' && currentNode.body.type !== 'BlockStatement')
         )
           return true
       }
@@ -283,13 +283,13 @@ export default createRule<MessageIds, RuleOptions>({
       const penultimateToken = sourceCode.getTokenBefore(lastToken)!
 
       return newExpression.arguments.length > 0
-                || (
+        || (
 
       // The expression should end with its own parens, e.g., new new foo() is not a new expression with parens
-                  isOpeningParenToken(penultimateToken)
-                    && isClosingParenToken(lastToken)
-                    && newExpression.callee.range[1] < newExpression.range[1]
-                )
+          isOpeningParenToken(penultimateToken)
+          && isClosingParenToken(lastToken)
+          && newExpression.callee.range[1] < newExpression.range[1]
+        )
     }
 
     /**
@@ -303,11 +303,11 @@ export default createRule<MessageIds, RuleOptions>({
         return true
 
       if (node.type === 'ConditionalExpression'
-                    && (node.consequent.type === 'AssignmentExpression' || node.alternate.type === 'AssignmentExpression'))
+        && (node.consequent.type === 'AssignmentExpression' || node.alternate.type === 'AssignmentExpression'))
         return true
 
       if ('left' in node && ((node.left && node.left.type === 'AssignmentExpression')
-                    || (node.right && node.right.type === 'AssignmentExpression')))
+        || (node.right && node.right.type === 'AssignmentExpression')))
         return true
 
       return false
@@ -359,9 +359,9 @@ export default createRule<MessageIds, RuleOptions>({
       const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParenToken, { includeComments: true })!
 
       return tokenBeforeLeftParen
-                && tokenBeforeLeftParen.range[1] === leftParenToken.range[0]
-                && leftParenToken.range[1] === tokenAfterLeftParen.range[0]
-                && !canTokensBeAdjacent(tokenBeforeLeftParen, tokenAfterLeftParen)
+        && tokenBeforeLeftParen.range[1] === leftParenToken.range[0]
+        && leftParenToken.range[1] === tokenAfterLeftParen.range[0]
+        && !canTokensBeAdjacent(tokenBeforeLeftParen, tokenAfterLeftParen)
     }
 
     /**
@@ -377,8 +377,8 @@ export default createRule<MessageIds, RuleOptions>({
       const tokenBeforeRightParen = sourceCode.getLastToken(node)!
 
       return rightParenToken && tokenAfterRightParen
-                && !sourceCode.isSpaceBetweenTokens(rightParenToken, tokenAfterRightParen)
-                && !canTokensBeAdjacent(tokenBeforeRightParen, tokenAfterRightParen)
+        && !sourceCode.isSpaceBetweenTokens(rightParenToken, tokenAfterRightParen)
+        && !canTokensBeAdjacent(tokenBeforeRightParen, tokenAfterRightParen)
     }
 
     /**
@@ -450,7 +450,7 @@ export default createRule<MessageIds, RuleOptions>({
 
           if (
             totalCommentsBeforeLeftParenTokenCount > 0
-                        && ignorePattern.test(commentsBeforeLeftParenToken[totalCommentsBeforeLeftParenTokenCount - 1].value)
+            && ignorePattern.test(commentsBeforeLeftParenToken[totalCommentsBeforeLeftParenTokenCount - 1].value)
           )
             return
         }
@@ -531,30 +531,30 @@ export default createRule<MessageIds, RuleOptions>({
           hasDoubleExcessParens(callee)
           || !(
             isIIFE(node)
-              // (new A)(); new (new A)();
-              || (
-                // @ts-expect-error comment above
-                callee.type === 'NewExpression'
-                  && !isNewExpressionWithParens(callee)
-                  && !(
-                    node.type === 'NewExpression'
-                      && !isNewExpressionWithParens(node)
-                  )
-              )
-
-              // new (a().b)(); new (a.b().c);
-              || (
+            // (new A)(); new (new A)();
+            || (
+            // @ts-expect-error comment above
+              callee.type === 'NewExpression'
+              && !isNewExpressionWithParens(callee)
+              && !(
                 node.type === 'NewExpression'
-                  && callee.type === 'MemberExpression'
-                  && doesMemberExpressionContainCallExpression(callee)
+                && !isNewExpressionWithParens(node)
               )
+            )
 
-              // (a?.b)(); (a?.())();
-              || (
-                (!('optional' in node) || !node.optional)
-                  // @ts-expect-error comment above
-                  && callee.type === 'ChainExpression'
-              )
+            // new (a().b)(); new (a.b().c);
+            || (
+              node.type === 'NewExpression'
+              && callee.type === 'MemberExpression'
+              && doesMemberExpressionContainCallExpression(callee)
+            )
+
+            // (a?.b)(); (a?.())();
+            || (
+              (!('optional' in node) || !node.optional)
+              // @ts-expect-error comment above
+              && callee.type === 'ChainExpression'
+            )
           )
         )
           report(node.callee)
@@ -581,9 +581,9 @@ export default createRule<MessageIds, RuleOptions>({
       if (!shouldSkipLeft && hasExcessParens(node.left)) {
         if (
           !(['AwaitExpression', 'UnaryExpression'].includes(node.left.type) && isExponentiation)
-                    && !isMixedLogicalAndCoalesceExpressions(node.left, node)
-                    && (leftPrecedence > prec || (leftPrecedence === prec && !isExponentiation))
-                    || isParenthesisedTwice(node.left)
+          && !isMixedLogicalAndCoalesceExpressions(node.left, node)
+          && (leftPrecedence > prec || (leftPrecedence === prec && !isExponentiation))
+          || isParenthesisedTwice(node.left)
         )
           report(node.left)
       }
@@ -591,8 +591,8 @@ export default createRule<MessageIds, RuleOptions>({
       if (!shouldSkipRight && hasExcessParens(node.right)) {
         if (
           !isMixedLogicalAndCoalesceExpressions(node.right, node)
-                    && (rightPrecedence > prec || (rightPrecedence === prec && isExponentiation))
-                    || isParenthesisedTwice(node.right)
+          && (rightPrecedence > prec || (rightPrecedence === prec && isExponentiation))
+          || isParenthesisedTwice(node.right)
         )
           report(node.right)
       }
@@ -642,20 +642,20 @@ export default createRule<MessageIds, RuleOptions>({
 
       if (
         isOpeningParenToken(firstToken)
-                && (
-                  isOpeningBraceToken(secondToken)
-                    || secondToken.type === 'Keyword' && (
-                      secondToken.value === 'function'
-                        || secondToken.value === 'class'
-                        || secondToken.value === 'let'
-                            && tokenAfterClosingParens
-                            && (
-                              isOpeningBracketToken(tokenAfterClosingParens)
-                                || tokenAfterClosingParens.type === 'Identifier'
-                            )
-                    )
-                    || secondToken && secondToken.type === 'Identifier' && secondToken.value === 'async' && thirdToken && thirdToken.type === 'Keyword' && thirdToken.value === 'function'
-                )
+        && (
+          isOpeningBraceToken(secondToken)
+          || secondToken.type === 'Keyword' && (
+            secondToken.value === 'function'
+            || secondToken.value === 'class'
+            || secondToken.value === 'let'
+            && tokenAfterClosingParens
+            && (
+              isOpeningBracketToken(tokenAfterClosingParens)
+              || tokenAfterClosingParens.type === 'Identifier'
+            )
+          )
+          || secondToken && secondToken.type === 'Identifier' && secondToken.value === 'async' && thirdToken && thirdToken.type === 'Keyword' && thirdToken.value === 'function'
+        )
       )
         tokensToIgnore.add(secondToken)
 
@@ -850,7 +850,7 @@ export default createRule<MessageIds, RuleOptions>({
           return
 
         if (node.body.type === 'ConditionalExpression'
-                    && IGNORE_ARROW_CONDITIONALS
+          && IGNORE_ARROW_CONDITIONALS
         )
           return
 
@@ -868,7 +868,7 @@ export default createRule<MessageIds, RuleOptions>({
 
       AssignmentExpression(node) {
         if (canBeAssignmentTarget(node.left) && hasExcessParens(node.left)
-                    && (!isAnonymousFunctionAssignmentException(node) || isParenthesisedTwice(node.left)))
+          && (!isAnonymousFunctionAssignmentException(node) || isParenthesisedTwice(node.left)))
           report(node.left)
 
         if (!isReturnAssignException(node) && hasExcessParensWithPrecedence(node.right, precedence(node)))
@@ -892,20 +892,20 @@ export default createRule<MessageIds, RuleOptions>({
 
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.test.type))
-                    && !isCondAssignException(node)
-                    // @ts-expect-error other properties are not used
-                    && hasExcessParensWithPrecedence(node.test, precedence({ type: 'LogicalExpression', operator: '||' }))
+          && !isCondAssignException(node)
+          // @ts-expect-error other properties are not used
+          && hasExcessParensWithPrecedence(node.test, precedence({ type: 'LogicalExpression', operator: '||' }))
         )
           report(node.test)
 
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.consequent.type))
-                    && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           report(node.consequent)
 
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.alternate.type))
-                    && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           report(node.alternate)
       },
 
@@ -923,9 +923,9 @@ export default createRule<MessageIds, RuleOptions>({
 
           if (
             firstLeftToken.value === 'let'
-                        && isOpeningBracketToken(
-                          sourceCode.getTokenAfter(firstLeftToken, isNotClosingParenToken)!,
-                        )
+            && isOpeningBracketToken(
+              sourceCode.getTokenAfter(firstLeftToken, isNotClosingParenToken)!,
+            )
           ) {
             // ForInStatement#left expression cannot start with `let[`.
             tokensToIgnore.add(firstLeftToken)
@@ -969,9 +969,9 @@ export default createRule<MessageIds, RuleOptions>({
 
             if (
               firstToken.value === 'let'
-                            && isOpeningBracketToken(
-                              sourceCode.getTokenAfter(firstToken, isNotClosingParenToken)!,
-                            )
+              && isOpeningBracketToken(
+                sourceCode.getTokenAfter(firstToken, isNotClosingParenToken)!,
+              )
             ) {
               // ForStatement#init expression cannot start with `let[`.
               tokensToIgnore.add(firstToken)
@@ -1068,45 +1068,45 @@ export default createRule<MessageIds, RuleOptions>({
 
       MemberExpression(node) {
         const shouldAllowWrapOnce = isMemberExpInNewCallee(node)
-                  && doesMemberExpressionContainCallExpression(node)
+          && doesMemberExpressionContainCallExpression(node)
         const nodeObjHasExcessParens = shouldAllowWrapOnce
           ? hasDoubleExcessParens(node.object)
           : hasExcessParens(node.object)
-                    && !(
-                      isImmediateFunctionPrototypeMethodCall(node.parent)
-                        && 'callee' in node.parent && node.parent.callee === node
-                        && IGNORE_FUNCTION_PROTOTYPE_METHODS
-                    )
+          && !(
+            isImmediateFunctionPrototypeMethodCall(node.parent)
+            && 'callee' in node.parent && node.parent.callee === node
+            && IGNORE_FUNCTION_PROTOTYPE_METHODS
+          )
 
         if (
           nodeObjHasExcessParens
-                    && precedence(node.object) >= precedence(node)
-                    && (
-                      node.computed
-                        || !(
-                          isDecimalInteger(node.object)
+          && precedence(node.object) >= precedence(node)
+          && (
+            node.computed
+            || !(
+              isDecimalInteger(node.object)
 
-                            // RegExp literal is allowed to have parens (#1589)
-                            || (node.object.type === 'Literal' && 'regex' in node.object && node.object.regex)
-                        )
-                    )
+              // RegExp literal is allowed to have parens (#1589)
+              || (node.object.type === 'Literal' && 'regex' in node.object && node.object.regex)
+            )
+          )
         )
           report(node.object)
 
         if (nodeObjHasExcessParens
-                  && node.object.type === 'CallExpression'
+          && node.object.type === 'CallExpression'
         )
           report(node.object)
 
         if (nodeObjHasExcessParens
-                  && !IGNORE_NEW_IN_MEMBER_EXPR
-                  && node.object.type === 'NewExpression'
-                  && isNewExpressionWithParens(node.object))
+          && !IGNORE_NEW_IN_MEMBER_EXPR
+          && node.object.type === 'NewExpression'
+          && isNewExpressionWithParens(node.object))
           report(node.object)
 
         if (nodeObjHasExcessParens
-                    && node.optional
-                    && node.object.type === 'ChainExpression'
+          && node.optional
+          && node.object.type === 'ChainExpression'
         )
           report(node.object)
 
@@ -1167,11 +1167,11 @@ export default createRule<MessageIds, RuleOptions>({
           return
 
         if (node.argument
-                        && returnToken
-                        && hasExcessParensNoLineTerminator(returnToken, node.argument)
+          && returnToken
+          && hasExcessParensNoLineTerminator(returnToken, node.argument)
 
-                        // RegExp literal is allowed to have parens (#1589)
-                        && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex))
+        // RegExp literal is allowed to have parens (#1589)
+          && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex))
           report(node.argument)
       },
 
@@ -1224,8 +1224,8 @@ export default createRule<MessageIds, RuleOptions>({
         if (
           node.init && hasExcessParensWithPrecedence(node.init, PRECEDENCE_OF_ASSIGNMENT_EXPR)
 
-                    // RegExp literal is allowed to have parens (#1589)
-                    && !(node.init.type === 'Literal' && 'regex' in node.init && node.init.regex)
+          // RegExp literal is allowed to have parens (#1589)
+          && !(node.init.type === 'Literal' && 'regex' in node.init && node.init.regex)
         )
           report(node.init)
       },
@@ -1245,9 +1245,9 @@ export default createRule<MessageIds, RuleOptions>({
           const yieldToken = sourceCode.getFirstToken(node)
 
           if ((precedence(node.argument) >= precedence(node)
-                            && yieldToken
-                            && hasExcessParensNoLineTerminator(yieldToken, node.argument))
-                            || hasDoubleExcessParens(node.argument))
+            && yieldToken
+            && hasExcessParensNoLineTerminator(yieldToken, node.argument))
+            || hasDoubleExcessParens(node.argument))
             report(node.argument)
         }
       },
