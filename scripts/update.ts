@@ -364,7 +364,9 @@ async function generateConfigs(pkg: PackageInfo) {
     join(pkg.path, 'configs', 'disable-legacy.ts'),
     [
       header,
-      `export default ${JSON.stringify({ rules: disabledRules }, null, 2)}`,
+      'import type { Linter } from \'eslint\'',
+      `const config: Linter.FlatConfig = ${JSON.stringify({ rules: disabledRules }, null, 2)}`,
+      'export default config',
       '',
     ].join('\n'),
     'utf-8',

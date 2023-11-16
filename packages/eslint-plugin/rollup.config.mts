@@ -3,33 +3,57 @@ import { basename, dirname } from 'node:path'
 import { defineConfig } from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
+import dts from 'rollup-plugin-dts'
 
 const pkg = JSON.parse(await fs.readFile(new URL('./package.json', import.meta.url), 'utf-8'))
 
-export default defineConfig({
-  input: 'src/index.ts',
-  output: [
-    {
-      dir: 'dist',
-      format: 'cjs',
-      manualChunks(id) {
-        if (id.includes('rules')) {
-          const name = basename(dirname(id))
-          if (name !== 'rules')
-            return name
-        }
+export default defineConfig([
+  {
+    input: 'src/index.ts',
+    output: [
+      {
+        dir: 'dist',
+        format: 'cjs',
+        manualChunks(id) {
+          if (id.includes('rules')) {
+            const name = basename(dirname(id))
+            if (name !== 'rules')
+              return name
+          }
+        },
+        chunkFileNames: '[name].js',
       },
-      chunkFileNames: '[name].js',
+    ],
+    plugins: [
+      esbuild(),
+      commonjs(),
+    ],
+    external: [
+      ...Object.keys(pkg.dependencies || []),
+      ...Object.keys(pkg.peerDependencies || []),
+      'eslint/package.json',
+      '@typescript-eslint/utils/ast-utils',
+    ],
+  },
+  {
+    input: [
+      './dts/index.ts',
+      './dts/define-config-support.d.ts',
+      './dts/rule-options.d.ts',
+    ],
+    output: {
+      dir: 'dist',
+      format: 'es',
     },
-  ],
-  plugins: [
-    esbuild(),
-    commonjs(),
-  ],
-  external: [
-    ...Object.keys(pkg.dependencies || []),
-    ...Object.keys(pkg.peerDependencies || []),
-    'eslint/package.json',
-    '@typescript-eslint/utils/ast-utils',
-  ],
-})
+    plugins: [
+      dts({
+        respectExternal: true,
+        tsconfig: 'tsconfig.dts.json',
+      }),
+    ],
+    external: [
+      ...Object.keys(pkg.dependencies || []),
+      ...Object.keys(pkg.peerDependencies || []),
+    ],
+  },
+])
