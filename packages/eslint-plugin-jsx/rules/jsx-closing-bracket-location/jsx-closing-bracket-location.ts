@@ -331,9 +331,8 @@ export default createRule<MessageIds, RuleOptions>({
               case 'tag-aligned':
               case 'line-aligned':
                 return fixer.replaceTextRange([cachedLastAttributeEndPos!, node.range[1]], `\n${getIndentation(tokens, expectedLocation, correctColumn!)}${closingTag}`)
-              default:
-                return null
             }
+            return null
           },
         })
       },
