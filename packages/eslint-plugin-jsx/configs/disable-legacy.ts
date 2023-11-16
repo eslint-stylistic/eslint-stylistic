@@ -1,6 +1,8 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-export default {
+import type { Linter } from 'eslint'
+
+const config: Linter.FlatConfig = {
   rules: {
     'react/jsx-child-element-spacing': 0,
     'react/jsx-closing-bracket-location': 0,
@@ -22,3 +24,4 @@ export default {
     'react/jsx-wrap-multilines': 0,
   },
 }
+export default config
