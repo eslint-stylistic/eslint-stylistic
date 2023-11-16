@@ -3,8 +3,11 @@
  * @author Adrian Moennich
  */
 
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
 import report from '../../utils/report'
+import type { Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -15,11 +18,11 @@ const messages = {
   onlyOneSpace: 'Expected only one space between “{{prop1}}” and “{{prop2}}”',
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
     docs: {
       description: 'Disallow multiple spaces between inline JSX props',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-props-no-multi-spaces'),
     },
     fixable: 'code',
@@ -32,25 +35,25 @@ export default {
   create(context) {
     const sourceCode = context.getSourceCode()
 
-    function getPropName(propNode) {
+    function getPropName(propNode: NodeType): string | Tree.JSXIdentifier {
       switch (propNode.type) {
         case 'JSXSpreadAttribute':
           return context.getSourceCode().getText(propNode.argument)
         case 'JSXIdentifier':
           return propNode.name
         case 'JSXMemberExpression':
-          return `${getPropName(propNode.object)}.${propNode.property.name}`
+          return `${getPropName((propNode).object)}.${propNode.property.name}`
         default:
-          return propNode.name
-            ? propNode.name.name
-            : `${context.getSourceCode().getText(propNode.object)}.${propNode.property.name}` // needed for typescript-eslint parser
+          return (propNode as Tree.JSXAttribute).name
+            ? (propNode as Tree.JSXAttribute).name.name
+            : `${context.getSourceCode().getText((propNode as Tree.JSXMemberExpression).object)}.${(propNode as Tree.JSXMemberExpression).property.name}` // needed for typescript-eslint parser
       }
     }
 
     // First and second must be adjacent nodes
-    function hasEmptyLines(first, second) {
+    function hasEmptyLines(first: NodeType, second: Tree.JSXAttribute | Tree.JSXSpreadAttribute) {
       const comments = sourceCode.getCommentsBefore ? sourceCode.getCommentsBefore(second) : []
-      const nodes = [].concat(first, comments, second)
+      const nodes = ([] as (NodeType | Tree.Comment)[]).concat(first, comments, second)
 
       for (let i = 1; i < nodes.length; i += 1) {
         const prev = nodes[i - 1]
@@ -62,7 +65,7 @@ export default {
       return false
     }
 
-    function checkSpacing(prev, node) {
+    function checkSpacing(prev: NodeType, node: Tree.JSXAttribute | Tree.JSXSpreadAttribute) {
       if (hasEmptyLines(prev, node)) {
         report(context, messages.noLineGap, 'noLineGap', {
           node,
@@ -79,8 +82,9 @@ export default {
       const between = context.getSourceCode().text.slice(prev.range[1], node.range[0])
 
       if (between !== ' ') {
-        report(context, messages.onlyOneSpace, 'onlyOneSpace', {
+        context.report({
           node,
+          messageId: 'onlyOneSpace',
           data: {
             prop1: getPropName(prev),
             prop2: getPropName(node),
@@ -92,12 +96,12 @@ export default {
       }
     }
 
-    function containsGenericType(node) {
+    function containsGenericType(node: Tree.JSXOpeningElement) {
       const containsTypeParams = typeof node.typeParameters !== 'undefined'
-      return containsTypeParams && node.typeParameters.type === 'TSTypeParameterInstantiation'
+      return containsTypeParams && node.typeParameters?.type === 'TSTypeParameterInstantiation'
     }
 
-    function getGenericNode(node) {
+    function getGenericNode(node: Tree.JSXOpeningElement) {
       const name = node.name
       if (containsGenericType(node)) {
         const type = node.typeParameters
@@ -108,7 +112,7 @@ export default {
           {
             range: [
               name.range[0],
-              type.range[1],
+              type?.range[1],
             ],
           },
         )
@@ -117,13 +121,15 @@ export default {
       return name
     }
 
+    type NodeType = Tree.JSXAttribute | Tree.JSXSpreadAttribute | Tree.JSXIdentifier | Tree.JSXMemberExpression | Tree.JSXOpeningElement | Tree.JSXTagNameExpression
+
     return {
       JSXOpeningElement(node) {
-        node.attributes.reduce((prev, prop) => {
+        node.attributes.reduce<NodeType>((prev, prop) => {
           checkSpacing(prev, prop)
           return prop
         }, getGenericNode(node))
       },
     }
   },
-}
+})
