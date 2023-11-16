@@ -5,7 +5,7 @@ import fs from 'fs-extra'
 import { execa } from 'execa'
 import fg from 'fast-glob'
 import type { Linter } from 'eslint'
-import type { StylisticCustomizeOptions } from '../configs/customize'
+import type { StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
 
 const fixturesDir = fileURLToPath(new URL('fixtures', import.meta.url))
 
