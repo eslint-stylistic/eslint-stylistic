@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parsers from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-one-expression-per-line'
 
 const parserOptions = {
@@ -21,7 +21,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-one-expression-per-line', rule, {
-  valid: parsers.all([
+  valid: valids(
     {
       code: '<App />',
     },
@@ -177,9 +177,9 @@ ruleTester.run('jsx-one-expression-per-line', rule, {
       `,
       features: ['fragment', 'no-ts-old'], // TODO: FIXME: remove no-ts-old and fix
     },
-  ]),
+  ),
 
-  invalid: parsers.all([
+  invalid: invalids(
     {
       code: `
         <App>{"foo"}</App>
@@ -1562,5 +1562,5 @@ Go to page 2
       ],
       parserOptions,
     },
-  ]),
+  ),
 })

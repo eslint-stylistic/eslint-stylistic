@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parsers from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-max-props-per-line'
 
 const parserOptions = {
@@ -13,7 +13,7 @@ const parserOptions = {
   ecmaFeatures: {
     jsx: true,
   },
-}
+} as const
 
 // ------------------------------------------------------------------------------
 // Tests
@@ -21,7 +21,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-max-props-per-line', rule, {
-  valid: parsers.all([
+  valid: valids(
     {
       code: '<App />',
     },
@@ -137,9 +137,9 @@ ruleTester.run('jsx-max-props-per-line', rule, {
       `,
       options: [{ maximum: 1, when: 'multiline' }],
     },
-  ]),
+  ),
 
-  invalid: parsers.all(<RuleTester.InvalidTestCase[]>[
+  invalid: invalids(
     {
       code: `
         <App foo bar baz />;
@@ -586,5 +586,5 @@ items={items}
         },
       ],
     },
-  ]),
+  ),
 })

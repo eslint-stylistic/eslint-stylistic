@@ -6,7 +6,7 @@
 import { RuleTester } from 'eslint'
 import semver from 'semver'
 import { version as eslintVersion } from 'eslint/package.json'
-import parsers from '../../test-utils/parsers'
+import { invalids, skipDueToMultiErrorSorting, valids } from '../../test-utils/parsers'
 import rule from './jsx-indent'
 
 const parserOptions = {
@@ -23,7 +23,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-indent', rule, {
-  valid: parsers.all([
+  valid: valids(
     {
       code: `
         <App></App>
@@ -1222,9 +1222,9 @@ const Component = () => (
       `,
       options: [2],
     },
-  ]),
+  ),
 
-  invalid: parsers.all([].concat(
+  invalid: invalids(
     {
       code: `
         <div>
@@ -2772,7 +2772,7 @@ const Component = () => (
         },
       ],
     },
-    parsers.skipDueToMultiErrorSorting ? [] : {
+    skipDueToMultiErrorSorting ? [] : {
       code: `
         <div>
           text
@@ -2806,7 +2806,41 @@ const Component = () => (
         },
       ],
     },
-    parsers.skipDueToMultiErrorSorting ? [] : {
+    skipDueToMultiErrorSorting ? [] : {
+      code: `
+        <div>
+        \t  text
+          \t  text
+        </div>
+      `,
+      output: `
+        <div>
+            text
+            text
+        </div>
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndent',
+          data: {
+            needed: 12,
+            type: 'space',
+            characters: 'characters',
+            gotten: 8,
+          },
+        },
+        {
+          messageId: 'wrongIndent',
+          data: {
+            needed: 12,
+            type: 'space',
+            characters: 'characters',
+            gotten: 10,
+          },
+        },
+      ],
+    },
+    skipDueToMultiErrorSorting ? [] : {
       code: `
         <div>
         \t  text
@@ -3157,5 +3191,5 @@ const Component = () => (
         { messageId: 'wrongIndent', line: 9 },
       ],
     } : [],
-  )),
+  ),
 })

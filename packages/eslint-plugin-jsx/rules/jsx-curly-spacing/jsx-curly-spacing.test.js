@@ -5,7 +5,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parsers from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-curly-spacing'
 
 const parserOptions = {
@@ -22,7 +22,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-curly-spacing', rule, {
-  valid: parsers.all([
+  valid: valids(
     {
       code: '<App foo={bar} />;',
     },
@@ -826,9 +826,9 @@ ruleTester.run('jsx-curly-spacing', rule, {
     {
       code: '<div onLayout={() => { /* dummy callback to fix android bug with component measuring */ }} />',
     },
-  ]),
+  ),
 
-  invalid: parsers.all([
+  invalid: invalids(
     {
       code: '<App foo={ bar }>{bar}</App>;',
       output: '<App foo={bar}>{bar}</App>;',
@@ -3435,5 +3435,5 @@ ruleTester.run('jsx-curly-spacing', rule, {
         },
       ],
     },
-  ]),
+  ),
 })
