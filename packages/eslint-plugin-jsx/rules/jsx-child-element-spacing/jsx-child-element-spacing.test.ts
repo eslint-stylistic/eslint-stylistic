@@ -12,7 +12,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-child-element-spacing', rule, {
-  valid: parsers.all([
+  valid: parsers.all(<RuleTester.ValidTestCase[]>[
     {
       code: `
         <App>
@@ -209,6 +209,7 @@ ruleTester.run('jsx-child-element-spacing', rule, {
           <a>bar</a>
         </>
       `,
+      // @ts-expect-error additonal property
       features: ['fragment'],
       errors: [
         {

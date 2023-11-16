@@ -21,7 +21,7 @@ const parserOptions = {
 // ------------------------------------------------------------------------------
 
 new RuleTester({ parserOptions }).run('jsx-newline', rule, {
-  valid: parsers.all([
+  valid: parsers.all(<RuleTester.ValidTestCase[]>[
     {
       code: `
         <div>
@@ -198,7 +198,7 @@ new RuleTester({ parserOptions }).run('jsx-newline', rule, {
       options: [{ prevent: true, allowMultilines: true }],
     },
   ]),
-  invalid: parsers.all([
+  invalid: parsers.all(<RuleTester.InvalidTestCase[]>[
     {
       code: `
         <div>
