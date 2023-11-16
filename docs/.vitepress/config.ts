@@ -15,6 +15,7 @@ const version = JSON.parse(await fs.readFile(join(projectRoot, 'package.json'), 
 const GUIDES: DefaultTheme.NavItemWithLink[] = [
   { text: 'Getting Started', link: '/guide/getting-started' },
   { text: 'Why', link: '/guide/why' },
+  { text: 'Shared Configs', link: '/guide/config-presets' },
   { text: 'Migration', link: '/guide/migration' },
   { text: 'FAQ', link: '/guide/faq' },
 ]
