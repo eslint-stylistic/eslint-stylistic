@@ -3,15 +3,14 @@
  * @author Diogo Franco (Kovensky)
  */
 
-import type { TSESLint } from '@typescript-eslint/utils'
 import { getTokenBeforeClosingBracket } from '../../utils/getTokenBeforeClosingBracket'
 import { docsUrl } from '../../utils/docsUrl'
 import { createRule } from '../../utils/createRule'
-import type { Token, Tree } from '../../utils/types'
+import type { RuleContext, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 type Option = Exclude<RuleOptions[0], undefined>
-type Context = TSESLint.RuleContext<MessageIds, RuleOptions>
+type Context = RuleContext<MessageIds, RuleOptions>
 
 const messages = {
   selfCloseSlashNoSpace: 'Whitespace is forbidden between `/` and `>`; write `/>`',
@@ -208,7 +207,7 @@ function validateAfterOpening(
 }
 
 function validateBeforeClosing(
-  context: TSESLint.RuleContext<MessageIds, RuleOptions>,
+  context: RuleContext<MessageIds, RuleOptions>,
   node: Tree.JSXOpeningElement | Tree.JSXClosingElement,
   option: Option['beforeClosing'],
 ) {

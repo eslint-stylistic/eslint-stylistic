@@ -3,10 +3,12 @@
  * @author Yannick Croissant
  */
 
+import type { ReportDescriptor, RuleContext, Tree } from '../../../eslint-plugin-js/utils/types'
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import report from '../../utils/report'
+import type { MessageIds, RuleOptions } from './types'
 
-function getPropName(context, propNode) {
+function getPropName(context: RuleContext<MessageIds, RuleOptions>, propNode: Tree.JSXAttribute | Tree.JSXSpreadAttribute) {
   if (propNode.type === 'JSXSpreadAttribute')
     return context.getSourceCode().getText(propNode.argument)
 
@@ -21,11 +23,11 @@ const messages = {
   newLine: 'Prop `{{prop}}` must be placed on a new line',
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
     docs: {
       description: 'Enforce maximum of props on a single line in JSX',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-max-props-per-line'),
     },
     fixable: 'code',
@@ -72,9 +74,11 @@ export default {
     const configuration = context.options[0] || {}
     const maximum = configuration.maximum || 1
 
+    type InferSchemaByKey<K extends string> = Extract<RuleOptions[0], Record<K, any> | Partial<Record<K, any>>>
+
     const maxConfig = typeof maximum === 'number'
       ? {
-          single: configuration.when === 'multiline' ? Infinity : maximum,
+          single: (configuration as InferSchemaByKey<'when'>).when === 'multiline' ? Infinity : maximum,
           multi: maximum,
         }
       : {
@@ -82,7 +86,7 @@ export default {
           multi: maximum.multi || Infinity,
         }
 
-    function generateFixFunction(line, max) {
+    function generateFixFunction(line: (Tree.JSXAttribute | Tree.JSXSpreadAttribute)[], max: number): ReportDescriptor<MessageIds>['fix'] {
       const sourceCode = context.getSourceCode()
       const output = []
       const front = line[0].range[0]
@@ -134,7 +138,9 @@ export default {
 
           if (propsInLine.length > maxPropsCountPerLine) {
             const name = getPropName(context, propsInLine[maxPropsCountPerLine])
-            report(context, messages.newLine, 'newLine', {
+
+            context.report({
+              messageId: 'newLine',
               node: propsInLine[maxPropsCountPerLine],
               data: {
                 prop: name,
@@ -146,4 +152,4 @@ export default {
       },
     }
   },
-}
+})
