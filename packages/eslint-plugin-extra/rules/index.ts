@@ -2,8 +2,8 @@
 
 import type { Rules } from '../dts'
 
-import noExtraSemi from './no-extra-semi/no-extra-semi'
+import example from './example/example'
 
 export default {
-  'no-extra-semi': noExtraSemi,
+  example,
 } as unknown as Rules

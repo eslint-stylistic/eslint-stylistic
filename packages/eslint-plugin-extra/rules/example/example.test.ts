@@ -3,7 +3,7 @@
 
 import { RuleTester } from '@typescript-eslint/rule-tester'
 
-import rule from './no-extra-semi'
+import rule from './example'
 
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',

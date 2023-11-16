@@ -24,7 +24,7 @@
     "./rule-options": {
       "types": "./dts/rule-options.d.ts"
     },
-    "./rules/no-extra-semi": "./dist/no-extra-semi.js"
+    "./rules/example": "./dist/example.js"
   },
   "main": "./dist/index.js",
   "types": "./dts/index.d.ts",

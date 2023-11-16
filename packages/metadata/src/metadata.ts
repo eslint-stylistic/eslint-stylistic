@@ -10,11 +10,11 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
     "path": "packages/eslint-plugin-extra",
     "rules": [
       {
-        "name": "no-extra-semi",
-        "ruleId": "@stylistic/extra/no-extra-semi",
+        "name": "example",
+        "ruleId": "@stylistic/extra/example",
         "originalId": "",
-        "entry": "packages/eslint-plugin-extra/rules/no-extra-semi/no-extra-semi.ts",
-        "docsEntry": "packages/eslint-plugin-extra/rules/no-extra-semi/README.md",
+        "entry": "packages/eslint-plugin-extra/rules/example/example.ts",
+        "docsEntry": "packages/eslint-plugin-extra/rules/example/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {

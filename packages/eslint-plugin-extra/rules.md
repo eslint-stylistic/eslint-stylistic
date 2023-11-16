@@ -6,4 +6,4 @@
 
 | Rule ID | Description | Fixable | Recommended |
 | --- | --- | --- | --- |
-| [`@stylistic/extra/no-extra-semi`](./rules/no-extra-semi) | Disallow unnecessary semicolons | ✅ |  |
+| [`@stylistic/extra/example`](./rules/example) | Disallow unnecessary semicolons | ✅ |  |

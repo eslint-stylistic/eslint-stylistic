@@ -1,19 +1,19 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-import type { RuleOptions as NoExtraSemiRuleOptions } from '../rules/no-extra-semi/types'
+import type { RuleOptions as ExampleRuleOptions } from '../rules/example/types'
 
 export interface RuleOptions {
   /**
    * Disallow unnecessary semicolons
-   * @see https://eslint.style/rules/extra/no-extra-semi
+   * @see https://eslint.style/rules/extra/example
    */
-  '@stylistic/extra/no-extra-semi': NoExtraSemiRuleOptions
+  '@stylistic/extra/example': ExampleRuleOptions
 }
 
 export interface UnprefixedRuleOptions {
   /**
    * Disallow unnecessary semicolons
-   * @see https://eslint.style/rules/extra/no-extra-semi
+   * @see https://eslint.style/rules/extra/example
    */
-  'no-extra-semi': NoExtraSemiRuleOptions
+  'example': ExampleRuleOptions
 }

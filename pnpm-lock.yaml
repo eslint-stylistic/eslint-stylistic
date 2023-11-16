@@ -167,6 +167,9 @@ importers:
 
   packages/eslint-plugin:
     dependencies:
+      '@stylistic/eslint-plugin-extra':
+        specifier: workspace:*
+        version: link:../eslint-plugin-extra
       '@stylistic/eslint-plugin-js':
         specifier: workspace:*
         version: link:../eslint-plugin-js
