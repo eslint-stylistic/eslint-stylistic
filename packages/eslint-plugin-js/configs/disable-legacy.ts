@@ -1,6 +1,8 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-export default {
+import type { Linter } from 'eslint'
+
+const config: Linter.FlatConfig = {
   rules: {
     'array-bracket-newline': 0,
     'array-bracket-spacing': 0,
@@ -71,3 +73,4 @@ export default {
     'yield-star-spacing': 0,
   },
 }
+export default config

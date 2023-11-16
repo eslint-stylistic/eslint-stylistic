@@ -3,15 +3,11 @@
  * @author Ilya Volodin, Yannick Croissant
  */
 
-import type { RuleContext } from '@typescript-eslint/utils/ts-eslint'
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
 import { getPropName, isDOMComponent } from '../../utils/jsx'
-import type { ASTNode, RuleFixer, Tree } from '../../utils/types'
+import type { ASTNode, RuleContext, RuleFixer, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
-
-const includes = <T>(arr: T[], value: T) => arr.includes(value)
-const toSorted = <T>(arr: T[], compareFn: (a: T, b: T) => number) => [...arr].sort(compareFn)
 
 interface JsxCompareOptions {
   ignoreCase: boolean
@@ -253,7 +249,7 @@ function generateFixerFunction(node: Tree.JSXOpeningElement, context: Readonly<R
   const sortableAttributeGroups = getGroupsOfSortableAttributes(attributes, context)
   const sortedAttributeGroups = sortableAttributeGroups
     .slice(0)
-    .map(group => toSorted(group, (a, b) => contextCompare(a, b, options)))
+    .map(group => [...group].sort((a, b) => contextCompare(a, b, options)))
 
   return function fixFunction(fixer: RuleFixer) {
     const fixers: { range: [number, number]; text: string }[] = []
@@ -338,7 +334,7 @@ const reportedNodeAttributes = new WeakMap()
 function reportNodeAttribute(nodeAttribute: Tree.JSXAttribute | Tree.JSXSpreadAttribute, errorType: MessageIds, node: Tree.JSXOpeningElement, context: Readonly<RuleContext<MessageIds, RuleOptions>>, reservedList: unknown[]) {
   const errors = reportedNodeAttributes.get(nodeAttribute) || []
 
-  if (includes(errors, errorType))
+  if (errors.includes(errorType))
     return
 
   errors.push(errorType)
