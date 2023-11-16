@@ -3,10 +3,10 @@
  * @author Yannick Croissant
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
 import { isDOMComponent } from '../../utils/jsx'
+import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
@@ -51,7 +51,7 @@ export default createRule<MessageIds, RuleOptions>({
   },
 
   create(context) {
-    function isComponent(node: TSESTree.JSXOpeningElement) {
+    function isComponent(node: Tree.JSXOpeningElement) {
       return (
         node.name
         && (node.name.type === 'JSXIdentifier' || node.name.type === 'JSXMemberExpression')
@@ -59,12 +59,12 @@ export default createRule<MessageIds, RuleOptions>({
       )
     }
 
-    function childrenIsEmpty(node: TSESTree.JSXOpeningElement) {
-      return (<TSESTree.JSXElement>node.parent).children.length === 0
+    function childrenIsEmpty(node: Tree.JSXOpeningElement) {
+      return (<Tree.JSXElement>node.parent).children.length === 0
     }
 
-    function childrenIsMultilineSpaces(node: TSESTree.JSXOpeningElement) {
-      const childrens = (<TSESTree.JSXElement>node.parent).children
+    function childrenIsMultilineSpaces(node: Tree.JSXOpeningElement) {
+      const childrens = (<Tree.JSXElement>node.parent).children
 
       return (
         childrens.length === 1
@@ -74,7 +74,7 @@ export default createRule<MessageIds, RuleOptions>({
       )
     }
 
-    function isShouldBeSelfClosed(node: TSESTree.JSXOpeningElement): node is TSESTree.JSXOpeningElement {
+    function isShouldBeSelfClosed(node: Tree.JSXOpeningElement): node is Tree.JSXOpeningElement {
       const configuration = Object.assign({}, optionDefaults, context.options[0])
       return (
         (configuration.component && isComponent(node))
@@ -94,7 +94,7 @@ export default createRule<MessageIds, RuleOptions>({
             // Represents the last character of the JSXOpeningElement, the '>' character
             const openingElementEnding = node.range[1] - 1
             // Represents the last character of the JSXClosingElement, the '>' character
-            const closingElementEnding = (<TSESTree.JSXElement>node.parent).closingElement?.range[1] ?? NaN
+            const closingElementEnding = (<Tree.JSXElement>node.parent).closingElement?.range[1] ?? NaN
 
             // Replace />.*<\/.*>/ with '/>'
             const range: [number, number] = [openingElementEnding, closingElementEnding]
