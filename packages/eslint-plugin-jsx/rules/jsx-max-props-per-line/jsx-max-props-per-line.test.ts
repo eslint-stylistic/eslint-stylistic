@@ -139,7 +139,7 @@ ruleTester.run('jsx-max-props-per-line', rule, {
     },
   ]),
 
-  invalid: parsers.all([
+  invalid: parsers.all(<RuleTester.InvalidTestCase[]>[
     {
       code: `
         <App foo bar baz />;

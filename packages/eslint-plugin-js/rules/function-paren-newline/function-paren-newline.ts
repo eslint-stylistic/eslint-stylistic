@@ -190,12 +190,12 @@ export default createRule({
      */
     function getParenTokens(
       node:
-      | Tree.ArrowFunctionExpression
-      | Tree.CallExpression
-      | Tree.FunctionDeclaration
-      | Tree.FunctionExpression
-      | Tree.ImportExpression
-      | Tree.NewExpression,
+        | Tree.ArrowFunctionExpression
+        | Tree.CallExpression
+        | Tree.FunctionDeclaration
+        | Tree.FunctionExpression
+        | Tree.ImportExpression
+        | Tree.NewExpression,
     ): ParensPair | null {
       switch (node.type) {
         case 'NewExpression':

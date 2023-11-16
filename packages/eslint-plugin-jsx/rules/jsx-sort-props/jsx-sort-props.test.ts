@@ -115,7 +115,7 @@ const multilineAndShorthandAndCallbackLastArgs = [
 ]
 
 ruleTester.run('jsx-sort-props', rule, {
-  valid: parsers.all([].concat(
+  valid: parsers.all([
     { code: '<App />;' },
     { code: '<App {...this.props} />;' },
     { code: '<App a b c />;' },
@@ -280,18 +280,20 @@ ruleTester.run('jsx-sort-props', rule, {
         />
       `,
     },
-    semver.satisfies(process.version, '>= 13') ? {
-      code: `
+    ...semver.satisfies(process.version, '>= 13')
+      ? [{
+          code: `
         <RawFileField
           onFileRemove={asMedia ? null : handleRemove}
           onChange={handleChange}
           {...props}
         />
       `,
-      options: [{ locale: 'sk-SK' }],
-    } : [],
-  )),
-  invalid: parsers.all([].concat(
+          options: [{ locale: 'sk-SK' }],
+        }]
+      : [],
+  ]),
+  invalid: parsers.all(<RuleTester.InvalidTestCase[]>[
     {
       code: '<App b a />;',
       errors: [expectedError],
@@ -1095,5 +1097,5 @@ ruleTester.run('jsx-sort-props', rule, {
         },
       ],
     },
-  )),
+  ]),
 })

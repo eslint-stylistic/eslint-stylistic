@@ -100,11 +100,12 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node node to evaluate
      * @private
      */
-    function checkBinary(node:
-    | Tree.AssignmentExpression
-    | Tree.AssignmentPattern
-    | Tree.BinaryExpression
-    | Tree.LogicalExpression,
+    function checkBinary(
+      node:
+        | Tree.AssignmentExpression
+        | Tree.AssignmentPattern
+        | Tree.BinaryExpression
+        | Tree.LogicalExpression,
     ) {
       const leftNode = ('typeAnnotation' in node.left && node.left.typeAnnotation)
         ? node.left.typeAnnotation : node.left

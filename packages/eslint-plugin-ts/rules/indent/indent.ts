@@ -128,12 +128,12 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function TSPropertySignatureToProperty(
       node:
-      | TSESTree.TSEnumMember
-      | TSESTree.TSPropertySignature
-      | TSESTree.TypeElement,
+        | TSESTree.TSEnumMember
+        | TSESTree.TSPropertySignature
+        | TSESTree.TypeElement,
       type:
-      | AST_NODE_TYPES.Property
-      | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
+        | AST_NODE_TYPES.Property
+        | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
     ): TSESTree.Node | null {
       const base = {
         // indent doesn't actually use these

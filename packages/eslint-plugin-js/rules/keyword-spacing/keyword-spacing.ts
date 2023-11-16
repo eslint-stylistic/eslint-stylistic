@@ -353,9 +353,9 @@ export default createRule({
      */
     function checkSpacingForFunction(
       node:
-      | Tree.FunctionDeclaration
-      | Tree.ArrowFunctionExpression
-      | Tree.FunctionExpression,
+        | Tree.FunctionDeclaration
+        | Tree.ArrowFunctionExpression
+        | Tree.FunctionExpression,
     ) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
@@ -472,10 +472,10 @@ export default createRule({
      */
     function checkSpacingForModuleDeclaration(
       node:
-      | Tree.ExportNamedDeclaration
-      | Tree.ExportDefaultDeclaration
-      | Tree.ExportAllDeclaration
-      | Tree.ImportDeclaration,
+        | Tree.ExportNamedDeclaration
+        | Tree.ExportDefaultDeclaration
+        | Tree.ExportAllDeclaration
+        | Tree.ImportDeclaration,
     ) {
       const firstToken = sourceCode.getFirstToken(node)!
 
