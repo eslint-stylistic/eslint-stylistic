@@ -74,7 +74,7 @@ function beforeClosingOptions(option: Option['beforeClosing']) {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-tag-spacing', rule, {
-  valid: parsers.all([
+  valid: parsers.all(<RuleTester.ValidTestCase[]>[
     {
       code: '<App />',
     },
@@ -290,7 +290,7 @@ ruleTester.run('jsx-tag-spacing', rule, {
     },
   ]),
 
-  invalid: parsers.all([
+  invalid: parsers.all(<RuleTester.InvalidTestCase[]>[
     {
       code: '<App/>',
       output: '<App />',
