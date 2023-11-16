@@ -11,6 +11,8 @@ on:
       - main
       - dev
 
+  merge_group: {}
+
 jobs:
   lint:
     runs-on: ubuntu-latest
