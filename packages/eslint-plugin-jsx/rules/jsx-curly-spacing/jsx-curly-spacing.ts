@@ -9,10 +9,10 @@
  * @author Erik Wendel
  */
 
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
 import report from '../../utils/report'
-
-const has = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -33,11 +33,11 @@ const messages = {
   spaceNeededBefore: 'A space is required before \'{{token}}\'',
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
     docs: {
       description: 'Enforce or disallow spaces inside of curly braces in JSX attributes and expressions',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-curly-spacing'),
     },
     fixable: 'code',
@@ -50,6 +50,7 @@ export default {
           type: 'object',
           properties: {
             when: {
+              type: 'string',
               enum: SPACING_VALUES,
             },
             allowMultiline: {
@@ -59,6 +60,7 @@ export default {
               type: 'object',
               properties: {
                 objectLiterals: {
+                  type: 'string',
                   enum: SPACING_VALUES,
                 },
               },
@@ -423,4 +425,4 @@ export default {
       JSXSpreadAttribute: validateBraceSpacing,
     }
   },
-}
+})
