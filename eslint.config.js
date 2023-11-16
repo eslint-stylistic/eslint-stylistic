@@ -20,15 +20,12 @@ export default antfu(
       'jsdoc/no-types': 'off',
       'jsdoc/require-returns-description': 'off',
       'no-cond-assign': 'off',
-
       'no-template-curly-in-string': 'off',
       'no-void': 'off',
       'style/max-statements-per-line': 'off',
       'style/multiline-ternary': 'off',
       'style/no-mixed-operators': 'off',
-
       'ts/no-require-import': 'off',
-
       'ts/no-require-imports': 'off',
       'ts/no-var-requires': 'off',
       'unicorn/prefer-number-properties': 'off',

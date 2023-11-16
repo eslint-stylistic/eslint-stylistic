@@ -46,8 +46,8 @@ export default createRule<MessageIds, RuleOptions>({
      */
     function checkWhiteSpace(
       node:
-      | Tree.SpreadElement
-      | Tree.RestElement,
+        | Tree.SpreadElement
+        | Tree.RestElement,
     ) {
       const operator = sourceCode.getFirstToken(node)!
       const nextToken = sourceCode.getTokenAfter(operator)!

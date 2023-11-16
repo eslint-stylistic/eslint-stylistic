@@ -68,10 +68,11 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node The function node.
      * @returns Whether the function has a name.
      */
-    function isNamedFunction(node:
-    | Tree.ArrowFunctionExpression
-    | Tree.FunctionDeclaration
-    | Tree.FunctionExpression,
+    function isNamedFunction(
+      node:
+        | Tree.ArrowFunctionExpression
+        | Tree.FunctionDeclaration
+        | Tree.FunctionExpression,
     ) {
       if (node.id)
         return true
@@ -94,9 +95,9 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns "always", "never", or "ignore"
      */
     function getConfigForFunction(node:
-    | Tree.ArrowFunctionExpression
-    | Tree.FunctionDeclaration
-    | Tree.FunctionExpression,
+      | Tree.ArrowFunctionExpression
+      | Tree.FunctionDeclaration
+      | Tree.FunctionExpression,
     ) {
       if (node.type === 'ArrowFunctionExpression') {
         // Always ignore non-async functions and arrow functions without parens, e.g. async foo => bar
@@ -120,9 +121,9 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node A function node
      */
     function checkFunction(node:
-    | Tree.ArrowFunctionExpression
-    | Tree.FunctionDeclaration
-    | Tree.FunctionExpression,
+      | Tree.ArrowFunctionExpression
+      | Tree.FunctionDeclaration
+      | Tree.FunctionExpression,
     ) {
       const functionConfig = getConfigForFunction(node)
 

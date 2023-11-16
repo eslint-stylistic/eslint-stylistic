@@ -1206,11 +1206,11 @@ export default createRule<MessageIds, RuleOptions>({
 
       'DoWhileStatement, WhileStatement, ForInStatement, ForOfStatement, WithStatement': function (
         node:
-        | Tree.DoWhileStatement
-        | Tree.WhileStatement
-        | Tree.ForInStatement
-        | Tree.ForOfStatement
-        | Tree.WithStatement,
+          | Tree.DoWhileStatement
+          | Tree.WhileStatement
+          | Tree.ForInStatement
+          | Tree.ForOfStatement
+          | Tree.WithStatement,
       ) {
         addBlocklessNodeIndent(node.body)
       },

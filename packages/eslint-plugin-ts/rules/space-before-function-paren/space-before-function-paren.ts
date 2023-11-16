@@ -63,11 +63,11 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function isNamedFunction(
       node:
-      | TSESTree.ArrowFunctionExpression
-      | TSESTree.FunctionDeclaration
-      | TSESTree.FunctionExpression
-      | TSESTree.TSDeclareFunction
-      | TSESTree.TSEmptyBodyFunctionExpression,
+        | TSESTree.ArrowFunctionExpression
+        | TSESTree.FunctionDeclaration
+        | TSESTree.FunctionExpression
+        | TSESTree.TSDeclareFunction
+        | TSESTree.TSEmptyBodyFunctionExpression,
     ): boolean {
       if (node.id != null)
         return true
@@ -89,11 +89,11 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function getConfigForFunction(
       node:
-      | TSESTree.ArrowFunctionExpression
-      | TSESTree.FunctionDeclaration
-      | TSESTree.FunctionExpression
-      | TSESTree.TSDeclareFunction
-      | TSESTree.TSEmptyBodyFunctionExpression,
+        | TSESTree.ArrowFunctionExpression
+        | TSESTree.FunctionDeclaration
+        | TSESTree.FunctionExpression
+        | TSESTree.TSDeclareFunction
+        | TSESTree.TSEmptyBodyFunctionExpression,
     ): FuncOption {
       if (node.type === AST_NODE_TYPES.ArrowFunctionExpression) {
         // Always ignore non-async functions and arrow functions without parens, e.g. async foo => bar
@@ -122,11 +122,11 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkFunction(
       node:
-      | TSESTree.ArrowFunctionExpression
-      | TSESTree.FunctionDeclaration
-      | TSESTree.FunctionExpression
-      | TSESTree.TSDeclareFunction
-      | TSESTree.TSEmptyBodyFunctionExpression,
+        | TSESTree.ArrowFunctionExpression
+        | TSESTree.FunctionDeclaration
+        | TSESTree.FunctionExpression
+        | TSESTree.TSDeclareFunction
+        | TSESTree.TSEmptyBodyFunctionExpression,
     ): void {
       const functionConfig = getConfigForFunction(node)
 
