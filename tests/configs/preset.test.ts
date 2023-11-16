@@ -87,7 +87,8 @@ export default [
       const source = await fs.readFile(join(from, file), 'utf-8')
       if (content === source)
         content = '// unchanged\n'
-      await expect.soft(content).toMatchFileSnapshot(join(output, file))
+      await expect.soft(content.trim().replace(/\r\n/g, '\n'))
+        .toMatchFileSnapshot(join(output, file).trim().replace(/\r\n/g, '\n'))
     }))
   }, 30_000)
 }
