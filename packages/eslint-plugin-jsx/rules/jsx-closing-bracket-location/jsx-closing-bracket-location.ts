@@ -3,10 +3,14 @@
  * @author Yannick Croissant
  */
 
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import report from '../../utils/report'
+import type { Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
-const has = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
+type InferSchemaByKey<K extends string> = Extract<RuleOptions[0], Record<K, any> | Partial<Record<K, any>>>
+
+const has = <const K extends string>(obj: object, prop: K): obj is InferSchemaByKey<K> => Object.prototype.hasOwnProperty.call(obj, prop)
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -16,11 +20,11 @@ const messages = {
   bracketLocation: 'The closing bracket must be {{location}}{{details}}',
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
     docs: {
       description: 'Enforce closing bracket location in JSX',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-closing-bracket-location'),
     },
     fixable: 'code',
@@ -30,12 +34,14 @@ export default {
     schema: [{
       anyOf: [
         {
+          type: 'string',
           enum: ['after-props', 'props-aligned', 'tag-aligned', 'line-aligned'],
         },
         {
           type: 'object',
           properties: {
             location: {
+              type: 'string',
               enum: ['after-props', 'props-aligned', 'tag-aligned', 'line-aligned'],
             },
           },
@@ -45,10 +51,28 @@ export default {
           type: 'object',
           properties: {
             nonEmpty: {
-              enum: ['after-props', 'props-aligned', 'tag-aligned', 'line-aligned', false],
+              oneOf: [
+                {
+                  type: 'string',
+                  enum: ['after-props', 'props-aligned', 'tag-aligned', 'line-aligned'],
+                },
+                {
+                  type: 'boolean',
+                  enum: [false],
+                },
+              ],
             },
             selfClosing: {
-              enum: ['after-props', 'props-aligned', 'tag-aligned', 'line-aligned', false],
+              oneOf: [
+                {
+                  type: 'string',
+                  enum: ['after-props', 'props-aligned', 'tag-aligned', 'line-aligned'],
+                },
+                {
+                  type: 'boolean',
+                  enum: [false],
+                },
+              ],
             },
           },
           additionalProperties: false,
@@ -64,11 +88,14 @@ export default {
       'props-aligned': 'aligned with the last prop',
       'tag-aligned': 'aligned with the opening tag',
       'line-aligned': 'aligned with the line containing the opening tag',
-    }
+    } as const
     const DEFAULT_LOCATION = 'tag-aligned'
 
     const config = context.options[0]
-    const options = {
+    const options: {
+      nonEmpty?: string | false
+      selfClosing?: string | false
+    } = {
       nonEmpty: DEFAULT_LOCATION,
       selfClosing: DEFAULT_LOCATION,
     }
@@ -95,16 +122,16 @@ export default {
 
     /**
      * Get expected location for the closing bracket
-     * @param {object} tokens Locations of the opening bracket, closing bracket and last prop
-     * @return {string} Expected location for the closing bracket
+     * @param tokens Locations of the opening bracket, closing bracket and last prop
+     * @return Expected location for the closing bracket
      */
-    function getExpectedLocation(tokens) {
+    function getExpectedLocation(tokens: Tokens) {
       let location
       // Is always after the opening tag if there is no props
       if (typeof tokens.lastProp === 'undefined')
         location = 'after-tag'
       // Is always after the last prop if this one is on the same line as the opening bracket
-      else if (tokens.opening.line === tokens.lastProp.lastLine)
+      else if (tokens.opening.line === (tokens.lastProp as LastPropLocation).lastLine)
         location = 'after-props'
       // Else use configuration dependent on selfClosing property
       else
@@ -116,18 +143,18 @@ export default {
     /**
      * Get the correct 0-indexed column for the closing bracket, given the
      * expected location.
-     * @param {object} tokens Locations of the opening bracket, closing bracket and last prop
-     * @param {string} expectedLocation Expected location for the closing bracket
-     * @return {?number} The correct column for the closing bracket, or null
+     * @param tokens Locations of the opening bracket, closing bracket and last prop
+     * @param expectedLocation Expected location for the closing bracket
+     * @return The correct column for the closing bracket, or null
      */
-    function getCorrectColumn(tokens, expectedLocation) {
+    function getCorrectColumn(tokens: Tokens, expectedLocation: string | false | undefined): number | null {
       switch (expectedLocation) {
         case 'props-aligned':
-          return tokens.lastProp.column
+          return (tokens.lastProp as LastPropLocation).column
         case 'tag-aligned':
           return tokens.opening.column
         case 'line-aligned':
-          return tokens.openingStartOfLine.column
+          return tokens.openingStartOfLine.column!
         default:
           return null
       }
@@ -135,16 +162,16 @@ export default {
 
     /**
      * Check if the closing bracket is correctly located
-     * @param {object} tokens Locations of the opening bracket, closing bracket and last prop
-     * @param {string} expectedLocation Expected location for the closing bracket
-     * @return {boolean} True if the closing bracket is correctly located, false if not
+     * @param tokens Locations of the opening bracket, closing bracket and last prop
+     * @param expectedLocation Expected location for the closing bracket
+     * @return True if the closing bracket is correctly located, false if not
      */
-    function hasCorrectLocation(tokens, expectedLocation) {
+    function hasCorrectLocation(tokens: Tokens, expectedLocation: string | false | undefined): boolean {
       switch (expectedLocation) {
         case 'after-tag':
           return tokens.tag.line === tokens.closing.line
         case 'after-props':
-          return tokens.lastProp.lastLine === tokens.closing.line
+          return (tokens.lastProp as LastPropLocation).lastLine === tokens.closing.line
         case 'props-aligned':
         case 'tag-aligned':
         case 'line-aligned': {
@@ -158,22 +185,22 @@ export default {
 
     /**
      * Get the characters used for indentation on the line to be matched
-     * @param {object} tokens Locations of the opening bracket, closing bracket and last prop
-     * @param {string} expectedLocation Expected location for the closing bracket
-     * @param {number} [correctColumn] Expected column for the closing bracket. Default to 0
-     * @return {string} The characters used for indentation
+     * @param tokens Locations of the opening bracket, closing bracket and last prop
+     * @param expectedLocation Expected location for the closing bracket
+     * @param [correctColumn] Expected column for the closing bracket. Default to 0
+     * @return The characters used for indentation
      */
-    function getIndentation(tokens, expectedLocation, correctColumn) {
+    function getIndentation(tokens: Tokens, expectedLocation: string, correctColumn: number): string {
       const newColumn = correctColumn || 0
       let indentation
-      let spaces = []
+      let spaces: string[] = []
       switch (expectedLocation) {
         case 'props-aligned':
-          indentation = /^\s*/.exec(context.getSourceCode().lines[tokens.lastProp.firstLine - 1])[0]
+          indentation = /^\s*/.exec(context.getSourceCode().lines[(tokens.lastProp as LastPropLocation).firstLine - 1])![0]
           break
         case 'tag-aligned':
         case 'line-aligned':
-          indentation = /^\s*/.exec(context.getSourceCode().lines[tokens.opening.line - 1])[0]
+          indentation = /^\s*/.exec(context.getSourceCode().lines[tokens.opening.line - 1])![0]
           break
         default:
           indentation = ''
@@ -185,25 +212,35 @@ export default {
       return indentation + spaces.join(' ')
     }
 
+    interface LastPropLocation {
+      column: number
+      firstLine: number
+      lastLine: number
+    }
+
+    type LastProp = LastPropLocation | undefined | Tree.JSXOpeningElement['attributes'][number]
+
+    type Tokens = ReturnType<typeof getTokensLocations>
+
     /**
      * Get the locations of the opening bracket, closing bracket, last prop, and
      * start of opening line.
-     * @param {ASTNode} node The node to check
-     * @return {object} Locations of the opening bracket, closing bracket, last
+     * @param node The node to check
+     * @return Locations of the opening bracket, closing bracket, last
      * prop and start of opening line.
      */
-    function getTokensLocations(node) {
+    function getTokensLocations(node: Tree.JSXOpeningElement) {
       const sourceCode = context.getSourceCode()
-      const opening = sourceCode.getFirstToken(node).loc.start
+      const opening = sourceCode.getFirstToken(node)!.loc.start
       const closing = sourceCode.getLastTokens(node, node.selfClosing ? 2 : 1)[0].loc.start
-      const tag = sourceCode.getFirstToken(node.name).loc.start
-      let lastProp
+      const tag = sourceCode.getFirstToken(node.name)!.loc.start
+      let lastProp: LastProp
       if (node.attributes.length) {
         lastProp = node.attributes[node.attributes.length - 1]
         lastProp = {
-          column: sourceCode.getFirstToken(lastProp).loc.start.column,
-          firstLine: sourceCode.getFirstToken(lastProp).loc.start.line,
-          lastLine: sourceCode.getLastToken(lastProp).loc.end.line,
+          column: sourceCode.getFirstToken(lastProp)!.loc.start.column,
+          firstLine: sourceCode.getFirstToken(lastProp)!.loc.start.line,
+          lastLine: sourceCode.getLastToken(lastProp)!.loc.end.line,
         }
       }
       const openingLine = sourceCode.lines[opening.line - 1]
@@ -213,7 +250,7 @@ export default {
         closeTab: /^\t/.test(closingLine),
       }
       const openingStartOfLine = {
-        column: /^\s*/.exec(openingLine)[0].length,
+        column: /^\s*/.exec(openingLine)?.[0].length,
         line: opening.line,
       }
       return {
@@ -230,14 +267,14 @@ export default {
     /**
      * Get an unique ID for a given JSXOpeningElement
      *
-     * @param {ASTNode} node The AST node being checked.
-     * @returns {string} Unique ID (based on its range)
+     * @param node The AST node being checked.
+     * @returns Unique ID (based on its range)
      */
-    function getOpeningElementId(node) {
+    function getOpeningElementId(node: Tree.Node): string {
       return node.range.join(':')
     }
 
-    const lastAttributeNode = {}
+    const lastAttributeNode: Record<string, Tree.Node> = {}
 
     return {
       JSXAttribute(node) {
@@ -252,7 +289,7 @@ export default {
         const attributeNode = lastAttributeNode[getOpeningElementId(node)]
         const cachedLastAttributeEndPos = attributeNode ? attributeNode.range[1] : null
 
-        let expectedNextLine
+        let expectedNextLine: boolean | undefined
         const tokens = getTokensLocations(node)
         const expectedLocation = getExpectedLocation(tokens)
         let usingSameIndentation = true
@@ -263,17 +300,21 @@ export default {
         if (hasCorrectLocation(tokens, expectedLocation) && usingSameIndentation)
           return
 
-        const data = { location: MESSAGE_LOCATION[expectedLocation] }
+        const data: {
+          location: string
+          details?: string
+        } = { location: MESSAGE_LOCATION[expectedLocation as keyof typeof MESSAGE_LOCATION] }
         const correctColumn = getCorrectColumn(tokens, expectedLocation)
 
         if (correctColumn !== null) {
           expectedNextLine = tokens.lastProp
-          && (tokens.lastProp.lastLine === tokens.closing.line)
+          && ((tokens.lastProp as LastPropLocation).lastLine === tokens.closing.line)
           data.details = ` (expected column ${correctColumn + 1}${expectedNextLine ? ' on the next line)' : ')'}`
         }
 
-        report(context, messages.bracketLocation, 'bracketLocation', {
+        context.report({
           node,
+          messageId: 'bracketLocation',
           loc: tokens.closing,
           data,
           fix(fixer) {
@@ -285,17 +326,17 @@ export default {
 
                 return fixer.replaceTextRange([node.name.range[1], node.range[1]], (expectedNextLine ? '\n' : ' ') + closingTag)
               case 'after-props':
-                return fixer.replaceTextRange([cachedLastAttributeEndPos, node.range[1]], (expectedNextLine ? '\n' : '') + closingTag)
+                return fixer.replaceTextRange([cachedLastAttributeEndPos!, node.range[1]], (expectedNextLine ? '\n' : '') + closingTag)
               case 'props-aligned':
               case 'tag-aligned':
               case 'line-aligned':
-                return fixer.replaceTextRange([cachedLastAttributeEndPos, node.range[1]], `\n${getIndentation(tokens, expectedLocation, correctColumn)}${closingTag}`)
+                return fixer.replaceTextRange([cachedLastAttributeEndPos!, node.range[1]], `\n${getIndentation(tokens, expectedLocation, correctColumn!)}${closingTag}`)
               default:
-                return true
+                return null
             }
           },
         })
       },
     }
   },
-}
+})
