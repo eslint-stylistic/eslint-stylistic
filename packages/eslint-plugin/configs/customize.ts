@@ -1,3 +1,5 @@
+/* eslint perfectionist/sort-objects: "error" */
+
 import type { Linter } from 'eslint'
 import type { RuleOptions } from '../dts/rule-options'
 import plugin from '../src/plugin'
@@ -41,11 +43,11 @@ export function customize(options: StylisticCustomizeOptions<false>): Linter.Bas
 export function customize(options?: StylisticCustomizeOptions<true>): Linter.FlatConfig
 export function customize(options: StylisticCustomizeOptions<boolean> = {}): Linter.FlatConfig | Linter.BaseConfig {
   const {
-    pluginName = '@stylistic',
-    indent = 2,
-    quotes = 'single',
-    jsx = true,
     flat = true,
+    indent = 2,
+    jsx = true,
+    pluginName = '@stylistic',
+    quotes = 'single',
   } = options
 
   let rules: Rules = {
