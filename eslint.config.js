@@ -1,9 +1,15 @@
+import process from 'node:process'
 import antfu from '@antfu/eslint-config'
+import stylistic from '@stylistic/eslint-plugin'
+
+const isInEditor = !!((process.env.VSCODE_PID || process.env.JETBRAINS_IDE) && !process.env.CI)
+const overrideConfig = !isInEditor
 
 export default antfu(
   {
     vue: false,
     markdown: false,
+    stylistic: !overrideConfig,
     ignores: [
       '**/*.md',
       '**/fixtures/**',
@@ -11,6 +17,21 @@ export default antfu(
       'packages/metadata/src/metadata.ts',
     ],
   },
+  ...(overrideConfig
+    ? [
+        stylistic.configs.customize({ pluginName: 'style' }),
+        {
+          // Additional rules from @antfu/eslint-config
+          rules: {
+            'antfu/consistent-list-newline': 'error',
+            'antfu/if-newline': 'error',
+            'antfu/indent-binary-ops': ['error', { indent: 2 }],
+            'antfu/top-level-function': 'error',
+            'curly': ['error', 'multi-or-nest', 'consistent'],
+          },
+        },
+      ]
+    : []),
   {
     rules: {
       'no-void': 'off',

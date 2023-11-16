@@ -26,6 +26,9 @@ importers:
       '@rollup/plugin-node-resolve':
         specifier: ^15.2.3
         version: 15.2.3(rollup@4.4.1)
+      '@stylistic/eslint-plugin':
+        specifier: workspace:*
+        version: link:packages/eslint-plugin
       '@stylistic/eslint-plugin-js':
         specifier: workspace:*
         version: link:packages/eslint-plugin-js

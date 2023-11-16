@@ -9,7 +9,9 @@ const pkg = JSON.parse(await fs.readFile(new URL('./package.json', import.meta.u
 
 export default defineConfig([
   {
-    input: 'src/index.ts',
+    input: [
+      'src/index.ts',
+    ],
     output: [
       {
         dir: 'dist',
@@ -20,6 +22,8 @@ export default defineConfig([
             if (name !== 'rules')
               return name
           }
+          if (id.includes('configs'))
+            return 'configs'
         },
         chunkFileNames: '[name].js',
       },
