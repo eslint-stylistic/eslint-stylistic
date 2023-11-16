@@ -2,10 +2,9 @@
  * @fileoverview enforce consistent line breaks inside jsx curly
  */
 
-import type { RuleContext } from '@typescript-eslint/utils/ts-eslint'
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import type { ASTNode, Tree } from '../../utils/types'
+import type { ASTNode, RuleContext, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
