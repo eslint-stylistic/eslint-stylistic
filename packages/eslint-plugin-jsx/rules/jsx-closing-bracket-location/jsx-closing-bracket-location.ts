@@ -8,10 +8,6 @@ import { docsUrl } from '../../utils/docsUrl'
 import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-type InferSchemaByKey<K extends string> = Extract<RuleOptions[0], Record<K, any> | Partial<Record<K, any>>>
-
-const has = <const K extends string>(obj: object, prop: K): obj is InferSchemaByKey<K> => Object.prototype.hasOwnProperty.call(obj, prop)
-
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
@@ -107,16 +103,16 @@ export default createRule<MessageIds, RuleOptions>({
     }
     else if (typeof config === 'object') {
       // [1, {location: 'something'}] (back-compat)
-      if (has(config, 'location')) {
+      if ('location' in config) {
         options.nonEmpty = config.location
         options.selfClosing = config.location
       }
       // [1, {nonEmpty: 'something'}]
-      if (has(config, 'nonEmpty'))
+      if ('nonEmpty' in config)
         options.nonEmpty = config.nonEmpty
 
       // [1, {selfClosing: 'something'}]
-      if (has(config, 'selfClosing'))
+      if ('selfClosing' in config)
         options.selfClosing = config.selfClosing
     }
 
