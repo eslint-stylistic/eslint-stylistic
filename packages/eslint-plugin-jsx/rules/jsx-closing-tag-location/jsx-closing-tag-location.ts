@@ -4,8 +4,11 @@
  */
 
 import { isNodeFirstInLine } from '../../utils/ast'
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
 import report from '../../utils/report'
+import type { RuleFixer, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -16,10 +19,11 @@ const messages = {
   matchIndent: 'Expected closing tag to match indentation of opening.',
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     docs: {
       description: 'Enforce closing tag location for multiline JSX',
+      // @ts-expect-error typescript-eslint typedef does not include this
       category: 'Stylistic Issues',
       url: docsUrl('jsx-closing-tag-location'),
     },
@@ -28,15 +32,20 @@ export default {
   },
 
   create(context) {
-    function handleClosingElement(node) {
+    function handleClosingElement(node: Tree.JSXClosingElement | Tree.JSXClosingFragment) {
       if (!node.parent)
         return
 
-      const opening = node.parent.openingElement || node.parent.openingFragment
-      if (opening.loc.start.line === node.loc.start.line)
+      let opening: Tree.Node
+      if ('openingFragment' in node.parent)
+        opening = node.parent.openingFragment
+      if ('openingElement' in node.parent)
+        opening = node.parent.openingElement
+
+      if (opening!.loc.start.line === node.loc.start.line)
         return
 
-      if (opening.loc.start.column === node.loc.start.column)
+      if (opening!.loc.start.column === node.loc.start.column)
         return
 
       const messageId = isNodeFirstInLine(context, node)
@@ -45,7 +54,7 @@ export default {
       report(context, messages[messageId], messageId, {
         node,
         loc: node.loc,
-        fix(fixer) {
+        fix(fixer: RuleFixer) {
           const indent = Array(opening.loc.start.column + 1).join(' ')
           if (isNodeFirstInLine(context, node)) {
             return fixer.replaceTextRange(
@@ -64,4 +73,4 @@ export default {
       JSXClosingFragment: handleClosingElement,
     }
   },
-}
+})

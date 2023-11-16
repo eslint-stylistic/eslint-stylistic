@@ -6,6 +6,7 @@ import type ESTraverse from 'estraverse'
 import { traverse as _traverse } from 'estraverse'
 import type { FunctionDeclaration } from 'estree'
 import type { TSESLint } from '@typescript-eslint/utils'
+import type { SourceCode } from '@typescript-eslint/utils/ts-eslint'
 import type { ASTNode, ESNode } from './types'
 
 /**
@@ -112,8 +113,8 @@ export function traverseReturns(
  * @param {ASTNode} node The node to check
  * @return {ASTNode} the first node in the line
  */
-export function getFirstNodeInLine(context: Rule.RuleContext, node: ESNode) {
-  const sourceCode = context.getSourceCode()
+export function getFirstNodeInLine(context: { sourceCode: SourceCode }, node: ESNode) {
+  const sourceCode = context.sourceCode
   let token: ESNode | AST.Token = node
   let lines: string[] | null = null
   do {
@@ -133,7 +134,7 @@ export function getFirstNodeInLine(context: Rule.RuleContext, node: ESNode) {
  * @param {ASTNode} node The node to check
  * @return {boolean} true if it's the first node in its line
  */
-export function isNodeFirstInLine(context: Rule.RuleContext, node: ESNode) {
+export function isNodeFirstInLine(context: { sourceCode: SourceCode }, node: ESNode) {
   const token = getFirstNodeInLine(context, node)
   const startLine = node.loc!.start.line
   const endLine = token ? token.loc.end.line : -1
