@@ -16,13 +16,13 @@ const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
 ruleTester.run('brace-style', rule, {
   valid: [
     'function f() {\n'
-        + '   if (true)\n'
-        + '       return {x: 1}\n'
-        + '   else {\n'
-        + '       var y = 2\n'
-        + '       return y\n'
-        + '   }\n'
-        + '}',
+    + '   if (true)\n'
+    + '       return {x: 1}\n'
+    + '   else {\n'
+    + '       var y = 2\n'
+    + '       return y\n'
+    + '   }\n'
+    + '}',
     'if (tag === 1) glyph.id = pbf.readVarint();\nelse if (tag === 2) glyph.bitmap = pbf.readBytes();',
     'function foo () { \nreturn; \n}',
     'function a(b,\nc,\nd) { }',

@@ -115,11 +115,11 @@ export default createRule({
       const prevToken = sourceCode.getTokenBefore(token)
 
       if (prevToken
-                && (CHECK_TYPE.test(prevToken.type) || pattern.test(prevToken.value))
-                && !isOpenParenOfTemplate(prevToken)
-                && !tokensToIgnore.has(prevToken)
-                && isTokenOnSameLine(prevToken, token)
-                && !sourceCode.isSpaceBetweenTokens(prevToken, token)
+        && (CHECK_TYPE.test(prevToken.type) || pattern.test(prevToken.value))
+        && !isOpenParenOfTemplate(prevToken)
+        && !tokensToIgnore.has(prevToken)
+        && isTokenOnSameLine(prevToken, token)
+        && !sourceCode.isSpaceBetweenTokens(prevToken, token)
       ) {
         context.report({
           loc: token.loc,
@@ -143,11 +143,11 @@ export default createRule({
       const prevToken = sourceCode.getTokenBefore(token)
 
       if (prevToken
-                && (CHECK_TYPE.test(prevToken.type) || pattern.test(prevToken.value))
-                && !isOpenParenOfTemplate(prevToken)
-                && !tokensToIgnore.has(prevToken)
-                && isTokenOnSameLine(prevToken, token)
-                && sourceCode.isSpaceBetweenTokens(prevToken, token)
+        && (CHECK_TYPE.test(prevToken.type) || pattern.test(prevToken.value))
+        && !isOpenParenOfTemplate(prevToken)
+        && !tokensToIgnore.has(prevToken)
+        && isTokenOnSameLine(prevToken, token)
+        && sourceCode.isSpaceBetweenTokens(prevToken, token)
       ) {
         context.report({
           loc: { start: prevToken.loc.end, end: token.loc.start },
@@ -171,11 +171,11 @@ export default createRule({
       const nextToken = sourceCode.getTokenAfter(token)
 
       if (nextToken
-                && (CHECK_TYPE.test(nextToken.type) || pattern.test(nextToken.value))
-                && !isCloseParenOfTemplate(nextToken)
-                && !tokensToIgnore.has(nextToken)
-                && isTokenOnSameLine(token, nextToken)
-                && !sourceCode.isSpaceBetweenTokens(token, nextToken)
+        && (CHECK_TYPE.test(nextToken.type) || pattern.test(nextToken.value))
+        && !isCloseParenOfTemplate(nextToken)
+        && !tokensToIgnore.has(nextToken)
+        && isTokenOnSameLine(token, nextToken)
+        && !sourceCode.isSpaceBetweenTokens(token, nextToken)
       ) {
         context.report({
           loc: token.loc,
@@ -199,11 +199,11 @@ export default createRule({
       const nextToken = sourceCode.getTokenAfter(token)
 
       if (nextToken
-                && (CHECK_TYPE.test(nextToken.type) || pattern.test(nextToken.value))
-                && !isCloseParenOfTemplate(nextToken)
-                && !tokensToIgnore.has(nextToken)
-                && isTokenOnSameLine(token, nextToken)
-                && sourceCode.isSpaceBetweenTokens(token, nextToken)
+        && (CHECK_TYPE.test(nextToken.type) || pattern.test(nextToken.value))
+        && !isCloseParenOfTemplate(nextToken)
+        && !tokensToIgnore.has(nextToken)
+        && isTokenOnSameLine(token, nextToken)
+        && sourceCode.isSpaceBetweenTokens(token, nextToken)
       ) {
         context.report({
           loc: { start: token.loc.end, end: nextToken.loc.start },
@@ -360,8 +360,8 @@ export default createRule({
       const firstToken = node && sourceCode.getFirstToken(node)
 
       if (firstToken
-                && ((firstToken.type === 'Keyword' && firstToken.value === 'function')
-                || firstToken.value === 'async')
+        && ((firstToken.type === 'Keyword' && firstToken.value === 'function')
+        || firstToken.value === 'async')
       )
         checkSpacingBefore(firstToken)
     }
@@ -494,8 +494,8 @@ export default createRule({
 
       if (
         (node.type === 'ExportNamedDeclaration'
-          || node.type === 'ExportAllDeclaration'
-          || node.type === 'ImportDeclaration')
+        || node.type === 'ExportAllDeclaration'
+        || node.type === 'ImportDeclaration')
         && node.source
       ) {
         const fromToken = sourceCode.getTokenBefore(node.source)!
@@ -559,12 +559,12 @@ export default createRule({
 
       if (
         ((node.type === 'MethodDefinition'
-          || node.type === 'Property')
-          && (node.kind === 'get' || node.kind === 'set'))
+        || node.type === 'Property')
+        && (node.kind === 'get' || node.kind === 'set'))
         || (((node.type === 'Property' && node.method)
-          || node.type === 'MethodDefinition')
-          && 'async' in node.value
-          && node.value.async)
+        || node.type === 'MethodDefinition')
+        && 'async' in node.value
+        && node.value.async)
       ) {
         const token = sourceCode.getTokenBefore(
           node.key,

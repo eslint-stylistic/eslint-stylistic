@@ -253,13 +253,13 @@ export default {
 
       if (
         (expressionType === 'Literal' || expressionType === 'JSXText')
-          && typeof expression.value === 'string'
-          && (
-            (JSXExpressionNode.parent.type === 'JSXAttribute' && !isWhiteSpaceLiteral(expression))
-            || !isLiteralWithTrailingWhiteSpaces(expression)
-          )
-          && !containsMultilineComment(expression.value)
-          && !needToEscapeCharacterForJSX(expression.raw, JSXExpressionNode) && (
+        && typeof expression.value === 'string'
+        && (
+          (JSXExpressionNode.parent.type === 'JSXAttribute' && !isWhiteSpaceLiteral(expression))
+          || !isLiteralWithTrailingWhiteSpaces(expression)
+        )
+        && !containsMultilineComment(expression.value)
+        && !needToEscapeCharacterForJSX(expression.raw, JSXExpressionNode) && (
           isJSX(JSXExpressionNode.parent)
           || !containsQuoteCharacters(expression.value)
         )
@@ -281,12 +281,12 @@ export default {
     function areRuleConditionsSatisfied(parent, config, ruleCondition) {
       return (
         parent.type === 'JSXAttribute'
-          && typeof config.props === 'string'
-          && config.props === ruleCondition
+        && typeof config.props === 'string'
+        && config.props === ruleCondition
       ) || (
         isJSX(parent)
-          && typeof config.children === 'string'
-          && config.children === ruleCondition
+        && typeof config.children === 'string'
+        && config.children === ruleCondition
       )
     }
 
@@ -332,9 +332,9 @@ export default {
       if (
         parent.type && parent.type === 'JSXAttribute'
         && (node.expression && node.expression.type
-          && node.expression.type !== 'Literal'
-          && node.expression.type !== 'StringLiteral'
-          && node.expression.type !== 'TemplateLiteral')
+        && node.expression.type !== 'Literal'
+        && node.expression.type !== 'StringLiteral'
+        && node.expression.type !== 'TemplateLiteral')
       )
         return false
 

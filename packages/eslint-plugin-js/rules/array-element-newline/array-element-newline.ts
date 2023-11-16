@@ -252,15 +252,15 @@ export default createRule<MessageIds, RuleOptions>({
 
       const needsLinebreaks = (
         elements.length >= options.minItems
-                || (
-                  options.multiline
-                    && elementBreak
-                )
-                || (
-                  options.consistent
-                    && linebreaksCount > 0
-                    && linebreaksCount < node.elements.length
-                )
+        || (
+          options.multiline
+          && elementBreak
+        )
+        || (
+          options.consistent
+          && linebreaksCount > 0
+          && linebreaksCount < node.elements.length
+        )
       )
 
       elements.forEach((element, i) => {

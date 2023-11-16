@@ -176,7 +176,7 @@ export default createRule<MessageIds, RuleOptions>({
 
         if (
           !sourceCode.isSpaceBetweenTokens(leftToken, operatorToken)
-                    || !sourceCode.isSpaceBetweenTokens(operatorToken, rightToken)
+          || !sourceCode.isSpaceBetweenTokens(operatorToken, rightToken)
         )
           report(node, operatorToken)
       },

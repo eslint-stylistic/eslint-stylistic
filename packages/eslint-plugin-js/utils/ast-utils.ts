@@ -208,8 +208,8 @@ export function isParenthesised(sourceCode: TSESLint.SourceCode, node: ASTNode) 
   const nextToken = sourceCode.getTokenAfter(node)
 
   return !!previousToken && !!nextToken
-        && previousToken.value === '(' && previousToken.range[1] <= node.range![0]
-        && nextToken.value === ')' && nextToken.range[0] >= node.range![1]
+    && previousToken.value === '(' && previousToken.range[1] <= node.range![0]
+    && nextToken.value === ')' && nextToken.range[0] >= node.range![1]
 }
 
 /**
@@ -356,7 +356,7 @@ export function isKeywordToken(token: Token) {
 export function isLogicalExpression(node: ASTNode) {
   return (
     node.type === 'LogicalExpression'
-            && (node.operator === '&&' || node.operator === '||')
+    && (node.operator === '&&' || node.operator === '||')
   )
 }
 
@@ -384,7 +384,7 @@ export function isCoalesceExpression(node: ASTNode) {
 export function isMixedLogicalAndCoalesceExpressions(left: ASTNode, right: ASTNode) {
   return (
     (isLogicalExpression(left) && isCoalesceExpression(right))
-            || (isCoalesceExpression(left) && isLogicalExpression(right))
+    || (isCoalesceExpression(left) && isLogicalExpression(right))
   )
 }
 
@@ -452,7 +452,7 @@ export const isNotSemicolonToken = negate(isSemicolonToken)
 export function isStringLiteral(node: ASTNode): node is TSESTree.StringLiteral | TSESTree.TemplateLiteral {
   return (
     (node.type === 'Literal' && typeof node.value === 'string')
-          || node.type === 'TemplateLiteral'
+    || node.type === 'TemplateLiteral'
   )
 }
 

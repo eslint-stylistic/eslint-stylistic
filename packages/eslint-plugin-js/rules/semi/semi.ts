@@ -165,7 +165,7 @@ export default createRule<MessageIds, RuleOptions>({
 
       return (
         node.type === 'BlockStatement'
-                && node.parent.type === 'ArrowFunctionExpression'
+        && node.parent.type === 'ArrowFunctionExpression'
       )
     }
 
@@ -235,11 +235,11 @@ export default createRule<MessageIds, RuleOptions>({
       const t = node.type
 
       if (t === 'DoWhileStatement'
-                || t === 'BreakStatement'
-                || t === 'ContinueStatement'
-                || t === 'DebuggerStatement'
-                || t === 'ImportDeclaration'
-                || t === 'ExportAllDeclaration'
+        || t === 'BreakStatement'
+        || t === 'ContinueStatement'
+        || t === 'DebuggerStatement'
+        || t === 'ImportDeclaration'
+        || t === 'ExportAllDeclaration'
       )
         return false
 
@@ -264,9 +264,9 @@ export default createRule<MessageIds, RuleOptions>({
     function maybeAsiHazardBefore(token: Token) {
       return (
         Boolean(token)
-                && OPT_OUT_PATTERN.test(token.value)
-                && token.value !== '++'
-                && token.value !== '--'
+        && OPT_OUT_PATTERN.test(token.value)
+        && token.value !== '++'
+        && token.value !== '--'
       )
     }
 
@@ -291,8 +291,8 @@ export default createRule<MessageIds, RuleOptions>({
       // continuation characters should not apply to class fields
       if (
         node.type !== 'PropertyDefinition'
-                && beforeStatementContinuationChars === 'never'
-                && !maybeAsiHazardAfter(node)
+        && beforeStatementContinuationChars === 'never'
+        && !maybeAsiHazardAfter(node)
       )
         return true // ASI works. This statement doesn't connect to the next.
 
@@ -364,8 +364,8 @@ export default createRule<MessageIds, RuleOptions>({
           report(node, true)
         else if (
           !isSemi && beforeStatementContinuationChars === 'always'
-                  && node.type !== 'PropertyDefinition'
-                  && maybeAsiHazardBefore(nextToken)
+          && node.type !== 'PropertyDefinition'
+          && maybeAsiHazardBefore(nextToken)
         )
           report(node)
       }
@@ -390,7 +390,7 @@ export default createRule<MessageIds, RuleOptions>({
       const parent = node.parent as ASTNode
 
       if ((parent.type !== 'ForStatement' || parent.init !== node)
-                && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as Tree.ForInStatement).left !== node)
+        && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as Tree.ForInStatement).left !== node)
       )
         checkForSemicolon(node)
     }

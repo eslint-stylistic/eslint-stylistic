@@ -181,13 +181,13 @@ export default createRule<MessageIds, RuleOptions>({
       if (isTokenOnSameLine(penultimate, last)) {
         const shouldCheckPenultimate = (
           options.arraysInObjectsException && isClosingBracketToken(penultimate)
-                    || options.objectsInObjectsException && isClosingBraceToken(penultimate)
+          || options.objectsInObjectsException && isClosingBraceToken(penultimate)
         )
         const penultimateType = shouldCheckPenultimate && sourceCode.getNodeByRangeIndex(penultimate.range[0])!.type
 
         const closingCurlyBraceMustBeSpaced = (
           options.arraysInObjectsException && penultimateType === 'ArrayExpression'
-                    || options.objectsInObjectsException && (penultimateType === 'ObjectExpression' || penultimateType === 'ObjectPattern')
+          || options.objectsInObjectsException && (penultimateType === 'ObjectExpression' || penultimateType === 'ObjectPattern')
         ) ? !options.spaced : options.spaced
 
         const lastSpaced = sourceCode.isSpaceBetweenTokens(penultimate, last)

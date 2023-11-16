@@ -138,37 +138,37 @@ ruleTester.run('max-len', rule, {
     // check indented comment lines - https://github.com/eslint/eslint/issues/6322
     {
       code: 'function foo() {\n'
-                  + '//this line has 29 characters\n'
-                  + '}',
+      + '//this line has 29 characters\n'
+      + '}',
       options: [40, 4, { comments: 29 }],
     }, {
       code: 'function foo() {\n'
-                  + '    //this line has 33 characters\n'
-                  + '}',
+      + '    //this line has 33 characters\n'
+      + '}',
       options: [40, 4, { comments: 33 }],
     }, {
       code: 'function foo() {\n'
-                  + '/*this line has 29 characters\n'
-                  + 'and this one has 21*/\n'
-                  + '}',
+      + '/*this line has 29 characters\n'
+      + 'and this one has 21*/\n'
+      + '}',
       options: [40, 4, { comments: 29 }],
     }, {
       code: 'function foo() {\n'
-                  + '    /*this line has 33 characters\n'
-                  + '    and this one has 25*/\n'
-                  + '}',
+      + '    /*this line has 33 characters\n'
+      + '    and this one has 25*/\n'
+      + '}',
       options: [40, 4, { comments: 33 }],
     }, {
       code: 'function foo() {\n'
-                  + '    var a; /*this line has 40 characters\n'
-                  + '    and this one has 36 characters*/\n'
-                  + '}',
+      + '    var a; /*this line has 40 characters\n'
+      + '    and this one has 36 characters*/\n'
+      + '}',
       options: [40, 4, { comments: 36 }],
     }, {
       code: 'function foo() {\n'
-                  + '    /*this line has 33 characters\n'
-                  + '    and this one has 43 characters*/ var a;\n'
-                  + '}',
+      + '    /*this line has 33 characters\n'
+      + '    and this one has 43 characters*/ var a;\n'
+      + '}',
       options: [43, 4, { comments: 33 }],
     },
 
@@ -195,133 +195,133 @@ ruleTester.run('max-len', rule, {
     // https://github.com/eslint/eslint/issues/12213
     {
       code: 'var jsx = (<>\n'
-                  + '  { /* this line has 38 characters */}\n'
-                  + '</>)',
+      + '  { /* this line has 38 characters */}\n'
+      + '</>)',
       options: [15, { comments: 38 }],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = (<>\n'
-                  + '\t\t{ /* this line has 40 characters */}\n'
-                  + '</>)',
+      + '\t\t{ /* this line has 40 characters */}\n'
+      + '</>)',
       options: [15, 4, { comments: 44 }],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = (<>\n'
-                  + '  <> text </>{ /* this line has 49 characters */}\n'
-                  + '</>)',
+      + '  <> text </>{ /* this line has 49 characters */}\n'
+      + '</>)',
       options: [13, { ignoreComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = (<>\n'
-                  + '  {/* this line has 37 characters */}\n'
-                  + '  <> </> {/* this line has 44 characters */}\n'
-                  + '</>)',
+      + '  {/* this line has 37 characters */}\n'
+      + '  <> </> {/* this line has 44 characters */}\n'
+      + '</>)',
       options: [44, { comments: 37 }],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = (<>\n'
-                  + '  {/* this line has 37 characters */}\n'
-                  + '  <> </> {/* this line has 44 characters */}\n'
-                  + '</>)',
+      + '  {/* this line has 37 characters */}\n'
+      + '  <> </> {/* this line has 44 characters */}\n'
+      + '</>)',
       options: [37, { ignoreTrailingComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = <Foo\n'
-                  + '         attr = {a && b/* this line has 57 characters */}\n'
-                  + '></Foo>;',
+      + '         attr = {a && b/* this line has 57 characters */}\n'
+      + '></Foo>;',
       options: [57],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = <Foo\n'
-                  + '         attr = {/* this line has 57 characters */a && b}\n'
-                  + '></Foo>;',
+      + '         attr = {/* this line has 57 characters */a && b}\n'
+      + '></Foo>;',
       options: [57],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = <Foo\n'
-                  + '         attr = \n'
-                  + '          {a & b/* this line has 50 characters */}\n'
-                  + '></Foo>;',
+      + '         attr = \n'
+      + '          {a & b/* this line has 50 characters */}\n'
+      + '></Foo>;',
       options: [50],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = (<>\n'
-                 + '  <> </> {/* this line with two separate comments */} {/* have 80 characters */}\n'
-                  + '</>)',
+      + '  <> </> {/* this line with two separate comments */} {/* have 80 characters */}\n'
+      + '</>)',
       options: [80],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = (<>\n'
-                 + '  {/* this line has 37 characters */}\n'
-                 + '  <> </> {/* this line with two separate comments */} {/* have 80 characters */}\n'
-                  + '</>)',
+      + '  {/* this line has 37 characters */}\n'
+      + '  <> </> {/* this line with two separate comments */} {/* have 80 characters */}\n'
+      + '</>)',
       options: [37, { ignoreTrailingComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = (<>\n'
-                 + '  {/* this line has 37 characters */}\n'
-                 + '  <> </> {/* this line with two separate comments */} {/* have 80 characters */}\n'
-                  + '</>)',
+      + '  {/* this line has 37 characters */}\n'
+      + '  <> </> {/* this line with two separate comments */} {/* have 80 characters */}\n'
+      + '</>)',
       options: [37, { ignoreComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = (<>\n'
-                + '  {/* this line has 37 characters */}\n'
-                + '  <> </> {/* this line with two separate comments */} {/* have > 80 characters */ /* another comment in same braces */}\n'
-                + '</>)',
+      + '  {/* this line has 37 characters */}\n'
+      + '  <> </> {/* this line with two separate comments */} {/* have > 80 characters */ /* another comment in same braces */}\n'
+      + '</>)',
       options: [37, { ignoreTrailingComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = (<>\n'
-                + '  {/* this line has 37 characters */}\n'
-                + '  <> </> {/* this line with two separate comments */} {/* have > 80 characters */ /* another comment in same braces */}\n'
-                + '</>)',
+      + '  {/* this line has 37 characters */}\n'
+      + '  <> </> {/* this line with two separate comments */} {/* have > 80 characters */ /* another comment in same braces */}\n'
+      + '</>)',
       options: [37, { ignoreComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = (<>\n'
-                + '  {/*\n'
-                + '       this line has 34 characters\n'
-                + '   */}\n'
-                + '</>)',
+      + '  {/*\n'
+      + '       this line has 34 characters\n'
+      + '   */}\n'
+      + '</>)',
       options: [33, { comments: 34 }],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = (<>\n'
-                + '  {/*\n'
-                + '       this line has 34 characters\n'
-                + '   */}\n'
-                + '</>)',
+      + '  {/*\n'
+      + '       this line has 34 characters\n'
+      + '   */}\n'
+      + '</>)',
       options: [33, { ignoreComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = (<>\n'
-                + '  {a & b /* this line has 34 characters\n'
-                + '   */}\n'
-                + '</>)',
+      + '  {a & b /* this line has 34 characters\n'
+      + '   */}\n'
+      + '</>)',
       options: [33, { ignoreTrailingComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
     {
       code: 'var jsx = (<>\n'
-                + '  {a & b /* this line has 34 characters\n'
-                + '   */}\n'
-                + '</>)',
+      + '  {a & b /* this line has 34 characters\n'
+      + '   */}\n'
+      + '</>)',
       options: [33, { ignoreComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
     },
@@ -547,8 +547,8 @@ ruleTester.run('max-len', rule, {
     // check indented comment lines - https://github.com/eslint/eslint/issues/6322
     {
       code: 'function foo() {\n'
-                  + '//this line has 29 characters\n'
-                  + '}',
+      + '//this line has 29 characters\n'
+      + '}',
       options: [40, 4, { comments: 28 }],
       errors: [
         {
@@ -563,8 +563,8 @@ ruleTester.run('max-len', rule, {
       ],
     }, {
       code: 'function foo() {\n'
-                  + '    //this line has 33 characters\n'
-                  + '}',
+      + '    //this line has 33 characters\n'
+      + '}',
       options: [40, 4, { comments: 32 }],
       errors: [
         {
@@ -579,9 +579,9 @@ ruleTester.run('max-len', rule, {
       ],
     }, {
       code: 'function foo() {\n'
-                  + '/*this line has 29 characters\n'
-                  + 'and this one has 32 characters*/\n'
-                  + '}',
+      + '/*this line has 29 characters\n'
+      + 'and this one has 32 characters*/\n'
+      + '}',
       options: [40, 4, { comments: 28 }],
       errors: [
         {
@@ -605,9 +605,9 @@ ruleTester.run('max-len', rule, {
       ],
     }, {
       code: 'function foo() {\n'
-                  + '    /*this line has 33 characters\n'
-                  + '    and this one has 36 characters*/\n'
-                  + '}',
+      + '    /*this line has 33 characters\n'
+      + '    and this one has 36 characters*/\n'
+      + '}',
       options: [40, 4, { comments: 32 }],
       errors: [
         {
@@ -631,9 +631,9 @@ ruleTester.run('max-len', rule, {
       ],
     }, {
       code: 'function foo() {\n'
-                  + '    var a; /*this line has 40 characters\n'
-                  + '    and this one has 36 characters*/\n'
-                  + '}',
+      + '    var a; /*this line has 40 characters\n'
+      + '    and this one has 36 characters*/\n'
+      + '}',
       options: [39, 4, { comments: 35 }],
       errors: [
         {
@@ -657,9 +657,9 @@ ruleTester.run('max-len', rule, {
       ],
     }, {
       code: 'function foo() {\n'
-                  + '    /*this line has 33 characters\n'
-                  + '    and this one has 43 characters*/ var a;\n'
-                  + '}',
+      + '    /*this line has 33 characters\n'
+      + '    and this one has 43 characters*/ var a;\n'
+      + '}',
       options: [42, 4, { comments: 32 }],
       errors: [
         {
@@ -686,7 +686,7 @@ ruleTester.run('max-len', rule, {
     // check comments with the same length as non-comments - https://github.com/eslint/eslint/issues/6564
     {
       code: '// This commented line has precisely 51 characters.\n'
-                  + 'var x = \'This line also has exactly 51 characters\';',
+      + 'var x = \'This line also has exactly 51 characters\';',
       options: [20, { ignoreComments: true }],
       errors: [
         {
@@ -856,8 +856,8 @@ ruleTester.run('max-len', rule, {
     // https://github.com/eslint/eslint/issues/12213
     {
       code: 'var jsx = (<>\n'
-                  + '  { /* this line has 38 characters */}\n'
-                  + '</>)',
+      + '  { /* this line has 38 characters */}\n'
+      + '</>)',
       options: [15, { comments: 37 }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -874,8 +874,8 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = (<>\n'
-                  + '\t\t{ /* this line has 40 characters */}\n'
-                  + '</>)',
+      + '\t\t{ /* this line has 40 characters */}\n'
+      + '</>)',
       options: [15, 4, { comments: 40 }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -892,8 +892,8 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = (<>\n'
-                  + '{ 38/* this line has 38 characters */}\n'
-                  + '</>)',
+      + '{ 38/* this line has 38 characters */}\n'
+      + '</>)',
       options: [15, { comments: 38 }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -910,8 +910,8 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = (<>\n'
-                  + '{ 38/* this line has 38 characters */}\n'
-                  + '</>)',
+      + '{ 38/* this line has 38 characters */}\n'
+      + '</>)',
       options: [37, { ignoreTrailingComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -928,8 +928,8 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = (<>\n'
-                  + '{ 38/* this line has 38 characters */}\n'
-                  + '</>)',
+      + '{ 38/* this line has 38 characters */}\n'
+      + '</>)',
       options: [37, { ignoreComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -946,8 +946,8 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = (<>\n'
-                  + '   <> 50 </>{ 50/* this line has 50 characters */}\n'
-                  + '</>)',
+      + '   <> 50 </>{ 50/* this line has 50 characters */}\n'
+      + '</>)',
       options: [49, { comments: 100 }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -964,9 +964,9 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = (<>\n'
-                  + '         {/* this line has 44 characters */}\n'
-                  + '  <> </> {/* this line has 44 characters */}\n'
-                  + '</>)',
+      + '         {/* this line has 44 characters */}\n'
+      + '  <> </> {/* this line has 44 characters */}\n'
+      + '</>)',
       options: [37, { ignoreTrailingComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -983,8 +983,8 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = <Foo\n'
-                  + '         attr = {a && b/* this line has 57 characters */}\n'
-                  + '></Foo>;',
+      + '         attr = {a && b/* this line has 57 characters */}\n'
+      + '></Foo>;',
       options: [56],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -1001,8 +1001,8 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = <Foo\n'
-                  + '         attr = {/* this line has 57 characters */a && b}\n'
-                  + '></Foo>;',
+      + '         attr = {/* this line has 57 characters */a && b}\n'
+      + '></Foo>;',
       options: [56],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -1019,8 +1019,8 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = <Foo\n'
-                  + '         attr = {a & b/* this line has 56 characters */}\n'
-                  + '></Foo>;',
+      + '         attr = {a & b/* this line has 56 characters */}\n'
+      + '></Foo>;',
       options: [55, { ignoreTrailingComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -1037,9 +1037,9 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = <Foo\n'
-                  + '         attr = \n'
-                  + '          {a & b /* this line has 51 characters */}\n'
-                  + '></Foo>;',
+      + '         attr = \n'
+      + '          {a & b /* this line has 51 characters */}\n'
+      + '></Foo>;',
       options: [30, { comments: 44 }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -1056,9 +1056,9 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = (<>\n'
-                 + '  {/* this line has 37 characters */}\n'
-                 + '  <> </> {/* this line with two separate comments */} {/* have 80 characters */}\n'
-                  + '</>)',
+      + '  {/* this line has 37 characters */}\n'
+      + '  <> </> {/* this line with two separate comments */} {/* have 80 characters */}\n'
+      + '</>)',
       options: [79],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -1075,8 +1075,8 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = (<>\n'
-                 + '  <> </> {/* this line with two separate comments */} {/* have 87 characters */} <> </>\n'
-                  + '</>)',
+      + '  <> </> {/* this line with two separate comments */} {/* have 87 characters */} <> </>\n'
+      + '</>)',
       options: [85, { ignoreTrailingComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -1093,9 +1093,9 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = (<>\n'
-                 + '  {/* this line has 37 characters */}\n'
-                 + '  <> </> {/* this line with two separate comments */} {/* have 87 characters */} <> </>\n'
-                  + '</>)',
+      + '  {/* this line has 37 characters */}\n'
+      + '  <> </> {/* this line with two separate comments */} {/* have 87 characters */} <> </>\n'
+      + '</>)',
       options: [37, { ignoreComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -1112,9 +1112,9 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = (<>\n'
-                + '  {/* this line has 37 characters */}\n'
-                + '  <> </> {/* this line with two separate comments */} {/* have > 80 characters */ /* another comment in same braces */}\n'
-                + '</>)',
+      + '  {/* this line has 37 characters */}\n'
+      + '  <> </> {/* this line with two separate comments */} {/* have > 80 characters */ /* another comment in same braces */}\n'
+      + '</>)',
       options: [37],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -1131,9 +1131,9 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = (<>\n'
-                + '  {/* this line has 37 characters */}\n'
-                + '  <> </> {/* this is not treated as a comment */ a & b} {/* trailing */ /* comments */}\n'
-                + '</>)',
+      + '  {/* this line has 37 characters */}\n'
+      + '  <> </> {/* this is not treated as a comment */ a & b} {/* trailing */ /* comments */}\n'
+      + '</>)',
       options: [37, { ignoreTrailingComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -1150,9 +1150,9 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = (<>\n'
-                + '  {/* this line has 37 characters */}\n'
-                + '  <> </> {/* this is not treated as a comment */ a & b} {/* trailing */ /* comments */}\n'
-                + '</>)',
+      + '  {/* this line has 37 characters */}\n'
+      + '  <> </> {/* this is not treated as a comment */ a & b} {/* trailing */ /* comments */}\n'
+      + '</>)',
       options: [37, { ignoreComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -1169,9 +1169,9 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = (<>\n'
-                  + '12345678901234{/*\n'
-                  + '*/}\n'
-                  + '</>)',
+      + '12345678901234{/*\n'
+      + '*/}\n'
+      + '</>)',
       options: [14, { ignoreTrailingComments: true }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [
@@ -1188,9 +1188,9 @@ ruleTester.run('max-len', rule, {
     },
     {
       code: 'var jsx = (<>\n'
-                  + '{/*\n'
-                  + 'this line has 31 characters */}\n'
-                  + '</>)',
+      + '{/*\n'
+      + 'this line has 31 characters */}\n'
+      + '</>)',
       options: [30, { comments: 100 }],
       parserOptions: { ecmaFeatures: { jsx: true } },
       errors: [

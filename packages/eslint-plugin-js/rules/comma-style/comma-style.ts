@@ -130,13 +130,13 @@ export default createRule<MessageIds, RuleOptions>({
     function validateCommaItemSpacing(previousItemToken: Token, commaToken: Token, currentItemToken: Token, reportItem: Token): void {
       // if single line
       if (isTokenOnSameLine(commaToken, currentItemToken)
-                    && isTokenOnSameLine(previousItemToken, commaToken)) {
+        && isTokenOnSameLine(previousItemToken, commaToken)) {
 
         // do nothing.
 
       }
       else if (!isTokenOnSameLine(commaToken, currentItemToken)
-                    && !isTokenOnSameLine(previousItemToken, commaToken)) {
+        && !isTokenOnSameLine(previousItemToken, commaToken)) {
         const comment = sourceCode.getCommentsAfter(commaToken)[0]
         const styleType = comment && comment.type === 'Block' && isTokenOnSameLine(commaToken, comment)
           ? style

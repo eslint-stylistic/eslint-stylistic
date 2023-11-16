@@ -16,8 +16,8 @@ ruleTester.run('no-tabs', rule, {
   valid: [
     'function test(){\n}',
     'function test(){\n'
-        + '  //   sdfdsf \n'
-        + '}',
+    + '  //   sdfdsf \n'
+    + '}',
 
     {
       code: '\tdoSomething();',

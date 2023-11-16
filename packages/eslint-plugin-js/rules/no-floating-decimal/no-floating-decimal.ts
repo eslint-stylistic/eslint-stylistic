@@ -41,8 +41,8 @@ export default createRule<MessageIds, RuleOptions>({
               fix(fixer) {
                 const tokenBefore = sourceCode.getTokenBefore(node)
                 const needsSpaceBefore = tokenBefore
-                                    && tokenBefore.range[1] === node.range[0]
-                                    && !canTokensBeAdjacent(tokenBefore, `0${node.raw}`)
+                  && tokenBefore.range[1] === node.range[0]
+                  && !canTokensBeAdjacent(tokenBefore, `0${node.raw}`)
 
                 return fixer.insertTextBefore(node, needsSpaceBefore ? ' 0' : '0')
               },

@@ -137,11 +137,15 @@ export default createRule<MessageIds, RuleOptions>({
       const b = node.parent as (NodeType | Tree.ConditionalExpression)
 
       return (
-        !includesBothInAGroup(options.groups ?? [], a.operator, b.type === 'ConditionalExpression' ? '?:' : b.operator)
-                || (
-                  options.allowSamePrecedence
-                    && getPrecedence(a) === getPrecedence(b)
-                )
+        !includesBothInAGroup(
+          options.groups ?? [],
+          a.operator,
+          b.type === 'ConditionalExpression' ? '?:' : b.operator,
+        )
+        || (
+          options.allowSamePrecedence
+          && getPrecedence(a) === getPrecedence(b)
+        )
       )
     }
 
@@ -156,7 +160,7 @@ export default createRule<MessageIds, RuleOptions>({
     function isMixedWithParent(node: NodeType): boolean {
       return (
         node.operator !== (node.parent as NodeType).operator
-                && !isParenthesised(sourceCode, node)
+        && !isParenthesised(sourceCode, node)
       )
     }
 
@@ -208,8 +212,8 @@ export default createRule<MessageIds, RuleOptions>({
     function check(node: NodeType) {
       if (
         TARGET_NODE_TYPE.test(node.parent.type)
-                && isMixedWithParent(node)
-                && !shouldIgnore(node)
+        && isMixedWithParent(node)
+        && !shouldIgnore(node)
       )
         reportBothOperators(node)
     }

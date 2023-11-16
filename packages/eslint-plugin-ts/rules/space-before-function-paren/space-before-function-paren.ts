@@ -78,7 +78,7 @@ export default createRule<RuleOptions, MessageIds>({
         parent.type === AST_NODE_TYPES.MethodDefinition
         || parent.type === AST_NODE_TYPES.TSAbstractMethodDefinition
         || (parent.type === AST_NODE_TYPES.Property
-          && (parent.kind === 'get' || parent.kind === 'set' || parent.method))
+        && (parent.kind === 'get' || parent.kind === 'set' || parent.method))
       )
     }
 
