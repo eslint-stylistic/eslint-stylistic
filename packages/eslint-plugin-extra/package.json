@@ -1,11 +1,11 @@
 {
-  "name": "@stylistic/eslint-plugin",
+  "name": "@stylistic/eslint-plugin-extra",
   "version": "1.2.0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
   "repository": {
-    "directory": "packages/eslint-plugin",
+    "directory": "packages/eslint-plugin-extra",
     "type": "git",
     "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git"
   },
@@ -23,13 +23,15 @@
     },
     "./rule-options": {
       "types": "./dts/rule-options.d.ts"
-    }
+    },
+    "./rules/no-extra-semi": "./dist/no-extra-semi.js"
   },
   "main": "./dist/index.js",
   "types": "./dts/index.d.ts",
   "files": [
     "dist",
-    "dts"
+    "dts",
+    "rules/**/*.d.ts"
   ],
   "scripts": {
     "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",
@@ -40,9 +42,9 @@
     "eslint": "*"
   },
   "dependencies": {
-    "@stylistic/eslint-plugin-extra": "workspace:*",
-    "@stylistic/eslint-plugin-js": "workspace:*",
-    "@stylistic/eslint-plugin-jsx": "workspace:*",
-    "@stylistic/eslint-plugin-ts": "workspace:*"
+    "@typescript-eslint/utils": "^6.11.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/rule-tester": "^6.11.0"
   }
 }

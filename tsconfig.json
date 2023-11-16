@@ -18,6 +18,9 @@
       "@stylistic/eslint-plugin-jsx": [
         "./packages/eslint-plugin-jsx/src/index.ts"
       ],
+      "@stylistic/eslint-plugin-extra": [
+        "./packages/eslint-plugin-extra/src/index.ts"
+      ],
       "@stylistic/eslint-plugin": [
         "./packages/eslint-plugin/src/index.ts"
       ]

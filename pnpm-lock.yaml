@@ -180,6 +180,19 @@ importers:
         specifier: '*'
         version: 8.53.0
 
+  packages/eslint-plugin-extra:
+    dependencies:
+      '@typescript-eslint/utils':
+        specifier: ^6.11.0
+        version: 6.11.0(eslint@8.53.0)(typescript@5.2.2)
+      eslint:
+        specifier: '*'
+        version: 8.53.0
+    devDependencies:
+      '@typescript-eslint/rule-tester':
+        specifier: ^6.11.0
+        version: 6.11.0(@eslint/eslintrc@2.1.3)(eslint@8.53.0)(typescript@5.2.2)
+
   packages/eslint-plugin-js:
     dependencies:
       acorn:
