@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Constants
-// ------------------------------------------------------------------------------
-
 /**
  * Switches quoting of javascript string between ' " and `
  * escaping and unescaping as necessary.
@@ -67,10 +63,6 @@ const QUOTE_SETTINGS = {
 const UNESCAPED_LINEBREAK_PATTERN = new RegExp(String.raw`(^|[^\\])(\\\\)*[${Array.from(LINEBREAKS).join('')}]`, 'u')
 
 const AVOID_ESCAPE = 'avoid-escape'
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
 export default createRule<MessageIds, RuleOptions>({

@@ -6,10 +6,6 @@
 import { docsUrl } from '../../utils/docsUrl'
 import report from '../../utils/report'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const messages = {
   noSpaceBefore: 'There should be no space before \'=\'',
   noSpaceAfter: 'There should be no space after \'=\'',
@@ -44,10 +40,6 @@ export default {
     function hasEqual(attrNode) {
       return attrNode.type !== 'JSXSpreadAttribute' && attrNode.value !== null
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       JSXOpeningElement(node) {

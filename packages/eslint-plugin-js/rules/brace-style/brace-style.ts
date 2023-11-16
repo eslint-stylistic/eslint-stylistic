@@ -53,10 +53,6 @@ export default createRule({
     const params = context.options[1] || {}
     const sourceCode = context.sourceCode
 
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
-
     /**
      * Fixes a place where a newline unexpectedly appears
      * @param {Token} firstToken The token before the unexpected newline
@@ -146,10 +142,6 @@ export default createRule({
         })
       }
     }
-
-    // --------------------------------------------------------------------------
-    // Public API
-    // --------------------------------------------------------------------------
 
     return {
       BlockStatement(node) {

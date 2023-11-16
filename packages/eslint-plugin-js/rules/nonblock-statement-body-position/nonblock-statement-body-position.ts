@@ -7,10 +7,6 @@ import { createRule } from '../../utils/createRule'
 import type { JSONSchema, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 type KeywordName = keyof NonNullable<NonNullable<RuleOptions['1']>['overrides']>
 
 const POSITION_SCHEMA: JSONSchema.JSONSchema4 = {
@@ -59,10 +55,6 @@ export default createRule<MessageIds, RuleOptions>({
   create(context) {
     const sourceCode = context.sourceCode
 
-    // ----------------------------------------------------------------------
-    // Helpers
-    // ----------------------------------------------------------------------
-
     /**
      * Gets the applicable preference for a particular keyword
      * @param {string} keywordName The name of a keyword, e.g. 'if'
@@ -108,10 +100,6 @@ export default createRule<MessageIds, RuleOptions>({
         })
       }
     }
-
-    // ----------------------------------------------------------------------
-    // Public
-    // ----------------------------------------------------------------------
 
     return {
       IfStatement(node) {

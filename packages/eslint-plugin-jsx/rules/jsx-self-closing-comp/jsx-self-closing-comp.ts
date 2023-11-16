@@ -9,10 +9,6 @@ import { isDOMComponent } from '../../utils/jsx'
 import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const optionDefaults = { component: true, html: true }
 
 const messages = {

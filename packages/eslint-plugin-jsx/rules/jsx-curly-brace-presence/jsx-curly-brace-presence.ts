@@ -10,10 +10,6 @@ import { isJSX, isWhiteSpaces } from '../../utils/jsx'
 import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Constants
-// ------------------------------------------------------------------------------
-
 const OPTION_ALWAYS = 'always'
 const OPTION_NEVER = 'never'
 const OPTION_IGNORE = 'ignore'
@@ -24,10 +20,6 @@ const OPTION_VALUES = [
   OPTION_IGNORE,
 ]
 const DEFAULT_CONFIG = { props: OPTION_NEVER, children: OPTION_NEVER, propElementValues: OPTION_IGNORE }
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 const messages = {
   unnecessaryCurly: 'Curly braces are unnecessary here.',
@@ -379,10 +371,6 @@ export default createRule<MessageIds, RuleOptions>({
 
       return areRuleConditionsSatisfied(parent, config, OPTION_ALWAYS)
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       'JSXAttribute > JSXExpressionContainer > JSXElement': function (node: Tree.JSXElement) {

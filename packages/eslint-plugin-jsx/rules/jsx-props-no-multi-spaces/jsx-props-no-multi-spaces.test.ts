@@ -17,10 +17,6 @@ const parserOptions = {
   },
 }
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-props-no-multi-spaces', rule, {
   valid: valids(

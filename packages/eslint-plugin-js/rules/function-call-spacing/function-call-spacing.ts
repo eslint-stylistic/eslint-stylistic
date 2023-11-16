@@ -7,10 +7,6 @@ import { LINEBREAK_MATCHER, isNotQuestionDotToken, isOpeningParenToken } from '.
 import { createRule } from '../../utils/createRule'
 import type { Token, Tree } from '../../utils/types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule({
   meta: {
     type: 'layout',

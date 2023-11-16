@@ -14,10 +14,6 @@ import { docsUrl } from '../../utils/docsUrl'
 import type { ASTNode, RuleFixer, Token, Tree } from '../../utils/types'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const SPACING = {
   always: 'always',
   never: 'never',
@@ -155,10 +151,6 @@ export default createRule<MessageIds, RuleOptions>({
     const attributesConfig = attributes ? normalizeConfig(attributes, defaultConfig, true) : null
     const children = 'children' in originalConfig ? originalConfig.children : DEFAULT_CHILDREN
     const childrenConfig = children ? normalizeConfig(children, defaultConfig, true) : null
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     /**
      * Determines whether two adjacent tokens have a newline between them.
@@ -418,10 +410,6 @@ export default createRule<MessageIds, RuleOptions>({
         }
       }
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       JSXExpressionContainer: validateBraceSpacing,

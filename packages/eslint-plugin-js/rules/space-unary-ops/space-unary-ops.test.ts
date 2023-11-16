@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './space-unary-ops'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('space-unary-ops', rule, {

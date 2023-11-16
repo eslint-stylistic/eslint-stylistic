@@ -15,10 +15,6 @@ const parserOptions = {
   },
 }
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-one-expression-per-line', rule, {
   valid: valids(

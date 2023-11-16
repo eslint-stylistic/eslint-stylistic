@@ -8,10 +8,6 @@ import { docsUrl } from '../../utils/docsUrl'
 import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const messages = {
   noLineGap: 'Expected no line gap between “{{prop1}}” and “{{prop2}}”',
   onlyOneSpace: 'Expected only one space between “{{prop1}}” and “{{prop2}}”',

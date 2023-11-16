@@ -6,10 +6,6 @@
 import { docsUrl } from '../../utils/docsUrl'
 import report from '../../utils/report'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const messages = {
   propOnNewLine: 'Property should be placed on a new line',
   propOnSameLine: 'Property should be placed on the same line as the component declaration',

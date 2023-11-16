@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Token } from '../../utils/types'
 import type { RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 type NodeTest = (
   node: ASTNode
 ) => boolean
@@ -30,10 +26,6 @@ const ClassMemberTypes: Record<string, NodeTestObject> = {
   'field': { test: node => node.type === 'PropertyDefinition' },
   'method': { test: node => node.type === 'MethodDefinition' },
 }
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule({
   meta: {

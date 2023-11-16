@@ -5,10 +5,6 @@
 
 import { createRule } from '../../utils/createRule'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule({
   meta: {
     type: 'layout',
@@ -33,10 +29,6 @@ export default createRule({
     },
   },
   create(context) {
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
-
     return {
       Program: function checkBadEOF(node) {
         const sourceCode = context.sourceCode

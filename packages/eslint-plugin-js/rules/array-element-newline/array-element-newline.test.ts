@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './array-element-newline'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('array-element-newline', rule, {

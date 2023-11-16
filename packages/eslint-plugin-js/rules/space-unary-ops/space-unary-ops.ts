@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -59,10 +55,6 @@ export default createRule<MessageIds, RuleOptions>({
     const options = context.options[0] || { words: true, nonwords: false }
 
     const sourceCode = context.sourceCode
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     /**
      * Check if the node is the first "!" in a "!!" convert to Boolean expression
@@ -308,10 +300,6 @@ export default createRule<MessageIds, RuleOptions>({
         verifyNonWordsDontHaveSpaces(node, firstToken, secondToken)
       }
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       UnaryExpression: checkForSpaces,

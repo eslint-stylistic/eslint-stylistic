@@ -15,10 +15,6 @@ const parserOptions = {
   },
 } as const
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-max-props-per-line', rule, {
   valid: valids(

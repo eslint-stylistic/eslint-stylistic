@@ -10,10 +10,6 @@ import report from '../../utils/report'
 import type { RuleFixer, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const messages = {
   onOwnLine: 'Closing tag of a multiline JSX expression must be on its own line.',
   matchIndent: 'Expected closing tag to match indentation of opening.',

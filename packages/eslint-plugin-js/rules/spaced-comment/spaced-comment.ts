@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 /**
  * Escapes the control characters of a given string.
  * @param {string} s A string to escape.
@@ -147,10 +143,6 @@ interface StyleRuleRegExp {
   captureMarker: RegExp
   markers: Set<string>
 }
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {

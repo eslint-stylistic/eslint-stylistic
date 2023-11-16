@@ -7,10 +7,6 @@ import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './no-extra-parens'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 /**
  * Create error message object for failure cases
  * @param {string} code source code
@@ -38,10 +34,6 @@ function invalid(code: string, output: string | null, type?: string, line?: numb
 
   return result
 }
-
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
   parserOptions: {

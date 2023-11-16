@@ -27,10 +27,6 @@ const messages = {
   beforeCloseNeedNewline: 'A newline is required before closing bracket',
 }
 
-// ------------------------------------------------------------------------------
-// Validators
-// ------------------------------------------------------------------------------
-
 function validateClosingSlash(
   context: Context,
   node: Tree.JSXOpeningElement | Tree.JSXClosingElement,

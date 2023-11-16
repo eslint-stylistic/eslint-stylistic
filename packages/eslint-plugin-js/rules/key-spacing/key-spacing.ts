@@ -121,10 +121,6 @@ function initOptions(toOptions: any, fromOptions: any) {
   return toOptions
 }
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule({
   meta: {
     type: 'layout',
@@ -393,11 +389,11 @@ export default createRule({
       if (candidateValueStartLine - groupEndLine <= 1)
         return true
 
-      /*
-             * Check that the first comment is adjacent to the end of the group, the
-             * last comment is adjacent to the candidate property, and that successive
-             * comments are adjacent to each other.
-             */
+      /**
+       * Check that the first comment is adjacent to the end of the group, the
+       * last comment is adjacent to the candidate property, and that successive
+       * comments are adjacent to each other.
+       */
       const leadingComments = sourceCode.getCommentsBefore(candidate)
 
       if (
@@ -655,10 +651,6 @@ export default createRule({
           verifyGroupAlignment(properties)
       })
     }
-
-    // --------------------------------------------------------------------------
-    // Public API
-    // --------------------------------------------------------------------------
 
     if (alignmentOptions) { // Verify vertical alignment
       return {

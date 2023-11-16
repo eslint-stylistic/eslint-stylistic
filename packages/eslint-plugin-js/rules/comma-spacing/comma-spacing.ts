@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -54,10 +50,6 @@ export default createRule<MessageIds, RuleOptions>({
       before: context.options[0] ? context.options[0].before : false,
       after: context.options[0] ? context.options[0].after : true,
     }
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     // list of comma tokens to ignore for the check of leading whitespace
     const commaTokensToIgnore: Token[] = []
@@ -125,10 +117,6 @@ export default createRule<MessageIds, RuleOptions>({
         previousToken = token
       })
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       'Program:exit': function () {

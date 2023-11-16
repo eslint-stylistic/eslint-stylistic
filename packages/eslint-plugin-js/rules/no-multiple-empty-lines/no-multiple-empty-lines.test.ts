@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './no-multiple-empty-lines'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 /**
  * Creates the expected error message object for the specified number of lines
  * @param {lines} lines The number of lines expected.
@@ -61,10 +57,6 @@ function getExpectedErrorBOF(lines: number) {
     column: 1,
   }
 }
-
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester()
 

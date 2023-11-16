@@ -7,10 +7,6 @@ import { canTokensBeAdjacent } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',

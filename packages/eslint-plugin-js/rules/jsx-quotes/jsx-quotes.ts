@@ -7,10 +7,6 @@ import { isStringLiteral, isSurroundedBy } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import type { Tree } from '../../utils/types'
 
-// ------------------------------------------------------------------------------
-// Constants
-// ------------------------------------------------------------------------------
-
 interface QuoteSetting {
   quote: string
   description: string
@@ -33,10 +29,6 @@ const QUOTE_SETTINGS: Record<string, QuoteSetting> = {
     },
   },
 }
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule({
   meta: {

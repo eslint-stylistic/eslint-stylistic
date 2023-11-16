@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { Token, Tree } from '../../utils/types'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -80,10 +76,6 @@ export default createRule<MessageIds, RuleOptions>({
 
   create(context) {
     const sourceCode = context.sourceCode
-
-    // ----------------------------------------------------------------------
-    // Helpers
-    // ----------------------------------------------------------------------
 
     /**
      * Normalizes a given option value.
@@ -283,10 +275,6 @@ export default createRule<MessageIds, RuleOptions>({
         }
       })
     }
-
-    // ----------------------------------------------------------------------
-    // Public
-    // ----------------------------------------------------------------------
 
     return {
       ArrayPattern: check,

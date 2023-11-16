@@ -6,10 +6,6 @@
 import { createRule } from '../../utils/createRule'
 import type { JSONSchema, Token, Tree } from '../../utils/types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const OVERRIDE_SCHEMA: JSONSchema.JSONSchema4 = {
   oneOf: [
     {

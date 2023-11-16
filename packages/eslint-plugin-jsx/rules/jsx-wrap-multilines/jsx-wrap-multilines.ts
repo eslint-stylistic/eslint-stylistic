@@ -189,10 +189,6 @@ export default createRule<MessageIds, RuleOptions>({
       }
     }
 
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
-
     return {
       VariableDeclarator(node) {
         const type = 'declaration'

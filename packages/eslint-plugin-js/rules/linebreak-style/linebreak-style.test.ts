@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './linebreak-style'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('linebreak-style', rule, {

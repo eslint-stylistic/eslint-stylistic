@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './eol-last'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('eol-last', rule, {

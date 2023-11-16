@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './semi-style'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('semi-style', rule, {

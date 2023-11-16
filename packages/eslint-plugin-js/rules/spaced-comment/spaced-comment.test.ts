@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './spaced-comment'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 const validShebangProgram = '#!/path/to/node\nvar a = 3;'
 

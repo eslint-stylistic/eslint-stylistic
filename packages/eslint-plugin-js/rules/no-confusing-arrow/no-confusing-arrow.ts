@@ -9,10 +9,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 /**
  * Checks whether or not a node is a conditional expression.
  * @param {ASTNode} node node to test
@@ -21,10 +17,6 @@ import type { MessageIds, RuleOptions } from './types'
 function isConditional(node: ASTNode) {
   return node.type === 'ConditionalExpression'
 }
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {

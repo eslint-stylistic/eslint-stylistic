@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './no-confusing-arrow'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
 
 ruleTester.run('no-confusing-arrow', rule, {

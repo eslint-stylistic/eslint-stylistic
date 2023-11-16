@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 const ARITHMETIC_OPERATORS = ['+', '-', '*', '/', '%', '**']
 const BITWISE_OPERATORS = ['&', '|', '^', '~', '<<', '>>', '>>>']
 const COMPARISON_OPERATORS = ['==', '!=', '===', '!==', '>', '>=', '<', '<=']
@@ -74,10 +70,6 @@ function includesBothInAGroup(groups: string[][], left: string, right: string): 
 function getChildNode(node: NodeType | Tree.ConditionalExpression): Tree.Node {
   return node.type === 'ConditionalExpression' ? node.test : node.left
 }
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 type NodeType = Tree.BinaryExpression | Tree.LogicalExpression
 

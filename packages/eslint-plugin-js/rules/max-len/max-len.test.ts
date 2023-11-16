@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './max-len'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const parserOptions = { ecmaVersion: 6 } as const
 
 const ruleTester = new RuleTester()

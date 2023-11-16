@@ -7,10 +7,6 @@ import { isCommentToken, isNotOpeningParenToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import type { Tree } from '../../utils/types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule({
   meta: {
     type: 'layout',
@@ -70,10 +66,6 @@ export default createRule({
         })
       }
     }
-
-    // ----------------------------------------------------------------------
-    // Public
-    // ----------------------------------------------------------------------
     return {
       ArrowFunctionExpression: node => validateExpression(node),
     }

@@ -108,8 +108,7 @@ Examples of **correct** code for this rule with the `"always"` option:
  * This is a comment with a whitespace at the beginning
  */
 
-/*
-This comment has a newline
+/**This comment has a newline
 */
 ```
 

@@ -1,10 +1,6 @@
 import { RuleTester } from 'eslint'
 import rule from './function-call-argument-newline'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('function-call-argument-newline', rule, {

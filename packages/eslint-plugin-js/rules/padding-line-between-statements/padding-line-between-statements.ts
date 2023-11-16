@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { RuleContext, SourceCode, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 const LT = `[${Array.from(LINEBREAKS).join('')}]`
 const PADDING_LINE_SEQUENCE = new RegExp(
   String.raw`^(\s*?${LT})\s*${LT}(\s*;?)$`,
@@ -363,10 +359,6 @@ const StatementTypes = {
   'while': newKeywordTester('while'),
   'with': newKeywordTester('with'),
 } satisfies Record<string, Tester>
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {

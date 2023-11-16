@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './padded-blocks'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('padded-blocks', rule, {

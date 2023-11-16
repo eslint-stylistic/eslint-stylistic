@@ -7,10 +7,6 @@ import { isClosingBraceToken, isClosingBracketToken, isNotCommaToken, isTokenOnS
 import type { ASTNode, RuleFixer, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -69,10 +65,6 @@ export default createRule<MessageIds, RuleOptions>({
       arraysInObjectsException: isOptionSet('arraysInObjects'),
       objectsInObjectsException: isOptionSet('objectsInObjects'),
     }
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     /**
      * Reports that there shouldn't be a space after the first token
@@ -284,10 +276,6 @@ export default createRule<MessageIds, RuleOptions>({
 
       validateBraceSpacing(node, first, second, penultimate, last)
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
 

@@ -7,10 +7,6 @@ import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine
 import { createRule } from '../../utils/createRule'
 import type { Token, Tree } from '../../utils/types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 interface ParensPair {
   leftParen: Token
   rightParen: Token
@@ -71,10 +67,6 @@ export default createRule({
       minItems = 0
     else if (rawOption === 'never')
       minItems = Infinity
-
-    // ----------------------------------------------------------------------
-    // Helpers
-    // ----------------------------------------------------------------------
 
     /**
      * Determines whether there should be newlines inside function parens
@@ -257,10 +249,6 @@ export default createRule({
           throw new TypeError(`unexpected node with type ${node.type}`)
       }
     }
-
-    // ----------------------------------------------------------------------
-    // Public
-    // ----------------------------------------------------------------------
 
     return {
       [[

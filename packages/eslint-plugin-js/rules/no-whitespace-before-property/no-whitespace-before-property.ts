@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -31,10 +27,6 @@ export default createRule<MessageIds, RuleOptions>({
 
   create(context) {
     const sourceCode = context.sourceCode
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     /**
      * Reports whitespace before property token
@@ -75,10 +67,6 @@ export default createRule<MessageIds, RuleOptions>({
         },
       })
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       MemberExpression(node: Tree.MemberExpression) {

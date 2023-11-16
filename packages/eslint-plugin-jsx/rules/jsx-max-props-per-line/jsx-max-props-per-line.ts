@@ -15,10 +15,6 @@ function getPropName(context: RuleContext<MessageIds, RuleOptions>, propNode: Tr
   return propNode.name.name
 }
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const messages = {
   newLine: 'Prop `{{prop}}` must be placed on a new line',
 }
