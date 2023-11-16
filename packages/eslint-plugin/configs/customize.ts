@@ -112,7 +112,22 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
     '@stylistic/keyword-spacing': ['error', { after: true, before: true }],
     '@stylistic/lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],
     '@stylistic/max-statements-per-line': ['error', { max: 1 }],
-    '@stylistic/member-delimiter-style': ['error', { multiline: { delimiter: 'none' } }],
+    '@stylistic/member-delimiter-style': ['error', {
+      multiline: {
+        delimiter: 'none',
+      },
+      multilineDetection: 'brackets',
+      overrides: {
+        interface: {
+          multiline: {
+            delimiter: 'none',
+          },
+        },
+      },
+      singleline: {
+        delimiter: 'comma',
+      },
+    }],
     '@stylistic/multiline-ternary': ['error', 'always-multiline'],
     '@stylistic/new-parens': 'error',
     '@stylistic/no-extra-parens': ['error', 'functions'],
