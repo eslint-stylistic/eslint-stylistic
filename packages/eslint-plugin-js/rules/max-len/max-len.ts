@@ -4,14 +4,14 @@
  */
 
 import { createRule } from '../../utils/createRule'
-import type { Tree } from '../../utils/types'
+import type { JSONSchema, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Constants
 // ------------------------------------------------------------------------------
 
-const OPTIONS_SCHEMA = {
+const OPTIONS_SCHEMA: JSONSchema.JSONSchema4 = {
   type: 'object',
   properties: {
     code: {
@@ -49,7 +49,17 @@ const OPTIONS_SCHEMA = {
     },
   },
   additionalProperties: false,
-} as const
+}
+
+const OPTIONS_OR_INTEGER_SCHEMA: JSONSchema.JSONSchema4 = {
+  anyOf: [
+    OPTIONS_SCHEMA,
+    {
+      type: 'integer',
+      minimum: 0,
+    },
+  ],
+}
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -65,24 +75,8 @@ export default createRule<MessageIds, RuleOptions>({
     },
 
     schema: [
-      {
-        anyOf: [
-          OPTIONS_SCHEMA,
-          {
-            type: 'integer',
-            minimum: 0,
-          },
-        ],
-      },
-      {
-        anyOf: [
-          OPTIONS_SCHEMA,
-          {
-            type: 'integer',
-            minimum: 0,
-          },
-        ],
-      },
+      OPTIONS_OR_INTEGER_SCHEMA,
+      OPTIONS_OR_INTEGER_SCHEMA,
       OPTIONS_SCHEMA,
     ],
     messages: {
@@ -324,17 +318,17 @@ export default createRule<MessageIds, RuleOptions>({
         // i is zero-indexed, line numbers are one-indexed
         const lineNumber = i + 1
 
-        /*
-                 * if we're checking comment length; we need to know whether this
-                 * line is a comment
-                 */
+        /**
+         * if we're checking comment length; we need to know whether this
+         * line is a comment
+         */
         let lineIsComment = false
         let textToMeasure
 
-        /*
-                 * We can short-circuit the comment checks if we're already out of
-                 * comments to check.
-                 */
+        /**
+         * We can short-circuit the comment checks if we're already out of
+         * comments to check.
+         */
         if (commentsIndex < comments.length) {
           let comment = null
 
