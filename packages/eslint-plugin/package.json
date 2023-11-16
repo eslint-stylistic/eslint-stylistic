@@ -14,22 +14,21 @@
   },
   "exports": {
     ".": {
-      "types": "./dts/index.d.ts",
+      "types": "./dist/index.d.ts",
       "require": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./define-config-support": {
-      "types": "./dts/define-config-support.d.ts"
+      "types": "./dist/dts/define-config-support.d.ts"
     },
     "./rule-options": {
-      "types": "./dts/rule-options.d.ts"
+      "types": "./dist/dts/rule-options.d.ts"
     }
   },
   "main": "./dist/index.js",
   "types": "./dts/index.d.ts",
   "files": [
-    "dist",
-    "dts"
+    "dist"
   ],
   "scripts": {
     "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",

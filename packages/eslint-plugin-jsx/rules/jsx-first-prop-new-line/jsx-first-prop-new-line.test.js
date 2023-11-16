@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parsers from '../../test-utils/parsers'
+import { invalids } from '../../test-utils/parsers'
 import rule from './jsx-first-prop-new-line'
 
 const parserOptions = {
@@ -22,7 +22,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-first-prop-new-line', rule, {
-  valid: parsers.all([
+  valid: invalids(
     {
       code: '<Foo />',
       options: ['never'],
@@ -150,9 +150,9 @@ ruleTester.run('jsx-first-prop-new-line', rule, {
       `,
       options: ['multiprop'],
     },
-  ]),
+  ),
 
-  invalid: parsers.all([
+  invalid: invalids(
     {
       code: `
         <Foo propOne="one" propTwo="two" />
@@ -275,5 +275,5 @@ fullscreen keyField="id" items={items}
       options: ['multiline'],
       errors: [{ messageId: 'propOnNewLine' }],
     },
-  ]),
+  ),
 })

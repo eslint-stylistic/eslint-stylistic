@@ -2,8 +2,10 @@
  * @fileoverview Rule to forbid or enforce dangling commas.
  * @author Ian Christian Myers
  */
-
 import { getNextLocation, isCommaToken } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, EcmaVersion } from '../../utils/types'
+import type { MessageIds, RuleOptions, Value } from './types'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -23,12 +25,8 @@ const DEFAULT_OPTIONS = Object.freeze({
  * @param {ASTNode} lastItem The node of the last element in the given node.
  * @returns {boolean} `true` if a trailing comma is allowed.
  */
-function isTrailingCommaAllowed(lastItem) {
-  return !(
-    lastItem.type === 'RestElement'
-    || lastItem.type === 'RestProperty'
-    || lastItem.type === 'ExperimentalRestProperty'
-  )
+function isTrailingCommaAllowed(lastItem: ASTNode) {
+  return lastItem.type !== 'RestElement'
 }
 
 /**
@@ -37,14 +35,14 @@ function isTrailingCommaAllowed(lastItem) {
  * @param {number} ecmaVersion The normalized ECMAScript version.
  * @returns {object} The normalized option value.
  */
-function normalizeOptions(optionValue, ecmaVersion) {
+function normalizeOptions(optionValue: RuleOptions[0], ecmaVersion: EcmaVersion | 'latest' | undefined) {
   if (typeof optionValue === 'string') {
     return {
       arrays: optionValue,
       objects: optionValue,
       imports: optionValue,
       exports: optionValue,
-      functions: ecmaVersion < 2017 ? 'ignore' : optionValue,
+      functions: !ecmaVersion || ecmaVersion === 'latest' ? optionValue : ecmaVersion < 2017 ? 'ignore' : optionValue,
     }
   }
   if (typeof optionValue === 'object' && optionValue !== null) {
@@ -63,9 +61,8 @@ function normalizeOptions(optionValue, ecmaVersion) {
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
-
 /** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -79,6 +76,7 @@ export default {
     schema: {
       definitions: {
         value: {
+          type: 'string',
           enum: [
             'always-multiline',
             'always',
@@ -87,6 +85,7 @@ export default {
           ],
         },
         valueWithIgnore: {
+          type: 'string',
           enum: [
             'always-multiline',
             'always',
@@ -127,7 +126,9 @@ export default {
   },
 
   create(context) {
-    const options = normalizeOptions(context.options[0], context.languageOptions.ecmaVersion)
+    // @ts-expect-error legacy
+    const ecmaVersion = context?.languageOptions?.ecmaVersion ?? context.parserOptions.ecmaVersion as EcmaVersion | undefined
+    const options = normalizeOptions(context.options[0], ecmaVersion)
 
     const sourceCode = context.sourceCode
 
@@ -136,13 +137,13 @@ export default {
      * @param {ASTNode} node The node to get.
      * @returns {ASTNode|null} The last node or null.
      */
-    function getLastItem(node) {
+    function getLastItem(node: ASTNode): ASTNode | null {
       /**
        * Returns the last element of an array
        * @param {any[]} array The input array
        * @returns {any} The last element
        */
-      function last(array) {
+      function last(array: (ASTNode | null)[]): ASTNode | null {
         return array[array.length - 1]
       }
 
@@ -176,7 +177,7 @@ export default {
      * @param {ASTNode} lastItem The last item of the node.
      * @returns {Token} The trailing comma token or the insertion point.
      */
-    function getTrailingToken(node, lastItem) {
+    function getTrailingToken(node: ASTNode, lastItem: ASTNode) {
       switch (node.type) {
         case 'ObjectExpression':
         case 'ArrayExpression':
@@ -186,7 +187,7 @@ export default {
         default: {
           const nextToken = sourceCode.getTokenAfter(lastItem)
 
-          if (isCommaToken(nextToken))
+          if (nextToken && isCommaToken(nextToken))
             return nextToken
 
           return sourceCode.getLastToken(lastItem)
@@ -201,14 +202,18 @@ export default {
      * @param {ASTNode} node A node to check.
      * @returns {boolean} `true` if the node is multiline.
      */
-    function isMultiline(node) {
+    function isMultiline(node: ASTNode) {
       const lastItem = getLastItem(node)
 
       if (!lastItem)
         return false
 
       const penultimateToken = getTrailingToken(node, lastItem)
+      if (!penultimateToken)
+        return false
       const lastToken = sourceCode.getTokenAfter(penultimateToken)
+      if (!lastToken)
+        return false
 
       return lastToken.loc.end.line !== penultimateToken.loc.end.line
     }
@@ -220,7 +225,7 @@ export default {
      *   ImportDeclaration, and ExportNamedDeclaration.
      * @returns {void}
      */
-    function forbidTrailingComma(node) {
+    function forbidTrailingComma(node: ASTNode) {
       const lastItem = getLastItem(node)
 
       if (!lastItem || (node.type === 'ImportDeclaration' && lastItem.type !== 'ImportSpecifier'))
@@ -228,7 +233,7 @@ export default {
 
       const trailingToken = getTrailingToken(node, lastItem)
 
-      if (isCommaToken(trailingToken)) {
+      if (trailingToken && isCommaToken(trailingToken)) {
         context.report({
           node: lastItem,
           loc: trailingToken.loc,
@@ -236,15 +241,15 @@ export default {
           *fix(fixer) {
             yield fixer.remove(trailingToken)
 
-            /*
-                         * Extend the range of the fix to include surrounding tokens to ensure
-                         * that the element after which the comma is removed stays _last_.
-                         * This intentionally makes conflicts in fix ranges with rules that may be
-                         * adding or removing elements in the same autofix pass.
-                         * https://github.com/eslint/eslint/issues/15660
-                         */
-            yield fixer.insertTextBefore(sourceCode.getTokenBefore(trailingToken), '')
-            yield fixer.insertTextAfter(sourceCode.getTokenAfter(trailingToken), '')
+            /**
+             * Extend the range of the fix to include surrounding tokens to ensure
+             * that the element after which the comma is removed stays _last_.
+             * This intentionally makes conflicts in fix ranges with rules that may be
+             * adding or removing elements in the same autofix pass.
+             * https://github.com/eslint/eslint/issues/15660
+             */
+            yield fixer.insertTextBefore(sourceCode.getTokenBefore(trailingToken)!, '')
+            yield fixer.insertTextAfter(sourceCode.getTokenAfter(trailingToken)!, '')
           },
         })
       }
@@ -261,7 +266,7 @@ export default {
      *   ImportDeclaration, and ExportNamedDeclaration.
      * @returns {void}
      */
-    function forceTrailingComma(node) {
+    function forceTrailingComma(node: ASTNode) {
       const lastItem = getLastItem(node)
 
       if (!lastItem || (node.type === 'ImportDeclaration' && lastItem.type !== 'ImportSpecifier'))
@@ -274,12 +279,12 @@ export default {
 
       const trailingToken = getTrailingToken(node, lastItem)
 
-      if (trailingToken.value !== ',') {
+      if (trailingToken && trailingToken.value !== ',') {
         context.report({
           node: lastItem,
           loc: {
             start: trailingToken.loc.end,
-            end: getNextLocation(sourceCode, trailingToken.loc.end),
+            end: getNextLocation(sourceCode, trailingToken.loc.end)!,
           },
           messageId: 'missing',
           *fix(fixer) {
@@ -293,7 +298,7 @@ export default {
                          * https://github.com/eslint/eslint/issues/15660
                          */
             yield fixer.insertTextBefore(trailingToken, '')
-            yield fixer.insertTextAfter(sourceCode.getTokenAfter(trailingToken), '')
+            yield fixer.insertTextAfter(sourceCode.getTokenAfter(trailingToken)!, '')
           },
         })
       }
@@ -308,7 +313,7 @@ export default {
      *   ImportDeclaration, and ExportNamedDeclaration.
      * @returns {void}
      */
-    function forceTrailingCommaIfMultiline(node) {
+    function forceTrailingCommaIfMultiline(node: ASTNode) {
       if (isMultiline(node))
         forceTrailingComma(node)
       else
@@ -324,12 +329,12 @@ export default {
      *   ImportDeclaration, and ExportNamedDeclaration.
      * @returns {void}
      */
-    function allowTrailingCommaIfMultiline(node) {
+    function allowTrailingCommaIfMultiline(node: ASTNode) {
       if (!isMultiline(node))
         forbidTrailingComma(node)
     }
 
-    const predicate = {
+    const predicate: Record<Value | 'ignore' | string, (node: ASTNode) => void> = {
       'always': forceTrailingComma,
       'always-multiline': forceTrailingCommaIfMultiline,
       'only-multiline': allowTrailingCommaIfMultiline,
@@ -355,4 +360,4 @@ export default {
       NewExpression: predicate[options.functions],
     }
   },
-}
+})

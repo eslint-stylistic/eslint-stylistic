@@ -6,7 +6,7 @@
 import { RuleTester } from 'eslint'
 import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
-import parsers from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-sort-props'
 
 const parserOptions = {
@@ -115,7 +115,7 @@ const multilineAndShorthandAndCallbackLastArgs = [
 ]
 
 ruleTester.run('jsx-sort-props', rule, {
-  valid: parsers.all([].concat(
+  valid: valids(
     { code: '<App />;' },
     { code: '<App {...this.props} />;' },
     { code: '<App a b c />;' },
@@ -280,7 +280,7 @@ ruleTester.run('jsx-sort-props', rule, {
         />
       `,
     },
-    semver.satisfies(process.version, '>= 13') ? {
+    {
       code: `
         <RawFileField
           onFileRemove={asMedia ? null : handleRemove}
@@ -289,9 +289,9 @@ ruleTester.run('jsx-sort-props', rule, {
         />
       `,
       options: [{ locale: 'sk-SK' }],
-    } : [],
-  )),
-  invalid: parsers.all([].concat(
+    },
+  ),
+  invalid: invalids(
     {
       code: '<App b a />;',
       errors: [expectedError],
@@ -1095,5 +1095,5 @@ ruleTester.run('jsx-sort-props', rule, {
         },
       ],
     },
-  )),
+  ),
 })

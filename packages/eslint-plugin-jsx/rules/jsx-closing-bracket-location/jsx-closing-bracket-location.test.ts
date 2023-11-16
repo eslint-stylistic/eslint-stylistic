@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parsers from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-closing-bracket-location'
 
 const parserOptions = {
@@ -22,7 +22,7 @@ const MESSAGE_PROPS_ALIGNED = 'aligned with the last prop'
 const MESSAGE_TAG_ALIGNED = 'aligned with the opening tag'
 const MESSAGE_LINE_ALIGNED = 'aligned with the line containing the opening tag'
 
-function details(expectedColumn, expectedNextLine) {
+function details(expectedColumn: number, expectedNextLine: boolean) {
   return ` (expected column ${expectedColumn}${expectedNextLine ? ' on the next line)' : ')'}`
 }
 
@@ -32,7 +32,7 @@ function details(expectedColumn, expectedNextLine) {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-closing-bracket-location', rule, {
-  valid: parsers.all([
+  valid: valids(
     {
       code: `
         <App />
@@ -398,9 +398,9 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       `,
       options: [{ location: 'tag-aligned' }],
     },
-  ]),
+  ),
 
-  invalid: parsers.all([
+  invalid: invalids(
     {
       code: `
         <App
@@ -1910,5 +1910,5 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
         },
       ],
     },
-  ]),
+  ),
 })

@@ -100,17 +100,19 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node node to evaluate
      * @private
      */
-    function checkBinary(node:
-    | Tree.AssignmentExpression
-    | Tree.AssignmentPattern
-    | Tree.BinaryExpression
-    | Tree.LogicalExpression,
+    function checkBinary(
+      node:
+        | Tree.AssignmentExpression
+        | Tree.AssignmentPattern
+        | Tree.BinaryExpression
+        | Tree.LogicalExpression,
     ) {
-      const leftNode = 'typeAnnotation' in node.left ? node.left.typeAnnotation! : node.left
+      const leftNode = ('typeAnnotation' in node.left && node.left.typeAnnotation)
+        ? node.left.typeAnnotation : node.left
       const rightNode = node.right
 
       // search for = in AssignmentPattern nodes
-      const operator = 'operator' in node ? node.operator : '='
+      const operator = ('operator' in node && node.operator) ? node.operator : '='
 
       const nonSpacedNode = getFirstNonSpacedToken(leftNode, rightNode, operator)
 
