@@ -4,8 +4,17 @@
  * @author Joseph Stiles
  */
 
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import report from '../../utils/report'
+import type { ASTNode, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
+
+function normalizeOptions(options: RuleOptions[0]) {
+  return {
+    allowMultilines: options?.allowMultilines ?? false,
+    prevent: options?.allowMultilines && typeof options?.prevent === 'undefined' ? true : options?.prevent ?? false,
+  }
+}
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -17,15 +26,17 @@ const messages = {
   allowMultilines: 'Multiline JSX elements should start in a new line',
 }
 
-function isMultilined(node) {
+function isMultilined(node: ASTNode | undefined) {
   return node && node.loc.start.line !== node.loc.end.line
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
+
     docs: {
       description: 'Require or prevent a new line after jsx elements and expressions.',
-      category: 'Stylistic Issues',
+      recommended: 'stylistic',
       url: docsUrl('jsx-newline'),
     },
     fixable: 'code',
@@ -45,36 +56,19 @@ export default {
           },
         },
         additionalProperties: false,
-        if: {
-          properties: {
-            allowMultilines: {
-              const: true,
-            },
-          },
-        },
-        then: {
-          properties: {
-            prevent: {
-              const: true,
-            },
-          },
-          required: [
-            'prevent',
-          ],
-        },
       },
     ],
   },
   create(context) {
-    const jsxElementParents = new Set()
-    const sourceCode = context.getSourceCode()
+    const jsxElementParents = new Set<Tree.JSXElement>()
+    const sourceCode = context.sourceCode
 
-    function isBlockCommentInCurlyBraces(element) {
+    function isBlockCommentInCurlyBraces(element: ASTNode) {
       const elementRawValue = sourceCode.getText(element)
       return /^\s*{\/\*/.test(elementRawValue)
     }
 
-    function isNonBlockComment(element) {
+    function isNonBlockComment(element: ASTNode) {
       return !isBlockCommentInCurlyBraces(element) && (element.type === 'JSXElement' || element.type === 'JSXExpressionContainer')
     }
 
@@ -83,7 +77,7 @@ export default {
         jsxElementParents.forEach((parent) => {
           parent.children.forEach((element, index, elements) => {
             if (element.type === 'JSXElement' || element.type === 'JSXExpressionContainer') {
-              const configuration = context.options[0] || {}
+              const configuration = normalizeOptions(context.options[0] || {})
               const prevent = configuration.prevent || false
               const allowMultilines = configuration.allowMultilines || false
 
@@ -92,6 +86,7 @@ export default {
 
               const hasSibling = firstAdjacentSibling
                 && secondAdjacentSibling
+                // @ts-expect-error maybe `ASTNode`
                 && (firstAdjacentSibling.type === 'Literal' || firstAdjacentSibling.type === 'JSXText')
 
               if (!hasSibling)
@@ -116,7 +111,8 @@ export default {
                 const replacement = '\n\n'
                 const messageId = 'allowMultilines'
 
-                report(context, messages[messageId], messageId, {
+                context.report({
+                  messageId,
                   node: secondAdjacentSibling,
                   fix(fixer) {
                     return fixer.replaceText(
@@ -145,12 +141,12 @@ export default {
                 ? '\n'
                 : '\n\n'
 
-              report(context, messages[messageId], messageId, {
+              context.report({
+                messageId,
                 node: secondAdjacentSibling,
                 fix(fixer) {
                   return fixer.replaceText(
                     firstAdjacentSibling,
-                    // double or remove the last newline
                     sourceCode.getText(firstAdjacentSibling)
                       .replace(regex, replacement),
                   )
@@ -160,9 +156,9 @@ export default {
           })
         })
       },
-      ':matches(JSXElement, JSXFragment) > :matches(JSXElement, JSXExpressionContainer)': (node) => {
-        jsxElementParents.add(node.parent)
+      ':matches(JSXElement, JSXFragment) > :matches(JSXElement, JSXExpressionContainer)': (node: Tree.JSXElement) => {
+        jsxElementParents.add(<Tree.JSXElement>node.parent)
       },
     }
   },
-}
+})

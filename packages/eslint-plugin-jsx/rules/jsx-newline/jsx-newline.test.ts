@@ -16,11 +16,13 @@ const parserOptions = {
   },
 }
 
+const ruleTester = new RuleTester({ parserOptions })
+
 // ------------------------------------------------------------------------------
 // Tests
 // ------------------------------------------------------------------------------
 
-new RuleTester({ parserOptions }).run('jsx-newline', rule, {
+ruleTester.run('jsx-newline', rule, {
   valid: parsers.all([
     {
       code: `
