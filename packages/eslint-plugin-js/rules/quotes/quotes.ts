@@ -4,31 +4,13 @@
  */
 
 import { LINEBREAKS, hasOctalOrNonOctalDecimalEscapeSequence, isParenthesised, isSurroundedBy, isTopLevelExpressionStatement } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Constants
 // ------------------------------------------------------------------------------
-
-const QUOTE_SETTINGS = {
-  double: {
-    quote: '"',
-    alternateQuote: '\'',
-    description: 'doublequote',
-  },
-  single: {
-    quote: '\'',
-    alternateQuote: '"',
-    description: 'singlequote',
-  },
-  backtick: {
-    quote: '`',
-    alternateQuote: '"',
-    description: 'backtick',
-  },
-}
-
-// An unescaped newline is a newline preceded by an even number of backslashes.
-const UNESCAPED_LINEBREAK_PATTERN = new RegExp(String.raw`(^|[^\\])(\\\\)*[${Array.from(LINEBREAKS).join('')}]`, 'u')
 
 /**
  * Switches quoting of javascript string between ' " and `
@@ -39,28 +21,50 @@ const UNESCAPED_LINEBREAK_PATTERN = new RegExp(String.raw`(^|[^\\])(\\\\)*[${Arr
  * @returns {string} The string with changed quotes.
  * @private
  */
-QUOTE_SETTINGS.double.convert
-= QUOTE_SETTINGS.single.convert
-= QUOTE_SETTINGS.backtick.convert = function (str) {
-      const newQuote = this.quote
-      const oldQuote = str[0]
+function switchQuote(this: { quote: string }, str: string) {
+  const newQuote = this.quote
+  const oldQuote = str[0]
 
-      if (newQuote === oldQuote)
-        return str
+  if (newQuote === oldQuote)
+    return str
 
-      return newQuote + str.slice(1, -1).replace(/\\(\$\{|\r\n?|\n|.)|["'`]|\$\{|(\r\n?|\n)/gu, (match, escaped, newline) => {
-        if (escaped === oldQuote || oldQuote === '`' && escaped === '${')
-          return escaped // unescape
+  return newQuote + str.slice(1, -1).replace(/\\(\$\{|\r\n?|\n|.)|["'`]|\$\{|(\r\n?|\n)/gu, (match, escaped, newline) => {
+    if (escaped === oldQuote || oldQuote === '`' && escaped === '${')
+      return escaped // unescape
 
-        if (match === newQuote || newQuote === '`' && match === '${')
-          return `\\${match}` // escape
+    if (match === newQuote || newQuote === '`' && match === '${')
+      return `\\${match}` // escape
 
-        if (newline && oldQuote === '`')
-          return '\\n' // escape newlines
+    if (newline && oldQuote === '`')
+      return '\\n' // escape newlines
 
-        return match
-      }) + newQuote
-    }
+    return match
+  }) + newQuote
+}
+
+const QUOTE_SETTINGS = {
+  double: {
+    quote: '"',
+    alternateQuote: '\'',
+    description: 'doublequote',
+    convert: switchQuote,
+  },
+  single: {
+    quote: '\'',
+    alternateQuote: '"',
+    description: 'singlequote',
+    convert: switchQuote,
+  },
+  backtick: {
+    quote: '`',
+    alternateQuote: '"',
+    description: 'backtick',
+    convert: switchQuote,
+  },
+}
+
+// An unescaped newline is a newline preceded by an even number of backslashes.
+const UNESCAPED_LINEBREAK_PATTERN = new RegExp(String.raw`(^|[^\\])(\\\\)*[${Array.from(LINEBREAKS).join('')}]`, 'u')
 
 const AVOID_ESCAPE = 'avoid-escape'
 
@@ -69,7 +73,7 @@ const AVOID_ESCAPE = 'avoid-escape'
 // ------------------------------------------------------------------------------
 
 /** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -82,11 +86,13 @@ export default {
 
     schema: [
       {
+        type: 'string',
         enum: ['single', 'double', 'backtick'],
       },
       {
         anyOf: [
           {
+            type: 'string',
             enum: ['avoid-escape'],
           },
           {
@@ -114,9 +120,9 @@ export default {
     const quoteOption = context.options[0]
     const settings = QUOTE_SETTINGS[quoteOption || 'double']
     const options = context.options[1]
-    const allowTemplateLiterals = options && options.allowTemplateLiterals === true
+    const allowTemplateLiterals = options && typeof (options) === 'object' && options.allowTemplateLiterals === true
     const sourceCode = context.sourceCode
-    let avoidEscape = options && options.avoidEscape === true
+    let avoidEscape = options && typeof (options) === 'object' && options.avoidEscape === true
 
     // deprecated
     if (options === AVOID_ESCAPE)
@@ -142,7 +148,10 @@ export default {
      * @returns {boolean} True if the node is a part of JSX, false if not.
      * @private
      */
-    function isJSXLiteral(node) {
+    function isJSXLiteral(node: ASTNode) {
+      if (!node.parent)
+        return false
+
       return node.parent.type === 'JSXAttribute' || node.parent.type === 'JSXElement' || node.parent.type === 'JSXFragment'
     }
 
@@ -154,7 +163,7 @@ export default {
      * @returns {boolean} Whether or not the node is a directive.
      * @private
      */
-    function isDirective(node) {
+    function isDirective(node: ASTNode) {
       return (
         node.type === 'ExpressionStatement'
                 && node.expression.type === 'Literal'
@@ -170,11 +179,16 @@ export default {
      * @returns {boolean} Whether a specified node is either part of, or immediately follows a (possibly empty) directive prologue.
      * @private
      */
-    function isExpressionInOrJustAfterDirectivePrologue(node) {
+    function isExpressionInOrJustAfterDirectivePrologue(node: ASTNode) {
+      if (!node.parent)
+        return false
+
       if (!isTopLevelExpressionStatement(node.parent))
         return false
 
       const block = node.parent.parent
+      if (!block || !('body' in block) || !Array.isArray(block.body))
+        return false
 
       // Check the node is at a prologue.
       for (let i = 0; i < block.body.length; ++i) {
@@ -196,8 +210,10 @@ export default {
      * @returns {boolean} Whether or not the node is allowed as non backtick.
      * @private
      */
-    function isAllowedAsNonBacktick(node) {
+    function isAllowedAsNonBacktick(node: ASTNode) {
       const parent = node.parent
+      if (!parent)
+        return false
 
       switch (parent.type) {
         // Directive Prologues.
@@ -239,7 +255,7 @@ export default {
      * @returns {boolean} Whether or not the TemplateLiteral node is using any of the special features provided by template literal strings.
      * @private
      */
-    function isUsingFeatureOfTemplateLiteral(node) {
+    function isUsingFeatureOfTemplateLiteral(node: Tree.TemplateLiteral) {
       const hasTag = node.parent.type === 'TaggedTemplateExpression' && node === node.parent.quasi
 
       if (hasTag)
@@ -324,4 +340,4 @@ export default {
       },
     }
   },
-}
+})
