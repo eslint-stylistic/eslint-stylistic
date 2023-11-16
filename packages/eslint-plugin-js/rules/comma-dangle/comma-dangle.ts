@@ -26,11 +26,7 @@ const DEFAULT_OPTIONS = Object.freeze({
  * @returns {boolean} `true` if a trailing comma is allowed.
  */
 function isTrailingCommaAllowed(lastItem: ASTNode) {
-  return !(
-    lastItem.type === 'RestElement'
-    // || lastItem.type === 'RestProperty'
-    // || lastItem.type === 'ExperimentalRestProperty'
-  )
+  return lastItem.type !== 'RestElement'
 }
 
 /**

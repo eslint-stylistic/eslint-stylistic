@@ -6,11 +6,41 @@
 import { RuleTester } from 'eslint'
 import { unIndent } from '../../test-utils/unindent'
 import { createParserResolver } from '../../test-utils/fixture-parser'
+import { createRule } from '../../utils/createRule'
 import rule from './comma-dangle'
 
 const parser = createParserResolver('comma-dangle')
 
 const ruleTester = new RuleTester()
+
+// @ts-expect-error missing types
+ruleTester.defineRule('add-named-import', createRule({
+  meta: {
+    type: 'problem',
+    schema: [],
+    fixable: 'code',
+    messages: {
+      'add-named-import': 'add-named-import.',
+    },
+  },
+  create(context) {
+    return {
+      ImportDeclaration(node) {
+        const sourceCode = context.sourceCode
+        const closingBrace = sourceCode.getLastToken(node, token => token.value === '}')!
+        const addComma = sourceCode.getTokenBefore(closingBrace)!.value !== ','
+
+        context.report({
+          messageId: 'add-named-import',
+          node,
+          fix(fixer) {
+            return fixer.insertTextBefore(closingBrace, `${addComma ? ',' : ''}I18nManager`)
+          },
+        })
+      },
+    }
+  },
+}))
 
 ruleTester.run('comma-dangle', rule, {
   valid: [
