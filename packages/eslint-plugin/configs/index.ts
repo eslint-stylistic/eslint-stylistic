@@ -17,9 +17,9 @@ export const configs = {
   /**
    * The default recommended config in Flat Config Format
    */
-  'recommended:flat': /* #__PURE__ */ customize(),
+  'recommended-flat': /* #__PURE__ */ customize(),
   /**
    * The default recommended config in Legacy Config Format
    */
-  'recommended:legacy': /* #__PURE__ */ customize({ flat: false }),
+  'recommended-legacy': /* #__PURE__ */ customize({ flat: false }),
 }
