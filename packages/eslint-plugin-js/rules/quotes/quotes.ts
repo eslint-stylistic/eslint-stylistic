@@ -166,9 +166,9 @@ export default createRule<MessageIds, RuleOptions>({
     function isDirective(node: ASTNode) {
       return (
         node.type === 'ExpressionStatement'
-                && node.expression.type === 'Literal'
-                && typeof node.expression.value === 'string'
-                && !isParenthesised(sourceCode, node.expression)
+        && node.expression.type === 'Literal'
+        && typeof node.expression.value === 'string'
+        && !isParenthesised(sourceCode, node.expression)
       )
     }
 
@@ -282,8 +282,8 @@ export default createRule<MessageIds, RuleOptions>({
 
         if (settings && typeof val === 'string') {
           let isValid = (quoteOption === 'backtick' && isAllowedAsNonBacktick(node))
-                        || isJSXLiteral(node)
-                        || isSurroundedBy(rawVal, settings.quote)
+            || isJSXLiteral(node)
+            || isSurroundedBy(rawVal, settings.quote)
 
           if (!isValid && avoidEscape)
             isValid = isSurroundedBy(rawVal, settings.alternateQuote) && rawVal.includes(settings.quote)
@@ -315,8 +315,8 @@ export default createRule<MessageIds, RuleOptions>({
         // Don't throw an error if backticks are expected or a template literal feature is in use.
         if (
           allowTemplateLiterals
-                    || quoteOption === 'backtick'
-                    || isUsingFeatureOfTemplateLiteral(node)
+          || quoteOption === 'backtick'
+          || isUsingFeatureOfTemplateLiteral(node)
         )
           return
 

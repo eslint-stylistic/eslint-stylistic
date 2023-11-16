@@ -87,8 +87,8 @@ export default createRule<RuleOptions, MessageIds>({
     ): node is KeyTypeNodeWithTypeAnnotation {
       return (
         (node.type === AST_NODE_TYPES.TSPropertySignature
-          || node.type === AST_NODE_TYPES.TSIndexSignature
-          || node.type === AST_NODE_TYPES.PropertyDefinition)
+        || node.type === AST_NODE_TYPES.TSIndexSignature
+        || node.type === AST_NODE_TYPES.PropertyDefinition)
         && !!node.typeAnnotation
       )
     }
@@ -232,7 +232,7 @@ export default createRule<RuleOptions, MessageIds>({
         for (let i = 1; i < leadingComments.length; i++) {
           if (
             leadingComments[i].loc.start.line
-              - leadingComments[i - 1].loc.end.line
+            - leadingComments[i - 1].loc.end.line
             > 1
           )
             return false
@@ -287,9 +287,9 @@ export default createRule<RuleOptions, MessageIds>({
             align === 'colon'
               ? keyEnd + expectedWhitespaceBeforeColon
               : keyEnd
-                  + ':'.length
-                  + expectedWhitespaceAfterColon
-                  + expectedWhitespaceBeforeColon,
+              + ':'.length
+              + expectedWhitespaceAfterColon
+              + expectedWhitespaceBeforeColon,
           )
         }
       }

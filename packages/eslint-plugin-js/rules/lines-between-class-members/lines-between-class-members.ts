@@ -138,8 +138,8 @@ export default createRule({
 
       const isSemicolonLessStyle = (
         isSemicolonToken(lastToken)
-                && !isTokenOnSameLine(prevToken, lastToken)
-                && isTokenOnSameLine(lastToken, nextToken)
+        && !isTokenOnSameLine(prevToken, lastToken)
+        && isTokenOnSameLine(lastToken, nextToken)
       )
 
       return isSemicolonLessStyle

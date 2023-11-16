@@ -4,6 +4,9 @@
  */
 
 import { getPrecedence, isNotClosingParenToken, isParenthesised } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -16,7 +19,7 @@ const LOGICAL_OPERATORS = ['&&', '||']
 const RELATIONAL_OPERATORS = ['in', 'instanceof']
 const TERNARY_OPERATOR = ['?:']
 const COALESCE_OPERATOR = ['??']
-const ALL_OPERATORS = [].concat(
+const ALL_OPERATORS = ([] as string[]).concat(
   ARITHMETIC_OPERATORS,
   BITWISE_OPERATORS,
   COMPARISON_OPERATORS,
@@ -36,10 +39,10 @@ const TARGET_NODE_TYPE = /^(?:Binary|Logical|Conditional)Expression$/u
 
 /**
  * Normalizes options.
- * @param {object | undefined} options A options object to normalize.
- * @returns {object} Normalized option object.
+ * @param options A options object to normalize.
+ * @returns Normalized option object.
  */
-function normalizeOptions(options = {}) {
+function normalizeOptions(options: RuleOptions[0] = {}) {
   const hasGroups = options.groups && options.groups.length > 0
   const groups = hasGroups ? options.groups : DEFAULT_GROUPS
   const allowSamePrecedence = options.allowSamePrecedence !== false
@@ -52,23 +55,23 @@ function normalizeOptions(options = {}) {
 
 /**
  * Checks whether any group which includes both given operator exists or not.
- * @param {Array<string[]>} groups A list of groups to check.
- * @param {string} left An operator.
- * @param {string} right Another operator.
- * @returns {boolean} `true` if such group existed.
+ * @param groups A list of groups to check.
+ * @param left An operator.
+ * @param right Another operator.
+ * @returns if such group existed.
  */
-function includesBothInAGroup(groups, left, right) {
+function includesBothInAGroup(groups: string[][], left: string, right: string): boolean {
   return groups.some(group => group.includes(left) && group.includes(right))
 }
 
 /**
  * Checks whether the given node is a conditional expression and returns the test node else the left node.
- * @param {ASTNode} node A node which can be a BinaryExpression or a LogicalExpression node.
+ * @param node A node which can be a BinaryExpression or a LogicalExpression node.
  * This parent node can be BinaryExpression, LogicalExpression
  *      , or a ConditionalExpression node
- * @returns {ASTNode} node the appropriate node(left or test).
+ * @returns node the appropriate node(left or test).
  */
-function getChildNode(node) {
+function getChildNode(node: NodeType | Tree.ConditionalExpression): Tree.Node {
   return node.type === 'ConditionalExpression' ? node.test : node.left
 }
 
@@ -76,8 +79,9 @@ function getChildNode(node) {
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+type NodeType = Tree.BinaryExpression | Tree.LogicalExpression
+
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -94,7 +98,10 @@ export default {
             type: 'array',
             items: {
               type: 'array',
-              items: { enum: ALL_OPERATORS },
+              items: {
+                type: 'string',
+                enum: ALL_OPERATORS,
+              },
               minItems: 2,
               uniqueItems: true,
             },
@@ -125,31 +132,35 @@ export default {
      *      them, too.
      * @returns {boolean} `true` if the node should be ignored.
      */
-    function shouldIgnore(node) {
+    function shouldIgnore(node: NodeType): boolean {
       const a = node
-      const b = node.parent
+      const b = node.parent as (NodeType | Tree.ConditionalExpression)
 
       return (
-        !includesBothInAGroup(options.groups, a.operator, b.type === 'ConditionalExpression' ? '?:' : b.operator)
-                || (
-                  options.allowSamePrecedence
-                    && getPrecedence(a) === getPrecedence(b)
-                )
+        !includesBothInAGroup(
+          options.groups ?? [],
+          a.operator,
+          b.type === 'ConditionalExpression' ? '?:' : b.operator,
+        )
+        || (
+          options.allowSamePrecedence
+          && getPrecedence(a) === getPrecedence(b)
+        )
       )
     }
 
     /**
      * Checks whether the operator of a given node is mixed with parent
      * node's operator or not.
-     * @param {ASTNode} node A node to check. This is a BinaryExpression
+     * @param node A node to check. This is a BinaryExpression
      *      node or a LogicalExpression node. This parent node is one of
      *      them, too.
-     * @returns {boolean} `true` if the node was mixed.
+     * @returns `true` if the node was mixed.
      */
-    function isMixedWithParent(node) {
+    function isMixedWithParent(node: NodeType): boolean {
       return (
-        node.operator !== node.parent.operator
-                && !isParenthesised(sourceCode, node)
+        node.operator !== (node.parent as NodeType).operator
+        && !isParenthesised(sourceCode, node)
       )
     }
 
@@ -159,20 +170,19 @@ export default {
      *      node or a LogicalExpression node.
      * @returns {Token} The operator token of the node.
      */
-    function getOperatorToken(node) {
-      return sourceCode.getTokenAfter(getChildNode(node), isNotClosingParenToken)
+    function getOperatorToken(node: NodeType): Tree.Token {
+      return sourceCode.getTokenAfter(getChildNode(node), isNotClosingParenToken)!
     }
 
     /**
      * Reports both the operator of a given node and the operator of the
      * parent node.
-     * @param {ASTNode} node A node to check. This is a BinaryExpression
+     * @param node A node to check. This is a BinaryExpression
      *      node or a LogicalExpression node. This parent node is one of
      *      them, too.
-     * @returns {void}
      */
-    function reportBothOperators(node) {
-      const parent = node.parent
+    function reportBothOperators(node: NodeType) {
+      const parent = node.parent as NodeType
       const left = (getChildNode(parent) === node) ? node : parent
       const right = (getChildNode(parent) !== node) ? node : parent
       const data = {
@@ -197,14 +207,13 @@ export default {
     /**
      * Checks between the operator of this node and the operator of the
      * parent node.
-     * @param {ASTNode} node A node to check.
-     * @returns {void}
+     * @param node A node to check.
      */
-    function check(node) {
+    function check(node: NodeType) {
       if (
         TARGET_NODE_TYPE.test(node.parent.type)
-                && isMixedWithParent(node)
-                && !shouldIgnore(node)
+        && isMixedWithParent(node)
+        && !shouldIgnore(node)
       )
         reportBothOperators(node)
     }
@@ -214,4 +223,4 @@ export default {
       LogicalExpression: check,
     }
   },
-}
+})

@@ -256,7 +256,7 @@ export default createRule<MessageIds, RuleOptions>({
       const parent = getParentNodeOfToken(token)
 
       return !!parent && isParentNodeType(parent, nodeType)
-                    && parent.loc.end.line - token.loc.end.line === 1
+        && parent.loc.end.line - token.loc.end.line === 1
     }
 
     /**
@@ -267,10 +267,10 @@ export default createRule<MessageIds, RuleOptions>({
     function isCommentAtBlockStart(token: Token) {
       return (
         isCommentAtParentStart(token, 'ClassBody')
-      || isCommentAtParentStart(token, 'BlockStatement')
-      || isCommentAtParentStart(token, 'StaticBlock')
-      || isCommentAtParentStart(token, 'SwitchCase')
-      || isCommentAtParentStart(token, 'SwitchStatement')
+        || isCommentAtParentStart(token, 'BlockStatement')
+        || isCommentAtParentStart(token, 'StaticBlock')
+        || isCommentAtParentStart(token, 'SwitchCase')
+        || isCommentAtParentStart(token, 'SwitchStatement')
       )
     }
 
@@ -282,10 +282,10 @@ export default createRule<MessageIds, RuleOptions>({
     function isCommentAtBlockEnd(token: Token) {
       return (
         isCommentAtParentEnd(token, 'ClassBody')
-      || isCommentAtParentEnd(token, 'BlockStatement')
-      || isCommentAtParentEnd(token, 'StaticBlock')
-      || isCommentAtParentEnd(token, 'SwitchCase')
-      || isCommentAtParentEnd(token, 'SwitchStatement')
+        || isCommentAtParentEnd(token, 'BlockStatement')
+        || isCommentAtParentEnd(token, 'StaticBlock')
+        || isCommentAtParentEnd(token, 'SwitchCase')
+        || isCommentAtParentEnd(token, 'SwitchStatement')
       )
     }
 
@@ -375,9 +375,9 @@ export default createRule<MessageIds, RuleOptions>({
       const commentIsNotAlone = codeAroundComment(token)
 
       const blockStartAllowed = options.allowBlockStart
-                    && isCommentAtBlockStart(token)
-                    && !(options.allowClassStart === false
-                    && isCommentAtClassStart(token))
+        && isCommentAtBlockStart(token)
+        && !(options.allowClassStart === false
+        && isCommentAtClassStart(token))
       const blockEndAllowed = options.allowBlockEnd && isCommentAtBlockEnd(token) && !(options.allowClassEnd === false && isCommentAtClassEnd(token))
       const classStartAllowed = options.allowClassStart && isCommentAtClassStart(token)
       const classEndAllowed = options.allowClassEnd && isCommentAtClassEnd(token)
@@ -405,7 +405,7 @@ export default createRule<MessageIds, RuleOptions>({
 
       // check for newline before
       if (!exceptionStartAllowed && before && !commentAndEmptyLines.has(prevLineNum)
-                    && !(isCommentToken(previousTokenOrComment) && isTokenOnSameLine(previousTokenOrComment, token))) {
+        && !(isCommentToken(previousTokenOrComment) && isTokenOnSameLine(previousTokenOrComment, token))) {
         const lineStart = token.range[0] - token.loc.start.column
         const range = [lineStart, lineStart] as const
 
@@ -420,7 +420,7 @@ export default createRule<MessageIds, RuleOptions>({
 
       // check for newline after
       if (!exceptionEndAllowed && after && !commentAndEmptyLines.has(nextLineNum)
-                    && !(isCommentToken(nextTokenOrComment) && isTokenOnSameLine(token, nextTokenOrComment))) {
+        && !(isCommentToken(nextTokenOrComment) && isTokenOnSameLine(token, nextTokenOrComment))) {
         context.report({
           node: token,
           messageId: 'after',

@@ -160,8 +160,8 @@ export default createRule<MessageIds, RuleOptions>({
      */
     function isTrailingComment(line: string, lineNumber: number, comment: Tree.Node): boolean {
       return comment
-                && (comment.loc.start.line === lineNumber && lineNumber <= comment.loc.end.line)
-                && (comment.loc.end.line > lineNumber || comment.loc.end.column === line.length)
+        && (comment.loc.start.line === lineNumber && lineNumber <= comment.loc.end.line)
+        && (comment.loc.end.line > lineNumber || comment.loc.end.column === line.length)
     }
 
     /**
@@ -177,8 +177,8 @@ export default createRule<MessageIds, RuleOptions>({
       const isFirstTokenOnLine = !line.slice(0, comment.loc.start.column).trim()
 
       return comment
-                && (start.line < lineNumber || (start.line === lineNumber && isFirstTokenOnLine))
-                && (end.line > lineNumber || (end.line === lineNumber && end.column === line.length))
+        && (start.line < lineNumber || (start.line === lineNumber && isFirstTokenOnLine))
+        && (end.line > lineNumber || (end.line === lineNumber && end.column === line.length))
     }
 
     /**
@@ -227,7 +227,7 @@ export default createRule<MessageIds, RuleOptions>({
      */
     function getAllStrings(): Tree.Token[] {
       return sourceCode.ast.tokens.filter(token => (token.type === 'String'
-                || (token.type === 'JSXText' && sourceCode.getNodeByRangeIndex(token.range[0] - 1)!.type === 'JSXAttribute')))
+        || (token.type === 'JSXText' && sourceCode.getNodeByRangeIndex(token.range[0] - 1)!.type === 'JSXAttribute')))
     }
 
     /**
@@ -361,10 +361,10 @@ export default createRule<MessageIds, RuleOptions>({
           textToMeasure = line
         }
         if (ignorePattern && ignorePattern.test(textToMeasure)
-                    || ignoreUrls && URL_REGEXP.test(textToMeasure)
-                    || ignoreStrings && stringsByLine[lineNumber]
-                    || ignoreTemplateLiterals && templateLiteralsByLine[lineNumber]
-                    || ignoreRegExpLiterals && regExpLiteralsByLine[lineNumber]
+          || ignoreUrls && URL_REGEXP.test(textToMeasure)
+          || ignoreStrings && stringsByLine[lineNumber]
+          || ignoreTemplateLiterals && templateLiteralsByLine[lineNumber]
+          || ignoreRegExpLiterals && regExpLiteralsByLine[lineNumber]
         ) {
           // ignore this line
           return

@@ -143,11 +143,11 @@ function areLineBreaksRequired(
   }
 
   return objectProperties.length >= options.minProperties
-        || (
-          options.multiline
-            && objectProperties.length > 0
-            && first.loc.start.line !== last.loc.end.line
-        )
+    || (
+      options.multiline
+      && objectProperties.length > 0
+      && first.loc.start.line !== last.loc.end.line
+    )
 }
 
 // ------------------------------------------------------------------------------
@@ -212,9 +212,9 @@ export default createRule<MessageIds, RuleOptions>({
 
       if (
         (node.type === 'ImportDeclaration'
-                    && !node.specifiers.some(specifier => specifier.type === 'ImportSpecifier'))
-                || (node.type === 'ExportNamedDeclaration'
-                    && !node.specifiers.some(specifier => specifier.type === 'ExportSpecifier'))
+        && !node.specifiers.some(specifier => specifier.type === 'ImportSpecifier'))
+        || (node.type === 'ExportNamedDeclaration'
+        && !node.specifiers.some(specifier => specifier.type === 'ExportSpecifier'))
       )
         return
 
@@ -281,7 +281,7 @@ export default createRule<MessageIds, RuleOptions>({
 
         if (
           (!consistent && hasLineBreakBetweenOpenBraceAndFirst)
-                    || (consistent && hasLineBreakBetweenOpenBraceAndFirst && !hasLineBreakBetweenCloseBraceAndLast)
+          || (consistent && hasLineBreakBetweenOpenBraceAndFirst && !hasLineBreakBetweenCloseBraceAndLast)
         ) {
           context.report({
             messageId: 'unexpectedLinebreakAfterOpeningBrace',
@@ -300,7 +300,7 @@ export default createRule<MessageIds, RuleOptions>({
         }
         if (
           (!consistent && hasLineBreakBetweenCloseBraceAndLast)
-                    || (consistent && !hasLineBreakBetweenOpenBraceAndFirst && hasLineBreakBetweenCloseBraceAndLast)
+          || (consistent && !hasLineBreakBetweenOpenBraceAndFirst && hasLineBreakBetweenCloseBraceAndLast)
         ) {
           context.report({
             messageId: 'unexpectedLinebreakBeforeClosingBrace',

@@ -26,8 +26,8 @@ const DEFAULT_OPTIONS = Object.freeze({
 function isTrailingCommaAllowed(lastItem) {
   return !(
     lastItem.type === 'RestElement'
-        || lastItem.type === 'RestProperty'
-        || lastItem.type === 'ExperimentalRestProperty'
+    || lastItem.type === 'RestProperty'
+    || lastItem.type === 'ExperimentalRestProperty'
   )
 }
 

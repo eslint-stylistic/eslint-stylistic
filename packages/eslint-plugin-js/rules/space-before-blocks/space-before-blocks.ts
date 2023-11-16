@@ -22,8 +22,8 @@ function isFunctionBody(node: ASTNode): boolean {
 
   return (
     node.type === 'BlockStatement'
-      && isFunction(parent)
-      && parent.body === node
+    && isFunction(parent)
+    && parent.body === node
   )
 }
 
@@ -116,18 +116,18 @@ export default createRule<MessageIds, RuleOptions>({
     function isConflicted(precedingToken: Token, node: ASTNode | Token) {
       return (
         isArrowToken(precedingToken)
-          || (
-            isKeywordToken(precedingToken)
-              // @ts-expect-error type cast
-              && !isFunctionBody(node)
-          )
-          || (
-            isColonToken(precedingToken)
-              && 'parent' in node
-              && node.parent
-              && node.parent.type === 'SwitchCase'
-              && precedingToken === getSwitchCaseColonToken(node.parent, sourceCode)
-          )
+        || (
+          isKeywordToken(precedingToken)
+          // @ts-expect-error type cast
+          && !isFunctionBody(node)
+        )
+        || (
+          isColonToken(precedingToken)
+          && 'parent' in node
+          && node.parent
+          && node.parent.type === 'SwitchCase'
+          && precedingToken === getSwitchCaseColonToken(node.parent, sourceCode)
+        )
       )
     }
 

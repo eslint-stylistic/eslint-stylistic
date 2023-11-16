@@ -41,9 +41,9 @@ function getChildren(node: ASTNode) {
 
   if (
     t === 'BlockStatement'
-        || t === 'StaticBlock'
-        || t === 'Program'
-        || t === 'ClassBody'
+    || t === 'StaticBlock'
+    || t === 'Program'
+    || t === 'ClassBody'
   )
     return node.body
 

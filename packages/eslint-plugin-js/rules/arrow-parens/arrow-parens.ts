@@ -79,8 +79,8 @@ export default createRule<MessageIds, RuleOptions>({
 
       if (
         tokenBeforeParams
-                && isOpeningParenToken(tokenBeforeParams)
-                && node.range[0] <= tokenBeforeParams.range[0]
+        && isOpeningParenToken(tokenBeforeParams)
+        && node.range[0] <= tokenBeforeParams.range[0]
       )
         return tokenBeforeParams
 
@@ -144,12 +144,12 @@ export default createRule<MessageIds, RuleOptions>({
 
         if (
           !shouldHaveParens
-                    && hasParens
-                    && param.type === 'Identifier'
-                    && !param.typeAnnotation
-                    && !node.returnType
-                    && !hasCommentsInParensOfParams(node, openingParen)
-                    && !hasUnexpectedTokensBeforeOpeningParen(node, openingParen)
+          && hasParens
+          && param.type === 'Identifier'
+          && !param.typeAnnotation
+          && !node.returnType
+          && !hasCommentsInParensOfParams(node, openingParen)
+          && !hasUnexpectedTokensBeforeOpeningParen(node, openingParen)
         ) {
           context.report({
             node,
@@ -161,8 +161,8 @@ export default createRule<MessageIds, RuleOptions>({
 
               if (
                 tokenBeforeOpeningParen
-                                && tokenBeforeOpeningParen.range[1] === openingParen.range[0]
-                                && !canTokensBeAdjacent(tokenBeforeOpeningParen, sourceCode.getFirstToken(param)!)
+                && tokenBeforeOpeningParen.range[1] === openingParen.range[0]
+                && !canTokensBeAdjacent(tokenBeforeOpeningParen, sourceCode.getFirstToken(param)!)
               )
                 yield fixer.insertTextBefore(openingParen, ' ')
 

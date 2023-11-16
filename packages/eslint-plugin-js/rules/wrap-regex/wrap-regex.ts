@@ -38,7 +38,7 @@ export default createRule<MessageIds, RuleOptions>({
           const { parent } = node
 
           if (parent.type === 'MemberExpression' && parent.object === node
-                        && !(beforeToken && beforeToken.value === '(' && afterToken && afterToken.value === ')')) {
+            && !(beforeToken && beforeToken.value === '(' && afterToken && afterToken.value === ')')) {
             context.report({
               node,
               messageId: 'requireParens',

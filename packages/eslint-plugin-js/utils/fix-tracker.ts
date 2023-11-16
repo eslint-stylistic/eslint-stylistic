@@ -93,8 +93,8 @@ class FixTracker {
     return this.fixer.replaceTextRange(
       actualRange,
       this.sourceCode.text.slice(actualRange[0], range[0])
-                + text
-                + this.sourceCode.text.slice(range[1], actualRange[1]),
+        + text
+        + this.sourceCode.text.slice(range[1], actualRange[1]),
     )
   }
 

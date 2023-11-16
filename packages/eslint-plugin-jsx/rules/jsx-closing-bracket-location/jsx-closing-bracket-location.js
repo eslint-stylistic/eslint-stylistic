@@ -268,7 +268,7 @@ export default {
 
         if (correctColumn !== null) {
           expectedNextLine = tokens.lastProp
-            && (tokens.lastProp.lastLine === tokens.closing.line)
+          && (tokens.lastProp.lastLine === tokens.closing.line)
           data.details = ` (expected column ${correctColumn + 1}${expectedNextLine ? ' on the next line)' : ')'}`
         }
 
