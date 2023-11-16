@@ -123,10 +123,10 @@ function normalizeOptions(options: any) {
  */
 function areLineBreaksRequired(
   node:
-  | Tree.ObjectExpression
-  | Tree.ObjectPattern
-  | Tree.ImportDeclaration
-  | Tree.ExportNamedDeclaration,
+    | Tree.ObjectExpression
+    | Tree.ObjectPattern
+    | Tree.ImportDeclaration
+    | Tree.ExportNamedDeclaration,
   options: { multiline: boolean; minProperties: number; consistent: boolean },
   first: Token,
   last: Token,
@@ -203,10 +203,10 @@ export default createRule<MessageIds, RuleOptions>({
      */
     function check(
       node:
-      | Tree.ObjectExpression
-      | Tree.ObjectPattern
-      | Tree.ImportDeclaration
-      | Tree.ExportNamedDeclaration,
+        | Tree.ObjectExpression
+        | Tree.ObjectPattern
+        | Tree.ImportDeclaration
+        | Tree.ExportNamedDeclaration,
     ) {
       const options = normalizedOptions[node.type]
 

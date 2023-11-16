@@ -619,7 +619,7 @@ function addNewLineSymbols(code: string) {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-wrap-multilines', rule, {
-  valid: parsers.all([
+  valid: parsers.all(<RuleTester.ValidTestCase[]>[
     {
       code: RETURN_SINGLE_LINE,
     },
@@ -885,7 +885,7 @@ ruleTester.run('jsx-wrap-multilines', rule, {
     },
   ]),
 
-  invalid: parsers.all([
+  invalid: parsers.all(<RuleTester.InvalidTestCase[]>[
     {
       code: RETURN_NO_PAREN,
       output: RETURN_PAREN,

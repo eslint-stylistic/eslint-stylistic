@@ -1,3 +1,5 @@
+import type { RuleTester } from 'eslint'
+
 function minEcmaVersion(features: any, parserOptions: any) {
   const minEcmaVersionForFeatures = {
     'class fields': 2022,
@@ -17,6 +19,11 @@ function minEcmaVersion(features: any, parserOptions: any) {
     ].filter(Boolean).map(y => (y > 5 && y < 2015 ? y + 2009 : y)), // normalize editions to years
   )
   return Number.isFinite(result) ? result : undefined
+}
+
+interface TestCaseProcessor {
+  (tests: RuleTester.InvalidTestCase[], features?: any): RuleTester.InvalidTestCase[]
+  (tests: RuleTester.ValidTestCase[], features?: any): RuleTester.ValidTestCase[]
 }
 
 const parsers = {
@@ -63,8 +70,8 @@ const parsers = {
       },
     }
   },
-  'all': function all(tests: any) {
-    const t = tests.flatMap((test: any) => {
+  'all': <TestCaseProcessor>(function all(tests) {
+    const t = tests.flatMap((test: any): any => {
       if (typeof test === 'string')
         test = { code: test }
 
@@ -164,7 +171,7 @@ const parsers = {
     })
 
     return t
-  },
+  }),
 }
 
 export default parsers

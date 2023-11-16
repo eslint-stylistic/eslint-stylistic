@@ -21,7 +21,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-closing-tag-location', rule, {
-  valid: parsers.all([
+  valid: parsers.all(<RuleTester.ValidTestCase[]>[
     {
       code: `
         <App>
@@ -50,7 +50,7 @@ ruleTester.run('jsx-closing-tag-location', rule, {
     },
   ]),
 
-  invalid: parsers.all([
+  invalid: parsers.all(<RuleTester.InvalidTestCase[]>[
     {
       code: `
         <App>

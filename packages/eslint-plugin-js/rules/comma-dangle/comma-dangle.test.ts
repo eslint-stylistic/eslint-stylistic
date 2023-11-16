@@ -6,25 +6,32 @@
 import { RuleTester } from 'eslint'
 import { unIndent } from '../../test-utils/unindent'
 import { createParserResolver } from '../../test-utils/fixture-parser'
+import { createRule } from '../../utils/createRule'
 import rule from './comma-dangle'
 
 const parser = createParserResolver('comma-dangle')
 
 const ruleTester = new RuleTester()
 
-ruleTester.defineRule('add-named-import', {
+// @ts-expect-error missing types
+ruleTester.defineRule('add-named-import', createRule({
   meta: {
+    type: 'problem',
+    schema: [],
     fixable: 'code',
+    messages: {
+      'add-named-import': 'add-named-import.',
+    },
   },
   create(context) {
     return {
       ImportDeclaration(node) {
         const sourceCode = context.sourceCode
-        const closingBrace = sourceCode.getLastToken(node, token => token.value === '}')
-        const addComma = sourceCode.getTokenBefore(closingBrace).value !== ','
+        const closingBrace = sourceCode.getLastToken(node, token => token.value === '}')!
+        const addComma = sourceCode.getTokenBefore(closingBrace)!.value !== ','
 
         context.report({
-          message: 'Add I18nManager.',
+          messageId: 'add-named-import',
           node,
           fix(fixer) {
             return fixer.insertTextBefore(closingBrace, `${addComma ? ',' : ''}I18nManager`)
@@ -33,7 +40,7 @@ ruleTester.defineRule('add-named-import', {
       },
     }
   },
-})
+}))
 
 ruleTester.run('comma-dangle', rule, {
   valid: [
@@ -1846,100 +1853,3 @@ let d = 0;export {d,};
     },
   ],
 })
-
-// const flatRuleTester = new FlatRuleTester()
-
-// // https://github.com/eslint/eslint/issues/16442
-// flatRuleTester.run('comma-dangle', rule, {
-//   valid: [
-//     {
-//       code: 'function f(\n a,\n b\n) {}',
-//       options: ['always-multiline'],
-//       languageOptions: {
-//         ecmaVersion: 5,
-//         sourceType: 'script',
-//       },
-//     },
-//     {
-//       code: 'f(\n a,\n b\n);',
-//       options: ['always-multiline'],
-//       languageOptions: {
-//         ecmaVersion: 5,
-//         sourceType: 'script',
-//       },
-//     },
-//     {
-//       code: 'function f(\n a,\n b\n) {}',
-//       options: ['always-multiline'],
-//       languageOptions: {
-//         ecmaVersion: 2016,
-//       },
-//     },
-//     {
-//       code: 'f(\n a,\n b\n);',
-//       options: ['always-multiline'],
-//       languageOptions: {
-//         ecmaVersion: 2016,
-//       },
-//     },
-//   ],
-
-//   invalid: [
-//     {
-//       code: 'function f(\n a,\n b\n) {}',
-//       output: 'function f(\n a,\n b,\n) {}',
-//       options: ['always-multiline'],
-//       languageOptions: {
-//         ecmaVersion: 2017,
-//       },
-//       errors: [{
-//         messageId: 'missing',
-//         type: 'Identifier',
-//         line: 3,
-//         column: 3,
-//       }],
-//     },
-//     {
-//       code: 'f(\n a,\n b\n);',
-//       output: 'f(\n a,\n b,\n);',
-//       options: ['always-multiline'],
-//       languageOptions: {
-//         ecmaVersion: 2017,
-//       },
-//       errors: [{
-//         messageId: 'missing',
-//         type: 'Identifier',
-//         line: 3,
-//         column: 3,
-//       }],
-//     },
-//     {
-//       code: 'function f(\n a,\n b\n) {}',
-//       output: 'function f(\n a,\n b,\n) {}',
-//       options: ['always-multiline'],
-//       languageOptions: {
-//         ecmaVersion: 'latest',
-//       },
-//       errors: [{
-//         messageId: 'missing',
-//         type: 'Identifier',
-//         line: 3,
-//         column: 3,
-//       }],
-//     },
-//     {
-//       code: 'f(\n a,\n b\n);',
-//       output: 'f(\n a,\n b,\n);',
-//       options: ['always-multiline'],
-//       languageOptions: {
-//         ecmaVersion: 'latest',
-//       },
-//       errors: [{
-//         messageId: 'missing',
-//         type: 'Identifier',
-//         line: 3,
-//         column: 3,
-//       }],
-//     },
-//   ],
-// })
