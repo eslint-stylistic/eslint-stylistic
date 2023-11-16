@@ -246,7 +246,7 @@ export default createRule<MessageIds, RuleOptions>({
           *fix(fixer) {
             yield fixer.remove(trailingToken)
 
-            /*
+            /**
             * Extend the range of the fix to include surrounding tokens to ensure
             * that the element after which the comma is removed stays _last_.
             * This intentionally makes conflicts in fix ranges with rules that may be
