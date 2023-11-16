@@ -4,13 +4,15 @@
  */
 
 import { isOpeningParenToken } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -25,18 +27,22 @@ export default {
       {
         oneOf: [
           {
+            type: 'string',
             enum: ['always', 'never'],
           },
           {
             type: 'object',
             properties: {
               anonymous: {
+                type: 'string',
                 enum: ['always', 'never', 'ignore'],
               },
               named: {
+                type: 'string',
                 enum: ['always', 'never', 'ignore'],
               },
               asyncArrow: {
+                type: 'string',
                 enum: ['always', 'never', 'ignore'],
               },
             },
@@ -59,10 +65,14 @@ export default {
 
     /**
      * Determines whether a function has a name.
-     * @param {ASTNode} node The function node.
-     * @returns {boolean} Whether the function has a name.
+     * @param node The function node.
+     * @returns Whether the function has a name.
      */
-    function isNamedFunction(node) {
+    function isNamedFunction(node:
+    | Tree.ArrowFunctionExpression
+    | Tree.FunctionDeclaration
+    | Tree.FunctionExpression,
+    ) {
       if (node.id)
         return true
 
@@ -80,13 +90,17 @@ export default {
 
     /**
      * Gets the config for a given function
-     * @param {ASTNode} node The function node
-     * @returns {string} "always", "never", or "ignore"
+     * @param node The function node
+     * @returns "always", "never", or "ignore"
      */
-    function getConfigForFunction(node) {
+    function getConfigForFunction(node:
+    | Tree.ArrowFunctionExpression
+    | Tree.FunctionDeclaration
+    | Tree.FunctionExpression,
+    ) {
       if (node.type === 'ArrowFunctionExpression') {
         // Always ignore non-async functions and arrow functions without parens, e.g. async foo => bar
-        if (node.async && isOpeningParenToken(sourceCode.getFirstToken(node, { skip: 1 })))
+        if (node.async && isOpeningParenToken(sourceCode.getFirstToken(node, { skip: 1 })!))
           return overrideConfig.asyncArrow || baseConfig
       }
       else if (isNamedFunction(node)) {
@@ -103,17 +117,20 @@ export default {
 
     /**
      * Checks the parens of a function node
-     * @param {ASTNode} node A function node
-     * @returns {void}
+     * @param node A function node
      */
-    function checkFunction(node) {
+    function checkFunction(node:
+    | Tree.ArrowFunctionExpression
+    | Tree.FunctionDeclaration
+    | Tree.FunctionExpression,
+    ) {
       const functionConfig = getConfigForFunction(node)
 
       if (functionConfig === 'ignore')
         return
 
-      const rightToken = sourceCode.getFirstToken(node, isOpeningParenToken)
-      const leftToken = sourceCode.getTokenBefore(rightToken)
+      const rightToken = sourceCode.getFirstToken(node, isOpeningParenToken)!
+      const leftToken = sourceCode.getTokenBefore(rightToken)!
       const hasSpacing = sourceCode.isSpaceBetweenTokens(leftToken, rightToken)
 
       if (hasSpacing && functionConfig === 'never') {
@@ -154,4 +171,4 @@ export default {
       FunctionExpression: checkFunction,
     }
   },
-}
+})
