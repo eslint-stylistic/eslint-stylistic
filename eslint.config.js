@@ -48,6 +48,7 @@ const configs = antfu(
   {
     files: [
       'packages/eslint-plugin-js/rules/**/*.ts',
+      'packages/eslint-plugin-jsx/rules/**/*.ts',
     ],
     rules: {
       'no-restricted-imports': ['error', {
