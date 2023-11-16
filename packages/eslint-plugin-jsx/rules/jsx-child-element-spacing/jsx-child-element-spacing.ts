@@ -1,3 +1,4 @@
+import type { TSESTree } from '@typescript-eslint/utils'
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
 import type { ASTNode, Tree } from '../../utils/types'
@@ -57,7 +58,7 @@ export default createRule({
     const TEXT_FOLLOWING_ELEMENT_PATTERN = /^\s*\n\s*\S/
     const TEXT_PRECEDING_ELEMENT_PATTERN = /\S\s*\n\s*$/
 
-    const elementName = (node: Tree.JSXElement) => (
+    const elementName = (node: TSESTree.JSXElement) => (
       node.openingElement
       && node.openingElement.name
       && node.openingElement.name.type === 'JSXIdentifier'
@@ -69,7 +70,7 @@ export default createRule({
       && INLINE_ELEMENTS.has(elementName(node))
     )
 
-    const handleJSX = (node: Tree.JSXElement | Tree.JSXFragment) => {
+    const handleJSX = (node: TSESTree.JSXElement | TSESTree.JSXFragment) => {
       let lastChild: ASTNode | null = null
       let child: ASTNode | null = null
 
@@ -87,7 +88,7 @@ export default createRule({
               node: lastChild,
               loc: lastChild.loc.end,
               data: {
-                element: elementName(lastChild as Tree.JSXElement),
+                element: elementName(lastChild as TSESTree.JSXElement),
               },
             })
           }
@@ -97,7 +98,7 @@ export default createRule({
               node: nextChild,
               loc: nextChild.loc.start,
               data: {
-                element: elementName(nextChild as Tree.JSXElement),
+                element: elementName(nextChild as TSESTree.JSXElement),
               },
             })
           }
