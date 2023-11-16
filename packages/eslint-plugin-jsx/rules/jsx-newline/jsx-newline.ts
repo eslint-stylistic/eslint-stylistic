@@ -47,6 +47,7 @@ export default createRule<MessageIds, RuleOptions>({
           },
         },
         additionalProperties: false,
+        // @ts-expect-error Missing in type definition
         if: {
           properties: {
             allowMultilines: {
