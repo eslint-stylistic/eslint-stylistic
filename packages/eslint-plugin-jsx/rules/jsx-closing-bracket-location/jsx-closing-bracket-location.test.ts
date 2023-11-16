@@ -22,7 +22,7 @@ const MESSAGE_PROPS_ALIGNED = 'aligned with the last prop'
 const MESSAGE_TAG_ALIGNED = 'aligned with the opening tag'
 const MESSAGE_LINE_ALIGNED = 'aligned with the line containing the opening tag'
 
-function details(expectedColumn, expectedNextLine) {
+function details(expectedColumn: number, expectedNextLine: boolean) {
   return ` (expected column ${expectedColumn}${expectedNextLine ? ' on the next line)' : ')'}`
 }
 
