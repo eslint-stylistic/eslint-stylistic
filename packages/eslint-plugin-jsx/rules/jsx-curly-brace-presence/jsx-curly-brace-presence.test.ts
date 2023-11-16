@@ -25,7 +25,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-curly-brace-presence', rule, {
-  valid: parsers.all([].concat(
+  valid: parsers.all([
     {
       code: '<App {...props}>foo</App>',
     },
@@ -471,9 +471,9 @@ ruleTester.run('jsx-curly-brace-presence', rule, {
       code: '<App>{`${label}`}</App>',
       options: ['never'],
     },
-  )),
+  ]),
 
-  invalid: parsers.all([].concat(
+  invalid: parsers.all([
     {
       code: '<App prop={`foo`} />',
       output: '<App prop="foo" />',
@@ -934,5 +934,5 @@ ruleTester.run('jsx-curly-brace-presence', rule, {
       options: [{ props: 'never', children: 'never', propElementValues: 'never' }],
       features: ['no-ts'],
     },
-  )),
+  ]),
 })
