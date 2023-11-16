@@ -4,8 +4,10 @@
  * @author Joseph Stiles
  */
 
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import report from '../../utils/report'
+import type { Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
@@ -17,15 +19,15 @@ const messages = {
   allowMultilines: 'Multiline JSX elements should start in a new line',
 }
 
-function isMultilined(node) {
+function isMultilined(node: Tree.JSXChild) {
   return node && node.loc.start.line !== node.loc.end.line
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
     docs: {
       description: 'Require or prevent a new line after jsx elements and expressions.',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-newline'),
     },
     fixable: 'code',
@@ -45,6 +47,7 @@ export default {
           },
         },
         additionalProperties: false,
+        // @ts-expect-error Missing in type definition
         if: {
           properties: {
             allowMultilines: {
@@ -66,15 +69,15 @@ export default {
     ],
   },
   create(context) {
-    const jsxElementParents = new Set()
+    const jsxElementParents = new Set<Tree.JSXElement>()
     const sourceCode = context.getSourceCode()
 
-    function isBlockCommentInCurlyBraces(element) {
+    function isBlockCommentInCurlyBraces(element: Tree.JSXChild) {
       const elementRawValue = sourceCode.getText(element)
       return /^\s*{\/\*/.test(elementRawValue)
     }
 
-    function isNonBlockComment(element) {
+    function isNonBlockComment(element: Tree.JSXChild) {
       return !isBlockCommentInCurlyBraces(element) && (element.type === 'JSXElement' || element.type === 'JSXExpressionContainer')
     }
 
@@ -87,7 +90,7 @@ export default {
               const prevent = configuration.prevent || false
               const allowMultilines = configuration.allowMultilines || false
 
-              const firstAdjacentSibling = elements[index + 1]
+              const firstAdjacentSibling = elements[index + 1] as Tree.StringLiteral | Tree.JSXText
               const secondAdjacentSibling = elements[index + 2]
 
               const hasSibling = firstAdjacentSibling
@@ -106,7 +109,7 @@ export default {
                 allowMultilines
                 && (
                   isMultilined(element)
-                  || isMultilined(elements.slice(index + 2).find(isNonBlockComment))
+                  || isMultilined(elements.slice(index + 2).find(isNonBlockComment)!)
                 )
               ) {
                 if (!isWithoutNewLine)
@@ -116,7 +119,8 @@ export default {
                 const replacement = '\n\n'
                 const messageId = 'allowMultilines'
 
-                report(context, messages[messageId], messageId, {
+                context.report({
+                  messageId,
                   node: secondAdjacentSibling,
                   fix(fixer) {
                     return fixer.replaceText(
@@ -145,7 +149,8 @@ export default {
                 ? '\n'
                 : '\n\n'
 
-              report(context, messages[messageId], messageId, {
+              context.report({
+                messageId,
                 node: secondAdjacentSibling,
                 fix(fixer) {
                   return fixer.replaceText(
@@ -160,9 +165,9 @@ export default {
           })
         })
       },
-      ':matches(JSXElement, JSXFragment) > :matches(JSXElement, JSXExpressionContainer)': (node) => {
-        jsxElementParents.add(node.parent)
+      ':matches(JSXElement, JSXFragment) > :matches(JSXElement, JSXExpressionContainer)': (node: Tree.JSXElement | Tree.JSXExpressionContainer) => {
+        jsxElementParents.add(node.parent as Tree.JSXElement)
       },
     }
   },
-}
+})
