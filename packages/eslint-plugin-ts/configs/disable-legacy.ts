@@ -1,6 +1,8 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-export default {
+import type { Linter } from 'eslint'
+
+const config: Linter.FlatConfig = {
   rules: {
     '@typescript-eslint/block-spacing': 0,
     '@typescript-eslint/brace-style': 0,
@@ -25,3 +27,4 @@ export default {
     '@typescript-eslint/type-annotation-spacing': 0,
   },
 }
+export default config

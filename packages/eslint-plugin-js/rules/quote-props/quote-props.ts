@@ -3,16 +3,19 @@
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
 
-import * as espree from 'espree'
+// @ts-expect-error missing types
+import { tokenize } from 'espree'
 import { isNumericLiteral } from '../../utils/ast-utils'
 import keywords from '../../utils/keywords'
+import { createRule } from '../../utils/createRule'
+import type { Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -27,6 +30,7 @@ export default {
           type: 'array',
           items: [
             {
+              type: 'string',
               enum: ['always', 'as-needed', 'consistent', 'consistent-as-needed'],
             },
           ],
@@ -37,6 +41,7 @@ export default {
           type: 'array',
           items: [
             {
+              type: 'string',
               enum: ['always', 'as-needed', 'consistent', 'consistent-as-needed'],
             },
             {
@@ -75,30 +80,30 @@ export default {
 
   create(context) {
     const MODE = context.options[0]
-    const KEYWORDS = context.options[1] && context.options[1].keywords
+    const KEYWORDS = (context.options[1] && context.options[1].keywords)!
     const CHECK_UNNECESSARY = !context.options[1] || context.options[1].unnecessary !== false
-    const NUMBERS = context.options[1] && context.options[1].numbers
+    const NUMBERS = (context.options[1] && context.options[1].numbers)!
 
     const sourceCode = context.sourceCode
 
     /**
      * Checks whether a certain string constitutes an ES3 token
-     * @param {string} tokenStr The string to be checked.
-     * @returns {boolean} `true` if it is an ES3 token.
+     * @param tokenStr The string to be checked.
+     * @returns `true` if it is an ES3 token.
      */
-    function isKeyword(tokenStr) {
+    function isKeyword(tokenStr: string): boolean {
       return keywords.includes(tokenStr)
     }
 
     /**
      * Checks if an espree-tokenized key has redundant quotes (i.e. whether quotes are unnecessary)
-     * @param {string} rawKey The raw key value from the source
+     * @param rawKey The raw key value from the source
      * @param {espreeTokens} tokens The espree-tokenized node key
-     * @param {boolean} [skipNumberLiterals] Indicates whether number literals should be checked
-     * @returns {boolean} Whether or not a key has redundant quotes.
+     * @param [skipNumberLiterals] Indicates whether number literals should be checked
+     * @returns Whether or not a key has redundant quotes.
      * @private
      */
-    function areQuotesRedundant(rawKey, tokens, skipNumberLiterals) {
+    function areQuotesRedundant(rawKey: string, tokens: any, skipNumberLiterals: boolean = false): boolean {
       return tokens.length === 1 && tokens[0].start === 0 && tokens[0].end === rawKey.length
         && (['Identifier', 'Keyword', 'Null', 'Boolean'].includes(tokens[0].type)
         || (tokens[0].type === 'Numeric' && !skipNumberLiterals && String(+tokens[0].value) === tokens[0].value))
@@ -106,19 +111,19 @@ export default {
 
     /**
      * Returns a string representation of a property node with quotes removed
-     * @param {ASTNode} key Key AST Node, which may or may not be quoted
-     * @returns {string} A replacement string for this property
+     * @param key Key AST Node, which may or may not be quoted
+     * @returns A replacement string for this property
      */
-    function getUnquotedKey(key) {
+    function getUnquotedKey(key: Tree.StringLiteral | Tree.Identifier): string {
       return key.type === 'Identifier' ? key.name : key.value
     }
 
     /**
      * Returns a string representation of a property node with quotes added
-     * @param {ASTNode} key Key AST Node, which may or may not be quoted
-     * @returns {string} A replacement string for this property
+     * @param key Key AST Node, which may or may not be quoted
+     * @returns A replacement string for this property
      */
-    function getQuotedKey(key) {
+    function getQuotedKey(key: Tree.Literal | Tree.Identifier): string {
       if (key.type === 'Literal' && typeof key.value === 'string') {
         // If the key is already a string literal, don't replace the quotes with double quotes.
         return sourceCode.getText(key)
@@ -130,10 +135,9 @@ export default {
 
     /**
      * Ensures that a property's key is quoted only when necessary
-     * @param {ASTNode} node Property AST node
-     * @returns {void}
+     * @param node Property AST node
      */
-    function checkUnnecessaryQuotes(node) {
+    function checkUnnecessaryQuotes(node: Tree.Property): void {
       const key = node.key
 
       if (node.method || node.computed || node.shorthand)
@@ -143,7 +147,7 @@ export default {
         let tokens
 
         try {
-          tokens = espree.tokenize(key.value)
+          tokens = tokenize(key.value)
         }
         catch {
           return
@@ -186,17 +190,16 @@ export default {
 
     /**
      * Ensures that a property's key is quoted
-     * @param {ASTNode} node Property AST node
-     * @returns {void}
+     * @param node Property AST node
      */
-    function checkOmittedQuotes(node) {
+    function checkOmittedQuotes(node: Tree.PropertyNonComputedName): void {
       const key = node.key
 
       if (!node.method && !node.computed && !node.shorthand && !(key.type === 'Literal' && typeof key.value === 'string')) {
         context.report({
           node,
           messageId: 'unquotedPropertyFound',
-          data: { property: key.name || key.value },
+          data: { property: (key as Tree.Identifier).name || (key as Tree.Literal).value },
           fix: fixer => fixer.replaceText(key, getQuotedKey(key)),
         })
       }
@@ -204,17 +207,17 @@ export default {
 
     /**
      * Ensures that an object's keys are consistently quoted, optionally checks for redundancy of quotes
-     * @param {ASTNode} node Property AST node
-     * @param {boolean} checkQuotesRedundancy Whether to check quotes' redundancy
-     * @returns {void}
+     * @param node Property AST node
+     * @param checkQuotesRedundancy Whether to check quotes' redundancy
      */
-    function checkConsistency(node, checkQuotesRedundancy) {
-      const quotedProps = []
-      const unquotedProps = []
-      let keywordKeyName = null
+    function checkConsistency(node: Tree.ObjectExpression, checkQuotesRedundancy: boolean): void {
+      const quotedProps: Tree.PropertyNonComputedName[] = []
+      const unquotedProps: Tree.PropertyNonComputedName[] = []
+      let keywordKeyName: string | null = null
       let necessaryQuotes = false
 
-      node.properties.forEach((property) => {
+      node.properties.forEach((rawProperty) => {
+        const property = rawProperty as Tree.Property
         const key = property.key
 
         if (!key || property.method || property.computed || property.shorthand)
@@ -227,7 +230,7 @@ export default {
             let tokens
 
             try {
-              tokens = espree.tokenize(key.value)
+              tokens = tokenize(key.value)
             }
             catch {
               necessaryQuotes = true
@@ -249,10 +252,11 @@ export default {
 
       if (checkQuotesRedundancy && quotedProps.length && !necessaryQuotes) {
         quotedProps.forEach((property) => {
+          const key = property.key as Tree.StringLiteral | Tree.Identifier
           context.report({
             node: property,
             messageId: 'redundantQuoting',
-            fix: fixer => fixer.replaceText(property.key, getUnquotedKey(property.key)),
+            fix: fixer => fixer.replaceText(key, getUnquotedKey(key)),
           })
         })
       }
@@ -271,7 +275,7 @@ export default {
           context.report({
             node: property,
             messageId: 'inconsistentlyQuotedProperty',
-            data: { key: property.key.name || property.key.value },
+            data: { key: (property.key as Tree.Identifier).name || (property.key as Tree.Literal).value },
             fix: fixer => fixer.replaceText(property.key, getQuotedKey(property.key)),
           })
         })
@@ -281,7 +285,7 @@ export default {
     return {
       Property(node) {
         if (MODE === 'always' || !MODE)
-          checkOmittedQuotes(node)
+          checkOmittedQuotes(node as Tree.PropertyNonComputedName)
 
         if (MODE === 'as-needed')
           checkUnnecessaryQuotes(node)
@@ -295,4 +299,4 @@ export default {
       },
     }
   },
-}
+})
