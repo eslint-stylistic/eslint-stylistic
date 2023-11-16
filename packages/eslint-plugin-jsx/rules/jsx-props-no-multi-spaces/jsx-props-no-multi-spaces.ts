@@ -5,7 +5,6 @@
 
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import report from '../../utils/report'
 import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
@@ -33,20 +32,21 @@ export default createRule<MessageIds, RuleOptions>({
   },
 
   create(context) {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
 
     function getPropName(propNode: NodeType): string | Tree.JSXIdentifier {
       switch (propNode.type) {
         case 'JSXSpreadAttribute':
-          return context.getSourceCode().getText(propNode.argument)
+          return sourceCode.getText(propNode.argument)
         case 'JSXIdentifier':
           return propNode.name
         case 'JSXMemberExpression':
-          return `${getPropName((propNode).object)}.${propNode.property.name}`
+          return `${getPropName(propNode.object)}.${propNode.property.name}`
         default:
           return (propNode as Tree.JSXAttribute).name
             ? (propNode as Tree.JSXAttribute).name.name
-            : `${context.getSourceCode().getText((propNode as Tree.JSXMemberExpression).object)}.${(propNode as Tree.JSXMemberExpression).property.name}` // needed for typescript-eslint parser
+            // needed for typescript-eslint parser
+            : `${sourceCode.getText((propNode as Tree.JSXMemberExpression).object)}.${(propNode as Tree.JSXMemberExpression).property.name}`
       }
     }
 
@@ -67,7 +67,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     function checkSpacing(prev: NodeType, node: Tree.JSXAttribute | Tree.JSXSpreadAttribute) {
       if (hasEmptyLines(prev, node)) {
-        report(context, messages.noLineGap, 'noLineGap', {
+        context.report({
+          messageId: 'noLineGap',
           node,
           data: {
             prop1: getPropName(prev),
@@ -79,7 +80,7 @@ export default createRule<MessageIds, RuleOptions>({
       if (prev.loc.end.line !== node.loc.end.line)
         return
 
-      const between = context.getSourceCode().text.slice(prev.range[1], node.range[0])
+      const between = sourceCode.text.slice(prev.range[1], node.range[0])
 
       if (between !== ' ') {
         context.report({
