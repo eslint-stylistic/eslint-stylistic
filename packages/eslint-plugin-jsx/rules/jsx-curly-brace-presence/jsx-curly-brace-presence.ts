@@ -4,11 +4,11 @@
  * @author Simon Lydell
  */
 
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
 import { isJSX, isWhiteSpaces } from '../../utils/jsx'
-import report from '../../utils/report'
-
-const arrayIncludes = (arr, value) => arr.includes(value)
+import type { Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Constants
@@ -34,11 +34,11 @@ const messages = {
   missingCurly: 'Need to wrap this literal in a JSX expression.',
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
     docs: {
       description: 'Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-curly-brace-presence'),
     },
     fixable: 'code',
@@ -51,13 +51,14 @@ export default {
           {
             type: 'object',
             properties: {
-              props: { enum: OPTION_VALUES },
-              children: { enum: OPTION_VALUES },
-              propElementValues: { enum: OPTION_VALUES },
+              props: { type: 'string', enum: OPTION_VALUES },
+              children: { type: 'string', enum: OPTION_VALUES },
+              propElementValues: { type: 'string', enum: OPTION_VALUES },
             },
             additionalProperties: false,
           },
           {
+            type: 'string',
             enum: OPTION_VALUES,
           },
         ],
@@ -68,47 +69,48 @@ export default {
   create(context) {
     const HTML_ENTITY_REGEX = () => /&[A-Za-z\d#]+;/g
     const ruleOptions = context.options[0]
+
     const userConfig = typeof ruleOptions === 'string'
       ? { props: ruleOptions, children: ruleOptions, propElementValues: OPTION_IGNORE }
       : Object.assign({}, DEFAULT_CONFIG, ruleOptions)
 
-    function containsLineTerminators(rawStringValue) {
+    function containsLineTerminators(rawStringValue: string) {
       return /[\n\r\u2028\u2029]/.test(rawStringValue)
     }
 
-    function containsBackslash(rawStringValue) {
-      return arrayIncludes(rawStringValue, '\\')
+    function containsBackslash(rawStringValue: string) {
+      return rawStringValue.includes('\\')
     }
 
-    function containsHTMLEntity(rawStringValue) {
+    function containsHTMLEntity(rawStringValue: string) {
       return HTML_ENTITY_REGEX().test(rawStringValue)
     }
 
-    function containsOnlyHtmlEntities(rawStringValue) {
+    function containsOnlyHtmlEntities(rawStringValue: string) {
       return rawStringValue.replace(HTML_ENTITY_REGEX(), '').trim() === ''
     }
 
-    function containsDisallowedJSXTextChars(rawStringValue) {
+    function containsDisallowedJSXTextChars(rawStringValue: string) {
       return /[{<>}]/.test(rawStringValue)
     }
 
-    function containsQuoteCharacters(value) {
+    function containsQuoteCharacters(value: string) {
       return /['"]/.test(value)
     }
 
-    function containsMultilineComment(value) {
+    function containsMultilineComment(value: string) {
       return /\/\*/.test(value)
     }
 
-    function escapeDoubleQuotes(rawStringValue) {
+    function escapeDoubleQuotes(rawStringValue: string) {
       return rawStringValue.replace(/\\"/g, '"').replace(/"/g, '\\"')
     }
 
-    function escapeBackslashes(rawStringValue) {
+    function escapeBackslashes(rawStringValue: string) {
       return rawStringValue.replace(/\\/g, '\\\\')
     }
 
-    function needToEscapeCharacterForJSX(raw, node) {
+    function needToEscapeCharacterForJSX(raw: string, node: Tree.JSXExpressionContainer) {
       return (
         containsBackslash(raw)
         || containsHTMLEntity(raw)
@@ -116,30 +118,30 @@ export default {
       )
     }
 
-    function containsWhitespaceExpression(child) {
+    function containsWhitespaceExpression(child: Tree.JSXExpressionContainer) {
       if (child.type === 'JSXExpressionContainer') {
-        const value = child.expression.value
+        const value = (child.expression as Tree.StringLiteral).value
         return value ? isWhiteSpaces(value) : false
       }
       return false
     }
 
-    function isLineBreak(text) {
+    function isLineBreak(text: string) {
       return containsLineTerminators(text) && text.trim() === ''
     }
 
-    function wrapNonHTMLEntities(text) {
+    function wrapNonHTMLEntities(text: string) {
       const HTML_ENTITY = '<HTML_ENTITY>'
       const withCurlyBraces = text.split(HTML_ENTITY_REGEX()).map(word => (
         word === '' ? '' : `{${JSON.stringify(word)}}`
       )).join(HTML_ENTITY)
 
-      const htmlEntities = text.match(HTML_ENTITY_REGEX())
+      const htmlEntities = text.match(HTML_ENTITY_REGEX())!
       return htmlEntities.reduce((acc, htmlEntity) => (acc.replace(HTML_ENTITY, htmlEntity)
       ), withCurlyBraces)
     }
 
-    function wrapWithCurlyBraces(rawText) {
+    function wrapWithCurlyBraces(rawText: string) {
       if (!containsLineTerminators(rawText))
         return `{${JSON.stringify(rawText)}}`
 
@@ -160,13 +162,14 @@ export default {
 
     /**
      * Report and fix an unnecessary curly brace violation on a node
-     * @param {ASTNode} JSXExpressionNode - The AST node with an unnecessary JSX expression
+     * @param JSXExpressionNode - The AST node with an unnecessary JSX expression
      */
-    function reportUnnecessaryCurly(JSXExpressionNode) {
-      report(context, messages.unnecessaryCurly, 'unnecessaryCurly', {
+    function reportUnnecessaryCurly(JSXExpressionNode: Tree.JSXExpressionContainer) {
+      context.report({
+        messageId: 'unnecessaryCurly',
         node: JSXExpressionNode,
         fix(fixer) {
-          const expression = JSXExpressionNode.expression
+          const expression = JSXExpressionNode.expression as Tree.TemplateLiteral | Tree.StringLiteral
 
           let textToReplace
           if (isJSX(expression)) {
@@ -174,11 +177,10 @@ export default {
             textToReplace = sourceCode.getText(expression)
           }
           else {
-            const expressionType = expression && expression.type
             const parentType = JSXExpressionNode.parent.type
 
             if (parentType === 'JSXAttribute') {
-              textToReplace = `"${expressionType === 'TemplateLiteral'
+              textToReplace = `"${expression.type === 'TemplateLiteral'
                 ? expression.quasis[0].value.raw
                 : expression.raw.slice(1, -1)
               }"`
@@ -189,8 +191,8 @@ export default {
               textToReplace = sourceCode.getText(expression)
             }
             else {
-              textToReplace = expressionType === 'TemplateLiteral'
-                ? expression.quasis[0].value.cooked : expression.value
+              textToReplace = expression.type === 'TemplateLiteral'
+                ? (expression as Tree.TemplateLiteral).quasis[0].value.cooked : (expression as Tree.StringLiteral).value
             }
           }
 
@@ -199,8 +201,9 @@ export default {
       })
     }
 
-    function reportMissingCurly(literalNode) {
-      report(context, messages.missingCurly, 'missingCurly', {
+    function reportMissingCurly(literalNode: Tree.Literal | Tree.JSXText) {
+      context.report({
+        messageId: 'missingCurly',
         node: literalNode,
         fix(fixer) {
           if (isJSX(literalNode))
@@ -227,23 +230,23 @@ export default {
       })
     }
 
-    function isWhiteSpaceLiteral(node) {
+    function isWhiteSpaceLiteral(node: Tree.StringLiteral | Tree.JSXText | Tree.JSXExpressionContainer) {
       return node.type && node.type === 'Literal' && node.value && isWhiteSpaces(node.value)
     }
 
-    function isStringWithTrailingWhiteSpaces(value) {
+    function isStringWithTrailingWhiteSpaces(value: string) {
       return /^\s|\s$/.test(value)
     }
 
-    function isLiteralWithTrailingWhiteSpaces(node) {
+    function isLiteralWithTrailingWhiteSpaces(node: Tree.StringLiteral | Tree.JSXText) {
       return node.type && node.type === 'Literal' && node.value && isStringWithTrailingWhiteSpaces(node.value)
     }
 
     // Bail out if there is any character that needs to be escaped in JSX
     // because escaping decreases readability and the original code may be more
     // readable anyway or intentional for other specific reasons
-    function lintUnnecessaryCurly(JSXExpressionNode) {
-      const expression = JSXExpressionNode.expression
+    function lintUnnecessaryCurly(JSXExpressionNode: Tree.JSXExpressionContainer) {
+      const expression = (JSXExpressionNode as Tree.JSXExpression).expression as Tree.Literal | Tree.JSXText | Tree.TemplateLiteral
       const expressionType = expression.type
 
       const sourceCode = context.getSourceCode()
@@ -278,7 +281,7 @@ export default {
         reportUnnecessaryCurly(JSXExpressionNode)
     }
 
-    function areRuleConditionsSatisfied(parent, config, ruleCondition) {
+    function areRuleConditionsSatisfied(parent: Tree.StringLiteral | Tree.JSXText | Tree.JSXElement | Tree.JSXAttribute, config: typeof userConfig, ruleCondition: (typeof userConfig)['props']) {
       return (
         parent.type === 'JSXAttribute'
         && typeof config.props === 'string'
@@ -290,7 +293,7 @@ export default {
       )
     }
 
-    function getAdjacentSiblings(node, children) {
+    function getAdjacentSiblings(node: Tree.JSXExpressionContainer, children: (Tree.StringLiteral | Tree.JSXText | Tree.JSXExpressionContainer)[]) {
       for (let i = 1; i < children.length - 1; i++) {
         const child = children[i]
         if (node === child)
@@ -305,7 +308,7 @@ export default {
       return []
     }
 
-    function hasAdjacentJsxExpressionContainers(node, children) {
+    function hasAdjacentJsxExpressionContainers(node: Tree.JSXExpressionContainer, children: (Tree.JSXExpressionContainer | Tree.StringLiteral | Tree.JSXText)[]) {
       if (!children)
         return false
 
@@ -314,17 +317,17 @@ export default {
 
       return adjSiblings.some(x => x.type && x.type === 'JSXExpressionContainer')
     }
-    function hasAdjacentJsx(node, children) {
+    function hasAdjacentJsx(node: Tree.JSXExpressionContainer, children: (Tree.JSXText | Tree.StringLiteral)[]) {
       if (!children)
         return false
 
       const childrenExcludingWhitespaceLiteral = children.filter(child => !isWhiteSpaceLiteral(child))
       const adjSiblings = getAdjacentSiblings(node, childrenExcludingWhitespaceLiteral)
 
-      return adjSiblings.some(x => x.type && arrayIncludes(['JSXExpressionContainer', 'JSXElement'], x.type))
+      return adjSiblings.some(x => x.type && ['JSXExpressionContainer', 'JSXElement'].includes(x.type))
     }
-    function shouldCheckForUnnecessaryCurly(node, config) {
-      const parent = node.parent
+    function shouldCheckForUnnecessaryCurly(node: Tree.JSXExpressionContainer, config: typeof userConfig) {
+      const parent = node.parent as Tree.JSXAttribute | Tree.StringLiteral | Tree.JSXText | Tree.JSXElement
       // Bail out if the parent is a JSXAttribute & its contents aren't
       // StringLiteral or TemplateLiteral since e.g
       // <App prop1={<CustomEl />} prop2={<CustomEl>...</CustomEl>} />
@@ -333,22 +336,22 @@ export default {
         parent.type && parent.type === 'JSXAttribute'
         && (node.expression && node.expression.type
         && node.expression.type !== 'Literal'
-        && node.expression.type !== 'StringLiteral'
+        && node.expression.type !== 'StringLiteral' as any // StringLiteral extends Literal, so ts think it's the same type
         && node.expression.type !== 'TemplateLiteral')
       )
         return false
 
       // If there are adjacent `JsxExpressionContainer` then there is no need,
       // to check for unnecessary curly braces.
-      if (isJSX(parent) && hasAdjacentJsxExpressionContainers(node, parent.children))
+      if (isJSX(parent) && hasAdjacentJsxExpressionContainers(node, parent.children as (Tree.JSXExpressionContainer | Tree.JSXText | Tree.StringLiteral)[]))
         return false
 
-      if (containsWhitespaceExpression(node) && hasAdjacentJsx(node, parent.children))
+      if (containsWhitespaceExpression(node) && hasAdjacentJsx(node, (parent as Tree.JSXElement).children as (Tree.JSXText | Tree.StringLiteral)[]))
         return false
 
       if (
-        parent.children
-        && parent.children.length === 1
+        (parent as Tree.JSXElement).children
+        && (parent as Tree.JSXElement).children.length === 1
         && containsWhitespaceExpression(node)
       )
         return false
@@ -356,7 +359,7 @@ export default {
       return areRuleConditionsSatisfied(parent, config, OPTION_NEVER)
     }
 
-    function shouldCheckForMissingCurly(node, config) {
+    function shouldCheckForMissingCurly(node: Tree.Literal | Tree.JSXText | Tree.JSXElement, config: typeof userConfig): node is Tree.Literal | Tree.JSXText {
       if (isJSX(node))
         return config.propElementValues !== OPTION_IGNORE
 
@@ -366,11 +369,11 @@ export default {
       )
         return false
 
-      const parent = node.parent
+      const parent = node.parent as Tree.JSXElement
       if (
         parent.children
         && parent.children.length === 1
-        && containsWhitespaceExpression(parent.children[0])
+        && containsWhitespaceExpression(parent.children[0] as Tree.JSXExpressionContainer)
       )
         return false
 
@@ -382,9 +385,9 @@ export default {
     // --------------------------------------------------------------------------
 
     return {
-      'JSXAttribute > JSXExpressionContainer > JSXElement': function (node) {
+      'JSXAttribute > JSXExpressionContainer > JSXElement': function (node: Tree.JSXElement) {
         if (userConfig.propElementValues === OPTION_NEVER)
-          reportUnnecessaryCurly(node.parent)
+          reportUnnecessaryCurly(node.parent as Tree.JSXExpressionContainer)
       },
 
       JSXExpressionContainer(node) {
@@ -392,10 +395,10 @@ export default {
           lintUnnecessaryCurly(node)
       },
 
-      'JSXAttribute > JSXElement, Literal, JSXText': function (node) {
+      'JSXAttribute > JSXElement, Literal, JSXText': function (node: Tree.Literal | Tree.JSXText | Tree.JSXElement) {
         if (shouldCheckForMissingCurly(node, userConfig))
           reportMissingCurly(node)
       },
     }
   },
-}
+})

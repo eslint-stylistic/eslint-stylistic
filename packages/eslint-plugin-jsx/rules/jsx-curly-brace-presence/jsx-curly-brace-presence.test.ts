@@ -8,7 +8,7 @@
 import { RuleTester } from 'eslint'
 import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
-import parsers, { invalids, valids } from '../../test-utils/parsers'
+import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-curly-brace-presence'
 
 const parserOptions = {
@@ -622,8 +622,8 @@ ruleTester.run('jsx-curly-brace-presence', rule, {
           some-complicated-exp
         </MyComponent>
       `,
-      parser: parsers['@BABEL_ESLINT'],
-      parserOptions: parsers.babelParserOptions({}, new Set()),
+      parser: BABEL_ESLINT,
+      parserOptions: babelParserOptions({}, new Set()),
       options: [{ children: 'never' }],
       errors: [
         { messageId: 'unnecessaryCurly', line: 3 },

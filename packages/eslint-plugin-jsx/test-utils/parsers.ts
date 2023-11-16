@@ -29,10 +29,10 @@ function minEcmaVersion(features: any, parserOptions: any) {
   return Number.isFinite(result) ? result : undefined
 }
 
-const BABEL_ESLINT = require.resolve('@babel/eslint-parser')
-const TYPESCRIPT_ESLINT = require.resolve('@typescript-eslint/parser')
+export const BABEL_ESLINT = require.resolve('@babel/eslint-parser')
+export const TYPESCRIPT_ESLINT = require.resolve('@typescript-eslint/parser')
 
-function tsParserOptions(test: InvalidTestCase | ValidTestCase, features: Set<string>) {
+export function tsParserOptions(test: Partial<InvalidTestCase | ValidTestCase>, features: Set<string>) {
   return {
     ...test.parserOptions,
     ecmaFeatures: {
@@ -43,7 +43,7 @@ function tsParserOptions(test: InvalidTestCase | ValidTestCase, features: Set<st
   }
 }
 
-function babelParserOptions(test: InvalidTestCase | ValidTestCase, features: Set<string>) {
+export function babelParserOptions(test: Partial<InvalidTestCase | ValidTestCase>, features: Set<string>) {
   return Object.assign({}, test.parserOptions, {
     requireConfigFile: false,
     babelOptions: {
