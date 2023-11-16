@@ -7,10 +7,6 @@ import { createRule } from '../../utils/createRule'
 import type { NodeTypes, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -36,10 +32,6 @@ export default createRule<MessageIds, RuleOptions>({
 
   create(context) {
     const always = context.options[0] === 'always'
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     /**
      * Determine if provided keyword is a variant of for specifiers
@@ -78,10 +70,6 @@ export default createRule<MessageIds, RuleOptions>({
         prev = current
       })
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       VariableDeclaration: checkForNewLine,

@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -57,10 +53,6 @@ export default createRule<MessageIds, RuleOptions>({
 
   create(context) {
     const sourceCode = context.sourceCode
-
-    // ----------------------------------------------------------------------
-    // Helpers
-    // ----------------------------------------------------------------------
 
     /**
      * Normalizes a given option value.
@@ -222,7 +214,7 @@ export default createRule<MessageIds, RuleOptions>({
         )
       )
 
-      /*
+      /**
        * Use tokens or comments to check multiline or not.
        * But use only tokens to check whether linebreaks are needed.
        * This allows:
@@ -244,10 +236,6 @@ export default createRule<MessageIds, RuleOptions>({
           reportNoEndingLinebreak(node, closeBracket)
       }
     }
-
-    // ----------------------------------------------------------------------
-    // Public
-    // ----------------------------------------------------------------------
 
     return {
       ArrayPattern: check,

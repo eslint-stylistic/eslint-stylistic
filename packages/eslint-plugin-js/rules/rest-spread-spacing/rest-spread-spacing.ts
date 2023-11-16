@@ -35,10 +35,6 @@ export default createRule<MessageIds, RuleOptions>({
     const sourceCode = context.sourceCode
     const alwaysSpace = context.options[0] === 'always'
 
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
-
     /**
      * Checks whitespace between rest/spread operators and their expressions
      * @param {ASTNode} node The node to check

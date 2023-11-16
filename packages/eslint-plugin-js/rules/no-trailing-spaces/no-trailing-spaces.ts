@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -99,10 +95,6 @@ export default createRule<MessageIds, RuleOptions>({
 
       return lines
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
 

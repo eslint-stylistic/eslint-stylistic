@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -47,10 +43,6 @@ export default createRule<MessageIds, RuleOptions>({
     let lastStatementLine = 0
     let numberOfStatementsOnThisLine = 0
     let firstExtraStatement: ASTNode | null = null
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     const SINGLE_CHILD_ALLOWED = /^(?:(?:DoWhile|For|ForIn|ForOf|If|Labeled|While)Statement|Export(?:Default|Named)Declaration)$/u
 
@@ -132,10 +124,6 @@ export default createRule<MessageIds, RuleOptions>({
         lastStatementLine = line
       }
     }
-
-    // --------------------------------------------------------------------------
-    // Public API
-    // --------------------------------------------------------------------------
 
     return {
       'BreakStatement': enterStatement,

@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -73,10 +69,6 @@ export default createRule<MessageIds, RuleOptions>({
       objectsInArraysException: isOptionSet('objectsInArrays'),
       arraysInArraysException: isOptionSet('arraysInArrays'),
     }
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     /**
      * Reports that there shouldn't be a space after the first token
@@ -226,10 +218,6 @@ export default createRule<MessageIds, RuleOptions>({
           reportNoEndingSpace(node, last)
       }
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       ArrayPattern: validateArraySpacing,

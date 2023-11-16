@@ -7,10 +7,6 @@ import { isNotClosingParenToken, isTokenOnSameLine } from '../../utils/ast-utils
 import { createRule } from '../../utils/createRule'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -42,10 +38,6 @@ export default createRule<MessageIds, RuleOptions>({
     const option = context.options[0]
     const multiline = option !== 'never'
     const allowSingleLine = option === 'always-multiline'
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       ConditionalExpression(node) {

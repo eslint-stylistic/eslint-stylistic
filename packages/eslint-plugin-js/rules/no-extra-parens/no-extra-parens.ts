@@ -3,10 +3,6 @@
  * @author Michael Ficarra
  */
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 // @ts-expect-error missing types https://github.com/eslint-community/eslint-utils/pull/60
 import { isParenthesized as isParenthesizedRaw } from '@eslint-community/eslint-utils'
 import {

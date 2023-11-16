@@ -26,10 +26,6 @@ function errorAt(line: number, column: number) {
   }
 }
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('one-var-declaration-per-line', rule, {

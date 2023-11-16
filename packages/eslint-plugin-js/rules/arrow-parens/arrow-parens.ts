@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 /**
  * Determines if the given arrow function has block body.
  * @param {ASTNode} node `ArrowFunctionExpression` node.
@@ -20,10 +16,6 @@ import type { MessageIds, RuleOptions } from './types'
 function hasBlockBody(node: Tree.ArrowFunctionExpression) {
   return node.body.type === 'BlockStatement'
 }
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {

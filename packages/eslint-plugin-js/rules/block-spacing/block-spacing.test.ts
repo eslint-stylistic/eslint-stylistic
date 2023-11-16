@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './block-spacing'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('block-spacing', rule, {

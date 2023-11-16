@@ -7,10 +7,6 @@ import { isDecimalIntegerNumericToken, isTokenOnSameLine } from '../../utils/ast
 import { createRule } from '../../utils/createRule'
 import type { Tree } from '../../utils/types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule({
   meta: {
     type: 'layout',

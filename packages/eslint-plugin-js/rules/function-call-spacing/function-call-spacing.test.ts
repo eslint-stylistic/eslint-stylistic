@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './function-call-spacing'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('function-call-spacing', rule, {

@@ -3,7 +3,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parsers from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-curly-newline'
 
 const parserOptions = {
@@ -13,10 +13,6 @@ const parserOptions = {
     jsx: true,
   },
 }
-
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
 
 const LEFT_MISSING_ERROR = { messageId: 'expectedAfter', type: 'Punctuator' }
 const LEFT_UNEXPECTED_ERROR = { messageId: 'unexpectedAfter', type: 'Punctuator' }
@@ -31,7 +27,7 @@ const MULTILINE_REQUIRE = [{ singleline: 'consistent', multiline: 'require' }]
 const ruleTester = new RuleTester({ parserOptions })
 
 ruleTester.run('jsx-curly-newline', rule, {
-  valid: parsers.all([
+  valid: valids(
     // consistent option (default)
     {
       code: '<div>{foo}</div>',
@@ -132,9 +128,9 @@ ruleTester.run('jsx-curly-newline', rule, {
       `,
       options: NEVER,
     },
-  ]),
+  ),
 
-  invalid: parsers.all([
+  invalid: invalids(
     // consistent option (default)
     {
       code: `
@@ -305,5 +301,5 @@ ruleTester.run('jsx-curly-newline', rule, {
       options: NEVER,
       errors: [RIGHT_UNEXPECTED_ERROR],
     },
-  ]),
+  ),
 })

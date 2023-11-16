@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parsers from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-indent-props'
 
 const parserOptions = {
@@ -15,13 +15,9 @@ const parserOptions = {
   },
 }
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-indent-props', rule, {
-  valid: parsers.all([
+  valid: valids(
     {
       code: `
         <App foo
@@ -327,9 +323,9 @@ ruleTester.run('jsx-indent-props', rule, {
       `,
       options: ['first'],
     },
-  ]),
+  ),
 
-  invalid: parsers.all([
+  invalid: invalids(
     {
       code: `
         <App
@@ -895,5 +891,5 @@ ruleTester.run('jsx-indent-props', rule, {
         },
       ],
     },
-  ]),
+  ),
 })

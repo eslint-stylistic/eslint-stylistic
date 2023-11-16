@@ -7,10 +7,6 @@ import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './space-infix-ops'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('space-infix-ops', rule, {

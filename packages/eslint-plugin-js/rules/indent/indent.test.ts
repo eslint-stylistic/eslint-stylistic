@@ -10,10 +10,6 @@ import parser from '../../test-utils/fixture-parser'
 import { unIndent } from '../../test-utils/unindent'
 import rule from './indent'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
 const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')
 
@@ -58,10 +54,6 @@ function expectedErrors(providedIndentType: any, providedErrors?: any): ErrorOut
     line: err[0],
   }))
 }
-
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 8, ecmaFeatures: { jsx: true } } })
 
@@ -2272,10 +2264,10 @@ ruleTester.run('indent', rule, {
         `,
     {
 
-      /*
-             * Checking comments:
-             * https://github.com/eslint/eslint/issues/3845, https://github.com/eslint/eslint/issues/6571
-             */
+      /**
+       *             Checking comments:
+       * https://github.com/eslint/eslint/issues/3845, https://github.com/eslint/eslint/issues/6571
+       */
       code: unIndent`
                 foo();
                 // Line
@@ -2313,10 +2305,10 @@ ruleTester.run('indent', rule, {
         `,
     {
 
-      /*
-             * Destructuring assignments:
-             * https://github.com/eslint/eslint/issues/6813
-             */
+      /**
+       *             Destructuring assignments:
+       * https://github.com/eslint/eslint/issues/6813
+       */
       code: unIndent`
                 var {
                   foo,
@@ -4815,10 +4807,10 @@ ruleTester.run('indent', rule, {
                 </div>
             `,
 
-    /*
-         * JSX Fragments
-         * https://github.com/eslint/eslint/issues/12208
-         */
+    /**
+     *         JSX Fragments
+     * https://github.com/eslint/eslint/issues/12208
+     */
     unIndent`
             <>
                 <A />
@@ -4938,8 +4930,7 @@ ruleTester.run('indent', rule, {
         `,
     unIndent`
             <
-                /*
-                 * Comment
+                /**                 * Comment
                  */
             >
                 <A />
@@ -4947,8 +4938,7 @@ ruleTester.run('indent', rule, {
         `,
     unIndent`
             <
-            /*
-             * Comment
+            /**             * Comment
              */
             >
                 <A />
@@ -9004,10 +8994,10 @@ ruleTester.run('indent', rule, {
     },
     {
 
-      /*
-             * Checking comments:
-             * https://github.com/eslint/eslint/issues/6571
-             */
+      /**
+       *             Checking comments:
+       * https://github.com/eslint/eslint/issues/6571
+       */
       code: unIndent`
                 foo();
                   // comment
@@ -9069,10 +9059,10 @@ ruleTester.run('indent', rule, {
     },
     {
 
-      /*
-             * Destructuring assignments:
-             * https://github.com/eslint/eslint/issues/6813
-             */
+      /**
+       * Destructuring assignments:
+       * https://github.com/eslint/eslint/issues/6813
+       */
       code: unIndent`
                 var {
                 foo,
@@ -9628,12 +9618,12 @@ ruleTester.run('indent', rule, {
     },
     {
 
-      /*
-             * https://github.com/eslint/eslint/issues/1801
-             * Note: This issue also mentioned checking the indentation for the 2 below. However,
-             * this is intentionally ignored because everyone seems to have a different idea of how
-             * BinaryExpressions should be indented.
-             */
+      /**
+       *             https://github.com/eslint/eslint/issues/1801
+       * Note: This issue also mentioned checking the indentation for the 2 below. However,
+       * this is intentionally ignored because everyone seems to have a different idea of how
+       * BinaryExpressions should be indented.
+       */
       code: unIndent`
                 if (true) {
                     a = (
@@ -10701,10 +10691,10 @@ ruleTester.run('indent', rule, {
     },
     {
 
-      /*
-             * Multiline ternary
-             * (colon at the end of the first expression)
-             */
+      /**
+       *             Multiline ternary
+       * (colon at the end of the first expression)
+       */
       code: unIndent`
                 foo ?
                     <Foo /> :
@@ -10719,10 +10709,10 @@ ruleTester.run('indent', rule, {
     },
     {
 
-      /*
-             * Multiline ternary
-             * (colon on its own line)
-             */
+      /**
+       *             Multiline ternary
+       * (colon on its own line)
+       */
       code: unIndent`
                 foo ?
                     <Foo />
@@ -10739,10 +10729,10 @@ ruleTester.run('indent', rule, {
     },
     {
 
-      /*
-             * Multiline ternary
-             * (colon at the end of the first expression, parenthesized first expression)
-             */
+      /**
+       *             Multiline ternary
+       * (colon at the end of the first expression, parenthesized first expression)
+       */
       code: unIndent`
                 foo ? (
                     <Foo />
@@ -11120,10 +11110,10 @@ ruleTester.run('indent', rule, {
       errors: expectedErrors([2, 4, 0, 'Punctuator']),
     },
 
-    /*
-         * JSX Fragments
-         * https://github.com/eslint/eslint/issues/12208
-         */
+    /**
+     *         JSX Fragments
+     * https://github.com/eslint/eslint/issues/12208
+     */
     {
       code: unIndent`
                 <>

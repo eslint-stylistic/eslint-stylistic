@@ -7,10 +7,6 @@ import { createRule } from '../../utils/createRule'
 import type { JSONSchema, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Constants
-// ------------------------------------------------------------------------------
-
 const OPTIONS_SCHEMA: JSONSchema.JSONSchema4 = {
   type: 'object',
   properties: {
@@ -60,10 +56,6 @@ const OPTIONS_OR_INTEGER_SCHEMA: JSONSchema.JSONSchema4 = {
     },
   ],
 }
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {
@@ -145,10 +137,6 @@ export default createRule<MessageIds, RuleOptions>({
 
     if (options.ignorePattern)
       ignorePattern = new RegExp(options.ignorePattern, 'u')
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     /**
      * Tells if a given comment is trailing: it starts on the current line and
@@ -413,10 +401,6 @@ export default createRule<MessageIds, RuleOptions>({
         }
       })
     }
-
-    // --------------------------------------------------------------------------
-    // Public API
-    // --------------------------------------------------------------------------
 
     return {
       Program: checkProgramForMaxLength,

@@ -7,10 +7,6 @@
 import { RuleTester } from 'eslint'
 import rule from './arrow-spacing'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
 
 const valid = [

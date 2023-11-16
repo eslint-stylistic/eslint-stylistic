@@ -9,10 +9,6 @@ import { docsUrl } from '../../utils/docsUrl'
 import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const messages = {
   require: 'JSX element should start in a new line',
   prevent: 'JSX element should not start in a new line',

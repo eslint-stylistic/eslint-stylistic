@@ -9,19 +9,15 @@
  * @author Erik Wendel
  */
 
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import report from '../../utils/report'
-
-const has = (obj, prop) => Object.prototype.hasOwnProperty.call(obj, prop)
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
+import type { ASTNode, RuleFixer, Token, Tree } from '../../utils/types'
+import type { BasicConfig, MessageIds, RuleOptions } from './types'
 
 const SPACING = {
   always: 'always',
   never: 'never',
-}
+} as const
 const SPACING_VALUES = [SPACING.always, SPACING.never]
 
 const messages = {
@@ -33,11 +29,11 @@ const messages = {
   spaceNeededBefore: 'A space is required before \'{{token}}\'',
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
     docs: {
       description: 'Enforce or disallow spaces inside of curly braces in JSX attributes and expressions',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-curly-spacing'),
     },
     fixable: 'code',
@@ -50,6 +46,7 @@ export default {
           type: 'object',
           properties: {
             when: {
+              type: 'string',
               enum: SPACING_VALUES,
             },
             allowMultiline: {
@@ -59,6 +56,7 @@ export default {
               type: 'object',
               properties: {
                 objectLiterals: {
+                  type: 'string',
                   enum: SPACING_VALUES,
                 },
               },
@@ -90,6 +88,7 @@ export default {
             },
           }],
         }, {
+          type: 'string',
           enum: SPACING_VALUES,
         }],
       }, {
@@ -102,6 +101,7 @@ export default {
             type: 'object',
             properties: {
               objectLiterals: {
+                type: 'string',
                 enum: SPACING_VALUES,
               },
             },
@@ -113,11 +113,11 @@ export default {
   },
 
   create(context) {
-    function normalizeConfig(configOrTrue, defaults, lastPass) {
-      const config = configOrTrue === true ? {} : configOrTrue
-      const when = config.when || defaults.when
-      const allowMultiline = has(config, 'allowMultiline') ? config.allowMultiline : defaults.allowMultiline
-      const spacing = config.spacing || {}
+    function normalizeConfig(configOrTrue: RuleOptions[0] | true, defaults: BasicConfig, lastPass: boolean = false) {
+      const config = configOrTrue === true ? {} : configOrTrue as NonStringConfig
+      const when = (config as BasicConfig).when || defaults.when
+      const allowMultiline = 'allowMultiline' in config ? config.allowMultiline : defaults.allowMultiline
+      const spacing = (config as BasicConfig).spacing || {}
       let objectLiteralSpaces = spacing.objectLiterals || defaults.objectLiteralSpaces
       if (lastPass) {
         // On the final pass assign the values that should be derived from others if they are still undefined
@@ -131,48 +131,46 @@ export default {
       }
     }
 
+    type NonStringConfig = Exclude<RuleOptions[0], undefined | string>
+
     const DEFAULT_WHEN = SPACING.never
     const DEFAULT_ALLOW_MULTILINE = true
     const DEFAULT_ATTRIBUTES = true
     const DEFAULT_CHILDREN = false
 
     let originalConfig = context.options[0] || {}
-    if (SPACING_VALUES.includes(originalConfig))
-      originalConfig = Object.assign({ when: context.options[0] }, context.options[1])
+    if (SPACING_VALUES.includes(originalConfig as keyof typeof SPACING))
+      originalConfig = Object.assign({ when: context.options[0] }, context.options[1]) as BasicConfig
 
+    originalConfig = originalConfig as NonStringConfig
     const defaultConfig = normalizeConfig(originalConfig, {
       when: DEFAULT_WHEN,
       allowMultiline: DEFAULT_ALLOW_MULTILINE,
     })
-    const attributes = has(originalConfig, 'attributes') ? originalConfig.attributes : DEFAULT_ATTRIBUTES
+    const attributes = 'attributes' in originalConfig ? originalConfig.attributes : DEFAULT_ATTRIBUTES
     const attributesConfig = attributes ? normalizeConfig(attributes, defaultConfig, true) : null
-    const children = has(originalConfig, 'children') ? originalConfig.children : DEFAULT_CHILDREN
+    const children = 'children' in originalConfig ? originalConfig.children : DEFAULT_CHILDREN
     const childrenConfig = children ? normalizeConfig(children, defaultConfig, true) : null
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     /**
      * Determines whether two adjacent tokens have a newline between them.
-     * @param {object} left - The left token object.
-     * @param {object} right - The right token object.
-     * @returns {boolean} Whether or not there is a newline between the tokens.
+     * @param - The left token object.
+     * @param right - The right token object.
+     * @returns Whether or not there is a newline between the tokens.
      */
-    function isMultiline(left, right) {
+    function isMultiline(left: Tree.Token, right: Tree.Token) {
       return left.loc.end.line !== right.loc.start.line
     }
 
     /**
      * Trims text of whitespace between two ranges
-     * @param {Fixer} fixer - the eslint fixer object
-     * @param {number} fromLoc - the start location
-     * @param {number} toLoc - the end location
-     * @param {string} mode - either 'start' or 'end'
-     * @param {string=} spacing - a spacing value that will optionally add a space to the removed text
-     * @returns {object | * | {range, text}}
+     * @param fixer - the eslint fixer object
+     * @param fromLoc - the start location
+     * @param toLoc - the end location
+     * @param mode - either 'start' or 'end'
+     * @param spacing - a spacing value that will optionally add a space to the removed text
      */
-    function fixByTrimmingWhitespace(fixer, fromLoc, toLoc, mode, spacing) {
+    function fixByTrimmingWhitespace(fixer: RuleFixer, fromLoc: number, toLoc: number, mode: string, spacing: string = '') {
       let replacementText = context.getSourceCode().text.slice(fromLoc, toLoc)
       if (mode === 'start')
         replacementText = replacementText.replace(/^\s+/gm, '')
@@ -190,62 +188,62 @@ export default {
 
     /**
      * Reports that there shouldn't be a newline after the first token
-     * @param {ASTNode} node - The node to report in the event of an error.
-     * @param {Token} token - The token to use for the report.
-     * @param {string} spacing
-     * @returns {void}
+     * @param node - The node to report in the event of an error.
+     * @param token - The token to use for the report.
+     * @param spacing
      */
-    function reportNoBeginningNewline(node, token, spacing) {
-      report(context, messages.noNewlineAfter, 'noNewlineAfter', {
+    function reportNoBeginningNewline(node: ASTNode, token: Tree.Token, spacing: string) {
+      context.report({
         node,
         loc: token.loc.start,
+        messageId: 'noNewlineAfter',
         data: {
           token: token.value,
         },
         fix(fixer) {
           const nextToken = context.getSourceCode().getTokenAfter(token)
-          return fixByTrimmingWhitespace(fixer, token.range[1], nextToken.range[0], 'start', spacing)
+          return fixByTrimmingWhitespace(fixer, token.range[1], nextToken!.range[0], 'start', spacing)
         },
       })
     }
 
     /**
      * Reports that there shouldn't be a newline before the last token
-     * @param {ASTNode} node - The node to report in the event of an error.
-     * @param {Token} token - The token to use for the report.
-     * @param {string} spacing
-     * @returns {void}
+     * @param node - The node to report in the event of an error.
+     * @param token - The token to use for the report.
+     * @param spacing
      */
-    function reportNoEndingNewline(node, token, spacing) {
-      report(context, messages.noNewlineBefore, 'noNewlineBefore', {
+    function reportNoEndingNewline(node: ASTNode, token: Token, spacing: string) {
+      context.report({
         node,
         loc: token.loc.start,
+        messageId: 'noNewlineBefore',
         data: {
           token: token.value,
         },
         fix(fixer) {
           const previousToken = context.getSourceCode().getTokenBefore(token)
-          return fixByTrimmingWhitespace(fixer, previousToken.range[1], token.range[0], 'end', spacing)
+          return fixByTrimmingWhitespace(fixer, previousToken!.range[1], token.range[0], 'end', spacing)
         },
       })
     }
 
     /**
      * Reports that there shouldn't be a space after the first token
-     * @param {ASTNode} node - The node to report in the event of an error.
-     * @param {Token} token - The token to use for the report.
-     * @returns {void}
+     * @param node - The node to report in the event of an error.
+     * @param token - The token to use for the report.
      */
-    function reportNoBeginningSpace(node, token) {
-      report(context, messages.noSpaceAfter, 'noSpaceAfter', {
+    function reportNoBeginningSpace(node: ASTNode, token: Token) {
+      context.report({
         node,
         loc: token.loc.start,
+        messageId: 'noSpaceAfter',
         data: {
           token: token.value,
         },
         fix(fixer) {
           const sourceCode = context.getSourceCode()
-          const nextToken = sourceCode.getTokenAfter(token)
+          const nextToken = sourceCode.getTokenAfter(token)!
           let nextComment
 
           // eslint >=4.x
@@ -260,7 +258,7 @@ export default {
 
           // Take comments into consideration to narrow the fix range to what is actually affected. (See #1414)
           if (nextComment.length > 0)
-            return fixByTrimmingWhitespace(fixer, token.range[1], Math.min(nextToken.range[0], nextComment[0].range[0]), 'start')
+            return fixByTrimmingWhitespace(fixer, token.range[1], Math.min(nextToken.range[0], nextComment[0]!.range[0]), 'start')
 
           return fixByTrimmingWhitespace(fixer, token.range[1], nextToken.range[0], 'start')
         },
@@ -269,20 +267,20 @@ export default {
 
     /**
      * Reports that there shouldn't be a space before the last token
-     * @param {ASTNode} node - The node to report in the event of an error.
-     * @param {Token} token - The token to use for the report.
-     * @returns {void}
+     * @param node - The node to report in the event of an error.
+     * @param token - The token to use for the report.
      */
-    function reportNoEndingSpace(node, token) {
-      report(context, messages.noSpaceBefore, 'noSpaceBefore', {
+    function reportNoEndingSpace(node: ASTNode, token: Token) {
+      context.report({
         node,
         loc: token.loc.start,
+        messageId: 'noSpaceBefore',
         data: {
           token: token.value,
         },
         fix(fixer) {
           const sourceCode = context.getSourceCode()
-          const previousToken = sourceCode.getTokenBefore(token)
+          const previousToken = sourceCode.getTokenBefore(token)!
           let previousComment
 
           // eslint >=4.x
@@ -297,7 +295,7 @@ export default {
 
           // Take comments into consideration to narrow the fix range to what is actually affected. (See #1414)
           if (previousComment.length > 0)
-            return fixByTrimmingWhitespace(fixer, Math.max(previousToken.range[1], previousComment[0].range[1]), token.range[0], 'end')
+            return fixByTrimmingWhitespace(fixer, Math.max(previousToken.range[1], previousComment[0]!.range[1]), token.range[0], 'end')
 
           return fixByTrimmingWhitespace(fixer, previousToken.range[1], token.range[0], 'end')
         },
@@ -306,14 +304,14 @@ export default {
 
     /**
      * Reports that there should be a space after the first token
-     * @param {ASTNode} node - The node to report in the event of an error.
-     * @param {Token} token - The token to use for the report.
-     * @returns {void}
+     * @param node - The node to report in the event of an error.
+     * @param token - The token to use for the report.
      */
-    function reportRequiredBeginningSpace(node, token) {
-      report(context, messages.spaceNeededAfter, 'spaceNeededAfter', {
+    function reportRequiredBeginningSpace(node: ASTNode, token: Token) {
+      context.report({
         node,
         loc: token.loc.start,
+        messageId: 'spaceNeededAfter',
         data: {
           token: token.value,
         },
@@ -325,14 +323,14 @@ export default {
 
     /**
      * Reports that there should be a space before the last token
-     * @param {ASTNode} node - The node to report in the event of an error.
-     * @param {Token} token - The token to use for the report.
-     * @returns {void}
+     * @param node - The node to report in the event of an error.
+     * @param token - The token to use for the report.
      */
-    function reportRequiredEndingSpace(node, token) {
-      report(context, messages.spaceNeededBefore, 'spaceNeededBefore', {
+    function reportRequiredEndingSpace(node: ASTNode, token: Token) {
+      context.report({
         node,
         loc: token.loc.start,
+        messageId: 'spaceNeededBefore',
         data: {
           token: token.value,
         },
@@ -344,12 +342,11 @@ export default {
 
     /**
      * Determines if spacing in curly braces is valid.
-     * @param {ASTNode} node The AST node to check.
-     * @returns {void}
+     * @param node The AST node to check.
      */
-    function validateBraceSpacing(node) {
+    function validateBraceSpacing(node: ASTNode) {
       let config
-      switch (node.parent.type) {
+      switch (node.parent?.type) {
         case 'JSXAttribute':
         case 'JSXOpeningElement':
           config = attributesConfig
@@ -367,19 +364,19 @@ export default {
         return
 
       const sourceCode = context.getSourceCode()
-      const first = sourceCode.getFirstToken(node)
-      const last = sourceCode.getLastToken(node)
-      let second = sourceCode.getTokenAfter(first, { includeComments: true })
-      let penultimate = sourceCode.getTokenBefore(last, { includeComments: true })
+      const first = sourceCode.getFirstToken(node)!
+      const last = sourceCode.getLastToken(node)!
+      let second = sourceCode.getTokenAfter(first, { includeComments: true })!
+      let penultimate = sourceCode.getTokenBefore(last, { includeComments: true })!
 
       if (!second) {
-        second = sourceCode.getTokenAfter(first)
-        const leadingComments = sourceCode.getNodeByRangeIndex(second.range[0]).leadingComments
+        second = sourceCode.getTokenAfter(first)!
+        const leadingComments = sourceCode.getCommentsBefore(second)
         second = leadingComments ? leadingComments[0] : second
       }
       if (!penultimate) {
-        penultimate = sourceCode.getTokenBefore(last)
-        const trailingComments = sourceCode.getNodeByRangeIndex(penultimate.range[0]).trailingComments
+        penultimate = sourceCode.getTokenBefore(last)!
+        const trailingComments = sourceCode.getCommentsAfter(penultimate)
         penultimate = trailingComments ? trailingComments[trailingComments.length - 1] : penultimate
       }
 
@@ -414,13 +411,9 @@ export default {
       }
     }
 
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
-
     return {
       JSXExpressionContainer: validateBraceSpacing,
       JSXSpreadAttribute: validateBraceSpacing,
     }
   },
-}
+})

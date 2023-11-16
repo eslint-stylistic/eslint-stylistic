@@ -7,10 +7,6 @@ import { RuleTester } from 'eslint'
 import { unIndent } from '../../test-utils/unindent'
 import rule from './lines-around-comment'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('lines-around-comment', rule, {

@@ -7,11 +7,6 @@ import { isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import type { Token, Tree } from '../../utils/types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
-/** @type {import('eslint').Rule.RuleModule} */
 export default createRule({
   meta: {
     type: 'layout',

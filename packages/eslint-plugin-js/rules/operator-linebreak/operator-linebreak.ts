@@ -68,10 +68,6 @@ export default createRule<MessageIds, RuleOptions>({
 
     const sourceCode = context.sourceCode
 
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
-
     /**
      * Gets a fixer function to fix rule issues
      * @param {Token} operatorToken The operator token of an expression
@@ -212,10 +208,6 @@ export default createRule<MessageIds, RuleOptions>({
     function validateBinaryExpression(node: Tree.BinaryExpression | Tree.LogicalExpression | Tree.AssignmentExpression) {
       validateNode(node, node.right, node.operator)
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       BinaryExpression: validateBinaryExpression,

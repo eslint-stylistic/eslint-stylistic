@@ -8,10 +8,6 @@ import { unIndent } from '../../test-utils/unindent'
 import parser from '../../test-utils/fixture-parser'
 import rule from './function-paren-newline'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const LEFT_MISSING_ERROR = { messageId: 'expectedAfter', type: 'Punctuator' }
 const LEFT_UNEXPECTED_ERROR = { messageId: 'unexpectedAfter', type: 'Punctuator' }
 const RIGHT_MISSING_ERROR = { messageId: 'expectedBefore', type: 'Punctuator' }

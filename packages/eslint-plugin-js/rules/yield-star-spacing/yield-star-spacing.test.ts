@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './yield-star-spacing'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
 
 const missingBeforeError = { messageId: 'missingBefore', type: 'Punctuator' }

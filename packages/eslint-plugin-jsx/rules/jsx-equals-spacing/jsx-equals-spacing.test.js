@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parsers from '../../test-utils/parsers'
+import { invalids, skipDueToMultiErrorSorting, valids } from '../../test-utils/parsers'
 import rule from './jsx-equals-spacing'
 
 const parserOptions = {
@@ -15,13 +15,9 @@ const parserOptions = {
   },
 }
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-equals-spacing', rule, {
-  valid: parsers.all([
+  valid: valids(
     {
       code: '<App />',
     },
@@ -77,10 +73,10 @@ ruleTester.run('jsx-equals-spacing', rule, {
       code: '<App {...props} />',
       options: ['always'],
     },
-  ]),
+  ),
 
-  invalid: parsers.all([].concat(
-    parsers.skipDueToMultiErrorSorting ? [] : {
+  invalid: invalids(
+    skipDueToMultiErrorSorting ? [] : {
       code: '<App foo = {bar} />',
       output: '<App foo={bar} />',
       errors: [
@@ -88,7 +84,7 @@ ruleTester.run('jsx-equals-spacing', rule, {
         { messageId: 'noSpaceAfter', type: 'JSXAttribute' },
       ],
     },
-    parsers.skipDueToMultiErrorSorting ? [] : {
+    skipDueToMultiErrorSorting ? [] : {
       code: '<App foo = {bar} />',
       output: '<App foo={bar} />',
       options: ['never'],
@@ -109,7 +105,7 @@ ruleTester.run('jsx-equals-spacing', rule, {
       options: ['never'],
       errors: [{ messageId: 'noSpaceAfter', type: 'JSXAttribute' }],
     },
-    parsers.skipDueToMultiErrorSorting ? [] : {
+    skipDueToMultiErrorSorting ? [] : {
       code: '<App foo= {bar} bar = {baz} />',
       output: '<App foo={bar} bar={baz} />',
       options: ['never'],
@@ -119,7 +115,7 @@ ruleTester.run('jsx-equals-spacing', rule, {
         { messageId: 'noSpaceAfter', type: 'JSXAttribute' },
       ],
     },
-    parsers.skipDueToMultiErrorSorting ? [] : {
+    skipDueToMultiErrorSorting ? [] : {
       code: '<App foo={bar} />',
       output: '<App foo = {bar} />',
       options: ['always'],
@@ -140,7 +136,7 @@ ruleTester.run('jsx-equals-spacing', rule, {
       options: ['always'],
       errors: [{ messageId: 'needSpaceBefore', type: 'JSXAttribute' }],
     },
-    parsers.skipDueToMultiErrorSorting ? [] : {
+    skipDueToMultiErrorSorting ? [] : {
       code: '<App foo={bar} bar ={baz} />',
       output: '<App foo = {bar} bar = {baz} />',
       options: ['always'],
@@ -150,5 +146,5 @@ ruleTester.run('jsx-equals-spacing', rule, {
         { messageId: 'needSpaceAfter', type: 'JSXAttribute' },
       ],
     },
-  )),
+  ),
 })

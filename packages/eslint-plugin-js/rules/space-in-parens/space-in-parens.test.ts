@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './space-in-parens'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('space-in-parens', rule, {

@@ -34,10 +34,6 @@ import { isNodeFirstInLine } from '../../utils/ast'
 import { docsUrl } from '../../utils/docsUrl'
 import reportC from '../../utils/report'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
 }

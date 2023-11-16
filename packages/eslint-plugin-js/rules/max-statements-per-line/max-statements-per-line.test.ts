@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './max-statements-per-line'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('max-statements-per-line', rule, {

@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './no-mixed-spaces-and-tabs'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('no-mixed-spaces-and-tabs', rule, {

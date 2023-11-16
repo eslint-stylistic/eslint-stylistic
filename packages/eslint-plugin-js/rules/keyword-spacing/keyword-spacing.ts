@@ -8,10 +8,6 @@ import keywords from '../../utils/keywords'
 import { createRule } from '../../utils/createRule'
 import type { ASTNode, JSONSchema, Token, Tree } from '../../utils/types'
 
-// ------------------------------------------------------------------------------
-// Constants
-// ------------------------------------------------------------------------------
-
 const PREV_TOKEN = /^[)\]}>]$/u
 const NEXT_TOKEN = /^(?:[([{<~!]|\+\+?|--?)$/u
 const PREV_TOKEN_M = /^[)\]}>*]$/u
@@ -30,10 +26,6 @@ const KEYS = keywords.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of'
   }
 }())
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 /**
  * Checks whether or not a given token is a "Template" token ends with "${".
  * @param {Token} token A token to check.
@@ -51,10 +43,6 @@ function isOpenParenOfTemplate(token: Token) {
 function isCloseParenOfTemplate(token: Token) {
   return token.type === 'Template' && TEMPLATE_CLOSE_PAREN.test(token.value)
 }
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule({
   meta: {

@@ -7,10 +7,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, EcmaVersion } from '../../utils/types'
 import type { MessageIds, RuleOptions, Value } from './types'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 const DEFAULT_OPTIONS = Object.freeze({
   arrays: 'never',
   objects: 'never',
@@ -58,9 +54,6 @@ function normalizeOptions(optionValue: RuleOptions[0], ecmaVersion: EcmaVersion 
   return DEFAULT_OPTIONS
 }
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 /** @type {import('eslint').Rule.RuleModule} */
 export default createRule<MessageIds, RuleOptions>({
   meta: {

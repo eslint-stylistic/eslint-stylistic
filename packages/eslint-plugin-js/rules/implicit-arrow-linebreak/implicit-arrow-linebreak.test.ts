@@ -10,10 +10,6 @@ import rule from './implicit-arrow-linebreak'
 const EXPECTED_LINEBREAK = { messageId: 'expected' }
 const UNEXPECTED_LINEBREAK = { messageId: 'unexpected' }
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
 
 ruleTester.run('implicit-arrow-linebreak', rule, {

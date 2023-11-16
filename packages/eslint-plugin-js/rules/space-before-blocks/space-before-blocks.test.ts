@@ -7,10 +7,6 @@ import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './space-before-blocks'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 const alwaysArgs = ['always']
 const neverArgs = ['never']

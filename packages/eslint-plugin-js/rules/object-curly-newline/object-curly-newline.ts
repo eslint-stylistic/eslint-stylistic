@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { JSONSchema, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 // Schema objects.
 const OPTION_VALUE: JSONSchema.JSONSchema4 = {
   oneOf: [
@@ -149,10 +145,6 @@ function areLineBreaksRequired(
       && first.loc.start.line !== last.loc.end.line
     )
 }
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {

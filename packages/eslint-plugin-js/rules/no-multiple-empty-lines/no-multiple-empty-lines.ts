@@ -7,10 +7,6 @@
 import { createRule } from '../../utils/createRule'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -68,10 +64,6 @@ export default createRule<MessageIds, RuleOptions>({
     // Swallow the final newline, as some editors add it automatically and we don't want it to cause an issue
     const allLines = sourceCode.lines[sourceCode.lines.length - 1] === '' ? sourceCode.lines.slice(0, -1) : sourceCode.lines
     const templateLiteralLines = new Set()
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       TemplateLiteral(node) {

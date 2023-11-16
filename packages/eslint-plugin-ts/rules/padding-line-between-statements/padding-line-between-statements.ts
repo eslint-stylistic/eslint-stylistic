@@ -578,10 +578,6 @@ const StatementTypes: Record<string, NodeTestObject> = {
   'type': newKeywordTester(AST_NODE_TYPES.TSTypeAliasDeclaration, 'type'),
 }
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<Options, MessageIds>({
   name: 'padding-line-between-statements',
   meta: {

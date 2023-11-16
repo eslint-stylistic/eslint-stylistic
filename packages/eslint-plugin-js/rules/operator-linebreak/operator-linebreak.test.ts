@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './operator-linebreak'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('operator-linebreak', rule, {

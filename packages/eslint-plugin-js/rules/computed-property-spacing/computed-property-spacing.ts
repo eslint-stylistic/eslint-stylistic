@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { RuleListener, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -53,10 +49,6 @@ export default createRule<MessageIds, RuleOptions>({
     const sourceCode = context.sourceCode
     const propertyNameMustBeSpaced = context.options[0] === 'always' // default is "never"
     const enforceForClassMembers = !context.options[1] || context.options[1].enforceForClassMembers
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     /**
      * Reports that there shouldn't be a space after the first token
@@ -181,10 +173,6 @@ export default createRule<MessageIds, RuleOptions>({
         }
       }
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     type NodeType =
       | Tree.Property

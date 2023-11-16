@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './no-floating-decimal'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 const leadingError = { messageId: 'leading', type: 'Literal' }
 const trailingError = { messageId: 'trailing', type: 'Literal' }

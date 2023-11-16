@@ -37,10 +37,6 @@ import { isJSX, isReturningJSX } from '../../utils/jsx'
 
 const matchAll = (s, v) => s.matchAll(v)
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
 }

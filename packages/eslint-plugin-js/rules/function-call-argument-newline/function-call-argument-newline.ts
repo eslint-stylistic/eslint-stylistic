@@ -6,10 +6,6 @@
 import { createRule } from '../../utils/createRule'
 import type { ReportFixFunction, Token, Tree } from '../../utils/types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 interface Checker {
   messageId: 'unexpectedLineBreak' | 'missingLineBreak'
   check: (prevToken: Token, currentToken: Token) => boolean

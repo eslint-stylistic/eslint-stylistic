@@ -6,7 +6,7 @@
 import { RuleTester } from 'eslint'
 import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
-import parsers from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-props-no-multi-spaces'
 
 const parserOptions = {
@@ -17,13 +17,9 @@ const parserOptions = {
   },
 }
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-props-no-multi-spaces', rule, {
-  valid: parsers.all([].concat(
+  valid: valids(
     {
       code: `
         <App />
@@ -143,9 +139,9 @@ ruleTester.run('jsx-props-no-multi-spaces', rule, {
         `,
       },
     ] : []),
-  )),
+  ),
 
-  invalid: parsers.all([].concat(
+  invalid: invalids(
     {
       code: `
         <App  foo />
@@ -359,5 +355,5 @@ ruleTester.run('jsx-props-no-multi-spaces', rule, {
         ],
       },
     ] : []),
-  )),
+  ),
 })

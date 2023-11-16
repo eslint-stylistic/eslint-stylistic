@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './wrap-iife'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 const wrapInvocationError = { messageId: 'wrapInvocation', type: 'CallExpression' }

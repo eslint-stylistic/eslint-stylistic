@@ -9,10 +9,6 @@ import rule from './arrow-parens'
 
 const parser = createParserResolver('arrow-parens')
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
 
 const valid: (string | RuleTester.ValidTestCase)[] = [

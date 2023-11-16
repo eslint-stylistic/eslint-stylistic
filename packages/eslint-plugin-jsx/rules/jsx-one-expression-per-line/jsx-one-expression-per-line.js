@@ -7,10 +7,6 @@ import { docsUrl } from '../../utils/docsUrl'
 import { isWhiteSpaces } from '../../utils/jsx'
 import report from '../../utils/report'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const optionDefaults = {
   allow: 'none',
 }

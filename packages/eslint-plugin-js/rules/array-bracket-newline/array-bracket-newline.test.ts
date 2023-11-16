@@ -6,15 +6,11 @@
 import { RuleTester } from 'eslint'
 import rule from './array-bracket-newline'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('array-bracket-newline', rule, {
   valid: [
-    /*
+    /**
      * ArrayExpression
      * "default" { multiline: true }
      */
@@ -268,10 +264,10 @@ ruleTester.run('array-bracket-newline', rule, {
       options: [{ multiline: true, minItems: 2 }],
     },
 
-    /*
-         * ArrayPattern
-         * default { multiline: true }
-         */
+    /**
+     * ArrayPattern
+     * default { multiline: true }
+     */
     { code: 'var [] = foo', parserOptions: { ecmaVersion: 6 } },
     { code: 'var [a] = foo;', parserOptions: { ecmaVersion: 6 } },
     {
@@ -491,7 +487,7 @@ ruleTester.run('array-bracket-newline', rule, {
       ],
     },
 
-    /*
+    /**
      * ArrayExpression
      * "always"
      */
@@ -1572,7 +1568,7 @@ ruleTester.run('array-bracket-newline', rule, {
       ],
     },
 
-    /*
+    /**
      * extra test cases
      * "always"
      */
@@ -1719,10 +1715,10 @@ ruleTester.run('array-bracket-newline', rule, {
       ],
     },
 
-    /*
-         * ArrayPattern
-         * "always"
-         */
+    /**
+     * ArrayPattern
+     * "always"
+     */
     {
       code: 'var [] = foo;',
       output: 'var [\n] = foo;',

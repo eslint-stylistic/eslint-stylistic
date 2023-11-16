@@ -6,16 +6,8 @@
 import { RuleTester } from 'eslint'
 import rule from './lines-between-class-members'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 const alwaysError = { messageId: 'always' }
 const neverError = { messageId: 'never' }
-
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } })
 

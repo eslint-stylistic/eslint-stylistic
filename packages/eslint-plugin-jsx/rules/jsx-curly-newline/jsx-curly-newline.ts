@@ -7,10 +7,6 @@ import { docsUrl } from '../../utils/docsUrl'
 import type { ASTNode, RuleContext, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 function getNormalizedOption(context: Readonly<RuleContext<MessageIds, RuleOptions>>) {
   const rawOption = context.options[0] || 'consistent'
 
@@ -84,10 +80,6 @@ export default createRule<MessageIds, RuleOptions>({
   create(context) {
     const sourceCode = context.sourceCode
     const option = getNormalizedOption(context)
-
-    // ----------------------------------------------------------------------
-    // Helpers
-    // ----------------------------------------------------------------------
 
     /**
      * Determines whether two adjacent tokens are on the same line.
@@ -178,10 +170,6 @@ export default createRule<MessageIds, RuleOptions>({
         })
       }
     }
-
-    // ----------------------------------------------------------------------
-    // Public
-    // ----------------------------------------------------------------------
 
     return {
       JSXExpressionContainer(node) {

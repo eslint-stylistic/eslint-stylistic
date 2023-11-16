@@ -5,10 +5,6 @@ import { RuleTester } from '@typescript-eslint/rule-tester'
 
 import rule from './padding-line-between-statements'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({
   parser: '@typescript-eslint/parser',
 })

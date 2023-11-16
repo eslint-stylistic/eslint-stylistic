@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './generator-star-spacing'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } })
 
 const missingBeforeError = { messageId: 'missingBefore', type: 'Punctuator' }

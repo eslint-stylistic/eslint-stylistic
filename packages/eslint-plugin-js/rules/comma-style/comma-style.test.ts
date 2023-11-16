@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './comma-style'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('comma-style', rule, {

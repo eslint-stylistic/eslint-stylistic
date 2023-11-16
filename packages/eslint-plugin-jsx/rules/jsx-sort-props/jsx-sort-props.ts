@@ -21,10 +21,6 @@ interface JsxCompareOptions {
   locale: string
 }
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 function isCallbackPropName(name: string) {
   return /^on[A-Z]/.test(name)
 }

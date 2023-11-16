@@ -9,10 +9,6 @@ import FixTracker from '../../utils/fix-tracker'
 import type { ASTNode, RuleFixer, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -87,10 +83,6 @@ export default createRule<MessageIds, RuleOptions>({
       && 'beforeStatementContinuationChars' in options
       && options.beforeStatementContinuationChars || 'any'
     const sourceCode = context.sourceCode
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     /**
      * Reports a semicolon error with appropriate location and message.
@@ -394,10 +386,6 @@ export default createRule<MessageIds, RuleOptions>({
       )
         checkForSemicolon(node)
     }
-
-    // --------------------------------------------------------------------------
-    // Public API
-    // --------------------------------------------------------------------------
 
     return {
       VariableDeclaration: checkForSemicolonForVariableDeclaration,

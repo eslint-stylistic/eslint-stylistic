@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 /**
  * Checks whether the given node represents the body of a function.
  * @param {ASTNode} node the node to check.
@@ -26,10 +22,6 @@ function isFunctionBody(node: ASTNode): boolean {
     && parent.body === node
   )
 }
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {

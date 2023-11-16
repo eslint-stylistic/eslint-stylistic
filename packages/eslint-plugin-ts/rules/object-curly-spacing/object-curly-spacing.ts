@@ -50,10 +50,6 @@ export default createRule<RuleOptions, MessageIds>({
       objectsInObjectsException: isOptionSet('objectsInObjects'),
     }
 
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
-
     /**
      * Reports that there shouldn't be a space after the first token
      * @param node The node to report in the event of an error.
@@ -241,10 +237,6 @@ export default createRule<RuleOptions, MessageIds>({
 
       return sourceCode.getTokenAfter(lastProperty, isClosingBraceToken)
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     const rules = baseRule.create(context)
     return {

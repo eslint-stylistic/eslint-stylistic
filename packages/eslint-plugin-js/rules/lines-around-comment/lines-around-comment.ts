@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, NodeTypes, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 /**
  * Return an array with any line numbers that are empty.
  * @param {Array} lines An array of each line of the file.
@@ -42,10 +38,6 @@ function getCommentLineNums(comments: Token[]) {
   })
   return lines
 }
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {
@@ -189,25 +181,25 @@ export default createRule<MessageIds, RuleOptions>({
     function getParentNodeOfToken(token: Token): ASTNode | null {
       const node = sourceCode.getNodeByRangeIndex(token.range[0])
 
-      /*
-             * For the purpose of this rule, the comment token is in a `StaticBlock` node only
-             * if it's inside the braces of that `StaticBlock` node.
-             *
-             * Example where this function returns `null`:
-             *
-             *   static
-             *   // comment
-             *   {
-             *   }
-             *
-             * Example where this function returns `StaticBlock` node:
-             *
-             *   static
-             *   {
-             *   // comment
-             *   }
-             *
-             */
+      /**
+       *             For the purpose of this rule, the comment token is in a `StaticBlock` node only
+       * if it's inside the braces of that `StaticBlock` node.
+       *
+       * Example where this function returns `null`:
+       *
+       *   static
+       *   // comment
+       *   {
+       *   }
+       *
+       * Example where this function returns `StaticBlock` node:
+       *
+       *   static
+       *   {
+       *   // comment
+       *   }
+       *
+       */
       if (node && node.type === 'StaticBlock') {
         const openingBrace = sourceCode.getFirstToken(node, { skip: 1 }) // skip the `static` token
 
@@ -430,10 +422,6 @@ export default createRule<MessageIds, RuleOptions>({
         })
       }
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       Program() {
