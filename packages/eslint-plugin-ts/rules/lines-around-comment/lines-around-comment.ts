@@ -282,7 +282,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     function checkForEmptyLine(
       token: TSESTree.Comment,
-      { before, after }: { before?: boolean; after?: boolean },
+      { before, after }: { before?: boolean, after?: boolean },
     ): void {
       // the base rule handles comments away from TS constructs blocks correctly, we skip those
       if (!isCommentNearTSConstruct(token))

@@ -78,7 +78,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {object} tokens Tokens before/after arrow.
      * @returns {object} count of space before/after arrow.
      */
-    function countSpaces(tokens: { before: Token; arrow: Token; after: Token }) {
+    function countSpaces(tokens: { before: Token, arrow: Token, after: Token }) {
       const before = tokens.arrow.range[0] - tokens.before.range[1]
       const after = tokens.after.range[0] - tokens.arrow.range[1]
 

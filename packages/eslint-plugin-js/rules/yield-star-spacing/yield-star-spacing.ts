@@ -57,7 +57,7 @@ export default createRule<MessageIds, RuleOptions>({
         }[option]
       }
       return option
-    }(context.options[0])) as { before: boolean; after: boolean }
+    }(context.options[0])) as { before: boolean, after: boolean }
 
     /**
      * Checks the spacing between two tokens before or after the star token.

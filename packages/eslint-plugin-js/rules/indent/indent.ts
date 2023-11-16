@@ -1646,7 +1646,7 @@ export default createRule<MessageIds, RuleOptions>({
       },
     }
 
-    const listenerCallQueue: { listener?: RuleFunction<any>; node: ASTNode }[] = []
+    const listenerCallQueue: { listener?: RuleFunction<any>, node: ASTNode }[] = []
 
     /**
      * To ignore the indentation of a node:

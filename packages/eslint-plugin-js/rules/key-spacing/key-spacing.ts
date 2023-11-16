@@ -618,7 +618,7 @@ export default createRule({
      * @param {object} lineOptions Configured singleLine or multiLine options
      * @returns {void}
      */
-    function verifySpacing(node: Tree.Property, lineOptions: { beforeColon: number; afterColon: number; mode: 'strict' | 'minimum' }) {
+    function verifySpacing(node: Tree.Property, lineOptions: { beforeColon: number, afterColon: number, mode: 'strict' | 'minimum' }) {
       const actual = getPropertyWhitespace(node)
 
       if (actual) { // Object literal getters/setters lack colons
@@ -633,7 +633,7 @@ export default createRule({
      * @param {object} lineOptions Configured singleLine or multiLine options
      * @returns {void}
      */
-    function verifyListSpacing(properties: Tree.Property[], lineOptions: { beforeColon: number; afterColon: number; mode: 'strict' | 'minimum' }) {
+    function verifyListSpacing(properties: Tree.Property[], lineOptions: { beforeColon: number, afterColon: number, mode: 'strict' | 'minimum' }) {
       const length = properties.length
 
       for (let i = 0; i < length; i++)

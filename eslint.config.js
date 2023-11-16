@@ -1,10 +1,9 @@
 /* eslint perfectionist/sort-objects: "error" */
-import process from 'node:process'
 import antfu from '@antfu/eslint-config'
-import stylistic from '@stylistic/eslint-plugin'
+import JITI from 'jiti'
 
-const isInEditor = !!((process.env.VSCODE_PID || process.env.JETBRAINS_IDE) && !process.env.CI)
-const overrideConfig = !isInEditor
+const jiti = JITI(import.meta.url)
+const stylistic = jiti('./packages/eslint-plugin/src/index.ts').default
 
 const configs = antfu(
   {
@@ -67,19 +66,17 @@ const configs = antfu(
   },
 )
 
-if (overrideConfig) {
-  const config = configs.find(i => i.name === 'antfu:stylistic')
-  Object.assign(config, stylistic.configs.customize({
-    pluginName: 'style',
-  }))
-  Object.assign(config.rules, {
-    // Additional rules from @antfu/eslint-config
-    'antfu/consistent-list-newline': 'error',
-    'antfu/if-newline': 'error',
-    'antfu/indent-binary-ops': ['error', { indent: 2 }],
-    'antfu/top-level-function': 'error',
-    'curly': ['error', 'multi-or-nest', 'consistent'],
-  })
-}
+const config = configs.find(i => i.name === 'antfu:stylistic')
+Object.assign(config, stylistic.configs.customize({
+  pluginName: 'style',
+}))
+Object.assign(config.rules, {
+  // Additional rules from @antfu/eslint-config
+  'antfu/consistent-list-newline': 'error',
+  'antfu/if-newline': 'error',
+  'antfu/indent-binary-ops': ['error', { indent: 2 }],
+  'antfu/top-level-function': 'error',
+  'curly': ['error', 'multi-or-nest', 'consistent'],
+})
 
 export default configs

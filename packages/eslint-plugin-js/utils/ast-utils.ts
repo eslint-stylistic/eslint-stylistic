@@ -655,7 +655,7 @@ export function isDecimalIntegerNumericToken(token: Token) {
  * @param {{line: number, column: number}} location The location
  * @returns {{line: number, column: number} | null} Next location
  */
-export function getNextLocation(sourceCode: { lines: string[] }, { column, line }: { column: number; line: number }) {
+export function getNextLocation(sourceCode: { lines: string[] }, { column, line }: { column: number, line: number }) {
   if (column < sourceCode.lines[line - 1].length) {
     return {
       column: column + 1,
