@@ -4,6 +4,9 @@
  */
 
 import { LINEBREAKS, STATEMENT_LIST_PARENTS, isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression } from '../../utils/ast-utils'
+import { createRule } from '../../utils/createRule'
+import type { RuleContext, SourceCode, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // ------------------------------------------------------------------------------
 // Helpers
@@ -17,64 +20,70 @@ const PADDING_LINE_SEQUENCE = new RegExp(
 const CJS_EXPORT = /^(?:module\s*\.\s*)?exports(?:\s*\.|\s*\[|$)/u
 const CJS_IMPORT = /^require\(/u
 
+interface Tester {
+  test: (node: Tree.Node, sourceCode: SourceCode) => boolean
+}
+
+type Context = RuleContext<MessageIds, RuleOptions>
+
 /**
  * Creates tester which check if a node starts with specific keyword.
- * @param {string} keyword The keyword to test.
- * @returns {object} the created tester.
+ * @param keyword The keyword to test.
+ * @returns the created tester.
  * @private
  */
-function newKeywordTester(keyword) {
+function newKeywordTester(keyword: string): Tester {
   return {
-    test: (node, sourceCode) => sourceCode.getFirstToken(node).value === keyword,
+    test: (node, sourceCode) => sourceCode.getFirstToken(node)?.value === keyword,
   }
 }
 
 /**
  * Creates tester which check if a node starts with specific keyword and spans a single line.
- * @param {string} keyword The keyword to test.
- * @returns {object} the created tester.
+ * @param keyword The keyword to test.
+ * @returns the created tester.
  * @private
  */
-function newSinglelineKeywordTester(keyword) {
+function newSinglelineKeywordTester(keyword: string): Tester {
   return {
     test: (node, sourceCode) => node.loc.start.line === node.loc.end.line
-    && sourceCode.getFirstToken(node).value === keyword,
+    && sourceCode.getFirstToken(node)?.value === keyword,
   }
 }
 
 /**
  * Creates tester which check if a node starts with specific keyword and spans multiple lines.
- * @param {string} keyword The keyword to test.
- * @returns {object} the created tester.
+ * @param keyword The keyword to test.
+ * @returns the created tester.
  * @private
  */
-function newMultilineKeywordTester(keyword) {
+function newMultilineKeywordTester(keyword: string): Tester {
   return {
     test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
-    && sourceCode.getFirstToken(node).value === keyword,
+    && sourceCode.getFirstToken(node)?.value === keyword,
   }
 }
 
 /**
  * Creates tester which check if a node is specific type.
- * @param {string} type The node type to test.
- * @returns {object} the created tester.
+ * @param type The node type to test.
+ * @returns the created tester.
  * @private
  */
-function newNodeTypeTester(type) {
+function newNodeTypeTester(type: string): Tester {
   return {
-    test: node =>
+    test: (node: Tree.Node) =>
       node.type === type,
   }
 }
 
 /**
  * Checks the given node is an expression statement of IIFE.
- * @param {ASTNode} node The node to check.
- * @returns {boolean} `true` if the node is an expression statement of IIFE.
+ * @param node The node to check.
+ * @returns `true` if the node is an expression statement of IIFE.
  * @private
  */
-function isIIFEStatement(node) {
+function isIIFEStatement(node: Tree.Node): boolean {
   if (node.type === 'ExpressionStatement') {
     let call = skipChainExpression(node.expression)
 
@@ -89,12 +98,12 @@ function isIIFEStatement(node) {
 /**
  * Checks whether the given node is a block-like statement.
  * This checks the last token of the node is the closing brace of a block.
- * @param {SourceCode} sourceCode The source code to get tokens.
- * @param {ASTNode} node The node to check.
- * @returns {boolean} `true` if the node is a block-like statement.
+ * @param sourceCode The source code to get tokens.
+ * @param node The node to check.
+ * @returns `true` if the node is a block-like statement.
  * @private
  */
-function isBlockLikeStatement(sourceCode, node) {
+function isBlockLikeStatement(sourceCode: SourceCode, node: Tree.Node): boolean {
   // do-while with a block is a block-like statement.
   if (node.type === 'DoWhileStatement' && node.body.type === 'BlockStatement')
     return true
@@ -113,8 +122,8 @@ function isBlockLikeStatement(sourceCode, node) {
     : null
 
   return Boolean(belongingNode) && (
-    belongingNode.type === 'BlockStatement'
-    || belongingNode.type === 'SwitchStatement'
+    belongingNode?.type === 'BlockStatement'
+    || belongingNode?.type === 'SwitchStatement'
   )
 }
 
@@ -126,14 +135,14 @@ function isBlockLikeStatement(sourceCode, node) {
  *
  *     foo()
  *     ;[1, 2, 3].forEach(bar)
- * @param {SourceCode} sourceCode The source code to get tokens.
- * @param {ASTNode} node The node to get.
- * @returns {Token} The actual last token.
+ * @param sourceCode The source code to get tokens.
+ * @param node The node to get.
+ * @returns The actual last token.
  * @private
  */
-function getActualLastToken(sourceCode, node) {
-  const semiToken = sourceCode.getLastToken(node)
-  const prevToken = sourceCode.getTokenBefore(semiToken)
+function getActualLastToken(sourceCode: SourceCode, node: Tree.Node): Tree.Token {
+  const semiToken = sourceCode.getLastToken(node)!
+  const prevToken = sourceCode.getTokenBefore(semiToken)!
   const nextToken = sourceCode.getTokenAfter(semiToken)
   const isSemicolonLessStyle = Boolean(
     prevToken
@@ -149,23 +158,22 @@ function getActualLastToken(sourceCode, node) {
 
 /**
  * This returns the concatenation of the first 2 captured strings.
- * @param {string} _ Unused. Whole matched string.
- * @param {string} trailingSpaces The trailing spaces of the first line.
- * @param {string} indentSpaces The indentation spaces of the last line.
- * @returns {string} The concatenation of trailingSpaces and indentSpaces.
+ * @param _ Unused. Whole matched string.
+ * @param trailingSpaces The trailing spaces of the first line.
+ * @param indentSpaces The indentation spaces of the last line.
+ * @returns The concatenation of trailingSpaces and indentSpaces.
  * @private
  */
-function replacerToRemovePaddingLines(_, trailingSpaces, indentSpaces) {
+function replacerToRemovePaddingLines(_: string, trailingSpaces: string, indentSpaces: string): string {
   return trailingSpaces + indentSpaces
 }
 
 /**
  * Check and report statements for `any` configuration.
  * It does nothing.
- * @returns {void}
  * @private
  */
-function verifyForAny() {
+function verifyForAny(): void {
 }
 
 /**
@@ -173,15 +181,14 @@ function verifyForAny() {
  * This autofix removes blank lines between the given 2 statements.
  * However, if comments exist between 2 blank lines, it does not remove those
  * blank lines automatically.
- * @param {RuleContext} context The rule context to report.
- * @param {ASTNode} _ Unused. The previous node to check.
- * @param {ASTNode} nextNode The next node to check.
- * @param {Array<Token[]>} paddingLines The array of token pairs that blank
+ * @param context The rule context to report.
+ * @param _ Unused. The previous node to check.
+ * @param nextNode The next node to check.
+ * @param paddingLines The array of token pairs that blank
  * lines exist between the pair.
- * @returns {void}
  * @private
  */
-function verifyForNever(context, _, nextNode, paddingLines) {
+function verifyForNever(context: Context, _: Tree.Node, nextNode: Tree.Node, paddingLines: [Tree.Token, Tree.Token][]): void {
   if (paddingLines.length === 0)
     return
 
@@ -211,14 +218,13 @@ function verifyForNever(context, _, nextNode, paddingLines) {
  * If the `prevNode` has trailing comments, it inserts a blank line after the
  * trailing comments.
  * @param {RuleContext} context The rule context to report.
- * @param {ASTNode} prevNode The previous node to check.
- * @param {ASTNode} nextNode The next node to check.
- * @param {Array<Token[]>} paddingLines The array of token pairs that blank
+ * @param prevNode The previous node to check.
+ * @param nextNode The next node to check.
+ * @param paddingLines The array of token pairs that blank
  * lines exist between the pair.
- * @returns {void}
  * @private
  */
-function verifyForAlways(context, prevNode, nextNode, paddingLines) {
+function verifyForAlways(context: Context, prevNode: Tree.Node, nextNode: Tree.Node, paddingLines: [Tree.Token, Tree.Token][]): void {
   if (paddingLines.length > 0)
     return
 
@@ -303,7 +309,7 @@ const StatementTypes = {
     test: (node, sourceCode) => node.type === 'VariableDeclaration'
     && node.declarations.length > 0
     && Boolean(node.declarations[0].init)
-    && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init)),
+    && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init!)),
   },
   'directive': {
     test: isDirective,
@@ -356,14 +362,13 @@ const StatementTypes = {
   'var': newKeywordTester('var'),
   'while': newKeywordTester('while'),
   'with': newKeywordTester('with'),
-}
+} satisfies Record<string, Tester>
 
 // ------------------------------------------------------------------------------
 // Rule Definition
 // ------------------------------------------------------------------------------
 
-/** @type {import('eslint').Rule.RuleModule} */
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -377,14 +382,15 @@ export default {
     schema: {
       definitions: {
         paddingType: {
+          type: 'string',
           enum: Object.keys(PaddingTypes),
         },
         statementType: {
           anyOf: [
-            { enum: Object.keys(StatementTypes) },
+            { type: 'string', enum: Object.keys(StatementTypes) },
             {
               type: 'array',
-              items: { enum: Object.keys(StatementTypes) },
+              items: { type: 'string', enum: Object.keys(StatementTypes) },
               minItems: 1,
               uniqueItems: true,
             },
@@ -413,15 +419,20 @@ export default {
   create(context) {
     const sourceCode = context.sourceCode
     const configureList = context.options || []
-    let scopeInfo = null
+
+    type ScopeInfo = {
+      upper: ScopeInfo | null
+      prevNode: null | Tree.Node
+    } | null | undefined
+
+    let scopeInfo: ScopeInfo = null
 
     /**
      * Processes to enter to new scope.
      * This manages the current previous statement.
-     * @returns {void}
      * @private
      */
-    function enterScope() {
+    function enterScope(): void {
       scopeInfo = {
         upper: scopeInfo,
         prevNode: null,
@@ -430,21 +441,20 @@ export default {
 
     /**
      * Processes to exit from the current scope.
-     * @returns {void}
      * @private
      */
-    function exitScope() {
-      scopeInfo = scopeInfo.upper
+    function exitScope(): void {
+      scopeInfo = scopeInfo?.upper
     }
 
     /**
      * Checks whether the given node matches the given type.
-     * @param {ASTNode} node The statement node to check.
-     * @param {string|string[]} type The statement type to check.
-     * @returns {boolean} `true` if the statement node matched the type.
+     * @param node The statement node to check.
+     * @param type The statement type to check.
+     * @returns `true` if the statement node matched the type.
      * @private
      */
-    function match(node, type) {
+    function match(node: Tree.Node, type: string | string[]): boolean {
       let innerStatementNode = node
 
       while (innerStatementNode.type === 'LabeledStatement')
@@ -453,17 +463,17 @@ export default {
       if (Array.isArray(type))
         return type.some(match.bind(null, innerStatementNode))
 
-      return StatementTypes[type].test(innerStatementNode, sourceCode)
+      return StatementTypes[type as keyof typeof StatementTypes].test(innerStatementNode, sourceCode)
     }
 
     /**
      * Finds the last matched configure from configureList.
-     * @param {ASTNode} prevNode The previous statement to match.
-     * @param {ASTNode} nextNode The current statement to match.
-     * @returns {object} The tester of the last matched configure.
+     * @param prevNode The previous statement to match.
+     * @param nextNode The current statement to match.
+     * @returns The tester of the last matched configure.
      * @private
      */
-    function getPaddingType(prevNode, nextNode) {
+    function getPaddingType(prevNode: Tree.Node, nextNode: Tree.Node) {
       for (let i = configureList.length - 1; i >= 0; --i) {
         const configure = configureList[i]
         const matched
@@ -479,13 +489,13 @@ export default {
     /**
      * Gets padding line sequences between the given 2 statements.
      * Comments are separators of the padding line sequences.
-     * @param {ASTNode} prevNode The previous statement to count.
-     * @param {ASTNode} nextNode The current statement to count.
-     * @returns {Array<Token[]>} The array of token pairs.
+     * @param prevNode The previous statement to count.
+     * @param nextNode The current statement to count.
+     * @returns The array of token pairs.
      * @private
      */
-    function getPaddingLineSequences(prevNode, nextNode) {
-      const pairs = []
+    function getPaddingLineSequences(prevNode: Tree.Node, nextNode: Tree.Node): [Tree.Token, Tree.Token][] {
+      const pairs: [Tree.Token, Tree.Token][] = []
       let prevToken = getActualLastToken(sourceCode, prevNode)
 
       if (nextNode.loc.start.line - prevToken.loc.end.line >= 2) {
@@ -493,7 +503,7 @@ export default {
           const token = sourceCode.getTokenAfter(
             prevToken,
             { includeComments: true },
-          )
+          )!
 
           if (token.loc.start.line - prevToken.loc.end.line >= 2)
             pairs.push([prevToken, token])
@@ -507,12 +517,11 @@ export default {
 
     /**
      * Verify padding lines between the given node and the previous node.
-     * @param {ASTNode} node The node to verify.
-     * @returns {void}
+     * @param node The node to verify.
      * @private
      */
-    function verify(node) {
-      const parentType = node.parent.type
+    function verify(node: Tree.Node): void {
+      const parentType = node.parent!.type
       const validParent
                 = STATEMENT_LIST_PARENTS.has(parentType)
                 || parentType === 'SwitchStatement'
@@ -521,7 +530,7 @@ export default {
         return
 
       // Save this node as the current previous statement.
-      const prevNode = scopeInfo.prevNode
+      const prevNode = scopeInfo?.prevNode
 
       // Verify.
       if (prevNode) {
@@ -531,17 +540,16 @@ export default {
         type.verify(context, prevNode, node, paddingLines)
       }
 
-      scopeInfo.prevNode = node
+      scopeInfo!.prevNode = node
     }
 
     /**
      * Verify padding lines between the given node and the previous node.
      * Then process to enter to new scope.
-     * @param {ASTNode} node The node to verify.
-     * @returns {void}
+     * @param node The node to verify.
      * @private
      */
-    function verifyThenEnterScope(node) {
+    function verifyThenEnterScope(node: Tree.Node): void {
       verify(node)
       enterScope()
     }
@@ -562,4 +570,4 @@ export default {
       'SwitchCase:exit': exitScope,
     }
   },
-}
+})
