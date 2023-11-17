@@ -1,3 +1,6 @@
+import type { Linter } from 'eslint'
+import { createAllConfigs } from '../../shared/configs-all'
+import plugin from '../src/plugin'
 import disableLegacy from './disable-legacy'
 import { customize } from './customize'
 
@@ -22,4 +25,12 @@ export const configs = {
    * The default recommended config in Legacy Config Format
    */
   'recommended-legacy': /* #__PURE__ */ customize({ flat: false }),
+  /**
+   * Enable all rules, in Flat Config Format
+   */
+  'all-flat': createAllConfigs(plugin, '@stylistic', true) as Linter.FlatConfig,
+  /**
+   * Enable all rules, in Legacy Config Format
+   */
+  'all-extends': createAllConfigs(plugin, '@stylistic', false) as Linter.BaseConfig,
 }

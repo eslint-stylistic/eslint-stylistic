@@ -1,7 +1,6 @@
-import rules from '../rules'
+import { configs } from '../configs'
+import plugin from './plugin'
 
 export type * from '../dts'
 
-export default {
-  rules,
-}
+export default Object.assign(plugin, { configs })

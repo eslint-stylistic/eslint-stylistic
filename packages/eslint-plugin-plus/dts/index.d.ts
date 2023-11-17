@@ -10,7 +10,14 @@ export type Rules = {
 declare const plugin: {
   rules: Rules
   configs: {
-    'disable-legacy': Linter.FlatConfig
+    /**
+     * Enable all rules, in Flat Config Format
+     */
+    'all-flat': Linter.FlatConfig
+    /**
+     * Enable all rules, in Legacy Config Format
+     */
+    'all-extends': Linter.BaseConfig
   }
 }
 
