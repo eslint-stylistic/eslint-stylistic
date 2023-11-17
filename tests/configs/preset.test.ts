@@ -23,7 +23,9 @@ runWithConfig('tab-quotes-semi', {
   semi: true,
 })
 
-function runWithConfig(name: string, configs: StylisticCustomizeOptions, ...items: Linter[]) {
+runWithConfig('all', 'all-flat')
+
+function runWithConfig(name: string, configs: StylisticCustomizeOptions | string, ...items: Linter[]) {
   it.concurrent(name, async ({ expect }) => {
     const from = resolve(fixturesDir, 'input')
     const output = resolve(fixturesDir, 'output', name)
@@ -64,7 +66,11 @@ export default [
       },
     }
   },
-  stylistic.configs.customize(${JSON.stringify(configs)}),
+  ${
+    typeof configs === 'string'
+      ? `stylistic.configs['${configs}']`
+      : `stylistic.configs.customize(${JSON.stringify(configs)})`
+  },
   ...${JSON.stringify(items) ?? []},
 ]
   `)
