@@ -1,9 +1,7 @@
 /**
  * @fileoverview Utility functions for JSX
  */
-import type { Rule } from 'eslint'
 import { traverseReturns } from './ast'
-import { isCreateElement } from './isCreateElement'
 import { findVariableByName } from './variable'
 import type { ASTNode, ESNode, RuleContext, Tree } from './types'
 
@@ -68,8 +66,6 @@ export function isReturningJSX(ASTnode: ASTNode, context: RuleContext<any, any>,
       case 'JSXElement':
       case 'JSXFragment':
         return true
-      case 'CallExpression':
-        return isCreateElement(node as Tree.CallExpression, context)
       case 'Literal':
         if (!ignoreNull && node.value === null)
           return true
@@ -86,7 +82,6 @@ export function isReturningJSX(ASTnode: ASTNode, context: RuleContext<any, any>,
   let found = false
   traverseReturns(
     ASTnode as ESNode,
-    context as unknown as Rule.RuleContext,
     (node, breakTraverse) => {
       if (isJSXValue(node)) {
         found = true

@@ -1,7 +1,6 @@
 /**
  * @fileoverview Utility functions for AST
  */
-import type { Rule } from 'eslint'
 import type ESTraverse from 'estraverse'
 import { traverse as _traverse } from 'estraverse'
 import type { FunctionDeclaration } from 'estree'
@@ -39,7 +38,6 @@ export function traverse(ASTnode: ESNode, visitor: ESTraverse.Visitor) {
  */
 export function traverseReturns(
   ASTNode: ESNode,
-  context: Rule.RuleContext,
   onReturn: (returnValue: ESNode | null | undefined, breakTraverse: () => void) => void,
 ) {
   const nodeType = ASTNode.type
