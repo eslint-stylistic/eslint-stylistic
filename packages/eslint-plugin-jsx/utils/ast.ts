@@ -5,7 +5,7 @@ import type { Rule } from 'eslint'
 import type ESTraverse from 'estraverse'
 import { traverse as _traverse } from 'estraverse'
 import type { FunctionDeclaration } from 'estree'
-import type { ASTNode, ESNode, ESToken, RuleContext, SourceCode, Token } from './types'
+import type { ASTNode, ESNode, RuleContext, SourceCode, Token } from './types'
 
 /**
  * Wrapper for estraverse.traverse

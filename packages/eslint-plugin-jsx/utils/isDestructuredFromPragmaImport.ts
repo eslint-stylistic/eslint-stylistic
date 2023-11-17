@@ -1,4 +1,3 @@
-import type { Rule } from 'eslint'
 import { getFromContext } from './pragma'
 import { getLatestVariableDefinition, getVariable, variablesInScope } from './variable'
 import type { RuleContext } from './types'

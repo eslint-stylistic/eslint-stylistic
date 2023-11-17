@@ -1,4 +1,3 @@
-import type { Rule } from 'eslint'
 import { getFromContext } from './pragma'
 import { isDestructuredFromPragmaImport } from './isDestructuredFromPragmaImport'
 import type { RuleContext, Tree } from './types'

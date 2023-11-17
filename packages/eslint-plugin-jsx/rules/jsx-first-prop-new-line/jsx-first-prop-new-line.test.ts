@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import { invalids } from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-first-prop-new-line'
 
 const parserOptions = {
@@ -22,7 +22,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-first-prop-new-line', rule, {
-  valid: invalids(
+  valid: valids(
     {
       code: '<Foo />',
       options: ['never'],
