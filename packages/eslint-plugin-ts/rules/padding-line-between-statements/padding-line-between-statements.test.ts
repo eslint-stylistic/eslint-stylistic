@@ -2556,7 +2556,7 @@ var a = 1
       options: [{ blankLine: 'never', prev: '*', next: 'exports' }],
     },
 
-    /*
+    /**
      * TODO: May it need an option to ignore blank lines followed by comments?
      * {
      *     code: "var a = 2;\n\n// foo\nmodule.exports = a;",

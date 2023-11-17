@@ -81,11 +81,11 @@ export default createRule<MessageIds, RuleOptions>({
     function enterStatement(node: ASTNode) {
       const line = node.loc.start.line
 
-      /*
-             * Skip to allow non-block statements if this is direct child of control statements.
-             * `if (a) foo();` is counted as 1.
-             * But `if (a) foo(); else foo();` should be counted as 2.
-             */
+      /**
+       * Skip to allow non-block statements if this is direct child of control statements.
+       * `if (a) foo();` is counted as 1.
+       * But `if (a) foo(); else foo();` should be counted as 2.
+       */
       if (node.parent
         && SINGLE_CHILD_ALLOWED.test(node.parent.type)
         && (!('alternate' in node.parent) || node.parent.alternate !== node)

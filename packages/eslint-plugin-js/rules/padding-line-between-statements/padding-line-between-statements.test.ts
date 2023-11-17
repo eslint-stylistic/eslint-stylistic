@@ -2378,15 +2378,15 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
 
-    /*
-         * TODO: May it need an option to ignore blank lines followed by comments?
-         * {
-         *     code: "var a = 2;\n\n// foo\nmodule.exports = a;",
-         *     options: [
-         *         { blankLine: "never", prev: "*", next: "cjs-export" }
-         *     ]
-         * },
-         */
+    /**
+     * TODO: May it need an option to ignore blank lines followed by comments?
+     * {
+     *     code: "var a = 2;\n\n// foo\nmodule.exports = a;",
+     *     options: [
+     *         { blankLine: "never", prev: "*", next: "cjs-export" }
+     *     ]
+     * },
+     */
     {
       code: 'var a = 2;\n\nfoo.exports = a;',
       options: [

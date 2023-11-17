@@ -376,11 +376,11 @@ ruleTester.run('spaced-comment', rule, {
     },
     {
 
-      /*
-             * note that the first line in the comment is not a valid exception
-             * block pattern because of the minus sign at the end of the line:
-             * `//*********************-`
-             */
+      /**
+       * note that the first line in the comment is not a valid exception
+       * block pattern because of the minus sign at the end of the line:
+       * `//*********************-`
+       */
       code: '//*********************-\n// Comment Block 3\n//***********************',
       output: '//* ********************-\n// Comment Block 3\n//***********************',
       options: ['always', {

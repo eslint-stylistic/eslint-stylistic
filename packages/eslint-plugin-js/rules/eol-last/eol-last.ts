@@ -43,10 +43,10 @@ export default createRule<MessageIds, RuleOptions>({
         const CRLF = `\r${LF}`
         const endsWithNewline = src.endsWith(LF)
 
-        /*
-                 * Empty source is always valid: No content in file so we don't
-                 * need to lint for a newline on the last line of content.
-                 */
+        /**
+         * Empty source is always valid: No content in file so we don't
+         * need to lint for a newline on the last line of content.
+         */
         if (!src.length)
           return
 

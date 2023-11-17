@@ -16,19 +16,24 @@ ruleTester.run('max-len', rule, {
     {
       code: 'var x = 5;\nvar x = 2;',
       options: [80, 4],
-    }, {
+    },
+    {
       code: '\t\t\tvar i = 1;\n\t\t\tvar j = 1;',
       options: [15, 1],
-    }, {
+    },
+    {
       code: 'var one\t\t= 1;\nvar three\t= 3;',
       options: [16, 4],
-    }, {
+    },
+    {
       code: '\tvar one\t\t= 1;\n\tvar three\t= 3;',
       options: [20, 4],
-    }, {
+    },
+    {
       code: 'var i = 1;\r\nvar i = 1;\n',
       options: [10, 4],
-    }, {
+    },
+    {
       code: '\n// Blank line on top\nvar foo = module.exports = {};\n',
       options: [80, 4],
     },
@@ -36,13 +41,16 @@ ruleTester.run('max-len', rule, {
     {
       code: 'var foo = module.exports = {}; // really long trailing comment',
       options: [40, 4, { ignoreComments: true }],
-    }, {
+    },
+    {
       code: 'foo(); \t// strips entire comment *and* trailing whitespace',
       options: [6, 4, { ignoreComments: true }],
-    }, {
+    },
+    {
       code: '// really long comment on its own line sitting here',
       options: [40, 4, { ignoreComments: true }],
-    }, {
+    },
+    {
       code: 'var foo = module.exports = {}; /* inline some other comments */ //more',
       options: [40, 4, { ignoreComments: true }],
     },
@@ -50,41 +58,50 @@ ruleTester.run('max-len', rule, {
     {
       code: 'var /*inline-comment*/ i = 1; // with really long trailing comment',
       options: [40, 4, { ignoreComments: true }],
-    }, {
+    },
+    {
       code: 'foo(\'http://example.com/this/is/?a=longish&url=in#here\');',
       options: [40, 4, { ignoreUrls: true }],
-    }, {
+    },
+    {
       code: 'foo(bar(bazz(\'this is a long\'), \'line of\'), \'stuff\');',
       options: [40, 4, { ignorePattern: 'foo.+bazz\\(' }],
-    }, {
+    },
+    {
       code:
                 '/* hey there! this is a multiline\n'
                 + '   comment with longish lines in various places\n'
                 + '   but\n'
                 + '   with a short line-length */',
       options: [10, 4, { ignoreComments: true }],
-    }, {
+    },
+    {
       code:
                 '// I like short comments\n'
                 + 'function butLongSourceLines() { weird(eh()) }',
       options: [80, { tabWidth: 4, comments: 30 }],
-    }, {
+    },
+    {
       code:
                 '// I like longer comments and shorter code\n'
                 + 'function see() { odd(eh()) }',
       options: [30, { tabWidth: 4, comments: 80 }],
-    }, {
+    },
+    {
       code:
                 '// Full line comment\n'
                 + 'someCode(); // With a long trailing comment.',
       options: [{ code: 30, tabWidth: 4, comments: 20, ignoreTrailingComments: true }],
-    }, {
+    },
+    {
       code: 'var foo = module.exports = {}; // really long trailing comment',
       options: [40, 4, { ignoreTrailingComments: true }],
-    }, {
+    },
+    {
       code: 'var foo = module.exports = {}; /* inline some other comments */ //more',
       options: [40, 4, { ignoreTrailingComments: true }],
-    }, {
+    },
+    {
       code: 'var foo = module.exports = {}; // really long trailing comment',
       options: [40, 4, { ignoreComments: true, ignoreTrailingComments: false }],
     },
@@ -137,30 +154,35 @@ ruleTester.run('max-len', rule, {
       + '//this line has 29 characters\n'
       + '}',
       options: [40, 4, { comments: 29 }],
-    }, {
+    },
+    {
       code: 'function foo() {\n'
       + '    //this line has 33 characters\n'
       + '}',
       options: [40, 4, { comments: 33 }],
-    }, {
+    },
+    {
       code: 'function foo() {\n'
       + '/*this line has 29 characters\n'
       + 'and this one has 21*/\n'
       + '}',
       options: [40, 4, { comments: 29 }],
-    }, {
+    },
+    {
       code: 'function foo() {\n'
       + '    /*this line has 33 characters\n'
       + '    and this one has 25*/\n'
       + '}',
       options: [40, 4, { comments: 33 }],
-    }, {
+    },
+    {
       code: 'function foo() {\n'
       + '    var a; /*this line has 40 characters\n'
       + '    and this one has 36 characters*/\n'
       + '}',
       options: [40, 4, { comments: 36 }],
-    }, {
+    },
+    {
       code: 'function foo() {\n'
       + '    /*this line has 33 characters\n'
       + '    and this one has 43 characters*/ var a;\n'
@@ -468,7 +490,8 @@ ruleTester.run('max-len', rule, {
           endColumn: 58,
         },
       ],
-    }, {
+    },
+    {
       code: 'foo(bar(bazz(\'this is a long\'), \'line of\'), \'stuff\');',
       options: [40, 4], // ignorePattern is disabled
       errors: [
@@ -482,7 +505,8 @@ ruleTester.run('max-len', rule, {
           endColumn: 54,
         },
       ],
-    }, {
+    },
+    {
       code: '// A comment that exceeds the max comment length.',
       options: [80, 4, { comments: 20 }],
       errors: [
@@ -496,7 +520,8 @@ ruleTester.run('max-len', rule, {
           endColumn: 50,
         },
       ],
-    }, {
+    },
+    {
       code: '// A comment that exceeds the max comment length and the max code length, but will fail for being too long of a comment',
       options: [40, 4, { comments: 80 }],
       errors: [
@@ -510,7 +535,8 @@ ruleTester.run('max-len', rule, {
           endColumn: 120,
         },
       ],
-    }, {
+    },
+    {
       code: '// A comment that exceeds the max comment length.',
       options: [{ code: 20 }],
       errors: [
@@ -524,7 +550,8 @@ ruleTester.run('max-len', rule, {
           endColumn: 50,
         },
       ],
-    }, {
+    },
+    {
       code: '//This is very long comment with more than 40 characters which is invalid',
       options: [40, 4, { ignoreTrailingComments: true }],
       errors: [
@@ -557,7 +584,8 @@ ruleTester.run('max-len', rule, {
           endColumn: 30,
         },
       ],
-    }, {
+    },
+    {
       code: 'function foo() {\n'
       + '    //this line has 33 characters\n'
       + '}',
@@ -573,7 +601,8 @@ ruleTester.run('max-len', rule, {
           endColumn: 34,
         },
       ],
-    }, {
+    },
+    {
       code: 'function foo() {\n'
       + '/*this line has 29 characters\n'
       + 'and this one has 32 characters*/\n'
@@ -599,7 +628,8 @@ ruleTester.run('max-len', rule, {
           endColumn: 33,
         },
       ],
-    }, {
+    },
+    {
       code: 'function foo() {\n'
       + '    /*this line has 33 characters\n'
       + '    and this one has 36 characters*/\n'
@@ -625,7 +655,8 @@ ruleTester.run('max-len', rule, {
           endColumn: 37,
         },
       ],
-    }, {
+    },
+    {
       code: 'function foo() {\n'
       + '    var a; /*this line has 40 characters\n'
       + '    and this one has 36 characters*/\n'
@@ -651,7 +682,8 @@ ruleTester.run('max-len', rule, {
           endColumn: 37,
         },
       ],
-    }, {
+    },
+    {
       code: 'function foo() {\n'
       + '    /*this line has 33 characters\n'
       + '    and this one has 43 characters*/ var a;\n'

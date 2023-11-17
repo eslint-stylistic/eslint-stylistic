@@ -52,13 +52,13 @@ function parseMarkersOption(markers: string[]) {
 function createExceptionsPattern(exceptions: string[]) {
   let pattern = ''
 
-  /*
-     * A space or an exception pattern sequence.
-     * []                 ==> "\s"
-     * ["-"]              ==> "(?:\s|\-+$)"
-     * ["-", "="]         ==> "(?:\s|(?:\-+|=+)$)"
-     * ["-", "=", "--=="] ==> "(?:\s|(?:\-+|=+|(?:\-\-==)+)$)" ==> https://jex.im/regulex/#!embed=false&flags=&re=(%3F%3A%5Cs%7C(%3F%3A%5C-%2B%7C%3D%2B%7C(%3F%3A%5C-%5C-%3D%3D)%2B)%24)
-     */
+  /**
+   * A space or an exception pattern sequence.
+   * []                 ==> "\s"
+   * ["-"]              ==> "(?:\s|\-+$)"
+   * ["-", "="]         ==> "(?:\s|(?:\-+|=+)$)"
+   * ["-", "=", "--=="] ==> "(?:\s|(?:\-+|=+|(?:\-\-==)+)$)" ==> https://jex.im/regulex/#!embed=false&flags=&re=(%3F%3A%5Cs%7C(%3F%3A%5C-%2B%7C%3D%2B%7C(%3F%3A%5C-%5C-%3D%3D)%2B)%24)
+   */
   if (exceptions.length === 0) {
     // a space.
     pattern += '\\s'
@@ -96,12 +96,12 @@ function createExceptionsPattern(exceptions: string[]) {
 function createAlwaysStylePattern(markers: string[], exceptions: string[]) {
   let pattern = '^'
 
-  /*
-     * A marker or nothing.
-     * ["*"]            ==> "\*?"
-     * ["*", "!"]       ==> "(?:\*|!)?"
-     * ["*", "/", "!<"] ==> "(?:\*|\/|(?:!<))?" ==> https://jex.im/regulex/#!embed=false&flags=&re=(%3F%3A%5C*%7C%5C%2F%7C(%3F%3A!%3C))%3F
-     */
+  /**
+   * A marker or nothing.
+   * ["*"]            ==> "\*?"
+   * ["*", "!"]       ==> "(?:\*|!)?"
+   * ["*", "/", "!<"] ==> "(?:\*|\/|(?:!<))?" ==> https://jex.im/regulex/#!embed=false&flags=&re=(%3F%3A%5C*%7C%5C%2F%7C(%3F%3A!%3C))%3F
+   */
   if (markers.length === 1) {
     // the marker.
     pattern += escape(markers[0])
@@ -236,11 +236,11 @@ export default createRule<MessageIds, RuleOptions>({
     // Unless the first option is never, require a space
     const requireSpace = context.options[0] !== 'never'
 
-    /*
-         * Parse the second options.
-         * If markers don't include `"*"`, it's added automatically for JSDoc
-         * comments.
-         */
+    /**
+     * Parse the second options.
+     * If markers don't include `"*"`, it's added automatically for JSDoc
+     * comments.
+     */
     const config = context.options[1] || {}
     const balanced = config.block && config.block.balanced
 

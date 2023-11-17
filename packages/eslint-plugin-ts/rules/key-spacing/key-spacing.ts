@@ -217,7 +217,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (candidateValueStartLine - groupEndLine === 1)
         return true
 
-      /*
+      /**
        * Check that the first comment is adjacent to the end of the group, the
        * last comment is adjacent to the candidate property, and that successive
        * comments are adjacent to each other.

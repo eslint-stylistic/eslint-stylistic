@@ -111,7 +111,7 @@ export default createRule<RuleOptions, MessageIds>({
             loc: lastCalleeToken.loc.start,
             messageId: 'unexpectedWhitespace',
             fix(fixer) {
-              /*
+              /**
                * Only autofix if there is no newline
                * https://github.com/eslint/eslint/issues/7787
                */

@@ -558,11 +558,11 @@ export function getPrecedence(node: ASTNode) {
       if (node.type in eslintVisitorKeys)
         return 20
 
-      /*
-                 * if the node is not a standard node that we know about, then assume it has the lowest precedence
-                 * this will mean that rules will wrap unknown nodes in parentheses where applicable instead of
-                 * unwrapping them and potentially changing the meaning of the code or introducing a syntax error.
-                 */
+      /**
+       * if the node is not a standard node that we know about, then assume it has the lowest precedence
+       * this will mean that rules will wrap unknown nodes in parentheses where applicable instead of
+       * unwrapping them and potentially changing the meaning of the code or introducing a syntax error.
+       */
       return -1
   }
 }

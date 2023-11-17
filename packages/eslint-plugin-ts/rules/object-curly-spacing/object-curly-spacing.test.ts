@@ -472,7 +472,7 @@ ruleTester.run('object-curly-spacing', rule, {
       options: ['never', { objectsInObjects: true }],
     },
 
-    /*
+    /**
      * https://github.com/eslint/eslint/issues/3658
      * Empty cases.
      */

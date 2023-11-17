@@ -182,7 +182,8 @@ ruleTester.run('quote-props', rule, {
     options: ['consistent-as-needed'],
     parserOptions: { ecmaVersion: 6 },
     errors: [{
-      messageId: 'redundantQuoting', type: 'Property',
+      messageId: 'redundantQuoting',
+      type: 'Property',
     }],
   }, {
     code: '({ \'true\': 0, \'null\': 0 })',

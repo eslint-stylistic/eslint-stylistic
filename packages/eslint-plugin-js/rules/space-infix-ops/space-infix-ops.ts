@@ -163,11 +163,11 @@ export default createRule<MessageIds, RuleOptions>({
         if (!node.value)
           return
 
-        /*
-                 * Because of computed properties and type annotations, some
-                 * tokens may exist between `node.key` and `=`.
-                 * Therefore, find the `=` from the right.
-                 */
+        /**
+         * Because of computed properties and type annotations, some
+         * tokens may exist between `node.key` and `=`.
+         * Therefore, find the `=` from the right.
+         */
         const operatorToken = sourceCode.getTokenBefore(node.value, isEqToken)!
         const leftToken = sourceCode.getTokenBefore(operatorToken)!
         const rightToken = sourceCode.getTokenAfter(operatorToken)!

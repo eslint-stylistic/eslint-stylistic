@@ -2232,7 +2232,8 @@ method2() {}
           messageId: 'never',
           line: 14,
           column: 17,
-        }, {
+        },
+        {
           messageId: 'never',
           line: 18,
           column: 17,
@@ -2308,7 +2309,8 @@ method2() {}
           messageId: 'always',
           line: 11,
           column: 17,
-        }, {
+        },
+        {
           messageId: 'always',
           line: 14,
           column: 17,
@@ -2382,7 +2384,8 @@ method2() {}
           messageId: 'never',
           line: 11,
           column: 17,
-        }, {
+        },
+        {
           messageId: 'never',
           line: 15,
           column: 17,
@@ -2456,7 +2459,8 @@ method2() {}
           messageId: 'always',
           line: 10,
           column: 17,
-        }, {
+        },
+        {
           messageId: 'always',
           line: 13,
           column: 17,
@@ -2535,7 +2539,8 @@ method2() {}
           messageId: 'always',
           line: 10,
           column: 17,
-        }, {
+        },
+        {
           messageId: 'always',
           line: 13,
           column: 17,

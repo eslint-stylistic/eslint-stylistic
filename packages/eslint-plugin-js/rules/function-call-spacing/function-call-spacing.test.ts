@@ -737,7 +737,8 @@ ruleTester.run('function-call-spacing', rule, {
       output: 'f ();',
       options: ['always', { allowNewlines: true }],
       errors: [
-        { messageId: 'missing', type: 'CallExpression' }],
+        { messageId: 'missing', type: 'CallExpression' },
+      ],
     },
     {
       code: 'f(a, b);',

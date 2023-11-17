@@ -33,7 +33,7 @@ ruleTester.run('jsx-curly-brace-presence', rule, {
       code: '<App {...props}>foo</App>',
       options: [{ props: 'never' }],
     },
-    /*
+    /**
      * There is no way to inject the space into JSX without an expression container
      * so this format should always be allowed regardless of the `children` option.
      */
@@ -711,7 +711,8 @@ ruleTester.run('jsx-curly-brace-presence', rule, {
       output: '<MyComponent prop="bar">foo</MyComponent>',
       options: ['never'],
       errors: [
-        { messageId: 'unnecessaryCurly' }, { messageId: 'unnecessaryCurly' },
+        { messageId: 'unnecessaryCurly' },
+        { messageId: 'unnecessaryCurly' },
       ],
     },
     {
@@ -719,14 +720,16 @@ ruleTester.run('jsx-curly-brace-presence', rule, {
       output: '<MyComponent prop={"bar"}>{"foo"}</MyComponent>',
       options: ['always'],
       errors: [
-        { messageId: 'missingCurly' }, { messageId: 'missingCurly' },
+        { messageId: 'missingCurly' },
+        { messageId: 'missingCurly' },
       ],
     },
     {
       code: `<App prop={'foo'} attr={" foo "} />`,
       output: '<App prop="foo" attr=" foo " />',
       errors: [
-        { messageId: 'unnecessaryCurly' }, { messageId: 'unnecessaryCurly' },
+        { messageId: 'unnecessaryCurly' },
+        { messageId: 'unnecessaryCurly' },
       ],
       options: [{ props: 'never' }],
     },
@@ -734,7 +737,8 @@ ruleTester.run('jsx-curly-brace-presence', rule, {
       code: `<App prop='foo' attr="bar" />`,
       output: '<App prop={"foo"} attr={"bar"} />',
       errors: [
-        { messageId: 'missingCurly' }, { messageId: 'missingCurly' },
+        { messageId: 'missingCurly' },
+        { messageId: 'missingCurly' },
       ],
       options: [{ props: 'always' }],
     },
@@ -787,7 +791,8 @@ ruleTester.run('jsx-curly-brace-presence', rule, {
         </App>
       `,
       errors: [
-        { messageId: 'missingCurly' }, { messageId: 'missingCurly' },
+        { messageId: 'missingCurly' },
+        { messageId: 'missingCurly' },
       ],
       options: ['always'],
       output: `
@@ -815,7 +820,8 @@ ruleTester.run('jsx-curly-brace-presence', rule, {
         </App>
       `,
       errors: [
-        { messageId: 'missingCurly' }, { messageId: 'missingCurly' },
+        { messageId: 'missingCurly' },
+        { messageId: 'missingCurly' },
       ],
       options: ['always'],
       output: `

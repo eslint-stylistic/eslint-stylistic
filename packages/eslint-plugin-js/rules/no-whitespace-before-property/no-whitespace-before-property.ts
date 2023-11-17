@@ -46,10 +46,10 @@ export default createRule<MessageIds, RuleOptions>({
           let replacementText = ''
 
           if (!node.computed && !node.optional && isDecimalInteger(node.object)) {
-            /*
-                         * If the object is a number literal, fixing it to something like 5.toString() would cause a SyntaxError.
-                         * Don't fix this case.
-                         */
+            /**
+             * If the object is a number literal, fixing it to something like 5.toString() would cause a SyntaxError.
+             * Don't fix this case.
+             */
             return null
           }
 

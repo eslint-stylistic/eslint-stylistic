@@ -163,11 +163,11 @@ export default createRule<MessageIds, RuleOptions>({
           },
           messageId: 'unexpectedNewline',
           fix(fixer) {
-            /*
-                         * Only autofix if there is no newline
-                         * https://github.com/eslint/eslint/issues/7787
-                         * But if `?.` exists, it doesn't hide no-unexpected-multiline errors
-                         */
+            /**
+             * Only autofix if there is no newline
+             * https://github.com/eslint/eslint/issues/7787
+             * But if `?.` exists, it doesn't hide no-unexpected-multiline errors
+             */
             if (!('optional' in node) || !node.optional)
               return null
 

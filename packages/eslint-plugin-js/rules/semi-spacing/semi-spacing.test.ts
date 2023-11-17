@@ -355,8 +355,7 @@ ruleTester.run('semi-spacing', rule, {
         column: 6,
         endLine: 1,
         endColumn: 7,
-      },
-      {
+      }, {
         type: 'ForStatement',
         messageId: 'unexpectedWhitespaceAfter',
         line: 1,
@@ -415,8 +414,7 @@ ruleTester.run('semi-spacing', rule, {
         column: 19,
         endLine: 1,
         endColumn: 20,
-      },
-      {
+      }, {
         messageId: 'unexpectedWhitespaceAfter',
         type: 'DoWhileStatement',
         line: 1,

@@ -260,8 +260,7 @@ ruleTester.run('no-multiple-empty-lines', rule, {
       code: '\n\n\n// invalid 19\nvar a = 5;\n\n',
       output: '// invalid 19\nvar a = 5;\n',
       options: [{ max: 2, maxBOF: 0, maxEOF: 0 }],
-      errors: [getExpectedErrorBOF(0),
-        getExpectedErrorEOF(0)],
+      errors: [getExpectedErrorBOF(0), getExpectedErrorEOF(0)],
     },
     {
       code: '// invalid 20\r\n// windows line endings\r\nvar a = 5;\r\nvar b = 3;\r\n\r\n\r\n',

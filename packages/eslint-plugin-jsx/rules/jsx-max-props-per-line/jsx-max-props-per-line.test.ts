@@ -478,7 +478,8 @@ bor />
         {
           messageId: 'newLine',
           data: { prop: 'bor' },
-        }],
+        },
+      ],
     },
     {
       code: `

@@ -268,8 +268,7 @@ ruleTester.run('operator-linebreak', rule, {
         column: 21,
         endLine: 1,
         endColumn: 22,
-      },
-      {
+      }, {
         messageId: 'operatorAtBeginning',
         data: { operator: ':' },
         type: 'ConditionalExpression',
@@ -292,8 +291,7 @@ ruleTester.run('operator-linebreak', rule, {
         column: 1,
         endLine: 2,
         endColumn: 2,
-      },
-      {
+      }, {
         messageId: 'operatorAtEnd',
         data: { operator: ':' },
         type: 'ConditionalExpression',
@@ -386,8 +384,7 @@ ruleTester.run('operator-linebreak', rule, {
         column: 21,
         endLine: 1,
         endColumn: 22,
-      },
-      {
+      }, {
         messageId: 'operatorAtBeginning',
         data: { operator: ':' },
         type: 'ConditionalExpression',
@@ -550,8 +547,7 @@ ruleTester.run('operator-linebreak', rule, {
         column: 21,
         endLine: 1,
         endColumn: 22,
-      },
-      {
+      }, {
         messageId: 'noLinebreak',
         data: { operator: ':' },
         type: 'ConditionalExpression',
@@ -573,8 +569,7 @@ ruleTester.run('operator-linebreak', rule, {
         column: 1,
         endLine: 2,
         endColumn: 2,
-      },
-      {
+      }, {
         messageId: 'badLinebreak',
         data: { operator: ':' },
         type: 'ConditionalExpression',

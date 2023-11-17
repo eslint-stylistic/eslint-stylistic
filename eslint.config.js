@@ -40,7 +40,6 @@ const configs = antfu(
       '**/*.test.{js,ts}',
     ],
     rules: {
-      'antfu/consistent-list-newline': 'off',
       'node/prefer-global/process': 'off',
     },
   },

@@ -597,10 +597,10 @@ export default createRule<MessageIds, RuleOptions>({
       if (!node.superClass)
         return
 
-      /*
-             * If `node.superClass` is a LeftHandSideExpression, parentheses are extra.
-             * Otherwise, parentheses are needed.
-             */
+      /**
+       * If `node.superClass` is a LeftHandSideExpression, parentheses are extra.
+       * Otherwise, parentheses are needed.
+       */
       const hasExtraParens = precedence(node.superClass) > PRECEDENCE_OF_UPDATE_EXPR
         ? hasExcessParens(node.superClass)
         : hasDoubleExcessParens(node.superClass)
@@ -1002,11 +1002,11 @@ export default createRule<MessageIds, RuleOptions>({
                   // This node was supposed to be reported, but parentheses might be necessary.
 
                   if (isParenthesisedTwice(pathNode)) {
-                    /*
-                                         * This node is parenthesised twice, it certainly has at least one pair of `extra` parentheses.
-                                         * If the --fix option is on, the current fixing iteration will remove only one pair of parentheses.
-                                         * The remaining pair is safely enclosing the 'in' expression.
-                                         */
+                    /**
+                     * This node is parenthesised twice, it certainly has at least one pair of `extra` parentheses.
+                     * If the --fix option is on, the current fixing iteration will remove only one pair of parentheses.
+                     * The remaining pair is safely enclosing the 'in' expression.
+                     */
                     return
                   }
 

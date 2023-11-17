@@ -61,18 +61,18 @@ export default createRule<MessageIds, RuleOptions>({
             ignoredCommentLines.add(i)
         })
 
-        /*
-                 * At least one space followed by a tab
-                 * or the reverse before non-tab/-space
-                 * characters begin.
-                 */
+        /**
+         * At least one space followed by a tab
+         * or the reverse before non-tab/-space
+         * characters begin.
+         */
         let regex = /^(?=( +|\t+))\1(?:\t| )/u
 
         if (smartTabs) {
-          /*
-                     * At least one space followed by a tab
-                     * before non-tab/-space characters begin.
-                     */
+          /**
+           * At least one space followed by a tab
+           * before non-tab/-space characters begin.
+           */
           regex = /^(?=(\t*))\1(?=( +))\2\t/u
         }
 

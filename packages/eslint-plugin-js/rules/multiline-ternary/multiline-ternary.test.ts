@@ -102,7 +102,6 @@ ruleTester.run('multiline-ternary', rule, {
   ],
 
   invalid: [
-
     // default "always"
     {
       code: 'a ? b : c',
@@ -111,8 +110,7 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'expectedTestCons',
         line: 1,
         column: 1,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 1,
         column: 5,
@@ -143,20 +141,17 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'expectedTestCons',
         line: 1,
         column: 1,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 1,
         column: 5,
         endLine: 1,
         endColumn: 16,
-      },
-      {
+      }, {
         messageId: 'expectedTestCons',
         line: 1,
         column: 6,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 1,
         column: 10,
@@ -169,8 +164,7 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'expectedTestCons',
         line: 2,
         column: 2,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 2,
         column: 6,
@@ -183,8 +177,7 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'expectedTestCons',
         line: 1,
         column: 1,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 1,
         column: 5,
@@ -201,8 +194,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 3,
         endColumn: 5,
-      },
-      {
+      }, {
         messageId: 'expectedTestCons',
         line: 2,
         column: 2,
@@ -217,8 +209,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 3,
         endColumn: 9,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 3,
         column: 3,
@@ -247,8 +238,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 1,
         endColumn: 2,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 1,
         column: 5,
@@ -266,8 +256,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 1,
         endColumn: 4,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 1,
         column: 7,
@@ -303,20 +292,17 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'expectedTestCons',
         line: 1,
         column: 1,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 1,
         column: 5,
         endLine: 1,
         endColumn: 16,
-      },
-      {
+      }, {
         messageId: 'expectedTestCons',
         line: 1,
         column: 6,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 1,
         column: 10,
@@ -330,8 +316,7 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'expectedTestCons',
         line: 2,
         column: 2,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 2,
         column: 6,
@@ -345,8 +330,7 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'expectedTestCons',
         line: 1,
         column: 1,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 1,
         column: 5,
@@ -364,8 +348,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 3,
         endColumn: 5,
-      },
-      {
+      }, {
         messageId: 'expectedTestCons',
         line: 2,
         column: 2,
@@ -381,8 +364,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 3,
         endColumn: 9,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 3,
         column: 3,
@@ -506,8 +488,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 2,
         endColumn: 2,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 2,
         column: 5,
@@ -525,8 +506,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 2,
         endColumn: 2,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 2,
         column: 5,
@@ -566,8 +546,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 2,
         endColumn: 2,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 2,
         column: 5,
@@ -581,8 +560,7 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'expectedTestCons',
         line: 1,
         column: 1,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 1,
         column: 5,
@@ -596,8 +574,7 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'expectedTestCons',
         line: 1,
         column: 1,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 1,
         column: 5,
@@ -633,8 +610,7 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'expectedTestCons',
         line: 1,
         column: 1,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 1,
         column: 5,
@@ -652,8 +628,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 3,
         endColumn: 5,
-      },
-      {
+      }, {
         messageId: 'expectedTestCons',
         line: 2,
         column: 2,
@@ -669,8 +644,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 3,
         endColumn: 9,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 3,
         column: 3,
@@ -794,8 +768,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 2,
         endColumn: 2,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 2,
         column: 5,
@@ -813,8 +786,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 2,
         endColumn: 2,
-      },
-      {
+      }, {
         messageId: 'expectedConsAlt',
         line: 2,
         column: 5,
@@ -852,8 +824,7 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'unexpectedTestCons',
         line: 1,
         column: 1,
-      },
-      {
+      }, {
         messageId: 'unexpectedConsAlt',
         line: 2,
         column: 1,
@@ -869,8 +840,7 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'unexpectedTestCons',
         line: 1,
         column: 6,
-      },
-      {
+      }, {
         messageId: 'unexpectedConsAlt',
         line: 2,
         column: 3,
@@ -884,8 +854,7 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'unexpectedTestCons',
         line: 1,
         column: 1,
-      },
-      {
+      }, {
         messageId: 'unexpectedConsAlt',
         line: 2,
         column: 5,
@@ -899,8 +868,7 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'unexpectedTestCons',
         line: 1,
         column: 1,
-      },
-      {
+      }, {
         messageId: 'unexpectedTestCons',
         line: 2,
         column: 2,
@@ -914,13 +882,11 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'unexpectedTestCons',
         line: 1,
         column: 1,
-      },
-      {
+      }, {
         messageId: 'unexpectedTestCons',
         line: 2,
         column: 2,
-      },
-      {
+      }, {
         messageId: 'unexpectedConsAlt',
         line: 3,
         column: 3,
@@ -936,13 +902,11 @@ ruleTester.run('multiline-ternary', rule, {
         column: 5,
         endLine: 3,
         endColumn: 5,
-      },
-      {
+      }, {
         messageId: 'unexpectedTestCons',
         line: 1,
         column: 6,
-      },
-      {
+      }, {
         messageId: 'unexpectedConsAlt',
         line: 2,
         column: 3,
@@ -956,20 +920,17 @@ ruleTester.run('multiline-ternary', rule, {
         messageId: 'unexpectedTestCons',
         line: 1,
         column: 1,
-      },
-      {
+      }, {
         messageId: 'unexpectedConsAlt',
         line: 3,
         column: 1,
         endLine: 7,
         endColumn: 3,
-      },
-      {
+      }, {
         messageId: 'unexpectedTestCons',
         line: 3,
         column: 2,
-      },
-      {
+      }, {
         messageId: 'unexpectedConsAlt',
         line: 5,
         column: 1,
@@ -985,8 +946,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 1,
         endColumn: 4,
-      },
-      {
+      }, {
         messageId: 'unexpectedConsAlt',
         line: 2,
         column: 4,
@@ -1004,8 +964,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 1,
         endColumn: 4,
-      },
-      {
+      }, {
         messageId: 'unexpectedConsAlt',
         line: 2,
         column: 4,
@@ -1023,8 +982,7 @@ ruleTester.run('multiline-ternary', rule, {
         column: 1,
         endLine: 1,
         endColumn: 6,
-      },
-      {
+      }, {
         messageId: 'unexpectedConsAlt',
         line: 2,
         column: 4,

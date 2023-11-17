@@ -104,10 +104,10 @@ function isBlockLikeStatement(sourceCode: SourceCode, node: Tree.Node): boolean 
   if (node.type === 'DoWhileStatement' && node.body.type === 'BlockStatement')
     return true
 
-  /*
-     * IIFE is a block-like statement specially from
-     * JSCS#disallowPaddingNewLinesAfterBlocks.
-     */
+  /**
+   * IIFE is a block-like statement specially from
+   * JSCS#disallowPaddingNewLinesAfterBlocks.
+   */
   if (isIIFEStatement(node))
     return true
 

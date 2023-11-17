@@ -119,11 +119,11 @@ export default createRule<MessageIds, RuleOptions>({
                 fix(fixer) {
                   const rangeStart = sourceCode.getIndexFromLoc({ line: lastLineNumber + 1, column: 0 })
 
-                  /*
-                                     * The end of the removal range is usually the start index of the next line.
-                                     * However, at the end of the file there is no next line, so the end of the
-                                     * range is just the length of the text.
-                                     */
+                  /**
+                   * The end of the removal range is usually the start index of the next line.
+                   * However, at the end of the file there is no next line, so the end of the
+                   * range is just the length of the text.
+                   */
                   const lineNumberAfterRemovedLines = lineNumber - maxAllowed
                   const rangeEnd = lineNumberAfterRemovedLines <= allLines.length
                     ? sourceCode.getIndexFromLoc({ line: lineNumberAfterRemovedLines, column: 0 })

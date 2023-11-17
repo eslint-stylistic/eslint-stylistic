@@ -228,46 +228,46 @@ export default createRule<MessageIds, RuleOptions>({
      * @return {boolean} true if its the case, false if not
      */
     function isSecondOrSubsequentExpWithinDoExp(node: ASTNode) {
-      /*
-        It returns true when node.parent.parent.parent.parent matches:
-
-        DoExpression({
-          ...,
-          body: BlockStatement({
-            ...,
-            body: [
-              ...,  // 1-n times
-              ExpressionStatement({
-                ...,
-                expression: JSXElement({
-                  ...,
-                  openingElement: JSXOpeningElement()  // the node
-                })
-              }),
-              ...  // 0-n times
-            ]
-          })
-        })
-
-        except:
-
-        DoExpression({
-          ...,
-          body: BlockStatement({
-            ...,
-            body: [
-              ExpressionStatement({
-                ...,
-                expression: JSXElement({
-                  ...,
-                  openingElement: JSXOpeningElement()  // the node
-                })
-              }),
-              ...  // 0-n times
-            ]
-          })
-        })
-      */
+      /**
+       * It returns true when node.parent.parent.parent.parent matches:
+       *
+       * DoExpression({
+       *   ...,
+       *   body: BlockStatement({
+       *     ...,
+       *     body: [
+       *       ...,  // 1-n times
+       *       ExpressionStatement({
+       *         ...,
+       *         expression: JSXElement({
+       *           ...,
+       *           openingElement: JSXOpeningElement()  // the node
+       *         })
+       *       }),
+       *       ...  // 0-n times
+       *     ]
+       *   })
+       * })
+       *
+       * except:
+       *
+       * DoExpression({
+       *   ...,
+       *   body: BlockStatement({
+       *     ...,
+       *     body: [
+       *       ExpressionStatement({
+       *         ...,
+       *         expression: JSXElement({
+       *           ...,
+       *           openingElement: JSXOpeningElement()  // the node
+       *         })
+       *       }),
+       *       ...  // 0-n times
+       *     ]
+       *   })
+       * })
+       */
       if (!node.parent
         || !node.parent.parent
         || node.parent.parent.type !== 'ExpressionStatement'

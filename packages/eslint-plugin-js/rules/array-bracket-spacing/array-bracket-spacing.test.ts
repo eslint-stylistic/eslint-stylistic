@@ -463,8 +463,7 @@ ruleTester.run('array-bracket-spacing', rule, {
         column: 5,
         endLine: 1,
         endColumn: 6,
-      },
-      {
+      }, {
         messageId: 'missingSpaceBefore',
         data: {
           tokenValue: ']',
@@ -508,8 +507,7 @@ ruleTester.run('array-bracket-spacing', rule, {
         column: 5,
         endLine: 1,
         endColumn: 6,
-      },
-      {
+      }, {
         messageId: 'missingSpaceBefore',
         data: {
           tokenValue: ']',
@@ -553,8 +551,7 @@ ruleTester.run('array-bracket-spacing', rule, {
         column: 5,
         endLine: 1,
         endColumn: 6,
-      },
-      {
+      }, {
         messageId: 'missingSpaceBefore',
         data: {
           tokenValue: ']',

@@ -59,12 +59,12 @@ export default createRule<MessageIds, RuleOptions>({
      * @param fixRange Range based on the whole program
      */
     function report(node: ASTNode, location: Tree.Position | Tree.SourceLocation, fixRange: Readonly<Tree.Range>) {
-      /*
-             * Passing node is a bit dirty, because message data will contain big
-             * text in `source`. But... who cares :) ?
-             * One more kludge will not make worse the bloody wizardry of this
-             * plugin.
-             */
+      /**
+       * Passing node is a bit dirty, because message data will contain big
+       * text in `source`. But... who cares :) ?
+       * One more kludge will not make worse the bloody wizardry of this
+       * plugin.
+       */
       context.report({
         node,
         loc: location,
@@ -98,10 +98,10 @@ export default createRule<MessageIds, RuleOptions>({
     return {
 
       Program: function checkTrailingSpaces(node) {
-        /*
-                 * Let's hack. Since Espree does not return whitespace nodes,
-                 * fetch the source code and do matching via regexps.
-                 */
+        /**
+         * Let's hack. Since Espree does not return whitespace nodes,
+         * fetch the source code and do matching via regexps.
+         */
 
         const re = new RegExp(NONBLANK, 'u')
         const skipMatch = new RegExp(SKIP_BLANK, 'u')
@@ -115,11 +115,11 @@ export default createRule<MessageIds, RuleOptions>({
         for (let i = 0, ii = lines.length; i < ii; i++) {
           const lineNumber = i + 1
 
-          /*
-                     * Always add linebreak length to line length to accommodate for line break (\n or \r\n)
-                     * Because during the fix time they also reserve one spot in the array.
-                     * Usually linebreak length is 2 for \r\n (CRLF) and 1 for \n (LF)
-                     */
+          /**
+           * Always add linebreak length to line length to accommodate for line break (\n or \r\n)
+           * Because during the fix time they also reserve one spot in the array.
+           * Usually linebreak length is 2 for \r\n (CRLF) and 1 for \n (LF)
+           */
           const linebreakLength = linebreaks && linebreaks[i] ? linebreaks[i].length : 1
           const lineLength = lines[i].length + linebreakLength
 
@@ -148,10 +148,10 @@ export default createRule<MessageIds, RuleOptions>({
               continue
             }
 
-            /*
-                         * If the line has only whitespace, and skipBlankLines
-                         * is true, don't report it
-                         */
+            /**
+             * If the line has only whitespace, and skipBlankLines
+             * is true, don't report it
+             */
             if (skipBlankLines && skipMatch.test(lines[i])) {
               totalLength += lineLength
               continue

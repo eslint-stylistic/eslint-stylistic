@@ -173,10 +173,10 @@ export default createRule<MessageIds, RuleOptions>({
       if (node.type !== 'PropertyDefinition')
         return false
 
-      /*
-             * Computed property names and non-identifiers are always safe
-             * as they can be distinguished from keywords easily.
-             */
+      /**
+       * Computed property names and non-identifiers are always safe
+       * as they can be distinguished from keywords easily.
+       */
       const needsNameCheck = !node.computed && node.key.type === 'Identifier'
 
       /**

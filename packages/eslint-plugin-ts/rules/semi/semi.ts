@@ -31,14 +31,14 @@ export default createRule<RuleOptions, MessageIds>({
     const checkForSemicolon
       = rules.ExpressionStatement as TSESLint.RuleFunction<TSESTree.Node>
 
-    /*
+    /**
       The following nodes are handled by the member-delimiter-style rule
       AST_NODE_TYPES.TSCallSignatureDeclaration,
       AST_NODE_TYPES.TSConstructSignatureDeclaration,
       AST_NODE_TYPES.TSIndexSignature,
       AST_NODE_TYPES.TSMethodSignature,
       AST_NODE_TYPES.TSPropertySignature,
-    */
+     */
     const nodesToCheck = [
       AST_NODE_TYPES.PropertyDefinition,
       AST_NODE_TYPES.TSAbstractPropertyDefinition,

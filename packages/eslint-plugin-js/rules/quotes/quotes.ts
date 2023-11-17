@@ -289,10 +289,10 @@ export default createRule<MessageIds, RuleOptions>({
               },
               fix(fixer) {
                 if (quoteOption === 'backtick' && hasOctalOrNonOctalDecimalEscapeSequence(rawVal)) {
-                  /*
-                                     * An octal or non-octal decimal escape sequence in a template literal would
-                                     * produce syntax error, even in non-strict mode.
-                                     */
+                  /**
+                   * An octal or non-octal decimal escape sequence in a template literal would
+                   * produce syntax error, even in non-strict mode.
+                   */
                   return null
                 }
 
@@ -320,10 +320,10 @@ export default createRule<MessageIds, RuleOptions>({
           },
           fix(fixer) {
             if (isTopLevelExpressionStatement(node.parent) && !isParenthesised(sourceCode, node)) {
-              /*
-                             * TemplateLiterals aren't actually directives, but fixing them might turn
-                             * them into directives and change the behavior of the code.
-                             */
+              /**
+               * TemplateLiterals aren't actually directives, but fixing them might turn
+               * them into directives and change the behavior of the code.
+               */
               return null
             }
             return fixer.replaceText(node, settings.convert(sourceCode.getText(node)))

@@ -75,8 +75,7 @@ ruleTester.run('linebreak-style', rule, {
         endLine: 5,
         endColumn: 1,
         messageId: 'expectedLF',
-      },
-      {
+      }, {
         line: 6,
         column: 3,
         endLine: 7,
@@ -94,15 +93,13 @@ ruleTester.run('linebreak-style', rule, {
         endLine: 4,
         endColumn: 1,
         messageId: 'expectedCRLF',
-      },
-      {
+      }, {
         line: 5,
         column: 1,
         endLine: 6,
         endColumn: 1,
         messageId: 'expectedCRLF',
-      },
-      {
+      }, {
         line: 6,
         column: 17,
         endLine: 7,

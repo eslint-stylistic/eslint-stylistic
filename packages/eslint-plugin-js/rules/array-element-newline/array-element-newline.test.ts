@@ -12,10 +12,10 @@ ruleTester.run('array-element-newline', rule, {
 
   valid: [
 
-    /*
-         * ArrayExpression
-         * "always"
-         */
+    /**
+     * ArrayExpression
+     * "always"
+     */
     'var foo = [];',
     'var foo = [1];',
     'var foo = [1,\n2];',
@@ -120,10 +120,10 @@ ruleTester.run('array-element-newline', rule, {
     { code: 'var foo = [1,\n2,\n// any comment\n, 3];', options: [{ multiline: true, minItems: 3 }] },
     { code: 'var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];', options: [{ multiline: true, minItems: 3 }] },
 
-    /*
-         * ArrayPattern
-         * "always"
-         */
+    /**
+     * ArrayPattern
+     * "always"
+     */
     { code: 'var [] = foo;', parserOptions: { ecmaVersion: 6 } },
     { code: 'var [a] = foo;', parserOptions: { ecmaVersion: 6 } },
     { code: 'var [a,\nb] = foo;', parserOptions: { ecmaVersion: 6 } },
@@ -142,11 +142,12 @@ ruleTester.run('array-element-newline', rule, {
     { code: 'var [a, b] = foo;', options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } },
     { code: 'var [a,\nb,\nc] = foo;', options: [{ minItems: 3 }], parserOptions: { ecmaVersion: 6 } },
 
-    /*
-         * ArrayExpression & ArrayPattern
-         * { ArrayExpression: "always", ArrayPattern: "never" }
-         */
-    { code: 'var [a, b] = [1,\n2]', options: [{ ArrayExpression: 'always', ArrayPattern: 'never' }], parserOptions: { ecmaVersion: 6 } }],
+    /**
+     * ArrayExpression & ArrayPattern
+     * { ArrayExpression: "always", ArrayPattern: "never" }
+     */
+    { code: 'var [a, b] = [1,\n2]', options: [{ ArrayExpression: 'always', ArrayPattern: 'never' }], parserOptions: { ecmaVersion: 6 } },
+  ],
 
   invalid: [
     {
@@ -163,10 +164,10 @@ ruleTester.run('array-element-newline', rule, {
       ],
     },
 
-    /*
-         * ArrayExpression
-         * "always"
-         */
+    /**
+     * ArrayExpression
+     * "always"
+     */
     {
       code: 'var foo = [1, 2];',
       output: 'var foo = [1,\n2];',
@@ -840,10 +841,10 @@ ruleTester.run('array-element-newline', rule, {
       ],
     },
 
-    /*
-         * ArrayPattern
-         * "always"
-         */
+    /**
+     * ArrayPattern
+     * "always"
+     */
     {
       code: 'var [a, b] = foo;',
       output: 'var [a,\nb] = foo;',
@@ -909,10 +910,10 @@ ruleTester.run('array-element-newline', rule, {
       ],
     },
 
-    /*
-         * ArrayExpression & ArrayPattern
-         * { ArrayExpression: "always", ArrayPattern: "never" }
-         */
+    /**
+     * ArrayExpression & ArrayPattern
+     * { ArrayExpression: "always", ArrayPattern: "never" }
+     */
     {
       code: 'var [a,\nb] = [1, 2]',
       output: 'var [a, b] = [1,\n2]',

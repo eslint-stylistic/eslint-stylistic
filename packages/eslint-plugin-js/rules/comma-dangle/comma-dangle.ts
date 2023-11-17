@@ -281,13 +281,13 @@ export default createRule<MessageIds, RuleOptions>({
           *fix(fixer) {
             yield fixer.insertTextAfter(trailingToken, ',')
 
-            /*
-                         * Extend the range of the fix to include surrounding tokens to ensure
-                         * that the element after which the comma is inserted stays _last_.
-                         * This intentionally makes conflicts in fix ranges with rules that may be
-                         * adding or removing elements in the same autofix pass.
-                         * https://github.com/eslint/eslint/issues/15660
-                         */
+            /**
+             * Extend the range of the fix to include surrounding tokens to ensure
+             * that the element after which the comma is inserted stays _last_.
+             * This intentionally makes conflicts in fix ranges with rules that may be
+             * adding or removing elements in the same autofix pass.
+             * https://github.com/eslint/eslint/issues/15660
+             */
             yield fixer.insertTextBefore(trailingToken, '')
             yield fixer.insertTextAfter(sourceCode.getTokenAfter(trailingToken)!, '')
           },
