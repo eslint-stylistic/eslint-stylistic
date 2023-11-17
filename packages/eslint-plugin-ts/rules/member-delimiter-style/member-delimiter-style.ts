@@ -193,7 +193,7 @@ export default createRule<Options, MessageIds>({
     },
   ],
   create(context, [options]) {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
 
     // use the base options as the defaults for the cases
     const baseOptions = options

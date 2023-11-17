@@ -50,7 +50,7 @@ export default createRule<RuleOptions, MessageIds>({
   defaultOptions: [{}],
   create(context, [_options]) {
     const options: OptionsUnion = _options || {}
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
     const baseRules = baseRule.create(context)
 
     /**

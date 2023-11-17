@@ -66,7 +66,7 @@ export default createRule<MessageIds, RuleOptions>({
   },
   create(context) {
     const jsxElementParents = new Set<Tree.JSXElement>()
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
 
     function isBlockCommentInCurlyBraces(element: Tree.JSXChild) {
       const elementRawValue = sourceCode.getText(element)

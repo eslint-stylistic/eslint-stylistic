@@ -144,7 +144,7 @@ export default createRule<RuleOptions, MessageIds>({
     const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN
     const customIgnoreRegExp = new RegExp(options.ignorePattern ?? '', 'u')
 
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
     const comments = sourceCode.getAllComments()
 
     const lines = sourceCode.lines

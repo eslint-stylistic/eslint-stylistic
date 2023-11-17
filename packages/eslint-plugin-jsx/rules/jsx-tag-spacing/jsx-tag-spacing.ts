@@ -32,7 +32,7 @@ function validateClosingSlash(
   node: Tree.JSXOpeningElement | Tree.JSXClosingElement,
   option: Option['closingSlash'],
 ) {
-  const sourceCode = context.getSourceCode()
+  const sourceCode = context.sourceCode
 
   let adjacent
 
@@ -111,7 +111,7 @@ function validateBeforeSelfClosing(
   node: Tree.JSXOpeningElement | Tree.JSXClosingElement,
   option: Option['beforeSelfClosing'],
 ) {
-  const sourceCode = context.getSourceCode()
+  const sourceCode = context.sourceCode
   const leftToken = getTokenBeforeClosingBracket(node)
   const closingSlash = sourceCode.getTokenAfter(leftToken)!
 
@@ -162,7 +162,7 @@ function validateAfterOpening(
   node: Tree.JSXOpeningElement | Tree.JSXClosingElement,
   option: Option['afterOpening'],
 ) {
-  const sourceCode = context.getSourceCode()
+  const sourceCode = context.sourceCode
   const openingToken = sourceCode.getTokenBefore(node.name)!
 
   if (option === 'allow-multiline') {
@@ -209,7 +209,7 @@ function validateBeforeClosing(
 ) {
   // Don't enforce this rule for self closing tags
   if (!('selfClosing' in node && node.selfClosing)) {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
     const leftToken = option === 'proportional-always'
       ? getTokenBeforeClosingBracket(node)
       : sourceCode.getLastTokens(node, 2)[0]

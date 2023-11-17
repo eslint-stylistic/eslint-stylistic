@@ -124,7 +124,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @return {number} Indent
      */
     function getNodeIndent(node: ASTNode) {
-      let src = context.getSourceCode().getText(node, node.loc.start.column + extraColumnStart)
+      let src = context.sourceCode.getText(node, node.loc.start.column + extraColumnStart)
       const lines = src.split('\n')
       src = lines[0]
 

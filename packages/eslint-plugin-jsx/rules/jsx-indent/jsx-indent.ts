@@ -119,7 +119,7 @@ export default createRule<MessageIds, RuleOptions>({
       }
 
       if (node.type === 'ReturnStatement') {
-        const raw = context.getSourceCode().getText(node)
+        const raw = context.sourceCode.getText(node)
         const lines = raw.split('\n')
         if (lines.length > 1) {
           return function fix(fixer) {
@@ -218,7 +218,7 @@ export default createRule<MessageIds, RuleOptions>({
         && node.parent.parent
         && node.parent.parent.type === 'ConditionalExpression'
         && node.parent.parent.alternate === node.parent
-        && context.getSourceCode().getTokenBefore(node)!.value !== '('
+        && context.sourceCode.getTokenBefore(node)!.value !== '('
       )
     }
 
@@ -333,7 +333,7 @@ export default createRule<MessageIds, RuleOptions>({
     }
 
     function handleOpeningElement(node: Tree.JSXOpeningElement | Tree.JSXOpeningFragment) {
-      const sourceCode = context.getSourceCode()
+      const sourceCode = context.sourceCode
       let prevToken: Tree.Node | Tree.Token = sourceCode.getTokenBefore(node)!
       if (!prevToken)
         return
@@ -378,7 +378,7 @@ export default createRule<MessageIds, RuleOptions>({
         return
 
       const nameIndent = getNodeIndent(node.name)
-      const lastToken = context.getSourceCode().getLastToken(node.value)!
+      const lastToken = context.sourceCode.getLastToken(node.value)!
       const firstInLine = getFirstNodeInLine(context, lastToken)
       const indent = node.name.loc.start.line === firstInLine.loc.start.line ? 0 : nameIndent
       checkNodesIndent(firstInLine as unknown as ASTNode, indent)

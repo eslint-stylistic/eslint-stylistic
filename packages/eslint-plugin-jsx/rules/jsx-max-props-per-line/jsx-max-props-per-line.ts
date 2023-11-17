@@ -10,7 +10,7 @@ import type { MessageIds, RuleOptions } from './types'
 
 function getPropName(context: RuleContext<MessageIds, RuleOptions>, propNode: Tree.JSXAttribute | Tree.JSXSpreadAttribute) {
   if (propNode.type === 'JSXSpreadAttribute')
-    return context.getSourceCode().getText(propNode.argument)
+    return context.sourceCode.getText(propNode.argument)
 
   return propNode.name.name
 }
@@ -83,7 +83,7 @@ export default createRule<MessageIds, RuleOptions>({
         }
 
     function generateFixFunction(line: (Tree.JSXAttribute | Tree.JSXSpreadAttribute)[], max: number): ReportDescriptor<MessageIds>['fix'] {
-      const sourceCode = context.getSourceCode()
+      const sourceCode = context.sourceCode
       const output = []
       const front = line[0].range[0]
       const back = line[line.length - 1].range[1]

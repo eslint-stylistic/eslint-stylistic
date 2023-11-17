@@ -66,7 +66,7 @@ export default createRule<RuleOptions, MessageIds>({
   },
   defaultOptions: ['never', {}] as unknown as RuleOptions,
   create(context, [option, config]) {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
     const text = sourceCode.getText()
 
     /**

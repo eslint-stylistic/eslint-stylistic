@@ -15,7 +15,7 @@ const JS_IDENTIFIER_REGEX = /^[_$a-zA-Z][_$a-zA-Z0-9]*$/
 export function getFromContext(context: RuleContext<any, any>): string {
   let pragma = 'React'
 
-  const sourceCode = context.getSourceCode()
+  const sourceCode = context.sourceCode
   const pragmaNode = sourceCode.getAllComments().find(node => JSX_ANNOTATION_REGEX.test(node.value))
 
   if (pragmaNode) {

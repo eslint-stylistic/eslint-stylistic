@@ -165,7 +165,7 @@ export default createRule<MessageIds, RuleOptions>({
 
           let textToReplace
           if (isJSX(expression)) {
-            const sourceCode = context.getSourceCode()
+            const sourceCode = context.sourceCode
             textToReplace = sourceCode.getText(expression)
           }
           else {
@@ -178,7 +178,7 @@ export default createRule<MessageIds, RuleOptions>({
               }"`
             }
             else if (isJSX(expression)) {
-              const sourceCode = context.getSourceCode()
+              const sourceCode = context.sourceCode
 
               textToReplace = sourceCode.getText(expression)
             }
@@ -199,7 +199,7 @@ export default createRule<MessageIds, RuleOptions>({
         node: literalNode,
         fix(fixer) {
           if (isJSX(literalNode))
-            return fixer.replaceText(literalNode, `{${context.getSourceCode().getText(literalNode)}}`)
+            return fixer.replaceText(literalNode, `{${context.sourceCode.getText(literalNode)}}`)
 
           // If a HTML entity name is found, bail out because it can be fixed
           // by either using the real character or the unicode equivalent.
@@ -241,7 +241,7 @@ export default createRule<MessageIds, RuleOptions>({
       const expression = (JSXExpressionNode as Tree.JSXExpression).expression as Tree.Literal | Tree.JSXText | Tree.TemplateLiteral
       const expressionType = expression.type
 
-      const sourceCode = context.getSourceCode()
+      const sourceCode = context.sourceCode
       // Curly braces containing comments are necessary
       if (sourceCode.getCommentsInside && sourceCode.getCommentsInside(JSXExpressionNode).length > 0)
         return

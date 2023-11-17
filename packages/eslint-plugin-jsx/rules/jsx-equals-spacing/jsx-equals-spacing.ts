@@ -43,7 +43,7 @@ export default createRule<MessageIds, RuleOptions>({
           if (!(attrNode.type !== 'JSXSpreadAttribute' && attrNode.value !== null))
             return
 
-          const sourceCode = context.getSourceCode()
+          const sourceCode = context.sourceCode
           const equalToken = sourceCode.getTokenAfter(attrNode.name)!
           const spacedBefore = sourceCode.isSpaceBetweenTokens(attrNode.name as unknown as Token, equalToken)
           const spacedAfter = sourceCode.isSpaceBetweenTokens(equalToken, attrNode.value as unknown as Token)

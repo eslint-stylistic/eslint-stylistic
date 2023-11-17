@@ -156,7 +156,7 @@ export default createRule<Options, MessageIds>({
   ],
   create(context, [options]) {
     const punctuators = [':', '=>']
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
 
     const ruleSet = createRules(options)
 

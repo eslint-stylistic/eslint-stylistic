@@ -32,7 +32,7 @@ export default createRule<RuleOptions, MessageIds>({
   ],
   create(context) {
     const rules = baseRule.create(context)
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
 
     function report(operator: TSESTree.Token): void {
       context.report({

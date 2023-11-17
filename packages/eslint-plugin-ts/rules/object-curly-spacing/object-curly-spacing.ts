@@ -29,7 +29,7 @@ export default createRule<RuleOptions, MessageIds>({
   create(context) {
     const [firstOption, secondOption] = context.options
     const spaced = firstOption === 'always'
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
 
     /**
      * Determines whether an option is set, relative to the spacing option.

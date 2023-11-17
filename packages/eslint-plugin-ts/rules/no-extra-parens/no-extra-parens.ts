@@ -26,7 +26,7 @@ export default createRule<RuleOptions, MessageIds>({
   },
   defaultOptions: ['all'],
   create(context) {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
     const rules = baseRule.create(context)
 
     function binaryExp(

@@ -28,7 +28,7 @@ export default createRule<RuleOptions, MessageIds>({
       = context.options
 
     const isAllmanStyle = style === 'allman'
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
     const rules = baseRule.create(context)
 
     /**

@@ -166,16 +166,16 @@ export default createRule<MessageIds, RuleOptions>({
           const spaceBetweenPrev = () => {
             return ((prevChild!.type === 'Literal' || prevChild!.type === 'JSXText') && prevChild!.raw.endsWith(' '))
               || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.startsWith(' '))
-              || context.getSourceCode().isSpaceBetweenTokens(prevChild as unknown as Token, child as unknown as Token)
+              || context.sourceCode.isSpaceBetweenTokens(prevChild as unknown as Token, child as unknown as Token)
           }
 
           const spaceBetweenNext = () => {
             return ((nextChild!.type === 'Literal' || nextChild!.type === 'JSXText') && nextChild!.raw.startsWith(' '))
               || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.endsWith(' '))
-              || context.getSourceCode().isSpaceBetweenTokens(child as unknown as Token, nextChild as unknown as Token)
+              || context.sourceCode.isSpaceBetweenTokens(child as unknown as Token, nextChild as unknown as Token)
           }
 
-          const source = context.getSourceCode().getText(child)
+          const source = context.sourceCode.getText(child)
           const leadingSpace = !!(prevChild && spaceBetweenPrev())
           const trailingSpace = !!(nextChild && spaceBetweenNext())
           const leadingNewLine = !!prevChild

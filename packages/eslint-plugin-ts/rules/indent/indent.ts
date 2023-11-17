@@ -371,7 +371,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       TSMappedType(node: TSESTree.TSMappedType) {
-        const sourceCode = context.getSourceCode()
+        const sourceCode = context.sourceCode
         const squareBracketStart = sourceCode.getTokenBefore(
           node.typeParameter,
         )!

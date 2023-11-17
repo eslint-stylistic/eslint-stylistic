@@ -440,7 +440,7 @@ function verifyForAlways(
     node: nextNode,
     messageId: 'expectedBlankLine',
     fix(fixer) {
-      const sourceCode = context.getSourceCode()
+      const sourceCode = context.sourceCode
       let prevToken = getActualLastToken(prevNode, sourceCode)!
       const nextToken
         = sourceCode.getFirstTokenBetween(prevToken, nextNode, {
@@ -634,7 +634,7 @@ export default createRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
 
     const configureList = context.options || []
 

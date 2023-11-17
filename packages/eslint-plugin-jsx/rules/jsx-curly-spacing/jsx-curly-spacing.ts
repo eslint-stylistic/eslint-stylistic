@@ -171,7 +171,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param spacing - a spacing value that will optionally add a space to the removed text
      */
     function fixByTrimmingWhitespace(fixer: RuleFixer, fromLoc: number, toLoc: number, mode: string, spacing: string = '') {
-      let replacementText = context.getSourceCode().text.slice(fromLoc, toLoc)
+      let replacementText = context.sourceCode.text.slice(fromLoc, toLoc)
       if (mode === 'start')
         replacementText = replacementText.replace(/^\s+/gm, '')
       else
@@ -201,7 +201,7 @@ export default createRule<MessageIds, RuleOptions>({
           token: token.value,
         },
         fix(fixer) {
-          const nextToken = context.getSourceCode().getTokenAfter(token)
+          const nextToken = context.sourceCode.getTokenAfter(token)
           return fixByTrimmingWhitespace(fixer, token.range[1], nextToken!.range[0], 'start', spacing)
         },
       })
@@ -222,7 +222,7 @@ export default createRule<MessageIds, RuleOptions>({
           token: token.value,
         },
         fix(fixer) {
-          const previousToken = context.getSourceCode().getTokenBefore(token)
+          const previousToken = context.sourceCode.getTokenBefore(token)
           return fixByTrimmingWhitespace(fixer, previousToken!.range[1], token.range[0], 'end', spacing)
         },
       })
@@ -242,7 +242,7 @@ export default createRule<MessageIds, RuleOptions>({
           token: token.value,
         },
         fix(fixer) {
-          const sourceCode = context.getSourceCode()
+          const sourceCode = context.sourceCode
           const nextToken = sourceCode.getTokenAfter(token)!
           let nextComment
 
@@ -279,7 +279,7 @@ export default createRule<MessageIds, RuleOptions>({
           token: token.value,
         },
         fix(fixer) {
-          const sourceCode = context.getSourceCode()
+          const sourceCode = context.sourceCode
           const previousToken = sourceCode.getTokenBefore(token)!
           let previousComment
 
@@ -363,7 +363,7 @@ export default createRule<MessageIds, RuleOptions>({
       if (config === null)
         return
 
-      const sourceCode = context.getSourceCode()
+      const sourceCode = context.sourceCode
       const first = sourceCode.getFirstToken(node)!
       const last = sourceCode.getLastToken(node)!
       let second = sourceCode.getTokenAfter(first, { includeComments: true })!

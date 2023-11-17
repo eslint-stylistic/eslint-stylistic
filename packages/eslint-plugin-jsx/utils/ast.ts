@@ -145,7 +145,7 @@ export function isNodeFirstInLine(context: { sourceCode: SourceCode }, node: AST
  * @param node - Node to be checked
  */
 export function isParenthesized(context: RuleContext<any, any>, node: ASTNode): boolean {
-  const sourceCode = context.getSourceCode()
+  const sourceCode = context.sourceCode
   const previousToken = sourceCode.getTokenBefore(node)
   const nextToken = sourceCode.getTokenAfter(node)
 

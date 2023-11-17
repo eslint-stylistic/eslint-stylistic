@@ -188,11 +188,11 @@ export default createRule<MessageIds, RuleOptions>({
       let spaces: string[] = []
       switch (expectedLocation) {
         case 'props-aligned':
-          indentation = /^\s*/.exec(context.getSourceCode().lines[(tokens.lastProp as LastPropLocation).firstLine - 1])![0]
+          indentation = /^\s*/.exec(context.sourceCode.lines[(tokens.lastProp as LastPropLocation).firstLine - 1])![0]
           break
         case 'tag-aligned':
         case 'line-aligned':
-          indentation = /^\s*/.exec(context.getSourceCode().lines[tokens.opening.line - 1])![0]
+          indentation = /^\s*/.exec(context.sourceCode.lines[tokens.opening.line - 1])![0]
           break
         default:
           indentation = ''
@@ -222,7 +222,7 @@ export default createRule<MessageIds, RuleOptions>({
      * prop and start of opening line.
      */
     function getTokensLocations(node: Tree.JSXOpeningElement) {
-      const sourceCode = context.getSourceCode()
+      const sourceCode = context.sourceCode
       const opening = sourceCode.getFirstToken(node)!.loc.start
       const closing = sourceCode.getLastTokens(node, node.selfClosing ? 2 : 1)[0].loc.start
       const tag = sourceCode.getFirstToken(node.name)!.loc.start
