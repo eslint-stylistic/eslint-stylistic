@@ -22,6 +22,7 @@ const GUIDES: DefaultTheme.NavItemWithLink[] = [
 
 const CONTRIBUTES: DefaultTheme.NavItemWithLink[] = [
   { text: 'Project Progress', link: '/contribute/project-progress' },
+  { text: 'Contributing', link: '/contribute/setup' },
 ]
 
 const PACKAGES: DefaultTheme.NavItemWithLink[] = [
