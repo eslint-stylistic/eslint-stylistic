@@ -360,6 +360,8 @@ async function generateConfigs(pkg: PackageInfo) {
   if (['js', 'ts', 'jsx'].includes(pkg.shortId)) {
     await fs.ensureDir(join(pkg.path, 'configs'))
 
+    const disabledRules = Object.fromEntries(pkg.rules.map(i => [i.originalId, 0] as const))
+
     await fs.writeFile(
       join(pkg.path, 'configs', 'disable-legacy.ts'),
       [

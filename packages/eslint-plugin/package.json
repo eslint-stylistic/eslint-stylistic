@@ -39,9 +39,9 @@
     "eslint": "*"
   },
   "dependencies": {
-    "@stylistic/eslint-plugin-extra": "workspace:*",
     "@stylistic/eslint-plugin-js": "workspace:*",
     "@stylistic/eslint-plugin-jsx": "workspace:*",
+    "@stylistic/eslint-plugin-plus": "workspace:*",
     "@stylistic/eslint-plugin-ts": "workspace:*"
   }
 }

@@ -3,21 +3,21 @@
 export type Schema0 =
   | []
   | [
-    | (BasicConfig & {
-      attributes?: BasicConfigOrBoolean
-      children?: BasicConfigOrBoolean
-      [k: string]: unknown
-    })
-    | ('always' | 'never'),
-  ]
-  | [
-    (
       | (BasicConfig & {
         attributes?: BasicConfigOrBoolean
         children?: BasicConfigOrBoolean
         [k: string]: unknown
       })
-      | ('always' | 'never')
+      | ('always' | 'never'),
+  ]
+  | [
+    (
+        | (BasicConfig & {
+          attributes?: BasicConfigOrBoolean
+          children?: BasicConfigOrBoolean
+          [k: string]: unknown
+        })
+        | ('always' | 'never')
     ),
     {
       allowMultiline?: boolean

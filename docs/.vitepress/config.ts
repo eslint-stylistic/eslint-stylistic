@@ -29,6 +29,7 @@ const PACKAGES: DefaultTheme.NavItemWithLink[] = [
   { text: 'JavaScript', link: '/packages/js' },
   { text: 'TypeScript', link: '/packages/ts' },
   { text: 'JSX', link: '/packages/jsx' },
+  { text: 'Additional', link: '/packages/plus' },
 ]
 
 const VERSIONS: DefaultTheme.NavItemWithLink[] = [
@@ -42,6 +43,7 @@ const packageNames: Record<string, string> = {
   js: 'JavaScript Rules',
   ts: 'TypeScript Rules',
   jsx: 'JSX Rules',
+  extra: 'Additional Rules',
 }
 
 // Because VitePress does not support rewrite single source to multiple targets,

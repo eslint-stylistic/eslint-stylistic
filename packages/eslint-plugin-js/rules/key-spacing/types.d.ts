@@ -3,13 +3,13 @@
 export type Schema0 =
   | {
     align?:
-    | ('colon' | 'value')
-    | {
-      mode?: 'strict' | 'minimum'
-      on?: 'colon' | 'value'
-      beforeColon?: boolean
-      afterColon?: boolean
-    }
+        | ('colon' | 'value')
+        | {
+          mode?: 'strict' | 'minimum'
+          on?: 'colon' | 'value'
+          beforeColon?: boolean
+          afterColon?: boolean
+        }
     mode?: 'strict' | 'minimum'
     beforeColon?: boolean
     afterColon?: boolean
@@ -22,13 +22,13 @@ export type Schema0 =
     }
     multiLine?: {
       align?:
-      | ('colon' | 'value')
-      | {
-        mode?: 'strict' | 'minimum'
-        on?: 'colon' | 'value'
-        beforeColon?: boolean
-        afterColon?: boolean
-      }
+          | ('colon' | 'value')
+          | {
+            mode?: 'strict' | 'minimum'
+            on?: 'colon' | 'value'
+            beforeColon?: boolean
+            afterColon?: boolean
+          }
       mode?: 'strict' | 'minimum'
       beforeColon?: boolean
       afterColon?: boolean

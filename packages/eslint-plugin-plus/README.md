@@ -1,4 +1,4 @@
-# @stylistic/eslint-plugin-extra
+# @stylistic/eslint-plugin-plus
 
 New rules introduced by ESLint Stylistic.
 
