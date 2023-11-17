@@ -1,8 +1,11 @@
 /* eslint perfectionist/sort-objects: "error" */
-
 import antfu from '@antfu/eslint-config'
+import JITI from 'jiti'
 
-export default antfu(
+const jiti = JITI(import.meta.url)
+const stylistic = jiti('./packages/eslint-plugin/src/index.ts').default
+
+const configs = antfu(
   {
     ignores: [
       '**/*.md',
@@ -10,6 +13,7 @@ export default antfu(
       '**/playground/**',
       'packages/metadata/src/metadata.ts',
     ],
+    jsx: true,
     markdown: false,
     vue: false,
   },
@@ -61,3 +65,18 @@ export default antfu(
     },
   },
 )
+
+const config = configs.find(i => i.name === 'antfu:stylistic')
+Object.assign(config, stylistic.configs.customize({
+  pluginName: 'style',
+}))
+Object.assign(config.rules, {
+  // Additional rules from @antfu/eslint-config
+  'antfu/consistent-list-newline': 'error',
+  'antfu/if-newline': 'error',
+  'antfu/indent-binary-ops': ['error', { indent: 2 }],
+  'antfu/top-level-function': 'error',
+  'curly': ['error', 'multi-or-nest', 'consistent'],
+})
+
+export default configs

@@ -58,7 +58,7 @@ export default createRule<MessageIds, RuleOptions>({
       empty: false,
     }
 
-    let exceptions: { openers: string[]; closers: string[] } = {
+    let exceptions: { openers: string[], closers: string[] } = {
       openers: [],
       closers: [],
     }

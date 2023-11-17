@@ -114,7 +114,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param {ASTNode} expression The expression inside the curly
      * @returns {void}
      */
-    function validateCurlys(curlys: { leftCurly: Tree.Token; rightCurly: Tree.Token }, expression: ASTNode) {
+    function validateCurlys(curlys: { leftCurly: Tree.Token, rightCurly: Tree.Token }, expression: ASTNode) {
       const leftCurly = curlys.leftCurly
       const rightCurly = curlys.rightCurly
       const tokenAfterLeftCurly = sourceCode.getTokenAfter(leftCurly)

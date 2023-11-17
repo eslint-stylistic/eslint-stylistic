@@ -52,7 +52,7 @@ function isReservedPropName(name: unknown, list: unknown[]) {
   return list.includes(name)
 }
 
-let attributeMap: WeakMap<Tree.JSXAttribute, { end: number; hasComment: boolean }>
+let attributeMap: WeakMap<Tree.JSXAttribute, { end: number, hasComment: boolean }>
 // attributeMap = { end: endrange, hasComment: true||false if comment in between nodes exists, it needs to be sorted to end }
 
 function shouldSortToEnd(node: Tree.JSXAttribute) {
@@ -248,7 +248,7 @@ function generateFixerFunction(node: Tree.JSXOpeningElement, context: Readonly<R
     .map(group => [...group].sort((a, b) => contextCompare(a, b, options)))
 
   return function fixFunction(fixer: RuleFixer) {
-    const fixers: { range: [number, number]; text: string }[] = []
+    const fixers: { range: [number, number], text: string }[] = []
     let source = sourceCode.getText()
 
     sortableAttributeGroups.forEach((sortableGroup, ii) => {

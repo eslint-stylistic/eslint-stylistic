@@ -28,11 +28,11 @@ const NEITHER = { before: false, after: false }
  * @param {object} value A value to override.
  * @returns {object} An option object to test an "overrides" option.
  */
-function override(keyword: string, value: { before?: boolean; after?: boolean }) {
+function override(keyword: string, value: { before?: boolean, after?: boolean }) {
   const retv = {
     before: value.before === false,
     after: value.after === false,
-    overrides: <Record<string, { before?: boolean; after?: boolean }>>{},
+    overrides: <Record<string, { before?: boolean, after?: boolean }>>{},
   }
 
   retv.overrides[keyword] = value

@@ -1,7 +1,6 @@
 import { fileURLToPath } from 'node:url'
-import { defineConfig } from 'vitest/config'
 
-export default defineConfig({
+export default {
   resolve: {
     alias: {
       '@stylistic/eslint-plugin': fileURLToPath(new URL('./packages/eslint-plugin/src/index.ts', import.meta.url)),
@@ -11,8 +10,4 @@ export default defineConfig({
       '@eslint-stylistic/metadata': fileURLToPath(new URL('./packages/metadata/src/index.ts', import.meta.url)),
     },
   },
-  test: {
-    globals: true,
-    reporters: 'dot',
-  },
-})
+}

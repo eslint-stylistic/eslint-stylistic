@@ -112,7 +112,7 @@ export default createRule<MessageIds, RuleOptions>({
     type ReportsBuffer = {
       upper: ReportsBuffer
       inExpressionNodes: ASTNode[]
-      reports: { node: ASTNode; finishReport: () => void }[]
+      reports: { node: ASTNode, finishReport: () => void }[]
     } | undefined
     let reportsBuffer: ReportsBuffer
 

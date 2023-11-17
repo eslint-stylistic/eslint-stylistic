@@ -78,7 +78,7 @@ export default createRule({
      * @param {object} defaults The defaults to use if options are not present
      * @returns {object} the resolved object definition
      */
-    function optionToDefinition(option: keyof typeof optionDefinitions | unknown, defaults: { before: boolean; after: boolean }) {
+    function optionToDefinition(option: keyof typeof optionDefinitions | unknown, defaults: { before: boolean, after: boolean }) {
       if (!option)
         return defaults
 

@@ -123,7 +123,7 @@ function areLineBreaksRequired(
     | Tree.ObjectPattern
     | Tree.ImportDeclaration
     | Tree.ExportNamedDeclaration,
-  options: { multiline: boolean; minProperties: number; consistent: boolean },
+  options: { multiline: boolean, minProperties: number, consistent: boolean },
   first: Token,
   last: Token,
 ) {
