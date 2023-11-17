@@ -23,6 +23,7 @@ export interface Schema0 {
   allowModuleEnd?: boolean
   ignorePattern?: string
   applyDefaultIgnorePatterns?: boolean
+  afterHashbangComment?: boolean
 }
 
 export type RuleOptions = [Schema0?]
