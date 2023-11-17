@@ -3,8 +3,10 @@
  * @author ryym
  */
 
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import report from '../../utils/report'
+import type { Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
   noSpaceBefore: 'There should be no space before \'=\'',
@@ -13,11 +15,11 @@ const messages = {
   needSpaceAfter: 'A space is required after \'=\'',
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
     docs: {
       description: 'Enforce or disallow spaces around equal signs in JSX attributes',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-equals-spacing'),
     },
     fixable: 'code',
@@ -25,6 +27,7 @@ export default {
     messages,
 
     schema: [{
+      type: 'string',
       enum: ['always', 'never'],
     }],
   },
@@ -37,7 +40,7 @@ export default {
      * @param {ASTNode} attrNode - The attribute node.
      * @returns {boolean} Whether or not the attriute node has an equal sign.
      */
-    function hasEqual(attrNode) {
+    function hasEqual(attrNode: Tree.JSXAttribute | Tree.JSXSpreadAttribute): attrNode is Tree.JSXAttribute {
       return attrNode.type !== 'JSXSpreadAttribute' && attrNode.value !== null
     }
 
@@ -47,14 +50,15 @@ export default {
           if (!hasEqual(attrNode))
             return
 
-          const sourceCode = context.getSourceCode()
-          const equalToken = sourceCode.getTokenAfter(attrNode.name)
-          const spacedBefore = sourceCode.isSpaceBetweenTokens(attrNode.name, equalToken)
-          const spacedAfter = sourceCode.isSpaceBetweenTokens(equalToken, attrNode.value)
+          const sourceCode = context.sourceCode
+          const equalToken = sourceCode.getTokenAfter(attrNode.name)!
+          const spacedBefore = sourceCode.isSpaceBetween?.(attrNode.name, equalToken)
+          const spacedAfter = sourceCode.isSpaceBetween?.(equalToken, attrNode.value!)
 
           if (config === 'never') {
             if (spacedBefore) {
-              report(context, messages.noSpaceBefore, 'noSpaceBefore', {
+              context.report({
+                messageId: 'noSpaceBefore',
                 node: attrNode,
                 loc: equalToken.loc.start,
                 fix(fixer) {
@@ -63,18 +67,20 @@ export default {
               })
             }
             if (spacedAfter) {
-              report(context, messages.noSpaceAfter, 'noSpaceAfter', {
+              context.report({
+                messageId: 'noSpaceAfter',
                 node: attrNode,
                 loc: equalToken.loc.start,
                 fix(fixer) {
-                  return fixer.removeRange([equalToken.range[1], attrNode.value.range[0]])
+                  return fixer.removeRange([equalToken.range[1], attrNode.value!.range[0]])
                 },
               })
             }
           }
           else if (config === 'always') {
             if (!spacedBefore) {
-              report(context, messages.needSpaceBefore, 'needSpaceBefore', {
+              context.report({
+                messageId: 'needSpaceBefore',
                 node: attrNode,
                 loc: equalToken.loc.start,
                 fix(fixer) {
@@ -83,7 +89,8 @@ export default {
               })
             }
             if (!spacedAfter) {
-              report(context, messages.needSpaceAfter, 'needSpaceAfter', {
+              context.report({
+                messageId: 'needSpaceAfter',
                 node: attrNode,
                 loc: equalToken.loc.start,
                 fix(fixer) {
@@ -96,4 +103,4 @@ export default {
       },
     }
   },
-}
+})
