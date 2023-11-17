@@ -3,7 +3,7 @@
  * @author Yannick Croissant
  */
 
-import type { Rule } from 'eslint'
+import type { RuleContext } from './types'
 
 const JSX_ANNOTATION_REGEX = /@jsx\s+([^\s]+)/
 // Does not check for reserved keywords or unicode characters
@@ -13,7 +13,7 @@ const JS_IDENTIFIER_REGEX = /^[_$a-zA-Z][_$a-zA-Z0-9]*$/
  * @param {Context} context
  * @returns {string}
  */
-export function getFromContext(context: Rule.RuleContext) {
+export function getFromContext(context: RuleContext<any, any>): string {
   let pragma = 'React'
 
   const sourceCode = context.getSourceCode()
@@ -24,7 +24,9 @@ export function getFromContext(context: Rule.RuleContext) {
     pragma = matches[1].split('.')[0]
     // .eslintrc shared settings (https://eslint.org/docs/user-guide/configuring#adding-shared-settings)
   }
+  // @ts-expect-error missing types
   else if (context.settings.react && context.settings.react.pragma) {
+    // @ts-expect-error missing types
     pragma = context.settings.react.pragma
   }
 

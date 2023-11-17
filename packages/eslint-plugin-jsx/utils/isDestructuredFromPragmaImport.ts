@@ -1,6 +1,7 @@
 import type { Rule } from 'eslint'
 import { getFromContext } from './pragma'
 import { getLatestVariableDefinition, getVariable, variablesInScope } from './variable'
+import type { RuleContext } from './types'
 
 /**
  * Check if variable is destructured from pragma import
@@ -9,7 +10,7 @@ import { getLatestVariableDefinition, getVariable, variablesInScope } from './va
  * @param {Context} context eslint context
  * @returns {boolean} True if createElement is destructured from the pragma
  */
-export function isDestructuredFromPragmaImport(variable: string, context: Rule.RuleContext) {
+export function isDestructuredFromPragmaImport(variable: string, context: RuleContext<any, any>) {
   const pragma = getFromContext(context)
   const variables = variablesInScope(context)
   const variableInScope = getVariable(variables, variable)
@@ -52,8 +53,10 @@ export function isDestructuredFromPragmaImport(variable: string, context: Rule.R
         if (
           requireExpression
           && requireExpression.callee
+          // @ts-expect-error cast
           && requireExpression.callee.name === 'require'
           && requireExpression.arguments[0]
+          // @ts-expect-error cast
           && requireExpression.arguments[0].value === pragma.toLocaleLowerCase()
         )
           return true

@@ -3,9 +3,11 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
 import { isWhiteSpaces } from '../../utils/jsx'
-import report from '../../utils/report'
+import type { ASTNode, Token, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 const optionDefaults = {
   allow: 'none',
@@ -15,13 +17,17 @@ const messages = {
   moveToNewLine: '`{{descriptor}}` must be placed on a new line',
 }
 
-export default {
+type Child = Tree.JSXChild | Tree.JSXText | Tree.Literal
+
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
+
     docs: {
       description: 'Require one JSX element per line',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-one-expression-per-line'),
     },
+
     fixable: 'whitespace',
 
     messages,
@@ -31,6 +37,7 @@ export default {
         type: 'object',
         properties: {
           allow: {
+            type: 'string',
             enum: ['none', 'literal', 'single-child'],
           },
         },
@@ -41,24 +48,26 @@ export default {
   },
 
   create(context) {
-    const options = Object.assign({}, optionDefaults, context.options[0])
+    const options: NonNullable<RuleOptions[0]> = Object.assign({}, optionDefaults, context.options[0])
 
-    function nodeKey(node) {
+    function nodeKey(node: ASTNode) {
       return `${node.loc.start.line},${node.loc.start.column}`
     }
 
-    function nodeDescriptor(n) {
-      return n.openingElement ? n.openingElement.name.name : context.getSourceCode().getText(n).replace(/\n/g, '')
+    function nodeDescriptor(n: Child): string {
+      return ('openingElement' in n && n.openingElement && 'name' in n.openingElement.name)
+        ? String(n.openingElement.name.name)
+        : context.sourceCode.getText(n).replace(/\n/g, '')
     }
 
-    function handleJSX(node) {
-      const children = node.children
+    function handleJSX(node: Tree.JSXElement | Tree.JSXFragment) {
+      const children = node.children as Child[]
 
       if (!children || !children.length)
         return
 
-      const openingElement = node.openingElement || node.openingFragment
-      const closingElement = node.closingElement || node.closingFragment
+      const openingElement = (<Tree.JSXElement>node).openingElement || (<Tree.JSXFragment>node).openingFragment
+      const closingElement = (<Tree.JSXElement>node).closingElement || (<Tree.JSXFragment>node).closingFragment
       const openingElementStartLine = openingElement.loc.start.line
       const openingElementEndLine = openingElement.loc.end.line
       const closingElementStartLine = closingElement.loc.start.line
@@ -81,8 +90,16 @@ export default {
         }
       }
 
-      const childrenGroupedByLine = {}
-      const fixDetailsByNode = {}
+      const childrenGroupedByLine: Record<number, Child[]> = {}
+      const fixDetailsByNode: Record<string, {
+        node: Child | Tree.JSXOpeningElement | Tree.JSXClosingElement | Tree.JSXClosingFragment
+        source: string
+        descriptor: string
+        leadingSpace?: boolean
+        trailingSpace?: boolean
+        leadingNewLine?: boolean
+        trailingNewLine?: boolean
+      }> = {}
 
       children.forEach((child) => {
         let countNewLinesBeforeContent = 0
@@ -123,8 +140,8 @@ export default {
         const lastIndex = childrenGroupedByLine[line].length - 1
 
         childrenGroupedByLine[line].forEach((child, i) => {
-          let prevChild
-          let nextChild
+          let prevChild: Child | Tree.JSXOpeningElement | Tree.JSXClosingElement | Tree.JSXClosingFragment | undefined
+          let nextChild: Child | Tree.JSXOpeningElement | Tree.JSXClosingElement | Tree.JSXClosingFragment | undefined
 
           if (i === firstIndex) {
             if (line === openingElementEndLine)
@@ -143,20 +160,20 @@ export default {
             // nextChild = childrenGroupedByLine[line][i + 1];
           }
 
-          function spaceBetweenPrev() {
-            return ((prevChild.type === 'Literal' || prevChild.type === 'JSXText') && prevChild.raw.endsWith(' '))
-              || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.startsWith(' '))
-              || context.getSourceCode().isSpaceBetweenTokens(prevChild, child)
-          }
-
-          function spaceBetweenNext() {
-            return ((nextChild.type === 'Literal' || nextChild.type === 'JSXText') && nextChild.raw.startsWith(' '))
-              || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.endsWith(' '))
-              || context.getSourceCode().isSpaceBetweenTokens(child, nextChild)
-          }
-
           if (!prevChild && !nextChild)
             return
+
+          const spaceBetweenPrev = () => {
+            return ((prevChild!.type === 'Literal' || prevChild!.type === 'JSXText') && prevChild!.raw.endsWith(' '))
+              || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.startsWith(' '))
+              || context.getSourceCode().isSpaceBetweenTokens(prevChild as unknown as Token, child as unknown as Token)
+          }
+
+          const spaceBetweenNext = () => {
+            return ((nextChild!.type === 'Literal' || nextChild!.type === 'JSXText') && nextChild!.raw.startsWith(' '))
+              || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.endsWith(' '))
+              || context.getSourceCode().isSpaceBetweenTokens(child as unknown as Token, nextChild as unknown as Token)
+          }
 
           const source = context.getSourceCode().getText(child)
           const leadingSpace = !!(prevChild && spaceBetweenPrev())
@@ -202,7 +219,8 @@ export default {
 
         const replaceText = `${leadingSpaceString}${leadingNewLineString}${source}${trailingNewLineString}${trailingSpaceString}`
 
-        report(context, messages.moveToNewLine, 'moveToNewLine', {
+        context.report({
+          messageId: 'moveToNewLine',
           node: nodeToReport,
           data: {
             descriptor,
@@ -219,4 +237,4 @@ export default {
       JSXFragment: handleJSX,
     }
   },
-}
+})
