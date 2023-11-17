@@ -971,14 +971,14 @@ export default createRule<MessageIds, RuleOptions>({
       },
 
       'ForStatement > *.init:exit': function (node) {
-        /*
-                 * Removing parentheses around `in` expressions might change semantics and cause errors.
-                 *
-                 * For example, this valid for loop:
-                 *      for (let a = (b in c); ;);
-                 * after removing parentheses would be treated as an invalid for-in loop:
-                 *      for (let a = b in c; ;);
-                 */
+        /**
+         * Removing parentheses around `in` expressions might change semantics and cause errors.
+         *
+         * For example, this valid for loop:
+         *      for (let a = (b in c); ;);
+         * after removing parentheses would be treated as an invalid for-in loop:
+         *      for (let a = b in c; ;);
+         */
 
         if (reportsBuffer?.reports.length) {
           reportsBuffer.inExpressionNodes.forEach((inExpressionNode) => {

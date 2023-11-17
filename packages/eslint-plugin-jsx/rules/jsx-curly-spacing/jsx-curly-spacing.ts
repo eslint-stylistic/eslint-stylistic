@@ -244,17 +244,7 @@ export default createRule<MessageIds, RuleOptions>({
         fix(fixer) {
           const sourceCode = context.sourceCode
           const nextToken = sourceCode.getTokenAfter(token)!
-          let nextComment
-
-          // eslint >=4.x
-          if (sourceCode.getCommentsAfter) {
-            nextComment = sourceCode.getCommentsAfter(token)
-          // eslint 3.x
-          }
-          else {
-            const potentialComment = sourceCode.getTokenAfter(token, { includeComments: true })
-            nextComment = nextToken === potentialComment ? [] : [potentialComment]
-          }
+          const nextComment = sourceCode.getCommentsAfter(token)
 
           // Take comments into consideration to narrow the fix range to what is actually affected. (See #1414)
           if (nextComment.length > 0)
@@ -281,17 +271,7 @@ export default createRule<MessageIds, RuleOptions>({
         fix(fixer) {
           const sourceCode = context.sourceCode
           const previousToken = sourceCode.getTokenBefore(token)!
-          let previousComment
-
-          // eslint >=4.x
-          if (sourceCode.getCommentsBefore) {
-            previousComment = sourceCode.getCommentsBefore(token)
-          // eslint 3.x
-          }
-          else {
-            const potentialComment = sourceCode.getTokenBefore(token, { includeComments: true })
-            previousComment = previousToken === potentialComment ? [] : [potentialComment]
-          }
+          const previousComment = sourceCode.getCommentsBefore(token)
 
           // Take comments into consideration to narrow the fix range to what is actually affected. (See #1414)
           if (previousComment.length > 0)
