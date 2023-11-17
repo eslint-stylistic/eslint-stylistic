@@ -1,6 +1,6 @@
 // @ts-check
 
-import stylistic from '@stylistic/eslint-plugin'
+import stylistic from '@stylistic/eslint-plugin';
 
 /** @type {import('../playground-types').TypedFlatConfig[]} */
 export default [
@@ -13,4 +13,4 @@ export default [
       // your configs
     },
   },
-]
+];
