@@ -16,8 +16,11 @@ import stylistic from '@stylistic/eslint-plugin'
 
 export default [
   stylistic.configs.customize({
+    // the following options are the default values
     indent: 2,
     quotes: 'single',
+    semi: false,
+    jsx: true,
     // ...
   }),
   // ...you other config items
@@ -29,8 +32,11 @@ export default [
 const stylistic = require('@stylistic/eslint-plugin')
 
 const customized = stylistic.configs.customize({
+  // the following options are the default values
   indent: 2,
   quotes: 'single',
+  semi: false,
+  jsx: true,
   // ...
 })
 
@@ -49,9 +55,18 @@ module.exports = {
 
 ## Pre-configured
 
-If you agree with our default, we also provide some pre-configured static configurations for you to use easily.
+If you agree with our defaults, we also provide some pre-configured static configurations for you to use easily.
 
-By default it's `indent: 2, quotes: 'single', jsx: true`:
+By default is:
+
+```js
+{
+  indent: 2,
+  quotes: 'single',
+  semi: false,
+  jsx: true,
+}
+```
 
 ::: code-group
 
