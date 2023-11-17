@@ -18,7 +18,8 @@
     "typecheck": "vue-tsc --noEmit",
     "prepare": "simple-git-hooks",
     "docs": "pnpm -C docs run docs:dev",
-    "docs:build": "pnpm -C docs run docs:build"
+    "docs:build": "pnpm -C docs run docs:build",
+    "play:lint": "pnpm -C playground run lint"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^1.1.4",
