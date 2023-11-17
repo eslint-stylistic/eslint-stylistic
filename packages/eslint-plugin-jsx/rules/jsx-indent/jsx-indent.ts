@@ -102,9 +102,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Responsible for fixing the indentation issue fix
-     * @param {ASTNode} node Node violating the indent rule
-     * @param {number} needed Expected indentation character count
-     * @returns {Function} function to be executed by the fixer
+     * @param node Node violating the indent rule
+     * @param needed Expected indentation character count
+     * @returns function to be executed by the fixer
      * @private
      */
     function getFixerFunction(node: ASTNode, needed: number): ReportFixFunction {
@@ -143,10 +143,10 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports a given indent violation and properly pluralizes the message
-     * @param {ASTNode} node Node violating the indent rule
-     * @param {number} needed Expected indentation character count
-     * @param {number} gotten Indentation character count in the actual node/code
-     * @param {object} [loc] Error line and column location
+     * @param node Node violating the indent rule
+     * @param needed Expected indentation character count
+     * @param gotten Indentation character count in the actual node/code
+     * @param [loc] Error line and column location
      */
     function report(node: ASTNode, needed: number, gotten: number, loc?: ASTNode['loc']) {
       const msgContext = {
@@ -167,9 +167,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Get node indent
-     * @param {ASTNode} node Node to examine
-     * @param {boolean} [byLastLine] get indent of node's last line
-     * @param {boolean} [excludeCommas] skip comma on start of line
+     * @param node Node to examine
+     * @param [byLastLine] get indent of node's last line
+     * @param [excludeCommas] skip comma on start of line
      * @return {number} Indent
      */
     function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
@@ -194,7 +194,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check if the node is the right member of a logical expression
-     * @param {ASTNode} node The node to check
+     * @param node The node to check
      * @return {boolean} true if its the case, false if not
      */
     function isRightInLogicalExp(node: ASTNode) {
@@ -209,7 +209,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check if the node is the alternate member of a conditional expression
-     * @param {ASTNode} node The node to check
+     * @param node The node to check
      * @return {boolean} true if its the case, false if not
      */
     function isAlternateInConditionalExp(node: ASTNode) {
@@ -224,7 +224,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check if the node is within a DoExpression block but not the first expression (which need to be indented)
-     * @param {ASTNode} node The node to check
+     * @param node The node to check
      * @return {boolean} true if its the case, false if not
      */
     function isSecondOrSubsequentExpWithinDoExp(node: ASTNode) {
@@ -292,9 +292,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check indent for nodes list
-     * @param {ASTNode} node The node to check
-     * @param {number} indent needed indent
-     * @param {boolean} [excludeCommas] skip comma on start of line
+     * @param node The node to check
+     * @param indent needed indent
+     * @param [excludeCommas] skip comma on start of line
      */
     function checkNodesIndent(node: ASTNode, indent: number, excludeCommas = false) {
       const nodeIndent = getNodeIndent(node, false, excludeCommas)
@@ -311,8 +311,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check indent for Literal Node or JSXText Node
-     * @param {ASTNode} node The node to check
-     * @param {number} indent needed indent
+     * @param node The node to check
+     * @param indent needed indent
      */
     function checkLiteralNodeIndent(node: Tree.Literal | Tree.JSXText, indent: number) {
       const value = node.value

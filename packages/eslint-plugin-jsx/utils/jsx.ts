@@ -13,8 +13,8 @@ const COMPAT_TAG_REGEX = /^[a-z]/
 
 /**
  * Checks if a node represents a DOM element according to React.
- * @param {object} node - JSXOpeningElement to check.
- * @returns {boolean} Whether or not the node corresponds to a DOM element.
+ * @param node - JSXOpeningElement to check.
+ * @returns Whether or not the node corresponds to a DOM element.
  */
 export function isDOMComponent(node: Tree.JSXOpeningElement | Tree.JSXOpeningFragment) {
   const name = getElementType(node)
@@ -23,8 +23,8 @@ export function isDOMComponent(node: Tree.JSXOpeningElement | Tree.JSXOpeningFra
 
 /**
  * Checks if a node represents a JSX element or fragment.
- * @param {object} node - node to check.
- * @returns {boolean} Whether or not the node if a JSX element or fragment.
+ * @param node - node to check.
+ * @returns Whether or not the node if a JSX element or fragment.
  */
 export function isJSX(node: ASTNode): node is (Tree.JSXElement | Tree.JSXFragment) {
   return node && ['JSXElement', 'JSXFragment'].includes(node.type)
@@ -32,8 +32,7 @@ export function isJSX(node: ASTNode): node is (Tree.JSXElement | Tree.JSXFragmen
 
 /**
  * Check if value has only whitespaces
- * @param {string} value
- * @returns {boolean}
+ * @param value
  */
 export function isWhiteSpaces(value: string): boolean {
   return typeof value === 'string' ? /^\s*$/.test(value) : false
@@ -42,11 +41,11 @@ export function isWhiteSpaces(value: string): boolean {
 /**
  * Check if the node is returning JSX or null
  *
- * @param {ASTNode} ASTnode The AST node being checked
- * @param {Context} context The context of `ASTNode`.
- * @param {boolean} [strict] If true, in a ternary condition the node must return JSX in both cases
- * @param {boolean} [ignoreNull] If true, null return values will be ignored
- * @returns {boolean} True if the node is returning JSX or null, false if not
+ * @param ASTnode The AST node being checked
+ * @param context The context of `ASTNode`.
+ * @param [strict] If true, in a ternary condition the node must return JSX in both cases
+ * @param [ignoreNull] If true, null return values will be ignored
+ * @returns True if the node is returning JSX or null, false if not
  */
 export function isReturningJSX(ASTnode: ASTNode, context: RuleContext<any, any>, strict = false, ignoreNull = false) {
   const isJSXValue = (node: ASTNode | ESNode | null | undefined): boolean => {

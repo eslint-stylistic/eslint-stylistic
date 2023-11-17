@@ -119,10 +119,10 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks whether a given node should be ignored by options or not.
-     * @param {ASTNode} node A node to check. This is a BinaryExpression
+     * @param node A node to check. This is a BinaryExpression
      *      node or a LogicalExpression node. This parent node is one of
      *      them, too.
-     * @returns {boolean} `true` if the node should be ignored.
+     * @returns `true` if the node should be ignored.
      */
     function shouldIgnore(node: NodeType): boolean {
       const a = node
@@ -158,9 +158,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Gets the operator token of a given node.
-     * @param {ASTNode} node A node to check. This is a BinaryExpression
+     * @param node A node to check. This is a BinaryExpression
      *      node or a LogicalExpression node.
-     * @returns {Token} The operator token of the node.
+     * @returns The operator token of the node.
      */
     function getOperatorToken(node: NodeType): Tree.Token {
       return sourceCode.getTokenAfter(getChildNode(node), isNotClosingParenToken)!

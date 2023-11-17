@@ -36,8 +36,8 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Determine if provided keyword is a variant of for specifiers
      * @private
-     * @param {string} keyword keyword to test
-     * @returns {boolean} True if `keyword` is a variant of for specifier
+     * @param keyword keyword to test
+     * @returns True if `keyword` is a variant of for specifier
      */
     function isForTypeSpecifier(keyword: NodeTypes) {
       return keyword === 'ForStatement' || keyword === 'ForInStatement' || keyword === 'ForOfStatement'
@@ -46,8 +46,7 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Checks newlines around variable declarations.
      * @private
-     * @param {ASTNode} node `VariableDeclaration` node to test
-     * @returns {void}
+     * @param node `VariableDeclaration` node to test
      */
     function checkForNewLine(node: Tree.VariableDeclaration) {
       if (isForTypeSpecifier(node.parent.type))

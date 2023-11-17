@@ -53,8 +53,8 @@ export default createRule<MessageIds, RuleOptions>({
      * Determines whether an option is set, relative to the spacing option.
      * If spaced is "always", then check whether option is set to false.
      * If spaced is "never", then check whether option is set to true.
-     * @param {object} option The option to exclude.
-     * @returns {boolean} Whether or not the property is excluded.
+     * @param option The option to exclude.
+     * @returns Whether or not the property is excluded.
      */
     function isOptionSet(option: keyof NonNullable<RuleOptions[1]>): boolean {
       return context.options[1] ? context.options[1][option] === !spaced : false
@@ -68,9 +68,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports that there shouldn't be a space after the first token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
     function reportNoBeginningSpace(node: ASTNode, token: Token) {
       const nextToken = context.sourceCode.getTokenAfter(token, { includeComments: true })!
@@ -90,9 +89,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports that there shouldn't be a space before the last token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
     function reportNoEndingSpace(node: ASTNode, token: Token) {
       const previousToken = context.sourceCode.getTokenBefore(token, { includeComments: true })!
@@ -112,9 +110,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports that there should be a space after the first token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
     function reportRequiredBeginningSpace(node: ASTNode, token: Token) {
       context.report({
@@ -132,9 +129,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports that there should be a space before the last token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
     function reportRequiredEndingSpace(node: ASTNode, token: Token) {
       context.report({
@@ -152,12 +148,11 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines if spacing in curly braces is valid.
-     * @param {ASTNode} node The AST node to check.
-     * @param {Token} first The first token to check (should be the opening brace)
-     * @param {Token} second The second token to check (should be first after the opening brace)
-     * @param {Token} penultimate The penultimate token to check (should be last before closing brace)
-     * @param {Token} last The last token to check (should be closing brace)
-     * @returns {void}
+     * @param node The AST node to check.
+     * @param first The first token to check (should be the opening brace)
+     * @param second The second token to check (should be first after the opening brace)
+     * @param penultimate The penultimate token to check (should be last before closing brace)
+     * @param last The last token to check (should be closing brace)
      */
     function validateBraceSpacing(node: ASTNode, first: Token, second: Token, penultimate: Token, last: Token) {
       if (isTokenOnSameLine(first, second)) {
@@ -198,10 +193,10 @@ export default createRule<MessageIds, RuleOptions>({
      * Because the last token of object patterns might be a type annotation,
      * this traverses tokens preceded by the last property, then returns the
      * first '}' token.
-     * @param {ASTNode} node The node to get. This node is an
+     * @param node The node to get. This node is an
      *      ObjectExpression or an ObjectPattern. And this node has one or
      *      more properties.
-     * @returns {Token} '}' token.
+     * @returns '}' token.
      */
     function getClosingBraceOfObject(
       node:
@@ -215,8 +210,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports a given object node if spacing in curly braces is invalid.
-     * @param {ASTNode} node An ObjectExpression or ObjectPattern node to check.
-     * @returns {void}
+     * @param node An ObjectExpression or ObjectPattern node to check.
      */
     function checkForObject(node:
       | Tree.ObjectExpression
@@ -234,8 +228,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports a given import node if spacing in curly braces is invalid.
-     * @param {ASTNode} node An ImportDeclaration node to check.
-     * @returns {void}
+     * @param node An ImportDeclaration node to check.
      */
     function checkForImport(node: Tree.ImportDeclaration) {
       if (node.specifiers.length === 0)
@@ -260,8 +253,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports a given export node if spacing in curly braces is invalid.
-     * @param {ASTNode} node An ExportNamedDeclaration node to check.
-     * @returns {void}
+     * @param node An ExportNamedDeclaration node to check.
      */
     function checkForExport(node: Tree.ExportNamedDeclaration) {
       if (node.specifiers.length === 0)

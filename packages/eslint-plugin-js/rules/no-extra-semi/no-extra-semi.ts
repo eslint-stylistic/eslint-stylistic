@@ -32,8 +32,8 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Checks if a node or token is fixable.
      * A node is fixable if it can be removed without turning a subsequent statement into a directive after fixing other nodes.
-     * @param {Token} nodeOrToken The node or token to check.
-     * @returns {boolean} Whether or not the node is fixable.
+     * @param nodeOrToken The node or token to check.
+     * @returns Whether or not the node is fixable.
      */
     function isFixable(nodeOrToken: Token) {
       const nextToken = sourceCode.getTokenAfter(nodeOrToken)
@@ -48,8 +48,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports an unnecessary semicolon error.
-     * @param {ASTNode|Token} nodeOrToken A node or a token to be reported.
-     * @returns {void}
+     * @param nodeOrToken A node or a token to be reported.
      */
     function report(nodeOrToken: Token | ASTNode) {
       context.report({
@@ -71,8 +70,7 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Checks for a part of a class body.
      * This checks tokens from a specified token to a next MethodDefinition or the end of class body.
-     * @param {Token} firstToken The first token to check.
-     * @returns {void}
+     * @param firstToken The first token to check.
      */
     function checkForPartOfClassBody(firstToken: Token) {
       for (let token = firstToken;
@@ -87,8 +85,7 @@ export default createRule<MessageIds, RuleOptions>({
     return {
       /**
        * Reports this empty statement, except if the parent node is a loop.
-       * @param {ASTNode} node A EmptyStatement node to be reported.
-       * @returns {void}
+       * @param node A EmptyStatement node to be reported.
        */
       EmptyStatement(node: ASTNode) {
         const parent = node.parent
@@ -109,8 +106,7 @@ export default createRule<MessageIds, RuleOptions>({
 
       /**
        * Checks tokens from the head of this class body to the first MethodDefinition or the end of this class body.
-       * @param {ASTNode} node A ClassBody node to check.
-       * @returns {void}
+       * @param node A ClassBody node to check.
        */
       ClassBody(node: ASTNode) {
         checkForPartOfClassBody(sourceCode.getFirstToken(node, 1)!) // 0 is `{`.
@@ -118,8 +114,7 @@ export default createRule<MessageIds, RuleOptions>({
 
       /**
        * Checks tokens from this MethodDefinition to the next MethodDefinition or the end of this class body.
-       * @param {ASTNode} node A MethodDefinition node of the start point.
-       * @returns {void}
+       * @param node A MethodDefinition node of the start point.
        */
       'MethodDefinition, PropertyDefinition, StaticBlock': function (node: ASTNode) {
         checkForPartOfClassBody(sourceCode.getTokenAfter(node)!)

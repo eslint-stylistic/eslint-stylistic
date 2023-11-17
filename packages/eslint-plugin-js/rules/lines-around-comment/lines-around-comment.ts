@@ -10,8 +10,8 @@ import type { MessageIds, RuleOptions } from './types'
 
 /**
  * Return an array with any line numbers that are empty.
- * @param {Array} lines An array of each line of the file.
- * @returns {Array} An array of line numbers.
+ * @param lines An array of each line of the file.
+ * @returns An array of line numbers.
  */
 function getEmptyLineNums(lines: string[]) {
   const emptyLines = lines.map((line, i) => ({
@@ -24,8 +24,8 @@ function getEmptyLineNums(lines: string[]) {
 
 /**
  * Return an array with any line numbers that contain comments.
- * @param {Array} comments An array of comment tokens.
- * @returns {Array} An array of line numbers.
+ * @param comments An array of comment tokens.
+ * @returns An array of line numbers.
  */
 function getCommentLineNums(comments: Token[]) {
   const lines: number[] = []
@@ -136,8 +136,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Returns whether or not comments are on lines starting with or ending with code
-     * @param {token} token The comment token to check.
-     * @returns {boolean} True if the comment is not alone.
+     * @param token The comment token to check.
+     * @returns True if the comment is not alone.
      */
     function codeAroundComment(token: Token) {
       let currentToken: Token | null = token
@@ -162,9 +162,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Returns whether or not comments are inside a node type or not.
-     * @param {ASTNode} parent The Comment parent node.
-     * @param {string} nodeType The parent type to check against.
-     * @returns {boolean} True if the comment is inside nodeType.
+     * @param parent The Comment parent node.
+     * @param nodeType The parent type to check against.
+     * @returns True if the comment is inside nodeType.
      */
     function isParentNodeType<T extends NodeTypes>(
       parent: ASTNode,
@@ -175,8 +175,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Returns the parent node that contains the given token.
-     * @param {token} token The token to check.
-     * @returns {ASTNode|null} The parent node that contains the given token.
+     * @param token The token to check.
+     * @returns The parent node that contains the given token.
      */
     function getParentNodeOfToken(token: Token): ASTNode | null {
       const node = sourceCode.getNodeByRangeIndex(token.range[0])
@@ -213,9 +213,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Returns whether or not comments are at the parent start or not.
-     * @param {token} token The Comment token.
-     * @param {string} nodeType The parent type to check against.
-     * @returns {boolean} True if the comment is at parent start.
+     * @param token The Comment token.
+     * @param nodeType The parent type to check against.
+     * @returns True if the comment is at parent start.
      */
     function isCommentAtParentStart(token: Token, nodeType: NodeTypes) {
       const parent = getParentNodeOfToken(token)
@@ -240,9 +240,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Returns whether or not comments are at the parent end or not.
-     * @param {token} token The Comment token.
-     * @param {string} nodeType The parent type to check against.
-     * @returns {boolean} True if the comment is at parent end.
+     * @param token The Comment token.
+     * @param nodeType The parent type to check against.
+     * @returns True if the comment is at parent end.
      */
     function isCommentAtParentEnd(token: Token, nodeType: NodeTypes) {
       const parent = getParentNodeOfToken(token)
@@ -253,8 +253,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Returns whether or not comments are at the block start or not.
-     * @param {token} token The Comment token.
-     * @returns {boolean} True if the comment is at block start.
+     * @param token The Comment token.
+     * @returns True if the comment is at block start.
      */
     function isCommentAtBlockStart(token: Token) {
       return (
@@ -268,8 +268,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Returns whether or not comments are at the block end or not.
-     * @param {token} token The Comment token.
-     * @returns {boolean} True if the comment is at block end.
+     * @param token The Comment token.
+     * @returns True if the comment is at block end.
      */
     function isCommentAtBlockEnd(token: Token) {
       return (
@@ -283,8 +283,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Returns whether or not comments are at the class start or not.
-     * @param {token} token The Comment token.
-     * @returns {boolean} True if the comment is at class start.
+     * @param token The Comment token.
+     * @returns True if the comment is at class start.
      */
     function isCommentAtClassStart(token: Token) {
       return isCommentAtParentStart(token, 'ClassBody')
@@ -292,8 +292,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Returns whether or not comments are at the class end or not.
-     * @param {token} token The Comment token.
-     * @returns {boolean} True if the comment is at class end.
+     * @param token The Comment token.
+     * @returns True if the comment is at class end.
      */
     function isCommentAtClassEnd(token: Token) {
       return isCommentAtParentEnd(token, 'ClassBody')
@@ -301,8 +301,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Returns whether or not comments are at the object start or not.
-     * @param {token} token The Comment token.
-     * @returns {boolean} True if the comment is at object start.
+     * @param token The Comment token.
+     * @returns True if the comment is at object start.
      */
     function isCommentAtObjectStart(token: Token) {
       return isCommentAtParentStart(token, 'ObjectExpression')
@@ -311,8 +311,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Returns whether or not comments are at the object end or not.
-     * @param {token} token The Comment token.
-     * @returns {boolean} True if the comment is at object end.
+     * @param token The Comment token.
+     * @returns True if the comment is at object end.
      */
     function isCommentAtObjectEnd(token: Token) {
       return isCommentAtParentEnd(token, 'ObjectExpression')
@@ -321,8 +321,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Returns whether or not comments are at the array start or not.
-     * @param {token} token The Comment token.
-     * @returns {boolean} True if the comment is at array start.
+     * @param token The Comment token.
+     * @returns True if the comment is at array start.
      */
     function isCommentAtArrayStart(token: Token) {
       return isCommentAtParentStart(token, 'ArrayExpression')
@@ -331,8 +331,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Returns whether or not comments are at the array end or not.
-     * @param {token} token The Comment token.
-     * @returns {boolean} True if the comment is at array end.
+     * @param token The Comment token.
+     * @returns True if the comment is at array end.
      */
     function isCommentAtArrayEnd(token: Token) {
       return isCommentAtParentEnd(token, 'ArrayExpression')
@@ -346,11 +346,10 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks if a comment token has lines around it (ignores inline comments)
-     * @param {token} token The Comment token.
-     * @param {object} opts Options to determine the newline.
-     * @param {boolean} opts.after Should have a newline after this line.
-     * @param {boolean} opts.before Should have a newline before this line.
-     * @returns {void}
+     * @param token The Comment token.
+     * @param opts Options to determine the newline.
+     * @param opts.after Should have a newline after this line.
+     * @param opts.before Should have a newline before this line.
      */
     function checkForEmptyLine(token: Token, opts: BeforAndAfter) {
       if (applyDefaultIgnorePatterns && defaultIgnoreRegExp.test(token.value))

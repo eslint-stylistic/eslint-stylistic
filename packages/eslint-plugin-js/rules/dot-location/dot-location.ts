@@ -42,8 +42,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports if the dot between object and property is on the correct location.
-     * @param {ASTNode} node The `MemberExpression` node.
-     * @returns {void}
+     * @param node The `MemberExpression` node.
      */
     function checkDotLocation(node: Tree.MemberExpression) {
       const property = node.property
@@ -84,8 +83,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks the spacing of the dot within a member expression.
-     * @param {ASTNode} node The node to check.
-     * @returns {void}
+     * @param node The node to check.
      */
     function checkNode(node: Tree.MemberExpression) {
       if (node.type === 'MemberExpression' && !node.computed)

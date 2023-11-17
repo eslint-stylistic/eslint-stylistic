@@ -86,9 +86,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports a semicolon error with appropriate location and message.
-     * @param {ASTNode} node The node with an extra or missing semicolon.
-     * @param {boolean} missing True if the semicolon is missing.
-     * @returns {void}
+     * @param node The node with an extra or missing semicolon.
+     * @param missing True if the semicolon is missing.
      */
     function report(node: ASTNode, missing = false) {
       const lastToken = sourceCode.getLastToken(node) as Token
@@ -131,8 +130,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check whether a given semicolon token is redundant.
-     * @param {Token} semiToken A semicolon token to check.
-     * @returns {boolean} `true` if the next token is `;` or `}`.
+     * @param semiToken A semicolon token to check.
+     * @returns `true` if the next token is `;` or `}`.
      */
     function isRedundantSemi(semiToken: Token) {
       const nextToken = sourceCode.getTokenAfter(semiToken)
@@ -146,8 +145,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check whether a given token is the closing brace of an arrow function.
-     * @param {Token} lastToken A token to check.
-     * @returns {boolean} `true` if the token is the closing brace of an arrow function.
+     * @param lastToken A token to check.
+     * @returns `true` if the token is the closing brace of an arrow function.
      */
     function isEndOfArrowBlock(lastToken: Token) {
       if (!isClosingBraceToken(lastToken))
@@ -166,8 +165,8 @@ export default createRule<MessageIds, RuleOptions>({
      * can safely remove that semicolon. It is not to safe to remove if
      * the class field name is "get", "set", or "static", or if
      * followed by a generator method.
-     * @param {ASTNode} node The node to check.
-     * @returns {boolean} `true` if the node cannot have the semicolon
+     * @param node The node to check.
+     * @returns `true` if the node cannot have the semicolon
      *      removed.
      */
     function maybeClassFieldAsiHazard(node: ASTNode) {
@@ -208,8 +207,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check whether a given node is on the same line with the next token.
-     * @param {Node} node A statement node to check.
-     * @returns {boolean} `true` if the node is on the same line with the next token.
+     * @param node A statement node to check.
+     * @returns `true` if the node is on the same line with the next token.
      */
     function isOnSameLineWithNextToken(node: ASTNode) {
       const prevToken = sourceCode.getLastToken(node, 1)
@@ -220,8 +219,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check whether a given node can connect the next line if the next line is unreliable.
-     * @param {Node} node A statement node to check.
-     * @returns {boolean} `true` if the node can connect the next line.
+     * @param node A statement node to check.
+     * @returns `true` if the node can connect the next line.
      */
     function maybeAsiHazardAfter(node: ASTNode) {
       const t = node.type
@@ -250,8 +249,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check whether a given token can connect the previous statement.
-     * @param {Token} token A token to check.
-     * @returns {boolean} `true` if the token is one of `[`, `(`, `/`, `+`, `-`, ```, `++`, and `--`.
+     * @param token A token to check.
+     * @returns `true` if the token is one of `[`, `(`, `/`, `+`, `-`, ```, `++`, and `--`.
      */
     function maybeAsiHazardBefore(token: Token) {
       return (
@@ -266,8 +265,8 @@ export default createRule<MessageIds, RuleOptions>({
      * Check if the semicolon of a given node is unnecessary, only true if:
      *   - next token is a valid statement divider (`;` or `}`).
      *   - next token is on a new line and the node is not connectable to the new line.
-     * @param {Node} node A statement node to check.
-     * @returns {boolean} whether the semicolon is unnecessary.
+     * @param node A statement node to check.
+     * @returns whether the semicolon is unnecessary.
      */
     function canRemoveSemicolon(node: ASTNode) {
       const lastToken = sourceCode.getLastToken(node) as Token
@@ -299,8 +298,8 @@ export default createRule<MessageIds, RuleOptions>({
      * Checks a node to see if it's the last item in a one-liner block.
      * Block is any `BlockStatement` or `StaticBlock` node. Block is a one-liner if its
      * braces (and consequently everything between them) are on the same line.
-     * @param {ASTNode} node The node to check.
-     * @returns {boolean} whether the node is the last item in a one-liner block.
+     * @param node The node to check.
+     * @returns whether the node is the last item in a one-liner block.
      */
     function isLastInOneLinerBlock(node: ASTNode) {
       const parent = node.parent as ASTNode
@@ -324,8 +323,8 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Checks a node to see if it's the last item in a one-liner `ClassBody` node.
      * ClassBody is a one-liner if its braces (and consequently everything between them) are on the same line.
-     * @param {ASTNode} node The node to check.
-     * @returns {boolean} whether the node is the last item in a one-liner ClassBody.
+     * @param node The node to check.
+     * @returns whether the node is the last item in a one-liner ClassBody.
      */
     function isLastInOneLinerClassBody(node: ASTNode) {
       const parent = node.parent as ASTNode
@@ -342,8 +341,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks a node to see if it's followed by a semicolon.
-     * @param {ASTNode} node The node to check.
-     * @returns {void}
+     * @param node The node to check.
      */
     function checkForSemicolon(node: ASTNode) {
       const lastToken = sourceCode.getLastToken(node) as Token
@@ -375,8 +373,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks to see if there's a semicolon after a variable declaration.
-     * @param {ASTNode} node The node to check.
-     * @returns {void}
+     * @param node The node to check.
      */
     function checkForSemicolonForVariableDeclaration(node: Tree.VariableDeclaration) {
       const parent = node.parent as ASTNode

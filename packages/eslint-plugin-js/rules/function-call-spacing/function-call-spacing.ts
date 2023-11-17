@@ -70,10 +70,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check if open space is present in a function name
-     * @param {ASTNode} node node to evaluate
-     * @param {Token} leftToken The last token of the callee. This may be the closing parenthesis that encloses the callee.
-     * @param {Token} rightToken Tha first token of the arguments. this is the opening parenthesis that encloses the arguments.
-     * @returns {void}
+     * @param node node to evaluate
+     * @param leftToken The last token of the callee. This may be the closing parenthesis that encloses the callee.
+     * @param rightToken Tha first token of the arguments. this is the opening parenthesis that encloses the arguments.
      * @private
      */
     function checkSpacing(node: Tree.CallExpression | Tree.NewExpression | Tree.ImportExpression, leftToken: Token, rightToken: Token) {

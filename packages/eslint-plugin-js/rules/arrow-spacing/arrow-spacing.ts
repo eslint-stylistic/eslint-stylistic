@@ -56,8 +56,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Get tokens of arrow(`=>`) and before/after arrow.
-     * @param {ASTNode} node The arrow function node.
-     * @returns {object} Tokens of arrow and before/after arrow.
+     * @param node The arrow function node.
+     * @returns Tokens of arrow and before/after arrow.
      */
     function getTokens(node: Tree.ArrowFunctionExpression) {
       const arrow = sourceCode.getTokenBefore(node.body, isArrowToken)!
@@ -71,8 +71,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Count spaces before/after arrow(`=>`) token.
-     * @param {object} tokens Tokens before/after arrow.
-     * @returns {object} count of space before/after arrow.
+     * @param tokens Tokens before/after arrow.
+     * @returns count of space before/after arrow.
      */
     function countSpaces(tokens: { before: Token, arrow: Token, after: Token }) {
       const before = tokens.arrow.range[0] - tokens.before.range[1]
@@ -85,8 +85,7 @@ export default createRule<MessageIds, RuleOptions>({
      * Determines whether space(s) before after arrow(`=>`) is satisfy rule.
      * if before/after value is `true`, there should be space(s).
      * if before/after value is `false`, there should be no space.
-     * @param {ASTNode} node The arrow function node.
-     * @returns {void}
+     * @param node The arrow function node.
      */
     function spaces(node: Tree.ArrowFunctionExpression) {
       const tokens = getTokens(node)

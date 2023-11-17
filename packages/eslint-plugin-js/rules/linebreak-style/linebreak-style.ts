@@ -36,9 +36,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Builds a fix function that replaces text at the specified range in the source text.
-     * @param {int[]} range The range to replace
-     * @param {string} text The text to insert.
-     * @returns {Function} Fixer function
+     * @param range The range to replace
+     * @param text The text to insert.
+     * @returns Fixer function
      * @private
      */
     function createFix(range: Readonly<Tree.Range>, text: string): ReportFixFunction {

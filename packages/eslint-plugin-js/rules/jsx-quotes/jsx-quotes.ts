@@ -59,8 +59,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks if the given string literal node uses the expected quotes
-     * @param {ASTNode} node A string literal node.
-     * @returns {boolean} Whether or not the string literal used the expected quotes.
+     * @param node A string literal node.
+     * @returns Whether or not the string literal used the expected quotes.
      * @public
      */
     function usesExpectedQuotes(node: Tree.StringLiteral) {

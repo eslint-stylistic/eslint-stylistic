@@ -4,9 +4,9 @@ import type { RuleContext, Tree } from './types'
 
 /**
  * Checks if the node is a createElement call
- * @param {ASTNode} node - The AST node being checked.
- * @param {Context} context - The AST node being checked.
- * @returns {boolean} - True if node is a createElement call object literal, False if not.
+ * @param node - The AST node being checked.
+ * @param context - The AST node being checked.
+ * @returns - True if node is a createElement call object literal, False if not.
  */
 export function isCreateElement(node: Tree.CallExpression, context: RuleContext<any, any>): boolean {
   const callee = node.callee

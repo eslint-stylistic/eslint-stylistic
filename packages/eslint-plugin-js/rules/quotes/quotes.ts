@@ -13,8 +13,8 @@ import type { MessageIds, RuleOptions } from './types'
  * escaping and unescaping as necessary.
  * Only escaping of the minimal set of characters is changed.
  * Note: escaping of newlines when switching from backtick to other quotes is not handled.
- * @param {string} str A string to convert.
- * @returns {string} The string with changed quotes.
+ * @param str A string to convert.
+ * @returns The string with changed quotes.
  * @private
  */
 function switchQuote(this: { quote: string }, str: string) {
@@ -136,8 +136,8 @@ export default createRule<MessageIds, RuleOptions>({
      *
      * In both cases, inside of the braces is handled as normal JavaScript.
      * The braces are `JSXExpressionContainer` nodes.
-     * @param {ASTNode} node The Literal node to check.
-     * @returns {boolean} True if the node is a part of JSX, false if not.
+     * @param node The Literal node to check.
+     * @returns True if the node is a part of JSX, false if not.
      * @private
      */
     function isJSXLiteral(node: ASTNode) {
@@ -151,8 +151,8 @@ export default createRule<MessageIds, RuleOptions>({
      * Checks whether or not a given node is a directive.
      * The directive is a `ExpressionStatement` which has only a string literal not surrounded by
      * parentheses.
-     * @param {ASTNode} node A node to check.
-     * @returns {boolean} Whether or not the node is a directive.
+     * @param node A node to check.
+     * @returns Whether or not the node is a directive.
      * @private
      */
     function isDirective(node: ASTNode) {
@@ -167,8 +167,8 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Checks whether a specified node is either part of, or immediately follows a (possibly empty) directive prologue.
      * @see {@link http://www.ecma-international.org/ecma-262/6.0/#sec-directive-prologues-and-the-use-strict-directive}
-     * @param {ASTNode} node A node to check.
-     * @returns {boolean} Whether a specified node is either part of, or immediately follows a (possibly empty) directive prologue.
+     * @param node A node to check.
+     * @returns Whether a specified node is either part of, or immediately follows a (possibly empty) directive prologue.
      * @private
      */
     function isExpressionInOrJustAfterDirectivePrologue(node: ASTNode) {
@@ -198,8 +198,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks whether or not a given node is allowed as non backtick.
-     * @param {ASTNode} node A node to check.
-     * @returns {boolean} Whether or not the node is allowed as non backtick.
+     * @param node A node to check.
+     * @returns Whether or not the node is allowed as non backtick.
      * @private
      */
     function isAllowedAsNonBacktick(node: ASTNode) {
@@ -243,8 +243,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks whether or not a given TemplateLiteral node is actually using any of the special features provided by template literal strings.
-     * @param {ASTNode} node A TemplateLiteral node to check.
-     * @returns {boolean} Whether or not the TemplateLiteral node is using any of the special features provided by template literal strings.
+     * @param node A TemplateLiteral node to check.
+     * @returns Whether or not the TemplateLiteral node is using any of the special features provided by template literal strings.
      * @private
      */
     function isUsingFeatureOfTemplateLiteral(node: Tree.TemplateLiteral) {

@@ -8,8 +8,8 @@ import rule from './no-multiple-empty-lines'
 
 /**
  * Creates the expected error message object for the specified number of lines
- * @param {lines} lines The number of lines expected.
- * @returns {object} the expected error message object
+ * @param lines The number of lines expected.
+ * @returns the expected error message object
  * @private
  */
 function getExpectedError(lines: number) {
@@ -26,8 +26,8 @@ function getExpectedError(lines: number) {
 
 /**
  * Creates the expected error message object for the specified number of lines
- * @param {lines} lines The number of lines expected.
- * @returns {object} the expected error message object
+ * @param lines The number of lines expected.
+ * @returns the expected error message object
  * @private
  */
 function getExpectedErrorEOF(lines: number) {
@@ -43,8 +43,8 @@ function getExpectedErrorEOF(lines: number) {
 
 /**
  * Creates the expected error message object for the specified number of lines
- * @param {lines} lines The number of lines expected.
- * @returns {object} the expected error message object
+ * @param lines The number of lines expected.
+ * @returns the expected error message object
  * @private
  */
 function getExpectedErrorBOF(lines: number) {

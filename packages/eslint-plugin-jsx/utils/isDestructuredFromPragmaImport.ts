@@ -5,9 +5,9 @@ import type { RuleContext } from './types'
 /**
  * Check if variable is destructured from pragma import
  *
- * @param {string} variable The variable name to check
- * @param {Context} context eslint context
- * @returns {boolean} True if createElement is destructured from the pragma
+ * @param variable The variable name to check
+ * @param context eslint context
+ * @returns True if createElement is destructured from the pragma
  */
 export function isDestructuredFromPragmaImport(variable: string, context: RuleContext<any, any>) {
   const pragma = getFromContext(context)

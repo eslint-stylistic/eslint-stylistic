@@ -118,9 +118,9 @@ export default createRule<MessageIds, RuleOptions>({
      *     }
      * When determining the desired layout of the code, we should treat this semicolon as
      * a part of the next class member node instead of the one it technically belongs to.
-     * @param {ASTNode} curNode Current class member node.
-     * @param {ASTNode} nextNode Next class member node.
-     * @returns {Token} The actual last token of `node`.
+     * @param curNode Current class member node.
+     * @param nextNode Next class member node.
+     * @returns The actual last token of `node`.
      * @private
      */
     function getBoundaryTokens(curNode: ASTNode, nextNode: ASTNode) {

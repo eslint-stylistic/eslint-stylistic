@@ -37,8 +37,8 @@ const OPTION_VALUE: JSONSchema.JSONSchema4 = {
 
 /**
  * Normalizes a given option value.
- * @param {string | object | undefined} value An option value to parse.
- * @returns {{multiline: boolean, minProperties: number, consistent: boolean}} Normalized option object.
+ * @param value An option value to parse.
+ * @returns Normalized option object.
  */
 function normalizeOptionValue(value: any) {
   let multiline = false
@@ -67,8 +67,8 @@ function normalizeOptionValue(value: any) {
 
 /**
  * Checks if a value is an object.
- * @param {any} value The value to check
- * @returns {boolean} `true` if the value is an object, otherwise `false`
+ * @param value The value to check
+ * @returns `true` if the value is an object, otherwise `false`
  */
 function isObject(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null
@@ -76,8 +76,8 @@ function isObject(value: unknown): value is Record<string, unknown> {
 
 /**
  * Checks if an option is a node-specific option
- * @param {any} option The option to check
- * @returns {boolean} `true` if the option is node-specific, otherwise `false`
+ * @param option The option to check
+ * @returns `true` if the option is node-specific, otherwise `false`
  */
 function isNodeSpecificOption(option: unknown) {
   return isObject(option) || typeof option === 'string'
@@ -85,7 +85,7 @@ function isNodeSpecificOption(option: unknown) {
 
 /**
  * Normalizes a given option value.
- * @param {string | object | undefined} options An option value to parse.
+ * @param options An option value to parse.
  * @returns {{
  *   ObjectExpression: {multiline: boolean, minProperties: number, consistent: boolean},
  *   ObjectPattern: {multiline: boolean, minProperties: number, consistent: boolean},
@@ -111,11 +111,11 @@ function normalizeOptions(options: any) {
 /**
  * Determines if ObjectExpression, ObjectPattern, ImportDeclaration or ExportNamedDeclaration
  * node needs to be checked for missing line breaks
- * @param {ASTNode} node Node under inspection
- * @param {object} options option specific to node type
- * @param {Token} first First object property
- * @param {Token} last Last object property
- * @returns {boolean} `true` if node needs to be checked for missing line breaks
+ * @param node Node under inspection
+ * @param options option specific to node type
+ * @param first First object property
+ * @param last Last object property
+ * @returns `true` if node needs to be checked for missing line breaks
  */
 function areLineBreaksRequired(
   node:
@@ -190,8 +190,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports a given node if it violated this rule.
-     * @param {ASTNode} node A node to check. This is an ObjectExpression, ObjectPattern, ImportDeclaration or ExportNamedDeclaration node.
-     * @returns {void}
+     * @param node A node to check. This is an ObjectExpression, ObjectPattern, ImportDeclaration or ExportNamedDeclaration node.
      */
     function check(
       node:

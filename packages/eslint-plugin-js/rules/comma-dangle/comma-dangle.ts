@@ -18,8 +18,8 @@ const DEFAULT_OPTIONS = Object.freeze({
 /**
  * Checks whether or not a trailing comma is allowed in a given node.
  * If the `lastItem` is `RestElement` or `RestProperty`, it disallows trailing commas.
- * @param {ASTNode} lastItem The node of the last element in the given node.
- * @returns {boolean} `true` if a trailing comma is allowed.
+ * @param lastItem The node of the last element in the given node.
+ * @returns `true` if a trailing comma is allowed.
  */
 function isTrailingCommaAllowed(lastItem: ASTNode) {
   return lastItem.type !== 'RestElement'
@@ -27,9 +27,9 @@ function isTrailingCommaAllowed(lastItem: ASTNode) {
 
 /**
  * Normalize option value.
- * @param {string | object | undefined} optionValue The 1st option value to normalize.
- * @param {number} ecmaVersion The normalized ECMAScript version.
- * @returns {object} The normalized option value.
+ * @param optionValue The 1st option value to normalize.
+ * @param ecmaVersion The normalized ECMAScript version.
+ * @returns The normalized option value.
  */
 function normalizeOptions(optionValue: RuleOptions[0], ecmaVersion: EcmaVersion | 'latest' | undefined) {
   if (typeof optionValue === 'string') {
@@ -127,14 +127,14 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Gets the last item of the given node.
-     * @param {ASTNode} node The node to get.
-     * @returns {ASTNode|null} The last node or null.
+     * @param node The node to get.
+     * @returns The last node or null.
      */
     function getLastItem(node: ASTNode): ASTNode | null {
       /**
        * Returns the last element of an array
-       * @param {any[]} array The input array
-       * @returns {any} The last element
+       * @param array The input array
+       * @returns The last element
        */
       function last(array: (ASTNode | null)[]): ASTNode | null {
         return array[array.length - 1]
@@ -166,9 +166,9 @@ export default createRule<MessageIds, RuleOptions>({
      * Gets the trailing comma token of the given node.
      * If the trailing comma does not exist, this returns the token which is
      * the insertion point of the trailing comma token.
-     * @param {ASTNode} node The node to get.
-     * @param {ASTNode} lastItem The last item of the node.
-     * @returns {Token} The trailing comma token or the insertion point.
+     * @param node The node to get.
+     * @param lastItem The last item of the node.
+     * @returns The trailing comma token or the insertion point.
      */
     function getTrailingToken(node: ASTNode, lastItem: ASTNode) {
       switch (node.type) {
@@ -192,8 +192,8 @@ export default createRule<MessageIds, RuleOptions>({
      * Checks whether or not a given node is multiline.
      * This rule handles a given node as multiline when the closing parenthesis
      * and the last element are not on the same line.
-     * @param {ASTNode} node A node to check.
-     * @returns {boolean} `true` if the node is multiline.
+     * @param node A node to check.
+     * @returns `true` if the node is multiline.
      */
     function isMultiline(node: ASTNode) {
       const lastItem = getLastItem(node)
@@ -213,10 +213,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports a trailing comma if it exists.
-     * @param {ASTNode} node A node to check. Its type is one of
+     * @param node A node to check. Its type is one of
      *   ObjectExpression, ObjectPattern, ArrayExpression, ArrayPattern,
      *   ImportDeclaration, and ExportNamedDeclaration.
-     * @returns {void}
      */
     function forbidTrailingComma(node: ASTNode) {
       const lastItem = getLastItem(node)
@@ -254,10 +253,9 @@ export default createRule<MessageIds, RuleOptions>({
      *
      * If a given node is `ArrayPattern` which has `RestElement`, the trailing
      * comma is disallowed, so report if it exists.
-     * @param {ASTNode} node A node to check. Its type is one of
+     * @param node A node to check. Its type is one of
      *   ObjectExpression, ObjectPattern, ArrayExpression, ArrayPattern,
      *   ImportDeclaration, and ExportNamedDeclaration.
-     * @returns {void}
      */
     function forceTrailingComma(node: ASTNode) {
       const lastItem = getLastItem(node)
@@ -301,10 +299,9 @@ export default createRule<MessageIds, RuleOptions>({
      * If a given node is multiline, reports the last element of a given node
      * when it does not have a trailing comma.
      * Otherwise, reports a trailing comma if it exists.
-     * @param {ASTNode} node A node to check. Its type is one of
+     * @param node A node to check. Its type is one of
      *   ObjectExpression, ObjectPattern, ArrayExpression, ArrayPattern,
      *   ImportDeclaration, and ExportNamedDeclaration.
-     * @returns {void}
      */
     function forceTrailingCommaIfMultiline(node: ASTNode) {
       if (isMultiline(node))
@@ -317,10 +314,9 @@ export default createRule<MessageIds, RuleOptions>({
      * Only if a given node is not multiline, reports the last element of a given node
      * when it does not have a trailing comma.
      * Otherwise, reports a trailing comma if it exists.
-     * @param {ASTNode} node A node to check. Its type is one of
+     * @param node A node to check. Its type is one of
      *   ObjectExpression, ObjectPattern, ArrayExpression, ArrayPattern,
      *   ImportDeclaration, and ExportNamedDeclaration.
-     * @returns {void}
      */
     function allowTrailingCommaIfMultiline(node: ASTNode) {
       if (!isMultiline(node))

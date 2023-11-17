@@ -71,9 +71,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines whether there should be newlines inside function parens
-     * @param {ASTNode[]} elements The arguments or parameters in the list
-     * @param {boolean} hasLeftNewline `true` if the left paren has a newline in the current code.
-     * @returns {boolean} `true` if there should be newlines inside the function parens
+     * @param elements The arguments or parameters in the list
+     * @param hasLeftNewline `true` if the left paren has a newline in the current code.
+     * @returns `true` if there should be newlines inside the function parens
      */
     function shouldHaveNewlines(elements: Tree.CallExpressionArgument[] | Tree.Parameter[], hasLeftNewline: boolean) {
       if (multilineArgumentsOption && elements.length === 1)
@@ -90,9 +90,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Validates parens
-     * @param {object} parens An object with keys `leftParen` for the left paren token, and `rightParen` for the right paren token
-     * @param {ASTNode[]} elements The arguments or parameters in the list
-     * @returns {void}
+     * @param parens An object with keys `leftParen` for the left paren token, and `rightParen` for the right paren token
+     * @param elements The arguments or parameters in the list
      */
     function validateParens(parens: ParensPair, elements: Tree.CallExpressionArgument[] | Tree.Parameter[]) {
       const leftParen = parens.leftParen
@@ -148,9 +147,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Validates a list of arguments or parameters
-     * @param {object} parens An object with keys `leftParen` for the left paren token, and `rightParen` for the right paren token
-     * @param {ASTNode[]} elements The arguments or parameters in the list
-     * @returns {void}
+     * @param parens An object with keys `leftParen` for the left paren token, and `rightParen` for the right paren token
+     * @param elements The arguments or parameters in the list
      */
     function validateArguments(parens: ParensPair, elements: Tree.CallExpressionArgument[] | Tree.Parameter[]) {
       const leftParen = parens.leftParen
@@ -175,9 +173,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Gets the left paren and right paren tokens of a node.
-     * @param {ASTNode} node The node with parens
+     * @param node The node with parens
      * @throws {TypeError} Unexpected node type.
-     * @returns {object} An object with keys `leftParen` for the left paren token, and `rightParen` for the right paren token.
+     * @returns An object with keys `leftParen` for the left paren token, and `rightParen` for the right paren token.
      * Can also return `null` if an expression has no parens (e.g. a NewExpression with no arguments, or an ArrowFunctionExpression
      * with a single parameter)
      */

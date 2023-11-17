@@ -79,8 +79,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Normalizes a given option value.
-     * @param {string | object | undefined} providedOption An option value to parse.
-     * @returns {{multiline: boolean, minItems: number}} Normalized option object.
+     * @param providedOption An option value to parse.
+     * @returns Normalized option object.
      */
     function normalizeOptionValue(providedOption: BasicConfig) {
       let consistent = false
@@ -109,8 +109,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Normalizes a given option value.
-     * @param {string | object | undefined} options An option value to parse.
-     * @returns {{ArrayExpression: {multiline: boolean, minItems: number}, ArrayPattern: {multiline: boolean, minItems: number}}} Normalized option object.
+     * @param options An option value to parse.
+     * @returns Normalized option object.
      */
     function normalizeOptions(options: any) {
       if (options && (options.ArrayExpression || options.ArrayPattern)) {

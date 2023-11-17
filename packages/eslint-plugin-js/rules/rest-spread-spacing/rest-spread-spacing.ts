@@ -37,8 +37,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks whitespace between rest/spread operators and their expressions
-     * @param {ASTNode} node The node to check
-     * @returns {void}
+     * @param node The node to check
      */
     function checkWhiteSpace(
       node:

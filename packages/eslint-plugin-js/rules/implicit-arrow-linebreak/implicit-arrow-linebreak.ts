@@ -37,8 +37,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Validates the location of an arrow function body
-     * @param {ASTNode} node The arrow function body
-     * @returns {void}
+     * @param node The arrow function body
      */
     function validateExpression(node: Tree.ArrowFunctionExpression) {
       if (node.body.type === 'BlockStatement')

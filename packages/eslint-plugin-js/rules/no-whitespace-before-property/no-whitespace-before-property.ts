@@ -30,10 +30,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports whitespace before property token
-     * @param {ASTNode} node the node to report in the event of an error
-     * @param {Token} leftToken the left token
-     * @param {Token} rightToken the right token
-     * @returns {void}
+     * @param node the node to report in the event of an error
+     * @param leftToken the left token
+     * @param rightToken the right token
      * @private
      */
     function reportError(node: Tree.MemberExpression, leftToken: Token, rightToken: Token) {

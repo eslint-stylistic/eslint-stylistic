@@ -83,9 +83,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines whether two adjacent tokens are on the same line.
-     * @param {object} left - The left token object.
-     * @param {object} right - The right token object.
-     * @returns {boolean} Whether or not the tokens are on the same line.
+     * @param left - The left token object.
+     * @param right - The right token object.
+     * @returns Whether or not the tokens are on the same line.
      */
     function isTokenOnSameLine(left: Tree.Node | Tree.Token, right: Tree.Node | Tree.Token) {
       return left.loc.end.line === right.loc.start.line
@@ -93,9 +93,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines whether there should be newlines inside curlys
-     * @param {ASTNode} expression The expression contained in the curlys
-     * @param {boolean} hasLeftNewline `true` if the left curly has a newline in the current code.
-     * @returns {boolean} `true` if there should be newlines inside the function curlys
+     * @param expression The expression contained in the curlys
+     * @param hasLeftNewline `true` if the left curly has a newline in the current code.
+     * @returns `true` if there should be newlines inside the function curlys
      */
     function shouldHaveNewlines(expression: ASTNode, hasLeftNewline: boolean) {
       const isMultiline = expression.loc.start.line !== expression.loc.end.line
@@ -110,9 +110,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Validates curlys
-     * @param {object} curlys An object with keys `leftParen` for the left paren token, and `rightParen` for the right paren token
-     * @param {ASTNode} expression The expression inside the curly
-     * @returns {void}
+     * @param curlys An object with keys `leftParen` for the left paren token, and `rightParen` for the right paren token
+     * @param expression The expression inside the curly
      */
     function validateCurlys(curlys: { leftCurly: Tree.Token, rightCurly: Tree.Token }, expression: ASTNode) {
       const leftCurly = curlys.leftCurly

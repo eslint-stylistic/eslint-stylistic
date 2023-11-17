@@ -120,7 +120,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Get node indent
-     * @param {ASTNode} node Node to examine
+     * @param node Node to examine
      * @return {number} Indent
      */
     function getNodeIndent(node: ASTNode) {
@@ -152,8 +152,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check indent for nodes list
-     * @param {ASTNode[]} nodes list of node objects
-     * @param {number} indent needed indent
+     * @param nodes list of node objects
+     * @param indent needed indent
      */
     function checkNodesIndent(nodes: ASTNode[], indent: number) {
       let nestedIndent = indent

@@ -48,7 +48,6 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports with the first extra statement, and clears it.
-     * @returns {void}
      */
     function reportFirstExtraStatementAndClear() {
       if (firstExtraStatement) {
@@ -67,8 +66,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Gets the actual last token of a given node.
-     * @param {ASTNode} node A node to get. This is a node except EmptyStatement.
-     * @returns {Token} The actual last token.
+     * @param node A node to get. This is a node except EmptyStatement.
+     * @returns The actual last token.
      */
     function getActualLastToken(node: ASTNode) {
       return sourceCode.getLastToken(node, isNotSemicolonToken)
@@ -77,8 +76,7 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Addresses a given node.
      * It updates the state of this rule, then reports the node if the node violated this rule.
-     * @param {ASTNode} node A node to check.
-     * @returns {void}
+     * @param node A node to check.
      */
     function enterStatement(node: ASTNode) {
       const line = node.loc.start.line
@@ -111,8 +109,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Updates the state of this rule with the end line of leaving node to check with the next statement.
-     * @param {ASTNode} node A node to check.
-     * @returns {void}
+     * @param node A node to check.
      */
     function leaveStatement(node: ASTNode) {
       const line = getActualLastToken(node)!.loc.end.line

@@ -57,8 +57,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Gets the applicable preference for a particular keyword
-     * @param {string} keywordName The name of a keyword, e.g. 'if'
-     * @returns {string} The applicable option for the keyword, e.g. 'beside'
+     * @param keywordName The name of a keyword, e.g. 'if'
+     * @returns The applicable option for the keyword, e.g. 'beside'
      */
     function getOption(keywordName: KeywordName) {
       return context.options[1] && context.options[1].overrides && context.options[1].overrides[keywordName]
@@ -68,9 +68,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Validates the location of a single-line statement
-     * @param {ASTNode} node The single-line statement
-     * @param {string} keywordName The applicable keyword name for the single-line statement
-     * @returns {void}
+     * @param node The single-line statement
+     * @param keywordName The applicable keyword name for the single-line statement
      */
     function validateStatement(node: Tree.Statement, keywordName: KeywordName) {
       const option = getOption(keywordName)

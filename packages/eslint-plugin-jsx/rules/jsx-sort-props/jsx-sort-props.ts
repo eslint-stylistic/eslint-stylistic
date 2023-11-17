@@ -134,9 +134,8 @@ function contextCompare(a: Tree.JSXAttribute, b: Tree.JSXAttribute, options: Jsx
 /**
  * Create an array of arrays where each subarray is composed of attributes
  * that are considered sortable.
- * @param {Array<JSXSpreadAttribute|JSXAttribute>} attributes
- * @param {object} context The context of the rule
- * @return {Array<Array<JSXAttribute>>}
+ * @param attributes
+ * @param context The context of the rule
  */
 function getGroupsOfSortableAttributes(attributes: (Tree.JSXAttribute | Tree.JSXSpreadAttribute)[], context: Readonly<RuleContext<MessageIds, RuleOptions>>) {
   const sourceCode = context.sourceCode
@@ -279,8 +278,8 @@ function generateFixerFunction(node: Tree.JSXOpeningElement, context: Readonly<R
 
 /**
  * Checks if the `reservedFirst` option is valid
- * @param {object} context The context of the rule
- * @param {boolean | Array<string>} reservedFirst The `reservedFirst` option
+ * @param context The context of the rule
+ * @param reservedFirst The `reservedFirst` option
  * @return {Function|undefined} If an error is detected, a function to generate the error message, otherwise, `undefined`
  */
 
@@ -321,11 +320,11 @@ const reportedNodeAttributes = new WeakMap()
  * Check if the current node attribute has already been reported with the same error type
  * if that's the case then we don't report a new error
  * otherwise we report the error
- * @param {object} nodeAttribute The node attribute to be reported
- * @param {string} errorType The error type to be reported
- * @param {object} node The parent node for the node attribute
- * @param {object} context The context of the rule
- * @param {Array<string>} reservedList The list of reserved props
+ * @param nodeAttribute The node attribute to be reported
+ * @param errorType The error type to be reported
+ * @param node The parent node for the node attribute
+ * @param context The context of the rule
+ * @param reservedList The list of reserved props
  */
 function reportNodeAttribute(nodeAttribute: Tree.JSXAttribute | Tree.JSXSpreadAttribute, errorType: MessageIds, node: Tree.JSXOpeningElement, context: Readonly<RuleContext<MessageIds, RuleOptions>>, reservedList: unknown[]) {
   const errors = reportedNodeAttributes.get(nodeAttribute) || []

@@ -10,8 +10,7 @@ const JSX_ANNOTATION_REGEX = /@jsx\s+([^\s]+)/
 const JS_IDENTIFIER_REGEX = /^[_$a-zA-Z][_$a-zA-Z0-9]*$/
 
 /**
- * @param {Context} context
- * @returns {string}
+ * @param context
  */
 export function getFromContext(context: RuleContext<any, any>): string {
   let pragma = 'React'

@@ -11,8 +11,8 @@ import type { MessageIds, RuleOptions } from './types'
 
 /**
  * Checks whether or not a node is a conditional expression.
- * @param {ASTNode} node node to test
- * @returns {boolean} `true` if the node is a conditional expression.
+ * @param node node to test
+ * @returns `true` if the node is a conditional expression.
  */
 function isConditional(node: ASTNode) {
   return node.type === 'ConditionalExpression'
@@ -51,8 +51,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports if an arrow function contains an ambiguous conditional.
-     * @param {ASTNode} node A node to check and report.
-     * @returns {void}
+     * @param node A node to check and report.
      */
     function checkArrowFunc(node: Tree.ArrowFunctionExpression) {
       const body = node.body

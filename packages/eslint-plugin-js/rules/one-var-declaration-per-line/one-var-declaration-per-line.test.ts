@@ -13,9 +13,9 @@ import rule from './one-var-declaration-per-line'
 /**
  * Returns an error object at the specified line and column
  * @private
- * @param {int} line line number
- * @param {int} column column number
- * @returns {object} Error object
+ * @param line line number
+ * @param column column number
+ * @returns Error object
  */
 function errorAt(line: number, column: number) {
   return {

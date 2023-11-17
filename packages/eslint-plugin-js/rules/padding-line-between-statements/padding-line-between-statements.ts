@@ -213,7 +213,7 @@ function verifyForNever(context: Context, _: Tree.Node, nextNode: Tree.Node, pad
  * This autofix inserts a blank line between the given 2 statements.
  * If the `prevNode` has trailing comments, it inserts a blank line after the
  * trailing comments.
- * @param {RuleContext} context The rule context to report.
+ * @param context The rule context to report.
  * @param prevNode The previous node to check.
  * @param nextNode The next node to check.
  * @param paddingLines The array of token pairs that blank
@@ -252,8 +252,8 @@ function verifyForAlways(context: Context, prevNode: Tree.Node, nextNode: Tree.N
            *
            *     // comment.
            *     bar();
-           * @param {Token} token The token to check.
-           * @returns {boolean} `true` if the token is not a trailing comment.
+           * @param token The token to check.
+           * @returns `true` if the token is not a trailing comment.
            * @private
            */
           filter(token) {

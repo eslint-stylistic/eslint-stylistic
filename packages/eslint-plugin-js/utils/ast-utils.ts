@@ -29,7 +29,7 @@ export const OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN = /^(?:[^\\]|\\.)*\\(?:[1
 /**
  * Creates a version of the `lineBreakPattern` regex with the global flag.
  * Global regexes are mutable, so this needs to be a function instead of a constant.
- * @returns {RegExp} A global regular expression that matches line terminators
+ * @returns A global regular expression that matches line terminators
  */
 export function createGlobalLinebreakMatcher() {
   return new RegExp(LINEBREAK_MATCHER.source, 'gu')
@@ -37,8 +37,8 @@ export function createGlobalLinebreakMatcher() {
 
 /**
  * Finds a function node from ancestors of a node.
- * @param {ASTNode} node A start node to find.
- * @returns {Node|null} A found function node.
+ * @param node A start node to find.
+ * @returns A found function node.
  */
 export function getUpperFunction(node: ASTNode) {
   for (let currentNode: ASTNode | undefined = node; currentNode; currentNode = currentNode.parent) {
@@ -55,8 +55,8 @@ export function getUpperFunction(node: ASTNode) {
  * - ArrowFunctionExpression
  * - FunctionDeclaration
  * - FunctionExpression
- * @param {ASTNode|null} node A node to check.
- * @returns {boolean} `true` if the node is a function node.
+ * @param node A node to check.
+ * @returns `true` if the node is a function node.
  */
 export function isFunction(node?: ASTNode | null): node is TSESTree.ArrowFunctionExpression | TSESTree.FunctionDeclaration | TSESTree.FunctionExpression {
   return Boolean(node && anyFunctionPattern.test(node.type))
@@ -64,8 +64,8 @@ export function isFunction(node?: ASTNode | null): node is TSESTree.ArrowFunctio
 
 /**
  * Determines whether the given node is a `null` literal.
- * @param {ASTNode} node The node to check
- * @returns {boolean} `true` if the node is a `null` literal
+ * @param node The node to check
+ * @returns `true` if the node is a `null` literal
  */
 export function isNullLiteral(node: ASTNode): node is TSESTree.NullLiteral {
   /**
@@ -84,8 +84,8 @@ export function isNullLiteral(node: ASTNode): node is TSESTree.NullLiteral {
  *
  * This function returns a `string` value for all `Literal` nodes and simple `TemplateLiteral` nodes only.
  * In all other cases, this function returns `null`.
- * @param {ASTNode} node Expression node.
- * @returns {string|null} String value if it can be determined. Otherwise, `null`.
+ * @param node Expression node.
+ * @returns String value if it can be determined. Otherwise, `null`.
  */
 export function getStaticStringValue(node: ASTNode) {
   switch (node.type) {
@@ -143,8 +143,8 @@ export function getStaticStringValue(node: ASTNode) {
  *     let a = {["a" + "b"]: 1}  // => null
  *     let a = {[tag`b`]: 1}     // => null
  *     let a = {[`${b}`]: 1}     // => null
- * @param {ASTNode} node The node to get.
- * @returns {string|null} The property name if static. Otherwise, null.
+ * @param node The node to get.
+ * @returns The property name if static. Otherwise, null.
  */
 export function getStaticPropertyName(node: ASTNode) {
   let prop: ASTNode | undefined
@@ -180,8 +180,8 @@ export function getStaticPropertyName(node: ASTNode) {
 
 /**
  * Retrieve `ChainExpression#expression` value if the given node a `ChainExpression` node. Otherwise, pass through it.
- * @param {ASTNode} node The node to address.
- * @returns {ASTNode} The `ChainExpression#expression` value if the node is a `ChainExpression` node. Otherwise, the node.
+ * @param node The node to address.
+ * @returns The `ChainExpression#expression` value if the node is a `ChainExpression` node. Otherwise, the node.
  */
 export function skipChainExpression(node: ASTNode) {
   return node && node.type === 'ChainExpression' ? node.expression : node
@@ -189,8 +189,8 @@ export function skipChainExpression(node: ASTNode) {
 
 /**
  * Creates the negate function of the given function.
- * @param {Function} f The function to negate.
- * @returns {Function} Negated function.
+ * @param f The function to negate.
+ * @returns Negated function.
  */
 export function negate<T extends Function>(f: T): T {
   return ((token: any) => !f(token)) as unknown as T
@@ -198,9 +198,9 @@ export function negate<T extends Function>(f: T): T {
 
 /**
  * Determines if a node is surrounded by parentheses.
- * @param {SourceCode} sourceCode The ESLint source code object
- * @param {ASTNode} node The node to be checked.
- * @returns {boolean} True if the node is parenthesised.
+ * @param sourceCode The ESLint source code object
+ * @param node The node to be checked.
+ * @returns True if the node is parenthesised.
  * @private
  */
 export function isParenthesised(sourceCode: TSESLint.SourceCode, node: ASTNode) {
@@ -214,8 +214,8 @@ export function isParenthesised(sourceCode: TSESLint.SourceCode, node: ASTNode) 
 
 /**
  * Checks if the given token is a `=` token or not.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if the token is a `=` token.
+ * @param token The token to check.
+ * @returns `true` if the token is a `=` token.
  */
 export function isEqToken(token: Token) {
   return token.value === '=' && token.type === 'Punctuator'
@@ -223,8 +223,8 @@ export function isEqToken(token: Token) {
 
 /**
  * Checks if the given token is an arrow token or not.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if the token is an arrow token.
+ * @param token The token to check.
+ * @returns `true` if the token is an arrow token.
  */
 export function isArrowToken(token: Token) {
   return token.value === '=>' && token.type === 'Punctuator'
@@ -232,8 +232,8 @@ export function isArrowToken(token: Token) {
 
 /**
  * Checks if the given token is a comma token or not.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if the token is a comma token.
+ * @param token The token to check.
+ * @returns `true` if the token is a comma token.
  */
 export function isCommaToken(token: Token) {
   return token.value === ',' && token.type === 'Punctuator'
@@ -241,8 +241,8 @@ export function isCommaToken(token: Token) {
 
 /**
  * Checks if the given token is a `?.` token or not.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if the token is a `?.` token.
+ * @param token The token to check.
+ * @returns `true` if the token is a `?.` token.
  */
 export function isQuestionDotToken(token: Token) {
   return token.value === '?.' && token.type === 'Punctuator'
@@ -250,8 +250,8 @@ export function isQuestionDotToken(token: Token) {
 
 /**
  * Checks if the given token is a semicolon token or not.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if the token is a semicolon token.
+ * @param token The token to check.
+ * @returns `true` if the token is a semicolon token.
  */
 export function isSemicolonToken(token: Token) {
   return token.value === ';' && token.type === 'Punctuator'
@@ -259,8 +259,8 @@ export function isSemicolonToken(token: Token) {
 
 /**
  * Checks if the given token is a colon token or not.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if the token is a colon token.
+ * @param token The token to check.
+ * @returns `true` if the token is a colon token.
  */
 export function isColonToken(token: Token) {
   return token.value === ':' && token.type === 'Punctuator'
@@ -268,8 +268,8 @@ export function isColonToken(token: Token) {
 
 /**
  * Checks if the given token is an opening parenthesis token or not.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if the token is an opening parenthesis token.
+ * @param token The token to check.
+ * @returns `true` if the token is an opening parenthesis token.
  */
 export function isOpeningParenToken(token: Token) {
   return token.value === '(' && token.type === 'Punctuator'
@@ -277,8 +277,8 @@ export function isOpeningParenToken(token: Token) {
 
 /**
  * Checks if the given token is a closing parenthesis token or not.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if the token is a closing parenthesis token.
+ * @param token The token to check.
+ * @returns `true` if the token is a closing parenthesis token.
  */
 export function isClosingParenToken(token: Token) {
   return token.value === ')' && token.type === 'Punctuator'
@@ -286,8 +286,8 @@ export function isClosingParenToken(token: Token) {
 
 /**
  * Checks if the given token is an opening square bracket token or not.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if the token is an opening square bracket token.
+ * @param token The token to check.
+ * @returns `true` if the token is an opening square bracket token.
  */
 export function isOpeningBracketToken(token: Token) {
   return token.value === '[' && token.type === 'Punctuator'
@@ -295,8 +295,8 @@ export function isOpeningBracketToken(token: Token) {
 
 /**
  * Checks if the given token is a closing square bracket token or not.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if the token is a closing square bracket token.
+ * @param token The token to check.
+ * @returns `true` if the token is a closing square bracket token.
  */
 export function isClosingBracketToken(token: Token) {
   return token.value === ']' && token.type === 'Punctuator'
@@ -304,8 +304,8 @@ export function isClosingBracketToken(token: Token) {
 
 /**
  * Checks if the given token is an opening brace token or not.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if the token is an opening brace token.
+ * @param token The token to check.
+ * @returns `true` if the token is an opening brace token.
  */
 export function isOpeningBraceToken(token: Token) {
   return token.value === '{' && token.type === 'Punctuator'
@@ -313,8 +313,8 @@ export function isOpeningBraceToken(token: Token) {
 
 /**
  * Checks if the given token is a closing brace token or not.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if the token is a closing brace token.
+ * @param token The token to check.
+ * @returns `true` if the token is a closing brace token.
  */
 export function isClosingBraceToken(token: Token) {
   return token.value === '}' && token.type === 'Punctuator'
@@ -322,8 +322,8 @@ export function isClosingBraceToken(token: Token) {
 
 /**
  * Checks if the given token is a comment token or not.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if the token is a comment token.
+ * @param token The token to check.
+ * @returns `true` if the token is a comment token.
  */
 export function isCommentToken(token: Token | ESTree.Comment | null) {
   if (!token)
@@ -334,8 +334,8 @@ export function isCommentToken(token: Token | ESTree.Comment | null) {
 
 /**
  * Checks if the given token is a keyword token or not.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if the token is a keyword token.
+ * @param token The token to check.
+ * @returns `true` if the token is a keyword token.
  */
 export function isKeywordToken(token: Token) {
   return token.type === 'Keyword'
@@ -349,8 +349,8 @@ export function isKeywordToken(token: Token) {
  * But ESTree represents those by `LogicalExpression` node.
  *
  * This function rejects coalesce expressions of `LogicalExpression` node.
- * @param {ASTNode} node The node to check.
- * @returns {boolean} `true` if the node is `&&` or `||`.
+ * @param node The node to check.
+ * @returns `true` if the node is `&&` or `||`.
  * @see https://tc39.es/ecma262/#prod-ShortCircuitExpression
  */
 export function isLogicalExpression(node: ASTNode) {
@@ -368,8 +368,8 @@ export function isLogicalExpression(node: ASTNode) {
  * But ESTree represents those by `LogicalExpression` node.
  *
  * This function finds only coalesce expressions of `LogicalExpression` node.
- * @param {ASTNode} node The node to check.
- * @returns {boolean} `true` if the node is `??`.
+ * @param node The node to check.
+ * @returns `true` if the node is `??`.
  */
 export function isCoalesceExpression(node: ASTNode) {
   return node.type === 'LogicalExpression' && node.operator === '??'
@@ -377,9 +377,9 @@ export function isCoalesceExpression(node: ASTNode) {
 
 /**
  * Check if given two nodes are the pair of a logical expression and a coalesce expression.
- * @param {ASTNode} left A node to check.
- * @param {ASTNode} right Another node to check.
- * @returns {boolean} `true` if the two nodes are the pair of a logical expression and a coalesce expression.
+ * @param left A node to check.
+ * @param right Another node to check.
+ * @returns `true` if the two nodes are the pair of a logical expression and a coalesce expression.
  */
 export function isMixedLogicalAndCoalesceExpressions(left: ASTNode, right: ASTNode) {
   return (
@@ -390,9 +390,9 @@ export function isMixedLogicalAndCoalesceExpressions(left: ASTNode, right: ASTNo
 
 /**
  * Get the colon token of the given SwitchCase node.
- * @param {ASTNode} node The SwitchCase node to get.
- * @param {SourceCode} sourceCode The source code object to get tokens.
- * @returns {Token} The colon token of the node.
+ * @param node The SwitchCase node to get.
+ * @param sourceCode The source code object to get tokens.
+ * @returns The colon token of the node.
  */
 export function getSwitchCaseColonToken(node: ASTNode, sourceCode: TSESLint.SourceCode) {
   if ('test' in node && node.test)
@@ -405,8 +405,8 @@ export function getSwitchCaseColonToken(node: ASTNode, sourceCode: TSESLint.Sour
  * A top-level ExpressionStatement node is a directive if it contains a single unparenthesized
  * string literal and if it occurs either as the first sibling or immediately after another
  * directive.
- * @param {ASTNode} node The node to check.
- * @returns {boolean} Whether or not the node is an ExpressionStatement at the top level of a
+ * @param node The node to check.
+ * @returns Whether or not the node is an ExpressionStatement at the top level of a
  * file or function body.
  */
 export function isTopLevelExpressionStatement(node: ASTNode) {
@@ -420,8 +420,8 @@ export function isTopLevelExpressionStatement(node: ASTNode) {
 
 /**
  * Check whether the given node is a part of a directive prologue or not.
- * @param {ASTNode} node The node to check.
- * @returns {boolean} `true` if the node is a part of directive prologue.
+ * @param node The node to check.
+ * @returns `true` if the node is a part of directive prologue.
  */
 export function isDirective(node: ASTNode) {
   return node.type === 'ExpressionStatement' && typeof node.directive === 'string'
@@ -429,9 +429,9 @@ export function isDirective(node: ASTNode) {
 
 /**
  * Determines whether two adjacent tokens are on the same line.
- * @param {object} left The left token object.
- * @param {object} right The right token object.
- * @returns {boolean} Whether or not the tokens are on the same line.
+ * @param left The left token object.
+ * @param right The right token object.
+ * @returns Whether or not the tokens are on the same line.
  * @public
  */
 export function isTokenOnSameLine(left: Token | ESNode | ASTNode | null, right: Token | ESNode | ASTNode | null) {
@@ -446,8 +446,8 @@ export const isNotSemicolonToken = negate(isSemicolonToken)
 
 /**
  * Checks whether or not a given node is a string literal.
- * @param {ASTNode} node A node to check.
- * @returns {boolean} `true` if the node is a string literal.
+ * @param node A node to check.
+ * @returns `true` if the node is a string literal.
  */
 export function isStringLiteral(node: ASTNode): node is TSESTree.StringLiteral | TSESTree.TemplateLiteral {
   return (
@@ -458,9 +458,9 @@ export function isStringLiteral(node: ASTNode): node is TSESTree.StringLiteral |
 
 /**
  * Validate that a string passed in is surrounded by the specified character
- * @param {string} val The text to check.
- * @param {string} character The character to see if it's surrounded by.
- * @returns {boolean} True if the text is surrounded by the character, false if not.
+ * @param val The text to check.
+ * @param character The character to see if it's surrounded by.
+ * @returns True if the text is surrounded by the character, false if not.
  * @private
  */
 export function isSurroundedBy(val: string, character: string) {
@@ -469,8 +469,8 @@ export function isSurroundedBy(val: string, character: string) {
 
 /**
  * Get the precedence level based on the node type
- * @param {ASTNode} node node to evaluate
- * @returns {int} precedence level
+ * @param node node to evaluate
+ * @returns precedence level
  * @private
  */
 export function getPrecedence(node: ASTNode) {
@@ -570,8 +570,8 @@ export function getPrecedence(node: ASTNode) {
 /**
  * Determines whether this node is a decimal integer literal. If a node is a decimal integer literal, a dot added
  * after the node will be parsed as a decimal point, rather than a property-access dot.
- * @param {ASTNode} node The node to check.
- * @returns {boolean} `true` if this node is a decimal integer.
+ * @param node The node to check.
+ * @returns `true` if this node is a decimal integer.
  * @example
  *
  * 0         // true
@@ -604,8 +604,8 @@ export function isDecimalInteger(node: ASTNode) {
 /**
  * Determines whether this token is a decimal integer numeric token.
  * This is similar to isDecimalInteger(), but for tokens.
- * @param {Token} token The token to check.
- * @returns {boolean} `true` if this token is a decimal integer.
+ * @param token The token to check.
+ * @returns `true` if this token is a decimal integer.
  */
 export function isDecimalIntegerNumericToken(token: Token) {
   return token.type === 'Numeric' && DECIMAL_INTEGER_PATTERN.test(token.value)
@@ -651,9 +651,9 @@ export function isDecimalIntegerNumericToken(token: Token) {
  *
  * code:
  * locations: (1, 0) -> null
- * @param {SourceCode} sourceCode The sourceCode
- * @param {{line: number, column: number}} location The location
- * @returns {{line: number, column: number} | null} Next location
+ * @param sourceCode The sourceCode
+ * @param location The location
+ * @returns Next location
  */
 export function getNextLocation(sourceCode: { lines: string[] }, { column, line }: { column: number, line: number }) {
   if (column < sourceCode.lines[line - 1].length) {
@@ -675,8 +675,8 @@ export function getNextLocation(sourceCode: { lines: string[] }, { column, line 
 
 /**
  * Check if a given node is a numeric literal or not.
- * @param {ASTNode} node The node to check.
- * @returns {boolean} `true` if the node is a number or bigint literal.
+ * @param node The node to check.
+ * @returns `true` if the node is a number or bigint literal.
  */
 export function isNumericLiteral(node: ASTNode) {
   return node.type === 'Literal' && (typeof node.value === 'number' || Boolean('bigint' in node && node.bigint))
@@ -684,9 +684,9 @@ export function isNumericLiteral(node: ASTNode) {
 
 /**
  * Determines whether two tokens can safely be placed next to each other without merging into a single token
- * @param {Token|string} leftValue The left token. If this is a string, it will be tokenized and the last token will be used.
- * @param {Token|string} rightValue The right token. If this is a string, it will be tokenized and the first token will be used.
- * @returns {boolean} If the tokens cannot be safely placed next to each other, returns `false`. If the tokens can be placed
+ * @param leftValue The left token. If this is a string, it will be tokenized and the last token will be used.
+ * @param rightValue The right token. If this is a string, it will be tokenized and the first token will be used.
+ * @returns If the tokens cannot be safely placed next to each other, returns `false`. If the tokens can be placed
  * next to each other, behavior is undefined (although it should return `true` in most cases).
  */
 export function canTokensBeAdjacent(leftValue: Token | string, rightValue: Token | string) {
@@ -796,8 +796,8 @@ export function canTokensBeAdjacent(leftValue: Token | string, rightValue: Token
  * "\00", "\01" ... "\07", "\08", "\09"
  *
  * "\0", when not followed by a digit, is not an octal escape sequence.
- * @param {string} rawString A string in its raw representation.
- * @returns {boolean} `true` if the string contains at least one octal escape sequence
+ * @param rawString A string in its raw representation.
+ * @returns `true` if the string contains at least one octal escape sequence
  * or at least one non-octal decimal escape sequence.
  */
 export function hasOctalOrNonOctalDecimalEscapeSequence(rawString: string) {

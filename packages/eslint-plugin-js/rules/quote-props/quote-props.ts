@@ -94,7 +94,7 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Checks if an espree-tokenized key has redundant quotes (i.e. whether quotes are unnecessary)
      * @param rawKey The raw key value from the source
-     * @param {espreeTokens} tokens The espree-tokenized node key
+     * @param tokens The espree-tokenized node key
      * @param [skipNumberLiterals] Indicates whether number literals should be checked
      * @returns Whether or not a key has redundant quotes.
      * @private

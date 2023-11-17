@@ -56,8 +56,8 @@ export default createRule<MessageIds, RuleOptions>({
      * Determines whether an option is set, relative to the spacing option.
      * If spaced is "always", then check whether option is set to false.
      * If spaced is "never", then check whether option is set to true.
-     * @param {object} option The option to exclude.
-     * @returns {boolean} Whether or not the property is excluded.
+     * @param option The option to exclude.
+     * @returns Whether or not the property is excluded.
      */
     function isOptionSet(option: keyof NonNullable<RuleOptions[1]>) {
       return context.options[1] ? context.options[1][option] === !spaced : false
@@ -72,9 +72,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports that there shouldn't be a space after the first token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
     function reportNoBeginningSpace(node: ASTNode, token: Token) {
       const nextToken = sourceCode.getTokenAfter(token)!
@@ -94,9 +93,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports that there shouldn't be a space before the last token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
     function reportNoEndingSpace(node: ASTNode, token: Token) {
       const previousToken = sourceCode.getTokenBefore(token)!
@@ -116,9 +114,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports that there should be a space after the first token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
     function reportRequiredBeginningSpace(node: ASTNode, token: Token) {
       context.report({
@@ -136,9 +133,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports that there should be a space before the last token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
     function reportRequiredEndingSpace(node: ASTNode, token: Token) {
       context.report({
@@ -156,8 +152,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines if a node is an object type
-     * @param {ASTNode} node The node to check.
-     * @returns {boolean} Whether or not the node is an object type.
+     * @param node The node to check.
+     * @returns Whether or not the node is an object type.
      */
     function isObjectType(node: ASTNode) {
       return node && (node.type === 'ObjectExpression' || node.type === 'ObjectPattern')
@@ -165,8 +161,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines if a node is an array type
-     * @param {ASTNode} node The node to check.
-     * @returns {boolean} Whether or not the node is an array type.
+     * @param node The node to check.
+     * @returns Whether or not the node is an array type.
      */
     function isArrayType(node: ASTNode) {
       return node && (node.type === 'ArrayExpression' || node.type === 'ArrayPattern')
@@ -174,8 +170,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Validates the spacing around array brackets
-     * @param {ASTNode} node The node we're checking for spacing
-     * @returns {void}
+     * @param node The node we're checking for spacing
      */
     function validateArraySpacing(node: Tree.ArrayPattern | Tree.ArrayExpression) {
       if (options.spaced && node.elements.length === 0)

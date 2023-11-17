@@ -56,8 +56,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Normalizes a given option value.
-     * @param {string | object | undefined} option An option value to parse.
-     * @returns {{multiline: boolean, minItems: number}} Normalized option object.
+     * @param option An option value to parse.
+     * @returns Normalized option object.
      */
     function normalizeOptionValue(option: RuleOptions[0]) {
       let consistent = false
@@ -91,8 +91,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Normalizes a given option value.
-     * @param {string | object | undefined} options An option value to parse.
-     * @returns {{ArrayExpression: {multiline: boolean, minItems: number}, ArrayPattern: {multiline: boolean, minItems: number}}} Normalized option object.
+     * @param options An option value to parse.
+     * @returns Normalized option object.
      */
     function normalizeOptions(options: RuleOptions[0]) {
       const value = normalizeOptionValue(options)
@@ -102,9 +102,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports that there shouldn't be a linebreak after the first token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
     function reportNoBeginningLinebreak(node: ASTNode, token: Token) {
       context.report({
@@ -124,9 +123,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports that there shouldn't be a linebreak before the last token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
     function reportNoEndingLinebreak(node: ASTNode, token: Token) {
       context.report({
@@ -146,9 +144,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports that there should be a linebreak after the first token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
     function reportRequiredBeginningLinebreak(node: ASTNode, token: Token) {
       context.report({
@@ -163,9 +160,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports that there should be a linebreak before the last token
-     * @param {ASTNode} node The node to report in the event of an error.
-     * @param {Token} token The token to use for the report.
-     * @returns {void}
+     * @param node The node to report in the event of an error.
+     * @param token The token to use for the report.
      */
     function reportRequiredEndingLinebreak(node: ASTNode, token: Token) {
       context.report({
@@ -180,8 +176,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports a given node if it violated this rule.
-     * @param {ASTNode} node A node to check. This is an ArrayExpression node or an ArrayPattern node.
-     * @returns {void}
+     * @param node A node to check. This is an ArrayExpression node or an ArrayPattern node.
      */
     function check(node: ASTNode) {
       // @ts-expect-error type cast

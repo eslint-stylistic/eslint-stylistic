@@ -57,9 +57,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check all arguments for line breaks in the CallExpression
-     * @param {CallExpression} node node to evaluate
-     * @param {{ messageId: string, check: Function }} checker selected checker
-     * @returns {void}
+     * @param node node to evaluate
+     * @param checker selected checker
      * @private
      */
     function checkArguments(node: Tree.CallExpression | Tree.NewExpression, checker: Checker) {
@@ -90,8 +89,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check if open space is present in a function name
-     * @param {CallExpression} node node to evaluate
-     * @returns {void}
+     * @param node node to evaluate
      * @private
      */
     function check(node: Tree.CallExpression | Tree.NewExpression) {

@@ -56,9 +56,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Fixes a place where a newline unexpectedly appears
-     * @param {Token} firstToken The token before the unexpected newline
-     * @param {Token} secondToken The token after the unexpected newline
-     * @returns {Function} A fixer function to remove the newlines between the tokens
+     * @param firstToken The token before the unexpected newline
+     * @param secondToken The token after the unexpected newline
+     * @returns A fixer function to remove the newlines between the tokens
      */
     function removeNewlineBetween(firstToken: Token, secondToken: Token): ReportFixFunction | null {
       const textRange = [firstToken.range[1], secondToken.range[0]] as const
@@ -73,9 +73,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Validates a pair of curly brackets based on the user's config
-     * @param {Token} openingCurly The opening curly bracket
-     * @param {Token} closingCurly The closing curly bracket
-     * @returns {void}
+     * @param openingCurly The opening curly bracket
+     * @param closingCurly The closing curly bracket
      */
     function validateCurlyPair(openingCurly: Token, closingCurly: Token): void {
       const tokenBeforeOpeningCurly = sourceCode.getTokenBefore(openingCurly)!
@@ -121,8 +120,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Validates the location of a token that appears before a keyword (e.g. a newline before `else`)
-     * @param {Token} curlyToken The closing curly token. This is assumed to precede a keyword token (such as `else` or `finally`).
-     * @returns {void}
+     * @param curlyToken The closing curly token. This is assumed to precede a keyword token (such as `else` or `finally`).
      */
     function validateCurlyBeforeKeyword(curlyToken: Token): void {
       const keywordToken = sourceCode.getTokenAfter(curlyToken)!
