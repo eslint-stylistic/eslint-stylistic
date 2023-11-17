@@ -63,6 +63,21 @@ const invalids = [
       namespaceTo: 'style',
     },
   ],
+  [
+    {
+      rules: {
+        '@typescript-eslint/indent': 'error',
+      },
+    },
+    {
+      rules: {
+        indent: 'error',
+      },
+    },
+    {
+      namespaceTo: '',
+    },
+  ],
 ].flatMap(([from, to, options = {}]) => [
   {
     code: `module.exports = ${JSON.stringify(from, null, 2)}`,
@@ -77,6 +92,7 @@ const invalids = [
     filename: '.eslintrc.json',
     errors: [{ messageId: 'migrate' }],
     options: [options] as any,
+    parser: require.resolve('jsonc-eslint-parser'),
   },
   {
     code: `export default ${JSON.stringify(from, null, 2)}`,
