@@ -84,7 +84,7 @@ export default [
 // .eslintrc.js
 module.exports = {
   extends: [
-    'plugin:@stylistic/recommended-legacy'
+    'plugin:@stylistic/recommended-extends'
   ],
   rules: {
     // ...your other rules
