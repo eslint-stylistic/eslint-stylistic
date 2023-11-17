@@ -1,6 +1,6 @@
 {
   "name": "@stylistic/eslint-plugin-migrate",
-  "version": "1.3.2",
+  "version": "1.3.3",
   "description": "ESLint plugin to migrate built-in rules to stylistic rules",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
