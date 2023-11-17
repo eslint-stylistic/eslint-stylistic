@@ -9,8 +9,9 @@ import {
 } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import type { ReportFixFunction, Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 

@@ -7,6 +7,7 @@ import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '../..
 import keywords from '../../utils/keywords'
 import { createRule } from '../../utils/createRule'
 import type { ASTNode, JSONSchema, Token, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 const PREV_TOKEN = /^[)\]}>]$/u
 const NEXT_TOKEN = /^(?:[([{<~!]|\+\+?|--?)$/u
@@ -44,7 +45,7 @@ function isCloseParenOfTemplate(token: Token) {
   return token.type === 'Template' && TEMPLATE_CLOSE_PAREN.test(token.value)
 }
 
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -205,6 +206,8 @@ export default createRule({
       }
     }
 
+    type Options = NonNullable<RuleOptions[0]>
+
     /**
      * Parses the option object and determines check methods for each keyword.
      * @param {object | undefined} options The option object to parse.
@@ -212,14 +215,7 @@ export default createRule({
      *      Keys are keywords (there are for every keyword).
      *      Values are instances of `{"before": function, "after": function}`.
      */
-    function parseOptions(options: {
-      before?: boolean
-      after?: boolean
-      overrides?: Record<string, {
-        before: boolean
-        after: boolean
-      }>
-    } = {}): Record<string, {
+    function parseOptions(options: Options = {}): Record<string, {
       before: (token: Token, pattern?: RegExp) => void
       after: (token: Token, pattern?: RegExp) => void
     }> {
@@ -229,7 +225,7 @@ export default createRule({
         before: before ? expectSpaceBefore : unexpectSpaceBefore,
         after: after ? expectSpaceAfter : unexpectSpaceAfter,
       }
-      const overrides = (options && options.overrides) || {}
+      const overrides = (options && options.overrides) || {} as any
       const retv = Object.create(null)
 
       for (let i = 0; i < KEYS.length; ++i) {
@@ -253,7 +249,7 @@ export default createRule({
       return retv
     }
 
-    const checkMethodMap = parseOptions(context.options[0])
+    const checkMethodMap = parseOptions(context.options[0]!)
 
     /**
      * Reports a given token if usage of spacing followed by the token is

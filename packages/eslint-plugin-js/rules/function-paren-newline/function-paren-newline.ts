@@ -6,13 +6,14 @@
 import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import type { Token, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 interface ParensPair {
   leftParen: Token
   rightParen: Token
 }
 
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -59,7 +60,7 @@ export default createRule({
     const multilineOption = rawOption === 'multiline'
     const multilineArgumentsOption = rawOption === 'multiline-arguments'
     const consistentOption = rawOption === 'consistent'
-    let minItems: number | null = null
+    let minItems: number | undefined
 
     if (typeof rawOption === 'object')
       minItems = rawOption.minItems
@@ -84,7 +85,7 @@ export default createRule({
       if (consistentOption)
         return hasLeftNewline
 
-      return minItems === null || elements.length >= minItems
+      return minItems == null || elements.length >= minItems
     }
 
     /**

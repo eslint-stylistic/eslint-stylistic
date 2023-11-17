@@ -7,6 +7,7 @@ import { LINEBREAK_MATCHER, getStaticPropertyName, isColonToken } from '../../ut
 import { createRule } from '../../utils/createRule'
 import { getGraphemeCount } from '../../utils/string-utils'
 import type { ASTNode, ReportFixFunction, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 /**
  * Checks whether a string contains a line terminator as defined in
@@ -121,7 +122,7 @@ function initOptions(toOptions: any, fromOptions: any) {
   return toOptions
 }
 
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 

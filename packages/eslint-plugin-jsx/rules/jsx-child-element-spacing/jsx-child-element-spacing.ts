@@ -1,6 +1,7 @@
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
 import type { ASTNode, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 // This list is taken from https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements
 
@@ -43,7 +44,7 @@ const messages = {
   spacingBeforeNext: 'Ambiguous spacing before next element {{element}}',
 }
 
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
     docs: {

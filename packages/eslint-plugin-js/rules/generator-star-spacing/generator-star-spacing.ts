@@ -5,6 +5,7 @@
 
 import { createRule } from '../../utils/createRule'
 import type { JSONSchema, Token, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 const OVERRIDE_SCHEMA: JSONSchema.JSONSchema4 = {
   oneOf: [
@@ -23,7 +24,7 @@ const OVERRIDE_SCHEMA: JSONSchema.JSONSchema4 = {
   ],
 }
 
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -72,13 +73,15 @@ export default createRule({
       neither: { before: false, after: false },
     }
 
+    type Options = Exclude<NonNullable<RuleOptions[0]>, string>
+
     /**
      * Returns resolved option definitions based on an option and defaults
      * @param {any} option The option object or string value
      * @param {object} defaults The defaults to use if options are not present
      * @returns {object} the resolved object definition
      */
-    function optionToDefinition(option: keyof typeof optionDefinitions | unknown, defaults: { before: boolean, after: boolean }) {
+    function optionToDefinition(option: NonNullable<RuleOptions[0]> | undefined, defaults: { before: boolean, after: boolean }) {
       if (!option)
         return defaults
 
@@ -91,9 +94,9 @@ export default createRule({
       const defaults = optionToDefinition(option, optionDefinitions.before)
 
       return {
-        named: optionToDefinition(option.named, defaults),
-        anonymous: optionToDefinition(option.anonymous, defaults),
-        method: optionToDefinition(option.method, defaults),
+        named: optionToDefinition((<Options>option).named, defaults),
+        anonymous: optionToDefinition((<Options>option).anonymous, defaults),
+        method: optionToDefinition((<Options>option).method, defaults),
       }
     }(context.options[0] || {}))
 

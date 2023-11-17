@@ -5,6 +5,7 @@
 
 import { createRule } from '../../utils/createRule'
 import type { ReportFixFunction, Token, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 interface Checker {
   messageId: 'unexpectedLineBreak' | 'missingLineBreak'
@@ -12,7 +13,7 @@ interface Checker {
   createFix: (token: Token, tokenBefore: Token) => ReportFixFunction
 }
 
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 

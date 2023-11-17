@@ -6,7 +6,7 @@
 import { isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import type { ASTNode, Token } from '../../utils/types'
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 
 type NodeTest = (
   node: ASTNode
@@ -27,7 +27,7 @@ const ClassMemberTypes: Record<string, NodeTestObject> = {
   'method': { test: node => node.type === 'MethodDefinition' },
 }
 
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
