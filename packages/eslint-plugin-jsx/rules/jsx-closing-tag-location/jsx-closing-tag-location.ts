@@ -6,8 +6,7 @@
 import { isNodeFirstInLine } from '../../utils/ast'
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import report from '../../utils/report'
-import type { RuleFixer, Tree } from '../../utils/types'
+import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
@@ -17,14 +16,15 @@ const messages = {
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
+
     docs: {
       description: 'Enforce closing tag location for multiline JSX',
-      // @ts-expect-error typescript-eslint typedef does not include this
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-closing-tag-location'),
     },
     fixable: 'whitespace',
     messages,
+    schema: [],
   },
 
   create(context) {
@@ -47,10 +47,12 @@ export default createRule<MessageIds, RuleOptions>({
       const messageId = isNodeFirstInLine(context, node)
         ? 'matchIndent'
         : 'onOwnLine'
-      report(context, messages[messageId], messageId, {
+
+      context.report({
         node,
+        messageId,
         loc: node.loc,
-        fix(fixer: RuleFixer) {
+        fix(fixer) {
           const indent = Array(opening.loc.start.column + 1).join(' ')
           if (isNodeFirstInLine(context, node)) {
             return fixer.replaceTextRange(

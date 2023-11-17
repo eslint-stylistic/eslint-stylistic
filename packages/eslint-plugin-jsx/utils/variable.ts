@@ -3,7 +3,8 @@
  * @author Yannick Croissant
  */
 
-import type { Rule, Scope } from 'eslint'
+import type { Scope as ESLintScope } from 'eslint'
+import type { RuleContext, Scope } from './types'
 
 /**
  * Find and return a particular variable in a list
@@ -23,7 +24,7 @@ export function getVariable(variables: Scope.Variable[], name: string) {
  * @param {object} context The current rule context.
  * @returns {Array} The variables list
  */
-export function variablesInScope(context: Rule.RuleContext) {
+export function variablesInScope(context: RuleContext<any, any>) {
   let scope = context.getScope()
   let variables = scope.variables
 
@@ -47,8 +48,8 @@ export function variablesInScope(context: Rule.RuleContext) {
  * @param  {string} name Name of the variable to look for.
  * @returns {ASTNode|null} Return null if the variable could not be found, ASTNode otherwise.
  */
-export function findVariableByName(context: Rule.RuleContext, name: string) {
-  const variable = getVariable(variablesInScope(context), name)
+export function findVariableByName(context: RuleContext<any, any>, name: string) {
+  const variable = getVariable(variablesInScope(context), name) as ESLintScope.Variable | undefined
 
   if (!variable || !variable.defs[0] || !variable.defs[0].node)
     return null

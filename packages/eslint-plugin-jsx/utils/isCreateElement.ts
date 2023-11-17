@@ -1,7 +1,6 @@
-import type { Rule } from 'eslint'
 import { getFromContext } from './pragma'
 import { isDestructuredFromPragmaImport } from './isDestructuredFromPragmaImport'
-import type { Tree } from './types'
+import type { RuleContext, Tree } from './types'
 
 /**
  * Checks if the node is a createElement call
@@ -9,7 +8,7 @@ import type { Tree } from './types'
  * @param {Context} context - The AST node being checked.
  * @returns {boolean} - True if node is a createElement call object literal, False if not.
  */
-export function isCreateElement(node: Tree.CallExpression, context: Rule.RuleContext): boolean {
+export function isCreateElement(node: Tree.CallExpression, context: RuleContext<any, any>): boolean {
   const callee = node.callee
   if (
     callee

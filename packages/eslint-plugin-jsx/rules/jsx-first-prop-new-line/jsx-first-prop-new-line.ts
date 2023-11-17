@@ -3,34 +3,40 @@
  * @author Joachim Seminck
  */
 
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import report from '../../utils/report'
+import type { Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
   propOnNewLine: 'Property should be placed on a new line',
   propOnSameLine: 'Property should be placed on the same line as the component declaration',
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
+
     docs: {
       description: 'Enforce proper position of the first property in JSX',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-first-prop-new-line'),
     },
     fixable: 'code',
 
     messages,
 
-    schema: [{
-      enum: ['always', 'never', 'multiline', 'multiline-multiprop', 'multiprop'],
-    }],
+    schema: [
+      {
+        type: 'string',
+        enum: ['always', 'never', 'multiline', 'multiline-multiprop', 'multiprop'],
+      },
+    ],
   },
 
   create(context) {
     const configuration = context.options[0] || 'multiline-multiprop'
 
-    function isMultilineJSX(jsxNode) {
+    function isMultilineJSX(jsxNode: Tree.JSXOpeningElement) {
       return jsxNode.loc.start.line < jsxNode.loc.end.line
     }
 
@@ -44,8 +50,9 @@ export default {
         ) {
           node.attributes.some((decl) => {
             if (decl.loc.start.line === node.loc.start.line) {
-              report(context, messages.propOnNewLine, 'propOnNewLine', {
+              context.report({
                 node: decl,
+                messageId: 'propOnNewLine',
                 fix(fixer) {
                   return fixer.replaceTextRange([(node.typeParameters || node.name).range[1], decl.range[0]], '\n')
                 },
@@ -60,8 +67,9 @@ export default {
         ) {
           const firstNode = node.attributes[0]
           if (node.loc.start.line < firstNode.loc.start.line) {
-            report(context, messages.propOnSameLine, 'propOnSameLine', {
+            context.report({
               node: firstNode,
+              messageId: 'propOnSameLine',
               fix(fixer) {
                 return fixer.replaceTextRange([node.name.range[1], firstNode.range[0]], ' ')
               },
@@ -71,4 +79,4 @@ export default {
       },
     }
   },
-}
+})

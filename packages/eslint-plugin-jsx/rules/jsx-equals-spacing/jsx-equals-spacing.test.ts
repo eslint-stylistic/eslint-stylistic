@@ -13,7 +13,7 @@ const parserOptions = {
   ecmaFeatures: {
     jsx: true,
   },
-}
+} as const
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-equals-spacing', rule, {

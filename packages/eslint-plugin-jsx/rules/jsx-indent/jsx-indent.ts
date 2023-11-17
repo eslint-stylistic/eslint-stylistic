@@ -32,44 +32,51 @@
 
 import { getFirstNodeInLine, isNodeFirstInLine } from '../../utils/ast'
 import { docsUrl } from '../../utils/docsUrl'
-import reportC from '../../utils/report'
 import { isJSX, isReturningJSX } from '../../utils/jsx'
-
-const matchAll = (s, v) => s.matchAll(v)
+import { createRule } from '../../utils/createRule'
+import type { ASTNode, ReportFixFunction, Token, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
     docs: {
       description: 'Enforce JSX indentation',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-indent'),
     },
     fixable: 'whitespace',
 
     messages,
 
-    schema: [{
-      anyOf: [{
-        enum: ['tab'],
-      }, {
-        type: 'integer',
-      }],
-    }, {
-      type: 'object',
-      properties: {
-        checkAttributes: {
-          type: 'boolean',
-        },
-        indentLogicalExpressions: {
-          type: 'boolean',
-        },
+    schema: [
+      {
+        anyOf: [
+          {
+            type: 'string',
+            enum: ['tab'],
+          },
+          {
+            type: 'integer',
+          },
+        ],
       },
-      additionalProperties: false,
-    }],
+      {
+        type: 'object',
+        properties: {
+          checkAttributes: {
+            type: 'boolean',
+          },
+          indentLogicalExpressions: {
+            type: 'boolean',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
   },
 
   create(context) {
@@ -100,7 +107,7 @@ export default {
      * @returns {Function} function to be executed by the fixer
      * @private
      */
-    function getFixerFunction(node, needed) {
+    function getFixerFunction(node: ASTNode, needed: number): ReportFixFunction {
       const indent = Array(needed + 1).join(indentChar)
 
       if (node.type === 'JSXText' || node.type === 'Literal') {
@@ -141,7 +148,7 @@ export default {
      * @param {number} gotten Indentation character count in the actual node/code
      * @param {object} [loc] Error line and column location
      */
-    function report(node, needed, gotten, loc) {
+    function report(node: ASTNode, needed: number, gotten: number, loc?: ASTNode['loc']) {
       const msgContext = {
         needed,
         type: indentType,
@@ -149,11 +156,13 @@ export default {
         gotten,
       }
 
-      reportC(context, messages.wrongIndent, 'wrongIndent', Object.assign({
+      context.report({
         node,
+        messageId: 'wrongIndent',
         data: msgContext,
         fix: getFixerFunction(node, needed),
-      }, loc && { loc }))
+        ...loc ? { loc } : {},
+      })
     }
 
     /**
@@ -163,8 +172,8 @@ export default {
      * @param {boolean} [excludeCommas] skip comma on start of line
      * @return {number} Indent
      */
-    function getNodeIndent(node, byLastLine, excludeCommas) {
-      let src = context.getSourceCode().getText(node, node.loc.start.column + extraColumnStart)
+    function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
+      let src = context.sourceCode.getText(node, node.loc.start.column + extraColumnStart)
       const lines = src.split('\n')
       if (byLastLine)
         src = lines[lines.length - 1]
@@ -188,7 +197,7 @@ export default {
      * @param {ASTNode} node The node to check
      * @return {boolean} true if its the case, false if not
      */
-    function isRightInLogicalExp(node) {
+    function isRightInLogicalExp(node: ASTNode) {
       return (
         node.parent
         && node.parent.parent
@@ -203,13 +212,13 @@ export default {
      * @param {ASTNode} node The node to check
      * @return {boolean} true if its the case, false if not
      */
-    function isAlternateInConditionalExp(node) {
+    function isAlternateInConditionalExp(node: ASTNode) {
       return (
         node.parent
         && node.parent.parent
         && node.parent.parent.type === 'ConditionalExpression'
         && node.parent.parent.alternate === node.parent
-        && context.getSourceCode().getTokenBefore(node).value !== '('
+        && context.getSourceCode().getTokenBefore(node)!.value !== '('
       )
     }
 
@@ -218,7 +227,7 @@ export default {
      * @param {ASTNode} node The node to check
      * @return {boolean} true if its the case, false if not
      */
-    function isSecondOrSubsequentExpWithinDoExp(node) {
+    function isSecondOrSubsequentExpWithinDoExp(node: ASTNode) {
       /*
         It returns true when node.parent.parent.parent.parent matches:
 
@@ -259,25 +268,24 @@ export default {
           })
         })
       */
-      const isInExpStmt = (
-        node.parent
-        && node.parent.parent
-        && node.parent.parent.type === 'ExpressionStatement'
+      if (!node.parent
+        || !node.parent.parent
+        || node.parent.parent.type !== 'ExpressionStatement'
       )
-      if (!isInExpStmt)
         return false
 
-      const expStmt = node.parent.parent
+      const expStmt = node.parent.parent!
       const isInBlockStmtWithinDoExp = (
         expStmt.parent
         && expStmt.parent.type === 'BlockStatement'
         && expStmt.parent.parent
+        // @ts-expect-error Missing in types
         && expStmt.parent.parent.type === 'DoExpression'
       )
       if (!isInBlockStmtWithinDoExp)
         return false
 
-      const blockStmt = expStmt.parent
+      const blockStmt = expStmt.parent as Tree.BlockStatement
       const blockStmtFirstExp = blockStmt.body[0]
       return !(blockStmtFirstExp === expStmt)
     }
@@ -288,7 +296,7 @@ export default {
      * @param {number} indent needed indent
      * @param {boolean} [excludeCommas] skip comma on start of line
      */
-    function checkNodesIndent(node, indent, excludeCommas) {
+    function checkNodesIndent(node: ASTNode, indent: number, excludeCommas = false) {
       const nodeIndent = getNodeIndent(node, false, excludeCommas)
       const isCorrectRightInLogicalExp = isRightInLogicalExp(node) && (nodeIndent - indent) === indentSize
       const isCorrectAlternateInCondExp = isAlternateInConditionalExp(node) && (nodeIndent - indent) === 0
@@ -306,11 +314,11 @@ export default {
      * @param {ASTNode} node The node to check
      * @param {number} indent needed indent
      */
-    function checkLiteralNodeIndent(node, indent) {
+    function checkLiteralNodeIndent(node: Tree.Literal | Tree.JSXText, indent: number) {
       const value = node.value
       const regExp = indentType === 'space' ? /\n( *)[\t ]*\S/g : /\n(\t*)[\t ]*\S/g
       const nodeIndentsPerLine = Array.from(
-        matchAll(String(value), regExp),
+        String(value).matchAll(regExp),
         match => (match[1] ? match[1].length : 0),
       )
       const hasFirstInLineNode = nodeIndentsPerLine.length > 0
@@ -324,23 +332,25 @@ export default {
       }
     }
 
-    function handleOpeningElement(node) {
+    function handleOpeningElement(node: Tree.JSXOpeningElement | Tree.JSXOpeningFragment) {
       const sourceCode = context.getSourceCode()
-      let prevToken = sourceCode.getTokenBefore(node)
+      let prevToken: Tree.Node | Tree.Token = sourceCode.getTokenBefore(node)!
       if (!prevToken)
         return
 
       // Use the parent in a list or an array
       if (prevToken.type === 'JSXText' || ((prevToken.type === 'Punctuator') && prevToken.value === ',')) {
-        prevToken = sourceCode.getNodeByRangeIndex(prevToken.range[0])
+        prevToken = sourceCode.getNodeByRangeIndex(prevToken.range[0])!
         prevToken = prevToken.type === 'Literal' || prevToken.type === 'JSXText' ? prevToken.parent : prevToken
-      // Use the first non-punctuator token in a conditional expression
+        // Use the first non-punctuator token in a conditional expression
       }
       else if (prevToken.type === 'Punctuator' && prevToken.value === ':') {
         do
-          prevToken = sourceCode.getTokenBefore(prevToken)
+          prevToken = sourceCode.getTokenBefore(prevToken)!
+
         while (prevToken.type === 'Punctuator' && prevToken.value !== '/')
-        prevToken = sourceCode.getNodeByRangeIndex(prevToken.range[0])
+        prevToken = sourceCode.getNodeByRangeIndex(prevToken.range[0])!
+
         while (prevToken.parent && prevToken.parent.type !== 'ConditionalExpression')
           prevToken = prevToken.parent
       }
@@ -355,26 +365,26 @@ export default {
       checkNodesIndent(node, parentElementIndent + indent)
     }
 
-    function handleClosingElement(node) {
+    function handleClosingElement(node: Tree.JSXClosingElement | Tree.JSXClosingFragment) {
       if (!node.parent)
         return
 
-      const peerElementIndent = getNodeIndent(node.parent.openingElement || node.parent.openingFragment)
+      const peerElementIndent = getNodeIndent((<Tree.JSXElement>node.parent).openingElement || (<Tree.JSXFragment>node.parent).openingFragment)
       checkNodesIndent(node, peerElementIndent)
     }
 
-    function handleAttribute(node) {
+    function handleAttribute(node: Tree.JSXAttribute) {
       if (!checkAttributes || (!node.value || node.value.type !== 'JSXExpressionContainer'))
         return
 
       const nameIndent = getNodeIndent(node.name)
-      const lastToken = context.getSourceCode().getLastToken(node.value)
+      const lastToken = context.getSourceCode().getLastToken(node.value)!
       const firstInLine = getFirstNodeInLine(context, lastToken)
       const indent = node.name.loc.start.line === firstInLine.loc.start.line ? 0 : nameIndent
-      checkNodesIndent(firstInLine, indent)
+      checkNodesIndent(firstInLine as unknown as ASTNode, indent)
     }
 
-    function handleLiteral(node) {
+    function handleLiteral(node: Tree.Literal | Tree.JSXText) {
       if (!node.parent)
         return
 
@@ -404,11 +414,12 @@ export default {
       ReturnStatement(node) {
         if (
           !node.parent
+          || !node.argument
           || !isJSX(node.argument)
         )
           return
 
-        let fn = node.parent
+        let fn: Tree.Node | undefined = node.parent
         while (fn && fn.type !== 'FunctionDeclaration' && fn.type !== 'FunctionExpression')
           fn = fn.parent
 
@@ -426,4 +437,4 @@ export default {
       },
     }
   },
-}
+})

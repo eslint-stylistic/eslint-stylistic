@@ -3,8 +3,10 @@
  * @author ryym
  */
 
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import report from '../../utils/report'
+import type { Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
   noSpaceBefore: 'There should be no space before \'=\'',
@@ -13,49 +15,44 @@ const messages = {
   needSpaceAfter: 'A space is required after \'=\'',
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
     docs: {
       description: 'Enforce or disallow spaces around equal signs in JSX attributes',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-equals-spacing'),
     },
     fixable: 'code',
 
     messages,
 
-    schema: [{
-      enum: ['always', 'never'],
-    }],
+    schema: [
+      {
+        type: 'string',
+        enum: ['always', 'never'],
+      },
+    ],
   },
 
   create(context) {
     const config = context.options[0] || 'never'
 
-    /**
-     * Determines a given attribute node has an equal sign.
-     * @param {ASTNode} attrNode - The attribute node.
-     * @returns {boolean} Whether or not the attriute node has an equal sign.
-     */
-    function hasEqual(attrNode) {
-      return attrNode.type !== 'JSXSpreadAttribute' && attrNode.value !== null
-    }
-
     return {
       JSXOpeningElement(node) {
         node.attributes.forEach((attrNode) => {
-          if (!hasEqual(attrNode))
+          if (!(attrNode.type !== 'JSXSpreadAttribute' && attrNode.value !== null))
             return
 
           const sourceCode = context.getSourceCode()
-          const equalToken = sourceCode.getTokenAfter(attrNode.name)
-          const spacedBefore = sourceCode.isSpaceBetweenTokens(attrNode.name, equalToken)
-          const spacedAfter = sourceCode.isSpaceBetweenTokens(equalToken, attrNode.value)
+          const equalToken = sourceCode.getTokenAfter(attrNode.name)!
+          const spacedBefore = sourceCode.isSpaceBetweenTokens(attrNode.name as unknown as Token, equalToken)
+          const spacedAfter = sourceCode.isSpaceBetweenTokens(equalToken, attrNode.value as unknown as Token)
 
           if (config === 'never') {
             if (spacedBefore) {
-              report(context, messages.noSpaceBefore, 'noSpaceBefore', {
+              context.report({
                 node: attrNode,
+                messageId: 'noSpaceBefore',
                 loc: equalToken.loc.start,
                 fix(fixer) {
                   return fixer.removeRange([attrNode.name.range[1], equalToken.range[0]])
@@ -63,18 +60,20 @@ export default {
               })
             }
             if (spacedAfter) {
-              report(context, messages.noSpaceAfter, 'noSpaceAfter', {
+              context.report({
                 node: attrNode,
+                messageId: 'noSpaceAfter',
                 loc: equalToken.loc.start,
                 fix(fixer) {
-                  return fixer.removeRange([equalToken.range[1], attrNode.value.range[0]])
+                  return fixer.removeRange([equalToken.range[1], attrNode.value!.range[0]])
                 },
               })
             }
           }
           else if (config === 'always') {
             if (!spacedBefore) {
-              report(context, messages.needSpaceBefore, 'needSpaceBefore', {
+              context.report({
+                messageId: 'needSpaceBefore',
                 node: attrNode,
                 loc: equalToken.loc.start,
                 fix(fixer) {
@@ -83,8 +82,9 @@ export default {
               })
             }
             if (!spacedAfter) {
-              report(context, messages.needSpaceAfter, 'needSpaceAfter', {
+              context.report({
                 node: attrNode,
+                messageId: 'needSpaceAfter',
                 loc: equalToken.loc.start,
                 fix(fixer) {
                   return fixer.insertTextAfter(equalToken, ' ')
@@ -96,4 +96,4 @@ export default {
       },
     }
   },
-}
+})

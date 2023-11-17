@@ -31,18 +31,21 @@
  */
 
 import { isNodeFirstInLine } from '../../utils/ast'
+import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import reportC from '../../utils/report'
+import type { ASTNode } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
 }
 
-export default {
+export default createRule<MessageIds, RuleOptions>({
   meta: {
+    type: 'layout',
+
     docs: {
       description: 'Enforce props indentation in JSX',
-      category: 'Stylistic Issues',
       url: docsUrl('jsx-indent-props'),
     },
     fixable: 'code',
@@ -50,33 +53,42 @@ export default {
     messages,
 
     schema: [{
-      anyOf: [{
-        enum: ['tab', 'first'],
-      }, {
-        type: 'integer',
-      }, {
-        type: 'object',
-        properties: {
-          indentMode: {
-            anyOf: [{
-              enum: ['tab', 'first'],
-            }, {
-              type: 'integer',
-            }],
-          },
-          ignoreTernaryOperator: {
-            type: 'boolean',
+      anyOf: [
+        {
+          type: 'string',
+          enum: ['tab', 'first'],
+        },
+        {
+          type: 'integer',
+        },
+        {
+          type: 'object',
+          properties: {
+            indentMode: {
+              anyOf: [
+                {
+                  type: 'string',
+                  enum: ['tab', 'first'],
+                },
+                {
+                  type: 'integer',
+                },
+              ],
+            },
+            ignoreTernaryOperator: {
+              type: 'boolean',
+            },
           },
         },
-      }],
+      ],
     }],
   },
 
   create(context) {
+    const options = context.options[0]
     const extraColumnStart = 0
-    let indentType = 'space'
-    /** @type {number|'first'} */
-    let indentSize = 4
+    let indentType: 'space' | 'tab' = 'space'
+    let indentSize: number | 'first' = 4
     const line = {
       isUsingOperator: false,
       currentOperator: false,
@@ -86,8 +98,8 @@ export default {
     if (context.options.length) {
       const isConfigObject = typeof context.options[0] === 'object'
       const indentMode = isConfigObject
-        ? context.options[0].indentMode
-        : context.options[0]
+        ? typeof options === 'object' && options.indentMode
+        : options
 
       if (indentMode === 'first') {
         indentSize = 'first'
@@ -102,31 +114,8 @@ export default {
         indentType = 'space'
       }
 
-      if (isConfigObject && context.options[0].ignoreTernaryOperator)
+      if (typeof options === 'object' && options.ignoreTernaryOperator)
         ignoreTernaryOperator = true
-    }
-
-    /**
-     * Reports a given indent violation and properly pluralizes the message
-     * @param {ASTNode} node Node violating the indent rule
-     * @param {number} needed Expected indentation character count
-     * @param {number} gotten Indentation character count in the actual node/code
-     */
-    function report(node, needed, gotten) {
-      const msgContext = {
-        needed,
-        type: indentType,
-        characters: needed === 1 ? 'character' : 'characters',
-        gotten,
-      }
-
-      reportC(context, messages.wrongIndent, 'wrongIndent', {
-        node,
-        data: msgContext,
-        fix(fixer) {
-          return fixer.replaceTextRange([node.range[0] - node.loc.start.column, node.range[0]], Array(needed + 1).join(indentType === 'space' ? ' ' : '\t'))
-        },
-      })
     }
 
     /**
@@ -134,7 +123,7 @@ export default {
      * @param {ASTNode} node Node to examine
      * @return {number} Indent
      */
-    function getNodeIndent(node) {
+    function getNodeIndent(node: ASTNode) {
       let src = context.getSourceCode().getText(node, node.loc.start.column + extraColumnStart)
       const lines = src.split('\n')
       src = lines[0]
@@ -166,7 +155,7 @@ export default {
      * @param {ASTNode[]} nodes list of node objects
      * @param {number} indent needed indent
      */
-    function checkNodesIndent(nodes, indent) {
+    function checkNodesIndent(nodes: ASTNode[], indent: number) {
       let nestedIndent = indent
       nodes.forEach((node) => {
         const nodeIndent = getNodeIndent(node)
@@ -182,8 +171,27 @@ export default {
         if (
           node.type !== 'ArrayExpression' && node.type !== 'ObjectExpression'
           && nodeIndent !== nestedIndent && isNodeFirstInLine(context, node)
-        )
-          report(node, nestedIndent, nodeIndent)
+        ) {
+          context.report({
+            node,
+            messageId: 'wrongIndent',
+            data: {
+              needed: nestedIndent,
+              type: indentType,
+              characters: nestedIndent === 1 ? 'character' : 'characters',
+              gotten: nodeIndent,
+            },
+            fix(fixer) {
+              return fixer.replaceTextRange(
+                [
+                  node.range[0] - node.loc.start.column,
+                  node.range[0],
+                ],
+                Array(nestedIndent + 1).join(indentType === 'space' ? ' ' : '\t'),
+              )
+            },
+          })
+        }
       })
     }
 
@@ -205,4 +213,4 @@ export default {
       },
     }
   },
-}
+})

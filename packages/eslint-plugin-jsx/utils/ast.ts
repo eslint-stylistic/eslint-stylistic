@@ -111,7 +111,7 @@ export function traverseReturns(
  * @param {ASTNode} node The node to check
  * @return {ASTNode} the first node in the line
  */
-export function getFirstNodeInLine(context: { sourceCode: SourceCode }, node: ASTNode) {
+export function getFirstNodeInLine(context: { sourceCode: SourceCode }, node: ASTNode | Token) {
   const sourceCode = context.sourceCode
   let token: ASTNode | Token = node
   let lines: string[] | null = null
