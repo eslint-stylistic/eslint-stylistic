@@ -52,7 +52,7 @@ export default createRule<MessageIds, RuleOptions>({
             if (decl.loc.start.line === node.loc.start.line) {
               context.report({
                 node: decl,
-                messageId: 'propOnSameLine',
+                messageId: 'propOnNewLine',
                 fix(fixer) {
                   return fixer.replaceTextRange([(node.typeParameters || node.name).range[1], decl.range[0]], '\n')
                 },
@@ -69,7 +69,7 @@ export default createRule<MessageIds, RuleOptions>({
           if (node.loc.start.line < firstNode.loc.start.line) {
             context.report({
               node: firstNode,
-              messageId: 'propOnNewLine',
+              messageId: 'propOnSameLine',
               fix(fixer) {
                 return fixer.replaceTextRange([node.name.range[1], firstNode.range[0]], ' ')
               },
