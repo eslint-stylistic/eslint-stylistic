@@ -18,7 +18,7 @@ ESLint Stylistic is composed of 4 plugins and 1 unified plugin:
 ### Additional plugins
 
 - [`@stylistic/eslint-plugin-plus`](/packages/plus)
-  - New rules introduced by ESLint Stylistic
+  - Supplementary rules introduced by ESLint Stylistic
 
 ### Unified plugins
 

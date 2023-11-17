@@ -1,6 +1,6 @@
 # @stylistic/eslint-plugin-plus
 
-New rules introduced by ESLint Stylistic.
+Supplementary rules introduced by ESLint Stylistic.
 
 ::: tip
 We recommend using [`@stylistic/eslint-plugin`](/packages/default) as it includes all available rules.
@@ -14,4 +14,4 @@ npm i -D @stylistic/eslint-plugin-plus
 
 ## Rules
 
-<RuleList package="extra" />
+<RuleList package="plus" />
