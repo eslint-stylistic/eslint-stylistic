@@ -458,12 +458,7 @@ export default createRule<MessageIds, RuleOptions>({
         checkSpacingAfter(asToken, NEXT_TOKEN_M)
       }
 
-      if (
-        (node.type === 'ExportNamedDeclaration'
-        || node.type === 'ExportAllDeclaration'
-        || node.type === 'ImportDeclaration')
-        && node.source
-      ) {
+      if ('source' in node && node.source) {
         const fromToken = sourceCode.getTokenBefore(node.source)!
 
         checkSpacingBefore(fromToken, PREV_TOKEN_M)
@@ -516,17 +511,15 @@ export default createRule<MessageIds, RuleOptions>({
      * @throws {Error} If unable to find token get, set, or async beside method name.
      */
     function checkSpacingForProperty(node: Tree.MethodDefinition | Tree.PropertyDefinition | Tree.Property) {
-      if (node.type === 'MethodDefinition' || node.type === 'PropertyDefinition' && node.static)
+      if ('static' in node && node.static)
         checkSpacingAroundFirstToken(node)
 
-      if (
-        ((node.type === 'MethodDefinition'
-        || node.type === 'Property')
-        && (node.kind === 'get' || node.kind === 'set'))
-        || (((node.type === 'Property' && node.method)
-        || node.type === 'MethodDefinition')
-        && 'async' in node.value
-        && node.value.async)
+      if ((<Tree.Property>node).kind === 'get'
+        || (<Tree.Property>node).kind === 'set'
+        || (
+          (('method' in node && node.method) || node.type === 'MethodDefinition')
+          && 'async' in node.value && node.value.async
+        )
       ) {
         const token = sourceCode.getTokenBefore(
           node.key,

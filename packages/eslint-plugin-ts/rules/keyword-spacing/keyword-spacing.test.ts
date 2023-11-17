@@ -229,6 +229,11 @@ ruleTester.run('keyword-spacing', rule, {
       options: [BOTH],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
+    {
+      code: 'class A { delete() {} }',
+      options: [BOTH],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
   ],
   invalid: [
     // ----------------------------------------------------------------------
