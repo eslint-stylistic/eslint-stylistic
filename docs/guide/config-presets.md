@@ -4,6 +4,10 @@
 
 Currently the shared configurations are only available in the [`@stylistic/eslint-plugin`](/packages/default) package.
 
+::: info Versioning Policy
+We consider adding new rules or tweaking options in the shared configurations as **non-breaking** changes. If we do, we will only make necessary changes and release as minor version bumps.
+:::
+
 ## Configuration Factory
 
 Formatting and stylistic rules are always opinionated. We want to provide shared configurations to simplify the usage, while still allowing you to customize the rules to your own preferences. So, a bit different than shared configurations from other ESLint plugins, we provides a factory function that you can customize some high-level options.
@@ -50,6 +54,8 @@ module.exports = {
   }
 }
 ```
+
+Refer to the [source code](https://github.com/eslint-stylistic/eslint-stylistic/blob/main/packages/eslint-plugin/configs/customize.ts) for the full list of configured rules.
 
 :::
 
