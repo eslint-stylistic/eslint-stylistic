@@ -13,6 +13,9 @@ import {
   createRule,
 } from '../../utils'
 
+const CJS_EXPORT = /^(?:module\s*\.\s*)?exports(?:\s*\.|\s*\[|$)/u
+const CJS_IMPORT = /^require\(/u
+
 /**
  * This rule is a replica of padding-line-between-statements.
  *
@@ -569,6 +572,18 @@ const StatementTypes: Record<string, NodeTestObject> = {
     'while',
   ),
   'with': newKeywordTester(AST_NODE_TYPES.WithStatement, 'with'),
+
+  'cjs-export': {
+    test: (node, sourceCode) => node.type === 'ExpressionStatement'
+    && node.expression.type === 'AssignmentExpression'
+    && CJS_EXPORT.test(sourceCode.getText(node.expression.left)),
+  },
+  'cjs-import': {
+    test: (node, sourceCode) => node.type === 'VariableDeclaration'
+    && node.declarations.length > 0
+    && Boolean(node.declarations[0].init)
+    && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init!)),
+  },
 
   // Additional Typescript constructs
   'interface': newKeywordTester(
