@@ -1,0 +1,10 @@
+contact_links:
+  - name: 🙌 Contribution Guide
+    url: https://eslint.style/contribute/project-progress
+    about: Please read through before making contributions.
+  - name: 💬 ESLint Stylistic Discord Server
+    url: https://eslint.style/chat
+    about: Want to discuss / chat with the community? Here you go!
+  - name: ⁉️ Why and How to make a reproduction?
+    url: https://antfu.me/posts/why-reproductions-are-required
+    about: Reproduction is very important for maintainer to help on your issues!
