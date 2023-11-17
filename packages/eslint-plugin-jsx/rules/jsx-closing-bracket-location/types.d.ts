@@ -6,8 +6,8 @@ export type Schema0 =
     location?: 'after-props' | 'props-aligned' | 'tag-aligned' | 'line-aligned'
   }
   | {
-    nonEmpty?: 'after-props' | 'props-aligned' | 'tag-aligned' | 'line-aligned' | false
-    selfClosing?: 'after-props' | 'props-aligned' | 'tag-aligned' | 'line-aligned' | false
+    nonEmpty?: ('after-props' | 'props-aligned' | 'tag-aligned' | 'line-aligned') | false
+    selfClosing?: ('after-props' | 'props-aligned' | 'tag-aligned' | 'line-aligned') | false
   }
 
 export type RuleOptions = [Schema0?]

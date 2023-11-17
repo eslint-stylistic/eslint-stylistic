@@ -182,7 +182,6 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Checks the given BlockStatement node to be padded if the block is not empty.
      * @param node The AST node of a BlockStatement.
-     * @returns undefined.
      */
     function checkPadding(node: Tree.BlockStatement | Tree.SwitchStatement | Tree.ClassBody) {
       const openBrace = getOpenBrace(node)

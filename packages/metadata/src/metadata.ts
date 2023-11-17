@@ -104,7 +104,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "comma-dangle",
         "ruleId": "@stylistic/js/comma-dangle",
         "originalId": "comma-dangle",
-        "entry": "packages/eslint-plugin-js/rules/comma-dangle/comma-dangle.js",
+        "entry": "packages/eslint-plugin-js/rules/comma-dangle/comma-dangle.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/comma-dangle/README.md",
         "meta": {
           "fixable": "code",
@@ -912,7 +912,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-closing-bracket-location",
         "ruleId": "@stylistic/jsx/jsx-closing-bracket-location",
         "originalId": "react/jsx-closing-bracket-location",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-closing-bracket-location/jsx-closing-bracket-location.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-closing-bracket-location/jsx-closing-bracket-location.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-closing-bracket-location/README.md",
         "meta": {
           "fixable": "code",
@@ -925,7 +925,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-closing-tag-location",
         "ruleId": "@stylistic/jsx/jsx-closing-tag-location",
         "originalId": "react/jsx-closing-tag-location",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-closing-tag-location/jsx-closing-tag-location.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-closing-tag-location/jsx-closing-tag-location.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-closing-tag-location/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -938,7 +938,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-curly-brace-presence",
         "ruleId": "@stylistic/jsx/jsx-curly-brace-presence",
         "originalId": "react/jsx-curly-brace-presence",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-brace-presence/jsx-curly-brace-presence.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-brace-presence/jsx-curly-brace-presence.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-curly-brace-presence/README.md",
         "meta": {
           "fixable": "code",
@@ -951,7 +951,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-curly-newline",
         "ruleId": "@stylistic/jsx/jsx-curly-newline",
         "originalId": "react/jsx-curly-newline",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-newline/jsx-curly-newline.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-newline/jsx-curly-newline.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-curly-newline/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -964,7 +964,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-curly-spacing",
         "ruleId": "@stylistic/jsx/jsx-curly-spacing",
         "originalId": "react/jsx-curly-spacing",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-spacing/jsx-curly-spacing.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-spacing/jsx-curly-spacing.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-curly-spacing/README.md",
         "meta": {
           "fixable": "code",
@@ -977,7 +977,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-equals-spacing",
         "ruleId": "@stylistic/jsx/jsx-equals-spacing",
         "originalId": "react/jsx-equals-spacing",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-equals-spacing/jsx-equals-spacing.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-equals-spacing/jsx-equals-spacing.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-equals-spacing/README.md",
         "meta": {
           "fixable": "code",
@@ -990,7 +990,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-first-prop-new-line",
         "ruleId": "@stylistic/jsx/jsx-first-prop-new-line",
         "originalId": "react/jsx-first-prop-new-line",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-first-prop-new-line/jsx-first-prop-new-line.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-first-prop-new-line/jsx-first-prop-new-line.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-first-prop-new-line/README.md",
         "meta": {
           "fixable": "code",
@@ -1003,7 +1003,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-indent",
         "ruleId": "@stylistic/jsx/jsx-indent",
         "originalId": "react/jsx-indent",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-indent/jsx-indent.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-indent/jsx-indent.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-indent/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -1016,7 +1016,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-indent-props",
         "ruleId": "@stylistic/jsx/jsx-indent-props",
         "originalId": "react/jsx-indent-props",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-indent-props/jsx-indent-props.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-indent-props/jsx-indent-props.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-indent-props/README.md",
         "meta": {
           "fixable": "code",
@@ -1029,7 +1029,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-max-props-per-line",
         "ruleId": "@stylistic/jsx/jsx-max-props-per-line",
         "originalId": "react/jsx-max-props-per-line",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-max-props-per-line/jsx-max-props-per-line.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-max-props-per-line/jsx-max-props-per-line.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-max-props-per-line/README.md",
         "meta": {
           "fixable": "code",
@@ -1042,7 +1042,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-newline",
         "ruleId": "@stylistic/jsx/jsx-newline",
         "originalId": "react/jsx-newline",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-newline/jsx-newline.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-newline/jsx-newline.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-newline/README.md",
         "meta": {
           "fixable": "code",
@@ -1055,7 +1055,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-one-expression-per-line",
         "ruleId": "@stylistic/jsx/jsx-one-expression-per-line",
         "originalId": "react/jsx-one-expression-per-line",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-one-expression-per-line/jsx-one-expression-per-line.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-one-expression-per-line/jsx-one-expression-per-line.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-one-expression-per-line/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -1068,7 +1068,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-props-no-multi-spaces",
         "ruleId": "@stylistic/jsx/jsx-props-no-multi-spaces",
         "originalId": "react/jsx-props-no-multi-spaces",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-props-no-multi-spaces/jsx-props-no-multi-spaces.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-props-no-multi-spaces/jsx-props-no-multi-spaces.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-props-no-multi-spaces/README.md",
         "meta": {
           "fixable": "code",
@@ -1081,7 +1081,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-self-closing-comp",
         "ruleId": "@stylistic/jsx/jsx-self-closing-comp",
         "originalId": "react/jsx-self-closing-comp",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/jsx-self-closing-comp.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/jsx-self-closing-comp.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/README.md",
         "meta": {
           "fixable": "code",
@@ -1094,7 +1094,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-sort-props",
         "ruleId": "@stylistic/jsx/jsx-sort-props",
         "originalId": "react/jsx-sort-props",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-sort-props/jsx-sort-props.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-sort-props/jsx-sort-props.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-sort-props/README.md",
         "meta": {
           "fixable": "code",
@@ -1533,7 +1533,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "comma-dangle",
         "ruleId": "@stylistic/comma-dangle",
         "originalId": "comma-dangle",
-        "entry": "packages/eslint-plugin-js/rules/comma-dangle/comma-dangle.js",
+        "entry": "packages/eslint-plugin-js/rules/comma-dangle/comma-dangle.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/comma-dangle/README.md",
         "meta": {
           "fixable": "code",
@@ -2359,7 +2359,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-closing-bracket-location",
         "ruleId": "@stylistic/jsx-closing-bracket-location",
         "originalId": "react/jsx-closing-bracket-location",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-closing-bracket-location/jsx-closing-bracket-location.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-closing-bracket-location/jsx-closing-bracket-location.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-closing-bracket-location/README.md",
         "meta": {
           "fixable": "code",
@@ -2372,7 +2372,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-closing-tag-location",
         "ruleId": "@stylistic/jsx-closing-tag-location",
         "originalId": "react/jsx-closing-tag-location",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-closing-tag-location/jsx-closing-tag-location.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-closing-tag-location/jsx-closing-tag-location.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-closing-tag-location/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -2385,7 +2385,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-curly-brace-presence",
         "ruleId": "@stylistic/jsx-curly-brace-presence",
         "originalId": "react/jsx-curly-brace-presence",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-brace-presence/jsx-curly-brace-presence.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-brace-presence/jsx-curly-brace-presence.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-curly-brace-presence/README.md",
         "meta": {
           "fixable": "code",
@@ -2398,7 +2398,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-curly-newline",
         "ruleId": "@stylistic/jsx-curly-newline",
         "originalId": "react/jsx-curly-newline",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-newline/jsx-curly-newline.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-newline/jsx-curly-newline.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-curly-newline/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -2411,7 +2411,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-curly-spacing",
         "ruleId": "@stylistic/jsx-curly-spacing",
         "originalId": "react/jsx-curly-spacing",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-spacing/jsx-curly-spacing.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-spacing/jsx-curly-spacing.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-curly-spacing/README.md",
         "meta": {
           "fixable": "code",
@@ -2424,7 +2424,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-equals-spacing",
         "ruleId": "@stylistic/jsx-equals-spacing",
         "originalId": "react/jsx-equals-spacing",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-equals-spacing/jsx-equals-spacing.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-equals-spacing/jsx-equals-spacing.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-equals-spacing/README.md",
         "meta": {
           "fixable": "code",
@@ -2437,7 +2437,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-first-prop-new-line",
         "ruleId": "@stylistic/jsx-first-prop-new-line",
         "originalId": "react/jsx-first-prop-new-line",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-first-prop-new-line/jsx-first-prop-new-line.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-first-prop-new-line/jsx-first-prop-new-line.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-first-prop-new-line/README.md",
         "meta": {
           "fixable": "code",
@@ -2450,7 +2450,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-indent",
         "ruleId": "@stylistic/jsx-indent",
         "originalId": "react/jsx-indent",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-indent/jsx-indent.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-indent/jsx-indent.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-indent/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -2463,7 +2463,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-indent-props",
         "ruleId": "@stylistic/jsx-indent-props",
         "originalId": "react/jsx-indent-props",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-indent-props/jsx-indent-props.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-indent-props/jsx-indent-props.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-indent-props/README.md",
         "meta": {
           "fixable": "code",
@@ -2476,7 +2476,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-max-props-per-line",
         "ruleId": "@stylistic/jsx-max-props-per-line",
         "originalId": "react/jsx-max-props-per-line",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-max-props-per-line/jsx-max-props-per-line.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-max-props-per-line/jsx-max-props-per-line.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-max-props-per-line/README.md",
         "meta": {
           "fixable": "code",
@@ -2489,7 +2489,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-newline",
         "ruleId": "@stylistic/jsx-newline",
         "originalId": "react/jsx-newline",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-newline/jsx-newline.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-newline/jsx-newline.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-newline/README.md",
         "meta": {
           "fixable": "code",
@@ -2502,7 +2502,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-one-expression-per-line",
         "ruleId": "@stylistic/jsx-one-expression-per-line",
         "originalId": "react/jsx-one-expression-per-line",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-one-expression-per-line/jsx-one-expression-per-line.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-one-expression-per-line/jsx-one-expression-per-line.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-one-expression-per-line/README.md",
         "meta": {
           "fixable": "whitespace",
@@ -2515,7 +2515,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-props-no-multi-spaces",
         "ruleId": "@stylistic/jsx-props-no-multi-spaces",
         "originalId": "react/jsx-props-no-multi-spaces",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-props-no-multi-spaces/jsx-props-no-multi-spaces.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-props-no-multi-spaces/jsx-props-no-multi-spaces.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-props-no-multi-spaces/README.md",
         "meta": {
           "fixable": "code",
@@ -2528,7 +2528,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-self-closing-comp",
         "ruleId": "@stylistic/jsx-self-closing-comp",
         "originalId": "react/jsx-self-closing-comp",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/jsx-self-closing-comp.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/jsx-self-closing-comp.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/README.md",
         "meta": {
           "fixable": "code",
@@ -2541,7 +2541,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "jsx-sort-props",
         "ruleId": "@stylistic/jsx-sort-props",
         "originalId": "react/jsx-sort-props",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-sort-props/jsx-sort-props.js",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-sort-props/jsx-sort-props.ts",
         "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-sort-props/README.md",
         "meta": {
           "fixable": "code",

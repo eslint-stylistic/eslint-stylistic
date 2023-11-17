@@ -5,12 +5,12 @@ export type Schema0 = 'tab' | number
 export interface Schema1 {
   SwitchCase?: number
   VariableDeclarator?:
-  | (number | ('first' | 'off'))
-  | {
-    var?: number | ('first' | 'off')
-    let?: number | ('first' | 'off')
-    const?: number | ('first' | 'off')
-  }
+    | (number | ('first' | 'off'))
+    | {
+      var?: number | ('first' | 'off')
+      let?: number | ('first' | 'off')
+      const?: number | ('first' | 'off')
+    }
   outerIIFEBody?: number | 'off'
   MemberExpression?: number | 'off'
   FunctionDeclaration?: {

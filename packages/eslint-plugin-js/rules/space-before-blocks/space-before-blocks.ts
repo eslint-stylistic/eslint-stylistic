@@ -126,7 +126,6 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Checks the given BlockStatement node has a preceding space if it doesn’t start on a new line.
      * @param node The AST node of a BlockStatement.
-     * @returns undefined.
      */
     function checkPrecedingSpace(node: ASTNode | Token) {
       const precedingToken = sourceCode.getTokenBefore(node)
@@ -175,7 +174,6 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Checks if the CaseBlock of an given SwitchStatement node has a preceding space.
      * @param node The node of a SwitchStatement.
-     * @returns undefined.
      */
     function checkSpaceBeforeCaseBlock(node: Tree.SwitchStatement) {
       const cases = node.cases
