@@ -100,6 +100,64 @@ module.exports = {
 
 :::
 
+## Enable All Rules
+
+If you want to enable all rules with their default options (not recommended), we also provide a config for that:
+
+::: code-group
+
+```js [Flat Config]
+// eslint.config.js
+import stylistic from '@stylistic/eslint-plugin'
+
+export default [
+  stylistic.configs['all-flat'],
+  // ...you other config items
+]
+```
+
+```js [Legacy Config]
+// .eslintrc.js
+module.exports = {
+  extends: [
+    'plugin:@stylistic/all-extends'
+  ],
+  rules: {
+    // ...your other rules
+  }
+}
+```
+
+:::
+
+This config is also available in each plugin package, for example, for `@stylistic/eslint-plugin-js`:
+
+::: code-group
+
+```js [Flat Config]
+// eslint.config.js
+import stylisticJs from '@stylistic/eslint-plugin-js'
+
+export default [
+  stylisticJs.configs['all-flat'],
+  // ...you other config items
+]
+```
+
+```js [Legacy Config]
+// .eslintrc.js
+module.exports = {
+  extends: [
+    'plugin:@stylistic/js/all-extends'
+  ],
+  rules: {
+    // ...your other rules
+  }
+}
+```
+
+:::
+
 ## Disabling Legacy Rules
 
 If you are extending some presets that still include legacy rules and haven't migrated, we provide configuration presets to disable them all.
