@@ -10,21 +10,22 @@ export type Schema0 =
       })
       | ('always' | 'never'),
   ]
-  | [(
-      | (BasicConfig & {
-        attributes?: BasicConfigOrBoolean
-        children?: BasicConfigOrBoolean
+  | [
+    (
+        | (BasicConfig & {
+          attributes?: BasicConfigOrBoolean
+          children?: BasicConfigOrBoolean
+          [k: string]: unknown
+        })
+        | ('always' | 'never')
+    ),
+    {
+      allowMultiline?: boolean
+      spacing?: {
+        objectLiterals?: 'always' | 'never'
         [k: string]: unknown
-      })
-      | ('always' | 'never')
-  ),
-  {
-    allowMultiline?: boolean
-    spacing?: {
-      objectLiterals?: 'always' | 'never'
-      [k: string]: unknown
-    }
-  },
+      }
+    },
   ]
 export type BasicConfigOrBoolean = BasicConfig | boolean
 
