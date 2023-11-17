@@ -1,9 +1,6 @@
 /* eslint perfectionist/sort-objects: "error" */
 import antfu from '@antfu/eslint-config'
-import JITI from 'jiti'
-
-const jiti = JITI(import.meta.url)
-const stylistic = jiti('./packages/eslint-plugin/src/index.ts').default
+import stylistic from './stub.js'
 
 const configs = antfu(
   {

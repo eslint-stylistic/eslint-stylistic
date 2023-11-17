@@ -1,6 +1,5 @@
 // @ts-check
-
-import stylistic from '@stylistic/eslint-plugin';
+import stylistic from '../stub.js';
 
 /** @type {import('../playground-types').TypedFlatConfig[]} */
 export default [
