@@ -126,6 +126,9 @@ export default createRule<RuleOptions, MessageIds>({
           applyDefaultIgnorePatterns: {
             type: 'boolean',
           },
+          afterHashbangComment: {
+            type: 'boolean',
+          },
         },
         additionalProperties: false,
       },
