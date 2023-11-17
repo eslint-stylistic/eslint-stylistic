@@ -4,7 +4,9 @@ ESLint Stylistic is a collection of stylistic rules for ESLint, migrated from `e
 
 ## Packages
 
-ESLint Stylistic is migrated from 3 different sources packages:
+ESLint Stylistic is composed of 4 plugins and 1 unified plugin:
+
+### Migrated plugins
 
 - `eslint` -> [`@stylistic/eslint-plugin-js`](/packages/js)
   - Built-in stylistic rules for JavaScript
@@ -13,7 +15,17 @@ ESLint Stylistic is migrated from 3 different sources packages:
 - `eslint-plugin-react` -> [`@stylistic/eslint-plugin-jsx`](/packages/jsx)
   - Stylistic rules for framework-agnostic JSX
 
-We also provide an unified plugin [`@stylistic/eslint-plugin`](/packages/default) that merges rules from all 3 plugins.
+### Additional plugins
+
+- [`@stylistic/eslint-plugin-plus`](/packages/plus)
+  - Supplementary rules introduced by ESLint Stylistic
+
+### Unified plugins
+
+- [`@stylistic/eslint-plugin`](/packages/default)
+  - All rules from the above 4 plugins
+
+<br>
 
 ::: tip
 Check the [project progress](/contribute/project-progress) first to learn more about the current status of this project.
