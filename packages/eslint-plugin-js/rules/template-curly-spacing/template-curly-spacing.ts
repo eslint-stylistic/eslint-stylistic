@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -43,8 +39,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks spacing before `}` of a given token.
-     * @param {Token} token A token to check. This is a Template token.
-     * @returns {void}
+     * @param token A token to check. This is a Template token.
      */
     function checkSpacingBefore(token: Token) {
       if (!token.value.startsWith('}'))
@@ -84,8 +79,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks spacing after `${` of a given token.
-     * @param {Token} token A token to check. This is a Template token.
-     * @returns {void}
+     * @param token A token to check. This is a Template token.
      */
     function checkSpacingAfter(token: Token) {
       if (!token.value.endsWith('${'))

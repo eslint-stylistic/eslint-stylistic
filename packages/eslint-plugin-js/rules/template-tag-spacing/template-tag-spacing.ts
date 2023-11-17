@@ -36,8 +36,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check if a space is present between a template tag and its literal
-     * @param {ASTNode} node node to evaluate
-     * @returns {void}
+     * @param node node to evaluate
      * @private
      */
     function checkSpacing(node: Tree.TaggedTemplateExpression) {

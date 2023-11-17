@@ -8,6 +8,12 @@ This plugin provides the rules from:
 - [`@stylistic/eslint-plugin-ts`](./ts)
 - [`@stylistic/eslint-plugin-jsx`](./jsx)
 
+With this plugin, you no longer need to mainly disable JavaScript in favor of TypeScript. Rules work for both languages.
+
+## Shared Configurations
+
+This plugin provides some built-in configurations that you can use out of the box. Learn more about [shared configurations](/guide/config-presets).
+
 ## Install
 
 ```sh

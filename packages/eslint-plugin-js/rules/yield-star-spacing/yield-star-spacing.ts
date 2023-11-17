@@ -57,16 +57,15 @@ export default createRule<MessageIds, RuleOptions>({
         }[option]
       }
       return option
-    }(context.options[0])) as { before: boolean; after: boolean }
+    }(context.options[0])) as { before: boolean, after: boolean }
 
     /**
      * Checks the spacing between two tokens before or after the star token.
-     * @param {string} side Either "before" or "after".
-     * @param {Token} leftToken `function` keyword token if side is "before", or
+     * @param side Either "before" or "after".
+     * @param leftToken `function` keyword token if side is "before", or
      *     star token if side is "after".
-     * @param {Token} rightToken Star token if side is "before", or identifier
+     * @param rightToken Star token if side is "before", or identifier
      *     token if side is "after".
-     * @returns {void}
      */
     function checkSpacing(side: 'before' | 'after', leftToken: Token, rightToken: Token) {
       if (sourceCode.isSpaceBetweenTokens(leftToken, rightToken) !== mode[side]) {
@@ -96,8 +95,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Enforces the spacing around the star if node is a yield* expression.
-     * @param {ASTNode} node A yield expression node.
-     * @returns {void}
+     * @param node A yield expression node.
      */
     function checkExpression(node: ASTNode) {
       if (!('delegate' in node && node.delegate))

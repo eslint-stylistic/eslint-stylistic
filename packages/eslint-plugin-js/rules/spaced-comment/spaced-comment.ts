@@ -8,14 +8,10 @@ import { createRule } from '../../utils/createRule'
 import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 /**
  * Escapes the control characters of a given string.
- * @param {string} s A string to escape.
- * @returns {string} An escaped string.
+ * @param s A string to escape.
+ * @returns An escaped string.
  */
 function escape(s: string) {
   return `(?:${escapeRegExp(s)})`
@@ -24,8 +20,8 @@ function escape(s: string) {
 /**
  * Escapes the control characters of a given string.
  * And adds a repeat flag.
- * @param {string} s A string to escape.
- * @returns {string} An escaped string.
+ * @param s A string to escape.
+ * @returns An escaped string.
  */
 function escapeAndRepeat(s: string) {
   return `${escape(s)}+`
@@ -34,8 +30,8 @@ function escapeAndRepeat(s: string) {
 /**
  * Parses `markers` option.
  * If markers don't include `"*"`, this adds `"*"` to allow JSDoc comments.
- * @param {string[]} [markers] A marker list.
- * @returns {string[]} A marker list.
+ * @param [markers] A marker list.
+ * @returns A marker list.
  */
 function parseMarkersOption(markers: string[]) {
   // `*` is a marker for JSDoc comments.
@@ -50,8 +46,8 @@ function parseMarkersOption(markers: string[]) {
  * Generated pattern:
  *
  * 1. A space or an exception pattern sequence.
- * @param {string[]} exceptions An exception pattern list.
- * @returns {string} A regular expression string for exceptions.
+ * @param exceptions An exception pattern list.
+ * @returns A regular expression string for exceptions.
  */
 function createExceptionsPattern(exceptions: string[]) {
   let pattern = ''
@@ -93,9 +89,9 @@ function createExceptionsPattern(exceptions: string[]) {
  *
  * 1. First, a marker or nothing.
  * 2. Next, a space or an exception pattern sequence.
- * @param {string[]} markers A marker list.
- * @param {string[]} exceptions An exception pattern list.
- * @returns {RegExp} A RegExp object for the beginning of a comment in `always` mode.
+ * @param markers A marker list.
+ * @param exceptions An exception pattern list.
+ * @returns A RegExp object for the beginning of a comment in `always` mode.
  */
 function createAlwaysStylePattern(markers: string[], exceptions: string[]) {
   let pattern = '^'
@@ -129,8 +125,8 @@ function createAlwaysStylePattern(markers: string[], exceptions: string[]) {
  *
  * 1. First, a marker or nothing (captured).
  * 2. Next, a space or a tab.
- * @param {string[]} markers A marker list.
- * @returns {RegExp} A RegExp object for `never` mode.
+ * @param markers A marker list.
+ * @returns A RegExp object for `never` mode.
  */
 function createNeverStylePattern(markers: string[]) {
   const pattern = `^(${markers.map(escape).join('|')})?[ \t]+`
@@ -147,10 +143,6 @@ interface StyleRuleRegExp {
   captureMarker: RegExp
   markers: Set<string>
 }
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {
@@ -272,11 +264,10 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports a beginning spacing error with an appropriate message.
-     * @param {ASTNode} node A comment node to check.
-     * @param {string} messageId An error message to report.
-     * @param {Array} match An array of match results for markers.
-     * @param {string} refChar Character used for reference in the error message.
-     * @returns {void}
+     * @param node A comment node to check.
+     * @param messageId An error message to report.
+     * @param match An array of match results for markers.
+     * @param refChar Character used for reference in the error message.
      */
     function reportBegin(node: Tree.Comment, messageId: MessageIds, match: RegExpExecArray | null, refChar: string) {
       const type = node.type.toLowerCase()
@@ -306,10 +297,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports an ending spacing error with an appropriate message.
-     * @param {ASTNode} node A comment node to check.
-     * @param {string} messageId An error message to report.
-     * @param {string} match An array of the matched whitespace characters.
-     * @returns {void}
+     * @param node A comment node to check.
+     * @param messageId An error message to report.
+     * @param match An array of the matched whitespace characters.
      */
     function reportEnd(node: Tree.Comment, messageId: MessageIds, match: RegExpExecArray | null) {
       context.report({
@@ -331,8 +321,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports a given comment if it's invalid.
-     * @param {ASTNode} node a comment node to check.
-     * @returns {void}
+     * @param node a comment node to check.
      */
     function checkCommentForSpace(node: Tree.Comment) {
       const type = node.type.toLowerCase() as Style

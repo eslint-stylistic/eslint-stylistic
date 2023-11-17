@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -55,19 +51,14 @@ export default createRule<MessageIds, RuleOptions>({
       after: context.options[0] ? context.options[0].after : true,
     }
 
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
-
     // list of comma tokens to ignore for the check of leading whitespace
     const commaTokensToIgnore: Token[] = []
 
     /**
      * Reports a spacing error with an appropriate message.
-     * @param {ASTNode} node The binary expression node to report.
-     * @param {string} loc Is the error "before" or "after" the comma?
-     * @param {ASTNode} otherNode The node at the left or right of `node`
-     * @returns {void}
+     * @param node The binary expression node to report.
+     * @param loc Is the error "before" or "after" the comma?
+     * @param otherNode The node at the left or right of `node`
      * @private
      */
     function report(node: ASTNode | Token, loc: 'before' | 'after', otherNode: ASTNode | Token) {
@@ -103,8 +94,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Adds null elements of the given ArrayExpression or ArrayPattern node to the ignore list.
-     * @param {ASTNode} node An ArrayExpression or ArrayPattern node.
-     * @returns {void}
+     * @param node An ArrayExpression or ArrayPattern node.
      */
     function addNullElementsToIgnoreList(node: Tree.ArrayExpression | Tree.ArrayPattern) {
       let previousToken = sourceCode.getFirstToken(node)!
@@ -125,10 +115,6 @@ export default createRule<MessageIds, RuleOptions>({
         previousToken = token
       })
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       'Program:exit': function () {

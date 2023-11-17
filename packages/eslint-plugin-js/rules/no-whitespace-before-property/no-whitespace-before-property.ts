@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -32,16 +28,11 @@ export default createRule<MessageIds, RuleOptions>({
   create(context) {
     const sourceCode = context.sourceCode
 
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
-
     /**
      * Reports whitespace before property token
-     * @param {ASTNode} node the node to report in the event of an error
-     * @param {Token} leftToken the left token
-     * @param {Token} rightToken the right token
-     * @returns {void}
+     * @param node the node to report in the event of an error
+     * @param leftToken the left token
+     * @param rightToken the right token
      * @private
      */
     function reportError(node: Tree.MemberExpression, leftToken: Token, rightToken: Token) {
@@ -75,10 +66,6 @@ export default createRule<MessageIds, RuleOptions>({
         },
       })
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       MemberExpression(node: Tree.MemberExpression) {

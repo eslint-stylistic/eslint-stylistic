@@ -679,7 +679,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "quote-props",
         "ruleId": "@stylistic/js/quote-props",
         "originalId": "quote-props",
-        "entry": "packages/eslint-plugin-js/rules/quote-props/quote-props.js",
+        "entry": "packages/eslint-plugin-js/rules/quote-props/quote-props.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/quote-props/README.md",
         "meta": {
           "fixable": "code",
@@ -2108,7 +2108,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "name": "quote-props",
         "ruleId": "@stylistic/quote-props",
         "originalId": "quote-props",
-        "entry": "packages/eslint-plugin-js/rules/quote-props/quote-props.js",
+        "entry": "packages/eslint-plugin-js/rules/quote-props/quote-props.ts",
         "docsEntry": "packages/eslint-plugin-js/rules/quote-props/README.md",
         "meta": {
           "fixable": "code",

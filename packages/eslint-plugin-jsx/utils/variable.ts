@@ -3,13 +3,14 @@
  * @author Yannick Croissant
  */
 
-import type { Rule, Scope } from 'eslint'
+import type { Scope as ESLintScope } from 'eslint'
+import type { RuleContext, Scope } from './types'
 
 /**
  * Find and return a particular variable in a list
- * @param {Array} variables The variables list.
- * @param {string} name The name of the variable to search.
- * @returns {object} Variable if the variable was found, null if not.
+ * @param variables The variables list.
+ * @param name The name of the variable to search.
+ * @returns Variable if the variable was found, null if not.
  */
 export function getVariable(variables: Scope.Variable[], name: string) {
   return variables.find(variable => variable.name === name)
@@ -20,10 +21,10 @@ export function getVariable(variables: Scope.Variable[], name: string) {
  *
  * Contain a patch for babel-eslint to avoid https://github.com/babel/babel-eslint/issues/21
  *
- * @param {object} context The current rule context.
- * @returns {Array} The variables list
+ * @param context The current rule context.
+ * @returns The variables list
  */
-export function variablesInScope(context: Rule.RuleContext) {
+export function variablesInScope(context: RuleContext<any, any>) {
   let scope = context.getScope()
   let variables = scope.variables
 
@@ -43,12 +44,12 @@ export function variablesInScope(context: Rule.RuleContext) {
 
 /**
  * Find a variable by name in the current scope.
- * @param {object} context The current rule context.
+ * @param context The current rule context.
  * @param  {string} name Name of the variable to look for.
- * @returns {ASTNode|null} Return null if the variable could not be found, ASTNode otherwise.
+ * @returns Return null if the variable could not be found, ASTNode otherwise.
  */
-export function findVariableByName(context: Rule.RuleContext, name: string) {
-  const variable = getVariable(variablesInScope(context), name)
+export function findVariableByName(context: RuleContext<any, any>, name: string) {
+  const variable = getVariable(variablesInScope(context), name) as ESLintScope.Variable | undefined
 
   if (!variable || !variable.defs[0] || !variable.defs[0].node)
     return null
@@ -64,8 +65,8 @@ export function findVariableByName(context: Rule.RuleContext, name: string) {
 
 /**
  * Returns the latest definition of the variable.
- * @param {object} variable
- * @returns {object | undefined} The latest variable definition or undefined.
+ * @param variable
+ * @returns The latest variable definition or undefined.
  */
 export function getLatestVariableDefinition(variable: Scope.Variable) {
   return variable.defs[variable.defs.length - 1]

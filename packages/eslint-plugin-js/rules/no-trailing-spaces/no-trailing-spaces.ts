@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -58,10 +54,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Report the error message
-     * @param {ASTNode} node node to report
-     * @param {int[]} location range information
-     * @param {int[]} fixRange Range based on the whole program
-     * @returns {void}
+     * @param node node to report
+     * @param location range information
+     * @param fixRange Range based on the whole program
      */
     function report(node: ASTNode, location: Tree.Position | Tree.SourceLocation, fixRange: Readonly<Tree.Range>) {
       /*
@@ -82,8 +77,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Given a list of comment nodes, return the line numbers for those comments.
-     * @param {Array} comments An array of comment nodes.
-     * @returns {number[]} An array of line numbers containing comments.
+     * @param comments An array of comment nodes.
+     * @returns An array of line numbers containing comments.
      */
     function getCommentLineNumbers(comments: Tree.Comment[]) {
       const lines = new Set()
@@ -99,10 +94,6 @@ export default createRule<MessageIds, RuleOptions>({
 
       return lines
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
 

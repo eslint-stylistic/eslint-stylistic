@@ -6,11 +6,7 @@
 import { isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import type { ASTNode, Token } from '../../utils/types'
-import type { RuleOptions } from './types'
-
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
+import type { MessageIds, RuleOptions } from './types'
 
 type NodeTest = (
   node: ASTNode
@@ -31,11 +27,7 @@ const ClassMemberTypes: Record<string, NodeTestObject> = {
   'method': { test: node => node.type === 'MethodDefinition' },
 }
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -126,9 +118,9 @@ export default createRule({
      *     }
      * When determining the desired layout of the code, we should treat this semicolon as
      * a part of the next class member node instead of the one it technically belongs to.
-     * @param {ASTNode} curNode Current class member node.
-     * @param {ASTNode} nextNode Next class member node.
-     * @returns {Token} The actual last token of `node`.
+     * @param curNode Current class member node.
+     * @param nextNode Next class member node.
+     * @returns The actual last token of `node`.
      * @private
      */
     function getBoundaryTokens(curNode: ASTNode, nextNode: ASTNode) {

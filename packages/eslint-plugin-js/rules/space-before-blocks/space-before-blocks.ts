@@ -8,14 +8,10 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 /**
  * Checks whether the given node represents the body of a function.
- * @param {ASTNode} node the node to check.
- * @returns {boolean} `true` if the node is function body.
+ * @param node the node to check.
+ * @returns `true` if the node is function body.
  */
 function isFunctionBody(node: ASTNode): boolean {
   const parent = node.parent
@@ -26,10 +22,6 @@ function isFunctionBody(node: ASTNode): boolean {
     && parent.body === node
   )
 }
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
 
 export default createRule<MessageIds, RuleOptions>({
   meta: {
@@ -109,9 +101,9 @@ export default createRule<MessageIds, RuleOptions>({
      * - `arrow-spacing` checks spaces after `=>`.
      * - `keyword-spacing` checks spaces after keywords in certain contexts.
      * - `switch-colon-spacing` checks spaces after `:` of switch cases.
-     * @param {Token} precedingToken first token before the block.
-     * @param {ASTNode|Token} node `BlockStatement` node or `{` token of a `SwitchStatement` node.
-     * @returns {boolean} `true` if requiring or disallowing spaces before the given block could produce conflicts with other rules.
+     * @param precedingToken first token before the block.
+     * @param node `BlockStatement` node or `{` token of a `SwitchStatement` node.
+     * @returns `true` if requiring or disallowing spaces before the given block could produce conflicts with other rules.
      */
     function isConflicted(precedingToken: Token, node: ASTNode | Token) {
       return (
@@ -133,8 +125,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks the given BlockStatement node has a preceding space if it doesn’t start on a new line.
-     * @param {ASTNode|Token} node The AST node of a BlockStatement.
-     * @returns {void} undefined.
+     * @param node The AST node of a BlockStatement.
+     * @returns undefined.
      */
     function checkPrecedingSpace(node: ASTNode | Token) {
       const precedingToken = sourceCode.getTokenBefore(node)
@@ -182,8 +174,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks if the CaseBlock of an given SwitchStatement node has a preceding space.
-     * @param {ASTNode} node The node of a SwitchStatement.
-     * @returns {void} undefined.
+     * @param node The node of a SwitchStatement.
+     * @returns undefined.
      */
     function checkSpaceBeforeCaseBlock(node: Tree.SwitchStatement) {
       const cases = node.cases

@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './quotes'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('quotes', rule, {

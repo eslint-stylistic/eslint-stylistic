@@ -12,8 +12,8 @@ import type { MessageIds, RuleOptions } from './types'
 
 /**
  * Check if the given node is callee of a `NewExpression` node
- * @param {ASTNode} node node to check
- * @returns {boolean} True if the node is callee of a `NewExpression` node
+ * @param node node to check
+ * @returns True if the node is callee of a `NewExpression` node
  * @private
  */
 function isCalleeOfNewExpression(node: ASTNode) {
@@ -66,8 +66,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check if the node is wrapped in any (). All parens count: grouping parens and parens for constructs such as if()
-     * @param {ASTNode} node node to evaluate
-     * @returns {boolean} True if it is wrapped in any parens
+     * @param node node to evaluate
+     * @returns True if it is wrapped in any parens
      * @private
      */
     function isWrappedInAnyParens(node: ASTNode) {
@@ -76,8 +76,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check if the node is wrapped in grouping (). Parens for constructs such as if() don't count
-     * @param {ASTNode} node node to evaluate
-     * @returns {boolean} True if it is wrapped in grouping parens
+     * @param node node to evaluate
+     * @returns True if it is wrapped in grouping parens
      * @private
      */
     function isWrappedInGroupingParens(node: ASTNode) {
@@ -86,8 +86,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Get the function node from an IIFE
-     * @param {ASTNode} node node to evaluate
-     * @returns {ASTNode} node that is the function expression of the given IIFE, or null if none exist
+     * @param node node to evaluate
+     * @returns node that is the function expression of the given IIFE, or null if none exist
      */
     function getFunctionNodeFromIIFE(node: Tree.CallExpression) {
       const callee = skipChainExpression(node.callee)

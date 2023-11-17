@@ -51,7 +51,7 @@ export default createRule<RuleOptions, MessageIds>({
   ],
   create(context, [options = {}]) {
     const { before: spaceBefore, after: spaceAfter } = options
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
     const tokensAndComments = sourceCode.tokensAndComments
     const ignoredTokens = new Set<TSESTree.PunctuatorToken>()
 

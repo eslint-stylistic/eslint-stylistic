@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './no-mixed-operators'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('no-mixed-operators', rule, {

@@ -3,10 +3,6 @@
  * @author Michael Ficarra
  */
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 // @ts-expect-error missing types https://github.com/eslint-community/eslint-utils/pull/60
 import { isParenthesized as isParenthesizedRaw } from '@eslint-community/eslint-utils'
 import {
@@ -116,15 +112,15 @@ export default createRule<MessageIds, RuleOptions>({
     type ReportsBuffer = {
       upper: ReportsBuffer
       inExpressionNodes: ASTNode[]
-      reports: { node: ASTNode; finishReport: () => void }[]
+      reports: { node: ASTNode, finishReport: () => void }[]
     } | undefined
     let reportsBuffer: ReportsBuffer
 
     /**
      * Determines whether the given node is a `call` or `apply` method call, invoked directly on a `FunctionExpression` node.
      * Example: function(){}.call()
-     * @param {ASTNode} node The node to be checked.
-     * @returns {boolean} True if the node is an immediate `call` or `apply` method call.
+     * @param node The node to be checked.
+     * @returns True if the node is an immediate `call` or `apply` method call.
      * @private
      */
     function isImmediateFunctionPrototypeMethodCall(node: ASTNode) {
@@ -144,8 +140,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines if this rule should be enforced for a node given the current configuration.
-     * @param {ASTNode} node The node to be checked.
-     * @returns {boolean} True if the rule should be enforced for this node.
+     * @param node The node to be checked.
+     * @returns True if the rule should be enforced for this node.
      * @private
      */
     function ruleApplies(node: ASTNode) {
@@ -184,8 +180,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines if a node is surrounded by parentheses.
-     * @param {ASTNode} node The node to be checked.
-     * @returns {boolean} True if the node is parenthesised.
+     * @param node The node to be checked.
+     * @returns True if the node is parenthesised.
      * @private
      */
     function isParenthesised(node: ASTNode) {
@@ -194,8 +190,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines if a node is surrounded by parentheses twice.
-     * @param {ASTNode} node The node to be checked.
-     * @returns {boolean} True if the node is doubly parenthesised.
+     * @param node The node to be checked.
+     * @returns True if the node is doubly parenthesised.
      * @private
      */
     function isParenthesisedTwice(node: ASTNode) {
@@ -204,8 +200,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines if a node is surrounded by (potentially) invalid parentheses.
-     * @param {ASTNode} node The node to be checked.
-     * @returns {boolean} True if the node is incorrectly parenthesised.
+     * @param node The node to be checked.
+     * @returns True if the node is incorrectly parenthesised.
      * @private
      */
     function hasExcessParens(node: ASTNode) {
@@ -215,8 +211,8 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Determines if a node that is expected to be parenthesised is surrounded by
      * (potentially) invalid extra parentheses.
-     * @param {ASTNode} node The node to be checked.
-     * @returns {boolean} True if the node is has an unexpected extra pair of parentheses.
+     * @param node The node to be checked.
+     * @returns True if the node is has an unexpected extra pair of parentheses.
      * @private
      */
     function hasDoubleExcessParens(node: ASTNode) {
@@ -228,9 +224,9 @@ export default createRule<MessageIds, RuleOptions>({
      * (potentially) invalid extra parentheses with considering precedence level of the node.
      * If the preference level of the node is not higher or equal to precedence lower limit, it also checks
      * whether the node is surrounded by parentheses twice or not.
-     * @param {ASTNode} node The node to be checked.
-     * @param {number} precedenceLowerLimit The lower limit of precedence.
-     * @returns {boolean} True if the node is has an unexpected extra pair of parentheses.
+     * @param node The node to be checked.
+     * @param precedenceLowerLimit The lower limit of precedence.
+     * @returns True if the node is has an unexpected extra pair of parentheses.
      * @private
      */
     function hasExcessParensWithPrecedence(node: ASTNode, precedenceLowerLimit: number) {
@@ -246,8 +242,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines if a node test expression is allowed to have a parenthesised assignment
-     * @param {ASTNode} node The node to be checked.
-     * @returns {boolean} True if the assignment can be parenthesised.
+     * @param node The node to be checked.
+     * @returns True if the assignment can be parenthesised.
      * @private
      */
     function isCondAssignException(node: Tree.ConditionalExpression | Tree.DoWhileStatement | Tree.WhileStatement | Tree.IfStatement | Tree.ForStatement) {
@@ -256,8 +252,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines if a node is in a return statement
-     * @param {ASTNode} node The node to be checked.
-     * @returns {boolean} True if the node is in a return statement.
+     * @param node The node to be checked.
+     * @returns True if the node is in a return statement.
      * @private
      */
     function isInReturnStatement(node: ASTNode) {
@@ -274,8 +270,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines if a constructor function is newed-up with parens
-     * @param {ASTNode} newExpression The NewExpression node to be checked.
-     * @returns {boolean} True if the constructor is called with parens.
+     * @param newExpression The NewExpression node to be checked.
+     * @returns True if the constructor is called with parens.
      * @private
      */
     function isNewExpressionWithParens(newExpression: Tree.NewExpression) {
@@ -294,8 +290,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines if a node is or contains an assignment expression
-     * @param {ASTNode} node The node to be checked.
-     * @returns {boolean} True if the node is or contains an assignment expression.
+     * @param node The node to be checked.
+     * @returns True if the node is or contains an assignment expression.
      * @private
      */
     function containsAssignment(node: ASTNode) {
@@ -315,8 +311,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines if a node is contained by or is itself a return statement and is allowed to have a parenthesised assignment
-     * @param {ASTNode} node The node to be checked.
-     * @returns {boolean} True if the assignment can be parenthesised.
+     * @param node The node to be checked.
+     * @returns True if the assignment can be parenthesised.
      * @private
      */
     function isReturnAssignException(node: ASTNode) {
@@ -335,9 +331,9 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Determines if a node following a [no LineTerminator here] restriction is
      * surrounded by (potentially) invalid extra parentheses.
-     * @param {Token} token The token preceding the [no LineTerminator here] restriction.
-     * @param {ASTNode} node The node to be checked.
-     * @returns {boolean} True if the node is incorrectly parenthesised.
+     * @param token The token preceding the [no LineTerminator here] restriction.
+     * @param node The node to be checked.
+     * @returns True if the node is incorrectly parenthesised.
      * @private
      */
     function hasExcessParensNoLineTerminator(token: Token, node: ASTNode) {
@@ -349,8 +345,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines whether a node should be preceded by an additional space when removing parens
-     * @param {ASTNode} node node to evaluate; must be surrounded by parentheses
-     * @returns {boolean} `true` if a space should be inserted before the node
+     * @param node node to evaluate; must be surrounded by parentheses
+     * @returns `true` if a space should be inserted before the node
      * @private
      */
     function requiresLeadingSpace(node: ASTNode) {
@@ -366,8 +362,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines whether a node should be followed by an additional space when removing parens
-     * @param {ASTNode} node node to evaluate; must be surrounded by parentheses
-     * @returns {boolean} `true` if a space should be inserted after the node
+     * @param node node to evaluate; must be surrounded by parentheses
+     * @returns `true` if a space should be inserted after the node
      * @private
      */
     function requiresTrailingSpace(node: ASTNode) {
@@ -383,8 +379,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Determines if a given expression node is an IIFE
-     * @param {ASTNode} node The node to check
-     * @returns {boolean} `true` if the given node is an IIFE
+     * @param node The node to check
+     * @returns `true` if the given node is an IIFE
      */
     function isIIFE(node: ASTNode) {
       const maybeCallNode = skipChainExpression(node)
@@ -396,8 +392,8 @@ export default createRule<MessageIds, RuleOptions>({
      * Determines if the given node can be the assignment target in destructuring or the LHS of an assignment.
      * This is to avoid an autofix that could change behavior because parsers mistakenly allow invalid syntax,
      * such as `(a = b) = c` and `[(a = b) = c] = []`. Ideally, this function shouldn't be necessary.
-     * @param {ASTNode} [node] The node to check
-     * @returns {boolean} `true` if the given node can be a valid assignment target
+     * @param [node] The node to check
+     * @returns `true` if the given node can be a valid assignment target
      */
     function canBeAssignmentTarget(node: ASTNode) {
       return node && (node.type === 'Identifier' || node.type === 'MemberExpression')
@@ -411,8 +407,8 @@ export default createRule<MessageIds, RuleOptions>({
      * The node is a string Literal
      * It has a single pair of parentheses
      * It is the only child of an ExpressionStatement
-     * @param {ASTNode} node The node to evaluate.
-     * @returns {boolean} Whether or not the node is fixable.
+     * @param node The node to evaluate.
+     * @returns Whether or not the node is fixable.
      * @private
      */
     function isFixable(node: ASTNode) {
@@ -428,8 +424,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Report the node
-     * @param {ASTNode} node node to evaluate
-     * @returns {void}
+     * @param node node to evaluate
      * @private
      */
     function report(node: ASTNode) {
@@ -458,7 +453,6 @@ export default createRule<MessageIds, RuleOptions>({
 
       /**
        * Finishes reporting
-       * @returns {void}
        * @private
        */
       function finishReport() {
@@ -489,8 +483,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Evaluate a argument of the node.
-     * @param {ASTNode} node node to evaluate
-     * @returns {void}
+     * @param node node to evaluate
      * @private
      */
     function checkArgumentWithPrecedence(node: ASTNode) {
@@ -500,8 +493,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check if a member expression contains a call expression
-     * @param {ASTNode} node MemberExpression node to evaluate
-     * @returns {boolean} true if found, false if not
+     * @param node MemberExpression node to evaluate
+     * @returns true if found, false if not
      */
     function doesMemberExpressionContainCallExpression(node: Tree.MemberExpression) {
       let currentNode = node.object
@@ -519,8 +512,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Evaluate a new call
-     * @param {ASTNode} node node to evaluate
-     * @returns {void}
+     * @param node node to evaluate
      * @private
      */
     function checkCallNew(node: Tree.CallExpression | Tree.NewExpression) {
@@ -566,8 +558,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Evaluate binary logicals
-     * @param {ASTNode} node node to evaluate
-     * @returns {void}
+     * @param node node to evaluate
      * @private
      */
     function checkBinaryLogical(node: Tree.BinaryExpression | Tree.LogicalExpression) {
@@ -600,8 +591,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check the parentheses around the super class of the given class definition.
-     * @param {ASTNode} node The node of class declarations to check.
-     * @returns {void}
+     * @param node The node of class declarations to check.
      */
     function checkClass(node: Tree.ClassExpression | Tree.ClassDeclaration) {
       if (!node.superClass)
@@ -621,8 +611,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check the parentheses around the argument of the given spread operator.
-     * @param {ASTNode} node The node of spread elements/properties to check.
-     * @returns {void}
+     * @param node The node of spread elements/properties to check.
      */
     function checkSpreadOperator(node: Tree.SpreadElement) {
       if (hasExcessParensWithPrecedence(node.argument, PRECEDENCE_OF_ASSIGNMENT_EXPR))
@@ -631,8 +620,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks the parentheses for an ExpressionStatement or ExportDefaultDeclaration
-     * @param {ASTNode} node The ExpressionStatement.expression or ExportDefaultDeclaration.declaration node
-     * @returns {void}
+     * @param node The ExpressionStatement.expression or ExportDefaultDeclaration.declaration node
      */
     function checkExpressionOrExportStatement(node: Tree.ExportDefaultDeclaration | Tree.ExpressionStatement | Tree.DefaultExportDeclarations) {
       const firstToken = isParenthesised(node) ? sourceCode.getTokenBefore(node)! : sourceCode.getFirstToken(node)!
@@ -669,9 +657,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Finds the path from the given node to the specified ancestor.
-     * @param {ASTNode} node First node in the path.
-     * @param {ASTNode} ancestor Last node in the path.
-     * @returns {ASTNode[]} Path, including both nodes.
+     * @param node First node in the path.
+     * @param ancestor Last node in the path.
+     * @returns Path, including both nodes.
      * @throws {Error} If the given node does not have the specified ancestor.
      */
     function pathToAncestor(node: ASTNode, ancestor: ASTNode) {
@@ -694,9 +682,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Finds the path from the given node to the specified descendant.
-     * @param {ASTNode} node First node in the path.
-     * @param {ASTNode} descendant Last node in the path.
-     * @returns {ASTNode[]} Path, including both nodes.
+     * @param node First node in the path.
+     * @param descendant Last node in the path.
+     * @returns Path, including both nodes.
      * @throws {Error} If the given node does not have the specified descendant.
      */
     function pathToDescendant(node: ASTNode, descendant: ASTNode) {
@@ -706,9 +694,9 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Checks whether the syntax of the given ancestor of an 'in' expression inside a for-loop initializer
      * is preventing the 'in' keyword from being interpreted as a part of an ill-formed for-in loop.
-     * @param {ASTNode} node Ancestor of an 'in' expression.
-     * @param {ASTNode} child Child of the node, ancestor of the same 'in' expression or the 'in' expression itself.
-     * @returns {boolean} True if the keyword 'in' would be interpreted as the 'in' operator, without any parenthesis.
+     * @param node Ancestor of an 'in' expression.
+     * @param child Child of the node, ancestor of the same 'in' expression or the 'in' expression itself.
+     * @returns True if the keyword 'in' would be interpreted as the 'in' operator, without any parenthesis.
      */
     function isSafelyEnclosingInExpression(node: ASTNode, child: ASTNode) {
       switch (node.type) {
@@ -739,7 +727,6 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Starts a new reports buffering. Warnings will be stored in a buffer instead of being reported immediately.
      * An additional logic that requires multiple nodes (e.g. a whole subtree) may dismiss some of the stored warnings.
-     * @returns {void}
      */
     function startNewReportsBuffering() {
       reportsBuffer = {
@@ -751,7 +738,6 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Ends the current reports buffering.
-     * @returns {void}
      */
     function endCurrentReportsBuffering() {
       const { upper, inExpressionNodes, reports } = reportsBuffer ?? {}
@@ -770,8 +756,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks whether the given node is in the current reports buffer.
-     * @param {ASTNode} node Node to check.
-     * @returns {boolean} True if the node is in the current buffer, false otherwise.
+     * @param node Node to check.
+     * @returns True if the node is in the current buffer, false otherwise.
      */
     function isInCurrentReportsBuffer(node: ASTNode) {
       return reportsBuffer?.reports.some(r => r.node === node)
@@ -779,8 +765,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Removes the given node from the current reports buffer.
-     * @param {ASTNode} node Node to remove.
-     * @returns {void}
+     * @param node Node to remove.
      */
     function removeFromCurrentReportsBuffer(node: ASTNode) {
       if (reportsBuffer)
@@ -789,8 +774,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks whether a node is a MemberExpression at NewExpression's callee.
-     * @param {ASTNode} node node to check.
-     * @returns {boolean} True if the node is a MemberExpression at NewExpression's callee. false otherwise.
+     * @param node node to check.
+     * @returns True if the node is a MemberExpression at NewExpression's callee. false otherwise.
      */
     function isMemberExpInNewCallee(node: ASTNode): boolean {
       if (node.type === 'MemberExpression') {
@@ -814,8 +799,8 @@ export default createRule<MessageIds, RuleOptions>({
      * when evaluating `(foo) = function () {}`.
      * Since the parenthesizing of the identifier in the left-hand side is significant in this
      * special case, the parentheses, if present, should not be flagged as unnecessary.
-     * @param {ASTNode} node an AssignmentExpression node.
-     * @returns {boolean} `true` if the left-hand side of the assignment is an identifier, the
+     * @param node an AssignmentExpression node.
+     * @returns `true` if the left-hand side of the assignment is an identifier, the
      * operator is one of `=`, `&&=`, `||=` or `??=` and the right-hand side is an anonymous
      * class or function; otherwise, `false`.
      */

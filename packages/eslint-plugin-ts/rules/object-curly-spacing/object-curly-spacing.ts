@@ -29,7 +29,7 @@ export default createRule<RuleOptions, MessageIds>({
   create(context) {
     const [firstOption, secondOption] = context.options
     const spaced = firstOption === 'always'
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
 
     /**
      * Determines whether an option is set, relative to the spacing option.
@@ -49,10 +49,6 @@ export default createRule<RuleOptions, MessageIds>({
       arraysInObjectsException: isOptionSet('arraysInObjects'),
       objectsInObjectsException: isOptionSet('objectsInObjects'),
     }
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     /**
      * Reports that there shouldn't be a space after the first token
@@ -241,10 +237,6 @@ export default createRule<RuleOptions, MessageIds>({
 
       return sourceCode.getTokenAfter(lastProperty, isClosingBraceToken)
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     const rules = baseRule.create(context)
     return {

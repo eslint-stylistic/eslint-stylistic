@@ -7,12 +7,13 @@ import { LINEBREAK_MATCHER, getStaticPropertyName, isColonToken } from '../../ut
 import { createRule } from '../../utils/createRule'
 import { getGraphemeCount } from '../../utils/string-utils'
 import type { ASTNode, ReportFixFunction, Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
 /**
  * Checks whether a string contains a line terminator as defined in
  * http://www.ecma-international.org/ecma-262/5.1/#sec-7.3
- * @param {string} str String to test.
- * @returns {boolean} True if str contains a line terminator.
+ * @param str String to test.
+ * @returns True if str contains a line terminator.
  */
 function containsLineTerminator(str: string) {
   return LINEBREAK_MATCHER.test(str)
@@ -20,8 +21,8 @@ function containsLineTerminator(str: string) {
 
 /**
  * Gets the last element of an array.
- * @param {Array} arr An array.
- * @returns {any} Last element of arr.
+ * @param arr An array.
+ * @returns Last element of arr.
  */
 function last<T>(arr: T[]): T {
   return arr[arr.length - 1]
@@ -29,8 +30,8 @@ function last<T>(arr: T[]): T {
 
 /**
  * Checks whether a node is contained on a single line.
- * @param {ASTNode} node AST Node being evaluated.
- * @returns {boolean} True if the node is a single line.
+ * @param node AST Node being evaluated.
+ * @returns True if the node is a single line.
  */
 function isSingleLine(node: ASTNode) {
   return (node.loc.end.line === node.loc.start.line)
@@ -38,8 +39,8 @@ function isSingleLine(node: ASTNode) {
 
 /**
  * Checks whether the properties on a single line.
- * @param {ASTNode[]} properties List of Property AST nodes.
- * @returns {boolean} True if all properties is on a single line.
+ * @param properties List of Property AST nodes.
+ * @returns True if all properties is on a single line.
  */
 function isSingleLineProperties(properties: ASTNode[]) {
   const [firstProp] = properties
@@ -50,9 +51,9 @@ function isSingleLineProperties(properties: ASTNode[]) {
 
 /**
  * Initializes a single option property from the configuration with defaults for undefined values
- * @param {object} toOptions Object to be initialized
- * @param {object} fromOptions Object to be initialized from
- * @returns {object} The object with correctly initialized options and values
+ * @param toOptions Object to be initialized
+ * @param fromOptions Object to be initialized from
+ * @returns The object with correctly initialized options and values
  */
 function initOptionProperty(toOptions: any, fromOptions: any) {
   toOptions.mode = fromOptions.mode || 'strict'
@@ -89,9 +90,9 @@ function initOptionProperty(toOptions: any, fromOptions: any) {
 
 /**
  * Initializes all the option values (singleLine, multiLine and align) from the configuration with defaults for undefined values
- * @param {object} toOptions Object to be initialized
- * @param {object} fromOptions Object to be initialized from
- * @returns {object} The object with correctly initialized options and values
+ * @param toOptions Object to be initialized
+ * @param fromOptions Object to be initialized from
+ * @returns The object with correctly initialized options and values
  */
 function initOptions(toOptions: any, fromOptions: any) {
   if (typeof fromOptions.align === 'object') {
@@ -121,11 +122,7 @@ function initOptions(toOptions: any, fromOptions: any) {
   return toOptions
 }
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -335,8 +332,8 @@ export default createRule({
 
     /**
      * Determines if the given property is key-value property.
-     * @param {ASTNode} property Property node to check.
-     * @returns {boolean} Whether the property is a key-value property.
+     * @param property Property node to check.
+     * @returns Whether the property is a key-value property.
      */
     function isKeyValueProperty(property: Tree.ObjectLiteralElement): property is Tree.Property {
       return !(
@@ -349,8 +346,8 @@ export default createRule({
     /**
      * Starting from the given node (a property.key node here) looks forward
      * until it finds the colon punctuator and returns it.
-     * @param {ASTNode} node The node to start looking from.
-     * @returns {ASTNode} The colon punctuator.
+     * @param node The node to start looking from.
+     * @returns The colon punctuator.
      */
     function getNextColon(node: ASTNode) {
       return sourceCode.getTokenAfter(node, isColonToken)
@@ -359,8 +356,8 @@ export default createRule({
     /**
      * Starting from the given node (a property.key node here) looks forward
      * until it finds the last token before a colon punctuator and returns it.
-     * @param {ASTNode} node The node to start looking from.
-     * @returns {ASTNode} The last token before a colon punctuator.
+     * @param node The node to start looking from.
+     * @returns The last token before a colon punctuator.
      */
     function getLastTokenBeforeColon(node: ASTNode) {
       const colonToken = getNextColon(node)!
@@ -371,8 +368,8 @@ export default createRule({
     /**
      * Starting from the given node (a property.key node here) looks forward
      * until it finds the first token after a colon punctuator and returns it.
-     * @param {ASTNode} node The node to start looking from.
-     * @returns {ASTNode} The first token after a colon punctuator.
+     * @param node The node to start looking from.
+     * @returns The first token after a colon punctuator.
      */
     function getFirstTokenAfterColon(node: ASTNode) {
       const colonToken = getNextColon(node)!
@@ -382,9 +379,9 @@ export default createRule({
 
     /**
      * Checks whether a property is a member of the property group it follows.
-     * @param {ASTNode} lastMember The last Property known to be in the group.
-     * @param {ASTNode} candidate The next Property that might be in the group.
-     * @returns {boolean} True if the candidate property is part of the group.
+     * @param lastMember The last Property known to be in the group.
+     * @param candidate The next Property that might be in the group.
+     * @returns True if the candidate property is part of the group.
      */
     function continuesPropertyGroup(lastMember: Tree.ObjectLiteralElement, candidate: Tree.ObjectLiteralElement) {
       const groupEndLine = lastMember.loc.start.line
@@ -393,11 +390,11 @@ export default createRule({
       if (candidateValueStartLine - groupEndLine <= 1)
         return true
 
-      /*
-             * Check that the first comment is adjacent to the end of the group, the
-             * last comment is adjacent to the candidate property, and that successive
-             * comments are adjacent to each other.
-             */
+      /**
+       * Check that the first comment is adjacent to the end of the group, the
+       * last comment is adjacent to the candidate property, and that successive
+       * comments are adjacent to each other.
+       */
       const leadingComments = sourceCode.getCommentsBefore(candidate)
 
       if (
@@ -417,8 +414,8 @@ export default createRule({
 
     /**
      * Gets an object literal property's key as the identifier name or string value.
-     * @param {ASTNode} property Property node whose key to retrieve.
-     * @returns {string} The property's key.
+     * @param property Property node whose key to retrieve.
+     * @returns The property's key.
      */
     function getKey(property: Tree.Property) {
       const key = property.key
@@ -432,12 +429,11 @@ export default createRule({
     /**
      * Reports an appropriately-formatted error if spacing is incorrect on one
      * side of the colon.
-     * @param {ASTNode} property Key-value pair in an object literal.
-     * @param {string} side Side being verified - either "key" or "value".
-     * @param {string} whitespace Actual whitespace string.
-     * @param {int} expected Expected whitespace length.
-     * @param {string} mode Value of the mode as "strict" or "minimum"
-     * @returns {void}
+     * @param property Key-value pair in an object literal.
+     * @param side Side being verified - either "key" or "value".
+     * @param whitespace Actual whitespace string.
+     * @param expected Expected whitespace length.
+     * @param mode Value of the mode as "strict" or "minimum"
      */
     function report(property: Tree.Property, side: 'key' | 'value', whitespace: string, expected: number, mode: 'strict' | 'minimum') {
       const diff = whitespace.length - expected
@@ -513,8 +509,8 @@ export default createRule({
     /**
      * Gets the number of characters in a key, including quotes around string
      * keys and braces around computed property keys.
-     * @param {ASTNode} property Property of on object literal.
-     * @returns {int} Width of the key.
+     * @param property Property of on object literal.
+     * @returns Width of the key.
      */
     function getKeyWidth(property: Tree.Property) {
       const startToken = sourceCode.getFirstToken(property)!
@@ -525,8 +521,8 @@ export default createRule({
 
     /**
      * Gets the whitespace around the colon in an object literal property.
-     * @param {ASTNode} property Property node from an object literal.
-     * @returns {object} Whitespace before and after the property's colon.
+     * @param property Property node from an object literal.
+     * @returns Whitespace before and after the property's colon.
      */
     function getPropertyWhitespace(property: Tree.Property) {
       const whitespace = /(\s*):(\s*)/u.exec(sourceCode.getText().slice(
@@ -545,8 +541,8 @@ export default createRule({
 
     /**
      * Creates groups of properties.
-     * @param {ASTNode} node ObjectExpression node being evaluated.
-     * @returns {Array<ASTNode[]>} Groups of property AST node lists.
+     * @param node ObjectExpression node being evaluated.
+     * @returns Groups of property AST node lists.
      */
     function createGroups(node: Tree.ObjectExpression) {
       if (node.properties.length === 1)
@@ -569,8 +565,7 @@ export default createRule({
 
     /**
      * Verifies correct vertical alignment of a group of properties.
-     * @param {ASTNode[]} properties List of Property AST nodes.
-     * @returns {void}
+     * @param properties List of Property AST nodes.
      */
     function verifyGroupAlignment(properties: Tree.Property[]) {
       const length = properties.length
@@ -614,11 +609,10 @@ export default createRule({
 
     /**
      * Verifies spacing of property conforms to specified options.
-     * @param {ASTNode} node Property node being evaluated.
-     * @param {object} lineOptions Configured singleLine or multiLine options
-     * @returns {void}
+     * @param node Property node being evaluated.
+     * @param lineOptions Configured singleLine or multiLine options
      */
-    function verifySpacing(node: Tree.Property, lineOptions: { beforeColon: number; afterColon: number; mode: 'strict' | 'minimum' }) {
+    function verifySpacing(node: Tree.Property, lineOptions: { beforeColon: number, afterColon: number, mode: 'strict' | 'minimum' }) {
       const actual = getPropertyWhitespace(node)
 
       if (actual) { // Object literal getters/setters lack colons
@@ -629,11 +623,10 @@ export default createRule({
 
     /**
      * Verifies spacing of each property in a list.
-     * @param {ASTNode[]} properties List of Property AST nodes.
-     * @param {object} lineOptions Configured singleLine or multiLine options
-     * @returns {void}
+     * @param properties List of Property AST nodes.
+     * @param lineOptions Configured singleLine or multiLine options
      */
-    function verifyListSpacing(properties: Tree.Property[], lineOptions: { beforeColon: number; afterColon: number; mode: 'strict' | 'minimum' }) {
+    function verifyListSpacing(properties: Tree.Property[], lineOptions: { beforeColon: number, afterColon: number, mode: 'strict' | 'minimum' }) {
       const length = properties.length
 
       for (let i = 0; i < length; i++)
@@ -642,8 +635,7 @@ export default createRule({
 
     /**
      * Verifies vertical alignment, taking into account groups of properties.
-     * @param {ASTNode} node ObjectExpression node being evaluated.
-     * @returns {void}
+     * @param node ObjectExpression node being evaluated.
      */
     function verifyAlignment(node: Tree.ObjectExpression) {
       createGroups(node).forEach((group) => {
@@ -655,10 +647,6 @@ export default createRule({
           verifyGroupAlignment(properties)
       })
     }
-
-    // --------------------------------------------------------------------------
-    // Public API
-    // --------------------------------------------------------------------------
 
     if (alignmentOptions) { // Verify vertical alignment
       return {

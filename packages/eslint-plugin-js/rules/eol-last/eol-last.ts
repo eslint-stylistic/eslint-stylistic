@@ -4,12 +4,9 @@
  */
 
 import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -33,10 +30,6 @@ export default createRule({
     },
   },
   create(context) {
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
-
     return {
       Program: function checkBadEOF(node) {
         const sourceCode = context.sourceCode

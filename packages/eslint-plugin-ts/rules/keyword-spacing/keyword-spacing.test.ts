@@ -7,10 +7,6 @@ import type { TSESLint } from '@typescript-eslint/utils'
 import type { MessageIds, RuleOptions } from './types'
 import rule from './keyword-spacing'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 const BOTH = { before: true, after: true }
 const NEITHER = { before: false, after: false }
 

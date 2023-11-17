@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ReportFixFunction, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -38,15 +34,11 @@ export default createRule<MessageIds, RuleOptions>({
   create(context) {
     const sourceCode = context.sourceCode
 
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
-
     /**
      * Builds a fix function that replaces text at the specified range in the source text.
-     * @param {int[]} range The range to replace
-     * @param {string} text The text to insert.
-     * @returns {Function} Fixer function
+     * @param range The range to replace
+     * @param text The text to insert.
+     * @returns Fixer function
      * @private
      */
     function createFix(range: Readonly<Tree.Range>, text: string): ReportFixFunction {
@@ -54,10 +46,6 @@ export default createRule<MessageIds, RuleOptions>({
         return fixer.replaceTextRange(range, text)
       }
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       Program: function checkForLinebreakStyle(node) {

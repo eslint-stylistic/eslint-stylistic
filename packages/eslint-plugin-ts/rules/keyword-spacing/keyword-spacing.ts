@@ -41,7 +41,7 @@ export default createRule<RuleOptions, MessageIds>({
   defaultOptions: [{}],
   create(context, [options]) {
     const { after, overrides } = options ?? {}
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
     const baseRules = baseRule.create(context)
     return {
       ...baseRules,

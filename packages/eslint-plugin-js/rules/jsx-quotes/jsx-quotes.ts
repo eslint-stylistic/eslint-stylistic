@@ -6,10 +6,7 @@
 import { isStringLiteral, isSurroundedBy } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import type { Tree } from '../../utils/types'
-
-// ------------------------------------------------------------------------------
-// Constants
-// ------------------------------------------------------------------------------
+import type { MessageIds, RuleOptions } from './types'
 
 interface QuoteSetting {
   quote: string
@@ -34,11 +31,7 @@ const QUOTE_SETTINGS: Record<string, QuoteSetting> = {
   },
 }
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -66,8 +59,8 @@ export default createRule({
 
     /**
      * Checks if the given string literal node uses the expected quotes
-     * @param {ASTNode} node A string literal node.
-     * @returns {boolean} Whether or not the string literal used the expected quotes.
+     * @param node A string literal node.
+     * @returns Whether or not the string literal used the expected quotes.
      * @public
      */
     function usesExpectedQuotes(node: Tree.StringLiteral) {

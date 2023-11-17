@@ -1,18 +1,16 @@
 /**
  * @fileoverview Utility functions for AST
  */
-import type { AST, Rule } from 'eslint'
 import type ESTraverse from 'estraverse'
 import { traverse as _traverse } from 'estraverse'
 import type { FunctionDeclaration } from 'estree'
-import type { TSESLint } from '@typescript-eslint/utils'
-import type { ASTNode, ESNode } from './types'
+import type { ASTNode, ESNode, RuleContext, SourceCode, Token } from './types'
 
 /**
  * Wrapper for estraverse.traverse
  *
- * @param {ASTNode} ASTnode The AST node being checked
- * @param {object} visitor Visitor Object for estraverse
+ * @param ASTnode The AST node being checked
+ * @param visitor Visitor Object for estraverse
  */
 export function traverse(ASTnode: ESNode, visitor: ESTraverse.Visitor) {
   const opts = Object.assign({}, {
@@ -33,15 +31,13 @@ export function traverse(ASTnode: ESNode, visitor: ESTraverse.Visitor) {
  * Helper function for traversing "returns" (return statements or the
  * returned expression in the case of an arrow function) of a function
  *
- * @param {ASTNode} ASTNode The AST node being checked
- * @param {Context} context The context of `ASTNode`.
- * @param {(returnValue: ASTNode, breakTraverse: () => void) => void} onReturn
+ * @param ASTNode The AST node being checked
+ * @param context The context of `ASTNode`.
+ * @param onReturn
  *   Function to execute for each returnStatement found
- * @returns {undefined}
  */
 export function traverseReturns(
   ASTNode: ESNode,
-  context: Rule.RuleContext,
   onReturn: (returnValue: ESNode | null | undefined, breakTraverse: () => void) => void,
 ) {
   const nodeType = ASTNode.type
@@ -108,13 +104,13 @@ export function traverseReturns(
 
 /**
  * Gets the first node in a line from the initial node, excluding whitespace.
- * @param {object} context The node to check
- * @param {ASTNode} node The node to check
+ * @param context The node to check
+ * @param node The node to check
  * @return {ASTNode} the first node in the line
  */
-export function getFirstNodeInLine(context: Rule.RuleContext, node: ESNode) {
-  const sourceCode = context.getSourceCode()
-  let token: ESNode | AST.Token = node
+export function getFirstNodeInLine(context: { sourceCode: SourceCode }, node: ASTNode | Token) {
+  const sourceCode = context.sourceCode
+  let token: ASTNode | Token = node
   let lines: string[] | null = null
   do {
     token = sourceCode.getTokenBefore(token)!
@@ -129,11 +125,11 @@ export function getFirstNodeInLine(context: Rule.RuleContext, node: ESNode) {
 
 /**
  * Checks if the node is the first in its line, excluding whitespace.
- * @param {object} context The node to check
- * @param {ASTNode} node The node to check
+ * @param context The node to check
+ * @param node The node to check
  * @return {boolean} true if it's the first node in its line
  */
-export function isNodeFirstInLine(context: Rule.RuleContext, node: ESNode) {
+export function isNodeFirstInLine(context: { sourceCode: SourceCode }, node: ASTNode) {
   const token = getFirstNodeInLine(context, node)
   const startLine = node.loc!.start.line
   const endLine = token ? token.loc.end.line : -1
@@ -143,12 +139,11 @@ export function isNodeFirstInLine(context: Rule.RuleContext, node: ESNode) {
 /**
  * Checks if a node is surrounded by parenthesis.
  *
- * @param {object} context - Context from the rule
- * @param {ASTNode} node - Node to be checked
- * @returns {boolean}
+ * @param context - Context from the rule
+ * @param node - Node to be checked
  */
-export function isParenthesized(context: TSESLint.RuleContext<any, any>, node: ASTNode): boolean {
-  const sourceCode = context.getSourceCode()
+export function isParenthesized(context: RuleContext<any, any>, node: ASTNode): boolean {
+  const sourceCode = context.sourceCode
   const previousToken = sourceCode.getTokenBefore(node)
   const nextToken = sourceCode.getTokenAfter(node)
 

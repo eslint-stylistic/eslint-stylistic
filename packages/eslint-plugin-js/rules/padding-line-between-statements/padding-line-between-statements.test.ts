@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './padding-line-between-statements'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2017 } })
 
 ruleTester.run('padding-line-between-statements', rule, {

@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './wrap-regex'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('wrap-regex', rule, {

@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -61,8 +57,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks if a given token has leading whitespace.
-     * @param {Token} token The token to check.
-     * @returns {boolean} True if the given token has leading space, false if not.
+     * @param token The token to check.
+     * @returns True if the given token has leading space, false if not.
      */
     function hasLeadingSpace(token: Token) {
       const tokenBefore = sourceCode.getTokenBefore(token)
@@ -72,8 +68,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks if a given token has trailing whitespace.
-     * @param {Token} token The token to check.
-     * @returns {boolean} True if the given token has trailing space, false if not.
+     * @param token The token to check.
+     * @returns True if the given token has trailing space, false if not.
      */
     function hasTrailingSpace(token: Token) {
       const tokenAfter = sourceCode.getTokenAfter(token)
@@ -83,8 +79,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks if the given token is the last token in its line.
-     * @param {Token} token The token to check.
-     * @returns {boolean} Whether or not the token is the last in its line.
+     * @param token The token to check.
+     * @returns Whether or not the token is the last in its line.
      */
     function isLastTokenInCurrentLine(token: Token) {
       const tokenAfter = sourceCode.getTokenAfter(token)
@@ -94,8 +90,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks if the given token is the first token in its line
-     * @param {Token} token The token to check.
-     * @returns {boolean} Whether or not the token is the first in its line.
+     * @param token The token to check.
+     * @returns Whether or not the token is the first in its line.
      */
     function isFirstTokenInCurrentLine(token: Token) {
       const tokenBefore = sourceCode.getTokenBefore(token)
@@ -105,8 +101,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks if the next token of a given token is a closing parenthesis.
-     * @param {Token} token The token to check.
-     * @returns {boolean} Whether or not the next token of a given token is a closing parenthesis.
+     * @param token The token to check.
+     * @returns Whether or not the next token of a given token is a closing parenthesis.
      */
     function isBeforeClosingParen(token: Token) {
       const nextToken = sourceCode.getTokenAfter(token)
@@ -128,9 +124,8 @@ export default createRule<MessageIds, RuleOptions>({
      *             ^^
      *
      * Reports if the given token has invalid spacing.
-     * @param {Token} token The semicolon token to check.
-     * @param {ASTNode} node The corresponding node of the token.
-     * @returns {void}
+     * @param token The semicolon token to check.
+     * @param node The corresponding node of the token.
      */
     function checkSemicolonSpacing(token: Token, node: ASTNode) {
       if (isSemicolonToken(token)) {
@@ -206,8 +201,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks the spacing of the semicolon with the assumption that the last token is the semicolon.
-     * @param {ASTNode} node The node to check.
-     * @returns {void}
+     * @param node The node to check.
      */
     function checkNode(node: ASTNode) {
       const token = sourceCode.getLastToken(node)

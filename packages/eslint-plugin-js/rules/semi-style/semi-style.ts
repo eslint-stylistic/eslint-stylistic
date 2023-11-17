@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 const SELECTOR = [
   'BreakStatement',
   'ContinueStatement',
@@ -33,8 +29,8 @@ const SELECTOR = [
  * This returns `BlockStatement#body`, `StaticBlock#body`, `Program#body`,
  * `ClassBody#body`, or `SwitchCase#consequent`.
  * This is used to check whether a node is the first/last child.
- * @param {Node} node A node to get child node list.
- * @returns {Node[]|null} The child node list.
+ * @param node A node to get child node list.
+ * @returns The child node list.
  */
 function getChildren(node: ASTNode) {
   const t = node.type
@@ -55,8 +51,8 @@ function getChildren(node: ASTNode) {
 
 /**
  * Check whether a given node is the last statement in the parent block.
- * @param {Node} node A node to check.
- * @returns {boolean} `true` if the node is the last statement in the parent block.
+ * @param node A node to check.
+ * @returns `true` if the node is the last statement in the parent block.
  */
 function isLastChild(node: ASTNode): boolean {
   if (!node.parent)
@@ -97,9 +93,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check the given semicolon token.
-     * @param {Token} semiToken The semicolon token to check.
-     * @param {"first"|"last"} expected The expected location to check.
-     * @returns {void}
+     * @param semiToken The semicolon token to check.
+     * @param expected The expected location to check.
      */
     function check(semiToken: Token, expected: 'last' | 'first'): void {
       const prevToken = sourceCode.getTokenBefore(semiToken)

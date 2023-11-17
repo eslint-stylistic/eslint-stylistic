@@ -193,7 +193,7 @@ export default createRule<Options, MessageIds>({
     },
   ],
   create(context, [options]) {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
 
     // use the base options as the defaults for the cases
     const baseOptions = options
@@ -308,7 +308,7 @@ export default createRule<Options, MessageIds>({
 
     /**
      * Check the member separator being used matches the delimiter.
-     * @param {ASTNode} node the node to be evaluated.
+     * @param node the node to be evaluated.
      */
     function checkMemberSeparatorStyle(
       node: TSESTree.TSInterfaceBody | TSESTree.TSTypeLiteral,

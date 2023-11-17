@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './template-curly-spacing'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
 
 ruleTester.run('template-curly-spacing', rule, {

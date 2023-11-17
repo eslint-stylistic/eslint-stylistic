@@ -124,7 +124,7 @@ class IndexMap<T = any> {
 
   /**
    * Creates an empty map
-   * @param {number} maxKey The maximum key
+   * @param maxKey The maximum key
    */
   constructor(maxKey: number) {
     // Initializing the array with the maximum expected size avoids dynamic reallocations that could degrade performance.
@@ -133,9 +133,8 @@ class IndexMap<T = any> {
 
   /**
    * Inserts an entry into the map.
-   * @param {number} key The entry's key
-   * @param {any} value The entry's value
-   * @returns {void}
+   * @param key The entry's key
+   * @param value The entry's value
    */
   insert(key: number, value: T) {
     this._values[key] = value
@@ -143,8 +142,8 @@ class IndexMap<T = any> {
 
   /**
    * Finds the value of the entry with the largest key less than or equal to the provided key
-   * @param {number} key The provided key
-   * @returns {*|undefined} The value of the found entry, or undefined if no such entry exists.
+   * @param key The provided key
+   * @returns The value of the found entry, or undefined if no such entry exists.
    */
   findLastNotAfter(key: number): T | undefined {
     const values = this._values
@@ -159,9 +158,8 @@ class IndexMap<T = any> {
 
   /**
    * Deletes all of the keys in the interval [start, end)
-   * @param {number} start The start of the range
-   * @param {number} end The end of the range
-   * @returns {void}
+   * @param start The start of the range
+   * @param end The end of the range
    */
   deleteRange(start: number, end: number) {
     this._values.fill(undefined, start, end)
@@ -176,7 +174,7 @@ class TokenInfo {
   firstTokensByLineNumber: Map<number, Token>
 
   /**
-   * @param {SourceCode} sourceCode A SourceCode object
+   * @param sourceCode A SourceCode object
    */
   constructor(sourceCode: SourceCode) {
     this.sourceCode = sourceCode
@@ -196,8 +194,8 @@ class TokenInfo {
 
   /**
    * Gets the first token on a given token's line
-   * @param {Token|ASTNode} token a node or token
-   * @returns {Token} The first token on the given line
+   * @param token a node or token
+   * @returns The first token on the given line
    */
   getFirstTokenOfLine(token: Token | ASTNode) {
     return this.firstTokensByLineNumber.get(token.loc.start.line)
@@ -205,8 +203,8 @@ class TokenInfo {
 
   /**
    * Determines whether a token is the first token in its line
-   * @param {Token} token The token
-   * @returns {boolean} `true` if the token is the first on its line
+   * @param token The token
+   * @returns `true` if the token is the first on its line
    */
   isFirstTokenOfLine(token: Token | ASTNode) {
     return this.getFirstTokenOfLine(token) === token
@@ -214,8 +212,8 @@ class TokenInfo {
 
   /**
    * Get the actual indent of a token
-   * @param {Token} token Token to examine. This should be the first token on its line.
-   * @returns {string} The indentation characters that precede the token
+   * @param token Token to examine. This should be the first token on its line.
+   * @returns The indentation characters that precede the token
    */
   getTokenIndent(token: Token) {
     return this.sourceCode.text.slice(token.range[0] - token.loc.start.column, token.range[0])
@@ -235,10 +233,10 @@ class OffsetStorage {
   _ignoredTokens: WeakSet<Token> = new WeakSet()
 
   /**
-   * @param {TokenInfo} tokenInfo a TokenInfo instance
-   * @param {number} indentSize The desired size of each indentation level
-   * @param {string} indentType The indentation character
-   * @param {number} maxIndex The maximum end index of any token
+   * @param tokenInfo a TokenInfo instance
+   * @param indentSize The desired size of each indentation level
+   * @param indentType The indentation character
+   * @param maxIndex The maximum end index of any token
    */
   constructor(tokenInfo: TokenInfo, indentSize: number, indentType: string, maxIndex: number) {
     this._tokenInfo = tokenInfo
@@ -257,9 +255,8 @@ class OffsetStorage {
    * Sets the offset column of token B to match the offset column of token A.
    * - **WARNING**: This matches a *column*, even if baseToken is not the first token on its line. In
    * most cases, `setDesiredOffset` should be used instead.
-   * @param {Token} baseToken The first token
-   * @param {Token} offsetToken The second token, whose offset should be matched to the first token
-   * @returns {void}
+   * @param baseToken The first token
+   * @param offsetToken The second token, whose offset should be matched to the first token
    */
   matchOffsetOf(baseToken: Token, offsetToken: Token) {
     /**
@@ -323,10 +320,9 @@ class OffsetStorage {
    * Instead, the correct way would be to offset `baz` by 1 level from `bar`, offset `bar` by 1 level from the `)`, and
    * offset the `)` by 0 levels from `foo`. This ensures that the offset between `bar` and the `)` are correctly collapsed
    * in the second case.
-   * @param {Token} token The token
-   * @param {Token} fromToken The token that `token` should be offset from
-   * @param {number} offset The desired indent level
-   * @returns {void}
+   * @param token The token
+   * @param fromToken The token that `token` should be offset from
+   * @param offset The desired indent level
    */
   setDesiredOffset(token: Token | undefined | null, fromToken: Token | undefined | null, offset: Offset): void {
     if (token)
@@ -352,11 +348,10 @@ class OffsetStorage {
    *
    * The `setDesiredOffsets` methods inserts ranges like the ones above. The third line above would be inserted by using:
    * `setDesiredOffsets([30, 43], fooToken, 1);`
-   * @param {[number, number]} range A [start, end] pair. All tokens with range[0] <= token.start < range[1] will have the offset applied.
-   * @param {Token} fromToken The token that this is offset from
-   * @param {number} offset The desired indent level
-   * @param {boolean} force `true` if this offset should not use the normal collapsing behavior. This should almost always be false.
-   * @returns {void}
+   * @param range A [start, end] pair. All tokens with range[0] <= token.start < range[1] will have the offset applied.
+   * @param fromToken The token that this is offset from
+   * @param offset The desired indent level
+   * @param force `true` if this offset should not use the normal collapsing behavior. This should almost always be false.
    */
   setDesiredOffsets(range: [number, number], fromToken: Token | null | undefined, offset: Offset, force = false) {
     /**
@@ -404,8 +399,8 @@ class OffsetStorage {
 
   /**
    * Gets the desired indent of a token
-   * @param {Token} token The token
-   * @returns {string} The desired indent of the token
+   * @param token The token
+   * @returns The desired indent of the token
    */
   getDesiredIndent(token: Token) {
     if (!this._desiredIndentCache.has(token)) {
@@ -450,8 +445,7 @@ class OffsetStorage {
 
   /**
    * Ignores a token, preventing it from being reported.
-   * @param {Token} token The token
-   * @returns {void}
+   * @param token The token
    */
   ignoreToken(token: Token) {
     if (this._tokenInfo.isFirstTokenOfLine(token))
@@ -460,8 +454,8 @@ class OffsetStorage {
 
   /**
    * Gets the first token that the given token's indentation is dependent on
-   * @param {Token} token The token
-   * @returns {Token} The token that the given token depends on, or `null` if the given token is at the top level
+   * @param token The token
+   * @returns The token that the given token depends on, or `null` if the given token is at the top level
    */
   getFirstDependency(token: Token) {
     return this._getOffsetDescriptor(token).from
@@ -694,10 +688,10 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Creates an error message for a line, given the expected/actual indentation.
-     * @param {int} expectedAmount The expected amount of indentation characters for this line
-     * @param {int} actualSpaces The actual number of indentation spaces that were found on this line
-     * @param {int} actualTabs The actual number of indentation tabs that were found on this line
-     * @returns {string} An error message for this line
+     * @param expectedAmount The expected amount of indentation characters for this line
+     * @param actualSpaces The actual number of indentation spaces that were found on this line
+     * @param actualTabs The actual number of indentation tabs that were found on this line
+     * @returns An error message for this line
      */
     function createErrorMessageData(expectedAmount: number, actualSpaces: number, actualTabs: number) {
       const expectedStatement = `${expectedAmount} ${indentType}${expectedAmount === 1 ? '' : 's'}` // e.g. "2 tabs"
@@ -726,9 +720,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports a given indent violation
-     * @param {Token} token Token violating the indent rule
-     * @param {string} neededIndent Expected indentation string
-     * @returns {void}
+     * @param token Token violating the indent rule
+     * @param neededIndent Expected indentation string
      */
     function report(token: Token, neededIndent: string) {
       const actualIndent = Array.from(tokenInfo.getTokenIndent(token))
@@ -754,9 +747,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks if a token's indentation is correct
-     * @param {Token} token Token to examine
-     * @param {string} desiredIndent Desired indentation of the string
-     * @returns {boolean} `true` if the token's indentation is correct
+     * @param token Token to examine
+     * @param desiredIndent Desired indentation of the string
+     * @returns `true` if the token's indentation is correct
      */
     function validateTokenIndent(token: Token, desiredIndent: string): boolean {
       const indentation = tokenInfo.getTokenIndent(token)
@@ -768,8 +761,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check to see if the node is a file level IIFE
-     * @param {ASTNode} node The function node to check.
-     * @returns {boolean} True if the node is the outer IIFE
+     * @param node The function node to check.
+     * @returns True if the node is the outer IIFE
      */
     function isOuterIIFE(node: ASTNode) {
       /**
@@ -799,8 +792,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Counts the number of linebreaks that follow the last non-whitespace character in a string
-     * @param {string} string The string to check
-     * @returns {number} The number of JavaScript linebreaks that follow the last non-whitespace character,
+     * @param string The string to check
+     * @returns The number of JavaScript linebreaks that follow the last non-whitespace character,
      * or the total number of linebreaks if the string is all whitespace.
      */
     function countTrailingLinebreaks(string: string) {
@@ -812,17 +805,16 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check indentation for lists of elements (arrays, objects, function params)
-     * @param {ASTNode[]} elements List of elements that should be offset
-     * @param {Token} startToken The start token of the list that element should be aligned against, e.g. '['
-     * @param {Token} endToken The end token of the list, e.g. ']'
-     * @param {number|string} offset The amount that the elements should be offset
-     * @returns {void}
+     * @param elements List of elements that should be offset
+     * @param startToken The start token of the list that element should be aligned against, e.g. '['
+     * @param endToken The end token of the list, e.g. ']'
+     * @param offset The amount that the elements should be offset
      */
     function addElementListIndent(elements: (ASTNode | null)[], startToken: Token, endToken: Token, offset: number | string) {
       /**
        * Gets the first token of a given element, including surrounding parentheses.
-       * @param {ASTNode} element A node in the `elements` list
-       * @returns {Token} The first token of this element
+       * @param element A node in the `elements` list
+       * @returns The first token of this element
        */
       function getFirstToken(element: ASTNode) {
         let token: Token = sourceCode.getTokenBefore(element)!
@@ -884,8 +876,7 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Check and decide whether to check for indentation for blockless nodes
      * Scenarios are for or while statements without braces around them
-     * @param {ASTNode} node node to examine
-     * @returns {void}
+     * @param node node to examine
      */
     function addBlocklessNodeIndent(node: ASTNode) {
       if (node.type !== 'BlockStatement') {
@@ -908,8 +899,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks the indentation for nodes that are like function calls (`CallExpression` and `NewExpression`)
-     * @param {ASTNode} node A CallExpression or NewExpression node
-     * @returns {void}
+     * @param node A CallExpression or NewExpression node
      */
     function addFunctionCallIndent(node: Tree.CallExpression | Tree.NewExpression) {
       let openingParen
@@ -954,8 +944,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks the indentation of parenthesized values, given a list of tokens in a program
-     * @param {Token[]} tokens A list of tokens
-     * @returns {void}
+     * @param tokens A list of tokens
      */
     function addParensIndent(tokens: Token[]) {
       const parenStack = []
@@ -991,8 +980,7 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Ignore all tokens within an unknown node whose offset do not depend
      * on another token's offset within the unknown node
-     * @param {ASTNode} node Unknown Node
-     * @returns {void}
+     * @param node Unknown Node
      */
     function ignoreNode(node: ASTNode) {
       const unknownNodeTokens = new Set(sourceCode.getTokens(node, { includeComments: true }))
@@ -1011,9 +999,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check whether the given token is on the first line of a statement.
-     * @param {Token} token The token to check.
-     * @param {ASTNode} leafNode The expression node that the token belongs directly.
-     * @returns {boolean} `true` if the token is on the first line of a statement.
+     * @param token The token to check.
+     * @param leafNode The expression node that the token belongs directly.
+     * @returns `true` if the token is on the first line of a statement.
      */
     function isOnFirstLineOfStatement(token: Token, leafNode: ASTNode): boolean {
       let node = leafNode
@@ -1029,9 +1017,9 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Check whether there are any blank (whitespace-only) lines between
      * two tokens on separate lines.
-     * @param {Token} firstToken The first token.
-     * @param {Token} secondToken The second token.
-     * @returns {boolean} `true` if the tokens are on separate lines and
+     * @param firstToken The first token.
+     * @param secondToken The second token.
+     * @returns `true` if the tokens are on separate lines and
      *   there exists a blank line between them, `false` otherwise.
      */
     function hasBlankLinesBetween(firstToken: Token, secondToken: Token): boolean {
@@ -1206,11 +1194,11 @@ export default createRule<MessageIds, RuleOptions>({
 
       'DoWhileStatement, WhileStatement, ForInStatement, ForOfStatement, WithStatement': function (
         node:
-        | Tree.DoWhileStatement
-        | Tree.WhileStatement
-        | Tree.ForInStatement
-        | Tree.ForOfStatement
-        | Tree.WithStatement,
+          | Tree.DoWhileStatement
+          | Tree.WhileStatement
+          | Tree.ForInStatement
+          | Tree.ForOfStatement
+          | Tree.WithStatement,
       ) {
         addBlocklessNodeIndent(node.body)
       },
@@ -1646,7 +1634,7 @@ export default createRule<MessageIds, RuleOptions>({
       },
     }
 
-    const listenerCallQueue: { listener?: RuleFunction<any>; node: ASTNode }[] = []
+    const listenerCallQueue: { listener?: RuleFunction<any>, node: ASTNode }[] = []
 
     /**
      * To ignore the indentation of a node:
@@ -1681,8 +1669,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Ignores a node
-     * @param {ASTNode} node The node to ignore
-     * @returns {void}
+     * @param node The node to ignore
      */
     function addToIgnoredNodes(node: ASTNode): void {
       ignoredNodes.add(node)

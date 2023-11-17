@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { RuleFixer, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -48,10 +44,10 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check whether the spacing between the given 2 tokens is valid or not.
-     * @param {Token} left The left token to check.
-     * @param {Token} right The right token to check.
-     * @param {boolean} expected The expected spacing to check. `true` if there should be a space.
-     * @returns {boolean} `true` if the spacing between the tokens is valid.
+     * @param left The left token to check.
+     * @param right The right token to check.
+     * @param expected The expected spacing to check. `true` if there should be a space.
+     * @returns `true` if the spacing between the tokens is valid.
      */
     function isValidSpacing(left: Token, right: Token, expected: boolean) {
       return (
@@ -63,9 +59,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Check whether comments exist between the given 2 tokens.
-     * @param {Token} left The left token to check.
-     * @param {Token} right The right token to check.
-     * @returns {boolean} `true` if comments exist between the given 2 tokens.
+     * @param left The left token to check.
+     * @param right The right token to check.
+     * @returns `true` if comments exist between the given 2 tokens.
      */
     function commentsExistBetween(left: Token, right: Token) {
       return sourceCode.getFirstTokenBetween(
@@ -80,11 +76,11 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Fix the spacing between the given 2 tokens.
-     * @param {RuleFixer} fixer The fixer to fix.
-     * @param {Token} left The left token of fix range.
-     * @param {Token} right The right token of fix range.
-     * @param {boolean} spacing The spacing style. `true` if there should be a space.
-     * @returns {Fix|null} The fix object.
+     * @param fixer The fixer to fix.
+     * @param left The left token of fix range.
+     * @param right The right token of fix range.
+     * @param spacing The spacing style. `true` if there should be a space.
+     * @returns The fix object.
      */
     function fix(fixer: RuleFixer, left: Token, right: Token, spacing: boolean) {
       if (commentsExistBetween(left, right))

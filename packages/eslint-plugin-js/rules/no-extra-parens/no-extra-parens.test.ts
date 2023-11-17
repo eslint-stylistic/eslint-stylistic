@@ -7,18 +7,14 @@ import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './no-extra-parens'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 /**
  * Create error message object for failure cases
- * @param {string} code source code
- * @param {string} output fixed source code
- * @param {string} type node type
- * @param {int} line line number
- * @param {object} config rule configuration
- * @returns {object} result object
+ * @param code source code
+ * @param output fixed source code
+ * @param type node type
+ * @param line line number
+ * @param config rule configuration
+ * @returns result object
  * @private
  */
 function invalid(code: string, output: string | null, type?: string, line?: number | null, config?: any) {
@@ -38,10 +34,6 @@ function invalid(code: string, output: string | null, type?: string, line?: numb
 
   return result
 }
-
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({
   parserOptions: {

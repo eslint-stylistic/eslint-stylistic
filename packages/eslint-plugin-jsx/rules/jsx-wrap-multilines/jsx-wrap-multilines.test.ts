@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parsers from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-wrap-multilines'
 
 const parserOptions = {
@@ -613,13 +613,9 @@ function addNewLineSymbols(code: string) {
   return code.replace(/\(</g, '(\n<').replace(/>\)/g, '>\n)')
 }
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-wrap-multilines', rule, {
-  valid: parsers.all([
+  valid: valids(
     {
       code: RETURN_SINGLE_LINE,
     },
@@ -883,9 +879,9 @@ ruleTester.run('jsx-wrap-multilines', rule, {
       code: ATTR_PAREN_NEW_LINE,
       options: [{ prop: 'parens-new-line' }],
     },
-  ]),
+  ),
 
-  invalid: parsers.all([
+  invalid: invalids(
     {
       code: RETURN_NO_PAREN,
       output: RETURN_PAREN,
@@ -1384,5 +1380,5 @@ ruleTester.run('jsx-wrap-multilines', rule, {
       options: [{ declaration: 'parens-new-line' }],
       errors: [{ messageId: 'missingParens' }],
     },
-  ]),
+  ),
 })

@@ -5,10 +5,7 @@
 
 import { createRule } from '../../utils/createRule'
 import type { JSONSchema, Token, Tree } from '../../utils/types'
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
+import type { MessageIds, RuleOptions } from './types'
 
 const OVERRIDE_SCHEMA: JSONSchema.JSONSchema4 = {
   oneOf: [
@@ -27,7 +24,7 @@ const OVERRIDE_SCHEMA: JSONSchema.JSONSchema4 = {
   ],
 }
 
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -76,13 +73,15 @@ export default createRule({
       neither: { before: false, after: false },
     }
 
+    type Options = Exclude<NonNullable<RuleOptions[0]>, string>
+
     /**
      * Returns resolved option definitions based on an option and defaults
-     * @param {any} option The option object or string value
-     * @param {object} defaults The defaults to use if options are not present
-     * @returns {object} the resolved object definition
+     * @param option The option object or string value
+     * @param defaults The defaults to use if options are not present
+     * @returns the resolved object definition
      */
-    function optionToDefinition(option: keyof typeof optionDefinitions | unknown, defaults: { before: boolean; after: boolean }) {
+    function optionToDefinition(option: NonNullable<RuleOptions[0]> | undefined, defaults: { before: boolean, after: boolean }) {
       if (!option)
         return defaults
 
@@ -95,9 +94,9 @@ export default createRule({
       const defaults = optionToDefinition(option, optionDefinitions.before)
 
       return {
-        named: optionToDefinition(option.named, defaults),
-        anonymous: optionToDefinition(option.anonymous, defaults),
-        method: optionToDefinition(option.method, defaults),
+        named: optionToDefinition((<Options>option).named, defaults),
+        anonymous: optionToDefinition((<Options>option).anonymous, defaults),
+        method: optionToDefinition((<Options>option).method, defaults),
       }
     }(context.options[0] || {}))
 
@@ -105,8 +104,8 @@ export default createRule({
 
     /**
      * Checks if the given token is a star token or not.
-     * @param {Token} token The token to check.
-     * @returns {boolean} `true` if the token is a star token.
+     * @param token The token to check.
+     * @returns `true` if the token is a star token.
      */
     function isStarToken(token: Token) {
       return token.value === '*' && token.type === 'Punctuator'
@@ -114,8 +113,8 @@ export default createRule({
 
     /**
      * Gets the generator star token of the given function node.
-     * @param {ASTNode} node The function node to get.
-     * @returns {Token} Found star token.
+     * @param node The function node to get.
+     * @returns Found star token.
      */
     function getStarToken(node: Tree.FunctionDeclaration | Tree.FunctionExpression) {
       return sourceCode.getFirstToken(
@@ -126,8 +125,8 @@ export default createRule({
 
     /**
      * capitalize a given string.
-     * @param {string} str the given string.
-     * @returns {string} the capitalized string.
+     * @param str the given string.
+     * @returns the capitalized string.
      */
     function capitalize(str: string) {
       return str[0].toUpperCase() + str.slice(1)
@@ -135,13 +134,12 @@ export default createRule({
 
     /**
      * Checks the spacing between two tokens before or after the star token.
-     * @param {string} kind Either "named", "anonymous", or "method"
-     * @param {string} side Either "before" or "after".
-     * @param {Token} leftToken `function` keyword token if side is "before", or
+     * @param kind Either "named", "anonymous", or "method"
+     * @param side Either "before" or "after".
+     * @param leftToken `function` keyword token if side is "before", or
      *     star token if side is "after".
-     * @param {Token} rightToken Star token if side is "before", or identifier
+     * @param rightToken Star token if side is "before", or identifier
      *     token if side is "after".
-     * @returns {void}
      */
     function checkSpacing(kind: keyof typeof modes, side: 'before' | 'after', leftToken: Token, rightToken: Token) {
       if (!!(rightToken.range[0] - leftToken.range[1]) !== modes[kind][side]) {
@@ -168,8 +166,7 @@ export default createRule({
 
     /**
      * Enforces the spacing around the star if node is a generator function.
-     * @param {ASTNode} node A function expression or declaration node.
-     * @returns {void}
+     * @param node A function expression or declaration node.
      */
     function checkFunction(node: Tree.FunctionDeclaration | Tree.FunctionExpression) {
       if (!node.generator)

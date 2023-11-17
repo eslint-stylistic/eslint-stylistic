@@ -4,7 +4,7 @@
  */
 
 import { RuleTester } from 'eslint'
-import parsers from '../../test-utils/parsers'
+import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-tag-spacing'
 import type { RuleOptions } from './types'
 
@@ -74,7 +74,7 @@ function beforeClosingOptions(option: Option['beforeClosing']) {
 
 const ruleTester = new RuleTester({ parserOptions })
 ruleTester.run('jsx-tag-spacing', rule, {
-  valid: parsers.all([
+  valid: valids(
     {
       code: '<App />',
     },
@@ -288,9 +288,9 @@ ruleTester.run('jsx-tag-spacing', rule, {
         },
       ],
     },
-  ]),
+  ),
 
-  invalid: parsers.all([
+  invalid: invalids(
     {
       code: '<App/>',
       output: '<App />',
@@ -585,5 +585,5 @@ ruleTester.run('jsx-tag-spacing', rule, {
       errors: [{ messageId: 'beforeCloseNeedSpace' }],
       options: beforeClosingOptions('always'),
     },
-  ]),
+  ),
 })

@@ -5,10 +5,6 @@
 import { RuleTester } from 'eslint'
 import rule from './no-trailing-spaces'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('no-trailing-spaces', rule, {

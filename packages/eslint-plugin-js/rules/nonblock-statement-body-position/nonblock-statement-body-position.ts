@@ -7,10 +7,6 @@ import { createRule } from '../../utils/createRule'
 import type { JSONSchema, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 type KeywordName = keyof NonNullable<NonNullable<RuleOptions['1']>['overrides']>
 
 const POSITION_SCHEMA: JSONSchema.JSONSchema4 = {
@@ -59,14 +55,10 @@ export default createRule<MessageIds, RuleOptions>({
   create(context) {
     const sourceCode = context.sourceCode
 
-    // ----------------------------------------------------------------------
-    // Helpers
-    // ----------------------------------------------------------------------
-
     /**
      * Gets the applicable preference for a particular keyword
-     * @param {string} keywordName The name of a keyword, e.g. 'if'
-     * @returns {string} The applicable option for the keyword, e.g. 'beside'
+     * @param keywordName The name of a keyword, e.g. 'if'
+     * @returns The applicable option for the keyword, e.g. 'beside'
      */
     function getOption(keywordName: KeywordName) {
       return context.options[1] && context.options[1].overrides && context.options[1].overrides[keywordName]
@@ -76,9 +68,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Validates the location of a single-line statement
-     * @param {ASTNode} node The single-line statement
-     * @param {string} keywordName The applicable keyword name for the single-line statement
-     * @returns {void}
+     * @param node The single-line statement
+     * @param keywordName The applicable keyword name for the single-line statement
      */
     function validateStatement(node: Tree.Statement, keywordName: KeywordName) {
       const option = getOption(keywordName)
@@ -108,10 +99,6 @@ export default createRule<MessageIds, RuleOptions>({
         })
       }
     }
-
-    // ----------------------------------------------------------------------
-    // Public
-    // ----------------------------------------------------------------------
 
     return {
       IfStatement(node) {

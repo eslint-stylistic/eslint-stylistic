@@ -9,10 +9,6 @@ import rule from './nonblock-statement-body-position'
 const EXPECTED_LINEBREAK = { messageId: 'expectLinebreak' }
 const UNEXPECTED_LINEBREAK = { messageId: 'expectNoLinebreak' }
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
 
 ruleTester.run('nonblock-statement-body-position', rule, {

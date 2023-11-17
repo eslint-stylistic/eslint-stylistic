@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -94,8 +90,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Gets the open brace token from a given node.
-     * @param {ASTNode} node A BlockStatement or SwitchStatement node from which to get the open brace.
-     * @returns {Token} The token of the open brace.
+     * @param node A BlockStatement or SwitchStatement node from which to get the open brace.
+     * @returns The token of the open brace.
      */
     function getOpenBrace(node: Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement | Tree.ClassBody): Token {
       if (node.type === 'SwitchStatement')
@@ -110,8 +106,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks if the given parameter is a comment node
-     * @param {ASTNode|Token} node An AST node or token
-     * @returns {boolean} True if node is a comment
+     * @param node An AST node or token
+     * @returns True if node is a comment
      */
     function isComment(node: ASTNode | Token) {
       return node.type === 'Line' || node.type === 'Block'
@@ -119,9 +115,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks if there is padding between two tokens
-     * @param {Token} first The first token
-     * @param {Token} second The second token
-     * @returns {boolean} True if there is at least a line between the tokens
+     * @param first The first token
+     * @param second The second token
+     * @returns True if there is at least a line between the tokens
      */
     function isPaddingBetweenTokens(first: Token, second: Token) {
       return second.loc.start.line - first.loc.end.line >= 2
@@ -129,8 +125,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks if the given token has a blank line after it.
-     * @param {Token} token The token to check.
-     * @returns {boolean} Whether or not the token is followed by a blank line.
+     * @param token The token to check.
+     * @returns Whether or not the token is followed by a blank line.
      */
     function getFirstBlockToken(token: Token) {
       let prev
@@ -146,8 +142,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks if the given token is preceded by a blank line.
-     * @param {Token} token The token to check
-     * @returns {boolean} Whether or not the token is preceded by a blank line
+     * @param token The token to check
+     * @returns Whether or not the token is preceded by a blank line
      */
     function getLastBlockToken(token: Token) {
       let last = token
@@ -163,9 +159,9 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks if a node should be padded, according to the rule config.
-     * @param {ASTNode} node The AST node to check.
+     * @param node The AST node to check.
      * @throws {Error} (Unreachable)
-     * @returns {boolean} True if the node should be padded, false otherwise.
+     * @returns True if the node should be padded, false otherwise.
      */
     function requirePaddingFor(node: ASTNode) {
       switch (node.type) {
@@ -185,8 +181,8 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks the given BlockStatement node to be padded if the block is not empty.
-     * @param {ASTNode} node The AST node of a BlockStatement.
-     * @returns {void} undefined.
+     * @param node The AST node of a BlockStatement.
+     * @returns undefined.
      */
     function checkPadding(node: Tree.BlockStatement | Tree.SwitchStatement | Tree.ClassBody) {
       const openBrace = getOpenBrace(node)

@@ -28,7 +28,7 @@ export default createRule<RuleOptions, MessageIds>({
   defaultOptions: ['always'],
   create(context, [config]) {
     const rules = baseRule.create(context)
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
 
     let requireSpace = true
 

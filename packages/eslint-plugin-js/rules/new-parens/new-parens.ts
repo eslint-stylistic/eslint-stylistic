@@ -5,16 +5,9 @@
 
 import { isClosingParenToken, isOpeningParenToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
+import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 

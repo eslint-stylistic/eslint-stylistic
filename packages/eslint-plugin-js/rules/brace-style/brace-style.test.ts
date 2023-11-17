@@ -7,10 +7,6 @@ import { RuleTester } from 'eslint'
 import { unIndent } from '../../test-utils/unindent'
 import rule from './brace-style'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
 
 ruleTester.run('brace-style', rule, {

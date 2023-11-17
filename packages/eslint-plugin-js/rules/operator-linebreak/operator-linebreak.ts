@@ -68,15 +68,11 @@ export default createRule<MessageIds, RuleOptions>({
 
     const sourceCode = context.sourceCode
 
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
-
     /**
      * Gets a fixer function to fix rule issues
-     * @param {Token} operatorToken The operator token of an expression
-     * @param {string} desiredStyle The style for the rule. One of 'before', 'after', 'none'
-     * @returns {Function} A fixer function
+     * @param operatorToken The operator token of an expression
+     * @param desiredStyle The style for the rule. One of 'before', 'after', 'none'
+     * @returns A fixer function
      */
     function getFixer(operatorToken: Token, desiredStyle: string): ReportFixFunction {
       return (fixer) => {
@@ -130,11 +126,10 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Checks the operator placement
-     * @param {ASTNode} node The node to check
-     * @param {ASTNode} rightSide The node that comes after the operator in `node`
-     * @param {string} operator The operator
+     * @param node The node to check
+     * @param rightSide The node that comes after the operator in `node`
+     * @param operator The operator
      * @private
-     * @returns {void}
      */
     function validateNode(node: ASTNode, rightSide: ASTNode, operator: string) {
       /**
@@ -206,16 +201,11 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Validates a binary expression using `validateNode`
-     * @param {BinaryExpression|LogicalExpression|AssignmentExpression} node node to be validated
-     * @returns {void}
+     * @param node node to be validated
      */
     function validateBinaryExpression(node: Tree.BinaryExpression | Tree.LogicalExpression | Tree.AssignmentExpression) {
       validateNode(node, node.right, node.operator)
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       BinaryExpression: validateBinaryExpression,

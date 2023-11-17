@@ -3,15 +3,14 @@
  * @author Diogo Franco (Kovensky)
  */
 
-import type { TSESLint } from '@typescript-eslint/utils'
 import { getTokenBeforeClosingBracket } from '../../utils/getTokenBeforeClosingBracket'
 import { docsUrl } from '../../utils/docsUrl'
 import { createRule } from '../../utils/createRule'
-import type { Token, Tree } from '../../utils/types'
+import type { RuleContext, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 type Option = Exclude<RuleOptions[0], undefined>
-type Context = TSESLint.RuleContext<MessageIds, RuleOptions>
+type Context = RuleContext<MessageIds, RuleOptions>
 
 const messages = {
   selfCloseSlashNoSpace: 'Whitespace is forbidden between `/` and `>`; write `/>`',
@@ -28,16 +27,12 @@ const messages = {
   beforeCloseNeedNewline: 'A newline is required before closing bracket',
 }
 
-// ------------------------------------------------------------------------------
-// Validators
-// ------------------------------------------------------------------------------
-
 function validateClosingSlash(
   context: Context,
   node: Tree.JSXOpeningElement | Tree.JSXClosingElement,
   option: Option['closingSlash'],
 ) {
-  const sourceCode = context.getSourceCode()
+  const sourceCode = context.sourceCode
 
   let adjacent
 
@@ -116,7 +111,7 @@ function validateBeforeSelfClosing(
   node: Tree.JSXOpeningElement | Tree.JSXClosingElement,
   option: Option['beforeSelfClosing'],
 ) {
-  const sourceCode = context.getSourceCode()
+  const sourceCode = context.sourceCode
   const leftToken = getTokenBeforeClosingBracket(node)
   const closingSlash = sourceCode.getTokenAfter(leftToken)!
 
@@ -167,7 +162,7 @@ function validateAfterOpening(
   node: Tree.JSXOpeningElement | Tree.JSXClosingElement,
   option: Option['afterOpening'],
 ) {
-  const sourceCode = context.getSourceCode()
+  const sourceCode = context.sourceCode
   const openingToken = sourceCode.getTokenBefore(node.name)!
 
   if (option === 'allow-multiline') {
@@ -208,13 +203,13 @@ function validateAfterOpening(
 }
 
 function validateBeforeClosing(
-  context: TSESLint.RuleContext<MessageIds, RuleOptions>,
+  context: RuleContext<MessageIds, RuleOptions>,
   node: Tree.JSXOpeningElement | Tree.JSXClosingElement,
   option: Option['beforeClosing'],
 ) {
   // Don't enforce this rule for self closing tags
   if (!('selfClosing' in node && node.selfClosing)) {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
     const leftToken = option === 'proportional-always'
       ? getTokenBeforeClosingBracket(node)
       : sourceCode.getLastTokens(node, 2)[0]

@@ -440,7 +440,7 @@ function verifyForAlways(
     node: nextNode,
     messageId: 'expectedBlankLine',
     fix(fixer) {
-      const sourceCode = context.getSourceCode()
+      const sourceCode = context.sourceCode
       let prevToken = getActualLastToken(prevNode, sourceCode)!
       const nextToken
         = sourceCode.getFirstTokenBetween(prevToken, nextNode, {
@@ -578,10 +578,6 @@ const StatementTypes: Record<string, NodeTestObject> = {
   'type': newKeywordTester(AST_NODE_TYPES.TSTypeAliasDeclaration, 'type'),
 }
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<Options, MessageIds>({
   name: 'padding-line-between-statements',
   meta: {
@@ -638,7 +634,7 @@ export default createRule<Options, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
 
     const configureList = context.options || []
 

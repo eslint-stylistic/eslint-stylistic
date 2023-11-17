@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './key-spacing'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('key-spacing', rule, {

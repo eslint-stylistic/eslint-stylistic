@@ -5,10 +5,7 @@
 
 import { createRule } from '../../utils/createRule'
 import type { ReportFixFunction, Token, Tree } from '../../utils/types'
-
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
+import type { MessageIds, RuleOptions } from './types'
 
 interface Checker {
   messageId: 'unexpectedLineBreak' | 'missingLineBreak'
@@ -16,7 +13,7 @@ interface Checker {
   createFix: (token: Token, tokenBefore: Token) => ReportFixFunction
 }
 
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -60,9 +57,8 @@ export default createRule({
 
     /**
      * Check all arguments for line breaks in the CallExpression
-     * @param {CallExpression} node node to evaluate
-     * @param {{ messageId: string, check: Function }} checker selected checker
-     * @returns {void}
+     * @param node node to evaluate
+     * @param checker selected checker
      * @private
      */
     function checkArguments(node: Tree.CallExpression | Tree.NewExpression, checker: Checker) {
@@ -93,8 +89,7 @@ export default createRule({
 
     /**
      * Check if open space is present in a function name
-     * @param {CallExpression} node node to evaluate
-     * @returns {void}
+     * @param node node to evaluate
      * @private
      */
     function check(node: Tree.CallExpression | Tree.NewExpression) {

@@ -50,7 +50,7 @@ export default createRule<RuleOptions, MessageIds>({
   defaultOptions: [{}],
   create(context, [_options]) {
     const options: OptionsUnion = _options || {}
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
     const baseRules = baseRule.create(context)
 
     /**
@@ -377,9 +377,9 @@ export default createRule<RuleOptions, MessageIds>({
 
     function validateBody(
       body:
-      | TSESTree.ClassBody
-      | TSESTree.TSInterfaceBody
-      | TSESTree.TSTypeLiteral,
+        | TSESTree.ClassBody
+        | TSESTree.TSInterfaceBody
+        | TSESTree.TSTypeLiteral,
     ): void {
       const isSingleLine = body.loc.start.line === body.loc.end.line
 

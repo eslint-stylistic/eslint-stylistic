@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './object-property-newline'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('object-property-newline', rule, {

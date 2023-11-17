@@ -108,3 +108,6 @@ jobs:
         if: ${{ matrix.node == 'lts/*' && matrix.os == 'ubuntu-latest' }}
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+
+      - name: Fixtures
+        run: nr test:fixtures

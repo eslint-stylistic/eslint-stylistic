@@ -66,13 +66,12 @@ export default createRule<RuleOptions, MessageIds>({
   },
   defaultOptions: ['never', {}] as unknown as RuleOptions,
   create(context, [option, config]) {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
     const text = sourceCode.getText()
 
     /**
      * Check if open space is present in a function name
-     * @param {ASTNode} node node to evaluate
-     * @returns {void}
+     * @param node node to evaluate
      * @private
      */
     function checkSpacing(

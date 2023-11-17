@@ -6,12 +6,9 @@
 import { isCommentToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import type { Token } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -69,10 +66,6 @@ export default createRule({
 
       return valueLines.length === 1 && value.length <= 12 ? value : formattedValue
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       Program() {

@@ -144,7 +144,7 @@ export default createRule<RuleOptions, MessageIds>({
     const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN
     const customIgnoreRegExp = new RegExp(options.ignorePattern ?? '', 'u')
 
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
     const comments = sourceCode.getAllComments()
 
     const lines = sourceCode.lines
@@ -282,7 +282,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     function checkForEmptyLine(
       token: TSESTree.Comment,
-      { before, after }: { before?: boolean; after?: boolean },
+      { before, after }: { before?: boolean, after?: boolean },
     ): void {
       // the base rule handles comments away from TS constructs blocks correctly, we skip those
       if (!isCommentNearTSConstruct(token))

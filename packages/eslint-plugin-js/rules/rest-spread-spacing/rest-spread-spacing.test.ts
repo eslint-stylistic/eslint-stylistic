@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './rest-spread-spacing'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
 
 ruleTester.run('rest-spread-spacing', rule, {

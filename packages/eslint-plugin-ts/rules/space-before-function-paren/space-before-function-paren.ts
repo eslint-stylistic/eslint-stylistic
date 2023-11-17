@@ -52,22 +52,22 @@ export default createRule<RuleOptions, MessageIds>({
   defaultOptions: ['always'],
 
   create(context, [firstOption]) {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
     const baseConfig = typeof firstOption === 'string' ? firstOption : 'always'
     const overrideConfig = typeof firstOption === 'object' ? firstOption : {}
 
     /**
      * Determines whether a function has a name.
-     * @param {ASTNode} node The function node.
-     * @returns {boolean} Whether the function has a name.
+     * @param node The function node.
+     * @returns Whether the function has a name.
      */
     function isNamedFunction(
       node:
-      | TSESTree.ArrowFunctionExpression
-      | TSESTree.FunctionDeclaration
-      | TSESTree.FunctionExpression
-      | TSESTree.TSDeclareFunction
-      | TSESTree.TSEmptyBodyFunctionExpression,
+        | TSESTree.ArrowFunctionExpression
+        | TSESTree.FunctionDeclaration
+        | TSESTree.FunctionExpression
+        | TSESTree.TSDeclareFunction
+        | TSESTree.TSEmptyBodyFunctionExpression,
     ): boolean {
       if (node.id != null)
         return true
@@ -84,16 +84,16 @@ export default createRule<RuleOptions, MessageIds>({
 
     /**
      * Gets the config for a given function
-     * @param {ASTNode} node The function node
-     * @returns {string} "always", "never", or "ignore"
+     * @param node The function node
+     * @returns "always", "never", or "ignore"
      */
     function getConfigForFunction(
       node:
-      | TSESTree.ArrowFunctionExpression
-      | TSESTree.FunctionDeclaration
-      | TSESTree.FunctionExpression
-      | TSESTree.TSDeclareFunction
-      | TSESTree.TSEmptyBodyFunctionExpression,
+        | TSESTree.ArrowFunctionExpression
+        | TSESTree.FunctionDeclaration
+        | TSESTree.FunctionExpression
+        | TSESTree.TSDeclareFunction
+        | TSESTree.TSEmptyBodyFunctionExpression,
     ): FuncOption {
       if (node.type === AST_NODE_TYPES.ArrowFunctionExpression) {
         // Always ignore non-async functions and arrow functions without parens, e.g. async foo => bar
@@ -117,16 +117,15 @@ export default createRule<RuleOptions, MessageIds>({
 
     /**
      * Checks the parens of a function node
-     * @param {ASTNode} node A function node
-     * @returns {void}
+     * @param node A function node
      */
     function checkFunction(
       node:
-      | TSESTree.ArrowFunctionExpression
-      | TSESTree.FunctionDeclaration
-      | TSESTree.FunctionExpression
-      | TSESTree.TSDeclareFunction
-      | TSESTree.TSEmptyBodyFunctionExpression,
+        | TSESTree.ArrowFunctionExpression
+        | TSESTree.FunctionDeclaration
+        | TSESTree.FunctionExpression
+        | TSESTree.TSDeclareFunction
+        | TSESTree.TSEmptyBodyFunctionExpression,
     ): void {
       const functionConfig = getConfigForFunction(node)
 

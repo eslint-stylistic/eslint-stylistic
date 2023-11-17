@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -59,10 +55,6 @@ export default createRule<MessageIds, RuleOptions>({
     const options = context.options[0] || { words: true, nonwords: false }
 
     const sourceCode = context.sourceCode
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     /**
      * Check if the node is the first "!" in a "!!" convert to Boolean expression
@@ -189,10 +181,14 @@ export default createRule<MessageIds, RuleOptions>({
      * @param firstToken First token in the expression
      * @param secondToken Second token in the expression
      */
-    function verifyNonWordsHaveSpaces(node:
-    | Tree.UnaryExpression
-    | Tree.UpdateExpression
-    | Tree.NewExpression, firstToken: Token, secondToken: Token) {
+    function verifyNonWordsHaveSpaces(
+      node:
+        | Tree.UnaryExpression
+        | Tree.UpdateExpression
+        | Tree.NewExpression,
+      firstToken: Token,
+      secondToken: Token,
+    ) {
       if (('prefix' in node && node.prefix)) {
         if (isFirstBangInBangBangExpression(node))
           return
@@ -233,9 +229,9 @@ export default createRule<MessageIds, RuleOptions>({
      * @param secondToken Second token in the expression
      */
     function verifyNonWordsDontHaveSpaces(node:
-    | Tree.UnaryExpression
-    | Tree.UpdateExpression
-    | Tree.NewExpression, firstToken: Token, secondToken: Token) {
+      | Tree.UnaryExpression
+      | Tree.UpdateExpression
+      | Tree.NewExpression, firstToken: Token, secondToken: Token) {
       if (('prefix' in node && node.prefix)) {
         if (secondToken.range[0] > firstToken.range[1]) {
           context.report({
@@ -274,9 +270,9 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node AST node
      */
     function checkForSpaces(node:
-    | Tree.UnaryExpression
-    | Tree.UpdateExpression
-    | Tree.NewExpression,
+      | Tree.UnaryExpression
+      | Tree.UpdateExpression
+      | Tree.NewExpression,
     ) {
       const tokens = node.type === 'UpdateExpression' && !node.prefix
         ? sourceCode.getLastTokens(node, 2)
@@ -304,10 +300,6 @@ export default createRule<MessageIds, RuleOptions>({
         verifyNonWordsDontHaveSpaces(node, firstToken, secondToken)
       }
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       UnaryExpression: checkForSpaces,

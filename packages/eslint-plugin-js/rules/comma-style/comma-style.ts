@@ -8,10 +8,6 @@ import { createRule } from '../../utils/createRule'
 import type { NodeTypes, RuleFixer, RuleListener, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -71,10 +67,6 @@ export default createRule<MessageIds, RuleOptions>({
       for (let i = 0; i < keys.length; i++)
         exceptions[keys[i] as keyof typeof exceptions] = rawExceptions[keys[i]]
     }
-
-    // --------------------------------------------------------------------------
-    // Helpers
-    // --------------------------------------------------------------------------
 
     /**
      * Modified text based on the style
@@ -238,9 +230,6 @@ export default createRule<MessageIds, RuleOptions>({
       }
     }
 
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
     type NodeType =
       | Tree.VariableDeclaration
       | Tree.ArrayExpression

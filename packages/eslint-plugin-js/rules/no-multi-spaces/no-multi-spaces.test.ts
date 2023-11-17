@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './no-multi-spaces'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('no-multi-spaces', rule, {

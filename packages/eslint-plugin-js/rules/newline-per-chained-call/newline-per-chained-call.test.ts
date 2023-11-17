@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './newline-per-chained-call'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('newline-per-chained-call', rule, {

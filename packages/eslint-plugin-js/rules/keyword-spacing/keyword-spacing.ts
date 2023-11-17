@@ -7,10 +7,7 @@ import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '../..
 import keywords from '../../utils/keywords'
 import { createRule } from '../../utils/createRule'
 import type { ASTNode, JSONSchema, Token, Tree } from '../../utils/types'
-
-// ------------------------------------------------------------------------------
-// Constants
-// ------------------------------------------------------------------------------
+import type { MessageIds, RuleOptions } from './types'
 
 const PREV_TOKEN = /^[)\]}>]$/u
 const NEXT_TOKEN = /^(?:[([{<~!]|\+\+?|--?)$/u
@@ -30,14 +27,10 @@ const KEYS = keywords.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of'
   }
 }())
 
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
-
 /**
  * Checks whether or not a given token is a "Template" token ends with "${".
- * @param {Token} token A token to check.
- * @returns {boolean} `true` if the token is a "Template" token ends with "${".
+ * @param token A token to check.
+ * @returns `true` if the token is a "Template" token ends with "${".
  */
 function isOpenParenOfTemplate(token: Token) {
   return token.type === 'Template' && TEMPLATE_OPEN_PAREN.test(token.value)
@@ -45,18 +38,14 @@ function isOpenParenOfTemplate(token: Token) {
 
 /**
  * Checks whether or not a given token is a "Template" token starts with "}".
- * @param {Token} token A token to check.
- * @returns {boolean} `true` if the token is a "Template" token starts with "}".
+ * @param token A token to check.
+ * @returns `true` if the token is a "Template" token starts with "}".
  */
 function isCloseParenOfTemplate(token: Token) {
   return token.type === 'Template' && TEMPLATE_CLOSE_PAREN.test(token.value)
 }
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -107,9 +96,8 @@ export default createRule({
 
     /**
      * Reports a given token if there are not space(s) before the token.
-     * @param {Token} token A token to report.
-     * @param {RegExp} pattern A pattern of the previous token to check.
-     * @returns {void}
+     * @param token A token to report.
+     * @param pattern A pattern of the previous token to check.
      */
     function expectSpaceBefore(token: Token, pattern: RegExp) {
       const prevToken = sourceCode.getTokenBefore(token)
@@ -135,9 +123,8 @@ export default createRule({
 
     /**
      * Reports a given token if there are space(s) before the token.
-     * @param {Token} token A token to report.
-     * @param {RegExp} pattern A pattern of the previous token to check.
-     * @returns {void}
+     * @param token A token to report.
+     * @param pattern A pattern of the previous token to check.
      */
     function unexpectSpaceBefore(token: Token, pattern: RegExp) {
       const prevToken = sourceCode.getTokenBefore(token)
@@ -163,9 +150,8 @@ export default createRule({
 
     /**
      * Reports a given token if there are not space(s) after the token.
-     * @param {Token} token A token to report.
-     * @param {RegExp} pattern A pattern of the next token to check.
-     * @returns {void}
+     * @param token A token to report.
+     * @param pattern A pattern of the next token to check.
      */
     function expectSpaceAfter(token: Token, pattern: RegExp) {
       const nextToken = sourceCode.getTokenAfter(token)
@@ -191,9 +177,8 @@ export default createRule({
 
     /**
      * Reports a given token if there are space(s) after the token.
-     * @param {Token} token A token to report.
-     * @param {RegExp} pattern A pattern of the next token to check.
-     * @returns {void}
+     * @param token A token to report.
+     * @param pattern A pattern of the next token to check.
      */
     function unexpectSpaceAfter(token: Token, pattern: RegExp) {
       const nextToken = sourceCode.getTokenAfter(token)
@@ -217,21 +202,16 @@ export default createRule({
       }
     }
 
+    type Options = NonNullable<RuleOptions[0]>
+
     /**
      * Parses the option object and determines check methods for each keyword.
-     * @param {object | undefined} options The option object to parse.
-     * @returns {object} - Normalized option object.
+     * @param options The option object to parse.
+     * @returns - Normalized option object.
      *      Keys are keywords (there are for every keyword).
      *      Values are instances of `{"before": function, "after": function}`.
      */
-    function parseOptions(options: {
-      before?: boolean
-      after?: boolean
-      overrides?: Record<string, {
-        before: boolean
-        after: boolean
-      }>
-    } = {}): Record<string, {
+    function parseOptions(options: Options = {}): Record<string, {
       before: (token: Token, pattern?: RegExp) => void
       after: (token: Token, pattern?: RegExp) => void
     }> {
@@ -241,7 +221,7 @@ export default createRule({
         before: before ? expectSpaceBefore : unexpectSpaceBefore,
         after: after ? expectSpaceAfter : unexpectSpaceAfter,
       }
-      const overrides = (options && options.overrides) || {}
+      const overrides = (options && options.overrides) || {} as any
       const retv = Object.create(null)
 
       for (let i = 0; i < KEYS.length; ++i) {
@@ -265,15 +245,14 @@ export default createRule({
       return retv
     }
 
-    const checkMethodMap = parseOptions(context.options[0])
+    const checkMethodMap = parseOptions(context.options[0]!)
 
     /**
      * Reports a given token if usage of spacing followed by the token is
      * invalid.
-     * @param {Token} token A token to report.
-     * @param {RegExp} [pattern] Optional. A pattern of the previous
+     * @param token A token to report.
+     * @param [pattern] Optional. A pattern of the previous
      *      token to check.
-     * @returns {void}
      */
     function checkSpacingBefore(token: Token, pattern?: RegExp) {
       checkMethodMap[token.value].before(token, pattern || PREV_TOKEN)
@@ -282,10 +261,9 @@ export default createRule({
     /**
      * Reports a given token if usage of spacing preceded by the token is
      * invalid.
-     * @param {Token} token A token to report.
-     * @param {RegExp} [pattern] Optional. A pattern of the next
+     * @param token A token to report.
+     * @param [pattern] Optional. A pattern of the next
      *      token to check.
-     * @returns {void}
      */
     function checkSpacingAfter(token: Token, pattern?: RegExp) {
       checkMethodMap[token.value].after(token, pattern || NEXT_TOKEN)
@@ -293,8 +271,7 @@ export default createRule({
 
     /**
      * Reports a given token if usage of spacing around the token is invalid.
-     * @param {Token} token A token to report.
-     * @returns {void}
+     * @param token A token to report.
      */
     function checkSpacingAround(token: Token) {
       checkSpacingBefore(token)
@@ -304,8 +281,7 @@ export default createRule({
     /**
      * Reports the first token of a given node if the first token is a keyword
      * and usage of spacing around the token is invalid.
-     * @param {ASTNode|null} node A node to report.
-     * @returns {void}
+     * @param node A node to report.
      */
     function checkSpacingAroundFirstToken(node: ASTNode | null) {
       const firstToken = node && sourceCode.getFirstToken(node)
@@ -320,8 +296,7 @@ export default createRule({
      *
      * This is used for unary operators (e.g. `typeof`), `function`, and `super`.
      * Other rules are handling usage of spacing preceded by those keywords.
-     * @param {ASTNode|null} node A node to report.
-     * @returns {void}
+     * @param node A node to report.
      */
     function checkSpacingBeforeFirstToken(node: ASTNode | null) {
       const firstToken = node && sourceCode.getFirstToken(node)
@@ -333,8 +308,7 @@ export default createRule({
     /**
      * Reports the previous token of a given node if the token is a keyword and
      * usage of spacing around the token is invalid.
-     * @param {ASTNode|null} node A node to report.
-     * @returns {void}
+     * @param node A node to report.
      */
     function checkSpacingAroundTokenBefore(node: ASTNode | null) {
       if (node) {
@@ -348,14 +322,13 @@ export default createRule({
     /**
      * Reports `async` or `function` keywords of a given node if usage of
      * spacing around those keywords is invalid.
-     * @param {ASTNode} node A node to report.
-     * @returns {void}
+     * @param node A node to report.
      */
     function checkSpacingForFunction(
       node:
-      | Tree.FunctionDeclaration
-      | Tree.ArrowFunctionExpression
-      | Tree.FunctionExpression,
+        | Tree.FunctionDeclaration
+        | Tree.ArrowFunctionExpression
+        | Tree.FunctionExpression,
     ) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
@@ -369,8 +342,7 @@ export default createRule({
     /**
      * Reports `class` and `extends` keywords of a given node if usage of
      * spacing around those keywords is invalid.
-     * @param {ASTNode} node A node to report.
-     * @returns {void}
+     * @param node A node to report.
      */
     function checkSpacingForClass(node: Tree.ClassDeclaration | Tree.ClassExpression) {
       checkSpacingAroundFirstToken(node)
@@ -380,8 +352,7 @@ export default createRule({
     /**
      * Reports `if` and `else` keywords of a given node if usage of spacing
      * around those keywords is invalid.
-     * @param {ASTNode} node A node to report.
-     * @returns {void}
+     * @param node A node to report.
      */
     function checkSpacingForIfStatement(node: Tree.IfStatement) {
       checkSpacingAroundFirstToken(node)
@@ -391,8 +362,7 @@ export default createRule({
     /**
      * Reports `try`, `catch`, and `finally` keywords of a given node if usage
      * of spacing around those keywords is invalid.
-     * @param {ASTNode} node A node to report.
-     * @returns {void}
+     * @param node A node to report.
      */
     function checkSpacingForTryStatement(node: Tree.TryStatement) {
       checkSpacingAroundFirstToken(node)
@@ -403,8 +373,7 @@ export default createRule({
     /**
      * Reports `do` and `while` keywords of a given node if usage of spacing
      * around those keywords is invalid.
-     * @param {ASTNode} node A node to report.
-     * @returns {void}
+     * @param node A node to report.
      */
     function checkSpacingForDoWhileStatement(node: Tree.DoWhileStatement) {
       checkSpacingAroundFirstToken(node)
@@ -414,8 +383,7 @@ export default createRule({
     /**
      * Reports `for` and `in` keywords of a given node if usage of spacing
      * around those keywords is invalid.
-     * @param {ASTNode} node A node to report.
-     * @returns {void}
+     * @param node A node to report.
      */
     function checkSpacingForForInStatement(node: Tree.ForInStatement) {
       checkSpacingAroundFirstToken(node)
@@ -435,8 +403,7 @@ export default createRule({
     /**
      * Reports `for` and `of` keywords of a given node if usage of spacing
      * around those keywords is invalid.
-     * @param {ASTNode} node A node to report.
-     * @returns {void}
+     * @param node A node to report.
      */
     function checkSpacingForForOfStatement(node: Tree.ForOfStatement) {
       if (node.await) {
@@ -467,15 +434,14 @@ export default createRule({
      *
      *     import*as A from "./a"; /*error Expected space(s) after "import".
      *                               error Expected space(s) before "as".
-     * @param {ASTNode} node A node to report.
-     * @returns {void}
+     * @param node A node to report.
      */
     function checkSpacingForModuleDeclaration(
       node:
-      | Tree.ExportNamedDeclaration
-      | Tree.ExportDefaultDeclaration
-      | Tree.ExportAllDeclaration
-      | Tree.ImportDeclaration,
+        | Tree.ExportNamedDeclaration
+        | Tree.ExportDefaultDeclaration
+        | Tree.ExportAllDeclaration
+        | Tree.ImportDeclaration,
     ) {
       const firstToken = sourceCode.getFirstToken(node)!
 
@@ -508,8 +474,7 @@ export default createRule({
     /**
      * Reports `as` keyword of a given node if usage of spacing around this
      * keyword is invalid.
-     * @param {ASTNode} node An `ImportSpecifier` node to check.
-     * @returns {void}
+     * @param node An `ImportSpecifier` node to check.
      */
     function checkSpacingForImportSpecifier(node: Tree.ImportSpecifier) {
       if (node.imported.range[0] !== node.local.range[0]) {
@@ -522,8 +487,7 @@ export default createRule({
     /**
      * Reports `as` keyword of a given node if usage of spacing around this
      * keyword is invalid.
-     * @param {ASTNode} node An `ExportSpecifier` node to check.
-     * @returns {void}
+     * @param node An `ExportSpecifier` node to check.
      */
     function checkSpacingForExportSpecifier(node: Tree.ExportSpecifier) {
       if (node.local.range[0] !== node.exported.range[0]) {
@@ -537,8 +501,7 @@ export default createRule({
     /**
      * Reports `as` keyword of a given node if usage of spacing around this
      * keyword is invalid.
-     * @param {ASTNode} node A node to report.
-     * @returns {void}
+     * @param node A node to report.
      */
     function checkSpacingForImportNamespaceSpecifier(node: Tree.ImportNamespaceSpecifier) {
       const asToken = sourceCode.getFirstToken(node, 1)!
@@ -549,9 +512,8 @@ export default createRule({
     /**
      * Reports `static`, `get`, and `set` keywords of a given node if usage of
      * spacing around those keywords is invalid.
-     * @param {ASTNode} node A node to report.
+     * @param node A node to report.
      * @throws {Error} If unable to find token get, set, or async beside method name.
-     * @returns {void}
      */
     function checkSpacingForProperty(node: Tree.MethodDefinition | Tree.PropertyDefinition | Tree.Property) {
       if (node.type === 'MethodDefinition' || node.type === 'PropertyDefinition' && node.static)
@@ -590,8 +552,7 @@ export default createRule({
     /**
      * Reports `await` keyword of a given node if usage of spacing before
      * this keyword is invalid.
-     * @param {ASTNode} node A node to report.
-     * @returns {void}
+     * @param node A node to report.
      */
     function checkSpacingForAwaitExpression(node: Tree.AwaitExpression) {
       checkSpacingBefore(sourceCode.getFirstToken(node)!)

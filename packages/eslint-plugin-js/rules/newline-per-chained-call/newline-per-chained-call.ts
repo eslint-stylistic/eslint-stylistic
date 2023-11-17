@@ -9,10 +9,6 @@ import { createRule } from '../../utils/createRule'
 import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -51,8 +47,8 @@ export default createRule<MessageIds, RuleOptions>({
      * Get the prefix of a given MemberExpression node.
      * If the MemberExpression node is a computed value it returns a
      * left bracket. If not it returns a period.
-     * @param {ASTNode} node A MemberExpression node to get
-     * @returns {string} The prefix of the node.
+     * @param node A MemberExpression node to get
+     * @returns The prefix of the node.
      */
     function getPrefix(node: Tree.MemberExpression) {
       if (node.computed) {
@@ -70,8 +66,8 @@ export default createRule<MessageIds, RuleOptions>({
     /**
      * Gets the property text of a given MemberExpression node.
      * If the text is multiline, this returns only the first line.
-     * @param {ASTNode} node A MemberExpression node to get.
-     * @returns {string} The property text of the node.
+     * @param node A MemberExpression node to get.
+     * @returns The property text of the node.
      */
     function getPropertyText(node: Tree.MemberExpression) {
       const prefix = getPrefix(node)

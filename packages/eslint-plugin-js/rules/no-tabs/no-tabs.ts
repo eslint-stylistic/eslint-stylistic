@@ -4,19 +4,12 @@
  */
 
 import { createRule } from '../../utils/createRule'
-
-// ------------------------------------------------------------------------------
-// Helpers
-// ------------------------------------------------------------------------------
+import type { MessageIds, RuleOptions } from './types'
 
 const tabRegex = /\t+/gu
 const anyNonWhitespaceRegex = /\S/u
 
-// ------------------------------------------------------------------------------
-// Public Interface
-// ------------------------------------------------------------------------------
-
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 

@@ -6,10 +6,6 @@
 import { RuleTester } from 'eslint'
 import rule from './no-tabs'
 
-// ------------------------------------------------------------------------------
-// Tests
-// ------------------------------------------------------------------------------
-
 const ruleTester = new RuleTester()
 
 ruleTester.run('no-tabs', rule, {

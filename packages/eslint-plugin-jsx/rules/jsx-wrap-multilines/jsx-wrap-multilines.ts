@@ -89,7 +89,7 @@ export default createRule<MessageIds, RuleOptions>({
     }
 
     function needsOpeningNewLine(node: ASTNode) {
-      const previousToken = context.getSourceCode().getTokenBefore(node)!
+      const previousToken = context.sourceCode.getTokenBefore(node)!
 
       if (!isParenthesized(context, node))
         return false
@@ -101,7 +101,7 @@ export default createRule<MessageIds, RuleOptions>({
     }
 
     function needsClosingNewLine(node: ASTNode) {
-      const nextToken = context.getSourceCode().getTokenAfter(node)!
+      const nextToken = context.sourceCode.getTokenAfter(node)!
 
       if (!isParenthesized(context, node))
         return false
@@ -127,7 +127,7 @@ export default createRule<MessageIds, RuleOptions>({
       if (!node || !isJSX(node))
         return
 
-      const sourceCode = context.getSourceCode()
+      const sourceCode = context.sourceCode
       const option = getOption(type)
 
       if ((option === true || option === 'parens') && !isParenthesized(context, node) && isMultilines(node)) {
@@ -188,10 +188,6 @@ export default createRule<MessageIds, RuleOptions>({
         }
       }
     }
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
 
     return {
       VariableDeclarator(node) {

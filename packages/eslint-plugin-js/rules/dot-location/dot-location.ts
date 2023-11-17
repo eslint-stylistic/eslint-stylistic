@@ -6,12 +6,9 @@
 import { isDecimalIntegerNumericToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import type { Tree } from '../../utils/types'
+import type { MessageIds, RuleOptions } from './types'
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
-export default createRule({
+export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
 
@@ -45,8 +42,7 @@ export default createRule({
 
     /**
      * Reports if the dot between object and property is on the correct location.
-     * @param {ASTNode} node The `MemberExpression` node.
-     * @returns {void}
+     * @param node The `MemberExpression` node.
      */
     function checkDotLocation(node: Tree.MemberExpression) {
       const property = node.property
@@ -87,8 +83,7 @@ export default createRule({
 
     /**
      * Checks the spacing of the dot within a member expression.
-     * @param {ASTNode} node The node to check.
-     * @returns {void}
+     * @param node The node to check.
      */
     function checkNode(node: Tree.MemberExpression) {
       if (node.type === 'MemberExpression' && !node.computed)
