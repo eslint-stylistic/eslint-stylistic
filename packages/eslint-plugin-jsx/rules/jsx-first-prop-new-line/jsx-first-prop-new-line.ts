@@ -54,7 +54,7 @@ export default createRule<MessageIds, RuleOptions>({
                 node: decl,
                 messageId: 'propOnNewLine',
                 fix(fixer) {
-                  return fixer.replaceTextRange([(node.typeParameters || node.name).range[1], decl.range[0]], '\n')
+                  return fixer.replaceTextRange([(node.typeArguments || node.name).range[1], decl.range[0]], '\n')
                 },
               })
             }

@@ -94,14 +94,14 @@ export default createRule<MessageIds, RuleOptions>({
     }
 
     function containsGenericType(node: Tree.JSXOpeningElement) {
-      const containsTypeParams = typeof node.typeParameters !== 'undefined'
-      return containsTypeParams && node.typeParameters?.type === 'TSTypeParameterInstantiation'
+      const containsTypeParams = typeof node.typeArguments !== 'undefined'
+      return containsTypeParams && node.typeArguments?.type === 'TSTypeParameterInstantiation'
     }
 
     function getGenericNode(node: Tree.JSXOpeningElement) {
       const name = node.name
       if (containsGenericType(node)) {
-        const type = node.typeParameters
+        const type = node.typeArguments
 
         return Object.assign(
           {},
