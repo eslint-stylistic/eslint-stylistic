@@ -264,18 +264,15 @@ export default createRule<RuleOptions, MessageIds>({
         if (node.argument && !isTypeAssertion(node.argument))
           return rules.YieldExpression!(node)
       },
-    }
-    if (rules.ForInStatement && rules.ForOfStatement) {
-      overrides.ForInStatement = function (node): void {
+      ForInStatement(node) {
         if (isTypeAssertion(node.right)) {
           // as of 7.20.0 there's no way to skip checking the right of the ForIn
           // so just don't validate it at all
           return
         }
-
         return rules.ForInStatement!(node)
-      }
-      overrides.ForOfStatement = function (node): void {
+      },
+      ForOfStatement(node) {
         if (isTypeAssertion(node.right)) {
           // makes the rule skip checking of the right
           return rules.ForOfStatement!({
@@ -289,26 +286,7 @@ export default createRule<RuleOptions, MessageIds>({
         }
 
         return rules.ForOfStatement!(node)
-      }
-    }
-    else {
-      overrides['ForInStatement, ForOfStatement'] = function (
-        node: TSESTree.ForInStatement | TSESTree.ForOfStatement,
-      ): void {
-        if (isTypeAssertion(node.right)) {
-          // makes the rule skip checking of the right
-          return (rules as any)['ForInStatement, ForOfStatement']({
-            ...node,
-            type: AST_NODE_TYPES.ForOfStatement as any,
-            right: {
-              ...node.right,
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          })
-        }
-
-        return (rules as any)['ForInStatement, ForOfStatement'](node)
-      }
+      },
     }
     return Object.assign({}, rules, overrides)
   },

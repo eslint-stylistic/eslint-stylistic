@@ -1,7 +1,7 @@
 import disableLegacy from './disable-legacy'
 import { customize } from './customize'
 
-export type { StylisticCustomizeOptions } from './customize'
+export type * from './customize'
 
 export const configs = {
   /**
