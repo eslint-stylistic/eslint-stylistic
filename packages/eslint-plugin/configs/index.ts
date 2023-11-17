@@ -3,6 +3,8 @@ import { customize } from './customize'
 
 export type * from './customize'
 
+const recommendedExtends = /* #__PURE__ */ customize({ flat: false })
+
 export const configs = {
   /**
    * Disable all legacy rules from `eslint`, `@typescript-eslint` and `eslint-plugin-react`
@@ -21,5 +23,10 @@ export const configs = {
   /**
    * The default recommended config in Legacy Config Format
    */
-  'recommended-legacy': /* #__PURE__ */ customize({ flat: false }),
+  'recommended-extends': recommendedExtends,
+
+  /**
+   * @deprecated Use `recommended-extends` instead
+   */
+  'recommended-legacy': recommendedExtends,
 }
