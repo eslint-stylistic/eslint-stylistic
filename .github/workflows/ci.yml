@@ -67,12 +67,15 @@ jobs:
     strategy:
       matrix:
         node: [lts/*]
-        os: [ubuntu-latest, windows-latest, macos-latest]
+        os: [ubuntu-latest]
+        eslint: [default, ^7, ^6]
         include:
-          - node: 16.x
-            os: ubuntu-latest
-          - node: 18.x
-            os: ubuntu-latest
+          - node: lts/*
+            os: windows-latest
+            eslint: default
+          - node: lts/*
+            os: macos-latest
+            eslint: default
       fail-fast: false
 
     steps:
@@ -85,6 +88,10 @@ jobs:
         uses: actions/setup-node@v3
         with:
           node-version: ${{ matrix.node }}
+
+      - name: Switch ESLint version to ${{ matrix.eslint }}
+        run: node ./scripts/switch-eslint-version.js ${{ matrix.eslint }}
+        if: ${{ matrix.eslint != 'default' }}
 
       - name: Setup
         run: npm i -g @antfu/ni
