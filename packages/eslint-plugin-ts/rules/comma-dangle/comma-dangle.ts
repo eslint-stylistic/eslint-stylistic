@@ -93,6 +93,8 @@ export default createRule<RuleOptions, MessageIds>({
     const rules = baseRule.create(context)
     const sourceCode = context.sourceCode
     const normalizedOptions = normalizeOptions(options)
+    const isTSX = context.parserOptions?.ecmaFeatures?.jsx
+      && context.filename?.endsWith('.tsx')
 
     const predicate = {
       'always': forceComma,
@@ -100,7 +102,6 @@ export default createRule<RuleOptions, MessageIds>({
       'only-multiline': allowCommaIfMultiline,
       'never': forbidComma,
       // https://github.com/typescript-eslint/typescript-eslint/issues/7220
-
       'ignore': () => {},
     }
 
@@ -134,6 +135,19 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function forbidComma(node: TSESTree.Node): void {
+      /**
+       * We allow tailing comma in TSTypeParameterDeclaration in TSX,
+       * because it's used to differentiate JSX tags from generics.
+       *
+       * https://github.com/microsoft/TypeScript/issues/15713#issuecomment-499474386
+       * https://github.com/eslint-stylistic/eslint-stylistic/issues/35
+       */
+      if (isTSX && node.type === AST_NODE_TYPES.TSTypeParameterDeclaration && node.params.length === 1)
+        return
+
+      /**
+       * Forbid tailing comma
+       */
       const last = getLastItem(node)
       const trailing = getTrailingToken(node)
       if (last && trailing && isCommaToken(trailing)) {
