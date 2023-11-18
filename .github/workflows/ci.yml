@@ -97,7 +97,12 @@ jobs:
         run: npm i -g @antfu/ni
 
       - name: Install
-        run: nci
+        run: pnpm i
+        if: ${{ matrix.eslint == 'default' }}
+
+      - name: Install without lockfile
+        run: pnpm i --no-lockfile
+        if: ${{ matrix.eslint != 'default' }}
 
       - name: Build
         run: nr build
