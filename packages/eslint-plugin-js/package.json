@@ -108,6 +108,9 @@
     "dev": "rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild --watch",
     "prepublishOnly": "pnpm build"
   },
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
+  },
   "dependencies": {
     "acorn": "^8.11.2",
     "escape-string-regexp": "^4.0.0",
