@@ -118,3 +118,4 @@ jobs:
 
       - name: Fixtures
         run: nr test:fixtures
+        if: ${{ matrix.eslint == 'default' }}
