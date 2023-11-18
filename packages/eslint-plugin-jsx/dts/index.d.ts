@@ -10,7 +10,20 @@ export type Rules = {
 declare const plugin: {
   rules: Rules
   configs: {
+    /**
+     * Disable all legacy rules from `eslint-plugin-react`
+     *
+     * This config works for both flat and legacy config format
+     */
     'disable-legacy': Linter.FlatConfig
+    /**
+     * Enable all rules, in Flat Config Format
+     */
+    'all-flat': Linter.FlatConfig
+    /**
+     * Enable all rules, in Legacy Config Format
+     */
+    'all-extends': Linter.BaseConfig
   }
 }
 
