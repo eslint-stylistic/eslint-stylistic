@@ -82,7 +82,7 @@ import stylistic from '@stylistic/eslint-plugin'
 
 export default [
   stylistic.configs['recommended-flat'],
-  // ...you other config items
+  // ...your other config items
 ]
 ```
 
@@ -112,7 +112,7 @@ import stylistic from '@stylistic/eslint-plugin'
 
 export default [
   stylistic.configs['all-flat'],
-  // ...you other config items
+  // ...your other config items
 ]
 ```
 
@@ -140,7 +140,7 @@ import stylisticJs from '@stylistic/eslint-plugin-js'
 
 export default [
   stylisticJs.configs['all-flat'],
-  // ...you other config items
+  // ...your other config items
 ]
 ```
 
