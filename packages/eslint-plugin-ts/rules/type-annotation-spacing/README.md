@@ -42,6 +42,8 @@ This rule aims to enforce specific spacing patterns around type annotations and 
 
 <!-- prettier-ignore -->
 ```ts
+/*eslint @stylistic/ts/type-annotation-spacing: "error"*/
+
 let foo:string = "bar";
 let foo :string = "bar";
 let foo : string = "bar";
@@ -71,6 +73,8 @@ type Foo = ()=> {};
 
 <!-- prettier-ignore -->
 ```ts
+/*eslint @stylistic/ts/type-annotation-spacing: "error"*/
+
 let foo: string = "bar";
 
 function foo(): string {}
@@ -86,9 +90,7 @@ type Foo = () => {};
 
 ### after
 
-```json
-{ "before": false, "after": true }
-```
+Examples of **incorrect** code for this rule with the `{ "before": false, "after": true }` option:
 
 <!--tabs-->
 
@@ -96,6 +98,8 @@ type Foo = () => {};
 
 <!-- prettier-ignore -->
 ```ts
+/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": false, "after": true }]*/
+
 let foo:string = "bar";
 let foo :string = "bar";
 let foo : string = "bar";
@@ -121,10 +125,14 @@ type Foo = () =>{};
 type Foo = () => {};
 ```
 
+Examples of **correct** code for this rule with the `{ "before": false, "after": true }` option:
+
 ::: correct
 
 <!-- prettier-ignore -->
 ```ts
+/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": false, "after": true }]*/
+
 let foo: string = "bar";
 
 function foo(): string {}
@@ -138,9 +146,7 @@ type Foo = ()=> {};
 
 ### before
 
-```json
-{ "before": true, "after": true }
-```
+Examples of **incorrect** code for this rule with the `{ "before": true, "after": true }` option:
 
 <!--tabs-->
 
@@ -148,6 +154,8 @@ type Foo = ()=> {};
 
 <!-- prettier-ignore -->
 ```ts
+/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": true, "after": true }]*/
+
 let foo: string = "bar";
 let foo:string = "bar";
 let foo :string = "bar";
@@ -173,10 +181,14 @@ type Foo = () =>{};
 type Foo = ()=> {};
 ```
 
+Examples of **correct** code for this rule with the `{ "before": true, "after": true }` option:
+
 ::: correct
 
 <!-- prettier-ignore -->
 ```ts
+/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": true, "after": true }]*/
+
 let foo : string = "bar";
 
 function foo() : string {}
@@ -190,13 +202,7 @@ type Foo = () => {};
 
 ### overrides - colon
 
-```json
-{
-  "before": false,
-  "after": false,
-  "overrides": { "colon": { "before": true, "after": true } }
-}
-```
+Examples of **incorrect** code for this rule with the `{ "before": false, "after": false, "overrides": { "colon": { "before": true, "after": true } } }` option:
 
 <!--tabs-->
 
@@ -204,6 +210,8 @@ type Foo = () => {};
 
 <!-- prettier-ignore -->
 ```ts
+/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": false, "after": false, "overrides": { "colon": { "before": true, "after": true } } }]*/
+
 let foo: string = "bar";
 let foo:string = "bar";
 let foo :string = "bar";
@@ -229,10 +237,14 @@ type Foo = ()=> {};
 type Foo = () => {};
 ```
 
+Examples of **correct** code for this rule with the `{ "before": false, "after": false, "overrides": { "colon": { "before": true, "after": true } } }` option:
+
 ::: correct
 
 <!-- prettier-ignore -->
 ```ts
+/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": false, "after": false, "overrides": { "colon": { "before": true, "after": true } } }]*/
+
 let foo : string = "bar";
 
 function foo() : string {}
@@ -250,13 +262,7 @@ type Foo = ()=>{};
 
 ### overrides - arrow
 
-```json
-{
-  "before": false,
-  "after": false,
-  "overrides": { "arrow": { "before": true, "after": true } }
-}
-```
+Examples of **incorrect** code for this rule with the `{ "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }` option:
 
 <!--tabs-->
 
@@ -264,6 +270,8 @@ type Foo = ()=>{};
 
 <!-- prettier-ignore -->
 ```ts
+/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }]*/
+
 let foo: string = "bar";
 let foo : string = "bar";
 let foo :string = "bar";
@@ -289,10 +297,14 @@ type Foo = () =>{};
 type Foo = ()=> {};
 ```
 
+Examples of **correct** code for this rule with the `{ "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }` option:
+
 ::: correct
 
 <!-- prettier-ignore -->
 ```ts
+/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }]*/
+
 let foo:string = "bar";
 
 function foo():string {}

@@ -11,6 +11,8 @@ It adds support for interfaces and enums.
 ::: incorrect
 
 ```ts
+/*eslint @stylistic/ts/space-before-blocks: "error"*/
+
 enum Breakpoint{
   Large, Medium;
 }
@@ -23,6 +25,8 @@ interface State{
 ::: correct
 
 ```ts
+/*eslint @stylistic/ts/space-before-blocks: "error"*/
+
 enum Breakpoint {
   Large, Medium;
 }
