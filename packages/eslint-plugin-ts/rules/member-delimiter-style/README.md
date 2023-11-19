@@ -103,7 +103,7 @@ Examples of code for this rule with the default config:
 
 <!--tabs-->
 
-### ❌ Incorrect
+::: incorrect
 
 <!-- prettier-ignore -->
 ```ts
@@ -132,7 +132,7 @@ type FooBar = { name: string, greet(): string }
 type FooBar = { name: string; greet(): string; }
 ```
 
-### ✅ Correct
+::: correct
 
 <!-- prettier-ignore -->
 ```ts

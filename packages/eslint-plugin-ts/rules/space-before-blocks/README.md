@@ -8,7 +8,7 @@ It adds support for interfaces and enums.
 
 <!-- tabs -->
 
-### ❌ Incorrect
+::: incorrect
 
 ```ts
 enum Breakpoint{
@@ -20,7 +20,7 @@ interface State{
 }
 ```
 
-### ✅ Correct
+::: correct
 
 ```ts
 enum Breakpoint {
