@@ -1,1 +1,1 @@
-Please refer to https://eslint.style/contribute/setup for more information.
+Please refer to https://eslint.style/contribute/guide for more information.
