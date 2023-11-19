@@ -20,7 +20,7 @@ For ESLint Stylistic, our primary focus is on the **formatting** and **stylistic
 
 ## What's the requirements for ESLint Stylistic?
 
-Since majority of the rules are migreated from ESLint v8 and `typescript-eslint` v6, we inherit the same requirements:
+Since majority of the rules are migrated from ESLint v8 and `typescript-eslint` v6, we inherit the same requirements:
 
 - Node.js >=v16.0.0
 - ESLint >=v8.0.0
