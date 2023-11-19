@@ -38,7 +38,7 @@ This rule aims to enforce specific spacing patterns around type annotations and 
 
 <!--tabs-->
 
-### ❌ Incorrect
+::: incorrect
 
 <!-- prettier-ignore -->
 ```ts
@@ -67,7 +67,7 @@ type Foo = () =>{};
 type Foo = ()=> {};
 ```
 
-### ✅ Correct
+::: correct
 
 <!-- prettier-ignore -->
 ```ts
@@ -92,7 +92,7 @@ type Foo = () => {};
 
 <!--tabs-->
 
-#### ❌ Incorrect
+::: incorrect
 
 <!-- prettier-ignore -->
 ```ts
@@ -121,7 +121,7 @@ type Foo = () =>{};
 type Foo = () => {};
 ```
 
-#### ✅ Correct
+::: correct
 
 <!-- prettier-ignore -->
 ```ts
@@ -144,7 +144,7 @@ type Foo = ()=> {};
 
 <!--tabs-->
 
-#### ❌ Incorrect
+::: incorrect
 
 <!-- prettier-ignore -->
 ```ts
@@ -173,7 +173,7 @@ type Foo = () =>{};
 type Foo = ()=> {};
 ```
 
-#### ✅ Correct
+::: correct
 
 <!-- prettier-ignore -->
 ```ts
@@ -200,7 +200,7 @@ type Foo = () => {};
 
 <!--tabs-->
 
-#### ❌ Incorrect
+::: incorrect
 
 <!-- prettier-ignore -->
 ```ts
@@ -229,7 +229,7 @@ type Foo = ()=> {};
 type Foo = () => {};
 ```
 
-#### ✅ Correct
+::: correct
 
 <!-- prettier-ignore -->
 ```ts
@@ -260,7 +260,7 @@ type Foo = ()=>{};
 
 <!--tabs-->
 
-#### ❌ Incorrect
+::: incorrect
 
 <!-- prettier-ignore -->
 ```ts
@@ -289,7 +289,7 @@ type Foo = () =>{};
 type Foo = ()=> {};
 ```
 
-#### ✅ Correct
+::: correct
 
 <!-- prettier-ignore -->
 ```ts
