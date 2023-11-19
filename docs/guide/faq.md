@@ -18,6 +18,13 @@ According to [`typescript-eslint`'s definition](https://typescript-eslint.io/lin
 
 For ESLint Stylistic, our primary focus is on the **formatting** and **stylistic** rules inherited from `eslint` and `typescript-eslint`. We will maintain some stylistic rules; however, not all will be included. Their inclusion depends on whether the upstream projects choose to retain them. We welcome new rules proposed by the community for the future when we move into the maintenance phase and develop the infrastructure to introduce experimental rules. For more details, track the [Project Progress](/contribute/project-progress).
 
+## What's the requirements for ESLint Stylistic?
+
+Since majority of the rules are migrated from ESLint v8 and `typescript-eslint` v6, we inherit the same requirements:
+
+- Node.js >=v16.0.0
+- ESLint >=v8.0.0
+
 ## How to auto-format on save?
 
 ##### VS Code

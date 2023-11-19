@@ -100,10 +100,16 @@
     "dts",
     "rules/**/*.d.ts"
   ],
+  "engines": {
+    "node": "^16.0.0 || >=18.0.0"
+  },
   "scripts": {
     "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",
     "dev": "rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild --watch",
     "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "eslint": ">=8.0.0"
   },
   "dependencies": {
     "acorn": "^8.11.2",
