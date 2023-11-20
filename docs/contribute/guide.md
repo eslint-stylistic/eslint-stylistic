@@ -38,7 +38,7 @@ To develop and test this project:
 
 #### Unit Tests
 
-Each rule has a `*`.test.ts` test file alongside the implementation. The tests are run using [Vitest](https://vitest.dev/).
+Each rule has a `*.test.ts` test file alongside the implementation. The tests are run using [Vitest](https://vitest.dev/).
 
 - `pnpm test` by default runs every unit test.
 
