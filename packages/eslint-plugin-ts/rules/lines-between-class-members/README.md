@@ -8,7 +8,7 @@ It adds support for ignoring overload methods in a class.
 
 ## Options
 
-In addition to the options supported by the `lines-between-class-members` rule in ESLint core, the rule adds the following options:
+In addition to the options supported by the `js/lines-between-class-members` rule, the rule adds the following options:
 
 - Object option:
 

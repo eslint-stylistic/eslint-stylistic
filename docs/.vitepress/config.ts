@@ -9,6 +9,8 @@ import vite from './vite.config'
 
 const mainPackages = packages.filter(p => p.rules.length)
 const defaultPackage = packages.find(p => p.shortId === 'default')!
+const jsPackage = packages.find(p => p.shortId === 'js')!
+const tsPackage = packages.find(p => p.shortId === 'ts')!
 const projectRoot = fileURLToPath(new URL('../..', import.meta.url))
 const version = JSON.parse(await fs.readFile(join(projectRoot, 'package.json'), 'utf-8')).version
 
@@ -53,10 +55,53 @@ await Promise.all(
       dirname(rule.docsEntry),
     `${basename(rule.docsEntry, '.md')}.alias.md`,
     )
-    await fs.copyFile(
-      join(projectRoot, rule.docsEntry),
-      join(projectRoot, newPath),
-    )
+    const jsEntry = jsPackage.rules.find(r => r.name === rule.name)
+    const tsEntry = tsPackage.rules.find(r => r.name === rule.name)
+    if (tsEntry && jsEntry) {
+      const tsContent = (await fs.readFile(
+        join(projectRoot, tsEntry.docsEntry),
+        'utf-8',
+      ))
+        // Remove frontmatter
+        .replace(/^---[\s\S]*?\n---\n/, '')
+        .trim()
+        .split(/\r?\n/g)
+        // Remove lines redirecting to the JS rule, as we already have them above
+        .filter(l => !l.startsWith('This rule extends the base') && !l.startsWith('It adds support for '))
+        // Adding one level of heading
+        .map(i => i.startsWith('#') ? `#${i}` : i)
+        .join('\n')
+        .trim()
+      if (tsContent) {
+        const jsContent = await fs.readFile(
+          join(projectRoot, jsEntry.docsEntry),
+          'utf-8',
+        )
+        const content = [
+          jsContent,
+          '',
+          '## TypeScript Specific',
+          '',
+          tsContent,
+        ]
+        await fs.writeFile(
+          join(projectRoot, newPath),
+          content.join('\n'),
+        )
+      }
+      else {
+        await fs.copyFile(
+          join(projectRoot, jsEntry.docsEntry),
+          join(projectRoot, newPath),
+        )
+      }
+    }
+    else {
+      await fs.copyFile(
+        join(projectRoot, rule.docsEntry),
+        join(projectRoot, newPath),
+      )
+    }
     rule.docsEntry = newPath
   }),
 )
