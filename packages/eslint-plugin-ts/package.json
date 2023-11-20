@@ -63,7 +63,7 @@
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
-    "eslint": ">=8.0.0"
+    "eslint": ">=8.40.0"
   },
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:*",

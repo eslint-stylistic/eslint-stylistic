@@ -187,7 +187,7 @@ importers:
         specifier: workspace:*
         version: link:../eslint-plugin-ts
       eslint:
-        specifier: '>=8.0.0'
+        specifier: '>=8.40.0'
         version: 8.53.0
 
   packages/eslint-plugin-js:
@@ -199,7 +199,7 @@ importers:
         specifier: ^4.0.0
         version: 4.0.0
       eslint:
-        specifier: '>=8.0.0'
+        specifier: '>=8.40.0'
         version: 8.53.0
       eslint-visitor-keys:
         specifier: ^3.4.3
@@ -273,7 +273,7 @@ importers:
         specifier: ^6.11.0
         version: 6.11.0(eslint@8.53.0)(typescript@5.2.2)
       eslint:
-        specifier: '>=8.0.0'
+        specifier: '>=8.40.0'
         version: 8.53.0
       graphemer:
         specifier: ^1.4.0

@@ -23,7 +23,7 @@ For ESLint Stylistic, our primary focus is on the **formatting** and **stylistic
 Since majority of the rules are migrated from ESLint v8 and `typescript-eslint` v6, we inherit the same requirements:
 
 - Node.js >=v16.0.0
-- ESLint >=v8.0.0
+- ESLint >=v8.40.0
 
 ## How to auto-format on save?
 
