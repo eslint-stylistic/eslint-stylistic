@@ -163,11 +163,11 @@ importers:
         specifier: ^3.0.0
         version: 3.0.0
       shikiji:
-        specifier: ^0.7.3
-        version: 0.7.3
+        specifier: ^0.7.4
+        version: 0.7.4
       shikiji-transformers:
-        specifier: ^0.7.3
-        version: 0.7.3
+        specifier: ^0.7.4
+        version: 0.7.4
       unocss:
         specifier: ^0.57.7
         version: 0.57.7(postcss@8.4.31)(rollup@4.4.1)(vite@5.0.0)
@@ -5971,14 +5971,14 @@ packages:
     resolution: {integrity: sha512-7++dFhtcx3353uBaq8DDR4NuxBetBzC7ZQOhmTQInHEd6bSrXdiEyzCvG07Z44UYdLShWUyXt5M/yhz8ekcb1A==}
     engines: {node: '>=8'}
 
-  /shikiji-transformers@0.7.3:
-    resolution: {integrity: sha512-PHwONpNDUZm1n0j5alhJjelicGxPAOcZC2JjVbQhyG9gaSwrHII6dY3oM0wZMScL5o1h1RYKYPhClE+7QPHwPg==}
+  /shikiji-transformers@0.7.4:
+    resolution: {integrity: sha512-oykilNekcW2FnRGbvZm+RNWHYroSeCVMOaMMwAbxozZgpTdcJtHoA+1+MDFw6/o2hCkX88kKbxG6FwAZoUZ6WQ==}
     dependencies:
-      shikiji: 0.7.3
+      shikiji: 0.7.4
     dev: true
 
-  /shikiji@0.7.3:
-    resolution: {integrity: sha512-kMb6bfZ+VrTcVn35RGnYjCfRnnPvg08UUXnpVW5bqT5S8UyrrUtUJjhzQHkMi5k8N1aS/FO5YDl+sHRiRdtcLQ==}
+  /shikiji@0.7.4:
+    resolution: {integrity: sha512-N5dmPvyhH/zfcsuWysUEAMwRJDMz26LUns2VEUs5y4Ozbf5jkAODU0Yswjcf/tZAwpFnk5x3y34dupFMnF2+NA==}
     dependencies:
       hast-util-to-html: 9.0.0
     dev: true
@@ -6689,8 +6689,8 @@ packages:
       minisearch: 6.3.0
       mrmime: 1.0.1
       postcss: 8.4.31
-      shikiji: 0.7.3
-      shikiji-transformers: 0.7.3
+      shikiji: 0.7.4
+      shikiji-transformers: 0.7.4
       vite: 5.0.0(@types/node@20.9.4)
       vue: 3.3.8(typescript@5.3.2)
     transitivePeerDependencies:

@@ -148,7 +148,7 @@ export default defineConfig({
       })
     },
     codeTransformers: [
-      transformerRenderWhitespace(),
+      transformerRenderWhitespace({ position: 'boundary' }),
     ],
   },
 
