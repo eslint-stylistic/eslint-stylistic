@@ -2,7 +2,7 @@
 import antfu from '@antfu/eslint-config'
 import stylistic from './stub.js'
 
-const configs = antfu(
+const configs = await antfu(
   {
     ignores: [
       '**/*.md',

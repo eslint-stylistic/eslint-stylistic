@@ -9,12 +9,14 @@
   "devDependencies": {
     "@iconify-json/ri": "^1.1.12",
     "@types/markdown-it-container": "^2.0.9",
-    "@unocss/reset": "^0.57.4",
+    "@unocss/reset": "^0.57.7",
     "gray-matter": "^4.0.3",
     "markdown-it-container": "^3.0.0",
-    "unocss": "^0.57.4",
+    "shikiji": "^0.7.3",
+    "shikiji-transformers": "^0.7.3",
+    "unocss": "^0.57.7",
     "unplugin-vue-components": "^0.25.2",
-    "vitepress": "1.0.0-rc.24",
+    "vitepress": "1.0.0-rc.30",
     "vue": "^3.3.8"
   }
 }

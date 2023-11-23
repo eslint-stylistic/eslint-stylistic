@@ -4,6 +4,7 @@ import fs from 'node:fs/promises'
 import type { DefaultTheme } from 'vitepress'
 import { defineConfig } from 'vitepress'
 import MarkdownItContainer from 'markdown-it-container'
+import { transformerRenderWhitespace } from 'shikiji-transformers'
 import { packages } from '../../packages/metadata/src'
 import vite from './vite.config'
 
@@ -146,6 +147,9 @@ export default defineConfig({
         },
       })
     },
+    codeTransformers: [
+      transformerRenderWhitespace(),
+    ],
   },
 
   srcDir: fileURLToPath(new URL('../..', import.meta.url)),
