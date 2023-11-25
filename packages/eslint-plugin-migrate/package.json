@@ -27,6 +27,6 @@
   },
   "dependencies": {
     "@eslint-stylistic/metadata": "workspace:*",
-    "@typescript-eslint/utils": "^6.11.0"
+    "@typescript-eslint/utils": "^6.12.0"
   }
 }

@@ -147,10 +147,10 @@ Examples of **correct** code for this rule with the `"tab"` option:
 /*eslint indent: ["error", "tab"]*/
 
 if (a) {
-/*tab*/b=c;
-/*tab*/function foo(d) {
-/*tab*//*tab*/e=f;
-/*tab*/}
+	b=c;
+	function foo(d) {
+		e=f;
+	}
 }
 ```
 
