@@ -33,6 +33,13 @@ function identity< T > (arg: T): T {
 
 }
 
+// TypeScript enum
+enum EnumFoo {
+    aaa,
+    bbb,
+    ccc
+}
+
 // Use the generic function with type inference
 const result = identity("TypeScript is awesome");
 log(result);
@@ -91,6 +98,20 @@ class Dog extends Animal {
     }
 
 }
+
+
+// Decorators
+class Bar {
+
+    @log
+    baz () {
+
+        return "qux";
+
+    }
+
+}
+
 
 const dog = new Dog("Buddy");
 dog.bark();
