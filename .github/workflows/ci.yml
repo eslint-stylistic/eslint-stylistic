@@ -37,7 +37,9 @@ jobs:
         run: nr build
 
       - name: Lint
-        run: nr lint
+        run: nr lint --fix
+
+      - uses: autofix-ci/action@v1
 
   typecheck:
     runs-on: ubuntu-latest
