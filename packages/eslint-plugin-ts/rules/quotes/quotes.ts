@@ -39,7 +39,7 @@ export default createRule<RuleOptions, MessageIds>({
         case AST_NODE_TYPES.TSMethodSignature:
         case AST_NODE_TYPES.TSPropertySignature:
         case AST_NODE_TYPES.TSModuleDeclaration:
-        case AST_NODE_TYPES.TSLiteralType:
+        case AST_NODE_TYPES.ImportAttribute:
         case AST_NODE_TYPES.TSExternalModuleReference:
           return true
 

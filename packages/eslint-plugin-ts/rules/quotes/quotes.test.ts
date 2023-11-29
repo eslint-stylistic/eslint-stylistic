@@ -44,7 +44,7 @@ ruleTester.run('quotes', rule, {
     {
       code: `
         class A {
-          public prop: IProps['prop'];
+          public prop: IProps[\`prop\`];
         }
       `,
       options: ['backtick'],
@@ -303,11 +303,11 @@ ruleTester.run('quotes', rule, {
 
     // `backtick` should not warn import/export sources.
     {
-      code: 'import "a"; import \'b\';',
+      code: 'import "a" assert { type: "json" }; import \'b\' assert { type: \'json\' };',
       options: ['backtick'],
     },
     {
-      code: 'import a from "a"; import b from \'b\';',
+      code: 'import a from "a" assert { type: "json" }; import b from \'b\' assert { type: \'json\' };',
       options: ['backtick'],
     },
     {
