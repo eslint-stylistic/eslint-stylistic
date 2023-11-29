@@ -303,11 +303,27 @@ ruleTester.run('quotes', rule, {
 
     // `backtick` should not warn import/export sources.
     {
+      code: 'import "a"; import \'b\';',
+      options: ['backtick'],
+    },
+    {
+      code: 'import a from "a"; import b from \'b\';',
+      options: ['backtick'],
+    },
+    {
       code: 'import "a" assert { type: "json" }; import \'b\' assert { type: \'json\' };',
       options: ['backtick'],
     },
     {
       code: 'import a from "a" assert { type: "json" }; import b from \'b\' assert { type: \'json\' };',
+      options: ['backtick'],
+    },
+    {
+      code: 'import "a" with { type: "json" }; import \'b\' with { type: \'json\' };',
+      options: ['backtick'],
+    },
+    {
+      code: 'import a from "a" with { type: "json" }; import b from \'b\' with { type: \'json\' };',
       options: ['backtick'],
     },
     {
