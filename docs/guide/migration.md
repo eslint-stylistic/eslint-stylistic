@@ -2,7 +2,7 @@
 
 ## When Should I Migrate?
 
-For production projects, we would recommend waiting a bit longer, until ESLint officially announces the deprecation list.
+ESLint now officially recommends switching to our packages after the [deprecation of their formatting rules in v8.53.0](https://eslint.org/blog/2023/10/deprecating-formatting-rules/). The docs for the deprecated rules will also recommend using our corresponding packages and rules.
 
 At the current stage, the packages are already usable. We are more than happy to see you start trying them out and giving us feedback.
 
