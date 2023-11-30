@@ -209,6 +209,22 @@ import someOtherMod from 'some-other-mod';
 
 :::
 
+### includeTabs
+
+Consider multiple tabs (`\t`) or spaces mixed with tabs as multiple spaces for this rule. This option defaults to `false`.
+
+Example of **incorrect** code for this rule with the `{ "includeTabs": true }` option:
+
+::: incorrect
+
+```js
+/*eslint no-multi-spaces: ["error", { "includeTabs": true }]*/
+
+var a =	 1 +		2;
+```
+
+:::
+
 ## When Not To Use It
 
 If you don't want to check and disallow multiple spaces, then you should turn this rule off.

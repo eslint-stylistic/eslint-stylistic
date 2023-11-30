@@ -672,5 +672,26 @@ ruleTester.run('no-multi-spaces', rule, {
         type: 'Punctuator',
       }],
     },
+
+    {
+      code: '(a\t + b)',
+      output: '(a + b)',
+      options: [{ includeTabs: true }],
+      errors: [{
+        messageId: 'multipleSpaces',
+        data: { displayValue: '+' },
+        type: 'Punctuator',
+      }],
+    },
+    {
+      code: 'var a =\t\t\tb',
+      output: 'var a = b',
+      options: [{ includeTabs: true }],
+      errors: [{
+        messageId: 'multipleSpaces',
+        data: { displayValue: 'b' },
+        type: 'Identifier',
+      }],
+    },
   ],
 })
