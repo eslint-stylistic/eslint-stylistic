@@ -39,7 +39,13 @@ body:
           required: true
         - label: Check that there isn't already an issue that reports the same bug to avoid creating a duplicate.
           required: true
-        - label: Check that this is a concrete bug. For Q&A, please open a GitHub Discussion instead.
-          required: true
         - label: The provided reproduction is a [minimal reproducible](https://stackoverflow.com/help/minimal-reproducible-example) of the bug.
           required: true
+  - type: checkboxes
+    id: contributes
+    attributes:
+      label: Contributes
+      description: As stylistic rules can be sometime subjective or niche, we may not have enough to maintainability to fix or improve every aspect. In general, **we encourage the original reporter (or anyone wants to work on it) to submit a PR to fix issue**. Check the following if you are willing to
+      options:
+        - label: I am willing to submit a PR to fix this issue
+        - label: I am willing to submit a PR with failing tests
