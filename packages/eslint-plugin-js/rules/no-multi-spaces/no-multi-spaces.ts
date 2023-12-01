@@ -38,7 +38,7 @@ export default createRule<MessageIds, RuleOptions>({
           },
           includeTabs: {
             type: 'boolean',
-            default: false,
+            default: true,
           },
         },
         additionalProperties: false,

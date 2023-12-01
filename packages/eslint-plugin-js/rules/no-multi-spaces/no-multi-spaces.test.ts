@@ -676,7 +676,6 @@ ruleTester.run('no-multi-spaces', rule, {
     {
       code: '(a\t + b)',
       output: '(a + b)',
-      options: [{ includeTabs: true }],
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '+' },
@@ -686,7 +685,6 @@ ruleTester.run('no-multi-spaces', rule, {
     {
       code: 'var a =\t\t\tb',
       output: 'var a = b',
-      options: [{ includeTabs: true }],
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'b' },

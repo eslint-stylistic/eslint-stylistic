@@ -211,7 +211,7 @@ import someOtherMod from 'some-other-mod';
 
 ### includeTabs
 
-Consider multiple tabs (`\t`) or spaces mixed with tabs as multiple spaces for this rule. This option defaults to `false`.
+Consider multiple tabs (`\t`) or spaces mixed with tabs as multiple spaces for this rule. This option defaults to `true`.
 
 Example of **incorrect** code for this rule with the `{ "includeTabs": true }` option:
 
