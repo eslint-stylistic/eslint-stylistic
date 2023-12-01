@@ -22,7 +22,7 @@ export default createRule<MessageIds, RuleOptions>({
     docs: {
       description: 'Disallow extra closing tags for components without children',
       // category: 'Stylistic Issues',
-      url: docsUrl('self-closing-comp'),
+      url: docsUrl('jsx-self-closing-comp'),
     },
     fixable: 'code',
 

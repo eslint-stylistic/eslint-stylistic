@@ -11,7 +11,10 @@ export function createAllConfigs<T extends { rules: Record<string, any> }>(
   flat: boolean,
 ) {
   const rules = Object.fromEntries(
-    Object.keys(plugin.rules).map(key => [`${name}/${key}`, 2]),
+    Object
+      .entries(plugin.rules)
+      .filter(([key, { meta }]) => key === meta.docs.url.split('/').pop())
+      .map(([key]) => [`${name}/${key}`, 2]),
   )
 
   if (flat) {
