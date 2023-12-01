@@ -1143,7 +1143,21 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
     "shortId": "plus",
     "pkgId": "@stylistic/plus",
     "path": "packages/eslint-plugin-plus",
-    "rules": []
+    "rules": [
+      {
+        "name": "type-generic-spacing",
+        "ruleId": "@stylistic/plus/type-generic-spacing",
+        "originalId": "",
+        "entry": "packages/eslint-plugin-plus/rules/type-generic-spacing/type-generic-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-plus/rules/type-generic-spacing/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforces consistent spacing inside TypeScript type generics"
+          }
+        }
+      }
+    ]
   },
   {
     "name": "@stylistic/eslint-plugin-ts",
