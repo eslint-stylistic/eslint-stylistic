@@ -356,21 +356,24 @@ async function generateDTS(
 async function generateConfigs(pkg: PackageInfo) {
   if (!pkg.rules.length)
     return
-  await fs.ensureDir(join(pkg.path, 'configs'))
 
-  const disabledRules = Object.fromEntries(pkg.rules.map(i => [i.originalId, 0] as const))
+  if (['js', 'ts', 'jsx'].includes(pkg.shortId)) {
+    await fs.ensureDir(join(pkg.path, 'configs'))
 
-  await fs.writeFile(
-    join(pkg.path, 'configs', 'disable-legacy.ts'),
-    [
-      header,
-      'import type { Linter } from \'eslint\'',
-      `const config: Linter.FlatConfig = ${JSON.stringify({ rules: disabledRules }, null, 2)}`,
-      'export default config',
-      '',
-    ].join('\n'),
-    'utf-8',
-  )
+    const disabledRules = Object.fromEntries(pkg.rules.map(i => [i.originalId, 0] as const))
+
+    await fs.writeFile(
+      join(pkg.path, 'configs', 'disable-legacy.ts'),
+      [
+        header,
+        'import type { Linter } from \'eslint\'',
+        `const config: Linter.FlatConfig = ${JSON.stringify({ rules: disabledRules }, null, 2)}`,
+        'export default config',
+        '',
+      ].join('\n'),
+      'utf-8',
+    )
+  }
 }
 
 function camelCase(str: string) {

@@ -2,11 +2,12 @@
 
 Stylistic rules for ESLint, works for both JavaScript, TypeScript and JSX.
 
-This plugin provides the rules from:
+This plugin provides all rules from:
 
 - [`@stylistic/eslint-plugin-js`](./js)
 - [`@stylistic/eslint-plugin-ts`](./ts)
 - [`@stylistic/eslint-plugin-jsx`](./jsx)
+- [`@stylistic/eslint-plugin-plus`](./plus)
 
 With this plugin, you no longer need to mainly disable JavaScript in favor of TypeScript. Rules work for both languages.
 

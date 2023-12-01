@@ -1,11 +1,11 @@
 {
-  "name": "@stylistic/eslint-plugin",
-  "version": "1.4.1",
+  "name": "@stylistic/eslint-plugin-plus",
+  "version": "1.2.0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
   "repository": {
-    "directory": "packages/eslint-plugin",
+    "directory": "packages/eslint-plugin-plus",
     "type": "git",
     "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git"
   },
@@ -14,37 +14,37 @@
   },
   "exports": {
     ".": {
-      "types": "./dist/dts/index.d.ts",
+      "types": "./dts/index.d.ts",
       "require": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./define-config-support": {
-      "types": "./dist/dts/define-config-support.d.ts"
+      "types": "./dts/define-config-support.d.ts"
     },
     "./rule-options": {
-      "types": "./dist/dts/rule-options.d.ts"
-    }
+      "types": "./dts/rule-options.d.ts"
+    },
+    "./rules/example": "./dist/example.js"
   },
   "main": "./dist/index.js",
-  "types": "./dist/dts/index.d.ts",
+  "types": "./dts/index.d.ts",
   "files": [
-    "dist"
+    "dist",
+    "dts",
+    "rules/**/*.d.ts"
   ],
-  "engines": {
-    "node": "^16.0.0 || >=18.0.0"
-  },
   "scripts": {
     "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",
     "dev": "rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild --watch",
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
-    "eslint": ">=8.40.0"
+    "eslint": "*"
   },
   "dependencies": {
-    "@stylistic/eslint-plugin-js": "workspace:*",
-    "@stylistic/eslint-plugin-jsx": "workspace:*",
-    "@stylistic/eslint-plugin-plus": "workspace:*",
-    "@stylistic/eslint-plugin-ts": "workspace:*"
+    "@typescript-eslint/utils": "^6.11.0"
+  },
+  "devDependencies": {
+    "@typescript-eslint/rule-tester": "^6.11.0"
   }
 }

@@ -1139,6 +1139,13 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
     "rules": []
   },
   {
+    "name": "@stylistic/eslint-plugin-plus",
+    "shortId": "plus",
+    "pkgId": "@stylistic/plus",
+    "path": "packages/eslint-plugin-plus",
+    "rules": []
+  },
+  {
     "name": "@stylistic/eslint-plugin-ts",
     "shortId": "ts",
     "pkgId": "@stylistic/ts",
