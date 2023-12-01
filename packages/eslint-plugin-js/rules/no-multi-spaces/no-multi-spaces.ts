@@ -57,7 +57,7 @@ export default createRule<MessageIds, RuleOptions>({
     const exceptions = Object.assign({ Property: true }, options.exceptions)
     const hasExceptions = Object.keys(exceptions).some(key => exceptions[key])
 
-    const spacesRe = options.includeTabs ? /[ \t]{2}/ : / {2}/
+    const spacesRe = options.includeTabs === false ? / {2}/ : /[ \t]{2}/
 
     /**
      * Formats value of given comment token for error message by truncating its length.

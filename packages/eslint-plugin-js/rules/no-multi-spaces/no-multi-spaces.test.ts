@@ -93,8 +93,6 @@ ruleTester.run('no-multi-spaces', rule, {
 
     // https://github.com/eslint/eslint/issues/9001
     'a'.repeat(2e5),
-
-    'foo\t\t+bar',
   ],
 
   invalid: [
@@ -672,7 +670,6 @@ ruleTester.run('no-multi-spaces', rule, {
         type: 'Punctuator',
       }],
     },
-
     {
       code: '(a\t + b)',
       output: '(a + b)',
