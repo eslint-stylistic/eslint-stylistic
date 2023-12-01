@@ -36,6 +36,10 @@ export default createRule<MessageIds, RuleOptions>({
             type: 'boolean',
             default: false,
           },
+          includeTabs: {
+            type: 'boolean',
+            default: true,
+          },
         },
         additionalProperties: false,
       },
@@ -52,6 +56,8 @@ export default createRule<MessageIds, RuleOptions>({
     const ignoreEOLComments = options.ignoreEOLComments
     const exceptions = Object.assign({ Property: true }, options.exceptions)
     const hasExceptions = Object.keys(exceptions).some(key => exceptions[key])
+
+    const spacesRe = options.includeTabs === false ? / {2}/ : /[ \t]{2}/
 
     /**
      * Formats value of given comment token for error message by truncating its length.
@@ -77,7 +83,7 @@ export default createRule<MessageIds, RuleOptions>({
 
           // Ignore tokens that don't have 2 spaces between them or are on different lines
           if (
-            !sourceCode.text.slice(leftToken.range[1], rightToken.range[0]).includes('  ')
+            !spacesRe.test(sourceCode.text.slice(leftToken.range[1], rightToken.range[0]))
             || leftToken.loc.end.line < rightToken.loc.start.line
           )
             return
