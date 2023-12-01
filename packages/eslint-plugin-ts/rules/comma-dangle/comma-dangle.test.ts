@@ -95,6 +95,24 @@ type Qux = [string,
         },
       ],
     },
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/35
+    {
+      code: 'const id = <T,>(x: T) => x;',
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
+    {
+      code: 'const id = <T,R>(x: T) => x;',
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    },
   ],
   invalid: [
     // base rule
@@ -253,6 +271,19 @@ type Qux = [string,
       output: 'type Foo = [string]',
       options: ['only-multiline'],
       errors: [{ messageId: 'unexpected' }],
+    },
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/35
+    // When there is more than one generic, we don't need to workaround it
+    {
+      code: 'const id = <T,R,>(x: T) => x;',
+      output: 'const id = <T,R>(x: T) => x;',
+      errors: [{ messageId: 'unexpected' }],
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
     },
   ],
 })

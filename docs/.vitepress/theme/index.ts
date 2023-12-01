@@ -3,6 +3,7 @@ import { h } from 'vue'
 import Theme from 'vitepress/theme'
 import 'uno.css'
 import './style.css'
+import './custom.css'
 
 export default {
   extends: Theme,

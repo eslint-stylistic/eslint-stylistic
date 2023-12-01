@@ -103,10 +103,12 @@ Examples of code for this rule with the default config:
 
 <!--tabs-->
 
-### ❌ Incorrect
+::: incorrect
 
 <!-- prettier-ignore -->
 ```ts
+/*eslint @stylistic/ts/member-delimiter-style: "error"*/
+
 // missing semicolon delimiter
 interface Foo {
     name: string
@@ -132,10 +134,12 @@ type FooBar = { name: string, greet(): string }
 type FooBar = { name: string; greet(): string; }
 ```
 
-### ✅ Correct
+::: correct
 
 <!-- prettier-ignore -->
 ```ts
+/*eslint @stylistic/ts/member-delimiter-style: "error"*/
+
 interface Foo {
     name: string;
     greet(): string;

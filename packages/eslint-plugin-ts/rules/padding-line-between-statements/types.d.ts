@@ -41,6 +41,8 @@ export type StatementType =
     | 'var'
     | 'while'
     | 'with'
+    | 'cjs-export'
+    | 'cjs-import'
     | 'interface'
     | 'type'
     )
@@ -84,6 +86,8 @@ export type StatementType =
         | 'var'
         | 'while'
         | 'with'
+        | 'cjs-export'
+        | 'cjs-import'
         | 'interface'
         | 'type'
       ),
@@ -126,6 +130,8 @@ export type StatementType =
         | 'var'
         | 'while'
         | 'with'
+        | 'cjs-export'
+        | 'cjs-import'
         | 'interface'
         | 'type'
       )[],

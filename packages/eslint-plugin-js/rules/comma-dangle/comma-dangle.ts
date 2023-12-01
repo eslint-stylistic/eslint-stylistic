@@ -15,6 +15,8 @@ const DEFAULT_OPTIONS = Object.freeze({
   functions: 'never',
 })
 
+const closeBraces = ['}', ']', ')', '>']
+
 /**
  * Checks whether or not a trailing comma is allowed in a given node.
  * If the `lastItem` is `RestElement` or `RestProperty`, it disallows trailing commas.
@@ -54,7 +56,6 @@ function normalizeOptions(optionValue: RuleOptions[0], ecmaVersion: EcmaVersion 
   return DEFAULT_OPTIONS
 }
 
-/** @type {import('eslint').Rule.RuleModule} */
 export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
@@ -178,9 +179,9 @@ export default createRule<MessageIds, RuleOptions>({
         case 'NewExpression':
           return sourceCode.getLastToken(node, 1)
         default: {
-          const nextToken = sourceCode.getTokenAfter(lastItem)
+          const nextToken = sourceCode.getTokenAfter(lastItem)!
 
-          if (nextToken && isCommaToken(nextToken))
+          if (isCommaToken(nextToken))
             return nextToken
 
           return sourceCode.getLastToken(lastItem)
@@ -270,29 +271,34 @@ export default createRule<MessageIds, RuleOptions>({
 
       const trailingToken = getTrailingToken(node, lastItem)
 
-      if (trailingToken && trailingToken.value !== ',') {
-        context.report({
-          node: lastItem,
-          loc: {
-            start: trailingToken.loc.end,
-            end: getNextLocation(sourceCode, trailingToken.loc.end)!,
-          },
-          messageId: 'missing',
-          *fix(fixer) {
-            yield fixer.insertTextAfter(trailingToken, ',')
+      if (!trailingToken || trailingToken.value === ',')
+        return
 
-            /**
-             * Extend the range of the fix to include surrounding tokens to ensure
-             * that the element after which the comma is inserted stays _last_.
-             * This intentionally makes conflicts in fix ranges with rules that may be
-             * adding or removing elements in the same autofix pass.
-             * https://github.com/eslint/eslint/issues/15660
-             */
-            yield fixer.insertTextBefore(trailingToken, '')
-            yield fixer.insertTextAfter(sourceCode.getTokenAfter(trailingToken)!, '')
-          },
-        })
-      }
+      const nextToken = sourceCode.getTokenAfter(trailingToken)
+      if (!nextToken || !closeBraces.includes(nextToken.value))
+        return
+
+      context.report({
+        node: lastItem,
+        loc: {
+          start: trailingToken.loc.end,
+          end: getNextLocation(sourceCode, trailingToken.loc.end)!,
+        },
+        messageId: 'missing',
+        *fix(fixer) {
+          yield fixer.insertTextAfter(trailingToken, ',')
+
+          /**
+           * Extend the range of the fix to include surrounding tokens to ensure
+           * that the element after which the comma is inserted stays _last_.
+           * This intentionally makes conflicts in fix ranges with rules that may be
+           * adding or removing elements in the same autofix pass.
+           * https://github.com/eslint/eslint/issues/15660
+           */
+          yield fixer.insertTextBefore(trailingToken, '')
+          yield fixer.insertTextAfter(sourceCode.getTokenAfter(trailingToken)!, '')
+        },
+      })
     }
 
     /**

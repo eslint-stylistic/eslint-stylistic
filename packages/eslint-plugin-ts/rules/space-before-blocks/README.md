@@ -8,9 +8,11 @@ It adds support for interfaces and enums.
 
 <!-- tabs -->
 
-### ❌ Incorrect
+::: incorrect
 
 ```ts
+/*eslint @stylistic/ts/space-before-blocks: "error"*/
+
 enum Breakpoint{
   Large, Medium;
 }
@@ -20,9 +22,11 @@ interface State{
 }
 ```
 
-### ✅ Correct
+::: correct
 
 ```ts
+/*eslint @stylistic/ts/space-before-blocks: "error"*/
+
 enum Breakpoint {
   Large, Medium;
 }

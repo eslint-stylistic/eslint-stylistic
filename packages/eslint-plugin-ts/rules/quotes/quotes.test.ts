@@ -44,7 +44,7 @@ ruleTester.run('quotes', rule, {
     {
       code: `
         class A {
-          public prop: IProps['prop'];
+          public prop: IProps[\`prop\`];
         }
       `,
       options: ['backtick'],
@@ -308,6 +308,22 @@ ruleTester.run('quotes', rule, {
     },
     {
       code: 'import a from "a"; import b from \'b\';',
+      options: ['backtick'],
+    },
+    {
+      code: 'import "a" assert { type: "json" }; import \'b\' assert { type: \'json\' };',
+      options: ['backtick'],
+    },
+    {
+      code: 'import a from "a" assert { type: "json" }; import b from \'b\' assert { type: \'json\' };',
+      options: ['backtick'],
+    },
+    {
+      code: 'import "a" with { type: "json" }; import \'b\' with { type: \'json\' };',
+      options: ['backtick'],
+    },
+    {
+      code: 'import a from "a" with { type: "json" }; import b from \'b\' with { type: \'json\' };',
       options: ['backtick'],
     },
     {

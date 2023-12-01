@@ -4,6 +4,10 @@
 
 Currently the shared configurations are only available in the [`@stylistic/eslint-plugin`](/packages/default) package.
 
+::: info Versioning Policy
+We consider adding new rules or tweaking options in the shared configurations as **non-breaking** changes. If we do, we will only make necessary changes and release as minor version bumps.
+:::
+
 ## Configuration Factory
 
 Formatting and stylistic rules are always opinionated. We want to provide shared configurations to simplify the usage, while still allowing you to customize the rules to your own preferences. So, a bit different than shared configurations from other ESLint plugins, we provides a factory function that you can customize some high-level options.
@@ -16,8 +20,11 @@ import stylistic from '@stylistic/eslint-plugin'
 
 export default [
   stylistic.configs.customize({
+    // the following options are the default values
     indent: 2,
     quotes: 'single',
+    semi: false,
+    jsx: true,
     // ...
   }),
   // ...you other config items
@@ -29,8 +36,11 @@ export default [
 const stylistic = require('@stylistic/eslint-plugin')
 
 const customized = stylistic.configs.customize({
+  // the following options are the default values
   indent: 2,
   quotes: 'single',
+  semi: false,
+  jsx: true,
   // ...
 })
 
@@ -45,13 +55,24 @@ module.exports = {
 }
 ```
 
+Refer to the [source code](https://github.com/eslint-stylistic/eslint-stylistic/blob/main/packages/eslint-plugin/configs/customize.ts) for the full list of configured rules.
+
 :::
 
 ## Pre-configured
 
-If you agree with our default, we also provide some pre-configured static configurations for you to use easily.
+If you agree with our defaults, we also provide some pre-configured static configurations for you to use easily.
 
-By default it's `indent: 2, quotes: 'single', jsx: true`:
+By default is:
+
+```js
+{
+  indent: 2,
+  quotes: 'single',
+  semi: false,
+  jsx: true,
+}
+```
 
 ::: code-group
 
@@ -61,7 +82,7 @@ import stylistic from '@stylistic/eslint-plugin'
 
 export default [
   stylistic.configs['recommended-flat'],
-  // ...you other config items
+  // ...your other config items
 ]
 ```
 
@@ -69,7 +90,65 @@ export default [
 // .eslintrc.js
 module.exports = {
   extends: [
-    'plugin:@stylistic/recommended-legacy'
+    'plugin:@stylistic/recommended-extends'
+  ],
+  rules: {
+    // ...your other rules
+  }
+}
+```
+
+:::
+
+## Enable All Rules
+
+If you want to enable all rules with their default options (not recommended), we also provide a config for that:
+
+::: code-group
+
+```js [Flat Config]
+// eslint.config.js
+import stylistic from '@stylistic/eslint-plugin'
+
+export default [
+  stylistic.configs['all-flat'],
+  // ...your other config items
+]
+```
+
+```js [Legacy Config]
+// .eslintrc.js
+module.exports = {
+  extends: [
+    'plugin:@stylistic/all-extends'
+  ],
+  rules: {
+    // ...your other rules
+  }
+}
+```
+
+:::
+
+This config is also available in each plugin package, for example, for `@stylistic/eslint-plugin-js`:
+
+::: code-group
+
+```js [Flat Config]
+// eslint.config.js
+import stylisticJs from '@stylistic/eslint-plugin-js'
+
+export default [
+  stylisticJs.configs['all-flat'],
+  // ...your other config items
+]
+```
+
+```js [Legacy Config]
+// .eslintrc.js
+module.exports = {
+  extends: [
+    'plugin:@stylistic/js/all-extends'
   ],
   rules: {
     // ...your other rules

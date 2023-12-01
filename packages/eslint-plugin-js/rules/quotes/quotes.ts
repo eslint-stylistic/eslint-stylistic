@@ -235,6 +235,9 @@ export default createRule<MessageIds, RuleOptions>({
         case 'ExportSpecifier':
           return parent.local === node || parent.exported === node
 
+        case 'ImportAttribute':
+          return parent.value === node
+
           // Others don't allow.
         default:
           return false

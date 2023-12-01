@@ -1,6 +1,6 @@
 {
   "name": "@stylistic/eslint-plugin-jsx",
-  "version": "1.3.2",
+  "version": "1.4.1",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
@@ -50,10 +50,16 @@
     "dts",
     "rules/**/*.d.ts"
   ],
+  "engines": {
+    "node": "^16.0.0 || >=18.0.0"
+  },
   "scripts": {
     "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",
     "dev": "rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild --watch",
     "prepublishOnly": "pnpm build"
+  },
+  "peerDependencies": {
+    "eslint": ">=8.40.0"
   },
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:^",
@@ -65,9 +71,9 @@
     "@babel/plugin-syntax-do-expressions": "^7.23.3",
     "@babel/plugin-syntax-function-bind": "^7.23.3",
     "@babel/preset-react": "^7.23.3",
-    "@typescript-eslint/parser": "^6.11.0",
+    "@typescript-eslint/parser": "^6.12.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^8.53.0",
+    "eslint": "^8.54.0",
     "semver": "^7.5.4",
     "typescript-eslint-parser": "^22.0.0"
   }

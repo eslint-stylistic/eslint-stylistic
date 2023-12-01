@@ -9,6 +9,7 @@ export interface Schema0 {
     [k: string]: boolean
   }
   ignoreEOLComments?: boolean
+  includeTabs?: boolean
 }
 
 export type RuleOptions = [Schema0?]

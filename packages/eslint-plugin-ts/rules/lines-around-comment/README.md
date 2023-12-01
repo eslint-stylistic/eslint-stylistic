@@ -2,15 +2,12 @@
 description: 'Require empty lines around comments.'
 ---
 
-
 This rule extends the base [`lines-around-comment`](/rules/js/lines-around-comment) rule.
 It adds support for TypeScript syntax.
 
-See the [ESLint documentation](https://eslint.org/docs/rules/lines-around-comment) for more details on the `lines-around-comment` rule.
-
 ## Options
 
-In addition to the options supported by the `lines-around-comment` rule in ESLint core, the rule adds the following options:
+In addition to the options supported by the `js/lines-around-comment` rule, the rule adds the following options:
 
 - `allowEnumEnd: true` doesn't require a blank line after an enum body block end
 - `allowEnumStart: true` doesn't require a blank line before an enum body block start

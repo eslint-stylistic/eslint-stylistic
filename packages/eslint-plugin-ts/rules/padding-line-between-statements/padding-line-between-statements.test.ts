@@ -5124,5 +5124,13 @@ declare namespace Types {
       options: [{ blankLine: 'always', prev: '*', next: 'block-like' }],
       errors: [{ messageId: 'expectedBlankLine' }],
     },
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/53
+    {
+      code: `const path = require('node:path');\nmodule.exports = {};`,
+      output: `const path = require('node:path');\n\nmodule.exports = {};`,
+      options: [{ blankLine: 'always', prev: 'cjs-import', next: 'cjs-export' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
   ],
 })

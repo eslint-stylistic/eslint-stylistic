@@ -1049,5 +1049,14 @@ interface A {
       ],
       errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Line, line: 2 }],
     },
+
+    // Hashbang comment
+    {
+      code: '#!foo\nvar a = 1;',
+      output: '#!foo\n\nvar a = 1;',
+      options: [{ afterHashbangComment: true }],
+      // @ts-expect-error -- Shebang is not in the type
+      errors: [{ messageId: 'after', type: 'Shebang' }],
+    },
   ],
 })

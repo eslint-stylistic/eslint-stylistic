@@ -511,6 +511,9 @@ ruleTester.run('comma-dangle', rule, {
       options: [{ functions: 'always' }],
       parser: parser('return-type-2'),
     },
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/158
+    { code: 'a => 42;', options: ['always'], parserOptions: { ecmaVersion: 'latest' } },
   ],
   invalid: [
     {
