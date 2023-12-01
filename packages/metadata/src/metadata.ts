@@ -1143,21 +1143,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
     "shortId": "plus",
     "pkgId": "@stylistic/plus",
     "path": "packages/eslint-plugin-plus",
-    "rules": [
-      {
-        "name": "example",
-        "ruleId": "@stylistic/plus/example",
-        "originalId": "",
-        "entry": "packages/eslint-plugin-plus/rules/example/example.ts",
-        "docsEntry": "packages/eslint-plugin-plus/rules/example/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Disallow unnecessary semicolons"
-          }
-        }
-      }
-    ]
+    "rules": []
   },
   {
     "name": "@stylistic/eslint-plugin-ts",

@@ -8,5 +8,5 @@ export interface RuleModule<
 }
 
 export const createRule = ESLintUtils.RuleCreator(
-  name => `https://eslint.style/rules/ts/${name}`,
+  name => `https://eslint.style/rules/plus/${name}`,
 )

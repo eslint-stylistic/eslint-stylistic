@@ -6,4 +6,3 @@
 
 | Rule ID | Description | Fixable | Recommended |
 | --- | --- | --- | --- |
-| [`@stylistic/plus/example`](./rules/example) | Disallow unnecessary semicolons | ✅ |  |
