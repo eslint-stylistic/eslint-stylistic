@@ -24,7 +24,7 @@
     "./rule-options": {
       "types": "./dts/rule-options.d.ts"
     },
-    "./rules/example": "./dist/example.js"
+    "./rules/indent-binary-ops": "./dist/indent-binary-ops.js"
   },
   "main": "./dist/index.js",
   "types": "./dts/index.d.ts",

@@ -1,19 +1,19 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-import type { RuleOptions as ExampleRuleOptions } from '../rules/example/types'
+import type { RuleOptions as IndentBinaryOpsRuleOptions } from '../rules/indent-binary-ops/types'
 
 export interface RuleOptions {
   /**
-   * Disallow unnecessary semicolons
-   * @see https://eslint.style/rules/plus/example
+   * Indentation for binary operators
+   * @see https://eslint.style/rules/plus/indent-binary-ops
    */
-  '@stylistic/plus/example': ExampleRuleOptions
+  '@stylistic/plus/indent-binary-ops': IndentBinaryOpsRuleOptions
 }
 
 export interface UnprefixedRuleOptions {
   /**
-   * Disallow unnecessary semicolons
-   * @see https://eslint.style/rules/plus/example
+   * Indentation for binary operators
+   * @see https://eslint.style/rules/plus/indent-binary-ops
    */
-  'example': ExampleRuleOptions
+  'indent-binary-ops': IndentBinaryOpsRuleOptions
 }

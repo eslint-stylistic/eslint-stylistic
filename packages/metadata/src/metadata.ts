@@ -1143,7 +1143,21 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
     "shortId": "plus",
     "pkgId": "@stylistic/plus",
     "path": "packages/eslint-plugin-plus",
-    "rules": []
+    "rules": [
+      {
+        "name": "indent-binary-ops",
+        "ruleId": "@stylistic/plus/indent-binary-ops",
+        "originalId": "",
+        "entry": "packages/eslint-plugin-plus/rules/indent-binary-ops/indent-binary-ops.ts",
+        "docsEntry": "packages/eslint-plugin-plus/rules/indent-binary-ops/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Indentation for binary operators"
+          }
+        }
+      }
+    ]
   },
   {
     "name": "@stylistic/eslint-plugin-ts",
