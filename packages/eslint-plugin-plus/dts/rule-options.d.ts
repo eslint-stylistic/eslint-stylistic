@@ -1,19 +1,19 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-import type { RuleOptions as ExampleRuleOptions } from '../rules/example/types'
+import type { RuleOptions as TypeNamedTupleSpacingRuleOptions } from '../rules/type-named-tuple-spacing/types'
 
 export interface RuleOptions {
   /**
-   * Disallow unnecessary semicolons
-   * @see https://eslint.style/rules/plus/example
+   * Expect space before the type declaration in the named tuple
+   * @see https://eslint.style/rules/plus/type-named-tuple-spacing
    */
-  '@stylistic/plus/example': ExampleRuleOptions
+  '@stylistic/plus/type-named-tuple-spacing': TypeNamedTupleSpacingRuleOptions
 }
 
 export interface UnprefixedRuleOptions {
   /**
-   * Disallow unnecessary semicolons
-   * @see https://eslint.style/rules/plus/example
+   * Expect space before the type declaration in the named tuple
+   * @see https://eslint.style/rules/plus/type-named-tuple-spacing
    */
-  'example': ExampleRuleOptions
+  'type-named-tuple-spacing': TypeNamedTupleSpacingRuleOptions
 }

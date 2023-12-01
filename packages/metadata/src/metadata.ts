@@ -1143,7 +1143,21 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
     "shortId": "plus",
     "pkgId": "@stylistic/plus",
     "path": "packages/eslint-plugin-plus",
-    "rules": []
+    "rules": [
+      {
+        "name": "type-named-tuple-spacing",
+        "ruleId": "@stylistic/plus/type-named-tuple-spacing",
+        "originalId": "",
+        "entry": "packages/eslint-plugin-plus/rules/type-named-tuple-spacing/type-named-tuple-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-plus/rules/type-named-tuple-spacing/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Expect space before the type declaration in the named tuple"
+          }
+        }
+      }
+    ]
   },
   {
     "name": "@stylistic/eslint-plugin-ts",
