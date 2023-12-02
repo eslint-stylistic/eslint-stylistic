@@ -7,9 +7,9 @@
     "docs:preview": "vitepress preview"
   },
   "devDependencies": {
-    "@iconify-json/ri": "^1.1.12",
     "@types/markdown-it-container": "^2.0.9",
     "@unocss/reset": "^0.57.7",
+    "@vueuse/core": "^10.6.1",
     "gray-matter": "^4.0.3",
     "markdown-it-container": "^3.0.0",
     "shikiji": "^0.7.4",

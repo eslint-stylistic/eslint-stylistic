@@ -174,6 +174,10 @@ export default defineConfig({
         items: PACKAGES,
       },
       {
+        text: 'Rules',
+        link: '/rules',
+      },
+      {
         text: `v${version}`,
         items: VERSIONS,
       },
