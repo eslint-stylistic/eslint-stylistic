@@ -26,9 +26,9 @@ const filterList = [
     id: 'spacing',
     name: 'Spacing',
     rules: match([
-      /^spaced?-/,
-      /-spacing$/,
-      /-spaces?$/,
+      /\bspacing\b/,
+      /\bspace[sd]?\b/,
+      /\bwhitespaces?\b/,
     ]),
   },
   {
@@ -52,7 +52,7 @@ const filterList = [
       /\bbrace\b/,
       /\bbracket\b/,
       /\bparens?\b/,
-      /^wrap-/,
+      /\bwrap\b/,
     ]),
   },
   {
@@ -81,6 +81,23 @@ const filterList = [
     name: 'Semis',
     rules: match([
       /\bsemis?\b/,
+    ]),
+  },
+  {
+    id: 'operators',
+    name: 'Operators',
+    rules: match([
+      /-ops?$/,
+      /\boperators?\b/,
+      /\bternary\b/,
+      /^dot-location$/,
+    ]),
+  },
+  {
+    id: 'comments',
+    name: 'Comments',
+    rules: match([
+      /\bcomments?\b/,
     ]),
   },
   {
