@@ -164,10 +164,16 @@ export default defineConfig({
 
     nav: [
       { text: 'Home', link: '/' },
-      { text: 'Guide', items: GUIDES },
       {
-        text: 'Contribute',
-        items: CONTRIBUTES,
+        text: 'Guide',
+        items: [
+          {
+            items: GUIDES,
+          },
+          {
+            items: CONTRIBUTES,
+          },
+        ],
       },
       {
         text: 'Packages',
