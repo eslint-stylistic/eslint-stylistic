@@ -1,47 +1,13 @@
 {
-  "compilerOptions": {
-    "target": "esnext",
-    "lib": ["esnext"],
-    "rootDir": ".",
-    "module": "esnext",
-    "moduleResolution": "Bundler",
-    "paths": {
-      "@eslint-stylistic/metadata": [
-        "./packages/metadata/src/index.ts"
-      ],
-      "@stylistic/eslint-plugin-js": [
-        "./packages/eslint-plugin-js/src/index.ts"
-      ],
-      "@stylistic/eslint-plugin-ts": [
-        "./packages/eslint-plugin-ts/src/index.ts"
-      ],
-      "@stylistic/eslint-plugin-jsx": [
-        "./packages/eslint-plugin-jsx/src/index.ts"
-      ],
-      "@stylistic/eslint-plugin-plus": [
-        "./packages/eslint-plugin-plus/src/index.ts"
-      ],
-      "@stylistic/eslint-plugin": [
-        "./packages/eslint-plugin/src/index.ts"
-      ]
-    },
-    "resolveJsonModule": true,
-    "allowJs": true,
-    "strict": true,
-    "strictNullChecks": true,
-    "esModuleInterop": true,
-    "skipDefaultLibCheck": true,
-    "skipLibCheck": true
-  },
+  "extends": "./tsconfig.base.json",
   "include": [
     "playground/eslint.config.js",
     "**/*.d.ts",
     "**/*.ts",
-    "**/*.mts",
-    "docs/.vitepress/**/*.ts",
-    "docs/.vitepress/**/*.vue"
+    "**/*.mts"
   ],
   "exclude": [
+    "docs/**",
     "**/dist/**",
     "**/node_modules/**",
     "**/fixtures/**"
