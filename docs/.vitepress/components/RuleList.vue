@@ -1,34 +1,40 @@
 <script setup lang="ts">
 import { packages } from '@eslint-stylistic/metadata'
-import { computed, onMounted, ref, watch } from 'vue'
+import { computed, markRaw, onMounted, ref, watch } from 'vue'
+import Fuse from 'fuse.js'
 
 const props = defineProps<{
   package: string
 }>()
 
-const pkg = packages.find(p => p.shortId === props.package)!
+const pkg = markRaw(packages.find(p => p.shortId === props.package)!)
+
+function match(regexes: RegExp[]) {
+  return pkg.rules.filter(i => regexes.some(r => r.test(i.name)))
+}
 
 const filter = ref()
+const search = ref('')
 
 const filterList = [
   {
     id: '',
     name: 'All',
-    filters: [],
+    rules: pkg.rules,
   },
   {
     id: 'spacing',
     name: 'Spacing',
-    filters: [
+    rules: match([
       /^spaced?-/,
       /-spacing$/,
       /-spaces?$/,
-    ],
+    ]),
   },
   {
     id: 'line-breaks',
     name: 'Line breaks',
-    filters: [
+    rules: match([
       /\bnewlines?\b/,
       /\blinebreak\b/,
       /\bmultilines?\b/,
@@ -36,65 +42,67 @@ const filterList = [
       /^padding-line-/,
       /^eol-last$/,
       /^lines-/,
-    ],
+    ]),
   },
   {
     id: 'brackets',
     name: 'Brackets',
-    filters: [
+    rules: match([
       /\bcurly\b/,
       /\bbrace\b/,
       /\bbracket\b/,
       /\bparens?\b/,
       /^wrap-/,
-    ],
+    ]),
   },
   {
     id: 'indent',
-    name: 'Indentation',
-    filters: [
+    name: 'Indent',
+    rules: match([
       /\bindent\b/,
-    ],
+    ]),
   },
   {
     id: 'quotes',
     name: 'Quotes',
-    filters: [
+    rules: match([
       /\bquotes?\b/,
-    ],
+    ]),
   },
   {
     id: 'commas',
     name: 'Commas',
-    filters: [
+    rules: match([
       /\bcommas?\b/,
-    ],
+    ]),
   },
   {
     id: 'semis',
-    name: 'Semicolons',
-    filters: [
+    name: 'Semis',
+    rules: match([
       /\bsemis?\b/,
-    ],
+    ]),
   },
   {
     id: 'disallow',
     name: 'Disallow',
-    filters: [
+    rules: match([
       /^no-/,
-    ],
+    ]),
   },
   {
     id: 'misc',
     name: 'Misc.',
-    filters: [],
+    rules: [],
   },
 ]
 
+const categorizedRules = new Set(filterList.slice(1).flatMap(i => i.rules))
+filterList.find(i => i.id === 'misc')!.rules = pkg.rules.filter(i => !categorizedRules.has(i))
+
 onMounted(() => {
   const search = new URLSearchParams(window.location.search)
-  if (search.get('filter'))
-    filter.value = String(search.get('filter') ?? '')
+  filter.value = String(search.get('filter') || '')
 
   watch(filter, () => {
     if (!filter.value)
@@ -105,28 +113,36 @@ onMounted(() => {
   })
 })
 
-// TODO: add fuze search
-
-const filtered = computed(() => {
+const filterResult = computed(() => {
   if (!filter.value)
     return pkg.rules
-  if (filter.value === 'misc')
-    return pkg.rules.filter(i => !filterList.some(f => f.filters.some(r => r.test(i.name))))
   const list = filterList.find(f => f.id === filter.value)
   if (!list)
     return pkg.rules
-  return pkg.rules.filter(i => list.filters.some(r => r.test(i.name)))
+  return list.rules
+})
+
+const fuse = computed(() => new Fuse(filterResult.value, {
+  keys: ['name', 'meta.docs.description'],
+  threshold: 0.3,
+}))
+
+const searchResult = computed(() => {
+  if (!search.value)
+    return filterResult.value
+  return fuse.value.search(search.value).map(i => i.item)
 })
 
 function clearFilter() {
   filter.value = ''
+  search.value = ''
   document.getElementById('rules')?.scrollIntoView({ behavior: 'smooth', block: 'center' })
 }
 </script>
 
 <template>
-  <div flex="~ col gap-2" border="~ solid gray/10 rounded" p3>
-    <div op75 text-sm border="b b-solid gray/10" pb2 mb1>
+  <div flex="~ col gap-2" border="~ solid base rounded" p3>
+    <div op75 text-sm border="b b-solid base" pb2 mb1>
       Each rule has emojis denoting:
     </div>
     <div flex="~ items-center gap-2">
@@ -139,27 +155,50 @@ function clearFilter() {
 
   <div
     flex="~ items-center gap-4"
-    border="x t solid gray/10 rounded-t"
-    class="bg-$vp-c-bg-soft"
+    border="~ solid base rounded"
     px4 py2 mt6 mb--1px
+  >
+    <div i-carbon-search title="Search" text-xl flex-none />
+    <input
+      v-model="search"
+      placeholder="Search rules"
+      class="w-full"
+      border="~ solid base rounded"
+      px3 py1.5 text-sm
+    >
+  </div>
+
+  <div
+    flex="~ items-center gap-4"
+    border="x t x-solid t-solid base rounded-t"
+    px4 py2 mt4
   >
     <div i-carbon-filter title="Filters" text-xl flex-none />
     <div flex="~ items-center gap-2 wrap">
-      <label
+      <template
         v-for="i of filterList"
-        :key="i.id" :for="`filter-${i.id}`"
-        select-none
-        border="~ solid gray/10 rounded"
-        px2 py0.5 text-sm
-        :class="filter === i.id ? 'text-$vp-c-brand bg-$vp-c-brand-soft' : 'op50'"
+        :key="i.id"
       >
-        <input :id="`filter-${i.id}`" v-model="filter" type="radio" :value="i.id" hidden>
-        {{ i.name }}
-      </label>
+        <label
+          v-if="i.rules.length"
+          :for="`filter-${i.id}`"
+          select-none
+          border="~ solid rounded"
+          px2 py0.5 text-sm flex
+          :class="filter === i.id ? 'text-$vp-c-brand bg-$vp-c-brand-soft border-color-$vp-c-brand-soft' : 'border-base text-gray op75'"
+        >
+          <input :id="`filter-${i.id}`" v-model="filter" type="radio" :value="i.id" hidden>
+          {{ i.name }}
+          <div text-xs translate-y--1px translate-x-2px op50>{{ i.rules.length }}</div>
+        </label>
+      </template>
     </div>
   </div>
 
-  <table important-my-0 important-w-full table>
+  <table
+    v-if="searchResult.length"
+    important="my-0 w-full table"
+  >
     <thead>
       <tr>
         <td>Rule</td>
@@ -170,22 +209,32 @@ function clearFilter() {
 
     <tbody>
       <RuleItem
-        v-for="rule of filtered"
+        v-for="rule of searchResult"
         :key="rule.name"
         :rule="rule"
         :package="pkg"
       />
     </tbody>
   </table>
+  <div
+    v-else
+    flex="~ items-center justify-center"
+    border="~ solid base rounded-b"
+    p4
+  >
+    <span italic op50>
+      No rules found.
+    </span>
+  </div>
 
   <div
     flex="~ gap-2 items-center"
-    border="x b solid gray/10 rounded-b"
-    px4 py2 mt--1px
+    border="x b x-solid b-solid base rounded-b"
+    px4 py2
   >
-    <template v-if="filter">
+    <template v-if="searchResult.length !== pkg.rules.length">
       <div text-sm op50>
-        Showing {{ filtered.length }} of {{ pkg.rules.length }} rules.
+        Showing {{ searchResult.length }} of {{ pkg.rules.length }} rules.
       </div>
       <button button-action @click="clearFilter()">
         <div i-carbon-filter-remove text-lg />

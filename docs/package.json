@@ -6,6 +6,9 @@
     "docs:build": "vitepress build",
     "docs:preview": "vitepress preview"
   },
+  "dependencies": {
+    "fuse.js": "^7.0.0"
+  },
   "devDependencies": {
     "@types/markdown-it-container": "^2.0.9",
     "@unocss/reset": "^0.57.7",
