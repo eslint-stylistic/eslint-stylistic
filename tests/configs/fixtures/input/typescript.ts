@@ -1,10 +1,12 @@
 export {}
 
 // Define a TypeScript interface
-interface Person { 
+interface Person <  T =  string,  K = number  > { 
   name: string;
    age: number;
 }
+
+type   Tuple = [ foo: number,  bar: String  | Boolean]
 
 // Create an array of objects with the defined interface
 const people: Person[] = [
