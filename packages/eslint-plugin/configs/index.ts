@@ -31,11 +31,12 @@ export const configs = {
   /**
    * Enable all rules, in Flat Config Format
    */
-  'all-flat': createAllConfigs(plugin, '@stylistic', true) as Linter.FlatConfig,
+  'all-flat': createAllConfigs(plugin, '@stylistic', true, name => !name.startsWith('jsx-')) as Linter.FlatConfig,
+
   /**
    * Enable all rules, in Legacy Config Format
    */
-  'all-extends': createAllConfigs(plugin, '@stylistic', false) as Linter.BaseConfig,
+  'all-extends': createAllConfigs(plugin, '@stylistic', false, name => !name.startsWith('jsx-')) as Linter.BaseConfig,
 
   /**
    * @deprecated Use `recommended-extends` instead

@@ -142,6 +142,12 @@ module.exports = {
 
 :::
 
+::: info
+
+Due to the compatibility between rules, the `all` config is does not include JSX rules and non-fixable rules. You may need to configure them manually.
+
+:::
+
 This config is also available in each plugin package, for example, for `@stylistic/eslint-plugin-js`:
 
 ::: code-group
