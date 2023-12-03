@@ -77,6 +77,8 @@ async function run() {
     })
   packageGeneral.shortId = 'default'
 
+  packageGeneral.rules.sort((a, b) => a.name.localeCompare(b.name))
+
   await generateConfigs({
     ...packageGeneral,
     rules: [
@@ -84,7 +86,7 @@ async function run() {
       ...packageTs.rules,
       ...packageJsx.rules,
       ...packagePlus.rules,
-    ],
+    ].sort((a, b) => a.name.localeCompare(b.name)),
   })
 
   await fs.writeFile(
@@ -160,6 +162,8 @@ async function readPackage(path: string): Promise<PackageInfo> {
       return rule
     }),
   )
+
+  rules.sort((a, b) => a.name.localeCompare(b.name))
 
   return {
     name: pkgJSON.name,

@@ -1746,6 +1746,200 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "indent-binary-ops",
+        "ruleId": "@stylistic/indent-binary-ops",
+        "originalId": "",
+        "entry": "packages/eslint-plugin-plus/rules/indent-binary-ops/indent-binary-ops.ts",
+        "docsEntry": "packages/eslint-plugin-plus/rules/indent-binary-ops/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Indentation for binary operators"
+          }
+        }
+      },
+      {
+        "name": "jsx-child-element-spacing",
+        "ruleId": "@stylistic/jsx-child-element-spacing",
+        "originalId": "react/jsx-child-element-spacing",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-child-element-spacing/jsx-child-element-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-child-element-spacing/README.md",
+        "meta": {
+          "docs": {
+            "description": "Enforce or disallow spaces inside of curly braces in JSX attributes and expressions"
+          }
+        }
+      },
+      {
+        "name": "jsx-closing-bracket-location",
+        "ruleId": "@stylistic/jsx-closing-bracket-location",
+        "originalId": "react/jsx-closing-bracket-location",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-closing-bracket-location/jsx-closing-bracket-location.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-closing-bracket-location/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce closing bracket location in JSX"
+          }
+        }
+      },
+      {
+        "name": "jsx-closing-tag-location",
+        "ruleId": "@stylistic/jsx-closing-tag-location",
+        "originalId": "react/jsx-closing-tag-location",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-closing-tag-location/jsx-closing-tag-location.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-closing-tag-location/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce closing tag location for multiline JSX"
+          }
+        }
+      },
+      {
+        "name": "jsx-curly-brace-presence",
+        "ruleId": "@stylistic/jsx-curly-brace-presence",
+        "originalId": "react/jsx-curly-brace-presence",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-brace-presence/jsx-curly-brace-presence.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-curly-brace-presence/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes"
+          }
+        }
+      },
+      {
+        "name": "jsx-curly-newline",
+        "ruleId": "@stylistic/jsx-curly-newline",
+        "originalId": "react/jsx-curly-newline",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-newline/jsx-curly-newline.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-curly-newline/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce consistent linebreaks in curly braces in JSX attributes and expressions"
+          }
+        }
+      },
+      {
+        "name": "jsx-curly-spacing",
+        "ruleId": "@stylistic/jsx-curly-spacing",
+        "originalId": "react/jsx-curly-spacing",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-spacing/jsx-curly-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-curly-spacing/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce or disallow spaces inside of curly braces in JSX attributes and expressions"
+          }
+        }
+      },
+      {
+        "name": "jsx-equals-spacing",
+        "ruleId": "@stylistic/jsx-equals-spacing",
+        "originalId": "react/jsx-equals-spacing",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-equals-spacing/jsx-equals-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-equals-spacing/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce or disallow spaces around equal signs in JSX attributes"
+          }
+        }
+      },
+      {
+        "name": "jsx-first-prop-new-line",
+        "ruleId": "@stylistic/jsx-first-prop-new-line",
+        "originalId": "react/jsx-first-prop-new-line",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-first-prop-new-line/jsx-first-prop-new-line.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-first-prop-new-line/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce proper position of the first property in JSX"
+          }
+        }
+      },
+      {
+        "name": "jsx-indent",
+        "ruleId": "@stylistic/jsx-indent",
+        "originalId": "react/jsx-indent",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-indent/jsx-indent.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-indent/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce JSX indentation"
+          }
+        }
+      },
+      {
+        "name": "jsx-indent-props",
+        "ruleId": "@stylistic/jsx-indent-props",
+        "originalId": "react/jsx-indent-props",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-indent-props/jsx-indent-props.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-indent-props/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce props indentation in JSX"
+          }
+        }
+      },
+      {
+        "name": "jsx-max-props-per-line",
+        "ruleId": "@stylistic/jsx-max-props-per-line",
+        "originalId": "react/jsx-max-props-per-line",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-max-props-per-line/jsx-max-props-per-line.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-max-props-per-line/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce maximum of props on a single line in JSX"
+          }
+        }
+      },
+      {
+        "name": "jsx-newline",
+        "ruleId": "@stylistic/jsx-newline",
+        "originalId": "react/jsx-newline",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-newline/jsx-newline.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-newline/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require or prevent a new line after jsx elements and expressions."
+          }
+        }
+      },
+      {
+        "name": "jsx-one-expression-per-line",
+        "ruleId": "@stylistic/jsx-one-expression-per-line",
+        "originalId": "react/jsx-one-expression-per-line",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-one-expression-per-line/jsx-one-expression-per-line.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-one-expression-per-line/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require one JSX element per line"
+          }
+        }
+      },
+      {
+        "name": "jsx-props-no-multi-spaces",
+        "ruleId": "@stylistic/jsx-props-no-multi-spaces",
+        "originalId": "react/jsx-props-no-multi-spaces",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-props-no-multi-spaces/jsx-props-no-multi-spaces.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-props-no-multi-spaces/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow multiple spaces between inline JSX props"
+          }
+        }
+      },
+      {
         "name": "jsx-quotes",
         "ruleId": "@stylistic/jsx-quotes",
         "originalId": "jsx-quotes",
@@ -1755,6 +1949,58 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Enforce the consistent use of either double or single quotes in JSX attributes"
+          }
+        }
+      },
+      {
+        "name": "jsx-self-closing-comp",
+        "ruleId": "@stylistic/jsx-self-closing-comp",
+        "originalId": "react/jsx-self-closing-comp",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/jsx-self-closing-comp.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow extra closing tags for components without children"
+          }
+        }
+      },
+      {
+        "name": "jsx-sort-props",
+        "ruleId": "@stylistic/jsx-sort-props",
+        "originalId": "react/jsx-sort-props",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-sort-props/jsx-sort-props.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-sort-props/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce props alphabetical sorting"
+          }
+        }
+      },
+      {
+        "name": "jsx-tag-spacing",
+        "ruleId": "@stylistic/jsx-tag-spacing",
+        "originalId": "react/jsx-tag-spacing",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-tag-spacing/jsx-tag-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-tag-spacing/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce whitespace in and around the JSX opening and closing brackets"
+          }
+        }
+      },
+      {
+        "name": "jsx-wrap-multilines",
+        "ruleId": "@stylistic/jsx-wrap-multilines",
+        "originalId": "react/jsx-wrap-multilines",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-wrap-multilines/jsx-wrap-multilines.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-wrap-multilines/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Disallow missing parentheses around multiline JSX"
           }
         }
       },
@@ -1844,6 +2090,19 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "docs": {
             "description": "Enforce a maximum number of statements allowed per line"
+          }
+        }
+      },
+      {
+        "name": "member-delimiter-style",
+        "ruleId": "@stylistic/member-delimiter-style",
+        "originalId": "@typescript-eslint/member-delimiter-style",
+        "entry": "packages/eslint-plugin-ts/rules/member-delimiter-style/member-delimiter-style.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/member-delimiter-style/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require a specific member delimiter style for interfaces and type literals"
           }
         }
       },
@@ -2326,6 +2585,45 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "type-annotation-spacing",
+        "ruleId": "@stylistic/type-annotation-spacing",
+        "originalId": "@typescript-eslint/type-annotation-spacing",
+        "entry": "packages/eslint-plugin-ts/rules/type-annotation-spacing/type-annotation-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/type-annotation-spacing/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require consistent spacing around type annotations"
+          }
+        }
+      },
+      {
+        "name": "type-generic-spacing",
+        "ruleId": "@stylistic/type-generic-spacing",
+        "originalId": "",
+        "entry": "packages/eslint-plugin-plus/rules/type-generic-spacing/type-generic-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-plus/rules/type-generic-spacing/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforces consistent spacing inside TypeScript type generics"
+          }
+        }
+      },
+      {
+        "name": "type-named-tuple-spacing",
+        "ruleId": "@stylistic/type-named-tuple-spacing",
+        "originalId": "",
+        "entry": "packages/eslint-plugin-plus/rules/type-named-tuple-spacing/type-named-tuple-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-plus/rules/type-named-tuple-spacing/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Expect space before the type declaration in the named tuple"
+          }
+        }
+      },
+      {
         "name": "wrap-iife",
         "ruleId": "@stylistic/wrap-iife",
         "originalId": "wrap-iife",
@@ -2361,304 +2659,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Require or disallow spacing around the `*` in `yield*` expressions"
-          }
-        }
-      },
-      {
-        "name": "member-delimiter-style",
-        "ruleId": "@stylistic/member-delimiter-style",
-        "originalId": "@typescript-eslint/member-delimiter-style",
-        "entry": "packages/eslint-plugin-ts/rules/member-delimiter-style/member-delimiter-style.ts",
-        "docsEntry": "packages/eslint-plugin-ts/rules/member-delimiter-style/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require a specific member delimiter style for interfaces and type literals"
-          }
-        }
-      },
-      {
-        "name": "type-annotation-spacing",
-        "ruleId": "@stylistic/type-annotation-spacing",
-        "originalId": "@typescript-eslint/type-annotation-spacing",
-        "entry": "packages/eslint-plugin-ts/rules/type-annotation-spacing/type-annotation-spacing.ts",
-        "docsEntry": "packages/eslint-plugin-ts/rules/type-annotation-spacing/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require consistent spacing around type annotations"
-          }
-        }
-      },
-      {
-        "name": "jsx-child-element-spacing",
-        "ruleId": "@stylistic/jsx-child-element-spacing",
-        "originalId": "react/jsx-child-element-spacing",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-child-element-spacing/jsx-child-element-spacing.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-child-element-spacing/README.md",
-        "meta": {
-          "docs": {
-            "description": "Enforce or disallow spaces inside of curly braces in JSX attributes and expressions"
-          }
-        }
-      },
-      {
-        "name": "jsx-closing-bracket-location",
-        "ruleId": "@stylistic/jsx-closing-bracket-location",
-        "originalId": "react/jsx-closing-bracket-location",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-closing-bracket-location/jsx-closing-bracket-location.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-closing-bracket-location/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Enforce closing bracket location in JSX"
-          }
-        }
-      },
-      {
-        "name": "jsx-closing-tag-location",
-        "ruleId": "@stylistic/jsx-closing-tag-location",
-        "originalId": "react/jsx-closing-tag-location",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-closing-tag-location/jsx-closing-tag-location.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-closing-tag-location/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Enforce closing tag location for multiline JSX"
-          }
-        }
-      },
-      {
-        "name": "jsx-curly-brace-presence",
-        "ruleId": "@stylistic/jsx-curly-brace-presence",
-        "originalId": "react/jsx-curly-brace-presence",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-brace-presence/jsx-curly-brace-presence.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-curly-brace-presence/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes"
-          }
-        }
-      },
-      {
-        "name": "jsx-curly-newline",
-        "ruleId": "@stylistic/jsx-curly-newline",
-        "originalId": "react/jsx-curly-newline",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-newline/jsx-curly-newline.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-curly-newline/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Enforce consistent linebreaks in curly braces in JSX attributes and expressions"
-          }
-        }
-      },
-      {
-        "name": "jsx-curly-spacing",
-        "ruleId": "@stylistic/jsx-curly-spacing",
-        "originalId": "react/jsx-curly-spacing",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-curly-spacing/jsx-curly-spacing.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-curly-spacing/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Enforce or disallow spaces inside of curly braces in JSX attributes and expressions"
-          }
-        }
-      },
-      {
-        "name": "jsx-equals-spacing",
-        "ruleId": "@stylistic/jsx-equals-spacing",
-        "originalId": "react/jsx-equals-spacing",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-equals-spacing/jsx-equals-spacing.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-equals-spacing/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Enforce or disallow spaces around equal signs in JSX attributes"
-          }
-        }
-      },
-      {
-        "name": "jsx-first-prop-new-line",
-        "ruleId": "@stylistic/jsx-first-prop-new-line",
-        "originalId": "react/jsx-first-prop-new-line",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-first-prop-new-line/jsx-first-prop-new-line.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-first-prop-new-line/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Enforce proper position of the first property in JSX"
-          }
-        }
-      },
-      {
-        "name": "jsx-indent",
-        "ruleId": "@stylistic/jsx-indent",
-        "originalId": "react/jsx-indent",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-indent/jsx-indent.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-indent/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Enforce JSX indentation"
-          }
-        }
-      },
-      {
-        "name": "jsx-indent-props",
-        "ruleId": "@stylistic/jsx-indent-props",
-        "originalId": "react/jsx-indent-props",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-indent-props/jsx-indent-props.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-indent-props/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Enforce props indentation in JSX"
-          }
-        }
-      },
-      {
-        "name": "jsx-max-props-per-line",
-        "ruleId": "@stylistic/jsx-max-props-per-line",
-        "originalId": "react/jsx-max-props-per-line",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-max-props-per-line/jsx-max-props-per-line.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-max-props-per-line/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Enforce maximum of props on a single line in JSX"
-          }
-        }
-      },
-      {
-        "name": "jsx-newline",
-        "ruleId": "@stylistic/jsx-newline",
-        "originalId": "react/jsx-newline",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-newline/jsx-newline.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-newline/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Require or prevent a new line after jsx elements and expressions."
-          }
-        }
-      },
-      {
-        "name": "jsx-one-expression-per-line",
-        "ruleId": "@stylistic/jsx-one-expression-per-line",
-        "originalId": "react/jsx-one-expression-per-line",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-one-expression-per-line/jsx-one-expression-per-line.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-one-expression-per-line/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require one JSX element per line"
-          }
-        }
-      },
-      {
-        "name": "jsx-props-no-multi-spaces",
-        "ruleId": "@stylistic/jsx-props-no-multi-spaces",
-        "originalId": "react/jsx-props-no-multi-spaces",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-props-no-multi-spaces/jsx-props-no-multi-spaces.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-props-no-multi-spaces/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Disallow multiple spaces between inline JSX props"
-          }
-        }
-      },
-      {
-        "name": "jsx-self-closing-comp",
-        "ruleId": "@stylistic/jsx-self-closing-comp",
-        "originalId": "react/jsx-self-closing-comp",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/jsx-self-closing-comp.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-self-closing-comp/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Disallow extra closing tags for components without children"
-          }
-        }
-      },
-      {
-        "name": "jsx-sort-props",
-        "ruleId": "@stylistic/jsx-sort-props",
-        "originalId": "react/jsx-sort-props",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-sort-props/jsx-sort-props.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-sort-props/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Enforce props alphabetical sorting"
-          }
-        }
-      },
-      {
-        "name": "jsx-tag-spacing",
-        "ruleId": "@stylistic/jsx-tag-spacing",
-        "originalId": "react/jsx-tag-spacing",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-tag-spacing/jsx-tag-spacing.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-tag-spacing/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Enforce whitespace in and around the JSX opening and closing brackets"
-          }
-        }
-      },
-      {
-        "name": "jsx-wrap-multilines",
-        "ruleId": "@stylistic/jsx-wrap-multilines",
-        "originalId": "react/jsx-wrap-multilines",
-        "entry": "packages/eslint-plugin-jsx/rules/jsx-wrap-multilines/jsx-wrap-multilines.ts",
-        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-wrap-multilines/README.md",
-        "meta": {
-          "fixable": "code",
-          "docs": {
-            "description": "Disallow missing parentheses around multiline JSX"
-          }
-        }
-      },
-      {
-        "name": "indent-binary-ops",
-        "ruleId": "@stylistic/indent-binary-ops",
-        "originalId": "",
-        "entry": "packages/eslint-plugin-plus/rules/indent-binary-ops/indent-binary-ops.ts",
-        "docsEntry": "packages/eslint-plugin-plus/rules/indent-binary-ops/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Indentation for binary operators"
-          }
-        }
-      },
-      {
-        "name": "type-generic-spacing",
-        "ruleId": "@stylistic/type-generic-spacing",
-        "originalId": "",
-        "entry": "packages/eslint-plugin-plus/rules/type-generic-spacing/type-generic-spacing.ts",
-        "docsEntry": "packages/eslint-plugin-plus/rules/type-generic-spacing/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Enforces consistent spacing inside TypeScript type generics"
-          }
-        }
-      },
-      {
-        "name": "type-named-tuple-spacing",
-        "ruleId": "@stylistic/type-named-tuple-spacing",
-        "originalId": "",
-        "entry": "packages/eslint-plugin-plus/rules/type-named-tuple-spacing/type-named-tuple-spacing.ts",
-        "docsEntry": "packages/eslint-plugin-plus/rules/type-named-tuple-spacing/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Expect space before the type declaration in the named tuple"
           }
         }
       }
