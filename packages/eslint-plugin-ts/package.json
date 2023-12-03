@@ -67,10 +67,10 @@
   },
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:*",
-    "@typescript-eslint/utils": "^6.12.0",
+    "@typescript-eslint/utils": "^6.13.1",
     "graphemer": "^1.4.0"
   },
   "devDependencies": {
-    "@typescript-eslint/rule-tester": "^6.12.0"
+    "@typescript-eslint/rule-tester": "^6.13.1"
   }
 }
