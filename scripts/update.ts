@@ -51,9 +51,11 @@ async function run() {
     packages.push(pkg)
   }
 
+  // Generate the default package merging all rules
   const packageJs = packages.find(i => i.shortId === 'js')!
   const packageTs = packages.find(i => i.shortId === 'ts')!
   const packageJsx = packages.find(i => i.shortId === 'jsx')!
+  const packagePlus = packages.find(i => i.shortId === 'plus')!
   const packageGeneral = packages.find(i => i.name === '@stylistic/eslint-plugin')!
 
   // merge rules
@@ -61,9 +63,13 @@ async function run() {
     ...packageJs.rules.map(i => i.name),
     ...packageTs.rules.map(i => i.name),
     ...packageJsx.rules.map(i => i.name),
+    ...packagePlus.rules.map(i => i.name),
   ])]
     .map((name) => {
-      const rule = packageJs.rules.find(i => i.name === name)! || packageTs.rules.find(i => i.name === name)! || packageJsx.rules.find(i => i.name === name)!
+      const rule = packageJs.rules.find(i => i.name === name)!
+        || packageTs.rules.find(i => i.name === name)!
+        || packageJsx.rules.find(i => i.name === name)!
+        || packagePlus.rules.find(i => i.name === name)!
       return {
         ...rule,
         ruleId: `@stylistic/${name}`,
@@ -77,6 +83,7 @@ async function run() {
       ...packageJs.rules,
       ...packageTs.rules,
       ...packageJsx.rules,
+      ...packagePlus.rules,
     ],
   })
 
