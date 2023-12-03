@@ -1,19 +1,19 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-import type { RuleOptions as ExampleRuleOptions } from '../rules/example/types'
+import type { RuleOptions as TypeGenericSpacingRuleOptions } from '../rules/type-generic-spacing/types'
 
 export interface RuleOptions {
   /**
-   * Disallow unnecessary semicolons
-   * @see https://eslint.style/rules/plus/example
+   * Enforces consistent spacing inside TypeScript type generics
+   * @see https://eslint.style/rules/plus/type-generic-spacing
    */
-  '@stylistic/plus/example': ExampleRuleOptions
+  '@stylistic/plus/type-generic-spacing': TypeGenericSpacingRuleOptions
 }
 
 export interface UnprefixedRuleOptions {
   /**
-   * Disallow unnecessary semicolons
-   * @see https://eslint.style/rules/plus/example
+   * Enforces consistent spacing inside TypeScript type generics
+   * @see https://eslint.style/rules/plus/type-generic-spacing
    */
-  'example': ExampleRuleOptions
+  'type-generic-spacing': TypeGenericSpacingRuleOptions
 }
