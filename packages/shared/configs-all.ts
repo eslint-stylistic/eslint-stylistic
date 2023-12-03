@@ -9,19 +9,20 @@ export function createAllConfigs<T extends { rules: Record<string, any> }>(
   plugin: T,
   name: string,
   flat: boolean,
+  filter?: (name: string, rule: any) => boolean,
 ) {
   const rules = Object.fromEntries(
     Object
       .entries(plugin.rules)
-      .filter(([key, { meta }]) =>
+      .filter(([key, rule]) =>
         // Only include fixable rules
-        meta.fixable
+        rule.meta.fixable
         // Only include non-deprecated rules
-        && !meta.deprecated
-        // Does not include jsx rules, they need to be configured separately due to conflicts
-        && !key.startsWith('jsx-')
+        && !rule.meta.deprecated
         // Not an alias
-        && key === meta.docs.url.split('/').pop(),
+        && key === rule.meta.docs.url.split('/').pop()
+        // Custom filter
+        && (!filter || filter(key, rule)),
       )
       .map(([key]) => [`${name}/${key}`, 2]),
   )
