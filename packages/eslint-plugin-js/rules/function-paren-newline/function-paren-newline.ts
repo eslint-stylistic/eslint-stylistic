@@ -188,6 +188,20 @@ export default createRule<MessageIds, RuleOptions>({
         | Tree.ImportExpression
         | Tree.NewExpression,
     ): ParensPair | null {
+      const isOpeningParenTokenOutsideTypeParameter = () => {
+        let typeParameterOpeningLevel = 0
+
+        return (token: Tree.Token) => {
+          if (token.type === 'Punctuator' && token.value === '<')
+            typeParameterOpeningLevel += 1
+
+          if (token.type === 'Punctuator' && token.value === '>')
+            typeParameterOpeningLevel -= 1
+
+          return typeParameterOpeningLevel !== 0 ? false : isOpeningParenToken(token)
+        }
+      }
+
       switch (node.type) {
         case 'NewExpression':
           if (!node.arguments.length
@@ -205,13 +219,13 @@ export default createRule<MessageIds, RuleOptions>({
 
         case 'CallExpression':
           return {
-            leftParen: sourceCode.getTokenAfter(node.callee, isOpeningParenToken)!,
+            leftParen: sourceCode.getTokenAfter(node.callee, isOpeningParenTokenOutsideTypeParameter())!,
             rightParen: sourceCode.getLastToken(node)!,
           }
 
         case 'FunctionDeclaration':
         case 'FunctionExpression': {
-          const leftParen = sourceCode.getFirstToken(node, isOpeningParenToken)!
+          const leftParen = sourceCode.getFirstToken(node, isOpeningParenTokenOutsideTypeParameter())!
           const rightParen = node.params.length
             ? sourceCode.getTokenAfter(node.params[node.params.length - 1], isClosingParenToken)!
             : sourceCode.getTokenAfter(leftParen)!
