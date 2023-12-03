@@ -108,7 +108,7 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
       SwitchCase: 1,
       VariableDeclarator: 1,
     }],
-    '@stylistic/indent-binary-ops': 'error',
+    '@stylistic/indent-binary-ops': ['error', indent],
     '@stylistic/key-spacing': ['error', { afterColon: true, beforeColon: false }],
     '@stylistic/keyword-spacing': ['error', { after: true, before: true }],
     '@stylistic/lines-between-class-members': ['error', 'always', { exceptAfterSingleLine: true }],

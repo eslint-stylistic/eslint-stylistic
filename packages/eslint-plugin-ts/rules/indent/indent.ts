@@ -54,7 +54,6 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.TSInterfaceBody,
   AST_NODE_TYPES.TSInterfaceDeclaration,
   AST_NODE_TYPES.TSInterfaceHeritage,
-  AST_NODE_TYPES.TSIntersectionType,
   AST_NODE_TYPES.TSImportEqualsDeclaration,
   AST_NODE_TYPES.TSLiteralType,
   AST_NODE_TYPES.TSMappedType,
@@ -78,8 +77,11 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.TSTypeParameterDeclaration,
   AST_NODE_TYPES.TSTypeParameterInstantiation,
   AST_NODE_TYPES.TSTypeReference,
-  AST_NODE_TYPES.TSUnionType,
   AST_NODE_TYPES.Decorator,
+
+  // These are took care by `indent-binary-ops` rule
+  // AST_NODE_TYPES.TSIntersectionType,
+  // AST_NODE_TYPES.TSUnionType,
 ])
 
 export default createRule<RuleOptions, MessageIds>({

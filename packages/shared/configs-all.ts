@@ -13,7 +13,15 @@ export function createAllConfigs<T extends { rules: Record<string, any> }>(
   const rules = Object.fromEntries(
     Object
       .entries(plugin.rules)
-      .filter(([key, { meta }]) => key === meta.docs.url.split('/').pop())
+      .filter(([key, { meta }]) =>
+        // Not an alias
+        key === meta.docs.url.split('/').pop()
+        // Only include fixable rules
+        && meta.fixable
+        // Only include non-deprecated rules
+        && !meta.deprecated
+        && !key.startsWith('jsx-'),
+      )
       .map(([key]) => [`${name}/${key}`, 2]),
   )
 

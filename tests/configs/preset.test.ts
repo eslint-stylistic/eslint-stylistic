@@ -44,6 +44,19 @@ import parserVue from 'vue-eslint-parser'
 
 export default [
   {
+    files: ['**/*.?([cm])js'],
+  },
+  {
+    files: ['**/*.?([cm])jsx', '**/*.?([cm])tsx'],
+    languageOptions: {
+      parserOptions: {
+        ecmaFeatures: {
+          jsx: true,
+        },
+      },
+    }
+  },
+  {
     files: ['**/*.?([cm])ts'],
     languageOptions: {
       parser: parserTs,
@@ -75,10 +88,16 @@ export default [
 ]
   `)
 
-    await execa('npx', ['eslint', '.', '--fix'], {
-      cwd: target,
-      stdio: 'pipe',
-    })
+    let error = null
+    try {
+      await execa('npx', ['eslint', '.', '--fix'], {
+        cwd: target,
+        stdio: 'pipe',
+      })
+    }
+    catch (e) {
+      error = e
+    }
 
     const files = await fg('**/*', {
       ignore: [
@@ -89,12 +108,21 @@ export default [
     })
 
     await Promise.all(files.map(async (file) => {
-      let content = await fs.readFile(join(target, file), 'utf-8')
-      const source = await fs.readFile(join(from, file), 'utf-8')
-      if (content === source)
-        content = '// unchanged\n'
-      await expect.soft(content.trim().replace(/\r\n/g, '\n'))
-        .toMatchFileSnapshot(join(output, file).trim().replace(/\r\n/g, '\n'))
+      const content = (await fs.readFile(join(target, file), 'utf-8')).replace(/\r\n/g, '\n').trim()
+      const source = (await fs.readFile(join(from, file), 'utf-8')).replace(/\r\n/g, '\n').trim()
+      const targetPath = join(output, file)
+
+      if (content === source) {
+        if (fs.existsSync(targetPath))
+          await fs.remove(targetPath)
+      }
+      else {
+        await expect.soft(content)
+          .toMatchFileSnapshot(targetPath)
+      }
     }))
+
+    if (error)
+      throw error
   }, 30_000)
 }
