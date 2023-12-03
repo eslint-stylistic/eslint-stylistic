@@ -26,6 +26,8 @@
     "@antfu/eslint-define-config": "1.23.0-2",
     "@antfu/ni": "^0.21.10",
     "@antfu/utils": "^0.7.6",
+    "@iconify-json/carbon": "^1.1.23",
+    "@iconify-json/ri": "^1.1.12",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@stylistic/eslint-plugin": "workspace:*",

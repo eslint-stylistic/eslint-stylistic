@@ -2,15 +2,15 @@
 
 [ESLint shareable configurations](https://eslint.org/docs/latest/extend/shareable-configs) exist to provide a comprehensive list of rules settings that you can start with. ESLint Stylistic maintains a few built-in configurations that you can use out of the box, or as the foundation for your own custom configuration.
 
-Currently the shared configurations are only available in the [`@stylistic/eslint-plugin`](/packages/default) package.
-
 ::: info Versioning Policy
-We consider adding new rules or tweaking options in the shared configurations as **non-breaking** changes. If we do, we will only make necessary changes and release as minor version bumps.
+We consider adding new rules or tweaking options in the shared configurations as **non-breaking** changes. We will try to only make necessary changes in minor releases.
 :::
 
 ## Configuration Factory
 
-Formatting and stylistic rules are always opinionated. We want to provide shared configurations to simplify the usage, while still allowing you to customize the rules to your own preferences. So, a bit different than shared configurations from other ESLint plugins, we provides a factory function that you can customize some high-level options.
+Fine-tuned shared configuration with clean and consistent code style.
+
+Formatting and stylistic rules are always opinionated. We want to provide shared configurations to simplify the usage, while still allowing you to customize the rules to your own preferences. So, different from other ESLint plugins, we provides a **factory function** with some high-level options you can customize.
 
 ::: code-group
 
@@ -55,15 +55,23 @@ module.exports = {
 }
 ```
 
-Refer to the [source code](https://github.com/eslint-stylistic/eslint-stylistic/blob/main/packages/eslint-plugin/configs/customize.ts) for the full list of configured rules.
-
 :::
 
-## Pre-configured
+Refer to the [source code](https://github.com/eslint-stylistic/eslint-stylistic/blob/main/packages/eslint-plugin/configs/customize.ts) for the full list of configured rules.
 
-If you agree with our defaults, we also provide some pre-configured static configurations for you to use easily.
+Currently this factory is only available in the [`@stylistic/eslint-plugin`](/packages/default) package.
 
-By default is:
+
+::: info Rules' Default
+Please note that not all rules are used and options configure for each rule might be different from rules' own default values.
+:::
+
+
+## Static Configurations
+
+We also provide a pre-generated static configuration from the [factory function](#configuration-factory) for you to use easily, if you agree with our defaults.
+
+The default options are:
 
 ```js
 {
@@ -100,9 +108,13 @@ module.exports = {
 
 :::
 
-## Enable All Rules
+## Enable All Avaible Rules
 
 If you want to enable all rules with their default options (not recommended), we also provide a config for that:
+
+::: warning
+Many rules in ESLint Stylistic are migrated from ESLint's 10 years of codebase. For the compatibility, we kept the original default options of each rule. They might be designed in different time with different philosophy, so their default options might not always work the best together. We recommend you to use the [factory function](#configuration-factory), a fine-tuned configuration with clean and consistent code style.
+:::
 
 ::: code-group
 

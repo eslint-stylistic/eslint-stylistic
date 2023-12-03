@@ -1,20 +1,8 @@
 # Migration
 
-## When Should I Migrate?
+[ESLint deprecated of their formatting rules in v8.53.0](https://eslint.org/blog/2023/10/deprecating-formatting-rules/) and recommended users to migrate to ESLint Stylistic. While [ESLint never removes deprecated rules](https://eslint.org/docs/latest/use/rule-deprecation), it still means that deprecated rules will not receive any future updates. In ESLint Stylistic, we already migrated all those rules and will continue to maintain them.
 
-ESLint now officially recommends switching to our packages after the [deprecation of their formatting rules in v8.53.0](https://eslint.org/blog/2023/10/deprecating-formatting-rules/). The docs for the deprecated rules will also recommend using our corresponding packages and rules.
-
-At the current stage, the packages are already usable. We are more than happy to see you start trying them out and giving us feedback.
-
-The benefits of migrating:
-
-- Future-proof; the rules in core will no longer be updated and might be removed at some point. The maintenance work will be shifted to here.
-- Clear scope of rules; you can see more clearly what rules are related to code style by the prefix `@stylistic/`
-- Better IDE experience; you can configure your IDE to [hide the error messages for code style rules](/guide/faq#the-error-messages-squiggly-lines-for-code-style-are-annoying) with scoping and not require listing manually.
-
-::: tip
-Check the [project progress](/contribute/project-progress) first to learn more about the current status of this project.
-:::
+This guide will help you to do the migration.
 
 ## Manual Migrate
 

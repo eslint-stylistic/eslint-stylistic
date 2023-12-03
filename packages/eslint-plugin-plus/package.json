@@ -24,6 +24,7 @@
     "./rule-options": {
       "types": "./dts/rule-options.d.ts"
     },
+    "./rules/type-generic-spacing": "./dist/type-generic-spacing.js",
     "./rules/type-named-tuple-spacing": "./dist/type-named-tuple-spacing.js"
   },
   "main": "./dist/index.js",
