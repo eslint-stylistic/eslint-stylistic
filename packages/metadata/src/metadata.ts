@@ -1156,6 +1156,19 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
             "description": "Enforces consistent spacing inside TypeScript type generics"
           }
         }
+      },
+      {
+        "name": "type-named-tuple-spacing",
+        "ruleId": "@stylistic/plus/type-named-tuple-spacing",
+        "originalId": "",
+        "entry": "packages/eslint-plugin-plus/rules/type-named-tuple-spacing/type-named-tuple-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-plus/rules/type-named-tuple-spacing/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Expect space before the type declaration in the named tuple"
+          }
+        }
       }
     ]
   },
