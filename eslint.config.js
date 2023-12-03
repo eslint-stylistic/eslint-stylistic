@@ -12,7 +12,6 @@ const configs = await antfu(
     ],
     jsx: true,
     markdown: false,
-    vue: false,
   },
   {
     rules: {

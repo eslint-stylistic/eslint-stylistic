@@ -13,8 +13,8 @@ const shortId = computed(() => props.package.shortId)
 <template>
   <tr>
     <td>
-      <a :href="`/rules/${shortId}/${rule.name}`">
-        <code>
+      <a :href="`/rules/${shortId}/${rule.name}`" class="decoration-none!">
+        <code ws-nowrap>
           {{ rule.name }}
         </code>
       </a>

@@ -24,6 +24,12 @@ importers:
       '@antfu/utils':
         specifier: ^0.7.6
         version: 0.7.6
+      '@iconify-json/carbon':
+        specifier: ^1.1.23
+        version: 1.1.23
+      '@iconify-json/ri':
+        specifier: ^1.1.12
+        version: 1.1.12
       '@rollup/plugin-commonjs':
         specifier: ^25.0.7
         version: 25.0.7(rollup@4.4.1)
@@ -152,16 +158,20 @@ importers:
         version: 1.8.22(typescript@5.3.2)
 
   docs:
+    dependencies:
+      fuse.js:
+        specifier: ^7.0.0
+        version: 7.0.0
     devDependencies:
-      '@iconify-json/ri':
-        specifier: ^1.1.12
-        version: 1.1.12
       '@types/markdown-it-container':
         specifier: ^2.0.9
         version: 2.0.9
       '@unocss/reset':
         specifier: ^0.57.7
         version: 0.57.7
+      '@vueuse/core':
+        specifier: ^10.6.1
+        version: 10.6.1(vue@3.3.8)
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
@@ -182,7 +192,7 @@ importers:
         version: 0.25.2(rollup@4.4.1)(vue@3.3.8)
       vitepress:
         specifier: 1.0.0-rc.30
-        version: 1.0.0-rc.30(@algolia/client-search@4.19.1)(@types/node@20.9.4)(change-case@5.2.0)(postcss@8.4.31)(search-insights@2.8.2)(typescript@5.3.2)
+        version: 1.0.0-rc.30(@algolia/client-search@4.19.1)(@types/node@20.9.4)(change-case@5.2.0)(fuse.js@7.0.0)(postcss@8.4.31)(search-insights@2.8.2)(typescript@5.3.2)
       vue:
         specifier: ^3.3.8
         version: 3.3.8(typescript@5.3.2)
@@ -1869,6 +1879,12 @@ packages:
   /@humanwhocodes/object-schema@2.0.1:
     resolution: {integrity: sha512-dvuCeX5fC9dXgJn9t+X5atfmgQAzUOWqS1254Gh0m6i8wKd10ebXkfNKiRK+1GWi/yTvvLDHpoxLr0xxxeslWw==}
 
+  /@iconify-json/carbon@1.1.23:
+    resolution: {integrity: sha512-Ue+IRSxCBt28KEM7nf0XeMqedxhK9ku8KtTnb8H3TM+QOMMBG8VnralEH0RnV11gzrhAadoMeeeRQ9Oey8TqlQ==}
+    dependencies:
+      '@iconify/types': 2.0.0
+    dev: true
+
   /@iconify-json/ri@1.1.12:
     resolution: {integrity: sha512-s5VsyMWYuUuTB5bATJRoDQKGqo6W0dsxvOBrJI/P2H9QI7IAaAWl8zHxseSjoUGG6AwZwWwDMW9YPULPt+vA6w==}
     dependencies:
@@ -2964,7 +2980,7 @@ packages:
       - vue
     dev: true
 
-  /@vueuse/integrations@10.6.1(change-case@5.2.0)(focus-trap@7.5.4)(vue@3.3.8):
+  /@vueuse/integrations@10.6.1(change-case@5.2.0)(focus-trap@7.5.4)(fuse.js@7.0.0)(vue@3.3.8):
     resolution: {integrity: sha512-mPDupuofMJ4DPmtX/FfP1MajmWRzYDv8WSaTCo8LQ5kFznjWgmUQ16ApjYqgMquqffNY6+IRMdMgosLDRZOSZA==}
     peerDependencies:
       async-validator: '*'
@@ -3009,6 +3025,7 @@ packages:
       '@vueuse/shared': 10.6.1(vue@3.3.8)
       change-case: 5.2.0
       focus-trap: 7.5.4
+      fuse.js: 7.0.0
       vue-demi: 0.14.6(vue@3.3.8)
     transitivePeerDependencies:
       - '@vue/composition-api'
@@ -4436,6 +4453,10 @@ packages:
   /function-bind@1.1.2:
     resolution: {integrity: sha512-7XHNxH7qX9xG5mIwxkhumTox/MIRNcOgDrxWsMt2pAr23WHp6MrRlN7FBSFpCpr+oVO0F744iUgR82nJMfG2SA==}
     dev: true
+
+  /fuse.js@7.0.0:
+    resolution: {integrity: sha512-14F4hBIxqKvD4Zz/XjDc3y94mNZN6pRv3U13Udo0lNLCWRBUsrMv2xwcF/y/Z5sV6+FQW+/ow68cHpm4sunt8Q==}
+    engines: {node: '>=10'}
 
   /gensync@1.0.0-beta.2:
     resolution: {integrity: sha512-3hN7NaskYvMDLQY55gnW3NQ+mesEAepTqlg+VEbj7zzqEMBVNhzcGYYeqFo/TlYz6eQiFcp1HcsCZO+nGgS8zg==}
@@ -6687,7 +6708,7 @@ packages:
       fsevents: 2.3.3
     dev: true
 
-  /vitepress@1.0.0-rc.30(@algolia/client-search@4.19.1)(@types/node@20.9.4)(change-case@5.2.0)(postcss@8.4.31)(search-insights@2.8.2)(typescript@5.3.2):
+  /vitepress@1.0.0-rc.30(@algolia/client-search@4.19.1)(@types/node@20.9.4)(change-case@5.2.0)(fuse.js@7.0.0)(postcss@8.4.31)(search-insights@2.8.2)(typescript@5.3.2):
     resolution: {integrity: sha512-OolAbFU2hjs0KuIpPq0wRd4vJlTMvrFgHSh/hB+XQid7U31KtB6F1NxWihMwKkwncpxu9mt2Somet5AGiyTgPA==}
     hasBin: true
     peerDependencies:
@@ -6705,7 +6726,7 @@ packages:
       '@vitejs/plugin-vue': 4.5.0(vite@5.0.0)(vue@3.3.8)
       '@vue/devtools-api': 6.5.1
       '@vueuse/core': 10.6.1(vue@3.3.8)
-      '@vueuse/integrations': 10.6.1(change-case@5.2.0)(focus-trap@7.5.4)(vue@3.3.8)
+      '@vueuse/integrations': 10.6.1(change-case@5.2.0)(focus-trap@7.5.4)(fuse.js@7.0.0)(vue@3.3.8)
       focus-trap: 7.5.4
       mark.js: 8.11.1
       minisearch: 6.3.0
