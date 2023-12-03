@@ -113,7 +113,7 @@
   },
   "dependencies": {
     "acorn": "^8.11.2",
-    "escape-string-regexp": "^5.0.0",
+    "escape-string-regexp": "^4.0.0",
     "eslint-visitor-keys": "^3.4.3",
     "espree": "^9.6.1",
     "graphemer": "^1.4.0"
