@@ -593,6 +593,37 @@ ruleTester.run('function-paren-newline', rule, {
           options: ['multiline'],
           parser: parser('function-paren-newline/arrow-function-return-type'),
         },
+
+        {
+          code: unIndent`
+            function a<A extends Array<any>, T extends (...args: any[]) => any> (
+              b: T,
+              c: any,
+            ): any {}
+          `,
+          options: ['multiline'],
+          parser: require.resolve('@typescript-eslint/parser'),
+        },
+        {
+          code: unIndent`
+            const a = function <A extends Array<any>, T extends (...args: any[]) => any> (
+              b: T,
+              c: any,
+            ): any {}
+          `,
+          options: ['multiline'],
+          parser: require.resolve('@typescript-eslint/parser'),
+        },
+        {
+          code: unIndent`
+            a<Array<any>, (...args: any[]) => any>(
+              b,
+              c,
+            )
+          `,
+          options: ['multiline'],
+          parser: require.resolve('@typescript-eslint/parser'),
+        },
   ],
 
   invalid: [
