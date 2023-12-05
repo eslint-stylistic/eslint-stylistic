@@ -4,6 +4,7 @@ import stylistic from './stub.js'
 
 const configs = await antfu(
   {
+    formatters: true,
     ignores: [
       '**/*.md',
       '**/fixtures/**',
@@ -65,11 +66,11 @@ const config = configs.find(i => i.name === 'antfu:stylistic')
 Object.assign(config, stylistic.configs.customize({
   pluginName: 'style',
 }))
+
+// Additional rules from @antfu/eslint-config
 Object.assign(config.rules, {
-  // Additional rules from @antfu/eslint-config
   'antfu/consistent-list-newline': 'error',
   'antfu/if-newline': 'error',
-  'antfu/indent-binary-ops': ['error', { indent: 2 }],
   'antfu/top-level-function': 'error',
   'curly': ['error', 'multi-or-nest', 'consistent'],
 })

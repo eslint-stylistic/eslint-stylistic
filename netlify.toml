@@ -1,13 +1,13 @@
 [build.environment]
-  NODE_VERSION = "20"
-  NODE_OPTIONS = "--max_old_space_size=8192"
+NODE_VERSION = "20"
+NODE_OPTIONS = "--max_old_space_size=8192"
 
 [build]
-  publish = "docs/.vitepress/dist"
-  command = "pnpm run docs:build"
+publish = "docs/.vitepress/dist"
+command = "pnpm run docs:build"
 
 [[redirects]]
-  from = "/chat"
-  to = "https://discord.gg/Xta6huNhVv"
-  status = 302
-  force = true
+from = "/chat"
+to = "https://discord.gg/Xta6huNhVv"
+status = 302
+force = true
