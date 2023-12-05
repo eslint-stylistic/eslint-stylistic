@@ -1,6 +1,6 @@
 {
   "name": "@stylistic/eslint-plugin-plus",
-  "version": "1.5.0-beta.0",
+  "version": "1.5.0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
