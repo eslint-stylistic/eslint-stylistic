@@ -6,7 +6,6 @@ const configs = await antfu(
   {
     formatters: true,
     ignores: [
-      '**/*.md',
       '**/fixtures/**',
       '**/playground/**',
       'packages/metadata/src/metadata.ts',
@@ -38,6 +37,14 @@ const configs = await antfu(
     ],
     rules: {
       'node/prefer-global/process': 'off',
+    },
+  },
+  {
+    files: [
+      '**/*.md',
+    ],
+    rules: {
+      'style/no-tabs': 'off',
     },
   },
   {

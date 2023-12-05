@@ -2,7 +2,6 @@
 description: 'Require or disallow padding lines between statements.'
 ---
 
-
 This rule extends the base [`padding-line-between-statements`](/rules/js/padding-line-between-statements) rule.
 It adds support for TypeScript constructs such as `interface` and `type`.
 

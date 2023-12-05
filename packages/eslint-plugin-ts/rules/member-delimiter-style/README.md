@@ -2,7 +2,6 @@
 description: 'Require a specific member delimiter style for interfaces and type literals.'
 ---
 
-
 TypeScript allows three delimiters between members in interfaces and type aliases:
 
 <!-- prettier-ignore -->

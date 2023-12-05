@@ -2,7 +2,6 @@
 description: 'Enforce consistent indentation.'
 ---
 
-
 ## Warning
 
 :::warning

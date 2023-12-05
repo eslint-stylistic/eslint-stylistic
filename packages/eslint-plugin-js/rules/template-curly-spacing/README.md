@@ -3,8 +3,6 @@ title: template-curly-spacing
 rule_type: layout
 ---
 
-
-
 We can embed expressions in template strings with using a pair of `${` and `}`.
 
 This rule can force usage of spacing _within_ the curly brace pair according to style guides.
@@ -27,8 +25,8 @@ This rule aims to maintain consistency around the spacing inside of template lit
 
 This rule has one option which has either `"never"` or `"always"` as value.
 
-* `"never"` (by default) - Disallows spaces inside of the curly brace pair.
-* `"always"` - Requires one or more spaces inside of the curly brace pair.
+- `"never"` (by default) - Disallows spaces inside of the curly brace pair.
+- `"always"` - Requires one or more spaces inside of the curly brace pair.
 
 ## Examples
 

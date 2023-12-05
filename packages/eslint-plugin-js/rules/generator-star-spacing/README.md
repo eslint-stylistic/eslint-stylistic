@@ -5,8 +5,6 @@ further_reading:
 - https://leanpub.com/understandinges6/read/#leanpub-auto-generators
 ---
 
-
-
 Generators are a new type of function in ECMAScript 6 that can return multiple values over time.
 These special functions are indicated by placing an `*` after the `function` keyword.
 
@@ -53,12 +51,12 @@ This rule aims to enforce spacing around the `*` of generator functions.
 
 The rule takes one option, an object, which has two keys `"before"` and `"after"` having boolean values `true` or `false`.
 
-* `"before"` enforces spacing between the `*` and the `function` keyword.
+- `"before"` enforces spacing between the `*` and the `function` keyword.
   If it is `true`, a space is required, otherwise spaces are disallowed.
 
   In object literal shorthand methods, spacing before the `*` is not checked, as they lack a `function` keyword.
 
-* `"after"` enforces spacing between the `*` and the function name (or the opening parenthesis for anonymous generator functions).
+- `"after"` enforces spacing between the `*` and the function name (or the opening parenthesis for anonymous generator functions).
   If it is `true`, a space is required, otherwise spaces are disallowed.
 
 The default is `{"before": true, "after": false}`.
@@ -71,10 +69,10 @@ An example configuration:
 
 And the option has shorthand as a string keyword:
 
-* `{"before": true, "after": false}` → `"before"`
-* `{"before": false, "after": true}` → `"after"`
-* `{"before": true, "after": true}` → `"both"`
-* `{"before": false, "after": false}` → `"neither"`
+- `{"before": true, "after": false}` → `"before"`
+- `{"before": false, "after": true}` → `"after"`
+- `{"before": true, "after": true}` → `"both"`
+- `{"before": false, "after": false}` → `"neither"`
 
 An example of shorthand configuration:
 
@@ -84,9 +82,9 @@ An example of shorthand configuration:
 
 Additionally, this rule allows further configurability via overrides per function type.
 
-* `named` provides overrides for named functions
-* `anonymous` provides overrides for anonymous functions
-* `method` provides overrides for class methods or property function shorthand
+- `named` provides overrides for named functions
+- `anonymous` provides overrides for anonymous functions
+- `method` provides overrides for class methods or property function shorthand
 
 An example of a configuration with overrides:
 

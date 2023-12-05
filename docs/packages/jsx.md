@@ -14,7 +14,7 @@ We recommend using [`@stylistic/eslint-plugin`](/packages/default) as it include
 npm i -D @stylistic/eslint-plugin-jsx
 ```
 
-Add `@stylistic/jsx` to your plugins list, and change the prefix for [stylistic rules](#rules) from `react` to  `@stylistic/js`:
+Add `@stylistic/jsx` to your plugins list, and change the prefix for [stylistic rules](#rules) from `react` to `@stylistic/js`:
 
 ```ts
 // .eslintrc.js
@@ -25,7 +25,7 @@ module.exports = {
   rules: {
     'react/jsx-indent': ['error', 2], // [!code --]
     '@stylistic/jsx/jsx-indent': ['error', 2], // [!code ++]
-    // ...  
+    // ...
   }
 };
 ```

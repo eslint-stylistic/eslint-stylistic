@@ -3,8 +3,6 @@ title: keyword-spacing
 rule_type: layout
 ---
 
-
-
 Keywords are syntax elements of JavaScript, such as `try` and `if`.
 These keywords have special meaning to the language and so often appear in a different color in code editors.
 As an important part of the language, style guides often refer to the spacing that should be used around keywords.
@@ -30,11 +28,11 @@ This rule enforces consistent spacing around keywords and keyword-like tokens: `
 
 This rule has an object option:
 
-* `"before": true` (default) requires at least one space before keywords
-* `"before": false` disallows spaces before keywords
-* `"after": true` (default) requires at least one space after keywords
-* `"after": false` disallows spaces after keywords
-* `"overrides"` allows overriding spacing style for specified keywords
+- `"before": true` (default) requires at least one space before keywords
+- `"before": false` disallows spaces before keywords
+- `"after": true` (default) requires at least one space after keywords
+- `"after": false` disallows spaces after keywords
+- `"overrides"` allows overriding spacing style for specified keywords
 
 ### before
 

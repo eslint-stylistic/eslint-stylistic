@@ -7,8 +7,6 @@ related_rules:
 - semi-spacing
 ---
 
-
-
 Generally, semicolons are at the end of lines. However, in semicolon-less style, semicolons are at the beginning of lines. This rule enforces that semicolons are at the configured location.
 
 ## Rule Details
@@ -23,8 +21,8 @@ This rule has an option.
 }
 ```
 
-* `"last"` (Default) enforces that semicolons are at the end of statements.
-* `"first"` enforces that semicolons are at the beginning of statements. Semicolons of `for` loop heads (`for(a;b;c){}`) should be at the end of lines even if you use this option.
+- `"last"` (Default) enforces that semicolons are at the end of statements.
+- `"first"` enforces that semicolons are at the beginning of statements. Semicolons of `for` loop heads (`for(a;b;c){}`) should be at the end of lines even if you use this option.
 
 Examples of **incorrect** code for this rule with `"last"` option:
 

@@ -5,8 +5,6 @@ further_reading:
 - https://www.emacswiki.org/emacs/SmartTabs
 ---
 
-
-
 Most code conventions require either tabs or spaces be used for indentation. As such, it's usually an error if a single line of code is indented with both tabs and spaces.
 
 ## Rule Details
@@ -56,7 +54,7 @@ function add(x, y) {
 
 This rule has a string option.
 
-* `"smart-tabs"` allows mixed tabs and spaces when the spaces are used for alignment.
+- `"smart-tabs"` allows mixed tabs and spaces when the spaces are used for alignment.
 
 ### smart-tabs
 

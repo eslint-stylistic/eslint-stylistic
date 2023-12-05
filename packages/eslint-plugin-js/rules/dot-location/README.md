@@ -6,8 +6,6 @@ related_rules:
 - dot-notation
 ---
 
-
-
 JavaScript allows you to place newlines before or after a dot in a member expression.
 
 Consistency in placing a newline before or after the dot can greatly increase readability.
@@ -28,8 +26,8 @@ This rule aims to enforce newline consistency in member expressions. This rule p
 
 The rule takes one option, a string:
 
-* If it is `"object"` (default), the dot in a member expression should be on the same line as the object portion.
-* If it is `"property"`, the dot in a member expression should be on the same line as the property portion.
+- If it is `"object"` (default), the dot in a member expression should be on the same line as the object portion.
+- If it is `"property"`, the dot in a member expression should be on the same line as the property portion.
 
 ### object
 

@@ -3,8 +3,6 @@ title: wrap-regex
 rule_type: layout
 ---
 
-
-
 When a regular expression is used in certain situations, it can end up looking like a division operator. For example:
 
 ```js

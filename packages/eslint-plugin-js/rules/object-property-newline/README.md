@@ -8,8 +8,6 @@ related_rules:
 - object-curly-spacing
 ---
 
-
-
 This rule permits you to restrict the locations of property specifications in object literals. You may prohibit any part of any property specification from appearing on the same line as any part of any other property specification. You may make this prohibition absolute, or, by invoking an object option, you may allow an exception, permitting an object literal to have all parts of all of its property specifications on a single line.
 
 ## Rule Details
@@ -100,9 +98,9 @@ will be prohibited, because two properties, but not all properties, appear on th
 
 This rule applies equally to all property specifications, regardless of notation, including:
 
-* `a: 1` (ES5)
-* `a` (ES2015 shorthand property)
-* ``[`prop${a}`]`` (ES2015 computed property name)
+- `a: 1` (ES5)
+- `a` (ES2015 shorthand property)
+- ``[`prop${a}`]`` (ES2015 computed property name)
 
 Thus, the rule (without the optional exception) prohibits both of these:
 
@@ -282,4 +280,4 @@ You can turn this rule off if you want to decide, case-by-case, whether to place
 
 ## Compatibility
 
-* **JSCS**: This rule provides partial compatibility with [requireObjectKeysOnNewLine](https://jscs-dev.github.io/rule/requireObjectKeysOnNewLine).
+- **JSCS**: This rule provides partial compatibility with [requireObjectKeysOnNewLine](https://jscs-dev.github.io/rule/requireObjectKeysOnNewLine).

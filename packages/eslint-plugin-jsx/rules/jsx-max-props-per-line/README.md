@@ -68,7 +68,7 @@ Maximum can be specified as object `{ single: 1, multi: 1 }` to specify maximum 
 
 ### `when`
 
- _when only applied if `maximum` is specified as number._
+_when only applied if `maximum` is specified as number._
 
 Possible values:
 

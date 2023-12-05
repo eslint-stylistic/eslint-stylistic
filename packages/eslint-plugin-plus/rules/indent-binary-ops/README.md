@@ -51,7 +51,6 @@ Examples of **correct** code for this rule:
 ```ts
 /*eslint type-named-tuple-spacing: ["error", 2]*/
 
-
 if (a
   && b
   && c

@@ -25,7 +25,7 @@ module.exports = {
   rules: {
     'indent': ['error', 2], // [!code --]
     '@stylistic/js/indent': ['error', 2], // [!code ++]
-    // ...  
+    // ...
   }
 }
 ```

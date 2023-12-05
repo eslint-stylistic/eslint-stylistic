@@ -2,7 +2,6 @@
 description: 'Require or disallow semicolons instead of ASI.'
 ---
 
-
 This rule extends the base [`semi`](/rules/js/semi) rule.
 It adds support for TypeScript features that require semicolons.
 
