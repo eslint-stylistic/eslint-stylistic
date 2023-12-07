@@ -49,7 +49,7 @@ Examples of **correct** code for this rule:
 :::correct
 
 ```ts
-/*eslint type-named-tuple-spacing: ["error", 2]*/
+/*eslint indent-binary-ops: ["error", 2]*/
 
 if (a
   && b
