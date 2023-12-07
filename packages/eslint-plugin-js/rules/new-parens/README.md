@@ -3,8 +3,6 @@ title: new-parens
 rule_type: layout
 ---
 
-
-
 JavaScript allows the omission of parentheses when invoking a function via the `new` keyword and the constructor has no arguments. However, some coders believe that omitting the parentheses is inconsistent with the rest of the language and thus makes code less clear.
 
 ```js
@@ -19,8 +17,8 @@ This rule can enforce or disallow parentheses when invoking a constructor with n
 
 This rule takes one option.
 
-* `"always"` enforces parenthesis after a new constructor with no arguments (default)
-* `"never"` enforces no parenthesis after a new constructor with no arguments
+- `"always"` enforces parenthesis after a new constructor with no arguments (default)
+- `"never"` enforces no parenthesis after a new constructor with no arguments
 
 ### always
 

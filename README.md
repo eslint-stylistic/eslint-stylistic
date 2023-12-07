@@ -4,7 +4,6 @@
 
 <h1 align="center">ESLint Stylistic</h1>
 
-
 <p align="center">
 <a href="https://eslint.style">Documentation</a> |
 <a href="https://eslint.style/chat">Discord</a> |

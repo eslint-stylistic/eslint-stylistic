@@ -6,8 +6,6 @@ further_reading:
 - https://exploringjs.com/es6/ch_template-literals.html#_examples-of-using-tagged-template-literals
 ---
 
-
-
 With ES6, it's possible to create functions called [tagged template literals](#further-reading) where the function parameters consist of a template literal's strings and expressions.
 
 When using tagged template literals, it's possible to insert whitespace between the tag function and the template literal. Since this whitespace is optional, the following lines are equivalent:
@@ -31,8 +29,8 @@ This rule aims to maintain consistency around the spacing between template tag f
 
 This rule has one option whose value can be set to `"never"` or `"always"`
 
-* `"never"` (default) - Disallows spaces between a tag function and its template literal.
-* `"always"` - Requires one or more spaces between a tag function and its template literal.
+- `"never"` (default) - Disallows spaces between a tag function and its template literal.
+- `"always"` - Requires one or more spaces between a tag function and its template literal.
 
 ## Examples
 

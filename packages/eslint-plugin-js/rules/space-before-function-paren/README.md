@@ -5,8 +5,6 @@ related_rules:
 - keyword-spacing
 ---
 
-
-
 When formatting a function, whitespace is allowed between the function name or `function` keyword and the opening paren. Named functions also require a space between the `function` keyword and the function name, but anonymous functions require no whitespace. For example:
 
 ```js
@@ -45,17 +43,17 @@ This rule has a string option or an object option:
 }
 ```
 
-* `always` (default) requires a space followed by the `(` of arguments.
-* `never` disallows any space followed by the `(` of arguments.
+- `always` (default) requires a space followed by the `(` of arguments.
+- `never` disallows any space followed by the `(` of arguments.
 
 The string option does not check async arrow function expressions for backward compatibility.
 
 You can also use a separate option for each type of function.
 Each of the following options can be set to `"always"`, `"never"`, or `"ignore"`. The default is `"always"`.
 
-* `anonymous` is for anonymous function expressions (e.g. `function () {}`).
-* `named` is for named function expressions (e.g. `function foo () {}`).
-* `asyncArrow` is for async arrow function expressions (e.g. `async () => {}`).
+- `anonymous` is for anonymous function expressions (e.g. `function () {}`).
+- `named` is for named function expressions (e.g. `function foo () {}`).
+- `asyncArrow` is for async arrow function expressions (e.g. `async () => {}`).
 
 ### "always"
 

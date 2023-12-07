@@ -11,7 +11,6 @@ related_rules:
 - max-statements
 ---
 
-
 A line of code containing too many statements can be difficult to read. Code is generally read from the top down, especially when scanning, so limiting the number of statements allowed on a single line can be very beneficial for readability and maintainability.
 
 ```js

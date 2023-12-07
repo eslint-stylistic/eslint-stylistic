@@ -2,7 +2,6 @@
 description: 'Disallow unnecessary semicolons.'
 ---
 
-
 This rule extends the base [`no-extra-semi`](/rules/js/no-extra-semi) rule.
 It adds support for class properties.
 

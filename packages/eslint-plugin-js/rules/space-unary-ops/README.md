@@ -3,8 +3,6 @@ title: space-unary-ops
 rule_type: layout
 ---
 
-
-
 Some style guides require or disallow spaces before or after unary operators. This is mainly a stylistic issue, however, some JavaScript expressions can be written without spacing which makes it harder to read and maintain.
 
 ## Rule Details
@@ -46,9 +44,9 @@ qux = !!baz;
 
 This rule has three options:
 
-* `words` - applies to unary word operators such as: `new`, `delete`, `typeof`, `void`, `yield`
-* `nonwords` - applies to unary operators such as: `-`, `+`, `--`, `++`, `!`, `!!`
-* `overrides` - specifies overwriting usage of spacing for each
+- `words` - applies to unary word operators such as: `new`, `delete`, `typeof`, `void`, `yield`
+- `nonwords` - applies to unary operators such as: `-`, `+`, `--`, `++`, `!`, `!!`
+- `overrides` - specifies overwriting usage of spacing for each
   operator, word or non word. This is empty by default, but can be used
   to enforce or disallow spacing around operators. For example:
 

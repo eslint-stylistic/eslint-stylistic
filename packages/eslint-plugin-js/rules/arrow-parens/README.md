@@ -5,8 +5,6 @@ further_reading:
 - https://github.com/airbnb/javascript#arrows--one-arg-parens
 ---
 
-
-
 Arrow functions can omit parentheses when they have exactly one parameter. In all other cases the parameter(s) must
 be wrapped in parentheses. This rule enforces the consistent use of parentheses in arrow functions.
 
@@ -57,12 +55,12 @@ This rule has a string option and an object one.
 
 String options are:
 
-* `"always"` (default) requires parens around arguments in all cases.
-* `"as-needed"` enforces no parens where they can be omitted.
+- `"always"` (default) requires parens around arguments in all cases.
+- `"as-needed"` enforces no parens where they can be omitted.
 
 Object properties for variants of the `"as-needed"` option:
 
-* `"requireForBlockBody": true` modifies the as-needed rule in order to require parens if the function body is in an instructions block (surrounded by braces).
+- `"requireForBlockBody": true` modifies the as-needed rule in order to require parens if the function body is in an instructions block (surrounded by braces).
 
 ### always
 

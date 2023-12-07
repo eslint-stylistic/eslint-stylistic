@@ -233,7 +233,6 @@ export default [
 
 :::
 
-
 ## Packages Metadata
 
 If you want to handle the migration on your own, we also expose the metadata for easier programmatic usage.

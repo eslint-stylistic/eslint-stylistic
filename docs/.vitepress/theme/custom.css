@@ -4,13 +4,13 @@
 }
 
 .vp-code .tab::before {
-  content: "⇥";
+  content: '⇥';
   position: absolute;
   opacity: 0.3;
 }
 
 .vp-code .space::before {
-  content: "·";
+  content: '·';
   position: absolute;
   opacity: 0.3;
 }

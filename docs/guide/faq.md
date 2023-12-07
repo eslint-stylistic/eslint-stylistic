@@ -41,6 +41,7 @@ Add the following settings to your `.vscode/settings.json`:
   },
 }
 ```
+
 ##### JetBrains IDEs
 
 - Open the Settings dialog (`Ctrl + Alt + S`)

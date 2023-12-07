@@ -1,4 +1,4 @@
-Enforce or disallow spaces inside of curly braces in JSX attributes and expressions 
+Enforce or disallow spaces inside of curly braces in JSX attributes and expressions
 
 ## Rule Details
 

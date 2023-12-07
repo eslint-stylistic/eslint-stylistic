@@ -3,8 +3,6 @@ title: linebreak-style
 rule_type: layout
 ---
 
-
-
 When developing with a lot of people all having different editors, VCS applications and operating systems it may occur that
 different line endings are written by either of the mentioned (might especially happen when using the windows and mac versions of SourceTree together).
 
@@ -21,8 +19,8 @@ This rule enforces consistent line endings independent of operating system, VCS,
 
 This rule has a string option:
 
-* `"unix"` (default) enforces the usage of Unix line endings: `\n` for LF.
-* `"windows"` enforces the usage of Windows line endings: `\r\n` for CRLF.
+- `"unix"` (default) enforces the usage of Unix line endings: `\n` for LF.
+- `"windows"` enforces the usage of Windows line endings: `\r\n` for CRLF.
 
 ### unix
 
@@ -103,4 +101,4 @@ If you aren't concerned about having different line endings within your code, th
 
 ## Compatibility
 
-* **JSCS**: [validateLineBreaks](https://jscs-dev.github.io/rule/validateLineBreaks)
+- **JSCS**: [validateLineBreaks](https://jscs-dev.github.io/rule/validateLineBreaks)

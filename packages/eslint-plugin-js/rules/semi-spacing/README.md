@@ -9,8 +9,6 @@ related_rules:
 - space-in-parens
 ---
 
-
-
 JavaScript allows you to place unnecessary spaces before or after a semicolon.
 
 Disallowing or enforcing space around a semicolon can improve the readability of your program.
@@ -27,11 +25,11 @@ This rule aims to enforce spacing around a semicolon. This rule prevents the use
 
 This rule doesn't check spacing in the following cases:
 
-* The spacing after the semicolon if it is the first token in the line.
+- The spacing after the semicolon if it is the first token in the line.
 
-* The spacing before the semicolon if it is after an opening parenthesis (`(` or `{`), or the spacing after the semicolon if it is before a closing parenthesis (`)` or `}`). That spacing is checked by `space-in-parens` or `block-spacing`.
+- The spacing before the semicolon if it is after an opening parenthesis (`(` or `{`), or the spacing after the semicolon if it is before a closing parenthesis (`)` or `}`). That spacing is checked by `space-in-parens` or `block-spacing`.
 
-* The spacing around the semicolon in a for loop with an empty condition (`for(;;)`).
+- The spacing around the semicolon in a for loop with an empty condition (`for(;;)`).
 
 ## Options
 

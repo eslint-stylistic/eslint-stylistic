@@ -3,8 +3,6 @@ title: switch-colon-spacing
 rule_type: layout
 ---
 
-
-
 Spacing around colons improves readability of `case`/`default` clauses.
 
 ## Rule Details
@@ -20,10 +18,10 @@ This rule has 2 options that are boolean value.
 }
 ```
 
-* `"after": true` (Default) requires one or more spaces after colons.
-* `"after": false` disallows spaces after colons.
-* `"before": true` requires one or more spaces before colons.
-* `"before": false` (Default) disallows before colons.
+- `"after": true` (Default) requires one or more spaces after colons.
+- `"after": false` disallows spaces after colons.
+- `"before": true` requires one or more spaces before colons.
+- `"before": false` (Default) disallows before colons.
 
 Examples of **incorrect** code for this rule:
 
