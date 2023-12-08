@@ -101,6 +101,20 @@ const filterList = [
     ]),
   },
   {
+    id: 'jsx',
+    name: 'JSX',
+    rules: match([
+      /\bjsx\b/,
+    ]),
+  },
+  {
+    id: 'type',
+    name: 'Types',
+    rules: match([
+      /\btype\b/,
+    ]),
+  },
+  {
     id: 'disallow',
     name: 'Disallow',
     rules: match([
