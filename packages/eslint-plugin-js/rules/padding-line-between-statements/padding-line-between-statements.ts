@@ -3,9 +3,9 @@
  * @author Toru Nagashima
  */
 
+import type { ASTNode, RuleContext, SourceCode, Tree } from '@shared/types'
 import { LINEBREAKS, STATEMENT_LIST_PARENTS, isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { RuleContext, SourceCode, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 const LT = `[${Array.from(LINEBREAKS).join('')}]`
@@ -17,7 +17,7 @@ const CJS_EXPORT = /^(?:module\s*\.\s*)?exports(?:\s*\.|\s*\[|$)/u
 const CJS_IMPORT = /^require\(/u
 
 interface Tester {
-  test: (node: Tree.Node, sourceCode: SourceCode) => boolean
+  test: (node: ASTNode, sourceCode: SourceCode) => boolean
 }
 
 type Context = RuleContext<MessageIds, RuleOptions>
@@ -68,7 +68,7 @@ function newMultilineKeywordTester(keyword: string): Tester {
  */
 function newNodeTypeTester(type: string): Tester {
   return {
-    test: (node: Tree.Node) =>
+    test: (node: ASTNode) =>
       node.type === type,
   }
 }
@@ -79,7 +79,7 @@ function newNodeTypeTester(type: string): Tester {
  * @returns `true` if the node is an expression statement of IIFE.
  * @private
  */
-function isIIFEStatement(node: Tree.Node): boolean {
+function isIIFEStatement(node: ASTNode): boolean {
   if (node.type === 'ExpressionStatement') {
     let call = skipChainExpression(node.expression)
 
@@ -99,7 +99,7 @@ function isIIFEStatement(node: Tree.Node): boolean {
  * @returns `true` if the node is a block-like statement.
  * @private
  */
-function isBlockLikeStatement(sourceCode: SourceCode, node: Tree.Node): boolean {
+function isBlockLikeStatement(sourceCode: SourceCode, node: ASTNode): boolean {
   // do-while with a block is a block-like statement.
   if (node.type === 'DoWhileStatement' && node.body.type === 'BlockStatement')
     return true
@@ -136,7 +136,7 @@ function isBlockLikeStatement(sourceCode: SourceCode, node: Tree.Node): boolean 
  * @returns The actual last token.
  * @private
  */
-function getActualLastToken(sourceCode: SourceCode, node: Tree.Node): Tree.Token {
+function getActualLastToken(sourceCode: SourceCode, node: ASTNode): Tree.Token {
   const semiToken = sourceCode.getLastToken(node)!
   const prevToken = sourceCode.getTokenBefore(semiToken)!
   const nextToken = sourceCode.getTokenAfter(semiToken)
@@ -184,7 +184,7 @@ function verifyForAny(): void {
  * lines exist between the pair.
  * @private
  */
-function verifyForNever(context: Context, _: Tree.Node, nextNode: Tree.Node, paddingLines: [Tree.Token, Tree.Token][]): void {
+function verifyForNever(context: Context, _: ASTNode, nextNode: ASTNode, paddingLines: [Tree.Token, Tree.Token][]): void {
   if (paddingLines.length === 0)
     return
 
@@ -220,7 +220,7 @@ function verifyForNever(context: Context, _: Tree.Node, nextNode: Tree.Node, pad
  * lines exist between the pair.
  * @private
  */
-function verifyForAlways(context: Context, prevNode: Tree.Node, nextNode: Tree.Node, paddingLines: [Tree.Token, Tree.Token][]): void {
+function verifyForAlways(context: Context, prevNode: ASTNode, nextNode: ASTNode, paddingLines: [Tree.Token, Tree.Token][]): void {
   if (paddingLines.length > 0)
     return
 
@@ -414,7 +414,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     type ScopeInfo = {
       upper: ScopeInfo | null
-      prevNode: null | Tree.Node
+      prevNode: null | ASTNode
     } | null | undefined
 
     let scopeInfo: ScopeInfo = null
@@ -446,7 +446,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns `true` if the statement node matched the type.
      * @private
      */
-    function match(node: Tree.Node, type: string | string[]): boolean {
+    function match(node: ASTNode, type: string | string[]): boolean {
       let innerStatementNode = node
 
       while (innerStatementNode.type === 'LabeledStatement')
@@ -465,7 +465,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns The tester of the last matched configure.
      * @private
      */
-    function getPaddingType(prevNode: Tree.Node, nextNode: Tree.Node) {
+    function getPaddingType(prevNode: ASTNode, nextNode: ASTNode) {
       for (let i = configureList.length - 1; i >= 0; --i) {
         const configure = configureList[i]
         const matched
@@ -486,7 +486,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns The array of token pairs.
      * @private
      */
-    function getPaddingLineSequences(prevNode: Tree.Node, nextNode: Tree.Node): [Tree.Token, Tree.Token][] {
+    function getPaddingLineSequences(prevNode: ASTNode, nextNode: ASTNode): [Tree.Token, Tree.Token][] {
       const pairs: [Tree.Token, Tree.Token][] = []
       let prevToken = getActualLastToken(sourceCode, prevNode)
 
@@ -512,7 +512,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node The node to verify.
      * @private
      */
-    function verify(node: Tree.Node): void {
+    function verify(node: ASTNode): void {
       const parentType = node.parent!.type
       const validParent
                 = STATEMENT_LIST_PARENTS.has(parentType)
@@ -541,7 +541,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node The node to verify.
      * @private
      */
-    function verifyThenEnterScope(node: Tree.Node): void {
+    function verifyThenEnterScope(node: ASTNode): void {
       verify(node)
       enterScope()
     }

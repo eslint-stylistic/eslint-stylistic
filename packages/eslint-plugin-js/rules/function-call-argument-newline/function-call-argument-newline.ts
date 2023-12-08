@@ -3,8 +3,8 @@
  * @author Alexey Gonchar <https://github.com/finico>
  */
 
+import type { ReportFixFunction, Token, Tree } from '@shared/types'
 import { createRule } from '../../utils/createRule'
-import type { ReportFixFunction, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 interface Checker {

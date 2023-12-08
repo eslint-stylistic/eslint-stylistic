@@ -1,6 +1,5 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { JSONSchema, Tree } from '@shared/types'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
-import type { JSONSchema4 } from '@typescript-eslint/utils/json-schema'
 
 import { NullThrowsReasons, createRule, deepMerge, nullThrows } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
@@ -23,7 +22,7 @@ const schema = deepMerge(
       },
     },
   },
-) as unknown as JSONSchema4
+) as unknown as JSONSchema.JSONSchema4
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'keyword-spacing',
@@ -67,7 +66,7 @@ export default createRule<RuleOptions, MessageIds>({
         asToken.type = oldTokenType
       },
       'ImportDeclaration[importKind=type]': function (
-        node: TSESTree.ImportDeclaration,
+        node: Tree.ImportDeclaration,
       ): void {
         const { type: typeOptionOverride = {} } = overrides ?? {}
         const typeToken = sourceCode.getFirstToken(node, { skip: 1 })!

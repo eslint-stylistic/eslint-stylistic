@@ -3,9 +3,9 @@
  * @author Erik Mueller
  */
 
+import type { ReportFixFunction, Tree } from '@shared/types'
 import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ReportFixFunction, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

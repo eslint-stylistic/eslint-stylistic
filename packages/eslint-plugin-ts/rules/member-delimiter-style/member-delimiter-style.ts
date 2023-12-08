@@ -1,7 +1,6 @@
-import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
+import type { TSESLint } from '@typescript-eslint/utils'
+import type { JSONSchema, Tree } from '@shared/types'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import type { JSONSchema4 } from '@typescript-eslint/utils/json-schema'
-
 import { createRule, deepMerge } from '../../utils'
 
 type Delimiter = 'comma' | 'none' | 'semi'
@@ -32,7 +31,7 @@ type MessageIds =
   | 'expectedSemi'
   | 'unexpectedComma'
   | 'unexpectedSemi'
-type LastTokenType = TSESTree.Token
+type LastTokenType = Tree.Token
 
 interface MakeFixFunctionParams {
   optsNone: boolean
@@ -102,7 +101,7 @@ function makeFixFunction({
   }
 }
 
-const BASE_SCHEMA: JSONSchema4 = {
+const BASE_SCHEMA: JSONSchema.JSONSchema4 = {
   type: 'object',
   properties: {
     multiline: {
@@ -214,7 +213,7 @@ export default createRule<Options, MessageIds>({
      * @param isLast a flag indicating `member` is the last in the interface or type literal.
      */
     function checkLastToken(
-      member: TSESTree.TypeElement,
+      member: Tree.TypeElement,
       opts: TypeOptionsWithType,
       isLast: boolean,
     ): void {
@@ -311,7 +310,7 @@ export default createRule<Options, MessageIds>({
      * @param node the node to be evaluated.
      */
     function checkMemberSeparatorStyle(
-      node: TSESTree.TSInterfaceBody | TSESTree.TSTypeLiteral,
+      node: Tree.TSInterfaceBody | Tree.TSTypeLiteral,
     ): void {
       const members
         = node.type === AST_NODE_TYPES.TSInterfaceBody ? node.body : node.members

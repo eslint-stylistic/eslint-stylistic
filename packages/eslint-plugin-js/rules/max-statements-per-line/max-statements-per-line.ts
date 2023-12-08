@@ -3,9 +3,9 @@
  * @author Kenneth Williams
  */
 
+import type { ASTNode } from '@shared/types'
 import { isNotSemicolonToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

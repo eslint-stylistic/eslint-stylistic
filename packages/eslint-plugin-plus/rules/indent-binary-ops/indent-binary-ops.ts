@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/typescript-estree'
+import type { ASTNode } from '@shared/types'
 import { createRule } from '../../utils/createRule'
 import type { MessageIds, RuleOptions } from './types'
 
@@ -50,7 +50,7 @@ export default createRule<RuleOptions, MessageIds>({
       return [...sourceCode.tokensAndComments].reverse().find(token => token.loc.end.line === line)
     }
 
-    function handler(node: TSESTree.Node, right: TSESTree.Node) {
+    function handler(node: ASTNode, right: ASTNode) {
       if (node.loc.start.line === node.loc.end.line)
         return
 

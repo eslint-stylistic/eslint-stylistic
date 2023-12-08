@@ -3,9 +3,9 @@
  * @author Nodeca Team <https://github.com/nodeca>
  */
 
+import type { ASTNode, Tree } from '@shared/types'
 import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

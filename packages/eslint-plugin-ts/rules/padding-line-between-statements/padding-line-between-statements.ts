@@ -1,4 +1,5 @@
-import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
+import type { TSESLint } from '@typescript-eslint/utils'
+import type { ASTNode, Tree } from '@shared/types'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import {
@@ -31,7 +32,7 @@ const CJS_IMPORT = /^require\(/u
  */
 
 type NodeTest = (
-  node: TSESTree.Node,
+  node: ASTNode,
   sourceCode: TSESLint.SourceCode,
 ) => boolean
 
@@ -131,7 +132,7 @@ function newNodeTypeTester(type: AST_NODE_TYPES): NodeTestObject {
  * @returnsA non-chain expression
  * @private
  */
-function skipChainExpression(node: TSESTree.Node): TSESTree.Node {
+function skipChainExpression(node: ASTNode): ASTNode {
   return node && node.type === AST_NODE_TYPES.ChainExpression
     ? node.expression
     : node
@@ -143,14 +144,14 @@ function skipChainExpression(node: TSESTree.Node): TSESTree.Node {
  * @returns `true` if the node is an expression statement of IIFE.
  * @private
  */
-function isIIFEStatement(node: TSESTree.Node): boolean {
+function isIIFEStatement(node: ASTNode): boolean {
   if (node.type === AST_NODE_TYPES.ExpressionStatement) {
     let expression = skipChainExpression(node.expression)
     if (expression.type === AST_NODE_TYPES.UnaryExpression)
       expression = skipChainExpression(expression.argument)
 
     if (expression.type === AST_NODE_TYPES.CallExpression) {
-      let node: TSESTree.Node = expression.callee
+      let node: ASTNode = expression.callee
       while (node.type === AST_NODE_TYPES.SequenceExpression)
         node = node.expressions[node.expressions.length - 1]
 
@@ -166,7 +167,7 @@ function isIIFEStatement(node: TSESTree.Node): boolean {
  * @returns `true` if the node is a CommonJS require statement.
  * @private
  */
-function isCJSRequire(node: TSESTree.Node): boolean {
+function isCJSRequire(node: ASTNode): boolean {
   if (node.type === AST_NODE_TYPES.VariableDeclaration) {
     const declaration = node.declarations[0]
     if (declaration?.init) {
@@ -193,7 +194,7 @@ function isCJSRequire(node: TSESTree.Node): boolean {
  * @private
  */
 function isBlockLikeStatement(
-  node: TSESTree.Node,
+  node: ASTNode,
   sourceCode: TSESLint.SourceCode,
 ): boolean {
   // do-while with a block is a block-like statement.
@@ -231,7 +232,7 @@ function isBlockLikeStatement(
  * @returns `true` if the node is a directive.
  */
 function isDirective(
-  node: TSESTree.Node,
+  node: ASTNode,
   sourceCode: TSESLint.SourceCode,
 ): boolean {
   return (
@@ -252,7 +253,7 @@ function isDirective(
  * @returns `true` if the node is a part of directive prologue.
  */
 function isDirectivePrologue(
-  node: TSESTree.Node,
+  node: ASTNode,
   sourceCode: TSESLint.SourceCode,
 ): boolean {
   if (
@@ -279,7 +280,7 @@ function isDirectivePrologue(
  * @returns `true` if the node is a CommonJS export statement.
  * @private
  */
-function isCJSExport(node: TSESTree.Node): boolean {
+function isCJSExport(node: ASTNode): boolean {
   if (node.type === AST_NODE_TYPES.ExpressionStatement) {
     const expression = node.expression
     if (expression.type === AST_NODE_TYPES.AssignmentExpression) {
@@ -308,7 +309,7 @@ function isCJSExport(node: TSESTree.Node): boolean {
  * @returns `true` if the node is an expression
  */
 function isExpression(
-  node: TSESTree.Node,
+  node: ASTNode,
   sourceCode: TSESLint.SourceCode,
 ): boolean {
   return (
@@ -331,9 +332,9 @@ function isExpression(
  * @private
  */
 function getActualLastToken(
-  node: TSESTree.Node,
+  node: ASTNode,
   sourceCode: TSESLint.SourceCode,
-): TSESTree.Token | null {
+): Tree.Token | null {
   const semiToken = sourceCode.getLastToken(node)!
   const prevToken = sourceCode.getTokenBefore(semiToken)
   const nextToken = sourceCode.getTokenAfter(semiToken)
@@ -389,9 +390,9 @@ function verifyForAny(): void {
  */
 function verifyForNever(
   context: TSESLint.RuleContext<MessageIds, Options>,
-  _: TSESTree.Node,
-  nextNode: TSESTree.Node,
-  paddingLines: [TSESTree.Token, TSESTree.Token][],
+  _: ASTNode,
+  nextNode: ASTNode,
+  paddingLines: [Tree.Token, Tree.Token][],
 ): void {
   if (paddingLines.length === 0)
     return
@@ -432,9 +433,9 @@ function verifyForNever(
  */
 function verifyForAlways(
   context: TSESLint.RuleContext<MessageIds, Options>,
-  prevNode: TSESTree.Node,
-  nextNode: TSESTree.Node,
-  paddingLines: [TSESTree.Token, TSESTree.Token][],
+  prevNode: ASTNode,
+  nextNode: ASTNode,
+  paddingLines: [Tree.Token, Tree.Token][],
 ): void {
   if (paddingLines.length > 0)
     return
@@ -655,7 +656,7 @@ export default createRule<Options, MessageIds>({
 
     type Scope = {
       upper: Scope
-      prevNode: TSESTree.Node | null
+      prevNode: ASTNode | null
     } | null
 
     let scopeInfo: Scope = null
@@ -690,7 +691,7 @@ export default createRule<Options, MessageIds>({
      * @returns `true` if the statement node matched the type.
      * @private
      */
-    function match(node: TSESTree.Node, type: string[] | string): boolean {
+    function match(node: ASTNode, type: string[] | string): boolean {
       let innerStatementNode = node
 
       while (innerStatementNode.type === AST_NODE_TYPES.LabeledStatement)
@@ -710,8 +711,8 @@ export default createRule<Options, MessageIds>({
      * @private
      */
     function getPaddingType(
-      prevNode: TSESTree.Node,
-      nextNode: TSESTree.Node,
+      prevNode: ASTNode,
+      nextNode: ASTNode,
     ): (typeof PaddingTypes)[keyof typeof PaddingTypes] {
       for (let i = configureList.length - 1; i >= 0; --i) {
         const configure = configureList[i]
@@ -733,15 +734,15 @@ export default createRule<Options, MessageIds>({
      * @private
      */
     function getPaddingLineSequences(
-      prevNode: TSESTree.Node,
-      nextNode: TSESTree.Node,
-    ): [TSESTree.Token, TSESTree.Token][] {
-      const pairs: [TSESTree.Token, TSESTree.Token][] = []
-      let prevToken: TSESTree.Token = getActualLastToken(prevNode, sourceCode)!
+      prevNode: ASTNode,
+      nextNode: ASTNode,
+    ): [Tree.Token, Tree.Token][] {
+      const pairs: [Tree.Token, Tree.Token][] = []
+      let prevToken: Tree.Token = getActualLastToken(prevNode, sourceCode)!
 
       if (nextNode.loc.start.line - prevToken.loc.end.line >= 2) {
         do {
-          const token: TSESTree.Token = sourceCode.getTokenAfter(prevToken, {
+          const token: Tree.Token = sourceCode.getTokenAfter(prevToken, {
             includeComments: true,
           })!
 
@@ -761,7 +762,7 @@ export default createRule<Options, MessageIds>({
      *
      * @private
      */
-    function verify(node: TSESTree.Node): void {
+    function verify(node: ASTNode): void {
       if (
         !node.parent
         || ![
@@ -795,7 +796,7 @@ export default createRule<Options, MessageIds>({
      *
      * @private
      */
-    function verifyThenEnterScope(node: TSESTree.Node): void {
+    function verifyThenEnterScope(node: ASTNode): void {
       verify(node)
       enterScope()
     }

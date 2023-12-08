@@ -3,9 +3,9 @@
  * @author Vignesh Anand aka vegetableman
  */
 
+import type { ASTNode, NodeTypes, RuleFixer, RuleListener, Token, Tree } from '@shared/types'
 import { LINEBREAK_MATCHER, isCommaToken, isNotClosingParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { NodeTypes, RuleFixer, RuleListener, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({
@@ -167,7 +167,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @private
      */
     function validateComma<T extends NodeType, const K extends keyof T>(node: T, property: K): void {
-      const items = node[property] as (Tree.Token | Tree.Node)[]
+      const items = node[property] as (Tree.Token | ASTNode)[]
       const arrayLiteral = (node.type === 'ArrayExpression' || node.type === 'ArrayPattern')
 
       if (items.length > 1 || arrayLiteral) {
@@ -176,7 +176,7 @@ export default createRule<MessageIds, RuleOptions>({
 
         items.forEach((item) => {
           const commaToken = item ? sourceCode.getTokenBefore(item)! : previousItemToken
-          const currentItemToken = item ? sourceCode.getFirstToken(item as Tree.Node)! : sourceCode.getTokenAfter(commaToken)!
+          const currentItemToken = item ? sourceCode.getFirstToken(item as ASTNode)! : sourceCode.getTokenAfter(commaToken)!
           const reportItem = item || currentItemToken
 
           /**

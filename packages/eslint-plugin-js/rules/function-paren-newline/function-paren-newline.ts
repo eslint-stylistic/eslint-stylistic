@@ -3,9 +3,9 @@
  * @author Teddy Katz
  */
 
+import type { Token, Tree } from '@shared/types'
 import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 interface ParensPair {

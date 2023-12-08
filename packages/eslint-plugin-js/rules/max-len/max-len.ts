@@ -3,8 +3,8 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
+import type { ASTNode, JSONSchema, Tree } from '@shared/types'
 import { createRule } from '../../utils/createRule'
-import type { JSONSchema, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 const OPTIONS_SCHEMA: JSONSchema.JSONSchema4 = {
@@ -146,7 +146,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param comment The comment to inspect
      * @returns If the comment is trailing on the given line
      */
-    function isTrailingComment(line: string, lineNumber: number, comment: Tree.Node): boolean {
+    function isTrailingComment(line: string, lineNumber: number, comment: ASTNode): boolean {
       return comment
         && (comment.loc.start.line === lineNumber && lineNumber <= comment.loc.end.line)
         && (comment.loc.end.line > lineNumber || comment.loc.end.column === line.length)
@@ -159,7 +159,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param comment The comment to remove
      * @returns If the comment covers the entire line
      */
-    function isFullLineComment(line: string, lineNumber: number, comment: Tree.Node | Tree.Comment): boolean {
+    function isFullLineComment(line: string, lineNumber: number, comment: ASTNode | Tree.Comment): boolean {
       const start = comment.loc.start
       const end = comment.loc.end
       const isFirstTokenOnLine = !line.slice(0, comment.loc.start.column).trim()
@@ -174,7 +174,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node A node to check.
      * @returns True if the node is a JSXEmptyExpression contained in a single line JSXExpressionContainer.
      */
-    function isJSXEmptyExpressionInSingleLineContainer(node: Tree.Node): boolean {
+    function isJSXEmptyExpressionInSingleLineContainer(node: ASTNode): boolean {
       if (!node || !node.parent || node.type !== 'JSXEmptyExpression' || node.parent.type !== 'JSXExpressionContainer')
         return false
 
@@ -190,7 +190,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param comment The comment to remove
      * @returns Line without comment and trailing whitespace
      */
-    function stripTrailingComment(line: string, comment: Tree.Node): string {
+    function stripTrailingComment(line: string, comment: ASTNode): string {
       // loc.column is zero-indexed
       return line.slice(0, comment.loc.start.column).replace(/\s+$/u, '')
     }
@@ -258,8 +258,8 @@ export default createRule<MessageIds, RuleOptions>({
      * the element is changed with JSXExpressionContainer node.
      * @returns An array of comment nodes
      */
-    function getAllComments(): Tree.Node[] {
-      const comments: Tree.Node[] = []
+    function getAllComments(): ASTNode[] {
+      const comments: ASTNode[] = []
 
       sourceCode.getAllComments()
         .forEach((commentNode) => {
@@ -271,7 +271,7 @@ export default createRule<MessageIds, RuleOptions>({
               comments.push(containingNode.parent!)
           }
           else {
-            comments.push(commentNode as unknown as Tree.Node)
+            comments.push(commentNode as unknown as ASTNode)
           }
         })
 
@@ -283,7 +283,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node Node to examine
      * @private
      */
-    function checkProgramForMaxLength(node: Tree.Node): void {
+    function checkProgramForMaxLength(node: ASTNode): void {
       // split (honors line-ending)
       const lines = sourceCode.lines
 

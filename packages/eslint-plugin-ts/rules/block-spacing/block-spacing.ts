@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { Tree } from '@shared/types'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 import { createRule } from '../../utils'
@@ -33,14 +33,14 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns The token of the open brace.
      */
     function getOpenBrace(
-      node: TSESTree.TSEnumDeclaration,
-    ): TSESTree.PunctuatorToken {
+      node: Tree.TSEnumDeclaration,
+    ): Tree.PunctuatorToken {
       // guaranteed for enums
       // This is the only change made here from the base rule
       return sourceCode.getFirstToken(node, {
         filter: token =>
           token.type === AST_TOKEN_TYPES.Punctuator && token.value === '{',
-      }) as TSESTree.PunctuatorToken
+      }) as Tree.PunctuatorToken
     }
 
     /**
@@ -54,7 +54,7 @@ export default createRule<RuleOptions, MessageIds>({
      *    When the option is `"never"`, `true` if there are not any spaces between given tokens.
      *    If given tokens are not on same line, it's always `true`.
      */
-    function isValid(left: TSESTree.Token, right: TSESTree.Token): boolean {
+    function isValid(left: Tree.Token, right: Tree.Token): boolean {
       return (
         !isTokenOnSameLine(left, right)
         || sourceCode.isSpaceBetween!(left, right) === always
@@ -64,7 +64,7 @@ export default createRule<RuleOptions, MessageIds>({
     /**
      * Checks and reports invalid spacing style inside braces.
      */
-    function checkSpacingInsideBraces(node: TSESTree.TSEnumDeclaration): void {
+    function checkSpacingInsideBraces(node: Tree.TSEnumDeclaration): void {
       // Gets braces and the first/last token of content.
       const openBrace = getOpenBrace(node)
       const closeBrace = sourceCode.getLastToken(node)!

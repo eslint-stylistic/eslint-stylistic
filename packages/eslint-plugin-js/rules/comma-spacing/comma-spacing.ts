@@ -3,9 +3,9 @@
  * @author Vignesh Anand aka vegetableman.
  */
 
+import type { ASTNode, Token, Tree } from '@shared/types'
 import { isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isCommaToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

@@ -3,9 +3,9 @@
  * @author Gyandeep Singh
  */
 import escapeRegExp from 'escape-string-regexp'
+import type { Tree } from '@shared/types'
 import { LINEBREAKS } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 /**

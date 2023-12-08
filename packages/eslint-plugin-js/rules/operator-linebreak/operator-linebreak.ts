@@ -3,9 +3,9 @@
  * @author Benoît Zugmeyer
  */
 
+import type { ASTNode, ReportFixFunction, Token, Tree } from '@shared/types'
 import { createGlobalLinebreakMatcher, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, ReportFixFunction, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

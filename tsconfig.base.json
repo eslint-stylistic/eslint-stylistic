@@ -23,6 +23,9 @@
       ],
       "@stylistic/eslint-plugin": [
         "./packages/eslint-plugin/src/index.ts"
+      ],
+      "@shared/*": [
+        "./packages/shared/*"
       ]
     },
     "resolveJsonModule": true,

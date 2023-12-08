@@ -48,20 +48,31 @@ const configs = await antfu(
     },
   },
   {
-    files: [
-      'packages/eslint-plugin-js/rules/**/*.ts',
-      'packages/eslint-plugin-jsx/rules/**/*.ts',
-    ],
+    files: ['packages/eslint-plugin-{js,jsx,ts}/{rules,utils}/**/*.ts'],
     rules: {
       'no-restricted-imports': ['error', {
         paths: [
           {
-            message: 'Import from "../../utils/types" instead',
-            name: '@typescript-eslint/utils',
-          },
-          {
-            message: 'Import from "../../utils/types" instead',
+            message: 'Import from "@shared/types" instead',
             name: '@typescript-eslint/utils/json-schema',
+          },
+        ],
+        patterns: [
+          {
+            group: ['@typescript-eslint/utils', '@typescript-eslint/utils/*'],
+            importNames: [
+              'TSESTree',
+              'RuleFunction',
+              'RuleListener',
+              'SourceCode',
+              'RuleFixer',
+              'ReportFixFunction',
+              'RuleContext',
+              'EcmaVersion',
+              'ReportDescriptor',
+              'Scope',
+            ],
+            message: 'Import from "@shared/types" instead',
           },
         ],
       }],

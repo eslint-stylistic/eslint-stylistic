@@ -3,10 +3,10 @@
  * @author Nicholas C. Zakas
  */
 
+import type { ASTNode, RuleFixer, Token, Tree } from '@shared/types'
 import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import FixTracker from '../../utils/fix-tracker'
-import type { ASTNode, RuleFixer, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

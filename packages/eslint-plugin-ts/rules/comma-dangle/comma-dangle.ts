@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { ASTNode, Tree } from '@shared/types'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import { isCommaToken } from '@typescript-eslint/utils/ast-utils'
@@ -105,11 +105,11 @@ export default createRule<RuleOptions, MessageIds>({
       'ignore': () => {},
     }
 
-    function last(nodes: TSESTree.Node[]): TSESTree.Node | null {
+    function last(nodes: ASTNode[]): ASTNode | null {
       return nodes[nodes.length - 1] ?? null
     }
 
-    function getLastItem(node: TSESTree.Node): TSESTree.Node | null {
+    function getLastItem(node: ASTNode): ASTNode | null {
       switch (node.type) {
         case AST_NODE_TYPES.TSEnumDeclaration:
           return last(node.members)
@@ -122,19 +122,19 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function getTrailingToken(node: TSESTree.Node): TSESTree.Token | null {
+    function getTrailingToken(node: ASTNode): Tree.Token | null {
       const last = getLastItem(node)
       const trailing = last && sourceCode.getTokenAfter(last)
       return trailing
     }
 
-    function isMultiline(node: TSESTree.Node): boolean {
+    function isMultiline(node: ASTNode): boolean {
       const last = getLastItem(node)
       const lastToken = sourceCode.getLastToken(node)
       return last?.loc.end.line !== lastToken?.loc.end.line
     }
 
-    function forbidComma(node: TSESTree.Node): void {
+    function forbidComma(node: ASTNode): void {
       /**
        * We allow tailing comma in TSTypeParameterDeclaration in TSX,
        * because it's used to differentiate JSX tags from generics.
@@ -161,7 +161,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function forceComma(node: TSESTree.Node): void {
+    function forceComma(node: ASTNode): void {
       const last = getLastItem(node)
       const trailing = getTrailingToken(node)
       if (last && trailing && !isCommaToken(trailing)) {
@@ -175,12 +175,12 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function allowCommaIfMultiline(node: TSESTree.Node): void {
+    function allowCommaIfMultiline(node: ASTNode): void {
       if (!isMultiline(node))
         forbidComma(node)
     }
 
-    function forceCommaIfMultiline(node: TSESTree.Node): void {
+    function forceCommaIfMultiline(node: ASTNode): void {
       if (isMultiline(node))
         forceComma(node)
       else

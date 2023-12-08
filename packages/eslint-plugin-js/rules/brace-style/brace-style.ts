@@ -3,12 +3,12 @@
  * @author Ian Christian Myers
  */
 
+import type { ReportFixFunction, Token } from '@shared/types'
 import {
   STATEMENT_LIST_PARENTS,
   isTokenOnSameLine,
 } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ReportFixFunction, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

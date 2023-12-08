@@ -3,10 +3,10 @@
  * @author Toru Nagashima
  */
 
+import type { ASTNode, JSONSchema, Token, Tree } from '@shared/types'
 import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import keywords from '../../utils/keywords'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, JSONSchema, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 const PREV_TOKEN = /^[)\]}>]$/u

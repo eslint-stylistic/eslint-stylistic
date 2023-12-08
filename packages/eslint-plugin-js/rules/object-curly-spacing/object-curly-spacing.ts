@@ -2,9 +2,9 @@
  * @fileoverview Disallows or enforces spaces inside of object literals.
  * @author Jamund Ferguson
  */
+import type { ASTNode, RuleFixer, Token, Tree } from '@shared/types'
 import { createRule } from '../../utils/createRule'
 import { isClosingBraceToken, isClosingBracketToken, isNotCommaToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import type { ASTNode, RuleFixer, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

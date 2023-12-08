@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { Tree } from '@shared/types'
 
 import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
@@ -35,8 +35,8 @@ export default createRule<RuleOptions, MessageIds>({
      * Checks a pair of curly brackets based on the user's config
      */
     function validateCurlyPair(
-      openingCurlyToken: TSESTree.Token,
-      closingCurlyToken: TSESTree.Token,
+      openingCurlyToken: Tree.Token,
+      closingCurlyToken: Tree.Token,
     ): void {
       if (
         allowSingleLine
@@ -59,7 +59,7 @@ export default createRule<RuleOptions, MessageIds>({
           node: openingCurlyToken,
           messageId: 'nextLineOpen',
           fix: (fixer) => {
-            const textRange: TSESTree.Range = [
+            const textRange: Tree.Range = [
               tokenBeforeOpeningCurly.range[1],
               openingCurlyToken.range[0],
             ]
@@ -113,7 +113,7 @@ export default createRule<RuleOptions, MessageIds>({
     return {
       ...rules,
       'TSInterfaceBody, TSModuleBlock': function (
-        node: TSESTree.TSInterfaceBody | TSESTree.TSModuleBlock,
+        node: Tree.TSInterfaceBody | Tree.TSModuleBlock,
       ): void {
         const openingCurly = sourceCode.getFirstToken(node)!
         const closingCurly = sourceCode.getLastToken(node)!

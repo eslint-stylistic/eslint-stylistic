@@ -3,10 +3,10 @@
  * @author Brandon Mills
  */
 
+import type { ASTNode, ReportFixFunction, Tree } from '@shared/types'
 import { LINEBREAK_MATCHER, getStaticPropertyName, isColonToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import { getGraphemeCount } from '../../utils/string-utils'
-import type { ASTNode, ReportFixFunction, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 /**

@@ -3,9 +3,9 @@
  * @author Jxck
  */
 
+import type { Token, Tree } from '@shared/types'
 import { canTokensBeAdjacent, isClosingParenToken, isOpeningParenToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 /**

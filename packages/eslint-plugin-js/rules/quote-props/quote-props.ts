@@ -5,10 +5,10 @@
 
 // @ts-expect-error missing types
 import { tokenize } from 'espree'
+import type { Tree } from '@shared/types'
 import { isNumericLiteral } from '../../utils/ast-utils'
 import keywords from '../../utils/keywords'
 import { createRule } from '../../utils/createRule'
-import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

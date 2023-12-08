@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { Tree } from '@shared/types'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 
 import {
@@ -56,8 +56,8 @@ export default createRule<RuleOptions, MessageIds>({
      * @param token The token to use for the report.
      */
     function reportNoBeginningSpace(
-      node: TSESTree.TSMappedType | TSESTree.TSTypeLiteral,
-      token: TSESTree.Token,
+      node: Tree.TSMappedType | Tree.TSTypeLiteral,
+      token: Tree.Token,
     ): void {
       const nextToken = context
         .getSourceCode()
@@ -82,8 +82,8 @@ export default createRule<RuleOptions, MessageIds>({
      * @param token The token to use for the report.
      */
     function reportNoEndingSpace(
-      node: TSESTree.TSMappedType | TSESTree.TSTypeLiteral,
-      token: TSESTree.Token,
+      node: Tree.TSMappedType | Tree.TSTypeLiteral,
+      token: Tree.Token,
     ): void {
       const previousToken = context
         .getSourceCode()
@@ -108,8 +108,8 @@ export default createRule<RuleOptions, MessageIds>({
      * @param token The token to use for the report.
      */
     function reportRequiredBeginningSpace(
-      node: TSESTree.TSMappedType | TSESTree.TSTypeLiteral,
-      token: TSESTree.Token,
+      node: Tree.TSMappedType | Tree.TSTypeLiteral,
+      token: Tree.Token,
     ): void {
       context.report({
         node,
@@ -130,8 +130,8 @@ export default createRule<RuleOptions, MessageIds>({
      * @param token The token to use for the report.
      */
     function reportRequiredEndingSpace(
-      node: TSESTree.TSMappedType | TSESTree.TSTypeLiteral,
-      token: TSESTree.Token,
+      node: Tree.TSMappedType | Tree.TSTypeLiteral,
+      token: Tree.Token,
     ): void {
       context.report({
         node,
@@ -155,11 +155,11 @@ export default createRule<RuleOptions, MessageIds>({
      * @param last The last token to check (should be closing brace)
      */
     function validateBraceSpacing(
-      node: TSESTree.TSMappedType | TSESTree.TSTypeLiteral,
-      first: TSESTree.Token,
-      second: TSESTree.Token,
-      penultimate: TSESTree.Token,
-      last: TSESTree.Token,
+      node: Tree.TSMappedType | Tree.TSTypeLiteral,
+      first: Tree.Token,
+      second: Tree.Token,
+      penultimate: Tree.Token,
+      last: Tree.Token,
     ): void {
       if (isTokenOnSameLine(first, second)) {
         const firstSpaced = sourceCode.isSpaceBetween!(first, second)
@@ -231,8 +231,8 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns '}' token.
      */
     function getClosingBraceOfObject(
-      node: TSESTree.TSTypeLiteral,
-    ): TSESTree.Token | null {
+      node: Tree.TSTypeLiteral,
+    ): Tree.Token | null {
       const lastProperty = node.members[node.members.length - 1]
 
       return sourceCode.getTokenAfter(lastProperty, isClosingBraceToken)
@@ -241,7 +241,7 @@ export default createRule<RuleOptions, MessageIds>({
     const rules = baseRule.create(context)
     return {
       ...rules,
-      TSMappedType(node: TSESTree.TSMappedType): void {
+      TSMappedType(node: Tree.TSMappedType): void {
         const first = sourceCode.getFirstToken(node)!
         const last = sourceCode.getLastToken(node)!
         const second = sourceCode.getTokenAfter(first, {
@@ -253,7 +253,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         validateBraceSpacing(node, first, second, penultimate, last)
       },
-      TSTypeLiteral(node: TSESTree.TSTypeLiteral): void {
+      TSTypeLiteral(node: Tree.TSTypeLiteral): void {
         if (node.members.length === 0)
           return
 

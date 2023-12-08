@@ -3,9 +3,9 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
+import type { Token, Tree } from '@shared/types'
 import { LINEBREAK_MATCHER, isNotQuestionDotToken, isOpeningParenToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

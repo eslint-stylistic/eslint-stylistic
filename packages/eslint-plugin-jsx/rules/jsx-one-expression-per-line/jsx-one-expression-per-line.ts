@@ -3,10 +3,10 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
+import type { ASTNode, Token, Tree } from '@shared/types'
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
 import { isWhiteSpaces } from '../../utils/jsx'
-import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 const optionDefaults = {

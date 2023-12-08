@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { Tree } from '@shared/types'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import { createRule } from '../../utils'
@@ -31,7 +31,7 @@ export default createRule<RuleOptions, MessageIds>({
   create(context, [option]) {
     const rules = baseRule.create(context)
 
-    function isAllowedAsNonBacktick(node: TSESTree.Literal): boolean {
+    function isAllowedAsNonBacktick(node: Tree.Literal): boolean {
       const parent = node.parent
 
       switch (parent?.type) {

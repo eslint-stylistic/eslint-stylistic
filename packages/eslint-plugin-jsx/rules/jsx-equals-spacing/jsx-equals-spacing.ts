@@ -3,9 +3,9 @@
  * @author ryym
  */
 
+import type { Token } from '@shared/types'
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import type { Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {

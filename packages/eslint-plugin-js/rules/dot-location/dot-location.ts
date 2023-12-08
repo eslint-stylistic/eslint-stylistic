@@ -3,9 +3,9 @@
  * @author Greg Cochard
  */
 
+import type { Tree } from '@shared/types'
 import { isDecimalIntegerNumericToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

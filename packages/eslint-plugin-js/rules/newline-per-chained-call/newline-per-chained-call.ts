@@ -4,9 +4,9 @@
  * @author Burak Yigit Kaya
  */
 
+import type { Tree } from '@shared/types'
 import { LINEBREAK_MATCHER, isNotClosingParenToken, isTokenOnSameLine, skipChainExpression } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

@@ -3,8 +3,8 @@
  * @author Jamund Ferguson
  */
 
+import type { JSONSchema, Token, Tree } from '@shared/types'
 import { createRule } from '../../utils/createRule'
-import type { JSONSchema, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 const OVERRIDE_SCHEMA: JSONSchema.JSONSchema4 = {

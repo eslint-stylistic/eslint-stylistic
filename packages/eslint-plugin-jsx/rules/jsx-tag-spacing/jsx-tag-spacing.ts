@@ -3,10 +3,10 @@
  * @author Diogo Franco (Kovensky)
  */
 
+import type { RuleContext, Token, Tree } from '@shared/types'
 import { getTokenBeforeClosingBracket } from '../../utils/getTokenBeforeClosingBracket'
 import { docsUrl } from '../../utils/docsUrl'
 import { createRule } from '../../utils/createRule'
-import type { RuleContext, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 type Option = Exclude<RuleOptions[0], undefined>

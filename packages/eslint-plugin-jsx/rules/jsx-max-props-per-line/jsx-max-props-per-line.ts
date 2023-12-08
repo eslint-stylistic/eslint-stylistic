@@ -3,7 +3,7 @@
  * @author Yannick Croissant
  */
 
-import type { ReportDescriptor, RuleContext, Tree } from '../../../eslint-plugin-js/utils/types'
+import type { ReportDescriptor, RuleContext, Tree } from '@shared/types'
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
 import type { MessageIds, RuleOptions } from './types'

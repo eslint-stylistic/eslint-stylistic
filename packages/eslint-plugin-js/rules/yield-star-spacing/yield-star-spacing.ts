@@ -3,8 +3,8 @@
  * @author Bryan Smith
  */
 
+import type { ASTNode, Token } from '@shared/types'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

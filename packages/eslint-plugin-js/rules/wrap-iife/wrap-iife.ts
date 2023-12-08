@@ -5,8 +5,8 @@
 
 // @ts-expect-error missing types
 import { isParenthesized } from '@eslint-community/eslint-utils'
+import type { ASTNode, Tree } from '@shared/types'
 import { getStaticPropertyName, isParenthesised, skipChainExpression } from '../../utils/ast-utils'
-import type { ASTNode, Tree } from '../../utils/types'
 import { createRule } from '../../utils/createRule'
 import type { MessageIds, RuleOptions } from './types'
 

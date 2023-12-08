@@ -4,10 +4,8 @@
  */
 
 import type { AST } from 'eslint'
-import type { TSESTree } from '@typescript-eslint/utils'
-import type { RuleFixer, SourceCode } from '@typescript-eslint/utils/ts-eslint'
+import type { ASTNode, ESToken, RuleFixer, SourceCode, Token, Tree } from '@shared/types'
 import { getUpperFunction } from './ast-utils'
-import type { ASTNode } from './types'
 
 /**
  * A helper class to combine fix options into a fix command. Currently, it
@@ -63,7 +61,7 @@ class FixTracker {
    *      point. The token to the left and right are use in the range.
    * @returns The same RuleFixer, for chained calls.
    */
-  retainSurroundingTokens(nodeOrToken: TSESTree.Token | TSESTree.Node) {
+  retainSurroundingTokens(nodeOrToken: Tree.Token | ASTNode) {
     const tokenBefore = this.sourceCode.getTokenBefore(nodeOrToken) || nodeOrToken
     const tokenAfter = this.sourceCode.getTokenAfter(nodeOrToken) || nodeOrToken
 
@@ -104,7 +102,7 @@ class FixTracker {
    * @param nodeOrToken The node or token to remove.
    * @returns The fix command.
    */
-  remove(nodeOrToken: ASTNode | AST.Token | TSESTree.Token | TSESTree.Node) {
+  remove(nodeOrToken: ASTNode | ESToken | Token | ASTNode) {
     return this.replaceTextRange(nodeOrToken.range, '')
   }
 }

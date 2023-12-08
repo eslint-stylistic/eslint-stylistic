@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { ASTNode, Tree } from '@shared/types'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import {
@@ -56,7 +56,7 @@ export default createRule<RuleOptions, MessageIds>({
     /**
      * @returns the column of the position after converting all unicode characters in the line to 1 char length
      */
-    function adjustedColumn(position: TSESTree.Position): number {
+    function adjustedColumn(position: Tree.Position): number {
       const line = position.line - 1 // position.line is 1-indexed
       return getStringLength(
         at(sourceCode.lines, line)!.slice(0, position.column),
@@ -67,23 +67,23 @@ export default createRule<RuleOptions, MessageIds>({
      * Starting from the given a node (a property.key node here) looks forward
      * until it finds the last token before a colon punctuator and returns it.
      */
-    function getLastTokenBeforeColon(node: TSESTree.Node): TSESTree.Token {
+    function getLastTokenBeforeColon(node: ASTNode): Tree.Token {
       const colonToken = sourceCode.getTokenAfter(node, isColonToken)!
 
       return sourceCode.getTokenBefore(colonToken)!
     }
 
     type KeyTypeNode =
-      | TSESTree.PropertyDefinition
-      | TSESTree.TSIndexSignature
-      | TSESTree.TSPropertySignature
+      | Tree.PropertyDefinition
+      | Tree.TSIndexSignature
+      | Tree.TSPropertySignature
 
     type KeyTypeNodeWithTypeAnnotation = KeyTypeNode & {
-      typeAnnotation: TSESTree.TSTypeAnnotation
+      typeAnnotation: Tree.TSTypeAnnotation
     }
 
     function isKeyTypeNode(
-      node: TSESTree.Node,
+      node: ASTNode,
     ): node is KeyTypeNodeWithTypeAnnotation {
       return (
         (node.type === AST_NODE_TYPES.TSPropertySignature
@@ -94,7 +94,7 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function isApplicable(
-      node: TSESTree.Node,
+      node: ASTNode,
     ): node is KeyTypeNodeWithTypeAnnotation {
       return (
         isKeyTypeNode(node)
@@ -124,7 +124,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function getKeyLocEnd(
       node: KeyTypeNodeWithTypeAnnotation,
-    ): TSESTree.Position {
+    ): Tree.Position {
       return getLastTokenBeforeColon(
         node.type !== AST_NODE_TYPES.TSIndexSignature
           ? node.key
@@ -203,8 +203,8 @@ export default createRule<RuleOptions, MessageIds>({
 
     // adapted from  https://github.com/eslint/eslint/blob/ba74253e8bd63e9e163bbee0540031be77e39253/lib/rules/key-spacing.js#L356
     function continuesAlignGroup(
-      lastMember: TSESTree.Node,
-      candidate: TSESTree.Node,
+      lastMember: ASTNode,
+      candidate: ASTNode,
     ): boolean {
       const groupEndLine = lastMember.loc.start.line
       const candidateValueStartLine = (
@@ -243,7 +243,7 @@ export default createRule<RuleOptions, MessageIds>({
       return false
     }
 
-    function checkAlignGroup(group: TSESTree.Node[]): void {
+    function checkAlignGroup(group: ASTNode[]): void {
       let alignColumn = 0
       const align: 'colon' | 'value'
         = (typeof options.align === 'object'
@@ -338,7 +338,7 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function checkIndividualNode(
-      node: TSESTree.Node,
+      node: ASTNode,
       { singleLine }: { singleLine: boolean },
     ): void {
       const beforeColon = (
@@ -377,23 +377,23 @@ export default createRule<RuleOptions, MessageIds>({
 
     function validateBody(
       body:
-        | TSESTree.ClassBody
-        | TSESTree.TSInterfaceBody
-        | TSESTree.TSTypeLiteral,
+        | Tree.ClassBody
+        | Tree.TSInterfaceBody
+        | Tree.TSTypeLiteral,
     ): void {
       const isSingleLine = body.loc.start.line === body.loc.end.line
 
       const members
         = body.type === AST_NODE_TYPES.TSTypeLiteral ? body.members : body.body
 
-      let alignGroups: TSESTree.Node[][] = []
-      let unalignedElements: TSESTree.Node[] = []
+      let alignGroups: ASTNode[][] = []
+      let unalignedElements: ASTNode[] = []
 
       if (options.align || options.multiLine?.align) {
-        let currentAlignGroup: TSESTree.Node[] = []
+        let currentAlignGroup: ASTNode[] = []
         alignGroups.push(currentAlignGroup)
 
-        let prevNode: TSESTree.Node | undefined
+        let prevNode: ASTNode | undefined
 
         for (const node of members) {
           let prevAlignedNode = at(currentAlignGroup, -1)

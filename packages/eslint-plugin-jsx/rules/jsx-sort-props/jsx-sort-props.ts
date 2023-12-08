@@ -3,10 +3,10 @@
  * @author Ilya Volodin, Yannick Croissant
  */
 
+import type { ASTNode, RuleContext, RuleFixer, Tree } from '@shared/types'
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
 import { getPropName, isDOMComponent } from '../../utils/jsx'
-import type { ASTNode, RuleContext, RuleFixer, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 interface JsxCompareOptions {
@@ -293,7 +293,7 @@ function validateReservedFirstConfig(context: Readonly<RuleContext<MessageIds, R
       ))
 
       if (reservedFirst.length === 0) {
-        return function Report(decl: Tree.Node | Tree.Token) {
+        return function Report(decl: ASTNode | Tree.Token) {
           context.report({
             node: decl,
             messageId: 'listIsEmpty',
@@ -301,7 +301,7 @@ function validateReservedFirstConfig(context: Readonly<RuleContext<MessageIds, R
         }
       }
       if (nonReservedWords.length > 0) {
-        return function Report(decl: Tree.Node | Tree.Token) {
+        return function Report(decl: ASTNode | Tree.Token) {
           context.report({
             node: decl,
             messageId: 'noUnreservedProps',
