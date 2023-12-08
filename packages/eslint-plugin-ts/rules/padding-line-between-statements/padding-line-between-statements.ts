@@ -590,7 +590,13 @@ const StatementTypes: Record<string, NodeTestObject> = {
     AST_NODE_TYPES.TSInterfaceDeclaration,
     'interface',
   ),
-  'type': newKeywordTester(AST_NODE_TYPES.TSTypeAliasDeclaration, 'type'),
+  'type': newKeywordTester(
+    AST_NODE_TYPES.TSTypeAliasDeclaration,
+    'type',
+  ),
+  'function-overload': {
+    test: node => node.type === 'TSDeclareFunction',
+  },
 }
 
 export default createRule<Options, MessageIds>({
