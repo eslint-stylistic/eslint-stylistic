@@ -4,9 +4,9 @@
  * @author Jxck <https://github.com/Jxck>
  */
 
+import type { ASTNode, Tree } from '@shared/types'
 import { isParenthesised } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 /**

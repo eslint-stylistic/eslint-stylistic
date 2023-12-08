@@ -3,10 +3,10 @@
  * @author Ross Solomon
  */
 
+import type { ASTNode, Tree } from '@shared/types'
 import { isNodeFirstInLine } from '../../utils/ast'
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
@@ -32,7 +32,7 @@ export default createRule<MessageIds, RuleOptions>({
       if (!node.parent)
         return
 
-      let opening: Tree.Node
+      let opening: ASTNode
       if ('openingFragment' in node.parent)
         opening = node.parent.openingFragment
       if ('openingElement' in node.parent)

@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { ASTNode, Tree } from '@shared/types'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 
 import { isCommentToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
@@ -30,7 +30,7 @@ function getEmptyLineNums(lines: string[]): number[] {
 /**
  * @returns an array with with any line numbers that contain comments.
  */
-function getCommentLineNums(comments: TSESTree.Comment[]): number[] {
+function getCommentLineNums(comments: Tree.Comment[]): number[] {
   const lines: number[] = []
 
   comments.forEach((token) => {
@@ -158,8 +158,8 @@ export default createRule<RuleOptions, MessageIds>({
     /**
      * @returns whether comments are on lines starting with or ending with code.
      */
-    function codeAroundComment(token: TSESTree.Token): boolean {
-      let currentToken: TSESTree.Token | null = token
+    function codeAroundComment(token: Tree.Token): boolean {
+      let currentToken: Tree.Token | null = token
 
       do {
         currentToken = sourceCode.getTokenBefore(currentToken, {
@@ -186,17 +186,17 @@ export default createRule<RuleOptions, MessageIds>({
     /**
      * @returns whether comments are inside a node type.
      */
-    function isParentNodeType<T extends TSESTree.AST_NODE_TYPES>(
-      parent: TSESTree.Node,
+    function isParentNodeType<T extends Tree.AST_NODE_TYPES>(
+      parent: ASTNode,
       nodeType: T,
-    ): parent is Extract<TSESTree.Node, { type: T }> {
+    ): parent is Extract<ASTNode, { type: T }> {
       return parent.type === nodeType
     }
 
     /**
      * @returns the parent node that contains the given token.
      */
-    function getParentNodeOfToken(token: TSESTree.Token): TSESTree.Node | null {
+    function getParentNodeOfToken(token: Tree.Token): ASTNode | null {
       const node = sourceCode.getNodeByRangeIndex(token.range[0])
 
       return node
@@ -206,8 +206,8 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns whether comments are at the parent start.
      */
     function isCommentAtParentStart(
-      token: TSESTree.Token,
-      nodeType: TSESTree.AST_NODE_TYPES,
+      token: Tree.Token,
+      nodeType: Tree.AST_NODE_TYPES,
     ): boolean {
       const parent = getParentNodeOfToken(token)
 
@@ -226,8 +226,8 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns whether comments are at the parent end.
      */
     function isCommentAtParentEnd(
-      token: TSESTree.Token,
-      nodeType: TSESTree.AST_NODE_TYPES,
+      token: Tree.Token,
+      nodeType: Tree.AST_NODE_TYPES,
     ): boolean {
       const parent = getParentNodeOfToken(token)
 
@@ -238,39 +238,39 @@ export default createRule<RuleOptions, MessageIds>({
       )
     }
 
-    function isCommentAtInterfaceStart(token: TSESTree.Comment): boolean {
+    function isCommentAtInterfaceStart(token: Tree.Comment): boolean {
       return isCommentAtParentStart(token, AST_NODE_TYPES.TSInterfaceBody)
     }
 
-    function isCommentAtInterfaceEnd(token: TSESTree.Comment): boolean {
+    function isCommentAtInterfaceEnd(token: Tree.Comment): boolean {
       return isCommentAtParentEnd(token, AST_NODE_TYPES.TSInterfaceBody)
     }
 
-    function isCommentAtTypeStart(token: TSESTree.Comment): boolean {
+    function isCommentAtTypeStart(token: Tree.Comment): boolean {
       return isCommentAtParentStart(token, AST_NODE_TYPES.TSTypeLiteral)
     }
 
-    function isCommentAtTypeEnd(token: TSESTree.Comment): boolean {
+    function isCommentAtTypeEnd(token: Tree.Comment): boolean {
       return isCommentAtParentEnd(token, AST_NODE_TYPES.TSTypeLiteral)
     }
 
-    function isCommentAtEnumStart(token: TSESTree.Comment): boolean {
+    function isCommentAtEnumStart(token: Tree.Comment): boolean {
       return isCommentAtParentStart(token, AST_NODE_TYPES.TSEnumDeclaration)
     }
 
-    function isCommentAtEnumEnd(token: TSESTree.Comment): boolean {
+    function isCommentAtEnumEnd(token: Tree.Comment): boolean {
       return isCommentAtParentEnd(token, AST_NODE_TYPES.TSEnumDeclaration)
     }
 
-    function isCommentAtModuleStart(token: TSESTree.Comment): boolean {
+    function isCommentAtModuleStart(token: Tree.Comment): boolean {
       return isCommentAtParentStart(token, AST_NODE_TYPES.TSModuleBlock)
     }
 
-    function isCommentAtModuleEnd(token: TSESTree.Comment): boolean {
+    function isCommentAtModuleEnd(token: Tree.Comment): boolean {
       return isCommentAtParentEnd(token, AST_NODE_TYPES.TSModuleBlock)
     }
 
-    function isCommentNearTSConstruct(token: TSESTree.Comment): boolean {
+    function isCommentNearTSConstruct(token: Tree.Comment): boolean {
       return (
         isCommentAtInterfaceStart(token)
         || isCommentAtInterfaceEnd(token)
@@ -284,7 +284,7 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function checkForEmptyLine(
-      token: TSESTree.Comment,
+      token: Tree.Comment,
       { before, after }: { before?: boolean, after?: boolean },
     ): void {
       // the base rule handles comments away from TS constructs blocks correctly, we skip those

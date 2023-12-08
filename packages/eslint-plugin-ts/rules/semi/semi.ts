@@ -1,4 +1,5 @@
-import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
+import type { ASTNode } from '@shared/types'
+import type { TSESLint } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { createRule } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
@@ -29,7 +30,7 @@ export default createRule<RuleOptions, MessageIds>({
   create(context) {
     const rules = baseRule.create(context)
     const checkForSemicolon
-      = rules.ExpressionStatement as TSESLint.RuleFunction<TSESTree.Node>
+      = rules.ExpressionStatement as TSESLint.RuleFunction<ASTNode>
 
     /**
       The following nodes are handled by the member-delimiter-style rule

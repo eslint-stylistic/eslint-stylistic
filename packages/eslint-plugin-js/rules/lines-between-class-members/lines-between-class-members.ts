@@ -3,9 +3,9 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
+import type { ASTNode, Token } from '@shared/types'
 import { isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 type NodeTest = (

@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { Tree } from '@shared/types'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import { isOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
@@ -63,11 +63,11 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function isNamedFunction(
       node:
-        | TSESTree.ArrowFunctionExpression
-        | TSESTree.FunctionDeclaration
-        | TSESTree.FunctionExpression
-        | TSESTree.TSDeclareFunction
-        | TSESTree.TSEmptyBodyFunctionExpression,
+        | Tree.ArrowFunctionExpression
+        | Tree.FunctionDeclaration
+        | Tree.FunctionExpression
+        | Tree.TSDeclareFunction
+        | Tree.TSEmptyBodyFunctionExpression,
     ): boolean {
       if (node.id != null)
         return true
@@ -89,11 +89,11 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function getConfigForFunction(
       node:
-        | TSESTree.ArrowFunctionExpression
-        | TSESTree.FunctionDeclaration
-        | TSESTree.FunctionExpression
-        | TSESTree.TSDeclareFunction
-        | TSESTree.TSEmptyBodyFunctionExpression,
+        | Tree.ArrowFunctionExpression
+        | Tree.FunctionDeclaration
+        | Tree.FunctionExpression
+        | Tree.TSDeclareFunction
+        | Tree.TSEmptyBodyFunctionExpression,
     ): FuncOption {
       if (node.type === AST_NODE_TYPES.ArrowFunctionExpression) {
         // Always ignore non-async functions and arrow functions without parens, e.g. async foo => bar
@@ -121,19 +121,19 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkFunction(
       node:
-        | TSESTree.ArrowFunctionExpression
-        | TSESTree.FunctionDeclaration
-        | TSESTree.FunctionExpression
-        | TSESTree.TSDeclareFunction
-        | TSESTree.TSEmptyBodyFunctionExpression,
+        | Tree.ArrowFunctionExpression
+        | Tree.FunctionDeclaration
+        | Tree.FunctionExpression
+        | Tree.TSDeclareFunction
+        | Tree.TSEmptyBodyFunctionExpression,
     ): void {
       const functionConfig = getConfigForFunction(node)
 
       if (functionConfig === 'ignore')
         return
 
-      let leftToken: TSESTree.Token
-      let rightToken: TSESTree.Token
+      let leftToken: Tree.Token
+      let rightToken: Tree.Token
       if (node.typeParameters) {
         leftToken = sourceCode.getLastToken(node.typeParameters)!
         rightToken = sourceCode.getTokenAfter(leftToken)!

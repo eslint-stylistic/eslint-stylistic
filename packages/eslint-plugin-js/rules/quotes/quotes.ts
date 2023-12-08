@@ -3,9 +3,9 @@
  * @author Matt DuVall <http://www.mattduvall.com/>, Brandon Payton
  */
 
+import type { ASTNode, Tree } from '@shared/types'
 import { LINEBREAKS, hasOctalOrNonOctalDecimalEscapeSequence, isParenthesised, isSurroundedBy, isTopLevelExpressionStatement } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 /**

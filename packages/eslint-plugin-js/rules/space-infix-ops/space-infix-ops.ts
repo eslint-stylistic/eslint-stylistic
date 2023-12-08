@@ -3,9 +3,9 @@
  * @author Michael Ficarra
  */
 
+import type { ASTNode, Token, Tree } from '@shared/types'
 import { createRule } from '../../utils/createRule'
 import { isEqToken } from '../../utils/ast-utils'
-import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

@@ -3,10 +3,10 @@
  * @author Nicholas C. Zakas
  */
 
+import type { ASTNode, Token } from '@shared/types'
 import { isClosingBraceToken, isSemicolonToken, isTopLevelExpressionStatement } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import FixTracker from '../../utils/fix-tracker'
-import type { ASTNode, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

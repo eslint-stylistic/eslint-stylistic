@@ -1,6 +1,5 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { ASTNode, JSONSchema } from '@shared/types'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import type { JSONSchema4 } from '@typescript-eslint/utils/json-schema'
 
 import { createRule, deepMerge } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
@@ -22,7 +21,7 @@ const schema = Object.values(
       },
     },
   ),
-) as JSONSchema4[]
+) as JSONSchema.JSONSchema4[]
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'lines-between-class-members',
@@ -49,7 +48,7 @@ export default createRule<RuleOptions, MessageIds>({
     const exceptAfterOverload
       = secondOption?.exceptAfterOverload && firstOption === 'always'
 
-    function isOverload(node: TSESTree.Node): boolean {
+    function isOverload(node: ASTNode): boolean {
       return (
         (node.type === AST_NODE_TYPES.TSAbstractMethodDefinition
         || node.type === AST_NODE_TYPES.MethodDefinition)

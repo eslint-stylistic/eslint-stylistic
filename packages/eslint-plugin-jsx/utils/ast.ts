@@ -4,7 +4,7 @@
 import type ESTraverse from 'estraverse'
 import { traverse as _traverse } from 'estraverse'
 import type { FunctionDeclaration } from 'estree'
-import type { ASTNode, ESNode, RuleContext, SourceCode, Token } from './types'
+import type { ASTNode, ESNode, RuleContext, SourceCode, Token } from '@shared/types'
 
 /**
  * Wrapper for estraverse.traverse

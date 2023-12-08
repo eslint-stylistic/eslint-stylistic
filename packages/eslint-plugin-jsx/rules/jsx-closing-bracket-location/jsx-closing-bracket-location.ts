@@ -3,9 +3,9 @@
  * @author Yannick Croissant
  */
 
+import type { ASTNode, Tree } from '@shared/types'
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
@@ -262,11 +262,11 @@ export default createRule<MessageIds, RuleOptions>({
      * @param node The AST node being checked.
      * @returns Unique ID (based on its range)
      */
-    function getOpeningElementId(node: Tree.Node): string {
+    function getOpeningElementId(node: ASTNode): string {
       return node.range.join(':')
     }
 
-    const lastAttributeNode: Record<string, Tree.Node> = {}
+    const lastAttributeNode: Record<string, ASTNode> = {}
 
     return {
       JSXAttribute(node) {

@@ -3,11 +3,11 @@
  * @author Yannick Croissant
  */
 
+import type { ASTNode, Token } from '@shared/types'
 import { docsUrl } from '../../utils/docsUrl'
 import { isJSX } from '../../utils/jsx'
 import { isParenthesized } from '../../utils/ast'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 const DEFAULTS: Required<Exclude<RuleOptions[0], undefined>> = {

@@ -3,9 +3,9 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
+import type { Tree } from '@shared/types'
 import { isOpeningParenToken } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

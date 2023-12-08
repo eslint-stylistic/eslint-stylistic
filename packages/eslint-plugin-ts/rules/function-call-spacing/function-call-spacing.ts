@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { Tree } from '@shared/types'
 
 import {
   LINEBREAK_MATCHER,
@@ -75,7 +75,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function checkSpacing(
-      node: TSESTree.CallExpression | TSESTree.NewExpression,
+      node: Tree.CallExpression | Tree.NewExpression,
     ): void {
       const isOptionalCall = isOptionalCallExpression(node)
 

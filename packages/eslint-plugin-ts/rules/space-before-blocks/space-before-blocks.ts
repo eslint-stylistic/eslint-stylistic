@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { Tree } from '@shared/types'
 
 import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
@@ -38,14 +38,14 @@ export default createRule<RuleOptions, MessageIds>({
       requireSpace = false
 
     function checkPrecedingSpace(
-      node: TSESTree.Token | TSESTree.TSInterfaceBody,
+      node: Tree.Token | Tree.TSInterfaceBody,
     ): void {
       const precedingToken = sourceCode.getTokenBefore(node)
       if (precedingToken && isTokenOnSameLine(precedingToken, node)) {
         //  -- TODO - switch once our min ESLint version is 6.7.0
         const hasSpace = sourceCode.isSpaceBetweenTokens(
           precedingToken,
-          node as TSESTree.Token,
+          node as Tree.Token,
         )
 
         if (requireSpace && !hasSpace) {
@@ -72,7 +72,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function checkSpaceAfterEnum(node: TSESTree.TSEnumDeclaration): void {
+    function checkSpaceAfterEnum(node: Tree.TSEnumDeclaration): void {
       const punctuator = sourceCode.getTokenAfter(node.id)
       if (punctuator)
         checkPrecedingSpace(punctuator)

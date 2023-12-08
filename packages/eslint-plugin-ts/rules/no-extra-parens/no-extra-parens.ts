@@ -1,6 +1,7 @@
 // any is required to work around manipulating the AST in weird ways
+import type { ASTNode, Tree } from '@shared/types'
 
-import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
+import type { TSESLint } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
@@ -30,7 +31,7 @@ export default createRule<RuleOptions, MessageIds>({
     const rules = baseRule.create(context)
 
     function binaryExp(
-      node: TSESTree.BinaryExpression | TSESTree.LogicalExpression,
+      node: Tree.BinaryExpression | Tree.LogicalExpression,
     ): void {
       const rule = rules.BinaryExpression as (n: typeof node) => void
 
@@ -62,7 +63,7 @@ export default createRule<RuleOptions, MessageIds>({
       return rule(node)
     }
     function callExp(
-      node: TSESTree.CallExpression | TSESTree.NewExpression,
+      node: Tree.CallExpression | Tree.NewExpression,
     ): void {
       const rule = rules.CallExpression as (n: typeof node) => void
 
@@ -97,7 +98,7 @@ export default createRule<RuleOptions, MessageIds>({
       return rule(node)
     }
     function unaryUpdateExpression(
-      node: TSESTree.UnaryExpression | TSESTree.UpdateExpression,
+      node: Tree.UnaryExpression | Tree.UpdateExpression,
     ): void {
       const rule = rules.UnaryExpression as (n: typeof node) => void
 
@@ -218,7 +219,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         return rules.ForStatement!(node)
       },
-      'ForStatement > *.init:exit': function (node: TSESTree.Node) {
+      'ForStatement > *.init:exit': function (node: ASTNode) {
         if (!isTypeAssertion(node))
           return (rules as any)['ForStatement > *.init:exit'](node)
       },

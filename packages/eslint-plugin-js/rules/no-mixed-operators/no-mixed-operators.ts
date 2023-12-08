@@ -3,9 +3,9 @@
  * @author Toru Nagashima
  */
 
+import type { ASTNode, Tree } from '@shared/types'
 import { getPrecedence, isNotClosingParenToken, isParenthesised } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 const ARITHMETIC_OPERATORS = ['+', '-', '*', '/', '%', '**']
@@ -67,7 +67,7 @@ function includesBothInAGroup(groups: string[][], left: string, right: string): 
  *      , or a ConditionalExpression node
  * @returns node the appropriate node(left or test).
  */
-function getChildNode(node: NodeType | Tree.ConditionalExpression): Tree.Node {
+function getChildNode(node: NodeType | Tree.ConditionalExpression): ASTNode {
   return node.type === 'ConditionalExpression' ? node.test : node.left
 }
 

@@ -3,9 +3,9 @@
  * @author Toru Nagashima
  */
 
+import type { RuleFixer, Token } from '@shared/types'
 import { getSwitchCaseColonToken, isClosingBraceToken, isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { RuleFixer, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

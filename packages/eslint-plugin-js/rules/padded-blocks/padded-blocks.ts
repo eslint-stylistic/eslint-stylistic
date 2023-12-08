@@ -3,9 +3,9 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
+import type { ASTNode, Token, Tree } from '@shared/types'
 import { isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

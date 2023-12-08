@@ -3,9 +3,9 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
+import type { ASTNode, Token } from '@shared/types'
 import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({

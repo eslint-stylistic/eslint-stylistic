@@ -3,9 +3,9 @@
  * @author Jamund Ferguson
  */
 
+import type { ASTNode, NodeTypes, Token } from '@shared/types'
 import { COMMENTS_IGNORE_PATTERN, isCommentToken, isOpeningBraceToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, NodeTypes, Token } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 /**

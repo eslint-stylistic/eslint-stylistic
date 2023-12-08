@@ -4,12 +4,12 @@
  */
 
 import type * as ESTree from 'estree'
-import type { TSESLint, TSESTree } from '@typescript-eslint/utils'
+import type { ASTNode, ESNode, Token, Tree } from '@shared/types'
+import type { TSESLint } from '@typescript-eslint/utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
-import type { ASTNode, ESNode, Token } from './types'
 
 const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
 
@@ -58,7 +58,7 @@ export function getUpperFunction(node: ASTNode) {
  * @param node A node to check.
  * @returns `true` if the node is a function node.
  */
-export function isFunction(node?: ASTNode | null): node is TSESTree.ArrowFunctionExpression | TSESTree.FunctionDeclaration | TSESTree.FunctionExpression {
+export function isFunction(node?: ASTNode | null): node is Tree.ArrowFunctionExpression | Tree.FunctionDeclaration | Tree.FunctionExpression {
   return Boolean(node && anyFunctionPattern.test(node.type))
 }
 
@@ -67,7 +67,7 @@ export function isFunction(node?: ASTNode | null): node is TSESTree.ArrowFunctio
  * @param node The node to check
  * @returns `true` if the node is a `null` literal
  */
-export function isNullLiteral(node: ASTNode): node is TSESTree.NullLiteral {
+export function isNullLiteral(node: ASTNode): node is Tree.NullLiteral {
   /**
    * Checking `node.value === null` does not guarantee that a literal is a null literal.
    * When parsing values that cannot be represented in the current environment (e.g. unicode
@@ -449,7 +449,7 @@ export const isNotSemicolonToken = negate(isSemicolonToken)
  * @param node A node to check.
  * @returns `true` if the node is a string literal.
  */
-export function isStringLiteral(node: ASTNode): node is TSESTree.StringLiteral | TSESTree.TemplateLiteral {
+export function isStringLiteral(node: ASTNode): node is Tree.StringLiteral | Tree.TemplateLiteral {
   return (
     (node.type === 'Literal' && typeof node.value === 'string')
     || node.type === 'TemplateLiteral'

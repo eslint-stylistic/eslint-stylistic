@@ -4,10 +4,8 @@
  * This is done intentionally based on the internal implementation of the base indent rule.
  */
 
-import type { TSESTree } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-
-import type { RuleFunction } from '@typescript-eslint/utils/ts-eslint'
+import type { ASTNode, RuleFunction, Tree } from '@shared/types'
 import { createRule } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
 import type { MessageIds, RuleOptions } from './types'
@@ -130,13 +128,13 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function TSPropertySignatureToProperty(
       node:
-        | TSESTree.TSEnumMember
-        | TSESTree.TSPropertySignature
-        | TSESTree.TypeElement,
+        | Tree.TSEnumMember
+        | Tree.TSPropertySignature
+        | Tree.TypeElement,
       type:
         | AST_NODE_TYPES.Property
         | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
-    ): TSESTree.Node | null {
+    ): ASTNode | null {
       const base = {
         // indent doesn't actually use these
         key: null as any,
@@ -158,7 +156,7 @@ export default createRule<RuleOptions, MessageIds>({
         return {
           type,
           ...base,
-        } as TSESTree.Property
+        } as Tree.Property
       }
       return {
         type,
@@ -172,18 +170,18 @@ export default createRule<RuleOptions, MessageIds>({
         static: false,
         typeAnnotation: undefined,
         ...base,
-      } as TSESTree.PropertyDefinition
+      } as Tree.PropertyDefinition
     }
 
     return Object.assign({}, rules, {
       // overwrite the base rule here so we can use our KNOWN_NODES list instead
-      '*:exit': function (node: TSESTree.Node) {
+      '*:exit': function (node: ASTNode) {
         // For nodes we care about, skip the default handling, because it just marks the node as ignored...
         if (!KNOWN_NODES.has(node.type))
           rules['*:exit'](node)
       },
 
-      VariableDeclaration(node: TSESTree.VariableDeclaration) {
+      VariableDeclaration(node: Tree.VariableDeclaration) {
         // https://github.com/typescript-eslint/typescript-eslint/issues/441
         if (node.declarations.length === 0)
           return
@@ -191,7 +189,7 @@ export default createRule<RuleOptions, MessageIds>({
         return rules.VariableDeclaration(node)
       },
 
-      TSAsExpression(node: TSESTree.TSAsExpression) {
+      TSAsExpression(node: Tree.TSAsExpression) {
         // transform it to a BinaryExpression
         return rules['BinaryExpression, LogicalExpression']({
           type: AST_NODE_TYPES.BinaryExpression,
@@ -207,7 +205,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSConditionalType(node: TSESTree.TSConditionalType) {
+      TSConditionalType(node: Tree.TSConditionalType) {
         // transform it to a ConditionalExpression
         return rules.ConditionalExpression({
           type: AST_NODE_TYPES.ConditionalExpression,
@@ -236,16 +234,16 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       'TSEnumDeclaration, TSTypeLiteral': function (
-        node: TSESTree.TSEnumDeclaration | TSESTree.TSTypeLiteral,
+        node: Tree.TSEnumDeclaration | Tree.TSTypeLiteral,
       ) {
         // transform it to an ObjectExpression
         return rules['ObjectExpression, ObjectPattern']({
           type: AST_NODE_TYPES.ObjectExpression,
           properties: (
-            node.members as (TSESTree.TSEnumMember | TSESTree.TypeElement)[]
+            node.members as (Tree.TSEnumMember | Tree.TypeElement)[]
           ).map(
             member =>
-              TSPropertySignatureToProperty(member) as TSESTree.Property,
+              TSPropertySignatureToProperty(member) as Tree.Property,
           ),
 
           // location data
@@ -255,7 +253,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSImportEqualsDeclaration(node: TSESTree.TSImportEqualsDeclaration) {
+      TSImportEqualsDeclaration(node: Tree.TSImportEqualsDeclaration) {
         // transform it to an VariableDeclaration
         // use VariableDeclaration instead of ImportDeclaration because it's essentially the same thing
         const { id, moduleReference } = node
@@ -298,7 +296,7 @@ export default createRule<RuleOptions, MessageIds>({
                 range: moduleReference.range,
                 loc: moduleReference.loc,
               },
-            } as TSESTree.VariableDeclarator,
+            } as Tree.VariableDeclarator,
           ],
           declare: false,
 
@@ -309,7 +307,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSIndexedAccessType(node: TSESTree.TSIndexedAccessType) {
+      TSIndexedAccessType(node: Tree.TSIndexedAccessType) {
         // convert to a MemberExpression
         return rules['MemberExpression, JSXMemberExpression, MetaProperty']({
           type: AST_NODE_TYPES.MemberExpression,
@@ -325,7 +323,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSInterfaceBody(node: TSESTree.TSInterfaceBody) {
+      TSInterfaceBody(node: Tree.TSInterfaceBody) {
         // transform it to an ClassBody
         return rules['BlockStatement, ClassBody']({
           type: AST_NODE_TYPES.ClassBody,
@@ -334,7 +332,7 @@ export default createRule<RuleOptions, MessageIds>({
               TSPropertySignatureToProperty(
                 p,
                 AST_NODE_TYPES.PropertyDefinition,
-              ) as TSESTree.PropertyDefinition,
+              ) as Tree.PropertyDefinition,
           ),
 
           // location data
@@ -345,7 +343,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       'TSInterfaceDeclaration[extends.length > 0]': function (
-        node: TSESTree.TSInterfaceDeclaration,
+        node: Tree.TSInterfaceDeclaration,
       ) {
         // transform it to a ClassDeclaration
         return rules[
@@ -372,7 +370,7 @@ export default createRule<RuleOptions, MessageIds>({
         )
       },
 
-      TSMappedType(node: TSESTree.TSMappedType) {
+      TSMappedType(node: Tree.TSMappedType) {
         const sourceCode = context.sourceCode
         const squareBracketStart = sourceCode.getTokenBefore(
           node.typeParameter,
@@ -416,7 +414,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSModuleBlock(node: TSESTree.TSModuleBlock) {
+      TSModuleBlock(node: Tree.TSModuleBlock) {
         // transform it to a BlockStatement
         return rules['BlockStatement, ClassBody']({
           type: AST_NODE_TYPES.BlockStatement,
@@ -429,7 +427,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSQualifiedName(node: TSESTree.TSQualifiedName) {
+      TSQualifiedName(node: Tree.TSQualifiedName) {
         return rules['MemberExpression, JSXMemberExpression, MetaProperty']({
           type: AST_NODE_TYPES.MemberExpression,
           object: node.left as any,
@@ -444,7 +442,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSTupleType(node: TSESTree.TSTupleType) {
+      TSTupleType(node: Tree.TSTupleType) {
         // transform it to an ArrayExpression
         return rules['ArrayExpression, ArrayPattern']({
           type: AST_NODE_TYPES.ArrayExpression,
@@ -457,7 +455,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSTypeParameterDeclaration(node: TSESTree.TSTypeParameterDeclaration) {
+      TSTypeParameterDeclaration(node: Tree.TSTypeParameterDeclaration) {
         if (!node.params.length)
           return
 

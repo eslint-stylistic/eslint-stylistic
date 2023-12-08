@@ -30,10 +30,10 @@
  THE SOFTWARE.
  */
 
+import type { ASTNode } from '@shared/types'
 import { isNodeFirstInLine } from '../../utils/ast'
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import type { ASTNode } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {

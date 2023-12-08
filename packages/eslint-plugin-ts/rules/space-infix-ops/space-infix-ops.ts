@@ -1,5 +1,5 @@
-import { AST_TOKEN_TYPES, TSESTree } from '@typescript-eslint/utils'
-
+import type { ASTNode, Token, Tree } from '@shared/types'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isNotOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
 import { createRule } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
@@ -34,7 +34,7 @@ export default createRule<RuleOptions, MessageIds>({
     const rules = baseRule.create(context)
     const sourceCode = context.sourceCode
 
-    function report(operator: TSESTree.Token): void {
+    function report(operator: Token): void {
       context.report({
         node: operator,
         messageId: 'missingSpace',
@@ -59,15 +59,15 @@ export default createRule<RuleOptions, MessageIds>({
       })
     }
 
-    function isSpaceChar(token: TSESTree.Token): boolean {
+    function isSpaceChar(token: Token): boolean {
       return (
         token.type === AST_TOKEN_TYPES.Punctuator && /^[=?:]$/.test(token.value)
       )
     }
 
     function checkAndReportAssignmentSpace(
-      leftNode: TSESTree.Node | TSESTree.Token | null,
-      rightNode?: TSESTree.Node | TSESTree.Token | null,
+      leftNode: ASTNode | Token | null,
+      rightNode?: ASTNode | Token | null,
     ): void {
       if (!rightNode || !leftNode)
         return
@@ -92,7 +92,7 @@ export default createRule<RuleOptions, MessageIds>({
      * Check if it has an assignment char and report if it's faulty
      * @param node The node to report
      */
-    function checkForEnumAssignmentSpace(node: TSESTree.TSEnumMember): void {
+    function checkForEnumAssignmentSpace(node: Tree.TSEnumMember): void {
       checkAndReportAssignmentSpace(node.id, node.initializer)
     }
 
@@ -101,7 +101,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node The node to report
      */
     function checkForPropertyDefinitionAssignmentSpace(
-      node: TSESTree.PropertyDefinition,
+      node: Tree.PropertyDefinition,
     ): void {
       const leftNode
         = node.optional && !node.typeAnnotation
@@ -116,13 +116,13 @@ export default createRule<RuleOptions, MessageIds>({
      * @param typeAnnotation TypeAnnotations list
      */
     function checkForTypeAnnotationSpace(
-      typeAnnotation: TSESTree.TSIntersectionType | TSESTree.TSUnionType,
+      typeAnnotation: Tree.TSIntersectionType | Tree.TSUnionType,
     ): void {
       const types = typeAnnotation.types
 
       types.forEach((type) => {
         const skipFunctionParenthesis
-          = type.type === TSESTree.AST_NODE_TYPES.TSFunctionType
+          = type.type === AST_NODE_TYPES.TSFunctionType
             ? isNotOpeningParenToken
             : 0
         const operator = sourceCode.getTokenBefore(
@@ -148,7 +148,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node The node to report
      */
     function checkForTypeAliasAssignment(
-      node: TSESTree.TSTypeAliasDeclaration,
+      node: Tree.TSTypeAliasDeclaration,
     ): void {
       checkAndReportAssignmentSpace(
         node.typeParameters ?? node.id,
@@ -156,7 +156,7 @@ export default createRule<RuleOptions, MessageIds>({
       )
     }
 
-    function checkForTypeConditional(node: TSESTree.TSConditionalType): void {
+    function checkForTypeConditional(node: Tree.TSConditionalType): void {
       checkAndReportAssignmentSpace(node.extendsType, node.trueType)
       checkAndReportAssignmentSpace(node.trueType, node.falseType)
     }

@@ -1,4 +1,4 @@
-import type { Tree } from './types'
+import type { Tree } from '@shared/types'
 
 /**
  * Find the token before the closing bracket.

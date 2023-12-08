@@ -30,11 +30,11 @@
  THE SOFTWARE.
  */
 
+import type { ASTNode, ReportFixFunction, Token, Tree } from '@shared/types'
 import { getFirstNodeInLine, isNodeFirstInLine } from '../../utils/ast'
 import { docsUrl } from '../../utils/docsUrl'
 import { isJSX, isReturningJSX } from '../../utils/jsx'
 import { createRule } from '../../utils/createRule'
-import type { ASTNode, ReportFixFunction, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
@@ -334,7 +334,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     function handleOpeningElement(node: Tree.JSXOpeningElement | Tree.JSXOpeningFragment) {
       const sourceCode = context.sourceCode
-      let prevToken: Tree.Node | Tree.Token = sourceCode.getTokenBefore(node)!
+      let prevToken: ASTNode | Tree.Token = sourceCode.getTokenBefore(node)!
       if (!prevToken)
         return
 
@@ -419,7 +419,7 @@ export default createRule<MessageIds, RuleOptions>({
         )
           return
 
-        let fn: Tree.Node | undefined = node.parent
+        let fn: ASTNode | undefined = node.parent
         while (fn && fn.type !== 'FunctionDeclaration' && fn.type !== 'FunctionExpression')
           fn = fn.parent
 

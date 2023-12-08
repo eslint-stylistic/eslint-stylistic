@@ -2,9 +2,9 @@
  * @fileoverview enforce consistent line breaks inside jsx curly
  */
 
+import type { ASTNode, RuleContext, Tree } from '@shared/types'
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import type { ASTNode, RuleContext, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 function getNormalizedOption(context: Readonly<RuleContext<MessageIds, RuleOptions>>) {
@@ -87,7 +87,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param right - The right token object.
      * @returns Whether or not the tokens are on the same line.
      */
-    function isTokenOnSameLine(left: Tree.Node | Tree.Token, right: Tree.Node | Tree.Token) {
+    function isTokenOnSameLine(left: ASTNode | Tree.Token, right: ASTNode | Tree.Token) {
       return left.loc.end.line === right.loc.start.line
     }
 

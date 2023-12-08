@@ -3,8 +3,8 @@
  * @author Teddy Katz
  */
 
+import type { JSONSchema, Tree } from '@shared/types'
 import { createRule } from '../../utils/createRule'
-import type { JSONSchema, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 type KeywordName = keyof NonNullable<NonNullable<RuleOptions['1']>['overrides']>

@@ -3,9 +3,9 @@
  * @author Toru Nagashima
  */
 
+import type { JSONSchema, Token, Tree } from '@shared/types'
 import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
-import type { JSONSchema, Token, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 // Schema objects.

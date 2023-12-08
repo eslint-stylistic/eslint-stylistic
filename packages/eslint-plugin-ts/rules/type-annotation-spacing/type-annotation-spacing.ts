@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { ASTNode, Tree } from '@shared/types'
 
 import {
   isClassOrTypeElement,
@@ -70,7 +70,7 @@ function createRules(options?: Config): WhitespaceRules {
 
 function getIdentifierRules(
   rules: WhitespaceRules,
-  node: TSESTree.Node | undefined,
+  node: ASTNode | undefined,
 ): WhitespaceRule {
   const scope = node?.parent
 
@@ -84,7 +84,7 @@ function getIdentifierRules(
 
 function getRules(
   rules: WhitespaceRules,
-  node: TSESTree.TypeNode,
+  node: Tree.TypeNode,
 ): WhitespaceRule {
   const scope = node?.parent?.parent
 
@@ -165,7 +165,7 @@ export default createRule<Options, MessageIds>({
      * before colon, one space after).
      */
     function checkTypeAnnotationSpacing(
-      typeAnnotation: TSESTree.TypeNode,
+      typeAnnotation: Tree.TypeNode,
     ): void {
       const nextToken = typeAnnotation
       const punctuatorTokenEnd = sourceCode.getTokenBefore(nextToken)!

@@ -9,9 +9,9 @@
  * @author Erik Wendel
  */
 
+import type { ASTNode, RuleFixer, Token, Tree } from '@shared/types'
 import { createRule } from '../../utils/createRule'
 import { docsUrl } from '../../utils/docsUrl'
-import type { ASTNode, RuleFixer, Token, Tree } from '../../utils/types'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
 
 const SPACING = {

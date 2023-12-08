@@ -1,4 +1,4 @@
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { Tree } from '@shared/types'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 
 import {
@@ -53,18 +53,18 @@ export default createRule<RuleOptions, MessageIds>({
     const { before: spaceBefore, after: spaceAfter } = options
     const sourceCode = context.sourceCode
     const tokensAndComments = sourceCode.tokensAndComments
-    const ignoredTokens = new Set<TSESTree.PunctuatorToken>()
+    const ignoredTokens = new Set<Tree.PunctuatorToken>()
 
     /**
      * Adds null elements of the ArrayExpression or ArrayPattern node to the ignore list
      * @param node node to evaluate
      */
     function addNullElementsToIgnoreList(
-      node: TSESTree.ArrayExpression | TSESTree.ArrayPattern,
+      node: Tree.ArrayExpression | Tree.ArrayPattern,
     ): void {
       let previousToken = sourceCode.getFirstToken(node)
       for (const element of node.elements) {
-        let token: TSESTree.Token | null
+        let token: Tree.Token | null
         if (element == null) {
           token = sourceCode.getTokenAfter(previousToken!)
           if (token && isCommaToken(token))
@@ -83,7 +83,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node node to evaluate
      */
     function addTypeParametersTrailingCommaToIgnoreList(
-      node: TSESTree.TSTypeParameterDeclaration,
+      node: Tree.TSTypeParameterDeclaration,
     ): void {
       const paramLength = node.params.length
       if (paramLength) {
@@ -101,9 +101,9 @@ export default createRule<RuleOptions, MessageIds>({
      * @param nextToken The first token after the comma
      */
     function validateCommaSpacing(
-      commaToken: TSESTree.PunctuatorToken,
-      prevToken: TSESTree.Token | null,
-      nextToken: TSESTree.Token | null,
+      commaToken: Tree.PunctuatorToken,
+      prevToken: Tree.Token | null,
+      nextToken: Tree.Token | null,
     ): void {
       if (
         prevToken

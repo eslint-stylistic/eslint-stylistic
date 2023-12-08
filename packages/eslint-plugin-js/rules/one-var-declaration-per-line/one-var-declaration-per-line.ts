@@ -3,8 +3,8 @@
  * @author Alberto Rodríguez
  */
 
+import type { NodeTypes, Tree } from '@shared/types'
 import { createRule } from '../../utils/createRule'
-import type { NodeTypes, Tree } from '../../utils/types'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<MessageIds, RuleOptions>({
