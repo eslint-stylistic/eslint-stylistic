@@ -119,6 +119,7 @@
     "graphemer": "^1.4.0"
   },
   "devDependencies": {
-    "@eslint-community/eslint-utils": "^4.4.0"
+    "@eslint-community/eslint-utils": "^4.4.0",
+    "@typescript-eslint/parser": "^6.13.1"
   }
 }
