@@ -117,7 +117,23 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     const overrides: TSESLint.RuleListener = {
-      // ArrayExpression
+      ArrayExpression(node) {
+        node.elements.forEach((element, index) => {
+          if (isTypeAssertion(element)) {
+            return rules.ArrayExpression!({
+              ...node,
+              elements: [
+                ...node.elements.slice(0, index),
+                {
+                  ...element,
+                  type: AST_NODE_TYPES.FunctionExpression as any,
+                },
+                ...node.elements.slice(index + 1),
+              ],
+            })
+          }
+        })
+      },
       ArrowFunctionExpression(node) {
         if (!isTypeAssertion(node.body))
           return rules.ArrowFunctionExpression!(node)
@@ -237,6 +253,16 @@ export default createRule<RuleOptions, MessageIds>({
           })
         }
 
+        if (isTypeAssertion(node.property)) {
+          return rules.MemberExpression!({
+            ...node,
+            property: ({
+              ...node.property,
+              type: AST_NODE_TYPES.FunctionExpression as any,
+            } as any),
+          })
+        }
+
         return rules.MemberExpression!(node)
       },
       'NewExpression': callExp,
@@ -259,6 +285,20 @@ export default createRule<RuleOptions, MessageIds>({
       'UnaryExpression': unaryUpdateExpression,
       'UpdateExpression': unaryUpdateExpression,
       // VariableDeclarator
+      VariableDeclarator(node) {
+        if (isTypeAssertion(node.init)) {
+          return rules.VariableDeclarator!({
+            ...node,
+            type: AST_NODE_TYPES.VariableDeclarator,
+            init: {
+              ...(node.init as Tree.TSAsExpression),
+              type: AST_NODE_TYPES.FunctionExpression as any,
+            },
+          })
+        }
+
+        return rules.VariableDeclarator!(node)
+      },
       // WhileStatement
       // WithStatement - i'm not going to even bother implementing this terrible and never used feature
       YieldExpression(node) {
@@ -287,6 +327,12 @@ export default createRule<RuleOptions, MessageIds>({
         }
 
         return rules.ForOfStatement!(node)
+      },
+      TSStringKeyword(node) {
+        return rules.TSStringKeyword!({
+          ...node,
+          type: AST_NODE_TYPES.FunctionExpression as any,
+        })
       },
     }
     return Object.assign({}, rules, overrides)

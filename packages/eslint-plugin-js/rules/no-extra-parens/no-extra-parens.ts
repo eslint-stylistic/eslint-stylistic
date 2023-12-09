@@ -1258,6 +1258,10 @@ export default createRule<MessageIds, RuleOptions>({
         if (right && hasExcessParensWithPrecedence(right, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           report(right)
       },
+      TSStringKeyword(node) {
+        if (hasExcessParens(node))
+          report(node)
+      },
     }
   },
 })
