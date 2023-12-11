@@ -45,6 +45,7 @@ export type StatementType =
     | 'cjs-import'
     | 'interface'
     | 'type'
+    | 'function-overload'
     )
     | [
       (
@@ -90,6 +91,7 @@ export type StatementType =
         | 'cjs-import'
         | 'interface'
         | 'type'
+        | 'function-overload'
       ),
       ...(
         | '*'
@@ -134,6 +136,7 @@ export type StatementType =
         | 'cjs-import'
         | 'interface'
         | 'type'
+        | 'function-overload'
       )[],
     ]
 export type Schema0 = {

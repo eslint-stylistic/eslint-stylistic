@@ -2808,6 +2808,33 @@ var a = 1
         { blankLine: 'never', prev: '*', next: 'function' },
       ],
     },
+
+    // ----------------------------------------------------------------------
+    // ESLint Stylistic
+    // ----------------------------------------------------------------------
+
+    // Function overloads https://github.com/eslint-stylistic/eslint-stylistic/issues/190
+    {
+      code: [
+        'function foo(): void;',
+        'function foo(param0?: true): boolean;',
+        'function foo(param0?: boolean): boolean {',
+        '  return param0;',
+        '}',
+      ].join('\n'),
+      options: [
+        {
+          blankLine: 'always',
+          prev: ['*'],
+          next: ['multiline-block-like'],
+        },
+        {
+          blankLine: 'never',
+          prev: ['function-overload'],
+          next: ['multiline-block-like'],
+        },
+      ],
+    },
   ],
   invalid: [
     // ----------------------------------------------------------------------

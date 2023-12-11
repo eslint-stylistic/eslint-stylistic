@@ -17,7 +17,11 @@ let splitter: Graphemer | undefined
 export function getGraphemeCount(value: string) {
   if (ASCII_REGEX.test(value))
     return value.length
-  if (!splitter)
-    splitter = new Graphemer()
-  return splitter.countGraphemes(value)
+
+  if (!splitter) {
+    // @ts-expect-error CJS interop
+    splitter = new (Graphemer.default || Graphemer)()
+  }
+
+  return splitter!.countGraphemes(value)
 }
