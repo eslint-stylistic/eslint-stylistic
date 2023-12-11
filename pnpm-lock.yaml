@@ -235,9 +235,6 @@ importers:
       espree:
         specifier: ^9.6.1
         version: 9.6.1
-      graphemer:
-        specifier: ^1.4.0
-        version: 1.4.0
     devDependencies:
       '@eslint-community/eslint-utils':
         specifier: ^4.4.0
@@ -319,9 +316,6 @@ importers:
       eslint:
         specifier: '>=8.40.0'
         version: 8.53.0
-      graphemer:
-        specifier: ^1.4.0
-        version: 1.4.0
     devDependencies:
       '@typescript-eslint/rule-tester':
         specifier: ^6.13.2
