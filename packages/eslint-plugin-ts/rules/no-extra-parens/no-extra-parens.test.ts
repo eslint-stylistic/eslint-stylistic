@@ -825,5 +825,14 @@ var y = function () {return 1;};
         },
       ],
     },
+    {
+      code: 'const x: (string) = ""',
+      output: 'const x: string = ""',
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
   ],
 })
