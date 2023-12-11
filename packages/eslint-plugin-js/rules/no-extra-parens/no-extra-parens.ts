@@ -1258,6 +1258,12 @@ export default createRule<MessageIds, RuleOptions>({
         if (right && hasExcessParensWithPrecedence(right, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           report(right)
       },
+
+      // This listener is exposed for TypeScript rule to consume
+      TSStringKeyword(node) {
+        if (hasExcessParens(node))
+          report(node)
+      },
     }
   },
 })

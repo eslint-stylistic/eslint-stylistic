@@ -797,5 +797,42 @@ var y = function () {return 1;};
         },
       ],
     },
+    {
+      code: 'const x = (a as string)',
+      output: 'const x = a as string',
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+      ],
+      options: ['all'],
+    },
+    {
+      code: 'const x = a[(b as string)]',
+      output: 'const x = a[b as string]',
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
+    {
+      code: 'const x = [(b as string)]',
+      output: 'const x = [b as string]',
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
+    {
+      code: 'const x: (string) = ""',
+      output: 'const x: string = ""',
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
   ],
 })
