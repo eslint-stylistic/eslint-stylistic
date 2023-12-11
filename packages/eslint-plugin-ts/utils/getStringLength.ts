@@ -10,7 +10,8 @@ export function getStringLength(value: string): number {
   if (isASCII(value))
     return value.length
 
-  splitter ??= new Graphemer()
+  // @ts-expect-error CJS interop
+  splitter ??= new (Graphemer.default || Graphemer)()
 
   return splitter.countGraphemes(value)
 }
