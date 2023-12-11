@@ -3,11 +3,9 @@
  * @author Stephen Wade
  */
 
-import Graphemer from 'graphemer'
-
 // eslint-disable-next-line no-control-regex -- intentionally including control characters
 const ASCII_REGEX = /^[\u0000-\u007F]*$/u
-let splitter: Graphemer | undefined
+let segmenter: Intl.Segmenter | undefined
 
 /**
  * Counts graphemes in a given string.
@@ -18,10 +16,8 @@ export function getGraphemeCount(value: string) {
   if (ASCII_REGEX.test(value))
     return value.length
 
-  if (!splitter) {
-    // @ts-expect-error CJS interop
-    splitter = new (Graphemer.default || Graphemer)()
-  }
+  if (!segmenter)
+    segmenter = new Intl.Segmenter()
 
-  return splitter!.countGraphemes(value)
+  return [...segmenter.segment(value)].length
 }
