@@ -35,6 +35,31 @@ export interface StylisticCustomizeOptions<Flat extends boolean = true> {
    * @default true
    */
   jsx?: boolean
+  /**
+   * When to enable arrow parenthesis
+   * @default false
+   */
+  arrowParens?: boolean
+  /**
+   * Which brace style to use
+   * @default 'stroustrup'
+   */
+  braceStyle?: '1tbs' | 'stroustrup' | 'allman'
+  /**
+   * Whether to require spaces around braces
+   * @default true
+   */
+  blockSpacing?: boolean
+  /**
+   * When to enable prop quoting
+   * @default 'consistent-as-needed'
+   */
+  quoteProps?: 'always' | 'as-needed' | 'consistent' | 'consistent-as-needed'
+  /**
+   * When to enable comma dangles
+   * @default 'always-multiline'
+   */
+  commaDangle?: 'never' | 'always' | 'always-multiline' | 'only-multiline'
 }
 
 type Rules = Partial<{
@@ -48,21 +73,26 @@ export function customize(options: StylisticCustomizeOptions<false>): Linter.Bas
 export function customize(options?: StylisticCustomizeOptions<true>): Linter.FlatConfig
 export function customize(options: StylisticCustomizeOptions<boolean> = {}): Linter.FlatConfig | Linter.BaseConfig {
   const {
+    arrowParens = false,
+    blockSpacing = true,
+    braceStyle = 'stroustrup',
+    commaDangle = 'always-multiline',
     flat = true,
     indent = 2,
     jsx = true,
     pluginName = '@stylistic',
+    quoteProps = 'consistent-as-needed',
     quotes = 'single',
     semi = false,
   } = options
 
   let rules: Rules = {
     '@stylistic/array-bracket-spacing': ['error', 'never'],
-    '@stylistic/arrow-parens': ['error', 'as-needed', { requireForBlockBody: true }],
+    '@stylistic/arrow-parens': ['error', arrowParens ? 'always' : 'as-needed', { requireForBlockBody: true }],
     '@stylistic/arrow-spacing': ['error', { after: true, before: true }],
-    '@stylistic/block-spacing': ['error', 'always'],
-    '@stylistic/brace-style': ['error', 'stroustrup', { allowSingleLine: true }],
-    '@stylistic/comma-dangle': ['error', 'always-multiline'],
+    '@stylistic/block-spacing': ['error', blockSpacing ? 'always' : 'never'],
+    '@stylistic/brace-style': ['error', braceStyle, { allowSingleLine: true }],
+    '@stylistic/comma-dangle': ['error', commaDangle],
     '@stylistic/comma-spacing': ['error', { after: true, before: false }],
     '@stylistic/comma-style': ['error', 'last'],
     '@stylistic/computed-property-spacing': ['error', 'never', { enforceForClassMembers: true }],
@@ -150,7 +180,7 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
     '@stylistic/object-curly-spacing': ['error', 'always'],
     '@stylistic/operator-linebreak': ['error', 'before'],
     '@stylistic/padded-blocks': ['error', { blocks: 'never', classes: 'never', switches: 'never' }],
-    '@stylistic/quote-props': ['error', 'consistent-as-needed'],
+    '@stylistic/quote-props': ['error', quoteProps],
     '@stylistic/quotes': ['error', quotes, { allowTemplateLiterals: true, avoidEscape: false }],
     '@stylistic/rest-spread-spacing': ['error', 'never'],
     '@stylistic/semi': ['error', semi ? 'always' : 'never'],
