@@ -20,6 +20,7 @@ const GUIDES: DefaultTheme.NavItemWithLink[] = [
   { text: 'Why', link: '/guide/why' },
   { text: 'Shared Configs', link: '/guide/config-presets' },
   { text: 'Migration', link: '/guide/migration' },
+  { text: 'Migration from Prettier', link: '/guide/migration-from-prettier' },
   { text: 'FAQ', link: '/guide/faq' },
 ]
 
