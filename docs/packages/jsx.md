@@ -16,7 +16,27 @@ npm i -D @stylistic/eslint-plugin-jsx
 
 Add `@stylistic/jsx` to your plugins list, and change the prefix for [stylistic rules](#rules) from `react` to `@stylistic/js`:
 
-```ts
+::: code-group
+
+```js [Flat Config]
+// eslint.config.js
+import stylisticJsx from '@stylistic/eslint-plugin-jsx' // [!code ++]
+
+export default [
+  {
+    plugins: {
+    '@stylistic/jsx': stylisticJsx // [!code ++]
+    },
+    rules: {
+      'react/jsx-indent': ['error', 2], // [!code --]
+      '@stylistic/jsx/jsx-indent': ['error', 2], // [!code ++]
+      // ...
+    }
+  }
+]
+```
+
+```js [Legacy Config]
 // .eslintrc.js
 module.exports = {
   plugins: [
@@ -27,8 +47,10 @@ module.exports = {
     '@stylistic/jsx/jsx-indent': ['error', 2], // [!code ++]
     // ...
   }
-};
+}
 ```
+
+:::
 
 Check out the [migration guide](/guide/migration) for more details.
 

@@ -22,8 +22,27 @@ npm i -D @stylistic/eslint-plugin
 ```
 
 Add `@stylistic` to your plugins list, and prefix [stylistic rules](#rules) with `@stylistic`:
+::: code-group
 
-```js
+```js [Flat Config]
+// eslint.config.js
+import stylistic from '@stylistic/eslint-plugin' // [!code ++]
+
+export default [
+  {
+    plugins: {
+      '@stylistic': stylistic // [!code ++]
+    },
+    rules: {
+      'indent': ['error', 2], // [!code --]
+      '@stylistic/indent': ['error', 2], // [!code ++]
+      // ...
+    }
+  }
+]
+```
+
+```js [Legacy Config]
 // .eslintrc.js
 module.exports = {
   plugins: [
@@ -36,6 +55,8 @@ module.exports = {
   }
 }
 ```
+
+:::
 
 Check out the [migration guide](/guide/migration) for more details.
 
