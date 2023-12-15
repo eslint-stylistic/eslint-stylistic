@@ -750,6 +750,23 @@ const div: JQuery<HTMLElement> = $('<div>')
     {
       code: 'const foo = function<> (): void {}',
     },
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/229
+    {
+      code: `
+import { Entity, Column, PrimaryGeneratedColumn } from 'foo';
+
+@Entity()
+export class UserEntity {
+  @PrimaryGeneratedColumn()
+  id: string;
+      
+  @Column()
+  username: string;
+}
+      `,
+      options: [2],
+    },
   ],
   invalid: [
     ...individualNodeTests.invalid,
@@ -1700,6 +1717,8 @@ declare module "Validation" {
         },
       ],
     },
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/208
     {
 
       code: `
@@ -1718,6 +1737,33 @@ class Foo {}
             actual: 4,
           },
           line: 2,
+          column: 1,
+        },
+      ],
+    },
+    {
+      code: `
+class Foo {
+
+    @property
+age: number = 0;
+}
+      `,
+      output: `
+class Foo {
+
+    @property
+    age: number = 0;
+}
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 5,
           column: 1,
         },
       ],
