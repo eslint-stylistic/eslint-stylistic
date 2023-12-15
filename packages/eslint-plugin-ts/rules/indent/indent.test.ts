@@ -1729,6 +1729,7 @@ age: number = 0;
     @property
         id: string;
 
+
     @property
     isActive: boolean;
     @property bar: boolean;
@@ -1744,6 +1745,7 @@ class Foo {
 
     @property
     id: string;
+
 
     @property
     isActive: boolean;
@@ -1777,7 +1779,7 @@ class Foo {
             expected: '4 spaces',
             actual: 0,
           },
-          line: 13,
+          line: 14,
           column: 1,
         },
       ],
