@@ -5,9 +5,9 @@ This is a supplement to the [`indent`](https://eslint.style/rules/default/indent
 
 ## Options
 
-Same as the [`indent`](https://eslint.style/rules/default/indent) rule, it takes an option for the indentation size that defaults to 2-spaces.
+Same as the [`indent`](https://eslint.style/rules/default/indent) rule, it takes an option for the indentation size.
 
-For example, for 2-spaces indentation:
+For example, for 2-space indentation:
 
 ```json
 {
