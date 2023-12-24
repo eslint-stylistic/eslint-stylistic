@@ -27,7 +27,7 @@ This rule enforces a consistent indentation style. The default style is `4 space
 
 This rule has a mixed option:
 
-For example, for 2-spaces indentation:
+For example, for 2-space indentation:
 
 ```json
 {
