@@ -1,6 +1,7 @@
 name: 🐞 Bug report
 description: Report an issue
 labels: [pending triage]
+title: '`rule-name`: describe the bug here'
 body:
   - type: markdown
     attributes:
