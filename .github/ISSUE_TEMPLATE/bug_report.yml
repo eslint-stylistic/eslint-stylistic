@@ -34,7 +34,7 @@ body:
       description: |
         The best reproduction would be a Pull Request adding new tests cases that make the CI fails. The test files are placed along side each rule's implemtation. You can learn how to setup your local environment [here](https://eslint.style/contribute/guide#local-setup).
 
-        Otherwise, you can also [create a reproduction from the playground](https://stackblitz.com/fork/github/eslint-stylistic/eslint-stylistic?file=playground%2Feslint.config.js). Create a new terminal and run `pnpm run play:lint` to see the lint result.
+        Otherwise, you can also [create a reproduction on Stackblitz](https://stackblitz.com/https://github.com/eslint-stylistic/repro-template). Create a new terminal and run `pnpm run play:lint` to see the lint result.
 
         A [minimal reproduction](https://stackoverflow.com/help/minimal-reproducible-example) is **required**, otherwise the issue might be closed without further notice. [**Why?**](https://antfu.me/posts/why-reproductions-are-required)
       placeholder: Reproduction
