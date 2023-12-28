@@ -24,6 +24,18 @@ ruleTester.run('indent-binary-ops', rule, {
         | A
         | B
     `,
+    {
+      code: unIndent`
+    it('should not suggest signup when disabled', (): void => {
+      const mockError = new FirebaseError(
+        'auth/user-not-found',
+        'User not found. The account may have been deleted. Please try other addresses or authentication methods that you may have used to'
+                + ' create your account.',
+      );
+    });
+    `,
+      options: [8],
+    },
   ],
   invalid: [],
 })
@@ -124,13 +136,13 @@ it('snapshots', async () => {
 
   expect(
     fix(unIndent`
-    type Foo = 
+    type Foo =
     | A | C
       | B
     `),
   ).toMatchInlineSnapshot(
     `
-    "type Foo = 
+    "type Foo =
       | A | C
       | B"
   `,
@@ -156,15 +168,15 @@ it('snapshots', async () => {
 
   expect(
     fix(unIndent`
-    type T = 
-    a 
-    | b 
+    type T =
+    a
+    | b
       | c`),
   ).toMatchInlineSnapshot(
     `
-    "type T = 
-      a 
-      | b 
+    "type T =
+      a
+      | b
       | c"
   `,
   )
@@ -198,7 +210,7 @@ it('snapshots', async () => {
   expect(
     fix(unIndent`
     type Foo = Merge<
-        A 
+        A
       & B
         & C
     >
@@ -206,7 +218,7 @@ it('snapshots', async () => {
   ).toMatchInlineSnapshot(
     `
     "type Foo = Merge<
-      A 
+      A
       & B
       & C
     >"
