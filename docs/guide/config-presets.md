@@ -106,7 +106,7 @@ module.exports = {
 
 :::
 
-## Enable All Avaible Rules
+## Enable All Available Rules
 
 If you want to enable all rules with their default options (not recommended), we also provide a config for that:
 
