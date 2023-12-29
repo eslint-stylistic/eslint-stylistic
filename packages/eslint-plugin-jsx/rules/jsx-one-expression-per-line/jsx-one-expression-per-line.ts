@@ -11,6 +11,7 @@ import type { MessageIds, RuleOptions } from './types'
 
 const optionDefaults = {
   allow: 'none',
+  spaceMode: 'js',
 }
 
 const messages = {
@@ -39,6 +40,10 @@ export default createRule<MessageIds, RuleOptions>({
           allow: {
             type: 'string',
             enum: ['none', 'literal', 'single-child'],
+          },
+          spaceMode: {
+            type: 'string',
+            enum: ['js', 'html'],
           },
         },
         default: optionDefaults,
@@ -212,8 +217,16 @@ export default createRule<MessageIds, RuleOptions>({
         const descriptor = details.descriptor
         const source = details.source.replace(/(^ +| +(?=\n)*$)/g, '')
 
-        const leadingSpaceString = details.leadingSpace ? '\n{\' \'}' : ''
-        const trailingSpaceString = details.trailingSpace ? '{\' \'}\n' : ''
+        const leadingSpaceString = details.leadingSpace
+          ? options.spaceMode === 'js'
+            ? '\n{\' \'}'
+            : '&nbsp;'
+          : ''
+        const trailingSpaceString = details.trailingSpace
+          ? options.spaceMode === 'js'
+            ? '{\' \'}\n'
+            : '\n&nbsp;'
+          : ''
         const leadingNewLineString = details.leadingNewLine ? '\n' : ''
         const trailingNewLineString = details.trailingNewLine ? '\n' : ''
 
