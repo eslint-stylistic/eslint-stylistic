@@ -212,4 +212,30 @@ it('snapshots', async () => {
     >"
   `,
   )
+
+  expect(
+    fix(unIndent`
+    if (
+      typeof woof === 'string' &&
+      typeof woof === 'string' &&
+        typeof woof === 'string' &&
+      isNaN(null) &&
+        isNaN(NaN)
+    ) {
+      return;
+    }
+    `),
+  ).toMatchInlineSnapshot(
+    `
+    "if (
+      typeof woof === 'string' &&
+      typeof woof === 'string' &&
+      typeof woof === 'string' &&
+      isNaN(null) &&
+      isNaN(NaN)
+    ) {
+      return;
+    }"
+  `,
+  )
 })
