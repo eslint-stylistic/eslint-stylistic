@@ -1127,6 +1127,40 @@ const foo : Foo<{
     },
     {
       code: `
+type FooAlias = Foo<
+Bar,
+Baz
+>
+      `,
+      output: `
+type FooAlias = Foo<
+    Bar,
+    Baz
+>
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 3,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 4,
+          column: 1,
+        },
+      ],
+    },
+    {
+      code: `
 type T = {
 bar : string,
 age : number,
