@@ -730,6 +730,14 @@ ruleTester.run('padding-line-between-statements', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
+      code: 'var a = 0; export * from "foo"\n\nbar()',
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'export', next: '*' },
+      ],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
+    {
       code: 'exports.foo=1\nfoo()',
       options: [
         { blankLine: 'never', prev: '*', next: '*' },
@@ -3565,6 +3573,15 @@ ruleTester.run('padding-line-between-statements', rule, {
     {
       code: 'var a = 0;export {a}\nfoo()',
       output: 'var a = 0;export {a}\n\nfoo()',
+      options: [
+        { blankLine: 'always', prev: 'export', next: '*' },
+      ],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'var a = 0;export * from "foo"\nbar()',
+      output: 'var a = 0;export * from "foo"\n\nbar()',
       options: [
         { blankLine: 'always', prev: 'export', next: '*' },
       ],
