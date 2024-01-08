@@ -477,6 +477,29 @@ export default createRule<RuleOptions, MessageIds>({
           loc: node.loc,
         })
       },
+
+      TSTypeParameterInstantiation(node: Tree.TSTypeParameterInstantiation) {
+        if (!node.params.length)
+          return
+
+        const [name, ...attributes] = node.params
+
+        // JSX is about the closest we can get because the angle brackets
+        // it's not perfect but it works!
+        return rules.JSXOpeningElement({
+          type: AST_NODE_TYPES.JSXOpeningElement,
+          selfClosing: false,
+          name: name as any,
+          attributes: attributes as any,
+          typeArguments: undefined,
+          typeParameters: undefined,
+
+          // location data
+          parent: node.parent,
+          range: node.range,
+          loc: node.loc,
+        })
+      },
     })
   },
 })

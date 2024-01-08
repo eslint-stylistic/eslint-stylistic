@@ -1125,6 +1125,41 @@ const foo : Foo<{
         },
       ],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/pull/256
+    {
+      code: `
+type FooAlias = Foo<
+Bar,
+Baz
+>
+      `,
+      output: `
+type FooAlias = Foo<
+    Bar,
+    Baz
+>
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 3,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 4,
+          column: 1,
+        },
+      ],
+    },
     {
       code: `
 type T = {
