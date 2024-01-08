@@ -181,6 +181,8 @@ export default createRule<RuleOptions, MessageIds>({
           rules['*:exit'](node)
       },
 
+      'PropertyDefinition': () => {},
+
       VariableDeclaration(node: Tree.VariableDeclaration) {
         // https://github.com/typescript-eslint/typescript-eslint/issues/441
         if (node.declarations.length === 0)

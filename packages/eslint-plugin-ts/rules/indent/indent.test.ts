@@ -750,6 +750,23 @@ const div: JQuery<HTMLElement> = $('<div>')
     {
       code: 'const foo = function<> (): void {}',
     },
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/229
+    {
+      code: `
+import { Entity, Column, PrimaryGeneratedColumn } from 'foo';
+
+@Entity()
+export class UserEntity {
+  @PrimaryGeneratedColumn()
+  id: string;
+      
+  @Column()
+  username: string;
+}
+      `,
+      options: [2],
+    },
   ],
   invalid: [
     ...individualNodeTests.invalid,
@@ -1735,24 +1752,116 @@ declare module "Validation" {
         },
       ],
     },
-    {
 
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/208
+    {
       code: `
-    @Decorator()
-class Foo {}
+class Foo {
+
+    @property
+age: number = 0;
+
+    @property
+        id: string;
+
+
+    @property
+    isActive: boolean;
+    @property bar: boolean;
+@property baz;
+
+}
       `,
       output: `
-@Decorator()
-class Foo {}
+class Foo {
+
+    @property
+    age: number = 0;
+
+    @property
+    id: string;
+
+
+    @property
+    isActive: boolean;
+    @property bar: boolean;
+    @property baz;
+
+}
       `,
       errors: [
         {
           messageId: 'wrongIndentation',
           data: {
-            expected: '0 spaces',
-            actual: 4,
+            expected: '4 spaces',
+            actual: 0,
           },
-          line: 2,
+          line: 5,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 8,
+          },
+          line: 8,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 14,
+          column: 1,
+        },
+      ],
+    },
+    {
+      code: `
+class Foo {
+    @a
+@b
+        @c
+        props: any;
+}
+      `,
+      output: `
+class Foo {
+    @a
+    @b
+    @c
+    props: any;
+}
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 4,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 8,
+          },
+          line: 5,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 8,
+          },
+          line: 6,
           column: 1,
         },
       ],
