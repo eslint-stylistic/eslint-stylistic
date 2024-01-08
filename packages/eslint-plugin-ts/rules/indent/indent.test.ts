@@ -1125,6 +1125,7 @@ const foo : Foo<{
         },
       ],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/pull/256
     {
       code: `
 type FooAlias = Foo<
