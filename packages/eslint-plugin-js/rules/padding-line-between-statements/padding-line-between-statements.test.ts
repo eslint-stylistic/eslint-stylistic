@@ -730,14 +730,6 @@ ruleTester.run('padding-line-between-statements', rule, {
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: 'var a = 0; export * from "foo"\n\nbar()',
-      options: [
-        { blankLine: 'never', prev: '*', next: '*' },
-        { blankLine: 'always', prev: 'export', next: '*' },
-      ],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
-    },
-    {
       code: 'exports.foo=1\nfoo()',
       options: [
         { blankLine: 'never', prev: '*', next: '*' },
@@ -747,6 +739,15 @@ ruleTester.run('padding-line-between-statements', rule, {
     },
     {
       code: 'module.exports={}\nfoo()',
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'export', next: '*' },
+      ],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/pull/257
+    {
+      code: 'var a = 0; export * from "foo"\n\nbar()',
       options: [
         { blankLine: 'never', prev: '*', next: '*' },
         { blankLine: 'always', prev: 'export', next: '*' },
