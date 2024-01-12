@@ -1048,7 +1048,7 @@ export default createRule<MessageIds, RuleOptions>({
       },
 
       'ObjectExpression, ObjectPattern': function (node: Tree.ObjectExpression | Tree.ObjectPattern) {
-        const openingCurly = sourceCode.getFirstToken(node)!
+        const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
         const closingCurly = sourceCode.getTokenAfter(
           node.properties.length ? node.properties[node.properties.length - 1] : openingCurly,
           isClosingBraceToken,
