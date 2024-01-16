@@ -159,18 +159,20 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
     '@stylistic/max-statements-per-line': ['error', { max: 1 }],
     '@stylistic/member-delimiter-style': ['error', {
       multiline: {
-        delimiter: 'none',
+        delimiter: semi ? 'semi' : 'none',
+        requireLast: semi,
       },
       multilineDetection: 'brackets',
       overrides: {
         interface: {
           multiline: {
-            delimiter: 'none',
+            delimiter: semi ? 'semi' : 'none',
+            requireLast: semi,
           },
         },
       },
       singleline: {
-        delimiter: 'comma',
+        delimiter: semi ? 'semi' : 'comma',
       },
     }],
     '@stylistic/multiline-ternary': ['error', 'always-multiline'],
