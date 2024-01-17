@@ -2,8 +2,8 @@ export {};
 
 // Define a TypeScript interface
 interface Person< T = string, K = number > {
-	name: string
-	age: number
+	name: string;
+	age: number;
 }
 
 type Tuple = [ foo: number, bar: String | Boolean];
@@ -43,8 +43,8 @@ log(result);
 
 // Use optional properties in an interface
 interface Car {
-	make: string
-	model?: string
+	make: string;
+	model?: string;
 }
 
 // Create objects using the interface
