@@ -185,6 +185,13 @@ enum Foo {
     baz = 1,
 }
             `,
+            `
+enum Foo
+{
+    bar = 1,
+    baz = 1,
+}
+            `,
     ],
   },
   {
