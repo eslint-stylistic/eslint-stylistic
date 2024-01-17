@@ -12,14 +12,14 @@
   "devDependencies": {
     "@types/markdown-it-container": "^2.0.9",
     "@unocss/reset": "^0.58.3",
-    "@vueuse/core": "^10.7.1",
+    "@vueuse/core": "^10.7.2",
     "gray-matter": "^4.0.3",
     "markdown-it-container": "^4.0.0",
-    "shikiji": "^0.9.17",
-    "shikiji-transformers": "^0.9.17",
+    "shikiji": "^0.9.19",
+    "shikiji-transformers": "^0.9.19",
     "unocss": "^0.58.3",
     "unplugin-vue-components": "^0.26.0",
     "vitepress": "1.0.0-rc.30",
-    "vue": "^3.4.3"
+    "vue": "^3.4.14"
   }
 }
