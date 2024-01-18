@@ -73,7 +73,7 @@ export default createRule<RuleOptions, MessageIds>({
       //   we bump the indentation level by one.
       const firstTokenOfLineLeft = firstTokenOfLine(tokenLeft.loc.start.line)
       const lastTokenOfLineLeft = lastTokenOfLine(tokenLeft.loc.start.line)
-      const needAdditionIndent = (firstTokenOfLineLeft?.type === 'Keyword' && !['typeof', 'instanceof'].includes(firstTokenOfLineLeft.value))
+      const needAdditionIndent = (firstTokenOfLineLeft?.type === 'Keyword' && !['typeof', 'instanceof', 'this'].includes(firstTokenOfLineLeft.value))
         || (firstTokenOfLineLeft?.type === 'Identifier' && firstTokenOfLineLeft.value === 'type')
         || [':', '[', '(', '<', '='].includes(lastTokenOfLineLeft?.value || '')
 

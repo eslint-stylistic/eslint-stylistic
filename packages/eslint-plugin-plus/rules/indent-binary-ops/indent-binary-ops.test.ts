@@ -24,6 +24,14 @@ ruleTester.run('indent-binary-ops', rule, {
         | A
         | B
     `,
+    unIndent`
+      if (
+        this.level >= this.max ||
+        this.level <= this.min
+      ) {
+        this.overflow = true;
+      }
+    `,
   ],
   invalid: [],
 })
