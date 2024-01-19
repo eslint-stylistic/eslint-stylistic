@@ -422,7 +422,7 @@ class OffsetStorage {
           // (indentation for the first element's line)
           this.getDesiredIndent(this._tokenInfo.getFirstTokenOfLine(firstToken)!)
           // (space between the start of the first element's line and the first element)
-            + this._indentType.repeat(firstToken.loc.start.column - this._tokenInfo.getFirstTokenOfLine(firstToken)!.loc.start.column),
+          + this._indentType.repeat(firstToken.loc.start.column - this._tokenInfo.getFirstTokenOfLine(firstToken)!.loc.start.column),
         )
       }
       else {
