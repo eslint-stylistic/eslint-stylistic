@@ -30,7 +30,7 @@ Examples of **correct** code for this rule:
 
 ```js
 ...
-"react/jsx-pascal-case": [<enabled>, { allowAllCaps: <boolean>, allowNamespace: <boolean>, allowLeadingUnderscore: <boolean>, ignore: <string[]> }]
+"@stylistic/jsx/jsx-pascal-case": [<enabled>, { allowAllCaps: <boolean>, allowNamespace: <boolean>, allowLeadingUnderscore: <boolean>, ignore: <string[]> }]
 ```
 
 - `enabled`: for enabling the rule. 0=off, 1=warn, 2=error. Defaults to 0.
