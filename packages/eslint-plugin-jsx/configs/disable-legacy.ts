@@ -17,6 +17,7 @@ const config: Linter.FlatConfig = {
     'react/jsx-max-props-per-line': 0,
     'react/jsx-newline': 0,
     'react/jsx-one-expression-per-line': 0,
+    'react/jsx-pascal-case': 0,
     'react/jsx-props-no-multi-spaces': 0,
     'react/jsx-self-closing-comp': 0,
     'react/jsx-sort-props': 0,
