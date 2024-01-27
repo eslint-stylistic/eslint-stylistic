@@ -251,6 +251,9 @@ importers:
       estraverse:
         specifier: ^5.3.0
         version: 5.3.0
+      picomatch:
+        specifier: ^3.0.1
+        version: 3.0.1
     devDependencies:
       '@babel/eslint-parser':
         specifier: ^7.23.3
@@ -267,6 +270,9 @@ importers:
       '@babel/preset-react':
         specifier: ^7.23.3
         version: 7.23.3(@babel/core@7.23.7)
+      '@types/picomatch':
+        specifier: ^2.3.3
+        version: 2.3.3
       '@typescript-eslint/parser':
         specifier: ^6.19.0
         version: 6.19.0(eslint@8.56.0)(typescript@5.3.3)
@@ -2194,6 +2200,10 @@ packages:
 
   /@types/normalize-package-data@2.4.1:
     resolution: {integrity: sha512-Gj7cI7z+98M282Tqmp2K5EIsoouUEzbBJhQQzDE3jSIRk6r9gsz0oUokqIUR4u1R3dMHo0pDHM7sNOHyhulypw==}
+    dev: true
+
+  /@types/picomatch@2.3.3:
+    resolution: {integrity: sha512-Yll76ZHikRFCyz/pffKGjrCwe/le2CDwOP5F210KQo27kpRE46U2rDnzikNlVn6/ezH3Mhn46bJMTfeVTtcYMg==}
     dev: true
 
   /@types/prettier@2.7.3:
@@ -5971,6 +5981,11 @@ packages:
   /picomatch@2.3.1:
     resolution: {integrity: sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==}
     engines: {node: '>=8.6'}
+
+  /picomatch@3.0.1:
+    resolution: {integrity: sha512-I3EurrIQMlRc9IaAZnqRR044Phh2DXY+55o7uJ0V+hYZAcQYSuFWsc9q5PvyDHUSCe1Qxn/iBz+78s86zWnGag==}
+    engines: {node: '>=10'}
+    dev: false
 
   /pidtree@0.6.0:
     resolution: {integrity: sha512-eG2dWTVw5bzqGRztnHExczNxt5VGsE6OwTeCG3fdUf9KBsZzO3R5OIIIzWR+iZA0NtZ+RDVdaoE2dK1cn6jH4g==}

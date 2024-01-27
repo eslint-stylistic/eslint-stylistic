@@ -37,6 +37,7 @@
     "./rules/jsx-max-props-per-line": "./dist/jsx-max-props-per-line.js",
     "./rules/jsx-newline": "./dist/jsx-newline.js",
     "./rules/jsx-one-expression-per-line": "./dist/jsx-one-expression-per-line.js",
+    "./rules/jsx-pascal-case": "./dist/jsx-pascal-case.js",
     "./rules/jsx-props-no-multi-spaces": "./dist/jsx-props-no-multi-spaces.js",
     "./rules/jsx-self-closing-comp": "./dist/jsx-self-closing-comp.js",
     "./rules/jsx-sort-props": "./dist/jsx-sort-props.js",
@@ -63,7 +64,8 @@
   },
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:^",
-    "estraverse": "^5.3.0"
+    "estraverse": "^5.3.0",
+    "picomatch": "^3.0.1"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.23.3",
@@ -71,6 +73,7 @@
     "@babel/plugin-syntax-do-expressions": "^7.23.3",
     "@babel/plugin-syntax-function-bind": "^7.23.3",
     "@babel/preset-react": "^7.23.3",
+    "@types/picomatch": "^2.3.3",
     "@typescript-eslint/parser": "^6.19.0",
     "babel-eslint": "^10.1.0",
     "eslint": "^8.56.0",

@@ -1065,6 +1065,18 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "jsx-pascal-case",
+        "ruleId": "@stylistic/jsx/jsx-pascal-case",
+        "originalId": "react/jsx-pascal-case",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-pascal-case/jsx-pascal-case.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-pascal-case/README.md",
+        "meta": {
+          "docs": {
+            "description": "Enforce PascalCase for user-defined JSX components"
+          }
+        }
+      },
+      {
         "name": "jsx-props-no-multi-spaces",
         "ruleId": "@stylistic/jsx/jsx-props-no-multi-spaces",
         "originalId": "react/jsx-props-no-multi-spaces",
@@ -1923,6 +1935,18 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Require one JSX element per line"
+          }
+        }
+      },
+      {
+        "name": "jsx-pascal-case",
+        "ruleId": "@stylistic/jsx-pascal-case",
+        "originalId": "react/jsx-pascal-case",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-pascal-case/jsx-pascal-case.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-pascal-case/README.md",
+        "meta": {
+          "docs": {
+            "description": "Enforce PascalCase for user-defined JSX components"
           }
         }
       },
