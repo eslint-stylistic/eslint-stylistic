@@ -2,12 +2,12 @@ import type { Element, ElementContent, Text } from 'hast'
 import { addClassToHast } from 'shikiji'
 import type { ShikijiTransformer, ShikijiTransformerContextMeta } from 'shikiji'
 import { Linter } from 'eslint'
+import stylistic from '@stylistic/eslint-plugin'
+import stylisticJs from '@stylistic/eslint-plugin-js'
+import stylisticTs from '@stylistic/eslint-plugin-ts'
+import stylisticJsx from '@stylistic/eslint-plugin-jsx'
+import stylisticPlus from '@stylistic/eslint-plugin-plus'
 import * as parserTs from '@typescript-eslint/parser'
-import stylisticPlus from '../../packages/eslint-plugin-plus/src/index'
-import stylisticTs from '../../packages/eslint-plugin-ts/src/index'
-import stylisticJsx from '../../packages/eslint-plugin-jsx/src/index'
-import stylisticJs from '../../packages/eslint-plugin-js/src/index'
-import stylistic from '../../packages/eslint-plugin/src/index'
 
 interface Context {
   messages: Linter.LintMessage[]

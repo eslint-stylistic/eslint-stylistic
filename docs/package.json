@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
+    "docs:build": "cd .. && pnpm run build && cd docs && vitepress build",
     "docs:preview": "vitepress preview"
   },
   "dependencies": {
