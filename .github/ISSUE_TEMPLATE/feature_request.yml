@@ -1,6 +1,7 @@
 name: 🚀 New feature proposal
 description: Propose a new feature
 labels: [enhancement]
+title: '`rule-name`: describe the feature here'
 body:
   - type: markdown
     attributes:

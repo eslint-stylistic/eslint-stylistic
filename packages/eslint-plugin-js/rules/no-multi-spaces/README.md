@@ -77,6 +77,7 @@ This rule's configuration consists of an object with the following properties:
 
 - `"ignoreEOLComments": true` (defaults to `false`) ignores multiple spaces before comments that occur at the end of lines
 - `"exceptions": { "Property": true }` (`"Property"` is the only node specified by default) specifies nodes to ignore
+- `"includeTabs": false` (defaults to `true`) consider multiple tabs or spaces mixed with tabs as multiple spaces
 
 ### ignoreEOLComments
 

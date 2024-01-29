@@ -24,6 +24,14 @@ ruleTester.run('indent-binary-ops', rule, {
         | A
         | B
     `,
+    unIndent`
+      if (
+        this.level >= this.max ||
+        this.level <= this.min
+      ) {
+        this.overflow = true;
+      }
+    `,
   ],
   invalid: [],
 })
@@ -210,6 +218,32 @@ it('snapshots', async () => {
       & B
       & C
     >"
+  `,
+  )
+
+  expect(
+    fix(unIndent`
+    if (
+      typeof woof === 'string' &&
+      typeof woof === 'string' &&
+        typeof woof === 'string' &&
+      isNaN(null) &&
+        isNaN(NaN)
+    ) {
+      return;
+    }
+    `),
+  ).toMatchInlineSnapshot(
+    `
+    "if (
+      typeof woof === 'string' &&
+      typeof woof === 'string' &&
+      typeof woof === 'string' &&
+      isNaN(null) &&
+      isNaN(NaN)
+    ) {
+      return;
+    }"
   `,
   )
 })

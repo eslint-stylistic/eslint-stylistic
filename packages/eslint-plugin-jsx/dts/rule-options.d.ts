@@ -13,6 +13,7 @@ import type { RuleOptions as JsxIndentPropsRuleOptions } from '../rules/jsx-inde
 import type { RuleOptions as JsxMaxPropsPerLineRuleOptions } from '../rules/jsx-max-props-per-line/types'
 import type { RuleOptions as JsxNewlineRuleOptions } from '../rules/jsx-newline/types'
 import type { RuleOptions as JsxOneExpressionPerLineRuleOptions } from '../rules/jsx-one-expression-per-line/types'
+import type { RuleOptions as JsxPascalCaseRuleOptions } from '../rules/jsx-pascal-case/types'
 import type { RuleOptions as JsxPropsNoMultiSpacesRuleOptions } from '../rules/jsx-props-no-multi-spaces/types'
 import type { RuleOptions as JsxSelfClosingCompRuleOptions } from '../rules/jsx-self-closing-comp/types'
 import type { RuleOptions as JsxSortPropsRuleOptions } from '../rules/jsx-sort-props/types'
@@ -85,6 +86,11 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/jsx/jsx-one-expression-per-line
    */
   '@stylistic/jsx/jsx-one-expression-per-line': JsxOneExpressionPerLineRuleOptions
+  /**
+   * Enforce PascalCase for user-defined JSX components
+   * @see https://eslint.style/rules/jsx/jsx-pascal-case
+   */
+  '@stylistic/jsx/jsx-pascal-case': JsxPascalCaseRuleOptions
   /**
    * Disallow multiple spaces between inline JSX props
    * @see https://eslint.style/rules/jsx/jsx-props-no-multi-spaces
@@ -178,6 +184,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/jsx/jsx-one-expression-per-line
    */
   'jsx-one-expression-per-line': JsxOneExpressionPerLineRuleOptions
+  /**
+   * Enforce PascalCase for user-defined JSX components
+   * @see https://eslint.style/rules/jsx/jsx-pascal-case
+   */
+  'jsx-pascal-case': JsxPascalCaseRuleOptions
   /**
    * Disallow multiple spaces between inline JSX props
    * @see https://eslint.style/rules/jsx/jsx-props-no-multi-spaces

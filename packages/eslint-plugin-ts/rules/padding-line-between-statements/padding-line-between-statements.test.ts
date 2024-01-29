@@ -763,6 +763,15 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/pull/257
+    {
+      code: 'var a = 0; export * from "foo"\n\nbar()',
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'export', next: '*' },
+      ],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
 
     // ----------------------------------------------------------------------
     // for
@@ -3526,6 +3535,14 @@ var a = 1
     {
       code: 'var a = 0;export {a}\nfoo()',
       output: 'var a = 0;export {a}\n\nfoo()',
+      options: [{ blankLine: 'always', prev: 'export', next: '*' }],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/pull/257
+    {
+      code: 'var a = 0;export * from "foo"\nbar()',
+      output: 'var a = 0;export * from "foo"\n\nbar()',
       options: [{ blankLine: 'always', prev: 'export', next: '*' }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'expectedBlankLine' }],

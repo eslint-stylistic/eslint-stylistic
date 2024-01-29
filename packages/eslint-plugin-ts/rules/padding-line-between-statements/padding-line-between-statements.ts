@@ -547,6 +547,7 @@ const StatementTypes: Record<string, NodeTestObject> = {
   'do': newKeywordTester(AST_NODE_TYPES.DoWhileStatement, 'do'),
   'export': newKeywordTester(
     [
+      AST_NODE_TYPES.ExportAllDeclaration,
       AST_NODE_TYPES.ExportDefaultDeclaration,
       AST_NODE_TYPES.ExportNamedDeclaration,
     ],

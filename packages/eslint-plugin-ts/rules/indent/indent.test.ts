@@ -185,6 +185,13 @@ enum Foo {
     baz = 1,
 }
             `,
+            `
+enum Foo
+{
+    bar = 1,
+    baz = 1,
+}
+            `,
     ],
   },
   {
@@ -1103,6 +1110,41 @@ const foo : Foo<{
     bar : string,
     age : number,
 }>
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 3,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 4,
+          column: 1,
+        },
+      ],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/pull/256
+    {
+      code: `
+type FooAlias = Foo<
+Bar,
+Baz
+>
+      `,
+      output: `
+type FooAlias = Foo<
+    Bar,
+    Baz
+>
       `,
       errors: [
         {

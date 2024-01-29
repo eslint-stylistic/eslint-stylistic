@@ -19,6 +19,7 @@ import jsxIndentProps from './jsx-indent-props/jsx-indent-props'
 import jsxMaxPropsPerLine from './jsx-max-props-per-line/jsx-max-props-per-line'
 import jsxNewline from './jsx-newline/jsx-newline'
 import jsxOneExpressionPerLine from './jsx-one-expression-per-line/jsx-one-expression-per-line'
+import jsxPascalCase from './jsx-pascal-case/jsx-pascal-case'
 import jsxPropsNoMultiSpaces from './jsx-props-no-multi-spaces/jsx-props-no-multi-spaces'
 import jsxSelfClosingComp from './jsx-self-closing-comp/jsx-self-closing-comp'
 import jsxSortProps from './jsx-sort-props/jsx-sort-props'
@@ -39,6 +40,7 @@ export default {
   'jsx-max-props-per-line': jsxMaxPropsPerLine,
   'jsx-newline': jsxNewline,
   'jsx-one-expression-per-line': jsxOneExpressionPerLine,
+  'jsx-pascal-case': jsxPascalCase,
   'jsx-props-no-multi-spaces': jsxPropsNoMultiSpaces,
   'jsx-self-closing-comp': jsxSelfClosingComp,
   'jsx-sort-props': jsxSortProps,
