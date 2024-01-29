@@ -7,6 +7,7 @@ import MarkdownItContainer from 'markdown-it-container'
 import { transformerRenderWhitespace } from 'shikiji-transformers'
 import { packages } from '../../packages/metadata/src'
 import vite from './vite.config'
+import { addShouldTransformUsingESLint, transformerESLint } from './shikiji-eslint'
 
 const mainPackages = packages.filter(p => p.rules.length)
 const defaultPackage = packages.find(p => p.shortId === 'default')!
@@ -134,23 +135,26 @@ export default defineConfig({
     config(md) {
       MarkdownItContainer(md, 'correct', {
         render(tokens, idx) {
-          if (tokens[idx].nesting === 1)
+          if (tokens[idx].nesting === 1) {
+            addShouldTransformUsingESLint(tokens[idx + 1].content)
             return '<CustomWrapper type="correct">'
-          else
-            return '</CustomWrapper>\n'
+          }
+          else { return '</CustomWrapper>\n' }
         },
       })
       MarkdownItContainer(md, 'incorrect', {
         render(tokens, idx) {
-          if (tokens[idx].nesting === 1)
+          if (tokens[idx].nesting === 1) {
+            addShouldTransformUsingESLint(tokens[idx + 1].content)
             return '<CustomWrapper type="incorrect">'
-          else
-            return '</CustomWrapper>\n'
+          }
+          else { return '</CustomWrapper>\n' }
         },
       })
     },
     codeTransformers: [
       transformerRenderWhitespace({ position: 'boundary' }),
+      transformerESLint(),
     ],
   },
 
