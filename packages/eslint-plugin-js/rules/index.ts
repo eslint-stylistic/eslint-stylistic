@@ -1,6 +1,5 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-
 // TODO: remove this once every rule is migrated to TypeScript
 // eslint-disable-next-line ts/ban-ts-comment
 // @ts-nocheck
