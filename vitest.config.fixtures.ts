@@ -7,6 +7,5 @@ export default defineConfig({
     root: './tests',
     globals: true,
     reporters: 'dot',
-    testTimeout: 10000000,
   },
 })
