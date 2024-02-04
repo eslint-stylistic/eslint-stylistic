@@ -28,7 +28,7 @@ export default createRule<RuleOptions, MessageIds>({
           shorthand: false,
           method: false,
           kind: 'init',
-          value: {} as any,
+          value: null as any,
         })
       },
       TSMethodSignature(node) {
@@ -38,7 +38,7 @@ export default createRule<RuleOptions, MessageIds>({
           shorthand: false,
           method: true,
           kind: 'init',
-          value: {} as any,
+          value: null as any,
         })
       },
       TSEnumMember(node) {
@@ -50,7 +50,7 @@ export default createRule<RuleOptions, MessageIds>({
           shorthand: false,
           method: false,
           kind: 'init',
-          value: {} as any,
+          value: null as any,
         })
       },
       TSTypeLiteral(node) {
