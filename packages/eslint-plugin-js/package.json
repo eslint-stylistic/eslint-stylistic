@@ -115,10 +115,10 @@
     "acorn": "^8.11.3",
     "escape-string-regexp": "^4.0.0",
     "eslint-visitor-keys": "^3.4.3",
-    "espree": "^9.6.1"
+    "espree": "^10.0.0"
   },
   "devDependencies": {
     "@eslint-community/eslint-utils": "^4.4.0",
-    "@typescript-eslint/parser": "^6.19.0"
+    "@typescript-eslint/parser": "^6.20.0"
   }
 }

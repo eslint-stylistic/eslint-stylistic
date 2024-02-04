@@ -4,7 +4,7 @@ import fs from 'node:fs/promises'
 import type { DefaultTheme } from 'vitepress'
 import { defineConfig } from 'vitepress'
 import MarkdownItContainer from 'markdown-it-container'
-import { transformerRenderWhitespace } from 'shikiji-transformers'
+import { transformerRenderWhitespace } from '@shikijs/transformers'
 import { packages } from '../../packages/metadata/src'
 import vite from './vite.config'
 

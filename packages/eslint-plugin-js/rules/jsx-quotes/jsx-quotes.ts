@@ -11,7 +11,7 @@ import type { MessageIds, RuleOptions } from './types'
 interface QuoteSetting {
   quote: string
   description: string
-  convert(str: string): string
+  convert: (str: string) => string
 }
 
 const QUOTE_SETTINGS: Record<string, QuoteSetting> = {

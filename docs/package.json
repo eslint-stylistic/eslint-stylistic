@@ -11,16 +11,16 @@
     "fuse.js": "^7.0.0"
   },
   "devDependencies": {
+    "@shikijs/transformers": "^1.0.0-beta.5",
     "@types/markdown-it-container": "^2.0.9",
-    "@unocss/reset": "^0.58.3",
+    "@unocss/reset": "^0.58.5",
     "@vueuse/core": "^10.7.2",
     "gray-matter": "^4.0.3",
     "markdown-it-container": "^4.0.0",
-    "shikiji": "^0.9.19",
-    "shikiji-transformers": "^0.9.19",
-    "unocss": "^0.58.3",
+    "shiki": "^1.0.0-beta.5",
+    "unocss": "^0.58.5",
     "unplugin-vue-components": "^0.26.0",
-    "vitepress": "1.0.0-rc.30",
-    "vue": "^3.4.14"
+    "vitepress": "^1.0.0-rc.41",
+    "vue": "^3.4.15"
   }
 }
