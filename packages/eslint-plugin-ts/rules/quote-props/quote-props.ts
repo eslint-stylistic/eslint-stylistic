@@ -1,11 +1,4 @@
-import type { Tree } from '@shared/types'
-import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
-
-import {
-  isClosingBraceToken,
-  isClosingBracketToken,
-  isTokenOnSameLine,
-} from '@typescript-eslint/utils/ast-utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import {
   createRule,
 } from '../../utils'
@@ -17,7 +10,6 @@ const baseRule = getESLintCoreRule('quote-props')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'quote-props',
-  //
   meta: {
     ...baseRule.meta,
     docs: {
@@ -25,38 +17,65 @@ export default createRule<RuleOptions, MessageIds>({
       extendsBaseRule: true,
     },
   },
-  defaultOptions: ['never'],
+  defaultOptions: ['always'],
   create(context) {
-    const sourceCode = context.sourceCode
-
     const rules = baseRule.create(context)
+
     return {
       ...rules,
       TSPropertySignature(node) {
         return rules.Property!({
           ...node,
+          type: AST_NODE_TYPES.Property,
           shorthand: false,
           method: false,
+          kind: 'init',
+          value: {} as any,
         })
       },
       TSMethodSignature(node) {
         return rules.Property!({
           ...node,
+          type: AST_NODE_TYPES.Property,
           shorthand: false,
           method: true,
+          kind: 'init',
+          value: {} as any,
         })
       },
       TSEnumMember(node) {
         return rules.Property!({
           ...node,
+          type: AST_NODE_TYPES.Property,
+          key: node.id as any,
           optional: false,
           shorthand: false,
           method: false,
+          kind: 'init',
+          value: {} as any,
         })
       },
-      TSTypeLiteral(node) {},
-      TSInterfaceBody(node) {},
-      TSEnumDeclaration(node) {},
+      TSTypeLiteral(node) {
+        return rules.ObjectExpression!({
+          ...node,
+          type: AST_NODE_TYPES.ObjectExpression,
+          properties: node.members as any,
+        })
+      },
+      TSInterfaceBody(node) {
+        return rules.ObjectExpression!({
+          ...node,
+          type: AST_NODE_TYPES.ObjectExpression,
+          properties: node.body as any,
+        })
+      },
+      TSEnumDeclaration(node) {
+        return rules.ObjectExpression!({
+          ...node,
+          type: AST_NODE_TYPES.ObjectExpression,
+          properties: node.members.map(member => ({ ...member, key: member.id })) as any,
+        })
+      },
     }
   },
 })

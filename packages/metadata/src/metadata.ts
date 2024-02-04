@@ -1412,6 +1412,19 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "quote-props",
+        "ruleId": "@stylistic/ts/quote-props",
+        "originalId": "@typescript-eslint/quote-props",
+        "entry": "packages/eslint-plugin-ts/rules/quote-props/quote-props.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/quote-props/README.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Require quotes around object literal property names"
+          }
+        }
+      },
+      {
         "name": "quotes",
         "ruleId": "@stylistic/ts/quotes",
         "originalId": "@typescript-eslint/quotes",

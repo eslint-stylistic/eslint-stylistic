@@ -15,6 +15,7 @@ import type { RuleOptions as NoExtraParensRuleOptions } from '../rules/no-extra-
 import type { RuleOptions as NoExtraSemiRuleOptions } from '../rules/no-extra-semi/types'
 import type { RuleOptions as ObjectCurlySpacingRuleOptions } from '../rules/object-curly-spacing/types'
 import type { RuleOptions as PaddingLineBetweenStatementsRuleOptions } from '../rules/padding-line-between-statements/types'
+import type { RuleOptions as QuotePropsRuleOptions } from '../rules/quote-props/types'
 import type { RuleOptions as QuotesRuleOptions } from '../rules/quotes/types'
 import type { RuleOptions as SemiRuleOptions } from '../rules/semi/types'
 import type { RuleOptions as SpaceBeforeBlocksRuleOptions } from '../rules/space-before-blocks/types'
@@ -103,6 +104,11 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/ts/padding-line-between-statements
    */
   '@stylistic/ts/padding-line-between-statements': PaddingLineBetweenStatementsRuleOptions
+  /**
+   * Require quotes around object literal property names
+   * @see https://eslint.style/rules/ts/quote-props
+   */
+  '@stylistic/ts/quote-props': QuotePropsRuleOptions
   /**
    * Enforce the consistent use of either backticks, double, or single quotes
    * @see https://eslint.style/rules/ts/quotes
@@ -216,6 +222,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/ts/padding-line-between-statements
    */
   'padding-line-between-statements': PaddingLineBetweenStatementsRuleOptions
+  /**
+   * Require quotes around object literal property names
+   * @see https://eslint.style/rules/ts/quote-props
+   */
+  'quote-props': QuotePropsRuleOptions
   /**
    * Enforce the consistent use of either backticks, double, or single quotes
    * @see https://eslint.style/rules/ts/quotes
