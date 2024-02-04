@@ -1,7 +1,5 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import {
-  createRule,
-} from '../../utils'
+import { createRule } from '../../utils'
 
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
 import type { MessageIds, RuleOptions } from './types'
