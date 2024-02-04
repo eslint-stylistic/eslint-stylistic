@@ -105,7 +105,7 @@ export interface RuleOptions {
    */
   '@stylistic/ts/padding-line-between-statements': PaddingLineBetweenStatementsRuleOptions
   /**
-   * Require quotes around object literal property names
+   * Require quotes around object literal, type literal, interfaces and enums property names
    * @see https://eslint.style/rules/ts/quote-props
    */
   '@stylistic/ts/quote-props': QuotePropsRuleOptions
@@ -223,7 +223,7 @@ export interface UnprefixedRuleOptions {
    */
   'padding-line-between-statements': PaddingLineBetweenStatementsRuleOptions
   /**
-   * Require quotes around object literal property names
+   * Require quotes around object literal, type literal, interfaces and enums property names
    * @see https://eslint.style/rules/ts/quote-props
    */
   'quote-props': QuotePropsRuleOptions

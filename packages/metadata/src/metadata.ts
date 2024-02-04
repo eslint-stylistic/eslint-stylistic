@@ -1420,7 +1420,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Require quotes around object literal property names"
+            "description": "Require quotes around object literal, type literal, interfaces and enums property names"
           }
         }
       },

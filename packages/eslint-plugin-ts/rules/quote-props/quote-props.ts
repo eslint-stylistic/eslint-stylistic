@@ -11,7 +11,7 @@ export default createRule<RuleOptions, MessageIds>({
   meta: {
     ...baseRule.meta,
     docs: {
-      description: 'Require quotes around object literal property names',
+      description: 'Require quotes around object literal, type literal, interfaces and enums property names',
       extendsBaseRule: true,
     },
   },
