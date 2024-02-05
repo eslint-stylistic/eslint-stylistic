@@ -8,8 +8,8 @@ const ruleTester = new RuleTester({
 
 ruleTester.run('quote-props', rule, {
   valid: [
-    'type x = { "a": 1 }',
-    'interface x { "a": 1 }',
+    'type x = { "a": 1, b(): void, "c"(): void }',
+    'interface x { "a": 1, b(): void, "c"(): void }',
     'enum x { "a" }',
 
     { code: 'type x = { a: 1, "b-b": 1 }', options: ['as-needed'] },
