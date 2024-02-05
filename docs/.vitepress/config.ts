@@ -7,7 +7,7 @@ import MarkdownItContainer from 'markdown-it-container'
 import { transformerRenderWhitespace } from '@shikijs/transformers'
 import { packages } from '../../packages/metadata/src'
 import vite from './vite.config'
-import { addShouldTransformUsingESLint, transformerESLint } from './shikiji-eslint'
+import { transformerESLint } from './shiki-eslint'
 
 const mainPackages = packages.filter(p => p.rules.length)
 const defaultPackage = packages.find(p => p.shortId === 'default')!
@@ -136,7 +136,9 @@ export default defineConfig({
       MarkdownItContainer(md, 'correct', {
         render(tokens, idx) {
           if (tokens[idx].nesting === 1) {
-            addShouldTransformUsingESLint(tokens[idx + 1].content)
+            const next = tokens[idx + 1]
+            if (next.type === 'fence')
+              next.info = [next.info, 'eslint-check'].filter(Boolean).join(' ')
             return '<CustomWrapper type="correct">'
           }
           else { return '</CustomWrapper>\n' }
@@ -145,10 +147,14 @@ export default defineConfig({
       MarkdownItContainer(md, 'incorrect', {
         render(tokens, idx) {
           if (tokens[idx].nesting === 1) {
-            addShouldTransformUsingESLint(tokens[idx + 1].content)
+            const next = tokens[idx + 1]
+            if (next.type === 'fence')
+              next.info = [next.info, 'eslint-check'].filter(Boolean).join(' ')
             return '<CustomWrapper type="incorrect">'
           }
-          else { return '</CustomWrapper>\n' }
+          else {
+            return '</CustomWrapper>\n'
+          }
         },
       })
     },
