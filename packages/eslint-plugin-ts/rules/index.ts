@@ -17,6 +17,7 @@ import noExtraParens from './no-extra-parens/no-extra-parens'
 import noExtraSemi from './no-extra-semi/no-extra-semi'
 import objectCurlySpacing from './object-curly-spacing/object-curly-spacing'
 import paddingLineBetweenStatements from './padding-line-between-statements/padding-line-between-statements'
+import quoteProps from './quote-props/quote-props'
 import quotes from './quotes/quotes'
 import semi from './semi/semi'
 import spaceBeforeBlocks from './space-before-blocks/space-before-blocks'
@@ -41,6 +42,7 @@ export default {
   'no-extra-semi': noExtraSemi,
   'object-curly-spacing': objectCurlySpacing,
   'padding-line-between-statements': paddingLineBetweenStatements,
+  'quote-props': quoteProps,
   'quotes': quotes,
   'semi': semi,
   'space-before-blocks': spaceBeforeBlocks,

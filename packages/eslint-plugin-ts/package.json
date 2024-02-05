@@ -40,6 +40,7 @@
     "./rules/no-extra-semi": "./dist/no-extra-semi.js",
     "./rules/object-curly-spacing": "./dist/object-curly-spacing.js",
     "./rules/padding-line-between-statements": "./dist/padding-line-between-statements.js",
+    "./rules/quote-props": "./dist/quote-props.js",
     "./rules/quotes": "./dist/quotes.js",
     "./rules/semi": "./dist/semi.js",
     "./rules/space-before-blocks": "./dist/space-before-blocks.js",
