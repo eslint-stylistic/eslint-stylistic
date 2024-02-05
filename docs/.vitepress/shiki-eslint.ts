@@ -1,6 +1,5 @@
-import type { Element, ElementContent, Text } from 'hast'
-import { addClassToHast, createPositionConverter } from 'shiki'
-import type { ShikiTransformer, ShikiTransformerContextMeta } from 'shiki'
+import { createPositionConverter } from 'shiki'
+import type { ShikiTransformer } from 'shiki'
 import type { ESLint } from 'eslint'
 import { Linter } from 'eslint'
 import stylistic from '@stylistic/eslint-plugin'
