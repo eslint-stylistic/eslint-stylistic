@@ -31,6 +31,8 @@
     "@iconify-json/ri": "^1.1.19",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
+    "@shikijs/twoslash": "1.0.0-beta.6",
+    "@shikijs/vitepress-twoslash": "^1.0.0-beta.6",
     "@stylistic/eslint-plugin": "workspace:*",
     "@stylistic/eslint-plugin-js": "workspace:*",
     "@stylistic/eslint-plugin-migrate": "workspace:*",

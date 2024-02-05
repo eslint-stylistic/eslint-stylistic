@@ -24,10 +24,12 @@ Examples of **incorrect** code for this rule with the default `{ "max": 2 }` opt
 ::: incorrect
 
 ```js
-/*eslint no-multiple-empty-lines: "error"*/
-
-var foo = 5;
-
+/*eslint no-multiple-empty-lines: "error"*/⏎
+⏎
+var foo = 5;⏎
+⏎
+⏎
+⏎
 var bar = 3;
 ```
 
@@ -38,10 +40,11 @@ Examples of **correct** code for this rule with the default `{ "max": 2 }` optio
 ::: correct
 
 ```js
-/*eslint no-multiple-empty-lines: "error"*/
-
-var foo = 5;
-
+/*eslint no-multiple-empty-lines: "error"*/⏎
+⏎
+var foo = 5;⏎
+⏎
+⏎
 var bar = 3;
 ```
 
@@ -106,11 +109,12 @@ Examples of **incorrect** code for this rule with the `{ max: 2, maxBOF: 1 }` op
 ::: incorrect
 
 ```js
-
-/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxBOF": 1 }]*/
-
-var foo = 5;
-
+⏎
+⏎
+/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxBOF": 1 }]*/⏎
+⏎
+var foo = 5;⏎
+⏎
 var bar = 3;
 ```
 
@@ -121,10 +125,11 @@ Examples of **correct** code for this rule with the `{ max: 2, maxBOF: 1 }` opti
 ::: correct
 
 ```js
-/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxBOF": 1}]*/
-
-var foo = 5;
-
+/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxBOF": 1}]*/⏎
+⏎
+var foo = 5;⏎
+⏎
+⏎
 var bar = 3;
 ```
 
@@ -133,11 +138,12 @@ var bar = 3;
 ::: correct
 
 ```js
-
-/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxBOF": 1}]*/
-
-var foo = 5;
-
+⏎
+/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxBOF": 1}]*/⏎
+⏎
+var foo = 5;⏎
+⏎
+⏎
 var bar = 3;
 ```
 
