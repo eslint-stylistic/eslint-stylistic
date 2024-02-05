@@ -121,8 +121,8 @@ importers:
         specifier: ^13.1.2
         version: 13.1.2
       lint-staged:
-        specifier: ^15.2.1
-        version: 15.2.1
+        specifier: ^15.2.2
+        version: 15.2.2
       pnpm:
         specifier: ^8.15.1
         version: 8.15.1
@@ -176,7 +176,7 @@ importers:
         specifier: ^1.0.0-beta.6
         version: 1.0.0-beta.6
       '@types/hast':
-        specifier: ^3.0.3
+        specifier: ^3.0.4
         version: 3.0.4
       '@types/markdown-it-container':
         specifier: ^2.0.9
@@ -197,7 +197,7 @@ importers:
         specifier: ^1.0.0-beta.6
         version: 1.0.0-beta.6
       twoslash:
-        specifier: ^0.1.0
+        specifier: ^0.1.1
         version: 0.1.1(typescript@5.3.3)
       unocss:
         specifier: ^0.58.5
@@ -5186,8 +5186,8 @@ packages:
     resolution: {integrity: sha512-7ylylesZQ/PV29jhEDl3Ufjo6ZX7gCqJr5F7PKrqc93v7fzSymt1BpwEU8nAUXs8qzzvqhbjhK5QZg6Mt/HkBg==}
     dev: true
 
-  /lint-staged@15.2.1:
-    resolution: {integrity: sha512-dhwAPnM85VdshybV9FWI/9ghTvMLoQLEXgVMx+ua2DN7mdfzd/tRfoU2yhMcBac0RHkofoxdnnJUokr8s4zKmQ==}
+  /lint-staged@15.2.2:
+    resolution: {integrity: sha512-TiTt93OPh1OZOsb5B7k96A/ATl2AjIZo+vnzFZ6oHK5FuTk63ByDtxGQpHm+kFETjEWqgkF95M8FRXKR/LEBcw==}
     engines: {node: '>=18.12.0'}
     hasBin: true
     dependencies:

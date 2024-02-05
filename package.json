@@ -59,7 +59,7 @@
     "jiti": "^1.21.0",
     "json-schema": "^0.4.0",
     "json-schema-to-typescript": "^13.1.2",
-    "lint-staged": "^15.2.1",
+    "lint-staged": "^15.2.2",
     "pnpm": "^8.15.1",
     "rimraf": "^5.0.5",
     "rollup": "^4.9.6",
