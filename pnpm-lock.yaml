@@ -245,8 +245,8 @@ importers:
         specifier: ^3.4.3
         version: 3.4.3
       espree:
-        specifier: ^10.0.0
-        version: 10.0.0
+        specifier: ^9.6.1
+        version: 9.6.1
     devDependencies:
       '@eslint-community/eslint-utils':
         specifier: ^4.4.0
@@ -4277,15 +4277,6 @@ packages:
     dependencies:
       tsx: 4.1.0
     dev: true
-
-  /espree@10.0.0:
-    resolution: {integrity: sha512-gdlKrfXQWv/3vubKqeQIiBUoWeknNQVEDpKD7OD3bC53g5EKISTuhcIoA1H1e+zqIuosdKrKuTDMmj8eFfhOnA==}
-    engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
-    dependencies:
-      acorn: 8.11.3
-      acorn-jsx: 5.3.2(acorn@8.11.3)
-      eslint-visitor-keys: 3.4.3
-    dev: false
 
   /espree@9.6.1:
     resolution: {integrity: sha512-oruZaFkjorTpF32kDSI5/75ViwGeZginGGy2NoOSg3Q9bnwlnmDm4HLnkl0RE3n+njDXR037aY1+x58Z/zFdwQ==}
