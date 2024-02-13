@@ -1,0 +1,54 @@
+diff --git a/dist/index.cjs b/dist/index.cjs
+index aaa23e195bf86509df0cb04afd4a5ab55ecd63cc..c81fdbce4b1d2264651a1755c6f23b4abd235ac3 100644
+--- a/dist/index.cjs
++++ b/dist/index.cjs
+@@ -72,7 +72,7 @@ ${current.text}`;
+     } else {
+       merged = raws;
+     }
+-    const nodes = twoslashProtocol.resolveNodePositions(merged, code);
++    const nodes = twoslashProtocol.resolveNodePositions(merged, code).filter((i) => i.line < pc.lines.length);
+     const results = {
+       code,
+       nodes
+diff --git a/dist/index.mjs b/dist/index.mjs
+index 246dc40ac5e28a94cf308465887c852c1a192f30..ee01156c271b11ae3ba494c451fd88089051cf4a 100644
+--- a/dist/index.mjs
++++ b/dist/index.mjs
+@@ -70,7 +70,7 @@ ${current.text}`;
+     } else {
+       merged = raws;
+     }
+-    const nodes = resolveNodePositions(merged, code);
++    const nodes = resolveNodePositions(merged, code).filter((i) => i.line < pc.lines.length);
+     const results = {
+       code,
+       nodes
+diff --git a/package.json b/package.json
+index d66f4fe7bc6ab67d09da3930e9fe2108b2cbfa8f..1105553757b22cfe87b5e395d9a0ba954368809d 100644
+--- a/package.json
++++ b/package.json
+@@ -40,6 +40,12 @@
+   "files": [
+     "dist"
+   ],
++  "scripts": {
++    "build": "unbuild",
++    "dev": "unbuild --stub",
++    "prepublishOnly": "nr build",
++    "start": "esno src/index.ts"
++  },
+   "peerDependencies": {
+     "eslint": ">=8.50.0"
+   },
+@@ -48,10 +54,5 @@
+   },
+   "devDependencies": {
+     "@types/eslint": "^8.56.2"
+-  },
+-  "scripts": {
+-    "build": "unbuild",
+-    "dev": "unbuild --stub",
+-    "start": "esno src/index.ts"
+   }
+ }

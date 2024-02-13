@@ -12,8 +12,9 @@ import stylisticTs from '@stylistic/eslint-plugin-ts'
 import stylisticJsx from '@stylistic/eslint-plugin-jsx'
 import stylisticPlus from '@stylistic/eslint-plugin-plus'
 import * as parserTs from '@typescript-eslint/parser'
+import { createTwoslasher } from 'twoslash-eslint'
+import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 import { packages } from '../../packages/metadata/src'
-import { transformerESLint } from './shiki-eslint'
 import vite from './vite.config'
 
 const mainPackages = packages.filter(p => p.rules.length)
@@ -166,27 +167,34 @@ export default defineConfig({
       })
     },
     codeTransformers: [
-      transformerRenderWhitespace({ position: 'boundary' }),
-      transformerESLint({
-        eslintCodePreprocess: (code) => {
-          // Remove trailing newline and presentational `⏎` characters
-          return code.replace(/⏎(?=\n)/gu, '').replace(/⏎$/gu, '\n')
-        },
-        eslintConfig: [
-          {
-            files: ['**'],
-            plugins: {
-              '@stylistic': stylistic as ESLint.Plugin,
-              '@stylistic/js': stylisticJs as ESLint.Plugin,
-              '@stylistic/jsx': stylisticJsx as ESLint.Plugin,
-              '@stylistic/ts': stylisticTs as ESLint.Plugin,
-              '@stylistic/plus': stylisticPlus as ESLint.Plugin,
-            },
-            languageOptions: {
-              parser: parserTs as Linter.ParserModule,
-            },
+      transformerRenderWhitespace({
+        position: 'boundary',
+      }),
+      transformerTwoslash({
+        errorRendering: 'hover',
+        explicitTrigger: /\beslint-check\b/,
+        twoslasher: createTwoslasher({
+          eslintCodePreprocess: (code) => {
+            // Remove trailing newline and presentational `⏎` characters
+            return code.replace(/⏎(?=\n)/gu, '').replace(/⏎$/gu, '\n')
           },
-        ],
+          eslintConfig: [
+            {
+              files: ['**'],
+              plugins: {
+                '@stylistic': stylistic as ESLint.Plugin,
+                '@stylistic/js': stylisticJs as ESLint.Plugin,
+                '@stylistic/jsx': stylisticJsx as ESLint.Plugin,
+                '@stylistic/ts': stylisticTs as ESLint.Plugin,
+                '@stylistic/plus': stylisticPlus as ESLint.Plugin,
+              },
+              languageOptions: {
+                parser: parserTs as Linter.ParserModule,
+              },
+            },
+          ],
+        }),
+
       }),
     ],
   },
