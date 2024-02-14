@@ -120,7 +120,6 @@ export default createRule<MessageIds, RuleOptions>({
   },
 
   create(context) {
-    // @ts-expect-error legacy
     const ecmaVersion = context?.languageOptions?.ecmaVersion ?? context.parserOptions.ecmaVersion as EcmaVersion | undefined
     const options = normalizeOptions(context.options[0], ecmaVersion)
 
