@@ -38,6 +38,15 @@ ruleTester.run('multiline-ternary', rule, {
     { code: '(a) \n? (b)\n: (c)', options: ['always'] },
     { code: '((a)) \n? ((b))\n: ((c))', options: ['always'] },
     { code: '((a)) ?\n ((b)):\n ((c))', options: ['always'] },
+    {
+      code: `
+        <>
+          {a ? <div /> : <div />}
+        </>
+      `,
+      options: ['always', { ignoreJSX: true }],
+      parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
+    },
 
     // "always-multiline"
     { code: 'a\n? b\n: c', options: ['always-multiline'] },
@@ -74,6 +83,16 @@ ruleTester.run('multiline-ternary', rule, {
     { code: 'a ? b : ((c))', options: ['always-multiline'] },
     { code: '(a) ? (b) : (c)', options: ['always-multiline'] },
     { code: '((a)) ? ((b)) : ((c))', options: ['always-multiline'] },
+    {
+      code: `
+        <>
+          {a ? 
+            <div /> : <div />}
+        </>
+      `,
+      options: ['always-multiline', { ignoreJSX: true }],
+      parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
+    },
 
     // "never"
     { code: 'a ? b : c', options: ['never'] },
@@ -99,6 +118,17 @@ ruleTester.run('multiline-ternary', rule, {
     { code: 'a ? b : (\n(c))', options: ['never'] },
     { code: '(a\n) ? (\nb\n) : (\nc)', options: ['never'] },
     { code: '((a)\n) ? (\n(b)\n) : (\n(c))', options: ['never'] },
+    {
+      code: `
+        <>
+          {a 
+            ? <div /> 
+            : <div />}
+        </>
+      `,
+      options: ['never', { ignoreJSX: true }],
+      parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } },
+    },
   ],
 
   invalid: [

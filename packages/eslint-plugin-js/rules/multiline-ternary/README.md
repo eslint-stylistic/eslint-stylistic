@@ -38,6 +38,7 @@ This rule has a string option:
 - `"always"` (default) enforces newlines between the operands of a ternary expression.
 - `"always-multiline"` enforces newlines between the operands of a ternary expression if the expression spans multiple lines.
 - `"never"` disallows newlines between the operands of a ternary expression.
+- `"ignoreJSX": true` Ignore the ternary operator in JSX. Defaults to `false`.
 
 ### always
 

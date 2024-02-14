@@ -21,6 +21,15 @@ export default createRule<MessageIds, RuleOptions>({
         type: 'string',
         enum: ['always', 'always-multiline', 'never'],
       },
+      {
+        type: 'object',
+        properties: {
+          ignoreJSX: {
+            type: 'boolean',
+            default: false,
+          },
+        },
+      },
     ],
 
     messages: {
@@ -35,9 +44,9 @@ export default createRule<MessageIds, RuleOptions>({
 
   create(context) {
     const sourceCode = context.sourceCode
-    const option = context.options[0]
-    const multiline = option !== 'never'
-    const allowSingleLine = option === 'always-multiline'
+    const multiline = context.options[0] !== 'never'
+    const allowSingleLine = context.options[0] === 'always-multiline'
+    const IGNORE_JSX = context.options[1] && context.options[1].ignoreJSX
 
     return {
       ConditionalExpression(node) {
@@ -54,6 +63,13 @@ export default createRule<MessageIds, RuleOptions>({
         const areConsequentAndAlternateOnSameLine = isTokenOnSameLine(lastTokenOfConsequent, firstTokenOfAlternate)
 
         const hasComments = !!sourceCode.getCommentsInside(node).length
+
+        if (IGNORE_JSX) {
+          if (node.parent.type === 'JSXElement'
+            || node.parent.type === 'JSXFragment'
+            || node.parent.type === 'JSXExpressionContainer')
+            return null
+        }
 
         if (!multiline) {
           if (!areTestAndConsequentOnSameLine) {
