@@ -64,6 +64,7 @@
   },
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:^",
+    "@types/eslint": "^8.56.2",
     "estraverse": "^5.3.0",
     "picomatch": "^4.0.1"
   },

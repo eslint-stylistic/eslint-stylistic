@@ -44,6 +44,7 @@
     "eslint": "*"
   },
   "dependencies": {
+    "@types/eslint": "^8.56.2",
     "@typescript-eslint/utils": "^6.21.0"
   },
   "devDependencies": {

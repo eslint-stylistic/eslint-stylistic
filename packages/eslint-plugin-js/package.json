@@ -112,6 +112,7 @@
     "eslint": ">=8.40.0"
   },
   "dependencies": {
+    "@types/eslint": "^8.56.2",
     "acorn": "^8.11.3",
     "escape-string-regexp": "^4.0.0",
     "eslint-visitor-keys": "^3.4.3",
