@@ -39,4 +39,4 @@ jobs:
       - name: Lint
         run: nr lint --fix
 
-      - uses: autofix-ci/action@v1
+      - uses: autofix-ci/action@v1.2
