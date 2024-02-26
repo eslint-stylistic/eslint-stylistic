@@ -4,7 +4,7 @@ layout: home
 hero:
   name: "ESLint Stylistic"
   text: "Stylistic Formatting\nfor ESLint"
-  tagline: Formatting and Linting in one-go, with fully customizable rules
+  tagline: Formatting and Linting in one go, with fully customizable rules
   image:
     src: /logo.svg
     alt: ESLint Stylistic Logo
@@ -25,7 +25,7 @@ features:
     details: Fine-tune the every single rule to fit your needs.
   - title: One-stop
     icon: 👌
-    details: Formatting and Linting in one-go, configure once and auto-fix once.
+    details: Formatting and Linting in one go, configure once and auto-fix once.
   - title: JavaScript & TypeScript
     icon: 📦
     details: Support both JavaScript and TypeScript.
