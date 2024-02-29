@@ -18,7 +18,7 @@ Here are two examples that Prettier and dprint would force the code wrap/unwrap 
 
 This behavior is [mandatory](https://github.com/prettier/prettier/issues/3468) due to the fundamental nature of their approach.
 
-With stylistic rules in ESLint, we are able to achieve similar formatting compatibility while retaining the original code style that reflects the authors/teams' intentions, and apply fixes in one-go.
+With stylistic rules in ESLint, we are able to achieve similar formatting compatibility while retaining the original code style that reflects the authors/teams' intentions, and apply fixes in one go.
 
 This project is maintained for those who care about such details and want to have full control of the code style.
 
