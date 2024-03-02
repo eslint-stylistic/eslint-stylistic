@@ -177,6 +177,12 @@ function clearFilter() {
       Each rule has emojis denoting:
     </div>
     <div flex="~ items-center gap-2">
+      <code w-1.9em h-1.9em>💼</code>
+      <div flex="~ items-center gap-2 wrap" text-sm>
+        The rule is part of the shared configuration
+      </div>
+    </div>
+    <div flex="~ items-center gap-2">
       <code w-1.9em h-1.9em>🔧</code>
       <div flex="~ items-center gap-2 wrap" text-sm>
         Some problems reported are fixable by the <code>--fix</code> command line option
@@ -234,6 +240,7 @@ function clearFilter() {
       <tr>
         <td>Rule</td>
         <td>Description</td>
+        <td />
         <td />
       </tr>
     </thead>
