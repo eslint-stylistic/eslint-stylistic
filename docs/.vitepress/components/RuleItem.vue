@@ -20,6 +20,9 @@ const shortId = computed(() => props.package.shortId)
       </a>
     </td>
     <td>{{ rule.meta?.docs?.description }}</td>
+    <td :title="rule.meta?.docs?.recommended ? 'This rule is included in the shared configuration' : ''">
+      {{ rule.meta?.docs?.recommended ? '💼' : '' }}
+    </td>
     <td :title="rule.meta?.fixable ? 'This rule has an auto-fix' : ''">
       {{ rule.meta?.fixable ? '🔧' : '' }}
     </td>

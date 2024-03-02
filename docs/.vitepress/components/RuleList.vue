@@ -235,6 +235,7 @@ function clearFilter() {
         <td>Rule</td>
         <td>Description</td>
         <td />
+        <td />
       </tr>
     </thead>
 
