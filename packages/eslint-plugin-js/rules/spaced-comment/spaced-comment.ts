@@ -332,6 +332,10 @@ export default createRule<MessageIds, RuleOptions>({
       if (node.value.length === 0 || rule.markers.has(node.value))
         return
 
+      // Ignores typescript triple-slash directive.
+      if (type === 'line' && (node.value.startsWith('/ <reference') || node.value.startsWith('/ <amd')))
+        return
+
       const beginMatch = rule.beginRegex.exec(node.value)
       const endMatch = rule.endRegex.exec(node.value)
 
