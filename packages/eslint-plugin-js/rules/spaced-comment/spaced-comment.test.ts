@@ -341,6 +341,20 @@ ruleTester.run('spaced-comment', rule, {
       code: '/***/', // "*" is a marker by default
       options: ['always'],
     },
+
+    // ignore typescript triple-slash directive
+    {
+      code: '/// <reference types="node" />',
+      options: ['always'],
+    },
+    {
+      code: '/// <reference path="path/to/file" />',
+      options: ['always'],
+    },
+    {
+      code: '/// <amd-module name="moduleName" />',
+      options: ['always'],
+    },
   ],
 
   invalid: [
