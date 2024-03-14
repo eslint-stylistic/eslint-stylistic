@@ -3,7 +3,8 @@
 export type Schema0 = 'always' | 'always-multiline' | 'never'
 
 export interface Schema1 {
-  ignoreJSX: boolean
+  ignoreJSX?: boolean
+  [k: string]: unknown
 }
 
 export type RuleOptions = [Schema0?, Schema1?]
