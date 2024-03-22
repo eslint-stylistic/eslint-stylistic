@@ -88,7 +88,7 @@ var foo = (a + b) * c;
 This rule has 2 options.
 
 - `groups` (`string[][]`) - specifies operator groups to be checked. The `groups` option is a list of groups, and a group is a list of binary operators. Default operator groups are defined as _arithmetic_, _bitwise_, _comparison_, _logical_, and _relational_ operators.\
-  Note: Coalesce operator (`"??"`) and Ternary operator (`"?:"`) are not part of any group in the default configuration and therfore are allowed to be mixed with all other operators.
+  Note: Coalesce operator (`"??"`) and Ternary operator (`"?:"`) are not part of any group in the default configuration and therefore are allowed to be mixed with all other operators.
 
 - `allowSamePrecedence` (`boolean`) - specifies whether to allow mixed operators if they are of equal precedence. Default is `true`.
 
