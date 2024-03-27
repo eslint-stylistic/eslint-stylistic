@@ -1558,5 +1558,31 @@ Go to page 2
       ],
       parserOptions,
     },
+    {
+      code: `
+        <div>
+          literal <div /> second literal
+        </div>
+      `,
+      options: [{ spaceMode: 'html' }],
+      output: `
+        <div>
+          literal&nbsp;
+<div />
+&nbsp;second literal
+        </div>
+      `,
+      errors: [
+        {
+          messageId: 'moveToNewLine',
+          data: { descriptor: 'div' },
+        },
+        {
+          messageId: 'moveToNewLine',
+          data: { descriptor: ' second literal        ' },
+        },
+      ],
+      parserOptions,
+    },
   ),
 })
