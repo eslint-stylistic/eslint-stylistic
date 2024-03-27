@@ -11,18 +11,18 @@
     "fuse.js": "^7.0.0"
   },
   "devDependencies": {
-    "@shikijs/transformers": "^1.1.2",
+    "@shikijs/transformers": "^1.2.1",
     "@types/hast": "^3.0.4",
     "@types/markdown-it-container": "^2.0.9",
-    "@unocss/reset": "^0.58.5",
-    "@vueuse/core": "^10.7.2",
+    "@unocss/reset": "^0.58.7",
+    "@vueuse/core": "^10.9.0",
     "gray-matter": "^4.0.3",
     "markdown-it-container": "^4.0.0",
-    "shiki": "^1.1.2",
-    "twoslash": "^0.2.2",
-    "unocss": "^0.58.5",
+    "shiki": "^1.2.1",
+    "twoslash": "^0.2.5",
+    "unocss": "^0.58.7",
     "unplugin-vue-components": "^0.26.0",
-    "vitepress": "^1.0.0-rc.42",
-    "vue": "^3.4.19"
+    "vitepress": "^1.0.1",
+    "vue": "^3.4.21"
   }
 }

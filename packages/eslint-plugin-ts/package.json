@@ -68,7 +68,7 @@
   },
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:*",
-    "@types/eslint": "^8.56.2",
+    "@types/eslint": "^8.56.6",
     "@typescript-eslint/utils": "^6.21.0"
   },
   "devDependencies": {
