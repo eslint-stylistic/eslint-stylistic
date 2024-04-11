@@ -23,6 +23,9 @@ jobs:
         with:
           release-type: node
           pull-request-title-pattern: 'chore: release ${version}'
+          extra-files: |
+            packages/*/package.json
+          changelog-path: false
           changelog-types: >
             [
               { "type": "feat", "section": "Features", "hidden": false },
