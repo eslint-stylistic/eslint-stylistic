@@ -1,0 +1,14 @@
+{
+  "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
+  "release-type": "node",
+  "packages": {
+    ".": {},
+    "packages/eslint-plugin-js": {},
+    "packages/eslint-plugin-jsx": {},
+    "packages/eslint-plugin-migrate": {},
+    "packages/eslint-plugin-plus": {},
+    "packages/eslint-plugin-ts": {},
+    "packages/eslint-plugin": {},
+    "packages/metadata": {}
+  }
+}
