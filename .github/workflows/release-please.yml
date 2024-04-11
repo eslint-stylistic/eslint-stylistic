@@ -1,15 +1,12 @@
 name: release-please
-
 on:
   push:
     branches:
       - main
-
 permissions:
   contents: write
   pull-requests: write
   id-token: write
-
 jobs:
   release-please:
     runs-on: ubuntu-latest
@@ -23,7 +20,7 @@ jobs:
         with:
           release-type: node
           pull-request-title-pattern: 'chore: release ${version}'
-          changelog-types: >
+          changelog-types: |
             [
               { "type": "feat", "section": "Features", "hidden": false },
               { "type": "fix", "section": "Bug Fixes", "hidden": false },
@@ -34,6 +31,44 @@ jobs:
               { "type": "ci", "section": "Chores", "hidden": true },
               { "type": "refactor", "section": "Chores", "hidden": false },
               { "type": "test", "section": "Chores", "hidden": false }
+            ]
+          extra-files: |-
+            [
+              {
+                "type": "json",
+                "path": "packages/eslint-plugin-js/package.json",
+                "jsonpath": "$.version"
+              },
+              {
+                "type": "json",
+                "path": "packages/eslint-plugin-jsx/package.json",
+                "jsonpath": "$.version"
+              },
+              {
+                "type": "json",
+                "path": "packages/eslint-plugin-migrate/package.json",
+                "jsonpath": "$.version"
+              },
+              {
+                "type": "json",
+                "path": "packages/eslint-plugin-plus/package.json",
+                "jsonpath": "$.version"
+              },
+              {
+                "type": "json",
+                "path": "packages/eslint-plugin-ts/package.json",
+                "jsonpath": "$.version"
+              },
+              {
+                "type": "json",
+                "path": "packages/eslint-plugin/package.json",
+                "jsonpath": "$.version"
+              },
+              {
+                "type": "json",
+                "path": "packages/metadata/package.json",
+                "jsonpath": "$.version"
+              }
             ]
   publish-npm:
     runs-on: ubuntu-latest
