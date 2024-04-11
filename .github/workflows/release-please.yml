@@ -80,7 +80,7 @@ jobs:
         with:
           node-version: lts/*
           registry-url: https://registry.npmjs.org
-      - uses: pnpm/action-setup@v2
+      - uses: pnpm/action-setup@v3
       - run: pnpm install
       - run: pnpm run publish:ci
         env:
