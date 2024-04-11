@@ -79,7 +79,7 @@ jobs:
         if: ${{ matrix.node == 'lts/*' && matrix.os == 'ubuntu-latest' }}
 
       - name: Report coverage
-        uses: codecov/codecov-action@v3
+        uses: codecov/codecov-action@v4
         if: ${{ matrix.node == 'lts/*' && matrix.os == 'ubuntu-latest' }}
         env:
           CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
