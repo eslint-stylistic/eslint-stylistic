@@ -32,6 +32,7 @@
     "allowJs": true,
     "strict": true,
     "strictNullChecks": true,
+    "noEmit": true,
     "esModuleInterop": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true
