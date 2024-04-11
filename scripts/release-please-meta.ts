@@ -1,13 +1,19 @@
 import fs from 'node:fs/promises'
 import fg from 'fast-glob'
 
-const files = await fg('packages/**/package.json', {
-  ignore: ['**/node_modules/**', '**/dist/**', '**/coverage/**'],
-})
+const files = await fg(
+  [
+    'package.json',
+    'packages/**/package.json',
+  ],
+  {
+    ignore: ['**/node_modules/**', '**/dist/**', '**/coverage/**'],
+  },
+)
 
 const json = JSON.parse(await fs.readFile('release-please-config.json', 'utf8'))
 
-json['extra-files'] = files
+json.packages['.']['extra-files'] = files
   .sort()
   .map((file) => {
     return {
