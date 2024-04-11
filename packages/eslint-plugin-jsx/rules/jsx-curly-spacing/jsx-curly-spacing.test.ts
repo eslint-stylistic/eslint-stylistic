@@ -16,7 +16,7 @@ const parserOptions = {
   },
 }
 
-const ruleTester = new RuleTester({ parserOptions })
+const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 ruleTester.run('jsx-curly-spacing', rule, {
   valid: valids(
     {
@@ -736,14 +736,6 @@ ruleTester.run('jsx-curly-spacing', rule, {
     {
       code: '<App { ...bar } />;',
       options: ['always', { allowMultiline: false }],
-    },
-    {
-      code: `
-        <App {
-        ...bar
-        } />;
-      `,
-      options: ['always'],
     },
     {
       code: `

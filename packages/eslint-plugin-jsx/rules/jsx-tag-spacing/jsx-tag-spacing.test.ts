@@ -72,7 +72,7 @@ function beforeClosingOptions(option: Option['beforeClosing']) {
 // Tests
 // -----------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions })
+const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 ruleTester.run('jsx-tag-spacing', rule, {
   valid: valids(
     {

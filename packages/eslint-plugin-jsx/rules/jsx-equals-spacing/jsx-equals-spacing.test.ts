@@ -15,7 +15,7 @@ const parserOptions = {
   },
 } as const
 
-const ruleTester = new RuleTester({ parserOptions })
+const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 ruleTester.run('jsx-equals-spacing', rule, {
   valid: valids(
     {

@@ -16,7 +16,7 @@ const parserOptions = {
   },
 }
 
-new RuleTester({ parserOptions }).run('jsx-newline', rule, {
+new RuleTester({ languageOptions: { parserOptions } }).run('jsx-newline', rule, {
   valid: valids(
     {
       code: `

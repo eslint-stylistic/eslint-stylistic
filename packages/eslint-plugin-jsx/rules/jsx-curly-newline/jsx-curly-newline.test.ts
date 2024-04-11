@@ -24,7 +24,7 @@ const CONSISTENT = ['consistent']
 const NEVER = ['never']
 const MULTILINE_REQUIRE = [{ singleline: 'consistent', multiline: 'require' }]
 
-const ruleTester = new RuleTester({ parserOptions })
+const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 
 ruleTester.run('jsx-curly-newline', rule, {
   valid: valids(

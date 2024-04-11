@@ -158,9 +158,11 @@ function applyAllParsers(tests: ValidTestCase[] | InvalidTestCase[]) {
     return [].concat(
       skipBase ? [] : addComment(
         Object.assign({}, test, typeof es === 'number' && {
-          parserOptions: Object.assign({}, test.parserOptions, {
-            ecmaVersion: es,
-          }),
+          languageOptions: {
+            parserOptions: Object.assign({}, test.parserOptions, {
+              ecmaVersion: es,
+            }),
+          },
         }),
         'default',
       ),

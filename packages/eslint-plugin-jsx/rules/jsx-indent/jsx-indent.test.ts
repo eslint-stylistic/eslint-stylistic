@@ -17,7 +17,7 @@ const parserOptions = {
   },
 } as const
 
-const ruleTester = new RuleTester({ parserOptions })
+const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 ruleTester.run('jsx-indent', rule, {
   valid: valids(
     {
@@ -1046,7 +1046,7 @@ const Component = () => (
         }
       `,
       options: [2],
-      parserOptions,
+      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -1057,7 +1057,7 @@ const Component = () => (
         }
       `,
       options: [2],
-      parserOptions,
+      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -2919,7 +2919,7 @@ const Component = () => (
         }
       `,
       options: [2],
-      parserOptions,
+      languageOptions: { parserOptions },
       errors: [{ message: 'Expected indentation of 10 space characters but found 12.' }],
     },
     {
@@ -2938,7 +2938,7 @@ const Component = () => (
         }
       `,
       options: [2],
-      parserOptions,
+      languageOptions: { parserOptions },
       errors: [{ message: 'Expected indentation of 10 space characters but found 8.' }],
     },
     {

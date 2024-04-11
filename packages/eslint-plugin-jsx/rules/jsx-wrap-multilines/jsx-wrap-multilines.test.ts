@@ -613,7 +613,7 @@ function addNewLineSymbols(code: string) {
   return code.replace(/\(</g, '(\n<').replace(/>\)/g, '>\n)')
 }
 
-const ruleTester = new RuleTester({ parserOptions })
+const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 ruleTester.run('jsx-wrap-multilines', rule, {
   valid: valids(
     {

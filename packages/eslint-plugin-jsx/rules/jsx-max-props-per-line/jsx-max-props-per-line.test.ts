@@ -15,7 +15,7 @@ const parserOptions = {
   },
 } as const
 
-const ruleTester = new RuleTester({ parserOptions })
+const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 ruleTester.run('jsx-max-props-per-line', rule, {
   valid: valids(
     {
@@ -151,7 +151,7 @@ baz />;
           data: { prop: 'bar' },
         },
       ],
-      parserOptions,
+      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -183,7 +183,7 @@ bar />;
           data: { prop: 'bar' },
         },
       ],
-      parserOptions,
+      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -199,7 +199,7 @@ bar />;
           data: { prop: 'this.props' },
         },
       ],
-      parserOptions,
+      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -221,7 +221,7 @@ bar
           data: { prop: 'bar' },
         },
       ],
-      parserOptions,
+      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -243,7 +243,7 @@ bar
           data: { prop: 'this.props' },
         },
       ],
-      parserOptions,
+      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -265,7 +265,7 @@ bar
           data: { prop: 'bar' },
         },
       ],
-      parserOptions,
+      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -283,7 +283,7 @@ bar />
           data: { prop: 'bar' },
         },
       ],
-      parserOptions,
+      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -319,7 +319,7 @@ baz />
           data: { prop: 'rest' },
         },
       ],
-      parserOptions,
+      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -339,7 +339,7 @@ bar />
           data: { prop: 'bar' },
         },
       ],
-      parserOptions,
+      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -363,7 +363,7 @@ bar />
           data: { prop: 'rest' },
         },
       ],
-      parserOptions,
+      languageOptions: { parserOptions },
     },
     {
       code: `
