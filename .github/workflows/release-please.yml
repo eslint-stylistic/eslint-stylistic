@@ -24,8 +24,13 @@ jobs:
           release-type: node
           pull-request-title-pattern: 'chore: release ${version}'
           extra-files: |
-            packages/*/package.json
-          changelog-path: false
+            packages/eslint-plugin-js/package.json
+            packages/eslint-plugin-jsx/package.json
+            packages/eslint-plugin-migrate/package.json
+            packages/eslint-plugin-plus/package.json
+            packages/eslint-plugin-ts/package.json
+            packages/eslint-plugin/package.json
+            packages/metadata/package.json
           changelog-types: >
             [
               { "type": "feat", "section": "Features", "hidden": false },
