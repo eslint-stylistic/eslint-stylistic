@@ -23,7 +23,6 @@ jobs:
         with:
           release-type: node
           pull-request-title-pattern: 'chore: release ${version}'
-          config-file: release-please-config.json
           changelog-types: >
             [
               { "type": "feat", "section": "Features", "hidden": false },

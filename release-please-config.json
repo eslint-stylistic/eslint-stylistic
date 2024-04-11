@@ -1,14 +1,41 @@
 {
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "release-type": "node",
-  "packages": {
-    ".": {},
-    "packages/eslint-plugin-js": {},
-    "packages/eslint-plugin-jsx": {},
-    "packages/eslint-plugin-migrate": {},
-    "packages/eslint-plugin-plus": {},
-    "packages/eslint-plugin-ts": {},
-    "packages/eslint-plugin": {},
-    "packages/metadata": {}
-  }
+  "extra-files": [
+    {
+      "type": "json",
+      "path": "packages/eslint-plugin-js/package.json",
+      "jsonpath": "$.version"
+    },
+    {
+      "type": "json",
+      "path": "packages/eslint-plugin-jsx/package.json",
+      "jsonpath": "$.version"
+    },
+    {
+      "type": "json",
+      "path": "packages/eslint-plugin-migrate/package.json",
+      "jsonpath": "$.version"
+    },
+    {
+      "type": "json",
+      "path": "packages/eslint-plugin-plus/package.json",
+      "jsonpath": "$.version"
+    },
+    {
+      "type": "json",
+      "path": "packages/eslint-plugin-ts/package.json",
+      "jsonpath": "$.version"
+    },
+    {
+      "type": "json",
+      "path": "packages/eslint-plugin/package.json",
+      "jsonpath": "$.version"
+    },
+    {
+      "type": "json",
+      "path": "packages/metadata/package.json",
+      "jsonpath": "$.version"
+    }
+  ]
 }
