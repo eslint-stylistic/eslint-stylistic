@@ -32,7 +32,7 @@ jobs:
               { "type": "fix", "section": "Bug Fixes", "hidden": false },
               { "type": "docs", "section": "Documentation", "hidden": false },
               { "type": "build", "section": "Build Related", "hidden": false },
-              { "type": "chore", "section": "Chores", "hidden": true },
+              { "type": "chore", "section": "Chores", "hidden": false },
               { "type": "perf", "section": "Performance", "hidden": false },
               { "type": "ci", "section": "Chores", "hidden": true },
               { "type": "refactor", "section": "Chores", "hidden": false },
