@@ -11,6 +11,5 @@ updates:
       interval: daily
     groups:
       typescript-eslint:
-        applies-to: version-updates
         patterns:
           - "@typescript-eslint/*"
