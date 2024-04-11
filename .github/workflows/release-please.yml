@@ -1,0 +1,53 @@
+name: release-please
+
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+  id-token: write
+
+jobs:
+  release-please:
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+      html_url: ${{ steps.release.outputs.html_url }}
+    steps:
+      - uses: google-github-actions/release-please-action@v3
+        id: release
+        with:
+          release-type: node
+          pull-request-title-pattern: 'chore: release ${version}'
+          changelog-types: >
+            [
+              { "type": "feat", "section": "Features", "hidden": false },
+              { "type": "fix", "section": "Bug Fixes", "hidden": false },
+              { "type": "docs", "section": "Documentation", "hidden": false },
+              { "type": "build", "section": "Build Related", "hidden": false },
+              { "type": "chore", "section": "Chores", "hidden": true },
+              { "type": "perf", "section": "Performance", "hidden": false },
+              { "type": "ci", "section": "Chores", "hidden": true },
+              { "type": "refactor", "section": "Chores", "hidden": false },
+              { "type": "test", "section": "Chores", "hidden": false }
+            ]
+  publish-npm:
+    runs-on: ubuntu-latest
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: lts/*
+          registry-url: https://registry.npmjs.org
+      - uses: pnpm/action-setup@v2
+      - run: pnpm install
+      - run: pnpm run publish:ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_CONFIG_PROVENANCE: true
