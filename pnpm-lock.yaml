@@ -341,8 +341,8 @@ importers:
         version: 8.57.0
     devDependencies:
       '@typescript-eslint/rule-tester':
-        specifier: ^6.21.0
-        version: 6.21.0(@eslint/eslintrc@2.1.4)(eslint@8.57.0)(typescript@5.4.5)
+        specifier: ^7.6.0
+        version: 7.6.0(@eslint/eslintrc@2.1.4)(eslint@8.57.0)(typescript@5.4.5)
 
   packages/eslint-plugin-ts:
     dependencies:
@@ -360,8 +360,8 @@ importers:
         version: 8.57.0
     devDependencies:
       '@typescript-eslint/rule-tester':
-        specifier: ^6.21.0
-        version: 6.21.0(@eslint/eslintrc@2.1.4)(eslint@8.57.0)(typescript@5.4.5)
+        specifier: ^7.6.0
+        version: 7.6.0(@eslint/eslintrc@2.1.4)(eslint@8.57.0)(typescript@5.4.5)
 
   packages/metadata:
     devDependencies:
@@ -2657,16 +2657,16 @@ packages:
       - supports-color
     dev: true
 
-  /@typescript-eslint/rule-tester@6.21.0(@eslint/eslintrc@2.1.4)(eslint@8.57.0)(typescript@5.4.5):
-    resolution: {integrity: sha512-twxQo4He8+AQ/YG70Xt7Fl/ImBLpi7qElxHN6/aK+U4z97JsITCG7DdIIUw5M+qKtDMCYkZCEE2If8dnHI7jWA==}
-    engines: {node: ^16.0.0 || >=18.0.0}
+  /@typescript-eslint/rule-tester@7.6.0(@eslint/eslintrc@2.1.4)(eslint@8.57.0)(typescript@5.4.5):
+    resolution: {integrity: sha512-ioebRNx3V1pENvCM9uyY+MtJKDuU6wP/l21ju2HOlKL9wbT9tND8odqsD9V3/kgd2TepJlnmvd2pdnQIv01Y/g==}
+    engines: {node: ^18.18.0 || >=20.0.0}
     peerDependencies:
       '@eslint/eslintrc': '>=2'
-      eslint: '>=8'
+      eslint: ^8.56.0
     dependencies:
       '@eslint/eslintrc': 2.1.4
-      '@typescript-eslint/typescript-estree': 6.21.0(typescript@5.4.5)
-      '@typescript-eslint/utils': 6.21.0(eslint@8.57.0)(typescript@5.4.5)
+      '@typescript-eslint/typescript-estree': 7.6.0(typescript@5.4.5)
+      '@typescript-eslint/utils': 7.6.0(eslint@8.57.0)(typescript@5.4.5)
       ajv: 6.12.6
       eslint: 8.57.0
       lodash.merge: 4.6.2
