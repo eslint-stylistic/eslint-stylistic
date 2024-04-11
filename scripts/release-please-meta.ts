@@ -1,5 +1,3 @@
-// Run when adding or removing packages to update the release-please-config.json file
-
 import fs from 'node:fs/promises'
 import fg from 'fast-glob'
 
@@ -15,7 +13,7 @@ const files = await fg(
 
 const json = JSON.parse(await fs.readFile('release-please-config.json', 'utf8'))
 
-json['extra-files'] = files
+json.packages['.']['extra-files'] = files
   .sort()
   .map((file) => {
     return {
