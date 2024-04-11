@@ -3,14 +3,14 @@
   "version": "1.7.0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
+  "homepage": "https://github.com/eslint-community/eslint-stylistic#readme",
   "repository": {
     "directory": "packages/eslint-plugin",
     "type": "git",
-    "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git"
+    "url": "git+https://github.com/eslint-community/eslint-stylistic.git"
   },
   "bugs": {
-    "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
+    "url": "https://github.com/eslint-community/eslint-stylistic/issues"
   },
   "exports": {
     ".": {

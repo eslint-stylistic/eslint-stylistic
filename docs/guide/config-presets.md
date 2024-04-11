@@ -57,7 +57,7 @@ module.exports = {
 
 :::
 
-Refer to the [source code](https://github.com/eslint-stylistic/eslint-stylistic/blob/main/packages/eslint-plugin/configs/customize.ts) for the full list of configured rules.
+Refer to the [source code](https://github.com/eslint-community/eslint-stylistic/blob/main/packages/eslint-plugin/configs/customize.ts) for the full list of configured rules.
 
 Currently this factory is only available in the [`@stylistic/eslint-plugin`](/packages/default) package.
 

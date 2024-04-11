@@ -47,8 +47,8 @@ const PACKAGES: DefaultTheme.NavItemWithLink[] = [
 
 const VERSIONS: DefaultTheme.NavItemWithLink[] = [
   { text: `v${version} (current)`, link: '/' },
-  { text: `Release Notes`, link: 'https://github.com/eslint-stylistic/eslint-stylistic/releases' },
-  { text: `Contributing`, link: 'https://github.com/eslint-stylistic/eslint-stylistic/blob/main/CONTRIBUTING.md' },
+  { text: `Release Notes`, link: 'https://github.com/eslint-community/eslint-stylistic/releases' },
+  { text: `Contributing`, link: 'https://github.com/eslint-community/eslint-stylistic/blob/main/CONTRIBUTING.md' },
 ]
 
 const packageNames: Record<string, string> = {
@@ -272,7 +272,7 @@ export default defineConfig({
 
     editLink: {
       // don't add docs/:path, missing tsconfig file
-      pattern: 'https://github.com/eslint-stylistic/eslint-stylistic/edit/main/:path',
+      pattern: 'https://github.com/eslint-community/eslint-stylistic/edit/main/:path',
       text: 'Suggest changes to this page',
     },
     search: {
@@ -280,7 +280,7 @@ export default defineConfig({
     },
 
     socialLinks: [
-      { icon: 'github', link: 'https://github.com/eslint-stylistic/eslint-stylistic' },
+      { icon: 'github', link: 'https://github.com/eslint-community/eslint-stylistic' },
       { icon: 'discord', link: 'https://eslint.style/chat' },
     ],
 

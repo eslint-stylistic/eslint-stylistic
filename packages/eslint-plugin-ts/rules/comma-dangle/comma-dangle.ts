@@ -140,7 +140,7 @@ export default createRule<RuleOptions, MessageIds>({
        * because it's used to differentiate JSX tags from generics.
        *
        * https://github.com/microsoft/TypeScript/issues/15713#issuecomment-499474386
-       * https://github.com/eslint-stylistic/eslint-stylistic/issues/35
+       * https://github.com/eslint-community/eslint-stylistic/issues/35
        */
       if (isTSX && node.type === AST_NODE_TYPES.TSTypeParameterDeclaration && node.params.length === 1)
         return

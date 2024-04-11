@@ -96,7 +96,7 @@ type Qux = [string,
       ],
     },
 
-    // https://github.com/eslint-stylistic/eslint-stylistic/issues/35
+    // https://github.com/eslint-community/eslint-stylistic/issues/35
     {
       code: 'const id = <T,>(x: T) => x;',
       parserOptions: {
@@ -273,7 +273,7 @@ type Qux = [string,
       errors: [{ messageId: 'unexpected' }],
     },
 
-    // https://github.com/eslint-stylistic/eslint-stylistic/issues/35
+    // https://github.com/eslint-community/eslint-stylistic/issues/35
     // When there is more than one generic, we don't need to workaround it
     {
       code: 'const id = <T,R,>(x: T) => x;',

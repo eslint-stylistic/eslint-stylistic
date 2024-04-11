@@ -13,7 +13,7 @@ body:
       label: Validations
       description: Before submitting the issue, please make sure you do the following
       options:
-        - label: Follow our [Code of Conduct](https://github.com/eslint-stylistic/eslint-stylistic/blob/main/CODE_OF_CONDUCT.md)
+        - label: Follow our [Code of Conduct](https://github.com/eslint-community/eslint-stylistic/blob/main/CODE_OF_CONDUCT.md)
           required: true
         - label: Read the [Contributing Guide](https://eslint.style/contribute/guide).
           required: true
