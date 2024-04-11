@@ -15,10 +15,10 @@ jobs:
       tag_name: ${{ steps.release.outputs.tag_name }}
       html_url: ${{ steps.release.outputs.html_url }}
     steps:
-      - uses: google-github-actions/release-please-action@v4
+      - uses: google-github-actions/release-please-action@v4.1.0
         id: release
         with:
-          release-type: node
+          config-file: release-please-config.json
   publish-npm:
     runs-on: ubuntu-latest
     needs: release-please
