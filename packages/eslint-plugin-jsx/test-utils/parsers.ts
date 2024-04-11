@@ -29,8 +29,9 @@ function minEcmaVersion(features: any, parserOptions: any) {
   return Number.isFinite(result) ? result : undefined
 }
 
-export const BABEL_ESLINT = require.resolve('@babel/eslint-parser')
-export const TYPESCRIPT_ESLINT = require.resolve('@typescript-eslint/parser')
+// @ts-expect-error missing types
+export const BABEL_ESLINT = await import('@babel/eslint-parser').then(m => m.default)
+export const TYPESCRIPT_ESLINT = await import('@typescript-eslint/parser').then(m => m.default)
 
 export function tsParserOptions(test: Partial<InvalidTestCase | ValidTestCase>, features: Set<string>) {
   return {
@@ -164,12 +165,16 @@ function applyAllParsers(tests: ValidTestCase[] | InvalidTestCase[]) {
         'default',
       ),
       skipNewBabel ? [] : addComment(Object.assign({}, test, {
-        parser: BABEL_ESLINT,
-        parserOptions: babelParserOptions(test, features),
+        languageOptions: {
+          parser: BABEL_ESLINT,
+          parserOptions: babelParserOptions(test, features),
+        },
       }), '@babel/eslint-parser'),
       tsNew ? addComment(Object.assign({}, test, {
-        parser: TYPESCRIPT_ESLINT,
-        parserOptions: tsParserOptions(test, features),
+        languageOptions: {
+          parser: TYPESCRIPT_ESLINT,
+          parserOptions: tsParserOptions(test, features),
+        },
       }), '@typescript-eslint/parser') : [],
     )
   })

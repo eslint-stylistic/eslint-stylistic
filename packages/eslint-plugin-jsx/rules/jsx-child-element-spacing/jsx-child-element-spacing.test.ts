@@ -10,7 +10,7 @@ const parserOptions = {
   },
 }
 
-const ruleTester = new RuleTester({ parserOptions })
+const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 ruleTester.run('jsx-child-element-spacing', rule, {
   valid: valids(
     {

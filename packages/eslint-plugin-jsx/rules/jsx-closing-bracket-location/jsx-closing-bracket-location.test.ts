@@ -26,7 +26,7 @@ function details(expectedColumn: number, expectedNextLine: boolean) {
   return ` (expected column ${expectedColumn}${expectedNextLine ? ' on the next line)' : ')'}`
 }
 
-const ruleTester = new RuleTester({ parserOptions })
+const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 ruleTester.run('jsx-closing-bracket-location', rule, {
   valid: valids(
     {
@@ -408,7 +408,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_TAG },
+          data: { location: MESSAGE_AFTER_TAG, details: '' },
         },
       ],
     },
@@ -423,7 +423,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -438,7 +438,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -525,7 +525,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -567,7 +567,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -633,7 +633,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -675,7 +675,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -1087,7 +1087,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_TAG },
+          data: { location: MESSAGE_AFTER_TAG, details: '' },
         },
       ],
     },
@@ -1205,7 +1205,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -1247,7 +1247,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -1313,7 +1313,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -1355,7 +1355,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -1767,7 +1767,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_TAG },
+          data: { location: MESSAGE_AFTER_TAG, details: '' },
         },
       ],
     },
