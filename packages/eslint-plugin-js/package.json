@@ -101,7 +101,7 @@
     "rules/**/*.d.ts"
   ],
   "engines": {
-    "node": "^16.0.0 || >=18.0.0"
+    "node": "^18.8.0 || >=20.0.0"
   },
   "scripts": {
     "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",
@@ -115,11 +115,11 @@
     "@types/eslint": "^8.56.8",
     "acorn": "^8.11.3",
     "escape-string-regexp": "^4.0.0",
-    "eslint-visitor-keys": "^3.4.3",
+    "eslint-visitor-keys": "^4.0.0",
     "espree": "^9.6.1"
   },
   "devDependencies": {
     "@eslint-community/eslint-utils": "^4.4.0",
-    "@typescript-eslint/parser": "^6.21.0"
+    "@typescript-eslint/parser": "^7.6.0"
   }
 }

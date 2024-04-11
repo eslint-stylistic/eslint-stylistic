@@ -52,7 +52,7 @@
     "rules/**/*.d.ts"
   ],
   "engines": {
-    "node": "^16.0.0 || >=18.0.0"
+    "node": "^18.8.0 || >=20.0.0"
   },
   "scripts": {
     "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",
@@ -75,9 +75,9 @@
     "@babel/plugin-syntax-function-bind": "^7.24.1",
     "@babel/preset-react": "^7.24.1",
     "@types/picomatch": "^2.3.3",
-    "@typescript-eslint/parser": "^6.21.0",
+    "@typescript-eslint/parser": "^7.6.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^8.57.0",
+    "eslint": "^9.0.0",
     "semver": "^7.6.0",
     "typescript-eslint-parser": "^22.0.0"
   }

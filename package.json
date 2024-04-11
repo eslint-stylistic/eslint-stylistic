@@ -49,7 +49,7 @@
     "@typescript-eslint/utils": "^7.6.0",
     "@vitest/coverage-v8": "^1.4.0",
     "change-case": "^5.4.4",
-    "eslint": "^8.57.0",
+    "eslint": "^9.0.0",
     "eslint-plugin-format": "^0.1.0",
     "esno": "^4.7.0",
     "execa": "^8.0.1",
