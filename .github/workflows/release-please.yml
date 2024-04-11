@@ -24,7 +24,6 @@ jobs:
           release-type: node
           pull-request-title-pattern: 'chore: release ${version}'
           config-file: release-please-config.json
-          changelog-path: ../CHANGELOG.md
           changelog-types: >
             [
               { "type": "feat", "section": "Features", "hidden": false },
