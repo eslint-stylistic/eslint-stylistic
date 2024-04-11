@@ -2,7 +2,7 @@
   "$schema": "https://raw.githubusercontent.com/googleapis/release-please/main/schemas/config.json",
   "release-type": "node",
   "changelog-path": "",
-  "last-release-sha": "fc87f47486439cca3496573823a2695233425348",
+  "bootstrap-sha": "fc87f47486439cca3496573823a2695233425348",
   "pull-request-title-pattern": "chore: release v${version}",
   "changelog-sections": [
     {
@@ -28,7 +28,7 @@
     {
       "type": "chore",
       "section": "Chores",
-      "hidden": false
+      "hidden": true
     },
     {
       "type": "perf",
