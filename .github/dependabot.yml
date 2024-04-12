@@ -13,3 +13,7 @@ updates:
       typescript-eslint:
         patterns:
           - '@typescript-eslint/*'
+      unocss:
+        patterns:
+          - 'unocss'
+          - '@unocss/*'
