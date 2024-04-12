@@ -191,8 +191,8 @@ importers:
         specifier: ^2.0.10
         version: 2.0.10
       '@unocss/reset':
-        specifier: ^0.59.1
-        version: 0.59.1
+        specifier: ^0.59.2
+        version: 0.59.2
       '@vueuse/core':
         specifier: ^10.9.0
         version: 10.9.0(vue@3.4.21)
@@ -2961,10 +2961,6 @@ packages:
       '@unocss/core': 0.59.2
       '@unocss/preset-mini': 0.59.2
       '@unocss/rule-utils': 0.59.2
-    dev: true
-
-  /@unocss/reset@0.59.1:
-    resolution: {integrity: sha512-oXnUNavUraimiEhrckeVsSYqKVna2Asqt3dysnXuZ/9Y8O0tdx2Bba1oxdoGi8/cQvfD697+2hm52u0IKTw76A==}
     dev: true
 
   /@unocss/reset@0.59.2:
