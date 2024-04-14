@@ -15,5 +15,5 @@ updates:
           - '@typescript-eslint/*'
       unocss:
         patterns:
-          - 'unocss'
+          - unocss
           - '@unocss/*'
