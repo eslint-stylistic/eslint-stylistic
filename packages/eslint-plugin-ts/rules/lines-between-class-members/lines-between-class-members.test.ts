@@ -129,6 +129,25 @@ abstract bar(a: string, b: string): void;
       `,
       options: ['always'],
     },
+    {
+      code: `
+interface foo {
+bar(): void;
+
+baz(): void;
+};
+      `,
+      options: ['always'],
+    },
+    {
+      code: `
+interface foo {
+bar(): void;
+baz(): void;
+};
+      `,
+      options: ['never'],
+    },
   ],
   invalid: [
     {
@@ -328,6 +347,48 @@ qux() { }
         {
           messageId: 'never',
         },
+        {
+          messageId: 'never',
+        },
+      ],
+    },
+    {
+      code: `
+interface foo {
+bar(): void;
+baz(): void;
+};
+      `,
+      output: `
+interface foo {
+bar(): void;
+
+baz(): void;
+};
+      `,
+      options: ['always'],
+      errors: [
+        {
+          messageId: 'always',
+        },
+      ],
+    },
+    {
+      code: `
+interface foo {
+bar(): void;
+
+baz(): void;
+};
+      `,
+      output: `
+interface foo {
+bar(): void;
+baz(): void;
+};
+      `,
+      options: ['never'],
+      errors: [
         {
           messageId: 'never',
         },
