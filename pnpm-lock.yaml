@@ -127,8 +127,8 @@ importers:
         specifier: ^15.2.2
         version: 15.2.2
       pnpm:
-        specifier: ^8.15.6
-        version: 8.15.6
+        specifier: ^9.0.2
+        version: 9.0.2
       rimraf:
         specifier: ^5.0.5
         version: 5.0.5
@@ -6694,9 +6694,9 @@ packages:
     engines: {node: '>=4'}
     dev: true
 
-  /pnpm@8.15.6:
-    resolution: {integrity: sha512-d7iem+d6Kwatj0A6Gcrl4il29hAj+YrTI9XDAZSVjrwC7gpq5dE+5FT2E05OjK8poF8LGg4dKxe8prah8RWfhg==}
-    engines: {node: '>=16.14'}
+  /pnpm@9.0.2:
+    resolution: {integrity: sha512-i+3zHeQnBbl/+JMwu+F3lUrVcDqS+olL4PtNRbXfq1miH2WoQZrRyugt0W+sLUGow0N3XoDv59q22AsECNsv1g==}
+    engines: {node: '>=18.12'}
     hasBin: true
     dev: true
 
