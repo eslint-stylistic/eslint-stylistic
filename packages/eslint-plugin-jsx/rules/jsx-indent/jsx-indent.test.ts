@@ -2720,6 +2720,99 @@ const Component = () => (
         },
       ],
     },
+    {
+      code: `
+      <div
+        style={
+                  { color: 'red' }
+        }
+      />
+      `,
+      output: `
+      <div
+        style={
+          { color: 'red' }
+        }
+      />
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndent',
+          data: {
+            needed: 10,
+            type: 'space',
+            characters: 'characters',
+            gotten: 18,
+          },
+        },
+      ],
+    },
+    {
+      code: `
+      <div
+        style={
+          { color: 'red' }
+}
+      />
+      `,
+      output: `
+      <div
+        style={
+          { color: 'red' }
+        }
+      />
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndent',
+          data: {
+            needed: 10,
+            type: 'space',
+            characters: 'characters',
+            gotten: 0,
+          },
+        },
+      ],
+    },
+    {
+      code: `
+      <div
+        style={
+          true
+            ? {
+                color: 'red',
+              }
+            : {
+                height: 1,
+        }
+        }
+      />
+      `,
+      output: `
+      <div
+        style={
+          true
+            ? {
+                color: 'red',
+              }
+            : {
+                height: 1,
+              }
+        }
+      />
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndent',
+          data: {
+            needed: 14,
+            type: 'space',
+            characters: 'characters',
+            gotten: 8,
+          },
+        },
+      ],
+    },
     skipDueToMultiErrorSorting ? [] : {
       code: `
         <div>
