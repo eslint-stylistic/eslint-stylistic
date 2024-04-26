@@ -1170,6 +1170,36 @@ const Component = () => (
       `,
       options: [2],
     },
+    {
+      options: [2, { checkAttributes: true, indentLogicalExpressions: true }],
+      code: `
+      <>
+        <div
+          foo={
+            condition
+              ? [
+                'bar'
+              ]
+              : [
+                'baz',
+                'qux'
+              ]
+          }
+        />
+        <div
+          style={
+            true
+              ? {
+                  color: 'red',
+                }
+              : {
+                  height: 1,
+                }
+          }
+        />
+      </>
+      `,
+    },
   ),
 
   invalid: invalids(
@@ -2713,99 +2743,6 @@ const Component = () => (
           messageId: 'wrongIndent',
           data: {
             needed: 12,
-            type: 'space',
-            characters: 'characters',
-            gotten: 8,
-          },
-        },
-      ],
-    },
-    {
-      code: `
-      <div
-        style={
-                  { color: 'red' }
-        }
-      />
-      `,
-      output: `
-      <div
-        style={
-          { color: 'red' }
-        }
-      />
-      `,
-      errors: [
-        {
-          messageId: 'wrongIndent',
-          data: {
-            needed: 10,
-            type: 'space',
-            characters: 'characters',
-            gotten: 18,
-          },
-        },
-      ],
-    },
-    {
-      code: `
-      <div
-        style={
-          { color: 'red' }
-}
-      />
-      `,
-      output: `
-      <div
-        style={
-          { color: 'red' }
-        }
-      />
-      `,
-      errors: [
-        {
-          messageId: 'wrongIndent',
-          data: {
-            needed: 10,
-            type: 'space',
-            characters: 'characters',
-            gotten: 0,
-          },
-        },
-      ],
-    },
-    {
-      code: `
-      <div
-        style={
-          true
-            ? {
-                color: 'red',
-              }
-            : {
-                height: 1,
-        }
-        }
-      />
-      `,
-      output: `
-      <div
-        style={
-          true
-            ? {
-                color: 'red',
-              }
-            : {
-                height: 1,
-              }
-        }
-      />
-      `,
-      errors: [
-        {
-          messageId: 'wrongIndent',
-          data: {
-            needed: 14,
             type: 'space',
             characters: 'characters',
             gotten: 8,

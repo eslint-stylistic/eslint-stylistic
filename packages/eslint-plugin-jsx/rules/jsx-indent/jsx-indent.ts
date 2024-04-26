@@ -380,6 +380,8 @@ export default createRule<MessageIds, RuleOptions>({
       const nameIndent = getNodeIndent(node.name)
       const lastToken = context.sourceCode.getLastToken(node.value)!
       const firstInLine = getFirstNodeInLine(context, lastToken)
+      if (firstInLine.loc.start.line !== lastToken.loc.start.line)
+        return
       const indent = node.name.loc.start.line === firstInLine.loc.start.line ? 0 : nameIndent
       checkNodesIndent(firstInLine as unknown as ASTNode, indent)
     }
