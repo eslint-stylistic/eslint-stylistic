@@ -60,7 +60,7 @@
     "json-schema": "^0.4.0",
     "json-schema-to-typescript": "^13.1.2",
     "lint-staged": "^15.2.2",
-    "pnpm": "^8.15.6",
+    "pnpm": "^9.0.6",
     "rimraf": "^5.0.5",
     "rollup": "^4.16.4",
     "rollup-plugin-dts": "^6.1.0",
