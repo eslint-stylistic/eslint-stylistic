@@ -3,17 +3,4 @@ updates:
   - package-ecosystem: github-actions
     directory: /
     schedule:
-      interval: daily
-
-  - package-ecosystem: npm
-    directory: /
-    schedule:
-      interval: daily
-    groups:
-      typescript-eslint:
-        patterns:
-          - '@typescript-eslint/*'
-      unocss:
-        patterns:
-          - unocss
-          - '@unocss/*'
+      interval: weekly
