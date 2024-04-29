@@ -4,14 +4,14 @@
   "description": "ESLint plugin to migrate built-in rules to stylistic rules",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/eslint-community/eslint-stylistic#readme",
+  "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/eslint-community/eslint-stylistic.git",
+    "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git",
     "directory": "packages/eslint-plugin-migrate"
   },
   "bugs": {
-    "url": "https://github.com/eslint-community/eslint-stylistic/issues"
+    "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
   },
   "main": "./dist/index.cjs",
   "files": [

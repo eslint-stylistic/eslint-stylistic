@@ -3,7 +3,7 @@
  * @author Michael Ficarra
  */
 
-// @ts-expect-error missing types https://github.com/eslint-community/eslint-utils/pull/60
+// @ts-expect-error missing types https://github.com/eslint-stylistic/eslint-utils/pull/60
 import { isParenthesized as isParenthesizedRaw } from '@eslint-community/eslint-utils'
 import type { ASTNode, Token, Tree } from '@shared/types'
 import {
