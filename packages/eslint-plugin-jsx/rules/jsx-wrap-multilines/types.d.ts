@@ -8,6 +8,7 @@ export interface Schema0 {
   condition?: true | false | 'ignore' | 'parens' | 'parens-new-line'
   logical?: true | false | 'ignore' | 'parens' | 'parens-new-line'
   prop?: true | false | 'ignore' | 'parens' | 'parens-new-line'
+  propertyValue?: true | false | 'ignore' | 'parens' | 'parens-new-line'
 }
 
 export type RuleOptions = [Schema0?]

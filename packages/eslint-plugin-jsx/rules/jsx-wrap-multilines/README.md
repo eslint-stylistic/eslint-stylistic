@@ -14,7 +14,8 @@ This rule optionally takes a second parameter in the form of an object, containi
   "arrow": "parens",
   "condition": "ignore",
   "logical": "ignore",
-  "prop": "ignore"
+  "prop": "ignore",
+  "propertyValue": "ignore"
 }
 ```
 
@@ -472,4 +473,28 @@ Examples of **correct** code for this rule, when configured with `{ prop: "paren
 )}>
   <p>Hello</p>
 </div>;
+```
+
+### `propertyValue`
+
+Examples of **incorrect** code for this rule, when configured with `{ propertyValue: "parens" }`.
+
+```jsx
+var hello = {
+  foo: <div>
+    <p>Hello</p>
+  </div>
+};
+```
+
+Examples of **correct** code for this rule, when configured with `{ propertyValue: "parens" }`.
+
+```jsx
+var hello = {
+  foo: (
+    <div>
+      <p>Hello</p>
+    </div>
+  )
+};
 ```
