@@ -38,7 +38,7 @@ export default createRule<MessageIds, RuleOptions>({
         properties: {
           allow: {
             type: 'string',
-            enum: ['none', 'literal', 'single-child'],
+            enum: ['none', 'literal', 'single-child', 'single-line'],
           },
         },
         default: optionDefaults,
@@ -85,9 +85,26 @@ export default createRule<MessageIds, RuleOptions>({
           if (
             options.allow === 'single-child'
             || (options.allow === 'literal' && (child.type === 'Literal' || child.type === 'JSXText'))
+            || (options.allow === 'single-line')
           )
             return
         }
+      }
+
+      if (options.allow === 'single-line') {
+        const firstChild = children[0]
+        const lastChild = children[children.length - 1]
+        let lineDifference = lastChild.loc.end.line - firstChild.loc.start.line
+        if (firstChild.type === 'Literal' || firstChild.type === 'JSXText') {
+          if (/^\s*?\n/.test(firstChild.raw))
+            lineDifference -= 1
+        }
+        if (lastChild.type === 'Literal' || lastChild.type === 'JSXText') {
+          if (/\n\s*?$/.test(lastChild.raw))
+            lineDifference -= 1
+        }
+        if (lineDifference === 0)
+          return
       }
 
       const childrenGroupedByLine: Record<number, Child[]> = {}
