@@ -32,6 +32,7 @@
     "./rules/jsx-curly-spacing": "./dist/jsx-curly-spacing.js",
     "./rules/jsx-equals-spacing": "./dist/jsx-equals-spacing.js",
     "./rules/jsx-first-prop-new-line": "./dist/jsx-first-prop-new-line.js",
+    "./rules/jsx-function-call-newline": "./dist/jsx-function-call-newline.js",
     "./rules/jsx-indent": "./dist/jsx-indent.js",
     "./rules/jsx-indent-props": "./dist/jsx-indent-props.js",
     "./rules/jsx-max-props-per-line": "./dist/jsx-max-props-per-line.js",

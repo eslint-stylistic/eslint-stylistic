@@ -8,6 +8,7 @@ import type { RuleOptions as JsxCurlyNewlineRuleOptions } from '../rules/jsx-cur
 import type { RuleOptions as JsxCurlySpacingRuleOptions } from '../rules/jsx-curly-spacing/types'
 import type { RuleOptions as JsxEqualsSpacingRuleOptions } from '../rules/jsx-equals-spacing/types'
 import type { RuleOptions as JsxFirstPropNewLineRuleOptions } from '../rules/jsx-first-prop-new-line/types'
+import type { RuleOptions as JsxFunctionCallNewlineRuleOptions } from '../rules/jsx-function-call-newline/types'
 import type { RuleOptions as JsxIndentRuleOptions } from '../rules/jsx-indent/types'
 import type { RuleOptions as JsxIndentPropsRuleOptions } from '../rules/jsx-indent-props/types'
 import type { RuleOptions as JsxMaxPropsPerLineRuleOptions } from '../rules/jsx-max-props-per-line/types'
@@ -61,6 +62,11 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/jsx/jsx-first-prop-new-line
    */
   '@stylistic/jsx/jsx-first-prop-new-line': JsxFirstPropNewLineRuleOptions
+  /**
+   * Enforce line breaks before and after JSX elements when they are used as arguments to a function.
+   * @see https://eslint.style/rules/jsx/jsx-function-call-newline
+   */
+  '@stylistic/jsx/jsx-function-call-newline': JsxFunctionCallNewlineRuleOptions
   /**
    * Enforce JSX indentation
    * @see https://eslint.style/rules/jsx/jsx-indent
@@ -159,6 +165,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/jsx/jsx-first-prop-new-line
    */
   'jsx-first-prop-new-line': JsxFirstPropNewLineRuleOptions
+  /**
+   * Enforce line breaks before and after JSX elements when they are used as arguments to a function.
+   * @see https://eslint.style/rules/jsx/jsx-function-call-newline
+   */
+  'jsx-function-call-newline': JsxFunctionCallNewlineRuleOptions
   /**
    * Enforce JSX indentation
    * @see https://eslint.style/rules/jsx/jsx-indent
