@@ -1,5 +1,24 @@
 # Changelog
 
+## [1.8.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v1.7.2...v1.8.0) (2024-04-30)
+
+
+### Features
+
+* **jsx-function-call-newline:** add jsx-function-call-newline rule ([#376](https://github.com/eslint-stylistic/eslint-stylistic/issues/376)) ([110aa4c](https://github.com/eslint-stylistic/eslint-stylistic/commit/110aa4ccc33371e47943952e1b595d67239ef5dc))
+* **jsx-one-expression-per-line:** allow single line ([#377](https://github.com/eslint-stylistic/eslint-stylistic/issues/377)) ([f8825f2](https://github.com/eslint-stylistic/eslint-stylistic/commit/f8825f290cd049c07f17dd2fea16ffec6e532e39))
+* **jsx-wrap-multilines:** supports adding parentheses and line breaks for object properties ([#372](https://github.com/eslint-stylistic/eslint-stylistic/issues/372)) ([c72d043](https://github.com/eslint-stylistic/eslint-stylistic/commit/c72d0437e4cf447918b0750200cf8fb6a46af2cf))
+
+
+### Bug Fixes
+
+* **jsx-indent:** conflict between indent and jsx-indent ([#368](https://github.com/eslint-stylistic/eslint-stylistic/issues/368)) ([7313184](https://github.com/eslint-stylistic/eslint-stylistic/commit/731318474fd5c7b0abe7f21abcb7334949bafc2e))
+
+
+### Documentation
+
+* update links ([f80db20](https://github.com/eslint-stylistic/eslint-stylistic/commit/f80db20d67d2f796655fd83de370609e21fa701f))
+
 ## [1.7.2](https://github.com/eslint-community/eslint-stylistic/compare/v1.7.1...v1.7.2) (2024-04-14)
 
 
