@@ -12,6 +12,7 @@ const config: Linter.FlatConfig = {
     'react/jsx-curly-spacing': 0,
     'react/jsx-equals-spacing': 0,
     'react/jsx-first-prop-new-line': 0,
+    'react/jsx-function-call-newline': 0,
     'react/jsx-indent': 0,
     'react/jsx-indent-props': 0,
     'react/jsx-max-props-per-line': 0,

@@ -1076,6 +1076,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "jsx-function-call-newline",
+        "ruleId": "@stylistic/jsx/jsx-function-call-newline",
+        "originalId": "react/jsx-function-call-newline",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-function-call-newline/jsx-function-call-newline.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-function-call-newline/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce line breaks before and after JSX elements when they are used as arguments to a function.",
+            "recommended": true
+          }
+        }
+      },
+      {
         "name": "jsx-indent",
         "ruleId": "@stylistic/jsx/jsx-indent",
         "originalId": "react/jsx-indent",
@@ -2024,6 +2038,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "code",
           "docs": {
             "description": "Enforce proper position of the first property in JSX",
+            "recommended": true
+          }
+        }
+      },
+      {
+        "name": "jsx-function-call-newline",
+        "ruleId": "@stylistic/jsx-function-call-newline",
+        "originalId": "react/jsx-function-call-newline",
+        "entry": "packages/eslint-plugin-jsx/rules/jsx-function-call-newline/jsx-function-call-newline.ts",
+        "docsEntry": "packages/eslint-plugin-jsx/rules/jsx-function-call-newline/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce line breaks before and after JSX elements when they are used as arguments to a function.",
             "recommended": true
           }
         }
