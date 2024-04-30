@@ -55,12 +55,40 @@ ruleTester.run('jsx-function-call-newline', rule, {
     {
       code: `fn((<div style={{}} />), <div />, <div />)`,
     },
+    {
+      code: `new OBJ((<div style={{}} />), <div />, <div />)`,
+    },
+    {
+      code: `new OBJ(<div />, <div />, <div />)`,
+    },
+    {
+      code: `new OBJ(<div />, <div />\n, <div />)`,
+    },
+    {
+      code: `new OBJ(\n<div />\n,\n<div />\n,\n<div />\n)`,
+    },
+    {
+      code: `new OBJ(\n<div />\n,\n<div />\n,\n<div />\n)`,
+      options: ['always'],
+    },
+    {
+      code: `new OBJ(\n<div />\n,\n<div ></div>)`,
+    },
   ),
   invalid: invalids(
     {
       code: `fn(<div
         />)`,
       output: `fn(\n<div
+        />\n)`,
+      errors: [
+        { messageId: 'missingLineBreak' },
+      ],
+    },
+    {
+      code: `new OBJ(<div
+        />)`,
+      output: `new OBJ(\n<div
         />\n)`,
       errors: [
         { messageId: 'missingLineBreak' },
@@ -77,6 +105,15 @@ ruleTester.run('jsx-function-call-newline', rule, {
     {
       code: `fn(\n<div />,<div />,\n<div />)`,
       output: `fn(\n<div />,\n<div />,\n<div />\n)`,
+      errors: [
+        { messageId: 'missingLineBreak' },
+        { messageId: 'missingLineBreak' },
+      ],
+      options: ['always'],
+    },
+    {
+      code: `new OBJ(\n<div />,<div />,\n<div />)`,
+      output: `new OBJ(\n<div />,\n<div />,\n<div />\n)`,
       errors: [
         { messageId: 'missingLineBreak' },
         { messageId: 'missingLineBreak' },
