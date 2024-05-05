@@ -48,7 +48,7 @@ const PACKAGES: DefaultTheme.NavItemWithLink[] = [
 const VERSIONS: DefaultTheme.NavItemWithLink[] = [
   { text: `v${version} (current)`, link: '/' },
   { text: `Release Notes`, link: 'https://github.com/eslint-stylistic/eslint-stylistic/releases' },
-  { text: `Contributing`, link: 'https://github.com/eslint-stylistic/eslint-stylistic/blob/main/CONTRIBUTING.md' },
+  { text: `Contributing`, link: '/contribute/guide' },
 ]
 
 const packageNames: Record<string, string> = {
