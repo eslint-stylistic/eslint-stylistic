@@ -277,6 +277,16 @@ export default defineConfig({
     },
     search: {
       provider: 'local',
+      options: {
+        _render(src, env, md) {
+          if (env.relativePath.endsWith('.alias.md'))
+            return ''
+          if (env.relativePath.endsWith('rules.md'))
+            return ''
+          const html = md.render(src, env)
+          return html
+        },
+      },
     },
 
     socialLinks: [

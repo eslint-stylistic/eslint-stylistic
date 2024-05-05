@@ -3,6 +3,8 @@ title: space-infix-ops
 rule_type: layout
 ---
 
+# js/space-infix-ops
+
 While formatting preferences are very personal, a number of style guides require spaces around operators, such as:
 
 ```js

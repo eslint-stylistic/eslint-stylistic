@@ -16,7 +16,6 @@
     "@types/markdown-it-container": "^2.0.10",
     "@unocss/reset": "^0.59.4",
     "@vueuse/core": "^10.9.0",
-    "gray-matter": "^4.0.3",
     "markdown-it-container": "^4.0.0",
     "shiki": "^1.3.0",
     "twoslash": "^0.2.5",

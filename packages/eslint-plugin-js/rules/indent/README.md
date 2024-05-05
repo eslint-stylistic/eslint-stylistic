@@ -3,6 +3,8 @@ title: indent
 rule_type: layout
 ---
 
+# js/indent
+
 There are several common guidelines which require specific indentation of nested blocks and statements, like:
 
 ```js

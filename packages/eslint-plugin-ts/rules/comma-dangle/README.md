@@ -1,6 +1,8 @@
 ---
-description: 'Require or disallow trailing commas.'
+description: Require or disallow trailing commas.
 ---
+
+# ts/comma-dangle
 
 This rule extends the base [`comma-dangle`](/rules/js/comma-dangle) rule.
 It adds support for TypeScript syntax.

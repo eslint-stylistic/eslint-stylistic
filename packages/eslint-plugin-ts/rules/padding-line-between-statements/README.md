@@ -1,6 +1,8 @@
 ---
-description: 'Require or disallow padding lines between statements.'
+description: Require or disallow padding lines between statements.
 ---
+
+# ts/padding-line-between-statements
 
 This rule extends the base [`padding-line-between-statements`](/rules/js/padding-line-between-statements) rule.
 

@@ -71,7 +71,7 @@ function MarkdownTransform(): Plugin {
         `# <samp>${rule.name}</samp>`,
         '',
         '\n',
-        content,
+        content.trimStart().replace(/^# .*\n/, ''),
       ].join('\n')
 
       return graymatter.stringify(content, { data })

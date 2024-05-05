@@ -111,6 +111,9 @@ importers:
       fs-extra:
         specifier: ^11.2.0
         version: 11.2.0
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
       jiti:
         specifier: ^1.21.0
         version: 1.21.0
@@ -196,9 +199,6 @@ importers:
       '@vueuse/core':
         specifier: ^10.9.0
         version: 10.9.0(vue@3.4.26(typescript@5.4.5))
-      gray-matter:
-        specifier: ^4.0.3
-        version: 4.0.3
       markdown-it-container:
         specifier: ^4.0.0
         version: 4.0.0
@@ -1495,9 +1495,6 @@ packages:
   '@types/markdown-it-container@2.0.10':
     resolution: {integrity: sha512-zv+YxrlSYRq51e9kzm3orv4OvF4U79Ll1OyplNXr00o4ZC/8PukJk/jEWH7CnsMtrSWZlyv0czhz42jm9J4uLw==}
 
-  '@types/markdown-it@13.0.7':
-    resolution: {integrity: sha512-U/CBi2YUUcTHBt5tjO2r5QV/x0Po6nsYwQU4Y04fBS6vfoImaiZ6f8bi3CjTCxBPQSO1LMyUqkByzi8AidyxfA==}
-
   '@types/markdown-it@14.0.1':
     resolution: {integrity: sha512-6WfOG3jXR78DW8L5cTYCVVGAsIFZskRHCDo5tbqa+qtKVt4oDRVH7hyIWu1SpDQJlmIoEivNQZ5h+AGAOrgOtQ==}
 
@@ -1777,14 +1774,8 @@ packages:
   '@volar/typescript@2.2.0-alpha.10':
     resolution: {integrity: sha512-GCa0vTVVdA9ULUsu2Rx7jwsIuyZQPvPVT9o3NrANTbYv+523Ao1gv3glC5vzNSDPM6bUl37r94HbCj7KINQr+g==}
 
-  '@vue/compiler-core@3.4.21':
-    resolution: {integrity: sha512-MjXawxZf2SbZszLPYxaFCjxfibYrzr3eYbKxwpLR9EQN+oaziSu3qKVbwBERj1IFIB8OLUewxB5m/BFzi613og==}
-
   '@vue/compiler-core@3.4.26':
     resolution: {integrity: sha512-N9Vil6Hvw7NaiyFUFBPXrAyETIGlQ8KcFMkyk6hW1Cl6NvoqvP+Y8p1Eqvx+UdqsnrnI9+HMUEJegzia3mhXmQ==}
-
-  '@vue/compiler-dom@3.4.21':
-    resolution: {integrity: sha512-IZC6FKowtT1sl0CR5DpXSiEB5ayw75oT2bma1BEhV7RRR1+cfwLrxc2Z8Zq/RGFzJ8w5r9QtCOvTjQgdn0IKmA==}
 
   '@vue/compiler-dom@3.4.26':
     resolution: {integrity: sha512-4CWbR5vR9fMg23YqFOhr6t6WB1Fjt62d6xdFPyj8pxrYub7d+OgZaObMsoxaF9yBUHPMiPFK303v61PwAuGvZA==}
@@ -1835,9 +1826,6 @@ packages:
     resolution: {integrity: sha512-xoGAqSjYDPGAeRWxeoYwqJFD/gw7mpgzOvSxEmjWaFO2rE6qpbD1PC172YRpvKhrihkyHJkNDADFXTfCyVGhKw==}
     peerDependencies:
       vue: 3.4.26
-
-  '@vue/shared@3.4.21':
-    resolution: {integrity: sha512-PuJe7vDIi6VYSinuEbUIQgMIRZGgM8e4R+G+/dQTk0X1NEdvgvvgv7m+rfmDH1gZzyA1OjjoWskvHlfRNfQf3g==}
 
   '@vue/shared@3.4.26':
     resolution: {integrity: sha512-Fg4zwR0GNnjzodMt3KRy2AWGMKQXByl56+4HjN87soxLNU9P5xcJkstAlIeEF3cU6UYOzmJl1tV0dVPGIljCnQ==}
@@ -2677,11 +2665,6 @@ packages:
     resolution: {integrity: sha512-XxwI8EOhVQgWp6iDL+3b0r86f4d6AX6zSU55HfB4ydCEuXLXc5FcYeOu+nnGftS4TEju/11rt4KJPTMgbfmv4A==}
     engines: {node: '>=10.13.0'}
 
-  glob@10.3.10:
-    resolution: {integrity: sha512-fa46+tv1Ak0UPK1TOy/pZrIybNNt4HCv7SDzwyfiOZkvZLEbjsZkJBPtDHVshZjbecAoAGSC20MjLDG/qr679g==}
-    engines: {node: '>=16 || 14 >=14.17'}
-    hasBin: true
-
   glob@10.3.12:
     resolution: {integrity: sha512-TCNv8vJ+xz4QiqTpfOJA7HvYv+tNIRHKfUWw/q+v2jdgN4ebz+KY9tGx5J4rHP0o84mNP+ApH66HRX8us3Khqg==}
     engines: {node: '>=16 || 14 >=14.17'}
@@ -3019,10 +3002,6 @@ packages:
   loupe@2.3.7:
     resolution: {integrity: sha512-zSMINGVYkdpYSOBmLi0D1Uo7JU9nVdQKrHxC8eYlV+9YKK9WePqAlL7lSlorG/U2Fw1w0hTBmaa/jrQ3UbPHtA==}
 
-  lru-cache@10.1.0:
-    resolution: {integrity: sha512-/1clY/ui8CzjKFyjdvwPWJUYKiFVXG2I2cY0ssG7h4+hwk+XOIX7ZSG9Q7TW8TW3Kp3BUSqgFWBLgL4PJ+Blag==}
-    engines: {node: 14 || >=16.14}
-
   lru-cache@10.2.2:
     resolution: {integrity: sha512-9hp3Vp2/hFQUiIwKo8XCeFVnrg8Pk3TYNPIR7tJADKi5YfcF7vEaK7avFHTlSy3kOKYaJQaalfEo6YuXdceBOQ==}
     engines: {node: 14 || >=16.14}
@@ -3043,10 +3022,6 @@ packages:
 
   magic-string@0.30.10:
     resolution: {integrity: sha512-iIRwTIf0QKV3UAnYK4PU8uiEc4SRh5jX0mwpIwETPpHdhVM4f53RSwS/vXvN1JhGX+Cs7B8qIq3d6AH49O5fAQ==}
-
-  magic-string@0.30.9:
-    resolution: {integrity: sha512-S1+hd+dIrC8EZqKyT9DstTH/0Z+f76kmmvZnkfQVmOpDEF9iVgdYif3Q/pIWHmCoo59bQVGW0kVL3e2nl+9+Sw==}
-    engines: {node: '>=12'}
 
   magicast@0.3.3:
     resolution: {integrity: sha512-ZbrP1Qxnpoes8sz47AM0z08U+jW6TyRgZzcWy3Ma3vDhJttwMwAFDMMQFobwdBxByBD46JYmxRzeF7w2+wJEuw==}
@@ -3412,10 +3387,6 @@ packages:
 
   path-parse@1.0.7:
     resolution: {integrity: sha512-LDJzPVEEEPR+y48z93A0Ed0yXb8pAByGWo/k5YYdYgpY2/2EsOsksJrq7lOHxryrVOn1ejG6oAp8ahvOIQD8sw==}
-
-  path-scurry@1.10.1:
-    resolution: {integrity: sha512-MkhCqzzBEpPvxxQ71Md0b1Kk51W01lrYvlMzSUaIzNsODdd7mqhiimSZlr+VegAz5Z6Vzt9Xg2ttE//XBhH3EQ==}
-    engines: {node: '>=16 || 14 >=14.17'}
 
   path-scurry@1.10.2:
     resolution: {integrity: sha512-7xTavNy5RQXnsjANvVvMkEjvloOinkAjv/Z6Ildz9v2RinZ4SBKTWFOVRbaF8p0vpHnyjV/UwNDdKuUv6M5qcA==}
@@ -5003,7 +4974,7 @@ snapshots:
       estree-walker: 2.0.2
       glob: 8.0.3
       is-reference: 1.2.1
-      magic-string: 0.30.9
+      magic-string: 0.30.10
     optionalDependencies:
       rollup: 4.17.1
 
@@ -5205,12 +5176,7 @@ snapshots:
 
   '@types/markdown-it-container@2.0.10':
     dependencies:
-      '@types/markdown-it': 13.0.7
-
-  '@types/markdown-it@13.0.7':
-    dependencies:
-      '@types/linkify-it': 3.0.3
-      '@types/mdurl': 1.0.2
+      '@types/markdown-it': 14.0.1
 
   '@types/markdown-it@14.0.1':
     dependencies:
@@ -5579,7 +5545,7 @@ snapshots:
       istanbul-lib-report: 3.0.1
       istanbul-lib-source-maps: 5.0.4
       istanbul-reports: 3.1.6
-      magic-string: 0.30.9
+      magic-string: 0.30.10
       magicast: 0.3.3
       picocolors: 1.0.0
       std-env: 3.5.0
@@ -5603,7 +5569,7 @@ snapshots:
 
   '@vitest/snapshot@1.5.2':
     dependencies:
-      magic-string: 0.30.9
+      magic-string: 0.30.10
       pathe: 1.1.2
       pretty-format: 29.7.0
 
@@ -5639,14 +5605,6 @@ snapshots:
       '@volar/language-core': 2.2.0-alpha.10
       path-browserify: 1.0.1
 
-  '@vue/compiler-core@3.4.21':
-    dependencies:
-      '@babel/parser': 7.24.4
-      '@vue/shared': 3.4.21
-      entities: 4.5.0
-      estree-walker: 2.0.2
-      source-map-js: 1.2.0
-
   '@vue/compiler-core@3.4.26':
     dependencies:
       '@babel/parser': 7.24.4
@@ -5654,11 +5612,6 @@ snapshots:
       entities: 4.5.0
       estree-walker: 2.0.2
       source-map-js: 1.2.0
-
-  '@vue/compiler-dom@3.4.21':
-    dependencies:
-      '@vue/compiler-core': 3.4.21
-      '@vue/shared': 3.4.21
 
   '@vue/compiler-dom@3.4.26':
     dependencies:
@@ -5705,8 +5658,8 @@ snapshots:
     dependencies:
       '@volar/language-core': 1.11.1
       '@volar/source-map': 1.11.1
-      '@vue/compiler-dom': 3.4.21
-      '@vue/shared': 3.4.21
+      '@vue/compiler-dom': 3.4.26
+      '@vue/shared': 3.4.26
       computeds: 0.0.1
       minimatch: 9.0.4
       muggle-string: 0.3.1
@@ -5718,8 +5671,8 @@ snapshots:
   '@vue/language-core@2.0.14(typescript@5.4.5)':
     dependencies:
       '@volar/language-core': 2.2.0-alpha.10
-      '@vue/compiler-dom': 3.4.21
-      '@vue/shared': 3.4.21
+      '@vue/compiler-dom': 3.4.26
+      '@vue/shared': 3.4.26
       computeds: 0.0.1
       minimatch: 9.0.4
       path-browserify: 1.0.1
@@ -5747,8 +5700,6 @@ snapshots:
       '@vue/compiler-ssr': 3.4.26
       '@vue/shared': 3.4.26
       vue: 3.4.26(typescript@5.4.5)
-
-  '@vue/shared@3.4.21': {}
 
   '@vue/shared@3.4.26': {}
 
@@ -6706,14 +6657,6 @@ snapshots:
     dependencies:
       is-glob: 4.0.3
 
-  glob@10.3.10:
-    dependencies:
-      foreground-child: 3.1.1
-      jackspeak: 2.3.6
-      minimatch: 9.0.4
-      minipass: 7.0.4
-      path-scurry: 1.10.1
-
   glob@10.3.12:
     dependencies:
       foreground-child: 3.1.1
@@ -7046,8 +6989,6 @@ snapshots:
     dependencies:
       get-func-name: 2.0.2
 
-  lru-cache@10.1.0: {}
-
   lru-cache@10.2.2: {}
 
   lru-cache@5.1.1:
@@ -7067,10 +7008,6 @@ snapshots:
       '@jridgewell/sourcemap-codec': 1.4.15
 
   magic-string@0.30.10:
-    dependencies:
-      '@jridgewell/sourcemap-codec': 1.4.15
-
-  magic-string@0.30.9:
     dependencies:
       '@jridgewell/sourcemap-codec': 1.4.15
 
@@ -7584,11 +7521,6 @@ snapshots:
 
   path-parse@1.0.7: {}
 
-  path-scurry@1.10.1:
-    dependencies:
-      lru-cache: 10.1.0
-      minipass: 7.0.4
-
   path-scurry@1.10.2:
     dependencies:
       lru-cache: 10.2.2
@@ -7710,11 +7642,11 @@ snapshots:
 
   rimraf@5.0.5:
     dependencies:
-      glob: 10.3.10
+      glob: 10.3.12
 
   rollup-plugin-dts@6.1.0(rollup@4.17.1)(typescript@5.4.5):
     dependencies:
-      magic-string: 0.30.9
+      magic-string: 0.30.10
       rollup: 4.17.1
       typescript: 5.4.5
     optionalDependencies:
@@ -8055,7 +7987,7 @@ snapshots:
       globby: 13.2.2
       hookable: 5.5.3
       jiti: 1.21.0
-      magic-string: 0.30.9
+      magic-string: 0.30.10
       mkdist: 1.3.0(typescript@5.4.5)
       mlly: 1.6.1
       pathe: 1.1.2
@@ -8147,7 +8079,7 @@ snapshots:
       debug: 4.3.4
       fast-glob: 3.3.2
       local-pkg: 0.4.3
-      magic-string: 0.30.9
+      magic-string: 0.30.10
       minimatch: 9.0.4
       resolve: 1.22.8
       unplugin: 1.4.0
@@ -8289,7 +8221,7 @@ snapshots:
       debug: 4.3.4
       execa: 8.0.1
       local-pkg: 0.5.0
-      magic-string: 0.30.9
+      magic-string: 0.30.10
       pathe: 1.1.2
       picocolors: 1.0.0
       std-env: 3.5.0
