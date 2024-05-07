@@ -225,18 +225,22 @@ run({
       output: '01.\ntoExponential()',
       options: ['object'],
       errors: [{ messageId: 'expectedDotAfterObject', type: 'MemberExpression', line: 2, column: 1 }],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: '08\n.toExponential()',
       output: '08 .\ntoExponential()',
       options: ['object'],
       errors: [{ messageId: 'expectedDotAfterObject', type: 'MemberExpression', line: 2, column: 1 }],
+      parserOptions: { sourceType: 'script' },
+
     },
     {
       code: '0190\n.toExponential()',
       output: '0190 .\ntoExponential()',
       options: ['object'],
       errors: [{ messageId: 'expectedDotAfterObject', type: 'MemberExpression', line: 2, column: 1 }],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: '5_000\n.toExponential()',

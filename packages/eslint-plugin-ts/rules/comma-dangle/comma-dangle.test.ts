@@ -96,6 +96,7 @@ type Qux = [string,
 
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/35
     {
+      filename: 'file.tsx',
       code: 'const id = <T,>(x: T) => x;',
       parserOptions: {
         ecmaFeatures: {

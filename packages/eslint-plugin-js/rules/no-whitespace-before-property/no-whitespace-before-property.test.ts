@@ -841,6 +841,7 @@ run({
         messageId: 'unexpectedWhitespace',
         data: { propName: 'toExponential' },
       }],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: '0192    .toExponential()',
@@ -849,6 +850,7 @@ run({
         messageId: 'unexpectedWhitespace',
         data: { propName: 'toExponential' },
       }],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: '5_000       .toExponential()',
@@ -941,6 +943,7 @@ run({
         messageId: 'unexpectedWhitespace',
         data: { propName: 'toExponential' },
       }],
+      parserOptions: { sourceType: 'script' },
     },
 
     // Optional chaining

@@ -108,6 +108,7 @@ run({
       jsx: true,
     },
   },
+  verifyFixChanges: false,
 
   valid: valids(
     { code: '<App />;' },

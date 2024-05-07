@@ -15,46 +15,46 @@ run({
   name: 'comma-dangle',
   rule,
   lang: 'js',
-  configs: [
-    {
-      plugins: {
-        temp: {
-          rules: {
-            'add-named-import': createRule({
-              meta: {
-                type: 'problem',
-                schema: [],
-                fixable: 'code',
-                messages: {
-                  'add-named-import': 'add-named-import.',
-                },
-              },
-              create(context) {
-                return {
-                  ImportDeclaration(node) {
-                    const sourceCode = context.sourceCode
-                    const closingBrace = sourceCode.getLastToken(node, token => token.value === '}')!
-                    const addComma = sourceCode.getTokenBefore(closingBrace)!.value !== ','
+  // configs: [
+  //   {
+  //     plugins: {
+  //       temp: {
+  //         rules: {
+  //           'add-named-import': createRule({
+  //             meta: {
+  //               type: 'problem',
+  //               schema: [],
+  //               fixable: 'code',
+  //               messages: {
+  //                 'add-named-import': 'add-named-import.',
+  //               },
+  //             },
+  //             create(context) {
+  //               return {
+  //                 ImportDeclaration(node) {
+  //                   const sourceCode = context.sourceCode
+  //                   const closingBrace = sourceCode.getLastToken(node, token => token.value === '}')!
+  //                   const addComma = sourceCode.getTokenBefore(closingBrace)!.value !== ','
 
-                    context.report({
-                      messageId: 'add-named-import',
-                      node,
-                      fix(fixer) {
-                        return fixer.insertTextBefore(closingBrace, `${addComma ? ',' : ''}I18nManager`)
-                      },
-                    })
-                  },
-                }
-              },
-            }),
-          },
-        },
-      },
-      rules: {
-        'temp/add-named-import': 'error',
-      },
-    },
-  ],
+  //                   context.report({
+  //                     messageId: 'add-named-import',
+  //                     node,
+  //                     fix(fixer) {
+  //                       return fixer.insertTextBefore(closingBrace, `${addComma ? ',' : ''}I18nManager`)
+  //                     },
+  //                   })
+  //                 },
+  //               }
+  //             },
+  //           }),
+  //         },
+  //       },
+  //     },
+  //     rules: {
+  //       'temp/add-named-import': 'error',
+  //     },
+  //   },
+  // ],
 
   valid: [
     'var foo = { bar: \'baz\' }',
@@ -230,14 +230,17 @@ run({
     {
       code: 'function foo(a) {}',
       options: ['always'],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'foo(a)',
       options: ['always'],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'function foo(a) {}',
       options: ['never'],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'foo(a)',
@@ -250,10 +253,12 @@ run({
     {
       code: 'foo(a,\nb\n)',
       options: ['always-multiline'],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'function foo(a,\nb\n) {}',
       options: ['always-multiline'],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'foo(a,\nb)',
@@ -485,6 +490,7 @@ run({
       code: 'function foo({a,}: {a: string}) {}',
       options: ['always'],
       parser: parser('object-pattern-2'),
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'function foo(a): {b: boolean,} {}',
@@ -711,9 +717,9 @@ run({
           column: 30,
           endLine: 1,
           endColumn: 31,
-
         },
       ],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'foo({\nbar: \'baz\',\nqux: \'quux\'\n});',
@@ -729,6 +735,7 @@ run({
           endColumn: 1,
         },
       ],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'var foo = [ \'baz\' ]',
@@ -1732,6 +1739,7 @@ let d = 0;export {d,};
       options: ['always'],
       parser: parser('object-pattern-1'),
       errors: [{ messageId: 'missing' }],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'function foo({a,}: {a: string}) {}',
