@@ -7,18 +7,15 @@ import { invalids, skipDueToMultiErrorSorting, valids } from '../../test-utils/p
 import rule from './jsx-equals-spacing'
 import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-} as const
-
-const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 run({
   name: 'jsx-equals-spacing',
   rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: '<App />',

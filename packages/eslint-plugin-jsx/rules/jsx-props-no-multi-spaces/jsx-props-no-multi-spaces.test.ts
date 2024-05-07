@@ -9,18 +9,15 @@ import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-props-no-multi-spaces'
 import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-}
-
-const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 run({
   name: 'jsx-props-no-multi-spaces',
   rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: `

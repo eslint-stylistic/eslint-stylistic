@@ -7,18 +7,15 @@ import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-one-expression-per-line'
 import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-} as const
-
-const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 run({
   name: 'jsx-one-expression-per-line',
   rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: '<App />',
@@ -257,7 +254,6 @@ run({
           data: { descriptor: '{"foo"}' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -274,7 +270,6 @@ foo
           data: { descriptor: 'foo' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -295,7 +290,6 @@ foo
           data: { descriptor: '{"bar"}' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -316,7 +310,6 @@ bar
           data: { descriptor: ' bar        ' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -336,7 +329,6 @@ bar
           data: { descriptor: 'Bar' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -356,7 +348,6 @@ foo
           data: { descriptor: 'foo        ' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -376,7 +367,6 @@ foo
           data: { descriptor: '{"foo"}' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -397,7 +387,6 @@ foo
           data: { descriptor: '{ I18n.t(\'baz\') }' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -426,7 +415,6 @@ foo
           data: { descriptor: '{ I18n.t(\'baz\') }' },
         },
       ],
-      languageOptions: { parserOptions },
 
     },
     {
@@ -451,7 +439,6 @@ foo
           data: { descriptor: 'Baz' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -488,7 +475,6 @@ foo
           data: { descriptor: 'Bruno' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -506,7 +492,6 @@ foo
           data: { descriptor: 'Bar' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -525,7 +510,6 @@ foo
           data: { descriptor: 'Bar' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -546,7 +530,6 @@ foo
           data: { descriptor: 'Baz' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -567,7 +550,6 @@ foo
           data: { descriptor: '{ I18n.t(\'baz\') }' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -587,7 +569,6 @@ foo
           data: { descriptor: 'input' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -607,7 +588,6 @@ foo
           data: { descriptor: 'span' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -628,7 +608,6 @@ foo
           data: { descriptor: 'input' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -649,7 +628,6 @@ foo
           data: { descriptor: ' foo        ' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -670,7 +648,6 @@ foo
           data: { descriptor: 'input' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -692,7 +669,6 @@ foo
           data: { descriptor: 'input' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -713,7 +689,6 @@ foo
           data: { descriptor: 'input' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -734,7 +709,6 @@ foo
           data: { descriptor: '{"foo"}' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -754,7 +728,6 @@ foo
           data: { descriptor: 'Bar' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -772,7 +745,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -790,7 +762,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -808,7 +779,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -828,7 +798,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -848,7 +817,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -870,7 +838,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -890,7 +857,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -910,7 +876,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -930,7 +895,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -952,7 +916,6 @@ foo
           data: { descriptor: 'Bar' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -974,7 +937,6 @@ foo
           data: { descriptor: 'Bar' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -1001,7 +963,6 @@ baz
           data: { descriptor: ' baz ' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
     // Would be nice to handle in one pass, but multipass works fine.
@@ -1027,7 +988,6 @@ baz
           data: { descriptor: ' baz        ' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
     // Would be nice to handle in one pass, but multipass works fine.
@@ -1049,7 +1009,6 @@ baz
           data: { descriptor: '{"bar"}' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
     // Would be nice to handle in one pass, but multipass works fine.
@@ -1075,7 +1034,6 @@ baz
           data: { descriptor: ' baz        ' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
     // Would be nice to handle in one pass, but multipass works fine.
@@ -1105,7 +1063,6 @@ baz
           data: { descriptor: ' baz        ' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
     // Would be nice to handle in one pass, but multipass works fine.
@@ -1135,7 +1092,6 @@ baz
           data: { descriptor: ' baz        ' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -1156,7 +1112,6 @@ baz
           data: { descriptor: '{          foo        }' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -1179,7 +1134,6 @@ baz
           data: { descriptor: '{          foo        }' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -1204,7 +1158,6 @@ baz
           data: { descriptor: '{          foo        }' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -1351,7 +1304,6 @@ foo
         },
       ],
       features: ['fragment', 'no-ts-old'], // TODO: FIXME: remove no-ts-old and fix
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -1372,7 +1324,6 @@ foo
         },
       ],
       features: ['fragment'],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -1393,7 +1344,6 @@ foo
         },
       ],
       features: ['fragment', 'no-ts-old'],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -1422,7 +1372,6 @@ a
           data: { descriptor: '{a}' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
     // TODO: handle in a single pass
@@ -1447,7 +1396,6 @@ a
           data: { descriptor: 'button' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -1470,7 +1418,6 @@ a
           data: { descriptor: 'button' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     // TODO: handle in a single pass (see above)
     {
@@ -1511,7 +1458,6 @@ Hi people<button/></h1>
           data: { descriptor: 'button' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -1546,7 +1492,6 @@ Hi people
           data: { descriptor: 'button' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     // TODO: handle in a single pass
     {
@@ -1575,7 +1520,6 @@ Hi people
           data: { descriptor: 'Go to page 2' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -1602,7 +1546,6 @@ Go to page 2
           data: { descriptor: 'Go to page 2' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -1624,7 +1567,6 @@ Go to page 2
           data: { descriptor: '{\'Bar\'}' },
         },
       ],
-      parserOptions,
       options: [{ allow: 'single-line' }],
     },
   ),

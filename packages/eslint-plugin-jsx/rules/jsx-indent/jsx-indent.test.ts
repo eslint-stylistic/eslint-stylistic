@@ -9,18 +9,15 @@ import { invalids, skipDueToMultiErrorSorting, valids } from '../../test-utils/p
 import rule from './jsx-indent'
 import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-} as const
-
-const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 run({
   name: 'jsx-indent',
   rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: `
@@ -1048,7 +1045,6 @@ const Component = () => (
         }
       `,
       options: [2],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -1059,7 +1055,6 @@ const Component = () => (
         }
       `,
       options: [2],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -2951,7 +2946,6 @@ const Component = () => (
         }
       `,
       options: [2],
-      languageOptions: { parserOptions },
       errors: [{ message: 'Expected indentation of 10 space characters but found 12.' }],
     },
     {
@@ -2970,7 +2964,6 @@ const Component = () => (
         }
       `,
       options: [2],
-      languageOptions: { parserOptions },
       errors: [{ message: 'Expected indentation of 10 space characters but found 8.' }],
     },
     {

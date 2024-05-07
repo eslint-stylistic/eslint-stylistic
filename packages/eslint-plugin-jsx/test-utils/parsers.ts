@@ -1,4 +1,3 @@
-import type { RuleTester } from 'eslint'
 import type { InvalidTestCaseBase, ValidTestCaseBase } from '#test'
 
 export interface InvalidTestCase extends InvalidTestCaseBase {

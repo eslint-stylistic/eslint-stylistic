@@ -13,7 +13,8 @@ const require = createRequire(import.meta.url)
  */
 export default function parserResolver(...args: string[]) {
   const name = args.pop()
-  return require(join(__dirname, 'parsers', ...args, `${name}.js`))
+  const parser = require(join(__dirname, 'parsers', ...args, `${name}.js`))
+  return parser
 }
 
 export function createParserResolver(...pre: string[]) {

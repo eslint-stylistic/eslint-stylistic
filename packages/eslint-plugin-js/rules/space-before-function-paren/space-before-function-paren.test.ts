@@ -582,14 +582,14 @@ run({
       output: 'async () => 1',
       options: [{ asyncArrow: 'always' }],
       parserOptions: { ecmaVersion: 8 },
-      errors: ['Missing space before function parentheses.'],
+      errors: [{ message: 'Missing space before function parentheses.' }],
     },
     {
       code: 'async () => 1',
       output: 'async() => 1',
       options: [{ asyncArrow: 'never' }],
       parserOptions: { ecmaVersion: 8 },
-      errors: ['Unexpected space before function parentheses.'],
+      errors: [{ message: 'Unexpected space before function parentheses.' }],
     },
     {
       code: 'async() => 1',

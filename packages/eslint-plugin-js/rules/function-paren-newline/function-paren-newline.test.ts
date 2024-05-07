@@ -3,6 +3,7 @@
  * @author Teddy Katz
  */
 
+import tsParser from '@typescript-eslint/parser'
 import { unIndent } from '../../test-utils/unindent'
 import parser from '../../test-utils/fixture-parser'
 import rule from './function-paren-newline'
@@ -17,6 +18,7 @@ const EXPECTED_BETWEEN = { messageId: 'expectedBetween', type: 'Identifier' }
 run({
   name: 'function-paren-newline',
   rule,
+  lang: 'js',
 
   valid: [
     'new new Foo();',
@@ -593,7 +595,6 @@ run({
           options: ['multiline'],
           parser: parser('function-paren-newline/arrow-function-return-type'),
         },
-
         {
           code: unIndent`
             function a<A extends Array<any>, T extends (...args: any[]) => any> (
@@ -602,7 +603,7 @@ run({
             ): any {}
           `,
           options: ['multiline'],
-          parser: require.resolve('@typescript-eslint/parser'),
+          parser: tsParser,
         },
         {
           code: unIndent`
@@ -612,7 +613,7 @@ run({
             ): any {}
           `,
           options: ['multiline'],
-          parser: require.resolve('@typescript-eslint/parser'),
+          parser: tsParser,
         },
         {
           code: unIndent`
@@ -622,7 +623,7 @@ run({
             )
           `,
           options: ['multiline'],
-          parser: require.resolve('@typescript-eslint/parser'),
+          parser: tsParser,
         },
   ],
 

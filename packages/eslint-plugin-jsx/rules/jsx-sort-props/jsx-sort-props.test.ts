@@ -9,20 +9,6 @@ import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-sort-props'
 import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-}
-
-// -----------------------------------------------------------------------------
-// Tests
-// -----------------------------------------------------------------------------
-
-const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-
 const expectedError = {
   messageId: 'sortPropsByAlpha',
   type: 'JSXIdentifier',
@@ -117,6 +103,12 @@ const multilineAndShorthandAndCallbackLastArgs = [
 run({
   name: 'jsx-sort-props',
   rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     { code: '<App />;' },
     { code: '<App {...this.props} />;' },

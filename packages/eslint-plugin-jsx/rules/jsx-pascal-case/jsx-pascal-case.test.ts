@@ -10,18 +10,15 @@ import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-pascal-case'
 import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-} as const
-
-const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 run({
   name: 'jsx-pascal-case',
   rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids([
     {
     // The rule must not warn on components that start with a lowercase
