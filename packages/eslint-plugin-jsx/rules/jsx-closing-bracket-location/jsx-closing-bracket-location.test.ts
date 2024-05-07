@@ -3,9 +3,9 @@
  * @author Yannick Croissant
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-closing-bracket-location'
+import { runCases } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -27,7 +27,9 @@ function details(expectedColumn: number, expectedNextLine: boolean) {
 }
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-ruleTester.run('jsx-closing-bracket-location', rule, {
+runCases({
+  name: 'jsx-closing-bracket-location',
+  rule,
   valid: valids(
     {
       code: `

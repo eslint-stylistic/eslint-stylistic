@@ -1,17 +1,15 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import type { TSESLint } from '@typescript-eslint/utils'
 
 import type { MessageIds, RuleOptions } from './types'
 import rule from './function-call-spacing'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('function-call-spacing', rule, {
+runCases({
+  name: 'function-call-spacing',
+  rule,
   valid: [
     ...[
       'f();',

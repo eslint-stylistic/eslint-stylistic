@@ -3,15 +3,13 @@
  * @author Ian Christian Myers
  */
 
-import { RuleTester } from 'eslint'
 import { unIndent } from '../../test-utils/unindent'
 import { createParserResolver } from '../../test-utils/fixture-parser'
 import { createRule } from '../../utils/createRule'
 import rule from './comma-dangle'
+import { runCases } from '#test'
 
 const parser = createParserResolver('comma-dangle')
-
-const ruleTester = new RuleTester()
 
 // @ts-expect-error missing types
 ruleTester.defineRule('add-named-import', createRule({
@@ -42,7 +40,9 @@ ruleTester.defineRule('add-named-import', createRule({
   },
 }))
 
-ruleTester.run('comma-dangle', rule, {
+runCases({
+  name: 'comma-dangle',
+  rule,
   valid: [
     'var foo = { bar: \'baz\' }',
     'var foo = {\nbar: \'baz\'\n}',

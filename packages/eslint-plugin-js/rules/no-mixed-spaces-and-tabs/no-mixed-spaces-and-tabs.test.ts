@@ -3,12 +3,12 @@
  * @author Jary Niebur
  */
 
-import { RuleTester } from 'eslint'
 import rule from './no-mixed-spaces-and-tabs'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('no-mixed-spaces-and-tabs', rule, {
+runCases({
+  name: 'no-mixed-spaces-and-tabs',
+  rule,
 
   valid: [
     'foo',

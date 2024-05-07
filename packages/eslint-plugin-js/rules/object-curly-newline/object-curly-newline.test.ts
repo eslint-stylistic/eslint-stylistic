@@ -3,13 +3,15 @@
  * @author Toru Nagashima
  */
 
-import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './object-curly-newline'
+import { runCases } from '#test'
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, sourceType: 'module' } })
 
-ruleTester.run('object-curly-newline', rule, {
+runCases({
+  name: 'object-curly-newline',
+  rule,
   valid: [
 
     // default ------------------------------------------------------------

@@ -4,7 +4,6 @@
  * @author Joseph Stiles
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-newline'
 

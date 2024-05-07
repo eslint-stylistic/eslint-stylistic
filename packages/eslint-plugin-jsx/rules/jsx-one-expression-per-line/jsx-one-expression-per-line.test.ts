@@ -3,9 +3,9 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-one-expression-per-line'
+import { runCases } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -16,7 +16,9 @@ const parserOptions = {
 } as const
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-ruleTester.run('jsx-one-expression-per-line', rule, {
+runCases({
+  name: 'jsx-one-expression-per-line',
+  rule,
   valid: valids(
     {
       code: '<App />',

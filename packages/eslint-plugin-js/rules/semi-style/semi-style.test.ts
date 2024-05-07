@@ -3,12 +3,12 @@
  * @author Toru Nagashima
  */
 
-import { RuleTester } from 'eslint'
 import rule from './semi-style'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('semi-style', rule, {
+runCases({
+  name: 'semi-style',
+  rule,
   valid: [
     ';',
     ';foo;bar;baz;',

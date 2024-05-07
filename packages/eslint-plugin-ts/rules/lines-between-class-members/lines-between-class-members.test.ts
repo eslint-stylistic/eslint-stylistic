@@ -1,15 +1,12 @@
 // this rule tests the new lines, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
+import { runCases } from '../../../test-utils/runner'
 import rule from './lines-between-class-members'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('lines-between-class-members', rule, {
+runCases({
+  name: 'lines-between-class-members',
+  rule,
   valid: [
     {
       code: `

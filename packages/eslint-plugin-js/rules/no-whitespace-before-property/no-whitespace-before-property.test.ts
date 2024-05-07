@@ -3,12 +3,12 @@
  * @author Kai Cataldo
  */
 
-import { RuleTester } from 'eslint'
 import rule from './no-whitespace-before-property'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('no-whitespace-before-property', rule, {
+runCases({
+  name: 'no-whitespace-before-property',
+  rule,
 
   valid: [
     'foo.bar',

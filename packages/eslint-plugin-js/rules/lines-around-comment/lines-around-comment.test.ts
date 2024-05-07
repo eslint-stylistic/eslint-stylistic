@@ -3,13 +3,13 @@
  * @author Jamund Ferguson
  */
 
-import { RuleTester } from 'eslint'
 import { unIndent } from '../../test-utils/unindent'
 import rule from './lines-around-comment'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('lines-around-comment', rule, {
+runCases({
+  name: 'lines-around-comment',
+  rule,
 
   valid: [
 

@@ -3,13 +3,11 @@
  * @author Jxck
  */
 
-import { RuleTester } from 'eslint'
 import { createParserResolver } from '../../test-utils/fixture-parser'
 import rule from './arrow-parens'
+import { runCases } from '#test'
 
 const parser = createParserResolver('arrow-parens')
-
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
 
 const valid: (string | RuleTester.ValidTestCase)[] = [
 
@@ -538,7 +536,9 @@ bar();`,
 
 ]
 
-ruleTester.run('arrow-parens', rule, {
+runCases({
+  name: 'arrow-parens',
+  rule,
   valid,
   invalid,
 })

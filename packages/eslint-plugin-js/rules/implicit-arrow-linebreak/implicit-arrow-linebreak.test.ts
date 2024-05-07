@@ -3,16 +3,16 @@
  * @author Sharmila Jesupaul
  */
 
-import { RuleTester } from 'eslint'
 import { unIndent } from '../../test-utils/unindent'
 import rule from './implicit-arrow-linebreak'
+import { runCases } from '#test'
 
 const EXPECTED_LINEBREAK = { messageId: 'expected' }
 const UNEXPECTED_LINEBREAK = { messageId: 'unexpected' }
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
-
-ruleTester.run('implicit-arrow-linebreak', rule, {
+runCases({
+  name: 'implicit-arrow-linebreak',
+  rule,
   valid: [
     // always valid
     `(foo) => {

@@ -1,15 +1,12 @@
 // this rule tests the new lines, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
 import rule from './comma-dangle'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('comma-dangle', rule, {
+runCases({
+  name: 'comma-dangle',
+  rule,
   valid: [
     // default
     { code: 'enum Foo {}' },

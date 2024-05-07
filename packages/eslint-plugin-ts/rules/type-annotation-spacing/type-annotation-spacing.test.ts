@@ -1,17 +1,15 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import type { TSESLint } from '@typescript-eslint/utils'
 
 import rule from './type-annotation-spacing'
 import type { MessageIds, RuleOptions } from './types'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('type-annotation-spacing', rule, {
+runCases({
+  name: 'type-annotation-spacing',
+  rule,
   valid: [
     `
 interface resolve {
@@ -3796,7 +3794,9 @@ type Foo = {
 // Optional Annotation Tests
 // ------------------------------------------------------------------------------
 
-ruleTester.run('type-annotation-spacing', rule, {
+runCases({
+  name: 'type-annotation-spacing',
+  rule,
   valid: [
     `
 interface resolve {
@@ -6555,7 +6555,9 @@ type Foo = {
 
 const operators = ['+?:', '-?:']
 
-ruleTester.run('type-annotation-spacing', rule, {
+runCases({
+  name: 'type-annotation-spacing',
+  rule,
   valid: operators.reduce<TSESLint.ValidTestCase<RuleOptions>[]>(
     (validCases, operator) => validCases.concat([
       {

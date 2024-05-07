@@ -1,15 +1,12 @@
 // this rule tests the new lines, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
 import rule from './key-spacing'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('key-spacing', rule, {
+runCases({
+  name: 'key-spacing',
+  rule,
   valid: [
     // non-applicable
     {

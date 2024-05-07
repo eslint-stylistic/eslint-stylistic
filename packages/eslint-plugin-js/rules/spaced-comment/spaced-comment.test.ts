@@ -3,13 +3,14 @@
  * @author Gyandeep Singh
  */
 
-import { RuleTester } from 'eslint'
 import rule from './spaced-comment'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
 const validShebangProgram = '#!/path/to/node\nvar a = 3;'
 
-ruleTester.run('spaced-comment', rule, {
+runCases({
+  name: 'spaced-comment',
+  rule,
 
   valid: [
     {

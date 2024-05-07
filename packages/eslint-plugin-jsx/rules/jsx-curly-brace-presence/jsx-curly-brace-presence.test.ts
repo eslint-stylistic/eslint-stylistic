@@ -5,11 +5,11 @@
 
 // For better readability on tests involving quotes
 
-import { RuleTester } from 'eslint'
 import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
 import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-curly-brace-presence'
+import { runCases } from '#test'
 
 const parserOptions = {
   sourceType: 'module',
@@ -20,7 +20,9 @@ const parserOptions = {
 }
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-ruleTester.run('jsx-curly-brace-presence', rule, {
+runCases({
+  name: 'jsx-curly-brace-presence',
+  rule,
   valid: valids(
     {
       code: '<App {...props}>foo</App>',

@@ -1,20 +1,12 @@
 // this rule tests the position of braces, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
 import rule from './brace-style'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-    ecmaFeatures: {},
-  },
-})
-
-ruleTester.run('brace-style', rule, {
+runCases({
+  name: 'brace-style',
+  rule,
   valid: [
     {
       code: `

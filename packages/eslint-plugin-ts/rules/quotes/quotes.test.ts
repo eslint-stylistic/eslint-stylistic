@@ -1,18 +1,8 @@
 // this rule tests quotes, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
 import rule from './quotes'
-
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-    ecmaFeatures: {},
-  },
-})
+import { runCases } from '#test'
 
 const useDoubleQuote = {
   messageId: 'wrongQuotes' as const,
@@ -35,7 +25,9 @@ const useBacktick = {
   },
 }
 
-ruleTester.run('quotes', rule, {
+runCases({
+  name: 'quotes',
+  rule,
   valid: [
     {
       code: 'declare module \'*.html\' {}',

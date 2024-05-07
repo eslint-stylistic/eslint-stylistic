@@ -1,20 +1,10 @@
 // this rule tests the semis, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-import type { TSESLint } from '@typescript-eslint/utils'
-
-import type { MessageIds, RuleOptions } from './types'
+import type { RuleOptions } from './types'
 import rule from './semi'
-
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-    ecmaFeatures: {},
-  },
-})
+import type { InvalidTestCase, ValidTestCase } from '#test'
+import { runCases } from '#test'
 
 const neverOption: RuleOptions = ['never']
 const neverOptionWithoutContinuationChars: RuleOptions = [
@@ -30,7 +20,9 @@ const extraSemicolon = {
   messageId: 'extraSemi' as const,
 }
 
-ruleTester.run('semi', rule, {
+runCases({
+  name: 'semi',
+  rule,
   valid: [
     { code: 'for (var i;;){}' },
     { code: 'for (var i;;){}', options: neverOption },
@@ -264,7 +256,7 @@ class PanCamera extends FreeCamera {
       'export default (foo) => foo.bar();',
       'export default foo = 42;',
       'export default foo += 42;',
-    ].reduce<TSESLint.ValidTestCase<RuleOptions>[]>((acc, code) => {
+    ].reduce<ValidTestCase[]>((acc, code) => {
       acc.push({
         code,
         options: ['always'],
@@ -1077,7 +1069,7 @@ class PanCamera extends FreeCamera {
           },
         ],
       },
-    ].reduce<TSESLint.InvalidTestCase<MessageIds, RuleOptions>[]>((acc, test) => {
+    ].reduce<InvalidTestCase[]>((acc, test) => {
       acc.push({
         code: test.code.replace(/;/g, ''),
         output: test.code,

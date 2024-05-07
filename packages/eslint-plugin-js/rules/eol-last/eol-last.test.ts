@@ -3,12 +3,12 @@
  * @author Nodeca Team <https://github.com/nodeca>
  */
 
-import { RuleTester } from 'eslint'
 import rule from './eol-last'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('eol-last', rule, {
+runCases({
+  name: 'eol-last',
+  rule,
 
   valid: [
     '',

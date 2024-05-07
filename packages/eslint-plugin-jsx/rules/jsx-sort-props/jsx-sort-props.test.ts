@@ -3,11 +3,11 @@
  * @author Yannick Croissant
  */
 
-import { RuleTester } from 'eslint'
 import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-sort-props'
+import { runCases } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -114,7 +114,9 @@ const multilineAndShorthandAndCallbackLastArgs = [
   },
 ]
 
-ruleTester.run('jsx-sort-props', rule, {
+runCases({
+  name: 'jsx-sort-props',
+  rule,
   valid: valids(
     { code: '<App />;' },
     { code: '<App {...this.props} />;' },

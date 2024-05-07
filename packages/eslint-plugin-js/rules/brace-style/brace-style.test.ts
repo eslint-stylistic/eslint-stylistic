@@ -3,13 +3,13 @@
  * @author Ian Christian Myers
  */
 
-import { RuleTester } from 'eslint'
 import { unIndent } from '../../test-utils/unindent'
 import rule from './brace-style'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
-
-ruleTester.run('brace-style', rule, {
+runCases({
+  name: 'brace-style',
+  rule,
   valid: [
     'function f() {\n'
     + '   if (true)\n'

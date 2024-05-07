@@ -26,6 +26,9 @@
       ],
       "@shared/*": [
         "./packages/shared/*"
+      ],
+      "#test": [
+        "./packages/test-utils/index.ts"
       ]
     },
     "resolveJsonModule": true,

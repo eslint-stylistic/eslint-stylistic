@@ -3,17 +3,9 @@
  * @author Yannick Croissant
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-wrap-multilines'
-
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-}
+import { runCases } from '#test'
 
 // ------------------------------------------------------------------------------
 // Constants/Code Snippets
@@ -613,8 +605,17 @@ function addNewLineSymbols(code: string) {
   return code.replace(/\(</g, '(\n<').replace(/>\)/g, '>\n)')
 }
 
-const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-ruleTester.run('jsx-wrap-multilines', rule, {
+runCases({
+  name: 'jsx-wrap-multilines',
+  rule,
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: RETURN_SINGLE_LINE,

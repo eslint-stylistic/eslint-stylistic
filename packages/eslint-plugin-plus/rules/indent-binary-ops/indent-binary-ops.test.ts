@@ -1,14 +1,12 @@
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import { expect, it } from 'vitest'
 import { createLinter } from '../../../test-utils/createLinter'
 import { unIndent } from '../../../eslint-plugin-js/test-utils/unindent'
 import rule from './indent-binary-ops'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('indent-binary-ops', rule, {
+runCases({
+  name: 'indent-binary-ops',
+  rule,
   valid: [
     unIndent`
       type a = {

@@ -3,8 +3,8 @@
  * @author Alberto Rodríguez
  */
 
-import { RuleTester } from 'eslint'
 import rule from './one-var-declaration-per-line'
+import { runCases } from '#test'
 
 // ------------------------------------------------------------------------------
 // Fixtures
@@ -26,9 +26,9 @@ function errorAt(line: number, column: number) {
   }
 }
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('one-var-declaration-per-line', rule, {
+runCases({
+  name: 'one-var-declaration-per-line',
+  rule,
   valid: [
     { code: 'var a, b, c,\nd = 0;', options: ['initializations'] },
     { code: 'var a, b, c,\n\nd = 0;', options: ['initializations'] },

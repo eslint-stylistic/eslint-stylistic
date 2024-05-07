@@ -1,11 +1,10 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
-
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import type { TSESLint } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import rule from './indent'
 import type { MessageIds, RuleOptions } from './types'
+import { runCases } from '#test'
 
 /**
  * Marks a test case as a plain javascript case which should be indented the same
@@ -645,16 +644,9 @@ type Foo = string | {
   { valid: [], invalid: [] },
 )
 
-const ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-    ecmaFeatures: {},
-  },
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('indent', rule, {
+runCases({
+  name: 'indent',
+  rule,
   valid: [
     ...individualNodeTests.valid,
     `

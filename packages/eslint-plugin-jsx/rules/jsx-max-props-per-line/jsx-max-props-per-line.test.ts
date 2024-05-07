@@ -3,9 +3,9 @@
  * @author Yannick Croissant
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-max-props-per-line'
+import { runCases } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -16,7 +16,9 @@ const parserOptions = {
 } as const
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-ruleTester.run('jsx-max-props-per-line', rule, {
+runCases({
+  name: 'jsx-max-props-per-line',
+  rule,
   valid: valids(
     {
       code: '<App />',

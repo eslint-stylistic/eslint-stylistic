@@ -3,12 +3,12 @@
  * @author Benoît Zugmeyer
  */
 
-import { RuleTester } from 'eslint'
 import rule from './operator-linebreak'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('operator-linebreak', rule, {
+runCases({
+  name: 'operator-linebreak',
+  rule,
 
   valid: [
     '1 + 1',

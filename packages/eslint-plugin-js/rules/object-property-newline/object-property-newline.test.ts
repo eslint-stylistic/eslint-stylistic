@@ -3,12 +3,12 @@
  * @author Vitor Balocco
  */
 
-import { RuleTester } from 'eslint'
 import rule from './object-property-newline'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('object-property-newline', rule, {
+runCases({
+  name: 'object-property-newline',
+  rule,
 
   valid: [
 

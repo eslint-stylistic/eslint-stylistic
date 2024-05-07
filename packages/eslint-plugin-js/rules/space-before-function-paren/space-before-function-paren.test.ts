@@ -3,13 +3,13 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './space-before-function-paren'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('space-before-function-paren', rule, {
+runCases({
+  name: 'space-before-function-paren',
+  rule,
 
   valid: [
     'function foo () {}',

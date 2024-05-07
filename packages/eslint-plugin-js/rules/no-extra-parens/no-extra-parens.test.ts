@@ -3,9 +3,9 @@
  * @author Michael Ficarra
  */
 
-import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './no-extra-parens'
+import { runCases } from '#test'
 
 /**
  * Create error message object for failure cases
@@ -44,7 +44,9 @@ const ruleTester = new RuleTester({
   },
 })
 
-ruleTester.run('no-extra-parens', rule, {
+runCases({
+  name: 'no-extra-parens',
+  rule,
   valid: [
 
     // all precedence boundaries

@@ -1,11 +1,11 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import type { TSESLint } from '@typescript-eslint/utils'
 
 import type { MessageIds, RuleOptions } from './types'
 import rule from './keyword-spacing'
+import { runCases } from '#test'
 
 const BOTH = { before: true, after: true }
 const NEITHER = { before: false, after: false }
@@ -76,11 +76,9 @@ function unexpectedAfter(
   return [{ messageId: 'unexpectedAfter', data: { value: keyword } }]
 }
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('keyword-spacing', rule, {
+runCases({
+  name: 'keyword-spacing',
+  rule,
   valid: [
     // ----------------------------------------------------------------------
     // as (typing)

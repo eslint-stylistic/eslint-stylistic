@@ -3,12 +3,12 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-import { RuleTester } from 'eslint'
 import rule from './array-bracket-newline'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('array-bracket-newline', rule, {
+runCases({
+  name: 'array-bracket-newline',
+  rule,
   valid: [
     /**
      * ArrayExpression

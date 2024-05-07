@@ -3,17 +3,17 @@
  * @author Toru Nagashima
  */
 
-import { RuleTester } from 'eslint'
 import rule from './switch-colon-spacing'
-
-const ruleTester = new RuleTester()
+import { runCases } from '#test'
 
 const expectedBeforeError = { messageId: 'expectedBefore' }
 const expectedAfterError = { messageId: 'expectedAfter' }
 const unexpectedBeforeError = { messageId: 'unexpectedBefore' }
 const unexpectedAfterError = { messageId: 'unexpectedAfter' }
 
-ruleTester.run('switch-colon-spacing', rule, {
+runCases({
+  name: 'switch-colon-spacing',
+  rule,
   valid: [
     'switch(a){}',
     '({foo:1,bar : 2});',

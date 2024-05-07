@@ -1,15 +1,12 @@
 // this rule tests new lines which prettier tries to fix, breaking the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
 import rule from './padding-line-between-statements'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('padding-line-between-statements', rule, {
+runCases({
+  name: 'padding-line-between-statements',
+  rule,
   valid: [
     // do nothing if no options.
     '\'use strict\'; foo(); if (a) { bar(); }',

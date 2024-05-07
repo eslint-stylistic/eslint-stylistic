@@ -1,6 +1,6 @@
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-function-call-newline'
+import { runCases } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -12,7 +12,9 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 
-ruleTester.run('jsx-function-call-newline', rule, {
+runCases({
+  name: 'jsx-function-call-newline',
+  rule,
   valid: valids(
     {
       code: `fn(<div />)`,

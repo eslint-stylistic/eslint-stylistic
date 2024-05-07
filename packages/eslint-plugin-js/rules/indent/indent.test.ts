@@ -5,10 +5,10 @@
  */
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import { unIndent } from '../../test-utils/unindent'
 import rule from './indent'
+import { runCases } from '#test'
 
 const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
 const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')
@@ -57,7 +57,9 @@ function expectedErrors(providedIndentType: any, providedErrors?: any): ErrorOut
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 8, ecmaFeatures: { jsx: true } } })
 
-ruleTester.run('indent', rule, {
+runCases({
+  name: 'indent',
+  rule,
   valid: [
     {
       code: unIndent`

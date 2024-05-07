@@ -1,12 +1,9 @@
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
 import rule from './quote-props'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('quote-props', rule, {
+runCases({
+  name: 'quote-props',
+  rule,
   valid: [
     'type x = { "a": 1, b(): void, "c"(): void }',
     'interface x { "a": 1, b(): void, "c"(): void }',

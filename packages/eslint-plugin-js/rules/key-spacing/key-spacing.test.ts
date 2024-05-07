@@ -3,12 +3,12 @@
  * @author Brandon Mills
  */
 
-import { RuleTester } from 'eslint'
 import rule from './key-spacing'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('key-spacing', rule, {
+runCases({
+  name: 'key-spacing',
+  rule,
   valid: [
     '({\n})',
     '({\na: b\n})',

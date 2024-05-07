@@ -1,15 +1,12 @@
 // this rule tests spacing, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
 import rule from './space-before-blocks'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('space-before-blocks', rule, {
+runCases({
+  name: 'space-before-blocks',
+  rule,
   valid: [
     {
       code: `

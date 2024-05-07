@@ -3,9 +3,9 @@
  * @author Toru Nagashima
  */
 
-import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './keyword-spacing'
+import { runCases } from '#test'
 
 const BOTH = { before: true, after: true }
 const NEITHER = { before: false, after: false }
@@ -102,9 +102,9 @@ function unexpectedBeforeAndAfter(keyword: string) {
   ]
 }
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('keyword-spacing', rule, {
+runCases({
+  name: 'keyword-spacing',
+  rule,
   valid: [
 
     // ----------------------------------------------------------------------

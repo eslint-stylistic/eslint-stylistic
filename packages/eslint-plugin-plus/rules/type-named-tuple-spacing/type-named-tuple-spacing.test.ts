@@ -1,11 +1,9 @@
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import rule from './type-named-tuple-spacing'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('type-named-tuple-spacing', rule, {
+runCases({
+  name: 'type-named-tuple-spacing',
+  rule,
   valid: [
     'type T = [i: number]',
     'type T = [i?: number]',

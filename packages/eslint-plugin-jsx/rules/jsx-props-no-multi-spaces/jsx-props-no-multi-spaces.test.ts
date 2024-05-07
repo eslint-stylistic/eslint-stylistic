@@ -3,11 +3,11 @@
  * @author Adrian Moennich
  */
 
-import { RuleTester } from 'eslint'
 import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-props-no-multi-spaces'
+import { runCases } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -18,7 +18,9 @@ const parserOptions = {
 }
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-ruleTester.run('jsx-props-no-multi-spaces', rule, {
+runCases({
+  name: 'jsx-props-no-multi-spaces',
+  rule,
   valid: valids(
     {
       code: `

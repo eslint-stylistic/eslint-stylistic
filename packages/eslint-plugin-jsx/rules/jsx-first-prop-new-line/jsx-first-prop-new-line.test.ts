@@ -3,9 +3,9 @@
  * @author Joachim Seminck
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-first-prop-new-line'
+import { runCases } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -21,7 +21,9 @@ const parserOptions = {
 // -----------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-ruleTester.run('jsx-first-prop-new-line', rule, {
+runCases({
+  name: 'jsx-first-prop-new-line',
+  rule,
   valid: valids(
     {
       code: '<Foo />',

@@ -3,8 +3,8 @@
  * @author Greg Cochard
  */
 
-import { RuleTester } from 'eslint'
 import rule from './no-multiple-empty-lines'
+import { runCases } from '#test'
 
 /**
  * Creates the expected error message object for the specified number of lines
@@ -58,9 +58,9 @@ function getExpectedErrorBOF(lines: number) {
   }
 }
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('no-multiple-empty-lines', rule, {
+runCases({
+  name: 'no-multiple-empty-lines',
+  rule,
 
   valid: [
     {

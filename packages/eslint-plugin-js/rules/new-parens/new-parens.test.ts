@@ -3,16 +3,16 @@
  * @author Ilya Volodin
  */
 
-import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './new-parens'
+import { runCases } from '#test'
 
 const error = { messageId: 'missing', type: 'NewExpression' }
 const neverError = { messageId: 'unnecessary', type: 'NewExpression' }
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('new-parens', rule, {
+runCases({
+  name: 'new-parens',
+  rule,
   valid: [
 
     // Default (Always)

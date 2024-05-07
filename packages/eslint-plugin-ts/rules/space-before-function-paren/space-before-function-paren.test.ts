@@ -1,16 +1,14 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import rule from './space-before-function-paren'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('space-before-function-paren', rule, {
+runCases({
+  name: 'space-before-function-paren',
+  rule,
   valid: [
     'function foo () {}',
     'var foo = function () {}',

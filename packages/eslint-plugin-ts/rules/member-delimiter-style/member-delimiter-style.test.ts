@@ -1,15 +1,12 @@
 // this rule tests the delimiter, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
+import { runCases } from '../../../test-utils/runner'
 import rule from './member-delimiter-style'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('member-delimiter-style', rule, {
+runCases({
+  name: 'member-delimiter-style',
+  rule,
   valid: [
     `
 interface Foo {

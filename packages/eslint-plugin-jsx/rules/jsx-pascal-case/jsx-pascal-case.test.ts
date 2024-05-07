@@ -6,9 +6,9 @@
  * @author Sukka [https://skk.moe]
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-pascal-case'
+import { runCases } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -19,7 +19,9 @@ const parserOptions = {
 } as const
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-ruleTester.run('jsx-pascal-case', rule, {
+runCases({
+  name: 'jsx-pascal-case',
+  rule,
   valid: valids([
     {
     // The rule must not warn on components that start with a lowercase

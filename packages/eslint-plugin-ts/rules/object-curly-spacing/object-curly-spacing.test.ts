@@ -1,16 +1,14 @@
 // this rule tests the position of braces, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import rule from './object-curly-spacing'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('object-curly-spacing', rule, {
+runCases({
+  name: 'object-curly-spacing',
+  rule,
   valid: [
     // always - object literals
     { code: 'var obj = { foo: bar, baz: qux };', options: ['always'] },

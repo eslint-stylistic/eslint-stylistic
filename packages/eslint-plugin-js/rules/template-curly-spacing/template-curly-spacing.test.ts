@@ -3,12 +3,12 @@
  * @author Toru Nagashima
  */
 
-import { RuleTester } from 'eslint'
 import rule from './template-curly-spacing'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
-
-ruleTester.run('template-curly-spacing', rule, {
+runCases({
+  name: 'template-curly-spacing',
+  rule,
   valid: [
     '{ foo }',
     '`${foo} ${bar}`',

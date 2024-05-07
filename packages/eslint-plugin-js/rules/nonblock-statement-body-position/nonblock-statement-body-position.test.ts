@@ -3,15 +3,15 @@
  * @author Teddy Katz
  */
 
-import { RuleTester } from 'eslint'
 import rule from './nonblock-statement-body-position'
+import { runCases } from '#test'
 
 const EXPECTED_LINEBREAK = { messageId: 'expectLinebreak' }
 const UNEXPECTED_LINEBREAK = { messageId: 'expectNoLinebreak' }
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
-
-ruleTester.run('nonblock-statement-body-position', rule, {
+runCases({
+  name: 'nonblock-statement-body-position',
+  rule,
 
   valid: [
 

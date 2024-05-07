@@ -3,12 +3,12 @@
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
 
-import { RuleTester } from 'eslint'
 import rule from './quote-props'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('quote-props', rule, {
+runCases({
+  name: 'quote-props',
+  rule,
   valid: [
     '({ \'0\': 0 })',
     '({ \'a\': 0 })',

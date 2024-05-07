@@ -3,12 +3,12 @@
  * @author Mathias Schreck
  */
 
-import { RuleTester } from 'eslint'
 import rule from './semi-spacing'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('semi-spacing', rule, {
+runCases({
+  name: 'semi-spacing',
+  rule,
   valid: [
     'var a = \'b\';',
     'var a = \'b ; c\';',

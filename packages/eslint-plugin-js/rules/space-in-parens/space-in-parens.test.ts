@@ -3,12 +3,12 @@
  * @author Jonathan Rajavuori
  */
 
-import { RuleTester } from 'eslint'
 import rule from './space-in-parens'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('space-in-parens', rule, {
+runCases({
+  name: 'space-in-parens',
+  rule,
 
   valid: [
     { code: 'foo()', options: ['never'] },

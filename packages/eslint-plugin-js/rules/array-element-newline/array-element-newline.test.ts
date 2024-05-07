@@ -3,12 +3,12 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-import { RuleTester } from 'eslint'
 import rule from './array-element-newline'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('array-element-newline', rule, {
+runCases({
+  name: 'array-element-newline',
+  rule,
 
   valid: [
 

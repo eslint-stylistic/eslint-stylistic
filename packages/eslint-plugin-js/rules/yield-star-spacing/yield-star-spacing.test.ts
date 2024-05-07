@@ -3,17 +3,17 @@
  * @author Bryan Smith
  */
 
-import { RuleTester } from 'eslint'
 import rule from './yield-star-spacing'
-
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
+import { runCases } from '#test'
 
 const missingBeforeError = { messageId: 'missingBefore', type: 'Punctuator' }
 const missingAfterError = { messageId: 'missingAfter', type: 'Punctuator' }
 const unexpectedBeforeError = { messageId: 'unexpectedBefore', type: 'Punctuator' }
 const unexpectedAfterError = { messageId: 'unexpectedAfter', type: 'Punctuator' }
 
-ruleTester.run('yield-star-spacing', rule, {
+runCases({
+  name: 'yield-star-spacing',
+  rule,
 
   valid: [
 

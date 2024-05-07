@@ -107,6 +107,9 @@ importers:
       eslint-plugin-format:
         specifier: ^0.1.1
         version: 0.1.1(eslint@9.2.0)
+      eslint-vitest-rule-tester:
+        specifier: ^0.1.5
+        version: 0.1.5(eslint@9.2.0)(typescript@5.4.5)(vitest@1.6.0(@types/node@20.12.10)(@vitest/ui@1.6.0))
       esno:
         specifier: ^4.7.0
         version: 4.7.0
@@ -2524,6 +2527,12 @@ packages:
   eslint-visitor-keys@4.0.0:
     resolution: {integrity: sha512-OtIRv/2GyiF6o/d8K7MYKKbXrOUBIK6SfkIRM4Z0dY3w+LiQ0vy3F57m0Z71bjbyeiWFiHJ8brqnmE6H6/jEuw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
+
+  eslint-vitest-rule-tester@0.1.5:
+    resolution: {integrity: sha512-Xen9QgmsSY7u33I5P6zsvzj7iPFL9SAM0Xe3IzX2TPmnJhEpwJFsvgl7EMSn0gIl1WYocBZy8FQ9hI1zRND/gw==}
+    peerDependencies:
+      eslint: ^9.0.0
+      vitest: ^1.6.0
 
   eslint@9.2.0:
     resolution: {integrity: sha512-0n/I88vZpCOzO+PQpt0lbsqmn9AsnsJAQseIqhZFI8ibQT0U1AkEKRxA3EVMos0BoHSXDQvCXY25TUjB5tr8Og==}
@@ -6565,6 +6574,16 @@ snapshots:
   eslint-visitor-keys@3.4.3: {}
 
   eslint-visitor-keys@4.0.0: {}
+
+  eslint-vitest-rule-tester@0.1.5(eslint@9.2.0)(typescript@5.4.5)(vitest@1.6.0(@types/node@20.12.10)(@vitest/ui@1.6.0)):
+    dependencies:
+      '@types/eslint': 8.56.10
+      '@typescript-eslint/utils': 7.8.0(eslint@9.2.0)(typescript@5.4.5)
+      eslint: 9.2.0
+      vitest: 1.6.0(@types/node@20.12.10)(@vitest/ui@1.6.0)
+    transitivePeerDependencies:
+      - supports-color
+      - typescript
 
   eslint@9.2.0:
     dependencies:

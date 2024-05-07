@@ -3,12 +3,12 @@
  * @author Toru Nagashima
  */
 
-import { RuleTester } from 'eslint'
 import rule from './block-spacing'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('block-spacing', rule, {
+runCases({
+  name: 'block-spacing',
+  rule,
   valid: [
 
     // default/always

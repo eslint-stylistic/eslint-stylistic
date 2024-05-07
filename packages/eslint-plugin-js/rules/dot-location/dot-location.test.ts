@@ -3,12 +3,12 @@
  * @author Greg Cochard
  */
 
-import { RuleTester } from 'eslint'
 import rule from './dot-location'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('dot-location', rule, {
+runCases({
+  name: 'dot-location',
+  rule,
   valid: [
     'obj.\nprop',
     'obj. \nprop',

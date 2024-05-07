@@ -3,9 +3,9 @@
  * @author Ross Solomon
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-closing-tag-location'
+import { runCases } from '#test'
 
 const parserOptions = {
   sourceType: 'module',
@@ -16,7 +16,9 @@ const parserOptions = {
 }
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-ruleTester.run('jsx-closing-tag-location', rule, {
+runCases({
+  name: 'jsx-closing-tag-location',
+  rule,
   valid: valids(
     {
       code: `

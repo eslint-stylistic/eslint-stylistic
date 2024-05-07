@@ -1,5 +1,5 @@
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import rule from './migrate-js'
+import { runCases } from '#test'
 
 const valids = [
   {
@@ -34,9 +34,9 @@ const invalids = [
   errors: [{ messageId: 'migrate' }],
 }))
 
-const ruleTester: RuleTester = new RuleTester()
-
-ruleTester.run('migrate-js', rule as any, {
+runCases({
+  name: 'migrate-js',
+  rule,
   valid: valids,
   invalid: invalids,
 })

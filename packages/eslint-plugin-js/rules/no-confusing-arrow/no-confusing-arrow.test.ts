@@ -3,12 +3,12 @@
  * @author Jxck <https://github.com/Jxck>
  */
 
-import { RuleTester } from 'eslint'
 import rule from './no-confusing-arrow'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
-
-ruleTester.run('no-confusing-arrow', rule, {
+runCases({
+  name: 'no-confusing-arrow',
+  rule,
   valid: [
     'a => { return 1 ? 2 : 3; }',
     { code: 'a => { return 1 ? 2 : 3; }', options: [{ allowParens: false }] },

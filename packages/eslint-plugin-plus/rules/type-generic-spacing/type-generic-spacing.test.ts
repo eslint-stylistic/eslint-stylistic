@@ -1,11 +1,9 @@
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import rule from './type-generic-spacing'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('type-generic-spacing', rule, {
+runCases({
+  name: 'type-generic-spacing',
+  rule,
   valid: [
     'type Foo<T = true> = T',
     'type Foo<T extends true = true> = T',

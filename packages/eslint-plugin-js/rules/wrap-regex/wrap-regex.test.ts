@@ -3,12 +3,12 @@
  * @author Nicholas C. Zakas
  */
 
-import { RuleTester } from 'eslint'
 import rule from './wrap-regex'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('wrap-regex', rule, {
+runCases({
+  name: 'wrap-regex',
+  rule,
   valid: [
     '(/foo/).test(bar);',
     '(/foo/ig).test(bar);',

@@ -3,12 +3,12 @@
  * @author Matt DuVall <http://www.mattduvall.com/>, Michael Paulukonis
  */
 
-import { RuleTester } from 'eslint'
 import rule from './quotes'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('quotes', rule, {
+runCases({
+  name: 'quotes',
+  rule,
   valid: [
     'var foo = "bar";',
     { code: 'var foo = \'bar\';', options: ['single'] },

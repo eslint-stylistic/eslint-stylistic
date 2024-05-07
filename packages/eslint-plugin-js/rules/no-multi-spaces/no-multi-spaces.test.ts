@@ -3,12 +3,12 @@
  * @author Vignesh Anand aka vegetableman
  */
 
-import { RuleTester } from 'eslint'
 import rule from './no-multi-spaces'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('no-multi-spaces', rule, {
+runCases({
+  name: 'no-multi-spaces',
+  rule,
 
   valid: [
     'var a = 1;',

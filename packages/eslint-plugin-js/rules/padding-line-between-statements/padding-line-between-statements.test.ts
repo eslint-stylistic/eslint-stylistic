@@ -3,12 +3,14 @@
  * @author Toru Nagashima
  */
 
-import { RuleTester } from 'eslint'
 import rule from './padding-line-between-statements'
+import { runCases } from '#test'
 
 const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2017 } })
 
-ruleTester.run('padding-line-between-statements', rule, {
+runCases({
+  name: 'padding-line-between-statements',
+  rule,
   valid: [
 
     // do nothing if no options.

@@ -3,12 +3,12 @@
  * @author Nicholas C. Zakas
  */
 
-import { RuleTester } from 'eslint'
 import rule from './semi'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('semi', rule, {
+runCases({
+  name: 'semi',
+  rule,
   valid: [
     'var x = 5;',
     'var x =5, y;',

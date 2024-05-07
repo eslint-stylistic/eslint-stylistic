@@ -3,11 +3,11 @@
  * @author Yannick Croissant
  */
 
-import { RuleTester } from 'eslint'
 import semver from 'semver'
 import { version as eslintVersion } from 'eslint/package.json'
 import { invalids, skipDueToMultiErrorSorting, valids } from '../../test-utils/parsers'
 import rule from './jsx-indent'
+import { runCases } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -18,7 +18,9 @@ const parserOptions = {
 } as const
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-ruleTester.run('jsx-indent', rule, {
+runCases({
+  name: 'jsx-indent',
+  rule,
   valid: valids(
     {
       code: `

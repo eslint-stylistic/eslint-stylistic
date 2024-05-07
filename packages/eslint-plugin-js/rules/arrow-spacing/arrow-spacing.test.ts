@@ -4,10 +4,8 @@
  */
 //
 
-import { RuleTester } from 'eslint'
 import rule from './arrow-spacing'
-
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
+import { runCases } from '#test'
 
 const valid = [
   {
@@ -297,7 +295,9 @@ const invalid = [
   },
 ]
 
-ruleTester.run('arrow-spacing', rule, {
+runCases({
+  name: 'arrow-spacing',
+  rule,
   valid,
   invalid,
 })

@@ -3,9 +3,9 @@
  * @author Yannick Croissant
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-self-closing-comp'
+import { runCases } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -16,7 +16,9 @@ const parserOptions = {
 }
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-ruleTester.run('self-closing-comp', rule, {
+runCases({
+  name: 'self-closing-comp',
+  rule,
   valid: valids(
     {
       code: 'var HelloJohn = <Hello name="John" />;',

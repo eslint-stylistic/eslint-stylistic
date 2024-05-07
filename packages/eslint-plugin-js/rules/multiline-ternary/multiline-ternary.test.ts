@@ -3,12 +3,12 @@
  * @author Kai Cataldo
  */
 
-import { RuleTester } from 'eslint'
 import rule from './multiline-ternary'
+import { runCases } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('multiline-ternary', rule, {
+runCases({
+  name: 'multiline-ternary',
+  rule,
   valid: [
 
     // default "always"
