@@ -1,11 +1,11 @@
 import tsParser from '@typescript-eslint/parser'
 
-import type { RuleTesterClassicOptions, RuleTesterOptions } from 'eslint-vitest-rule-tester'
+import type { RuleTesterInitOptions, TestCasesOptions } from 'eslint-vitest-rule-tester'
 import { run as _run } from 'eslint-vitest-rule-tester'
 
 export * from 'eslint-vitest-rule-tester'
 
-export interface ExtendedRuleTesterOptions extends RuleTesterClassicOptions, RuleTesterOptions {
+export interface ExtendedRuleTesterOptions extends RuleTesterInitOptions, TestCasesOptions {
   lang?: 'js' | 'ts'
 }
 

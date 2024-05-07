@@ -2,7 +2,7 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import rule from './indent'
-import type { InvalidTestCase, RuleTesterClassicOptions, TestCaseError, ValidTestCase } from '#test'
+import type { InvalidTestCase, TestCaseError, TestCasesOptions, ValidTestCase } from '#test'
 import { run } from '#test'
 
 /**
@@ -589,7 +589,7 @@ type Foo = string | {
             `,
     ],
   },
-].reduce<RuleTesterClassicOptions>(
+].reduce<TestCasesOptions>(
   (acc, testCase) => {
     const indent = '    '
 
