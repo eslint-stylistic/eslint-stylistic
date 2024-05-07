@@ -10,14 +10,6 @@ import { run } from '#test'
 
 type Option = Exclude<RuleOptions[0], undefined>
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-}
-
 // -----------------------------------------------------------------------------
 // Helpers
 // -----------------------------------------------------------------------------
@@ -72,10 +64,15 @@ function beforeClosingOptions(option: Option['beforeClosing']) {
 // Tests
 // -----------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 run({
   name: 'jsx-tag-spacing',
   rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: '<App />',

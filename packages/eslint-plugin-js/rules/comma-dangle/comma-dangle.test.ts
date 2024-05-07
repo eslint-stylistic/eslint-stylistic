@@ -14,6 +14,7 @@ const parser = createParserResolver('comma-dangle')
 run({
   name: 'comma-dangle',
   rule,
+  lang: 'js',
   configs: [
     {
       plugins: {
@@ -112,146 +113,118 @@ run({
     {
       code: 'var [a, ...rest] = [];',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: 'var [\n    a,\n    ...rest\n] = [];',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: 'var [\n    a,\n    ...rest\n] = [];',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: 'var [\n    a,\n    ...rest\n] = [];',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '[a, ...rest] = [];',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: 'for ([a, ...rest] of []);',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: 'var a = [b, ...spread,];',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6 },
     },
 
     // https://github.com/eslint/eslint/issues/7297
     {
       code: 'var {foo, ...bar} = baz',
       options: ['always'],
-      parserOptions: { ecmaVersion: 2018 },
     },
 
     // https://github.com/eslint/eslint/issues/3794
     {
       code: 'import {foo,} from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import foo from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import foo, {abc,} from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import * as foo from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'export {foo,} from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import {foo} from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import foo from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import foo, {abc} from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import * as foo from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'export {foo} from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import {foo} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import {foo} from \'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'export {foo} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'export {foo} from \'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import {\n  foo,\n} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import {\n  foo,\n} from \'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'export {\n  foo,\n} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'export {\n  foo,\n} from \'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import {foo} from \n\'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import {foo} from \n\'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'function foo(a) {}',
@@ -1034,7 +1007,6 @@ run({
       code: 'var { a, b, } = foo;',
       output: 'var { a, b } = foo;',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'unexpected',
@@ -1048,7 +1020,6 @@ run({
       code: 'var { a, b, } = foo;',
       output: 'var { a, b } = foo;',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'unexpected',
@@ -1062,7 +1033,6 @@ run({
       code: 'var [ a, b, ] = foo;',
       output: 'var [ a, b ] = foo;',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'unexpected',
@@ -1076,7 +1046,6 @@ run({
       code: 'var [ a, b, ] = foo;',
       output: 'var [ a, b ] = foo;',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'unexpected',
@@ -1144,91 +1113,78 @@ run({
       code: 'import {foo} from \'foo\';',
       output: 'import {foo,} from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ImportSpecifier' }],
     },
     {
       code: 'import foo, {abc} from \'foo\';',
       output: 'import foo, {abc,} from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ImportSpecifier' }],
     },
     {
       code: 'export {foo} from \'foo\';',
       output: 'export {foo,} from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ExportSpecifier' }],
     },
     {
       code: 'import {foo,} from \'foo\';',
       output: 'import {foo} from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ImportSpecifier' }],
     },
     {
       code: 'import {foo,} from \'foo\';',
       output: 'import {foo} from \'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ImportSpecifier' }],
     },
     {
       code: 'import foo, {abc,} from \'foo\';',
       output: 'import foo, {abc} from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ImportSpecifier' }],
     },
     {
       code: 'import foo, {abc,} from \'foo\';',
       output: 'import foo, {abc} from \'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ImportSpecifier' }],
     },
     {
       code: 'export {foo,} from \'foo\';',
       output: 'export {foo} from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ExportSpecifier' }],
     },
     {
       code: 'export {foo,} from \'foo\';',
       output: 'export {foo} from \'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ExportSpecifier' }],
     },
     {
       code: 'import {foo,} from \'foo\';',
       output: 'import {foo} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ImportSpecifier' }],
     },
     {
       code: 'export {foo,} from \'foo\';',
       output: 'export {foo} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ExportSpecifier' }],
     },
     {
       code: 'import {\n  foo\n} from \'foo\';',
       output: 'import {\n  foo,\n} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ImportSpecifier' }],
     },
     {
       code: 'export {\n  foo\n} from \'foo\';',
       output: 'export {\n  foo,\n} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ExportSpecifier' }],
     },
 
@@ -1833,7 +1789,6 @@ let d = 0;export {d,};
                 } from 'react-native';
             `,
       options: [{ imports: 'always-multiline' }],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: 2,
     },
     {
@@ -1862,7 +1817,6 @@ let d = 0;export {d,};
                 } from 'react-native';
             `,
       options: [{ imports: 'never' }],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: 2,
     },
   ],

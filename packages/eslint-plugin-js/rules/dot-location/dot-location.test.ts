@@ -9,6 +9,7 @@ import { run } from '#test'
 run({
   name: 'dot-location',
   rule,
+  lang: 'js',
   valid: [
     'obj.\nprop',
     'obj. \nprop',

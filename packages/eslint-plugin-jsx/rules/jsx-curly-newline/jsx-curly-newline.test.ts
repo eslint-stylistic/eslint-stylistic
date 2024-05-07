@@ -6,14 +6,6 @@ import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-curly-newline'
 import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-}
-
 const LEFT_MISSING_ERROR = { messageId: 'expectedAfter', type: 'Punctuator' }
 const LEFT_UNEXPECTED_ERROR = { messageId: 'unexpectedAfter', type: 'Punctuator' }
 const RIGHT_MISSING_ERROR = { messageId: 'expectedBefore', type: 'Punctuator' }
@@ -24,11 +16,15 @@ const CONSISTENT = ['consistent']
 const NEVER = ['never']
 const MULTILINE_REQUIRE = [{ singleline: 'consistent', multiline: 'require' }]
 
-const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-
 run({
   name: 'jsx-curly-newline',
   rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     // consistent option (default)
     {

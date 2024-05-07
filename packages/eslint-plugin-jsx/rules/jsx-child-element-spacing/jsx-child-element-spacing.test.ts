@@ -2,18 +2,15 @@ import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-child-element-spacing'
 import { run } from '#test'
 
-const parserOptions = {
-  sourceType: 'module',
-  ecmaVersion: 2015,
-  ecmaFeatures: {
-    jsx: true,
-  },
-}
-
-const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 run({
   name: 'jsx-child-element-spacing',
   rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: `

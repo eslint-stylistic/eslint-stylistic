@@ -7,14 +7,6 @@ import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-closing-bracket-location'
 import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-}
-
 const MESSAGE_AFTER_PROPS = 'placed after the last prop'
 const MESSAGE_AFTER_TAG = 'placed after the opening tag'
 
@@ -26,10 +18,15 @@ function details(expectedColumn: number, expectedNextLine: boolean) {
   return ` (expected column ${expectedColumn}${expectedNextLine ? ' on the next line)' : ')'}`
 }
 
-const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 run({
   name: 'jsx-closing-bracket-location',
   rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: `

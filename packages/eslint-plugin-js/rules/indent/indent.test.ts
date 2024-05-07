@@ -12481,7 +12481,7 @@ run({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'PrivateIdentifier'],
+        [2, 4, 0, 'Identifier'],
         [3, 4, 0, 'Identifier'],
         [4, 8, 0, 'Keyword'],
         [5, 4, 0, 'Punctuator'],

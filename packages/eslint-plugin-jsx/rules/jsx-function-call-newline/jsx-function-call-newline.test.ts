@@ -2,19 +2,15 @@ import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-function-call-newline'
 import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-} as const
-
-const ruleTester = new RuleTester({ parserOptions })
-
 run({
   name: 'jsx-function-call-newline',
   rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: `fn(<div />)`,

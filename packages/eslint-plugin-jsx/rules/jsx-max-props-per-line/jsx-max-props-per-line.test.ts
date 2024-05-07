@@ -7,18 +7,15 @@ import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-max-props-per-line'
 import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-} as const
-
-const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 run({
   name: 'jsx-max-props-per-line',
   rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: '<App />',
@@ -153,7 +150,6 @@ baz />;
           data: { prop: 'bar' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -185,7 +181,6 @@ bar />;
           data: { prop: 'bar' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -201,7 +196,6 @@ bar />;
           data: { prop: 'this.props' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -223,7 +217,6 @@ bar
           data: { prop: 'bar' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -245,7 +238,6 @@ bar
           data: { prop: 'this.props' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -267,7 +259,6 @@ bar
           data: { prop: 'bar' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -285,7 +276,6 @@ bar />
           data: { prop: 'bar' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -321,7 +311,6 @@ baz />
           data: { prop: 'rest' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -341,7 +330,6 @@ bar />
           data: { prop: 'bar' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `
@@ -365,7 +353,6 @@ bar />
           data: { prop: 'rest' },
         },
       ],
-      languageOptions: { parserOptions },
     },
     {
       code: `

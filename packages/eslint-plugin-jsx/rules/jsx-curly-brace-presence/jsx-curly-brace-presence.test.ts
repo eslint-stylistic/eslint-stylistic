@@ -11,18 +11,15 @@ import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '../../test-u
 import rule from './jsx-curly-brace-presence'
 import { run } from '#test'
 
-const parserOptions = {
-  sourceType: 'module',
-  ecmaVersion: 2015,
-  ecmaFeatures: {
-    jsx: true,
-  },
-}
-
-const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
 run({
   name: 'jsx-curly-brace-presence',
   rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: '<App {...props}>foo</App>',
