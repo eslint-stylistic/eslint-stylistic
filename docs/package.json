@@ -20,7 +20,7 @@
     "shiki": "^1.4.0",
     "twoslash": "^0.2.6",
     "unocss": "^0.59.4",
-    "unplugin-vue-components": "^0.26.0",
+    "unplugin-vue-components": "^0.27.0",
     "vitepress": "^1.1.4",
     "vue": "^3.4.27"
   }

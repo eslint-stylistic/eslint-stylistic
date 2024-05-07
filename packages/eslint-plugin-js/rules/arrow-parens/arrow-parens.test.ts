@@ -5,12 +5,12 @@
 
 import { createParserResolver } from '../../test-utils/fixture-parser'
 import rule from './arrow-parens'
+import type { InvalidTestCase, ValidTestCase } from '#test'
 import { run } from '#test'
 
 const parser = createParserResolver('arrow-parens')
 
-const valid: (string | RuleTester.ValidTestCase)[] = [
-
+const valid: ValidTestCase[] = [
   // "always" (by default)
   '() => {}',
   '(a) => {}',
@@ -216,8 +216,7 @@ const valid: (string | RuleTester.ValidTestCase)[] = [
 
 const type = 'ArrowFunctionExpression'
 
-const invalid: RuleTester.InvalidTestCase[] = [
-
+const invalid: InvalidTestCase[] = [
   // "always" (by default)
   {
     code: 'a => {}',
