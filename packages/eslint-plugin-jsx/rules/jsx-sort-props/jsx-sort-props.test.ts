@@ -108,7 +108,6 @@ run({
       jsx: true,
     },
   },
-  verifyFixChanges: false,
 
   valid: valids(
     { code: '<App />;' },
@@ -1082,6 +1081,7 @@ run({
           // className="customPageClassName"
         />
       `,
+      verifyFixChanges: false,
       features: ['ts', 'no-babel-old'],
       errors: [
         {
