@@ -7,7 +7,6 @@ const stylisticConfig = stylistic.configs.customize()
 export default antfu(
   {
     formatters: true,
-    typescript: true,
     ignores: [
       '**/fixtures/**',
       '**/playground/**',
@@ -15,6 +14,7 @@ export default antfu(
     ],
     jsx: true,
     markdown: false,
+    typescript: true,
   },
   {
     rules: {
