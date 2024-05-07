@@ -159,7 +159,7 @@ run({
       options: ['always', { markers: ['eslint-enable', 'eslint-disable'] }],
       linterOptions: {
         reportUnusedDisableDirectives: false,
-      }
+      },
     },
 
     // misc. variations

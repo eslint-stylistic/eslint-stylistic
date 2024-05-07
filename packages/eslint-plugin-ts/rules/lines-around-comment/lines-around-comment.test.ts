@@ -268,7 +268,7 @@ declare module A {
       ],
       linterOptions: {
         reportUnusedDisableDirectives: false,
-      }
+      },
     },
     `
 interface A {

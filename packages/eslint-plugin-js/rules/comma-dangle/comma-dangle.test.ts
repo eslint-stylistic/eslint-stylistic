@@ -5,7 +5,6 @@
 
 import { unIndent } from '../../test-utils/unindent'
 import { createParserResolver } from '../../test-utils/fixture-parser'
-import { createRule } from '../../utils/createRule'
 import rule from './comma-dangle'
 import { run } from '#test'
 
