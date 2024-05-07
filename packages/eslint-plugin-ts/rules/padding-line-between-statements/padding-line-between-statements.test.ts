@@ -763,7 +763,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
-    // https://github.com/eslint-community/eslint-stylistic/pull/257
+    // https://github.com/eslint-stylistic/eslint-stylistic/pull/257
     {
       code: 'var a = 0; export * from "foo"\n\nbar()',
       options: [
@@ -2822,7 +2822,7 @@ var a = 1
     // ESLint Stylistic
     // ----------------------------------------------------------------------
 
-    // Function overloads https://github.com/eslint-community/eslint-stylistic/issues/190
+    // Function overloads https://github.com/eslint-stylistic/eslint-stylistic/issues/190
     {
       code: [
         'function foo(): void;',
@@ -3539,7 +3539,7 @@ var a = 1
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'expectedBlankLine' }],
     },
-    // https://github.com/eslint-community/eslint-stylistic/pull/257
+    // https://github.com/eslint-stylistic/eslint-stylistic/pull/257
     {
       code: 'var a = 0;export * from "foo"\nbar()',
       output: 'var a = 0;export * from "foo"\n\nbar()',
@@ -5169,7 +5169,7 @@ declare namespace Types {
       errors: [{ messageId: 'expectedBlankLine' }],
     },
 
-    // https://github.com/eslint-community/eslint-stylistic/issues/53
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/53
     {
       code: `const path = require('node:path');\nmodule.exports = {};`,
       output: `const path = require('node:path');\n\nmodule.exports = {};`,

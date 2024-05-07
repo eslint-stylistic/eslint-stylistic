@@ -4,7 +4,7 @@ We are currently at the **Maintenance** stage.
 
 The rules for both JavaScript and TypeScript are migrated and released as beta versions. They are usable already but might need further testing. We are waiting for ESLint's announcement to finalize the rules list. Before that, **be aware that the rules included in `eslint-stylistic` might be changed** if you want to start migrating (we recommend to pin the dependency versions).
 
-Also check out our [project plans](https://github.com/eslint-community/eslint-stylistic/issues/1) for more details.
+Also check out our [project plans](https://github.com/eslint-stylistic/eslint-stylistic/issues/1) for more details.
 
 ## ✅ 1. Migration Infra
 

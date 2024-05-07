@@ -2,9 +2,11 @@
 title: lines-between-class-members
 rule_type: layout
 related_rules:
-- padded-blocks
-- padding-line-between-statements
+  - padded-blocks
+  - padding-line-between-statements
 ---
+
+# js/lines-between-class-members
 
 This rule improves readability by enforcing lines between class members. It will not check empty lines before the first member and after the last member, since that is already taken care of by padded-blocks.
 

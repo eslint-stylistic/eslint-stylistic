@@ -879,6 +879,14 @@ ruleTester.run('jsx-wrap-multilines', rule, {
       code: ATTR_PAREN_NEW_LINE,
       options: [{ prop: 'parens-new-line' }],
     },
+    {
+      code: `
+        obj = {
+          foo: <div><p>Hello</p></div>
+        }
+      `,
+      options: [{ propertyValue: 'parens' }],
+    },
   ),
 
   invalid: invalids(
@@ -1378,6 +1386,104 @@ ruleTester.run('jsx-wrap-multilines', rule, {
       );
       `,
       options: [{ declaration: 'parens-new-line' }],
+      errors: [{ messageId: 'missingParens' }],
+    },
+    {
+      code: `
+      const obj = {
+        foo: <div>
+          bar
+        </div>,
+        baz: 2,
+      }
+      `,
+      output: `
+      const obj = {
+        foo: (
+<div>
+          bar
+        </div>
+),
+        baz: 2,
+      }
+      `,
+      options: [{ propertyValue: 'parens-new-line' }],
+      errors: [{ messageId: 'missingParens' }],
+    },
+    {
+      code: `
+const obj = {
+  foo: <div>
+         bar
+       </div>,
+  baz: <div prop={
+         <div>
+           <p>Hello</p>
+         </div>
+       }>
+         <p>Hello</p>
+       </div>,
+}
+      `,
+      output: `
+const obj = {
+  foo: (
+<div>
+         bar
+       </div>
+),
+  baz: (
+<div prop={
+         <div>
+           <p>Hello</p>
+         </div>
+       }>
+         <p>Hello</p>
+       </div>
+),
+}
+      `,
+      options: [{ propertyValue: 'parens-new-line' }],
+      errors: [{ messageId: 'missingParens' }, { messageId: 'missingParens' }],
+    },
+    {
+      code: `
+const obj = {
+  foo: <div>
+         bar
+       </div>,
+}
+      `,
+      output: `
+const obj = {
+  foo: (<div>
+         bar
+       </div>),
+}
+      `,
+      options: [{ propertyValue: 'parens' }],
+      errors: [{ messageId: 'missingParens' }],
+    },
+    {
+      code: `
+const obj = {
+  foo: {
+    bar: <div>
+      baz
+    </div>,
+  }
+}
+      `,
+      output: `
+const obj = {
+  foo: {
+    bar: (<div>
+      baz
+    </div>),
+  }
+}
+      `,
+      options: [{ propertyValue: 'parens' }],
       errors: [{ messageId: 'missingParens' }],
     },
   ),

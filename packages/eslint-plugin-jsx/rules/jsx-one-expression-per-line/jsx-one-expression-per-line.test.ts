@@ -173,6 +173,70 @@ ruleTester.run('jsx-one-expression-per-line', rule, {
       `,
       features: ['fragment', 'no-ts-old'], // TODO: FIXME: remove no-ts-old and fix
     },
+    {
+      code: '<App>{"foo"}</App>',
+      options: [{ allow: 'single-line' }],
+    },
+    {
+      code: '<App>{foo && <Bar />}</App>',
+      options: [{ allow: 'single-line' }],
+    },
+    {
+      code: '<App><Foo /></App>',
+      options: [{ allow: 'single-line' }],
+    },
+    {
+      code: `<>123<Foo/></>`,
+      options: [{ allow: 'single-line' }],
+    },
+    {
+      code: `
+        <>
+          123<Foo/><Bar/>
+        </>
+      `,
+      options: [{ allow: 'single-line' }],
+    },
+    {
+      code: `
+        <>
+          <Foo/><Bar/>{'baz'}
+        </>
+      `,
+      options: [{ allow: 'single-line' }],
+    },
+    {
+      code: `
+        <>
+          <Foo/><Bar/>baz
+        </>
+      `,
+      options: [{ allow: 'single-line' }],
+    },
+    {
+      code: `
+        <>
+          <Foo/>Bar<Baz></Baz>
+        </>
+      `,
+      options: [{ allow: 'single-line' }],
+    },
+    {
+      code: `
+        <App>
+          <Hello /> <ESLint />
+        </App>
+      `,
+      options: [{ allow: 'single-line' }],
+    },
+    {
+      code: `<App>{"Hello"} {"ESLint"}</App>`,
+      options: [{ allow: 'single-line' }],
+    },
+    {
+      code: `<App>Hello <span>ESLint</span></App>`,
+      options: [{ allow: 'single-line' }],
+    },
   ),
 
   invalid: invalids(
@@ -1537,6 +1601,29 @@ Go to page 2
         },
       ],
       languageOptions: { parserOptions },
+    },
+    {
+      code: `
+<Layout>
+  <div style={{ maxWidth: \`300px\`, marginBottom: \`1.45rem\` }}><Image /></div>{'Bar'}
+  <Link to="/page-2/">Go to page 2</Link>
+</Layout>
+      `,
+      output: `
+<Layout>
+  <div style={{ maxWidth: \`300px\`, marginBottom: \`1.45rem\` }}><Image /></div>
+{'Bar'}
+  <Link to="/page-2/">Go to page 2</Link>
+</Layout>
+      `,
+      errors: [
+        {
+          messageId: 'moveToNewLine',
+          data: { descriptor: '{\'Bar\'}' },
+        },
+      ],
+      parserOptions,
+      options: [{ allow: 'single-line' }],
     },
   ),
 })

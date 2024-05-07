@@ -1,16 +1,16 @@
 {
   "name": "@stylistic/eslint-plugin-jsx",
-  "version": "1.7.2",
+  "version": "1.8.0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
-  "homepage": "https://github.com/eslint-community/eslint-stylistic#readme",
+  "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
   "repository": {
     "directory": "packages/eslint-plugin-jsx",
     "type": "git",
-    "url": "git+https://github.com/eslint-community/eslint-stylistic.git"
+    "url": "git+https://github.com/eslint-stylistic/eslint-stylistic.git"
   },
   "bugs": {
-    "url": "https://github.com/eslint-community/eslint-stylistic/issues"
+    "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
   },
   "exports": {
     ".": {
@@ -32,6 +32,7 @@
     "./rules/jsx-curly-spacing": "./dist/jsx-curly-spacing.js",
     "./rules/jsx-equals-spacing": "./dist/jsx-equals-spacing.js",
     "./rules/jsx-first-prop-new-line": "./dist/jsx-first-prop-new-line.js",
+    "./rules/jsx-function-call-newline": "./dist/jsx-function-call-newline.js",
     "./rules/jsx-indent": "./dist/jsx-indent.js",
     "./rules/jsx-indent-props": "./dist/jsx-indent-props.js",
     "./rules/jsx-max-props-per-line": "./dist/jsx-max-props-per-line.js",
@@ -64,20 +65,20 @@
   },
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:^",
-    "@types/eslint": "^8.56.9",
+    "@types/eslint": "^8.56.10",
     "estraverse": "^5.3.0",
     "picomatch": "^4.0.2"
   },
   "devDependencies": {
-    "@babel/eslint-parser": "^7.24.1",
+    "@babel/eslint-parser": "^7.24.5",
     "@babel/plugin-syntax-decorators": "^7.24.1",
     "@babel/plugin-syntax-do-expressions": "^7.24.1",
     "@babel/plugin-syntax-function-bind": "^7.24.1",
     "@babel/preset-react": "^7.24.1",
     "@types/picomatch": "^2.3.3",
-    "@typescript-eslint/parser": "^7.7.0",
+    "@typescript-eslint/parser": "^7.8.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^9.0.0",
+    "eslint": "^9.2.0",
     "semver": "^7.6.0",
     "typescript-eslint-parser": "^22.0.0"
   }

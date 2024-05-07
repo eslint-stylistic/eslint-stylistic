@@ -2,9 +2,11 @@
 title: block-spacing
 rule_type: layout
 related_rules:
-- space-before-blocks
-- brace-style
+  - space-before-blocks
+  - brace-style
 ---
+
+# js/block-spacing
 
 ## Rule Details
 

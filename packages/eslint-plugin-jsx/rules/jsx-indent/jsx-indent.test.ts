@@ -1170,6 +1170,36 @@ const Component = () => (
       `,
       options: [2],
     },
+    {
+      options: [2, { checkAttributes: true, indentLogicalExpressions: true }],
+      code: `
+      <>
+        <div
+          foo={
+            condition
+              ? [
+                'bar'
+              ]
+              : [
+                'baz',
+                'qux'
+              ]
+          }
+        />
+        <div
+          style={
+            true
+              ? {
+                  color: 'red',
+                }
+              : {
+                  height: 1,
+                }
+          }
+        />
+      </>
+      `,
+    },
   ),
 
   invalid: invalids(

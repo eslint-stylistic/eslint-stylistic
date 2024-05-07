@@ -1,6 +1,8 @@
 ---
-description: 'Require or disallow an empty line between class members.'
+description: Require or disallow an empty line between class members.
 ---
+
+# ts/lines-between-class-members
 
 This rule extends the base [`lines-between-class-members`](/rules/js/lines-between-class-members) rule.
 It adds support for ignoring overload methods in a class.

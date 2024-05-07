@@ -1,12 +1,15 @@
 name: release-please
+
 on:
   push:
     branches:
       - main
+
 permissions:
   contents: write
   pull-requests: write
   id-token: write
+
 jobs:
   release-please:
     runs-on: ubuntu-latest

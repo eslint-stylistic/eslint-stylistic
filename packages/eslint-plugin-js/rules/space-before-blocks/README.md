@@ -2,12 +2,14 @@
 title: space-before-blocks
 rule_type: layout
 related_rules:
-- keyword-spacing
-- arrow-spacing
-- switch-colon-spacing
-- block-spacing
-- brace-style
+  - keyword-spacing
+  - arrow-spacing
+  - switch-colon-spacing
+  - block-spacing
+  - brace-style
 ---
+
+# js/space-before-blocks
 
 Consistency is an important part of any style guide.
 While it is a personal preference where to put the opening brace of blocks,
