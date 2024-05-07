@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.8.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v1.8.0...v1.8.1) (2024-05-07)
+
+
+### Bug Fixes
+
+* **jsx-one-expression-per-line:** only one line break has not been processed ([#384](https://github.com/eslint-stylistic/eslint-stylistic/issues/384)) ([a297f84](https://github.com/eslint-stylistic/eslint-stylistic/commit/a297f8434894fab99c5a2792477a8f9818aa3031))
+
+
+### Documentation
+
+* fix "Contributing" link ([#383](https://github.com/eslint-stylistic/eslint-stylistic/issues/383)) ([c89125f](https://github.com/eslint-stylistic/eslint-stylistic/commit/c89125f7e81cfb5ebce37ce65bfdba726456574a))
+* fix broken link in ts/lines-between-class-members rule ([#385](https://github.com/eslint-stylistic/eslint-stylistic/issues/385)) ([594a860](https://github.com/eslint-stylistic/eslint-stylistic/commit/594a860b25ae032d11dddf0cf1303d3ee6d3c934))
+* fix link ([#379](https://github.com/eslint-stylistic/eslint-stylistic/issues/379)) ([5060350](https://github.com/eslint-stylistic/eslint-stylistic/commit/5060350fe3ecc3acd7fae83eb45cbd4de9c06fb5))
+* improve docs search, close [#381](https://github.com/eslint-stylistic/eslint-stylistic/issues/381) ([d0df679](https://github.com/eslint-stylistic/eslint-stylistic/commit/d0df679403645bfddceb629bb35284bb9ae0a38a))
+
 ## [1.8.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v1.7.2...v1.8.0) (2024-04-30)
 
 
