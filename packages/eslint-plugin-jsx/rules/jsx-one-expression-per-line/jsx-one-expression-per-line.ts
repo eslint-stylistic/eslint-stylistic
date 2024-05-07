@@ -94,16 +94,17 @@ export default createRule<MessageIds, RuleOptions>({
       if (options.allow === 'single-line') {
         const firstChild = children[0]
         const lastChild = children[children.length - 1]
-        let lineDifference = lastChild.loc.end.line - firstChild.loc.start.line
+        const lineDifference = lastChild.loc.end.line - firstChild.loc.start.line
+        let lineBreaks = 0
         if (firstChild.type === 'Literal' || firstChild.type === 'JSXText') {
           if (/^\s*?\n/.test(firstChild.raw))
-            lineDifference -= 1
+            lineBreaks += 1
         }
         if (lastChild.type === 'Literal' || lastChild.type === 'JSXText') {
           if (/\n\s*?$/.test(lastChild.raw))
-            lineDifference -= 1
+            lineBreaks += 1
         }
-        if (lineDifference === 0)
+        if (lineDifference === 0 && lineBreaks === 0 || lineDifference === 2 && lineBreaks === 2)
           return
       }
 

@@ -1645,5 +1645,23 @@ Go to page 2
       parserOptions,
       options: [{ allow: 'single-line' }],
     },
+    {
+      code: `
+<div><span>foo</span>
+</div>
+      `,
+      output: `
+<div>
+<span>foo</span>
+</div>
+      `,
+      options: [{ allow: 'single-line' }],
+      errors: [
+        {
+          messageId: 'moveToNewLine',
+          data: { descriptor: 'span' },
+        },
+      ],
+    },
   ),
 })
