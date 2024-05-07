@@ -1,15 +1,19 @@
 import tsParser from '@typescript-eslint/parser'
 
-// eslint-disable-next-line ts/ban-ts-comment, ts/prefer-ts-expect-error
-// @ts-ignore
-import { run as _run } from '../../../eslint-vitest-rule-tester/src/index'
+import type { RuleTesterClassicOptions, RuleTesterOptions } from 'eslint-vitest-rule-tester'
+import { run as _run } from 'eslint-vitest-rule-tester'
 
-export * from '../../../eslint-vitest-rule-tester/src/index'
+export * from 'eslint-vitest-rule-tester'
 
-// import { run as _run } from 'esltin-vitest-rule-tester'
-// export * from 'esltin-vitest-rule-tester'
+export interface ExtendedRuleTesterOptions extends RuleTesterClassicOptions, RuleTesterOptions {
+  lang?: 'js' | 'ts'
+}
 
-export const runCases = (options => _run({
-  ...options,
-  parser: tsParser as any,
-})) as typeof _run
+export function run(options: ExtendedRuleTesterOptions) {
+  return _run({
+    recursive: false,
+    verifyAfterFix: false,
+    ...(options.lang === 'js' ? {} : { parser: tsParser as any }),
+    ...options,
+  })
+}

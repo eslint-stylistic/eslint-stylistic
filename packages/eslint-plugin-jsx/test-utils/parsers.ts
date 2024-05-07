@@ -1,10 +1,11 @@
 import type { RuleTester } from 'eslint'
+import type { InvalidTestCaseBase, ValidTestCaseBase } from '#test'
 
-export interface InvalidTestCase extends RuleTester.InvalidTestCase {
+export interface InvalidTestCase extends InvalidTestCaseBase {
   features?: string[]
 }
 
-export interface ValidTestCase extends RuleTester.ValidTestCase {
+export interface ValidTestCase extends ValidTestCaseBase {
   features?: string[]
 }
 

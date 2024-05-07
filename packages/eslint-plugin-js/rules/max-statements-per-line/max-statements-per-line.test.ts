@@ -4,9 +4,9 @@
  */
 
 import rule from './max-statements-per-line'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'max-statements-per-line',
   rule,
   valid: [

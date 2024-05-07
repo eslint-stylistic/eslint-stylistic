@@ -1,5 +1,5 @@
 import rule from './migrate'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const valids = [
   {
@@ -103,7 +103,7 @@ const invalids = [
   },
 ])
 
-runCases({
+run({
   name: 'migrate',
   rule,
   valid: valids,

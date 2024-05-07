@@ -1,10 +1,10 @@
 // this rule tests semis, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { runCases } from '../../../test-utils/runner'
+import { run } from '../../../test-utils/runner'
 import rule from './no-extra-semi'
 
-runCases({
+run({
   name: 'no-extra-semi',
   rule,
   valid: [

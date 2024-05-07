@@ -1,5 +1,5 @@
 import rule from './migrate-js'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const valids = [
   {
@@ -34,7 +34,7 @@ const invalids = [
   errors: [{ messageId: 'migrate' }],
 }))
 
-runCases({
+run({
   name: 'migrate-js',
   rule,
   valid: valids,

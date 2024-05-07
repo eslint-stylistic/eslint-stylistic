@@ -4,9 +4,9 @@
  */
 
 import rule from './no-extra-semi'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'no-extra-semi',
   rule,
   valid: [

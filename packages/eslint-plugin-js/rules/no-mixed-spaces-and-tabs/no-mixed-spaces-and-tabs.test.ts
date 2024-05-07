@@ -4,9 +4,9 @@
  */
 
 import rule from './no-mixed-spaces-and-tabs'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'no-mixed-spaces-and-tabs',
   rule,
 

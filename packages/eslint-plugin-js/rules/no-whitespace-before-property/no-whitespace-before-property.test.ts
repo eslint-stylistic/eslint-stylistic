@@ -4,9 +4,9 @@
  */
 
 import rule from './no-whitespace-before-property'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'no-whitespace-before-property',
   rule,
 

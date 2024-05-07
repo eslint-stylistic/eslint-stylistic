@@ -4,9 +4,9 @@
  */
 
 import rule from './newline-per-chained-call'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'newline-per-chained-call',
   rule,
   valid: [

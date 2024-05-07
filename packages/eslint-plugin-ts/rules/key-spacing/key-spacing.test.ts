@@ -2,9 +2,9 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import rule from './key-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'key-spacing',
   rule,
   valid: [

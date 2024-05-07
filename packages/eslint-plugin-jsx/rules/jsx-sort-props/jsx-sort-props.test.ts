@@ -7,7 +7,7 @@ import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-sort-props'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -114,7 +114,7 @@ const multilineAndShorthandAndCallbackLastArgs = [
   },
 ]
 
-runCases({
+run({
   name: 'jsx-sort-props',
   rule,
   valid: valids(

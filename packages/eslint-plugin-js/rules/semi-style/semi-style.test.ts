@@ -4,9 +4,9 @@
  */
 
 import rule from './semi-style'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'semi-style',
   rule,
   valid: [

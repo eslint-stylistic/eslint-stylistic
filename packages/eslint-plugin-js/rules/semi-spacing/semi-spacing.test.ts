@@ -4,9 +4,9 @@
  */
 
 import rule from './semi-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'semi-spacing',
   rule,
   valid: [

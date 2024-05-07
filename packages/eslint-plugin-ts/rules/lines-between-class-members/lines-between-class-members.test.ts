@@ -1,10 +1,10 @@
 // this rule tests the new lines, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { runCases } from '../../../test-utils/runner'
+import { run } from '../../../test-utils/runner'
 import rule from './lines-between-class-members'
 
-runCases({
+run({
   name: 'lines-between-class-members',
   rule,
   valid: [

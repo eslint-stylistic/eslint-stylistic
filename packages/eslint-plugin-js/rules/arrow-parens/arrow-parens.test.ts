@@ -5,7 +5,7 @@
 
 import { createParserResolver } from '../../test-utils/fixture-parser'
 import rule from './arrow-parens'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const parser = createParserResolver('arrow-parens')
 
@@ -536,7 +536,7 @@ bar();`,
 
 ]
 
-runCases({
+run({
   name: 'arrow-parens',
   rule,
   valid,

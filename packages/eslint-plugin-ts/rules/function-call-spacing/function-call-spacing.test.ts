@@ -5,9 +5,9 @@ import type { TSESLint } from '@typescript-eslint/utils'
 
 import type { MessageIds, RuleOptions } from './types'
 import rule from './function-call-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'function-call-spacing',
   rule,
   valid: [

@@ -6,7 +6,7 @@
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-tag-spacing'
 import type { RuleOptions } from './types'
-import { runCases } from '#test'
+import { run } from '#test'
 
 type Option = Exclude<RuleOptions[0], undefined>
 
@@ -73,7 +73,7 @@ function beforeClosingOptions(option: Option['beforeClosing']) {
 // -----------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-runCases({
+run({
   name: 'jsx-tag-spacing',
   rule,
   valid: valids(

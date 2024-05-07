@@ -4,14 +4,14 @@
  */
 
 import rule from './switch-colon-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const expectedBeforeError = { messageId: 'expectedBefore' }
 const expectedAfterError = { messageId: 'expectedAfter' }
 const unexpectedBeforeError = { messageId: 'unexpectedBefore' }
 const unexpectedAfterError = { messageId: 'unexpectedAfter' }
 
-runCases({
+run({
   name: 'switch-colon-spacing',
   rule,
   valid: [

@@ -5,12 +5,12 @@
 
 import { unIndent } from '../../test-utils/unindent'
 import rule from './implicit-arrow-linebreak'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const EXPECTED_LINEBREAK = { messageId: 'expected' }
 const UNEXPECTED_LINEBREAK = { messageId: 'unexpected' }
 
-runCases({
+run({
   name: 'implicit-arrow-linebreak',
   rule,
   valid: [

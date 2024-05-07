@@ -4,9 +4,9 @@
  */
 
 import rule from './rest-spread-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'rest-spread-spacing',
   rule,
   valid: [

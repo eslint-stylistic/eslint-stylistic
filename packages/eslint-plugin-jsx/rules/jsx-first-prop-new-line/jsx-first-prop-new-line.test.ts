@@ -5,7 +5,7 @@
 
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-first-prop-new-line'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -21,7 +21,7 @@ const parserOptions = {
 // -----------------------------------------------------------------------------
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-runCases({
+run({
   name: 'jsx-first-prop-new-line',
   rule,
   valid: valids(

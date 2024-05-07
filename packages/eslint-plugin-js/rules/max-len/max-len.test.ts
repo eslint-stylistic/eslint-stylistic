@@ -4,11 +4,11 @@
  */
 
 import rule from './max-len'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const parserOptions = { ecmaVersion: 6 } as const
 
-runCases({
+run({
   name: 'max-len',
   rule,
   valid: [

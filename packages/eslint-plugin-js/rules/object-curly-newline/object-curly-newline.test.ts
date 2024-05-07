@@ -5,15 +5,12 @@
 
 import parser from '../../test-utils/fixture-parser'
 import rule from './object-curly-newline'
-import { runCases } from '#test'
+import { run } from '#test'
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, sourceType: 'module' } })
-
-runCases({
+run({
   name: 'object-curly-newline',
   rule,
   valid: [
-
     // default ------------------------------------------------------------
     [
       'var a = {',

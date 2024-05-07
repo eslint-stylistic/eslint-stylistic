@@ -4,9 +4,9 @@
  */
 
 import rule from './quotes'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'quotes',
   rule,
   valid: [

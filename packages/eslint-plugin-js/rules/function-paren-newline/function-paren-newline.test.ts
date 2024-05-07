@@ -6,7 +6,7 @@
 import { unIndent } from '../../test-utils/unindent'
 import parser from '../../test-utils/fixture-parser'
 import rule from './function-paren-newline'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const LEFT_MISSING_ERROR = { messageId: 'expectedAfter', type: 'Punctuator' }
 const LEFT_UNEXPECTED_ERROR = { messageId: 'unexpectedAfter', type: 'Punctuator' }
@@ -14,7 +14,7 @@ const RIGHT_MISSING_ERROR = { messageId: 'expectedBefore', type: 'Punctuator' }
 const RIGHT_UNEXPECTED_ERROR = { messageId: 'unexpectedBefore', type: 'Punctuator' }
 const EXPECTED_BETWEEN = { messageId: 'expectedBetween', type: 'Identifier' }
 
-runCases({
+run({
   name: 'function-paren-newline',
   rule,
 

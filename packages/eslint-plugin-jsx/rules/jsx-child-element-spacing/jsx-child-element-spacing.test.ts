@@ -1,6 +1,6 @@
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-child-element-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const parserOptions = {
   sourceType: 'module',
@@ -11,7 +11,7 @@ const parserOptions = {
 }
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-runCases({
+run({
   name: 'jsx-child-element-spacing',
   rule,
   valid: valids(

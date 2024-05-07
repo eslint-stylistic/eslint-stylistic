@@ -4,9 +4,9 @@
  */
 
 import rule from './template-curly-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'template-curly-spacing',
   rule,
   valid: [

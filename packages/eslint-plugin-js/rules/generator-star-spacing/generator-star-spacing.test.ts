@@ -4,16 +4,14 @@
  */
 
 import rule from './generator-star-spacing'
-import { runCases } from '#test'
-
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } })
+import { run } from '#test'
 
 const missingBeforeError = { messageId: 'missingBefore', type: 'Punctuator' }
 const missingAfterError = { messageId: 'missingAfter', type: 'Punctuator' }
 const unexpectedBeforeError = { messageId: 'unexpectedBefore', type: 'Punctuator' }
 const unexpectedAfterError = { messageId: 'unexpectedAfter', type: 'Punctuator' }
 
-runCases({
+run({
   name: 'generator-star-spacing',
   rule,
 

@@ -4,7 +4,7 @@
 import type { RuleOptions } from './types'
 import rule from './semi'
 import type { InvalidTestCase, ValidTestCase } from '#test'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const neverOption: RuleOptions = ['never']
 const neverOptionWithoutContinuationChars: RuleOptions = [
@@ -20,7 +20,7 @@ const extraSemicolon = {
   messageId: 'extraSemi' as const,
 }
 
-runCases({
+run({
   name: 'semi',
   rule,
   valid: [
@@ -1088,7 +1088,6 @@ class PanCamera extends FreeCamera {
           ...extraSemicolon,
         })),
       })
-
       return acc
     }, []),
   ],

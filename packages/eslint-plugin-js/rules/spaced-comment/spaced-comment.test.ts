@@ -4,11 +4,11 @@
  */
 
 import rule from './spaced-comment'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const validShebangProgram = '#!/path/to/node\nvar a = 3;'
 
-runCases({
+run({
   name: 'spaced-comment',
   rule,
 

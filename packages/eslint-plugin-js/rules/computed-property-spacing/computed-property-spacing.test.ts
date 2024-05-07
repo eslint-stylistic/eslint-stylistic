@@ -4,9 +4,9 @@
  */
 
 import rule from './computed-property-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'computed-property-spacing',
   rule,
 

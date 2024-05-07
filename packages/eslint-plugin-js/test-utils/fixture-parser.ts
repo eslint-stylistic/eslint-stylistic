@@ -1,7 +1,9 @@
-import path from 'node:path'
+import { createRequire } from 'node:module'
+import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const __dirname = fileURLToPath(new URL('.', import.meta.url))
+const require = createRequire(import.meta.url)
 
 /**
  * Gets the path to the specified parser.
@@ -11,7 +13,7 @@ const __dirname = fileURLToPath(new URL('.', import.meta.url))
  */
 export default function parserResolver(...args: string[]) {
   const name = args.pop()
-  return path.resolve(__dirname, 'parsers', ...args, `${name}.js`)
+  return require(join(__dirname, 'parsers', ...args, `${name}.js`))
 }
 
 export function createParserResolver(...pre: string[]) {

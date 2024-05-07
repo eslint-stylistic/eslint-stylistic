@@ -10,6 +10,7 @@ export default {
       '@stylistic/eslint-plugin-plus': fileURLToPath(new URL('./packages/eslint-plugin-plus/src/index.ts', import.meta.url)),
       '@eslint-stylistic/metadata': fileURLToPath(new URL('./packages/metadata/src/index.ts', import.meta.url)),
       '#test': fileURLToPath(new URL('./packages/test-utils/index.ts', import.meta.url)),
+      'eslint-vitest-rule-tester': fileURLToPath(new URL('../eslint-vitest-rule-tester/src/index.ts', import.meta.url)),
     },
   },
 }

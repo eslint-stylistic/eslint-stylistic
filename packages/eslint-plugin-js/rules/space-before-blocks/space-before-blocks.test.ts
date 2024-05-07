@@ -5,7 +5,7 @@
 
 import parser from '../../test-utils/fixture-parser'
 import rule from './space-before-blocks'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const alwaysArgs = ['always']
 const neverArgs = ['never']
@@ -21,7 +21,7 @@ const classesNeverOthersOffArgs = [{ functions: 'off', keywords: 'off', classes:
 const expectedSpacingError = { messageId: 'missingSpace' }
 const expectedNoSpacingError = { messageId: 'unexpectedSpace' }
 
-runCases({
+run({
   name: 'space-before-blocks',
   rule,
   valid: [

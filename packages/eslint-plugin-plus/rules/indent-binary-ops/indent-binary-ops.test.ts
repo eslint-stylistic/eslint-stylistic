@@ -2,9 +2,9 @@ import { expect, it } from 'vitest'
 import { createLinter } from '../../../test-utils/createLinter'
 import { unIndent } from '../../../eslint-plugin-js/test-utils/unindent'
 import rule from './indent-binary-ops'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'indent-binary-ops',
   rule,
   valid: [

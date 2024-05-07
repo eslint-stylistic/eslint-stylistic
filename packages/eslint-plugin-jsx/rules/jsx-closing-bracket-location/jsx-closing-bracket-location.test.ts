@@ -5,7 +5,7 @@
 
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-closing-bracket-location'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -27,7 +27,7 @@ function details(expectedColumn: number, expectedNextLine: boolean) {
 }
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-runCases({
+run({
   name: 'jsx-closing-bracket-location',
   rule,
   valid: valids(

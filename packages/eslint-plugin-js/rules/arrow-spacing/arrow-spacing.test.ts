@@ -5,7 +5,7 @@
 //
 
 import rule from './arrow-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const valid = [
   {
@@ -295,7 +295,7 @@ const invalid = [
   },
 ]
 
-runCases({
+run({
   name: 'arrow-spacing',
   rule,
   valid,

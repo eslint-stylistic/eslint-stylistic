@@ -8,7 +8,7 @@ import { join } from 'node:path'
 import parser from '../../test-utils/fixture-parser'
 import { unIndent } from '../../test-utils/unindent'
 import rule from './indent'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
 const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')
@@ -55,11 +55,12 @@ function expectedErrors(providedIndentType: any, providedErrors?: any): ErrorOut
   }))
 }
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 8, ecmaFeatures: { jsx: true } } })
-
-runCases({
+run({
   name: 'indent',
   rule,
+  parserOptions: {
+    ecmaFeatures: { jsx: true },
+  },
   valid: [
     {
       code: unIndent`

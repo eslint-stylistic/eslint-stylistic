@@ -4,12 +4,12 @@
  */
 
 import rule from './nonblock-statement-body-position'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const EXPECTED_LINEBREAK = { messageId: 'expectLinebreak' }
 const UNEXPECTED_LINEBREAK = { messageId: 'expectNoLinebreak' }
 
-runCases({
+run({
   name: 'nonblock-statement-body-position',
   rule,
 

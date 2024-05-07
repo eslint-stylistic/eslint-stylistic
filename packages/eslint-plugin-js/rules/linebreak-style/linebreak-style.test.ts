@@ -4,9 +4,9 @@
  */
 
 import rule from './linebreak-style'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'linebreak-style',
   rule,
 

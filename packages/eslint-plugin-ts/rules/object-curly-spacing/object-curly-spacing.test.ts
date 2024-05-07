@@ -4,9 +4,9 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import rule from './object-curly-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'object-curly-spacing',
   rule,
   valid: [

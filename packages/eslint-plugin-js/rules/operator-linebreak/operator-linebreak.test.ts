@@ -4,9 +4,9 @@
  */
 
 import rule from './operator-linebreak'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'operator-linebreak',
   rule,
 

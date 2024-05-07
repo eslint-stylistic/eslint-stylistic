@@ -5,9 +5,9 @@ import type { TSESLint } from '@typescript-eslint/utils'
 
 import rule from './type-annotation-spacing'
 import type { MessageIds, RuleOptions } from './types'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'type-annotation-spacing',
   rule,
   valid: [
@@ -3794,7 +3794,7 @@ type Foo = {
 // Optional Annotation Tests
 // ------------------------------------------------------------------------------
 
-runCases({
+run({
   name: 'type-annotation-spacing',
   rule,
   valid: [
@@ -6555,7 +6555,7 @@ type Foo = {
 
 const operators = ['+?:', '-?:']
 
-runCases({
+run({
   name: 'type-annotation-spacing',
   rule,
   valid: operators.reduce<TSESLint.ValidTestCase<RuleOptions>[]>(

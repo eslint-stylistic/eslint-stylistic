@@ -2,7 +2,7 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import rule from './quotes'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const useDoubleQuote = {
   messageId: 'wrongQuotes' as const,
@@ -25,7 +25,7 @@ const useBacktick = {
   },
 }
 
-runCases({
+run({
   name: 'quotes',
   rule,
   valid: [

@@ -5,7 +5,7 @@
 
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-wrap-multilines'
-import { runCases } from '#test'
+import { run } from '#test'
 
 // ------------------------------------------------------------------------------
 // Constants/Code Snippets
@@ -605,7 +605,7 @@ function addNewLineSymbols(code: string) {
   return code.replace(/\(</g, '(\n<').replace(/>\)/g, '>\n)')
 }
 
-runCases({
+run({
   name: 'jsx-wrap-multilines',
   rule,
   parserOptions: {

@@ -5,7 +5,7 @@ import type { TSESLint } from '@typescript-eslint/utils'
 
 import type { MessageIds, RuleOptions } from './types'
 import rule from './keyword-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const BOTH = { before: true, after: true }
 const NEITHER = { before: false, after: false }
@@ -76,7 +76,7 @@ function unexpectedAfter(
   return [{ messageId: 'unexpectedAfter', data: { value: keyword } }]
 }
 
-runCases({
+run({
   name: 'keyword-spacing',
   rule,
   valid: [

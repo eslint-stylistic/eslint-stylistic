@@ -1,9 +1,9 @@
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 
 import rule from './lines-around-comment'
-import { unindent as $, runCases } from '#test'
+import { unindent as $, run } from '#test'
 
-runCases({
+run({
   name: 'lines-around-comment',
   rule,
   valid: [

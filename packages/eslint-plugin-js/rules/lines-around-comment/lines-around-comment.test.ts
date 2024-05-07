@@ -5,9 +5,9 @@
 
 import { unIndent } from '../../test-utils/unindent'
 import rule from './lines-around-comment'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'lines-around-comment',
   rule,
 

@@ -4,14 +4,12 @@
  */
 
 import rule from './lines-between-class-members'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const alwaysError = { messageId: 'always' }
 const neverError = { messageId: 'never' }
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } })
-
-runCases({
+run({
   name: 'lines-between-class-members',
   rule,
   valid: [

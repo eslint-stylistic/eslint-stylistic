@@ -5,7 +5,7 @@
 
 import parser from '../../test-utils/fixture-parser'
 import rule from './keyword-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const BOTH = { before: true, after: true }
 const NEITHER = { before: false, after: false }
@@ -102,7 +102,7 @@ function unexpectedBeforeAndAfter(keyword: string) {
   ]
 }
 
-runCases({
+run({
   name: 'keyword-spacing',
   rule,
   valid: [

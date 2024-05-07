@@ -5,7 +5,7 @@
 
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-max-props-per-line'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -16,7 +16,7 @@ const parserOptions = {
 } as const
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-runCases({
+run({
   name: 'jsx-max-props-per-line',
   rule,
   valid: valids(

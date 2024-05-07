@@ -4,9 +4,9 @@
  */
 
 import rule from './function-call-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'function-call-spacing',
   rule,
   valid: [

@@ -4,9 +4,9 @@
  */
 
 import rule from './template-tag-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'template-tag-spacing',
   rule,
   valid: [

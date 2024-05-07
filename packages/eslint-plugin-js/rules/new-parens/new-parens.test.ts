@@ -5,12 +5,12 @@
 
 import parser from '../../test-utils/fixture-parser'
 import rule from './new-parens'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const error = { messageId: 'missing', type: 'NewExpression' }
 const neverError = { messageId: 'unnecessary', type: 'NewExpression' }
 
-runCases({
+run({
   name: 'new-parens',
   rule,
   valid: [

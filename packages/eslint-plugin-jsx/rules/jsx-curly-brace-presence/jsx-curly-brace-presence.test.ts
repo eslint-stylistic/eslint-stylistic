@@ -9,7 +9,7 @@ import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
 import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-curly-brace-presence'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const parserOptions = {
   sourceType: 'module',
@@ -20,7 +20,7 @@ const parserOptions = {
 }
 
 const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-runCases({
+run({
   name: 'jsx-curly-brace-presence',
   rule,
   valid: valids(

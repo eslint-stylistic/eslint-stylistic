@@ -2,9 +2,9 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import rule from './comma-dangle'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'comma-dangle',
   rule,
   valid: [

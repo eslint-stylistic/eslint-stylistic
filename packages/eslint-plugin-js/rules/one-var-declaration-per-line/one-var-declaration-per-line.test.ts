@@ -4,7 +4,7 @@
  */
 
 import rule from './one-var-declaration-per-line'
-import { runCases } from '#test'
+import { run } from '#test'
 
 // ------------------------------------------------------------------------------
 // Fixtures
@@ -26,7 +26,7 @@ function errorAt(line: number, column: number) {
   }
 }
 
-runCases({
+run({
   name: 'one-var-declaration-per-line',
   rule,
   valid: [

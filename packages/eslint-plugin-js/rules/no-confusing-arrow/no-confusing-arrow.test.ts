@@ -4,9 +4,9 @@
  */
 
 import rule from './no-confusing-arrow'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'no-confusing-arrow',
   rule,
   valid: [

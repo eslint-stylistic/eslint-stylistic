@@ -3,9 +3,9 @@
  * @author Nodeca Team <https://github.com/nodeca>
  */
 import rule from './no-trailing-spaces'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'no-trailing-spaces',
   rule,
 

@@ -4,9 +4,9 @@
  */
 
 import rule from './comma-style'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'comma-style',
   rule,
 

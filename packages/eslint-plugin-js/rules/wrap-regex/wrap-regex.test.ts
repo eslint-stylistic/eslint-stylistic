@@ -4,9 +4,9 @@
  */
 
 import rule from './wrap-regex'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'wrap-regex',
   rule,
   valid: [

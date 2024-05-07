@@ -7,42 +7,53 @@ import { unIndent } from '../../test-utils/unindent'
 import { createParserResolver } from '../../test-utils/fixture-parser'
 import { createRule } from '../../utils/createRule'
 import rule from './comma-dangle'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const parser = createParserResolver('comma-dangle')
 
-// @ts-expect-error missing types
-ruleTester.defineRule('add-named-import', createRule({
-  meta: {
-    type: 'problem',
-    schema: [],
-    fixable: 'code',
-    messages: {
-      'add-named-import': 'add-named-import.',
-    },
-  },
-  create(context) {
-    return {
-      ImportDeclaration(node) {
-        const sourceCode = context.sourceCode
-        const closingBrace = sourceCode.getLastToken(node, token => token.value === '}')!
-        const addComma = sourceCode.getTokenBefore(closingBrace)!.value !== ','
-
-        context.report({
-          messageId: 'add-named-import',
-          node,
-          fix(fixer) {
-            return fixer.insertTextBefore(closingBrace, `${addComma ? ',' : ''}I18nManager`)
-          },
-        })
-      },
-    }
-  },
-}))
-
-runCases({
+run({
   name: 'comma-dangle',
   rule,
+  configs: [
+    {
+      plugins: {
+        temp: {
+          rules: {
+            'add-named-import': createRule({
+              meta: {
+                type: 'problem',
+                schema: [],
+                fixable: 'code',
+                messages: {
+                  'add-named-import': 'add-named-import.',
+                },
+              },
+              create(context) {
+                return {
+                  ImportDeclaration(node) {
+                    const sourceCode = context.sourceCode
+                    const closingBrace = sourceCode.getLastToken(node, token => token.value === '}')!
+                    const addComma = sourceCode.getTokenBefore(closingBrace)!.value !== ','
+
+                    context.report({
+                      messageId: 'add-named-import',
+                      node,
+                      fix(fixer) {
+                        return fixer.insertTextBefore(closingBrace, `${addComma ? ',' : ''}I18nManager`)
+                      },
+                    })
+                  },
+                }
+              },
+            }),
+          },
+        },
+      },
+      rules: {
+        'temp/add-named-import': 'error',
+      },
+    },
+  ],
   valid: [
     'var foo = { bar: \'baz\' }',
     'var foo = {\nbar: \'baz\'\n}',

@@ -5,9 +5,9 @@
 
 import parser from '../../test-utils/fixture-parser'
 import rule from './object-curly-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'object-curly-spacing',
   rule,
 

@@ -5,9 +5,9 @@
 
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-indent-props'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'jsx-indent-props',
   rule,
   parserOptions: {

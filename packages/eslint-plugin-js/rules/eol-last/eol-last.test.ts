@@ -4,9 +4,9 @@
  */
 
 import rule from './eol-last'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'eol-last',
   rule,
 
@@ -51,8 +51,6 @@ runCases({
         type: 'Program',
         line: 1,
         column: 13,
-        endLine: void 0,
-        endColumn: void 0,
       }],
     },
     {
@@ -63,8 +61,6 @@ runCases({
         type: 'Program',
         line: 2,
         column: 4,
-        endLine: void 0,
-        endColumn: void 0,
       }],
     },
     {
@@ -156,8 +152,6 @@ runCases({
         type: 'Program',
         line: 1,
         column: 13,
-        endLine: void 0,
-        endColumn: void 0,
       }],
     },
     {
@@ -169,8 +163,7 @@ runCases({
         type: 'Program',
         line: 2,
         column: 4,
-        endLine: void 0,
-        endColumn: void 0,
+
       }],
     },
 
@@ -184,8 +177,6 @@ runCases({
         type: 'Program',
         line: 1,
         column: 13,
-        endLine: void 0,
-        endColumn: void 0,
       }],
     },
     {
@@ -197,8 +188,6 @@ runCases({
         type: 'Program',
         line: 2,
         column: 4,
-        endLine: void 0,
-        endColumn: void 0,
       }],
     },
   ],

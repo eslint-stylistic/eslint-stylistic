@@ -4,9 +4,9 @@
  */
 
 import rule from './no-mixed-operators'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'no-mixed-operators',
   rule,
   valid: [

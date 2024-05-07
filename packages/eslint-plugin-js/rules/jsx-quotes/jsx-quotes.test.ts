@@ -4,13 +4,14 @@
  */
 
 import rule from './jsx-quotes'
-import { runCases } from '#test'
+import { run } from '#test'
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } })
-
-runCases({
+run({
   name: 'jsx-quotes',
   rule,
+  parserOptions: {
+    ecmaFeatures: { jsx: true },
+  },
   valid: [
     '<foo bar="baz" />',
     '<foo bar=\'"\' />',

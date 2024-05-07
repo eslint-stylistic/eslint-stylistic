@@ -5,9 +5,9 @@
 
 import parser from '../../test-utils/fixture-parser'
 import rule from './space-before-function-paren'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'space-before-function-paren',
   rule,
 

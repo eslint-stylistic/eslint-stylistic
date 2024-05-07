@@ -5,7 +5,7 @@
 
 import parser from '../../test-utils/fixture-parser'
 import rule from './no-extra-parens'
-import { runCases } from '#test'
+import { run } from '#test'
 
 /**
  * Create error message object for failure cases
@@ -35,20 +35,17 @@ function invalid(code: string, output: string | null, type?: string, line?: numb
   return result
 }
 
-const ruleTester = new RuleTester({
+run({
+  name: 'no-extra-parens',
+  rule,
   parserOptions: {
     ecmaVersion: 2022,
     ecmaFeatures: {
       jsx: true,
     },
   },
-})
 
-runCases({
-  name: 'no-extra-parens',
-  rule,
   valid: [
-
     // all precedence boundaries
     'foo',
     'a = b, c = d',

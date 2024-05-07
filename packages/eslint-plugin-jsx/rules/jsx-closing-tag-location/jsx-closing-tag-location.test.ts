@@ -5,20 +5,18 @@
 
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-closing-tag-location'
-import { runCases } from '#test'
+import { run } from '#test'
 
-const parserOptions = {
-  sourceType: 'module',
-  ecmaVersion: 2015,
-  ecmaFeatures: {
-    jsx: true,
-  },
-}
-
-const ruleTester = new RuleTester({ languageOptions: { parserOptions } })
-runCases({
+run({
   name: 'jsx-closing-tag-location',
   rule,
+  parserOptions: {
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: `

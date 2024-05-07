@@ -4,14 +4,14 @@
  */
 
 import rule from './yield-star-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const missingBeforeError = { messageId: 'missingBefore', type: 'Punctuator' }
 const missingAfterError = { messageId: 'missingAfter', type: 'Punctuator' }
 const unexpectedBeforeError = { messageId: 'unexpectedBefore', type: 'Punctuator' }
 const unexpectedAfterError = { messageId: 'unexpectedAfter', type: 'Punctuator' }
 
-runCases({
+run({
   name: 'yield-star-spacing',
   rule,
 

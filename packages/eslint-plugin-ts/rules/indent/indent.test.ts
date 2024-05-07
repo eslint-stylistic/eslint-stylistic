@@ -4,7 +4,7 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import rule from './indent'
 import type { MessageIds, RuleOptions } from './types'
-import { runCases } from '#test'
+import { run } from '#test'
 
 /**
  * Marks a test case as a plain javascript case which should be indented the same
@@ -644,7 +644,7 @@ type Foo = string | {
   { valid: [], invalid: [] },
 )
 
-runCases({
+run({
   name: 'indent',
   rule,
   valid: [

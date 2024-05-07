@@ -4,7 +4,7 @@
  */
 
 import rule from './no-multiple-empty-lines'
-import { runCases } from '#test'
+import { run } from '#test'
 
 /**
  * Creates the expected error message object for the specified number of lines
@@ -58,7 +58,7 @@ function getExpectedErrorBOF(lines: number) {
   }
 }
 
-runCases({
+run({
   name: 'no-multiple-empty-lines',
   rule,
 

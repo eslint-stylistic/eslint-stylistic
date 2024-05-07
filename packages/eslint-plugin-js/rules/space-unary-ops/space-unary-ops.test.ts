@@ -4,9 +4,9 @@
  */
 
 import rule from './space-unary-ops'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'space-unary-ops',
   rule,
 

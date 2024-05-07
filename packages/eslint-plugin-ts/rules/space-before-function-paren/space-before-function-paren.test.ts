@@ -4,9 +4,9 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import rule from './space-before-function-paren'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'space-before-function-paren',
   rule,
   valid: [

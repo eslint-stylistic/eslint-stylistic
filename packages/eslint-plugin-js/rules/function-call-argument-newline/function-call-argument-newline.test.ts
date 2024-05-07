@@ -1,7 +1,7 @@
 import rule from './function-call-argument-newline'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'function-call-argument-newline',
   rule,
   valid: [

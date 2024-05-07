@@ -4,9 +4,9 @@
  */
 
 import rule from './multiline-ternary'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'multiline-ternary',
   rule,
   valid: [

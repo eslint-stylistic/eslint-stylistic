@@ -4,12 +4,12 @@
  */
 
 import rule from './no-floating-decimal'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const leadingError = { messageId: 'leading', type: 'Literal' }
 const trailingError = { messageId: 'trailing', type: 'Literal' }
 
-runCases({
+run({
   name: 'no-floating-decimal',
   rule,
   valid: [

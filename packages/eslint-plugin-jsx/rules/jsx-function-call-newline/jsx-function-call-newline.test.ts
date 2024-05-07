@@ -1,6 +1,6 @@
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-function-call-newline'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const parserOptions = {
   ecmaVersion: 2018,
@@ -12,7 +12,7 @@ const parserOptions = {
 
 const ruleTester = new RuleTester({ parserOptions })
 
-runCases({
+run({
   name: 'jsx-function-call-newline',
   rule,
   valid: valids(

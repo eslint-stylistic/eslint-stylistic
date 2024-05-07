@@ -1,7 +1,7 @@
 import rule from './type-generic-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'type-generic-spacing',
   rule,
   valid: [

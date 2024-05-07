@@ -5,11 +5,11 @@
 
 import { createParserResolver } from '../../test-utils/fixture-parser'
 import rule from './array-bracket-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const parser = createParserResolver('array-bracket-spacing')
 
-runCases({
+run({
   name: 'array-bracket-spacing',
   rule,
 

@@ -4,9 +4,9 @@
  */
 
 import rule from './array-bracket-newline'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'array-bracket-newline',
   rule,
   valid: [

@@ -4,9 +4,9 @@
  */
 
 import rule from './no-tabs'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'no-tabs',
   rule,
   valid: [

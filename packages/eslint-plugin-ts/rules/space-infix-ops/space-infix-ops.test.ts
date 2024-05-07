@@ -2,9 +2,9 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import rule from './space-infix-ops'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'space-infix-ops',
   rule,
   valid: [

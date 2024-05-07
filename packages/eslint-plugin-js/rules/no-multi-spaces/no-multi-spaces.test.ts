@@ -4,9 +4,9 @@
  */
 
 import rule from './no-multi-spaces'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'no-multi-spaces',
   rule,
 

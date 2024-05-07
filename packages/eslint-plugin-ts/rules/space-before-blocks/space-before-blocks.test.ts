@@ -2,9 +2,9 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import rule from './space-before-blocks'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'space-before-blocks',
   rule,
   valid: [

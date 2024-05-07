@@ -2,9 +2,9 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import rule from './brace-style'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'brace-style',
   rule,
   valid: [

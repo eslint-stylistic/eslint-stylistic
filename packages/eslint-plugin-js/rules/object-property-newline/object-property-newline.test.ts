@@ -4,9 +4,9 @@
  */
 
 import rule from './object-property-newline'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'object-property-newline',
   rule,
 

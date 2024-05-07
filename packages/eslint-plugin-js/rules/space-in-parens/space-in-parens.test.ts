@@ -4,9 +4,9 @@
  */
 
 import rule from './space-in-parens'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'space-in-parens',
   rule,
 

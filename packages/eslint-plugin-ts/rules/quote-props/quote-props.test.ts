@@ -1,7 +1,7 @@
 import rule from './quote-props'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'quote-props',
   rule,
   valid: [

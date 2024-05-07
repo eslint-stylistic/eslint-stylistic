@@ -1,7 +1,7 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import rule from './block-spacing'
 import type { InvalidTestCase, ValidTestCase } from '#test'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const options = ['always', 'never'] as const
 const typeDeclarations = [
@@ -26,7 +26,7 @@ const emptyBlocks = ['{}', '{ }']
 const singlePropertyBlocks = ['{bar: true}', '{ bar: true }']
 const blockComment = '/* comment */'
 
-runCases({
+run({
   name: 'block-spacing',
   rule,
   valid: [

@@ -4,11 +4,9 @@
  */
 
 import rule from './padding-line-between-statements'
-import { runCases } from '#test'
+import { run } from '#test'
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2017 } })
-
-runCases({
+run({
   name: 'padding-line-between-statements',
   rule,
   valid: [

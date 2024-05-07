@@ -4,13 +4,13 @@
  */
 
 import rule from './wrap-iife'
-import { runCases } from '#test'
+import { run } from '#test'
 
 const wrapInvocationError = { messageId: 'wrapInvocation', type: 'CallExpression' }
 const wrapExpressionError = { messageId: 'wrapExpression', type: 'CallExpression' }
 const moveInvocationError = { messageId: 'moveInvocation', type: 'CallExpression' }
 
-runCases({
+run({
   name: 'wrap-iife',
   rule,
   valid: [

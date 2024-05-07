@@ -1,7 +1,7 @@
 import rule from './type-named-tuple-spacing'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'type-named-tuple-spacing',
   rule,
   valid: [

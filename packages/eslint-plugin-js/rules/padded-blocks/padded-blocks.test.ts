@@ -4,9 +4,9 @@
  */
 
 import rule from './padded-blocks'
-import { runCases } from '#test'
+import { run } from '#test'
 
-runCases({
+run({
   name: 'padded-blocks',
   rule,
   valid: [
