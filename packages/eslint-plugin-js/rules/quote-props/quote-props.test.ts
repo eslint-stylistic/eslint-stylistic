@@ -9,6 +9,8 @@ import { run } from '#test'
 run({
   name: 'quote-props',
   rule,
+  lang: 'js',
+
   valid: [
     '({ \'0\': 0 })',
     '({ \'a\': 0 })',

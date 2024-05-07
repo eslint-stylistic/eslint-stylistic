@@ -25,7 +25,7 @@ function invalid(code: string, output: string | null, type?: string, line?: numb
     errors: [
       {
         messageId: 'unexpected',
-        type,
+        ...(type && { type }),
         ...(line && { line }),
       },
     ],
@@ -38,8 +38,10 @@ function invalid(code: string, output: string | null, type?: string, line?: numb
 run({
   name: 'no-extra-parens',
   rule,
+  lang: 'js',
+
   parserOptions: {
-    ecmaVersion: 2022,
+    sourceType: 'script',
     ecmaFeatures: {
       jsx: true,
     },

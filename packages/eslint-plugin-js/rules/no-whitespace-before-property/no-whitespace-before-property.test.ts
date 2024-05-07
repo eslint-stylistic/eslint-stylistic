@@ -9,6 +9,7 @@ import { run } from '#test'
 run({
   name: 'no-whitespace-before-property',
   rule,
+  lang: 'js',
 
   valid: [
     'foo.bar',

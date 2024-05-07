@@ -67,6 +67,7 @@ function beforeClosingOptions(option: Option['beforeClosing']) {
 run({
   name: 'jsx-tag-spacing',
   rule,
+  lang: 'js',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,

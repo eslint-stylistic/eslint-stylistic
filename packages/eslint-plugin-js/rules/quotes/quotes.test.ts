@@ -9,6 +9,8 @@ import { run } from '#test'
 run({
   name: 'quotes',
   rule,
+  lang: 'js',
+
   valid: [
     'var foo = "bar";',
     { code: 'var foo = \'bar\';', options: ['single'] },
@@ -43,7 +45,6 @@ run({
     {
       code: 'var foo = `back\\\\\ntick`;', // 2 backslashes followed by a newline
       options: ['single'],
-      parserOptions: { ecmaVersion: 6 },
     },
     { code: 'var foo = `back\\\\\\\\\ntick`;', options: ['single'], parserOptions: { ecmaVersion: 6 } },
     { code: 'var foo = `\n`;', options: ['single'], parserOptions: { ecmaVersion: 6 } },
@@ -278,7 +279,6 @@ run({
       code: 'var foo = `backtick`; "use strict";',
       output: 'var foo = `backtick`; `use strict`;',
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'backtick' },
@@ -289,7 +289,6 @@ run({
       code: '{ "use strict"; var foo = `backtick`; }',
       output: '{ `use strict`; var foo = `backtick`; }',
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'backtick' },
@@ -300,7 +299,6 @@ run({
       code: 'if (1) { "use strict"; var foo = `backtick`; }',
       output: 'if (1) { `use strict`; var foo = `backtick`; }',
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'backtick' },
@@ -313,7 +311,6 @@ run({
       code: 'var obj = {["key0"]: 0, [\'key1\']: 1};',
       output: 'var obj = {[`key0`]: 0, [`key1`]: 1};',
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'wrongQuotes',
@@ -331,7 +328,6 @@ run({
       code: 'class Foo { [\'a\'](){} static [\'b\'](){} }',
       output: 'class Foo { [`a`](){} static [`b`](){} }',
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'wrongQuotes',
@@ -391,7 +387,6 @@ run({
     {
       code: '`use strict`;',
       output: null,
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
@@ -401,7 +396,6 @@ run({
     {
       code: 'function foo() { `use strict`; foo(); }',
       output: null,
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
@@ -411,7 +405,6 @@ run({
     {
       code: 'foo = function() { `use strict`; foo(); }',
       output: null,
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
@@ -421,7 +414,6 @@ run({
     {
       code: '() => { `use strict`; foo(); }',
       output: null,
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
@@ -453,7 +445,6 @@ run({
     {
       code: 'var foo = `foo\\nbar`;',
       output: 'var foo = "foo\\nbar";',
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
@@ -463,7 +454,6 @@ run({
     {
       code: 'var foo = `foo\\\nbar`;', // 1 backslash followed by a newline
       output: 'var foo = "foo\\\nbar";',
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
@@ -473,7 +463,6 @@ run({
     {
       code: 'var foo = `foo\\\\\\\nbar`;', // 3 backslashes followed by a newline
       output: 'var foo = "foo\\\\\\\nbar";',
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
@@ -483,7 +472,6 @@ run({
     {
       code: '````',
       output: '""``',
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
@@ -505,6 +493,7 @@ run({
           type: 'Literal',
         },
       ],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: 'var foo = \'\\1\'',
@@ -517,12 +506,12 @@ run({
           type: 'Literal',
         },
       ],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: 'var notoctal = \'\\0\'',
       output: 'var notoctal = `\\0`',
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'wrongQuotes',
@@ -535,7 +524,6 @@ run({
       code: 'var foo = \'\\1\'',
       output: null,
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'wrongQuotes',
@@ -543,12 +531,12 @@ run({
           type: 'Literal',
         },
       ],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: 'var foo = "\\1"',
       output: null,
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'wrongQuotes',
@@ -556,12 +544,12 @@ run({
           type: 'Literal',
         },
       ],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: 'var foo = \'\\01\'',
       output: null,
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'wrongQuotes',
@@ -569,12 +557,12 @@ run({
           type: 'Literal',
         },
       ],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: 'var foo = \'\\0\\1\'',
       output: null,
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'wrongQuotes',
@@ -582,12 +570,12 @@ run({
           type: 'Literal',
         },
       ],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: 'var foo = \'\\08\'',
       output: null,
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'wrongQuotes',
@@ -595,12 +583,12 @@ run({
           type: 'Literal',
         },
       ],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: 'var foo = \'prefix \\33\'',
       output: null,
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'wrongQuotes',
@@ -608,12 +596,12 @@ run({
           type: 'Literal',
         },
       ],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: 'var foo = \'prefix \\75 suffix\'',
       output: null,
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'wrongQuotes',
@@ -621,12 +609,12 @@ run({
           type: 'Literal',
         },
       ],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: 'var nonOctalDecimalEscape = \'\\8\'',
       output: null,
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'wrongQuotes',
@@ -634,6 +622,7 @@ run({
           type: 'Literal',
         },
       ],
+      parserOptions: { sourceType: 'script' },
     },
 
     // class members
@@ -720,7 +709,6 @@ run({
     {
       code: '() => { foo(); (`use strict`); }',
       output: '() => { foo(); ("use strict"); }',
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
@@ -731,7 +719,6 @@ run({
       code: '(\'foo\'); "bar";',
       output: '(`foo`); `bar`;',
       options: ['backtick'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'backtick' },
@@ -754,7 +741,6 @@ run({
     {
       code: '{ `foobar`; }',
       output: '{ "foobar"; }',
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
@@ -764,7 +750,6 @@ run({
     {
       code: 'foo(() => `bar`);',
       output: 'foo(() => "bar");',
-      parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },

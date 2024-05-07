@@ -10,6 +10,7 @@ import { run } from '#test'
 run({
   name: 'lines-around-comment',
   rule,
+  lang: 'js',
 
   valid: [
 
@@ -1026,6 +1027,9 @@ run({
         beforeBlockComment: true,
         afterBlockComment: true,
       }],
+      linterOptions: {
+        reportUnusedDisableDirectives: false,
+      },
     },
     'foo;\n/* eslint */',
     'foo;\n/* jshint */',
@@ -2098,6 +2102,9 @@ run({
         afterBlockComment: true,
         applyDefaultIgnorePatterns: false,
       }],
+      linterOptions: {
+        reportUnusedDisableDirectives: false,
+      },
       errors: [
         { messageId: 'before', type: 'Block', line: 7 },
         { messageId: 'after', type: 'Block', line: 7 },

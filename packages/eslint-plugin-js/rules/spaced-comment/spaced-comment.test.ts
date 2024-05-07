@@ -157,6 +157,9 @@ run({
     {
       code: '/*eslint-disable no-alert, no-console */\nalert()\nconsole.log()\n/*eslint-enable no-alert */',
       options: ['always', { markers: ['eslint-enable', 'eslint-disable'] }],
+      linterOptions: {
+        reportUnusedDisableDirectives: false,
+      }
     },
 
     // misc. variations

@@ -9,6 +9,8 @@ import { run } from '#test'
 run({
   name: 'padding-line-between-statements',
   rule,
+  lang: 'js',
+
   valid: [
 
     // do nothing if no options.
@@ -1064,6 +1066,7 @@ run({
         { blankLine: 'never', prev: '*', next: '*' },
         { blankLine: 'always', prev: 'with', next: '*' },
       ],
+      parserOptions: { sourceType: 'script' },
     },
 
     // ----------------------------------------------------------------------
@@ -2242,35 +2245,35 @@ run({
       options: [
         { blankLine: 'always', prev: '*', next: 'return' },
       ],
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
     },
     {
       code: 'var a;\n\nreturn;',
       options: [
         { blankLine: 'always', prev: '*', next: 'return' },
       ],
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
     },
     {
       code: '// comment\nreturn;',
       options: [
         { blankLine: 'always', prev: '*', next: 'return' },
       ],
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
     },
     {
       code: '/* comment */\nreturn;',
       options: [
         { blankLine: 'always', prev: '*', next: 'return' },
       ],
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
     },
     {
       code: '/* multi-line\ncomment */\nreturn;',
       options: [
         { blankLine: 'always', prev: '*', next: 'return' },
       ],
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
     },
 
     // ----------------------------------------------------------------------
@@ -4013,6 +4016,7 @@ run({
         { blankLine: 'never', prev: 'with', next: '*' },
       ],
       errors: [{ messageId: 'unexpectedBlankLine' }],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: 'with(a);\nfoo()',
@@ -4021,6 +4025,7 @@ run({
         { blankLine: 'always', prev: 'with', next: '*' },
       ],
       errors: [{ messageId: 'expectedBlankLine' }],
+      parserOptions: { sourceType: 'script' },
     },
 
     // ----------------------------------------------------------------------
@@ -4700,7 +4705,7 @@ run({
       options: [
         { blankLine: 'always', prev: '*', next: 'return' },
       ],
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
@@ -4709,7 +4714,7 @@ run({
       options: [
         { blankLine: 'always', prev: '*', next: 'return' },
       ],
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {

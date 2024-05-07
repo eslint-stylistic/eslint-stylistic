@@ -7,6 +7,7 @@ import { run } from '#test'
 run({
   name: 'comma-dangle',
   rule,
+
   valid: [
     // default
     { code: 'enum Foo {}' },

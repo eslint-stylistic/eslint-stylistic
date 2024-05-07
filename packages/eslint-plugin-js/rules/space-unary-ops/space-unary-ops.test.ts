@@ -9,6 +9,7 @@ import { run } from '#test'
 run({
   name: 'space-unary-ops',
   rule,
+  lang: 'js',
 
   valid: [
     {

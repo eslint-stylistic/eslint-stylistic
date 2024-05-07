@@ -266,6 +266,9 @@ declare module A {
           afterBlockComment: true,
         },
       ],
+      linterOptions: {
+        reportUnusedDisableDirectives: false,
+      }
     },
     `
 interface A {

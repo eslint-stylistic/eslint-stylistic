@@ -58,6 +58,7 @@ function expectedErrors(providedIndentType: any, providedErrors?: any): ErrorOut
 run({
   name: 'indent',
   rule,
+  lang: 'js',
   parserOptions: {
     ecmaFeatures: { jsx: true },
   },
@@ -780,6 +781,7 @@ run({
                     b();
             `,
       options: [4],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: unIndent`
@@ -788,6 +790,7 @@ run({
                 c();
             `,
       options: [4],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: unIndent`
@@ -1082,17 +1085,23 @@ run({
             `,
       options: [4, { SwitchCase: 1 }],
     },
-    unIndent`
+    {
+      code: unIndent`
             var obj = {foo: 1, bar: 2};
             with (obj) {
                 console.log(foo + bar);
             }
         `,
-    unIndent`
+      parserOptions: { sourceType: 'script' },
+    },
+    {
+      code: unIndent`
             if (a) {
                 (1 + 2 + 3); // no error on this line
             }
         `,
+      parserOptions: { sourceType: 'script' },
+    },
     'switch(value){ default: a(); break; }',
     {
       code: unIndent`
@@ -2722,7 +2731,7 @@ run({
                     foo
                 );
             `,
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
     },
     {
       code: unIndent`
@@ -2730,7 +2739,7 @@ run({
                     foo
                 )
             `,
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
     },
     unIndent`
             var foo = [
@@ -6339,6 +6348,7 @@ run({
                 ;[1, 2, 3].forEach(x=>console.log(x))
             `,
       options: [4],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: unIndent`
@@ -6712,6 +6722,7 @@ run({
         [505, 6, 8, 'Identifier'],
         [506, 4, 8, 'Punctuator'],
       ]),
+      parserOptions: { ecmaVersion: 6, sourceType: 'script' },
     },
     {
       code: unIndent`
@@ -6880,6 +6891,7 @@ run({
                 }
             `,
       errors: expectedErrors([3, 4, 0, 'Identifier']),
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: unIndent`
@@ -7135,6 +7147,7 @@ run({
       errors: expectedErrors([
         [2, 4, 0, 'Identifier'],
       ]),
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: unIndent`
@@ -8803,7 +8816,7 @@ run({
                     foo
                 );
             `,
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
@@ -8817,7 +8830,7 @@ run({
                     foo
                 )
             `,
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
 
@@ -12481,7 +12494,7 @@ run({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
+        [2, 4, 0, 'PrivateIdentifier'],
         [3, 4, 0, 'Identifier'],
         [4, 8, 0, 'Keyword'],
         [5, 4, 0, 'Punctuator'],
@@ -13495,6 +13508,7 @@ run({
             `,
       options: [4],
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: unIndent`

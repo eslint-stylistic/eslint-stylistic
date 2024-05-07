@@ -55,6 +55,7 @@ run({
       },
     },
   ],
+
   valid: [
     'var foo = { bar: \'baz\' }',
     'var foo = {\nbar: \'baz\'\n}',
