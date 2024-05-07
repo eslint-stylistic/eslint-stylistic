@@ -3,9 +3,8 @@
  * @author Sharmila Jesupaul
  */
 
-import { unIndent } from '../../test-utils/unindent'
 import rule from './implicit-arrow-linebreak'
-import { run } from '#test'
+import { $, run } from '#test'
 
 const EXPECTED_LINEBREAK = { messageId: 'expected' }
 const UNEXPECTED_LINEBREAK = { messageId: 'unexpected' }
@@ -199,7 +198,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 (foo) =>
                   // test comment
                   bar
@@ -208,7 +207,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = () =>
                 // comment
                 []
@@ -252,7 +251,7 @@ run({
 
     },
     {
-      code: unIndent`
+      code: $`
                 (foo) =>
                  // comment
                  // another comment
@@ -261,7 +260,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 (foo) =>
                 // comment
                 (
@@ -282,7 +281,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 (foo) =>
                   /* test comment */
                   bar
@@ -291,7 +290,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 (foo) =>
                   // hi
                      bar =>
@@ -301,7 +300,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 (foo) =>
                   // hi
                      bar => (
@@ -313,7 +312,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = {
                   id: 'bar',
                   prop: (foo1) =>
@@ -325,7 +324,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 [ foo =>
                   // comment
                   'bar'
@@ -335,7 +334,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 "foo".split('').map((char) =>
                 // comment
                 char
@@ -345,7 +344,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 new Promise((resolve, reject) =>
                     // comment
                     resolve()
@@ -355,7 +354,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 () =>
                 /**
                 succinct
@@ -368,7 +367,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 stepOne =>
                     /**
                     here is
@@ -382,7 +381,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 () =>
                     /**
                     multi
@@ -399,7 +398,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 foo('', boo =>
                   // comment
                   bar
@@ -409,7 +408,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 async foo =>
                     // comment
                     'string'
@@ -419,7 +418,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 async foo =>
                     // comment
                     // another
@@ -430,7 +429,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 async (foo) =>
                     // comment
                     'string'
@@ -440,7 +439,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = 1,
                   bar = 2,
                   baz = () => // comment
@@ -450,7 +449,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = () =>
                   //comment
                   qux,
@@ -461,7 +460,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = () =>
                     //two
                     1,
@@ -474,7 +473,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
                 start()
                     .then(() =>
                         /* If I put a comment here, eslint --fix breaks badly */
@@ -488,7 +487,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
             hello(response =>
                 // comment
                 response, param => param)`,
@@ -496,7 +495,7 @@ run({
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: unIndent`
+      code: $`
             start(
                 arr =>
                     // cometh

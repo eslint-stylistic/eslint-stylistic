@@ -4,10 +4,9 @@
  */
 
 import tsParser from '@typescript-eslint/parser'
-import { unIndent } from '../../test-utils/unindent'
 import parser from '../../test-utils/fixture-parser'
 import rule from './function-paren-newline'
-import { run } from '#test'
+import { $, run } from '#test'
 
 const LEFT_MISSING_ERROR = { messageId: 'expectedAfter', type: 'Punctuator' }
 const LEFT_UNEXPECTED_ERROR = { messageId: 'unexpectedAfter', type: 'Punctuator' }
@@ -582,7 +581,7 @@ run({
 
         // https://github.com/eslint/eslint/issues/15091#issuecomment-975605821
         {
-          code: unIndent`
+          code: $`
                 const method6 = (
                   abc: number,
                   def: () => void,
@@ -596,7 +595,7 @@ run({
           parser: parser('function-paren-newline/arrow-function-return-type'),
         },
         {
-          code: unIndent`
+          code: $`
             function a<A extends Array<any>, T extends (...args: any[]) => any> (
               b: T,
               c: any,
@@ -606,7 +605,7 @@ run({
           parser: tsParser,
         },
         {
-          code: unIndent`
+          code: $`
             const a = function <A extends Array<any>, T extends (...args: any[]) => any> (
               b: T,
               c: any,
@@ -616,7 +615,7 @@ run({
           parser: tsParser,
         },
         {
-          code: unIndent`
+          code: $`
             a<Array<any>, (...args: any[]) => any>(
               b,
               c,
@@ -1494,7 +1493,7 @@ run({
 
     // https://github.com/eslint/eslint/issues/15091#issuecomment-975605821
     {
-      code: unIndent`
+      code: $`
                 const method6 = (
                   abc: number,
                   def: () => void,
@@ -1504,7 +1503,7 @@ run({
                 ] => [\`a\${abc}\`, def];
                 method6(3, () => {});
             `,
-      output: unIndent`
+      output: $`
                 const method6 = (abc: number,
                   def: () => void,): [
                   string,

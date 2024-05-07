@@ -6,9 +6,8 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import parser from '../../test-utils/fixture-parser'
-import { unIndent } from '../../test-utils/unindent'
 import rule from './indent'
-import { run } from '#test'
+import { $, run } from '#test'
 
 const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
 const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')
@@ -64,7 +63,7 @@ run({
   },
   valid: [
     {
-      code: unIndent`
+      code: $`
                 bridge.callHandler(
                   'getAppVersion', 'test23', function(responseData) {
                     window.ah.mobileAppVersion = responseData;
@@ -74,7 +73,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 bridge.callHandler(
                   'getAppVersion', 'test23', function(responseData) {
                     window.ah.mobileAppVersion = responseData;
@@ -83,7 +82,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 bridge.callHandler(
                   'getAppVersion',
                   null,
@@ -95,7 +94,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 bridge.callHandler(
                   'getAppVersion',
                   null,
@@ -106,7 +105,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 function doStuff(keys) {
                     _.forEach(
                         keys,
@@ -119,7 +118,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 example(
                     function () {
                         console.log('example');
@@ -129,7 +128,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 let foo = somethingList
                     .filter(x => {
                         return x;
@@ -141,7 +140,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 var x = 0 &&
                     {
                         a: 1,
@@ -151,7 +150,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 var x = 0 &&
                 \t{
                 \t\ta: 1,
@@ -161,7 +160,7 @@ run({
       options: ['tab'],
     },
     {
-      code: unIndent`
+      code: $`
                 var x = 0 &&
                     {
                         a: 1,
@@ -175,7 +174,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 var x = [
                     'a',
                     'b',
@@ -185,7 +184,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 var x = ['a',
                     'b',
                     'c',
@@ -202,7 +201,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 var x = 0 &&
                     (
                         1
@@ -211,7 +210,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 require('http').request({hostname: 'localhost',
                   port: 80}, function(res) {
                   res.end();
@@ -220,7 +219,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 function test() {
                   return client.signUp(email, PASSWORD, { preVerified: true })
                     .then(function (result) {
@@ -237,7 +236,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 it('should... some lengthy test description that is forced to be' +
                   'wrapped into two lines since the line length limit is set', () => {
                   expect(true).toBe(true);
@@ -246,7 +245,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 function test() {
                     return client.signUp(email, PASSWORD, { preVerified: true })
                         .then(function (result) {
@@ -264,7 +263,7 @@ run({
     {
 
       // https://github.com/eslint/eslint/issues/11802
-      code: unIndent`
+      code: $`
                 import foo from "foo"
 
                 ;(() => {})()
@@ -273,7 +272,7 @@ run({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: unIndent`
+      code: $`
                 function test() {
                     return client.signUp(email, PASSWORD, { preVerified: true })
                     .then(function (result) {
@@ -294,7 +293,7 @@ run({
       options: [2, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var Command = function() {
                   var fileList = [],
                       files = []
@@ -309,7 +308,7 @@ run({
       options: [2, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 if(data) {
                   console.log('hi');
                   b = true;};
@@ -317,7 +316,7 @@ run({
       options: [2, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo = () => {
                   console.log('hi');
                   return true;};
@@ -325,7 +324,7 @@ run({
       options: [2, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 function test(data) {
                   console.log('hi');
                   return true;};
@@ -333,7 +332,7 @@ run({
       options: [2, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var test = function(data) {
                   console.log('hi');
                 };
@@ -341,7 +340,7 @@ run({
       options: [2, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 arr.forEach(function(data) {
                   otherdata.forEach(function(zero) {
                     console.log('hi');
@@ -350,7 +349,7 @@ run({
       options: [2, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 a = [
                     ,3
                 ]
@@ -358,7 +357,7 @@ run({
       options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 [
                   ['gzip', 'gunzip'],
                   ['gzip', 'unzip'],
@@ -371,7 +370,7 @@ run({
       options: [2, { SwitchCase: 1, VariableDeclarator: 2 }],
     },
     {
-      code: unIndent`
+      code: $`
                 test(123, {
                     bye: {
                         hi: [1,
@@ -385,7 +384,7 @@ run({
       options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var xyz = 2,
                     lmn = [
                         {
@@ -396,7 +395,7 @@ run({
       options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 lmnn = [{
                     a: 1
                 },
@@ -408,7 +407,7 @@ run({
             `,
       options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
-    unIndent`
+    $`
             [{
                 foo: 1
             }, {
@@ -417,7 +416,7 @@ run({
                 foo: 3
             }]
         `,
-    unIndent`
+    $`
             foo([
                 bar
             ], [
@@ -427,7 +426,7 @@ run({
             ]);
         `,
     {
-      code: unIndent`
+      code: $`
                 abc({
                     test: [
                         [
@@ -441,7 +440,7 @@ run({
       options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 abc = {
                   test: [
                     [
@@ -455,7 +454,7 @@ run({
       options: [2, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 abc(
                   {
                     a: 1,
@@ -466,7 +465,7 @@ run({
       options: [2, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 abc({
                     a: 1,
                     b: 2
@@ -475,7 +474,7 @@ run({
       options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var abc =
                   [
                     c,
@@ -489,7 +488,7 @@ run({
       options: [2, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var abc = [
                   c,
                   xyz,
@@ -502,7 +501,7 @@ run({
       options: [2, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var abc = 5,
                     c = 2,
                     xyz =
@@ -513,7 +512,7 @@ run({
             `,
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
     },
-    unIndent`
+    $`
             var
                 x = {
                     a: 1,
@@ -522,7 +521,7 @@ run({
                     b: 2
                 }
         `,
-    unIndent`
+    $`
             const
                 x = {
                     a: 1,
@@ -531,7 +530,7 @@ run({
                     b: 2
                 }
         `,
-    unIndent`
+    $`
             let
                 x = {
                     a: 1,
@@ -540,12 +539,12 @@ run({
                     b: 2
                 }
         `,
-    unIndent`
+    $`
             var foo = { a: 1 }, bar = {
                 b: 2
             };
         `,
-    unIndent`
+    $`
             var foo = { a: 1 }, bar = {
                     b: 2
                 },
@@ -553,14 +552,14 @@ run({
                     c: 3
                 }
         `,
-    unIndent`
+    $`
             const {
                     foo
                 } = 1,
                 bar = 2
         `,
     {
-      code: unIndent`
+      code: $`
                 var foo = 1,
                   bar =
                     2
@@ -568,7 +567,7 @@ run({
       options: [2, { VariableDeclarator: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = 1,
                   bar
                     = 2
@@ -576,7 +575,7 @@ run({
       options: [2, { VariableDeclarator: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo
                   = 1,
                   bar
@@ -585,7 +584,7 @@ run({
       options: [2, { VariableDeclarator: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo
                   =
                   1,
@@ -596,7 +595,7 @@ run({
       options: [2, { VariableDeclarator: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo
                   = (1),
                   bar
@@ -605,7 +604,7 @@ run({
       options: [2, { VariableDeclarator: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 let foo = 'foo',
                     bar = bar;
                 const a = 'a',
@@ -614,7 +613,7 @@ run({
       options: [2, { VariableDeclarator: 'first' }],
     },
     {
-      code: unIndent`
+      code: $`
                 let foo = 'foo',
                     bar = bar  // <-- no semicolon here
                 const a = 'a',
@@ -623,7 +622,7 @@ run({
       options: [2, { VariableDeclarator: 'first' }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = 1,
                     bar = 2,
                     baz = 3
@@ -632,7 +631,7 @@ run({
       options: [2, { VariableDeclarator: { var: 2 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = 1,
                     bar = 2,
                     baz = 3
@@ -641,21 +640,21 @@ run({
       options: [2, { VariableDeclarator: { var: 2 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = 'foo',
                     bar = bar;
             `,
       options: [2, { VariableDeclarator: { var: 'first' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = 'foo',
                     bar = 'bar'  // <-- no semicolon here
             `,
       options: [2, { VariableDeclarator: { var: 'first' } }],
     },
     {
-      code: unIndent`
+      code: $`
             let foo = 1,
                 bar = 2,
                 baz
@@ -663,14 +662,14 @@ run({
       options: [2, { VariableDeclarator: 'first' }],
     },
     {
-      code: unIndent`
+      code: $`
             let
                 foo
             `,
       options: [4, { VariableDeclarator: 'first' }],
     },
     {
-      code: unIndent`
+      code: $`
             let foo = 1,
                 bar =
                 2
@@ -678,7 +677,7 @@ run({
       options: [2, { VariableDeclarator: 'first' }],
     },
     {
-      code: unIndent`
+      code: $`
                 var abc =
                     {
                       a: 1,
@@ -688,7 +687,7 @@ run({
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var a = new abc({
                         a: 1,
                         b: 2
@@ -698,7 +697,7 @@ run({
       options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var a = 2,
                   c = {
                     a: 1,
@@ -709,7 +708,7 @@ run({
       options: [2, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var x = 2,
                     y = {
                       a: 1,
@@ -720,7 +719,7 @@ run({
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var e = {
                       a: 1,
                       b: 2
@@ -730,7 +729,7 @@ run({
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var a = {
                   a: 1,
                   b: 2
@@ -739,7 +738,7 @@ run({
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 function test() {
                   if (true ||
                             false){
@@ -749,18 +748,18 @@ run({
             `,
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
     },
-    unIndent`
+    $`
             var foo = bar ||
                 !(
                     baz
                 );
         `,
-    unIndent`
+    $`
             for (var foo = 1;
                 foo < 10;
                 foo++) {}
         `,
-    unIndent`
+    $`
             for (
                 var foo = 1;
                 foo < 10;
@@ -768,7 +767,7 @@ run({
             ) {}
         `,
     {
-      code: unIndent`
+      code: $`
                 for (var val in obj)
                   if (true)
                     console.log(val);
@@ -776,7 +775,7 @@ run({
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 with (a)
                     b();
             `,
@@ -784,7 +783,7 @@ run({
       parserOptions: { sourceType: 'script' },
     },
     {
-      code: unIndent`
+      code: $`
                 with (a)
                     b();
                 c();
@@ -793,7 +792,7 @@ run({
       parserOptions: { sourceType: 'script' },
     },
     {
-      code: unIndent`
+      code: $`
                 if(true)
                   if (true)
                     if (true)
@@ -802,7 +801,7 @@ run({
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 function hi(){     var a = 1;
                   y++;                   x++;
                 }
@@ -810,7 +809,7 @@ run({
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 for(;length > index; index++)if(NO_HOLES || index in self){
                   x++;
                 }
@@ -818,7 +817,7 @@ run({
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 function test(){
                   switch(length){
                     case 1: return function(a){
@@ -830,56 +829,56 @@ run({
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var geometry = 2,
                 rotate = 2;
             `,
       options: [2, { VariableDeclarator: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var geometry,
                     rotate;
             `,
       options: [4, { VariableDeclarator: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var geometry,
                 \trotate;
             `,
       options: ['tab', { VariableDeclarator: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var geometry,
                   rotate;
             `,
       options: [2, { VariableDeclarator: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var geometry,
                     rotate;
             `,
       options: [2, { VariableDeclarator: 2 }],
     },
     {
-      code: unIndent`
+      code: $`
                 let geometry,
                     rotate;
             `,
       options: [2, { VariableDeclarator: 2 }],
     },
     {
-      code: unIndent`
+      code: $`
                 const geometry = 2,
                     rotate = 3;
             `,
       options: [2, { VariableDeclarator: 2 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var geometry, box, face1, face2, colorT, colorB, sprite, padding, maxWidth,
                   height, rotate;
             `,
@@ -890,7 +889,7 @@ run({
       options: [2, { SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 if (1 < 2){
                 //hi sd
                 }
@@ -898,7 +897,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 while (1 < 2){
                   //hi sd
                 }
@@ -911,7 +910,7 @@ run({
     },
 
     {
-      code: unIndent`
+      code: $`
                 [a, boop,
                     c].forEach((index) => {
                     index;
@@ -920,7 +919,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 [a, b,
                     c].forEach(function(index){
                     return index;
@@ -929,7 +928,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 [a, b, c].forEach((index) => {
                     index;
                 });
@@ -937,7 +936,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 [a, b, c].forEach(function(index){
                     return index;
                 });
@@ -945,7 +944,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 (foo)
                     .bar([
                         baz
@@ -954,7 +953,7 @@ run({
       options: [4, { MemberExpression: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 switch (x) {
                     case "foo":
                         a();
@@ -974,7 +973,7 @@ run({
       options: [4, { SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 switch (x) {
                         case "foo":
                             a();
@@ -993,7 +992,7 @@ run({
             `,
       options: [4, { SwitchCase: 2 }],
     },
-    unIndent`
+    $`
             switch (a) {
             case "foo":
                 a();
@@ -1008,7 +1007,7 @@ run({
                 }
             }
         `,
-    unIndent`
+    $`
             switch (a) {
             case "foo":
                 a();
@@ -1022,7 +1021,7 @@ run({
                 }
             }
         `,
-    unIndent`
+    $`
             switch (a) {
             case "foo":
                 a();
@@ -1035,7 +1034,7 @@ run({
                     a = 6;
             }
         `,
-    unIndent`
+    $`
             switch (a) {
             case "foo":
                 a();
@@ -1046,11 +1045,11 @@ run({
                 a(); break;
             }
         `,
-    unIndent`
+    $`
             switch (0) {
             }
         `,
-    unIndent`
+    $`
             function foo() {
                 var a = "a";
                 switch(a) {
@@ -1063,7 +1062,7 @@ run({
             foo();
         `,
     {
-      code: unIndent`
+      code: $`
                 switch(value){
                     case "1":
                     case "2":
@@ -1086,7 +1085,7 @@ run({
       options: [4, { SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
             var obj = {foo: 1, bar: 2};
             with (obj) {
                 console.log(foo + bar);
@@ -1095,7 +1094,7 @@ run({
       parserOptions: { sourceType: 'script' },
     },
     {
-      code: unIndent`
+      code: $`
             if (a) {
                 (1 + 2 + 3); // no error on this line
             }
@@ -1104,7 +1103,7 @@ run({
     },
     'switch(value){ default: a(); break; }',
     {
-      code: unIndent`
+      code: $`
                 import {addons} from 'react/addons'
                 import React from 'react'
             `,
@@ -1112,7 +1111,7 @@ run({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: unIndent`
+      code: $`
                 import {
                     foo,
                     bar,
@@ -1122,7 +1121,7 @@ run({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = 0, bar = 0; baz = 0;
                 export {
                     foo,
@@ -1133,7 +1132,7 @@ run({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: unIndent`
+      code: $`
                 var a = 1,
                     b = 2,
                     c = 3;
@@ -1141,7 +1140,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 var a = 1
                     ,b = 2
                     ,c = 3;
@@ -1153,7 +1152,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 function salutation () {
                   switch (1) {
                     case 0: return console.log('hi')
@@ -1164,7 +1163,7 @@ run({
       options: [2, { SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var items = [
                   {
                     foo: 'bar'
@@ -1174,7 +1173,7 @@ run({
       options: [2, { VariableDeclarator: 2 }],
     },
     {
-      code: unIndent`
+      code: $`
                 const a = 1,
                       b = 2;
                 const items1 = [
@@ -1192,7 +1191,7 @@ run({
 
     },
     {
-      code: unIndent`
+      code: $`
                 const geometry = 2,
                       rotate = 3;
                 var a = 1,
@@ -1203,7 +1202,7 @@ run({
       options: [2, { VariableDeclarator: { const: 3, let: 2 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 const abc = 5,
                       c = 2,
                       xyz =
@@ -1229,7 +1228,7 @@ run({
       options: [2, { VariableDeclarator: { var: 2, const: 3 }, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 module.exports = {
                   'Unit tests':
                   {
@@ -1250,14 +1249,14 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 foo =
                   bar;
             `,
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 foo = (
                   bar
                 );
@@ -1265,20 +1264,20 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 var path     = require('path')
                   , crypto    = require('crypto')
                   ;
             `,
       options: [2],
     },
-    unIndent`
+    $`
             var a = 1
                 ,b = 2
                 ;
         `,
     {
-      code: unIndent`
+      code: $`
                 export function create (some,
                                         argument) {
                   return Object.create({
@@ -1291,7 +1290,7 @@ run({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: unIndent`
+      code: $`
                 export function create (id, xfilter, rawType,
                                         width=defaultWidth, height=defaultHeight,
                                         footerHeight=defaultFooterHeight,
@@ -1303,7 +1302,7 @@ run({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: unIndent`
+      code: $`
                 var obj = {
                   foo: function () {
                     return new p()
@@ -1318,7 +1317,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 a.b()
                   .c(function(){
                     var a;
@@ -1327,7 +1326,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 const YO = 'bah',
                       TE = 'mah'
 
@@ -1338,7 +1337,7 @@ run({
       options: [2, { VariableDeclarator: { var: 2, let: 2, const: 3 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 const YO = 'bah',
                       TE = 'mah'
 
@@ -1351,7 +1350,7 @@ run({
       options: [2, { VariableDeclarator: { var: 2, let: 2, const: 3 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = 'foo',
                   bar = 'bar',
                   baz = function() {
@@ -1365,7 +1364,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 var obj = {
                   send: function () {
                     return P.resolve({
@@ -1382,7 +1381,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 var obj = {
                   send: function () {
                     return P.resolve({
@@ -1398,14 +1397,14 @@ run({
             `,
       options: [2, { MemberExpression: 0 }],
     },
-    unIndent`
+    $`
             const someOtherFunction = argument => {
                     console.log(argument);
                 },
                 someOtherValue = 'someOtherValue';
         `,
     {
-      code: unIndent`
+      code: $`
                 [
                   'a',
                   'b'
@@ -1417,7 +1416,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 var a = 1,
                     B = class {
                       constructor(){}
@@ -1428,7 +1427,7 @@ run({
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var a = 1,
                     B =
                     class {
@@ -1441,7 +1440,7 @@ run({
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 class A{
                     constructor(){}
                     a(){}
@@ -1451,7 +1450,7 @@ run({
       options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var A = class {
                     constructor(){}
                     a(){}
@@ -1461,7 +1460,7 @@ run({
       options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var a = {
                   some: 1
                   , name: 2
@@ -1470,7 +1469,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 a.c = {
                     aa: function() {
                         'test1';
@@ -1484,7 +1483,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 var a =
                 {
                     actions:
@@ -1498,7 +1497,7 @@ run({
       options: [4, { VariableDeclarator: 0, SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var a =
                 [
                     {
@@ -1508,14 +1507,14 @@ run({
             `,
       options: [4, { VariableDeclarator: 0, SwitchCase: 1 }],
     },
-    unIndent`
+    $`
             [[
             ], function(
                 foo
             ) {}
             ]
         `,
-    unIndent`
+    $`
             define([
                 'foo'
             ], function(
@@ -1526,7 +1525,7 @@ run({
             )
         `,
     {
-      code: unIndent`
+      code: $`
                 const func = function (opts) {
                     return Promise.resolve()
                     .then(() => {
@@ -1539,7 +1538,7 @@ run({
       options: [4, { MemberExpression: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 const func = function (opts) {
                     return Promise.resolve()
                         .then(() => {
@@ -1552,7 +1551,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 var haveFun = function () {
                     SillyFunction(
                         {
@@ -1567,7 +1566,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 var haveFun = function () {
                     new SillyFunction(
                         {
@@ -1582,7 +1581,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 let object1 = {
                   doThing() {
                     return _.chain([])
@@ -1598,7 +1597,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = {
                     bar: 1,
                     baz: {
@@ -1610,7 +1609,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 class Foo
                   extends Bar {
                   baz() {}
@@ -1619,7 +1618,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 class Foo extends
                   Bar {
                   baz() {}
@@ -1628,7 +1627,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 class Foo extends
                   (
                     Bar
@@ -1639,7 +1638,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 fs.readdirSync(path.join(__dirname, '../rules')).forEach(name => {
                   files[name] = foo;
                 });
@@ -1647,7 +1646,7 @@ run({
       options: [2, { outerIIFEBody: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 (function(){
                 function foo(x) {
                   return x + 1;
@@ -1657,7 +1656,7 @@ run({
       options: [2, { outerIIFEBody: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 (function(){
                         function foo(x) {
                             return x + 1;
@@ -1667,7 +1666,7 @@ run({
       options: [4, { outerIIFEBody: 2 }],
     },
     {
-      code: unIndent`
+      code: $`
                 (function(x, y){
                 function foo(x) {
                   return x + 1;
@@ -1677,7 +1676,7 @@ run({
       options: [2, { outerIIFEBody: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 (function(){
                 function foo(x) {
                   return x + 1;
@@ -1687,7 +1686,7 @@ run({
       options: [2, { outerIIFEBody: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 !function(){
                 function foo(x) {
                   return x + 1;
@@ -1697,7 +1696,7 @@ run({
       options: [2, { outerIIFEBody: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 !function(){
                 \t\t\tfunction foo(x) {
                 \t\t\t\treturn x + 1;
@@ -1707,7 +1706,7 @@ run({
       options: ['tab', { outerIIFEBody: 3 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var out = function(){
                   function fooVar(x) {
                     return x + 1;
@@ -1717,7 +1716,7 @@ run({
       options: [2, { outerIIFEBody: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var ns = function(){
                 function fooVar(x) {
                   return x + 1;
@@ -1727,7 +1726,7 @@ run({
       options: [2, { outerIIFEBody: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 ns = function(){
                 function fooVar(x) {
                   return x + 1;
@@ -1737,7 +1736,7 @@ run({
       options: [2, { outerIIFEBody: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var ns = (function(){
                 function fooVar(x) {
                   return x + 1;
@@ -1747,7 +1746,7 @@ run({
       options: [2, { outerIIFEBody: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var ns = (function(){
                         function fooVar(x) {
                             return x + 1;
@@ -1757,7 +1756,7 @@ run({
       options: [4, { outerIIFEBody: 2 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var obj = {
                   foo: function() {
                     return true;
@@ -1767,7 +1766,7 @@ run({
       options: [2, { outerIIFEBody: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 while (
                   function() {
                     return true;
@@ -1779,7 +1778,7 @@ run({
       options: [2, { outerIIFEBody: 20 }],
     },
     {
-      code: unIndent`
+      code: $`
                 (() => {
                 function foo(x) {
                   return x + 1;
@@ -1789,14 +1788,14 @@ run({
       options: [2, { outerIIFEBody: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                 }
             `,
       options: ['tab', { outerIIFEBody: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 ;(() => {
                 function foo(x) {
                   return x + 1;
@@ -1806,7 +1805,7 @@ run({
       options: [2, { outerIIFEBody: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 if(data) {
                   console.log('hi');
                 }
@@ -1814,7 +1813,7 @@ run({
       options: [2, { outerIIFEBody: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 (function(x) {
                     return x + 1;
                 })();
@@ -1822,7 +1821,7 @@ run({
       options: [4, { outerIIFEBody: 'off' }],
     },
     {
-      code: unIndent`
+      code: $`
                 (function(x) {
                 return x + 1;
                 })();
@@ -1830,7 +1829,7 @@ run({
       options: [4, { outerIIFEBody: 'off' }],
     },
     {
-      code: unIndent`
+      code: $`
                 ;(() => {
                     function x(y) {
                         return y + 1;
@@ -1840,7 +1839,7 @@ run({
       options: [4, { outerIIFEBody: 'off' }],
     },
     {
-      code: unIndent`
+      code: $`
                 ;(() => {
                 function x(y) {
                     return y + 1;
@@ -1850,7 +1849,7 @@ run({
       options: [4, { outerIIFEBody: 'off' }],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                 }
             `,
@@ -1861,7 +1860,7 @@ run({
       options: [4, { MemberExpression: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 Buffer
                     .indexOf('a')
                     .toString()
@@ -1869,14 +1868,14 @@ run({
       options: [4, { MemberExpression: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 Buffer.
                     length
             `,
       options: [4, { MemberExpression: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 Buffer
                     .foo
                     .bar
@@ -1884,7 +1883,7 @@ run({
       options: [4, { MemberExpression: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 Buffer
                 \t.foo
                 \t.bar
@@ -1892,20 +1891,20 @@ run({
       options: ['tab', { MemberExpression: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 Buffer
                     .foo
                     .bar
             `,
       options: [2, { MemberExpression: 2 }],
     },
-    unIndent`
+    $`
             (
                 foo
                     .bar
             )
         `,
-    unIndent`
+    $`
             (
                 (
                     foo
@@ -1913,13 +1912,13 @@ run({
                 )
             )
         `,
-    unIndent`
+    $`
             (
                 foo
             )
                 .bar
         `,
-    unIndent`
+    $`
             (
                 (
                     foo
@@ -1927,7 +1926,7 @@ run({
                     .bar
             )
         `,
-    unIndent`
+    $`
             (
                 (
                     foo
@@ -1939,20 +1938,20 @@ run({
                     ]
             )
         `,
-    unIndent`
+    $`
             (
                 foo[bar]
             )
                 .baz
         `,
-    unIndent`
+    $`
             (
                 (foo.bar)
             )
                 .baz
         `,
     {
-      code: unIndent`
+      code: $`
                 MemberExpression
                 .can
                   .be
@@ -1962,26 +1961,26 @@ run({
       options: [4, { MemberExpression: 'off' }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo = bar.baz()
                     .bip();
             `,
       options: [4, { MemberExpression: 1 }],
     },
-    unIndent`
+    $`
             function foo() {
                 new
                     .target
             }
         `,
-    unIndent`
+    $`
             function foo() {
                 new.
                     target
             }
         `,
     {
-      code: unIndent`
+      code: $`
                 if (foo) {
                   bar();
                 } else if (baz) {
@@ -1993,7 +1992,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo(aaa,
                   bbb, ccc, ddd) {
                     bar();
@@ -2002,7 +2001,7 @@ run({
       options: [2, { FunctionDeclaration: { parameters: 1, body: 2 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo(aaa, bbb,
                       ccc, ddd) {
                   bar();
@@ -2011,7 +2010,7 @@ run({
       options: [2, { FunctionDeclaration: { parameters: 3, body: 1 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo(aaa,
                     bbb,
                     ccc) {
@@ -2021,7 +2020,7 @@ run({
       options: [4, { FunctionDeclaration: { parameters: 1, body: 3 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo(aaa,
                              bbb, ccc,
                              ddd, eee, fff) {
@@ -2031,7 +2030,7 @@ run({
       options: [2, { FunctionDeclaration: { parameters: 'first', body: 1 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo(aaa, bbb)
                 {
                       bar();
@@ -2040,7 +2039,7 @@ run({
       options: [2, { FunctionDeclaration: { body: 3 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo(
                   aaa,
                   bbb) {
@@ -2050,7 +2049,7 @@ run({
       options: [2, { FunctionDeclaration: { parameters: 'first', body: 2 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = function(aaa,
                     bbb,
                     ccc,
@@ -2061,7 +2060,7 @@ run({
       options: [2, { FunctionExpression: { parameters: 2, body: 0 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = function(aaa,
                   bbb,
                   ccc) {
@@ -2071,7 +2070,7 @@ run({
       options: [2, { FunctionExpression: { parameters: 1, body: 10 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = function(aaa,
                                    bbb, ccc, ddd,
                                    eee, fff) {
@@ -2081,7 +2080,7 @@ run({
       options: [4, { FunctionExpression: { parameters: 'first', body: 1 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = function(
                   aaa, bbb, ccc,
                   ddd, eee) {
@@ -2091,7 +2090,7 @@ run({
       options: [2, { FunctionExpression: { parameters: 'first', body: 3 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo.bar(
                       baz, qux, function() {
                             qux;
@@ -2101,7 +2100,7 @@ run({
       options: [2, { FunctionExpression: { body: 3 }, CallExpression: { arguments: 3 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   bar();
                   \tbaz();
@@ -2111,7 +2110,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   function bar() {
                     baz();
@@ -2121,7 +2120,7 @@ run({
       options: [2, { FunctionDeclaration: { body: 1 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   bar();
                    \t\t}
@@ -2129,7 +2128,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   function bar(baz,
                       qux) {
@@ -2140,7 +2139,7 @@ run({
       options: [2, { FunctionDeclaration: { body: 1, parameters: 2 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 ((
                     foo
                 ))
@@ -2150,7 +2149,7 @@ run({
 
     // ternary expressions (https://github.com/eslint/eslint/issues/7420)
     {
-      code: unIndent`
+      code: $`
                 foo
                   ? bar
                   : baz
@@ -2158,7 +2157,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 foo = (bar ?
                   baz :
                   qux
@@ -2167,7 +2166,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
               condition
                 ? () => {
                   return true
@@ -2183,7 +2182,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
               condition
                 ? () => {
                   return true
@@ -2199,7 +2198,7 @@ run({
       options: [2, { offsetTernaryExpressions: false }],
     },
     {
-      code: unIndent`
+      code: $`
               condition
                 ? () => {
                     return true
@@ -2215,7 +2214,7 @@ run({
       options: [2, { offsetTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
               condition
                   ? () => {
                           return true
@@ -2231,7 +2230,7 @@ run({
       options: [4, { offsetTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
               condition1
                 ? condition2
                   ? Promise.resolve(1)
@@ -2241,7 +2240,7 @@ run({
       options: [2, { offsetTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
               condition1
                 ? Promise.resolve(1)
                 : condition2
@@ -2251,7 +2250,7 @@ run({
       options: [2, { offsetTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
               condition
               \t? () => {
               \t\t\treturn true
@@ -2266,7 +2265,7 @@ run({
             `,
       options: ['tab', { offsetTernaryExpressions: true }],
     },
-    unIndent`
+    $`
             [
                 foo ?
                     bar :
@@ -2280,7 +2279,7 @@ run({
        *             Checking comments:
        * https://github.com/eslint/eslint/issues/3845, https://github.com/eslint/eslint/issues/6571
        */
-      code: unIndent`
+      code: $`
                 foo();
                 // Line
                 /* multiline
@@ -2291,7 +2290,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 switch (foo) {
                   case bar:
                     baz();
@@ -2301,7 +2300,7 @@ run({
       options: [2, { SwitchCase: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 switch (foo) {
                   case bar:
                     baz();
@@ -2310,7 +2309,7 @@ run({
             `,
       options: [2, { SwitchCase: 1 }],
     },
-    unIndent`
+    $`
             [
                 // no elements
             ]
@@ -2321,7 +2320,7 @@ run({
        *             Destructuring assignments:
        * https://github.com/eslint/eslint/issues/6813
        */
-      code: unIndent`
+      code: $`
                 var {
                   foo,
                   bar,
@@ -2332,7 +2331,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 var [
                   foo,
                   bar,
@@ -2343,7 +2342,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 const {
                   a
                 }
@@ -2355,7 +2354,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 const {
                   a
                 } = {
@@ -2365,7 +2364,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 const
                   {
                     a
@@ -2376,7 +2375,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 const
                   foo = {
                     bar: 1
@@ -2385,7 +2384,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 const [
                   a
                 ] = [
@@ -2397,7 +2396,7 @@ run({
     {
 
       // https://github.com/eslint/eslint/issues/7233
-      code: unIndent`
+      code: $`
                 var folder = filePath
                     .foo()
                     .bar;
@@ -2405,34 +2404,34 @@ run({
       options: [2, { MemberExpression: 2 }],
     },
     {
-      code: unIndent`
+      code: $`
                 for (const foo of bar)
                   baz();
             `,
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 var x = () =>
                   5;
             `,
       options: [2],
     },
-    unIndent`
+    $`
             (
                 foo
             )(
                 bar
             )
         `,
-    unIndent`
+    $`
             (() =>
                 foo
             )(
                 bar
             )
         `,
-    unIndent`
+    $`
             (() => {
                 foo();
             })(
@@ -2442,7 +2441,7 @@ run({
     {
 
       // Don't lint the indentation of the first token after a :
-      code: unIndent`
+      code: $`
                 ({code:
                   "foo.bar();"})
             `,
@@ -2451,19 +2450,19 @@ run({
     {
 
       // Don't lint the indentation of the first token after a :
-      code: unIndent`
+      code: $`
                 ({code:
                 "foo.bar();"})
             `,
       options: [2],
     },
-    unIndent`
+    $`
             ({
                 foo:
                     bar
             })
         `,
-    unIndent`
+    $`
             ({
                 [foo]:
                     bar
@@ -2472,7 +2471,7 @@ run({
     {
 
       // Comments in switch cases
-      code: unIndent`
+      code: $`
                 switch (foo) {
                   // comment
                   case study:
@@ -2488,7 +2487,7 @@ run({
     {
 
       // Comments in switch cases
-      code: unIndent`
+      code: $`
                 switch (foo) {
                   // comment
                   case study:
@@ -2501,7 +2500,7 @@ run({
     {
 
       // BinaryExpressions with parens
-      code: unIndent`
+      code: $`
                 foo && (
                     bar
                 )
@@ -2511,7 +2510,7 @@ run({
     {
 
       // BinaryExpressions with parens
-      code: unIndent`
+      code: $`
                 foo && ((
                     bar
                 ))
@@ -2519,7 +2518,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 foo &&
                     (
                         bar
@@ -2527,26 +2526,26 @@ run({
             `,
       options: [4],
     },
-    unIndent`
+    $`
             foo &&
                 !bar(
                 )
         `,
-    unIndent`
+    $`
             foo &&
                 ![].map(() => {
                     bar();
                 })
         `,
     {
-      code: unIndent`
+      code: $`
                 foo =
                     bar;
             `,
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   var bar = function(baz,
                         qux) {
@@ -2556,7 +2555,7 @@ run({
             `,
       options: [2, { FunctionExpression: { parameters: 3 } }],
     },
-    unIndent`
+    $`
             function foo() {
                 return (bar === 1 || bar === 2 &&
                     (/Function/.test(grandparent.type))) &&
@@ -2564,7 +2563,7 @@ run({
             }
         `,
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                     return (foo === bar || (
                         baz === qux && (
@@ -2577,7 +2576,7 @@ run({
             `,
       options: [4],
     },
-    unIndent`
+    $`
             if (
                 foo === 1 ||
                 bar === 1 ||
@@ -2586,14 +2585,14 @@ run({
             ) {}
         `,
     {
-      code: unIndent`
+      code: $`
                 foo =
                   (bar + baz);
             `,
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   return (bar === 1 || bar === 2) &&
                     (z === 3 || z === 4);
@@ -2602,7 +2601,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 /* comment */ if (foo) {
                   bar();
                 }
@@ -2612,7 +2611,7 @@ run({
     {
 
       // Comments at the end of if blocks that have `else` blocks can either refer to the lines above or below them
-      code: unIndent`
+      code: $`
                 if (foo) {
                   bar();
                 // Otherwise, if foo is false, do baz.
@@ -2624,7 +2623,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   return ((bar === 1 || bar === 2) &&
                     (z === 3 || z === 4));
@@ -2633,7 +2632,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 foo(
                   bar,
                   baz,
@@ -2643,7 +2642,7 @@ run({
       options: [2, { CallExpression: { arguments: 1 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo(
                 \tbar,
                 \tbaz,
@@ -2653,7 +2652,7 @@ run({
       options: ['tab', { CallExpression: { arguments: 1 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo(bar,
                         baz,
                         qux);
@@ -2661,7 +2660,7 @@ run({
       options: [4, { CallExpression: { arguments: 2 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo(
                 bar,
                 baz,
@@ -2671,7 +2670,7 @@ run({
       options: [2, { CallExpression: { arguments: 0 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo(bar,
                     baz,
                     qux
@@ -2680,7 +2679,7 @@ run({
       options: [2, { CallExpression: { arguments: 'first' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo(bar, baz,
                     qux, barbaz,
                     barqux, bazqux);
@@ -2688,7 +2687,7 @@ run({
       options: [2, { CallExpression: { arguments: 'first' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo(bar,
                         1 + 2,
                         !baz,
@@ -2697,13 +2696,13 @@ run({
             `,
       options: [2, { CallExpression: { arguments: 4 } }],
     },
-    unIndent`
+    $`
             foo(
                 (bar)
             );
         `,
     {
-      code: unIndent`
+      code: $`
                 foo(
                     (bar)
                 );
@@ -2713,7 +2712,7 @@ run({
 
     // https://github.com/eslint/eslint/issues/7484
     {
-      code: unIndent`
+      code: $`
                 var foo = function() {
                   return bar(
                     [{
@@ -2726,7 +2725,7 @@ run({
 
     // https://github.com/eslint/eslint/issues/7573
     {
-      code: unIndent`
+      code: $`
                 return (
                     foo
                 );
@@ -2734,27 +2733,27 @@ run({
       parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
     },
     {
-      code: unIndent`
+      code: $`
                 return (
                     foo
                 )
             `,
       parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
     },
-    unIndent`
+    $`
             var foo = [
                 bar,
                 baz
             ]
         `,
-    unIndent`
+    $`
             var foo = [bar,
                 baz,
                 qux
             ]
         `,
     {
-      code: unIndent`
+      code: $`
                 var foo = [bar,
                 baz,
                 qux
@@ -2763,7 +2762,7 @@ run({
       options: [2, { ArrayExpression: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = [bar,
                                 baz,
                                 qux
@@ -2772,7 +2771,7 @@ run({
       options: [2, { ArrayExpression: 8 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = [bar,
                            baz,
                            qux
@@ -2781,7 +2780,7 @@ run({
       options: [2, { ArrayExpression: 'first' }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = [bar,
                            baz, qux
                 ]
@@ -2789,7 +2788,7 @@ run({
       options: [2, { ArrayExpression: 'first' }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = [
                         { bar: 1,
                           baz: 2 },
@@ -2800,7 +2799,7 @@ run({
       options: [4, { ArrayExpression: 2, ObjectExpression: 'first' }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = {
                 bar: 1,
                 baz: 2
@@ -2809,14 +2808,14 @@ run({
       options: [2, { ObjectExpression: 0 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = { foo: 1, bar: 2,
                             baz: 3 }
             `,
       options: [2, { ObjectExpression: 'first' }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = [
                         {
                             foo: 1
@@ -2826,7 +2825,7 @@ run({
       options: [4, { ArrayExpression: 2 }],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   [
                           foo
@@ -2852,7 +2851,7 @@ run({
       options: [2, { ObjectExpression: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = [
                   [
                     1
@@ -2862,7 +2861,7 @@ run({
       options: [2, { ArrayExpression: 'first' }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = [ 1,
                             [
                               2
@@ -2872,7 +2871,7 @@ run({
       options: [2, { ArrayExpression: 'first' }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = bar(1,
                               [ 2,
                                 3
@@ -2882,7 +2881,7 @@ run({
       options: [4, { ArrayExpression: 'first', CallExpression: { arguments: 'first' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo =
                     [
                     ]()
@@ -2892,7 +2891,7 @@ run({
 
     // https://github.com/eslint/eslint/issues/7732
     {
-      code: unIndent`
+      code: $`
                 const lambda = foo => {
                   Object.assign({},
                     filterName,
@@ -2905,7 +2904,7 @@ run({
       options: [2, { ObjectExpression: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 const lambda = foo => {
                   Object.assign({},
                     filterName,
@@ -2920,7 +2919,7 @@ run({
 
     // https://github.com/eslint/eslint/issues/7733
     {
-      code: unIndent`
+      code: $`
                 var foo = function() {
                 \twindow.foo('foo',
                 \t\t{
@@ -2935,7 +2934,7 @@ run({
       options: ['tab'],
     },
     {
-      code: unIndent`
+      code: $`
                 echo = spawn('cmd.exe',
                              ['foo', 'bar',
                               'baz']);
@@ -2943,7 +2942,7 @@ run({
       options: [2, { ArrayExpression: 'first', CallExpression: { arguments: 'first' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                   bar();
                 // Otherwise, if foo is false, do baz.
@@ -2955,7 +2954,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 if (
                     foo && bar ||
                     baz && qux // This line is ignored because BinaryExpressions are not checked.
@@ -2965,25 +2964,25 @@ run({
             `,
       options: [4],
     },
-    unIndent`
+    $`
             [
             ] || [
             ]
         `,
-    unIndent`
+    $`
             (
                 [
                 ] || [
                 ]
             )
         `,
-    unIndent`
+    $`
             1
             + (
                 1
             )
         `,
-    unIndent`
+    $`
             (
                 foo && (
                     bar ||
@@ -2991,27 +2990,27 @@ run({
                 )
             )
         `,
-    unIndent`
+    $`
             foo
                 || (
                     bar
                 )
         `,
-    unIndent`
+    $`
             foo
                             || (
                                 bar
                             )
         `,
     {
-      code: unIndent`
+      code: $`
                 var foo =
                         1;
             `,
       options: [4, { VariableDeclarator: 2 }],
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = 1,
                     bar =
                     2;
@@ -3019,7 +3018,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 switch (foo) {
                   case bar:
                   {
@@ -3032,14 +3031,14 @@ run({
 
     // Template curlies
     {
-      code: unIndent`
+      code: $`
                 \`foo\${
                   bar}\`
             `,
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 \`foo\${
                   \`bar\${
                     baz}\`}\`
@@ -3047,7 +3046,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 \`foo\${
                   \`bar\${
                     baz
@@ -3057,7 +3056,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 \`foo\${
                   (
                     bar
@@ -3066,21 +3065,21 @@ run({
             `,
       options: [2],
     },
-    unIndent`
+    $`
             foo(\`
                 bar
             \`, {
                 baz: 1
             });
         `,
-    unIndent`
+    $`
             function foo() {
                 \`foo\${bar}baz\${
                     qux}foo\${
                     bar}baz\`
             }
         `,
-    unIndent`
+    $`
             JSON
                 .stringify(
                     {
@@ -3090,23 +3089,23 @@ run({
         `,
 
     // Don't check AssignmentExpression assignments
-    unIndent`
+    $`
             foo =
                 bar =
                 baz;
         `,
-    unIndent`
+    $`
             foo =
             bar =
                 baz;
         `,
-    unIndent`
+    $`
             function foo() {
                 const template = \`this indentation is not checked
             because it's part of a template literal.\`;
             }
         `,
-    unIndent`
+    $`
                 function foo() {
                     const template = \`the indentation of a \${
                         node.type
@@ -3116,7 +3115,7 @@ run({
     {
 
       // https://github.com/eslint/eslint/issues/7320
-      code: unIndent`
+      code: $`
                 JSON
                     .stringify(
                         {
@@ -3126,7 +3125,7 @@ run({
             `,
       options: [4, { CallExpression: { arguments: 1 } }],
     },
-    unIndent`
+    $`
             [
                 foo,
                 // comment
@@ -3134,26 +3133,26 @@ run({
                 bar
             ]
         `,
-    unIndent`
+    $`
             if (foo) {
                 /* comment */ bar();
             }
         `,
-    unIndent`
+    $`
             function foo() {
                 return (
                     1
                 );
             }
         `,
-    unIndent`
+    $`
             function foo() {
                 return (
                     1
                 )
             }
         `,
-    unIndent`
+    $`
             if (
                 foo &&
                 !(
@@ -3164,7 +3163,7 @@ run({
     {
 
       // https://github.com/eslint/eslint/issues/6007
-      code: unIndent`
+      code: $`
                 var abc = [
                   (
                     ''
@@ -3175,7 +3174,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 var abc = [
                   (
                     ''
@@ -3187,7 +3186,7 @@ run({
             `,
       options: [2],
     },
-    unIndent`
+    $`
             function f() {
                 return asyncCall()
                     .then(
@@ -3203,7 +3202,7 @@ run({
     {
 
       // https://github.com/eslint/eslint/issues/6670
-      code: unIndent`
+      code: $`
                 function f() {
                     return asyncCall()
                         .then(
@@ -3220,26 +3219,26 @@ run({
     },
 
     // https://github.com/eslint/eslint/issues/7242
-    unIndent`
+    $`
             var x = [
                 [1],
                 [2]
             ]
         `,
-    unIndent`
+    $`
             var y = [
                 {a: 1},
                 {b: 2}
             ]
         `,
-    unIndent`
+    $`
             foo(
             )
         `,
     {
 
       // https://github.com/eslint/eslint/issues/7616
-      code: unIndent`
+      code: $`
                 foo(
                     bar,
                     {
@@ -3251,13 +3250,13 @@ run({
     },
     'new Foo',
     'new (Foo)',
-    unIndent`
+    $`
             if (Foo) {
                 new Foo
             }
         `,
     {
-      code: unIndent`
+      code: $`
                 var foo = 0, bar = 0, baz = 0;
                 export {
                     foo,
@@ -3268,7 +3267,7 @@ run({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                     ? bar
                     : baz
@@ -3276,7 +3275,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo ?
                     bar :
                     baz
@@ -3284,7 +3283,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo ?
                     bar
                     : baz
@@ -3292,7 +3291,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                     ? bar :
                     baz
@@ -3300,7 +3299,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                     ? bar
                     : baz
@@ -3312,7 +3311,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo ?
                     bar :
                     baz ?
@@ -3324,7 +3323,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 var a =
                     foo ? bar :
                     baz ? qux :
@@ -3334,7 +3333,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 var a = foo
                     ? bar
                     : baz
@@ -3342,7 +3341,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 var a =
                     foo
                         ? bar
@@ -3351,7 +3350,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 a =
                     foo ? bar :
                     baz ? qux :
@@ -3361,7 +3360,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 a = foo
                     ? bar
                     : baz
@@ -3369,7 +3368,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 a =
                     foo
                         ? bar
@@ -3378,7 +3377,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo(
                     foo ? bar :
                     baz ? qux :
@@ -3389,7 +3388,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 function wrap() {
                     return (
                         foo ? bar :
@@ -3402,7 +3401,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 function wrap() {
                     return foo
                         ? bar
@@ -3412,7 +3411,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 function wrap() {
                     return (
                         foo
@@ -3424,7 +3423,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo(
                     foo
                         ? bar
@@ -3434,7 +3433,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo(foo
                     ? bar
                     : baz
@@ -3443,7 +3442,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                     ? bar
                     : baz
@@ -3455,7 +3454,7 @@ run({
       options: [4, { flatTernaryExpressions: false }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo ?
                     bar :
                     baz ?
@@ -3475,7 +3474,7 @@ run({
       options: [2, { ArrayExpression: 'off' }],
     },
     {
-      code: unIndent`
+      code: $`
                 [
                     ,
                     foo
@@ -3488,7 +3487,7 @@ run({
       options: [2, { ArrayExpression: 'first' }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo.bar('baz', function(err) {
                   qux;
                 });
@@ -3496,7 +3495,7 @@ run({
       options: [2, { CallExpression: { arguments: 'first' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo.bar(function() {
                   cookies;
                 }).baz(function() {
@@ -3506,7 +3505,7 @@ run({
       options: [2, { MemberExpression: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo.bar().baz(function() {
                   cookies;
                 }).qux(function() {
@@ -3516,7 +3515,7 @@ run({
       options: [2, { MemberExpression: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 (
                   {
                     foo: 1,
@@ -3527,7 +3526,7 @@ run({
       options: [2, { ObjectExpression: 'first' }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo(() => {
                     bar;
                 }, () => {
@@ -3537,7 +3536,7 @@ run({
       options: [4, { CallExpression: { arguments: 'first' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 [ foo,
                   bar ].forEach(function() {
                   baz;
@@ -3545,13 +3544,13 @@ run({
             `,
       options: [2, { ArrayExpression: 'first', MemberExpression: 1 }],
     },
-    unIndent`
+    $`
             foo = bar[
                 baz
             ];
         `,
     {
-      code: unIndent`
+      code: $`
                 foo[
                     bar
                 ];
@@ -3559,7 +3558,7 @@ run({
       options: [4, { MemberExpression: 1 }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo[
                     (
                         bar
@@ -3568,24 +3567,24 @@ run({
             `,
       options: [4, { MemberExpression: 1 }],
     },
-    unIndent`
+    $`
             if (foo)
                 bar;
             else if (baz)
                 qux;
         `,
-    unIndent`
+    $`
             if (foo) bar()
 
             ; [1, 2, 3].map(baz)
         `,
-    unIndent`
+    $`
             if (foo)
                 ;
         `,
     'x => {}',
     {
-      code: unIndent`
+      code: $`
                 import {foo}
                     from 'bar';
             `,
@@ -3596,7 +3595,7 @@ run({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: unIndent`
+      code: $`
                 import { foo,
                     bar,
                     baz,
@@ -3606,7 +3605,7 @@ run({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: unIndent`
+      code: $`
                 import {
                     foo,
                     bar,
@@ -3617,7 +3616,7 @@ run({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: unIndent`
+      code: $`
                 import { apple as a,
                          banana as b } from 'fruits';
                 import { cat } from 'animals';
@@ -3626,7 +3625,7 @@ run({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: unIndent`
+      code: $`
                 import { declaration,
                                  can,
                                   be,
@@ -3637,21 +3636,21 @@ run({
     },
 
     // https://github.com/eslint/eslint/issues/8455
-    unIndent`
+    $`
             (
                 a
             ) => b => {
                 c
             }
         `,
-    unIndent`
+    $`
             (
                 a
             ) => b => c => d => {
                 e
             }
         `,
-    unIndent`
+    $`
             (
                 a
             ) =>
@@ -3661,52 +3660,52 @@ run({
                     c
                 }
         `,
-    unIndent`
+    $`
             if (
                 foo
             ) bar(
                 baz
             );
         `,
-    unIndent`
+    $`
             if (foo)
             {
                 bar();
             }
         `,
-    unIndent`
+    $`
             function foo(bar)
             {
                 baz();
             }
         `,
-    unIndent`
+    $`
             () =>
                 ({})
         `,
-    unIndent`
+    $`
             () =>
                 (({}))
         `,
-    unIndent`
+    $`
             (
                 () =>
                     ({})
             )
         `,
-    unIndent`
+    $`
             var x = function foop(bar)
             {
                 baz();
             }
         `,
-    unIndent`
+    $`
             var x = (bar) =>
             {
                 baz();
             }
         `,
-    unIndent`
+    $`
             class Foo
             {
                 constructor()
@@ -3720,7 +3719,7 @@ run({
                 }
             }
         `,
-    unIndent`
+    $`
             class Foo
                 extends Bar
             {
@@ -3735,7 +3734,7 @@ run({
                 }
             }
         `,
-    unIndent`
+    $`
             (
                 class Foo
                 {
@@ -3752,7 +3751,7 @@ run({
             )
         `,
     {
-      code: unIndent`
+      code: $`
                 switch (foo)
                 {
                     case 1:
@@ -3761,14 +3760,14 @@ run({
             `,
       options: [4, { SwitchCase: 1 }],
     },
-    unIndent`
+    $`
             foo
                 .bar(function() {
                     baz
                 })
         `,
     {
-      code: unIndent`
+      code: $`
                 foo
                         .bar(function() {
                             baz
@@ -3776,19 +3775,19 @@ run({
             `,
       options: [4, { MemberExpression: 2 }],
     },
-    unIndent`
+    $`
             foo
                 [bar](function() {
                     baz
                 })
         `,
-    unIndent`
+    $`
             foo.
                 bar.
                 baz
         `,
     {
-      code: unIndent`
+      code: $`
                 foo
                     .bar(function() {
                         baz
@@ -3797,7 +3796,7 @@ run({
       options: [4, { MemberExpression: 'off' }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                                 .bar(function() {
                                     baz
@@ -3806,7 +3805,7 @@ run({
       options: [4, { MemberExpression: 'off' }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                                 [bar](function() {
                                     baz
@@ -3815,7 +3814,7 @@ run({
       options: [4, { MemberExpression: 'off' }],
     },
     {
-      code: unIndent`
+      code: $`
                   foo.
                           bar.
                                       baz
@@ -3823,7 +3822,7 @@ run({
       options: [4, { MemberExpression: 'off' }],
     },
     {
-      code: unIndent`
+      code: $`
                   foo = bar(
                   ).baz(
                   )
@@ -3831,7 +3830,7 @@ run({
       options: [4, { MemberExpression: 'off' }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo[
                     bar ? baz :
                     qux
@@ -3840,7 +3839,7 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                     return foo ? bar :
                         baz
@@ -3849,14 +3848,14 @@ run({
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 throw foo ? bar :
                     baz
             `,
       options: [4, { flatTernaryExpressions: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo(
                     bar
                 ) ? baz :
@@ -3864,7 +3863,7 @@ run({
             `,
       options: [4, { flatTernaryExpressions: true }],
     },
-    unIndent`
+    $`
                 foo
                     [
                         bar
@@ -3873,7 +3872,7 @@ run({
                         quz();
                     })
         `,
-    unIndent`
+    $`
                 [
                     foo
                 ][
@@ -3881,28 +3880,28 @@ run({
                     qux();
                 })
         `,
-    unIndent`
+    $`
             (
                 a.b(function() {
                     c;
                 })
             )
         `,
-    unIndent`
+    $`
             (
                 foo
             ).bar(function() {
                 baz();
             })
         `,
-    unIndent`
+    $`
             new Foo(
                 bar
                     .baz
                     .qux
             )
         `,
-    unIndent`
+    $`
             const foo = a.b(),
                 longName =
                     (baz(
@@ -3910,7 +3909,7 @@ run({
                         'bar'
                     ));
         `,
-    unIndent`
+    $`
             const foo = a.b(),
                 longName =
                 (baz(
@@ -3918,7 +3917,7 @@ run({
                     'bar'
                 ));
         `,
-    unIndent`
+    $`
             const foo = a.b(),
                 longName =
                     baz(
@@ -3926,7 +3925,7 @@ run({
                         'bar'
                     );
         `,
-    unIndent`
+    $`
             const foo = a.b(),
                 longName =
                 baz(
@@ -3934,7 +3933,7 @@ run({
                     'bar'
                 );
         `,
-    unIndent`
+    $`
             const foo = a.b(),
                 longName
                     = baz(
@@ -3942,7 +3941,7 @@ run({
                         'bar'
                     );
         `,
-    unIndent`
+    $`
             const foo = a.b(),
                 longName
                 = baz(
@@ -3950,50 +3949,50 @@ run({
                     'bar'
                 );
         `,
-    unIndent`
+    $`
             const foo = a.b(),
                 longName =
                     ('fff');
         `,
-    unIndent`
+    $`
             const foo = a.b(),
                 longName =
                 ('fff');
         `,
-    unIndent`
+    $`
             const foo = a.b(),
                 longName
                     = ('fff');
 
         `,
-    unIndent`
+    $`
             const foo = a.b(),
                 longName
                 = ('fff');
 
         `,
-    unIndent`
+    $`
             const foo = a.b(),
                 longName =
                     (
                         'fff'
                     );
         `,
-    unIndent`
+    $`
             const foo = a.b(),
                 longName =
                 (
                     'fff'
                 );
         `,
-    unIndent`
+    $`
             const foo = a.b(),
                 longName
                     =(
                         'fff'
                     );
         `,
-    unIndent`
+    $`
             const foo = a.b(),
                 longName
                 =(
@@ -4006,7 +4005,7 @@ run({
     // ----------------------------------------------------------------------
 
     {
-      code: unIndent`
+      code: $`
                 interface Foo {
                     bar: string;
                     baz: number;
@@ -4015,7 +4014,7 @@ run({
       parser: parser('unknown-nodes/interface'),
     },
     {
-      code: unIndent`
+      code: $`
                 namespace Foo {
                     const bar = 3,
                         baz = 2;
@@ -4028,7 +4027,7 @@ run({
       parser: parser('unknown-nodes/namespace-valid'),
     },
     {
-      code: unIndent`
+      code: $`
                 abstract class Foo {
                     public bar() {
                         let aaa = 4,
@@ -4045,7 +4044,7 @@ run({
       parser: parser('unknown-nodes/abstract-class-valid'),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                     function bar() {
                         abstract class X {
@@ -4061,7 +4060,7 @@ run({
       parser: parser('unknown-nodes/functions-with-abstract-class-valid'),
     },
     {
-      code: unIndent`
+      code: $`
                 namespace Unknown {
                     function foo() {
                         function bar() {
@@ -4079,7 +4078,7 @@ run({
       parser: parser('unknown-nodes/namespace-with-functions-with-abstract-class-valid'),
     },
     {
-      code: unIndent`
+      code: $`
                 type httpMethod = 'GET'
                   | 'POST'
                   | 'PUT';
@@ -4088,7 +4087,7 @@ run({
       parser: parser('unknown-nodes/variable-declarator-type-indent-two-spaces'),
     },
     {
-      code: unIndent`
+      code: $`
                 type httpMethod = 'GET'
                 | 'POST'
                 | 'PUT';
@@ -4096,7 +4095,7 @@ run({
       options: [2, { VariableDeclarator: 1 }],
       parser: parser('unknown-nodes/variable-declarator-type-no-indent'),
     },
-    unIndent`
+    $`
             foo(\`foo
                     \`, {
                 ok: true
@@ -4105,7 +4104,7 @@ run({
                 ok: false
             })
         `,
-    unIndent`
+    $`
             foo(tag\`foo
                     \`, {
                 ok: true
@@ -4117,7 +4116,7 @@ run({
         `,
 
     // https://github.com/eslint/eslint/issues/8815
-    unIndent`
+    $`
             async function test() {
                 const {
                     foo,
@@ -4129,7 +4128,7 @@ run({
                 );
             }
         `,
-    unIndent`
+    $`
             function* test() {
                 const {
                     foo,
@@ -4141,14 +4140,14 @@ run({
                 );
             }
         `,
-    unIndent`
+    $`
             ({
                 a: b
             } = +foo(
                 bar
             ));
         `,
-    unIndent`
+    $`
             const {
                 foo,
                 bar,
@@ -4158,7 +4157,7 @@ run({
                 3,
             );
         `,
-    unIndent`
+    $`
             const {
                 foo,
                 bar,
@@ -4175,26 +4174,26 @@ run({
     // ----------------------------------------------------------------------
 
     '<Foo a="b" c="d"/>;',
-    unIndent`
+    $`
             <Foo
                 a="b"
                 c="d"
             />;
         `,
     'var foo = <Bar a="b" c="d"/>;',
-    unIndent`
+    $`
             var foo = <Bar
                 a="b"
                 c="d"
             />;
         `,
-    unIndent`
+    $`
             var foo = (<Bar
                 a="b"
                 c="d"
             />);
         `,
-    unIndent`
+    $`
             var foo = (
                 <Bar
                     a="b"
@@ -4202,122 +4201,122 @@ run({
                 />
             );
         `,
-    unIndent`
+    $`
             <
                 Foo
                 a="b"
                 c="d"
             />;
         `,
-    unIndent`
+    $`
             <Foo
                 a="b"
                 c="d"/>;
         `,
-    unIndent`
+    $`
             <
                 Foo
                 a="b"
                 c="d"/>;
         `,
     '<a href="foo">bar</a>;',
-    unIndent`
+    $`
             <a href="foo">
                 bar
             </a>;
         `,
-    unIndent`
+    $`
             <a
                 href="foo"
             >
                 bar
             </a>;
         `,
-    unIndent`
+    $`
             <a
                 href="foo">
                 bar
             </a>;
         `,
-    unIndent`
+    $`
             <
                 a
                 href="foo">
                 bar
             </a>;
         `,
-    unIndent`
+    $`
             <a
                 href="foo">
                 bar
             </
                 a>;
         `,
-    unIndent`
+    $`
             <a
                 href="foo">
                 bar
             </a
             >;
         `,
-    unIndent`
+    $`
                 var foo = <a href="bar">
                     baz
                 </a>;
             `,
-    unIndent`
+    $`
             var foo = <a
                 href="bar"
             >
                 baz
             </a>;
         `,
-    unIndent`
+    $`
             var foo = <a
                 href="bar">
                 baz
             </a>;
         `,
-    unIndent`
+    $`
             var foo = <
                 a
                 href="bar">
                 baz
             </a>;
         `,
-    unIndent`
+    $`
             var foo = <a
                 href="bar">
                 baz
             </
                 a>;
         `,
-    unIndent`
+    $`
             var foo = <a
                 href="bar">
                 baz
             </a
             >
         `,
-    unIndent`
+    $`
             var foo = (<a
                 href="bar">
                 baz
             </a>);
         `,
-    unIndent`
+    $`
             var foo = (
                 <a href="bar">baz</a>
             );
         `,
-    unIndent`
+    $`
             var foo = (
                 <a href="bar">
                     baz
                 </a>
             );
         `,
-    unIndent`
+    $`
             var foo = (
                 <a
                     href="bar">
@@ -4326,20 +4325,20 @@ run({
             );
         `,
     'var foo = <a href="bar">baz</a>;',
-    unIndent`
+    $`
             <a>
                 {
                 }
             </a>
         `,
-    unIndent`
+    $`
             <a>
                 {
                     foo
                 }
             </a>
         `,
-    unIndent`
+    $`
             function foo() {
                 return (
                     <a>
@@ -4356,12 +4355,12 @@ run({
             }
         `,
     '<App></App>',
-    unIndent`
+    $`
             <App>
             </App>
         `,
     {
-      code: unIndent`
+      code: $`
                 <App>
                   <Foo />
                 </App>
@@ -4369,7 +4368,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 <App>
                 <Foo />
                 </App>
@@ -4377,7 +4376,7 @@ run({
       options: [0],
     },
     {
-      code: unIndent`
+      code: $`
                 <App>
                 \t<Foo />
                 </App>
@@ -4385,7 +4384,7 @@ run({
       options: ['tab'],
     },
     {
-      code: unIndent`
+      code: $`
                 function App() {
                   return <App>
                     <Foo />
@@ -4395,7 +4394,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 function App() {
                   return (<App>
                     <Foo />
@@ -4405,7 +4404,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 function App() {
                   return (
                     <App>
@@ -4417,7 +4416,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 it(
                   (
                     <div>
@@ -4429,7 +4428,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 it(
                   (<div>
                     <span />
@@ -4441,7 +4440,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 (
                   <div>
                     <span />
@@ -4451,7 +4450,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 {
                   head.title &&
                   <h1>
@@ -4462,7 +4461,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 {
                   head.title &&
                     <h1>
@@ -4473,7 +4472,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 {
                   head.title && (
                     <h1>
@@ -4484,7 +4483,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 {
                   head.title && (
                     <h1>
@@ -4496,7 +4495,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 [
                   <div />,
                   <div />
@@ -4504,7 +4503,7 @@ run({
             `,
       options: [2],
     },
-    unIndent`
+    $`
             <div>
                 {
                     [
@@ -4514,7 +4513,7 @@ run({
                 }
             </div>
         `,
-    unIndent`
+    $`
             <div>
                 {foo &&
                     [
@@ -4524,7 +4523,7 @@ run({
                 }
             </div>
         `,
-    unIndent`
+    $`
             <div>
             bar <div>
                 bar
@@ -4532,23 +4531,23 @@ run({
             bar </div>
             </div>
         `,
-    unIndent`
+    $`
             foo ?
                 <Foo /> :
                 <Bar />
         `,
-    unIndent`
+    $`
             foo ?
                 <Foo />
                 : <Bar />
         `,
-    unIndent`
+    $`
             foo ?
                 <Foo />
                 :
                 <Bar />
         `,
-    unIndent`
+    $`
             <div>
                 {!foo ?
                     <Foo
@@ -4562,7 +4561,7 @@ run({
             </div>
         `,
     {
-      code: unIndent`
+      code: $`
                 <span>
                   {condition ?
                     <Thing
@@ -4575,7 +4574,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 <span>
                   {condition ?
                     <Thing
@@ -4588,7 +4587,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   <span>
                     {condition ?
@@ -4602,12 +4601,12 @@ run({
             `,
       options: [2],
     },
-    unIndent`
+    $`
               <App foo
               />
             `,
     {
-      code: unIndent`
+      code: $`
               <App
                 foo
               />
@@ -4615,7 +4614,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
               <App
               foo
               />
@@ -4623,25 +4622,25 @@ run({
       options: [0],
     },
     {
-      code: unIndent`
+      code: $`
               <App
               \tfoo
               />
             `,
       options: ['tab'],
     },
-    unIndent`
+    $`
                 <App
                     foo
                 />
             `,
-    unIndent`
+    $`
                 <App
                     foo
                 ></App>
             `,
     {
-      code: unIndent`
+      code: $`
                 <App
                   foo={function() {
                     console.log('bar');
@@ -4651,7 +4650,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 <App foo={function() {
                   console.log('bar');
                 }}
@@ -4660,7 +4659,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 var x = function() {
                   return <App
                     foo={function() {
@@ -4672,7 +4671,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 var x = <App
                   foo={function() {
                     console.log('bar');
@@ -4682,7 +4681,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 <Provider
                   store
                 >
@@ -4696,7 +4695,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 <Provider
                   store
                 >
@@ -4710,7 +4709,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 <App
                 \tfoo
                 />
@@ -4718,7 +4717,7 @@ run({
       options: ['tab'],
     },
     {
-      code: unIndent`
+      code: $`
                 <App
                 \tfoo
                 ></App>
@@ -4726,7 +4725,7 @@ run({
       options: ['tab'],
     },
     {
-      code: unIndent`
+      code: $`
                 <App foo={function() {
                 \tconsole.log('bar');
                 }}
@@ -4735,7 +4734,7 @@ run({
       options: ['tab'],
     },
     {
-      code: unIndent`
+      code: $`
                 var x = <App
                 \tfoo={function() {
                 \t\tconsole.log('bar');
@@ -4744,24 +4743,24 @@ run({
             `,
       options: ['tab'],
     },
-    unIndent`
+    $`
                 <App
                     foo />
             `,
-    unIndent`
+    $`
                 <div>
                    unrelated{
                         foo
                     }
                 </div>
             `,
-    unIndent`
+    $`
                 <div>unrelated{
                     foo
                 }
                 </div>
             `,
-    unIndent`
+    $`
                 <
                     foo
                         .bar
@@ -4774,35 +4773,35 @@ run({
                         baz
                 >
             `,
-    unIndent`
+    $`
                 <
                     input
                     type=
                         "number"
                 />
             `,
-    unIndent`
+    $`
                 <
                     input
                     type=
                         {'number'}
                 />
             `,
-    unIndent`
+    $`
                 <
                     input
                     type
                         ="number"
                 />
             `,
-    unIndent`
+    $`
                 foo ? (
                     bar
                 ) : (
                     baz
                 )
             `,
-    unIndent`
+    $`
                 foo ? (
                     <div>
                     </div>
@@ -4811,7 +4810,7 @@ run({
                     </span>
                 )
             `,
-    unIndent`
+    $`
                 <div>
                     {
                         /* foo */
@@ -4823,124 +4822,124 @@ run({
      *         JSX Fragments
      * https://github.com/eslint/eslint/issues/12208
      */
-    unIndent`
+    $`
             <>
                 <A />
             </>
         `,
-    unIndent`
+    $`
             <
             >
                 <A />
             </>
         `,
-    unIndent`
+    $`
             <>
                 <A />
             <
             />
         `,
-    unIndent`
+    $`
             <>
                 <A />
             </
             >
         `,
-    unIndent`
+    $`
             <
             >
                 <A />
             </
             >
         `,
-    unIndent`
+    $`
             <
             >
                 <A />
             <
             />
         `,
-    unIndent`
+    $`
             < // Comment
             >
                 <A />
             </>
         `,
-    unIndent`
+    $`
             <
                 // Comment
             >
                 <A />
             </>
         `,
-    unIndent`
+    $`
             <
             // Comment
             >
                 <A />
             </>
         `,
-    unIndent`
+    $`
             <>
                 <A />
             < // Comment
             />
         `,
-    unIndent`
+    $`
             <>
                 <A />
             <
                 // Comment
             />
         `,
-    unIndent`
+    $`
             <>
                 <A />
             <
             // Comment
             />
         `,
-    unIndent`
+    $`
             <>
                 <A />
             </ // Comment
             >
         `,
-    unIndent`
+    $`
             <>
                 <A />
             </
                 // Comment
             >
         `,
-    unIndent`
+    $`
             <>
                 <A />
             </
             // Comment
             >
         `,
-    unIndent`
+    $`
             < /* Comment */
             >
                 <A />
             </>
         `,
-    unIndent`
+    $`
             <
                 /* Comment */
             >
                 <A />
             </>
         `,
-    unIndent`
+    $`
             <
             /* Comment */
             >
                 <A />
             </>
         `,
-    unIndent`
+    $`
             <
                 /**                 * Comment
                  */
@@ -4948,7 +4947,7 @@ run({
                 <A />
             </>
         `,
-    unIndent`
+    $`
             <
             /**             * Comment
              */
@@ -4956,64 +4955,64 @@ run({
                 <A />
             </>
         `,
-    unIndent`
+    $`
             <>
                 <A />
             < /* Comment */
             />
         `,
-    unIndent`
+    $`
             <>
                 <A />
             <
                 /* Comment */ />
         `,
-    unIndent`
+    $`
             <>
                 <A />
             <
             /* Comment */ />
         `,
-    unIndent`
+    $`
             <>
                 <A />
             <
                 /* Comment */
             />
         `,
-    unIndent`
+    $`
             <>
                 <A />
             <
             /* Comment */
             />
         `,
-    unIndent`
+    $`
             <>
                 <A />
             </ /* Comment */
             >
         `,
-    unIndent`
+    $`
             <>
                 <A />
             </
                 /* Comment */ >
         `,
-    unIndent`
+    $`
             <>
                 <A />
             </
             /* Comment */ >
         `,
-    unIndent`
+    $`
             <>
                 <A />
             </
                 /* Comment */
             >
         `,
-    unIndent`
+    $`
             <>
                 <A />
             </
@@ -5022,7 +5021,7 @@ run({
         `,
 
     // https://github.com/eslint/eslint/issues/8832
-    unIndent`
+    $`
                 <div>
                     {
                         (
@@ -5031,7 +5030,7 @@ run({
                     }
                 </div>
             `,
-    unIndent`
+    $`
                 function A() {
                     return (
                         <div>
@@ -5045,22 +5044,22 @@ run({
                     );
                 }
             `,
-    unIndent`
+    $`
             <div>foo
                 <div>bar</div>
             </div>
         `,
-    unIndent`
+    $`
             <small>Foo bar&nbsp;
                 <a>baz qux</a>.
             </small>
         `,
-    unIndent`
+    $`
             <div
                 {...props}
             />
         `,
-    unIndent`
+    $`
             <div
                 {
                     ...props
@@ -5068,7 +5067,7 @@ run({
             />
         `,
     {
-      code: unIndent`
+      code: $`
                 a(b
                   , c
                 )
@@ -5076,7 +5075,7 @@ run({
       options: [2, { CallExpression: { arguments: 'off' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 a(
                   new B({
                     c,
@@ -5086,7 +5085,7 @@ run({
       options: [2, { CallExpression: { arguments: 'off' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                 ? bar
                             : baz
@@ -5094,7 +5093,7 @@ run({
       options: [4, { ignoredNodes: ['ConditionalExpression'] }],
     },
     {
-      code: unIndent`
+      code: $`
                 class Foo {
                 foo() {
                     bar();
@@ -5104,7 +5103,7 @@ run({
       options: [4, { ignoredNodes: ['ClassBody'] }],
     },
     {
-      code: unIndent`
+      code: $`
                 class Foo {
                 foo() {
                 bar();
@@ -5114,7 +5113,7 @@ run({
       options: [4, { ignoredNodes: ['ClassBody', 'BlockStatement'] }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo({
                         bar: 1
                     },
@@ -5128,14 +5127,14 @@ run({
       options: [4, { ignoredNodes: ['CallExpression > ObjectExpression'] }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                                             .bar
             `,
       options: [4, { ignoredNodes: ['MemberExpression'] }],
     },
     {
-      code: unIndent`
+      code: $`
                 $(function() {
 
                 foo();
@@ -5148,14 +5147,14 @@ run({
       }],
     },
     {
-      code: unIndent`
+      code: $`
                 <Foo
                             bar="1" />
             `,
       options: [4, { ignoredNodes: ['JSXOpeningElement'] }],
     },
     {
-      code: unIndent`
+      code: $`
                 foo &&
                 <Bar
                 >
@@ -5164,7 +5163,7 @@ run({
       options: [4, { ignoredNodes: ['JSXElement', 'JSXOpeningElement'] }],
     },
     {
-      code: unIndent`
+      code: $`
                 (function($) {
                 $(function() {
                     foo;
@@ -5174,7 +5173,7 @@ run({
       options: [4, { ignoredNodes: ['ExpressionStatement > CallExpression > FunctionExpression.callee > BlockStatement'] }],
     },
     {
-      code: unIndent`
+      code: $`
                 const value = (
                     condition ?
                     valueIfTrue :
@@ -5184,7 +5183,7 @@ run({
       options: [4, { ignoredNodes: ['ConditionalExpression'] }],
     },
     {
-      code: unIndent`
+      code: $`
                 var a = 0, b = 0, c = 0;
                 export default foo(
                     a,
@@ -5197,7 +5196,7 @@ run({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
-      code: unIndent`
+      code: $`
                 foobar = baz
                        ? qux
                        : boop
@@ -5205,7 +5204,7 @@ run({
       options: [4, { ignoredNodes: ['ConditionalExpression'] }],
     },
     {
-      code: unIndent`
+      code: $`
                 \`
                     SELECT
                         \${
@@ -5216,7 +5215,7 @@ run({
       options: [4, { ignoredNodes: ['TemplateLiteral'] }],
     },
     {
-      code: unIndent`
+      code: $`
                 <foo
                     prop='bar'
                     >
@@ -5226,7 +5225,7 @@ run({
       options: [4, { ignoredNodes: ['JSXOpeningElement'] }],
     },
     {
-      code: unIndent`
+      code: $`
                 {
                 \tvar x = 1,
                 \t    y = 2;
@@ -5235,7 +5234,7 @@ run({
       options: ['tab'],
     },
     {
-      code: unIndent`
+      code: $`
                 var x = 1,
                     y = 2;
                 var z;
@@ -5243,7 +5242,7 @@ run({
       options: ['tab', { ignoredNodes: ['VariableDeclarator'] }],
     },
     {
-      code: unIndent`
+      code: $`
                 [
                     foo(),
                     bar
@@ -5252,7 +5251,7 @@ run({
       options: ['tab', { ArrayExpression: 'first', ignoredNodes: ['CallExpression'] }],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo) {
                     doSomething();
 
@@ -5263,7 +5262,7 @@ run({
       options: [4, { ignoreComments: true }],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo) {
                     doSomething();
 
@@ -5273,7 +5272,7 @@ run({
             `,
       options: [4, { ignoreComments: true }],
     },
-    unIndent`
+    $`
             const obj = {
                 foo () {
                     return condition ? // comment
@@ -5286,31 +5285,31 @@ run({
     // ----------------------------------------------------------------------
     // Comment alignment tests
     // ----------------------------------------------------------------------
-    unIndent`
+    $`
             if (foo) {
             // Comment can align with code immediately above even if "incorrect" alignment
                 doSomething();
             }
         `,
-    unIndent`
+    $`
             if (foo) {
                 doSomething();
             // Comment can align with code immediately below even if "incorrect" alignment
             }
         `,
-    unIndent`
+    $`
             if (foo) {
                 // Comment can be in correct alignment even if not aligned with code above/below
             }
         `,
-    unIndent`
+    $`
             if (foo) {
 
                 // Comment can be in correct alignment even if gaps between (and not aligned with) code above/below
 
             }
         `,
-    unIndent`
+    $`
             [{
                 foo
             },
@@ -5321,7 +5320,7 @@ run({
                 bar
             }];
         `,
-    unIndent`
+    $`
             [{
                 foo
             },
@@ -5332,75 +5331,75 @@ run({
                 bar
             }];
         `,
-    unIndent`
+    $`
             let foo
 
             // comment
 
             ;(async () => {})()
         `,
-    unIndent`
+    $`
             let foo
             // comment
 
             ;(async () => {})()
         `,
-    unIndent`
+    $`
             let foo
 
             // comment
             ;(async () => {})()
         `,
-    unIndent`
+    $`
             let foo
             // comment
             ;(async () => {})()
         `,
-    unIndent`
+    $`
             let foo
 
                 /* comment */;
 
             (async () => {})()
         `,
-    unIndent`
+    $`
             let foo
                 /* comment */;
 
             (async () => {})()
         `,
-    unIndent`
+    $`
             let foo
 
                 /* comment */;
             (async () => {})()
         `,
-    unIndent`
+    $`
             let foo
                 /* comment */;
             (async () => {})()
         `,
-    unIndent`
+    $`
             let foo
             /* comment */;
 
             (async () => {})()
         `,
-    unIndent`
+    $`
             let foo
             /* comment */;
             (async () => {})()
         `,
-    unIndent`
+    $`
             // comment
 
             ;(async () => {})()
         `,
-    unIndent`
+    $`
             // comment
             ;(async () => {})()
         `,
-    unIndent`
+    $`
             {
                 let foo
 
@@ -5409,27 +5408,27 @@ run({
                 ;(async () => {})()
             }
         `,
-    unIndent`
+    $`
             {
                 let foo
                 // comment
                 ;(async () => {})()
             }
         `,
-    unIndent`
+    $`
             {
                 // comment
 
                 ;(async () => {})()
             }
         `,
-    unIndent`
+    $`
             {
                 // comment
                 ;(async () => {})()
             }
         `,
-    unIndent`
+    $`
             const foo = 1
             const bar = foo
 
@@ -5437,27 +5436,27 @@ run({
 
             ;[1, 2, 3].forEach(() => {})
         `,
-    unIndent`
+    $`
             const foo = 1
             const bar = foo
             /* comment */
 
             ;[1, 2, 3].forEach(() => {})
         `,
-    unIndent`
+    $`
             const foo = 1
             const bar = foo
 
             /* comment */
             ;[1, 2, 3].forEach(() => {})
         `,
-    unIndent`
+    $`
             const foo = 1
             const bar = foo
             /* comment */
             ;[1, 2, 3].forEach(() => {})
         `,
-    unIndent`
+    $`
             const foo = 1
             const bar = foo
 
@@ -5465,49 +5464,49 @@ run({
 
             [1, 2, 3].forEach(() => {})
         `,
-    unIndent`
+    $`
             const foo = 1
             const bar = foo
                 /* comment */;
 
             [1, 2, 3].forEach(() => {})
         `,
-    unIndent`
+    $`
             const foo = 1
             const bar = foo
 
                 /* comment */;
             [1, 2, 3].forEach(() => {})
         `,
-    unIndent`
+    $`
             const foo = 1
             const bar = foo
                 /* comment */;
             [1, 2, 3].forEach(() => {})
         `,
-    unIndent`
+    $`
             const foo = 1
             const bar = foo
             /* comment */;
 
             [1, 2, 3].forEach(() => {})
         `,
-    unIndent`
+    $`
             const foo = 1
             const bar = foo
             /* comment */;
             [1, 2, 3].forEach(() => {})
         `,
-    unIndent`
+    $`
             /* comment */
 
             ;[1, 2, 3].forEach(() => {})
         `,
-    unIndent`
+    $`
             /* comment */
             ;[1, 2, 3].forEach(() => {})
         `,
-    unIndent`
+    $`
             {
                 const foo = 1
                 const bar = foo
@@ -5517,7 +5516,7 @@ run({
                 ;[1, 2, 3].forEach(() => {})
             }
         `,
-    unIndent`
+    $`
             {
                 const foo = 1
                 const bar = foo
@@ -5525,14 +5524,14 @@ run({
                 ;[1, 2, 3].forEach(() => {})
             }
         `,
-    unIndent`
+    $`
             {
                 /* comment */
 
                 ;[1, 2, 3].forEach(() => {})
             }
         `,
-    unIndent`
+    $`
             {
                 /* comment */
                 ;[1, 2, 3].forEach(() => {})
@@ -5541,7 +5540,7 @@ run({
 
     // import expressions
     {
-      code: unIndent`
+      code: $`
                 import(
                     // before
                     source
@@ -5553,7 +5552,7 @@ run({
 
     // https://github.com/eslint/eslint/issues/12122
     {
-      code: unIndent`
+      code: $`
                 foo(() => {
                     tag\`
                     multiline
@@ -5567,7 +5566,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 {
                     tag\`
                     multiline
@@ -5582,7 +5581,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 foo(() => {
                     tagOne\`
                     multiline
@@ -5605,7 +5604,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 {
                     tagOne\`
                     \${a} \${b}
@@ -5628,7 +5627,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 tagOne\`multiline
                         \${a} \${b}
                         template
@@ -5648,7 +5647,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 tagOne\`multiline
                     template
                     literal
@@ -5665,7 +5664,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 foo.bar\` template literal \`(() => {
                     baz();
                 })
@@ -5673,7 +5672,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 foo.bar.baz\` template literal \`(() => {
                     baz();
                 })
@@ -5681,7 +5680,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                     .bar\` template
                         literal \`(() => {
@@ -5691,7 +5690,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                     .bar
                     .baz\` template
@@ -5702,7 +5701,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 foo.bar\`
                     \${a} \${b}
                     \`(() => {
@@ -5712,7 +5711,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 foo.bar1.bar2\`
                     \${a} \${b}
                     \`(() => {
@@ -5722,7 +5721,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                     .bar1
                     .bar2\`
@@ -5734,7 +5733,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                     .bar\`
                     \${a} \${b}
@@ -5745,7 +5744,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                 .test\`
                     \${a} \${b}
@@ -5757,7 +5756,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                         .test\`
                     \${a} \${b}
@@ -5769,7 +5768,7 @@ run({
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = async (arg1,
                                    arg2) =>
                 {
@@ -5779,7 +5778,7 @@ run({
       options: [2, { FunctionDeclaration: { parameters: 'first' }, FunctionExpression: { parameters: 'first' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = async /* some comments */(arg1,
                                                       arg2) =>
                 {
@@ -5789,14 +5788,14 @@ run({
       options: [2, { FunctionDeclaration: { parameters: 'first' }, FunctionExpression: { parameters: 'first' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 const a = async
                 b => {}
             `,
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = (arg1,
                              arg2) => async (arr1,
                                              arr2) =>
@@ -5807,7 +5806,7 @@ run({
       options: [2, { FunctionDeclaration: { parameters: 'first' }, FunctionExpression: { parameters: 'first' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = async (arg1,
                   arg2) =>
                 {
@@ -5817,7 +5816,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = async /*comments*/(arg1,
                   arg2) =>
                 {
@@ -5827,7 +5826,7 @@ run({
       options: [2],
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = async (arg1,
                         arg2) =>
                 {
@@ -5837,7 +5836,7 @@ run({
       options: [2, { FunctionDeclaration: { parameters: 4 }, FunctionExpression: { parameters: 4 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = (arg1,
                         arg2) =>
                 {
@@ -5847,28 +5846,28 @@ run({
       options: [2, { FunctionDeclaration: { parameters: 4 }, FunctionExpression: { parameters: 4 } }],
     },
     {
-      code: unIndent`
+      code: $`
                 async function fn(ar1,
                                   ar2){}
             `,
       options: [2, { FunctionDeclaration: { parameters: 'first' }, FunctionExpression: { parameters: 'first' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 async function /* some comments */ fn(ar1,
                                                       ar2){}
             `,
       options: [2, { FunctionDeclaration: { parameters: 'first' }, FunctionExpression: { parameters: 'first' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 async  /* some comments */  function fn(ar1,
                                                         ar2){}
             `,
       options: [2, { FunctionDeclaration: { parameters: 'first' }, FunctionExpression: { parameters: 'first' } }],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                   static {
                     foo();
@@ -5880,7 +5879,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         foo();
@@ -5892,7 +5891,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                             foo();
@@ -5904,7 +5903,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                     foo();
@@ -5916,7 +5915,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 \tstatic {
                 \t\tfoo();
@@ -5928,7 +5927,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 \tstatic {
                 \t\t\tfoo();
@@ -5940,7 +5939,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static
                     {
@@ -5953,7 +5952,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         var x,
@@ -5965,7 +5964,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static
                     {
@@ -5978,7 +5977,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         if (foo) {
@@ -5991,7 +5990,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         {
@@ -6004,7 +6003,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {}
 
@@ -6020,7 +6019,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
 
                     static {
@@ -6037,7 +6036,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
 
                     x = 1;
@@ -6054,7 +6053,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
 
                     method1(param) {
@@ -6075,7 +6074,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 function f() {
                     class C {
                         static {
@@ -6089,7 +6088,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     method() {
                             foo;
@@ -6105,7 +6104,7 @@ run({
 
     // https://github.com/eslint/eslint/issues/15930
     {
-      code: unIndent`
+      code: $`
                 if (2 > 1)
                 \tconsole.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -6113,7 +6112,7 @@ run({
       options: ['tab'],
     },
     {
-      code: unIndent`
+      code: $`
                 if (2 > 1)
                     console.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -6121,21 +6120,21 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo) bar();
                 baz()
             `,
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo) bar()
                 ;baz()
             `,
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     bar();
                 baz();
@@ -6143,7 +6142,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     bar()
                 ; baz()
@@ -6151,7 +6150,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     bar()
                 ;baz()
@@ -6160,7 +6159,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     bar()
                 ;else
@@ -6169,7 +6168,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     bar()
                 else
@@ -6179,7 +6178,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar)
                         baz()
@@ -6188,7 +6187,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     bar()
                 else if (baz)
@@ -6198,7 +6197,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar)
                         baz()
@@ -6209,7 +6208,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     bar()
                     ;
@@ -6218,7 +6217,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     ;
                 baz()
@@ -6226,14 +6225,14 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                 ;baz()
             `,
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo);
                 else
                     baz()
@@ -6241,7 +6240,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     ;
                 else
@@ -6250,7 +6249,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                 ;else
                     baz()
@@ -6258,21 +6257,21 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 do foo();
                 while (bar)
             `,
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 do foo()
                 ;while (bar)
             `,
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 do
                     foo();
                 while (bar)
@@ -6280,7 +6279,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 do
                     foo()
                 ;while (bar)
@@ -6288,14 +6287,14 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 do;
                 while (foo)
             `,
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 do
                     ;
                 while (foo)
@@ -6303,14 +6302,14 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 do
                 ;while (foo)
             `,
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 while (2 > 1)
                     console.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -6318,7 +6317,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 for (;;)
                     console.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -6326,7 +6325,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 for (a in b)
                     console.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -6334,7 +6333,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 for (a of b)
                     console.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -6342,7 +6341,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 with (a)
                     console.log(b)
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -6351,7 +6350,7 @@ run({
       parserOptions: { sourceType: 'script' },
     },
     {
-      code: unIndent`
+      code: $`
                 label: for (a of b)
                     console.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -6359,7 +6358,7 @@ run({
       options: [4],
     },
     {
-      code: unIndent`
+      code: $`
                 label:
                 for (a of b)
                     console.log('a')
@@ -6370,7 +6369,7 @@ run({
 
     // https://github.com/eslint/eslint/issues/17316
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                 \tif (bar) doSomething();
                 \telse doSomething();
@@ -6380,7 +6379,7 @@ run({
             `,
       options: ['tab'],
     },
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
@@ -6388,7 +6387,7 @@ run({
                 if (bar) doSomething();
                 else doSomething();
         `,
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
@@ -6397,7 +6396,7 @@ run({
                     doSomething();
                 else doSomething();
         `,
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
@@ -6406,7 +6405,7 @@ run({
                 else
                     doSomething();
         `,
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
@@ -6416,14 +6415,14 @@ run({
                 else
                     doSomething();
         `,
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
             else if (bar) doSomething();
             else doSomething();
         `,
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
@@ -6431,7 +6430,7 @@ run({
                 doSomething();
             else doSomething();
         `,
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
@@ -6439,7 +6438,7 @@ run({
             else
                 doSomething();
         `,
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
@@ -6448,7 +6447,7 @@ run({
             else
                 doSomething();
         `,
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
@@ -6461,7 +6460,7 @@ run({
                     else doSomething();
 
         `,
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
@@ -6473,14 +6472,14 @@ run({
                         else doSomething();
                 else doSomething();
         `,
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
             else if (foo) doSomething();
             else doSomething();
         `,
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
@@ -6488,7 +6487,7 @@ run({
                 doSomething();
             }
         `,
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
@@ -6497,7 +6496,7 @@ run({
                 doSomething();
             }
         `,
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
@@ -6506,7 +6505,7 @@ run({
                     doSomething();
                 }
         `,
-    unIndent`
+    $`
             if (foo)
                 if (bar) doSomething();
                 else doSomething();
@@ -6520,13 +6519,13 @@ run({
 
   invalid: [
     {
-      code: unIndent`
+      code: $`
                 var a = b;
                 if (a) {
                 b();
                 }
             `,
-      output: unIndent`
+      output: $`
                 var a = b;
                 if (a) {
                   b();
@@ -6536,13 +6535,13 @@ run({
       errors: expectedErrors([[3, 2, 0, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 require('http').request({hostname: 'localhost',
                                   port: 80}, function(res) {
                     res.end();
                   });
             `,
-      output: unIndent`
+      output: $`
                 require('http').request({hostname: 'localhost',
                   port: 80}, function(res) {
                   res.end();
@@ -6552,7 +6551,7 @@ run({
       errors: expectedErrors([[2, 2, 18, 'Identifier'], [3, 2, 4, 'Identifier'], [4, 0, 2, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (array.some(function(){
                   return true;
                 })) {
@@ -6561,7 +6560,7 @@ run({
                     c++; // <-
                 }
             `,
-      output: unIndent`
+      output: $`
                 if (array.some(function(){
                   return true;
                 })) {
@@ -6574,14 +6573,14 @@ run({
       errors: expectedErrors([[4, 2, 0, 'Identifier'], [6, 2, 4, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (a){
                 \tb=c;
                 \t\tc=d;
                 e=f;
                 }
             `,
-      output: unIndent`
+      output: $`
                 if (a){
                 \tb=c;
                 \tc=d;
@@ -6592,14 +6591,14 @@ run({
       errors: expectedErrors('tab', [[3, 1, 2, 'Identifier'], [4, 1, 0, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (a){
                     b=c;
                       c=d;
                  e=f;
                 }
             `,
-      output: unIndent`
+      output: $`
                 if (a){
                     b=c;
                     c=d;
@@ -6725,7 +6724,7 @@ run({
       parserOptions: { ecmaVersion: 6, sourceType: 'script' },
     },
     {
-      code: unIndent`
+      code: $`
                 switch(value){
                     case "1":
                         a();
@@ -6738,7 +6737,7 @@ run({
                         break;
                 }
             `,
-      output: unIndent`
+      output: $`
                 switch(value){
                     case "1":
                         a();
@@ -6755,14 +6754,14 @@ run({
       errors: expectedErrors([[4, 8, 4, 'Keyword'], [7, 8, 4, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var x = 0 &&
                     {
                        a: 1,
                           b: 2
                     };
             `,
-      output: unIndent`
+      output: $`
                 var x = 0 &&
                     {
                         a: 1,
@@ -6773,7 +6772,7 @@ run({
       errors: expectedErrors([[3, 8, 7, 'Identifier'], [4, 8, 10, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 switch(value){
                     case "1":
                         a();
@@ -6785,7 +6784,7 @@ run({
                     break;
                 }
             `,
-      output: unIndent`
+      output: $`
                 switch(value){
                     case "1":
                         a();
@@ -6801,7 +6800,7 @@ run({
       errors: expectedErrors([9, 8, 4, 'Keyword']),
     },
     {
-      code: unIndent`
+      code: $`
                 switch(value){
                     case "1":
                     case "2":
@@ -6821,7 +6820,7 @@ run({
                     break;
                 }
             `,
-      output: unIndent`
+      output: $`
                 switch(value){
                     case "1":
                     case "2":
@@ -6845,7 +6844,7 @@ run({
       errors: expectedErrors([[11, 8, 4, 'Keyword'], [14, 8, 4, 'Keyword'], [17, 8, 4, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 switch(value){
                 case "1":
                         a();
@@ -6856,7 +6855,7 @@ run({
                         break;
                 }
             `,
-      output: unIndent`
+      output: $`
                 switch(value){
                 case "1":
                     a();
@@ -6878,13 +6877,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var obj = {foo: 1, bar: 2};
                 with (obj) {
                 console.log(foo + bar);
                 }
             `,
-      output: unIndent`
+      output: $`
                 var obj = {foo: 1, bar: 2};
                 with (obj) {
                     console.log(foo + bar);
@@ -6894,7 +6893,7 @@ run({
       parserOptions: { sourceType: 'script' },
     },
     {
-      code: unIndent`
+      code: $`
                 switch (a) {
                 case '1':
                 b();
@@ -6904,7 +6903,7 @@ run({
                 break;
                 }
             `,
-      output: unIndent`
+      output: $`
                 switch (a) {
                     case '1':
                         b();
@@ -6925,13 +6924,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = function(){
                     foo
                           .bar
                 }
             `,
-      output: unIndent`
+      output: $`
                 var foo = function(){
                     foo
                         .bar
@@ -6943,13 +6942,13 @@ run({
       ),
     },
     {
-      code: unIndent`
+      code: $`
                 (
                     foo
                     .bar
                 )
             `,
-      output: unIndent`
+      output: $`
                 (
                     foo
                         .bar
@@ -6958,13 +6957,13 @@ run({
       errors: expectedErrors([3, 8, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = function(){
                     foo
                              .bar
                 }
             `,
-      output: unIndent`
+      output: $`
                 var foo = function(){
                     foo
                             .bar
@@ -6976,13 +6975,13 @@ run({
       ),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = () => {
                     foo
                              .bar
                 }
             `,
-      output: unIndent`
+      output: $`
                 var foo = () => {
                     foo
                             .bar
@@ -6994,7 +6993,7 @@ run({
       ),
     },
     {
-      code: unIndent`
+      code: $`
                 TestClass.prototype.method = function () {
                   return Promise.resolve(3)
                       .then(function (x) {
@@ -7002,7 +7001,7 @@ run({
                     });
                 };
             `,
-      output: unIndent`
+      output: $`
                 TestClass.prototype.method = function () {
                   return Promise.resolve(3)
                     .then(function (x) {
@@ -7014,11 +7013,11 @@ run({
       errors: expectedErrors([3, 4, 6, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 while (a)
                 b();
             `,
-      output: unIndent`
+      output: $`
                 while (a)
                     b();
             `,
@@ -7028,7 +7027,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 lmn = [{
                         a: 1
                     },
@@ -7039,7 +7038,7 @@ run({
                         x: 2
                 }];
             `,
-      output: unIndent`
+      output: $`
                 lmn = [{
                     a: 1
                 },
@@ -7061,12 +7060,12 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 for (var foo = 1;
                 foo < 10;
                 foo++) {}
             `,
-      output: unIndent`
+      output: $`
                 for (var foo = 1;
                     foo < 10;
                     foo++) {}
@@ -7074,14 +7073,14 @@ run({
       errors: expectedErrors([[2, 4, 0, 'Identifier'], [3, 4, 0, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 for (
                 var foo = 1;
                 foo < 10;
                 foo++
                     ) {}
             `,
-      output: unIndent`
+      output: $`
                 for (
                     var foo = 1;
                     foo < 10;
@@ -7091,11 +7090,11 @@ run({
       errors: expectedErrors([[2, 4, 0, 'Keyword'], [3, 4, 0, 'Identifier'], [4, 4, 0, 'Identifier'], [5, 0, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 for (;;)
                 b();
             `,
-      output: unIndent`
+      output: $`
                 for (;;)
                     b();
             `,
@@ -7105,11 +7104,11 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 for (a in x)
                 b();
             `,
-      output: unIndent`
+      output: $`
                 for (a in x)
                     b();
             `,
@@ -7119,12 +7118,12 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 do
                 b();
                 while(true)
             `,
-      output: unIndent`
+      output: $`
                 do
                     b();
                 while(true)
@@ -7135,11 +7134,11 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 with(a)
                 b();
             `,
-      output: unIndent`
+      output: $`
                 with(a)
                     b();
             `,
@@ -7150,11 +7149,11 @@ run({
       parserOptions: { sourceType: 'script' },
     },
     {
-      code: unIndent`
+      code: $`
                 if(true)
                 b();
             `,
-      output: unIndent`
+      output: $`
                 if(true)
                     b();
             `,
@@ -7164,13 +7163,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var test = {
                       a: 1,
                     b: 2
                     };
             `,
-      output: unIndent`
+      output: $`
                 var test = {
                   a: 1,
                   b: 2
@@ -7184,7 +7183,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var a = function() {
                       a++;
                     b++;
@@ -7192,7 +7191,7 @@ run({
                     },
                     b;
             `,
-      output: unIndent`
+      output: $`
                 var a = function() {
                         a++;
                         b++;
@@ -7208,12 +7207,12 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var a = 1,
                 b = 2,
                 c = 3;
             `,
-      output: unIndent`
+      output: $`
                 var a = 1,
                     b = 2,
                     c = 3;
@@ -7225,13 +7224,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 [a, b,
                     c].forEach((index) => {
                         index;
                     });
             `,
-      output: unIndent`
+      output: $`
                 [a, b,
                     c].forEach((index) => {
                     index;
@@ -7244,13 +7243,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 [a, b,
                 c].forEach(function(index){
                   return index;
                 });
             `,
-      output: unIndent`
+      output: $`
                 [a, b,
                     c].forEach(function(index){
                     return index;
@@ -7263,12 +7262,12 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 [a, b, c].forEach(function(index){
                   return index;
                 });
             `,
-      output: unIndent`
+      output: $`
                 [a, b, c].forEach(function(index){
                     return index;
                 });
@@ -7279,13 +7278,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 (foo)
                     .bar([
                     baz
                 ]);
             `,
-      output: unIndent`
+      output: $`
                 (foo)
                     .bar([
                         baz
@@ -7295,13 +7294,13 @@ run({
       errors: expectedErrors([[3, 8, 4, 'Identifier'], [4, 4, 0, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var x = ['a',
                          'b',
                          'c'
                 ];
             `,
-      output: unIndent`
+      output: $`
                 var x = ['a',
                     'b',
                     'c'
@@ -7314,14 +7313,14 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var x = [
                          'a',
                          'b',
                          'c'
                 ];
             `,
-      output: unIndent`
+      output: $`
                 var x = [
                     'a',
                     'b',
@@ -7336,14 +7335,14 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var x = [
                          'a',
                          'b',
                          'c',
                 'd'];
             `,
-      output: unIndent`
+      output: $`
                 var x = [
                     'a',
                     'b',
@@ -7359,14 +7358,14 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var x = [
                          'a',
                          'b',
                          'c'
                   ];
             `,
-      output: unIndent`
+      output: $`
                 var x = [
                     'a',
                     'b',
@@ -7382,14 +7381,14 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 [[
                 ], function(
                         foo
                     ) {}
                 ]
             `,
-      output: unIndent`
+      output: $`
                 [[
                 ], function(
                     foo
@@ -7399,7 +7398,7 @@ run({
       errors: expectedErrors([[3, 4, 8, 'Identifier'], [4, 0, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 define([
                     'foo'
                 ], function(
@@ -7409,7 +7408,7 @@ run({
                 }
                 )
             `,
-      output: unIndent`
+      output: $`
                 define([
                     'foo'
                 ], function(
@@ -7422,12 +7421,12 @@ run({
       errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 while (1 < 2)
                 console.log('foo')
                   console.log('bar')
             `,
-      output: unIndent`
+      output: $`
                 while (1 < 2)
                   console.log('foo')
                 console.log('bar')
@@ -7439,7 +7438,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 function salutation () {
                   switch (1) {
                   case 0: return console.log('hi')
@@ -7447,7 +7446,7 @@ run({
                   }
                 }
             `,
-      output: unIndent`
+      output: $`
                 function salutation () {
                   switch (1) {
                     case 0: return console.log('hi')
@@ -7461,11 +7460,11 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var geometry, box, face1, face2, colorT, colorB, sprite, padding, maxWidth,
                 height, rotate;
             `,
-      output: unIndent`
+      output: $`
                 var geometry, box, face1, face2, colorT, colorB, sprite, padding, maxWidth,
                   height, rotate;
             `,
@@ -7475,7 +7474,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 switch (a) {
                 case '1':
                 b();
@@ -7485,7 +7484,7 @@ run({
                 break;
                 }
             `,
-      output: unIndent`
+      output: $`
                 switch (a) {
                         case '1':
                             b();
@@ -7506,11 +7505,11 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var geometry,
                 rotate;
             `,
-      output: unIndent`
+      output: $`
                 var geometry,
                   rotate;
             `,
@@ -7520,11 +7519,11 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var geometry,
                   rotate;
             `,
-      output: unIndent`
+      output: $`
                 var geometry,
                     rotate;
             `,
@@ -7534,11 +7533,11 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var geometry,
                 \trotate;
             `,
-      output: unIndent`
+      output: $`
                 var geometry,
                 \t\trotate;
             `,
@@ -7548,11 +7547,11 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 let geometry,
                   rotate;
             `,
-      output: unIndent`
+      output: $`
                 let geometry,
                     rotate;
             `,
@@ -7562,13 +7561,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 let foo = 'foo',
                   bar = bar;
                 const a = 'a',
                   b = 'b';
             `,
-      output: unIndent`
+      output: $`
                 let foo = 'foo',
                     bar = bar;
                 const a = 'a',
@@ -7581,11 +7580,11 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = 'foo',
                   bar = bar;
             `,
-      output: unIndent`
+      output: $`
                 var foo = 'foo',
                     bar = bar;
             `,
@@ -7595,13 +7594,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if(true)
                   if (true)
                     if (true)
                     console.log(val);
             `,
-      output: unIndent`
+      output: $`
                 if(true)
                   if (true)
                     if (true)
@@ -7613,13 +7612,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var a = {
                     a: 1,
                     b: 2
                 }
             `,
-      output: unIndent`
+      output: $`
                 var a = {
                   a: 1,
                   b: 2
@@ -7632,13 +7631,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var a = [
                     a,
                     b
                 ]
             `,
-      output: unIndent`
+      output: $`
                 var a = [
                   a,
                   b
@@ -7651,13 +7650,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 let a = [
                     a,
                     b
                 ]
             `,
-      output: unIndent`
+      output: $`
                 let a = [
                   a,
                   b
@@ -7670,13 +7669,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var a = new Test({
                       a: 1
                   }),
                     b = 4;
             `,
-      output: unIndent`
+      output: $`
                 var a = new Test({
                         a: 1
                     }),
@@ -7689,7 +7688,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var a = new Test({
                       a: 1
                     }),
@@ -7699,7 +7698,7 @@ run({
                     }),
                     d = 4;
             `,
-      output: unIndent`
+      output: $`
                 var a = new Test({
                       a: 1
                     }),
@@ -7717,7 +7716,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var abc = 5,
                     c = 2,
                     xyz =
@@ -7726,7 +7725,7 @@ run({
                        b: 2
                     };
             `,
-      output: unIndent`
+      output: $`
                 var abc = 5,
                     c = 2,
                     xyz =
@@ -7739,14 +7738,14 @@ run({
       errors: expectedErrors([6, 6, 7, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 var abc =
                      {
                        a: 1,
                         b: 2
                      };
             `,
-      output: unIndent`
+      output: $`
                 var abc =
                      {
                        a: 1,
@@ -7757,7 +7756,7 @@ run({
       errors: expectedErrors([4, 7, 8, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = {
                     bar: 1,
                     baz: {
@@ -7766,7 +7765,7 @@ run({
                   },
                   bar = 1;
             `,
-      output: unIndent`
+      output: $`
                 var foo = {
                     bar: 1,
                     baz: {
@@ -7779,12 +7778,12 @@ run({
       errors: expectedErrors([[4, 6, 8, 'Identifier'], [5, 4, 6, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var path     = require('path')
                  , crypto    = require('crypto')
                 ;
             `,
-      output: unIndent`
+      output: $`
                 var path     = require('path')
                   , crypto    = require('crypto')
                 ;
@@ -7795,12 +7794,12 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var a = 1
                    ,b = 2
                 ;
             `,
-      output: unIndent`
+      output: $`
                 var a = 1
                     ,b = 2
                 ;
@@ -7810,14 +7809,14 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class A{
                   constructor(){}
                     a(){}
                     get b(){}
                 }
             `,
-      output: unIndent`
+      output: $`
                 class A{
                     constructor(){}
                     a(){}
@@ -7828,14 +7827,14 @@ run({
       errors: expectedErrors([[2, 4, 2, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var A = class {
                   constructor(){}
                     a(){}
                   get b(){}
                 };
             `,
-      output: unIndent`
+      output: $`
                 var A = class {
                     constructor(){}
                     a(){}
@@ -7846,7 +7845,7 @@ run({
       errors: expectedErrors([[2, 4, 2, 'Identifier'], [4, 4, 2, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var a = 1,
                     B = class {
                     constructor(){}
@@ -7854,7 +7853,7 @@ run({
                       get b(){}
                     };
             `,
-      output: unIndent`
+      output: $`
                 var a = 1,
                     B = class {
                       constructor(){}
@@ -7866,7 +7865,7 @@ run({
       errors: expectedErrors([[3, 6, 4, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 {
                     if(a){
                         foo();
@@ -7876,7 +7875,7 @@ run({
                     }
                 }
             `,
-      output: unIndent`
+      output: $`
                 {
                     if(a){
                         foo();
@@ -7890,7 +7889,7 @@ run({
       errors: expectedErrors([[5, 4, 2, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 {
                     if(a){
                         foo();
@@ -7900,7 +7899,7 @@ run({
 
                 }
             `,
-      output: unIndent`
+      output: $`
                 {
                     if(a){
                         foo();
@@ -7914,7 +7913,7 @@ run({
       errors: expectedErrors([[5, 4, 2, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 {
                     if(a)
                         foo();
@@ -7922,7 +7921,7 @@ run({
                         bar();
                 }
             `,
-      output: unIndent`
+      output: $`
                 {
                     if(a)
                         foo();
@@ -7934,14 +7933,14 @@ run({
       errors: expectedErrors([[4, 4, 2, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 (function(){
                   function foo(x) {
                     return x + 1;
                   }
                 })();
             `,
-      output: unIndent`
+      output: $`
                 (function(){
                 function foo(x) {
                   return x + 1;
@@ -7952,14 +7951,14 @@ run({
       errors: expectedErrors([[2, 0, 2, 'Keyword'], [3, 2, 4, 'Keyword'], [4, 0, 2, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 (function(){
                     function foo(x) {
                         return x + 1;
                     }
                 })();
             `,
-      output: unIndent`
+      output: $`
                 (function(){
                         function foo(x) {
                             return x + 1;
@@ -7970,12 +7969,12 @@ run({
       errors: expectedErrors([[2, 8, 4, 'Keyword'], [3, 12, 8, 'Keyword'], [4, 8, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 if(data) {
                 console.log('hi');
                 }
             `,
-      output: unIndent`
+      output: $`
                 if(data) {
                   console.log('hi');
                 }
@@ -7984,14 +7983,14 @@ run({
       errors: expectedErrors([[2, 2, 0, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var ns = function(){
                     function fooVar(x) {
                         return x + 1;
                     }
                 }(x);
             `,
-      output: unIndent`
+      output: $`
                 var ns = function(){
                         function fooVar(x) {
                             return x + 1;
@@ -8002,14 +8001,14 @@ run({
       errors: expectedErrors([[2, 8, 4, 'Keyword'], [3, 12, 8, 'Keyword'], [4, 8, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var obj = {
                   foo: function() {
                   return true;
                   }()
                 };
             `,
-      output: unIndent`
+      output: $`
                 var obj = {
                   foo: function() {
                     return true;
@@ -8020,14 +8019,14 @@ run({
       errors: expectedErrors([[3, 4, 2, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 typeof function() {
                     function fooVar(x) {
                       return x + 1;
                     }
                 }();
             `,
-      output: unIndent`
+      output: $`
                 typeof function() {
                   function fooVar(x) {
                     return x + 1;
@@ -8038,14 +8037,14 @@ run({
       errors: expectedErrors([[2, 2, 4, 'Keyword'], [3, 4, 6, 'Keyword'], [4, 2, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 {
                 \t!function(x) {
                 \t\t\t\treturn x + 1;
                 \t}()
                 };
             `,
-      output: unIndent`
+      output: $`
                 {
                 \t!function(x) {
                 \t\treturn x + 1;
@@ -8056,14 +8055,14 @@ run({
       errors: expectedErrors('tab', [[3, 2, 4, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 (function(){
                     function foo(x) {
                     return x + 1;
                     }
                 })();
             `,
-      output: unIndent`
+      output: $`
                 (function(){
                     function foo(x) {
                         return x + 1;
@@ -8074,14 +8073,14 @@ run({
       errors: expectedErrors([[3, 8, 4, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 (function(){
                 function foo(x) {
                 return x + 1;
                 }
                 })();
             `,
-      output: unIndent`
+      output: $`
                 (function(){
                 function foo(x) {
                     return x + 1;
@@ -8092,14 +8091,14 @@ run({
       errors: expectedErrors([[3, 4, 0, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 (() => {
                     function foo(x) {
                     return x + 1;
                     }
                 })();
             `,
-      output: unIndent`
+      output: $`
                 (() => {
                     function foo(x) {
                         return x + 1;
@@ -8110,14 +8109,14 @@ run({
       errors: expectedErrors([[3, 8, 4, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 (() => {
                 function foo(x) {
                 return x + 1;
                 }
                 })();
             `,
-      output: unIndent`
+      output: $`
                 (() => {
                 function foo(x) {
                     return x + 1;
@@ -8128,11 +8127,11 @@ run({
       errors: expectedErrors([[3, 4, 0, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 Buffer
                 .toString()
             `,
-      output: unIndent`
+      output: $`
                 Buffer
                     .toString()
             `,
@@ -8140,12 +8139,12 @@ run({
       errors: expectedErrors([[2, 4, 0, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 Buffer
                     .indexOf('a')
                 .toString()
             `,
-      output: unIndent`
+      output: $`
                 Buffer
                     .indexOf('a')
                     .toString()
@@ -8154,11 +8153,11 @@ run({
       errors: expectedErrors([[3, 4, 0, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 Buffer.
                 length
             `,
-      output: unIndent`
+      output: $`
                 Buffer.
                     length
             `,
@@ -8166,11 +8165,11 @@ run({
       errors: expectedErrors([[2, 4, 0, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 Buffer.
                 \t\tlength
             `,
-      output: unIndent`
+      output: $`
                 Buffer.
                 \tlength
             `,
@@ -8178,12 +8177,12 @@ run({
       errors: expectedErrors('tab', [[2, 1, 2, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 Buffer
                   .foo
                   .bar
             `,
-      output: unIndent`
+      output: $`
                 Buffer
                     .foo
                     .bar
@@ -8192,13 +8191,13 @@ run({
       errors: expectedErrors([[2, 4, 2, 'Punctuator'], [3, 4, 2, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                     new
                     .target
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                     new
                         .target
@@ -8207,13 +8206,13 @@ run({
       errors: expectedErrors([3, 8, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                     new.
                     target
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                     new.
                         target
@@ -8225,12 +8224,12 @@ run({
 
       // Indentation with multiple else statements: https://github.com/eslint/eslint/issues/6956
 
-      code: unIndent`
+      code: $`
                 if (foo) bar();
                 else if (baz) foobar();
                   else if (qux) qux();
             `,
-      output: unIndent`
+      output: $`
                 if (foo) bar();
                 else if (baz) foobar();
                 else if (qux) qux();
@@ -8239,12 +8238,12 @@ run({
       errors: expectedErrors([3, 0, 2, 'Keyword']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo) bar();
                 else if (baz) foobar();
                   else qux();
             `,
-      output: unIndent`
+      output: $`
                 if (foo) bar();
                 else if (baz) foobar();
                 else qux();
@@ -8253,12 +8252,12 @@ run({
       errors: expectedErrors([3, 0, 2, 'Keyword']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo();
                   if (baz) foobar();
                   else qux();
             `,
-      output: unIndent`
+      output: $`
                 foo();
                 if (baz) foobar();
                 else qux();
@@ -8267,14 +8266,14 @@ run({
       errors: expectedErrors([[2, 0, 2, 'Keyword'], [3, 0, 2, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo) bar();
                 else if (baz) foobar();
                      else if (bip) {
                        qux();
                      }
             `,
-      output: unIndent`
+      output: $`
                 if (foo) bar();
                 else if (baz) foobar();
                 else if (bip) {
@@ -8285,7 +8284,7 @@ run({
       errors: expectedErrors([[3, 0, 5, 'Keyword'], [4, 2, 7, 'Identifier'], [5, 0, 5, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo) bar();
                 else if (baz) {
                     foobar();
@@ -8293,7 +8292,7 @@ run({
                        qux();
                      }
             `,
-      output: unIndent`
+      output: $`
                 if (foo) bar();
                 else if (baz) {
                   foobar();
@@ -8305,13 +8304,13 @@ run({
       errors: expectedErrors([[3, 2, 4, 'Identifier'], [4, 0, 5, 'Punctuator'], [5, 2, 7, 'Identifier'], [6, 0, 5, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo(aaa,
                     bbb, ccc, ddd) {
                       bar();
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo(aaa,
                   bbb, ccc, ddd) {
                     bar();
@@ -8321,13 +8320,13 @@ run({
       errors: expectedErrors([[2, 2, 4, 'Identifier'], [3, 4, 6, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo(aaa, bbb,
                   ccc, ddd) {
                 bar();
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo(aaa, bbb,
                       ccc, ddd) {
                   bar();
@@ -8337,14 +8336,14 @@ run({
       errors: expectedErrors([[2, 6, 2, 'Identifier'], [3, 2, 0, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo(aaa,
                         bbb,
                   ccc) {
                       bar();
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo(aaa,
                     bbb,
                     ccc) {
@@ -8355,14 +8354,14 @@ run({
       errors: expectedErrors([[2, 4, 8, 'Identifier'], [3, 4, 2, 'Identifier'], [4, 12, 6, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo(aaa,
                   bbb, ccc,
                                    ddd, eee, fff) {
                    bar();
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo(aaa,
                              bbb, ccc,
                              ddd, eee, fff) {
@@ -8373,13 +8372,13 @@ run({
       errors: expectedErrors([[2, 13, 2, 'Identifier'], [3, 13, 19, 'Identifier'], [4, 2, 3, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo(aaa, bbb)
                 {
                 bar();
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo(aaa, bbb)
                 {
                       bar();
@@ -8389,14 +8388,14 @@ run({
       errors: expectedErrors([3, 6, 0, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo(
                 aaa,
                     bbb) {
                 bar();
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo(
                   aaa,
                   bbb) {
@@ -8407,7 +8406,7 @@ run({
       errors: expectedErrors([[2, 2, 0, 'Identifier'], [3, 2, 4, 'Identifier'], [4, 4, 0, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = function(aaa,
                   bbb,
                     ccc,
@@ -8415,7 +8414,7 @@ run({
                   bar();
                 }
             `,
-      output: unIndent`
+      output: $`
                 var foo = function(aaa,
                     bbb,
                     ccc,
@@ -8427,14 +8426,14 @@ run({
       errors: expectedErrors([[2, 4, 2, 'Identifier'], [4, 4, 6, 'Identifier'], [5, 0, 2, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = function(aaa,
                    bbb,
                  ccc) {
                   bar();
                 }
             `,
-      output: unIndent`
+      output: $`
                 var foo = function(aaa,
                   bbb,
                   ccc) {
@@ -8445,14 +8444,14 @@ run({
       errors: expectedErrors([[2, 2, 3, 'Identifier'], [3, 2, 1, 'Identifier'], [4, 20, 2, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = function(aaa,
                   bbb, ccc, ddd,
                                         eee, fff) {
                         bar();
                 }
             `,
-      output: unIndent`
+      output: $`
                 var foo = function(aaa,
                                    bbb, ccc, ddd,
                                    eee, fff) {
@@ -8463,14 +8462,14 @@ run({
       errors: expectedErrors([[2, 19, 2, 'Identifier'], [3, 19, 24, 'Identifier'], [4, 4, 8, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = function(
                 aaa, bbb, ccc,
                     ddd, eee) {
                   bar();
                 }
             `,
-      output: unIndent`
+      output: $`
                 var foo = function(
                   aaa, bbb, ccc,
                   ddd, eee) {
@@ -8481,11 +8480,11 @@ run({
       errors: expectedErrors([[2, 2, 0, 'Identifier'], [3, 2, 4, 'Identifier'], [4, 6, 2, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = bar;
                 \t\t\tvar baz = qux;
             `,
-      output: unIndent`
+      output: $`
                 var foo = bar;
                 var baz = qux;
             `,
@@ -8493,14 +8492,14 @@ run({
       errors: expectedErrors([2, '0 spaces', '3 tabs', 'Keyword']),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                 \tbar();
                   baz();
                               qux();
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                 \tbar();
                 \tbaz();
@@ -8511,12 +8510,12 @@ run({
       errors: expectedErrors('tab', [[3, '1 tab', '2 spaces', 'Identifier'], [4, '1 tab', '14 spaces', 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   bar();
                 \t\t}
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                   bar();
                 }
@@ -8525,14 +8524,14 @@ run({
       errors: expectedErrors([[3, '0 spaces', '2 tabs', 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   function bar() {
                         baz();
                   }
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                   function bar() {
                     baz();
@@ -8543,7 +8542,7 @@ run({
       errors: expectedErrors([3, 4, 8, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   function bar(baz,
                     qux) {
@@ -8551,7 +8550,7 @@ run({
                   }
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                   function bar(baz,
                       qux) {
@@ -8563,7 +8562,7 @@ run({
       errors: expectedErrors([3, 6, 4, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   var bar = function(baz,
                           qux) {
@@ -8571,7 +8570,7 @@ run({
                   };
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                   var bar = function(baz,
                         qux) {
@@ -8583,14 +8582,14 @@ run({
       errors: expectedErrors([3, 8, 10, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo.bar(
                       baz, qux, function() {
                         qux;
                       }
                 );
             `,
-      output: unIndent`
+      output: $`
                 foo.bar(
                       baz, qux, function() {
                             qux;
@@ -8601,7 +8600,7 @@ run({
       errors: expectedErrors([3, 12, 8, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 {
                     try {
                     }
@@ -8611,7 +8610,7 @@ run({
                     }
                 }
             `,
-      output: unIndent`
+      output: $`
                 {
                     try {
                     }
@@ -8627,14 +8626,14 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 {
                     do {
                     }
                 while (true)
                 }
             `,
-      output: unIndent`
+      output: $`
                 {
                     do {
                     }
@@ -8644,14 +8643,14 @@ run({
       errors: expectedErrors([4, 4, 0, 'Keyword']),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   return (
                     1
                     )
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                   return (
                     1
@@ -8662,14 +8661,14 @@ run({
       errors: expectedErrors([[4, 2, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                   return (
                     1
                     );
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                   return (
                     1
@@ -8680,7 +8679,7 @@ run({
       errors: expectedErrors([[4, 2, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function test(){
                   switch(length){
                     case 1: return function(a){
@@ -8689,7 +8688,7 @@ run({
                   }
                 }
             `,
-      output: unIndent`
+      output: $`
                 function test(){
                   switch(length){
                     case 1: return function(a){
@@ -8702,12 +8701,12 @@ run({
       errors: expectedErrors([[4, 6, 4, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                    return 1
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                   return 1
                 }
@@ -8716,13 +8715,13 @@ run({
       errors: expectedErrors([[2, 2, 3, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo(
                 bar,
                   baz,
                     qux);
             `,
-      output: unIndent`
+      output: $`
                 foo(
                   bar,
                   baz,
@@ -8732,12 +8731,12 @@ run({
       errors: expectedErrors([[2, 2, 0, 'Identifier'], [4, 2, 4, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo(
                 \tbar,
                 \tbaz);
             `,
-      output: unIndent`
+      output: $`
                 foo(
                     bar,
                     baz);
@@ -8746,12 +8745,12 @@ run({
       errors: expectedErrors([[2, '4 spaces', '1 tab', 'Identifier'], [3, '4 spaces', '1 tab', 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo(bar,
                 \t\tbaz,
                 \t\tqux);
             `,
-      output: unIndent`
+      output: $`
                 foo(bar,
                 \tbaz,
                 \tqux);
@@ -8760,11 +8759,11 @@ run({
       errors: expectedErrors('tab', [[2, 1, 2, 'Identifier'], [3, 1, 2, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo(bar, baz,
                          qux);
             `,
-      output: unIndent`
+      output: $`
                 foo(bar, baz,
                     qux);
             `,
@@ -8772,12 +8771,12 @@ run({
       errors: expectedErrors([2, 4, 9, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo(
                           bar,
                     baz);
             `,
-      output: unIndent`
+      output: $`
                 foo(
                   bar,
                   baz);
@@ -8786,14 +8785,14 @@ run({
       errors: expectedErrors([[2, 2, 10, 'Identifier'], [3, 2, 4, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo(bar,
                   1 + 2,
                               !baz,
                         new Car('!')
                 );
             `,
-      output: unIndent`
+      output: $`
                 foo(bar,
                       1 + 2,
                       !baz,
@@ -8806,12 +8805,12 @@ run({
 
     // https://github.com/eslint/eslint/issues/7573
     {
-      code: unIndent`
+      code: $`
                 return (
                     foo
                     );
             `,
-      output: unIndent`
+      output: $`
                 return (
                     foo
                 );
@@ -8820,12 +8819,12 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 return (
                     foo
                     )
             `,
-      output: unIndent`
+      output: $`
                 return (
                     foo
                 )
@@ -8836,12 +8835,12 @@ run({
 
     // https://github.com/eslint/eslint/issues/7604
     {
-      code: unIndent`
+      code: $`
                 if (foo) {
                         /* comment */bar();
                 }
             `,
-      output: unIndent`
+      output: $`
                 if (foo) {
                     /* comment */bar();
                 }
@@ -8849,13 +8848,13 @@ run({
       errors: expectedErrors([2, 4, 8, 'Block']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo('bar',
                         /** comment */{
                         ok: true
                     });
             `,
-      output: unIndent`
+      output: $`
                 foo('bar',
                     /** comment */{
                         ok: true
@@ -8864,12 +8863,12 @@ run({
       errors: expectedErrors([2, 4, 8, 'Block']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo(
                 (bar)
                 );
             `,
-      output: unIndent`
+      output: $`
                 foo(
                     (bar)
                 );
@@ -8878,12 +8877,12 @@ run({
       errors: expectedErrors([2, 4, 0, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 ((
                 foo
                 ))
             `,
-      output: unIndent`
+      output: $`
                 ((
                     foo
                 ))
@@ -8894,12 +8893,12 @@ run({
 
     // ternary expressions (https://github.com/eslint/eslint/issues/7420)
     {
-      code: unIndent`
+      code: $`
                 foo
                 ? bar
                     : baz
             `,
-      output: unIndent`
+      output: $`
                 foo
                   ? bar
                   : baz
@@ -8908,7 +8907,7 @@ run({
       errors: expectedErrors([[2, 2, 0, 'Punctuator'], [3, 2, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 [
                     foo ?
                         bar :
@@ -8916,7 +8915,7 @@ run({
                         qux
                 ]
             `,
-      output: unIndent`
+      output: $`
                 [
                     foo ?
                         bar :
@@ -8927,7 +8926,7 @@ run({
       errors: expectedErrors([5, 4, 8, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
               condition
               ? () => {
               return true
@@ -8940,7 +8939,7 @@ run({
               return false
               }
             `,
-      output: unIndent`
+      output: $`
               condition
                 ? () => {
                     return true
@@ -8968,7 +8967,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
               condition
               ? () => {
               return true
@@ -8981,7 +8980,7 @@ run({
               return false
               }
             `,
-      output: unIndent`
+      output: $`
               condition
                 ? () => {
                   return true
@@ -9014,7 +9013,7 @@ run({
        *             Checking comments:
        * https://github.com/eslint/eslint/issues/6571
        */
-      code: unIndent`
+      code: $`
                 foo();
                   // comment
                     /* multiline
@@ -9022,7 +9021,7 @@ run({
                 bar();
                  // trailing comment
             `,
-      output: unIndent`
+      output: $`
                 foo();
                 // comment
                 /* multiline
@@ -9039,34 +9038,34 @@ run({
       errors: expectedErrors([1, 0, 2, 'Line']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                   // comment
             `,
-      output: unIndent`
+      output: $`
                 foo
                 // comment
             `,
       errors: expectedErrors([2, 0, 2, 'Line']),
     },
     {
-      code: unIndent`
+      code: $`
                   // comment
                 foo
             `,
-      output: unIndent`
+      output: $`
                 // comment
                 foo
             `,
       errors: expectedErrors([1, 0, 2, 'Line']),
     },
     {
-      code: unIndent`
+      code: $`
                 [
                         // no elements
                 ]
             `,
-      output: unIndent`
+      output: $`
                 [
                     // no elements
                 ]
@@ -9079,7 +9078,7 @@ run({
        * Destructuring assignments:
        * https://github.com/eslint/eslint/issues/6813
        */
-      code: unIndent`
+      code: $`
                 var {
                 foo,
                   bar,
@@ -9087,7 +9086,7 @@ run({
                       foobar: baz = foobar
                   } = qux;
             `,
-      output: unIndent`
+      output: $`
                 var {
                   foo,
                   bar,
@@ -9099,14 +9098,14 @@ run({
       errors: expectedErrors([[2, 2, 0, 'Identifier'], [4, 2, 4, 'Identifier'], [5, 2, 6, 'Identifier'], [6, 0, 2, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 const {
                   a
                 } = {
                     a: 1
                   }
             `,
-      output: unIndent`
+      output: $`
                 const {
                   a
                 } = {
@@ -9117,13 +9116,13 @@ run({
       errors: expectedErrors([[4, 2, 4, 'Identifier'], [5, 0, 2, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = [
                            bar,
                   baz
                           ]
             `,
-      output: unIndent`
+      output: $`
                 var foo = [
                     bar,
                     baz
@@ -9132,13 +9131,13 @@ run({
       errors: expectedErrors([[2, 4, 11, 'Identifier'], [3, 4, 2, 'Identifier'], [4, 0, 10, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = [bar,
                 baz,
                     qux
                 ]
             `,
-      output: unIndent`
+      output: $`
                 var foo = [bar,
                     baz,
                     qux
@@ -9147,13 +9146,13 @@ run({
       errors: expectedErrors([2, 4, 0, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = [bar,
                   baz,
                   qux
                 ]
             `,
-      output: unIndent`
+      output: $`
                 var foo = [bar,
                 baz,
                 qux
@@ -9163,13 +9162,13 @@ run({
       errors: expectedErrors([[2, 0, 2, 'Identifier'], [3, 0, 2, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = [bar,
                   baz,
                   qux
                 ]
             `,
-      output: unIndent`
+      output: $`
                 var foo = [bar,
                                 baz,
                                 qux
@@ -9179,13 +9178,13 @@ run({
       errors: expectedErrors([[2, 16, 2, 'Identifier'], [3, 16, 2, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = [bar,
                     baz,
                     qux
                 ]
             `,
-      output: unIndent`
+      output: $`
                 var foo = [bar,
                            baz,
                            qux
@@ -9195,12 +9194,12 @@ run({
       errors: expectedErrors([[2, 11, 4, 'Identifier'], [3, 11, 4, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = [bar,
                     baz, qux
                 ]
             `,
-      output: unIndent`
+      output: $`
                 var foo = [bar,
                            baz, qux
                 ]
@@ -9209,7 +9208,7 @@ run({
       errors: expectedErrors([2, 11, 4, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = [
                         { bar: 1,
                             baz: 2 },
@@ -9217,7 +9216,7 @@ run({
                             qux: 4 }
                 ]
             `,
-      output: unIndent`
+      output: $`
                 var foo = [
                         { bar: 1,
                           baz: 2 },
@@ -9229,13 +9228,13 @@ run({
       errors: expectedErrors([[3, 10, 12, 'Identifier'], [5, 10, 12, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = {
                   bar: 1,
                   baz: 2
                 };
             `,
-      output: unIndent`
+      output: $`
                 var foo = {
                 bar: 1,
                 baz: 2
@@ -9245,11 +9244,11 @@ run({
       errors: expectedErrors([[2, 0, 2, 'Identifier'], [3, 0, 2, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var quux = { foo: 1, bar: 2,
                 baz: 3 }
             `,
-      output: unIndent`
+      output: $`
                 var quux = { foo: 1, bar: 2,
                              baz: 3 }
             `,
@@ -9257,14 +9256,14 @@ run({
       errors: expectedErrors([2, 13, 0, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                     [
                             foo
                     ]
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                   [
                           foo
@@ -9275,7 +9274,7 @@ run({
       errors: expectedErrors([[2, 2, 4, 'Punctuator'], [3, 10, 12, 'Identifier'], [4, 2, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var [
                 foo,
                   bar,
@@ -9283,7 +9282,7 @@ run({
                       foobar = baz
                   ] = qux;
             `,
-      output: unIndent`
+      output: $`
                 var [
                   foo,
                   bar,
@@ -9295,14 +9294,14 @@ run({
       errors: expectedErrors([[2, 2, 0, 'Identifier'], [4, 2, 4, 'Identifier'], [5, 2, 6, 'Identifier'], [6, 0, 2, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 import {
                 foo,
                   bar,
                     baz
                 } from 'qux';
             `,
-      output: unIndent`
+      output: $`
                 import {
                     foo,
                     bar,
@@ -9313,13 +9312,13 @@ run({
       errors: expectedErrors([[2, 4, 0, 'Identifier'], [3, 4, 2, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 import { foo,
                          bar,
                           baz,
                 } from 'qux';
             `,
-      output: unIndent`
+      output: $`
                 import { foo,
                          bar,
                          baz,
@@ -9330,13 +9329,13 @@ run({
       errors: expectedErrors([[3, 9, 10, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 import { foo,
                     bar,
                      baz,
                 } from 'qux';
             `,
-      output: unIndent`
+      output: $`
                 import { foo,
                     bar,
                     baz,
@@ -9347,7 +9346,7 @@ run({
       errors: expectedErrors([[3, 4, 5, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = 0, bar = 0, baz = 0;
                 export {
                 foo,
@@ -9355,7 +9354,7 @@ run({
                     baz
                 };
             `,
-      output: unIndent`
+      output: $`
                 var foo = 0, bar = 0, baz = 0;
                 export {
                     foo,
@@ -9367,7 +9366,7 @@ run({
       errors: expectedErrors([[3, 4, 0, 'Identifier'], [4, 4, 2, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = 0, bar = 0, baz = 0;
                 export {
                 foo,
@@ -9375,7 +9374,7 @@ run({
                     baz
                 } from 'qux';
             `,
-      output: unIndent`
+      output: $`
                 var foo = 0, bar = 0, baz = 0;
                 export {
                     foo,
@@ -9389,12 +9388,12 @@ run({
     {
 
       // https://github.com/eslint/eslint/issues/7233
-      code: unIndent`
+      code: $`
                 var folder = filePath
                   .foo()
                       .bar;
             `,
-      output: unIndent`
+      output: $`
                 var folder = filePath
                     .foo()
                     .bar;
@@ -9403,11 +9402,11 @@ run({
       errors: expectedErrors([[2, 4, 2, 'Punctuator'], [3, 4, 6, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 for (const foo of bar)
                     baz();
             `,
-      output: unIndent`
+      output: $`
                 for (const foo of bar)
                   baz();
             `,
@@ -9415,11 +9414,11 @@ run({
       errors: expectedErrors([2, 2, 4, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 var x = () =>
                     5;
             `,
-      output: unIndent`
+      output: $`
                 var x = () =>
                   5;
             `,
@@ -9429,12 +9428,12 @@ run({
     {
 
       // BinaryExpressions with parens
-      code: unIndent`
+      code: $`
                 foo && (
                         bar
                 )
             `,
-      output: unIndent`
+      output: $`
                 foo && (
                     bar
                 )
@@ -9443,12 +9442,12 @@ run({
       errors: expectedErrors([2, 4, 8, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo &&
                     !bar(
                 )
             `,
-      output: unIndent`
+      output: $`
                 foo &&
                     !bar(
                     )
@@ -9456,13 +9455,13 @@ run({
       errors: expectedErrors([3, 4, 0, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo &&
                     ![].map(() => {
                     bar();
                 })
             `,
-      output: unIndent`
+      output: $`
                 foo &&
                     ![].map(() => {
                         bar();
@@ -9471,12 +9470,12 @@ run({
       errors: expectedErrors([[3, 8, 4, 'Identifier'], [4, 4, 0, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 [
                 ] || [
                     ]
             `,
-      output: unIndent`
+      output: $`
                 [
                 ] || [
                 ]
@@ -9484,13 +9483,13 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                         || (
                                 bar
                             )
             `,
-      output: unIndent`
+      output: $`
                 foo
                         || (
                             bar
@@ -9499,13 +9498,13 @@ run({
       errors: expectedErrors([[3, 12, 16, 'Identifier'], [4, 8, 12, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 1
                 + (
                         1
                     )
             `,
-      output: unIndent`
+      output: $`
                 1
                 + (
                     1
@@ -9516,11 +9515,11 @@ run({
 
     // Template curlies
     {
-      code: unIndent`
+      code: $`
                 \`foo\${
                 bar}\`
             `,
-      output: unIndent`
+      output: $`
                 \`foo\${
                   bar}\`
             `,
@@ -9528,12 +9527,12 @@ run({
       errors: expectedErrors([2, 2, 0, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 \`foo\${
                     \`bar\${
                 baz}\`}\`
             `,
-      output: unIndent`
+      output: $`
                 \`foo\${
                   \`bar\${
                     baz}\`}\`
@@ -9542,14 +9541,14 @@ run({
       errors: expectedErrors([[2, 2, 4, 'Template'], [3, 4, 0, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 \`foo\${
                     \`bar\${
                   baz
                     }\`
                   }\`
             `,
-      output: unIndent`
+      output: $`
                 \`foo\${
                   \`bar\${
                     baz
@@ -9560,14 +9559,14 @@ run({
       errors: expectedErrors([[2, 2, 4, 'Template'], [3, 4, 2, 'Identifier'], [4, 2, 4, 'Template'], [5, 0, 2, 'Template']]),
     },
     {
-      code: unIndent`
+      code: $`
                 \`foo\${
                 (
                   bar
                 )
                 }\`
             `,
-      output: unIndent`
+      output: $`
                 \`foo\${
                   (
                     bar
@@ -9578,14 +9577,14 @@ run({
       errors: expectedErrors([[2, 2, 0, 'Punctuator'], [3, 4, 2, 'Identifier'], [4, 2, 0, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                     \`foo\${bar}baz\${
                 qux}foo\${
                   bar}baz\`
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                     \`foo\${bar}baz\${
                         qux}foo\${
@@ -9595,7 +9594,7 @@ run({
       errors: expectedErrors([[3, 8, 0, 'Identifier'], [4, 8, 2, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                     const template = \`the indentation of
                 a curly element in a \${
@@ -9603,7 +9602,7 @@ run({
                     } node is checked.\`;
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                     const template = \`the indentation of
                 a curly element in a \${
@@ -9614,7 +9613,7 @@ run({
       errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Template']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                     const template = \`this time the
                 closing curly is at the end of the line \${
@@ -9622,7 +9621,7 @@ run({
                         so the spaces before this line aren't removed.\`;
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                     const template = \`this time the
                 closing curly is at the end of the line \${
@@ -9640,14 +9639,14 @@ run({
        * this is intentionally ignored because everyone seems to have a different idea of how
        * BinaryExpressions should be indented.
        */
-      code: unIndent`
+      code: $`
                 if (true) {
                     a = (
                 1 +
                         2);
                 }
             `,
-      output: unIndent`
+      output: $`
                 if (true) {
                     a = (
                         1 +
@@ -9659,14 +9658,14 @@ run({
     {
 
       // https://github.com/eslint/eslint/issues/3737
-      code: unIndent`
+      code: $`
                 if (true) {
                     for (;;) {
                       b();
                   }
                 }
             `,
-      output: unIndent`
+      output: $`
                 if (true) {
                   for (;;) {
                     b();
@@ -9679,7 +9678,7 @@ run({
     {
 
       // https://github.com/eslint/eslint/issues/6670
-      code: unIndent`
+      code: $`
                 function f() {
                     return asyncCall()
                     .then(
@@ -9692,7 +9691,7 @@ run({
                 );
                  }
             `,
-      output: unIndent`
+      output: $`
                 function f() {
                     return asyncCall()
                         .then(
@@ -9721,13 +9720,13 @@ run({
 
     // https://github.com/eslint/eslint/issues/7242
     {
-      code: unIndent`
+      code: $`
                 var x = [
                       [1],
                   [2]
                 ]
             `,
-      output: unIndent`
+      output: $`
                 var x = [
                     [1],
                     [2]
@@ -9736,13 +9735,13 @@ run({
       errors: expectedErrors([[2, 4, 6, 'Punctuator'], [3, 4, 2, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 var y = [
                       {a: 1},
                   {b: 2}
                 ]
             `,
-      output: unIndent`
+      output: $`
                 var y = [
                     {a: 1},
                     {b: 2}
@@ -9751,12 +9750,12 @@ run({
       errors: expectedErrors([[2, 4, 6, 'Punctuator'], [3, 4, 2, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 echo = spawn('cmd.exe',
                             ['foo', 'bar',
                              'baz']);
             `,
-      output: unIndent`
+      output: $`
                 echo = spawn('cmd.exe',
                              ['foo', 'bar',
                               'baz']);
@@ -9767,11 +9766,11 @@ run({
     {
 
       // https://github.com/eslint/eslint/issues/7522
-      code: unIndent`
+      code: $`
                 foo(
                   )
             `,
-      output: unIndent`
+      output: $`
                 foo(
                 )
             `,
@@ -9780,7 +9779,7 @@ run({
     {
 
       // https://github.com/eslint/eslint/issues/7616
-      code: unIndent`
+      code: $`
                 foo(
                         bar,
                     {
@@ -9788,7 +9787,7 @@ run({
                     }
                 )
             `,
-      output: unIndent`
+      output: $`
                 foo(
                     bar,
                     {
@@ -9805,7 +9804,7 @@ run({
       errors: expectedErrors([1, 0, 2, 'Keyword']),
     },
     {
-      code: unIndent`
+      code: $`
                 var foo = 0, bar = 0, baz = 0;
                 export {
                 foo,
@@ -9813,7 +9812,7 @@ run({
                   baz
                 }
             `,
-      output: unIndent`
+      output: $`
                 var foo = 0, bar = 0, baz = 0;
                 export {
                     foo,
@@ -9825,12 +9824,12 @@ run({
       errors: expectedErrors([[3, 4, 0, 'Identifier'], [4, 4, 8, 'Identifier'], [5, 4, 2, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                     ? bar
                 : baz
             `,
-      output: unIndent`
+      output: $`
                 foo
                     ? bar
                     : baz
@@ -9839,12 +9838,12 @@ run({
       errors: expectedErrors([3, 4, 0, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo ?
                     bar :
                 baz
             `,
-      output: unIndent`
+      output: $`
                 foo ?
                     bar :
                     baz
@@ -9853,12 +9852,12 @@ run({
       errors: expectedErrors([3, 4, 0, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo ?
                     bar
                   : baz
             `,
-      output: unIndent`
+      output: $`
                 foo ?
                     bar
                     : baz
@@ -9867,12 +9866,12 @@ run({
       errors: expectedErrors([3, 4, 2, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                     ? bar :
                 baz
             `,
-      output: unIndent`
+      output: $`
                 foo
                     ? bar :
                     baz
@@ -9881,13 +9880,13 @@ run({
       errors: expectedErrors([3, 4, 0, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo ? bar
                     : baz ? qux
                         : foobar ? boop
                             : beep
             `,
-      output: unIndent`
+      output: $`
                 foo ? bar
                     : baz ? qux
                     : foobar ? boop
@@ -9900,13 +9899,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo ? bar :
                     baz ? qux :
                         foobar ? boop :
                             beep
             `,
-      output: unIndent`
+      output: $`
                 foo ? bar :
                     baz ? qux :
                     foobar ? boop :
@@ -9919,14 +9918,14 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var a =
                     foo ? bar :
                       baz ? qux :
                   foobar ? boop :
                     /*else*/ beep
             `,
-      output: unIndent`
+      output: $`
                 var a =
                     foo ? bar :
                     baz ? qux :
@@ -9940,13 +9939,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 var a =
                     foo
                     ? bar
                     : baz
             `,
-      output: unIndent`
+      output: $`
                 var a =
                     foo
                         ? bar
@@ -9959,13 +9958,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo ? bar
                     : baz ? qux
                     : foobar ? boop
                     : beep
             `,
-      output: unIndent`
+      output: $`
                 foo ? bar
                     : baz ? qux
                         : foobar ? boop
@@ -9978,13 +9977,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo ? bar :
                     baz ? qux :
                     foobar ? boop :
                     beep
             `,
-      output: unIndent`
+      output: $`
                 foo ? bar :
                     baz ? qux :
                         foobar ? boop :
@@ -9997,7 +9996,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                     ? bar
                     : baz
@@ -10006,7 +10005,7 @@ run({
                     ? boop
                     : beep
             `,
-      output: unIndent`
+      output: $`
                 foo
                     ? bar
                     : baz
@@ -10024,7 +10023,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo ?
                     bar :
                     baz ?
@@ -10033,7 +10032,7 @@ run({
                     boop :
                     beep
             `,
-      output: unIndent`
+      output: $`
                 foo ?
                     bar :
                     baz ?
@@ -10051,12 +10050,12 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo.bar('baz', function(err) {
                           qux;
                 });
             `,
-      output: unIndent`
+      output: $`
                 foo.bar('baz', function(err) {
                   qux;
                 });
@@ -10065,14 +10064,14 @@ run({
       errors: expectedErrors([2, 2, 10, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo.bar(function() {
                   cookies;
                 }).baz(function() {
                     cookies;
                   });
             `,
-      output: unIndent`
+      output: $`
                 foo.bar(function() {
                   cookies;
                 }).baz(function() {
@@ -10083,14 +10082,14 @@ run({
       errors: expectedErrors([[4, 2, 4, 'Identifier'], [5, 0, 2, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo.bar().baz(function() {
                   cookies;
                 }).qux(function() {
                     cookies;
                   });
             `,
-      output: unIndent`
+      output: $`
                 foo.bar().baz(function() {
                   cookies;
                 }).qux(function() {
@@ -10101,13 +10100,13 @@ run({
       errors: expectedErrors([[4, 2, 4, 'Identifier'], [5, 0, 2, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 [ foo,
                   bar ].forEach(function() {
                     baz;
                   })
             `,
-      output: unIndent`
+      output: $`
                 [ foo,
                   bar ].forEach(function() {
                   baz;
@@ -10117,12 +10116,12 @@ run({
       errors: expectedErrors([[3, 2, 4, 'Identifier'], [4, 0, 2, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo[
                     bar
                     ];
             `,
-      output: unIndent`
+      output: $`
                 foo[
                     bar
                 ];
@@ -10131,13 +10130,13 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo({
                 bar: 1,
                 baz: 2
                 })
             `,
-      output: unIndent`
+      output: $`
                 foo({
                     bar: 1,
                     baz: 2
@@ -10147,12 +10146,12 @@ run({
       errors: expectedErrors([[2, 4, 0, 'Identifier'], [3, 4, 0, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo(
                                         bar, baz,
                                         qux);
             `,
-      output: unIndent`
+      output: $`
                 foo(
                   bar, baz,
                   qux);
@@ -10161,12 +10160,12 @@ run({
       errors: expectedErrors([[2, 2, 24, 'Identifier'], [3, 2, 24, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo) bar()
 
                     ; [1, 2, 3].map(baz)
             `,
-      output: unIndent`
+      output: $`
                 if (foo) bar()
 
                 ; [1, 2, 3].map(baz)
@@ -10174,22 +10173,22 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                 ;
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     ;
             `,
       errors: expectedErrors([2, 4, 0, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 import {foo}
                 from 'bar';
             `,
-      output: unIndent`
+      output: $`
                 import {foo}
                     from 'bar';
             `,
@@ -10197,11 +10196,11 @@ run({
       errors: expectedErrors([2, 4, 0, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 export {foo}
                 from 'bar';
             `,
-      output: unIndent`
+      output: $`
                 export {foo}
                     from 'bar';
             `,
@@ -10209,14 +10208,14 @@ run({
       errors: expectedErrors([2, 4, 0, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 (
                     a
                 ) => b => {
                         c
                     }
             `,
-      output: unIndent`
+      output: $`
                 (
                     a
                 ) => b => {
@@ -10226,14 +10225,14 @@ run({
       errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 (
                     a
                 ) => b => c => d => {
                         e
                     }
             `,
-      output: unIndent`
+      output: $`
                 (
                     a
                 ) => b => c => d => {
@@ -10243,14 +10242,14 @@ run({
       errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (
                     foo
                 ) bar(
                         baz
                     );
             `,
-      output: unIndent`
+      output: $`
                 if (
                     foo
                 ) bar(
@@ -10260,14 +10259,14 @@ run({
       errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 (
                     foo
                 )(
                         bar
                     )
             `,
-      output: unIndent`
+      output: $`
                 (
                     foo
                 )(
@@ -10277,14 +10276,14 @@ run({
       errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 (() =>
                     foo
                 )(
                         bar
                     )
             `,
-      output: unIndent`
+      output: $`
                 (() =>
                     foo
                 )(
@@ -10294,14 +10293,14 @@ run({
       errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 (() => {
                     foo();
                 })(
                         bar
                     )
             `,
-      output: unIndent`
+      output: $`
                 (() => {
                     foo();
                 })(
@@ -10311,12 +10310,12 @@ run({
       errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo.
                   bar.
                       baz
             `,
-      output: unIndent`
+      output: $`
                 foo.
                     bar.
                     baz
@@ -10324,7 +10323,7 @@ run({
       errors: expectedErrors([[2, 4, 2, 'Identifier'], [3, 4, 6, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = a.b(),
                     longName
                     = (baz(
@@ -10332,7 +10331,7 @@ run({
                             'bar'
                         ));
             `,
-      output: unIndent`
+      output: $`
                 const foo = a.b(),
                     longName
                     = (baz(
@@ -10343,7 +10342,7 @@ run({
       errors: expectedErrors([[4, 8, 12, 'String'], [5, 8, 12, 'String'], [6, 4, 8, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = a.b(),
                     longName =
                     (baz(
@@ -10351,7 +10350,7 @@ run({
                             'bar'
                         ));
             `,
-      output: unIndent`
+      output: $`
                 const foo = a.b(),
                     longName =
                     (baz(
@@ -10362,7 +10361,7 @@ run({
       errors: expectedErrors([[4, 8, 12, 'String'], [5, 8, 12, 'String'], [6, 4, 8, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = a.b(),
                     longName
                         =baz(
@@ -10370,7 +10369,7 @@ run({
                             'bar'
                     );
             `,
-      output: unIndent`
+      output: $`
                 const foo = a.b(),
                     longName
                         =baz(
@@ -10381,14 +10380,14 @@ run({
       errors: expectedErrors([[6, 8, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = a.b(),
                     longName
                         =(
                         'fff'
                         );
             `,
-      output: unIndent`
+      output: $`
                 const foo = a.b(),
                     longName
                         =(
@@ -10403,7 +10402,7 @@ run({
     // ----------------------------------------------------------------------
 
     {
-      code: unIndent`
+      code: $`
                 namespace Foo {
                     const bar = 3,
                     baz = 2;
@@ -10413,7 +10412,7 @@ run({
                     }
                 }
             `,
-      output: unIndent`
+      output: $`
                 namespace Foo {
                     const bar = 3,
                         baz = 2;
@@ -10427,7 +10426,7 @@ run({
       errors: expectedErrors([[3, 8, 4, 'Identifier'], [6, 8, 4, 'Keyword']]),
     },
     {
-      code: unIndent`
+      code: $`
                 abstract class Foo {
                     public bar() {
                         let aaa = 4,
@@ -10441,7 +10440,7 @@ run({
                     }
                 }
             `,
-      output: unIndent`
+      output: $`
                 abstract class Foo {
                     public bar() {
                         let aaa = 4,
@@ -10459,7 +10458,7 @@ run({
       errors: expectedErrors([[4, 12, 8, 'Identifier'], [7, 12, 8, 'Identifier'], [10, 8, 4, 'Identifier']]),
     },
     {
-      code: unIndent`
+      code: $`
                 function foo() {
                     function bar() {
                         abstract class X {
@@ -10472,7 +10471,7 @@ run({
                     }
                 }
             `,
-      output: unIndent`
+      output: $`
                 function foo() {
                     function bar() {
                         abstract class X {
@@ -10495,7 +10494,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 namespace Unknown {
                     function foo() {
                     function bar() {
@@ -10510,7 +10509,7 @@ run({
                     }
                 }
             `,
-      output: unIndent`
+      output: $`
                 namespace Unknown {
                     function foo() {
                         function bar() {
@@ -10539,12 +10538,12 @@ run({
     // ----------------------------------------------------------------------
 
     {
-      code: unIndent`
+      code: $`
                 <App>
                   <Foo />
                 </App>
             `,
-      output: unIndent`
+      output: $`
                 <App>
                     <Foo />
                 </App>
@@ -10552,12 +10551,12 @@ run({
       errors: expectedErrors([2, 4, 2, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <App>
                     <Foo />
                 </App>
             `,
-      output: unIndent`
+      output: $`
                 <App>
                   <Foo />
                 </App>
@@ -10566,12 +10565,12 @@ run({
       errors: expectedErrors([2, 2, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <App>
                     <Foo />
                 </App>
             `,
-      output: unIndent`
+      output: $`
                 <App>
                 \t<Foo />
                 </App>
@@ -10580,14 +10579,14 @@ run({
       errors: expectedErrors([2, '1 tab', '4 spaces', 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 function App() {
                   return <App>
                     <Foo />
                          </App>;
                 }
             `,
-      output: unIndent`
+      output: $`
                 function App() {
                   return <App>
                     <Foo />
@@ -10598,14 +10597,14 @@ run({
       errors: expectedErrors([4, 2, 9, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 function App() {
                   return (<App>
                     <Foo />
                     </App>);
                 }
             `,
-      output: unIndent`
+      output: $`
                 function App() {
                   return (<App>
                     <Foo />
@@ -10616,7 +10615,7 @@ run({
       errors: expectedErrors([4, 2, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 function App() {
                   return (
                 <App>
@@ -10625,7 +10624,7 @@ run({
                   );
                 }
             `,
-      output: unIndent`
+      output: $`
                 function App() {
                   return (
                     <App>
@@ -10638,12 +10637,12 @@ run({
       errors: expectedErrors([[3, 4, 0, 'Punctuator'], [4, 6, 2, 'Punctuator'], [5, 4, 0, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 <App>
                  {test}
                 </App>
             `,
-      output: unIndent`
+      output: $`
                 <App>
                     {test}
                 </App>
@@ -10651,7 +10650,7 @@ run({
       errors: expectedErrors([2, 4, 1, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <App>
                     {options.map((option, index) => (
                         <option key={index} value={option.key}>
@@ -10660,7 +10659,7 @@ run({
                     ))}
                 </App>
             `,
-      output: unIndent`
+      output: $`
                 <App>
                     {options.map((option, index) => (
                         <option key={index} value={option.key}>
@@ -10672,13 +10671,13 @@ run({
       errors: expectedErrors([4, 12, 11, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 [
                   <div />,
                     <div />
                 ]
             `,
-      output: unIndent`
+      output: $`
                 [
                   <div />,
                   <div />
@@ -10688,14 +10687,14 @@ run({
       errors: expectedErrors([3, 2, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <App>
 
                  <Foo />
 
                 </App>
             `,
-      output: unIndent`
+      output: $`
                 <App>
 
                 \t<Foo />
@@ -10711,12 +10710,12 @@ run({
        *             Multiline ternary
        * (colon at the end of the first expression)
        */
-      code: unIndent`
+      code: $`
                 foo ?
                     <Foo /> :
                 <Bar />
             `,
-      output: unIndent`
+      output: $`
                 foo ?
                     <Foo /> :
                     <Bar />
@@ -10729,13 +10728,13 @@ run({
        *             Multiline ternary
        * (colon on its own line)
        */
-      code: unIndent`
+      code: $`
                 foo ?
                     <Foo />
                 :
                 <Bar />
             `,
-      output: unIndent`
+      output: $`
                 foo ?
                     <Foo />
                     :
@@ -10749,13 +10748,13 @@ run({
        *             Multiline ternary
        * (colon at the end of the first expression, parenthesized first expression)
        */
-      code: unIndent`
+      code: $`
                 foo ? (
                     <Foo />
                 ) :
                 <Bar />
             `,
-      output: unIndent`
+      output: $`
                 foo ? (
                     <Foo />
                 ) :
@@ -10764,12 +10763,12 @@ run({
       errors: expectedErrors([4, 4, 0, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <App
                   foo
                 />
             `,
-      output: unIndent`
+      output: $`
                 <App
                     foo
                 />
@@ -10777,12 +10776,12 @@ run({
       errors: expectedErrors([2, 4, 2, 'JSXIdentifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 <App
                   foo
                   />
             `,
-      output: unIndent`
+      output: $`
                 <App
                   foo
                 />
@@ -10791,12 +10790,12 @@ run({
       errors: expectedErrors([3, 0, 2, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <App
                   foo
                   ></App>
             `,
-      output: unIndent`
+      output: $`
                 <App
                   foo
                 ></App>
@@ -10805,7 +10804,7 @@ run({
       errors: expectedErrors([3, 0, 2, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 const Button = function(props) {
                   return (
                     <Button
@@ -10817,7 +10816,7 @@ run({
                   );
                 };
             `,
-      output: unIndent`
+      output: $`
                 const Button = function(props) {
                   return (
                     <Button
@@ -10833,14 +10832,14 @@ run({
       errors: expectedErrors([6, 4, 36, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 var x = function() {
                   return <App
                     foo
                          />
                 }
             `,
-      output: unIndent`
+      output: $`
                 var x = function() {
                   return <App
                     foo
@@ -10851,12 +10850,12 @@ run({
       errors: expectedErrors([4, 2, 9, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 var x = <App
                   foo
                         />
             `,
-      output: unIndent`
+      output: $`
                 var x = <App
                   foo
                 />
@@ -10865,13 +10864,13 @@ run({
       errors: expectedErrors([3, 0, 8, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 var x = (
                   <Something
                     />
                 )
             `,
-      output: unIndent`
+      output: $`
                 var x = (
                   <Something
                   />
@@ -10881,12 +10880,12 @@ run({
       errors: expectedErrors([3, 2, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <App
                 \tfoo
                 \t/>
             `,
-      output: unIndent`
+      output: $`
                 <App
                 \tfoo
                 />
@@ -10895,12 +10894,12 @@ run({
       errors: expectedErrors('tab', [3, 0, 1, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <App
                 \tfoo
                 \t></App>
             `,
-      output: unIndent`
+      output: $`
                 <App
                 \tfoo
                 ></App>
@@ -10909,7 +10908,7 @@ run({
       errors: expectedErrors('tab', [3, 0, 1, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <
                     foo
                     .bar
@@ -10922,7 +10921,7 @@ run({
                     baz
                 >
             `,
-      output: unIndent`
+      output: $`
                 <
                     foo
                         .bar
@@ -10943,14 +10942,14 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 <
                     input
                     type=
                     "number"
                 />
             `,
-      output: unIndent`
+      output: $`
                 <
                     input
                     type=
@@ -10960,14 +10959,14 @@ run({
       errors: expectedErrors([4, 8, 4, 'JSXText']),
     },
     {
-      code: unIndent`
+      code: $`
                 <
                     input
                     type=
                     {'number'}
                 />
             `,
-      output: unIndent`
+      output: $`
                 <
                     input
                     type=
@@ -10977,14 +10976,14 @@ run({
       errors: expectedErrors([4, 8, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <
                     input
                     type
                     ="number"
                 />
             `,
-      output: unIndent`
+      output: $`
                 <
                     input
                     type
@@ -10994,14 +10993,14 @@ run({
       errors: expectedErrors([4, 8, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 foo ? (
                     bar
                 ) : (
                         baz
                     )
             `,
-      output: unIndent`
+      output: $`
                 foo ? (
                     bar
                 ) : (
@@ -11011,7 +11010,7 @@ run({
       errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo ? (
                     <div>
                     </div>
@@ -11020,7 +11019,7 @@ run({
                         </span>
                     )
             `,
-      output: unIndent`
+      output: $`
                 foo ? (
                     <div>
                     </div>
@@ -11032,7 +11031,7 @@ run({
       errors: expectedErrors([[5, 4, 8, 'Punctuator'], [6, 4, 8, 'Punctuator'], [7, 0, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 <div>
                     {
                     (
@@ -11041,7 +11040,7 @@ run({
                     }
                 </div>
             `,
-      output: unIndent`
+      output: $`
                 <div>
                     {
                         (
@@ -11053,14 +11052,14 @@ run({
       errors: expectedErrors([[3, 8, 4, 'Punctuator'], [4, 12, 8, 'Numeric'], [5, 8, 4, 'Punctuator']]),
     },
     {
-      code: unIndent`
+      code: $`
                 <div>
                     {
                       /* foo */
                     }
                 </div>
             `,
-      output: unIndent`
+      output: $`
                 <div>
                     {
                         /* foo */
@@ -11070,12 +11069,12 @@ run({
       errors: expectedErrors([3, 8, 6, 'Block']),
     },
     {
-      code: unIndent`
+      code: $`
                 <div
                 {...props}
                 />
             `,
-      output: unIndent`
+      output: $`
                 <div
                     {...props}
                 />
@@ -11083,14 +11082,14 @@ run({
       errors: expectedErrors([2, 4, 0, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <div
                     {
                       ...props
                     }
                 />
             `,
-      output: unIndent`
+      output: $`
                 <div
                     {
                         ...props
@@ -11100,12 +11099,12 @@ run({
       errors: expectedErrors([3, 8, 6, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <div>foo
                 <div>bar</div>
                 </div>
             `,
-      output: unIndent`
+      output: $`
                 <div>foo
                     <div>bar</div>
                 </div>
@@ -11113,12 +11112,12 @@ run({
       errors: expectedErrors([2, 4, 0, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <small>Foo bar&nbsp;
                 <a>baz qux</a>.
                 </small>
             `,
-      output: unIndent`
+      output: $`
                 <small>Foo bar&nbsp;
                     <a>baz qux</a>.
                 </small>
@@ -11131,12 +11130,12 @@ run({
      * https://github.com/eslint/eslint/issues/12208
      */
     {
-      code: unIndent`
+      code: $`
                 <>
                 <A />
                 </>
             `,
-      output: unIndent`
+      output: $`
                 <>
                     <A />
                 </>
@@ -11144,13 +11143,13 @@ run({
       errors: expectedErrors([2, 4, 0, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <
                     >
                     <A />
                 </>
             `,
-      output: unIndent`
+      output: $`
                 <
                 >
                     <A />
@@ -11159,13 +11158,13 @@ run({
       errors: expectedErrors([2, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <>
                     <A />
                 <
                     />
             `,
-      output: unIndent`
+      output: $`
                 <>
                     <A />
                 <
@@ -11174,13 +11173,13 @@ run({
       errors: expectedErrors([4, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <>
                     <A />
                 </
                     >
             `,
-      output: unIndent`
+      output: $`
                 <>
                     <A />
                 </
@@ -11189,14 +11188,14 @@ run({
       errors: expectedErrors([4, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <
                     >
                     <A />
                 </
                     >
             `,
-      output: unIndent`
+      output: $`
                 <
                 >
                     <A />
@@ -11209,14 +11208,14 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 <
                     >
                     <A />
                 <
                     />
             `,
-      output: unIndent`
+      output: $`
                 <
                 >
                     <A />
@@ -11229,13 +11228,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 < // Comment
                     >
                     <A />
                 </>
             `,
-      output: unIndent`
+      output: $`
                 < // Comment
                 >
                     <A />
@@ -11244,13 +11243,13 @@ run({
       errors: expectedErrors([2, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <>
                     <A />
                 < // Comment
                     />
             `,
-      output: unIndent`
+      output: $`
                 <>
                     <A />
                 < // Comment
@@ -11259,13 +11258,13 @@ run({
       errors: expectedErrors([4, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <>
                     <A />
                 </ // Comment
                     >
             `,
-      output: unIndent`
+      output: $`
                 <>
                     <A />
                 </ // Comment
@@ -11274,13 +11273,13 @@ run({
       errors: expectedErrors([4, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 < /* Comment */
                     >
                     <A />
                 </>
             `,
-      output: unIndent`
+      output: $`
                 < /* Comment */
                 >
                     <A />
@@ -11289,13 +11288,13 @@ run({
       errors: expectedErrors([2, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <>
                     <A />
                 < /* Comment */
                     />
             `,
-      output: unIndent`
+      output: $`
                 <>
                     <A />
                 < /* Comment */
@@ -11304,13 +11303,13 @@ run({
       errors: expectedErrors([4, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 <>
                     <A />
                 </ /* Comment */
                     >
             `,
-      output: unIndent`
+      output: $`
                 <>
                     <A />
                 </ /* Comment */
@@ -11320,12 +11319,12 @@ run({
     },
 
     {
-      code: unIndent`
+      code: $`
                 ({
                     foo
                     }: bar) => baz
             `,
-      output: unIndent`
+      output: $`
                 ({
                     foo
                 }: bar) => baz
@@ -11334,12 +11333,12 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 ([
                     foo
                     ]: bar) => baz
             `,
-      output: unIndent`
+      output: $`
                 ([
                     foo
                 ]: bar) => baz
@@ -11348,12 +11347,12 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 ({
                     foo
                     }: {}) => baz
             `,
-      output: unIndent`
+      output: $`
                 ({
                     foo
                 }: {}) => baz
@@ -11362,14 +11361,14 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 class Foo {
                 foo() {
                 bar();
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class Foo {
                 foo() {
                     bar();
@@ -11380,7 +11379,7 @@ run({
       errors: expectedErrors([3, 4, 0, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 $(function() {
 
                 foo();
@@ -11392,7 +11391,7 @@ run({
 
                 });
             `,
-      output: unIndent`
+      output: $`
                 $(function() {
 
                 foo();
@@ -11410,14 +11409,14 @@ run({
       errors: expectedErrors([7, 4, 0, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 (function($) {
                 $(function() {
                 foo;
                 });
                 })()
             `,
-      output: unIndent`
+      output: $`
                 (function($) {
                 $(function() {
                     foo;
@@ -11430,7 +11429,7 @@ run({
       errors: expectedErrors([3, 4, 0, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo) {
                     doSomething();
 
@@ -11438,7 +11437,7 @@ run({
                     doSomethingElse();
                 }
             `,
-      output: unIndent`
+      output: $`
                 if (foo) {
                     doSomething();
 
@@ -11450,7 +11449,7 @@ run({
       errors: expectedErrors([4, 4, 0, 'Line']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo) {
                     doSomething();
 
@@ -11458,7 +11457,7 @@ run({
                     doSomethingElse();
                 }
             `,
-      output: unIndent`
+      output: $`
                 if (foo) {
                     doSomething();
 
@@ -11470,7 +11469,7 @@ run({
       errors: expectedErrors([4, 4, 0, 'Block']),
     },
     {
-      code: unIndent`
+      code: $`
                 const obj = {
                     foo () {
                         return condition ? // comment
@@ -11479,7 +11478,7 @@ run({
                     }
                 }
             `,
-      output: unIndent`
+      output: $`
                 const obj = {
                     foo () {
                         return condition ? // comment
@@ -11495,14 +11494,14 @@ run({
     // Comment alignment tests
     // ----------------------------------------------------------------------
     {
-      code: unIndent`
+      code: $`
                 if (foo) {
 
                 // Comment cannot align with code immediately above if there is a whitespace gap
                     doSomething();
                 }
             `,
-      output: unIndent`
+      output: $`
                 if (foo) {
 
                     // Comment cannot align with code immediately above if there is a whitespace gap
@@ -11512,7 +11511,7 @@ run({
       errors: expectedErrors([3, 4, 0, 'Line']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo) {
                     foo(
                         bar);
@@ -11520,7 +11519,7 @@ run({
 
                 }
             `,
-      output: unIndent`
+      output: $`
                 if (foo) {
                     foo(
                         bar);
@@ -11531,7 +11530,7 @@ run({
       errors: expectedErrors([4, 4, 0, 'Line']),
     },
     {
-      code: unIndent`
+      code: $`
                 [{
                     foo
                 },
@@ -11542,7 +11541,7 @@ run({
                     bar
                 }];
             `,
-      output: unIndent`
+      output: $`
                 [{
                     foo
                 },
@@ -11556,14 +11555,14 @@ run({
       errors: expectedErrors([5, 0, 4, 'Line']),
     },
     {
-      code: unIndent`
+      code: $`
                 let foo
 
                     // comment
 
                 ;(async () => {})()
             `,
-      output: unIndent`
+      output: $`
                 let foo
 
                 // comment
@@ -11573,12 +11572,12 @@ run({
       errors: expectedErrors([3, 0, 4, 'Line']),
     },
     {
-      code: unIndent`
+      code: $`
                 let foo
                     // comment
                 ;(async () => {})()
             `,
-      output: unIndent`
+      output: $`
                 let foo
                 // comment
                 ;(async () => {})()
@@ -11586,14 +11585,14 @@ run({
       errors: expectedErrors([2, 0, 4, 'Line']),
     },
     {
-      code: unIndent`
+      code: $`
                 let foo
 
                 /* comment */;
 
                 (async () => {})()
             `,
-      output: unIndent`
+      output: $`
                 let foo
 
                     /* comment */;
@@ -11603,12 +11602,12 @@ run({
       errors: expectedErrors([3, 4, 0, 'Block']),
     },
     {
-      code: unIndent`
+      code: $`
                     // comment
 
                 ;(async () => {})()
             `,
-      output: unIndent`
+      output: $`
                 // comment
 
                 ;(async () => {})()
@@ -11616,18 +11615,18 @@ run({
       errors: expectedErrors([1, 0, 4, 'Line']),
     },
     {
-      code: unIndent`
+      code: $`
                     // comment
                 ;(async () => {})()
             `,
-      output: unIndent`
+      output: $`
                 // comment
                 ;(async () => {})()
             `,
       errors: expectedErrors([1, 0, 4, 'Line']),
     },
     {
-      code: unIndent`
+      code: $`
                 {
                     let foo
 
@@ -11637,7 +11636,7 @@ run({
 
                 }
             `,
-      output: unIndent`
+      output: $`
                 {
                     let foo
 
@@ -11650,7 +11649,7 @@ run({
       errors: expectedErrors([4, 4, 8, 'Line']),
     },
     {
-      code: unIndent`
+      code: $`
                 {
                     let foo
                         // comment
@@ -11658,7 +11657,7 @@ run({
 
                 }
             `,
-      output: unIndent`
+      output: $`
                 {
                     let foo
                     // comment
@@ -11669,7 +11668,7 @@ run({
       errors: expectedErrors([3, 4, 8, 'Line']),
     },
     {
-      code: unIndent`
+      code: $`
                 {
                     let foo
 
@@ -11679,7 +11678,7 @@ run({
 
                 }
             `,
-      output: unIndent`
+      output: $`
                 {
                     let foo
 
@@ -11692,7 +11691,7 @@ run({
       errors: expectedErrors([4, 8, 4, 'Block']),
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = 1
                 const bar = foo
 
@@ -11700,7 +11699,7 @@ run({
 
                 ;[1, 2, 3].forEach(() => {})
             `,
-      output: unIndent`
+      output: $`
                 const foo = 1
                 const bar = foo
 
@@ -11711,13 +11710,13 @@ run({
       errors: expectedErrors([4, 0, 4, 'Block']),
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = 1
                 const bar = foo
                     /* comment */
                 ;[1, 2, 3].forEach(() => {})
             `,
-      output: unIndent`
+      output: $`
                 const foo = 1
                 const bar = foo
                 /* comment */
@@ -11726,7 +11725,7 @@ run({
       errors: expectedErrors([3, 0, 4, 'Block']),
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = 1
                 const bar = foo
 
@@ -11734,7 +11733,7 @@ run({
 
                 [1, 2, 3].forEach(() => {})
             `,
-      output: unIndent`
+      output: $`
                 const foo = 1
                 const bar = foo
 
@@ -11745,12 +11744,12 @@ run({
       errors: expectedErrors([4, 4, 0, 'Block']),
     },
     {
-      code: unIndent`
+      code: $`
                     /* comment */
 
                 ;[1, 2, 3].forEach(() => {})
             `,
-      output: unIndent`
+      output: $`
                 /* comment */
 
                 ;[1, 2, 3].forEach(() => {})
@@ -11758,18 +11757,18 @@ run({
       errors: expectedErrors([1, 0, 4, 'Block']),
     },
     {
-      code: unIndent`
+      code: $`
                     /* comment */
                 ;[1, 2, 3].forEach(() => {})
             `,
-      output: unIndent`
+      output: $`
                 /* comment */
                 ;[1, 2, 3].forEach(() => {})
             `,
       errors: expectedErrors([1, 0, 4, 'Block']),
     },
     {
-      code: unIndent`
+      code: $`
                 {
                     const foo = 1
                     const bar = foo
@@ -11780,7 +11779,7 @@ run({
 
                 }
             `,
-      output: unIndent`
+      output: $`
                 {
                     const foo = 1
                     const bar = foo
@@ -11794,7 +11793,7 @@ run({
       errors: expectedErrors([5, 4, 8, 'Block']),
     },
     {
-      code: unIndent`
+      code: $`
                 {
                     const foo = 1
                     const bar = foo
@@ -11803,7 +11802,7 @@ run({
 
                 }
             `,
-      output: unIndent`
+      output: $`
                 {
                     const foo = 1
                     const bar = foo
@@ -11815,7 +11814,7 @@ run({
       errors: expectedErrors([4, 4, 8, 'Block']),
     },
     {
-      code: unIndent`
+      code: $`
                 {
                     const foo = 1
                     const bar = foo
@@ -11826,7 +11825,7 @@ run({
 
                 }
             `,
-      output: unIndent`
+      output: $`
                 {
                     const foo = 1
                     const bar = foo
@@ -11842,12 +11841,12 @@ run({
 
     // import expressions
     {
-      code: unIndent`
+      code: $`
                 import(
                 source
                     )
             `,
-      output: unIndent`
+      output: $`
                 import(
                     source
                 )
@@ -11861,7 +11860,7 @@ run({
 
     // https://github.com/eslint/eslint/issues/12122
     {
-      code: unIndent`
+      code: $`
                 foo(() => {
                     tag\`
                     multiline
@@ -11872,7 +11871,7 @@ run({
                     });
                 });
             `,
-      output: unIndent`
+      output: $`
                 foo(() => {
                     tag\`
                     multiline
@@ -11889,7 +11888,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 {
                         tag\`
                     multiline
@@ -11900,7 +11899,7 @@ run({
                         });
                 }
             `,
-      output: unIndent`
+      output: $`
                 {
                     tag\`
                     multiline
@@ -11919,7 +11918,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo(() => {
                     tagOne\`\${a} \${b}
                     multiline
@@ -11938,7 +11937,7 @@ run({
                 });
                 });
             `,
-      output: unIndent`
+      output: $`
                 foo(() => {
                     tagOne\`\${a} \${b}
                     multiline
@@ -11965,7 +11964,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 {
                     tagOne\`
                     multiline
@@ -11984,7 +11983,7 @@ run({
                 });
                 }
             `,
-      output: unIndent`
+      output: $`
                 {
                     tagOne\`
                     multiline
@@ -12011,7 +12010,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 tagOne\`multiline \${a} \${b}
                         template
                         literal
@@ -12027,7 +12026,7 @@ run({
                     });
                 });
             `,
-      output: unIndent`
+      output: $`
                 tagOne\`multiline \${a} \${b}
                         template
                         literal
@@ -12050,7 +12049,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 tagOne\`multiline
                     template \${a} \${b}
                     literal\`({
@@ -12063,7 +12062,7 @@ run({
                     })
                 });
             `,
-      output: unIndent`
+      output: $`
                 tagOne\`multiline
                     template \${a} \${b}
                     literal\`({
@@ -12084,12 +12083,12 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo.bar\` template literal \`(() => {
                         baz();
                 })
             `,
-      output: unIndent`
+      output: $`
                 foo.bar\` template literal \`(() => {
                     baz();
                 })
@@ -12100,12 +12099,12 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo.bar.baz\` template literal \`(() => {
                 baz();
                     })
             `,
-      output: unIndent`
+      output: $`
                 foo.bar.baz\` template literal \`(() => {
                     baz();
                 })
@@ -12117,14 +12116,14 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                     .bar\` template
                         literal \`(() => {
                         baz();
                 })
             `,
-      output: unIndent`
+      output: $`
                 foo
                     .bar\` template
                         literal \`(() => {
@@ -12137,7 +12136,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                     .test\`
                     \${a} \${b}
@@ -12145,7 +12144,7 @@ run({
                 bar();
                     })
             `,
-      output: unIndent`
+      output: $`
                 foo
                     .test\`
                     \${a} \${b}
@@ -12159,7 +12158,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 foo
                     .test\`
                     \${a} \${b}
@@ -12167,7 +12166,7 @@ run({
                 bar();
                     })
             `,
-      output: unIndent`
+      output: $`
                 foo
                 .test\`
                     \${a} \${b}
@@ -12186,14 +12185,14 @@ run({
 
     // Optional chaining
     {
-      code: unIndent`
+      code: $`
                 obj
                 ?.prop
                 ?.[key]
                 ?.
                 [key]
             `,
-      output: unIndent`
+      output: $`
                 obj
                     ?.prop
                     ?.[key]
@@ -12210,7 +12209,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 (
                     longSomething
                         ?.prop
@@ -12219,7 +12218,7 @@ run({
                 ?.prop
                 ?.[key]
             `,
-      output: unIndent`
+      output: $`
                 (
                     longSomething
                         ?.prop
@@ -12236,13 +12235,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 obj
                 ?.(arg)
                 ?.
                 (arg)
             `,
-      output: unIndent`
+      output: $`
                 obj
                     ?.(arg)
                     ?.
@@ -12257,7 +12256,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 (
                     longSomething
                         ?.(arg)
@@ -12266,7 +12265,7 @@ run({
                 ?.(arg)
                 ?.(arg)
             `,
-      output: unIndent`
+      output: $`
                 (
                     longSomething
                         ?.(arg)
@@ -12283,14 +12282,14 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 const foo = async (arg1,
                                     arg2) =>
                 {
                   return arg1 + arg2;
                 }
             `,
-      output: unIndent`
+      output: $`
                 const foo = async (arg1,
                                    arg2) =>
                 {
@@ -12304,11 +12303,11 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 const a = async
                  b => {}
             `,
-      output: unIndent`
+      output: $`
                 const a = async
                 b => {}
             `,
@@ -12318,13 +12317,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 field1;
                 static field2;
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     field1;
                     static field2;
@@ -12338,7 +12337,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 field1
                 =
@@ -12351,7 +12350,7 @@ run({
                 ;
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     field1
                         =
@@ -12379,7 +12378,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 [
                 field1
@@ -12402,7 +12401,7 @@ run({
                 0;
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     [
                         field1
@@ -12450,7 +12449,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 field1 = (
                 foo
@@ -12458,7 +12457,7 @@ run({
                 );
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     field1 = (
                         foo
@@ -12475,7 +12474,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 #aaa
                 foo() {
@@ -12483,7 +12482,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     #aaa
                     foo() {
@@ -12501,7 +12500,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 static {
                 foo();
@@ -12509,7 +12508,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                   static {
                     foo();
@@ -12527,7 +12526,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 static {
                 foo();
@@ -12535,7 +12534,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         foo();
@@ -12553,7 +12552,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                         static {
                     foo();
@@ -12561,7 +12560,7 @@ run({
                         }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         foo();
@@ -12579,7 +12578,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 static {
                 foo();
@@ -12587,7 +12586,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                             foo();
@@ -12605,7 +12604,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 static {
                 foo();
@@ -12613,7 +12612,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                     foo();
@@ -12631,7 +12630,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 static {
                 foo();
@@ -12639,7 +12638,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                 \tstatic {
                 \t\tfoo();
@@ -12657,7 +12656,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 static {
                 foo();
@@ -12665,7 +12664,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                 \tstatic {
                 \t\t\tfoo();
@@ -12683,7 +12682,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 static
                 {
@@ -12692,7 +12691,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static
                     {
@@ -12712,7 +12711,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static
                         {
@@ -12721,7 +12720,7 @@ run({
                         }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static
                     {
@@ -12738,7 +12737,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 static {
                 var x,
@@ -12746,7 +12745,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         var x,
@@ -12764,7 +12763,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 static
                 {
@@ -12773,7 +12772,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static
                     {
@@ -12793,7 +12792,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 static {
                 if (foo) {
@@ -12802,7 +12801,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         if (foo) {
@@ -12822,7 +12821,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 static {
                 {
@@ -12831,7 +12830,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         {
@@ -12851,7 +12850,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 static {}
 
@@ -12863,7 +12862,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {}
 
@@ -12887,7 +12886,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
 
                 static {
@@ -12900,7 +12899,7 @@ run({
 
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
 
                     static {
@@ -12925,7 +12924,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
 
                 x = 1;
@@ -12938,7 +12937,7 @@ run({
 
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
 
                     x = 1;
@@ -12962,7 +12961,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
 
                 method1(param) {
@@ -12979,7 +12978,7 @@ run({
 
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
 
                     method1(param) {
@@ -13011,7 +13010,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 function f() {
                 class C {
                 static {
@@ -13021,7 +13020,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 function f() {
                     class C {
                         static {
@@ -13043,7 +13042,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                 method() {
                 foo;
@@ -13053,7 +13052,7 @@ run({
                 }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     method() {
                             foo;
@@ -13077,12 +13076,12 @@ run({
 
     // https://github.com/eslint/eslint/issues/15930
     {
-      code: unIndent`
+      code: $`
                 if (2 > 1)
                 \tconsole.log('a')
                 \t;[1, 2, 3].forEach(x=>console.log(x))
             `,
-      output: unIndent`
+      output: $`
                 if (2 > 1)
                 \tconsole.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -13091,12 +13090,12 @@ run({
       errors: expectedErrors('tab', [3, 0, 1, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (2 > 1)
                     console.log('a')
                     ;[1, 2, 3].forEach(x=>console.log(x))
             `,
-      output: unIndent`
+      output: $`
                 if (2 > 1)
                     console.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -13105,11 +13104,11 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo) bar();
                     baz()
             `,
-      output: unIndent`
+      output: $`
                 if (foo) bar();
                 baz()
             `,
@@ -13117,11 +13116,11 @@ run({
       errors: expectedErrors([2, 0, 4, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo) bar()
                     ;baz()
             `,
-      output: unIndent`
+      output: $`
                 if (foo) bar()
                 ;baz()
             `,
@@ -13129,12 +13128,12 @@ run({
       errors: expectedErrors([2, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     bar();
                     baz();
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     bar();
                 baz();
@@ -13143,12 +13142,12 @@ run({
       errors: expectedErrors([3, 0, 4, 'Identifier']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     bar()
                     ; baz()
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     bar()
                 ; baz()
@@ -13157,13 +13156,13 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     bar()
                     ;baz()
                     qux()
             `,
-      output: unIndent`
+      output: $`
             if (foo)
                 bar()
             ;baz()
@@ -13176,13 +13175,13 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     bar()
                     ;else
                     baz()
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     bar()
                 ;else
@@ -13192,14 +13191,14 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     bar()
                 else
                     baz()
                     ;qux()
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     bar()
                 else
@@ -13210,13 +13209,13 @@ run({
       errors: expectedErrors([5, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar)
                         baz()
                     ;qux()
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar)
                         baz()
@@ -13226,14 +13225,14 @@ run({
       errors: expectedErrors([4, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     bar()
                 else if (baz)
                     qux()
                     ;quux()
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     bar()
                 else if (baz)
@@ -13244,7 +13243,7 @@ run({
       errors: expectedErrors([5, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar)
                         baz()
@@ -13252,7 +13251,7 @@ run({
                         qux()
                     ;quux()
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar)
                         baz()
@@ -13264,13 +13263,13 @@ run({
       errors: expectedErrors([6, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     bar()
                 ;
                 baz()
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     bar()
                     ;
@@ -13280,12 +13279,12 @@ run({
       errors: expectedErrors([3, 4, 0, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                 ;
                 baz()
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     ;
                 baz()
@@ -13294,11 +13293,11 @@ run({
       errors: expectedErrors([2, 4, 0, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     ;baz()
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                 ;baz()
             `,
@@ -13306,12 +13305,12 @@ run({
       errors: expectedErrors([2, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo);
                     else
                     baz()
             `,
-      output: unIndent`
+      output: $`
                 if (foo);
                 else
                     baz()
@@ -13320,13 +13319,13 @@ run({
       errors: expectedErrors([2, 0, 4, 'Keyword']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                 ;
                 else
                     baz()
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     ;
                 else
@@ -13336,12 +13335,12 @@ run({
       errors: expectedErrors([2, 4, 0, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     ;else
                     baz()
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                 ;else
                     baz()
@@ -13350,11 +13349,11 @@ run({
       errors: expectedErrors([2, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 do foo();
                     while (bar)
             `,
-      output: unIndent`
+      output: $`
                 do foo();
                 while (bar)
             `,
@@ -13362,11 +13361,11 @@ run({
       errors: expectedErrors([2, 0, 4, 'Keyword']),
     },
     {
-      code: unIndent`
+      code: $`
                 do foo()
                     ;while (bar)
             `,
-      output: unIndent`
+      output: $`
                 do foo()
                 ;while (bar)
             `,
@@ -13374,12 +13373,12 @@ run({
       errors: expectedErrors([2, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 do
                     foo();
                     while (bar)
             `,
-      output: unIndent`
+      output: $`
                 do
                     foo();
                 while (bar)
@@ -13388,12 +13387,12 @@ run({
       errors: expectedErrors([3, 0, 4, 'Keyword']),
     },
     {
-      code: unIndent`
+      code: $`
                 do
                     foo()
                     ;while (bar)
             `,
-      output: unIndent`
+      output: $`
             do
                 foo()
             ;while (bar)
@@ -13402,11 +13401,11 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 do;
                     while (foo)
             `,
-      output: unIndent`
+      output: $`
                 do;
                 while (foo)
             `,
@@ -13414,12 +13413,12 @@ run({
       errors: expectedErrors([2, 0, 4, 'Keyword']),
     },
     {
-      code: unIndent`
+      code: $`
                 do
                 ;
                 while (foo)
             `,
-      output: unIndent`
+      output: $`
                 do
                     ;
                 while (foo)
@@ -13428,11 +13427,11 @@ run({
       errors: expectedErrors([2, 4, 0, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 do
                     ;while (foo)
             `,
-      output: unIndent`
+      output: $`
                 do
                 ;while (foo)
             `,
@@ -13440,12 +13439,12 @@ run({
       errors: expectedErrors([2, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 while (2 > 1)
                     console.log('a')
                     ;[1, 2, 3].forEach(x=>console.log(x))
             `,
-      output: unIndent`
+      output: $`
                 while (2 > 1)
                     console.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -13454,12 +13453,12 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 for (;;)
                     console.log('a')
                     ;[1, 2, 3].forEach(x=>console.log(x))
             `,
-      output: unIndent`
+      output: $`
                 for (;;)
                     console.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -13468,12 +13467,12 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 for (a in b)
                     console.log('a')
                     ;[1, 2, 3].forEach(x=>console.log(x))
             `,
-      output: unIndent`
+      output: $`
                 for (a in b)
                     console.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -13482,12 +13481,12 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 for (a of b)
                     console.log('a')
                     ;[1, 2, 3].forEach(x=>console.log(x))
             `,
-      output: unIndent`
+      output: $`
                 for (a of b)
                     console.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -13496,12 +13495,12 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 with (a)
                     console.log(b)
                     ;[1, 2, 3].forEach(x=>console.log(x))
             `,
-      output: unIndent`
+      output: $`
                 with (a)
                     console.log(b)
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -13511,12 +13510,12 @@ run({
       parserOptions: { sourceType: 'script' },
     },
     {
-      code: unIndent`
+      code: $`
                 label: for (a of b)
                     console.log('a')
                     ;[1, 2, 3].forEach(x=>console.log(x))
             `,
-      output: unIndent`
+      output: $`
                 label: for (a of b)
                     console.log('a')
                 ;[1, 2, 3].forEach(x=>console.log(x))
@@ -13525,13 +13524,13 @@ run({
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
-      code: unIndent`
+      code: $`
                 label:
                 for (a of b)
                     console.log('a')
                     ;[1, 2, 3].forEach(x=>console.log(x))
             `,
-      output: unIndent`
+      output: $`
                 label:
                 for (a of b)
                     console.log('a')
@@ -13543,7 +13542,7 @@ run({
 
     // https://github.com/eslint/eslint/issues/17316
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                 \tif (bar) doSomething();
                 \telse doSomething();
@@ -13551,7 +13550,7 @@ run({
                 if (bar) doSomething();
                 else doSomething();
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                 \tif (bar) doSomething();
                 \telse doSomething();
@@ -13566,7 +13565,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                 \tif (bar) doSomething();
                 \telse doSomething();
@@ -13574,7 +13573,7 @@ run({
                 \t\tif (bar) doSomething();
                 \t\telse doSomething();
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                 \tif (bar) doSomething();
                 \telse doSomething();
@@ -13589,7 +13588,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13597,7 +13596,7 @@ run({
                 if (bar) doSomething();
                 else doSomething();
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13611,7 +13610,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13620,7 +13619,7 @@ run({
                 doSomething();
                 else doSomething();
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13636,7 +13635,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13645,7 +13644,7 @@ run({
                 else
                 doSomething();
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13661,7 +13660,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13671,7 +13670,7 @@ run({
                 else
                 doSomething();
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13689,14 +13688,14 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
                 else if (bar) doSomething();
                     else doSomething();
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13708,7 +13707,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13716,7 +13715,7 @@ run({
                         doSomething();
                     else doSomething();
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13731,7 +13730,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13739,7 +13738,7 @@ run({
                      else
                          doSomething();
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13753,7 +13752,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13762,7 +13761,7 @@ run({
                 else
                 doSomething();
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13777,7 +13776,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13790,7 +13789,7 @@ run({
                     else doSomething();
 
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13813,7 +13812,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13825,7 +13824,7 @@ run({
                 else doSomething();
                 else doSomething();
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13847,14 +13846,14 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                 if (bar) doSomething();
                 else doSomething();
                 else if (foo) doSomething();
                     else doSomething();
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13868,7 +13867,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13876,7 +13875,7 @@ run({
                 doSomething();
                 }
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13889,7 +13888,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13898,7 +13897,7 @@ run({
                         doSomething();
                     }
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13914,7 +13913,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13923,7 +13922,7 @@ run({
                     doSomething();
                 }
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13939,7 +13938,7 @@ run({
       ]),
     },
     {
-      code: unIndent`
+      code: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();
@@ -13949,7 +13948,7 @@ run({
                     doSomething();
                 }
             `,
-      output: unIndent`
+      output: $`
                 if (foo)
                     if (bar) doSomething();
                     else doSomething();

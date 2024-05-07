@@ -3,10 +3,9 @@
  * @author Ian Christian Myers
  */
 
-import { unIndent } from '../../test-utils/unindent'
 import { createParserResolver } from '../../test-utils/fixture-parser'
 import rule from './comma-dangle'
-import { run } from '#test'
+import { $, run } from '#test'
 
 const parser = createParserResolver('comma-dangle')
 
@@ -1772,7 +1771,7 @@ let d = 0;export {d,};
 
     // https://github.com/eslint/eslint/issues/15660
     {
-      code: unIndent`
+      code: $`
                 /*eslint add-named-import:1*/
                 import {
                     StyleSheet,
@@ -1784,7 +1783,7 @@ let d = 0;export {d,};
                     SafeAreaView
                 } from 'react-native';
             `,
-      output: unIndent`
+      output: $`
                 /*eslint add-named-import:1*/
                 import {
                     StyleSheet,
@@ -1800,7 +1799,7 @@ let d = 0;export {d,};
       errors: 2,
     },
     {
-      code: unIndent`
+      code: $`
                 /*eslint add-named-import:1*/
                 import {
                     StyleSheet,
@@ -1812,7 +1811,7 @@ let d = 0;export {d,};
                     SafeAreaView,
                 } from 'react-native';
             `,
-      output: unIndent`
+      output: $`
                 /*eslint add-named-import:1*/
                 import {
                     StyleSheet,

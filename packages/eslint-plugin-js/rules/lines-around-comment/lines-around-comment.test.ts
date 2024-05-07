@@ -3,9 +3,8 @@
  * @author Jamund Ferguson
  */
 
-import { unIndent } from '../../test-utils/unindent'
 import rule from './lines-around-comment'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'lines-around-comment',
@@ -256,7 +255,7 @@ run({
       }],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         // line comment
@@ -274,7 +273,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static
                     {
@@ -294,7 +293,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         /* block comment */
@@ -323,7 +322,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static
                     {
@@ -620,7 +619,7 @@ run({
       }],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         // line comment
@@ -638,7 +637,7 @@ run({
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         /* block comment */
@@ -1267,12 +1266,12 @@ run({
       errors: [{ messageId: 'after', type: 'Line', line: 8 }],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     // line comment
                     static{}
                 }`,
-      output: unIndent`
+      output: $`
                 class C {
                     // line comment
 
@@ -1292,13 +1291,13 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     /* block
                        comment */
                     static{}
                 }`,
-      output: unIndent`
+      output: $`
                 class C {
                     /* block
                        comment */
@@ -1319,13 +1318,13 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static
                     // line comment
                     {}
                 }`,
-      output: unIndent`
+      output: $`
             class C {
                 static
 
@@ -1348,14 +1347,14 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static
                     /* block
                        comment */
                     {}
                 }`,
-      output: unIndent`
+      output: $`
             class C {
                 static
 
@@ -1379,14 +1378,14 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         // line comment
                         foo();
                     }
                 }`,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         // line comment
@@ -1406,7 +1405,7 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         /* block
@@ -1414,7 +1413,7 @@ run({
                         foo();
                     }
                 }`,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         /* block
@@ -1435,14 +1434,14 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         foo();
                         // line comment
                     }
                 }`,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         foo();
@@ -1462,7 +1461,7 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         foo();
@@ -1470,7 +1469,7 @@ run({
                            comment */
                     }
                 }`,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         foo();
@@ -1491,7 +1490,7 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         foo();
@@ -1499,7 +1498,7 @@ run({
                         bar();
                     }
                 }`,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         foo();
@@ -1522,7 +1521,7 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         foo();
@@ -1531,7 +1530,7 @@ run({
                         bar();
                     }
                 }`,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         foo();
@@ -1555,12 +1554,12 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static{}
                     // line comment
                 }`,
-      output: unIndent`
+      output: $`
                 class C {
                     static{}
 
@@ -1580,13 +1579,13 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static{}
                     /* block
                        comment */
                 }`,
-      output: unIndent`
+      output: $`
                 class C {
                     static{}
 

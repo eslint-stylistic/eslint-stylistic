@@ -5,6 +5,8 @@ import { run as _run } from 'eslint-vitest-rule-tester'
 
 export * from 'eslint-vitest-rule-tester'
 
+export { unindent as $ } from 'eslint-vitest-rule-tester'
+
 export interface ExtendedRuleTesterOptions extends RuleTesterInitOptions, TestCasesOptions {
   lang?: 'js' | 'ts'
 }

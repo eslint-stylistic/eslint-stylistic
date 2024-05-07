@@ -3,9 +3,8 @@
  * @author Ian Christian Myers
  */
 
-import { unIndent } from '../../test-utils/unindent'
 import rule from './brace-style'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'brace-style',
@@ -199,7 +198,7 @@ run({
 
         // class static blocks
         {
-          code: unIndent`
+          code: $`
                 class C {
                     static {
                         foo;
@@ -210,7 +209,7 @@ run({
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
+          code: $`
                 class C {
                     static {}
 
@@ -222,7 +221,7 @@ run({
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
+          code: $`
                 class C {
                     static { foo; }
                 }
@@ -231,7 +230,7 @@ run({
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
+          code: $`
                 class C {
                     static {
                         foo;
@@ -242,7 +241,7 @@ run({
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
+          code: $`
                 class C {
                     static {}
 
@@ -254,7 +253,7 @@ run({
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
+          code: $`
                 class C {
                     static { foo; }
                 }
@@ -263,7 +262,7 @@ run({
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
+          code: $`
                 class C
                 {
                     static
@@ -276,7 +275,7 @@ run({
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
+          code: $`
                 class C
                 {
                     static
@@ -287,7 +286,7 @@ run({
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
+          code: $`
                 class C
                 {
                     static {}
@@ -302,7 +301,7 @@ run({
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
+          code: $`
                 class C {
                     static {
                         {
@@ -783,7 +782,7 @@ run({
      * are expected to be fixed by `indent` and other rules in subsequent iterations.
      */
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static
                     {
@@ -791,7 +790,7 @@ run({
                     }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         foo;
@@ -805,13 +804,13 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {foo;
                     }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                 foo;
@@ -825,13 +824,13 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         foo;}
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         foo;
@@ -845,13 +844,13 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static
                     {foo;}
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                 foo;
@@ -867,13 +866,13 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static
                     {}
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {}
                 }
@@ -885,7 +884,7 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static
                     {
@@ -893,7 +892,7 @@ run({
                     }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         foo;
@@ -907,13 +906,13 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {foo;
                     }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                 foo;
@@ -927,13 +926,13 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static {
                         foo;}
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                         foo;
@@ -947,13 +946,13 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static
                     {foo;}
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {
                 foo;
@@ -969,13 +968,13 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C {
                     static
                     {}
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C {
                     static {}
                 }
@@ -987,7 +986,7 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C
                 {
                     static{
@@ -995,7 +994,7 @@ run({
                     }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C
                 {
                     static
@@ -1011,7 +1010,7 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C
                 {
                     static
@@ -1019,7 +1018,7 @@ run({
                     }
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C
                 {
                     static
@@ -1035,7 +1034,7 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C
                 {
                     static
@@ -1043,7 +1042,7 @@ run({
                         foo;}
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C
                 {
                     static
@@ -1059,13 +1058,13 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C
                 {
                     static{foo;}
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C
                 {
                     static
@@ -1083,13 +1082,13 @@ run({
       ],
     },
     {
-      code: unIndent`
+      code: $`
                 class C
                 {
                     static{}
                 }
             `,
-      output: unIndent`
+      output: $`
                 class C
                 {
                     static

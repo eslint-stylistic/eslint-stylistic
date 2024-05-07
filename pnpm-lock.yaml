@@ -108,8 +108,8 @@ importers:
         specifier: ^0.1.1
         version: 0.1.1(eslint@9.2.0)
       eslint-vitest-rule-tester:
-        specifier: ^0.3.0
-        version: 0.3.0(eslint@9.2.0)(typescript@5.4.5)(vitest@1.6.0(@types/node@20.12.10)(@vitest/ui@1.6.0))
+        specifier: ^0.3.1
+        version: 0.3.1(eslint@9.2.0)(typescript@5.4.5)(vitest@1.6.0(@types/node@20.12.10)(@vitest/ui@1.6.0))
       esno:
         specifier: ^4.7.0
         version: 4.7.0
@@ -2528,8 +2528,8 @@ packages:
     resolution: {integrity: sha512-OtIRv/2GyiF6o/d8K7MYKKbXrOUBIK6SfkIRM4Z0dY3w+LiQ0vy3F57m0Z71bjbyeiWFiHJ8brqnmE6H6/jEuw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  eslint-vitest-rule-tester@0.3.0:
-    resolution: {integrity: sha512-dU8YnqxkJUHhOffBV4CH96yTuO8Lo8/hk46dOfGNbta1a1L7LVBq/pFzApmQnXi4+c1dogoinWVpWFtzDJ7WUQ==}
+  eslint-vitest-rule-tester@0.3.1:
+    resolution: {integrity: sha512-9cDb7sY2Vr+AAReBzs2fuJenv8ik5WofOkLuIfnTQD1sR9r/nPU21MNuOjPF8ziVoLFtxJ+wPYSvw1dseiNcAA==}
     peerDependencies:
       eslint: ^9.0.0
       vitest: ^1.6.0
@@ -6572,7 +6572,7 @@ snapshots:
 
   eslint-visitor-keys@4.0.0: {}
 
-  eslint-vitest-rule-tester@0.3.0(eslint@9.2.0)(typescript@5.4.5)(vitest@1.6.0(@types/node@20.12.10)(@vitest/ui@1.6.0)):
+  eslint-vitest-rule-tester@0.3.1(eslint@9.2.0)(typescript@5.4.5)(vitest@1.6.0(@types/node@20.12.10)(@vitest/ui@1.6.0)):
     dependencies:
       '@types/eslint': 8.56.10
       '@typescript-eslint/utils': 7.8.0(eslint@9.2.0)(typescript@5.4.5)

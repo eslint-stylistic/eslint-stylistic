@@ -1,14 +1,13 @@
 import { expect, it } from 'vitest'
 import { createLinter } from '../../../test-utils/createLinter'
-import { unIndent } from '../../../eslint-plugin-js/test-utils/unindent'
 import rule from './indent-binary-ops'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'indent-binary-ops',
   rule,
   valid: [
-    unIndent`
+    $`
       type a = {
         [K in keyof T]: T[K] extends Date
           ? Date | string
@@ -17,12 +16,12 @@ run({
             : T[K];
       }
     `,
-    unIndent`
+    $`
       type Foo =
         | A
         | B
     `,
-    unIndent`
+    $`
       if (
         this.level >= this.max ||
         this.level <= this.min
@@ -38,7 +37,7 @@ it('snapshots', async () => {
   const { fix } = createLinter('indent-binary-ops', rule)
 
   expect(
-    fix(unIndent`
+    fix($`
     if (
       a && (
         a.b ||
@@ -60,7 +59,7 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
+    fix($`
     const a =
     x +
       y * z
@@ -73,7 +72,7 @@ it('snapshots', async () => {
   `,
   )
   expect(
-    fix(unIndent`
+    fix($`
     if (
       aaaaaa >
     bbbbb
@@ -89,7 +88,7 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
+    fix($`
     function foo() {
       if (a
       || b
@@ -115,7 +114,7 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
+    fix($`
     type Foo = A | B
     | C | D
       | E
@@ -129,7 +128,7 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
+    fix($`
     type Foo = 
     | A | C
       | B
@@ -143,7 +142,7 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
+    fix($`
     type T =
     & A
       & (B
@@ -161,7 +160,7 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
+    fix($`
     type T = 
     a 
     | b 
@@ -176,7 +175,7 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
+    fix($`
     function TSPropertySignatureToProperty(
       node:
       | TSESTree.TSEnumMember
@@ -202,7 +201,7 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
+    fix($`
     type Foo = Merge<
         A 
       & B
@@ -220,7 +219,7 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
+    fix($`
     if (
       typeof woof === 'string' &&
       typeof woof === 'string' &&
