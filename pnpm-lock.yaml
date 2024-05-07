@@ -167,6 +167,9 @@ importers:
       twoslash-eslint:
         specifier: ^0.2.6
         version: 0.2.6(eslint@9.2.0)
+      typescript:
+        specifier: ^5.4.5
+        version: 5.4.5
       unbuild:
         specifier: ^2.0.0
         version: 2.0.0(typescript@5.4.5)

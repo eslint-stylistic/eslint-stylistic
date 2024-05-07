@@ -72,6 +72,7 @@
     "simple-git-hooks": "^2.11.1",
     "taze": "^0.13.8",
     "twoslash-eslint": "^0.2.6",
+    "typescript": "^5.4.5",
     "unbuild": "^2.0.0",
     "vite": "^5.2.11",
     "vitest": "^1.6.0",
