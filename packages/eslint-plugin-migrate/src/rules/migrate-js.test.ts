@@ -1,5 +1,5 @@
 import rule from './migrate-js'
-import { run } from '#test'
+import { $, run } from '#test'
 
 const valids = [
   {

@@ -38,13 +38,13 @@ it('snapshots', async () => {
 
   expect(
     fix($`
-    if (
-      a && (
-        a.b ||
-          a.c
-      ) &&
-        a.d
-    ) {}
+      if (
+        a && (
+          a.b ||
+            a.c
+        ) &&
+          a.d
+      ) {}
     `),
   ).toMatchInlineSnapshot(
     `
@@ -60,9 +60,9 @@ it('snapshots', async () => {
 
   expect(
     fix($`
-    const a =
-    x +
-      y * z
+      const a =
+      x +
+        y * z
     `),
   ).toMatchInlineSnapshot(
     `
@@ -73,10 +73,10 @@ it('snapshots', async () => {
   )
   expect(
     fix($`
-    if (
-      aaaaaa >
-    bbbbb
-    ) {}
+      if (
+        aaaaaa >
+      bbbbb
+      ) {}
     `),
   ).toMatchInlineSnapshot(
     `
@@ -89,15 +89,15 @@ it('snapshots', async () => {
 
   expect(
     fix($`
-    function foo() {
-      if (a
-      || b
-          || c || d
-            || (d && b)
-      ) {
-        foo()
+      function foo() {
+        if (a
+        || b
+            || c || d
+              || (d && b)
+        ) {
+          foo()
+        }
       }
-    }
     `),
   ).toMatchInlineSnapshot(
     `
@@ -115,9 +115,9 @@ it('snapshots', async () => {
 
   expect(
     fix($`
-    type Foo = A | B
-    | C | D
-      | E
+      type Foo = A | B
+      | C | D
+        | E
     `),
   ).toMatchInlineSnapshot(
     `
@@ -129,9 +129,9 @@ it('snapshots', async () => {
 
   expect(
     fix($`
-    type Foo = 
-    | A | C
-      | B
+      type Foo = 
+      | A | C
+        | B
     `),
   ).toMatchInlineSnapshot(
     `
@@ -143,11 +143,11 @@ it('snapshots', async () => {
 
   expect(
     fix($`
-    type T =
-    & A
-      & (B
-      | A
-      | D)
+      type T =
+      & A
+        & (B
+        | A
+        | D)
     `),
   ).toMatchInlineSnapshot(
     `
@@ -161,10 +161,11 @@ it('snapshots', async () => {
 
   expect(
     fix($`
-    type T = 
-    a 
-    | b 
-      | c`),
+      type T = 
+      a 
+      | b 
+        | c
+    `),
   ).toMatchInlineSnapshot(
     `
     "type T = 
@@ -176,15 +177,15 @@ it('snapshots', async () => {
 
   expect(
     fix($`
-    function TSPropertySignatureToProperty(
-      node:
-      | TSESTree.TSEnumMember
-        | TSESTree.TSPropertySignature
-      | TSESTree.TypeElement,
-      type:
-      | AST_NODE_TYPES.Property
-        | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
-    ): TSESTree.Node | null {}
+      function TSPropertySignatureToProperty(
+        node:
+        | TSESTree.TSEnumMember
+          | TSESTree.TSPropertySignature
+        | TSESTree.TypeElement,
+        type:
+        | AST_NODE_TYPES.Property
+          | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
+      ): TSESTree.Node | null {}
     `),
   ).toMatchInlineSnapshot(
     `
@@ -202,11 +203,11 @@ it('snapshots', async () => {
 
   expect(
     fix($`
-    type Foo = Merge<
-        A 
-      & B
-        & C
-    >
+      type Foo = Merge<
+          A 
+        & B
+          & C
+      >
     `),
   ).toMatchInlineSnapshot(
     `
@@ -220,15 +221,15 @@ it('snapshots', async () => {
 
   expect(
     fix($`
-    if (
-      typeof woof === 'string' &&
-      typeof woof === 'string' &&
+      if (
         typeof woof === 'string' &&
-      isNaN(null) &&
-        isNaN(NaN)
-    ) {
-      return;
-    }
+        typeof woof === 'string' &&
+          typeof woof === 'string' &&
+        isNaN(null) &&
+          isNaN(NaN)
+      ) {
+        return;
+      }
     `),
   ).toMatchInlineSnapshot(
     `

@@ -3,7 +3,7 @@
  * @author Nodeca Team <https://github.com/nodeca>
  */
 import rule from './no-trailing-spaces'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'no-trailing-spaces',

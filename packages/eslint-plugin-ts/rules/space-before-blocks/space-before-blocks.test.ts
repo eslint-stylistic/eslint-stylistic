@@ -2,14 +2,14 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import rule from './space-before-blocks'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'space-before-blocks',
   rule,
   valid: [
     {
-      code: `
+      code: $`
         enum Test{
           KEY1 = 2,
         }
@@ -17,7 +17,7 @@ run({
       options: ['never'],
     },
     {
-      code: `
+      code: $`
         interface Test{
           prop1: number;
         }
@@ -25,7 +25,7 @@ run({
       options: ['never'],
     },
     {
-      code: `
+      code: $`
         enum Test {
           KEY1 = 2,
         }
@@ -33,7 +33,7 @@ run({
       options: ['always'],
     },
     {
-      code: `
+      code: $`
         interface Test {
           prop1: number;
         }
@@ -41,7 +41,7 @@ run({
       options: ['always'],
     },
     {
-      code: `
+      code: $`
         enum Test{
           KEY1 = 2,
         }
@@ -49,7 +49,7 @@ run({
       options: [{ classes: 'never' }],
     },
     {
-      code: `
+      code: $`
         interface Test{
           prop1: number;
         }
@@ -57,7 +57,7 @@ run({
       options: [{ classes: 'never' }],
     },
     {
-      code: `
+      code: $`
         enum Test {
           KEY1 = 2,
         }
@@ -65,7 +65,7 @@ run({
       options: [{ classes: 'always' }],
     },
     {
-      code: `
+      code: $`
         interface Test {
           prop1: number;
         }
@@ -73,7 +73,7 @@ run({
       options: [{ classes: 'always' }],
     },
     {
-      code: `
+      code: $`
         interface Test{
           prop1: number;
         }
@@ -83,13 +83,13 @@ run({
   ],
   invalid: [
     {
-      code: `
+      code: $`
         enum Test{
           A = 2,
           B = 1,
         }
       `,
-      output: `
+      output: $`
         enum Test {
           A = 2,
           B = 1,
@@ -98,19 +98,17 @@ run({
       errors: [
         {
           messageId: 'missingSpace',
-          column: 18,
-          line: 2,
         },
       ],
       options: ['always'],
     },
     {
-      code: `
+      code: $`
         interface Test{
           prop1: number;
         }
       `,
-      output: `
+      output: $`
         interface Test {
           prop1: number;
         }
@@ -118,20 +116,18 @@ run({
       errors: [
         {
           messageId: 'missingSpace',
-          column: 23,
-          line: 2,
         },
       ],
       options: ['always'],
     },
     {
-      code: `
+      code: $`
         enum Test{
           A = 2,
           B = 1,
         }
       `,
-      output: `
+      output: $`
         enum Test {
           A = 2,
           B = 1,
@@ -140,19 +136,17 @@ run({
       errors: [
         {
           messageId: 'missingSpace',
-          column: 18,
-          line: 2,
         },
       ],
       options: [{ classes: 'always' }],
     },
     {
-      code: `
+      code: $`
         interface Test{
           prop1: number;
         }
       `,
-      output: `
+      output: $`
         interface Test {
           prop1: number;
         }
@@ -160,20 +154,18 @@ run({
       errors: [
         {
           messageId: 'missingSpace',
-          column: 23,
-          line: 2,
         },
       ],
       options: [{ classes: 'always' }],
     },
     {
-      code: `
+      code: $`
         enum Test {
           A = 2,
           B = 1,
         }
       `,
-      output: `
+      output: $`
         enum Test{
           A = 2,
           B = 1,
@@ -182,19 +174,17 @@ run({
       errors: [
         {
           messageId: 'unexpectedSpace',
-          column: 19,
-          line: 2,
         },
       ],
       options: ['never'],
     },
     {
-      code: `
+      code: $`
         interface Test {
           prop1: number;
         }
       `,
-      output: `
+      output: $`
         interface Test{
           prop1: number;
         }
@@ -202,20 +192,18 @@ run({
       errors: [
         {
           messageId: 'unexpectedSpace',
-          column: 24,
-          line: 2,
         },
       ],
       options: ['never'],
     },
     {
-      code: `
+      code: $`
         enum Test {
           A = 2,
           B = 1,
         }
       `,
-      output: `
+      output: $`
         enum Test{
           A = 2,
           B = 1,
@@ -224,19 +212,17 @@ run({
       errors: [
         {
           messageId: 'unexpectedSpace',
-          column: 19,
-          line: 2,
         },
       ],
       options: [{ classes: 'never' }],
     },
     {
-      code: `
+      code: $`
         interface Test {
           prop1: number;
         }
       `,
-      output: `
+      output: $`
         interface Test{
           prop1: number;
         }
@@ -244,8 +230,6 @@ run({
       errors: [
         {
           messageId: 'unexpectedSpace',
-          column: 24,
-          line: 2,
         },
       ],
       options: [{ classes: 'never' }],

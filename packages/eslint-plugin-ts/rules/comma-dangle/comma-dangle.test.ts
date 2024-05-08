@@ -2,7 +2,7 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import rule from './comma-dangle'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'comma-dangle',
@@ -78,12 +78,12 @@ run({
 
     // each options
     {
-      code: `
-const Obj = { a: 1 };
-enum Foo {Bar}
-function Baz<T,>() {}
-type Qux = [string,
-]
+      code: $`
+        const Obj = { a: 1 };
+        enum Foo {Bar}
+        function Baz<T,>() {}
+        type Qux = [string,
+        ]
       `,
       options: [
         {

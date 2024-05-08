@@ -2,7 +2,7 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import rule from './key-spacing'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'key-spacing',
@@ -10,254 +10,254 @@ run({
   valid: [
     // non-applicable
     {
-      code: `
-interface X {
-  x:
-    | number
-    | string;
-}
+      code: $`
+        interface X {
+          x:
+            | number
+            | string;
+        }
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-interface X {
-  x:
-    | number
-    | string;
-}
+      code: $`
+        interface X {
+          x:
+            | number
+            | string;
+        }
       `,
       options: [{}],
     },
     {
-      code: `
-interface X {
-  abcdef: string;
-  x:
-    | number
-    | string;
-  defgh: string;
-}
+      code: $`
+        interface X {
+          abcdef: string;
+          x:
+            | number
+            | string;
+          defgh: string;
+        }
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-interface X {
-  x:
-    | number; abcd: string;
-}
+      code: $`
+        interface X {
+          x:
+            | number; abcd: string;
+        }
       `,
       options: [{ align: 'value' }],
     },
     // align: value
     {
-      code: `
-interface X {
-  a:   number;
-  abc: string
-};
+      code: $`
+        interface X {
+          a:   number;
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-interface X {
-  "a:b": number;
-  abcde: string
-};
+      code: $`
+        interface X {
+          "a:b": number;
+          abcde: string
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-let x: {
-  a:   number;
-  abc: string
-};
+      code: $`
+        let x: {
+          a:   number;
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-let x: {
-  a:   number;
-  "𐌘": string;
-  [𐌘]: Date;
-  "🌷": "bar", // 2 code points
-  "🎁": "baz", // 2 code points
-  "🇮🇳": "qux", // 4 code points
-  "🏳️‍🌈": "xyz", // 6 code points
-};
+      code: $`
+        let x: {
+          a:   number;
+          "𐌘": string;
+          [𐌘]: Date;
+          "🌷": "bar", // 2 code points
+          "🎁": "baz", // 2 code points
+          "🇮🇳": "qux", // 4 code points
+          "🏳️‍🌈": "xyz", // 6 code points
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-interface X {
-  a: number;
-  abc: string; c: number;
-};
+      code: $`
+        interface X {
+          a: number;
+          abc: string; c: number;
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-interface X {
-  a: number;
-  abc: string; c: number; de: boolean;
-  abcef: number;
-};
+      code: $`
+        interface X {
+          a: number;
+          abc: string; c: number; de: boolean;
+          abcef: number;
+        };
       `,
       options: [{ align: 'colon' }],
     },
     {
-      code: `
-interface X {
-  a    : number;
-  abc;
-  abcef: number;
-};
+      code: $`
+        interface X {
+          a    : number;
+          abc;
+          abcef: number;
+        };
       `,
       options: [{ align: 'colon' }],
     },
     {
-      code: `
-interface X {
-  a?:  number;
-  abc: string
-};
+      code: $`
+        interface X {
+          a?:  number;
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-interface X {
-  a:   number;
-  // Some comment
-  abc: string
-};
+      code: $`
+        interface X {
+          a:   number;
+          // Some comment
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-interface X {
-  a:   number;
-  // Some comment
-  // on multiple lines
-  abc: string
-};
+      code: $`
+        interface X {
+          a:   number;
+          // Some comment
+          // on multiple lines
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-interface X {
-  a:   number;
-  /**
-   * Some comment
-   * on multiple lines
-   */
-  abc: string
-};
+      code: $`
+        interface X {
+          a:   number;
+          /**
+           * Some comment
+           * on multiple lines
+           */
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-interface X {
-  a:   number;
-  /**
-   * Doc comment
-  */
-  abc: string
-};
+      code: $`
+        interface X {
+          a:   number;
+          /**
+           * Doc comment
+          */
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-interface X {
-  a: number;
-
-  abc: string
-};
+      code: $`
+        interface X {
+          a: number;
+        
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-class X {
-  a:   number;
-  abc: string
-};
+      code: $`
+        class X {
+          a:   number;
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-class X {
-  a?:  number;
-  abc: string
-};
+      code: $`
+        class X {
+          a?:  number;
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-class X {
-  x:     number;
-  z = 1;
-  xbcef: number;
-  }
+      code: $`
+        class X {
+          x:     number;
+          z = 1;
+          xbcef: number;
+          }
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-class X {
-  a: number;
-
-  abc: string
-};
+      code: $`
+        class X {
+          a: number;
+        
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-type X = {
-  a:   number;
-  abc: string
-};
+      code: $`
+        type X = {
+          a:   number;
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-type X = {
-  a: number;
-
-  abc: string
-};
+      code: $`
+        type X = {
+          a: number;
+        
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-type X = {
-  a :  number;
-  abc: string
-};
+      code: $`
+        type X = {
+          a :  number;
+          abc: string
+        };
       `,
       options: [{ align: 'value', mode: 'minimum' }],
     },
     {
-      code: `
-type X = {
-  a :  number;
-  abc: string
-};
+      code: $`
+        type X = {
+          a :  number;
+          abc: string
+        };
       `,
       options: [
         {
@@ -271,89 +271,89 @@ type X = {
       ],
     },
     {
-      code: `
-interface X {
-  a:    number;
-  prop: {
-    abc: number;
-    a:   number;
-  };
-  abc: string
-}
+      code: $`
+        interface X {
+          a:    number;
+          prop: {
+            abc: number;
+            a:   number;
+          };
+          abc: string
+        }
       `,
       options: [{ align: 'value' }],
     },
     {
-      code: `
-class X {
-  a:    number;
-  prop: {
-    abc: number;
-    a:   number;
-  };
-  abc: string
-  x = 1;
-  d:   number;
-  z:   number = 1;
-  ef:  string;
-}
+      code: $`
+        class X {
+          a:    number;
+          prop: {
+            abc: number;
+            a:   number;
+          };
+          abc: string
+          x = 1;
+          d:   number;
+          z:   number = 1;
+          ef:  string;
+        }
       `,
       options: [{ align: 'value' }],
     },
     // align: colon
     {
-      code: `
-interface X {
-  a  : number;
-  abc: string
-};
+      code: $`
+        interface X {
+          a  : number;
+          abc: string
+        };
       `,
       options: [{ align: 'colon' }],
     },
     {
-      code: `
-interface X {
-  a  :number;
-  abc:string
-};
+      code: $`
+        interface X {
+          a  :number;
+          abc:string
+        };
       `,
       options: [{ align: 'colon', afterColon: false }],
     },
     {
-      code: `
-interface X {
-  a  :   number;
-  abc: string
-};
+      code: $`
+        interface X {
+          a  :   number;
+          abc: string
+        };
       `,
       options: [{ align: 'colon', mode: 'minimum' }],
     },
     // no align
     {
-      code: `
-interface X {
-  a: number;
-  abc: string
-};
+      code: $`
+        interface X {
+          a: number;
+          abc: string
+        };
       `,
       options: [{}],
     },
     {
-      code: `
-interface X {
-  a : number;
-  abc : string
-};
+      code: $`
+        interface X {
+          a : number;
+          abc : string
+        };
       `,
       options: [{ beforeColon: true }],
     },
     // singleLine / multiLine
     {
-      code: `
-interface X {
-  a : number;
-  abc : string
-};
+      code: $`
+        interface X {
+          a : number;
+          abc : string
+        };
       `,
       options: [
         {
@@ -363,11 +363,11 @@ interface X {
       ],
     },
     {
-      code: `
-interface X {
-  a :   number;
-  abc : string
-};
+      code: $`
+        interface X {
+          a :   number;
+          abc : string
+        };
       `,
       options: [
         {
@@ -378,11 +378,11 @@ interface X {
       ],
     },
     {
-      code: `
-interface X {
-  a   : number;
-  abc : string
-};
+      code: $`
+        interface X {
+          a   : number;
+          abc : string
+        };
       `,
       options: [
         {
@@ -393,11 +393,11 @@ interface X {
       ],
     },
     {
-      code: `
-interface X {
-  a :   number;
-  abc : string
-};
+      code: $`
+        interface X {
+          a :   number;
+          abc : string
+        };
       `,
       options: [
         {
@@ -407,11 +407,11 @@ interface X {
       ],
     },
     {
-      code: `
-interface X {
-  a   : number;
-  abc : string
-};
+      code: $`
+        interface X {
+          a   : number;
+          abc : string
+        };
       `,
       options: [
         {
@@ -430,11 +430,11 @@ interface X {
       ],
     },
     {
-      code: `
-interface X {
-  a   : number;
-  abc : string
-};
+      code: $`
+        interface X {
+          a   : number;
+          abc : string
+        };
       `,
       options: [
         {
@@ -452,11 +452,11 @@ interface X {
       ],
     },
     {
-      code: `
-interface X {
-  a   : number;
-  abc : string
-};
+      code: $`
+        interface X {
+          a   : number;
+          abc : string
+        };
       `,
       options: [
         {
@@ -472,11 +472,11 @@ interface X {
       ],
     },
     {
-      code: `
-interface X {
-  a   : number;
-  abc : string
-};
+      code: $`
+        interface X {
+          a   : number;
+          abc : string
+        };
       `,
       options: [
         {
@@ -491,13 +491,13 @@ interface X {
       ],
     },
     {
-      code: `
-interface X {
-  a  : number;
-  abc: string
-
-  xadzd : number;
-};
+      code: $`
+        interface X {
+          a  : number;
+          abc: string
+        
+          xadzd : number;
+        };
       `,
       options: [
         {
@@ -516,13 +516,13 @@ interface X {
       ],
     },
     {
-      code: `
-interface X {
-  a  : number;
-  abc: string
-
-  xadzd : number;
-};
+      code: $`
+        interface X {
+          a  : number;
+          abc: string
+        
+          xadzd : number;
+        };
       `,
       options: [
         {
@@ -541,13 +541,13 @@ interface X {
       ],
     },
     {
-      code: `
-interface X {
-  a  :    number;
-  abc: string
-
-  xadzd :    number;
-};
+      code: $`
+        interface X {
+          a  :    number;
+          abc: string
+        
+          xadzd :    number;
+        };
       `,
       options: [
         {
@@ -566,8 +566,8 @@ interface X {
       ],
     },
     {
-      code: `
-interface X { a:number; abc:string; };
+      code: $`
+        interface X { a:number; abc:string; };
       `,
       options: [
         {
@@ -577,438 +577,438 @@ interface X { a:number; abc:string; };
       ],
     },
     {
-      code: `
-class Foo {
-  a: (b)
-}
+      code: $`
+        class Foo {
+          a: (b)
+        }
       `,
     },
     {
-      code: `
-interface Foo {
-  a: (b)
-}
+      code: $`
+        interface Foo {
+          a: (b)
+        }
       `,
     },
     {
-      code: `
-class Foo {
-  a: /** comment */ b
-}
+      code: $`
+        class Foo {
+          a: /** comment */ b
+        }
       `,
     },
     {
-      code: `
-class Foo {
-  a: (     b)
-}
+      code: $`
+        class Foo {
+          a: (     b)
+        }
       `,
     },
     {
-      code: `
-class Foo { a: (b) }
+      code: $`
+        class Foo { a: (b) }
       `,
     },
     {
-      code: `
-class Foo {
-  a?: (string | number)
-}
+      code: $`
+        class Foo {
+          a?: (string | number)
+        }
       `,
     },
   ],
   invalid: [
     // align: value
     {
-      code: `
-interface X {
-  a: number;
-  abc: string
-};
+      code: $`
+        interface X {
+          a: number;
+          abc: string
+        };
       `,
-      output: `
-interface X {
-  a:   number;
-  abc: string
-};
-      `,
-      options: [{ align: 'value' }],
-      errors: [{ messageId: 'missingValue' }],
-    },
-    {
-      code: `
-interface X {
-  a: number;
-  "a:c": string
-};
-      `,
-      output: `
-interface X {
-  a:     number;
-  "a:c": string
-};
+      output: $`
+        interface X {
+          a:   number;
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
       errors: [{ messageId: 'missingValue' }],
     },
     {
-      code: `
-let x: {
-  a: number;
-  abc: string
-};
+      code: $`
+        interface X {
+          a: number;
+          "a:c": string
+        };
       `,
-      output: `
-let x: {
-  a:   number;
-  abc: string
-};
+      output: $`
+        interface X {
+          a:     number;
+          "a:c": string
+        };
       `,
       options: [{ align: 'value' }],
       errors: [{ messageId: 'missingValue' }],
     },
     {
-      code: `
-let x: {
-  a: number;
-  abc: string
-};
+      code: $`
+        let x: {
+          a: number;
+          abc: string
+        };
       `,
-      output: `
-let x: {
-  a:   number;
-  abc: string
-};
+      output: $`
+        let x: {
+          a:   number;
+          abc: string
+        };
+      `,
+      options: [{ align: 'value' }],
+      errors: [{ messageId: 'missingValue' }],
+    },
+    {
+      code: $`
+        let x: {
+          a: number;
+          abc: string
+        };
+      `,
+      output: $`
+        let x: {
+          a:   number;
+          abc: string
+        };
       `,
       options: [{ align: { on: 'value' } }],
       errors: [{ messageId: 'missingValue' }],
     },
     {
-      code: `
-let x: {
-  a: number;
-  "🌷": "bar", // 2 code points
-  "🎁": "baz", // 2 code points
-  "🇮🇳": "qux", // 4 code points
-  "🏳️‍🌈": "xyz", // 6 code points
-  [𐌘]: string
-  "𐌘": string
-};
+      code: $`
+        let x: {
+          a: number;
+          "🌷": "bar", // 2 code points
+          "🎁": "baz", // 2 code points
+          "🇮🇳": "qux", // 4 code points
+          "🏳️‍🌈": "xyz", // 6 code points
+          [𐌘]: string
+          "𐌘": string
+        };
       `,
-      output: `
-let x: {
-  a:   number;
-  "🌷": "bar", // 2 code points
-  "🎁": "baz", // 2 code points
-  "🇮🇳": "qux", // 4 code points
-  "🏳️‍🌈": "xyz", // 6 code points
-  [𐌘]: string
-  "𐌘": string
-};
-      `,
-      options: [{ align: 'value' }],
-      errors: [{ messageId: 'missingValue' }],
-    },
-    {
-      code: `
-class X {
-  a: number;
-  abc: string
-};
-      `,
-      output: `
-class X {
-  a:   number;
-  abc: string
-};
+      output: $`
+        let x: {
+          a:   number;
+          "🌷": "bar", // 2 code points
+          "🎁": "baz", // 2 code points
+          "🇮🇳": "qux", // 4 code points
+          "🏳️‍🌈": "xyz", // 6 code points
+          [𐌘]: string
+          "𐌘": string
+        };
       `,
       options: [{ align: 'value' }],
       errors: [{ messageId: 'missingValue' }],
     },
     {
-      code: `
-class X {
-  a: number;
-  abc: string
-};
+      code: $`
+        class X {
+          a: number;
+          abc: string
+        };
       `,
-      output: `
-class X {
-  a:   number;
-  abc: string
-};
+      output: $`
+        class X {
+          a:   number;
+          abc: string
+        };
+      `,
+      options: [{ align: 'value' }],
+      errors: [{ messageId: 'missingValue' }],
+    },
+    {
+      code: $`
+        class X {
+          a: number;
+          abc: string
+        };
+      `,
+      output: $`
+        class X {
+          a:   number;
+          abc: string
+        };
       `,
       options: [{ align: 'value', mode: 'minimum' }],
       errors: [{ messageId: 'missingValue' }],
     },
     {
-      code: `
-class X {
-  a: number;
-  b;
-  abc: string
-};
+      code: $`
+        class X {
+          a: number;
+          b;
+          abc: string
+        };
       `,
-      output: `
-class X {
-  a:   number;
-  b;
-  abc: string
-};
+      output: $`
+        class X {
+          a:   number;
+          b;
+          abc: string
+        };
       `,
       options: [{ align: 'value', mode: 'minimum' }],
       errors: [{ messageId: 'missingValue' }],
     },
     {
-      code: `
-type X = {
-  a: number;
-  abc: string
-};
+      code: $`
+        type X = {
+          a: number;
+          abc: string
+        };
       `,
-      output: `
-type X = {
-  a:   number;
-  abc: string
-};
-      `,
-      options: [{ align: 'value' }],
-      errors: [{ messageId: 'missingValue' }],
-    },
-    {
-      code: `
-interface X {
-  a:   number;
-  abc:  string
-};
-      `,
-      output: `
-interface X {
-  a:   number;
-  abc: string
-};
-      `,
-      options: [{ align: 'value' }],
-      errors: [{ messageId: 'extraValue' }],
-    },
-    {
-      code: `
-class X {
-  a:   number;
-  abc:  string
-};
-      `,
-      output: `
-class X {
-  a:   number;
-  abc: string
-};
-      `,
-      options: [{ align: 'value' }],
-      errors: [{ messageId: 'extraValue' }],
-    },
-    {
-      code: `
-class X {
-  x:   number;
-  z = 1;
-  xbcef: number;
-  }
-      `,
-      output: `
-class X {
-  x:     number;
-  z = 1;
-  xbcef: number;
-  }
+      output: $`
+        type X = {
+          a:   number;
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
       errors: [{ messageId: 'missingValue' }],
     },
     {
-      code: `
-interface X {
-  a:   number;
-
-  abc     : string
-};
+      code: $`
+        interface X {
+          a:   number;
+          abc:  string
+        };
       `,
-      output: `
-interface X {
-  a: number;
-
-  abc: string
-};
+      output: $`
+        interface X {
+          a:   number;
+          abc: string
+        };
+      `,
+      options: [{ align: 'value' }],
+      errors: [{ messageId: 'extraValue' }],
+    },
+    {
+      code: $`
+        class X {
+          a:   number;
+          abc:  string
+        };
+      `,
+      output: $`
+        class X {
+          a:   number;
+          abc: string
+        };
+      `,
+      options: [{ align: 'value' }],
+      errors: [{ messageId: 'extraValue' }],
+    },
+    {
+      code: $`
+        class X {
+          x:   number;
+          z = 1;
+          xbcef: number;
+          }
+      `,
+      output: $`
+        class X {
+          x:     number;
+          z = 1;
+          xbcef: number;
+          }
+      `,
+      options: [{ align: 'value' }],
+      errors: [{ messageId: 'missingValue' }],
+    },
+    {
+      code: $`
+        interface X {
+          a:   number;
+        
+          abc     : string
+        };
+      `,
+      output: $`
+        interface X {
+          a: number;
+        
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
       errors: [{ messageId: 'extraValue' }, { messageId: 'extraKey' }],
     },
     {
-      code: `
-class X {
-  a:   number;
-
-  abc     : string
-};
+      code: $`
+        class X {
+          a:   number;
+        
+          abc     : string
+        };
       `,
-      output: `
-class X {
-  a: number;
-
-  abc: string
-};
+      output: $`
+        class X {
+          a: number;
+        
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
       errors: [{ messageId: 'extraValue' }, { messageId: 'extraKey' }],
     },
     {
-      code: `
-interface X {
-  a:   number;
-  // Some comment
-
-  // interrupted in the middle
-  abc: string
-};
+      code: $`
+        interface X {
+          a:   number;
+          // Some comment
+        
+          // interrupted in the middle
+          abc: string
+        };
       `,
-      output: `
-interface X {
-  a: number;
-  // Some comment
-
-  // interrupted in the middle
-  abc: string
-};
-      `,
-      options: [{ align: 'value' }],
-      errors: [{ messageId: 'extraValue' }],
-    },
-    {
-      code: `
-interface X {
-  a:   number;
-  /**
-   * Multiline comment
-   */
-
-  /** interrupted in the middle */
-  abc: string
-};
-      `,
-      output: `
-interface X {
-  a: number;
-  /**
-   * Multiline comment
-   */
-
-  /** interrupted in the middle */
-  abc: string
-};
+      output: $`
+        interface X {
+          a: number;
+          // Some comment
+        
+          // interrupted in the middle
+          abc: string
+        };
       `,
       options: [{ align: 'value' }],
       errors: [{ messageId: 'extraValue' }],
     },
     {
-      code: `
-interface X {
-  a:   number;
-  prop: {
-    abc: number;
-    a:   number;
-  },
-  abc: string
-}
+      code: $`
+        interface X {
+          a:   number;
+          /**
+           * Multiline comment
+           */
+        
+          /** interrupted in the middle */
+          abc: string
+        };
       `,
-      output: `
-interface X {
-  a:    number;
-  prop: {
-    abc: number;
-    a:   number;
-  },
-  abc: string
-}
+      output: $`
+        interface X {
+          a: number;
+          /**
+           * Multiline comment
+           */
+        
+          /** interrupted in the middle */
+          abc: string
+        };
+      `,
+      options: [{ align: 'value' }],
+      errors: [{ messageId: 'extraValue' }],
+    },
+    {
+      code: $`
+        interface X {
+          a:   number;
+          prop: {
+            abc: number;
+            a:   number;
+          },
+          abc: string
+        }
+      `,
+      output: $`
+        interface X {
+          a:    number;
+          prop: {
+            abc: number;
+            a:   number;
+          },
+          abc: string
+        }
       `,
       options: [{ align: 'value' }],
       errors: [{ messageId: 'missingValue' }],
     },
     {
-      code: `
-interface X {
-  a:    number;
-  prop: {
-    abc: number;
-    a:  number;
-  },
-  abc: string
-}
+      code: $`
+        interface X {
+          a:    number;
+          prop: {
+            abc: number;
+            a:  number;
+          },
+          abc: string
+        }
       `,
-      output: `
-interface X {
-  a:    number;
-  prop: {
-    abc: number;
-    a:   number;
-  },
-  abc: string
-}
+      output: $`
+        interface X {
+          a:    number;
+          prop: {
+            abc: number;
+            a:   number;
+          },
+          abc: string
+        }
       `,
       options: [{ align: 'value' }],
       errors: [{ messageId: 'missingValue' }],
     },
     {
-      code: `
-interface X {
-  a:    number;
-  prop: {
-    abc: number;
-    a:   number;
-  },
-  abc:  string
-}
+      code: $`
+        interface X {
+          a:    number;
+          prop: {
+            abc: number;
+            a:   number;
+          },
+          abc:  string
+        }
       `,
-      output: `
-interface X {
-  a:    number;
-  prop: {
-    abc: number;
-    a:   number;
-  },
-  abc: string
-}
+      output: $`
+        interface X {
+          a:    number;
+          prop: {
+            abc: number;
+            a:   number;
+          },
+          abc: string
+        }
       `,
       options: [{ align: 'value' }],
       errors: [{ messageId: 'extraValue' }],
     },
     {
-      code: `
-class X {
-  a:      number;
-  prop: {
-    abc: number;
-    a?: number;
-  };
-  abc: string;
-  x = 1;
-  d: number;
-  z:  number = 1;
-  ef: string;
-}
+      code: $`
+        class X {
+          a:      number;
+          prop: {
+            abc: number;
+            a?: number;
+          };
+          abc: string;
+          x = 1;
+          d: number;
+          z:  number = 1;
+          ef: string;
+        }
       `,
-      output: `
-class X {
-  a:    number;
-  prop: {
-    abc: number;
-    a?:  number;
-  };
-  abc: string;
-  x = 1;
-  d:   number;
-  z:   number = 1;
-  ef:  string;
-}
+      output: $`
+        class X {
+          a:    number;
+          prop: {
+            abc: number;
+            a?:  number;
+          };
+          abc: string;
+          x = 1;
+          d:   number;
+          z:   number = 1;
+          ef:  string;
+        }
       `,
       options: [{ align: 'value' }],
       errors: [
@@ -1021,93 +1021,93 @@ class X {
     },
     // align: colon
     {
-      code: `
-interface X {
-  a   : number;
-  abc: string
-};
+      code: $`
+        interface X {
+          a   : number;
+          abc: string
+        };
       `,
-      output: `
-interface X {
-  a  : number;
-  abc: string
-};
+      output: $`
+        interface X {
+          a  : number;
+          abc: string
+        };
       `,
       options: [{ align: 'colon' }],
       errors: [{ messageId: 'extraKey' }],
     },
     {
-      code: `
-interface X {
-  a   : number;
-  abc: string
-};
+      code: $`
+        interface X {
+          a   : number;
+          abc: string
+        };
       `,
-      output: `
-interface X {
-  a  : number;
-  abc: string
-};
+      output: $`
+        interface X {
+          a  : number;
+          abc: string
+        };
       `,
       options: [{ align: { on: 'colon' } }],
       errors: [{ messageId: 'extraKey' }],
     },
     {
-      code: `
-interface X {
-  a   : number;
-  abc: string
-};
+      code: $`
+        interface X {
+          a   : number;
+          abc: string
+        };
       `,
-      output: `
-interface X {
-  a   : number;
-  abc : string
-};
+      output: $`
+        interface X {
+          a   : number;
+          abc : string
+        };
       `,
       options: [{ align: 'colon', beforeColon: true, afterColon: true }],
       errors: [{ messageId: 'missingKey' }],
     },
     // no align
     {
-      code: `
-interface X {
-  [x: number]:  string;
-}
+      code: $`
+        interface X {
+          [x: number]:  string;
+        }
       `,
-      output: `
-interface X {
-  [x: number]: string;
-}
+      output: $`
+        interface X {
+          [x: number]: string;
+        }
       `,
       errors: [{ messageId: 'extraValue' }],
     },
     {
-      code: `
-interface X {
-  [x: number]:string;
-}
+      code: $`
+        interface X {
+          [x: number]:string;
+        }
       `,
-      output: `
-interface X {
-  [x: number]: string;
-}
+      output: $`
+        interface X {
+          [x: number]: string;
+        }
       `,
       errors: [{ messageId: 'missingValue' }],
     },
     // singleLine / multiLine
     {
-      code: `
-interface X {
-  a:number;
-  abc:string
-};
+      code: $`
+        interface X {
+          a:number;
+          abc:string
+        };
       `,
-      output: `
-interface X {
-  a : number;
-  abc : string
-};
+      output: $`
+        interface X {
+          a : number;
+          abc : string
+        };
       `,
       options: [
         {
@@ -1123,11 +1123,11 @@ interface X {
       ],
     },
     {
-      code: `
-interface X { a : number; abc : string; };
+      code: $`
+        interface X { a : number; abc : string; };
       `,
-      output: `
-interface X { a:number; abc:string; };
+      output: $`
+        interface X { a:number; abc:string; };
       `,
       options: [
         {
@@ -1143,11 +1143,11 @@ interface X { a:number; abc:string; };
       ],
     },
     {
-      code: `
-interface X { a : number; abc : string; };
+      code: $`
+        interface X { a : number; abc : string; };
       `,
-      output: `
-interface X { a: number; abc: string; };
+      output: $`
+        interface X { a: number; abc: string; };
       `,
       options: [
         {
@@ -1158,11 +1158,11 @@ interface X { a: number; abc: string; };
       errors: [{ messageId: 'extraKey' }, { messageId: 'extraKey' }],
     },
     {
-      code: `
-interface X { a:number; abc:string; };
+      code: $`
+        interface X { a:number; abc:string; };
       `,
-      output: `
-interface X { a : number; abc : string; };
+      output: $`
+        interface X { a : number; abc : string; };
       `,
       options: [
         {
@@ -1178,11 +1178,11 @@ interface X { a : number; abc : string; };
       ],
     },
     {
-      code: `
-interface X { a:number; abc:   string; };
+      code: $`
+        interface X { a:number; abc:   string; };
       `,
-      output: `
-interface X { a : number; abc :   string; };
+      output: $`
+        interface X { a : number; abc :   string; };
       `,
       options: [
         {
@@ -1197,11 +1197,11 @@ interface X { a : number; abc :   string; };
       ],
     },
     {
-      code: `
-interface X { a : number; abc : string; };
+      code: $`
+        interface X { a : number; abc : string; };
       `,
-      output: `
-interface X { a:number; abc:string; };
+      output: $`
+        interface X { a:number; abc:string; };
       `,
       options: [
         {
@@ -1217,11 +1217,11 @@ interface X { a:number; abc:string; };
       ],
     },
     {
-      code: `
-interface X { a:number; abc:string; };
+      code: $`
+        interface X { a:number; abc:string; };
       `,
-      output: `
-interface X { a : number; abc : string; };
+      output: $`
+        interface X { a : number; abc : string; };
       `,
       options: [
         {
@@ -1238,43 +1238,43 @@ interface X { a : number; abc : string; };
       ],
     },
     {
-      code: `
-type Wacky = {
-    a: number;
-    b: string;
-    agc: number;
-    middle: Date | {
-        inner: {
-            a: boolean;
-            bc: boolean;
-            "🌷": "rose";
+      code: $`
+        type Wacky = {
+            a: number;
+            b: string;
+            agc: number;
+            middle: Date | {
+                inner: {
+                    a: boolean;
+                    bc: boolean;
+                    "🌷": "rose";
+                }
+                [x: number]: string;
+                abc: boolean;
+            }
+        } & {
+            a: "string";
+            abc: number;
         }
-        [x: number]: string;
-        abc: boolean;
-    }
-} & {
-    a: "string";
-    abc: number;
-}
       `,
-      output: `
-type Wacky = {
-    a:      number;
-    b:      string;
-    agc:    number;
-    middle: Date | {
-        inner: {
-            a:   boolean;
-            bc:  boolean;
-            "🌷": "rose";
+      output: $`
+        type Wacky = {
+            a:      number;
+            b:      string;
+            agc:    number;
+            middle: Date | {
+                inner: {
+                    a:   boolean;
+                    bc:  boolean;
+                    "🌷": "rose";
+                }
+                [x: number]: string;
+                abc:         boolean;
+            }
+        } & {
+            a:   "string";
+            abc: number;
         }
-        [x: number]: string;
-        abc:         boolean;
-    }
-} & {
-    a:   "string";
-    abc: number;
-}
       `,
       options: [{ align: 'value' }],
       errors: [
@@ -1288,57 +1288,57 @@ type Wacky = {
       ],
     },
     {
-      code: `
-class Wacky {
-    a: number;
-    b?: string;
-    public z: number;
-    abc = 10;
-    private override xy: number;
-    static x = "test";
-    static abcdef: number = 1;
-    get fn(): number { return 0; };
-    inter: number;
-    get fn2(): number {
-      return 1;
-    };
-    agc: number;
-    middle: Date | {
-        inner: {
-            a: boolean;
-            bc: boolean;
-            "🌷": "rose";
+      code: $`
+        class Wacky {
+            a: number;
+            b?: string;
+            public z: number;
+            abc = 10;
+            private override xy: number;
+            static x = "test";
+            static abcdef: number = 1;
+            get fn(): number { return 0; };
+            inter: number;
+            get fn2(): number {
+              return 1;
+            };
+            agc: number;
+            middle: Date | {
+                inner: {
+                    a: boolean;
+                    bc: boolean;
+                    "🌷": "rose";
+                }
+                [x: number]: string;
+                abc: boolean;
+            }
         }
-        [x: number]: string;
-        abc: boolean;
-    }
-}
       `,
-      output: `
-class Wacky {
-    a:                   number;
-    b?:                  string;
-    public z:            number;
-    abc = 10;
-    private override xy: number;
-    static x = "test";
-    static abcdef:       number = 1;
-    get fn(): number { return 0; };
-    inter:               number;
-    get fn2(): number {
-      return 1;
-    };
-    agc:    number;
-    middle: Date | {
-        inner: {
-            a:   boolean;
-            bc:  boolean;
-            "🌷": "rose";
+      output: $`
+        class Wacky {
+            a:                   number;
+            b?:                  string;
+            public z:            number;
+            abc = 10;
+            private override xy: number;
+            static x = "test";
+            static abcdef:       number = 1;
+            get fn(): number { return 0; };
+            inter:               number;
+            get fn2(): number {
+              return 1;
+            };
+            agc:    number;
+            middle: Date | {
+                inner: {
+                    a:   boolean;
+                    bc:  boolean;
+                    "🌷": "rose";
+                }
+                [x: number]: string;
+                abc:         boolean;
+            }
         }
-        [x: number]: string;
-        abc:         boolean;
-    }
-}
       `,
       options: [{ align: 'value' }],
       errors: [
@@ -1354,63 +1354,63 @@ class Wacky {
       ],
     },
     {
-      code: `
-class Foo {
-  a:  (b)
-}
+      code: $`
+        class Foo {
+          a:  (b)
+        }
       `,
-      output: `
-class Foo {
-  a: (b)
-}
-      `,
-      errors: [{ messageId: 'extraValue' }],
-    },
-    {
-      code: `
-interface Foo {
-  a:  (b)
-}
-      `,
-      output: `
-interface Foo {
-  a: (b)
-}
+      output: $`
+        class Foo {
+          a: (b)
+        }
       `,
       errors: [{ messageId: 'extraValue' }],
     },
     {
-      code: `
-class Foo {
-  a:  /** comment */ b
-}
+      code: $`
+        interface Foo {
+          a:  (b)
+        }
       `,
-      output: `
-class Foo {
-  a: /** comment */ b
-}
-      `,
-      errors: [{ messageId: 'extraValue' }],
-    },
-    {
-      code: `
-class Foo {
-  a:    (     b)
-}
-      `,
-      output: `
-class Foo {
-  a: (     b)
-}
+      output: $`
+        interface Foo {
+          a: (b)
+        }
       `,
       errors: [{ messageId: 'extraValue' }],
     },
     {
-      code: `
-interface X { a:(number); };
+      code: $`
+        class Foo {
+          a:  /** comment */ b
+        }
       `,
-      output: `
-interface X { a : (number); };
+      output: $`
+        class Foo {
+          a: /** comment */ b
+        }
+      `,
+      errors: [{ messageId: 'extraValue' }],
+    },
+    {
+      code: $`
+        class Foo {
+          a:    (     b)
+        }
+      `,
+      output: $`
+        class Foo {
+          a: (     b)
+        }
+      `,
+      errors: [{ messageId: 'extraValue' }],
+    },
+    {
+      code: $`
+        interface X { a:(number); };
+      `,
+      output: $`
+        interface X { a : (number); };
       `,
       options: [
         {
@@ -1421,11 +1421,11 @@ interface X { a : (number); };
       errors: [{ messageId: 'missingKey' }, { messageId: 'missingValue' }],
     },
     {
-      code: `
-interface X { a:/** comment */ number; };
+      code: $`
+        interface X { a:/** comment */ number; };
       `,
-      output: `
-interface X { a : /** comment */ number; };
+      output: $`
+        interface X { a : /** comment */ number; };
       `,
       options: [
         {
@@ -1436,15 +1436,15 @@ interface X { a : /** comment */ number; };
       errors: [{ messageId: 'missingKey' }, { messageId: 'missingValue' }],
     },
     {
-      code: `
-class Foo {
-  a:    (string | number)
-}
+      code: $`
+        class Foo {
+          a:    (string | number)
+        }
       `,
-      output: `
-class Foo {
-  a: (string | number)
-}
+      output: $`
+        class Foo {
+          a: (string | number)
+        }
       `,
       errors: [{ messageId: 'extraValue' }],
     },

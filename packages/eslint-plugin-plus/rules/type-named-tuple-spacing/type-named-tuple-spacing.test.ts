@@ -1,5 +1,5 @@
 import rule from './type-named-tuple-spacing'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'type-named-tuple-spacing',
@@ -61,33 +61,33 @@ run({
       errors: [{ messageId: 'expectedSpaceAfter' }, { messageId: 'expectedSpaceAfter' }],
     },
     {
-      code: `
+      code: $`
         const emit = defineEmits<{
           change: [id:number]
           update: [value:string]
         }>()
-        `,
-      output: `
+      `,
+      output: $`
         const emit = defineEmits<{
           change: [id: number]
           update: [value: string]
         }>()
-        `,
+      `,
       errors: [{ messageId: 'expectedSpaceAfter' }, { messageId: 'expectedSpaceAfter' }],
     },
     {
-      code: `
+      code: $`
         const emit = defineEmits<{
           change: [id? :number]
           update: [value:string]
         }>()
-        `,
-      output: `
+      `,
+      output: $`
         const emit = defineEmits<{
           change: [id?: number]
           update: [value: string]
         }>()
-        `,
+      `,
       errors: [
         { messageId: 'unexpectedSpaceBetween' },
         { messageId: 'expectedSpaceAfter' },

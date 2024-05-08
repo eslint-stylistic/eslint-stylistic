@@ -4,7 +4,7 @@
  */
 
 import rule from './array-bracket-newline'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'array-bracket-newline',
@@ -45,25 +45,25 @@ run({
       options: ['always'],
     },
     {
-      code: `
-            var foo = [
-                [
-                    1,2
-                ]
+      code: $`
+        var foo = [
+            [
+                1,2
             ]
-            `,
+        ]
+      `,
       options: ['always'],
     },
     {
-      code: `
-            var foo = [
-                0,
-                [
-                    1,2
-                ],
-                3
-            ]
-            `,
+      code: $`
+        var foo = [
+            0,
+            [
+                1,2
+            ],
+            3
+        ]
+      `,
       options: ['always'],
     },
 

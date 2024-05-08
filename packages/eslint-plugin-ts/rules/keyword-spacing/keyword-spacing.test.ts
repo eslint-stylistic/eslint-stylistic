@@ -4,7 +4,7 @@
 import type { RuleOptions } from './types'
 import rule from './keyword-spacing'
 import type { TestCaseError } from '#test'
-import { run } from '#test'
+import { $, run } from '#test'
 
 const BOTH = { before: true, after: true }
 const NEITHER = { before: false, after: false }

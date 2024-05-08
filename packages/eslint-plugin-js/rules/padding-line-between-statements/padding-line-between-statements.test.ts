@@ -4,7 +4,7 @@
  */
 
 import rule from './padding-line-between-statements'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'padding-line-between-statements',
@@ -1841,32 +1841,32 @@ run({
 
     // https://github.com/eslint/eslint/issues/6834
     {
-      code: `
-                var a = 1
-
-                ;(b || c).doSomething()
-            `,
+      code: $`
+        var a = 1
+        
+        ;(b || c).doSomething()
+      `,
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
       ],
     },
     {
-      code: `
-                var a = 1
-                ;(b || c).doSomething()
-            `,
+      code: $`
+        var a = 1
+        ;(b || c).doSomething()
+      `,
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
       ],
     },
     {
-      code: `
-                var a = 1
-                ;
-                (b || c).doSomething();
-            `,
+      code: $`
+        var a = 1
+        ;
+        (b || c).doSomething();
+      `,
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
@@ -1888,12 +1888,12 @@ run({
       ],
     },
     {
-      code: `
-                var a = 1
-
-                ;
-                (b || c).doSomething();
-            `,
+      code: $`
+        var a = 1
+        
+        ;
+        (b || c).doSomething();
+      `,
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
@@ -4543,15 +4543,15 @@ run({
 
     // https://github.com/eslint/eslint/issues/6834
     {
-      code: `
-                var a = 1
-                ;(b || c).doSomething()
-            `,
-      output: `
-                var a = 1
-
-                ;(b || c).doSomething()
-            `,
+      code: $`
+        var a = 1
+        ;(b || c).doSomething()
+      `,
+      output: $`
+        var a = 1
+        
+        ;(b || c).doSomething()
+      `,
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
@@ -4559,15 +4559,15 @@ run({
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: `
-                var a = 1
-
-                ;(b || c).doSomething()
-            `,
-      output: `
-                var a = 1
-                ;(b || c).doSomething()
-            `,
+      code: $`
+        var a = 1
+        
+        ;(b || c).doSomething()
+      `,
+      output: $`
+        var a = 1
+        ;(b || c).doSomething()
+      `,
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },

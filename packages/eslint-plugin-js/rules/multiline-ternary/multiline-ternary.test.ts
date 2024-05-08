@@ -4,7 +4,7 @@
  */
 
 import rule from './multiline-ternary'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'multiline-ternary',
@@ -39,7 +39,7 @@ run({
     { code: '((a)) \n? ((b))\n: ((c))', options: ['always'] },
     { code: '((a)) ?\n ((b)):\n ((c))', options: ['always'] },
     {
-      code: `
+      code: $`
         <>
           {a ? <div /> : <div />}
         </>
@@ -84,7 +84,7 @@ run({
     { code: '(a) ? (b) : (c)', options: ['always-multiline'] },
     { code: '((a)) ? ((b)) : ((c))', options: ['always-multiline'] },
     {
-      code: `
+      code: $`
         <>
           {a ? 
             <div /> : <div />}
@@ -119,7 +119,7 @@ run({
     { code: '(a\n) ? (\nb\n) : (\nc)', options: ['never'] },
     { code: '((a)\n) ? (\n(b)\n) : (\n(c))', options: ['never'] },
     {
-      code: `
+      code: $`
         <>
           {a 
             ? <div /> 

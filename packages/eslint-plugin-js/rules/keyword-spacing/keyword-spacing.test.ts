@@ -6,7 +6,7 @@
 import parser from '../../test-utils/fixture-parser'
 import rule from './keyword-spacing'
 import type { TestCase } from '#test'
-import { run } from '#test'
+import { $, run } from '#test'
 
 const BOTH = { before: true, after: true }
 const NEITHER = { before: false, after: false }

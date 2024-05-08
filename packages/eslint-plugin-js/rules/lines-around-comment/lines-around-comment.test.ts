@@ -256,16 +256,17 @@ run({
     },
     {
       code: $`
-                class C {
-                    static {
-                        // line comment
-                    }
-
-                    static {
-                        // line comment
-                        foo();
-                    }
-                }`,
+        class C {
+            static {
+                // line comment
+            }
+        
+            static {
+                // line comment
+                foo();
+            }
+        }
+      `,
       options: [{
         beforeLineComment: true,
         allowBlockStart: true,
@@ -274,18 +275,19 @@ run({
     },
     {
       code: $`
-                class C {
-                    static
-                    {
-                        // line comment
-                    }
-
-                    static
-                    {
-                        // line comment
-                        foo();
-                    }
-                }`,
+        class C {
+            static
+            {
+                // line comment
+            }
+        
+            static
+            {
+                // line comment
+                foo();
+            }
+        }
+      `,
       options: [{
         beforeLineComment: true,
         allowBlockStart: true,
@@ -294,27 +296,28 @@ run({
     },
     {
       code: $`
-                class C {
-                    static {
-                        /* block comment */
-                    }
-
-                    static {
-                        /* block
-                           comment */
-                    }
-
-                    static {
-                        /* block comment */
-                        foo();
-                    }
-
-                    static {
-                        /* block
-                           comment */
-                        foo();
-                    }
-                }`,
+        class C {
+            static {
+                /* block comment */
+            }
+        
+            static {
+                /* block
+                   comment */
+            }
+        
+            static {
+                /* block comment */
+                foo();
+            }
+        
+            static {
+                /* block
+                   comment */
+                foo();
+            }
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         allowBlockStart: true,
@@ -323,31 +326,32 @@ run({
     },
     {
       code: $`
-                class C {
-                    static
-                    {
-                        /* block comment */
-                    }
-
-                    static
-                    {
-                        /* block
-                        comment */
-                    }
-
-                    static
-                    {
-                        /* block comment */
-                        foo();
-                    }
-
-                    static
-                    {
-                        /* block
-                        comment */
-                        foo();
-                    }
-                }`,
+        class C {
+            static
+            {
+                /* block comment */
+            }
+        
+            static
+            {
+                /* block
+                comment */
+            }
+        
+            static
+            {
+                /* block comment */
+                foo();
+            }
+        
+            static
+            {
+                /* block
+                comment */
+                foo();
+            }
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         allowBlockStart: true,
@@ -357,17 +361,17 @@ run({
 
     // https://github.com/eslint/eslint/issues/16131
     {
-      code: `
-            switch (foo) {
-            // this comment is allowed by allowBlockStart: true 
-                
-            case 1:    
-                bar();
-                break;
-                
-            // this comment is allowed by allowBlockEnd: true
-            }
-            `,
+      code: $`
+        switch (foo) {
+        // this comment is allowed by allowBlockStart: true 
+            
+        case 1:    
+            bar();
+            break;
+            
+        // this comment is allowed by allowBlockEnd: true
+        }
+      `,
       options: [{
         allowBlockStart: true,
         beforeLineComment: true,
@@ -376,16 +380,16 @@ run({
       }],
     },
     {
-      code: `
-            switch (foo)
-            {
-            // this comment is allowed by allowBlockStart: true 
-                
-            case 1:    
-                bar();
-                break;
-            }
-            `,
+      code: $`
+        switch (foo)
+        {
+        // this comment is allowed by allowBlockStart: true 
+            
+        case 1:    
+            bar();
+            break;
+        }
+      `,
       options: [{
         allowBlockStart: true,
         beforeLineComment: true,
@@ -393,16 +397,16 @@ run({
       }],
     },
     {
-      code: `
-            switch (
-                function(){}()
-            )
-            {
-                // this comment is allowed by allowBlockStart: true
-                case foo:
-                    break;
-            }
-            `,
+      code: $`
+        switch (
+            function(){}()
+        )
+        {
+            // this comment is allowed by allowBlockStart: true
+            case foo:
+                break;
+        }
+      `,
       options: [{
         allowBlockStart: true,
         beforeLineComment: true,
@@ -620,16 +624,17 @@ run({
     },
     {
       code: $`
-                class C {
-                    static {
-                        // line comment
-                    }
-
-                    static {
-                        foo();
-                        // line comment
-                    }
-                }`,
+        class C {
+            static {
+                // line comment
+            }
+        
+            static {
+                foo();
+                // line comment
+            }
+        }
+      `,
       options: [{
         afterLineComment: true,
         allowBlockEnd: true,
@@ -638,27 +643,28 @@ run({
     },
     {
       code: $`
-                class C {
-                    static {
-                        /* block comment */
-                    }
-
-                    static {
-                        /* block
-                           comment */
-                    }
-
-                    static {
-                        foo();
-                        /* block comment */
-                    }
-
-                    static {
-                        foo();
-                        /* block
-                           comment */
-                    }
-                }`,
+        class C {
+            static {
+                /* block comment */
+            }
+        
+            static {
+                /* block
+                   comment */
+            }
+        
+            static {
+                foo();
+                /* block comment */
+            }
+        
+            static {
+                foo();
+                /* block
+                   comment */
+            }
+        }
+      `,
       options: [{
         beforeBlockComment: false, // default is `true`
         afterBlockComment: true,
@@ -1267,16 +1273,18 @@ run({
     },
     {
       code: $`
-                class C {
-                    // line comment
-                    static{}
-                }`,
+        class C {
+            // line comment
+            static{}
+        }
+      `,
       output: $`
-                class C {
-                    // line comment
-
-                    static{}
-                }`,
+        class C {
+            // line comment
+        
+            static{}
+        }
+      `,
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
@@ -1292,18 +1300,20 @@ run({
     },
     {
       code: $`
-                class C {
-                    /* block
-                       comment */
-                    static{}
-                }`,
+        class C {
+            /* block
+               comment */
+            static{}
+        }
+      `,
       output: $`
-                class C {
-                    /* block
-                       comment */
-
-                    static{}
-                }`,
+        class C {
+            /* block
+               comment */
+        
+            static{}
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
@@ -1319,19 +1329,21 @@ run({
     },
     {
       code: $`
-                class C {
-                    static
-                    // line comment
-                    {}
-                }`,
+        class C {
+            static
+            // line comment
+            {}
+        }
+      `,
       output: $`
-            class C {
-                static
-
-                // line comment
-
-                {}
-            }`,
+        class C {
+            static
+        
+            // line comment
+        
+            {}
+        }
+      `,
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
@@ -1348,21 +1360,23 @@ run({
     },
     {
       code: $`
-                class C {
-                    static
-                    /* block
-                       comment */
-                    {}
-                }`,
+        class C {
+            static
+            /* block
+               comment */
+            {}
+        }
+      `,
       output: $`
-            class C {
-                static
-
-                /* block
-                   comment */
-
-                {}
-            }`,
+        class C {
+            static
+        
+            /* block
+               comment */
+        
+            {}
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
@@ -1379,20 +1393,22 @@ run({
     },
     {
       code: $`
-                class C {
-                    static {
-                        // line comment
-                        foo();
-                    }
-                }`,
+        class C {
+            static {
+                // line comment
+                foo();
+            }
+        }
+      `,
       output: $`
-                class C {
-                    static {
-                        // line comment
-
-                        foo();
-                    }
-                }`,
+        class C {
+            static {
+                // line comment
+        
+                foo();
+            }
+        }
+      `,
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
@@ -1406,22 +1422,24 @@ run({
     },
     {
       code: $`
-                class C {
-                    static {
-                        /* block
-                           comment */
-                        foo();
-                    }
-                }`,
+        class C {
+            static {
+                /* block
+                   comment */
+                foo();
+            }
+        }
+      `,
       output: $`
-                class C {
-                    static {
-                        /* block
-                           comment */
-
-                        foo();
-                    }
-                }`,
+        class C {
+            static {
+                /* block
+                   comment */
+        
+                foo();
+            }
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
@@ -1435,20 +1453,22 @@ run({
     },
     {
       code: $`
-                class C {
-                    static {
-                        foo();
-                        // line comment
-                    }
-                }`,
+        class C {
+            static {
+                foo();
+                // line comment
+            }
+        }
+      `,
       output: $`
-                class C {
-                    static {
-                        foo();
-
-                        // line comment
-                    }
-                }`,
+        class C {
+            static {
+                foo();
+        
+                // line comment
+            }
+        }
+      `,
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
@@ -1462,22 +1482,24 @@ run({
     },
     {
       code: $`
-                class C {
-                    static {
-                        foo();
-                        /* block
-                           comment */
-                    }
-                }`,
+        class C {
+            static {
+                foo();
+                /* block
+                   comment */
+            }
+        }
+      `,
       output: $`
-                class C {
-                    static {
-                        foo();
-
-                        /* block
-                           comment */
-                    }
-                }`,
+        class C {
+            static {
+                foo();
+        
+                /* block
+                   comment */
+            }
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
@@ -1491,23 +1513,25 @@ run({
     },
     {
       code: $`
-                class C {
-                    static {
-                        foo();
-                        // line comment
-                        bar();
-                    }
-                }`,
+        class C {
+            static {
+                foo();
+                // line comment
+                bar();
+            }
+        }
+      `,
       output: $`
-                class C {
-                    static {
-                        foo();
-
-                        // line comment
-
-                        bar();
-                    }
-                }`,
+        class C {
+            static {
+                foo();
+        
+                // line comment
+        
+                bar();
+            }
+        }
+      `,
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
@@ -1522,25 +1546,27 @@ run({
     },
     {
       code: $`
-                class C {
-                    static {
-                        foo();
-                        /* block
-                           comment */
-                        bar();
-                    }
-                }`,
+        class C {
+            static {
+                foo();
+                /* block
+                   comment */
+                bar();
+            }
+        }
+      `,
       output: $`
-                class C {
-                    static {
-                        foo();
-
-                        /* block
-                           comment */
-
-                        bar();
-                    }
-                }`,
+        class C {
+            static {
+                foo();
+        
+                /* block
+                   comment */
+        
+                bar();
+            }
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
@@ -1555,16 +1581,18 @@ run({
     },
     {
       code: $`
-                class C {
-                    static{}
-                    // line comment
-                }`,
+        class C {
+            static{}
+            // line comment
+        }
+      `,
       output: $`
-                class C {
-                    static{}
-
-                    // line comment
-                }`,
+        class C {
+            static{}
+        
+            // line comment
+        }
+      `,
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
@@ -1580,18 +1608,20 @@ run({
     },
     {
       code: $`
-                class C {
-                    static{}
-                    /* block
-                       comment */
-                }`,
+        class C {
+            static{}
+            /* block
+               comment */
+        }
+      `,
       output: $`
-                class C {
-                    static{}
-
-                    /* block
-                       comment */
-                }`,
+        class C {
+            static{}
+        
+            /* block
+               comment */
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
@@ -2178,31 +2208,31 @@ run({
       errors: [{ messageId: 'before', type: 'Block' }],
     },
     {
-      code: `
-            switch (
-            // this comment is not allowed by allowBlockStart: true
-
-                foo
-            )
-            {   
-            case 1:    
-                bar();
-                break;
-            }
-            `,
-      output: `
-            switch (
-
-            // this comment is not allowed by allowBlockStart: true
-
-                foo
-            )
-            {   
-            case 1:    
-                bar();
-                break;
-            }
-            `,
+      code: $`
+        switch (
+        // this comment is not allowed by allowBlockStart: true
+        
+            foo
+        )
+        {   
+        case 1:    
+            bar();
+            break;
+        }
+      `,
+      output: $`
+        switch (
+        
+        // this comment is not allowed by allowBlockStart: true
+        
+            foo
+        )
+        {   
+        case 1:    
+            bar();
+            break;
+        }
+      `,
       options: [{
         allowBlockStart: true,
         beforeLineComment: true,

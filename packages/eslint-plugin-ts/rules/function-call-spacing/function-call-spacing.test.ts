@@ -3,7 +3,7 @@
 
 import rule from './function-call-spacing'
 import type { InvalidTestCase, ValidTestCase } from '#test'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'function-call-spacing',
@@ -194,44 +194,44 @@ run({
         output: null, // no change
       },
       {
-        code: `
-this.cancelled.add(request)
-this.decrement(request)
-(request.reject(new api.Cancel()))
+        code: $`
+          this.cancelled.add(request)
+          this.decrement(request)
+          (request.reject(new api.Cancel()))
         `,
         output: null, // no change
         errors: [
           {
             messageId: 'unexpectedWhitespace' as const,
-            line: 3,
+            line: 2,
             column: 23,
           },
         ],
       },
       {
-        code: `
-var a = foo
-(function(global) {}(this));
-      `,
-        output: null, // no change
-        errors: [
-          {
-            messageId: 'unexpectedWhitespace' as const,
-            line: 2,
-            column: 9,
-          },
-        ],
-      },
-      {
-        code: `
-var a = foo
-(baz())
+        code: $`
+          var a = foo
+          (function(global) {}(this));
         `,
         output: null, // no change
         errors: [
           {
             messageId: 'unexpectedWhitespace' as const,
-            line: 2,
+            line: 1,
+            column: 9,
+          },
+        ],
+      },
+      {
+        code: $`
+          var a = foo
+          (baz())
+        `,
+        output: null, // no change
+        errors: [
+          {
+            messageId: 'unexpectedWhitespace' as const,
+            line: 1,
             column: 9,
           },
         ],

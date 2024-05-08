@@ -2,7 +2,7 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import rule from './comma-spacing'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'comma-spacing',

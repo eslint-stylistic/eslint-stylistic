@@ -4,7 +4,7 @@
  */
 
 import rule from './no-mixed-spaces-and-tabs'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'no-mixed-spaces-and-tabs',

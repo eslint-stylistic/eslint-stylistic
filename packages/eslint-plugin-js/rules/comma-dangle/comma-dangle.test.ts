@@ -1772,57 +1772,57 @@ let d = 0;export {d,};
     // https://github.com/eslint/eslint/issues/15660
     {
       code: $`
-                /*eslint add-named-import:1*/
-                import {
-                    StyleSheet,
-                    View,
-                    TextInput,
-                    ImageBackground,
-                    Image,
-                    TouchableOpacity,
-                    SafeAreaView
-                } from 'react-native';
-            `,
+        /*eslint add-named-import:1*/
+        import {
+            StyleSheet,
+            View,
+            TextInput,
+            ImageBackground,
+            Image,
+            TouchableOpacity,
+            SafeAreaView
+        } from 'react-native';
+      `,
       output: $`
-                /*eslint add-named-import:1*/
-                import {
-                    StyleSheet,
-                    View,
-                    TextInput,
-                    ImageBackground,
-                    Image,
-                    TouchableOpacity,
-                    SafeAreaView,
-                } from 'react-native';
-            `,
+        /*eslint add-named-import:1*/
+        import {
+            StyleSheet,
+            View,
+            TextInput,
+            ImageBackground,
+            Image,
+            TouchableOpacity,
+            SafeAreaView,
+        } from 'react-native';
+      `,
       options: [{ imports: 'always-multiline' }],
       errors: 2,
     },
     {
       code: $`
-                /*eslint add-named-import:1*/
-                import {
-                    StyleSheet,
-                    View,
-                    TextInput,
-                    ImageBackground,
-                    Image,
-                    TouchableOpacity,
-                    SafeAreaView,
-                } from 'react-native';
-            `,
+        /*eslint add-named-import:1*/
+        import {
+            StyleSheet,
+            View,
+            TextInput,
+            ImageBackground,
+            Image,
+            TouchableOpacity,
+            SafeAreaView,
+        } from 'react-native';
+      `,
       output: $`
-                /*eslint add-named-import:1*/
-                import {
-                    StyleSheet,
-                    View,
-                    TextInput,
-                    ImageBackground,
-                    Image,
-                    TouchableOpacity,
-                    SafeAreaView
-                } from 'react-native';
-            `,
+        /*eslint add-named-import:1*/
+        import {
+            StyleSheet,
+            View,
+            TextInput,
+            ImageBackground,
+            Image,
+            TouchableOpacity,
+            SafeAreaView
+        } from 'react-native';
+      `,
       options: [{ imports: 'never' }],
       errors: 2,
     },

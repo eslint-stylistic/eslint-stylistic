@@ -2,7 +2,7 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import rule from './padding-line-between-statements'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'padding-line-between-statements',
@@ -2145,10 +2145,10 @@ run({
 
     // https://github.com/eslint/eslint/issues/6834
     {
-      code: `
-var a = 1
-
-;(b || c).doSomething()
+      code: $`
+        var a = 1
+        
+        ;(b || c).doSomething()
       `,
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
@@ -2160,9 +2160,9 @@ var a = 1
       ],
     },
     {
-      code: `
-var a = 1
-;(b || c).doSomething()
+      code: $`
+        var a = 1
+        ;(b || c).doSomething()
       `,
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
@@ -2174,10 +2174,10 @@ var a = 1
       ],
     },
     {
-      code: `
-var a = 1
-;
-(b || c).doSomething();
+      code: $`
+        var a = 1
+        ;
+        (b || c).doSomething();
       `,
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
@@ -2212,11 +2212,11 @@ var a = 1
       ],
     },
     {
-      code: `
-var a = 1
-
-;
-(b || c).doSomething();
+      code: $`
+        var a = 1
+        
+        ;
+        (b || c).doSomething();
       `,
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
@@ -4508,14 +4508,14 @@ var a = 1
 
     // https://github.com/eslint/eslint/issues/6834
     {
-      code: `
-var a = 1
-;(b || c).doSomething()
+      code: $`
+        var a = 1
+        ;(b || c).doSomething()
       `,
-      output: `
-var a = 1
-
-;(b || c).doSomething()
+      output: $`
+        var a = 1
+        
+        ;(b || c).doSomething()
       `,
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
@@ -4528,14 +4528,14 @@ var a = 1
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: `
-var a = 1
-
-;(b || c).doSomething()
+      code: $`
+        var a = 1
+        
+        ;(b || c).doSomething()
       `,
-      output: `
-var a = 1
-;(b || c).doSomething()
+      output: $`
+        var a = 1
+        ;(b || c).doSomething()
       `,
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
@@ -5115,32 +5115,32 @@ var a = 1
     },
     {
       // https://github.com/typescript-eslint/typescript-eslint/issues/3863
-      code: `
-declare namespace Types {
-  type Foo = string;
-  type Bar = string;
-  interface FooBar {
-    [key: string]: string;
-  }
-  interface BarBaz {
-    [key: string]: string;
-  }
-}
+      code: $`
+        declare namespace Types {
+          type Foo = string;
+          type Bar = string;
+          interface FooBar {
+            [key: string]: string;
+          }
+          interface BarBaz {
+            [key: string]: string;
+          }
+        }
       `,
-      output: `
-declare namespace Types {
-  type Foo = string;
-
-  type Bar = string;
-
-  interface FooBar {
-    [key: string]: string;
-  }
-
-  interface BarBaz {
-    [key: string]: string;
-  }
-}
+      output: $`
+        declare namespace Types {
+          type Foo = string;
+        
+          type Bar = string;
+        
+          interface FooBar {
+            [key: string]: string;
+          }
+        
+          interface BarBaz {
+            [key: string]: string;
+          }
+        }
       `,
       options: [
         { blankLine: 'always', prev: '*', next: ['interface', 'type'] },

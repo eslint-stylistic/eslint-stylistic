@@ -113,12 +113,12 @@ run({
     },
     {
       code: $`
-type A = {
-  a: string;
-  /* block
-     comment */
-}
-`,
+        type A = {
+          a: string;
+          /* block
+             comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -131,11 +131,11 @@ type A = {
     // Enum
     {
       code: $`
-enum A {
-  // line
-  a,
-}
-`,
+        enum A {
+          // line
+          a,
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -145,12 +145,12 @@ enum A {
     },
     {
       code: $`
-enum A {
-  /* block
-     comment */
-  a,
-}
-`,
+        enum A {
+          /* block
+             comment */
+          a,
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -160,11 +160,11 @@ enum A {
     },
     {
       code: $`
-enum A {
-  a,
-  // line
-}
-`,
+        enum A {
+          a,
+          // line
+        }
+      `,
       options: [
         {
           afterLineComment: true,
@@ -174,12 +174,12 @@ enum A {
     },
     {
       code: $`
-enum A {
-  a,
-  /* block
-     comment */
-}
-`,
+        enum A {
+          a,
+          /* block
+             comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -192,11 +192,11 @@ enum A {
     // TS module
     {
       code: $`
-declare module A {
-  // line
-  const a: string;
-}
-`,
+        declare module A {
+          // line
+          const a: string;
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -206,12 +206,12 @@ declare module A {
     },
     {
       code: $`
-declare module A {
-  /* block
-     comment */
-  const a: string;
-}
-`,
+        declare module A {
+          /* block
+             comment */
+          const a: string;
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -221,11 +221,11 @@ declare module A {
     },
     {
       code: $`
-declare module A {
-  const a: string;
-  // line
-}
-`,
+        declare module A {
+          const a: string;
+          // line
+        }
+      `,
       options: [
         {
           afterLineComment: true,
@@ -235,12 +235,12 @@ declare module A {
     },
     {
       code: $`
-declare module A {
-  const a: string;
-  /* block
-     comment */
-}
-`,
+        declare module A {
+          const a: string;
+          /* block
+             comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -319,77 +319,77 @@ interface A {
 }
     `,
     {
-      code: `
-interface A {
-  foo: boolean;
-  /* this is pragmatic */
-}
+      code: $`
+        interface A {
+          foo: boolean;
+          /* this is pragmatic */
+        }
       `,
       options: [{ ignorePattern: 'pragma' }],
     },
     {
-      code: `
-interface A {
-  foo;
-  /* this is pragmatic */
-}
+      code: $`
+        interface A {
+          foo;
+          /* this is pragmatic */
+        }
       `,
       options: [{ applyDefaultIgnorePatterns: false, ignorePattern: 'pragma' }],
     },
     {
-      code: `
-interface A {
-  foo: string; // this is inline line comment
-}
+      code: $`
+        interface A {
+          foo: string; // this is inline line comment
+        }
       `,
       options: [{ beforeLineComment: true }],
     },
     {
-      code: `
-interface A {
-  foo: string /* this is inline block comment */;
-}
+      code: $`
+        interface A {
+          foo: string /* this is inline block comment */;
+        }
       `,
     },
     {
-      code: `
-interface A {
-  /* this is inline block comment */ foo: string;
-}
+      code: $`
+        interface A {
+          /* this is inline block comment */ foo: string;
+        }
       `,
     },
     {
-      code: `
-interface A {
-  /* this is inline block comment */ foo: string /* this is inline block comment */;
-}
+      code: $`
+        interface A {
+          /* this is inline block comment */ foo: string /* this is inline block comment */;
+        }
       `,
     },
     {
-      code: `
-interface A {
-  /* this is inline block comment */ foo: string; // this is inline line comment ;
-}
+      code: $`
+        interface A {
+          /* this is inline block comment */ foo: string; // this is inline line comment ;
+        }
       `,
     },
   ],
   invalid: [
     // ESLint base rule test to cover the usage of the original reporter
     {
-      code: `
-bar();
-/** block block block
- * block
- */
-var a = 1;
+      code: $`
+        bar();
+        /** block block block
+         * block
+         */
+        var a = 1;
       `,
-      output: `
-bar();
-
-/** block block block
- * block
- */
-var a = 1;
+      output: $`
+        bar();
+        
+        /** block block block
+         * block
+         */
+        var a = 1;
       `,
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block }],
     },
@@ -397,18 +397,18 @@ var a = 1;
     // interface
     {
       code: $`
-interface A {
-  a: string;
-  // line
-}
-`,
+        interface A {
+          a: string;
+          // line
+        }
+      `,
       output: $`
-interface A {
-  a: string;
-
-  // line
-}
-`,
+        interface A {
+          a: string;
+        
+          // line
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -419,20 +419,20 @@ interface A {
     },
     {
       code: $`
-interface A {
-  a: string;
-  /* block
-     comment */
-}
-`,
+        interface A {
+          a: string;
+          /* block
+             comment */
+        }
+      `,
       output: $`
-interface A {
-  a: string;
-
-  /* block
-     comment */
-}
-`,
+        interface A {
+          a: string;
+        
+          /* block
+             comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -443,18 +443,18 @@ interface A {
     },
     {
       code: $`
-interface A {
-  // line
-  a: string;
-}
-`,
+        interface A {
+          // line
+          a: string;
+        }
+      `,
       output: $`
-interface A {
-
-  // line
-  a: string;
-}
-`,
+        interface A {
+        
+          // line
+          a: string;
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -465,20 +465,20 @@ interface A {
     },
     {
       code: $`
-interface A {
-  /* block
-     comment */
-  a: string;
-}
-`,
+        interface A {
+          /* block
+             comment */
+          a: string;
+        }
+      `,
       output: $`
-interface A {
-
-  /* block
-     comment */
-  a: string;
-}
-`,
+        interface A {
+        
+          /* block
+             comment */
+          a: string;
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -489,18 +489,18 @@ interface A {
     },
     {
       code: $`
-interface A {
-  a: string;
-  // line
-}
-`,
+        interface A {
+          a: string;
+          // line
+        }
+      `,
       output: $`
-interface A {
-  a: string;
-  // line
-
-}
-`,
+        interface A {
+          a: string;
+          // line
+        
+        }
+      `,
       options: [
         {
           afterLineComment: true,
@@ -511,20 +511,20 @@ interface A {
     },
     {
       code: $`
-interface A {
-  a: string;
-  /* block
-     comment */
-}
-`,
+        interface A {
+          a: string;
+          /* block
+             comment */
+        }
+      `,
       output: $`
-interface A {
-  a: string;
-  /* block
-     comment */
-
-}
-`,
+        interface A {
+          a: string;
+          /* block
+             comment */
+        
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -538,18 +538,18 @@ interface A {
     // type
     {
       code: $`
-type A = {
-  a: string;
-  // line
-}
-`,
+        type A = {
+          a: string;
+          // line
+        }
+      `,
       output: $`
-type A = {
-  a: string;
-
-  // line
-}
-`,
+        type A = {
+          a: string;
+        
+          // line
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -560,20 +560,20 @@ type A = {
     },
     {
       code: $`
-type A = {
-  a: string;
-  /* block
-     comment */
-}
-`,
+        type A = {
+          a: string;
+          /* block
+             comment */
+        }
+      `,
       output: $`
-type A = {
-  a: string;
-
-  /* block
-     comment */
-}
-`,
+        type A = {
+          a: string;
+        
+          /* block
+             comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -584,18 +584,18 @@ type A = {
     },
     {
       code: $`
-type A = {
-  // line
-  a: string;
-}
-`,
+        type A = {
+          // line
+          a: string;
+        }
+      `,
       output: $`
-type A = {
-
-  // line
-  a: string;
-}
-`,
+        type A = {
+        
+          // line
+          a: string;
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -606,20 +606,20 @@ type A = {
     },
     {
       code: $`
-type A = {
-  /* block
-     comment */
-  a: string;
-}
-`,
+        type A = {
+          /* block
+             comment */
+          a: string;
+        }
+      `,
       output: $`
-type A = {
-
-  /* block
-     comment */
-  a: string;
-}
-`,
+        type A = {
+        
+          /* block
+             comment */
+          a: string;
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -630,18 +630,18 @@ type A = {
     },
     {
       code: $`
-type A = {
-  a: string;
-  // line
-}
-`,
+        type A = {
+          a: string;
+          // line
+        }
+      `,
       output: $`
-type A = {
-  a: string;
-  // line
-
-}
-`,
+        type A = {
+          a: string;
+          // line
+        
+        }
+      `,
       options: [
         {
           afterLineComment: true,
@@ -652,20 +652,20 @@ type A = {
     },
     {
       code: $`
-type A = {
-  a: string;
-  /* block
-     comment */
-}
-`,
+        type A = {
+          a: string;
+          /* block
+             comment */
+        }
+      `,
       output: $`
-type A = {
-  a: string;
-  /* block
-     comment */
-
-}
-`,
+        type A = {
+          a: string;
+          /* block
+             comment */
+        
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -679,18 +679,18 @@ type A = {
     // Enum
     {
       code: $`
-enum A {
-  a,
-  // line
-}
-`,
+        enum A {
+          a,
+          // line
+        }
+      `,
       output: $`
-enum A {
-  a,
-
-  // line
-}
-`,
+        enum A {
+          a,
+        
+          // line
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -701,20 +701,20 @@ enum A {
     },
     {
       code: $`
-enum A {
-  a,
-  /* block
-     comment */
-}
-`,
+        enum A {
+          a,
+          /* block
+             comment */
+        }
+      `,
       output: $`
-enum A {
-  a,
-
-  /* block
-     comment */
-}
-`,
+        enum A {
+          a,
+        
+          /* block
+             comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -725,18 +725,18 @@ enum A {
     },
     {
       code: $`
-enum A {
-  // line
-  a,
-}
-`,
+        enum A {
+          // line
+          a,
+        }
+      `,
       output: $`
-enum A {
-
-  // line
-  a,
-}
-`,
+        enum A {
+        
+          // line
+          a,
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -747,20 +747,20 @@ enum A {
     },
     {
       code: $`
-enum A {
-  /* block
-     comment */
-  a,
-}
-`,
+        enum A {
+          /* block
+             comment */
+          a,
+        }
+      `,
       output: $`
-enum A {
-
-  /* block
-     comment */
-  a,
-}
-`,
+        enum A {
+        
+          /* block
+             comment */
+          a,
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -771,18 +771,18 @@ enum A {
     },
     {
       code: $`
-enum A {
-  a,
-  // line
-}
-`,
+        enum A {
+          a,
+          // line
+        }
+      `,
       output: $`
-enum A {
-  a,
-  // line
-
-}
-`,
+        enum A {
+          a,
+          // line
+        
+        }
+      `,
       options: [
         {
           afterLineComment: true,
@@ -793,20 +793,20 @@ enum A {
     },
     {
       code: $`
-enum A {
-  a,
-  /* block
-     comment */
-}
-`,
+        enum A {
+          a,
+          /* block
+             comment */
+        }
+      `,
       output: $`
-enum A {
-  a,
-  /* block
-     comment */
-
-}
-`,
+        enum A {
+          a,
+          /* block
+             comment */
+        
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -820,18 +820,18 @@ enum A {
     // TS module
     {
       code: $`
-module A {
-  const a: string;
-  // line
-}
-`,
+        module A {
+          const a: string;
+          // line
+        }
+      `,
       output: $`
-module A {
-  const a: string;
-
-  // line
-}
-`,
+        module A {
+          const a: string;
+        
+          // line
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -842,20 +842,20 @@ module A {
     },
     {
       code: $`
-module A {
-  const a: string;
-  /* block
-     comment */
-}
-`,
+        module A {
+          const a: string;
+          /* block
+             comment */
+        }
+      `,
       output: $`
-module A {
-  const a: string;
-
-  /* block
-     comment */
-}
-`,
+        module A {
+          const a: string;
+        
+          /* block
+             comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -866,18 +866,18 @@ module A {
     },
     {
       code: $`
-module A {
-  // line
-  const a: string;
-}
-`,
+        module A {
+          // line
+          const a: string;
+        }
+      `,
       output: $`
-module A {
-
-  // line
-  const a: string;
-}
-`,
+        module A {
+        
+          // line
+          const a: string;
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -888,20 +888,20 @@ module A {
     },
     {
       code: $`
-module A {
-  /* block
-     comment */
-  const a: string;
-}
-`,
+        module A {
+          /* block
+             comment */
+          const a: string;
+        }
+      `,
       output: $`
-module A {
-
-  /* block
-     comment */
-  const a: string;
-}
-`,
+        module A {
+        
+          /* block
+             comment */
+          const a: string;
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -912,18 +912,18 @@ module A {
     },
     {
       code: $`
-module A {
-  const a: string;
-  // line
-}
-`,
+        module A {
+          const a: string;
+          // line
+        }
+      `,
       output: $`
-module A {
-  const a: string;
-  // line
-
-}
-`,
+        module A {
+          const a: string;
+          // line
+        
+        }
+      `,
       options: [
         {
           afterLineComment: true,
@@ -934,20 +934,20 @@ module A {
     },
     {
       code: $`
-module A {
-  const a: string;
-  /* block
-     comment */
-}
-`,
+        module A {
+          const a: string;
+          /* block
+             comment */
+        }
+      `,
       output: $`
-module A {
-  const a: string;
-  /* block
-     comment */
-
-}
-`,
+        module A {
+          const a: string;
+          /* block
+             comment */
+        
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -961,18 +961,18 @@ module A {
     // multiple comments in one line
     {
       code: $`
-interface A {
-  a: string;
-  /* block */ /* block */
-}
-`,
+        interface A {
+          a: string;
+          /* block */ /* block */
+        }
+      `,
       output: $`
-interface A {
-  a: string;
-
-  /* block */ /* block */
-}
-`,
+        interface A {
+          a: string;
+        
+          /* block */ /* block */
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -983,18 +983,18 @@ interface A {
     },
     {
       code: $`
-interface A {
-  a: string;
-  /* block */ // line
-}
-`,
+        interface A {
+          a: string;
+          /* block */ // line
+        }
+      `,
       output: $`
-interface A {
-  a: string;
-
-  /* block */ // line
-}
-`,
+        interface A {
+          a: string;
+        
+          /* block */ // line
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -1005,18 +1005,18 @@ interface A {
     },
     {
       code: $`
-interface A {
-  /* block */ /* block */
-  a: string;
-}
-`,
+        interface A {
+          /* block */ /* block */
+          a: string;
+        }
+      `,
       output: $`
-interface A {
-  /* block */ /* block */
-
-  a: string;
-}
-`,
+        interface A {
+          /* block */ /* block */
+        
+          a: string;
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -1028,18 +1028,18 @@ interface A {
     },
     {
       code: $`
-interface A {
-  /* block */ // line
-  a: string;
-}
-`,
+        interface A {
+          /* block */ // line
+          a: string;
+        }
+      `,
       output: $`
-interface A {
-  /* block */ // line
-
-  a: string;
-}
-`,
+        interface A {
+          /* block */ // line
+        
+          a: string;
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,

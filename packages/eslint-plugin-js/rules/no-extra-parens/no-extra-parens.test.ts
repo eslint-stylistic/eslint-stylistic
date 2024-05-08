@@ -5,7 +5,7 @@
 
 import parser from '../../test-utils/fixture-parser'
 import rule from './no-extra-parens'
-import { run } from '#test'
+import { $, run } from '#test'
 
 /**
  * Create error message object for failure cases
@@ -744,21 +744,21 @@ run({
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
     },
     {
-      code: `
-                validate(/** @type {Schema} */ (schema), options, {
-                    name: "Dev Server",
-                    baseDataPath: "options",
-                });
-            `,
+      code: $`
+        validate(/** @type {Schema} */ (schema), options, {
+            name: "Dev Server",
+            baseDataPath: "options",
+        });
+      `,
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
     },
     {
-      code: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    (options.server.options).requestCert = false;
-                }
-            `,
+      code: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            (options.server.options).requestCert = false;
+        }
+      `,
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
     },
     {
@@ -3250,34 +3250,34 @@ run({
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: `
-                validate(/** @type {Schema} */ (schema), options, {
-                    name: "Dev Server",
-                    baseDataPath: "options",
-                });
-            `,
-      output: `
-                validate(/** @type {Schema} */ schema, options, {
-                    name: "Dev Server",
-                    baseDataPath: "options",
-                });
-            `,
+      code: $`
+        validate(/** @type {Schema} */ (schema), options, {
+            name: "Dev Server",
+            baseDataPath: "options",
+        });
+      `,
+      output: $`
+        validate(/** @type {Schema} */ schema, options, {
+            name: "Dev Server",
+            baseDataPath: "options",
+        });
+      `,
       options: ['all'],
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    (options.server.options).requestCert = false;
-                }
-            `,
-      output: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    options.server.options.requestCert = false;
-                }
-            `,
+      code: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            (options.server.options).requestCert = false;
+        }
+      `,
+      output: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            options.server.options.requestCert = false;
+        }
+      `,
       options: ['all'],
       errors: [{ messageId: 'unexpected' }],
     },
@@ -3300,86 +3300,86 @@ run({
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: `
-                validate(/** @type {Schema} */ (schema), options, {
-                    name: "Dev Server",
-                    baseDataPath: "options",
-                });
-            `,
-      output: `
-                validate(/** @type {Schema} */ schema, options, {
-                    name: "Dev Server",
-                    baseDataPath: "options",
-                });
-            `,
+      code: $`
+        validate(/** @type {Schema} */ (schema), options, {
+            name: "Dev Server",
+            baseDataPath: "options",
+        });
+      `,
+      output: $`
+        validate(/** @type {Schema} */ schema, options, {
+            name: "Dev Server",
+            baseDataPath: "options",
+        });
+      `,
       options: ['all', { allowParensAfterCommentPattern: 'invalid' }],
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    (options.server.options).requestCert = false;
-                }
-            `,
-      output: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    options.server.options.requestCert = false;
-                }
-            `,
+      code: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            (options.server.options).requestCert = false;
+        }
+      `,
+      output: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            options.server.options.requestCert = false;
+        }
+      `,
       options: ['all', { allowParensAfterCommentPattern: 'invalid' }],
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    /** extra comment */
-                    (options.server.options).requestCert = false;
-                }
-            `,
-      output: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    /** extra comment */
-                    options.server.options.requestCert = false;
-                }
-            `,
+      code: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            /** extra comment */
+            (options.server.options).requestCert = false;
+        }
+      `,
+      output: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            /** extra comment */
+            options.server.options.requestCert = false;
+        }
+      `,
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    ((options.server.options)).requestCert = false;
-                }
-            `,
-      output: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    (options.server.options).requestCert = false;
-                }
-            `,
+      code: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            ((options.server.options)).requestCert = false;
+        }
+      `,
+      output: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            (options.server.options).requestCert = false;
+        }
+      `,
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    let foo = "bar";
-                    (options.server.options).requestCert = false;
-                }
-            `,
-      output: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    let foo = "bar";
-                    options.server.options.requestCert = false;
-                }
-            `,
+      code: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            let foo = "bar";
+            (options.server.options).requestCert = false;
+        }
+      `,
+      output: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            let foo = "bar";
+            options.server.options.requestCert = false;
+        }
+      `,
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
       errors: [{ messageId: 'unexpected' }],
     },
