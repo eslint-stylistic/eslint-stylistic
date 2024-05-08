@@ -3,12 +3,12 @@
  * @author Kai Cataldo
  */
 
-import { RuleTester } from 'eslint'
 import rule from './multiline-ternary'
+import { $, run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('multiline-ternary', rule, {
+run({
+  name: 'multiline-ternary',
+  rule,
   valid: [
 
     // default "always"
@@ -39,7 +39,7 @@ ruleTester.run('multiline-ternary', rule, {
     { code: '((a)) \n? ((b))\n: ((c))', options: ['always'] },
     { code: '((a)) ?\n ((b)):\n ((c))', options: ['always'] },
     {
-      code: `
+      code: $`
         <>
           {a ? <div /> : <div />}
         </>
@@ -84,7 +84,7 @@ ruleTester.run('multiline-ternary', rule, {
     { code: '(a) ? (b) : (c)', options: ['always-multiline'] },
     { code: '((a)) ? ((b)) : ((c))', options: ['always-multiline'] },
     {
-      code: `
+      code: $`
         <>
           {a ? 
             <div /> : <div />}
@@ -119,7 +119,7 @@ ruleTester.run('multiline-ternary', rule, {
     { code: '(a\n) ? (\nb\n) : (\nc)', options: ['never'] },
     { code: '((a)\n) ? (\n(b)\n) : (\n(c))', options: ['never'] },
     {
-      code: `
+      code: $`
         <>
           {a 
             ? <div /> 

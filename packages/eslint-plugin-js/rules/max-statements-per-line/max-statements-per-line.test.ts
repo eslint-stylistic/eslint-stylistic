@@ -3,12 +3,12 @@
  * @author Kenneth Williams
  */
 
-import { RuleTester } from 'eslint'
 import rule from './max-statements-per-line'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('max-statements-per-line', rule, {
+run({
+  name: 'max-statements-per-line',
+  rule,
   valid: [
     { code: '{ }', options: [{ max: 1 }] },
     'var bar = 1;',

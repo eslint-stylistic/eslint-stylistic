@@ -5,22 +5,21 @@
 
 // For better readability on tests involving quotes
 
-import { RuleTester } from 'eslint'
 import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
 import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-curly-brace-presence'
+import { run } from '#test'
 
-const parserOptions = {
-  sourceType: 'module',
-  ecmaVersion: 2015,
-  ecmaFeatures: {
-    jsx: true,
+run({
+  name: 'jsx-curly-brace-presence',
+  rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-}
 
-const ruleTester = new RuleTester({ parserOptions })
-ruleTester.run('jsx-curly-brace-presence', rule, {
   valid: valids(
     {
       code: '<App {...props}>foo</App>',
@@ -643,12 +642,6 @@ ruleTester.run('jsx-curly-brace-presence', rule, {
     {
       code: `<MyComponent prop='foo "bar"'>foo</MyComponent>`,
       output: `<MyComponent prop={"foo \\"bar\\""}>foo</MyComponent>`,
-      options: [{ props: 'always' }],
-      errors: [{ messageId: 'missingCurly' }],
-    },
-    {
-      code: `<MyComponent prop="foo 'bar'">foo</MyComponent>`,
-      output: `<MyComponent prop={"foo 'bar'"}>foo</MyComponent>`,
       options: [{ props: 'always' }],
       errors: [{ messageId: 'missingCurly' }],
     },

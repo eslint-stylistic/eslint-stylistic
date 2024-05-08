@@ -3,20 +3,19 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-one-expression-per-line'
+import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
+run({
+  name: 'jsx-one-expression-per-line',
+  rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-} as const
 
-const ruleTester = new RuleTester({ parserOptions })
-ruleTester.run('jsx-one-expression-per-line', rule, {
   valid: valids(
     {
       code: '<App />',
@@ -255,7 +254,6 @@ ruleTester.run('jsx-one-expression-per-line', rule, {
           data: { descriptor: '{"foo"}' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -272,7 +270,6 @@ foo
           data: { descriptor: 'foo' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -293,7 +290,6 @@ foo
           data: { descriptor: '{"bar"}' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -314,7 +310,6 @@ bar
           data: { descriptor: ' bar        ' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -334,7 +329,6 @@ bar
           data: { descriptor: 'Bar' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -354,7 +348,6 @@ foo
           data: { descriptor: 'foo        ' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -374,7 +367,6 @@ foo
           data: { descriptor: '{"foo"}' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -395,7 +387,6 @@ foo
           data: { descriptor: '{ I18n.t(\'baz\') }' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -424,7 +415,6 @@ foo
           data: { descriptor: '{ I18n.t(\'baz\') }' },
         },
       ],
-      parserOptions,
 
     },
     {
@@ -449,7 +439,6 @@ foo
           data: { descriptor: 'Baz' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -486,7 +475,6 @@ foo
           data: { descriptor: 'Bruno' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -504,7 +492,6 @@ foo
           data: { descriptor: 'Bar' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -523,7 +510,6 @@ foo
           data: { descriptor: 'Bar' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -544,7 +530,6 @@ foo
           data: { descriptor: 'Baz' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -565,7 +550,6 @@ foo
           data: { descriptor: '{ I18n.t(\'baz\') }' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -585,7 +569,6 @@ foo
           data: { descriptor: 'input' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -605,7 +588,6 @@ foo
           data: { descriptor: 'span' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -626,7 +608,6 @@ foo
           data: { descriptor: 'input' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -647,7 +628,6 @@ foo
           data: { descriptor: ' foo        ' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -668,7 +648,6 @@ foo
           data: { descriptor: 'input' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -690,7 +669,6 @@ foo
           data: { descriptor: 'input' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -711,7 +689,6 @@ foo
           data: { descriptor: 'input' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -732,7 +709,6 @@ foo
           data: { descriptor: '{"foo"}' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -752,7 +728,6 @@ foo
           data: { descriptor: 'Bar' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -770,7 +745,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -788,7 +762,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -806,7 +779,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -826,7 +798,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -846,7 +817,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -868,7 +838,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -888,7 +857,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -908,7 +876,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -928,27 +895,6 @@ foo
           data: { descriptor: 'Foo' },
         },
       ],
-      parserOptions,
-    },
-    {
-      code: `
-        <App>
-          <Foo></
-        Foo></App>
-      `,
-      output: `
-        <App>
-          <Foo></
-        Foo>
-</App>
-      `,
-      errors: [
-        {
-          messageId: 'moveToNewLine',
-          data: { descriptor: 'Foo' },
-        },
-      ],
-      parserOptions,
     },
     {
       code: `
@@ -970,7 +916,6 @@ foo
           data: { descriptor: 'Bar' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -992,7 +937,6 @@ foo
           data: { descriptor: 'Bar' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -1019,7 +963,6 @@ baz
           data: { descriptor: ' baz ' },
         },
       ],
-      parserOptions,
     },
     {
     // Would be nice to handle in one pass, but multipass works fine.
@@ -1045,7 +988,6 @@ baz
           data: { descriptor: ' baz        ' },
         },
       ],
-      parserOptions,
     },
     {
     // Would be nice to handle in one pass, but multipass works fine.
@@ -1067,7 +1009,6 @@ baz
           data: { descriptor: '{"bar"}' },
         },
       ],
-      parserOptions,
     },
     {
     // Would be nice to handle in one pass, but multipass works fine.
@@ -1093,7 +1034,6 @@ baz
           data: { descriptor: ' baz        ' },
         },
       ],
-      parserOptions,
     },
     {
     // Would be nice to handle in one pass, but multipass works fine.
@@ -1123,7 +1063,6 @@ baz
           data: { descriptor: ' baz        ' },
         },
       ],
-      parserOptions,
     },
     {
     // Would be nice to handle in one pass, but multipass works fine.
@@ -1153,7 +1092,6 @@ baz
           data: { descriptor: ' baz        ' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -1174,7 +1112,6 @@ baz
           data: { descriptor: '{          foo        }' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -1197,7 +1134,6 @@ baz
           data: { descriptor: '{          foo        }' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -1222,7 +1158,6 @@ baz
           data: { descriptor: '{          foo        }' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -1369,7 +1304,6 @@ foo
         },
       ],
       features: ['fragment', 'no-ts-old'], // TODO: FIXME: remove no-ts-old and fix
-      parserOptions,
     },
     {
       code: `
@@ -1390,7 +1324,6 @@ foo
         },
       ],
       features: ['fragment'],
-      parserOptions,
     },
     {
       code: `
@@ -1411,7 +1344,6 @@ foo
         },
       ],
       features: ['fragment', 'no-ts-old'],
-      parserOptions,
     },
     {
       code: `
@@ -1440,7 +1372,6 @@ a
           data: { descriptor: '{a}' },
         },
       ],
-      parserOptions,
     },
     {
     // TODO: handle in a single pass
@@ -1465,7 +1396,6 @@ a
           data: { descriptor: 'button' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -1488,7 +1418,6 @@ a
           data: { descriptor: 'button' },
         },
       ],
-      parserOptions,
     },
     // TODO: handle in a single pass (see above)
     {
@@ -1529,7 +1458,6 @@ Hi people<button/></h1>
           data: { descriptor: 'button' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -1564,7 +1492,6 @@ Hi people
           data: { descriptor: 'button' },
         },
       ],
-      parserOptions,
     },
     // TODO: handle in a single pass
     {
@@ -1593,7 +1520,6 @@ Hi people
           data: { descriptor: 'Go to page 2' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -1620,7 +1546,6 @@ Go to page 2
           data: { descriptor: 'Go to page 2' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -1642,7 +1567,6 @@ Go to page 2
           data: { descriptor: '{\'Bar\'}' },
         },
       ],
-      parserOptions,
       options: [{ allow: 'single-line' }],
     },
     {

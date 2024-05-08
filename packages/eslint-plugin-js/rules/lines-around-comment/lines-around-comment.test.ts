@@ -3,13 +3,13 @@
  * @author Jamund Ferguson
  */
 
-import { RuleTester } from 'eslint'
-import { unIndent } from '../../test-utils/unindent'
 import rule from './lines-around-comment'
+import { $, run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('lines-around-comment', rule, {
+run({
+  name: 'lines-around-comment',
+  rule,
+  lang: 'js',
 
   valid: [
 
@@ -255,17 +255,18 @@ ruleTester.run('lines-around-comment', rule, {
       }],
     },
     {
-      code: unIndent`
-                class C {
-                    static {
-                        // line comment
-                    }
-
-                    static {
-                        // line comment
-                        foo();
-                    }
-                }`,
+      code: $`
+        class C {
+            static {
+                // line comment
+            }
+        
+            static {
+                // line comment
+                foo();
+            }
+        }
+      `,
       options: [{
         beforeLineComment: true,
         allowBlockStart: true,
@@ -273,19 +274,20 @@ ruleTester.run('lines-around-comment', rule, {
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
-                class C {
-                    static
-                    {
-                        // line comment
-                    }
-
-                    static
-                    {
-                        // line comment
-                        foo();
-                    }
-                }`,
+      code: $`
+        class C {
+            static
+            {
+                // line comment
+            }
+        
+            static
+            {
+                // line comment
+                foo();
+            }
+        }
+      `,
       options: [{
         beforeLineComment: true,
         allowBlockStart: true,
@@ -293,28 +295,29 @@ ruleTester.run('lines-around-comment', rule, {
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
-                class C {
-                    static {
-                        /* block comment */
-                    }
-
-                    static {
-                        /* block
-                           comment */
-                    }
-
-                    static {
-                        /* block comment */
-                        foo();
-                    }
-
-                    static {
-                        /* block
-                           comment */
-                        foo();
-                    }
-                }`,
+      code: $`
+        class C {
+            static {
+                /* block comment */
+            }
+        
+            static {
+                /* block
+                   comment */
+            }
+        
+            static {
+                /* block comment */
+                foo();
+            }
+        
+            static {
+                /* block
+                   comment */
+                foo();
+            }
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         allowBlockStart: true,
@@ -322,32 +325,33 @@ ruleTester.run('lines-around-comment', rule, {
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
-                class C {
-                    static
-                    {
-                        /* block comment */
-                    }
-
-                    static
-                    {
-                        /* block
-                        comment */
-                    }
-
-                    static
-                    {
-                        /* block comment */
-                        foo();
-                    }
-
-                    static
-                    {
-                        /* block
-                        comment */
-                        foo();
-                    }
-                }`,
+      code: $`
+        class C {
+            static
+            {
+                /* block comment */
+            }
+        
+            static
+            {
+                /* block
+                comment */
+            }
+        
+            static
+            {
+                /* block comment */
+                foo();
+            }
+        
+            static
+            {
+                /* block
+                comment */
+                foo();
+            }
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         allowBlockStart: true,
@@ -357,17 +361,17 @@ ruleTester.run('lines-around-comment', rule, {
 
     // https://github.com/eslint/eslint/issues/16131
     {
-      code: `
-            switch (foo) {
-            // this comment is allowed by allowBlockStart: true 
-                
-            case 1:    
-                bar();
-                break;
-                
-            // this comment is allowed by allowBlockEnd: true
-            }
-            `,
+      code: $`
+        switch (foo) {
+        // this comment is allowed by allowBlockStart: true 
+            
+        case 1:    
+            bar();
+            break;
+            
+        // this comment is allowed by allowBlockEnd: true
+        }
+      `,
       options: [{
         allowBlockStart: true,
         beforeLineComment: true,
@@ -376,16 +380,16 @@ ruleTester.run('lines-around-comment', rule, {
       }],
     },
     {
-      code: `
-            switch (foo)
-            {
-            // this comment is allowed by allowBlockStart: true 
-                
-            case 1:    
-                bar();
-                break;
-            }
-            `,
+      code: $`
+        switch (foo)
+        {
+        // this comment is allowed by allowBlockStart: true 
+            
+        case 1:    
+            bar();
+            break;
+        }
+      `,
       options: [{
         allowBlockStart: true,
         beforeLineComment: true,
@@ -393,16 +397,16 @@ ruleTester.run('lines-around-comment', rule, {
       }],
     },
     {
-      code: `
-            switch (
-                function(){}()
-            )
-            {
-                // this comment is allowed by allowBlockStart: true
-                case foo:
-                    break;
-            }
-            `,
+      code: $`
+        switch (
+            function(){}()
+        )
+        {
+            // this comment is allowed by allowBlockStart: true
+            case foo:
+                break;
+        }
+      `,
       options: [{
         allowBlockStart: true,
         beforeLineComment: true,
@@ -619,17 +623,18 @@ ruleTester.run('lines-around-comment', rule, {
       }],
     },
     {
-      code: unIndent`
-                class C {
-                    static {
-                        // line comment
-                    }
-
-                    static {
-                        foo();
-                        // line comment
-                    }
-                }`,
+      code: $`
+        class C {
+            static {
+                // line comment
+            }
+        
+            static {
+                foo();
+                // line comment
+            }
+        }
+      `,
       options: [{
         afterLineComment: true,
         allowBlockEnd: true,
@@ -637,28 +642,29 @@ ruleTester.run('lines-around-comment', rule, {
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: unIndent`
-                class C {
-                    static {
-                        /* block comment */
-                    }
-
-                    static {
-                        /* block
-                           comment */
-                    }
-
-                    static {
-                        foo();
-                        /* block comment */
-                    }
-
-                    static {
-                        foo();
-                        /* block
-                           comment */
-                    }
-                }`,
+      code: $`
+        class C {
+            static {
+                /* block comment */
+            }
+        
+            static {
+                /* block
+                   comment */
+            }
+        
+            static {
+                foo();
+                /* block comment */
+            }
+        
+            static {
+                foo();
+                /* block
+                   comment */
+            }
+        }
+      `,
       options: [{
         beforeBlockComment: false, // default is `true`
         afterBlockComment: true,
@@ -1026,6 +1032,9 @@ ruleTester.run('lines-around-comment', rule, {
         beforeBlockComment: true,
         afterBlockComment: true,
       }],
+      linterOptions: {
+        reportUnusedDisableDirectives: false,
+      },
     },
     'foo;\n/* eslint */',
     'foo;\n/* jshint */',
@@ -1263,17 +1272,19 @@ ruleTester.run('lines-around-comment', rule, {
       errors: [{ messageId: 'after', type: 'Line', line: 8 }],
     },
     {
-      code: unIndent`
-                class C {
-                    // line comment
-                    static{}
-                }`,
-      output: unIndent`
-                class C {
-                    // line comment
-
-                    static{}
-                }`,
+      code: $`
+        class C {
+            // line comment
+            static{}
+        }
+      `,
+      output: $`
+        class C {
+            // line comment
+        
+            static{}
+        }
+      `,
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
@@ -1288,19 +1299,21 @@ ruleTester.run('lines-around-comment', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    /* block
-                       comment */
-                    static{}
-                }`,
-      output: unIndent`
-                class C {
-                    /* block
-                       comment */
-
-                    static{}
-                }`,
+      code: $`
+        class C {
+            /* block
+               comment */
+            static{}
+        }
+      `,
+      output: $`
+        class C {
+            /* block
+               comment */
+        
+            static{}
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
@@ -1315,20 +1328,22 @@ ruleTester.run('lines-around-comment', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    static
-                    // line comment
-                    {}
-                }`,
-      output: unIndent`
-            class C {
-                static
-
-                // line comment
-
-                {}
-            }`,
+      code: $`
+        class C {
+            static
+            // line comment
+            {}
+        }
+      `,
+      output: $`
+        class C {
+            static
+        
+            // line comment
+        
+            {}
+        }
+      `,
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
@@ -1344,22 +1359,24 @@ ruleTester.run('lines-around-comment', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    static
-                    /* block
-                       comment */
-                    {}
-                }`,
-      output: unIndent`
-            class C {
-                static
-
-                /* block
-                   comment */
-
-                {}
-            }`,
+      code: $`
+        class C {
+            static
+            /* block
+               comment */
+            {}
+        }
+      `,
+      output: $`
+        class C {
+            static
+        
+            /* block
+               comment */
+        
+            {}
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
@@ -1375,21 +1392,23 @@ ruleTester.run('lines-around-comment', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    static {
-                        // line comment
-                        foo();
-                    }
-                }`,
-      output: unIndent`
-                class C {
-                    static {
-                        // line comment
-
-                        foo();
-                    }
-                }`,
+      code: $`
+        class C {
+            static {
+                // line comment
+                foo();
+            }
+        }
+      `,
+      output: $`
+        class C {
+            static {
+                // line comment
+        
+                foo();
+            }
+        }
+      `,
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
@@ -1402,23 +1421,25 @@ ruleTester.run('lines-around-comment', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    static {
-                        /* block
-                           comment */
-                        foo();
-                    }
-                }`,
-      output: unIndent`
-                class C {
-                    static {
-                        /* block
-                           comment */
-
-                        foo();
-                    }
-                }`,
+      code: $`
+        class C {
+            static {
+                /* block
+                   comment */
+                foo();
+            }
+        }
+      `,
+      output: $`
+        class C {
+            static {
+                /* block
+                   comment */
+        
+                foo();
+            }
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
@@ -1431,21 +1452,23 @@ ruleTester.run('lines-around-comment', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    static {
-                        foo();
-                        // line comment
-                    }
-                }`,
-      output: unIndent`
-                class C {
-                    static {
-                        foo();
-
-                        // line comment
-                    }
-                }`,
+      code: $`
+        class C {
+            static {
+                foo();
+                // line comment
+            }
+        }
+      `,
+      output: $`
+        class C {
+            static {
+                foo();
+        
+                // line comment
+            }
+        }
+      `,
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
@@ -1458,23 +1481,25 @@ ruleTester.run('lines-around-comment', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    static {
-                        foo();
-                        /* block
-                           comment */
-                    }
-                }`,
-      output: unIndent`
-                class C {
-                    static {
-                        foo();
-
-                        /* block
-                           comment */
-                    }
-                }`,
+      code: $`
+        class C {
+            static {
+                foo();
+                /* block
+                   comment */
+            }
+        }
+      `,
+      output: $`
+        class C {
+            static {
+                foo();
+        
+                /* block
+                   comment */
+            }
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
@@ -1487,24 +1512,26 @@ ruleTester.run('lines-around-comment', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    static {
-                        foo();
-                        // line comment
-                        bar();
-                    }
-                }`,
-      output: unIndent`
-                class C {
-                    static {
-                        foo();
-
-                        // line comment
-
-                        bar();
-                    }
-                }`,
+      code: $`
+        class C {
+            static {
+                foo();
+                // line comment
+                bar();
+            }
+        }
+      `,
+      output: $`
+        class C {
+            static {
+                foo();
+        
+                // line comment
+        
+                bar();
+            }
+        }
+      `,
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
@@ -1518,26 +1545,28 @@ ruleTester.run('lines-around-comment', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    static {
-                        foo();
-                        /* block
-                           comment */
-                        bar();
-                    }
-                }`,
-      output: unIndent`
-                class C {
-                    static {
-                        foo();
-
-                        /* block
-                           comment */
-
-                        bar();
-                    }
-                }`,
+      code: $`
+        class C {
+            static {
+                foo();
+                /* block
+                   comment */
+                bar();
+            }
+        }
+      `,
+      output: $`
+        class C {
+            static {
+                foo();
+        
+                /* block
+                   comment */
+        
+                bar();
+            }
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
@@ -1551,17 +1580,19 @@ ruleTester.run('lines-around-comment', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    static{}
-                    // line comment
-                }`,
-      output: unIndent`
-                class C {
-                    static{}
-
-                    // line comment
-                }`,
+      code: $`
+        class C {
+            static{}
+            // line comment
+        }
+      `,
+      output: $`
+        class C {
+            static{}
+        
+            // line comment
+        }
+      `,
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
@@ -1576,19 +1607,21 @@ ruleTester.run('lines-around-comment', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    static{}
-                    /* block
-                       comment */
-                }`,
-      output: unIndent`
-                class C {
-                    static{}
-
-                    /* block
-                       comment */
-                }`,
+      code: $`
+        class C {
+            static{}
+            /* block
+               comment */
+        }
+      `,
+      output: $`
+        class C {
+            static{}
+        
+            /* block
+               comment */
+        }
+      `,
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
@@ -2098,6 +2131,9 @@ ruleTester.run('lines-around-comment', rule, {
         afterBlockComment: true,
         applyDefaultIgnorePatterns: false,
       }],
+      linterOptions: {
+        reportUnusedDisableDirectives: false,
+      },
       errors: [
         { messageId: 'before', type: 'Block', line: 7 },
         { messageId: 'after', type: 'Block', line: 7 },
@@ -2172,31 +2208,31 @@ ruleTester.run('lines-around-comment', rule, {
       errors: [{ messageId: 'before', type: 'Block' }],
     },
     {
-      code: `
-            switch (
-            // this comment is not allowed by allowBlockStart: true
-
-                foo
-            )
-            {   
-            case 1:    
-                bar();
-                break;
-            }
-            `,
-      output: `
-            switch (
-
-            // this comment is not allowed by allowBlockStart: true
-
-                foo
-            )
-            {   
-            case 1:    
-                bar();
-                break;
-            }
-            `,
+      code: $`
+        switch (
+        // this comment is not allowed by allowBlockStart: true
+        
+            foo
+        )
+        {   
+        case 1:    
+            bar();
+            break;
+        }
+      `,
+      output: $`
+        switch (
+        
+        // this comment is not allowed by allowBlockStart: true
+        
+            foo
+        )
+        {   
+        case 1:    
+            bar();
+            break;
+        }
+      `,
       options: [{
         allowBlockStart: true,
         beforeLineComment: true,

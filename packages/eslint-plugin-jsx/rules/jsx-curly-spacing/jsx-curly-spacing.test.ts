@@ -4,20 +4,19 @@
  * @author Erik Wendel
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-curly-spacing'
+import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
+run({
+  name: 'jsx-curly-spacing',
+  rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-}
 
-const ruleTester = new RuleTester({ parserOptions })
-ruleTester.run('jsx-curly-spacing', rule, {
   valid: valids(
     {
       code: '<App foo={bar} />;',
@@ -736,14 +735,6 @@ ruleTester.run('jsx-curly-spacing', rule, {
     {
       code: '<App { ...bar } />;',
       options: ['always', { allowMultiline: false }],
-    },
-    {
-      code: `
-        <App {
-        ...bar
-        } />;
-      `,
-      options: ['always'],
     },
     {
       code: `

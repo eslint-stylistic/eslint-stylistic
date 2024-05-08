@@ -3,12 +3,12 @@
  * @author Nicholas C. Zakas
  */
 
-import { RuleTester } from 'eslint'
 import rule from './no-extra-semi'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('no-extra-semi', rule, {
+run({
+  name: 'no-extra-semi',
+  rule,
   valid: [
     'var x = 5;',
     'function foo(){}',

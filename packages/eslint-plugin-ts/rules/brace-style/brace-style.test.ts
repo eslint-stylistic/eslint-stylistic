@@ -1,216 +1,208 @@
 // this rule tests the position of braces, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
 import rule from './brace-style'
+import { $, run } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-    ecmaFeatures: {},
-  },
-})
-
-ruleTester.run('brace-style', rule, {
+run({
+  name: 'brace-style',
+  rule,
   valid: [
     {
-      code: `
-function f() {
-  if (true)
-    return { x: 1 };
-  else {
-    var y = 2;
-    return y;
-  }
-}
+      code: $`
+        function f() {
+          if (true)
+            return { x: 1 };
+          else {
+            var y = 2;
+            return y;
+          }
+        }
       `,
     },
     {
-      code: `
-if (tag === 1) glyph.id = pbf.readVarint();
-else if (tag === 2) glyph.bitmap = pbf.readBytes();
+      code: $`
+        if (tag === 1) glyph.id = pbf.readVarint();
+        else if (tag === 2) glyph.bitmap = pbf.readBytes();
       `,
     },
     {
-      code: `
-function foo () {
-  return;
-}
+      code: $`
+        function foo () {
+          return;
+        }
       `,
     },
     {
-      code: `
-function a(b,
-c,
-d) { }
+      code: $`
+        function a(b,
+        c,
+        d) { }
       `,
     },
     {
-      code: `
-!function foo () {
-  return;
-}
+      code: $`
+        !function foo () {
+          return;
+        }
       `,
     },
     {
-      code: `
-!function a(b,
-c,
-d) { }
+      code: $`
+        !function a(b,
+        c,
+        d) { }
       `,
     },
     {
-      code: `
-if (foo) {
-  bar();
-}
+      code: $`
+        if (foo) {
+          bar();
+        }
       `,
     },
     {
-      code: `
-if (a) {
-  b();
-} else {
-  c();
-}
+      code: $`
+        if (a) {
+          b();
+        } else {
+          c();
+        }
       `,
     },
     {
-      code: `
-while (foo) {
-  bar();
-}
+      code: $`
+        while (foo) {
+          bar();
+        }
       `,
     },
     {
-      code: `
-for (;;) {
-  bar();
-}
+      code: $`
+        for (;;) {
+          bar();
+        }
       `,
     },
     {
-      code: `
-with (foo) {
-  bar();
-}
+      code: $`
+        with (foo) {
+          bar();
+        }
       `,
     },
     {
-      code: `
-switch (foo) {
-  case 'bar': break;
-}
+      code: $`
+        switch (foo) {
+          case 'bar': break;
+        }
       `,
     },
     {
-      code: `
-try {
-  bar();
-} catch (e) {
-  baz();
-}
+      code: $`
+        try {
+          bar();
+        } catch (e) {
+          baz();
+        }
       `,
     },
     {
-      code: `
-do {
-  bar();
-} while (true)
+      code: $`
+        do {
+          bar();
+        } while (true)
       `,
     },
     {
-      code: `
-for (foo in bar) {
-  baz();
-}
+      code: $`
+        for (foo in bar) {
+          baz();
+        }
       `,
     },
     {
-      code: `
-if (a &&
-  b &&
-  c) {
-  }
+      code: $`
+        if (a &&
+          b &&
+          c) {
+          }
       `,
     },
     {
-      code: `
-switch(0) {
-}
+      code: $`
+        switch(0) {
+        }
       `,
     },
     {
-      code: `
-class Foo {
-}
+      code: $`
+        class Foo {
+        }
       `,
     },
     {
-      code: `
-(class {
-})
+      code: $`
+        (class {
+        })
       `,
     },
     {
-      code: `
-class
-Foo {
-}
+      code: $`
+        class
+        Foo {
+        }
       `,
     },
     {
-      code: `
-class Foo {
-  bar() {
-  }
-}
+      code: $`
+        class Foo {
+          bar() {
+          }
+        }
       `,
     },
     {
-      code: `
-if (foo) {
-}
-else {
-}
+      code: $`
+        if (foo) {
+        }
+        else {
+        }
       `,
       options: ['stroustrup'],
     },
     {
-      code: `
-if (foo)
-{
-}
-else
-{
-}
+      code: $`
+        if (foo)
+        {
+        }
+        else
+        {
+        }
       `,
       options: ['allman'],
     },
     {
-      code: `
-try {
-  bar();
-}
-catch (e) {
-  baz();
-}
+      code: $`
+        try {
+          bar();
+        }
+        catch (e) {
+          baz();
+        }
       `,
       options: ['stroustrup'],
     },
     {
-      code: `
-try
-{
-  bar();
-}
-catch (e)
-{
-  baz();
-}
+      code: $`
+        try
+        {
+          bar();
+        }
+        catch (e)
+        {
+          baz();
+        }
       `,
       options: ['allman'],
     },
@@ -279,16 +271,16 @@ catch (e)
       options: ['1tbs', { allowSingleLine: true }],
     },
     {
-      code: `
-if (foo) {}
-else {}
+      code: $`
+        if (foo) {}
+        else {}
       `,
       options: ['stroustrup', { allowSingleLine: true }],
     },
     {
-      code: `
-try {  bar(); }
-catch (e) { baz(); }
+      code: $`
+        try {  bar(); }
+        catch (e) { baz(); }
       `,
       options: ['stroustrup', { allowSingleLine: true }],
     },
@@ -298,16 +290,16 @@ catch (e) { baz(); }
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: `
-if (foo) {}
-else {}
+      code: $`
+        if (foo) {}
+        else {}
       `,
       options: ['allman', { allowSingleLine: true }],
     },
     {
-      code: `
-try {  bar(); }
-catch (e) { baz();  }
+      code: $`
+        try {  bar(); }
+        catch (e) { baz();  }
       `,
       options: ['allman', { allowSingleLine: true }],
     },
@@ -317,34 +309,34 @@ catch (e) { baz();  }
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: `
-if (tag === 1) fontstack.name = pbf.readString();
-else if (tag === 2) fontstack.range = pbf.readString();
-else if (tag === 3) {
-  var glyph = pbf.readMessage(readGlyph, {});
-  fontstack.glyphs[glyph.id] = glyph;
-}
+      code: $`
+        if (tag === 1) fontstack.name = pbf.readString();
+        else if (tag === 2) fontstack.range = pbf.readString();
+        else if (tag === 3) {
+          var glyph = pbf.readMessage(readGlyph, {});
+          fontstack.glyphs[glyph.id] = glyph;
+        }
       `,
       options: ['1tbs'],
     },
     {
-      code: `
-if (tag === 1) fontstack.name = pbf.readString();
-else if (tag === 2) fontstack.range = pbf.readString();
-else if (tag === 3) {
-  var glyph = pbf.readMessage(readGlyph, {});
-  fontstack.glyphs[glyph.id] = glyph;
-}
+      code: $`
+        if (tag === 1) fontstack.name = pbf.readString();
+        else if (tag === 2) fontstack.range = pbf.readString();
+        else if (tag === 3) {
+          var glyph = pbf.readMessage(readGlyph, {});
+          fontstack.glyphs[glyph.id] = glyph;
+        }
       `,
       options: ['stroustrup'],
     },
     {
-      code: `
-switch(x)
-{
-  case 1:
-    bar();
-}
+      code: $`
+        switch(x)
+        {
+          case 1:
+            bar();
+        }
       `,
       options: ['allman'],
     },
@@ -353,41 +345,41 @@ switch(x)
       options: ['allman', { allowSingleLine: true }],
     },
     {
-      code: `
-class Foo {
-}
+      code: $`
+        class Foo {
+        }
       `,
       options: ['stroustrup'],
     },
     {
-      code: `
-(class {
-})
+      code: $`
+        (class {
+        })
       `,
       options: ['stroustrup'],
     },
     {
-      code: `
-class Foo
-{
-}
+      code: $`
+        class Foo
+        {
+        }
       `,
       options: ['allman'],
     },
     {
-      code: `
-(class
-{
-})
+      code: $`
+        (class
+        {
+        })
       `,
       options: ['allman'],
     },
     {
-      code: `
-class
-Foo
-{
-}
+      code: $`
+        class
+        Foo
+        {
+        }
       `,
       options: ['allman'],
     },
@@ -413,161 +405,161 @@ Foo
       code: '{}',
     },
     {
-      code: `
-if (foo) {
-}
-{
-}
+      code: $`
+        if (foo) {
+        }
+        {
+        }
       `,
     },
     {
-      code: `
-switch (foo) {
-  case bar:
-    baz();
-    {
-      qux();
-    }
-}
+      code: $`
+        switch (foo) {
+          case bar:
+            baz();
+            {
+              qux();
+            }
+        }
       `,
     },
     {
-      code: `
-{
-}
+      code: $`
+        {
+        }
       `,
     },
     {
-      code: `
-{
-  {
-  }
-}
+      code: $`
+        {
+          {
+          }
+        }
       `,
     },
 
     // https://github.com/eslint/eslint/issues/7974
     {
-      code: `
-class Ball {
-  throw() {}
-  catch() {}
-}
+      code: $`
+        class Ball {
+          throw() {}
+          catch() {}
+        }
       `,
     },
     {
-      code: `
-({
-  and() {},
-  finally() {}
-})
+      code: $`
+        ({
+          and() {},
+          finally() {}
+        })
       `,
     },
     {
-      code: `
-(class {
-  or() {}
-  else() {}
-})
+      code: $`
+        (class {
+          or() {}
+          else() {}
+        })
       `,
     },
     {
-      code: `
-if (foo) bar = function() {}
-else baz()
+      code: $`
+        if (foo) bar = function() {}
+        else baz()
       `,
     },
     {
-      code: `
-interface Foo {
-}
+      code: $`
+        interface Foo {
+        }
       `,
       options: ['1tbs'],
     },
     {
-      code: `
-interface Foo {
-}
+      code: $`
+        interface Foo {
+        }
       `,
       options: ['stroustrup'],
     },
     {
-      code: `
-interface Foo
-{
-}
+      code: $`
+        interface Foo
+        {
+        }
       `,
       options: ['allman'],
     },
     {
-      code: `
-module "Foo" {
-}
+      code: $`
+        module "Foo" {
+        }
       `,
       options: ['1tbs'],
     },
     {
-      code: `
-module "Foo" {
-}
+      code: $`
+        module "Foo" {
+        }
       `,
       options: ['stroustrup'],
     },
     {
-      code: `
-module "Foo"
-{
-}
+      code: $`
+        module "Foo"
+        {
+        }
       `,
       options: ['allman'],
     },
     {
-      code: `
-namespace Foo {
-}
+      code: $`
+        namespace Foo {
+        }
       `,
       options: ['1tbs'],
     },
     {
-      code: `
-namespace Foo {
-}
+      code: $`
+        namespace Foo {
+        }
       `,
       options: ['stroustrup'],
     },
     {
-      code: `
-namespace Foo
-{
-}
+      code: $`
+        namespace Foo
+        {
+        }
       `,
       options: ['allman'],
     },
     {
-      code: `
-enum Foo
-{
-  A,
-  B
-}
+      code: $`
+        enum Foo
+        {
+          A,
+          B
+        }
       `,
       options: ['allman'],
     },
     {
-      code: `
-enum Foo {
-  A,
-  B
-}
+      code: $`
+        enum Foo {
+          A,
+          B
+        }
       `,
       options: ['1tbs'],
     },
     {
-      code: `
-enum Foo {
-  A,
-  B
-}
+      code: $`
+        enum Foo {
+          A,
+          B
+        }
       `,
       options: ['stroustrup'],
     },
@@ -579,18 +571,18 @@ enum Foo {
 
   invalid: [
     {
-      code: `
-if (f) {
-  bar;
-}
-else
-  baz;
+      code: $`
+        if (f) {
+          bar;
+        }
+        else
+          baz;
       `,
-      output: `
-if (f) {
-  bar;
-} else
-  baz;
+      output: $`
+        if (f) {
+          bar;
+        } else
+          baz;
       `,
       errors: [{ messageId: 'nextLineClose' }],
     },
@@ -1036,45 +1028,45 @@ if (f) {
     },
     // https://github.com/eslint/eslint/issues/7621
     {
-      code: `
-if (foo)
-{
-  bar
-}
-else {
-  baz
-}
+      code: $`
+        if (foo)
+        {
+          bar
+        }
+        else {
+          baz
+        }
       `,
-      output: `
-if (foo) {
-  bar
-} else {
-  baz
-}
+      output: $`
+        if (foo) {
+          bar
+        } else {
+          baz
+        }
       `,
       errors: [{ messageId: 'nextLineOpen' }, { messageId: 'nextLineClose' }],
     },
     {
-      code: `
-interface Foo
-{
-}
+      code: $`
+        interface Foo
+        {
+        }
       `,
-      output: `
-interface Foo {
-}
+      output: $`
+        interface Foo {
+        }
       `,
       errors: [{ messageId: 'nextLineOpen' }],
     },
     {
-      code: `
-interface Foo
-{
-}
+      code: $`
+        interface Foo
+        {
+        }
       `,
-      output: `
-interface Foo {
-}
+      output: $`
+        interface Foo {
+        }
       `,
       options: ['stroustrup'],
       errors: [{ messageId: 'nextLineOpen' }],
@@ -1086,26 +1078,26 @@ interface Foo {
       errors: [{ messageId: 'sameLineOpen' }],
     },
     {
-      code: `
-module "Foo"
-{
-}
+      code: $`
+        module "Foo"
+        {
+        }
       `,
-      output: `
-module "Foo" {
-}
+      output: $`
+        module "Foo" {
+        }
       `,
       errors: [{ messageId: 'nextLineOpen' }],
     },
     {
-      code: `
-module "Foo"
-{
-}
+      code: $`
+        module "Foo"
+        {
+        }
       `,
-      output: `
-module "Foo" {
-}
+      output: $`
+        module "Foo" {
+        }
       `,
       options: ['stroustrup'],
       errors: [{ messageId: 'nextLineOpen' }],
@@ -1117,26 +1109,26 @@ module "Foo" {
       errors: [{ messageId: 'sameLineOpen' }],
     },
     {
-      code: `
-namespace Foo
-{
-}
+      code: $`
+        namespace Foo
+        {
+        }
       `,
-      output: `
-namespace Foo {
-}
+      output: $`
+        namespace Foo {
+        }
       `,
       errors: [{ messageId: 'nextLineOpen' }],
     },
     {
-      code: `
-namespace Foo
-{
-}
+      code: $`
+        namespace Foo
+        {
+        }
       `,
-      output: `
-namespace Foo {
-}
+      output: $`
+        namespace Foo {
+        }
       `,
       options: ['stroustrup'],
       errors: [{ messageId: 'nextLineOpen' }],
@@ -1148,26 +1140,26 @@ namespace Foo {
       errors: [{ messageId: 'sameLineOpen' }],
     },
     {
-      code: `
-enum Foo
-{
-}
+      code: $`
+        enum Foo
+        {
+        }
       `,
-      output: `
-enum Foo {
-}
+      output: $`
+        enum Foo {
+        }
       `,
       errors: [{ messageId: 'nextLineOpen' }],
     },
     {
-      code: `
-enum Foo
-{
-}
+      code: $`
+        enum Foo
+        {
+        }
       `,
-      output: `
-enum Foo {
-}
+      output: $`
+        enum Foo {
+        }
       `,
       options: ['stroustrup'],
       errors: [{ messageId: 'nextLineOpen' }],

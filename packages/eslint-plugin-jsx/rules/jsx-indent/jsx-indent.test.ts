@@ -3,22 +3,21 @@
  * @author Yannick Croissant
  */
 
-import { RuleTester } from 'eslint'
 import semver from 'semver'
 import { version as eslintVersion } from 'eslint/package.json'
 import { invalids, skipDueToMultiErrorSorting, valids } from '../../test-utils/parsers'
 import rule from './jsx-indent'
+import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
+run({
+  name: 'jsx-indent',
+  rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-} as const
 
-const ruleTester = new RuleTester({ parserOptions })
-ruleTester.run('jsx-indent', rule, {
   valid: valids(
     {
       code: `
@@ -1046,7 +1045,6 @@ const Component = () => (
         }
       `,
       options: [2],
-      parserOptions,
     },
     {
       code: `
@@ -1057,7 +1055,6 @@ const Component = () => (
         }
       `,
       options: [2],
-      parserOptions,
     },
     {
       code: `
@@ -2949,7 +2946,6 @@ const Component = () => (
         }
       `,
       options: [2],
-      parserOptions,
       errors: [{ message: 'Expected indentation of 10 space characters but found 12.' }],
     },
     {
@@ -2968,7 +2964,6 @@ const Component = () => (
         }
       `,
       options: [2],
-      parserOptions,
       errors: [{ message: 'Expected indentation of 10 space characters but found 8.' }],
     },
     {

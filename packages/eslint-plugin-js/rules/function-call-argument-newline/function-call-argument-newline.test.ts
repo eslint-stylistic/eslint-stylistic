@@ -1,9 +1,9 @@
-import { RuleTester } from 'eslint'
 import rule from './function-call-argument-newline'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('function-call-argument-newline', rule, {
+run({
+  name: 'function-call-argument-newline',
+  rule,
   valid: [
 
     /* early return */

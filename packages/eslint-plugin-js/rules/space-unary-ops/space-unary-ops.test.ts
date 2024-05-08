@@ -3,12 +3,13 @@
  * @author Marcin Kumorek
  */
 
-import { RuleTester } from 'eslint'
 import rule from './space-unary-ops'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('space-unary-ops', rule, {
+run({
+  name: 'space-unary-ops',
+  rule,
+  lang: 'js',
 
   valid: [
     {

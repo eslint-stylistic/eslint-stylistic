@@ -3,12 +3,12 @@
  * @author Rajendra Patil
  */
 
-import { RuleTester } from 'eslint'
 import rule from './newline-per-chained-call'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('newline-per-chained-call', rule, {
+run({
+  name: 'newline-per-chained-call',
+  rule,
   valid: [
     '_\n.chain({})\n.map(foo)\n.filter(bar)\n.value();',
     'a.b.c.d.e.f',

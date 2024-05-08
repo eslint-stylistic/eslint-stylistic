@@ -3,46 +3,57 @@
  * @author Ian Christian Myers
  */
 
-import { RuleTester } from 'eslint'
-import { unIndent } from '../../test-utils/unindent'
 import { createParserResolver } from '../../test-utils/fixture-parser'
-import { createRule } from '../../utils/createRule'
 import rule from './comma-dangle'
+import { $, run } from '#test'
 
 const parser = createParserResolver('comma-dangle')
 
-const ruleTester = new RuleTester()
+run({
+  name: 'comma-dangle',
+  rule,
+  lang: 'js',
+  // configs: [
+  //   {
+  //     plugins: {
+  //       temp: {
+  //         rules: {
+  //           'add-named-import': createRule({
+  //             meta: {
+  //               type: 'problem',
+  //               schema: [],
+  //               fixable: 'code',
+  //               messages: {
+  //                 'add-named-import': 'add-named-import.',
+  //               },
+  //             },
+  //             create(context) {
+  //               return {
+  //                 ImportDeclaration(node) {
+  //                   const sourceCode = context.sourceCode
+  //                   const closingBrace = sourceCode.getLastToken(node, token => token.value === '}')!
+  //                   const addComma = sourceCode.getTokenBefore(closingBrace)!.value !== ','
 
-// @ts-expect-error missing types
-ruleTester.defineRule('add-named-import', createRule({
-  meta: {
-    type: 'problem',
-    schema: [],
-    fixable: 'code',
-    messages: {
-      'add-named-import': 'add-named-import.',
-    },
-  },
-  create(context) {
-    return {
-      ImportDeclaration(node) {
-        const sourceCode = context.sourceCode
-        const closingBrace = sourceCode.getLastToken(node, token => token.value === '}')!
-        const addComma = sourceCode.getTokenBefore(closingBrace)!.value !== ','
+  //                   context.report({
+  //                     messageId: 'add-named-import',
+  //                     node,
+  //                     fix(fixer) {
+  //                       return fixer.insertTextBefore(closingBrace, `${addComma ? ',' : ''}I18nManager`)
+  //                     },
+  //                   })
+  //                 },
+  //               }
+  //             },
+  //           }),
+  //         },
+  //       },
+  //     },
+  //     rules: {
+  //       'temp/add-named-import': 'error',
+  //     },
+  //   },
+  // ],
 
-        context.report({
-          messageId: 'add-named-import',
-          node,
-          fix(fixer) {
-            return fixer.insertTextBefore(closingBrace, `${addComma ? ',' : ''}I18nManager`)
-          },
-        })
-      },
-    }
-  },
-}))
-
-ruleTester.run('comma-dangle', rule, {
   valid: [
     'var foo = { bar: \'baz\' }',
     'var foo = {\nbar: \'baz\'\n}',
@@ -101,158 +112,133 @@ ruleTester.run('comma-dangle', rule, {
     {
       code: 'var [a, ...rest] = [];',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: 'var [\n    a,\n    ...rest\n] = [];',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: 'var [\n    a,\n    ...rest\n] = [];',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: 'var [\n    a,\n    ...rest\n] = [];',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: '[a, ...rest] = [];',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: 'for ([a, ...rest] of []);',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6 },
     },
     {
       code: 'var a = [b, ...spread,];',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6 },
     },
 
     // https://github.com/eslint/eslint/issues/7297
     {
       code: 'var {foo, ...bar} = baz',
       options: ['always'],
-      parserOptions: { ecmaVersion: 2018 },
     },
 
     // https://github.com/eslint/eslint/issues/3794
     {
       code: 'import {foo,} from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import foo from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import foo, {abc,} from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import * as foo from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'export {foo,} from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import {foo} from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import foo from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import foo, {abc} from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import * as foo from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'export {foo} from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import {foo} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import {foo} from \'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'export {foo} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'export {foo} from \'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import {\n  foo,\n} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import {\n  foo,\n} from \'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'export {\n  foo,\n} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'export {\n  foo,\n} from \'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import {foo} from \n\'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'import {foo} from \n\'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'function foo(a) {}',
       options: ['always'],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'foo(a)',
       options: ['always'],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'function foo(a) {}',
       options: ['never'],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'foo(a)',
@@ -265,10 +251,12 @@ ruleTester.run('comma-dangle', rule, {
     {
       code: 'foo(a,\nb\n)',
       options: ['always-multiline'],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'function foo(a,\nb\n) {}',
       options: ['always-multiline'],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'foo(a,\nb)',
@@ -500,6 +488,7 @@ ruleTester.run('comma-dangle', rule, {
       code: 'function foo({a,}: {a: string}) {}',
       options: ['always'],
       parser: parser('object-pattern-2'),
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'function foo(a): {b: boolean,} {}',
@@ -726,9 +715,9 @@ ruleTester.run('comma-dangle', rule, {
           column: 30,
           endLine: 1,
           endColumn: 31,
-
         },
       ],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'foo({\nbar: \'baz\',\nqux: \'quux\'\n});',
@@ -744,6 +733,7 @@ ruleTester.run('comma-dangle', rule, {
           endColumn: 1,
         },
       ],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'var foo = [ \'baz\' ]',
@@ -1023,7 +1013,6 @@ ruleTester.run('comma-dangle', rule, {
       code: 'var { a, b, } = foo;',
       output: 'var { a, b } = foo;',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'unexpected',
@@ -1037,7 +1026,6 @@ ruleTester.run('comma-dangle', rule, {
       code: 'var { a, b, } = foo;',
       output: 'var { a, b } = foo;',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'unexpected',
@@ -1051,7 +1039,6 @@ ruleTester.run('comma-dangle', rule, {
       code: 'var [ a, b, ] = foo;',
       output: 'var [ a, b ] = foo;',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'unexpected',
@@ -1065,7 +1052,6 @@ ruleTester.run('comma-dangle', rule, {
       code: 'var [ a, b, ] = foo;',
       output: 'var [ a, b ] = foo;',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6 },
       errors: [
         {
           messageId: 'unexpected',
@@ -1133,91 +1119,78 @@ ruleTester.run('comma-dangle', rule, {
       code: 'import {foo} from \'foo\';',
       output: 'import {foo,} from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ImportSpecifier' }],
     },
     {
       code: 'import foo, {abc} from \'foo\';',
       output: 'import foo, {abc,} from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ImportSpecifier' }],
     },
     {
       code: 'export {foo} from \'foo\';',
       output: 'export {foo,} from \'foo\';',
       options: ['always'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ExportSpecifier' }],
     },
     {
       code: 'import {foo,} from \'foo\';',
       output: 'import {foo} from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ImportSpecifier' }],
     },
     {
       code: 'import {foo,} from \'foo\';',
       output: 'import {foo} from \'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ImportSpecifier' }],
     },
     {
       code: 'import foo, {abc,} from \'foo\';',
       output: 'import foo, {abc} from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ImportSpecifier' }],
     },
     {
       code: 'import foo, {abc,} from \'foo\';',
       output: 'import foo, {abc} from \'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ImportSpecifier' }],
     },
     {
       code: 'export {foo,} from \'foo\';',
       output: 'export {foo} from \'foo\';',
       options: ['never'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ExportSpecifier' }],
     },
     {
       code: 'export {foo,} from \'foo\';',
       output: 'export {foo} from \'foo\';',
       options: ['only-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ExportSpecifier' }],
     },
     {
       code: 'import {foo,} from \'foo\';',
       output: 'import {foo} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ImportSpecifier' }],
     },
     {
       code: 'export {foo,} from \'foo\';',
       output: 'export {foo} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'unexpected', type: 'ExportSpecifier' }],
     },
     {
       code: 'import {\n  foo\n} from \'foo\';',
       output: 'import {\n  foo,\n} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ImportSpecifier' }],
     },
     {
       code: 'export {\n  foo\n} from \'foo\';',
       output: 'export {\n  foo,\n} from \'foo\';',
       options: ['always-multiline'],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'missing', type: 'ExportSpecifier' }],
     },
 
@@ -1764,6 +1737,7 @@ let d = 0;export {d,};
       options: ['always'],
       parser: parser('object-pattern-1'),
       errors: [{ messageId: 'missing' }],
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'function foo({a,}: {a: string}) {}',
@@ -1797,61 +1771,59 @@ let d = 0;export {d,};
 
     // https://github.com/eslint/eslint/issues/15660
     {
-      code: unIndent`
-                /*eslint add-named-import:1*/
-                import {
-                    StyleSheet,
-                    View,
-                    TextInput,
-                    ImageBackground,
-                    Image,
-                    TouchableOpacity,
-                    SafeAreaView
-                } from 'react-native';
-            `,
-      output: unIndent`
-                /*eslint add-named-import:1*/
-                import {
-                    StyleSheet,
-                    View,
-                    TextInput,
-                    ImageBackground,
-                    Image,
-                    TouchableOpacity,
-                    SafeAreaView,
-                } from 'react-native';
-            `,
+      code: $`
+        /*eslint add-named-import:1*/
+        import {
+            StyleSheet,
+            View,
+            TextInput,
+            ImageBackground,
+            Image,
+            TouchableOpacity,
+            SafeAreaView
+        } from 'react-native';
+      `,
+      output: $`
+        /*eslint add-named-import:1*/
+        import {
+            StyleSheet,
+            View,
+            TextInput,
+            ImageBackground,
+            Image,
+            TouchableOpacity,
+            SafeAreaView,
+        } from 'react-native';
+      `,
       options: [{ imports: 'always-multiline' }],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: 2,
     },
     {
-      code: unIndent`
-                /*eslint add-named-import:1*/
-                import {
-                    StyleSheet,
-                    View,
-                    TextInput,
-                    ImageBackground,
-                    Image,
-                    TouchableOpacity,
-                    SafeAreaView,
-                } from 'react-native';
-            `,
-      output: unIndent`
-                /*eslint add-named-import:1*/
-                import {
-                    StyleSheet,
-                    View,
-                    TextInput,
-                    ImageBackground,
-                    Image,
-                    TouchableOpacity,
-                    SafeAreaView
-                } from 'react-native';
-            `,
+      code: $`
+        /*eslint add-named-import:1*/
+        import {
+            StyleSheet,
+            View,
+            TextInput,
+            ImageBackground,
+            Image,
+            TouchableOpacity,
+            SafeAreaView,
+        } from 'react-native';
+      `,
+      output: $`
+        /*eslint add-named-import:1*/
+        import {
+            StyleSheet,
+            View,
+            TextInput,
+            ImageBackground,
+            Image,
+            TouchableOpacity,
+            SafeAreaView
+        } from 'react-native';
+      `,
       options: [{ imports: 'never' }],
-      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: 2,
     },
   ],

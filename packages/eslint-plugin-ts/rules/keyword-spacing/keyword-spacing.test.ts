@@ -1,11 +1,10 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-import type { TSESLint } from '@typescript-eslint/utils'
-
-import type { MessageIds, RuleOptions } from './types'
+import type { RuleOptions } from './types'
 import rule from './keyword-spacing'
+import type { TestCaseError } from '#test'
+import { run } from '#test'
 
 const BOTH = { before: true, after: true }
 const NEITHER = { before: false, after: false }
@@ -41,7 +40,7 @@ function overrides(keyword: string, value: RuleOptions[0] = {}): RuleOptions[0] 
  * @param keyword A keyword.
  * @returns An error message.
  */
-function expectedBefore(keyword: string): TSESLint.TestCaseError<MessageIds>[] {
+function expectedBefore(keyword: string): TestCaseError[] {
   return [{ messageId: 'expectedBefore', data: { value: keyword } }]
 }
 
@@ -50,7 +49,7 @@ function expectedBefore(keyword: string): TSESLint.TestCaseError<MessageIds>[] {
  * @param keyword A keyword.
  * @returns An error message.
  */
-function expectedAfter(keyword: string): TSESLint.TestCaseError<MessageIds>[] {
+function expectedAfter(keyword: string): TestCaseError[] {
   return [{ messageId: 'expectedAfter', data: { value: keyword } }]
 }
 
@@ -61,7 +60,7 @@ function expectedAfter(keyword: string): TSESLint.TestCaseError<MessageIds>[] {
  */
 function unexpectedBefore(
   keyword: string,
-): TSESLint.TestCaseError<MessageIds>[] {
+): TestCaseError[] {
   return [{ messageId: 'unexpectedBefore', data: { value: keyword } }]
 }
 
@@ -72,15 +71,13 @@ function unexpectedBefore(
  */
 function unexpectedAfter(
   keyword: string,
-): TSESLint.TestCaseError<MessageIds>[] {
+): TestCaseError[] {
   return [{ messageId: 'unexpectedAfter', data: { value: keyword } }]
 }
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('keyword-spacing', rule, {
+run({
+  name: 'keyword-spacing',
+  rule,
   valid: [
     // ----------------------------------------------------------------------
     // as (typing)

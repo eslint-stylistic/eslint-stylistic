@@ -3,16 +3,16 @@
  * @author Ilya Volodin
  */
 
-import { RuleTester } from 'eslint'
 import rule from './wrap-iife'
-
-const ruleTester = new RuleTester()
+import { run } from '#test'
 
 const wrapInvocationError = { messageId: 'wrapInvocation', type: 'CallExpression' }
 const wrapExpressionError = { messageId: 'wrapExpression', type: 'CallExpression' }
 const moveInvocationError = { messageId: 'moveInvocation', type: 'CallExpression' }
 
-ruleTester.run('wrap-iife', rule, {
+run({
+  name: 'wrap-iife',
+  rule,
   valid: [
     {
       code: '(function(){ }());',

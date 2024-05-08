@@ -3,12 +3,12 @@
  * @author Vignesh Anand aka vegetableman
  */
 
-import { RuleTester } from 'eslint'
 import rule from './comma-style'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('comma-style', rule, {
+run({
+  name: 'comma-style',
+  rule,
 
   valid: [
     'var foo = 1, bar = 3;',

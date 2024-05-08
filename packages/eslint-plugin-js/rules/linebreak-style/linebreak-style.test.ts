@@ -3,12 +3,12 @@
  * @author Erik Mueller
  */
 
-import { RuleTester } from 'eslint'
 import rule from './linebreak-style'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('linebreak-style', rule, {
+run({
+  name: 'linebreak-style',
+  rule,
 
   valid: [
     'var a = \'a\',\n b = \'b\';\n\n function foo(params) {\n /* do stuff */ \n }\n',

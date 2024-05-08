@@ -1,11 +1,9 @@
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import rule from './type-named-tuple-spacing'
+import { $, run } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('type-named-tuple-spacing', rule, {
+run({
+  name: 'type-named-tuple-spacing',
+  rule,
   valid: [
     'type T = [i: number]',
     'type T = [i?: number]',
@@ -63,33 +61,33 @@ ruleTester.run('type-named-tuple-spacing', rule, {
       errors: [{ messageId: 'expectedSpaceAfter' }, { messageId: 'expectedSpaceAfter' }],
     },
     {
-      code: `
+      code: $`
         const emit = defineEmits<{
           change: [id:number]
           update: [value:string]
         }>()
-        `,
-      output: `
+      `,
+      output: $`
         const emit = defineEmits<{
           change: [id: number]
           update: [value: string]
         }>()
-        `,
+      `,
       errors: [{ messageId: 'expectedSpaceAfter' }, { messageId: 'expectedSpaceAfter' }],
     },
     {
-      code: `
+      code: $`
         const emit = defineEmits<{
           change: [id? :number]
           update: [value:string]
         }>()
-        `,
-      output: `
+      `,
+      output: $`
         const emit = defineEmits<{
           change: [id?: number]
           update: [value: string]
         }>()
-        `,
+      `,
       errors: [
         { messageId: 'unexpectedSpaceBetween' },
         { messageId: 'expectedSpaceAfter' },

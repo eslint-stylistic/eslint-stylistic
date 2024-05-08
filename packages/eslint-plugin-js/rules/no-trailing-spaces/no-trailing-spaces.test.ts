@@ -2,12 +2,12 @@
  * @fileoverview Disallow trailing spaces at the end of lines.
  * @author Nodeca Team <https://github.com/nodeca>
  */
-import { RuleTester } from 'eslint'
 import rule from './no-trailing-spaces'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('no-trailing-spaces', rule, {
+run({
+  name: 'no-trailing-spaces',
+  rule,
 
   valid: [
     {

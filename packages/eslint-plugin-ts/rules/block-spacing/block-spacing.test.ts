@@ -1,20 +1,7 @@
-import type {
-  InvalidTestCase,
-  ValidTestCase,
-} from '@typescript-eslint/rule-tester'
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-
 import rule from './block-spacing'
-
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-type InvalidBlockSpacingTestCase = InvalidTestCase<
-  'extra' | 'missing',
-  ['always' | 'never']
->
+import type { InvalidTestCase, ValidTestCase } from '#test'
+import { run } from '#test'
 
 const options = ['always', 'never'] as const
 const typeDeclarations = [
@@ -39,18 +26,20 @@ const emptyBlocks = ['{}', '{ }']
 const singlePropertyBlocks = ['{bar: true}', '{ bar: true }']
 const blockComment = '/* comment */'
 
-ruleTester.run('block-spacing', rule, {
+run({
+  name: 'block-spacing',
+  rule,
   valid: [
     // Empty blocks don't apply
     ...options.flatMap(option =>
       typeDeclarations.flatMap(typeDec =>
-        emptyBlocks.map<ValidTestCase<['always' | 'never']>>(blockType => ({
+        emptyBlocks.map<ValidTestCase>(blockType => ({
           code: typeDec.stringPrefix + blockType,
           options: [option],
         })),
       ),
     ),
-    ...typeDeclarations.flatMap<ValidTestCase<['always' | 'never']>>(
+    ...typeDeclarations.flatMap<ValidTestCase>(
       (typeDec) => {
         const property
           = typeDec.nodeType === AST_NODE_TYPES.TSEnumDeclaration
@@ -76,7 +65,7 @@ ruleTester.run('block-spacing', rule, {
   invalid: [
     ...options.flatMap(option =>
       typeDeclarations.flatMap((typeDec) => {
-        return singlePropertyBlocks.flatMap<InvalidBlockSpacingTestCase>(
+        return singlePropertyBlocks.flatMap<InvalidTestCase>(
           (blockType, blockIndex) => {
             // These are actually valid, so filter them out
             if (
@@ -116,7 +105,7 @@ ruleTester.run('block-spacing', rule, {
     ),
     // With block comments
     ...options.flatMap(option =>
-      typeDeclarations.flatMap<InvalidBlockSpacingTestCase>((typeDec) => {
+      typeDeclarations.flatMap<InvalidTestCase>((typeDec) => {
         const property
           = typeDec.nodeType === AST_NODE_TYPES.TSEnumDeclaration
             ? 'bar = 1'
@@ -145,4 +134,5 @@ ruleTester.run('block-spacing', rule, {
       }),
     ),
   ],
-})
+},
+)

@@ -3,20 +3,19 @@
  * @author ryym
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, skipDueToMultiErrorSorting, valids } from '../../test-utils/parsers'
 import rule from './jsx-equals-spacing'
+import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
+run({
+  name: 'jsx-equals-spacing',
+  rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-} as const
 
-const ruleTester = new RuleTester({ parserOptions })
-ruleTester.run('jsx-equals-spacing', rule, {
   valid: valids(
     {
       code: '<App />',

@@ -3,15 +3,15 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
-import { RuleTester } from 'eslint'
 import rule from './lines-between-class-members'
+import { run } from '#test'
 
 const alwaysError = { messageId: 'always' }
 const neverError = { messageId: 'never' }
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2022 } })
-
-ruleTester.run('lines-between-class-members', rule, {
+run({
+  name: 'lines-between-class-members',
+  rule,
   valid: [
     'class foo{}',
     'class foo{;;}',

@@ -1,20 +1,10 @@
 // this rule tests the semis, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-import type { TSESLint } from '@typescript-eslint/utils'
-
-import type { MessageIds, RuleOptions } from './types'
+import type { RuleOptions } from './types'
 import rule from './semi'
-
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-    ecmaFeatures: {},
-  },
-})
+import type { InvalidTestCase, ValidTestCase } from '#test'
+import { $, run } from '#test'
 
 const neverOption: RuleOptions = ['never']
 const neverOptionWithoutContinuationChars: RuleOptions = [
@@ -30,7 +20,9 @@ const extraSemicolon = {
   messageId: 'extraSemi' as const,
 }
 
-ruleTester.run('semi', rule, {
+run({
+  name: 'semi',
+  rule,
   valid: [
     { code: 'for (var i;;){}' },
     { code: 'for (var i;;){}', options: neverOption },
@@ -59,35 +51,35 @@ ruleTester.run('semi', rule, {
 
     // https://github.com/eslint/eslint/issues/9521
     {
-      code: `
+      code: $`
         do; while(a);
         [1,2,3].forEach(doSomething)
       `,
       options: ['never', { beforeStatementContinuationChars: 'any' }],
     },
     {
-      code: `
+      code: $`
         do; while(a)
         [1,2,3].forEach(doSomething)
       `,
       options: ['never', { beforeStatementContinuationChars: 'any' }],
     },
     {
-      code: `
+      code: $`
         import a from "a";
         [1,2,3].forEach(doSomething)
       `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
     },
     {
-      code: `
+      code: $`
         var a = 0; export {a};
         [a] = b
       `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
     },
     {
-      code: `
+      code: $`
         function wrap() {
           return;
           ({a} = b)
@@ -97,7 +89,7 @@ ruleTester.run('semi', rule, {
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: `
+      code: $`
         while (true) {
           break;
           +i
@@ -106,7 +98,7 @@ ruleTester.run('semi', rule, {
       options: ['never', { beforeStatementContinuationChars: 'always' }],
     },
     {
-      code: `
+      code: $`
         while (true) {
           continue;
           [1,2,3].forEach(doSomething)
@@ -115,14 +107,14 @@ ruleTester.run('semi', rule, {
       options: ['never', { beforeStatementContinuationChars: 'always' }],
     },
     {
-      code: `
+      code: $`
         do; while(a);
         [1,2,3].forEach(doSomething)
       `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
     },
     {
-      code: `
+      code: $`
         const f = () => {};
         [1,2,3].forEach(doSomething)
       `,
@@ -130,21 +122,21 @@ ruleTester.run('semi', rule, {
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: `
+      code: $`
         import a from "a"
         [1,2,3].forEach(doSomething)
       `,
       options: neverOptionWithoutContinuationChars,
     },
     {
-      code: `
+      code: $`
         var a = 0; export {a}
         [a] = b
       `,
       options: neverOptionWithoutContinuationChars,
     },
     {
-      code: `
+      code: $`
         function wrap() {
           return
           ({a} = b)
@@ -154,7 +146,7 @@ ruleTester.run('semi', rule, {
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: `
+      code: $`
         while (true) {
           break
           +i
@@ -163,7 +155,7 @@ ruleTester.run('semi', rule, {
       options: neverOptionWithoutContinuationChars,
     },
     {
-      code: `
+      code: $`
         while (true) {
           continue
           [1,2,3].forEach(doSomething)
@@ -172,14 +164,14 @@ ruleTester.run('semi', rule, {
       options: neverOptionWithoutContinuationChars,
     },
     {
-      code: `
+      code: $`
         do; while(a)
         [1,2,3].forEach(doSomething)
       `,
       options: neverOptionWithoutContinuationChars,
     },
     {
-      code: `
+      code: $`
         const f = () => {}
         [1,2,3].forEach(doSomething)
       `,
@@ -209,22 +201,22 @@ ruleTester.run('semi', rule, {
       'import f = require("f");',
       'type Foo = {};',
       // https://github.com/typescript-eslint/typescript-eslint/issues/409
-      `
-class Class {
-    prop: string;
-}
-    `,
-      `
-abstract class AbsClass {
-    abstract prop: string;
-    abstract meth(): string;
-}
-    `,
-      `
-class PanCamera extends FreeCamera {
-  public invertY: boolean = false;
-}
-    `,
+      $`
+        class Class {
+            prop: string;
+        }
+      `,
+      $`
+        abstract class AbsClass {
+            abstract prop: string;
+            abstract meth(): string;
+        }
+      `,
+      $`
+        class PanCamera extends FreeCamera {
+          public invertY: boolean = false;
+        }
+      `,
       // https://github.com/typescript-eslint/typescript-eslint/issues/123
       'export default interface test {}',
       `declare function declareFn(): string;`,
@@ -264,7 +256,7 @@ class PanCamera extends FreeCamera {
       'export default (foo) => foo.bar();',
       'export default foo = 42;',
       'export default foo += 42;',
-    ].reduce<TSESLint.ValidTestCase<RuleOptions>[]>((acc, code) => {
+    ].reduce<ValidTestCase[]>((acc, code) => {
       acc.push({
         code,
         options: ['always'],
@@ -303,19 +295,19 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         class A {
           method(): void
           method(arg?: any): void {
-
+        
           }
         }
       `,
-      output: `
+      output: $`
         class A {
           method(): void;
           method(arg?: any): void {
-
+        
           }
         }
       `,
@@ -323,19 +315,19 @@ class PanCamera extends FreeCamera {
       errors: [missingSemicolon],
     },
     {
-      code: `
+      code: $`
         class A {
           method(): void;
           method(arg?: any): void {
-
+        
           }
         }
       `,
-      output: `
+      output: $`
         class A {
           method(): void
           method(arg?: any): void {
-
+        
           }
         }
       `,
@@ -343,13 +335,13 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         import a from "a"
         (function() {
             // ...
         })()
       `,
-      output: `
+      output: $`
         import a from "a";
         (function() {
             // ...
@@ -359,13 +351,13 @@ class PanCamera extends FreeCamera {
       errors: [missingSemicolon],
     },
     {
-      code: `
+      code: $`
         import a from "a"
         ;(function() {
             // ...
         })()
       `,
-      output: `
+      output: $`
         import a from "a"
         (function() {
             // ...
@@ -436,11 +428,11 @@ class PanCamera extends FreeCamera {
 
     // https://github.com/eslint/eslint/issues/9521
     {
-      code: `
+      code: $`
         import a from "a"
         [1,2,3].forEach(doSomething)
       `,
-      output: `
+      output: $`
         import a from "a";
         [1,2,3].forEach(doSomething)
       `,
@@ -449,11 +441,11 @@ class PanCamera extends FreeCamera {
       errors: [missingSemicolon],
     },
     {
-      code: `
+      code: $`
         var a = 0; export {a}
         [a] = b
       `,
-      output: `
+      output: $`
         var a = 0; export {a};
         [a] = b
       `,
@@ -462,13 +454,13 @@ class PanCamera extends FreeCamera {
       errors: [missingSemicolon],
     },
     {
-      code: `
+      code: $`
         function wrap() {
           return
           ({a} = b)
         }
       `,
-      output: `
+      output: $`
         function wrap() {
           return;
           ({a} = b)
@@ -479,13 +471,13 @@ class PanCamera extends FreeCamera {
       errors: [missingSemicolon],
     },
     {
-      code: `
+      code: $`
         while (true) {
           break
           +i
         }
       `,
-      output: `
+      output: $`
         while (true) {
           break;
           +i
@@ -495,13 +487,13 @@ class PanCamera extends FreeCamera {
       errors: [missingSemicolon],
     },
     {
-      code: `
+      code: $`
         while (true) {
           continue
           [1,2,3].forEach(doSomething)
         }
       `,
-      output: `
+      output: $`
         while (true) {
           continue;
           [1,2,3].forEach(doSomething)
@@ -511,11 +503,11 @@ class PanCamera extends FreeCamera {
       errors: [missingSemicolon],
     },
     {
-      code: `
+      code: $`
         do; while(a)
         [1,2,3].forEach(doSomething)
       `,
-      output: `
+      output: $`
         do; while(a);
         [1,2,3].forEach(doSomething)
       `,
@@ -523,11 +515,11 @@ class PanCamera extends FreeCamera {
       errors: [missingSemicolon],
     },
     {
-      code: `
+      code: $`
         const f = () => {}
         [1,2,3].forEach(doSomething)
       `,
-      output: `
+      output: $`
         const f = () => {};
         [1,2,3].forEach(doSomething)
       `,
@@ -536,11 +528,11 @@ class PanCamera extends FreeCamera {
       errors: [missingSemicolon],
     },
     {
-      code: `
+      code: $`
         import a from "a";
         [1,2,3].forEach(doSomething)
       `,
-      output: `
+      output: $`
         import a from "a"
         [1,2,3].forEach(doSomething)
       `,
@@ -549,11 +541,11 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         var a = 0; export {a};
         [a] = b
       `,
-      output: `
+      output: $`
         var a = 0; export {a}
         [a] = b
       `,
@@ -562,13 +554,13 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         function wrap() {
           return;
           ({a} = b)
         }
       `,
-      output: `
+      output: $`
         function wrap() {
           return
           ({a} = b)
@@ -579,13 +571,13 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         while (true) {
           break;
           +i
         }
       `,
-      output: `
+      output: $`
         while (true) {
           break
           +i
@@ -595,13 +587,13 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         while (true) {
           continue;
           [1,2,3].forEach(doSomething)
         }
       `,
-      output: `
+      output: $`
         while (true) {
           continue
           [1,2,3].forEach(doSomething)
@@ -611,11 +603,11 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         do; while(a);
         [1,2,3].forEach(doSomething)
       `,
-      output: `
+      output: $`
         do; while(a)
         [1,2,3].forEach(doSomething)
       `,
@@ -623,11 +615,11 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         const f = () => {};
         [1,2,3].forEach(doSomething)
       `,
-      output: `
+      output: $`
         const f = () => {}
         [1,2,3].forEach(doSomething)
       `,
@@ -636,11 +628,11 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         import a from "a"
         ;[1,2,3].forEach(doSomething)
       `,
-      output: `
+      output: $`
         import a from "a"
         [1,2,3].forEach(doSomething)
       `,
@@ -649,11 +641,11 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         var a = 0; export {a}
         ;[1,2,3].forEach(doSomething)
       `,
-      output: `
+      output: $`
         var a = 0; export {a}
         [1,2,3].forEach(doSomething)
       `,
@@ -662,13 +654,13 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         function wrap() {
           return
           ;[1,2,3].forEach(doSomething)
         }
       `,
-      output: `
+      output: $`
         function wrap() {
           return
           [1,2,3].forEach(doSomething)
@@ -678,13 +670,13 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         while (true) {
           break
           ;[1,2,3].forEach(doSomething)
         }
       `,
-      output: `
+      output: $`
         while (true) {
           break
           [1,2,3].forEach(doSomething)
@@ -694,13 +686,13 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         while (true) {
           continue
           ;[1,2,3].forEach(doSomething)
         }
       `,
-      output: `
+      output: $`
         while (true) {
           continue
           [1,2,3].forEach(doSomething)
@@ -710,11 +702,11 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         do; while(a)
         ;[1,2,3].forEach(doSomething)
       `,
-      output: `
+      output: $`
         do; while(a)
         [1,2,3].forEach(doSomething)
       `,
@@ -722,11 +714,11 @@ class PanCamera extends FreeCamera {
       errors: [extraSemicolon],
     },
     {
-      code: `
+      code: $`
         const f = () => {}
         ;[1,2,3].forEach(doSomething)
       `,
-      output: `
+      output: $`
         const f = () => {}
         [1,2,3].forEach(doSomething)
       `,
@@ -773,42 +765,42 @@ class PanCamera extends FreeCamera {
 
       // https://github.com/typescript-eslint/typescript-eslint/issues/409
       {
-        code: `
-class Class {
-    prop: string;
-}
-      `,
+        code: $`
+          class Class {
+              prop: string;
+          }
+        `,
         errors: [
+          {
+            line: 2,
+          },
+        ],
+      },
+      {
+        code: $`
+          abstract class AbsClass {
+              abstract prop: string;
+              abstract meth(): string;
+          }
+        `,
+        errors: [
+          {
+            line: 2,
+          },
           {
             line: 3,
           },
         ],
       },
       {
-        code: `
-abstract class AbsClass {
-    abstract prop: string;
-    abstract meth(): string;
-}
-      `,
+        code: $`
+          class PanCamera extends FreeCamera {
+            public invertY: boolean = false;
+          }
+        `,
         errors: [
           {
-            line: 3,
-          },
-          {
-            line: 4,
-          },
-        ],
-      },
-      {
-        code: `
-class PanCamera extends FreeCamera {
-  public invertY: boolean = false;
-}
-    `,
-        errors: [
-          {
-            line: 3,
+            line: 2,
           },
         ],
       },
@@ -1077,7 +1069,7 @@ class PanCamera extends FreeCamera {
           },
         ],
       },
-    ].reduce<TSESLint.InvalidTestCase<MessageIds, RuleOptions>[]>((acc, test) => {
+    ].reduce<InvalidTestCase[]>((acc, test) => {
       acc.push({
         code: test.code.replace(/;/g, ''),
         output: test.code,
@@ -1096,7 +1088,6 @@ class PanCamera extends FreeCamera {
           ...extraSemicolon,
         })),
       })
-
       return acc
     }, []),
   ],

@@ -1,18 +1,15 @@
 // this rule tests spacing, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
 import rule from './space-before-blocks'
+import { $, run } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('space-before-blocks', rule, {
+run({
+  name: 'space-before-blocks',
+  rule,
   valid: [
     {
-      code: `
+      code: $`
         enum Test{
           KEY1 = 2,
         }
@@ -20,7 +17,7 @@ ruleTester.run('space-before-blocks', rule, {
       options: ['never'],
     },
     {
-      code: `
+      code: $`
         interface Test{
           prop1: number;
         }
@@ -28,7 +25,7 @@ ruleTester.run('space-before-blocks', rule, {
       options: ['never'],
     },
     {
-      code: `
+      code: $`
         enum Test {
           KEY1 = 2,
         }
@@ -36,7 +33,7 @@ ruleTester.run('space-before-blocks', rule, {
       options: ['always'],
     },
     {
-      code: `
+      code: $`
         interface Test {
           prop1: number;
         }
@@ -44,7 +41,7 @@ ruleTester.run('space-before-blocks', rule, {
       options: ['always'],
     },
     {
-      code: `
+      code: $`
         enum Test{
           KEY1 = 2,
         }
@@ -52,7 +49,7 @@ ruleTester.run('space-before-blocks', rule, {
       options: [{ classes: 'never' }],
     },
     {
-      code: `
+      code: $`
         interface Test{
           prop1: number;
         }
@@ -60,7 +57,7 @@ ruleTester.run('space-before-blocks', rule, {
       options: [{ classes: 'never' }],
     },
     {
-      code: `
+      code: $`
         enum Test {
           KEY1 = 2,
         }
@@ -68,7 +65,7 @@ ruleTester.run('space-before-blocks', rule, {
       options: [{ classes: 'always' }],
     },
     {
-      code: `
+      code: $`
         interface Test {
           prop1: number;
         }
@@ -76,7 +73,7 @@ ruleTester.run('space-before-blocks', rule, {
       options: [{ classes: 'always' }],
     },
     {
-      code: `
+      code: $`
         interface Test{
           prop1: number;
         }
@@ -86,13 +83,13 @@ ruleTester.run('space-before-blocks', rule, {
   ],
   invalid: [
     {
-      code: `
+      code: $`
         enum Test{
           A = 2,
           B = 1,
         }
       `,
-      output: `
+      output: $`
         enum Test {
           A = 2,
           B = 1,
@@ -101,19 +98,17 @@ ruleTester.run('space-before-blocks', rule, {
       errors: [
         {
           messageId: 'missingSpace',
-          column: 18,
-          line: 2,
         },
       ],
       options: ['always'],
     },
     {
-      code: `
+      code: $`
         interface Test{
           prop1: number;
         }
       `,
-      output: `
+      output: $`
         interface Test {
           prop1: number;
         }
@@ -121,20 +116,18 @@ ruleTester.run('space-before-blocks', rule, {
       errors: [
         {
           messageId: 'missingSpace',
-          column: 23,
-          line: 2,
         },
       ],
       options: ['always'],
     },
     {
-      code: `
+      code: $`
         enum Test{
           A = 2,
           B = 1,
         }
       `,
-      output: `
+      output: $`
         enum Test {
           A = 2,
           B = 1,
@@ -143,19 +136,17 @@ ruleTester.run('space-before-blocks', rule, {
       errors: [
         {
           messageId: 'missingSpace',
-          column: 18,
-          line: 2,
         },
       ],
       options: [{ classes: 'always' }],
     },
     {
-      code: `
+      code: $`
         interface Test{
           prop1: number;
         }
       `,
-      output: `
+      output: $`
         interface Test {
           prop1: number;
         }
@@ -163,20 +154,18 @@ ruleTester.run('space-before-blocks', rule, {
       errors: [
         {
           messageId: 'missingSpace',
-          column: 23,
-          line: 2,
         },
       ],
       options: [{ classes: 'always' }],
     },
     {
-      code: `
+      code: $`
         enum Test {
           A = 2,
           B = 1,
         }
       `,
-      output: `
+      output: $`
         enum Test{
           A = 2,
           B = 1,
@@ -185,19 +174,17 @@ ruleTester.run('space-before-blocks', rule, {
       errors: [
         {
           messageId: 'unexpectedSpace',
-          column: 19,
-          line: 2,
         },
       ],
       options: ['never'],
     },
     {
-      code: `
+      code: $`
         interface Test {
           prop1: number;
         }
       `,
-      output: `
+      output: $`
         interface Test{
           prop1: number;
         }
@@ -205,20 +192,18 @@ ruleTester.run('space-before-blocks', rule, {
       errors: [
         {
           messageId: 'unexpectedSpace',
-          column: 24,
-          line: 2,
         },
       ],
       options: ['never'],
     },
     {
-      code: `
+      code: $`
         enum Test {
           A = 2,
           B = 1,
         }
       `,
-      output: `
+      output: $`
         enum Test{
           A = 2,
           B = 1,
@@ -227,19 +212,17 @@ ruleTester.run('space-before-blocks', rule, {
       errors: [
         {
           messageId: 'unexpectedSpace',
-          column: 19,
-          line: 2,
         },
       ],
       options: [{ classes: 'never' }],
     },
     {
-      code: `
+      code: $`
         interface Test {
           prop1: number;
         }
       `,
-      output: `
+      output: $`
         interface Test{
           prop1: number;
         }
@@ -247,8 +230,6 @@ ruleTester.run('space-before-blocks', rule, {
       errors: [
         {
           messageId: 'unexpectedSpace',
-          column: 24,
-          line: 2,
         },
       ],
       options: [{ classes: 'never' }],

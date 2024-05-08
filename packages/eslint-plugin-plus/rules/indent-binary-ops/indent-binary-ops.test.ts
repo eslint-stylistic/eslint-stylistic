@@ -1,16 +1,13 @@
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import { expect, it } from 'vitest'
 import { createLinter } from '../../../test-utils/createLinter'
-import { unIndent } from '../../../eslint-plugin-js/test-utils/unindent'
 import rule from './indent-binary-ops'
+import { $, run } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('indent-binary-ops', rule, {
+run({
+  name: 'indent-binary-ops',
+  rule,
   valid: [
-    unIndent`
+    $`
       type a = {
         [K in keyof T]: T[K] extends Date
           ? Date | string
@@ -19,12 +16,12 @@ ruleTester.run('indent-binary-ops', rule, {
             : T[K];
       }
     `,
-    unIndent`
+    $`
       type Foo =
         | A
         | B
     `,
-    unIndent`
+    $`
       if (
         this.level >= this.max ||
         this.level <= this.min
@@ -40,14 +37,14 @@ it('snapshots', async () => {
   const { fix } = createLinter('indent-binary-ops', rule)
 
   expect(
-    fix(unIndent`
-    if (
-      a && (
-        a.b ||
-          a.c
-      ) &&
-        a.d
-    ) {}
+    fix($`
+      if (
+        a && (
+          a.b ||
+            a.c
+        ) &&
+          a.d
+      ) {}
     `),
   ).toMatchInlineSnapshot(
     `
@@ -62,10 +59,10 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
-    const a =
-    x +
-      y * z
+    fix($`
+      const a =
+      x +
+        y * z
     `),
   ).toMatchInlineSnapshot(
     `
@@ -75,11 +72,11 @@ it('snapshots', async () => {
   `,
   )
   expect(
-    fix(unIndent`
-    if (
-      aaaaaa >
-    bbbbb
-    ) {}
+    fix($`
+      if (
+        aaaaaa >
+      bbbbb
+      ) {}
     `),
   ).toMatchInlineSnapshot(
     `
@@ -91,16 +88,16 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
-    function foo() {
-      if (a
-      || b
-          || c || d
-            || (d && b)
-      ) {
-        foo()
+    fix($`
+      function foo() {
+        if (a
+        || b
+            || c || d
+              || (d && b)
+        ) {
+          foo()
+        }
       }
-    }
     `),
   ).toMatchInlineSnapshot(
     `
@@ -117,10 +114,10 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
-    type Foo = A | B
-    | C | D
-      | E
+    fix($`
+      type Foo = A | B
+      | C | D
+        | E
     `),
   ).toMatchInlineSnapshot(
     `
@@ -131,10 +128,10 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
-    type Foo = 
-    | A | C
-      | B
+    fix($`
+      type Foo = 
+      | A | C
+        | B
     `),
   ).toMatchInlineSnapshot(
     `
@@ -145,12 +142,12 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
-    type T =
-    & A
-      & (B
-      | A
-      | D)
+    fix($`
+      type T =
+      & A
+        & (B
+        | A
+        | D)
     `),
   ).toMatchInlineSnapshot(
     `
@@ -163,11 +160,12 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
-    type T = 
-    a 
-    | b 
-      | c`),
+    fix($`
+      type T = 
+      a 
+      | b 
+        | c
+    `),
   ).toMatchInlineSnapshot(
     `
     "type T = 
@@ -178,16 +176,16 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
-    function TSPropertySignatureToProperty(
-      node:
-      | TSESTree.TSEnumMember
-        | TSESTree.TSPropertySignature
-      | TSESTree.TypeElement,
-      type:
-      | AST_NODE_TYPES.Property
-        | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
-    ): TSESTree.Node | null {}
+    fix($`
+      function TSPropertySignatureToProperty(
+        node:
+        | TSESTree.TSEnumMember
+          | TSESTree.TSPropertySignature
+        | TSESTree.TypeElement,
+        type:
+        | AST_NODE_TYPES.Property
+          | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
+      ): TSESTree.Node | null {}
     `),
   ).toMatchInlineSnapshot(
     `
@@ -204,12 +202,12 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
-    type Foo = Merge<
-        A 
-      & B
-        & C
-    >
+    fix($`
+      type Foo = Merge<
+          A 
+        & B
+          & C
+      >
     `),
   ).toMatchInlineSnapshot(
     `
@@ -222,16 +220,16 @@ it('snapshots', async () => {
   )
 
   expect(
-    fix(unIndent`
-    if (
-      typeof woof === 'string' &&
-      typeof woof === 'string' &&
+    fix($`
+      if (
         typeof woof === 'string' &&
-      isNaN(null) &&
-        isNaN(NaN)
-    ) {
-      return;
-    }
+        typeof woof === 'string' &&
+          typeof woof === 'string' &&
+        isNaN(null) &&
+          isNaN(NaN)
+      ) {
+        return;
+      }
     `),
   ).toMatchInlineSnapshot(
     `

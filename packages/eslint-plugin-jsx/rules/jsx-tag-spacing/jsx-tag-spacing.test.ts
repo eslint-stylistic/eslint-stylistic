@@ -3,20 +3,12 @@
  * @author Diogo Franco (Kovensky)
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-tag-spacing'
 import type { RuleOptions } from './types'
+import { run } from '#test'
 
 type Option = Exclude<RuleOptions[0], undefined>
-
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-}
 
 // -----------------------------------------------------------------------------
 // Helpers
@@ -72,8 +64,16 @@ function beforeClosingOptions(option: Option['beforeClosing']) {
 // Tests
 // -----------------------------------------------------------------------------
 
-const ruleTester = new RuleTester({ parserOptions })
-ruleTester.run('jsx-tag-spacing', rule, {
+run({
+  name: 'jsx-tag-spacing',
+  rule,
+  lang: 'js',
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: '<App />',

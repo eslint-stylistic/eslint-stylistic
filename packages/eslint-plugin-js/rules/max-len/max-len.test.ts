@@ -3,14 +3,14 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import { RuleTester } from 'eslint'
 import rule from './max-len'
+import { run } from '#test'
 
 const parserOptions = { ecmaVersion: 6 } as const
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('max-len', rule, {
+run({
+  name: 'max-len',
+  rule,
   valid: [
     'var x = 5;\nvar x = 2;',
     {

@@ -1,15 +1,12 @@
 // this rule tests semis, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
 import rule from './no-extra-semi'
+import { $, run } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('no-extra-semi', rule, {
+run({
+  name: 'no-extra-semi',
+  rule,
   valid: [
     {
       code: 'var x = 5;',
@@ -80,17 +77,17 @@ ruleTester.run('no-extra-semi', rule, {
 
     // Class Property
     {
-      code: `
-export class Foo {
-  public foo: number = 0;
-}
+      code: $`
+        export class Foo {
+          public foo: number = 0;
+        }
       `,
     },
     {
-      code: `
-export class Foo {
-  public foo: number = 0; public bar: number = 1;
-}
+      code: $`
+        export class Foo {
+          public foo: number = 0; public bar: number = 1;
+        }
       `,
     },
   ],
@@ -296,15 +293,15 @@ export class Foo {
       ],
     },
     {
-      code: `
-class Foo {
-  public foo: number = 0;;
-}
+      code: $`
+        class Foo {
+          public foo: number = 0;;
+        }
       `,
-      output: `
-class Foo {
-  public foo: number = 0;
-}
+      output: $`
+        class Foo {
+          public foo: number = 0;
+        }
       `,
       errors: [
         {
@@ -314,117 +311,69 @@ class Foo {
       ],
     },
     {
-      code: `
-class Foo {
-  public foo: number = 0;; public bar: number = 1;;
-  public baz: number = 1;;
-}
+      code: $`
+        class Foo {
+          public foo: number = 0;; public bar: number = 1;;
+          public baz: number = 1;;
+        }
       `,
-      output: `
-class Foo {
-  public foo: number = 0; public bar: number = 1;
-  public baz: number = 1;
-}
+      output: $`
+        class Foo {
+          public foo: number = 0; public bar: number = 1;
+          public baz: number = 1;
+        }
       `,
       errors: [
-        {
-          messageId: 'unexpected',
-          line: 3,
-          column: 26,
-        },
-        {
-          messageId: 'unexpected',
-          line: 3,
-          column: 51,
-        },
-        {
-          messageId: 'unexpected',
-          line: 4,
-          column: 26,
-        },
+        'unexpected',
+        'unexpected',
+        'unexpected',
       ],
     },
 
     // abstract prop/method
     {
-      code: `
-class Foo {
-  abstract foo: number;; abstract bar: number;;
-  abstract baz: number;;
-}
+      code: $`
+        class Foo {
+          abstract foo: number;; abstract bar: number;;
+          abstract baz: number;;
+        }
       `,
-      output: `
-class Foo {
-  abstract foo: number; abstract bar: number;
-  abstract baz: number;
-}
+      output: $`
+        class Foo {
+          abstract foo: number; abstract bar: number;
+          abstract baz: number;
+        }
       `,
       errors: [
-        {
-          messageId: 'unexpected',
-          line: 3,
-          column: 24,
-        },
-        {
-          messageId: 'unexpected',
-          line: 3,
-          column: 47,
-        },
-        {
-          messageId: 'unexpected',
-          line: 4,
-          column: 24,
-        },
+        'unexpected',
+        'unexpected',
+        'unexpected',
       ],
     },
     {
-      code: `
-class Foo {
-  abstract foo();; abstract bar();;
-  abstract baz();;
-  abstract foo(): void;; abstract bar(): void;;
-  abstract baz(): void;;
-}
+      code: $`
+        class Foo {
+          abstract foo();; abstract bar();;
+          abstract baz();;
+          abstract foo(): void;; abstract bar(): void;;
+          abstract baz(): void;;
+        }
       `,
-      output: `
-class Foo {
-  abstract foo(); abstract bar();
-  abstract baz();
-  abstract foo(): void; abstract bar(): void;
-  abstract baz(): void;
-}
+      output: $`
+        class Foo {
+          abstract foo(); abstract bar();
+          abstract baz();
+          abstract foo(): void; abstract bar(): void;
+          abstract baz(): void;
+        }
       `,
       errors: [
-        {
-          messageId: 'unexpected',
-          line: 3,
-          column: 18,
-        },
-        {
-          messageId: 'unexpected',
-          line: 3,
-          column: 35,
-        },
-        {
-          messageId: 'unexpected',
-          line: 4,
-          column: 18,
-        },
-        {
-          messageId: 'unexpected',
-          line: 5,
-          column: 24,
-        },
-        {
-          messageId: 'unexpected',
-          line: 5,
-          column: 47,
-        },
-        {
-          messageId: 'unexpected',
-          line: 6,
-          column: 24,
-        },
+        'unexpected',
+        'unexpected',
+        'unexpected',
+        'unexpected',
+        'unexpected',
+        'unexpected',
       ],
     },
   ],

@@ -3,12 +3,12 @@
  * @author Jamund Ferguson
  */
 
-import { RuleTester } from 'eslint'
 import rule from './computed-property-spacing'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('computed-property-spacing', rule, {
+run({
+  name: 'computed-property-spacing',
+  rule,
 
   valid: [
 

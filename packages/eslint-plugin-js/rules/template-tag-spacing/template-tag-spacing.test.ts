@@ -3,12 +3,12 @@
  * @author Jonathan Wilsson
  */
 
-import { RuleTester } from 'eslint'
 import rule from './template-tag-spacing'
+import { run } from '#test'
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
-
-ruleTester.run('template-tag-spacing', rule, {
+run({
+  name: 'template-tag-spacing',
+  rule,
   valid: [
     'tag`name`',
     { code: 'tag`name`', options: ['never'] },

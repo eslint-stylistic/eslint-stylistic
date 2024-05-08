@@ -1,11 +1,9 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
-
-import { RuleTester } from '@typescript-eslint/rule-tester'
-import type { TSESLint } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import rule from './indent'
-import type { MessageIds, RuleOptions } from './types'
+import type { InvalidTestCase, TestCaseError, TestCasesOptions, ValidTestCase } from '#test'
+import { run } from '#test'
 
 /**
  * Marks a test case as a plain javascript case which should be indented the same
@@ -591,12 +589,12 @@ type Foo = string | {
             `,
     ],
   },
-].reduce<TSESLint.RunTests<MessageIds, RuleOptions>>(
+].reduce<TestCasesOptions>(
   (acc, testCase) => {
     const indent = '    '
 
-    const validCases = [...acc.valid]
-    const invalidCases = [...acc.invalid]
+    const validCases: ValidTestCase[] = [...acc.valid!]
+    const invalidCases: InvalidTestCase[] = [...acc.invalid!]
 
     const codeCases = testCase.code.map(code => [
       '', // newline to make test error messages nicer
@@ -614,7 +612,7 @@ type Foo = string | {
         output: code,
         errors: code
           .split('\n')
-          .map<TSESLint.TestCaseError<MessageIds> | null>((line, lineNum) => {
+          .map<TestCaseError | null>((line, lineNum) => {
             const indentCount = line.split(indent).length - 1
             const spaceCount = indentCount * indent.length
 
@@ -632,7 +630,7 @@ type Foo = string | {
             }
           })
           .filter(
-            (error): error is TSESLint.TestCaseError<MessageIds> =>
+            (error): error is TestCaseError =>
               error != null,
           ),
       }
@@ -645,18 +643,11 @@ type Foo = string | {
   { valid: [], invalid: [] },
 )
 
-const ruleTester = new RuleTester({
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-    ecmaFeatures: {},
-  },
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('indent', rule, {
+run({
+  name: 'indent',
+  rule,
   valid: [
-    ...individualNodeTests.valid,
+    ...individualNodeTests.valid!,
     `
 @Component({
     components: {
@@ -759,7 +750,7 @@ const div: JQuery<HTMLElement> = $('<div>')
     },
   ],
   invalid: [
-    ...individualNodeTests.invalid,
+    ...individualNodeTests.invalid!,
     {
       code: `
 type Foo = {

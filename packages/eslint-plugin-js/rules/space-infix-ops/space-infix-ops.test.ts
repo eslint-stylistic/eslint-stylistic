@@ -3,13 +3,13 @@
  * @author Michael Ficarra
  */
 
-import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './space-infix-ops'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('space-infix-ops', rule, {
+run({
+  name: 'space-infix-ops',
+  rule,
   valid: [
     'a + b',
     'a + ++b',

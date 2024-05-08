@@ -3,15 +3,15 @@
  * @author Teddy Katz
  */
 
-import { RuleTester } from 'eslint'
 import rule from './nonblock-statement-body-position'
+import { $, run } from '#test'
 
 const EXPECTED_LINEBREAK = { messageId: 'expectLinebreak' }
 const UNEXPECTED_LINEBREAK = { messageId: 'expectNoLinebreak' }
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
-
-ruleTester.run('nonblock-statement-body-position', rule, {
+run({
+  name: 'nonblock-statement-body-position',
+  rule,
 
   valid: [
 
@@ -47,55 +47,55 @@ ruleTester.run('nonblock-statement-body-position', rule, {
 
         // 'below' option
         {
-          code: `
-                if (foo)
-                    bar();
-            `,
+          code: $`
+            if (foo)
+                bar();
+          `,
           options: ['below'],
         },
         {
-          code: `
-                while (foo)
-                    bar();
-            `,
+          code: $`
+            while (foo)
+                bar();
+          `,
           options: ['below'],
         },
         {
-          code: `
-                do
-                    bar();
-                while (foo)
-            `,
+          code: $`
+            do
+                bar();
+            while (foo)
+          `,
           options: ['below'],
         },
         {
-          code: `
-                for (;foo;)
-                    bar();
-            `,
+          code: $`
+            for (;foo;)
+                bar();
+          `,
           options: ['below'],
         },
         {
-          code: `
-                for (foo in bar)
-                    bar();
-            `,
+          code: $`
+            for (foo in bar)
+                bar();
+          `,
           options: ['below'],
         },
         {
-          code: `
-                for (foo of bar)
-                    bar();
-            `,
+          code: $`
+            for (foo of bar)
+                bar();
+          `,
           options: ['below'],
         },
         {
-          code: `
-                if (foo)
-                    bar();
-                else
-                    baz();
-            `,
+          code: $`
+            if (foo)
+                bar();
+            else
+                baz();
+          `,
           options: ['below'],
         },
 
@@ -105,10 +105,10 @@ ruleTester.run('nonblock-statement-body-position', rule, {
           options: ['any'],
         },
         {
-          code: `
-                if (foo)
-                    bar();
-            `,
+          code: $`
+            if (foo)
+                bar();
+          `,
           options: ['any'],
         },
 
@@ -118,17 +118,17 @@ ruleTester.run('nonblock-statement-body-position', rule, {
           options: ['beside', { overrides: { while: 'below' } }],
         },
         {
-          code: `
-                while (foo)
-                    bar();
-            `,
+          code: $`
+            while (foo)
+                bar();
+          `,
           options: ['beside', { overrides: { while: 'below' } }],
         },
         {
-          code: `
-                while (foo)
-                    bar();
-            `,
+          code: $`
+            while (foo)
+                bar();
+          `,
           options: ['beside', { overrides: { while: 'any' } }],
         },
         {
@@ -151,11 +151,11 @@ ruleTester.run('nonblock-statement-body-position', rule, {
             }
         `,
         {
-          code: `
-                if (foo) {
-                } else if (bar) {
-                }
-            `,
+          code: $`
+            if (foo) {
+            } else if (bar) {
+            }
+          `,
           options: ['below'],
         },
         `
@@ -165,12 +165,12 @@ ruleTester.run('nonblock-statement-body-position', rule, {
               }
         `,
         {
-          code: `
-                if (foo) {
-                } else
-                  if (bar) {
-                  }
-            `,
+          code: $`
+            if (foo) {
+            } else
+              if (bar) {
+              }
+          `,
           options: ['beside'],
         },
   ],
@@ -179,78 +179,78 @@ ruleTester.run('nonblock-statement-body-position', rule, {
 
     // 'beside' option
     {
-      code: `
-                if (foo)
-                    bar();
-            `,
-      output: `
-                if (foo) bar();
-            `,
+      code: $`
+        if (foo)
+            bar();
+      `,
+      output: $`
+        if (foo) bar();
+      `,
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: `
-                while (foo)
-                    bar();
-            `,
-      output: `
-                while (foo) bar();
-            `,
+      code: $`
+        while (foo)
+            bar();
+      `,
+      output: $`
+        while (foo) bar();
+      `,
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: `
-                do
-                    bar();
-                while (foo)
-            `,
-      output: `
-                do bar();
-                while (foo)
-            `,
+      code: $`
+        do
+            bar();
+        while (foo)
+      `,
+      output: $`
+        do bar();
+        while (foo)
+      `,
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: `
-                for (;foo;)
-                    bar();
-            `,
-      output: `
-                for (;foo;) bar();
-            `,
+      code: $`
+        for (;foo;)
+            bar();
+      `,
+      output: $`
+        for (;foo;) bar();
+      `,
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: `
-                for (foo in bar)
-                    baz();
-            `,
-      output: `
-                for (foo in bar) baz();
-            `,
+      code: $`
+        for (foo in bar)
+            baz();
+      `,
+      output: $`
+        for (foo in bar) baz();
+      `,
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: `
-                for (foo of bar)
-                    baz();
-            `,
-      output: `
-                for (foo of bar) baz();
-            `,
+      code: $`
+        for (foo of bar)
+            baz();
+      `,
+      output: $`
+        for (foo of bar) baz();
+      `,
       errors: [UNEXPECTED_LINEBREAK],
     },
     {
-      code: `
-                if (foo)
-                    bar();
-                else
-                    baz();
-            `,
-      output: `
-                if (foo) bar();
-                else baz();
-            `,
+      code: $`
+        if (foo)
+            bar();
+        else
+            baz();
+      `,
+      output: $`
+        if (foo) bar();
+        else baz();
+      `,
       errors: [UNEXPECTED_LINEBREAK, UNEXPECTED_LINEBREAK],
     },
 
@@ -292,14 +292,16 @@ ruleTester.run('nonblock-statement-body-position', rule, {
       errors: [EXPECTED_LINEBREAK],
     },
     {
-      code: `
-                if (foo) bar();
-                else baz();
-            `,
-      output: `
-                if (foo) \nbar();
-                else \nbaz();
-            `,
+      code: $`
+        if (foo) bar();
+        else baz();
+      `,
+      output: $`
+        if (foo) 
+        bar();
+        else 
+        baz();
+      `,
       options: ['below'],
       errors: [EXPECTED_LINEBREAK, EXPECTED_LINEBREAK],
     },
@@ -312,13 +314,13 @@ ruleTester.run('nonblock-statement-body-position', rule, {
       errors: [EXPECTED_LINEBREAK],
     },
     {
-      code: `
-                while (foo)
-                    bar();
-            `,
-      output: `
-                while (foo) bar();
-            `,
+      code: $`
+        while (foo)
+            bar();
+      `,
+      output: $`
+        while (foo) bar();
+      `,
       options: ['below', { overrides: { while: 'beside' } }],
       errors: [UNEXPECTED_LINEBREAK],
     },

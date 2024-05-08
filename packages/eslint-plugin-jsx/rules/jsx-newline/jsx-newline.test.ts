@@ -4,19 +4,19 @@
  * @author Joseph Stiles
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-newline'
+import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
+run({
+  name: 'jsx-newline',
+  rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-}
 
-new RuleTester({ parserOptions }).run('jsx-newline', rule, {
   valid: valids(
     {
       code: `

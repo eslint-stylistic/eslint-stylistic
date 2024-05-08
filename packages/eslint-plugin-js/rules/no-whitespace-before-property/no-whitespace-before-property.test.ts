@@ -3,12 +3,13 @@
  * @author Kai Cataldo
  */
 
-import { RuleTester } from 'eslint'
 import rule from './no-whitespace-before-property'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('no-whitespace-before-property', rule, {
+run({
+  name: 'no-whitespace-before-property',
+  rule,
+  lang: 'js',
 
   valid: [
     'foo.bar',
@@ -840,6 +841,7 @@ ruleTester.run('no-whitespace-before-property', rule, {
         messageId: 'unexpectedWhitespace',
         data: { propName: 'toExponential' },
       }],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: '0192    .toExponential()',
@@ -848,6 +850,7 @@ ruleTester.run('no-whitespace-before-property', rule, {
         messageId: 'unexpectedWhitespace',
         data: { propName: 'toExponential' },
       }],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: '5_000       .toExponential()',
@@ -940,6 +943,7 @@ ruleTester.run('no-whitespace-before-property', rule, {
         messageId: 'unexpectedWhitespace',
         data: { propName: 'toExponential' },
       }],
+      parserOptions: { sourceType: 'script' },
     },
 
     // Optional chaining
