@@ -9,7 +9,7 @@
     "build": "pnpm -r run build",
     "dev": "pnpm -r --parallel run dev",
     "stub": "pnpm -r --parallel run stub",
-    "lint": "eslint .",
+    "lint": "eslint . --cache",
     "update": "esno scripts/update.ts && pnpm run lint --fix",
     "publish:ci": "esno scripts/publish.ts",
     "test": "vitest -c vitest.config.unit.ts",
@@ -22,7 +22,7 @@
     "play:lint": "pnpm -C playground run lint"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.16.3",
+    "@antfu/eslint-config": "^2.16.4",
     "@antfu/eslint-define-config": "1.23.0-2",
     "@antfu/ni": "^0.21.12",
     "@antfu/utils": "^0.7.8",
@@ -43,7 +43,7 @@
     "@types/fs-extra": "^11.0.4",
     "@types/js-yaml": "^4.0.9",
     "@types/json-schema": "^7.0.15",
-    "@types/node": "^20.12.10",
+    "@types/node": "^20.12.11",
     "@types/semver": "^7.5.8",
     "@typescript-eslint/parser": "^7.8.0",
     "@typescript-eslint/utils": "^7.8.0",
