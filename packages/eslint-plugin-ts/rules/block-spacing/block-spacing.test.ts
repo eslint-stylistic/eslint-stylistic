@@ -1,7 +1,7 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import rule from './block-spacing'
 import type { InvalidTestCase, ValidTestCase } from '#test'
-import { $, run } from '#test'
+import { run } from '#test'
 
 const options = ['always', 'never'] as const
 const typeDeclarations = [

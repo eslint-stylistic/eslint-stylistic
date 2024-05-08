@@ -4,7 +4,7 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import rule from './space-before-function-paren'
-import { $, run } from '#test'
+import { run } from '#test'
 
 run({
   name: 'space-before-function-paren',

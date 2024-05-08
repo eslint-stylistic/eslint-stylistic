@@ -582,15 +582,15 @@ run({
         // https://github.com/eslint/eslint/issues/15091#issuecomment-975605821
         {
           code: $`
-                const method6 = (
-                  abc: number,
-                  def: () => void,
-                ): [
-                  string,
-                  () => void
-                ] => [\`a\${abc}\`, def];
-                method6(3, () => {});
-            `,
+            const method6 = (
+              abc: number,
+              def: () => void,
+            ): [
+              string,
+              () => void
+            ] => [\`a\${abc}\`, def];
+            method6(3, () => {});
+          `,
           options: ['multiline'],
           parser: parser('function-paren-newline/arrow-function-return-type'),
         },
@@ -1494,23 +1494,23 @@ run({
     // https://github.com/eslint/eslint/issues/15091#issuecomment-975605821
     {
       code: $`
-                const method6 = (
-                  abc: number,
-                  def: () => void,
-                ): [
-                  string,
-                  () => void
-                ] => [\`a\${abc}\`, def];
-                method6(3, () => {});
-            `,
+        const method6 = (
+          abc: number,
+          def: () => void,
+        ): [
+          string,
+          () => void
+        ] => [\`a\${abc}\`, def];
+        method6(3, () => {});
+      `,
       output: $`
-                const method6 = (abc: number,
-                  def: () => void,): [
-                  string,
-                  () => void
-                ] => [\`a\${abc}\`, def];
-                method6(3, () => {});
-            `,
+        const method6 = (abc: number,
+          def: () => void,): [
+          string,
+          () => void
+        ] => [\`a\${abc}\`, def];
+        method6(3, () => {});
+      `,
       options: ['never'],
       parser: parser('function-paren-newline/arrow-function-return-type'),
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],

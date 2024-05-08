@@ -4,7 +4,7 @@
  */
 
 import rule from './rest-spread-spacing'
-import { $, run } from '#test'
+import { run } from '#test'
 
 run({
   name: 'rest-spread-spacing',

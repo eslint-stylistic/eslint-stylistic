@@ -1,5 +1,5 @@
 import rule from './quote-props'
-import { $, run } from '#test'
+import { run } from '#test'
 
 run({
   name: 'quote-props',
