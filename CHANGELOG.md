@@ -1,5 +1,16 @@
 # Changelog
 
+## [2.0.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v1.8.1...v2.0.0) (2024-05-08)
+
+
+### ⚠ BREAKING CHANGES
+
+* requires Node `^18.18.0 || ^20.9.0 || >=21.1.0`, bump deps ([#337](https://github.com/eslint-stylistic/eslint-stylistic/issues/337))
+
+### Features
+
+* requires Node `^18.18.0 || ^20.9.0 || &gt;=21.1.0`, bump deps ([#337](https://github.com/eslint-stylistic/eslint-stylistic/issues/337)) ([300ce2c](https://github.com/eslint-stylistic/eslint-stylistic/commit/300ce2cdf3154dcfd139e60546234ec8fd2620d2))
+
 ## [1.8.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v1.8.0...v1.8.1) (2024-05-07)
 
 
