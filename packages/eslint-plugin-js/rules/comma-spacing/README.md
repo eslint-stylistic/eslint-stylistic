@@ -2,19 +2,21 @@
 title: comma-spacing
 rule_type: layout
 related_rules:
-- array-bracket-spacing
-- comma-style
-- object-curly-spacing
-- space-in-brackets
-- space-in-parens
-- space-infix-ops
-- space-after-keywords
-- space-unary-ops
-- space-return-throw-case
+  - array-bracket-spacing
+  - comma-style
+  - object-curly-spacing
+  - space-in-brackets
+  - space-in-parens
+  - space-infix-ops
+  - space-after-keywords
+  - space-unary-ops
+  - space-return-throw-case
 further_reading:
-- https://www.crockford.com/code.html
-- https://dojotoolkit.org/reference-guide/1.9/developer/styleguide.html
+  - 'https://www.crockford.com/code.html'
+  - 'https://dojotoolkit.org/reference-guide/1.9/developer/styleguide.html'
 ---
+
+# js/comma-spacing
 
 Spacing around commas improves readability of a list of items. Although most of the style guidelines for languages prescribe adding a space after a comma and not before it, it is subjective to the preferences of a project.
 

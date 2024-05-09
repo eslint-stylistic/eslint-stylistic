@@ -3,6 +3,8 @@ title: switch-colon-spacing
 rule_type: layout
 ---
 
+# js/switch-colon-spacing
+
 Spacing around colons improves readability of `case`/`default` clauses.
 
 ## Rule Details

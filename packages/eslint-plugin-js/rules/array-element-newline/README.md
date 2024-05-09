@@ -2,15 +2,17 @@
 title: array-element-newline
 rule_type: layout
 related_rules:
-- array-bracket-spacing
-- array-bracket-newline
-- object-property-newline
-- object-curly-spacing
-- object-curly-newline
-- max-statements-per-line
-- block-spacing
-- brace-style
+  - array-bracket-spacing
+  - array-bracket-newline
+  - object-property-newline
+  - object-curly-spacing
+  - object-curly-newline
+  - max-statements-per-line
+  - block-spacing
+  - brace-style
 ---
+
+# js/array-element-newline
 
 A number of style guides require or disallow line breaks between array elements.
 

@@ -1,3 +1,5 @@
+# plus/type-generic-spacing
+
 Enforces consistent spacing inside TypeScript type generics.
 
 ## Rule Details

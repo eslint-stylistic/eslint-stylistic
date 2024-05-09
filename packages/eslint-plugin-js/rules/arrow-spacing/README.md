@@ -3,6 +3,8 @@ title: arrow-spacing
 rule_type: layout
 ---
 
+# js/arrow-spacing
+
 This rule normalize style of spacing before/after an arrow function's arrow(`=>`).
 
 ```js

@@ -2,8 +2,10 @@
 title: space-before-function-paren
 rule_type: layout
 related_rules:
-- keyword-spacing
+  - keyword-spacing
 ---
+
+# js/space-before-function-paren
 
 When formatting a function, whitespace is allowed between the function name or `function` keyword and the opening paren. Named functions also require a space between the `function` keyword and the function name, but anonymous functions require no whitespace. For example:
 

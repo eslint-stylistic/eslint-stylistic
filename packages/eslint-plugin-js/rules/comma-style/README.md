@@ -2,10 +2,12 @@
 title: comma-style
 rule_type: layout
 related_rules:
-- operator-linebreak
+  - operator-linebreak
 further_reading:
-- https://gist.github.com/isaacs/357981
+  - 'https://gist.github.com/isaacs/357981'
 ---
+
+# js/comma-style
 
 The Comma Style rule enforces styles for comma-separated lists. There are two comma styles primarily used in JavaScript:
 

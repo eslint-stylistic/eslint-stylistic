@@ -1,3 +1,5 @@
+# jsx/jsx-wrap-multilines
+
 Disallow missing parentheses around multiline JSX.
 
 Wrapping multiline JSX in parentheses can improve readability and/or convenience.

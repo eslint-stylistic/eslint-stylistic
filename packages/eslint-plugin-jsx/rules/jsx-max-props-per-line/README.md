@@ -1,3 +1,5 @@
+# jsx/jsx-max-props-per-line
+
 Enforce maximum of props on a single line in JSX.
 
 ## Rule Details

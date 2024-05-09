@@ -2,8 +2,10 @@
 title: yield-star-spacing
 rule_type: layout
 further_reading:
-- https://leanpub.com/understandinges6/read/#leanpub-auto-generators
+  - 'https://leanpub.com/understandinges6/read/#leanpub-auto-generators'
 ---
+
+# js/yield-star-spacing
 
 ## Rule Details
 

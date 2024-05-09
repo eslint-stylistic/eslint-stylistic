@@ -2,9 +2,11 @@
 title: no-confusing-arrow
 rule_type: suggestion
 related_rules:
-- no-constant-condition
-- arrow-parens
+  - no-constant-condition
+  - arrow-parens
 ---
+
+# js/no-confusing-arrow
 
 Arrow functions (`=>`) are similar in syntax to some comparison operators (`>`, `<`, `<=`, and `>=`). This rule warns against using the arrow function syntax in places where it could be confused with a comparison operator.
 

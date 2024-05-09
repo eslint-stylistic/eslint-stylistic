@@ -2,8 +2,10 @@
 title: multiline-ternary
 rule_type: layout
 related_rules:
-- operator-linebreak
+  - operator-linebreak
 ---
+
+# js/multiline-ternary
 
 JavaScript allows operands of ternary expressions to be separated by newlines, which can improve the readability of your program.
 

@@ -1,3 +1,5 @@
+# jsx/jsx-closing-tag-location
+
 Enforce the closing tag location for multiline JSX elements.
 
 ## Rule Details

@@ -3,6 +3,8 @@ title: no-tabs
 rule_type: layout
 ---
 
+# js/no-tabs
+
 Some style guides don't allow the use of tab characters at all, including within comments.
 
 ## Rule Details

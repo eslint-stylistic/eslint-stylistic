@@ -2,12 +2,15 @@
 title: no-extra-parens
 rule_type: layout
 related_rules:
-- arrow-parens
-- no-cond-assign
-- no-return-assign
+  - arrow-parens
+  - no-cond-assign
+  - no-return-assign
 further_reading:
-- https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
+  - >-
+    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
 ---
+
+# js/no-extra-parens
 
 This rule restricts the use of parentheses to only where they are necessary.
 

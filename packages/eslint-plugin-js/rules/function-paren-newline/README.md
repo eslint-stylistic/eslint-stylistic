@@ -3,6 +3,8 @@ title: function-paren-newline
 rule_type: layout
 ---
 
+# js/function-paren-newline
+
 Many style guides require or disallow newlines inside of function parentheses.
 
 ## Rule Details

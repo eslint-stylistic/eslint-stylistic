@@ -2,9 +2,11 @@
 title: padded-blocks
 rule_type: layout
 related_rules:
-- lines-between-class-members
-- padding-line-between-statements
+  - lines-between-class-members
+  - padding-line-between-statements
 ---
+
+# js/padded-blocks
 
 Some style guides require block statements to start and end with blank lines. The goal is
 to improve readability by visually separating the block content and the surrounding code.

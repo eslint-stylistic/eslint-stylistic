@@ -1,3 +1,5 @@
+# jsx/jsx-one-expression-per-line
+
 Require one JSX element per line.
 
 Note: The fixer will insert line breaks between any expression that are on the same line.
