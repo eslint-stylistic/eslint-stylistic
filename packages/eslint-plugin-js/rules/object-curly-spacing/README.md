@@ -2,11 +2,13 @@
 title: object-curly-spacing
 rule_type: layout
 related_rules:
-- array-bracket-spacing
-- comma-spacing
-- computed-property-spacing
-- space-in-parens
+  - array-bracket-spacing
+  - comma-spacing
+  - computed-property-spacing
+  - space-in-parens
 ---
+
+# js/object-curly-spacing
 
 While formatting preferences are very personal, a number of style guides require
 or disallow spaces between curly braces in the following situations:

@@ -3,6 +3,8 @@ title: quotes
 rule_type: layout
 ---
 
+# js/quotes
+
 JavaScript allows you to define strings in one of three ways: double quotes, single quotes, and backticks (as of ECMAScript 6). For example:
 
 ```js

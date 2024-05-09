@@ -2,9 +2,11 @@
 title: quote-props
 rule_type: suggestion
 further_reading:
-- https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names
-- https://mathiasbynens.be/notes/javascript-properties
+  - 'https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names'
+  - 'https://mathiasbynens.be/notes/javascript-properties'
 ---
+
+# js/quote-props
 
 Object literal property names can be defined in two ways: using literals or using strings. For example, these two objects are equivalent:
 

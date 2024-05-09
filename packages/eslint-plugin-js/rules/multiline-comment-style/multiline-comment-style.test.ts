@@ -2,13 +2,12 @@
  * @fileoverview enforce a particular style for multiline comments
  * @author Teddy Katz
  */
-import { RuleTester } from 'eslint'
 import rule from './multiline-comment-style'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('multiline-comment-style', rule, {
-
+run({
+  name: 'multiline-comment-style',
+  rule,
   valid: [
         `
             /*

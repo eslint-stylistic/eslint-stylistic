@@ -3,6 +3,8 @@ title: key-spacing
 rule_type: layout
 ---
 
+# js/key-spacing
+
 This rule enforces spacing around the colon in object literal properties. It can verify each property individually, or it can ensure horizontal alignment of adjacent properties in an object literal.
 
 ## Rule Details

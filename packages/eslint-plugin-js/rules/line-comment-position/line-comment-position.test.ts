@@ -3,12 +3,16 @@
  * @author Alberto Rodríguez
  */
 
-import { RuleTester } from 'eslint'
 import rule from './line-comment-position'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
+run({
+  name: 'line-comment-position',
+  rule,
 
-ruleTester.run('line-comment-position', rule, {
+  linterOptions: {
+    reportUnusedDisableDirectives: false,
+  },
 
   valid: [
     '// valid comment\n1 + 1;',
