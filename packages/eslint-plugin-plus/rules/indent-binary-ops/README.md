@@ -1,3 +1,5 @@
+# plus/indent-binary-ops
+
 ## Rule Details
 
 Indentation for binary operators in multiline expressions.

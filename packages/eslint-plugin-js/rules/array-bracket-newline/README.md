@@ -2,8 +2,10 @@
 title: array-bracket-newline
 rule_type: layout
 related_rules:
-- array-bracket-spacing
+  - array-bracket-spacing
 ---
+
+# js/array-bracket-newline
 
 A number of style guides require or disallow line breaks inside of array brackets.
 

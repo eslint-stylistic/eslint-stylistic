@@ -3,6 +3,8 @@ title: newline-per-chained-call
 rule_type: layout
 ---
 
+# js/newline-per-chained-call
+
 Chained method calls on a single line without line breaks are harder to read, so some developers place a newline character after each method call in the chain to make it more readable and easy to maintain.
 
 Let's look at the following perfectly valid (but single line) code.

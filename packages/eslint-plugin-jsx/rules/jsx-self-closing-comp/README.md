@@ -1,3 +1,5 @@
+# jsx/jsx-self-closing-comp
+
 Disallow extra closing tags for components without children.
 
 Components without children can be self-closed to avoid unnecessary extra closing tag.

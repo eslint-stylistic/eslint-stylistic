@@ -1,3 +1,5 @@
+# jsx/jsx-function-call-newline
+
 Enforce line breaks before and after JSX elements when they are used as arguments to a function.
 
 ## Rule Details

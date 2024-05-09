@@ -3,6 +3,8 @@ title: template-curly-spacing
 rule_type: layout
 ---
 
+# js/template-curly-spacing
+
 We can embed expressions in template strings with using a pair of `${` and `}`.
 
 This rule can force usage of spacing _within_ the curly brace pair according to style guides.

@@ -2,8 +2,10 @@
 title: implicit-arrow-linebreak
 rule_type: layout
 related_rules:
-- brace-style
+  - brace-style
 ---
+
+# js/implicit-arrow-linebreak
 
 An arrow function body can contain an implicit return as an expression instead of a block body. It can be useful to enforce a consistent location for the implicitly returned expression.
 

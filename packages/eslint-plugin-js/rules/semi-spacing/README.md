@@ -2,12 +2,14 @@
 title: semi-spacing
 rule_type: layout
 related_rules:
-- semi
-- no-extra-semi
-- comma-spacing
-- block-spacing
-- space-in-parens
+  - semi
+  - no-extra-semi
+  - comma-spacing
+  - block-spacing
+  - space-in-parens
 ---
+
+# js/semi-spacing
 
 JavaScript allows you to place unnecessary spaces before or after a semicolon.
 

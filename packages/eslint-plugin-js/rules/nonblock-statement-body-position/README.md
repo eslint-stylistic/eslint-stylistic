@@ -2,8 +2,10 @@
 title: nonblock-statement-body-position
 rule_type: layout
 further_reading:
-- https://jscs-dev.github.io/rule/requireNewlineBeforeSingleStatementsInIf
+  - 'https://jscs-dev.github.io/rule/requireNewlineBeforeSingleStatementsInIf'
 ---
+
+# js/nonblock-statement-body-position
 
 When writing `if`, `else`, `while`, `do-while`, and `for` statements, the body can be a single statement instead of a block. It can be useful to enforce a consistent location for these single statements.
 

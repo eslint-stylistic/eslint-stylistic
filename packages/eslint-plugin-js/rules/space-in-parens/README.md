@@ -2,10 +2,12 @@
 title: space-in-parens
 rule_type: layout
 related_rules:
-- array-bracket-spacing
-- object-curly-spacing
-- computed-property-spacing
+  - array-bracket-spacing
+  - object-curly-spacing
+  - computed-property-spacing
 ---
+
+# js/space-in-parens
 
 Some style guides require or disallow spaces inside of parentheses:
 

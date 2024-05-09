@@ -2,8 +2,10 @@
 title: one-var-declaration-per-line
 rule_type: suggestion
 related_rules:
-- one-var
+  - one-var
 ---
+
+# js/one-var-declaration-per-line
 
 Some developers declare multiple var statements on the same line:
 

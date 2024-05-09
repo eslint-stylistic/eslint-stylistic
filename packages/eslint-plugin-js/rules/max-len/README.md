@@ -2,12 +2,14 @@
 title: max-len
 rule_type: layout
 related_rules:
-- complexity
-- max-depth
-- max-nested-callbacks
-- max-params
-- max-statements
+  - complexity
+  - max-depth
+  - max-nested-callbacks
+  - max-params
+  - max-statements
 ---
+
+# js/max-len
 
 Very long lines of code in any language can be difficult to read. In order to aid in readability and maintainability many coders have developed a convention to limit lines of code to X number of characters (traditionally 80 characters).
 

@@ -2,10 +2,12 @@
 title: computed-property-spacing
 rule_type: layout
 related_rules:
-- array-bracket-spacing
-- comma-spacing
-- space-in-parens
+  - array-bracket-spacing
+  - comma-spacing
+  - space-in-parens
 ---
+
+# js/computed-property-spacing
 
 While formatting preferences are very personal, a number of style guides require
 or disallow spaces between computed properties in the following situations:

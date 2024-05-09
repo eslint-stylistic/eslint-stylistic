@@ -1,3 +1,5 @@
+# jsx/jsx-sort-props
+
 Enforce props alphabetical sorting.
 
 Some developers prefer to sort props names alphabetically to be able to find necessary props easier at the later time. Others feel that it adds complexity and becomes burden to maintain.
