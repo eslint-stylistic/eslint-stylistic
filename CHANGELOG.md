@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.1.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.0.0...v2.1.0) (2024-05-09)
+
+
+### Features
+
+* **js:** port `multiline-comment-style` and `line-comment-position` ([#389](https://github.com/eslint-stylistic/eslint-stylistic/issues/389)) ([e3212fe](https://github.com/eslint-stylistic/eslint-stylistic/commit/e3212fe2e9daca4e1be69751654eb3c0c1176929))
+
 ## [2.0.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v1.8.1...v2.0.0) (2024-05-08)
 
 
