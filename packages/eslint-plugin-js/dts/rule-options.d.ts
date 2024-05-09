@@ -22,11 +22,13 @@ import type { RuleOptions as IndentRuleOptions } from '../rules/indent/types'
 import type { RuleOptions as JsxQuotesRuleOptions } from '../rules/jsx-quotes/types'
 import type { RuleOptions as KeySpacingRuleOptions } from '../rules/key-spacing/types'
 import type { RuleOptions as KeywordSpacingRuleOptions } from '../rules/keyword-spacing/types'
+import type { RuleOptions as LineCommentPositionRuleOptions } from '../rules/line-comment-position/types'
 import type { RuleOptions as LinebreakStyleRuleOptions } from '../rules/linebreak-style/types'
 import type { RuleOptions as LinesAroundCommentRuleOptions } from '../rules/lines-around-comment/types'
 import type { RuleOptions as LinesBetweenClassMembersRuleOptions } from '../rules/lines-between-class-members/types'
 import type { RuleOptions as MaxLenRuleOptions } from '../rules/max-len/types'
 import type { RuleOptions as MaxStatementsPerLineRuleOptions } from '../rules/max-statements-per-line/types'
+import type { RuleOptions as MultilineCommentStyleRuleOptions } from '../rules/multiline-comment-style/types'
 import type { RuleOptions as MultilineTernaryRuleOptions } from '../rules/multiline-ternary/types'
 import type { RuleOptions as NewParensRuleOptions } from '../rules/new-parens/types'
 import type { RuleOptions as NewlinePerChainedCallRuleOptions } from '../rules/newline-per-chained-call/types'
@@ -185,6 +187,11 @@ export interface RuleOptions {
    */
   '@stylistic/js/keyword-spacing': KeywordSpacingRuleOptions
   /**
+   * Enforce position of line comments
+   * @see https://eslint.style/rules/js/line-comment-position
+   */
+  '@stylistic/js/line-comment-position': LineCommentPositionRuleOptions
+  /**
    * Enforce consistent linebreak style
    * @see https://eslint.style/rules/js/linebreak-style
    */
@@ -209,6 +216,11 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/js/max-statements-per-line
    */
   '@stylistic/js/max-statements-per-line': MaxStatementsPerLineRuleOptions
+  /**
+   * Enforce a particular style for multiline comments
+   * @see https://eslint.style/rules/js/multiline-comment-style
+   */
+  '@stylistic/js/multiline-comment-style': MultilineCommentStyleRuleOptions
   /**
    * Enforce newlines between operands of ternary expressions
    * @see https://eslint.style/rules/js/multiline-ternary
@@ -528,6 +540,11 @@ export interface UnprefixedRuleOptions {
    */
   'keyword-spacing': KeywordSpacingRuleOptions
   /**
+   * Enforce position of line comments
+   * @see https://eslint.style/rules/js/line-comment-position
+   */
+  'line-comment-position': LineCommentPositionRuleOptions
+  /**
    * Enforce consistent linebreak style
    * @see https://eslint.style/rules/js/linebreak-style
    */
@@ -552,6 +569,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/js/max-statements-per-line
    */
   'max-statements-per-line': MaxStatementsPerLineRuleOptions
+  /**
+   * Enforce a particular style for multiline comments
+   * @see https://eslint.style/rules/js/multiline-comment-style
+   */
+  'multiline-comment-style': MultilineCommentStyleRuleOptions
   /**
    * Enforce newlines between operands of ternary expressions
    * @see https://eslint.style/rules/js/multiline-ternary

@@ -332,6 +332,19 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "line-comment-position",
+        "ruleId": "@stylistic/js/line-comment-position",
+        "originalId": "line-comment-position",
+        "entry": "packages/eslint-plugin-js/rules/line-comment-position/line-comment-position.ts",
+        "docsEntry": "packages/eslint-plugin-js/rules/line-comment-position/README.md",
+        "meta": {
+          "docs": {
+            "description": "Enforce position of line comments",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "linebreak-style",
         "ruleId": "@stylistic/js/linebreak-style",
         "originalId": "linebreak-style",
@@ -396,6 +409,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "docs": {
             "description": "Enforce a maximum number of statements allowed per line",
             "recommended": true
+          }
+        }
+      },
+      {
+        "name": "multiline-comment-style",
+        "ruleId": "@stylistic/js/multiline-comment-style",
+        "originalId": "multiline-comment-style",
+        "entry": "packages/eslint-plugin-js/rules/multiline-comment-style/multiline-comment-style.ts",
+        "docsEntry": "packages/eslint-plugin-js/rules/multiline-comment-style/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce a particular style for multiline comments",
+            "recommended": false
           }
         }
       },
@@ -2252,6 +2279,19 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "line-comment-position",
+        "ruleId": "@stylistic/line-comment-position",
+        "originalId": "line-comment-position",
+        "entry": "packages/eslint-plugin-js/rules/line-comment-position/line-comment-position.ts",
+        "docsEntry": "packages/eslint-plugin-js/rules/line-comment-position/README.md",
+        "meta": {
+          "docs": {
+            "description": "Enforce position of line comments",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "linebreak-style",
         "ruleId": "@stylistic/linebreak-style",
         "originalId": "linebreak-style",
@@ -2330,6 +2370,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "docs": {
             "description": "Require a specific member delimiter style for interfaces and type literals",
             "recommended": true
+          }
+        }
+      },
+      {
+        "name": "multiline-comment-style",
+        "ruleId": "@stylistic/multiline-comment-style",
+        "originalId": "multiline-comment-style",
+        "entry": "packages/eslint-plugin-js/rules/multiline-comment-style/multiline-comment-style.ts",
+        "docsEntry": "packages/eslint-plugin-js/rules/multiline-comment-style/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce a particular style for multiline comments",
+            "recommended": false
           }
         }
       },
