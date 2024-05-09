@@ -22,7 +22,7 @@
     "play:lint": "pnpm -C playground run lint"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.16.4",
+    "@antfu/eslint-config": "^2.17.0",
     "@antfu/eslint-define-config": "1.23.0-2",
     "@antfu/ni": "^0.21.12",
     "@antfu/utils": "^0.7.8",
@@ -30,8 +30,8 @@
     "@iconify-json/ri": "^1.1.20",
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "@shikijs/twoslash": "^1.4.0",
-    "@shikijs/vitepress-twoslash": "^1.4.0",
+    "@shikijs/twoslash": "^1.5.0",
+    "@shikijs/vitepress-twoslash": "^1.5.0",
     "@stylistic/eslint-plugin": "workspace:*",
     "@stylistic/eslint-plugin-js": "workspace:*",
     "@stylistic/eslint-plugin-migrate": "workspace:*",
@@ -69,7 +69,7 @@
     "rollup-plugin-dts": "^6.1.0",
     "rollup-plugin-esbuild": "^6.1.1",
     "semver": "^7.6.1",
-    "shiki": "^1.4.0",
+    "shiki": "^1.5.0",
     "simple-git-hooks": "^2.11.1",
     "taze": "^0.13.8",
     "tsx": "^4.9.3",
