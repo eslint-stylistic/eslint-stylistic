@@ -17,6 +17,8 @@ run({
     { code: 'var foo = "bar";', options: ['double'] },
     { code: 'var foo = 1;', options: ['single'] },
     { code: 'var foo = 1;', options: ['double'] },
+    { code: 'var foo = \'bar\';', options: ['double', { ignoreStringLiterals: true }] },
+    { code: 'var foo = "bar";', options: ['single', { ignoreStringLiterals: true }] },
     { code: 'var foo = "\'";', options: ['single', { avoidEscape: true }] },
     { code: 'var foo = \'"\';', options: ['double', { avoidEscape: true }] },
     { code: 'var foo = <>Hello world</>;', options: ['single'], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
@@ -108,6 +110,19 @@ run({
       code: 'var foo = `bar`;',
       output: 'var foo = \'bar\';',
       options: ['single'],
+      parserOptions: {
+        ecmaVersion: 6,
+      },
+      errors: [{
+        messageId: 'wrongQuotes',
+        data: { description: 'singlequote' },
+        type: 'TemplateLiteral',
+      }],
+    },
+    {
+      code: 'var foo = `bar`;',
+      output: 'var foo = \'bar\';',
+      options: ['single', { ignoreStringLiterals: true }],
       parserOptions: {
         ecmaVersion: 6,
       },

@@ -61,6 +61,14 @@ run({
       options: ['double'],
     },
     {
+      code: 'var foo = \'bar\';',
+      options: ['double', { ignoreStringLiterals: true }],
+    },
+    {
+      code: 'var foo = "bar";',
+      options: ['single', { ignoreStringLiterals: true }],
+    },
+    {
       code: 'var foo = "\'";',
       options: [
         'single',
@@ -532,6 +540,19 @@ run({
       output: 'var foo = \'bar\';',
       options: ['single'],
       errors: [useSingleQuote],
+    },
+    {
+      code: 'var foo = `bar`;',
+      output: 'var foo = \'bar\';',
+      options: ['single', { ignoreStringLiterals: true }],
+      parserOptions: {
+        ecmaVersion: 6,
+      },
+      errors: [{
+        messageId: 'wrongQuotes',
+        data: { description: 'singlequote' },
+        type: 'TemplateLiteral',
+      }],
     },
     {
       code: 'var foo = \'don\\\'t\';',
