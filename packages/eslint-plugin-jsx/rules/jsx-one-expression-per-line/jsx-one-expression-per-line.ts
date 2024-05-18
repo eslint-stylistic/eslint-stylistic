@@ -38,7 +38,7 @@ export default createRule<MessageIds, RuleOptions>({
         properties: {
           allow: {
             type: 'string',
-            enum: ['none', 'literal', 'single-child', 'single-line'],
+            enum: ['none', 'literal', 'single-child', 'single-line', 'non-jsx'],
           },
         },
         default: optionDefaults,
@@ -64,6 +64,12 @@ export default createRule<MessageIds, RuleOptions>({
       const children = node.children as Child[]
 
       if (!children || !children.length)
+        return
+
+      if (
+        options.allow === 'non-jsx'
+        && !children.find(child => (child.type === 'JSXFragment' || child.type === 'JSXElement'))
+      )
         return
 
       const openingElement = (<Tree.JSXElement>node).openingElement || (<Tree.JSXFragment>node).openingFragment

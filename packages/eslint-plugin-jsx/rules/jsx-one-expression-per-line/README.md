@@ -112,7 +112,7 @@ Examples of **correct** code for this rule:
 
 ```js
 ...
-"@stylistic/jsx/jsx-one-expression-per-line": [<enabled>, { "allow": "none"|"literal"|"single-child" }]
+"@stylistic/jsx/jsx-one-expression-per-line": [<enabled>, { "allow": "none"|"literal"|"single-child"|"non-jsx" }]
 ...
 ```
 
@@ -145,5 +145,19 @@ Examples of **correct** code for this rule, when configured as `"single-line"`:
 
 <App>
   <Hello /> <ESLint />
+</App>
+```
+
+Examples of **correct** code for this rule, when configured as `"non-jsx"`:
+
+```jsx
+<App>Hello {someVariable}</App>
+
+<App>Hello {<Hello />} there!</App>
+
+<App>
+  Hello
+  <Hello />
+  there!
 </App>
 ```

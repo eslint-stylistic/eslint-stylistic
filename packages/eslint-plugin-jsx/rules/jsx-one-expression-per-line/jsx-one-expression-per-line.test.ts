@@ -144,6 +144,22 @@ run({
       options: [{ allow: 'single-child' }],
     },
     {
+      code: '<App>123</App>',
+      options: [{ allow: 'non-jsx' }],
+    },
+    {
+      code: '<App>foo</App>',
+      options: [{ allow: 'non-jsx' }],
+    },
+    {
+      code: '<App>{"foo"}</App>',
+      options: [{ allow: 'non-jsx' }],
+    },
+    {
+      code: '<App>{<Bar />}</App>',
+      options: [{ allow: 'non-jsx' }],
+    },
+    {
       code: '<App>{foo && <Bar />}</App>',
       options: [{ allow: 'single-child' }],
     },
@@ -171,6 +187,56 @@ run({
         </>
       `,
       features: ['fragment', 'no-ts-old'], // TODO: FIXME: remove no-ts-old and fix
+    },
+    {
+      code: '<App>Hello {name}</App>',
+      options: [{ allow: 'non-jsx' }],
+    },
+    {
+      code: `
+        <App>
+          Hello {name} there!
+        </App>`,
+      options: [{ allow: 'non-jsx' }],
+    },
+    {
+      code: `
+        <App>
+          Hello {<Bar />} there!
+        </App>`,
+      options: [{ allow: 'non-jsx' }],
+    },
+    {
+      code: `
+        <App>
+          Hello {(<Bar />)} there!
+        </App>`,
+      options: [{ allow: 'non-jsx' }],
+    },
+    {
+      code: `
+        <App>
+          Hello {(() => <Bar />)()} there!
+        </App>`,
+      options: [{ allow: 'non-jsx' }],
+    },
+    {
+      code: `<>
+               123
+               <Foo/>
+             </>`,
+      options: [{ allow: 'non-jsx' }],
+    },
+    {
+      code: `
+        <>
+          <Foo/>
+            Bar
+            <Baz>
+          </Baz>
+        </>
+      `,
+      options: [{ allow: 'non-jsx' }],
     },
     {
       code: '<App>{"foo"}</App>',
@@ -530,6 +596,27 @@ foo
           data: { descriptor: 'Baz' },
         },
       ],
+    },
+    {
+      code: `
+        <Text style={styles.foo}>
+          <Bar /> <Baz />
+        </Text>
+      `,
+      output: `
+        <Text style={styles.foo}>
+          <Bar />${' '/* intentional trailing space */}
+{' '}
+<Baz />
+        </Text>
+      `,
+      errors: [
+        {
+          messageId: 'moveToNewLine',
+          data: { descriptor: 'Baz' },
+        },
+      ],
+      options: [{ allow: 'non-jsx' }],
     },
     {
       code: `
@@ -1247,6 +1334,23 @@ foo
     },
     {
       code: `
+        <App><Foo /></App>
+      `,
+      output: `
+        <App>
+<Foo />
+</App>
+      `,
+      options: [{ allow: 'non-jsx' }],
+      errors: [
+        {
+          messageId: 'moveToNewLine',
+          data: { descriptor: 'Foo' },
+        },
+      ],
+    },
+    {
+      code: `
         <App
           foo="1"
           bar="2"
@@ -1546,6 +1650,34 @@ Go to page 2
           data: { descriptor: 'Go to page 2' },
         },
       ],
+    },
+    {
+      code: `
+<Layout>
+  <div style={{ maxWidth: \`300px\`, marginBottom: \`1.45rem\` }}><Image /></div>{'Bar'}
+  <Link to="/page-2/">Go to page 2</Link>
+</Layout>
+      `,
+      output: `
+<Layout>
+  <div style={{ maxWidth: \`300px\`, marginBottom: \`1.45rem\` }}>
+<Image />
+</div>
+{'Bar'}
+  <Link to="/page-2/">Go to page 2</Link>
+</Layout>
+      `,
+      errors: [
+        {
+          messageId: 'moveToNewLine',
+          data: { descriptor: 'Image' },
+        },
+        {
+          messageId: 'moveToNewLine',
+          data: { descriptor: '{\'Bar\'}' },
+        },
+      ],
+      options: [{ allow: 'non-jsx' }],
     },
     {
       code: `
