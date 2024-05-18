@@ -7,6 +7,7 @@ export type Schema1 =
   | {
     avoidEscape?: boolean
     allowTemplateLiterals?: boolean
+    ignoreStringLiterals?: boolean
   }
 
 export type RuleOptions = [Schema0?, Schema1?]

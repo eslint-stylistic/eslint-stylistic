@@ -39,6 +39,7 @@ Object option:
 
 - `"avoidEscape": true` allows strings to use single-quotes or double-quotes so long as the string contains a quote that would have to be escaped otherwise
 - `"allowTemplateLiterals": true` allows strings to use backticks
+- `"ignoreStringLiterals": true` don’t report string literals, only template strings
 
 **Deprecated**: The object property `avoid-escape` is deprecated; please use the object property `avoidEscape` instead.
 

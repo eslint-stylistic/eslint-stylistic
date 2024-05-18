@@ -26,6 +26,7 @@ export default createRule<RuleOptions, MessageIds>({
     {
       allowTemplateLiterals: false,
       avoidEscape: false,
+      ignoreStringLiterals: false,
     },
   ],
   create(context, [option]) {
