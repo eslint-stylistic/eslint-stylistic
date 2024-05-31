@@ -87,6 +87,24 @@ run({
       ],
     },
     {
+      code: 'var foo = `\'`;',
+      options: [
+        'single',
+        {
+          avoidEscape: true,
+        },
+      ],
+    },
+    {
+      code: 'var foo = `"`;',
+      options: [
+        'double',
+        {
+          avoidEscape: true,
+        },
+      ],
+    },
+    {
       code: 'var foo = <>Hello world</>;',
       options: ['single'],
       parserOptions: {
@@ -589,6 +607,24 @@ run({
           avoidEscape: true,
         },
       ],
+      errors: [useSingleQuote],
+    },
+    {
+      code: 'var foo = `"`;',
+      output: 'var foo = "\\\"";',
+      options: ['double'],
+      parserOptions: {
+        ecmaVersion: 6,
+      },
+      errors: [useDoubleQuote],
+    },
+    {
+      code: 'var foo = `\'`;',
+      output: 'var foo = \'\\\'\';',
+      options: ['single'],
+      parserOptions: {
+        ecmaVersion: 6,
+      },
       errors: [useSingleQuote],
     },
     {

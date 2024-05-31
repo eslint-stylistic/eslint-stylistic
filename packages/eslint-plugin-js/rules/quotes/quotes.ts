@@ -322,6 +322,9 @@ export default createRule<MessageIds, RuleOptions>({
         )
           return
 
+        if (avoidEscape && sourceCode.getText(node).includes(settings.quote))
+          return
+
         context.report({
           node,
           messageId: 'wrongQuotes',
