@@ -21,6 +21,8 @@ run({
     { code: 'var foo = "bar";', options: ['single', { ignoreStringLiterals: true }] },
     { code: 'var foo = "\'";', options: ['single', { avoidEscape: true }] },
     { code: 'var foo = \'"\';', options: ['double', { avoidEscape: true }] },
+    { code: 'var foo = `\'`;', options: ['single', { avoidEscape: true }] },
+    { code: 'var foo = `"`;', options: ['double', { avoidEscape: true }] },
     { code: 'var foo = <>Hello world</>;', options: ['single'], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
     { code: 'var foo = <>Hello world</>;', options: ['double'], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
     { code: 'var foo = <>Hello world</>;', options: ['double', { avoidEscape: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
@@ -180,6 +182,32 @@ run({
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
+        type: 'TemplateLiteral',
+      }],
+    },
+    {
+      code: 'var foo = `"`;',
+      output: 'var foo = "\\\"";',
+      options: ['double'],
+      parserOptions: {
+        ecmaVersion: 6,
+      },
+      errors: [{
+        messageId: 'wrongQuotes',
+        data: { description: 'doublequote' },
+        type: 'TemplateLiteral',
+      }],
+    },
+    {
+      code: 'var foo = `\'`;',
+      output: 'var foo = \'\\\'\';',
+      options: ['single'],
+      parserOptions: {
+        ecmaVersion: 6,
+      },
+      errors: [{
+        messageId: 'wrongQuotes',
+        data: { description: 'singlequote' },
         type: 'TemplateLiteral',
       }],
     },
