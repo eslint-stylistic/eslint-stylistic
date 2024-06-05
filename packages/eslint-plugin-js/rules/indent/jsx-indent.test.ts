@@ -337,7 +337,7 @@ run({
             bar <div>
                 bar
                 bar {foo}
-                    bar </div>
+                bar </div>
         </div>
       `,
     },
@@ -347,7 +347,7 @@ run({
             bar <>
                 bar
                 bar {foo}
-                    bar </>
+                bar </>
         </>
       `,
       features: ['fragment'],

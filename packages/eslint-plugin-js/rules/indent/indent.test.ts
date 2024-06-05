@@ -4233,27 +4233,27 @@ run({
     $`
       <a
           href="foo">
-              bar
+          bar
       </a>;
     `,
     $`
       <
           a
           href="foo">
-              bar
+          bar
       </a>;
     `,
     $`
       <a
           href="foo">
-              bar
+          bar
       </
           a>;
     `,
     $`
       <a
           href="foo">
-              bar
+          bar
       </a
       >;
     `,
@@ -4272,34 +4272,34 @@ run({
     $`
       var foo = <a
           href="bar">
-              baz
+          baz
       </a>;
     `,
     $`
       var foo = <
           a
           href="bar">
-              baz
+          baz
       </a>;
     `,
     $`
       var foo = <a
           href="bar">
-              baz
+          baz
       </
           a>;
     `,
     $`
       var foo = <a
           href="bar">
-              baz
+          baz
       </a
       >
     `,
     $`
       var foo = (<a
           href="bar">
-              baz
+          baz
       </a>);
     `,
     $`
@@ -4318,7 +4318,7 @@ run({
       var foo = (
           <a
               href="bar">
-                  baz
+              baz
           </a>
       );
     `,
@@ -4526,7 +4526,7 @@ run({
           bar <div>
               bar
               bar {foo}
-                  bar </div>
+              bar </div>
       </div>
     `,
     $`
@@ -5217,7 +5217,7 @@ run({
         <foo
             prop='bar'
             >
-                Text
+            Text
         </foo>
       `,
       options: [4, { ignoredNodes: ['JSXOpeningElement'] }],
@@ -10820,41 +10820,16 @@ run({
               size={size}
               onClick={onClick}
             >
-                                              Button Text
-            </Button>
-          );
-        };
-      `,
-      options: [2],
-      errors: expectedErrors([6, 4, 36, 'Punctuator']),
-    },
-    {
-      code: $`
-        const Button = function(props) {
-          return (
-            <Button
-              size={size}
-              onClick={onClick}
-            >
-                                              Button Text
-            </Button>
-          );
-        };
-      `,
-      output: $`
-        const Button = function(props) {
-          return (
-            <Button
-              size={size}
-              onClick={onClick}
-            >
               Button Text
             </Button>
           );
         };
       `,
       options: [2],
-      errors: expectedErrors([6, 6, 38, 'JSXText']),
+      errors: expectedErrors([
+        [6, 4, 36, 'Punctuator'],
+        [6, 6, 38, 'JSXText'],
+      ]),
     },
     {
       code: $`

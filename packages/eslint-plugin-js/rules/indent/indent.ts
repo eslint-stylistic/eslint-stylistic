@@ -1716,7 +1716,7 @@ export default createRule<MessageIds, RuleOptions>({
         match => (match[1] ? match[1].length : 0),
       )
       const hasFirstInLineNode = nodeIndentsPerLine.length > 0
-      const parentNodeIndent = getNodeIndent(node)
+      const parentNodeIndent = getNodeIndent(node.parent)
       const indent = parentNodeIndent + indentSize
       if (
         hasFirstInLineNode
