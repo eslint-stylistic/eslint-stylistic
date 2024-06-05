@@ -26,9 +26,9 @@ interface ErrorOutput {
 /**
  * Create error message object for failure cases with a single 'found' indentation type
  */
-function expectedErrors(providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
-function expectedErrors(providedIndentType: 'space' | 'tab', providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
-function expectedErrors(providedIndentType: any, providedErrors?: any): ErrorOutput[] {
+export function expectedErrors(providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
+export function expectedErrors(providedIndentType: 'space' | 'tab', providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
+export function expectedErrors(providedIndentType: any, providedErrors?: any): ErrorOutput[] {
   let indentType: 'space' | 'tab'
   let errors: Array<[number, number, number, string]>
 
@@ -265,7 +265,7 @@ run({
       // https://github.com/eslint/eslint/issues/11802
       code: $`
         import foo from "foo"
-        
+
         ;(() => {})()
       `,
       options: [4],
@@ -297,7 +297,7 @@ run({
         var Command = function() {
           var fileList = [],
               files = []
-        
+
           files.concat(fileList)
         };
       `,
@@ -1329,7 +1329,7 @@ run({
       code: $`
         const YO = 'bah',
               TE = 'mah'
-        
+
         var res,
             a = 5,
             b = 4
@@ -1340,11 +1340,11 @@ run({
       code: $`
         const YO = 'bah',
               TE = 'mah'
-        
+
         var res,
             a = 5,
             b = 4
-        
+
         if (YO) console.log(TE)
       `,
       options: [2, { VariableDeclarator: { var: 2, let: 2, const: 3 } }],
@@ -1354,11 +1354,11 @@ run({
         var foo = 'foo',
           bar = 'bar',
           baz = function() {
-        
+
           }
-        
+
         function hello () {
-        
+
         }
       `,
       options: [2],
@@ -1771,7 +1771,7 @@ run({
           function() {
             return true;
           }()) {
-        
+
           x = x + 1;
         };
       `,
@@ -3575,7 +3575,7 @@ run({
     `,
     $`
       if (foo) bar()
-      
+
       ; [1, 2, 3].map(baz)
     `,
     $`
@@ -3712,7 +3712,7 @@ run({
           {
               foo();
           }
-      
+
           bar()
           {
               baz();
@@ -3727,7 +3727,7 @@ run({
           {
               foo();
           }
-      
+
           bar()
           {
               baz();
@@ -3742,7 +3742,7 @@ run({
               {
                   foo();
               }
-      
+
               bar()
               {
                   baz();
@@ -4016,7 +4016,7 @@ run({
         namespace Foo {
             const bar = 3,
                 baz = 2;
-        
+
             if (true) {
                 const bax = 3;
             }
@@ -4030,11 +4030,11 @@ run({
             public bar() {
                 let aaa = 4,
                     boo;
-        
+
                 if (true) {
                     boo = 3;
                 }
-        
+
                 boo = 3 + 2;
             }
         }
@@ -4233,27 +4233,27 @@ run({
     $`
       <a
           href="foo">
-          bar
+              bar
       </a>;
     `,
     $`
       <
           a
           href="foo">
-          bar
+              bar
       </a>;
     `,
     $`
       <a
           href="foo">
-          bar
+              bar
       </
           a>;
     `,
     $`
       <a
           href="foo">
-          bar
+              bar
       </a
       >;
     `,
@@ -4272,34 +4272,34 @@ run({
     $`
       var foo = <a
           href="bar">
-          baz
+              baz
       </a>;
     `,
     $`
       var foo = <
           a
           href="bar">
-          baz
+              baz
       </a>;
     `,
     $`
       var foo = <a
           href="bar">
-          baz
+              baz
       </
           a>;
     `,
     $`
       var foo = <a
           href="bar">
-          baz
+              baz
       </a
       >
     `,
     $`
       var foo = (<a
           href="bar">
-          baz
+              baz
       </a>);
     `,
     $`
@@ -4318,7 +4318,7 @@ run({
       var foo = (
           <a
               href="bar">
-              baz
+                  baz
           </a>
       );
     `,
@@ -4523,10 +4523,10 @@ run({
     `,
     $`
       <div>
-      bar <div>
-          bar
-          bar {foo}
-      bar </div>
+          bar <div>
+              bar
+              bar {foo}
+                  bar </div>
       </div>
     `,
     $`
@@ -4747,7 +4747,7 @@ run({
     `,
     $`
       <div>
-         unrelated{
+          unrelated{
               foo
           }
       </div>
@@ -5134,10 +5134,10 @@ run({
     {
       code: $`
         $(function() {
-        
+
         foo();
         bar();
-        
+
         });
       `,
       options: [4, {
@@ -5217,7 +5217,7 @@ run({
         <foo
             prop='bar'
             >
-            Text
+                Text
         </foo>
       `,
       options: [4, { ignoredNodes: ['JSXOpeningElement'] }],
@@ -5252,7 +5252,7 @@ run({
       code: $`
         if (foo) {
             doSomething();
-        
+
         // Intentionally unindented comment
             doSomethingElse();
         }
@@ -5263,7 +5263,7 @@ run({
       code: $`
         if (foo) {
             doSomething();
-        
+
         /* Intentionally unindented comment */
             doSomethingElse();
         }
@@ -5302,18 +5302,18 @@ run({
     `,
     $`
       if (foo) {
-      
+
           // Comment can be in correct alignment even if gaps between (and not aligned with) code above/below
-      
+
       }
     `,
     $`
       [{
           foo
       },
-      
+
       // Comment between nodes
-      
+
       {
           bar
       }];
@@ -5322,29 +5322,29 @@ run({
       [{
           foo
       },
-      
+
       // Comment between nodes
-      
+
       { // comment
           bar
       }];
     `,
     $`
       let foo
-      
+
       // comment
-      
+
       ;(async () => {})()
     `,
     $`
       let foo
       // comment
-      
+
       ;(async () => {})()
     `,
     $`
       let foo
-      
+
       // comment
       ;(async () => {})()
     `,
@@ -5355,20 +5355,20 @@ run({
     `,
     $`
       let foo
-      
+
           /* comment */;
-      
+
       (async () => {})()
     `,
     $`
       let foo
           /* comment */;
-      
+
       (async () => {})()
     `,
     $`
       let foo
-      
+
           /* comment */;
       (async () => {})()
     `,
@@ -5380,7 +5380,7 @@ run({
     $`
       let foo
       /* comment */;
-      
+
       (async () => {})()
     `,
     $`
@@ -5390,7 +5390,7 @@ run({
     `,
     $`
       // comment
-      
+
       ;(async () => {})()
     `,
     $`
@@ -5400,9 +5400,9 @@ run({
     $`
       {
           let foo
-      
+
           // comment
-      
+
           ;(async () => {})()
       }
     `,
@@ -5416,7 +5416,7 @@ run({
     $`
       {
           // comment
-      
+
           ;(async () => {})()
       }
     `,
@@ -5429,22 +5429,22 @@ run({
     $`
       const foo = 1
       const bar = foo
-      
+
       /* comment */
-      
+
       ;[1, 2, 3].forEach(() => {})
     `,
     $`
       const foo = 1
       const bar = foo
       /* comment */
-      
+
       ;[1, 2, 3].forEach(() => {})
     `,
     $`
       const foo = 1
       const bar = foo
-      
+
       /* comment */
       ;[1, 2, 3].forEach(() => {})
     `,
@@ -5457,22 +5457,22 @@ run({
     $`
       const foo = 1
       const bar = foo
-      
+
           /* comment */;
-      
+
       [1, 2, 3].forEach(() => {})
     `,
     $`
       const foo = 1
       const bar = foo
           /* comment */;
-      
+
       [1, 2, 3].forEach(() => {})
     `,
     $`
       const foo = 1
       const bar = foo
-      
+
           /* comment */;
       [1, 2, 3].forEach(() => {})
     `,
@@ -5486,7 +5486,7 @@ run({
       const foo = 1
       const bar = foo
       /* comment */;
-      
+
       [1, 2, 3].forEach(() => {})
     `,
     $`
@@ -5497,7 +5497,7 @@ run({
     `,
     $`
       /* comment */
-      
+
       ;[1, 2, 3].forEach(() => {})
     `,
     $`
@@ -5508,9 +5508,9 @@ run({
       {
           const foo = 1
           const bar = foo
-      
+
           /* comment */
-      
+
           ;[1, 2, 3].forEach(() => {})
       }
     `,
@@ -5525,7 +5525,7 @@ run({
     $`
       {
           /* comment */
-      
+
           ;[1, 2, 3].forEach(() => {})
       }
     `,
@@ -5594,7 +5594,7 @@ run({
                 \`(() => {
                     bar();
                 });
-        
+
                 baz();
             });
         });
@@ -5617,7 +5617,7 @@ run({
                 \`(() => {
                     bar();
                 });
-        
+
                 baz();
             });
         };
@@ -5632,7 +5632,7 @@ run({
                 literal
                 \`(() => {
             foo();
-        
+
             tagTwo\`multiline
                     template
                     literal
@@ -5654,7 +5654,7 @@ run({
             bar: tagTwo\`multiline
                 template
                 literal\`(() => {
-        
+
                 baz();
             })
         });
@@ -6004,10 +6004,10 @@ run({
       code: $`
         class C {
             static {}
-        
+
             static {
             }
-        
+
             static
             {
             }
@@ -6019,15 +6019,15 @@ run({
     {
       code: $`
         class C {
-        
+
             static {
                 foo;
             }
-        
+
             static {
                 bar;
             }
-        
+
         }
       `,
       options: [4],
@@ -6036,15 +6036,15 @@ run({
     {
       code: $`
         class C {
-        
+
             x = 1;
-        
+
             static {
                 foo;
             }
-        
+
             y = 2;
-        
+
         }
       `,
       options: [4],
@@ -6053,19 +6053,19 @@ run({
     {
       code: $`
         class C {
-        
+
             method1(param) {
                 foo;
             }
-        
+
             static {
                 bar;
             }
-        
+
             method2(param) {
                 foo;
             }
-        
+
         }
       `,
       options: [4],
@@ -7893,7 +7893,7 @@ run({
             }
           else
                 bar();
-        
+
         }
       `,
       output: $`
@@ -7903,7 +7903,7 @@ run({
             }
             else
                 bar();
-        
+
         }
       `,
       options: [4],
@@ -10159,12 +10159,12 @@ run({
     {
       code: $`
         if (foo) bar()
-        
+
             ; [1, 2, 3].map(baz)
       `,
       output: $`
         if (foo) bar()
-        
+
         ; [1, 2, 3].map(baz)
       `,
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
@@ -10403,7 +10403,7 @@ run({
         namespace Foo {
             const bar = 3,
             baz = 2;
-        
+
             if (true) {
             const bax = 3;
             }
@@ -10413,7 +10413,7 @@ run({
         namespace Foo {
             const bar = 3,
                 baz = 2;
-        
+
             if (true) {
                 const bax = 3;
             }
@@ -10428,11 +10428,11 @@ run({
             public bar() {
                 let aaa = 4,
                 boo;
-        
+
                 if (true) {
                 boo = 3;
                 }
-        
+
             boo = 3 + 2;
             }
         }
@@ -10442,11 +10442,11 @@ run({
             public bar() {
                 let aaa = 4,
                     boo;
-        
+
                 if (true) {
                     boo = 3;
                 }
-        
+
                 boo = 3 + 2;
             }
         }
@@ -10686,16 +10686,16 @@ run({
     {
       code: $`
         <App>
-        
+
          <Foo />
-        
+
         </App>
       `,
       output: $`
         <App>
-        
+
         \t<Foo />
-        
+
         </App>
       `,
       options: ['tab'],
@@ -10808,7 +10808,35 @@ run({
               size={size}
               onClick={onClick}
                                             >
-              Button Text
+                                              Button Text
+            </Button>
+          );
+        };
+      `,
+      output: $`
+        const Button = function(props) {
+          return (
+            <Button
+              size={size}
+              onClick={onClick}
+            >
+                                              Button Text
+            </Button>
+          );
+        };
+      `,
+      options: [2],
+      errors: expectedErrors([6, 4, 36, 'Punctuator']),
+    },
+    {
+      code: $`
+        const Button = function(props) {
+          return (
+            <Button
+              size={size}
+              onClick={onClick}
+            >
+                                              Button Text
             </Button>
           );
         };
@@ -10826,7 +10854,7 @@ run({
         };
       `,
       options: [2],
-      errors: expectedErrors([6, 4, 36, 'Punctuator']),
+      errors: expectedErrors([6, 6, 38, 'JSXText']),
     },
     {
       code: $`
@@ -11378,26 +11406,26 @@ run({
     {
       code: $`
         $(function() {
-        
+
         foo();
         bar();
-        
+
         foo(function() {
         baz();
         });
-        
+
         });
       `,
       output: $`
         $(function() {
-        
+
         foo();
         bar();
-        
+
         foo(function() {
             baz();
         });
-        
+
         });
       `,
       options: [4, {
@@ -11429,7 +11457,7 @@ run({
       code: $`
         if (foo) {
             doSomething();
-        
+
         // Intentionally unindented comment
             doSomethingElse();
         }
@@ -11437,7 +11465,7 @@ run({
       output: $`
         if (foo) {
             doSomething();
-        
+
             // Intentionally unindented comment
             doSomethingElse();
         }
@@ -11449,7 +11477,7 @@ run({
       code: $`
         if (foo) {
             doSomething();
-        
+
         /* Intentionally unindented comment */
             doSomethingElse();
         }
@@ -11457,7 +11485,7 @@ run({
       output: $`
         if (foo) {
             doSomething();
-        
+
             /* Intentionally unindented comment */
             doSomethingElse();
         }
@@ -11493,14 +11521,14 @@ run({
     {
       code: $`
         if (foo) {
-        
+
         // Comment cannot align with code immediately above if there is a whitespace gap
             doSomething();
         }
       `,
       output: $`
         if (foo) {
-        
+
             // Comment cannot align with code immediately above if there is a whitespace gap
             doSomething();
         }
@@ -11513,7 +11541,7 @@ run({
             foo(
                 bar);
         // Comment cannot align with code immediately below if there is a whitespace gap
-        
+
         }
       `,
       output: $`
@@ -11521,7 +11549,7 @@ run({
             foo(
                 bar);
             // Comment cannot align with code immediately below if there is a whitespace gap
-        
+
         }
       `,
       errors: expectedErrors([4, 4, 0, 'Line']),
@@ -11531,9 +11559,9 @@ run({
         [{
             foo
         },
-        
+
             // Comment between nodes
-        
+
         {
             bar
         }];
@@ -11542,9 +11570,9 @@ run({
         [{
             foo
         },
-        
+
         // Comment between nodes
-        
+
         {
             bar
         }];
@@ -11554,16 +11582,16 @@ run({
     {
       code: $`
         let foo
-        
+
             // comment
-        
+
         ;(async () => {})()
       `,
       output: $`
         let foo
-        
+
         // comment
-        
+
         ;(async () => {})()
       `,
       errors: expectedErrors([3, 0, 4, 'Line']),
@@ -11584,16 +11612,16 @@ run({
     {
       code: $`
         let foo
-        
+
         /* comment */;
-        
+
         (async () => {})()
       `,
       output: $`
         let foo
-        
+
             /* comment */;
-        
+
         (async () => {})()
       `,
       errors: expectedErrors([3, 4, 0, 'Block']),
@@ -11601,12 +11629,12 @@ run({
     {
       code: $`
             // comment
-        
+
         ;(async () => {})()
       `,
       output: $`
         // comment
-        
+
         ;(async () => {})()
       `,
       errors: expectedErrors([1, 0, 4, 'Line']),
@@ -11626,21 +11654,21 @@ run({
       code: $`
         {
             let foo
-        
+
                 // comment
-        
+
             ;(async () => {})()
-        
+
         }
       `,
       output: $`
         {
             let foo
-        
+
             // comment
-        
+
             ;(async () => {})()
-        
+
         }
       `,
       errors: expectedErrors([4, 4, 8, 'Line']),
@@ -11651,7 +11679,7 @@ run({
             let foo
                 // comment
             ;(async () => {})()
-        
+
         }
       `,
       output: $`
@@ -11659,7 +11687,7 @@ run({
             let foo
             // comment
             ;(async () => {})()
-        
+
         }
       `,
       errors: expectedErrors([3, 4, 8, 'Line']),
@@ -11668,21 +11696,21 @@ run({
       code: $`
         {
             let foo
-        
+
             /* comment */;
-        
+
             (async () => {})()
-        
+
         }
       `,
       output: $`
         {
             let foo
-        
+
                 /* comment */;
-        
+
             (async () => {})()
-        
+
         }
       `,
       errors: expectedErrors([4, 8, 4, 'Block']),
@@ -11691,17 +11719,17 @@ run({
       code: $`
         const foo = 1
         const bar = foo
-        
+
             /* comment */
-        
+
         ;[1, 2, 3].forEach(() => {})
       `,
       output: $`
         const foo = 1
         const bar = foo
-        
+
         /* comment */
-        
+
         ;[1, 2, 3].forEach(() => {})
       `,
       errors: expectedErrors([4, 0, 4, 'Block']),
@@ -11725,17 +11753,17 @@ run({
       code: $`
         const foo = 1
         const bar = foo
-        
+
         /* comment */;
-        
+
         [1, 2, 3].forEach(() => {})
       `,
       output: $`
         const foo = 1
         const bar = foo
-        
+
             /* comment */;
-        
+
         [1, 2, 3].forEach(() => {})
       `,
       errors: expectedErrors([4, 4, 0, 'Block']),
@@ -11743,12 +11771,12 @@ run({
     {
       code: $`
             /* comment */
-        
+
         ;[1, 2, 3].forEach(() => {})
       `,
       output: $`
         /* comment */
-        
+
         ;[1, 2, 3].forEach(() => {})
       `,
       errors: expectedErrors([1, 0, 4, 'Block']),
@@ -11769,22 +11797,22 @@ run({
         {
             const foo = 1
             const bar = foo
-        
+
                 /* comment */
-        
+
             ;[1, 2, 3].forEach(() => {})
-        
+
         }
       `,
       output: $`
         {
             const foo = 1
             const bar = foo
-        
+
             /* comment */
-        
+
             ;[1, 2, 3].forEach(() => {})
-        
+
         }
       `,
       errors: expectedErrors([5, 4, 8, 'Block']),
@@ -11796,7 +11824,7 @@ run({
             const bar = foo
                 /* comment */
             ;[1, 2, 3].forEach(() => {})
-        
+
         }
       `,
       output: $`
@@ -11805,7 +11833,7 @@ run({
             const bar = foo
             /* comment */
             ;[1, 2, 3].forEach(() => {})
-        
+
         }
       `,
       errors: expectedErrors([4, 4, 8, 'Block']),
@@ -11815,22 +11843,22 @@ run({
         {
             const foo = 1
             const bar = foo
-        
+
             /* comment */;
-        
+
             [1, 2, 3].forEach(() => {})
-        
+
         }
       `,
       output: $`
         {
             const foo = 1
             const bar = foo
-        
+
                 /* comment */;
-        
+
             [1, 2, 3].forEach(() => {})
-        
+
         }
       `,
       errors: expectedErrors([5, 8, 4, 'Block']),
@@ -11929,7 +11957,7 @@ run({
                 \`(() => {
                     bar();
                 });
-        
+
                     baz();
         });
         });
@@ -11948,7 +11976,7 @@ run({
                 \`(() => {
                     bar();
                 });
-        
+
                 baz();
             });
         });
@@ -11975,7 +12003,7 @@ run({
                 \`(() => {
                     bar();
                 });
-        
+
                     baz();
         });
         }
@@ -11994,7 +12022,7 @@ run({
                 \`(() => {
                     bar();
                 });
-        
+
                 baz();
             });
         }
@@ -12013,7 +12041,7 @@ run({
                 literal
                 \`(() => {
         foo();
-        
+
             tagTwo\`multiline
                     template
                     literal
@@ -12029,7 +12057,7 @@ run({
                 literal
                 \`(() => {
             foo();
-        
+
             tagTwo\`multiline
                     template
                     literal
@@ -12054,7 +12082,7 @@ run({
         bar: tagTwo\`multiline
                 template
                 literal\`(() => {
-        
+
         baz();
             })
         });
@@ -12067,7 +12095,7 @@ run({
             bar: tagTwo\`multiline
                 template
                 literal\`(() => {
-        
+
                 baz();
             })
         });
@@ -12850,10 +12878,10 @@ run({
       code: $`
         class C {
         static {}
-        
+
         static {
         }
-        
+
         static
         {
         }
@@ -12862,10 +12890,10 @@ run({
       output: $`
         class C {
             static {}
-        
+
             static {
             }
-        
+
             static
             {
             }
@@ -12885,28 +12913,28 @@ run({
     {
       code: $`
         class C {
-        
+
         static {
             foo;
         }
-        
+
         static {
             bar;
         }
-        
+
         }
       `,
       output: $`
         class C {
-        
+
             static {
                 foo;
             }
-        
+
             static {
                 bar;
             }
-        
+
         }
       `,
       options: [4],
@@ -12923,28 +12951,28 @@ run({
     {
       code: $`
         class C {
-        
+
         x = 1;
-        
+
         static {
             foo;
         }
-        
+
         y = 2;
-        
+
         }
       `,
       output: $`
         class C {
-        
+
             x = 1;
-        
+
             static {
                 foo;
             }
-        
+
             y = 2;
-        
+
         }
       `,
       options: [4],
@@ -12960,36 +12988,36 @@ run({
     {
       code: $`
         class C {
-        
+
         method1(param) {
             foo;
         }
-        
+
         static {
             bar;
         }
-        
+
         method2(param) {
             foo;
         }
-        
+
         }
       `,
       output: $`
         class C {
-        
+
             method1(param) {
                 foo;
             }
-        
+
             static {
                 bar;
             }
-        
+
             method2(param) {
                 foo;
             }
-        
+
         }
       `,
       options: [4],

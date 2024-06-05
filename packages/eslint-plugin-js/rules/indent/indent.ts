@@ -6,7 +6,7 @@
  * @author Gyandeep Singh
  */
 
-import type { ASTNode, JSONSchema, NodeTypes, RuleFunction, RuleListener, SourceCode, Token, Tree } from '@shared/types'
+import type { ASTNode, JSONSchema, NodeTypes, ReportFixFunction, RuleFunction, RuleListener, SourceCode, Token, Tree } from '@shared/types'
 import { STATEMENT_LIST_PARENTS, createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import { createRule } from '../../utils/createRule'
 import type { MessageIds, RuleOptions } from './types'
@@ -1681,6 +1681,74 @@ export default createRule<MessageIds, RuleOptions>({
       {},
     )
 
+    // JSXText
+    function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
+      let src = context.sourceCode.getText(node, node.loc.start.column)
+      const lines = src.split('\n')
+      if (byLastLine)
+        src = lines[lines.length - 1]
+      else
+        src = lines[0]
+
+      const skip = excludeCommas ? ',' : ''
+
+      let regExp
+      if (indentType === 'space')
+        regExp = new RegExp(`^[ ${skip}]+`)
+      else
+        regExp = new RegExp(`^[\t${skip}]+`)
+
+      const indent = regExp.exec(src)
+      return indent ? indent[0].length : 0
+    }
+
+    function handleJSXTextnode(node: Tree.Literal | Tree.JSXText) {
+      if (!node.parent)
+        return
+
+      if (node.parent.type !== 'JSXElement' && node.parent.type !== 'JSXFragment')
+        return
+
+      const value = node.value
+      const regExp = indentType === 'space' ? /\n( *)[\t ]*\S/g : /\n(\t*)[\t ]*\S/g
+      const nodeIndentsPerLine = Array.from(
+        String(value).matchAll(regExp),
+        match => (match[1] ? match[1].length : 0),
+      )
+      const hasFirstInLineNode = nodeIndentsPerLine.length > 0
+      const parentNodeIndent = getNodeIndent(node)
+      const indent = parentNodeIndent + indentSize
+      if (
+        hasFirstInLineNode
+        && !nodeIndentsPerLine.every(actualIndent => actualIndent === indent)
+      ) {
+        nodeIndentsPerLine.forEach((nodeIndent) => {
+          reportJSXText(node, indent, nodeIndent)
+        })
+      }
+    }
+
+    function reportJSXText(node: Tree.Literal | Tree.JSXText, needed: number, gotten: number, loc?: ASTNode['loc']) {
+      context.report({
+        node,
+        messageId: 'wrongIndentation',
+        data: createErrorMessageData(needed, gotten, gotten),
+        fix: getFixerFunction(node, needed),
+        ...loc ? { loc } : {},
+      })
+    }
+
+    const indentChar = indentType === 'space' ? ' ' : '\t'
+    function getFixerFunction(node: Tree.Literal | Tree.JSXText, needed: number): ReportFixFunction {
+      const indent = Array(needed + 1).join(indentChar)
+
+      return function fix(fixer) {
+        const regExp = /\n[\t ]*(\S)/g
+        const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indent}${p1}`)
+        return fixer.replaceText(node, fixedText)
+      }
+    }
+
     /**
      * Join the listeners, and add a listener to verify that all tokens actually have the correct indentation
      * at the end.
@@ -1691,6 +1759,9 @@ export default createRule<MessageIds, RuleOptions>({
      */
     return Object.assign(
       offsetListeners,
+      {
+        JSXText: handleJSXTextnode,
+      },
       ignoredNodeListeners,
       {
         '*:exit': function (node: ASTNode) {
