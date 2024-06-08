@@ -45,7 +45,9 @@ export default createRule<MessageIds, RuleOptions>({
     const sourceCode = context.sourceCode
 
     const BLANK_CLASS = '[ \t\u00A0\u2000-\u200B\u3000]'
+    // eslint-disable-next-line regexp/no-obscure-range
     const SKIP_BLANK = `^${BLANK_CLASS}*$`
+    // eslint-disable-next-line regexp/no-obscure-range
     const NONBLANK = `${BLANK_CLASS}+$`
 
     const options = context.options[0] || {}

@@ -206,8 +206,9 @@ export default createRule<MessageIds, RuleOptions>({
         && !node.specifiers.some(specifier => specifier.type === 'ImportSpecifier'))
         || (node.type === 'ExportNamedDeclaration'
         && !node.specifiers.some(specifier => specifier.type === 'ExportSpecifier'))
-      )
+      ) {
         return
+      }
 
       const openBrace = sourceCode.getFirstToken(node, token => token.value === '{')!
 

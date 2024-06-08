@@ -134,8 +134,9 @@ export default createRule<RuleOptions, MessageIds>({
         spaceAfter
         && nextToken
         && (isClosingBraceToken(nextToken) || isClosingBracketToken(nextToken))
-      )
+      ) {
         return
+      }
 
       if (!spaceAfter && nextToken && nextToken.type === AST_TOKEN_TYPES.Line)
         return

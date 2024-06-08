@@ -202,8 +202,9 @@ function getGroupsOfSortableAttributes(attributes: (Tree.JSXAttribute | Tree.JSX
           if (
             commentNextAttribute.length === 1
             && nextAttribute.loc.start.line === commentNextAttribute[0].loc.start.line
-          )
+          ) {
             attributeMap.set(attribute, { end: commentNextAttribute[0].range[1], hasComment: true })
+          }
 
           addtoSortableAttributeGroups(attribute)
           i += 1

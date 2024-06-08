@@ -99,8 +99,9 @@ export default createRule<MessageIds, RuleOptions>({
         && callee.type === 'MemberExpression'
         && callee.object.type === 'FunctionExpression'
         && (getStaticPropertyName(callee) === 'call' || getStaticPropertyName(callee) === 'apply')
-      )
+      ) {
         return callee.object
+      }
 
       return null
     }

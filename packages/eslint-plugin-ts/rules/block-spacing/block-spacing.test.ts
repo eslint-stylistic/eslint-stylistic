@@ -71,8 +71,9 @@ run({
             if (
               (option === 'always' && blockType.startsWith('{ '))
               || (option === 'never' && blockType.startsWith('{bar'))
-            )
+            ) {
               return []
+            }
 
             const reverseBlockType = singlePropertyBlocks[1 - blockIndex]
             let code = `${typeDec.stringPrefix}${blockType};  /* ${option} */`

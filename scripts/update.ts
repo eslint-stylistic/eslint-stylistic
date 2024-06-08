@@ -333,7 +333,7 @@ async function generateDTS(
       schemas = [schemas]
 
     const options = await Promise.all(schemas.map(async (schema, index) => {
-      schema = JSON.parse(JSON.stringify(schema).replace(/\#\/items\/0\/\$defs\//g, '#/$defs/'))
+      schema = JSON.parse(JSON.stringify(schema).replace(/#\/items\/0\/\$defs\//g, '#/$defs/'))
 
       try {
         const compiled = await compileSchema(schema, `Schema${index}`, {
@@ -395,7 +395,7 @@ async function generateConfigs(pkg: PackageInfo) {
 
 function camelCase(str: string) {
   return str
-    .replace(/[^\d\w_-]+/, '')
+    .replace(/[^\w-]+/, '')
     .replace(/-([a-z])/g, (_, c) => c.toUpperCase())
 }
 

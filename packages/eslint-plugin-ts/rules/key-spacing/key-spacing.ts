@@ -234,8 +234,9 @@ export default createRule<RuleOptions, MessageIds>({
             leadingComments[i].loc.start.line
             - leadingComments[i - 1].loc.end.line
             > 1
-          )
+          ) {
             return false
+          }
         }
         return true
       }

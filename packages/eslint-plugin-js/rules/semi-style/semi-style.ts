@@ -40,8 +40,9 @@ function getChildren(node: ASTNode) {
     || t === 'StaticBlock'
     || t === 'Program'
     || t === 'ClassBody'
-  )
+  ) {
     return node.body
+  }
 
   if (t === 'SwitchCase')
     return node.consequent

@@ -444,10 +444,13 @@ export default createRule<MessageIds, RuleOptions>({
               && index && commentList[index - 1].type === 'Line'
               && tokenBefore && tokenBefore.loc.end.line === comment.loc.start.line - 1
               && tokenBefore === commentList[index - 1]
-            )
+            ) {
               commentGroups.at(-1)!.push(comment)
-            else
+            }
+
+            else {
               commentGroups.push([comment])
+            }
 
             return commentGroups
           }, [])

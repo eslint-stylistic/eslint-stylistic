@@ -130,13 +130,13 @@ export default createRule<MessageIds, RuleOptions>({
 
       let regExp
       if (indentType === 'space')
-        regExp = /^[ ]+/
+        regExp = /^ +/
       else
-        regExp = /^[\t]+/
+        regExp = /^\t+/
 
       const indent = regExp.exec(src)
-      const useOperator = /^([ ]|[\t])*[:]/.test(src) || /^([ ]|[\t])*[?]/.test(src)
-      const useBracket = /[<]/.test(src)
+      const useOperator = /^[ \t]*:/.test(src) || /^[ \t]*\?/.test(src)
+      const useBracket = /</.test(src)
 
       line.currentOperator = false
       if (useOperator) {

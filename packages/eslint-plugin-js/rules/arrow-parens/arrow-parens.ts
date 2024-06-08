@@ -73,8 +73,9 @@ export default createRule<MessageIds, RuleOptions>({
         tokenBeforeParams
         && isOpeningParenToken(tokenBeforeParams)
         && node.range[0] <= tokenBeforeParams.range[0]
-      )
+      ) {
         return tokenBeforeParams
+      }
 
       return null
     }
@@ -155,8 +156,9 @@ export default createRule<MessageIds, RuleOptions>({
                 tokenBeforeOpeningParen
                 && tokenBeforeOpeningParen.range[1] === openingParen.range[0]
                 && !canTokensBeAdjacent(tokenBeforeOpeningParen, sourceCode.getFirstToken(param)!)
-              )
+              ) {
                 yield fixer.insertTextBefore(openingParen, ' ')
+              }
 
               // remove parens, whitespace inside parens, and possible trailing comma
               yield fixer.removeRange([openingParen.range[0], param.range[0]])

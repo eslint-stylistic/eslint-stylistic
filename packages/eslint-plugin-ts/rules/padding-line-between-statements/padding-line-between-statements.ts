@@ -178,8 +178,9 @@ function isCJSRequire(node: ASTNode): boolean {
       if (
         call.type === AST_NODE_TYPES.CallExpression
         && call.callee.type === AST_NODE_TYPES.Identifier
-      )
+      ) {
         return call.callee.name === 'require'
+      }
     }
   }
   return false
@@ -201,8 +202,9 @@ function isBlockLikeStatement(
   if (
     node.type === AST_NODE_TYPES.DoWhileStatement
     && node.body.type === AST_NODE_TYPES.BlockStatement
-  )
+  ) {
     return true
+  }
 
   /**
    * IIFE is a block-like statement specially from
@@ -726,8 +728,9 @@ export default createRule<Options, MessageIds>({
         if (
           match(prevNode, configure.prev)
           && match(nextNode, configure.next)
-        )
+        ) {
           return PaddingTypes[configure.blankLine]
+        }
       }
       return PaddingTypes.any
     }
@@ -779,8 +782,9 @@ export default createRule<Options, MessageIds>({
           AST_NODE_TYPES.SwitchStatement,
           AST_NODE_TYPES.TSModuleBlock,
         ].includes(node.parent.type)
-      )
+      ) {
         return
+      }
 
       // Save this node as the current previous statement.
       const prevNode = scopeInfo!.prevNode

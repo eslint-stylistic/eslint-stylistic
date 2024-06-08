@@ -67,8 +67,9 @@ export default createRule<MessageIds, RuleOptions>({
         if (IGNORE_JSX) {
           if (node.parent.type === 'JSXElement'
             || node.parent.type === 'JSXFragment'
-            || node.parent.type === 'JSXExpressionContainer')
+            || node.parent.type === 'JSXExpressionContainer') {
             return null
+          }
         }
 
         if (!multiline) {
