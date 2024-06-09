@@ -142,7 +142,6 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
         'TSTypeParameterInstantiation',
         'FunctionExpression > .params[decorators.length > 0]',
         'FunctionExpression > .params > :matches(Decorator, :not(:first-child))',
-        'ClassBody.body > PropertyDefinition[decorators.length > 0] > .key',
       ],
       ImportDeclaration: 1,
       MemberExpression: 1,
