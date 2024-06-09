@@ -181,6 +181,46 @@ export default createRule<RuleOptions, MessageIds>({
           rules['*:exit'](node)
       },
 
+      'ClassBody.body > PropertyDefinition[decorators.length > 0]': function (node: Tree.PropertyDefinition) {
+        if (node.loc.start.line !== node.loc.end.line) {
+          let startDecorator = node.decorators[0]
+          let endDecorator = startDecorator
+
+          for (let i = 1; i <= node.decorators.length; i++) {
+            const decorator = node.decorators[i]
+            if (i === node.decorators.length || startDecorator.loc.start.line !== decorator.loc.start.line) {
+              rules.PropertyDefinition({
+                type: AST_NODE_TYPES.PropertyDefinition,
+                key: node.key,
+                parent: node.parent,
+                range: [startDecorator.range[0], endDecorator.range[1]],
+                loc: {
+                  start: startDecorator.loc.start,
+                  end: endDecorator.loc.end,
+                },
+              })
+              if (decorator)
+                startDecorator = endDecorator = decorator
+            }
+            else {
+              endDecorator = decorator
+            }
+          }
+
+          return rules.PropertyDefinition({
+            ...node,
+            range: [endDecorator.range[1] + 1, node.range[1]],
+            loc: {
+              start: node.key.loc.start,
+              end: node.loc.end,
+            },
+          })
+        }
+        else {
+          return rules.PropertyDefinition(node)
+        }
+      },
+
       VariableDeclaration(node: Tree.VariableDeclaration) {
         // https://github.com/typescript-eslint/typescript-eslint/issues/441
         if (node.declarations.length === 0)
