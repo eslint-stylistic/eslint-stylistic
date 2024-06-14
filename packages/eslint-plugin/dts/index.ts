@@ -11,7 +11,7 @@ export type Rules = {
 
 declare const plugin: {
   rules: Rules
-  configs: ESLint.Plugin["configs"] & typeof configs
+  configs: ESLint.Plugin['configs'] & typeof configs
 }
 
 export default plugin
