@@ -3,12 +3,15 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import { RuleTester } from 'eslint'
 import rule from './jsx-quotes'
+import { run } from '#test'
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } })
-
-ruleTester.run('jsx-quotes', rule, {
+run({
+  name: 'jsx-quotes',
+  rule,
+  parserOptions: {
+    ecmaFeatures: { jsx: true },
+  },
   valid: [
     '<foo bar="baz" />',
     '<foo bar=\'"\' />',

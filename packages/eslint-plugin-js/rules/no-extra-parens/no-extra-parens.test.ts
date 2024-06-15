@@ -3,9 +3,9 @@
  * @author Michael Ficarra
  */
 
-import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './no-extra-parens'
+import { $, run } from '#test'
 
 /**
  * Create error message object for failure cases
@@ -25,7 +25,7 @@ function invalid(code: string, output: string | null, type?: string, line?: numb
     errors: [
       {
         messageId: 'unexpected',
-        type,
+        ...(type && { type }),
         ...(line && { line }),
       },
     ],
@@ -35,18 +35,19 @@ function invalid(code: string, output: string | null, type?: string, line?: numb
   return result
 }
 
-const ruleTester = new RuleTester({
+run({
+  name: 'no-extra-parens',
+  rule,
+  lang: 'js',
+
   parserOptions: {
-    ecmaVersion: 2022,
+    sourceType: 'script',
     ecmaFeatures: {
       jsx: true,
     },
   },
-})
 
-ruleTester.run('no-extra-parens', rule, {
   valid: [
-
     // all precedence boundaries
     'foo',
     'a = b, c = d',
@@ -743,21 +744,21 @@ ruleTester.run('no-extra-parens', rule, {
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
     },
     {
-      code: `
-                validate(/** @type {Schema} */ (schema), options, {
-                    name: "Dev Server",
-                    baseDataPath: "options",
-                });
-            `,
+      code: $`
+        validate(/** @type {Schema} */ (schema), options, {
+            name: "Dev Server",
+            baseDataPath: "options",
+        });
+      `,
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
     },
     {
-      code: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    (options.server.options).requestCert = false;
-                }
-            `,
+      code: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            (options.server.options).requestCert = false;
+        }
+      `,
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
     },
     {
@@ -3249,34 +3250,34 @@ ruleTester.run('no-extra-parens', rule, {
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: `
-                validate(/** @type {Schema} */ (schema), options, {
-                    name: "Dev Server",
-                    baseDataPath: "options",
-                });
-            `,
-      output: `
-                validate(/** @type {Schema} */ schema, options, {
-                    name: "Dev Server",
-                    baseDataPath: "options",
-                });
-            `,
+      code: $`
+        validate(/** @type {Schema} */ (schema), options, {
+            name: "Dev Server",
+            baseDataPath: "options",
+        });
+      `,
+      output: $`
+        validate(/** @type {Schema} */ schema, options, {
+            name: "Dev Server",
+            baseDataPath: "options",
+        });
+      `,
       options: ['all'],
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    (options.server.options).requestCert = false;
-                }
-            `,
-      output: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    options.server.options.requestCert = false;
-                }
-            `,
+      code: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            (options.server.options).requestCert = false;
+        }
+      `,
+      output: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            options.server.options.requestCert = false;
+        }
+      `,
       options: ['all'],
       errors: [{ messageId: 'unexpected' }],
     },
@@ -3299,86 +3300,86 @@ ruleTester.run('no-extra-parens', rule, {
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: `
-                validate(/** @type {Schema} */ (schema), options, {
-                    name: "Dev Server",
-                    baseDataPath: "options",
-                });
-            `,
-      output: `
-                validate(/** @type {Schema} */ schema, options, {
-                    name: "Dev Server",
-                    baseDataPath: "options",
-                });
-            `,
+      code: $`
+        validate(/** @type {Schema} */ (schema), options, {
+            name: "Dev Server",
+            baseDataPath: "options",
+        });
+      `,
+      output: $`
+        validate(/** @type {Schema} */ schema, options, {
+            name: "Dev Server",
+            baseDataPath: "options",
+        });
+      `,
       options: ['all', { allowParensAfterCommentPattern: 'invalid' }],
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    (options.server.options).requestCert = false;
-                }
-            `,
-      output: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    options.server.options.requestCert = false;
-                }
-            `,
+      code: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            (options.server.options).requestCert = false;
+        }
+      `,
+      output: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            options.server.options.requestCert = false;
+        }
+      `,
       options: ['all', { allowParensAfterCommentPattern: 'invalid' }],
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    /** extra comment */
-                    (options.server.options).requestCert = false;
-                }
-            `,
-      output: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    /** extra comment */
-                    options.server.options.requestCert = false;
-                }
-            `,
+      code: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            /** extra comment */
+            (options.server.options).requestCert = false;
+        }
+      `,
+      output: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            /** extra comment */
+            options.server.options.requestCert = false;
+        }
+      `,
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    ((options.server.options)).requestCert = false;
-                }
-            `,
-      output: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    (options.server.options).requestCert = false;
-                }
-            `,
+      code: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            ((options.server.options)).requestCert = false;
+        }
+      `,
+      output: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            (options.server.options).requestCert = false;
+        }
+      `,
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
       errors: [{ messageId: 'unexpected' }],
     },
     {
-      code: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    let foo = "bar";
-                    (options.server.options).requestCert = false;
-                }
-            `,
-      output: `
-                if (condition) {
-                    /** @type {ServerOptions} */
-                    let foo = "bar";
-                    options.server.options.requestCert = false;
-                }
-            `,
+      code: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            let foo = "bar";
+            (options.server.options).requestCert = false;
+        }
+      `,
+      output: $`
+        if (condition) {
+            /** @type {ServerOptions} */
+            let foo = "bar";
+            options.server.options.requestCert = false;
+        }
+      `,
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
       errors: [{ messageId: 'unexpected' }],
     },

@@ -1,6 +1,8 @@
 ---
-description: 'Require consistent spacing around type annotations.'
+description: Require consistent spacing around type annotations.
 ---
+
+# ts/type-annotation-spacing
 
 Spacing around type annotations improves the readability of the code. Although the most commonly used style guideline for type annotations in TypeScript prescribes adding a space after the colon, but not before it, it is subjective to the preferences of a project. For example:
 

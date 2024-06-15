@@ -3,20 +3,19 @@
  * @author Yannick Croissant
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-max-props-per-line'
+import { run } from '#test'
 
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
+run({
+  name: 'jsx-max-props-per-line',
+  rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-} as const
 
-const ruleTester = new RuleTester({ parserOptions })
-ruleTester.run('jsx-max-props-per-line', rule, {
   valid: valids(
     {
       code: '<App />',
@@ -151,7 +150,6 @@ baz />;
           data: { prop: 'bar' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -183,7 +181,6 @@ bar />;
           data: { prop: 'bar' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -199,7 +196,6 @@ bar />;
           data: { prop: 'this.props' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -221,7 +217,6 @@ bar
           data: { prop: 'bar' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -243,7 +238,6 @@ bar
           data: { prop: 'this.props' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -265,7 +259,6 @@ bar
           data: { prop: 'bar' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -283,7 +276,6 @@ bar />
           data: { prop: 'bar' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -319,7 +311,6 @@ baz />
           data: { prop: 'rest' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -339,7 +330,6 @@ bar />
           data: { prop: 'bar' },
         },
       ],
-      parserOptions,
     },
     {
       code: `
@@ -363,7 +353,6 @@ bar />
           data: { prop: 'rest' },
         },
       ],
-      parserOptions,
     },
     {
       code: `

@@ -18,6 +18,7 @@ const DEFAULTS: Required<Exclude<RuleOptions[0], undefined>> = {
   condition: 'ignore',
   logical: 'ignore',
   prop: 'ignore',
+  propertyValue: 'ignore',
 }
 
 const messages = {
@@ -67,6 +68,10 @@ export default createRule<MessageIds, RuleOptions>({
           enum: [true, false, 'ignore', 'parens', 'parens-new-line'],
         },
         prop: {
+          type: ['string', 'boolean'],
+          enum: [true, false, 'ignore', 'parens', 'parens-new-line'],
+        },
+        propertyValue: {
           type: ['string', 'boolean'],
           enum: [true, false, 'ignore', 'parens', 'parens-new-line'],
         },
@@ -248,6 +253,16 @@ export default createRule<MessageIds, RuleOptions>({
         const type = 'prop'
         if (isEnabled(type) && node.value && node.value.type === 'JSXExpressionContainer')
           check(node.value.expression, type)
+      },
+
+      ObjectExpression(node) {
+        const type = 'propertyValue'
+        if (isEnabled(type)) {
+          node.properties.forEach((property) => {
+            if (property.type === 'Property' && property.value.type === 'JSXElement')
+              check(property.value, type)
+          })
+        }
       },
     }
   },

@@ -3,10 +3,10 @@
  * @author Teddy Katz
  */
 
-import { RuleTester } from 'eslint'
-import { unIndent } from '../../test-utils/unindent'
+import tsParser from '@typescript-eslint/parser'
 import parser from '../../test-utils/fixture-parser'
 import rule from './function-paren-newline'
+import { $, run } from '#test'
 
 const LEFT_MISSING_ERROR = { messageId: 'expectedAfter', type: 'Punctuator' }
 const LEFT_UNEXPECTED_ERROR = { messageId: 'unexpectedAfter', type: 'Punctuator' }
@@ -14,9 +14,10 @@ const RIGHT_MISSING_ERROR = { messageId: 'expectedBefore', type: 'Punctuator' }
 const RIGHT_UNEXPECTED_ERROR = { messageId: 'unexpectedBefore', type: 'Punctuator' }
 const EXPECTED_BETWEEN = { messageId: 'expectedBetween', type: 'Identifier' }
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
-
-ruleTester.run('function-paren-newline', rule, {
+run({
+  name: 'function-paren-newline',
+  rule,
+  lang: 'js',
 
   valid: [
     'new new Foo();',
@@ -580,49 +581,48 @@ ruleTester.run('function-paren-newline', rule, {
 
         // https://github.com/eslint/eslint/issues/15091#issuecomment-975605821
         {
-          code: unIndent`
-                const method6 = (
-                  abc: number,
-                  def: () => void,
-                ): [
-                  string,
-                  () => void
-                ] => [\`a\${abc}\`, def];
-                method6(3, () => {});
-            `,
+          code: $`
+            const method6 = (
+              abc: number,
+              def: () => void,
+            ): [
+              string,
+              () => void
+            ] => [\`a\${abc}\`, def];
+            method6(3, () => {});
+          `,
           options: ['multiline'],
           parser: parser('function-paren-newline/arrow-function-return-type'),
         },
-
         {
-          code: unIndent`
+          code: $`
             function a<A extends Array<any>, T extends (...args: any[]) => any> (
               b: T,
               c: any,
             ): any {}
           `,
           options: ['multiline'],
-          parser: require.resolve('@typescript-eslint/parser'),
+          parser: tsParser,
         },
         {
-          code: unIndent`
+          code: $`
             const a = function <A extends Array<any>, T extends (...args: any[]) => any> (
               b: T,
               c: any,
             ): any {}
           `,
           options: ['multiline'],
-          parser: require.resolve('@typescript-eslint/parser'),
+          parser: tsParser,
         },
         {
-          code: unIndent`
+          code: $`
             a<Array<any>, (...args: any[]) => any>(
               b,
               c,
             )
           `,
           options: ['multiline'],
-          parser: require.resolve('@typescript-eslint/parser'),
+          parser: tsParser,
         },
   ],
 
@@ -1493,24 +1493,24 @@ ruleTester.run('function-paren-newline', rule, {
 
     // https://github.com/eslint/eslint/issues/15091#issuecomment-975605821
     {
-      code: unIndent`
-                const method6 = (
-                  abc: number,
-                  def: () => void,
-                ): [
-                  string,
-                  () => void
-                ] => [\`a\${abc}\`, def];
-                method6(3, () => {});
-            `,
-      output: unIndent`
-                const method6 = (abc: number,
-                  def: () => void,): [
-                  string,
-                  () => void
-                ] => [\`a\${abc}\`, def];
-                method6(3, () => {});
-            `,
+      code: $`
+        const method6 = (
+          abc: number,
+          def: () => void,
+        ): [
+          string,
+          () => void
+        ] => [\`a\${abc}\`, def];
+        method6(3, () => {});
+      `,
+      output: $`
+        const method6 = (abc: number,
+          def: () => void,): [
+          string,
+          () => void
+        ] => [\`a\${abc}\`, def];
+        method6(3, () => {});
+      `,
       options: ['never'],
       parser: parser('function-paren-newline/arrow-function-return-type'),
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],

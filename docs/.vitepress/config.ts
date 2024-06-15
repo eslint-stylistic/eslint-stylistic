@@ -4,7 +4,16 @@ import fs from 'node:fs/promises'
 import type { DefaultTheme } from 'vitepress'
 import { defineConfig } from 'vitepress'
 import MarkdownItContainer from 'markdown-it-container'
-import { transformerRenderWhitespace } from 'shikiji-transformers'
+import { transformerRenderWhitespace } from '@shikijs/transformers'
+import type { ESLint, Linter } from 'eslint'
+import stylistic from '@stylistic/eslint-plugin'
+import stylisticJs from '@stylistic/eslint-plugin-js'
+import stylisticTs from '@stylistic/eslint-plugin-ts'
+import stylisticJsx from '@stylistic/eslint-plugin-jsx'
+import stylisticPlus from '@stylistic/eslint-plugin-plus'
+import * as parserTs from '@typescript-eslint/parser'
+import { createTwoslasher } from 'twoslash-eslint'
+import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 import { packages } from '../../packages/metadata/src'
 import vite from './vite.config'
 
@@ -39,7 +48,7 @@ const PACKAGES: DefaultTheme.NavItemWithLink[] = [
 const VERSIONS: DefaultTheme.NavItemWithLink[] = [
   { text: `v${version} (current)`, link: '/' },
   { text: `Release Notes`, link: 'https://github.com/eslint-stylistic/eslint-stylistic/releases' },
-  { text: `Contributing`, link: 'https://github.com/eslint-stylistic/eslint-stylistic/blob/main/CONTRIBUTING.md' },
+  { text: `Contributing`, link: '/contribute/guide' },
 ]
 
 const packageNames: Record<string, string> = {
@@ -134,23 +143,59 @@ export default defineConfig({
     config(md) {
       MarkdownItContainer(md, 'correct', {
         render(tokens, idx) {
-          if (tokens[idx].nesting === 1)
+          if (tokens[idx].nesting === 1) {
+            const next = tokens[idx + 1]
+            if (next.type === 'fence')
+              next.info = [next.info, 'eslint-check'].filter(Boolean).join(' ')
             return '<CustomWrapper type="correct">'
-          else
-            return '</CustomWrapper>\n'
+          }
+          else { return '</CustomWrapper>\n' }
         },
       })
       MarkdownItContainer(md, 'incorrect', {
         render(tokens, idx) {
-          if (tokens[idx].nesting === 1)
+          if (tokens[idx].nesting === 1) {
+            const next = tokens[idx + 1]
+            if (next.type === 'fence')
+              next.info = [next.info, 'eslint-check'].filter(Boolean).join(' ')
             return '<CustomWrapper type="incorrect">'
-          else
+          }
+          else {
             return '</CustomWrapper>\n'
+          }
         },
       })
     },
     codeTransformers: [
-      transformerRenderWhitespace({ position: 'boundary' }),
+      transformerRenderWhitespace({
+        position: 'boundary',
+      }),
+      transformerTwoslash({
+        errorRendering: 'hover',
+        explicitTrigger: /\beslint-check\b/,
+        twoslasher: createTwoslasher({
+          eslintCodePreprocess: (code) => {
+            // Remove trailing newline and presentational `⏎` characters
+            return code.replace(/⏎(?=\n)/gu, '').replace(/⏎$/gu, '\n')
+          },
+          eslintConfig: [
+            {
+              files: ['**'],
+              plugins: {
+                '@stylistic': stylistic as ESLint.Plugin,
+                '@stylistic/js': stylisticJs as ESLint.Plugin,
+                '@stylistic/jsx': stylisticJsx as ESLint.Plugin,
+                '@stylistic/ts': stylisticTs as ESLint.Plugin,
+                '@stylistic/plus': stylisticPlus as ESLint.Plugin,
+              },
+              languageOptions: {
+                parser: parserTs as Linter.ParserModule,
+              },
+            },
+          ],
+        }),
+
+      }),
     ],
   },
 
@@ -232,6 +277,16 @@ export default defineConfig({
     },
     search: {
       provider: 'local',
+      options: {
+        _render(src, env, md) {
+          if (env.relativePath.endsWith('.alias.md'))
+            return ''
+          if (env.relativePath.endsWith('rules.md'))
+            return ''
+          const html = md.render(src, env)
+          return html
+        },
+      },
     },
 
     socialLinks: [

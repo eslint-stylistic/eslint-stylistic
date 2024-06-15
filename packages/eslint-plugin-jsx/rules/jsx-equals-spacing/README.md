@@ -1,3 +1,5 @@
+# jsx/jsx-equals-spacing
+
 Enforce or disallow spaces around equal signs in JSX attributes.
 
 ## Rule Details

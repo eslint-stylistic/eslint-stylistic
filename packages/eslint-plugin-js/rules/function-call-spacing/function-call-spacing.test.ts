@@ -3,12 +3,12 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import { RuleTester } from 'eslint'
 import rule from './function-call-spacing'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('function-call-spacing', rule, {
+run({
+  name: 'function-call-spacing',
+  rule,
   valid: [
 
     // default ("never")

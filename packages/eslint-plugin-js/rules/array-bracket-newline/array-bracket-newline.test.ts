@@ -3,12 +3,12 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-import { RuleTester } from 'eslint'
 import rule from './array-bracket-newline'
+import { $, run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('array-bracket-newline', rule, {
+run({
+  name: 'array-bracket-newline',
+  rule,
   valid: [
     /**
      * ArrayExpression
@@ -45,25 +45,25 @@ ruleTester.run('array-bracket-newline', rule, {
       options: ['always'],
     },
     {
-      code: `
-            var foo = [
-                [
-                    1,2
-                ]
+      code: $`
+        var foo = [
+            [
+                1,2
             ]
-            `,
+        ]
+      `,
       options: ['always'],
     },
     {
-      code: `
-            var foo = [
-                0,
-                [
-                    1,2
-                ],
-                3
-            ]
-            `,
+      code: $`
+        var foo = [
+            0,
+            [
+                1,2
+            ],
+            3
+        ]
+      `,
       options: ['always'],
     },
 

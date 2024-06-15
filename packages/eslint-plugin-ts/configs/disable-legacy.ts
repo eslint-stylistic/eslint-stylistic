@@ -19,6 +19,7 @@ const config: Linter.FlatConfig = {
     '@typescript-eslint/no-extra-semi': 0,
     '@typescript-eslint/object-curly-spacing': 0,
     '@typescript-eslint/padding-line-between-statements': 0,
+    '@typescript-eslint/quote-props': 0,
     '@typescript-eslint/quotes': 0,
     '@typescript-eslint/semi': 0,
     '@typescript-eslint/space-before-blocks': 0,

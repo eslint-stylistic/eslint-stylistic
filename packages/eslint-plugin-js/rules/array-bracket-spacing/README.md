@@ -2,10 +2,12 @@
 title: array-bracket-spacing
 rule_type: layout
 related_rules:
-- space-in-parens
-- object-curly-spacing
-- computed-property-spacing
+  - space-in-parens
+  - object-curly-spacing
+  - computed-property-spacing
 ---
+
+# js/array-bracket-spacing
 
 A number of style guides require or disallow spaces between array brackets and other tokens. This rule
 applies to both array literals and destructuring assignments (ECMAScript 6).

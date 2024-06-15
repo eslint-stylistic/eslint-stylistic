@@ -3,12 +3,12 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import { RuleTester } from 'eslint'
 import rule from './padded-blocks'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('padded-blocks', rule, {
+run({
+  name: 'padded-blocks',
+  rule,
   valid: [
     '{\n\na();\n\n}',
     '{\n\n\na();\n\n\n}',

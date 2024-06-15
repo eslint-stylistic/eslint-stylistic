@@ -41,8 +41,9 @@ export default createRule<RuleOptions, MessageIds>({
       if (
         allowSingleLine
         && isTokenOnSameLine(openingCurlyToken, closingCurlyToken)
-      )
+      ) {
         return
+      }
 
       const tokenBeforeOpeningCurly
         = sourceCode.getTokenBefore(openingCurlyToken)!

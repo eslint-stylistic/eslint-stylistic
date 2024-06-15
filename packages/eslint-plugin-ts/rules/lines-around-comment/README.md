@@ -1,6 +1,8 @@
 ---
-description: 'Require empty lines around comments.'
+description: Require empty lines around comments.
 ---
+
+# ts/lines-around-comment
 
 This rule extends the base [`lines-around-comment`](/rules/js/lines-around-comment) rule.
 It adds support for TypeScript syntax.

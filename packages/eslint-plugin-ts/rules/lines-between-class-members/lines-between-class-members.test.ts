@@ -1,64 +1,61 @@
 // this rule tests the new lines, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
 import rule from './lines-between-class-members'
+import { $, run } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('lines-between-class-members', rule, {
+run({
+  name: 'lines-between-class-members',
+  rule,
   valid: [
     {
-      code: `
-class foo {
-baz1() { }
-
-baz2() { }
-
-bar(a: string): void;
-bar(a: string, b:string): void;
-bar(a: string, b:string) {
-
-}
-
-qux1() { }
-
-qux2() { }
-};
+      code: $`
+        class foo {
+        baz1() { }
+        
+        baz2() { }
+        
+        bar(a: string): void;
+        bar(a: string, b:string): void;
+        bar(a: string, b:string) {
+        
+        }
+        
+        qux1() { }
+        
+        qux2() { }
+        };
       `,
       options: ['always'],
     },
     {
-      code: `
-class foo {
-bar(a: string): void;
-bar(a: string, b:string): void;
-bar(a: string, b:string) {
-
-}
-
-baz() { }
-
-qux() { }
-};
+      code: $`
+        class foo {
+        bar(a: string): void;
+        bar(a: string, b:string): void;
+        bar(a: string, b:string) {
+        
+        }
+        
+        baz() { }
+        
+        qux() { }
+        };
       `,
       options: ['always', { exceptAfterOverload: true }],
     },
     {
-      code: `
-class foo {
-bar(a: string): void;
-bar(a: string, b:string): void;
-bar(a: string, b:string) {
-
-}
-
-baz() { }
-qux() { }
-};
+      code: $`
+        class foo {
+        bar(a: string): void;
+        bar(a: string, b:string): void;
+        bar(a: string, b:string) {
+        
+        }
+        
+        baz() { }
+        qux() { }
+        };
       `,
       options: [
         'always',
@@ -66,20 +63,20 @@ qux() { }
       ],
     },
     {
-      code: `
-class foo{
-bar(a: string):void;
-
-bar(a: string, b:string):void;
-
-bar(a: string, b:string){
-
-}
-
-baz() { }
-
-qux() { }
-};
+      code: $`
+        class foo{
+        bar(a: string):void;
+        
+        bar(a: string, b:string):void;
+        
+        bar(a: string, b:string){
+        
+        }
+        
+        baz() { }
+        
+        qux() { }
+        };
       `,
       options: [
         'always',
@@ -87,16 +84,16 @@ qux() { }
       ],
     },
     {
-      code: `
-class foo {
-bar(a: string):void
-bar(a: string, b:string):void;
-bar(a: string, b:string){
-
-}
-baz() { }
-qux() { }
-};
+      code: $`
+        class foo {
+        bar(a: string):void
+        bar(a: string, b:string):void;
+        bar(a: string, b:string){
+        
+        }
+        baz() { }
+        qux() { }
+        };
       `,
       options: [
         'never',
@@ -104,16 +101,16 @@ qux() { }
       ],
     },
     {
-      code: `
-class foo{
-bar(a: string):void
-bar(a: string, b:string):void;
-bar(a: string, b:string){
-
-}
-baz() { }
-qux() { }
-};
+      code: $`
+        class foo{
+        bar(a: string):void
+        bar(a: string, b:string):void;
+        bar(a: string, b:string){
+        
+        }
+        baz() { }
+        qux() { }
+        };
       `,
       options: [
         'never',
@@ -121,11 +118,11 @@ qux() { }
       ],
     },
     {
-      code: `
-abstract class foo {
-abstract bar(a: string): void;
-abstract bar(a: string, b: string): void;
-};
+      code: $`
+        abstract class foo {
+        abstract bar(a: string): void;
+        abstract bar(a: string, b: string): void;
+        };
       `,
       options: ['always'],
     },
@@ -149,37 +146,37 @@ qux() { }
   ],
   invalid: [
     {
-      code: `
-class foo {
-baz1() { }
-baz2() { }
-
-bar(a: string): void;
-bar(a: string, b:string): void;
-bar(a: string, b:string) {
-
-}
-
-qux1() { }
-qux2() { }
-};
+      code: $`
+        class foo {
+        baz1() { }
+        baz2() { }
+        
+        bar(a: string): void;
+        bar(a: string, b:string): void;
+        bar(a: string, b:string) {
+        
+        }
+        
+        qux1() { }
+        qux2() { }
+        };
       `,
-      output: `
-class foo {
-baz1() { }
-
-baz2() { }
-
-bar(a: string): void;
-bar(a: string, b:string): void;
-bar(a: string, b:string) {
-
-}
-
-qux1() { }
-
-qux2() { }
-};
+      output: $`
+        class foo {
+        baz1() { }
+        
+        baz2() { }
+        
+        bar(a: string): void;
+        bar(a: string, b:string): void;
+        bar(a: string, b:string) {
+        
+        }
+        
+        qux1() { }
+        
+        qux2() { }
+        };
       `,
       options: ['always'],
       errors: [
@@ -192,29 +189,29 @@ qux2() { }
       ],
     },
     {
-      code: `
-class foo {
-bar(a: string): void;
-bar(a: string, b:string): void;
-bar(a: string, b:string) {
-
-}
-baz() { }
-qux() { }
-}
+      code: $`
+        class foo {
+        bar(a: string): void;
+        bar(a: string, b:string): void;
+        bar(a: string, b:string) {
+        
+        }
+        baz() { }
+        qux() { }
+        }
       `,
-      output: `
-class foo {
-bar(a: string): void;
-bar(a: string, b:string): void;
-bar(a: string, b:string) {
-
-}
-
-baz() { }
-
-qux() { }
-}
+      output: $`
+        class foo {
+        bar(a: string): void;
+        bar(a: string, b:string): void;
+        bar(a: string, b:string) {
+        
+        }
+        
+        baz() { }
+        
+        qux() { }
+        }
       `,
       options: ['always', { exceptAfterOverload: true }],
       errors: [
@@ -227,28 +224,28 @@ qux() { }
       ],
     },
     {
-      code: `
-class foo {
-bar(a: string): void;
-bar(a: string, b:string): void;
-bar(a: string, b:string) {
-
-}
-baz() { }
-qux() { }
-}
+      code: $`
+        class foo {
+        bar(a: string): void;
+        bar(a: string, b:string): void;
+        bar(a: string, b:string) {
+        
+        }
+        baz() { }
+        qux() { }
+        }
       `,
-      output: `
-class foo {
-bar(a: string): void;
-bar(a: string, b:string): void;
-bar(a: string, b:string) {
-
-}
-
-baz() { }
-qux() { }
-}
+      output: $`
+        class foo {
+        bar(a: string): void;
+        bar(a: string, b:string): void;
+        bar(a: string, b:string) {
+        
+        }
+        
+        baz() { }
+        qux() { }
+        }
       `,
       options: [
         'always',
@@ -261,32 +258,32 @@ qux() { }
       ],
     },
     {
-      code: `
-class foo {
-bar(a: string): void;
-bar(a: string, b:string): void;
-bar(a: string, b:string) {
-
-}
-
-baz() { }
-qux() { }
-}
+      code: $`
+        class foo {
+        bar(a: string): void;
+        bar(a: string, b:string): void;
+        bar(a: string, b:string) {
+        
+        }
+        
+        baz() { }
+        qux() { }
+        }
       `,
-      output: `
-class foo {
-bar(a: string): void;
-
-bar(a: string, b:string): void;
-
-bar(a: string, b:string) {
-
-}
-
-baz() { }
-
-qux() { }
-}
+      output: $`
+        class foo {
+        bar(a: string): void;
+        
+        bar(a: string, b:string): void;
+        
+        bar(a: string, b:string) {
+        
+        }
+        
+        baz() { }
+        
+        qux() { }
+        }
       `,
       options: [
         'always',
@@ -305,31 +302,31 @@ qux() { }
       ],
     },
     {
-      code: `
-class foo{
-bar(a: string):void;
-
-bar(a: string, b:string):void;
-
-bar(a: string, b:string){
-
-}
-
-baz() { }
-
-qux() { }
-};
+      code: $`
+        class foo{
+        bar(a: string):void;
+        
+        bar(a: string, b:string):void;
+        
+        bar(a: string, b:string){
+        
+        }
+        
+        baz() { }
+        
+        qux() { }
+        };
       `,
-      output: `
-class foo{
-bar(a: string):void;
-bar(a: string, b:string):void;
-bar(a: string, b:string){
-
-}
-baz() { }
-qux() { }
-};
+      output: $`
+        class foo{
+        bar(a: string):void;
+        bar(a: string, b:string):void;
+        bar(a: string, b:string){
+        
+        }
+        baz() { }
+        qux() { }
+        };
       `,
       options: [
         'never',

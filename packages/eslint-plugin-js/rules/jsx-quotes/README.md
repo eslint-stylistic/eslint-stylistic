@@ -2,8 +2,10 @@
 title: jsx-quotes
 rule_type: layout
 related_rules:
-- quotes
+  - quotes
 ---
+
+# js/jsx-quotes
 
 JSX attribute values can contain string literals, which are delimited with single or double quotes.
 

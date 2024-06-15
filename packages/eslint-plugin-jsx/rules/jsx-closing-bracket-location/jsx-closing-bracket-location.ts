@@ -295,7 +295,10 @@ export default createRule<MessageIds, RuleOptions>({
         const data: {
           location: string
           details?: string
-        } = { location: MESSAGE_LOCATION[expectedLocation as keyof typeof MESSAGE_LOCATION] }
+        } = {
+          location: MESSAGE_LOCATION[expectedLocation as keyof typeof MESSAGE_LOCATION],
+          details: '',
+        }
         const correctColumn = getCorrectColumn(tokens, expectedLocation)
 
         if (correctColumn !== null) {

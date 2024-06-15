@@ -3,12 +3,12 @@
  * @author Nodeca Team <https://github.com/nodeca>
  */
 
-import { RuleTester } from 'eslint'
 import rule from './eol-last'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('eol-last', rule, {
+run({
+  name: 'eol-last',
+  rule,
 
   valid: [
     '',
@@ -51,8 +51,6 @@ ruleTester.run('eol-last', rule, {
         type: 'Program',
         line: 1,
         column: 13,
-        endLine: void 0,
-        endColumn: void 0,
       }],
     },
     {
@@ -63,8 +61,6 @@ ruleTester.run('eol-last', rule, {
         type: 'Program',
         line: 2,
         column: 4,
-        endLine: void 0,
-        endColumn: void 0,
       }],
     },
     {
@@ -156,8 +152,6 @@ ruleTester.run('eol-last', rule, {
         type: 'Program',
         line: 1,
         column: 13,
-        endLine: void 0,
-        endColumn: void 0,
       }],
     },
     {
@@ -169,8 +163,7 @@ ruleTester.run('eol-last', rule, {
         type: 'Program',
         line: 2,
         column: 4,
-        endLine: void 0,
-        endColumn: void 0,
+
       }],
     },
 
@@ -184,8 +177,6 @@ ruleTester.run('eol-last', rule, {
         type: 'Program',
         line: 1,
         column: 13,
-        endLine: void 0,
-        endColumn: void 0,
       }],
     },
     {
@@ -197,8 +188,6 @@ ruleTester.run('eol-last', rule, {
         type: 'Program',
         line: 2,
         column: 4,
-        endLine: void 0,
-        endColumn: void 0,
       }],
     },
   ],

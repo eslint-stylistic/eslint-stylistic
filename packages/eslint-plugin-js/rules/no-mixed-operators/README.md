@@ -2,8 +2,10 @@
 title: no-mixed-operators
 rule_type: suggestion
 related_rules:
-- no-extra-parens
+  - no-extra-parens
 ---
+
+# js/no-mixed-operators
 
 Enclosing complex expressions by parentheses clarifies the developer's intention, which makes the code more readable.
 This rule warns when different operators are used consecutively without parentheses in an expression.
@@ -87,7 +89,8 @@ var foo = (a + b) * c;
 
 This rule has 2 options.
 
-- `groups` (`string[][]`) - specifies operator groups to be checked. The `groups` option is a list of groups, and a group is a list of binary operators. Default operator groups are defined as arithmetic, bitwise, comparison, logical, and relational operators. Note: Ternary operator(?:) can be part of any group and by default is allowed to be mixed with other operators.
+- `groups` (`string[][]`) - specifies operator groups to be checked. The `groups` option is a list of groups, and a group is a list of binary operators. Default operator groups are defined as _arithmetic_, _bitwise_, _comparison_, _logical_, and _relational_ operators.\
+  Note: Coalesce operator (`"??"`) and Ternary operator (`"?:"`) are not part of any group in the default configuration and therefore are allowed to be mixed with all other operators.
 
 - `allowSamePrecedence` (`boolean`) - specifies whether to allow mixed operators if they are of equal precedence. Default is `true`.
 
@@ -99,14 +102,15 @@ The following operators can be used in `groups` option:
 - Bitwise Operators: `"&"`, `"|"`, `"^"`, `"~"`, `"<<"`, `">>"`, `">>>"`
 - Comparison Operators: `"=="`, `"!="`, `"==="`, `"!=="`, `">"`, `">="`, `"<"`, `"<="`
 - Logical Operators: `"&&"`, `"||"`
-- Coalesce Operator: `"??"`
 - Relational Operators: `"in"`, `"instanceof"`
-- Ternary Operator: `?:`
+- Coalesce Operator: `"??"`
+- Ternary Operator: `"?:"`
 
+The rule checks each configured group separately - warnings or errors are only triggered if operators within the same group are mixed (without using parentheses).
+Inter-group usage is not checked.
 Now, consider the following group configuration: `{"groups": [["&", "|", "^", "~", "<<", ">>", ">>>"], ["&&", "||"]]}`.
 There are 2 groups specified in this configuration: bitwise operators and logical operators.
-This rule checks if the operators belong to the same group only.
-In this case, this rule checks if bitwise operators and logical operators are mixed, but ignores all other operators.
+In this case, this rule checks if bitwise operators are mixed with bitwise operators, and if logical operators are mixed with logical operators, but ignores all other operators.
 
 Examples of **incorrect** code for this rule with `{"groups": [["&", "|", "^", "~", "<<", ">>", ">>>"], ["&&", "||"]]}` option:
 
@@ -180,7 +184,7 @@ Examples of **correct** code for this rule with `{"allowSamePrecedence": true}` 
 ```js
 /*eslint no-mixed-operators: ["error", {"allowSamePrecedence": true}]*/
 
-// + and - have the same precedence.
+// + and - belong to the same default group; they have the same precedence.
 var foo = a + b - c;
 ```
 
@@ -193,7 +197,7 @@ Examples of **incorrect** code for this rule with `{"allowSamePrecedence": false
 ```js
 /*eslint no-mixed-operators: ["error", {"allowSamePrecedence": false}]*/
 
-// + and - have the same precedence.
+// + and - belong to the same default group; they have the same precedence.
 var foo = a + b - c;
 ```
 
@@ -206,7 +210,7 @@ Examples of **correct** code for this rule with `{"allowSamePrecedence": false}`
 ```js
 /*eslint no-mixed-operators: ["error", {"allowSamePrecedence": false}]*/
 
-// + and - have the same precedence.
+// + and - belong to the same default group; they have the same precedence.
 var foo = (a + b) - c;
 ```
 

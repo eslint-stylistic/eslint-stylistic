@@ -3,17 +3,9 @@
  * @author Yannick Croissant
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-closing-bracket-location'
-
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-}
+import { run } from '#test'
 
 const MESSAGE_AFTER_PROPS = 'placed after the last prop'
 const MESSAGE_AFTER_TAG = 'placed after the opening tag'
@@ -26,8 +18,15 @@ function details(expectedColumn: number, expectedNextLine: boolean) {
   return ` (expected column ${expectedColumn}${expectedNextLine ? ' on the next line)' : ')'}`
 }
 
-const ruleTester = new RuleTester({ parserOptions })
-ruleTester.run('jsx-closing-bracket-location', rule, {
+run({
+  name: 'jsx-closing-bracket-location',
+  rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: `
@@ -408,7 +407,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_TAG },
+          data: { location: MESSAGE_AFTER_TAG, details: '' },
         },
       ],
     },
@@ -423,7 +422,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -438,7 +437,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -525,7 +524,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -567,7 +566,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -633,7 +632,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -675,7 +674,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -1087,7 +1086,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_TAG },
+          data: { location: MESSAGE_AFTER_TAG, details: '' },
         },
       ],
     },
@@ -1205,7 +1204,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -1247,7 +1246,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -1313,7 +1312,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -1355,7 +1354,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_PROPS },
+          data: { location: MESSAGE_AFTER_PROPS, details: '' },
         },
       ],
     },
@@ -1767,7 +1766,7 @@ ruleTester.run('jsx-closing-bracket-location', rule, {
       errors: [
         {
           messageId: 'bracketLocation',
-          data: { location: MESSAGE_AFTER_TAG },
+          data: { location: MESSAGE_AFTER_TAG, details: '' },
         },
       ],
     },

@@ -85,8 +85,9 @@ export default createRule<MessageIds, RuleOptions>({
           if (
             !spacesRe.test(sourceCode.text.slice(leftToken.range[1], rightToken.range[0]))
             || leftToken.loc.end.line < rightToken.loc.start.line
-          )
+          ) {
             return
+          }
 
           // Ignore comments that are the last token on their line if `ignoreEOLComments` is active.
           if (
@@ -96,8 +97,9 @@ export default createRule<MessageIds, RuleOptions>({
               leftIndex === tokensAndComments.length - 2
               || rightToken.loc.end.line < tokensAndComments[leftIndex + 2].loc.start.line
             )
-          )
+          ) {
             return
+          }
 
           // Ignore tokens that are in a node in the "exceptions" object
           if (hasExceptions) {

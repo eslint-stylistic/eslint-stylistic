@@ -1,6 +1,6 @@
 export {};
 
-// eslint-disable-next-line no-console
+
 var log = console.log;
 
 // Define a class using ES6 class syntax
@@ -107,7 +107,7 @@ let a, b, c, d, foo;
 
 if (a ||
   b ||
-      c || d
+  c || d
 ) {
 
     foo();

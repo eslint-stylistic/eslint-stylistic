@@ -3,17 +3,17 @@
  * @author Jamund Ferguson
  */
 
-import { RuleTester } from 'eslint'
 import rule from './generator-star-spacing'
-
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2018 } })
+import { run } from '#test'
 
 const missingBeforeError = { messageId: 'missingBefore', type: 'Punctuator' }
 const missingAfterError = { messageId: 'missingAfter', type: 'Punctuator' }
 const unexpectedBeforeError = { messageId: 'unexpectedBefore', type: 'Punctuator' }
 const unexpectedAfterError = { messageId: 'unexpectedAfter', type: 'Punctuator' }
 
-ruleTester.run('generator-star-spacing', rule, {
+run({
+  name: 'generator-star-spacing',
+  rule,
 
   valid: [
 

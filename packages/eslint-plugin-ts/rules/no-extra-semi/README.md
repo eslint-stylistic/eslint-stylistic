@@ -1,6 +1,8 @@
 ---
-description: 'Disallow unnecessary semicolons.'
+description: Disallow unnecessary semicolons.
 ---
+
+# ts/no-extra-semi
 
 This rule extends the base [`no-extra-semi`](/rules/js/no-extra-semi) rule.
 It adds support for class properties.

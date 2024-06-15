@@ -1,3 +1,5 @@
+# jsx/jsx-newline
+
 Require or prevent a new line after jsx elements and expressions
 
 ## Rule Details

@@ -3,15 +3,15 @@
  * @author Ian Christian Myers
  */
 
-import { RuleTester } from 'eslint'
 import { createParserResolver } from '../../test-utils/fixture-parser'
 import rule from './array-bracket-spacing'
+import { run } from '#test'
 
 const parser = createParserResolver('array-bracket-spacing')
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('array-bracket-spacing', rule, {
+run({
+  name: 'array-bracket-spacing',
+  rule,
 
   valid: [
     { code: 'var foo = obj[ 1 ]', options: ['always'] },

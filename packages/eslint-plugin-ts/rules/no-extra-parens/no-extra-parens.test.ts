@@ -1,20 +1,18 @@
 // this rule tests extra parens, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
+import { run } from '../../../test-utils/runner'
 import rule from './no-extra-parens'
 
-const ruleTester = new RuleTester({
+run({
+  name: 'no-extra-parens',
+  rule,
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
     },
   },
-  parser: '@typescript-eslint/parser',
-})
 
-ruleTester.run('no-extra-parens', rule, {
   valid: [
     'async function f(arg: any) { await (arg as Promise<void>); }',
     'async function f(arg: Promise<any>) { await arg; }',

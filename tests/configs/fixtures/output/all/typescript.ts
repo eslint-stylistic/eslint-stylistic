@@ -2,8 +2,8 @@ export {};
 
 // Define a TypeScript interface
 interface Person< T = string, K = number > {
-    name: string;
-    age: number;
+    "name": string;
+    "age": number;
 }
 
 type Tuple = [ foo: number, bar: String | Boolean];
@@ -18,7 +18,7 @@ const people: Person[] = [
         "age": 35}
 ];
 
-// eslint-disable-next-line no-console
+
 var log = console.log;
 
 // Use a for...of loop to iterate over the array
@@ -37,9 +37,9 @@ function identity< T > (arg: T): T {
 
 // TypeScript enum
 enum EnumFoo {
-    aaa,
-    bbb,
-    ccc
+    "aaa",
+    "bbb",
+    "ccc"
 }
 
 // Use the generic function with type inference
@@ -48,8 +48,8 @@ log(result);
 
 // Use optional properties in an interface
 interface Car {
-    make: string;
-    model?: string;
+    "make": string;
+    "model"?: string;
 }
 
 // Create objects using the interface

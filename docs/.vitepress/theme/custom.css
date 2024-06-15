@@ -14,3 +14,13 @@
   position: absolute;
   opacity: 0.3;
 }
+
+.vp-code .eslint-error {
+  border-bottom: solid 1px red;
+}
+
+.vp-code .eslint-error-on-eol {
+  border-left: 3px solid transparent;
+  border-right: 3px solid transparent;
+  border-bottom: 4px solid #d11;
+}

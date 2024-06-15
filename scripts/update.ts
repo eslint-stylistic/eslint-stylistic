@@ -11,7 +11,12 @@ import fg from 'fast-glob'
 import { pascalCase } from 'change-case'
 import type { JSONSchema4 } from 'json-schema'
 import { compile as compileSchema } from 'json-schema-to-typescript'
+
+// @ts-expect-error https://github.com/privatenumber/tsx/issues/38
+import config from '../packages/eslint-plugin/configs/customize'
 import type { PackageInfo, RuleInfo } from '../packages/metadata/src/types'
+
+const rulesInSharedConfig = new Set<string>(Object.keys(config.customize().rules))
 
 const header = `
 /* GENERATED, DO NOT EDIT DIRECTLY */
@@ -156,6 +161,7 @@ async function readPackage(path: string): Promise<PackageInfo> {
             description: realName !== name
               ? `${meta?.docs?.description}. Alias of \`${name}\`.`
               : meta?.docs?.description,
+            recommended: rulesInSharedConfig.has(`@stylistic/${realName}`),
           },
         },
       }
@@ -327,7 +333,7 @@ async function generateDTS(
       schemas = [schemas]
 
     const options = await Promise.all(schemas.map(async (schema, index) => {
-      schema = JSON.parse(JSON.stringify(schema).replace(/\#\/items\/0\/\$defs\//g, '#/$defs/'))
+      schema = JSON.parse(JSON.stringify(schema).replace(/#\/items\/0\/\$defs\//g, '#/$defs/'))
 
       try {
         const compiled = await compileSchema(schema, `Schema${index}`, {
@@ -389,7 +395,7 @@ async function generateConfigs(pkg: PackageInfo) {
 
 function camelCase(str: string) {
   return str
-    .replace(/[^\d\w_-]+/, '')
+    .replace(/[^\w-]+/, '')
     .replace(/-([a-z])/g, (_, c) => c.toUpperCase())
 }
 

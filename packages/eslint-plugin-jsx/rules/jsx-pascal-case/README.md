@@ -1,3 +1,5 @@
+# jsx/jsx-pascal-case
+
 Enforces coding style that user-defined JSX components are defined and referenced in PascalCase.
 
 Note that since React's JSX uses the upper vs. lower case convention to distinguish between local component classes and HTML tags this rule will not warn on components that start with a lower case letter.

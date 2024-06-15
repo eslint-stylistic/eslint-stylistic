@@ -1,6 +1,8 @@
 ---
-description: 'Require or disallow an empty line between class members.'
+description: Require or disallow an empty line between class members.
 ---
+
+# ts/lines-between-class-members
 
 This rule extends the base [`lines-between-class-members`](/rules/js/lines-between-class-members) rule.
 It adds support for ignoring overload methods in a class.
@@ -14,7 +16,7 @@ In addition to the options supported by the `js/lines-between-class-members` rul
   - `"exceptAfterOverload": true` (default) - Skip checking empty lines after overload class members
   - `"exceptAfterOverload": false` - **do not** skip checking empty lines after overload class members
 
-- [See the other options allowed](https://github.com/eslint/eslint/blob/main/docs/rules/lines-between-class-members.md#options)
+- [See the other options allowed](https://github.com/eslint/eslint/blob/main/docs/src/rules/lines-between-class-members.md#options)
 
 ### `exceptAfterOverload: true`
 

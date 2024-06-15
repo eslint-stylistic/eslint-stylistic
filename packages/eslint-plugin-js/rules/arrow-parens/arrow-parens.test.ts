@@ -3,16 +3,14 @@
  * @author Jxck
  */
 
-import { RuleTester } from 'eslint'
 import { createParserResolver } from '../../test-utils/fixture-parser'
 import rule from './arrow-parens'
+import type { InvalidTestCase, ValidTestCase } from '#test'
+import { run } from '#test'
 
 const parser = createParserResolver('arrow-parens')
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
-
-const valid: (string | RuleTester.ValidTestCase)[] = [
-
+const valid: ValidTestCase[] = [
   // "always" (by default)
   '() => {}',
   '(a) => {}',
@@ -218,8 +216,7 @@ const valid: (string | RuleTester.ValidTestCase)[] = [
 
 const type = 'ArrowFunctionExpression'
 
-const invalid: RuleTester.InvalidTestCase[] = [
-
+const invalid: InvalidTestCase[] = [
   // "always" (by default)
   {
     code: 'a => {}',
@@ -538,7 +535,9 @@ bar();`,
 
 ]
 
-ruleTester.run('arrow-parens', rule, {
+run({
+  name: 'arrow-parens',
+  rule,
   valid,
   invalid,
 })

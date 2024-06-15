@@ -144,8 +144,9 @@ export default createRule<MessageIds, RuleOptions>({
 
             && isTokenOnSameLine(previousToken, token)
             && options.before !== sourceCode.isSpaceBetweenTokens(previousToken, token)
-          )
+          ) {
             report(token, 'before', previousToken)
+          }
 
           if (
             nextToken
@@ -156,8 +157,9 @@ export default createRule<MessageIds, RuleOptions>({
             && !(!options.after && nextToken.type === 'Line') // special case, allow space before line comment
             && isTokenOnSameLine(token, nextToken)
             && options.after !== sourceCode.isSpaceBetweenTokens(token, nextToken)
-          )
+          ) {
             report(token, 'after', nextToken)
+          }
         })
       },
       'ArrayExpression': addNullElementsToIgnoreList,

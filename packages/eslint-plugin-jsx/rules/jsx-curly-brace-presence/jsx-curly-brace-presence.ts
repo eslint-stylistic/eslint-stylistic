@@ -59,7 +59,7 @@ export default createRule<MessageIds, RuleOptions>({
   },
 
   create(context) {
-    const HTML_ENTITY_REGEX = () => /&[A-Za-z\d#]+;/g
+    const HTML_ENTITY_REGEX = () => /&[A-Z\d#]+;/gi
     const ruleOptions = context.options[0]
 
     const userConfig = typeof ruleOptions === 'string'
@@ -141,7 +141,7 @@ export default createRule<MessageIds, RuleOptions>({
         if (line.trim() === '')
           return line
 
-        const firstCharIndex = line.search(/[^\s]/)
+        const firstCharIndex = line.search(/\S/)
         const leftWhitespace = line.slice(0, firstCharIndex)
         const text = line.slice(firstCharIndex)
 
@@ -208,8 +208,9 @@ export default createRule<MessageIds, RuleOptions>({
             containsOnlyHtmlEntities(literalNode.raw)
             || (literalNode.parent.type === 'JSXAttribute' && containsLineTerminators(literalNode.raw))
             || isLineBreak(literalNode.raw)
-          )
+          ) {
             return null
+          }
 
           const expression = literalNode.parent.type === 'JSXAttribute'
             ? `{"${escapeDoubleQuotes(escapeBackslashes(
@@ -258,8 +259,10 @@ export default createRule<MessageIds, RuleOptions>({
           isJSX(JSXExpressionNode.parent)
           || !containsQuoteCharacters(expression.value)
         )
-      )
+      ) {
         reportUnnecessaryCurly(JSXExpressionNode)
+      }
+
       else if (
         expressionType === 'TemplateLiteral'
         && expression.expressions.length === 0
@@ -267,10 +270,13 @@ export default createRule<MessageIds, RuleOptions>({
         && !isStringWithTrailingWhiteSpaces(expression.quasis[0].value.raw)
         && !needToEscapeCharacterForJSX(expression.quasis[0].value.raw, JSXExpressionNode)
         && !containsQuoteCharacters(expression.quasis[0].value.cooked)
-      )
+      ) {
         reportUnnecessaryCurly(JSXExpressionNode)
-      else if (isJSX(expression))
+      }
+
+      else if (isJSX(expression)) {
         reportUnnecessaryCurly(JSXExpressionNode)
+      }
     }
 
     function areRuleConditionsSatisfied(parent: Tree.StringLiteral | Tree.JSXText | Tree.JSXElement | Tree.JSXAttribute, config: typeof userConfig, ruleCondition: (typeof userConfig)['props']) {
@@ -330,8 +336,9 @@ export default createRule<MessageIds, RuleOptions>({
         && node.expression.type !== 'Literal'
         && node.expression.type !== 'StringLiteral' as any // StringLiteral extends Literal, so ts think it's the same type
         && node.expression.type !== 'TemplateLiteral')
-      )
+      ) {
         return false
+      }
 
       // If there are adjacent `JsxExpressionContainer` then there is no need,
       // to check for unnecessary curly braces.
@@ -345,8 +352,9 @@ export default createRule<MessageIds, RuleOptions>({
         (parent as Tree.JSXElement).children
         && (parent as Tree.JSXElement).children.length === 1
         && containsWhitespaceExpression(node)
-      )
+      ) {
         return false
+      }
 
       return areRuleConditionsSatisfied(parent, config, OPTION_NEVER)
     }
@@ -358,16 +366,18 @@ export default createRule<MessageIds, RuleOptions>({
       if (
         isLineBreak(node.raw)
         || containsOnlyHtmlEntities(node.raw)
-      )
+      ) {
         return false
+      }
 
       const parent = node.parent as Tree.JSXElement
       if (
         parent.children
         && parent.children.length === 1
         && containsWhitespaceExpression(parent.children[0] as Tree.JSXExpressionContainer)
-      )
+      ) {
         return false
+      }
 
       return areRuleConditionsSatisfied(parent, config, OPTION_ALWAYS)
     }

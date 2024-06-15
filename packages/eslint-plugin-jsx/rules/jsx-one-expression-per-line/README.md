@@ -1,3 +1,5 @@
+# jsx/jsx-one-expression-per-line
+
 Require one JSX element per line.
 
 Note: The fixer will insert line breaks between any expression that are on the same line.
@@ -6,7 +8,11 @@ Note: The fixer will insert line breaks between any expression that are on the s
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-one-expression-per-line: "error" */
+
 <App><Hello /></App>
 
 <App><Hello />
@@ -49,6 +55,8 @@ Examples of **incorrect** code for this rule:
 ```
 
 Examples of **correct** code for this rule:
+
+::: correct
 
 ```jsx
 <App>
@@ -104,7 +112,7 @@ Examples of **correct** code for this rule:
 
 ```js
 ...
-"@stylistic/jsx/jsx-one-expression-per-line": [<enabled>, { "allow": "none"|"literal"|"single-child" }]
+"@stylistic/jsx/jsx-one-expression-per-line": [<enabled>, { "allow": "none"|"literal"|"single-child"|"non-jsx" }]
 ...
 ```
 
@@ -126,4 +134,30 @@ Examples of **correct** code for this rule, when configured as `"single-child"`:
 <App>{"Hello"}</App>
 
 <App><Hello /></App>
+```
+
+Examples of **correct** code for this rule, when configured as `"single-line"`:
+
+```jsx
+<App>Hello <span>ESLint</span></App>
+
+<App>{"Hello"} {"ESLint"}</App>
+
+<App>
+  <Hello /> <ESLint />
+</App>
+```
+
+Examples of **correct** code for this rule, when configured as `"non-jsx"`:
+
+```jsx
+<App>Hello {someVariable}</App>
+
+<App>Hello {<Hello />} there!</App>
+
+<App>
+  Hello
+  <Hello />
+  there!
+</App>
 ```

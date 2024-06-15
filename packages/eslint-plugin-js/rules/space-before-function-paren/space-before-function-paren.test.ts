@@ -3,13 +3,13 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './space-before-function-paren'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('space-before-function-paren', rule, {
+run({
+  name: 'space-before-function-paren',
+  rule,
 
   valid: [
     'function foo () {}',
@@ -582,14 +582,14 @@ ruleTester.run('space-before-function-paren', rule, {
       output: 'async () => 1',
       options: [{ asyncArrow: 'always' }],
       parserOptions: { ecmaVersion: 8 },
-      errors: ['Missing space before function parentheses.'],
+      errors: [{ message: 'Missing space before function parentheses.' }],
     },
     {
       code: 'async () => 1',
       output: 'async() => 1',
       options: [{ asyncArrow: 'never' }],
       parserOptions: { ecmaVersion: 8 },
-      errors: ['Unexpected space before function parentheses.'],
+      errors: [{ message: 'Unexpected space before function parentheses.' }],
     },
     {
       code: 'async() => 1',

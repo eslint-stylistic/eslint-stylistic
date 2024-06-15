@@ -2,9 +2,11 @@
 title: lines-around-comment
 rule_type: layout
 related_rules:
-- space-before-blocks
-- spaced-comment
+  - space-before-blocks
+  - spaced-comment
 ---
+
+# js/lines-around-comment
 
 Many style guides require empty lines before or after comments. The primary goal
 of these rules is to make the comments easier to read and improve readability of the code.

@@ -1,6 +1,8 @@
 ---
-description: 'Require a specific member delimiter style for interfaces and type literals.'
+description: Require a specific member delimiter style for interfaces and type literals.
 ---
+
+# ts/member-delimiter-style
 
 TypeScript allows three delimiters between members in interfaces and type aliases:
 

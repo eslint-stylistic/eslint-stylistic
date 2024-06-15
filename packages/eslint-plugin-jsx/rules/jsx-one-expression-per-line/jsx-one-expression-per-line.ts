@@ -38,7 +38,7 @@ export default createRule<MessageIds, RuleOptions>({
         properties: {
           allow: {
             type: 'string',
-            enum: ['none', 'literal', 'single-child'],
+            enum: ['none', 'literal', 'single-child', 'single-line', 'non-jsx'],
           },
         },
         default: optionDefaults,
@@ -66,6 +66,13 @@ export default createRule<MessageIds, RuleOptions>({
       if (!children || !children.length)
         return
 
+      if (
+        options.allow === 'non-jsx'
+        && !children.find(child => (child.type === 'JSXFragment' || child.type === 'JSXElement'))
+      ) {
+        return
+      }
+
       const openingElement = (<Tree.JSXElement>node).openingElement || (<Tree.JSXFragment>node).openingFragment
       const closingElement = (<Tree.JSXElement>node).closingElement || (<Tree.JSXFragment>node).closingFragment
       const openingElementStartLine = openingElement.loc.start.line
@@ -85,9 +92,28 @@ export default createRule<MessageIds, RuleOptions>({
           if (
             options.allow === 'single-child'
             || (options.allow === 'literal' && (child.type === 'Literal' || child.type === 'JSXText'))
-          )
+            || (options.allow === 'single-line')
+          ) {
             return
+          }
         }
+      }
+
+      if (options.allow === 'single-line') {
+        const firstChild = children[0]
+        const lastChild = children[children.length - 1]
+        const lineDifference = lastChild.loc.end.line - firstChild.loc.start.line
+        let lineBreaks = 0
+        if (firstChild.type === 'Literal' || firstChild.type === 'JSXText') {
+          if (/^\s*?\n/.test(firstChild.raw))
+            lineBreaks += 1
+        }
+        if (lastChild.type === 'Literal' || lastChild.type === 'JSXText') {
+          if (/\n\s*$/.test(lastChild.raw))
+            lineBreaks += 1
+        }
+        if (lineDifference === 0 && lineBreaks === 0 || lineDifference === 2 && lineBreaks === 2)
+          return
       }
 
       const childrenGroupedByLine: Record<number, Child[]> = {}
@@ -210,7 +236,7 @@ export default createRule<MessageIds, RuleOptions>({
 
         const nodeToReport = details.node
         const descriptor = details.descriptor
-        const source = details.source.replace(/(^ +| +(?=\n)*$)/g, '')
+        const source = details.source.replace(/(^ +| +$)/g, '')
 
         const leadingSpaceString = details.leadingSpace ? '\n{\' \'}' : ''
         const trailingSpaceString = details.trailingSpace ? '{\' \'}\n' : ''

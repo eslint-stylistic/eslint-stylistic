@@ -1,18 +1,8 @@
 // this rule tests quotes, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { RuleTester } from '@typescript-eslint/rule-tester'
-
 import rule from './quotes'
-
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    ecmaVersion: 6,
-    sourceType: 'module',
-    ecmaFeatures: {},
-  },
-})
+import { $, run } from '#test'
 
 const useDoubleQuote = {
   messageId: 'wrongQuotes' as const,
@@ -35,14 +25,16 @@ const useBacktick = {
   },
 }
 
-ruleTester.run('quotes', rule, {
+run({
+  name: 'quotes',
+  rule,
   valid: [
     {
       code: 'declare module \'*.html\' {}',
       options: ['backtick'],
     },
     {
-      code: `
+      code: $`
         class A {
           public prop: IProps[\`prop\`];
         }
@@ -69,6 +61,14 @@ ruleTester.run('quotes', rule, {
       options: ['double'],
     },
     {
+      code: 'var foo = \'bar\';',
+      options: ['double', { ignoreStringLiterals: true }],
+    },
+    {
+      code: 'var foo = "bar";',
+      options: ['single', { ignoreStringLiterals: true }],
+    },
+    {
       code: 'var foo = "\'";',
       options: [
         'single',
@@ -79,6 +79,24 @@ ruleTester.run('quotes', rule, {
     },
     {
       code: 'var foo = \'"\';',
+      options: [
+        'double',
+        {
+          avoidEscape: true,
+        },
+      ],
+    },
+    {
+      code: 'var foo = `\'`;',
+      options: [
+        'single',
+        {
+          avoidEscape: true,
+        },
+      ],
+    },
+    {
+      code: 'var foo = `"`;',
       options: [
         'double',
         {
@@ -350,174 +368,174 @@ ruleTester.run('quotes', rule, {
     },
 
     {
-      code: `
-interface Foo {
-  a: number;
-  b: string;
-  "a-b": boolean;
-  "a-b-c": boolean;
-}
+      code: $`
+        interface Foo {
+          a: number;
+          b: string;
+          "a-b": boolean;
+          "a-b-c": boolean;
+        }
       `,
     },
     {
-      code: `
-interface Foo {
-  a: number;
-  b: string;
-  'a-b': boolean;
-  'a-b-c': boolean;
-}
+      code: $`
+        interface Foo {
+          a: number;
+          b: string;
+          'a-b': boolean;
+          'a-b-c': boolean;
+        }
       `,
       options: ['single'],
     },
     {
-      code: `
-interface Foo {
-  a: number;
-  b: string;
-  'a-b': boolean;
-  'a-b-c': boolean;
-}
+      code: $`
+        interface Foo {
+          a: number;
+          b: string;
+          'a-b': boolean;
+          'a-b-c': boolean;
+        }
       `,
       options: ['backtick'],
     },
 
     // TSEnumMember
     {
-      code: `
-enum Foo {
-  A = 1,
-  "A-B" = 2
-}
+      code: $`
+        enum Foo {
+          A = 1,
+          "A-B" = 2
+        }
       `,
     },
     {
-      code: `
-enum Foo {
-  A = 1,
-  'A-B' = 2
-}
+      code: $`
+        enum Foo {
+          A = 1,
+          'A-B' = 2
+        }
       `,
       options: ['single'],
     },
     {
-      code: `
-enum Foo {
-  A = \`A\`,
-  'A-B' = \`A-B\`
-}
+      code: $`
+        enum Foo {
+          A = \`A\`,
+          'A-B' = \`A-B\`
+        }
       `,
       options: ['backtick'],
     },
 
     // TSMethodSignature
     {
-      code: `
-interface Foo {
-  a(): void;
-  "a-b"(): void;
-}
+      code: $`
+        interface Foo {
+          a(): void;
+          "a-b"(): void;
+        }
       `,
     },
     {
-      code: `
-interface Foo {
-  a(): void;
-  'a-b'(): void;
-}
+      code: $`
+        interface Foo {
+          a(): void;
+          'a-b'(): void;
+        }
       `,
       options: ['single'],
     },
     {
-      code: `
-interface Foo {
-  a(): void;
-  'a-b'(): void;
-}
+      code: $`
+        interface Foo {
+          a(): void;
+          'a-b'(): void;
+        }
       `,
       options: ['backtick'],
     },
 
     // PropertyDefinition
     {
-      code: `
-class Foo {
-  public a = "";
-  public "a-b" = "";
-}
+      code: $`
+        class Foo {
+          public a = "";
+          public "a-b" = "";
+        }
       `,
     },
     {
-      code: `
-class Foo {
-  public a = '';
-  public 'a-b' = '';
-}
+      code: $`
+        class Foo {
+          public a = '';
+          public 'a-b' = '';
+        }
       `,
       options: ['single'],
     },
     {
-      code: `
-class Foo {
-  public a = \`\`;
-  public 'a-b' = \`\`;
-}
+      code: $`
+        class Foo {
+          public a = \`\`;
+          public 'a-b' = \`\`;
+        }
       `,
       options: ['backtick'],
     },
 
     // TSAbstractPropertyDefinition
     {
-      code: `
-abstract class Foo {
-  public abstract a: "";
-  public abstract "a-b": "";
-}
+      code: $`
+        abstract class Foo {
+          public abstract a: "";
+          public abstract "a-b": "";
+        }
       `,
     },
     {
-      code: `
-abstract class Foo {
-  public abstract a: '';
-  public abstract 'a-b': '';
-}
+      code: $`
+        abstract class Foo {
+          public abstract a: '';
+          public abstract 'a-b': '';
+        }
       `,
       options: ['single'],
     },
     {
-      code: `
-abstract class Foo {
-  public abstract a: \`\`;
-  public abstract 'a-b': \`\`;
-}
+      code: $`
+        abstract class Foo {
+          public abstract a: \`\`;
+          public abstract 'a-b': \`\`;
+        }
       `,
       options: ['backtick'],
     },
 
     // TSAbstractMethodDefinition
     {
-      code: `
-abstract class Foo {
-  public abstract a(): void;
-  public abstract "a-b"(): void;
-}
+      code: $`
+        abstract class Foo {
+          public abstract a(): void;
+          public abstract "a-b"(): void;
+        }
       `,
     },
     {
-      code: `
-abstract class Foo {
-  public abstract a(): void;
-  public abstract 'a-b'(): void;
-}
+      code: $`
+        abstract class Foo {
+          public abstract a(): void;
+          public abstract 'a-b'(): void;
+        }
       `,
       options: ['single'],
     },
     {
-      code: `
-abstract class Foo {
-  public abstract a(): void;
-  public abstract 'a-b'(): void;
-}
+      code: $`
+        abstract class Foo {
+          public abstract a(): void;
+          public abstract 'a-b'(): void;
+        }
       `,
       options: ['backtick'],
     },
@@ -540,6 +558,19 @@ abstract class Foo {
       output: 'var foo = \'bar\';',
       options: ['single'],
       errors: [useSingleQuote],
+    },
+    {
+      code: 'var foo = `bar`;',
+      output: 'var foo = \'bar\';',
+      options: ['single', { ignoreStringLiterals: true }],
+      parserOptions: {
+        ecmaVersion: 6,
+      },
+      errors: [{
+        messageId: 'wrongQuotes',
+        data: { description: 'singlequote' },
+        type: 'TemplateLiteral',
+      }],
     },
     {
       code: 'var foo = \'don\\\'t\';',
@@ -576,6 +607,24 @@ abstract class Foo {
           avoidEscape: true,
         },
       ],
+      errors: [useSingleQuote],
+    },
+    {
+      code: 'var foo = `"`;',
+      output: 'var foo = "\\\"";',
+      options: ['double'],
+      parserOptions: {
+        ecmaVersion: 6,
+      },
+      errors: [useDoubleQuote],
+    },
+    {
+      code: 'var foo = `\'`;',
+      output: 'var foo = \'\\\'\';',
+      options: ['single'],
+      parserOptions: {
+        ecmaVersion: 6,
+      },
       errors: [useSingleQuote],
     },
     {
@@ -788,61 +837,61 @@ abstract class Foo {
     },
 
     {
-      code: `
-interface Foo {
-  a: number;
-  b: string;
-  'a-b': boolean;
-  'a-b-c': boolean;
-}
+      code: $`
+        interface Foo {
+          a: number;
+          b: string;
+          'a-b': boolean;
+          'a-b-c': boolean;
+        }
       `,
-      output: `
-interface Foo {
-  a: number;
-  b: string;
-  "a-b": boolean;
-  "a-b-c": boolean;
-}
+      output: $`
+        interface Foo {
+          a: number;
+          b: string;
+          "a-b": boolean;
+          "a-b-c": boolean;
+        }
       `,
       errors: [
         {
           ...useDoubleQuote,
-          line: 5,
+          line: 4,
           column: 3,
         },
         {
           ...useDoubleQuote,
-          line: 6,
+          line: 5,
           column: 3,
         },
       ],
     },
     {
-      code: `
-interface Foo {
-  a: number;
-  b: string;
-  "a-b": boolean;
-  "a-b-c": boolean;
-}
+      code: $`
+        interface Foo {
+          a: number;
+          b: string;
+          "a-b": boolean;
+          "a-b-c": boolean;
+        }
       `,
-      output: `
-interface Foo {
-  a: number;
-  b: string;
-  'a-b': boolean;
-  'a-b-c': boolean;
-}
+      output: $`
+        interface Foo {
+          a: number;
+          b: string;
+          'a-b': boolean;
+          'a-b-c': boolean;
+        }
       `,
       errors: [
         {
           ...useSingleQuote,
-          line: 5,
+          line: 4,
           column: 3,
         },
         {
           ...useSingleQuote,
-          line: 6,
+          line: 5,
           column: 3,
         },
       ],
@@ -851,70 +900,70 @@ interface Foo {
 
     // Enums
     {
-      code: `
-enum Foo {
-  A = 1,
-  'A-B' = 2
-}
+      code: $`
+        enum Foo {
+          A = 1,
+          'A-B' = 2
+        }
       `,
-      output: `
-enum Foo {
-  A = 1,
-  "A-B" = 2
-}
+      output: $`
+        enum Foo {
+          A = 1,
+          "A-B" = 2
+        }
       `,
       errors: [
         {
           ...useDoubleQuote,
-          line: 4,
+          line: 3,
           column: 3,
         },
       ],
     },
     {
-      code: `
-enum Foo {
-  A = 1,
-  "A-B" = 2
-}
+      code: $`
+        enum Foo {
+          A = 1,
+          "A-B" = 2
+        }
       `,
-      output: `
-enum Foo {
-  A = 1,
-  'A-B' = 2
-}
+      output: $`
+        enum Foo {
+          A = 1,
+          'A-B' = 2
+        }
       `,
       errors: [
         {
           ...useSingleQuote,
-          line: 4,
+          line: 3,
           column: 3,
         },
       ],
       options: ['single'],
     },
     {
-      code: `
-enum Foo {
-  A = 'A',
-  'A-B' = 'A-B'
-}
+      code: $`
+        enum Foo {
+          A = 'A',
+          'A-B' = 'A-B'
+        }
       `,
-      output: `
-enum Foo {
-  A = \`A\`,
-  'A-B' = \`A-B\`
-}
+      output: $`
+        enum Foo {
+          A = \`A\`,
+          'A-B' = \`A-B\`
+        }
       `,
       errors: [
         {
           ...useBacktick,
-          line: 3,
+          line: 2,
           column: 7,
         },
         {
           ...useBacktick,
-          line: 4,
+          line: 3,
           column: 11,
         },
       ],
@@ -923,43 +972,43 @@ enum Foo {
 
     // TSMethodSignature
     {
-      code: `
-interface Foo {
-  a(): void;
-  'a-b'(): void;
-}
+      code: $`
+        interface Foo {
+          a(): void;
+          'a-b'(): void;
+        }
       `,
-      output: `
-interface Foo {
-  a(): void;
-  "a-b"(): void;
-}
+      output: $`
+        interface Foo {
+          a(): void;
+          "a-b"(): void;
+        }
       `,
       errors: [
         {
           ...useDoubleQuote,
-          line: 4,
+          line: 3,
           column: 3,
         },
       ],
     },
     {
-      code: `
-interface Foo {
-  a(): void;
-  "a-b"(): void;
-}
+      code: $`
+        interface Foo {
+          a(): void;
+          "a-b"(): void;
+        }
       `,
-      output: `
-interface Foo {
-  a(): void;
-  'a-b'(): void;
-}
+      output: $`
+        interface Foo {
+          a(): void;
+          'a-b'(): void;
+        }
       `,
       errors: [
         {
           ...useSingleQuote,
-          line: 4,
+          line: 3,
           column: 3,
         },
       ],
@@ -968,90 +1017,90 @@ interface Foo {
 
     // PropertyDefinition
     {
-      code: `
-class Foo {
-  public a = '';
-  public 'a-b' = '';
-}
+      code: $`
+        class Foo {
+          public a = '';
+          public 'a-b' = '';
+        }
       `,
-      output: `
-class Foo {
-  public a = "";
-  public "a-b" = "";
-}
+      output: $`
+        class Foo {
+          public a = "";
+          public "a-b" = "";
+        }
       `,
       errors: [
         {
           ...useDoubleQuote,
-          line: 3,
+          line: 2,
           column: 14,
         },
         {
           ...useDoubleQuote,
-          line: 4,
+          line: 3,
           column: 10,
         },
         {
           ...useDoubleQuote,
-          line: 4,
+          line: 3,
           column: 18,
         },
       ],
     },
     {
-      code: `
-class Foo {
-  public a = "";
-  public "a-b" = "";
-}
+      code: $`
+        class Foo {
+          public a = "";
+          public "a-b" = "";
+        }
       `,
-      output: `
-class Foo {
-  public a = '';
-  public 'a-b' = '';
-}
+      output: $`
+        class Foo {
+          public a = '';
+          public 'a-b' = '';
+        }
       `,
       errors: [
         {
           ...useSingleQuote,
-          line: 3,
+          line: 2,
           column: 14,
         },
         {
           ...useSingleQuote,
-          line: 4,
+          line: 3,
           column: 10,
         },
         {
           ...useSingleQuote,
-          line: 4,
+          line: 3,
           column: 18,
         },
       ],
       options: ['single'],
     },
     {
-      code: `
-class Foo {
-  public a = "";
-  public "a-b" = "";
-}
+      code: $`
+        class Foo {
+          public a = "";
+          public "a-b" = "";
+        }
       `,
-      output: `
-class Foo {
-  public a = \`\`;
-  public "a-b" = \`\`;
-}
+      output: $`
+        class Foo {
+          public a = \`\`;
+          public "a-b" = \`\`;
+        }
       `,
       errors: [
         {
           ...useBacktick,
-          line: 3,
+          line: 2,
           column: 14,
         },
         {
           ...useBacktick,
-          line: 4,
+          line: 3,
           column: 18,
         },
       ],
@@ -1060,63 +1109,63 @@ class Foo {
 
     // TSAbstractPropertyDefinition
     {
-      code: `
-abstract class Foo {
-  public abstract a: '';
-  public abstract 'a-b': '';
-}
+      code: $`
+        abstract class Foo {
+          public abstract a: '';
+          public abstract 'a-b': '';
+        }
       `,
-      output: `
-abstract class Foo {
-  public abstract a: "";
-  public abstract "a-b": "";
-}
+      output: $`
+        abstract class Foo {
+          public abstract a: "";
+          public abstract "a-b": "";
+        }
       `,
       errors: [
         {
           ...useDoubleQuote,
-          line: 3,
+          line: 2,
           column: 22,
         },
         {
           ...useDoubleQuote,
-          line: 4,
+          line: 3,
           column: 19,
         },
         {
           ...useDoubleQuote,
-          line: 4,
+          line: 3,
           column: 26,
         },
       ],
     },
     {
-      code: `
-abstract class Foo {
-  public abstract a: "";
-  public abstract "a-b": "";
-}
+      code: $`
+        abstract class Foo {
+          public abstract a: "";
+          public abstract "a-b": "";
+        }
       `,
-      output: `
-abstract class Foo {
-  public abstract a: '';
-  public abstract 'a-b': '';
-}
+      output: $`
+        abstract class Foo {
+          public abstract a: '';
+          public abstract 'a-b': '';
+        }
       `,
       errors: [
         {
           ...useSingleQuote,
-          line: 3,
+          line: 2,
           column: 22,
         },
         {
           ...useSingleQuote,
-          line: 4,
+          line: 3,
           column: 19,
         },
         {
           ...useSingleQuote,
-          line: 4,
+          line: 3,
           column: 26,
         },
       ],
@@ -1125,43 +1174,43 @@ abstract class Foo {
 
     // TSAbstractMethodDefinition
     {
-      code: `
-abstract class Foo {
-  public abstract a(): void;
-  public abstract 'a-b'(): void;
-}
+      code: $`
+        abstract class Foo {
+          public abstract a(): void;
+          public abstract 'a-b'(): void;
+        }
       `,
-      output: `
-abstract class Foo {
-  public abstract a(): void;
-  public abstract "a-b"(): void;
-}
+      output: $`
+        abstract class Foo {
+          public abstract a(): void;
+          public abstract "a-b"(): void;
+        }
       `,
       errors: [
         {
           ...useDoubleQuote,
-          line: 4,
+          line: 3,
           column: 19,
         },
       ],
     },
     {
-      code: `
-abstract class Foo {
-  public abstract a(): void;
-  public abstract "a-b"(): void;
-}
+      code: $`
+        abstract class Foo {
+          public abstract a(): void;
+          public abstract "a-b"(): void;
+        }
       `,
-      output: `
-abstract class Foo {
-  public abstract a(): void;
-  public abstract 'a-b'(): void;
-}
+      output: $`
+        abstract class Foo {
+          public abstract a(): void;
+          public abstract 'a-b'(): void;
+        }
       `,
       errors: [
         {
           ...useSingleQuote,
-          line: 4,
+          line: 3,
           column: 19,
         },
       ],

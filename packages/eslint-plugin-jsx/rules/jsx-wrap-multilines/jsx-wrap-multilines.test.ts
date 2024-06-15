@@ -3,17 +3,9 @@
  * @author Yannick Croissant
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-wrap-multilines'
-
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-}
+import { run } from '#test'
 
 // ------------------------------------------------------------------------------
 // Constants/Code Snippets
@@ -613,8 +605,17 @@ function addNewLineSymbols(code: string) {
   return code.replace(/\(</g, '(\n<').replace(/>\)/g, '>\n)')
 }
 
-const ruleTester = new RuleTester({ parserOptions })
-ruleTester.run('jsx-wrap-multilines', rule, {
+run({
+  name: 'jsx-wrap-multilines',
+  rule,
+  parserOptions: {
+    ecmaVersion: 2018,
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     {
       code: RETURN_SINGLE_LINE,
@@ -878,6 +879,14 @@ ruleTester.run('jsx-wrap-multilines', rule, {
     {
       code: ATTR_PAREN_NEW_LINE,
       options: [{ prop: 'parens-new-line' }],
+    },
+    {
+      code: `
+        obj = {
+          foo: <div><p>Hello</p></div>
+        }
+      `,
+      options: [{ propertyValue: 'parens' }],
     },
   ),
 
@@ -1378,6 +1387,104 @@ ruleTester.run('jsx-wrap-multilines', rule, {
       );
       `,
       options: [{ declaration: 'parens-new-line' }],
+      errors: [{ messageId: 'missingParens' }],
+    },
+    {
+      code: `
+      const obj = {
+        foo: <div>
+          bar
+        </div>,
+        baz: 2,
+      }
+      `,
+      output: `
+      const obj = {
+        foo: (
+<div>
+          bar
+        </div>
+),
+        baz: 2,
+      }
+      `,
+      options: [{ propertyValue: 'parens-new-line' }],
+      errors: [{ messageId: 'missingParens' }],
+    },
+    {
+      code: `
+const obj = {
+  foo: <div>
+         bar
+       </div>,
+  baz: <div prop={
+         <div>
+           <p>Hello</p>
+         </div>
+       }>
+         <p>Hello</p>
+       </div>,
+}
+      `,
+      output: `
+const obj = {
+  foo: (
+<div>
+         bar
+       </div>
+),
+  baz: (
+<div prop={
+         <div>
+           <p>Hello</p>
+         </div>
+       }>
+         <p>Hello</p>
+       </div>
+),
+}
+      `,
+      options: [{ propertyValue: 'parens-new-line' }],
+      errors: [{ messageId: 'missingParens' }, { messageId: 'missingParens' }],
+    },
+    {
+      code: `
+const obj = {
+  foo: <div>
+         bar
+       </div>,
+}
+      `,
+      output: `
+const obj = {
+  foo: (<div>
+         bar
+       </div>),
+}
+      `,
+      options: [{ propertyValue: 'parens' }],
+      errors: [{ messageId: 'missingParens' }],
+    },
+    {
+      code: `
+const obj = {
+  foo: {
+    bar: <div>
+      baz
+    </div>,
+  }
+}
+      `,
+      output: `
+const obj = {
+  foo: {
+    bar: (<div>
+      baz
+    </div>),
+  }
+}
+      `,
+      options: [{ propertyValue: 'parens' }],
       errors: [{ messageId: 'missingParens' }],
     },
   ),

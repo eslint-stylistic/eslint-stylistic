@@ -3,14 +3,15 @@
  * @author James Allardice
  */
 
-import { RuleTester } from 'eslint'
 import rule from './no-floating-decimal'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
 const leadingError = { messageId: 'leading', type: 'Literal' }
 const trailingError = { messageId: 'trailing', type: 'Literal' }
 
-ruleTester.run('no-floating-decimal', rule, {
+run({
+  name: 'no-floating-decimal',
+  rule,
   valid: [
     'var x = 2.5;',
     'var x = "2.5";',

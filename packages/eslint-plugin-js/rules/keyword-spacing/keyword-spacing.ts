@@ -335,8 +335,9 @@ export default createRule<MessageIds, RuleOptions>({
       if (firstToken
         && ((firstToken.type === 'Keyword' && firstToken.value === 'function')
         || firstToken.value === 'async')
-      )
+      ) {
         checkSpacingBefore(firstToken)
+      }
     }
 
     /**

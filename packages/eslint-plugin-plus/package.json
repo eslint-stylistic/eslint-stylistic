@@ -1,6 +1,6 @@
 {
   "name": "@stylistic/eslint-plugin-plus",
-  "version": "1.5.4",
+  "version": "2.1.0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
@@ -44,9 +44,10 @@
     "eslint": "*"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "^6.19.0"
+    "@types/eslint": "^8.56.10",
+    "@typescript-eslint/utils": "^7.12.0"
   },
   "devDependencies": {
-    "@typescript-eslint/rule-tester": "^6.19.0"
+    "@typescript-eslint/rule-tester": "^7.12.0"
   }
 }

@@ -89,8 +89,9 @@ export default createRule<MessageIds, RuleOptions>({
           if (
             sourceCode.getTokenBefore(operatorToken, { includeComments: true }) !== tokenBefore
             && sourceCode.getTokenAfter(operatorToken, { includeComments: true }) !== tokenAfter
-          )
+          ) {
             return null
+          }
 
           /**
            * If there is only one linebreak and it's on the wrong side of the operator, swap the text before and after the operator.

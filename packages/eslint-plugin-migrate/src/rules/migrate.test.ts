@@ -1,5 +1,7 @@
-import { RuleTester } from '@typescript-eslint/rule-tester'
+import jsonParser from 'jsonc-eslint-parser'
 import rule from './migrate'
+import type { TestCase } from '#test'
+import { run } from '#test'
 
 const valids = [
   {
@@ -78,7 +80,7 @@ const invalids = [
       namespaceTo: '',
     },
   ],
-].flatMap(([from, to, options = {}]) => [
+].flatMap(([from, to, options = {}]): TestCase[] => [
   {
     code: `module.exports = ${JSON.stringify(from, null, 2)}`,
     output: `module.exports = ${JSON.stringify(to, null, 2)}`,
@@ -91,21 +93,22 @@ const invalids = [
     output: `${JSON.stringify(to, null, 2)}`,
     filename: '.eslintrc.json',
     errors: [{ messageId: 'migrate' }],
-    options: [options] as any,
-    parser: require.resolve('jsonc-eslint-parser'),
+    options: [options],
+    parser: jsonParser as any,
   },
   {
     code: `export default ${JSON.stringify(from, null, 2)}`,
     output: `export default ${JSON.stringify(to, null, 2)}`,
     filename: 'eslint.config.js',
     errors: [{ messageId: 'migrate' }],
-    options: [options] as any,
+    options: [options],
   },
 ])
 
-const ruleTester: RuleTester = new RuleTester()
-
-ruleTester.run('migrate', rule as any, {
+run({
+  name: 'migrate',
+  rule,
   valid: valids,
   invalid: invalids,
+  files: ['**/*.js', '**/*.json', '**/*.ts'],
 })

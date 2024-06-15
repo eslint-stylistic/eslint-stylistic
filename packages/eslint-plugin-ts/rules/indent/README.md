@@ -1,6 +1,8 @@
 ---
-description: 'Enforce consistent indentation.'
+description: Enforce consistent indentation.
 ---
+
+# ts/indent
 
 ## Warning
 

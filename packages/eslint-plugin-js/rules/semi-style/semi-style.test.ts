@@ -3,12 +3,12 @@
  * @author Toru Nagashima
  */
 
-import { RuleTester } from 'eslint'
 import rule from './semi-style'
+import { $, run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('semi-style', rule, {
+run({
+  name: 'semi-style',
+  rule,
   valid: [
     ';',
     ';foo;bar;baz;',
@@ -37,280 +37,280 @@ ruleTester.run('semi-style', rule, {
 
     // edge cases
     {
-      code: `
-                {
-                    ;
-                }
-            `,
+      code: $`
+        {
+            ;
+        }
+      `,
       options: ['first'],
     },
     {
-      code: `
-                while (a)
-                    ;
-                foo
-            `,
+      code: $`
+        while (a)
+            ;
+        foo
+      `,
       options: ['first'],
     },
     {
-      code: `
-                do
-                    ;
-                while (a)
-            `,
+      code: $`
+        do
+            ;
+        while (a)
+      `,
       options: ['first'],
     },
     {
-      code: `
-                do
-                    foo;
-                while (a)
-            `,
+      code: $`
+        do
+            foo;
+        while (a)
+      `,
       options: ['first'],
     },
     {
-      code: `
-                if (a)
-                    foo;
-                else
-                    bar
-            `,
+      code: $`
+        if (a)
+            foo;
+        else
+            bar
+      `,
       options: ['first'],
     },
     {
-      code: `
-                if (a)
-                    foo
-                ;bar
-            `,
+      code: $`
+        if (a)
+            foo
+        ;bar
+      `,
       options: ['first'],
     },
     {
-      code: `
-                {
-                    ;
-                }
-            `,
+      code: $`
+        {
+            ;
+        }
+      `,
       options: ['last'],
     },
     {
-      code: `
-                switch (a) {
-                    case 1:
-                        ;foo
-                }
-            `,
+      code: $`
+        switch (a) {
+            case 1:
+                ;foo
+        }
+      `,
       options: ['last'],
     },
     {
-      code: `
-                while (a)
-                    ;
-                foo
-            `,
+      code: $`
+        while (a)
+            ;
+        foo
+      `,
       options: ['last'],
     },
     {
-      code: `
-                do
-                    ;
-                while (a)
-            `,
+      code: $`
+        do
+            ;
+        while (a)
+      `,
       options: ['last'],
     },
 
     // Class static blocks
     {
-      code: `
-                class C {
-                    static {}
-                }
-            `,
+      code: $`
+        class C {
+            static {}
+        }
+      `,
       options: ['last'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        foo
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                foo
+            }
+        }
+      `,
       options: ['last'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        foo
-                        bar
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                foo
+                bar
+            }
+        }
+      `,
       options: ['last'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        ;
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                ;
+            }
+        }
+      `,
       options: ['last'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        foo;
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                foo;
+            }
+        }
+      `,
       options: ['last'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        foo;
-                        bar;
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                foo;
+                bar;
+            }
+        }
+      `,
       options: ['last'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        foo;
-                        bar;
-                        baz;
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                foo;
+                bar;
+                baz;
+            }
+        }
+      `,
       options: ['last'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {}
-                }
-            `,
+      code: $`
+        class C {
+            static {}
+        }
+      `,
       options: ['first'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        foo
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                foo
+            }
+        }
+      `,
       options: ['first'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        foo
-                        bar
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                foo
+                bar
+            }
+        }
+      `,
       options: ['first'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        ;
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                ;
+            }
+        }
+      `,
       options: ['first'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        ;foo
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                ;foo
+            }
+        }
+      `,
       options: ['first'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        foo;
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                foo;
+            }
+        }
+      `,
       options: ['first'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        foo
-                        ;bar
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                foo
+                ;bar
+            }
+        }
+      `,
       options: ['first'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        foo
-                        ;bar;
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                foo
+                ;bar;
+            }
+        }
+      `,
       options: ['first'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        foo
-                        ;bar
-                        ;baz
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                foo
+                ;bar
+                ;baz
+            }
+        }
+      `,
       options: ['first'],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: `
-                class C {
-                    static {
-                        foo
-                        ;bar
-                        ;baz;
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                foo
+                ;bar
+                ;baz;
+            }
+        }
+      `,
       options: ['first'],
       parserOptions: { ecmaVersion: 2022 },
     },

@@ -1,23 +1,20 @@
-import { RuleTester } from '@typescript-eslint/rule-tester'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
-import { unIndent } from '../../../eslint-plugin-js/test-utils/unindent'
 
 import rule from './lines-around-comment'
+import { $, run } from '#test'
 
-const ruleTester = new RuleTester({
-  parser: '@typescript-eslint/parser',
-})
-
-ruleTester.run('lines-around-comment', rule, {
+run({
+  name: 'lines-around-comment',
+  rule,
   valid: [
     // Interface
     {
-      code: unIndent`
-interface A {
-  // line
-  a: string;
-}
-`,
+      code: $`
+        interface A {
+          // line
+          a: string;
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -26,13 +23,13 @@ interface A {
       ],
     },
     {
-      code: unIndent`
-interface A {
-  /* block
-     comment */
-  a: string;
-}
-`,
+      code: $`
+        interface A {
+          /* block
+            comment */
+          a: string;
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -41,12 +38,12 @@ interface A {
       ],
     },
     {
-      code: unIndent`
-interface A {
-  a: string;
-  // line
-}
-`,
+      code: $`
+        interface A {
+          a: string;
+          // line
+        }
+      `,
       options: [
         {
           afterLineComment: true,
@@ -55,13 +52,13 @@ interface A {
       ],
     },
     {
-      code: unIndent`
-interface A {
-  a: string;
-  /* block
-     comment */
-}
-`,
+      code: $`
+        interface A {
+          a: string;
+          /* block
+            comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -72,12 +69,12 @@ interface A {
     },
     // Type
     {
-      code: unIndent`
-type A = {
-  // line
-  a: string;
-}
-`,
+      code: $`
+        type A = {
+          // line
+          a: string;
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -86,13 +83,13 @@ type A = {
       ],
     },
     {
-      code: unIndent`
-type A = {
-  /* block
-     comment */
-  a: string;
-}
-`,
+      code: $`
+        type A = {
+          /* block
+            comment */
+          a: string;
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -101,12 +98,12 @@ type A = {
       ],
     },
     {
-      code: unIndent`
-type A = {
-  a: string;
-  // line
-}
-`,
+      code: $`
+        type A = {
+          a: string;
+          // line
+        }
+      `,
       options: [
         {
           afterLineComment: true,
@@ -115,13 +112,13 @@ type A = {
       ],
     },
     {
-      code: unIndent`
-type A = {
-  a: string;
-  /* block
-     comment */
-}
-`,
+      code: $`
+        type A = {
+          a: string;
+          /* block
+             comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -133,12 +130,12 @@ type A = {
 
     // Enum
     {
-      code: unIndent`
-enum A {
-  // line
-  a,
-}
-`,
+      code: $`
+        enum A {
+          // line
+          a,
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -147,13 +144,13 @@ enum A {
       ],
     },
     {
-      code: unIndent`
-enum A {
-  /* block
-     comment */
-  a,
-}
-`,
+      code: $`
+        enum A {
+          /* block
+             comment */
+          a,
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -162,12 +159,12 @@ enum A {
       ],
     },
     {
-      code: unIndent`
-enum A {
-  a,
-  // line
-}
-`,
+      code: $`
+        enum A {
+          a,
+          // line
+        }
+      `,
       options: [
         {
           afterLineComment: true,
@@ -176,13 +173,13 @@ enum A {
       ],
     },
     {
-      code: unIndent`
-enum A {
-  a,
-  /* block
-     comment */
-}
-`,
+      code: $`
+        enum A {
+          a,
+          /* block
+             comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -194,12 +191,12 @@ enum A {
 
     // TS module
     {
-      code: unIndent`
-declare module A {
-  // line
-  const a: string;
-}
-`,
+      code: $`
+        declare module A {
+          // line
+          const a: string;
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -208,13 +205,13 @@ declare module A {
       ],
     },
     {
-      code: unIndent`
-declare module A {
-  /* block
-     comment */
-  const a: string;
-}
-`,
+      code: $`
+        declare module A {
+          /* block
+             comment */
+          const a: string;
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -223,12 +220,12 @@ declare module A {
       ],
     },
     {
-      code: unIndent`
-declare module A {
-  const a: string;
-  // line
-}
-`,
+      code: $`
+        declare module A {
+          const a: string;
+          // line
+        }
+      `,
       options: [
         {
           afterLineComment: true,
@@ -237,13 +234,13 @@ declare module A {
       ],
     },
     {
-      code: unIndent`
-declare module A {
-  const a: string;
-  /* block
-     comment */
-}
-`,
+      code: $`
+        declare module A {
+          const a: string;
+          /* block
+             comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -269,6 +266,9 @@ declare module A {
           afterBlockComment: true,
         },
       ],
+      linterOptions: {
+        reportUnusedDisableDirectives: false,
+      },
     },
     `
 interface A {
@@ -319,96 +319,96 @@ interface A {
 }
     `,
     {
-      code: `
-interface A {
-  foo: boolean;
-  /* this is pragmatic */
-}
+      code: $`
+        interface A {
+          foo: boolean;
+          /* this is pragmatic */
+        }
       `,
       options: [{ ignorePattern: 'pragma' }],
     },
     {
-      code: `
-interface A {
-  foo;
-  /* this is pragmatic */
-}
+      code: $`
+        interface A {
+          foo;
+          /* this is pragmatic */
+        }
       `,
       options: [{ applyDefaultIgnorePatterns: false, ignorePattern: 'pragma' }],
     },
     {
-      code: `
-interface A {
-  foo: string; // this is inline line comment
-}
+      code: $`
+        interface A {
+          foo: string; // this is inline line comment
+        }
       `,
       options: [{ beforeLineComment: true }],
     },
     {
-      code: `
-interface A {
-  foo: string /* this is inline block comment */;
-}
+      code: $`
+        interface A {
+          foo: string /* this is inline block comment */;
+        }
       `,
     },
     {
-      code: `
-interface A {
-  /* this is inline block comment */ foo: string;
-}
+      code: $`
+        interface A {
+          /* this is inline block comment */ foo: string;
+        }
       `,
     },
     {
-      code: `
-interface A {
-  /* this is inline block comment */ foo: string /* this is inline block comment */;
-}
+      code: $`
+        interface A {
+          /* this is inline block comment */ foo: string /* this is inline block comment */;
+        }
       `,
     },
     {
-      code: `
-interface A {
-  /* this is inline block comment */ foo: string; // this is inline line comment ;
-}
+      code: $`
+        interface A {
+          /* this is inline block comment */ foo: string; // this is inline line comment ;
+        }
       `,
     },
   ],
   invalid: [
     // ESLint base rule test to cover the usage of the original reporter
     {
-      code: `
-bar();
-/** block block block
- * block
- */
-var a = 1;
+      code: $`
+        bar();
+        /** block block block
+         * block
+         */
+        var a = 1;
       `,
-      output: `
-bar();
-
-/** block block block
- * block
- */
-var a = 1;
+      output: $`
+        bar();
+        
+        /** block block block
+         * block
+         */
+        var a = 1;
       `,
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block }],
     },
 
     // interface
     {
-      code: unIndent`
-interface A {
-  a: string;
-  // line
-}
-`,
-      output: unIndent`
-interface A {
-  a: string;
-
-  // line
-}
-`,
+      code: $`
+        interface A {
+          a: string;
+          // line
+        }
+      `,
+      output: $`
+        interface A {
+          a: string;
+        
+          // line
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -418,21 +418,21 @@ interface A {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 3 }],
     },
     {
-      code: unIndent`
-interface A {
-  a: string;
-  /* block
-     comment */
-}
-`,
-      output: unIndent`
-interface A {
-  a: string;
-
-  /* block
-     comment */
-}
-`,
+      code: $`
+        interface A {
+          a: string;
+          /* block
+             comment */
+        }
+      `,
+      output: $`
+        interface A {
+          a: string;
+        
+          /* block
+             comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -442,19 +442,19 @@ interface A {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 3 }],
     },
     {
-      code: unIndent`
-interface A {
-  // line
-  a: string;
-}
-`,
-      output: unIndent`
-interface A {
-
-  // line
-  a: string;
-}
-`,
+      code: $`
+        interface A {
+          // line
+          a: string;
+        }
+      `,
+      output: $`
+        interface A {
+        
+          // line
+          a: string;
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -464,21 +464,21 @@ interface A {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 2 }],
     },
     {
-      code: unIndent`
-interface A {
-  /* block
-     comment */
-  a: string;
-}
-`,
-      output: unIndent`
-interface A {
-
-  /* block
-     comment */
-  a: string;
-}
-`,
+      code: $`
+        interface A {
+          /* block
+             comment */
+          a: string;
+        }
+      `,
+      output: $`
+        interface A {
+        
+          /* block
+             comment */
+          a: string;
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -488,19 +488,19 @@ interface A {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 2 }],
     },
     {
-      code: unIndent`
-interface A {
-  a: string;
-  // line
-}
-`,
-      output: unIndent`
-interface A {
-  a: string;
-  // line
-
-}
-`,
+      code: $`
+        interface A {
+          a: string;
+          // line
+        }
+      `,
+      output: $`
+        interface A {
+          a: string;
+          // line
+        
+        }
+      `,
       options: [
         {
           afterLineComment: true,
@@ -510,21 +510,21 @@ interface A {
       errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Line, line: 3 }],
     },
     {
-      code: unIndent`
-interface A {
-  a: string;
-  /* block
-     comment */
-}
-`,
-      output: unIndent`
-interface A {
-  a: string;
-  /* block
-     comment */
-
-}
-`,
+      code: $`
+        interface A {
+          a: string;
+          /* block
+             comment */
+        }
+      `,
+      output: $`
+        interface A {
+          a: string;
+          /* block
+             comment */
+        
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -537,19 +537,19 @@ interface A {
 
     // type
     {
-      code: unIndent`
-type A = {
-  a: string;
-  // line
-}
-`,
-      output: unIndent`
-type A = {
-  a: string;
-
-  // line
-}
-`,
+      code: $`
+        type A = {
+          a: string;
+          // line
+        }
+      `,
+      output: $`
+        type A = {
+          a: string;
+        
+          // line
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -559,21 +559,21 @@ type A = {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 3 }],
     },
     {
-      code: unIndent`
-type A = {
-  a: string;
-  /* block
-     comment */
-}
-`,
-      output: unIndent`
-type A = {
-  a: string;
-
-  /* block
-     comment */
-}
-`,
+      code: $`
+        type A = {
+          a: string;
+          /* block
+             comment */
+        }
+      `,
+      output: $`
+        type A = {
+          a: string;
+        
+          /* block
+             comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -583,19 +583,19 @@ type A = {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 3 }],
     },
     {
-      code: unIndent`
-type A = {
-  // line
-  a: string;
-}
-`,
-      output: unIndent`
-type A = {
-
-  // line
-  a: string;
-}
-`,
+      code: $`
+        type A = {
+          // line
+          a: string;
+        }
+      `,
+      output: $`
+        type A = {
+        
+          // line
+          a: string;
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -605,21 +605,21 @@ type A = {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 2 }],
     },
     {
-      code: unIndent`
-type A = {
-  /* block
-     comment */
-  a: string;
-}
-`,
-      output: unIndent`
-type A = {
-
-  /* block
-     comment */
-  a: string;
-}
-`,
+      code: $`
+        type A = {
+          /* block
+             comment */
+          a: string;
+        }
+      `,
+      output: $`
+        type A = {
+        
+          /* block
+             comment */
+          a: string;
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -629,19 +629,19 @@ type A = {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 2 }],
     },
     {
-      code: unIndent`
-type A = {
-  a: string;
-  // line
-}
-`,
-      output: unIndent`
-type A = {
-  a: string;
-  // line
-
-}
-`,
+      code: $`
+        type A = {
+          a: string;
+          // line
+        }
+      `,
+      output: $`
+        type A = {
+          a: string;
+          // line
+        
+        }
+      `,
       options: [
         {
           afterLineComment: true,
@@ -651,21 +651,21 @@ type A = {
       errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Line, line: 3 }],
     },
     {
-      code: unIndent`
-type A = {
-  a: string;
-  /* block
-     comment */
-}
-`,
-      output: unIndent`
-type A = {
-  a: string;
-  /* block
-     comment */
-
-}
-`,
+      code: $`
+        type A = {
+          a: string;
+          /* block
+             comment */
+        }
+      `,
+      output: $`
+        type A = {
+          a: string;
+          /* block
+             comment */
+        
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -678,19 +678,19 @@ type A = {
 
     // Enum
     {
-      code: unIndent`
-enum A {
-  a,
-  // line
-}
-`,
-      output: unIndent`
-enum A {
-  a,
-
-  // line
-}
-`,
+      code: $`
+        enum A {
+          a,
+          // line
+        }
+      `,
+      output: $`
+        enum A {
+          a,
+        
+          // line
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -700,21 +700,21 @@ enum A {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 3 }],
     },
     {
-      code: unIndent`
-enum A {
-  a,
-  /* block
-     comment */
-}
-`,
-      output: unIndent`
-enum A {
-  a,
-
-  /* block
-     comment */
-}
-`,
+      code: $`
+        enum A {
+          a,
+          /* block
+             comment */
+        }
+      `,
+      output: $`
+        enum A {
+          a,
+        
+          /* block
+             comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -724,19 +724,19 @@ enum A {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 3 }],
     },
     {
-      code: unIndent`
-enum A {
-  // line
-  a,
-}
-`,
-      output: unIndent`
-enum A {
-
-  // line
-  a,
-}
-`,
+      code: $`
+        enum A {
+          // line
+          a,
+        }
+      `,
+      output: $`
+        enum A {
+        
+          // line
+          a,
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -746,21 +746,21 @@ enum A {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 2 }],
     },
     {
-      code: unIndent`
-enum A {
-  /* block
-     comment */
-  a,
-}
-`,
-      output: unIndent`
-enum A {
-
-  /* block
-     comment */
-  a,
-}
-`,
+      code: $`
+        enum A {
+          /* block
+             comment */
+          a,
+        }
+      `,
+      output: $`
+        enum A {
+        
+          /* block
+             comment */
+          a,
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -770,19 +770,19 @@ enum A {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 2 }],
     },
     {
-      code: unIndent`
-enum A {
-  a,
-  // line
-}
-`,
-      output: unIndent`
-enum A {
-  a,
-  // line
-
-}
-`,
+      code: $`
+        enum A {
+          a,
+          // line
+        }
+      `,
+      output: $`
+        enum A {
+          a,
+          // line
+        
+        }
+      `,
       options: [
         {
           afterLineComment: true,
@@ -792,21 +792,21 @@ enum A {
       errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Line, line: 3 }],
     },
     {
-      code: unIndent`
-enum A {
-  a,
-  /* block
-     comment */
-}
-`,
-      output: unIndent`
-enum A {
-  a,
-  /* block
-     comment */
-
-}
-`,
+      code: $`
+        enum A {
+          a,
+          /* block
+             comment */
+        }
+      `,
+      output: $`
+        enum A {
+          a,
+          /* block
+             comment */
+        
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -819,19 +819,19 @@ enum A {
 
     // TS module
     {
-      code: unIndent`
-module A {
-  const a: string;
-  // line
-}
-`,
-      output: unIndent`
-module A {
-  const a: string;
-
-  // line
-}
-`,
+      code: $`
+        module A {
+          const a: string;
+          // line
+        }
+      `,
+      output: $`
+        module A {
+          const a: string;
+        
+          // line
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -841,21 +841,21 @@ module A {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 3 }],
     },
     {
-      code: unIndent`
-module A {
-  const a: string;
-  /* block
-     comment */
-}
-`,
-      output: unIndent`
-module A {
-  const a: string;
-
-  /* block
-     comment */
-}
-`,
+      code: $`
+        module A {
+          const a: string;
+          /* block
+             comment */
+        }
+      `,
+      output: $`
+        module A {
+          const a: string;
+        
+          /* block
+             comment */
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -865,19 +865,19 @@ module A {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 3 }],
     },
     {
-      code: unIndent`
-module A {
-  // line
-  const a: string;
-}
-`,
-      output: unIndent`
-module A {
-
-  // line
-  const a: string;
-}
-`,
+      code: $`
+        module A {
+          // line
+          const a: string;
+        }
+      `,
+      output: $`
+        module A {
+        
+          // line
+          const a: string;
+        }
+      `,
       options: [
         {
           beforeLineComment: true,
@@ -887,21 +887,21 @@ module A {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Line, line: 2 }],
     },
     {
-      code: unIndent`
-module A {
-  /* block
-     comment */
-  const a: string;
-}
-`,
-      output: unIndent`
-module A {
-
-  /* block
-     comment */
-  const a: string;
-}
-`,
+      code: $`
+        module A {
+          /* block
+             comment */
+          const a: string;
+        }
+      `,
+      output: $`
+        module A {
+        
+          /* block
+             comment */
+          const a: string;
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -911,19 +911,19 @@ module A {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 2 }],
     },
     {
-      code: unIndent`
-module A {
-  const a: string;
-  // line
-}
-`,
-      output: unIndent`
-module A {
-  const a: string;
-  // line
-
-}
-`,
+      code: $`
+        module A {
+          const a: string;
+          // line
+        }
+      `,
+      output: $`
+        module A {
+          const a: string;
+          // line
+        
+        }
+      `,
       options: [
         {
           afterLineComment: true,
@@ -933,21 +933,21 @@ module A {
       errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Line, line: 3 }],
     },
     {
-      code: unIndent`
-module A {
-  const a: string;
-  /* block
-     comment */
-}
-`,
-      output: unIndent`
-module A {
-  const a: string;
-  /* block
-     comment */
-
-}
-`,
+      code: $`
+        module A {
+          const a: string;
+          /* block
+             comment */
+        }
+      `,
+      output: $`
+        module A {
+          const a: string;
+          /* block
+             comment */
+        
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -960,19 +960,19 @@ module A {
 
     // multiple comments in one line
     {
-      code: unIndent`
-interface A {
-  a: string;
-  /* block */ /* block */
-}
-`,
-      output: unIndent`
-interface A {
-  a: string;
-
-  /* block */ /* block */
-}
-`,
+      code: $`
+        interface A {
+          a: string;
+          /* block */ /* block */
+        }
+      `,
+      output: $`
+        interface A {
+          a: string;
+        
+          /* block */ /* block */
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -982,19 +982,19 @@ interface A {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 3 }],
     },
     {
-      code: unIndent`
-interface A {
-  a: string;
-  /* block */ // line
-}
-`,
-      output: unIndent`
-interface A {
-  a: string;
-
-  /* block */ // line
-}
-`,
+      code: $`
+        interface A {
+          a: string;
+          /* block */ // line
+        }
+      `,
+      output: $`
+        interface A {
+          a: string;
+        
+          /* block */ // line
+        }
+      `,
       options: [
         {
           beforeBlockComment: true,
@@ -1004,19 +1004,19 @@ interface A {
       errors: [{ messageId: 'before', type: AST_TOKEN_TYPES.Block, line: 3 }],
     },
     {
-      code: unIndent`
-interface A {
-  /* block */ /* block */
-  a: string;
-}
-`,
-      output: unIndent`
-interface A {
-  /* block */ /* block */
-
-  a: string;
-}
-`,
+      code: $`
+        interface A {
+          /* block */ /* block */
+          a: string;
+        }
+      `,
+      output: $`
+        interface A {
+          /* block */ /* block */
+        
+          a: string;
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -1027,19 +1027,19 @@ interface A {
       errors: [{ messageId: 'after', type: AST_TOKEN_TYPES.Block, line: 2 }],
     },
     {
-      code: unIndent`
-interface A {
-  /* block */ // line
-  a: string;
-}
-`,
-      output: unIndent`
-interface A {
-  /* block */ // line
-
-  a: string;
-}
-`,
+      code: $`
+        interface A {
+          /* block */ // line
+          a: string;
+        }
+      `,
+      output: $`
+        interface A {
+          /* block */ // line
+        
+          a: string;
+        }
+      `,
       options: [
         {
           beforeBlockComment: false,
@@ -1055,7 +1055,6 @@ interface A {
       code: '#!foo\nvar a = 1;',
       output: '#!foo\n\nvar a = 1;',
       options: [{ afterHashbangComment: true }],
-      // @ts-expect-error -- Shebang is not in the type
       errors: [{ messageId: 'after', type: 'Shebang' }],
     },
   ],

@@ -1,3 +1,5 @@
+# jsx/jsx-indent-props
+
 Enforce props indentation in JSX.
 
 ## Rule Details

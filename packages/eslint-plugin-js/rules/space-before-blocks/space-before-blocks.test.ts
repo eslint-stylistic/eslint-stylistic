@@ -3,11 +3,10 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './space-before-blocks'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
 const alwaysArgs = ['always']
 const neverArgs = ['never']
 const functionsOnlyArgs = [{ functions: 'always', keywords: 'never', classes: 'never' }]
@@ -22,7 +21,9 @@ const classesNeverOthersOffArgs = [{ functions: 'off', keywords: 'off', classes:
 const expectedSpacingError = { messageId: 'missingSpace' }
 const expectedNoSpacingError = { messageId: 'unexpectedSpace' }
 
-ruleTester.run('space-before-blocks', rule, {
+run({
+  name: 'space-before-blocks',
+  rule,
   valid: [
     'if(a) {}',
     'if(a)  {}',

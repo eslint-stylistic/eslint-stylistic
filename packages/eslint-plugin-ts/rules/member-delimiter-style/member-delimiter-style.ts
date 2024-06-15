@@ -80,8 +80,9 @@ function makeFixFunction({
     && !isLastTokenEndOfLine(lastToken, lastTokenLine)
     && !isCommentsEndOfLine(lastToken, commentsAfterLastToken, lastTokenLine)
     && !isSingleLine
-  )
+  ) {
     return null
+  }
 
   return (fixer: TSESLint.RuleFixer): TSESLint.RuleFix => {
     if (optsNone) {

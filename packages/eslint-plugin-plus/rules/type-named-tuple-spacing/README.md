@@ -1,3 +1,5 @@
+# plus/type-named-tuple-spacing
+
 Expect space before the type declaration in the named tuple.
 
 ## Rule Details

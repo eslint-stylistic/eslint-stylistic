@@ -3,12 +3,12 @@
  * @author Gyandeep Singh
  */
 
-import { RuleTester } from 'eslint'
 import rule from './no-tabs'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('no-tabs', rule, {
+run({
+  name: 'no-tabs',
+  rule,
   valid: [
     'function test(){\n}',
     'function test(){\n'

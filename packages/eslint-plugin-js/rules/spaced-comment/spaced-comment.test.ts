@@ -3,13 +3,14 @@
  * @author Gyandeep Singh
  */
 
-import { RuleTester } from 'eslint'
 import rule from './spaced-comment'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
 const validShebangProgram = '#!/path/to/node\nvar a = 3;'
 
-ruleTester.run('spaced-comment', rule, {
+run({
+  name: 'spaced-comment',
+  rule,
 
   valid: [
     {
@@ -156,6 +157,9 @@ ruleTester.run('spaced-comment', rule, {
     {
       code: '/*eslint-disable no-alert, no-console */\nalert()\nconsole.log()\n/*eslint-enable no-alert */',
       options: ['always', { markers: ['eslint-enable', 'eslint-disable'] }],
+      linterOptions: {
+        reportUnusedDisableDirectives: false,
+      },
     },
 
     // misc. variations
@@ -339,6 +343,20 @@ ruleTester.run('spaced-comment', rule, {
     },
     {
       code: '/***/', // "*" is a marker by default
+      options: ['always'],
+    },
+
+    // ignore typescript triple-slash directive
+    {
+      code: '/// <reference types="node" />',
+      options: ['always'],
+    },
+    {
+      code: '/// <reference path="path/to/file" />',
+      options: ['always'],
+    },
+    {
+      code: '/// <amd-module name="moduleName" />',
       options: ['always'],
     },
   ],

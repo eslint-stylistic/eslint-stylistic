@@ -2,11 +2,13 @@
 title: function-call-argument-newline
 rule_type: layout
 related_rules:
-- function-paren-newline
-- function-call-spacing
-- object-property-newline
-- array-element-newline
+  - function-paren-newline
+  - function-call-spacing
+  - object-property-newline
+  - array-element-newline
 ---
+
+# js/function-call-argument-newline
 
 A number of style guides require or disallow line breaks between arguments of a function call.
 

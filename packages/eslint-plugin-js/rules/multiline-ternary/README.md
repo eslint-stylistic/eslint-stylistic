@@ -2,8 +2,10 @@
 title: multiline-ternary
 rule_type: layout
 related_rules:
-- operator-linebreak
+  - operator-linebreak
 ---
+
+# js/multiline-ternary
 
 JavaScript allows operands of ternary expressions to be separated by newlines, which can improve the readability of your program.
 
@@ -38,6 +40,7 @@ This rule has a string option:
 - `"always"` (default) enforces newlines between the operands of a ternary expression.
 - `"always-multiline"` enforces newlines between the operands of a ternary expression if the expression spans multiple lines.
 - `"never"` disallows newlines between the operands of a ternary expression.
+- `"ignoreJSX": true` Ignore the ternary operator in JSX. Defaults to `false`.
 
 ### always
 

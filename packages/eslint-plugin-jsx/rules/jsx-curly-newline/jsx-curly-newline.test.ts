@@ -2,17 +2,9 @@
  * @fileoverview enforce consistent line breaks inside jsx curly
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-curly-newline'
-
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-}
+import { run } from '#test'
 
 const LEFT_MISSING_ERROR = { messageId: 'expectedAfter', type: 'Punctuator' }
 const LEFT_UNEXPECTED_ERROR = { messageId: 'unexpectedAfter', type: 'Punctuator' }
@@ -24,9 +16,15 @@ const CONSISTENT = ['consistent']
 const NEVER = ['never']
 const MULTILINE_REQUIRE = [{ singleline: 'consistent', multiline: 'require' }]
 
-const ruleTester = new RuleTester({ parserOptions })
+run({
+  name: 'jsx-curly-newline',
+  rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
 
-ruleTester.run('jsx-curly-newline', rule, {
   valid: valids(
     // consistent option (default)
     {

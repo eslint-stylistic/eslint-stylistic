@@ -3,20 +3,20 @@
  * @author Ross Solomon
  */
 
-import { RuleTester } from 'eslint'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-closing-tag-location'
+import { run } from '#test'
 
-const parserOptions = {
-  sourceType: 'module',
-  ecmaVersion: 2015,
-  ecmaFeatures: {
-    jsx: true,
+run({
+  name: 'jsx-closing-tag-location',
+  rule,
+  parserOptions: {
+    sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
-}
 
-const ruleTester = new RuleTester({ parserOptions })
-ruleTester.run('jsx-closing-tag-location', rule, {
   valid: valids(
     {
       code: `

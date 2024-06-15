@@ -3,12 +3,12 @@
  * @author Kai Cataldo
  */
 
-import { RuleTester } from 'eslint'
 import rule from './rest-spread-spacing'
+import { run } from '#test'
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
-
-ruleTester.run('rest-spread-spacing', rule, {
+run({
+  name: 'rest-spread-spacing',
+  rule,
   valid: [
     'fn(...args)',
     'fn(...(args))',

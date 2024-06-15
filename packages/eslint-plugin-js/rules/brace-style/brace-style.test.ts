@@ -3,13 +3,12 @@
  * @author Ian Christian Myers
  */
 
-import { RuleTester } from 'eslint'
-import { unIndent } from '../../test-utils/unindent'
 import rule from './brace-style'
+import { $, run } from '#test'
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 6 } })
-
-ruleTester.run('brace-style', rule, {
+run({
+  name: 'brace-style',
+  rule,
   valid: [
     'function f() {\n'
     + '   if (true)\n'
@@ -199,118 +198,118 @@ ruleTester.run('brace-style', rule, {
 
         // class static blocks
         {
-          code: unIndent`
-                class C {
-                    static {
-                        foo;
-                    }
+          code: $`
+            class C {
+                static {
+                    foo;
                 }
-            `,
+            }
+          `,
           options: ['1tbs'],
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
-                class C {
-                    static {}
-
-                    static {
-                    }
+          code: $`
+            class C {
+                static {}
+            
+                static {
                 }
-            `,
+            }
+          `,
           options: ['1tbs'],
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
-                class C {
-                    static { foo; }
-                }
-            `,
+          code: $`
+            class C {
+                static { foo; }
+            }
+          `,
           options: ['1tbs', { allowSingleLine: true }],
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
-                class C {
-                    static {
-                        foo;
-                    }
+          code: $`
+            class C {
+                static {
+                    foo;
                 }
-            `,
+            }
+          `,
           options: ['stroustrup'],
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
-                class C {
-                    static {}
-
-                    static {
-                    }
+          code: $`
+            class C {
+                static {}
+            
+                static {
                 }
-            `,
+            }
+          `,
           options: ['stroustrup'],
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
-                class C {
-                    static { foo; }
-                }
-            `,
+          code: $`
+            class C {
+                static { foo; }
+            }
+          `,
           options: ['stroustrup', { allowSingleLine: true }],
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
-                class C
+          code: $`
+            class C
+            {
+                static
                 {
-                    static
-                    {
-                        foo;
-                    }
+                    foo;
                 }
-            `,
+            }
+          `,
           options: ['allman'],
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
-                class C
-                {
-                    static
-                    {}
-                }
-            `,
+          code: $`
+            class C
+            {
+                static
+                {}
+            }
+          `,
           options: ['allman'],
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
-                class C
-                {
-                    static {}
-
-                    static { foo; }
-
-                    static
-                    { foo; }
-                }
-            `,
+          code: $`
+            class C
+            {
+                static {}
+            
+                static { foo; }
+            
+                static
+                { foo; }
+            }
+          `,
           options: ['allman', { allowSingleLine: true }],
           parserOptions: { ecmaVersion: 2022 },
         },
         {
-          code: unIndent`
-                class C {
-                    static {
-                        {
-                            foo;
-                        }
+          code: $`
+            class C {
+                static {
+                    {
+                        foo;
                     }
                 }
-            `,
+            }
+          `,
           options: ['1tbs'],
           parserOptions: { ecmaVersion: 2022 },
         },
@@ -753,22 +752,22 @@ ruleTester.run('brace-style', rule, {
 
     // https://github.com/eslint/eslint/issues/7621
     {
-      code: `
-                if (foo)
-                {
-                    bar
-                }
-                else {
-                    baz
-                }
-            `,
-      output: `
-                if (foo) {
-                    bar
-                } else {
-                    baz
-                }
-            `,
+      code: $`
+        if (foo)
+        {
+            bar
+        }
+        else {
+            baz
+        }
+      `,
+      output: $`
+        if (foo) {
+            bar
+        } else {
+            baz
+        }
+      `,
       errors: [
         { messageId: 'nextLineOpen', type: 'Punctuator' },
         { messageId: 'nextLineClose', type: 'Punctuator' },
@@ -783,21 +782,21 @@ ruleTester.run('brace-style', rule, {
      * are expected to be fixed by `indent` and other rules in subsequent iterations.
      */
     {
-      code: unIndent`
-                class C {
-                    static
-                    {
-                        foo;
-                    }
-                }
-            `,
-      output: unIndent`
-                class C {
-                    static {
-                        foo;
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static
+            {
+                foo;
+            }
+        }
+      `,
+      output: $`
+        class C {
+            static {
+                foo;
+            }
+        }
+      `,
       options: ['1tbs'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
@@ -805,19 +804,19 @@ ruleTester.run('brace-style', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    static {foo;
-                    }
-                }
-            `,
-      output: unIndent`
-                class C {
-                    static {
-                foo;
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {foo;
+            }
+        }
+      `,
+      output: $`
+        class C {
+            static {
+        foo;
+            }
+        }
+      `,
       options: ['1tbs'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
@@ -825,19 +824,19 @@ ruleTester.run('brace-style', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    static {
-                        foo;}
-                }
-            `,
-      output: unIndent`
-                class C {
-                    static {
-                        foo;
-                }
-                }
-            `,
+      code: $`
+        class C {
+            static {
+                foo;}
+        }
+      `,
+      output: $`
+        class C {
+            static {
+                foo;
+        }
+        }
+      `,
       options: ['1tbs'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
@@ -845,122 +844,20 @@ ruleTester.run('brace-style', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    static
-                    {foo;}
-                }
-            `,
-      output: unIndent`
-                class C {
-                    static {
-                foo;
-                }
-                }
-            `,
+      code: $`
+        class C {
+            static
+            {foo;}
+        }
+      `,
+      output: $`
+        class C {
+            static {
+        foo;
+        }
+        }
+      `,
       options: ['1tbs'],
-      parserOptions: { ecmaVersion: 2022 },
-      errors: [
-        { messageId: 'nextLineOpen', type: 'Punctuator' },
-        { messageId: 'blockSameLine', type: 'Punctuator' },
-        { messageId: 'singleLineClose', type: 'Punctuator' },
-      ],
-    },
-    {
-      code: unIndent`
-                class C {
-                    static
-                    {}
-                }
-            `,
-      output: unIndent`
-                class C {
-                    static {}
-                }
-            `,
-      options: ['1tbs'],
-      parserOptions: { ecmaVersion: 2022 },
-      errors: [
-        { messageId: 'nextLineOpen', type: 'Punctuator' },
-      ],
-    },
-    {
-      code: unIndent`
-                class C {
-                    static
-                    {
-                        foo;
-                    }
-                }
-            `,
-      output: unIndent`
-                class C {
-                    static {
-                        foo;
-                    }
-                }
-            `,
-      options: ['stroustrup'],
-      parserOptions: { ecmaVersion: 2022 },
-      errors: [
-        { messageId: 'nextLineOpen', type: 'Punctuator' },
-      ],
-    },
-    {
-      code: unIndent`
-                class C {
-                    static {foo;
-                    }
-                }
-            `,
-      output: unIndent`
-                class C {
-                    static {
-                foo;
-                    }
-                }
-            `,
-      options: ['stroustrup'],
-      parserOptions: { ecmaVersion: 2022 },
-      errors: [
-        { messageId: 'blockSameLine', type: 'Punctuator' },
-      ],
-    },
-    {
-      code: unIndent`
-                class C {
-                    static {
-                        foo;}
-                }
-            `,
-      output: unIndent`
-                class C {
-                    static {
-                        foo;
-                }
-                }
-            `,
-      options: ['stroustrup'],
-      parserOptions: { ecmaVersion: 2022 },
-      errors: [
-        { messageId: 'singleLineClose', type: 'Punctuator' },
-      ],
-    },
-    {
-      code: unIndent`
-                class C {
-                    static
-                    {foo;}
-                }
-            `,
-      output: unIndent`
-                class C {
-                    static {
-                foo;
-                }
-                }
-            `,
-      options: ['stroustrup'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
         { messageId: 'nextLineOpen', type: 'Punctuator' },
@@ -969,17 +866,39 @@ ruleTester.run('brace-style', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C {
-                    static
-                    {}
-                }
-            `,
-      output: unIndent`
-                class C {
-                    static {}
-                }
-            `,
+      code: $`
+        class C {
+            static
+            {}
+        }
+      `,
+      output: $`
+        class C {
+            static {}
+        }
+      `,
+      options: ['1tbs'],
+      parserOptions: { ecmaVersion: 2022 },
+      errors: [
+        { messageId: 'nextLineOpen', type: 'Punctuator' },
+      ],
+    },
+    {
+      code: $`
+        class C {
+            static
+            {
+                foo;
+            }
+        }
+      `,
+      output: $`
+        class C {
+            static {
+                foo;
+            }
+        }
+      `,
       options: ['stroustrup'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
@@ -987,23 +906,103 @@ ruleTester.run('brace-style', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C
-                {
-                    static{
-                        foo;
-                    }
-                }
-            `,
-      output: unIndent`
-                class C
-                {
-                    static
-                {
-                        foo;
-                    }
-                }
-            `,
+      code: $`
+        class C {
+            static {foo;
+            }
+        }
+      `,
+      output: $`
+        class C {
+            static {
+        foo;
+            }
+        }
+      `,
+      options: ['stroustrup'],
+      parserOptions: { ecmaVersion: 2022 },
+      errors: [
+        { messageId: 'blockSameLine', type: 'Punctuator' },
+      ],
+    },
+    {
+      code: $`
+        class C {
+            static {
+                foo;}
+        }
+      `,
+      output: $`
+        class C {
+            static {
+                foo;
+        }
+        }
+      `,
+      options: ['stroustrup'],
+      parserOptions: { ecmaVersion: 2022 },
+      errors: [
+        { messageId: 'singleLineClose', type: 'Punctuator' },
+      ],
+    },
+    {
+      code: $`
+        class C {
+            static
+            {foo;}
+        }
+      `,
+      output: $`
+        class C {
+            static {
+        foo;
+        }
+        }
+      `,
+      options: ['stroustrup'],
+      parserOptions: { ecmaVersion: 2022 },
+      errors: [
+        { messageId: 'nextLineOpen', type: 'Punctuator' },
+        { messageId: 'blockSameLine', type: 'Punctuator' },
+        { messageId: 'singleLineClose', type: 'Punctuator' },
+      ],
+    },
+    {
+      code: $`
+        class C {
+            static
+            {}
+        }
+      `,
+      output: $`
+        class C {
+            static {}
+        }
+      `,
+      options: ['stroustrup'],
+      parserOptions: { ecmaVersion: 2022 },
+      errors: [
+        { messageId: 'nextLineOpen', type: 'Punctuator' },
+      ],
+    },
+    {
+      code: $`
+        class C
+        {
+            static{
+                foo;
+            }
+        }
+      `,
+      output: $`
+        class C
+        {
+            static
+        {
+                foo;
+            }
+        }
+      `,
       options: ['allman'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
@@ -1011,23 +1010,23 @@ ruleTester.run('brace-style', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C
-                {
-                    static
-                    {foo;
-                    }
-                }
-            `,
-      output: unIndent`
-                class C
-                {
-                    static
-                    {
-                foo;
-                    }
-                }
-            `,
+      code: $`
+        class C
+        {
+            static
+            {foo;
+            }
+        }
+      `,
+      output: $`
+        class C
+        {
+            static
+            {
+        foo;
+            }
+        }
+      `,
       options: ['allman'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
@@ -1035,23 +1034,23 @@ ruleTester.run('brace-style', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C
-                {
-                    static
-                    {
-                        foo;}
-                }
-            `,
-      output: unIndent`
-                class C
-                {
-                    static
-                    {
-                        foo;
-                }
-                }
-            `,
+      code: $`
+        class C
+        {
+            static
+            {
+                foo;}
+        }
+      `,
+      output: $`
+        class C
+        {
+            static
+            {
+                foo;
+        }
+        }
+      `,
       options: ['allman'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
@@ -1059,21 +1058,21 @@ ruleTester.run('brace-style', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C
-                {
-                    static{foo;}
-                }
-            `,
-      output: unIndent`
-                class C
-                {
-                    static
-                {
-                foo;
-                }
-                }
-            `,
+      code: $`
+        class C
+        {
+            static{foo;}
+        }
+      `,
+      output: $`
+        class C
+        {
+            static
+        {
+        foo;
+        }
+        }
+      `,
       options: ['allman'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
@@ -1083,19 +1082,19 @@ ruleTester.run('brace-style', rule, {
       ],
     },
     {
-      code: unIndent`
-                class C
-                {
-                    static{}
-                }
-            `,
-      output: unIndent`
-                class C
-                {
-                    static
-                {}
-                }
-            `,
+      code: $`
+        class C
+        {
+            static{}
+        }
+      `,
+      output: $`
+        class C
+        {
+            static
+        {}
+        }
+      `,
       options: ['allman'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [

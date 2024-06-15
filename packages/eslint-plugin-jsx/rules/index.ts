@@ -14,6 +14,7 @@ import jsxCurlyNewline from './jsx-curly-newline/jsx-curly-newline'
 import jsxCurlySpacing from './jsx-curly-spacing/jsx-curly-spacing'
 import jsxEqualsSpacing from './jsx-equals-spacing/jsx-equals-spacing'
 import jsxFirstPropNewLine from './jsx-first-prop-new-line/jsx-first-prop-new-line'
+import jsxFunctionCallNewline from './jsx-function-call-newline/jsx-function-call-newline'
 import jsxIndent from './jsx-indent/jsx-indent'
 import jsxIndentProps from './jsx-indent-props/jsx-indent-props'
 import jsxMaxPropsPerLine from './jsx-max-props-per-line/jsx-max-props-per-line'
@@ -35,6 +36,7 @@ export default {
   'jsx-curly-spacing': jsxCurlySpacing,
   'jsx-equals-spacing': jsxEqualsSpacing,
   'jsx-first-prop-new-line': jsxFirstPropNewLine,
+  'jsx-function-call-newline': jsxFunctionCallNewline,
   'jsx-indent': jsxIndent,
   'jsx-indent-props': jsxIndentProps,
   'jsx-max-props-per-line': jsxMaxPropsPerLine,

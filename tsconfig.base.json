@@ -26,12 +26,16 @@
       ],
       "@shared/*": [
         "./packages/shared/*"
+      ],
+      "#test": [
+        "./packages/test-utils/index.ts"
       ]
     },
     "resolveJsonModule": true,
     "allowJs": true,
     "strict": true,
     "strictNullChecks": true,
+    "noEmit": true,
     "esModuleInterop": true,
     "skipDefaultLibCheck": true,
     "skipLibCheck": true

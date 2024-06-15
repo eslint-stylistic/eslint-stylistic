@@ -3,12 +3,12 @@
  * @author Toru Nagashima
  */
 
-import { RuleTester } from 'eslint'
 import rule from './no-mixed-operators'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('no-mixed-operators', rule, {
+run({
+  name: 'no-mixed-operators',
+  rule,
   valid: [
     'a && b && c && d',
     'a || b || c || d',

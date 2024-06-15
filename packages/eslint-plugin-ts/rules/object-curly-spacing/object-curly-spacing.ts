@@ -183,8 +183,9 @@ export default createRule<RuleOptions, MessageIds>({
           !openingCurlyBraceMustBeSpaced
           && firstSpaced
           && second.type !== AST_TOKEN_TYPES.Line
-        )
+        ) {
           reportNoBeginningSpace(node, first)
+        }
       }
 
       if (isTokenOnSameLine(penultimate, last)) {

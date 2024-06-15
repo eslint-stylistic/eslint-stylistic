@@ -2,14 +2,16 @@
 title: no-multi-spaces
 rule_type: layout
 related_rules:
-- key-spacing
-- space-infix-ops
-- space-in-brackets
-- space-in-parens
-- space-after-keywords
-- space-unary-ops
-- space-return-throw-case
+  - key-spacing
+  - space-infix-ops
+  - space-in-brackets
+  - space-in-parens
+  - space-after-keywords
+  - space-unary-ops
+  - space-return-throw-case
 ---
+
+# js/no-multi-spaces
 
 Multiple spaces in a row that are not used for indentation are typically mistakes. For example:
 

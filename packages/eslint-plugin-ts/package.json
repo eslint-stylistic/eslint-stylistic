@@ -1,6 +1,6 @@
 {
   "name": "@stylistic/eslint-plugin-ts",
-  "version": "1.5.4",
+  "version": "2.1.0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
@@ -40,6 +40,7 @@
     "./rules/no-extra-semi": "./dist/no-extra-semi.js",
     "./rules/object-curly-spacing": "./dist/object-curly-spacing.js",
     "./rules/padding-line-between-statements": "./dist/padding-line-between-statements.js",
+    "./rules/quote-props": "./dist/quote-props.js",
     "./rules/quotes": "./dist/quotes.js",
     "./rules/semi": "./dist/semi.js",
     "./rules/space-before-blocks": "./dist/space-before-blocks.js",
@@ -55,7 +56,7 @@
     "rules/**/*.d.ts"
   ],
   "engines": {
-    "node": "^16.0.0 || >=18.0.0"
+    "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
   },
   "scripts": {
     "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",
@@ -67,9 +68,10 @@
   },
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:*",
-    "@typescript-eslint/utils": "^6.19.0"
+    "@types/eslint": "^8.56.10",
+    "@typescript-eslint/utils": "^7.12.0"
   },
   "devDependencies": {
-    "@typescript-eslint/rule-tester": "^6.19.0"
+    "@typescript-eslint/rule-tester": "^7.12.0"
   }
 }

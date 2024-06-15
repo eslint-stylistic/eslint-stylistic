@@ -2,14 +2,16 @@
 title: max-statements-per-line
 rule_type: layout
 related_rules:
-- max-depth
-- max-len
-- max-lines
-- max-lines-per-function
-- max-nested-callbacks
-- max-params
-- max-statements
+  - max-depth
+  - max-len
+  - max-lines
+  - max-lines-per-function
+  - max-nested-callbacks
+  - max-params
+  - max-statements
 ---
+
+# js/max-statements-per-line
 
 A line of code containing too many statements can be difficult to read. Code is generally read from the top down, especially when scanning, so limiting the number of statements allowed on a single line can be very beneficial for readability and maintainability.
 

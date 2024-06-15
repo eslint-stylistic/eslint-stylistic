@@ -231,8 +231,9 @@ export default createRule<MessageIds, RuleOptions>({
         || t === 'DebuggerStatement'
         || t === 'ImportDeclaration'
         || t === 'ExportAllDeclaration'
-      )
+      ) {
         return false
+      }
 
       if (t === 'ReturnStatement')
         return Boolean(node.argument)
@@ -284,8 +285,11 @@ export default createRule<MessageIds, RuleOptions>({
         node.type !== 'PropertyDefinition'
         && beforeStatementContinuationChars === 'never'
         && !maybeAsiHazardAfter(node)
-      )
-        return true // ASI works. This statement doesn't connect to the next.
+      ) {
+        return true
+      }
+
+      // ASI works. This statement doesn't connect to the next.
 
       const nextToken = sourceCode.getTokenAfter(node) as Token
       if (!maybeAsiHazardBefore(nextToken))
@@ -350,14 +354,17 @@ export default createRule<MessageIds, RuleOptions>({
       if (never) {
         const nextToken = sourceCode.getTokenAfter(node) as Token
 
-        if (isSemi && canRemoveSemicolon(node))
+        if (isSemi && canRemoveSemicolon(node)) {
           report(node, true)
+        }
+
         else if (
           !isSemi && beforeStatementContinuationChars === 'always'
           && node.type !== 'PropertyDefinition'
           && maybeAsiHazardBefore(nextToken)
-        )
+        ) {
           report(node)
+        }
       }
       else {
         const oneLinerBlock = (exceptOneLine && isLastInOneLinerBlock(node))
@@ -380,8 +387,9 @@ export default createRule<MessageIds, RuleOptions>({
 
       if ((parent.type !== 'ForStatement' || parent.init !== node)
         && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as Tree.ForInStatement).left !== node)
-      )
+      ) {
         checkForSemicolon(node)
+      }
     }
 
     return {

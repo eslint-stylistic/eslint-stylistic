@@ -28,11 +28,13 @@ import indent from './indent/indent'
 import jsxQuotes from './jsx-quotes/jsx-quotes'
 import keySpacing from './key-spacing/key-spacing'
 import keywordSpacing from './keyword-spacing/keyword-spacing'
+import lineCommentPosition from './line-comment-position/line-comment-position'
 import linebreakStyle from './linebreak-style/linebreak-style'
 import linesAroundComment from './lines-around-comment/lines-around-comment'
 import linesBetweenClassMembers from './lines-between-class-members/lines-between-class-members'
 import maxLen from './max-len/max-len'
 import maxStatementsPerLine from './max-statements-per-line/max-statements-per-line'
+import multilineCommentStyle from './multiline-comment-style/multiline-comment-style'
 import multilineTernary from './multiline-ternary/multiline-ternary'
 import newParens from './new-parens/new-parens'
 import newlinePerChainedCall from './newline-per-chained-call/newline-per-chained-call'
@@ -98,11 +100,13 @@ export default {
   'jsx-quotes': jsxQuotes,
   'key-spacing': keySpacing,
   'keyword-spacing': keywordSpacing,
+  'line-comment-position': lineCommentPosition,
   'linebreak-style': linebreakStyle,
   'lines-around-comment': linesAroundComment,
   'lines-between-class-members': linesBetweenClassMembers,
   'max-len': maxLen,
   'max-statements-per-line': maxStatementsPerLine,
+  'multiline-comment-style': multilineCommentStyle,
   'multiline-ternary': multilineTernary,
   'new-parens': newParens,
   'newline-per-chained-call': newlinePerChainedCall,

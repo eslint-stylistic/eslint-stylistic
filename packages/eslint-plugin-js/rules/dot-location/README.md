@@ -2,9 +2,11 @@
 title: dot-location
 rule_type: layout
 related_rules:
-- newline-after-var
-- dot-notation
+  - newline-after-var
+  - dot-notation
 ---
+
+# js/dot-location
 
 JavaScript allows you to place newlines before or after a dot in a member expression.
 

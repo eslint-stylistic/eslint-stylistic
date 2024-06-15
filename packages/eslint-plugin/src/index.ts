@@ -4,7 +4,4 @@ import plugin from './plugin'
 export type * from '../dts'
 export type * from '../configs'
 
-export default {
-  ...plugin,
-  configs,
-}
+export default Object.assign(plugin, { configs })

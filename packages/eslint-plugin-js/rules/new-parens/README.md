@@ -3,6 +3,8 @@ title: new-parens
 rule_type: layout
 ---
 
+# js/new-parens
+
 JavaScript allows the omission of parentheses when invoking a function via the `new` keyword and the constructor has no arguments. However, some coders believe that omitting the parentheses is inconsistent with the rest of the language and thus makes code less clear.
 
 ```js

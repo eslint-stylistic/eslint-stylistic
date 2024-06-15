@@ -96,6 +96,9 @@ export default createRule<MessageIds, RuleOptions>({
               allowTemplateLiterals: {
                 type: 'boolean',
               },
+              ignoreStringLiterals: {
+                type: 'boolean',
+              },
             },
             additionalProperties: false,
           },
@@ -113,6 +116,7 @@ export default createRule<MessageIds, RuleOptions>({
     const settings = QUOTE_SETTINGS[quoteOption || 'double']
     const options = context.options[1]
     const allowTemplateLiterals = options && typeof (options) === 'object' && options.allowTemplateLiterals === true
+    const ignoreStringLiterals = options && typeof (options) === 'object' && options.ignoreStringLiterals === true
     const sourceCode = context.sourceCode
     let avoidEscape = options && typeof (options) === 'object' && options.avoidEscape === true
 
@@ -272,6 +276,9 @@ export default createRule<MessageIds, RuleOptions>({
     return {
 
       Literal(node) {
+        if (ignoreStringLiterals)
+          return
+
         const val = node.value
         const rawVal = node.raw
 
@@ -312,7 +319,11 @@ export default createRule<MessageIds, RuleOptions>({
           allowTemplateLiterals
           || quoteOption === 'backtick'
           || isUsingFeatureOfTemplateLiteral(node)
-        )
+        ) {
+          return
+        }
+
+        if (avoidEscape && sourceCode.getText(node).includes(settings.quote))
           return
 
         context.report({

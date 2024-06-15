@@ -2,7 +2,9 @@
 import antfu from '@antfu/eslint-config'
 import stylistic from './stub.js'
 
-const configs = await antfu(
+const stylisticConfig = stylistic.configs.customize()
+
+export default antfu(
   {
     formatters: true,
     ignores: [
@@ -12,6 +14,7 @@ const configs = await antfu(
     ],
     jsx: true,
     markdown: false,
+    typescript: true,
   },
   {
     rules: {
@@ -35,7 +38,9 @@ const configs = await antfu(
     files: [
       '**/*.test.{js,ts}',
     ],
+    name: 'local/test',
     rules: {
+      'antfu/indent-unindent': 'error',
       'node/prefer-global/process': 'off',
     },
   },
@@ -43,12 +48,14 @@ const configs = await antfu(
     files: [
       '**/*.md',
     ],
+    name: 'local/markdown',
     rules: {
       'style/no-tabs': 'off',
     },
   },
   {
     files: ['packages/eslint-plugin-{js,jsx,ts}/{rules,utils}/**/*.ts'],
+    name: 'local/restricted-imports',
     rules: {
       'no-restricted-imports': ['error', {
         paths: [
@@ -79,18 +86,13 @@ const configs = await antfu(
     },
   },
 )
-
-const config = configs.find(i => i.name === 'antfu:stylistic')
-Object.assign(config, stylistic.configs.customize({
-  pluginName: 'style',
-}))
-
-// Additional rules from @antfu/eslint-config
-Object.assign(config.rules, {
-  'antfu/consistent-list-newline': 'error',
-  'antfu/if-newline': 'error',
-  'antfu/top-level-function': 'error',
-  'curly': ['error', 'multi-or-nest', 'consistent'],
-})
-
-export default configs
+  .override('antfu/stylistic/rules', {
+    ...stylisticConfig,
+    rules: {
+      ...stylisticConfig.rules,
+      'antfu/consistent-list-newline': 'error',
+      'antfu/curly': 'error',
+      'antfu/if-newline': 'error',
+      'antfu/top-level-function': 'error',
+    },
+  })

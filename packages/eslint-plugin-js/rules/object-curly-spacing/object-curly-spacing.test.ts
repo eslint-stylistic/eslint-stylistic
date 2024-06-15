@@ -3,13 +3,13 @@
  * @author Jamund Ferguson
  */
 
-import { RuleTester } from 'eslint'
 import parser from '../../test-utils/fixture-parser'
 import rule from './object-curly-spacing'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('object-curly-spacing', rule, {
+run({
+  name: 'object-curly-spacing',
+  rule,
 
   valid: [
 

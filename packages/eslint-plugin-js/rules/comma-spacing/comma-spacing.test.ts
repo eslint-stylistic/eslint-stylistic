@@ -3,12 +3,12 @@
  * @author Vignesh Anand.
  */
 
-import { RuleTester } from 'eslint'
 import rule from './comma-spacing'
+import { run } from '#test'
 
-const ruleTester = new RuleTester()
-
-ruleTester.run('comma-spacing', rule, {
+run({
+  name: 'comma-spacing',
+  rule,
   valid: [
     'myfunc(404, true/* bla bla bla */, \'hello\');',
     'myfunc(404, true /* bla bla bla */, \'hello\');',

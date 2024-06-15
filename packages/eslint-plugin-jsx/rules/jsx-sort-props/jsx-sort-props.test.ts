@@ -3,25 +3,11 @@
  * @author Yannick Croissant
  */
 
-import { RuleTester } from 'eslint'
 import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
 import { invalids, valids } from '../../test-utils/parsers'
 import rule from './jsx-sort-props'
-
-const parserOptions = {
-  ecmaVersion: 2018,
-  sourceType: 'module',
-  ecmaFeatures: {
-    jsx: true,
-  },
-}
-
-// -----------------------------------------------------------------------------
-// Tests
-// -----------------------------------------------------------------------------
-
-const ruleTester = new RuleTester({ parserOptions })
+import { run } from '#test'
 
 const expectedError = {
   messageId: 'sortPropsByAlpha',
@@ -114,7 +100,15 @@ const multilineAndShorthandAndCallbackLastArgs = [
   },
 ]
 
-ruleTester.run('jsx-sort-props', rule, {
+run({
+  name: 'jsx-sort-props',
+  rule,
+  parserOptions: {
+    ecmaFeatures: {
+      jsx: true,
+    },
+  },
+
   valid: valids(
     { code: '<App />;' },
     { code: '<App {...this.props} />;' },
@@ -1087,6 +1081,7 @@ ruleTester.run('jsx-sort-props', rule, {
           // className="customPageClassName"
         />
       `,
+      verifyFixChanges: false,
       features: ['ts', 'no-babel-old'],
       errors: [
         {

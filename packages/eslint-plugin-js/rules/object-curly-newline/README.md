@@ -2,11 +2,13 @@
 title: object-curly-newline
 rule_type: layout
 related_rules:
-- comma-spacing
-- key-spacing
-- object-curly-spacing
-- object-property-newline
+  - comma-spacing
+  - key-spacing
+  - object-curly-spacing
+  - object-property-newline
 ---
+
+# js/object-curly-newline
 
 A number of style guides require or disallow line breaks inside of object braces and other tokens.
 

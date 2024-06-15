@@ -3,6 +3,8 @@ title: quotes
 rule_type: layout
 ---
 
+# js/quotes
+
 JavaScript allows you to define strings in one of three ways: double quotes, single quotes, and backticks (as of ECMAScript 6). For example:
 
 ```js
@@ -35,8 +37,9 @@ String option:
 
 Object option:
 
-- `"avoidEscape": true` allows strings to use single-quotes or double-quotes so long as the string contains a quote that would have to be escaped otherwise
+- `"avoidEscape": true` allows strings to use single-quotes, double-quotes, or template literals so long as the string contains a quote that would have to be escaped otherwise
 - `"allowTemplateLiterals": true` allows strings to use backticks
+- `"ignoreStringLiterals": true` don’t report string literals, only template strings
 
 **Deprecated**: The object property `avoid-escape` is deprecated; please use the object property `avoidEscape` instead.
 

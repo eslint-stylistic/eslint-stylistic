@@ -84,8 +84,9 @@ export default createRule<RuleOptions, MessageIds>({
       if (
         !sourceCode.isSpaceBetween!(prev, operator)
         || !sourceCode.isSpaceBetween!(operator, next)
-      )
+      ) {
         report(operator)
+      }
     }
 
     /**
@@ -137,8 +138,9 @@ export default createRule<RuleOptions, MessageIds>({
           if (
             !sourceCode.isSpaceBetween!(prev!, operator)
             || !sourceCode.isSpaceBetween!(operator, next!)
-          )
+          ) {
             report(operator)
+          }
         }
       })
     }

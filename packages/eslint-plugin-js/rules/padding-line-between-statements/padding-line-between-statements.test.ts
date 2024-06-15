@@ -3,12 +3,14 @@
  * @author Toru Nagashima
  */
 
-import { RuleTester } from 'eslint'
 import rule from './padding-line-between-statements'
+import { $, run } from '#test'
 
-const ruleTester = new RuleTester({ parserOptions: { ecmaVersion: 2017 } })
+run({
+  name: 'padding-line-between-statements',
+  rule,
+  lang: 'js',
 
-ruleTester.run('padding-line-between-statements', rule, {
   valid: [
 
     // do nothing if no options.
@@ -1064,6 +1066,7 @@ ruleTester.run('padding-line-between-statements', rule, {
         { blankLine: 'never', prev: '*', next: '*' },
         { blankLine: 'always', prev: 'with', next: '*' },
       ],
+      parserOptions: { sourceType: 'script' },
     },
 
     // ----------------------------------------------------------------------
@@ -1838,32 +1841,32 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // https://github.com/eslint/eslint/issues/6834
     {
-      code: `
-                var a = 1
-
-                ;(b || c).doSomething()
-            `,
+      code: $`
+        var a = 1
+        
+        ;(b || c).doSomething()
+      `,
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
       ],
     },
     {
-      code: `
-                var a = 1
-                ;(b || c).doSomething()
-            `,
+      code: $`
+        var a = 1
+        ;(b || c).doSomething()
+      `,
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
       ],
     },
     {
-      code: `
-                var a = 1
-                ;
-                (b || c).doSomething();
-            `,
+      code: $`
+        var a = 1
+        ;
+        (b || c).doSomething();
+      `,
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
@@ -1885,12 +1888,12 @@ ruleTester.run('padding-line-between-statements', rule, {
       ],
     },
     {
-      code: `
-                var a = 1
-
-                ;
-                (b || c).doSomething();
-            `,
+      code: $`
+        var a = 1
+        
+        ;
+        (b || c).doSomething();
+      `,
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
@@ -2242,35 +2245,35 @@ ruleTester.run('padding-line-between-statements', rule, {
       options: [
         { blankLine: 'always', prev: '*', next: 'return' },
       ],
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
     },
     {
       code: 'var a;\n\nreturn;',
       options: [
         { blankLine: 'always', prev: '*', next: 'return' },
       ],
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
     },
     {
       code: '// comment\nreturn;',
       options: [
         { blankLine: 'always', prev: '*', next: 'return' },
       ],
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
     },
     {
       code: '/* comment */\nreturn;',
       options: [
         { blankLine: 'always', prev: '*', next: 'return' },
       ],
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
     },
     {
       code: '/* multi-line\ncomment */\nreturn;',
       options: [
         { blankLine: 'always', prev: '*', next: 'return' },
       ],
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
     },
 
     // ----------------------------------------------------------------------
@@ -4013,6 +4016,7 @@ ruleTester.run('padding-line-between-statements', rule, {
         { blankLine: 'never', prev: 'with', next: '*' },
       ],
       errors: [{ messageId: 'unexpectedBlankLine' }],
+      parserOptions: { sourceType: 'script' },
     },
     {
       code: 'with(a);\nfoo()',
@@ -4021,6 +4025,7 @@ ruleTester.run('padding-line-between-statements', rule, {
         { blankLine: 'always', prev: 'with', next: '*' },
       ],
       errors: [{ messageId: 'expectedBlankLine' }],
+      parserOptions: { sourceType: 'script' },
     },
 
     // ----------------------------------------------------------------------
@@ -4538,15 +4543,15 @@ ruleTester.run('padding-line-between-statements', rule, {
 
     // https://github.com/eslint/eslint/issues/6834
     {
-      code: `
-                var a = 1
-                ;(b || c).doSomething()
-            `,
-      output: `
-                var a = 1
-
-                ;(b || c).doSomething()
-            `,
+      code: $`
+        var a = 1
+        ;(b || c).doSomething()
+      `,
+      output: $`
+        var a = 1
+        
+        ;(b || c).doSomething()
+      `,
       options: [
         { blankLine: 'always', prev: ['const', 'let', 'var'], next: '*' },
         { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
@@ -4554,15 +4559,15 @@ ruleTester.run('padding-line-between-statements', rule, {
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: `
-                var a = 1
-
-                ;(b || c).doSomething()
-            `,
-      output: `
-                var a = 1
-                ;(b || c).doSomething()
-            `,
+      code: $`
+        var a = 1
+        
+        ;(b || c).doSomething()
+      `,
+      output: $`
+        var a = 1
+        ;(b || c).doSomething()
+      `,
       options: [
         { blankLine: 'never', prev: ['const', 'let', 'var'], next: '*' },
         { blankLine: 'any', prev: ['const', 'let', 'var'], next: ['const', 'let', 'var'] },
@@ -4700,7 +4705,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       options: [
         { blankLine: 'always', prev: '*', next: 'return' },
       ],
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
@@ -4709,7 +4714,7 @@ ruleTester.run('padding-line-between-statements', rule, {
       options: [
         { blankLine: 'always', prev: '*', next: 'return' },
       ],
-      parserOptions: { ecmaFeatures: { globalReturn: true } },
+      parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
