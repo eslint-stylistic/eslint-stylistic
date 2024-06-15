@@ -1,5 +1,21 @@
 # Changelog
 
+## [2.2.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.1.0...v2.2.0) (2024-06-15)
+
+
+### Features
+
+* **indent:** support for JSXText indentation ([#413](https://github.com/eslint-stylistic/eslint-stylistic/issues/413)) ([a5b62a0](https://github.com/eslint-stylistic/eslint-stylistic/commit/a5b62a04d3b25d6144a5935f0ed9370487f26409))
+* **js:** add option `ignoreStringLiterals` ([#401](https://github.com/eslint-stylistic/eslint-stylistic/issues/401)) ([1b6d563](https://github.com/eslint-stylistic/eslint-stylistic/commit/1b6d563921b408723fa9a5bd911f5890c698f649)), closes [#400](https://github.com/eslint-stylistic/eslint-stylistic/issues/400)
+* **jsx-one-expression-per-line:** allow `non-jsx` ([#393](https://github.com/eslint-stylistic/eslint-stylistic/issues/393)) ([431d564](https://github.com/eslint-stylistic/eslint-stylistic/commit/431d56475af2ba183421cb051e486b2bb6940169))
+
+
+### Bug Fixes
+
+* **indent:** correct indentation for `PropertyDefinition` with decorators ([#416](https://github.com/eslint-stylistic/eslint-stylistic/issues/416)) ([4b4d27c](https://github.com/eslint-stylistic/eslint-stylistic/commit/4b4d27c0ede2bada33aab5cb9fcdca7e77448b8a))
+* make plugin assignable to ESLint.Plugin ([#418](https://github.com/eslint-stylistic/eslint-stylistic/issues/418)) ([9887ead](https://github.com/eslint-stylistic/eslint-stylistic/commit/9887ead9ae485fa8393e2f7b529074bf04200867))
+* **quotes:** allow template literals to avoid escape sequences ([#410](https://github.com/eslint-stylistic/eslint-stylistic/issues/410)) ([1891c5f](https://github.com/eslint-stylistic/eslint-stylistic/commit/1891c5fd8ae3580b892694836c2a387070de2084))
+
 ## [2.1.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.0.0...v2.1.0) (2024-05-09)
 
 
