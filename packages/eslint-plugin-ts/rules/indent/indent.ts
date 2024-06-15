@@ -6,6 +6,7 @@
 
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import type { ASTNode, RuleFunction, Tree } from '@shared/types'
+import type { Node } from 'estree'
 import { createRule } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
 import type { MessageIds, RuleOptions } from './types'
@@ -173,7 +174,9 @@ export default createRule<RuleOptions, MessageIds>({
       } as Tree.PropertyDefinition
     }
 
-    return Object.assign({}, rules, {
+    return {
+      ...rules,
+
       // overwrite the base rule here so we can use our KNOWN_NODES list instead
       '*:exit': function (node: ASTNode) {
         // For nodes we care about, skip the default handling, because it just marks the node as ignored...
@@ -181,7 +184,12 @@ export default createRule<RuleOptions, MessageIds>({
           rules['*:exit'](node)
       },
 
-      'ClassBody.body > PropertyDefinition[decorators.length > 0]': function (node: Tree.PropertyDefinition) {
+      PropertyDefinition(node) {
+        if (node.parent.type !== AST_NODE_TYPES.ClassBody)
+          return
+        if (!node.decorators.length)
+          return
+
         if (node.loc.start.line !== node.loc.end.line) {
           let startDecorator = node.decorators[0]
           let endDecorator = startDecorator
@@ -221,7 +229,7 @@ export default createRule<RuleOptions, MessageIds>({
         }
       },
 
-      VariableDeclaration(node: Tree.VariableDeclaration) {
+      VariableDeclaration(node) {
         // https://github.com/typescript-eslint/typescript-eslint/issues/441
         if (node.declarations.length === 0)
           return
@@ -540,6 +548,6 @@ export default createRule<RuleOptions, MessageIds>({
           loc: node.loc,
         })
       },
-    })
+    }
   },
 })
