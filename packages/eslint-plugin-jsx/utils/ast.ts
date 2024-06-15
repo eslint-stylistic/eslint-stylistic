@@ -75,8 +75,9 @@ export function traverseReturns(
     && nodeType !== 'FunctionDeclaration'
     && nodeType !== 'ArrowFunctionExpression'
     && nodeType !== 'MethodDefinition'
-  )
+  ) {
     return
+  }
 
   traverse((ASTNode as FunctionDeclaration).body, {
     enter(node) {

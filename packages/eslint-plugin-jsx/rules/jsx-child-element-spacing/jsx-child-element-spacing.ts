@@ -55,8 +55,8 @@ export default createRule<MessageIds, RuleOptions>({
     schema: [],
   },
   create(context) {
-    const TEXT_FOLLOWING_ELEMENT_PATTERN = /^\s*\n\s*\S/
-    const TEXT_PRECEDING_ELEMENT_PATTERN = /\S\s*\n\s*$/
+    const TEXT_FOLLOWING_ELEMENT_PATTERN = /^[\t\v\f\r \xA0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]*\n\s*\S/
+    const TEXT_PRECEDING_ELEMENT_PATTERN = /\S[\t\v\f\r \xA0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]*\n\s*$/
 
     const elementName = (node: Tree.JSXElement) => (
       node.openingElement

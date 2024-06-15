@@ -784,8 +784,9 @@ export default createRule<MessageIds, RuleOptions>({
         || statement.type === 'LogicalExpression'
         || statement.type === 'SequenceExpression'
         || statement.type === 'VariableDeclarator'
-      )
+      ) {
         statement = statement.parent
+      }
 
       return (statement.type === 'ExpressionStatement' || statement.type === 'VariableDeclaration') && statement.parent.type === 'Program'
     }
@@ -1379,8 +1380,9 @@ export default createRule<MessageIds, RuleOptions>({
         // Only indent the arguments if the NewExpression has parens (e.g. `new Foo(bar)` or `new Foo()`, but not `new Foo`
         if (node.arguments.length > 0
           || isClosingParenToken(sourceCode.getLastToken(node)!)
-          && isOpeningParenToken(sourceCode.getLastToken(node, 1)!))
+          && isOpeningParenToken(sourceCode.getLastToken(node, 1)!)) {
           addFunctionCallIndent(node)
+        }
       },
 
       Property(node) {
@@ -1839,8 +1841,9 @@ export default createRule<MessageIds, RuleOptions>({
               if (
                 mayAlignWithBefore && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenBefore)!)
                 || mayAlignWithAfter && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenAfter)!)
-              )
+              ) {
                 continue
+              }
             }
 
             // If the token matches the expected indentation, don't report it.

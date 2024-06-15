@@ -294,8 +294,9 @@ export default createRule<RuleOptions, MessageIds>({
       if (
         options.applyDefaultIgnorePatterns !== false
         && defaultIgnoreRegExp.test(token.value)
-      )
+      ) {
         return
+      }
 
       if (options.ignorePattern && customIgnoreRegExp.test(token.value))
         return

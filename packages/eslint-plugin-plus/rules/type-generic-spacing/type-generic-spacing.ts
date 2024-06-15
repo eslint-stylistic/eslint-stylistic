@@ -51,7 +51,7 @@ export default createRule<RuleOptions, MessageIds>({
           const from = prev.range[1]
           const to = current.range[0]
           const span = sourceCode.text.slice(from, to)
-          if (span !== ', ' && !span.match(/,\s*\r?\n/)) {
+          if (span !== ', ' && !span.match(/,\s*\n/)) {
             context.report({
               *fix(fixer) {
                 yield fixer.replaceTextRange([from, to], ', ')

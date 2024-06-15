@@ -748,6 +748,23 @@ const div: JQuery<HTMLElement> = $('<div>')
     {
       code: 'const foo = function<> (): void {}',
     },
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/229
+    {
+      code: `
+@Bar()
+export class Foo {
+  @a
+  id: string;
+
+  @a @b()
+  age: number;
+
+  @a @b() username: string;
+}
+      `,
+      options: [2],
+    },
   ],
   invalid: [
     ...individualNodeTests.invalid!,
@@ -1733,15 +1750,31 @@ declare module "Validation" {
         },
       ],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/208
     {
-
       code: `
     @Decorator()
-class Foo {}
+class Foo {
+    @a
+        foo: any;
+
+@b @c()
+    bar: any;
+
+        @d baz: any;
+}
       `,
       output: `
 @Decorator()
-class Foo {}
+class Foo {
+    @a
+    foo: any;
+
+    @b @c()
+    bar: any;
+
+    @d baz: any;
+}
       `,
       errors: [
         {
@@ -1751,6 +1784,33 @@ class Foo {}
             actual: 4,
           },
           line: 2,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 8,
+          },
+          line: 5,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 7,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 8,
+          },
+          line: 10,
           column: 1,
         },
       ],

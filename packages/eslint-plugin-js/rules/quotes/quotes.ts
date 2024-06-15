@@ -319,8 +319,9 @@ export default createRule<MessageIds, RuleOptions>({
           allowTemplateLiterals
           || quoteOption === 'backtick'
           || isUsingFeatureOfTemplateLiteral(node)
-        )
+        ) {
           return
+        }
 
         if (avoidEscape && sourceCode.getText(node).includes(settings.quote))
           return

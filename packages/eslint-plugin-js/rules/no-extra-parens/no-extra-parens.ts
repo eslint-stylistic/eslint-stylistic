@@ -234,8 +234,9 @@ export default createRule<MessageIds, RuleOptions>({
         if (
           precedence(node) >= precedenceLowerLimit
           || isParenthesisedTwice(node)
-        )
+        ) {
           return true
+        }
       }
       return false
     }
@@ -261,8 +262,9 @@ export default createRule<MessageIds, RuleOptions>({
         if (
           currentNode.type === 'ReturnStatement'
           || (currentNode.type === 'ArrowFunctionExpression' && currentNode.body.type !== 'BlockStatement')
-        )
+        ) {
           return true
+        }
       }
 
       return false
@@ -299,12 +301,14 @@ export default createRule<MessageIds, RuleOptions>({
         return true
 
       if (node.type === 'ConditionalExpression'
-        && (node.consequent.type === 'AssignmentExpression' || node.alternate.type === 'AssignmentExpression'))
+        && (node.consequent.type === 'AssignmentExpression' || node.alternate.type === 'AssignmentExpression')) {
         return true
+      }
 
       if ('left' in node && ((node.left && node.left.type === 'AssignmentExpression')
-        || (node.right && node.right.type === 'AssignmentExpression')))
+        || (node.right && node.right.type === 'AssignmentExpression'))) {
         return true
+      }
 
       return false
     }
@@ -446,8 +450,9 @@ export default createRule<MessageIds, RuleOptions>({
           if (
             totalCommentsBeforeLeftParenTokenCount > 0
             && ignorePattern.test(commentsBeforeLeftParenToken[totalCommentsBeforeLeftParenTokenCount - 1].value)
-          )
+          ) {
             return
+          }
         }
       }
 
@@ -548,8 +553,9 @@ export default createRule<MessageIds, RuleOptions>({
               && callee.type === 'ChainExpression'
             )
           )
-        )
+        ) {
           report(node.callee)
+        }
       }
       node.arguments
         .filter(arg => hasExcessParensWithPrecedence(arg, PRECEDENCE_OF_ASSIGNMENT_EXPR))
@@ -575,8 +581,9 @@ export default createRule<MessageIds, RuleOptions>({
           && !isMixedLogicalAndCoalesceExpressions(node.left, node)
           && (leftPrecedence > prec || (leftPrecedence === prec && !isExponentiation))
           || isParenthesisedTwice(node.left)
-        )
+        ) {
           report(node.left)
+        }
       }
 
       if (!shouldSkipRight && hasExcessParens(node.right)) {
@@ -584,8 +591,9 @@ export default createRule<MessageIds, RuleOptions>({
           !isMixedLogicalAndCoalesceExpressions(node.right, node)
           && (rightPrecedence > prec || (rightPrecedence === prec && isExponentiation))
           || isParenthesisedTwice(node.right)
-        )
+        ) {
           report(node.right)
+        }
       }
     }
 
@@ -644,8 +652,9 @@ export default createRule<MessageIds, RuleOptions>({
           )
           || secondToken && secondToken.type === 'Identifier' && secondToken.value === 'async' && thirdToken && thirdToken.type === 'Keyword' && thirdToken.value === 'function'
         )
-      )
+      ) {
         tokensToIgnore.add(secondToken)
+      }
 
       const hasExtraParens = node.parent.type === 'ExportDefaultDeclaration'
         ? hasExcessParensWithPrecedence(node, PRECEDENCE_OF_ASSIGNMENT_EXPR)
@@ -836,8 +845,9 @@ export default createRule<MessageIds, RuleOptions>({
 
         if (node.body.type === 'ConditionalExpression'
           && IGNORE_ARROW_CONDITIONALS
-        )
+        ) {
           return
+        }
 
         if (node.body.type !== 'BlockStatement') {
           const firstBodyToken = sourceCode.getFirstToken(node.body, isNotOpeningParenToken)!
@@ -853,8 +863,9 @@ export default createRule<MessageIds, RuleOptions>({
 
       AssignmentExpression(node) {
         if (canBeAssignmentTarget(node.left) && hasExcessParens(node.left)
-          && (!isAnonymousFunctionAssignmentException(node) || isParenthesisedTwice(node.left)))
+          && (!isAnonymousFunctionAssignmentException(node) || isParenthesisedTwice(node.left))) {
           report(node.left)
+        }
 
         if (!isReturnAssignException(node) && hasExcessParensWithPrecedence(node.right, precedence(node)))
           report(node.right)
@@ -880,18 +891,21 @@ export default createRule<MessageIds, RuleOptions>({
           && !isCondAssignException(node)
           // @ts-expect-error other properties are not used
           && hasExcessParensWithPrecedence(node.test, precedence({ type: 'LogicalExpression', operator: '||' }))
-        )
+        ) {
           report(node.test)
+        }
 
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.consequent.type))
-          && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
           report(node.consequent)
+        }
 
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.alternate.type))
-          && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
           report(node.alternate)
+        }
       },
 
       DoWhileStatement(node) {
@@ -1075,25 +1089,29 @@ export default createRule<MessageIds, RuleOptions>({
               || (node.object.type === 'Literal' && 'regex' in node.object && node.object.regex)
             )
           )
-        )
+        ) {
           report(node.object)
+        }
 
         if (nodeObjHasExcessParens
           && node.object.type === 'CallExpression'
-        )
+        ) {
           report(node.object)
+        }
 
         if (nodeObjHasExcessParens
           && !IGNORE_NEW_IN_MEMBER_EXPR
           && node.object.type === 'NewExpression'
-          && isNewExpressionWithParens(node.object))
+          && isNewExpressionWithParens(node.object)) {
           report(node.object)
+        }
 
         if (nodeObjHasExcessParens
           && node.optional
           && node.object.type === 'ChainExpression'
-        )
+        ) {
           report(node.object)
+        }
 
         if (node.computed && hasExcessParens(node.property))
           report(node.property)
@@ -1156,8 +1174,9 @@ export default createRule<MessageIds, RuleOptions>({
           && hasExcessParensNoLineTerminator(returnToken, node.argument)
 
         // RegExp literal is allowed to have parens (#1589)
-          && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex))
+          && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex)) {
           report(node.argument)
+        }
       },
 
       SequenceExpression(node) {
@@ -1211,8 +1230,9 @@ export default createRule<MessageIds, RuleOptions>({
 
           // RegExp literal is allowed to have parens (#1589)
           && !(node.init.type === 'Literal' && 'regex' in node.init && node.init.regex)
-        )
+        ) {
           report(node.init)
+        }
       },
 
       WhileStatement(node) {
@@ -1232,8 +1252,9 @@ export default createRule<MessageIds, RuleOptions>({
           if ((precedence(node.argument) >= precedence(node)
             && yieldToken
             && hasExcessParensNoLineTerminator(yieldToken, node.argument))
-            || hasDoubleExcessParens(node.argument))
+            || hasDoubleExcessParens(node.argument)) {
             report(node.argument)
+          }
         }
       },
 

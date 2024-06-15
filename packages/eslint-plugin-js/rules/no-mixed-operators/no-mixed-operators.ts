@@ -206,8 +206,9 @@ export default createRule<MessageIds, RuleOptions>({
         TARGET_NODE_TYPE.test(node.parent.type)
         && isMixedWithParent(node)
         && !shouldIgnore(node)
-      )
+      ) {
         reportBothOperators(node)
+      }
     }
 
     return {

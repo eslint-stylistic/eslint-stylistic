@@ -69,8 +69,9 @@ export default createRule<MessageIds, RuleOptions>({
       if (
         options.allow === 'non-jsx'
         && !children.find(child => (child.type === 'JSXFragment' || child.type === 'JSXElement'))
-      )
+      ) {
         return
+      }
 
       const openingElement = (<Tree.JSXElement>node).openingElement || (<Tree.JSXFragment>node).openingFragment
       const closingElement = (<Tree.JSXElement>node).closingElement || (<Tree.JSXFragment>node).closingFragment
@@ -92,8 +93,9 @@ export default createRule<MessageIds, RuleOptions>({
             options.allow === 'single-child'
             || (options.allow === 'literal' && (child.type === 'Literal' || child.type === 'JSXText'))
             || (options.allow === 'single-line')
-          )
+          ) {
             return
+          }
         }
       }
 
@@ -107,7 +109,7 @@ export default createRule<MessageIds, RuleOptions>({
             lineBreaks += 1
         }
         if (lastChild.type === 'Literal' || lastChild.type === 'JSXText') {
-          if (/\n\s*?$/.test(lastChild.raw))
+          if (/\n\s*$/.test(lastChild.raw))
             lineBreaks += 1
         }
         if (lineDifference === 0 && lineBreaks === 0 || lineDifference === 2 && lineBreaks === 2)
@@ -234,7 +236,7 @@ export default createRule<MessageIds, RuleOptions>({
 
         const nodeToReport = details.node
         const descriptor = details.descriptor
-        const source = details.source.replace(/(^ +| +(?=\n)*$)/g, '')
+        const source = details.source.replace(/(^ +| +$)/g, '')
 
         const leadingSpaceString = details.leadingSpace ? '\n{\' \'}' : ''
         const trailingSpaceString = details.trailingSpace ? '{\' \'}\n' : ''

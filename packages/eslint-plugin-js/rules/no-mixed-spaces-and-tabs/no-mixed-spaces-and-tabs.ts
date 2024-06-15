@@ -73,6 +73,7 @@ export default createRule<MessageIds, RuleOptions>({
            * At least one space followed by a tab
            * before non-tab/-space characters begin.
            */
+          // eslint-disable-next-line regexp/no-empty-lookarounds-assertion
           regex = /^(?=(\t*))\1(?=( +))\2\t/u
         }
 

@@ -70,7 +70,7 @@ export default createRule<MessageIds, RuleOptions>({
 
     function isBlockCommentInCurlyBraces(element: Tree.JSXChild) {
       const elementRawValue = sourceCode.getText(element)
-      return /^\s*{\/\*/.test(elementRawValue)
+      return /^\s*\{\/\*/.test(elementRawValue)
     }
 
     function isNonBlockComment(element: Tree.JSXChild) {

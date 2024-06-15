@@ -88,8 +88,9 @@ export default createRule<MessageIds, RuleOptions>({
         || closeBrace.type !== 'Punctuator'
         || closeBrace.value !== '}'
         || firstToken === closeBrace
-      )
+      ) {
         return
+      }
 
       // Skip line comments for option never
       if (!always && firstToken.type === 'Line')

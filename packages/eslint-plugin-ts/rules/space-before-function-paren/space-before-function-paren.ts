@@ -100,8 +100,9 @@ export default createRule<RuleOptions, MessageIds>({
         if (
           node.async
           && isOpeningParenToken(sourceCode.getFirstToken(node, { skip: 1 })!)
-        )
+        ) {
           return overrideConfig.asyncArrow ?? baseConfig
+        }
       }
       else if (isNamedFunction(node)) {
         return overrideConfig.named ?? baseConfig

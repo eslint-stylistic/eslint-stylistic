@@ -89,8 +89,9 @@ export default createRule<MessageIds, RuleOptions>({
       if (node.parent
         && SINGLE_CHILD_ALLOWED.test(node.parent.type)
         && (!('alternate' in node.parent) || node.parent.alternate !== node)
-      )
+      ) {
         return
+      }
 
       // Update state.
       if (line === lastStatementLine) {
