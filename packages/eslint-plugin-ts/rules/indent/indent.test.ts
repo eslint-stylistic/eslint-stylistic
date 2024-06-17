@@ -12,6 +12,7 @@ function nonTsTestCase(example: TemplateStringsArray): string {
   return ['// Non-TS Test Case', example].join('\n')
 }
 
+// #region individualNodeTests
 const individualNodeTests = [
   {
     node: AST_NODE_TYPES.ClassDeclaration,
@@ -642,6 +643,7 @@ type Foo = string | {
   },
   { valid: [], invalid: [] },
 )
+// #endregion
 
 run({
   name: 'indent',
@@ -762,6 +764,19 @@ export class Foo {
 
   @a @b() username: string;
 }
+      `,
+      options: [2],
+    },
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/270
+    {
+      code: `
+const map2 = Object.keys(map)
+  .filter((key) => true)
+  .reduce<Record<string, string>>((result, key) => {
+    result[key] = map[key];
+    return result;
+  }, {});
       `,
       options: [2],
     },

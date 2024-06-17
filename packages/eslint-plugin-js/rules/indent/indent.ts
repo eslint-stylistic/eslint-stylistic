@@ -935,7 +935,7 @@ export default createRule<MessageIds, RuleOptions>({
 
       const offsetAfterToken = node.callee.type === 'TaggedTemplateExpression'
         ? sourceCode.getFirstToken(node.callee.quasi)!
-        : openingParen
+        : node.typeArguments ?? openingParen
       const offsetToken = sourceCode.getTokenBefore(offsetAfterToken)!
 
       offsets.setDesiredOffset(openingParen, offsetToken, 0)
