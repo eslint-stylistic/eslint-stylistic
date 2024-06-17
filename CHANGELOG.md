@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.2.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.2.0...v2.2.1) (2024-06-17)
+
+
+### Bug Fixes
+
+* **indent:** correct indentation in chained methods calls with generics ([#424](https://github.com/eslint-stylistic/eslint-stylistic/issues/424)) ([4ba8b08](https://github.com/eslint-stylistic/eslint-stylistic/commit/4ba8b0866e602dd416d367d6435c747d594bbe97))
+* **indent:** handle undefined `node.decorators` when tsParser is not configured ([#422](https://github.com/eslint-stylistic/eslint-stylistic/issues/422)) ([3d63054](https://github.com/eslint-stylistic/eslint-stylistic/commit/3d63054ca962a00cdc5a3b4406daac97e7b94371))
+
 ## [2.2.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.1.0...v2.2.0) (2024-06-15)
 
 
