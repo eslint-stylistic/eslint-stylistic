@@ -1,6 +1,6 @@
 # Migration
 
-[ESLint deprecated of their formatting rules in v8.53.0](https://eslint.org/blog/2023/10/deprecating-formatting-rules/) and recommended users to migrate to ESLint Stylistic. While [ESLint never removes deprecated rules](https://eslint.org/docs/latest/use/rule-deprecation), it still means that deprecated rules will not receive any future updates. In ESLint Stylistic, we already migrated all those rules and will continue to maintain them.
+[ESLint deprecated their formatting rules in v8.53.0](https://eslint.org/blog/2023/10/deprecating-formatting-rules/) and recommended users to migrate to ESLint Stylistic. While [ESLint never removes deprecated rules](https://eslint.org/docs/latest/use/rule-deprecation), it still means that deprecated rules will not receive any future updates. In ESLint Stylistic, we already migrated all those rules and will continue to maintain them.
 
 This guide will help you to do the migration.
 
