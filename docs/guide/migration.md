@@ -29,7 +29,7 @@ npm i -D @stylistic/eslint-plugin
 ```
 
 ```js
-// .eslintrc.js
+// .eslintrc.js  [Legacy Config]
 module.exports = {
   plugins: [
     '@stylistic'
@@ -56,8 +56,7 @@ module.exports = {
 And usually typescript-eslint would ask you to disable the built-in rules, in favor of the `@typescript-eslint` version. With ESLint Stylistic, you only need one rule to handle both JavaScript and TypeScript:
 
 ```js
-// .eslintrc.js
-
+// .eslintrc.js  [Legacy Config]
 module.exports = {
   plugins: [
     '@stylistic'
@@ -83,7 +82,26 @@ To make the migration easier, we also provide a 1-to-1 mapping for each source p
 npm i -D @stylistic/eslint-plugin-js
 ```
 
-```js
+::: code-group
+
+```js [Flat Config]
+// .eslint.config.js
+import stylisticJs from '@stylistic/eslint-plugin-js'
+
+export default [
+  plugins: {
+    '@stylistic/js': stylisticJs
+  },
+  rules: {
+    // ESLint built-in stylistic rules:
+    // Add `@stylistic/js/` prefix
+    'semi': 'error', // [!code --]
+    '@stylistic/js/semi': 'error', // [!code ++]
+  }
+]
+```
+
+```js [Legacy Config]
 // .eslintrc.js
 module.exports = {
   plugins: [
@@ -96,7 +114,10 @@ module.exports = {
     '@stylistic/js/semi': 'error', // [!code ++]
   }
 }
+
 ```
+
+:::
 
 #### TypeScript
 
@@ -104,7 +125,26 @@ module.exports = {
 npm i -D @stylistic/eslint-plugin-ts
 ```
 
-```js
+::: code-group
+
+```js [Flat Config]
+// .eslint.conf.js
+import stylisticTs from '@stylistic/eslint-plugin-ts'
+
+export default [
+  plugins: {
+    '@stylistic/ts': stylisticTs
+  },
+  rules: {
+    // `@typescript-eslint` rules:
+    // Change `@typescript-eslint/` to `@stylistic/ts/` prefix
+    '@typescript-eslint/semi': 'error', // [!code --]
+    '@stylistic/ts/semi': 'error', // [!code ++]
+  }
+]
+```
+
+```js [Legacy Config]
 // .eslintrc.js
 module.exports = {
   plugins: [
@@ -119,13 +159,34 @@ module.exports = {
 }
 ```
 
+:::
+
 #### JSX
 
 ```sh
 npm i -D @stylistic/eslint-plugin-jsx
 ```
 
-```js
+::: code-group
+
+```js [Flat Config]
+// .eslint.conf.js
+import stylisticJsx from '@stylistic/eslint-plugin-jsx'
+
+export default [
+  plugins: [
+    '@stylistic/jsx'
+  ],
+  rules: {
+    // `eslint-plugin-react` rules:
+    // Change `react/` to `@stylistic/jsx/` prefix
+    'react/jsx-indent': 'error', // [!code --]
+    '@stylistic/jsx/jsx-indent': 'error', // [!code ++]
+  }
+]
+```
+
+```js [Legacy Config]
 // .eslintrc.js
 module.exports = {
   plugins: [
@@ -139,6 +200,8 @@ module.exports = {
   }
 }
 ```
+
+:::
 
 ## ESLint Migrate Plugin
 
@@ -181,25 +244,6 @@ In cases that you are extending some presets that still include legacy rules and
 
 ::: code-group
 
-```js [Legacy Config]
-// .eslintrc.js
-module.exports = {
-  extends: [
-    'eslint:recommended',
-    'plugin:@typescript-eslint/recommended',
-    // ...
-    'plugin:@stylistic/disable-legacy', // [!code ++]
-  ],
-  plugins: [
-    '@stylistic'
-  ],
-  rules: {
-    '@stylistic/semi': 'error',
-    // ...
-  }
-}
-```
-
 ```js [Flat Config]
 // eslint.config.js
 import { FlatCompat } from '@eslint/eslintrc'
@@ -229,6 +273,25 @@ export default [
     }
   }
 ]
+```
+
+```js [Legacy Config]
+// .eslintrc.js
+module.exports = {
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    // ...
+    'plugin:@stylistic/disable-legacy', // [!code ++]
+  ],
+  plugins: [
+    '@stylistic'
+  ],
+  rules: {
+    '@stylistic/semi': 'error',
+    // ...
+  }
+}
 ```
 
 :::
