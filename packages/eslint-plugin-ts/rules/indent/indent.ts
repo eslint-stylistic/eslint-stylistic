@@ -184,12 +184,8 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       PropertyDefinition(node) {
-        if (node.parent.type !== AST_NODE_TYPES.ClassBody)
-          return
-        if (!node.decorators?.length)
-          return
-        if (node.loc.start.line === node.loc.end.line)
-          return
+        if (node.parent.type !== AST_NODE_TYPES.ClassBody || !node.decorators?.length || node.loc.start.line === node.loc.end.line)
+          return rules.PropertyDefinition(node)
 
         let startDecorator = node.decorators[0]
         let endDecorator = startDecorator
