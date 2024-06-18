@@ -1830,5 +1830,30 @@ class Foo {
         },
       ],
     },
+    {
+      code: `
+class Foo {
+    bar =
+"baz";
+}
+      `,
+      output: `
+class Foo {
+    bar =
+        "baz";
+}
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '8 spaces',
+            actual: 0,
+          },
+          line: 4,
+          column: 1,
+        },
+      ],
+    },
   ],
 })
