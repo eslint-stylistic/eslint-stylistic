@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.2.2](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.2.1...v2.2.2) (2024-06-19)
+
+
+### Bug Fixes
+
+* **indent:** correct class property initialization ([#431](https://github.com/eslint-stylistic/eslint-stylistic/issues/431)) ([09ea5b0](https://github.com/eslint-stylistic/eslint-stylistic/commit/09ea5b0fdccc3f8585cfaf574914f4f9c2109d5d))
+* **plus/indent-binary-ops:** considring `||` and `&&` ([#430](https://github.com/eslint-stylistic/eslint-stylistic/issues/430)) ([9627a10](https://github.com/eslint-stylistic/eslint-stylistic/commit/9627a10af0e873475b0a90fef289a45033370df3))
+
+
+### Documentation
+
+* add flat config versions for Migrate to 1-to-1 Plugins ([#435](https://github.com/eslint-stylistic/eslint-stylistic/issues/435)) ([d670924](https://github.com/eslint-stylistic/eslint-stylistic/commit/d6709241555f6acd34c52325c3a044f32f1b8241))
+* fix indentation in jsx.md ([#434](https://github.com/eslint-stylistic/eslint-stylistic/issues/434)) ([578fce1](https://github.com/eslint-stylistic/eslint-stylistic/commit/578fce1a7311a5ae25fa4781577b25c3df5b64c7))
+* fix typo in migration.md ([#432](https://github.com/eslint-stylistic/eslint-stylistic/issues/432)) ([fc38d86](https://github.com/eslint-stylistic/eslint-stylistic/commit/fc38d86faa632807aa869f2e2906ea133c487558))
+
+
+### Chores
+
+* **indent:** add tests ([#428](https://github.com/eslint-stylistic/eslint-stylistic/issues/428)) ([1334417](https://github.com/eslint-stylistic/eslint-stylistic/commit/1334417307871bee72718c4d3056ac3e29d935e2))
+
 ## [2.2.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.2.0...v2.2.1) (2024-06-17)
 
 
