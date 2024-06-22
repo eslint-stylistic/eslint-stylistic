@@ -1,195 +1,160 @@
+import type { NodeTypes } from '@shared/types'
 import rule from './object-property-newline'
+import type { InvalidTestCase, TestCaseError, ValidTestCase } from '#test'
 import { run } from '#test'
+
+const prefixOfNodes = {
+  TSTypeLiteral: 'type Foo = ',
+  TSInterfaceBody: 'interface Foo ',
+} as Record<NodeTypes, string>
+
+function createValidRule(input: string[], option: boolean) {
+  // add comment for better experience in `vitest` extension
+  const code = `${input.join('\n')}// ${JSON.stringify(option) || 'default'}`
+
+  return Object.entries(prefixOfNodes).flatMap(([_, prefix]) => {
+    const res: ValidTestCase[] = [
+      { code: `${prefix}${code}`, options: [{ allowAllPropertiesOnSameLine: option }] },
+      { code: `${prefix}${code}`, options: [{ /* deprecated */ allowMultiplePropertiesPerLine: option }] },
+    ]
+    if (!option)
+      res.push({ code: `${prefix}${code}` })
+
+    return res
+  })
+}
+
+function createInvalidRule(input: string[], out: string[], err: TestCaseError[], option: boolean) {
+  // add comment for better experience in `vitest` extension
+  const code = `${input.join('\n')}// ${JSON.stringify(option) || 'default'}`
+  const output = `${out.join('\n')}// ${JSON.stringify(option) || 'default'}`
+
+  return Object.entries(prefixOfNodes).flatMap(([_, prefix]) => {
+    const errors = err.map(e => ({
+      ...e,
+      column: e.line === 1 && typeof e.column === 'number' ? e.column + prefix.length : e.column,
+    }))
+
+    const res: InvalidTestCase[] = [
+      { code: `${prefix}${code}`, output: `${prefix}${output}`, errors, options: [{ allowAllPropertiesOnSameLine: option }] },
+      { code: `${prefix}${code}`, output: `${prefix}${output}`, errors, options: [{ /* deprecated */ allowMultiplePropertiesPerLine: option }] },
+    ]
+    if (!option)
+      res.push({ code: `${prefix}${code}`, output: `${prefix}${output}`, errors })
+
+    return res
+  })
+}
 
 run({
   name: 'object-property-newline',
   rule,
   valid: [
     ...[
-      `
-interface Foo {
-    id: number;
-    name: string;
-    age: number;
-}
-      `,
-      `
-type Foo = {
-    id: number;
-    name: string;
-    age: number;
-}
-      `,
-    ].flatMap(code => [
-      code,
-      { code, options: [{ allowAllPropertiesOnSameLine: false }] },
-      /* deprecated */ { code, options: [{ allowMultiplePropertiesPerLine: false }] },
-      { code, options: [{ allowAllPropertiesOnSameLine: true }] },
-      /* deprecated */ { code, options: [{ allowMultiplePropertiesPerLine: true }] },
-    ]),
+      [
+        '{',
+        '  id: number;',
+        '  name: string;',
+        '  age: number;',
+        '}',
+      ],
+      [
+        '{  id: number;',
+        '  name: string;',
+        '  age: number; }',
+      ],
+    ].flatMap(code => createValidRule(code, false)),
     ...[
-      `
-interface Foo {   id: number;
-    name: string;
-    age: number; }
-      `,
-      `
-type Foo = {   id: number;
-    name: string;
-    age: number; }
-      `,
-    ].flatMap(code => [
-      code,
-      { code, options: [{ allowAllPropertiesOnSameLine: false }] },
-      /* deprecated */ { code, options: [{ allowMultiplePropertiesPerLine: false }] },
-    ]),
-    ...[
-      `
-interface Foo { id: number; name: string; age: number; }
-      `,
-      `
-type Foo = { id: number; name: string; age: number; }
-      `,
-    ].flatMap(code => [
-      { code, options: [{ allowAllPropertiesOnSameLine: true }] },
-      /* deprecated */{ code, options: [{ allowMultiplePropertiesPerLine: true }] },
-    ]),
+      [
+        '{',
+        '  id: number;',
+        '  name: string;',
+        '  age: number;',
+        '}',
+      ],
+      [
+        '{ id: number; name: string; age: number; }',
+      ],
+    ].flatMap(code => createValidRule(code, true)),
   ],
-
   invalid: [
     ...[
       {
-        code: `
-interface Foo {   id: number; name: string;
-    age: number; }
-        `,
-        output: `
-interface Foo {   id: number;
-name: string;
-    age: number; }
-        `,
+        code: [
+          '{  id: number; name: string;',
+          '  age: number; }',
+        ],
+        output: [
+          '{  id: number;',
+          'name: string;',
+          '  age: number; }',
+        ],
         errors: [
-          {
-            messageId: 'propertiesOnNewline',
-            line: 2,
-            column: 31,
-          },
+          { line: 1, column: 16, messageId: 'propertiesOnNewline' },
         ],
       },
       {
-        code: `
-type Foo = {   id: number; name: string;
-    age: number; }
-      `,
-        output: `
-type Foo = {   id: number;
-name: string;
-    age: number; }
-      `,
+        code: [
+          '{',
+          '  id: number; name: string;',
+          '  age: number; }',
+        ],
+        output: [
+          '{',
+          '  id: number;',
+          'name: string;',
+          '  age: number; }',
+        ],
         errors: [
-          {
-            messageId: 'propertiesOnNewline',
-            line: 2,
-            column: 28,
-          },
+          { line: 2, column: 15, messageId: 'propertiesOnNewline' },
         ],
       },
       {
-        code: `
-interface Foo {
-    id: number; name: string;
-    age: number; }
-      `,
-        output: `
-interface Foo {
-    id: number;
-name: string;
-    age: number; }
-      `,
+        code: [
+          '{ id: number; name: string; age: number; }',
+        ],
+        output: [
+          '{ id: number;',
+          'name: string;',
+          'age: number; }',
+        ],
         errors: [
-          {
-            messageId: 'propertiesOnNewline',
-            line: 3,
-            column: 17,
-          },
+          { line: 1, column: 15, messageId: 'propertiesOnNewline' },
+          { line: 1, column: 29, messageId: 'propertiesOnNewline' },
         ],
       },
-      {
-        code: `
-type Foo = {
-    id: number; name: string;
-    age: number; }
-      `,
-        output: `
-type Foo = {
-    id: number;
-name: string;
-    age: number; }
-      `,
-        errors: [
-          {
-            messageId: 'propertiesOnNewline',
-            line: 3,
-            column: 17,
-          },
-        ],
-      },
-    ].flatMap(c => [
-      { ...c, options: [] },
-      { ...c, options: [{ allowAllPropertiesOnSameLine: false }] },
-      /* deprecated */ { ...c, options: [{ allowMultiplePropertiesPerLine: false }] },
-      { ...c, errors: c.errors.map(e => ({ ...e, messageId: 'propertiesOnNewlineAll' })), options: [{ allowAllPropertiesOnSameLine: true }] },
-      /* deprecated */ { ...c, errors: c.errors.map(e => ({ ...e, messageId: 'propertiesOnNewlineAll' })), options: [{ allowMultiplePropertiesPerLine: true }] },
-    ]),
+    ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, false)),
     ...[
       {
-        code: `
-interface Foo { id: number; name: string; age: number; }
-      `,
-        output: `
-interface Foo { id: number;
-name: string;
-age: number; }
-      `,
+        code: [
+          '{  id: number; name: string;',
+          'age: number; }',
+        ],
+        output: [
+          '{  id: number;',
+          'name: string;',
+          'age: number; }',
+        ],
         errors: [
-          {
-            messageId: 'propertiesOnNewline',
-            line: 2,
-            column: 29,
-          },
-          {
-            messageId: 'propertiesOnNewline',
-            line: 2,
-            column: 43,
-          },
+          { line: 1, column: 16, messageId: 'propertiesOnNewlineAll' },
         ],
       },
       {
-        code: `
-type Foo = { id: number; name: string; age: number; }
-      `,
-        output: `
-type Foo = { id: number;
-name: string;
-age: number; }
-      `,
+        code: [
+          '{',
+          '  id: number; name: string;',
+          '  age: number; }',
+        ],
+        output: [
+          '{',
+          '  id: number;',
+          'name: string;',
+          '  age: number; }',
+        ],
         errors: [
-          {
-            messageId: 'propertiesOnNewline',
-            line: 2,
-            column: 26,
-          },
-          {
-            messageId: 'propertiesOnNewline',
-            line: 2,
-            column: 40,
-          },
+          { line: 2, column: 15, messageId: 'propertiesOnNewlineAll' },
         ],
       },
-    ].flatMap(c => [
-      { ...c, options: [] },
-      { ...c, options: [{ allowAllPropertiesOnSameLine: false }] },
-      /* deprecated */ { ...c, options: [{ allowMultiplePropertiesPerLine: false }] },
-    ]),
+    ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, true)),
   ],
 })
