@@ -15,7 +15,9 @@ import linesBetweenClassMembers from './lines-between-class-members/lines-betwee
 import memberDelimiterStyle from './member-delimiter-style/member-delimiter-style'
 import noExtraParens from './no-extra-parens/no-extra-parens'
 import noExtraSemi from './no-extra-semi/no-extra-semi'
+import objectCurlyNewline from './object-curly-newline/object-curly-newline'
 import objectCurlySpacing from './object-curly-spacing/object-curly-spacing'
+import objectPropertyNewline from './object-property-newline/object-property-newline'
 import paddingLineBetweenStatements from './padding-line-between-statements/padding-line-between-statements'
 import quoteProps from './quote-props/quote-props'
 import quotes from './quotes/quotes'
@@ -40,7 +42,9 @@ export default {
   'member-delimiter-style': memberDelimiterStyle,
   'no-extra-parens': noExtraParens,
   'no-extra-semi': noExtraSemi,
+  'object-curly-newline': objectCurlyNewline,
   'object-curly-spacing': objectCurlySpacing,
+  'object-property-newline': objectPropertyNewline,
   'padding-line-between-statements': paddingLineBetweenStatements,
   'quote-props': quoteProps,
   'quotes': quotes,

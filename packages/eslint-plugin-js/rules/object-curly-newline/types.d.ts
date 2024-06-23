@@ -39,19 +39,19 @@ export type Schema0 =
           consistent?: boolean
         }
       TSTypeLiteral?:
-      | ('always' | 'never')
-      | {
-        multiline?: boolean
-        minProperties?: number
-        consistent?: boolean
-      }
+        | ('always' | 'never')
+        | {
+          multiline?: boolean
+          minProperties?: number
+          consistent?: boolean
+        }
       TSInterfaceBody?:
-      | ('always' | 'never')
-      | {
-        multiline?: boolean
-        minProperties?: number
-        consistent?: boolean
-      }
+        | ('always' | 'never')
+        | {
+          multiline?: boolean
+          minProperties?: number
+          consistent?: boolean
+        }
     }
 
 export type RuleOptions = [Schema0?]
