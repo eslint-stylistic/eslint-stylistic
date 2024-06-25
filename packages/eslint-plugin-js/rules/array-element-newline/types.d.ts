@@ -12,6 +12,7 @@ export type Schema0 =
 export type BasicConfig =
   | ('always' | 'never' | 'consistent')
   | {
+    consistent?: boolean
     multiline?: boolean
     minItems?: number | null
   }

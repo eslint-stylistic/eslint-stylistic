@@ -88,6 +88,15 @@ run({
     { code: 'var f = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];', options: [{ multiline: true }] },
     { code: 'var foo = [\n1,\n2,\n3,\n[\n]\n];', options: [{ multiline: true }] },
 
+    // { consistent: true, multiline: true }
+    { code: 'var foo = [];', options: [{ consistent: true, multiline: true }] },
+    { code: 'var foo = [1];', options: [{ consistent: true, multiline: true }] },
+    { code: 'var foo = [1, 2];', options: [{ consistent: true, multiline: true }] },
+    { code: 'var foo = [1, 2, 3];', options: [{ consistent: true, multiline: true }] },
+    { code: 'var foo = [1,\n2,\n3];', options: [{ consistent: true, multiline: true }] },
+    { code: 'var f = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];', options: [{ consistent: true, multiline: true }] },
+    { code: 'var foo = [\n1,\n2,\n3,\n[\n]\n];', options: [{ consistent: true, multiline: true }] },
+
     // { minItems: null }
     { code: 'var foo = [];', options: [{ minItems: null }] },
     { code: 'var foo = [1];', options: [{ minItems: null }] },
@@ -616,6 +625,23 @@ run({
 
     // { multiline: true }
     {
+      code: 'var foo = [1,\n2,\n3];',
+      output: 'var foo = [1, 2, 3];',
+      options: [{ multiline: true }],
+      errors: [
+        {
+          messageId: 'unexpectedLineBreak',
+          line: 1,
+          column: 14,
+        },
+        {
+          messageId: 'unexpectedLineBreak',
+          line: 2,
+          column: 3,
+        },
+      ],
+    },
+    {
       code: 'var foo = [1,\n2, 3];',
       output: 'var foo = [1, 2, 3];',
       options: [{ multiline: true }],
@@ -655,6 +681,61 @@ run({
       code: 'var foo = [\n1,2,3,\n[\n]\n];',
       output: 'var foo = [\n1,\n2,\n3,\n[\n]\n];',
       options: [{ multiline: true }],
+      errors: [
+        {
+          line: 2,
+          column: 3,
+          messageId: 'missingLineBreak',
+        },
+        {
+          line: 2,
+          column: 5,
+          messageId: 'missingLineBreak',
+        },
+      ],
+    },
+
+    // { consistent: true, multiline: true }
+    {
+      code: 'var foo = [1,\n2, 3];',
+      output: 'var foo = [1,\n2,\n3];',
+      options: [{ consistent: true, multiline: true }],
+      errors: [
+        {
+          messageId: 'missingLineBreak',
+          line: 2,
+          column: 3,
+        },
+      ],
+    },
+    {
+      code: 'var foo = [\nfunction foo() {\ndosomething();\n}, function bar() {\ndosomething();\n}\n];',
+      output: 'var foo = [\nfunction foo() {\ndosomething();\n},\nfunction bar() {\ndosomething();\n}\n];',
+      options: [{ consistent: true, multiline: true }],
+      errors: [
+        {
+          messageId: 'missingLineBreak',
+          line: 4,
+          column: 3,
+        },
+      ],
+    },
+    {
+      code: 'var foo = [\nfunction foo() {\ndosomething();\n}, /* any comment */ function bar() {\ndosomething();\n}\n];',
+      output: 'var foo = [\nfunction foo() {\ndosomething();\n}, /* any comment */\nfunction bar() {\ndosomething();\n}\n];',
+      options: [{ consistent: true, multiline: true }],
+      errors: [
+        {
+          messageId: 'missingLineBreak',
+          line: 4,
+          column: 21,
+        },
+      ],
+    },
+    {
+      code: 'var foo = [\n1,2,3,\n[\n]\n];',
+      output: 'var foo = [\n1,\n2,\n3,\n[\n]\n];',
+      options: [{ consistent: true, multiline: true }],
       errors: [
         {
           line: 2,

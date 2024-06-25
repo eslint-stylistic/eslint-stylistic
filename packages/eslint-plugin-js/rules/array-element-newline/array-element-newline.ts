@@ -30,6 +30,9 @@ export default createRule<MessageIds, RuleOptions>({
             {
               type: 'object',
               properties: {
+                consistent: {
+                  type: 'boolean',
+                },
                 multiline: {
                   type: 'boolean',
                 },
@@ -100,6 +103,7 @@ export default createRule<MessageIds, RuleOptions>({
         minItems = Number.POSITIVE_INFINITY
       }
       else {
+        consistent = Boolean(option.consistent)
         multiline = Boolean(option.multiline)
         minItems = option.minItems || Number.POSITIVE_INFINITY
       }
