@@ -45,9 +45,11 @@ export default createRule<MessageIds, RuleOptions>({
   meta: {
     type: 'layout',
     docs: {
-      description: 'Enforce JSX indentation',
+      description: 'Enforce JSX indentation. Deprecated, use `indent` rule instead.',
       url: docsUrl('jsx-indent'),
     },
+    deprecated: true,
+
     fixable: 'whitespace',
 
     messages,
