@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.3.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.2.2...v2.3.0) (2024-06-25)
+
+
+### Features
+
+* **js/array-element-newline:** options multiline and consistent combination ([#445](https://github.com/eslint-stylistic/eslint-stylistic/issues/445)) ([cfd3327](https://github.com/eslint-stylistic/eslint-stylistic/commit/cfd332766de15e9ab29e92c5048640a07f2f15bd))
+* **ts:** add `object-curly-newline` and `object-property-newline` ([#444](https://github.com/eslint-stylistic/eslint-stylistic/issues/444)) ([036d3de](https://github.com/eslint-stylistic/eslint-stylistic/commit/036d3de3a02e86dde21b01369f98521571cd4273))
+
+
+### Bug Fixes
+
+* **jsx-indent:** deprecate `jsx-indent` rule in favor of `indent` ([#447](https://github.com/eslint-stylistic/eslint-stylistic/issues/447)) ([57dd2e8](https://github.com/eslint-stylistic/eslint-stylistic/commit/57dd2e8b5927e6f9de019fff6e83cac4989de7ce))
+
 ## [2.2.2](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.2.1...v2.2.2) (2024-06-19)
 
 
