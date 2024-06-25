@@ -234,7 +234,6 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
           '@stylistic/jsx-equals-spacing': 'error',
           '@stylistic/jsx-first-prop-new-line': 'error',
           '@stylistic/jsx-function-call-newline': ['error', 'multiline'],
-          '@stylistic/jsx-indent': ['error', indent, { checkAttributes: true, indentLogicalExpressions: true }],
           '@stylistic/jsx-indent-props': ['error', indent],
           '@stylistic/jsx-max-props-per-line': ['error', { maximum: 1, when: 'multiline' }],
           '@stylistic/jsx-one-expression-per-line': ['error', { allow: 'single-child' }],
