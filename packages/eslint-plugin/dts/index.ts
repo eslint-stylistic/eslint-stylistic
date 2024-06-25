@@ -1,4 +1,4 @@
-import type { ESLint, Rule } from 'eslint'
+import type { Rule } from 'eslint'
 import type { configs } from '../configs'
 import type { UnprefixedRuleOptions } from './rule-options'
 
@@ -11,7 +11,7 @@ export type Rules = {
 
 declare const plugin: {
   rules: Rules
-  configs: ESLint.Plugin['configs'] & typeof configs
+  configs: typeof configs
 }
 
 export default plugin

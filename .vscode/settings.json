@@ -27,5 +27,6 @@
     "json",
     "jsonc",
     "yaml"
-  ]
+  ],
+  "vitest.rootConfig": "vitest.config.unit.ts"
 }

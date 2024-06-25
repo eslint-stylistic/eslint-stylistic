@@ -1,4 +1,4 @@
-import type { Linter } from 'eslint'
+import type { ESLint, Linter } from 'eslint'
 import { createAllConfigs } from '../../shared/configs-all'
 import plugin from '../src/plugin'
 import disableLegacy from './disable-legacy'
@@ -8,7 +8,7 @@ export type * from './customize'
 
 const recommendedExtends = /* #__PURE__ */ customize({ flat: false })
 
-export const configs = {
+const _configs = {
   /**
    * Disable all legacy rules from `eslint`, `@typescript-eslint` and `eslint-plugin-react`
    *
@@ -43,3 +43,10 @@ export const configs = {
    */
   'recommended-legacy': recommendedExtends,
 }
+
+// Defining the config as an extension of ESLint's configs type is necessary
+// to assert that they are compatible, despite including a function ('customize').
+//
+// When we do that, we have to export the config this way to preserve the typing
+// for config names as well.
+export const configs = _configs as ESLint.Plugin['configs'] & typeof _configs

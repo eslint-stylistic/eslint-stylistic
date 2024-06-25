@@ -1,5 +1,49 @@
 # Changelog
 
+## [2.2.2](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.2.1...v2.2.2) (2024-06-19)
+
+
+### Bug Fixes
+
+* **indent:** correct class property initialization ([#431](https://github.com/eslint-stylistic/eslint-stylistic/issues/431)) ([09ea5b0](https://github.com/eslint-stylistic/eslint-stylistic/commit/09ea5b0fdccc3f8585cfaf574914f4f9c2109d5d))
+* **plus/indent-binary-ops:** considring `||` and `&&` ([#430](https://github.com/eslint-stylistic/eslint-stylistic/issues/430)) ([9627a10](https://github.com/eslint-stylistic/eslint-stylistic/commit/9627a10af0e873475b0a90fef289a45033370df3))
+
+
+### Documentation
+
+* add flat config versions for Migrate to 1-to-1 Plugins ([#435](https://github.com/eslint-stylistic/eslint-stylistic/issues/435)) ([d670924](https://github.com/eslint-stylistic/eslint-stylistic/commit/d6709241555f6acd34c52325c3a044f32f1b8241))
+* fix indentation in jsx.md ([#434](https://github.com/eslint-stylistic/eslint-stylistic/issues/434)) ([578fce1](https://github.com/eslint-stylistic/eslint-stylistic/commit/578fce1a7311a5ae25fa4781577b25c3df5b64c7))
+* fix typo in migration.md ([#432](https://github.com/eslint-stylistic/eslint-stylistic/issues/432)) ([fc38d86](https://github.com/eslint-stylistic/eslint-stylistic/commit/fc38d86faa632807aa869f2e2906ea133c487558))
+
+
+### Chores
+
+* **indent:** add tests ([#428](https://github.com/eslint-stylistic/eslint-stylistic/issues/428)) ([1334417](https://github.com/eslint-stylistic/eslint-stylistic/commit/1334417307871bee72718c4d3056ac3e29d935e2))
+
+## [2.2.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.2.0...v2.2.1) (2024-06-17)
+
+
+### Bug Fixes
+
+* **indent:** correct indentation in chained methods calls with generics ([#424](https://github.com/eslint-stylistic/eslint-stylistic/issues/424)) ([4ba8b08](https://github.com/eslint-stylistic/eslint-stylistic/commit/4ba8b0866e602dd416d367d6435c747d594bbe97))
+* **indent:** handle undefined `node.decorators` when tsParser is not configured ([#422](https://github.com/eslint-stylistic/eslint-stylistic/issues/422)) ([3d63054](https://github.com/eslint-stylistic/eslint-stylistic/commit/3d63054ca962a00cdc5a3b4406daac97e7b94371))
+
+## [2.2.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.1.0...v2.2.0) (2024-06-15)
+
+
+### Features
+
+* **indent:** support for JSXText indentation ([#413](https://github.com/eslint-stylistic/eslint-stylistic/issues/413)) ([a5b62a0](https://github.com/eslint-stylistic/eslint-stylistic/commit/a5b62a04d3b25d6144a5935f0ed9370487f26409))
+* **js:** add option `ignoreStringLiterals` ([#401](https://github.com/eslint-stylistic/eslint-stylistic/issues/401)) ([1b6d563](https://github.com/eslint-stylistic/eslint-stylistic/commit/1b6d563921b408723fa9a5bd911f5890c698f649)), closes [#400](https://github.com/eslint-stylistic/eslint-stylistic/issues/400)
+* **jsx-one-expression-per-line:** allow `non-jsx` ([#393](https://github.com/eslint-stylistic/eslint-stylistic/issues/393)) ([431d564](https://github.com/eslint-stylistic/eslint-stylistic/commit/431d56475af2ba183421cb051e486b2bb6940169))
+
+
+### Bug Fixes
+
+* **indent:** correct indentation for `PropertyDefinition` with decorators ([#416](https://github.com/eslint-stylistic/eslint-stylistic/issues/416)) ([4b4d27c](https://github.com/eslint-stylistic/eslint-stylistic/commit/4b4d27c0ede2bada33aab5cb9fcdca7e77448b8a))
+* make plugin assignable to ESLint.Plugin ([#418](https://github.com/eslint-stylistic/eslint-stylistic/issues/418)) ([9887ead](https://github.com/eslint-stylistic/eslint-stylistic/commit/9887ead9ae485fa8393e2f7b529074bf04200867))
+* **quotes:** allow template literals to avoid escape sequences ([#410](https://github.com/eslint-stylistic/eslint-stylistic/issues/410)) ([1891c5f](https://github.com/eslint-stylistic/eslint-stylistic/commit/1891c5fd8ae3580b892694836c2a387070de2084))
+
 ## [2.1.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.0.0...v2.1.0) (2024-05-09)
 
 

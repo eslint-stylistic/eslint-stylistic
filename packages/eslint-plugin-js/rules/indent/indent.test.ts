@@ -26,9 +26,9 @@ interface ErrorOutput {
 /**
  * Create error message object for failure cases with a single 'found' indentation type
  */
-function expectedErrors(providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
-function expectedErrors(providedIndentType: 'space' | 'tab', providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
-function expectedErrors(providedIndentType: any, providedErrors?: any): ErrorOutput[] {
+export function expectedErrors(providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
+export function expectedErrors(providedIndentType: 'space' | 'tab', providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
+export function expectedErrors(providedIndentType: any, providedErrors?: any): ErrorOutput[] {
   let indentType: 'space' | 'tab'
   let errors: Array<[number, number, number, string]>
 
@@ -4523,10 +4523,10 @@ run({
     `,
     $`
       <div>
-      bar <div>
-          bar
-          bar {foo}
-      bar </div>
+          bar <div>
+              bar
+              bar {foo}
+              bar </div>
       </div>
     `,
     $`
@@ -4747,7 +4747,7 @@ run({
     `,
     $`
       <div>
-         unrelated{
+          unrelated{
               foo
           }
       </div>
@@ -10808,7 +10808,7 @@ run({
               size={size}
               onClick={onClick}
                                             >
-              Button Text
+                                              Button Text
             </Button>
           );
         };
@@ -10826,7 +10826,10 @@ run({
         };
       `,
       options: [2],
-      errors: expectedErrors([6, 4, 36, 'Punctuator']),
+      errors: expectedErrors([
+        [6, 4, 36, 'Punctuator'],
+        [6, 6, 38, 'JSXText'],
+      ]),
     },
     {
       code: $`
@@ -13068,6 +13071,27 @@ run({
         [5, 4, 0, 'Keyword'],
         [6, 12, 0, 'Identifier'],
         [7, 4, 0, 'Punctuator'],
+      ]),
+    },
+
+    {
+      code: $`
+        class C {
+        foo =
+        "bar";
+        }
+      `,
+      output: $`
+        class C {
+            foo =
+                "bar";
+        }
+      `,
+      options: [4],
+      parserOptions: { ecmaVersion: 2022 },
+      errors: expectedErrors([
+        [2, 4, 0, 'Identifier'],
+        [3, 8, 0, 'String'],
       ]),
     },
 

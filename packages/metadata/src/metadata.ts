@@ -1531,6 +1531,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "object-curly-newline",
+        "ruleId": "@stylistic/ts/object-curly-newline",
+        "originalId": "@typescript-eslint/object-curly-newline",
+        "entry": "packages/eslint-plugin-ts/rules/object-curly-newline/object-curly-newline.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/object-curly-newline/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce consistent line breaks after opening and before closing braces",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "object-curly-spacing",
         "ruleId": "@stylistic/ts/object-curly-spacing",
         "originalId": "@typescript-eslint/object-curly-spacing",
@@ -1541,6 +1555,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "docs": {
             "description": "Enforce consistent spacing inside braces",
             "recommended": true
+          }
+        }
+      },
+      {
+        "name": "object-property-newline",
+        "ruleId": "@stylistic/ts/object-property-newline",
+        "originalId": "@typescript-eslint/object-property-newline",
+        "entry": "packages/eslint-plugin-ts/rules/object-property-newline/object-property-newline.ts",
+        "docsEntry": "packages/eslint-plugin-ts/rules/object-property-newline/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce placing object properties on separate lines",
+            "recommended": false
           }
         }
       },

@@ -13,7 +13,9 @@ import type { RuleOptions as LinesBetweenClassMembersRuleOptions } from '../rule
 import type { RuleOptions as MemberDelimiterStyleRuleOptions } from '../rules/member-delimiter-style/types'
 import type { RuleOptions as NoExtraParensRuleOptions } from '../rules/no-extra-parens/types'
 import type { RuleOptions as NoExtraSemiRuleOptions } from '../rules/no-extra-semi/types'
+import type { RuleOptions as ObjectCurlyNewlineRuleOptions } from '../rules/object-curly-newline/types'
 import type { RuleOptions as ObjectCurlySpacingRuleOptions } from '../rules/object-curly-spacing/types'
+import type { RuleOptions as ObjectPropertyNewlineRuleOptions } from '../rules/object-property-newline/types'
 import type { RuleOptions as PaddingLineBetweenStatementsRuleOptions } from '../rules/padding-line-between-statements/types'
 import type { RuleOptions as QuotePropsRuleOptions } from '../rules/quote-props/types'
 import type { RuleOptions as QuotesRuleOptions } from '../rules/quotes/types'
@@ -95,10 +97,20 @@ export interface RuleOptions {
    */
   '@stylistic/ts/no-extra-semi': NoExtraSemiRuleOptions
   /**
+   * Enforce consistent line breaks after opening and before closing braces
+   * @see https://eslint.style/rules/ts/object-curly-newline
+   */
+  '@stylistic/ts/object-curly-newline': ObjectCurlyNewlineRuleOptions
+  /**
    * Enforce consistent spacing inside braces
    * @see https://eslint.style/rules/ts/object-curly-spacing
    */
   '@stylistic/ts/object-curly-spacing': ObjectCurlySpacingRuleOptions
+  /**
+   * Enforce placing object properties on separate lines
+   * @see https://eslint.style/rules/ts/object-property-newline
+   */
+  '@stylistic/ts/object-property-newline': ObjectPropertyNewlineRuleOptions
   /**
    * Require or disallow padding lines between statements
    * @see https://eslint.style/rules/ts/padding-line-between-statements
@@ -213,10 +225,20 @@ export interface UnprefixedRuleOptions {
    */
   'no-extra-semi': NoExtraSemiRuleOptions
   /**
+   * Enforce consistent line breaks after opening and before closing braces
+   * @see https://eslint.style/rules/ts/object-curly-newline
+   */
+  'object-curly-newline': ObjectCurlyNewlineRuleOptions
+  /**
    * Enforce consistent spacing inside braces
    * @see https://eslint.style/rules/ts/object-curly-spacing
    */
   'object-curly-spacing': ObjectCurlySpacingRuleOptions
+  /**
+   * Enforce placing object properties on separate lines
+   * @see https://eslint.style/rules/ts/object-property-newline
+   */
+  'object-property-newline': ObjectPropertyNewlineRuleOptions
   /**
    * Require or disallow padding lines between statements
    * @see https://eslint.style/rules/ts/padding-line-between-statements
