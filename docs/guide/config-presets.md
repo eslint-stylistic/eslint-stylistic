@@ -62,7 +62,7 @@ Refer to the [source code](https://github.com/eslint-stylistic/eslint-stylistic/
 Currently this factory is only available in the [`@stylistic/eslint-plugin`](/packages/default) package.
 
 ::: info Rules' Default
-Please note that not all rules are used and options configure for each rule might be different from rules' own default values.
+Please note that not all rules are used and options configured for each rule might be different from rules' own default values.
 :::
 
 ## Static Configurations
