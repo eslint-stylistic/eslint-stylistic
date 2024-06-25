@@ -12,19 +12,19 @@ export function jsx2() {
 				a={1}
 				b="2"
 			>
-Inline Text
+				Inline Text
 			</div>
 			<Component1>
-      Block Text
+				Block Text
 			</Component1>
 			<div>
-        Mixed
+				Mixed
 				<div>Foo</div>
-          Text
+				Text
 				<b> Bar</b>
 			</div>
 			<p>
-          foo
+				foo
 				<i>bar</i>
 				<b>baz</b>
 			</p>
