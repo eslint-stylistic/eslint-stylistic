@@ -1125,8 +1125,8 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce JSX indentation",
-            "recommended": true
+            "description": "Enforce JSX indentation. Deprecated, use `indent` rule instead.",
+            "recommended": false
           }
         }
       },
@@ -2120,8 +2120,8 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Enforce JSX indentation",
-            "recommended": true
+            "description": "Enforce JSX indentation. Deprecated, use `indent` rule instead.",
+            "recommended": false
           }
         }
       },
