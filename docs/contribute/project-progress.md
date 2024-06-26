@@ -30,6 +30,6 @@ The release of v1.0.0 serve as the 1:1 drop-in replacement of the deprecated rul
 
 Bugfixes, beleases, and might introduce new rules based on community feedback.
 
-- Rewrite JS and JSX rules in TypeScript for better long-term maintenance.
-- Fuse JS/TS/JSX rules into a single package, and merge their docs. After this, separate packages for JS/TS/JSX will be deprecated.
-- Introduce an `experimental` mechanism that ships new rules and features as a separate opt-in package, to collect early feedbacks.
+- ✅ Rewrite JS and JSX rules in TypeScript for better long-term maintenance. 
+- 👉 Fuse JS/TS/JSX rules into a single package, and merge their docs. After this, separate packages for JS/TS/JSX will be deprecated.
+- 👉 Introduce an `experimental` mechanism that ships new rules and features as a separate opt-in package, to collect early feedbacks.
