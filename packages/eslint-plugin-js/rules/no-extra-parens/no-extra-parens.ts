@@ -530,7 +530,6 @@ export default createRule<MessageIds, RuleOptions>({
             isIIFE(node)
             // (new A)(); new (new A)();
             || (
-            // @ts-expect-error comment above
               callee.type === 'NewExpression'
               && !isNewExpressionWithParens(callee)
               && !(
@@ -549,7 +548,6 @@ export default createRule<MessageIds, RuleOptions>({
             // (a?.b)(); (a?.())();
             || (
               (!('optional' in node) || !node.optional)
-              // @ts-expect-error comment above
               && callee.type === 'ChainExpression'
             )
           )
