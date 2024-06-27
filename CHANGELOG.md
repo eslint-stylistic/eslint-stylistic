@@ -1,5 +1,28 @@
 # Changelog
 
+## [2.6.0-beta.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.3.0...v2.6.0-beta.0) (2024-06-27)
+
+
+### Features
+
+* bump ts-eslint to v8 ([58efd30](https://github.com/eslint-stylistic/eslint-stylistic/commit/58efd307f34fc3b3d1c025eccdb05d2f4cbd960f))
+
+
+### Bug Fixes
+
+* ast changes ([c9f4160](https://github.com/eslint-stylistic/eslint-stylistic/commit/c9f41603fabfda258ce2cdf3de2a078997b68a93))
+* **ts:** chunk bundling ([a278468](https://github.com/eslint-stylistic/eslint-stylistic/commit/a27846842778970d2a1d9d91799aec8e233fc840))
+
+
+### Documentation
+
+* update project progress ([#449](https://github.com/eslint-stylistic/eslint-stylistic/issues/449)) ([d6d72c8](https://github.com/eslint-stylistic/eslint-stylistic/commit/d6d72c8975f8a9be0e25dd6c41d03d90b00b2a62))
+
+
+### Chores
+
+* update release-please config ([90bf9ad](https://github.com/eslint-stylistic/eslint-stylistic/commit/90bf9ad0162b6a980b3ac875b97d1985d08c83bb))
+
 ## [2.3.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.2.2...v2.3.0) (2024-06-25)
 
 
