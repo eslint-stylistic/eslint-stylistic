@@ -1,5 +1,6 @@
 import fs from 'node:fs/promises'
 import { fileURLToPath } from 'node:url'
+import { basename } from 'node:path'
 import { defineConfig } from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
@@ -33,7 +34,9 @@ export default defineConfig([
         dir: 'dist',
         format: 'cjs',
         manualChunks(id) {
-          if (id.includes('configs'))
+          if (id.includes('/rules/'))
+            return basename(id, '.ts')
+          if (id.includes('/configs/'))
             return 'configs'
           if (id.includes('/utils/'))
             return 'utils'
@@ -48,6 +51,7 @@ export default defineConfig([
     external: [
       ...Object.keys(pkg.dependencies || []),
       ...Object.keys(pkg.peerDependencies || []),
+      'eslint',
       'eslint/package.json',
       '@typescript-eslint/utils/ast-utils',
     ],
