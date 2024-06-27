@@ -275,14 +275,13 @@ export default createRule<RuleOptions, MessageIds>({
       'TSEnumDeclaration, TSTypeLiteral': function (
         node: Tree.TSEnumDeclaration | Tree.TSTypeLiteral,
       ) {
+        const members = 'body' in node ? node.body.members : node.members
+
         // transform it to an ObjectExpression
         return rules['ObjectExpression, ObjectPattern']({
           type: AST_NODE_TYPES.ObjectExpression,
-          properties: (
-            node.members as (Tree.TSEnumMember | Tree.TypeElement)[]
-          ).map(
-            member =>
-              TSPropertySignatureToProperty(member) as Tree.Property,
+          properties: members.map(
+            member => TSPropertySignatureToProperty(member) as Tree.Property,
           ),
 
           // location data
@@ -411,8 +410,9 @@ export default createRule<RuleOptions, MessageIds>({
 
       TSMappedType(node: Tree.TSMappedType) {
         const sourceCode = context.sourceCode
+
         const squareBracketStart = sourceCode.getTokenBefore(
-          node.typeParameter,
+          node.constraint || node.typeParameter,
         )!
 
         // transform it to an ObjectExpression
@@ -422,7 +422,7 @@ export default createRule<RuleOptions, MessageIds>({
             {
               parent: node,
               type: AST_NODE_TYPES.Property,
-              key: node.typeParameter as any,
+              key: node.key || node.typeParameter as any,
               value: node.typeAnnotation as any,
 
               // location data

@@ -67,10 +67,11 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
       TSEnumDeclaration(node) {
+        const members = node.body.members || node.members
         return rules.ObjectExpression!({
           ...node,
           type: AST_NODE_TYPES.ObjectExpression,
-          properties: node.members.map(member => ({ ...member, key: member.id })) as any,
+          properties: members.map(member => ({ ...member, key: member.id })) as any,
         })
       },
     }

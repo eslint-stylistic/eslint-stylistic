@@ -122,8 +122,9 @@ export default createRule<RuleOptions, MessageIds>({
       },
       TSEnumDeclaration(node): void {
         const closingCurly = sourceCode.getLastToken(node)!
+        const members = node.body.members || node.members
         const openingCurly = sourceCode.getTokenBefore(
-          node.members.length ? node.members[0] : closingCurly,
+          members.length ? members[0] : closingCurly,
         )!
 
         validateCurlyPair(openingCurly, closingCurly)
