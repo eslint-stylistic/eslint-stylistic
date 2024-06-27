@@ -3,7 +3,7 @@
   "release-type": "node",
   "changelog-path": "",
   "bootstrap-sha": "fc87f47486439cca3496573823a2695233425348",
-  "pull-request-title-pattern": "chore: release v${version}",
+  "pull-request-title-pattern": "chore: release v${version} ${branch?}",
   "include-component-in-tag": false,
   "changelog-sections": [
     {
