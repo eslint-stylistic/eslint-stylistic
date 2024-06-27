@@ -10,7 +10,6 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Expect space before the type declaration in the named tuple',
-      recommended: 'stylistic',
     },
     fixable: 'whitespace',
     schema: [],

@@ -45,7 +45,6 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Require or disallow trailing commas',
-      extendsBaseRule: true,
     },
     schema: {
       $defs: {

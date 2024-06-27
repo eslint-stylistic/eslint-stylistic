@@ -350,7 +350,6 @@ export default createRule<MessageIds, RuleOptions>({
 
     docs: {
       description: 'Enforce props alphabetical sorting',
-      recommended: 'stylistic',
       url: docsUrl('jsx-sort-props'),
     },
     fixable: 'code',

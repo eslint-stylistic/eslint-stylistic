@@ -40,7 +40,6 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description:
         'Enforce consistent spacing between property names and type annotations in types and interfaces',
-      extendsBaseRule: true,
     },
     fixable: 'whitespace',
     hasSuggestions: baseRule.meta.hasSuggestions,

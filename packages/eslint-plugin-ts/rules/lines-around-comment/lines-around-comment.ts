@@ -48,7 +48,6 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Require empty lines around comments',
-      extendsBaseRule: true,
     },
     schema: [
       {

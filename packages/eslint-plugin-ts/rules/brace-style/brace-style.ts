@@ -14,7 +14,6 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Enforce consistent brace style for blocks',
-      extendsBaseRule: true,
     },
     messages: baseRule.meta.messages,
     fixable: baseRule.meta.fixable,

@@ -89,7 +89,6 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Enforce consistent indentation',
       // too opinionated to be recommended
-      extendsBaseRule: true,
     },
     fixable: 'whitespace',
     hasSuggestions: baseRule.meta.hasSuggestions,

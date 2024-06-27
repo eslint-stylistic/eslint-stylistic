@@ -30,7 +30,6 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Enforce consistent spacing before and after keywords',
-      extendsBaseRule: true,
     },
     fixable: 'whitespace',
     hasSuggestions: baseRule.meta.hasSuggestions,
