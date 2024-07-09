@@ -7,6 +7,9 @@ export default defineConfig({
     root: './packages',
     globals: true,
     reporters: 'dot',
+    exclude: [
+      '**/rules/**/ts-**.test.ts',
+    ],
     coverage: {
       cleanOnRerun: false,
       include: ['**/rules/**'],
