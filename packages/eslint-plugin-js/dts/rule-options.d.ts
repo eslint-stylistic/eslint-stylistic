@@ -28,6 +28,7 @@ import type { RuleOptions as LinesAroundCommentRuleOptions } from '../rules/line
 import type { RuleOptions as LinesBetweenClassMembersRuleOptions } from '../rules/lines-between-class-members/types'
 import type { RuleOptions as MaxLenRuleOptions } from '../rules/max-len/types'
 import type { RuleOptions as MaxStatementsPerLineRuleOptions } from '../rules/max-statements-per-line/types'
+import type { RuleOptions as MemberDelimiterStyleRuleOptions } from '../rules/member-delimiter-style/types'
 import type { RuleOptions as MultilineCommentStyleRuleOptions } from '../rules/multiline-comment-style/types'
 import type { RuleOptions as MultilineTernaryRuleOptions } from '../rules/multiline-ternary/types'
 import type { RuleOptions as NewParensRuleOptions } from '../rules/new-parens/types'
@@ -66,6 +67,7 @@ import type { RuleOptions as SpacedCommentRuleOptions } from '../rules/spaced-co
 import type { RuleOptions as SwitchColonSpacingRuleOptions } from '../rules/switch-colon-spacing/types'
 import type { RuleOptions as TemplateCurlySpacingRuleOptions } from '../rules/template-curly-spacing/types'
 import type { RuleOptions as TemplateTagSpacingRuleOptions } from '../rules/template-tag-spacing/types'
+import type { RuleOptions as TypeAnnotationSpacingRuleOptions } from '../rules/type-annotation-spacing/types'
 import type { RuleOptions as WrapIifeRuleOptions } from '../rules/wrap-iife/types'
 import type { RuleOptions as WrapRegexRuleOptions } from '../rules/wrap-regex/types'
 import type { RuleOptions as YieldStarSpacingRuleOptions } from '../rules/yield-star-spacing/types'
@@ -216,6 +218,11 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/js/max-statements-per-line
    */
   '@stylistic/js/max-statements-per-line': MaxStatementsPerLineRuleOptions
+  /**
+   * Require a specific member delimiter style for interfaces and type literals
+   * @see https://eslint.style/rules/js/member-delimiter-style
+   */
+  '@stylistic/js/member-delimiter-style': MemberDelimiterStyleRuleOptions
   /**
    * Enforce a particular style for multiline comments
    * @see https://eslint.style/rules/js/multiline-comment-style
@@ -407,6 +414,11 @@ export interface RuleOptions {
    */
   '@stylistic/js/template-tag-spacing': TemplateTagSpacingRuleOptions
   /**
+   * Require consistent spacing around type annotations
+   * @see https://eslint.style/rules/js/type-annotation-spacing
+   */
+  '@stylistic/js/type-annotation-spacing': TypeAnnotationSpacingRuleOptions
+  /**
    * Require parentheses around immediate `function` invocations
    * @see https://eslint.style/rules/js/wrap-iife
    */
@@ -569,6 +581,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/js/max-statements-per-line
    */
   'max-statements-per-line': MaxStatementsPerLineRuleOptions
+  /**
+   * Require a specific member delimiter style for interfaces and type literals
+   * @see https://eslint.style/rules/js/member-delimiter-style
+   */
+  'member-delimiter-style': MemberDelimiterStyleRuleOptions
   /**
    * Enforce a particular style for multiline comments
    * @see https://eslint.style/rules/js/multiline-comment-style
@@ -759,6 +776,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/js/template-tag-spacing
    */
   'template-tag-spacing': TemplateTagSpacingRuleOptions
+  /**
+   * Require consistent spacing around type annotations
+   * @see https://eslint.style/rules/js/type-annotation-spacing
+   */
+  'type-annotation-spacing': TypeAnnotationSpacingRuleOptions
   /**
    * Require parentheses around immediate `function` invocations
    * @see https://eslint.style/rules/js/wrap-iife

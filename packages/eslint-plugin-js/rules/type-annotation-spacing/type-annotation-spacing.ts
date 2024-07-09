@@ -9,9 +9,7 @@ import {
   isTSFunctionType,
   isVariableDeclarator,
 } from '@typescript-eslint/utils/ast-utils'
-import {
-  createRule,
-} from '../../utils'
+import { createTSRule } from '../../utils'
 
 interface WhitespaceRule {
   readonly before?: boolean
@@ -100,7 +98,7 @@ function getRules(
   return rules.colon
 }
 
-export default createRule<Options, MessageIds>({
+export default createTSRule<Options, MessageIds>({
   name: 'type-annotation-spacing',
   meta: {
     type: 'layout',

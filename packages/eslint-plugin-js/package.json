@@ -53,6 +53,7 @@
     "./rules/lines-between-class-members": "./dist/lines-between-class-members.js",
     "./rules/max-len": "./dist/max-len.js",
     "./rules/max-statements-per-line": "./dist/max-statements-per-line.js",
+    "./rules/member-delimiter-style": "./dist/member-delimiter-style.js",
     "./rules/multiline-comment-style": "./dist/multiline-comment-style.js",
     "./rules/multiline-ternary": "./dist/multiline-ternary.js",
     "./rules/new-parens": "./dist/new-parens.js",
@@ -91,6 +92,7 @@
     "./rules/switch-colon-spacing": "./dist/switch-colon-spacing.js",
     "./rules/template-curly-spacing": "./dist/template-curly-spacing.js",
     "./rules/template-tag-spacing": "./dist/template-tag-spacing.js",
+    "./rules/type-annotation-spacing": "./dist/type-annotation-spacing.js",
     "./rules/wrap-iife": "./dist/wrap-iife.js",
     "./rules/wrap-regex": "./dist/wrap-regex.js",
     "./rules/yield-star-spacing": "./dist/yield-star-spacing.js"

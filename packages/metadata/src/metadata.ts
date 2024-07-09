@@ -413,6 +413,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "member-delimiter-style",
+        "ruleId": "@stylistic/js/member-delimiter-style",
+        "originalId": "member-delimiter-style",
+        "entry": "packages/eslint-plugin-js/rules/member-delimiter-style/member-delimiter-style.ts",
+        "docsEntry": "packages/eslint-plugin-js/rules/member-delimiter-style/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require a specific member delimiter style for interfaces and type literals",
+            "recommended": true
+          }
+        }
+      },
+      {
         "name": "multiline-comment-style",
         "ruleId": "@stylistic/js/multiline-comment-style",
         "originalId": "multiline-comment-style",
@@ -937,6 +951,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Require or disallow spacing between template tags and their literals",
+            "recommended": true
+          }
+        }
+      },
+      {
+        "name": "type-annotation-spacing",
+        "ruleId": "@stylistic/js/type-annotation-spacing",
+        "originalId": "type-annotation-spacing",
+        "entry": "packages/eslint-plugin-js/rules/type-annotation-spacing/type-annotation-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-js/rules/type-annotation-spacing/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Require consistent spacing around type annotations",
             "recommended": true
           }
         }
@@ -1489,20 +1517,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
-        "name": "member-delimiter-style",
-        "ruleId": "@stylistic/ts/member-delimiter-style",
-        "originalId": "@typescript-eslint/member-delimiter-style",
-        "entry": "packages/eslint-plugin-ts/rules/member-delimiter-style/member-delimiter-style.ts",
-        "docsEntry": "packages/eslint-plugin-ts/rules/member-delimiter-style/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require a specific member delimiter style for interfaces and type literals",
-            "recommended": true
-          }
-        }
-      },
-      {
         "name": "no-extra-parens",
         "ruleId": "@stylistic/ts/no-extra-parens",
         "originalId": "@typescript-eslint/no-extra-parens",
@@ -1666,20 +1680,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Require spacing around infix operators",
-            "recommended": true
-          }
-        }
-      },
-      {
-        "name": "type-annotation-spacing",
-        "ruleId": "@stylistic/ts/type-annotation-spacing",
-        "originalId": "@typescript-eslint/type-annotation-spacing",
-        "entry": "packages/eslint-plugin-ts/rules/type-annotation-spacing/type-annotation-spacing.ts",
-        "docsEntry": "packages/eslint-plugin-ts/rules/type-annotation-spacing/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require consistent spacing around type annotations",
             "recommended": true
           }
         }
@@ -2390,9 +2390,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       {
         "name": "member-delimiter-style",
         "ruleId": "@stylistic/member-delimiter-style",
-        "originalId": "@typescript-eslint/member-delimiter-style",
-        "entry": "packages/eslint-plugin-ts/rules/member-delimiter-style/member-delimiter-style.ts",
-        "docsEntry": "packages/eslint-plugin-ts/rules/member-delimiter-style/README.md",
+        "originalId": "member-delimiter-style",
+        "entry": "packages/eslint-plugin-js/rules/member-delimiter-style/member-delimiter-style.ts",
+        "docsEntry": "packages/eslint-plugin-js/rules/member-delimiter-style/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -2933,9 +2933,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       {
         "name": "type-annotation-spacing",
         "ruleId": "@stylistic/type-annotation-spacing",
-        "originalId": "@typescript-eslint/type-annotation-spacing",
-        "entry": "packages/eslint-plugin-ts/rules/type-annotation-spacing/type-annotation-spacing.ts",
-        "docsEntry": "packages/eslint-plugin-ts/rules/type-annotation-spacing/README.md",
+        "originalId": "type-annotation-spacing",
+        "entry": "packages/eslint-plugin-js/rules/type-annotation-spacing/type-annotation-spacing.ts",
+        "docsEntry": "packages/eslint-plugin-js/rules/type-annotation-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {

@@ -10,7 +10,6 @@ import type { RuleOptions as KeySpacingRuleOptions } from '../rules/key-spacing/
 import type { RuleOptions as KeywordSpacingRuleOptions } from '../rules/keyword-spacing/types'
 import type { RuleOptions as LinesAroundCommentRuleOptions } from '../rules/lines-around-comment/types'
 import type { RuleOptions as LinesBetweenClassMembersRuleOptions } from '../rules/lines-between-class-members/types'
-import type { RuleOptions as MemberDelimiterStyleRuleOptions } from '../rules/member-delimiter-style/types'
 import type { RuleOptions as NoExtraParensRuleOptions } from '../rules/no-extra-parens/types'
 import type { RuleOptions as NoExtraSemiRuleOptions } from '../rules/no-extra-semi/types'
 import type { RuleOptions as ObjectCurlyNewlineRuleOptions } from '../rules/object-curly-newline/types'
@@ -23,7 +22,6 @@ import type { RuleOptions as SemiRuleOptions } from '../rules/semi/types'
 import type { RuleOptions as SpaceBeforeBlocksRuleOptions } from '../rules/space-before-blocks/types'
 import type { RuleOptions as SpaceBeforeFunctionParenRuleOptions } from '../rules/space-before-function-paren/types'
 import type { RuleOptions as SpaceInfixOpsRuleOptions } from '../rules/space-infix-ops/types'
-import type { RuleOptions as TypeAnnotationSpacingRuleOptions } from '../rules/type-annotation-spacing/types'
 
 export interface RuleOptions {
   /**
@@ -81,11 +79,6 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/ts/lines-between-class-members
    */
   '@stylistic/ts/lines-between-class-members': LinesBetweenClassMembersRuleOptions
-  /**
-   * Require a specific member delimiter style for interfaces and type literals
-   * @see https://eslint.style/rules/ts/member-delimiter-style
-   */
-  '@stylistic/ts/member-delimiter-style': MemberDelimiterStyleRuleOptions
   /**
    * Disallow unnecessary parentheses
    * @see https://eslint.style/rules/ts/no-extra-parens
@@ -146,11 +139,6 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/ts/space-infix-ops
    */
   '@stylistic/ts/space-infix-ops': SpaceInfixOpsRuleOptions
-  /**
-   * Require consistent spacing around type annotations
-   * @see https://eslint.style/rules/ts/type-annotation-spacing
-   */
-  '@stylistic/ts/type-annotation-spacing': TypeAnnotationSpacingRuleOptions
 }
 
 export interface UnprefixedRuleOptions {
@@ -209,11 +197,6 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/ts/lines-between-class-members
    */
   'lines-between-class-members': LinesBetweenClassMembersRuleOptions
-  /**
-   * Require a specific member delimiter style for interfaces and type literals
-   * @see https://eslint.style/rules/ts/member-delimiter-style
-   */
-  'member-delimiter-style': MemberDelimiterStyleRuleOptions
   /**
    * Disallow unnecessary parentheses
    * @see https://eslint.style/rules/ts/no-extra-parens
@@ -274,9 +257,4 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/ts/space-infix-ops
    */
   'space-infix-ops': SpaceInfixOpsRuleOptions
-  /**
-   * Require consistent spacing around type annotations
-   * @see https://eslint.style/rules/ts/type-annotation-spacing
-   */
-  'type-annotation-spacing': TypeAnnotationSpacingRuleOptions
 }

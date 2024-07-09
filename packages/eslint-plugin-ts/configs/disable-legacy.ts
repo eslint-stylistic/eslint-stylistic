@@ -14,7 +14,6 @@ const config: Linter.FlatConfig = {
     '@typescript-eslint/keyword-spacing': 0,
     '@typescript-eslint/lines-around-comment': 0,
     '@typescript-eslint/lines-between-class-members': 0,
-    '@typescript-eslint/member-delimiter-style': 0,
     '@typescript-eslint/no-extra-parens': 0,
     '@typescript-eslint/no-extra-semi': 0,
     '@typescript-eslint/object-curly-newline': 0,
@@ -27,7 +26,6 @@ const config: Linter.FlatConfig = {
     '@typescript-eslint/space-before-blocks': 0,
     '@typescript-eslint/space-before-function-paren': 0,
     '@typescript-eslint/space-infix-ops': 0,
-    '@typescript-eslint/type-annotation-spacing': 0,
   },
 }
 export default config

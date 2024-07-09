@@ -35,7 +35,6 @@
     "./rules/keyword-spacing": "./dist/keyword-spacing.js",
     "./rules/lines-around-comment": "./dist/lines-around-comment.js",
     "./rules/lines-between-class-members": "./dist/lines-between-class-members.js",
-    "./rules/member-delimiter-style": "./dist/member-delimiter-style.js",
     "./rules/no-extra-parens": "./dist/no-extra-parens.js",
     "./rules/no-extra-semi": "./dist/no-extra-semi.js",
     "./rules/object-curly-newline": "./dist/object-curly-newline.js",
@@ -47,8 +46,7 @@
     "./rules/semi": "./dist/semi.js",
     "./rules/space-before-blocks": "./dist/space-before-blocks.js",
     "./rules/space-before-function-paren": "./dist/space-before-function-paren.js",
-    "./rules/space-infix-ops": "./dist/space-infix-ops.js",
-    "./rules/type-annotation-spacing": "./dist/type-annotation-spacing.js"
+    "./rules/space-infix-ops": "./dist/space-infix-ops.js"
   },
   "main": "./dist/index.js",
   "types": "./dts/index.d.ts",

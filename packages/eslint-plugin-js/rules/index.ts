@@ -34,6 +34,7 @@ import linesAroundComment from './lines-around-comment/lines-around-comment'
 import linesBetweenClassMembers from './lines-between-class-members/lines-between-class-members'
 import maxLen from './max-len/max-len'
 import maxStatementsPerLine from './max-statements-per-line/max-statements-per-line'
+import memberDelimiterStyle from './member-delimiter-style/member-delimiter-style'
 import multilineCommentStyle from './multiline-comment-style/multiline-comment-style'
 import multilineTernary from './multiline-ternary/multiline-ternary'
 import newParens from './new-parens/new-parens'
@@ -72,6 +73,7 @@ import spacedComment from './spaced-comment/spaced-comment'
 import switchColonSpacing from './switch-colon-spacing/switch-colon-spacing'
 import templateCurlySpacing from './template-curly-spacing/template-curly-spacing'
 import templateTagSpacing from './template-tag-spacing/template-tag-spacing'
+import typeAnnotationSpacing from './type-annotation-spacing/type-annotation-spacing'
 import wrapIife from './wrap-iife/wrap-iife'
 import wrapRegex from './wrap-regex/wrap-regex'
 import yieldStarSpacing from './yield-star-spacing/yield-star-spacing'
@@ -106,6 +108,7 @@ export default {
   'lines-between-class-members': linesBetweenClassMembers,
   'max-len': maxLen,
   'max-statements-per-line': maxStatementsPerLine,
+  'member-delimiter-style': memberDelimiterStyle,
   'multiline-comment-style': multilineCommentStyle,
   'multiline-ternary': multilineTernary,
   'new-parens': newParens,
@@ -144,6 +147,7 @@ export default {
   'switch-colon-spacing': switchColonSpacing,
   'template-curly-spacing': templateCurlySpacing,
   'template-tag-spacing': templateTagSpacing,
+  'type-annotation-spacing': typeAnnotationSpacing,
   'wrap-iife': wrapIife,
   'wrap-regex': wrapRegex,
   'yield-star-spacing': yieldStarSpacing,
