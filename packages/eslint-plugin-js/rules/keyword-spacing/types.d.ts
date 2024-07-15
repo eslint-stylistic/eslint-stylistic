@@ -248,6 +248,10 @@ export interface Schema0 {
       before?: boolean
       after?: boolean
     }
+    type?: {
+      before?: boolean
+      after?: boolean
+    }
     typeof?: {
       before?: boolean
       after?: boolean

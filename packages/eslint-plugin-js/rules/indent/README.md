@@ -25,6 +25,16 @@ These are the most common scenarios recommended in different style guides:
 
 This rule enforces a consistent indentation style. The default style is `4 spaces`.
 
+This rule adds support for TypeScript nodes.
+
+## Warning
+
+:::warning
+
+Please read [Issue #1824: Problems with the indent rule](https://github.com/typescript-eslint/typescript-eslint/issues/1824) before using this rule!
+
+:::
+
 ## Options
 
 This rule has a mixed option:

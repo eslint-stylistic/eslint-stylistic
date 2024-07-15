@@ -125,7 +125,7 @@ run({
       errors: [
         {
           type: 'FunctionDeclaration',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 1,
           column: 13,
           endColumn: 14,
@@ -138,7 +138,7 @@ run({
       errors: [
         {
           type: 'FunctionDeclaration',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 1,
           column: 18,
           endColumn: 19,
@@ -151,7 +151,7 @@ run({
       errors: [
         {
           type: 'FunctionExpression',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 1,
           column: 19,
         },
@@ -163,7 +163,7 @@ run({
       errors: [
         {
           type: 'FunctionExpression',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 1,
           column: 23,
         },
@@ -175,13 +175,13 @@ run({
       errors: [
         {
           type: 'FunctionExpression',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 1,
           column: 20,
         },
         {
           type: 'FunctionExpression',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 1,
           column: 34,
         },
@@ -194,7 +194,7 @@ run({
       errors: [
         {
           type: 'FunctionExpression',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 1,
           column: 16,
         },
@@ -207,7 +207,7 @@ run({
       errors: [
         {
           type: 'FunctionDeclaration',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 1,
           column: 14,
         },
@@ -221,7 +221,7 @@ run({
       errors: [
         {
           type: 'FunctionDeclaration',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 13,
           endColumn: 14,
@@ -235,7 +235,7 @@ run({
       errors: [
         {
           type: 'FunctionDeclaration',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 13,
         },
@@ -248,7 +248,7 @@ run({
       errors: [
         {
           type: 'FunctionDeclaration',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 13,
         },
@@ -261,7 +261,7 @@ run({
       errors: [
         {
           type: 'FunctionDeclaration',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 13,
         },
@@ -274,7 +274,7 @@ run({
       errors: [
         {
           type: 'FunctionDeclaration',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 13,
           endColumn: 15,
@@ -288,7 +288,7 @@ run({
       errors: [
         {
           type: 'FunctionDeclaration',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 13,
           endLine: 2,
@@ -303,7 +303,7 @@ run({
       errors: [
         {
           type: 'FunctionDeclaration',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 13,
         },
@@ -316,7 +316,7 @@ run({
       errors: [
         {
           type: 'FunctionDeclaration',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 13,
         },
@@ -329,7 +329,7 @@ run({
       errors: [
         {
           type: 'FunctionExpression',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 19,
           endColumn: 20,
@@ -343,7 +343,7 @@ run({
       errors: [
         {
           type: 'FunctionExpression',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 23,
         },
@@ -356,13 +356,13 @@ run({
       errors: [
         {
           type: 'FunctionExpression',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 20,
         },
         {
           type: 'FunctionExpression',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 35,
         },
@@ -376,7 +376,7 @@ run({
       errors: [
         {
           type: 'FunctionExpression',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 16,
         },
@@ -390,7 +390,7 @@ run({
       errors: [
         {
           type: 'FunctionDeclaration',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 14,
         },
@@ -413,31 +413,31 @@ run({
       errors: [
         {
           type: 'FunctionDeclaration',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 13,
         },
         {
           type: 'FunctionExpression',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 2,
           column: 19,
         },
         {
           type: 'FunctionExpression',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 3,
           column: 20,
         },
         {
           type: 'FunctionExpression',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 3,
           column: 35,
         },
         {
           type: 'FunctionExpression',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 3,
           column: 49,
         },
@@ -451,13 +451,13 @@ run({
       errors: [
         {
           type: 'FunctionExpression',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 24,
         },
         {
           type: 'FunctionExpression',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 38,
         },
@@ -471,7 +471,7 @@ run({
       errors: [
         {
           type: 'FunctionExpression',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 16,
         },
@@ -493,31 +493,31 @@ run({
       errors: [
         {
           type: 'FunctionDeclaration',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 1,
           column: 13,
         },
         {
           type: 'FunctionExpression',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 2,
           column: 19,
         },
         {
           type: 'FunctionExpression',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 3,
           column: 20,
         },
         {
           type: 'FunctionExpression',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 3,
           column: 34,
         },
         {
           type: 'FunctionExpression',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 3,
           column: 47,
         },
@@ -530,7 +530,7 @@ run({
       errors: [
         {
           type: 'FunctionExpression',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 1,
           column: 19,
         },
@@ -543,7 +543,7 @@ run({
       errors: [
         {
           type: 'FunctionExpression',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 19,
         },
@@ -556,7 +556,7 @@ run({
       errors: [
         {
           type: 'FunctionExpression',
-          messageId: 'missingSpace',
+          messageId: 'missing',
           line: 1,
           column: 23,
         },
@@ -569,7 +569,7 @@ run({
       errors: [
         {
           type: 'FunctionExpression',
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           line: 1,
           column: 23,
         },
@@ -595,21 +595,21 @@ run({
       code: 'async() => 1',
       output: 'async () => 1',
       parserOptions: { ecmaVersion: 8 },
-      errors: [{ messageId: 'missingSpace', type: 'ArrowFunctionExpression' }],
+      errors: [{ messageId: 'missing', type: 'ArrowFunctionExpression' }],
     },
     {
       code: 'async() => 1',
       output: 'async () => 1',
       options: ['always'],
       parserOptions: { ecmaVersion: 8 },
-      errors: [{ messageId: 'missingSpace', type: 'ArrowFunctionExpression' }],
+      errors: [{ messageId: 'missing', type: 'ArrowFunctionExpression' }],
     },
     {
       code: 'async () => 1',
       output: 'async() => 1',
       options: ['never'],
       parserOptions: { ecmaVersion: 8 },
-      errors: [{ messageId: 'unexpectedSpace', type: 'ArrowFunctionExpression' }],
+      errors: [{ messageId: 'unexpected', type: 'ArrowFunctionExpression' }],
     },
   ],
 })

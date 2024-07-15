@@ -3,9 +3,17 @@
  * @author Ian Christian Myers
  */
 import type { ASTNode, EcmaVersion } from '@shared/types'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { getNextLocation, isCommaToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createTSRule } from '../../utils'
 import type { MessageIds, RuleOptions, Value } from './types'
+
+const OPTION_VALUE_SCHEME = [
+  'always-multiline',
+  'always',
+  'never',
+  'only-multiline',
+]
 
 const DEFAULT_OPTIONS = Object.freeze({
   arrays: 'never',
@@ -13,6 +21,9 @@ const DEFAULT_OPTIONS = Object.freeze({
   imports: 'never',
   exports: 'never',
   functions: 'never',
+  enums: 'never',
+  generics: 'never',
+  tuples: 'never',
 })
 
 const closeBraces = ['}', ']', ')', '>']
@@ -24,7 +35,7 @@ const closeBraces = ['}', ']', ')', '>']
  * @returns `true` if a trailing comma is allowed.
  */
 function isTrailingCommaAllowed(lastItem: ASTNode) {
-  return lastItem.type !== 'RestElement'
+  return lastItem.type !== AST_NODE_TYPES.RestElement
 }
 
 /**
@@ -41,52 +52,44 @@ function normalizeOptions(optionValue: RuleOptions[0], ecmaVersion: EcmaVersion 
       imports: optionValue,
       exports: optionValue,
       functions: !ecmaVersion || ecmaVersion === 'latest' ? optionValue : ecmaVersion < 2017 ? 'ignore' : optionValue,
+      enums: optionValue,
+      generics: optionValue,
+      tuples: optionValue,
     }
   }
   if (typeof optionValue === 'object' && optionValue !== null) {
     return {
-      arrays: optionValue.arrays || DEFAULT_OPTIONS.arrays,
-      objects: optionValue.objects || DEFAULT_OPTIONS.objects,
-      imports: optionValue.imports || DEFAULT_OPTIONS.imports,
-      exports: optionValue.exports || DEFAULT_OPTIONS.exports,
-      functions: optionValue.functions || DEFAULT_OPTIONS.functions,
+      arrays: optionValue.arrays ?? DEFAULT_OPTIONS.arrays,
+      objects: optionValue.objects ?? DEFAULT_OPTIONS.objects,
+      imports: optionValue.imports ?? DEFAULT_OPTIONS.imports,
+      exports: optionValue.exports ?? DEFAULT_OPTIONS.exports,
+      functions: optionValue.functions ?? DEFAULT_OPTIONS.functions,
+      enums: optionValue.enums ?? DEFAULT_OPTIONS.enums,
+      generics: optionValue.generics ?? DEFAULT_OPTIONS.generics,
+      tuples: optionValue.tuples ?? DEFAULT_OPTIONS.tuples,
     }
   }
 
   return DEFAULT_OPTIONS
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'comma-dangle',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require or disallow trailing commas',
-      url: 'https://eslint.style/rules/js/comma-dangle',
     },
-
     fixable: 'code',
-
     schema: {
       definitions: {
         value: {
           type: 'string',
-          enum: [
-            'always-multiline',
-            'always',
-            'never',
-            'only-multiline',
-          ],
+          enum: OPTION_VALUE_SCHEME,
         },
         valueWithIgnore: {
           type: 'string',
-          enum: [
-            'always-multiline',
-            'always',
-            'ignore',
-            'never',
-            'only-multiline',
-          ],
+          enum: [...OPTION_VALUE_SCHEME, 'ignore'],
         },
       },
       type: 'array',
@@ -104,6 +107,9 @@ export default createRule<MessageIds, RuleOptions>({
                 imports: { $ref: '#/definitions/valueWithIgnore' },
                 exports: { $ref: '#/definitions/valueWithIgnore' },
                 functions: { $ref: '#/definitions/valueWithIgnore' },
+                enums: { $ref: '#/definitions/valueWithIgnore' },
+                generics: { $ref: '#/definitions/valueWithIgnore' },
+                tuples: { $ref: '#/definitions/valueWithIgnore' },
               },
               additionalProperties: false,
             },
@@ -112,18 +118,24 @@ export default createRule<MessageIds, RuleOptions>({
       ],
       additionalItems: false,
     },
-
     messages: {
       unexpected: 'Unexpected trailing comma.',
       missing: 'Missing trailing comma.',
     },
   },
-
-  create(context) {
+  defaultOptions: ['never'],
+  create(context, [_options]) {
     const ecmaVersion = context?.languageOptions?.ecmaVersion ?? context.parserOptions.ecmaVersion as EcmaVersion | undefined
-    const options = normalizeOptions(context.options[0], ecmaVersion)
+    const options = normalizeOptions(_options, ecmaVersion)
 
     const sourceCode = context.sourceCode
+    const isTSX = context.parserOptions?.ecmaFeatures?.jsx && context.filename?.endsWith('.tsx')
+
+    const tsNodes = [
+      AST_NODE_TYPES.TSEnumDeclaration,
+      AST_NODE_TYPES.TSTypeParameterDeclaration,
+      AST_NODE_TYPES.TSTupleType,
+    ]
 
     /**
      * Gets the last item of the given node.
@@ -133,30 +145,36 @@ export default createRule<MessageIds, RuleOptions>({
     function getLastItem(node: ASTNode): ASTNode | null {
       /**
        * Returns the last element of an array
-       * @param array The input array
+       * @param nodes The input array
        * @returns The last element
        */
-      function last(array: (ASTNode | null)[]): ASTNode | null {
-        return array[array.length - 1]
+      function last(nodes: (ASTNode | null)[]): ASTNode | null {
+        return nodes[nodes.length - 1] ?? null
       }
 
       switch (node.type) {
-        case 'ObjectExpression':
-        case 'ObjectPattern':
+        case AST_NODE_TYPES.ObjectExpression:
+        case AST_NODE_TYPES.ObjectPattern:
           return last(node.properties)
-        case 'ArrayExpression':
-        case 'ArrayPattern':
+        case AST_NODE_TYPES.ArrayExpression:
+        case AST_NODE_TYPES.ArrayPattern:
           return last(node.elements)
-        case 'ImportDeclaration':
-        case 'ExportNamedDeclaration':
+        case AST_NODE_TYPES.ImportDeclaration:
+        case AST_NODE_TYPES.ExportNamedDeclaration:
           return last(node.specifiers)
-        case 'FunctionDeclaration':
-        case 'FunctionExpression':
-        case 'ArrowFunctionExpression':
+        case AST_NODE_TYPES.FunctionDeclaration:
+        case AST_NODE_TYPES.FunctionExpression:
+        case AST_NODE_TYPES.ArrowFunctionExpression:
           return last(node.params)
-        case 'CallExpression':
-        case 'NewExpression':
+        case AST_NODE_TYPES.CallExpression:
+        case AST_NODE_TYPES.NewExpression:
           return last(node.arguments)
+        case AST_NODE_TYPES.TSEnumDeclaration:
+          return last(node.body.members || node.members)
+        case AST_NODE_TYPES.TSTypeParameterDeclaration:
+          return last(node.params)
+        case AST_NODE_TYPES.TSTupleType:
+          return last(node.elementTypes)
         default:
           return null
       }
@@ -172,11 +190,18 @@ export default createRule<MessageIds, RuleOptions>({
      */
     function getTrailingToken(node: ASTNode, lastItem: ASTNode) {
       switch (node.type) {
-        case 'ObjectExpression':
-        case 'ArrayExpression':
-        case 'CallExpression':
-        case 'NewExpression':
+        case AST_NODE_TYPES.ObjectExpression:
+        case AST_NODE_TYPES.ArrayExpression:
+        case AST_NODE_TYPES.CallExpression:
+        case AST_NODE_TYPES.NewExpression:
           return sourceCode.getLastToken(node, 1)
+        case AST_NODE_TYPES.TSEnumDeclaration:
+        case AST_NODE_TYPES.TSTypeParameterDeclaration:
+        case AST_NODE_TYPES.TSTupleType: {
+          const last = getLastItem(node)
+          const trailing = last && sourceCode.getTokenAfter(last)
+          return trailing
+        }
         default: {
           const nextToken = sourceCode.getTokenAfter(lastItem)!
 
@@ -201,14 +226,20 @@ export default createRule<MessageIds, RuleOptions>({
       if (!lastItem)
         return false
 
-      const penultimateToken = getTrailingToken(node, lastItem)
-      if (!penultimateToken)
-        return false
-      const lastToken = sourceCode.getTokenAfter(penultimateToken)
-      if (!lastToken)
-        return false
+      if (!tsNodes.includes(node.type)) {
+        const penultimateToken = getTrailingToken(node, lastItem)
+        if (!penultimateToken)
+          return false
+        const lastToken = sourceCode.getTokenAfter(penultimateToken)
+        if (!lastToken)
+          return false
 
-      return lastToken.loc.end.line !== penultimateToken.loc.end.line
+        return lastToken.loc.end.line !== penultimateToken.loc.end.line
+      }
+      else {
+        const lastToken = sourceCode.getLastToken(node)
+        return lastItem?.loc.end.line !== lastToken?.loc.end.line
+      }
     }
 
     /**
@@ -218,10 +249,32 @@ export default createRule<MessageIds, RuleOptions>({
      *   ImportDeclaration, and ExportNamedDeclaration.
      */
     function forbidTrailingComma(node: ASTNode) {
+      /**
+       * We allow tailing comma in TSTypeParameterDeclaration in TSX,
+       * because it's used to differentiate JSX tags from generics.
+       *
+       * https://github.com/microsoft/TypeScript/issues/15713#issuecomment-499474386
+       * https://github.com/eslint-stylistic/eslint-stylistic/issues/35
+       */
+      if (
+        isTSX
+        && node.type === AST_NODE_TYPES.TSTypeParameterDeclaration
+        && node.params.length === 1
+      ) {
+        return
+      }
+
       const lastItem = getLastItem(node)
 
-      if (!lastItem || (node.type === 'ImportDeclaration' && lastItem.type !== 'ImportSpecifier'))
+      if (
+        !lastItem
+        || (
+          node.type === AST_NODE_TYPES.ImportDeclaration
+          && lastItem.type !== AST_NODE_TYPES.ImportSpecifier
+        )
+      ) {
         return
+      }
 
       const trailingToken = getTrailingToken(node, lastItem)
 
@@ -260,8 +313,15 @@ export default createRule<MessageIds, RuleOptions>({
     function forceTrailingComma(node: ASTNode) {
       const lastItem = getLastItem(node)
 
-      if (!lastItem || (node.type === 'ImportDeclaration' && lastItem.type !== 'ImportSpecifier'))
+      if (
+        !lastItem
+        || (
+          node.type === AST_NODE_TYPES.ImportDeclaration
+          && lastItem.type !== AST_NODE_TYPES.ImportSpecifier
+        )
+      ) {
         return
+      }
 
       if (!isTrailingCommaAllowed(lastItem)) {
         forbidTrailingComma(node)
@@ -270,11 +330,13 @@ export default createRule<MessageIds, RuleOptions>({
 
       const trailingToken = getTrailingToken(node, lastItem)
 
-      if (!trailingToken || trailingToken.value === ',')
+      if (!trailingToken || isCommaToken(trailingToken))
         return
 
+      const isTSTypeNode = tsNodes.includes(node.type)
+
       const nextToken = sourceCode.getTokenAfter(trailingToken)
-      if (!nextToken || !closeBraces.includes(nextToken.value))
+      if (!isTSTypeNode && (!nextToken || !closeBraces.includes(nextToken.value)))
         return
 
       context.report({
@@ -285,7 +347,9 @@ export default createRule<MessageIds, RuleOptions>({
         },
         messageId: 'missing',
         *fix(fixer) {
-          yield fixer.insertTextAfter(trailingToken, ',')
+          const fixNode = isTSTypeNode ? lastItem : trailingToken
+
+          yield fixer.insertTextAfter(fixNode, ',')
 
           /**
            * Extend the range of the fix to include surrounding tokens to ensure
@@ -294,8 +358,8 @@ export default createRule<MessageIds, RuleOptions>({
            * adding or removing elements in the same autofix pass.
            * https://github.com/eslint/eslint/issues/15660
            */
-          yield fixer.insertTextBefore(trailingToken, '')
-          yield fixer.insertTextAfter(sourceCode.getTokenAfter(trailingToken)!, '')
+          yield fixer.insertTextBefore(fixNode, '')
+          yield fixer.insertTextAfter(sourceCode.getTokenAfter(fixNode)!, '')
         },
       })
     }
@@ -352,6 +416,10 @@ export default createRule<MessageIds, RuleOptions>({
       ArrowFunctionExpression: predicate[options.functions],
       CallExpression: predicate[options.functions],
       NewExpression: predicate[options.functions],
+
+      TSEnumDeclaration: predicate[options.enums],
+      TSTypeParameterDeclaration: predicate[options.generics],
+      TSTupleType: predicate[options.tuples],
     }
   },
 })

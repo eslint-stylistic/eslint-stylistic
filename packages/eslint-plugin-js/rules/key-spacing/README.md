@@ -11,6 +11,8 @@ This rule enforces spacing around the colon in object literal properties. It can
 
 This rule enforces consistent spacing between keys and values in object literal properties. In the case of long lines, it is acceptable to add a new line wherever whitespace is allowed.
 
+This rule adds support for type annotations on interfaces, classes and type literals properties.
+
 ## Options
 
 This rule has an object option:

@@ -40,6 +40,8 @@ More clear:
 
 This rule enforces consistent use of trailing commas in object and array literals.
 
+This rule adds support for TypeScript syntax.
+
 ## Options
 
 This rule has a string option or an object option:
@@ -73,6 +75,9 @@ The default for each option is `"never"` unless otherwise specified.
 - `exports` is for export declarations of ES Modules. (e.g. `export {a,};`)
 - `functions` is for function declarations and function calls. (e.g. `(function(a,){ })(b,);`)
   - `functions` should only be enabled when linting ECMAScript 2017 or higher.
+- `enums` is for trailing comma in enum. (e.g. `enum Foo = {Bar,}`)
+- `generics` is for trailing comma in generic. (e.g. `function foo<T,>() {}`)
+- `tuples` is for trailing comma in tuple. (e.g. `type Foo = [string,]`)
 
 ### never
 

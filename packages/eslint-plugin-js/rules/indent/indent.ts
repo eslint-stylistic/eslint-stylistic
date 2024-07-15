@@ -6,98 +6,168 @@
  * @author Gyandeep Singh
  */
 
-import type { ASTNode, JSONSchema, NodeTypes, ReportFixFunction, RuleFunction, RuleListener, SourceCode, Token, Tree } from '@shared/types'
-import { STATEMENT_LIST_PARENTS, createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import type { ASTNode, JSONSchema, ReportFixFunction, RuleFunction, RuleListener, SourceCode, Token, Tree } from '@shared/types'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import { isOptionalChainPunctuator } from '@typescript-eslint/utils/ast-utils'
+import { STATEMENT_LIST_PARENTS, createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { createTSRule } from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-const KNOWN_NODES: Set<NodeTypes> = new Set([
-  'AssignmentExpression',
-  'AssignmentPattern',
-  'ArrayExpression',
-  'ArrayPattern',
-  'ArrowFunctionExpression',
-  'AwaitExpression',
-  'BlockStatement',
-  'BinaryExpression',
-  'BreakStatement',
-  'CallExpression',
-  'CatchClause',
-  'ChainExpression',
-  'ClassBody',
-  'ClassDeclaration',
-  'ClassExpression',
-  'ConditionalExpression',
-  'ContinueStatement',
-  'DoWhileStatement',
-  'DebuggerStatement',
-  'EmptyStatement',
-  'ExpressionStatement',
-  'ForStatement',
-  'ForInStatement',
-  'ForOfStatement',
-  'FunctionDeclaration',
-  'FunctionExpression',
-  'Identifier',
-  'IfStatement',
-  'Literal',
-  'LabeledStatement',
-  'LogicalExpression',
-  'MemberExpression',
-  'MetaProperty',
-  'MethodDefinition',
-  'NewExpression',
-  'ObjectExpression',
-  'ObjectPattern',
-  'PrivateIdentifier',
-  'Program',
-  'Property',
-  'PropertyDefinition',
-  'RestElement',
-  'ReturnStatement',
-  'SequenceExpression',
-  'SpreadElement',
-  'StaticBlock',
-  'Super',
-  'SwitchCase',
-  'SwitchStatement',
-  'TaggedTemplateExpression',
-  'TemplateElement',
-  'TemplateLiteral',
-  'ThisExpression',
-  'ThrowStatement',
-  'TryStatement',
-  'UnaryExpression',
-  'UpdateExpression',
-  'VariableDeclaration',
-  'VariableDeclarator',
-  'WhileStatement',
-  'WithStatement',
-  'YieldExpression',
-  'JSXFragment',
-  'JSXOpeningFragment',
-  'JSXClosingFragment',
-  'JSXIdentifier',
-  'JSXNamespacedName',
-  'JSXMemberExpression',
-  'JSXEmptyExpression',
-  'JSXExpressionContainer',
-  'JSXElement',
-  'JSXClosingElement',
-  'JSXOpeningElement',
-  'JSXAttribute',
-  'JSXSpreadAttribute',
-  'JSXText',
-  'ExportDefaultDeclaration',
-  'ExportNamedDeclaration',
-  'ExportAllDeclaration',
-  'ExportSpecifier',
-  'ImportDeclaration',
-  'ImportSpecifier',
-  'ImportDefaultSpecifier',
-  'ImportNamespaceSpecifier',
-  'ImportExpression',
-] satisfies NodeTypes[])
+const KNOWN_NODES = new Set([
+  AST_NODE_TYPES.AssignmentExpression,
+  AST_NODE_TYPES.AssignmentPattern,
+  AST_NODE_TYPES.ArrayExpression,
+  AST_NODE_TYPES.ArrayPattern,
+  AST_NODE_TYPES.ArrowFunctionExpression,
+  AST_NODE_TYPES.AwaitExpression,
+  AST_NODE_TYPES.BlockStatement,
+  AST_NODE_TYPES.BinaryExpression,
+  AST_NODE_TYPES.BreakStatement,
+  AST_NODE_TYPES.CallExpression,
+  AST_NODE_TYPES.CatchClause,
+  AST_NODE_TYPES.ChainExpression,
+  AST_NODE_TYPES.ClassBody,
+  AST_NODE_TYPES.ClassDeclaration,
+  AST_NODE_TYPES.ClassExpression,
+  AST_NODE_TYPES.ConditionalExpression,
+  AST_NODE_TYPES.ContinueStatement,
+  AST_NODE_TYPES.DoWhileStatement,
+  AST_NODE_TYPES.DebuggerStatement,
+  AST_NODE_TYPES.EmptyStatement,
+  AST_NODE_TYPES.ExpressionStatement,
+  AST_NODE_TYPES.ForStatement,
+  AST_NODE_TYPES.ForInStatement,
+  AST_NODE_TYPES.ForOfStatement,
+  AST_NODE_TYPES.FunctionDeclaration,
+  AST_NODE_TYPES.FunctionExpression,
+  AST_NODE_TYPES.Identifier,
+  AST_NODE_TYPES.IfStatement,
+  AST_NODE_TYPES.Literal,
+  AST_NODE_TYPES.LabeledStatement,
+  AST_NODE_TYPES.LogicalExpression,
+  AST_NODE_TYPES.MemberExpression,
+  AST_NODE_TYPES.MetaProperty,
+  AST_NODE_TYPES.MethodDefinition,
+  AST_NODE_TYPES.NewExpression,
+  AST_NODE_TYPES.ObjectExpression,
+  AST_NODE_TYPES.ObjectPattern,
+  AST_NODE_TYPES.PrivateIdentifier,
+  AST_NODE_TYPES.Program,
+  AST_NODE_TYPES.Property,
+  AST_NODE_TYPES.PropertyDefinition,
+  AST_NODE_TYPES.RestElement,
+  AST_NODE_TYPES.ReturnStatement,
+  AST_NODE_TYPES.SequenceExpression,
+  AST_NODE_TYPES.SpreadElement,
+  AST_NODE_TYPES.StaticBlock,
+  AST_NODE_TYPES.Super,
+  AST_NODE_TYPES.SwitchCase,
+  AST_NODE_TYPES.SwitchStatement,
+  AST_NODE_TYPES.TaggedTemplateExpression,
+  AST_NODE_TYPES.TemplateElement,
+  AST_NODE_TYPES.TemplateLiteral,
+  AST_NODE_TYPES.ThisExpression,
+  AST_NODE_TYPES.ThrowStatement,
+  AST_NODE_TYPES.TryStatement,
+  AST_NODE_TYPES.UnaryExpression,
+  AST_NODE_TYPES.UpdateExpression,
+  AST_NODE_TYPES.VariableDeclaration,
+  AST_NODE_TYPES.VariableDeclarator,
+  AST_NODE_TYPES.WhileStatement,
+  AST_NODE_TYPES.WithStatement,
+  AST_NODE_TYPES.YieldExpression,
+  AST_NODE_TYPES.JSXFragment,
+  AST_NODE_TYPES.JSXOpeningFragment,
+  AST_NODE_TYPES.JSXClosingFragment,
+  AST_NODE_TYPES.JSXIdentifier,
+  AST_NODE_TYPES.JSXNamespacedName,
+  AST_NODE_TYPES.JSXMemberExpression,
+  AST_NODE_TYPES.JSXEmptyExpression,
+  AST_NODE_TYPES.JSXExpressionContainer,
+  AST_NODE_TYPES.JSXElement,
+  AST_NODE_TYPES.JSXClosingElement,
+  AST_NODE_TYPES.JSXOpeningElement,
+  AST_NODE_TYPES.JSXAttribute,
+  AST_NODE_TYPES.JSXSpreadAttribute,
+  AST_NODE_TYPES.JSXText,
+  AST_NODE_TYPES.ExportDefaultDeclaration,
+  AST_NODE_TYPES.ExportNamedDeclaration,
+  AST_NODE_TYPES.ExportAllDeclaration,
+  AST_NODE_TYPES.ExportSpecifier,
+  AST_NODE_TYPES.ImportDeclaration,
+  AST_NODE_TYPES.ImportSpecifier,
+  AST_NODE_TYPES.ImportDefaultSpecifier,
+  AST_NODE_TYPES.ImportNamespaceSpecifier,
+  AST_NODE_TYPES.ImportExpression,
+
+  // Class properties aren't yet supported by eslint...
+  AST_NODE_TYPES.PropertyDefinition,
+
+  // ts keywords
+  AST_NODE_TYPES.TSAbstractKeyword,
+  AST_NODE_TYPES.TSAnyKeyword,
+  AST_NODE_TYPES.TSBooleanKeyword,
+  AST_NODE_TYPES.TSNeverKeyword,
+  AST_NODE_TYPES.TSNumberKeyword,
+  AST_NODE_TYPES.TSStringKeyword,
+  AST_NODE_TYPES.TSSymbolKeyword,
+  AST_NODE_TYPES.TSUndefinedKeyword,
+  AST_NODE_TYPES.TSUnknownKeyword,
+  AST_NODE_TYPES.TSVoidKeyword,
+  AST_NODE_TYPES.TSNullKeyword,
+
+  // ts specific nodes we want to support
+  AST_NODE_TYPES.TSAbstractPropertyDefinition,
+  AST_NODE_TYPES.TSAbstractMethodDefinition,
+  AST_NODE_TYPES.TSArrayType,
+  AST_NODE_TYPES.TSAsExpression,
+  AST_NODE_TYPES.TSCallSignatureDeclaration,
+  AST_NODE_TYPES.TSConditionalType,
+  AST_NODE_TYPES.TSConstructorType,
+  AST_NODE_TYPES.TSConstructSignatureDeclaration,
+  AST_NODE_TYPES.TSDeclareFunction,
+  AST_NODE_TYPES.TSEmptyBodyFunctionExpression,
+  AST_NODE_TYPES.TSEnumDeclaration,
+  AST_NODE_TYPES.TSEnumMember,
+  AST_NODE_TYPES.TSExportAssignment,
+  AST_NODE_TYPES.TSExternalModuleReference,
+  AST_NODE_TYPES.TSFunctionType,
+  AST_NODE_TYPES.TSImportType,
+  AST_NODE_TYPES.TSIndexedAccessType,
+  AST_NODE_TYPES.TSIndexSignature,
+  AST_NODE_TYPES.TSInferType,
+  AST_NODE_TYPES.TSInterfaceBody,
+  AST_NODE_TYPES.TSInterfaceDeclaration,
+  AST_NODE_TYPES.TSInterfaceHeritage,
+  AST_NODE_TYPES.TSImportEqualsDeclaration,
+  AST_NODE_TYPES.TSLiteralType,
+  AST_NODE_TYPES.TSMappedType,
+  AST_NODE_TYPES.TSMethodSignature,
+  'TSMinusToken',
+  AST_NODE_TYPES.TSModuleBlock,
+  AST_NODE_TYPES.TSModuleDeclaration,
+  AST_NODE_TYPES.TSNonNullExpression,
+  AST_NODE_TYPES.TSParameterProperty,
+  'TSPlusToken',
+  AST_NODE_TYPES.TSPropertySignature,
+  AST_NODE_TYPES.TSQualifiedName,
+  'TSQuestionToken',
+  AST_NODE_TYPES.TSRestType,
+  AST_NODE_TYPES.TSThisType,
+  AST_NODE_TYPES.TSTupleType,
+  AST_NODE_TYPES.TSTypeAnnotation,
+  AST_NODE_TYPES.TSTypeLiteral,
+  AST_NODE_TYPES.TSTypeOperator,
+  AST_NODE_TYPES.TSTypeParameter,
+  AST_NODE_TYPES.TSTypeParameterDeclaration,
+  AST_NODE_TYPES.TSTypeParameterInstantiation,
+  AST_NODE_TYPES.TSTypeReference,
+  AST_NODE_TYPES.Decorator,
+
+  // These are took care by `indent-binary-ops` rule
+  // AST_NODE_TYPES.TSIntersectionType,
+  // AST_NODE_TYPES.TSUnionType,
+])
 
 type Offset = 'first' | 'off' | number
 
@@ -475,17 +545,14 @@ const ELEMENT_LIST_SCHEMA: JSONSchema.JSONSchema4 = {
   ],
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'indent',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent indentation',
-      url: 'https://eslint.style/rules/js/indent',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         oneOf: [
@@ -617,14 +684,34 @@ export default createRule<MessageIds, RuleOptions>({
       wrongIndentation: 'Expected indentation of {{expected}} but found {{actual}}.',
     },
   },
-
-  create(context) {
+  defaultOptions: [
+    // typescript docs and playground use 4 space indent
+    4,
+    {
+      // typescript docs indent the case from the switch
+      // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-8.html#example-4
+      SwitchCase: 0,
+      flatTernaryExpressions: false,
+      ignoredNodes: [],
+    },
+  ],
+  create(context, optionsWithDefaults) {
     const DEFAULT_VARIABLE_INDENT = 1
     const DEFAULT_PARAMETER_INDENT = 1
     const DEFAULT_FUNCTION_BODY_INDENT = 1
 
     let indentType = 'space'
     let indentSize = 4
+
+    if (optionsWithDefaults[0] === 'tab') {
+      indentSize = 1
+      indentType = 'tab'
+    }
+    else {
+      indentSize = optionsWithDefaults[0] ?? indentSize
+      indentType = 'space'
+    }
+
     const options = {
       SwitchCase: 0,
       VariableDeclarator: {
@@ -657,17 +744,8 @@ export default createRule<MessageIds, RuleOptions>({
       offsetTernaryExpressions: false,
     }
 
-    if (context.options.length) {
-      if (context.options[0] === 'tab') {
-        indentSize = 1
-        indentType = 'tab'
-      }
-      else {
-        indentSize = context.options[0] ?? indentSize
-        indentType = 'space'
-      }
-
-      const userOptions = context.options[1]
+    if (optionsWithDefaults.length) {
+      const userOptions = optionsWithDefaults[1]
       if (userOptions) {
         Object.assign(options, userOptions)
 
@@ -920,7 +998,7 @@ export default createRule<MessageIds, RuleOptions>({
        * This logic is copied from `MemberExpression`'s.
        */
       if ('optional' in node && node.optional) {
-        const dotToken = sourceCode.getTokenAfter(node.callee, isQuestionDotToken)!
+        const dotToken = sourceCode.getTokenAfter(node.callee, isOptionalChainPunctuator)!
         const calleeParenCount = sourceCode.getTokensBetween(node.callee, dotToken, { filter: isClosingParenToken }).length
         const firstTokenOfCallee = calleeParenCount
           ? sourceCode.getTokenBefore(node.callee, { skip: calleeParenCount - 1 })!
@@ -1041,14 +1119,18 @@ export default createRule<MessageIds, RuleOptions>({
     const ignoredNodeFirstTokens = new Set<Token>()
 
     const baseOffsetListeners: RuleListener = {
-      'ArrayExpression, ArrayPattern': function (node: Tree.ArrayExpression | Tree.ArrayPattern) {
+      ArrayExpression(node: Tree.ArrayExpression | Tree.ArrayPattern) {
         const openingBracket = sourceCode.getFirstToken(node)!
         const closingBracket = sourceCode.getTokenAfter([...node.elements].reverse().find(_ => _) || openingBracket, isClosingBracketToken)!
 
         addElementListIndent(node.elements, openingBracket, closingBracket, options.ArrayExpression)
       },
 
-      'ObjectExpression, ObjectPattern': function (node: Tree.ObjectExpression | Tree.ObjectPattern) {
+      ArrayPattern(node) {
+        baseOffsetListeners.ArrayExpression!(node as unknown as Tree.ArrayExpression)
+      },
+
+      ObjectExpression(node: Tree.ObjectExpression | Tree.ObjectPattern) {
         const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
         const closingCurly = sourceCode.getTokenAfter(
           node.properties.length ? node.properties[node.properties.length - 1] : openingCurly,
@@ -1056,6 +1138,11 @@ export default createRule<MessageIds, RuleOptions>({
         )!
 
         addElementListIndent(node.properties, openingCurly, closingCurly, options.ObjectExpression)
+      },
+
+      ObjectPattern(node) {
+        // handle as a ObjectExpression
+        baseOffsetListeners.ObjectExpression!(node as unknown as Tree.ObjectExpression)
       },
 
       ArrowFunctionExpression(node) {
@@ -1081,7 +1168,7 @@ export default createRule<MessageIds, RuleOptions>({
         offsets.ignoreToken(sourceCode.getTokenAfter(operator)!)
       },
 
-      'BinaryExpression, LogicalExpression': function (node: Tree.BinaryExpression | Tree.LogicalExpression) {
+      BinaryExpression(node: Tree.BinaryExpression | Tree.LogicalExpression) {
         const operator = sourceCode.getFirstTokenBetween(node.left, node.right, token => token.value === node.operator)!
 
         /**
@@ -1097,7 +1184,12 @@ export default createRule<MessageIds, RuleOptions>({
         offsets.setDesiredOffset(tokenAfterOperator, operator, 0)
       },
 
-      'BlockStatement, ClassBody': function (node: Tree.BlockStatement | Tree.ClassBody) {
+      LogicalExpression(node) {
+        // handle as a BinaryExpression
+        baseOffsetListeners.BinaryExpression!(node as unknown as Tree.BinaryExpression)
+      },
+
+      BlockStatement(node: Tree.BlockStatement | Tree.ClassBody) {
         let blockIndentLevel
 
         if (node.parent && isOuterIIFE(node.parent))
@@ -1124,9 +1216,14 @@ export default createRule<MessageIds, RuleOptions>({
         )
       },
 
+      ClassBody(node) {
+        // handle as a BlockStatement
+        baseOffsetListeners.BlockStatement!(node as unknown as Tree.BlockStatement)
+      },
+
       'CallExpression': addFunctionCallIndent,
 
-      'ClassDeclaration[superClass], ClassExpression[superClass]': function (node: Tree.ClassDeclaration) {
+      ClassDeclaration(node: Tree.ClassDeclaration | Tree.ClassExpression) {
         if (!node.superClass)
           return
 
@@ -1134,6 +1231,10 @@ export default createRule<MessageIds, RuleOptions>({
         const extendsToken = sourceCode.getTokenBefore(node.superClass, isNotOpeningParenToken)!
 
         offsets.setDesiredOffsets([extendsToken.range[0], node.body.range[0]], classToken, 1)
+      },
+
+      ClassExpression(node) {
+        baseOffsetListeners.ClassDeclaration!(node as unknown as Tree.ClassDeclaration)
       },
 
       ConditionalExpression(node) {
@@ -1324,7 +1425,7 @@ export default createRule<MessageIds, RuleOptions>({
         addElementListIndent([node.source], openingParen, closingParen, options.CallExpression.arguments)
       },
 
-      'MemberExpression, JSXMemberExpression, MetaProperty': function (node: Tree.MemberExpression | Tree.JSXMemberExpression | Tree.MetaProperty) {
+      MemberExpression(node: Tree.MemberExpression | Tree.JSXMemberExpression | Tree.MetaProperty) {
         const object = node.type === 'MetaProperty' ? node.meta : node.object
         const firstNonObjectToken = sourceCode.getFirstTokenBetween(object, node.property, isNotClosingParenToken)!
         const secondNonObjectToken = sourceCode.getTokenAfter(firstNonObjectToken)!
@@ -1376,6 +1477,14 @@ export default createRule<MessageIds, RuleOptions>({
         }
       },
 
+      JSXMemberExpression(node) {
+        baseOffsetListeners.MemberExpression!(node as unknown as Tree.MemberExpression)
+      },
+
+      MetaProperty(node) {
+        baseOffsetListeners.MemberExpression!(node as unknown as Tree.MemberExpression)
+      },
+
       NewExpression(node) {
         // Only indent the arguments if the NewExpression has parens (e.g. `new Foo(bar)` or `new Foo()`, but not `new Foo`
         if (node.arguments.length > 0
@@ -1394,41 +1503,77 @@ export default createRule<MessageIds, RuleOptions>({
       },
 
       PropertyDefinition(node) {
-        const firstToken = sourceCode.getFirstToken(node)!
-        const maybeSemicolonToken = sourceCode.getLastToken(node)!
-        let keyLastToken = null
+        if (node.parent.type !== AST_NODE_TYPES.ClassBody || !node.decorators?.length || node.loc.start.line === node.loc.end.line) {
+          const firstToken = sourceCode.getFirstToken(node)!
+          const maybeSemicolonToken = sourceCode.getLastToken(node)!
+          let keyLastToken = null
 
-        // Indent key.
-        if (node.computed) {
-          const bracketTokenL = sourceCode.getTokenBefore(node.key, isOpeningBracketToken)!
-          const bracketTokenR = keyLastToken = sourceCode.getTokenAfter(node.key, isClosingBracketToken)!
-          const keyRange = [bracketTokenL.range[1], bracketTokenR.range[0]] as [number, number]
+          // Indent key.
+          if (node.computed) {
+            const bracketTokenL = sourceCode.getTokenBefore(node.key, isOpeningBracketToken)!
+            const bracketTokenR = keyLastToken = sourceCode.getTokenAfter(node.key, isClosingBracketToken)!
+            const keyRange = [bracketTokenL.range[1], bracketTokenR.range[0]] as [number, number]
 
-          if (bracketTokenL !== firstToken)
-            offsets.setDesiredOffset(bracketTokenL, firstToken, 0)
+            if (bracketTokenL !== firstToken)
+              offsets.setDesiredOffset(bracketTokenL, firstToken, 0)
 
-          offsets.setDesiredOffsets(keyRange, bracketTokenL, 1)
-          offsets.setDesiredOffset(bracketTokenR, bracketTokenL, 0)
+            offsets.setDesiredOffsets(keyRange, bracketTokenL, 1)
+            offsets.setDesiredOffset(bracketTokenR, bracketTokenL, 0)
+          }
+          else {
+            const idToken = keyLastToken = sourceCode.getFirstToken(node.key)!
+
+            if (idToken !== firstToken)
+              offsets.setDesiredOffset(idToken, firstToken, 1)
+          }
+
+          // Indent initializer.
+          if (node.value) {
+            const eqToken = sourceCode.getTokenBefore(node.value, isEqToken)!
+            const valueToken = sourceCode.getTokenAfter(eqToken)!
+
+            offsets.setDesiredOffset(eqToken, keyLastToken, 1)
+            offsets.setDesiredOffset(valueToken, eqToken, 1)
+            if (isSemicolonToken(maybeSemicolonToken))
+              offsets.setDesiredOffset(maybeSemicolonToken, eqToken, 1)
+          }
+          else if (isSemicolonToken(maybeSemicolonToken)) {
+            offsets.setDesiredOffset(maybeSemicolonToken, keyLastToken, 1)
+          }
         }
         else {
-          const idToken = keyLastToken = sourceCode.getFirstToken(node.key)!
+          let startDecorator = node.decorators[0]
+          let endDecorator = startDecorator
 
-          if (idToken !== firstToken)
-            offsets.setDesiredOffset(idToken, firstToken, 1)
-        }
+          for (let i = 1; i <= node.decorators.length; i++) {
+            const decorator = node.decorators[i]
+            if (i === node.decorators.length || startDecorator.loc.start.line !== decorator.loc.start.line) {
+              baseOffsetListeners.PropertyDefinition!({
+                type: AST_NODE_TYPES.PropertyDefinition,
+                key: node.key,
+                parent: node.parent,
+                range: [startDecorator.range[0], endDecorator.range[1]],
+                loc: {
+                  start: startDecorator.loc.start,
+                  end: endDecorator.loc.end,
+                },
+              } as Tree.PropertyDefinition)
+              if (decorator)
+                startDecorator = endDecorator = decorator
+            }
+            else {
+              endDecorator = decorator
+            }
+          }
 
-        // Indent initializer.
-        if (node.value) {
-          const eqToken = sourceCode.getTokenBefore(node.value, isEqToken)!
-          const valueToken = sourceCode.getTokenAfter(eqToken)!
-
-          offsets.setDesiredOffset(eqToken, keyLastToken, 1)
-          offsets.setDesiredOffset(valueToken, eqToken, 1)
-          if (isSemicolonToken(maybeSemicolonToken))
-            offsets.setDesiredOffset(maybeSemicolonToken, eqToken, 1)
-        }
-        else if (isSemicolonToken(maybeSemicolonToken)) {
-          offsets.setDesiredOffset(maybeSemicolonToken, keyLastToken, 1)
+          return baseOffsetListeners.PropertyDefinition!({
+            ...node,
+            range: [endDecorator.range[1] + 1, node.range[1]],
+            loc: {
+              start: node.key.loc.start,
+              end: node.loc.end,
+            },
+          })
         }
       },
 
@@ -1455,7 +1600,7 @@ export default createRule<MessageIds, RuleOptions>({
       },
 
       SwitchCase(node) {
-        if (!(node.consequent.length === 1 && node.consequent[0].type === 'BlockStatement')) {
+        if (!(node.consequent.length === 1 && node.consequent[0].type === AST_NODE_TYPES.BlockStatement)) {
           const caseKeyword = sourceCode.getFirstToken(node)!
           const tokenAfterCurrentCase = sourceCode.getTokenAfter(node)!
 
@@ -1477,6 +1622,10 @@ export default createRule<MessageIds, RuleOptions>({
       },
 
       VariableDeclaration(node) {
+        // https://github.com/typescript-eslint/typescript-eslint/issues/441
+        if (node.declarations.length === 0)
+          return
+
         let variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, node.kind)
           ? options.VariableDeclarator[node.kind as keyof typeof options.VariableDeclarator]
           : DEFAULT_VARIABLE_INDENT
@@ -1538,6 +1687,315 @@ export default createRule<MessageIds, RuleOptions>({
           offsets.setDesiredOffsets([tokenAfterOperator.range[0], node.range[1]], equalOperator, 1)
           offsets.setDesiredOffset(equalOperator, sourceCode.getLastToken(node.id), 0)
         }
+      },
+
+      TSAsExpression(node: Tree.TSAsExpression) {
+        // transform it to a BinaryExpression
+        return baseOffsetListeners.BinaryExpression!({
+          type: AST_NODE_TYPES.BinaryExpression,
+          operator: 'as' as any,
+          left: node.expression,
+          // the first typeAnnotation includes the as token
+          right: node.typeAnnotation as any,
+
+          // location data
+          parent: node.parent,
+          range: node.range,
+          loc: node.loc,
+        })
+      },
+
+      TSConditionalType(node: Tree.TSConditionalType) {
+        // transform it to a ConditionalExpression
+        return baseOffsetListeners.ConditionalExpression!({
+          type: AST_NODE_TYPES.ConditionalExpression,
+          test: {
+            parent: node,
+            type: AST_NODE_TYPES.BinaryExpression,
+            operator: 'extends' as any,
+            left: node.checkType as any,
+            right: node.extendsType as any,
+
+            // location data
+            range: [node.checkType.range[0], node.extendsType.range[1]],
+            loc: {
+              start: node.checkType.loc.start,
+              end: node.extendsType.loc.end,
+            },
+          },
+          consequent: node.trueType as any,
+          alternate: node.falseType as any,
+
+          // location data
+          parent: node.parent,
+          range: node.range,
+          loc: node.loc,
+        })
+      },
+
+      'TSEnumDeclaration, TSTypeLiteral': function (
+        node: Tree.TSEnumDeclaration | Tree.TSTypeLiteral,
+      ) {
+        const members = 'body' in node ? node.body.members : node.members
+
+        // transform it to an ObjectExpression
+        return baseOffsetListeners.ObjectExpression!({
+          type: AST_NODE_TYPES.ObjectExpression,
+          properties: members.map(
+            member => TSPropertySignatureToProperty(member) as Tree.Property,
+          ),
+
+          // location data
+          parent: node.parent,
+          range: node.range,
+          loc: node.loc,
+        })
+      },
+
+      TSImportEqualsDeclaration(node: Tree.TSImportEqualsDeclaration) {
+        // transform it to an VariableDeclaration
+        // use VariableDeclaration instead of ImportDeclaration because it's essentially the same thing
+        const { id, moduleReference } = node
+
+        return baseOffsetListeners.VariableDeclaration!({
+          type: AST_NODE_TYPES.VariableDeclaration,
+          kind: 'const' as const,
+          declarations: [
+            {
+              type: AST_NODE_TYPES.VariableDeclarator,
+              range: [id.range[0], moduleReference.range[1]],
+              loc: {
+                start: id.loc.start,
+                end: moduleReference.loc.end,
+              },
+              id,
+              init: {
+                type: AST_NODE_TYPES.CallExpression,
+                callee: {
+                  type: AST_NODE_TYPES.Identifier,
+                  name: 'require',
+                  range: [
+                    moduleReference.range[0],
+                    moduleReference.range[0] + 'require'.length,
+                  ],
+                  loc: {
+                    start: moduleReference.loc.start,
+                    end: {
+                      line: moduleReference.loc.end.line,
+                      column: moduleReference.loc.start.line + 'require'.length,
+                    },
+                  },
+                },
+                arguments:
+                  'expression' in moduleReference
+                    ? [moduleReference.expression]
+                    : [],
+
+                // location data
+                range: moduleReference.range,
+                loc: moduleReference.loc,
+              },
+            } as Tree.VariableDeclarator,
+          ],
+          declare: false,
+
+          // location data
+          parent: node.parent,
+          range: node.range,
+          loc: node.loc,
+        })
+      },
+
+      TSIndexedAccessType(node: Tree.TSIndexedAccessType) {
+        // convert to a MemberExpression
+        return baseOffsetListeners.MemberExpression!({
+          type: AST_NODE_TYPES.MemberExpression,
+          object: node.objectType as any,
+          property: node.indexType as any,
+
+          // location data
+          parent: node.parent,
+          range: node.range,
+          loc: node.loc,
+          optional: false,
+          computed: true,
+        })
+      },
+
+      TSInterfaceBody(node: Tree.TSInterfaceBody) {
+        // transform it to an ClassBody
+        return baseOffsetListeners.ClassBody!({
+          type: AST_NODE_TYPES.ClassBody,
+          body: node.body.map(
+            p =>
+              TSPropertySignatureToProperty(
+                p,
+                AST_NODE_TYPES.PropertyDefinition,
+              ) as Tree.PropertyDefinition,
+          ),
+
+          // location data
+          parent: node.parent,
+          range: node.range,
+          loc: node.loc,
+        })
+      },
+
+      'TSInterfaceDeclaration[extends.length > 0]': function (
+        node: Tree.TSInterfaceDeclaration,
+      ) {
+        // transform it to a ClassDeclaration
+        return baseOffsetListeners.ClassDeclaration!({
+          type: AST_NODE_TYPES.ClassDeclaration,
+          body: node.body as any,
+          id: null,
+          // TODO: This is invalid, there can be more than one extends in interface
+          superClass: node.extends[0].expression as any,
+          abstract: false,
+          declare: false,
+          decorators: [],
+          implements: [],
+          superTypeArguments: undefined,
+          superTypeParameters: undefined,
+          typeParameters: undefined,
+
+          // location data
+          parent: node.parent,
+          range: node.range,
+          loc: node.loc,
+        } as Tree.ClassDeclaration,
+        )
+      },
+
+      TSMappedType(node: Tree.TSMappedType) {
+        const sourceCode = context.sourceCode
+
+        const squareBracketStart = sourceCode.getTokenBefore(
+          node.constraint || node.typeParameter,
+        )!
+
+        // transform it to an ObjectExpression
+        return baseOffsetListeners.ObjectExpression!({
+          type: AST_NODE_TYPES.ObjectExpression,
+          properties: [
+            {
+              parent: node,
+              type: AST_NODE_TYPES.Property,
+              key: node.key || node.typeParameter as any,
+              value: node.typeAnnotation as any,
+
+              // location data
+              range: [
+                squareBracketStart.range[0],
+                node.typeAnnotation
+                  ? node.typeAnnotation.range[1]
+                  : squareBracketStart.range[0],
+              ],
+              loc: {
+                start: squareBracketStart.loc.start,
+                end: node.typeAnnotation
+                  ? node.typeAnnotation.loc.end
+                  : squareBracketStart.loc.end,
+              },
+              kind: 'init' as const,
+              computed: false,
+              method: false,
+              optional: false,
+              shorthand: false,
+            },
+          ],
+
+          // location data
+          parent: node.parent,
+          range: node.range,
+          loc: node.loc,
+        })
+      },
+
+      TSModuleBlock(node: Tree.TSModuleBlock) {
+        // transform it to a BlockStatement
+        return baseOffsetListeners.BlockStatement!({
+          type: AST_NODE_TYPES.BlockStatement,
+          body: node.body as any,
+
+          // location data
+          parent: node.parent,
+          range: node.range,
+          loc: node.loc,
+        })
+      },
+
+      TSQualifiedName(node: Tree.TSQualifiedName) {
+        // transform it to an MemberExpression
+        return baseOffsetListeners.MemberExpression!({
+          type: AST_NODE_TYPES.MemberExpression,
+          object: node.left as any,
+          property: node.right as any,
+
+          // location data
+          parent: node.parent,
+          range: node.range,
+          loc: node.loc,
+          optional: false,
+          computed: false,
+        })
+      },
+
+      TSTupleType(node: Tree.TSTupleType) {
+        // transform it to an ArrayExpression
+        return baseOffsetListeners.ArrayExpression!({
+          type: AST_NODE_TYPES.ArrayExpression,
+          elements: node.elementTypes as any,
+
+          // location data
+          parent: node.parent,
+          range: node.range,
+          loc: node.loc,
+        })
+      },
+
+      TSTypeParameterDeclaration(node: Tree.TSTypeParameterDeclaration) {
+        if (!node.params.length)
+          return
+
+        const [name, ...attributes] = node.params
+
+        // JSX is about the closest we can get because the angle brackets
+        // it's not perfect but it works!
+        return baseOffsetListeners.JSXOpeningElement!({
+          type: AST_NODE_TYPES.JSXOpeningElement,
+          selfClosing: false,
+          name: name as any,
+          attributes: attributes as any,
+          typeArguments: undefined,
+
+          // location data
+          parent: node.parent,
+          range: node.range,
+          loc: node.loc,
+        })
+      },
+
+      TSTypeParameterInstantiation(node: Tree.TSTypeParameterInstantiation) {
+        if (!node.params.length)
+          return
+
+        const [name, ...attributes] = node.params
+
+        // JSX is about the closest we can get because the angle brackets
+        // it's not perfect but it works!
+        return baseOffsetListeners.JSXOpeningElement!({
+          type: AST_NODE_TYPES.JSXOpeningElement,
+          selfClosing: false,
+          name: name as any,
+          attributes: attributes as any,
+          typeArguments: undefined,
+
+          // location data
+          parent: node.parent,
+          range: node.range,
+          loc: node.loc,
+        })
       },
 
       'JSXAttribute[value]': function (node: Tree.JSXAttribute) {
@@ -1682,6 +2140,59 @@ export default createRule<MessageIds, RuleOptions>({
       (listeners, ignoredSelector) => Object.assign(listeners, { [ignoredSelector]: addToIgnoredNodes }),
       {},
     )
+
+    /**
+     * Converts from a TSPropertySignature to a Property
+     * @param node a TSPropertySignature node
+     * @param [type] the type to give the new node
+     * @returns a Property node
+     */
+    function TSPropertySignatureToProperty(
+      node:
+        | Tree.TSEnumMember
+        | Tree.TSPropertySignature
+        | Tree.TypeElement,
+      type:
+        | AST_NODE_TYPES.Property
+        | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
+    ): ASTNode | null {
+      const base = {
+        // indent doesn't actually use these
+        key: null as any,
+        value: null as any,
+
+        // Property flags
+        computed: false,
+        method: false,
+        kind: 'init',
+        // this will stop eslint from interrogating the type literal
+        shorthand: true,
+
+        // location data
+        parent: node.parent,
+        range: node.range,
+        loc: node.loc,
+      }
+      if (type === AST_NODE_TYPES.Property) {
+        return {
+          type,
+          ...base,
+        } as Tree.Property
+      }
+      return {
+        type,
+        accessibility: undefined,
+        declare: false,
+        decorators: [],
+        definite: false,
+        optional: false,
+        override: false,
+        readonly: false,
+        static: false,
+        typeAnnotation: undefined,
+        ...base,
+      } as Tree.PropertyDefinition
+    }
 
     // JSXText
     function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {

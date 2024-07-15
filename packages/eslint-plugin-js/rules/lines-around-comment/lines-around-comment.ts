@@ -3,9 +3,11 @@
  * @author Jamund Ferguson
  */
 
-import type { ASTNode, NodeTypes, Token } from '@shared/types'
-import { COMMENTS_IGNORE_PATTERN, isCommentToken, isOpeningBraceToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import type { ASTNode, NodeTypes, Token, Tree } from '@shared/types'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
+import { isCommentToken, isOpeningBraceToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
+import { COMMENTS_IGNORE_PATTERN } from '../../utils/ast-utils'
+import { createTSRule } from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 /**
@@ -39,17 +41,14 @@ function getCommentLineNums(comments: Token[]) {
   return lines
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'lines-around-comment',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require empty lines around comments',
-      url: 'https://eslint.style/rules/js/lines-around-comment',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'object',
@@ -96,6 +95,30 @@ export default createRule<MessageIds, RuleOptions>({
           allowArrayEnd: {
             type: 'boolean',
           },
+          allowInterfaceStart: {
+            type: 'boolean',
+          },
+          allowInterfaceEnd: {
+            type: 'boolean',
+          },
+          allowTypeStart: {
+            type: 'boolean',
+          },
+          allowTypeEnd: {
+            type: 'boolean',
+          },
+          allowEnumStart: {
+            type: 'boolean',
+          },
+          allowEnumEnd: {
+            type: 'boolean',
+          },
+          allowModuleStart: {
+            type: 'boolean',
+          },
+          allowModuleEnd: {
+            type: 'boolean',
+          },
           ignorePattern: {
             type: 'string',
           },
@@ -104,7 +127,6 @@ export default createRule<MessageIds, RuleOptions>({
           },
           afterHashbangComment: {
             type: 'boolean',
-            default: false,
           },
         },
         additionalProperties: false,
@@ -115,15 +137,16 @@ export default createRule<MessageIds, RuleOptions>({
       before: 'Expected line before comment.',
     },
   },
+  defaultOptions: [
+    {
+      beforeBlockComment: true,
+    },
+  ],
 
-  create(context) {
-    const options = Object.assign({}, context.options[0])
-    const ignorePattern = options.ignorePattern
+  create(context, [_options]) {
+    const options = _options!
     const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN
-    const customIgnoreRegExp = ignorePattern && new RegExp(ignorePattern, 'u')
-    const applyDefaultIgnorePatterns = options.applyDefaultIgnorePatterns !== false
-
-    options.beforeBlockComment = typeof options.beforeBlockComment !== 'undefined' ? options.beforeBlockComment : true
+    const customIgnoreRegExp = new RegExp(options.ignorePattern ?? '', 'u')
 
     const sourceCode = context.sourceCode
 
@@ -200,7 +223,7 @@ export default createRule<MessageIds, RuleOptions>({
        *   }
        *
        */
-      if (node && node.type === 'StaticBlock') {
+      if (node && node.type === AST_NODE_TYPES.StaticBlock) {
         const openingBrace = sourceCode.getFirstToken(node, { skip: 1 }) // skip the `static` token
 
         return openingBrace && token.range[0] >= openingBrace.range[0]
@@ -217,16 +240,16 @@ export default createRule<MessageIds, RuleOptions>({
      * @param nodeType The parent type to check against.
      * @returns True if the comment is at parent start.
      */
-    function isCommentAtParentStart(token: Token, nodeType: NodeTypes) {
+    function isCommentAtParentStart(token: Tree.Comment, nodeType: Tree.AST_NODE_TYPES) {
       const parent = getParentNodeOfToken(token)
 
       if (parent && isParentNodeType(parent, nodeType)) {
         let parentStartNodeOrToken: Token | ASTNode | null = parent
 
-        if (parent.type === 'StaticBlock') {
+        if (parent.type === AST_NODE_TYPES.StaticBlock) {
           parentStartNodeOrToken = sourceCode.getFirstToken(parent, { skip: 1 }) // opening brace of the static block
         }
-        else if (parent.type === 'SwitchStatement') {
+        else if (parent.type === AST_NODE_TYPES.SwitchStatement) {
           parentStartNodeOrToken = sourceCode.getTokenAfter(parent.discriminant, {
             filter: isOpeningBraceToken,
           }) // opening brace of the switch statement
@@ -244,7 +267,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @param nodeType The parent type to check against.
      * @returns True if the comment is at parent end.
      */
-    function isCommentAtParentEnd(token: Token, nodeType: NodeTypes) {
+    function isCommentAtParentEnd(token: Tree.Comment, nodeType: NodeTypes) {
       const parent = getParentNodeOfToken(token)
 
       return !!parent && isParentNodeType(parent, nodeType)
@@ -256,13 +279,13 @@ export default createRule<MessageIds, RuleOptions>({
      * @param token The Comment token.
      * @returns True if the comment is at block start.
      */
-    function isCommentAtBlockStart(token: Token) {
+    function isCommentAtBlockStart(token: Tree.Comment) {
       return (
-        isCommentAtParentStart(token, 'ClassBody')
-        || isCommentAtParentStart(token, 'BlockStatement')
-        || isCommentAtParentStart(token, 'StaticBlock')
-        || isCommentAtParentStart(token, 'SwitchCase')
-        || isCommentAtParentStart(token, 'SwitchStatement')
+        isCommentAtParentStart(token, AST_NODE_TYPES.ClassBody)
+        || isCommentAtParentStart(token, AST_NODE_TYPES.BlockStatement)
+        || isCommentAtParentStart(token, AST_NODE_TYPES.StaticBlock)
+        || isCommentAtParentStart(token, AST_NODE_TYPES.SwitchCase)
+        || isCommentAtParentStart(token, AST_NODE_TYPES.SwitchStatement)
       )
     }
 
@@ -271,13 +294,13 @@ export default createRule<MessageIds, RuleOptions>({
      * @param token The Comment token.
      * @returns True if the comment is at block end.
      */
-    function isCommentAtBlockEnd(token: Token) {
+    function isCommentAtBlockEnd(token: Tree.Comment) {
       return (
-        isCommentAtParentEnd(token, 'ClassBody')
-        || isCommentAtParentEnd(token, 'BlockStatement')
-        || isCommentAtParentEnd(token, 'StaticBlock')
-        || isCommentAtParentEnd(token, 'SwitchCase')
-        || isCommentAtParentEnd(token, 'SwitchStatement')
+        isCommentAtParentEnd(token, AST_NODE_TYPES.ClassBody)
+        || isCommentAtParentEnd(token, AST_NODE_TYPES.BlockStatement)
+        || isCommentAtParentEnd(token, AST_NODE_TYPES.StaticBlock)
+        || isCommentAtParentEnd(token, AST_NODE_TYPES.SwitchCase)
+        || isCommentAtParentEnd(token, AST_NODE_TYPES.SwitchStatement)
       )
     }
 
@@ -286,8 +309,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @param token The Comment token.
      * @returns True if the comment is at class start.
      */
-    function isCommentAtClassStart(token: Token) {
-      return isCommentAtParentStart(token, 'ClassBody')
+    function isCommentAtClassStart(token: Tree.Comment) {
+      return isCommentAtParentStart(token, AST_NODE_TYPES.ClassBody)
     }
 
     /**
@@ -295,8 +318,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @param token The Comment token.
      * @returns True if the comment is at class end.
      */
-    function isCommentAtClassEnd(token: Token) {
-      return isCommentAtParentEnd(token, 'ClassBody')
+    function isCommentAtClassEnd(token: Tree.Comment) {
+      return isCommentAtParentEnd(token, AST_NODE_TYPES.ClassBody)
     }
 
     /**
@@ -304,9 +327,9 @@ export default createRule<MessageIds, RuleOptions>({
      * @param token The Comment token.
      * @returns True if the comment is at object start.
      */
-    function isCommentAtObjectStart(token: Token) {
-      return isCommentAtParentStart(token, 'ObjectExpression')
-        || isCommentAtParentStart(token, 'ObjectPattern')
+    function isCommentAtObjectStart(token: Tree.Comment) {
+      return isCommentAtParentStart(token, AST_NODE_TYPES.ObjectExpression)
+        || isCommentAtParentStart(token, AST_NODE_TYPES.ObjectPattern)
     }
 
     /**
@@ -314,9 +337,9 @@ export default createRule<MessageIds, RuleOptions>({
      * @param token The Comment token.
      * @returns True if the comment is at object end.
      */
-    function isCommentAtObjectEnd(token: Token) {
-      return isCommentAtParentEnd(token, 'ObjectExpression')
-        || isCommentAtParentEnd(token, 'ObjectPattern')
+    function isCommentAtObjectEnd(token: Tree.Comment) {
+      return isCommentAtParentEnd(token, AST_NODE_TYPES.ObjectExpression)
+        || isCommentAtParentEnd(token, AST_NODE_TYPES.ObjectPattern)
     }
 
     /**
@@ -324,9 +347,9 @@ export default createRule<MessageIds, RuleOptions>({
      * @param token The Comment token.
      * @returns True if the comment is at array start.
      */
-    function isCommentAtArrayStart(token: Token) {
-      return isCommentAtParentStart(token, 'ArrayExpression')
-        || isCommentAtParentStart(token, 'ArrayPattern')
+    function isCommentAtArrayStart(token: Tree.Comment) {
+      return isCommentAtParentStart(token, AST_NODE_TYPES.ArrayExpression)
+        || isCommentAtParentStart(token, AST_NODE_TYPES.ArrayPattern)
     }
 
     /**
@@ -334,9 +357,41 @@ export default createRule<MessageIds, RuleOptions>({
      * @param token The Comment token.
      * @returns True if the comment is at array end.
      */
-    function isCommentAtArrayEnd(token: Token) {
-      return isCommentAtParentEnd(token, 'ArrayExpression')
-        || isCommentAtParentEnd(token, 'ArrayPattern')
+    function isCommentAtArrayEnd(token: Tree.Comment) {
+      return isCommentAtParentEnd(token, AST_NODE_TYPES.ArrayExpression)
+        || isCommentAtParentEnd(token, AST_NODE_TYPES.ArrayPattern)
+    }
+
+    function isCommentAtInterfaceStart(token: Tree.Comment): boolean {
+      return isCommentAtParentStart(token, AST_NODE_TYPES.TSInterfaceBody)
+    }
+
+    function isCommentAtInterfaceEnd(token: Tree.Comment): boolean {
+      return isCommentAtParentEnd(token, AST_NODE_TYPES.TSInterfaceBody)
+    }
+
+    function isCommentAtTypeStart(token: Tree.Comment): boolean {
+      return isCommentAtParentStart(token, AST_NODE_TYPES.TSTypeLiteral)
+    }
+
+    function isCommentAtTypeEnd(token: Tree.Comment): boolean {
+      return isCommentAtParentEnd(token, AST_NODE_TYPES.TSTypeLiteral)
+    }
+
+    function isCommentAtEnumStart(token: Tree.Comment): boolean {
+      return isCommentAtParentStart(token, AST_NODE_TYPES.TSEnumBody) || isCommentAtParentStart(token, AST_NODE_TYPES.TSEnumDeclaration)
+    }
+
+    function isCommentAtEnumEnd(token: Tree.Comment): boolean {
+      return isCommentAtParentEnd(token, AST_NODE_TYPES.TSEnumBody) || isCommentAtParentEnd(token, AST_NODE_TYPES.TSEnumDeclaration)
+    }
+
+    function isCommentAtModuleStart(token: Tree.Comment): boolean {
+      return isCommentAtParentStart(token, AST_NODE_TYPES.TSModuleBlock)
+    }
+
+    function isCommentAtModuleEnd(token: Tree.Comment): boolean {
+      return isCommentAtParentEnd(token, AST_NODE_TYPES.TSModuleBlock)
     }
 
     interface BeforAndAfter {
@@ -351,19 +406,23 @@ export default createRule<MessageIds, RuleOptions>({
      * @param opts.after Should have a newline after this line.
      * @param opts.before Should have a newline before this line.
      */
-    function checkForEmptyLine(token: Token, opts: BeforAndAfter) {
-      if (applyDefaultIgnorePatterns && defaultIgnoreRegExp.test(token.value))
+    function checkForEmptyLine(token: Tree.Comment, { before, after }: BeforAndAfter) {
+      if (
+        options.applyDefaultIgnorePatterns !== false
+        && defaultIgnoreRegExp.test(token.value)
+      ) {
+        return
+      }
+
+      if (options.ignorePattern && customIgnoreRegExp.test(token.value))
         return
 
-      if (customIgnoreRegExp && customIgnoreRegExp.test(token.value))
+      // we ignore all inline comments
+      if (codeAroundComment(token))
         return
-
-      let after = opts.after
-      let before = opts.before
 
       const prevLineNum = token.loc.start.line - 1
       const nextLineNum = token.loc.end.line + 1
-      const commentIsNotAlone = codeAroundComment(token)
 
       const blockStartAllowed = options.allowBlockStart
         && isCommentAtBlockStart(token)
@@ -376,9 +435,31 @@ export default createRule<MessageIds, RuleOptions>({
       const objectEndAllowed = options.allowObjectEnd && isCommentAtObjectEnd(token)
       const arrayStartAllowed = options.allowArrayStart && isCommentAtArrayStart(token)
       const arrayEndAllowed = options.allowArrayEnd && isCommentAtArrayEnd(token)
+      const interfaceStartAllowed = options.allowInterfaceStart && isCommentAtInterfaceStart(token)
+      const interfaceEndAllowed = options.allowInterfaceEnd && isCommentAtInterfaceEnd(token)
+      const typeStartAllowed = options.allowTypeStart && isCommentAtTypeStart(token)
+      const typeEndAllowed = options.allowTypeEnd && isCommentAtTypeEnd(token)
+      const enumStartAllowed = options.allowEnumStart && isCommentAtEnumStart(token)
+      const enumEndAllowed = options.allowEnumEnd && isCommentAtEnumEnd(token)
+      const moduleStartAllowed = options.allowModuleStart && isCommentAtModuleStart(token)
+      const moduleEndAllowed = options.allowModuleEnd && isCommentAtModuleEnd(token)
 
-      const exceptionStartAllowed = blockStartAllowed || classStartAllowed || objectStartAllowed || arrayStartAllowed
-      const exceptionEndAllowed = blockEndAllowed || classEndAllowed || objectEndAllowed || arrayEndAllowed
+      const exceptionStartAllowed = blockStartAllowed
+        || classStartAllowed
+        || objectStartAllowed
+        || arrayStartAllowed
+        || interfaceStartAllowed
+        || typeStartAllowed
+        || enumStartAllowed
+        || moduleStartAllowed
+      const exceptionEndAllowed = blockEndAllowed
+        || classEndAllowed
+        || objectEndAllowed
+        || arrayEndAllowed
+        || interfaceEndAllowed
+        || typeEndAllowed
+        || enumEndAllowed
+        || moduleEndAllowed
 
       // ignore top of the file and bottom of the file
       if (prevLineNum < 1)
@@ -387,16 +468,19 @@ export default createRule<MessageIds, RuleOptions>({
       if (nextLineNum >= numLines)
         after = false
 
-      // we ignore all inline comments
-      if (commentIsNotAlone)
-        return
-
       const previousTokenOrComment = sourceCode.getTokenBefore(token, { includeComments: true })
       const nextTokenOrComment = sourceCode.getTokenAfter(token, { includeComments: true })
 
       // check for newline before
-      if (!exceptionStartAllowed && before && !commentAndEmptyLines.has(prevLineNum)
-        && !(isCommentToken(previousTokenOrComment) && isTokenOnSameLine(previousTokenOrComment, token))) {
+      if (
+        !exceptionStartAllowed
+        && before
+        && !commentAndEmptyLines.has(prevLineNum)
+        && !(
+          isCommentToken(previousTokenOrComment!)
+          && isTokenOnSameLine(previousTokenOrComment, token)
+        )
+      ) {
         const lineStart = token.range[0] - token.loc.start.column
         const range = [lineStart, lineStart] as const
 
@@ -410,8 +494,15 @@ export default createRule<MessageIds, RuleOptions>({
       }
 
       // check for newline after
-      if (!exceptionEndAllowed && after && !commentAndEmptyLines.has(nextLineNum)
-        && !(isCommentToken(nextTokenOrComment) && isTokenOnSameLine(token, nextTokenOrComment))) {
+      if (
+        !exceptionEndAllowed
+        && after
+        && !commentAndEmptyLines.has(nextLineNum)
+        && !(
+          isCommentToken(nextTokenOrComment!)
+          && isTokenOnSameLine(token, nextTokenOrComment)
+        )
+      ) {
         context.report({
           node: token,
           messageId: 'after',
@@ -425,7 +516,7 @@ export default createRule<MessageIds, RuleOptions>({
     return {
       Program() {
         comments.forEach((token) => {
-          if (token.type === 'Line') {
+          if (token.type === AST_TOKEN_TYPES.Line) {
             if (options.beforeLineComment || options.afterLineComment) {
               checkForEmptyLine(token, {
                 after: options.afterLineComment,
@@ -433,7 +524,7 @@ export default createRule<MessageIds, RuleOptions>({
               })
             }
           }
-          else if (token.type === 'Block') {
+          else if (token.type === AST_TOKEN_TYPES.Block) {
             if (options.beforeBlockComment || options.afterBlockComment) {
               checkForEmptyLine(token, {
                 after: options.afterBlockComment,

@@ -14,6 +14,8 @@ This rule permits you to restrict the locations of property specifications in ob
 
 ## Rule Details
 
+This rule adds support for TypeScript's object types.
+
 ### Motivations
 
 This rule makes it possible to ensure, as some style guides require, that property specifications appear on separate lines for better readability. For example, you can prohibit all of these:

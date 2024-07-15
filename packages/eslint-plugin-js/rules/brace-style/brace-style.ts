@@ -3,23 +3,21 @@
  * @author Ian Christian Myers
  */
 
-import type { ReportFixFunction, Token } from '@shared/types'
+import type { ReportFixFunction, Token, Tree } from '@shared/types'
 import {
   STATEMENT_LIST_PARENTS,
   isTokenOnSameLine,
 } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createTSRule } from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'brace-style',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent brace style for blocks',
-      url: 'https://eslint.style/rules/js/brace-style',
     },
-
     schema: [
       {
         type: 'string',
@@ -36,9 +34,7 @@ export default createRule<MessageIds, RuleOptions>({
         additionalProperties: false,
       },
     ],
-
     fixable: 'whitespace',
-
     messages: {
       nextLineOpen: 'Opening curly brace does not appear on the same line as controlling statement.',
       sameLineOpen: 'Opening curly brace appears on the same line as controlling statement.',
@@ -48,10 +44,11 @@ export default createRule<MessageIds, RuleOptions>({
       sameLineClose: 'Closing curly brace appears on the same line as the subsequent block.',
     },
   },
+  defaultOptions: ['1tbs', { allowSingleLine: false }],
+  create(context, options) {
+    const [style, { allowSingleLine } = { allowSingleLine: false }] = options
 
-  create(context) {
-    const style = context.options[0] || '1tbs'
-    const params = context.options[1] || {}
+    const isAllmanStyle = style === 'allman'
     const sourceCode = context.sourceCode
 
     /**
@@ -80,9 +77,12 @@ export default createRule<MessageIds, RuleOptions>({
       const tokenBeforeOpeningCurly = sourceCode.getTokenBefore(openingCurly)!
       const tokenAfterOpeningCurly = sourceCode.getTokenAfter(openingCurly)!
       const tokenBeforeClosingCurly = sourceCode.getTokenBefore(closingCurly)!
-      const singleLineException = params.allowSingleLine && isTokenOnSameLine(openingCurly, closingCurly)
+      const singleLineException = allowSingleLine && isTokenOnSameLine(openingCurly, closingCurly)
 
-      if (style !== 'allman' && !isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly)) {
+      if (
+        !isAllmanStyle
+        && !isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly)
+      ) {
         context.report({
           node: openingCurly,
           messageId: 'nextLineOpen',
@@ -93,7 +93,11 @@ export default createRule<MessageIds, RuleOptions>({
         })
       }
 
-      if (style === 'allman' && isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly) && !singleLineException) {
+      if (
+        isAllmanStyle
+        && isTokenOnSameLine(tokenBeforeOpeningCurly, openingCurly)
+        && !singleLineException
+      ) {
         context.report({
           node: openingCurly,
           messageId: 'sameLineOpen',
@@ -101,7 +105,10 @@ export default createRule<MessageIds, RuleOptions>({
         })
       }
 
-      if (isTokenOnSameLine(openingCurly, tokenAfterOpeningCurly) && tokenAfterOpeningCurly !== closingCurly && !singleLineException) {
+      if (
+        isTokenOnSameLine(openingCurly, tokenAfterOpeningCurly)
+        && tokenAfterOpeningCurly !== closingCurly
+        && !singleLineException) {
         context.report({
           node: openingCurly,
           messageId: 'blockSameLine',
@@ -109,7 +116,11 @@ export default createRule<MessageIds, RuleOptions>({
         })
       }
 
-      if (tokenBeforeClosingCurly !== openingCurly && !singleLineException && isTokenOnSameLine(tokenBeforeClosingCurly, closingCurly)) {
+      if (
+        tokenBeforeClosingCurly !== openingCurly
+        && !singleLineException
+        && isTokenOnSameLine(tokenBeforeClosingCurly, closingCurly)
+      ) {
         context.report({
           node: closingCurly,
           messageId: 'singleLineClose',
@@ -176,6 +187,23 @@ export default createRule<MessageIds, RuleOptions>({
           // Handle the keyword after the `catch` block (before `finally`)
           validateCurlyBeforeKeyword(sourceCode.getLastToken(node.handler.body)!)
         }
+      },
+      'TSInterfaceBody, TSModuleBlock': function (
+        node: Tree.TSInterfaceBody | Tree.TSModuleBlock,
+      ) {
+        const openingCurly = sourceCode.getFirstToken(node)!
+        const closingCurly = sourceCode.getLastToken(node)!
+
+        validateCurlyPair(openingCurly, closingCurly)
+      },
+      TSEnumDeclaration(node) {
+        const closingCurly = sourceCode.getLastToken(node)!
+        const members = node.body.members || node.members
+        const openingCurly = sourceCode.getTokenBefore(
+          members.length ? members[0] : closingCurly,
+        )!
+
+        validateCurlyPair(openingCurly, closingCurly)
       },
     }
   },

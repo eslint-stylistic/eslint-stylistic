@@ -6,6 +6,7 @@
 import type * as ESTree from 'estree'
 import type { ASTNode, ESNode, Token, Tree } from '@shared/types'
 import type { TSESLint } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 
 // @ts-expect-error missing types
@@ -184,7 +185,7 @@ export function getStaticPropertyName(node: ASTNode) {
  * @returns The `ChainExpression#expression` value if the node is a `ChainExpression` node. Otherwise, the node.
  */
 export function skipChainExpression(node: ASTNode) {
-  return node && node.type === 'ChainExpression' ? node.expression : node
+  return node && node.type === AST_NODE_TYPES.ChainExpression ? node.expression : node
 }
 
 /**
@@ -237,15 +238,6 @@ export function isArrowToken(token: Token) {
  */
 export function isCommaToken(token: Token) {
   return token.value === ',' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a `?.` token or not.
- * @param token The token to check.
- * @returns `true` if the token is a `?.` token.
- */
-export function isQuestionDotToken(token: Token) {
-  return token.value === '?.' && token.type === 'Punctuator'
 }
 
 /**
@@ -440,7 +432,6 @@ export function isTokenOnSameLine(left: Token | ESNode | ASTNode | null, right: 
 
 export const isNotClosingParenToken = negate(isClosingParenToken)
 export const isNotCommaToken = negate(isCommaToken)
-export const isNotQuestionDotToken = negate(isQuestionDotToken)
 export const isNotOpeningParenToken = negate(isOpeningParenToken)
 export const isNotSemicolonToken = negate(isSemicolonToken)
 

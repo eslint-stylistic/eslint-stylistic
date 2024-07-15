@@ -12,6 +12,8 @@ related_rules:
 
 This rule enforces consistent spacing inside an open block token and the next token on the same line. This rule also enforces consistent spacing inside a close block token and previous token on the same line.
 
+This rule adds support for TypeScript related blocks (interfaces, object type literals and enums).
+
 ## Options
 
 This rule has a string option:

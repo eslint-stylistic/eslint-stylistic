@@ -5,27 +5,24 @@
 
 import type { ASTNode, Token } from '@shared/types'
 import { isClosingBraceToken, isSemicolonToken, isTopLevelExpressionStatement } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createTSRule } from '../../utils/createRule'
 import FixTracker from '../../utils/fix-tracker'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule< RuleOptions, MessageIds>({
+  name: 'no-extra-semi',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow unnecessary semicolons',
-      url: 'https://eslint.style/rules/js/no-extra-semi',
     },
-
     fixable: 'code',
     schema: [],
-
     messages: {
       unexpected: 'Unnecessary semicolon.',
     },
   },
-
+  defaultOptions: [],
   create(context) {
     const sourceCode = context.sourceCode
 
@@ -117,6 +114,9 @@ export default createRule<MessageIds, RuleOptions>({
        * @param node A MethodDefinition node of the start point.
        */
       'MethodDefinition, PropertyDefinition, StaticBlock': function (node: ASTNode) {
+        checkForPartOfClassBody(sourceCode.getTokenAfter(node)!)
+      },
+      'TSAbstractMethodDefinition, TSAbstractPropertyDefinition': function (node: never): void {
         checkForPartOfClassBody(sourceCode.getTokenAfter(node)!)
       },
     }

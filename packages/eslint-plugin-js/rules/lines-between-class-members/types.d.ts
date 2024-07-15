@@ -21,6 +21,7 @@ export type Schema0 =
   | ('always' | 'never')
 
 export interface Schema1 {
+  exceptAfterOverload?: boolean
   exceptAfterSingleLine?: boolean
 }
 

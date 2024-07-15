@@ -4,8 +4,9 @@
  */
 
 import type { ASTNode, Tree } from '@shared/types'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { LINEBREAKS, hasOctalOrNonOctalDecimalEscapeSequence, isParenthesised, isSurroundedBy, isTopLevelExpressionStatement } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createTSRule } from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 /**
@@ -65,17 +66,14 @@ const UNESCAPED_LINEBREAK_PATTERN = new RegExp(String.raw`(^|[^\\])(\\\\)*[${Arr
 const AVOID_ESCAPE = 'avoid-escape'
 
 /** @type {import('eslint').Rule.RuleModule} */
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'quotes',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce the consistent use of either backticks, double, or single quotes',
-      url: 'https://eslint.style/rules/js/quotes',
     },
-
     fixable: 'code',
-
     schema: [
       {
         type: 'string',
@@ -105,16 +103,20 @@ export default createRule<MessageIds, RuleOptions>({
         ],
       },
     ],
-
     messages: {
       wrongQuotes: 'Strings must use {{description}}.',
     },
   },
-
-  create(context) {
-    const quoteOption = context.options[0]
+  defaultOptions: [
+    'double',
+    {
+      allowTemplateLiterals: false,
+      avoidEscape: false,
+      ignoreStringLiterals: false,
+    },
+  ],
+  create(context, [quoteOption, options]) {
     const settings = QUOTE_SETTINGS[quoteOption || 'double']
-    const options = context.options[1]
     const allowTemplateLiterals = options && typeof (options) === 'object' && options.allowTemplateLiterals === true
     const ignoreStringLiterals = options && typeof (options) === 'object' && options.ignoreStringLiterals === true
     const sourceCode = context.sourceCode
@@ -217,30 +219,43 @@ export default createRule<MessageIds, RuleOptions>({
           return !isParenthesised(sourceCode, node) && isExpressionInOrJustAfterDirectivePrologue(node)
 
           // LiteralPropertyName.
-        case 'Property':
-        case 'PropertyDefinition':
-        case 'MethodDefinition':
+        case AST_NODE_TYPES.Property:
+        case AST_NODE_TYPES.PropertyDefinition:
+        case AST_NODE_TYPES.MethodDefinition:
           return parent.key === node && !parent.computed
 
           // ModuleSpecifier.
-        case 'ImportDeclaration':
-        case 'ExportNamedDeclaration':
+        case AST_NODE_TYPES.ImportDeclaration:
+        case AST_NODE_TYPES.ExportNamedDeclaration:
           return parent.source === node
 
           // ModuleExportName or ModuleSpecifier.
-        case 'ExportAllDeclaration':
+        case AST_NODE_TYPES.ExportAllDeclaration:
           return parent.exported === node || parent.source === node
 
           // ModuleExportName.
-        case 'ImportSpecifier':
+        case AST_NODE_TYPES.ImportSpecifier:
           return parent.imported === node
 
           // ModuleExportName.
-        case 'ExportSpecifier':
+        case AST_NODE_TYPES.ExportSpecifier:
           return parent.local === node || parent.exported === node
 
-        case 'ImportAttribute':
+        case AST_NODE_TYPES.ImportAttribute:
           return parent.value === node
+
+        case AST_NODE_TYPES.TSAbstractMethodDefinition:
+        case AST_NODE_TYPES.TSMethodSignature:
+        case AST_NODE_TYPES.TSPropertySignature:
+        case AST_NODE_TYPES.TSModuleDeclaration:
+        case AST_NODE_TYPES.TSExternalModuleReference:
+          return true
+
+        case AST_NODE_TYPES.TSEnumMember:
+          return node === parent.id
+
+        case AST_NODE_TYPES.TSAbstractPropertyDefinition:
+          return node === parent.key
 
           // Others don't allow.
         default:

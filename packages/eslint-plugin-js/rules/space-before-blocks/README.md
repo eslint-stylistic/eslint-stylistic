@@ -24,6 +24,8 @@ This rule will enforce consistency of spacing before blocks. It is only applied 
 - This rule ignores spacing which is between a keyword and a block. The spacing is handled by the `keyword-spacing` rule.
 - This rule ignores spacing which is between `:` of a switch case and a block. The spacing is handled by the `switch-colon-spacing` rule.
 
+This rule adds support for interfaces and enums.
+
 ## Options
 
 This rule takes one argument. If it is `"always"` then blocks must always have at least one preceding space. If `"never"`
@@ -34,6 +36,8 @@ configure the cases separately. If any value in the configuration object is `"of
 ( e.g. `{ "functions": "never", "keywords": "always", "classes": "always" }` )
 
 The default is `"always"`.
+
+In case a more specific options object is passed interfaces and enums will follow `classes` configuration option.
 
 ### "always"
 
@@ -58,6 +62,18 @@ try {} catch(a){}
 
 class Foo{
   constructor(){}
+}
+```
+
+```ts
+/*eslint space-before-blocks: "error"*/
+
+enum Breakpoint{
+  Large, Medium;
+}
+
+interface State{
+  currentBreakpoint: Breakpoint;
 }
 ```
 
@@ -91,6 +107,18 @@ for (;;) {
 }
 
 try {} catch(a) {}
+```
+
+```ts
+/*eslint space-before-blocks: "error"*/
+
+enum Breakpoint {
+  Large, Medium;
+}
+
+interface State {
+  currentBreakpoint: Breakpoint;
+}
 ```
 
 :::

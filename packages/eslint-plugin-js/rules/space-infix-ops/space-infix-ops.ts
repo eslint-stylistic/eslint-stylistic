@@ -4,21 +4,21 @@
  */
 
 import type { ASTNode, Token, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { isEqToken } from '../../utils/ast-utils'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
+import { isNotOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
+import { createTSRule } from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+const UNIONS = ['|', '&']
+
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'space-infix-ops',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require spacing around infix operators',
-      url: 'https://eslint.style/rules/js/space-infix-ops',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'object',
@@ -31,11 +31,15 @@ export default createRule<MessageIds, RuleOptions>({
         additionalProperties: false,
       },
     ],
-
     messages: {
       missingSpace: 'Operator \'{{operator}}\' must be spaced.',
     },
   },
+  defaultOptions: [
+    {
+      int32Hint: false,
+    },
+  ],
 
   create(context) {
     const int32Hint = context.options[0] ? context.options[0].int32Hint === true : false
@@ -151,6 +155,112 @@ export default createRule<MessageIds, RuleOptions>({
       }
     }
 
+    function isSpaceChar(token: Token): boolean {
+      return (
+        token.type === AST_TOKEN_TYPES.Punctuator && /^[=?:]$/.test(token.value)
+      )
+    }
+
+    function checkAndReportAssignmentSpace(
+      node: ASTNode,
+      leftNode: ASTNode | Token | null,
+      rightNode?: ASTNode | Token | null,
+    ): void {
+      if (!rightNode || !leftNode)
+        return
+
+      const operator = sourceCode.getFirstTokenBetween(
+        leftNode,
+        rightNode,
+        isSpaceChar,
+      )!
+
+      const prev = sourceCode.getTokenBefore(operator)!
+      const next = sourceCode.getTokenAfter(operator)!
+
+      if (
+        !sourceCode.isSpaceBetween!(prev, operator)
+        || !sourceCode.isSpaceBetween!(operator, next)
+      ) {
+        report(node, operator)
+      }
+    }
+
+    /**
+     * Check if it has an assignment char and report if it's faulty
+     * @param node The node to report
+     */
+    function checkForEnumAssignmentSpace(node: Tree.TSEnumMember): void {
+      checkAndReportAssignmentSpace(node, node.id, node.initializer)
+    }
+
+    /**
+     * Check if it has an assignment char and report if it's faulty
+     * @param node The node to report
+     */
+    function checkForPropertyDefinitionAssignmentSpace(
+      node: Tree.PropertyDefinition,
+    ): void {
+      const leftNode
+        = node.optional && !node.typeAnnotation
+          ? sourceCode.getTokenAfter(node.key)
+          : node.typeAnnotation ?? node.key
+
+      checkAndReportAssignmentSpace(node, leftNode, node.value)
+    }
+
+    /**
+     * Check if it is missing spaces between type annotations chaining
+     * @param typeAnnotation TypeAnnotations list
+     */
+    function checkForTypeAnnotationSpace(
+      typeAnnotation: Tree.TSIntersectionType | Tree.TSUnionType,
+    ): void {
+      const types = typeAnnotation.types
+
+      types.forEach((type) => {
+        const skipFunctionParenthesis
+          = type.type === AST_NODE_TYPES.TSFunctionType
+            ? isNotOpeningParenToken
+            : 0
+        const operator = sourceCode.getTokenBefore(
+          type,
+          skipFunctionParenthesis,
+        )
+
+        if (operator != null && UNIONS.includes(operator.value)) {
+          const prev = sourceCode.getTokenBefore(operator)
+          const next = sourceCode.getTokenAfter(operator)
+
+          if (
+            !sourceCode.isSpaceBetween!(prev!, operator)
+            || !sourceCode.isSpaceBetween!(operator, next!)
+          ) {
+            report(typeAnnotation, operator)
+          }
+        }
+      })
+    }
+
+    /**
+     * Check if it has an assignment char and report if it's faulty
+     * @param node The node to report
+     */
+    function checkForTypeAliasAssignment(
+      node: Tree.TSTypeAliasDeclaration,
+    ): void {
+      checkAndReportAssignmentSpace(
+        node,
+        node.typeParameters ?? node.id,
+        node.typeAnnotation,
+      )
+    }
+
+    function checkForTypeConditional(node: Tree.TSConditionalType): void {
+      checkAndReportAssignmentSpace(node, node.extendsType, node.trueType)
+      checkAndReportAssignmentSpace(node, node.trueType, node.falseType)
+    }
+
     return {
       AssignmentExpression: checkBinary,
       AssignmentPattern: checkBinary,
@@ -158,27 +268,12 @@ export default createRule<MessageIds, RuleOptions>({
       LogicalExpression: checkBinary,
       ConditionalExpression: checkConditional,
       VariableDeclarator: checkVar,
-
-      PropertyDefinition(node) {
-        if (!node.value)
-          return
-
-        /**
-         * Because of computed properties and type annotations, some
-         * tokens may exist between `node.key` and `=`.
-         * Therefore, find the `=` from the right.
-         */
-        const operatorToken = sourceCode.getTokenBefore(node.value, isEqToken)!
-        const leftToken = sourceCode.getTokenBefore(operatorToken)!
-        const rightToken = sourceCode.getTokenAfter(operatorToken)!
-
-        if (
-          !sourceCode.isSpaceBetweenTokens(leftToken, operatorToken)
-          || !sourceCode.isSpaceBetweenTokens(operatorToken, rightToken)
-        ) {
-          report(node, operatorToken)
-        }
-      },
+      PropertyDefinition: checkForPropertyDefinitionAssignmentSpace,
+      TSEnumMember: checkForEnumAssignmentSpace,
+      TSTypeAliasDeclaration: checkForTypeAliasAssignment,
+      TSUnionType: checkForTypeAnnotationSpace,
+      TSIntersectionType: checkForTypeAnnotationSpace,
+      TSConditionalType: checkForTypeConditional,
     }
   },
 })

@@ -32,6 +32,8 @@ export { foo };
 
 This rule enforces consistent spacing inside braces of object literals, destructuring assignments, and import/export specifiers.
 
+This rule adds support for TypeScript's object types.
+
 ## Options
 
 This rule has two options, a string option and an object option.

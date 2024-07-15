@@ -4,22 +4,21 @@
  */
 
 import type { ASTNode, RuleFixer, Token, Tree } from '@shared/types'
+import type { TSESLint } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createTSRule } from '../../utils'
 import FixTracker from '../../utils/fix-tracker'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'semi',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require or disallow semicolons instead of ASI',
-      url: 'https://eslint.style/rules/js/semi',
     },
-
     fixable: 'code',
-
     schema: {
       anyOf: [
         {
@@ -64,13 +63,18 @@ export default createRule<MessageIds, RuleOptions>({
         },
       ],
     },
-
     messages: {
       missingSemi: 'Missing semicolon.',
       extraSemi: 'Extra semicolon.',
     },
   },
-
+  defaultOptions: [
+    'always',
+    {
+      omitLastInOneLineBlock: false,
+      beforeStatementContinuationChars: 'any',
+    },
+  ] as unknown as RuleOptions,
   create(context) {
     const OPT_OUT_PATTERN = /^[-[(/+`]/u // One of [(/+-`
     const unsafeClassFieldNames = new Set(['get', 'set', 'static'])
@@ -392,6 +396,27 @@ export default createRule<MessageIds, RuleOptions>({
       }
     }
 
+    /**
+      The following nodes are handled by the member-delimiter-style rule
+      AST_NODE_TYPES.TSCallSignatureDeclaration,
+      AST_NODE_TYPES.TSConstructSignatureDeclaration,
+      AST_NODE_TYPES.TSIndexSignature,
+      AST_NODE_TYPES.TSMethodSignature,
+      AST_NODE_TYPES.TSPropertySignature,
+     */
+    const nodesToCheck = [
+      AST_NODE_TYPES.PropertyDefinition,
+      AST_NODE_TYPES.TSAbstractPropertyDefinition,
+      AST_NODE_TYPES.TSDeclareFunction,
+      AST_NODE_TYPES.TSExportAssignment,
+      AST_NODE_TYPES.TSImportEqualsDeclaration,
+      AST_NODE_TYPES.TSTypeAliasDeclaration,
+      AST_NODE_TYPES.TSEmptyBodyFunctionExpression,
+    ].reduce<TSESLint.RuleListener>((acc, node) => {
+      acc[node as string] = checkForSemicolon
+      return acc
+    }, {})
+
     return {
       VariableDeclaration: checkForSemicolonForVariableDeclaration,
       ExpressionStatement: checkForSemicolon,
@@ -408,10 +433,18 @@ export default createRule<MessageIds, RuleOptions>({
           checkForSemicolon(node)
       },
       ExportDefaultDeclaration(node) {
-        if (!/(?:Class|Function)Declaration/u.test(node.declaration.type))
+        if (
+          ![
+            AST_NODE_TYPES.ClassDeclaration,
+            AST_NODE_TYPES.FunctionDeclaration,
+            AST_NODE_TYPES.TSInterfaceDeclaration,
+          ].includes(node.declaration.type)
+        ) {
           checkForSemicolon(node)
+        }
       },
       PropertyDefinition: checkForSemicolon,
+      ...nodesToCheck,
     }
   },
 })

@@ -4,8 +4,17 @@
  */
 
 import type { ASTNode, RuleContext, SourceCode, Tree } from '@shared/types'
-import { LINEBREAKS, STATEMENT_LIST_PARENTS, isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import {
+  isClosingBraceToken,
+  isFunction,
+  isNotSemicolonToken,
+  isParenthesized,
+  isSemicolonToken,
+  isTokenOnSameLine,
+} from '@typescript-eslint/utils/ast-utils'
+import { LINEBREAKS, STATEMENT_LIST_PARENTS, skipChainExpression } from '../../utils/ast-utils'
+import { createTSRule } from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const LT = `[${Array.from(LINEBREAKS).join('')}]`
@@ -23,14 +32,25 @@ interface Tester {
 type Context = RuleContext<MessageIds, RuleOptions>
 
 /**
- * Creates tester which check if a node starts with specific keyword.
+ * Creates tester which check if a node starts with specific keyword with the
+ * appropriate AST_NODE_TYPES.
  * @param keyword The keyword to test.
  * @returns the created tester.
  * @private
  */
-function newKeywordTester(keyword: string): Tester {
+function newKeywordTester(
+  type: AST_NODE_TYPES | AST_NODE_TYPES[],
+  keyword: string,
+): Tester {
   return {
-    test: (node, sourceCode) => sourceCode.getFirstToken(node)?.value === keyword,
+    test(node, sourceCode): boolean {
+      const isSameKeyword = sourceCode.getFirstToken(node)?.value === keyword
+      const isSameType = Array.isArray(type)
+        ? type.includes(node.type)
+        : type === node.type
+
+      return isSameKeyword && isSameType
+    },
   }
 }
 
@@ -66,10 +86,9 @@ function newMultilineKeywordTester(keyword: string): Tester {
  * @returns the created tester.
  * @private
  */
-function newNodeTypeTester(type: string): Tester {
+function newNodeTypeTester(type: AST_NODE_TYPES): Tester {
   return {
-    test: (node: ASTNode) =>
-      node.type === type,
+    test: (node: ASTNode) => node.type === type,
   }
 }
 
@@ -80,13 +99,43 @@ function newNodeTypeTester(type: string): Tester {
  * @private
  */
 function isIIFEStatement(node: ASTNode): boolean {
-  if (node.type === 'ExpressionStatement') {
-    let call = skipChainExpression(node.expression)
+  if (node.type === AST_NODE_TYPES.ExpressionStatement) {
+    let expression = skipChainExpression(node.expression)
+    if (expression.type === AST_NODE_TYPES.UnaryExpression)
+      expression = skipChainExpression(expression.argument)
 
-    if (call.type === 'UnaryExpression')
-      call = skipChainExpression(call.argument)
+    if (expression.type === AST_NODE_TYPES.CallExpression) {
+      let node: ASTNode = expression.callee
+      while (node.type === AST_NODE_TYPES.SequenceExpression)
+        node = node.expressions[node.expressions.length - 1]
 
-    return call.type === 'CallExpression' && isFunction(call.callee)
+      return isFunction(node)
+    }
+  }
+  return false
+}
+
+/**
+ * Checks the given node is a CommonJS require statement
+ * @param node The node to check.
+ * @returns `true` if the node is a CommonJS require statement.
+ * @private
+ */
+function isCJSRequire(node: ASTNode): boolean {
+  if (node.type === AST_NODE_TYPES.VariableDeclaration) {
+    const declaration = node.declarations[0]
+    if (declaration?.init) {
+      let call = declaration?.init
+      while (call.type === AST_NODE_TYPES.MemberExpression)
+        call = call.object
+
+      if (
+        call.type === AST_NODE_TYPES.CallExpression
+        && call.callee.type === AST_NODE_TYPES.Identifier
+      ) {
+        return call.callee.name === 'require'
+      }
+    }
   }
   return false
 }
@@ -94,15 +143,19 @@ function isIIFEStatement(node: ASTNode): boolean {
 /**
  * Checks whether the given node is a block-like statement.
  * This checks the last token of the node is the closing brace of a block.
- * @param sourceCode The source code to get tokens.
  * @param node The node to check.
+ * @param sourceCode The source code to get tokens.
  * @returns `true` if the node is a block-like statement.
  * @private
  */
-function isBlockLikeStatement(sourceCode: SourceCode, node: ASTNode): boolean {
+function isBlockLikeStatement(node: ASTNode, sourceCode: SourceCode): boolean {
   // do-while with a block is a block-like statement.
-  if (node.type === 'DoWhileStatement' && node.body.type === 'BlockStatement')
+  if (
+    node.type === AST_NODE_TYPES.DoWhileStatement
+    && node.body.type === AST_NODE_TYPES.BlockStatement
+  ) {
     return true
+  }
 
   /**
    * IIFE is a block-like statement specially from
@@ -117,9 +170,103 @@ function isBlockLikeStatement(sourceCode: SourceCode, node: ASTNode): boolean {
     ? sourceCode.getNodeByRangeIndex(lastToken.range[0])
     : null
 
-  return Boolean(belongingNode) && (
-    belongingNode?.type === 'BlockStatement'
-    || belongingNode?.type === 'SwitchStatement'
+  return (
+    !!belongingNode
+    && (belongingNode.type === AST_NODE_TYPES.BlockStatement
+    || belongingNode.type === AST_NODE_TYPES.SwitchStatement)
+  )
+}
+
+/**
+ * Check whether the given node is a directive or not.
+ * @param node The node to check.
+ * @param sourceCode The source code object to get tokens.
+ * @returns `true` if the node is a directive.
+ */
+function isDirective(
+  node: ASTNode,
+  sourceCode: SourceCode,
+): boolean {
+  return (
+    node.type === AST_NODE_TYPES.ExpressionStatement
+    && (node.parent?.type === AST_NODE_TYPES.Program
+    || (node.parent?.type === AST_NODE_TYPES.BlockStatement
+    && isFunction(node.parent.parent)))
+    && node.expression.type === AST_NODE_TYPES.Literal
+    && typeof node.expression.value === 'string'
+    && !isParenthesized(node.expression, sourceCode)
+  )
+}
+
+/**
+ * Check whether the given node is a part of directive prologue or not.
+ * @param node The node to check.
+ * @param sourceCode The source code object to get tokens.
+ * @returns `true` if the node is a part of directive prologue.
+ */
+function isDirectivePrologue(
+  node: ASTNode,
+  sourceCode: SourceCode,
+): boolean {
+  if (
+    isDirective(node, sourceCode)
+    && node.parent
+    && 'body' in node.parent
+    && Array.isArray(node.parent.body)
+  ) {
+    for (const sibling of node.parent.body) {
+      if (sibling === node)
+        break
+
+      if (!isDirective(sibling, sourceCode))
+        return false
+    }
+    return true
+  }
+  return false
+}
+
+/**
+ * Checks the given node is a CommonJS export statement
+ * @param node The node to check.
+ * @returns `true` if the node is a CommonJS export statement.
+ * @private
+ */
+function isCJSExport(node: ASTNode): boolean {
+  if (node.type === AST_NODE_TYPES.ExpressionStatement) {
+    const expression = node.expression
+    if (expression.type === AST_NODE_TYPES.AssignmentExpression) {
+      let left = expression.left
+      if (left.type === AST_NODE_TYPES.MemberExpression) {
+        while (left.object.type === AST_NODE_TYPES.MemberExpression)
+          left = left.object
+
+        return (
+          left.object.type === AST_NODE_TYPES.Identifier
+          && (left.object.name === 'exports'
+          || (left.object.name === 'module'
+          && left.property.type === AST_NODE_TYPES.Identifier
+          && left.property.name === 'exports'))
+        )
+      }
+    }
+  }
+  return false
+}
+
+/**
+ * Check whether the given node is an expression
+ * @param node The node to check.
+ * @param sourceCode The source code object to get tokens.
+ * @returns `true` if the node is an expression
+ */
+function isExpression(
+  node: ASTNode,
+  sourceCode: SourceCode,
+): boolean {
+  return (
+    node.type === AST_NODE_TYPES.ExpressionStatement
+    && !isDirectivePrologue(node, sourceCode)
   )
 }
 
@@ -131,12 +278,12 @@ function isBlockLikeStatement(sourceCode: SourceCode, node: ASTNode): boolean {
  *
  *     foo()
  *     ;[1, 2, 3].forEach(bar)
- * @param sourceCode The source code to get tokens.
  * @param node The node to get.
+ * @param sourceCode The source code to get tokens.
  * @returns The actual last token.
  * @private
  */
-function getActualLastToken(sourceCode: SourceCode, node: ASTNode): Tree.Token {
+function getActualLastToken(node: ASTNode, sourceCode: SourceCode): Tree.Token {
   const semiToken = sourceCode.getLastToken(node)!
   const prevToken = sourceCode.getTokenBefore(semiToken)!
   const nextToken = sourceCode.getTokenAfter(semiToken)
@@ -184,7 +331,12 @@ function verifyForAny(): void {
  * lines exist between the pair.
  * @private
  */
-function verifyForNever(context: Context, _: ASTNode, nextNode: ASTNode, paddingLines: [Tree.Token, Tree.Token][]): void {
+function verifyForNever(
+  context: Context,
+  _: ASTNode,
+  nextNode: ASTNode,
+  paddingLines: [Tree.Token, Tree.Token][],
+): void {
   if (paddingLines.length === 0)
     return
 
@@ -229,7 +381,7 @@ function verifyForAlways(context: Context, prevNode: ASTNode, nextNode: ASTNode,
     messageId: 'expectedBlankLine',
     fix(fixer) {
       const sourceCode = context.sourceCode
-      let prevToken = getActualLastToken(sourceCode, prevNode)
+      let prevToken = getActualLastToken(prevNode, sourceCode)
       const nextToken = sourceCode.getFirstTokenBetween(
         prevToken,
         nextNode,
@@ -291,40 +443,23 @@ const PaddingTypes = {
  * Those have `test` method to check it matches to the given statement.
  * @private
  */
-const StatementTypes = {
-  '*': { test: () => true },
-  'block-like': {
-    test: (node, sourceCode) => isBlockLikeStatement(sourceCode, node),
-  },
-  'cjs-export': {
-    test: (node, sourceCode) => node.type === 'ExpressionStatement'
-    && node.expression.type === 'AssignmentExpression'
-    && CJS_EXPORT.test(sourceCode.getText(node.expression.left)),
-  },
-  'cjs-import': {
-    test: (node, sourceCode) => node.type === 'VariableDeclaration'
-    && node.declarations.length > 0
-    && Boolean(node.declarations[0].init)
-    && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init!)),
-  },
-  'directive': {
-    test: isDirective,
-  },
-  'expression': {
-    test: node => node.type === 'ExpressionStatement' && !isDirective(node),
-  },
-  'iife': {
-    test: isIIFEStatement,
-  },
+const StatementTypes: Record<string, Tester> = {
+  '*': { test: (): boolean => true },
+  'block-like': { test: isBlockLikeStatement },
+  'exports': { test: isCJSExport },
+  'require': { test: isCJSRequire },
+  'directive': { test: isDirectivePrologue },
+  'expression': { test: isExpression },
+  'iife': { test: isIIFEStatement },
+
   'multiline-block-like': {
     test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
-    && isBlockLikeStatement(sourceCode, node),
+    && isBlockLikeStatement(node, sourceCode),
   },
   'multiline-expression': {
-    test: node =>
-      node.loc.start.line !== node.loc.end.line
-      && node.type === 'ExpressionStatement'
-      && !isDirective(node),
+    test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
+    && node.type === AST_NODE_TYPES.ExpressionStatement
+    && !isDirectivePrologue(node, sourceCode),
   },
 
   'multiline-const': newMultilineKeywordTester('const'),
@@ -334,43 +469,80 @@ const StatementTypes = {
   'singleline-let': newSinglelineKeywordTester('let'),
   'singleline-var': newSinglelineKeywordTester('var'),
 
-  'block': newNodeTypeTester('BlockStatement'),
-  'empty': newNodeTypeTester('EmptyStatement'),
-  'function': newNodeTypeTester('FunctionDeclaration'),
+  'block': newNodeTypeTester(AST_NODE_TYPES.BlockStatement),
+  'empty': newNodeTypeTester(AST_NODE_TYPES.EmptyStatement),
+  'function': newNodeTypeTester(AST_NODE_TYPES.FunctionDeclaration),
 
-  'break': newKeywordTester('break'),
-  'case': newKeywordTester('case'),
-  'class': newKeywordTester('class'),
-  'const': newKeywordTester('const'),
-  'continue': newKeywordTester('continue'),
-  'debugger': newKeywordTester('debugger'),
-  'default': newKeywordTester('default'),
-  'do': newKeywordTester('do'),
-  'export': newKeywordTester('export'),
-  'for': newKeywordTester('for'),
-  'if': newKeywordTester('if'),
-  'import': newKeywordTester('import'),
-  'let': newKeywordTester('let'),
-  'return': newKeywordTester('return'),
-  'switch': newKeywordTester('switch'),
-  'throw': newKeywordTester('throw'),
-  'try': newKeywordTester('try'),
-  'var': newKeywordTester('var'),
-  'while': newKeywordTester('while'),
-  'with': newKeywordTester('with'),
-} satisfies Record<string, Tester>
+  'break': newKeywordTester(AST_NODE_TYPES.BreakStatement, 'break'),
+  'case': newKeywordTester(AST_NODE_TYPES.SwitchCase, 'case'),
+  'class': newKeywordTester(AST_NODE_TYPES.ClassDeclaration, 'class'),
+  'const': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'const'),
+  'continue': newKeywordTester(AST_NODE_TYPES.ContinueStatement, 'continue'),
+  'debugger': newKeywordTester(AST_NODE_TYPES.DebuggerStatement, 'debugger'),
+  'default': newKeywordTester(
+    [AST_NODE_TYPES.SwitchCase, AST_NODE_TYPES.ExportDefaultDeclaration],
+    'default',
+  ),
+  'do': newKeywordTester(AST_NODE_TYPES.DoWhileStatement, 'do'),
+  'export': newKeywordTester(
+    [
+      AST_NODE_TYPES.ExportAllDeclaration,
+      AST_NODE_TYPES.ExportDefaultDeclaration,
+      AST_NODE_TYPES.ExportNamedDeclaration,
+    ],
+    'export',
+  ),
+  'for': newKeywordTester(
+    [
+      AST_NODE_TYPES.ForStatement,
+      AST_NODE_TYPES.ForInStatement,
+      AST_NODE_TYPES.ForOfStatement,
+    ],
+    'for',
+  ),
+  'if': newKeywordTester(AST_NODE_TYPES.IfStatement, 'if'),
+  'import': newKeywordTester(AST_NODE_TYPES.ImportDeclaration, 'import'),
+  'let': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'let'),
+  'return': newKeywordTester(AST_NODE_TYPES.ReturnStatement, 'return'),
+  'switch': newKeywordTester(AST_NODE_TYPES.SwitchStatement, 'switch'),
+  'throw': newKeywordTester(AST_NODE_TYPES.ThrowStatement, 'throw'),
+  'try': newKeywordTester(AST_NODE_TYPES.TryStatement, 'try'),
+  'var': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'var'),
+  'while': newKeywordTester(
+    [AST_NODE_TYPES.WhileStatement, AST_NODE_TYPES.DoWhileStatement],
+    'while',
+  ),
+  'with': newKeywordTester(AST_NODE_TYPES.WithStatement, 'with'),
 
-export default createRule<MessageIds, RuleOptions>({
+  'cjs-export': {
+    test: (node, sourceCode) => node.type === AST_NODE_TYPES.ExpressionStatement
+    && node.expression.type === AST_NODE_TYPES.AssignmentExpression
+    && CJS_EXPORT.test(sourceCode.getText(node.expression.left)),
+  },
+  'cjs-import': {
+    test: (node, sourceCode) => node.type === AST_NODE_TYPES.VariableDeclaration
+    && node.declarations.length > 0
+    && Boolean(node.declarations[0].init)
+    && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init!)),
+  },
+
+  // Additional Typescript constructs
+  'enum': newKeywordTester(AST_NODE_TYPES.TSEnumDeclaration, 'enum'),
+  'interface': newKeywordTester(AST_NODE_TYPES.TSInterfaceDeclaration, 'interface'),
+  'type': newKeywordTester(AST_NODE_TYPES.TSTypeAliasDeclaration, 'type'),
+  'function-overload': {
+    test: node => node.type === AST_NODE_TYPES.TSDeclareFunction,
+  },
+}
+
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'padding-line-between-statements',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require or disallow padding lines between statements',
-      url: 'https://eslint.style/rules/js/padding-line-between-statements',
     },
-
     fixable: 'whitespace',
-
     schema: {
       definitions: {
         paddingType: {
@@ -401,12 +573,12 @@ export default createRule<MessageIds, RuleOptions>({
         required: ['blankLine', 'prev', 'next'],
       },
     },
-
     messages: {
       unexpectedBlankLine: 'Unexpected blank line before this statement.',
       expectedBlankLine: 'Expected blank line before this statement.',
     },
   },
+  defaultOptions: [],
 
   create(context) {
     const sourceCode = context.sourceCode
@@ -436,7 +608,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @private
      */
     function exitScope(): void {
-      scopeInfo = scopeInfo?.upper
+      if (scopeInfo)
+        scopeInfo = scopeInfo.upper
     }
 
     /**
@@ -449,13 +622,13 @@ export default createRule<MessageIds, RuleOptions>({
     function match(node: ASTNode, type: string | string[]): boolean {
       let innerStatementNode = node
 
-      while (innerStatementNode.type === 'LabeledStatement')
+      while (innerStatementNode.type === AST_NODE_TYPES.LabeledStatement)
         innerStatementNode = innerStatementNode.body
 
       if (Array.isArray(type))
         return type.some(match.bind(null, innerStatementNode))
 
-      return StatementTypes[type as keyof typeof StatementTypes].test(innerStatementNode, sourceCode)
+      return StatementTypes[type].test(innerStatementNode, sourceCode)
     }
 
     /**
@@ -465,7 +638,10 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns The tester of the last matched configure.
      * @private
      */
-    function getPaddingType(prevNode: ASTNode, nextNode: ASTNode) {
+    function getPaddingType(
+      prevNode: ASTNode,
+      nextNode: ASTNode,
+    ): (typeof PaddingTypes)[keyof typeof PaddingTypes] {
       for (let i = configureList.length - 1; i >= 0; --i) {
         const configure = configureList[i]
         const matched
@@ -488,7 +664,7 @@ export default createRule<MessageIds, RuleOptions>({
      */
     function getPaddingLineSequences(prevNode: ASTNode, nextNode: ASTNode): [Tree.Token, Tree.Token][] {
       const pairs: [Tree.Token, Tree.Token][] = []
-      let prevToken = getActualLastToken(sourceCode, prevNode)
+      let prevToken = getActualLastToken(prevNode, sourceCode)
 
       if (nextNode.loc.start.line - prevToken.loc.end.line >= 2) {
         do {
@@ -516,7 +692,10 @@ export default createRule<MessageIds, RuleOptions>({
       const parentType = node.parent!.type
       const validParent
                 = STATEMENT_LIST_PARENTS.has(parentType)
-                || parentType === 'SwitchStatement'
+                || [
+                  AST_NODE_TYPES.SwitchStatement,
+                  AST_NODE_TYPES.TSModuleBlock,
+                ].includes(parentType)
 
       if (!validParent)
         return
@@ -551,15 +730,19 @@ export default createRule<MessageIds, RuleOptions>({
       'BlockStatement': enterScope,
       'SwitchStatement': enterScope,
       'StaticBlock': enterScope,
+      'TSModuleBlock': enterScope,
       'Program:exit': exitScope,
       'BlockStatement:exit': exitScope,
       'SwitchStatement:exit': exitScope,
       'StaticBlock:exit': exitScope,
+      'TSModuleBlock:exit': exitScope,
 
       ':statement': verify,
 
       'SwitchCase': verifyThenEnterScope,
       'SwitchCase:exit': exitScope,
+      'TSDeclareFunction': verifyThenEnterScope,
+      'TSDeclareFunction:exit': exitScope,
     }
   },
 })

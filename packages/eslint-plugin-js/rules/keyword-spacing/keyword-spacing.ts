@@ -4,9 +4,10 @@
  */
 
 import type { ASTNode, JSONSchema, Token, Tree } from '@shared/types'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import keywords from '../../utils/keywords'
-import { createRule } from '../../utils/createRule'
+import { NullThrowsReasons, createTSRule, nullThrows } from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const PREV_TOKEN = /^[)\]}>]$/u
@@ -16,7 +17,7 @@ const NEXT_TOKEN_M = /^[{*]$/u
 const TEMPLATE_OPEN_PAREN = /\$\{$/u
 const TEMPLATE_CLOSE_PAREN = /^\}/u
 const CHECK_TYPE = /^(?:JSXElement|RegularExpression|String|Template|PrivateIdentifier)$/u
-const KEYS = keywords.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'set', 'yield']);
+const KEYS = keywords.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'set', 'yield', 'type']);
 
 // check duplications.
 (function () {
@@ -45,17 +46,14 @@ function isCloseParenOfTemplate(token: Token) {
   return token.type === 'Template' && TEMPLATE_CLOSE_PAREN.test(token.value)
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'keyword-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent spacing before and after keywords',
-      url: 'https://eslint.style/rules/js/keyword-spacing',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'object',
@@ -88,8 +86,9 @@ export default createRule<MessageIds, RuleOptions>({
       unexpectedAfter: 'Unexpected space(s) after "{{value}}".',
     },
   },
+  defaultOptions: [{}],
 
-  create(context) {
+  create(context, [options = {}]) {
     const sourceCode = context.sourceCode
 
     const tokensToIgnore = new WeakSet()
@@ -107,7 +106,7 @@ export default createRule<MessageIds, RuleOptions>({
         && !isOpenParenOfTemplate(prevToken)
         && !tokensToIgnore.has(prevToken)
         && isTokenOnSameLine(prevToken, token)
-        && !sourceCode.isSpaceBetweenTokens(prevToken, token)
+        && !sourceCode.isSpaceBetween(prevToken, token)
       ) {
         context.report({
           loc: token.loc,
@@ -134,7 +133,7 @@ export default createRule<MessageIds, RuleOptions>({
         && !isOpenParenOfTemplate(prevToken)
         && !tokensToIgnore.has(prevToken)
         && isTokenOnSameLine(prevToken, token)
-        && sourceCode.isSpaceBetweenTokens(prevToken, token)
+        && sourceCode.isSpaceBetween(prevToken, token)
       ) {
         context.report({
           loc: { start: prevToken.loc.end, end: token.loc.start },
@@ -161,7 +160,7 @@ export default createRule<MessageIds, RuleOptions>({
         && !isCloseParenOfTemplate(nextToken)
         && !tokensToIgnore.has(nextToken)
         && isTokenOnSameLine(token, nextToken)
-        && !sourceCode.isSpaceBetweenTokens(token, nextToken)
+        && !sourceCode.isSpaceBetween(token, nextToken)
       ) {
         context.report({
           loc: token.loc,
@@ -188,7 +187,7 @@ export default createRule<MessageIds, RuleOptions>({
         && !isCloseParenOfTemplate(nextToken)
         && !tokensToIgnore.has(nextToken)
         && isTokenOnSameLine(token, nextToken)
-        && sourceCode.isSpaceBetweenTokens(token, nextToken)
+        && sourceCode.isSpaceBetween(token, nextToken)
       ) {
         context.report({
           loc: { start: token.loc.end, end: nextToken.loc.start },
@@ -245,7 +244,7 @@ export default createRule<MessageIds, RuleOptions>({
       return retv
     }
 
-    const checkMethodMap = parseOptions(context.options[0]!)
+    const checkMethodMap = parseOptions(options)
 
     /**
      * Reports a given token if usage of spacing followed by the token is
@@ -449,14 +448,25 @@ export default createRule<MessageIds, RuleOptions>({
       checkSpacingBefore(firstToken, PREV_TOKEN_M)
       checkSpacingAfter(firstToken, NEXT_TOKEN_M)
 
-      if (node.type === 'ExportDefaultDeclaration')
+      if (node.type === AST_NODE_TYPES.ExportDefaultDeclaration)
         checkSpacingAround(sourceCode.getTokenAfter(firstToken)!)
 
-      if (node.type === 'ExportAllDeclaration' && node.exported) {
+      if (node.type === AST_NODE_TYPES.ExportAllDeclaration && node.exported) {
         const asToken = sourceCode.getTokenBefore(node.exported)!
 
         checkSpacingBefore(asToken, PREV_TOKEN_M)
         checkSpacingAfter(asToken, NEXT_TOKEN_M)
+      }
+
+      if (
+        node.type === AST_NODE_TYPES.ImportDeclaration
+        && node.importKind === 'type'
+        && node.specifiers?.[0]?.type !== AST_NODE_TYPES.ImportDefaultSpecifier
+      ) {
+        const typeToken = sourceCode.getFirstToken(node, { skip: 1 }) as Token
+
+        checkSpacingBefore(typeToken, PREV_TOKEN_M)
+        checkSpacingAfter(typeToken, NEXT_TOKEN_M)
       }
 
       if ('source' in node && node.source) {
@@ -611,6 +621,26 @@ export default createRule<MessageIds, RuleOptions>({
         const operatorToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
 
         tokensToIgnore.add(operatorToken)
+      },
+      TSAsExpression(node): void {
+        const asToken = nullThrows(
+          sourceCode.getTokenAfter(
+            node.expression,
+            token => token.value === 'as',
+          ),
+          NullThrowsReasons.MissingToken('as', node.type),
+        )
+        const oldTokenType = asToken.type
+        // as is a contextual keyword, so it's always reported as an Identifier
+        // the rule looks for keyword tokens, so we temporarily override it
+        // we mutate it at the token level because the rule calls sourceCode.getFirstToken,
+        // so mutating a copy would not change the underlying copy returned by that method
+        asToken.type = AST_TOKEN_TYPES.Keyword
+
+        checkSpacingAroundFirstToken(asToken as never)
+
+        // make sure to reset the type afterward so we don't permanently mutate the AST
+        asToken.type = oldTokenType
       },
     }
   },

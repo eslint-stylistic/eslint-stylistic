@@ -70,6 +70,8 @@ Although ASI allows for more freedom over your coding style, it can also make yo
 
 This rule enforces consistent use of semicolons.
 
+See also the [`@typescript-eslint/member-delimiter-style`](member-delimiter-style.md) rule, which allows you to specify the delimiter for `type` and `interface` members.
+
 ## Options
 
 This rule has two options, a string option and an object option.

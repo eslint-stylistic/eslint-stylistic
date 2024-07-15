@@ -15,6 +15,8 @@ of these rules is to make the comments easier to read and improve readability of
 
 This rule requires empty lines before and/or after comments. It can be enabled separately for both block (`/*`) and line (`//`) comments. This rule does not apply to comments that appear on the same line as code and does not require empty lines at the beginning or end of a file.
 
+This rule adds support for TypeScript syntax.
+
 ## Options
 
 This rule has an object option:
@@ -34,6 +36,14 @@ This rule has an object option:
 - `"applyDefaultIgnorePatterns"` enables or disables the default comment patterns to be ignored by the rule
 - `"ignorePattern"` custom patterns to be ignored by the rule
 - `"afterHashbangComment": true` requires an empty line after hashbang comments
+- `"allowEnumEnd": true` doesn't require a blank line after an enum body block end
+- `"allowEnumStart": true` doesn't require a blank line before an enum body block start
+- `"allowInterfaceEnd": true` doesn't require a blank line before an interface body block end
+- `"allowInterfaceStart": true` doesn't require a blank line after an interface body block start
+- `"allowModuleEnd": true` doesn't require a blank line before a module body block end
+- `"allowModuleStart": true` doesn't require a blank line after a module body block start
+- `"allowTypeEnd": true` doesn't require a blank line before a type literal block end
+- `"allowTypeStart": true` doesn't require a blank line after a type literal block start
 
 ### beforeBlockComment
 

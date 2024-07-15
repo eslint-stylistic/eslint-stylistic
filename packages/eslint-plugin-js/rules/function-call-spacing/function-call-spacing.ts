@@ -4,21 +4,19 @@
  */
 
 import type { Token, Tree } from '@shared/types'
-import { LINEBREAK_MATCHER, isNotQuestionDotToken, isOpeningParenToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isNotOptionalChainPunctuator, isOptionalCallExpression } from '@typescript-eslint/utils/ast-utils'
+import { LINEBREAK_MATCHER, isOpeningParenToken } from '../../utils/ast-utils'
+import { createTSRule } from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'function-call-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require or disallow spacing between function identifiers and their invocations',
-      url: 'https://eslint.style/rules/js/function-call-spacing',
     },
-
     fixable: 'whitespace',
-
     schema: {
       anyOf: [
         {
@@ -54,17 +52,15 @@ export default createRule<MessageIds, RuleOptions>({
         },
       ],
     },
-
     messages: {
       unexpectedWhitespace: 'Unexpected whitespace between function name and paren.',
       unexpectedNewline: 'Unexpected newline between function name and paren.',
       missing: 'Missing space between function name and paren.',
     },
   },
+  defaultOptions: ['never', {}] as unknown as RuleOptions,
 
-  create(context) {
-    const never = context.options[0] !== 'always'
-    const allowNewlines = !never && context.options[1] && context.options[1].allowNewlines
+  create(context, [option, config]) {
     const sourceCode = context.sourceCode
     const text = sourceCode.getText()
 
@@ -76,7 +72,11 @@ export default createRule<MessageIds, RuleOptions>({
      * @private
      */
     function checkSpacing(node: Tree.CallExpression | Tree.NewExpression | Tree.ImportExpression, leftToken: Token, rightToken: Token) {
-      const textBetweenTokens = text.slice(leftToken.range[1], rightToken.range[0]).replace(/\/\*.*?\*\//gu, '')
+      const isOptionalCall = isOptionalCallExpression(node)
+
+      const textBetweenTokens = text
+        .slice(leftToken.range[1], rightToken.range[0])
+        .replace(/\/\*.*?\*\//gu, '')
       const hasWhitespace = /\s/u.test(textBetweenTokens)
       const hasNewline = hasWhitespace && LINEBREAK_MATCHER.test(textBetweenTokens)
 
@@ -104,7 +104,10 @@ export default createRule<MessageIds, RuleOptions>({
        * F     F                           T          Unexpected newline between function name and paren.
        */
 
-      if (never && hasWhitespace) {
+      if (option === 'never') {
+        if (!hasWhitespace)
+          return
+
         context.report({
           node,
           loc: {
@@ -121,7 +124,7 @@ export default createRule<MessageIds, RuleOptions>({
               return null
 
             // If `?.` exists, it doesn't hide no-unexpected-multiline errors
-            if ('optional' in node && node.optional)
+            if (isOptionalCall)
               return fixer.replaceTextRange([leftToken.range[1], rightToken.range[0]], '?.')
 
             /**
@@ -135,7 +138,7 @@ export default createRule<MessageIds, RuleOptions>({
           },
         })
       }
-      else if (!never && !hasWhitespace) {
+      else if (!hasWhitespace) {
         context.report({
           node,
           loc: {
@@ -147,14 +150,14 @@ export default createRule<MessageIds, RuleOptions>({
           },
           messageId: 'missing',
           fix(fixer) {
-            if ('optional' in node && node.optional)
+            if (isOptionalCall)
               return null // Not sure if inserting a space to either before/after `?.` token.
 
             return fixer.insertTextBefore(rightToken, ' ')
           },
         })
       }
-      else if (!never && !allowNewlines && hasNewline) {
+      else if (!config!.allowNewlines && hasNewline) {
         context.report({
           node,
           loc: {
@@ -168,7 +171,7 @@ export default createRule<MessageIds, RuleOptions>({
              * https://github.com/eslint/eslint/issues/7787
              * But if `?.` exists, it doesn't hide no-unexpected-multiline errors
              */
-            if (!('optional' in node) || !node.optional)
+            if (!isOptionalCall)
               return null
 
             // Don't remove comments.
@@ -192,16 +195,28 @@ export default createRule<MessageIds, RuleOptions>({
 
     return {
       'CallExpression, NewExpression': function (node: Tree.CallExpression | Tree.NewExpression) {
-        const lastToken = sourceCode.getLastToken(node)!
-        const lastCalleeToken = sourceCode.getLastToken(node.callee)!
-        const parenToken = sourceCode.getFirstTokenBetween(lastCalleeToken, lastToken, isOpeningParenToken)!
-        const prevToken = parenToken && sourceCode.getTokenBefore(parenToken, isNotQuestionDotToken)!
+        const closingParenToken = sourceCode.getLastToken(node)!
+        const lastCalleeTokenWithoutPossibleParens = sourceCode.getLastToken(
+          node.typeArguments ?? node.callee,
+        )!
+        const openingParenToken = sourceCode.getFirstTokenBetween(
+          lastCalleeTokenWithoutPossibleParens,
+          closingParenToken,
+          isOpeningParenToken,
+        )
 
         // Parens in NewExpression are optional
-        if (!(parenToken && parenToken.range[1] < node.range[1]))
+        if (!openingParenToken || openingParenToken.range[1] >= node.range[1]) {
+          // new expression with no parens...
           return
+        }
 
-        checkSpacing(node, prevToken, parenToken)
+        const lastCalleeToken = sourceCode.getTokenBefore(
+          openingParenToken,
+          isNotOptionalChainPunctuator,
+        )!
+
+        checkSpacing(node, lastCalleeToken, openingParenToken)
       },
 
       ImportExpression(node) {

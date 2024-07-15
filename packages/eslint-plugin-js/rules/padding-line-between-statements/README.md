@@ -30,6 +30,8 @@ This rule does nothing if no configurations are provided.
 A configuration is an object which has 3 properties; `blankLine`, `prev` and `next`. For example, `{ blankLine: "always", prev: "var", next: "return" }` means "one or more blank lines are required between a variable declaration and a `return` statement."
 You can supply any number of configurations. If a statement pair matches multiple configurations, the last matched configuration will be used.
 
+This rules adds support for TypeScript constructs such as `enum`, `interface` and `type`.
+
 ```json
 {
     "padding-line-between-statements": [
@@ -88,6 +90,10 @@ You can supply any number of configurations. If a statement pair matches multipl
   - `"var"` is `var` variable declarations, both single-line and multiline.
   - `"while"` is `while` loop statements.
   - `"with"` is `with` statements.
+  - `enum`
+  - `interface`
+  - `type`
+  - `function-overload`
 
 ## Examples
 

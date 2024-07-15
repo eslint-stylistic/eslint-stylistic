@@ -29,6 +29,8 @@ var foo = 1 ,bar = 2;
 
 This rule enforces consistent spacing before and after commas in variable declarations, array literals, object literals, function parameters, and sequences.
 
+This rule adds support for trailing comma in a types parameters list.
+
 This rule does not apply in either of the following cases:
 
 - between two commas

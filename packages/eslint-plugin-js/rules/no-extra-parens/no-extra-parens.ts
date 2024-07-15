@@ -6,6 +6,8 @@
 // @ts-expect-error missing types https://github.com/eslint-stylistic/eslint-utils/pull/60
 import { isParenthesized as isParenthesizedRaw } from '@eslint-community/eslint-utils'
 import type { ASTNode, Token, Tree } from '@shared/types'
+import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import {
   canTokensBeAdjacent,
   getPrecedence,
@@ -17,24 +19,20 @@ import {
   isNotOpeningParenToken,
   isOpeningBraceToken,
   isOpeningBracketToken,
-  isOpeningParenToken,
   isTopLevelExpressionStatement,
   skipChainExpression,
 } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createTSRule } from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'no-extra-parens',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow unnecessary parentheses',
-      url: 'https://eslint.style/rules/js/no-extra-parens',
     },
-
     fixable: 'code',
-
     schema: {
       anyOf: [
         {
@@ -77,11 +75,11 @@ export default createRule<MessageIds, RuleOptions>({
         },
       ],
     },
-
     messages: {
       unexpected: 'Unnecessary parentheses around expression.',
     },
   },
+  defaultOptions: ['all'],
 
   create(context) {
     const sourceCode = context.sourceCode
@@ -105,9 +103,9 @@ export default createRule<MessageIds, RuleOptions>({
     const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && context.options[1] && context.options[1].allowParensAfterCommentPattern
 
     // @ts-expect-error other properties are not used
-    const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' })
+    const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: AST_NODE_TYPES.AssignmentExpression })
     // @ts-expect-error other properties are not used
-    const PRECEDENCE_OF_UPDATE_EXPR = precedence({ type: 'UpdateExpression' })
+    const PRECEDENCE_OF_UPDATE_EXPR = precedence({ type: AST_NODE_TYPES.UpdateExpression })
 
     type ReportsBuffer = {
       upper: ReportsBuffer
@@ -126,14 +124,14 @@ export default createRule<MessageIds, RuleOptions>({
     function isImmediateFunctionPrototypeMethodCall(node: ASTNode) {
       const callNode = skipChainExpression(node)
 
-      if (callNode.type !== 'CallExpression')
+      if (callNode.type !== AST_NODE_TYPES.CallExpression)
         return false
 
       const callee = skipChainExpression(callNode.callee)
 
       return (
-        callee.type === 'MemberExpression'
-        && callee.object.type === 'FunctionExpression'
+        callee.type === AST_NODE_TYPES.MemberExpression
+        && callee.object.type === AST_NODE_TYPES.FunctionExpression
         && ['call', 'apply'].includes(getStaticPropertyName(callee)!)
       )
     }
@@ -145,7 +143,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @private
      */
     function ruleApplies(node: ASTNode) {
-      if (node.type === 'JSXElement' || node.type === 'JSXFragment') {
+      if (node.type === AST_NODE_TYPES.JSXElement || node.type === AST_NODE_TYPES.JSXFragment) {
         const isSingleLine = node.loc.start.line === node.loc.end.line
 
         switch (IGNORE_JSX) {
@@ -169,13 +167,13 @@ export default createRule<MessageIds, RuleOptions>({
         }
       }
 
-      if (node.type === 'SequenceExpression' && IGNORE_SEQUENCE_EXPRESSIONS)
+      if (node.type === AST_NODE_TYPES.SequenceExpression && IGNORE_SEQUENCE_EXPRESSIONS)
         return false
 
       if (isImmediateFunctionPrototypeMethodCall(node) && IGNORE_FUNCTION_PROTOTYPE_METHODS)
         return false
 
-      return ALL_NODES || node.type === 'FunctionExpression' || node.type === 'ArrowFunctionExpression'
+      return ALL_NODES || node.type === AST_NODE_TYPES.FunctionExpression || node.type === AST_NODE_TYPES.ArrowFunctionExpression
     }
 
     /**
@@ -248,7 +246,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @private
      */
     function isCondAssignException(node: Tree.ConditionalExpression | Tree.DoWhileStatement | Tree.WhileStatement | Tree.IfStatement | Tree.ForStatement) {
-      return EXCEPT_COND_ASSIGN && node.test && node.test.type === 'AssignmentExpression'
+      return EXCEPT_COND_ASSIGN && node.test && node.test.type === AST_NODE_TYPES.AssignmentExpression
     }
 
     /**
@@ -260,8 +258,8 @@ export default createRule<MessageIds, RuleOptions>({
     function isInReturnStatement(node: ASTNode) {
       for (let currentNode = node; currentNode; currentNode = currentNode.parent!) {
         if (
-          currentNode.type === 'ReturnStatement'
-          || (currentNode.type === 'ArrowFunctionExpression' && currentNode.body.type !== 'BlockStatement')
+          currentNode.type === AST_NODE_TYPES.ReturnStatement
+          || (currentNode.type === AST_NODE_TYPES.ArrowFunctionExpression && currentNode.body.type !== AST_NODE_TYPES.BlockStatement)
         ) {
           return true
         }
@@ -297,16 +295,16 @@ export default createRule<MessageIds, RuleOptions>({
      * @private
      */
     function containsAssignment(node: ASTNode) {
-      if (node.type === 'AssignmentExpression')
+      if (node.type === AST_NODE_TYPES.AssignmentExpression)
         return true
 
-      if (node.type === 'ConditionalExpression'
-        && (node.consequent.type === 'AssignmentExpression' || node.alternate.type === 'AssignmentExpression')) {
+      if (node.type === AST_NODE_TYPES.ConditionalExpression
+        && (node.consequent.type === AST_NODE_TYPES.AssignmentExpression || node.alternate.type === AST_NODE_TYPES.AssignmentExpression)) {
         return true
       }
 
-      if ('left' in node && ((node.left && node.left.type === 'AssignmentExpression')
-        || (node.right && node.right.type === 'AssignmentExpression'))) {
+      if ('left' in node && ((node.left && node.left.type === AST_NODE_TYPES.AssignmentExpression)
+        || (node.right && node.right.type === AST_NODE_TYPES.AssignmentExpression))) {
         return true
       }
 
@@ -323,10 +321,10 @@ export default createRule<MessageIds, RuleOptions>({
       if (!EXCEPT_RETURN_ASSIGN || !isInReturnStatement(node))
         return false
 
-      if (node.type === 'ReturnStatement')
+      if (node.type === AST_NODE_TYPES.ReturnStatement)
         return node.argument && containsAssignment(node.argument)
 
-      if (node.type === 'ArrowFunctionExpression' && node.body.type !== 'BlockStatement')
+      if (node.type === AST_NODE_TYPES.ArrowFunctionExpression && node.body.type !== AST_NODE_TYPES.BlockStatement)
         return containsAssignment(node.body)
 
       return containsAssignment(node)
@@ -389,7 +387,7 @@ export default createRule<MessageIds, RuleOptions>({
     function isIIFE(node: ASTNode) {
       const maybeCallNode = skipChainExpression(node)
 
-      return maybeCallNode.type === 'CallExpression' && maybeCallNode.callee.type === 'FunctionExpression'
+      return maybeCallNode.type === AST_NODE_TYPES.CallExpression && maybeCallNode.callee.type === AST_NODE_TYPES.FunctionExpression
     }
 
     /**
@@ -400,7 +398,7 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns `true` if the given node can be a valid assignment target
      */
     function canBeAssignmentTarget(node: ASTNode) {
-      return node && (node.type === 'Identifier' || node.type === 'MemberExpression')
+      return node && (node.type === AST_NODE_TYPES.Identifier || node.type === AST_NODE_TYPES.MemberExpression)
     }
 
     /**
@@ -417,7 +415,7 @@ export default createRule<MessageIds, RuleOptions>({
      */
     function isFixable(node: ASTNode) {
       // if it's not a string literal it can be autofixed
-      if (node.type !== 'Literal' || typeof node.value !== 'string')
+      if (node.type !== AST_NODE_TYPES.Literal || typeof node.value !== 'string')
         return true
 
       if (isParenthesisedTwice(node))
@@ -505,14 +503,14 @@ export default createRule<MessageIds, RuleOptions>({
       let currentNode = node.object
       let currentNodeType = node.object.type
 
-      while (currentNodeType === 'MemberExpression') {
+      while (currentNodeType === AST_NODE_TYPES.MemberExpression) {
         if (!('object' in currentNode))
           break
         currentNode = currentNode.object
         currentNodeType = currentNode.type
       }
 
-      return currentNodeType === 'CallExpression'
+      return currentNodeType === AST_NODE_TYPES.CallExpression
     }
 
     /**
@@ -530,29 +528,29 @@ export default createRule<MessageIds, RuleOptions>({
             isIIFE(node)
             // (new A)(); new (new A)();
             || (
-              callee.type === 'NewExpression'
+              callee.type === AST_NODE_TYPES.NewExpression
               && !isNewExpressionWithParens(callee)
               && !(
-                node.type === 'NewExpression'
+                node.type === AST_NODE_TYPES.NewExpression
                 && !isNewExpressionWithParens(node)
               )
             )
 
             // new (a().b)(); new (a.b().c);
             || (
-              node.type === 'NewExpression'
-              && callee.type === 'MemberExpression'
+              node.type === AST_NODE_TYPES.NewExpression
+              && callee.type === AST_NODE_TYPES.MemberExpression
               && doesMemberExpressionContainCallExpression(callee)
             )
 
             // (a?.b)(); (a?.())();
             || (
               (!('optional' in node) || !node.optional)
-              && callee.type === 'ChainExpression'
+              && callee.type === AST_NODE_TYPES.ChainExpression
             )
           )
         ) {
-          report(node.callee)
+          report(callee)
         }
       }
       node.arguments
@@ -570,12 +568,12 @@ export default createRule<MessageIds, RuleOptions>({
       const leftPrecedence = precedence(node.left)
       const rightPrecedence = precedence(node.right)
       const isExponentiation = node.operator === '**'
-      const shouldSkipLeft = NESTED_BINARY && (node.left.type === 'BinaryExpression' || node.left.type === 'LogicalExpression')
-      const shouldSkipRight = NESTED_BINARY && (node.right.type === 'BinaryExpression' || node.right.type === 'LogicalExpression')
+      const shouldSkipLeft = NESTED_BINARY && (node.left.type === AST_NODE_TYPES.BinaryExpression || node.left.type === AST_NODE_TYPES.LogicalExpression)
+      const shouldSkipRight = NESTED_BINARY && (node.right.type === AST_NODE_TYPES.BinaryExpression || node.right.type === AST_NODE_TYPES.LogicalExpression)
 
       if (!shouldSkipLeft && hasExcessParens(node.left)) {
         if (
-          !(['AwaitExpression', 'UnaryExpression'].includes(node.left.type) && isExponentiation)
+          !([AST_NODE_TYPES.AwaitExpression, AST_NODE_TYPES.UnaryExpression].includes(node.left.type) && isExponentiation)
           && !isMixedLogicalAndCoalesceExpressions(node.left, node)
           && (leftPrecedence > prec || (leftPrecedence === prec && !isExponentiation))
           || isParenthesisedTwice(node.left)
@@ -638,23 +636,23 @@ export default createRule<MessageIds, RuleOptions>({
         isOpeningParenToken(firstToken)
         && (
           isOpeningBraceToken(secondToken)
-          || secondToken.type === 'Keyword' && (
+          || secondToken.type === AST_TOKEN_TYPES.Keyword && (
             secondToken.value === 'function'
             || secondToken.value === 'class'
             || secondToken.value === 'let'
             && tokenAfterClosingParens
             && (
               isOpeningBracketToken(tokenAfterClosingParens)
-              || tokenAfterClosingParens.type === 'Identifier'
+              || tokenAfterClosingParens.type === AST_TOKEN_TYPES.Identifier
             )
           )
-          || secondToken && secondToken.type === 'Identifier' && secondToken.value === 'async' && thirdToken && thirdToken.type === 'Keyword' && thirdToken.value === 'function'
+          || secondToken && secondToken.type === AST_TOKEN_TYPES.Identifier && secondToken.value === 'async' && thirdToken && thirdToken.type === AST_TOKEN_TYPES.Keyword && thirdToken.value === 'function'
         )
       ) {
         tokensToIgnore.add(secondToken)
       }
 
-      const hasExtraParens = node.parent.type === 'ExportDefaultDeclaration'
+      const hasExtraParens = node.parent.type === AST_NODE_TYPES.ExportDefaultDeclaration
         ? hasExcessParensWithPrecedence(node, PRECEDENCE_OF_ASSIGNMENT_EXPR)
         : hasExcessParens(node)
 
@@ -707,24 +705,24 @@ export default createRule<MessageIds, RuleOptions>({
      */
     function isSafelyEnclosingInExpression(node: ASTNode, child: ASTNode) {
       switch (node.type) {
-        case 'ArrayExpression':
-        case 'ArrayPattern':
-        case 'BlockStatement':
-        case 'ObjectExpression':
-        case 'ObjectPattern':
-        case 'TemplateLiteral':
+        case AST_NODE_TYPES.ArrayExpression:
+        case AST_NODE_TYPES.ArrayPattern:
+        case AST_NODE_TYPES.BlockStatement:
+        case AST_NODE_TYPES.ObjectExpression:
+        case AST_NODE_TYPES.ObjectPattern:
+        case AST_NODE_TYPES.TemplateLiteral:
           return true
-        case 'ArrowFunctionExpression':
-        case 'FunctionExpression':
+        case AST_NODE_TYPES.ArrowFunctionExpression:
+        case AST_NODE_TYPES.FunctionExpression:
           // @ts-expect-error type cast
           return node.params.includes(child)
-        case 'CallExpression':
-        case 'NewExpression':
+        case AST_NODE_TYPES.CallExpression:
+        case AST_NODE_TYPES.NewExpression:
           // @ts-expect-error type cast
           return node.arguments.includes(child)
-        case 'MemberExpression':
+        case AST_NODE_TYPES.MemberExpression:
           return node.computed && node.property === child
-        case 'ConditionalExpression':
+        case AST_NODE_TYPES.ConditionalExpression:
           return node.consequent === child
         default:
           return false
@@ -785,8 +783,8 @@ export default createRule<MessageIds, RuleOptions>({
      * @returns True if the node is a MemberExpression at NewExpression's callee. false otherwise.
      */
     function isMemberExpInNewCallee(node: ASTNode): boolean {
-      if (node.type === 'MemberExpression') {
-        return node.parent.type === 'NewExpression' && node.parent.callee === node
+      if (node.type === AST_NODE_TYPES.MemberExpression) {
+        return node.parent.type === AST_NODE_TYPES.NewExpression && node.parent.callee === node
           ? true
           : 'object' in node.parent && node.parent.object === node && isMemberExpInNewCallee(node.parent)
       }
@@ -812,21 +810,119 @@ export default createRule<MessageIds, RuleOptions>({
      * class or function; otherwise, `false`.
      */
     function isAnonymousFunctionAssignmentException({ left, operator, right }: Tree.AssignmentExpression) {
-      if (left.type === 'Identifier' && ['=', '&&=', '||=', '??='].includes(operator)) {
+      if (left.type === AST_NODE_TYPES.Identifier && ['=', '&&=', '||=', '??='].includes(operator)) {
         const rhsType = right.type
 
-        if (rhsType === 'ArrowFunctionExpression')
+        if (rhsType === AST_NODE_TYPES.ArrowFunctionExpression)
           return true
 
-        if ((rhsType === 'FunctionExpression' || rhsType === 'ClassExpression') && !right.id)
+        if (
+          (
+            rhsType === AST_NODE_TYPES.FunctionExpression
+            || rhsType === AST_NODE_TYPES.ClassExpression
+          )
+          && !right.id
+        ) {
           return true
+        }
       }
       return false
+    }
+
+    function binaryExp(
+      node: Tree.BinaryExpression | Tree.LogicalExpression,
+    ): void {
+      const rule = (node: Tree.BinaryExpression | Tree.LogicalExpression) => {
+        if (reportsBuffer && node.operator === 'in')
+          reportsBuffer.inExpressionNodes.push(node)
+        checkBinaryLogical(node)
+      }
+
+      // makes the rule think it should skip the left or right
+      const isLeftTypeAssertion = isTypeAssertion(node.left)
+      const isRightTypeAssertion = isTypeAssertion(node.right)
+      if (isLeftTypeAssertion && isRightTypeAssertion)
+        return // ignore
+
+      if (isLeftTypeAssertion) {
+        return rule({
+          ...node,
+          left: {
+            ...node.left,
+            type: AST_NODE_TYPES.SequenceExpression as any,
+          },
+        })
+      }
+      if (isRightTypeAssertion) {
+        return rule({
+          ...node,
+          right: {
+            ...node.right,
+            type: AST_NODE_TYPES.SequenceExpression as any,
+          },
+        })
+      }
+
+      return rule(node)
+    }
+    function callExp(
+      node: Tree.CallExpression | Tree.NewExpression,
+    ): void {
+      if (isTypeAssertion(node.callee)) {
+        // reduces the precedence of the node so the rule thinks it needs to be wrapped
+        return checkCallNew({
+          ...node,
+          callee: {
+            ...node.callee,
+            type: AST_NODE_TYPES.SequenceExpression as any,
+          },
+        })
+      }
+
+      if (
+        node.typeArguments
+        && node.arguments.length === 1
+        // is there any opening parenthesis in type arguments
+        && sourceCode.getTokenAfter(node.callee, isOpeningParenToken)
+        !== sourceCode.getTokenBefore(node.arguments[0], isOpeningParenToken)
+      ) {
+        return checkCallNew({
+          ...node,
+          arguments: [
+            {
+              ...node.arguments[0],
+              type: AST_NODE_TYPES.SequenceExpression as any,
+            },
+          ],
+        })
+      }
+
+      return checkCallNew(node)
+    }
+    function unaryUpdateExpression(
+      node: Tree.UnaryExpression | Tree.UpdateExpression | Tree.AwaitExpression,
+    ): void {
+      if (isTypeAssertion(node.argument)) {
+        // reduces the precedence of the node so the rule thinks it needs to be wrapped
+        return checkArgumentWithPrecedence({
+          ...node,
+          argument: {
+            ...node.argument,
+            type: AST_NODE_TYPES.SequenceExpression as any,
+          },
+        })
+      }
+
+      return checkArgumentWithPrecedence(node)
     }
 
     return {
       ArrayExpression(node) {
         node.elements
+          .map(e => isTypeAssertion(e) ? ({
+            ...e,
+            type: AST_NODE_TYPES.FunctionExpression as any,
+          }) : e)
           .filter((e): e is NonNullable<typeof e> => !!e && hasExcessParensWithPrecedence(e, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           .forEach(report)
       },
@@ -838,16 +934,16 @@ export default createRule<MessageIds, RuleOptions>({
       },
 
       ArrowFunctionExpression(node) {
-        if (isReturnAssignException(node))
+        if (isReturnAssignException(node) || isTypeAssertion(node.body))
           return
 
-        if (node.body.type === 'ConditionalExpression'
+        if (node.body.type === AST_NODE_TYPES.ConditionalExpression
           && IGNORE_ARROW_CONDITIONALS
         ) {
           return
         }
 
-        if (node.body.type !== 'BlockStatement') {
+        if (node.body.type !== AST_NODE_TYPES.BlockStatement) {
           const firstBodyToken = sourceCode.getFirstToken(node.body, isNotOpeningParenToken)!
           const tokenBeforeFirst = sourceCode.getTokenBefore(firstBodyToken)!
 
@@ -869,40 +965,50 @@ export default createRule<MessageIds, RuleOptions>({
           report(node.right)
       },
 
-      BinaryExpression(node) {
-        if (reportsBuffer && node.operator === 'in')
-          reportsBuffer.inExpressionNodes.push(node)
+      'BinaryExpression': binaryExp,
 
-        checkBinaryLogical(node)
-      },
-
-      'CallExpression': checkCallNew,
+      'CallExpression': callExp,
 
       ConditionalExpression(node) {
         if (isReturnAssignException(node))
           return
 
-        const availableTypes = new Set(['BinaryExpression', 'LogicalExpression'])
+        // reduces the precedence of the node so the rule thinks it needs to be wrapped
+        const test: Tree.Expression = isTypeAssertion(node.test) ? {
+          ...node.test,
+          type: AST_NODE_TYPES.SequenceExpression as any,
+        } : node.test
+        const consequent: Tree.Expression = isTypeAssertion(node.consequent) ? {
+          ...node.consequent,
+          type: AST_NODE_TYPES.SequenceExpression as any,
+        } : node.consequent
+        // reduces the precedence of the node so the rule thinks it needs to be wrapped
+        const alternate: Tree.Expression = isTypeAssertion(node.alternate) ? {
+          ...node.alternate,
+          type: AST_NODE_TYPES.SequenceExpression as any,
+        } : node.alternate
+
+        const availableTypes = new Set([AST_NODE_TYPES.BinaryExpression, AST_NODE_TYPES.LogicalExpression])
 
         if (
-          !(EXCEPT_COND_TERNARY && availableTypes.has(node.test.type))
+          !(EXCEPT_COND_TERNARY && availableTypes.has(test.type))
           && !isCondAssignException(node)
           // @ts-expect-error other properties are not used
-          && hasExcessParensWithPrecedence(node.test, precedence({ type: 'LogicalExpression', operator: '||' }))
+          && hasExcessParensWithPrecedence(test, precedence({ type: AST_NODE_TYPES.LogicalExpression, operator: '||' }))
         ) {
-          report(node.test)
+          report(test)
         }
 
         if (
-          !(EXCEPT_COND_TERNARY && availableTypes.has(node.consequent.type))
-          && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
-          report(node.consequent)
+          !(EXCEPT_COND_TERNARY && availableTypes.has(consequent.type))
+          && hasExcessParensWithPrecedence(consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
+          report(consequent)
         }
 
         if (
-          !(EXCEPT_COND_TERNARY && availableTypes.has(node.alternate.type))
-          && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
-          report(node.alternate)
+          !(EXCEPT_COND_TERNARY && availableTypes.has(alternate.type))
+          && hasExcessParensWithPrecedence(alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
+          report(alternate)
         }
       },
 
@@ -915,7 +1021,13 @@ export default createRule<MessageIds, RuleOptions>({
       'ExpressionStatement': node => checkExpressionOrExportStatement(node.expression),
 
       ForInStatement(node) {
-        if (node.left.type !== 'VariableDeclaration') {
+        if (isTypeAssertion(node.right)) {
+          // as of 7.20.0 there's no way to skip checking the right of the ForIn
+          // so just don't validate it at all
+          return
+        }
+
+        if (node.left.type !== AST_NODE_TYPES.VariableDeclaration) {
           const firstLeftToken = sourceCode.getFirstToken(node.left, isNotOpeningParenToken)!
 
           if (
@@ -937,7 +1049,7 @@ export default createRule<MessageIds, RuleOptions>({
       },
 
       ForOfStatement(node) {
-        if (node.left.type !== 'VariableDeclaration') {
+        if (node.left.type !== AST_NODE_TYPES.VariableDeclaration) {
           const firstLeftToken = sourceCode.getFirstToken(node.left, isNotOpeningParenToken)!
 
           if (firstLeftToken.value === 'let') {
@@ -949,19 +1061,36 @@ export default createRule<MessageIds, RuleOptions>({
         if (hasExcessParens(node.left))
           report(node.left)
 
-        if (hasExcessParensWithPrecedence(node.right, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+        if (
+          !isTypeAssertion(node.right)
+          && hasExcessParensWithPrecedence(node.right, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+        ) {
           report(node.right)
+        }
       },
 
+      // DoWhileStatement
+      // ForIn and ForOf are guarded by eslint version
       ForStatement(node) {
-        if (node.test && hasExcessParens(node.test) && !isCondAssignException(node))
+        if (
+          node.test
+          && hasExcessParens(node.test)
+          && !isCondAssignException(node)
+          && !isTypeAssertion(node.test)
+        ) {
           report(node.test)
+        }
 
-        if (node.update && hasExcessParens(node.update))
+        if (
+          node.update
+          && hasExcessParens(node.update)
+          && !isTypeAssertion(node.update)
+        ) {
           report(node.update)
+        }
 
-        if (node.init) {
-          if (node.init.type !== 'VariableDeclaration') {
+        if (node.init && !isTypeAssertion(node.init)) {
+          if (node.init.type !== AST_NODE_TYPES.VariableDeclaration) {
             const firstToken = sourceCode.getFirstToken(node.init, isNotOpeningParenToken)!
 
             if (
@@ -983,6 +1112,9 @@ export default createRule<MessageIds, RuleOptions>({
       },
 
       'ForStatement > *.init:exit': function (node) {
+        if (isTypeAssertion(node))
+          return
+
         /**
          * Removing parentheses around `in` expressions might change semantics and cause errors.
          *
@@ -1052,7 +1184,7 @@ export default createRule<MessageIds, RuleOptions>({
       ImportExpression(node) {
         const { source } = node
 
-        if (source.type === 'SequenceExpression') {
+        if (source.type === AST_NODE_TYPES.SequenceExpression) {
           if (hasDoubleExcessParens(source))
             report(source)
         }
@@ -1061,14 +1193,24 @@ export default createRule<MessageIds, RuleOptions>({
         }
       },
 
-      'LogicalExpression': checkBinaryLogical,
+      'LogicalExpression': binaryExp,
 
       MemberExpression(node) {
+        const object: Tree.Expression = isTypeAssertion(node.object) ? {
+          ...node.object,
+          type: AST_NODE_TYPES.SequenceExpression as any,
+        } : node.object
+
+        const property: Tree.Expression | Tree.PrivateIdentifier = isTypeAssertion(node.property) ? {
+          ...node.property,
+          type: AST_NODE_TYPES.FunctionExpression as any,
+        } : node.property
+
         const shouldAllowWrapOnce = isMemberExpInNewCallee(node)
           && doesMemberExpressionContainCallExpression(node)
         const nodeObjHasExcessParens = shouldAllowWrapOnce
-          ? hasDoubleExcessParens(node.object)
-          : hasExcessParens(node.object)
+          ? hasDoubleExcessParens(object)
+          : hasExcessParens(object)
           && !(
             isImmediateFunctionPrototypeMethodCall(node.parent)
             && 'callee' in node.parent && node.parent.callee === node
@@ -1077,42 +1219,42 @@ export default createRule<MessageIds, RuleOptions>({
 
         if (
           nodeObjHasExcessParens
-          && precedence(node.object) >= precedence(node)
+          && precedence(object) >= precedence(node)
           && (
             node.computed
             || !(
-              isDecimalInteger(node.object)
+              isDecimalInteger(object)
 
               // RegExp literal is allowed to have parens (#1589)
-              || (node.object.type === 'Literal' && 'regex' in node.object && node.object.regex)
+              || (object.type === AST_NODE_TYPES.Literal && 'regex' in object && object.regex)
             )
           )
         ) {
-          report(node.object)
+          report(object)
         }
 
         if (nodeObjHasExcessParens
-          && node.object.type === 'CallExpression'
+          && object.type === AST_NODE_TYPES.CallExpression
         ) {
-          report(node.object)
+          report(object)
         }
 
         if (nodeObjHasExcessParens
           && !IGNORE_NEW_IN_MEMBER_EXPR
-          && node.object.type === 'NewExpression'
-          && isNewExpressionWithParens(node.object)) {
-          report(node.object)
+          && object.type === AST_NODE_TYPES.NewExpression
+          && isNewExpressionWithParens(object)) {
+          report(object)
         }
 
         if (nodeObjHasExcessParens
           && node.optional
-          && node.object.type === 'ChainExpression'
+          && object.type === AST_NODE_TYPES.ChainExpression
         ) {
-          report(node.object)
+          report(object)
         }
 
-        if (node.computed && hasExcessParens(node.property))
-          report(node.property)
+        if (node.computed && hasExcessParens(property))
+          report(property)
       },
 
       'MethodDefinition[computed=true]': function (node: Tree.MethodDefinition) {
@@ -1120,7 +1262,7 @@ export default createRule<MessageIds, RuleOptions>({
           report(node.key)
       },
 
-      'NewExpression': checkCallNew,
+      'NewExpression': callExp,
 
       ObjectExpression(node) {
         node.properties
@@ -1172,7 +1314,7 @@ export default createRule<MessageIds, RuleOptions>({
           && hasExcessParensNoLineTerminator(returnToken, node.argument)
 
         // RegExp literal is allowed to have parens (#1589)
-          && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex)) {
+          && !(node.argument.type === AST_NODE_TYPES.Literal && 'regex' in node.argument && node.argument.regex)) {
           report(node.argument)
         }
       },
@@ -1186,7 +1328,7 @@ export default createRule<MessageIds, RuleOptions>({
       },
 
       SwitchCase(node) {
-        if (node.test && hasExcessParens(node.test))
+        if (node.test && hasExcessParens(node.test) && !isTypeAssertion(node.test))
           report(node.test)
       },
 
@@ -1198,12 +1340,21 @@ export default createRule<MessageIds, RuleOptions>({
       ThrowStatement(node) {
         const throwToken = sourceCode.getFirstToken(node)
 
-        if (throwToken && node.argument && hasExcessParensNoLineTerminator(throwToken, node.argument))
+        if (
+          throwToken
+          && node.argument
+          && hasExcessParensNoLineTerminator(throwToken, node.argument)
+          && !isTypeAssertion(node.argument)
+        ) {
           report(node.argument)
+        }
       },
 
-      'UnaryExpression': checkArgumentWithPrecedence,
+      'UnaryExpression': unaryUpdateExpression,
       UpdateExpression(node) {
+        if (isTypeAssertion(node.argument)) {
+          return unaryUpdateExpression(node)
+        }
         if (node.prefix) {
           checkArgumentWithPrecedence(node)
         }
@@ -1220,16 +1371,20 @@ export default createRule<MessageIds, RuleOptions>({
           }
         }
       },
-      'AwaitExpression': checkArgumentWithPrecedence,
-
+      'AwaitExpression': unaryUpdateExpression,
       VariableDeclarator(node) {
+        const init = isTypeAssertion(node.init) ? {
+          ...node.init,
+          type: AST_NODE_TYPES.FunctionExpression as any,
+        } : node.init
+
         if (
-          node.init && hasExcessParensWithPrecedence(node.init, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          init && hasExcessParensWithPrecedence(init, PRECEDENCE_OF_ASSIGNMENT_EXPR)
 
           // RegExp literal is allowed to have parens (#1589)
-          && !(node.init.type === 'Literal' && 'regex' in node.init && node.init.regex)
+          && !(init.type === AST_NODE_TYPES.Literal && 'regex' in init && init.regex)
         ) {
-          report(node.init)
+          report(init)
         }
       },
 
@@ -1244,7 +1399,7 @@ export default createRule<MessageIds, RuleOptions>({
       },
 
       YieldExpression(node) {
-        if (node.argument) {
+        if (node.argument && !isTypeAssertion(node.argument)) {
           const yieldToken = sourceCode.getFirstToken(node)
 
           if ((precedence(node.argument) >= precedence(node)
@@ -1256,10 +1411,37 @@ export default createRule<MessageIds, RuleOptions>({
         }
       },
 
-      'ClassDeclaration': checkClass,
-      'ClassExpression': checkClass,
+      ClassDeclaration(node) {
+        if (node.superClass?.type === AST_NODE_TYPES.TSAsExpression) {
+          checkClass({
+            ...node,
+            superClass: {
+              ...node.superClass,
+              type: AST_NODE_TYPES.SequenceExpression as any,
+            },
+          })
+        }
+        else {
+          checkClass(node)
+        }
+      },
+      ClassExpression(node) {
+        if (node.superClass?.type === AST_NODE_TYPES.TSAsExpression) {
+          return checkClass({
+            ...node,
+            superClass: {
+              ...node.superClass,
+              type: AST_NODE_TYPES.SequenceExpression as any,
+            },
+          })
+        }
+        return checkClass(node)
+      },
 
-      'SpreadElement': checkSpreadOperator,
+      SpreadElement(node) {
+        if (!isTypeAssertion(node.argument))
+          checkSpreadOperator(node)
+      },
       'SpreadProperty': checkSpreadOperator,
 
       TemplateLiteral(node) {
@@ -1280,8 +1462,12 @@ export default createRule<MessageIds, RuleOptions>({
 
       // This listener is exposed for TypeScript rule to consume
       TSStringKeyword(node) {
-        if (hasExcessParens(node))
-          report(node)
+        if (hasExcessParens(node)) {
+          report({
+            ...node,
+            type: AST_NODE_TYPES.FunctionExpression as any,
+          })
+        }
       },
     }
   },

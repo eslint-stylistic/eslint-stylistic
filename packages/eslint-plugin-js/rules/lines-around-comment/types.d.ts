@@ -13,6 +13,14 @@ export interface Schema0 {
   allowObjectEnd?: boolean
   allowArrayStart?: boolean
   allowArrayEnd?: boolean
+  allowInterfaceStart?: boolean
+  allowInterfaceEnd?: boolean
+  allowTypeStart?: boolean
+  allowTypeEnd?: boolean
+  allowEnumStart?: boolean
+  allowEnumEnd?: boolean
+  allowModuleStart?: boolean
+  allowModuleEnd?: boolean
   ignorePattern?: string
   applyDefaultIgnorePatterns?: boolean
   afterHashbangComment?: boolean

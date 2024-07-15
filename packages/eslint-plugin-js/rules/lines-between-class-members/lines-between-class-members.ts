@@ -4,8 +4,9 @@
  */
 
 import type { ASTNode, Token } from '@shared/types'
-import { isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isSemicolonToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import { createTSRule } from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 type NodeTest = (
@@ -27,17 +28,14 @@ const ClassMemberTypes: Record<string, NodeTestObject> = {
   'method': { test: node => node.type === 'MethodDefinition' },
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule< RuleOptions, MessageIds>({
+  name: 'lines-between-class-members',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require or disallow an empty line between class members',
-      url: 'https://eslint.style/rules/js/lines-between-class-members',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         anyOf: [
@@ -71,6 +69,10 @@ export default createRule<MessageIds, RuleOptions>({
       {
         type: 'object',
         properties: {
+          exceptAfterOverload: {
+            type: 'boolean',
+            default: true,
+          },
           exceptAfterSingleLine: {
             type: 'boolean',
             default: false,
@@ -84,12 +86,21 @@ export default createRule<MessageIds, RuleOptions>({
       always: 'Expected blank line between class members.',
     },
   },
-
-  create(context) {
+  defaultOptions: [
+    'always',
+    {
+      exceptAfterOverload: true,
+      exceptAfterSingleLine: false,
+    },
+  ],
+  create(context, [firstOption, secondOption]) {
     const options: RuleOptions = []
 
     options[0] = context.options[0] || 'always'
     options[1] = context.options[1] || { exceptAfterSingleLine: false }
+
+    const exceptAfterOverload
+      = secondOption?.exceptAfterOverload && firstOption === 'always'
 
     const configureList = typeof options[0] === 'object' ? options[0].enforce : [{ blankLine: options[0], prev: '*', next: '*' }]
     const sourceCode = context.sourceCode
@@ -125,8 +136,8 @@ export default createRule<MessageIds, RuleOptions>({
      */
     function getBoundaryTokens(curNode: ASTNode, nextNode: ASTNode) {
       const lastToken = sourceCode.getLastToken(curNode)!
-      const prevToken = sourceCode.getTokenBefore(lastToken)
-      const nextToken = sourceCode.getFirstToken(nextNode) // skip possible lone `;` between nodes
+      const prevToken = sourceCode.getTokenBefore(lastToken)!
+      const nextToken = sourceCode.getFirstToken(nextNode)! // skip possible lone `;` between nodes
 
       const isSemicolonLessStyle = (
         isSemicolonToken(lastToken)
@@ -212,12 +223,24 @@ export default createRule<MessageIds, RuleOptions>({
       return null
     }
 
+    function isOverload(node: ASTNode): boolean {
+      return (
+        (
+          node.type === AST_NODE_TYPES.TSAbstractMethodDefinition
+          || node.type === AST_NODE_TYPES.MethodDefinition
+        )
+        && node.value.type === AST_NODE_TYPES.TSEmptyBodyFunctionExpression
+      )
+    }
+
     return {
       ClassBody(node) {
-        const body = node.body
+        const body = exceptAfterOverload
+          ? node.body.filter(node => !isOverload(node))
+          : node.body
 
         for (let i = 0; i < body.length - 1; i++) {
-          const curFirst = sourceCode.getFirstToken(body[i])
+          const curFirst = sourceCode.getFirstToken(body[i])!
           const { curLast, nextFirst } = getBoundaryTokens(body[i], body[i + 1])
           const isMulti = !isTokenOnSameLine(curFirst, curLast)
           const skip = !isMulti && options[1]!.exceptAfterSingleLine

@@ -5,21 +5,20 @@
 
 // @ts-expect-error missing types
 import { tokenize } from 'espree'
-import type { Tree } from '@shared/types'
+import type { RuleListener, Tree } from '@shared/types'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isNumericLiteral } from '../../utils/ast-utils'
 import keywords from '../../utils/keywords'
-import { createRule } from '../../utils/createRule'
+import { createTSRule } from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'quote-props',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require quotes around object literal property names',
-      url: 'https://eslint.style/rules/js/quote-props',
     },
-
     schema: {
       anyOf: [
         {
@@ -61,7 +60,6 @@ export default createRule<MessageIds, RuleOptions>({
         },
       ],
     },
-
     fixable: 'code',
     messages: {
       requireQuotesDueToReservedWord: 'Properties should be quoted as \'{{property}}\' is a reserved word.',
@@ -73,6 +71,7 @@ export default createRule<MessageIds, RuleOptions>({
       redundantQuoting: 'Properties shouldn\'t be quoted as all quotes are redundant.',
     },
   },
+  defaultOptions: ['always'],
 
   create(context) {
     const MODE = context.options[0]
@@ -278,7 +277,7 @@ export default createRule<MessageIds, RuleOptions>({
       }
     }
 
-    return {
+    const listeners: RuleListener = {
       Property(node) {
         if (MODE === 'always' || !MODE)
           checkOmittedQuotes(node as Tree.PropertyNonComputedName)
@@ -293,6 +292,62 @@ export default createRule<MessageIds, RuleOptions>({
         if (MODE === 'consistent-as-needed')
           checkConsistency(node, true)
       },
+      TSPropertySignature(node) {
+        return listeners.Property!({
+          ...node,
+          type: AST_NODE_TYPES.Property,
+          shorthand: false,
+          method: false,
+          kind: 'init',
+          value: null as any,
+        })
+      },
+      TSMethodSignature(node) {
+        return listeners.Property!({
+          ...node,
+          type: AST_NODE_TYPES.Property,
+          shorthand: false,
+          method: true,
+          kind: 'init',
+          value: null as any,
+        })
+      },
+      TSEnumMember(node) {
+        return listeners.Property!({
+          ...node,
+          type: AST_NODE_TYPES.Property,
+          key: node.id as any,
+          optional: false,
+          shorthand: false,
+          method: false,
+          kind: 'init',
+          value: null as any,
+        })
+      },
+      TSTypeLiteral(node) {
+        return listeners.ObjectExpression!({
+          ...node,
+          type: AST_NODE_TYPES.ObjectExpression,
+          properties: node.members as any,
+        })
+      },
+      TSInterfaceBody(node) {
+        return listeners.ObjectExpression!({
+          ...node,
+          type: AST_NODE_TYPES.ObjectExpression,
+          properties: node.body as any,
+        })
+      },
+      TSEnumDeclaration(node) {
+        const members = node.body.members || node.members
+        return listeners.ObjectExpression!({
+          ...node,
+          type: AST_NODE_TYPES.ObjectExpression,
+          properties: members.map(member => ({ ...member, key: member.id })) as any,
+        })
+      },
     }
+
+    return listeners
   },
 })

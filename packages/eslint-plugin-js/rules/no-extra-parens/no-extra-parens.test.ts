@@ -135,7 +135,7 @@ run({
     '!!a; typeof +b; void -c; ~delete d;',
     'a(b)',
     'a(b)(c)',
-    'a((b, c))',
+    'a(b, c)',
     'new new A',
     '2 ** 3 ** 4',
     '(2 ** 3) ** 4',

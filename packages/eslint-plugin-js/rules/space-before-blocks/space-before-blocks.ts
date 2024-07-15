@@ -3,9 +3,9 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import type { ASTNode, Token, Tree } from '@shared/types'
+import type { ASTNode, Token } from '@shared/types'
 import { getSwitchCaseColonToken, isArrowToken, isColonToken, isFunction, isKeywordToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createTSRule } from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 /**
@@ -23,17 +23,14 @@ function isFunctionBody(node: ASTNode): boolean {
   )
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'space-before-blocks',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent spacing before blocks',
-      url: 'https://eslint.style/rules/js/space-before-blocks',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         oneOf: [
@@ -62,15 +59,14 @@ export default createRule<MessageIds, RuleOptions>({
         ],
       },
     ],
-
     messages: {
       unexpectedSpace: 'Unexpected space before opening brace.',
       missingSpace: 'Missing space before opening brace.',
     },
   },
+  defaultOptions: ['always'],
 
-  create(context) {
-    const config = context.options[0]
+  create(context, [config]) {
     const sourceCode = context.sourceCode
     let alwaysFunctions = true
     let alwaysKeywords = true
@@ -127,28 +123,16 @@ export default createRule<MessageIds, RuleOptions>({
      * Checks the given BlockStatement node has a preceding space if it doesn’t start on a new line.
      * @param node The AST node of a BlockStatement.
      */
-    function checkPrecedingSpace(node: ASTNode | Token) {
+    function checkPrecedingSpace(node: ASTNode | Token, requireSpace?: boolean, requireNoSpace?: boolean) {
       const precedingToken = sourceCode.getTokenBefore(node)
 
       if (precedingToken && !isConflicted(precedingToken, node) && isTokenOnSameLine(precedingToken, node)) {
-        // @ts-expect-error type cast
-        const hasSpace = sourceCode.isSpaceBetweenTokens(precedingToken, node)
-        let requireSpace
-        let requireNoSpace
+        const hasSpace = sourceCode.isSpaceBetween(precedingToken, node)
 
         // @ts-expect-error type cast
-        if (isFunctionBody(node)) {
-          requireSpace = alwaysFunctions
-          requireNoSpace = neverFunctions
-        }
-        else if (node.type === 'ClassBody') {
-          requireSpace = alwaysClasses
-          requireNoSpace = neverClasses
-        }
-        else {
-          requireSpace = alwaysKeywords
-          requireNoSpace = neverKeywords
-        }
+        requireSpace ??= isFunctionBody(node) ? alwaysFunctions : alwaysKeywords
+        // @ts-expect-error type cast
+        requireNoSpace ??= isFunctionBody(node) ? neverFunctions : neverKeywords
 
         if (requireSpace && !hasSpace) {
           context.report({
@@ -171,26 +155,33 @@ export default createRule<MessageIds, RuleOptions>({
       }
     }
 
-    /**
-     * Checks if the CaseBlock of an given SwitchStatement node has a preceding space.
-     * @param node The node of a SwitchStatement.
-     */
-    function checkSpaceBeforeCaseBlock(node: Tree.SwitchStatement) {
-      const cases = node.cases
-      let openingBrace: Token
-
-      if (cases.length > 0)
-        openingBrace = sourceCode.getTokenBefore(cases[0])!
-      else
-        openingBrace = sourceCode.getLastToken(node, 1)!
-
-      checkPrecedingSpace(openingBrace)
-    }
-
     return {
       BlockStatement: checkPrecedingSpace,
-      ClassBody: checkPrecedingSpace,
-      SwitchStatement: checkSpaceBeforeCaseBlock,
+      ClassBody(node) {
+        checkPrecedingSpace(node, alwaysClasses, neverClasses)
+      },
+      /**
+       * Checks if the CaseBlock of an given SwitchStatement node has a preceding space.
+       */
+      SwitchStatement(node) {
+        const cases = node.cases
+        let openingBrace: Token
+
+        if (cases.length > 0)
+          openingBrace = sourceCode.getTokenBefore(cases[0])!
+        else
+          openingBrace = sourceCode.getLastToken(node, 1)!
+
+        checkPrecedingSpace(openingBrace)
+      },
+      TSEnumDeclaration(node) {
+        const punctuator = sourceCode.getTokenAfter(node.id)
+        if (punctuator)
+          checkPrecedingSpace(punctuator, alwaysClasses, neverClasses)
+      },
+      TSInterfaceBody(node) {
+        checkPrecedingSpace(node, alwaysClasses, neverClasses)
+      },
     }
   },
 })

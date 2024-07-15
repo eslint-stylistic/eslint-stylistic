@@ -42,6 +42,8 @@ This may look alright at first sight, but this code in fact throws a syntax erro
 
 This rule requires quotes around object literal property names.
 
+This rule adds support for TypeScript's type literals, interfaces and enums.
+
 ## Options
 
 This rule has two options, a string option and an object option.

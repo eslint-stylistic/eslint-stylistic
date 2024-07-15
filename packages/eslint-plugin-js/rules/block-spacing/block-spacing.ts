@@ -4,54 +4,58 @@
  */
 
 import type { Token, Tree } from '@shared/types'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createTSRule } from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+type SupportedType = Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement | Tree.TSInterfaceBody | Tree.TSTypeLiteral | Tree.TSEnumDeclaration
+
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'block-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow or enforce spaces inside of blocks after opening block and before closing block',
-      url: 'https://eslint.style/rules/js/block-spacing',
     },
-
     fixable: 'whitespace',
-
     schema: [
       { type: 'string', enum: ['always', 'never'] },
     ],
-
     messages: {
       missing: 'Requires a space {{location}} \'{{token}}\'.',
       extra: 'Unexpected space(s) {{location}} \'{{token}}\'.',
     },
   },
-
-  create(context) {
-    const always = (context.options[0] !== 'never')
+  defaultOptions: ['always'],
+  create(context, options) {
+    const always = (options[0] !== 'never')
     const messageId = always ? 'missing' : 'extra'
     const sourceCode = context.sourceCode
 
     /**
      * Gets the open brace token from a given node.
-     * @param node A BlockStatement/StaticBlock/SwitchStatement node to get.
      * @returns The token of the open brace.
      */
-    function getOpenBrace(node: Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement): Token {
-      if (node.type === 'SwitchStatement') {
+    function getOpenBrace(node: SupportedType): Tree.PunctuatorToken {
+      if (node.type === AST_NODE_TYPES.SwitchStatement) {
         if (node.cases.length > 0)
-          return sourceCode.getTokenBefore(node.cases[0])!
+          return sourceCode.getTokenBefore(node.cases[0])! as Tree.PunctuatorToken
 
-        return sourceCode.getLastToken(node, 1)!
+        return sourceCode.getLastToken(node, 1)! as Tree.PunctuatorToken
       }
 
-      if (node.type === 'StaticBlock')
-        return sourceCode.getFirstToken(node, { skip: 1 })! // skip the `static` token
+      if (node.type === AST_NODE_TYPES.StaticBlock)
+        return sourceCode.getFirstToken(node, { skip: 1 })! as Tree.PunctuatorToken // skip the `static` token
 
-      // "BlockStatement"
-      return sourceCode.getFirstToken(node)!
+      if (node.type === AST_NODE_TYPES.TSEnumDeclaration) {
+        return sourceCode.getFirstToken(node, {
+          filter: token =>
+            token.type === AST_TOKEN_TYPES.Punctuator && token.value === '{',
+        }) as Tree.PunctuatorToken
+      }
+
+      return sourceCode.getFirstToken(node)! as Tree.PunctuatorToken
     }
 
     /**
@@ -67,25 +71,29 @@ export default createRule<MessageIds, RuleOptions>({
     function isValid(left: Token, right: Token): boolean {
       return (
         !isTokenOnSameLine(left, right)
-        || sourceCode.isSpaceBetweenTokens(left, right) === always
+        || sourceCode.isSpaceBetween(left, right) === always
       )
     }
 
     /**
      * Checks and reports invalid spacing style inside braces.
-     * @param node A BlockStatement/StaticBlock/SwitchStatement node to check.
      */
-    function checkSpacingInsideBraces(node: Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement): void {
+    function checkSpacingInsideBraces(node: SupportedType): void {
       // Gets braces and the first/last token of content.
       const openBrace = getOpenBrace(node)
       const closeBrace = sourceCode.getLastToken(node)!
-      const firstToken = sourceCode.getTokenAfter(openBrace, { includeComments: true })!
-      const lastToken = sourceCode.getTokenBefore(closeBrace, { includeComments: true })!
+      const firstToken = sourceCode.getTokenAfter(openBrace, {
+        includeComments: true,
+      })!
+      const lastToken = sourceCode.getTokenBefore(closeBrace, {
+        includeComments: true,
+      })!
 
       // Skip if the node is invalid or empty.
-      if (openBrace.type !== 'Punctuator'
+      if (
+        openBrace.type !== AST_TOKEN_TYPES.Punctuator
         || openBrace.value !== '{'
-        || closeBrace.type !== 'Punctuator'
+        || closeBrace.type !== AST_TOKEN_TYPES.Punctuator
         || closeBrace.value !== '}'
         || firstToken === closeBrace
       ) {
@@ -93,7 +101,7 @@ export default createRule<MessageIds, RuleOptions>({
       }
 
       // Skip line comments for option never
-      if (!always && firstToken.type === 'Line')
+      if (!always && firstToken.type === AST_TOKEN_TYPES.Line)
         return
 
       // Check.
@@ -154,6 +162,9 @@ export default createRule<MessageIds, RuleOptions>({
       BlockStatement: checkSpacingInsideBraces,
       StaticBlock: checkSpacingInsideBraces,
       SwitchStatement: checkSpacingInsideBraces,
+      TSInterfaceBody: checkSpacingInsideBraces,
+      TSTypeLiteral: checkSpacingInsideBraces,
+      TSEnumDeclaration: checkSpacingInsideBraces,
     }
   },
 })

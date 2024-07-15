@@ -5,7 +5,7 @@
 
 import type { JSONSchema, Token, Tree } from '@shared/types'
 import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createTSRule } from '../../utils/createRule'
 import type { MessageIds, RuleOptions } from './types'
 
 // Schema objects.
@@ -158,17 +158,14 @@ function areLineBreaksRequired(
     )
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'object-curly-newline',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent line breaks after opening and before closing braces',
-      url: 'https://eslint.style/rules/js/object-curly-newline',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         oneOf: [
@@ -189,7 +186,6 @@ export default createRule<MessageIds, RuleOptions>({
         ],
       },
     ],
-
     messages: {
       unexpectedLinebreakBeforeClosingBrace: 'Unexpected line break before this closing brace.',
       unexpectedLinebreakAfterOpeningBrace: 'Unexpected line break after this opening brace.',
@@ -197,7 +193,7 @@ export default createRule<MessageIds, RuleOptions>({
       expectedLinebreakAfterOpeningBrace: 'Expected a line break after this opening brace.',
     },
   },
-
+  defaultOptions: [],
   create(context) {
     const sourceCode = context.sourceCode
     const normalizedOptions = normalizeOptions(context.options[0])

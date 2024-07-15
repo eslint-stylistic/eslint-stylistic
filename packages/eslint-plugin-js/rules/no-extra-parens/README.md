@@ -41,6 +41,8 @@ test();
 
 In this case, the rule will not try to remove the parentheses around `"use strict"` but will still report them as a problem.
 
+This rule adds support for TypeScript type assertions.
+
 ## Options
 
 This rule has a string option:

@@ -4,21 +4,19 @@
  */
 
 import type { Tree } from '@shared/types'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isOpeningParenToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createTSRule } from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule<RuleOptions, MessageIds>({
+  name: 'space-before-function-paren',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent spacing before `function` definition opening parenthesis',
-      url: 'https://eslint.style/rules/js/space-before-function-paren',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         oneOf: [
@@ -47,17 +45,17 @@ export default createRule<MessageIds, RuleOptions>({
         ],
       },
     ],
-
     messages: {
-      unexpectedSpace: 'Unexpected space before function parentheses.',
-      missingSpace: 'Missing space before function parentheses.',
+      unexpected: 'Unexpected space before function parentheses.',
+      missing: 'Missing space before function parentheses.',
     },
   },
+  defaultOptions: ['always'],
 
-  create(context) {
+  create(context, [firstOption]) {
     const sourceCode = context.sourceCode
-    const baseConfig = typeof context.options[0] === 'string' ? context.options[0] : 'always'
-    const overrideConfig = typeof context.options[0] === 'object' ? context.options[0] : {}
+    const baseConfig = typeof firstOption === 'string' ? firstOption : 'always'
+    const overrideConfig = typeof firstOption === 'object' ? firstOption : {}
 
     /**
      * Determines whether a function has a name.
@@ -68,21 +66,23 @@ export default createRule<MessageIds, RuleOptions>({
       node:
         | Tree.ArrowFunctionExpression
         | Tree.FunctionDeclaration
-        | Tree.FunctionExpression,
+        | Tree.FunctionExpression
+        | Tree.TSDeclareFunction
+        | Tree.TSEmptyBodyFunctionExpression,
     ) {
-      if (node.id)
+      if (node.id != null)
         return true
 
       const parent = node.parent
 
-      return parent.type === 'MethodDefinition'
-        || (parent.type === 'Property'
-        && (
-          parent.kind === 'get'
-          || parent.kind === 'set'
-          || parent.method
+      return (
+        parent.type === AST_NODE_TYPES.MethodDefinition
+        || parent.type === AST_NODE_TYPES.TSAbstractMethodDefinition
+        || (
+          parent.type === AST_NODE_TYPES.Property
+          && (parent.kind === 'get' || parent.kind === 'set' || parent.method)
         )
-        )
+      )
     }
 
     /**
@@ -93,20 +93,26 @@ export default createRule<MessageIds, RuleOptions>({
     function getConfigForFunction(node:
       | Tree.ArrowFunctionExpression
       | Tree.FunctionDeclaration
-      | Tree.FunctionExpression,
+      | Tree.FunctionExpression
+      | Tree.TSDeclareFunction
+      | Tree.TSEmptyBodyFunctionExpression,
     ) {
-      if (node.type === 'ArrowFunctionExpression') {
+      if (node.type === AST_NODE_TYPES.ArrowFunctionExpression) {
         // Always ignore non-async functions and arrow functions without parens, e.g. async foo => bar
-        if (node.async && isOpeningParenToken(sourceCode.getFirstToken(node, { skip: 1 })!))
-          return overrideConfig.asyncArrow || baseConfig
+        if (
+          node.async
+          && isOpeningParenToken(sourceCode.getFirstToken(node, { skip: 1 })!)
+        ) {
+          return overrideConfig.asyncArrow ?? baseConfig
+        }
       }
       else if (isNamedFunction(node)) {
-        return overrideConfig.named || baseConfig
+        return overrideConfig.named ?? baseConfig
 
         // `generator-star-spacing` should warn anonymous generators. E.g. `function* () {}`
       }
       else if (!node.generator) {
-        return overrideConfig.anonymous || baseConfig
+        return overrideConfig.anonymous ?? baseConfig
       }
 
       return 'ignore'
@@ -119,16 +125,27 @@ export default createRule<MessageIds, RuleOptions>({
     function checkFunction(node:
       | Tree.ArrowFunctionExpression
       | Tree.FunctionDeclaration
-      | Tree.FunctionExpression,
+      | Tree.FunctionExpression
+      | Tree.TSDeclareFunction
+      | Tree.TSEmptyBodyFunctionExpression,
     ) {
       const functionConfig = getConfigForFunction(node)
 
       if (functionConfig === 'ignore')
         return
 
-      const rightToken = sourceCode.getFirstToken(node, isOpeningParenToken)!
-      const leftToken = sourceCode.getTokenBefore(rightToken)!
-      const hasSpacing = sourceCode.isSpaceBetweenTokens(leftToken, rightToken)
+      let leftToken: Tree.Token
+      let rightToken: Tree.Token
+      if (node.typeParameters) {
+        leftToken = sourceCode.getLastToken(node.typeParameters)!
+        rightToken = sourceCode.getTokenAfter(leftToken)!
+      }
+      else {
+        rightToken = sourceCode.getFirstToken(node, isOpeningParenToken)!
+        leftToken = sourceCode.getTokenBefore(rightToken)!
+      }
+
+      const hasSpacing = sourceCode.isSpaceBetween(leftToken, rightToken)
 
       if (hasSpacing && functionConfig === 'never') {
         context.report({
@@ -137,7 +154,7 @@ export default createRule<MessageIds, RuleOptions>({
             start: leftToken.loc.end,
             end: rightToken.loc.start,
           },
-          messageId: 'unexpectedSpace',
+          messageId: 'unexpected',
           fix(fixer) {
             const comments = sourceCode.getCommentsBefore(rightToken)
 
@@ -156,7 +173,7 @@ export default createRule<MessageIds, RuleOptions>({
         context.report({
           node,
           loc: rightToken.loc,
-          messageId: 'missingSpace',
+          messageId: 'missing',
           fix: fixer => fixer.insertTextAfter(leftToken, ' '),
         })
       }
@@ -166,6 +183,8 @@ export default createRule<MessageIds, RuleOptions>({
       ArrowFunctionExpression: checkFunction,
       FunctionDeclaration: checkFunction,
       FunctionExpression: checkFunction,
+      TSEmptyBodyFunctionExpression: checkFunction,
+      TSDeclareFunction: checkFunction,
     }
   },
 })

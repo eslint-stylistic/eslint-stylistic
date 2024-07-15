@@ -25,6 +25,8 @@ This rule enforces the consistent use of either backticks, double, or single quo
 
 This rule is aware of directive prologues such as `"use strict"` and will not flag or autofix them if doing so will change how the directive prologue is interpreted.
 
+This rule adds support for TypeScript features which allow quoted names, but not backtick quoted names.
+
 ## Options
 
 This rule has two options, a string option and an object option.

@@ -12,6 +12,8 @@ This rule improves readability by enforcing lines between class members. It will
 
 ## Rule Details
 
+This rule adds support for ignoring overload methods in a class.
+
 Examples of **incorrect** code for this rule:
 
 ::: incorrect
@@ -81,10 +83,13 @@ First option can be string `"always"` or `"never"` or an object with a property 
     - **prev**: Specifies the type of the preceding class member. It can be `"method"` for class methods, `"field"` for class fields, or `"*"` for any class member.
     - **next**: Specifies the type of the following class member. It follows the same options as `prev`.
 
-Second option is an object with a property named `exceptAfterSingleLine`:
+Second option is an object with two properties named `exceptAfterSingleLine` and `exceptAfterOverload`:
 
 - `"exceptAfterSingleLine": false`(default) **do not** skip checking empty lines after single-line class members
 - `"exceptAfterSingleLine": true` skip checking empty lines after single-line class members
+
+- `"exceptAfterOverload": true` (default) - Skip checking empty lines after overload class members
+- `"exceptAfterOverload": false` - **do not** skip checking empty lines after overload class members
 
 Examples of **incorrect** code for this rule with the string option:
 
@@ -334,6 +339,44 @@ class MyClass {
   }
 
   method2() {}
+}
+```
+
+:::
+
+::: correct
+
+```ts
+/*eslint @typescript-eslint/lines-between-class-members: ["error", "always", { "exceptAfterOverload": true }]*/
+
+class foo {
+  bar(a: string): void;
+  bar(a: string, b: string): void;
+  bar(a: string, b: string) {}
+
+  baz() {}
+
+  qux() {}
+}
+```
+
+:::
+
+::: correct
+
+```ts
+/*eslint @typescript-eslint/lines-between-class-members: ["error", "always", { "exceptAfterOverload": false }]*/
+
+class foo {
+  bar(a: string): void;
+
+  bar(a: string, b: string): void;
+
+  bar(a: string, b: string) {}
+
+  baz() {}
+
+  qux() {}
 }
 ```
 

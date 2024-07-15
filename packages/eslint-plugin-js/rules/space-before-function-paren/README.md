@@ -29,6 +29,8 @@ Style guides may require a space after the `function` keyword for anonymous func
 
 This rule aims to enforce consistent spacing before function parentheses and as such, will warn whenever whitespace doesn't match the preferences specified.
 
+This rule adds support for generic type parameters on function calls.
+
 ## Options
 
 This rule has a string option or an object option:

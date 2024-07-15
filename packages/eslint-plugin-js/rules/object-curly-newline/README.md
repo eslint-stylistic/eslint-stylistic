@@ -16,6 +16,8 @@ A number of style guides require or disallow line breaks inside of object braces
 
 This rule requires or disallows a line break between `{` and its following token, and between `}` and its preceding token of object literals or destructuring assignments.
 
+This rule adds support for TypeScript's object types.
+
 ## Options
 
 This rule has either a string option:

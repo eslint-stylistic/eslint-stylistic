@@ -24,6 +24,8 @@ new Date ();
 
 This rule requires or disallows spaces between the function name and the opening parenthesis that calls it.
 
+This rule adds support for generic type parameters on function calls.
+
 ## Options
 
 This rule has a string option:

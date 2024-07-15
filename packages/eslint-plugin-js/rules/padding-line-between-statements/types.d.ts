@@ -5,8 +5,8 @@ export type StatementType =
   | (
     | '*'
     | 'block-like'
-    | 'cjs-export'
-    | 'cjs-import'
+    | 'exports'
+    | 'require'
     | 'directive'
     | 'expression'
     | 'iife'
@@ -41,13 +41,19 @@ export type StatementType =
     | 'var'
     | 'while'
     | 'with'
+    | 'cjs-export'
+    | 'cjs-import'
+    | 'enum'
+    | 'interface'
+    | 'type'
+    | 'function-overload'
     )
     | [
       (
         | '*'
         | 'block-like'
-        | 'cjs-export'
-        | 'cjs-import'
+        | 'exports'
+        | 'require'
         | 'directive'
         | 'expression'
         | 'iife'
@@ -82,12 +88,18 @@ export type StatementType =
         | 'var'
         | 'while'
         | 'with'
+        | 'cjs-export'
+        | 'cjs-import'
+        | 'enum'
+        | 'interface'
+        | 'type'
+        | 'function-overload'
       ),
       ...(
         | '*'
         | 'block-like'
-        | 'cjs-export'
-        | 'cjs-import'
+        | 'exports'
+        | 'require'
         | 'directive'
         | 'expression'
         | 'iife'
@@ -122,6 +134,12 @@ export type StatementType =
         | 'var'
         | 'while'
         | 'with'
+        | 'cjs-export'
+        | 'cjs-import'
+        | 'enum'
+        | 'interface'
+        | 'type'
+        | 'function-overload'
       )[],
     ]
 export type Schema0 = {

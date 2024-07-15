@@ -23,6 +23,8 @@ While this is valid JavaScript syntax, it is hard to determine what the author i
 
 This rule is aimed at ensuring there are spaces around infix operators.
 
+This rule adds support for enum members.
+
 ## Options
 
 This rule accepts a single options argument with the following defaults:
@@ -83,6 +85,12 @@ const a = {b:1};
 var {b = 0} = bar;
 
 function foo(a = 0) { }
+```
+
+```ts
+enum MyEnum {
+  KEY = 'value',
+}
 ```
 
 :::

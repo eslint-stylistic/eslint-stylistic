@@ -3,25 +3,24 @@
  * @author Jamund Ferguson
  */
 import type { ASTNode, RuleFixer, Token, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { isClosingBraceToken, isClosingBracketToken, isNotCommaToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
+import { isClosingBraceToken, isClosingBracketToken, isNotCommaToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
+import { createTSRule } from '../../utils/createRule'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createTSRule< RuleOptions, MessageIds>({
+  name: 'object-curly-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent spacing inside braces',
-      url: 'https://eslint.style/rules/js/object-curly-spacing',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
         enum: ['always', 'never'],
+        default: 'never',
       },
       {
         type: 'object',
@@ -36,15 +35,14 @@ export default createRule<MessageIds, RuleOptions>({
         additionalProperties: false,
       },
     ],
-
     messages: {
-      requireSpaceBefore: 'A space is required before \'{{token}}\'.',
-      requireSpaceAfter: 'A space is required after \'{{token}}\'.',
-      unexpectedSpaceBefore: 'There should be no space before \'{{token}}\'.',
-      unexpectedSpaceAfter: 'There should be no space after \'{{token}}\'.',
+      requireSpaceBefore: `A space is required before '{{token}}'.`,
+      requireSpaceAfter: `A space is required after '{{token}}'.`,
+      unexpectedSpaceBefore: `There should be no space before '{{token}}'.`,
+      unexpectedSpaceAfter: `There should be no space after '{{token}}'.`,
     },
   },
-
+  defaultOptions: ['never'],
   create(context) {
     const spaced = context.options[0] === 'always'
     const sourceCode = context.sourceCode
@@ -156,28 +154,62 @@ export default createRule<MessageIds, RuleOptions>({
      */
     function validateBraceSpacing(node: ASTNode, first: Token, second: Token, penultimate: Token, last: Token) {
       if (isTokenOnSameLine(first, second)) {
-        const firstSpaced = sourceCode.isSpaceBetweenTokens(first, second)
+        const firstSpaced = sourceCode.isSpaceBetween(first, second)
+        const secondType = sourceCode.getNodeByRangeIndex(second.range[0])!.type
 
-        if (options.spaced && !firstSpaced)
+        const openingCurlyBraceMustBeSpaced
+          = options.arraysInObjectsException
+          && [
+            AST_NODE_TYPES.TSMappedType,
+            AST_NODE_TYPES.TSIndexSignature,
+          ].includes(secondType)
+            ? !options.spaced
+            : options.spaced
+
+        if (openingCurlyBraceMustBeSpaced && !firstSpaced)
           reportRequiredBeginningSpace(node, first)
 
-        if (!options.spaced && firstSpaced && second.type !== 'Line')
+        if (
+          !openingCurlyBraceMustBeSpaced
+          && firstSpaced
+          && second.type !== AST_TOKEN_TYPES.Line
+        ) {
           reportNoBeginningSpace(node, first)
+        }
       }
 
       if (isTokenOnSameLine(penultimate, last)) {
         const shouldCheckPenultimate = (
-          options.arraysInObjectsException && isClosingBracketToken(penultimate)
-          || options.objectsInObjectsException && isClosingBraceToken(penultimate)
+          (options.arraysInObjectsException && isClosingBracketToken(penultimate))
+          || (options.objectsInObjectsException && isClosingBraceToken(penultimate))
         )
-        const penultimateType = shouldCheckPenultimate && sourceCode.getNodeByRangeIndex(penultimate.range[0])!.type
+        const penultimateType = shouldCheckPenultimate
+          ? sourceCode.getNodeByRangeIndex(penultimate.range[0])!.type
+          : undefined
 
         const closingCurlyBraceMustBeSpaced = (
-          options.arraysInObjectsException && penultimateType === 'ArrayExpression'
-          || options.objectsInObjectsException && (penultimateType === 'ObjectExpression' || penultimateType === 'ObjectPattern')
+          penultimateType !== undefined
+          && (
+            (
+              options.arraysInObjectsException
+              && [
+                AST_NODE_TYPES.ArrayExpression,
+                AST_NODE_TYPES.TSTupleType,
+              ].includes(penultimateType)
+            )
+            || (
+              options.objectsInObjectsException
+              && [
+                AST_NODE_TYPES.ObjectExpression,
+                AST_NODE_TYPES.ObjectPattern,
+                AST_NODE_TYPES.TSMappedType,
+                AST_NODE_TYPES.TSTypeLiteral,
+              ].includes(penultimateType)
+            )
+          )
         ) ? !options.spaced : options.spaced
 
-        const lastSpaced = sourceCode.isSpaceBetweenTokens(penultimate, last)
+        const lastSpaced = sourceCode.isSpaceBetween(penultimate, last)
 
         if (closingCurlyBraceMustBeSpaced && !lastSpaced)
           reportRequiredEndingSpace(node, last)
@@ -201,9 +233,11 @@ export default createRule<MessageIds, RuleOptions>({
     function getClosingBraceOfObject(
       node:
         | Tree.ObjectExpression
-        | Tree.ObjectPattern,
+        | Tree.ObjectPattern
+        | Tree.TSTypeLiteral,
     ) {
-      const lastProperty = node.properties[node.properties.length - 1]
+      const properties = node.type === AST_NODE_TYPES.TSTypeLiteral ? node.members : node.properties
+      const lastProperty = properties[properties.length - 1]
 
       return sourceCode.getTokenAfter(lastProperty, isClosingBraceToken)
     }
@@ -282,6 +316,33 @@ export default createRule<MessageIds, RuleOptions>({
 
       // export {name} from 'yo';
       ExportNamedDeclaration: checkForExport,
+      TSMappedType(node: Tree.TSMappedType): void {
+        const first = sourceCode.getFirstToken(node)!
+        const last = sourceCode.getLastToken(node)!
+        const second = sourceCode.getTokenAfter(first, {
+          includeComments: true,
+        })!
+        const penultimate = sourceCode.getTokenBefore(last, {
+          includeComments: true,
+        })!
+
+        validateBraceSpacing(node, first, second, penultimate, last)
+      },
+      TSTypeLiteral(node: Tree.TSTypeLiteral): void {
+        if (node.members.length === 0)
+          return
+
+        const first = sourceCode.getFirstToken(node)!
+        const last = getClosingBraceOfObject(node)!
+        const second = sourceCode.getTokenAfter(first, {
+          includeComments: true,
+        })!
+        const penultimate = sourceCode.getTokenBefore(last, {
+          includeComments: true,
+        })!
+
+        validateBraceSpacing(node, first, second, penultimate, last)
+      },
     }
   },
 },
