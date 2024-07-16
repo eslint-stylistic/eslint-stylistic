@@ -73,10 +73,12 @@ export default createRule<RuleOptions, MessageIds>({
         const endNode = node.constraint || node.name
         const from = endNode.range[1]
         const to = node.default.range[0]
-        if (sourceCode.text.slice(from, to) !== ' = ') {
+        const textBetween = sourceCode.text.slice(from, to)
+
+        if (!/(?:^|[^ ]) = (?:$|[^ ])/.test(textBetween)) {
           context.report({
             *fix(fixer) {
-              yield fixer.replaceTextRange([from, to], ' = ')
+              yield fixer.replaceTextRange([from, to], textBetween.replace(/\s*=\s*/, ' = '))
             },
             loc: {
               start: endNode.loc.end,
