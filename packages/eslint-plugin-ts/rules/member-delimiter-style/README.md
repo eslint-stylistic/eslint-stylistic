@@ -60,11 +60,7 @@ Accepts three values (or two for `singleline`):
 - `semi` - each member should be delimited with a semicolon (`;`).
 - `none` - each member should be delimited with nothing.
 
-::: note
-
-`none` is not an option for `singleline` because having no delimiter between members on a single line is a syntax error in TS.
-
-:::
+Note: `none` is not an option for `singleline` because having no delimiter between members on a single line is a syntax error in TS.
 
 ### `requireLast`
 
