@@ -275,6 +275,28 @@ function verifyForAlways(context: Context, prevNode: ASTNode, nextNode: ASTNode,
 }
 
 /**
+ * Check whether the given node is a `yield` expression
+ * @param node The node to check.
+ * @param sourceCode The source code object to get tokens.
+ * @returns `true` if the node is a `yield` expression
+ */
+function isYieldExpression(
+  node: ASTNode,
+  sourceCode: SourceCode,
+): boolean {
+  if (node.type !== 'ExpressionStatement' || isDirective(node)) {
+    return false
+  }
+
+  let innerExpressionNode = node
+
+  while (innerExpressionNode.type === 'ExpressionStatement')
+    innerExpressionNode = innerExpressionNode.expression
+
+  return sourceCode.getFirstToken(innerExpressionNode)?.value === 'yield'
+}
+
+/**
  * Types of blank lines.
  * `any`, `never`, and `always` are defined.
  * Those have `verify` method to check and report statements.
@@ -358,6 +380,9 @@ const StatementTypes = {
   'var': newKeywordTester('var'),
   'while': newKeywordTester('while'),
   'with': newKeywordTester('with'),
+  'yield': {
+    test: (node, sourceCode) => isYieldExpression(node, sourceCode),
+  },
 } satisfies Record<string, Tester>
 
 export default createRule<MessageIds, RuleOptions>({
