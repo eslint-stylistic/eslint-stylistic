@@ -2,7 +2,7 @@
 
 import type { Linter } from 'eslint'
 
-const config: Linter.FlatConfig = {
+const config: Linter.Config = {
   rules: {
     'array-bracket-newline': 0,
     'array-bracket-spacing': 0,

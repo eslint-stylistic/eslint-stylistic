@@ -44,10 +44,10 @@
     "eslint": "*"
   },
   "dependencies": {
-    "@types/eslint": "^8.56.10",
-    "@typescript-eslint/utils": "^7.14.1"
+    "@types/eslint": "^9.6.0",
+    "@typescript-eslint/utils": "^7.17.0"
   },
   "devDependencies": {
-    "@typescript-eslint/rule-tester": "^7.14.1"
+    "@typescript-eslint/rule-tester": "^7.17.0"
   }
 }

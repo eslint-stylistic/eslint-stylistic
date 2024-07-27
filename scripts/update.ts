@@ -345,7 +345,7 @@ async function generateDTS(
         })
         return compiled
       }
-      catch (error) {
+      catch {
         console.warn(`Failed to compile schema Schema${index} for rule ${rule.name}. Falling back to unknown.`)
         return `export type Schema${index} = unknown\n`
       }
@@ -384,7 +384,7 @@ async function generateConfigs(pkg: PackageInfo) {
       [
         header,
         'import type { Linter } from \'eslint\'',
-        `const config: Linter.FlatConfig = ${JSON.stringify({ rules: disabledRules }, null, 2)}`,
+        `const config: Linter.Config = ${JSON.stringify({ rules: disabledRules }, null, 2)}`,
         'export default config',
         '',
       ].join('\n'),
