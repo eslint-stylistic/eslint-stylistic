@@ -2,7 +2,7 @@
 
 import type { Linter } from 'eslint'
 
-const config: Linter.FlatConfig = {
+const config: Linter.Config = {
   rules: {
     'react/jsx-child-element-spacing': 0,
     'react/jsx-closing-bracket-location': 0,

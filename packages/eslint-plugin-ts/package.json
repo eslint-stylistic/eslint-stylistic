@@ -70,10 +70,10 @@
   },
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:*",
-    "@types/eslint": "^8.56.10",
-    "@typescript-eslint/utils": "^8.0.0-alpha.34"
+    "@types/eslint": "^9.6.0",
+    "@typescript-eslint/utils": "^8.0.0-alpha.54"
   },
   "devDependencies": {
-    "@typescript-eslint/rule-tester": "^8.0.0-alpha.34"
+    "@typescript-eslint/rule-tester": "^8.0.0-alpha.54"
   }
 }

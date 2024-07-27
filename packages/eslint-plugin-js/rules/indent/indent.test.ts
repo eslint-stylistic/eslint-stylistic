@@ -2102,30 +2102,12 @@ run({
     {
       code: $`
         function foo() {
-          bar();
-          \tbaz();
-        \t   \t\t\t  \t\t\t  \t   \tqux();
-        }
-      `,
-      options: [2],
-    },
-    {
-      code: $`
-        function foo() {
           function bar() {
             baz();
           }
         }
       `,
       options: [2, { FunctionDeclaration: { body: 1 } }],
-    },
-    {
-      code: $`
-        function foo() {
-          bar();
-           \t\t}
-      `,
-      options: [2],
     },
     {
       code: $`
@@ -5221,15 +5203,6 @@ run({
         </foo>
       `,
       options: [4, { ignoredNodes: ['JSXOpeningElement'] }],
-    },
-    {
-      code: $`
-        {
-        \tvar x = 1,
-        \t    y = 2;
-        }
-      `,
-      options: ['tab'],
     },
     {
       code: $`
@@ -13983,6 +13956,51 @@ run({
         [7, 8, 4, 'Identifier'],
         [8, 4, 0, 'Punctuator'],
       ]),
+    },
+    {
+      code: $`
+        function foo() {
+          bar();
+          \tbaz();
+        \t   \t\t\t  \t\t\t  \t   \tqux();
+        }
+      `,
+      options: [2],
+      output: $`
+        function foo() {
+          bar();
+          baz();
+          qux();
+        }
+      `,
+    },
+    {
+      code: $`
+        function foo() {
+          bar();
+           \t\t}
+      `,
+      options: [2],
+      output: $`
+        function foo() {
+          bar();
+        }
+      `,
+    },
+    {
+      code: $`
+        {
+        \tvar x = 1,
+        \t    y = 2;
+        }
+      `,
+      options: ['tab'],
+      output: $`
+        {
+        \tvar x = 1,
+        \t\ty = 2;
+        }
+      `,
     },
   ],
 })
