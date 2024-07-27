@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.4.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.3.0...v2.4.0) (2024-07-27)
+
+
+### Features
+
+* migrate to `@types/eslint` `v9.6.0` ([#479](https://github.com/eslint-stylistic/eslint-stylistic/issues/479)) ([ea72aae](https://github.com/eslint-stylistic/eslint-stylistic/commit/ea72aaedc94c8178aa338f563b717f33ffc713f7))
+
+
+### Bug Fixes
+
+* **indent:** handle mixed spaces and tabs ([#465](https://github.com/eslint-stylistic/eslint-stylistic/issues/465)) ([d5ae88d](https://github.com/eslint-stylistic/eslint-stylistic/commit/d5ae88d6602f0e506872d06ef3dd1b4e6443638e))
+* **ts:** chunk bundling ([a278468](https://github.com/eslint-stylistic/eslint-stylistic/commit/a27846842778970d2a1d9d91799aec8e233fc840))
+* **type-generic-spacing:** consider parentheses ([#467](https://github.com/eslint-stylistic/eslint-stylistic/issues/467)) ([fd08dd8](https://github.com/eslint-stylistic/eslint-stylistic/commit/fd08dd862081d34094423441115f39d7013b6464))
+
+
+### Documentation
+
+* fix note block display ([#471](https://github.com/eslint-stylistic/eslint-stylistic/issues/471)) ([28db32c](https://github.com/eslint-stylistic/eslint-stylistic/commit/28db32cb894cb1f7a70eaa0ef5f162aaaf1cf08c))
+* **ts/member-delimiter-style:** fix spaces ([#461](https://github.com/eslint-stylistic/eslint-stylistic/issues/461)) ([240006c](https://github.com/eslint-stylistic/eslint-stylistic/commit/240006cd887de265dc33eb027765846bd877bfd2))
+* update project progress ([#449](https://github.com/eslint-stylistic/eslint-stylistic/issues/449)) ([d6d72c8](https://github.com/eslint-stylistic/eslint-stylistic/commit/d6d72c8975f8a9be0e25dd6c41d03d90b00b2a62))
+
 ## [2.3.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.2.2...v2.3.0) (2024-06-25)
 
 
