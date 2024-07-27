@@ -153,9 +153,9 @@ export default createRule<RuleOptions, MessageIds>({
       }
       if (type === AST_NODE_TYPES.Property) {
         return {
+          ...base as unknown as Tree.Property,
           type,
-          ...base,
-        } as Tree.Property
+        }
       }
       return {
         type,

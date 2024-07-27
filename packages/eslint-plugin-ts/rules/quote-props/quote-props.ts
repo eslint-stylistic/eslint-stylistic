@@ -1,5 +1,6 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
+import type { Tree } from '@shared/types'
 import { createRule } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
 import type { MessageIds, RuleOptions } from './types'
@@ -22,7 +23,7 @@ export default createRule<RuleOptions, MessageIds>({
       ...rules,
       TSPropertySignature(node) {
         return rules.Property!({
-          ...node,
+          ...node as unknown as Tree.Property,
           type: AST_NODE_TYPES.Property,
           shorthand: false,
           method: false,
@@ -32,7 +33,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       TSMethodSignature(node) {
         return rules.Property!({
-          ...node,
+          ...node as unknown as Tree.Property,
           type: AST_NODE_TYPES.Property,
           shorthand: false,
           method: true,
@@ -42,7 +43,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       TSEnumMember(node) {
         return rules.Property!({
-          ...node,
+          ...node as unknown as Tree.Property,
           type: AST_NODE_TYPES.Property,
           key: node.id as any,
           optional: false,
