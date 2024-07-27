@@ -192,6 +192,7 @@ export function skipChainExpression(node: ASTNode) {
  * @param f The function to negate.
  * @returns Negated function.
  */
+// eslint-disable-next-line ts/no-unsafe-function-type
 export function negate<T extends Function>(f: T): T {
   return ((token: any) => !f(token)) as unknown as T
 }

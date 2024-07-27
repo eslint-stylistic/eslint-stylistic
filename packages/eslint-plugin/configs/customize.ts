@@ -77,15 +77,15 @@ export interface StylisticCustomizeOptions<Flat extends boolean = true> {
 }
 
 type Rules = Partial<{
-  [K in keyof RuleOptions]: Linter.RuleLevel | [Linter.RuleLevel, ...RuleOptions[K]]
+  [K in keyof RuleOptions]: Linter.RuleSeverity | [Linter.RuleSeverity, ...RuleOptions[K]]
 }>
 
 /**
  * A factory function to customize the recommended config
  */
 export function customize(options: StylisticCustomizeOptions<false>): Linter.BaseConfig
-export function customize(options?: StylisticCustomizeOptions<true>): Linter.FlatConfig
-export function customize(options: StylisticCustomizeOptions<boolean> = {}): Linter.FlatConfig | Linter.BaseConfig {
+export function customize(options?: StylisticCustomizeOptions<true>): Linter.Config
+export function customize(options: StylisticCustomizeOptions<boolean> = {}): Linter.Config | Linter.BaseConfig {
   const {
     arrowParens = false,
     blockSpacing = true,
@@ -265,7 +265,7 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
         [pluginName]: plugin,
       },
       rules,
-    } satisfies Linter.FlatConfig
+    } satisfies Linter.Config
   }
   else {
     if (pluginName !== '@stylistic')

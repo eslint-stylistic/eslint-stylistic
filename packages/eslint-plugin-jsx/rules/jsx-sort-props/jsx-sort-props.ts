@@ -154,7 +154,7 @@ function getGroupsOfSortableAttributes(attributes: (Tree.JSXAttribute | Tree.JSX
     try {
       comment = sourceCode.getCommentsAfter(attribute)
     }
-    catch (e) { /**/ }
+    catch { /**/ }
     const lastAttr = attributes[i - 1]
     const attrIsSpread = attribute.type === 'JSXSpreadAttribute'
 
