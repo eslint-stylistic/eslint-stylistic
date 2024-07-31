@@ -13,7 +13,6 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Require or disallow semicolons instead of ASI',
       // too opinionated to be recommended
-      extendsBaseRule: true,
     },
     fixable: 'code',
     hasSuggestions: baseRule.meta.hasSuggestions,

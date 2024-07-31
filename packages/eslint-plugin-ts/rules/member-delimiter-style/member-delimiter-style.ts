@@ -313,8 +313,7 @@ export default createRule<Options, MessageIds>({
     function checkMemberSeparatorStyle(
       node: Tree.TSInterfaceBody | Tree.TSTypeLiteral,
     ): void {
-      const members
-        = node.type === AST_NODE_TYPES.TSInterfaceBody ? node.body : node.members
+      const members = node.type === AST_NODE_TYPES.TSInterfaceBody ? node.body : node.members
 
       let isSingleLine = node.loc.start.line === node.loc.end.line
       if (

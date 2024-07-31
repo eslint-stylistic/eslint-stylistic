@@ -9,7 +9,6 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Indentation for binary operators',
-      recommended: 'stylistic',
     },
     fixable: 'whitespace',
     schema: [

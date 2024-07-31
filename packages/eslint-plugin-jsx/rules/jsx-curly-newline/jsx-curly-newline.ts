@@ -43,7 +43,6 @@ export default createRule<MessageIds, RuleOptions>({
 
     docs: {
       description: 'Enforce consistent linebreaks in curly braces in JSX attributes and expressions',
-      recommended: 'stylistic',
       url: docsUrl('jsx-curly-newline'),
     },
 

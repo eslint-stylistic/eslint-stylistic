@@ -48,7 +48,6 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Require empty lines around comments',
-      extendsBaseRule: true,
     },
     schema: [
       {
@@ -255,11 +254,11 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function isCommentAtEnumStart(token: Tree.Comment): boolean {
-      return isCommentAtParentStart(token, AST_NODE_TYPES.TSEnumDeclaration)
+      return isCommentAtParentStart(token, AST_NODE_TYPES.TSEnumBody) || isCommentAtParentStart(token, AST_NODE_TYPES.TSEnumDeclaration)
     }
 
     function isCommentAtEnumEnd(token: Tree.Comment): boolean {
-      return isCommentAtParentEnd(token, AST_NODE_TYPES.TSEnumDeclaration)
+      return isCommentAtParentEnd(token, AST_NODE_TYPES.TSEnumBody) || isCommentAtParentEnd(token, AST_NODE_TYPES.TSEnumDeclaration)
     }
 
     function isCommentAtModuleStart(token: Tree.Comment): boolean {

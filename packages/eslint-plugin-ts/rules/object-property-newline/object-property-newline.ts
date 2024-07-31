@@ -11,7 +11,6 @@ export default createRule<RuleOptions, MessageIds>({
     ...baseRule.meta,
     docs: {
       description: 'Enforce placing object properties on separate lines',
-      extendsBaseRule: true,
     },
   },
   defaultOptions: [

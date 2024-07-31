@@ -18,7 +18,6 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description:
         'Require or disallow spacing between function identifiers and their invocations',
-      extendsBaseRule: true,
     },
     fixable: 'whitespace',
     schema: {

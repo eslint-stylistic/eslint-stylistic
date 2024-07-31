@@ -45,7 +45,6 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Require or disallow trailing commas',
-      extendsBaseRule: true,
     },
     schema: {
       $defs: {
@@ -112,7 +111,7 @@ export default createRule<RuleOptions, MessageIds>({
     function getLastItem(node: ASTNode): ASTNode | null {
       switch (node.type) {
         case AST_NODE_TYPES.TSEnumDeclaration:
-          return last(node.members)
+          return last(node.body.members || node.members)
         case AST_NODE_TYPES.TSTypeParameterDeclaration:
           return last(node.params)
         case AST_NODE_TYPES.TSTupleType:
