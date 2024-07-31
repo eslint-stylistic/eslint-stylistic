@@ -71,9 +71,9 @@
   "dependencies": {
     "@stylistic/eslint-plugin-js": "workspace:*",
     "@types/eslint": "^9.6.0",
-    "@typescript-eslint/utils": "^8.0.0-alpha.54"
+    "@typescript-eslint/utils": "^8.0.0"
   },
   "devDependencies": {
-    "@typescript-eslint/rule-tester": "^8.0.0-alpha.54"
+    "@typescript-eslint/rule-tester": "^8.0.0"
   }
 }
