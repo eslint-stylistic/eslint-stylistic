@@ -68,7 +68,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
       TSEnumDeclaration(node) {
-        const members = node.body.members || node.members
+        const members = node.body?.members || node.members
         return rules.ObjectExpression!({
           ...node,
           type: AST_NODE_TYPES.ObjectExpression,

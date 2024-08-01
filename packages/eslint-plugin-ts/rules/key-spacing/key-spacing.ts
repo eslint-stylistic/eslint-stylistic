@@ -383,8 +383,9 @@ export default createRule<RuleOptions, MessageIds>({
     ): void {
       const isSingleLine = body.loc.start.line === body.loc.end.line
 
-      const members
-        = body.type === AST_NODE_TYPES.TSTypeLiteral ? body.members : body.body
+      const members = body.type === AST_NODE_TYPES.TSTypeLiteral
+        ? body.members
+        : body.body
 
       let alignGroups: ASTNode[][] = []
       let unalignedElements: ASTNode[] = []

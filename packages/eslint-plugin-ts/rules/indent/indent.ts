@@ -275,7 +275,9 @@ export default createRule<RuleOptions, MessageIds>({
       'TSEnumDeclaration, TSTypeLiteral': function (
         node: Tree.TSEnumDeclaration | Tree.TSTypeLiteral,
       ) {
-        const members = 'body' in node ? node.body.members : node.members
+        const members = 'body' in node
+          ? node.body?.members || node.members
+          : node.members
 
         // transform it to an ObjectExpression
         return rules['ObjectExpression, ObjectPattern']({

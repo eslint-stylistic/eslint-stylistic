@@ -122,7 +122,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       TSEnumDeclaration(node): void {
         const closingCurly = sourceCode.getLastToken(node)!
-        const members = node.body.members || node.members
+        const members = node.body?.members || node.members
         const openingCurly = sourceCode.getTokenBefore(
           members.length ? members[0] : closingCurly,
         )!
