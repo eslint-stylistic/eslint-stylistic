@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.6.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.6.0...v2.6.1) (2024-08-01)
+
+
+### Bug Fixes
+
+* compatible with ts-eslint v7, close [#484](https://github.com/eslint-stylistic/eslint-stylistic/issues/484) ([c312fc7](https://github.com/eslint-stylistic/eslint-stylistic/commit/c312fc7a8b232353bd38b2ab0d2665a4f7851de5))
+
 ## [2.6.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.6.0-beta.1...v2.6.0) (2024-07-31)
 
 
