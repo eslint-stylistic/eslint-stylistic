@@ -1245,14 +1245,14 @@ run({
         {
           ...useBacktick,
           line: 1,
-          column: 10
+          column: 10,
         },
         {
           ...useBacktick,
           line: 1,
-          column: 16
-        }
-      ]
+          column: 16,
+        },
+      ],
     },
   ],
 })
