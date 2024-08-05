@@ -539,6 +539,21 @@ run({
       `,
       options: ['backtick'],
     },
+
+    // TSLiteralType
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/473
+    {
+      code: $`
+        type A = import('hi');
+      `,
+      options: ['backtick'],
+    },
+    {
+      code: $`
+        type A = \`a\` | \`b\`;
+      `,
+      options: ['backtick'],
+    },
   ],
 
   invalid: [
@@ -1215,6 +1230,29 @@ run({
         },
       ],
       options: ['single'],
+    },
+
+    // TSLiteralType
+    {
+      code: $`
+        type A = "a" | "b";
+      `,
+      output: $`
+        type A = \`a\` | \`b\`;
+      `,
+      options: ['backtick'],
+      errors: [
+        {
+          ...useBacktick,
+          line: 1,
+          column: 10
+        },
+        {
+          ...useBacktick,
+          line: 1,
+          column: 16
+        }
+      ]
     },
   ],
 })
