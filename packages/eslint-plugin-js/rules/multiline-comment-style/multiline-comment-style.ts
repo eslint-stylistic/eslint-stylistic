@@ -8,7 +8,7 @@ import { createRule } from '../../utils/createRule'
 import { COMMENTS_IGNORE_PATTERN, LINEBREAK_MATCHER } from '../../utils/ast-utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'suggestion',
 

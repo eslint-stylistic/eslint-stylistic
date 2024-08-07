@@ -19,7 +19,7 @@ const messages = {
 
 type Child = Tree.JSXChild | Tree.JSXText | Tree.Literal
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

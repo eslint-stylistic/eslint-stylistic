@@ -71,7 +71,7 @@ function isLastChild(node: ASTNode): boolean {
   return nodeList !== null && nodeList[nodeList.length - 1] === node // before `}` or etc.
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

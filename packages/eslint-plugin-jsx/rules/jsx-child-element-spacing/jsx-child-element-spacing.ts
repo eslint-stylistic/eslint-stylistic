@@ -44,7 +44,7 @@ const messages = {
   spacingBeforeNext: 'Ambiguous spacing before next element {{element}}',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
     docs: {

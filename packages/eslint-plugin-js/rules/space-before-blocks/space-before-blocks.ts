@@ -23,7 +23,7 @@ function isFunctionBody(node: ASTNode): boolean {
   )
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

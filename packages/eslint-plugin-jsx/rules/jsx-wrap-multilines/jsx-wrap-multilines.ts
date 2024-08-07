@@ -26,7 +26,7 @@ const messages = {
   parensOnNewLines: 'Parentheses around JSX should be on separate lines',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

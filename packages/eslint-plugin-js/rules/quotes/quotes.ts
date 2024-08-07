@@ -65,7 +65,7 @@ const UNESCAPED_LINEBREAK_PATTERN = new RegExp(String.raw`(^|[^\\])(\\\\)*[${Arr
 const AVOID_ESCAPE = 'avoid-escape'
 
 /** @type {import('eslint').Rule.RuleModule} */
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

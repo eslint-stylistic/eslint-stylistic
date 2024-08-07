@@ -360,7 +360,7 @@ const StatementTypes = {
   'with': newKeywordTester('with'),
 } satisfies Record<string, Tester>
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

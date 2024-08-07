@@ -13,7 +13,7 @@ const messages = {
   onlyOneSpace: 'Expected only one space between “{{prop1}}” and “{{prop2}}”',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
     docs: {
