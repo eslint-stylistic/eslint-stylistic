@@ -2,6 +2,22 @@ import fs from 'node:fs/promises'
 import { basename, join } from 'node:path'
 import fg from 'fast-glob'
 
+/**
+ * TODO:
+ *
+ * Main branch:
+ * - 1. Rewrite `createRule` order
+ * - 2. Unified `utils`
+ * - 3. Update `types.d.ts` convention
+ *
+ * This branch:
+ * - 0. Git Script to autoreset
+ * - 1. Entry file for `eslint-plugin`
+ * - 2. Update docs alias
+ * - 3. Docs for contributors
+ * - 4. Soft deprecate other packages
+ */
+
 const packages = {
   ts: './packages/eslint-plugin-ts/rules',
   js: './packages/eslint-plugin-js/rules',
