@@ -29,7 +29,7 @@ const messages = {
   spaceNeededBefore: 'A space is required before \'{{token}}\'',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
     docs: {

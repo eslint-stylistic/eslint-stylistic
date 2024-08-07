@@ -14,7 +14,7 @@ const POSITION_SCHEMA: JSONSchema.JSONSchema4 = {
   enum: ['beside', 'below', 'any'],
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

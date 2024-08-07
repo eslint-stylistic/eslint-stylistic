@@ -56,7 +56,7 @@ function normalizeOptions(optionValue: RuleOptions[0], ecmaVersion: EcmaVersion 
   return DEFAULT_OPTIONS
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

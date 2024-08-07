@@ -9,7 +9,7 @@ import { LINEBREAK_MATCHER, isNotClosingParenToken, isTokenOnSameLine, skipChain
 import { createRule } from '../../utils/createRule'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

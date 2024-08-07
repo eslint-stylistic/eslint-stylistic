@@ -8,7 +8,7 @@ import { isCommaToken, isCommentToken, isTokenOnSameLine } from '../../utils/ast
 import { createRule } from '../../utils/createRule'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

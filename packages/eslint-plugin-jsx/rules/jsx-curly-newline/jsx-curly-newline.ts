@@ -37,7 +37,7 @@ const messages = {
   unexpectedAfter: 'Unexpected newline after \'{\'.',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

@@ -12,7 +12,7 @@ const messages = {
   bracketLocation: 'The closing bracket must be {{location}}{{details}}',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
     docs: {

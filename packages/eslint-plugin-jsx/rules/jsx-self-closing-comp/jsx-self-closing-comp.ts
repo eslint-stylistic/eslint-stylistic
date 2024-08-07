@@ -15,7 +15,7 @@ const messages = {
   notSelfClosing: 'Empty components are self-closing',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

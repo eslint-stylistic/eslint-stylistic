@@ -144,7 +144,7 @@ interface StyleRuleRegExp {
   markers: Set<string>
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 
