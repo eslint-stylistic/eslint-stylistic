@@ -283,7 +283,7 @@ const optionDefaults: Required<Option> = {
   beforeClosing: 'allow',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

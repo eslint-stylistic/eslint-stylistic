@@ -14,7 +14,7 @@ const messages = {
   matchIndent: 'Expected closing tag to match indentation of opening.',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

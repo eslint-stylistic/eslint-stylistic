@@ -24,7 +24,7 @@ function isCalleeOfNewExpression(node: ASTNode) {
   return (maybeCallee.parent?.type === 'NewExpression' && maybeCallee.parent.callee === maybeCallee)
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

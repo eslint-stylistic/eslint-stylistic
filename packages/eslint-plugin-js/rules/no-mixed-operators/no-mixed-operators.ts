@@ -73,7 +73,7 @@ function getChildNode(node: NodeType | Tree.ConditionalExpression): ASTNode {
 
 type NodeType = Tree.BinaryExpression | Tree.LogicalExpression
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

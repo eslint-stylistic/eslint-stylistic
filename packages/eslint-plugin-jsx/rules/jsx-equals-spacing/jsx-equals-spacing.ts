@@ -15,7 +15,7 @@ const messages = {
   needSpaceAfter: 'A space is required after \'=\'',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
     docs: {

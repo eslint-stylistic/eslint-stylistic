@@ -9,7 +9,7 @@ import type { MessageIds, RuleOptions } from './types'
 const tabRegex = /\t+/gu
 const anyNonWhitespaceRegex = /\S/u
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

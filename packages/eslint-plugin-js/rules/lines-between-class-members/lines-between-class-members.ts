@@ -27,7 +27,7 @@ const ClassMemberTypes: Record<string, NodeTestObject> = {
   'method': { test: node => node.type === 'MethodDefinition' },
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

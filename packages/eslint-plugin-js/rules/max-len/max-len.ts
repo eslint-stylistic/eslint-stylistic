@@ -57,7 +57,7 @@ const OPTIONS_OR_INTEGER_SCHEMA: JSONSchema.JSONSchema4 = {
   ],
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

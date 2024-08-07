@@ -39,7 +39,7 @@ function getCommentLineNums(comments: Token[]) {
   return lines
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

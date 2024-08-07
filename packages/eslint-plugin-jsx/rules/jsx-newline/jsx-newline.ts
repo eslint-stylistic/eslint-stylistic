@@ -19,7 +19,7 @@ function isMultilined(node: Tree.JSXChild) {
   return node && node.loc.start.line !== node.loc.end.line
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
     docs: {

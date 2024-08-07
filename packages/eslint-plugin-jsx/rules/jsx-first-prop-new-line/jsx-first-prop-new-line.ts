@@ -13,7 +13,7 @@ const messages = {
   propOnSameLine: 'Property should be placed on the same line as the component declaration',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

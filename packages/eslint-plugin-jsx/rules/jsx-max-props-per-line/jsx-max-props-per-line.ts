@@ -19,7 +19,7 @@ const messages = {
   newLine: 'Prop `{{prop}}` must be placed on a new line',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
     docs: {

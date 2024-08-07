@@ -31,7 +31,7 @@ const QUOTE_SETTINGS: Record<string, QuoteSetting> = {
   },
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

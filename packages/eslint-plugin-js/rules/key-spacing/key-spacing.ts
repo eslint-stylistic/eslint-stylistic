@@ -122,7 +122,7 @@ function initOptions(toOptions: any, fromOptions: any) {
   return toOptions
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

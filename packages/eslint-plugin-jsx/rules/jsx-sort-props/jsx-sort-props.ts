@@ -344,7 +344,7 @@ function reportNodeAttribute(nodeAttribute: Tree.JSXAttribute | Tree.JSXSpreadAt
   })
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

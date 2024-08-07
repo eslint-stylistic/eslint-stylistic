@@ -21,7 +21,7 @@ function endWithComma(context: RuleContext<any, any>, node: ASTNode) {
     && nextToken.value === ',' && nextToken.range[0] >= node.range![1]
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 

@@ -13,7 +13,7 @@ interface Checker {
   createFix: (token: Token, tokenBefore: Token) => ReportFixFunction
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
 
