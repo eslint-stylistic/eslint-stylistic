@@ -2241,6 +2241,234 @@ run({
     },
 
     // ----------------------------------------------------------------------
+    // yield
+    // ----------------------------------------------------------------------
+    {
+      code: 'function a() {\nyield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\n\nyield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nvar b;\n\nyield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) yield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) { yield; }\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) {\nyield;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) {\n\nyield;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) {\nyield;\n}\n\nyield c;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) {\n\nyield;\n}\n\nyield c;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (!b) {\nyield;\n} else {\nyield b;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (!b) {\nyield;\n} else {\n\nyield b;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) {\nyield b;\n} else if (c) {\nyield c;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) {\nyield b;\n} else if (c) {\nyield c;\n} else {\nyield d;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) {\nyield b;\n} else if (c) {\nyield c;\n} else {\nyield d;\n}\n\nyield a;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) yield b;\nelse if (c) yield c;\nelse yield d;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) yield b;\nelse if (c) yield c;\nelse {\nyield d;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) yield b;\nelse if (c) yield c;\nelse {\ne();\n\nyield d;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nwhile (b) yield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\n while (b) \nyield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\n while (b) { yield; }\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\n while (b) {\nyield;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\n while (b) {\nc();\n\nyield;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nvar c;\nwhile (b) {\n c = d; //comment\n}\n\nyield c;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\ndo yield;\nwhile (b);\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\ndo \nyield;\nwhile (b);\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\ndo { yield; } while (b);\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\ndo { yield; }\nwhile (b);\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\ndo {\nyield;\n} while (b);\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\ndo {\nc();\n\nyield;\n} while (b);\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nfor (var b; b < c; b++) yield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nfor (var b; b < c; b++)\nyield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nfor (var b; b < c; b++) {\nyield;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nfor (var b; b < c; b++) {\nc();\n\nyield;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nfor (var b; b < c; b++) {\nif (d) {\nbreak; //comment\n}\n\nyield;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nfor (b in c)\nyield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nfor (b in c) { yield; }\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nfor (b in c) {\nyield;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nfor (b in c) {\nd();\n\nyield;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nfor (b of c) yield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nfor (b of c)\nyield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nfor (b of c) {\nyield;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nfor (b of c) {\nd();\n\nyield;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nswitch (b) {\ncase \'b\': yield;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nswitch (b) {\ncase \'b\':\nyield;\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nswitch (b) {\ncase \'b\': {\nyield;\n}\n}\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\n//comment\nyield b;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\n{\n//comment\n}\n\nyield\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nvar b = {\n//comment\n};\n\nreturn;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {/*multi-line\ncomment*/return b;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\n/*comment\ncomment*/\n//comment\nyield b;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\n/*comment\ncomment*/\n//comment\nif (b) yield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\n/*comment\ncomment*/\n//comment\nif (b) {\nc();\n\nyield b;\n} else {\n//comment\nyield d;\n}\n\n/*multi-line\ncomment*/\nyield e;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) { //comment\nyield;\n}\n\nyield c;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) { yield; } //comment\n\nyield c;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) { yield; } /*multi-line\ncomment*/\n\nyield c;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+    {
+      code: 'function a() {\nif (b) { yield; }\n\n/*multi-line\ncomment*/ yield c;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+    },
+
+    // ----------------------------------------------------------------------
     // Tests from newline-before-return
     // ----------------------------------------------------------------------
 
@@ -5194,6 +5422,59 @@ run({
       code: `const path = require('node:path');\nmodule.exports = {};`,
       output: `const path = require('node:path');\n\nmodule.exports = {};`,
       options: [{ blankLine: 'always', prev: 'cjs-import', next: 'cjs-export' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+
+    // ----------------------------------------------------------------------
+    // yield
+    // ----------------------------------------------------------------------
+
+    {
+      code: 'function a() {\nvar b; yield;\n}',
+      output: 'function a() {\nvar b;\n\n yield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'function a() {\nvar b;\nyield;\n}',
+      output: 'function a() {\nvar b;\n\nyield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'function a() {\nvar b;\n\nyield;\n}',
+      output: 'function a() {\nvar b;\nyield;\n}',
+      options: [{ blankLine: 'never', prev: '*', next: 'yield' }],
+      errors: [{ messageId: 'unexpectedBlankLine' }],
+    },
+    {
+      code: 'function a() {\nvar b;\nyield;\n\nreturn;\n}',
+      output: 'function a() {\nvar b;\nyield;\nreturn;\n}',
+      options: [{ blankLine: 'never', prev: 'yield', next: '*' }],
+      errors: [{ messageId: 'unexpectedBlankLine' }],
+    },
+    {
+      code: 'function a() {yield;\nconsole.log(null);\n}',
+      output: 'function a() {yield;\n\nconsole.log(null);\n}',
+      options: [{ blankLine: 'always', prev: 'yield', next: '*' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'function b() {\nvar c;\nyield 42;\n}',
+      output: 'function b() {\nvar c;\n\nyield 42;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'function b() {\nvar c;\nyield foo();\n}',
+      output: 'function b() {\nvar c;\n\nyield foo();\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'function b() {\nvar c;\nyield* foo();\n}',
+      output: 'function b() {\nvar c;\n\nyield* foo();\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
       errors: [{ messageId: 'expectedBlankLine' }],
     },
   ],
