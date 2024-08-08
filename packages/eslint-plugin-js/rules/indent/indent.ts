@@ -1411,7 +1411,7 @@ export default createRule<RuleOptions, MessageIds>({
         else {
           const idToken = keyLastToken = sourceCode.getFirstToken(node.key)!
 
-          if (idToken !== firstToken)
+          if (!node.decorators?.length && idToken !== firstToken)
             offsets.setDesiredOffset(idToken, firstToken, 1)
         }
 

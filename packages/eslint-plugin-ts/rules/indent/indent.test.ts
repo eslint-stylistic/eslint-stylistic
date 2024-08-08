@@ -1765,6 +1765,7 @@ declare module "Validation" {
         },
       ],
     },
+    // Class Decorators and Property Decorators
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/208
     {
       code: `
@@ -1826,6 +1827,67 @@ class Foo {
             actual: 8,
           },
           line: 10,
+          column: 1,
+        },
+      ],
+    },
+    // Method Decorators and Accessor Decorators
+    {
+      code: `
+class Foo {
+    @a
+      func() {}
+  @b
+    get bar() { return }
+  @c
+  baz: () => 1
+}
+      `,
+      output: `
+class Foo {
+    @a
+    func() {}
+    @b
+    get bar() { return }
+    @c
+    baz: () => 1
+}
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 6,
+          },
+          line: 4,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 2,
+          },
+          line: 5,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 2,
+          },
+          line: 7,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 2,
+          },
+          line: 8,
           column: 1,
         },
       ],
