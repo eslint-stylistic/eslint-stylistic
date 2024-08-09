@@ -53,6 +53,7 @@ const valid: ValidTestCase[] = [
   { code: 'async ([a, b]) => {}', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
   { code: 'async (a, b) => {}', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
   { code: '(a: T) => a', options: ['as-needed'], parser: parser('identifier-type') },
+  { code: '(a?) => a', options: ['as-needed'], parser: parser('optional-parameter') },
   { code: '(a): T => a', options: ['as-needed'], parser: parser('return-type') },
 
   // "as-needed", { "requireForBlockBody": true }
