@@ -139,6 +139,7 @@ export default createRule<RuleOptions, MessageIds>({
           !shouldHaveParens
           && hasParens
           && param.type === 'Identifier'
+          && !param.optional
           && !param.typeAnnotation
           && !node.returnType
           && !hasCommentsInParensOfParams(node, openingParen)
