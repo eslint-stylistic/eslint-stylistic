@@ -94,10 +94,10 @@ const rules = await fg('./packages/eslint-plugin/rules/*', {
 for (const rule of rules) {
   const name = basename(rule)
   const ext = [
-    'js',
-    'jsx',
     'ts',
+    'jsx',
     'plus',
+    'js',
   ].find(ext => existsSync(join(rule, `${name}._${ext}_.ts`)))
 
   await fs.writeFile(
