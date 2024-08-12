@@ -72,6 +72,7 @@
     "shiki": "^1.12.0",
     "simple-git-hooks": "^2.11.1",
     "taze": "^0.16.3",
+    "tinyexec": "^0.1.4",
     "tsx": "^4.16.3",
     "twoslash-eslint": "^0.2.9",
     "typescript": "^5.5.4",

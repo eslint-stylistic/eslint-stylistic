@@ -1,6 +1,11 @@
 import fs from 'node:fs/promises'
 import { basename, join } from 'node:path'
 import fg from 'fast-glob'
+import { exec } from 'tinyexec'
+
+// Reset changes under `packages/*` directory
+await exec('git', ['checkout', '--', 'packages'])
+await exec('git', ['clean', '-fd', 'packages'])
 
 /**
  * TODO:
@@ -11,7 +16,6 @@ import fg from 'fast-glob'
  * - 3. Update `types.d.ts` convention
  *
  * This branch:
- * - 0. Git Script to autoreset
  * - 1. Entry file for `eslint-plugin`
  * - 2. Update docs alias
  * - 3. Docs for contributors
