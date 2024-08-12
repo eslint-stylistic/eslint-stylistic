@@ -1,5 +1,19 @@
 # Changelog
 
+## [2.6.2](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.6.1...v2.6.2) (2024-08-08)
+
+
+### Bug Fixes
+
+* **indent:** indentation for argument with decorators ([#487](https://github.com/eslint-stylistic/eslint-stylistic/issues/487)) ([aefb3be](https://github.com/eslint-stylistic/eslint-stylistic/commit/aefb3be36e53857e8ce7fb1a0d629d1dab11979b))
+* **quotes:** ignore backtick in ts import types ([#493](https://github.com/eslint-stylistic/eslint-stylistic/issues/493)) ([a7f7c2a](https://github.com/eslint-stylistic/eslint-stylistic/commit/a7f7c2a900223570586740763487b674644560e2))
+
+
+### Chores
+
+* consistent `createRule` argument order ([83e22f2](https://github.com/eslint-stylistic/eslint-stylistic/commit/83e22f29e46603d103b50627c34620fa93226583))
+* **indent:** simplify the code related to `PropertyDefinition` with decorators ([#489](https://github.com/eslint-stylistic/eslint-stylistic/issues/489)) ([53d731f](https://github.com/eslint-stylistic/eslint-stylistic/commit/53d731ff19ef25c8c4fbbab6db4b1f4a6270bdd2))
+
 ## [2.6.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.6.0...v2.6.1) (2024-08-01)
 
 

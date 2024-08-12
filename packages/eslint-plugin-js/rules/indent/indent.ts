@@ -1233,7 +1233,15 @@ export default createRule<RuleOptions, MessageIds>({
 
       'FunctionDeclaration, FunctionExpression': function (node: Tree.FunctionDeclaration | Tree.FunctionExpression) {
         const closingParen = sourceCode.getTokenBefore(node.body)!
-        const openingParen = sourceCode.getTokenBefore(node.params.length ? node.params[0] : closingParen)!
+        const openingParen = sourceCode.getTokenBefore(
+          node.params.length
+            ? node.params[0].decorators?.length
+              ? node.params[0].decorators[0]
+              : node.params[0] : closingParen,
+          {
+            filter: isOpeningParenToken,
+          },
+        )!
 
         parameterParens.add(openingParen)
         parameterParens.add(closingParen)

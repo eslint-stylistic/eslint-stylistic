@@ -59,13 +59,14 @@ If you are using VS Code, you can override them with the following settings in y
   "eslint.rules.customizations": [
     {
       "rule": "@stylistic/*",
+      "fixable": true,
       "severity": "off"
     }
   ]
 }
 ```
 
-This tells VS Code to not show errors in your editor, but still have the ability to auto-fix them.
+This tells VS Code to not show errors in your editor, but still have the ability to auto-fix them. You can also set `"severity": "info"` to keep squiggly lines but not have them look like errors.
 
 ## How can I migrate?
 

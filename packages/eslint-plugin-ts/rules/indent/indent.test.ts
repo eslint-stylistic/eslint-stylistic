@@ -1917,5 +1917,50 @@ class Foo {
         },
       ],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/486
+    {
+      code: `
+class Foo {
+    func(
+            @Param('foo') foo: string,
+    @Param('bar') bar: string,
+        @Param('baz') baz: string
+    ) {
+        return { foo, bar, baz };
+    }
+}
+      `,
+      output: `
+class Foo {
+    func(
+        @Param('foo') foo: string,
+        @Param('bar') bar: string,
+        @Param('baz') baz: string
+    ) {
+        return { foo, bar, baz };
+    }
+}
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '8 spaces',
+            actual: 12,
+          },
+          line: 4,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '8 spaces',
+            actual: 4,
+          },
+          line: 5,
+          column: 1,
+        },
+      ],
+    },
   ],
 })
