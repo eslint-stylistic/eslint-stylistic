@@ -189,7 +189,7 @@ export default defineConfig({
                 '@stylistic/plus': stylisticPlus as ESLint.Plugin,
               },
               languageOptions: {
-                parser: parserTs as Linter.ParserModule,
+                parser: parserTs as Linter.Parser,
               },
             },
           ],

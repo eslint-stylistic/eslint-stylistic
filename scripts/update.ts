@@ -137,6 +137,8 @@ async function readPackage(path: string): Promise<PackageInfo> {
       let entry = join(path, ruleDir, `${name}.ts`).replace(/\\/g, '/')
       if (!existsSync(entry))
         entry = join(path, ruleDir, `${name}.js`).replace(/\\/g, '/')
+      if (!existsSync(entry))
+        entry = join(path, ruleDir, `index.ts`).replace(/\\/g, '/')
 
       const url = pathToFileURL(entry).href
       const mod = await import(url)

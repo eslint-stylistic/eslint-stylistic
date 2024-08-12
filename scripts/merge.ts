@@ -1,11 +1,9 @@
 import fs from 'node:fs/promises'
 import { basename, join } from 'node:path'
+import { existsSync } from 'node:fs'
 import fg from 'fast-glob'
-import { exec } from 'tinyexec'
 
-// Reset changes under `packages/*` directory
-await exec('git', ['checkout', '--', 'packages'])
-await exec('git', ['clean', '-fd', 'packages'])
+await import('./merge-undo')
 
 /**
  * TODO:
@@ -86,4 +84,25 @@ for (const [key, path] of Object.entries(packages)) {
       }
     }
   }
+}
+
+const rules = await fg('./packages/eslint-plugin/rules/*', {
+  onlyDirectories: true,
+  absolute: true,
+})
+
+for (const rule of rules) {
+  const name = basename(rule)
+  const ext = [
+    'js',
+    'jsx',
+    'ts',
+    'plus',
+  ].find(ext => existsSync(join(rule, `${name}._${ext}_.ts`)))
+
+  await fs.writeFile(
+    join(rule, `index.ts`),
+    `export { default } from './${name}._${ext}_'\n`,
+    'utf-8',
+  )
 }
