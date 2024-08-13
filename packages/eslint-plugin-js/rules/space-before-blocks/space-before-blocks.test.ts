@@ -3,7 +3,6 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import parser from '../../test-utils/fixture-parser'
 import rule from './space-before-blocks'
 import { run } from '#test'
 
@@ -24,6 +23,7 @@ const expectedNoSpacingError = { messageId: 'unexpectedSpace' }
 run({
   name: 'space-before-blocks',
   rule,
+  lang: 'js',
   valid: [
     'if(a) {}',
     'if(a)  {}',
@@ -567,21 +567,6 @@ run({
       output: 'class test{ constructor() {} }',
       options: classesNeverOthersOffArgs,
       parserOptions: { ecmaVersion: 6 },
-      errors: [expectedNoSpacingError],
-    },
-
-    // https://github.com/eslint/eslint/issues/13553
-    {
-      code: 'class A { foo(bar: string): void{} }',
-      output: 'class A { foo(bar: string): void {} }',
-      parser: parser('space-before-blocks', 'return-type-keyword-1'),
-      errors: [expectedSpacingError],
-    },
-    {
-      code: 'function foo(): null {}',
-      output: 'function foo(): null{}',
-      options: neverArgs,
-      parser: parser('space-before-blocks', 'return-type-keyword-2'),
       errors: [expectedNoSpacingError],
     },
 
