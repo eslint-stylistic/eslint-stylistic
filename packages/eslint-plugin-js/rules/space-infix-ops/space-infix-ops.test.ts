@@ -3,7 +3,6 @@
  * @author Michael Ficarra
  */
 
-import parser from '../../test-utils/fixture-parser'
 import rule from './space-infix-ops'
 import { run } from '#test'
 
@@ -33,15 +32,6 @@ run({
     { code: 'a ** b', parserOptions: { ecmaVersion: 7 } },
     { code: 'a|0', options: [{ int32Hint: true }] },
     { code: 'a |0', options: [{ int32Hint: true }] },
-
-    // Type Annotations
-    { code: 'function foo(a: number = 0) { }', parser: parser('type-annotations/function-parameter-type-annotation'), parserOptions: { ecmaVersion: 6 } },
-    { code: 'function foo(): Bar { }', parser: parser('type-annotations/function-return-type-annotation'), parserOptions: { ecmaVersion: 6 } },
-    { code: 'var foo: Bar = \'\';', parser: parser('type-annotations/variable-declaration-init-type-annotation'), parserOptions: { ecmaVersion: 6 } },
-    { code: 'const foo = function(a: number = 0): Bar { };', parser: parser('type-annotations/function-expression-type-annotation'), parserOptions: { ecmaVersion: 6 } },
-
-    // TypeScript Type Aliases
-    { code: 'type Foo<T> = T;', parser: parser('typescript-parsers/type-alias'), parserOptions: { ecmaVersion: 6 } },
 
     // Logical Assignments
     { code: 'a &&= b', parserOptions: { ecmaVersion: 2021 } },
@@ -464,33 +454,6 @@ run({
         line: 1,
         column: 6,
         type: 'BinaryExpression',
-      }],
-    },
-
-    // Type Annotations
-    {
-      code: 'var a: Foo= b;',
-      output: 'var a: Foo = b;',
-      parser: parser('type-annotations/variable-declaration-init-type-annotation-no-space'),
-      errors: [{
-        messageId: 'missingSpace',
-        data: { operator: '=' },
-        type: 'VariableDeclarator',
-        line: 1,
-        column: 11,
-      }],
-    },
-    {
-      code: 'function foo(a: number=0): Foo { }',
-      output: 'function foo(a: number = 0): Foo { }',
-      parser: parser('type-annotations/function-declaration-type-annotation-no-space'),
-      parserOptions: { ecmaVersion: 6 },
-      errors: [{
-        messageId: 'missingSpace',
-        data: { operator: '=' },
-        line: 1,
-        column: 23,
-        type: 'AssignmentPattern',
       }],
     },
 

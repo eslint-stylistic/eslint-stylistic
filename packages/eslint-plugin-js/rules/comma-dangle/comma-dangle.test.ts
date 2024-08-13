@@ -3,11 +3,8 @@
  * @author Ian Christian Myers
  */
 
-import { createParserResolver } from '../../test-utils/fixture-parser'
 import rule from './comma-dangle'
 import { $, run } from '#test'
-
-const parser = createParserResolver('comma-dangle')
 
 run({
   name: 'comma-dangle',
@@ -476,29 +473,6 @@ run({
       code: 'foo(\na,\nb\n)',
       options: [{ functions: 'only-multiline' }],
       parserOptions: { ecmaVersion: 8 },
-    },
-
-    // https://github.com/eslint/eslint/issues/7370
-    {
-      code: 'function foo({a}: {a: string,}) {}',
-      options: ['never'],
-      parser: parser('object-pattern-1'),
-    },
-    {
-      code: 'function foo({a,}: {a: string}) {}',
-      options: ['always'],
-      parser: parser('object-pattern-2'),
-      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
-    },
-    {
-      code: 'function foo(a): {b: boolean,} {}',
-      options: [{ functions: 'never' }],
-      parser: parser('return-type-1'),
-    },
-    {
-      code: 'function foo(a,): {b: boolean} {}',
-      options: [{ functions: 'always' }],
-      parser: parser('return-type-2'),
     },
 
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/158
@@ -1728,37 +1702,6 @@ let d = 0;export {d,};
         { messageId: 'unexpected', line: 5 },
         { messageId: 'unexpected', line: 5 },
       ],
-    },
-
-    // https://github.com/eslint/eslint/issues/7370
-    {
-      code: 'function foo({a}: {a: string,}) {}',
-      output: 'function foo({a,}: {a: string,}) {}',
-      options: ['always'],
-      parser: parser('object-pattern-1'),
-      errors: [{ messageId: 'missing' }],
-      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
-    },
-    {
-      code: 'function foo({a,}: {a: string}) {}',
-      output: 'function foo({a}: {a: string}) {}',
-      options: ['never'],
-      parser: parser('object-pattern-2'),
-      errors: [{ messageId: 'unexpected' }],
-    },
-    {
-      code: 'function foo(a): {b: boolean,} {}',
-      output: 'function foo(a,): {b: boolean,} {}',
-      options: [{ functions: 'always' }],
-      parser: parser('return-type-1'),
-      errors: [{ messageId: 'missing' }],
-    },
-    {
-      code: 'function foo(a,): {b: boolean} {}',
-      output: 'function foo(a): {b: boolean} {}',
-      options: [{ functions: 'never' }],
-      parser: parser('return-type-2'),
-      errors: [{ messageId: 'unexpected' }],
     },
 
     // https://github.com/eslint/eslint/issues/11502

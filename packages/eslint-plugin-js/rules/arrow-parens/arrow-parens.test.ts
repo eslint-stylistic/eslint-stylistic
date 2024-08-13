@@ -3,12 +3,9 @@
  * @author Jxck
  */
 
-import { createParserResolver } from '../../test-utils/fixture-parser'
 import rule from './arrow-parens'
 import type { InvalidTestCase, ValidTestCase } from '#test'
 import { run } from '#test'
-
-const parser = createParserResolver('arrow-parens')
 
 const valid: ValidTestCase[] = [
   // "always" (by default)
@@ -34,8 +31,8 @@ const valid: ValidTestCase[] = [
   { code: 'a.then((foo) => {});', options: ['always'] },
   { code: 'a.then((foo) => { if (true) {}; });', options: ['always'] },
   { code: 'a.then(async (foo) => { if (true) {}; });', options: ['always'], parserOptions: { ecmaVersion: 8 } },
-  { code: '(a: T) => a', options: ['always'], parser: parser('identifier-type') },
-  { code: '(a): T => a', options: ['always'], parser: parser('return-type') },
+  { code: '(a: T) => a', options: ['always'] },
+  { code: '(a): T => a', options: ['always'] },
 
   // "as-needed"
   { code: '() => {}', options: ['as-needed'] },
@@ -52,8 +49,8 @@ const valid: ValidTestCase[] = [
   { code: 'async a => a', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
   { code: 'async ([a, b]) => {}', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
   { code: 'async (a, b) => {}', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
-  { code: '(a: T) => a', options: ['as-needed'], parser: parser('identifier-type') },
-  { code: '(a): T => a', options: ['as-needed'], parser: parser('return-type') },
+  { code: '(a: T) => a', options: ['as-needed'] },
+  { code: '(a): T => a', options: ['as-needed'] },
 
   // "as-needed", { "requireForBlockBody": true }
   { code: '() => {}', options: ['as-needed', { requireForBlockBody: true }] },
@@ -71,8 +68,8 @@ const valid: ValidTestCase[] = [
   { code: 'a => ({})', options: ['as-needed', { requireForBlockBody: true }] },
   { code: 'async a => ({})', options: ['as-needed', { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
   { code: 'async a => a', options: ['as-needed', { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
-  { code: '(a: T) => a', options: ['as-needed', { requireForBlockBody: true }], parser: parser('identifier-type') },
-  { code: '(a): T => a', options: ['as-needed', { requireForBlockBody: true }], parser: parser('return-type') },
+  { code: '(a: T) => a', options: ['as-needed', { requireForBlockBody: true }] },
+  { code: '(a): T => a', options: ['as-needed', { requireForBlockBody: true }] },
   {
     code: 'const f = (/** @type {number} */a/**hello*/) => a + a;',
     options: ['as-needed'],
@@ -140,77 +137,62 @@ const valid: ValidTestCase[] = [
   {
     code: '<T>(a) => b',
     options: ['always'],
-    parser: parser('generics-simple'),
   },
   {
     code: '<T>(a) => b',
     options: ['as-needed'],
-    parser: parser('generics-simple'),
   },
   {
     code: '<T>(a) => b',
     options: ['as-needed', { requireForBlockBody: true }],
-    parser: parser('generics-simple'),
   },
   {
     code: 'async <T>(a) => b',
     options: ['always'],
-    parser: parser('generics-simple-async'),
   },
   {
     code: 'async <T>(a) => b',
     options: ['as-needed'],
-    parser: parser('generics-simple-async'),
   },
   {
     code: 'async <T>(a) => b',
     options: ['as-needed', { requireForBlockBody: true }],
-    parser: parser('generics-simple-async'),
   },
   {
     code: '<T>() => b',
     options: ['always'],
-    parser: parser('generics-simple-no-params'),
   },
   {
     code: '<T>() => b',
     options: ['as-needed'],
-    parser: parser('generics-simple-no-params'),
   },
   {
     code: '<T>() => b',
     options: ['as-needed', { requireForBlockBody: true }],
-    parser: parser('generics-simple-no-params'),
   },
   {
     code: '<T extends A>(a) => b',
     options: ['always'],
-    parser: parser('generics-extends'),
   },
   {
     code: '<T extends A>(a) => b',
     options: ['as-needed'],
-    parser: parser('generics-extends'),
   },
   {
     code: '<T extends A>(a) => b',
     options: ['as-needed', { requireForBlockBody: true }],
-    parser: parser('generics-extends'),
   },
   {
     code: '<T extends (A | B) & C>(a) => b',
     options: ['always'],
-    parser: parser('generics-extends-complex'),
   },
   {
     code: '<T extends (A | B) & C>(a) => b',
     options: ['as-needed'],
-    parser: parser('generics-extends-complex'),
   },
   {
     code: '<T extends (A | B) & C>(a) => b',
     options: ['as-needed', { requireForBlockBody: true }],
-    parser: parser('generics-extends-complex'),
   },
 ]
 
