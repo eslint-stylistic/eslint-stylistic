@@ -6,6 +6,7 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import parser from '../../test-utils/fixture-parser'
+import tsParser from '@typescript-eslint/parser'
 import rule from './indent'
 import { $, run } from '#test'
 
@@ -3991,7 +3992,7 @@ run({
             baz: number;
         }
       `,
-      parser: parser('unknown-nodes/interface'),
+      parser: tsParser,
     },
     {
       code: $`
@@ -4004,7 +4005,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/namespace-valid'),
+      parser: tsParser,
     },
     {
       code: $`
@@ -4021,7 +4022,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/abstract-class-valid'),
+      parser: tsParser,
     },
     {
       code: $`
@@ -4037,7 +4038,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/functions-with-abstract-class-valid'),
+      parser: tsParser,
     },
     {
       code: $`
@@ -4055,7 +4056,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/namespace-with-functions-with-abstract-class-valid'),
+      parser: tsParser,
     },
     {
       code: $`
@@ -4064,7 +4065,7 @@ run({
           | 'PUT';
       `,
       options: [2, { VariableDeclarator: 0 }],
-      parser: parser('unknown-nodes/variable-declarator-type-indent-two-spaces'),
+      parser: tsParser,
     },
     {
       code: $`
@@ -4073,7 +4074,7 @@ run({
         | 'PUT';
       `,
       options: [2, { VariableDeclarator: 1 }],
-      parser: parser('unknown-nodes/variable-declarator-type-no-indent'),
+      parser: tsParser,
     },
     $`
       foo(\`foo
@@ -10392,7 +10393,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/namespace-invalid'),
+      parser: tsParser,
       errors: expectedErrors([[3, 8, 4, 'Identifier'], [6, 8, 4, 'Keyword']]),
     },
     {
@@ -10424,7 +10425,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/abstract-class-invalid'),
+      parser: tsParser,
       errors: expectedErrors([[4, 12, 8, 'Identifier'], [7, 12, 8, 'Identifier'], [10, 8, 4, 'Identifier']]),
     },
     {
@@ -10454,7 +10455,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/functions-with-abstract-class-invalid'),
+      parser: tsParser,
       errors: expectedErrors([
         [4, 12, 8, 'Keyword'],
         [5, 16, 8, 'Keyword'],
@@ -10494,7 +10495,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/namespace-with-functions-with-abstract-class-invalid'),
+      parser: tsParser,
       errors: expectedErrors([
         [3, 8, 4, 'Keyword'],
         [7, 24, 20, 'Identifier'],
