@@ -50,6 +50,7 @@ const valid: ValidTestCase[] = [
   { code: 'async ([a, b]) => {}', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
   { code: 'async (a, b) => {}', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
   { code: '(a: T) => a', options: ['as-needed'] },
+  { code: '(a?) => a', options: ['as-needed'] },
   { code: '(a): T => a', options: ['as-needed'] },
 
   // "as-needed", { "requireForBlockBody": true }
