@@ -522,6 +522,10 @@ f<(number) | string>(1)
         },
       },
     },
+    // https://github.com/eslint/eslint/issues/17173
+    {
+      code: 'const x = (1 satisfies number).toFixed();',
+    },
   ],
 
   invalid: [

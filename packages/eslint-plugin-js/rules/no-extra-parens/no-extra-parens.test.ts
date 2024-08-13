@@ -3,7 +3,6 @@
  * @author Michael Ficarra
  */
 
-import parser from '../../test-utils/fixture-parser'
 import rule from './no-extra-parens'
 import { $, run } from '#test'
 
@@ -776,12 +775,6 @@ run({
     {
       code: '((a)) = function () {};',
       options: ['functions'],
-    },
-
-    // https://github.com/eslint/eslint/issues/17173
-    {
-      code: 'const x = (1 satisfies number).toFixed();',
-      parser: parser('typescript-parsers/member-call-expr-with-assertion'),
     },
   ],
 
