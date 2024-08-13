@@ -5,8 +5,8 @@
  */
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import parser from '../../test-utils/fixture-parser'
 import tsParser from '@typescript-eslint/parser'
+import parser from '../../test-utils/fixture-parser'
 import rule from './indent'
 import { $, run } from '#test'
 
