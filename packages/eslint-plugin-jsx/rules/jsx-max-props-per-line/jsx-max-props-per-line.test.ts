@@ -3,7 +3,7 @@
  * @author Yannick Croissant
  */
 
-import { invalids, valids } from '../../test-utils/parsers'
+import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-max-props-per-line'
 import { run } from '#test'
 

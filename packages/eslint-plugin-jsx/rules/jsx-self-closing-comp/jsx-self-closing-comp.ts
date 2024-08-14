@@ -5,7 +5,7 @@
 
 import type { Tree } from '@shared/types'
 import { createRule } from '../../../utils'
-import { isDOMComponent } from '../../utils/jsx'
+import { isDOMComponent } from '../../../utils/ast/jsx'
 import type { MessageIds, RuleOptions } from './types'
 
 const optionDefaults = { component: true, html: true }

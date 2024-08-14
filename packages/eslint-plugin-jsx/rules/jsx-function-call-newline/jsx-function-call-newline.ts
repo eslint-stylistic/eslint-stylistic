@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, RuleContext, Tree } from '@shared/types'
-import { isJSX } from '../../utils/jsx'
+import { isJSX } from '../../../utils/ast/jsx'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

@@ -4,7 +4,7 @@
  */
 
 import type { RuleContext, Token, Tree } from '@shared/types'
-import { getTokenBeforeClosingBracket } from '../../utils/getTokenBeforeClosingBracket'
+import { getTokenBeforeClosingBracket } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

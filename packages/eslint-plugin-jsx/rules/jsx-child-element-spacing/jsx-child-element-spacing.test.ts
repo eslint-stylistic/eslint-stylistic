@@ -1,4 +1,4 @@
-import { invalids, valids } from '../../test-utils/parsers'
+import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-child-element-spacing'
 import { run } from '#test'
 

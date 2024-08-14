@@ -5,7 +5,7 @@
 
 import type { ASTNode, Token, Tree } from '@shared/types'
 import { createRule } from '../../../utils'
-import { isWhiteSpaces } from '../../utils/jsx'
+import { isWhiteSpaces } from '../../../utils/ast/jsx'
 import type { MessageIds, RuleOptions } from './types'
 
 const optionDefaults = {

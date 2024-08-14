@@ -4,8 +4,8 @@
  */
 
 import type { ASTNode, Token } from '@shared/types'
-import { isJSX } from '../../utils/jsx'
-import { isParenthesized } from '../../utils/ast'
+import { isJSX } from '../../../utils/ast/jsx'
+import { isParenthesized } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

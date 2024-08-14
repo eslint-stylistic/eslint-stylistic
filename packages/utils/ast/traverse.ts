@@ -1,10 +1,7 @@
-/**
- * @fileoverview Utility functions for AST
- */
+import type * as ESTree from 'estree'
+import type { ASTNode, ESNode } from '@shared/types'
 import type ESTraverse from 'estraverse'
 import { traverse as _traverse } from 'estraverse'
-import type { FunctionDeclaration } from 'estree'
-import type { ASTNode, ESNode, RuleContext, SourceCode, Token } from '@shared/types'
 
 /**
  * Wrapper for estraverse.traverse
@@ -79,7 +76,7 @@ export function traverseReturns(
     return
   }
 
-  traverse((ASTNode as FunctionDeclaration).body, {
+  traverse((ASTNode as ESTree.FunctionDeclaration).body, {
     enter(node) {
       const breakTraverse = () => {
         this.break()
@@ -101,54 +98,4 @@ export function traverseReturns(
       }
     },
   })
-}
-
-/**
- * Gets the first node in a line from the initial node, excluding whitespace.
- * @param context The node to check
- * @param node The node to check
- * @return {ASTNode} the first node in the line
- */
-export function getFirstNodeInLine(context: { sourceCode: SourceCode }, node: ASTNode | Token) {
-  const sourceCode = context.sourceCode
-  let token: ASTNode | Token = node
-  let lines: string[] | null = null
-  do {
-    token = sourceCode.getTokenBefore(token)!
-    lines = token.type === 'JSXText'
-      ? token.value.split('\n')
-      : null
-  } while (
-    token.type === 'JSXText' && lines && /^\s*$/.test(lines[lines.length - 1])
-  )
-  return token
-}
-
-/**
- * Checks if the node is the first in its line, excluding whitespace.
- * @param context The node to check
- * @param node The node to check
- * @return {boolean} true if it's the first node in its line
- */
-export function isNodeFirstInLine(context: { sourceCode: SourceCode }, node: ASTNode) {
-  const token = getFirstNodeInLine(context, node)
-  const startLine = node.loc!.start.line
-  const endLine = token ? token.loc.end.line : -1
-  return startLine !== endLine
-}
-
-/**
- * Checks if a node is surrounded by parenthesis.
- *
- * @param context - Context from the rule
- * @param node - Node to be checked
- */
-export function isParenthesized(context: RuleContext<any, any>, node: ASTNode): boolean {
-  const sourceCode = context.sourceCode
-  const previousToken = sourceCode.getTokenBefore(node)
-  const nextToken = sourceCode.getTokenAfter(node)
-
-  return !!previousToken && !!nextToken
-    && previousToken.value === '(' && previousToken.range[1] <= node.range![0]
-    && nextToken.value === ')' && nextToken.range[0] >= node.range![1]
 }

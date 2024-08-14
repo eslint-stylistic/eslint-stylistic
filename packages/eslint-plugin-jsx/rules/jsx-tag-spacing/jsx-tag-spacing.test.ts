@@ -3,7 +3,7 @@
  * @author Diogo Franco (Kovensky)
  */
 
-import { invalids, valids } from '../../test-utils/parsers'
+import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-tag-spacing'
 import type { RuleOptions } from './types'
 import { run } from '#test'

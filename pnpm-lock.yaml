@@ -29,6 +29,24 @@ importers:
       '@antfu/utils':
         specifier: ^0.7.10
         version: 0.7.10
+      '@babel/eslint-parser':
+        specifier: ^7.25.1
+        version: 7.25.1(@babel/core@7.25.2)(eslint@9.9.0(jiti@1.21.6))
+      '@babel/plugin-syntax-decorators':
+        specifier: ^7.24.7
+        version: 7.24.7(@babel/core@7.25.2)
+      '@babel/plugin-syntax-do-expressions':
+        specifier: ^7.24.7
+        version: 7.24.7(@babel/core@7.25.2)
+      '@babel/plugin-syntax-function-bind':
+        specifier: ^7.24.7
+        version: 7.24.7(@babel/core@7.25.2)
+      '@babel/preset-react':
+        specifier: ^7.24.7
+        version: 7.24.7(@babel/core@7.25.2)
+      '@eslint-community/eslint-utils':
+        specifier: ^4.4.0
+        version: 4.4.0(eslint@9.9.0(jiti@1.21.6))
       '@iconify-json/carbon':
         specifier: ^1.1.37
         version: 1.1.37
@@ -83,6 +101,9 @@ importers:
       '@types/node':
         specifier: ^22.3.0
         version: 22.3.0
+      '@types/picomatch':
+        specifier: ^3.0.1
+        version: 3.0.1
       '@types/semver':
         specifier: ^7.5.8
         version: 7.5.8
@@ -101,6 +122,9 @@ importers:
       change-case:
         specifier: ^5.4.4
         version: 5.4.4
+      escape-string-regexp:
+        specifier: ^5.0.0
+        version: 5.0.0
       eslint:
         specifier: ^9.9.0
         version: 9.9.0(jiti@1.21.6)
@@ -119,6 +143,9 @@ importers:
       espree:
         specifier: ^10.1.0
         version: 10.1.0
+      estraverse:
+        specifier: ^5.3.0
+        version: 5.3.0
       execa:
         specifier: ^9.3.0
         version: 9.3.0
@@ -279,19 +306,6 @@ importers:
       espree:
         specifier: ^10.1.0
         version: 10.1.0
-    devDependencies:
-      '@babel/eslint-parser':
-        specifier: ^7.25.1
-        version: 7.25.1(@babel/core@7.25.2)(eslint@9.9.0(jiti@1.21.6))
-      '@eslint-community/eslint-utils':
-        specifier: ^4.4.0
-        version: 4.4.0(eslint@9.9.0(jiti@1.21.6))
-      '@typescript-eslint/parser':
-        specifier: ^8.1.0
-        version: 8.1.0(eslint@9.9.0(jiti@1.21.6))(typescript@5.5.4)
-      escape-string-regexp:
-        specifier: ^5.0.0
-        version: 5.0.0
 
   packages/eslint-plugin-jsx:
     dependencies:
@@ -301,40 +315,21 @@ importers:
       '@types/eslint':
         specifier: ^9.6.0
         version: 9.6.0
+      eslint:
+        specifier: '>=8.40.0'
+        version: 9.9.0(jiti@1.21.6)
+      eslint-visitor-keys:
+        specifier: ^4.0.0
+        version: 4.0.0
+      espree:
+        specifier: ^10.1.0
+        version: 10.1.0
       estraverse:
         specifier: ^5.3.0
         version: 5.3.0
       picomatch:
         specifier: ^4.0.2
         version: 4.0.2
-    devDependencies:
-      '@babel/eslint-parser':
-        specifier: ^7.25.1
-        version: 7.25.1(@babel/core@7.25.2)(eslint@9.9.0(jiti@1.21.6))
-      '@babel/plugin-syntax-decorators':
-        specifier: ^7.24.7
-        version: 7.24.7(@babel/core@7.25.2)
-      '@babel/plugin-syntax-do-expressions':
-        specifier: ^7.24.7
-        version: 7.24.7(@babel/core@7.25.2)
-      '@babel/plugin-syntax-function-bind':
-        specifier: ^7.24.7
-        version: 7.24.7(@babel/core@7.25.2)
-      '@babel/preset-react':
-        specifier: ^7.24.7
-        version: 7.24.7(@babel/core@7.25.2)
-      '@types/picomatch':
-        specifier: ^3.0.1
-        version: 3.0.1
-      '@typescript-eslint/parser':
-        specifier: ^8.1.0
-        version: 8.1.0(eslint@9.9.0(jiti@1.21.6))(typescript@5.5.4)
-      eslint:
-        specifier: ^9.9.0
-        version: 9.9.0(jiti@1.21.6)
-      semver:
-        specifier: ^7.6.3
-        version: 7.6.3
 
   packages/eslint-plugin-migrate:
     dependencies:

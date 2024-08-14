@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, Tree } from '@shared/types'
-import { isNodeFirstInLine } from '../../utils/ast'
+import { isNodeFirstInLine } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

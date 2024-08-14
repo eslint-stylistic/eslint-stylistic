@@ -31,8 +31,8 @@
  */
 
 import type { ASTNode, ReportFixFunction, Token, Tree } from '@shared/types'
-import { getFirstNodeInLine, isNodeFirstInLine } from '../../utils/ast'
-import { isJSX, isReturningJSX } from '../../utils/jsx'
+import { getFirstNodeInLine, isNodeFirstInLine } from '../../../utils/ast'
+import { isJSX, isReturningJSX } from '../../../utils/ast/jsx'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

@@ -6,7 +6,7 @@
 
 import type { Tree } from '@shared/types'
 import { createRule } from '../../../utils'
-import { isJSX, isWhiteSpaces } from '../../utils/jsx'
+import { isJSX, isWhiteSpaces } from '../../../utils/ast/jsx'
 import type { MessageIds, RuleOptions } from './types'
 
 const OPTION_ALWAYS = 'always'

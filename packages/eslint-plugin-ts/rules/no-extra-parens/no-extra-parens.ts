@@ -294,7 +294,7 @@ export default createRule<RuleOptions, MessageIds>({
               ...(node.init as Tree.TSAsExpression),
               type: AST_NODE_TYPES.FunctionExpression as any,
             },
-          })
+          } as any)
         }
 
         return rules.VariableDeclarator!(node)

@@ -3,7 +3,7 @@
  * @author Joachim Seminck
  */
 
-import { invalids, valids } from '../../test-utils/parsers'
+import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-first-prop-new-line'
 import { run } from '#test'
 
