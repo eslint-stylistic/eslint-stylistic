@@ -122,6 +122,7 @@
   "devDependencies": {
     "@eslint-community/eslint-utils": "^4.4.0",
     "@typescript-eslint/parser": "^8.0.0",
-    "escape-string-regexp": "^5.0.0"
+    "escape-string-regexp": "^5.0.0",
+    "flow-parser": "^0.243.0"
   }
 }

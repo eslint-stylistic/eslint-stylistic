@@ -283,6 +283,9 @@ importers:
       escape-string-regexp:
         specifier: ^5.0.0
         version: 5.0.0
+      flow-parser:
+        specifier: ^0.243.0
+        version: 0.243.0
 
   packages/eslint-plugin-jsx:
     dependencies:
@@ -2815,6 +2818,10 @@ packages:
     peerDependenciesMeta:
       '@nuxt/kit':
         optional: true
+
+  flow-parser@0.243.0:
+    resolution: {integrity: sha512-HCDBfH+kZcY5etWYeAqatjW78gkIryzb9XixRsA8lGI1uyYc7aCpElkkO4H+KIpoyQMiY0VAZPI4cyac3wQe8w==}
+    engines: {node: '>=0.4.0'}
 
   focus-trap@7.5.4:
     resolution: {integrity: sha512-N7kHdlgsO/v+iD/dMoJKtsSqs5Dz/dXZVebRgJw23LDk+jMi/974zyiOYDziY2JPp8xivq9BmUGwIJMiuSBi7w==}
@@ -7336,6 +7343,8 @@ snapshots:
       '@floating-ui/dom': 1.1.1
       vue: 3.4.35(typescript@5.5.4)
       vue-resize: 2.0.0-alpha.1(vue@3.4.35(typescript@5.5.4))
+
+  flow-parser@0.243.0: {}
 
   focus-trap@7.5.4:
     dependencies:
