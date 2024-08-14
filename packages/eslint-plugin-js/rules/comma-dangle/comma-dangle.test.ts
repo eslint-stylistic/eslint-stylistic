@@ -3,11 +3,9 @@
  * @author Ian Christian Myers
  */
 
-import { createParserResolver } from '../../test-utils/fixture-parser'
+import { languageOptionsForBabelFlow } from '../../test-utils/parsers'
 import rule from './comma-dangle'
 import { $, run } from '#test'
-
-const parser = createParserResolver('comma-dangle')
 
 run({
   name: 'comma-dangle',
@@ -482,23 +480,26 @@ run({
     {
       code: 'function foo({a}: {a: string,}) {}',
       options: ['never'],
-      parser: parser('object-pattern-1'),
+      languageOptions: languageOptionsForBabelFlow,
     },
     {
       code: 'function foo({a,}: {a: string}) {}',
       options: ['always'],
-      parser: parser('object-pattern-2'),
-      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
+      languageOptions: {
+        ...languageOptionsForBabelFlow,
+        sourceType: 'script',
+        ecmaVersion: 5,
+      },
     },
     {
       code: 'function foo(a): {b: boolean,} {}',
       options: [{ functions: 'never' }],
-      parser: parser('return-type-1'),
+      languageOptions: languageOptionsForBabelFlow,
     },
     {
       code: 'function foo(a,): {b: boolean} {}',
       options: [{ functions: 'always' }],
-      parser: parser('return-type-2'),
+      languageOptions: languageOptionsForBabelFlow,
     },
 
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/158
@@ -1735,29 +1736,32 @@ let d = 0;export {d,};
       code: 'function foo({a}: {a: string,}) {}',
       output: 'function foo({a,}: {a: string,}) {}',
       options: ['always'],
-      parser: parser('object-pattern-1'),
+      languageOptions: {
+        ...languageOptionsForBabelFlow,
+        sourceType: 'script',
+        ecmaVersion: 5,
+      },
       errors: [{ messageId: 'missing' }],
-      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
     },
     {
       code: 'function foo({a,}: {a: string}) {}',
       output: 'function foo({a}: {a: string}) {}',
       options: ['never'],
-      parser: parser('object-pattern-2'),
+      languageOptions: languageOptionsForBabelFlow,
       errors: [{ messageId: 'unexpected' }],
     },
     {
       code: 'function foo(a): {b: boolean,} {}',
       output: 'function foo(a,): {b: boolean,} {}',
       options: [{ functions: 'always' }],
-      parser: parser('return-type-1'),
+      languageOptions: languageOptionsForBabelFlow,
       errors: [{ messageId: 'missing' }],
     },
     {
       code: 'function foo(a,): {b: boolean} {}',
       output: 'function foo(a): {b: boolean} {}',
       options: [{ functions: 'never' }],
-      parser: parser('return-type-2'),
+      languageOptions: languageOptionsForBabelFlow,
       errors: [{ messageId: 'unexpected' }],
     },
 

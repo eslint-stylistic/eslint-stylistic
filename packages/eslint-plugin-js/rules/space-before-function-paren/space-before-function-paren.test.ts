@@ -3,7 +3,7 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import parser from '../../test-utils/fixture-parser'
+import { languageOptionsForBabelFlow } from '../../test-utils/parsers'
 import rule from './space-before-function-paren'
 import { run } from '#test'
 
@@ -101,7 +101,7 @@ run({
     },
     {
       code: 'type TransformFunction = (el: ASTElement, code: string) => string;',
-      parser: parser('babel-eslint7', 'function-type-annotation'),
+      languageOptions: languageOptionsForBabelFlow,
     },
 
     // Async arrow functions

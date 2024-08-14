@@ -3,7 +3,7 @@
  * @author Toru Nagashima
  */
 
-import parser from '../../test-utils/fixture-parser'
+import { languageOptionsForBabelFlow } from '../../test-utils/parsers'
 import rule from './object-curly-newline'
 import { run } from '#test'
 
@@ -76,7 +76,7 @@ run({
         '} : MyType) {}',
       ].join('\n'),
       options: ['always'],
-      parser: parser('object-curly-newline/flow-stub-parser-multiline'),
+      languageOptions: languageOptionsForBabelFlow,
     },
     {
       code: [
@@ -86,7 +86,7 @@ run({
         '} : { a : string, b : string }) {}',
       ].join('\n'),
       options: ['always'],
-      parser: parser('object-curly-newline/flow-stub-parser-multiline-type-literal'),
+      languageOptions: languageOptionsForBabelFlow,
     },
 
     // "never" -------------------------------------------------------------
@@ -126,12 +126,12 @@ run({
     {
       code: 'function foo({ a, b } : MyType) {}',
       options: ['never'],
-      parser: parser('object-curly-newline/flow-stub-parser-singleline'),
+      languageOptions: languageOptionsForBabelFlow,
     },
     {
       code: 'function foo({ a, b } : { a : string, b : string }) {}',
       options: ['never'],
-      parser: parser('object-curly-newline/flow-stub-parser-singleline-type-literal'),
+      languageOptions: languageOptionsForBabelFlow,
     },
 
     // "multiline" ---------------------------------------------------------
@@ -671,7 +671,7 @@ run({
         '} : MyType) {}',
       ].join('\n'),
       options: ['always'],
-      parser: parser('object-curly-newline/flow-stub-parser-singleline'),
+      languageOptions: languageOptionsForBabelFlow,
       errors: [
         { line: 1, column: 14, messageId: 'expectedLinebreakAfterOpeningBrace' },
         { line: 1, column: 21, messageId: 'expectedLinebreakBeforeClosingBrace' },
@@ -685,7 +685,7 @@ run({
         '} : { a : string, b : string }) {}',
       ].join('\n'),
       options: ['always'],
-      parser: parser('object-curly-newline/flow-stub-parser-singleline-type-literal'),
+      languageOptions: languageOptionsForBabelFlow,
       errors: [
         { line: 1, column: 14, messageId: 'expectedLinebreakAfterOpeningBrace' },
         { line: 1, column: 21, messageId: 'expectedLinebreakBeforeClosingBrace' },
@@ -797,7 +797,7 @@ run({
         ' b} : MyType) {}',
       ].join('\n'),
       options: ['never'],
-      parser: parser('object-curly-newline/flow-stub-parser-multiline'),
+      languageOptions: languageOptionsForBabelFlow,
       errors: [
         { line: 1, column: 14, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
         { line: 4, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
@@ -815,7 +815,7 @@ run({
         ' b} : { a : string, b : string }) {}',
       ].join('\n'),
       options: ['never'],
-      parser: parser('object-curly-newline/flow-stub-parser-multiline-type-literal'),
+      languageOptions: languageOptionsForBabelFlow,
       errors: [
         { line: 1, column: 14, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
         { line: 4, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },

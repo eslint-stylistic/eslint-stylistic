@@ -3,7 +3,7 @@
  * @author Toru Nagashima
  */
 
-import parser from '../../test-utils/fixture-parser'
+import tsParser from '@typescript-eslint/parser'
 import rule from './keyword-spacing'
 import type { TestCase } from '#test'
 import { run } from '#test'
@@ -1130,12 +1130,12 @@ run({
 
     {
       code: '<Thing> this.blah',
-      parser: parser('keyword-spacing', 'prefix-cast-operator-space'),
+      parser: tsParser,
     },
     {
       code: '<Thing>this.blah',
       options: [override('this', { before: false })],
-      parser: parser('keyword-spacing', 'prefix-cast-operator-no-space'),
+      parser: tsParser,
     },
 
     // not conflict with `array-bracket-spacing`
@@ -1492,14 +1492,14 @@ run({
     // ----------------------------------------------------------------------
 
     // class declaration don't error with decorator
-    { code: '@dec class Foo {}', parser: parser('typescript-parsers/decorator-with-class') },
+    { code: '@dec class Foo {}', parser: tsParser },
 
     // get, set, async methods don't error with decorator
-    { code: 'class Foo { @dec get bar() {} @dec set baz() {} @dec async baw() {} }', parser: parser('typescript-parsers/decorator-with-class-methods') },
-    { code: 'class Foo { @dec static qux() {} @dec static get bar() {} @dec static set baz() {} @dec static async baw() {} }', parser: parser('typescript-parsers/decorator-with-static-class-methods') },
+    { code: 'class Foo { @dec get bar() {} @dec set baz() {} @dec async baw() {} }', parser: tsParser },
+    { code: 'class Foo { @dec static qux() {} @dec static get bar() {} @dec static set baz() {} @dec static async baw() {} }', parser: tsParser },
 
     // type keywords can be used as parameters in arrow functions
-    { code: 'symbol => 4;', parser: parser('typescript-parsers/keyword-with-arrow-function') },
+    { code: 'symbol => 4;', parser: tsParser },
   ],
 
   invalid: [
@@ -3419,13 +3419,13 @@ run({
       code: '<Thing> this.blah',
       output: '<Thing>this.blah',
       options: [override('this', { before: false })],
-      parser: parser('keyword-spacing', 'prefix-cast-operator-space'),
+      parser: tsParser,
       errors: unexpectedBefore('this'),
     },
     {
       code: '<Thing>this.blah',
       output: '<Thing> this.blah',
-      parser: parser('keyword-spacing', 'prefix-cast-operator-no-space'),
+      parser: tsParser,
       errors: expectedBefore('this'),
     },
 
@@ -3696,7 +3696,7 @@ run({
     {
       code: 'class Foo { @desc({set a(value) {}, get a() {}, async c() {}}) async[foo]() {} }',
       output: 'class Foo { @desc({set a(value) {}, get a() {}, async c() {}}) async [foo]() {} }',
-      parser: parser('typescript-parsers/decorator-with-keywords-class-method'),
+      parser: tsParser,
       errors: expectedAfter('async'),
     },
   ],

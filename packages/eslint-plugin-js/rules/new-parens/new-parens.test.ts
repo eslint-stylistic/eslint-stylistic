@@ -3,7 +3,7 @@
  * @author Ilya Volodin
  */
 
-import parser from '../../test-utils/fixture-parser'
+import tsParser from '@typescript-eslint/parser'
 import rule from './new-parens'
 import { run } from '#test'
 
@@ -13,6 +13,7 @@ const neverError = { messageId: 'unnecessary', type: 'NewExpression' }
 run({
   name: 'new-parens',
   rule,
+  lang: 'js',
   valid: [
 
     // Default (Always)
@@ -25,7 +26,7 @@ run({
     'var a = (new Foo()).bar;',
     {
       code: 'new Storage<RootState>(\'state\');',
-      parser: parser('typescript-parsers/new-parens'),
+      parser: tsParser,
     },
 
     // Explicit Always
