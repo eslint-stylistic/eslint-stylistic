@@ -4,16 +4,17 @@
  */
 
 import { canTokensBeAdjacent } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'no-floating-decimal',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow leading or trailing decimal points in numeric literals',
-      url: 'https://eslint.style/rules/js/no-floating-decimal',
     },
 
     schema: [],
@@ -37,8 +38,8 @@ export default createRule<RuleOptions, MessageIds>({
               fix(fixer) {
                 const tokenBefore = sourceCode.getTokenBefore(node)
                 const needsSpaceBefore = tokenBefore
-                  && tokenBefore.range[1] === node.range[0]
-                  && !canTokensBeAdjacent(tokenBefore, `0${node.raw}`)
+                && tokenBefore.range[1] === node.range[0]
+                && !canTokensBeAdjacent(tokenBefore, `0${node.raw}`)
 
                 return fixer.insertTextBefore(node, needsSpaceBefore ? ' 0' : '0')
               },

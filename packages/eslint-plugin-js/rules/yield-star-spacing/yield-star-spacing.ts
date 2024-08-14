@@ -4,16 +4,17 @@
  */
 
 import type { ASTNode, Token } from '@shared/types'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'yield-star-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require or disallow spacing around the `*` in `yield*` expressions',
-      url: 'https://eslint.style/rules/js/yield-star-spacing',
     },
 
     fixable: 'whitespace',

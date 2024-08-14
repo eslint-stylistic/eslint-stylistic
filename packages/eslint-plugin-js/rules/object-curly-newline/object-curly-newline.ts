@@ -5,7 +5,7 @@
 
 import type { JSONSchema, Token, Tree } from '@shared/types'
 import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 // Schema objects.
@@ -123,12 +123,12 @@ function normalizeOptions(options: any) {
  */
 function areLineBreaksRequired(
   node:
-    | Tree.ObjectExpression
-    | Tree.ObjectPattern
-    | Tree.ImportDeclaration
-    | Tree.ExportNamedDeclaration
-    | Tree.TSTypeLiteral
-    | Tree.TSInterfaceBody,
+  | Tree.ObjectExpression
+  | Tree.ObjectPattern
+  | Tree.ImportDeclaration
+  | Tree.ExportNamedDeclaration
+  | Tree.TSTypeLiteral
+  | Tree.TSInterfaceBody,
   options: { multiline: boolean, minProperties: number, consistent: boolean },
   first: Token,
   last: Token,
@@ -151,20 +151,21 @@ function areLineBreaksRequired(
   }
 
   return objectProperties.length >= options.minProperties
-    || (
-      options.multiline
-      && objectProperties.length > 0
-      && first.loc.start.line !== last.loc.end.line
-    )
+  || (
+    options.multiline
+    && objectProperties.length > 0
+    && first.loc.start.line !== last.loc.end.line
+  )
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'object-curly-newline',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent line breaks after opening and before closing braces',
-      url: 'https://eslint.style/rules/js/object-curly-newline',
     },
 
     fixable: 'whitespace',
@@ -208,12 +209,12 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function check(
       node:
-        | Tree.ObjectExpression
-        | Tree.ObjectPattern
-        | Tree.ImportDeclaration
-        | Tree.ExportNamedDeclaration
-        | Tree.TSTypeLiteral
-        | Tree.TSInterfaceBody,
+      | Tree.ObjectExpression
+      | Tree.ObjectPattern
+      | Tree.ImportDeclaration
+      | Tree.ExportNamedDeclaration
+      | Tree.TSTypeLiteral
+      | Tree.TSInterfaceBody,
     ) {
       const options = normalizedOptions[node.type]
 

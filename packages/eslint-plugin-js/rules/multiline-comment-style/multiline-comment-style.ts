@@ -4,17 +4,18 @@
  */
 
 import type { Token, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import { COMMENTS_IGNORE_PATTERN, LINEBREAK_MATCHER } from '../../utils/ast-utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'multiline-comment-style',
+  package: 'js',
   meta: {
     type: 'suggestion',
 
     docs: {
       description: 'Enforce a particular style for multiline comments',
-      url: 'https://eslint.style/rules/js/multiline-comment-style',
     },
 
     fixable: 'whitespace',
@@ -108,8 +109,8 @@ export default createRule<RuleOptions, MessageIds>({
       const lines = firstComment.value.split(LINEBREAK_MATCHER)
 
       return /^\*\s*$/u.test(lines[0])
-        && lines.slice(1, -1).every(line => /^\s* /u.test(line))
-        && /^\s*$/u.test(lines.at(-1)!)
+      && lines.slice(1, -1).every(line => /^\s* /u.test(line))
+      && /^\s*$/u.test(lines.at(-1)!)
     }
 
     /**
@@ -388,7 +389,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         // Disallows consecutive line comments in favor of using a block comment.
         if (firstComment.type === 'Line' && commentLines.length > 1
-          && !commentLines.some(value => value.includes('*/'))) {
+        && !commentLines.some(value => value.includes('*/'))) {
           context.report({
             loc: {
               start: firstComment.loc.start,

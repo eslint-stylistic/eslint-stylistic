@@ -7,7 +7,7 @@
 import { isParenthesized } from '@eslint-community/eslint-utils'
 import type { ASTNode, Tree } from '@shared/types'
 import { getStaticPropertyName, isParenthesised, skipChainExpression } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 /**
@@ -25,12 +25,13 @@ function isCalleeOfNewExpression(node: ASTNode) {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'wrap-iife',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require parentheses around immediate `function` invocations',
-      url: 'https://eslint.style/rules/js/wrap-iife',
     },
 
     schema: [
@@ -96,9 +97,9 @@ export default createRule<RuleOptions, MessageIds>({
         return callee
 
       if (includeFunctionPrototypeMethods
-        && callee.type === 'MemberExpression'
-        && callee.object.type === 'FunctionExpression'
-        && (getStaticPropertyName(callee) === 'call' || getStaticPropertyName(callee) === 'apply')
+      && callee.type === 'MemberExpression'
+      && callee.object.type === 'FunctionExpression'
+      && (getStaticPropertyName(callee) === 'call' || getStaticPropertyName(callee) === 'apply')
       ) {
         return callee.object
       }

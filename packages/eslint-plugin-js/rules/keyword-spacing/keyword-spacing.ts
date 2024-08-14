@@ -6,7 +6,7 @@
 import type { ASTNode, JSONSchema, Token, Tree } from '@shared/types'
 import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import keywords from '../../utils/keywords'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const PREV_TOKEN = /^[)\]}>]$/u
@@ -46,12 +46,13 @@ function isCloseParenOfTemplate(token: Token) {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'keyword-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing before and after keywords',
-      url: 'https://eslint.style/rules/js/keyword-spacing',
     },
 
     fixable: 'whitespace',
@@ -103,11 +104,11 @@ export default createRule<RuleOptions, MessageIds>({
       const prevToken = sourceCode.getTokenBefore(token)
 
       if (prevToken
-        && (CHECK_TYPE.test(prevToken.type) || pattern.test(prevToken.value))
-        && !isOpenParenOfTemplate(prevToken)
-        && !tokensToIgnore.has(prevToken)
-        && isTokenOnSameLine(prevToken, token)
-        && !sourceCode.isSpaceBetweenTokens(prevToken, token)
+      && (CHECK_TYPE.test(prevToken.type) || pattern.test(prevToken.value))
+      && !isOpenParenOfTemplate(prevToken)
+      && !tokensToIgnore.has(prevToken)
+      && isTokenOnSameLine(prevToken, token)
+      && !sourceCode.isSpaceBetweenTokens(prevToken, token)
       ) {
         context.report({
           loc: token.loc,
@@ -130,11 +131,11 @@ export default createRule<RuleOptions, MessageIds>({
       const prevToken = sourceCode.getTokenBefore(token)
 
       if (prevToken
-        && (CHECK_TYPE.test(prevToken.type) || pattern.test(prevToken.value))
-        && !isOpenParenOfTemplate(prevToken)
-        && !tokensToIgnore.has(prevToken)
-        && isTokenOnSameLine(prevToken, token)
-        && sourceCode.isSpaceBetweenTokens(prevToken, token)
+      && (CHECK_TYPE.test(prevToken.type) || pattern.test(prevToken.value))
+      && !isOpenParenOfTemplate(prevToken)
+      && !tokensToIgnore.has(prevToken)
+      && isTokenOnSameLine(prevToken, token)
+      && sourceCode.isSpaceBetweenTokens(prevToken, token)
       ) {
         context.report({
           loc: { start: prevToken.loc.end, end: token.loc.start },
@@ -157,11 +158,11 @@ export default createRule<RuleOptions, MessageIds>({
       const nextToken = sourceCode.getTokenAfter(token)
 
       if (nextToken
-        && (CHECK_TYPE.test(nextToken.type) || pattern.test(nextToken.value))
-        && !isCloseParenOfTemplate(nextToken)
-        && !tokensToIgnore.has(nextToken)
-        && isTokenOnSameLine(token, nextToken)
-        && !sourceCode.isSpaceBetweenTokens(token, nextToken)
+      && (CHECK_TYPE.test(nextToken.type) || pattern.test(nextToken.value))
+      && !isCloseParenOfTemplate(nextToken)
+      && !tokensToIgnore.has(nextToken)
+      && isTokenOnSameLine(token, nextToken)
+      && !sourceCode.isSpaceBetweenTokens(token, nextToken)
       ) {
         context.report({
           loc: token.loc,
@@ -184,11 +185,11 @@ export default createRule<RuleOptions, MessageIds>({
       const nextToken = sourceCode.getTokenAfter(token)
 
       if (nextToken
-        && (CHECK_TYPE.test(nextToken.type) || pattern.test(nextToken.value))
-        && !isCloseParenOfTemplate(nextToken)
-        && !tokensToIgnore.has(nextToken)
-        && isTokenOnSameLine(token, nextToken)
-        && sourceCode.isSpaceBetweenTokens(token, nextToken)
+      && (CHECK_TYPE.test(nextToken.type) || pattern.test(nextToken.value))
+      && !isCloseParenOfTemplate(nextToken)
+      && !tokensToIgnore.has(nextToken)
+      && isTokenOnSameLine(token, nextToken)
+      && sourceCode.isSpaceBetweenTokens(token, nextToken)
       ) {
         context.report({
           loc: { start: token.loc.end, end: nextToken.loc.start },
@@ -326,15 +327,15 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkSpacingForFunction(
       node:
-        | Tree.FunctionDeclaration
-        | Tree.ArrowFunctionExpression
-        | Tree.FunctionExpression,
+      | Tree.FunctionDeclaration
+      | Tree.ArrowFunctionExpression
+      | Tree.FunctionExpression,
     ) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
       if (firstToken
-        && ((firstToken.type === 'Keyword' && firstToken.value === 'function')
-        || firstToken.value === 'async')
+      && ((firstToken.type === 'Keyword' && firstToken.value === 'function')
+      || firstToken.value === 'async')
       ) {
         checkSpacingBefore(firstToken)
       }
@@ -439,10 +440,10 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkSpacingForModuleDeclaration(
       node:
-        | Tree.ExportNamedDeclaration
-        | Tree.ExportDefaultDeclaration
-        | Tree.ExportAllDeclaration
-        | Tree.ImportDeclaration,
+      | Tree.ExportNamedDeclaration
+      | Tree.ExportDefaultDeclaration
+      | Tree.ExportAllDeclaration
+      | Tree.ImportDeclaration,
     ) {
       const firstToken = sourceCode.getFirstToken(node)!
 
@@ -516,11 +517,11 @@ export default createRule<RuleOptions, MessageIds>({
         checkSpacingAroundFirstToken(node)
 
       if ((<Tree.Property>node).kind === 'get'
-        || (<Tree.Property>node).kind === 'set'
-        || (
-          (('method' in node && node.method) || node.type === 'MethodDefinition')
-          && 'async' in node.value && node.value.async
-        )
+      || (<Tree.Property>node).kind === 'set'
+      || (
+        (('method' in node && node.method) || node.type === 'MethodDefinition')
+        && 'async' in node.value && node.value.async
+      )
       ) {
         const token = sourceCode.getTokenBefore(
           node.key,

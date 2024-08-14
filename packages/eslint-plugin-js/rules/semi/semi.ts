@@ -5,17 +5,18 @@
 
 import type { ASTNode, RuleFixer, Token, Tree } from '@shared/types'
 import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import FixTracker from '../../utils/fix-tracker'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'semi',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require or disallow semicolons instead of ASI',
-      url: 'https://eslint.style/rules/js/semi',
     },
 
     fixable: 'code',
@@ -80,8 +81,8 @@ export default createRule<RuleOptions, MessageIds>({
     const exceptOneLine = Boolean(options && 'omitLastInOneLineBlock' in options && options.omitLastInOneLineBlock)
     const exceptOneLineClassBody = Boolean(options && 'omitLastInOneLineClassBody' in options && options.omitLastInOneLineClassBody)
     const beforeStatementContinuationChars = options
-      && 'beforeStatementContinuationChars' in options
-      && options.beforeStatementContinuationChars || 'any'
+    && 'beforeStatementContinuationChars' in options
+    && options.beforeStatementContinuationChars || 'any'
     const sourceCode = context.sourceCode
 
     /**
@@ -226,11 +227,11 @@ export default createRule<RuleOptions, MessageIds>({
       const t = node.type
 
       if (t === 'DoWhileStatement'
-        || t === 'BreakStatement'
-        || t === 'ContinueStatement'
-        || t === 'DebuggerStatement'
-        || t === 'ImportDeclaration'
-        || t === 'ExportAllDeclaration'
+      || t === 'BreakStatement'
+      || t === 'ContinueStatement'
+      || t === 'DebuggerStatement'
+      || t === 'ImportDeclaration'
+      || t === 'ExportAllDeclaration'
       ) {
         return false
       }
@@ -386,7 +387,7 @@ export default createRule<RuleOptions, MessageIds>({
       const parent = node.parent as ASTNode
 
       if ((parent.type !== 'ForStatement' || parent.init !== node)
-        && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as Tree.ForInStatement).left !== node)
+      && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as Tree.ForInStatement).left !== node)
       ) {
         checkForSemicolon(node)
       }

@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, JSONSchema, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const OPTIONS_SCHEMA: JSONSchema.JSONSchema4 = {
@@ -58,12 +58,13 @@ const OPTIONS_OR_INTEGER_SCHEMA: JSONSchema.JSONSchema4 = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'max-len',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce a maximum line length',
-      url: 'https://eslint.style/rules/js/max-len',
     },
 
     schema: [
@@ -148,8 +149,8 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function isTrailingComment(line: string, lineNumber: number, comment: ASTNode): boolean {
       return comment
-        && (comment.loc.start.line === lineNumber && lineNumber <= comment.loc.end.line)
-        && (comment.loc.end.line > lineNumber || comment.loc.end.column === line.length)
+      && (comment.loc.start.line === lineNumber && lineNumber <= comment.loc.end.line)
+      && (comment.loc.end.line > lineNumber || comment.loc.end.column === line.length)
     }
 
     /**
@@ -165,8 +166,8 @@ export default createRule<RuleOptions, MessageIds>({
       const isFirstTokenOnLine = !line.slice(0, comment.loc.start.column).trim()
 
       return comment
-        && (start.line < lineNumber || (start.line === lineNumber && isFirstTokenOnLine))
-        && (end.line > lineNumber || (end.line === lineNumber && end.column === line.length))
+      && (start.line < lineNumber || (start.line === lineNumber && isFirstTokenOnLine))
+      && (end.line > lineNumber || (end.line === lineNumber && end.column === line.length))
     }
 
     /**
@@ -215,7 +216,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function getAllStrings(): Tree.Token[] {
       return sourceCode.ast.tokens.filter(token => (token.type === 'String'
-        || (token.type === 'JSXText' && sourceCode.getNodeByRangeIndex(token.range[0] - 1)!.type === 'JSXAttribute')))
+      || (token.type === 'JSXText' && sourceCode.getNodeByRangeIndex(token.range[0] - 1)!.type === 'JSXAttribute')))
     }
 
     /**
@@ -349,10 +350,10 @@ export default createRule<RuleOptions, MessageIds>({
           textToMeasure = line
         }
         if (ignorePattern && ignorePattern.test(textToMeasure)
-          || ignoreUrls && URL_REGEXP.test(textToMeasure)
-          || ignoreStrings && stringsByLine[lineNumber]
-          || ignoreTemplateLiterals && templateLiteralsByLine[lineNumber]
-          || ignoreRegExpLiterals && regExpLiteralsByLine[lineNumber]
+        || ignoreUrls && URL_REGEXP.test(textToMeasure)
+        || ignoreStrings && stringsByLine[lineNumber]
+        || ignoreTemplateLiterals && templateLiteralsByLine[lineNumber]
+        || ignoreRegExpLiterals && regExpLiteralsByLine[lineNumber]
         ) {
           // ignore this line
           return

@@ -5,16 +5,17 @@
 
 import type { ASTNode, Tree } from '@shared/types'
 import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'no-trailing-spaces',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow trailing whitespace at the end of lines',
-      url: 'https://eslint.style/rules/js/no-trailing-spaces',
     },
 
     fixable: 'whitespace',
@@ -144,8 +145,8 @@ export default createRule<RuleOptions, MessageIds>({
             const containingNode = sourceCode.getNodeByRangeIndex(rangeStart)
 
             if (containingNode && containingNode.type === 'TemplateElement'
-              && rangeStart > containingNode.parent.range[0]
-              && rangeEnd < containingNode.parent.range[1]) {
+            && rangeStart > containingNode.parent.range[0]
+            && rangeEnd < containingNode.parent.range[1]) {
               totalLength += lineLength
               continue
             }

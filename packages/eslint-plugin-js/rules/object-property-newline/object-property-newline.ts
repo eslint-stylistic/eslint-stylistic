@@ -3,16 +3,17 @@
  * @author Vitor Balocco
  */
 
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'object-property-newline',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce placing object properties on separate lines',
-      url: 'https://eslint.style/rules/js/object-property-newline',
     },
 
     schema: [

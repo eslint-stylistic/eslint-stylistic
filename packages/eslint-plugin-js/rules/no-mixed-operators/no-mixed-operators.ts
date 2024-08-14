@@ -5,7 +5,7 @@
 
 import type { ASTNode, Tree } from '@shared/types'
 import { getPrecedence, isNotClosingParenToken, isParenthesised } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const ARITHMETIC_OPERATORS = ['+', '-', '*', '/', '%', '**']
@@ -74,12 +74,13 @@ function getChildNode(node: NodeType | Tree.ConditionalExpression): ASTNode {
 type NodeType = Tree.BinaryExpression | Tree.LogicalExpression
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'no-mixed-operators',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow mixed binary operators',
-      url: 'https://eslint.style/rules/js/no-mixed-operators',
     },
 
     schema: [

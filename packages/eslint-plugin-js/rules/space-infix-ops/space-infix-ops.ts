@@ -4,17 +4,18 @@
  */
 
 import type { ASTNode, Token, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import { isEqToken } from '../../utils/ast-utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'space-infix-ops',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require spacing around infix operators',
-      url: 'https://eslint.style/rules/js/space-infix-ops',
     },
 
     fixable: 'whitespace',
@@ -98,10 +99,10 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkBinary(
       node:
-        | Tree.AssignmentExpression
-        | Tree.AssignmentPattern
-        | Tree.BinaryExpression
-        | Tree.LogicalExpression,
+      | Tree.AssignmentExpression
+      | Tree.AssignmentPattern
+      | Tree.BinaryExpression
+      | Tree.LogicalExpression,
     ) {
       const leftNode = ('typeAnnotation' in node.left && node.left.typeAnnotation)
         ? node.left.typeAnnotation : node.left

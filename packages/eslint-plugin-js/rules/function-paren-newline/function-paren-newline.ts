@@ -5,7 +5,7 @@
 
 import type { Token, Tree } from '@shared/types'
 import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 interface ParensPair {
@@ -14,12 +14,13 @@ interface ParensPair {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'function-paren-newline',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent line breaks inside function parentheses',
-      url: 'https://eslint.style/rules/js/function-paren-newline',
     },
 
     fixable: 'whitespace',
@@ -181,12 +182,12 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function getParenTokens(
       node:
-        | Tree.ArrowFunctionExpression
-        | Tree.CallExpression
-        | Tree.FunctionDeclaration
-        | Tree.FunctionExpression
-        | Tree.ImportExpression
-        | Tree.NewExpression,
+      | Tree.ArrowFunctionExpression
+      | Tree.CallExpression
+      | Tree.FunctionDeclaration
+      | Tree.FunctionExpression
+      | Tree.ImportExpression
+      | Tree.NewExpression,
     ): ParensPair | null {
       const isOpeningParenTokenOutsideTypeParameter = () => {
         let typeParameterOpeningLevel = 0
@@ -205,11 +206,11 @@ export default createRule<RuleOptions, MessageIds>({
       switch (node.type) {
         case 'NewExpression':
           if (!node.arguments.length
-            && !(
-              isOpeningParenToken(sourceCode.getLastToken(node, { skip: 1 })!)
-              && isClosingParenToken(sourceCode.getLastToken(node)!)
-              && node.callee.range[1] < node.range[1]
-            )
+          && !(
+            isOpeningParenToken(sourceCode.getLastToken(node, { skip: 1 })!)
+            && isClosingParenToken(sourceCode.getLastToken(node)!)
+            && node.callee.range[1] < node.range[1]
+          )
           ) {
             // If the NewExpression does not have parens (e.g. `new Foo`), return null.
             return null
@@ -273,12 +274,12 @@ export default createRule<RuleOptions, MessageIds>({
         'NewExpression',
       ].join(', ')](
         node:
-          | Tree.ArrowFunctionExpression
-          | Tree.CallExpression
-          | Tree.FunctionDeclaration
-          | Tree.FunctionExpression
-          | Tree.ImportExpression
-          | Tree.NewExpression,
+        | Tree.ArrowFunctionExpression
+        | Tree.CallExpression
+        | Tree.FunctionDeclaration
+        | Tree.FunctionExpression
+        | Tree.ImportExpression
+        | Tree.NewExpression,
       ) {
         const parens = getParenTokens(node)
         let params

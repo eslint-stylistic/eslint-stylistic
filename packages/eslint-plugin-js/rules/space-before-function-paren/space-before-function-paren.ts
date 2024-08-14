@@ -5,16 +5,17 @@
 
 import type { Tree } from '@shared/types'
 import { isOpeningParenToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'space-before-function-paren',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing before `function` definition opening parenthesis',
-      url: 'https://eslint.style/rules/js/space-before-function-paren',
     },
 
     fixable: 'whitespace',
@@ -66,9 +67,9 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function isNamedFunction(
       node:
-        | Tree.ArrowFunctionExpression
-        | Tree.FunctionDeclaration
-        | Tree.FunctionExpression,
+      | Tree.ArrowFunctionExpression
+      | Tree.FunctionDeclaration
+      | Tree.FunctionExpression,
     ) {
       if (node.id)
         return true
@@ -76,13 +77,13 @@ export default createRule<RuleOptions, MessageIds>({
       const parent = node.parent
 
       return parent.type === 'MethodDefinition'
-        || (parent.type === 'Property'
-        && (
-          parent.kind === 'get'
-          || parent.kind === 'set'
-          || parent.method
-        )
-        )
+      || (parent.type === 'Property'
+      && (
+        parent.kind === 'get'
+        || parent.kind === 'set'
+        || parent.method
+      )
+      )
     }
 
     /**
@@ -91,9 +92,9 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns "always", "never", or "ignore"
      */
     function getConfigForFunction(node:
-      | Tree.ArrowFunctionExpression
-      | Tree.FunctionDeclaration
-      | Tree.FunctionExpression,
+    | Tree.ArrowFunctionExpression
+    | Tree.FunctionDeclaration
+    | Tree.FunctionExpression,
     ) {
       if (node.type === 'ArrowFunctionExpression') {
         // Always ignore non-async functions and arrow functions without parens, e.g. async foo => bar
@@ -117,9 +118,9 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node A function node
      */
     function checkFunction(node:
-      | Tree.ArrowFunctionExpression
-      | Tree.FunctionDeclaration
-      | Tree.FunctionExpression,
+    | Tree.ArrowFunctionExpression
+    | Tree.FunctionDeclaration
+    | Tree.FunctionExpression,
     ) {
       const functionConfig = getConfigForFunction(node)
 

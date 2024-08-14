@@ -4,16 +4,17 @@
  */
 
 import { isClosingParenToken, isOpeningParenToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'new-parens',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce or disallow parentheses when invoking a constructor with no arguments',
-      url: 'https://eslint.style/rules/js/new-parens',
     },
 
     fixable: 'code',
@@ -46,8 +47,8 @@ export default createRule<RuleOptions, MessageIds>({
 
         // `hasParens` is true only if the new expression ends with its own parens, e.g., new new foo() does not end with its own parens
         const hasParens = hasLastParen
-          && isOpeningParenToken(tokenBeforeLastToken)
-          && node.callee.range[1] < node.range[1]
+        && isOpeningParenToken(tokenBeforeLastToken)
+        && node.callee.range[1] < node.range[1]
 
         if (always) {
           if (!hasParens) {

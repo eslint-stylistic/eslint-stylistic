@@ -3,17 +3,18 @@
  * @author Jamund Ferguson
  */
 import type { ASTNode, RuleFixer, Token, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import { isClosingBraceToken, isClosingBracketToken, isNotCommaToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'object-curly-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing inside braces',
-      url: 'https://eslint.style/rules/js/object-curly-spacing',
     },
 
     fixable: 'whitespace',
@@ -200,8 +201,8 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function getClosingBraceOfObject(
       node:
-        | Tree.ObjectExpression
-        | Tree.ObjectPattern,
+      | Tree.ObjectExpression
+      | Tree.ObjectPattern,
     ) {
       const lastProperty = node.properties[node.properties.length - 1]
 
@@ -213,8 +214,8 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node An ObjectExpression or ObjectPattern node to check.
      */
     function checkForObject(node:
-      | Tree.ObjectExpression
-      | Tree.ObjectPattern) {
+    | Tree.ObjectExpression
+    | Tree.ObjectPattern) {
       if (node.properties.length === 0)
         return
 

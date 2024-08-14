@@ -8,7 +8,7 @@
 
 import type { ASTNode, JSONSchema, NodeTypes, ReportFixFunction, RuleFunction, RuleListener, SourceCode, Token, Tree } from '@shared/types'
 import { STATEMENT_LIST_PARENTS, createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const KNOWN_NODES: Set<NodeTypes> = new Set([
@@ -476,12 +476,13 @@ const ELEMENT_LIST_SCHEMA: JSONSchema.JSONSchema4 = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'indent',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent indentation',
-      url: 'https://eslint.style/rules/js/indent',
     },
 
     fixable: 'whitespace',
@@ -1143,8 +1144,8 @@ export default createRule<RuleOptions, MessageIds>({
         //     foo < 0 ? baz :
         //     /*else*/ qiz ;
         if (!options.flatTernaryExpressions
-          || !isTokenOnSameLine(node.test, node.consequent)
-          || isOnFirstLineOfStatement(firstToken, node)
+        || !isTokenOnSameLine(node.test, node.consequent)
+        || isOnFirstLineOfStatement(firstToken, node)
         ) {
           const questionMarkToken = sourceCode.getFirstTokenBetween(node.test, node.consequent, token => token.type === 'Punctuator' && token.value === '?')!
           const colonToken = sourceCode.getFirstTokenBetween(node.consequent, node.alternate, token => token.type === 'Punctuator' && token.value === ':')!
@@ -1193,11 +1194,11 @@ export default createRule<RuleOptions, MessageIds>({
 
       'DoWhileStatement, WhileStatement, ForInStatement, ForOfStatement, WithStatement': function (
         node:
-          | Tree.DoWhileStatement
-          | Tree.WhileStatement
-          | Tree.ForInStatement
-          | Tree.ForOfStatement
-          | Tree.WithStatement,
+        | Tree.DoWhileStatement
+        | Tree.WhileStatement
+        | Tree.ForInStatement
+        | Tree.ForOfStatement
+        | Tree.WithStatement,
       ) {
         addBlocklessNodeIndent(node.body)
       },
@@ -1385,8 +1386,8 @@ export default createRule<RuleOptions, MessageIds>({
       NewExpression(node) {
         // Only indent the arguments if the NewExpression has parens (e.g. `new Foo(bar)` or `new Foo()`, but not `new Foo`
         if (node.arguments.length > 0
-          || isClosingParenToken(sourceCode.getLastToken(node)!)
-          && isOpeningParenToken(sourceCode.getLastToken(node, 1)!)) {
+        || isClosingParenToken(sourceCode.getLastToken(node)!)
+        && isOpeningParenToken(sourceCode.getLastToken(node, 1)!)) {
           addFunctionCallIndent(node)
         }
       },

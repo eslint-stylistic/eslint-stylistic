@@ -5,16 +5,17 @@
 
 import type { ASTNode } from '@shared/types'
 import { isNotSemicolonToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'max-statements-per-line',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce a maximum number of statements allowed per line',
-      url: 'https://eslint.style/rules/js/max-statements-per-line',
     },
 
     schema: [
@@ -87,8 +88,8 @@ export default createRule<RuleOptions, MessageIds>({
        * But `if (a) foo(); else foo();` should be counted as 2.
        */
       if (node.parent
-        && SINGLE_CHILD_ALLOWED.test(node.parent.type)
-        && (!('alternate' in node.parent) || node.parent.alternate !== node)
+      && SINGLE_CHILD_ALLOWED.test(node.parent.type)
+      && (!('alternate' in node.parent) || node.parent.alternate !== node)
       ) {
         return
       }

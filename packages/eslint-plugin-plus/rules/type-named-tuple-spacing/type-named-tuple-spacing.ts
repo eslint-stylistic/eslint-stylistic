@@ -1,4 +1,4 @@
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 // eslint-disable-next-line regexp/no-super-linear-backtracking
@@ -6,6 +6,7 @@ const tupleRe = /^([\w$]+)(\s*)(\?\s*)?:(\s*)(.*)$/
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'type-named-tuple-spacing',
+  package: 'plus',
   meta: {
     type: 'layout',
     docs: {

@@ -5,16 +5,17 @@
 
 import type { ASTNode, RuleListener, Tree } from '@shared/types'
 import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'computed-property-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing inside computed property brackets',
-      url: 'https://eslint.style/rules/js/computed-property-spacing',
     },
 
     fixable: 'whitespace',
@@ -175,10 +176,10 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     type NodeType =
-      | Tree.Property
-      | Tree.PropertyDefinition
-      | Tree.MemberExpression
-      | Tree.MethodDefinition
+    | Tree.Property
+    | Tree.PropertyDefinition
+    | Tree.MemberExpression
+    | Tree.MethodDefinition
 
     const listeners: RuleListener = {
       Property: checkSpacing<Tree.Property>('key'),

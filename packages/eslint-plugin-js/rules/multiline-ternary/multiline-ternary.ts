@@ -4,16 +4,17 @@
  */
 
 import { isNotClosingParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'multiline-ternary',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce newlines between operands of ternary expressions',
-      url: 'https://eslint.style/rules/js/multiline-ternary',
     },
 
     schema: [
@@ -66,8 +67,8 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (IGNORE_JSX) {
           if (node.parent.type === 'JSXElement'
-            || node.parent.type === 'JSXFragment'
-            || node.parent.type === 'JSXExpressionContainer') {
+          || node.parent.type === 'JSXFragment'
+          || node.parent.type === 'JSXExpressionContainer') {
             return null
           }
         }

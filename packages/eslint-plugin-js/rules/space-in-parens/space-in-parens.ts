@@ -5,16 +5,17 @@
 
 import type { Token, Tree } from '@shared/types'
 import { isClosingParenToken, isOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'space-in-parens',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing inside parentheses',
-      url: 'https://eslint.style/rules/js/space-in-parens',
     },
 
     fixable: 'whitespace',

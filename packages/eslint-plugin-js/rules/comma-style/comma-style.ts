@@ -5,16 +5,17 @@
 
 import type { ASTNode, NodeTypes, RuleFixer, RuleListener, Token, Tree } from '@shared/types'
 import { LINEBREAK_MATCHER, isCommaToken, isNotClosingParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'comma-style',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent comma style',
-      url: 'https://eslint.style/rules/js/comma-style',
     },
 
     fixable: 'code',
@@ -122,13 +123,13 @@ export default createRule<RuleOptions, MessageIds>({
     function validateCommaItemSpacing(previousItemToken: Token, commaToken: Token, currentItemToken: Token, reportItem: Token): void {
       // if single line
       if (isTokenOnSameLine(commaToken, currentItemToken)
-        && isTokenOnSameLine(previousItemToken, commaToken)) {
+      && isTokenOnSameLine(previousItemToken, commaToken)) {
 
         // do nothing.
 
       }
       else if (!isTokenOnSameLine(commaToken, currentItemToken)
-        && !isTokenOnSameLine(previousItemToken, commaToken)) {
+      && !isTokenOnSameLine(previousItemToken, commaToken)) {
         const comment = sourceCode.getCommentsAfter(commaToken)[0]
         const styleType = comment && comment.type === 'Block' && isTokenOnSameLine(commaToken, comment)
           ? style
@@ -231,17 +232,17 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     type NodeType =
-      | Tree.VariableDeclaration
-      | Tree.ArrayExpression
-      | Tree.ObjectExpression
-      | Tree.ObjectPattern
-      | Tree.ArrayPattern
-      | Tree.FunctionDeclaration
-      | Tree.FunctionExpression
-      | Tree.CallExpression
-      | Tree.ImportDeclaration
-      | Tree.NewExpression
-      | Tree.ArrowFunctionExpression
+    | Tree.VariableDeclaration
+    | Tree.ArrayExpression
+    | Tree.ObjectExpression
+    | Tree.ObjectPattern
+    | Tree.ArrayPattern
+    | Tree.FunctionDeclaration
+    | Tree.FunctionExpression
+    | Tree.CallExpression
+    | Tree.ImportDeclaration
+    | Tree.NewExpression
+    | Tree.ArrowFunctionExpression
 
     const nodes: RuleListener = {}
 

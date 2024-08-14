@@ -5,16 +5,17 @@
 
 import type { ASTNode, Token, Tree } from '@shared/types'
 import { canTokensBeAdjacent } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'space-unary-ops',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing before or after unary operators',
-      url: 'https://eslint.style/rules/js/space-unary-ops',
     },
 
     fixable: 'whitespace',
@@ -183,9 +184,9 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function verifyNonWordsHaveSpaces(
       node:
-        | Tree.UnaryExpression
-        | Tree.UpdateExpression
-        | Tree.NewExpression,
+      | Tree.UnaryExpression
+      | Tree.UpdateExpression
+      | Tree.NewExpression,
       firstToken: Token,
       secondToken: Token,
     ) {
@@ -229,9 +230,9 @@ export default createRule<RuleOptions, MessageIds>({
      * @param secondToken Second token in the expression
      */
     function verifyNonWordsDontHaveSpaces(node:
-      | Tree.UnaryExpression
-      | Tree.UpdateExpression
-      | Tree.NewExpression, firstToken: Token, secondToken: Token) {
+    | Tree.UnaryExpression
+    | Tree.UpdateExpression
+    | Tree.NewExpression, firstToken: Token, secondToken: Token) {
       if (('prefix' in node && node.prefix)) {
         if (secondToken.range[0] > firstToken.range[1]) {
           context.report({
@@ -270,9 +271,9 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node AST node
      */
     function checkForSpaces(node:
-      | Tree.UnaryExpression
-      | Tree.UpdateExpression
-      | Tree.NewExpression,
+    | Tree.UnaryExpression
+    | Tree.UpdateExpression
+    | Tree.NewExpression,
     ) {
       const tokens = node.type === 'UpdateExpression' && !node.prefix
         ? sourceCode.getLastTokens(node, 2)

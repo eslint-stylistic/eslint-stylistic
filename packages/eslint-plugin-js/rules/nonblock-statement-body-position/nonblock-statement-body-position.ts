@@ -4,7 +4,7 @@
  */
 
 import type { JSONSchema, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 type KeywordName = keyof NonNullable<NonNullable<RuleOptions['1']>['overrides']>
@@ -15,12 +15,13 @@ const POSITION_SCHEMA: JSONSchema.JSONSchema4 = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'nonblock-statement-body-position',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce the location of single-line statements',
-      url: 'https://eslint.style/rules/js/nonblock-statement-body-position',
     },
 
     fixable: 'whitespace',
@@ -62,8 +63,8 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function getOption(keywordName: KeywordName) {
       return context.options[1] && context.options[1].overrides && context.options[1].overrides[keywordName]
-        || context.options[0]
-        || 'beside'
+      || context.options[0]
+      || 'beside'
     }
 
     /**
