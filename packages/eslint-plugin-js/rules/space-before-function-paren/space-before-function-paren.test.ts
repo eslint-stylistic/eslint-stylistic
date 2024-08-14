@@ -3,7 +3,8 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import parser from '../../test-utils/fixture-parser'
+// @ts-expect-error missing types
+import babelParser from '@babel/eslint-parser'
 import rule from './space-before-function-paren'
 import { run } from '#test'
 
@@ -101,7 +102,15 @@ run({
     },
     {
       code: 'type TransformFunction = (el: ASTElement, code: string) => string;',
-      parser: parser('babel-eslint7', 'function-type-annotation'),
+      parser: babelParser,
+      parserOptions: {
+        requireConfigFile: false,
+        babelOptions: {
+          parserOpts: {
+            plugins: ['typescript'],
+          },
+        },
+      },
     },
 
     // Async arrow functions

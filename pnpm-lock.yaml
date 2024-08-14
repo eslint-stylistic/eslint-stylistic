@@ -274,6 +274,9 @@ importers:
         specifier: ^10.1.0
         version: 10.1.0
     devDependencies:
+      '@babel/eslint-parser':
+        specifier: ^7.25.1
+        version: 7.25.1(@babel/core@7.25.2)(eslint@9.8.0)
       '@eslint-community/eslint-utils':
         specifier: ^4.4.0
         version: 4.4.0(eslint@9.8.0)
