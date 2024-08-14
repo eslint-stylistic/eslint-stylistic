@@ -75,9 +75,9 @@
     "@babel/plugin-syntax-do-expressions": "^7.24.7",
     "@babel/plugin-syntax-function-bind": "^7.24.7",
     "@babel/preset-react": "^7.24.7",
-    "@types/picomatch": "^3.0.0",
-    "@typescript-eslint/parser": "^8.0.0",
-    "eslint": "^9.8.0",
+    "@types/picomatch": "^3.0.1",
+    "@typescript-eslint/parser": "^8.1.0",
+    "eslint": "^9.9.0",
     "semver": "^7.6.3"
   }
 }
