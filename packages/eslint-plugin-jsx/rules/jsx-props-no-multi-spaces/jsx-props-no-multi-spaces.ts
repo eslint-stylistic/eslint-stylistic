@@ -4,8 +4,7 @@
  */
 
 import type { Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
@@ -14,11 +13,12 @@ const messages = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-props-no-multi-spaces',
+  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {
       description: 'Disallow multiple spaces between inline JSX props',
-      url: docsUrl('jsx-props-no-multi-spaces'),
     },
     fixable: 'code',
 

@@ -10,8 +10,7 @@
  */
 
 import type { ASTNode, RuleFixer, Token, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
+import { createRule } from '../../../utils'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
 
 const SPACING = {
@@ -30,11 +29,12 @@ const messages = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-curly-spacing',
+  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {
       description: 'Enforce or disallow spaces inside of curly braces in JSX attributes and expressions',
-      url: docsUrl('jsx-curly-spacing'),
     },
     fixable: 'code',
 

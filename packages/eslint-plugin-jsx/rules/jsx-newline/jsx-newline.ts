@@ -5,8 +5,7 @@
  */
 
 import type { Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
@@ -20,11 +19,12 @@ function isMultilined(node: Tree.JSXChild) {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-newline',
+  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {
       description: 'Require or prevent a new line after jsx elements and expressions.',
-      url: docsUrl('jsx-newline'),
     },
     fixable: 'code',
 
@@ -90,8 +90,8 @@ export default createRule<RuleOptions, MessageIds>({
               const secondAdjacentSibling = elements[index + 2]
 
               const hasSibling = firstAdjacentSibling
-                && secondAdjacentSibling
-                && (firstAdjacentSibling.type === 'Literal' || firstAdjacentSibling.type === 'JSXText')
+              && secondAdjacentSibling
+              && (firstAdjacentSibling.type === 'Literal' || firstAdjacentSibling.type === 'JSXText')
 
               if (!hasSibling)
                 return

@@ -8,8 +8,7 @@
 
 import picomatch from 'picomatch'
 import { getElementType, isDOMComponent } from '../../utils/jsx'
-import { docsUrl } from '../../utils/docsUrl'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 function testDigit(char: string) {
@@ -71,13 +70,14 @@ const messages = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-pascal-case',
+  package: 'jsx',
   meta: {
     type: 'suggestion',
 
     docs: {
       description: 'Enforce PascalCase for user-defined JSX components',
       // category: 'Stylistic Issues',
-      url: docsUrl('jsx-pascal-case'),
     },
 
     messages,

@@ -4,8 +4,7 @@
  */
 
 import type { Token } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
@@ -16,11 +15,12 @@ const messages = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-equals-spacing',
+  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {
       description: 'Enforce or disallow spaces around equal signs in JSX attributes',
-      url: docsUrl('jsx-equals-spacing'),
     },
     fixable: 'code',
 

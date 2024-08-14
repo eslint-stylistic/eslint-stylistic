@@ -4,8 +4,7 @@
  */
 
 import type { ASTNode, Token, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
+import { createRule } from '../../../utils'
 import { isWhiteSpaces } from '../../utils/jsx'
 import type { MessageIds, RuleOptions } from './types'
 
@@ -20,12 +19,13 @@ const messages = {
 type Child = Tree.JSXChild | Tree.JSXText | Tree.Literal
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-one-expression-per-line',
+  package: 'jsx',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require one JSX element per line',
-      url: docsUrl('jsx-one-expression-per-line'),
     },
 
     fixable: 'whitespace',
@@ -191,14 +191,14 @@ export default createRule<RuleOptions, MessageIds>({
 
           const spaceBetweenPrev = () => {
             return ((prevChild!.type === 'Literal' || prevChild!.type === 'JSXText') && prevChild!.raw.endsWith(' '))
-              || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.startsWith(' '))
-              || context.sourceCode.isSpaceBetweenTokens(prevChild as unknown as Token, child as unknown as Token)
+            || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.startsWith(' '))
+            || context.sourceCode.isSpaceBetweenTokens(prevChild as unknown as Token, child as unknown as Token)
           }
 
           const spaceBetweenNext = () => {
             return ((nextChild!.type === 'Literal' || nextChild!.type === 'JSXText') && nextChild!.raw.startsWith(' '))
-              || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.endsWith(' '))
-              || context.sourceCode.isSpaceBetweenTokens(child as unknown as Token, nextChild as unknown as Token)
+            || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.endsWith(' '))
+            || context.sourceCode.isSpaceBetweenTokens(child as unknown as Token, nextChild as unknown as Token)
           }
 
           const source = context.sourceCode.getText(child)

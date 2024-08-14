@@ -73,9 +73,9 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     type KeyTypeNode =
-      | Tree.PropertyDefinition
-      | Tree.TSIndexSignature
-      | Tree.TSPropertySignature
+    | Tree.PropertyDefinition
+    | Tree.TSIndexSignature
+    | Tree.TSPropertySignature
 
     type KeyTypeNodeWithTypeAnnotation = KeyTypeNode & {
       typeAnnotation: Tree.TSTypeAnnotation
@@ -377,9 +377,9 @@ export default createRule<RuleOptions, MessageIds>({
 
     function validateBody(
       body:
-        | Tree.ClassBody
-        | Tree.TSInterfaceBody
-        | Tree.TSTypeLiteral,
+      | Tree.ClassBody
+      | Tree.TSInterfaceBody
+      | Tree.TSTypeLiteral,
     ): void {
       const isSingleLine = body.loc.start.line === body.loc.end.line
 

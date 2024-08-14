@@ -127,12 +127,12 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function TSPropertySignatureToProperty(
       node:
-        | Tree.TSEnumMember
-        | Tree.TSPropertySignature
-        | Tree.TypeElement,
+      | Tree.TSEnumMember
+      | Tree.TSPropertySignature
+      | Tree.TypeElement,
       type:
-        | AST_NODE_TYPES.Property
-        | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
+      | AST_NODE_TYPES.Property
+      | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
     ): ASTNode | null {
       const base = {
         // indent doesn't actually use these

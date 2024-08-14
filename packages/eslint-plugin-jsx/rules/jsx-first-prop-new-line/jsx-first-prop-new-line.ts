@@ -4,8 +4,7 @@
  */
 
 import type { Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
@@ -14,12 +13,13 @@ const messages = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-first-prop-new-line',
+  package: 'jsx',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce proper position of the first property in JSX',
-      url: docsUrl('jsx-first-prop-new-line'),
     },
     fixable: 'code',
 

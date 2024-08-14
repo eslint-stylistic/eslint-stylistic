@@ -62,11 +62,11 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function isNamedFunction(
       node:
-        | Tree.ArrowFunctionExpression
-        | Tree.FunctionDeclaration
-        | Tree.FunctionExpression
-        | Tree.TSDeclareFunction
-        | Tree.TSEmptyBodyFunctionExpression,
+      | Tree.ArrowFunctionExpression
+      | Tree.FunctionDeclaration
+      | Tree.FunctionExpression
+      | Tree.TSDeclareFunction
+      | Tree.TSEmptyBodyFunctionExpression,
     ): boolean {
       if (node.id != null)
         return true
@@ -88,11 +88,11 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function getConfigForFunction(
       node:
-        | Tree.ArrowFunctionExpression
-        | Tree.FunctionDeclaration
-        | Tree.FunctionExpression
-        | Tree.TSDeclareFunction
-        | Tree.TSEmptyBodyFunctionExpression,
+      | Tree.ArrowFunctionExpression
+      | Tree.FunctionDeclaration
+      | Tree.FunctionExpression
+      | Tree.TSDeclareFunction
+      | Tree.TSEmptyBodyFunctionExpression,
     ): FuncOption {
       if (node.type === AST_NODE_TYPES.ArrowFunctionExpression) {
         // Always ignore non-async functions and arrow functions without parens, e.g. async foo => bar
@@ -121,11 +121,11 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkFunction(
       node:
-        | Tree.ArrowFunctionExpression
-        | Tree.FunctionDeclaration
-        | Tree.FunctionExpression
-        | Tree.TSDeclareFunction
-        | Tree.TSEmptyBodyFunctionExpression,
+      | Tree.ArrowFunctionExpression
+      | Tree.FunctionDeclaration
+      | Tree.FunctionExpression
+      | Tree.TSDeclareFunction
+      | Tree.TSEmptyBodyFunctionExpression,
     ): void {
       const functionConfig = getConfigForFunction(node)
 

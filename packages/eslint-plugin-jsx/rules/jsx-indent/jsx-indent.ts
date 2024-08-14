@@ -32,9 +32,8 @@
 
 import type { ASTNode, ReportFixFunction, Token, Tree } from '@shared/types'
 import { getFirstNodeInLine, isNodeFirstInLine } from '../../utils/ast'
-import { docsUrl } from '../../utils/docsUrl'
 import { isJSX, isReturningJSX } from '../../utils/jsx'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
@@ -42,11 +41,12 @@ const messages = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-indent',
+  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {
       description: 'Enforce JSX indentation. Deprecated, use `indent` rule instead.',
-      url: docsUrl('jsx-indent'),
     },
 
     deprecated: true,
@@ -272,8 +272,8 @@ export default createRule<RuleOptions, MessageIds>({
        * })
        */
       if (!node.parent
-        || !node.parent.parent
-        || node.parent.parent.type !== 'ExpressionStatement'
+      || !node.parent.parent
+      || node.parent.parent.type !== 'ExpressionStatement'
       ) {
         return false
       }

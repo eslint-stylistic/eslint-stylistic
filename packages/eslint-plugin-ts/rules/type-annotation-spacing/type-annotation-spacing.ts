@@ -35,11 +35,11 @@ type WhitespaceRules = Required<WhitespaceOverride>
 
 type Options = [Config?]
 type MessageIds =
-  | 'expectedSpaceAfter'
-  | 'expectedSpaceBefore'
-  | 'unexpectedSpaceAfter'
-  | 'unexpectedSpaceBefore'
-  | 'unexpectedSpaceBetween'
+| 'expectedSpaceAfter'
+| 'expectedSpaceBefore'
+| 'unexpectedSpaceAfter'
+| 'unexpectedSpaceBefore'
+| 'unexpectedSpaceBetween'
 
 function createRules(options?: Config): WhitespaceRules {
   const globals = {
