@@ -4,8 +4,7 @@
  */
 
 import type { ASTNode, RuleContext, RuleFixer, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
+import { createRule } from '../../../utils'
 import { getPropName, isDOMComponent } from '../../utils/jsx'
 import type { MessageIds, RuleOptions } from './types'
 
@@ -345,12 +344,13 @@ function reportNodeAttribute(nodeAttribute: Tree.JSXAttribute | Tree.JSXSpreadAt
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-sort-props',
+  package: 'jsx',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce props alphabetical sorting',
-      url: docsUrl('jsx-sort-props'),
     },
     fixable: 'code',
 

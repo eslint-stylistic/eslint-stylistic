@@ -5,16 +5,17 @@
 
 import type { Token, Tree } from '@shared/types'
 import { isArrowToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'arrow-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing before and after the arrow in arrow functions',
-      url: 'https://eslint.style/rules/js/arrow-spacing',
     },
 
     fixable: 'whitespace',

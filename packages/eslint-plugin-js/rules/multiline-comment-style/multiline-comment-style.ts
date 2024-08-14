@@ -4,17 +4,18 @@
  */
 
 import type { Token, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import { COMMENTS_IGNORE_PATTERN, LINEBREAK_MATCHER } from '../../utils/ast-utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'multiline-comment-style',
+  package: 'js',
   meta: {
     type: 'suggestion',
 
     docs: {
       description: 'Enforce a particular style for multiline comments',
-      url: 'https://eslint.style/rules/js/multiline-comment-style',
     },
 
     fixable: 'whitespace',

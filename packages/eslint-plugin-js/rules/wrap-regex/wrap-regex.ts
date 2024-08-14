@@ -3,16 +3,17 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'wrap-regex',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require parenthesis around regex literals',
-      url: 'https://eslint.style/rules/js/wrap-regex',
     },
 
     schema: [],

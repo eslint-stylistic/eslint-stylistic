@@ -4,16 +4,17 @@
  */
 
 import { isClosingParenToken, isOpeningParenToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'new-parens',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce or disallow parentheses when invoking a constructor with no arguments',
-      url: 'https://eslint.style/rules/js/new-parens',
     },
 
     fixable: 'code',

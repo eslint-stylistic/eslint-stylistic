@@ -6,7 +6,7 @@
 import type { ASTNode, JSONSchema, Token, Tree } from '@shared/types'
 import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
 import keywords from '../../utils/keywords'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const PREV_TOKEN = /^[)\]}>]$/u
@@ -46,12 +46,13 @@ function isCloseParenOfTemplate(token: Token) {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'keyword-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing before and after keywords',
-      url: 'https://eslint.style/rules/js/keyword-spacing',
     },
 
     fixable: 'whitespace',

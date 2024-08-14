@@ -344,9 +344,6 @@ importers:
       '@types/eslint':
         specifier: ^9.6.0
         version: 9.6.0
-      '@typescript-eslint/utils':
-        specifier: ^8.0.0
-        version: 8.0.0(eslint@9.8.0)(typescript@5.5.4)
       eslint:
         specifier: '*'
         version: 9.8.0

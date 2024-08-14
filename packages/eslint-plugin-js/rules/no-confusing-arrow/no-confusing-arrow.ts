@@ -6,7 +6,7 @@
 
 import type { ASTNode, Tree } from '@shared/types'
 import { isParenthesised } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 /**
@@ -19,12 +19,13 @@ function isConditional(node: ASTNode) {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'no-confusing-arrow',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow arrow functions where they could be confused with comparisons',
-      url: 'https://eslint.style/rules/js/no-confusing-arrow',
     },
 
     fixable: 'code',

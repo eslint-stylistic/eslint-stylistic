@@ -5,16 +5,17 @@
 
 import type { ASTNode, Token, Tree } from '@shared/types'
 import { canTokensBeAdjacent } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'space-unary-ops',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing before or after unary operators',
-      url: 'https://eslint.style/rules/js/space-unary-ops',
     },
 
     fixable: 'whitespace',

@@ -1,4 +1,4 @@
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set([
@@ -10,6 +10,7 @@ const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set([
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'type-generic-spacing',
+  package: 'plus',
   meta: {
     type: 'layout',
     docs: {

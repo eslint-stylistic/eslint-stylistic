@@ -35,6 +35,7 @@ type OptionsUnion = UnionToIntersection<Exclude<RuleOptions[0], undefined>>
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'key-spacing',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

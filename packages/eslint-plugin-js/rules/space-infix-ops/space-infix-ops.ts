@@ -4,17 +4,18 @@
  */
 
 import type { ASTNode, Token, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import { isEqToken } from '../../utils/ast-utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'space-infix-ops',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require spacing around infix operators',
-      url: 'https://eslint.style/rules/js/space-infix-ops',
     },
 
     fixable: 'whitespace',

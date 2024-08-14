@@ -8,6 +8,7 @@ import type { MessageIds, RuleOptions } from './types'
 const baseRule = getESLintCoreRule('semi')
 export default createRule<RuleOptions, MessageIds>({
   name: 'semi',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

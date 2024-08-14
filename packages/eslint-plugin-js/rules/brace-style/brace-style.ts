@@ -8,16 +8,17 @@ import {
   STATEMENT_LIST_PARENTS,
   isTokenOnSameLine,
 } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'brace-style',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent brace style for blocks',
-      url: 'https://eslint.style/rules/js/brace-style',
     },
 
     schema: [

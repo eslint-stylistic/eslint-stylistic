@@ -5,7 +5,7 @@
 
 import type { ASTNode, NodeTypes, Token } from '@shared/types'
 import { COMMENTS_IGNORE_PATTERN, isCommentToken, isOpeningBraceToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 /**
@@ -40,12 +40,13 @@ function getCommentLineNums(comments: Token[]) {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'lines-around-comment',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require empty lines around comments',
-      url: 'https://eslint.style/rules/js/lines-around-comment',
     },
 
     fixable: 'whitespace',

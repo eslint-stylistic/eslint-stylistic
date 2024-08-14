@@ -5,17 +5,18 @@
 
 import type { ASTNode, RuleFixer, Token, Tree } from '@shared/types'
 import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import FixTracker from '../../utils/fix-tracker'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'semi',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require or disallow semicolons instead of ASI',
-      url: 'https://eslint.style/rules/js/semi',
     },
 
     fixable: 'code',

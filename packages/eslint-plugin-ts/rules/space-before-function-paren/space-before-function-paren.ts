@@ -9,6 +9,7 @@ type FuncOption = 'always' | 'never' | 'ignore'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'space-before-function-paren',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

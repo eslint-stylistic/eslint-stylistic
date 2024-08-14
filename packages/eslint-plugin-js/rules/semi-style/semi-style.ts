@@ -5,7 +5,7 @@
 
 import type { ASTNode, Token } from '@shared/types'
 import { isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const SELECTOR = [
@@ -72,12 +72,13 @@ function isLastChild(node: ASTNode): boolean {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'semi-style',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce location of semicolons',
-      url: 'https://eslint.style/rules/js/semi-style',
     },
 
     schema: [{ type: 'string', enum: ['last', 'first'] }],

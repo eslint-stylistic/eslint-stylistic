@@ -17,7 +17,7 @@ const baseRule = getESLintCoreRule('object-curly-spacing')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-curly-spacing',
-  //
+  package: 'ts',
   meta: {
     ...baseRule.meta,
     docs: {
@@ -28,7 +28,7 @@ export default createRule<RuleOptions, MessageIds>({
   create(context) {
     const [firstOption, secondOption] = context.options
     const spaced = firstOption === 'always'
-    const sourceCode = context.sourceCode
+    const sourceCode = context.sourceCode || context.getSourceCode()
 
     /**
      * Determines whether an option is set, relative to the spacing option.
@@ -58,9 +58,7 @@ export default createRule<RuleOptions, MessageIds>({
       node: Tree.TSMappedType | Tree.TSTypeLiteral,
       token: Tree.Token,
     ): void {
-      const nextToken = context
-        .getSourceCode()
-        .getTokenAfter(token, { includeComments: true })!
+      const nextToken = sourceCode.getTokenAfter(token, { includeComments: true })!
 
       context.report({
         node,
@@ -84,9 +82,7 @@ export default createRule<RuleOptions, MessageIds>({
       node: Tree.TSMappedType | Tree.TSTypeLiteral,
       token: Tree.Token,
     ): void {
-      const previousToken = context
-        .getSourceCode()
-        .getTokenBefore(token, { includeComments: true })!
+      const previousToken = sourceCode.getTokenBefore(token, { includeComments: true })!
 
       context.report({
         node,

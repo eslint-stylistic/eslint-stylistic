@@ -609,6 +609,7 @@ const StatementTypes: Record<string, NodeTestObject> = {
 
 export default createRule<Options, MessageIds>({
   name: 'padding-line-between-statements',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

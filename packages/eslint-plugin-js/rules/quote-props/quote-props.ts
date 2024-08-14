@@ -8,16 +8,17 @@ import { tokenize } from 'espree'
 import type { Tree } from '@shared/types'
 import { isNumericLiteral } from '../../utils/ast-utils'
 import keywords from '../../utils/keywords'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'quote-props',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require quotes around object literal property names',
-      url: 'https://eslint.style/rules/js/quote-props',
     },
 
     schema: {

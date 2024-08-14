@@ -4,8 +4,7 @@
  */
 
 import type { ASTNode, Token, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
+import { createRule } from '../../../utils'
 import { isWhiteSpaces } from '../../utils/jsx'
 import type { MessageIds, RuleOptions } from './types'
 
@@ -20,12 +19,13 @@ const messages = {
 type Child = Tree.JSXChild | Tree.JSXText | Tree.Literal
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-one-expression-per-line',
+  package: 'jsx',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require one JSX element per line',
-      url: docsUrl('jsx-one-expression-per-line'),
     },
 
     fixable: 'whitespace',

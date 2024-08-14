@@ -9,6 +9,7 @@ const baseRule = getESLintCoreRule('block-spacing')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'block-spacing',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

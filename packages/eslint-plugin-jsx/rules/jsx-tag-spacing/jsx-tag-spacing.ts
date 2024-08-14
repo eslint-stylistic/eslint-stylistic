@@ -5,8 +5,7 @@
 
 import type { RuleContext, Token, Tree } from '@shared/types'
 import { getTokenBeforeClosingBracket } from '../../utils/getTokenBeforeClosingBracket'
-import { docsUrl } from '../../utils/docsUrl'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 type Option = Exclude<RuleOptions[0], undefined>
@@ -284,12 +283,13 @@ const optionDefaults: Required<Option> = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-tag-spacing',
+  package: 'jsx',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce whitespace in and around the JSX opening and closing brackets',
-      url: docsUrl('jsx-tag-spacing'),
     },
     fixable: 'whitespace',
 

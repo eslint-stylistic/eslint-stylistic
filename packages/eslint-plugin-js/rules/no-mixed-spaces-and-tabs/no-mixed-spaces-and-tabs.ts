@@ -3,16 +3,17 @@
  * @author Jary Niebur
  */
 
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'no-mixed-spaces-and-tabs',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow mixed spaces and tabs for indentation',
-      url: 'https://eslint.style/rules/js/no-mixed-spaces-and-tabs',
     },
 
     schema: [

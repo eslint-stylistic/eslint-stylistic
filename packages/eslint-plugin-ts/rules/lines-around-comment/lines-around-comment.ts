@@ -44,6 +44,7 @@ function getCommentLineNums(comments: Tree.Comment[]): number[] {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'lines-around-comment',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

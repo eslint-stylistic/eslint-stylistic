@@ -5,16 +5,17 @@
 
 import type { ReportFixFunction, Tree } from '@shared/types'
 import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'linebreak-style',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent linebreak style',
-      url: 'https://eslint.style/rules/js/linebreak-style',
     },
 
     fixable: 'whitespace',
