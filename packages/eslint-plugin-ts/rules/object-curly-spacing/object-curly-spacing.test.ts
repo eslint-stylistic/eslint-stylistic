@@ -808,11 +808,6 @@ run({
       code: 'const x:{[key: string]: [number]}',
       options: ['always', { arraysInObjects: false }],
     },
-    // https://github.com/eslint/eslint/issues/6940
-    {
-      code: 'function foo ({a, b}: Props) {\n}',
-      options: ['never'],
-    },
   ],
 
   invalid: [
@@ -2132,23 +2127,6 @@ run({
         { messageId: 'unexpectedSpaceAfter' },
         { messageId: 'unexpectedSpaceBefore' },
         { messageId: 'unexpectedSpaceBefore' },
-      ],
-    },
-    // https://github.com/eslint/eslint/issues/6940
-    {
-      code: 'function foo ({a, b }: Props) {\n}',
-      output: 'function foo ({a, b}: Props) {\n}',
-      options: ['never'],
-      errors: [
-        {
-          messageId: 'unexpectedSpaceBefore',
-          data: { token: '}' },
-          type: 'ObjectPattern',
-          line: 1,
-          column: 20,
-          endLine: 1,
-          endColumn: 21,
-        },
       ],
     },
   ],

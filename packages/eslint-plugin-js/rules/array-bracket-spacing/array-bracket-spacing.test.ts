@@ -3,6 +3,7 @@
  * @author Ian Christian Myers
  */
 
+import { languageOptionsForBabelFlow } from '../../test-utils/parsers'
 import rule from './array-bracket-spacing'
 import { run } from '#test'
 
@@ -150,8 +151,22 @@ run({
     { code: 'var obj = {\'foo\': [1, 2]}', options: ['never'] },
 
     // destructuring with type annotation
-    { code: '([ a, b ]: Array<any>) => {}', options: ['always'], parserOptions: { ecmaVersion: 6 } },
-    { code: '([a, b]: Array< any >) => {}', options: ['never'], parserOptions: { ecmaVersion: 6 } },
+    {
+      code: '([ a, b ]: Array<any>) => {}',
+      options: ['always'],
+      languageOptions: {
+        ...languageOptionsForBabelFlow,
+        ecmaVersion: 6,
+      },
+    },
+    {
+      code: '([a, b]: Array< any >) => {}',
+      options: ['never'],
+      languageOptions: {
+        ...languageOptionsForBabelFlow,
+        ecmaVersion: 6,
+      },
+    },
   ],
 
   invalid: [
@@ -895,7 +910,8 @@ run({
       code: '([ a, b ]: Array<any>) => {}',
       output: '([a, b]: Array<any>) => {}',
       options: ['never'],
-      parserOptions: {
+      languageOptions: {
+        ...languageOptionsForBabelFlow,
         ecmaVersion: 6,
       },
       errors: [
@@ -927,7 +943,8 @@ run({
       code: '([a, b]: Array< any >) => {}',
       output: '([ a, b ]: Array< any >) => {}',
       options: ['always'],
-      parserOptions: {
+      languageOptions: {
+        ...languageOptionsForBabelFlow,
         ecmaVersion: 6,
       },
       errors: [

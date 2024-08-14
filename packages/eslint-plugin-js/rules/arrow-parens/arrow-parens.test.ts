@@ -3,6 +3,7 @@
  * @author Jxck
  */
 
+import { languageOptionsForBabelFlow } from '../../test-utils/parsers'
 import rule from './arrow-parens'
 import type { InvalidTestCase, ValidTestCase } from '#test'
 import { run } from '#test'
@@ -31,8 +32,8 @@ const valid: ValidTestCase[] = [
   { code: 'a.then((foo) => {});', options: ['always'] },
   { code: 'a.then((foo) => { if (true) {}; });', options: ['always'] },
   { code: 'a.then(async (foo) => { if (true) {}; });', options: ['always'], parserOptions: { ecmaVersion: 8 } },
-  { code: '(a: T) => a', options: ['always'] },
-  { code: '(a): T => a', options: ['always'] },
+  { code: '(a: T) => a', options: ['always'], languageOptions: languageOptionsForBabelFlow },
+  { code: '(a): T => a', options: ['always'], languageOptions: languageOptionsForBabelFlow },
 
   // "as-needed"
   { code: '() => {}', options: ['as-needed'] },
@@ -49,9 +50,9 @@ const valid: ValidTestCase[] = [
   { code: 'async a => a', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
   { code: 'async ([a, b]) => {}', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
   { code: 'async (a, b) => {}', options: ['as-needed'], parserOptions: { ecmaVersion: 8 } },
-  { code: '(a: T) => a', options: ['as-needed'] },
-  { code: '(a?) => a', options: ['as-needed'] },
-  { code: '(a): T => a', options: ['as-needed'] },
+  { code: '(a: T) => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
+  { code: '(a?) => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
+  { code: '(a): T => a', options: ['as-needed'], languageOptions: languageOptionsForBabelFlow },
 
   // "as-needed", { "requireForBlockBody": true }
   { code: '() => {}', options: ['as-needed', { requireForBlockBody: true }] },
@@ -69,8 +70,8 @@ const valid: ValidTestCase[] = [
   { code: 'a => ({})', options: ['as-needed', { requireForBlockBody: true }] },
   { code: 'async a => ({})', options: ['as-needed', { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
   { code: 'async a => a', options: ['as-needed', { requireForBlockBody: true }], parserOptions: { ecmaVersion: 8 } },
-  { code: '(a: T) => a', options: ['as-needed', { requireForBlockBody: true }] },
-  { code: '(a): T => a', options: ['as-needed', { requireForBlockBody: true }] },
+  { code: '(a: T) => a', options: ['as-needed', { requireForBlockBody: true }], languageOptions: languageOptionsForBabelFlow },
+  { code: '(a): T => a', options: ['as-needed', { requireForBlockBody: true }], languageOptions: languageOptionsForBabelFlow },
   {
     code: 'const f = (/** @type {number} */a/**hello*/) => a + a;',
     options: ['as-needed'],

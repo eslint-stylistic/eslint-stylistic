@@ -3,8 +3,7 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-// @ts-expect-error missing types
-import babelParser from '@babel/eslint-parser'
+import { languageOptionsForBabelFlow } from '../../test-utils/parsers'
 import rule from './space-before-function-paren'
 import { run } from '#test'
 
@@ -102,15 +101,7 @@ run({
     },
     {
       code: 'type TransformFunction = (el: ASTElement, code: string) => string;',
-      parser: babelParser,
-      parserOptions: {
-        requireConfigFile: false,
-        babelOptions: {
-          parserOpts: {
-            plugins: ['typescript'],
-          },
-        },
-      },
+      languageOptions: languageOptionsForBabelFlow,
     },
 
     // Async arrow functions

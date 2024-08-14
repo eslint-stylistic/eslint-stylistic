@@ -3,6 +3,7 @@
  * @author Jamund Ferguson
  */
 
+import { languageOptionsForBabelFlow } from '../../test-utils/parsers'
 import rule from './object-curly-spacing'
 import { run } from '#test'
 
@@ -159,6 +160,13 @@ run({
     { code: 'import {} from \'foo\';', options: ['never'], parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
     { code: 'export {} from \'foo\';', options: ['never'], parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
     { code: 'export {};', options: ['never'], parserOptions: { ecmaVersion: 6, sourceType: 'module' } },
+
+    // https://github.com/eslint/eslint/issues/6940
+    {
+      code: 'function foo ({a, b}: Props) {\n}',
+      options: ['never'],
+      languageOptions: languageOptionsForBabelFlow,
+    },
   ],
 
   invalid: [
@@ -1367,6 +1375,24 @@ run({
           column: 49,
           endLine: 1,
           endColumn: 50,
+        },
+      ],
+    },
+    // https://github.com/eslint/eslint/issues/6940
+    {
+      code: 'function foo ({a, b }: Props) {\n}',
+      output: 'function foo ({a, b}: Props) {\n}',
+      options: ['never'],
+      languageOptions: languageOptionsForBabelFlow,
+      errors: [
+        {
+          messageId: 'unexpectedSpaceBefore',
+          data: { token: '}' },
+          type: 'ObjectPattern',
+          line: 1,
+          column: 20,
+          endLine: 1,
+          endColumn: 21,
         },
       ],
     },

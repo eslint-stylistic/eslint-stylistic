@@ -5,23 +5,10 @@
  */
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-// @ts-expect-error missing types
-import babelParser from '@babel/eslint-parser'
 import tsParser from '@typescript-eslint/parser'
+import { languageOptionsForBabelFlow } from '../../test-utils/parsers'
 import rule from './indent'
 import { $, run } from '#test'
-
-const languageOptionsForBabel = {
-  parser: babelParser,
-  parserOptions: {
-    requireConfigFile: false,
-    babelOptions: {
-      parserOpts: {
-        plugins: ['typescript'],
-      },
-    },
-  },
-}
 
 const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
 const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')
@@ -11316,7 +11303,7 @@ run({
             foo
         }: bar) => baz
       `,
-      languageOptions: languageOptionsForBabel,
+      languageOptions: languageOptionsForBabelFlow,
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
@@ -11330,7 +11317,7 @@ run({
             foo
         ]: bar) => baz
       `,
-      languageOptions: languageOptionsForBabel,
+      languageOptions: languageOptionsForBabelFlow,
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
@@ -11344,7 +11331,7 @@ run({
             foo
         }: {}) => baz
       `,
-      languageOptions: languageOptionsForBabel,
+      languageOptions: languageOptionsForBabelFlow,
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
