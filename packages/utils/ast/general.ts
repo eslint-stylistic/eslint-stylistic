@@ -9,7 +9,6 @@ import type { TSESLint } from '@typescript-eslint/utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
-import { traverse as _traverse } from 'estraverse'
 
 const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
 
@@ -439,11 +438,11 @@ export function isTokenOnSameLine(left: Token | ESNode | ASTNode | null, right: 
   return left?.loc?.end.line === right?.loc?.start.line
 }
 
-export const isNotClosingParenToken = negate(isClosingParenToken)
-export const isNotCommaToken = negate(isCommaToken)
-export const isNotQuestionDotToken = negate(isQuestionDotToken)
-export const isNotOpeningParenToken = negate(isOpeningParenToken)
-export const isNotSemicolonToken = negate(isSemicolonToken)
+export const isNotClosingParenToken = /* @__PURE__ */ negate(isClosingParenToken)
+export const isNotCommaToken = /* @__PURE__ */ negate(isCommaToken)
+export const isNotQuestionDotToken = /* @__PURE__ */ negate(isQuestionDotToken)
+export const isNotOpeningParenToken = /* @__PURE__ */ negate(isOpeningParenToken)
+export const isNotSemicolonToken = /* @__PURE__ */ negate(isSemicolonToken)
 
 /**
  * Checks whether or not a given node is a string literal.
