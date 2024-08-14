@@ -52,7 +52,7 @@
     "change-case": "^5.4.4",
     "eslint": "^9.8.0",
     "eslint-plugin-format": "^0.1.2",
-    "eslint-vitest-rule-tester": "^0.3.3",
+    "eslint-vitest-rule-tester": "^0.5.2",
     "esno": "^4.7.0",
     "execa": "^9.3.0",
     "fast-glob": "^3.3.2",

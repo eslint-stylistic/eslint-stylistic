@@ -3,13 +3,14 @@
  * @author Michael Ficarra
  */
 
-import parser from '../../test-utils/fixture-parser'
+import tsParser from '@typescript-eslint/parser'
 import rule from './space-infix-ops'
 import { run } from '#test'
 
 run({
   name: 'space-infix-ops',
   rule,
+  lang: 'js',
   valid: [
     'a + b',
     'a + ++b',
@@ -35,13 +36,13 @@ run({
     { code: 'a |0', options: [{ int32Hint: true }] },
 
     // Type Annotations
-    { code: 'function foo(a: number = 0) { }', parser: parser('type-annotations/function-parameter-type-annotation'), parserOptions: { ecmaVersion: 6 } },
-    { code: 'function foo(): Bar { }', parser: parser('type-annotations/function-return-type-annotation'), parserOptions: { ecmaVersion: 6 } },
-    { code: 'var foo: Bar = \'\';', parser: parser('type-annotations/variable-declaration-init-type-annotation'), parserOptions: { ecmaVersion: 6 } },
-    { code: 'const foo = function(a: number = 0): Bar { };', parser: parser('type-annotations/function-expression-type-annotation'), parserOptions: { ecmaVersion: 6 } },
+    { code: 'function foo(a: number = 0) { }', parser: tsParser, parserOptions: { ecmaVersion: 6 } },
+    { code: 'function foo(): Bar { }', parser: tsParser, parserOptions: { ecmaVersion: 6 } },
+    { code: 'var foo: Bar = \'\';', parser: tsParser, parserOptions: { ecmaVersion: 6 } },
+    { code: 'const foo = function(a: number = 0): Bar { };', parser: tsParser, parserOptions: { ecmaVersion: 6 } },
 
     // TypeScript Type Aliases
-    { code: 'type Foo<T> = T;', parser: parser('typescript-parsers/type-alias'), parserOptions: { ecmaVersion: 6 } },
+    { code: 'type Foo<T> = T;', parser: tsParser, parserOptions: { ecmaVersion: 6 } },
 
     // Logical Assignments
     { code: 'a &&= b', parserOptions: { ecmaVersion: 2021 } },
@@ -471,7 +472,7 @@ run({
     {
       code: 'var a: Foo= b;',
       output: 'var a: Foo = b;',
-      parser: parser('type-annotations/variable-declaration-init-type-annotation-no-space'),
+      parser: tsParser,
       errors: [{
         messageId: 'missingSpace',
         data: { operator: '=' },
@@ -483,7 +484,7 @@ run({
     {
       code: 'function foo(a: number=0): Foo { }',
       output: 'function foo(a: number = 0): Foo { }',
-      parser: parser('type-annotations/function-declaration-type-annotation-no-space'),
+      parser: tsParser,
       parserOptions: { ecmaVersion: 6 },
       errors: [{
         messageId: 'missingSpace',

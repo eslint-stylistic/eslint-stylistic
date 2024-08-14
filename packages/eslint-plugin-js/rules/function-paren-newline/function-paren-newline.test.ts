@@ -4,7 +4,6 @@
  */
 
 import tsParser from '@typescript-eslint/parser'
-import parser from '../../test-utils/fixture-parser'
 import rule from './function-paren-newline'
 import { $, run } from '#test'
 
@@ -592,7 +591,7 @@ run({
             method6(3, () => {});
           `,
           options: ['multiline'],
-          parser: parser('function-paren-newline/arrow-function-return-type'),
+          parser: tsParser,
         },
         {
           code: $`
@@ -1512,7 +1511,7 @@ run({
         method6(3, () => {});
       `,
       options: ['never'],
-      parser: parser('function-paren-newline/arrow-function-return-type'),
+      parser: tsParser,
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
   ],

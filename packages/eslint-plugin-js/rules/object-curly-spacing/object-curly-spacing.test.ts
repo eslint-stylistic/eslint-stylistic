@@ -3,14 +3,14 @@
  * @author Jamund Ferguson
  */
 
-import parser from '../../test-utils/fixture-parser'
+import { languageOptionsForBabelFlow } from '../../test-utils/parsers'
 import rule from './object-curly-spacing'
 import { run } from '#test'
 
 run({
   name: 'object-curly-spacing',
   rule,
-
+  lang: 'js',
   valid: [
 
     // always - object literals
@@ -165,7 +165,7 @@ run({
     {
       code: 'function foo ({a, b}: Props) {\n}',
       options: ['never'],
-      parser: parser('object-curly-spacing/flow-stub-parser-never-valid'),
+      languageOptions: languageOptionsForBabelFlow,
     },
   ],
 
@@ -1384,7 +1384,7 @@ run({
       code: 'function foo ({a, b }: Props) {\n}',
       output: 'function foo ({a, b}: Props) {\n}',
       options: ['never'],
-      parser: parser('object-curly-spacing/flow-stub-parser-never-invalid'),
+      languageOptions: languageOptionsForBabelFlow,
       errors: [
         {
           messageId: 'unexpectedSpaceBefore',
