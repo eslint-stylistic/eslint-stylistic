@@ -209,8 +209,8 @@ export function isParenthesised(sourceCode: TSESLint.SourceCode, node: ASTNode) 
   const nextToken = sourceCode.getTokenAfter(node)
 
   return !!previousToken && !!nextToken
-  && previousToken.value === '(' && previousToken.range[1] <= node.range![0]
-  && nextToken.value === ')' && nextToken.range[0] >= node.range![1]
+    && previousToken.value === '(' && previousToken.range[1] <= node.range![0]
+    && nextToken.value === ')' && nextToken.range[0] >= node.range![1]
 }
 
 /**

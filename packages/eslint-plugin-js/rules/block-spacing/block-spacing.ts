@@ -85,10 +85,10 @@ export default createRule<RuleOptions, MessageIds>({
 
       // Skip if the node is invalid or empty.
       if (openBrace.type !== 'Punctuator'
-      || openBrace.value !== '{'
-      || closeBrace.type !== 'Punctuator'
-      || closeBrace.value !== '}'
-      || firstToken === closeBrace
+        || openBrace.value !== '{'
+        || closeBrace.type !== 'Punctuator'
+        || closeBrace.value !== '}'
+        || firstToken === closeBrace
       ) {
         return
       }

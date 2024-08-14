@@ -81,8 +81,8 @@ export default createRule<RuleOptions, MessageIds>({
     const exceptOneLine = Boolean(options && 'omitLastInOneLineBlock' in options && options.omitLastInOneLineBlock)
     const exceptOneLineClassBody = Boolean(options && 'omitLastInOneLineClassBody' in options && options.omitLastInOneLineClassBody)
     const beforeStatementContinuationChars = options
-    && 'beforeStatementContinuationChars' in options
-    && options.beforeStatementContinuationChars || 'any'
+      && 'beforeStatementContinuationChars' in options
+      && options.beforeStatementContinuationChars || 'any'
     const sourceCode = context.sourceCode
 
     /**
@@ -227,11 +227,11 @@ export default createRule<RuleOptions, MessageIds>({
       const t = node.type
 
       if (t === 'DoWhileStatement'
-      || t === 'BreakStatement'
-      || t === 'ContinueStatement'
-      || t === 'DebuggerStatement'
-      || t === 'ImportDeclaration'
-      || t === 'ExportAllDeclaration'
+        || t === 'BreakStatement'
+        || t === 'ContinueStatement'
+        || t === 'DebuggerStatement'
+        || t === 'ImportDeclaration'
+        || t === 'ExportAllDeclaration'
       ) {
         return false
       }
@@ -387,7 +387,7 @@ export default createRule<RuleOptions, MessageIds>({
       const parent = node.parent as ASTNode
 
       if ((parent.type !== 'ForStatement' || parent.init !== node)
-      && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as Tree.ForInStatement).left !== node)
+        && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as Tree.ForInStatement).left !== node)
       ) {
         checkForSemicolon(node)
       }

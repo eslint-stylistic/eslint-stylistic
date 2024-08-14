@@ -63,8 +63,8 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function getOption(keywordName: KeywordName) {
       return context.options[1] && context.options[1].overrides && context.options[1].overrides[keywordName]
-      || context.options[0]
-      || 'beside'
+        || context.options[0]
+        || 'beside'
     }
 
     /**

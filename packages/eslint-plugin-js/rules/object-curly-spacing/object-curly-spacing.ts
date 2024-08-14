@@ -201,8 +201,8 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function getClosingBraceOfObject(
       node:
-      | Tree.ObjectExpression
-      | Tree.ObjectPattern,
+        | Tree.ObjectExpression
+        | Tree.ObjectPattern,
     ) {
       const lastProperty = node.properties[node.properties.length - 1]
 
@@ -214,8 +214,8 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node An ObjectExpression or ObjectPattern node to check.
      */
     function checkForObject(node:
-    | Tree.ObjectExpression
-    | Tree.ObjectPattern) {
+      | Tree.ObjectExpression
+      | Tree.ObjectPattern) {
       if (node.properties.length === 0)
         return
 

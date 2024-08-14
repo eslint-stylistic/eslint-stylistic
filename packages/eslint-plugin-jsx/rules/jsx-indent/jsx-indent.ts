@@ -272,8 +272,8 @@ export default createRule<RuleOptions, MessageIds>({
        * })
        */
       if (!node.parent
-      || !node.parent.parent
-      || node.parent.parent.type !== 'ExpressionStatement'
+        || !node.parent.parent
+        || node.parent.parent.type !== 'ExpressionStatement'
       ) {
         return false
       }

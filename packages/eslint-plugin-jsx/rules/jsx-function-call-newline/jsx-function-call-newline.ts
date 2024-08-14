@@ -17,7 +17,7 @@ function endWithComma(context: RuleContext<any, any>, node: ASTNode) {
   const nextToken = sourceCode.getTokenAfter(node)
 
   return !!nextToken
-  && nextToken.value === ',' && nextToken.range[0] >= node.range![1]
+    && nextToken.value === ',' && nextToken.range[0] >= node.range![1]
 }
 
 export default createRule<RuleOptions, MessageIds>({

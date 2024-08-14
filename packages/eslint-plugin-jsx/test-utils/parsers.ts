@@ -108,20 +108,20 @@ function applyAllParsers(tests: ValidTestCase[] | InvalidTestCase[]) {
       // `errors` may be a number (expected number of errors) or an array of
       // error objects.
       const nextErrors = testObject.errors
-      && typeof testObject.errors !== 'number'
-      && {
-        errors: testObject.errors.map(
-          (errorObject: any) => {
-            const nextSuggestions = errorObject.suggestions && {
-              suggestions: errorObject.suggestions.map((suggestion: any) => Object.assign({}, suggestion, {
-                output: suggestion.output + extraComment,
-              })),
-            }
+        && typeof testObject.errors !== 'number'
+        && {
+          errors: testObject.errors.map(
+            (errorObject: any) => {
+              const nextSuggestions = errorObject.suggestions && {
+                suggestions: errorObject.suggestions.map((suggestion: any) => Object.assign({}, suggestion, {
+                  output: suggestion.output + extraComment,
+                })),
+              }
 
-            return Object.assign({}, errorObject, nextSuggestions)
-          },
-        ),
-      }
+              return Object.assign({}, errorObject, nextSuggestions)
+            },
+          ),
+        }
 
       return Object.assign(
         {},
@@ -133,25 +133,25 @@ function applyAllParsers(tests: ValidTestCase[] | InvalidTestCase[]) {
     }
 
     const skipBase = features.has('class fields')
-    || features.has('no-default')
-    || features.has('bind operator')
-    || features.has('do expressions')
-    || features.has('decorators')
-    || features.has('flow')
-    || features.has('ts')
-    || features.has('types')
-    || features.has('fragment')
+      || features.has('no-default')
+      || features.has('bind operator')
+      || features.has('do expressions')
+      || features.has('decorators')
+      || features.has('flow')
+      || features.has('ts')
+      || features.has('types')
+      || features.has('fragment')
     const skipBabel = features.has('no-babel')
     const skipNewBabel = skipBabel
-    || features.has('no-babel-new')
-    || features.has('flow')
-    || features.has('types')
-    || features.has('ts')
+      || features.has('no-babel-new')
+      || features.has('flow')
+      || features.has('types')
+      || features.has('ts')
     const skipTS = features.has('no-ts')
-    || features.has('flow')
-    || features.has('jsx namespace')
-    || features.has('bind operator')
-    || features.has('do expressions')
+      || features.has('flow')
+      || features.has('jsx namespace')
+      || features.has('bind operator')
+      || features.has('do expressions')
 
     const tsNew = !skipTS && !features.has('no-ts-new')
 

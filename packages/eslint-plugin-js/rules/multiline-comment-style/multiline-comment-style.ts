@@ -109,8 +109,8 @@ export default createRule<RuleOptions, MessageIds>({
       const lines = firstComment.value.split(LINEBREAK_MATCHER)
 
       return /^\*\s*$/u.test(lines[0])
-      && lines.slice(1, -1).every(line => /^\s* /u.test(line))
-      && /^\s*$/u.test(lines.at(-1)!)
+        && lines.slice(1, -1).every(line => /^\s* /u.test(line))
+        && /^\s*$/u.test(lines.at(-1)!)
     }
 
     /**
@@ -389,7 +389,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         // Disallows consecutive line comments in favor of using a block comment.
         if (firstComment.type === 'Line' && commentLines.length > 1
-        && !commentLines.some(value => value.includes('*/'))) {
+          && !commentLines.some(value => value.includes('*/'))) {
           context.report({
             loc: {
               start: firstComment.loc.start,

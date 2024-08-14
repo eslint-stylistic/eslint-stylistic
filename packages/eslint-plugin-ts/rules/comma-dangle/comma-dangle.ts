@@ -93,7 +93,7 @@ export default createRule<RuleOptions, MessageIds>({
     const sourceCode = context.sourceCode
     const normalizedOptions = normalizeOptions(options)
     const isTSX = context.parserOptions?.ecmaFeatures?.jsx
-    && context.filename?.endsWith('.tsx')
+      && context.filename?.endsWith('.tsx')
 
     const predicate = {
       'always': forceComma,

@@ -123,12 +123,12 @@ function normalizeOptions(options: any) {
  */
 function areLineBreaksRequired(
   node:
-  | Tree.ObjectExpression
-  | Tree.ObjectPattern
-  | Tree.ImportDeclaration
-  | Tree.ExportNamedDeclaration
-  | Tree.TSTypeLiteral
-  | Tree.TSInterfaceBody,
+    | Tree.ObjectExpression
+    | Tree.ObjectPattern
+    | Tree.ImportDeclaration
+    | Tree.ExportNamedDeclaration
+    | Tree.TSTypeLiteral
+    | Tree.TSInterfaceBody,
   options: { multiline: boolean, minProperties: number, consistent: boolean },
   first: Token,
   last: Token,
@@ -151,11 +151,11 @@ function areLineBreaksRequired(
   }
 
   return objectProperties.length >= options.minProperties
-  || (
-    options.multiline
-    && objectProperties.length > 0
-    && first.loc.start.line !== last.loc.end.line
-  )
+    || (
+      options.multiline
+      && objectProperties.length > 0
+      && first.loc.start.line !== last.loc.end.line
+    )
 }
 
 export default createRule<RuleOptions, MessageIds>({
@@ -209,12 +209,12 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function check(
       node:
-      | Tree.ObjectExpression
-      | Tree.ObjectPattern
-      | Tree.ImportDeclaration
-      | Tree.ExportNamedDeclaration
-      | Tree.TSTypeLiteral
-      | Tree.TSInterfaceBody,
+        | Tree.ObjectExpression
+        | Tree.ObjectPattern
+        | Tree.ImportDeclaration
+        | Tree.ExportNamedDeclaration
+        | Tree.TSTypeLiteral
+        | Tree.TSInterfaceBody,
     ) {
       const options = normalizedOptions[node.type]
 

@@ -145,8 +145,8 @@ export default createRule<RuleOptions, MessageIds>({
             const containingNode = sourceCode.getNodeByRangeIndex(rangeStart)
 
             if (containingNode && containingNode.type === 'TemplateElement'
-            && rangeStart > containingNode.parent.range[0]
-            && rangeEnd < containingNode.parent.range[1]) {
+              && rangeStart > containingNode.parent.range[0]
+              && rangeEnd < containingNode.parent.range[1]) {
               totalLength += lineLength
               continue
             }

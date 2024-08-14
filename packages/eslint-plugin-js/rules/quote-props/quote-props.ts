@@ -102,8 +102,8 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function areQuotesRedundant(rawKey: string, tokens: any, skipNumberLiterals: boolean = false): boolean {
       return tokens.length === 1 && tokens[0].start === 0 && tokens[0].end === rawKey.length
-      && (['Identifier', 'Keyword', 'Null', 'Boolean'].includes(tokens[0].type)
-      || (tokens[0].type === 'Numeric' && !skipNumberLiterals && String(+tokens[0].value) === tokens[0].value))
+        && (['Identifier', 'Keyword', 'Null', 'Boolean'].includes(tokens[0].type)
+        || (tokens[0].type === 'Numeric' && !skipNumberLiterals && String(+tokens[0].value) === tokens[0].value))
     }
 
     /**

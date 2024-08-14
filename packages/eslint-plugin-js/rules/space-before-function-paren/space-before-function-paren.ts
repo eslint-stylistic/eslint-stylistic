@@ -67,9 +67,9 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function isNamedFunction(
       node:
-      | Tree.ArrowFunctionExpression
-      | Tree.FunctionDeclaration
-      | Tree.FunctionExpression,
+        | Tree.ArrowFunctionExpression
+        | Tree.FunctionDeclaration
+        | Tree.FunctionExpression,
     ) {
       if (node.id)
         return true
@@ -77,13 +77,13 @@ export default createRule<RuleOptions, MessageIds>({
       const parent = node.parent
 
       return parent.type === 'MethodDefinition'
-      || (parent.type === 'Property'
-      && (
-        parent.kind === 'get'
-        || parent.kind === 'set'
-        || parent.method
-      )
-      )
+        || (parent.type === 'Property'
+        && (
+          parent.kind === 'get'
+          || parent.kind === 'set'
+          || parent.method
+        )
+        )
     }
 
     /**
@@ -92,9 +92,9 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns "always", "never", or "ignore"
      */
     function getConfigForFunction(node:
-    | Tree.ArrowFunctionExpression
-    | Tree.FunctionDeclaration
-    | Tree.FunctionExpression,
+      | Tree.ArrowFunctionExpression
+      | Tree.FunctionDeclaration
+      | Tree.FunctionExpression,
     ) {
       if (node.type === 'ArrowFunctionExpression') {
         // Always ignore non-async functions and arrow functions without parens, e.g. async foo => bar
@@ -118,9 +118,9 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node A function node
      */
     function checkFunction(node:
-    | Tree.ArrowFunctionExpression
-    | Tree.FunctionDeclaration
-    | Tree.FunctionExpression,
+      | Tree.ArrowFunctionExpression
+      | Tree.FunctionDeclaration
+      | Tree.FunctionExpression,
     ) {
       const functionConfig = getConfigForFunction(node)
 

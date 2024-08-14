@@ -1,14 +1,14 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
 export type Schema0 =
-| []
-| [
-| BasicConfig
-| {
-  ArrayExpression?: BasicConfig
-  ArrayPattern?: BasicConfig
-},
-]
+  | []
+  | [
+    | BasicConfig
+    | {
+      ArrayExpression?: BasicConfig
+      ArrayPattern?: BasicConfig
+    },
+  ]
 export type BasicConfig =
   | ('always' | 'never' | 'consistent')
   | {

@@ -74,9 +74,9 @@ export default createRule<RuleOptions, MessageIds>({
       const firstTokenOfLineLeft = firstTokenOfLine(tokenLeft.loc.start.line)
       const lastTokenOfLineLeft = lastTokenOfLine(tokenLeft.loc.start.line)
       const needAdditionIndent = (firstTokenOfLineLeft?.type === 'Keyword' && !['typeof', 'instanceof', 'this'].includes(firstTokenOfLineLeft.value))
-      || (firstTokenOfLineLeft?.type === 'Identifier' && firstTokenOfLineLeft.value === 'type' && node.parent?.type === 'TSTypeAliasDeclaration')
-      || [':', '[', '(', '<', '='].includes(lastTokenOfLineLeft?.value || '')
-      || (['||', '&&'].includes(lastTokenOfLineLeft?.value || '') && node.loc.start.line === tokenLeft.loc.start.line && node.loc.start.column !== getIndentOfLine(node.loc.start.line).length)
+        || (firstTokenOfLineLeft?.type === 'Identifier' && firstTokenOfLineLeft.value === 'type' && node.parent?.type === 'TSTypeAliasDeclaration')
+        || [':', '[', '(', '<', '='].includes(lastTokenOfLineLeft?.value || '')
+        || (['||', '&&'].includes(lastTokenOfLineLeft?.value || '') && node.loc.start.line === tokenLeft.loc.start.line && node.loc.start.column !== getIndentOfLine(node.loc.start.line).length)
 
       const indentTarget = getIndentOfLine(tokenLeft.loc.start.line) + (needAdditionIndent ? indentStr : '')
       const indentRight = getIndentOfLine(tokenRight.loc.start.line)

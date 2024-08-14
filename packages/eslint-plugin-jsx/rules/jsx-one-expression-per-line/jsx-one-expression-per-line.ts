@@ -191,14 +191,14 @@ export default createRule<RuleOptions, MessageIds>({
 
           const spaceBetweenPrev = () => {
             return ((prevChild!.type === 'Literal' || prevChild!.type === 'JSXText') && prevChild!.raw.endsWith(' '))
-            || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.startsWith(' '))
-            || context.sourceCode.isSpaceBetweenTokens(prevChild as unknown as Token, child as unknown as Token)
+              || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.startsWith(' '))
+              || context.sourceCode.isSpaceBetweenTokens(prevChild as unknown as Token, child as unknown as Token)
           }
 
           const spaceBetweenNext = () => {
             return ((nextChild!.type === 'Literal' || nextChild!.type === 'JSXText') && nextChild!.raw.startsWith(' '))
-            || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.endsWith(' '))
-            || context.sourceCode.isSpaceBetweenTokens(child as unknown as Token, nextChild as unknown as Token)
+              || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.endsWith(' '))
+              || context.sourceCode.isSpaceBetweenTokens(child as unknown as Token, nextChild as unknown as Token)
           }
 
           const source = context.sourceCode.getText(child)

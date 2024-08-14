@@ -90,8 +90,8 @@ export default createRule<RuleOptions, MessageIds>({
               const secondAdjacentSibling = elements[index + 2]
 
               const hasSibling = firstAdjacentSibling
-              && secondAdjacentSibling
-              && (firstAdjacentSibling.type === 'Literal' || firstAdjacentSibling.type === 'JSXText')
+                && secondAdjacentSibling
+                && (firstAdjacentSibling.type === 'Literal' || firstAdjacentSibling.type === 'JSXText')
 
               if (!hasSibling)
                 return

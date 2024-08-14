@@ -284,8 +284,8 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (settings && typeof val === 'string') {
           let isValid = (quoteOption === 'backtick' && isAllowedAsNonBacktick(node))
-          || isJSXLiteral(node)
-          || isSurroundedBy(rawVal, settings.quote)
+            || isJSXLiteral(node)
+            || isSurroundedBy(rawVal, settings.quote)
 
           if (!isValid && avoidEscape)
             isValid = isSurroundedBy(rawVal, settings.alternateQuote) && rawVal.includes(settings.quote)

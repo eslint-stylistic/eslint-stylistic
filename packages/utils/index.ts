@@ -31,6 +31,10 @@ export function createRule<
       context: Readonly<RuleContext<TMessageIds, TOptions>>,
     ): RuleListener => {
       const optionsWithDefault = context.options.map((options, index) => {
+        if (options === undefined)
+          return defaultOptions[index]
+        if (typeof options !== 'object' || !Array.isArray(options) || options === null)
+          return options
         return {
           ...defaultOptions[index] || {},
           ...options || {},

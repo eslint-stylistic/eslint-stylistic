@@ -47,8 +47,8 @@ export default createRule<RuleOptions, MessageIds>({
 
         // `hasParens` is true only if the new expression ends with its own parens, e.g., new new foo() does not end with its own parens
         const hasParens = hasLastParen
-        && isOpeningParenToken(tokenBeforeLastToken)
-        && node.callee.range[1] < node.range[1]
+          && isOpeningParenToken(tokenBeforeLastToken)
+          && node.callee.range[1] < node.range[1]
 
         if (always) {
           if (!hasParens) {

@@ -99,10 +99,10 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkBinary(
       node:
-      | Tree.AssignmentExpression
-      | Tree.AssignmentPattern
-      | Tree.BinaryExpression
-      | Tree.LogicalExpression,
+        | Tree.AssignmentExpression
+        | Tree.AssignmentPattern
+        | Tree.BinaryExpression
+        | Tree.LogicalExpression,
     ) {
       const leftNode = ('typeAnnotation' in node.left && node.left.typeAnnotation)
         ? node.left.typeAnnotation : node.left

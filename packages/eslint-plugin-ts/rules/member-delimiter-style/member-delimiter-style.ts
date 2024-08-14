@@ -27,10 +27,10 @@ type Config = BaseOptions & {
 }
 type Options = [Config]
 type MessageIds =
-| 'expectedComma'
-| 'expectedSemi'
-| 'unexpectedComma'
-| 'unexpectedSemi'
+  | 'expectedComma'
+  | 'expectedSemi'
+  | 'unexpectedComma'
+  | 'unexpectedSemi'
 type LastTokenType = Tree.Token
 
 interface MakeFixFunctionParams {

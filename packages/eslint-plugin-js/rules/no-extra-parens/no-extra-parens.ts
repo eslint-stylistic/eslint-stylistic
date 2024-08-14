@@ -96,13 +96,13 @@ export default createRule<RuleOptions, MessageIds>({
     const EXCEPT_RETURN_ASSIGN = ALL_NODES && context.options[1] && context.options[1].returnAssign === false
     const IGNORE_JSX = ALL_NODES && context.options[1] && context.options[1].ignoreJSX
     const IGNORE_ARROW_CONDITIONALS = ALL_NODES && context.options[1]
-    && context.options[1].enforceForArrowConditionals === false
+      && context.options[1].enforceForArrowConditionals === false
     const IGNORE_SEQUENCE_EXPRESSIONS = ALL_NODES && context.options[1]
-    && context.options[1].enforceForSequenceExpressions === false
+      && context.options[1].enforceForSequenceExpressions === false
     const IGNORE_NEW_IN_MEMBER_EXPR = ALL_NODES && context.options[1]
-    && context.options[1].enforceForNewInMemberExpressions === false
+      && context.options[1].enforceForNewInMemberExpressions === false
     const IGNORE_FUNCTION_PROTOTYPE_METHODS = ALL_NODES && context.options[1]
-    && context.options[1].enforceForFunctionPrototypeMethods === false
+      && context.options[1].enforceForFunctionPrototypeMethods === false
     const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && context.options[1] && context.options[1].allowParensAfterCommentPattern
 
     // @ts-expect-error other properties are not used
@@ -282,13 +282,13 @@ export default createRule<RuleOptions, MessageIds>({
       const penultimateToken = sourceCode.getTokenBefore(lastToken)!
 
       return newExpression.arguments.length > 0
-      || (
+        || (
 
       // The expression should end with its own parens, e.g., new new foo() is not a new expression with parens
-        isOpeningParenToken(penultimateToken)
-        && isClosingParenToken(lastToken)
-        && newExpression.callee.range[1] < newExpression.range[1]
-      )
+          isOpeningParenToken(penultimateToken)
+          && isClosingParenToken(lastToken)
+          && newExpression.callee.range[1] < newExpression.range[1]
+        )
     }
 
     /**
@@ -302,12 +302,12 @@ export default createRule<RuleOptions, MessageIds>({
         return true
 
       if (node.type === 'ConditionalExpression'
-      && (node.consequent.type === 'AssignmentExpression' || node.alternate.type === 'AssignmentExpression')) {
+        && (node.consequent.type === 'AssignmentExpression' || node.alternate.type === 'AssignmentExpression')) {
         return true
       }
 
       if ('left' in node && ((node.left && node.left.type === 'AssignmentExpression')
-      || (node.right && node.right.type === 'AssignmentExpression'))) {
+        || (node.right && node.right.type === 'AssignmentExpression'))) {
         return true
       }
 
@@ -360,9 +360,9 @@ export default createRule<RuleOptions, MessageIds>({
       const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParenToken, { includeComments: true })!
 
       return tokenBeforeLeftParen
-      && tokenBeforeLeftParen.range[1] === leftParenToken.range[0]
-      && leftParenToken.range[1] === tokenAfterLeftParen.range[0]
-      && !canTokensBeAdjacent(tokenBeforeLeftParen, tokenAfterLeftParen)
+        && tokenBeforeLeftParen.range[1] === leftParenToken.range[0]
+        && leftParenToken.range[1] === tokenAfterLeftParen.range[0]
+        && !canTokensBeAdjacent(tokenBeforeLeftParen, tokenAfterLeftParen)
     }
 
     /**
@@ -378,8 +378,8 @@ export default createRule<RuleOptions, MessageIds>({
       const tokenBeforeRightParen = sourceCode.getLastToken(node)!
 
       return rightParenToken && tokenAfterRightParen
-      && !sourceCode.isSpaceBetweenTokens(rightParenToken, tokenAfterRightParen)
-      && !canTokensBeAdjacent(tokenBeforeRightParen, tokenAfterRightParen)
+        && !sourceCode.isSpaceBetweenTokens(rightParenToken, tokenAfterRightParen)
+        && !canTokensBeAdjacent(tokenBeforeRightParen, tokenAfterRightParen)
     }
 
     /**
@@ -843,7 +843,7 @@ export default createRule<RuleOptions, MessageIds>({
           return
 
         if (node.body.type === 'ConditionalExpression'
-        && IGNORE_ARROW_CONDITIONALS
+          && IGNORE_ARROW_CONDITIONALS
         ) {
           return
         }
@@ -862,7 +862,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       AssignmentExpression(node) {
         if (canBeAssignmentTarget(node.left) && hasExcessParens(node.left)
-        && (!isAnonymousFunctionAssignmentException(node) || isParenthesisedTwice(node.left))) {
+          && (!isAnonymousFunctionAssignmentException(node) || isParenthesisedTwice(node.left))) {
           report(node.left)
         }
 
@@ -1066,7 +1066,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       MemberExpression(node) {
         const shouldAllowWrapOnce = isMemberExpInNewCallee(node)
-        && doesMemberExpressionContainCallExpression(node)
+          && doesMemberExpressionContainCallExpression(node)
         const nodeObjHasExcessParens = shouldAllowWrapOnce
           ? hasDoubleExcessParens(node.object)
           : hasExcessParens(node.object)
@@ -1093,21 +1093,21 @@ export default createRule<RuleOptions, MessageIds>({
         }
 
         if (nodeObjHasExcessParens
-        && node.object.type === 'CallExpression'
+          && node.object.type === 'CallExpression'
         ) {
           report(node.object)
         }
 
         if (nodeObjHasExcessParens
-        && !IGNORE_NEW_IN_MEMBER_EXPR
-        && node.object.type === 'NewExpression'
-        && isNewExpressionWithParens(node.object)) {
+          && !IGNORE_NEW_IN_MEMBER_EXPR
+          && node.object.type === 'NewExpression'
+          && isNewExpressionWithParens(node.object)) {
           report(node.object)
         }
 
         if (nodeObjHasExcessParens
-        && node.optional
-        && node.object.type === 'ChainExpression'
+          && node.optional
+          && node.object.type === 'ChainExpression'
         ) {
           report(node.object)
         }
@@ -1169,11 +1169,11 @@ export default createRule<RuleOptions, MessageIds>({
           return
 
         if (node.argument
-        && returnToken
-        && hasExcessParensNoLineTerminator(returnToken, node.argument)
+          && returnToken
+          && hasExcessParensNoLineTerminator(returnToken, node.argument)
 
         // RegExp literal is allowed to have parens (#1589)
-        && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex)) {
+          && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex)) {
           report(node.argument)
         }
       },
@@ -1249,9 +1249,9 @@ export default createRule<RuleOptions, MessageIds>({
           const yieldToken = sourceCode.getFirstToken(node)
 
           if ((precedence(node.argument) >= precedence(node)
-          && yieldToken
-          && hasExcessParensNoLineTerminator(yieldToken, node.argument))
-          || hasDoubleExcessParens(node.argument)) {
+            && yieldToken
+            && hasExcessParensNoLineTerminator(yieldToken, node.argument))
+            || hasDoubleExcessParens(node.argument)) {
             report(node.argument)
           }
         }
