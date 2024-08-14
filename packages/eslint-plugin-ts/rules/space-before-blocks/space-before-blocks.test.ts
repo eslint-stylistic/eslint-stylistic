@@ -234,18 +234,5 @@ run({
       ],
       options: [{ classes: 'never' }],
     },
-
-    // https://github.com/eslint/eslint/issues/13553
-    {
-      code: 'class A { foo(bar: string): void{} }',
-      output: 'class A { foo(bar: string): void {} }',
-      errors: [{ messageId: 'missingSpace' }],
-    },
-    {
-      code: 'function foo(): null {}',
-      output: 'function foo(): null{}',
-      options: ['never'],
-      errors: [{ messageId: 'unexpectedSpace' }],
-    },
   ],
 })

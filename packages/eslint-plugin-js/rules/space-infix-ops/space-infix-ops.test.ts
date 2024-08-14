@@ -3,12 +3,14 @@
  * @author Michael Ficarra
  */
 
+import tsParser from '@typescript-eslint/parser'
 import rule from './space-infix-ops'
 import { run } from '#test'
 
 run({
   name: 'space-infix-ops',
   rule,
+  lang: 'js',
   valid: [
     'a + b',
     'a + ++b',
@@ -32,6 +34,15 @@ run({
     { code: 'a ** b', parserOptions: { ecmaVersion: 7 } },
     { code: 'a|0', options: [{ int32Hint: true }] },
     { code: 'a |0', options: [{ int32Hint: true }] },
+
+    // Type Annotations
+    { code: 'function foo(a: number = 0) { }', parser: tsParser, parserOptions: { ecmaVersion: 6 } },
+    { code: 'function foo(): Bar { }', parser: tsParser, parserOptions: { ecmaVersion: 6 } },
+    { code: 'var foo: Bar = \'\';', parser: tsParser, parserOptions: { ecmaVersion: 6 } },
+    { code: 'const foo = function(a: number = 0): Bar { };', parser: tsParser, parserOptions: { ecmaVersion: 6 } },
+
+    // TypeScript Type Aliases
+    { code: 'type Foo<T> = T;', parser: tsParser, parserOptions: { ecmaVersion: 6 } },
 
     // Logical Assignments
     { code: 'a &&= b', parserOptions: { ecmaVersion: 2021 } },
@@ -454,6 +465,33 @@ run({
         line: 1,
         column: 6,
         type: 'BinaryExpression',
+      }],
+    },
+
+    // Type Annotations
+    {
+      code: 'var a: Foo= b;',
+      output: 'var a: Foo = b;',
+      parser: tsParser,
+      errors: [{
+        messageId: 'missingSpace',
+        data: { operator: '=' },
+        type: 'VariableDeclarator',
+        line: 1,
+        column: 11,
+      }],
+    },
+    {
+      code: 'function foo(a: number=0): Foo { }',
+      output: 'function foo(a: number = 0): Foo { }',
+      parser: tsParser,
+      parserOptions: { ecmaVersion: 6 },
+      errors: [{
+        messageId: 'missingSpace',
+        data: { operator: '=' },
+        line: 1,
+        column: 23,
+        type: 'AssignmentPattern',
       }],
     },
 

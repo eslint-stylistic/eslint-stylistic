@@ -1378,6 +1378,7 @@ run({
         },
       ],
     },
+
     // https://github.com/eslint/eslint/issues/6940
     {
       code: 'function foo ({a, b }: Props) {\n}',

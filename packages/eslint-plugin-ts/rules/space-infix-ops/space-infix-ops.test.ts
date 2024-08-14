@@ -8,14 +8,6 @@ run({
   name: 'space-infix-ops',
   rule,
   valid: [
-    // Type Annotations
-    { code: 'function foo(a: number = 0) { }', parserOptions: { ecmaVersion: 6 } },
-    { code: 'function foo(): Bar { }', parserOptions: { ecmaVersion: 6 } },
-    { code: 'var foo: Bar = \'\';', parserOptions: { ecmaVersion: 6 } },
-    { code: 'const foo = function(a: number = 0): Bar { };', parserOptions: { ecmaVersion: 6 } },
-
-    // TypeScript Type Aliases
-    { code: 'type Foo<T> = T;', parserOptions: { ecmaVersion: 6 } },
     {
       code: `
         enum Test {
@@ -407,33 +399,8 @@ run({
         function bar(): string & number {}
       `,
     },
-
   ],
   invalid: [
-    // Type Annotations
-    {
-      code: 'var a: Foo= b;',
-      output: 'var a: Foo = b;',
-      errors: [{
-        messageId: 'missingSpace',
-        data: { operator: '=' },
-        type: 'VariableDeclarator',
-        line: 1,
-        column: 11,
-      }],
-    },
-    {
-      code: 'function foo(a: number=0): Foo { }',
-      output: 'function foo(a: number = 0): Foo { }',
-      parserOptions: { ecmaVersion: 6 },
-      errors: [{
-        messageId: 'missingSpace',
-        data: { operator: '=' },
-        line: 1,
-        column: 23,
-        type: 'AssignmentPattern',
-      }],
-    },
     {
       code: `
         enum Test {

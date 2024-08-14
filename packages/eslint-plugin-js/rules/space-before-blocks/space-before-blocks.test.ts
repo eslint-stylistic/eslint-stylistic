@@ -3,6 +3,7 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
+import tsParser from '@typescript-eslint/parser'
 import rule from './space-before-blocks'
 import { run } from '#test'
 
@@ -567,6 +568,21 @@ run({
       output: 'class test{ constructor() {} }',
       options: classesNeverOthersOffArgs,
       parserOptions: { ecmaVersion: 6 },
+      errors: [expectedNoSpacingError],
+    },
+
+    // https://github.com/eslint/eslint/issues/13553
+    {
+      code: 'class A { foo(bar: string): void{} }',
+      output: 'class A { foo(bar: string): void {} }',
+      parser: tsParser,
+      errors: [expectedSpacingError],
+    },
+    {
+      code: 'function foo(): null {}',
+      output: 'function foo(): null{}',
+      options: neverArgs,
+      parser: tsParser,
       errors: [expectedNoSpacingError],
     },
 

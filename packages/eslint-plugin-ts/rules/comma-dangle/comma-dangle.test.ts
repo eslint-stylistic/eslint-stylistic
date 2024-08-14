@@ -284,32 +284,5 @@ run({
         },
       },
     },
-
-    // https://github.com/eslint/eslint/issues/7370
-    {
-      code: 'function foo({a}: {a: string,}) {}',
-      output: 'function foo({a,}: {a: string,}) {}',
-      options: ['always'],
-      errors: [{ messageId: 'missing' }],
-      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
-    },
-    {
-      code: 'function foo({a,}: {a: string}) {}',
-      output: 'function foo({a}: {a: string}) {}',
-      options: ['never'],
-      errors: [{ messageId: 'unexpected' }],
-    },
-    {
-      code: 'function foo(a): {b: boolean,} {}',
-      output: 'function foo(a,): {b: boolean,} {}',
-      options: [{ functions: 'always' }],
-      errors: [{ messageId: 'missing' }],
-    },
-    {
-      code: 'function foo(a,): {b: boolean} {}',
-      output: 'function foo(a): {b: boolean} {}',
-      options: [{ functions: 'never' }],
-      errors: [{ messageId: 'unexpected' }],
-    },
   ],
 })
