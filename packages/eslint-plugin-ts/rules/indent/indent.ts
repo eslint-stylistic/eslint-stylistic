@@ -84,6 +84,7 @@ const KNOWN_NODES = new Set([
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'indent',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

@@ -8,6 +8,7 @@ const defaultOptionValue = { multiline: false, minProperties: Number.POSITIVE_IN
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-curly-newline',
+  package: 'ts',
   meta: {
     ...baseRule.meta,
     docs: {

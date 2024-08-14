@@ -14,6 +14,7 @@ const baseRule = getESLintCoreRule('no-extra-parens')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

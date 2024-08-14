@@ -41,6 +41,7 @@ function normalizeOptions(options: Option = {}): NormalizedOptions {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'comma-dangle',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

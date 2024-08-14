@@ -26,6 +26,7 @@ const schema = deepMerge(
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'keyword-spacing',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

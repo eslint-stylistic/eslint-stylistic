@@ -10,6 +10,7 @@ const baseRule = getESLintCoreRule('space-before-blocks')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'space-before-blocks',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

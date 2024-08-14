@@ -9,6 +9,7 @@ const baseRule = getESLintCoreRule('quotes')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'quotes',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

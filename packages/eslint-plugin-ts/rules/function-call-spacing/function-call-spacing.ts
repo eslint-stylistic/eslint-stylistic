@@ -13,6 +13,7 @@ import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'function-call-spacing',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

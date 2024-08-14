@@ -25,6 +25,7 @@ const schema = Object.values(
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'lines-between-class-members',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

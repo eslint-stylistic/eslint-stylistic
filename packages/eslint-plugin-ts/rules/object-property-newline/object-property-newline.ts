@@ -7,6 +7,7 @@ const baseRule = getESLintCoreRule('object-property-newline')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-property-newline',
+  package: 'ts',
   meta: {
     ...baseRule.meta,
     docs: {

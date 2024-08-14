@@ -10,6 +10,7 @@ const baseRule = getESLintCoreRule('brace-style')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'brace-style',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

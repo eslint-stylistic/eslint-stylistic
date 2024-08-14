@@ -9,6 +9,7 @@ const baseRule = getESLintCoreRule('quote-props')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'quote-props',
+  package: 'ts',
   meta: {
     ...baseRule.meta,
     docs: {
