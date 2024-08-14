@@ -4,7 +4,7 @@
  */
 
 import type { Token, Tree } from '@shared/types'
-import { isCommaToken, isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { isCommaToken, isCommentToken, isTokenOnSameLine } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
 

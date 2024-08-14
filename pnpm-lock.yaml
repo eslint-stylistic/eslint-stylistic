@@ -107,12 +107,18 @@ importers:
       eslint-plugin-format:
         specifier: ^0.1.2
         version: 0.1.2(eslint@9.9.0(jiti@1.21.6))
+      eslint-visitor-keys:
+        specifier: ^4.0.0
+        version: 4.0.0
       eslint-vitest-rule-tester:
         specifier: ^0.5.2
         version: 0.5.2(eslint@9.9.0(jiti@1.21.6))(typescript@5.5.4)(vitest@2.0.5(@types/node@22.3.0)(@vitest/ui@2.0.5))
       esno:
         specifier: ^4.7.0
         version: 4.7.0
+      espree:
+        specifier: ^10.1.0
+        version: 10.1.0
       execa:
         specifier: ^9.3.0
         version: 9.3.0

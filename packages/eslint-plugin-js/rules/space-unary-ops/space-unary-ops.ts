@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, Token, Tree } from '@shared/types'
-import { canTokensBeAdjacent } from '../../utils/ast-utils'
+import { canTokensBeAdjacent } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

@@ -3,7 +3,7 @@
  * @author Alberto Rodríguez
  */
 import { createRule } from '../../../utils'
-import { COMMENTS_IGNORE_PATTERN } from '../../utils/ast-utils'
+import { COMMENTS_IGNORE_PATTERN } from '../../../utils/ast'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({

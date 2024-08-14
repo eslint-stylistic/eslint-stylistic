@@ -3,7 +3,7 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import { languageOptionsForBabelFlow } from '../../test-utils/parsers'
+import { languageOptionsForBabelFlow } from '../../../test-utils/parsers-flow'
 import rule from './space-before-function-paren'
 import { run } from '#test'
 

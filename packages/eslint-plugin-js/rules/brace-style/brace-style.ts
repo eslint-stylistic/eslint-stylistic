@@ -7,7 +7,7 @@ import type { ReportFixFunction, Token } from '@shared/types'
 import {
   STATEMENT_LIST_PARENTS,
   isTokenOnSameLine,
-} from '../../utils/ast-utils'
+} from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

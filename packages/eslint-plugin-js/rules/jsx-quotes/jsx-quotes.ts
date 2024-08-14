@@ -4,7 +4,7 @@
  */
 
 import type { Tree } from '@shared/types'
-import { isStringLiteral, isSurroundedBy } from '../../utils/ast-utils'
+import { isStringLiteral, isSurroundedBy } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

@@ -5,7 +5,7 @@
  */
 
 import type { ASTNode, Tree } from '@shared/types'
-import { isParenthesised } from '../../utils/ast-utils'
+import { isParenthesised } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

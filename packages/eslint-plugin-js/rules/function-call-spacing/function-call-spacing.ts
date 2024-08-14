@@ -4,7 +4,7 @@
  */
 
 import type { Token, Tree } from '@shared/types'
-import { LINEBREAK_MATCHER, isNotQuestionDotToken, isOpeningParenToken } from '../../utils/ast-utils'
+import { LINEBREAK_MATCHER, isNotQuestionDotToken, isOpeningParenToken } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

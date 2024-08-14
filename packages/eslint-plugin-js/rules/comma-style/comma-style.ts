@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, NodeTypes, RuleFixer, RuleListener, Token, Tree } from '@shared/types'
-import { LINEBREAK_MATCHER, isCommaToken, isNotClosingParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { LINEBREAK_MATCHER, isCommaToken, isNotClosingParenToken, isTokenOnSameLine } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

@@ -4,7 +4,7 @@
  */
 
 import type { Token } from '@shared/types'
-import { isCommentToken } from '../../utils/ast-utils'
+import { isCommentToken } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

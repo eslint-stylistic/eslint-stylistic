@@ -3,7 +3,7 @@
  * @author Josh Perez
  */
 
-export default [
+export const KEYWORDS_JS = [
   'abstract',
   'boolean',
   'break',

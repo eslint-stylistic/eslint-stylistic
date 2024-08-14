@@ -6,8 +6,8 @@
 // @ts-expect-error missing types
 import { tokenize } from 'espree'
 import type { Tree } from '@shared/types'
-import { isNumericLiteral } from '../../utils/ast-utils'
-import keywords from '../../utils/keywords'
+import { isNumericLiteral } from '../../../utils/ast'
+import { KEYWORDS_JS } from '../../../utils/keywords'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
@@ -89,7 +89,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns `true` if it is an ES3 token.
      */
     function isKeyword(tokenStr: string): boolean {
-      return keywords.includes(tokenStr)
+      return KEYWORDS_JS.includes(tokenStr)
     }
 
     /**

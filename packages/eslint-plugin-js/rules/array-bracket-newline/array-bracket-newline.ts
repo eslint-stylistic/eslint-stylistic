@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, Token } from '@shared/types'
-import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { isCommentToken, isTokenOnSameLine } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

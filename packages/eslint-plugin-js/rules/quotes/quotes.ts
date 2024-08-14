@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, Tree } from '@shared/types'
-import { LINEBREAKS, hasOctalOrNonOctalDecimalEscapeSequence, isParenthesised, isSurroundedBy, isTopLevelExpressionStatement } from '../../utils/ast-utils'
+import { LINEBREAKS, hasOctalOrNonOctalDecimalEscapeSequence, isParenthesised, isSurroundedBy, isTopLevelExpressionStatement } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

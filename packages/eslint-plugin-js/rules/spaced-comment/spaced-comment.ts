@@ -4,7 +4,7 @@
  */
 import escapeRegExp from 'escape-string-regexp'
 import type { Tree } from '@shared/types'
-import { LINEBREAKS } from '../../utils/ast-utils'
+import { LINEBREAKS } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

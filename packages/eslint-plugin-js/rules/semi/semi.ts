@@ -4,9 +4,9 @@
  */
 
 import type { ASTNode, RuleFixer, Token, Tree } from '@shared/types'
-import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '../../../utils/ast'
 import { createRule } from '../../../utils'
-import FixTracker from '../../utils/fix-tracker'
+import { FixTracker } from '../../../utils/fix-tracker'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({

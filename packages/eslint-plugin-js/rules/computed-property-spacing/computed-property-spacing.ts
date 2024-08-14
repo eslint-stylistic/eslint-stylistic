@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, RuleListener, Tree } from '@shared/types'
-import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

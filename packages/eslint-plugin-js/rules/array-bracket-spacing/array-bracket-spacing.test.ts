@@ -3,7 +3,7 @@
  * @author Ian Christian Myers
  */
 
-import { languageOptionsForBabelFlow } from '../../test-utils/parsers'
+import { languageOptionsForBabelFlow } from '../../../test-utils/parsers-flow'
 import rule from './array-bracket-spacing'
 import { run } from '#test'
 

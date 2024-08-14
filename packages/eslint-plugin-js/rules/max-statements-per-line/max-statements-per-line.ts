@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode } from '@shared/types'
-import { isNotSemicolonToken } from '../../utils/ast-utils'
+import { isNotSemicolonToken } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

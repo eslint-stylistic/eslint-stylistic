@@ -5,7 +5,7 @@
 
 import type { Token, Tree } from '@shared/types'
 import { createRule } from '../../../utils'
-import { COMMENTS_IGNORE_PATTERN, LINEBREAK_MATCHER } from '../../utils/ast-utils'
+import { COMMENTS_IGNORE_PATTERN, LINEBREAK_MATCHER } from '../../../utils/ast'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({

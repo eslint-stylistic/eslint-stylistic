@@ -4,7 +4,7 @@
  */
 
 import type { Tree } from '@shared/types'
-import { isCommentToken, isNotOpeningParenToken } from '../../utils/ast-utils'
+import { isCommentToken, isNotOpeningParenToken } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

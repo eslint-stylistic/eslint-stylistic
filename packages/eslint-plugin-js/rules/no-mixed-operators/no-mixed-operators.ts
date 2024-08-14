@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, Tree } from '@shared/types'
-import { getPrecedence, isNotClosingParenToken, isParenthesised } from '../../utils/ast-utils'
+import { getPrecedence, isNotClosingParenToken, isParenthesised } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, Token, Tree } from '@shared/types'
-import { isTokenOnSameLine } from '../../utils/ast-utils'
+import { isTokenOnSameLine } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

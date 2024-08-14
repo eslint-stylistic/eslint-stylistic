@@ -4,9 +4,9 @@
  */
 
 import type { ASTNode, ReportFixFunction, Tree } from '@shared/types'
-import { LINEBREAK_MATCHER, getStaticPropertyName, isColonToken } from '../../utils/ast-utils'
+import { LINEBREAK_MATCHER, getStaticPropertyName, isColonToken } from '../../../utils/ast'
 import { createRule } from '../../../utils'
-import { getGraphemeCount } from '../../utils/string-utils'
+import { getGraphemeCount } from '../../../utils/string-utils'
 import type { MessageIds, RuleOptions } from './types'
 
 /**

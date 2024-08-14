@@ -4,7 +4,7 @@
  */
 import type { ASTNode, RuleFixer, Token, Tree } from '@shared/types'
 import { createRule } from '../../../utils'
-import { isClosingBraceToken, isClosingBracketToken, isNotCommaToken, isTokenOnSameLine } from '../../utils/ast-utils'
+import { isClosingBraceToken, isClosingBracketToken, isNotCommaToken, isTokenOnSameLine } from '../../../utils/ast'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({

@@ -3,7 +3,7 @@
  * @author James Allardice
  */
 
-import { canTokensBeAdjacent } from '../../utils/ast-utils'
+import { canTokensBeAdjacent } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

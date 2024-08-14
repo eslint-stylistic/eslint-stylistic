@@ -4,7 +4,7 @@
  */
 
 import type { Token, Tree } from '@shared/types'
-import { isArrowToken } from '../../utils/ast-utils'
+import { isArrowToken } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 

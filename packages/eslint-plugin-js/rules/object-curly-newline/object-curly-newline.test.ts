@@ -3,7 +3,7 @@
  * @author Toru Nagashima
  */
 
-import { languageOptionsForBabelFlow } from '../../test-utils/parsers'
+import { languageOptionsForBabelFlow } from '../../../test-utils/parsers-flow'
 import rule from './object-curly-newline'
 import { run } from '#test'
 

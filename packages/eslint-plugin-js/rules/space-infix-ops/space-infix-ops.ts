@@ -5,7 +5,7 @@
 
 import type { ASTNode, Token, Tree } from '@shared/types'
 import { createRule } from '../../../utils'
-import { isEqToken } from '../../utils/ast-utils'
+import { isEqToken } from '../../../utils/ast'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({

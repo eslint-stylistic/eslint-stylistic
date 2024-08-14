@@ -5,14 +5,14 @@
 
 import type { AST } from 'eslint'
 import type { ASTNode, ESToken, RuleFixer, SourceCode, Token, Tree } from '@shared/types'
-import { getUpperFunction } from './ast-utils'
+import { getUpperFunction } from './ast'
 
 /**
  * A helper class to combine fix options into a fix command. Currently, it
  * exposes some "retain" methods that extend the range of the text being
  * replaced so that other fixes won't touch that region in the same pass.
  */
-class FixTracker {
+export class FixTracker {
   retainedRange: number[] | null
 
   /**
@@ -106,5 +106,3 @@ class FixTracker {
     return this.replaceTextRange(nodeOrToken.range, '')
   }
 }
-
-export default FixTracker

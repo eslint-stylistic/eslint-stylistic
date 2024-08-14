@@ -3,7 +3,7 @@
  * @author Ian Christian Myers
  */
 import type { ASTNode, EcmaVersion } from '@shared/types'
-import { getNextLocation, isCommaToken } from '../../utils/ast-utils'
+import { getNextLocation, isCommaToken } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions, Value } from './types'
 

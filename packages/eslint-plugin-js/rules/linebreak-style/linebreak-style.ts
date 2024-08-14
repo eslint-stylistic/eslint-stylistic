@@ -4,7 +4,7 @@
  */
 
 import type { ReportFixFunction, Tree } from '@shared/types'
-import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
+import { createGlobalLinebreakMatcher } from '../../../utils/ast'
 import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
