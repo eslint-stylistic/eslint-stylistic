@@ -1,8 +1,8 @@
 import { createRule } from '../../utils'
-import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
 
-const baseRule = getESLintCoreRule('object-curly-newline')
+const baseRule = getJsRule('object-curly-newline')
 
 const defaultOptionValue = { multiline: false, minProperties: Number.POSITIVE_INFINITY, consistent: true }
 

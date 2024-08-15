@@ -1,7 +1,6 @@
 import { ESLintUtils } from '@typescript-eslint/utils'
 
 export * from '../../utils'
-export * from './getStringLength'
 
 const {
   nullThrows,

@@ -2,10 +2,10 @@ import type { ASTNode } from '@shared/types'
 import type { TSESLint } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { createRule } from '../../utils'
-import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
 
-const baseRule = getESLintCoreRule('semi')
+const baseRule = getJsRule('semi')
 export default createRule<RuleOptions, MessageIds>({
   name: 'semi',
   package: 'ts',

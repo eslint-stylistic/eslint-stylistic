@@ -6,7 +6,7 @@
 import type { ASTNode, ReportFixFunction, Tree } from '@shared/types'
 import { LINEBREAK_MATCHER, getStaticPropertyName, isColonToken } from '../../../utils/ast'
 import { createRule } from '../../../utils'
-import { getGraphemeCount } from '../../../utils/string-utils'
+import { getStringLength } from '../../../utils/string'
 import type { MessageIds, RuleOptions } from './types'
 
 /**
@@ -517,7 +517,7 @@ export default createRule<RuleOptions, MessageIds>({
       const startToken = sourceCode.getFirstToken(property)!
       const endToken = getLastTokenBeforeColon(property.key)!
 
-      return getGraphemeCount(sourceCode.getText().slice(startToken.range[0], endToken.range[1]))
+      return getStringLength(sourceCode.getText().slice(startToken.range[0], endToken.range[1]))
     }
 
     /**

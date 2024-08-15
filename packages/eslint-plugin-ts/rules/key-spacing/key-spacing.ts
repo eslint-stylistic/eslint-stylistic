@@ -7,12 +7,12 @@ import {
 } from '@typescript-eslint/utils/ast-utils'
 import {
   createRule,
-  getStringLength,
 } from '../../utils'
-import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import { getJsRule } from '../../utils/get-js-rule'
+import { getStringLength } from '../../../utils/string'
 import type { MessageIds, RuleOptions } from './types'
 
-const baseRule = getESLintCoreRule('key-spacing')
+const baseRule = getJsRule('key-spacing')
 
 const baseSchema = Array.isArray(baseRule.meta.schema)
   ? baseRule.meta.schema[0]

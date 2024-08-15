@@ -10,10 +10,10 @@ import {
   createRule,
 } from '../../utils'
 
-import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
 
-const baseRule = getESLintCoreRule('object-curly-spacing')
+const baseRule = getJsRule('object-curly-spacing')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-curly-spacing',

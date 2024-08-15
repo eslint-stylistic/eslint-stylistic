@@ -3,10 +3,10 @@ import type { Tree } from '@shared/types'
 import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 import { createRule } from '../../utils'
-import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
 
-const baseRule = getESLintCoreRule('brace-style')
+const baseRule = getJsRule('brace-style')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'brace-style',

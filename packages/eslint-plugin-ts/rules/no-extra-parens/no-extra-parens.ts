@@ -7,10 +7,10 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
 
 import { createRule } from '../../utils'
-import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
 
-const baseRule = getESLintCoreRule('no-extra-parens')
+const baseRule = getJsRule('no-extra-parens')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',

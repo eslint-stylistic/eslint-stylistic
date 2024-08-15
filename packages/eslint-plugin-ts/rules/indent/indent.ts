@@ -7,10 +7,10 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import type { ASTNode, RuleFunction, Tree } from '@shared/types'
 import { createRule } from '../../utils'
-import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
 
-const baseRule = getESLintCoreRule('indent')
+const baseRule = getJsRule('indent')
 
 const KNOWN_NODES = new Set([
   // Class properties aren't yet supported by eslint...
