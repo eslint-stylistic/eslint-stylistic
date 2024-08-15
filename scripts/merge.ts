@@ -9,8 +9,6 @@ await import('./merge-undo')
  * TODO:
  *
  * Main branch:
- * - 1. Rewrite `createRule` order
- * - 2. Unified `utils`
  * - 3. Update `types.d.ts` convention
  *
  * This branch:
@@ -26,14 +24,6 @@ const packages = {
   jsx: './packages/eslint-plugin-jsx/rules',
   plus: './packages/eslint-plugin-plus/rules',
 }
-
-await fs.cp('./packages/eslint-plugin-ts/utils', './packages/eslint-plugin/utils', { recursive: true })
-await fs.cp('./packages/eslint-plugin-js/utils', './packages/eslint-plugin/utils', { recursive: true })
-await fs.cp('./packages/eslint-plugin-jsx/utils', './packages/eslint-plugin/utils', { recursive: true })
-
-await fs.rm('./packages/eslint-plugin-ts/utils', { recursive: true })
-await fs.rm('./packages/eslint-plugin-js/utils', { recursive: true })
-await fs.rm('./packages/eslint-plugin-jsx/utils', { recursive: true })
 
 for (const [key, path] of Object.entries(packages)) {
   const rules = await fg(`${path}/*`, {
