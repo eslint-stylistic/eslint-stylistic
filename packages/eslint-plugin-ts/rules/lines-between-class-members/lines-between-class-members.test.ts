@@ -129,19 +129,22 @@ run({
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/240
     {
       code: `
-class foo {
-bar(a: string): void;
-bar(a: string, b:string): void;
-bar(a: string, b:string) {
+        class foo {
+          bar(a: string): void;
+          bar(a: string, b:string): void;
+          bar(a: string, b:string) {
 
-}
+          }
 
-baz() { }
+          baz() { }
 
-qux() { }
-};
+          qux() { }
+        };
       `,
-      options: [{ enforce: [{ blankLine: 'always', prev: 'method', next: 'method' }] }, { exceptAfterOverload: true }],
+      options: [
+        { enforce: [{ blankLine: 'always', prev: 'method', next: 'method' }] },
+        { exceptAfterOverload: true },
+      ],
     },
   ],
   invalid: [
