@@ -11,37 +11,31 @@ import { generateDtsFromSchema } from './update/schema-to-ts'
 import { generateConfigs, readPackage, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
 import { GEN_HEADER, ROOT } from './update/meta'
 
-async function run() {
-  const paths = (await fg('./packages/*/package.json', {
-    onlyFiles: true,
-    absolute: true,
-    cwd: ROOT,
-    ignore: [
-      'node_modules',
-    ],
-  })
-  ).sort()
-
-  console.log({ ROOT, paths })
+async function readPackages() {
+  const paths = (await fg(
+    './packages/*/package.json',
+    {
+      onlyFiles: true,
+      absolute: true,
+      cwd: ROOT,
+      ignore: [
+        'node_modules',
+      ],
+    },
+  )).sort()
 
   const packages: PackageInfo[] = []
   for (const path of paths) {
     const pkg = await readPackage(dirname(path))
-    await writeRulesIndex(pkg)
-    await writeREADME(pkg)
-    await writePackageDTS(pkg)
-    await updateExports(pkg)
-    await generateConfigs(pkg)
     packages.push(pkg)
   }
-
-  await generateDtsFromSchema()
 
   // Generate the default package merging all rules
   const packageJs = packages.find(i => i.shortId === 'js')!
   const packageTs = packages.find(i => i.shortId === 'ts')!
   const packageJsx = packages.find(i => i.shortId === 'jsx')!
   const packagePlus = packages.find(i => i.shortId === 'plus')!
+
   const packageGeneral = packages.find(i => i.name === '@stylistic/eslint-plugin')!
 
   // merge rules
@@ -62,18 +56,25 @@ async function run() {
       }
     })
   packageGeneral.shortId = 'default'
-
   packageGeneral.rules.sort((a, b) => a.name.localeCompare(b.name))
 
-  await generateConfigs({
-    ...packageGeneral,
-    rules: [
-      ...packageJs.rules,
-      ...packageTs.rules,
-      ...packageJsx.rules,
-      ...packagePlus.rules,
-    ].sort((a, b) => a.name.localeCompare(b.name)),
-  })
+  return packages
+}
+
+async function run() {
+  const packages = await readPackages()
+
+  for (const pkg of packages) {
+    if (pkg.shortId === 'default')
+      continue
+    await writeRulesIndex(pkg)
+    await writeREADME(pkg)
+    await writePackageDTS(pkg)
+    await generateConfigs(pkg)
+    await updateExports(pkg)
+  }
+
+  await generateDtsFromSchema()
 
   await fs.writeFile(
     join(ROOT, 'packages', 'metadata', 'src', 'metadata.ts'),
