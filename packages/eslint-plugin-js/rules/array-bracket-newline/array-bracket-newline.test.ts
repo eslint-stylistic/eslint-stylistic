@@ -93,15 +93,19 @@ run({
     { code: 'var a = [/*\n*/1\n]', options: ['consistent'] },
     { code: 'var a = [//\n]', options: ['consistent'] },
     {
-      code: `var a = [
-                [1,2]
-            ]`,
+      code: $`
+        var a = [
+          [1,2]
+        ]
+      `,
       options: ['consistent'],
     },
     {
-      code: `var a = [
-                [[1,2]]
-            ]`,
+      code: $`
+        var a = [
+          [[1,2]]
+        ]
+      `,
       options: ['consistent'],
     },
 
@@ -176,17 +180,21 @@ run({
       options: [{ minItems: 2 }],
     },
     {
-      code: `var foo = [
-                1,[
-                    2,3
-                ]
-            ];`,
+      code: $`
+        var foo = [
+                        1,[
+                            2,3
+                        ]
+                    ];
+      `,
       options: [{ minItems: 2 }],
     },
     {
-      code: `var foo = [[
-                1,2
-            ]]`,
+      code: $`
+        var foo = [[
+                        1,2
+                    ]]
+      `,
       options: [{ minItems: 2 }],
     },
 
@@ -429,9 +437,11 @@ run({
 
     // default : { multiline : true}
     {
-      code: `var foo = [
-                [1,2]
-            ]`,
+      code: $`
+        var foo = [
+                        [1,2]
+                    ]
+      `,
       output: 'var foo = [[1,2]]',
       errors: [
         {
@@ -692,8 +702,10 @@ run({
 
     // "never"
     {
-      code: `var foo = [[
-                1,2],3];`,
+      code: $`
+        var foo = [[
+                        1,2],3];
+      `,
       output: 'var foo = [[1,2],3];',
       options: ['never'],
       errors: [
@@ -865,8 +877,10 @@ run({
 
     // "consistent"
     {
-      code: `var a = [[1,2]
-            ]`,
+      code: $`
+        var a = [[1,2]
+                    ]
+      `,
       output: 'var a = [[1,2]]',
       options: ['consistent'],
       errors: [

@@ -1613,16 +1613,20 @@ run({
 
     // separated options
     {
-      code: `let {a,} = {a: 1,};
-let [b,] = [1,];
-import {c,} from "foo";
-let d = 0;export {d,};
-(function foo(e,) {})(f,);`,
-      output: `let {a} = {a: 1};
-let [b,] = [1,];
-import {c,} from "foo";
-let d = 0;export {d,};
-(function foo(e,) {})(f,);`,
+      code: $`
+        let {a,} = {a: 1,};
+        let [b,] = [1,];
+        import {c,} from "foo";
+        let d = 0;export {d,};
+        (function foo(e,) {})(f,);
+      `,
+      output: $`
+        let {a} = {a: 1};
+        let [b,] = [1,];
+        import {c,} from "foo";
+        let d = 0;export {d,};
+        (function foo(e,) {})(f,);
+      `,
       options: [{
         objects: 'never',
         arrays: 'ignore',
@@ -1637,16 +1641,20 @@ let d = 0;export {d,};
       ],
     },
     {
-      code: `let {a,} = {a: 1,};
-let [b,] = [1,];
-import {c,} from "foo";
-let d = 0;export {d,};
-(function foo(e,) {})(f,);`,
-      output: `let {a,} = {a: 1,};
-let [b] = [1];
-import {c,} from "foo";
-let d = 0;export {d,};
-(function foo(e,) {})(f,);`,
+      code: $`
+        let {a,} = {a: 1,};
+        let [b,] = [1,];
+        import {c,} from "foo";
+        let d = 0;export {d,};
+        (function foo(e,) {})(f,);
+      `,
+      output: $`
+        let {a,} = {a: 1,};
+        let [b] = [1];
+        import {c,} from "foo";
+        let d = 0;export {d,};
+        (function foo(e,) {})(f,);
+      `,
       options: [{
         objects: 'ignore',
         arrays: 'never',
@@ -1661,16 +1669,20 @@ let d = 0;export {d,};
       ],
     },
     {
-      code: `let {a,} = {a: 1,};
-let [b,] = [1,];
-import {c,} from "foo";
-let d = 0;export {d,};
-(function foo(e,) {})(f,);`,
-      output: `let {a,} = {a: 1,};
-let [b,] = [1,];
-import {c} from "foo";
-let d = 0;export {d,};
-(function foo(e,) {})(f,);`,
+      code: $`
+        let {a,} = {a: 1,};
+        let [b,] = [1,];
+        import {c,} from "foo";
+        let d = 0;export {d,};
+        (function foo(e,) {})(f,);
+      `,
+      output: $`
+        let {a,} = {a: 1,};
+        let [b,] = [1,];
+        import {c} from "foo";
+        let d = 0;export {d,};
+        (function foo(e,) {})(f,);
+      `,
       options: [{
         objects: 'ignore',
         arrays: 'ignore',
@@ -1684,16 +1696,20 @@ let d = 0;export {d,};
       ],
     },
     {
-      code: `let {a,} = {a: 1,};
-let [b,] = [1,];
-import {c,} from "foo";
-let d = 0;export {d,};
-(function foo(e,) {})(f,);`,
-      output: `let {a,} = {a: 1,};
-let [b,] = [1,];
-import {c,} from "foo";
-let d = 0;export {d};
-(function foo(e,) {})(f,);`,
+      code: $`
+        let {a,} = {a: 1,};
+        let [b,] = [1,];
+        import {c,} from "foo";
+        let d = 0;export {d,};
+        (function foo(e,) {})(f,);
+      `,
+      output: $`
+        let {a,} = {a: 1,};
+        let [b,] = [1,];
+        import {c,} from "foo";
+        let d = 0;export {d};
+        (function foo(e,) {})(f,);
+      `,
       options: [{
         objects: 'ignore',
         arrays: 'ignore',
@@ -1707,16 +1723,20 @@ let d = 0;export {d};
       ],
     },
     {
-      code: `let {a,} = {a: 1,};
-let [b,] = [1,];
-import {c,} from "foo";
-let d = 0;export {d,};
-(function foo(e,) {})(f,);`,
-      output: `let {a,} = {a: 1,};
-let [b,] = [1,];
-import {c,} from "foo";
-let d = 0;export {d,};
-(function foo(e) {})(f);`,
+      code: $`
+        let {a,} = {a: 1,};
+        let [b,] = [1,];
+        import {c,} from "foo";
+        let d = 0;export {d,};
+        (function foo(e,) {})(f,);
+      `,
+      output: $`
+        let {a,} = {a: 1,};
+        let [b,] = [1,];
+        import {c,} from "foo";
+        let d = 0;export {d,};
+        (function foo(e) {})(f);
+      `,
       options: [{
         objects: 'ignore',
         arrays: 'ignore',

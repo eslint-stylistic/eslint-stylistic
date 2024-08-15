@@ -85,12 +85,12 @@ run({
       parserOptions: { ecmaVersion: 2017 },
     },
     {
-      code: `
-                async (
-                    foo,
-                    bar
-                ) => {};
-            `,
+      code: $`
+        async (
+            foo,
+            bar
+        ) => {};
+      `,
       parserOptions: { ecmaVersion: 2017 },
     },
     {
@@ -237,10 +237,10 @@ run({
       options: ['multiline-arguments'],
     },
     {
-      code: `
-                baz(\`foo
-                    bar\`)
-            `,
+      code: $`
+        baz(\`foo
+            bar\`)
+      `,
       options: ['multiline-arguments'],
     },
     {
@@ -270,21 +270,21 @@ run({
       parserOptions: { ecmaVersion: 2017 },
     },
     {
-      code: `
-                async (
-                    foo
-                ) => {};
-            `,
+      code: $`
+        async (
+            foo
+        ) => {};
+      `,
       options: ['multiline-arguments'],
       parserOptions: { ecmaVersion: 2017 },
     },
     {
-      code: `
-                async (
-                    foo,
-                    bar
-                ) => {};
-            `,
+      code: $`
+        async (
+            foo,
+            bar
+        ) => {};
+      `,
       options: ['multiline-arguments'],
       parserOptions: { ecmaVersion: 2017 },
     },
@@ -305,90 +305,90 @@ run({
     },
 
     {
-      code: `
-                (foo)
-                (bar)
-            `,
+      code: $`
+        (foo)
+        (bar)
+      `,
       options: ['multiline-arguments'],
     },
     {
-      code: `
-                foo.map(value => {
-                  return value;
-                })
-            `,
+      code: $`
+        foo.map(value => {
+          return value;
+        })
+      `,
       options: ['multiline-arguments'],
     },
 
     // always option
     {
-      code: `
-                function baz(
-                    foo,
-                    bar
-                ) {}
-            `,
+      code: $`
+        function baz(
+            foo,
+            bar
+        ) {}
+      `,
       options: ['always'],
     },
     {
-      code: `
-                (function(
-                    foo,
-                    bar
-                ) {});
-            `,
+      code: $`
+        (function(
+            foo,
+            bar
+        ) {});
+      `,
       options: ['always'],
     },
     {
-      code: `
-                (function baz(
-                    foo,
-                    bar
-                ) {});
-            `,
+      code: $`
+        (function baz(
+            foo,
+            bar
+        ) {});
+      `,
       options: ['always'],
     },
     {
-      code: `
-                (
-                    foo,
-                    bar
-                ) => {};
-            `,
+      code: $`
+        (
+            foo,
+            bar
+        ) => {};
+      `,
       options: ['always'],
     },
     {
-      code: `
-                baz(
-                    foo,
-                    bar
-                );
-            `,
+      code: $`
+        baz(
+            foo,
+            bar
+        );
+      `,
       options: ['always'],
     },
     {
-      code: `
-                function baz(
-                ) {}
-            `,
+      code: $`
+        function baz(
+        ) {}
+      `,
       options: ['always'],
     },
     {
-      code: `
-                async (
-                    foo
-                ) => {};
-            `,
+      code: $`
+        async (
+            foo
+        ) => {};
+      `,
       options: ['always'],
       parserOptions: { ecmaVersion: 2017 },
     },
     {
-      code: `
-                async (
-                    foo,
-                    bar
-                ) => {};
-            `,
+      code: $`
+        async (
+            foo,
+            bar
+        ) => {};
+      `,
       options: ['always'],
       parserOptions: { ecmaVersion: 2017 },
     },
@@ -450,19 +450,19 @@ run({
       options: [{ minItems: 3 }],
     },
     {
-      code: `
-                function baz(
-                    foo, bar, qux
-                ) {}
-            `,
+      code: $`
+        function baz(
+            foo, bar, qux
+        ) {}
+      `,
       options: [{ minItems: 3 }],
     },
     {
-      code: `
-                baz(
-                    foo, bar, qux
-                );
-            `,
+      code: $`
+        baz(
+            foo, bar, qux
+        );
+      `,
       options: [{ minItems: 3 }],
     },
     {
@@ -475,13 +475,13 @@ run({
       parserOptions: { ecmaVersion: 2017 },
     },
     {
-      code: `
-                async (
-                    foo,
-                    bar,
-                    baz
-                ) => {};
-            `,
+      code: $`
+        async (
+            foo,
+            bar,
+            baz
+        ) => {};
+      `,
       options: [{ minItems: 3 }],
       parserOptions: { ecmaVersion: 2017 },
     },
@@ -507,27 +507,27 @@ run({
       options: ['consistent'],
     },
     {
-      code: `
-                foo(bar,
-                baz)
-            `,
+      code: $`
+        foo(bar,
+        baz)
+      `,
       options: ['consistent'],
     },
     {
-      code: `
-                foo(
-                    bar, baz
-                )
-            `,
+      code: $`
+        foo(
+            bar, baz
+        )
+      `,
       options: ['consistent'],
     },
     {
-      code: `
-                foo(
-                    bar,
-                    baz
-                )
-            `,
+      code: $`
+        foo(
+            bar,
+            baz
+        )
+      `,
       options: ['consistent'],
     },
     {
@@ -541,29 +541,29 @@ run({
       parserOptions: { ecmaVersion: 2017 },
     },
     {
-      code: `
-                async (foo,
-                    bar) => {};
-            `,
+      code: $`
+        async (foo,
+            bar) => {};
+      `,
       options: ['consistent'],
       parserOptions: { ecmaVersion: 2017 },
     },
     {
-      code: `
-                async (
-                    foo, bar
-                ) => {};
-            `,
+      code: $`
+        async (
+            foo, bar
+        ) => {};
+      `,
       options: ['consistent'],
       parserOptions: { ecmaVersion: 2017 },
     },
     {
-      code: `
-                async (
-                    foo,
-                    bar
-                ) => {};
-            `,
+      code: $`
+        async (
+            foo,
+            bar
+        ) => {};
+      `,
       options: ['consistent'],
       parserOptions: { ecmaVersion: 2017 },
     },
@@ -629,169 +629,178 @@ run({
 
     // multiline option (default)
     {
-      code: `
-                function baz(foo,
-                    bar
-                ) {}
-            `,
-      output: `
-                function baz(\nfoo,
-                    bar
-                ) {}
-            `,
+      code: $`
+        function baz(foo,
+            bar
+        ) {}
+      `,
+      output: $`
+        function baz(
+        foo,
+            bar
+        ) {}
+      `,
       errors: [LEFT_MISSING_ERROR],
     },
     {
-      code: `
-                (function(
-                    foo,
-                    bar) {})
-            `,
-      output: `
-                (function(
-                    foo,
-                    bar\n) {})
-            `,
+      code: $`
+        (function(
+            foo,
+            bar) {})
+      `,
+      output: $`
+        (function(
+            foo,
+            bar
+        ) {})
+      `,
       errors: [RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                (function baz(foo,
-                    bar) {})
-            `,
-      output: `
-                (function baz(\nfoo,
-                    bar\n) {})
-            `,
+      code: $`
+        (function baz(foo,
+            bar) {})
+      `,
+      output: $`
+        (function baz(
+        foo,
+            bar
+        ) {})
+      `,
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                baz(
-                    foo, bar);
-            `,
-      output: `
-                baz(foo, bar);
-            `,
+      code: $`
+        baz(
+            foo, bar);
+      `,
+      output: $`
+        baz(foo, bar);
+      `,
       errors: [LEFT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                (foo, bar
-                ) => {};
-            `,
-      output: `
-                (foo, bar) => {};
-            `,
+      code: $`
+        (foo, bar
+        ) => {};
+      `,
+      output: $`
+        (foo, bar) => {};
+      `,
       errors: [RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                function baz(
-                    foo, bar
-                ) {}
-            `,
-      output: `
-                function baz(foo, bar) {}
-            `,
+      code: $`
+        function baz(
+            foo, bar
+        ) {}
+      `,
+      output: $`
+        function baz(foo, bar) {}
+      `,
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                function baz(
-                    foo =
-                    1
-                ) {}
-            `,
-      output: `
-                function baz(foo =
-                    1) {}
-            `,
+      code: $`
+        function baz(
+            foo =
+            1
+        ) {}
+      `,
+      output: $`
+        function baz(foo =
+            1) {}
+      `,
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                function baz(
-                ) {}
-            `,
-      output: `
-                function baz() {}
-            `,
+      code: $`
+        function baz(
+        ) {}
+      `,
+      output: $`
+        function baz() {}
+      `,
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                new Foo(bar,
-                    baz);
-            `,
-      output: `
-                new Foo(\nbar,
-                    baz\n);
-            `,
+      code: $`
+        new Foo(bar,
+            baz);
+      `,
+      output: $`
+        new Foo(
+        bar,
+            baz
+        );
+      `,
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                function baz(/* not fixed due to comment */
-                foo) {}
-            `,
+      code: $`
+        function baz(/* not fixed due to comment */
+        foo) {}
+      `,
       output: null,
       errors: [LEFT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                function baz(foo
-                /* not fixed due to comment */) {}
-            `,
+      code: $`
+        function baz(foo
+        /* not fixed due to comment */) {}
+      `,
       output: null,
       errors: [RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                async (
-                    foo, bar
-                ) => {};
-            `,
-      output: `
-                async (foo, bar) => {};
-            `,
+      code: $`
+        async (
+            foo, bar
+        ) => {};
+      `,
+      output: $`
+        async (foo, bar) => {};
+      `,
       parserOptions: { ecmaVersion: 2017 },
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                async (foo, bar
-                ) => {};
-            `,
-      output: `
-                async (foo, bar) => {};
-            `,
+      code: $`
+        async (foo, bar
+        ) => {};
+      `,
+      output: $`
+        async (foo, bar) => {};
+      `,
       parserOptions: { ecmaVersion: 2017 },
       errors: [RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                async (foo,
-                    bar) => {};
-            `,
-      output: `
-                async (\nfoo,
-                    bar\n) => {};
-            `,
+      code: $`
+        async (foo,
+            bar) => {};
+      `,
+      output: $`
+        async (
+        foo,
+            bar
+        ) => {};
+      `,
       parserOptions: { ecmaVersion: 2017 },
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                async (
-                    foo,
-                    bar) => {};
-            `,
-      output: `
-                async (
-                    foo,
-                    bar\n) => {};
-            `,
+      code: $`
+        async (
+            foo,
+            bar) => {};
+      `,
+      output: $`
+        async (
+            foo,
+            bar
+        ) => {};
+      `,
       parserOptions: { ecmaVersion: 2017 },
       errors: [RIGHT_MISSING_ERROR],
     },
@@ -804,226 +813,242 @@ run({
 
     // multiline-arguments
     {
-      code: `
-                function baz(foo,
-                    bar
-                ) {}
-            `,
-      output: `
-                function baz(\nfoo,
-                    bar
-                ) {}
-            `,
+      code: $`
+        function baz(foo,
+            bar
+        ) {}
+      `,
+      output: $`
+        function baz(
+        foo,
+            bar
+        ) {}
+      `,
       options: ['multiline-arguments'],
       errors: [LEFT_MISSING_ERROR],
     },
     {
-      code: `
-                (function(
-                    foo,
-                    bar) {})
-            `,
-      output: `
-                (function(
-                    foo,
-                    bar\n) {})
-            `,
+      code: $`
+        (function(
+            foo,
+            bar) {})
+      `,
+      output: $`
+        (function(
+            foo,
+            bar
+        ) {})
+      `,
       options: ['multiline-arguments'],
       errors: [RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                (function baz(foo,
-                    bar) {})
-            `,
-      output: `
-                (function baz(\nfoo,
-                    bar\n) {})
-            `,
+      code: $`
+        (function baz(foo,
+            bar) {})
+      `,
+      output: $`
+        (function baz(
+        foo,
+            bar
+        ) {})
+      `,
       options: ['multiline-arguments'],
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                baz(
-                    foo, bar);
-            `,
-      output: `
-                baz(foo, bar);
-            `,
+      code: $`
+        baz(
+            foo, bar);
+      `,
+      output: $`
+        baz(foo, bar);
+      `,
       options: ['multiline-arguments'],
       errors: [LEFT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                (foo, bar
-                ) => {};
-            `,
-      output: `
-                (foo, bar) => {};
-            `,
+      code: $`
+        (foo, bar
+        ) => {};
+      `,
+      output: $`
+        (foo, bar) => {};
+      `,
       options: ['multiline-arguments'],
       errors: [RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                function baz(
-                    foo, bar
-                ) {}
-            `,
-      output: `
-                function baz(foo, bar) {}
-            `,
+      code: $`
+        function baz(
+            foo, bar
+        ) {}
+      `,
+      output: $`
+        function baz(foo, bar) {}
+      `,
       options: ['multiline-arguments'],
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                function baz(
-                ) {}
-            `,
-      output: `
-                function baz() {}
-            `,
+      code: $`
+        function baz(
+        ) {}
+      `,
+      output: $`
+        function baz() {}
+      `,
       options: ['multiline-arguments'],
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                new Foo(bar,
-                    baz);
-            `,
-      output: `
-                new Foo(\nbar,
-                    baz\n);
-            `,
+      code: $`
+        new Foo(bar,
+            baz);
+      `,
+      output: $`
+        new Foo(
+        bar,
+            baz
+        );
+      `,
       options: ['multiline-arguments'],
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                function baz(/* not fixed due to comment */
-                foo) {}
-            `,
-      output: `
-                function baz(/* not fixed due to comment */
-                foo\n) {}
-            `,
+      code: $`
+        function baz(/* not fixed due to comment */
+        foo) {}
+      `,
+      output: $`
+        function baz(/* not fixed due to comment */
+        foo
+        ) {}
+      `,
       options: ['multiline-arguments'],
       errors: [RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                function baz(foo
-                /* not fixed due to comment */) {}
-            `,
+      code: $`
+        function baz(foo
+        /* not fixed due to comment */) {}
+      `,
       output: null,
       options: ['multiline-arguments'],
       errors: [RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                function baz(
-                    qwe,
-                    foo, bar
-                ) {}
-            `,
-      output: `
-                function baz(
-                    qwe,
-                    foo, \nbar
-                ) {}
-            `,
+      code: $`
+        function baz(
+            qwe,
+            foo, bar
+        ) {}
+      `,
+      output: $`
+        function baz(
+            qwe,
+            foo, 
+        bar
+        ) {}
+      `,
       options: ['multiline-arguments'],
       errors: [EXPECTED_BETWEEN],
     },
     {
-      code: `
-                function baz(
-                    qwe, foo,
-                    bar
-                ) {}
-            `,
-      output: `
-                function baz(
-                    qwe, \nfoo,
-                    bar
-                ) {}
-            `,
+      code: $`
+        function baz(
+            qwe, foo,
+            bar
+        ) {}
+      `,
+      output: $`
+        function baz(
+            qwe, 
+        foo,
+            bar
+        ) {}
+      `,
       options: ['multiline-arguments'],
       errors: [EXPECTED_BETWEEN],
     },
     {
-      code: `
-                function baz(qwe, foo,
-                    bar) {}
-            `,
-      output: `
-                function baz(\nqwe, \nfoo,
-                    bar\n) {}
-            `,
+      code: $`
+        function baz(qwe, foo,
+            bar) {}
+      `,
+      output: $`
+        function baz(
+        qwe, 
+        foo,
+            bar
+        ) {}
+      `,
       options: ['multiline-arguments'],
       errors: [LEFT_MISSING_ERROR, EXPECTED_BETWEEN, RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                baz(
-                    foo);
-            `,
-      output: `
-                baz(
-                    foo\n);
-            `,
+      code: $`
+        baz(
+            foo);
+      `,
+      output: $`
+        baz(
+            foo
+        );
+      `,
       options: ['multiline-arguments'],
       errors: [RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                baz(foo
-                    );
-            `,
-      output: `
-                baz(foo);
-            `,
+      code: $`
+        baz(foo
+            );
+      `,
+      output: $`
+        baz(foo);
+      `,
       options: ['multiline-arguments'],
       errors: [RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                async (foo, bar
-                ) => {};
-            `,
-      output: `
-                async (foo, bar) => {};
-            `,
+      code: $`
+        async (foo, bar
+        ) => {};
+      `,
+      output: $`
+        async (foo, bar) => {};
+      `,
       options: ['multiline-arguments'],
       parserOptions: { ecmaVersion: 2017 },
       errors: [RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                async (foo,
-                    bar) => {};
-            `,
-      output: `
-                async (\nfoo,
-                    bar\n) => {};
-            `,
+      code: $`
+        async (foo,
+            bar) => {};
+      `,
+      output: $`
+        async (
+        foo,
+            bar
+        ) => {};
+      `,
       options: ['multiline-arguments'],
       parserOptions: { ecmaVersion: 2017 },
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                async (
-                    foo,
-                    bar) => {};
-            `,
-      output: `
-                async (
-                    foo,
-                    bar\n) => {};
-            `,
+      code: $`
+        async (
+            foo,
+            bar) => {};
+      `,
+      output: $`
+        async (
+            foo,
+            bar
+        ) => {};
+      `,
       options: ['multiline-arguments'],
       parserOptions: { ecmaVersion: 2017 },
       errors: [RIGHT_MISSING_ERROR],
@@ -1045,42 +1070,46 @@ run({
 
     // always option
     {
-      code: `
-                function baz(foo,
-                    bar
-                ) {}
-            `,
-      output: `
-                function baz(\nfoo,
-                    bar
-                ) {}
-            `,
+      code: $`
+        function baz(foo,
+            bar
+        ) {}
+      `,
+      output: $`
+        function baz(
+        foo,
+            bar
+        ) {}
+      `,
       options: ['always'],
       errors: [LEFT_MISSING_ERROR],
     },
     {
-      code: `
-                (function(
-                    foo,
-                    bar) {})
-            `,
-      output: `
-                (function(
-                    foo,
-                    bar\n) {})
-            `,
+      code: $`
+        (function(
+            foo,
+            bar) {})
+      `,
+      output: $`
+        (function(
+            foo,
+            bar
+        ) {})
+      `,
       options: ['always'],
       errors: [RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                (function baz(foo,
-                    bar) {})
-            `,
-      output: `
-                (function baz(\nfoo,
-                    bar\n) {})
-            `,
+      code: $`
+        (function baz(foo,
+            bar) {})
+      `,
+      output: $`
+        (function baz(
+        foo,
+            bar
+        ) {})
+      `,
       options: ['always'],
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
     },
@@ -1121,40 +1150,45 @@ run({
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                async (foo, bar) => {};
-            `,
-      output: `
-                async (\nfoo, bar\n) => {};
-            `,
+      code: $`
+        async (foo, bar) => {};
+      `,
+      output: $`
+        async (
+        foo, bar
+        ) => {};
+      `,
       options: ['always'],
       parserOptions: { ecmaVersion: 2017 },
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                async (foo,
-                    bar) => {};
-            `,
-      output: `
-                async (\nfoo,
-                    bar\n) => {};
-            `,
+      code: $`
+        async (foo,
+            bar) => {};
+      `,
+      output: $`
+        async (
+        foo,
+            bar
+        ) => {};
+      `,
       options: ['always'],
       parserOptions: { ecmaVersion: 2017 },
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                async (
-                    foo,
-                    bar) => {};
-            `,
-      output: `
-                async (
-                    foo,
-                    bar\n) => {};
-            `,
+      code: $`
+        async (
+            foo,
+            bar) => {};
+      `,
+      output: $`
+        async (
+            foo,
+            bar
+        ) => {};
+      `,
       options: ['always'],
       parserOptions: { ecmaVersion: 2017 },
       errors: [RIGHT_MISSING_ERROR],
@@ -1169,149 +1203,149 @@ run({
 
     // never option
     {
-      code: `
-                function baz(foo,
-                    bar
-                ) {}
-            `,
-      output: `
-                function baz(foo,
-                    bar) {}
-            `,
+      code: $`
+        function baz(foo,
+            bar
+        ) {}
+      `,
+      output: $`
+        function baz(foo,
+            bar) {}
+      `,
       options: ['never'],
       errors: [RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                (function(
-                    foo,
-                    bar) {})
-            `,
-      output: `
-                (function(foo,
-                    bar) {})
-            `,
+      code: $`
+        (function(
+            foo,
+            bar) {})
+      `,
+      output: $`
+        (function(foo,
+            bar) {})
+      `,
       options: ['never'],
       errors: [LEFT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                new new C()(
-                );
-            `,
-      output: `
-                new new C()();
-            `,
+      code: $`
+        new new C()(
+        );
+      `,
+      output: $`
+        new new C()();
+      `,
       options: ['never'],
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
 
     {
-      code: `
-                function baz(
-                    foo,
-                    bar
-                ) {}
-            `,
-      output: `
-                function baz(foo,
-                    bar) {}
-            `,
+      code: $`
+        function baz(
+            foo,
+            bar
+        ) {}
+      `,
+      output: $`
+        function baz(foo,
+            bar) {}
+      `,
       options: ['never'],
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                (function(
-                    foo,
-                    bar
-                ) {});
-            `,
-      output: `
-                (function(foo,
-                    bar) {});
-            `,
+      code: $`
+        (function(
+            foo,
+            bar
+        ) {});
+      `,
+      output: $`
+        (function(foo,
+            bar) {});
+      `,
       options: ['never'],
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                (function baz(
-                    foo,
-                    bar
-                ) {});
-            `,
-      output: `
-                (function baz(foo,
-                    bar) {});
-            `,
+      code: $`
+        (function baz(
+            foo,
+            bar
+        ) {});
+      `,
+      output: $`
+        (function baz(foo,
+            bar) {});
+      `,
       options: ['never'],
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                (
-                    foo,
-                    bar
-                ) => {};
-            `,
-      output: `
-                (foo,
-                    bar) => {};
-            `,
+      code: $`
+        (
+            foo,
+            bar
+        ) => {};
+      `,
+      output: $`
+        (foo,
+            bar) => {};
+      `,
       options: ['never'],
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                baz(
-                    foo,
-                    bar
-                );
-            `,
-      output: `
-                baz(foo,
-                    bar);
-            `,
+      code: $`
+        baz(
+            foo,
+            bar
+        );
+      `,
+      output: $`
+        baz(foo,
+            bar);
+      `,
       options: ['never'],
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                function baz(
-                ) {}
-            `,
-      output: `
-                function baz() {}
-            `,
+      code: $`
+        function baz(
+        ) {}
+      `,
+      output: $`
+        function baz() {}
+      `,
       options: ['never'],
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                async (
-                    foo,
-                    bar
-                ) => {};
-            `,
-      output: `
-                async (foo,
-                    bar) => {};
-            `,
+      code: $`
+        async (
+            foo,
+            bar
+        ) => {};
+      `,
+      output: $`
+        async (foo,
+            bar) => {};
+      `,
       options: ['never'],
       parserOptions: { ecmaVersion: 2017 },
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                async (
-                    foo,
-                    bar) => {};
-            `,
-      output: `
-                async (foo,
-                    bar) => {};
-            `,
+      code: $`
+        async (
+            foo,
+            bar) => {};
+      `,
+      output: $`
+        async (foo,
+            bar) => {};
+      `,
       options: ['never'],
       parserOptions: { ecmaVersion: 2017 },
       errors: [LEFT_UNEXPECTED_ERROR],
@@ -1332,14 +1366,14 @@ run({
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                function baz(
-                    foo, bar
-                ) {}
-            `,
-      output: `
-                function baz(foo, bar) {}
-            `,
+      code: $`
+        function baz(
+            foo, bar
+        ) {}
+      `,
+      output: $`
+        function baz(foo, bar) {}
+      `,
       options: [{ minItems: 3 }],
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
@@ -1350,55 +1384,57 @@ run({
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                baz(
-                    foo,
-                    bar
-                );
-            `,
-      output: `
-                baz(foo,
-                    bar);
-            `,
+      code: $`
+        baz(
+            foo,
+            bar
+        );
+      `,
+      output: $`
+        baz(foo,
+            bar);
+      `,
       options: [{ minItems: 3 }],
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                async (
-                    foo,
-                    bar
-                ) => {};
-            `,
-      output: `
-                async (foo,
-                    bar) => {};
-            `,
+      code: $`
+        async (
+            foo,
+            bar
+        ) => {};
+      `,
+      output: $`
+        async (foo,
+            bar) => {};
+      `,
       options: [{ minItems: 3 }],
       parserOptions: { ecmaVersion: 2017 },
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                async (
-                    foo,
-                    bar) => {};
-            `,
-      output: `
-                async (foo,
-                    bar) => {};
-            `,
+      code: $`
+        async (
+            foo,
+            bar) => {};
+      `,
+      output: $`
+        async (foo,
+            bar) => {};
+      `,
       options: [{ minItems: 3 }],
       parserOptions: { ecmaVersion: 2017 },
       errors: [LEFT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                async (foo, bar, baz) => {};
-            `,
-      output: `
-                async (\nfoo, bar, baz\n) => {};
-            `,
+      code: $`
+        async (foo, bar, baz) => {};
+      `,
+      output: $`
+        async (
+        foo, bar, baz
+        ) => {};
+      `,
       options: [{ minItems: 3 }],
       parserOptions: { ecmaVersion: 2017 },
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
@@ -1420,57 +1456,59 @@ run({
 
     // consistent option
     {
-      code: `
-                foo(
-                    bar,
-                    baz)
-            `,
-      output: `
-                foo(
-                    bar,
-                    baz\n)
-            `,
+      code: $`
+        foo(
+            bar,
+            baz)
+      `,
+      output: $`
+        foo(
+            bar,
+            baz
+        )
+      `,
       options: ['consistent'],
       errors: [RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                foo(bar,
-                    baz
-                )
-            `,
-      output: `
-                foo(bar,
-                    baz)
-            `,
+      code: $`
+        foo(bar,
+            baz
+        )
+      `,
+      output: $`
+        foo(bar,
+            baz)
+      `,
       options: ['consistent'],
       errors: [RIGHT_UNEXPECTED_ERROR],
     },
     {
-      code: `
-                async (
-                    foo,
-                    bar) => {};
-            `,
-      output: `
-                async (
-                    foo,
-                    bar\n) => {};
-            `,
+      code: $`
+        async (
+            foo,
+            bar) => {};
+      `,
+      output: $`
+        async (
+            foo,
+            bar
+        ) => {};
+      `,
       options: ['consistent'],
       parserOptions: { ecmaVersion: 2017 },
       errors: [RIGHT_MISSING_ERROR],
     },
     {
-      code: `
-                async (foo,
-                    bar
-                ) => {};
-            `,
-      output: `
-                async (foo,
-                    bar) => {};
-            `,
+      code: $`
+        async (foo,
+            bar
+        ) => {};
+      `,
+      output: $`
+        async (foo,
+            bar) => {};
+      `,
       options: ['consistent'],
       parserOptions: { ecmaVersion: 2017 },
       errors: [RIGHT_UNEXPECTED_ERROR],

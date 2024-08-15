@@ -6,7 +6,7 @@
 import rule from './arrow-parens'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import type { InvalidTestCase, ValidTestCase } from '#test'
-import { run } from '#test'
+import { $, run } from '#test'
 
 const valid: ValidTestCase[] = [
   // "always" (by default)
@@ -497,16 +497,20 @@ const invalid: InvalidTestCase[] = [
     }],
   },
   {
-    code: `const foo = a => {};
-
-// comment between 'a' and an unrelated closing paren
-
-bar();`,
-    output: `const foo = (a) => {};
-
-// comment between 'a' and an unrelated closing paren
-
-bar();`,
+    code: $`
+      const foo = a => {};
+      
+      // comment between 'a' and an unrelated closing paren
+      
+      bar();
+    `,
+    output: $`
+      const foo = (a) => {};
+      
+      // comment between 'a' and an unrelated closing paren
+      
+      bar();
+    `,
     errors: [{
       line: 1,
       column: 13,

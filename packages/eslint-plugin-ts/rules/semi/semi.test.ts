@@ -729,7 +729,9 @@ run({
 
     ...[
       {
-        code: `declare function declareFn(): string;`,
+        code: $`
+          declare function declareFn(): string;
+        `,
         errors: [
           {
             line: 1,
