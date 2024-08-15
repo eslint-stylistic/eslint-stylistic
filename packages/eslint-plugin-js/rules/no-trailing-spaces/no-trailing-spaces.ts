@@ -4,17 +4,18 @@
  */
 
 import type { ASTNode, Tree } from '@shared/types'
-import { createGlobalLinebreakMatcher } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createGlobalLinebreakMatcher } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'no-trailing-spaces',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow trailing whitespace at the end of lines',
-      url: 'https://eslint.style/rules/js/no-trailing-spaces',
     },
 
     fixable: 'whitespace',

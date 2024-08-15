@@ -2,13 +2,14 @@ import type { Tree } from '@shared/types'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 import { createRule } from '../../utils'
-import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
 
-const baseRule = getESLintCoreRule('block-spacing')
+const baseRule = getJsRule('block-spacing')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'block-spacing',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

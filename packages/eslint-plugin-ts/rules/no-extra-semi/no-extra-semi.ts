@@ -1,11 +1,12 @@
 import { createRule } from '../../utils'
-import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
 
-const baseRule = getESLintCoreRule('no-extra-semi')
+const baseRule = getJsRule('no-extra-semi')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-semi',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

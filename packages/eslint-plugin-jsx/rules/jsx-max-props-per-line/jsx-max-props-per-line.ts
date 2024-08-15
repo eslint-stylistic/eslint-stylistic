@@ -4,8 +4,7 @@
  */
 
 import type { ReportDescriptor, RuleContext, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 function getPropName(context: RuleContext<MessageIds, RuleOptions>, propNode: Tree.JSXAttribute | Tree.JSXSpreadAttribute) {
@@ -20,11 +19,12 @@ const messages = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-max-props-per-line',
+  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {
       description: 'Enforce maximum of props on a single line in JSX',
-      url: docsUrl('jsx-max-props-per-line'),
     },
     fixable: 'code',
 

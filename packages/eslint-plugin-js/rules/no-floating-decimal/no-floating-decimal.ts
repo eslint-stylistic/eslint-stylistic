@@ -3,17 +3,18 @@
  * @author James Allardice
  */
 
-import { canTokensBeAdjacent } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { canTokensBeAdjacent } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'no-floating-decimal',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow leading or trailing decimal points in numeric literals',
-      url: 'https://eslint.style/rules/js/no-floating-decimal',
     },
 
     schema: [],

@@ -4,10 +4,10 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isCommaToken } from '@typescript-eslint/utils/ast-utils'
 
 import { createRule } from '../../utils'
-import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
 
-const baseRule = getESLintCoreRule('comma-dangle')
+const baseRule = getJsRule('comma-dangle')
 
 type Extract<T> = T extends Record<any, any> ? T : never
 type Option = RuleOptions[0]
@@ -41,6 +41,7 @@ function normalizeOptions(options: Option = {}): NormalizedOptions {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'comma-dangle',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

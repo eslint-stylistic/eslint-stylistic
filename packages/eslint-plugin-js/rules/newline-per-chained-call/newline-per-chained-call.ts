@@ -5,17 +5,18 @@
  */
 
 import type { Tree } from '@shared/types'
-import { LINEBREAK_MATCHER, isNotClosingParenToken, isTokenOnSameLine, skipChainExpression } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { LINEBREAK_MATCHER, isNotClosingParenToken, isTokenOnSameLine, skipChainExpression } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'newline-per-chained-call',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require a newline after each call in a method chain',
-      url: 'https://eslint.style/rules/js/newline-per-chained-call',
     },
 
     fixable: 'whitespace',

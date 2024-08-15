@@ -4,7 +4,7 @@
  */
 
 import type { ReportFixFunction, Token, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 interface Checker {
@@ -14,12 +14,13 @@ interface Checker {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'function-call-argument-newline',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce line breaks between arguments of a function call',
-      url: 'https://eslint.style/rules/js/function-call-argument-newline',
     },
 
     fixable: 'whitespace',

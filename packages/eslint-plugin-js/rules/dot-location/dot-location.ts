@@ -4,17 +4,18 @@
  */
 
 import type { Tree } from '@shared/types'
-import { isDecimalIntegerNumericToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isDecimalIntegerNumericToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'dot-location',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent newlines before and after dots',
-      url: 'https://eslint.style/rules/js/dot-location',
     },
 
     schema: [

@@ -4,17 +4,18 @@
  */
 
 import type { Token } from '@shared/types'
-import { isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'template-curly-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require or disallow spacing around embedded expressions of template strings',
-      url: 'https://eslint.style/rules/js/template-curly-spacing',
     },
 
     fixable: 'whitespace',

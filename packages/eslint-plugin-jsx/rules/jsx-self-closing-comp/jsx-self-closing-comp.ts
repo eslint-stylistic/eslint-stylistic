@@ -4,9 +4,8 @@
  */
 
 import type { Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
-import { isDOMComponent } from '../../utils/jsx'
+import { createRule } from '../../../utils'
+import { isDOMComponent } from '../../../utils/ast/jsx'
 import type { MessageIds, RuleOptions } from './types'
 
 const optionDefaults = { component: true, html: true }
@@ -16,13 +15,13 @@ const messages = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-self-closing-comp',
+  package: 'jsx',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow extra closing tags for components without children',
-      // category: 'Stylistic Issues',
-      url: docsUrl('jsx-self-closing-comp'),
     },
     fixable: 'code',
 

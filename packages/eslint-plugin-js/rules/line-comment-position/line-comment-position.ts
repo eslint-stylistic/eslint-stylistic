@@ -2,17 +2,18 @@
  * @fileoverview Rule to enforce the position of line comments
  * @author Alberto Rodríguez
  */
-import { createRule } from '../../utils/createRule'
-import { COMMENTS_IGNORE_PATTERN } from '../../utils/ast-utils'
+import { createRule } from '../../../utils'
+import { COMMENTS_IGNORE_PATTERN } from '../../../utils/ast'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'line-comment-position',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce position of line comments',
-      url: 'https://eslint.style/rules/js/line-comment-position',
     },
 
     schema: [

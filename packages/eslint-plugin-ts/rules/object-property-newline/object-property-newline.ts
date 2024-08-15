@@ -1,12 +1,13 @@
 import type { Tree } from '@shared/types'
 import { createRule } from '../../utils'
-import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
 
-const baseRule = getESLintCoreRule('object-property-newline')
+const baseRule = getJsRule('object-property-newline')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-property-newline',
+  package: 'ts',
   meta: {
     ...baseRule.meta,
     docs: {

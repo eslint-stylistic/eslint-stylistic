@@ -4,17 +4,18 @@
  */
 
 import type { ASTNode } from '@shared/types'
-import { isNotSemicolonToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isNotSemicolonToken } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'max-statements-per-line',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce a maximum number of statements allowed per line',
-      url: 'https://eslint.style/rules/js/max-statements-per-line',
     },
 
     schema: [

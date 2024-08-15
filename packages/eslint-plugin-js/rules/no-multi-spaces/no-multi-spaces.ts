@@ -4,17 +4,18 @@
  */
 
 import type { Token } from '@shared/types'
-import { isCommentToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isCommentToken } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'no-multi-spaces',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow multiple spaces',
-      url: 'https://eslint.style/rules/js/no-multi-spaces',
     },
 
     fixable: 'whitespace',

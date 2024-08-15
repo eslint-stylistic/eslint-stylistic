@@ -4,17 +4,18 @@
  */
 
 import type { Token, Tree } from '@shared/types'
-import { isCommaToken, isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isCommaToken, isCommentToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'array-element-newline',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce line breaks after each array element',
-      url: 'https://eslint.style/rules/js/array-element-newline',
     },
 
     fixable: 'whitespace',

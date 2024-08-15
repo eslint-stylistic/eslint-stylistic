@@ -4,17 +4,18 @@
  */
 
 import type { Token, Tree } from '@shared/types'
-import { isDecimalInteger, isOpeningBracketToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isDecimalInteger, isOpeningBracketToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'no-whitespace-before-property',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow whitespace before properties',
-      url: 'https://eslint.style/rules/js/no-whitespace-before-property',
     },
 
     fixable: 'whitespace',

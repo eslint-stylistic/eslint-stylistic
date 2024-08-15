@@ -5,9 +5,8 @@
  */
 
 import type { Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
-import { isJSX, isWhiteSpaces } from '../../utils/jsx'
+import { createRule } from '../../../utils'
+import { isJSX, isWhiteSpaces } from '../../../utils/ast/jsx'
 import type { MessageIds, RuleOptions } from './types'
 
 const OPTION_ALWAYS = 'always'
@@ -27,11 +26,12 @@ const messages = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-curly-brace-presence',
+  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {
       description: 'Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes',
-      url: docsUrl('jsx-curly-brace-presence'),
     },
     fixable: 'code',
 

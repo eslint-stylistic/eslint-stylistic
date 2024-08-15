@@ -4,17 +4,18 @@
  */
 
 import type { ASTNode, NodeTypes, RuleFixer, RuleListener, Token, Tree } from '@shared/types'
-import { LINEBREAK_MATCHER, isCommaToken, isNotClosingParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { LINEBREAK_MATCHER, isCommaToken, isNotClosingParenToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'comma-style',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent comma style',
-      url: 'https://eslint.style/rules/js/comma-style',
     },
 
     fixable: 'code',

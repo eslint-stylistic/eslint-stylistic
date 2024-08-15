@@ -4,8 +4,7 @@
  */
 
 import type { ASTNode, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
@@ -13,11 +12,12 @@ const messages = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-closing-bracket-location',
+  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {
       description: 'Enforce closing bracket location in JSX',
-      url: docsUrl('jsx-closing-bracket-location'),
     },
     fixable: 'code',
 

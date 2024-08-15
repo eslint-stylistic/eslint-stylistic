@@ -535,6 +535,7 @@ const StatementTypes: Record<string, NodeTestObject> = {
   'block': newNodeTypeTester(AST_NODE_TYPES.BlockStatement),
   'empty': newNodeTypeTester(AST_NODE_TYPES.EmptyStatement),
   'function': newNodeTypeTester(AST_NODE_TYPES.FunctionDeclaration),
+  'ts-method': newNodeTypeTester(AST_NODE_TYPES.TSMethodSignature),
 
   'break': newKeywordTester(AST_NODE_TYPES.BreakStatement, 'break'),
   'case': newKeywordTester(AST_NODE_TYPES.SwitchCase, 'case'),
@@ -609,6 +610,7 @@ const StatementTypes: Record<string, NodeTestObject> = {
 
 export default createRule<Options, MessageIds>({
   name: 'padding-line-between-statements',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
@@ -783,7 +785,9 @@ export default createRule<Options, MessageIds>({
           AST_NODE_TYPES.Program,
           AST_NODE_TYPES.SwitchCase,
           AST_NODE_TYPES.SwitchStatement,
+          AST_NODE_TYPES.TSInterfaceBody,
           AST_NODE_TYPES.TSModuleBlock,
+          AST_NODE_TYPES.TSTypeLiteral,
         ].includes(node.parent.type)
       ) {
         return
@@ -819,18 +823,24 @@ export default createRule<Options, MessageIds>({
       'Program': enterScope,
       'BlockStatement': enterScope,
       'SwitchStatement': enterScope,
+      'TSInterfaceBody': enterScope,
       'TSModuleBlock': enterScope,
+      'TSTypeLiteral': enterScope,
       'Program:exit': exitScope,
       'BlockStatement:exit': exitScope,
       'SwitchStatement:exit': exitScope,
+      'TSInterfaceBody:exit': exitScope,
       'TSModuleBlock:exit': exitScope,
+      'TSTypeLiteral:exit': exitScope,
 
       ':statement': verify,
 
       'SwitchCase': verifyThenEnterScope,
       'TSDeclareFunction': verifyThenEnterScope,
+      'TSMethodSignature': verifyThenEnterScope,
       'SwitchCase:exit': exitScope,
       'TSDeclareFunction:exit': exitScope,
+      'TSMethodSignature:exit': exitScope,
     }
   },
 })

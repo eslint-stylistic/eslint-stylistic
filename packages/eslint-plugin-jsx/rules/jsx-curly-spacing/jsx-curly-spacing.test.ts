@@ -4,7 +4,7 @@
  * @author Erik Wendel
  */
 
-import { invalids, valids } from '../../test-utils/parsers'
+import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-curly-spacing'
 import { run } from '#test'
 

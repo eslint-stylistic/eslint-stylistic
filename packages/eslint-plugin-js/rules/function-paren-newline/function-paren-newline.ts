@@ -4,8 +4,8 @@
  */
 
 import type { Token, Tree } from '@shared/types'
-import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 interface ParensPair {
@@ -14,12 +14,13 @@ interface ParensPair {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'function-paren-newline',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent line breaks inside function parentheses',
-      url: 'https://eslint.style/rules/js/function-paren-newline',
     },
 
     fixable: 'whitespace',

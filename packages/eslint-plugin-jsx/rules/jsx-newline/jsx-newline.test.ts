@@ -4,7 +4,7 @@
  * @author Joseph Stiles
  */
 
-import { invalids, valids } from '../../test-utils/parsers'
+import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-newline'
 import { run } from '#test'
 

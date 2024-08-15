@@ -4,8 +4,8 @@
  */
 
 import type { ASTNode, Token } from '@shared/types'
-import { isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isSemicolonToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 type NodeTest = (
@@ -28,12 +28,13 @@ const ClassMemberTypes: Record<string, NodeTestObject> = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'lines-between-class-members',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require or disallow an empty line between class members',
-      url: 'https://eslint.style/rules/js/lines-between-class-members',
     },
 
     fixable: 'whitespace',

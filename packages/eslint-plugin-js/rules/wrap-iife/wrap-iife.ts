@@ -6,8 +6,8 @@
 // @ts-expect-error missing types
 import { isParenthesized } from '@eslint-community/eslint-utils'
 import type { ASTNode, Tree } from '@shared/types'
-import { getStaticPropertyName, isParenthesised, skipChainExpression } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { getStaticPropertyName, isParenthesised, skipChainExpression } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 /**
@@ -25,12 +25,13 @@ function isCalleeOfNewExpression(node: ASTNode) {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'wrap-iife',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require parentheses around immediate `function` invocations',
-      url: 'https://eslint.style/rules/js/wrap-iife',
     },
 
     schema: [

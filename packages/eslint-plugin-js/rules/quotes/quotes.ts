@@ -4,8 +4,8 @@
  */
 
 import type { ASTNode, Tree } from '@shared/types'
-import { LINEBREAKS, hasOctalOrNonOctalDecimalEscapeSequence, isParenthesised, isSurroundedBy, isTopLevelExpressionStatement } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { LINEBREAKS, hasOctalOrNonOctalDecimalEscapeSequence, isParenthesised, isSurroundedBy, isTopLevelExpressionStatement } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 /**
@@ -64,14 +64,14 @@ const UNESCAPED_LINEBREAK_PATTERN = new RegExp(String.raw`(^|[^\\])(\\\\)*[${Arr
 
 const AVOID_ESCAPE = 'avoid-escape'
 
-/** @type {import('eslint').Rule.RuleModule} */
 export default createRule<RuleOptions, MessageIds>({
+  name: 'quotes',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce the consistent use of either backticks, double, or single quotes',
-      url: 'https://eslint.style/rules/js/quotes',
     },
 
     fixable: 'code',

@@ -4,9 +4,8 @@
  */
 
 import type { ASTNode, RuleContext, Tree } from '@shared/types'
-import { docsUrl } from '../../utils/docsUrl'
-import { isJSX } from '../../utils/jsx'
-import { createRule } from '../../utils/createRule'
+import { isJSX } from '../../../utils/ast/jsx'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
@@ -22,12 +21,13 @@ function endWithComma(context: RuleContext<any, any>, node: ASTNode) {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-function-call-newline',
+  package: 'jsx',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce line breaks before and after JSX elements when they are used as arguments to a function.',
-      url: docsUrl('jsx-function-call-newline'),
     },
 
     fixable: 'whitespace',

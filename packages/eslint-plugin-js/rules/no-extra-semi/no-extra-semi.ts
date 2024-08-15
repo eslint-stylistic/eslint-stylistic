@@ -4,18 +4,19 @@
  */
 
 import type { ASTNode, Token } from '@shared/types'
-import { isClosingBraceToken, isSemicolonToken, isTopLevelExpressionStatement } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
-import FixTracker from '../../utils/fix-tracker'
+import { isClosingBraceToken, isSemicolonToken, isTopLevelExpressionStatement } from '../../../utils/ast'
+import { createRule } from '../../../utils'
+import { FixTracker } from '../../../utils/fix-tracker'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'no-extra-semi',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow unnecessary semicolons',
-      url: 'https://eslint.style/rules/js/no-extra-semi',
     },
 
     fixable: 'code',

@@ -4,17 +4,18 @@
  */
 
 import type { ASTNode, Token, Tree } from '@shared/types'
-import { isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'array-bracket-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing inside array brackets',
-      url: 'https://eslint.style/rules/js/array-bracket-spacing',
     },
 
     fixable: 'whitespace',

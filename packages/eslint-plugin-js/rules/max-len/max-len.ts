@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, JSONSchema, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const OPTIONS_SCHEMA: JSONSchema.JSONSchema4 = {
@@ -58,12 +58,13 @@ const OPTIONS_OR_INTEGER_SCHEMA: JSONSchema.JSONSchema4 = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'max-len',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce a maximum line length',
-      url: 'https://eslint.style/rules/js/max-len',
     },
 
     schema: [

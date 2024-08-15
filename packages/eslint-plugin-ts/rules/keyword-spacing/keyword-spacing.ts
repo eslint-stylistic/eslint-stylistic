@@ -2,10 +2,10 @@ import type { JSONSchema, Tree } from '@shared/types'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 
 import { NullThrowsReasons, createRule, deepMerge, nullThrows } from '../../utils'
-import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
 
-const baseRule = getESLintCoreRule('keyword-spacing')
+const baseRule = getJsRule('keyword-spacing')
 
 const baseSchema = Array.isArray(baseRule.meta.schema)
   ? baseRule.meta.schema[0]
@@ -26,6 +26,7 @@ const schema = deepMerge(
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'keyword-spacing',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

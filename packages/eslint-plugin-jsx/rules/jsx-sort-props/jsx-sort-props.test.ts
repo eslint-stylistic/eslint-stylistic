@@ -5,7 +5,7 @@
 
 import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
-import { invalids, valids } from '../../test-utils/parsers'
+import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-sort-props'
 import { run } from '#test'
 

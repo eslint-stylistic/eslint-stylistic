@@ -4,17 +4,18 @@
  */
 
 import type { ASTNode, Token } from '@shared/types'
-import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isCommentToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'array-bracket-newline',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce linebreaks after opening and before closing array brackets',
-      url: 'https://eslint.style/rules/js/array-bracket-newline',
     },
 
     fixable: 'whitespace',

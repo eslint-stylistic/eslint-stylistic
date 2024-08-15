@@ -4,9 +4,9 @@
  */
 
 import type { ASTNode, ReportFixFunction, Tree } from '@shared/types'
-import { LINEBREAK_MATCHER, getStaticPropertyName, isColonToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
-import { getGraphemeCount } from '../../utils/string-utils'
+import { LINEBREAK_MATCHER, getStaticPropertyName, isColonToken } from '../../../utils/ast'
+import { createRule } from '../../../utils'
+import { getStringLength } from '../../../utils/string'
 import type { MessageIds, RuleOptions } from './types'
 
 /**
@@ -123,12 +123,13 @@ function initOptions(toOptions: any, fromOptions: any) {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'key-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing between keys and values in object literal properties',
-      url: 'https://eslint.style/rules/js/key-spacing',
     },
 
     fixable: 'whitespace',
@@ -516,7 +517,7 @@ export default createRule<RuleOptions, MessageIds>({
       const startToken = sourceCode.getFirstToken(property)!
       const endToken = getLastTokenBeforeColon(property.key)!
 
-      return getGraphemeCount(sourceCode.getText().slice(startToken.range[0], endToken.range[1]))
+      return getStringLength(sourceCode.getText().slice(startToken.range[0], endToken.range[1]))
     }
 
     /**

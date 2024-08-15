@@ -3,7 +3,7 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import parser from '../../test-utils/fixture-parser'
+import tsParser from '@typescript-eslint/parser'
 import rule from './space-before-blocks'
 import { run } from '#test'
 
@@ -24,6 +24,7 @@ const expectedNoSpacingError = { messageId: 'unexpectedSpace' }
 run({
   name: 'space-before-blocks',
   rule,
+  lang: 'js',
   valid: [
     'if(a) {}',
     'if(a)  {}',
@@ -574,14 +575,14 @@ run({
     {
       code: 'class A { foo(bar: string): void{} }',
       output: 'class A { foo(bar: string): void {} }',
-      parser: parser('space-before-blocks', 'return-type-keyword-1'),
+      parser: tsParser,
       errors: [expectedSpacingError],
     },
     {
       code: 'function foo(): null {}',
       output: 'function foo(): null{}',
       options: neverArgs,
-      parser: parser('space-before-blocks', 'return-type-keyword-2'),
+      parser: tsParser,
       errors: [expectedNoSpacingError],
     },
 

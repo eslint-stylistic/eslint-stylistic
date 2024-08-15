@@ -2,13 +2,14 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import type { Tree } from '@shared/types'
 import { createRule } from '../../utils'
-import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
 
-const baseRule = getESLintCoreRule('quote-props')
+const baseRule = getJsRule('quote-props')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'quote-props',
+  package: 'ts',
   meta: {
     ...baseRule.meta,
     docs: {

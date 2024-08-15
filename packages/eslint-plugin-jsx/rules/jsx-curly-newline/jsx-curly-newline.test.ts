@@ -2,7 +2,7 @@
  * @fileoverview enforce consistent line breaks inside jsx curly
  */
 
-import { invalids, valids } from '../../test-utils/parsers'
+import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-curly-newline'
 import { run } from '#test'
 

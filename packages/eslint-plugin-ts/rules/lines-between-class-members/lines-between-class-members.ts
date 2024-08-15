@@ -2,10 +2,10 @@ import type { ASTNode, JSONSchema } from '@shared/types'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import { createRule, deepMerge } from '../../utils'
-import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
+import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
 
-const baseRule = getESLintCoreRule('lines-between-class-members')
+const baseRule = getJsRule('lines-between-class-members')
 
 const schema = Object.values(
   deepMerge(
@@ -25,6 +25,7 @@ const schema = Object.values(
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'lines-between-class-members',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
@@ -45,7 +46,13 @@ export default createRule<RuleOptions, MessageIds>({
   create(context, [firstOption, secondOption]) {
     const rules = baseRule.create(context)
     const exceptAfterOverload
-      = secondOption?.exceptAfterOverload && firstOption === 'always'
+      = secondOption?.exceptAfterOverload && (
+        firstOption === 'always'
+        || (
+          typeof firstOption !== 'string'
+          && firstOption?.enforce.some(({ blankLine, prev, next }) => blankLine === 'always' && prev !== 'field' && next !== 'field')
+        )
+      )
 
     function isOverload(node: ASTNode): boolean {
       return (

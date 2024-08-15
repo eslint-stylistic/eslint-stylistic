@@ -1,22 +1,13 @@
 import { ESLintUtils } from '@typescript-eslint/utils'
 
-export * from './createRule'
-export * from './getStringLength'
+export * from '../../utils'
 
 const {
-  applyDefault,
-  deepMerge,
-  isObjectNotArray,
-  getParserServices,
   nullThrows,
   NullThrowsReasons,
 } = ESLintUtils
 
 export {
-  applyDefault,
-  deepMerge,
-  isObjectNotArray,
-  getParserServices,
   nullThrows,
   NullThrowsReasons,
 }

@@ -1,6 +1,5 @@
 import type { ASTNode, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 // This list is taken from https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements
@@ -45,11 +44,12 @@ const messages = {
 }
 
 export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-child-element-spacing',
+  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {
       description: 'Enforce or disallow spaces inside of curly braces in JSX attributes and expressions',
-      url: docsUrl('jsx-child-element-spacing'),
     },
     messages,
     schema: [],
