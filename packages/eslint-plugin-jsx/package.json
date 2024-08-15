@@ -1,5 +1,6 @@
 {
   "name": "@stylistic/eslint-plugin-jsx",
+  "type": "commonjs",
   "version": "2.6.2",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",

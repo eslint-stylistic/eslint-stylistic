@@ -1,5 +1,6 @@
 {
   "name": "@stylistic/eslint-plugin-migrate",
+  "type": "commonjs",
   "version": "2.6.2",
   "description": "ESLint plugin to migrate built-in rules to stylistic rules",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",

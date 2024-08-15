@@ -2,9 +2,9 @@
 
 export type Schema0 =
   | {
-  /**
-   * @minItems 1
-   */
+    /**
+     * @minItems 1
+     */
     enforce: [
       {
         blankLine: 'always' | 'never'
