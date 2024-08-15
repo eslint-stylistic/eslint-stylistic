@@ -1,6 +1,6 @@
 import type { ESLint, Linter } from 'eslint'
-import { createAllConfigs } from '../../shared/configs-all'
 import plugin from '../src/plugin'
+import { createAllConfigs } from '../../shared/utils/configs-all'
 import disableLegacy from './disable-legacy'
 import { customize } from './customize'
 

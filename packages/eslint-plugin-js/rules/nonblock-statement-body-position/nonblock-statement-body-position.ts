@@ -3,9 +3,9 @@
  * @author Teddy Katz
  */
 
-import type { JSONSchema, Tree } from '@shared/types'
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import type { JSONSchema, Tree } from '#types'
+import { createRule } from '#utils/create-rule'
 
 type KeywordName = keyof NonNullable<NonNullable<RuleOptions['1']>['overrides']>
 

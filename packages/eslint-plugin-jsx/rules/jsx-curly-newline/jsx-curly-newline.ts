@@ -2,9 +2,9 @@
  * @fileoverview enforce consistent line breaks inside jsx curly
  */
 
-import type { ASTNode, RuleContext, Tree } from '@shared/types'
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, RuleContext, Tree } from '#types'
+import { createRule } from '#utils/create-rule'
 
 function getNormalizedOption(context: Readonly<RuleContext<MessageIds, RuleOptions>>) {
   const rawOption = context.options[0] || 'consistent'

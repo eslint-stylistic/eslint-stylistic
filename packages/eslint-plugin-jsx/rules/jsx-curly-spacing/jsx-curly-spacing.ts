@@ -9,9 +9,9 @@
  * @author Erik Wendel
  */
 
-import type { ASTNode, RuleFixer, Token, Tree } from '@shared/types'
-import { createRule } from '../../../utils'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
+import type { ASTNode, RuleFixer, Token, Tree } from '#types'
+import { createRule } from '#utils/create-rule'
 
 const SPACING = {
   always: 'always',

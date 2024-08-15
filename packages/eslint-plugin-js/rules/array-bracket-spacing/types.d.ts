@@ -9,4 +9,8 @@ export interface Schema1 {
 }
 
 export type RuleOptions = [Schema0?, Schema1?]
-export type MessageIds = 'unexpectedSpaceAfter' | 'unexpectedSpaceBefore' | 'missingSpaceAfter' | 'missingSpaceBefore'
+export type MessageIds =
+  | 'unexpectedSpaceAfter'
+  | 'unexpectedSpaceBefore'
+  | 'missingSpaceAfter'
+  | 'missingSpaceBefore'

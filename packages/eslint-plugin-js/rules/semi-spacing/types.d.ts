@@ -6,4 +6,8 @@ export interface Schema0 {
 }
 
 export type RuleOptions = [Schema0?]
-export type MessageIds = 'unexpectedWhitespaceBefore' | 'unexpectedWhitespaceAfter' | 'missingWhitespaceBefore' | 'missingWhitespaceAfter'
+export type MessageIds =
+  | 'unexpectedWhitespaceBefore'
+  | 'unexpectedWhitespaceAfter'
+  | 'missingWhitespaceBefore'
+  | 'missingWhitespaceAfter'

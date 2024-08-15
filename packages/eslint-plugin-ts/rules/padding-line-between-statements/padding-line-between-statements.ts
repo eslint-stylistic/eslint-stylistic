@@ -1,5 +1,4 @@
 import type { TSESLint } from '@typescript-eslint/utils'
-import type { ASTNode, Tree } from '@shared/types'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import {
@@ -10,9 +9,8 @@ import {
   isSemicolonToken,
   isTokenOnSameLine,
 } from '@typescript-eslint/utils/ast-utils'
-import {
-  createRule,
-} from '../../utils'
+import type { ASTNode, Tree } from '#types'
+import { createRule } from '#utils/create-rule'
 
 const CJS_EXPORT = /^(?:module\s*\.\s*)?exports(?:\s*\.|\s*\[|$)/u
 const CJS_IMPORT = /^require\(/u

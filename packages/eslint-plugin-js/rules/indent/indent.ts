@@ -6,10 +6,10 @@
  * @author Gyandeep Singh
  */
 
-import type { ASTNode, JSONSchema, NodeTypes, ReportFixFunction, RuleFunction, RuleListener, SourceCode, Token, Tree } from '@shared/types'
-import { STATEMENT_LIST_PARENTS, createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine } from '../../../utils/ast'
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, JSONSchema, NodeTypes, ReportFixFunction, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
+import { STATEMENT_LIST_PARENTS, createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 const KNOWN_NODES: Set<NodeTypes> = new Set([
   'AssignmentExpression',

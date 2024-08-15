@@ -131,4 +131,6 @@ export type Schema0 = {
 }[]
 
 export type RuleOptions = Schema0
-export type MessageIds = 'unexpectedBlankLine' | 'expectedBlankLine'
+export type MessageIds =
+  | 'unexpectedBlankLine'
+  | 'expectedBlankLine'

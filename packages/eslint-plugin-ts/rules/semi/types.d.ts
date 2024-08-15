@@ -6,7 +6,10 @@ export type Schema0 =
   | [
     'never',
     {
-      beforeStatementContinuationChars?: 'always' | 'any' | 'never'
+      beforeStatementContinuationChars?:
+        | 'always'
+        | 'any'
+        | 'never'
     },
   ]
   | []

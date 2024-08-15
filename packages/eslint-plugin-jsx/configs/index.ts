@@ -1,6 +1,6 @@
-import { createAllConfigs } from '../../shared/configs-all'
 import plugin from '../src/plugin'
 import disableLegacy from './disable-legacy'
+import { createAllConfigs } from '#utils/configs-all'
 
 export const configs = {
   'disable-legacy': disableLegacy,

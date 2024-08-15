@@ -17,4 +17,10 @@ export interface Schema1 {
 }
 
 export type RuleOptions = [Schema0?, Schema1?]
-export type MessageIds = 'unexpectedSpaceAfterMarker' | 'expectedExceptionAfter' | 'unexpectedSpaceBefore' | 'unexpectedSpaceAfter' | 'expectedSpaceBefore' | 'expectedSpaceAfter'
+export type MessageIds =
+  | 'unexpectedSpaceAfterMarker'
+  | 'expectedExceptionAfter'
+  | 'unexpectedSpaceBefore'
+  | 'unexpectedSpaceAfter'
+  | 'expectedSpaceBefore'
+  | 'expectedSpaceAfter'

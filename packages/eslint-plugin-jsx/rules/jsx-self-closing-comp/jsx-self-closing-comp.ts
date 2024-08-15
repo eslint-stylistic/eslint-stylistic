@@ -3,10 +3,10 @@
  * @author Yannick Croissant
  */
 
-import type { Tree } from '@shared/types'
-import { createRule } from '../../../utils'
-import { isDOMComponent } from '../../../utils/ast/jsx'
 import type { MessageIds, RuleOptions } from './types'
+import type { Tree } from '#types'
+import { createRule } from '#utils/create-rule'
+import { isDOMComponent } from '#utils/ast/jsx'
 
 const optionDefaults = { component: true, html: true }
 

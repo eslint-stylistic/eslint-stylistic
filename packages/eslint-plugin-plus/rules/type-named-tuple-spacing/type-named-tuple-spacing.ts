@@ -1,5 +1,5 @@
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import { createRule } from '#utils/create-rule'
 
 // eslint-disable-next-line regexp/no-super-linear-backtracking
 const tupleRe = /^([\w$]+)(\s*)(\?\s*)?:(\s*)(.*)$/

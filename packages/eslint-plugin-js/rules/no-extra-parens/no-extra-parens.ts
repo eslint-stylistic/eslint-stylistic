@@ -5,7 +5,8 @@
 
 // @ts-expect-error missing types https://github.com/eslint-stylistic/eslint-utils/pull/60
 import { isParenthesized as isParenthesizedRaw } from '@eslint-community/eslint-utils'
-import type { ASTNode, Token, Tree } from '@shared/types'
+import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, Token, Tree } from '#types'
 import {
   canTokensBeAdjacent,
   getPrecedence,
@@ -20,9 +21,8 @@ import {
   isOpeningParenToken,
   isTopLevelExpressionStatement,
   skipChainExpression,
-} from '../../../utils/ast'
-import { createRule } from '../../../utils'
-import type { MessageIds, RuleOptions } from './types'
+} from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',

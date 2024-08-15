@@ -7,4 +7,7 @@ export interface Schema1 {
 }
 
 export type RuleOptions = [Schema0?, Schema1?]
-export type MessageIds = 'wrapInvocation' | 'wrapExpression' | 'moveInvocation'
+export type MessageIds =
+  | 'wrapInvocation'
+  | 'wrapExpression'
+  | 'moveInvocation'

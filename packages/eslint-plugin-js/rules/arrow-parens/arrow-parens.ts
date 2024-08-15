@@ -3,10 +3,10 @@
  * @author Jxck
  */
 
-import type { Token, Tree } from '@shared/types'
-import { canTokensBeAdjacent, isClosingParenToken, isOpeningParenToken } from '../../../utils/ast'
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import type { Token, Tree } from '#types'
+import { canTokensBeAdjacent, isClosingParenToken, isOpeningParenToken } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 /**
  * Determines if the given arrow function has block body.

@@ -18,4 +18,9 @@ export interface SpacingConfig {
 }
 
 export type RuleOptions = [Schema0?]
-export type MessageIds = 'expectedSpaceAfter' | 'expectedSpaceBefore' | 'unexpectedSpaceAfter' | 'unexpectedSpaceBefore' | 'unexpectedSpaceBetween'
+export type MessageIds =
+  | 'expectedSpaceAfter'
+  | 'expectedSpaceBefore'
+  | 'unexpectedSpaceAfter'
+  | 'unexpectedSpaceBefore'
+  | 'unexpectedSpaceBetween'

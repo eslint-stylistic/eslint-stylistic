@@ -30,11 +30,11 @@
  THE SOFTWARE.
  */
 
-import type { ASTNode, ReportFixFunction, Token, Tree } from '@shared/types'
-import { getFirstNodeInLine, isNodeFirstInLine } from '../../../utils/ast'
-import { isJSX, isReturningJSX } from '../../../utils/ast/jsx'
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, ReportFixFunction, Token, Tree } from '#types'
+import { getFirstNodeInLine, isNodeFirstInLine } from '#utils/ast'
+import { isJSX, isReturningJSX } from '#utils/ast/jsx'
+import { createRule } from '#utils/create-rule'
 
 const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',

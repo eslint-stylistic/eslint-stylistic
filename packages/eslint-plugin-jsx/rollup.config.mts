@@ -3,6 +3,7 @@ import { basename, dirname } from 'node:path'
 import { defineConfig } from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
+import { aliasPlugin } from '../../rollup.config.base.mts'
 
 const pkg = JSON.parse(await fs.readFile(new URL('./package.json', import.meta.url), 'utf-8'))
 
@@ -29,6 +30,7 @@ export default defineConfig({
   plugins: [
     commonjs(),
     esbuild(),
+    aliasPlugin(),
   ],
   external: [
     ...Object.keys(pkg.dependencies || []),

@@ -8,4 +8,8 @@ export type Schema0 =
   }
 
 export type RuleOptions = [Schema0?]
-export type MessageIds = 'unexpectedOpeningLinebreak' | 'unexpectedClosingLinebreak' | 'missingOpeningLinebreak' | 'missingClosingLinebreak'
+export type MessageIds =
+  | 'unexpectedOpeningLinebreak'
+  | 'unexpectedClosingLinebreak'
+  | 'missingOpeningLinebreak'
+  | 'missingClosingLinebreak'

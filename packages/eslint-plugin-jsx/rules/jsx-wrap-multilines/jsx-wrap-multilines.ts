@@ -3,11 +3,11 @@
  * @author Yannick Croissant
  */
 
-import type { ASTNode, Token } from '@shared/types'
-import { isJSX } from '../../../utils/ast/jsx'
-import { isParenthesized } from '../../../utils/ast'
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, Token } from '#types'
+import { isJSX } from '#utils/ast/jsx'
+import { isParenthesized } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 const DEFAULTS: Required<Exclude<RuleOptions[0], undefined>> = {
   declaration: 'parens',

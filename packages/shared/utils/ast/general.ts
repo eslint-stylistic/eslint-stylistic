@@ -4,11 +4,11 @@
  */
 
 import type * as ESTree from 'estree'
-import type { ASTNode, ESNode, RuleContext, SourceCode, Token, Tree } from '@shared/types'
 import type { TSESLint } from '@typescript-eslint/utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
+import type { ASTNode, ESNode, RuleContext, SourceCode, Token, Tree } from '#types'
 
 const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
 

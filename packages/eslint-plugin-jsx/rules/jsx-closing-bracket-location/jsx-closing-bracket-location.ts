@@ -3,9 +3,9 @@
  * @author Yannick Croissant
  */
 
-import type { ASTNode, Tree } from '@shared/types'
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import { createRule } from '#utils/create-rule'
+import type { ASTNode, Tree } from '#types'
 
 const messages = {
   bracketLocation: 'The closing bracket must be {{location}}{{details}}',

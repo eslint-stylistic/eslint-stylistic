@@ -13,4 +13,7 @@ export type Schema0 =
   ]
 
 export type RuleOptions = Schema0
-export type MessageIds = 'unexpectedWhitespace' | 'unexpectedNewline' | 'missing'
+export type MessageIds =
+  | 'unexpectedWhitespace'
+  | 'unexpectedNewline'
+  | 'missing'

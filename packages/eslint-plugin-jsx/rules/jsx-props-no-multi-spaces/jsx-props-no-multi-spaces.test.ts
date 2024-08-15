@@ -5,8 +5,8 @@
 
 import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
-import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-props-no-multi-spaces'
+import { invalids, valids } from '#test/parsers-jsx'
 import { run } from '#test'
 
 run({

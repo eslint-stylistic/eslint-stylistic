@@ -3,10 +3,10 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
-import type { ASTNode, Token, Tree } from '@shared/types'
-import { createRule } from '../../../utils'
-import { isWhiteSpaces } from '../../../utils/ast/jsx'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, Token, Tree } from '#types'
+import { createRule } from '#utils/create-rule'
+import { isWhiteSpaces } from '#utils/ast/jsx'
 
 const optionDefaults = {
   allow: 'none',

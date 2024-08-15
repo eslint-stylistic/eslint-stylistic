@@ -5,11 +5,11 @@
 
 // @ts-expect-error missing types
 import { tokenize } from 'espree'
-import type { Tree } from '@shared/types'
-import { isNumericLiteral } from '../../../utils/ast'
-import { KEYWORDS_JS } from '../../../utils/keywords'
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import type { Tree } from '#types'
+import { isNumericLiteral } from '#utils/ast'
+import { KEYWORDS_JS } from '#utils/keywords'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'quote-props',

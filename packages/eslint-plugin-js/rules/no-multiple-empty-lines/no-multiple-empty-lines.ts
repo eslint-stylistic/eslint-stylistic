@@ -4,8 +4,8 @@
  * @author Greg Cochard
  */
 
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-multiple-empty-lines',

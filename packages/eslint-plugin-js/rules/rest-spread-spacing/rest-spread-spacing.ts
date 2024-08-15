@@ -3,9 +3,9 @@
  * @author Kai Cataldo
  */
 
-import type { Tree } from '@shared/types'
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import type { Tree } from '#types'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'rest-spread-spacing',

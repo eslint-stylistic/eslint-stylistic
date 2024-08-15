@@ -9,4 +9,8 @@ export interface Schema1 {
 }
 
 export type RuleOptions = [Schema0?, Schema1?]
-export type MessageIds = 'operatorAtBeginning' | 'operatorAtEnd' | 'badLinebreak' | 'noLinebreak'
+export type MessageIds =
+  | 'operatorAtBeginning'
+  | 'operatorAtEnd'
+  | 'badLinebreak'
+  | 'noLinebreak'

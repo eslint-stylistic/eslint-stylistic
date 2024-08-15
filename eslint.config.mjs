@@ -1,6 +1,6 @@
 /* eslint perfectionist/sort-objects: "error" */
 import antfu from '@antfu/eslint-config'
-import stylistic from './stub.js'
+import stylistic from './stub.mjs'
 
 const stylisticConfig = stylistic.configs.customize()
 
@@ -54,16 +54,14 @@ export default antfu(
     },
   },
   {
-    files: ['packages/eslint-plugin-{js,jsx,ts}/{rules,utils}/**/*.ts'],
+    files: [
+      'packages/eslint-plugin-{js,jsx,ts,plus}/{rules,utils}/**/*.ts',
+      'packages/shared/utils/**/*.ts',
+    ],
+    ignores: ['**/*.test.ts'],
     name: 'local/restricted-imports',
     rules: {
       'no-restricted-imports': ['error', {
-        paths: [
-          {
-            message: 'Import from "@shared/types" instead',
-            name: '@typescript-eslint/utils/json-schema',
-          },
-        ],
         patterns: [
           {
             group: ['@typescript-eslint/utils', '@typescript-eslint/utils/*'],
@@ -79,7 +77,11 @@ export default antfu(
               'ReportDescriptor',
               'Scope',
             ],
-            message: 'Import from "@shared/types" instead',
+            message: 'Import from "#types" instead',
+          },
+          {
+            group: ['#test', '#test/*'],
+            message: 'Should not import test utilities',
           },
         ],
       }],

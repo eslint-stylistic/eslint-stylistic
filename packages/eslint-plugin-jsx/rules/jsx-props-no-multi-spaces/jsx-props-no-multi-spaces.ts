@@ -3,9 +3,9 @@
  * @author Adrian Moennich
  */
 
-import type { Tree } from '@shared/types'
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import type { Tree } from '#types'
+import { createRule } from '#utils/create-rule'
 
 const messages = {
   noLineGap: 'Expected no line gap between “{{prop1}}” and “{{prop2}}”',

@@ -30,4 +30,8 @@ export interface DelimiterConfig {
 }
 
 export type RuleOptions = [Schema0?]
-export type MessageIds = 'unexpectedComma' | 'unexpectedSemi' | 'expectedComma' | 'expectedSemi'
+export type MessageIds =
+  | 'unexpectedComma'
+  | 'unexpectedSemi'
+  | 'expectedComma'
+  | 'expectedSemi'

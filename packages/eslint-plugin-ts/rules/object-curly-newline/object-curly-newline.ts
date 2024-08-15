@@ -1,6 +1,6 @@
-import { createRule } from '../../utils'
-import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
+import { createRule } from '#utils/create-rule'
+import { getJsRule } from '#utils/get-js-rule'
 
 const baseRule = getJsRule('object-curly-newline')
 

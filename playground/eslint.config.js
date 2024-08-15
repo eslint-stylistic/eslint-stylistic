@@ -1,7 +1,7 @@
 // @ts-check
-import stylistic from '../stub.js';
+import stylistic from '../stub.mjs';
 
-/** @type {import('../playground-types').TypedFlatConfig[]} */
+/** @type {import('./playground-types').TypedFlatConfig[]} */
 export default [
   {
     plugins: {

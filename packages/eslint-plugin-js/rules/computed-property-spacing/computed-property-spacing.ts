@@ -3,10 +3,10 @@
  * @author Jamund Ferguson
  */
 
-import type { ASTNode, RuleListener, Tree } from '@shared/types'
-import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '../../../utils/ast'
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, RuleListener, Tree } from '#types'
+import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'computed-property-spacing',

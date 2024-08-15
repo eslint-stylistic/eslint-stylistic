@@ -1,6 +1,6 @@
-import type { ASTNode, Tree } from '@shared/types'
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, Tree } from '#types'
+import { createRule } from '#utils/create-rule'
 
 // This list is taken from https://developer.mozilla.org/en-US/docs/Web/HTML/Inline_elements
 

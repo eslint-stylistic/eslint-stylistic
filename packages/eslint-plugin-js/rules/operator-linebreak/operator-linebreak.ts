@@ -3,10 +3,10 @@
  * @author Benoît Zugmeyer
  */
 
-import type { ASTNode, ReportFixFunction, Token, Tree } from '@shared/types'
-import { createGlobalLinebreakMatcher, isTokenOnSameLine } from '../../../utils/ast'
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, ReportFixFunction, Token, Tree } from '#types'
+import { createGlobalLinebreakMatcher, isTokenOnSameLine } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'operator-linebreak',

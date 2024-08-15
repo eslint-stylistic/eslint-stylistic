@@ -12,8 +12,17 @@ export type Schema0 =
       functions?: ValueWithIgnore
     },
   ]
-export type Value = 'always-multiline' | 'always' | 'never' | 'only-multiline'
-export type ValueWithIgnore = 'always-multiline' | 'always' | 'ignore' | 'never' | 'only-multiline'
+export type Value =
+  | 'always-multiline'
+  | 'always'
+  | 'never'
+  | 'only-multiline'
+export type ValueWithIgnore =
+  | 'always-multiline'
+  | 'always'
+  | 'ignore'
+  | 'never'
+  | 'only-multiline'
 
 export type RuleOptions = Schema0
 export type MessageIds = 'unexpected' | 'missing'

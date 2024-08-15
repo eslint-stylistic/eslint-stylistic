@@ -3,9 +3,9 @@
  * @author Jamund Ferguson
  */
 
-import type { JSONSchema, Token, Tree } from '@shared/types'
-import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import type { JSONSchema, Token, Tree } from '#types'
+import { createRule } from '#utils/create-rule'
 
 const OVERRIDE_SCHEMA: JSONSchema.JSONSchema4 = {
   oneOf: [

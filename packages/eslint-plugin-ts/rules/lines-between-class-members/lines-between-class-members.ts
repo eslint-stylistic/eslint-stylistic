@@ -1,9 +1,10 @@
-import type { ASTNode, JSONSchema } from '@shared/types'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-
-import { createRule, deepMerge } from '../../utils'
-import { getJsRule } from '../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, JSONSchema } from '#types'
+
+import { getJsRule } from '#utils/get-js-rule'
+import { deepMerge } from '#utils/merge'
+import { createRule } from '#utils/create-rule'
 
 const baseRule = getJsRule('lines-between-class-members')
 

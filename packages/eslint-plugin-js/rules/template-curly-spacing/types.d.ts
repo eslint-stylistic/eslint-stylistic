@@ -3,4 +3,8 @@
 export type Schema0 = 'always' | 'never'
 
 export type RuleOptions = [Schema0?]
-export type MessageIds = 'expectedBefore' | 'expectedAfter' | 'unexpectedBefore' | 'unexpectedAfter'
+export type MessageIds =
+  | 'expectedBefore'
+  | 'expectedAfter'
+  | 'unexpectedBefore'
+  | 'unexpectedAfter'

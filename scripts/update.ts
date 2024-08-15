@@ -9,12 +9,11 @@ import { pathToFileURL } from 'node:url'
 import fs from 'fs-extra'
 import fg from 'fast-glob'
 import { pascalCase } from 'change-case'
-import type { JSONSchema4 } from 'json-schema'
-import { compile as compileSchema } from 'json-schema-to-typescript'
 
 // @ts-expect-error https://github.com/privatenumber/tsx/issues/38
 import config from '../packages/eslint-plugin/configs/customize'
 import type { PackageInfo, RuleInfo } from '../packages/metadata/src/types'
+import { generateDtsFromSchema } from './update-schema-to-ts'
 
 const rulesInSharedConfig = new Set<string>(Object.keys(config.customize().rules))
 
@@ -49,12 +48,13 @@ async function run() {
     const pkg = await readPackage(dirname(path))
     await writeRulesIndex(pkg)
     await writeREADME(pkg)
-    await generateDTS(pkg)
     await writePackageDTS(pkg)
     await updateExports(pkg)
     await generateConfigs(pkg)
     packages.push(pkg)
   }
+
+  await generateDtsFromSchema()
 
   // Generate the default package merging all rules
   const packageJs = packages.find(i => i.shortId === 'js')!
@@ -321,55 +321,6 @@ async function writeREADME(pkg: PackageInfo) {
   ]
 
   await fs.writeFile(join(pkg.path, 'rules.md'), lines.join('\n'), 'utf-8')
-}
-
-async function generateDTS(
-  pkg: PackageInfo,
-) {
-  pkg.rules.map(async (rule) => {
-    const module = await import(join(cwd, rule.entry))
-    const meta = module.default.meta
-    const messageIds = Object.keys(meta.messages ?? {})
-    let schemas = meta.schema as JSONSchema4[] ?? []
-    if (!Array.isArray(schemas))
-      schemas = [schemas]
-
-    const options = await Promise.all(schemas.map(async (schema, index) => {
-      schema = JSON.parse(JSON.stringify(schema).replace(/#\/items\/0\/\$defs\//g, '#/$defs/'))
-
-      try {
-        const compiled = await compileSchema(schema, `Schema${index}`, {
-          bannerComment: '',
-          style: {
-            semi: false,
-            singleQuote: true,
-          },
-        })
-        return compiled
-      }
-      catch {
-        console.warn(`Failed to compile schema Schema${index} for rule ${rule.name}. Falling back to unknown.`)
-        return `export type Schema${index} = unknown\n`
-      }
-    }))
-
-    const optionTypes = options.map((_, index) => `Schema${index}?`)
-    const ruleOptionTypeValue = Array.isArray(meta.schema)
-      ? `[${optionTypes.join(', ')}]`
-      : meta.schema
-        ? 'Schema0'
-        : '[]'
-
-    const lines = [
-      header,
-      ...options,
-      `export type RuleOptions = ${ruleOptionTypeValue}`,
-      `export type MessageIds = ${messageIds.map(i => `'${i}'`).join(' | ') || 'never'}`,
-      '',
-    ]
-
-    await fs.writeFile(resolve(cwd, rule.entry, '..', 'types.d.ts'), lines.join('\n'), 'utf-8')
-  })
 }
 
 async function generateConfigs(pkg: PackageInfo) {

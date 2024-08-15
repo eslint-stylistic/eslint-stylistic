@@ -1,15 +1,13 @@
-import type { Tree } from '@shared/types'
-
 import {
   LINEBREAK_MATCHER,
   isNotOptionalChainPunctuator,
   isOpeningParenToken,
   isOptionalCallExpression,
 } from '@typescript-eslint/utils/ast-utils'
-import {
-  createRule,
-} from '../../utils'
 import type { MessageIds, RuleOptions } from './types'
+import type { Tree } from '#types'
+
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'function-call-spacing',

@@ -6,4 +6,6 @@ export interface Schema0 {
 }
 
 export type RuleOptions = [Schema0?]
-export type MessageIds = 'propertiesOnNewlineAll' | 'propertiesOnNewline'
+export type MessageIds =
+  | 'propertiesOnNewlineAll'
+  | 'propertiesOnNewline'

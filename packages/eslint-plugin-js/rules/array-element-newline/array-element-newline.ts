@@ -3,10 +3,10 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-import type { Token, Tree } from '@shared/types'
-import { isCommaToken, isCommentToken, isTokenOnSameLine } from '../../../utils/ast'
-import { createRule } from '../../../utils'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
+import type { Token, Tree } from '#types'
+import { isCommaToken, isCommentToken, isTokenOnSameLine } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'array-element-newline',
