@@ -4,10 +4,7 @@ import fg from 'fast-glob'
 import { compile } from 'json-schema-to-typescript-lite'
 import type { JSONSchema4 } from 'json-schema'
 import { format } from 'prettier'
-
-const header = `
-/* GENERATED, DO NOT EDIT DIRECTLY */
-`.trimStart()
+import { GEN_HEADER } from './meta'
 
 export async function generateDtsFromSchema() {
   const files = await fg('packages/eslint-plugin-{js,ts,jsx,plus}/rules/**/*.ts', {
@@ -49,11 +46,11 @@ export async function generateDtsFromSchema() {
         : '[]'
 
     const lines = [
-      header,
+      GEN_HEADER,
       ...options,
-    `export type RuleOptions = ${ruleOptionTypeValue}`,
-    `export type MessageIds = ${messageIds.map(i => `'${i}'`).join(' | ') || 'never'}`,
-    '',
+      `export type RuleOptions = ${ruleOptionTypeValue}`,
+      `export type MessageIds = ${messageIds.map(i => `'${i}'`).join(' | ') || 'never'}`,
+      '',
     ]
 
     const formatted = await format(lines.join('\n'), {
