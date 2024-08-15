@@ -1,7 +1,7 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import rule from './block-spacing'
 import type { InvalidTestCase, ValidTestCase } from '#test'
-import { $, run } from '#test'
+import { run } from '#test'
 
 const options = ['always', 'never'] as const
 const typeDeclarations = [
@@ -47,15 +47,15 @@ run({
             : 'bar: true;'
         return [
           {
-            code: $`${typeDec.stringPrefix}{ /* comment */ ${property} /* comment */ } // always`,
+            code: `${typeDec.stringPrefix}{ /* comment */ ${property} /* comment */ } // always`,
             options: ['always'],
           },
           {
-            code: $`${typeDec.stringPrefix}{/* comment */ ${property} /* comment */} // never`,
+            code: `${typeDec.stringPrefix}{/* comment */ ${property} /* comment */} // never`,
             options: ['never'],
           },
           {
-            code: $`${typeDec.stringPrefix}{ //comment\n ${property}}`,
+            code: `${typeDec.stringPrefix}{ //comment\n ${property}}`,
             options: ['never'],
           },
         ]
