@@ -1,6 +1,6 @@
-import type { NodeTypes } from '@shared/types'
 import rule from './object-curly-newline'
 import type { RuleOptions } from './types'
+import type { NodeTypes } from '#types'
 import { run } from '#test'
 import type { TestCaseError } from '#test'
 

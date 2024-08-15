@@ -7,8 +7,8 @@
 
 import semver from 'semver'
 import eslintPkg from 'eslint/package.json'
-import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-curly-brace-presence'
+import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '#test/parsers-jsx'
 import { run } from '#test'
 
 run({

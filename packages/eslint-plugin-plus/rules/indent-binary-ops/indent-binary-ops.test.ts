@@ -1,7 +1,6 @@
 import { expect, it } from 'vitest'
-import { createLinter } from '../../../test-utils/createLinter'
 import rule from './indent-binary-ops'
-import { $, run } from '#test'
+import { $, createLinter, run } from '#test'
 
 run({
   name: 'indent-binary-ops',

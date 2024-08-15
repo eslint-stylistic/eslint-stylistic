@@ -3,8 +3,8 @@
  * @author Ian Christian Myers
  */
 
-import { languageOptionsForBabelFlow } from '../../../test-utils/parsers-flow'
 import rule from './comma-dangle'
+import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import { $, run } from '#test'
 
 run({

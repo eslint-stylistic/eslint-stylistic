@@ -3,8 +3,8 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
-import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-one-expression-per-line'
+import { invalids, valids } from '#test/parsers-jsx'
 import { run } from '#test'
 
 run({

@@ -3,8 +3,8 @@
  * @author Ross Solomon
  */
 
-import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-closing-tag-location'
+import { invalids, valids } from '#test/parsers-jsx'
 import { run } from '#test'
 
 run({

@@ -2,10 +2,10 @@
  * @fileoverview Rule to forbid or enforce dangling commas.
  * @author Ian Christian Myers
  */
-import type { ASTNode, EcmaVersion } from '@shared/types'
-import { getNextLocation, isCommaToken } from '../../../utils/ast'
-import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions, Value } from './types'
+import type { ASTNode, EcmaVersion } from '#types'
+import { getNextLocation, isCommaToken } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 const DEFAULT_OPTIONS = Object.freeze({
   arrays: 'never',

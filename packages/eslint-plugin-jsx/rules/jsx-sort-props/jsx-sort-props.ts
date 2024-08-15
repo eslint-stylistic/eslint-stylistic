@@ -3,10 +3,10 @@
  * @author Ilya Volodin, Yannick Croissant
  */
 
-import type { ASTNode, RuleContext, RuleFixer, Tree } from '@shared/types'
-import { createRule } from '../../../utils/create-rule'
-import { getPropName, isDOMComponent } from '../../../utils/ast/jsx'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, RuleContext, RuleFixer, Tree } from '#types'
+import { createRule } from '#utils/create-rule'
+import { getPropName, isDOMComponent } from '#utils/ast/jsx'
 
 interface JsxCompareOptions {
   ignoreCase: boolean

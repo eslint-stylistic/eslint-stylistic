@@ -1,11 +1,10 @@
-import type { ASTNode, Tree } from '@shared/types'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-
 import { isCommaToken } from '@typescript-eslint/utils/ast-utils'
-
-import { createRule } from '../../../utils/create-rule'
-import { getJsRule } from '../../../utils/get-js-rule'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, Tree } from '#types'
+
+import { createRule } from '#utils/create-rule'
+import { getJsRule } from '#utils/get-js-rule'
 
 const baseRule = getJsRule('comma-dangle')
 

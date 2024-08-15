@@ -3,10 +3,10 @@
  * @author Toru Nagashima
  */
 
-import type { ASTNode, RuleContext, SourceCode, Tree } from '@shared/types'
-import { LINEBREAKS, STATEMENT_LIST_PARENTS, isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression } from '../../../utils/ast'
-import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, RuleContext, SourceCode, Tree } from '#types'
+import { LINEBREAKS, STATEMENT_LIST_PARENTS, isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 const LT = `[${Array.from(LINEBREAKS).join('')}]`
 const PADDING_LINE_SEQUENCE = new RegExp(

@@ -1,4 +1,3 @@
-import type { Tree } from '@shared/types'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 
 import {
@@ -8,8 +7,9 @@ import {
   isCommaToken,
   isTokenOnSameLine,
 } from '@typescript-eslint/utils/ast-utils'
-import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
+import { createRule } from '#utils/create-rule'
+import type { Tree } from '#types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'comma-spacing',

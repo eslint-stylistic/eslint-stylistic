@@ -3,10 +3,10 @@
  * @author Toru Nagashima
  */
 
-import type { JSONSchema, Token, Tree } from '@shared/types'
-import { isCommentToken, isTokenOnSameLine } from '../../../utils/ast'
-import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
+import type { JSONSchema, Token, Tree } from '#types'
+import { isCommentToken, isTokenOnSameLine } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 // Schema objects.
 const OPTION_VALUE: JSONSchema.JSONSchema4 = {

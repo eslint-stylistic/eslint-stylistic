@@ -3,10 +3,10 @@
  * @author Gyandeep Singh
  */
 import escapeRegExp from 'escape-string-regexp'
-import type { Tree } from '@shared/types'
-import { LINEBREAKS } from '../../../utils/ast'
-import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
+import type { Tree } from '#types'
+import { LINEBREAKS } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 /**
  * Escapes the control characters of a given string.

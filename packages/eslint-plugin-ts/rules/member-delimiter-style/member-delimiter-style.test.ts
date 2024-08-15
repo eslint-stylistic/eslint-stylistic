@@ -1,8 +1,8 @@
 // this rule tests the delimiter, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { run } from '../../../test-utils/runner'
 import rule from './member-delimiter-style'
+import { run } from '#test'
 
 run({
   name: 'member-delimiter-style',

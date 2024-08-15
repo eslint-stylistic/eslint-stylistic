@@ -3,8 +3,8 @@
  * @author Toru Nagashima
  */
 
-import { languageOptionsForBabelFlow } from '../../../test-utils/parsers-flow'
 import rule from './object-curly-newline'
+import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import { run } from '#test'
 
 run({

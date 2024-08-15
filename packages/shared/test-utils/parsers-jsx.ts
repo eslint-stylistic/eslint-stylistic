@@ -1,4 +1,4 @@
-import type { InvalidTestCaseBase, ValidTestCaseBase } from '#test'
+import type { InvalidTestCaseBase, ValidTestCaseBase } from './runner'
 
 export interface InvalidTestCase extends InvalidTestCaseBase {
   features?: string[]

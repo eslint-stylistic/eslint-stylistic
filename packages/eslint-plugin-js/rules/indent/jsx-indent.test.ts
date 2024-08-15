@@ -5,9 +5,9 @@
 
 import semver from 'semver'
 import { version as eslintVersion } from 'eslint/package.json'
-import { invalids as _invalids, valids as _valids } from '../../../test-utils/parsers-jsx'
 import rule from './indent'
 import { expectedErrors } from './indent.test'
+import { invalids as _invalids, valids as _valids } from '#test/parsers-jsx'
 import { $, run } from '#test'
 
 function valids(...tests: Parameters<typeof _valids>) {

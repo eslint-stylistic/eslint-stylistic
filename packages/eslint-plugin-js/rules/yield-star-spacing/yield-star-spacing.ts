@@ -3,9 +3,9 @@
  * @author Bryan Smith
  */
 
-import type { ASTNode, Token } from '@shared/types'
-import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, Token } from '#types'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'yield-star-spacing',

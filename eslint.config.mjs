@@ -1,6 +1,6 @@
 /* eslint perfectionist/sort-objects: "error" */
 import antfu from '@antfu/eslint-config'
-import stylistic from './stub.js'
+import stylistic from './stub.mjs'
 
 const stylisticConfig = stylistic.configs.customize()
 
@@ -60,7 +60,7 @@ export default antfu(
       'no-restricted-imports': ['error', {
         paths: [
           {
-            message: 'Import from "@shared/types" instead',
+            message: 'Import from "#types" instead',
             name: '@typescript-eslint/utils/json-schema',
           },
         ],
@@ -79,7 +79,7 @@ export default antfu(
               'ReportDescriptor',
               'Scope',
             ],
-            message: 'Import from "@shared/types" instead',
+            message: 'Import from "#types" instead',
           },
         ],
       }],

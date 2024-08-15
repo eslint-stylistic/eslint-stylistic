@@ -3,8 +3,8 @@
  * @author Jxck
  */
 
-import { languageOptionsForBabelFlow } from '../../../test-utils/parsers-flow'
 import rule from './arrow-parens'
+import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import type { InvalidTestCase, ValidTestCase } from '#test'
 import { run } from '#test'
 

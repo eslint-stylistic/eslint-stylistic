@@ -1,5 +1,3 @@
-import type { ASTNode, Tree } from '@shared/types'
-
 import {
   isClassOrTypeElement,
   isFunction,
@@ -9,7 +7,9 @@ import {
   isTSFunctionType,
   isVariableDeclarator,
 } from '@typescript-eslint/utils/ast-utils'
-import { createRule } from '../../../utils/create-rule'
+import type { ASTNode, Tree } from '#types'
+
+import { createRule } from '#utils/create-rule'
 
 interface WhitespaceRule {
   readonly before?: boolean

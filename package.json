@@ -34,6 +34,7 @@
     "@eslint-community/eslint-utils": "^4.4.0",
     "@iconify-json/carbon": "^1.1.37",
     "@iconify-json/ri": "^1.1.22",
+    "@rollup/plugin-alias": "^5.1.0",
     "@rollup/plugin-commonjs": "^26.0.1",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "@shikijs/twoslash": "^1.13.0",
