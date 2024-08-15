@@ -12,4 +12,13 @@ export interface Schema0 {
 }
 
 export type RuleOptions = [Schema0?]
-export type MessageIds = 'noUnreservedProps' | 'listIsEmpty' | 'listReservedPropsFirst' | 'listCallbacksLast' | 'listShorthandFirst' | 'listShorthandLast' | 'listMultilineFirst' | 'listMultilineLast' | 'sortPropsByAlpha'
+export type MessageIds =
+  | 'noUnreservedProps'
+  | 'listIsEmpty'
+  | 'listReservedPropsFirst'
+  | 'listCallbacksLast'
+  | 'listShorthandFirst'
+  | 'listShorthandLast'
+  | 'listMultilineFirst'
+  | 'listMultilineLast'
+  | 'sortPropsByAlpha'

@@ -8,4 +8,6 @@ export interface Schema0 {
 }
 
 export type RuleOptions = [Schema0?]
-export type MessageIds = 'usePascalCase' | 'usePascalOrSnakeCase'
+export type MessageIds =
+  | 'usePascalCase'
+  | 'usePascalOrSnakeCase'

@@ -10,7 +10,7 @@ const header = `
 `.trimStart()
 
 export async function generateDtsFromSchema() {
-  const files = await fg('packages/eslint-plugin-{js,ts,jsx/plus}/rules/**/*.ts', {
+  const files = await fg('packages/eslint-plugin-{js,ts,jsx,plus}/rules/**/*.ts', {
     onlyFiles: true,
     absolute: true,
     ignore: [
