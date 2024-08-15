@@ -5209,5 +5209,58 @@ run({
       parserOptions: { ecmaVersion: 2022 },
       errors: [{ messageId: 'expectedBlankLine' }],
     },
+
+    // ----------------------------------------------------------------------
+    // yield
+    // ----------------------------------------------------------------------
+
+    {
+      code: 'function a() {\nvar b; yield;\n}',
+      output: 'function a() {\nvar b;\n\n yield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'function a() {\nvar b;\nyield;\n}',
+      output: 'function a() {\nvar b;\n\nyield;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'function a() {\nvar b;\n\nyield;\n}',
+      output: 'function a() {\nvar b;\nyield;\n}',
+      options: [{ blankLine: 'never', prev: '*', next: 'yield' }],
+      errors: [{ messageId: 'unexpectedBlankLine' }],
+    },
+    {
+      code: 'function a() {\nvar b;\nyield;\n\nreturn;\n}',
+      output: 'function a() {\nvar b;\nyield;\nreturn;\n}',
+      options: [{ blankLine: 'never', prev: 'yield', next: '*' }],
+      errors: [{ messageId: 'unexpectedBlankLine' }],
+    },
+    {
+      code: 'function a() {yield;\nconsole.log(null);\n}',
+      output: 'function a() {yield;\n\nconsole.log(null);\n}',
+      options: [{ blankLine: 'always', prev: 'yield', next: '*' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'function b() {\nvar c;\nyield 42;\n}',
+      output: 'function b() {\nvar c;\n\nyield 42;\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'function b() {\nvar c;\nyield foo();\n}',
+      output: 'function b() {\nvar c;\n\nyield foo();\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'function b() {\nvar c;\nyield* foo();\n}',
+      output: 'function b() {\nvar c;\n\nyield* foo();\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'yield' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
   ],
 })

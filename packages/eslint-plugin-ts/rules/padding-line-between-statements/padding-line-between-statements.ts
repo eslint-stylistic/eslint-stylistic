@@ -321,6 +321,28 @@ function isExpression(
 }
 
 /**
+ * Check whether the given node is a `yield` expression
+ * @param node The node to check.
+ * @param sourceCode The source code object to get tokens.
+ * @returns `true` if the node is a `yield` expression
+ */
+function isYieldExpression(
+  node: ASTNode,
+  sourceCode: TSESLint.SourceCode,
+): boolean {
+  if (!isExpression(node, sourceCode)) {
+    return false
+  }
+
+  let innerExpressionNode = node
+
+  while (innerExpressionNode.type === AST_NODE_TYPES.ExpressionStatement)
+    innerExpressionNode = innerExpressionNode.expression
+
+  return sourceCode.getFirstToken(innerExpressionNode)?.value === 'yield'
+}
+
+/**
  * Gets the actual last token.
  *
  * If a semicolon is semicolon-less style's semicolon, this ignores it.
@@ -576,6 +598,7 @@ const StatementTypes: Record<string, NodeTestObject> = {
     'while',
   ),
   'with': newKeywordTester(AST_NODE_TYPES.WithStatement, 'with'),
+  'yield': { test: isYieldExpression },
 
   'cjs-export': {
     test: (node, sourceCode) => node.type === 'ExpressionStatement'
