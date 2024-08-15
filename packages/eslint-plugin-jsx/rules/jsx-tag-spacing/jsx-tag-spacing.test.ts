@@ -3,9 +3,9 @@
  * @author Diogo Franco (Kovensky)
  */
 
-import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-tag-spacing'
 import type { RuleOptions } from './types'
+import { invalids, valids } from '#test/parsers-jsx'
 import { run } from '#test'
 
 type Option = Exclude<RuleOptions[0], undefined>

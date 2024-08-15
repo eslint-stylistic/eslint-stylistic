@@ -3,10 +3,10 @@
  * @author Toru Nagashima
  */
 
-import type { ASTNode, Tree } from '@shared/types'
-import { getPrecedence, isNotClosingParenToken, isParenthesised } from '../../../utils/ast'
-import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, Tree } from '#types'
+import { getPrecedence, isNotClosingParenToken, isParenthesised } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 const ARITHMETIC_OPERATORS = ['+', '-', '*', '/', '%', '**']
 const BITWISE_OPERATORS = ['&', '|', '^', '~', '<<', '>>', '>>>']

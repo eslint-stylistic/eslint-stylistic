@@ -5,6 +5,7 @@ import { defineConfig } from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
 import fg from 'fast-glob'
+import { aliasPlugin } from '../../rollup.config.base.mts'
 
 // import dts from 'rollup-plugin-dts'
 
@@ -47,6 +48,7 @@ export default defineConfig([
     plugins: [
       esbuild(),
       commonjs(),
+      aliasPlugin(),
     ],
     external: [
       ...Object.keys(pkg.dependencies || []),

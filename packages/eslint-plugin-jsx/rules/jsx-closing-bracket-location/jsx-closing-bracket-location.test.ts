@@ -3,8 +3,8 @@
  * @author Yannick Croissant
  */
 
-import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-closing-bracket-location'
+import { invalids, valids } from '#test/parsers-jsx'
 import { run } from '#test'
 
 const MESSAGE_AFTER_PROPS = 'placed after the last prop'

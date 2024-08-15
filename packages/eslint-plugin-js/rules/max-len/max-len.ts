@@ -3,9 +3,9 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import type { ASTNode, JSONSchema, Tree } from '@shared/types'
-import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, JSONSchema, Tree } from '#types'
+import { createRule } from '#utils/create-rule'
 
 const OPTIONS_SCHEMA: JSONSchema.JSONSchema4 = {
   type: 'object',

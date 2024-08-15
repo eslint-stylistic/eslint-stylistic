@@ -7,9 +7,9 @@
  */
 
 import picomatch from 'picomatch'
-import { getElementType, isDOMComponent } from '../../../utils/ast/jsx'
-import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
+import { getElementType, isDOMComponent } from '#utils/ast/jsx'
+import { createRule } from '#utils/create-rule'
 
 function testDigit(char: string) {
   const charCode = char.charCodeAt(0)

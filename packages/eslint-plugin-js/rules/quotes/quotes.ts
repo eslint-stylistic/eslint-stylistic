@@ -3,10 +3,10 @@
  * @author Matt DuVall <http://www.mattduvall.com/>, Brandon Payton
  */
 
-import type { ASTNode, Tree } from '@shared/types'
-import { LINEBREAKS, hasOctalOrNonOctalDecimalEscapeSequence, isParenthesised, isSurroundedBy, isTopLevelExpressionStatement } from '../../../utils/ast'
-import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, Tree } from '#types'
+import { LINEBREAKS, hasOctalOrNonOctalDecimalEscapeSequence, isParenthesised, isSurroundedBy, isTopLevelExpressionStatement } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 /**
  * Switches quoting of javascript string between ' " and `

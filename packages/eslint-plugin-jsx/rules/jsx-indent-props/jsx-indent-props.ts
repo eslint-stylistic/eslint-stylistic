@@ -30,10 +30,10 @@
  THE SOFTWARE.
  */
 
-import type { ASTNode } from '@shared/types'
-import { isNodeFirstInLine } from '../../../utils/ast'
-import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode } from '#types'
+import { isNodeFirstInLine } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',

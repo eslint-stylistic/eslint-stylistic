@@ -3,10 +3,10 @@
  * @author Teddy Katz
  */
 
-import type { Token, Tree } from '@shared/types'
-import { createRule } from '../../../utils/create-rule'
-import { COMMENTS_IGNORE_PATTERN, LINEBREAK_MATCHER } from '../../../utils/ast'
 import type { MessageIds, RuleOptions } from './types'
+import type { Token, Tree } from '#types'
+import { createRule } from '#utils/create-rule'
+import { COMMENTS_IGNORE_PATTERN, LINEBREAK_MATCHER } from '#utils/ast'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'multiline-comment-style',

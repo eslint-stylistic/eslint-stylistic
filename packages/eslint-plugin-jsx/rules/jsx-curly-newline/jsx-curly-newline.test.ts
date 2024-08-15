@@ -2,8 +2,8 @@
  * @fileoverview enforce consistent line breaks inside jsx curly
  */
 
-import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-curly-newline'
+import { invalids, valids } from '#test/parsers-jsx'
 import { run } from '#test'
 
 const LEFT_MISSING_ERROR = { messageId: 'expectedAfter', type: 'Punctuator' }

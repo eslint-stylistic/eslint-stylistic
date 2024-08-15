@@ -24,14 +24,21 @@
       "@stylistic/eslint-plugin": [
         "./packages/eslint-plugin/src/index.ts"
       ],
-      "@shared/*": [
-        "./packages/shared/*"
+      "#types": [
+        "./packages/shared/types/index.ts"
       ],
       "#test": [
-        "./packages/test-utils/index.ts"
+        "./packages/shared/test-utils/index.ts"
+      ],
+      "#test/*": [
+        "./packages/shared/test-utils/*"
+      ],
+      "#utils/*": [
+        "./packages/shared/utils/*"
       ]
     },
     "resolveJsonModule": true,
+    "allowImportingTsExtensions": true,
     "allowJs": true,
     "strict": true,
     "strictNullChecks": true,

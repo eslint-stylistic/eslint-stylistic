@@ -3,10 +3,10 @@
  * @author Nicholas C. Zakas
  */
 
-import type { Token } from '@shared/types'
-import { isCommentToken } from '../../../utils/ast'
-import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
+import type { Token } from '#types'
+import { isCommentToken } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-multi-spaces',

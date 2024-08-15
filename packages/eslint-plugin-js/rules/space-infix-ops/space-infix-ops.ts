@@ -3,10 +3,10 @@
  * @author Michael Ficarra
  */
 
-import type { ASTNode, Token, Tree } from '@shared/types'
-import { createRule } from '../../../utils/create-rule'
-import { isEqToken } from '../../../utils/ast'
 import type { MessageIds, RuleOptions } from './types'
+import type { ASTNode, Token, Tree } from '#types'
+import { createRule } from '#utils/create-rule'
+import { isEqToken } from '#utils/ast'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'space-infix-ops',

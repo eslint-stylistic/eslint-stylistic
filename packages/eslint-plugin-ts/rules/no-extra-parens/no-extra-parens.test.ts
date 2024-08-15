@@ -1,8 +1,8 @@
 // this rule tests extra parens, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { run } from '../../../test-utils/runner'
 import rule from './no-extra-parens'
+import { run } from '#test'
 
 run({
   name: 'no-extra-parens',

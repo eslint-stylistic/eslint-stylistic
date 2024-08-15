@@ -3,9 +3,9 @@
  * @author James Allardice
  */
 
-import { canTokensBeAdjacent } from '../../../utils/ast'
-import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
+import { canTokensBeAdjacent } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-floating-decimal',
