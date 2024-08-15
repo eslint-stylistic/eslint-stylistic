@@ -69,3 +69,15 @@ if (a
 ) {
   foo()
 }
+
+// Array with template literals
+const arr = [
+  'foo',
+  `bar`,
+  `baz`,
+  `multiple-line
+      
+    `,
+  'string',
+]
+console.log(arr)

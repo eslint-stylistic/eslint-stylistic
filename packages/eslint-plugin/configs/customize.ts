@@ -120,7 +120,6 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
       FunctionExpression: { body: 1, parameters: 1 },
       ignoreComments: false,
       ignoredNodes: [
-        'TemplateLiteral *',
         'TSUnionType',
         'TSIntersectionType',
         'TSTypeParameterInstantiation',
