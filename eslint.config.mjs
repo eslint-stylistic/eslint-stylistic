@@ -54,16 +54,14 @@ export default antfu(
     },
   },
   {
-    files: ['packages/eslint-plugin-{js,jsx,ts}/{rules,utils}/**/*.ts'],
+    files: [
+      'packages/eslint-plugin-{js,jsx,ts,plus}/{rules,utils}/**/*.ts',
+      'packages/shared/utils/**/*.ts',
+    ],
+    ignores: ['**/*.test.ts'],
     name: 'local/restricted-imports',
     rules: {
       'no-restricted-imports': ['error', {
-        paths: [
-          {
-            message: 'Import from "#types" instead',
-            name: '@typescript-eslint/utils/json-schema',
-          },
-        ],
         patterns: [
           {
             group: ['@typescript-eslint/utils', '@typescript-eslint/utils/*'],
@@ -80,6 +78,10 @@ export default antfu(
               'Scope',
             ],
             message: 'Import from "#types" instead',
+          },
+          {
+            group: ['#test', '#test/*'],
+            message: 'Should not import test utilities',
           },
         ],
       }],

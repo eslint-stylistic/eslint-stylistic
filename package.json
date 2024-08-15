@@ -22,7 +22,7 @@
     "play:lint": "pnpm -C playground run lint"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.25.1",
+    "@antfu/eslint-config": "^2.25.2",
     "@antfu/eslint-define-config": "1.23.0-2",
     "@antfu/ni": "^0.22.4",
     "@antfu/utils": "^0.7.10",
