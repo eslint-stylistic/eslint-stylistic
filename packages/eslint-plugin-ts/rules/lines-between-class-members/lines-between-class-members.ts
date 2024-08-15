@@ -46,7 +46,13 @@ export default createRule<RuleOptions, MessageIds>({
   create(context, [firstOption, secondOption]) {
     const rules = baseRule.create(context)
     const exceptAfterOverload
-      = secondOption?.exceptAfterOverload && firstOption === 'always'
+      = secondOption?.exceptAfterOverload && (
+        firstOption === 'always'
+        || (
+          typeof firstOption !== 'string'
+          && firstOption?.enforce.some(({ blankLine, prev, next }) => blankLine === 'always' && prev !== 'field' && next !== 'field')
+        )
+      )
 
     function isOverload(node: ASTNode): boolean {
       return (
