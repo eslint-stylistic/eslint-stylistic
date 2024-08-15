@@ -7,4 +7,10 @@ export interface Schema1 {
 }
 
 export type RuleOptions = [Schema0?, Schema1?]
-export type MessageIds = 'nextLineOpen' | 'sameLineOpen' | 'blockSameLine' | 'nextLineClose' | 'singleLineClose' | 'sameLineClose'
+export type MessageIds =
+  | 'nextLineOpen'
+  | 'sameLineOpen'
+  | 'blockSameLine'
+  | 'nextLineClose'
+  | 'singleLineClose'
+  | 'sameLineClose'

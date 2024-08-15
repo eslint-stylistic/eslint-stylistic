@@ -1,6 +1,9 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-export type Schema0 = 'always' | 'always-multiline' | 'never'
+export type Schema0 =
+  | 'always'
+  | 'always-multiline'
+  | 'never'
 
 export interface Schema1 {
   ignoreJSX?: boolean
@@ -8,4 +11,8 @@ export interface Schema1 {
 }
 
 export type RuleOptions = [Schema0?, Schema1?]
-export type MessageIds = 'expectedTestCons' | 'expectedConsAlt' | 'unexpectedTestCons' | 'unexpectedConsAlt'
+export type MessageIds =
+  | 'expectedTestCons'
+  | 'expectedConsAlt'
+  | 'unexpectedTestCons'
+  | 'unexpectedConsAlt'

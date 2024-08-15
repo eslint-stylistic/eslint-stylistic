@@ -13,4 +13,11 @@ export type Schema0 =
   ]
 
 export type RuleOptions = Schema0
-export type MessageIds = 'expectedBlock' | 'expectedBareBlock' | 'startNewline' | 'endNewline' | 'missingStar' | 'alignment' | 'expectedLines'
+export type MessageIds =
+  | 'expectedBlock'
+  | 'expectedBareBlock'
+  | 'startNewline'
+  | 'endNewline'
+  | 'missingStar'
+  | 'alignment'
+  | 'expectedLines'

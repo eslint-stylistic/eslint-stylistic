@@ -9,4 +9,10 @@ export interface Schema0 {
 }
 
 export type RuleOptions = [Schema0?]
-export type MessageIds = 'unexpectedBefore' | 'unexpectedAfter' | 'unexpectedAfterWord' | 'wordOperator' | 'operator' | 'beforeUnaryExpressions'
+export type MessageIds =
+  | 'unexpectedBefore'
+  | 'unexpectedAfter'
+  | 'unexpectedAfterWord'
+  | 'wordOperator'
+  | 'operator'
+  | 'beforeUnaryExpressions'

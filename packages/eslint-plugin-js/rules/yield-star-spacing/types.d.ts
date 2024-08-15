@@ -8,4 +8,8 @@ export type Schema0 =
   }
 
 export type RuleOptions = [Schema0?]
-export type MessageIds = 'missingBefore' | 'missingAfter' | 'unexpectedBefore' | 'unexpectedAfter'
+export type MessageIds =
+  | 'missingBefore'
+  | 'missingAfter'
+  | 'unexpectedBefore'
+  | 'unexpectedAfter'

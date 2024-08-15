@@ -7,4 +7,7 @@ export interface Schema0 {
 }
 
 export type RuleOptions = [Schema0?]
-export type MessageIds = 'blankBeginningOfFile' | 'blankEndOfFile' | 'consecutiveBlank'
+export type MessageIds =
+  | 'blankBeginningOfFile'
+  | 'blankEndOfFile'
+  | 'consecutiveBlank'

@@ -54,4 +54,8 @@ export type Schema0 =
   }
 
 export type RuleOptions = [Schema0?]
-export type MessageIds = 'extraKey' | 'extraValue' | 'missingKey' | 'missingValue'
+export type MessageIds =
+  | 'extraKey'
+  | 'extraValue'
+  | 'missingKey'
+  | 'missingValue'

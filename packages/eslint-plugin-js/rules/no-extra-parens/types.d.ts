@@ -12,7 +12,11 @@ export type Schema0 =
       ternaryOperandBinaryExpressions?: boolean
       nestedBinaryExpressions?: boolean
       returnAssign?: boolean
-      ignoreJSX?: 'none' | 'all' | 'single-line' | 'multi-line'
+      ignoreJSX?:
+        | 'none'
+        | 'all'
+        | 'single-line'
+        | 'multi-line'
       enforceForArrowConditionals?: boolean
       enforceForSequenceExpressions?: boolean
       enforceForNewInMemberExpressions?: boolean

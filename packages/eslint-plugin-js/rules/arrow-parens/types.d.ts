@@ -7,4 +7,8 @@ export interface Schema1 {
 }
 
 export type RuleOptions = [Schema0?, Schema1?]
-export type MessageIds = 'unexpectedParens' | 'expectedParens' | 'unexpectedParensInline' | 'expectedParensBlock'
+export type MessageIds =
+  | 'unexpectedParens'
+  | 'expectedParens'
+  | 'unexpectedParensInline'
+  | 'expectedParensBlock'

@@ -18,4 +18,6 @@ export type BasicConfig =
   }
 
 export type RuleOptions = Schema0
-export type MessageIds = 'unexpectedLineBreak' | 'missingLineBreak'
+export type MessageIds =
+  | 'unexpectedLineBreak'
+  | 'missingLineBreak'

@@ -6,4 +6,8 @@ export interface Schema0 {
 }
 
 export type RuleOptions = [Schema0?]
-export type MessageIds = 'expectedBefore' | 'unexpectedBefore' | 'expectedAfter' | 'unexpectedAfter'
+export type MessageIds =
+  | 'expectedBefore'
+  | 'unexpectedBefore'
+  | 'expectedAfter'
+  | 'unexpectedAfter'

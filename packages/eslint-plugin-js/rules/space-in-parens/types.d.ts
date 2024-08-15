@@ -7,4 +7,8 @@ export interface Schema1 {
 }
 
 export type RuleOptions = [Schema0?, Schema1?]
-export type MessageIds = 'missingOpeningSpace' | 'missingClosingSpace' | 'rejectedOpeningSpace' | 'rejectedClosingSpace'
+export type MessageIds =
+  | 'missingOpeningSpace'
+  | 'missingClosingSpace'
+  | 'rejectedOpeningSpace'
+  | 'rejectedClosingSpace'
