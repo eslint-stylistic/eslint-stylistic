@@ -10,14 +10,16 @@ run({
   name: 'brace-style',
   rule,
   valid: [
-    'function f() {\n'
-    + '   if (true)\n'
-    + '       return {x: 1}\n'
-    + '   else {\n'
-    + '       var y = 2\n'
-    + '       return y\n'
-    + '   }\n'
-    + '}',
+    $`
+      function f() {
+          if (true)
+              return {x: 1}
+          else {
+              var y = 2
+              return y
+          }
+      }
+    `,
     'if (tag === 1) glyph.id = pbf.readVarint();\nelse if (tag === 2) glyph.bitmap = pbf.readBytes();',
     'function foo () { \nreturn; \n}',
     'function a(b,\nc,\nd) { }',
@@ -37,113 +39,113 @@ run({
     'class Foo {\n}',
     '(class {\n})',
     'class\nFoo {\n}',
-        `
-            class Foo {
-                bar() {
+    $`
+      class Foo {
+          bar() {
+      
+          }
+      }
+    `,
+    { code: 'if (foo) {\n}\nelse {\n}', options: ['stroustrup'] },
+    { code: 'if (foo)\n{\n}\nelse\n{\n}', options: ['allman'] },
+    { code: 'try { \n bar();\n }\ncatch (e) {\n baz(); \n }', options: ['stroustrup'] },
+    { code: 'try\n{\n bar();\n}\ncatch (e)\n{\n baz(); \n}', options: ['allman'] },
 
-                }
-            }
-        `,
-        { code: 'if (foo) {\n}\nelse {\n}', options: ['stroustrup'] },
-        { code: 'if (foo)\n{\n}\nelse\n{\n}', options: ['allman'] },
-        { code: 'try { \n bar();\n }\ncatch (e) {\n baz(); \n }', options: ['stroustrup'] },
-        { code: 'try\n{\n bar();\n}\ncatch (e)\n{\n baz(); \n}', options: ['allman'] },
+    // allowSingleLine: true
+    { code: 'function foo () { return; }', options: ['1tbs', { allowSingleLine: true }] },
+    { code: 'function foo () { a(); b(); return; }', options: ['1tbs', { allowSingleLine: true }] },
+    { code: 'function a(b,c,d) { }', options: ['1tbs', { allowSingleLine: true }] },
+    { code: '!function foo () { return; }', options: ['1tbs', { allowSingleLine: true }] },
+    { code: '!function a(b,c,d) { }', options: ['1tbs', { allowSingleLine: true }] },
+    { code: 'if (foo) {  bar(); }', options: ['1tbs', { allowSingleLine: true }] },
+    { code: 'if (a) { b(); } else { c(); }', options: ['1tbs', { allowSingleLine: true }] },
+    { code: 'while (foo) {  bar(); }', options: ['1tbs', { allowSingleLine: true }] },
+    { code: 'for (;;) {  bar(); }', options: ['1tbs', { allowSingleLine: true }] },
+    { code: 'with (foo) {  bar(); }', options: ['1tbs', { allowSingleLine: true }] },
+    { code: 'switch (foo) {  case "bar": break; }', options: ['1tbs', { allowSingleLine: true }] },
+    { code: 'try {  bar(); } catch (e) { baz();  }', options: ['1tbs', { allowSingleLine: true }] },
+    { code: 'do {  bar(); } while (true)', options: ['1tbs', { allowSingleLine: true }] },
+    { code: 'for (foo in bar) {  baz();  }', options: ['1tbs', { allowSingleLine: true }] },
+    { code: 'if (a && b && c) {  }', options: ['1tbs', { allowSingleLine: true }] },
+    { code: 'switch(0) {}', options: ['1tbs', { allowSingleLine: true }] },
+    { code: 'if (foo) {}\nelse {}', options: ['stroustrup', { allowSingleLine: true }] },
+    { code: 'try {  bar(); }\ncatch (e) { baz();  }', options: ['stroustrup', { allowSingleLine: true }] },
+    { code: 'var foo = () => { return; }', options: ['stroustrup', { allowSingleLine: true }], parserOptions: { ecmaVersion: 6 } },
+    { code: 'if (foo) {}\nelse {}', options: ['allman', { allowSingleLine: true }] },
+    { code: 'try {  bar(); }\ncatch (e) { baz();  }', options: ['allman', { allowSingleLine: true }] },
+    { code: 'var foo = () => { return; }', options: ['allman', { allowSingleLine: true }], parserOptions: { ecmaVersion: 6 } },
+    {
+      code: 'if (foo) { baz(); } else {\n  boom();\n}',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'if (foo) { baz(); } else if (bar) {\n  boom();\n}',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'if (foo) { baz(); } else\nif (bar) {\n  boom();\n}',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'try { somethingRisky(); } catch(e) {\n  handleError();\n}',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'if (tag === 1) fontstack.name = pbf.readString(); \nelse if (tag === 2) fontstack.range = pbf.readString(); \nelse if (tag === 3) {\n var glyph = pbf.readMessage(readGlyph, {});\n fontstack.glyphs[glyph.id] = glyph; \n}',
+      options: ['1tbs'],
+    },
+    {
+      code: 'if (tag === 1) fontstack.name = pbf.readString(); \nelse if (tag === 2) fontstack.range = pbf.readString(); \nelse if (tag === 3) {\n var glyph = pbf.readMessage(readGlyph, {});\n fontstack.glyphs[glyph.id] = glyph; \n}',
+      options: ['stroustrup'],
+    },
+    {
+      code: 'switch(x) \n{ \n case 1: \nbar(); \n }\n ',
+      options: ['allman'],
+    },
+    {
+      code: 'switch(x) {}',
+      options: ['allman', { allowSingleLine: true }],
+    },
+    {
+      code: 'class Foo {\n}',
+      options: ['stroustrup'],
+    },
+    {
+      code: '(class {\n})',
+      options: ['stroustrup'],
+    },
+    {
+      code: 'class Foo\n{\n}',
+      options: ['allman'],
+    },
+    {
+      code: '(class\n{\n})',
+      options: ['allman'],
+    },
+    {
+      code: 'class\nFoo\n{\n}',
+      options: ['allman'],
+    },
+    {
+      code: 'class Foo {}',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'class Foo {}',
+      options: ['allman', { allowSingleLine: true }],
+    },
+    {
+      code: '(class {})',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: '(class {})',
+      options: ['allman', { allowSingleLine: true }],
+    },
 
-        // allowSingleLine: true
-        { code: 'function foo () { return; }', options: ['1tbs', { allowSingleLine: true }] },
-        { code: 'function foo () { a(); b(); return; }', options: ['1tbs', { allowSingleLine: true }] },
-        { code: 'function a(b,c,d) { }', options: ['1tbs', { allowSingleLine: true }] },
-        { code: '!function foo () { return; }', options: ['1tbs', { allowSingleLine: true }] },
-        { code: '!function a(b,c,d) { }', options: ['1tbs', { allowSingleLine: true }] },
-        { code: 'if (foo) {  bar(); }', options: ['1tbs', { allowSingleLine: true }] },
-        { code: 'if (a) { b(); } else { c(); }', options: ['1tbs', { allowSingleLine: true }] },
-        { code: 'while (foo) {  bar(); }', options: ['1tbs', { allowSingleLine: true }] },
-        { code: 'for (;;) {  bar(); }', options: ['1tbs', { allowSingleLine: true }] },
-        { code: 'with (foo) {  bar(); }', options: ['1tbs', { allowSingleLine: true }] },
-        { code: 'switch (foo) {  case "bar": break; }', options: ['1tbs', { allowSingleLine: true }] },
-        { code: 'try {  bar(); } catch (e) { baz();  }', options: ['1tbs', { allowSingleLine: true }] },
-        { code: 'do {  bar(); } while (true)', options: ['1tbs', { allowSingleLine: true }] },
-        { code: 'for (foo in bar) {  baz();  }', options: ['1tbs', { allowSingleLine: true }] },
-        { code: 'if (a && b && c) {  }', options: ['1tbs', { allowSingleLine: true }] },
-        { code: 'switch(0) {}', options: ['1tbs', { allowSingleLine: true }] },
-        { code: 'if (foo) {}\nelse {}', options: ['stroustrup', { allowSingleLine: true }] },
-        { code: 'try {  bar(); }\ncatch (e) { baz();  }', options: ['stroustrup', { allowSingleLine: true }] },
-        { code: 'var foo = () => { return; }', options: ['stroustrup', { allowSingleLine: true }], parserOptions: { ecmaVersion: 6 } },
-        { code: 'if (foo) {}\nelse {}', options: ['allman', { allowSingleLine: true }] },
-        { code: 'try {  bar(); }\ncatch (e) { baz();  }', options: ['allman', { allowSingleLine: true }] },
-        { code: 'var foo = () => { return; }', options: ['allman', { allowSingleLine: true }], parserOptions: { ecmaVersion: 6 } },
-        {
-          code: 'if (foo) { baz(); } else {\n  boom();\n}',
-          options: ['1tbs', { allowSingleLine: true }],
-        },
-        {
-          code: 'if (foo) { baz(); } else if (bar) {\n  boom();\n}',
-          options: ['1tbs', { allowSingleLine: true }],
-        },
-        {
-          code: 'if (foo) { baz(); } else\nif (bar) {\n  boom();\n}',
-          options: ['1tbs', { allowSingleLine: true }],
-        },
-        {
-          code: 'try { somethingRisky(); } catch(e) {\n  handleError();\n}',
-          options: ['1tbs', { allowSingleLine: true }],
-        },
-        {
-          code: 'if (tag === 1) fontstack.name = pbf.readString(); \nelse if (tag === 2) fontstack.range = pbf.readString(); \nelse if (tag === 3) {\n var glyph = pbf.readMessage(readGlyph, {});\n fontstack.glyphs[glyph.id] = glyph; \n}',
-          options: ['1tbs'],
-        },
-        {
-          code: 'if (tag === 1) fontstack.name = pbf.readString(); \nelse if (tag === 2) fontstack.range = pbf.readString(); \nelse if (tag === 3) {\n var glyph = pbf.readMessage(readGlyph, {});\n fontstack.glyphs[glyph.id] = glyph; \n}',
-          options: ['stroustrup'],
-        },
-        {
-          code: 'switch(x) \n{ \n case 1: \nbar(); \n }\n ',
-          options: ['allman'],
-        },
-        {
-          code: 'switch(x) {}',
-          options: ['allman', { allowSingleLine: true }],
-        },
-        {
-          code: 'class Foo {\n}',
-          options: ['stroustrup'],
-        },
-        {
-          code: '(class {\n})',
-          options: ['stroustrup'],
-        },
-        {
-          code: 'class Foo\n{\n}',
-          options: ['allman'],
-        },
-        {
-          code: '(class\n{\n})',
-          options: ['allman'],
-        },
-        {
-          code: 'class\nFoo\n{\n}',
-          options: ['allman'],
-        },
-        {
-          code: 'class Foo {}',
-          options: ['1tbs', { allowSingleLine: true }],
-        },
-        {
-          code: 'class Foo {}',
-          options: ['allman', { allowSingleLine: true }],
-        },
-        {
-          code: '(class {})',
-          options: ['1tbs', { allowSingleLine: true }],
-        },
-        {
-          code: '(class {})',
-          options: ['allman', { allowSingleLine: true }],
-        },
-
-        // https://github.com/eslint/eslint/issues/7908
-        '{}',
-        `
+    // https://github.com/eslint/eslint/issues/7908
+    '{}',
+    `
             if (foo) {
 
             }
@@ -152,7 +154,7 @@ run({
 
             }
         `,
-        `
+    `
             switch (foo) {
                 case bar:
                     baz();
@@ -161,158 +163,158 @@ run({
                     }
             }
         `,
-        `
+    `
             {
             }
         `,
-        `
+    `
             {
                 {
                 }
             }
         `,
 
-        // https://github.com/eslint/eslint/issues/7974
-        `
-          class Ball {
-            throw() {}
-            catch() {}
-          }
-        `,
-        `
-          ({
-            and() {},
-            finally() {}
-          })
-        `,
-        `
-          (class {
-            or() {}
-            else() {}
-          })
-        `,
-        `
-          if (foo) bar = function() {}
-          else baz()
-        `,
+    // https://github.com/eslint/eslint/issues/7974
+    $`
+      class Ball {
+        throw() {}
+        catch() {}
+      }
+    `,
+    $`
+      ({
+        and() {},
+        finally() {}
+      })
+    `,
+    $`
+      (class {
+        or() {}
+        else() {}
+      })
+    `,
+    $`
+      if (foo) bar = function() {}
+      else baz()
+    `,
 
-        // class static blocks
-        {
-          code: $`
-            class C {
-                static {
-                    foo;
-                }
+    // class static blocks
+    {
+      code: $`
+        class C {
+            static {
+                foo;
             }
-          `,
-          options: ['1tbs'],
-          parserOptions: { ecmaVersion: 2022 },
-        },
-        {
-          code: $`
-            class C {
-                static {}
-            
-                static {
-                }
+        }
+      `,
+      options: ['1tbs'],
+      parserOptions: { ecmaVersion: 2022 },
+    },
+    {
+      code: $`
+        class C {
+            static {}
+        
+            static {
             }
-          `,
-          options: ['1tbs'],
-          parserOptions: { ecmaVersion: 2022 },
-        },
-        {
-          code: $`
-            class C {
-                static { foo; }
+        }
+      `,
+      options: ['1tbs'],
+      parserOptions: { ecmaVersion: 2022 },
+    },
+    {
+      code: $`
+        class C {
+            static { foo; }
+        }
+      `,
+      options: ['1tbs', { allowSingleLine: true }],
+      parserOptions: { ecmaVersion: 2022 },
+    },
+    {
+      code: $`
+        class C {
+            static {
+                foo;
             }
-          `,
-          options: ['1tbs', { allowSingleLine: true }],
-          parserOptions: { ecmaVersion: 2022 },
-        },
-        {
-          code: $`
-            class C {
-                static {
-                    foo;
-                }
+        }
+      `,
+      options: ['stroustrup'],
+      parserOptions: { ecmaVersion: 2022 },
+    },
+    {
+      code: $`
+        class C {
+            static {}
+        
+            static {
             }
-          `,
-          options: ['stroustrup'],
-          parserOptions: { ecmaVersion: 2022 },
-        },
+        }
+      `,
+      options: ['stroustrup'],
+      parserOptions: { ecmaVersion: 2022 },
+    },
+    {
+      code: $`
+        class C {
+            static { foo; }
+        }
+      `,
+      options: ['stroustrup', { allowSingleLine: true }],
+      parserOptions: { ecmaVersion: 2022 },
+    },
+    {
+      code: $`
+        class C
         {
-          code: $`
-            class C {
-                static {}
-            
-                static {
-                }
-            }
-          `,
-          options: ['stroustrup'],
-          parserOptions: { ecmaVersion: 2022 },
-        },
-        {
-          code: $`
-            class C {
-                static { foo; }
-            }
-          `,
-          options: ['stroustrup', { allowSingleLine: true }],
-          parserOptions: { ecmaVersion: 2022 },
-        },
-        {
-          code: $`
-            class C
+            static
             {
-                static
+                foo;
+            }
+        }
+      `,
+      options: ['allman'],
+      parserOptions: { ecmaVersion: 2022 },
+    },
+    {
+      code: $`
+        class C
+        {
+            static
+            {}
+        }
+      `,
+      options: ['allman'],
+      parserOptions: { ecmaVersion: 2022 },
+    },
+    {
+      code: $`
+        class C
+        {
+            static {}
+        
+            static { foo; }
+        
+            static
+            { foo; }
+        }
+      `,
+      options: ['allman', { allowSingleLine: true }],
+      parserOptions: { ecmaVersion: 2022 },
+    },
+    {
+      code: $`
+        class C {
+            static {
                 {
                     foo;
                 }
             }
-          `,
-          options: ['allman'],
-          parserOptions: { ecmaVersion: 2022 },
-        },
-        {
-          code: $`
-            class C
-            {
-                static
-                {}
-            }
-          `,
-          options: ['allman'],
-          parserOptions: { ecmaVersion: 2022 },
-        },
-        {
-          code: $`
-            class C
-            {
-                static {}
-            
-                static { foo; }
-            
-                static
-                { foo; }
-            }
-          `,
-          options: ['allman', { allowSingleLine: true }],
-          parserOptions: { ecmaVersion: 2022 },
-        },
-        {
-          code: $`
-            class C {
-                static {
-                    {
-                        foo;
-                    }
-                }
-            }
-          `,
-          options: ['1tbs'],
-          parserOptions: { ecmaVersion: 2022 },
-        },
+        }
+      `,
+      options: ['1tbs'],
+      parserOptions: { ecmaVersion: 2022 },
+    },
   ],
 
   invalid: [

@@ -184,7 +184,7 @@ enum Foo {
     baz = 1,
 }
             `,
-            `
+      `
 enum Foo
 {
     bar = 1,
@@ -599,8 +599,8 @@ type Foo = string | {
 
     const codeCases = testCase.code.map(code => [
       '', // newline to make test error messages nicer
-        `// ${testCase.node}`, // add comment to easily identify which node a test belongs to
-        code.trim(), // remove leading/trailing spaces from the case
+      `// ${testCase.node}`, // add comment to easily identify which node a test belongs to
+      code.trim(), // remove leading/trailing spaces from the case
     ].join('\n'))
 
     codeCases.forEach((code) => {

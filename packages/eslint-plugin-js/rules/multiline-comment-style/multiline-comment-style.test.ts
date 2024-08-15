@@ -9,35 +9,35 @@ run({
   name: 'multiline-comment-style',
   rule,
   valid: [
-        `
+    `
             /*
              * this is
              * a comment
              */
         `,
-        `
+    `
             /**
              * this is
              * a JSDoc comment
              */
         `,
-        `
+    `
             /* eslint semi: [
               "error"
             ] */
         `,
-        `
+    `
             // this is a single-line comment
         `,
-        `
+    `
             /* foo */
         `,
-        `
+    `
             // this is a comment
             foo();
             // this is another comment
         `,
-        `
+    `
             /*
              * Function overview
              * ...
@@ -46,7 +46,7 @@ run({
             // Step 1: Do the first thing
             foo();
         `,
-        `
+    `
             /*
              * Function overview
              * ...
@@ -58,213 +58,213 @@ run({
              */
             foo();
         `,
-        '\t\t/**\n\t\t * this comment\n\t\t * is tab-aligned\n\t\t */',
+    '\t\t/**\n\t\t * this comment\n\t\t * is tab-aligned\n\t\t */',
 
-        '/**\r\n * this comment\r\n * uses windows linebreaks\r\n */',
+    '/**\r\n * this comment\r\n * uses windows linebreaks\r\n */',
 
-        '/**\u2029 * this comment\u2029 * uses paragraph separators\u2029 */',
+    '/**\u2029 * this comment\u2029 * uses paragraph separators\u2029 */',
 
-        `
+    `
             foo(/* this is an
                 inline comment */);
         `,
 
-        `
+    `
             // The following line comment
             // contains '*/'.
         `,
-        {
-          code: `
+    {
+      code: `
                 // The following line comment
                 // contains '*/'.
             `,
-          options: ['bare-block'],
-        },
-        {
-          code: `
+      options: ['bare-block'],
+    },
+    {
+      code: `
                 /*
                  * this is
                  * a comment
                  */
             `,
-          options: ['starred-block'],
-        },
-        {
-          code: `
+      options: ['starred-block'],
+    },
+    {
+      code: `
                 /**
                  * this is
                  * a JSDoc comment
                  */
             `,
-          options: ['starred-block'],
-        },
-        {
-          code: `
+      options: ['starred-block'],
+    },
+    {
+      code: `
                 /* eslint semi: [
                   "error"
                 ] */
             `,
-          options: ['starred-block'],
-        },
-        {
-          code: `
+      options: ['starred-block'],
+    },
+    {
+      code: `
                 // this is a single-line comment
             `,
-          options: ['starred-block'],
-        },
-        {
-          code: `
+      options: ['starred-block'],
+    },
+    {
+      code: `
                 /* foo */
             `,
-          options: ['starred-block'],
-        },
-        {
-          code: `
+      options: ['starred-block'],
+    },
+    {
+      code: `
                 /*
                  * foo
                  */
             `,
-          options: ['starred-block'],
-        },
-        {
-          code: `
+      options: ['starred-block'],
+    },
+    {
+      code: `
                 /* foo */
             `,
-          options: ['bare-block'],
-        },
-        {
-          code: `
+      options: ['bare-block'],
+    },
+    {
+      code: `
                 /*
                    foo */
             `,
-          options: ['bare-block'],
-        },
-        {
-          code: `
+      options: ['bare-block'],
+    },
+    {
+      code: `
                 /*
                    foo
                 */
             `,
-          options: ['bare-block'],
-        },
-        {
-          code: `
+      options: ['bare-block'],
+    },
+    {
+      code: `
                 /*
               foo */
             `,
-          options: ['bare-block'],
-        },
-        {
-          code: `
+      options: ['bare-block'],
+    },
+    {
+      code: `
                 /*
             foo
         */
             `,
-          options: ['bare-block'],
-        },
-        {
-          code: `
+      options: ['bare-block'],
+    },
+    {
+      code: `
                 // this is
                 // a comment
             `,
-          options: ['separate-lines'],
-        },
-        {
-          code: `
+      options: ['separate-lines'],
+    },
+    {
+      code: `
                 /* this is
                    a comment */ foo;
             `,
-          options: ['separate-lines'],
-        },
-        {
-          code: `
+      options: ['separate-lines'],
+    },
+    {
+      code: `
                 // a comment
 
                 // another comment
             `,
-          options: ['separate-lines'],
-        },
-        {
-          code: `
+      options: ['separate-lines'],
+    },
+    {
+      code: `
                 // a comment
 
                 // another comment
             `,
-          options: ['bare-block'],
-        },
-        {
-          code: `
+      options: ['bare-block'],
+    },
+    {
+      code: `
                 // a comment
 
                 // another comment
             `,
-          options: ['starred-block'],
-        },
-        {
-          code: `
+      options: ['starred-block'],
+    },
+    {
+      code: `
                 /* eslint semi: "error" */
             `,
-          options: ['separate-lines'],
-        },
-        {
-          code: `
+      options: ['separate-lines'],
+    },
+    {
+      code: `
                 /**
                  * This is
                  * a JSDoc comment
                  */
             `,
-          options: ['separate-lines'],
-        },
-        {
-          code: `
+      options: ['separate-lines'],
+    },
+    {
+      code: `
                 /**
                  * This is
                  * a JSDoc comment
                  */
             `,
-          options: ['starred-block'],
-        },
-        {
-          code: `
+      options: ['starred-block'],
+    },
+    {
+      code: `
                 /**
                  * This is
                  * a JSDoc comment
                  */
             `,
-          options: ['bare-block'],
-        },
-        {
-          code: `
+      options: ['bare-block'],
+    },
+    {
+      code: `
                 /* This is
                    a comment */
             `,
-          options: ['bare-block'],
-        },
-        {
-          code: `
+      options: ['bare-block'],
+    },
+    {
+      code: `
                 /* This is
                          a comment */
             `,
-          options: ['bare-block'],
-        },
-        {
-          code: `
+      options: ['bare-block'],
+    },
+    {
+      code: `
                 /* eslint semi: [
                     "error"
                 ] */
             `,
-          options: ['separate-lines'],
-        },
-        {
-          code: `
+      options: ['separate-lines'],
+    },
+    {
+      code: `
                 /* The value of 5
                  + 4 is 9, and the value of 5
                  * 4 is 20. */
             `,
-          options: ['bare-block'],
-        },
-        {
-          code: `
+      options: ['bare-block'],
+    },
+    {
+      code: `
                 /*
                  *    foo
                  *  bar
@@ -272,20 +272,20 @@ run({
                  * qux
                  */
             `,
-          options: ['starred-block'],
-        },
-        {
-          code: `
+      options: ['starred-block'],
+    },
+    {
+      code: `
                 /*    foo
                  *  bar
                  *   baz
                  * qux
                  */
             `,
-          options: ['bare-block'],
-        },
-        {
-          code: `
+      options: ['bare-block'],
+    },
+    {
+      code: `
                 /**
                  *    JSDoc blocks
                  *  are
@@ -293,10 +293,10 @@ run({
                  * !
                  */
             `,
-          options: ['bare-block'],
-        },
-        {
-          code: `
+      options: ['bare-block'],
+    },
+    {
+      code: `
                 /**
                  *    JSDoc blocks
                  *  are
@@ -304,10 +304,10 @@ run({
                  * !
                  */
             `,
-          options: ['starred-block'],
-        },
-        {
-          code: `
+      options: ['starred-block'],
+    },
+    {
+      code: `
                 /**
                  *    JSDoc blocks
                  *  are
@@ -315,17 +315,17 @@ run({
                  * !
                  */
             `,
-          options: ['separate-lines'],
-        },
-        {
-          code: `
+      options: ['separate-lines'],
+    },
+    {
+      code: `
                 /*
                  * // a line comment
                  *some.code();
                  */
             `,
-          options: ['starred-block'],
-        },
+      options: ['starred-block'],
+    },
   ],
 
   invalid: [

@@ -152,7 +152,7 @@ export async function writePackageDTS(pkg: PackageInfo) {
 
   await fs.writeFile(
     join(pkg.path, 'dts', 'define-config-support.d.ts'),
-`${GEN_HEADER}
+    `${GEN_HEADER}
 import type { RuleOptions } from './rule-options'
 
 declare module 'eslint-define-config' {
@@ -161,7 +161,7 @@ declare module 'eslint-define-config' {
 
 export {}
 `,
-'utf-8',
+    'utf-8',
   )
 }
 

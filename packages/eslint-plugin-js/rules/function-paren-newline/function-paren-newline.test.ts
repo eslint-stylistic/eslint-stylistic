@@ -29,600 +29,600 @@ run({
     'foo => {};',
     'baz(foo, bar);',
     'function baz() {}',
-        `
-            function baz(
-                foo,
-                bar
-            ) {}
-        `,
-        `
-            (function(
-                foo,
-                bar
-            ) {});
-        `,
-        `
-            (function baz(
-                foo,
-                bar
-            ) {});
-        `,
-        `
-            (
-                foo,
-                bar
-            ) => {};
-        `,
-        `
-            baz(
-                foo,
-                bar
-            );
-        `,
-        `
-            baz(\`foo
-                bar\`)
-        `,
-        'new Foo(bar, baz)',
-        'new Foo',
-        'new (Foo)',
+    $`
+      function baz(
+          foo,
+          bar
+      ) {}
+    `,
+    $`
+      (function(
+          foo,
+          bar
+      ) {});
+    `,
+    $`
+      (function baz(
+          foo,
+          bar
+      ) {});
+    `,
+    $`
+      (
+          foo,
+          bar
+      ) => {};
+    `,
+    $`
+      baz(
+          foo,
+          bar
+      );
+    `,
+    $`
+      baz(\`foo
+          bar\`)
+    `,
+    'new Foo(bar, baz)',
+    'new Foo',
+    'new (Foo)',
 
-        `
-            (foo)
-            (bar)
-        `,
-        `
-            foo.map(value => {
-              return value;
-            })
-        `,
-        {
-          code: 'function baz(foo, bar) {}',
-          options: ['multiline'],
-        },
-        {
-          code: 'async (foo, bar) => {};',
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: `
+    $`
+      (foo)
+      (bar)
+    `,
+    $`
+      foo.map(value => {
+        return value;
+      })
+    `,
+    {
+      code: 'function baz(foo, bar) {}',
+      options: ['multiline'],
+    },
+    {
+      code: 'async (foo, bar) => {};',
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: `
                 async (
                     foo,
                     bar
                 ) => {};
             `,
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: 'async foo => {};',
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: 'import(source)',
-          parserOptions: { ecmaVersion: 2020 },
-        },
-        {
-          code: 'import(source\n  + ext)',
-          parserOptions: { ecmaVersion: 2020 },
-        },
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: 'async foo => {};',
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: 'import(source)',
+      parserOptions: { ecmaVersion: 2020 },
+    },
+    {
+      code: 'import(source\n  + ext)',
+      parserOptions: { ecmaVersion: 2020 },
+    },
 
-        // multiline-arguments
-        {
-          code: 'function baz(foo, bar) {}',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: 'function baz(foo) {}',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: '(function(foo, bar) {});',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: '(function(foo) {});',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: '(function baz(foo, bar) {});',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: '(function baz(foo) {});',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: '(foo, bar) => {};',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: 'foo => {};',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: 'baz(foo, bar);',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: 'baz(foo);',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: 'function baz() {}',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: `
-                function baz(
-                    foo,
-                    bar
-                ) {}
-            `,
-          options: ['multiline-arguments'],
-        },
-        {
-          code: `
-                function baz(
-                    foo
-                ) {}
-            `,
-          options: ['multiline-arguments'],
-        },
-        {
-          code: `
-                (function(
-                    foo,
-                    bar
-                ) {});
-            `,
-          options: ['multiline-arguments'],
-        },
-        {
-          code: `
-                (function(
-                    foo
-                ) {});
-            `,
-          options: ['multiline-arguments'],
-        },
-        {
-          code: `
-                (function baz(
-                    foo,
-                    bar
-                ) {});
-            `,
-          options: ['multiline-arguments'],
-        },
-        {
-          code: `
-                (function baz(
-                    foo
-                ) {});
-            `,
-          options: ['multiline-arguments'],
-        },
-        {
-          code: `
-                (
-                    foo,
-                    bar
-                ) => {};
-            `,
-          options: ['multiline-arguments'],
-        },
-        {
-          code: `
-                (
-                    foo
-                ) => {};
-            `,
-          options: ['multiline-arguments'],
-        },
-        {
-          code: `
-                baz(
-                    foo,
-                    bar
-                );
-            `,
-          options: ['multiline-arguments'],
-        },
-        {
-          code: `
-                baz(
-                    foo
-                );
-            `,
-          options: ['multiline-arguments'],
-        },
-        {
-          code: `
+    // multiline-arguments
+    {
+      code: 'function baz(foo, bar) {}',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: 'function baz(foo) {}',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: '(function(foo, bar) {});',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: '(function(foo) {});',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: '(function baz(foo, bar) {});',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: '(function baz(foo) {});',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: '(foo, bar) => {};',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: 'foo => {};',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: 'baz(foo, bar);',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: 'baz(foo);',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: 'function baz() {}',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: $`
+        function baz(
+            foo,
+            bar
+        ) {}
+      `,
+      options: ['multiline-arguments'],
+    },
+    {
+      code: $`
+        function baz(
+            foo
+        ) {}
+      `,
+      options: ['multiline-arguments'],
+    },
+    {
+      code: $`
+        (function(
+            foo,
+            bar
+        ) {});
+      `,
+      options: ['multiline-arguments'],
+    },
+    {
+      code: $`
+        (function(
+            foo
+        ) {});
+      `,
+      options: ['multiline-arguments'],
+    },
+    {
+      code: $`
+        (function baz(
+            foo,
+            bar
+        ) {});
+      `,
+      options: ['multiline-arguments'],
+    },
+    {
+      code: $`
+        (function baz(
+            foo
+        ) {});
+      `,
+      options: ['multiline-arguments'],
+    },
+    {
+      code: $`
+        (
+            foo,
+            bar
+        ) => {};
+      `,
+      options: ['multiline-arguments'],
+    },
+    {
+      code: $`
+        (
+            foo
+        ) => {};
+      `,
+      options: ['multiline-arguments'],
+    },
+    {
+      code: $`
+        baz(
+            foo,
+            bar
+        );
+      `,
+      options: ['multiline-arguments'],
+    },
+    {
+      code: $`
+        baz(
+            foo
+        );
+      `,
+      options: ['multiline-arguments'],
+    },
+    {
+      code: `
                 baz(\`foo
                     bar\`)
             `,
-          options: ['multiline-arguments'],
-        },
-        {
-          code: 'new Foo(bar, baz)',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: 'new Foo(bar)',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: 'new Foo',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: 'new (Foo)',
-          options: ['multiline-arguments'],
-        },
-        {
-          code: 'async (foo, bar) => {};',
-          options: ['multiline-arguments'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: 'async (foo) => {};',
-          options: ['multiline-arguments'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: `
+      options: ['multiline-arguments'],
+    },
+    {
+      code: 'new Foo(bar, baz)',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: 'new Foo(bar)',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: 'new Foo',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: 'new (Foo)',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: 'async (foo, bar) => {};',
+      options: ['multiline-arguments'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: 'async (foo) => {};',
+      options: ['multiline-arguments'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: `
                 async (
                     foo
                 ) => {};
             `,
-          options: ['multiline-arguments'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: `
+      options: ['multiline-arguments'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: `
                 async (
                     foo,
                     bar
                 ) => {};
             `,
-          options: ['multiline-arguments'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: 'async foo => {};',
-          options: ['multiline-arguments'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: 'import(source)',
-          options: ['multiline-arguments'],
-          parserOptions: { ecmaVersion: 2020 },
-        },
-        {
-          code: 'import(source\n  + ext)',
-          options: ['multiline-arguments'],
-          parserOptions: { ecmaVersion: 2020 },
-        },
+      options: ['multiline-arguments'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: 'async foo => {};',
+      options: ['multiline-arguments'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: 'import(source)',
+      options: ['multiline-arguments'],
+      parserOptions: { ecmaVersion: 2020 },
+    },
+    {
+      code: 'import(source\n  + ext)',
+      options: ['multiline-arguments'],
+      parserOptions: { ecmaVersion: 2020 },
+    },
 
-        {
-          code: `
+    {
+      code: `
                 (foo)
                 (bar)
             `,
-          options: ['multiline-arguments'],
-        },
-        {
-          code: `
+      options: ['multiline-arguments'],
+    },
+    {
+      code: `
                 foo.map(value => {
                   return value;
                 })
             `,
-          options: ['multiline-arguments'],
-        },
+      options: ['multiline-arguments'],
+    },
 
-        // always option
-        {
-          code: `
+    // always option
+    {
+      code: `
                 function baz(
                     foo,
                     bar
                 ) {}
             `,
-          options: ['always'],
-        },
-        {
-          code: `
+      options: ['always'],
+    },
+    {
+      code: `
                 (function(
                     foo,
                     bar
                 ) {});
             `,
-          options: ['always'],
-        },
-        {
-          code: `
+      options: ['always'],
+    },
+    {
+      code: `
                 (function baz(
                     foo,
                     bar
                 ) {});
             `,
-          options: ['always'],
-        },
-        {
-          code: `
+      options: ['always'],
+    },
+    {
+      code: `
                 (
                     foo,
                     bar
                 ) => {};
             `,
-          options: ['always'],
-        },
-        {
-          code: `
+      options: ['always'],
+    },
+    {
+      code: `
                 baz(
                     foo,
                     bar
                 );
             `,
-          options: ['always'],
-        },
-        {
-          code: `
+      options: ['always'],
+    },
+    {
+      code: `
                 function baz(
                 ) {}
             `,
-          options: ['always'],
-        },
-        {
-          code: `
+      options: ['always'],
+    },
+    {
+      code: `
                 async (
                     foo
                 ) => {};
             `,
-          options: ['always'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: `
+      options: ['always'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: `
                 async (
                     foo,
                     bar
                 ) => {};
             `,
-          options: ['always'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: 'async foo => {};',
-          options: ['always'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: 'import(\n  source\n)',
-          options: ['always'],
-          parserOptions: { ecmaVersion: 2020 },
-        },
+      options: ['always'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: 'async foo => {};',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: 'import(\n  source\n)',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 2020 },
+    },
 
-        // never option
-        {
-          code: 'function baz(foo, bar) {}',
-          options: ['never'],
-        },
-        {
-          code: '(function(foo, bar) {});',
-          options: ['never'],
-        },
-        {
-          code: '(function baz(foo, bar) {});',
-          options: ['never'],
-        },
-        {
-          code: '(foo, bar) => {};',
-          options: ['never'],
-        },
-        {
-          code: 'baz(foo, bar);',
-          options: ['never'],
-        },
-        {
-          code: 'function baz() {}',
-          options: ['never'],
-        },
-        {
-          code: 'async (foo, bar) => {};',
-          options: ['never'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: 'async foo => {};',
-          options: ['never'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: 'import(source)',
-          options: ['never'],
-          parserOptions: { ecmaVersion: 2020 },
-        },
+    // never option
+    {
+      code: 'function baz(foo, bar) {}',
+      options: ['never'],
+    },
+    {
+      code: '(function(foo, bar) {});',
+      options: ['never'],
+    },
+    {
+      code: '(function baz(foo, bar) {});',
+      options: ['never'],
+    },
+    {
+      code: '(foo, bar) => {};',
+      options: ['never'],
+    },
+    {
+      code: 'baz(foo, bar);',
+      options: ['never'],
+    },
+    {
+      code: 'function baz() {}',
+      options: ['never'],
+    },
+    {
+      code: 'async (foo, bar) => {};',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: 'async foo => {};',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: 'import(source)',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 2020 },
+    },
 
-        // minItems option
-        {
-          code: 'function baz(foo, bar) {}',
-          options: [{ minItems: 3 }],
-        },
-        {
-          code: `
+    // minItems option
+    {
+      code: 'function baz(foo, bar) {}',
+      options: [{ minItems: 3 }],
+    },
+    {
+      code: `
                 function baz(
                     foo, bar, qux
                 ) {}
             `,
-          options: [{ minItems: 3 }],
-        },
-        {
-          code: `
+      options: [{ minItems: 3 }],
+    },
+    {
+      code: `
                 baz(
                     foo, bar, qux
                 );
             `,
-          options: [{ minItems: 3 }],
-        },
-        {
-          code: 'baz(foo, bar);',
-          options: [{ minItems: 3 }],
-        },
-        {
-          code: 'async (foo, bar) => {};',
-          options: [{ minItems: 3 }],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: `
+      options: [{ minItems: 3 }],
+    },
+    {
+      code: 'baz(foo, bar);',
+      options: [{ minItems: 3 }],
+    },
+    {
+      code: 'async (foo, bar) => {};',
+      options: [{ minItems: 3 }],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: `
                 async (
                     foo,
                     bar,
                     baz
                 ) => {};
             `,
-          options: [{ minItems: 3 }],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: 'async foo => {};',
-          options: [{ minItems: 3 }],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: 'import(source)',
-          options: [{ minItems: 3 }],
-          parserOptions: { ecmaVersion: 2020 },
-        },
-        {
-          code: 'import(\n  source\n)',
-          options: [{ minItems: 1 }],
-          parserOptions: { ecmaVersion: 2020 },
-        },
+      options: [{ minItems: 3 }],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: 'async foo => {};',
+      options: [{ minItems: 3 }],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: 'import(source)',
+      options: [{ minItems: 3 }],
+      parserOptions: { ecmaVersion: 2020 },
+    },
+    {
+      code: 'import(\n  source\n)',
+      options: [{ minItems: 1 }],
+      parserOptions: { ecmaVersion: 2020 },
+    },
 
-        // consistent option
-        {
-          code: 'foo(bar, baz)',
-          options: ['consistent'],
-        },
-        {
-          code: `
+    // consistent option
+    {
+      code: 'foo(bar, baz)',
+      options: ['consistent'],
+    },
+    {
+      code: `
                 foo(bar,
                 baz)
             `,
-          options: ['consistent'],
-        },
-        {
-          code: `
+      options: ['consistent'],
+    },
+    {
+      code: `
                 foo(
                     bar, baz
                 )
             `,
-          options: ['consistent'],
-        },
-        {
-          code: `
+      options: ['consistent'],
+    },
+    {
+      code: `
                 foo(
                     bar,
                     baz
                 )
             `,
-          options: ['consistent'],
-        },
-        {
-          code: 'async (foo, bar) => {};',
-          options: ['consistent'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: 'async foo => {};',
-          options: ['consistent'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: `
+      options: ['consistent'],
+    },
+    {
+      code: 'async (foo, bar) => {};',
+      options: ['consistent'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: 'async foo => {};',
+      options: ['consistent'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: `
                 async (foo,
                     bar) => {};
             `,
-          options: ['consistent'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: `
+      options: ['consistent'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: `
                 async (
                     foo, bar
                 ) => {};
             `,
-          options: ['consistent'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: `
+      options: ['consistent'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: `
                 async (
                     foo,
                     bar
                 ) => {};
             `,
-          options: ['consistent'],
-          parserOptions: { ecmaVersion: 2017 },
-        },
-        {
-          code: 'import(source)',
-          options: ['consistent'],
-          parserOptions: { ecmaVersion: 2020 },
-        },
-        {
-          code: 'import(\n  source\n)',
-          options: ['consistent'],
-          parserOptions: { ecmaVersion: 2020 },
-        },
+      options: ['consistent'],
+      parserOptions: { ecmaVersion: 2017 },
+    },
+    {
+      code: 'import(source)',
+      options: ['consistent'],
+      parserOptions: { ecmaVersion: 2020 },
+    },
+    {
+      code: 'import(\n  source\n)',
+      options: ['consistent'],
+      parserOptions: { ecmaVersion: 2020 },
+    },
 
-        // https://github.com/eslint/eslint/issues/15091#issuecomment-975605821
-        {
-          code: $`
-            const method6 = (
-              abc: number,
-              def: () => void,
-            ): [
-              string,
-              () => void
-            ] => [\`a\${abc}\`, def];
-            method6(3, () => {});
-          `,
-          options: ['multiline'],
-          parser: tsParser,
-        },
-        {
-          code: $`
-            function a<A extends Array<any>, T extends (...args: any[]) => any> (
-              b: T,
-              c: any,
-            ): any {}
-          `,
-          options: ['multiline'],
-          parser: tsParser,
-        },
-        {
-          code: $`
-            const a = function <A extends Array<any>, T extends (...args: any[]) => any> (
-              b: T,
-              c: any,
-            ): any {}
-          `,
-          options: ['multiline'],
-          parser: tsParser,
-        },
-        {
-          code: $`
-            a<Array<any>, (...args: any[]) => any>(
-              b,
-              c,
-            )
-          `,
-          options: ['multiline'],
-          parser: tsParser,
-        },
+    // https://github.com/eslint/eslint/issues/15091#issuecomment-975605821
+    {
+      code: $`
+        const method6 = (
+          abc: number,
+          def: () => void,
+        ): [
+          string,
+          () => void
+        ] => [\`a\${abc}\`, def];
+        method6(3, () => {});
+      `,
+      options: ['multiline'],
+      parser: tsParser,
+    },
+    {
+      code: $`
+        function a<A extends Array<any>, T extends (...args: any[]) => any> (
+          b: T,
+          c: any,
+        ): any {}
+      `,
+      options: ['multiline'],
+      parser: tsParser,
+    },
+    {
+      code: $`
+        const a = function <A extends Array<any>, T extends (...args: any[]) => any> (
+          b: T,
+          c: any,
+        ): any {}
+      `,
+      options: ['multiline'],
+      parser: tsParser,
+    },
+    {
+      code: $`
+        a<Array<any>, (...args: any[]) => any>(
+          b,
+          c,
+        )
+      `,
+      options: ['multiline'],
+      parser: tsParser,
+    },
   ],
 
   invalid: [

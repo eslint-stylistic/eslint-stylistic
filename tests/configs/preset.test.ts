@@ -80,10 +80,10 @@ export default [
     }
   },
   ${
-    typeof configs === 'string'
-      ? `stylistic.configs['${configs}']`
-      : `stylistic.configs.customize(${JSON.stringify(configs)})`
-  },
+  typeof configs === 'string'
+    ? `stylistic.configs['${configs}']`
+    : `stylistic.configs.customize(${JSON.stringify(configs)})`
+},
   ...${JSON.stringify(items) ?? []},
 ]
   `)
