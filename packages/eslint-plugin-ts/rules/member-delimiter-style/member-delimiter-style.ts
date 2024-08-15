@@ -127,6 +127,7 @@ const BASE_SCHEMA: JSONSchema.JSONSchema4 = {
 
 export default createRule<Options, MessageIds>({
   name: 'member-delimiter-style',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
@@ -313,8 +314,7 @@ export default createRule<Options, MessageIds>({
     function checkMemberSeparatorStyle(
       node: Tree.TSInterfaceBody | Tree.TSTypeLiteral,
     ): void {
-      const members
-        = node.type === AST_NODE_TYPES.TSInterfaceBody ? node.body : node.members
+      const members = node.type === AST_NODE_TYPES.TSInterfaceBody ? node.body : node.members
 
       let isSingleLine = node.loc.start.line === node.loc.end.line
       if (

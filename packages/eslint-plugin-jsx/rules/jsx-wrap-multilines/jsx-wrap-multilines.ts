@@ -4,10 +4,9 @@
  */
 
 import type { ASTNode, Token } from '@shared/types'
-import { docsUrl } from '../../utils/docsUrl'
-import { isJSX } from '../../utils/jsx'
-import { isParenthesized } from '../../utils/ast'
-import { createRule } from '../../utils/createRule'
+import { isJSX } from '../../../utils/ast/jsx'
+import { isParenthesized } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const DEFAULTS: Required<Exclude<RuleOptions[0], undefined>> = {
@@ -26,13 +25,14 @@ const messages = {
   parensOnNewLines: 'Parentheses around JSX should be on separate lines',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-wrap-multilines',
+  package: 'jsx',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow missing parentheses around multiline JSX',
-      url: docsUrl('jsx-wrap-multilines'),
     },
 
     fixable: 'code',

@@ -4,17 +4,18 @@
  */
 
 import type { Tree } from '@shared/types'
-import { isOpeningParenToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isOpeningParenToken } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'space-before-function-paren',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing before `function` definition opening parenthesis',
-      url: 'https://eslint.style/rules/js/space-before-function-paren',
     },
 
     fixable: 'whitespace',

@@ -31,22 +31,22 @@
  */
 
 import type { ASTNode } from '@shared/types'
-import { isNodeFirstInLine } from '../../utils/ast'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
+import { isNodeFirstInLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-indent-props',
+  package: 'jsx',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce props indentation in JSX',
-      url: docsUrl('jsx-indent-props'),
     },
     fixable: 'code',
 

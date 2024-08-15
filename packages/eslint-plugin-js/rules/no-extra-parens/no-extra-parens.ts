@@ -20,17 +20,18 @@ import {
   isOpeningParenToken,
   isTopLevelExpressionStatement,
   skipChainExpression,
-} from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+} from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'no-extra-parens',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow unnecessary parentheses',
-      url: 'https://eslint.style/rules/js/no-extra-parens',
     },
 
     fixable: 'code',

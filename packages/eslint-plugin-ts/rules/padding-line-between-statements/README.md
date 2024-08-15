@@ -6,17 +6,18 @@ description: Require or disallow padding lines between statements.
 
 This rule extends the base [`padding-line-between-statements`](/rules/js/padding-line-between-statements) rule.
 
-It adds support for TypeScript constructs such as `interface` and `type`.
+It adds support for TypeScript constructs such as `enum`, `interface` and `type`.
 
 ## Options
 
 In addition to options provided by ESLint, the following options can be used as statement types:
 
+- `enum`
 - `interface`
 - `type`
 - `function-overload`
 
-For example, to add blank lines before interfaces and type definitions:
+For example, to add blank lines before enums, interfaces and type definitions:
 
 ```jsonc
 {
@@ -25,7 +26,7 @@ For example, to add blank lines before interfaces and type definitions:
     {
       "blankLine": "always",
       "prev": "*",
-      "next": ["interface", "type"]
+      "next": ["enum", "interface", "type"]
     }
   ]
 }

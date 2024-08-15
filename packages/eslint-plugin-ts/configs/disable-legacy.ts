@@ -2,7 +2,7 @@
 
 import type { Linter } from 'eslint'
 
-const config: Linter.FlatConfig = {
+const config: Linter.Config = {
   rules: {
     '@typescript-eslint/block-spacing': 0,
     '@typescript-eslint/brace-style': 0,

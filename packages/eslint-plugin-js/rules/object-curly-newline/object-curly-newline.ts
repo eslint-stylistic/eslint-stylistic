@@ -4,8 +4,8 @@
  */
 
 import type { JSONSchema, Token, Tree } from '@shared/types'
-import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isCommentToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 // Schema objects.
@@ -158,13 +158,14 @@ function areLineBreaksRequired(
     )
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'object-curly-newline',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent line breaks after opening and before closing braces',
-      url: 'https://eslint.style/rules/js/object-curly-newline',
     },
 
     fixable: 'whitespace',

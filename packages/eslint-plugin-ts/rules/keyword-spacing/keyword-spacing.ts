@@ -26,11 +26,11 @@ const schema = deepMerge(
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'keyword-spacing',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
       description: 'Enforce consistent spacing before and after keywords',
-      extendsBaseRule: true,
     },
     fixable: 'whitespace',
     hasSuggestions: baseRule.meta.hasSuggestions,

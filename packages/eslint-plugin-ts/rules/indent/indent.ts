@@ -84,12 +84,12 @@ const KNOWN_NODES = new Set([
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'indent',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
       description: 'Enforce consistent indentation',
       // too opinionated to be recommended
-      extendsBaseRule: true,
     },
     fixable: 'whitespace',
     hasSuggestions: baseRule.meta.hasSuggestions,
@@ -154,9 +154,9 @@ export default createRule<RuleOptions, MessageIds>({
       }
       if (type === AST_NODE_TYPES.Property) {
         return {
+          ...base as unknown as Tree.Property,
           type,
-          ...base,
-        } as Tree.Property
+        }
       }
       return {
         type,
@@ -181,44 +181,6 @@ export default createRule<RuleOptions, MessageIds>({
         // For nodes we care about, skip the default handling, because it just marks the node as ignored...
         if (!KNOWN_NODES.has(node.type))
           rules['*:exit'](node)
-      },
-
-      PropertyDefinition(node) {
-        if (node.parent.type !== AST_NODE_TYPES.ClassBody || !node.decorators?.length || node.loc.start.line === node.loc.end.line)
-          return rules.PropertyDefinition(node)
-
-        let startDecorator = node.decorators[0]
-        let endDecorator = startDecorator
-
-        for (let i = 1; i <= node.decorators.length; i++) {
-          const decorator = node.decorators[i]
-          if (i === node.decorators.length || startDecorator.loc.start.line !== decorator.loc.start.line) {
-            rules.PropertyDefinition({
-              type: AST_NODE_TYPES.PropertyDefinition,
-              key: node.key,
-              parent: node.parent,
-              range: [startDecorator.range[0], endDecorator.range[1]],
-              loc: {
-                start: startDecorator.loc.start,
-                end: endDecorator.loc.end,
-              },
-            })
-            if (decorator)
-              startDecorator = endDecorator = decorator
-          }
-          else {
-            endDecorator = decorator
-          }
-        }
-
-        return rules.PropertyDefinition({
-          ...node,
-          range: [endDecorator.range[1] + 1, node.range[1]],
-          loc: {
-            start: node.key.loc.start,
-            end: node.loc.end,
-          },
-        })
       },
 
       VariableDeclaration(node) {
@@ -276,14 +238,15 @@ export default createRule<RuleOptions, MessageIds>({
       'TSEnumDeclaration, TSTypeLiteral': function (
         node: Tree.TSEnumDeclaration | Tree.TSTypeLiteral,
       ) {
+        const members = 'body' in node
+          ? node.body?.members || node.members
+          : node.members
+
         // transform it to an ObjectExpression
         return rules['ObjectExpression, ObjectPattern']({
           type: AST_NODE_TYPES.ObjectExpression,
-          properties: (
-            node.members as (Tree.TSEnumMember | Tree.TypeElement)[]
-          ).map(
-            member =>
-              TSPropertySignatureToProperty(member) as Tree.Property,
+          properties: members.map(
+            member => TSPropertySignatureToProperty(member) as Tree.Property,
           ),
 
           // location data
@@ -412,8 +375,9 @@ export default createRule<RuleOptions, MessageIds>({
 
       TSMappedType(node: Tree.TSMappedType) {
         const sourceCode = context.sourceCode
+
         const squareBracketStart = sourceCode.getTokenBefore(
-          node.typeParameter,
+          node.constraint || node.typeParameter,
         )!
 
         // transform it to an ObjectExpression
@@ -423,7 +387,7 @@ export default createRule<RuleOptions, MessageIds>({
             {
               parent: node,
               type: AST_NODE_TYPES.Property,
-              key: node.typeParameter as any,
+              key: node.key || node.typeParameter as any,
               value: node.typeAnnotation as any,
 
               // location data

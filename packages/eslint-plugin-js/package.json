@@ -1,6 +1,6 @@
 {
   "name": "@stylistic/eslint-plugin-js",
-  "version": "2.3.0",
+  "version": "2.6.2",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
@@ -114,14 +114,9 @@
     "eslint": ">=8.40.0"
   },
   "dependencies": {
-    "@types/eslint": "^8.56.10",
-    "acorn": "^8.12.0",
+    "@types/eslint": "^9.6.0",
+    "acorn": "^8.12.1",
     "eslint-visitor-keys": "^4.0.0",
     "espree": "^10.1.0"
-  },
-  "devDependencies": {
-    "@eslint-community/eslint-utils": "^4.4.0",
-    "@typescript-eslint/parser": "^7.14.1",
-    "escape-string-regexp": "^5.0.0"
   }
 }

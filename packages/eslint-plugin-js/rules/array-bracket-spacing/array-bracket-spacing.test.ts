@@ -3,11 +3,9 @@
  * @author Ian Christian Myers
  */
 
-import { createParserResolver } from '../../test-utils/fixture-parser'
+import { languageOptionsForBabelFlow } from '../../../test-utils/parsers-flow'
 import rule from './array-bracket-spacing'
 import { run } from '#test'
-
-const parser = createParserResolver('array-bracket-spacing')
 
 run({
   name: 'array-bracket-spacing',
@@ -153,8 +151,22 @@ run({
     { code: 'var obj = {\'foo\': [1, 2]}', options: ['never'] },
 
     // destructuring with type annotation
-    { code: '([ a, b ]: Array<any>) => {}', options: ['always'], parser: parser('flow-destructuring-1'), parserOptions: { ecmaVersion: 6 } },
-    { code: '([a, b]: Array< any >) => {}', options: ['never'], parser: parser('flow-destructuring-2'), parserOptions: { ecmaVersion: 6 } },
+    {
+      code: '([ a, b ]: Array<any>) => {}',
+      options: ['always'],
+      languageOptions: {
+        ...languageOptionsForBabelFlow,
+        ecmaVersion: 6,
+      },
+    },
+    {
+      code: '([a, b]: Array< any >) => {}',
+      options: ['never'],
+      languageOptions: {
+        ...languageOptionsForBabelFlow,
+        ecmaVersion: 6,
+      },
+    },
   ],
 
   invalid: [
@@ -898,8 +910,8 @@ run({
       code: '([ a, b ]: Array<any>) => {}',
       output: '([a, b]: Array<any>) => {}',
       options: ['never'],
-      parser: parser('flow-destructuring-1'),
-      parserOptions: {
+      languageOptions: {
+        ...languageOptionsForBabelFlow,
         ecmaVersion: 6,
       },
       errors: [
@@ -931,8 +943,8 @@ run({
       code: '([a, b]: Array< any >) => {}',
       output: '([ a, b ]: Array< any >) => {}',
       options: ['always'],
-      parser: parser('flow-destructuring-2'),
-      parserOptions: {
+      languageOptions: {
+        ...languageOptionsForBabelFlow,
         ecmaVersion: 6,
       },
       errors: [

@@ -35,12 +35,12 @@ type OptionsUnion = UnionToIntersection<Exclude<RuleOptions[0], undefined>>
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'key-spacing',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
       description:
         'Enforce consistent spacing between property names and type annotations in types and interfaces',
-      extendsBaseRule: true,
     },
     fixable: 'whitespace',
     hasSuggestions: baseRule.meta.hasSuggestions,
@@ -384,8 +384,9 @@ export default createRule<RuleOptions, MessageIds>({
     ): void {
       const isSingleLine = body.loc.start.line === body.loc.end.line
 
-      const members
-        = body.type === AST_NODE_TYPES.TSTypeLiteral ? body.members : body.body
+      const members = body.type === AST_NODE_TYPES.TSTypeLiteral
+        ? body.members
+        : body.body
 
       let alignGroups: ASTNode[][] = []
       let unalignedElements: ASTNode[] = []

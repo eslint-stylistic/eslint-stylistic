@@ -4,7 +4,7 @@
  */
 
 import type { JSONSchema, Token, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const OVERRIDE_SCHEMA: JSONSchema.JSONSchema4 = {
@@ -24,13 +24,14 @@ const OVERRIDE_SCHEMA: JSONSchema.JSONSchema4 = {
   ],
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'generator-star-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing around `*` operators in generator functions',
-      url: 'https://eslint.style/rules/js/generator-star-spacing',
     },
 
     fixable: 'whitespace',

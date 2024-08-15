@@ -4,16 +4,17 @@
  */
 
 import type { Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'rest-spread-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce spacing between rest and spread operators and their expressions',
-      url: 'https://eslint.style/rules/js/rest-spread-spacing',
     },
 
     fixable: 'whitespace',

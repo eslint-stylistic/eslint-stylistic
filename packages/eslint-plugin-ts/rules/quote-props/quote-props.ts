@@ -1,5 +1,6 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
+import type { Tree } from '@shared/types'
 import { createRule } from '../../utils'
 import { getESLintCoreRule } from '../../utils/getESLintCoreRule'
 import type { MessageIds, RuleOptions } from './types'
@@ -8,11 +9,11 @@ const baseRule = getESLintCoreRule('quote-props')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'quote-props',
+  package: 'ts',
   meta: {
     ...baseRule.meta,
     docs: {
       description: 'Require quotes around object literal, type literal, interfaces and enums property names',
-      extendsBaseRule: true,
     },
   },
   defaultOptions: ['always'],
@@ -23,7 +24,7 @@ export default createRule<RuleOptions, MessageIds>({
       ...rules,
       TSPropertySignature(node) {
         return rules.Property!({
-          ...node,
+          ...node as unknown as Tree.Property,
           type: AST_NODE_TYPES.Property,
           shorthand: false,
           method: false,
@@ -33,7 +34,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       TSMethodSignature(node) {
         return rules.Property!({
-          ...node,
+          ...node as unknown as Tree.Property,
           type: AST_NODE_TYPES.Property,
           shorthand: false,
           method: true,
@@ -43,7 +44,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       TSEnumMember(node) {
         return rules.Property!({
-          ...node,
+          ...node as unknown as Tree.Property,
           type: AST_NODE_TYPES.Property,
           key: node.id as any,
           optional: false,
@@ -68,10 +69,11 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
       TSEnumDeclaration(node) {
+        const members = node.body?.members || node.members
         return rules.ObjectExpression!({
           ...node,
           type: AST_NODE_TYPES.ObjectExpression,
-          properties: node.members.map(member => ({ ...member, key: member.id })) as any,
+          properties: members.map(member => ({ ...member, key: member.id })) as any,
         })
       },
     }

@@ -10,11 +10,11 @@ const baseRule = getESLintCoreRule('brace-style')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'brace-style',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
       description: 'Enforce consistent brace style for blocks',
-      extendsBaseRule: true,
     },
     messages: baseRule.meta.messages,
     fixable: baseRule.meta.fixable,
@@ -123,8 +123,9 @@ export default createRule<RuleOptions, MessageIds>({
       },
       TSEnumDeclaration(node): void {
         const closingCurly = sourceCode.getLastToken(node)!
+        const members = node.body?.members || node.members
         const openingCurly = sourceCode.getTokenBefore(
-          node.members.length ? node.members[0] : closingCurly,
+          members.length ? members[0] : closingCurly,
         )!
 
         validateCurlyPair(openingCurly, closingCurly)

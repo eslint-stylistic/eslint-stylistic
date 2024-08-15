@@ -4,8 +4,8 @@
  */
 import escapeRegExp from 'escape-string-regexp'
 import type { Tree } from '@shared/types'
-import { LINEBREAKS } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { LINEBREAKS } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 /**
@@ -144,13 +144,14 @@ interface StyleRuleRegExp {
   markers: Set<string>
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'spaced-comment',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing after the `//` or `/*` in a comment',
-      url: 'https://eslint.style/rules/js/spaced-comment',
     },
 
     fixable: 'whitespace',

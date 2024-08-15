@@ -3,8 +3,7 @@
  */
 
 import type { ASTNode, RuleContext, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 function getNormalizedOption(context: Readonly<RuleContext<MessageIds, RuleOptions>>) {
@@ -37,14 +36,14 @@ const messages = {
   unexpectedAfter: 'Unexpected newline after \'{\'.',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-curly-newline',
+  package: 'jsx',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent linebreaks in curly braces in JSX attributes and expressions',
-      recommended: 'stylistic',
-      url: docsUrl('jsx-curly-newline'),
     },
 
     fixable: 'whitespace',

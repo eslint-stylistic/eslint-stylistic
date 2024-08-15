@@ -6,11 +6,11 @@ const baseRule = getESLintCoreRule('no-extra-semi')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-semi',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
       description: 'Disallow unnecessary semicolons',
-      extendsBaseRule: true,
     },
     fixable: 'code',
     hasSuggestions: baseRule.meta.hasSuggestions,

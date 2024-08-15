@@ -7,8 +7,8 @@
  */
 
 import type { ASTNode, JSONSchema, NodeTypes, ReportFixFunction, RuleFunction, RuleListener, SourceCode, Token, Tree } from '@shared/types'
-import { STATEMENT_LIST_PARENTS, createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { STATEMENT_LIST_PARENTS, createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const KNOWN_NODES: Set<NodeTypes> = new Set([
@@ -475,13 +475,14 @@ const ELEMENT_LIST_SCHEMA: JSONSchema.JSONSchema4 = {
   ],
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'indent',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent indentation',
-      url: 'https://eslint.style/rules/js/indent',
     },
 
     fixable: 'whitespace',
@@ -755,8 +756,6 @@ export default createRule<MessageIds, RuleOptions>({
       const indentation = tokenInfo.getTokenIndent(token)
 
       return indentation === desiredIndent
-        // To avoid conflicts with no-mixed-spaces-and-tabs, don't report mixed spaces and tabs.
-        || indentation.includes(' ') && indentation.includes('\t')
     }
 
     /**
@@ -1235,7 +1234,15 @@ export default createRule<MessageIds, RuleOptions>({
 
       'FunctionDeclaration, FunctionExpression': function (node: Tree.FunctionDeclaration | Tree.FunctionExpression) {
         const closingParen = sourceCode.getTokenBefore(node.body)!
-        const openingParen = sourceCode.getTokenBefore(node.params.length ? node.params[0] : closingParen)!
+        const openingParen = sourceCode.getTokenBefore(
+          node.params.length
+            ? node.params[0].decorators?.length
+              ? node.params[0].decorators[0]
+              : node.params[0] : closingParen,
+          {
+            filter: isOpeningParenToken,
+          },
+        )!
 
         parameterParens.add(openingParen)
         parameterParens.add(closingParen)
@@ -1413,7 +1420,7 @@ export default createRule<MessageIds, RuleOptions>({
         else {
           const idToken = keyLastToken = sourceCode.getFirstToken(node.key)!
 
-          if (idToken !== firstToken)
+          if (!node.decorators?.length && idToken !== firstToken)
             offsets.setDesiredOffset(idToken, firstToken, 1)
         }
 

@@ -15,11 +15,11 @@ declare const plugin: {
      *
      * This config works for both flat and legacy config format
      */
-    'disable-legacy': Linter.FlatConfig
+    'disable-legacy': Linter.Config
     /**
      * Enable all rules, in Flat Config Format
      */
-    'all-flat': Linter.FlatConfig
+    'all-flat': Linter.Config
     /**
      * Enable all rules, in Legacy Config Format
      */

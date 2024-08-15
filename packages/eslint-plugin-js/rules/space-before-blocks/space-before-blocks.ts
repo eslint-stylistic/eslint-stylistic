@@ -4,8 +4,8 @@
  */
 
 import type { ASTNode, Token, Tree } from '@shared/types'
-import { getSwitchCaseColonToken, isArrowToken, isColonToken, isFunction, isKeywordToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { getSwitchCaseColonToken, isArrowToken, isColonToken, isFunction, isKeywordToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 /**
@@ -23,13 +23,14 @@ function isFunctionBody(node: ASTNode): boolean {
   )
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'space-before-blocks',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing before blocks',
-      url: 'https://eslint.style/rules/js/space-before-blocks',
     },
 
     fixable: 'whitespace',

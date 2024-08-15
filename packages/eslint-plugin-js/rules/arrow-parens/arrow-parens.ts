@@ -4,8 +4,8 @@
  */
 
 import type { Token, Tree } from '@shared/types'
-import { canTokensBeAdjacent, isClosingParenToken, isOpeningParenToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { canTokensBeAdjacent, isClosingParenToken, isOpeningParenToken } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 /**
@@ -17,13 +17,14 @@ function hasBlockBody(node: Tree.ArrowFunctionExpression) {
   return node.body.type === 'BlockStatement'
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'arrow-parens',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require parentheses around arrow function arguments',
-      url: 'https://eslint.style/rules/js/arrow-parens',
     },
 
     fixable: 'code',
@@ -139,6 +140,7 @@ export default createRule<MessageIds, RuleOptions>({
           !shouldHaveParens
           && hasParens
           && param.type === 'Identifier'
+          && !param.optional
           && !param.typeAnnotation
           && !node.returnType
           && !hasCommentsInParensOfParams(node, openingParen)

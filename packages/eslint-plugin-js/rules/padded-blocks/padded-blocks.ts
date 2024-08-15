@@ -4,16 +4,17 @@
  */
 
 import type { ASTNode, Token, Tree } from '@shared/types'
-import { isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'padded-blocks',
+  package: 'js',
   meta: {
     type: 'layout',
     docs: {
       description: 'Require or disallow padding within blocks',
-      url: 'https://eslint.style/rules/js/padded-blocks',
     },
     fixable: 'whitespace',
     schema: [

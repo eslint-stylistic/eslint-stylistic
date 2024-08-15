@@ -31,22 +31,22 @@
  */
 
 import type { ASTNode, ReportFixFunction, Token, Tree } from '@shared/types'
-import { getFirstNodeInLine, isNodeFirstInLine } from '../../utils/ast'
-import { docsUrl } from '../../utils/docsUrl'
-import { isJSX, isReturningJSX } from '../../utils/jsx'
-import { createRule } from '../../utils/createRule'
+import { getFirstNodeInLine, isNodeFirstInLine } from '../../../utils/ast'
+import { isJSX, isReturningJSX } from '../../../utils/ast/jsx'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-indent',
+  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {
       description: 'Enforce JSX indentation. Deprecated, use `indent` rule instead.',
-      url: docsUrl('jsx-indent'),
     },
 
     deprecated: true,

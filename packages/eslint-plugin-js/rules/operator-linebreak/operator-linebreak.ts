@@ -4,17 +4,18 @@
  */
 
 import type { ASTNode, ReportFixFunction, Token, Tree } from '@shared/types'
-import { createGlobalLinebreakMatcher, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { createGlobalLinebreakMatcher, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'operator-linebreak',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent linebreak style for operators',
-      url: 'https://eslint.style/rules/js/operator-linebreak',
     },
 
     schema: [

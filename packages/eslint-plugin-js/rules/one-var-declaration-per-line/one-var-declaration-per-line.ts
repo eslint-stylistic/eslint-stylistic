@@ -4,16 +4,17 @@
  */
 
 import type { NodeTypes, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'one-var-declaration-per-line',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require or disallow newlines around variable declarations',
-      url: 'https://eslint.style/rules/js/one-var-declaration-per-line',
     },
 
     schema: [

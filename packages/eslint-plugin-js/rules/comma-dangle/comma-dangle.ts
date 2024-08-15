@@ -3,8 +3,8 @@
  * @author Ian Christian Myers
  */
 import type { ASTNode, EcmaVersion } from '@shared/types'
-import { getNextLocation, isCommaToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { getNextLocation, isCommaToken } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions, Value } from './types'
 
 const DEFAULT_OPTIONS = Object.freeze({
@@ -56,13 +56,14 @@ function normalizeOptions(optionValue: RuleOptions[0], ecmaVersion: EcmaVersion 
   return DEFAULT_OPTIONS
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'comma-dangle',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require or disallow trailing commas',
-      url: 'https://eslint.style/rules/js/comma-dangle',
     },
 
     fixable: 'code',

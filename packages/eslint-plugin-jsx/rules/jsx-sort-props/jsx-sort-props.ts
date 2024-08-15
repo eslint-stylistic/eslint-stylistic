@@ -4,9 +4,8 @@
  */
 
 import type { ASTNode, RuleContext, RuleFixer, Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
-import { getPropName, isDOMComponent } from '../../utils/jsx'
+import { createRule } from '../../../utils'
+import { getPropName, isDOMComponent } from '../../../utils/ast/jsx'
 import type { MessageIds, RuleOptions } from './types'
 
 interface JsxCompareOptions {
@@ -154,7 +153,7 @@ function getGroupsOfSortableAttributes(attributes: (Tree.JSXAttribute | Tree.JSX
     try {
       comment = sourceCode.getCommentsAfter(attribute)
     }
-    catch (e) { /**/ }
+    catch { /**/ }
     const lastAttr = attributes[i - 1]
     const attrIsSpread = attribute.type === 'JSXSpreadAttribute'
 
@@ -344,14 +343,14 @@ function reportNodeAttribute(nodeAttribute: Tree.JSXAttribute | Tree.JSXSpreadAt
   })
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-sort-props',
+  package: 'jsx',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce props alphabetical sorting',
-      recommended: 'stylistic',
-      url: docsUrl('jsx-sort-props'),
     },
     fixable: 'code',
 

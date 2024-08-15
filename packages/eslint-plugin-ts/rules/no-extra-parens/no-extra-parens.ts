@@ -14,11 +14,11 @@ const baseRule = getESLintCoreRule('no-extra-parens')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
       description: 'Disallow unnecessary parentheses',
-      extendsBaseRule: true,
     },
     fixable: 'code',
     hasSuggestions: baseRule.meta.hasSuggestions,
@@ -294,7 +294,7 @@ export default createRule<RuleOptions, MessageIds>({
               ...(node.init as Tree.TSAsExpression),
               type: AST_NODE_TYPES.FunctionExpression as any,
             },
-          })
+          } as any)
         }
 
         return rules.VariableDeclarator!(node)

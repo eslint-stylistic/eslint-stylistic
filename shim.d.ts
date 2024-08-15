@@ -5,7 +5,7 @@ declare module 'eslint' {
        * @deprecated
        */
       parserOptions?: { never: 'never' }
-      languageOptions?: Linter.FlatConfig['languageOptions']
+      languageOptions?: Linter.Config['languageOptions']
     }
   }
 }

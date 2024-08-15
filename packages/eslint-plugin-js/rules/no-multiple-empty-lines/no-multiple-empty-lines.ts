@@ -4,16 +4,17 @@
  * @author Greg Cochard
  */
 
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'no-multiple-empty-lines',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow multiple empty lines',
-      url: 'https://eslint.style/rules/js/no-multiple-empty-lines',
     },
 
     fixable: 'whitespace',

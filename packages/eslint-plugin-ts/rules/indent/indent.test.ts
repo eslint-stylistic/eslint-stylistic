@@ -1765,6 +1765,7 @@ declare module "Validation" {
         },
       ],
     },
+    // Class Decorators and Property Decorators
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/208
     {
       code: `
@@ -1830,6 +1831,67 @@ class Foo {
         },
       ],
     },
+    // Method Decorators and Accessor Decorators
+    {
+      code: `
+class Foo {
+    @a
+      func() {}
+  @b
+    get bar() { return }
+  @c
+  baz: () => 1
+}
+      `,
+      output: `
+class Foo {
+    @a
+    func() {}
+    @b
+    get bar() { return }
+    @c
+    baz: () => 1
+}
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 6,
+          },
+          line: 4,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 2,
+          },
+          line: 5,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 2,
+          },
+          line: 7,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 2,
+          },
+          line: 8,
+          column: 1,
+        },
+      ],
+    },
     {
       code: `
 class Foo {
@@ -1851,6 +1913,51 @@ class Foo {
             actual: 0,
           },
           line: 4,
+          column: 1,
+        },
+      ],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/486
+    {
+      code: `
+class Foo {
+    func(
+            @Param('foo') foo: string,
+    @Param('bar') bar: string,
+        @Param('baz') baz: string
+    ) {
+        return { foo, bar, baz };
+    }
+}
+      `,
+      output: `
+class Foo {
+    func(
+        @Param('foo') foo: string,
+        @Param('bar') bar: string,
+        @Param('baz') baz: string
+    ) {
+        return { foo, bar, baz };
+    }
+}
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '8 spaces',
+            actual: 12,
+          },
+          line: 4,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '8 spaces',
+            actual: 4,
+          },
+          line: 5,
           column: 1,
         },
       ],

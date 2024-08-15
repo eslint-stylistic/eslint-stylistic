@@ -3,7 +3,7 @@
  * @author ryym
  */
 
-import { invalids, skipDueToMultiErrorSorting, valids } from '../../test-utils/parsers'
+import { invalids, skipDueToMultiErrorSorting, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-equals-spacing'
 import { run } from '#test'
 

@@ -8,11 +8,11 @@ const defaultOptionValue = { multiline: false, minProperties: Number.POSITIVE_IN
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-curly-newline',
+  package: 'ts',
   meta: {
     ...baseRule.meta,
     docs: {
       description: 'Enforce consistent line breaks after opening and before closing braces',
-      extendsBaseRule: true,
     },
   },
   defaultOptions: [

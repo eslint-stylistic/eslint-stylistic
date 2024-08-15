@@ -8,12 +8,12 @@ import type { MessageIds, RuleOptions } from './types'
 const baseRule = getESLintCoreRule('semi')
 export default createRule<RuleOptions, MessageIds>({
   name: 'semi',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
       description: 'Require or disallow semicolons instead of ASI',
       // too opinionated to be recommended
-      extendsBaseRule: true,
     },
     fixable: 'code',
     hasSuggestions: baseRule.meta.hasSuggestions,

@@ -1,6 +1,6 @@
 {
   "name": "@stylistic/eslint-plugin",
-  "version": "2.3.0",
+  "version": "2.6.2",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
@@ -46,6 +46,6 @@
     "@stylistic/eslint-plugin-jsx": "workspace:*",
     "@stylistic/eslint-plugin-plus": "workspace:*",
     "@stylistic/eslint-plugin-ts": "workspace:*",
-    "@types/eslint": "^8.56.10"
+    "@types/eslint": "^9.6.0"
   }
 }

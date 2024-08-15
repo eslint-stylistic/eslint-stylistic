@@ -31,7 +31,7 @@ const _configs = {
   /**
    * Enable all rules, in Flat Config Format
    */
-  'all-flat': createAllConfigs(plugin, '@stylistic', true, name => !name.startsWith('jsx-')) as Linter.FlatConfig,
+  'all-flat': createAllConfigs(plugin, '@stylistic', true, name => !name.startsWith('jsx-')) as Linter.Config,
 
   /**
    * Enable all rules, in Legacy Config Format
