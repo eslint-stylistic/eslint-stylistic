@@ -1,4 +1,4 @@
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
 
 // eslint-disable-next-line regexp/no-super-linear-backtracking

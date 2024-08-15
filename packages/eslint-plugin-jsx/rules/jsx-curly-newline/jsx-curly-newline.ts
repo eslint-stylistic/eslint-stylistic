@@ -3,7 +3,7 @@
  */
 
 import type { ASTNode, RuleContext, Tree } from '@shared/types'
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
 
 function getNormalizedOption(context: Readonly<RuleContext<MessageIds, RuleOptions>>) {

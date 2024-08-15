@@ -6,7 +6,7 @@
 import type { ASTNode, JSONSchema, Token, Tree } from '@shared/types'
 import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '../../../utils/ast'
 import { KEYWORDS_JS } from '../../../utils/keywords'
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
 
 const PREV_TOKEN = /^[)\]}>]$/u

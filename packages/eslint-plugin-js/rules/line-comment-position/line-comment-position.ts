@@ -2,7 +2,7 @@
  * @fileoverview Rule to enforce the position of line comments
  * @author Alberto Rodríguez
  */
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import { COMMENTS_IGNORE_PATTERN } from '../../../utils/ast'
 import type { MessageIds, RuleOptions } from './types'
 

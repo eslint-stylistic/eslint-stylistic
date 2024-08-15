@@ -5,7 +5,7 @@
 
 import type { ASTNode, ReportFixFunction, Tree } from '@shared/types'
 import { LINEBREAK_MATCHER, getStaticPropertyName, isColonToken } from '../../../utils/ast'
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import { getStringLength } from '../../../utils/string'
 import type { MessageIds, RuleOptions } from './types'
 

@@ -5,10 +5,8 @@ import {
   isClosingBracketToken,
   isColonToken,
 } from '@typescript-eslint/utils/ast-utils'
-import {
-  createRule,
-} from '../../utils'
-import { getJsRule } from '../../utils/get-js-rule'
+import { createRule } from '../../../utils/create-rule'
+import { getJsRule } from '../../../utils/get-js-rule'
 import { getStringLength } from '../../../utils/string'
 import type { MessageIds, RuleOptions } from './types'
 

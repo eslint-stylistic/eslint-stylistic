@@ -9,9 +9,7 @@ import {
   isTSFunctionType,
   isVariableDeclarator,
 } from '@typescript-eslint/utils/ast-utils'
-import {
-  createRule,
-} from '../../utils'
+import { createRule } from '../../../utils/create-rule'
 
 interface WhitespaceRule {
   readonly before?: boolean

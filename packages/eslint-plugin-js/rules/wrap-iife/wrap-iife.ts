@@ -7,7 +7,7 @@
 import { isParenthesized } from '@eslint-community/eslint-utils'
 import type { ASTNode, Tree } from '@shared/types'
 import { getStaticPropertyName, isParenthesised, skipChainExpression } from '../../../utils/ast'
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
 
 /**

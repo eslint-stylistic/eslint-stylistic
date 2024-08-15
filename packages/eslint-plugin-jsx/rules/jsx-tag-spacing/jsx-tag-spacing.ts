@@ -5,7 +5,7 @@
 
 import type { RuleContext, Token, Tree } from '@shared/types'
 import { getTokenBeforeClosingBracket } from '../../../utils/ast'
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
 
 type Option = Exclude<RuleOptions[0], undefined>

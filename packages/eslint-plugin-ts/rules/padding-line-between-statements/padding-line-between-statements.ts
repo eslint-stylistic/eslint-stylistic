@@ -10,9 +10,7 @@ import {
   isSemicolonToken,
   isTokenOnSameLine,
 } from '@typescript-eslint/utils/ast-utils'
-import {
-  createRule,
-} from '../../utils'
+import { createRule } from '../../../utils/create-rule'
 
 const CJS_EXPORT = /^(?:module\s*\.\s*)?exports(?:\s*\.|\s*\[|$)/u
 const CJS_IMPORT = /^require\(/u

@@ -4,7 +4,7 @@
  */
 import type { ASTNode, EcmaVersion } from '@shared/types'
 import { getNextLocation, isCommaToken } from '../../../utils/ast'
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions, Value } from './types'
 
 const DEFAULT_OPTIONS = Object.freeze({

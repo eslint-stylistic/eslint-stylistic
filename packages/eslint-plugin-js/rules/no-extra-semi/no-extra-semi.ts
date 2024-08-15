@@ -5,7 +5,7 @@
 
 import type { ASTNode, Token } from '@shared/types'
 import { isClosingBraceToken, isSemicolonToken, isTopLevelExpressionStatement } from '../../../utils/ast'
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import { FixTracker } from '../../../utils/fix-tracker'
 import type { MessageIds, RuleOptions } from './types'
 

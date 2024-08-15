@@ -4,7 +4,7 @@
  */
 
 import type { ReportFixFunction, Token, Tree } from '@shared/types'
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
 
 interface Checker {

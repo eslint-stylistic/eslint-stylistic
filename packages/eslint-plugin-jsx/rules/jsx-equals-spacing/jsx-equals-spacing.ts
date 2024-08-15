@@ -4,7 +4,7 @@
  */
 
 import type { Token } from '@shared/types'
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {

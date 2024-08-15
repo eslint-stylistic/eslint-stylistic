@@ -3,7 +3,7 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({

@@ -8,7 +8,7 @@ import { tokenize } from 'espree'
 import type { Tree } from '@shared/types'
 import { isNumericLiteral } from '../../../utils/ast'
 import { KEYWORDS_JS } from '../../../utils/keywords'
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({

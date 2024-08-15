@@ -5,7 +5,7 @@
 
 import type { ASTNode } from '@shared/types'
 import { isNotSemicolonToken } from '../../../utils/ast'
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({

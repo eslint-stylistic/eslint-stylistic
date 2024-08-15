@@ -8,7 +8,7 @@
 
 import picomatch from 'picomatch'
 import { getElementType, isDOMComponent } from '../../../utils/ast/jsx'
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
 
 function testDigit(char: string) {

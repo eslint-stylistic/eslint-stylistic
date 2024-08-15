@@ -1,7 +1,8 @@
 import type { TSESLint } from '@typescript-eslint/utils'
 import type { JSONSchema, Tree } from '@shared/types'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { createRule, deepMerge } from '../../utils'
+import { createRule } from '../../../utils/create-rule'
+import { deepMerge } from '../../../utils/merge'
 
 type Delimiter = 'comma' | 'none' | 'semi'
 // need type's implicit index sig for deepMerge

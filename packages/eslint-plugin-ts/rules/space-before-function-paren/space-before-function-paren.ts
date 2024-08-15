@@ -2,7 +2,7 @@ import type { Tree } from '@shared/types'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import { isOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
-import { createRule } from '../../utils'
+import { createRule } from '../../../utils/create-rule'
 import type { MessageIds, RuleOptions } from './types'
 
 type FuncOption = 'always' | 'never' | 'ignore'

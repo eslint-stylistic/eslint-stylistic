@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, RuleContext, RuleFixer, Tree } from '@shared/types'
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import { getPropName, isDOMComponent } from '../../../utils/ast/jsx'
 import type { MessageIds, RuleOptions } from './types'
 

@@ -5,7 +5,7 @@
  */
 
 import type { Tree } from '@shared/types'
-import { createRule } from '../../../utils'
+import { createRule } from '../../../utils/create-rule'
 import { isJSX, isWhiteSpaces } from '../../../utils/ast/jsx'
 import type { MessageIds, RuleOptions } from './types'
 
