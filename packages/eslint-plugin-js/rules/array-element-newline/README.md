@@ -30,6 +30,7 @@ This rule has either a string option:
 
 Or an object option (Requires line breaks if any of properties is satisfied. Otherwise, disallows line breaks):
 
+- `"consistent": <boolean>` requires consistent usage of line breaks between array elements. If this is false, this condition is disabled.
 - `"multiline": <boolean>` requires line breaks if there are line breaks inside elements. If this is false, this condition is disabled.
 - `"minItems": <number>` requires line breaks if the number of elements is at least the given integer. If this is 0, this condition will act the same as the option `"always"`. If this is `null` (the default), this condition is disabled.
 
@@ -242,6 +243,11 @@ Examples of **incorrect** code for this rule with the `{ "multiline": true }` op
 ```js
 /*eslint array-element-newline: ["error", { "multiline": true }]*/
 
+var c = [
+    1,
+    2,
+    3
+];
 var d = [1,
     2, 3];
 var e = [
@@ -267,6 +273,56 @@ var b = [1];
 var c = [1, 2];
 var d = [1, 2, 3];
 var e = [
+    function foo() {
+        dosomething();
+    },
+    function bar() {
+        dosomething();
+    }
+];
+```
+
+:::
+
+### consistent and multiline
+
+Examples of **incorrect** code for this rule with the `{ "consistent": true, "multiline": true }` option:
+
+:::incorrect
+
+```js
+/*eslint array-element-newline: ["error", { "consistent": true, "multiline": true }]*/
+
+var d = [1,
+    2, 3];
+var e = [
+    function foo() {
+        dosomething();
+    }, function bar() {
+        dosomething();
+    }
+];
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "consistent": true, "multiline": true }` option:
+
+:::correct
+
+```js
+/*eslint array-element-newline: ["error", { "consistent": true, "multiline": true }]*/
+
+var a = [];
+var b = [1];
+var c = [1, 2];
+var d = [1, 2, 3];
+var e = [
+    1,
+    2,
+    3
+];
+var f = [
     function foo() {
         dosomething();
     },

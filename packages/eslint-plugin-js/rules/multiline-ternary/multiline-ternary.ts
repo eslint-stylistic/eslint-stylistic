@@ -3,17 +3,18 @@
  * @author Kai Cataldo
  */
 
-import { isNotClosingParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isNotClosingParenToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'multiline-ternary',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce newlines between operands of ternary expressions',
-      url: 'https://eslint.style/rules/js/multiline-ternary',
     },
 
     schema: [

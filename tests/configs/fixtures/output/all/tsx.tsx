@@ -13,15 +13,15 @@ export function jsx2 () {
             a={1}
             b="2">Inline Text</div>
         <Component1>
-      Block Text
+            Block Text
         </Component1>
         <div>
-        Mixed
+            Mixed
             <div>Foo</div>
-          Text<b > Bar</b>
+            Text<b > Bar</b>
         </div>
         <p>
-          foo<i>bar</i><b>baz</b>
+            foo<i>bar</i><b>baz</b>
         </p>
     </ a >;
 

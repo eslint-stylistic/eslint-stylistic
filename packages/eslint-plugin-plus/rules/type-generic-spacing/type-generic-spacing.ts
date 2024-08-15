@@ -1,4 +1,4 @@
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set([
@@ -10,11 +10,11 @@ const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set([
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'type-generic-spacing',
+  package: 'plus',
   meta: {
     type: 'layout',
     docs: {
       description: 'Enforces consistent spacing inside TypeScript type generics',
-      recommended: 'stylistic',
     },
     fixable: 'whitespace',
     schema: [],
@@ -73,10 +73,12 @@ export default createRule<RuleOptions, MessageIds>({
         const endNode = node.constraint || node.name
         const from = endNode.range[1]
         const to = node.default.range[0]
-        if (sourceCode.text.slice(from, to) !== ' = ') {
+        const span = sourceCode.text.slice(from, to)
+
+        if (!span.match(/(?:^|[^ ]) = (?:$|[^ ])/)) {
           context.report({
             *fix(fixer) {
-              yield fixer.replaceTextRange([from, to], ' = ')
+              yield fixer.replaceTextRange([from, to], span.replace(/\s*=\s*/, ' = '))
             },
             loc: {
               start: endNode.loc.end,

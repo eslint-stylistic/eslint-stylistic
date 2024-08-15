@@ -4,17 +4,18 @@
  */
 
 import type { RuleFixer, Token } from '@shared/types'
-import { getSwitchCaseColonToken, isClosingBraceToken, isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { getSwitchCaseColonToken, isClosingBraceToken, isCommentToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'switch-colon-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce spacing around colons of switch statements',
-      url: 'https://eslint.style/rules/js/switch-colon-spacing',
     },
 
     schema: [

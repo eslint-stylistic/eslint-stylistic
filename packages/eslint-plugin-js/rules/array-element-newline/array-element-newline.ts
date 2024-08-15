@@ -4,17 +4,18 @@
  */
 
 import type { Token, Tree } from '@shared/types'
-import { isCommaToken, isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isCommaToken, isCommentToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'array-element-newline',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce line breaks after each array element',
-      url: 'https://eslint.style/rules/js/array-element-newline',
     },
 
     fixable: 'whitespace',
@@ -30,6 +31,9 @@ export default createRule<MessageIds, RuleOptions>({
             {
               type: 'object',
               properties: {
+                consistent: {
+                  type: 'boolean',
+                },
                 multiline: {
                   type: 'boolean',
                 },
@@ -100,6 +104,7 @@ export default createRule<MessageIds, RuleOptions>({
         minItems = Number.POSITIVE_INFINITY
       }
       else {
+        consistent = Boolean(option.consistent)
         multiline = Boolean(option.multiline)
         minItems = option.minItems || Number.POSITIVE_INFINITY
       }

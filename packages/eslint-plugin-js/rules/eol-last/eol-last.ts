@@ -3,16 +3,17 @@
  * @author Nodeca Team <https://github.com/nodeca>
  */
 
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'eol-last',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require or disallow newline at the end of files',
-      url: 'https://eslint.style/rules/js/eol-last',
     },
 
     fixable: 'whitespace',

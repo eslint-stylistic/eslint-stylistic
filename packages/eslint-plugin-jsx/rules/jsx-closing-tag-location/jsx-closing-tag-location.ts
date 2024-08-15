@@ -4,9 +4,8 @@
  */
 
 import type { ASTNode, Tree } from '@shared/types'
-import { isNodeFirstInLine } from '../../utils/ast'
-import { createRule } from '../../utils/createRule'
-import { docsUrl } from '../../utils/docsUrl'
+import { isNodeFirstInLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
@@ -14,13 +13,14 @@ const messages = {
   matchIndent: 'Expected closing tag to match indentation of opening.',
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-closing-tag-location',
+  package: 'jsx',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce closing tag location for multiline JSX',
-      url: docsUrl('jsx-closing-tag-location'),
     },
     fixable: 'whitespace',
     messages,

@@ -9,11 +9,11 @@ type FuncOption = 'always' | 'never' | 'ignore'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'space-before-function-paren',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
       description: 'Enforce consistent spacing before function parenthesis',
-      extendsBaseRule: true,
     },
     fixable: 'whitespace',
     schema: [

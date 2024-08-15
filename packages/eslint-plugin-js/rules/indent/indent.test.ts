@@ -5,7 +5,8 @@
  */
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
-import parser from '../../test-utils/fixture-parser'
+import tsParser from '@typescript-eslint/parser'
+import { languageOptionsForBabelFlow } from '../../../test-utils/parsers-flow'
 import rule from './indent'
 import { $, run } from '#test'
 
@@ -26,9 +27,9 @@ interface ErrorOutput {
 /**
  * Create error message object for failure cases with a single 'found' indentation type
  */
-function expectedErrors(providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
-function expectedErrors(providedIndentType: 'space' | 'tab', providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
-function expectedErrors(providedIndentType: any, providedErrors?: any): ErrorOutput[] {
+export function expectedErrors(providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
+export function expectedErrors(providedIndentType: 'space' | 'tab', providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
+export function expectedErrors(providedIndentType: any, providedErrors?: any): ErrorOutput[] {
   let indentType: 'space' | 'tab'
   let errors: Array<[number, number, number, string]>
 
@@ -2102,30 +2103,12 @@ run({
     {
       code: $`
         function foo() {
-          bar();
-          \tbaz();
-        \t   \t\t\t  \t\t\t  \t   \tqux();
-        }
-      `,
-      options: [2],
-    },
-    {
-      code: $`
-        function foo() {
           function bar() {
             baz();
           }
         }
       `,
       options: [2, { FunctionDeclaration: { body: 1 } }],
-    },
-    {
-      code: $`
-        function foo() {
-          bar();
-           \t\t}
-      `,
-      options: [2],
     },
     {
       code: $`
@@ -4009,7 +3992,7 @@ run({
             baz: number;
         }
       `,
-      parser: parser('unknown-nodes/interface'),
+      parser: tsParser,
     },
     {
       code: $`
@@ -4022,7 +4005,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/namespace-valid'),
+      parser: tsParser,
     },
     {
       code: $`
@@ -4039,7 +4022,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/abstract-class-valid'),
+      parser: tsParser,
     },
     {
       code: $`
@@ -4055,7 +4038,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/functions-with-abstract-class-valid'),
+      parser: tsParser,
     },
     {
       code: $`
@@ -4073,7 +4056,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/namespace-with-functions-with-abstract-class-valid'),
+      parser: tsParser,
     },
     {
       code: $`
@@ -4082,7 +4065,7 @@ run({
           | 'PUT';
       `,
       options: [2, { VariableDeclarator: 0 }],
-      parser: parser('unknown-nodes/variable-declarator-type-indent-two-spaces'),
+      parser: tsParser,
     },
     {
       code: $`
@@ -4091,7 +4074,7 @@ run({
         | 'PUT';
       `,
       options: [2, { VariableDeclarator: 1 }],
-      parser: parser('unknown-nodes/variable-declarator-type-no-indent'),
+      parser: tsParser,
     },
     $`
       foo(\`foo
@@ -4523,10 +4506,10 @@ run({
     `,
     $`
       <div>
-      bar <div>
-          bar
-          bar {foo}
-      bar </div>
+          bar <div>
+              bar
+              bar {foo}
+              bar </div>
       </div>
     `,
     $`
@@ -4747,7 +4730,7 @@ run({
     `,
     $`
       <div>
-         unrelated{
+          unrelated{
               foo
           }
       </div>
@@ -5221,15 +5204,6 @@ run({
         </foo>
       `,
       options: [4, { ignoredNodes: ['JSXOpeningElement'] }],
-    },
-    {
-      code: $`
-        {
-        \tvar x = 1,
-        \t    y = 2;
-        }
-      `,
-      options: ['tab'],
     },
     {
       code: $`
@@ -10419,7 +10393,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/namespace-invalid'),
+      parser: tsParser,
       errors: expectedErrors([[3, 8, 4, 'Identifier'], [6, 8, 4, 'Keyword']]),
     },
     {
@@ -10451,7 +10425,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/abstract-class-invalid'),
+      parser: tsParser,
       errors: expectedErrors([[4, 12, 8, 'Identifier'], [7, 12, 8, 'Identifier'], [10, 8, 4, 'Identifier']]),
     },
     {
@@ -10481,7 +10455,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/functions-with-abstract-class-invalid'),
+      parser: tsParser,
       errors: expectedErrors([
         [4, 12, 8, 'Keyword'],
         [5, 16, 8, 'Keyword'],
@@ -10521,7 +10495,7 @@ run({
             }
         }
       `,
-      parser: parser('unknown-nodes/namespace-with-functions-with-abstract-class-invalid'),
+      parser: tsParser,
       errors: expectedErrors([
         [3, 8, 4, 'Keyword'],
         [7, 24, 20, 'Identifier'],
@@ -10808,7 +10782,7 @@ run({
               size={size}
               onClick={onClick}
                                             >
-              Button Text
+                                              Button Text
             </Button>
           );
         };
@@ -10826,7 +10800,10 @@ run({
         };
       `,
       options: [2],
-      errors: expectedErrors([6, 4, 36, 'Punctuator']),
+      errors: expectedErrors([
+        [6, 4, 36, 'Punctuator'],
+        [6, 6, 38, 'JSXText'],
+      ]),
     },
     {
       code: $`
@@ -11326,7 +11303,7 @@ run({
             foo
         }: bar) => baz
       `,
-      parser: parser('babel-eslint7/object-pattern-with-annotation'),
+      languageOptions: languageOptionsForBabelFlow,
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
@@ -11340,7 +11317,7 @@ run({
             foo
         ]: bar) => baz
       `,
-      parser: parser('babel-eslint7/array-pattern-with-annotation'),
+      languageOptions: languageOptionsForBabelFlow,
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
@@ -11354,7 +11331,7 @@ run({
             foo
         }: {}) => baz
       `,
-      parser: parser('babel-eslint7/object-pattern-with-object-annotation'),
+      languageOptions: languageOptionsForBabelFlow,
       errors: expectedErrors([3, 0, 4, 'Punctuator']),
     },
     {
@@ -13071,6 +13048,27 @@ run({
       ]),
     },
 
+    {
+      code: $`
+        class C {
+        foo =
+        "bar";
+        }
+      `,
+      output: $`
+        class C {
+            foo =
+                "bar";
+        }
+      `,
+      options: [4],
+      parserOptions: { ecmaVersion: 2022 },
+      errors: expectedErrors([
+        [2, 4, 0, 'Identifier'],
+        [3, 8, 0, 'String'],
+      ]),
+    },
+
     // https://github.com/eslint/eslint/issues/15930
     {
       code: $`
@@ -13959,6 +13957,51 @@ run({
         [7, 8, 4, 'Identifier'],
         [8, 4, 0, 'Punctuator'],
       ]),
+    },
+    {
+      code: $`
+        function foo() {
+          bar();
+          \tbaz();
+        \t   \t\t\t  \t\t\t  \t   \tqux();
+        }
+      `,
+      options: [2],
+      output: $`
+        function foo() {
+          bar();
+          baz();
+          qux();
+        }
+      `,
+    },
+    {
+      code: $`
+        function foo() {
+          bar();
+           \t\t}
+      `,
+      options: [2],
+      output: $`
+        function foo() {
+          bar();
+        }
+      `,
+    },
+    {
+      code: $`
+        {
+        \tvar x = 1,
+        \t    y = 2;
+        }
+      `,
+      options: ['tab'],
+      output: $`
+        {
+        \tvar x = 1,
+        \t\ty = 2;
+        }
+      `,
     },
   ],
 })

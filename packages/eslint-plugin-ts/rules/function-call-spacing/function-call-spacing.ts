@@ -13,12 +13,12 @@ import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'function-call-spacing',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
       description:
         'Require or disallow spacing between function identifiers and their invocations',
-      extendsBaseRule: true,
     },
     fixable: 'whitespace',
     schema: {

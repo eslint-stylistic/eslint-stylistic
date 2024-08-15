@@ -4,8 +4,8 @@
  */
 
 import type { ASTNode, RuleContext, SourceCode, Tree } from '@shared/types'
-import { LINEBREAKS, STATEMENT_LIST_PARENTS, isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { LINEBREAKS, STATEMENT_LIST_PARENTS, isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const LT = `[${Array.from(LINEBREAKS).join('')}]`
@@ -360,13 +360,14 @@ const StatementTypes = {
   'with': newKeywordTester('with'),
 } satisfies Record<string, Tester>
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'padding-line-between-statements',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require or disallow padding lines between statements',
-      url: 'https://eslint.style/rules/js/padding-line-between-statements',
     },
 
     fixable: 'whitespace',

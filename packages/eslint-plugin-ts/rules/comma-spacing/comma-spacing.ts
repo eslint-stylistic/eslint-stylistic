@@ -15,11 +15,11 @@ import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'comma-spacing',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
       description: 'Enforce consistent spacing before and after commas',
-      extendsBaseRule: true,
     },
     fixable: 'whitespace',
     schema: [

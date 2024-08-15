@@ -643,6 +643,18 @@ run({
     },
 
     // ----------------------------------------------------------------------
+    // enum
+    // ----------------------------------------------------------------------
+
+    {
+      code: 'enum Test{\nA = 0\n}\n\nfoo()',
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'enum', next: '*' },
+      ],
+    },
+
+    // ----------------------------------------------------------------------
     // interface
     // ----------------------------------------------------------------------
 
@@ -3408,6 +3420,17 @@ run({
       code: 'type a=number\nfoo()',
       output: 'type a=number\n\nfoo()',
       options: [{ blankLine: 'always', prev: 'type', next: '*' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+
+    // ----------------------------------------------------------------------
+    // enum
+    // ----------------------------------------------------------------------
+
+    {
+      code: 'enum Test{\nA = 0\n}\nfoo()',
+      output: 'enum Test{\nA = 0\n}\n\nfoo()',
+      options: [{ blankLine: 'always', prev: 'enum', next: '*' }],
       errors: [{ messageId: 'expectedBlankLine' }],
     },
 

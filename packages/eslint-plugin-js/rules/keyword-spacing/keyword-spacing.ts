@@ -4,9 +4,9 @@
  */
 
 import type { ASTNode, JSONSchema, Token, Tree } from '@shared/types'
-import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import keywords from '../../utils/keywords'
-import { createRule } from '../../utils/createRule'
+import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '../../../utils/ast'
+import { KEYWORDS_JS } from '../../../utils/keywords'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const PREV_TOKEN = /^[)\]}>]$/u
@@ -16,7 +16,7 @@ const NEXT_TOKEN_M = /^[{*]$/u
 const TEMPLATE_OPEN_PAREN = /\$\{$/u
 const TEMPLATE_CLOSE_PAREN = /^\}/u
 const CHECK_TYPE = /^(?:JSXElement|RegularExpression|String|Template|PrivateIdentifier)$/u
-const KEYS = keywords.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'set', 'yield']);
+const KEYS = KEYWORDS_JS.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'set', 'yield']);
 
 // check duplications.
 (function () {
@@ -45,13 +45,14 @@ function isCloseParenOfTemplate(token: Token) {
   return token.type === 'Template' && TEMPLATE_CLOSE_PAREN.test(token.value)
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'keyword-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing before and after keywords',
-      url: 'https://eslint.style/rules/js/keyword-spacing',
     },
 
     fixable: 'whitespace',

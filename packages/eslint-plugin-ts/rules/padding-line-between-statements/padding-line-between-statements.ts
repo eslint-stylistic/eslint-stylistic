@@ -590,6 +590,10 @@ const StatementTypes: Record<string, NodeTestObject> = {
   },
 
   // Additional Typescript constructs
+  'enum': newKeywordTester(
+    AST_NODE_TYPES.TSEnumDeclaration,
+    'enum',
+  ),
   'interface': newKeywordTester(
     AST_NODE_TYPES.TSInterfaceDeclaration,
     'interface',
@@ -605,11 +609,11 @@ const StatementTypes: Record<string, NodeTestObject> = {
 
 export default createRule<Options, MessageIds>({
   name: 'padding-line-between-statements',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
       description: 'Require or disallow padding lines between statements',
-      extendsBaseRule: true,
     },
     fixable: 'whitespace',
     hasSuggestions: false,

@@ -25,7 +25,7 @@ import stylisticJsx from '@stylistic/eslint-plugin-jsx' // [!code ++]
 export default [
   {
     plugins: {
-    '@stylistic/jsx': stylisticJsx // [!code ++]
+      '@stylistic/jsx': stylisticJsx // [!code ++]
     },
     rules: {
       'react/jsx-indent': ['error', 2], // [!code --]

@@ -4,17 +4,18 @@
  */
 
 import type { Token, Tree } from '@shared/types'
-import { isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'block-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow or enforce spaces inside of blocks after opening block and before closing block',
-      url: 'https://eslint.style/rules/js/block-spacing',
     },
 
     fixable: 'whitespace',

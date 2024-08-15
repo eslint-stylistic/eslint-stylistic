@@ -11,11 +11,11 @@ const UNIONS = ['|', '&']
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'space-infix-ops',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
       description: 'Require spacing around infix operators',
-      extendsBaseRule: true,
     },
     fixable: baseRule.meta.fixable,
     hasSuggestions: baseRule.meta.hasSuggestions,

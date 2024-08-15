@@ -9,12 +9,12 @@ const baseRule = getESLintCoreRule('quotes')
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'quotes',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {
       description:
         'Enforce the consistent use of either backticks, double, or single quotes',
-      extendsBaseRule: true,
     },
     fixable: 'code',
     hasSuggestions: baseRule.meta.hasSuggestions,
@@ -49,6 +49,9 @@ export default createRule<RuleOptions, MessageIds>({
         case AST_NODE_TYPES.TSAbstractPropertyDefinition:
         case AST_NODE_TYPES.PropertyDefinition:
           return node === parent.key
+
+        case AST_NODE_TYPES.TSLiteralType:
+          return parent.parent?.type === AST_NODE_TYPES.TSImportType
 
         default:
           return false

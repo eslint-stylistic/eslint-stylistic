@@ -9,7 +9,7 @@ export function createLinter<T extends unknown[]>(name: string, rule: any) {
   return {
     linter,
     fix(code: string, options?: T) {
-      const config: Linter.FlatConfig[] = [
+      const config: Linter.Config[] = [
         {
           languageOptions: {
             parser: tsParser as any,

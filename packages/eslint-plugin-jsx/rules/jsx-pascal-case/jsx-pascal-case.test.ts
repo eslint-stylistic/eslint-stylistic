@@ -6,7 +6,7 @@
  * @author Sukka [https://skk.moe]
  */
 
-import { invalids, valids } from '../../test-utils/parsers'
+import { invalids, valids } from '../../../test-utils/parsers-jsx'
 import rule from './jsx-pascal-case'
 import { run } from '#test'
 

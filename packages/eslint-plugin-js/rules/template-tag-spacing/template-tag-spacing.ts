@@ -4,16 +4,17 @@
  */
 
 import type { Tree } from '@shared/types'
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'template-tag-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Require or disallow spacing between template tags and their literals',
-      url: 'https://eslint.style/rules/js/template-tag-spacing',
     },
 
     fixable: 'whitespace',

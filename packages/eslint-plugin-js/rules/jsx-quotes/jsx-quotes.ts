@@ -4,8 +4,8 @@
  */
 
 import type { Tree } from '@shared/types'
-import { isStringLiteral, isSurroundedBy } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isStringLiteral, isSurroundedBy } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 interface QuoteSetting {
@@ -31,13 +31,14 @@ const QUOTE_SETTINGS: Record<string, QuoteSetting> = {
   },
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'jsx-quotes',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce the consistent use of either double or single quotes in JSX attributes',
-      url: 'https://eslint.style/rules/js/jsx-quotes',
     },
 
     fixable: 'whitespace',

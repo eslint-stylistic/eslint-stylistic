@@ -77,15 +77,15 @@ export interface StylisticCustomizeOptions<Flat extends boolean = true> {
 }
 
 type Rules = Partial<{
-  [K in keyof RuleOptions]: Linter.RuleLevel | [Linter.RuleLevel, ...RuleOptions[K]]
+  [K in keyof RuleOptions]: Linter.RuleSeverity | [Linter.RuleSeverity, ...RuleOptions[K]]
 }>
 
 /**
  * A factory function to customize the recommended config
  */
 export function customize(options: StylisticCustomizeOptions<false>): Linter.BaseConfig
-export function customize(options?: StylisticCustomizeOptions<true>): Linter.FlatConfig
-export function customize(options: StylisticCustomizeOptions<boolean> = {}): Linter.FlatConfig | Linter.BaseConfig {
+export function customize(options?: StylisticCustomizeOptions<true>): Linter.Config
+export function customize(options: StylisticCustomizeOptions<boolean> = {}): Linter.Config | Linter.BaseConfig {
   const {
     arrowParens = false,
     blockSpacing = true,
@@ -121,22 +121,6 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
       ignoreComments: false,
       ignoredNodes: [
         'TemplateLiteral *',
-        'JSXElement',
-        'JSXElement > *',
-        'JSXAttribute',
-        'JSXIdentifier',
-        'JSXNamespacedName',
-        'JSXMemberExpression',
-        'JSXSpreadAttribute',
-        'JSXExpressionContainer',
-        'JSXOpeningElement',
-        'JSXClosingElement',
-        'JSXFragment',
-        'JSXOpeningFragment',
-        'JSXClosingFragment',
-        'JSXText',
-        'JSXEmptyExpression',
-        'JSXSpreadChild',
         'TSUnionType',
         'TSIntersectionType',
         'TSTypeParameterInstantiation',
@@ -234,7 +218,6 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
           '@stylistic/jsx-equals-spacing': 'error',
           '@stylistic/jsx-first-prop-new-line': 'error',
           '@stylistic/jsx-function-call-newline': ['error', 'multiline'],
-          '@stylistic/jsx-indent': ['error', indent, { checkAttributes: true, indentLogicalExpressions: true }],
           '@stylistic/jsx-indent-props': ['error', indent],
           '@stylistic/jsx-max-props-per-line': ['error', { maximum: 1, when: 'multiline' }],
           '@stylistic/jsx-one-expression-per-line': ['error', { allow: 'single-child' }],
@@ -282,7 +265,7 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
         [pluginName]: plugin,
       },
       rules,
-    } satisfies Linter.FlatConfig
+    } satisfies Linter.Config
   }
   else {
     if (pluginName !== '@stylistic')

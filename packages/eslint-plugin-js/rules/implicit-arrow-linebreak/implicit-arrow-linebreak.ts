@@ -4,17 +4,18 @@
  */
 
 import type { Tree } from '@shared/types'
-import { isCommentToken, isNotOpeningParenToken } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isCommentToken, isNotOpeningParenToken } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'implicit-arrow-linebreak',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce the location of arrow function bodies',
-      url: 'https://eslint.style/rules/js/implicit-arrow-linebreak',
     },
 
     fixable: 'whitespace',

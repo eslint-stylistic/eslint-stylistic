@@ -4,17 +4,18 @@
  */
 
 import type { ASTNode, Token } from '@shared/types'
-import { isClosingBraceToken, isClosingParenToken, isSemicolonToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isClosingBraceToken, isClosingParenToken, isSemicolonToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'semi-spacing',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent spacing before and after semicolons',
-      url: 'https://eslint.style/rules/js/semi-spacing',
     },
 
     fixable: 'whitespace',

@@ -2,7 +2,7 @@
 
 import type { Linter } from 'eslint'
 
-const config: Linter.FlatConfig = {
+const config: Linter.Config = {
   rules: {
     '@typescript-eslint/block-spacing': 0,
     '@typescript-eslint/brace-style': 0,
@@ -17,7 +17,9 @@ const config: Linter.FlatConfig = {
     '@typescript-eslint/member-delimiter-style': 0,
     '@typescript-eslint/no-extra-parens': 0,
     '@typescript-eslint/no-extra-semi': 0,
+    '@typescript-eslint/object-curly-newline': 0,
     '@typescript-eslint/object-curly-spacing': 0,
+    '@typescript-eslint/object-property-newline': 0,
     '@typescript-eslint/padding-line-between-statements': 0,
     '@typescript-eslint/quote-props': 0,
     '@typescript-eslint/quotes': 0,

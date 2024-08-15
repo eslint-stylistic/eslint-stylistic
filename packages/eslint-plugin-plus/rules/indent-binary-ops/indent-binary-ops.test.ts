@@ -29,6 +29,13 @@ run({
         this.overflow = true;
       }
     `,
+    $`
+      const woof = computed(() => keys.value.filter(
+        ({ type }) => type === 'bark' ||
+          type === 'pooque' ||
+          type === 'srenque'
+        ));
+    `,
   ],
   invalid: [],
 })

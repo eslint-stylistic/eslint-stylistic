@@ -68,7 +68,7 @@ export interface RuleOptions {
    */
   '@stylistic/jsx/jsx-function-call-newline': JsxFunctionCallNewlineRuleOptions
   /**
-   * Enforce JSX indentation
+   * Enforce JSX indentation. Deprecated, use `indent` rule instead.
    * @see https://eslint.style/rules/jsx/jsx-indent
    */
   '@stylistic/jsx/jsx-indent': JsxIndentRuleOptions
@@ -171,7 +171,7 @@ export interface UnprefixedRuleOptions {
    */
   'jsx-function-call-newline': JsxFunctionCallNewlineRuleOptions
   /**
-   * Enforce JSX indentation
+   * Enforce JSX indentation. Deprecated, use `indent` rule instead.
    * @see https://eslint.style/rules/jsx/jsx-indent
    */
   'jsx-indent': JsxIndentRuleOptions

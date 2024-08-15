@@ -102,6 +102,7 @@ function getRules(
 
 export default createRule<Options, MessageIds>({
   name: 'type-annotation-spacing',
+  package: 'ts',
   meta: {
     type: 'layout',
     docs: {

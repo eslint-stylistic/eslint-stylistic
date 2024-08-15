@@ -4,8 +4,8 @@
  */
 
 import type { JSONSchema, Token, Tree } from '@shared/types'
-import { isCommentToken, isTokenOnSameLine } from '../../utils/ast-utils'
-import { createRule } from '../../utils/createRule'
+import { isCommentToken, isTokenOnSameLine } from '../../../utils/ast'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 // Schema objects.
@@ -91,6 +91,8 @@ function isNodeSpecificOption(option: unknown) {
  *   ObjectPattern: {multiline: boolean, minProperties: number, consistent: boolean},
  *   ImportDeclaration: {multiline: boolean, minProperties: number, consistent: boolean},
  *   ExportNamedDeclaration : {multiline: boolean, minProperties: number, consistent: boolean}
+ *   TSTypeLiteral : {multiline: boolean, minProperties: number, consistent: boolean}
+ *   TSInterfaceBody : {multiline: boolean, minProperties: number, consistent: boolean}
  * }} Normalized option object.
  */
 function normalizeOptions(options: any) {
@@ -100,16 +102,18 @@ function normalizeOptions(options: any) {
       ObjectPattern: normalizeOptionValue(options.ObjectPattern),
       ImportDeclaration: normalizeOptionValue(options.ImportDeclaration),
       ExportNamedDeclaration: normalizeOptionValue(options.ExportDeclaration),
+      TSTypeLiteral: normalizeOptionValue(options.TSTypeLiteral),
+      TSInterfaceBody: normalizeOptionValue(options.TSInterfaceBody),
     }
   }
 
   const value = normalizeOptionValue(options)
 
-  return { ObjectExpression: value, ObjectPattern: value, ImportDeclaration: value, ExportNamedDeclaration: value }
+  return { ObjectExpression: value, ObjectPattern: value, ImportDeclaration: value, ExportNamedDeclaration: value, TSTypeLiteral: value, TSInterfaceBody: value }
 }
 
 /**
- * Determines if ObjectExpression, ObjectPattern, ImportDeclaration or ExportNamedDeclaration
+ * Determines if ObjectExpression, ObjectPattern, ImportDeclaration, ExportNamedDeclaration, TSTypeLiteral or TSInterfaceBody
  * node needs to be checked for missing line breaks
  * @param node Node under inspection
  * @param options option specific to node type
@@ -122,7 +126,9 @@ function areLineBreaksRequired(
     | Tree.ObjectExpression
     | Tree.ObjectPattern
     | Tree.ImportDeclaration
-    | Tree.ExportNamedDeclaration,
+    | Tree.ExportNamedDeclaration
+    | Tree.TSTypeLiteral
+    | Tree.TSInterfaceBody,
   options: { multiline: boolean, minProperties: number, consistent: boolean },
   first: Token,
   last: Token,
@@ -131,6 +137,12 @@ function areLineBreaksRequired(
 
   if (node.type === 'ObjectExpression' || node.type === 'ObjectPattern') {
     objectProperties = node.properties
+  }
+  else if (node.type === 'TSTypeLiteral') {
+    objectProperties = node.members
+  }
+  else if (node.type === 'TSInterfaceBody') {
+    objectProperties = node.body
   }
   else {
     // is ImportDeclaration or ExportNamedDeclaration
@@ -146,13 +158,14 @@ function areLineBreaksRequired(
     )
 }
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'object-curly-newline',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Enforce consistent line breaks after opening and before closing braces',
-      url: 'https://eslint.style/rules/js/object-curly-newline',
     },
 
     fixable: 'whitespace',
@@ -168,6 +181,8 @@ export default createRule<MessageIds, RuleOptions>({
               ObjectPattern: OPTION_VALUE,
               ImportDeclaration: OPTION_VALUE,
               ExportDeclaration: OPTION_VALUE,
+              TSTypeLiteral: OPTION_VALUE,
+              TSInterfaceBody: OPTION_VALUE,
             },
             additionalProperties: false,
             minProperties: 1,
@@ -190,14 +205,16 @@ export default createRule<MessageIds, RuleOptions>({
 
     /**
      * Reports a given node if it violated this rule.
-     * @param node A node to check. This is an ObjectExpression, ObjectPattern, ImportDeclaration or ExportNamedDeclaration node.
+     * @param node A node to check. This is an ObjectExpression, ObjectPattern, ImportDeclaration, ExportNamedDeclaration, TSTypeLiteral or TSInterfaceBody node.
      */
     function check(
       node:
         | Tree.ObjectExpression
         | Tree.ObjectPattern
         | Tree.ImportDeclaration
-        | Tree.ExportNamedDeclaration,
+        | Tree.ExportNamedDeclaration
+        | Tree.TSTypeLiteral
+        | Tree.TSInterfaceBody,
     ) {
       const options = normalizedOptions[node.type]
 
@@ -317,6 +334,8 @@ export default createRule<MessageIds, RuleOptions>({
       ObjectPattern: check,
       ImportDeclaration: check,
       ExportNamedDeclaration: check,
+      TSTypeLiteral: check,
+      TSInterfaceBody: check,
     }
   },
 })

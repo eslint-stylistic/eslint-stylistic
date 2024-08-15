@@ -3,19 +3,20 @@
  * @author Gyandeep Singh
  */
 
-import { createRule } from '../../utils/createRule'
+import { createRule } from '../../../utils'
 import type { MessageIds, RuleOptions } from './types'
 
 const tabRegex = /\t+/gu
 const anyNonWhitespaceRegex = /\S/u
 
-export default createRule<MessageIds, RuleOptions>({
+export default createRule<RuleOptions, MessageIds>({
+  name: 'no-tabs',
+  package: 'js',
   meta: {
     type: 'layout',
 
     docs: {
       description: 'Disallow all tabs',
-      url: 'https://eslint.style/rules/js/no-tabs',
     },
     schema: [{
       type: 'object',
