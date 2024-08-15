@@ -2,14 +2,13 @@
  * @fileoverview Scripts to update metadata and types.
  */
 
-import { dirname, join } from 'node:path'
-import fs from 'fs-extra'
+import { dirname } from 'node:path'
 import fg from 'fast-glob'
 
 import type { PackageInfo } from '../packages/metadata/src/types'
 import { generateDtsFromSchema } from './update/schema-to-ts'
-import { generateConfigs, readPackage, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
-import { GEN_HEADER, ROOT } from './update/meta'
+import { generateConfigs, generateMetadata, readPackage, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
+import { ROOT } from './update/meta'
 
 async function readPackages() {
   const paths = (await fg(
@@ -75,18 +74,7 @@ async function run() {
   }
 
   await generateDtsFromSchema()
-
-  await fs.writeFile(
-    join(ROOT, 'packages', 'metadata', 'src', 'metadata.ts'),
-`${GEN_HEADER}
-import type { PackageInfo, RuleInfo } from './types'
-
-export const packages: Readonly<PackageInfo[]> = Object.freeze(${JSON.stringify(packages, null, 2)})
-
-export const rules: Readonly<RuleInfo[]> = Object.freeze(packages.flatMap(p => p.rules))
-`.trimStart(),
-'utf-8',
-  )
+  await generateMetadata(packages)
 }
 
 run()

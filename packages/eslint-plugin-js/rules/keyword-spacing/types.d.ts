@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: zFHAc4K4FM */
+
 export interface Schema0 {
   before?: boolean
   after?: boolean

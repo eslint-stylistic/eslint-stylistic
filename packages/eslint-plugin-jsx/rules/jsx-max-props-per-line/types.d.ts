@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: AEJDXmY4az */
+
 export type Schema0 =
   | {
     maximum?: {

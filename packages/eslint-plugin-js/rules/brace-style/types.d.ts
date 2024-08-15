@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: syuDLaCxs7 */
+
 export type Schema0 = '1tbs' | 'stroustrup' | 'allman'
 
 export interface Schema1 {

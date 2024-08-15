@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: rJI3TwV8jc */
+
 export interface Schema0 {
   groups?: [
     (

@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: Tua7ZghdEL */
+
 export interface Schema0 {
   allowAllPropertiesOnSameLine?: boolean
   allowMultiplePropertiesPerLine?: boolean

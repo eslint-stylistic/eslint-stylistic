@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: wKuuwV5JMR */
+
 export type Schema0 =
   | ('above' | 'beside')
   | {

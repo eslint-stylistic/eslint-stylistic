@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: DKXamXshkk */
+
 export type Schema0 =
   | []
   | ['starred-block' | 'bare-block']

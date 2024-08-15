@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: inXGpfdEcT */
+
 export type MultiLineOption = 'none' | 'semi' | 'comma'
 export type SingleLineOption = 'semi' | 'comma'
 

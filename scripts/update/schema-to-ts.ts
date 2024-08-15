@@ -1,10 +1,13 @@
-import { promises as fs } from 'node:fs'
+import { existsSync, promises as fs } from 'node:fs'
 import { basename, resolve } from 'node:path'
 import fg from 'fast-glob'
 import { compile } from 'json-schema-to-typescript-lite'
 import type { JSONSchema4 } from 'json-schema'
 import { format } from 'prettier'
+import { hash } from 'ohash'
 import { GEN_HEADER } from './meta'
+
+const VERSION = 'v1'
 
 export async function generateDtsFromSchema() {
   const files = await fg('packages/eslint-plugin-{js,ts,jsx,plus}/rules/**/*.ts', {
@@ -18,8 +21,18 @@ export async function generateDtsFromSchema() {
   })
 
   for (const file of files) {
+    const dtsFile = resolve(file, '..', 'types.d.ts')
     const name = basename(file, '.ts')
     const meta = await import(file).then(r => r.default.meta)
+    const checksum = hash({ meta, VERSION })
+
+    const lastChecksum = existsSync(dtsFile) ? (await fs.readFile(dtsFile, 'utf-8'))
+      .match(/@checksum:\s(\S*)\s/)?.[1] : ''
+
+    if (lastChecksum === checksum) {
+      continue
+    }
+
     const messageIds = Object.keys(meta.messages ?? {})
     let schemas = meta.schema as JSONSchema4[] ?? []
     if (!Array.isArray(schemas))
@@ -47,6 +60,8 @@ export async function generateDtsFromSchema() {
 
     const lines = [
       GEN_HEADER,
+      `/* @checksum: ${checksum} */`,
+      '',
       ...options,
       `export type RuleOptions = ${ruleOptionTypeValue}`,
       `export type MessageIds = ${messageIds.map(i => `'${i}'`).join(' | ') || 'never'}`,
@@ -60,6 +75,6 @@ export async function generateDtsFromSchema() {
       semi: false,
     })
 
-    await fs.writeFile(resolve(file, '..', 'types.d.ts'), formatted, 'utf-8')
+    await fs.writeFile(dtsFile, formatted, 'utf-8')
   }
 }

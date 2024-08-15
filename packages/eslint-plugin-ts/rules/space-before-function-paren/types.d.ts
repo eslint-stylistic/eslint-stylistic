@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: ZchoILwBY2 */
+
 export type Schema0 =
   | ('always' | 'never')
   | {

@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: RU8mJYhOul */
+
 export type Schema0 =
   | {
     align?:

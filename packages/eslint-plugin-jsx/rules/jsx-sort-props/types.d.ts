@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: hXIUpKEQZU */
+
 export interface Schema0 {
   callbacksLast?: boolean
   shorthandFirst?: boolean

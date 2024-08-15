@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: yQXNaIALeG */
+
 export type Schema0 =
   | []
   | ['never']

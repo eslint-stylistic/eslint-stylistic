@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: 9K1wMQ7uZV */
+
 export interface Schema0 {
   allowParens?: boolean
   onlyOneSimpleParam?: boolean

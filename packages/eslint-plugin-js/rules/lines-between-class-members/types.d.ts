@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: Vc5I2Tst56 */
+
 export type Schema0 =
   | {
     /**

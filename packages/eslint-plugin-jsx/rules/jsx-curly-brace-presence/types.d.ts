@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: Lj3oZBwSFg */
+
 export type Schema0 =
   | {
     props?: 'always' | 'never' | 'ignore'

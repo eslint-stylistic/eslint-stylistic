@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: WCD7piHMmw */
+
 export type Schema0 =
   | 'always'
   | 'always-multiline'

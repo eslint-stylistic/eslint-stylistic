@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: 7ZxPstdVvT */
+
 export interface Schema0 {
   ignoreChainWithDepth?: number
 }

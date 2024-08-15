@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: 56oi0WUycI */
+
 export type Schema0 =
   | ('tab' | 'first')
   | number

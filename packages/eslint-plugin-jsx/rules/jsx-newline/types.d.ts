@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: zlO714Qdyq */
+
 export interface Schema0 {
   prevent?: boolean
   allowMultilines?: boolean

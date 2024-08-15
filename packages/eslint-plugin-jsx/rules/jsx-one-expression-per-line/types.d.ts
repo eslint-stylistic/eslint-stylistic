@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: JxoynnWNhg */
+
 export interface Schema0 {
   allow?:
     | 'none'

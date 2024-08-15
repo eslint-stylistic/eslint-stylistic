@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: C3lAcMtqyx */
+
 export type Schema0 = 'always' | 'as-needed'
 
 export interface Schema1 {

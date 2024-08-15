@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: 9Kc3KMybmY */
+
 export type Schema0 = 'tab' | number
 
 export interface Schema1 {
