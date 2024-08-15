@@ -1,7 +1,6 @@
-import type { RuleContext } from '@typescript-eslint/utils/ts-eslint'
-import type { RuleListener, RuleWithMetaAndName } from '@typescript-eslint/utils/eslint-utils'
 import type { Rule } from 'eslint'
 import { deepMerge, isObjectNotArray } from './merge'
+import type { RuleContext, RuleListener, RuleWithMetaAndName } from '#types'
 
 export interface RuleModule<
   T extends readonly unknown[],
