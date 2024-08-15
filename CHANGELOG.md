@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.6.3](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.6.2...v2.6.3) (2024-08-15)
+
+
+### Bug Fixes
+
+* add explicit `"type": "commonjs"` ([9d37124](https://github.com/eslint-stylistic/eslint-stylistic/commit/9d37124f9b5374c76d5a178928cb350b110dcfce))
+* **arrow-parens:** wrong parens removal with optional parameter ([#499](https://github.com/eslint-stylistic/eslint-stylistic/issues/499)) ([71896ce](https://github.com/eslint-stylistic/eslint-stylistic/commit/71896ce0395f810d96e643f47e98ef3812a6dc05))
+* **lines-between-class-members:** properly infer `exceptAfterOverload` from `enforce` ([#239](https://github.com/eslint-stylistic/eslint-stylistic/issues/239)) ([3dfa159](https://github.com/eslint-stylistic/eslint-stylistic/commit/3dfa1594c2b9e75e4a4260ca07d5f5c654204d18))
+* **ts/padding-line-between-statements:** removing blank line between functions in interface ([#71](https://github.com/eslint-stylistic/eslint-stylistic/issues/71)) ([#468](https://github.com/eslint-stylistic/eslint-stylistic/issues/468)) ([91eb636](https://github.com/eslint-stylistic/eslint-stylistic/commit/91eb636c6eb8e6887ec67fb9ecaa2b24079ef16f))
+
+
+### Chores
+
+* move js utils out ([bc3a15d](https://github.com/eslint-stylistic/eslint-stylistic/commit/bc3a15dbbfbcb7ffa7527c9275ad852703492848))
+* move utils ([60ef2ba](https://github.com/eslint-stylistic/eslint-stylistic/commit/60ef2ba54b2485bf9227b66fff826db96a7c31ba))
+* share utils folder ([deb8178](https://github.com/eslint-stylistic/eslint-stylistic/commit/deb81783ca5132972b1da1fe2a91ad1d8ee4f8e3))
+* **test:** replace the parsing result files with the real parser ([#505](https://github.com/eslint-stylistic/eslint-stylistic/issues/505)) ([bd6f8bc](https://github.com/eslint-stylistic/eslint-stylistic/commit/bd6f8bc19130e2bd4672b45abe1e180278f8535a))
+* unify createRule ([#507](https://github.com/eslint-stylistic/eslint-stylistic/issues/507)) ([fc6e716](https://github.com/eslint-stylistic/eslint-stylistic/commit/fc6e716f154f30c786288a97a4343c1bc594edab))
+
 ## [2.6.2](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.6.1...v2.6.2) (2024-08-08)
 
 
