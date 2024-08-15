@@ -337,7 +337,7 @@ const StatementTypes = {
   'block': newNodeTypeTester('BlockStatement'),
   'empty': newNodeTypeTester('EmptyStatement'),
   'function': newNodeTypeTester('FunctionDeclaration'),
-  'ts-method': newNodeTypeTester('TSMethodSignature'),
+
   'break': newKeywordTester('break'),
   'case': newKeywordTester('case'),
   'class': newKeywordTester('class'),
@@ -455,9 +455,6 @@ export default createRule<RuleOptions, MessageIds>({
 
       if (Array.isArray(type))
         return type.some(match.bind(null, innerStatementNode))
-
-      if (type === 'ts-method' && innerStatementNode.type === 'TSMethodSignature')
-        return true
 
       return StatementTypes[type as keyof typeof StatementTypes].test(innerStatementNode, sourceCode)
     }
