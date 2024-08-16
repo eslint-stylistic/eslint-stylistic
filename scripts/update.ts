@@ -2,44 +2,39 @@
  * @fileoverview Scripts to update metadata and types.
  */
 
-import { dirname, join } from 'node:path'
-import fs from 'fs-extra'
+import { dirname } from 'node:path'
 import fg from 'fast-glob'
 
 import type { PackageInfo } from '../packages/metadata/src/types'
 import { generateDtsFromSchema } from './update/schema-to-ts'
-import { generateConfigs, readPackage, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
-import { GEN_HEADER, ROOT } from './update/meta'
+import { generateConfigs, generateMetadata, readPackage, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
+import { ROOT } from './update/meta'
 
-async function run() {
-  const paths = (await fg('./packages/*/package.json', {
-    onlyFiles: true,
-    absolute: true,
-    cwd: ROOT,
-    ignore: [
-      'node_modules',
-    ],
-  })
-  ).sort()
+async function readPackages() {
+  const paths = (await fg(
+    './packages/*/package.json',
+    {
+      onlyFiles: true,
+      absolute: true,
+      cwd: ROOT,
+      ignore: [
+        'node_modules',
+      ],
+    },
+  )).sort()
 
   const packages: PackageInfo[] = []
   for (const path of paths) {
     const pkg = await readPackage(dirname(path))
-    await writeRulesIndex(pkg)
-    await writeREADME(pkg)
-    await writePackageDTS(pkg)
-    await updateExports(pkg)
-    await generateConfigs(pkg)
     packages.push(pkg)
   }
-
-  await generateDtsFromSchema()
 
   // Generate the default package merging all rules
   const packageJs = packages.find(i => i.shortId === 'js')!
   const packageTs = packages.find(i => i.shortId === 'ts')!
   const packageJsx = packages.find(i => i.shortId === 'jsx')!
   const packagePlus = packages.find(i => i.shortId === 'plus')!
+
   const packageGeneral = packages.find(i => i.name === '@stylistic/eslint-plugin')!
 
   // merge rules
@@ -60,30 +55,26 @@ async function run() {
       }
     })
   packageGeneral.shortId = 'default'
-
   packageGeneral.rules.sort((a, b) => a.name.localeCompare(b.name))
 
-  await generateConfigs({
-    ...packageGeneral,
-    rules: [
-      ...packageJs.rules,
-      ...packageTs.rules,
-      ...packageJsx.rules,
-      ...packagePlus.rules,
-    ].sort((a, b) => a.name.localeCompare(b.name)),
-  })
+  return packages
+}
 
-  await fs.writeFile(
-    join(ROOT, 'packages', 'metadata', 'src', 'metadata.ts'),
-`${GEN_HEADER}
-import type { PackageInfo, RuleInfo } from './types'
+async function run() {
+  const packages = await readPackages()
 
-export const packages: Readonly<PackageInfo[]> = Object.freeze(${JSON.stringify(packages, null, 2)})
+  for (const pkg of packages) {
+    if (pkg.shortId === 'default')
+      continue
+    await writeRulesIndex(pkg)
+    await writeREADME(pkg)
+    await writePackageDTS(pkg)
+    await generateConfigs(pkg)
+    await updateExports(pkg)
+  }
 
-export const rules: Readonly<RuleInfo[]> = Object.freeze(packages.flatMap(p => p.rules))
-`.trimStart(),
-'utf-8',
-  )
+  await generateDtsFromSchema()
+  await generateMetadata(packages)
 }
 
 run()

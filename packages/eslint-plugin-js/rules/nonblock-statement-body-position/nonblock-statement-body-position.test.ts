@@ -23,156 +23,156 @@ run({
     'for (foo in bar) baz;',
     'for (foo of bar) baz;',
     'if (foo) bar; else baz;',
-        `
+    `
             if (foo) bar(
                 baz
             );
         `,
-        {
-          code: 'if (foo) bar();',
-          options: ['beside'],
-        },
-        {
-          code: 'while (foo) bar();',
-          options: ['beside'],
-        },
-        {
-          code: 'do bar(); while (foo)',
-          options: ['beside'],
-        },
-        {
-          code: 'for (;foo;) bar();',
-          options: ['beside'],
-        },
+    {
+      code: 'if (foo) bar();',
+      options: ['beside'],
+    },
+    {
+      code: 'while (foo) bar();',
+      options: ['beside'],
+    },
+    {
+      code: 'do bar(); while (foo)',
+      options: ['beside'],
+    },
+    {
+      code: 'for (;foo;) bar();',
+      options: ['beside'],
+    },
 
-        // 'below' option
-        {
-          code: $`
-            if (foo)
-                bar();
-          `,
-          options: ['below'],
-        },
-        {
-          code: $`
-            while (foo)
-                bar();
-          `,
-          options: ['below'],
-        },
-        {
-          code: $`
-            do
-                bar();
-            while (foo)
-          `,
-          options: ['below'],
-        },
-        {
-          code: $`
-            for (;foo;)
-                bar();
-          `,
-          options: ['below'],
-        },
-        {
-          code: $`
-            for (foo in bar)
-                bar();
-          `,
-          options: ['below'],
-        },
-        {
-          code: $`
-            for (foo of bar)
-                bar();
-          `,
-          options: ['below'],
-        },
-        {
-          code: $`
-            if (foo)
-                bar();
-            else
-                baz();
-          `,
-          options: ['below'],
-        },
+    // 'below' option
+    {
+      code: $`
+        if (foo)
+            bar();
+      `,
+      options: ['below'],
+    },
+    {
+      code: $`
+        while (foo)
+            bar();
+      `,
+      options: ['below'],
+    },
+    {
+      code: $`
+        do
+            bar();
+        while (foo)
+      `,
+      options: ['below'],
+    },
+    {
+      code: $`
+        for (;foo;)
+            bar();
+      `,
+      options: ['below'],
+    },
+    {
+      code: $`
+        for (foo in bar)
+            bar();
+      `,
+      options: ['below'],
+    },
+    {
+      code: $`
+        for (foo of bar)
+            bar();
+      `,
+      options: ['below'],
+    },
+    {
+      code: $`
+        if (foo)
+            bar();
+        else
+            baz();
+      `,
+      options: ['below'],
+    },
 
-        // 'any' option
-        {
-          code: 'if (foo) bar();',
-          options: ['any'],
-        },
-        {
-          code: $`
-            if (foo)
-                bar();
-          `,
-          options: ['any'],
-        },
+    // 'any' option
+    {
+      code: 'if (foo) bar();',
+      options: ['any'],
+    },
+    {
+      code: $`
+        if (foo)
+            bar();
+      `,
+      options: ['any'],
+    },
 
-        // 'overrides' option
-        {
-          code: 'if (foo) bar();',
-          options: ['beside', { overrides: { while: 'below' } }],
-        },
-        {
-          code: $`
-            while (foo)
-                bar();
-          `,
-          options: ['beside', { overrides: { while: 'below' } }],
-        },
-        {
-          code: $`
-            while (foo)
-                bar();
-          `,
-          options: ['beside', { overrides: { while: 'any' } }],
-        },
-        {
-          code: 'while (foo) bar();',
-          options: ['beside', { overrides: { while: 'any' } }],
-        },
-        {
-          code: 'while (foo) bar();',
-          options: ['any', { overrides: { while: 'beside' } }],
-        },
-        {
-          code: ' ',
-          options: ['any', { overrides: { if: 'any', else: 'any', for: 'any', while: 'any', do: 'any' } }],
-        },
+    // 'overrides' option
+    {
+      code: 'if (foo) bar();',
+      options: ['beside', { overrides: { while: 'below' } }],
+    },
+    {
+      code: $`
+        while (foo)
+            bar();
+      `,
+      options: ['beside', { overrides: { while: 'below' } }],
+    },
+    {
+      code: $`
+        while (foo)
+            bar();
+      `,
+      options: ['beside', { overrides: { while: 'any' } }],
+    },
+    {
+      code: 'while (foo) bar();',
+      options: ['beside', { overrides: { while: 'any' } }],
+    },
+    {
+      code: 'while (foo) bar();',
+      options: ['any', { overrides: { while: 'beside' } }],
+    },
+    {
+      code: ' ',
+      options: ['any', { overrides: { if: 'any', else: 'any', for: 'any', while: 'any', do: 'any' } }],
+    },
 
-        // ignore 'else if'
-        `
+    // ignore 'else if'
+    `
             if (foo) {
             } else if (bar) {
             }
         `,
-        {
-          code: $`
-            if (foo) {
-            } else if (bar) {
-            }
-          `,
-          options: ['below'],
-        },
-        `
+    {
+      code: $`
+        if (foo) {
+        } else if (bar) {
+        }
+      `,
+      options: ['below'],
+    },
+    `
             if (foo) {
             } else
               if (bar) {
               }
         `,
-        {
-          code: $`
-            if (foo) {
-            } else
-              if (bar) {
-              }
-          `,
-          options: ['beside'],
-        },
+    {
+      code: $`
+        if (foo) {
+        } else
+          if (bar) {
+          }
+      `,
+      options: ['beside'],
+    },
   ],
 
   invalid: [

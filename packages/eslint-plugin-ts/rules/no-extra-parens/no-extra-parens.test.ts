@@ -2,7 +2,7 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import rule from './no-extra-parens'
-import { run } from '#test'
+import { $, run } from '#test'
 
 run({
   name: 'no-extra-parens',
@@ -27,31 +27,31 @@ run({
     'new a<import(\'\')>(1);',
     'a<A>(1);',
     {
-      code: `
-while ((foo = bar())) {}
+      code: $`
+        while ((foo = bar())) {}
       `,
       options: ['all', { conditionalAssign: false }],
     },
     {
-      code: `
-if ((foo = bar())) {}
+      code: $`
+        if ((foo = bar())) {}
       `,
       options: ['all', { conditionalAssign: false }],
     },
     {
-      code: `
-do; while ((foo = bar()))
+      code: $`
+        do; while ((foo = bar()))
       `,
       options: ['all', { conditionalAssign: false }],
     },
     {
-      code: `
-for (;(a = b););
+      code: $`
+        for (;(a = b););
       `,
       options: ['all', { conditionalAssign: false }],
     },
     {
-      code: `
+      code: $`
         function a(b) {
           return (b = 1);
         }
@@ -59,7 +59,7 @@ for (;(a = b););
       options: ['all', { returnAssign: false }],
     },
     {
-      code: `
+      code: $`
         function a(b) {
           return b ? (c = d) : (c = e);
         }
@@ -75,118 +75,118 @@ for (;(a = b););
       options: ['all', { returnAssign: false }],
     },
     {
-      code: `
-x = a || (b && c);
+      code: $`
+        x = a || (b && c);
       `,
       options: ['all', { nestedBinaryExpressions: false }],
     },
     {
-      code: `
-x = a + (b * c);
+      code: $`
+        x = a + (b * c);
       `,
       options: ['all', { nestedBinaryExpressions: false }],
     },
     {
-      code: `
-x = (a * b) / c;
+      code: $`
+        x = (a * b) / c;
       `,
       options: ['all', { nestedBinaryExpressions: false }],
     },
     {
-      code: `
-const Component = (<div />)
-const Component = (
-    <div
-        prop={true}
-    />
-)
+      code: $`
+        const Component = (<div />)
+        const Component = (
+            <div
+                prop={true}
+            />
+        )
       `,
       options: ['all', { ignoreJSX: 'all' }],
     },
     {
-      code: `
-const Component = (
-    <div>
-        <p />
-    </div>
-)
-const Component = (
-    <div
-        prop={true}
-    />
-)
+      code: $`
+        const Component = (
+            <div>
+                <p />
+            </div>
+        )
+        const Component = (
+            <div
+                prop={true}
+            />
+        )
       `,
       options: ['all', { ignoreJSX: 'multi-line' }],
     },
     {
-      code: `
-const Component = (<div />)
+      code: $`
+        const Component = (<div />)
       `,
       options: ['all', { ignoreJSX: 'single-line' }],
     },
     {
-      code: `
-const Component = (<div><p /></div>)
+      code: $`
+        const Component = (<div><p /></div>)
       `,
       options: ['all', { ignoreJSX: 'single-line' }],
     },
     {
-      code: `
-const b = a => 1 ? 2 : 3;
+      code: $`
+        const b = a => 1 ? 2 : 3;
       `,
       options: ['all', { enforceForArrowConditionals: false }],
     },
     {
-      code: `
-const d = c => (1 ? 2 : 3);
+      code: $`
+        const d = c => (1 ? 2 : 3);
       `,
       options: ['all', { enforceForArrowConditionals: false }],
     },
     {
-      code: `
-(0).toString();
+      code: $`
+        (0).toString();
       `,
       options: ['functions'],
     },
     {
-      code: `
-(Object.prototype.toString.call());
+      code: $`
+        (Object.prototype.toString.call());
       `,
       options: ['functions'],
     },
     {
-      code: `
-({}.toString.call());
+      code: $`
+        ({}.toString.call());
       `,
       options: ['functions'],
     },
     {
-      code: `
-(function(){} ? a() : b());
+      code: $`
+        (function(){} ? a() : b());
       `,
       options: ['functions'],
     },
     {
-      code: `
-(/^a$/).test(x);
+      code: $`
+        (/^a$/).test(x);
       `,
       options: ['functions'],
     },
     {
-      code: `
-a = (b * c);
+      code: $`
+        a = (b * c);
       `,
       options: ['functions'],
     },
     {
-      code: `
-(a * b) + c;
+      code: $`
+        (a * b) + c;
       `,
       options: ['functions'],
     },
     {
-      code: `
-typeof (a);
+      code: $`
+        typeof (a);
       `,
       options: ['functions'],
     },
@@ -483,8 +483,8 @@ typeof (a);
     },
 
     {
-      code: `
-declare const f: <T>(x: T) => any
+      code: $`
+        declare const f: <T>(x: T) => any
       `,
       parserOptions: {
         ecmaFeatures: {
@@ -493,8 +493,8 @@ declare const f: <T>(x: T) => any
       },
     },
     {
-      code: `
-f<(number | string)[]>(['a', 1])
+      code: $`
+        f<(number | string)[]>(['a', 1])
       `,
       parserOptions: {
         ecmaFeatures: {
@@ -503,8 +503,8 @@ f<(number | string)[]>(['a', 1])
       },
     },
     {
-      code: `
-f<(number)>(1)
+      code: $`
+        f<(number)>(1)
       `,
       parserOptions: {
         ecmaFeatures: {
@@ -513,8 +513,8 @@ f<(number)>(1)
       },
     },
     {
-      code: `
-f<(number) | string>(1)
+      code: $`
+        f<(number) | string>(1)
       `,
       parserOptions: {
         ecmaFeatures: {
@@ -687,81 +687,81 @@ f<(number) | string>(1)
     },
 
     {
-      code: `
+      code: $`
         const Component = (<div />)
       `,
-      output: `
+      output: $`
         const Component = <div />
       `,
       options: ['all', { ignoreJSX: 'multi-line' }],
       errors: [
         {
           messageId: 'unexpected',
-          column: 27,
+          column: 19,
         },
       ],
     },
     {
-      code: `
+      code: $`
         const Component = (<div><p /></div>)
       `,
-      output: `
+      output: $`
         const Component = <div><p /></div>
       `,
       options: ['all', { ignoreJSX: 'multi-line' }],
       errors: [
         {
           messageId: 'unexpected',
-          column: 27,
+          column: 19,
         },
       ],
     },
 
     {
-      code: `
-const Component = (
-    <div>
-        <p />
-    </div>
-)
-const Component = (
-    <div
-        prop={true}
-    />
-)
+      code: $`
+        const Component = (
+            <div>
+                <p />
+            </div>
+        )
+        const Component = (
+            <div
+                prop={true}
+            />
+        )
       `,
-      output: `
-const Component =${' '}
-    <div>
-        <p />
-    </div>
-
-const Component =${' '}
-    <div
-        prop={true}
-    />
-
-      `,
+      // eslint-disable-next-line prefer-template
+      output: $`
+        const Component = 
+            <div>
+                <p />
+            </div>
+        
+        const Component = 
+            <div
+                prop={true}
+            />
+      ` + '\n',
       options: ['all', { ignoreJSX: 'single-line' }],
       errors: [
         {
           messageId: 'unexpected',
-          line: 2,
+          line: 1,
           column: 19,
         },
         {
           messageId: 'unexpected',
-          line: 7,
+          line: 6,
           column: 19,
         },
       ],
     },
     {
-      code: `
-((function foo() {}))();
+      code: $`
+        ((function foo() {}))();
       `,
-      output: `
-(function foo() {})();
+      output: $`
+        (function foo() {})();
       `,
       options: ['functions'],
       errors: [
@@ -772,11 +772,11 @@ const Component =${' '}
       ],
     },
     {
-      code: `
-var y = (function () {return 1;});
+      code: $`
+        var y = (function () {return 1;});
       `,
-      output: `
-var y = function () {return 1;};
+      output: $`
+        var y = function () {return 1;};
       `,
       options: ['functions'],
       errors: [

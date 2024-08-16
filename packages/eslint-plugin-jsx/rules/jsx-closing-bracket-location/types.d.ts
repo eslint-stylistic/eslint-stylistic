@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: ZpLXIjLfsJ */
+
 export type Schema0 =
   | (
     | 'after-props'

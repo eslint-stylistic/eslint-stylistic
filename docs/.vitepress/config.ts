@@ -65,7 +65,7 @@ await Promise.all(
   defaultPackage.rules.map(async (rule) => {
     const newPath = join(
       dirname(rule.docsEntry),
-    `${basename(rule.docsEntry, '.md')}.alias.md`,
+      `${basename(rule.docsEntry, '.md')}.alias.md`,
     )
     const jsEntry = jsPackage.rules.find(r => r.name === rule.name)
     const tsEntry = tsPackage.rules.find(r => r.name === rule.name)

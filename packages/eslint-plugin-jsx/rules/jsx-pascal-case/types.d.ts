@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: kx4EE5UZE0 */
+
 export interface Schema0 {
   allowAllCaps?: boolean
   allowLeadingUnderscore?: boolean

@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: ScmkFfviIj */
+
 export type Schema0 =
   | ('before' | 'after' | 'both' | 'neither')
   | {

@@ -3441,9 +3441,9 @@ run({
     invalid('(a) = (function () {})();', 'a = (function () {})();', 'Identifier'),
     ...['**=', '*=', '/=', '%=', '+=', '-=', '<<=', '>>=', '>>>=', '&=', '^=', '|='].map(
       operator => invalid(
-                `(a) ${operator} function () {};`,
-                `a ${operator} function () {};`,
-                'Identifier',
+        `(a) ${operator} function () {};`,
+        `a ${operator} function () {};`,
+        'Identifier',
       ),
     ),
 

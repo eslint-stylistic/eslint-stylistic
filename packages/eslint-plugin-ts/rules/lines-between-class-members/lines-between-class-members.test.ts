@@ -128,16 +128,16 @@ run({
     },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/240
     {
-      code: `
+      code: $`
         class foo {
           bar(a: string): void;
           bar(a: string, b:string): void;
           bar(a: string, b:string) {
-
+        
           }
-
+        
           baz() { }
-
+        
           qux() { }
         };
       `,

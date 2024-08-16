@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: 8lgzxFndOv */
+
 export interface Schema0 {
   max: number
   maxEOF?: number

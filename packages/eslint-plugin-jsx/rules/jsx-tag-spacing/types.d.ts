@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: kUvJyU09vf */
+
 export interface Schema0 {
   closingSlash?: 'always' | 'never' | 'allow'
   beforeSelfClosing?:

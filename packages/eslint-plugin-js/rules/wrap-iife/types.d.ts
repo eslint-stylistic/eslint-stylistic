@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: QbwTyt45fP */
+
 export type Schema0 = 'outside' | 'inside' | 'any'
 
 export interface Schema1 {

@@ -152,7 +152,7 @@ export async function writePackageDTS(pkg: PackageInfo) {
 
   await fs.writeFile(
     join(pkg.path, 'dts', 'define-config-support.d.ts'),
-`${GEN_HEADER}
+    `${GEN_HEADER}
 import type { RuleOptions } from './rule-options'
 
 declare module 'eslint-define-config' {
@@ -161,7 +161,7 @@ declare module 'eslint-define-config' {
 
 export {}
 `,
-'utf-8',
+    'utf-8',
   )
 }
 
@@ -250,4 +250,18 @@ export function resolveAlias(name: string): string {
   if (RULE_ALIAS[name])
     return RULE_ALIAS[name]
   return name
+}
+
+export async function generateMetadata(packages: PackageInfo[]) {
+  await fs.writeFile(
+    join(ROOT, 'packages', 'metadata', 'src', 'metadata.ts'),
+    `${GEN_HEADER}
+import type { PackageInfo, RuleInfo } from './types'
+
+export const packages: Readonly<PackageInfo[]> = Object.freeze(${JSON.stringify(packages, null, 2)})
+
+export const rules: Readonly<RuleInfo[]> = Object.freeze(packages.flatMap(p => p.rules))
+`.trimStart(),
+    'utf-8',
+  )
 }

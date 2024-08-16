@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: eSfkLthEBZ */
+
 export interface Schema0 {
   declaration?:
     | true

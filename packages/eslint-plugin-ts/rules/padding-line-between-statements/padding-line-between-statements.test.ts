@@ -5191,8 +5191,12 @@ run({
 
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/53
     {
-      code: `const path = require('node:path');\nmodule.exports = {};`,
-      output: `const path = require('node:path');\n\nmodule.exports = {};`,
+      code: $`
+        const path = require('node:path');\nmodule.exports = {};
+      `,
+      output: $`
+        const path = require('node:path');\n\nmodule.exports = {};
+      `,
       options: [{ blankLine: 'always', prev: 'cjs-import', next: 'cjs-export' }],
       errors: [{ messageId: 'expectedBlankLine' }],
     },
@@ -5200,14 +5204,22 @@ run({
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/71
     // https://github.com/typescript-eslint/typescript-eslint/issues/7909
     {
-      code: `interface Foo {\na(): string;\n\nb(): number;\nc(): boolean;\n\nd(): string;\n}`,
-      output: `interface Foo {\na(): string;\n\nb(): number;\n\nc(): boolean;\n\nd(): string;\n}`,
+      code: $`
+        interface Foo {\na(): string;\n\nb(): number;\nc(): boolean;\n\nd(): string;\n}
+      `,
+      output: $`
+        interface Foo {\na(): string;\n\nb(): number;\n\nc(): boolean;\n\nd(): string;\n}
+      `,
       options: [{ blankLine: 'always', prev: '*', next: 'ts-method' }],
       errors: [{ messageId: 'expectedBlankLine' }],
     },
     {
-      code: `type Foo = {\na(): string;\n\nb(): number;\nc(): boolean;\n\nd(): string;\n}`,
-      output: `type Foo = {\na(): string;\n\nb(): number;\n\nc(): boolean;\n\nd(): string;\n}`,
+      code: $`
+        type Foo = {\na(): string;\n\nb(): number;\nc(): boolean;\n\nd(): string;\n}
+      `,
+      output: $`
+        type Foo = {\na(): string;\n\nb(): number;\n\nc(): boolean;\n\nd(): string;\n}
+      `,
       options: [{ blankLine: 'always', prev: 'ts-method', next: '*' }],
       errors: [{ messageId: 'expectedBlankLine' }],
     },

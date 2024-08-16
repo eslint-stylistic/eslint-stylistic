@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: WcyMLwhBBP */
+
 export type Schema0 = 'single' | 'double' | 'backtick'
 
 export type Schema1 =

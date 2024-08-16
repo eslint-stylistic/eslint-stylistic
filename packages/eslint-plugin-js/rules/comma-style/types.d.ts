@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: 2ogaavov5p */
+
 export type Schema0 = 'first' | 'last'
 
 export interface Schema1 {

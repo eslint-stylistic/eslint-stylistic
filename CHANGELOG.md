@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.6.4](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.6.3...v2.6.4) (2024-08-15)
+
+
+### Bug Fixes
+
+* **configs:** should not ignore `templateLiteral` for `indent` ([3154799](https://github.com/eslint-stylistic/eslint-stylistic/commit/3154799d2dec1aab326ce787e2da233696e451b6))
+
+
+### Chores
+
+* alias for shared utils ([#510](https://github.com/eslint-stylistic/eslint-stylistic/issues/510)) ([6ea8368](https://github.com/eslint-stylistic/eslint-stylistic/commit/6ea83684cd558a8f9b77c17df31d39d30a669c69))
+* move utils ([011f5fb](https://github.com/eslint-stylistic/eslint-stylistic/commit/011f5fb1a8b555e6ee96ec26ca3ace37198a1e4e))
+
 ## [2.6.3](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.6.2...v2.6.3) (2024-08-15)
 
 

@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: LNYfKtUmC3 */
+
 export interface Schema0 {
   component?: boolean
   html?: boolean

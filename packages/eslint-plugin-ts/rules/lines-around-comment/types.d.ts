@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+/* @checksum: U410GMFSo0 */
+
 export interface Schema0 {
   beforeBlockComment?: boolean
   afterBlockComment?: boolean
