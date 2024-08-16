@@ -1,5 +1,5 @@
-import { exec } from 'tinyexec'
+import { execa } from 'execa'
 
 // Reset changes under `packages/*` directory
-await exec('git', ['checkout', '--', 'packages'])
-await exec('git', ['clean', '-fd', 'packages'])
+await execa('git', ['checkout', '--', 'packages'])
+await execa('git', ['clean', '-fd', 'packages'])

@@ -1,4 +1,4 @@
-import { exec } from 'tinyexec'
+import { execa } from 'execa'
 import semver from 'semver'
 import { version } from '../package.json'
 
@@ -11,8 +11,6 @@ if (typeof tag === 'string')
 
 console.log(`Publishing: pnpm ${args.join(' ')}`)
 
-await exec('pnpm', args, {
-  nodeOptions: {
-    stdio: 'inherit',
-  },
+await execa('pnpm', args, {
+  stdio: 'inherit',
 })

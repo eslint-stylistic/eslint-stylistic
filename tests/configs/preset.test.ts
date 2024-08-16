@@ -2,7 +2,7 @@ import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { afterAll, beforeAll, it } from 'vitest'
 import fs from 'fs-extra'
-import { exec } from 'tinyexec'
+import { execa } from 'execa'
 import fg from 'fast-glob'
 import type { Linter } from 'eslint'
 import type { StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
@@ -90,11 +90,9 @@ export default [
 
     let error = null
     try {
-      await exec('npx', ['eslint', '.', '--fix'], {
-        nodeOptions: {
-          cwd: target,
-          stdio: 'pipe',
-        },
+      await execa('npx', ['eslint', '.', '--fix'], {
+        cwd: target,
+        stdio: 'pipe',
       })
     }
     catch (e) {
