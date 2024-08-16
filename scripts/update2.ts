@@ -4,18 +4,20 @@
 
 import { basename, join } from 'node:path'
 import { existsSync } from 'node:fs'
+import { pathToFileURL } from 'node:url'
 import fg from 'fast-glob'
 
 import type { PackageInfo } from '../packages/metadata/src/types'
 import { generateDtsFromSchema } from './update/schema-to-ts'
-import { generateConfigs, generateMetadata, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
+import { generateConfigs, generateMetadata, resolveAlias, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
+import { RULE_ORIGINAL_ID_MAP } from './update/meta'
 
 async function readPackages() {
   const RULES_DIR = './packages/eslint-plugin/rules/'
   const PACKAGES = [
-    'ts',
     'js',
     'jsx',
+    'ts',
     'plus',
   ]
 
@@ -28,7 +30,7 @@ async function readPackages() {
   const rulesMeta = await Promise.all(ruleDirs.map(async (path) => {
     const name = basename(path)
 
-    const packages = PACKAGES.filter(pkg => existsSync(join(path, `${name}._${pkg}_.ts`)))
+    const packages = [...PACKAGES].reverse().filter(pkg => existsSync(join(path, `${name}._${pkg}_.ts`)))
 
     return {
       path,
@@ -37,35 +39,62 @@ async function readPackages() {
     }
   }))
 
-  function createPackageInfo(
-    name: string,
+  async function createPackageInfo(
+    pkg: string,
     rules: typeof rulesMeta,
-  ): PackageInfo {
-    const pkgId = name
-      ? `@stylistic/eslint-plugin-${name}`
-      : '@stylistic/eslint-plugin'
-    const shortId = name || 'default'
-    const path = `packages/eslint-plugin${name ? `-${name}` : ''}`
+  ): Promise<PackageInfo> {
+    const pkgId = pkg
+      ? `@stylistic/${pkg}`
+      : '@stylistic'
+    const shortId = pkg || 'default'
+    const path = `packages/eslint-plugin${pkg ? `-${pkg}` : ''}`
 
     return {
-      name: pkgId,
+      name: pkg ? `@stylistic/eslint-plugin-${pkg}` : '@stylistic/eslint-plugin',
       shortId,
       pkgId,
       path,
-      rules: rules
-        .map(i => ({
-          name: i.name,
-          ruleId: name ? `${pkgId}/${i.name}` : i.name,
-          entry: join(RULES_DIR, i.name, name ? `${i.name}._${shortId}_.ts` : 'index.ts'),
-          docsEntry: join(RULES_DIR, i.name, name ? `README._${shortId}_.md` : 'README.md'),
-        })),
+      rules: await Promise.all(
+        rules
+          .map(async (i) => {
+            const realName = i.name
+            const name = resolveAlias(realName)
+
+            const entry = join(RULES_DIR, name, pkg ? `${name}._${pkg}_.ts` : 'index.ts')
+            const url = pathToFileURL(entry).href
+            const mod = await import(url)
+            const meta = mod.default?.meta
+            const originalId = shortId === 'js'
+              ? name
+              : shortId === 'ts'
+                ? `@typescript-eslint/${name}`
+                : shortId === 'jsx'
+                  ? `react/${name}`
+                  : ''
+            return {
+              name: realName,
+              ruleId: pkg ? `${pkgId}/${realName}` : realName,
+              originalId: RULE_ORIGINAL_ID_MAP[originalId] || originalId,
+              entry,
+              docsEntry: join(RULES_DIR, i.name, pkg ? `README._${pkg}_.md` : 'README.md'),
+              meta: {
+                fixable: meta?.fixable,
+                docs: {
+                  description: meta?.docs?.description,
+                  // TODO:
+                  // recommended: rulesInSharedConfig.has(`@stylistic/${realName}`),
+                },
+              },
+            }
+          }),
+      ),
     }
   }
 
-  const mainPackage = createPackageInfo('', rulesMeta)
-  const subPackages = PACKAGES.map(pkg => createPackageInfo(pkg, rulesMeta.filter(i => i.packages.includes(pkg))))
+  const mainPackage = await createPackageInfo('', rulesMeta)
+  const subPackages = await Promise.all(PACKAGES.map(pkg => createPackageInfo(pkg, rulesMeta.filter(i => i.packages.includes(pkg)))))
 
-  return [mainPackage, ...subPackages]
+  return [...subPackages, mainPackage]
 }
 
 async function run() {
