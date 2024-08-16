@@ -142,7 +142,7 @@ export default defineConfig({
     },
     config(md) {
       MarkdownItContainer(md, 'correct', {
-        render(tokens, idx) {
+        render(tokens: any[], idx: number) {
           if (tokens[idx].nesting === 1) {
             const next = tokens[idx + 1]
             if (next.type === 'fence')
@@ -153,7 +153,7 @@ export default defineConfig({
         },
       })
       MarkdownItContainer(md, 'incorrect', {
-        render(tokens, idx) {
+        render(tokens: any[], idx: number) {
           if (tokens[idx].nesting === 1) {
             const next = tokens[idx + 1]
             if (next.type === 'fence')
@@ -189,7 +189,7 @@ export default defineConfig({
                 '@stylistic/plus': stylisticPlus as ESLint.Plugin,
               },
               languageOptions: {
-                parser: parserTs as Linter.ParserModule,
+                parser: parserTs as Linter.Parser,
               },
             },
           ],

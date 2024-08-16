@@ -22,7 +22,7 @@
     "play:lint": "pnpm -C playground run lint"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^2.25.2",
+    "@antfu/eslint-config": "^2.26.0",
     "@antfu/eslint-define-config": "1.23.0-2",
     "@antfu/ni": "^0.22.4",
     "@antfu/utils": "^0.7.10",
@@ -76,6 +76,7 @@
     "json-schema-to-typescript-lite": "^14.1.0",
     "lint-staged": "^15.2.9",
     "ohash": "^1.1.3",
+    "picomatch": "^4.0.2",
     "pnpm": "^9.7.1",
     "prettier": "^3.3.3",
     "rimraf": "^6.0.1",

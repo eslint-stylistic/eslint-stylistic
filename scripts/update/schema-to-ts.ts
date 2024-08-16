@@ -21,8 +21,15 @@ export async function generateDtsFromSchema() {
   })
 
   for (const file of files) {
-    const dtsFile = resolve(file, '..', 'types.d.ts')
-    const name = basename(file, '.ts')
+    let name = basename(file, '.ts')
+    let suffix = ''
+    const suffixMatch = name.match(/\.(_\w+_)$/) // For special markers `._js_`
+    if (suffixMatch) {
+      suffix = suffixMatch[1]
+      name = name.slice(0, -suffix.length)
+    }
+    const dtsFile = resolve(file, '..', `types${suffix}.d.ts`)
+
     const meta = await import(file).then(r => r.default.meta)
     const checksum = hash({ meta, VERSION })
 
