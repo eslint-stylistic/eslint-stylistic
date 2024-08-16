@@ -9,7 +9,7 @@ import fg from 'fast-glob'
 
 import type { PackageInfo } from '../packages/metadata/src/types'
 import { generateDtsFromSchema } from './update/schema-to-ts'
-import { generateConfigs, generateMetadata, resolveAlias, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
+import { generateConfigs, generateMetadata, resolveAlias, rulesInSharedConfig, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
 import { RULE_ORIGINAL_ID_MAP } from './update/meta'
 
 async function readPackages() {
@@ -73,7 +73,7 @@ async function readPackages() {
                   : ''
             return {
               name: realName,
-              ruleId: pkg ? `${pkgId}/${realName}` : realName,
+              ruleId: `${pkgId}/${realName}`,
               originalId: RULE_ORIGINAL_ID_MAP[originalId] || originalId,
               entry,
               docsEntry: join(RULES_DIR, i.name, pkg ? `README._${pkg}_.md` : 'README.md'),
@@ -81,8 +81,7 @@ async function readPackages() {
                 fixable: meta?.fixable,
                 docs: {
                   description: meta?.docs?.description,
-                  // TODO:
-                  // recommended: rulesInSharedConfig.has(`@stylistic/${realName}`),
+                  recommended: rulesInSharedConfig.has(`@stylistic/${realName}`),
                 },
               },
             }
