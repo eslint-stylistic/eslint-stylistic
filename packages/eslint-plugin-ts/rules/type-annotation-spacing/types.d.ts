@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: xBBXh1Kir2 */
+/* @checksum: 4pLfcIWfUw */
 
 export interface Schema0 {
   before?: boolean
@@ -12,6 +12,7 @@ export interface Schema0 {
     parameter?: SpacingConfig
     property?: SpacingConfig
     returnType?: SpacingConfig
+    operator?: SpacingConfig
   }
 }
 export interface SpacingConfig {
