@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.6.5](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.6.4...v2.6.5) (2024-08-28)
+
+
+### Bug Fixes
+
+* **type-annotation-spacing:** consider spacing around `as` and `satisfies` operator ([#517](https://github.com/eslint-stylistic/eslint-stylistic/issues/517)) ([cf254a9](https://github.com/eslint-stylistic/eslint-stylistic/commit/cf254a9f00d504d2f433a937cfb25003083e2552))
+
+
+### Documentation
+
+* use new vscode codeActionsOnSave syntax ([#511](https://github.com/eslint-stylistic/eslint-stylistic/issues/511)) ([086b7f3](https://github.com/eslint-stylistic/eslint-stylistic/commit/086b7f342a5cdbd289e2327ddfc3bb71cb51ba62))
+
 ## [2.6.4](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.6.3...v2.6.4) (2024-08-15)
 
 
