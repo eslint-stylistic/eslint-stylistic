@@ -72,7 +72,7 @@ async function readPackages() {
             ruleId: `${pkgId}/${realName}`,
             originalId: RULE_ORIGINAL_ID_MAP[originalId] || originalId,
             entry,
-            docsEntry: join(RULES_DIR, i.name, pkg ? `README._${pkg}_.md` : 'README.md'),
+            docsEntry: pkg ? join(RULES_DIR, i.name, `README._${pkg}_.md`) : '',
             meta: {
               fixable: meta?.fixable,
               docs: {
@@ -108,6 +108,12 @@ async function readPackages() {
 
   const mainPackage = await createPackageInfo('', rulesMeta)
   const subPackages = await Promise.all(PACKAGES.map(pkg => createPackageInfo(pkg, rulesMeta.filter(i => i.packages.includes(pkg)))))
+
+  mainPackage.rules.forEach((rule) => {
+    const subrule = subPackages.map(sub => sub.rules.find(r => r.name === rule.name)).filter(Boolean)[0]
+    if (subrule)
+      rule.docsEntry = subrule.docsEntry
+  })
 
   return [...subPackages, mainPackage]
 }
