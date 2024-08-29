@@ -1,7 +1,7 @@
 // this rule tests the position of braces, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import rule from './brace-style._ts_'
+import rule from '.'
 import { $, run } from '#test'
 
 run({

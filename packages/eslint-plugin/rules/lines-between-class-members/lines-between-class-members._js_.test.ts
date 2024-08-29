@@ -3,7 +3,7 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
-import rule from './lines-between-class-members._js_'
+import rule from '.'
 import { run } from '#test'
 
 const alwaysError = { messageId: 'always' }

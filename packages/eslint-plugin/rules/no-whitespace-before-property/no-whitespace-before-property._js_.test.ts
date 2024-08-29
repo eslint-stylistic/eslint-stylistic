@@ -3,7 +3,7 @@
  * @author Kai Cataldo
  */
 
-import rule from './no-whitespace-before-property._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

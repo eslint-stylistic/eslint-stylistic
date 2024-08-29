@@ -3,7 +3,7 @@
  * @author Greg Cochard
  */
 
-import rule from './dot-location._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

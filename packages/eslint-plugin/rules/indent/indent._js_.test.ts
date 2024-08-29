@@ -6,6 +6,7 @@
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import tsParser from '@typescript-eslint/parser'
+// TODO: Stage 2: Test merged rule
 import rule from './indent._js_'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import { $, run } from '#test'

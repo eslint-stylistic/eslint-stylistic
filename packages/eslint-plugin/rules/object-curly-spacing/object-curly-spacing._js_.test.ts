@@ -3,7 +3,7 @@
  * @author Jamund Ferguson
  */
 
-import rule from './object-curly-spacing._js_'
+import rule from '.'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import { run } from '#test'
 

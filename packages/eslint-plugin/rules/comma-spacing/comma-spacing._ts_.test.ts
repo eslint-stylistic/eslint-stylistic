@@ -1,7 +1,7 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import rule from './comma-spacing._ts_'
+import rule from '.'
 import { run } from '#test'
 
 run({

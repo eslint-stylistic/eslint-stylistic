@@ -3,6 +3,7 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
+// TODO: Stage 2: Test merged rule
 import rule from './space-before-function-paren._js_'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import { run } from '#test'

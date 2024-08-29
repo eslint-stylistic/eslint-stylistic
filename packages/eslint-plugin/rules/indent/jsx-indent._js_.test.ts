@@ -5,8 +5,8 @@
 
 import semver from 'semver'
 import { version as eslintVersion } from 'eslint/package.json'
-import rule from './indent._js_'
 import { expectedErrors } from './indent._js_.test'
+import rule from '.'
 import { invalids as _invalids, valids as _valids } from '#test/parsers-jsx'
 import { $, run } from '#test'
 

@@ -2,7 +2,7 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import type { RuleOptions } from './types._ts_'
-import rule from './semi._ts_'
+import rule from '.'
 import type { InvalidTestCase, ValidTestCase } from '#test'
 import { $, run } from '#test'
 

@@ -3,7 +3,7 @@
  * @author Vignesh Anand aka vegetableman
  */
 
-import rule from './no-multi-spaces._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

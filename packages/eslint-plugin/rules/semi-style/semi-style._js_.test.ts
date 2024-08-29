@@ -3,7 +3,7 @@
  * @author Toru Nagashima
  */
 
-import rule from './semi-style._js_'
+import rule from '.'
 import { $, run } from '#test'
 
 run({

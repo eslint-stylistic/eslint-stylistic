@@ -3,7 +3,7 @@
  * @author Ian Christian Myers
  */
 
-import rule from './comma-dangle._js_'
+import rule from '.'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import { $, run } from '#test'
 

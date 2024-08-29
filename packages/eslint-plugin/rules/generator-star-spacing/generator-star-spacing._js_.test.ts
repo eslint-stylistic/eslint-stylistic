@@ -3,7 +3,7 @@
  * @author Jamund Ferguson
  */
 
-import rule from './generator-star-spacing._js_'
+import rule from '.'
 import { run } from '#test'
 
 const missingBeforeError = { messageId: 'missingBefore', type: 'Punctuator' }

@@ -3,7 +3,7 @@
  * @author Nicholas C. Zakas
  */
 
-import rule from './semi._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

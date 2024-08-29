@@ -1,4 +1,4 @@
-import rule from './object-property-newline._ts_'
+import rule from '.'
 import type { NodeTypes } from '#types'
 import type { InvalidTestCase, TestCaseError, ValidTestCase } from '#test'
 import { run } from '#test'

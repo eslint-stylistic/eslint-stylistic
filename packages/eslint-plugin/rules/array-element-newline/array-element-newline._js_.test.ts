@@ -3,7 +3,7 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-import rule from './array-element-newline._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

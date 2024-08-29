@@ -3,7 +3,7 @@
  * @author Jonathan Rajavuori
  */
 
-import rule from './space-in-parens._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

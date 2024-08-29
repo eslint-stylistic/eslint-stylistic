@@ -3,7 +3,7 @@
  * @author Sharmila Jesupaul
  */
 
-import rule from './implicit-arrow-linebreak._js_'
+import rule from '.'
 import { $, run } from '#test'
 
 const EXPECTED_LINEBREAK = { messageId: 'expected' }

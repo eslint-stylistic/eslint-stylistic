@@ -4,7 +4,7 @@
  */
 //
 
-import rule from './arrow-spacing._js_'
+import rule from '.'
 import { run } from '#test'
 
 const valid = [

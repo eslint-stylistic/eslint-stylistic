@@ -3,7 +3,7 @@
  * @author Jary Niebur
  */
 
-import rule from './no-mixed-spaces-and-tabs._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

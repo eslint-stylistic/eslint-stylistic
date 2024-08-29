@@ -3,7 +3,7 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import rule from './max-len._js_'
+import rule from '.'
 import { run } from '#test'
 
 const parserOptions = { ecmaVersion: 6 } as const

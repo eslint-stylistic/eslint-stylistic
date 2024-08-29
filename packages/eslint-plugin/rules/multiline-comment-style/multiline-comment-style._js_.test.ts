@@ -2,7 +2,7 @@
  * @fileoverview enforce a particular style for multiline comments
  * @author Teddy Katz
  */
-import rule from './multiline-comment-style._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

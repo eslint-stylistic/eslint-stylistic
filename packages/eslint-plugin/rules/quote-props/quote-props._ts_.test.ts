@@ -1,4 +1,4 @@
-import rule from './quote-props._ts_'
+import rule from '.'
 import { run } from '#test'
 
 run({

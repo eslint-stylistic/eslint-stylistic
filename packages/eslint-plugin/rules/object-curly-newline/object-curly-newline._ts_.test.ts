@@ -1,5 +1,5 @@
-import rule from './object-curly-newline._ts_'
 import type { RuleOptions } from './types._ts_'
+import rule from '.'
 import type { NodeTypes } from '#types'
 import { run } from '#test'
 import type { TestCaseError } from '#test'

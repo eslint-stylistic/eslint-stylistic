@@ -3,7 +3,7 @@
  * @author Vitor Balocco
  */
 
-import rule from './object-property-newline._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

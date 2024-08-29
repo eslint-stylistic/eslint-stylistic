@@ -1,7 +1,7 @@
 // this rule tests spacing, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import rule from './space-before-blocks._ts_'
+import rule from '.'
 import { $, run } from '#test'
 
 run({

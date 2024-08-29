@@ -3,7 +3,7 @@
  * @author Jxck
  */
 
-import rule from './arrow-parens._js_'
+import rule from '.'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import type { InvalidTestCase, ValidTestCase } from '#test'
 import { $, run } from '#test'

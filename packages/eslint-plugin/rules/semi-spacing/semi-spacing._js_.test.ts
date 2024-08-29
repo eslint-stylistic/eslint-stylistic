@@ -3,7 +3,7 @@
  * @author Mathias Schreck
  */
 
-import rule from './semi-spacing._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

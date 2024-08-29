@@ -3,7 +3,7 @@
  * @author Bryan Smith
  */
 
-import rule from './yield-star-spacing._js_'
+import rule from '.'
 import { run } from '#test'
 
 const missingBeforeError = { messageId: 'missingBefore', type: 'Punctuator' }

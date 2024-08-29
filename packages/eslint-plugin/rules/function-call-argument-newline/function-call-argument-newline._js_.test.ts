@@ -1,4 +1,4 @@
-import rule from './function-call-argument-newline._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({
