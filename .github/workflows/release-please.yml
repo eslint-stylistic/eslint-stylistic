@@ -24,6 +24,7 @@ jobs:
         with:
           config-file: release-please-config.json
           target-branch: ${{ github.ref_name }}
+          skip-github-release: true
   publish-npm:
     runs-on: ubuntu-latest
     needs: release-please
