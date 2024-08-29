@@ -2,62 +2,120 @@
  * @fileoverview Scripts to update metadata and types.
  */
 
-import { dirname } from 'node:path'
+import { basename, join } from 'node:path'
+import { existsSync } from 'node:fs'
+import { pathToFileURL } from 'node:url'
 import fg from 'fast-glob'
 
 import type { PackageInfo } from '../packages/metadata/src/types'
 import { generateDtsFromSchema } from './update/schema-to-ts'
-import { generateConfigs, generateMetadata, readPackage, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
-import { ROOT } from './update/meta'
+import { generateConfigs, generateMetadata, resolveAlias, rulesInSharedConfig, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
+import { RULE_ALIAS, RULE_ORIGINAL_ID_MAP } from './update/meta'
 
 async function readPackages() {
-  const paths = (await fg(
-    './packages/*/package.json',
-    {
-      onlyFiles: true,
-      absolute: true,
-      cwd: ROOT,
-      ignore: [
-        'node_modules',
-      ],
-    },
-  )).sort()
+  const RULES_DIR = './packages/eslint-plugin/rules/'
+  const PACKAGES = [
+    'js',
+    'jsx',
+    'ts',
+    'plus',
+  ]
 
-  const packages: PackageInfo[] = []
-  for (const path of paths) {
-    const pkg = await readPackage(dirname(path))
-    packages.push(pkg)
+  const ruleDirs = await fg('*', {
+    cwd: RULES_DIR,
+    onlyDirectories: true,
+    absolute: true,
+  })
+
+  const rulesMeta = await Promise.all(ruleDirs.map(async (path) => {
+    const name = basename(path)
+
+    const packages = [...PACKAGES].reverse().filter(pkg => existsSync(join(path, `${name}._${pkg}_.ts`)))
+
+    return {
+      path,
+      name,
+      packages,
+    }
+  }))
+
+  async function createPackageInfo(
+    pkg: string,
+    rules: typeof rulesMeta,
+  ): Promise<PackageInfo> {
+    const pkgId = pkg
+      ? `@stylistic/${pkg}`
+      : '@stylistic'
+    const shortId = pkg || 'default'
+    const path = `packages/eslint-plugin${pkg ? `-${pkg}` : ''}`
+
+    const resolvedRules = await Promise.all(
+      rules
+        .map(async (i) => {
+          const realName = i.name
+          const name = resolveAlias(realName)
+
+          const entry = join(RULES_DIR, name, pkg ? `${name}._${pkg}_.ts` : 'index.ts')
+          const url = pathToFileURL(entry).href
+          const mod = await import(url)
+          const meta = mod.default?.meta
+          const originalId = shortId === 'js'
+            ? name
+            : shortId === 'ts'
+              ? `@typescript-eslint/${name}`
+              : shortId === 'jsx'
+                ? `react/${name}`
+                : ''
+
+          return {
+            name: realName,
+            ruleId: `${pkgId}/${realName}`,
+            originalId: RULE_ORIGINAL_ID_MAP[originalId] || originalId,
+            entry,
+            docsEntry: pkg ? join(RULES_DIR, i.name, `README._${pkg}_.md`) : '',
+            meta: {
+              fixable: meta?.fixable,
+              docs: {
+                description: meta?.docs?.description,
+                recommended: rulesInSharedConfig.has(`@stylistic/${realName}`),
+              },
+            },
+          }
+        }),
+    )
+
+    for (const [alias, source] of Object.entries(RULE_ALIAS)) {
+      const rule = resolvedRules.find(i => i.name === source)
+      if (rule) {
+        resolvedRules.push({
+          ...rule,
+          name: alias,
+          ruleId: `${pkgId}/${alias}`,
+        })
+      }
+    }
+
+    resolvedRules.sort((a, b) => a.name.localeCompare(b.name))
+
+    return {
+      name: pkg ? `@stylistic/eslint-plugin-${pkg}` : '@stylistic/eslint-plugin',
+      shortId,
+      pkgId,
+      path,
+      rules: resolvedRules,
+    }
   }
 
-  // Generate the default package merging all rules
-  const packageJs = packages.find(i => i.shortId === 'js')!
-  const packageTs = packages.find(i => i.shortId === 'ts')!
-  const packageJsx = packages.find(i => i.shortId === 'jsx')!
-  const packagePlus = packages.find(i => i.shortId === 'plus')!
+  const mainPackage = await createPackageInfo('', rulesMeta)
+  const subPackages = await Promise.all(PACKAGES.map(pkg => createPackageInfo(pkg, rulesMeta.filter(i => i.packages.includes(pkg)))))
 
-  const packageGeneral = packages.find(i => i.name === '@stylistic/eslint-plugin')!
+  mainPackage.rules.forEach((rule) => {
+    const subrule = subPackages.map(sub => sub.rules.find(r => r.name === rule.name)).filter(Boolean)[0]
+    if (subrule)
+      rule.docsEntry = subrule.docsEntry
+  })
 
-  // merge rules
-  packageGeneral.rules = [...new Set([
-    ...packageJs.rules.map(i => i.name),
-    ...packageTs.rules.map(i => i.name),
-    ...packageJsx.rules.map(i => i.name),
-    ...packagePlus.rules.map(i => i.name),
-  ])]
-    .map((name) => {
-      const rule = packageJs.rules.find(i => i.name === name)!
-        || packageTs.rules.find(i => i.name === name)!
-        || packageJsx.rules.find(i => i.name === name)!
-        || packagePlus.rules.find(i => i.name === name)!
-      return {
-        ...rule,
-        ruleId: `@stylistic/${name}`,
-      }
-    })
-  packageGeneral.shortId = 'default'
-  packageGeneral.rules.sort((a, b) => a.name.localeCompare(b.name))
-
-  return packages
+  return [...subPackages, mainPackage]
 }
 
 async function run() {
