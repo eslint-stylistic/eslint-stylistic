@@ -6,11 +6,12 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
 
 import type { MessageIds, RuleOptions } from './types._ts_'
-import { createRule } from '#utils/create-rule'
-import { getJsRule } from '#utils/get-js-rule'
+import _baseRule from './no-extra-parens._js_'
+import { castRuleModule, createRule } from '#utils/create-rule'
+
 import type { ASTNode, Tree } from '#types'
 
-const baseRule = getJsRule('no-extra-parens')
+const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',

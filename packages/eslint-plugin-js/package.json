@@ -116,7 +116,6 @@
   },
   "dependencies": {
     "@types/eslint": "catalog:",
-    "acorn": "catalog:",
     "eslint-visitor-keys": "catalog:",
     "espree": "catalog:"
   }

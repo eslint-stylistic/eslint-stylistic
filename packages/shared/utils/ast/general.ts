@@ -8,7 +8,7 @@ import type { TSESLint } from '@typescript-eslint/utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
-import type { ASTNode, ESNode, RuleContext, SourceCode, Token, Tree } from '#types'
+import type { ASTNode, ESNode, SourceCode, Token, Tree } from '#types'
 
 const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
 
@@ -838,22 +838,6 @@ export function isNodeFirstInLine(context: { sourceCode: SourceCode }, node: AST
 }
 
 /**
- * Checks if a node is surrounded by parenthesis.
- *
- * @param context - Context from the rule
- * @param node - Node to be checked
- */
-export function isParenthesized(context: RuleContext<any, any>, node: ASTNode): boolean {
-  const sourceCode = context.sourceCode
-  const previousToken = sourceCode.getTokenBefore(node)
-  const nextToken = sourceCode.getTokenAfter(node)
-
-  return !!previousToken && !!nextToken
-    && previousToken.value === '(' && previousToken.range[1] <= node.range![0]
-    && nextToken.value === ')' && nextToken.range[0] >= node.range![1]
-}
-
-/**
  * Find the token before the closing bracket.
  * @param node - The JSX element node.
  * @returns The token before the closing bracket.
@@ -864,4 +848,100 @@ export function getTokenBeforeClosingBracket(node: Tree.JSXOpeningElement | Tree
     return node.name
 
   return attributes[attributes.length - 1]
+}
+
+/**
+ * Get the left parenthesis of the parent node syntax if it exists.
+ * E.g., `if (a) {}` then the `(`.
+ */
+function getParentSyntaxParen(node: ASTNode, sourceCode: SourceCode) {
+  const parent = node.parent
+  if (!parent)
+    return null
+
+  switch (parent.type) {
+    case 'CallExpression':
+    case 'NewExpression':
+      if (parent.arguments.length === 1 && parent.arguments[0] === node) {
+        return sourceCode.getTokenAfter(
+          parent.callee,
+          isOpeningParenToken,
+        )
+      }
+      return null
+
+    case 'DoWhileStatement':
+      if (parent.test === node) {
+        return sourceCode.getTokenAfter(
+          parent.body,
+          isOpeningParenToken,
+        )
+      }
+      return null
+
+    case 'IfStatement':
+    case 'WhileStatement':
+      if (parent.test === node) {
+        return sourceCode.getFirstToken(parent, 1)
+      }
+      return null
+
+    case 'ImportExpression':
+      if (parent.source === node) {
+        return sourceCode.getFirstToken(parent, 1)
+      }
+      return null
+
+    case 'SwitchStatement':
+      if (parent.discriminant === node) {
+        return sourceCode.getFirstToken(parent, 1)
+      }
+      return null
+
+    case 'WithStatement':
+      if (parent.object === node) {
+        return sourceCode.getFirstToken(parent, 1)
+      }
+      return null
+
+    default:
+      return null
+  }
+}
+
+/**
+ * Check whether a given node is parenthesized or not.
+ */
+export function isParenthesized(
+  node: ASTNode,
+  sourceCode: SourceCode,
+  times = 1,
+) {
+  let maybeLeftParen, maybeRightParen
+
+  if (
+    node == null
+    // `Program` can't be parenthesized
+    || node.parent == null
+    // `CatchClause.param` can't be parenthesized, example `try {} catch (error) {}`
+    || (node.parent.type === 'CatchClause' && node.parent.param === node)
+  ) {
+    return false
+  }
+
+  maybeLeftParen = maybeRightParen = node
+  do {
+    maybeLeftParen = sourceCode.getTokenBefore(maybeLeftParen)
+    maybeRightParen = sourceCode.getTokenAfter(maybeRightParen)
+  } while (
+    maybeLeftParen != null
+    && maybeRightParen != null
+    && (maybeLeftParen.type === 'Punctuator' && maybeLeftParen.value === '(')
+    && (maybeRightParen.type === 'Punctuator' && maybeRightParen.value === ')')
+    // Avoid false positive such as `if (a) {}`
+    && maybeLeftParen !== getParentSyntaxParen(node, sourceCode)
+    && --times > 0
+  )
+
+  return times === 0
 }

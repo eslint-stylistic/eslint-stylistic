@@ -1,11 +1,11 @@
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isNotOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
 import type { MessageIds, RuleOptions } from './types._ts_'
-import type { ASTNode, Token, Tree } from '#types'
-import { createRule } from '#utils/create-rule'
-import { getJsRule } from '#utils/get-js-rule'
+import _baseRule from './space-infix-ops._js_'
+import { castRuleModule, createRule } from '#utils/create-rule'
+import type { ASTNode, RuleModule, Token, Tree } from '#types'
 
-const baseRule = getJsRule('space-infix-ops')
+const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 const UNIONS = ['|', '&']
 
@@ -20,10 +20,7 @@ export default createRule<RuleOptions, MessageIds>({
     fixable: baseRule.meta.fixable,
     hasSuggestions: baseRule.meta.hasSuggestions,
     schema: baseRule.meta.schema,
-    messages: {
-      missingSpace: 'Operator \'{{operator}}\' must be spaced.',
-      ...baseRule.meta.messages,
-    },
+    messages: baseRule.meta.messages,
   },
   defaultOptions: [
     {
@@ -31,7 +28,7 @@ export default createRule<RuleOptions, MessageIds>({
     },
   ],
   create(context) {
-    const rules = baseRule.create(context)
+    const rules = (baseRule as any as RuleModule<any, any>).create(context)
     const sourceCode = context.sourceCode
 
     function report(operator: Token): void {

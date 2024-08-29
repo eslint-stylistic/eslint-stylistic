@@ -1,8 +1,8 @@
 import type { MessageIds, RuleOptions } from './types._ts_'
-import { createRule } from '#utils/create-rule'
-import { getJsRule } from '#utils/get-js-rule'
+import _baseRule from './object-curly-newline._js_'
+import { castRuleModule, createRule } from '#utils/create-rule'
 
-const baseRule = getJsRule('object-curly-newline')
+const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 const defaultOptionValue = { multiline: false, minProperties: Number.POSITIVE_INFINITY, consistent: true }
 

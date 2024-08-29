@@ -1,8 +1,8 @@
 import type { MessageIds, RuleOptions } from './types._ts_'
-import { createRule } from '#utils/create-rule'
-import { getJsRule } from '#utils/get-js-rule'
+import _baseRule from './no-extra-semi._js_'
+import { castRuleModule, createRule } from '#utils/create-rule'
 
-const baseRule = getJsRule('no-extra-semi')
+const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-semi',

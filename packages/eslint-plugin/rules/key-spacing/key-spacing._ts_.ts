@@ -4,13 +4,13 @@ import {
   isColonToken,
 } from '@typescript-eslint/utils/ast-utils'
 import type { MessageIds, RuleOptions } from './types._ts_'
+import _baseRule from './key-spacing._js_'
+import { castRuleModule, createRule } from '#utils/create-rule'
 import type { ASTNode, Tree } from '#types'
 
-import { createRule } from '#utils/create-rule'
-import { getJsRule } from '#utils/get-js-rule'
 import { getStringLength } from '#utils/string'
 
-const baseRule = getJsRule('key-spacing')
+const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 const baseSchema = Array.isArray(baseRule.meta.schema)
   ? baseRule.meta.schema[0]

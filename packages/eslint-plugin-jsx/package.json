@@ -65,7 +65,6 @@
     "eslint": ">=8.40.0"
   },
   "dependencies": {
-    "@stylistic/eslint-plugin-js": "workspace:^",
     "@types/eslint": "catalog:",
     "eslint-visitor-keys": "catalog:",
     "espree": "catalog:",

@@ -20,7 +20,7 @@ export default defineConfig({
         if (id.includes('configs'))
           return 'configs'
         if (id.includes('rules')) {
-          const name = basename(dirname(id))
+          const name = basename(dirname(id)).replace(/\._\w+_$/, '')
           if (name !== 'rules')
             return name
         }

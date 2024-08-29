@@ -1,11 +1,10 @@
 import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 import type { MessageIds, RuleOptions } from './types._ts_'
+import _baseRule from './brace-style._js_'
+import { castRuleModule, createRule } from '#utils/create-rule'
 import type { Tree } from '#types'
 
-import { createRule } from '#utils/create-rule'
-import { getJsRule } from '#utils/get-js-rule'
-
-const baseRule = getJsRule('brace-style')
+const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'brace-style',
@@ -22,9 +21,10 @@ export default createRule<RuleOptions, MessageIds>({
   },
   defaultOptions: ['1tbs'],
   create(context) {
-    const [style, { allowSingleLine } = { allowSingleLine: false }]
-
-      = context.options
+    const [
+      style,
+      { allowSingleLine } = { allowSingleLine: false },
+    ] = context.options
 
     const isAllmanStyle = style === 'allman'
     const sourceCode = context.sourceCode
@@ -44,12 +44,9 @@ export default createRule<RuleOptions, MessageIds>({
         return
       }
 
-      const tokenBeforeOpeningCurly
-        = sourceCode.getTokenBefore(openingCurlyToken)!
-      const tokenBeforeClosingCurly
-        = sourceCode.getTokenBefore(closingCurlyToken)!
-      const tokenAfterOpeningCurly
-        = sourceCode.getTokenAfter(openingCurlyToken)!
+      const tokenBeforeOpeningCurly = sourceCode.getTokenBefore(openingCurlyToken)!
+      const tokenBeforeClosingCurly = sourceCode.getTokenBefore(closingCurlyToken)!
+      const tokenAfterOpeningCurly = sourceCode.getTokenAfter(openingCurlyToken)!
 
       if (
         !isAllmanStyle

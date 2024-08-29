@@ -1,12 +1,11 @@
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isCommentToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 import type { MessageIds, RuleOptions } from './types._ts_'
+import _baseRule from './lines-around-comment._js_'
+import { castRuleModule, createRule } from '#utils/create-rule'
 import type { ASTNode, Tree } from '#types'
 
-import { createRule } from '#utils/create-rule'
-import { getJsRule } from '#utils/get-js-rule'
-
-const baseRule = getJsRule('lines-around-comment')
+const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 const COMMENTS_IGNORE_PATTERN
   = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u

@@ -3,11 +3,9 @@
  * @author Ilya Volodin
  */
 
-// @ts-expect-error missing types
-import { isParenthesized } from '@eslint-community/eslint-utils'
 import type { MessageIds, RuleOptions } from './types._js_'
+import { getStaticPropertyName, isParenthesised, isParenthesized, skipChainExpression } from '#utils/ast'
 import type { ASTNode, Tree } from '#types'
-import { getStaticPropertyName, isParenthesised, skipChainExpression } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 /**
@@ -82,7 +80,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function isWrappedInGroupingParens(node: ASTNode) {
-      return isParenthesized(1, node, sourceCode)
+      return isParenthesized(node, sourceCode, 1)
     }
 
     /**

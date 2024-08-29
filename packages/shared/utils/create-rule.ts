@@ -1,9 +1,11 @@
 import type { Rule } from 'eslint'
 import { deepMerge, isObjectNotArray } from './merge'
-import type { RuleContext, RuleListener, RuleWithMetaAndName } from '#types'
+import type { RuleContext, RuleListener, RuleModule, RuleWithMetaAndName } from '#types'
 
-export interface RuleModule<
+export interface ESLintRuleModule<
   T extends readonly unknown[],
+  // eslint-disable-next-line unused-imports/no-unused-vars
+  TMessageIds extends string,
 > extends Rule.RuleModule {
   defaultOptions: T
 }
@@ -25,7 +27,7 @@ export function createRule<
     package: 'js' | 'ts' | 'jsx' | 'plus'
     defaultOptions?: TOptions
   },
-): RuleModule<TOptions> {
+): ESLintRuleModule<TOptions, TMessageIds> {
   return {
     create: ((
       context: Readonly<RuleContext<TMessageIds, TOptions>>,
@@ -51,4 +53,11 @@ export function createRule<
       },
     },
   }
+}
+
+export function castRuleModule<
+  TOptions extends readonly unknown[],
+  TMessageIds extends string,
+>(rule: ESLintRuleModule<TOptions, TMessageIds>): RuleModule<TMessageIds, TOptions> {
+  return rule as any
 }
