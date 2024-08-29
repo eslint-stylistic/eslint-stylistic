@@ -2,7 +2,9 @@
 
 /* @checksum: e2ukTqdnA0 */
 
-export type RuleOptions = []
+export type JsxChildElementSpacingRuleOptions = []
+
+export type RuleOptions = JsxChildElementSpacingRuleOptions
 export type MessageIds =
   | 'spacingAfterPrev'
   | 'spacingBeforeNext'

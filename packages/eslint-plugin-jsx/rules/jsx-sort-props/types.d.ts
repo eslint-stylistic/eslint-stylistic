@@ -2,7 +2,7 @@
 
 /* @checksum: hXIUpKEQZU */
 
-export interface Schema0 {
+export interface JsxSortPropsSchema0 {
   callbacksLast?: boolean
   shorthandFirst?: boolean
   shorthandLast?: boolean
@@ -13,7 +13,9 @@ export interface Schema0 {
   locale?: string
 }
 
-export type RuleOptions = [Schema0?]
+export type JsxSortPropsRuleOptions = [JsxSortPropsSchema0?]
+
+export type RuleOptions = JsxSortPropsRuleOptions
 export type MessageIds =
   | 'noUnreservedProps'
   | 'listIsEmpty'

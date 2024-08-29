@@ -2,5 +2,7 @@
 
 /* @checksum: kxQgpxEwFp */
 
-export type RuleOptions = []
+export type NoExtraSemiRuleOptions = []
+
+export type RuleOptions = NoExtraSemiRuleOptions
 export type MessageIds = 'unexpected'

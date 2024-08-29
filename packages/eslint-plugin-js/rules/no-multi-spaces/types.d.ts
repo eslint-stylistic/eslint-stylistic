@@ -2,7 +2,7 @@
 
 /* @checksum: lz4v5YV0ch */
 
-export interface Schema0 {
+export interface NoMultiSpacesSchema0 {
   exceptions?: {
     [k: string]: boolean
   }
@@ -10,5 +10,9 @@ export interface Schema0 {
   includeTabs?: boolean
 }
 
-export type RuleOptions = [Schema0?]
+export type NoMultiSpacesRuleOptions = [
+  NoMultiSpacesSchema0?,
+]
+
+export type RuleOptions = NoMultiSpacesRuleOptions
 export type MessageIds = 'multipleSpaces'

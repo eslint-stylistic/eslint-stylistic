@@ -2,7 +2,7 @@
 
 /* @checksum: Jb7vZ0lVPm */
 
-export type Schema0 =
+export type CommaDangleSchema0 =
   | []
   | [
     | Value
@@ -29,5 +29,7 @@ export type ValueWithIgnore =
   | 'only-multiline'
   | 'ignore'
 
-export type RuleOptions = Schema0
+export type CommaDangleRuleOptions = CommaDangleSchema0
+
+export type RuleOptions = CommaDangleRuleOptions
 export type MessageIds = 'unexpected' | 'missing'

@@ -2,7 +2,7 @@
 
 /* @checksum: zFHAc4K4FM */
 
-export interface Schema0 {
+export interface KeywordSpacingSchema0 {
   before?: boolean
   after?: boolean
   overrides?: {
@@ -281,7 +281,11 @@ export interface Schema0 {
   }
 }
 
-export type RuleOptions = [Schema0?]
+export type KeywordSpacingRuleOptions = [
+  KeywordSpacingSchema0?,
+]
+
+export type RuleOptions = KeywordSpacingRuleOptions
 export type MessageIds =
   | 'expectedBefore'
   | 'expectedAfter'

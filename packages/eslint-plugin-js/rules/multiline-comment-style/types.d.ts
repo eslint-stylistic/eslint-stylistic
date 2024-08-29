@@ -2,7 +2,7 @@
 
 /* @checksum: DKXamXshkk */
 
-export type Schema0 =
+export type MultilineCommentStyleSchema0 =
   | []
   | ['starred-block' | 'bare-block']
   | []
@@ -14,7 +14,10 @@ export type Schema0 =
     },
   ]
 
-export type RuleOptions = Schema0
+export type MultilineCommentStyleRuleOptions =
+  MultilineCommentStyleSchema0
+
+export type RuleOptions = MultilineCommentStyleRuleOptions
 export type MessageIds =
   | 'expectedBlock'
   | 'expectedBareBlock'

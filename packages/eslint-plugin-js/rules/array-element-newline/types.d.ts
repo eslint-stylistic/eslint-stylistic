@@ -2,7 +2,7 @@
 
 /* @checksum: kWySUMGSD3 */
 
-export type Schema0 =
+export type ArrayElementNewlineSchema0 =
   | []
   | [
     | BasicConfig
@@ -19,7 +19,10 @@ export type BasicConfig =
     minItems?: number | null
   }
 
-export type RuleOptions = Schema0
+export type ArrayElementNewlineRuleOptions =
+  ArrayElementNewlineSchema0
+
+export type RuleOptions = ArrayElementNewlineRuleOptions
 export type MessageIds =
   | 'unexpectedLineBreak'
   | 'missingLineBreak'

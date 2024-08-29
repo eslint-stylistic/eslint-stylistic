@@ -2,7 +2,9 @@
 
 /* @checksum: lFKSRv50NP */
 
-export type Schema0 = 'last' | 'first'
+export type SemiStyleSchema0 = 'last' | 'first'
 
-export type RuleOptions = [Schema0?]
+export type SemiStyleRuleOptions = [SemiStyleSchema0?]
+
+export type RuleOptions = SemiStyleRuleOptions
 export type MessageIds = 'expectedSemiColon'

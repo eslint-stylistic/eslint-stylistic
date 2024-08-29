@@ -2,7 +2,14 @@
 
 /* @checksum: R5xW8d6hFH */
 
-export type Schema0 = 'always' | 'initializations'
+export type OneVarDeclarationPerLineSchema0 =
+  | 'always'
+  | 'initializations'
 
-export type RuleOptions = [Schema0?]
+export type OneVarDeclarationPerLineRuleOptions = [
+  OneVarDeclarationPerLineSchema0?,
+]
+
+export type RuleOptions =
+  OneVarDeclarationPerLineRuleOptions
 export type MessageIds = 'expectVarOnNewline'

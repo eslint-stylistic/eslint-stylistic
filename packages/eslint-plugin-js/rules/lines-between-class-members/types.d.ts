@@ -2,7 +2,7 @@
 
 /* @checksum: Vc5I2Tst56 */
 
-export type Schema0 =
+export type LinesBetweenClassMembersSchema0 =
   | {
     /**
      * @minItems 1
@@ -22,9 +22,15 @@ export type Schema0 =
   }
   | ('always' | 'never')
 
-export interface Schema1 {
+export interface LinesBetweenClassMembersSchema1 {
   exceptAfterSingleLine?: boolean
 }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type LinesBetweenClassMembersRuleOptions = [
+  LinesBetweenClassMembersSchema0?,
+  LinesBetweenClassMembersSchema1?,
+]
+
+export type RuleOptions =
+  LinesBetweenClassMembersRuleOptions
 export type MessageIds = 'never' | 'always'

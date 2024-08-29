@@ -2,10 +2,14 @@
 
 /* @checksum: 9K1wMQ7uZV */
 
-export interface Schema0 {
+export interface NoConfusingArrowSchema0 {
   allowParens?: boolean
   onlyOneSimpleParam?: boolean
 }
 
-export type RuleOptions = [Schema0?]
+export type NoConfusingArrowRuleOptions = [
+  NoConfusingArrowSchema0?,
+]
+
+export type RuleOptions = NoConfusingArrowRuleOptions
 export type MessageIds = 'confusing'

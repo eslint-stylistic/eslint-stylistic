@@ -2,7 +2,7 @@
 
 /* @checksum: 8lVbkQAtj6 */
 
-export type Schema0 =
+export type MaxLenSchema0 =
   | {
     code?: number
     comments?: number
@@ -17,7 +17,7 @@ export type Schema0 =
   }
   | number
 
-export type Schema1 =
+export type MaxLenSchema1 =
   | {
     code?: number
     comments?: number
@@ -32,7 +32,7 @@ export type Schema1 =
   }
   | number
 
-export interface Schema2 {
+export interface MaxLenSchema2 {
   code?: number
   comments?: number
   tabWidth?: number
@@ -45,5 +45,11 @@ export interface Schema2 {
   ignoreTrailingComments?: boolean
 }
 
-export type RuleOptions = [Schema0?, Schema1?, Schema2?]
+export type MaxLenRuleOptions = [
+  MaxLenSchema0?,
+  MaxLenSchema1?,
+  MaxLenSchema2?,
+]
+
+export type RuleOptions = MaxLenRuleOptions
 export type MessageIds = 'max' | 'maxComment'

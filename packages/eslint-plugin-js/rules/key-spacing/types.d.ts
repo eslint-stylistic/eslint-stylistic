@@ -2,7 +2,7 @@
 
 /* @checksum: RU8mJYhOul */
 
-export type Schema0 =
+export type KeySpacingSchema0 =
   | {
     align?:
         | ('colon' | 'value')
@@ -55,7 +55,9 @@ export type Schema0 =
     }
   }
 
-export type RuleOptions = [Schema0?]
+export type KeySpacingRuleOptions = [KeySpacingSchema0?]
+
+export type RuleOptions = KeySpacingRuleOptions
 export type MessageIds =
   | 'extraKey'
   | 'extraValue'

@@ -2,5 +2,8 @@
 
 /* @checksum: mRy8PDKxsD */
 
-export type RuleOptions = []
+export type NoWhitespaceBeforePropertyRuleOptions = []
+
+export type RuleOptions =
+  NoWhitespaceBeforePropertyRuleOptions
 export type MessageIds = 'unexpectedWhitespace'

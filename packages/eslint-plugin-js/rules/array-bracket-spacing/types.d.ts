@@ -2,15 +2,20 @@
 
 /* @checksum: mOTCFgYqR7 */
 
-export type Schema0 = 'always' | 'never'
+export type ArrayBracketSpacingSchema0 = 'always' | 'never'
 
-export interface Schema1 {
+export interface ArrayBracketSpacingSchema1 {
   singleValue?: boolean
   objectsInArrays?: boolean
   arraysInArrays?: boolean
 }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type ArrayBracketSpacingRuleOptions = [
+  ArrayBracketSpacingSchema0?,
+  ArrayBracketSpacingSchema1?,
+]
+
+export type RuleOptions = ArrayBracketSpacingRuleOptions
 export type MessageIds =
   | 'unexpectedSpaceAfter'
   | 'unexpectedSpaceBefore'

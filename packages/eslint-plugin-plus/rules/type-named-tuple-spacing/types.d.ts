@@ -2,7 +2,9 @@
 
 /* @checksum: PJhr2D79iJ */
 
-export type RuleOptions = []
+export type TypeNamedTupleSpacingRuleOptions = []
+
+export type RuleOptions = TypeNamedTupleSpacingRuleOptions
 export type MessageIds =
   | 'expectedSpaceAfter'
   | 'unexpectedSpaceBetween'

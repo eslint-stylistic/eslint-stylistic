@@ -2,5 +2,7 @@
 
 /* @checksum: 3DEjPTjIlt */
 
-export type RuleOptions = []
+export type WrapRegexRuleOptions = []
+
+export type RuleOptions = WrapRegexRuleOptions
 export type MessageIds = 'requireParens'

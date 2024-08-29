@@ -2,12 +2,14 @@
 
 /* @checksum: doouwc4ZOO */
 
-export interface Schema0 {
+export interface SemiSpacingSchema0 {
   before?: boolean
   after?: boolean
 }
 
-export type RuleOptions = [Schema0?]
+export type SemiSpacingRuleOptions = [SemiSpacingSchema0?]
+
+export type RuleOptions = SemiSpacingRuleOptions
 export type MessageIds =
   | 'unexpectedWhitespaceBefore'
   | 'unexpectedWhitespaceAfter'

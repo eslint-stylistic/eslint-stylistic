@@ -1,4 +1,6 @@
 /* eslint perfectionist/sort-objects: "error" */
+// @ts-check
+
 import antfu from '@antfu/eslint-config'
 import stylistic from './stub.mjs'
 

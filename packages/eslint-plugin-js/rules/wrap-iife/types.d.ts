@@ -2,13 +2,18 @@
 
 /* @checksum: QbwTyt45fP */
 
-export type Schema0 = 'outside' | 'inside' | 'any'
+export type WrapIifeSchema0 = 'outside' | 'inside' | 'any'
 
-export interface Schema1 {
+export interface WrapIifeSchema1 {
   functionPrototypeMethods?: boolean
 }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type WrapIifeRuleOptions = [
+  WrapIifeSchema0?,
+  WrapIifeSchema1?,
+]
+
+export type RuleOptions = WrapIifeRuleOptions
 export type MessageIds =
   | 'wrapInvocation'
   | 'wrapExpression'

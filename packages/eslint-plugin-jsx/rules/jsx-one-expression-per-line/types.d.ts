@@ -2,7 +2,7 @@
 
 /* @checksum: JxoynnWNhg */
 
-export interface Schema0 {
+export interface JsxOneExpressionPerLineSchema0 {
   allow?:
     | 'none'
     | 'literal'
@@ -11,5 +11,9 @@ export interface Schema0 {
     | 'non-jsx'
 }
 
-export type RuleOptions = [Schema0?]
+export type JsxOneExpressionPerLineRuleOptions = [
+  JsxOneExpressionPerLineSchema0?,
+]
+
+export type RuleOptions = JsxOneExpressionPerLineRuleOptions
 export type MessageIds = 'moveToNewLine'

@@ -2,7 +2,7 @@
 
 /* @checksum: JBvxbYShy3 */
 
-export type Schema0 =
+export type QuotePropsSchema0 =
   | []
   | [
     | 'always'
@@ -31,7 +31,9 @@ export type Schema0 =
     },
   ]
 
-export type RuleOptions = Schema0
+export type QuotePropsRuleOptions = QuotePropsSchema0
+
+export type RuleOptions = QuotePropsRuleOptions
 export type MessageIds =
   | 'requireQuotesDueToReservedWord'
   | 'inconsistentlyQuotedProperty'

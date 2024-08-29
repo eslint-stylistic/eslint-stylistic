@@ -2,7 +2,7 @@
 
 /* @checksum: 8kStC4EpoC */
 
-export type Schema0 =
+export type PaddedBlocksSchema0 =
   | ('always' | 'never')
   | {
     blocks?: 'always' | 'never'
@@ -10,9 +10,14 @@ export type Schema0 =
     classes?: 'always' | 'never'
   }
 
-export interface Schema1 {
+export interface PaddedBlocksSchema1 {
   allowSingleLineBlocks?: boolean
 }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type PaddedBlocksRuleOptions = [
+  PaddedBlocksSchema0?,
+  PaddedBlocksSchema1?,
+]
+
+export type RuleOptions = PaddedBlocksRuleOptions
 export type MessageIds = 'alwaysPadBlock' | 'neverPadBlock'

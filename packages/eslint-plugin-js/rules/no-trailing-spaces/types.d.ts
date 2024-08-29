@@ -2,10 +2,14 @@
 
 /* @checksum: TULWpe59v5 */
 
-export interface Schema0 {
+export interface NoTrailingSpacesSchema0 {
   skipBlankLines?: boolean
   ignoreComments?: boolean
 }
 
-export type RuleOptions = [Schema0?]
+export type NoTrailingSpacesRuleOptions = [
+  NoTrailingSpacesSchema0?,
+]
+
+export type RuleOptions = NoTrailingSpacesRuleOptions
 export type MessageIds = 'trailingSpace'

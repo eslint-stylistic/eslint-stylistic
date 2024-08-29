@@ -2,15 +2,20 @@
 
 /* @checksum: 2ogaavov5p */
 
-export type Schema0 = 'first' | 'last'
+export type CommaStyleSchema0 = 'first' | 'last'
 
-export interface Schema1 {
+export interface CommaStyleSchema1 {
   exceptions?: {
     [k: string]: boolean
   }
 }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type CommaStyleRuleOptions = [
+  CommaStyleSchema0?,
+  CommaStyleSchema1?,
+]
+
+export type RuleOptions = CommaStyleRuleOptions
 export type MessageIds =
   | 'unexpectedLineBeforeAndAfterComma'
   | 'expectedCommaFirst'

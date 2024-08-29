@@ -5,6 +5,7 @@ import { compile } from 'json-schema-to-typescript-lite'
 import type { JSONSchema4 } from 'json-schema'
 import { format } from 'prettier'
 import { hash } from 'ohash'
+import { pascalCase } from 'change-case'
 import { GEN_HEADER, ROOT } from './meta'
 
 const VERSION = 'v1'
@@ -45,24 +46,26 @@ export async function generateDtsFromSchema() {
     if (!Array.isArray(schemas))
       schemas = [schemas]
 
+    const prefix = pascalCase(name)
+
     const options = await Promise.all(schemas.map(async (schema, index) => {
       schema = JSON.parse(JSON.stringify(schema).replace(/#\/items\/0\/\$defs\//g, '#/$defs/'))
 
       try {
-        const compiled = await compile(schema, `Schema${index}`, {})
+        const compiled = await compile(schema, `${prefix}Schema${index}`, {})
         return compiled
       }
       catch {
         console.warn(`Failed to compile schema Schema${index} for rule ${name}. Falling back to unknown.`)
-        return `export type Schema${index} = unknown\n`
+        return `export type ${prefix}Schema${index} = unknown\n`
       }
     }))
 
-    const optionTypes = options.map((_, index) => `Schema${index}?`)
+    const optionTypes = options.map((_, index) => `${prefix}Schema${index}?`)
     const ruleOptionTypeValue = Array.isArray(meta.schema)
       ? `[${optionTypes.join(', ')}]`
       : meta.schema
-        ? 'Schema0'
+        ? `${prefix}Schema0`
         : '[]'
 
     const lines = [
@@ -70,7 +73,9 @@ export async function generateDtsFromSchema() {
       `/* @checksum: ${checksum} */`,
       '',
       ...options,
-      `export type RuleOptions = ${ruleOptionTypeValue}`,
+      `export type ${prefix}RuleOptions = ${ruleOptionTypeValue}`,
+      '',
+      `export type RuleOptions = ${prefix}RuleOptions`,
       `export type MessageIds = ${messageIds.map(i => `'${i}'`).join(' | ') || 'never'}`,
       '',
     ]

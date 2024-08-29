@@ -2,7 +2,7 @@
 
 /* @checksum: ZchoILwBY2 */
 
-export type Schema0 =
+export type SpaceBeforeFunctionParenSchema0 =
   | ('always' | 'never')
   | {
     anonymous?: 'always' | 'never' | 'ignore'
@@ -10,5 +10,10 @@ export type Schema0 =
     asyncArrow?: 'always' | 'never' | 'ignore'
   }
 
-export type RuleOptions = [Schema0?]
+export type SpaceBeforeFunctionParenRuleOptions = [
+  SpaceBeforeFunctionParenSchema0?,
+]
+
+export type RuleOptions =
+  SpaceBeforeFunctionParenRuleOptions
 export type MessageIds = 'unexpected' | 'missing'

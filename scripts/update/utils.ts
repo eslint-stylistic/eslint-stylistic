@@ -113,7 +113,7 @@ export async function writePackageDTS(pkg: PackageInfo) {
     ...pkg.rules
       .filter(r => !(r.name in RULE_ALIAS))
       .map((rule) => {
-        return `import type { RuleOptions as ${pascalCase(rule.name)}RuleOptions } from '../rules/${rule.name}/types'`
+        return `import type { ${pascalCase(rule.name)}RuleOptions } from '../rules/${rule.name}/types'`
       }),
     '',
     'export interface RuleOptions {',
@@ -172,20 +172,23 @@ export async function updateExports(pkg: PackageInfo) {
   const pkgJson = JSON.parse(await fs.readFile(join(pkg.path, 'package.json'), 'utf-8'))
   pkgJson.exports = {
     '.': {
-      types: './dts/index.d.ts',
+      types: './dist/dts/index.d.ts',
       require: './dist/index.js',
       default: './dist/index.js',
     },
     './define-config-support': {
-      types: './dts/define-config-support.d.ts',
+      types: './dist/dts/define-config-support.d.ts',
     },
     './rule-options': {
-      types: './dts/rule-options.d.ts',
+      types: './dist/dts/rule-options.d.ts',
     },
     ...Object.fromEntries(
       pkg.rules.map(i => [`./rules/${i.name}`, `./dist/${i.name}.js`]),
     ),
   }
+  pkgJson.types = './dist/dts/index.d.ts'
+  pkgJson.main = './dist/index.js'
+  pkgJson.files = ['dist']
   await fs.writeFile(join(pkg.path, 'package.json'), `${JSON.stringify(pkgJson, null, 2)}\n`, 'utf-8')
 }
 

@@ -2,7 +2,11 @@
 
 /* @checksum: anlswy2HEz */
 
-export type Schema0 = number | 'tab'
+export type IndentBinaryOpsSchema0 = number | 'tab'
 
-export type RuleOptions = [Schema0?]
+export type IndentBinaryOpsRuleOptions = [
+  IndentBinaryOpsSchema0?,
+]
+
+export type RuleOptions = IndentBinaryOpsRuleOptions
 export type MessageIds = 'wrongIndentation'

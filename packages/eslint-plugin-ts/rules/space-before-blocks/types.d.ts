@@ -2,7 +2,7 @@
 
 /* @checksum: gp6XzWuBdj */
 
-export type Schema0 =
+export type SpaceBeforeBlocksSchema0 =
   | ('always' | 'never')
   | {
     keywords?: 'always' | 'never' | 'off'
@@ -10,5 +10,9 @@ export type Schema0 =
     classes?: 'always' | 'never' | 'off'
   }
 
-export type RuleOptions = [Schema0?]
+export type SpaceBeforeBlocksRuleOptions = [
+  SpaceBeforeBlocksSchema0?,
+]
+
+export type RuleOptions = SpaceBeforeBlocksRuleOptions
 export type MessageIds = 'unexpectedSpace' | 'missingSpace'

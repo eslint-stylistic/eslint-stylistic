@@ -15,15 +15,15 @@
   },
   "exports": {
     ".": {
-      "types": "./dts/index.d.ts",
+      "types": "./dist/dts/index.d.ts",
       "require": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./define-config-support": {
-      "types": "./dts/define-config-support.d.ts"
+      "types": "./dist/dts/define-config-support.d.ts"
     },
     "./rule-options": {
-      "types": "./dts/rule-options.d.ts"
+      "types": "./dist/dts/rule-options.d.ts"
     },
     "./rules/block-spacing": "./dist/block-spacing.js",
     "./rules/brace-style": "./dist/brace-style.js",
@@ -52,11 +52,9 @@
     "./rules/type-annotation-spacing": "./dist/type-annotation-spacing.js"
   },
   "main": "./dist/index.js",
-  "types": "./dts/index.d.ts",
+  "types": "./dist/dts/index.d.ts",
   "files": [
-    "dist",
-    "dts",
-    "rules/**/*.d.ts"
+    "dist"
   ],
   "engines": {
     "node": "^18.18.0 || ^20.9.0 || >=21.1.0"

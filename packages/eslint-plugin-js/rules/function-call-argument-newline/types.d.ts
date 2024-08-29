@@ -2,9 +2,17 @@
 
 /* @checksum: jOmI24aQ9h */
 
-export type Schema0 = 'always' | 'never' | 'consistent'
+export type FunctionCallArgumentNewlineSchema0 =
+  | 'always'
+  | 'never'
+  | 'consistent'
 
-export type RuleOptions = [Schema0?]
+export type FunctionCallArgumentNewlineRuleOptions = [
+  FunctionCallArgumentNewlineSchema0?,
+]
+
+export type RuleOptions =
+  FunctionCallArgumentNewlineRuleOptions
 export type MessageIds =
   | 'unexpectedLineBreak'
   | 'missingLineBreak'

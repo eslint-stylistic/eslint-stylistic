@@ -2,9 +2,9 @@
 
 /* @checksum: KK43Wa3Yym */
 
-export type Schema0 = 'always' | 'never'
+export type SpacedCommentSchema0 = 'always' | 'never'
 
-export interface Schema1 {
+export interface SpacedCommentSchema1 {
   exceptions?: string[]
   markers?: string[]
   line?: {
@@ -18,7 +18,12 @@ export interface Schema1 {
   }
 }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type SpacedCommentRuleOptions = [
+  SpacedCommentSchema0?,
+  SpacedCommentSchema1?,
+]
+
+export type RuleOptions = SpacedCommentRuleOptions
 export type MessageIds =
   | 'unexpectedSpaceAfterMarker'
   | 'expectedExceptionAfter'

@@ -2,5 +2,7 @@
 
 /* @checksum: NZgc1DRJCc */
 
-export type RuleOptions = []
+export type JsxPropsNoMultiSpacesRuleOptions = []
+
+export type RuleOptions = JsxPropsNoMultiSpacesRuleOptions
 export type MessageIds = 'noLineGap' | 'onlyOneSpace'

@@ -2,7 +2,7 @@
 
 /* @checksum: wKuuwV5JMR */
 
-export type Schema0 =
+export type LineCommentPositionSchema0 =
   | ('above' | 'beside')
   | {
     position?: 'above' | 'beside'
@@ -11,5 +11,9 @@ export type Schema0 =
     applyDefaultIgnorePatterns?: boolean
   }
 
-export type RuleOptions = [Schema0?]
+export type LineCommentPositionRuleOptions = [
+  LineCommentPositionSchema0?,
+]
+
+export type RuleOptions = LineCommentPositionRuleOptions
 export type MessageIds = 'above' | 'beside'

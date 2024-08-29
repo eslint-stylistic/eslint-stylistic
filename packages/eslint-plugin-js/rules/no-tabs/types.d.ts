@@ -2,9 +2,11 @@
 
 /* @checksum: lm3OgFYPuQ */
 
-export interface Schema0 {
+export interface NoTabsSchema0 {
   allowIndentationTabs?: boolean
 }
 
-export type RuleOptions = [Schema0?]
+export type NoTabsRuleOptions = [NoTabsSchema0?]
+
+export type RuleOptions = NoTabsRuleOptions
 export type MessageIds = 'unexpectedTab'

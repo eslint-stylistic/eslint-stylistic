@@ -2,7 +2,7 @@
 
 /* @checksum: yQXNaIALeG */
 
-export type Schema0 =
+export type SemiSchema0 =
   | []
   | ['never']
   | [
@@ -24,5 +24,7 @@ export type Schema0 =
     },
   ]
 
-export type RuleOptions = Schema0
+export type SemiRuleOptions = SemiSchema0
+
+export type RuleOptions = SemiRuleOptions
 export type MessageIds = 'missingSemi' | 'extraSemi'

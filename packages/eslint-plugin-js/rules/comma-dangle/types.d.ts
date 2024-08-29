@@ -2,7 +2,7 @@
 
 /* @checksum: PPvE96magU */
 
-export type Schema0 =
+export type CommaDangleSchema0 =
   | []
   | [
     | Value
@@ -26,5 +26,7 @@ export type ValueWithIgnore =
   | 'never'
   | 'only-multiline'
 
-export type RuleOptions = Schema0
+export type CommaDangleRuleOptions = CommaDangleSchema0
+
+export type RuleOptions = CommaDangleRuleOptions
 export type MessageIds = 'unexpected' | 'missing'

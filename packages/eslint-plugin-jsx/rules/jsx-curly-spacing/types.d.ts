@@ -2,7 +2,7 @@
 
 /* @checksum: eW2iW6FO3B */
 
-export type Schema0 =
+export type JsxCurlySpacingSchema0 =
   | []
   | [
       | (BasicConfig & {
@@ -41,7 +41,10 @@ export interface BasicConfig {
   [k: string]: unknown
 }
 
-export type RuleOptions = Schema0
+export type JsxCurlySpacingRuleOptions =
+  JsxCurlySpacingSchema0
+
+export type RuleOptions = JsxCurlySpacingRuleOptions
 export type MessageIds =
   | 'noNewlineAfter'
   | 'noNewlineBefore'

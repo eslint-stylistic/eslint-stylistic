@@ -2,7 +2,9 @@
 
 /* @checksum: QzvaLIs1lb */
 
-export type Schema0 = 'always' | 'never'
+export type BlockSpacingSchema0 = 'always' | 'never'
 
-export type RuleOptions = [Schema0?]
+export type BlockSpacingRuleOptions = [BlockSpacingSchema0?]
+
+export type RuleOptions = BlockSpacingRuleOptions
 export type MessageIds = 'missing' | 'extra'

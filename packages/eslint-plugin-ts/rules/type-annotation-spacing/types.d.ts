@@ -2,7 +2,7 @@
 
 /* @checksum: 4pLfcIWfUw */
 
-export interface Schema0 {
+export interface TypeAnnotationSpacingSchema0 {
   before?: boolean
   after?: boolean
   overrides?: {
@@ -20,7 +20,11 @@ export interface SpacingConfig {
   after?: boolean
 }
 
-export type RuleOptions = [Schema0?]
+export type TypeAnnotationSpacingRuleOptions = [
+  TypeAnnotationSpacingSchema0?,
+]
+
+export type RuleOptions = TypeAnnotationSpacingRuleOptions
 export type MessageIds =
   | 'expectedSpaceAfter'
   | 'expectedSpaceBefore'

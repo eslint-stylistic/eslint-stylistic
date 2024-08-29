@@ -2,12 +2,16 @@
 
 /* @checksum: Tua7ZghdEL */
 
-export interface Schema0 {
+export interface ObjectPropertyNewlineSchema0 {
   allowAllPropertiesOnSameLine?: boolean
   allowMultiplePropertiesPerLine?: boolean
 }
 
-export type RuleOptions = [Schema0?]
+export type ObjectPropertyNewlineRuleOptions = [
+  ObjectPropertyNewlineSchema0?,
+]
+
+export type RuleOptions = ObjectPropertyNewlineRuleOptions
 export type MessageIds =
   | 'propertiesOnNewlineAll'
   | 'propertiesOnNewline'

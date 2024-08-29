@@ -2,9 +2,9 @@
 
 /* @checksum: 0b2FWeaDSR */
 
-export type Schema0 = 'single' | 'double' | 'backtick'
+export type QuotesSchema0 = 'single' | 'double' | 'backtick'
 
-export type Schema1 =
+export type QuotesSchema1 =
   | 'avoid-escape'
   | {
     avoidEscape?: boolean
@@ -12,5 +12,10 @@ export type Schema1 =
     ignoreStringLiterals?: boolean
   }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type QuotesRuleOptions = [
+  QuotesSchema0?,
+  QuotesSchema1?,
+]
+
+export type RuleOptions = QuotesRuleOptions
 export type MessageIds = 'wrongQuotes'

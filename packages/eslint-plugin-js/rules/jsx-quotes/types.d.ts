@@ -2,7 +2,11 @@
 
 /* @checksum: r2z46aEncj */
 
-export type Schema0 = 'prefer-single' | 'prefer-double'
+export type JsxQuotesSchema0 =
+  | 'prefer-single'
+  | 'prefer-double'
 
-export type RuleOptions = [Schema0?]
+export type JsxQuotesRuleOptions = [JsxQuotesSchema0?]
+
+export type RuleOptions = JsxQuotesRuleOptions
 export type MessageIds = 'unexpected'

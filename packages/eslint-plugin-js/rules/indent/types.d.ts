@@ -2,9 +2,9 @@
 
 /* @checksum: 9Kc3KMybmY */
 
-export type Schema0 = 'tab' | number
+export type IndentSchema0 = 'tab' | number
 
-export interface Schema1 {
+export interface IndentSchema1 {
   SwitchCase?: number
   VariableDeclarator?:
     | (number | ('first' | 'off'))
@@ -38,5 +38,10 @@ export interface Schema1 {
   ignoreComments?: boolean
 }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type IndentRuleOptions = [
+  IndentSchema0?,
+  IndentSchema1?,
+]
+
+export type RuleOptions = IndentRuleOptions
 export type MessageIds = 'wrongIndentation'

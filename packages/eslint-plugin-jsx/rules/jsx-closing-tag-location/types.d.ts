@@ -2,5 +2,7 @@
 
 /* @checksum: n7QJZ1LCQd */
 
-export type RuleOptions = []
+export type JsxClosingTagLocationRuleOptions = []
+
+export type RuleOptions = JsxClosingTagLocationRuleOptions
 export type MessageIds = 'onOwnLine' | 'matchIndent'

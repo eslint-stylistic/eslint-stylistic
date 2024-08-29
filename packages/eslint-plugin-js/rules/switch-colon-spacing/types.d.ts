@@ -2,12 +2,16 @@
 
 /* @checksum: hIisb4cj8k */
 
-export interface Schema0 {
+export interface SwitchColonSpacingSchema0 {
   before?: boolean
   after?: boolean
 }
 
-export type RuleOptions = [Schema0?]
+export type SwitchColonSpacingRuleOptions = [
+  SwitchColonSpacingSchema0?,
+]
+
+export type RuleOptions = SwitchColonSpacingRuleOptions
 export type MessageIds =
   | 'expectedBefore'
   | 'expectedAfter'

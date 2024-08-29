@@ -2,17 +2,22 @@
 
 /* @checksum: WCD7piHMmw */
 
-export type Schema0 =
+export type MultilineTernarySchema0 =
   | 'always'
   | 'always-multiline'
   | 'never'
 
-export interface Schema1 {
+export interface MultilineTernarySchema1 {
   ignoreJSX?: boolean
   [k: string]: unknown
 }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type MultilineTernaryRuleOptions = [
+  MultilineTernarySchema0?,
+  MultilineTernarySchema1?,
+]
+
+export type RuleOptions = MultilineTernaryRuleOptions
 export type MessageIds =
   | 'expectedTestCons'
   | 'expectedConsAlt'

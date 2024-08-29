@@ -2,13 +2,18 @@
 
 /* @checksum: C3lAcMtqyx */
 
-export type Schema0 = 'always' | 'as-needed'
+export type ArrowParensSchema0 = 'always' | 'as-needed'
 
-export interface Schema1 {
+export interface ArrowParensSchema1 {
   requireForBlockBody?: boolean
 }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type ArrowParensRuleOptions = [
+  ArrowParensSchema0?,
+  ArrowParensSchema1?,
+]
+
+export type RuleOptions = ArrowParensRuleOptions
 export type MessageIds =
   | 'unexpectedParens'
   | 'expectedParens'

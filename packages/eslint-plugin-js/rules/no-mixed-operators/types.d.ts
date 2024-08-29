@@ -2,7 +2,7 @@
 
 /* @checksum: rJI3TwV8jc */
 
-export interface Schema0 {
+export interface NoMixedOperatorsSchema0 {
   groups?: [
     (
       | '+'
@@ -95,5 +95,9 @@ export interface Schema0 {
   allowSamePrecedence?: boolean
 }
 
-export type RuleOptions = [Schema0?]
+export type NoMixedOperatorsRuleOptions = [
+  NoMixedOperatorsSchema0?,
+]
+
+export type RuleOptions = NoMixedOperatorsRuleOptions
 export type MessageIds = 'unexpectedMixedOperator'

@@ -2,7 +2,7 @@
 
 /* @checksum: 9t5iMGtWo0 */
 
-export type Schema0 =
+export type GeneratorStarSpacingSchema0 =
   | ('before' | 'after' | 'both' | 'neither')
   | {
     before?: boolean
@@ -27,7 +27,11 @@ export type Schema0 =
         }
   }
 
-export type RuleOptions = [Schema0?]
+export type GeneratorStarSpacingRuleOptions = [
+  GeneratorStarSpacingSchema0?,
+]
+
+export type RuleOptions = GeneratorStarSpacingRuleOptions
 export type MessageIds =
   | 'missingBefore'
   | 'missingAfter'

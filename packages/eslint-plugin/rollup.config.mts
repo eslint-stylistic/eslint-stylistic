@@ -4,7 +4,7 @@ import { defineConfig } from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
 import esbuild from 'rollup-plugin-esbuild'
 import dts from 'rollup-plugin-dts'
-import { aliasPlugin } from '../../rollup.config.base.mts'
+import { aliasPlugin } from '../../rollup.config.base.mjs'
 
 const pkg = JSON.parse(await fs.readFile(new URL('./package.json', import.meta.url), 'utf-8'))
 

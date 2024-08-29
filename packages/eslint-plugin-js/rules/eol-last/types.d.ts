@@ -2,11 +2,13 @@
 
 /* @checksum: YVFXvM8rxU */
 
-export type Schema0 =
+export type EolLastSchema0 =
   | 'always'
   | 'never'
   | 'unix'
   | 'windows'
 
-export type RuleOptions = [Schema0?]
+export type EolLastRuleOptions = [EolLastSchema0?]
+
+export type RuleOptions = EolLastRuleOptions
 export type MessageIds = 'missing' | 'unexpected'

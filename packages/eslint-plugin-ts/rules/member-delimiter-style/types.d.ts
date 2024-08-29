@@ -5,7 +5,7 @@
 export type MultiLineOption = 'none' | 'semi' | 'comma'
 export type SingleLineOption = 'semi' | 'comma'
 
-export interface Schema0 {
+export interface MemberDelimiterStyleSchema0 {
   multiline?: {
     delimiter?: MultiLineOption
     requireLast?: boolean
@@ -31,7 +31,11 @@ export interface DelimiterConfig {
   }
 }
 
-export type RuleOptions = [Schema0?]
+export type MemberDelimiterStyleRuleOptions = [
+  MemberDelimiterStyleSchema0?,
+]
+
+export type RuleOptions = MemberDelimiterStyleRuleOptions
 export type MessageIds =
   | 'unexpectedComma'
   | 'unexpectedSemi'

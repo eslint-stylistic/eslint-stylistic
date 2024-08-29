@@ -147,13 +147,17 @@ export type StatementType =
         | 'function-overload'
       )[],
     ]
-export type Schema0 = {
+export type PaddingLineBetweenStatementsSchema0 = {
   blankLine: PaddingType
   prev: StatementType
   next: StatementType
 }[]
 
-export type RuleOptions = Schema0
+export type PaddingLineBetweenStatementsRuleOptions =
+  PaddingLineBetweenStatementsSchema0
+
+export type RuleOptions =
+  PaddingLineBetweenStatementsRuleOptions
 export type MessageIds =
   | 'unexpectedBlankLine'
   | 'expectedBlankLine'

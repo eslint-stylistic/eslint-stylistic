@@ -2,13 +2,20 @@
 
 /* @checksum: qeeOvXadVT */
 
-export type Schema0 = 'always' | 'never'
+export type ComputedPropertySpacingSchema0 =
+  | 'always'
+  | 'never'
 
-export interface Schema1 {
+export interface ComputedPropertySpacingSchema1 {
   enforceForClassMembers?: boolean
 }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type ComputedPropertySpacingRuleOptions = [
+  ComputedPropertySpacingSchema0?,
+  ComputedPropertySpacingSchema1?,
+]
+
+export type RuleOptions = ComputedPropertySpacingRuleOptions
 export type MessageIds =
   | 'unexpectedSpaceBefore'
   | 'unexpectedSpaceAfter'

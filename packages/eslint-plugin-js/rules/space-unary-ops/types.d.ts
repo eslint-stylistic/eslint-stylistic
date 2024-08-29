@@ -2,7 +2,7 @@
 
 /* @checksum: 7GbNk3mdSm */
 
-export interface Schema0 {
+export interface SpaceUnaryOpsSchema0 {
   words?: boolean
   nonwords?: boolean
   overrides?: {
@@ -10,7 +10,11 @@ export interface Schema0 {
   }
 }
 
-export type RuleOptions = [Schema0?]
+export type SpaceUnaryOpsRuleOptions = [
+  SpaceUnaryOpsSchema0?,
+]
+
+export type RuleOptions = SpaceUnaryOpsRuleOptions
 export type MessageIds =
   | 'unexpectedBefore'
   | 'unexpectedAfter'

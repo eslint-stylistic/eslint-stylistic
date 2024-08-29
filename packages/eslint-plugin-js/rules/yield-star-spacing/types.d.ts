@@ -2,14 +2,18 @@
 
 /* @checksum: ScmkFfviIj */
 
-export type Schema0 =
+export type YieldStarSpacingSchema0 =
   | ('before' | 'after' | 'both' | 'neither')
   | {
     before?: boolean
     after?: boolean
   }
 
-export type RuleOptions = [Schema0?]
+export type YieldStarSpacingRuleOptions = [
+  YieldStarSpacingSchema0?,
+]
+
+export type RuleOptions = YieldStarSpacingRuleOptions
 export type MessageIds =
   | 'missingBefore'
   | 'missingAfter'

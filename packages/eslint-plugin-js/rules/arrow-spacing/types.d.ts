@@ -2,12 +2,14 @@
 
 /* @checksum: xlOMDnWXtN */
 
-export interface Schema0 {
+export interface ArrowSpacingSchema0 {
   before?: boolean
   after?: boolean
 }
 
-export type RuleOptions = [Schema0?]
+export type ArrowSpacingRuleOptions = [ArrowSpacingSchema0?]
+
+export type RuleOptions = ArrowSpacingRuleOptions
 export type MessageIds =
   | 'expectedBefore'
   | 'unexpectedBefore'

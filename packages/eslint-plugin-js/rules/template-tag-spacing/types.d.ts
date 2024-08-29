@@ -2,7 +2,11 @@
 
 /* @checksum: pmXffsqNhA */
 
-export type Schema0 = 'always' | 'never'
+export type TemplateTagSpacingSchema0 = 'always' | 'never'
 
-export type RuleOptions = [Schema0?]
+export type TemplateTagSpacingRuleOptions = [
+  TemplateTagSpacingSchema0?,
+]
+
+export type RuleOptions = TemplateTagSpacingRuleOptions
 export type MessageIds = 'unexpected' | 'missing'

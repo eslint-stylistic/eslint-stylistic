@@ -2,7 +2,7 @@
 
 /* @checksum: Lj3oZBwSFg */
 
-export type Schema0 =
+export type JsxCurlyBracePresenceSchema0 =
   | {
     props?: 'always' | 'never' | 'ignore'
     children?: 'always' | 'never' | 'ignore'
@@ -10,5 +10,9 @@ export type Schema0 =
   }
   | ('always' | 'never' | 'ignore')
 
-export type RuleOptions = [Schema0?]
+export type JsxCurlyBracePresenceRuleOptions = [
+  JsxCurlyBracePresenceSchema0?,
+]
+
+export type RuleOptions = JsxCurlyBracePresenceRuleOptions
 export type MessageIds = 'unnecessaryCurly' | 'missingCurly'

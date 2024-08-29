@@ -2,7 +2,7 @@
 
 /* @checksum: SmnjR5UOqr */
 
-export type Schema0 =
+export type NoExtraParensSchema0 =
   | []
   | ['functions']
   | []
@@ -27,5 +27,7 @@ export type Schema0 =
     },
   ]
 
-export type RuleOptions = Schema0
+export type NoExtraParensRuleOptions = NoExtraParensSchema0
+
+export type RuleOptions = NoExtraParensRuleOptions
 export type MessageIds = 'unexpected'

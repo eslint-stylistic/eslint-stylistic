@@ -2,5 +2,7 @@
 
 /* @checksum: EiB7X6BlRB */
 
-export type RuleOptions = []
+export type TypeGenericSpacingRuleOptions = []
+
+export type RuleOptions = TypeGenericSpacingRuleOptions
 export type MessageIds = 'genericSpacingMismatch'

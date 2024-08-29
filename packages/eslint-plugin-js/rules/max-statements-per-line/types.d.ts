@@ -2,9 +2,13 @@
 
 /* @checksum: UzlVSBHpHa */
 
-export interface Schema0 {
+export interface MaxStatementsPerLineSchema0 {
   max?: number
 }
 
-export type RuleOptions = [Schema0?]
+export type MaxStatementsPerLineRuleOptions = [
+  MaxStatementsPerLineSchema0?,
+]
+
+export type RuleOptions = MaxStatementsPerLineRuleOptions
 export type MessageIds = 'exceed'

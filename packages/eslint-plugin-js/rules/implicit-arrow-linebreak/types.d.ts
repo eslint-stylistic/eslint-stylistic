@@ -2,7 +2,13 @@
 
 /* @checksum: YKmiSyvvMa */
 
-export type Schema0 = 'beside' | 'below'
+export type ImplicitArrowLinebreakSchema0 =
+  | 'beside'
+  | 'below'
 
-export type RuleOptions = [Schema0?]
+export type ImplicitArrowLinebreakRuleOptions = [
+  ImplicitArrowLinebreakSchema0?,
+]
+
+export type RuleOptions = ImplicitArrowLinebreakRuleOptions
 export type MessageIds = 'expected' | 'unexpected'

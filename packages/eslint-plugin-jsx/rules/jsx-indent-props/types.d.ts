@@ -2,7 +2,7 @@
 
 /* @checksum: 56oi0WUycI */
 
-export type Schema0 =
+export type JsxIndentPropsSchema0 =
   | ('tab' | 'first')
   | number
   | {
@@ -11,5 +11,9 @@ export type Schema0 =
     [k: string]: unknown
   }
 
-export type RuleOptions = [Schema0?]
+export type JsxIndentPropsRuleOptions = [
+  JsxIndentPropsSchema0?,
+]
+
+export type RuleOptions = JsxIndentPropsRuleOptions
 export type MessageIds = 'wrongIndent'

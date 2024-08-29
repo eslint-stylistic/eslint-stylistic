@@ -2,7 +2,7 @@
 
 /* @checksum: g7wdiFtuTQ */
 
-export type Schema0 =
+export type FunctionParenNewlineSchema0 =
   | (
     | 'always'
     | 'never'
@@ -14,7 +14,11 @@ export type Schema0 =
       minItems?: number
     }
 
-export type RuleOptions = [Schema0?]
+export type FunctionParenNewlineRuleOptions = [
+  FunctionParenNewlineSchema0?,
+]
+
+export type RuleOptions = FunctionParenNewlineRuleOptions
 export type MessageIds =
   | 'expectedBefore'
   | 'expectedAfter'

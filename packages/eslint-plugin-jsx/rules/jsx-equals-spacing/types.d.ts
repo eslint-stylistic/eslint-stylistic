@@ -2,9 +2,13 @@
 
 /* @checksum: RJ930qHxzw */
 
-export type Schema0 = 'always' | 'never'
+export type JsxEqualsSpacingSchema0 = 'always' | 'never'
 
-export type RuleOptions = [Schema0?]
+export type JsxEqualsSpacingRuleOptions = [
+  JsxEqualsSpacingSchema0?,
+]
+
+export type RuleOptions = JsxEqualsSpacingRuleOptions
 export type MessageIds =
   | 'noSpaceBefore'
   | 'noSpaceAfter'

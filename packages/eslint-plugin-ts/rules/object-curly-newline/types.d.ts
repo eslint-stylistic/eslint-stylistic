@@ -2,7 +2,7 @@
 
 /* @checksum: RNrE8BaPsU */
 
-export type Schema0 =
+export type ObjectCurlyNewlineSchema0 =
   | (
       | ('always' | 'never')
       | {
@@ -56,7 +56,11 @@ export type Schema0 =
         }
     }
 
-export type RuleOptions = [Schema0?]
+export type ObjectCurlyNewlineRuleOptions = [
+  ObjectCurlyNewlineSchema0?,
+]
+
+export type RuleOptions = ObjectCurlyNewlineRuleOptions
 export type MessageIds =
   | 'unexpectedLinebreakBeforeClosingBrace'
   | 'unexpectedLinebreakAfterOpeningBrace'

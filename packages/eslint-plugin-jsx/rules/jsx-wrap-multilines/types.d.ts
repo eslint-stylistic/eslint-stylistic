@@ -2,7 +2,7 @@
 
 /* @checksum: eSfkLthEBZ */
 
-export interface Schema0 {
+export interface JsxWrapMultilinesSchema0 {
   declaration?:
     | true
     | false
@@ -53,7 +53,11 @@ export interface Schema0 {
     | 'parens-new-line'
 }
 
-export type RuleOptions = [Schema0?]
+export type JsxWrapMultilinesRuleOptions = [
+  JsxWrapMultilinesSchema0?,
+]
+
+export type RuleOptions = JsxWrapMultilinesRuleOptions
 export type MessageIds =
   | 'missingParens'
   | 'parensOnNewLines'

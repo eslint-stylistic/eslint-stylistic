@@ -2,13 +2,18 @@
 
 /* @checksum: U55gtxk4Fd */
 
-export type Schema0 = 'always' | 'never'
+export type SpaceInParensSchema0 = 'always' | 'never'
 
-export interface Schema1 {
+export interface SpaceInParensSchema1 {
   exceptions?: ('{}' | '[]' | '()' | 'empty')[]
 }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type SpaceInParensRuleOptions = [
+  SpaceInParensSchema0?,
+  SpaceInParensSchema1?,
+]
+
+export type RuleOptions = SpaceInParensRuleOptions
 export type MessageIds =
   | 'missingOpeningSpace'
   | 'missingClosingSpace'

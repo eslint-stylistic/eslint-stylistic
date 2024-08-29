@@ -2,12 +2,17 @@
 
 /* @checksum: i7ZDLsND8h */
 
-export type Schema0 = 'tab' | number
+export type JsxIndentSchema0 = 'tab' | number
 
-export interface Schema1 {
+export interface JsxIndentSchema1 {
   checkAttributes?: boolean
   indentLogicalExpressions?: boolean
 }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type JsxIndentRuleOptions = [
+  JsxIndentSchema0?,
+  JsxIndentSchema1?,
+]
+
+export type RuleOptions = JsxIndentRuleOptions
 export type MessageIds = 'wrongIndent'

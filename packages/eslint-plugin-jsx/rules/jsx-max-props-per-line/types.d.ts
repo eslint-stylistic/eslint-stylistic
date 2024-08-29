@@ -2,7 +2,7 @@
 
 /* @checksum: AEJDXmY4az */
 
-export type Schema0 =
+export type JsxMaxPropsPerLineSchema0 =
   | {
     maximum?: {
       single?: number
@@ -15,5 +15,9 @@ export type Schema0 =
     when?: 'always' | 'multiline'
   }
 
-export type RuleOptions = [Schema0?]
+export type JsxMaxPropsPerLineRuleOptions = [
+  JsxMaxPropsPerLineSchema0?,
+]
+
+export type RuleOptions = JsxMaxPropsPerLineRuleOptions
 export type MessageIds = 'newLine'

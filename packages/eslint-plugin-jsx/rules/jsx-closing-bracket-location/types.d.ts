@@ -2,7 +2,7 @@
 
 /* @checksum: ZpLXIjLfsJ */
 
-export type Schema0 =
+export type JsxClosingBracketLocationSchema0 =
   | (
     | 'after-props'
     | 'props-aligned'
@@ -35,5 +35,10 @@ export type Schema0 =
           | false
     }
 
-export type RuleOptions = [Schema0?]
+export type JsxClosingBracketLocationRuleOptions = [
+  JsxClosingBracketLocationSchema0?,
+]
+
+export type RuleOptions =
+  JsxClosingBracketLocationRuleOptions
 export type MessageIds = 'bracketLocation'

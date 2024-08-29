@@ -2,7 +2,13 @@
 
 /* @checksum: pYjS4Rr4c0 */
 
-export type Schema0 = 'smart-tabs' | boolean
+export type NoMixedSpacesAndTabsSchema0 =
+  | 'smart-tabs'
+  | boolean
 
-export type RuleOptions = [Schema0?]
+export type NoMixedSpacesAndTabsRuleOptions = [
+  NoMixedSpacesAndTabsSchema0?,
+]
+
+export type RuleOptions = NoMixedSpacesAndTabsRuleOptions
 export type MessageIds = 'mixedSpacesAndTabs'

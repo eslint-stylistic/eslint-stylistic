@@ -2,9 +2,13 @@
 
 /* @checksum: na5PiHXQUT */
 
-export type Schema0 = 'always' | 'never'
+export type RestSpreadSpacingSchema0 = 'always' | 'never'
 
-export type RuleOptions = [Schema0?]
+export type RestSpreadSpacingRuleOptions = [
+  RestSpreadSpacingSchema0?,
+]
+
+export type RuleOptions = RestSpreadSpacingRuleOptions
 export type MessageIds =
   | 'unexpectedWhitespace'
   | 'expectedWhitespace'

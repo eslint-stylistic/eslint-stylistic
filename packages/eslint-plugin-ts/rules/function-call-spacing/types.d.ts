@@ -2,7 +2,7 @@
 
 /* @checksum: U8mSmbRYN3 */
 
-export type Schema0 =
+export type FunctionCallSpacingSchema0 =
   | []
   | ['never']
   | []
@@ -14,7 +14,10 @@ export type Schema0 =
     },
   ]
 
-export type RuleOptions = Schema0
+export type FunctionCallSpacingRuleOptions =
+  FunctionCallSpacingSchema0
+
+export type RuleOptions = FunctionCallSpacingRuleOptions
 export type MessageIds =
   | 'unexpectedWhitespace'
   | 'unexpectedNewline'

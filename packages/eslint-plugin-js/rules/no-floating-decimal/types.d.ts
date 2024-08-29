@@ -2,5 +2,7 @@
 
 /* @checksum: 0rRd386UCQ */
 
-export type RuleOptions = []
+export type NoFloatingDecimalRuleOptions = []
+
+export type RuleOptions = NoFloatingDecimalRuleOptions
 export type MessageIds = 'leading' | 'trailing'

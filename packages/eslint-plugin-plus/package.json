@@ -15,26 +15,24 @@
   },
   "exports": {
     ".": {
-      "types": "./dts/index.d.ts",
+      "types": "./dist/dts/index.d.ts",
       "require": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./define-config-support": {
-      "types": "./dts/define-config-support.d.ts"
+      "types": "./dist/dts/define-config-support.d.ts"
     },
     "./rule-options": {
-      "types": "./dts/rule-options.d.ts"
+      "types": "./dist/dts/rule-options.d.ts"
     },
     "./rules/indent-binary-ops": "./dist/indent-binary-ops.js",
     "./rules/type-generic-spacing": "./dist/type-generic-spacing.js",
     "./rules/type-named-tuple-spacing": "./dist/type-named-tuple-spacing.js"
   },
   "main": "./dist/index.js",
-  "types": "./dts/index.d.ts",
+  "types": "./dist/dts/index.d.ts",
   "files": [
-    "dist",
-    "dts",
-    "rules/**/*.d.ts"
+    "dist"
   ],
   "scripts": {
     "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",

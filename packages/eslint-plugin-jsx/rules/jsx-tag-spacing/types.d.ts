@@ -2,7 +2,7 @@
 
 /* @checksum: kUvJyU09vf */
 
-export interface Schema0 {
+export interface JsxTagSpacingSchema0 {
   closingSlash?: 'always' | 'never' | 'allow'
   beforeSelfClosing?:
     | 'always'
@@ -21,7 +21,11 @@ export interface Schema0 {
     | 'allow'
 }
 
-export type RuleOptions = [Schema0?]
+export type JsxTagSpacingRuleOptions = [
+  JsxTagSpacingSchema0?,
+]
+
+export type RuleOptions = JsxTagSpacingRuleOptions
 export type MessageIds =
   | 'selfCloseSlashNoSpace'
   | 'selfCloseSlashNeedSpace'

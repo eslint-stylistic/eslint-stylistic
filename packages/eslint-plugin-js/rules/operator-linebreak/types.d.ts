@@ -2,15 +2,22 @@
 
 /* @checksum: YJNU1tyw6G */
 
-export type Schema0 = ('after' | 'before' | 'none') | null
+export type OperatorLinebreakSchema0 =
+  | ('after' | 'before' | 'none')
+  | null
 
-export interface Schema1 {
+export interface OperatorLinebreakSchema1 {
   overrides?: {
     [k: string]: 'after' | 'before' | 'none' | 'ignore'
   }
 }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type OperatorLinebreakRuleOptions = [
+  OperatorLinebreakSchema0?,
+  OperatorLinebreakSchema1?,
+]
+
+export type RuleOptions = OperatorLinebreakRuleOptions
 export type MessageIds =
   | 'operatorAtBeginning'
   | 'operatorAtEnd'

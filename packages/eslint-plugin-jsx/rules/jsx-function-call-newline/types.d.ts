@@ -2,7 +2,13 @@
 
 /* @checksum: 6K4whvY4hC */
 
-export type Schema0 = 'always' | 'multiline'
+export type JsxFunctionCallNewlineSchema0 =
+  | 'always'
+  | 'multiline'
 
-export type RuleOptions = [Schema0?]
+export type JsxFunctionCallNewlineRuleOptions = [
+  JsxFunctionCallNewlineSchema0?,
+]
+
+export type RuleOptions = JsxFunctionCallNewlineRuleOptions
 export type MessageIds = 'missingLineBreak'

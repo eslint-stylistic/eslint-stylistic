@@ -2,9 +2,12 @@
 
 /* @checksum: 1QKmEYdAAJ */
 
-export type Schema0 = 'beside' | 'below' | 'any'
+export type NonblockStatementBodyPositionSchema0 =
+  | 'beside'
+  | 'below'
+  | 'any'
 
-export interface Schema1 {
+export interface NonblockStatementBodyPositionSchema1 {
   overrides?: {
     if?: 'beside' | 'below' | 'any'
     else?: 'beside' | 'below' | 'any'
@@ -14,7 +17,13 @@ export interface Schema1 {
   }
 }
 
-export type RuleOptions = [Schema0?, Schema1?]
+export type NonblockStatementBodyPositionRuleOptions = [
+  NonblockStatementBodyPositionSchema0?,
+  NonblockStatementBodyPositionSchema1?,
+]
+
+export type RuleOptions =
+  NonblockStatementBodyPositionRuleOptions
 export type MessageIds =
   | 'expectNoLinebreak'
   | 'expectLinebreak'

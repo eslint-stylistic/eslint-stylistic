@@ -2,13 +2,17 @@
 
 /* @checksum: 8lgzxFndOv */
 
-export interface Schema0 {
+export interface NoMultipleEmptyLinesSchema0 {
   max: number
   maxEOF?: number
   maxBOF?: number
 }
 
-export type RuleOptions = [Schema0?]
+export type NoMultipleEmptyLinesRuleOptions = [
+  NoMultipleEmptyLinesSchema0?,
+]
+
+export type RuleOptions = NoMultipleEmptyLinesRuleOptions
 export type MessageIds =
   | 'blankBeginningOfFile'
   | 'blankEndOfFile'
