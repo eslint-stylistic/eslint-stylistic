@@ -47,7 +47,7 @@ export interface RuleOptions {
    */
   '@stylistic/ts/comma-spacing': CommaSpacingRuleOptions
   /**
-   * Require or disallow spacing between function identifiers and their invocations. Alias of `function-call-spacing`.
+   * Require or disallow spacing between function identifiers and their invocations
    * @see https://eslint.style/rules/ts/function-call-spacing
    */
   '@stylistic/ts/func-call-spacing': FunctionCallSpacingRuleOptions
@@ -175,7 +175,7 @@ export interface UnprefixedRuleOptions {
    */
   'comma-spacing': CommaSpacingRuleOptions
   /**
-   * Require or disallow spacing between function identifiers and their invocations. Alias of `function-call-spacing`.
+   * Require or disallow spacing between function identifiers and their invocations
    * @see https://eslint.style/rules/ts/function-call-spacing
    */
   'func-call-spacing': FunctionCallSpacingRuleOptions
