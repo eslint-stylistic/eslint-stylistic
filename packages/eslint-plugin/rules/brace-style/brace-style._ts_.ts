@@ -21,9 +21,10 @@ export default createRule<RuleOptions, MessageIds>({
   },
   defaultOptions: ['1tbs'],
   create(context) {
-    const [style, { allowSingleLine } = { allowSingleLine: false }]
-
-      = context.options
+    const [
+      style,
+      { allowSingleLine } = { allowSingleLine: false },
+    ] = context.options
 
     const isAllmanStyle = style === 'allman'
     const sourceCode = context.sourceCode
@@ -43,12 +44,9 @@ export default createRule<RuleOptions, MessageIds>({
         return
       }
 
-      const tokenBeforeOpeningCurly
-        = sourceCode.getTokenBefore(openingCurlyToken)!
-      const tokenBeforeClosingCurly
-        = sourceCode.getTokenBefore(closingCurlyToken)!
-      const tokenAfterOpeningCurly
-        = sourceCode.getTokenAfter(openingCurlyToken)!
+      const tokenBeforeOpeningCurly = sourceCode.getTokenBefore(openingCurlyToken)!
+      const tokenBeforeClosingCurly = sourceCode.getTokenBefore(closingCurlyToken)!
+      const tokenAfterOpeningCurly = sourceCode.getTokenAfter(openingCurlyToken)!
 
       if (
         !isAllmanStyle
