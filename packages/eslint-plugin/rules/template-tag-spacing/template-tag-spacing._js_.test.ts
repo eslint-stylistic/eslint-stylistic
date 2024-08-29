@@ -3,7 +3,7 @@
  * @author Jonathan Wilsson
  */
 
-import rule from './template-tag-spacing._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

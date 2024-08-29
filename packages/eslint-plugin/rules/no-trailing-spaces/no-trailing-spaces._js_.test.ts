@@ -2,7 +2,7 @@
  * @fileoverview Disallow trailing spaces at the end of lines.
  * @author Nodeca Team <https://github.com/nodeca>
  */
-import rule from './no-trailing-spaces._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

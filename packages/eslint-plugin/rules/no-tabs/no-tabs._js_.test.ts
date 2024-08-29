@@ -3,7 +3,7 @@
  * @author Gyandeep Singh
  */
 
-import rule from './no-tabs._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

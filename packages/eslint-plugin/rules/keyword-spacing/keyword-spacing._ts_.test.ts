@@ -2,7 +2,7 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import type { RuleOptions } from './types._ts_'
-import rule from './keyword-spacing._ts_'
+import rule from '.'
 import type { TestCaseError } from '#test'
 import { run } from '#test'
 

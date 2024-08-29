@@ -3,7 +3,7 @@
  * @author Brandon Mills
  */
 
-import rule from './key-spacing._js_'
+import rule from '.'
 import { $, run } from '#test'
 
 run({

@@ -4,7 +4,7 @@
  */
 
 import tsParser from '@typescript-eslint/parser'
-import rule from './keyword-spacing._js_'
+import rule from '.'
 import type { TestCase } from '#test'
 import { run } from '#test'
 

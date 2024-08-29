@@ -3,7 +3,7 @@
  * @author Greg Cochard
  */
 
-import rule from './no-multiple-empty-lines._js_'
+import rule from '.'
 import { run } from '#test'
 
 /**

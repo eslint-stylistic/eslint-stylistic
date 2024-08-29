@@ -3,7 +3,7 @@
  * @author Ian Christian Myers
  */
 
-import rule from './brace-style._js_'
+import rule from '.'
 import { $, run } from '#test'
 
 run({

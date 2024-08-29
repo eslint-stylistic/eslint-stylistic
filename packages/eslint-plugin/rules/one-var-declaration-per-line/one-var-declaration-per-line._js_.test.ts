@@ -3,7 +3,7 @@
  * @author Alberto Rodríguez
  */
 
-import rule from './one-var-declaration-per-line._js_'
+import rule from '.'
 import { run } from '#test'
 
 // ------------------------------------------------------------------------------

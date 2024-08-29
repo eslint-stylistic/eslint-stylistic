@@ -3,7 +3,7 @@
  * @author Jxck <https://github.com/Jxck>
  */
 
-import rule from './no-confusing-arrow._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

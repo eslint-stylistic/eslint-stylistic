@@ -4,7 +4,7 @@
  */
 
 import tsParser from '@typescript-eslint/parser'
-import rule from './space-before-blocks._js_'
+import rule from '.'
 import { run } from '#test'
 
 const alwaysArgs = ['always']

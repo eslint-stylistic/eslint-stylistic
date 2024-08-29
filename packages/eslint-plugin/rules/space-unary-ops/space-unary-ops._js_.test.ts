@@ -3,7 +3,7 @@
  * @author Marcin Kumorek
  */
 
-import rule from './space-unary-ops._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

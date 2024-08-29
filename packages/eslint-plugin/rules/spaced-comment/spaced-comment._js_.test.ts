@@ -3,7 +3,7 @@
  * @author Gyandeep Singh
  */
 
-import rule from './spaced-comment._js_'
+import rule from '.'
 import { run } from '#test'
 
 const validShebangProgram = '#!/path/to/node\nvar a = 3;'

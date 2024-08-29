@@ -3,7 +3,7 @@
  * @author Nodeca Team <https://github.com/nodeca>
  */
 
-import rule from './eol-last._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

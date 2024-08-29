@@ -1,5 +1,5 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import rule from './block-spacing._ts_'
+import rule from '.'
 import type { InvalidTestCase, ValidTestCase } from '#test'
 import { run } from '#test'
 

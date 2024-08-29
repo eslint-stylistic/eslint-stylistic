@@ -3,7 +3,7 @@
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
 
-import rule from './quote-props._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

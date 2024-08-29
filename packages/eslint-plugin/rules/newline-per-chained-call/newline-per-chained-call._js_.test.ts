@@ -3,7 +3,7 @@
  * @author Rajendra Patil
  */
 
-import rule from './newline-per-chained-call._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

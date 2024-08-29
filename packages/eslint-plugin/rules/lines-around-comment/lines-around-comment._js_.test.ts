@@ -3,7 +3,7 @@
  * @author Jamund Ferguson
  */
 
-import rule from './lines-around-comment._js_'
+import rule from '.'
 import { $, run } from '#test'
 
 run({

@@ -3,7 +3,7 @@
 
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
-import rule from './object-curly-spacing._ts_'
+import rule from '.'
 import { run } from '#test'
 
 run({

@@ -3,7 +3,7 @@
  * @author Alberto Rodríguez
  */
 
-import rule from './line-comment-position._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

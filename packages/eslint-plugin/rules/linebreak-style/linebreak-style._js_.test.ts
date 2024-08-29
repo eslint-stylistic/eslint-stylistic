@@ -3,7 +3,7 @@
  * @author Erik Mueller
  */
 
-import rule from './linebreak-style._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

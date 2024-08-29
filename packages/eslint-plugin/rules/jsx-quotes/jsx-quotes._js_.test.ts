@@ -3,7 +3,7 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import rule from './jsx-quotes._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

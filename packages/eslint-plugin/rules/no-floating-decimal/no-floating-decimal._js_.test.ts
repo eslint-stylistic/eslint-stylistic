@@ -3,7 +3,7 @@
  * @author James Allardice
  */
 
-import rule from './no-floating-decimal._js_'
+import rule from '.'
 import { run } from '#test'
 
 const leadingError = { messageId: 'leading', type: 'Literal' }

@@ -3,7 +3,7 @@
  * @author Kenneth Williams
  */
 
-import rule from './max-statements-per-line._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({

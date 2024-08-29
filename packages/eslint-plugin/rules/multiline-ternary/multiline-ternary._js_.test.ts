@@ -3,7 +3,7 @@
  * @author Kai Cataldo
  */
 
-import rule from './multiline-ternary._js_'
+import rule from '.'
 import { $, run } from '#test'
 
 run({

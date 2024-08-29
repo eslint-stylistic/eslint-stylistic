@@ -3,7 +3,7 @@
  * @author Teddy Katz
  */
 
-import rule from './nonblock-statement-body-position._js_'
+import rule from '.'
 import { $, run } from '#test'
 
 const EXPECTED_LINEBREAK = { messageId: 'expectLinebreak' }

@@ -4,7 +4,7 @@
  */
 
 import tsParser from '@typescript-eslint/parser'
-import rule from './new-parens._js_'
+import rule from '.'
 import { run } from '#test'
 
 const error = { messageId: 'missing', type: 'NewExpression' }

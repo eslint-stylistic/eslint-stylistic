@@ -3,6 +3,7 @@
  * @author Vignesh Anand.
  */
 
+// TODO: Stage 2: Test merged rule
 import rule from './comma-spacing._js_'
 import { run } from '#test'
 

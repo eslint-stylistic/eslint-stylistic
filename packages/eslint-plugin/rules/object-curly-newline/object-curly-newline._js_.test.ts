@@ -3,7 +3,7 @@
  * @author Toru Nagashima
  */
 
-import rule from './object-curly-newline._js_'
+import rule from '.'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import { run } from '#test'
 

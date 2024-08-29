@@ -3,7 +3,7 @@
  * @author Benoît Zugmeyer
  */
 
-import rule from './operator-linebreak._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({
