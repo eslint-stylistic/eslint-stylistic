@@ -19,7 +19,7 @@ export default defineConfig({
         '**/rules/*/index.ts',
         '**/fixtures/**',
         '**/*.d.ts',
-        '**?*.test.*',
+        '**/*.test.*',
       ],
     },
   },
