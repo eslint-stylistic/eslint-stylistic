@@ -65,7 +65,7 @@ await Promise.all(
   defaultPackage.rules.map(async (rule) => {
     const newPath = join(
       dirname(rule.docsEntry),
-      `${basename(rule.docsEntry, '.md')}.alias.md`,
+      `${basename(rule.docsEntry, '.md').replace(/\._\w+_$/, '')}._merged_.md`,
     )
     const jsEntry = jsPackage.rules.find(r => r.name === rule.name)
     const tsEntry = tsPackage.rules.find(r => r.name === rule.name)
@@ -109,6 +109,7 @@ await Promise.all(
       }
     }
     else {
+      // console.log('No JS or TS entry found for', rule.name)
       await fs.copyFile(
         join(projectRoot, rule.docsEntry),
         join(projectRoot, newPath),

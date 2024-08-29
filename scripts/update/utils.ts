@@ -9,7 +9,7 @@ import config from '../../packages/eslint-plugin/configs/customize'
 import type { PackageInfo, RuleInfo } from '../../packages/metadata/src/types'
 import { GEN_HEADER, ROOT, RULE_ALIAS, RULE_ORIGINAL_ID_MAP } from './meta'
 
-const rulesInSharedConfig = new Set<string>(Object.keys(config.customize().rules))
+export const rulesInSharedConfig = new Set<string>(Object.keys(config.customize().rules))
 
 export async function readPackage(path: string): Promise<PackageInfo> {
   const dir = relative(join(ROOT, 'packages'), path)

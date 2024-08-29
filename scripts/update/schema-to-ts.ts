@@ -1,11 +1,11 @@
 import { existsSync, promises as fs } from 'node:fs'
-import { basename, resolve } from 'node:path'
+import { basename, join, resolve } from 'node:path'
 import fg from 'fast-glob'
 import { compile } from 'json-schema-to-typescript-lite'
 import type { JSONSchema4 } from 'json-schema'
 import { format } from 'prettier'
 import { hash } from 'ohash'
-import { GEN_HEADER } from './meta'
+import { GEN_HEADER, ROOT } from './meta'
 
 const VERSION = 'v1'
 
@@ -83,5 +83,9 @@ export async function generateDtsFromSchema() {
     })
 
     await fs.writeFile(dtsFile, formatted, 'utf-8')
+    if (suffix) {
+      const pkg = suffix.slice(2, -1)
+      await fs.writeFile(join(ROOT, 'packages', `eslint-plugin-${pkg}`, name, 'type.d.ts'), formatted, 'utf-8')
+    }
   }
 }

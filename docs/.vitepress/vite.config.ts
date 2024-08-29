@@ -35,10 +35,10 @@ function MarkdownTransform(): Plugin {
     name: 'local:markdown-transform',
     enforce: 'pre',
     transform(code, id) {
-      if (!id.endsWith('README.md') && !id.endsWith('README.alias.md'))
+      if (!id.match(/README\.(?:_\w+_\.)?md$/))
         return null
 
-      const isDefaultPackage = id.endsWith('README.alias.md')
+      const isDefaultPackage = id.endsWith('README._merged_.md')
       const ruleName = basename(dirname(id))
       const pkgName = isDefaultPackage
         ? 'default'

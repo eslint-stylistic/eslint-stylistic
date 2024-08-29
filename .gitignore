@@ -14,4 +14,5 @@ cache
 .eslintcache
 # Duplicate markdown for VitePress aliases
 *.alias.md
+*._merged_.md
 CHANGELOG.md

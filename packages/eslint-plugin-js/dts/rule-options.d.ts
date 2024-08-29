@@ -137,7 +137,7 @@ export interface RuleOptions {
    */
   '@stylistic/js/eol-last': EolLastRuleOptions
   /**
-   * Require or disallow spacing between function identifiers and their invocations. Alias of `function-call-spacing`.
+   * Require or disallow spacing between function identifiers and their invocations
    * @see https://eslint.style/rules/js/function-call-spacing
    */
   '@stylistic/js/func-call-spacing': FunctionCallSpacingRuleOptions
@@ -490,7 +490,7 @@ export interface UnprefixedRuleOptions {
    */
   'eol-last': EolLastRuleOptions
   /**
-   * Require or disallow spacing between function identifiers and their invocations. Alias of `function-call-spacing`.
+   * Require or disallow spacing between function identifiers and their invocations
    * @see https://eslint.style/rules/js/function-call-spacing
    */
   'func-call-spacing': FunctionCallSpacingRuleOptions
