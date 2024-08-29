@@ -7,6 +7,7 @@ import {
   isTSFunctionType,
   isVariableDeclarator,
 } from '@typescript-eslint/utils/ast-utils'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import type { ASTNode, Tree } from '#types'
 
 import { createRule } from '#utils/create-rule'
@@ -23,6 +24,7 @@ interface WhitespaceOverride {
   readonly property?: WhitespaceRule
   readonly parameter?: WhitespaceRule
   readonly returnType?: WhitespaceRule
+  readonly operator?: WhitespaceRule
 }
 
 interface Config extends WhitespaceRule {
@@ -55,6 +57,11 @@ function createRules(options?: Config): WhitespaceRules {
     ...globals,
     ...override?.arrow,
   }
+  const operator = {
+    ...{ before: true, after: true },
+    ...globals,
+    ...override?.operator,
+  }
 
   return {
     colon,
@@ -63,6 +70,7 @@ function createRules(options?: Config): WhitespaceRules {
     property: { ...colon, ...override?.property },
     parameter: { ...colon, ...override?.parameter },
     returnType: { ...colon, ...override?.returnType },
+    operator,
   }
 }
 
@@ -84,6 +92,9 @@ function getRules(
   rules: WhitespaceRules,
   node: Tree.TypeNode,
 ): WhitespaceRule {
+  if ([AST_NODE_TYPES.TSAsExpression, AST_NODE_TYPES.TSSatisfiesExpression].includes(node?.parent?.type))
+    return rules.operator
+
   const scope = node?.parent?.parent
 
   if (isTSFunctionType(scope) || isTSConstructorType(scope))
@@ -140,6 +151,7 @@ export default createRule<Options, MessageIds>({
               parameter: { $ref: '#/items/0/$defs/spacingConfig' },
               property: { $ref: '#/items/0/$defs/spacingConfig' },
               returnType: { $ref: '#/items/0/$defs/spacingConfig' },
+              operator: { $ref: '#/items/0/$defs/spacingConfig' },
             },
             additionalProperties: false,
           },
@@ -155,6 +167,7 @@ export default createRule<Options, MessageIds>({
   ],
   create(context, [options]) {
     const punctuators = [':', '=>']
+    const operator = ['as', 'satisfies']
     const sourceCode = context.sourceCode
 
     const ruleSet = createRules(options)
@@ -166,13 +179,15 @@ export default createRule<Options, MessageIds>({
     function checkTypeAnnotationSpacing(
       typeAnnotation: Tree.TypeNode,
     ): void {
-      const nextToken = typeAnnotation
-      const punctuatorTokenEnd = sourceCode.getTokenBefore(nextToken)!
+      const nextNode = typeAnnotation
+      const punctuatorTokenEnd = sourceCode.getTokenBefore(nextNode)!
       let punctuatorTokenStart = punctuatorTokenEnd
       let previousToken = sourceCode.getTokenBefore(punctuatorTokenEnd)!
       let type = punctuatorTokenEnd.value
 
-      if (!punctuators.includes(type))
+      const isOperator = operator.includes(type)
+
+      if (!punctuators.includes(type) && !isOperator)
         return
 
       const { before, after } = getRules(ruleSet, typeAnnotation)
@@ -213,9 +228,12 @@ export default createRule<Options, MessageIds>({
 
       const previousDelta
         = punctuatorTokenStart.range[0] - previousToken.range[1]
-      const nextDelta = nextToken.range[0] - punctuatorTokenEnd.range[1]
+      const nextDelta = nextNode.range[0] - punctuatorTokenEnd.range[1]
 
-      if (after && nextDelta === 0) {
+      const ignoreBefore = isOperator && ![AST_TOKEN_TYPES.String, AST_TOKEN_TYPES.Template, AST_TOKEN_TYPES.Punctuator].includes(previousToken.type)
+      const ignoreAfter = isOperator && nextNode.type !== AST_NODE_TYPES.TSTypeLiteral
+
+      if (after && nextDelta === 0 && !ignoreAfter) {
         context.report({
           node: punctuatorTokenEnd,
           messageId: 'expectedSpaceAfter',
@@ -227,7 +245,7 @@ export default createRule<Options, MessageIds>({
           },
         })
       }
-      else if (!after && nextDelta > 0) {
+      else if (!after && nextDelta > 0 && !ignoreAfter) {
         context.report({
           node: punctuatorTokenEnd,
           messageId: 'unexpectedSpaceAfter',
@@ -237,13 +255,13 @@ export default createRule<Options, MessageIds>({
           fix(fixer) {
             return fixer.removeRange([
               punctuatorTokenEnd.range[1],
-              nextToken.range[0],
+              nextNode.range[0],
             ])
           },
         })
       }
 
-      if (before && previousDelta === 0) {
+      if (before && previousDelta === 0 && !ignoreBefore) {
         context.report({
           node: punctuatorTokenStart,
           messageId: 'expectedSpaceBefore',
@@ -255,7 +273,7 @@ export default createRule<Options, MessageIds>({
           },
         })
       }
-      else if (!before && previousDelta > 0) {
+      else if (!before && previousDelta > 0 && !ignoreBefore) {
         context.report({
           node: punctuatorTokenStart,
           messageId: 'unexpectedSpaceBefore',
@@ -278,6 +296,12 @@ export default createRule<Options, MessageIds>({
           checkTypeAnnotationSpacing(node.typeAnnotation)
       },
       TSTypeAnnotation(node): void {
+        checkTypeAnnotationSpacing(node.typeAnnotation)
+      },
+      TSAsExpression(node) {
+        checkTypeAnnotationSpacing(node.typeAnnotation)
+      },
+      TSSatisfiesExpression(node) {
         checkTypeAnnotationSpacing(node.typeAnnotation)
       },
     }
