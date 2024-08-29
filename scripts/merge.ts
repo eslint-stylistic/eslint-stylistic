@@ -2,6 +2,7 @@ import fs from 'node:fs/promises'
 import { basename, join } from 'node:path'
 import { existsSync } from 'node:fs'
 import fg from 'fast-glob'
+import { RULE_ALIAS } from './update/meta'
 
 await import('./merge-undo')
 
@@ -41,6 +42,10 @@ for (const [key, path] of Object.entries(packages)) {
       ],
     })
 
+    if (RULE_ALIAS[name]) {
+      continue
+    }
+
     const targetDir = join('./packages/eslint-plugin/rules', name)
     await fs.mkdir(targetDir, { recursive: true })
 
@@ -59,6 +64,7 @@ for (const [key, path] of Object.entries(packages)) {
 
         content = content
           .replaceAll(`'./${name}'`, `'./${name}._${key}_'`)
+          .replaceAll(`'./${name}.test'`, `'./${name}._${key}_.test'`)
           .replaceAll(`'./types'`, `'./types._${key}_'`)
 
         await fs.writeFile(

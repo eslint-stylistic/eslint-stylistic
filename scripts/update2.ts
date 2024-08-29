@@ -10,7 +10,7 @@ import fg from 'fast-glob'
 import type { PackageInfo } from '../packages/metadata/src/types'
 import { generateDtsFromSchema } from './update/schema-to-ts'
 import { generateConfigs, generateMetadata, resolveAlias, rulesInSharedConfig, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
-import { RULE_ORIGINAL_ID_MAP } from './update/meta'
+import { RULE_ALIAS, RULE_ORIGINAL_ID_MAP } from './update/meta'
 
 async function readPackages() {
   const RULES_DIR = './packages/eslint-plugin/rules/'
@@ -49,44 +49,60 @@ async function readPackages() {
     const shortId = pkg || 'default'
     const path = `packages/eslint-plugin${pkg ? `-${pkg}` : ''}`
 
+    const resolvedRules = await Promise.all(
+      rules
+        .map(async (i) => {
+          const realName = i.name
+          const name = resolveAlias(realName)
+
+          const entry = join(RULES_DIR, name, pkg ? `${name}._${pkg}_.ts` : 'index.ts')
+          const url = pathToFileURL(entry).href
+          const mod = await import(url)
+          const meta = mod.default?.meta
+          const originalId = shortId === 'js'
+            ? name
+            : shortId === 'ts'
+              ? `@typescript-eslint/${name}`
+              : shortId === 'jsx'
+                ? `react/${name}`
+                : ''
+
+          return {
+            name: realName,
+            ruleId: `${pkgId}/${realName}`,
+            originalId: RULE_ORIGINAL_ID_MAP[originalId] || originalId,
+            entry,
+            docsEntry: join(RULES_DIR, i.name, pkg ? `README._${pkg}_.md` : 'README.md'),
+            meta: {
+              fixable: meta?.fixable,
+              docs: {
+                description: meta?.docs?.description,
+                recommended: rulesInSharedConfig.has(`@stylistic/${realName}`),
+              },
+            },
+          }
+        }),
+    )
+
+    for (const [alias, source] of Object.entries(RULE_ALIAS)) {
+      const rule = resolvedRules.find(i => i.name === source)
+      if (rule) {
+        resolvedRules.push({
+          ...rule,
+          name: alias,
+          ruleId: `${pkgId}/${alias}`,
+        })
+      }
+    }
+
+    resolvedRules.sort((a, b) => a.name.localeCompare(b.name))
+
     return {
       name: pkg ? `@stylistic/eslint-plugin-${pkg}` : '@stylistic/eslint-plugin',
       shortId,
       pkgId,
       path,
-      rules: await Promise.all(
-        rules
-          .map(async (i) => {
-            const realName = i.name
-            const name = resolveAlias(realName)
-
-            const entry = join(RULES_DIR, name, pkg ? `${name}._${pkg}_.ts` : 'index.ts')
-            const url = pathToFileURL(entry).href
-            const mod = await import(url)
-            const meta = mod.default?.meta
-            const originalId = shortId === 'js'
-              ? name
-              : shortId === 'ts'
-                ? `@typescript-eslint/${name}`
-                : shortId === 'jsx'
-                  ? `react/${name}`
-                  : ''
-            return {
-              name: realName,
-              ruleId: `${pkgId}/${realName}`,
-              originalId: RULE_ORIGINAL_ID_MAP[originalId] || originalId,
-              entry,
-              docsEntry: join(RULES_DIR, i.name, pkg ? `README._${pkg}_.md` : 'README.md'),
-              meta: {
-                fixable: meta?.fixable,
-                docs: {
-                  description: meta?.docs?.description,
-                  recommended: rulesInSharedConfig.has(`@stylistic/${realName}`),
-                },
-              },
-            }
-          }),
-      ),
+      rules: resolvedRules,
     }
   }
 
