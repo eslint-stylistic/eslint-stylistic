@@ -24,7 +24,6 @@ jobs:
         with:
           config-file: release-please-config.json
           target-branch: ${{ github.ref_name }}
-          skip-github-release: true
   publish-npm:
     runs-on: ubuntu-latest
     needs: release-please
@@ -37,6 +36,10 @@ jobs:
           registry-url: https://registry.npmjs.org
       - uses: pnpm/action-setup@v4
       - run: pnpm install
+      - run: npx changelogithub
+        continue-on-error: true
+        env:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
       - run: pnpm run publish:ci
         env:
           NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
