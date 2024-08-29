@@ -6,12 +6,7 @@ on:
       - main
       - dev
 
-permissions:
-  contents: write
-  pull-requests: write
-  id-token: write
-  actions: read
-  checks: write
+permissions: write-all
 
 jobs:
   release-please:
