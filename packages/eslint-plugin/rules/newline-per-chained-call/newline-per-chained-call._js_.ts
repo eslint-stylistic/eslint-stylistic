@@ -4,7 +4,7 @@
  * @author Burak Yigit Kaya
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import type { Tree } from '#types'
 import { LINEBREAK_MATCHER, isNotClosingParenToken, isTokenOnSameLine, skipChainExpression } from '#utils/ast'
 import { createRule } from '#utils/create-rule'

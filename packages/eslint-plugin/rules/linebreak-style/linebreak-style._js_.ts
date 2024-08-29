@@ -3,7 +3,7 @@
  * @author Erik Mueller
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ReportFixFunction, Tree } from '#types'
 import { createGlobalLinebreakMatcher } from '#utils/ast'
 import { createRule } from '#utils/create-rule'

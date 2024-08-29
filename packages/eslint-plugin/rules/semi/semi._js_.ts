@@ -3,7 +3,7 @@
  * @author Nicholas C. Zakas
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ASTNode, RuleFixer, Token, Tree } from '#types'
 import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'

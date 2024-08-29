@@ -1,4 +1,4 @@
-import type { RuleOptions } from './types._ts_'
+import type { RuleOptions } from './types'
 import rule from '.'
 import type { NodeTypes } from '#types'
 import { run } from '#test'

@@ -3,7 +3,7 @@
  * @author Teddy Katz
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import type { Token, Tree } from '#types'
 import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'

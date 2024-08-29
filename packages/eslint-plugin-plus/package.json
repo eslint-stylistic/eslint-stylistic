@@ -25,9 +25,9 @@
     "./rule-options": {
       "types": "./dist/dts/rule-options.d.ts"
     },
-    "./rules/indent-binary-ops": "./dist/indent-binary-ops.js",
-    "./rules/type-generic-spacing": "./dist/type-generic-spacing.js",
-    "./rules/type-named-tuple-spacing": "./dist/type-named-tuple-spacing.js"
+    "./rules/indent-binary-ops": "./dist/rules/indent-binary-ops.js",
+    "./rules/type-generic-spacing": "./dist/rules/type-generic-spacing.js",
+    "./rules/type-named-tuple-spacing": "./dist/rules/type-named-tuple-spacing.js"
   },
   "main": "./dist/index.js",
   "types": "./dist/dts/index.d.ts",
@@ -35,8 +35,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "rimraf dist && rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild",
-    "dev": "rollup --config=rollup.config.mts --configPlugin=rollup-plugin-esbuild --watch",
+    "build": "rimraf dist && rollup --config=rollup.config.mjs",
+    "dev": "rollup --config=rollup.config.mjs --watch",
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {

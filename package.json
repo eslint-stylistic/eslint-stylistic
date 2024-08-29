@@ -15,7 +15,7 @@
     "publish:ci": "esno scripts/publish.ts",
     "test": "vitest -c vitest.config.unit.ts",
     "test:fixtures": "vitest -c vitest.config.fixtures.ts",
-    "check": "pnpm run build && pnpm run update && pnpm run typecheck && pnpm run test --run",
+    "check": "pnpm run update && pnpm run build && pnpm run typecheck && pnpm run test --run",
     "typecheck": "vue-tsc --noEmit",
     "prepare": "simple-git-hooks",
     "docs": "pnpm -C docs run docs:dev",

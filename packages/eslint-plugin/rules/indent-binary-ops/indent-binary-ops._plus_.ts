@@ -1,4 +1,4 @@
-import type { MessageIds, RuleOptions } from './types._plus_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ASTNode } from '#types'
 import { createRule } from '#utils/create-rule'
 

@@ -3,7 +3,7 @@
  * @author Ilya Volodin, Yannick Croissant
  */
 
-import type { MessageIds, RuleOptions } from './types._jsx_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ASTNode, RuleContext, RuleFixer, Tree } from '#types'
 import { createRule } from '#utils/create-rule'
 import { getPropName, isDOMComponent } from '#utils/ast/jsx'

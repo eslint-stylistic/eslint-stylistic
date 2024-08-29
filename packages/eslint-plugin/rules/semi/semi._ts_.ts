@@ -1,6 +1,6 @@
 import type { TSESLint } from '@typescript-eslint/utils'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import type { MessageIds, RuleOptions } from './types._ts_'
+import type { MessageIds, RuleOptions } from './types'
 import _baseRule from './semi._js_'
 import { castRuleModule, createRule } from '#utils/create-rule'
 import type { ASTNode } from '#types'

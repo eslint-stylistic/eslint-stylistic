@@ -1,5 +1,6 @@
 import { basename, join, relative, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
+import { existsSync } from 'node:fs'
 import fs from 'fs-extra'
 import fg from 'fast-glob'
 import { pascalCase } from 'change-case'
@@ -93,7 +94,7 @@ export async function writeRulesIndex(pkg: PackageInfo) {
     '',
     ...pkg.rules
       .filter(i => !(i.name in RULE_ALIAS))
-      .map(i => `import ${camelCase(i.name)} from './${i.name}/${i.name}'`),
+      .map(i => `import ${camelCase(i.name)} from './${i.name}/${pkg.shortId === 'default' ? 'index' : i.name}'`),
     '',
     'export default {',
     ...pkg.rules.map(i => `  '${i.name}': ${camelCase(resolveAlias(i.name))},`),
@@ -113,7 +114,15 @@ export async function writePackageDTS(pkg: PackageInfo) {
     ...pkg.rules
       .filter(r => !(r.name in RULE_ALIAS))
       .map((rule) => {
-        return `import type { ${pascalCase(rule.name)}RuleOptions } from '../rules/${rule.name}/types'`
+        let path = `../rules/${rule.name}/types`
+        if (pkg.shortId !== 'default') {
+          const dir = `eslint-plugin/rules/${rule.name}`
+          if (existsSync(join(ROOT, 'packages', dir, `types._${pkg.shortId}_.d.ts`)))
+            path = `../../${dir}/types._${pkg.shortId}_`
+          else
+            path = `../../${dir}/types`
+        }
+        return `import type { ${pascalCase(rule.name)}RuleOptions } from '${path}'`
       }),
     '',
     'export interface RuleOptions {',
@@ -124,7 +133,7 @@ export async function writePackageDTS(pkg: PackageInfo) {
         `   * ${rule.meta?.docs?.description || ''}`,
         `   * @see https://eslint.style/rules/${pkg.shortId}/${original}`,
         '   */',
-        `  '${pkg.name.replace('eslint-plugin-', '')}/${rule.name}': ${pascalCase(original)}RuleOptions`,
+        `  '${pkg.name.replace(/eslint-plugin-|\/eslint-plugin$/, '')}/${rule.name}': ${pascalCase(original)}RuleOptions`,
       ]
     }),
     '}',
@@ -183,7 +192,7 @@ export async function updateExports(pkg: PackageInfo) {
       types: './dist/dts/rule-options.d.ts',
     },
     ...Object.fromEntries(
-      pkg.rules.map(i => [`./rules/${i.name}`, `./dist/${i.name}.js`]),
+      pkg.rules.map(i => [`./rules/${i.name}`, `./dist/rules/${i.name}.js`]),
     ),
   }
   pkgJson.types = './dist/dts/index.d.ts'

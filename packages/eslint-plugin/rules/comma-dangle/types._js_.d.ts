@@ -1,8 +1,8 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: PPvE96magU */
+/* @checksum: e0uyhpKPCy */
 
-export type Schema0 =
+export type CommaDangleSchema0 =
   | []
   | [
     | Value
@@ -26,5 +26,7 @@ export type ValueWithIgnore =
   | 'never'
   | 'only-multiline'
 
-export type RuleOptions = Schema0
+export type CommaDangleRuleOptions = CommaDangleSchema0
+
+export type RuleOptions = CommaDangleRuleOptions
 export type MessageIds = 'unexpected' | 'missing'

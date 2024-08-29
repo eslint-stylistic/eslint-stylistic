@@ -122,8 +122,6 @@ async function run() {
   const packages = await readPackages()
 
   for (const pkg of packages) {
-    if (pkg.shortId === 'default')
-      continue
     await writeRulesIndex(pkg)
     await writeREADME(pkg)
     await writePackageDTS(pkg)

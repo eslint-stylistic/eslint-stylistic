@@ -1,6 +1,6 @@
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
-import type { MessageIds, RuleOptions } from './types._ts_'
+import type { MessageIds, RuleOptions } from './types'
 import _baseRule from './block-spacing._js_'
 import { castRuleModule, createRule } from '#utils/create-rule'
 import type { Tree } from '#types'

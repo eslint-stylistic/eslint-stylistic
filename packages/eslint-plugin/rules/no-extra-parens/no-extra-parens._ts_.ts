@@ -5,7 +5,7 @@ import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
 
-import type { MessageIds, RuleOptions } from './types._ts_'
+import type { MessageIds, RuleOptions } from './types'
 import _baseRule from './no-extra-parens._js_'
 import { castRuleModule, createRule } from '#utils/create-rule'
 

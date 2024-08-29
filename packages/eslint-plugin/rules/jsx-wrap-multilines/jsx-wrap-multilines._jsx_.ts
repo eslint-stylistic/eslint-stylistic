@@ -3,7 +3,7 @@
  * @author Yannick Croissant
  */
 
-import type { MessageIds, RuleOptions } from './types._jsx_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ASTNode, Token } from '#types'
 import { isJSX } from '#utils/ast/jsx'
 import { isParenthesized } from '#utils/ast'

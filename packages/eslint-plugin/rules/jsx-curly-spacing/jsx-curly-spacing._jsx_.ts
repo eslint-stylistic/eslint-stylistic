@@ -9,7 +9,7 @@
  * @author Erik Wendel
  */
 
-import type { BasicConfig, MessageIds, RuleOptions } from './types._jsx_'
+import type { BasicConfig, MessageIds, RuleOptions } from './types'
 import type { ASTNode, RuleFixer, Token, Tree } from '#types'
 import { createRule } from '#utils/create-rule'
 

@@ -1,8 +1,8 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: nNlg74jmQH */
+/* @checksum: mfXKoTNJmS */
 
-export interface Schema0 {
+export interface LinesAroundCommentSchema0 {
   beforeBlockComment?: boolean
   afterBlockComment?: boolean
   beforeLineComment?: boolean
@@ -20,5 +20,9 @@ export interface Schema0 {
   afterHashbangComment?: boolean
 }
 
-export type RuleOptions = [Schema0?]
+export type LinesAroundCommentRuleOptions = [
+  LinesAroundCommentSchema0?,
+]
+
+export type RuleOptions = LinesAroundCommentRuleOptions
 export type MessageIds = 'after' | 'before'

@@ -3,7 +3,7 @@
  * @author Ilya Volodin
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import { getStaticPropertyName, isParenthesised, isParenthesized, skipChainExpression } from '#utils/ast'
 import type { ASTNode, Tree } from '#types'
 import { createRule } from '#utils/create-rule'

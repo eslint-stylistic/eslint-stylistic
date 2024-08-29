@@ -2,7 +2,7 @@
  * @fileoverview Disallows or enforces spaces inside of object literals.
  * @author Jamund Ferguson
  */
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ASTNode, RuleFixer, Token, Tree } from '#types'
 import { createRule } from '#utils/create-rule'
 import { isClosingBraceToken, isClosingBracketToken, isNotCommaToken, isTokenOnSameLine } from '#utils/ast'

@@ -3,7 +3,7 @@
  * @author Marcin Kumorek
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ASTNode, Token, Tree } from '#types'
 import { canTokensBeAdjacent } from '#utils/ast'
 import { createRule } from '#utils/create-rule'

@@ -1,4 +1,4 @@
-import type { MessageIds, RuleOptions } from './types._plus_'
+import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 
 const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set([

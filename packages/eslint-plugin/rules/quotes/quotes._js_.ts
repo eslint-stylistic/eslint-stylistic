@@ -3,7 +3,7 @@
  * @author Matt DuVall <http://www.mattduvall.com/>, Brandon Payton
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ASTNode, Tree } from '#types'
 import { LINEBREAKS, hasOctalOrNonOctalDecimalEscapeSequence, isParenthesised, isSurroundedBy, isTopLevelExpressionStatement } from '#utils/ast'
 import { createRule } from '#utils/create-rule'

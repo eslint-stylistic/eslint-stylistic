@@ -43,10 +43,10 @@ export function createConfig(cwd) {
 
   return defineConfig([
     {
-      input: [
-        'src/index.ts',
-        ...rulesEntry,
-      ],
+      input: {
+        index: 'src/index.ts',
+        ...Object.fromEntries(rulesEntry.map(file => [`rules/${basename(dirname(file))}`, file])),
+      },
       output: [
         {
           dir: 'dist',
@@ -115,6 +115,7 @@ export function createConfig(cwd) {
       external: [
         ...Object.keys(pkg.dependencies || []),
         ...Object.keys(pkg.peerDependencies || []),
+        'eslint',
       ],
     },
   ])

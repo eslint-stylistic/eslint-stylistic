@@ -3,7 +3,7 @@
  * @author Benoît Zugmeyer
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ASTNode, ReportFixFunction, Token, Tree } from '#types'
 import { createGlobalLinebreakMatcher, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'

@@ -493,24 +493,27 @@ importers:
 
   packages/eslint-plugin:
     dependencies:
-      '@stylistic/eslint-plugin-js':
-        specifier: workspace:*
-        version: link:../eslint-plugin-js
-      '@stylistic/eslint-plugin-jsx':
-        specifier: workspace:*
-        version: link:../eslint-plugin-jsx
-      '@stylistic/eslint-plugin-plus':
-        specifier: workspace:*
-        version: link:../eslint-plugin-plus
-      '@stylistic/eslint-plugin-ts':
-        specifier: workspace:*
-        version: link:../eslint-plugin-ts
       '@types/eslint':
         specifier: 'catalog:'
         version: 9.6.1
+      '@typescript-eslint/utils':
+        specifier: ^8.3.0
+        version: 8.3.0(eslint@9.9.1(jiti@1.21.6))(typescript@5.5.4)
       eslint:
         specifier: '>=8.40.0'
         version: 9.9.1(jiti@1.21.6)
+      eslint-visitor-keys:
+        specifier: 'catalog:'
+        version: 4.0.0
+      espree:
+        specifier: 'catalog:'
+        version: 10.1.0
+      estraverse:
+        specifier: 'catalog:'
+        version: 5.3.0
+      picomatch:
+        specifier: 'catalog:'
+        version: 4.0.2
 
   packages/eslint-plugin-js:
     dependencies:

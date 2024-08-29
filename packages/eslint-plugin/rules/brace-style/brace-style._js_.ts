@@ -3,7 +3,7 @@
  * @author Ian Christian Myers
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ReportFixFunction, Token } from '#types'
 import {
   STATEMENT_LIST_PARENTS,

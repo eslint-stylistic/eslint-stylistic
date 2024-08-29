@@ -3,7 +3,7 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
-import type { MessageIds, RuleOptions } from './types._jsx_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ASTNode, Token, Tree } from '#types'
 import { createRule } from '#utils/create-rule'
 import { isWhiteSpaces } from '#utils/ast/jsx'

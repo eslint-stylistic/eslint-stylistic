@@ -1,8 +1,8 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-import type { IndentBinaryOpsRuleOptions } from '../rules/indent-binary-ops/types'
-import type { TypeGenericSpacingRuleOptions } from '../rules/type-generic-spacing/types'
-import type { TypeNamedTupleSpacingRuleOptions } from '../rules/type-named-tuple-spacing/types'
+import type { IndentBinaryOpsRuleOptions } from '../../eslint-plugin/rules/indent-binary-ops/types'
+import type { TypeGenericSpacingRuleOptions } from '../../eslint-plugin/rules/type-generic-spacing/types'
+import type { TypeNamedTupleSpacingRuleOptions } from '../../eslint-plugin/rules/type-named-tuple-spacing/types'
 
 export interface RuleOptions {
   /**

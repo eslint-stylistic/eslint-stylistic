@@ -7,7 +7,7 @@
  */
 
 import picomatch from 'picomatch'
-import type { MessageIds, RuleOptions } from './types._jsx_'
+import type { MessageIds, RuleOptions } from './types'
 import { getElementType, isDOMComponent } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
 

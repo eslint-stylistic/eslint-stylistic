@@ -30,7 +30,7 @@
  THE SOFTWARE.
  */
 
-import type { MessageIds, RuleOptions } from './types._jsx_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ASTNode, ReportFixFunction, Token, Tree } from '#types'
 import { getFirstNodeInLine, isNodeFirstInLine } from '#utils/ast'
 import { isJSX, isReturningJSX } from '#utils/ast/jsx'

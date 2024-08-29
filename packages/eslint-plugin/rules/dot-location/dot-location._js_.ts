@@ -3,7 +3,7 @@
  * @author Greg Cochard
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import type { Tree } from '#types'
 import { isDecimalIntegerNumericToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'

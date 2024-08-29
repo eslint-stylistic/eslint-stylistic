@@ -3,7 +3,7 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ASTNode, JSONSchema, Tree } from '#types'
 import { createRule } from '#utils/create-rule'
 

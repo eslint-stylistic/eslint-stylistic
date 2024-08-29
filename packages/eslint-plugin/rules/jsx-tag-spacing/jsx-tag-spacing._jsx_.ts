@@ -3,7 +3,7 @@
  * @author Diogo Franco (Kovensky)
  */
 
-import type { MessageIds, RuleOptions } from './types._jsx_'
+import type { MessageIds, RuleOptions } from './types'
 import type { RuleContext, Token, Tree } from '#types'
 import { getTokenBeforeClosingBracket } from '#utils/ast'
 import { createRule } from '#utils/create-rule'

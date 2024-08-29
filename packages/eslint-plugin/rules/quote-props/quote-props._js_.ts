@@ -5,7 +5,7 @@
 
 // @ts-expect-error missing types
 import { tokenize } from 'espree'
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import type { Tree } from '#types'
 import { isNumericLiteral } from '#utils/ast'
 import { KEYWORDS_JS } from '#utils/keywords'

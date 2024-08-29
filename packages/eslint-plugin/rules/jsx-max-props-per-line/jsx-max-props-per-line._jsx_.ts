@@ -3,7 +3,7 @@
  * @author Yannick Croissant
  */
 
-import type { MessageIds, RuleOptions } from './types._jsx_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ReportDescriptor, RuleContext, Tree } from '#types'
 import { createRule } from '#utils/create-rule'
 

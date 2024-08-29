@@ -4,7 +4,7 @@
  * @author Simon Lydell
  */
 
-import type { MessageIds, RuleOptions } from './types._jsx_'
+import type { MessageIds, RuleOptions } from './types'
 import type { Tree } from '#types'
 import { createRule } from '#utils/create-rule'
 import { isJSX, isWhiteSpaces } from '#utils/ast/jsx'

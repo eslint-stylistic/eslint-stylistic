@@ -2,7 +2,7 @@
  * @fileoverview Disallow parenthesising higher precedence subexpressions.
  * @author Michael Ficarra
  */
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import {
   canTokensBeAdjacent,
   getPrecedence,

@@ -4,7 +4,7 @@
  */
 
 import rule from './jsx-tag-spacing._jsx_'
-import type { RuleOptions } from './types._jsx_'
+import type { RuleOptions } from './types'
 import { invalids, valids } from '#test/parsers-jsx'
 import { run } from '#test'
 

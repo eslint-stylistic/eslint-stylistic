@@ -3,7 +3,7 @@
  * @author Brandon Mills
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ASTNode, ReportFixFunction, Tree } from '#types'
 import { LINEBREAK_MATCHER, getStaticPropertyName, isColonToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'

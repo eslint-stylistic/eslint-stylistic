@@ -3,7 +3,7 @@
  * @author Alexey Gonchar <https://github.com/finico>
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
+import type { MessageIds, RuleOptions } from './types'
 import type { ReportFixFunction, Token, Tree } from '#types'
 import { createRule } from '#utils/create-rule'
 
