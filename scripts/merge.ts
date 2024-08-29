@@ -6,19 +6,6 @@ import { RULE_ALIAS } from './update/meta'
 
 await import('./merge-undo')
 
-/**
- * TODO:
- *
- * Main branch:
- * - 3. Update `types.d.ts` convention
- *
- * This branch:
- * - 1. Entry file for `eslint-plugin`
- * - 2. Update docs alias
- * - 3. Docs for contributors
- * - 4. Soft deprecate other packages
- */
-
 const packages = {
   ts: './packages/eslint-plugin-ts/rules',
   js: './packages/eslint-plugin-js/rules',
