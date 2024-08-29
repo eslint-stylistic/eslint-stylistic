@@ -10,6 +10,7 @@ import { isWhiteSpaces } from '#utils/ast/jsx'
 
 const optionDefaults = {
   allow: 'none',
+  spaceMode: 'js',
 }
 
 const messages = {
@@ -39,6 +40,10 @@ export default createRule<RuleOptions, MessageIds>({
           allow: {
             type: 'string',
             enum: ['none', 'literal', 'single-child', 'single-line', 'non-jsx'],
+          },
+          spaceMode: {
+            type: 'string',
+            enum: ['js', 'html'],
           },
         },
         default: optionDefaults,
@@ -238,8 +243,16 @@ export default createRule<RuleOptions, MessageIds>({
         const descriptor = details.descriptor
         const source = details.source.replace(/(^ +| +$)/g, '')
 
-        const leadingSpaceString = details.leadingSpace ? '\n{\' \'}' : ''
-        const trailingSpaceString = details.trailingSpace ? '{\' \'}\n' : ''
+        const leadingSpaceString = details.leadingSpace
+          ? options.spaceMode === 'js'
+            ? '\n{\' \'}'
+            : '&nbsp;'
+          : ''
+        const trailingSpaceString = details.trailingSpace
+          ? options.spaceMode === 'js'
+            ? '{\' \'}\n'
+            : '\n&nbsp;'
+          : ''
         const leadingNewLineString = details.leadingNewLine ? '\n' : ''
         const trailingNewLineString = details.trailingNewLine ? '\n' : ''
 
