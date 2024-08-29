@@ -1,11 +1,10 @@
 import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 import type { MessageIds, RuleOptions } from './types._ts_'
+import _baseRule from './space-before-blocks._js_'
+import { castRuleModule, createRule } from '#utils/create-rule'
 import type { Tree } from '#types'
 
-import { createRule } from '#utils/create-rule'
-import { getJsRule } from '#utils/get-js-rule'
-
-const baseRule = getJsRule('space-before-blocks')
+const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'space-before-blocks',
@@ -18,11 +17,7 @@ export default createRule<RuleOptions, MessageIds>({
     fixable: baseRule.meta.fixable,
     hasSuggestions: baseRule.meta.hasSuggestions,
     schema: baseRule.meta.schema,
-    messages: {
-      unexpectedSpace: 'Unexpected space before opening brace.',
-      missingSpace: 'Missing space before opening brace.',
-      ...baseRule.meta.messages,
-    },
+    messages: baseRule.meta.messages,
   },
   defaultOptions: ['always'],
   create(context, [config]) {

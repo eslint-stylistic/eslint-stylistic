@@ -19,7 +19,7 @@ export default defineConfig([
         format: 'cjs',
         manualChunks(id) {
           if (id.includes('rules')) {
-            const name = basename(dirname(id))
+            const name = basename(dirname(id)).replace(/\._\w+_$/, '')
             if (name !== 'rules')
               return name
           }

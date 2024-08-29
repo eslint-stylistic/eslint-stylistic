@@ -1,13 +1,13 @@
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import type { MessageIds, RuleOptions } from './types._ts_'
+import _baseRule from './keyword-spacing._js_'
+import { castRuleModule, createRule } from '#utils/create-rule'
 import type { JSONSchema, Tree } from '#types'
 
-import { getJsRule } from '#utils/get-js-rule'
-import { createRule } from '#utils/create-rule'
 import { NullThrowsReasons, nullThrows } from '#utils/assert'
 import { deepMerge } from '#utils/merge'
 
-const baseRule = getJsRule('keyword-spacing')
+const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 const baseSchema = Array.isArray(baseRule.meta.schema)
   ? baseRule.meta.schema[0]

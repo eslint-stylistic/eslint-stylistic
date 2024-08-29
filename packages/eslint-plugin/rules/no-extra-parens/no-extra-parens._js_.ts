@@ -2,11 +2,7 @@
  * @fileoverview Disallow parenthesising higher precedence subexpressions.
  * @author Michael Ficarra
  */
-
-// @ts-expect-error missing types https://github.com/eslint-stylistic/eslint-utils/pull/60
-import { isParenthesized as isParenthesizedRaw } from '@eslint-community/eslint-utils'
 import type { MessageIds, RuleOptions } from './types._js_'
-import type { ASTNode, Token, Tree } from '#types'
 import {
   canTokensBeAdjacent,
   getPrecedence,
@@ -19,9 +15,11 @@ import {
   isOpeningBraceToken,
   isOpeningBracketToken,
   isOpeningParenToken,
+  isParenthesized as isParenthesizedRaw,
   isTopLevelExpressionStatement,
   skipChainExpression,
 } from '#utils/ast'
+import type { ASTNode, Token, Tree } from '#types'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -186,7 +184,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function isParenthesised(node: ASTNode) {
-      return isParenthesizedRaw(1, node, sourceCode)
+      return isParenthesizedRaw(node, sourceCode, 1)
     }
 
     /**
@@ -196,7 +194,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function isParenthesisedTwice(node: ASTNode) {
-      return isParenthesizedRaw(2, node, sourceCode)
+      return isParenthesizedRaw(node, sourceCode, 2)
     }
 
     /**
@@ -401,7 +399,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns `true` if the given node can be a valid assignment target
      */
     function canBeAssignmentTarget(node: ASTNode) {
-      return node && (node.type === 'Identifier' || node.type === 'MemberExpression')
+      return !!(node && (node.type === 'Identifier' || node.type === 'MemberExpression'))
     }
 
     /**
@@ -834,7 +832,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       ArrayPattern(node) {
         node.elements
-          .filter((e): e is NonNullable<typeof e> => e && canBeAssignmentTarget(e) && hasExcessParens(e))
+          .filter((e): e is NonNullable<typeof e> => !!e && canBeAssignmentTarget(e) && hasExcessParens(e))
           .forEach(report)
       },
 

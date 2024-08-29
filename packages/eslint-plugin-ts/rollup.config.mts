@@ -36,7 +36,7 @@ export default defineConfig([
         format: 'cjs',
         manualChunks(id) {
           if (id.includes('/rules/'))
-            return basename(id, '.ts')
+            return basename(id, '.ts').replace(/\._\w+_$/, '')
           if (id.includes('/configs/'))
             return 'configs'
           if (id.includes('/utils/'))

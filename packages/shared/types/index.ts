@@ -8,6 +8,7 @@ export type Token = TSESTree.Token
 export { TSESTree as Tree }
 export type NodeTypes = `${AST_NODE_TYPES}`
 export {
+  RuleModule,
   RuleFunction,
   RuleListener,
   SourceCode,

@@ -1,9 +1,9 @@
 import type { MessageIds, RuleOptions } from './types._ts_'
+import _baseRule from './object-property-newline._js_'
+import { castRuleModule, createRule } from '#utils/create-rule'
 import type { Tree } from '#types'
-import { createRule } from '#utils/create-rule'
-import { getJsRule } from '#utils/get-js-rule'
 
-const baseRule = getJsRule('object-property-newline')
+const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-property-newline',

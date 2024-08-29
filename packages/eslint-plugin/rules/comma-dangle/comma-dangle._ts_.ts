@@ -1,12 +1,11 @@
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isCommaToken } from '@typescript-eslint/utils/ast-utils'
 import type { MessageIds, RuleOptions } from './types._ts_'
+import _baseRule from './comma-dangle._js_'
+import { castRuleModule, createRule } from '#utils/create-rule'
 import type { ASTNode, Tree } from '#types'
 
-import { createRule } from '#utils/create-rule'
-import { getJsRule } from '#utils/get-js-rule'
-
-const baseRule = getJsRule('comma-dangle')
+const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 type Extract<T> = T extends Record<any, any> ? T : never
 type Option = RuleOptions[0]
