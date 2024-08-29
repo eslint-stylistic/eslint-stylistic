@@ -1,5 +1,15 @@
 # Changelog
 
+## [2.7.0-beta.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.6.5...v2.7.0-beta.0) (2024-08-29)
+
+
+### Chores
+
+* cross test merged rules (partial) ([#520](https://github.com/eslint-stylistic/eslint-stylistic/issues/520)) ([97448b9](https://github.com/eslint-stylistic/eslint-stylistic/commit/97448b9648206f0eb2230a17cf08f8014476ae13))
+* make ts plugin self-contains ([#519](https://github.com/eslint-stylistic/eslint-stylistic/issues/519)) ([7c7301e](https://github.com/eslint-stylistic/eslint-stylistic/commit/7c7301e8f6844c833485542fc1eb3a1132d9c6c6))
+* move code into one package ([#497](https://github.com/eslint-stylistic/eslint-stylistic/issues/497)) ([3a9535f](https://github.com/eslint-stylistic/eslint-stylistic/commit/3a9535fd35367b3d8ae5e2d63616c2b080395d3c))
+* release-please-mark ([96dd0e1](https://github.com/eslint-stylistic/eslint-stylistic/commit/96dd0e1b66452387f4004e8a4c4ab3527fb04ebc))
+
 ## [2.6.5](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.6.4...v2.6.5) (2024-08-28)
 
 
