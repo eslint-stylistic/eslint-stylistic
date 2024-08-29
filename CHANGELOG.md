@@ -1,5 +1,13 @@
 # Changelog
 
+## [2.7.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.7.0-beta.1...v2.7.1) (2024-08-29)
+
+
+### Chores
+
+* release-please-mark ([34148f4](https://github.com/eslint-stylistic/eslint-stylistic/commit/34148f41089bcdf9621a02bd62b28b3db94f56ac))
+* release-please-mark ([4b2d7ba](https://github.com/eslint-stylistic/eslint-stylistic/commit/4b2d7baa01258ef4ec0d92267950ec9a2ceee62e))
+
 ## [2.7.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.7.0-beta.1...v2.7.0) (2024-08-29)
 
 
