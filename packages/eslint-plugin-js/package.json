@@ -115,9 +115,9 @@
     "eslint": ">=8.40.0"
   },
   "dependencies": {
-    "@types/eslint": "^9.6.0",
-    "acorn": "^8.12.1",
-    "eslint-visitor-keys": "^4.0.0",
-    "espree": "^10.1.0"
+    "@types/eslint": "catalog:",
+    "acorn": "catalog:",
+    "eslint-visitor-keys": "catalog:",
+    "espree": "catalog:"
   }
 }

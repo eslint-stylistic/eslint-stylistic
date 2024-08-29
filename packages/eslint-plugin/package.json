@@ -47,6 +47,6 @@
     "@stylistic/eslint-plugin-jsx": "workspace:*",
     "@stylistic/eslint-plugin-plus": "workspace:*",
     "@stylistic/eslint-plugin-ts": "workspace:*",
-    "@types/eslint": "^9.6.0"
+    "@types/eslint": "catalog:"
   }
 }
