@@ -1,5 +1,18 @@
 # Changelog
 
+## [2.7.0-beta.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.7.0-beta.0...v2.7.0-beta.1) (2024-08-29)
+
+
+### Build Related
+
+* improve bundling ([bb187a8](https://github.com/eslint-stylistic/eslint-stylistic/commit/bb187a85b65d611a985f3b0da0f200d0711a2f6b))
+* standalone build for main package ([971b534](https://github.com/eslint-stylistic/eslint-stylistic/commit/971b53481a21ce8aa801d2142c7843e0560e626d))
+
+
+### Chores
+
+* release-please-mark ([1ed4f7f](https://github.com/eslint-stylistic/eslint-stylistic/commit/1ed4f7f75faaf9b8e6d334f32505e5399b4702e1))
+
 ## [2.7.0-beta.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.6.5...v2.7.0-beta.0) (2024-08-29)
 
 
