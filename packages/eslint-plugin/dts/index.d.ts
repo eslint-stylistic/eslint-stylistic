@@ -1,3 +1,4 @@
+import type { ESLint } from 'eslint'
 import type { Rules } from './rules'
 import type { Configs } from './configs'
 
