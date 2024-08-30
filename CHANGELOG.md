@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.7.2](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.7.1...v2.7.2) (2024-08-30)
+
+
+### Bug Fixes
+
+* **types:** add missing type reference, close [#526](https://github.com/eslint-stylistic/eslint-stylistic/issues/526) ([47fddb0](https://github.com/eslint-stylistic/eslint-stylistic/commit/47fddb0f6ac7f6e45188eff4f28755885e317249))
+
 ## [2.7.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.7.0-beta.1...v2.7.1) (2024-08-29)
 
 
