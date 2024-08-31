@@ -610,6 +610,10 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'boolean',
             default: false,
           },
+          tabLength: {
+            type: 'number',
+            default: 4,
+          },
         },
         additionalProperties: false,
       },
@@ -656,6 +660,7 @@ export default createRule<RuleOptions, MessageIds>({
       ignoredNodes: [],
       ignoreComments: false,
       offsetTernaryExpressions: false,
+      tabLength: 4,
     }
 
     if (context.options.length) {
@@ -1478,8 +1483,24 @@ export default createRule<RuleOptions, MessageIds>({
             ? sourceCode.getFirstToken(previousQuasi)
             : null
 
-          offsets.setDesiredOffsets([previousQuasi.range[1], nextQuasi.range[0]], tokenToAlignFrom, 1)
-          offsets.setDesiredOffset(sourceCode.getFirstToken(nextQuasi), tokenToAlignFrom, 0)
+          let indentOffset = 1
+          let nextQuasiStartIndent = 0
+          if (!tokenToAlignFrom) {
+            // minus 2 for exclude ${
+            const tokenBeforeText = sourceCode.text.slice(previousQuasi.range[1] - previousQuasi.loc.end.column, previousQuasi.range[1] - 2).split('')
+            // If there are only spaces or tabs before ${, make block base on ${ start position indent
+            if (tokenBeforeText.every(char => char === ' ' || char === '\t')) {
+              const numSpaces = tokenBeforeText.filter(char => char !== '\t').length
+              const numTabs = tokenBeforeText.filter(char => char === '\t').length
+              indentOffset = numTabs + Math.ceil(numSpaces / (indentType === 'tab' ? options.tabLength : indentSize)) + 1
+            }
+          }
+
+          if (nextQuasi.loc.start.line !== expression.loc.end.line) {
+            nextQuasiStartIndent = Math.max(indentOffset - 1, 0)
+          }
+          offsets.setDesiredOffsets([previousQuasi.range[1], nextQuasi.range[0]], tokenToAlignFrom, indentOffset)
+          offsets.setDesiredOffset(sourceCode.getFirstToken(nextQuasi), tokenToAlignFrom, nextQuasiStartIndent)
         })
       },
 
