@@ -16,4 +16,4 @@ export type SpaceBeforeFunctionParenRuleOptions = [
 
 export type RuleOptions =
   SpaceBeforeFunctionParenRuleOptions
-export type MessageIds = 'unexpected' | 'missing'
+export type MessageIds = 'unexpectedSpace' | 'missingSpace'

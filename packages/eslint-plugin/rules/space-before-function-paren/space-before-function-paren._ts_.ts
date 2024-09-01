@@ -45,8 +45,8 @@ export default createRule<RuleOptions, MessageIds>({
       },
     ],
     messages: {
-      unexpected: 'Unexpected space before function parentheses.',
-      missing: 'Missing space before function parentheses.',
+      unexpectedSpace: 'Unexpected space before function parentheses.',
+      missingSpace: 'Missing space before function parentheses.',
     },
   },
   defaultOptions: ['always'],
@@ -77,8 +77,10 @@ export default createRule<RuleOptions, MessageIds>({
       return (
         parent.type === AST_NODE_TYPES.MethodDefinition
         || parent.type === AST_NODE_TYPES.TSAbstractMethodDefinition
-        || (parent.type === AST_NODE_TYPES.Property
-        && (parent.kind === 'get' || parent.kind === 'set' || parent.method))
+        || (
+          parent.type === AST_NODE_TYPES.Property
+          && (parent.kind === 'get' || parent.kind === 'set' || parent.method)
+        )
       )
     }
 
@@ -154,9 +156,19 @@ export default createRule<RuleOptions, MessageIds>({
             start: leftToken.loc.end,
             end: rightToken.loc.start,
           },
-          messageId: 'unexpected',
-          fix: fixer =>
-            fixer.removeRange([leftToken.range[1], rightToken.range[0]]),
+          messageId: 'unexpectedSpace',
+          fix: (fixer) => {
+            const comments = sourceCode.getCommentsBefore(rightToken)
+
+            // Don't fix anything if there's a single line comment between the left and the right token
+            if (comments.some(comment => comment.type === 'Line'))
+              return null
+
+            return fixer.replaceTextRange(
+              [leftToken.range[1], rightToken.range[0]],
+              comments.reduce((text, comment) => text + sourceCode.getText(comment), ''),
+            )
+          },
         })
       }
       else if (
@@ -167,7 +179,7 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           node,
           loc: rightToken.loc,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           fix: fixer => fixer.insertTextAfter(leftToken, ' '),
         })
       }
