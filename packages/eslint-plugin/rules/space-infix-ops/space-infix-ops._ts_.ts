@@ -31,9 +31,10 @@ export default createRule<RuleOptions, MessageIds>({
     const rules = (baseRule as any as RuleModule<any, any>).create(context)
     const sourceCode = context.sourceCode
 
-    function report(operator: Token): void {
+    function report(node: ASTNode, operator: Token): void {
       context.report({
-        node: operator,
+        node,
+        loc: operator.loc,
         messageId: 'missingSpace',
         data: {
           operator: operator.value,
@@ -63,6 +64,7 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function checkAndReportAssignmentSpace(
+      node: ASTNode,
       leftNode: ASTNode | Token | null,
       rightNode?: ASTNode | Token | null,
     ): void {
@@ -82,7 +84,7 @@ export default createRule<RuleOptions, MessageIds>({
         !sourceCode.isSpaceBetween!(prev, operator)
         || !sourceCode.isSpaceBetween!(operator, next)
       ) {
-        report(operator)
+        report(node, operator)
       }
     }
 
@@ -91,7 +93,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node The node to report
      */
     function checkForEnumAssignmentSpace(node: Tree.TSEnumMember): void {
-      checkAndReportAssignmentSpace(node.id, node.initializer)
+      checkAndReportAssignmentSpace(node, node.id, node.initializer)
     }
 
     /**
@@ -106,7 +108,7 @@ export default createRule<RuleOptions, MessageIds>({
           ? sourceCode.getTokenAfter(node.key)
           : node.typeAnnotation ?? node.key
 
-      checkAndReportAssignmentSpace(leftNode, node.value)
+      checkAndReportAssignmentSpace(node, leftNode, node.value)
     }
 
     /**
@@ -136,7 +138,7 @@ export default createRule<RuleOptions, MessageIds>({
             !sourceCode.isSpaceBetween!(prev!, operator)
             || !sourceCode.isSpaceBetween!(operator, next!)
           ) {
-            report(operator)
+            report(typeAnnotation, operator)
           }
         }
       })
@@ -150,14 +152,15 @@ export default createRule<RuleOptions, MessageIds>({
       node: Tree.TSTypeAliasDeclaration,
     ): void {
       checkAndReportAssignmentSpace(
+        node,
         node.typeParameters ?? node.id,
         node.typeAnnotation,
       )
     }
 
     function checkForTypeConditional(node: Tree.TSConditionalType): void {
-      checkAndReportAssignmentSpace(node.extendsType, node.trueType)
-      checkAndReportAssignmentSpace(node.trueType, node.falseType)
+      checkAndReportAssignmentSpace(node, node.extendsType, node.trueType)
+      checkAndReportAssignmentSpace(node, node.trueType, node.falseType)
     }
 
     return {

@@ -4,8 +4,7 @@
  */
 
 import tsParser from '@typescript-eslint/parser'
-// TODO: Stage 2: Test merged rule
-import rule from './space-infix-ops._js_'
+import rule from '.'
 import { run } from '#test'
 
 run({
