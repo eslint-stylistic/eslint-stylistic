@@ -19,7 +19,6 @@ catalog:
   '@shikijs/transformers': ^1.16.2
   '@shikijs/twoslash': ^1.16.2
   '@shikijs/vitepress-twoslash': ^1.16.2
-  '@types/eslint': ^9.6.1
   '@types/estraverse': ^5.1.7
   '@types/estree': ^1.0.5
   '@types/fs-extra': ^11.0.4

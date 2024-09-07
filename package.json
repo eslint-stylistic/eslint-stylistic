@@ -44,7 +44,6 @@
     "@stylistic/eslint-plugin-migrate": "workspace:*",
     "@stylistic/eslint-plugin-plus": "workspace:*",
     "@stylistic/eslint-plugin-ts": "workspace:*",
-    "@types/eslint": "catalog:",
     "@types/estraverse": "catalog:",
     "@types/estree": "catalog:",
     "@types/fs-extra": "catalog:",
