@@ -1,10 +1,10 @@
 // this rule tests the position of braces, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-
-import rule from '.'
 import { run } from '#test'
+
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import rule from '.'
 
 run({
   name: 'object-curly-spacing',

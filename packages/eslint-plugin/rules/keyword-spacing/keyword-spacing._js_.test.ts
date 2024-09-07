@@ -3,10 +3,10 @@
  * @author Toru Nagashima
  */
 
-import tsParser from '@typescript-eslint/parser'
-import rule from '.'
-import type { TestCase } from '#test'
 import { run } from '#test'
+import tsParser from '@typescript-eslint/parser'
+import type { TestCase } from '#test'
+import rule from '.'
 
 const BOTH = { before: true, after: true }
 const NEITHER = { before: false, after: false }

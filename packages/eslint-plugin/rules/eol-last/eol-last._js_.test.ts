@@ -3,8 +3,8 @@
  * @author Nodeca Team <https://github.com/nodeca>
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'eol-last',

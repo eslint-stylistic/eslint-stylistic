@@ -1,7 +1,7 @@
-import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
-
-import rule from '.'
 import { $, run } from '#test'
+
+import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
+import rule from '.'
 
 run({
   name: 'lines-around-comment',

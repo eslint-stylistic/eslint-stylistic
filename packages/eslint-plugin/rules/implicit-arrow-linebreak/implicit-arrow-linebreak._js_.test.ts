@@ -3,8 +3,8 @@
  * @author Sharmila Jesupaul
  */
 
-import rule from '.'
 import { $, run } from '#test'
+import rule from '.'
 
 const EXPECTED_LINEBREAK = { messageId: 'expected' }
 const UNEXPECTED_LINEBREAK = { messageId: 'unexpected' }

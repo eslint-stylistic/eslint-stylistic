@@ -6,10 +6,10 @@
  * @author Sukka [https://skk.moe]
  */
 
-import picomatch from 'picomatch'
-import type { MessageIds, RuleOptions } from './types'
 import { getElementType, isDOMComponent } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
+import picomatch from 'picomatch'
+import type { MessageIds, RuleOptions } from './types'
 
 function testDigit(char: string) {
   const charCode = char.charCodeAt(0)

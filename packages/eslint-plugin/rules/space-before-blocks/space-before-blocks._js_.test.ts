@@ -3,9 +3,9 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
+import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from '.'
-import { run } from '#test'
 
 const alwaysArgs = ['always']
 const neverArgs = ['never']

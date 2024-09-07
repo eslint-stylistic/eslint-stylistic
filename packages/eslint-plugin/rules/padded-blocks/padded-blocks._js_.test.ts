@@ -3,8 +3,8 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'padded-blocks',

@@ -3,10 +3,10 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
-import type { ASTNode, Token } from '#types'
 import { isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode, Token } from '#types'
+import type { MessageIds, RuleOptions } from './types._js_'
 
 type NodeTest = (
   node: ASTNode

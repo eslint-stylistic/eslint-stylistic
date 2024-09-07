@@ -3,12 +3,12 @@
  * @author Yannick Croissant
  */
 
-import semver from 'semver'
-import { version as eslintVersion } from 'eslint/package.json'
-import { expectedErrors } from './indent._js_.test'
-import rule from '.'
-import { invalids as _invalids, valids as _valids } from '#test/parsers-jsx'
 import { $, run } from '#test'
+import { invalids as _invalids, valids as _valids } from '#test/parsers-jsx'
+import { version as eslintVersion } from 'eslint/package.json'
+import semver from 'semver'
+import rule from '.'
+import { expectedErrors } from './indent._js_.test'
 
 function valids(...tests: Parameters<typeof _valids>) {
   tests.forEach((test) => {

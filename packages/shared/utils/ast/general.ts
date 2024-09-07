@@ -3,12 +3,12 @@
  * @author Gyandeep Singh
  */
 
-import type * as ESTree from 'estree'
-import type { TSESLint } from '@typescript-eslint/utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
 import type { ASTNode, ESNode, SourceCode, Token, Tree } from '#types'
+import type { TSESLint } from '@typescript-eslint/utils'
+import type * as ESTree from 'estree'
 
 const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
 

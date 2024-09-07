@@ -3,9 +3,9 @@
  * @author Alexey Gonchar <https://github.com/finico>
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { ReportFixFunction, Token, Tree } from '#types'
 import { createRule } from '#utils/create-rule'
+import type { ReportFixFunction, Token, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 interface Checker {
   messageId: 'unexpectedLineBreak' | 'missingLineBreak'

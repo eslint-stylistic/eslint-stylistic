@@ -3,10 +3,10 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { ASTNode, Token } from '#types'
 import { isCommentToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode, Token } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'array-bracket-newline',

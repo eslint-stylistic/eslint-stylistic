@@ -1,9 +1,9 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import rule from '.'
-import type { InvalidTestCase, ValidTestCase } from '#test'
 import { $, run } from '#test'
+import type { InvalidTestCase, ValidTestCase } from '#test'
+import rule from '.'
 
 run({
   name: 'function-call-spacing',

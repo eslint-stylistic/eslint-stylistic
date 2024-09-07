@@ -3,8 +3,8 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 const parserOptions = { ecmaVersion: 6 } as const
 

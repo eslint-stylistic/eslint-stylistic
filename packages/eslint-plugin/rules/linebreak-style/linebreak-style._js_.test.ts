@@ -3,8 +3,8 @@
  * @author Erik Mueller
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'linebreak-style',

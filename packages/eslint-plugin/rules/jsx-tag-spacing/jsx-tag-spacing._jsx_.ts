@@ -3,10 +3,10 @@
  * @author Diogo Franco (Kovensky)
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { RuleContext, Token, Tree } from '#types'
 import { getTokenBeforeClosingBracket } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { RuleContext, Token, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 type Option = Exclude<RuleOptions[0], undefined>
 type Context = RuleContext<MessageIds, RuleOptions>

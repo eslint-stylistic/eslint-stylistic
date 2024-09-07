@@ -3,10 +3,10 @@
  * @author Sharmila Jesupaul
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { Tree } from '#types'
 import { isCommentToken, isNotOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'implicit-arrow-linebreak',

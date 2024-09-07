@@ -1,11 +1,11 @@
-import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
-import type { MessageIds, RuleOptions } from './types._ts_'
-import _baseRule from './keyword-spacing._js_'
+import { nullThrows, NullThrowsReasons } from '#utils/assert'
 import { castRuleModule, createRule } from '#utils/create-rule'
+import { deepMerge } from '#utils/merge'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import type { JSONSchema, Tree } from '#types'
 
-import { NullThrowsReasons, nullThrows } from '#utils/assert'
-import { deepMerge } from '#utils/merge'
+import _baseRule from './keyword-spacing._js_'
+import type { MessageIds, RuleOptions } from './types._ts_'
 
 const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 

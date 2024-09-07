@@ -1,6 +1,6 @@
+import { existsSync } from 'node:fs'
 import fs from 'node:fs/promises'
 import { basename, join } from 'node:path'
-import { existsSync } from 'node:fs'
 import fg from 'fast-glob'
 import { RULE_ALIAS } from './update/meta'
 

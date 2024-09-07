@@ -1,7 +1,5 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-import type { Rules } from '../dts'
-
 import blockSpacing from './block-spacing/block-spacing'
 import braceStyle from './brace-style/brace-style'
 import commaDangle from './comma-dangle/comma-dangle'
@@ -26,6 +24,8 @@ import spaceBeforeBlocks from './space-before-blocks/space-before-blocks'
 import spaceBeforeFunctionParen from './space-before-function-paren/space-before-function-paren'
 import spaceInfixOps from './space-infix-ops/space-infix-ops'
 import typeAnnotationSpacing from './type-annotation-spacing/type-annotation-spacing'
+
+import type { Rules } from '../dts'
 
 export default {
   'block-spacing': blockSpacing,

@@ -1,8 +1,8 @@
 // this rule tests quotes, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import rule from '.'
 import { $, run } from '#test'
+import rule from '.'
 
 const useDoubleQuote = {
   messageId: 'wrongQuotes' as const,

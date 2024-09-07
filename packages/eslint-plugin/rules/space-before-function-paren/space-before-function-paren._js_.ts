@@ -3,10 +3,10 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
-import type { Tree } from '#types'
 import { isOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types._js_'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'space-before-function-paren',

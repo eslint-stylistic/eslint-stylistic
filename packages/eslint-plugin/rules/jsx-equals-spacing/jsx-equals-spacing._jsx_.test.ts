@@ -3,9 +3,9 @@
  * @author ryym
  */
 
-import rule from './jsx-equals-spacing._jsx_'
-import { invalids, skipDueToMultiErrorSorting, valids } from '#test/parsers-jsx'
 import { run } from '#test'
+import { invalids, skipDueToMultiErrorSorting, valids } from '#test/parsers-jsx'
+import rule from './jsx-equals-spacing._jsx_'
 
 run({
   name: 'jsx-equals-spacing',

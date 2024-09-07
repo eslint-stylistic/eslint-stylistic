@@ -3,9 +3,9 @@
  * @author Ilya Volodin
  */
 
+import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from '.'
-import { run } from '#test'
 
 const error = { messageId: 'missing', type: 'NewExpression' }
 const neverError = { messageId: 'unnecessary', type: 'NewExpression' }

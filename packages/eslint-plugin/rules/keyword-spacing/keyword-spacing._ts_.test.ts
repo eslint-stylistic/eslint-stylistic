@@ -1,10 +1,10 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import type { RuleOptions } from './types._ts_'
-import rule from '.'
-import type { TestCaseError } from '#test'
 import { run } from '#test'
+import type { TestCaseError } from '#test'
+import rule from '.'
+import type { RuleOptions } from './types._ts_'
 
 const BOTH = { before: true, after: true }
 const NEITHER = { before: false, after: false }

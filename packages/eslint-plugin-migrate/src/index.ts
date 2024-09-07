@@ -1,7 +1,7 @@
 import migrate from './rules/migrate'
-import migrateTs from './rules/migrate-ts'
 import migrateJs from './rules/migrate-js'
 import migrateJsx from './rules/migrate-jsx'
+import migrateTs from './rules/migrate-ts'
 
 export default {
   rules: {

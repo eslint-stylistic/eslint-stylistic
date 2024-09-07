@@ -3,9 +3,9 @@
  * @author Vignesh Anand.
  */
 
+import { run } from '#test'
 // TODO: Stage 2: Test merged rule
 import rule from './comma-spacing._js_'
-import { run } from '#test'
 
 run({
   name: 'comma-spacing',

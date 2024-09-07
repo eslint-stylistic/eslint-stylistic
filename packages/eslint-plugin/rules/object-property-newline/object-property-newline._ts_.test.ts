@@ -1,7 +1,7 @@
-import rule from '.'
-import type { NodeTypes } from '#types'
-import type { InvalidTestCase, TestCaseError, ValidTestCase } from '#test'
 import { run } from '#test'
+import type { InvalidTestCase, TestCaseError, ValidTestCase } from '#test'
+import type { NodeTypes } from '#types'
+import rule from '.'
 
 const prefixOfNodes = {
   TSTypeLiteral: 'type Foo = ',

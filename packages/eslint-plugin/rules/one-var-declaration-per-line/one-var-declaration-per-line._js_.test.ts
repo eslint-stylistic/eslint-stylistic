@@ -3,8 +3,8 @@
  * @author Alberto Rodríguez
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 // ------------------------------------------------------------------------------
 // Fixtures

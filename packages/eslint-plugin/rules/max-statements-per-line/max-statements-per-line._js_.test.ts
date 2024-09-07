@@ -3,8 +3,8 @@
  * @author Kenneth Williams
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'max-statements-per-line',

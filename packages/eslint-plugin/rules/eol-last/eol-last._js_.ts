@@ -3,8 +3,8 @@
  * @author Nodeca Team <https://github.com/nodeca>
  */
 
-import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
+import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'eol-last',

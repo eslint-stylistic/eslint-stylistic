@@ -1,9 +1,9 @@
 /**
  * @fileoverview Utility functions for JSX
  */
-import { findVariableByName } from './variable'
-import { traverseReturns } from './traverse'
 import type { ASTNode, ESNode, RuleContext, Tree } from '#types'
+import { traverseReturns } from './traverse'
+import { findVariableByName } from './variable'
 
 // See https://github.com/babel/babel/blob/ce420ba51c68591e057696ef43e028f41c6e04cd/packages/babel-types/src/validators/react/isCompatTag.js
 // for why we only test for the first character

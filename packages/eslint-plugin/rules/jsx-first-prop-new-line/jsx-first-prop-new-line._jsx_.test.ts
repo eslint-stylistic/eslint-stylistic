@@ -3,9 +3,9 @@
  * @author Joachim Seminck
  */
 
-import rule from './jsx-first-prop-new-line._jsx_'
-import { invalids, valids } from '#test/parsers-jsx'
 import { run } from '#test'
+import { invalids, valids } from '#test/parsers-jsx'
+import rule from './jsx-first-prop-new-line._jsx_'
 
 run({
   name: 'jsx-first-prop-new-line',

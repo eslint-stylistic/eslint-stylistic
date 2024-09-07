@@ -3,8 +3,8 @@
  * @author Nicholas C. Zakas
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'wrap-regex',

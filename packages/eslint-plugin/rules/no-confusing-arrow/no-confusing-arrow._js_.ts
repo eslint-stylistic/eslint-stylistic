@@ -4,10 +4,10 @@
  * @author Jxck <https://github.com/Jxck>
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { ASTNode, Tree } from '#types'
 import { isParenthesised } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 /**
  * Checks whether or not a node is a conditional expression.

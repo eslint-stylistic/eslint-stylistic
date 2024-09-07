@@ -3,9 +3,9 @@
  * @author Ross Solomon
  */
 
-import rule from './jsx-closing-tag-location._jsx_'
-import { invalids, valids } from '#test/parsers-jsx'
 import { run } from '#test'
+import { invalids, valids } from '#test/parsers-jsx'
+import rule from './jsx-closing-tag-location._jsx_'
 
 run({
   name: 'jsx-closing-tag-location',

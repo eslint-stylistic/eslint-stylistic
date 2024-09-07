@@ -3,8 +3,8 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'array-element-newline',

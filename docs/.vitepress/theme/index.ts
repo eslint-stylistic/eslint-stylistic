@@ -1,7 +1,7 @@
 // https://vitepress.dev/guide/custom-theme
-import { h } from 'vue'
-import Theme from 'vitepress/theme'
 import TwoSlash from '@shikijs/vitepress-twoslash/client'
+import Theme from 'vitepress/theme'
+import { h } from 'vue'
 
 import '@shikijs/vitepress-twoslash/style.css'
 import 'uno.css'

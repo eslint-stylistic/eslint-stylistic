@@ -3,8 +3,8 @@
  * @author Benoît Zugmeyer
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'operator-linebreak',

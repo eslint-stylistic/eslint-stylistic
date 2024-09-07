@@ -3,9 +3,9 @@
  * @author Ian Christian Myers
  */
 
-import rule from '.'
-import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import { $, run } from '#test'
+import { languageOptionsForBabelFlow } from '#test/parsers-flow'
+import rule from '.'
 
 run({
   name: 'comma-dangle',

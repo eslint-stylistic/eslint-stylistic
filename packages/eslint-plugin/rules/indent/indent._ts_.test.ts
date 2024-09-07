@@ -1,9 +1,9 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-
-import rule from '.'
-import type { InvalidTestCase, TestCaseError, TestCasesOptions, ValidTestCase } from '#test'
 import { run } from '#test'
+
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import type { InvalidTestCase, TestCaseError, TestCasesOptions, ValidTestCase } from '#test'
+import rule from '.'
 
 /**
  * Marks a test case as a plain javascript case which should be indented the same

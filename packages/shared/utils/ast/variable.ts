@@ -3,8 +3,8 @@
  * @author Yannick Croissant
  */
 
-import type { Scope as ESLintScope } from 'eslint'
 import type { RuleContext, Scope } from '#types'
+import type { Scope as ESLintScope } from 'eslint'
 
 /**
  * Find and return a particular variable in a list

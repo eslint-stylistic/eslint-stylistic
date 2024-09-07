@@ -1,10 +1,10 @@
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import type { MessageIds, RuleOptions } from './types._ts_'
-import _baseRule from './lines-between-class-members._js_'
 import { castRuleModule, createRule } from '#utils/create-rule'
-import type { ASTNode, JSONSchema } from '#types'
-
 import { deepMerge } from '#utils/merge'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import type { ASTNode, JSONSchema } from '#types'
+import _baseRule from './lines-between-class-members._js_'
+
+import type { MessageIds, RuleOptions } from './types._ts_'
 
 const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 

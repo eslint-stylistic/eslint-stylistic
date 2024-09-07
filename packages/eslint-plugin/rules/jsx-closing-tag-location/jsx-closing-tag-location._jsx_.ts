@@ -3,10 +3,10 @@
  * @author Ross Solomon
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { ASTNode, Tree } from '#types'
 import { isNodeFirstInLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
   onOwnLine: 'Closing tag of a multiline JSX expression must be on its own line.',
@@ -53,7 +53,7 @@ export default createRule<RuleOptions, MessageIds>({
         messageId,
         loc: node.loc,
         fix(fixer) {
-          const indent = Array(opening.loc.start.column + 1).join(' ')
+          const indent = new Array(opening.loc.start.column + 1).join(' ')
           if (isNodeFirstInLine(context, node)) {
             return fixer.replaceTextRange(
               [node.range[0] - node.loc.start.column, node.range[0]],
