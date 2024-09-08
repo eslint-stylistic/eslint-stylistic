@@ -261,7 +261,7 @@ export default [
     ],
   }),
   // override the legacy rules
-  StylisticPlugin.configs['disable-legacy'] // [!code ++],
+  StylisticPlugin.configs['disable-legacy'] // [!code ++]
   // your own rules
   {
     plugins: {
