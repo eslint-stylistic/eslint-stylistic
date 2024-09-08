@@ -268,7 +268,7 @@ export default [
       stylistic: StylisticPlugin
     },
     rules: {
-      'stylistic/semi': 'error',
+      '@stylistic/semi': 'error',
       // ...
     }
   }
