@@ -61,11 +61,27 @@ export default createRule<RuleOptions, MessageIds>({
         // so mutating a copy would not change the underlying copy returned by that method
         asToken.type = AST_TOKEN_TYPES.Keyword
 
-        // use this selector just because it is just a call to `checkSpacingAroundFirstToken`
+        // TODO: Stage3: use this selector just because it is just a call to `checkSpacingAroundFirstToken`
         baseRules.DebuggerStatement!(asToken as never)
 
         // make sure to reset the type afterward so we don't permanently mutate the AST
         asToken.type = oldTokenType
+      },
+      // TODO: Stage3: copy from `TSAsExpression`, just call `checkSpacingAroundFirstToken` when refactor
+      TSSatisfiesExpression(node): void {
+        const satisfiesToken = nullThrows(
+          sourceCode.getTokenAfter(
+            node.expression,
+            token => token.value === 'satisfies',
+          ),
+          NullThrowsReasons.MissingToken('satisfies', node.type),
+        )
+        const oldTokenType = satisfiesToken.type
+        satisfiesToken.type = AST_TOKEN_TYPES.Keyword
+
+        baseRules.DebuggerStatement!(satisfiesToken as never)
+
+        satisfiesToken.type = oldTokenType
       },
       'ImportDeclaration[importKind=type]': function (
         node: Tree.ImportDeclaration,

@@ -106,6 +106,47 @@ run({
       options: [{ overrides: { as: {} } }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
+    'const foo = {} satisfies {}',
+    {
+      code: 'const foo = {}satisfies{};',
+      options: [NEITHER],
+    },
+    {
+      code: 'const foo = {} satisfies {};',
+      options: [overrides('satisfies', BOTH)],
+    },
+    {
+      code: 'const foo = {}satisfies{};',
+      options: [overrides('satisfies', NEITHER)],
+    },
+    {
+      code: 'const foo = {} satisfies {};',
+      options: [overrides('satisfies', BOTH)],
+    },
+    {
+      code: 'const a = 1 as any',
+      options: [NEITHER],
+    },
+    {
+      code: 'const a = true as any',
+      options: [NEITHER],
+    },
+    {
+      code: 'const a = b as any',
+      options: [NEITHER],
+    },
+    {
+      code: 'const a = 1 satisfies any',
+      options: [NEITHER],
+    },
+    {
+      code: 'const a = true satisfies any',
+      options: [NEITHER],
+    },
+    {
+      code: 'const a = b satisfies any',
+      options: [NEITHER],
+    },
     {
       code: 'import type { foo } from "foo";',
       options: [BOTH],
@@ -268,6 +309,34 @@ run({
       options: [{ overrides: { as: {} } }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: expectedAfter('as'),
+    },
+    {
+      code: 'const foo = {}satisfies {};',
+      output: 'const foo = {} satisfies {};',
+      errors: expectedBefore('satisfies'),
+    },
+    {
+      code: 'const foo = {} satisfies{};',
+      output: 'const foo = {}satisfies{};',
+      options: [NEITHER],
+      errors: unexpectedBefore('satisfies'),
+    },
+    {
+      code: 'const foo = {} satisfies{};',
+      output: 'const foo = {} satisfies {};',
+      errors: expectedAfter('satisfies'),
+    },
+    {
+      code: 'const foo = {}satisfies {};',
+      output: 'const foo = {}satisfies{};',
+      options: [NEITHER],
+      errors: unexpectedAfter('satisfies'),
+    },
+    {
+      code: 'const foo = {} satisfies{};',
+      output: 'const foo = {} satisfies {};',
+      options: [{ overrides: { satisfies: {} } }],
+      errors: expectedAfter('satisfies'),
     },
     {
       code: 'import type{ foo } from "foo";',
