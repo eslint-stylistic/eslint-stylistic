@@ -268,7 +268,7 @@ export default [
       stylistic: StylisticPlugin
     },
     rules: {
-      '@stylistic/semi': 'error',
+      'stylistic/semi': 'error',
       // ...
     }
   }
@@ -288,7 +288,7 @@ module.exports = {
     '@stylistic'
   ],
   rules: {
-    'stylistic/semi': 'error',
+    '@stylistic/semi': 'error',
     // ...
   }
 }
