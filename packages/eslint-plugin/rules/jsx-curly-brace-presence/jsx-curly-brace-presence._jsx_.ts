@@ -332,10 +332,11 @@ export default createRule<RuleOptions, MessageIds>({
 
       if (
         parent.type && parent.type === 'JSXAttribute'
-        && (node.expression && node.expression.type
-        && node.expression.type !== 'Literal'
-        && node.expression.type !== 'StringLiteral' as any // StringLiteral extends Literal, so ts think it's the same type
-        && node.expression.type !== 'TemplateLiteral')
+        && (node.expression
+          && node.expression.type
+          && node.expression.type !== 'Literal'
+          && node.expression.type !== 'StringLiteral' as any // StringLiteral extends Literal, so ts think it's the same type
+          && node.expression.type !== 'TemplateLiteral')
       ) {
         return false
       }

@@ -78,11 +78,11 @@ export default createRule<RuleOptions, MessageIds>({
 
       return parent.type === 'MethodDefinition'
         || (parent.type === 'Property'
-        && (
-          parent.kind === 'get'
-          || parent.kind === 'set'
-          || parent.method
-        )
+          && (
+            parent.kind === 'get'
+            || parent.kind === 'set'
+            || parent.method
+          )
         )
     }
 

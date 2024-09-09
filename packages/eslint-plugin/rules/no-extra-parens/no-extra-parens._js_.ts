@@ -1068,11 +1068,11 @@ export default createRule<RuleOptions, MessageIds>({
         const nodeObjHasExcessParens = shouldAllowWrapOnce
           ? hasDoubleExcessParens(node.object)
           : hasExcessParens(node.object)
-          && !(
-            isImmediateFunctionPrototypeMethodCall(node.parent)
-            && 'callee' in node.parent && node.parent.callee === node
-            && IGNORE_FUNCTION_PROTOTYPE_METHODS
-          )
+            && !(
+              isImmediateFunctionPrototypeMethodCall(node.parent)
+              && 'callee' in node.parent && node.parent.callee === node
+              && IGNORE_FUNCTION_PROTOTYPE_METHODS
+            )
 
         if (
           nodeObjHasExcessParens

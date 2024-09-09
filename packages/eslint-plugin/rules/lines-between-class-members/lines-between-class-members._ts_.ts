@@ -58,8 +58,8 @@ export default createRule<RuleOptions, MessageIds>({
     function isOverload(node: ASTNode): boolean {
       return (
         (node.type === AST_NODE_TYPES.TSAbstractMethodDefinition
-        || node.type === AST_NODE_TYPES.MethodDefinition)
-        && node.value.type === AST_NODE_TYPES.TSEmptyBodyFunctionExpression
+          || node.type === AST_NODE_TYPES.MethodDefinition)
+          && node.value.type === AST_NODE_TYPES.TSEmptyBodyFunctionExpression
       )
     }
 

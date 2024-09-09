@@ -368,8 +368,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       const blockStartAllowed = options.allowBlockStart
         && isCommentAtBlockStart(token)
-        && !(options.allowClassStart === false
-        && isCommentAtClassStart(token))
+        && !(options.allowClassStart === false && isCommentAtClassStart(token))
       const blockEndAllowed = options.allowBlockEnd && isCommentAtBlockEnd(token) && !(options.allowClassEnd === false && isCommentAtClassEnd(token))
       const classStartAllowed = options.allowClassStart && isCommentAtClassStart(token)
       const classEndAllowed = options.allowClassEnd && isCommentAtClassEnd(token)

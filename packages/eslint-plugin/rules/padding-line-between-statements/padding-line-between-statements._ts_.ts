@@ -221,7 +221,7 @@ function isBlockLikeStatement(
   return (
     !!belongingNode
     && (belongingNode.type === AST_NODE_TYPES.BlockStatement
-    || belongingNode.type === AST_NODE_TYPES.SwitchStatement)
+      || belongingNode.type === AST_NODE_TYPES.SwitchStatement)
   )
 }
 
@@ -238,11 +238,11 @@ function isDirective(
   return (
     node.type === AST_NODE_TYPES.ExpressionStatement
     && (node.parent?.type === AST_NODE_TYPES.Program
-    || (node.parent?.type === AST_NODE_TYPES.BlockStatement
-    && isFunction(node.parent.parent)))
-    && node.expression.type === AST_NODE_TYPES.Literal
-    && typeof node.expression.value === 'string'
-    && !isParenthesized(node.expression, sourceCode)
+      || (node.parent?.type === AST_NODE_TYPES.BlockStatement
+        && isFunction(node.parent.parent)))
+        && node.expression.type === AST_NODE_TYPES.Literal
+        && typeof node.expression.value === 'string'
+        && !isParenthesized(node.expression, sourceCode)
   )
 }
 
@@ -292,9 +292,9 @@ function isCJSExport(node: ASTNode): boolean {
         return (
           left.object.type === AST_NODE_TYPES.Identifier
           && (left.object.name === 'exports'
-          || (left.object.name === 'module'
-          && left.property.type === AST_NODE_TYPES.Identifier
-          && left.property.name === 'exports'))
+            || (left.object.name === 'module'
+              && left.property.type === AST_NODE_TYPES.Identifier
+              && left.property.name === 'exports'))
         )
       }
     }
@@ -516,12 +516,12 @@ const StatementTypes: Record<string, NodeTestObject> = {
 
   'multiline-block-like': {
     test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
-    && isBlockLikeStatement(node, sourceCode),
+      && isBlockLikeStatement(node, sourceCode),
   },
   'multiline-expression': {
     test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
-    && node.type === AST_NODE_TYPES.ExpressionStatement
-    && !isDirectivePrologue(node, sourceCode),
+      && node.type === AST_NODE_TYPES.ExpressionStatement
+      && !isDirectivePrologue(node, sourceCode),
   },
 
   'multiline-const': newMultilineKeywordTester('const'),
@@ -579,14 +579,14 @@ const StatementTypes: Record<string, NodeTestObject> = {
 
   'cjs-export': {
     test: (node, sourceCode) => node.type === 'ExpressionStatement'
-    && node.expression.type === 'AssignmentExpression'
-    && CJS_EXPORT.test(sourceCode.getText(node.expression.left)),
+      && node.expression.type === 'AssignmentExpression'
+      && CJS_EXPORT.test(sourceCode.getText(node.expression.left)),
   },
   'cjs-import': {
     test: (node, sourceCode) => node.type === 'VariableDeclaration'
-    && node.declarations.length > 0
-    && Boolean(node.declarations[0].init)
-    && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init!)),
+      && node.declarations.length > 0
+      && Boolean(node.declarations[0].init)
+      && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init!)),
   },
 
   // Additional Typescript constructs

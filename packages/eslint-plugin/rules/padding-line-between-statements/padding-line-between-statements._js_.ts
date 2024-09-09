@@ -43,7 +43,7 @@ function newKeywordTester(keyword: string): Tester {
 function newSinglelineKeywordTester(keyword: string): Tester {
   return {
     test: (node, sourceCode) => node.loc.start.line === node.loc.end.line
-    && sourceCode.getFirstToken(node)?.value === keyword,
+      && sourceCode.getFirstToken(node)?.value === keyword,
   }
 }
 
@@ -56,7 +56,7 @@ function newSinglelineKeywordTester(keyword: string): Tester {
 function newMultilineKeywordTester(keyword: string): Tester {
   return {
     test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
-    && sourceCode.getFirstToken(node)?.value === keyword,
+      && sourceCode.getFirstToken(node)?.value === keyword,
   }
 }
 
@@ -296,14 +296,14 @@ const StatementTypes = {
   },
   'cjs-export': {
     test: (node, sourceCode) => node.type === 'ExpressionStatement'
-    && node.expression.type === 'AssignmentExpression'
-    && CJS_EXPORT.test(sourceCode.getText(node.expression.left)),
+      && node.expression.type === 'AssignmentExpression'
+      && CJS_EXPORT.test(sourceCode.getText(node.expression.left)),
   },
   'cjs-import': {
     test: (node, sourceCode) => node.type === 'VariableDeclaration'
-    && node.declarations.length > 0
-    && Boolean(node.declarations[0].init)
-    && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init!)),
+      && node.declarations.length > 0
+      && Boolean(node.declarations[0].init)
+      && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init!)),
   },
   'directive': {
     test: isDirective,
@@ -316,7 +316,7 @@ const StatementTypes = {
   },
   'multiline-block-like': {
     test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
-    && isBlockLikeStatement(sourceCode, node),
+      && isBlockLikeStatement(sourceCode, node),
   },
   'multiline-expression': {
     test: node =>
