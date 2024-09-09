@@ -102,6 +102,7 @@ This rule has an object option:
 - `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
 - `"offsetTernaryExpressions": true` (`false` by default) requires indentation for values of ternary expressions.
 - `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
+- `"tabLength"` (default: 4) when using tabbed indentation, the indentation used to calculate the insertion value of the template string
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
