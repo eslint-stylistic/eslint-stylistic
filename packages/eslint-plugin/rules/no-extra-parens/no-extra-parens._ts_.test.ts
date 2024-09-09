@@ -741,7 +741,8 @@ run({
             <div
                 prop={true}
             />
-      ` + '\n',
+      `
+        + '\n',
       options: ['all', { ignoreJSX: 'single-line' }],
       errors: [
         {
