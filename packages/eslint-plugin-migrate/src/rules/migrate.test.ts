@@ -1,7 +1,7 @@
-import jsonParser from 'jsonc-eslint-parser'
-import rule from './migrate'
-import type { TestCase } from '#test'
 import { run } from '#test'
+import jsonParser from 'jsonc-eslint-parser'
+import type { TestCase } from '#test'
+import rule from './migrate'
 
 const valids = [
   {

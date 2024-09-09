@@ -1,5 +1,5 @@
-import { Linter } from 'eslint'
 import tsParser from '@typescript-eslint/parser'
+import { Linter } from 'eslint'
 
 export function createLinter<T extends unknown[]>(name: string, rule: any) {
   const linter = new Linter({

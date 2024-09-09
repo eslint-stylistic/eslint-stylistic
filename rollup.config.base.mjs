@@ -1,14 +1,14 @@
 // @ts-check
 
-import { basename, dirname, join } from 'node:path'
 import fs from 'node:fs'
+import { basename, dirname, join } from 'node:path'
 import alias from '@rollup/plugin-alias'
-import { defineConfig } from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
-import esbuild from 'rollup-plugin-esbuild'
-import fg from 'fast-glob'
 import resolve from '@rollup/plugin-node-resolve'
+import fg from 'fast-glob'
+import { defineConfig } from 'rollup'
 import dts from 'rollup-plugin-dts'
+import esbuild from 'rollup-plugin-esbuild'
 import { aliasVirtual } from './alias.mjs'
 
 export function aliasPlugin() {

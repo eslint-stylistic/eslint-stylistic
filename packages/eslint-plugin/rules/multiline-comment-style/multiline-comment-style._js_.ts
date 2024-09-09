@@ -3,10 +3,10 @@
  * @author Teddy Katz
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { Token, Tree } from '#types'
-import { createRule } from '#utils/create-rule'
 import { COMMENTS_IGNORE_PATTERN, LINEBREAK_MATCHER } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
+import type { Token, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'multiline-comment-style',
@@ -133,9 +133,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns An array of the processed lines.
      */
     function processStarredBlockComment(comment: Token): string[] {
-      const lines = comment.value.split(LINEBREAK_MATCHER)
-        .filter((line, i, linesArr) => !(i === 0 || i === linesArr.length - 1))
-        .map(line => line.replace(/^\s*$/u, ''))
+      const lines = comment.value.split(LINEBREAK_MATCHER).filter((line, i, linesArr) => !(i === 0 || i === linesArr.length - 1)).map(line => line.replace(/^\s*$/u, ''))
       const allLinesHaveLeadingSpace = lines
         .map(line => line.replace(/\s*\*/u, ''))
         .filter(line => line.trim().length)

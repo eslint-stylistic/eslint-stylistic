@@ -1,8 +1,8 @@
 // this rule tests new lines which prettier tries to fix, breaking the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import rule from '.'
 import { $, run } from '#test'
+import rule from '.'
 
 run({
   name: 'padding-line-between-statements',

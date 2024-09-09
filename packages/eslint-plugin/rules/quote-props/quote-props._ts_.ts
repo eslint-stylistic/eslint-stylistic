@@ -1,9 +1,9 @@
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-
-import type { MessageIds, RuleOptions } from './types'
-import _baseRule from './quote-props._js_'
 import { castRuleModule, createRule } from '#utils/create-rule'
+
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import type { Tree } from '#types'
+import _baseRule from './quote-props._js_'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 

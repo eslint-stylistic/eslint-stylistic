@@ -3,8 +3,8 @@
  * @author Gyandeep Singh
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 const validShebangProgram = '#!/path/to/node\nvar a = 3;'
 

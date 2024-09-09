@@ -3,10 +3,10 @@
  * @author Vignesh Anand aka vegetableman.
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
-import type { ASTNode, Token, Tree } from '#types'
 import { isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isCommaToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode, Token, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types._js_'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'comma-spacing',

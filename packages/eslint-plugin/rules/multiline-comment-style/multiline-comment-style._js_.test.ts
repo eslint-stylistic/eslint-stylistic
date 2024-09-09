@@ -2,8 +2,8 @@
  * @fileoverview enforce a particular style for multiline comments
  * @author Teddy Katz
  */
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'multiline-comment-style',

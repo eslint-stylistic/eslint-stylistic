@@ -2,15 +2,15 @@
  * @fileoverview Scripts to update metadata and types.
  */
 
-import { basename, join } from 'node:path'
 import { existsSync } from 'node:fs'
+import { basename, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import fg from 'fast-glob'
 
-import type { PackageInfo } from '../packages/metadata/src/types'
+import { RULE_ALIAS, RULE_ORIGINAL_ID_MAP } from './update/meta'
 import { generateDtsFromSchema } from './update/schema-to-ts'
 import { generateConfigs, generateMetadata, resolveAlias, rulesInSharedConfig, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
-import { RULE_ALIAS, RULE_ORIGINAL_ID_MAP } from './update/meta'
+import type { PackageInfo } from '../packages/metadata/src/types'
 
 async function readPackages() {
   const RULES_DIR = './packages/eslint-plugin/rules/'

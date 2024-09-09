@@ -2,9 +2,9 @@
  * @fileoverview Tests for func-call-spacing rule.
  * @author Matt DuVall <http://www.mattduvall.com>
  */
+import { run } from '#test'
 // TODO: Stage 2: Test merged rule
 import rule from './function-call-spacing._js_'
-import { run } from '#test'
 
 run({
   name: 'function-call-spacing',

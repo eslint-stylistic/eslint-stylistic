@@ -3,10 +3,10 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
+import { run } from '#test'
+import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 // TODO: Stage 2: Test merged rule
 import rule from './space-before-function-paren._js_'
-import { languageOptionsForBabelFlow } from '#test/parsers-flow'
-import { run } from '#test'
 
 run({
   name: 'space-before-function-paren',

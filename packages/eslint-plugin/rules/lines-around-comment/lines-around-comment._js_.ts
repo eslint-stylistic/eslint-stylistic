@@ -3,10 +3,10 @@
  * @author Jamund Ferguson
  */
 
-import type { MessageIds, RuleOptions } from './types._ts_'
-import type { ASTNode, NodeTypes, Token } from '#types'
 import { COMMENTS_IGNORE_PATTERN, isCommentToken, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode, NodeTypes, Token } from '#types'
+import type { MessageIds, RuleOptions } from './types._ts_'
 
 /**
  * Return an array with any line numbers that are empty.

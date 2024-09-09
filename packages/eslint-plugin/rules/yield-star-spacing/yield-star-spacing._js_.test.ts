@@ -3,8 +3,8 @@
  * @author Bryan Smith
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 const missingBeforeError = { messageId: 'missingBefore', type: 'Punctuator' }
 const missingAfterError = { messageId: 'missingAfter', type: 'Punctuator' }

@@ -3,10 +3,10 @@
  * @author Michael Ficarra
  */
 
+import { $, run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 // TODO: Stage 2: Test merged rule
 import rule from './no-extra-parens._js_'
-import { $, run } from '#test'
 
 /**
  * Create error message object for failure cases
@@ -2401,11 +2401,9 @@ run({
     {
       code: 'for (let a = ((b in c) && (d in e)); ;);',
       output: 'for (let a = (b in c && d in e); ;);',
-      errors: Array(2).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 2 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for (let a = ((b in c) in d); ;);',
@@ -2860,11 +2858,9 @@ run({
     {
       code: 'for (let a = !((b in c) && (d in e)); ;);',
       output: 'for (let a = !(b in c && d in e); ;);',
-      errors: Array(2).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 2 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for (let a = (x && (b in c)), d = () => { for ((e in f); ;); for ((g in h); ;); }; ;); for((i in j); ;);',
@@ -2905,139 +2901,109 @@ run({
     {
       code: 'for (let a = (x && (b in c)), d = () => { for ((e in f); ;); for ((y && (g in h)); ;); }; ;); for((i in j); ;);',
       output: 'for (let a = (x && b in c), d = () => { for ((e in f); ;); for ((y && g in h); ;); }; ;); for((i in j); ;);',
-      errors: Array(2).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 2 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for (let a = (x && (b in c)), d = () => { for ((y && (e in f)); ;); for ((z && (g in h)); ;); }; ;); for((w && (i in j)); ;);',
       output: 'for (let a = (x && b in c), d = () => { for ((y && e in f); ;); for ((z && g in h); ;); }; ;); for((w && i in j); ;);',
-      errors: Array(4).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 4 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
 
     // https://github.com/eslint/eslint/issues/11706 regression tests (also in valid[])
     {
       code: 'for (let a = (b); a > (b); a = (b)) a = (b); a = (b);',
       output: 'for (let a = b; a > b; a = b) a = b; a = b;',
-      errors: Array(5).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 5 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for ((a = b); (a > b); (a = b)) (a = b); (a = b);',
       output: 'for (a = b; a > b; a = b) a = b; a = b;',
-      errors: Array(5).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 5 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for (let a = b; a > (b); a = (b)) a = (b); a = (b);',
       output: 'for (let a = b; a > b; a = b) a = b; a = b;',
-      errors: Array(4).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 4 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for (let a = b; (a > b); (a = b)) (a = b); (a = b);',
       output: 'for (let a = b; a > b; a = b) a = b; a = b;',
-      errors: Array(4).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 4 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for (; a > (b); a = (b)) a = (b); a = (b);',
       output: 'for (; a > b; a = b) a = b; a = b;',
-      errors: Array(4).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 4 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for (; (a > b); (a = b)) (a = b); (a = b);',
       output: 'for (; a > b; a = b) a = b; a = b;',
-      errors: Array(4).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 4 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for (let a = (b); a = (b in c); a = (b in c)) a = (b in c); a = (b in c);',
       output: 'for (let a = b; a = b in c; a = b in c) a = b in c; a = b in c;',
-      errors: Array(5).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 5 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for (let a = (b); (a in b); (a in b)) (a in b); (a in b);',
       output: 'for (let a = b; a in b; a in b) a in b; a in b;',
-      errors: Array(5).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 5 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for (let a = b; a = (b in c); a = (b in c)) a = (b in c); a = (b in c);',
       output: 'for (let a = b; a = b in c; a = b in c) a = b in c; a = b in c;',
-      errors: Array(4).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 4 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for (let a = b; (a in b); (a in b)) (a in b); (a in b);',
       output: 'for (let a = b; a in b; a in b) a in b; a in b;',
-      errors: Array(4).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 4 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for (; a = (b in c); a = (b in c)) a = (b in c); a = (b in c);',
       output: 'for (; a = b in c; a = b in c) a = b in c; a = b in c;',
-      errors: Array(4).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 4 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for (; (a in b); (a in b)) (a in b); (a in b);',
       output: 'for (; a in b; a in b) a in b; a in b;',
-      errors: Array(4).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 4 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
     {
       code: 'for (let a = (b + c), d = () => { for ((e + f); ;); for ((g + h); ;); }; ;); for((i + j); ;);',
       output: 'for (let a = b + c, d = () => { for (e + f; ;); for (g + h; ;); }; ;); for(i + j; ;);',
-      errors: Array(4).fill(
-        {
-          messageId: 'unexpected',
-        },
-      ),
+      errors: Array.from({ length: 4 }, _ => ({
+        messageId: 'unexpected',
+      })),
     },
 
     // import expressions

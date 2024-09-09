@@ -6,10 +6,10 @@
  * @author Gyandeep Singh
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { ASTNode, JSONSchema, NodeTypes, ReportFixFunction, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
-import { STATEMENT_LIST_PARENTS, createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
+import { createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode, JSONSchema, NodeTypes, ReportFixFunction, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 const KNOWN_NODES: Set<NodeTypes> = new Set([
   'AssignmentExpression',
@@ -128,7 +128,7 @@ class IndexMap<T = any> {
    */
   constructor(maxKey: number) {
     // Initializing the array with the maximum expected size avoids dynamic reallocations that could degrade performance.
-    this._values = Array(maxKey + 1)
+    this._values = new Array(maxKey + 1)
   }
 
   /**
@@ -1766,7 +1766,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     const indentChar = indentType === 'space' ? ' ' : '\t'
     function getFixerFunction(node: Tree.Literal | Tree.JSXText, needed: number): ReportFixFunction {
-      const indent = Array(needed + 1).join(indentChar)
+      const indent = new Array(needed + 1).join(indentChar)
 
       return function fix(fixer) {
         const regExp = /\n[\t ]*(\S)/g

@@ -1,6 +1,6 @@
-import type { MessageIds, RuleOptions } from './types'
-import _baseRule from './object-curly-newline._js_'
 import { castRuleModule, createRule } from '#utils/create-rule'
+import _baseRule from './object-curly-newline._js_'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 

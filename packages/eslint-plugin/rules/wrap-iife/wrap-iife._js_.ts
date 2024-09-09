@@ -3,10 +3,10 @@
  * @author Ilya Volodin
  */
 
-import type { MessageIds, RuleOptions } from './types'
 import { getStaticPropertyName, isParenthesised, isParenthesized, skipChainExpression } from '#utils/ast'
-import type { ASTNode, Tree } from '#types'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 /**
  * Check if the given node is callee of a `NewExpression` node

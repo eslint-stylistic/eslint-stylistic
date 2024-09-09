@@ -68,7 +68,6 @@
     "eslint": ">=8.40.0"
   },
   "dependencies": {
-    "@types/eslint": "catalog:",
     "@typescript-eslint/utils": "catalog:",
     "eslint-visitor-keys": "catalog:",
     "espree": "catalog:"

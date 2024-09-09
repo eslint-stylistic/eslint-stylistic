@@ -3,8 +3,8 @@
  * @author Jonathan Rajavuori
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'space-in-parens',

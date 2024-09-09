@@ -3,10 +3,10 @@
  * @author Greg Cochard
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { Tree } from '#types'
 import { isDecimalIntegerNumericToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'dot-location',

@@ -3,10 +3,10 @@
  * @author Jxck
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { Token, Tree } from '#types'
 import { isArrowToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { Token, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'arrow-spacing',

@@ -3,11 +3,11 @@
  * @author Yannick Croissant
  */
 
-import semver from 'semver'
-import { version as eslintVersion } from 'eslint/package.json'
-import rule from './jsx-indent._jsx_'
-import { invalids, skipDueToMultiErrorSorting, valids } from '#test/parsers-jsx'
 import { run } from '#test'
+import { invalids, skipDueToMultiErrorSorting, valids } from '#test/parsers-jsx'
+import { version as eslintVersion } from 'eslint/package.json'
+import semver from 'semver'
+import rule from './jsx-indent._jsx_'
 
 run({
   name: 'jsx-indent',

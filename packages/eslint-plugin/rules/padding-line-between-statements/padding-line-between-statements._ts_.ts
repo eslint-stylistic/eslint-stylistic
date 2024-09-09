@@ -1,4 +1,4 @@
-import type { TSESLint } from '@typescript-eslint/utils'
+import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 import {
@@ -10,7 +10,7 @@ import {
   isTokenOnSameLine,
 } from '@typescript-eslint/utils/ast-utils'
 import type { ASTNode, Tree } from '#types'
-import { createRule } from '#utils/create-rule'
+import type { TSESLint } from '@typescript-eslint/utils'
 
 const CJS_EXPORT = /^(?:module\s*\.\s*)?exports(?:\s*\.|\s*\[|$)/u
 const CJS_IMPORT = /^require\(/u
@@ -410,7 +410,8 @@ function verifyForNever(
       const end = nextToken.range[0]
       const text = context
         .getSourceCode()
-        .text.slice(start, end)
+        .text
+        .slice(start, end)
         .replace(PADDING_LINE_SEQUENCE, replacerToRemovePaddingLines)
 
       return fixer.replaceTextRange([start, end], text)

@@ -3,9 +3,9 @@
  * @author Toru Nagashima
  */
 
+import { $, run } from '#test'
 // TODO: Stage 2: Test merged rule
 import rule from './padding-line-between-statements._js_'
-import { $, run } from '#test'
 
 run({
   name: 'padding-line-between-statements',

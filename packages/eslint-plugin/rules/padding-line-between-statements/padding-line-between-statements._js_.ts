@@ -3,10 +3,10 @@
  * @author Toru Nagashima
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
-import type { ASTNode, RuleContext, SourceCode, Tree } from '#types'
-import { LINEBREAKS, STATEMENT_LIST_PARENTS, isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression } from '#utils/ast'
+import { isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, LINEBREAKS, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode, RuleContext, SourceCode, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types._js_'
 
 const LT = `[${Array.from(LINEBREAKS).join('')}]`
 const PADDING_LINE_SEQUENCE = new RegExp(
@@ -199,9 +199,7 @@ function verifyForNever(context: Context, _: ASTNode, nextNode: ASTNode, padding
       const nextToken = paddingLines[0][1]
       const start = prevToken.range[1]
       const end = nextToken.range[0]
-      const text = context.sourceCode.text
-        .slice(start, end)
-        .replace(PADDING_LINE_SEQUENCE, replacerToRemovePaddingLines)
+      const text = context.sourceCode.text.slice(start, end).replace(PADDING_LINE_SEQUENCE, replacerToRemovePaddingLines)
 
       return fixer.replaceTextRange([start, end], text)
     },

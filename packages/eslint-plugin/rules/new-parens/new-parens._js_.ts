@@ -3,9 +3,9 @@
  * @author Ilya Volodin
  */
 
-import type { MessageIds, RuleOptions } from './types'
 import { isClosingParenToken, isOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'new-parens',

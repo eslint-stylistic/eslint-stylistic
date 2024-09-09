@@ -3,9 +3,9 @@
  * @author Yannick Croissant
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { ReportDescriptor, RuleContext, Tree } from '#types'
 import { createRule } from '#utils/create-rule'
+import type { ReportDescriptor, RuleContext, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 function getPropName(context: RuleContext<MessageIds, RuleOptions>, propNode: Tree.JSXAttribute | Tree.JSXSpreadAttribute) {
   if (propNode.type === 'JSXSpreadAttribute')

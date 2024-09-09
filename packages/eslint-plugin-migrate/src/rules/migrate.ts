@@ -1,6 +1,6 @@
 import { packages } from '@eslint-stylistic/metadata'
-import type { MigrationOption } from '../shared'
 import { createEslintRule, createRuleListener } from '../shared'
+import type { MigrationOption } from '../shared'
 
 const ts = packages.find(p => p.shortId === 'ts')!
 const js = packages.find(p => p.shortId === 'js')!

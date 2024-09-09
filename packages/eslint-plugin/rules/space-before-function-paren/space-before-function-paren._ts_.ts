@@ -1,9 +1,9 @@
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-
-import { isOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
-import type { MessageIds, RuleOptions } from './types._ts_'
 import { createRule } from '#utils/create-rule'
+
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import { isOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
 import type { Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types._ts_'
 
 type FuncOption = 'always' | 'never' | 'ignore'
 

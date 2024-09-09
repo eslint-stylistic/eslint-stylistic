@@ -3,8 +3,8 @@
  * @author Jxck <https://github.com/Jxck>
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'no-confusing-arrow',

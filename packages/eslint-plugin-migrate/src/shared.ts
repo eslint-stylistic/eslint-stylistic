@@ -1,6 +1,6 @@
 import { ESLintUtils } from '@typescript-eslint/utils'
-import type { RuleContext, RuleListener } from '@typescript-eslint/utils/ts-eslint'
 import type { RuleInfo } from '@eslint-stylistic/metadata'
+import type { RuleContext, RuleListener } from '@typescript-eslint/utils/ts-eslint'
 
 export const createEslintRule = ESLintUtils.RuleCreator(
   ruleName => ruleName,

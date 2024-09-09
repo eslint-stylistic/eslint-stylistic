@@ -1,5 +1,5 @@
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'function-call-argument-newline',

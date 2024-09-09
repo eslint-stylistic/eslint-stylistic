@@ -3,10 +3,10 @@
  * @author Riri
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { ASTNode, RuleContext, Tree } from '#types'
 import { isJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode, RuleContext, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
   missingLineBreak: 'Missing line break around JSX',

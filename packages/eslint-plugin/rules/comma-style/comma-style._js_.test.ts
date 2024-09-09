@@ -3,8 +3,8 @@
  * @author Vignesh Anand aka vegetableman
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'comma-style',

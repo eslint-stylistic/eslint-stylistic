@@ -1,6 +1,6 @@
+import { $, createLinter, run } from '#test'
 import { expect, it } from 'vitest'
 import rule from './indent-binary-ops._plus_'
-import { $, createLinter, run } from '#test'
 
 run({
   name: 'indent-binary-ops',

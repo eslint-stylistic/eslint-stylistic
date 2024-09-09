@@ -3,11 +3,11 @@
  * @author Adrian Moennich
  */
 
-import semver from 'semver'
-import eslintPkg from 'eslint/package.json'
-import rule from './jsx-props-no-multi-spaces._jsx_'
-import { invalids, valids } from '#test/parsers-jsx'
 import { run } from '#test'
+import { invalids, valids } from '#test/parsers-jsx'
+import eslintPkg from 'eslint/package.json'
+import semver from 'semver'
+import rule from './jsx-props-no-multi-spaces._jsx_'
 
 run({
   name: 'jsx-props-no-multi-spaces',

@@ -3,8 +3,8 @@
  * @author Kai Cataldo
  */
 
-import rule from '.'
 import { $, run } from '#test'
+import rule from '.'
 
 run({
   name: 'multiline-ternary',

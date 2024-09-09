@@ -33,6 +33,8 @@ export default antfu(
       'ts/no-require-import': 'off',
       'ts/no-require-imports': 'off',
       'ts/no-var-requires': 'off',
+      'unicorn/consistent-function-scoping': 'off',
+      'unicorn/no-new-array': 'off',
       'unicorn/prefer-number-properties': 'off',
     },
   },
