@@ -62,6 +62,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (tokenOperator.range[0] <= right.parent!.range[0])
           return
       }
+      const tokenBeforeAll = sourceCode.getTokenBefore(node)
       const tokenLeft = sourceCode.getTokenBefore(tokenOperator)!
 
       const isMultiline = tokenRight.loc.start.line !== tokenLeft.loc.start.line
@@ -73,9 +74,16 @@ export default createRule<RuleOptions, MessageIds>({
       //   we bump the indentation level by one.
       const firstTokenOfLineLeft = firstTokenOfLine(tokenLeft.loc.start.line)
       const lastTokenOfLineLeft = lastTokenOfLine(tokenLeft.loc.start.line)
-      const needAdditionIndent = (firstTokenOfLineLeft?.type === 'Keyword' && !['typeof', 'instanceof', 'this'].includes(firstTokenOfLineLeft.value))
+      const needAdditionIndent = false
+        // First line is a keyword (but exclude `typeof`, `instanceof`, `this`)
+        || (firstTokenOfLineLeft?.type === 'Keyword' && !['typeof', 'instanceof', 'this'].includes(firstTokenOfLineLeft.value))
+        // First line is a `type` keyword in a type alias declaration
         || (firstTokenOfLineLeft?.type === 'Identifier' && firstTokenOfLineLeft.value === 'type' && node.parent?.type === 'TSTypeAliasDeclaration')
+        // End of line is a opening bracket
         || [':', '[', '(', '<', '='].includes(lastTokenOfLineLeft?.value || '')
+        // Before the left token is a opening bracket
+        || (['[', '(', '=>', ':'].includes(tokenBeforeAll?.value || '') && firstTokenOfLineLeft?.loc.start.line === tokenBeforeAll?.loc.start.line)
+        // Chain of `||` or `&&` operators
         || (['||', '&&'].includes(lastTokenOfLineLeft?.value || '') && node.loc.start.line === tokenLeft.loc.start.line && node.loc.start.column !== getIndentOfLine(node.loc.start.line).length)
 
       const indentTarget = getIndentOfLine(tokenLeft.loc.start.line) + (needAdditionIndent ? indentStr : '')
