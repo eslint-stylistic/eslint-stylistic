@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: nZ3S6j3EOJ */
+/* @checksum: nOU8UGw880 */
 
 export type SpaceBeforeFunctionParenSchema0 =
   | ('always' | 'never')
@@ -16,4 +16,4 @@ export type SpaceBeforeFunctionParenRuleOptions = [
 
 export type RuleOptions =
   SpaceBeforeFunctionParenRuleOptions
-export type MessageIds = 'unexpected' | 'missing'
+export type MessageIds = 'unexpectedSpace' | 'missingSpace'
