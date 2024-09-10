@@ -80,7 +80,8 @@ export default createRule<RuleOptions, MessageIds>({
       }
 
       if (
-        node.arguments.length === 1
+        node.typeArguments
+        && node.arguments.length === 1
         // is there any opening parenthesis in type arguments
         && sourceCode.getTokenAfter(node.callee, isOpeningParenToken)
         !== sourceCode.getTokenBefore(node.arguments[0], isOpeningParenToken)
@@ -119,20 +120,13 @@ export default createRule<RuleOptions, MessageIds>({
 
     const overrides: TSESLint.RuleListener = {
       ArrayExpression(node) {
-        node.elements.forEach((element, index) => {
-          if (isTypeAssertion(element)) {
-            return rules.ArrayExpression!({
-              ...node,
-              elements: [
-                ...node.elements.slice(0, index),
-                {
-                  ...element,
-                  type: AST_NODE_TYPES.FunctionExpression as any,
-                },
-                ...node.elements.slice(index + 1),
-              ],
-            })
-          }
+        return rules.ArrayExpression!({
+          ...node,
+          elements: node.elements.map(element =>
+            isTypeAssertion(element)
+              ? { ...element, type: AST_NODE_TYPES.FunctionExpression as any }
+              : element,
+          ),
         })
       },
       ArrowFunctionExpression(node) {
@@ -284,7 +278,12 @@ export default createRule<RuleOptions, MessageIds>({
           return rules.ThrowStatement!(node)
       },
       'UnaryExpression': unaryUpdateExpression,
-      'UpdateExpression': unaryUpdateExpression,
+      UpdateExpression(node) {
+        if (isTypeAssertion(node)) {
+          return unaryUpdateExpression(node)
+        }
+        return rules.UpdateExpression!(node)
+      },
       // VariableDeclarator
       VariableDeclarator(node) {
         if (isTypeAssertion(node.init)) {
