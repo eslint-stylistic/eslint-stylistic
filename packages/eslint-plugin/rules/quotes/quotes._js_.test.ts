@@ -3,8 +3,8 @@
  * @author Matt DuVall <http://www.mattduvall.com/>, Michael Paulukonis
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'quotes',

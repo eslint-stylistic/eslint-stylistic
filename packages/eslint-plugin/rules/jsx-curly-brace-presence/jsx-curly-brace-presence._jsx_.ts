@@ -4,10 +4,10 @@
  * @author Simon Lydell
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { Tree } from '#types'
-import { createRule } from '#utils/create-rule'
 import { isJSX, isWhiteSpaces } from '#utils/ast/jsx'
+import { createRule } from '#utils/create-rule'
+import type { Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 const OPTION_ALWAYS = 'always'
 const OPTION_NEVER = 'never'
@@ -332,10 +332,11 @@ export default createRule<RuleOptions, MessageIds>({
 
       if (
         parent.type && parent.type === 'JSXAttribute'
-        && (node.expression && node.expression.type
-        && node.expression.type !== 'Literal'
-        && node.expression.type !== 'StringLiteral' as any // StringLiteral extends Literal, so ts think it's the same type
-        && node.expression.type !== 'TemplateLiteral')
+        && (node.expression
+          && node.expression.type
+          && node.expression.type !== 'Literal'
+          && node.expression.type !== 'StringLiteral' as any // StringLiteral extends Literal, so ts think it's the same type
+          && node.expression.type !== 'TemplateLiteral')
       ) {
         return false
       }

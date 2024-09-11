@@ -3,8 +3,8 @@
  * @author Jamund Ferguson
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'computed-property-spacing',

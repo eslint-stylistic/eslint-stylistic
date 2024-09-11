@@ -3,9 +3,9 @@
  * @author ryym
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { Token } from '#types'
 import { createRule } from '#utils/create-rule'
+import type { Token } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
   noSpaceBefore: 'There should be no space before \'=\'',

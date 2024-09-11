@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: HEz0tEmFXe */
+/* @checksum: LcEkMg91dp */
 
 export interface TypeAnnotationSpacingSchema0 {
   before?: boolean
@@ -12,7 +12,6 @@ export interface TypeAnnotationSpacingSchema0 {
     parameter?: SpacingConfig
     property?: SpacingConfig
     returnType?: SpacingConfig
-    operator?: SpacingConfig
   }
 }
 export interface SpacingConfig {

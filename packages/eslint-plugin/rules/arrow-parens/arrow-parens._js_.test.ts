@@ -3,10 +3,10 @@
  * @author Jxck
  */
 
-import rule from '.'
+import { $, run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import type { InvalidTestCase, ValidTestCase } from '#test'
-import { $, run } from '#test'
+import rule from '.'
 
 const valid: ValidTestCase[] = [
   // "always" (by default)

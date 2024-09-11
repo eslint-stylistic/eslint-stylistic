@@ -1,14 +1,14 @@
+import { existsSync } from 'node:fs'
 import { basename, join, relative, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
-import { existsSync } from 'node:fs'
-import fs from 'fs-extra'
-import fg from 'fast-glob'
 import { pascalCase } from 'change-case'
+import fg from 'fast-glob'
+import fs from 'fs-extra'
 
 // @ts-expect-error https://github.com/privatenumber/tsx/issues/38
 import config from '../../packages/eslint-plugin/configs/customize'
-import type { PackageInfo, RuleInfo } from '../../packages/metadata/src/types'
 import { GEN_HEADER, ROOT, RULE_ALIAS, RULE_ORIGINAL_ID_MAP } from './meta'
+import type { PackageInfo, RuleInfo } from '../../packages/metadata/src/types'
 
 export const rulesInSharedConfig = new Set<string>(Object.keys(config.customize().rules))
 
@@ -90,11 +90,12 @@ export async function writeRulesIndex(pkg: PackageInfo) {
 
   const index = [
     GEN_HEADER,
-    'import type { Rules } from \'../dts\'',
     '',
     ...pkg.rules
       .filter(i => !(i.name in RULE_ALIAS))
       .map(i => `import ${camelCase(i.name)} from './${i.name}/${pkg.shortId === 'default' ? 'index' : i.name}'`),
+    '',
+    'import type { Rules } from \'../dts\'',
     '',
     'export default {',
     ...pkg.rules.map(i => `  '${i.name}': ${camelCase(resolveAlias(i.name))},`),

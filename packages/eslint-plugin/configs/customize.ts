@@ -1,9 +1,9 @@
 /* eslint perfectionist/sort-objects: "error" */
 
 import type { Linter } from 'eslint'
-import type { RuleOptions } from '../dts/rule-options'
 import plugin from '../src/plugin'
 import type { StylisticCustomizeOptions } from '../dts/options'
+import type { RuleOptions } from '../dts/rule-options'
 
 type Rules = Partial<{
   [K in keyof RuleOptions]: Linter.RuleSeverity | [Linter.RuleSeverity, ...RuleOptions[K]]

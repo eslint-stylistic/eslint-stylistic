@@ -1,7 +1,7 @@
-import type * as ESTree from 'estree'
-import type ESTraverse from 'estraverse'
 import { traverse as _traverse } from 'estraverse'
 import type { ASTNode, ESNode } from '#types'
+import type ESTraverse from 'estraverse'
+import type * as ESTree from 'estree'
 
 /**
  * Wrapper for estraverse.traverse

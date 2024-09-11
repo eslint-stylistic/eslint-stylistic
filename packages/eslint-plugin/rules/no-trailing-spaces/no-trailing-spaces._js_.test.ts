@@ -2,8 +2,8 @@
  * @fileoverview Disallow trailing spaces at the end of lines.
  * @author Nodeca Team <https://github.com/nodeca>
  */
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 run({
   name: 'no-trailing-spaces',

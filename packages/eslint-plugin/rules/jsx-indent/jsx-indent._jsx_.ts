@@ -30,11 +30,11 @@
  THE SOFTWARE.
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { ASTNode, ReportFixFunction, Token, Tree } from '#types'
 import { getFirstNodeInLine, isNodeFirstInLine } from '#utils/ast'
 import { isJSX, isReturningJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode, ReportFixFunction, Token, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
@@ -111,7 +111,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function getFixerFunction(node: ASTNode, needed: number): ReportFixFunction {
-      const indent = Array(needed + 1).join(indentChar)
+      const indent = new Array(needed + 1).join(indentChar)
 
       if (node.type === 'JSXText' || node.type === 'Literal') {
         return function fix(fixer) {

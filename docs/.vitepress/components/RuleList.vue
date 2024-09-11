@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { packages } from '@eslint-stylistic/metadata'
-import { computed, markRaw, onMounted, ref, watch } from 'vue'
 import Fuse from 'fuse.js'
+import { computed, markRaw, onMounted, ref, watch } from 'vue'
 
 const props = defineProps<{
   package: string

@@ -1,14 +1,14 @@
+import { castRuleModule, createRule } from '#utils/create-rule'
+import { getStringLength } from '#utils/string'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import {
   isClosingBracketToken,
   isColonToken,
 } from '@typescript-eslint/utils/ast-utils'
-import type { MessageIds, RuleOptions } from './types'
-import _baseRule from './key-spacing._js_'
-import { castRuleModule, createRule } from '#utils/create-rule'
 import type { ASTNode, Tree } from '#types'
+import _baseRule from './key-spacing._js_'
 
-import { getStringLength } from '#utils/string'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
@@ -85,9 +85,9 @@ export default createRule<RuleOptions, MessageIds>({
     ): node is KeyTypeNodeWithTypeAnnotation {
       return (
         (node.type === AST_NODE_TYPES.TSPropertySignature
-        || node.type === AST_NODE_TYPES.TSIndexSignature
-        || node.type === AST_NODE_TYPES.PropertyDefinition)
-        && !!node.typeAnnotation
+          || node.type === AST_NODE_TYPES.TSIndexSignature
+          || node.type === AST_NODE_TYPES.PropertyDefinition)
+          && !!node.typeAnnotation
       )
     }
 
@@ -286,9 +286,9 @@ export default createRule<RuleOptions, MessageIds>({
             align === 'colon'
               ? keyEnd + expectedWhitespaceBeforeColon
               : keyEnd
-              + ':'.length
-              + expectedWhitespaceAfterColon
-              + expectedWhitespaceBeforeColon,
+                + ':'.length
+                + expectedWhitespaceAfterColon
+                + expectedWhitespaceBeforeColon,
           )
         }
       }

@@ -30,10 +30,10 @@
  THE SOFTWARE.
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { ASTNode } from '#types'
 import { isNodeFirstInLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
@@ -187,7 +187,7 @@ export default createRule<RuleOptions, MessageIds>({
                   node.range[0] - node.loc.start.column,
                   node.range[0],
                 ],
-                Array(nestedIndent + 1).join(indentType === 'space' ? ' ' : '\t'),
+                new Array(nestedIndent + 1).join(indentType === 'space' ? ' ' : '\t'),
               )
             },
           })

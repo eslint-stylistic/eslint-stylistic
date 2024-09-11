@@ -3,9 +3,9 @@
  * @author Jamund Ferguson
  */
 
-import rule from '.'
-import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import { run } from '#test'
+import { languageOptionsForBabelFlow } from '#test/parsers-flow'
+import rule from '.'
 
 run({
   name: 'object-curly-spacing',

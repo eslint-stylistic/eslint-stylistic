@@ -3,9 +3,9 @@
  * @author Teddy Katz
  */
 
+import { $, run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from '.'
-import { $, run } from '#test'
 
 const LEFT_MISSING_ERROR = { messageId: 'expectedAfter', type: 'Punctuator' }
 const LEFT_UNEXPECTED_ERROR = { messageId: 'unexpectedAfter', type: 'Punctuator' }

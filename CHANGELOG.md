@@ -1,5 +1,24 @@
 # Changelog
 
+## [2.8.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.7.2...v2.8.0) (2024-09-09)
+
+
+### Features
+
+* **indent:** indention inside TemplateLiteral always start at level one ([#528](https://github.com/eslint-stylistic/eslint-stylistic/issues/528)) ([d2f92c0](https://github.com/eslint-stylistic/eslint-stylistic/commit/d2f92c0a04292b05ddbc785c7803be8f94935f80))
+* remove `@types/eslint` ([5ea3d6a](https://github.com/eslint-stylistic/eslint-stylistic/commit/5ea3d6ac78ffd269a14bb86b848b1b4a3c8ca1d1))
+
+
+### Bug Fixes
+
+* **indent-binary-ops:** improve nested handling, close [#530](https://github.com/eslint-stylistic/eslint-stylistic/issues/530) ([af1c21a](https://github.com/eslint-stylistic/eslint-stylistic/commit/af1c21a4666e3a3d927c05f5f977a37c1477640a))
+* move spacing rules about `as` and `satisfies` from `type-annontation-spacing` to `keyword-spacing` ([#535](https://github.com/eslint-stylistic/eslint-stylistic/issues/535)) ([b89ae5e](https://github.com/eslint-stylistic/eslint-stylistic/commit/b89ae5e8f588fc68d59df7c5d7a14559d878c331))
+
+
+### Documentation
+
+* redirect rule docs, close [#532](https://github.com/eslint-stylistic/eslint-stylistic/issues/532) ([7b92cfd](https://github.com/eslint-stylistic/eslint-stylistic/commit/7b92cfd6f9de8deeef646112254addabaf54f4d5))
+
 ## [2.7.2](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.7.1...v2.7.2) (2024-08-30)
 
 

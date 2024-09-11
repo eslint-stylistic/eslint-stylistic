@@ -3,9 +3,9 @@
  * @author Alan Pierce
  */
 
+import type { ASTNode, ESToken, RuleFixer, SourceCode, Token, Tree } from '#types'
 import type { AST } from 'eslint'
 import { getUpperFunction } from './ast'
-import type { ASTNode, ESToken, RuleFixer, SourceCode, Token, Tree } from '#types'
 
 /**
  * A helper class to combine fix options into a fix command. Currently, it

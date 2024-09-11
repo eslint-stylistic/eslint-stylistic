@@ -3,8 +3,8 @@
  * @author Ilya Volodin
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 const wrapInvocationError = { messageId: 'wrapInvocation', type: 'CallExpression' }
 const wrapExpressionError = { messageId: 'wrapExpression', type: 'CallExpression' }

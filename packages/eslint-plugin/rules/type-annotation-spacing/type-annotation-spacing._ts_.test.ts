@@ -1,9 +1,9 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import rule from '.'
-import type { InvalidTestCase, ValidTestCase } from '#test'
 import { run } from '#test'
+import type { InvalidTestCase, ValidTestCase } from '#test'
+import rule from '.'
 
 run({
   name: 'type-annotation-spacing',
@@ -1170,74 +1170,6 @@ interface Foo {
     },
     // https://github.com/typescript-eslint/typescript-eslint/issues/1663
     'type ConstructorFn = new (...args: any[]) => any;',
-    'const a = {} as {}',
-    'const a = {} satisfies {}',
-    'const disabledRules = Object.fromEntries(pkg.rules.map(i => [i.originalId, 0] as const))',
-    {
-      code: `const a = ''as{}`,
-      options: [
-        {
-          overrides: {
-            operator: {
-              before: false,
-              after: false,
-            },
-          },
-        },
-      ],
-    },
-    {
-      code: `const a = ''as any`,
-      options: [
-        {
-          overrides: {
-            operator: {
-              before: false,
-              after: false,
-            },
-          },
-        },
-      ],
-    },
-    {
-      code: 'const a = 1 as any',
-      options: [
-        {
-          overrides: {
-            operator: {
-              before: false,
-              after: false,
-            },
-          },
-        },
-      ],
-    },
-    {
-      code: 'const a = true as any',
-      options: [
-        {
-          overrides: {
-            operator: {
-              before: false,
-              after: false,
-            },
-          },
-        },
-      ],
-    },
-    {
-      code: 'const a = b as any',
-      options: [
-        {
-          overrides: {
-            operator: {
-              before: false,
-              after: false,
-            },
-          },
-        },
-      ],
-    },
   ],
   invalid: [
     {
@@ -3850,38 +3782,6 @@ type Foo = {
           },
           line: 5,
           column: 59,
-        },
-      ],
-    },
-    {
-      code: `
-const a = {}as {}
-      `,
-      output: `
-const a = {} as {}
-      `,
-      errors: [
-        {
-          messageId: 'expectedSpaceBefore',
-          data: { type: 'as' },
-          line: 2,
-          column: 13,
-        },
-      ],
-    },
-    {
-      code: `
-const a = {}satisfies {}
-      `,
-      output: `
-const a = {} satisfies {}
-      `,
-      errors: [
-        {
-          messageId: 'expectedSpaceBefore',
-          data: { type: 'satisfies' },
-          line: 2,
-          column: 13,
         },
       ],
     },

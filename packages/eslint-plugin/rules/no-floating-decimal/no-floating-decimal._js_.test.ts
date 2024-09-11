@@ -3,8 +3,8 @@
  * @author James Allardice
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 const leadingError = { messageId: 'leading', type: 'Literal' }
 const trailingError = { messageId: 'trailing', type: 'Literal' }

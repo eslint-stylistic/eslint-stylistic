@@ -3,13 +3,13 @@
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
 
+import { isNumericLiteral } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
+import { KEYWORDS_JS } from '#utils/keywords'
 // @ts-expect-error missing types
 import { tokenize } from 'espree'
-import type { MessageIds, RuleOptions } from './types'
 import type { Tree } from '#types'
-import { isNumericLiteral } from '#utils/ast'
-import { KEYWORDS_JS } from '#utils/keywords'
-import { createRule } from '#utils/create-rule'
+import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'quote-props',
@@ -103,7 +103,7 @@ export default createRule<RuleOptions, MessageIds>({
     function areQuotesRedundant(rawKey: string, tokens: any, skipNumberLiterals: boolean = false): boolean {
       return tokens.length === 1 && tokens[0].start === 0 && tokens[0].end === rawKey.length
         && (['Identifier', 'Keyword', 'Null', 'Boolean'].includes(tokens[0].type)
-        || (tokens[0].type === 'Numeric' && !skipNumberLiterals && String(+tokens[0].value) === tokens[0].value))
+          || (tokens[0].type === 'Numeric' && !skipNumberLiterals && String(+tokens[0].value) === tokens[0].value))
     }
 
     /**

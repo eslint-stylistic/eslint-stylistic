@@ -5,11 +5,11 @@
 
 // For better readability on tests involving quotes
 
-import semver from 'semver'
-import eslintPkg from 'eslint/package.json'
-import rule from './jsx-curly-brace-presence._jsx_'
-import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '#test/parsers-jsx'
 import { run } from '#test'
+import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '#test/parsers-jsx'
+import eslintPkg from 'eslint/package.json'
+import semver from 'semver'
+import rule from './jsx-curly-brace-presence._jsx_'
 
 run({
   name: 'jsx-curly-brace-presence',

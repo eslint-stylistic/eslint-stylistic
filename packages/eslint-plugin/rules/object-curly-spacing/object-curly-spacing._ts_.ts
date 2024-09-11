@@ -1,13 +1,13 @@
+import { castRuleModule, createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import {
   isClosingBraceToken,
   isClosingBracketToken,
   isTokenOnSameLine,
 } from '@typescript-eslint/utils/ast-utils'
-import type { MessageIds, RuleOptions } from './types'
-import _baseRule from './object-curly-spacing._js_'
-import { castRuleModule, createRule } from '#utils/create-rule'
 import type { Tree } from '#types'
+import _baseRule from './object-curly-spacing._js_'
+import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
@@ -182,22 +182,22 @@ export default createRule<RuleOptions, MessageIds>({
       if (isTokenOnSameLine(penultimate, last)) {
         const shouldCheckPenultimate
           = (options.arraysInObjectsException
-          && isClosingBracketToken(penultimate))
-          || (options.objectsInObjectsException
-          && isClosingBraceToken(penultimate))
+            && isClosingBracketToken(penultimate))
+            || (options.objectsInObjectsException
+              && isClosingBraceToken(penultimate))
         const penultimateType = shouldCheckPenultimate
           ? sourceCode.getNodeByRangeIndex(penultimate.range[0])!.type
           : undefined
 
         const closingCurlyBraceMustBeSpaced
           = (options.arraysInObjectsException
-          && penultimateType === AST_NODE_TYPES.TSTupleType)
-          || (options.objectsInObjectsException
-          && penultimateType !== undefined
-          && [
-            AST_NODE_TYPES.TSMappedType,
-            AST_NODE_TYPES.TSTypeLiteral,
-          ].includes(penultimateType))
+            && penultimateType === AST_NODE_TYPES.TSTupleType)
+            || (options.objectsInObjectsException
+              && penultimateType !== undefined
+              && [
+                AST_NODE_TYPES.TSMappedType,
+                AST_NODE_TYPES.TSTypeLiteral,
+              ].includes(penultimateType))
             ? !options.spaced
             : options.spaced
 

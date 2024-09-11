@@ -3,9 +3,9 @@
  * @author Michael Ficarra
  */
 
+import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from '.'
-import { run } from '#test'
 
 run({
   name: 'space-infix-ops',

@@ -3,11 +3,11 @@
  * @author Brandon Mills
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { ASTNode, ReportFixFunction, Tree } from '#types'
-import { LINEBREAK_MATCHER, getStaticPropertyName, isColonToken } from '#utils/ast'
+import { getStaticPropertyName, isColonToken, LINEBREAK_MATCHER } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { getStringLength } from '#utils/string'
+import type { ASTNode, ReportFixFunction, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 /**
  * Checks whether a string contains a line terminator as defined in
@@ -339,8 +339,8 @@ export default createRule<RuleOptions, MessageIds>({
     function isKeyValueProperty(property: Tree.ObjectLiteralElement): property is Tree.Property {
       return !(
         (('method' in property && property.method)
-        || ('shorthand' in property && property.shorthand)
-        || ('kind' in property && property.kind !== 'init') || property.type !== 'Property') // Could be "ExperimentalSpreadProperty" or "SpreadElement"
+          || ('shorthand' in property && property.shorthand)
+          || ('kind' in property && property.kind !== 'init') || property.type !== 'Property') // Could be "ExperimentalSpreadProperty" or "SpreadElement"
       )
     }
 
@@ -451,7 +451,7 @@ export default createRule<RuleOptions, MessageIds>({
         const isKeySide = side === 'key'
         const isExtra = diff > 0
         const diffAbs = Math.abs(diff)
-        const spaces = Array(diffAbs + 1).join(' ')
+        const spaces = new Array(diffAbs + 1).join(' ')
 
         const locStart = isKeySide ? tokenBeforeColon.loc.end : nextColon.loc.start
         const locEnd = isKeySide ? nextColon.loc.start : tokenAfterColon.loc.start

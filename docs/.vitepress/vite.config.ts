@@ -1,10 +1,10 @@
-import { fileURLToPath } from 'node:url'
 import { basename, dirname } from 'node:path'
-import type { Plugin } from 'vite'
-import { defineConfig } from 'vite'
+import { fileURLToPath } from 'node:url'
+import graymatter from 'gray-matter'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
-import graymatter from 'gray-matter'
+import { defineConfig } from 'vite'
+import type { Plugin } from 'vite'
 import { packages } from '../../packages/metadata/src'
 
 export default defineConfig({

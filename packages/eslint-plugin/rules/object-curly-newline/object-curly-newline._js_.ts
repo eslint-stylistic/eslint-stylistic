@@ -3,10 +3,10 @@
  * @author Toru Nagashima
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { JSONSchema, Token, Tree } from '#types'
 import { isCommentToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { JSONSchema, Token, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 // Schema objects.
 const OPTION_VALUE: JSONSchema.JSONSchema4 = {
@@ -220,9 +220,9 @@ export default createRule<RuleOptions, MessageIds>({
 
       if (
         (node.type === 'ImportDeclaration'
-        && !node.specifiers.some(specifier => specifier.type === 'ImportSpecifier'))
-        || (node.type === 'ExportNamedDeclaration'
-        && !node.specifiers.some(specifier => specifier.type === 'ExportSpecifier'))
+          && !node.specifiers.some(specifier => specifier.type === 'ImportSpecifier'))
+          || (node.type === 'ExportNamedDeclaration'
+            && !node.specifiers.some(specifier => specifier.type === 'ExportSpecifier'))
       ) {
         return
       }

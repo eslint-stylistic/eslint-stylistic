@@ -1,6 +1,6 @@
+import { $, createLinter, run } from '#test'
 import { expect, it } from 'vitest'
 import rule from './indent-binary-ops._plus_'
-import { $, createLinter, run } from '#test'
 
 run({
   name: 'indent-binary-ops',
@@ -35,6 +35,18 @@ run({
           type === 'srenque'
         ));
     `,
+    $`
+      if (a
+        && b
+        && c
+        && (d
+          || e
+          || f
+        )
+      ) {
+        foo()
+      }
+    `,
   ],
   invalid: [],
 })
@@ -42,7 +54,7 @@ run({
 it('snapshots', async () => {
   const { fix } = createLinter('indent-binary-ops', rule)
 
-  expect(
+  expect.soft(
     fix($`
       if (
         a && (
@@ -64,7 +76,7 @@ it('snapshots', async () => {
   `,
   )
 
-  expect(
+  expect.soft(
     fix($`
       const a =
       x +
@@ -77,7 +89,7 @@ it('snapshots', async () => {
     y * z"
   `,
   )
-  expect(
+  expect.soft(
     fix($`
       if (
         aaaaaa >
@@ -93,7 +105,7 @@ it('snapshots', async () => {
   `,
   )
 
-  expect(
+  expect.soft(
     fix($`
       function foo() {
         if (a
@@ -119,7 +131,7 @@ it('snapshots', async () => {
   `,
   )
 
-  expect(
+  expect.soft(
     fix($`
       type Foo = A | B
       | C | D
@@ -133,7 +145,7 @@ it('snapshots', async () => {
   `,
   )
 
-  expect(
+  expect.soft(
     fix($`
       type Foo = 
       | A | C
@@ -147,7 +159,7 @@ it('snapshots', async () => {
   `,
   )
 
-  expect(
+  expect.soft(
     fix($`
       type T =
       & A
@@ -160,12 +172,12 @@ it('snapshots', async () => {
     "type T =
       & A
       & (B
-      | A
-      | D)"
+        | A
+        | D)"
   `,
   )
 
-  expect(
+  expect.soft(
     fix($`
       type T = 
       a 
@@ -181,7 +193,7 @@ it('snapshots', async () => {
   `,
   )
 
-  expect(
+  expect.soft(
     fix($`
       function TSPropertySignatureToProperty(
         node:
@@ -207,7 +219,7 @@ it('snapshots', async () => {
   `,
   )
 
-  expect(
+  expect.soft(
     fix($`
       type Foo = Merge<
           A 
@@ -225,7 +237,7 @@ it('snapshots', async () => {
   `,
   )
 
-  expect(
+  expect.soft(
     fix($`
       if (
         typeof woof === 'string' &&
@@ -248,6 +260,42 @@ it('snapshots', async () => {
     ) {
       return;
     }"
+  `,
+  )
+
+  expect.soft(
+    fix($`
+      const a = () => b
+      || c
+      
+      const a = (
+        p,
+      ) => (b
+      || c)
+      
+      const a = b
+      + c;
+      const a = {
+        p: b
+        + c,
+      };
+    `),
+  ).toMatchInlineSnapshot(
+    `
+    "const a = () => b
+      || c
+
+    const a = (
+      p,
+    ) => (b
+      || c)
+
+    const a = b
+      + c;
+    const a = {
+      p: b
+        + c,
+    };"
   `,
   )
 })

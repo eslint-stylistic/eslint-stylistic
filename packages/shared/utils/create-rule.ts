@@ -1,6 +1,6 @@
+import type { RuleContext, RuleListener, RuleModule, RuleWithMetaAndName } from '#types'
 import type { Rule } from 'eslint'
 import { deepMerge, isObjectNotArray } from './merge'
-import type { RuleContext, RuleListener, RuleModule, RuleWithMetaAndName } from '#types'
 
 export interface ESLintRuleModule<
   T extends readonly unknown[],

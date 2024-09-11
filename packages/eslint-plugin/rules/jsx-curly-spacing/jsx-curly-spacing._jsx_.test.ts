@@ -4,9 +4,9 @@
  * @author Erik Wendel
  */
 
-import rule from './jsx-curly-spacing._jsx_'
-import { invalids, valids } from '#test/parsers-jsx'
 import { run } from '#test'
+import { invalids, valids } from '#test/parsers-jsx'
+import rule from './jsx-curly-spacing._jsx_'
 
 run({
   name: 'jsx-curly-spacing',

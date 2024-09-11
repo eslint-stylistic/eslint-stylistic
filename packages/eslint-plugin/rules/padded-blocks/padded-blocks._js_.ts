@@ -3,10 +3,10 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { ASTNode, Token, Tree } from '#types'
 import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode, Token, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'padded-blocks',

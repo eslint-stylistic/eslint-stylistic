@@ -3,9 +3,9 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import rule from '.'
-import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import { run } from '#test'
+import { languageOptionsForBabelFlow } from '#test/parsers-flow'
+import rule from '.'
 
 run({
   name: 'space-before-function-paren',

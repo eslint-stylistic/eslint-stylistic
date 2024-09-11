@@ -3,9 +3,9 @@
  * @author Yannick Croissant
  */
 
-import rule from './jsx-closing-bracket-location._jsx_'
-import { invalids, valids } from '#test/parsers-jsx'
 import { run } from '#test'
+import { invalids, valids } from '#test/parsers-jsx'
+import rule from './jsx-closing-bracket-location._jsx_'
 
 const MESSAGE_AFTER_PROPS = 'placed after the last prop'
 const MESSAGE_AFTER_TAG = 'placed after the opening tag'

@@ -1,7 +1,5 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-import type { Rules } from '../dts'
-
 import arrayBracketNewline from './array-bracket-newline/index'
 import arrayBracketSpacing from './array-bracket-spacing/index'
 import arrayElementNewline from './array-element-newline/index'
@@ -96,6 +94,8 @@ import typeNamedTupleSpacing from './type-named-tuple-spacing/index'
 import wrapIife from './wrap-iife/index'
 import wrapRegex from './wrap-regex/index'
 import yieldStarSpacing from './yield-star-spacing/index'
+
+import type { Rules } from '../dts'
 
 export default {
   'array-bracket-newline': arrayBracketNewline,

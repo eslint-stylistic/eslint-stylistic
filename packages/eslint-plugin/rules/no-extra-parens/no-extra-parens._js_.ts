@@ -2,7 +2,6 @@
  * @fileoverview Disallow parenthesising higher precedence subexpressions.
  * @author Michael Ficarra
  */
-import type { MessageIds, RuleOptions } from './types'
 import {
   canTokensBeAdjacent,
   getPrecedence,
@@ -19,8 +18,9 @@ import {
   isTopLevelExpressionStatement,
   skipChainExpression,
 } from '#utils/ast'
-import type { ASTNode, Token, Tree } from '#types'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode, Token, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',
@@ -1068,11 +1068,11 @@ export default createRule<RuleOptions, MessageIds>({
         const nodeObjHasExcessParens = shouldAllowWrapOnce
           ? hasDoubleExcessParens(node.object)
           : hasExcessParens(node.object)
-          && !(
-            isImmediateFunctionPrototypeMethodCall(node.parent)
-            && 'callee' in node.parent && node.parent.callee === node
-            && IGNORE_FUNCTION_PROTOTYPE_METHODS
-          )
+            && !(
+              isImmediateFunctionPrototypeMethodCall(node.parent)
+              && 'callee' in node.parent && node.parent.callee === node
+              && IGNORE_FUNCTION_PROTOTYPE_METHODS
+            )
 
         if (
           nodeObjHasExcessParens
@@ -1133,7 +1133,8 @@ export default createRule<RuleOptions, MessageIds>({
             const value = property.value
 
             return value && canBeAssignmentTarget(value) && hasExcessParens(value)
-          }).forEach(property => report(property.value!))
+          })
+          .forEach(property => report(property.value!))
       },
 
       Property(node) {

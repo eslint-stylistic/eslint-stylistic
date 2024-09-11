@@ -4,10 +4,10 @@
  * @author Burak Yigit Kaya
  */
 
-import type { MessageIds, RuleOptions } from './types'
-import type { Tree } from '#types'
-import { LINEBREAK_MATCHER, isNotClosingParenToken, isTokenOnSameLine, skipChainExpression } from '#utils/ast'
+import { isNotClosingParenToken, isTokenOnSameLine, LINEBREAK_MATCHER, skipChainExpression } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'newline-per-chained-call',

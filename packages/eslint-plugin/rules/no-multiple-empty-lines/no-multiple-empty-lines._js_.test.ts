@@ -3,8 +3,8 @@
  * @author Greg Cochard
  */
 
-import rule from '.'
 import { run } from '#test'
+import rule from '.'
 
 /**
  * Creates the expected error message object for the specified number of lines

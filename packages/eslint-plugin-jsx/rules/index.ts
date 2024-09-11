@@ -1,7 +1,5 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-import type { Rules } from '../dts'
-
 import jsxChildElementSpacing from './jsx-child-element-spacing/jsx-child-element-spacing'
 import jsxClosingBracketLocation from './jsx-closing-bracket-location/jsx-closing-bracket-location'
 import jsxClosingTagLocation from './jsx-closing-tag-location/jsx-closing-tag-location'
@@ -22,6 +20,8 @@ import jsxSelfClosingComp from './jsx-self-closing-comp/jsx-self-closing-comp'
 import jsxSortProps from './jsx-sort-props/jsx-sort-props'
 import jsxTagSpacing from './jsx-tag-spacing/jsx-tag-spacing'
 import jsxWrapMultilines from './jsx-wrap-multilines/jsx-wrap-multilines'
+
+import type { Rules } from '../dts'
 
 export default {
   'jsx-child-element-spacing': jsxChildElementSpacing,

@@ -3,11 +3,11 @@
  * @author Toru Nagashima
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
-import type { ASTNode, JSONSchema, Token, Tree } from '#types'
 import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
-import { KEYWORDS_JS } from '#utils/keywords'
 import { createRule } from '#utils/create-rule'
+import { KEYWORDS_JS } from '#utils/keywords'
+import type { ASTNode, JSONSchema, Token, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types._js_'
 
 const PREV_TOKEN = /^[)\]}>]$/u
 const NEXT_TOKEN = /^(?:[([{<~!]|\+\+?|--?)$/u
@@ -16,7 +16,7 @@ const NEXT_TOKEN_M = /^[{*]$/u
 const TEMPLATE_OPEN_PAREN = /\$\{$/u
 const TEMPLATE_CLOSE_PAREN = /^\}/u
 const CHECK_TYPE = /^(?:JSXElement|RegularExpression|String|Template|PrivateIdentifier)$/u
-const KEYS = KEYWORDS_JS.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'set', 'yield']);
+const KEYS = KEYWORDS_JS.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'yield']);
 
 // check duplications.
 (function () {
@@ -335,7 +335,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       if (firstToken
         && ((firstToken.type === 'Keyword' && firstToken.value === 'function')
-        || firstToken.value === 'async')
+          || firstToken.value === 'async')
       ) {
         checkSpacingBefore(firstToken)
       }

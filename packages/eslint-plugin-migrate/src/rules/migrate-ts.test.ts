@@ -1,5 +1,5 @@
-import rule from './migrate-ts'
 import { run } from '#test'
+import rule from './migrate-ts'
 
 const valids = [
   {

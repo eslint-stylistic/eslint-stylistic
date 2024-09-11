@@ -5,11 +5,11 @@
  */
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
+import { $, run } from '#test'
+import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import tsParser from '@typescript-eslint/parser'
 // TODO: Stage 2: Test merged rule
 import rule from './indent._js_'
-import { languageOptionsForBabelFlow } from '#test/parsers-flow'
-import { $, run } from '#test'
 
 const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
 const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')
@@ -9603,6 +9603,122 @@ run({
       `,
       errors: expectedErrors([4, 4, 12, 'Identifier']),
     },
+    {
+      code: $`
+        \`
+          some code here {
+            {
+              {
+                \${
+        new Array(3).fill(0).map(() => {
+        \t\t\t\treturn Math.random()
+        \t})
+        \t\t\t}
+              }
+            }
+          }
+        \`
+      `,
+      options: ['tab', { tabLength: 2 }],
+      output: $`
+        \`
+          some code here {
+            {
+              {
+                \${
+        \t\t\t\t\tnew Array(3).fill(0).map(() => {
+        \t\t\t\t\t\treturn Math.random()
+        \t\t\t\t\t})
+        \t\t\t\t}
+              }
+            }
+          }
+        \`
+      `,
+      errors: expectedErrors('tab', [
+        [6, 5, 0, 'Keyword'],
+        [7, 6, 4, 'Keyword'],
+        [8, 5, 1, 'Punctuator'],
+        [9, 4, 3, 'Template'],
+      ]),
+    },
+    {
+      code: $`
+        \`
+          some code here {
+            {
+              {
+                \${
+        new Array(3).fill(0).map(() => {
+                return Math.random()
+          })
+              }
+              }
+            }
+          }
+        \`
+      `,
+      options: [2, { tabLength: 2 }],
+      output: $`
+        \`
+          some code here {
+            {
+              {
+                \${
+                  new Array(3).fill(0).map(() => {
+                    return Math.random()
+                  })
+                }
+              }
+            }
+          }
+        \`
+      `,
+      errors: expectedErrors([
+        [6, 10, 0, 'Keyword'],
+        [7, 12, 8, 'Keyword'],
+        [8, 10, 2, 'Punctuator'],
+        [9, 8, 6, 'Template'],
+      ]),
+    },
+    {
+      code: $`
+        \`
+          some code here {
+            {
+              {\${
+                new Array(3).fill(0).map(() => {
+                  return Math.random()
+                })
+              }
+              }
+            }
+          }
+        \`
+      `,
+      options: [2, { tabLength: 2 }],
+      output: $`
+        \`
+          some code here {
+            {
+              {\${
+          new Array(3).fill(0).map(() => {
+            return Math.random()
+          })
+        }
+              }
+            }
+          }
+        \`
+      `,
+      errors: expectedErrors([
+        [5, 2, 8, 'Keyword'],
+        [6, 4, 10, 'Keyword'],
+        [7, 2, 8, 'Punctuator'],
+        [8, 0, 6, 'Template'],
+      ]),
+    },
+
     {
 
       /**

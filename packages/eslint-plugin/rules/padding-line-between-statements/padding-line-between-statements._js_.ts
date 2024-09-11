@@ -3,10 +3,10 @@
  * @author Toru Nagashima
  */
 
-import type { MessageIds, RuleOptions } from './types._js_'
-import type { ASTNode, RuleContext, SourceCode, Tree } from '#types'
-import { LINEBREAKS, STATEMENT_LIST_PARENTS, isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression } from '#utils/ast'
+import { isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, LINEBREAKS, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import type { ASTNode, RuleContext, SourceCode, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types._js_'
 
 const LT = `[${Array.from(LINEBREAKS).join('')}]`
 const PADDING_LINE_SEQUENCE = new RegExp(
@@ -43,7 +43,7 @@ function newKeywordTester(keyword: string): Tester {
 function newSinglelineKeywordTester(keyword: string): Tester {
   return {
     test: (node, sourceCode) => node.loc.start.line === node.loc.end.line
-    && sourceCode.getFirstToken(node)?.value === keyword,
+      && sourceCode.getFirstToken(node)?.value === keyword,
   }
 }
 
@@ -56,7 +56,7 @@ function newSinglelineKeywordTester(keyword: string): Tester {
 function newMultilineKeywordTester(keyword: string): Tester {
   return {
     test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
-    && sourceCode.getFirstToken(node)?.value === keyword,
+      && sourceCode.getFirstToken(node)?.value === keyword,
   }
 }
 
@@ -199,9 +199,7 @@ function verifyForNever(context: Context, _: ASTNode, nextNode: ASTNode, padding
       const nextToken = paddingLines[0][1]
       const start = prevToken.range[1]
       const end = nextToken.range[0]
-      const text = context.sourceCode.text
-        .slice(start, end)
-        .replace(PADDING_LINE_SEQUENCE, replacerToRemovePaddingLines)
+      const text = context.sourceCode.text.slice(start, end).replace(PADDING_LINE_SEQUENCE, replacerToRemovePaddingLines)
 
       return fixer.replaceTextRange([start, end], text)
     },
@@ -298,14 +296,14 @@ const StatementTypes = {
   },
   'cjs-export': {
     test: (node, sourceCode) => node.type === 'ExpressionStatement'
-    && node.expression.type === 'AssignmentExpression'
-    && CJS_EXPORT.test(sourceCode.getText(node.expression.left)),
+      && node.expression.type === 'AssignmentExpression'
+      && CJS_EXPORT.test(sourceCode.getText(node.expression.left)),
   },
   'cjs-import': {
     test: (node, sourceCode) => node.type === 'VariableDeclaration'
-    && node.declarations.length > 0
-    && Boolean(node.declarations[0].init)
-    && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init!)),
+      && node.declarations.length > 0
+      && Boolean(node.declarations[0].init)
+      && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init!)),
   },
   'directive': {
     test: isDirective,
@@ -318,7 +316,7 @@ const StatementTypes = {
   },
   'multiline-block-like': {
     test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
-    && isBlockLikeStatement(sourceCode, node),
+      && isBlockLikeStatement(sourceCode, node),
   },
   'multiline-expression': {
     test: node =>
