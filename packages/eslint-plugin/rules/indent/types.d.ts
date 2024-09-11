@@ -36,6 +36,7 @@ export interface IndentSchema1 {
   offsetTernaryExpressions?: boolean
   ignoredNodes?: string[]
   ignoreComments?: boolean
+  tabLength?: number
 }
 
 export type IndentRuleOptions = [
