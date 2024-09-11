@@ -1,3 +1,4 @@
+// TODO: Stage 2: Doesn't inherit js version
 import { createRule } from '#utils/create-rule'
 
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
