@@ -3,6 +3,7 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
+// TODO: Stage 3: Isn't inherited by ts version, can delete directly
 import { isOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import type { Tree } from '#types'

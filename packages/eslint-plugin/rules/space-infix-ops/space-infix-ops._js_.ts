@@ -160,6 +160,7 @@ export default createRule<RuleOptions, MessageIds>({
       ConditionalExpression: checkConditional,
       VariableDeclarator: checkVar,
 
+      // TODO: Stage 3: Overridden by ts version, can delete directly
       PropertyDefinition(node) {
         if (!node.value)
           return
