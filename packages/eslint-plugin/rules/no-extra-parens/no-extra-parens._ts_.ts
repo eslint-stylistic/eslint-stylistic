@@ -279,7 +279,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       'UnaryExpression': unaryUpdateExpression,
       UpdateExpression(node) {
-        if (isTypeAssertion(node)) {
+        if (isTypeAssertion(node.argument)) {
           return unaryUpdateExpression(node)
         }
         return rules.UpdateExpression!(node)
