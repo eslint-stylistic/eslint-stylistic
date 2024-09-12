@@ -61,6 +61,7 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
       offsetTernaryExpressions: true,
       outerIIFEBody: 1,
       SwitchCase: 1,
+      tabLength: indent === 'tab' ? 4 : indent,
       VariableDeclarator: 1,
     }],
     '@stylistic/indent-binary-ops': ['error', indent],
