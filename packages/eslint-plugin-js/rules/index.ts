@@ -1,5 +1,7 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+import type { Rules } from '../dts'
+
 import arrayBracketNewline from './array-bracket-newline/array-bracket-newline'
 import arrayBracketSpacing from './array-bracket-spacing/array-bracket-spacing'
 import arrayElementNewline from './array-element-newline/array-element-newline'
@@ -69,8 +71,6 @@ import templateTagSpacing from './template-tag-spacing/template-tag-spacing'
 import wrapIife from './wrap-iife/wrap-iife'
 import wrapRegex from './wrap-regex/wrap-regex'
 import yieldStarSpacing from './yield-star-spacing/yield-star-spacing'
-
-import type { Rules } from '../dts'
 
 export default {
   'array-bracket-newline': arrayBracketNewline,

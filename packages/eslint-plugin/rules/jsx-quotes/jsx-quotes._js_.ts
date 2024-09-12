@@ -3,10 +3,10 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import { isStringLiteral, isSurroundedBy } from '#utils/ast'
-import { createRule } from '#utils/create-rule'
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isStringLiteral, isSurroundedBy } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 interface QuoteSetting {
   quote: string

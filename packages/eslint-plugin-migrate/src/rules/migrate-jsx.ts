@@ -1,6 +1,6 @@
+import type { MigrationOption } from '../shared'
 import { packages } from '@eslint-stylistic/metadata'
 import { createEslintRule, createRuleListener } from '../shared'
-import type { MigrationOption } from '../shared'
 
 const js = packages.find(p => p.shortId === 'jsx')!
 

@@ -3,13 +3,13 @@
  * @author Ian Christian Myers
  */
 
+import type { ReportFixFunction, Token } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 import {
   isTokenOnSameLine,
   STATEMENT_LIST_PARENTS,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import type { ReportFixFunction, Token } from '#types'
-import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'brace-style',

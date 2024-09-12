@@ -3,10 +3,10 @@
  * @author Diogo Franco (Kovensky)
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-tag-spacing._jsx_'
-import type { RuleOptions } from './types'
 
 type Option = Exclude<RuleOptions[0], undefined>
 

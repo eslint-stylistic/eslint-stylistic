@@ -3,9 +3,9 @@
  * @author Joachim Seminck
  */
 
-import { createRule } from '#utils/create-rule'
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { createRule } from '#utils/create-rule'
 
 const messages = {
   propOnNewLine: 'Property should be placed on a new line',

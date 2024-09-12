@@ -2,9 +2,9 @@
  * @fileoverview Rule to enforce the position of line comments
  * @author Alberto Rodríguez
  */
+import type { MessageIds, RuleOptions } from './types'
 import { COMMENTS_IGNORE_PATTERN } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'line-comment-position',

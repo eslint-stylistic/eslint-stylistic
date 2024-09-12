@@ -1,11 +1,11 @@
+import type { StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
+import type { Linter } from 'eslint'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { execa } from 'execa'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import { afterAll, beforeAll, it } from 'vitest'
-import type { StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
-import type { Linter } from 'eslint'
 
 const fixturesDir = fileURLToPath(new URL('fixtures', import.meta.url))
 

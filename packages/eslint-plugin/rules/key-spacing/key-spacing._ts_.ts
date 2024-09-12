@@ -1,3 +1,5 @@
+import type { ASTNode, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 import { castRuleModule, createRule } from '#utils/create-rule'
 import { getStringLength } from '#utils/string'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
@@ -5,10 +7,8 @@ import {
   isClosingBracketToken,
   isColonToken,
 } from '@typescript-eslint/utils/ast-utils'
-import type { ASTNode, Tree } from '#types'
-import _baseRule from './key-spacing._js_'
 
-import type { MessageIds, RuleOptions } from './types'
+import _baseRule from './key-spacing._js_'
 
 const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 

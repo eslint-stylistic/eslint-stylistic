@@ -1,9 +1,9 @@
 import type { Linter } from 'eslint'
+import type { Configs } from '../dts/configs'
 import { createAllConfigs } from '../../shared/utils/configs-all'
 import plugin from '../src/plugin'
 import { customize } from './customize'
 import disableLegacy from './disable-legacy'
-import type { Configs } from '../dts/configs'
 
 export type * from './customize'
 

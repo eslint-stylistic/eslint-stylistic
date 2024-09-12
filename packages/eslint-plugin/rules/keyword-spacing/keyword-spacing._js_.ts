@@ -3,11 +3,11 @@
  * @author Toru Nagashima
  */
 
+import type { ASTNode, JSONSchema, Token, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types._js_'
 import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { KEYWORDS_JS } from '#utils/keywords'
-import type { ASTNode, JSONSchema, Token, Tree } from '#types'
-import type { MessageIds, RuleOptions } from './types._js_'
 
 const PREV_TOKEN = /^[)\]}>]$/u
 const NEXT_TOKEN = /^(?:[([{<~!]|\+\+?|--?)$/u

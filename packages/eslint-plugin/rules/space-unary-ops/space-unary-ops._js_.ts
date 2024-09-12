@@ -3,10 +3,10 @@
  * @author Marcin Kumorek
  */
 
-import { canTokensBeAdjacent } from '#utils/ast'
-import { createRule } from '#utils/create-rule'
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { canTokensBeAdjacent } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'space-unary-ops',

@@ -3,13 +3,13 @@
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
 
+import type { Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 import { isNumericLiteral } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { KEYWORDS_JS } from '#utils/keywords'
 // @ts-expect-error missing types
 import { tokenize } from 'espree'
-import type { Tree } from '#types'
-import type { MessageIds, RuleOptions } from './types'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'quote-props',

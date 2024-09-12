@@ -3,10 +3,10 @@
  * @author Vignesh Anand aka vegetableman
  */
 
-import { isCommaToken, isNotClosingParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '#utils/ast'
-import { createRule } from '#utils/create-rule'
 import type { ASTNode, NodeTypes, RuleFixer, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isCommaToken, isNotClosingParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'comma-style',

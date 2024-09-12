@@ -3,10 +3,10 @@
  * @author Kenneth Williams
  */
 
-import { isNotSemicolonToken } from '#utils/ast'
-import { createRule } from '#utils/create-rule'
 import type { ASTNode } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isNotSemicolonToken } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'max-statements-per-line',

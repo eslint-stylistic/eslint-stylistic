@@ -1,8 +1,8 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
-import { run } from '#test'
-
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import type { InvalidTestCase, TestCaseError, TestCasesOptions, ValidTestCase } from '#test'
+
+import { run } from '#test'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import rule from '.'
 
 /**

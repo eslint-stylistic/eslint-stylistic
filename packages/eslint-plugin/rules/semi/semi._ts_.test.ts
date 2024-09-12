@@ -1,10 +1,10 @@
 // this rule tests the semis, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import { $, run } from '#test'
 import type { InvalidTestCase, ValidTestCase } from '#test'
-import rule from '.'
 import type { RuleOptions } from './types'
+import { $, run } from '#test'
+import rule from '.'
 
 const neverOption: RuleOptions = ['never']
 const neverOptionWithoutContinuationChars: RuleOptions = [

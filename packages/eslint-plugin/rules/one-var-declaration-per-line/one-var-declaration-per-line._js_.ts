@@ -3,9 +3,9 @@
  * @author Alberto Rodríguez
  */
 
-import { createRule } from '#utils/create-rule'
 import type { NodeTypes, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'one-var-declaration-per-line',

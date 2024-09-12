@@ -3,10 +3,10 @@
  * @author Toru Nagashima
  */
 
-import { isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
-import { createRule } from '#utils/create-rule'
 import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 const SELECTOR = [
   'BreakStatement',

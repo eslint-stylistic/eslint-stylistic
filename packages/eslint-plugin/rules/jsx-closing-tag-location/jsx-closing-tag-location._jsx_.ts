@@ -3,10 +3,10 @@
  * @author Ross Solomon
  */
 
-import { isNodeFirstInLine } from '#utils/ast'
-import { createRule } from '#utils/create-rule'
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isNodeFirstInLine } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 const messages = {
   onOwnLine: 'Closing tag of a multiline JSX expression must be on its own line.',

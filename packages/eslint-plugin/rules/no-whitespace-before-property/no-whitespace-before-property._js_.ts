@@ -3,10 +3,10 @@
  * @author Kai Cataldo
  */
 
-import { isDecimalInteger, isOpeningBracketToken, isTokenOnSameLine } from '#utils/ast'
-import { createRule } from '#utils/create-rule'
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isDecimalInteger, isOpeningBracketToken, isTokenOnSameLine } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-whitespace-before-property',

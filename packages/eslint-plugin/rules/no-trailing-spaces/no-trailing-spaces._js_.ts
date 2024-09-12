@@ -3,10 +3,10 @@
  * @author Nodeca Team <https://github.com/nodeca>
  */
 
-import { createGlobalLinebreakMatcher } from '#utils/ast'
-import { createRule } from '#utils/create-rule'
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { createGlobalLinebreakMatcher } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-trailing-spaces',

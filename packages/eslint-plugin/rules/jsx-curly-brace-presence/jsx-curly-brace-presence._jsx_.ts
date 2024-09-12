@@ -4,10 +4,10 @@
  * @author Simon Lydell
  */
 
-import { isJSX, isWhiteSpaces } from '#utils/ast/jsx'
-import { createRule } from '#utils/create-rule'
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isJSX, isWhiteSpaces } from '#utils/ast/jsx'
+import { createRule } from '#utils/create-rule'
 
 const OPTION_ALWAYS = 'always'
 const OPTION_NEVER = 'never'

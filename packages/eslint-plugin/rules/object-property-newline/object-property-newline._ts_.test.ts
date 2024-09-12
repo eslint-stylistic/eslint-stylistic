@@ -1,6 +1,6 @@
-import { run } from '#test'
 import type { InvalidTestCase, TestCaseError, ValidTestCase } from '#test'
 import type { NodeTypes } from '#types'
+import { run } from '#test'
 import rule from '.'
 
 const prefixOfNodes = {

@@ -3,11 +3,11 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
+import type { Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types._js_'
 // TODO: Stage 3: Isn't inherited by ts version, can delete directly
 import { isOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import type { Tree } from '#types'
-import type { MessageIds, RuleOptions } from './types._js_'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'space-before-function-paren',

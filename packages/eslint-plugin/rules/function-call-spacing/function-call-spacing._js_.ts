@@ -3,10 +3,10 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import { isNotQuestionDotToken, isOpeningParenToken, LINEBREAK_MATCHER } from '#utils/ast'
-import { createRule } from '#utils/create-rule'
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isNotQuestionDotToken, isOpeningParenToken, LINEBREAK_MATCHER } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'function-call-spacing',

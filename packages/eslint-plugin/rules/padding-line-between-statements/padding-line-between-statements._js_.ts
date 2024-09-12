@@ -4,10 +4,10 @@
  */
 // TODO: Stage 3: Isn't inherited by ts version, can delete directly
 
-import { isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, LINEBREAKS, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
-import { createRule } from '#utils/create-rule'
 import type { ASTNode, RuleContext, SourceCode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types._js_'
+import { isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, LINEBREAKS, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 const LT = `[${Array.from(LINEBREAKS).join('')}]`
 const PADDING_LINE_SEQUENCE = new RegExp(

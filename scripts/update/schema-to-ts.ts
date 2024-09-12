@@ -1,3 +1,4 @@
+import type { JSONSchema4 } from 'json-schema'
 import { existsSync, promises as fs } from 'node:fs'
 import { basename, join, resolve } from 'node:path'
 import { pascalCase } from 'change-case'
@@ -5,7 +6,6 @@ import fg from 'fast-glob'
 import { compile } from 'json-schema-to-typescript-lite'
 import { hash } from 'ohash'
 import { format } from 'prettier'
-import type { JSONSchema4 } from 'json-schema'
 import { GEN_HEADER } from './meta'
 
 const VERSION = 'v1'

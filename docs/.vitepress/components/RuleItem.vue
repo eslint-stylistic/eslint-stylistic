@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { computed } from 'vue'
 import type { PackageInfo, RuleInfo } from '@eslint-stylistic/metadata'
+import { computed } from 'vue'
 
 const props = defineProps<{
   rule: RuleInfo

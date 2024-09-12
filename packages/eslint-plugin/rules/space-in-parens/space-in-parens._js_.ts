@@ -3,10 +3,10 @@
  * @author Jonathan Rajavuori
  */
 
-import { isClosingParenToken, isOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
-import { createRule } from '#utils/create-rule'
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isClosingParenToken, isOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'space-in-parens',

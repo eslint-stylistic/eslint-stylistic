@@ -1,15 +1,13 @@
 // any is required to work around manipulating the AST in weird ways
 
-import { castRuleModule, createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-
-import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
-
 import type { ASTNode, Tree } from '#types'
 import type { TSESLint } from '@typescript-eslint/utils'
-import _baseRule from './no-extra-parens._js_'
-
 import type { MessageIds, RuleOptions } from './types'
+
+import { castRuleModule, createRule } from '#utils/create-rule'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
+import _baseRule from './no-extra-parens._js_'
 
 const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 

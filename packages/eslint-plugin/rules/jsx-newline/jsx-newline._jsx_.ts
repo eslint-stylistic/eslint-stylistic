@@ -4,9 +4,9 @@
  * @author Joseph Stiles
  */
 
-import { createRule } from '#utils/create-rule'
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { createRule } from '#utils/create-rule'
 
 const messages = {
   require: 'JSX element should start in a new line',

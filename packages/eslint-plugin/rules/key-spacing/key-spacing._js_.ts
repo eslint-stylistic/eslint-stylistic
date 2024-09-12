@@ -3,11 +3,11 @@
  * @author Brandon Mills
  */
 
+import type { ASTNode, ReportFixFunction, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 import { getStaticPropertyName, isColonToken, LINEBREAK_MATCHER } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { getStringLength } from '#utils/string'
-import type { ASTNode, ReportFixFunction, Tree } from '#types'
-import type { MessageIds, RuleOptions } from './types'
 
 /**
  * Checks whether a string contains a line terminator as defined in

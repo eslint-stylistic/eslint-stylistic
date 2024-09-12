@@ -3,10 +3,10 @@
  * @author Erik Mueller
  */
 
-import { createGlobalLinebreakMatcher } from '#utils/ast'
-import { createRule } from '#utils/create-rule'
 import type { ReportFixFunction, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { createGlobalLinebreakMatcher } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'linebreak-style',

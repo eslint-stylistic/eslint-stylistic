@@ -2,7 +2,7 @@ packages:
   - docs
   - packages/*
 catalog:
-  '@antfu/eslint-config': ^3.4.1
+  '@antfu/eslint-config': ^3.6.0
   '@antfu/eslint-define-config': 1.23.0-2
   '@antfu/ni': ^0.23.0
   '@antfu/utils': ^0.7.10
@@ -16,9 +16,9 @@ catalog:
   '@rollup/plugin-alias': ^5.1.0
   '@rollup/plugin-commonjs': ^26.0.1
   '@rollup/plugin-node-resolve': ^15.2.3
-  '@shikijs/transformers': ^1.16.2
-  '@shikijs/twoslash': ^1.16.2
-  '@shikijs/vitepress-twoslash': ^1.16.2
+  '@shikijs/transformers': ^1.17.0
+  '@shikijs/twoslash': ^1.17.0
+  '@shikijs/vitepress-twoslash': ^1.17.0
   '@types/estraverse': ^5.1.7
   '@types/estree': ^1.0.5
   '@types/fs-extra': ^11.0.4
@@ -29,8 +29,8 @@ catalog:
   '@types/node': ^22.5.4
   '@types/picomatch': ^3.0.1
   '@types/semver': ^7.5.8
-  '@typescript-eslint/parser': ^8.4.0
-  '@typescript-eslint/utils': ^8.4.0
+  '@typescript-eslint/parser': ^8.5.0
+  '@typescript-eslint/utils': ^8.5.0
   '@unocss/reset': ^0.62.3
   '@vitest/coverage-v8': ^2.0.5
   '@vitest/ui': ^2.0.5
@@ -58,25 +58,25 @@ catalog:
   markdown-it-container: ^4.0.0
   ohash: ^1.1.3
   picomatch: ^4.0.2
-  pnpm: ^9.9.0
+  pnpm: ^9.10.0
   prettier: ^3.3.3
   rimraf: ^6.0.1
-  rollup: ^4.21.2
+  rollup: ^4.21.3
   rollup-plugin-dts: ^6.1.1
   rollup-plugin-esbuild: ^6.1.1
   semver: ^7.6.3
-  shiki: ^1.16.2
+  shiki: ^1.17.0
   simple-git-hooks: ^2.11.1
-  taze: ^0.16.7
-  tsx: ^4.19.0
+  taze: ^0.16.8
+  tsx: ^4.19.1
   twoslash: ^0.2.11
   twoslash-eslint: ^0.2.11
-  typescript: ^5.5.4
+  typescript: ^5.6.2
   unbuild: ^2.0.0
   unocss: ^0.62.3
   unplugin-vue-components: ^0.27.4
-  vite: ^5.4.3
+  vite: ^5.4.4
   vitepress: ^1.3.4
   vitest: ^2.0.5
-  vue: ^3.5.3
+  vue: ^3.5.4
   vue-tsc: ^2.1.6

@@ -3,10 +3,10 @@
  * @author Yannick Croissant
  */
 
-import { isDOMComponent } from '#utils/ast/jsx'
-import { createRule } from '#utils/create-rule'
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isDOMComponent } from '#utils/ast/jsx'
+import { createRule } from '#utils/create-rule'
 
 const optionDefaults = { component: true, html: true }
 

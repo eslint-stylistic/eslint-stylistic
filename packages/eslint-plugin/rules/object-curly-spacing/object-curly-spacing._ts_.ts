@@ -1,3 +1,5 @@
+import type { Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 import { castRuleModule, createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import {
@@ -5,9 +7,7 @@ import {
   isClosingBracketToken,
   isTokenOnSameLine,
 } from '@typescript-eslint/utils/ast-utils'
-import type { Tree } from '#types'
 import _baseRule from './object-curly-spacing._js_'
-import type { MessageIds, RuleOptions } from './types'
 
 const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
