@@ -47,7 +47,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         case AST_NODE_TYPES.TSAbstractPropertyDefinition:
         case AST_NODE_TYPES.PropertyDefinition:
-          return node === parent.key
+          return parent.key === node && !parent.computed
 
         case AST_NODE_TYPES.TSLiteralType:
           return parent.parent?.type === AST_NODE_TYPES.TSImportType

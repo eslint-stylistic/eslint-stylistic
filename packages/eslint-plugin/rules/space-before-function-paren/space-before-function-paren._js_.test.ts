@@ -5,8 +5,7 @@
 
 import { run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
-// TODO: Stage 2: Test merged rule
-import rule from './space-before-function-paren._js_'
+import rule from '.'
 
 run({
   name: 'space-before-function-paren',

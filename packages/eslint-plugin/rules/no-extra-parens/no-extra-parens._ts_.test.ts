@@ -27,6 +27,10 @@ run({
     'new a<import(\'\')>(1);',
     'a<A>(1);',
     {
+      code: '(++(<A>a))(b); ((c as C)++)(d);',
+      parserOptions: { ecmaFeatures: { jsx: false } },
+    },
+    {
       code: $`
         while ((foo = bar())) {}
       `,

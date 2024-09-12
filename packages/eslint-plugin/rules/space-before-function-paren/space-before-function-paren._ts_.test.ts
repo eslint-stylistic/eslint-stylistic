@@ -172,7 +172,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionDeclaration,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 1,
           column: 33,
         },
@@ -184,7 +184,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionDeclaration,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 1,
           column: 13,
         },
@@ -196,7 +196,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionDeclaration,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 1,
           column: 18,
         },
@@ -208,7 +208,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 1,
           column: 19,
         },
@@ -220,7 +220,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 1,
           column: 23,
         },
@@ -232,13 +232,13 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 1,
           column: 20,
         },
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 1,
           column: 34,
         },
@@ -251,7 +251,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 1,
           column: 16,
         },
@@ -264,7 +264,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionDeclaration,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 1,
           column: 14,
         },
@@ -278,7 +278,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionDeclaration,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 1,
           column: 13,
         },
@@ -291,7 +291,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 1,
           column: 19,
         },
@@ -304,7 +304,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 1,
           column: 23,
         },
@@ -317,13 +317,13 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 1,
           column: 20,
         },
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 1,
           column: 35,
         },
@@ -337,7 +337,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 1,
           column: 16,
         },
@@ -351,7 +351,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionDeclaration,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 1,
           column: 14,
         },
@@ -374,31 +374,31 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionDeclaration,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 1,
           column: 13,
         },
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 2,
           column: 19,
         },
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 3,
           column: 20,
         },
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 3,
           column: 35,
         },
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 3,
           column: 49,
         },
@@ -412,13 +412,13 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 1,
           column: 24,
         },
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 1,
           column: 38,
         },
@@ -432,7 +432,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 1,
           column: 16,
         },
@@ -454,31 +454,31 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionDeclaration,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 1,
           column: 13,
         },
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 2,
           column: 19,
         },
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 3,
           column: 20,
         },
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 3,
           column: 34,
         },
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 3,
           column: 47,
         },
@@ -491,7 +491,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 1,
           column: 19,
         },
@@ -504,7 +504,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 1,
           column: 19,
         },
@@ -517,7 +517,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'missing',
+          messageId: 'missingSpace',
           line: 1,
           column: 23,
         },
@@ -530,7 +530,7 @@ run({
       errors: [
         {
           type: AST_NODE_TYPES.FunctionExpression,
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           line: 1,
           column: 23,
         },
@@ -543,14 +543,14 @@ run({
       output: 'async () => 1',
       options: [{ asyncArrow: 'always' }],
       parserOptions: { ecmaVersion: 8 },
-      errors: [{ messageId: 'missing' }],
+      errors: [{ messageId: 'missingSpace' }],
     },
     {
       code: 'async () => 1',
       output: 'async() => 1',
       options: [{ asyncArrow: 'never' }],
       parserOptions: { ecmaVersion: 8 },
-      errors: [{ messageId: 'unexpected' }],
+      errors: [{ messageId: 'unexpectedSpace' }],
     },
     {
       code: 'async() => 1',
@@ -558,7 +558,7 @@ run({
       parserOptions: { ecmaVersion: 8 },
       errors: [
         {
-          messageId: 'missing',
+          messageId: 'missingSpace',
           type: AST_NODE_TYPES.ArrowFunctionExpression,
         },
       ],
@@ -570,7 +570,7 @@ run({
       parserOptions: { ecmaVersion: 8 },
       errors: [
         {
-          messageId: 'missing',
+          messageId: 'missingSpace',
           type: AST_NODE_TYPES.ArrowFunctionExpression,
         },
       ],
@@ -582,7 +582,7 @@ run({
       parserOptions: { ecmaVersion: 8 },
       errors: [
         {
-          messageId: 'unexpected',
+          messageId: 'unexpectedSpace',
           type: AST_NODE_TYPES.ArrowFunctionExpression,
         },
       ],

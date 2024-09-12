@@ -2,6 +2,7 @@
  * @fileoverview Rule to require or disallow newlines between statements
  * @author Toru Nagashima
  */
+// TODO: Stage 3: Isn't inherited by ts version, can delete directly
 
 import { isClosingBraceToken, isDirective, isFunction, isNotSemicolonToken, isSemicolonToken, isTokenOnSameLine, LINEBREAKS, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'

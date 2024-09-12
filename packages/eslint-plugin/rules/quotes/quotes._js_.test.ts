@@ -4,8 +4,7 @@
  */
 
 import { run } from '#test'
-// TODO: Stage 2: Test merged rule
-import rule from './quotes._js_'
+import rule from '.'
 
 run({
   name: 'quotes',
