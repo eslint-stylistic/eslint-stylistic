@@ -1,10 +1,16 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
+import type { CurlyNewlineRuleOptions } from '../../eslint-plugin/rules/curly-newline/types'
 import type { IndentBinaryOpsRuleOptions } from '../../eslint-plugin/rules/indent-binary-ops/types'
 import type { TypeGenericSpacingRuleOptions } from '../../eslint-plugin/rules/type-generic-spacing/types'
 import type { TypeNamedTupleSpacingRuleOptions } from '../../eslint-plugin/rules/type-named-tuple-spacing/types'
 
 export interface RuleOptions {
+  /**
+   * Enforce consistent line breaks after opening and before closing braces
+   * @see https://eslint.style/rules/plus/curly-newline
+   */
+  '@stylistic/plus/curly-newline': CurlyNewlineRuleOptions
   /**
    * Indentation for binary operators
    * @see https://eslint.style/rules/plus/indent-binary-ops
@@ -23,6 +29,11 @@ export interface RuleOptions {
 }
 
 export interface UnprefixedRuleOptions {
+  /**
+   * Enforce consistent line breaks after opening and before closing braces
+   * @see https://eslint.style/rules/plus/curly-newline
+   */
+  'curly-newline': CurlyNewlineRuleOptions
   /**
    * Indentation for binary operators
    * @see https://eslint.style/rules/plus/indent-binary-ops

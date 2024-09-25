@@ -36,6 +36,7 @@
     "./rules/comma-spacing": "./dist/rules/comma-spacing.js",
     "./rules/comma-style": "./dist/rules/comma-style.js",
     "./rules/computed-property-spacing": "./dist/rules/computed-property-spacing.js",
+    "./rules/curly-newline": "./dist/rules/curly-newline.js",
     "./rules/dot-location": "./dist/rules/dot-location.js",
     "./rules/eol-last": "./dist/rules/eol-last.js",
     "./rules/func-call-spacing": "./dist/rules/func-call-spacing.js",

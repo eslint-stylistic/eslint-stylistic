@@ -11,6 +11,7 @@ import type { CommaDangleRuleOptions } from '../rules/comma-dangle/types'
 import type { CommaSpacingRuleOptions } from '../rules/comma-spacing/types'
 import type { CommaStyleRuleOptions } from '../rules/comma-style/types'
 import type { ComputedPropertySpacingRuleOptions } from '../rules/computed-property-spacing/types'
+import type { CurlyNewlineRuleOptions } from '../rules/curly-newline/types'
 import type { DotLocationRuleOptions } from '../rules/dot-location/types'
 import type { EolLastRuleOptions } from '../rules/eol-last/types'
 import type { FunctionCallArgumentNewlineRuleOptions } from '../rules/function-call-argument-newline/types'
@@ -151,6 +152,11 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/default/computed-property-spacing
    */
   '@stylistic/computed-property-spacing': ComputedPropertySpacingRuleOptions
+  /**
+   * Enforce consistent line breaks after opening and before closing braces
+   * @see https://eslint.style/rules/default/curly-newline
+   */
+  '@stylistic/curly-newline': CurlyNewlineRuleOptions
   /**
    * Enforce consistent newlines before and after dots
    * @see https://eslint.style/rules/default/dot-location
@@ -629,6 +635,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/default/computed-property-spacing
    */
   'computed-property-spacing': ComputedPropertySpacingRuleOptions
+  /**
+   * Enforce consistent line breaks after opening and before closing braces
+   * @see https://eslint.style/rules/default/curly-newline
+   */
+  'curly-newline': CurlyNewlineRuleOptions
   /**
    * Enforce consistent newlines before and after dots
    * @see https://eslint.style/rules/default/dot-location
