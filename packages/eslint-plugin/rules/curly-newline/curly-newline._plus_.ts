@@ -3,8 +3,20 @@ import type { MessageIds, RuleOptions } from './types'
 import { isCommentToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
-// Schema objects.
-const OPTION_VALUE: JSONSchema.JSONSchema4 = {
+const commonProperties = {
+  multiline: {
+    type: 'boolean',
+  },
+  minElements: {
+    type: 'integer',
+    minimum: 0,
+  },
+  consistent: {
+    type: 'boolean',
+  },
+} as const
+
+const optionValueSchema: JSONSchema.JSONSchema4 = {
   oneOf: [
     {
       type: 'string',
@@ -12,20 +24,8 @@ const OPTION_VALUE: JSONSchema.JSONSchema4 = {
     },
     {
       type: 'object',
-      properties: {
-        multiline: {
-          type: 'boolean',
-        },
-        minElements: {
-          type: 'integer',
-          minimum: 0,
-        },
-        consistent: {
-          type: 'boolean',
-        },
-      },
+      properties: commonProperties,
       additionalProperties: false,
-      minProperties: 1,
     },
   ],
 }
@@ -124,12 +124,17 @@ export default createRule<RuleOptions, MessageIds>({
     schema: [
       {
         oneOf: [
-          OPTION_VALUE,
+          {
+            type: 'string',
+            enum: ['always', 'never'],
+          },
           {
             type: 'object',
-            properties: Object.fromEntries(Object.entries(Specialization).map(([k]) => [k, OPTION_VALUE])),
+            properties: {
+              ...Object.fromEntries(Object.entries(Specialization).map(([k]) => [k, optionValueSchema])),
+              ...commonProperties,
+            },
             additionalProperties: false,
-            minProperties: 1,
           },
         ],
       },
