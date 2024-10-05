@@ -1,3 +1,4 @@
+/* eslint-disable antfu/no-top-level-await */
 import type { ESLint, Linter } from 'eslint'
 import type { DefaultTheme } from 'vitepress'
 import fs from 'node:fs/promises'
