@@ -1483,24 +1483,38 @@ export default createRule<RuleOptions, MessageIds>({
             ? sourceCode.getFirstToken(previousQuasi)
             : null
 
-          let indentOffset = 1
-          let nextQuasiStartIndent = 0
-          if (!tokenToAlignFrom) {
-            // minus 2 for exclude ${
-            const tokenBeforeText = sourceCode.text.slice(previousQuasi.range[1] - previousQuasi.loc.end.column, previousQuasi.range[1] - 2).split('')
-            // If there are only spaces or tabs before ${, make block base on ${ start position indent
-            if (tokenBeforeText.every(char => char === ' ' || char === '\t')) {
-              const numSpaces = tokenBeforeText.filter(char => char !== '\t').length
-              const numTabs = tokenBeforeText.filter(char => char === '\t').length
-              indentOffset = numTabs + Math.ceil(numSpaces / (indentType === 'tab' ? options.tabLength : indentSize)) + 1
-            }
+          const startsOnSameLine = previousQuasi.loc.end.line === expression.loc.start.line
+          const endsOnSameLine = nextQuasi.loc.start.line === expression.loc.end.line
+
+          if (tokenToAlignFrom || (endsOnSameLine && !startsOnSameLine)) {
+            offsets.setDesiredOffsets([previousQuasi.range[1], nextQuasi.range[0]], tokenToAlignFrom, 1)
+            offsets.setDesiredOffset(sourceCode.getFirstToken(nextQuasi), tokenToAlignFrom, 0)
+            return
           }
 
-          if (nextQuasi.loc.start.line !== expression.loc.end.line) {
-            nextQuasiStartIndent = Math.max(indentOffset - 1, 0)
+          /*
+            Make block based on ${ line indent, unless expression starts with a new line but ends on same line
+            Exception example: `
+              expression starting with new line ${
+                  'ending'} on the same line
+            `
+          */
+
+          // minus 2 for exclude ${
+          const tokenBeforeText = sourceCode.text.slice(previousQuasi.range[1] - previousQuasi.loc.end.column, previousQuasi.range[1] - 2).split('')
+          let numIndentation = tokenBeforeText.findIndex(char => char !== ' ' && char !== '\t')
+          if (numIndentation === -1) {
+            numIndentation = tokenBeforeText.length
           }
-          offsets.setDesiredOffsets([previousQuasi.range[1], nextQuasi.range[0]], tokenToAlignFrom, indentOffset)
-          offsets.setDesiredOffset(sourceCode.getFirstToken(nextQuasi), tokenToAlignFrom, nextQuasiStartIndent)
+
+          const numSpaces = tokenBeforeText.slice(0, numIndentation).filter(char => char === ' ').length
+          const numTabs = numIndentation - numSpaces
+          const indentOffset = numTabs + Math.ceil(numSpaces / (indentType === 'tab' ? options.tabLength : indentSize))
+          const innerIndentation = endsOnSameLine
+            ? indentOffset
+            : indentOffset + 1
+          offsets.setDesiredOffsets([previousQuasi.range[1], nextQuasi.range[0]], tokenToAlignFrom, innerIndentation)
+          offsets.setDesiredOffset(sourceCode.getFirstToken(nextQuasi), tokenToAlignFrom, indentOffset)
         })
       },
 

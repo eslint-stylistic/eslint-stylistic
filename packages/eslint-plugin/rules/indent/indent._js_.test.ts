@@ -9586,6 +9586,32 @@ run({
     },
     {
       code: $`
+        function outerFunctionForExtraIndent() {
+            function foo() {
+                const template = \`the indentation of
+            a curly element in a \${
+                    node.type
+                } node is checked.\`;
+            }
+        }
+      `,
+      output: $`
+        function outerFunctionForExtraIndent() {
+            function foo() {
+                const template = \`the indentation of
+            a curly element in a \${
+                node.type
+            } node is checked.\`;
+            }
+        }
+      `,
+      errors: expectedErrors([
+        [5, 8, 12, 'Identifier'],
+        [6, 4, 8, 'Template'],
+      ]),
+    },
+    {
+      code: $`
         function foo() {
             const template = \`this time the
         closing curly is at the end of the line \${
@@ -9602,6 +9628,24 @@ run({
         }
       `,
       errors: expectedErrors([4, 4, 12, 'Identifier']),
+    },
+    {
+      code: $`
+        \`
+            SELECT \${
+                          foo
+                } FROM THE_DATABASE
+        \`
+      `,
+      output: $`
+        \`
+            SELECT \${
+              foo
+            } FROM THE_DATABASE
+        \`
+      `,
+      options: [2],
+      errors: expectedErrors([[3, 6, 18, 'Identifier'], [4, 4, 8, 'Template']]),
     },
     {
       code: $`
@@ -9687,10 +9731,10 @@ run({
           some code here {
             {
               {\${
-                new Array(3).fill(0).map(() => {
-                  return Math.random()
-                })
-              }
+          new Array(3).fill(0).map(() => {
+            return Math.random()
+          })
+        }
               }
             }
           }
@@ -9702,23 +9746,205 @@ run({
           some code here {
             {
               {\${
-          new Array(3).fill(0).map(() => {
-            return Math.random()
-          })
-        }
+                new Array(3).fill(0).map(() => {
+                  return Math.random()
+                })
+              }
               }
             }
           }
         \`
       `,
       errors: expectedErrors([
-        [5, 2, 8, 'Keyword'],
-        [6, 4, 10, 'Keyword'],
-        [7, 2, 8, 'Punctuator'],
-        [8, 0, 6, 'Template'],
+        [5, 8, 2, 'Keyword'],
+        [6, 10, 4, 'Keyword'],
+        [7, 8, 2, 'Punctuator'],
+        [8, 6, 0, 'Template'],
       ]),
     },
-
+    {
+      code: $`
+        \`
+          some code here {
+            [
+              {
+                'attr with spaces': \${
+            new Array(3).fill(0).map(() => {
+              return Math.random()
+            })
+                          }
+              }
+            ]
+          }
+        \`
+      `,
+      options: [2, { tabLength: 2 }],
+      output: $`
+        \`
+          some code here {
+            [
+              {
+                'attr with spaces': \${
+                  new Array(3).fill(0).map(() => {
+                    return Math.random()
+                  })
+                }
+              }
+            ]
+          }
+        \`
+      `,
+      errors: expectedErrors([
+        [6, 10, 4, 'Keyword'],
+        [7, 12, 6, 'Keyword'],
+        [8, 10, 4, 'Punctuator'],
+        [9, 8, 18, 'Template'],
+      ]),
+    },
+    {
+      code: $`
+        \`
+          start on same line, end with new line {
+            [
+              {
+                attr: \${fn(
+                              1,
+                            2,
+                          3,
+                        )
+                      }
+              }
+            ]
+          }
+        \`
+      `,
+      options: [2, { tabLength: 2 }],
+      output: $`
+        \`
+          start on same line, end with new line {
+            [
+              {
+                attr: \${fn(
+                    1,
+                    2,
+                    3,
+                  )
+                }
+              }
+            ]
+          }
+        \`
+      `,
+      errors: expectedErrors([
+        [6, 12, 22, 'Numeric'],
+        [7, 12, 20, 'Numeric'],
+        [8, 12, 18, 'Numeric'],
+        [9, 10, 16, 'Punctuator'],
+        [10, 8, 14, 'Template'],
+      ]),
+    },
+    {
+      code: $`
+        \`
+          <div>
+            <div>
+              <div>
+                <article
+                  test="test"
+                  /* expression is wrapped with curlies */
+                  class=\${clsx('container', {
+            hide: 'shouldHide',
+        empty: 'isCollapsed',
+                                    })}
+                >
+                  <div class="header"></div>
+                </article>
+              </div>
+            </div>
+          </div>
+        \`
+      `,
+      options: [2, { tabLength: 2 }],
+      output: $`
+        \`
+          <div>
+            <div>
+              <div>
+                <article
+                  test="test"
+                  /* expression is wrapped with curlies */
+                  class=\${clsx('container', {
+                    hide: 'shouldHide',
+                    empty: 'isCollapsed',
+                  })}
+                >
+                  <div class="header"></div>
+                </article>
+              </div>
+            </div>
+          </div>
+        \`
+      `,
+      errors: expectedErrors([
+        [9, 12, 4, 'Identifier'],
+        [10, 12, 0, 'Identifier'],
+        [11, 10, 28, 'Punctuator'],
+      ]),
+    },
+    {
+      code: $`
+        \`
+          <div>
+            <div>
+              <div>
+                <article
+                  test="test"
+                  /* expression is wrapped with new lines */
+                  class=\${
+                  clsx('container', {
+            hide: 'shouldHide',
+        empty: 'isCollapsed',
+                          })
+                                  }
+                >
+                  <div class="header"></div>
+                </article>
+              </div>
+            </div>
+          </div>
+        \`
+      `,
+      options: [2, { tabLength: 2 }],
+      output: $`
+        \`
+          <div>
+            <div>
+              <div>
+                <article
+                  test="test"
+                  /* expression is wrapped with new lines */
+                  class=\${
+                    clsx('container', {
+                      hide: 'shouldHide',
+                      empty: 'isCollapsed',
+                    })
+                  }
+                >
+                  <div class="header"></div>
+                </article>
+              </div>
+            </div>
+          </div>
+        \`
+      `,
+      errors: expectedErrors([
+        [9, 12, 10, 'Identifier'],
+        [10, 14, 4, 'Identifier'],
+        [11, 14, 0, 'Identifier'],
+        [12, 12, 18, 'Punctuator'],
+        [13, 10, 26, 'Template'],
+      ]),
+    },
     {
 
       /**
