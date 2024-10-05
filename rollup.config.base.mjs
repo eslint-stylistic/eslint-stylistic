@@ -53,7 +53,6 @@ export function createConfig(cwd) {
           format: 'cjs',
           manualChunks(id) {
             if (id.includes('node_modules')) {
-              // eslint-disable-next-line no-console
               console.log('vendor', id)
               return 'vendor'
             }
