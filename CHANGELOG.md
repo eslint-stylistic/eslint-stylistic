@@ -1,5 +1,30 @@
 # Changelog
 
+## [2.9.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.8.0...v2.9.0) (2024-10-05)
+
+
+### Features
+
+* add indent option tabLength to customize config ([#538](https://github.com/eslint-stylistic/eslint-stylistic/issues/538)) ([91a18e7](https://github.com/eslint-stylistic/eslint-stylistic/commit/91a18e7a1af7f46c0a125e93c68ac7bc5004d74d))
+* **curly-newline:** add new rule ([#548](https://github.com/eslint-stylistic/eslint-stylistic/issues/548)) ([049c20e](https://github.com/eslint-stylistic/eslint-stylistic/commit/049c20e409eb69b19e2fa7434ca5b13276d8adf5))
+* Improve indent in template literals ([#553](https://github.com/eslint-stylistic/eslint-stylistic/issues/553)) ([9130c94](https://github.com/eslint-stylistic/eslint-stylistic/commit/9130c94eff8a0c97dbee2057c4e9b5891339ce44))
+* **jsx/jsx-closing-tag-location:** add location option to customize indentation ([#550](https://github.com/eslint-stylistic/eslint-stylistic/issues/550)) ([ae09edd](https://github.com/eslint-stylistic/eslint-stylistic/commit/ae09edda14304e85df1426a7eb79e68d4fd029ba))
+
+
+### Bug Fixes
+
+* **quotes:** only when allowTemplateLiterals set, allow template literals to avoid escape sequences ([#544](https://github.com/eslint-stylistic/eslint-stylistic/issues/544)) ([7e3a0d3](https://github.com/eslint-stylistic/eslint-stylistic/commit/7e3a0d3b1989e708e0bad9a6315c4a91c34a4948))
+
+
+### Documentation
+
+* typo ([#534](https://github.com/eslint-stylistic/eslint-stylistic/issues/534)) ([9573674](https://github.com/eslint-stylistic/eslint-stylistic/commit/9573674cb7a15885255a4c20f0e92a588886fabc))
+
+
+### Chores
+
+* cross test merged rules (rest)  ([#529](https://github.com/eslint-stylistic/eslint-stylistic/issues/529)) ([e9087d3](https://github.com/eslint-stylistic/eslint-stylistic/commit/e9087d3e5fd9f7966c86091a4349d7244ace1fc7))
+
 ## [2.8.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.7.2...v2.8.0) (2024-09-09)
 
 
