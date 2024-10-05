@@ -1636,6 +1636,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
     "path": "packages/eslint-plugin-plus",
     "rules": [
       {
+        "name": "curly-newline",
+        "ruleId": "@stylistic/plus/curly-newline",
+        "originalId": "",
+        "entry": "packages/eslint-plugin/rules/curly-newline/curly-newline._plus_.ts",
+        "docsEntry": "packages/eslint-plugin/rules/curly-newline/README._plus_.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce consistent line breaks after opening and before closing braces",
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "indent-binary-ops",
         "ruleId": "@stylistic/plus/indent-binary-ops",
         "originalId": "",
@@ -1836,6 +1850,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "docs": {
             "description": "Enforce consistent spacing inside computed property brackets",
             "recommended": true
+          }
+        }
+      },
+      {
+        "name": "curly-newline",
+        "ruleId": "@stylistic/curly-newline",
+        "originalId": "",
+        "entry": "packages/eslint-plugin/rules/curly-newline/index.ts",
+        "docsEntry": "packages/eslint-plugin/rules/curly-newline/README._plus_.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce consistent line breaks after opening and before closing braces",
+            "recommended": false
           }
         }
       },

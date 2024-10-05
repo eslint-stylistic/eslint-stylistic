@@ -25,6 +25,7 @@
     "./rule-options": {
       "types": "./dist/dts/rule-options.d.ts"
     },
+    "./rules/curly-newline": "./dist/rules/curly-newline.js",
     "./rules/indent-binary-ops": "./dist/rules/indent-binary-ops.js",
     "./rules/type-generic-spacing": "./dist/rules/type-generic-spacing.js",
     "./rules/type-named-tuple-spacing": "./dist/rules/type-named-tuple-spacing.js"

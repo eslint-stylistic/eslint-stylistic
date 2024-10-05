@@ -13,6 +13,7 @@ import commaDangle from './comma-dangle/index'
 import commaSpacing from './comma-spacing/index'
 import commaStyle from './comma-style/index'
 import computedPropertySpacing from './computed-property-spacing/index'
+import curlyNewline from './curly-newline/index'
 import dotLocation from './dot-location/index'
 import eolLast from './eol-last/index'
 import functionCallArgumentNewline from './function-call-argument-newline/index'
@@ -109,6 +110,7 @@ export default {
   'comma-spacing': commaSpacing,
   'comma-style': commaStyle,
   'computed-property-spacing': computedPropertySpacing,
+  'curly-newline': curlyNewline,
   'dot-location': dotLocation,
   'eol-last': eolLast,
   'func-call-spacing': functionCallSpacing,
