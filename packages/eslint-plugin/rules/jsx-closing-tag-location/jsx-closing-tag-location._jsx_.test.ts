@@ -51,7 +51,7 @@ run({
        bar</App>
         }
       `,
-      options: [{ location: 'line-aligned' }],
+      options: ['line-aligned'],
     },
     {
       code: `

@@ -12,14 +12,14 @@ const messages = {
   onOwnLine: 'Closing tag of a multiline JSX expression must be on its own line.',
   matchIndent: 'Expected closing tag to match indentation of opening.',
   alignWithOpening: 'Expected closing tag to be aligned with the line containing the opening tag',
-}
+} as const
 
 const DEFAULT_LOCATION = 'tag-aligned'
 
 const MESSAGE_LOCATION = {
   'tag-aligned': 'matchIndent',
   'line-aligned': 'alignWithOpening',
-}
+} as const
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-closing-tag-location',
@@ -34,54 +34,47 @@ export default createRule<RuleOptions, MessageIds>({
     schema: [{
       anyOf: [
         {
+          type: 'string',
           enum: ['tag-aligned', 'line-aligned'],
-        },
-        {
-          type: 'object',
-          properties: {
-            location: {
-              enum: ['tag-aligned', 'line-aligned'],
-            },
-          },
-          additionalProperties: false,
+          default: DEFAULT_LOCATION,
         },
       ],
     }],
   },
 
+  defaultOptions: [
+    DEFAULT_LOCATION,
+  ],
+
   create(context) {
-    const config = context.options[0]
-    let option = DEFAULT_LOCATION
+    const option: 'tag-aligned' | 'line-aligned' = context.options[0] || DEFAULT_LOCATION
 
-    if (typeof config === 'string') {
-      option = config
-    }
-    else if (typeof config === 'object') {
-      if (Object.hasOwn(config, 'location')) {
-        option = config.location
-      }
-    }
-
-    function getIndentation(openingStartOfLine, opening) {
+    function getIndentation(
+      openingStartOfLine: {
+        column: number | undefined
+        line: number
+      },
+      opening: ASTNode,
+    ) {
       if (option === 'line-aligned')
         return openingStartOfLine.column
-      if (option === 'tag-aligned')
+      else if (option === 'tag-aligned')
         return opening.loc.start.column
+      else
+        throw new Error(`Invalid option ${option}`)
     }
 
     function handleClosingElement(node: Tree.JSXClosingElement | Tree.JSXClosingFragment) {
       if (!node.parent)
         return
 
-      const sourceCode = context.getSourceCode()
+      const sourceCode = context.sourceCode
 
-      let opening: ASTNode
-      if ('openingFragment' in node.parent)
-        opening = node.parent.openingFragment
-      if ('openingElement' in node.parent)
-        opening = node.parent.openingElement
+      const opening = ('openingFragment' in node.parent)
+        ? node.parent.openingFragment
+        : node.parent.openingElement
 
-      const openingLoc = sourceCode.getFirstToken(opening).loc.start
+      const openingLoc = sourceCode.getFirstToken(opening)!.loc.start
       const openingLine = sourceCode.lines[openingLoc.line - 1]
       const openingStartOfLine = {
         column: /^\s*/.exec(openingLine)?.[0].length,
@@ -105,7 +98,7 @@ export default createRule<RuleOptions, MessageIds>({
         return
       }
 
-      const messageId = isNodeFirstInLine(context, node)
+      const messageId: MessageIds = isNodeFirstInLine(context, node)
         ? MESSAGE_LOCATION[option as keyof typeof MESSAGE_LOCATION]
         : 'onOwnLine'
 
@@ -114,7 +107,7 @@ export default createRule<RuleOptions, MessageIds>({
         messageId,
         loc: node.loc,
         fix(fixer) {
-          const indent = new Array(getIndentation(openingStartOfLine, opening) + 1).join(' ')
+          const indent = new Array((getIndentation(openingStartOfLine, opening) || 0) + 1).join(' ')
           if (isNodeFirstInLine(context, node)) {
             return fixer.replaceTextRange(
               [node.range[0] - node.loc.start.column, node.range[0]],

@@ -37,9 +37,10 @@ There is one way to configure this rule.
 
 The first form is a string shortcut corresponding to the `location` values specified below. If omitted, it defaults to `"tag-aligned"`.
 
-```js
-"@stylistic/jsx/jsx-closing-tag-location": <enabled> // -> [<enabled>, "tag-aligned"]
-"react/jsx-closing-tag-location": [<enabled>, "<location>"]
+```json
+{
+  "@stylistic/jsx/jsx-closing-tag-location": ["error", "tag-aligned"]
+}
 ```
 
 ### `location`
@@ -51,14 +52,11 @@ Enforced location for the closing tag.
 
 Defaults to `tag-aligned`.
 
-You may pass an object `{ "location": <location> }` that is equivalent to the first string shortcut form.
-
 Examples of **incorrect** code for this rule:
 
 ```jsx
 // 'jsx-closing-tag-location': 1
 // 'jsx-closing-tag-location': [1, 'tag-aligned']
-// 'jsx-closing-tag-location': [1, {"location":'tag-aligned'}]
 <Say
   firstName="John"
   lastName="Smith">
@@ -66,13 +64,11 @@ Examples of **incorrect** code for this rule:
   </Say>;
 
 // 'jsx-closing-tag-location': [1, 'tag-aligned']
-// 'jsx-closing-tag-location': [1, {"location":'tag-aligned'}]
 const App = <Bar>
   Foo
 </Bar>;
 
 // 'jsx-closing-tag-location': [1, 'line-aligned']
-// 'jsx-closing-tag-location': [1, {"location":'line-aligned'}]
 const App = <Bar>
   Foo
             </Bar>;
@@ -83,7 +79,6 @@ Examples of **correct** code for this rule:
 ```jsx
 // 'jsx-closing-tag-location': 1
 // 'jsx-closing-tag-location': [1, 'tag-aligned']
-// 'jsx-closing-tag-location': [1, {"location":'tag-aligned'}]
 <Say
   firstName="John"
   lastName="Smith">
@@ -91,13 +86,11 @@ Examples of **correct** code for this rule:
 </Say>;
 
 // 'jsx-closing-tag-location': [1, 'tag-aligned']
-// 'jsx-closing-tag-location': [1, {"location":'tag-aligned'}]
 const App = <Bar>
   Foo
             </Bar>;
 
 // 'jsx-closing-tag-location': [1, 'line-aligned']
-// 'jsx-closing-tag-location': [1, {"location":'line-aligned'}]
 const App = <Bar>
   Foo
 </Bar>;
