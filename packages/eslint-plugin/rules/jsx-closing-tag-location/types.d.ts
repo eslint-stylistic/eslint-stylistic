@@ -1,8 +1,17 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 1yaX7NnzFz */
+/* @checksum: vc2c5tYSE2 */
 
-export type JsxClosingTagLocationRuleOptions = []
+export type JsxClosingTagLocationSchema0 =
+  | 'tag-aligned'
+  | 'line-aligned'
+
+export type JsxClosingTagLocationRuleOptions = [
+  JsxClosingTagLocationSchema0?,
+]
 
 export type RuleOptions = JsxClosingTagLocationRuleOptions
-export type MessageIds = 'onOwnLine' | 'matchIndent'
+export type MessageIds =
+  | 'onOwnLine'
+  | 'matchIndent'
+  | 'alignWithOpening'

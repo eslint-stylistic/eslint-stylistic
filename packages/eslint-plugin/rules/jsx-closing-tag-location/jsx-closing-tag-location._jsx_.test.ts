@@ -44,6 +44,57 @@ run({
       `,
       features: ['fragment'],
     },
+    {
+      code: `
+        const foo = () => {
+          return <App>
+       bar</App>
+        }
+      `,
+      options: ['line-aligned'],
+    },
+    {
+      code: `
+        const foo = () => {
+          return <App>
+              bar</App>
+        }
+      `,
+    },
+    {
+      code: `
+        const foo = () => {
+          return <App>
+              bar
+          </App>
+        }
+      `,
+      options: ['line-aligned'],
+    },
+    {
+      code: `
+        const foo = <App>
+              bar
+        </App>
+      `,
+      options: ['line-aligned'],
+    },
+    {
+      code: `
+        const x = <App>
+              foo
+                  </App>
+      `,
+    },
+    {
+      code: `
+        const foo =
+          <App>
+              bar
+          </App>
+      `,
+      options: ['line-aligned'],
+    },
   ),
 
   invalid: invalids(
@@ -98,6 +149,37 @@ run({
         </>
       `,
       errors: [{ messageId: 'onOwnLine' }],
+    },
+    {
+      code: `
+        const x = () => {
+          return <App>
+              foo</App>
+        }
+      `,
+      output: `
+        const x = () => {
+          return <App>
+              foo
+          </App>
+        }
+      `,
+      errors: [{ messageId: 'onOwnLine' }],
+      options: ['line-aligned'],
+    },
+    {
+      code: `
+        const x = <App>
+              foo
+                  </App>
+      `,
+      output: `
+        const x = <App>
+              foo
+        </App>
+      `,
+      errors: [{ messageId: 'alignWithOpening' }],
+      options: ['line-aligned'],
     },
   ),
 })
