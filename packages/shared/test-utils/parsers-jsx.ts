@@ -1,3 +1,4 @@
+/* eslint-disable antfu/no-top-level-await */
 import type { InvalidTestCaseBase, ValidTestCaseBase } from './runner'
 
 export interface InvalidTestCase extends InvalidTestCaseBase {
@@ -29,7 +30,6 @@ function minEcmaVersion(features: any, parserOptions: any) {
   return Number.isFinite(result) ? result : undefined
 }
 
-// @ts-expect-error missing types
 export const BABEL_ESLINT = await import('@babel/eslint-parser').then(m => m.default)
 export const TYPESCRIPT_ESLINT = await import('@typescript-eslint/parser').then(m => m.default)
 
