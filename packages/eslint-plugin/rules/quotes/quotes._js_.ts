@@ -323,7 +323,7 @@ export default createRule<RuleOptions, MessageIds>({
           return
         }
 
-        if (avoidEscape && sourceCode.getText(node).includes(settings.quote))
+        if (allowTemplateLiterals && avoidEscape && sourceCode.getText(node).includes(settings.quote))
           return
 
         context.report({

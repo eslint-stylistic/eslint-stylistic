@@ -92,6 +92,7 @@ run({
         'single',
         {
           avoidEscape: true,
+          allowTemplateLiterals: true,
         },
       ],
     },
@@ -101,6 +102,7 @@ run({
         'double',
         {
           avoidEscape: true,
+          allowTemplateLiterals: true,
         },
       ],
     },
