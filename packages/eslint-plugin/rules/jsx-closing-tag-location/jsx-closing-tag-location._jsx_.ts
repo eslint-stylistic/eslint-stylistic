@@ -58,10 +58,8 @@ export default createRule<RuleOptions, MessageIds>({
     ) {
       if (option === 'line-aligned')
         return openingStartOfLine.column
-      else if (option === 'tag-aligned')
-        return opening.loc.start.column
       else
-        throw new Error(`Invalid option ${option}`)
+        return opening.loc.start.column
     }
 
     function handleClosingElement(node: Tree.JSXClosingElement | Tree.JSXClosingFragment) {
