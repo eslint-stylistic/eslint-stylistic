@@ -1,4 +1,4 @@
-import type { JSONSchema, Token, Tree } from '#types'
+import type { JSONSchema, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isCommentToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -292,6 +292,7 @@ export default createRule<RuleOptions, MessageIds>({
       node:
         | Tree.SwitchStatement
         | Tree.ClassBody
+        | Tree.StaticBlock
         | Tree.TSEnumBody
         | Tree.TSInterfaceBody
         | Tree.TSModuleBlock,
@@ -299,7 +300,7 @@ export default createRule<RuleOptions, MessageIds>({
       check(node, node.type)
     }
 
-    return {
+    return <RuleListener>{
       BlockStatement(node) {
         const { parent } = node
 
