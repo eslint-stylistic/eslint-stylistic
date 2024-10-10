@@ -27,6 +27,12 @@ export default createRule<RuleOptions, MessageIds>({
             minimum: 1,
             default: 1,
           },
+          ignoredNodes: {
+            type: 'array',
+            items: {
+              type: 'string',
+            },
+          },
         },
         additionalProperties: false,
       },
@@ -40,6 +46,7 @@ export default createRule<RuleOptions, MessageIds>({
     const sourceCode = context.sourceCode
     const options = context.options[0] || {}
     const maxStatementsPerLine = typeof options.max !== 'undefined' ? options.max : 1
+    const ignoredNodes = options.ignoredNodes || []
 
     let lastStatementLine = 0
     let numberOfStatementsOnThisLine = 0
@@ -124,7 +131,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    return {
+    const listeners: Record<string, (node: ASTNode) => void> = {
       'BreakStatement': enterStatement,
       'ClassDeclaration': enterStatement,
       'ContinueStatement': enterStatement,
@@ -174,5 +181,13 @@ export default createRule<RuleOptions, MessageIds>({
       'ExportAllDeclaration:exit': leaveStatement,
       'Program:exit': reportFirstExtraStatementAndClear,
     }
+
+    for (const key in listeners) {
+      if (ignoredNodes.includes(key) || ignoredNodes.includes(`${key}:exit`)) {
+        delete listeners[key]
+      }
+    }
+
+    return listeners
   },
 })

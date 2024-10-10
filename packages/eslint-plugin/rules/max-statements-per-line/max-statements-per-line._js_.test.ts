@@ -102,6 +102,26 @@ run({
       options: [{ max: 1 }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
+    {
+      code: 'const a = 1; export const b = 2; export const c = 3;',
+      options: [{
+        max: 1,
+        ignoredNodes: ['ExportNamedDeclaration'],
+      }],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
+    {
+      code: [
+        'switch (lorem) {',
+        '  case ipsum: dolor(); break;',
+        '}',
+      ].join('\n'),
+      options: [{
+        max: 1,
+        ignoredNodes: ['BreakStatement'],
+      }],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
   ],
   invalid: [
     { code: 'var foo; var bar;', options: [{ max: 1 }], errors: [{ messageId: 'exceed' }] },
@@ -146,5 +166,18 @@ run({
     { code: 'a; if (b) { c; d; }\nz;', options: [{ max: 2 }], errors: [{ messageId: 'exceed', data: { numberOfStatementsOnThisLine: 4, statements: 'statements', maxStatementsPerLine: 2.0 } }] },
     { code: 'export default function foo() { console.log(\'test\') }', options: [{ max: 1 }], parserOptions: { ecmaVersion: 6, sourceType: 'module' }, errors: [{ messageId: 'exceed' }] },
     { code: 'export function foo() { console.log(\'test\') }', options: [{ max: 1 }], parserOptions: { ecmaVersion: 6, sourceType: 'module' }, errors: [{ messageId: 'exceed' }] },
+    {
+      code: [
+        'for (let i = 0; i < 3; i++){',
+        '  if (a) foo(); else if (b) bar(); else break;',
+        '}',
+      ].join('\n'),
+      options: [{
+        max: 1,
+        ignoredNodes: ['IfStatement'],
+      }],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+      errors: [{ messageId: 'exceed' }],
+    },
   ],
 })
