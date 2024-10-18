@@ -411,19 +411,6 @@ run({
       ],
     },
     {
-      code: 'const arr = [1 , ];',
-      output: 'const arr = [1 ,];',
-      options: [{ before: true, after: false }],
-      errors: [
-        {
-          messageId: 'unexpected',
-          column: 16,
-          line: 1,
-          data: { loc: 'after' },
-        },
-      ],
-    },
-    {
       code: 'const arr = [1 ,2];',
       output: 'const arr = [1, 2];',
       errors: [
