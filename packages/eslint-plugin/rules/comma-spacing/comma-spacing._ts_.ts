@@ -126,23 +126,13 @@ export default createRule<RuleOptions, MessageIds>({
         })
       }
 
-      if (nextToken && isClosingParenToken(nextToken))
-        return
-
-      if (
-        spaceAfter
-        && nextToken
-        && (isClosingBraceToken(nextToken) || isClosingBracketToken(nextToken))
-      ) {
-        return
-      }
-
-      if (!spaceAfter && nextToken && nextToken.type === AST_TOKEN_TYPES.Line)
-        return
-
       if (
         nextToken
         && isTokenOnSameLine(commaToken, nextToken)
+        && !isClosingParenToken(nextToken) // controlled by space-in-parens
+        && !isClosingBracketToken(nextToken) // controlled by array-bracket-spacing
+        && !isClosingBraceToken(nextToken) // controlled by object-curly-spacing
+        && !(!spaceAfter && nextToken.type === AST_TOKEN_TYPES.Line)
         //  -- TODO - switch once our min ESLint version is 6.7.0
         && spaceAfter !== sourceCode.isSpaceBetweenTokens(commaToken, nextToken)
       ) {
