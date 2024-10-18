@@ -1,4 +1,3 @@
-// TODO: Stage 2: Doesn't inherit js version
 import type { Tree } from '#types'
 
 import type { MessageIds, RuleOptions } from './types._ts_'
