@@ -8,9 +8,21 @@ We recommend using [`@stylistic/eslint-plugin`](/packages/default) as it include
 
 ## Install
 
-```sh
+::: code-group
+
+```sh [npm]
 npm i -D @stylistic/eslint-plugin-plus
 ```
+
+```sh [pnpm]
+pnpm add -D @stylistic/eslint-plugin-plus
+```
+
+```sh [yarn]
+yarn add -D @stylistic/eslint-plugin-plus
+```
+
+:::
 
 ## Rules
 
