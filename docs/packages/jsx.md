@@ -10,9 +10,21 @@ We recommend using [`@stylistic/eslint-plugin`](/packages/default) as it include
 
 ## Install
 
-```sh
+::: code-group
+
+```sh [npm]
 npm i -D @stylistic/eslint-plugin-jsx
 ```
+
+```sh [pnpm]
+pnpm add -D @stylistic/eslint-plugin-jsx
+```
+
+```sh [yarn]
+yarn add -D @stylistic/eslint-plugin-jsx
+```
+
+:::
 
 Add `@stylistic/jsx` to your plugins list, and change the prefix for [stylistic rules](#rules) from `react` to `@stylistic/js`:
 

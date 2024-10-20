@@ -17,9 +17,21 @@ This plugin provides some built-in configurations that you can use out of the bo
 
 ## Install
 
-```sh
+::: code-group
+
+```sh [npm]
 npm i -D @stylistic/eslint-plugin
 ```
+
+```sh [pnpm]
+pnpm add -D @stylistic/eslint-plugin
+```
+
+```sh [yarn]
+yarn add -D @stylistic/eslint-plugin
+```
+
+:::
 
 Add `@stylistic` to your plugins list, and prefix [stylistic rules](#rules) with `@stylistic`:
 ::: code-group

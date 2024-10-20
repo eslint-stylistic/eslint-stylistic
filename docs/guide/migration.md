@@ -24,9 +24,21 @@ There are two ways to migrate your project to ESLint Stylistic:
 
 To make the rules configuration easier, we merged all three plugins into one single plugin.
 
-```sh
+::: code-group
+
+```sh [npm]
 npm i -D @stylistic/eslint-plugin
 ```
+
+```sh [pnpm]
+pnpm add -D @stylistic/eslint-plugin
+```
+
+```sh [yarn]
+yarn add -D @stylistic/eslint-plugin
+```
+
+:::
 
 ```js
 // .eslintrc.js  [Legacy Config]
@@ -78,9 +90,21 @@ To make the migration easier, we also provide a 1-to-1 mapping for each source p
 
 #### ESLint Code (JavaScript)
 
-```sh
+::: code-group
+
+```sh [npm]
 npm i -D @stylistic/eslint-plugin-js
 ```
+
+```sh [pnpm]
+pnpm add -D @stylistic/eslint-plugin-js
+```
+
+```sh [yarn]
+yarn add -D @stylistic/eslint-plugin-js
+```
+
+:::
 
 ::: code-group
 
@@ -121,9 +145,21 @@ module.exports = {
 
 #### TypeScript
 
-```sh
+::: code-group
+
+```sh [npm]
 npm i -D @stylistic/eslint-plugin-ts
 ```
+
+```sh [pnpm]
+pnpm add -D @stylistic/eslint-plugin-ts
+```
+
+```sh [yarn]
+yarn add -D @stylistic/eslint-plugin-ts
+```
+
+:::
 
 ::: code-group
 
@@ -163,9 +199,21 @@ module.exports = {
 
 #### JSX
 
-```sh
+::: code-group
+
+```sh [npm]
 npm i -D @stylistic/eslint-plugin-jsx
 ```
+
+```sh [pnpm]
+pnpm add -D @stylistic/eslint-plugin-jsx
+```
+
+```sh [yarn]
+yarn add -D @stylistic/eslint-plugin-jsx
+```
+
+:::
 
 ::: code-group
 
@@ -207,9 +255,21 @@ module.exports = {
 
 We provide an ESLint plugin for migrating built-in stylistic rules to the `@stylistic` namespace.
 
-```sh
+::: code-group
+
+```sh [npm]
 npm i -D @stylistic/eslint-plugin-migrate
 ```
+
+```sh [pnpm]
+pnpm add -D @stylistic/eslint-plugin-migrate
+```
+
+```sh [yarn]
+yarn add -D @stylistic/eslint-plugin-migrate
+```
+
+:::
 
 ```js
 // .eslintrc.js
@@ -300,9 +360,21 @@ module.exports = {
 
 If you want to handle the migration on your own, we also expose the metadata for easier programmatic usage.
 
-```sh
+::: code-group
+
+```sh [npm]
 npm i -D @eslint-stylistic/metadata
 ```
+
+```sh [pnpm]
+pnpm add -D @eslint-stylistic/metadata
+```
+
+```sh [yarn]
+yarn add -D @eslint-stylistic/metadata
+```
+
+:::
 
 ```js
 import { rules, packages } from '@eslint-stylistic/metadata'
