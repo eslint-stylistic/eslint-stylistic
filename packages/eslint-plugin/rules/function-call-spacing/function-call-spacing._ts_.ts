@@ -1,4 +1,3 @@
-// TODO: Stage 2: Doesn't inherit js version
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
@@ -74,30 +73,14 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function checkSpacing(
-      node: Tree.CallExpression | Tree.NewExpression,
+      node: Tree.CallExpression | Tree.NewExpression | Tree.ImportExpression,
+      leftToken: Tree.Token,
+      rightToken: Tree.Token,
     ): void {
       const isOptionalCall = isOptionalCallExpression(node)
 
-      const closingParenToken = sourceCode.getLastToken(node)!
-      const lastCalleeTokenWithoutPossibleParens = sourceCode.getLastToken(
-        node.typeArguments ?? node.callee,
-      )!
-      const openingParenToken = sourceCode.getFirstTokenBetween(
-        lastCalleeTokenWithoutPossibleParens,
-        closingParenToken,
-        isOpeningParenToken,
-      )
-      if (!openingParenToken || openingParenToken.range[1] >= node.range[1]) {
-        // new expression with no parens...
-        return
-      }
-      const lastCalleeToken = sourceCode.getTokenBefore(
-        openingParenToken,
-        isNotOptionalChainPunctuator,
-      )!
-
       const textBetweenTokens = text
-        .slice(lastCalleeToken.range[1], openingParenToken.range[0])
+        .slice(leftToken.range[1], rightToken.range[0])
         .replace(/\/\*.*?\*\//gu, '')
       const hasWhitespace = /\s/u.test(textBetweenTokens)
       const hasNewline
@@ -107,21 +90,35 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasWhitespace) {
           return context.report({
             node,
-            loc: lastCalleeToken.loc.start,
+            loc: {
+              start: leftToken.loc.end,
+              end: {
+                line: rightToken.loc.start.line,
+                column: rightToken.loc.start.column - 1,
+              },
+            },
             messageId: 'unexpectedWhitespace',
             fix(fixer) {
+              // Don't remove comments.
+              if (sourceCode.commentsExistBetween(leftToken, rightToken))
+                return null
+
+              // If `?.` exists, it doesn't hide no-unexpected-multiline errors
+              if (isOptionalCall) {
+                return fixer.replaceTextRange([
+                  leftToken.range[1],
+                  rightToken.range[0],
+                ], '?.')
+              }
+
               /**
                * Only autofix if there is no newline
                * https://github.com/eslint/eslint/issues/7787
                */
-              if (
-                !hasNewline
-                // don't fix optional calls
-                && !isOptionalCall
-              ) {
+              if (!hasNewline) {
                 return fixer.removeRange([
-                  lastCalleeToken.range[1],
-                  openingParenToken.range[0],
+                  leftToken.range[1],
+                  rightToken.range[0],
                 ])
               }
 
@@ -130,40 +127,57 @@ export default createRule<RuleOptions, MessageIds>({
           })
         }
       }
-      else if (isOptionalCall) {
-        // disallow:
-        // foo?. ();
-        // foo ?.();
-        // foo ?. ();
-        if (hasWhitespace || hasNewline) {
-          context.report({
-            node,
-            loc: lastCalleeToken.loc.start,
-            messageId: 'unexpectedWhitespace',
-          })
-        }
-      }
       else {
         if (!hasWhitespace) {
           context.report({
             node,
-            loc: lastCalleeToken.loc.start,
+            loc: {
+              start: {
+                line: leftToken.loc.end.line,
+                column: leftToken.loc.end.column - 1,
+              },
+              end: rightToken.loc.start,
+            },
             messageId: 'missing',
             fix(fixer) {
-              return fixer.insertTextBefore(openingParenToken, ' ')
+              if (isOptionalCall)
+                return null
+
+              return fixer.insertTextBefore(rightToken, ' ')
             },
           })
         }
         else if (!config!.allowNewlines && hasNewline) {
           context.report({
             node,
-            loc: lastCalleeToken.loc.start,
+            loc: {
+              start: leftToken.loc.end,
+              end: rightToken.loc.start,
+            },
             messageId: 'unexpectedNewline',
             fix(fixer) {
-              return fixer.replaceTextRange(
-                [lastCalleeToken.range[1], openingParenToken.range[0]],
-                ' ',
-              )
+              /**
+               * Only autofix if there is no newline
+               * https://github.com/eslint/eslint/issues/7787
+               * But if `?.` exists, it doesn't hide no-unexpected-multiline errors
+               */
+              if (!isOptionalCall)
+                return null
+
+              // Don't remove comments.
+              if (sourceCode.commentsExistBetween(leftToken, rightToken))
+                return null
+
+              const range = [leftToken.range[1], rightToken.range[0]] as const
+              const qdToken = sourceCode.getTokenAfter(leftToken)!
+
+              if (qdToken.range[0] === leftToken.range[1])
+                return fixer.replaceTextRange(range, '?. ')
+
+              if (qdToken.range[1] === rightToken.range[0])
+                return fixer.replaceTextRange(range, ' ?.')
+
+              return fixer.replaceTextRange(range, ' ?. ')
             },
           })
         }
@@ -171,8 +185,34 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     return {
-      CallExpression: checkSpacing,
-      NewExpression: checkSpacing,
+      'CallExpression, NewExpression': function (node: Tree.CallExpression | Tree.NewExpression) {
+        const closingParenToken = sourceCode.getLastToken(node)!
+        const lastCalleeTokenWithoutPossibleParens = sourceCode.getLastToken(
+          node.typeArguments ?? node.callee,
+        )!
+
+        const openingParenToken = sourceCode.getFirstTokenBetween(
+          lastCalleeTokenWithoutPossibleParens,
+          closingParenToken,
+          isOpeningParenToken,
+        )
+        if (!openingParenToken || openingParenToken.range[1] >= node.range[1]) {
+        // new expression with no parens...
+          return
+        }
+        const lastCalleeToken = sourceCode.getTokenBefore(
+          openingParenToken,
+          isNotOptionalChainPunctuator,
+        )!
+
+        checkSpacing(node, lastCalleeToken, openingParenToken)
+      },
+      ImportExpression(node) {
+        const leftToken = sourceCode.getFirstToken(node)!
+        const rightToken = sourceCode.getTokenAfter(leftToken)!
+
+        checkSpacing(node, leftToken, rightToken)
+      },
     }
   },
 })

@@ -141,7 +141,7 @@ run({
         errors: [
           {
             messageId: 'unexpectedWhitespace' as const,
-            column: 3,
+            column: 4,
           },
         ],
       },
@@ -151,7 +151,7 @@ run({
         errors: [
           {
             messageId: 'unexpectedWhitespace' as const,
-            column: 7,
+            column: 8,
           },
         ],
       },
@@ -204,7 +204,7 @@ run({
           {
             messageId: 'unexpectedWhitespace' as const,
             line: 2,
-            column: 23,
+            column: 24,
           },
         ],
       },
@@ -218,7 +218,7 @@ run({
           {
             messageId: 'unexpectedWhitespace' as const,
             line: 1,
-            column: 9,
+            column: 12,
           },
         ],
       },
@@ -232,7 +232,7 @@ run({
           {
             messageId: 'unexpectedWhitespace' as const,
             line: 1,
-            column: 9,
+            column: 12,
           },
         ],
       },
@@ -300,11 +300,11 @@ run({
     ...[
       {
         code: 'f\n();',
-        output: 'f ();',
+        output: null,
       },
       {
         code: 'f\n(a, b);',
-        output: 'f (a, b);',
+        output: null,
       },
       {
         code: 'f.b();',
@@ -318,7 +318,7 @@ run({
       },
       {
         code: 'f.b\n();',
-        output: 'f.b ();',
+        output: null,
       },
       {
         code: 'f.b().c ();',
@@ -332,15 +332,15 @@ run({
       },
       {
         code: 'f.b\n().c ();',
-        output: 'f.b ().c ();',
+        output: null,
       },
       {
         code: 'f\n() ()',
-        output: 'f () ()',
+        output: null,
       },
       {
         code: 'f\n()()',
-        output: 'f () ()',
+        output: 'f\n() ()',
         errors: [
           {
             messageId: 'unexpectedNewline' as const,
@@ -373,11 +373,11 @@ run({
       },
       {
         code: 'f\r();',
-        output: 'f ();',
+        output: null,
       },
       {
         code: 'f\u2028();',
-        output: 'f ();',
+        output: null,
         errors: [
           {
             messageId: 'unexpectedNewline' as const,
@@ -386,7 +386,7 @@ run({
       },
       {
         code: 'f\u2029();',
-        output: 'f ();',
+        output: null,
         errors: [
           {
             messageId: 'unexpectedNewline' as const,
@@ -395,7 +395,7 @@ run({
       },
       {
         code: 'f\r\n();',
-        output: 'f ();',
+        output: null,
       },
     ].map<InvalidTestCase>(code => ({
       options: ['always'],
@@ -485,29 +485,24 @@ run({
       'f?.\n();',
       'f\n?.\n();',
     ].reduce<InvalidTestCase[]>((acc, code) => {
+      const hasNewLine = code.includes('\n')
+
+      if (hasNewLine) {
+        acc.push(
+          {
+            options: ['always'],
+            errors: [
+              {
+                messageId: 'unexpectedNewline',
+              },
+            ],
+            code,
+            output: code.replaceAll('\n', ' '),
+          },
+        )
+      }
+
       acc.push(
-        {
-          options: ['always', { allowNewlines: true }],
-          errors: [
-            {
-              messageId: 'unexpectedWhitespace',
-            },
-          ],
-          code,
-          // apply no fixers to it
-          output: null,
-        },
-        {
-          options: ['always'],
-          errors: [
-            {
-              messageId: 'unexpectedWhitespace',
-            },
-          ],
-          code,
-          // apply no fixers to it
-          output: null,
-        },
         {
           options: ['never'],
           errors: [
@@ -516,8 +511,7 @@ run({
             },
           ],
           code,
-          // apply no fixers to it
-          output: null,
+          output: 'f?.();',
         },
       )
 
