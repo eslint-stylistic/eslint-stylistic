@@ -107,8 +107,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (
         prevToken
         && isTokenOnSameLine(prevToken, commaToken)
-        //  -- TODO - switch once our min ESLint version is 6.7.0
-        && spaceBefore !== sourceCode.isSpaceBetweenTokens(prevToken, commaToken)
+        && spaceBefore !== sourceCode.isSpaceBetween(prevToken, commaToken)
       ) {
         context.report({
           node: commaToken,
@@ -143,8 +142,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (
         nextToken
         && isTokenOnSameLine(commaToken, nextToken)
-        //  -- TODO - switch once our min ESLint version is 6.7.0
-        && spaceAfter !== sourceCode.isSpaceBetweenTokens(commaToken, nextToken)
+        && spaceAfter !== sourceCode.isSpaceBetween(commaToken, nextToken)
       ) {
         context.report({
           node: commaToken,
