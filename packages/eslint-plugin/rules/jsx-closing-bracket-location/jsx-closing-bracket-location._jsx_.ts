@@ -267,8 +267,13 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     const lastAttributeNode: Record<string, ASTNode> = {}
-
+    const comments: Record<string, Tree.Comment> = {}
     return {
+      Program(node) {
+        for (const comment of (node.comments || [])) {
+          comments[comment.loc.end.line] = comment
+        }
+      },
       JSXAttribute(node) {
         lastAttributeNode[getOpeningElementId(node.parent)] = node
       },
@@ -283,11 +288,28 @@ export default createRule<RuleOptions, MessageIds>({
 
         let expectedNextLine: boolean | undefined
         const tokens = getTokensLocations(node)
-        const expectedLocation = getExpectedLocation(tokens)
+        let expectedLocation = getExpectedLocation(tokens)
         let usingSameIndentation = true
 
         if (expectedLocation === 'tag-aligned')
           usingSameIndentation = tokens.isTab.openTab === tokens.isTab.closeTab
+
+        // get last not empty line in attributes
+        const sourceCodes = context.sourceCode.lines
+        let lastAttrLine = node.loc.end.line - 1
+        while (/^\s*$/.test(sourceCodes[lastAttrLine - 1]) && lastAttrLine > node.loc.start.line) {
+          lastAttrLine -= 1
+        }
+        // when last prop(or start tag) need to be on the same line with closing tag
+        // but have comment between last prop and closing tag. change to 'line-aligned'
+        const tagEndLineBeforeComment = !!comments[lastAttrLine]
+        if (
+          (expectedLocation === 'after-props' || expectedLocation === 'after-tag')
+          && !(hasCorrectLocation(tokens, expectedLocation) && usingSameIndentation)
+          && tagEndLineBeforeComment
+        ) {
+          expectedLocation = 'line-aligned'
+        }
 
         if (hasCorrectLocation(tokens, expectedLocation) && usingSameIndentation)
           return
@@ -325,6 +347,9 @@ export default createRule<RuleOptions, MessageIds>({
               case 'props-aligned':
               case 'tag-aligned':
               case 'line-aligned':
+                if (tagEndLineBeforeComment) {
+                  return fixer.replaceTextRange([comments[lastAttrLine].range[1], node.range[1]], `\n${getIndentation(tokens, expectedLocation, correctColumn!)}${closingTag}`)
+                }
                 return fixer.replaceTextRange([cachedLastAttributeEndPos!, node.range[1]], `\n${getIndentation(tokens, expectedLocation, correctColumn!)}${closingTag}`)
             }
             return null
