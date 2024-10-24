@@ -3,7 +3,7 @@
  * @author Yannick Croissant
  */
 
-import type { ASTNode, Tree } from '#types'
+import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 
@@ -256,35 +256,10 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    /**
-     * Get an unique ID for a given JSXOpeningElement
-     *
-     * @param node The AST node being checked.
-     * @returns Unique ID (based on its range)
-     */
-    function getOpeningElementId(node: ASTNode): string {
-      return node.range.join(':')
-    }
-
-    const lastAttributeNode: Record<string, ASTNode> = {}
-    const comments: Record<string, Tree.Comment> = {}
     return {
-      Program(node) {
-        for (const comment of (node.comments || [])) {
-          comments[comment.loc.end.line] = comment
-        }
-      },
-      JSXAttribute(node) {
-        lastAttributeNode[getOpeningElementId(node.parent)] = node
-      },
-
-      JSXSpreadAttribute(node) {
-        lastAttributeNode[getOpeningElementId(node.parent)] = node
-      },
-
       'JSXOpeningElement:exit': function (node) {
-        const attributeNode = lastAttributeNode[getOpeningElementId(node)]
-        const cachedLastAttributeEndPos = attributeNode ? attributeNode.range[1] : null
+        const lastAttributeNode = node.attributes.at(-1)
+        const cachedLastAttributeEndPos = lastAttributeNode ? lastAttributeNode.range[1] : null
 
         let expectedNextLine: boolean | undefined
         const tokens = getTokensLocations(node)
@@ -294,19 +269,14 @@ export default createRule<RuleOptions, MessageIds>({
         if (expectedLocation === 'tag-aligned')
           usingSameIndentation = tokens.isTab.openTab === tokens.isTab.closeTab
 
-        // get last not empty line in attributes
-        const sourceCodes = context.sourceCode.lines
-        let lastAttrLine = node.loc.end.line - 1
-        while (/^\s*$/.test(sourceCodes[lastAttrLine - 1]) && lastAttrLine > node.loc.start.line) {
-          lastAttrLine -= 1
-        }
+        const lastComment = context.sourceCode.getCommentsInside(node).at(-1)
         // when last prop(or start tag) need to be on the same line with closing tag
         // but have comment between last prop and closing tag. change to 'line-aligned'
-        const tagEndLineBeforeComment = !!comments[lastAttrLine]
+        const hasTrailingComment = lastComment && lastComment.range[0] > (lastAttributeNode ?? node.name).range[1]
         if (
           (expectedLocation === 'after-props' || expectedLocation === 'after-tag')
           && !(hasCorrectLocation(tokens, expectedLocation) && usingSameIndentation)
-          && tagEndLineBeforeComment
+          && hasTrailingComment
         ) {
           expectedLocation = 'line-aligned'
         }
@@ -346,11 +316,10 @@ export default createRule<RuleOptions, MessageIds>({
                 return fixer.replaceTextRange([cachedLastAttributeEndPos!, node.range[1]], (expectedNextLine ? '\n' : '') + closingTag)
               case 'props-aligned':
               case 'tag-aligned':
-              case 'line-aligned':
-                if (tagEndLineBeforeComment) {
-                  return fixer.replaceTextRange([comments[lastAttrLine].range[1], node.range[1]], `\n${getIndentation(tokens, expectedLocation, correctColumn!)}${closingTag}`)
-                }
-                return fixer.replaceTextRange([cachedLastAttributeEndPos!, node.range[1]], `\n${getIndentation(tokens, expectedLocation, correctColumn!)}${closingTag}`)
+              case 'line-aligned': {
+                const rangeStart = hasTrailingComment ? lastComment.range[1] : cachedLastAttributeEndPos
+                return fixer.replaceTextRange([rangeStart!, node.range[1]], `\n${getIndentation(tokens, expectedLocation, correctColumn!)}${closingTag}`)
+              }
             }
             return null
           },
