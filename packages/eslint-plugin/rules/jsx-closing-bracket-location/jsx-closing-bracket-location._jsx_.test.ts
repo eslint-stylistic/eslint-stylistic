@@ -35,6 +35,18 @@ run({
     },
     {
       code: `
+        <App
+          // comment
+        />
+      `,
+    },
+    {
+      code: `
+        <App /** comment */ />
+      `,
+    },
+    {
+      code: `
         <App foo />
       `,
     },
@@ -42,6 +54,14 @@ run({
       code: `
         <App
           foo
+        />
+      `,
+    },
+    {
+      code: `
+        <App
+          foo
+          // comment
         />
       `,
     },
