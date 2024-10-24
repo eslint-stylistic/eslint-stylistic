@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.9.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.9.0...v2.9.1) (2024-10-24)
+
+
+### Chores
+
+* replace deprecated api with new api ([#567](https://github.com/eslint-stylistic/eslint-stylistic/issues/567)) ([3db4870](https://github.com/eslint-stylistic/eslint-stylistic/commit/3db4870f56b5f999439987eb904361488e764cc6))
+
 ## [2.9.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.8.0...v2.9.0) (2024-10-05)
 
 
