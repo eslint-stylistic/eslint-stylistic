@@ -35,6 +35,18 @@ run({
     },
     {
       code: `
+        <App
+          // comment
+        />
+      `,
+    },
+    {
+      code: `
+        <App /** comment */ />
+      `,
+    },
+    {
+      code: `
         <App foo />
       `,
     },
@@ -42,6 +54,29 @@ run({
       code: `
         <App
           foo
+        />
+      `,
+    },
+    {
+      code: `
+        <App
+          foo
+          // comment
+        />
+      `,
+    },
+    {
+      code: `
+        <App
+          {...foo}
+        />
+      `,
+    },
+    {
+      code: `
+        <App
+          {...foo}
+          // comment
         />
       `,
     },
@@ -1901,6 +1936,182 @@ run({
             details: details(7, false),
           },
           line: 4,
+          column: 6,
+        },
+      ],
+    },
+    {
+      code: `
+        <input
+          // comment
+          type="text"
+          // comment
+          />
+      `,
+      output: `
+        <input
+          // comment
+          type="text"
+          // comment
+        />
+      `,
+      options: [{ location: 'tag-aligned' }],
+      errors: [
+        {
+          messageId: 'bracketLocation',
+          data: {
+            location: MESSAGE_TAG_ALIGNED,
+            details: details(9, false),
+          },
+          line: 6,
+          column: 11,
+        },
+      ],
+    },
+    {
+      code: `
+        <input
+          // comment
+          type="text"
+          /**
+           * 
+           * comment
+           * 
+           */
+          />
+      `,
+      output: `
+        <input
+          // comment
+          type="text"
+          /**
+           * 
+           * comment
+           * 
+           */
+        />
+      `,
+      options: [{ location: 'tag-aligned' }],
+      errors: [
+        {
+          messageId: 'bracketLocation',
+          data: {
+            location: MESSAGE_TAG_ALIGNED,
+            details: details(9, false),
+          },
+          line: 10,
+          column: 11,
+        },
+      ],
+    },
+    {
+      code: `
+        <input
+          // comment
+          type="text"
+
+        />
+      `,
+      output: `
+        <input
+          // comment
+          type="text"/>
+      `,
+      options: [{ location: 'after-props' }],
+      errors: [
+        {
+          messageId: 'bracketLocation',
+          data: {
+            location: MESSAGE_AFTER_PROPS,
+            details: '',
+          },
+          line: 6,
+          column: 9,
+        },
+      ],
+    },
+    {
+      code: `
+        <input
+          // comment
+          type="text"
+          // comment
+          />
+      `,
+      output: `
+        <input
+          // comment
+          type="text"
+          // comment
+        />
+      `,
+      options: [{ location: 'after-props' }],
+      errors: [
+        {
+          messageId: 'bracketLocation',
+          data: {
+            location: MESSAGE_LINE_ALIGNED,
+            details: details(9, false),
+          },
+          line: 6,
+          column: 11,
+        },
+      ],
+    },
+    {
+      code: `
+        <input
+          // comment
+          // comment
+          />
+      `,
+      output: `
+        <input
+          // comment
+          // comment
+        />
+      `,
+      options: [{ location: 'after-props' }],
+      errors: [
+        {
+          messageId: 'bracketLocation',
+          data: {
+            location: MESSAGE_LINE_ALIGNED,
+            details: details(9, false),
+          },
+          line: 5,
+          column: 11,
+        },
+      ],
+    },
+    {
+      code: `
+\t\t\t\t<a
+\t\t\t\t\thref="javascript:;"
+\t\t\t\t\t// comment
+\t\t\t\t\t// comment
+\t\t\t\t\t>
+\t\t\t\t\ttext
+\t\t\t\t</a>
+      `,
+      output: `
+\t\t\t\t<a
+\t\t\t\t\thref="javascript:;"
+\t\t\t\t\t// comment
+\t\t\t\t\t// comment
+\t\t\t\t>
+\t\t\t\t\ttext
+\t\t\t\t</a>
+      `,
+      options: [{ location: 'after-props' }],
+      errors: [
+        {
+          messageId: 'bracketLocation',
+          data: {
+            location: MESSAGE_LINE_ALIGNED,
+            details: details(5, false),
+          },
+          line: 6,
           column: 6,
         },
       ],
