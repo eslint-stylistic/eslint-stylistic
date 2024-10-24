@@ -67,6 +67,21 @@ run({
     },
     {
       code: `
+        <App
+          {...foo}
+        />
+      `,
+    },
+    {
+      code: `
+        <App
+          {...foo}
+          // comment
+        />
+      `,
+    },
+    {
+      code: `
         <App foo />
       `,
       options: [{ location: 'after-props' }],
