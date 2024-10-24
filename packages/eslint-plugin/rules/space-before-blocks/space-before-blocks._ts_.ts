@@ -36,8 +36,7 @@ export default createRule<RuleOptions, MessageIds>({
     ): void {
       const precedingToken = sourceCode.getTokenBefore(node)
       if (precedingToken && isTokenOnSameLine(precedingToken, node)) {
-        //  -- TODO - switch once our min ESLint version is 6.7.0
-        const hasSpace = sourceCode.isSpaceBetweenTokens(
+        const hasSpace = sourceCode.isSpaceBetween(
           precedingToken,
           node as Tree.Token,
         )
