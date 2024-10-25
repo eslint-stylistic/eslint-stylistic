@@ -316,4 +316,24 @@ it('snapshots', async () => {
         && e)
     )"
   `)
+
+  expect.soft(
+    fix($`
+      {
+        const a = false
+        || (a && b)
+        || (c && d)
+        || (e && f)
+        || (g && h)
+      }
+    `),
+  ).toMatchInlineSnapshot(`
+    "{
+      const a = false
+        || (a && b)
+        || (c && d)
+        || (e && f)
+        || (g && h)
+    }"
+  `)
 })
