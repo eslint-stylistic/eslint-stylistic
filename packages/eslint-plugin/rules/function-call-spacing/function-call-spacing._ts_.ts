@@ -75,13 +75,13 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkSpacing(
       node: Tree.CallExpression | Tree.NewExpression | Tree.ImportExpression,
-      lastCalleeToken: Tree.Token,
-      openingParenToken: Tree.Token,
+      leftToken: Tree.Token,
+      rightToken: Tree.Token,
     ): void {
       const isOptionalCall = isOptionalCallExpression(node)
 
       const textBetweenTokens = text
-        .slice(lastCalleeToken.range[1], openingParenToken.range[0])
+        .slice(leftToken.range[1], rightToken.range[0])
         .replace(/\/\*.*?\*\//gu, '')
       const hasWhitespace = /\s/u.test(textBetweenTokens)
       const hasNewline
@@ -91,7 +91,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasWhitespace) {
           return context.report({
             node,
-            loc: lastCalleeToken.loc.start,
+            loc: leftToken.loc.start,
             messageId: 'unexpectedWhitespace',
             fix(fixer) {
               /**
@@ -104,8 +104,8 @@ export default createRule<RuleOptions, MessageIds>({
                 && !isOptionalCall
               ) {
                 return fixer.removeRange([
-                  lastCalleeToken.range[1],
-                  openingParenToken.range[0],
+                  leftToken.range[1],
+                  rightToken.range[0],
                 ])
               }
 
@@ -122,7 +122,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasWhitespace || hasNewline) {
           context.report({
             node,
-            loc: lastCalleeToken.loc.start,
+            loc: leftToken.loc.start,
             messageId: 'unexpectedWhitespace',
           })
         }
@@ -131,21 +131,21 @@ export default createRule<RuleOptions, MessageIds>({
         if (!hasWhitespace) {
           context.report({
             node,
-            loc: lastCalleeToken.loc.start,
+            loc: leftToken.loc.start,
             messageId: 'missing',
             fix(fixer) {
-              return fixer.insertTextBefore(openingParenToken, ' ')
+              return fixer.insertTextBefore(rightToken, ' ')
             },
           })
         }
         else if (!config!.allowNewlines && hasNewline) {
           context.report({
             node,
-            loc: lastCalleeToken.loc.start,
+            loc: leftToken.loc.start,
             messageId: 'unexpectedNewline',
             fix(fixer) {
               return fixer.replaceTextRange(
-                [lastCalleeToken.range[1], openingParenToken.range[0]],
+                [leftToken.range[1], rightToken.range[0]],
                 ' ',
               )
             },
