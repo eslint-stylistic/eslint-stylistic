@@ -42,6 +42,23 @@ export default createRule<RuleOptions, MessageIds>({
       return sourceCode.lines[line - 1].match(/^\s*/)?.[0] ?? ''
     }
 
+    function subtractionIndent(indent: string) {
+      if (options[0] === 'tab') {
+        return indent.slice(1)
+      }
+      return indent.slice(options[0] ?? 2)
+    }
+
+    function getTargetIndent(indent: string, needAdditionIndent: boolean, needSubtractionIndent: boolean) {
+      if (needAdditionIndent && !needSubtractionIndent) {
+        return indent + indentStr
+      }
+      if (!needAdditionIndent && needSubtractionIndent) {
+        return subtractionIndent(indent)
+      }
+      return indent
+    }
+
     function firstTokenOfLine(line: number) {
       return sourceCode.tokensAndComments.find(token => token.loc.start.line === line)
     }
@@ -78,16 +95,22 @@ export default createRule<RuleOptions, MessageIds>({
         // First line is a keyword (but exclude `typeof`, `instanceof`, `this`)
         || (firstTokenOfLineLeft?.type === 'Keyword' && !['typeof', 'instanceof', 'this'].includes(firstTokenOfLineLeft.value))
         // First line is a `type` keyword in a type alias declaration
-        || (firstTokenOfLineLeft?.type === 'Identifier' && firstTokenOfLineLeft.value === 'type' && node.parent?.type === 'TSTypeAliasDeclaration')
-        // End of line is a opening bracket
-        || [':', '[', '(', '<', '='].includes(lastTokenOfLineLeft?.value || '')
-        // Before the left token is a opening bracket
-        || (['[', '(', '=>', ':'].includes(tokenBeforeAll?.value || '') && firstTokenOfLineLeft?.loc.start.line === tokenBeforeAll?.loc.start.line)
-        // Chain of `||` or `&&` operators
-        || (['||', '&&'].includes(lastTokenOfLineLeft?.value || '') && node.loc.start.line === tokenLeft.loc.start.line && node.loc.start.column !== getIndentOfLine(node.loc.start.line).length)
+      || (firstTokenOfLineLeft?.type === 'Identifier' && firstTokenOfLineLeft.value === 'type' && node.parent?.type === 'TSTypeAliasDeclaration')
+      // End of line is a opening bracket
+    || [':', '[', '(', '<', '='].includes(lastTokenOfLineLeft?.value || '')
+      // Before the left token is a opening bracket
+  || (['[', '(', '=>', ':'].includes(tokenBeforeAll?.value || '') && firstTokenOfLineLeft?.loc.start.line === tokenBeforeAll?.loc.start.line)
+      // Chain of `||` or `&&` operators
+|| (['||', '&&'].includes(lastTokenOfLineLeft?.value || '') && node.loc.start.line === tokenLeft.loc.start.line && node.loc.start.column !== getIndentOfLine(node.loc.start.line).length)
 
-      const indentTarget = getIndentOfLine(tokenLeft.loc.start.line) + (needAdditionIndent ? indentStr : '')
+      const needSubtractionIndent = false
+        // End of line is a closing bracket
+        || [']', ')'].includes(lastTokenOfLineLeft?.value || '')
+
+      const indentLeft = getIndentOfLine(tokenLeft.loc.start.line)
       const indentRight = getIndentOfLine(tokenRight.loc.start.line)
+      const indentTarget = getTargetIndent(indentLeft, needAdditionIndent, needSubtractionIndent)
+
       if (indentTarget !== indentRight) {
         const start = {
           line: tokenRight.loc.start.line,

@@ -147,13 +147,13 @@ it('snapshots', async () => {
 
   expect.soft(
     fix($`
-      type Foo = 
+      type Foo =
       | A | C
         | B
     `),
   ).toMatchInlineSnapshot(
     `
-    "type Foo = 
+    "type Foo =
       | A | C
       | B"
   `,
@@ -179,16 +179,16 @@ it('snapshots', async () => {
 
   expect.soft(
     fix($`
-      type T = 
-      a 
-      | b 
+      type T =
+      a
+      | b
         | c
     `),
   ).toMatchInlineSnapshot(
     `
-    "type T = 
-      a 
-      | b 
+    "type T =
+      a
+      | b
       | c"
   `,
   )
@@ -222,7 +222,7 @@ it('snapshots', async () => {
   expect.soft(
     fix($`
       type Foo = Merge<
-          A 
+          A
         & B
           & C
       >
@@ -230,7 +230,7 @@ it('snapshots', async () => {
   ).toMatchInlineSnapshot(
     `
     "type Foo = Merge<
-      A 
+      A
       & B
       & C
     >"
@@ -298,4 +298,22 @@ it('snapshots', async () => {
     };"
   `,
   )
+
+  expect.soft(
+    fix($`
+      const a = (
+        (b
+            && c)
+          || (d
+        && e)
+      )
+    `),
+  ).toMatchInlineSnapshot(`
+    "const a = (
+      (b
+        && c)
+      || (d
+        && e)
+    )"
+  `)
 })
