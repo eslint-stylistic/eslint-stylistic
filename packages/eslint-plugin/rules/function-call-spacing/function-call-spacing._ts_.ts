@@ -74,27 +74,11 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function checkSpacing(
-      node: Tree.CallExpression | Tree.NewExpression,
+      node: Tree.CallExpression | Tree.NewExpression | Tree.ImportExpression,
+      lastCalleeToken: Tree.Token,
+      openingParenToken: Tree.Token,
     ): void {
       const isOptionalCall = isOptionalCallExpression(node)
-
-      const closingParenToken = sourceCode.getLastToken(node)!
-      const lastCalleeTokenWithoutPossibleParens = sourceCode.getLastToken(
-        node.typeArguments ?? node.callee,
-      )!
-      const openingParenToken = sourceCode.getFirstTokenBetween(
-        lastCalleeTokenWithoutPossibleParens,
-        closingParenToken,
-        isOpeningParenToken,
-      )
-      if (!openingParenToken || openingParenToken.range[1] >= node.range[1]) {
-        // new expression with no parens...
-        return
-      }
-      const lastCalleeToken = sourceCode.getTokenBefore(
-        openingParenToken,
-        isNotOptionalChainPunctuator,
-      )!
 
       const textBetweenTokens = text
         .slice(lastCalleeToken.range[1], openingParenToken.range[0])
@@ -171,8 +155,34 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     return {
-      CallExpression: checkSpacing,
-      NewExpression: checkSpacing,
+      'CallExpression, NewExpression': function (node: Tree.CallExpression | Tree.NewExpression) {
+        const closingParenToken = sourceCode.getLastToken(node)!
+        const lastCalleeTokenWithoutPossibleParens = sourceCode.getLastToken(
+          node.typeArguments ?? node.callee,
+        )!
+
+        const openingParenToken = sourceCode.getFirstTokenBetween(
+          lastCalleeTokenWithoutPossibleParens,
+          closingParenToken,
+          isOpeningParenToken,
+        )
+        if (!openingParenToken || openingParenToken.range[1] >= node.range[1]) {
+          // new expression with no parens...
+          return
+        }
+        const lastCalleeToken = sourceCode.getTokenBefore(
+          openingParenToken,
+          isNotOptionalChainPunctuator,
+        )!
+
+        checkSpacing(node, lastCalleeToken, openingParenToken)
+      },
+      ImportExpression(node) {
+        const leftToken = sourceCode.getFirstToken(node)!
+        const rightToken = sourceCode.getTokenAfter(leftToken)!
+
+        checkSpacing(node, leftToken, rightToken)
+      },
     }
   },
 })
