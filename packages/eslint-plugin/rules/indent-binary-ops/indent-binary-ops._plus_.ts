@@ -67,18 +67,16 @@ export default createRule<RuleOptions, MessageIds>({
       return [...sourceCode.tokensAndComments].reverse().find(token => token.loc.end.line === line)
     }
 
-    function isBracketBalancedOnLine(line: number) {
+    function isBracketBalancedOfLine(line: number) {
       const tokensAndCommentsOfLine = sourceCode.tokensAndComments.filter(token => token.loc.start.line === line)
-      const openBracket = ['(', '[']
-      const closeBracket = [')', ']']
 
       let openBracketCount = 0
       let closeBracketCount = 0
       for (const token of tokensAndCommentsOfLine) {
-        if (openBracket.includes(token.value)) {
+        if (token.value === '(') {
           openBracketCount++
         }
-        if (closeBracket.includes(token.value)) {
+        if (token.value === ')') {
           closeBracketCount++
         }
       }
@@ -122,7 +120,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       const needSubtractionIndent = false
         // End of line is a closing bracket
-        || ([']', ')'].includes(lastTokenOfLineLeft?.value || '') && !isBracketBalancedOnLine(tokenLeft.loc.start.line))
+        || (lastTokenOfLineLeft?.value === ')' && !isBracketBalancedOfLine(tokenLeft.loc.start.line))
 
       const indentLeft = getIndentOfLine(tokenLeft.loc.start.line)
       const indentRight = getIndentOfLine(tokenRight.loc.start.line)
