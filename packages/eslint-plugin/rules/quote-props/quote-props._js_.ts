@@ -213,8 +213,11 @@ export default createRule<RuleOptions, MessageIds>({
     function checkConsistencyForObject(node: Tree.ObjectExpression, checkQuotesRedundancy: boolean): void {
       checkConsistency(
         node.properties.filter((property): property is Tree.PropertyNonComputedName =>
-          property.type !== 'SpreadElement' && !property.method && !property.computed && !property.shorthand,
-        ),
+          property.type !== 'SpreadElement'
+          // When called from `quote-props._ts_.ts`, it may be a `TypeElement`.
+          // Therefore, we need to check whether the `key` exists.
+          && property.key
+          && !property.method && !property.computed && !property.shorthand),
         checkQuotesRedundancy,
       )
     }
