@@ -102,6 +102,8 @@ run({
     { code: 'import "./foo" with { a: "foo", ":": "foo", c: "foo" }', options: ['as-needed'] },
     { code: 'import "./foo" with { "a": "foo", ":": "foo", "c": "foo" }', options: ['consistent'] },
     { code: 'import "./foo" with { "a": "foo", ":": "foo", "c": "foo" }', options: ['consistent-as-needed'] },
+    'export {foo} from "./foo" with { "a": "foo" }',
+    'export * from "./foo" with { "a": "foo" }',
   ],
   invalid: [{
     code: '({ a: 0 })',
@@ -514,6 +516,18 @@ run({
     errors: [
       { messageId: 'inconsistentlyQuotedProperty', data: { key: 'a' } },
       { messageId: 'inconsistentlyQuotedProperty', data: { key: 'c' } },
+    ],
+  }, {
+    code: 'export {foo} from "./foo" with { a: "foo" }',
+    output: 'export {foo} from "./foo" with { "a": "foo" }',
+    errors: [
+      { messageId: 'unquotedPropertyFound', data: { property: 'a' } },
+    ],
+  }, {
+    code: 'export * from "./foo" with { a: "foo" }',
+    output: 'export * from "./foo" with { "a": "foo" }',
+    errors: [
+      { messageId: 'unquotedPropertyFound', data: { property: 'a' } },
     ],
   }],
 
