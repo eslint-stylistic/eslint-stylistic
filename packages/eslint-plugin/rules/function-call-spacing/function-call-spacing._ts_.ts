@@ -74,30 +74,14 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function checkSpacing(
-      node: Tree.CallExpression | Tree.NewExpression,
+      node: Tree.CallExpression | Tree.NewExpression | Tree.ImportExpression,
+      leftToken: Tree.Token,
+      rightToken: Tree.Token,
     ): void {
       const isOptionalCall = isOptionalCallExpression(node)
 
-      const closingParenToken = sourceCode.getLastToken(node)!
-      const lastCalleeTokenWithoutPossibleParens = sourceCode.getLastToken(
-        node.typeArguments ?? node.callee,
-      )!
-      const openingParenToken = sourceCode.getFirstTokenBetween(
-        lastCalleeTokenWithoutPossibleParens,
-        closingParenToken,
-        isOpeningParenToken,
-      )
-      if (!openingParenToken || openingParenToken.range[1] >= node.range[1]) {
-        // new expression with no parens...
-        return
-      }
-      const lastCalleeToken = sourceCode.getTokenBefore(
-        openingParenToken,
-        isNotOptionalChainPunctuator,
-      )!
-
       const textBetweenTokens = text
-        .slice(lastCalleeToken.range[1], openingParenToken.range[0])
+        .slice(leftToken.range[1], rightToken.range[0])
         .replace(/\/\*.*?\*\//gu, '')
       const hasWhitespace = /\s/u.test(textBetweenTokens)
       const hasNewline
@@ -107,7 +91,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasWhitespace) {
           return context.report({
             node,
-            loc: lastCalleeToken.loc.start,
+            loc: leftToken.loc.start,
             messageId: 'unexpectedWhitespace',
             fix(fixer) {
               /**
@@ -120,8 +104,8 @@ export default createRule<RuleOptions, MessageIds>({
                 && !isOptionalCall
               ) {
                 return fixer.removeRange([
-                  lastCalleeToken.range[1],
-                  openingParenToken.range[0],
+                  leftToken.range[1],
+                  rightToken.range[0],
                 ])
               }
 
@@ -138,7 +122,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasWhitespace || hasNewline) {
           context.report({
             node,
-            loc: lastCalleeToken.loc.start,
+            loc: leftToken.loc.start,
             messageId: 'unexpectedWhitespace',
           })
         }
@@ -147,21 +131,21 @@ export default createRule<RuleOptions, MessageIds>({
         if (!hasWhitespace) {
           context.report({
             node,
-            loc: lastCalleeToken.loc.start,
+            loc: leftToken.loc.start,
             messageId: 'missing',
             fix(fixer) {
-              return fixer.insertTextBefore(openingParenToken, ' ')
+              return fixer.insertTextBefore(rightToken, ' ')
             },
           })
         }
         else if (!config!.allowNewlines && hasNewline) {
           context.report({
             node,
-            loc: lastCalleeToken.loc.start,
+            loc: leftToken.loc.start,
             messageId: 'unexpectedNewline',
             fix(fixer) {
               return fixer.replaceTextRange(
-                [lastCalleeToken.range[1], openingParenToken.range[0]],
+                [leftToken.range[1], rightToken.range[0]],
                 ' ',
               )
             },
@@ -171,8 +155,34 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     return {
-      CallExpression: checkSpacing,
-      NewExpression: checkSpacing,
+      'CallExpression, NewExpression': function (node: Tree.CallExpression | Tree.NewExpression) {
+        const closingParenToken = sourceCode.getLastToken(node)!
+        const lastCalleeTokenWithoutPossibleParens = sourceCode.getLastToken(
+          node.typeArguments ?? node.callee,
+        )!
+
+        const openingParenToken = sourceCode.getFirstTokenBetween(
+          lastCalleeTokenWithoutPossibleParens,
+          closingParenToken,
+          isOpeningParenToken,
+        )
+        if (!openingParenToken || openingParenToken.range[1] >= node.range[1]) {
+          // new expression with no parens...
+          return
+        }
+        const lastCalleeToken = sourceCode.getTokenBefore(
+          openingParenToken,
+          isNotOptionalChainPunctuator,
+        )!
+
+        checkSpacing(node, lastCalleeToken, openingParenToken)
+      },
+      ImportExpression(node) {
+        const leftToken = sourceCode.getFirstToken(node)!
+        const rightToken = sourceCode.getTokenAfter(leftToken)!
+
+        checkSpacing(node, leftToken, rightToken)
+      },
     }
   },
 })

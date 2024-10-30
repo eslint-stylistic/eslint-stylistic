@@ -179,8 +179,7 @@ export default createRule<Options, MessageIds>({
 
       if (type === ':' && previousToken.value === '?') {
         if (
-          //  -- TODO - switch once our min ESLint version is 6.7.0
-          sourceCode.isSpaceBetweenTokens(previousToken, punctuatorTokenStart)
+          sourceCode.isSpaceBetween(previousToken, punctuatorTokenStart)
         ) {
           context.report({
             node: punctuatorTokenStart,

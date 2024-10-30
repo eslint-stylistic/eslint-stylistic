@@ -34,6 +34,7 @@ run({
       '( f )<a>( 0 )',
       '( (f) )<a>( (0) )',
       '( f()() )<a>(0)',
+      'import(source)',
 
       // optional call
       'f?.();',
@@ -94,6 +95,7 @@ run({
       '( f )<a> ( 0 )',
       '( (f) )<a> ( (0) )',
       '( f () )<a> (0)',
+      'import (source)',
 
       // optional call
       'f?.b ();',
@@ -115,6 +117,7 @@ run({
       'f\u2028();',
       'f\u2029();',
       'f\r\n();',
+      'import\n(source)',
 
       // optional call
       'f?.b \n ();',
@@ -252,6 +255,14 @@ run({
         code: 'f\r\n();',
         output: null, // no change
       },
+      {
+        code: 'import (source)',
+        output: 'import(source)',
+      },
+      {
+        code: 'import\n(source)',
+        output: null,
+      },
     ].map<InvalidTestCase>(code => ({
       options: ['never'],
       errors: [
@@ -287,6 +298,10 @@ run({
       {
         code: 'f(0) (1)',
         output: 'f (0) (1)',
+      },
+      {
+        code: 'import(source)',
+        output: 'import (source)',
       },
     ].map<InvalidTestCase>(code => ({
       options: ['always'],

@@ -1140,6 +1140,93 @@ run({
       `,
       options: [{ align: 'value' }],
     },
+    $`
+      import foo from "./foo" with { type: "json" }
+    `,
+    $`
+      import "./foo" with { type: "json" }
+    `,
+    $`
+      export {foo} from "./foo" with { type: "json" }
+    `,
+    $`
+      export * from "./foo" with { type: "json" }
+    `,
+    {
+      code: $`
+        import foo from "./foo" with
+            { type:"json", foo:"bar" }
+      `,
+      options: [{
+        singleLine: {
+          beforeColon: false,
+          afterColon: false,
+        },
+        multiLine: {
+          beforeColon: true,
+          afterColon: true,
+        },
+      }],
+    },
+    {
+      code: $`
+        import foo from "./foo" with
+            { type : "json",
+              foo : "bar" }
+      `,
+      options: [{
+        singleLine: {
+          beforeColon: false,
+          afterColon: false,
+        },
+        multiLine: {
+          beforeColon: true,
+          afterColon: true,
+        },
+      }],
+    },
+    {
+      code: $`
+        import foo from "./foo" with
+            {
+              type : "json",
+              foo  : "bar"
+            }
+      `,
+      options: [{
+        beforeColon: true,
+        afterColon: true,
+        align: 'colon',
+      }],
+    },
+    {
+      code: $`
+        export {foo} from "./foo" with
+            {
+              type : "json",
+              foo  : "bar"
+            }
+      `,
+      options: [{
+        beforeColon: true,
+        afterColon: true,
+        align: 'colon',
+      }],
+    },
+    {
+      code: $`
+        export * from "./foo" with
+            {
+              type : "json",
+              foo  : "bar"
+            }
+      `,
+      options: [{
+        beforeColon: true,
+        afterColon: true,
+        align: 'colon',
+      }],
+    },
   ],
   invalid: [
     {
@@ -2738,6 +2825,180 @@ run({
       options: [{ align: 'colon' }],
       errors: [
         { messageId: 'missingKey', data: { computed: '', key: 'item' }, type: 'Identifier' },
+      ],
+    },
+    {
+      code: $`
+        import foo from "./foo" with { type  :"json" }
+      `,
+      output: $`
+        import foo from "./foo" with { type: "json" }
+      `,
+      errors: [
+        { messageId: 'extraKey', data: { computed: '', key: 'type' } },
+        { messageId: 'missingValue', data: { computed: '', key: 'type' } },
+      ],
+    },
+    {
+      code: $`
+        import "./foo" with { type  :"json" }
+      `,
+      output: $`
+        import "./foo" with { type: "json" }
+      `,
+      errors: [
+        { messageId: 'extraKey', data: { computed: '', key: 'type' } },
+        { messageId: 'missingValue', data: { computed: '', key: 'type' } },
+      ],
+    },
+    {
+      code: $`
+        export {foo} from "./foo" with { type  :"json" }
+      `,
+      output: $`
+        export {foo} from "./foo" with { type: "json" }
+      `,
+      errors: [
+        { messageId: 'extraKey', data: { computed: '', key: 'type' } },
+        { messageId: 'missingValue', data: { computed: '', key: 'type' } },
+      ],
+    },
+    {
+      code: $`
+        export * from "./foo" with { type  :"json" }
+      `,
+      output: $`
+        export * from "./foo" with { type: "json" }
+      `,
+      errors: [
+        { messageId: 'extraKey', data: { computed: '', key: 'type' } },
+        { messageId: 'missingValue', data: { computed: '', key: 'type' } },
+      ],
+    },
+    {
+      code: $`
+        import foo from "./foo" with
+            { type : "json", foo : "bar" }
+      `,
+      output: $`
+        import foo from "./foo" with
+            { type:"json", foo:"bar" }
+      `,
+      options: [{
+        singleLine: {
+          beforeColon: false,
+          afterColon: false,
+        },
+        multiLine: {
+          beforeColon: true,
+          afterColon: true,
+        },
+      }],
+      errors: [
+        { messageId: 'extraKey', data: { computed: '', key: 'type' } },
+        { messageId: 'extraValue', data: { computed: '', key: 'type' } },
+        { messageId: 'extraKey', data: { computed: '', key: 'foo' } },
+        { messageId: 'extraValue', data: { computed: '', key: 'foo' } },
+      ],
+    },
+    {
+      code: $`
+        import foo from "./foo" with
+            { type:"json",
+              foo:"bar" }
+      `,
+      output: $`
+        import foo from "./foo" with
+            { type : "json",
+              foo : "bar" }
+      `,
+      options: [{
+        singleLine: {
+          beforeColon: false,
+          afterColon: false,
+        },
+        multiLine: {
+          beforeColon: true,
+          afterColon: true,
+        },
+      }],
+      errors: [
+        { messageId: 'missingKey', data: { computed: '', key: 'type' } },
+        { messageId: 'missingValue', data: { computed: '', key: 'type' } },
+        { messageId: 'missingKey', data: { computed: '', key: 'foo' } },
+        { messageId: 'missingValue', data: { computed: '', key: 'foo' } },
+      ],
+    },
+    {
+      code: $`
+        import foo from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      output: $`
+        import foo from "./foo" with
+            {
+              type : "json",
+              foo  : "bar"
+            }
+      `,
+      options: [{
+        beforeColon: true,
+        afterColon: true,
+        align: 'colon',
+      }],
+      errors: [
+        { messageId: 'missingKey', data: { computed: '', key: 'foo' } },
+      ],
+    },
+    {
+      code: $`
+        export {foo} from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      output: $`
+        export {foo} from "./foo" with
+            {
+              type : "json",
+              foo  : "bar"
+            }
+      `,
+      options: [{
+        beforeColon: true,
+        afterColon: true,
+        align: 'colon',
+      }],
+      errors: [
+        { messageId: 'missingKey', data: { computed: '', key: 'foo' } },
+      ],
+    },
+    {
+      code: $`
+        export * from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      output: $`
+        export * from "./foo" with
+            {
+              type : "json",
+              foo  : "bar"
+            }
+      `,
+      options: [{
+        beforeColon: true,
+        afterColon: true,
+        align: 'colon',
+      }],
+      errors: [
+        { messageId: 'missingKey', data: { computed: '', key: 'foo' } },
       ],
     },
   ],

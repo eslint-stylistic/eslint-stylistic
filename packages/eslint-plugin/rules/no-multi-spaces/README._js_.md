@@ -78,7 +78,7 @@ a ? b: c
 This rule's configuration consists of an object with the following properties:
 
 - `"ignoreEOLComments": true` (defaults to `false`) ignores multiple spaces before comments that occur at the end of lines
-- `"exceptions": { "Property": true }` (`"Property"` is the only node specified by default) specifies nodes to ignore
+- `"exceptions": { "Property": true, "ImportAttribute": true }` (`"Property"` and `"ImportAttribute"` are the nodes specified by default) specifies nodes to ignore
 - `"includeTabs": false` (defaults to `true`) consider multiple tabs or spaces mixed with tabs as multiple spaces
 
 ### ignoreEOLComments
@@ -138,9 +138,9 @@ To avoid contradictions with other rules that require multiple spaces, this rule
 
 This option is an object that expects property names to be AST node types as defined by [ESTree](https://github.com/estree/estree). The easiest way to determine the node types for `exceptions` is to use [AST Explorer](https://astexplorer.net/) with the espree parser.
 
-Only the `Property` node type is ignored by default, because for the [key-spacing](key-spacing) rule some alignment options require multiple spaces in properties of object literals.
+The `Property` and `ImportAttribute` node types are ignored by default, because for the [key-spacing](key-spacing) rule some alignment options require multiple spaces in properties of object literals and import attributes.
 
-Examples of **correct** code for the default `"exceptions": { "Property": true }` option:
+Examples of **correct** code for the default `"exceptions": { "Property": true, "ImportAttribute": true }` option:
 
 ::: correct
 
