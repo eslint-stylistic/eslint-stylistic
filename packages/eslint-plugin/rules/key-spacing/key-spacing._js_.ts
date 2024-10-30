@@ -470,7 +470,7 @@ export default createRule<RuleOptions, MessageIds>({
         diff && mode === 'strict'
         || diff < 0 && mode === 'minimum'
         || diff > 0 && !expected && mode === 'minimum')
-        && !(expected && containsLineTerminator(whitespace))
+      && !(expected && containsLineTerminator(whitespace))
       ) {
         const nextColon = getNextColon(property.key)!
         const tokenBeforeColon = sourceCode.getTokenBefore(nextColon, { includeComments: true })!

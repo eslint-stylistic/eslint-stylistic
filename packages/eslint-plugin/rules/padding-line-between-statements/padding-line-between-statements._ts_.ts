@@ -240,9 +240,9 @@ function isDirective(
     && (node.parent?.type === AST_NODE_TYPES.Program
       || (node.parent?.type === AST_NODE_TYPES.BlockStatement
         && isFunction(node.parent.parent)))
-        && node.expression.type === AST_NODE_TYPES.Literal
-        && typeof node.expression.value === 'string'
-        && !isParenthesized(node.expression, sourceCode)
+      && node.expression.type === AST_NODE_TYPES.Literal
+      && typeof node.expression.value === 'string'
+      && !isParenthesized(node.expression, sourceCode)
   )
 }
 
