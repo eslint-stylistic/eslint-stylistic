@@ -254,8 +254,8 @@ export default createRule<RuleOptions, MessageIds>({
           (JSXExpressionNode.parent.type === 'JSXAttribute' && !isWhiteSpaceLiteral(expression))
           || !isLiteralWithTrailingWhiteSpaces(expression)
         )
-      && !containsMultilineComment(expression.value)
-      && !needToEscapeCharacterForJSX(expression.raw, JSXExpressionNode) && (
+        && !containsMultilineComment(expression.value)
+        && !needToEscapeCharacterForJSX(expression.raw, JSXExpressionNode) && (
           isJSX(JSXExpressionNode.parent)
           || !containsQuoteCharacters(expression.value)
         )

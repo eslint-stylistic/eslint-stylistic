@@ -135,10 +135,10 @@ export default createRule<RuleOptions, MessageIds>({
           a.operator,
           b.type === 'ConditionalExpression' ? '?:' : b.operator,
         )
-      || (
-        options.allowSamePrecedence
-        && getPrecedence(a) === getPrecedence(b)
-      )
+        || (
+          options.allowSamePrecedence
+          && getPrecedence(a) === getPrecedence(b)
+        )
       )
     }
 

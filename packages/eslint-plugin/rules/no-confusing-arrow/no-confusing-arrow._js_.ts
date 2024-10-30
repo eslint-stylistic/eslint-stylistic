@@ -58,8 +58,8 @@ export default createRule<RuleOptions, MessageIds>({
       const body = node.body
 
       if (isConditional(body)
-      && !(allowParens && isParenthesised(sourceCode, body))
-      && !(onlyOneSimpleParam && !(node.params.length === 1 && node.params[0].type === 'Identifier'))) {
+        && !(allowParens && isParenthesised(sourceCode, body))
+        && !(onlyOneSimpleParam && !(node.params.length === 1 && node.params[0].type === 'Identifier'))) {
         context.report({
           node,
           messageId: 'confusing',

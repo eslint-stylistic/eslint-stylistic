@@ -11,50 +11,50 @@ export type ObjectCurlyNewlineSchema0 =
         consistent?: boolean
       }
     )
-  | {
-    ObjectExpression?:
+    | {
+      ObjectExpression?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minProperties?: number
           consistent?: boolean
         }
-    ObjectPattern?:
+      ObjectPattern?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minProperties?: number
           consistent?: boolean
         }
-    ImportDeclaration?:
+      ImportDeclaration?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minProperties?: number
           consistent?: boolean
         }
-    ExportDeclaration?:
+      ExportDeclaration?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minProperties?: number
           consistent?: boolean
         }
-    TSTypeLiteral?:
+      TSTypeLiteral?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minProperties?: number
           consistent?: boolean
         }
-    TSInterfaceBody?:
+      TSInterfaceBody?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minProperties?: number
           consistent?: boolean
         }
-  }
+    }
 
 export type ObjectCurlyNewlineRuleOptions = [
   ObjectCurlyNewlineSchema0?,

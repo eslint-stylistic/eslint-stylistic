@@ -339,8 +339,8 @@ export default createRule<RuleOptions, MessageIds>({
     function isKeyValueProperty(property: Tree.ObjectLiteralElement): property is Tree.Property {
       return !(
         (('method' in property && property.method)
-        || ('shorthand' in property && property.shorthand)
-        || ('kind' in property && property.kind !== 'init') || property.type !== 'Property') // Could be "ExperimentalSpreadProperty" or "SpreadElement"
+          || ('shorthand' in property && property.shorthand)
+          || ('kind' in property && property.kind !== 'init') || property.type !== 'Property') // Could be "ExperimentalSpreadProperty" or "SpreadElement"
       )
     }
 

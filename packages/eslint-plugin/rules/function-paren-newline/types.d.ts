@@ -10,9 +10,9 @@ export type FunctionParenNewlineSchema0 =
     | 'multiline'
     | 'multiline-arguments'
     )
-  | {
-    minItems?: number
-  }
+    | {
+      minItems?: number
+    }
 
 export type FunctionParenNewlineRuleOptions = [
   FunctionParenNewlineSchema0?,

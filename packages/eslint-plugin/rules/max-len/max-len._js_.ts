@@ -350,10 +350,10 @@ export default createRule<RuleOptions, MessageIds>({
           textToMeasure = line
         }
         if (ignorePattern && ignorePattern.test(textToMeasure)
-        || ignoreUrls && URL_REGEXP.test(textToMeasure)
-        || ignoreStrings && stringsByLine[lineNumber]
-        || ignoreTemplateLiterals && templateLiteralsByLine[lineNumber]
-        || ignoreRegExpLiterals && regExpLiteralsByLine[lineNumber]
+          || ignoreUrls && URL_REGEXP.test(textToMeasure)
+          || ignoreStrings && stringsByLine[lineNumber]
+          || ignoreTemplateLiterals && templateLiteralsByLine[lineNumber]
+          || ignoreRegExpLiterals && regExpLiteralsByLine[lineNumber]
         ) {
           // ignore this line
           return
