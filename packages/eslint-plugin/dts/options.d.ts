@@ -22,7 +22,7 @@ export interface StylisticCustomizeOptions<Flat extends boolean = true> {
    *
    * @default 'single'
    */
-  quotes?: 'single' | 'double'
+  quotes?: 'single' | 'double' | 'backtick'
   /**
    * Whether to enable semicolons
    * Similar to `semi` option in Prettier
