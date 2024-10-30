@@ -8,7 +8,7 @@
 
 import type { ASTNode, JSONSchema, NodeTypes, ReportFixFunction, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine, STATEMENT_LIST_PARENTS } from '#utils/ast'
+import { createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const KNOWN_NODES: Set<NodeTypes> = new Set([
@@ -97,6 +97,7 @@ const KNOWN_NODES: Set<NodeTypes> = new Set([
   'ImportDefaultSpecifier',
   'ImportNamespaceSpecifier',
   'ImportExpression',
+  'ImportAttribute',
 ] satisfies NodeTypes[])
 
 type Offset = 'first' | 'off' | number
@@ -1210,15 +1211,49 @@ export default createRule<RuleOptions, MessageIds>({
 
       ExportNamedDeclaration(node) {
         if (node.declaration === null) {
-          const closingCurly = sourceCode.getLastToken(node, isClosingBraceToken)!
+          const closingCurly = node.source
+            ? sourceCode.getTokenBefore(node.source, isClosingBraceToken)!
+            : sourceCode.getLastToken(node, isClosingBraceToken)!
 
           // Indent the specifiers in `export {foo, bar, baz}`
           addElementListIndent(node.specifiers, sourceCode.getFirstToken(node, { skip: 1 })!, closingCurly, 1)
 
           if (node.source) {
+            const fromToken = sourceCode.getTokenAfter(
+              closingCurly,
+              token => token.type === 'Identifier' && token.value === 'from',
+            )!
+            const lastToken = sourceCode.getLastToken(node, isNotSemicolonToken)!
             // Indent everything after and including the `from` token in `export {foo, bar, baz} from 'qux'`
-            offsets.setDesiredOffsets([closingCurly.range[1], node.range[1]], sourceCode.getFirstToken(node)!, 1)
+            offsets.setDesiredOffsets([fromToken.range[0], lastToken.range[1]], sourceCode.getFirstToken(node)!, 1)
+
+            const lastClosingCurly = sourceCode.getLastToken(node, isClosingBraceToken)
+            if (lastClosingCurly && node.source.range[1] < lastClosingCurly.range[0]) {
+              // Has attributes
+              const openingCurly = sourceCode.getTokenAfter(node.source, isOpeningBraceToken)!
+              const closingCurly = lastClosingCurly
+              addElementListIndent(node.attributes, openingCurly, closingCurly, 1)
+            }
           }
+        }
+      },
+
+      ExportAllDeclaration(node) {
+        const fromToken = sourceCode.getTokenAfter(
+          node.exported || sourceCode.getFirstToken(node)!,
+          token => token.type === 'Identifier' && token.value === 'from',
+        )!
+        const lastToken = sourceCode.getLastToken(node, isNotSemicolonToken)!
+
+        // Indent everything after and including the `from` token in `export * from 'qux'`
+        offsets.setDesiredOffsets([fromToken.range[0], lastToken.range[1]], sourceCode.getFirstToken(node)!, 1)
+
+        const lastClosingCurly = sourceCode.getLastToken(node, isClosingBraceToken)
+        if (lastClosingCurly && node.source.range[1] < lastClosingCurly.range[0]) {
+          // Has attributes
+          const openingCurly = sourceCode.getTokenAfter(node.source, isOpeningBraceToken)!
+          const closingCurly = lastClosingCurly
+          addElementListIndent(node.attributes, openingCurly, closingCurly, 1)
         }
       },
 
@@ -1309,19 +1344,31 @@ export default createRule<RuleOptions, MessageIds>({
       ImportDeclaration(node) {
         if (node.specifiers.some(specifier => specifier.type === 'ImportSpecifier')) {
           const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
-          const closingCurly = sourceCode.getLastToken(node, isClosingBraceToken)!
+          const closingCurly = sourceCode.getTokenBefore(node.source, isClosingBraceToken)!
 
           addElementListIndent(node.specifiers.filter(specifier => specifier.type === 'ImportSpecifier'), openingCurly, closingCurly, options.ImportDeclaration)
         }
 
-        const fromToken = sourceCode.getLastToken(node, token => token.type === 'Identifier' && token.value === 'from')!
-        const sourceToken = sourceCode.getLastToken(node, token => token.type === 'String')!
-        const semiToken = sourceCode.getLastToken(node, token => token.type === 'Punctuator' && token.value === ';')!
-
+        const fromToken = node.specifiers.length
+          ? sourceCode.getTokenAfter(node.specifiers[node.specifiers.length - 1], token => token.type === 'Identifier' && token.value === 'from')
+          : sourceCode.getFirstToken(node, token => token.type === 'Identifier' && token.value === 'from')
+        const lastToken = sourceCode.getLastToken(node, isNotSemicolonToken)!
         if (fromToken) {
-          const end = semiToken && semiToken.range[1] === sourceToken.range[1] ? node.range[1] : sourceToken.range[1]
+          offsets.setDesiredOffsets([fromToken.range[0], lastToken.range[1]], sourceCode.getFirstToken(node)!, 1)
+        }
 
-          offsets.setDesiredOffsets([fromToken.range[0], end], sourceCode.getFirstToken(node)!, 1)
+        const lastClosingCurly = sourceCode.getLastToken(node, isClosingBraceToken)
+        if (lastClosingCurly && node.source.range[1] < lastClosingCurly.range[0]) {
+          // Has attributes
+          const openingCurly = sourceCode.getTokenAfter(node.source, isOpeningBraceToken)!
+          const closingCurly = lastClosingCurly
+
+          if (!fromToken) {
+            const withToken = sourceCode.getTokenBefore(openingCurly, token => token.value === 'with')!
+            offsets.setDesiredOffsets([withToken.range[0], lastToken.range[1]], sourceCode.getFirstToken(node)!, 1)
+          }
+
+          addElementListIndent(node.attributes, openingCurly, closingCurly, 1)
         }
       },
 
