@@ -101,6 +101,44 @@ var qux = function qux() { bar = 1; };
 
 :::
 
+### listeningNodes
+
+The "listeningNodes" object property list all the nodes that rules listens to.
+
+Examples of **incorrect** code for this rule with the `"listeningNodes"` option:
+
+::: incorrect
+
+```js
+/*eslint max-statements-per-line: [
+  "error",
+  { "max": 1, "listeningNodes": ["ExpressionStatement", "BreakStatement"] }
+]*/
+
+switch (lorem) {
+  case ipsum: dolor(); break;
+  case sit: amet(); break;
+}
+```
+
+Examples of **correct** code for this rule with the `"listeningNodes"` option:
+
+::: correct
+
+```js
+/*eslint max-statements-per-line: [
+  "error",
+  { "max": 1, "listeningNodes": ["BreakStatement"] }
+]*/
+
+switch (lorem) {
+  case ipsum: dolor(); break;
+  case sit: amet(); break;
+}
+```
+
+:::
+
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the number of statements on each line.
