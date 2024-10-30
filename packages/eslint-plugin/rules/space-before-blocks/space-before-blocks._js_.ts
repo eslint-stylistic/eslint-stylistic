@@ -114,13 +114,13 @@ export default createRule<RuleOptions, MessageIds>({
           // @ts-expect-error type cast
           && !isFunctionBody(node)
         )
-        || (
-          isColonToken(precedingToken)
-          && 'parent' in node
-          && node.parent
-          && node.parent.type === 'SwitchCase'
-          && precedingToken === getSwitchCaseColonToken(node.parent, sourceCode)
-        )
+      || (
+        isColonToken(precedingToken)
+        && 'parent' in node
+        && node.parent
+        && node.parent.type === 'SwitchCase'
+        && precedingToken === getSwitchCaseColonToken(node.parent, sourceCode)
+      )
       )
     }
 

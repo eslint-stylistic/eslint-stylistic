@@ -387,7 +387,7 @@ export default createRule<RuleOptions, MessageIds>({
       const parent = node.parent as ASTNode
 
       if ((parent.type !== 'ForStatement' || parent.init !== node)
-        && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as Tree.ForInStatement).left !== node)
+      && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as Tree.ForInStatement).left !== node)
       ) {
         checkForSemicolon(node)
       }

@@ -87,7 +87,7 @@ export default createRule<RuleOptions, MessageIds>({
         (node.type === AST_NODE_TYPES.TSPropertySignature
           || node.type === AST_NODE_TYPES.TSIndexSignature
           || node.type === AST_NODE_TYPES.PropertyDefinition)
-          && !!node.typeAnnotation
+        && !!node.typeAnnotation
       )
     }
 

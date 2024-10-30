@@ -198,16 +198,16 @@ export default createRule<RuleOptions, MessageIds>({
           && elements.length > 0
           && firstIncComment.loc!.start.line !== lastIncComment.loc!.end.line
         )
-        || (
-          elements.length === 0
-          && firstIncComment.type === 'Block'
-          && firstIncComment.loc!.start.line !== lastIncComment.loc!.end.line
-          && firstIncComment === lastIncComment
-        )
-        || (
-          options.consistent
-          && openBracket.loc.end.line !== first.loc.start.line
-        )
+      || (
+        elements.length === 0
+        && firstIncComment.type === 'Block'
+        && firstIncComment.loc!.start.line !== lastIncComment.loc!.end.line
+        && firstIncComment === lastIncComment
+      )
+    || (
+      options.consistent
+      && openBracket.loc.end.line !== first.loc.start.line
+    )
       )
 
       /**

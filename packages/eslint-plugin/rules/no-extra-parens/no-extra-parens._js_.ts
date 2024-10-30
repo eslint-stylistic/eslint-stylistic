@@ -305,7 +305,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
 
       if ('left' in node && ((node.left && node.left.type === 'AssignmentExpression')
-        || (node.right && node.right.type === 'AssignmentExpression'))) {
+      || (node.right && node.right.type === 'AssignmentExpression'))) {
         return true
       }
 
@@ -538,17 +538,17 @@ export default createRule<RuleOptions, MessageIds>({
             )
 
             // new (a().b)(); new (a.b().c);
-            || (
-              node.type === 'NewExpression'
-              && callee.type === 'MemberExpression'
-              && doesMemberExpressionContainCallExpression(callee)
-            )
+          || (
+            node.type === 'NewExpression'
+            && callee.type === 'MemberExpression'
+            && doesMemberExpressionContainCallExpression(callee)
+          )
 
             // (a?.b)(); (a?.())();
-            || (
-              (!('optional' in node) || !node.optional)
-              && callee.type === 'ChainExpression'
-            )
+        || (
+          (!('optional' in node) || !node.optional)
+          && callee.type === 'ChainExpression'
+        )
           )
         ) {
           report(node.callee)
@@ -647,7 +647,7 @@ export default createRule<RuleOptions, MessageIds>({
               || tokenAfterClosingParens.type === 'Identifier'
             )
           )
-          || secondToken && secondToken.type === 'Identifier' && secondToken.value === 'async' && thirdToken && thirdToken.type === 'Keyword' && thirdToken.value === 'function'
+        || secondToken && secondToken.type === 'Identifier' && secondToken.value === 'async' && thirdToken && thirdToken.type === 'Keyword' && thirdToken.value === 'function'
         )
       ) {
         tokensToIgnore.add(secondToken)
@@ -860,7 +860,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       AssignmentExpression(node) {
         if (canBeAssignmentTarget(node.left) && hasExcessParens(node.left)
-          && (!isAnonymousFunctionAssignmentException(node) || isParenthesisedTwice(node.left))) {
+        && (!isAnonymousFunctionAssignmentException(node) || isParenthesisedTwice(node.left))) {
           report(node.left)
         }
 
@@ -1248,9 +1248,9 @@ export default createRule<RuleOptions, MessageIds>({
           const yieldToken = sourceCode.getFirstToken(node)
 
           if ((precedence(node.argument) >= precedence(node)
-            && yieldToken
-            && hasExcessParensNoLineTerminator(yieldToken, node.argument))
-            || hasDoubleExcessParens(node.argument)) {
+          && yieldToken
+          && hasExcessParensNoLineTerminator(yieldToken, node.argument))
+        || hasDoubleExcessParens(node.argument)) {
             report(node.argument)
           }
         }

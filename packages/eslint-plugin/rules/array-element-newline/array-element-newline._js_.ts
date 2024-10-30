@@ -253,11 +253,11 @@ export default createRule<RuleOptions, MessageIds>({
           options.multiline
           && elementBreak
         )
-        || (
-          options.consistent
-          && linebreaksCount > 0
-          && linebreaksCount < node.elements.length
-        )
+      || (
+        options.consistent
+        && linebreaksCount > 0
+        && linebreaksCount < node.elements.length
+      )
       )
 
       elements.forEach((element, i) => {

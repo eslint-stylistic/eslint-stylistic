@@ -10,7 +10,7 @@ export type JsxCurlySpacingSchema0 =
         children?: BasicConfigOrBoolean
         [k: string]: unknown
       })
-      | ('always' | 'never'),
+    | ('always' | 'never'),
   ]
   | [
     (
@@ -19,7 +19,7 @@ export type JsxCurlySpacingSchema0 =
           children?: BasicConfigOrBoolean
           [k: string]: unknown
         })
-        | ('always' | 'never')
+      | ('always' | 'never')
     ),
     {
       allowMultiline?: boolean

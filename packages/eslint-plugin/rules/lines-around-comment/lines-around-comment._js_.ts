@@ -396,7 +396,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       // check for newline before
       if (!exceptionStartAllowed && before && !commentAndEmptyLines.has(prevLineNum)
-        && !(isCommentToken(previousTokenOrComment) && isTokenOnSameLine(previousTokenOrComment, token))) {
+      && !(isCommentToken(previousTokenOrComment) && isTokenOnSameLine(previousTokenOrComment, token))) {
         const lineStart = token.range[0] - token.loc.start.column
         const range = [lineStart, lineStart] as const
 
@@ -411,7 +411,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       // check for newline after
       if (!exceptionEndAllowed && after && !commentAndEmptyLines.has(nextLineNum)
-        && !(isCommentToken(nextTokenOrComment) && isTokenOnSameLine(token, nextTokenOrComment))) {
+      && !(isCommentToken(nextTokenOrComment) && isTokenOnSameLine(token, nextTokenOrComment))) {
         context.report({
           node: token,
           messageId: 'after',
