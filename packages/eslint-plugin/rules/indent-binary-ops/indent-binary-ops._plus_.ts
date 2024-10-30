@@ -67,7 +67,7 @@ export default createRule<RuleOptions, MessageIds>({
       return [...sourceCode.tokensAndComments].reverse().find(token => token.loc.end.line === line)
     }
 
-    function isBracketBalancedOfLine(line: number) {
+    function isGreaterThanCloseBracketOfLine(line: number) {
       const tokensAndCommentsOfLine = sourceCode.tokensAndComments.filter(token => token.loc.start.line === line)
 
       let openBracketCount = 0
@@ -80,8 +80,9 @@ export default createRule<RuleOptions, MessageIds>({
           closeBracketCount++
         }
       }
-      return openBracketCount === closeBracketCount
+      return openBracketCount < closeBracketCount
     }
+
     function handler(node: ASTNode, right: ASTNode) {
       if (node.loc.start.line === node.loc.end.line)
         return
@@ -111,16 +112,19 @@ export default createRule<RuleOptions, MessageIds>({
         || (firstTokenOfLineLeft?.type === 'Keyword' && !['typeof', 'instanceof', 'this'].includes(firstTokenOfLineLeft.value))
         // First line is a `type` keyword in a type alias declaration
         || (firstTokenOfLineLeft?.type === 'Identifier' && firstTokenOfLineLeft.value === 'type' && node.parent?.type === 'TSTypeAliasDeclaration')
-        // End of line is a opening bracket
+      // End of line is a opening bracket
         || [':', '[', '(', '<', '='].includes(lastTokenOfLineLeft?.value || '')
-        // Before the left token is a opening bracket
+      // Before the left token is a opening bracket
         || (['[', '(', '=>', ':'].includes(tokenBeforeAll?.value || '') && firstTokenOfLineLeft?.loc.start.line === tokenBeforeAll?.loc.start.line)
-        // Chain of `||` or `&&` operators
+      // Chain of `||` or `&&` operators
         || (['||', '&&'].includes(lastTokenOfLineLeft?.value || '') && node.loc.start.line === tokenLeft.loc.start.line && node.loc.start.column !== getIndentOfLine(node.loc.start.line).length)
 
       const needSubtractionIndent = false
         // End of line is a closing bracket
-        || (lastTokenOfLineLeft?.value === ')' && !isBracketBalancedOfLine(tokenLeft.loc.start.line))
+        || (
+          lastTokenOfLineLeft?.value === ')'
+          && isGreaterThanCloseBracketOfLine(tokenLeft.loc.start.line)
+        )
 
       const indentLeft = getIndentOfLine(tokenLeft.loc.start.line)
       const indentRight = getIndentOfLine(tokenRight.loc.start.line)
