@@ -688,5 +688,28 @@ run({
         type: 'Identifier',
       }],
     },
+    {
+      code: 'import foo from "./foo" with  { type:  "json" }',
+      output: 'import foo from "./foo" with { type:  "json" }',
+      errors: [{
+        messageId: 'multipleSpaces',
+        data: { displayValue: '{' },
+      }],
+    },
+    {
+      code: 'import foo from "./foo" with  { type:  "json" }',
+      output: 'import foo from "./foo" with { type: "json" }',
+      options: [{ exceptions: { ImportAttribute: false } }],
+      errors: [
+        {
+          messageId: 'multipleSpaces',
+          data: { displayValue: '{' },
+        },
+        {
+          messageId: 'multipleSpaces',
+          data: { displayValue: '"json"' },
+        },
+      ],
+    },
   ],
 })
