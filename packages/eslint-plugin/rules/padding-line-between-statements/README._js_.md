@@ -75,11 +75,13 @@ You can supply any number of configurations. If a statement pair matches multipl
   - `"let"` is `let` variable declarations, both single-line and multiline.
   - `"multiline-block-like"` is block like statements. This is the same as `block-like` type, but only if the block is multiline.
   - `"multiline-const"` is multiline `const` variable declarations.
+  - `"multiline-export"` is multiline `export` declarations.
   - `"multiline-expression"` is expression statements. This is the same as `expression` type, but only if the statement is multiline.
   - `"multiline-let"` is multiline `let` variable declarations.
   - `"multiline-var"` is multiline `var` variable declarations.
   - `"return"` is `return` statements.
   - `"singleline-const"` is single-line `const` variable declarations.
+  - `"singleline-export"` is single-line `export` declarations.
   - `"singleline-let"` is single-line `let` variable declarations.
   - `"singleline-var"` is single-line `var` variable declarations.
   - `"switch"` is `switch` statements.

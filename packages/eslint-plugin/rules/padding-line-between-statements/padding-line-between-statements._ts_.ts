@@ -525,9 +525,11 @@ const StatementTypes: Record<string, NodeTestObject> = {
   },
 
   'multiline-const': newMultilineKeywordTester('const'),
+  'multiline-export': newMultilineKeywordTester('export'),
   'multiline-let': newMultilineKeywordTester('let'),
   'multiline-var': newMultilineKeywordTester('var'),
   'singleline-const': newSinglelineKeywordTester('const'),
+  'singleline-export': newSinglelineKeywordTester('export'),
   'singleline-let': newSinglelineKeywordTester('let'),
   'singleline-var': newSinglelineKeywordTester('var'),
 
