@@ -6487,6 +6487,124 @@ run({
               doSomething();
           }
     `,
+    $`
+      import json
+          from "./foo.json"
+          with {
+              type: "json"
+          };
+    `,
+    $`
+      import json from "./foo.json"
+          with
+          {
+              type
+              :
+              "json"
+          };
+    `,
+    $`
+      import "./foo.json"
+          with {
+              type: "json"
+          };
+    `,
+    $`
+      import "./foo.json"
+          with
+          {
+              type
+              :
+              "json"
+          };
+    `,
+    $`
+      export {v}
+          from "./foo.json"
+          with {
+              type: "json"
+          };
+    `,
+    $`
+      export {v} from "./foo.json"
+          with
+          {
+              type
+              :
+              "json"
+          };
+    `,
+    $`
+      export * as json
+          from "./foo.json"
+          with {
+              type: "json"
+          };
+    `,
+    $`
+      export * as json from "./foo.json"
+          with
+          {
+              type
+              :
+              "json"
+          };
+    `,
+    $`
+      import(
+          "./foo.json",
+          {
+              type: "json"
+          },
+      )
+    `,
+    $`
+      import(
+          "./foo.json"
+          ,
+          {
+              type
+              :
+              "json"
+          }
+          ,
+      )
+    `,
+    $`
+      // should correctly recognize a \`form\` token
+      import {
+          from
+          as
+          foo
+      }
+          from "./foo"
+          with {
+              from: "foo"
+          };
+    `,
+    $`
+      // should correctly recognize a \`form\` token
+      export {
+          v
+          as
+          from
+      }
+          from "./foo"
+          with {
+              from: "foo"
+          };
+    `,
+    $`
+      // should correctly recognize a \`form\` token
+      export
+      *
+      as
+      from
+          from "./foo"
+          with {
+              from: "foo"
+          };
+    `,
   ],
 
   invalid: [
@@ -14344,6 +14462,112 @@ run({
         \tvar x = 1,
         \t\ty = 2;
         }
+      `,
+    },
+    {
+      code: $`
+        import json from "./foo.json"
+        with
+        {
+        type
+        :
+        "json"
+        };
+      `,
+      output: $`
+        import json from "./foo.json"
+            with
+            {
+                type
+                :
+                "json"
+            };
+      `,
+    },
+    {
+      code: $`
+        import "./foo.json"
+        with
+        {
+        type
+        :
+        "json"
+        };
+      `,
+      output: $`
+        import "./foo.json"
+            with
+            {
+                type
+                :
+                "json"
+            };
+      `,
+    },
+    {
+      code: $`
+        export {v} from "./foo.json"
+        with
+        {
+        type
+        :
+        "json"
+        };
+      `,
+      output: $`
+        export {v} from "./foo.json"
+            with
+            {
+                type
+                :
+                "json"
+            };
+      `,
+    },
+    {
+      code: $`
+        export * as json from "./foo.json"
+        with
+        {
+        type
+        :
+        "json"
+        };
+      `,
+      output: $`
+        export * as json from "./foo.json"
+            with
+            {
+                type
+                :
+                "json"
+            };
+      `,
+    },
+    {
+      code: $`
+        import(
+        "./foo.json"
+        ,
+        {
+        type
+        :
+        "json"
+        }
+        ,
+        )
+      `,
+      output: $`
+        import(
+            "./foo.json"
+            ,
+            {
+                type
+                :
+        "json"
+            }
+            ,
+        )
       `,
     },
   ],
