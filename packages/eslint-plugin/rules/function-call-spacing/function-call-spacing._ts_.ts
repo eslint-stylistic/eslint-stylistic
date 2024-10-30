@@ -94,15 +94,17 @@ export default createRule<RuleOptions, MessageIds>({
             loc: leftToken.loc.start,
             messageId: 'unexpectedWhitespace',
             fix(fixer) {
+              if (isOptionalCall) {
+                return fixer.replaceTextRange([
+                  leftToken.range[1],
+                  rightToken.range[0],
+                ], '?.')
+              }
               /**
                * Only autofix if there is no newline
                * https://github.com/eslint/eslint/issues/7787
                */
-              if (
-                !hasNewline
-                // don't fix optional calls
-                && !isOptionalCall
-              ) {
+              if (!hasNewline) {
                 return fixer.removeRange([
                   leftToken.range[1],
                   rightToken.range[0],
