@@ -82,6 +82,26 @@ run({
     { code: '({ \'1_0\': 1 })', options: ['as-needed', { numbers: false }], parserOptions: { ecmaVersion: 2021 } },
     { code: '({ \'1_0\': 1 })', options: ['as-needed', { numbers: true }], parserOptions: { ecmaVersion: 2021 } },
     { code: '({ 1_0: 1, 1: 1 })', options: ['consistent-as-needed'], parserOptions: { ecmaVersion: 2021 } },
+    'import "./foo" with { "a": "foo" }',
+    { code: 'import "./foo" with { "a": "foo" }', options: ['always'] },
+    { code: 'import "./foo" with { a: "foo" }', options: ['as-needed'] },
+    { code: 'import "./foo" with { "a": "foo" }', options: ['consistent'] },
+    { code: 'import "./foo" with { a: "foo" }', options: ['consistent-as-needed'] },
+    'import "./foo" with { ":": "foo" }',
+    { code: 'import "./foo" with { ":": "foo" }', options: ['always'] },
+    { code: 'import "./foo" with { ":": "foo" }', options: ['as-needed'] },
+    { code: 'import "./foo" with { ":": "foo" }', options: ['consistent'] },
+    { code: 'import "./foo" with { ":": "foo" }', options: ['consistent-as-needed'] },
+    'import "./foo" with { "a": "foo", "b": "foo", "c": "foo" }',
+    { code: 'import "./foo" with { "a": "foo", "b": "foo", "c": "foo" }', options: ['always'] },
+    { code: 'import "./foo" with { a: "foo", b: "foo", c: "foo" }', options: ['as-needed'] },
+    { code: 'import "./foo" with { "a": "foo", "b": "foo", "c": "foo" }', options: ['consistent'] },
+    { code: 'import "./foo" with { a: "foo", b: "foo", c: "foo" }', options: ['consistent-as-needed'] },
+    'import "./foo" with { "a": "foo", ":": "foo", "c": "foo" }',
+    { code: 'import "./foo" with { "a": "foo", ":": "foo", "c": "foo" }', options: ['always'] },
+    { code: 'import "./foo" with { a: "foo", ":": "foo", c: "foo" }', options: ['as-needed'] },
+    { code: 'import "./foo" with { "a": "foo", ":": "foo", "c": "foo" }', options: ['consistent'] },
+    { code: 'import "./foo" with { "a": "foo", ":": "foo", "c": "foo" }', options: ['consistent-as-needed'] },
   ],
   invalid: [{
     code: '({ a: 0 })',
@@ -419,5 +439,82 @@ run({
       messageId: 'inconsistentlyQuotedProperty',
       data: { key: '1000' },
     }],
+  }, {
+    code: 'import "./foo" with { a: "foo" }',
+    output: 'import "./foo" with { "a": "foo" }',
+    errors: [{ messageId: 'unquotedPropertyFound', data: { property: 'a' } }],
+  }, {
+    code: 'import "./foo" with { a: "foo", "b": "foo", "c": "foo" }',
+    output: 'import "./foo" with { "a": "foo", "b": "foo", "c": "foo" }',
+    errors: [{ messageId: 'unquotedPropertyFound', data: { property: 'a' } }],
+  }, {
+    code: 'import "./foo" with { a: "foo", ":": "foo", "c": "foo" }',
+    output: 'import "./foo" with { "a": "foo", ":": "foo", "c": "foo" }',
+    errors: [{ messageId: 'unquotedPropertyFound', data: { property: 'a' } }],
+  }, {
+    code: 'import "./foo" with { a: "foo" }',
+    output: 'import "./foo" with { "a": "foo" }',
+    options: ['always'],
+    errors: [{ messageId: 'unquotedPropertyFound', data: { property: 'a' } }],
+  }, {
+    code: 'import "./foo" with { a: "foo", "b": "foo", "c": "foo" }',
+    output: 'import "./foo" with { "a": "foo", "b": "foo", "c": "foo" }',
+    options: ['always'],
+    errors: [{ messageId: 'unquotedPropertyFound', data: { property: 'a' } }],
+  }, {
+    code: 'import "./foo" with { a: "foo", ":": "foo", "c": "foo" }',
+    output: 'import "./foo" with { "a": "foo", ":": "foo", "c": "foo" }',
+    options: ['always'],
+    errors: [{ messageId: 'unquotedPropertyFound', data: { property: 'a' } }],
+  }, {
+    code: 'import "./foo" with { "a": "foo" }',
+    output: 'import "./foo" with { a: "foo" }',
+    options: ['as-needed'],
+    errors: [{ messageId: 'unnecessarilyQuotedProperty', data: { property: 'a' } }],
+  }, {
+    code: 'import "./foo" with { a: "foo", "b": "foo", "c": "foo" }',
+    output: 'import "./foo" with { a: "foo", b: "foo", c: "foo" }',
+    options: ['as-needed'],
+    errors: [
+      { messageId: 'unnecessarilyQuotedProperty', data: { property: 'b' } },
+      { messageId: 'unnecessarilyQuotedProperty', data: { property: 'c' } },
+    ],
+  }, {
+    code: 'import "./foo" with { a: "foo", ":": "foo", "c": "foo" }',
+    output: 'import "./foo" with { a: "foo", ":": "foo", c: "foo" }',
+    options: ['as-needed'],
+    errors: [{ messageId: 'unnecessarilyQuotedProperty', data: { property: 'c' } }],
+  }, {
+    code: 'import "./foo" with { a: "foo", "b": "foo", "c": "foo" }',
+    output: 'import "./foo" with { "a": "foo", "b": "foo", "c": "foo" }',
+    options: ['consistent'],
+    errors: [{ messageId: 'inconsistentlyQuotedProperty', data: { key: 'a' } }],
+  }, {
+    code: 'import "./foo" with { a: "foo", ":": "foo", "c": "foo" }',
+    output: 'import "./foo" with { "a": "foo", ":": "foo", "c": "foo" }',
+    options: ['consistent'],
+    errors: [{ messageId: 'inconsistentlyQuotedProperty', data: { key: 'a' } }],
+  }, {
+    code: 'import "./foo" with { "a": "foo" }',
+    output: 'import "./foo" with { a: "foo" }',
+    options: ['consistent-as-needed'],
+    errors: [{ messageId: 'redundantQuoting' }],
+  }, {
+    code: 'import "./foo" with { a: "foo", "b": "foo", "c": "foo" }',
+    output: 'import "./foo" with { a: "foo", b: "foo", c: "foo" }',
+    options: ['consistent-as-needed'],
+    errors: [
+      { messageId: 'redundantQuoting', column: 33 },
+      { messageId: 'redundantQuoting', column: 45 },
+    ],
+  }, {
+    code: 'import "./foo" with { a: "foo", ":": "foo", c: "foo" }',
+    output: 'import "./foo" with { "a": "foo", ":": "foo", "c": "foo" }',
+    options: ['consistent-as-needed'],
+    errors: [
+      { messageId: 'inconsistentlyQuotedProperty', data: { key: 'a' } },
+      { messageId: 'inconsistentlyQuotedProperty', data: { key: 'c' } },
+    ],
   }],
+
 })

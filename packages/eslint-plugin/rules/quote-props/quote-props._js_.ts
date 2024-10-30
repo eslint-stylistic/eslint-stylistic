@@ -134,10 +134,10 @@ export default createRule<RuleOptions, MessageIds>({
      * Ensures that a property's key is quoted only when necessary
      * @param node Property AST node
      */
-    function checkUnnecessaryQuotes(node: Tree.Property): void {
+    function checkUnnecessaryQuotes(node: Tree.Property | Tree.ImportAttribute): void {
       const key = node.key
 
-      if (node.method || node.computed || node.shorthand)
+      if (node.type !== 'ImportAttribute' && (node.method || node.computed || node.shorthand))
         return
 
       if (key.type === 'Literal' && typeof key.value === 'string') {
@@ -189,17 +189,20 @@ export default createRule<RuleOptions, MessageIds>({
      * Ensures that a property's key is quoted
      * @param node Property AST node
      */
-    function checkOmittedQuotes(node: Tree.PropertyNonComputedName): void {
-      const key = node.key
+    function checkOmittedQuotes(node: Tree.Property | Tree.ImportAttribute): void {
+      if (node.type !== 'ImportAttribute' && (node.method || node.computed || node.shorthand))
+        return
 
-      if (!node.method && !node.computed && !node.shorthand && !(key.type === 'Literal' && typeof key.value === 'string')) {
-        context.report({
-          node,
-          messageId: 'unquotedPropertyFound',
-          data: { property: (key as Tree.Identifier).name || (key as Tree.Literal).value },
-          fix: fixer => fixer.replaceText(key, getQuotedKey(key)),
-        })
-      }
+      const key = node.key
+      if (key.type === 'Literal' && typeof key.value === 'string')
+        return
+
+      context.report({
+        node,
+        messageId: 'unquotedPropertyFound',
+        data: { property: (key as Tree.Identifier).name || (key as Tree.Literal).value },
+        fix: fixer => fixer.replaceText(key, getQuotedKey(key)),
+      })
     }
 
     /**
@@ -207,18 +210,45 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node Property AST node
      * @param checkQuotesRedundancy Whether to check quotes' redundancy
      */
-    function checkConsistency(node: Tree.ObjectExpression, checkQuotesRedundancy: boolean): void {
-      const quotedProps: Tree.PropertyNonComputedName[] = []
-      const unquotedProps: Tree.PropertyNonComputedName[] = []
+    function checkConsistencyForObject(node: Tree.ObjectExpression, checkQuotesRedundancy: boolean): void {
+      checkConsistency(
+        node.properties.filter((property): property is Tree.PropertyNonComputedName =>
+          property.type !== 'SpreadElement' && !property.method && !property.computed && !property.shorthand,
+        ),
+        checkQuotesRedundancy,
+      )
+    }
+
+    /**
+     * Ensures that an import/export's attribute keys are consistently quoted.
+     * @param attributes Import attribute AST node array
+     */
+    function checkImportAttributes(attributes: Tree.ImportAttribute[] | undefined): void {
+      if (!attributes)
+        return
+      if (MODE === 'consistent')
+        checkConsistency(attributes, false)
+
+      if (MODE === 'consistent-as-needed')
+        checkConsistency(attributes, true)
+    }
+
+    /**
+     * Ensures these property keys are consistently quoted, optionally checks for redundancy of quotes
+     * @param properties Property AST node array
+     * @param checkQuotesRedundancy Whether to check quotes' redundancy
+     */
+    function checkConsistency<P extends Tree.PropertyNonComputedName | Tree.ImportAttribute>(
+      properties: P[],
+      checkQuotesRedundancy: boolean,
+    ): void {
+      const quotedProps: P[] = []
+      const unquotedProps: P[] = []
       let keywordKeyName: string | null = null
       let necessaryQuotes = false
 
-      node.properties.forEach((rawProperty) => {
-        const property = rawProperty as Tree.Property
+      properties.forEach((property) => {
         const key = property.key
-
-        if (!key || property.method || property.computed || property.shorthand)
-          return
 
         if (key.type === 'Literal' && typeof key.value === 'string') {
           quotedProps.push(property)
@@ -282,17 +312,33 @@ export default createRule<RuleOptions, MessageIds>({
     return {
       Property(node) {
         if (MODE === 'always' || !MODE)
-          checkOmittedQuotes(node as Tree.PropertyNonComputedName)
+          checkOmittedQuotes(node)
 
         if (MODE === 'as-needed')
           checkUnnecessaryQuotes(node)
       },
       ObjectExpression(node) {
         if (MODE === 'consistent')
-          checkConsistency(node, false)
+          checkConsistencyForObject(node, false)
 
         if (MODE === 'consistent-as-needed')
-          checkConsistency(node, true)
+          checkConsistencyForObject(node, true)
+      },
+      ImportAttribute(node) {
+        if (MODE === 'always' || !MODE)
+          checkOmittedQuotes(node)
+
+        if (MODE === 'as-needed')
+          checkUnnecessaryQuotes(node)
+      },
+      ImportDeclaration(node) {
+        checkImportAttributes(node.attributes)
+      },
+      ExportAllDeclaration(node) {
+        checkImportAttributes(node.attributes)
+      },
+      ExportNamedDeclaration(node) {
+        checkImportAttributes(node.attributes)
       },
     }
   },
