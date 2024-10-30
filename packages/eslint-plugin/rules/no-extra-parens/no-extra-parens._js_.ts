@@ -1250,7 +1250,7 @@ export default createRule<RuleOptions, MessageIds>({
           if ((precedence(node.argument) >= precedence(node)
             && yieldToken
             && hasExcessParensNoLineTerminator(yieldToken, node.argument))
-            || hasDoubleExcessParens(node.argument)) {
+          || hasDoubleExcessParens(node.argument)) {
             report(node.argument)
           }
         }

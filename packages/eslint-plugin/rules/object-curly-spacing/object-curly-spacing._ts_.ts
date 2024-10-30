@@ -183,8 +183,8 @@ export default createRule<RuleOptions, MessageIds>({
         const shouldCheckPenultimate
           = (options.arraysInObjectsException
             && isClosingBracketToken(penultimate))
-            || (options.objectsInObjectsException
-              && isClosingBraceToken(penultimate))
+          || (options.objectsInObjectsException
+            && isClosingBraceToken(penultimate))
         const penultimateType = shouldCheckPenultimate
           ? sourceCode.getNodeByRangeIndex(penultimate.range[0])!.type
           : undefined
@@ -192,12 +192,12 @@ export default createRule<RuleOptions, MessageIds>({
         const closingCurlyBraceMustBeSpaced
           = (options.arraysInObjectsException
             && penultimateType === AST_NODE_TYPES.TSTupleType)
-            || (options.objectsInObjectsException
-              && penultimateType !== undefined
-              && [
-                AST_NODE_TYPES.TSMappedType,
-                AST_NODE_TYPES.TSTypeLiteral,
-              ].includes(penultimateType))
+          || (options.objectsInObjectsException
+            && penultimateType !== undefined
+            && [
+              AST_NODE_TYPES.TSMappedType,
+              AST_NODE_TYPES.TSTypeLiteral,
+            ].includes(penultimateType))
             ? !options.spaced
             : options.spaced
 

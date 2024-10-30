@@ -156,6 +156,7 @@ export function getStaticPropertyName(node: ASTNode) {
       case 'Property':
       case 'PropertyDefinition':
       case 'MethodDefinition':
+      case 'ImportAttribute':
         prop = node.key
         break
 

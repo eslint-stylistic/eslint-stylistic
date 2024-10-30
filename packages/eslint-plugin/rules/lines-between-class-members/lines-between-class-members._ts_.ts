@@ -59,7 +59,7 @@ export default createRule<RuleOptions, MessageIds>({
       return (
         (node.type === AST_NODE_TYPES.TSAbstractMethodDefinition
           || node.type === AST_NODE_TYPES.MethodDefinition)
-          && node.value.type === AST_NODE_TYPES.TSEmptyBodyFunctionExpression
+        && node.value.type === AST_NODE_TYPES.TSEmptyBodyFunctionExpression
       )
     }
 

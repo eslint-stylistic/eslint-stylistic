@@ -3,9 +3,9 @@
  * @author Brandon Mills
  */
 
-import type { ASTNode, ReportFixFunction, Tree } from '#types'
+import type { ASTNode, ReportFixFunction, SourceCode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { getStaticPropertyName, isColonToken, LINEBREAK_MATCHER } from '#utils/ast'
+import { getStaticPropertyName, isClosingBraceToken, isColonToken, isOpeningBraceToken, LINEBREAK_MATCHER } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { getStringLength } from '#utils/string'
 
@@ -35,6 +35,20 @@ function last<T>(arr: T[]): T {
  */
 function isSingleLine(node: ASTNode) {
   return (node.loc.end.line === node.loc.start.line)
+}
+
+/**
+ * Checks whether a node is contained on a single line.
+ * @param node AST Node being evaluated.
+ * @returns True if the node is a single line.
+ */
+function isSingleLineImportAttributes(
+  node: Tree.ImportDeclaration | Tree.ExportNamedDeclaration | Tree.ExportAllDeclaration,
+  sourceCode: SourceCode,
+) {
+  const openingBrace = sourceCode.getTokenBefore(node.attributes[0], isOpeningBraceToken)!
+  const closingBrace = sourceCode.getTokenAfter(node.attributes[node.attributes.length - 1], isClosingBraceToken)!
+  return (closingBrace.loc.end.line === openingBrace.loc.start.line)
 }
 
 /**
@@ -336,7 +350,11 @@ export default createRule<RuleOptions, MessageIds>({
      * @param property Property node to check.
      * @returns Whether the property is a key-value property.
      */
-    function isKeyValueProperty(property: Tree.ObjectLiteralElement): property is Tree.Property {
+    function isKeyValueProperty<P extends Tree.ObjectLiteralElement | Tree.ImportAttribute>(
+      property: P,
+    ): property is (Tree.Property | Tree.ImportAttribute) & P {
+      if (property.type === 'ImportAttribute')
+        return true
       return !(
         (('method' in property && property.method)
           || ('shorthand' in property && property.shorthand)
@@ -384,7 +402,10 @@ export default createRule<RuleOptions, MessageIds>({
      * @param candidate The next Property that might be in the group.
      * @returns True if the candidate property is part of the group.
      */
-    function continuesPropertyGroup(lastMember: Tree.ObjectLiteralElement, candidate: Tree.ObjectLiteralElement) {
+    function continuesPropertyGroup(
+      lastMember: Tree.ObjectLiteralElement | Tree.ImportAttribute,
+      candidate: Tree.ObjectLiteralElement | Tree.ImportAttribute,
+    ) {
       const groupEndLine = lastMember.loc.start.line
       const candidateValueStartLine = (isKeyValueProperty(candidate) ? getFirstTokenAfterColon(candidate.key)! : candidate).loc.start.line
 
@@ -418,10 +439,10 @@ export default createRule<RuleOptions, MessageIds>({
      * @param property Property node whose key to retrieve.
      * @returns The property's key.
      */
-    function getKey(property: Tree.Property) {
+    function getKey(property: Tree.Property | Tree.ImportAttribute) {
       const key = property.key
 
-      if (property.computed)
+      if (property.type !== 'ImportAttribute' && property.computed)
         return sourceCode.getText().slice(key.range[0], key.range[1])
 
       return getStaticPropertyName(property)
@@ -436,14 +457,20 @@ export default createRule<RuleOptions, MessageIds>({
      * @param expected Expected whitespace length.
      * @param mode Value of the mode as "strict" or "minimum"
      */
-    function report(property: Tree.Property, side: 'key' | 'value', whitespace: string, expected: number, mode: 'strict' | 'minimum') {
+    function report(
+      property: Tree.Property | Tree.ImportAttribute,
+      side: 'key' | 'value',
+      whitespace: string,
+      expected: number,
+      mode: 'strict' | 'minimum',
+    ) {
       const diff = whitespace.length - expected
 
       if ((
         diff && mode === 'strict'
         || diff < 0 && mode === 'minimum'
         || diff > 0 && !expected && mode === 'minimum')
-        && !(expected && containsLineTerminator(whitespace))
+      && !(expected && containsLineTerminator(whitespace))
       ) {
         const nextColon = getNextColon(property.key)!
         const tokenBeforeColon = sourceCode.getTokenBefore(nextColon, { includeComments: true })!
@@ -499,7 +526,7 @@ export default createRule<RuleOptions, MessageIds>({
           loc,
           messageId,
           data: {
-            computed: property.computed ? 'computed ' : '',
+            computed: property.type !== 'ImportAttribute' && property.computed ? 'computed ' : '',
             key: getKey(property),
           },
           fix,
@@ -513,7 +540,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param property Property of on object literal.
      * @returns Width of the key.
      */
-    function getKeyWidth(property: Tree.Property) {
+    function getKeyWidth(property: Tree.Property | Tree.ImportAttribute) {
       const startToken = sourceCode.getFirstToken(property)!
       const endToken = getLastTokenBeforeColon(property.key)!
 
@@ -525,7 +552,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param property Property node from an object literal.
      * @returns Whitespace before and after the property's colon.
      */
-    function getPropertyWhitespace(property: Tree.Property) {
+    function getPropertyWhitespace(property: Tree.Property | Tree.ImportAttribute) {
       const whitespace = /(\s*):(\s*)/u.exec(sourceCode.getText().slice(
         property.key.range[1],
         property.value.range[0],
@@ -542,14 +569,14 @@ export default createRule<RuleOptions, MessageIds>({
 
     /**
      * Creates groups of properties.
-     * @param node ObjectExpression node being evaluated.
+     * @param properties List of Property AST nodes being evaluated.
      * @returns Groups of property AST node lists.
      */
-    function createGroups(node: Tree.ObjectExpression) {
-      if (node.properties.length === 1)
-        return [node.properties]
+    function createGroups(properties: (Tree.ObjectLiteralElement | Tree.ImportAttribute)[]) {
+      if (properties.length === 1)
+        return [properties]
 
-      return node.properties.reduce<Tree.ObjectLiteralElement[][]>((groups, property) => {
+      return properties.reduce<(Tree.ObjectLiteralElement | Tree.ImportAttribute)[][]>((groups, property) => {
         const currentGroup = last(groups)
         const prev = last(currentGroup)
 
@@ -568,7 +595,7 @@ export default createRule<RuleOptions, MessageIds>({
      * Verifies correct vertical alignment of a group of properties.
      * @param properties List of Property AST nodes.
      */
-    function verifyGroupAlignment(properties: Tree.Property[]) {
+    function verifyGroupAlignment(properties: (Tree.Property | Tree.ImportAttribute)[]) {
       const length = properties.length
       const widths = properties.map(getKeyWidth) // Width of keys, including quotes
       const align = alignmentOptions.on // "value" or "colon"
@@ -613,7 +640,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node Property node being evaluated.
      * @param lineOptions Configured singleLine or multiLine options
      */
-    function verifySpacing(node: Tree.Property, lineOptions: { beforeColon: number, afterColon: number, mode: 'strict' | 'minimum' }) {
+    function verifySpacing(node: Tree.Property | Tree.ImportAttribute, lineOptions: { beforeColon: number, afterColon: number, mode: 'strict' | 'minimum' }) {
       const actual = getPropertyWhitespace(node)
 
       if (actual) { // Object literal getters/setters lack colons
@@ -627,7 +654,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param properties List of Property AST nodes.
      * @param lineOptions Configured singleLine or multiLine options
      */
-    function verifyListSpacing(properties: Tree.Property[], lineOptions: { beforeColon: number, afterColon: number, mode: 'strict' | 'minimum' }) {
+    function verifyListSpacing(properties: (Tree.Property | Tree.ImportAttribute)[], lineOptions: { beforeColon: number, afterColon: number, mode: 'strict' | 'minimum' }) {
       const length = properties.length
 
       for (let i = 0; i < length; i++)
@@ -636,10 +663,10 @@ export default createRule<RuleOptions, MessageIds>({
 
     /**
      * Verifies vertical alignment, taking into account groups of properties.
-     * @param node ObjectExpression node being evaluated.
+     * @param properties List of Property AST nodes being evaluated.
      */
-    function verifyAlignment(node: Tree.ObjectExpression) {
-      createGroups(node).forEach((group) => {
+    function verifyAlignment(properties: (Tree.ObjectLiteralElement | Tree.ImportAttribute)[]) {
+      createGroups(properties).forEach((group) => {
         const properties = group.filter(isKeyValueProperty)
 
         if (properties.length > 0 && isSingleLineProperties(properties))
@@ -649,13 +676,32 @@ export default createRule<RuleOptions, MessageIds>({
       })
     }
 
+    function verifyImportAttributes(node: Tree.ImportDeclaration | Tree.ExportNamedDeclaration | Tree.ExportAllDeclaration) {
+      if (!node.attributes)
+        // The old parser's AST does not have attributes.
+        return
+      if (isSingleLineImportAttributes(node, sourceCode))
+        verifyListSpacing(node.attributes, singleLineOptions)
+      else
+        verifyAlignment(node.attributes)
+    }
+
     if (alignmentOptions) { // Verify vertical alignment
       return {
         ObjectExpression(node) {
           if (isSingleLine(node))
             verifyListSpacing(node.properties.filter(isKeyValueProperty), singleLineOptions)
           else
-            verifyAlignment(node)
+            verifyAlignment(node.properties)
+        },
+        ImportDeclaration(node) {
+          verifyImportAttributes(node)
+        },
+        ExportNamedDeclaration(node) {
+          verifyImportAttributes(node)
+        },
+        ExportAllDeclaration(node) {
+          verifyImportAttributes(node)
         },
       }
     }
@@ -664,6 +710,10 @@ export default createRule<RuleOptions, MessageIds>({
     return {
       Property(node) {
         verifySpacing(node, isSingleLine(node.parent) ? singleLineOptions : multiLineOptions)
+      },
+      ImportAttribute(node) {
+        const parent = node.parent as Tree.ImportDeclaration | Tree.ExportNamedDeclaration | Tree.ExportAllDeclaration
+        verifySpacing(node, isSingleLineImportAttributes(parent, sourceCode) ? singleLineOptions : multiLineOptions)
       },
     }
   },

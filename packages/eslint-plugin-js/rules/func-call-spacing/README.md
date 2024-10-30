@@ -1,3 +1,3 @@
 # js/func-call-spacing
 
-This rule is renamed to [`function-call-spacing`](./function-call-spacing)
+This rule was renamed to [`function-call-spacing`](/rules/default/function-call-spacing)
