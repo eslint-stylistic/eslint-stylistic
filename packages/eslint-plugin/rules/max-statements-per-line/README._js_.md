@@ -101,25 +101,6 @@ var qux = function qux() { bar = 1; };
 
 :::
 
-### ignoredNodes
-
-The "ignoredNodes" object property is optional (default: []).
-
-Examples of **correct** code for this rule with the `"ignoredNodes"` option:
-
-::: correct
-
-```js
-/*eslint max-statements-per-line: ["error", { "max": 1, "ignoredNodes": ['BreakStatement'] }]*/
-
-switch (lorem) {
-  case ipsum: dolor(); break;
-  case sit: amet(); break;
-}
-```
-
-:::
-
 ## When Not To Use It
 
 You can turn this rule off if you are not concerned with the number of statements on each line.

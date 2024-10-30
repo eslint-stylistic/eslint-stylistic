@@ -4,7 +4,7 @@
 
 export interface MaxStatementsPerLineSchema0 {
   max?: number
-  ignoredNodes?: string[]
+  listeningNodes?: string[]
 }
 
 export type MaxStatementsPerLineRuleOptions = [

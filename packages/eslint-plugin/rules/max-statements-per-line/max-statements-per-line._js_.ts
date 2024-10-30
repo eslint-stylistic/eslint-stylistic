@@ -27,7 +27,7 @@ export default createRule<RuleOptions, MessageIds>({
             minimum: 1,
             default: 1,
           },
-          ignoredNodes: {
+          listeningNodes: {
             type: 'array',
             items: {
               type: 'string',
@@ -46,7 +46,31 @@ export default createRule<RuleOptions, MessageIds>({
     const sourceCode = context.sourceCode
     const options = context.options[0] || {}
     const maxStatementsPerLine = typeof options.max !== 'undefined' ? options.max : 1
-    const ignoredNodes = options.ignoredNodes || []
+    const listeningNodes = options.listeningNodes || [
+      'BreakStatement',
+      'ClassDeclaration',
+      'ContinueStatement',
+      'DebuggerStatement',
+      'DoWhileStatement',
+      'ExpressionStatement',
+      'ForInStatement',
+      'ForOfStatement',
+      'ForStatement',
+      'FunctionDeclaration',
+      'IfStatement',
+      'ImportDeclaration',
+      'LabeledStatement',
+      'ReturnStatement',
+      'SwitchStatement',
+      'ThrowStatement',
+      'TryStatement',
+      'VariableDeclaration',
+      'WhileStatement',
+      'WithStatement',
+      'ExportNamedDeclaration',
+      'ExportDefaultDeclaration',
+      'ExportAllDeclaration',
+    ]
 
     let lastStatementLine = 0
     let numberOfStatementsOnThisLine = 0
@@ -132,60 +156,12 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     const listeners: Record<string, (node: ASTNode) => void> = {
-      'BreakStatement': enterStatement,
-      'ClassDeclaration': enterStatement,
-      'ContinueStatement': enterStatement,
-      'DebuggerStatement': enterStatement,
-      'DoWhileStatement': enterStatement,
-      'ExpressionStatement': enterStatement,
-      'ForInStatement': enterStatement,
-      'ForOfStatement': enterStatement,
-      'ForStatement': enterStatement,
-      'FunctionDeclaration': enterStatement,
-      'IfStatement': enterStatement,
-      'ImportDeclaration': enterStatement,
-      'LabeledStatement': enterStatement,
-      'ReturnStatement': enterStatement,
-      'SwitchStatement': enterStatement,
-      'ThrowStatement': enterStatement,
-      'TryStatement': enterStatement,
-      'VariableDeclaration': enterStatement,
-      'WhileStatement': enterStatement,
-      'WithStatement': enterStatement,
-      'ExportNamedDeclaration': enterStatement,
-      'ExportDefaultDeclaration': enterStatement,
-      'ExportAllDeclaration': enterStatement,
-
-      'BreakStatement:exit': leaveStatement,
-      'ClassDeclaration:exit': leaveStatement,
-      'ContinueStatement:exit': leaveStatement,
-      'DebuggerStatement:exit': leaveStatement,
-      'DoWhileStatement:exit': leaveStatement,
-      'ExpressionStatement:exit': leaveStatement,
-      'ForInStatement:exit': leaveStatement,
-      'ForOfStatement:exit': leaveStatement,
-      'ForStatement:exit': leaveStatement,
-      'FunctionDeclaration:exit': leaveStatement,
-      'IfStatement:exit': leaveStatement,
-      'ImportDeclaration:exit': leaveStatement,
-      'LabeledStatement:exit': leaveStatement,
-      'ReturnStatement:exit': leaveStatement,
-      'SwitchStatement:exit': leaveStatement,
-      'ThrowStatement:exit': leaveStatement,
-      'TryStatement:exit': leaveStatement,
-      'VariableDeclaration:exit': leaveStatement,
-      'WhileStatement:exit': leaveStatement,
-      'WithStatement:exit': leaveStatement,
-      'ExportNamedDeclaration:exit': leaveStatement,
-      'ExportDefaultDeclaration:exit': leaveStatement,
-      'ExportAllDeclaration:exit': leaveStatement,
       'Program:exit': reportFirstExtraStatementAndClear,
     }
 
-    for (const key in listeners) {
-      if (ignoredNodes.includes(key) || ignoredNodes.includes(`${key}:exit`)) {
-        delete listeners[key]
-      }
+    for (const node of listeningNodes) {
+      listeners[node] = enterStatement
+      listeners[`${node}:exit`] = leaveStatement
     }
 
     return listeners
