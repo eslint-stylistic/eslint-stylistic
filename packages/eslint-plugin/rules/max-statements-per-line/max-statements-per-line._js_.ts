@@ -8,6 +8,32 @@ import type { MessageIds, RuleOptions } from './types'
 import { isNotSemicolonToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
+const listeningNodes = [
+  'BreakStatement',
+  'ClassDeclaration',
+  'ContinueStatement',
+  'DebuggerStatement',
+  'DoWhileStatement',
+  'ExpressionStatement',
+  'ForInStatement',
+  'ForOfStatement',
+  'ForStatement',
+  'FunctionDeclaration',
+  'IfStatement',
+  'ImportDeclaration',
+  'LabeledStatement',
+  'ReturnStatement',
+  'SwitchStatement',
+  'ThrowStatement',
+  'TryStatement',
+  'VariableDeclaration',
+  'WhileStatement',
+  'WithStatement',
+  'ExportNamedDeclaration',
+  'ExportDefaultDeclaration',
+  'ExportAllDeclaration',
+] as const
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'max-statements-per-line',
   package: 'js',
@@ -27,10 +53,11 @@ export default createRule<RuleOptions, MessageIds>({
             minimum: 1,
             default: 1,
           },
-          listeningNodes: {
+          ignoredNodes: {
             type: 'array',
             items: {
               type: 'string',
+              enum: listeningNodes as unknown as string[],
             },
           },
         },
@@ -46,31 +73,7 @@ export default createRule<RuleOptions, MessageIds>({
     const sourceCode = context.sourceCode
     const options = context.options[0] || {}
     const maxStatementsPerLine = typeof options.max !== 'undefined' ? options.max : 1
-    const listeningNodes = options.listeningNodes || [
-      'BreakStatement',
-      'ClassDeclaration',
-      'ContinueStatement',
-      'DebuggerStatement',
-      'DoWhileStatement',
-      'ExpressionStatement',
-      'ForInStatement',
-      'ForOfStatement',
-      'ForStatement',
-      'FunctionDeclaration',
-      'IfStatement',
-      'ImportDeclaration',
-      'LabeledStatement',
-      'ReturnStatement',
-      'SwitchStatement',
-      'ThrowStatement',
-      'TryStatement',
-      'VariableDeclaration',
-      'WhileStatement',
-      'WithStatement',
-      'ExportNamedDeclaration',
-      'ExportDefaultDeclaration',
-      'ExportAllDeclaration',
-    ]
+    const ignoredNodes = options.ignoredNodes || []
 
     let lastStatementLine = 0
     let numberOfStatementsOnThisLine = 0
@@ -160,6 +163,8 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     for (const node of listeningNodes) {
+      if (ignoredNodes.includes(node))
+        continue
       listeners[node] = enterStatement
       listeners[`${node}:exit`] = leaveStatement
     }

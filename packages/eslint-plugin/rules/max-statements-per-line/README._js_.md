@@ -101,35 +101,16 @@ var qux = function qux() { bar = 1; };
 
 :::
 
-### listeningNodes
+### ignoredNodes
 
-The "listeningNodes" object property list all the nodes that rules listens to.
+The "ignoredNodes" object property is optional (default: []).
 
-Examples of **incorrect** code for this rule with the `"listeningNodes"` option:
-
-::: incorrect
-
-```js
-/*eslint max-statements-per-line: [
-  "error",
-  { "max": 1, "listeningNodes": ["ExpressionStatement", "BreakStatement"] }
-]*/
-
-switch (lorem) {
-  case ipsum: dolor(); break;
-  case sit: amet(); break;
-}
-```
-
-Examples of **correct** code for this rule with the `"listeningNodes"` option:
+Examples of **correct** code for this rule with the `"ignoredNodes"` option:
 
 ::: correct
 
 ```js
-/*eslint max-statements-per-line: [
-  "error",
-  { "max": 1, "listeningNodes": ["BreakStatement"] }
-]*/
+/*eslint max-statements-per-line: ["error", { "max": 1, "ignoredNodes": ['BreakStatement'] }]*/
 
 switch (lorem) {
   case ipsum: dolor(); break;
