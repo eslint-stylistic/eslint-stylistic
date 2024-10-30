@@ -6,32 +6,6 @@
 import { run } from '#test'
 import rule from '.'
 
-const defaultListener = [
-  'BreakStatement',
-  'ClassDeclaration',
-  'ContinueStatement',
-  'DebuggerStatement',
-  'DoWhileStatement',
-  'ExpressionStatement',
-  'ForInStatement',
-  'ForOfStatement',
-  'ForStatement',
-  'FunctionDeclaration',
-  'IfStatement',
-  'ImportDeclaration',
-  'LabeledStatement',
-  'ReturnStatement',
-  'SwitchStatement',
-  'ThrowStatement',
-  'TryStatement',
-  'VariableDeclaration',
-  'WhileStatement',
-  'WithStatement',
-  'ExportNamedDeclaration',
-  'ExportDefaultDeclaration',
-  'ExportAllDeclaration',
-]
-
 run({
   name: 'max-statements-per-line',
   rule,
@@ -132,7 +106,7 @@ run({
       code: 'const a = 1; export const b = 2; export const c = 3;',
       options: [{
         max: 1,
-        listeningNodes: defaultListener.filter(node => !['ExportNamedDeclaration'].includes(node)),
+        ignoredNodes: ['ExportNamedDeclaration'],
       }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
@@ -144,7 +118,7 @@ run({
       ].join('\n'),
       options: [{
         max: 1,
-        listeningNodes: defaultListener.filter(node => !['BreakStatement'].includes(node)),
+        ignoredNodes: ['BreakStatement'],
       }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
@@ -200,7 +174,7 @@ run({
       ].join('\n'),
       options: [{
         max: 1,
-        listeningNodes: defaultListener.filter(node => !['IfStatement'].includes(node)),
+        ignoredNodes: ['IfStatement'],
       }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [{ messageId: 'exceed' }],
