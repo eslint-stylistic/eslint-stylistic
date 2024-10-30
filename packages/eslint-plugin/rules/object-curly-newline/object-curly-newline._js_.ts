@@ -221,8 +221,8 @@ export default createRule<RuleOptions, MessageIds>({
       if (
         (node.type === 'ImportDeclaration'
           && !node.specifiers.some(specifier => specifier.type === 'ImportSpecifier'))
-          || (node.type === 'ExportNamedDeclaration'
-            && !node.specifiers.some(specifier => specifier.type === 'ExportSpecifier'))
+        || (node.type === 'ExportNamedDeclaration'
+          && !node.specifiers.some(specifier => specifier.type === 'ExportSpecifier'))
       ) {
         return
       }

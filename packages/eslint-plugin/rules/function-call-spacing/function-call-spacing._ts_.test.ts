@@ -135,6 +135,10 @@ run({
         output: 'f();',
       },
       {
+        code: 'f /* comment */ ();',
+        output: null,
+      },
+      {
         code: 'f (a, b);',
         output: 'f(a, b);',
       },
@@ -171,6 +175,10 @@ run({
         output: 'var f = new Foo()',
       },
       {
+        code: 'var f = new Foo /* comment */ ()',
+        output: null,
+      },
+      {
         code: 'f ( (0) )',
         output: 'f( (0) )',
       },
@@ -195,6 +203,10 @@ run({
       {
         code: 'f\n();',
         output: null, // no change
+      },
+      {
+        code: 'f\n//comment\n();',
+        output: null,
       },
       {
         code: $`
@@ -263,6 +275,10 @@ run({
         code: 'import\n(source)',
         output: null,
       },
+      {
+        code: 'import\n//comment\n(source)',
+        output: null,
+      },
     ].map<InvalidTestCase>(code => ({
       options: ['never'],
       errors: [
@@ -316,6 +332,10 @@ run({
       {
         code: 'f\n();',
         output: 'f ();',
+      },
+      {
+        code: 'f\n//comment\n();',
+        output: null,
       },
       {
         code: 'f\n(a, b);',
@@ -531,8 +551,7 @@ run({
             },
           ],
           code,
-          // apply no fixers to it
-          output: null,
+          output: 'f?.();',
         },
       )
 
