@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: e0uyhpKPCy */
+/* @checksum: p0irYE8sXQ */
 
 export type CommaDangleSchema0 =
   | []
@@ -12,6 +12,8 @@ export type CommaDangleSchema0 =
       imports?: ValueWithIgnore
       exports?: ValueWithIgnore
       functions?: ValueWithIgnore
+      importAttributes?: ValueWithIgnore
+      dynamicImports?: ValueWithIgnore
     },
   ]
 export type Value =
