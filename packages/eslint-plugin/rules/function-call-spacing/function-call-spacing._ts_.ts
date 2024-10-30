@@ -94,6 +94,10 @@ export default createRule<RuleOptions, MessageIds>({
             loc: leftToken.loc.start,
             messageId: 'unexpectedWhitespace',
             fix(fixer) {
+              // Don't remove comments.
+              if (sourceCode.commentsExistBetween(leftToken, rightToken))
+                return null
+
               /**
                * Only autofix if there is no newline
                * https://github.com/eslint/eslint/issues/7787
@@ -144,6 +148,10 @@ export default createRule<RuleOptions, MessageIds>({
             loc: leftToken.loc.start,
             messageId: 'unexpectedNewline',
             fix(fixer) {
+              // Don't remove comments.
+              if (sourceCode.commentsExistBetween(leftToken, rightToken))
+                return null
+
               return fixer.replaceTextRange(
                 [leftToken.range[1], rightToken.range[0]],
                 ' ',
