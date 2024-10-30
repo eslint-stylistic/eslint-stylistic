@@ -551,8 +551,7 @@ run({
             },
           ],
           code,
-          // apply no fixers to it
-          output: null,
+          output: 'f?.();',
         },
       )
 
