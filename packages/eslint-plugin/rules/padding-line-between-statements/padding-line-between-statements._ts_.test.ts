@@ -2853,6 +2853,72 @@ run({
         },
       ],
     },
+
+    // ----------------------------------------------------------------------
+    // multiline-export
+    // ----------------------------------------------------------------------
+
+    {
+      code: 'export const a={\nb:1,\nc:2\n}\n\nexport const d=3',
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'multiline-export', next: '*' },
+      ],
+    },
+    {
+      code: 'export const a=1\n\nexport const b={\nc:2,\nd:3\n}',
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: '*', next: 'multiline-export' },
+      ],
+    },
+    {
+      code: 'export const a=1\nexport const b=2',
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'multiline-export', next: '*' },
+      ],
+    },
+    {
+      code: 'export const a=1\nexport const b=2',
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: '*', next: 'multiline-export' },
+      ],
+    },
+
+    // ----------------------------------------------------------------------
+    // singleline-export
+    // ----------------------------------------------------------------------
+
+    {
+      code: 'export const a=1\n\nexport const b=2',
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'singleline-export', next: '*' },
+      ],
+    },
+    {
+      code: 'export const a=1\n\nexport const b=2',
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: '*', next: 'singleline-export' },
+      ],
+    },
+    {
+      code: 'export const a={\nb:1,\nc:2\n}\nexport const d={\ne:3,\nf:4\n}',
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'singleline-export', next: '*' },
+      ],
+    },
+    {
+      code: 'export const a={\nb:1,\nc:2\n}\nexport const d={\ne:3,\nf:4\n}',
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: '*', next: 'singleline-export' },
+      ],
+    },
   ],
   invalid: [
     // ----------------------------------------------------------------------
@@ -5221,6 +5287,64 @@ run({
         type Foo = {\na(): string;\n\nb(): number;\n\nc(): boolean;\n\nd(): string;\n}
       `,
       options: [{ blankLine: 'always', prev: 'ts-method', next: '*' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+
+    // ----------------------------------------------------------------------
+    // multiline-export
+    // ----------------------------------------------------------------------
+
+    {
+      code: 'export const a={\nb:1,\nc:2\n}\n\nexport const d=3',
+      output: 'export const a={\nb:1,\nc:2\n}\nexport const d=3',
+      options: [{ blankLine: 'never', prev: 'multiline-export', next: '*' }],
+      errors: [{ messageId: 'unexpectedBlankLine' }],
+    },
+    {
+      code: 'export const a={\nb:1,\nc:2\n}\nexport const d=3',
+      output: 'export const a={\nb:1,\nc:2\n}\n\nexport const d=3',
+      options: [{ blankLine: 'always', prev: 'multiline-export', next: '*' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'export const a=1\n\nexport const b={\nc:2,\nd:3\n}',
+      output: 'export const a=1\nexport const b={\nc:2,\nd:3\n}',
+      options: [{ blankLine: 'never', prev: '*', next: 'multiline-export' }],
+      errors: [{ messageId: 'unexpectedBlankLine' }],
+    },
+    {
+      code: 'export const a=1\nexport const b={\nc:2,\nd:3\n}',
+      output: 'export const a=1\n\nexport const b={\nc:2,\nd:3\n}',
+      options: [{ blankLine: 'always', prev: '*', next: 'multiline-export' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+
+    // ----------------------------------------------------------------------
+    // singleline-export
+    // ----------------------------------------------------------------------
+
+    {
+      code: 'export const a=1\n\nexport const b=2',
+      output: 'export const a=1\nexport const b=2',
+      options: [{ blankLine: 'never', prev: 'singleline-export', next: '*' }],
+      errors: [{ messageId: 'unexpectedBlankLine' }],
+    },
+    {
+      code: 'export const a=1\nexport const b=2',
+      output: 'export const a=1\n\nexport const b=2',
+      options: [{ blankLine: 'always', prev: 'singleline-export', next: '*' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'export const a=1\n\nexport const b=2',
+      output: 'export const a=1\nexport const b=2',
+      options: [{ blankLine: 'never', prev: '*', next: 'singleline-export' }],
+      errors: [{ messageId: 'unexpectedBlankLine' }],
+    },
+    {
+      code: 'export const a=1\nexport const b=2',
+      output: 'export const a=1\n\nexport const b=2',
+      options: [{ blankLine: 'always', prev: '*', next: 'singleline-export' }],
       errors: [{ messageId: 'expectedBlankLine' }],
     },
   ],
