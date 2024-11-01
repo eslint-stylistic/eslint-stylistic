@@ -680,6 +680,8 @@ export default createRule<RuleOptions, MessageIds>({
       if (!node.attributes)
         // The old parser's AST does not have attributes.
         return
+      if (!node.attributes.length)
+        return
       if (isSingleLineImportAttributes(node, sourceCode))
         verifyListSpacing(node.attributes, singleLineOptions)
       else
