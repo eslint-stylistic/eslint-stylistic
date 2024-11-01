@@ -83,10 +83,6 @@ export default createRule<RuleOptions, MessageIds>({
       return openBracketCount < closeBracketCount
     }
 
-    function hasExclusivelyCloseBracketOfLine(line: number) {
-      return !sourceCode.tokensAndComments.some(token => token.loc.start.line === line && ![')', '}', ']'].includes(token.value))
-    }
-
     function handler(node: ASTNode, right: ASTNode) {
       if (node.loc.start.line === node.loc.end.line)
         return
@@ -128,7 +124,7 @@ export default createRule<RuleOptions, MessageIds>({
         || (
           lastTokenOfLineLeft?.value === ')'
           && isGreaterThanCloseBracketOfLine(tokenLeft.loc.start.line)
-          && !hasExclusivelyCloseBracketOfLine(tokenLeft.loc.start.line)
+          && ![']', ')', '}'].includes(firstTokenOfLineLeft?.value || '')
         )
 
       const indentLeft = getIndentOfLine(tokenLeft.loc.start.line)

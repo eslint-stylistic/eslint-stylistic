@@ -336,4 +336,34 @@ it('snapshots', async () => {
         || (g && h)
     }"
   `)
+
+  expect.soft(
+    fix($`
+      type Type =
+        | ({
+          type: 'a';
+        } & A)
+        | ({
+          type: 'b';
+          } & B)
+        | ({
+          type: 'c';
+        } & {
+          c: string;
+        });
+    `),
+  ).toMatchInlineSnapshot(`
+    "type Type =
+      | ({
+        type: 'a';
+      } & A)
+      | ({
+        type: 'b';
+        } & B)
+        | ({
+        type: 'c';
+      } & {
+        c: string;
+      });"
+  `)
 })
