@@ -1,5 +1,23 @@
 # Changelog
 
+## [2.10.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.10.0...v2.10.1) (2024-11-01)
+
+
+### Features
+
+* **indent-binary-ops:** disabled to lower indent when starts closing bracket ([#591](https://github.com/eslint-stylistic/eslint-stylistic/issues/591)) ([25fe554](https://github.com/eslint-stylistic/eslint-stylistic/commit/25fe554cc19e0193e973dd4dd48ed5e218b5c6a5))
+
+
+### Bug Fixes
+
+* **key-spacing:** crash for import without attributes when using `align: "colon"` ([#594](https://github.com/eslint-stylistic/eslint-stylistic/issues/594)) ([6000f43](https://github.com/eslint-stylistic/eslint-stylistic/commit/6000f43d0d6522af1616192321a84cb2ead9b95d))
+
+
+### Chores
+
+* release-please-mark ([5e7a284](https://github.com/eslint-stylistic/eslint-stylistic/commit/5e7a2841f226347c853559a58c3601d369b8a1ad))
+* release-please-mark ([08b65a5](https://github.com/eslint-stylistic/eslint-stylistic/commit/08b65a5a605f4e86808983275370271548e98ec9))
+
 ## [2.10.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.9.0...v2.10.0) (2024-10-30)
 
 
