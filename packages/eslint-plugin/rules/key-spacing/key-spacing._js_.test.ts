@@ -1227,6 +1227,30 @@ run({
         align: 'colon',
       }],
     },
+    {
+      code: $`
+        import foo from "./foo"
+      `,
+      options: [{ align: 'colon' }],
+    },
+    {
+      code: $`
+        import "./foo"
+      `,
+      options: [{ align: 'colon' }],
+    },
+    {
+      code: $`
+        export {foo} from "./foo"
+      `,
+      options: [{ align: 'colon' }],
+    },
+    {
+      code: $`
+        export * from "./foo"
+      `,
+      options: [{ align: 'colon' }],
+    },
   ],
   invalid: [
     {
