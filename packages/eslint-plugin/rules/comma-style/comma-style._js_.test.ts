@@ -1741,5 +1741,61 @@ run({
         { messageId: 'expectedCommaFirst' },
       ],
     },
+    {
+      code: $`
+        const x = [,
+          (a),
+          (b),
+          (c),
+        ]
+        const y = [
+          ,(a)
+          ,(b)
+          ,(c)
+          ,]
+      `,
+      output: $`
+        const x = [,
+          (a),
+          (b),
+          (c),
+        ]
+        const y = [
+          ,(a),
+          (b),
+          (c),
+          ]
+      `,
+      options: ['last'],
+      errors: [{ messageId: 'expectedCommaLast' }, { messageId: 'expectedCommaLast' }, { messageId: 'expectedCommaLast' }],
+    },
+    {
+      code: $`
+        const x = [,
+          (a),
+          (b),
+          (c),
+        ]
+        const y = [
+          ,(a)
+          ,(b)
+          ,(c)
+          ,]
+      `,
+      output: $`
+        const x = [,
+          (a)
+          ,(b)
+          ,(c)
+        ,]
+        const y = [
+          ,(a)
+          ,(b)
+          ,(c)
+          ,]
+      `,
+      options: ['first'],
+      errors: [{ messageId: 'expectedCommaFirst' }, { messageId: 'expectedCommaFirst' }, { messageId: 'expectedCommaFirst' }],
+    },
   ],
 })

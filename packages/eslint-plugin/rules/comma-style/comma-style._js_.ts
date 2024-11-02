@@ -5,7 +5,15 @@
 
 import type { ASTNode, NodeTypes, RuleFixer, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isCommaToken, isNotCommaToken, isOpeningBracketToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '#utils/ast'
+import {
+  isCommaToken,
+  isNotClosingParenToken,
+  isNotCommaToken,
+  isNotOpeningParenToken,
+  isOpeningBracketToken,
+  isTokenOnSameLine,
+  LINEBREAK_MATCHER,
+} from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -202,8 +210,13 @@ export default createRule<RuleOptions, MessageIds>({
 
       // Extracts all commas before the first item
       let prevToken = sourceCode.getTokenBefore(firstItem)
-      while (prevToken && isCommaToken(prevToken)) {
-        commaTokens.unshift(prevToken)
+      while (prevToken && node.range[0] <= prevToken.range[0]) {
+        if (isCommaToken(prevToken)) {
+          commaTokens.unshift(prevToken)
+        }
+        else if (isNotOpeningParenToken(prevToken)) {
+          break
+        }
         prevToken = sourceCode.getTokenBefore(prevToken)
       }
 
@@ -226,8 +239,14 @@ export default createRule<RuleOptions, MessageIds>({
 
       // Extracts all commas after the last item
       let nextToken = sourceCode.getTokenAfter(prevItem!)
-      while (nextToken && isCommaToken(nextToken)) {
-        commaTokens.push(nextToken)
+      while (nextToken && nextToken.range[1] <= node.range[1]) {
+        if (isCommaToken(nextToken)) {
+          commaTokens.push(nextToken)
+        }
+        else if (isNotClosingParenToken(nextToken)) {
+          break
+        }
+
         nextToken = sourceCode.getTokenAfter(nextToken)
       }
 
