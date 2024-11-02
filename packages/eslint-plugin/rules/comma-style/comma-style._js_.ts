@@ -437,6 +437,9 @@ export default createRule<RuleOptions, MessageIds>({
     }
     /** Checks the comma placement in import attributes. */
     function visitImportAttributes(node: Tree.ImportDeclaration | Tree.ExportAllDeclaration | Tree.ExportNamedDeclaration) {
+      if (!node.attributes)
+        // The old parser's AST does not have attributes.
+        return
       validateComma(node, node.attributes)
     }
     /** Checks the comma placement in module specifiers. */
