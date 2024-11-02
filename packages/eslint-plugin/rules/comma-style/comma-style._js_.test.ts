@@ -3,7 +3,7 @@
  * @author Vignesh Anand aka vegetableman
  */
 
-import { run } from '#test'
+import { $, run } from '#test'
 import rule from '.'
 
 run({
@@ -262,7 +262,211 @@ run({
         ecmaVersion: 6,
       },
     },
-
+    {
+      // exception
+      code: $`
+        import {
+          A,
+          B
+          , C
+        } from 'module3' with {
+          a: 'v',
+          b: 'v'
+          , c: 'v'
+        };
+        import 'module4' with {
+          a: 'v',
+          b: 'v'
+          , c: 'v'
+        };
+      `,
+    },
+    {
+      // exception
+      code: $`
+        let a, b, c;
+        export {
+          a,
+          b
+          , c
+        };
+        export {
+          A,
+          B
+          , C
+        } from 'module1' with {
+          a: 'v',
+          b: 'v'
+          , c: 'v'
+        };
+        export * from 'module2' with {
+          a: 'v',
+          b: 'v'
+          , c: 'v'
+        };
+      `,
+    },
+    {
+      // exception
+      code: $`
+        import(
+          a,
+          b
+        );
+        import(
+          c
+          , d
+        );
+      `,
+    },
+    {
+      code: $`
+        import(
+          a,
+        );
+        import(
+          b, c,
+        );
+      `,
+      options: ['first', { exceptions: { ImportExpression: false } }],
+    },
+    {
+      // exception
+      code: $`
+        const x = (
+          a,
+          b
+          , c
+        );
+      `,
+    },
+    {
+      // exception
+      code: $`
+        class MyClass implements
+          A,
+          B
+        , C {
+        }
+        const a = class implements
+          A,
+          B
+        , C {
+        }
+      `,
+    },
+    {
+      code: $`
+        function f(
+          a,
+          b
+          , c
+        )
+        type a = (
+          a,
+          b
+          , c
+        ) => r
+        type a = new (
+          a,
+          b
+          , c
+        ) => r
+        abstract class Base {
+          f(
+            a,
+            b
+            , c
+          );
+        }
+      `,
+    },
+    {
+      // exception
+      code: $`
+        enum MyEnum {
+          A,
+          B
+          , C
+        }
+      `,
+    },
+    {
+      // exception
+      code: $`
+        type foo = {
+          a: string,
+          b: string
+          , c: string
+        }
+      `,
+    },
+    {
+      // exception
+      code: $`
+        type foo = {
+          new (
+            a,
+            b
+            , c
+          ): any,
+          (
+            a,
+            b
+            , c
+          ): any,
+          [
+            a: string,
+            b: string
+            , c: string
+          ]: string,
+        
+          f(
+            a: string,
+            b: string
+            , c: string
+          ): number,
+        }
+      `,
+    },
+    {
+      // exception
+      code: $`
+        interface Foo extends
+          A,
+          B
+          , C
+        {
+          a: string,
+          b: string
+          , c: string
+        }
+      `,
+    },
+    {
+      // exception
+      code: $`
+        type Foo = [
+          "A",
+          "B"
+          , "C"
+        ];
+      `,
+    },
+    {
+      // exception
+      code: $`
+        type Foo<
+          A,
+          B
+          , C
+        > = Bar<
+          A,
+          B
+          , C
+        >;
+      `,
+    },
   ],
 
   invalid: [
@@ -654,6 +858,825 @@ run({
       code: '[foo//\n,/*block\ncomment*/];',
       output: '[foo,//\n/*block\ncomment*/];',
       errors: [{ messageId: 'unexpectedLineBeforeAndAfterComma' }],
+    },
+    {
+      code: $`
+        import {
+          A,
+          B
+          , C
+        } from 'module3' with {
+          a: 'v',
+          b: 'v'
+          , c: 'v'
+        };
+        import 'module4' with {
+          a: 'v',
+          b: 'v'
+          , c: 'v'
+        };
+      `,
+      output: $`
+        import {
+          A,
+          B,
+           C
+        } from 'module3' with {
+          a: 'v',
+          b: 'v',
+           c: 'v'
+        };
+        import 'module4' with {
+          a: 'v',
+          b: 'v',
+           c: 'v'
+        };
+      `,
+      options: ['last', { exceptions: { ImportDeclaration: false } }],
+      errors: [
+        { messageId: 'expectedCommaLast' },
+        { messageId: 'expectedCommaLast' },
+        { messageId: 'expectedCommaLast' },
+      ],
+    },
+    {
+      code: $`
+        import {
+          A,
+          B
+          , C
+        } from 'module3' with {
+          a: 'v',
+          b: 'v'
+          , c: 'v'
+        };
+        import 'module4' with {
+          a: 'v',
+          b: 'v'
+          , c: 'v'
+        };
+      `,
+      output: $`
+        import {
+          A
+          ,B
+          , C
+        } from 'module3' with {
+          a: 'v'
+          ,b: 'v'
+          , c: 'v'
+        };
+        import 'module4' with {
+          a: 'v'
+          ,b: 'v'
+          , c: 'v'
+        };
+      `,
+      options: ['first', { exceptions: { ImportDeclaration: false } }],
+      errors: [
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+      ],
+    },
+    {
+      code: $`
+        let a, b, c;
+        export {
+          a,
+          b
+          , c
+        };
+        export {
+          A,
+          B
+          , C
+        } from 'module1' with {
+          a: 'v',
+          b: 'v'
+          , c: 'v'
+        };
+        export * from 'module2' with {
+          a: 'v',
+          b: 'v'
+          , c: 'v'
+        };
+      `,
+      output: $`
+        let a, b, c;
+        export {
+          a,
+          b,
+           c
+        };
+        export {
+          A,
+          B,
+           C
+        } from 'module1' with {
+          a: 'v',
+          b: 'v',
+           c: 'v'
+        };
+        export * from 'module2' with {
+          a: 'v',
+          b: 'v',
+           c: 'v'
+        };
+      `,
+      options: ['last', { exceptions: { ExportAllDeclaration: false, ExportNamedDeclaration: false } }],
+      errors: [
+        { messageId: 'expectedCommaLast' },
+        { messageId: 'expectedCommaLast' },
+        { messageId: 'expectedCommaLast' },
+        { messageId: 'expectedCommaLast' },
+      ],
+    },
+    {
+      code: $`
+        let a, b, c;
+        export {
+          a,
+          b
+          , c
+        };
+        export {
+          A,
+          B
+          , C
+        } from 'module1' with {
+          a: 'v',
+          b: 'v'
+          , c: 'v'
+        };
+        export * from 'module2' with {
+          a: 'v',
+          b: 'v'
+          , c: 'v'
+        };
+      `,
+      output: $`
+        let a, b, c;
+        export {
+          a
+          ,b
+          , c
+        };
+        export {
+          A
+          ,B
+          , C
+        } from 'module1' with {
+          a: 'v'
+          ,b: 'v'
+          , c: 'v'
+        };
+        export * from 'module2' with {
+          a: 'v'
+          ,b: 'v'
+          , c: 'v'
+        };
+      `,
+      options: ['first', { exceptions: { ExportAllDeclaration: false, ExportNamedDeclaration: false } }],
+      errors: [
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+      ],
+    },
+    {
+      code: $`
+        const x = (
+          a,
+          b
+          , c
+        );
+      `,
+      output: $`
+        const x = (
+          a,
+          b,
+           c
+        );
+      `,
+      options: ['last', { exceptions: { SequenceExpression: false } }],
+      errors: [{ messageId: 'expectedCommaLast' }],
+    },
+    {
+      code: $`
+        const x = (
+          a,
+          b
+          , c
+        );
+      `,
+      output: $`
+        const x = (
+          a
+          ,b
+          , c
+        );
+      `,
+      options: ['first', { exceptions: { SequenceExpression: false } }],
+      errors: [{ messageId: 'expectedCommaFirst' }],
+    },
+    {
+      code: $`
+        import(
+          a,
+          b
+        );
+        import(
+          c
+          , d
+        );
+      `,
+      output: $`
+        import(
+          a,
+          b
+        );
+        import(
+          c,
+           d
+        );
+      `,
+      options: ['last', { exceptions: { ImportExpression: false } }],
+      errors: [{ messageId: 'expectedCommaLast' }],
+    },
+    {
+      code: $`
+        import(
+          a,
+          b
+        );
+        import(
+          c
+          , d
+        );
+      `,
+      output: $`
+        import(
+          a
+          ,b
+        );
+        import(
+          c
+          , d
+        );
+      `,
+      options: ['first', { exceptions: { ImportExpression: false } }],
+      errors: [{ messageId: 'expectedCommaFirst' }],
+    },
+    {
+      code: $`
+        class MyClass implements
+          A,
+          B
+        , C {
+        }
+        const a = class implements
+          A,
+          B
+        , C {
+        }
+      `,
+      output: $`
+        class MyClass implements
+          A,
+          B,
+         C {
+        }
+        const a = class implements
+          A,
+          B,
+         C {
+        }
+      `,
+      options: ['last', { exceptions: { ClassDeclaration: false, ClassExpression: false } }],
+      errors: [{ messageId: 'expectedCommaLast' }, { messageId: 'expectedCommaLast' }],
+    },
+    {
+      code: $`
+        class MyClass implements
+          A,
+          B
+        , C {
+        }
+        const a = class implements
+          A,
+          B
+        , C {
+        }
+      `,
+      output: $`
+        class MyClass implements
+          A
+          ,B
+        , C {
+        }
+        const a = class implements
+          A
+          ,B
+        , C {
+        }
+      `,
+      options: ['first', { exceptions: { ClassDeclaration: false, ClassExpression: false } }],
+      errors: [{ messageId: 'expectedCommaFirst' }, { messageId: 'expectedCommaFirst' }],
+    },
+    {
+      code: $`
+        function f(
+          a,
+          b
+          , c
+        )
+        type a = (
+          a,
+          b
+          , c
+        ) => r
+        type a = new (
+          a,
+          b
+          , c
+        ) => r
+        abstract class Base {
+          f(
+            a,
+            b
+            , c
+          );
+        }
+      `,
+      output: $`
+        function f(
+          a,
+          b,
+           c
+        )
+        type a = (
+          a,
+          b,
+           c
+        ) => r
+        type a = new (
+          a,
+          b,
+           c
+        ) => r
+        abstract class Base {
+          f(
+            a,
+            b,
+             c
+          );
+        }
+      `,
+      options: ['last', {
+        exceptions: {
+          TSDeclareFunction: false,
+          TSFunctionType: false,
+          TSConstructorType: false,
+          TSEmptyBodyFunctionExpression: false,
+        },
+      }],
+      errors: [
+        { messageId: 'expectedCommaLast' },
+        { messageId: 'expectedCommaLast' },
+        { messageId: 'expectedCommaLast' },
+        { messageId: 'expectedCommaLast' },
+      ],
+    },
+    {
+      code: $`
+        function f(
+          a,
+          b
+          , c
+        )
+        type a = (
+          a,
+          b
+          , c
+        ) => r
+        type a = new (
+          a,
+          b
+          , c
+        ) => r
+        abstract class Base {
+          f(
+            a,
+            b
+            , c
+          );
+        }
+      `,
+      output: $`
+        function f(
+          a
+          ,b
+          , c
+        )
+        type a = (
+          a
+          ,b
+          , c
+        ) => r
+        type a = new (
+          a
+          ,b
+          , c
+        ) => r
+        abstract class Base {
+          f(
+            a
+            ,b
+            , c
+          );
+        }
+      `,
+      options: ['first', {
+        exceptions: {
+          TSDeclareFunction: false,
+          TSFunctionType: false,
+          TSConstructorType: false,
+          TSEmptyBodyFunctionExpression: false,
+        },
+      }],
+      errors: [
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+      ],
+    },
+    {
+      code: $`
+        enum MyEnum {
+          A,
+          B
+          , C
+        }
+      `,
+      output: $`
+        enum MyEnum {
+          A,
+          B,
+           C
+        }
+      `,
+      options: ['last', { exceptions: { TSEnumBody: false } }],
+      errors: [{ messageId: 'expectedCommaLast' }],
+    },
+    {
+      code: $`
+        enum MyEnum {
+          A,
+          B
+          , C
+        }
+      `,
+      output: $`
+        enum MyEnum {
+          A
+          ,B
+          , C
+        }
+      `,
+      options: ['first', { exceptions: { TSEnumBody: false } }],
+      errors: [{ messageId: 'expectedCommaFirst' }],
+    },
+    {
+      code: $`
+        type foo = {
+          a: string,
+          b: string
+          , c: string
+        }
+      `,
+      output: $`
+        type foo = {
+          a: string,
+          b: string,
+           c: string
+        }
+      `,
+      options: ['last', { exceptions: { TSTypeLiteral: false } }],
+      errors: [{ messageId: 'expectedCommaLast' }],
+    },
+    {
+      code: $`
+        type foo = {
+          a: string,
+          b: string
+          , c: string
+        }
+      `,
+      output: $`
+        type foo = {
+          a: string
+          ,b: string
+          , c: string
+        }
+      `,
+      options: ['first', { exceptions: { TSTypeLiteral: false } }],
+      errors: [{ messageId: 'expectedCommaFirst' }],
+    },
+    {
+      code: $`
+        type foo = {
+          new (
+            a,
+            b
+            , c
+          ): any,
+          (
+            a,
+            b
+            , c
+          ): any,
+          [
+            a: string,
+            b: string
+            , c: string
+          ]: string,
+        
+          f(
+            a: string,
+            b: string
+            , c: string
+          ): number,
+        }
+      `,
+      output: $`
+        type foo = {
+          new (
+            a,
+            b,
+             c
+          ): any,
+          (
+            a,
+            b,
+             c
+          ): any,
+          [
+            a: string,
+            b: string,
+             c: string
+          ]: string,
+        
+          f(
+            a: string,
+            b: string,
+             c: string
+          ): number,
+        }
+      `,
+      options: ['last', {
+        exceptions: {
+          TSTypeLiteral: false,
+          TSCallSignatureDeclaration: false,
+          TSConstructSignatureDeclaration: false,
+          TSIndexSignature: false,
+          TSMethodSignature: false,
+        },
+      }],
+      errors: [
+        { messageId: 'expectedCommaLast' },
+        { messageId: 'expectedCommaLast' },
+        { messageId: 'expectedCommaLast' },
+        { messageId: 'expectedCommaLast' },
+      ],
+    },
+    {
+      code: $`
+        type foo = {
+          new (
+            a,
+            b
+            , c
+          ): any,
+          (
+            a,
+            b
+            , c
+          ): any,
+          [
+            a: string,
+            b: string
+            , c: string
+          ]: string,
+        
+          f(
+            a: string,
+            b: string
+            , c: string
+          ): number,
+        }
+      `,
+      output: $`
+        type foo = {
+          new (
+            a
+            ,b
+            , c
+          ): any
+          ,(
+            a
+            ,b
+            , c
+          ): any
+          ,[
+            a: string
+            ,b: string
+            , c: string
+          ]: string
+        
+          ,f(
+            a: string
+            ,b: string
+            , c: string
+          ): number,
+        }
+      `,
+      options: ['first', {
+        exceptions: {
+          TSTypeLiteral: false,
+          TSCallSignatureDeclaration: false,
+          TSConstructSignatureDeclaration: false,
+          TSIndexSignature: false,
+          TSMethodSignature: false,
+        },
+      }],
+      errors: [
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+      ],
+    },
+    {
+      code: $`
+        interface Foo extends
+          A,
+          B
+          , C
+        {
+          a: string,
+          b: string
+          , c: string
+        }
+      `,
+      output: $`
+        interface Foo extends
+          A,
+          B,
+           C
+        {
+          a: string,
+          b: string,
+           c: string
+        }
+      `,
+      options: ['last', {
+        exceptions: {
+          TSInterfaceBody: false,
+          TSInterfaceDeclaration: false,
+        },
+      }],
+      errors: [
+        { messageId: 'expectedCommaLast' },
+        { messageId: 'expectedCommaLast' },
+      ],
+    },
+    {
+      code: $`
+        interface Foo extends
+          A,
+          B
+          , C
+        {
+          a: string,
+          b: string
+          , c: string
+        }
+      `,
+      output: $`
+        interface Foo extends
+          A
+          ,B
+          , C
+        {
+          a: string
+          ,b: string
+          , c: string
+        }
+      `,
+      options: ['first', {
+        exceptions: {
+          TSInterfaceBody: false,
+          TSInterfaceDeclaration: false,
+        },
+      }],
+      errors: [
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+      ],
+    },
+    {
+      code: $`
+        type Foo = [
+          "A",
+          "B"
+          , "C"
+        ];
+      `,
+      output: $`
+        type Foo = [
+          "A",
+          "B",
+           "C"
+        ];
+      `,
+      options: ['last', { exceptions: { TSTupleType: false } }],
+      errors: [{ messageId: 'expectedCommaLast' }],
+    },
+    {
+      code: $`
+        type Foo = [
+          "A",
+          "B"
+          , "C"
+        ];
+      `,
+      output: $`
+        type Foo = [
+          "A"
+          ,"B"
+          , "C"
+        ];
+      `,
+      options: ['first', { exceptions: { TSTupleType: false } }],
+      errors: [{ messageId: 'expectedCommaFirst' }],
+    },
+    {
+      code: $`
+        type Foo<
+          A,
+          B
+          , C
+        > = Bar<
+          A,
+          B
+          , C
+        >;
+      `,
+      output: $`
+        type Foo<
+          A,
+          B,
+           C
+        > = Bar<
+          A,
+          B,
+           C
+        >;
+      `,
+      options: ['last', { exceptions: { TSTypeParameterDeclaration: false, TSTypeParameterInstantiation: false } }],
+      errors: [{ messageId: 'expectedCommaLast' }, { messageId: 'expectedCommaLast' }],
+    },
+    {
+      code: $`
+        type Foo<
+          A,
+          B
+          , C
+        > = Bar<
+          A,
+          B
+          , C
+        >;
+      `,
+      output: $`
+        type Foo<
+          A
+          ,B
+          , C
+        > = Bar<
+          A
+          ,B
+          , C
+        >;
+      `,
+      options: ['first', { exceptions: { TSTypeParameterDeclaration: false, TSTypeParameterInstantiation: false } }],
+      errors: [{ messageId: 'expectedCommaFirst' }, { messageId: 'expectedCommaFirst' }],
     },
   ],
 })
