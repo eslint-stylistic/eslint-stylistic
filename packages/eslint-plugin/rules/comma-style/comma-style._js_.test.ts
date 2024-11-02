@@ -328,6 +328,17 @@ run({
           b, c,
         );
       `,
+      options: ['last', { exceptions: { ImportExpression: false } }],
+    },
+    {
+      code: $`
+        import(
+          a
+        ,);
+        import(
+          b, c
+        ,);
+      `,
       options: ['first', { exceptions: { ImportExpression: false } }],
     },
     {
@@ -475,7 +486,6 @@ run({
       output: 'var foo = { a: 1., //comment \n b: 2\n}',
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'Property',
       }],
     },
     {
@@ -483,7 +493,6 @@ run({
       output: 'var foo = { a: 1., //comment \n //comment1 \n //comment2 \n b: 2\n}',
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'Property',
       }],
     },
     {
@@ -491,7 +500,6 @@ run({
       output: 'var foo = 1,\nbar = 2;',
       errors: [{
         messageId: 'unexpectedLineBeforeAndAfterComma',
-        type: 'VariableDeclarator',
       }],
     },
     {
@@ -499,7 +507,6 @@ run({
       output: 'var foo = 1, //comment\nbar = 2;',
       errors: [{
         messageId: 'unexpectedLineBeforeAndAfterComma',
-        type: 'VariableDeclarator',
       }],
     },
     {
@@ -507,7 +514,6 @@ run({
       output: 'var foo = 1, //comment // comment 2\nbar = 2;',
       errors: [{
         messageId: 'unexpectedLineBeforeAndAfterComma',
-        type: 'VariableDeclarator',
       }],
     },
     {
@@ -525,7 +531,6 @@ run({
       output: 'var foo = 1,\nbar = 2;',
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'VariableDeclarator',
         column: 1,
         endColumn: 2,
       }],
@@ -535,7 +540,6 @@ run({
       output: 'f([1,2,\n3]);',
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'Literal',
       }],
     },
     {
@@ -543,7 +547,6 @@ run({
       output: 'f([1,2,\n]);',
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'Punctuator',
       }],
     },
     {
@@ -551,7 +554,6 @@ run({
       output: 'f([,2,\n3]);',
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'Literal',
       }],
     },
     {
@@ -559,7 +561,6 @@ run({
       output: 'var foo = [\'apples\',\n \'oranges\'];',
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'Literal',
       }],
     },
     {
@@ -575,7 +576,6 @@ run({
       },
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'Identifier',
       }],
     },
     {
@@ -588,7 +588,6 @@ run({
       }],
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'Literal',
       }],
     },
     {
@@ -601,7 +600,6 @@ run({
       }],
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'Identifier',
       }],
     },
     {
@@ -618,7 +616,6 @@ run({
       },
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'Identifier',
       }],
     },
     {
@@ -634,7 +631,6 @@ run({
       },
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'Identifier',
       }],
     },
     {
@@ -650,7 +646,6 @@ run({
       },
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'Identifier',
       }],
     },
     {
@@ -666,7 +661,6 @@ run({
       },
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'Identifier',
       }],
     },
     {
@@ -683,7 +677,6 @@ run({
       },
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'ImportSpecifier',
       }],
     },
     {
@@ -699,7 +692,6 @@ run({
       },
       errors: [{
         messageId: 'expectedCommaLast',
-        type: 'Property',
       }],
     },
     {
@@ -708,7 +700,6 @@ run({
       options: ['first'],
       errors: [{
         messageId: 'expectedCommaFirst',
-        type: 'VariableDeclarator',
         column: 12,
         endColumn: 13,
       }],
@@ -719,7 +710,6 @@ run({
       options: ['first'],
       errors: [{
         messageId: 'expectedCommaFirst',
-        type: 'Literal',
       }],
     },
     {
@@ -728,7 +718,6 @@ run({
       options: ['first'],
       errors: [{
         messageId: 'expectedCommaFirst',
-        type: 'Literal',
       }],
     },
     {
@@ -737,7 +726,6 @@ run({
       options: ['first'],
       errors: [{
         messageId: 'expectedCommaFirst',
-        type: 'Property',
       }],
     },
     {
@@ -746,7 +734,6 @@ run({
       options: ['first', { exceptions: { VariableDeclaration: true } }],
       errors: [{
         messageId: 'expectedCommaFirst',
-        type: 'Literal',
       }],
     },
     {
@@ -755,7 +742,6 @@ run({
       options: ['first', { exceptions: { VariableDeclaration: true } }],
       errors: [{
         messageId: 'expectedCommaFirst',
-        type: 'Property',
       }],
     },
     {
@@ -764,7 +750,6 @@ run({
       options: ['first', { exceptions: { ObjectExpression: true } }],
       errors: [{
         messageId: 'expectedCommaFirst',
-        type: 'VariableDeclarator',
       }],
     },
     {
@@ -773,7 +758,6 @@ run({
       options: ['first', { exceptions: { ArrayExpression: true } }],
       errors: [{
         messageId: 'expectedCommaFirst',
-        type: 'VariableDeclarator',
       }],
     },
     {
@@ -782,7 +766,6 @@ run({
       options: ['first', { exceptions: { ArrayExpression: true } }],
       errors: [{
         messageId: 'expectedCommaFirst',
-        type: 'Property',
       }],
     },
     {
@@ -791,7 +774,6 @@ run({
       options: ['first', { exceptions: { ObjectExpression: true } }],
       errors: [{
         messageId: 'expectedCommaFirst',
-        type: 'ObjectExpression',
       }],
     },
     {
@@ -800,7 +782,6 @@ run({
       options: ['first', { exceptions: { ObjectExpression: true } }],
       errors: [{
         messageId: 'expectedCommaFirst',
-        type: 'Literal',
       }],
     },
     {
@@ -809,7 +790,6 @@ run({
       options: ['first', { exceptions: { ArrayExpression: true } }],
       errors: [{
         messageId: 'expectedCommaFirst',
-        type: 'Property',
       }],
     },
     {
@@ -827,7 +807,6 @@ run({
       output: 'var foo = [\n(bar\n),\nbaz\n];',
       errors: [{
         messageId: 'unexpectedLineBeforeAndAfterComma',
-        type: 'Identifier',
         column: 1,
         endColumn: 2,
       }],
@@ -986,10 +965,10 @@ run({
       `,
       options: ['last', { exceptions: { ExportAllDeclaration: false, ExportNamedDeclaration: false } }],
       errors: [
-        { messageId: 'expectedCommaLast' },
-        { messageId: 'expectedCommaLast' },
-        { messageId: 'expectedCommaLast' },
-        { messageId: 'expectedCommaLast' },
+        { messageId: 'expectedCommaLast', line: 5 },
+        { messageId: 'expectedCommaLast', line: 10 },
+        { messageId: 'expectedCommaLast', line: 14 },
+        { messageId: 'expectedCommaLast', line: 19 },
       ],
     },
     {
@@ -1500,8 +1479,8 @@ run({
             a: string
             ,b: string
             , c: string
-          ): number,
-        }
+          ): number
+        ,}
       `,
       options: ['first', {
         exceptions: {
@@ -1513,6 +1492,7 @@ run({
         },
       }],
       errors: [
+        { messageId: 'expectedCommaFirst' },
         { messageId: 'expectedCommaFirst' },
         { messageId: 'expectedCommaFirst' },
         { messageId: 'expectedCommaFirst' },
@@ -1677,6 +1657,89 @@ run({
       `,
       options: ['first', { exceptions: { TSTypeParameterDeclaration: false, TSTypeParameterInstantiation: false } }],
       errors: [{ messageId: 'expectedCommaFirst' }, { messageId: 'expectedCommaFirst' }],
+    },
+
+    {
+      code: $`
+        import a
+          , {Foo} from 'module'
+        import b
+          , {} from 'module'
+        import c,
+          {Bar} from 'module'
+        import d,
+          {} from 'module'
+      `,
+      output: $`
+        import a,
+           {Foo} from 'module'
+        import b,
+           {} from 'module'
+        import c,
+          {Bar} from 'module'
+        import d,
+          {} from 'module'
+      `,
+      options: ['last', { exceptions: { ImportDeclaration: false } }],
+      errors: [
+        { messageId: 'expectedCommaLast' },
+        { messageId: 'expectedCommaLast' },
+      ],
+    },
+    {
+      code: $`
+        import a
+          , {Foo} from 'module'
+        import b
+          , {} from 'module'
+        import c,
+          {Bar} from 'module'
+        import d,
+          {} from 'module'
+      `,
+      output: $`
+        import a
+          , {Foo} from 'module'
+        import b
+          , {} from 'module'
+        import c
+          ,{Bar} from 'module'
+        import d
+          ,{} from 'module'
+      `,
+      options: ['first', { exceptions: { ImportDeclaration: false } }],
+      errors: [
+        { messageId: 'expectedCommaFirst' },
+        { messageId: 'expectedCommaFirst' },
+      ],
+    },
+    {
+      code: $`
+        const x = {a,b
+        ,}
+      `,
+      output: $`
+        const x = {a,b,
+        }
+      `,
+      options: ['last'],
+      errors: [
+        { messageId: 'expectedCommaLast' },
+      ],
+    },
+    {
+      code: $`
+        const x = {a,b,
+        }
+      `,
+      output: $`
+        const x = {a,b
+        ,}
+      `,
+      options: ['first'],
+      errors: [
+        { messageId: 'expectedCommaFirst' },
+      ],
     },
   ],
 })
