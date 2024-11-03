@@ -14,6 +14,7 @@ run({
 
     /* default ("always") */
     'fn(a,\n\tb)',
+    'import(a,\n\tb)',
 
     /* "always" */
     { code: 'fn(a,\n\tb)', options: ['always'] },
@@ -38,6 +39,7 @@ run({
     },
     { code: 'fn({\n\ta: 1\n},\n\tb,\n\tc)', options: ['always'] },
     { code: 'fn(`\n`,\n\ta)', options: ['always'], parserOptions: { ecmaVersion: 6 } },
+    { code: 'import(a,\n\tb)', options: ['always'] },
 
     /* "never" */
     { code: 'fn(a, b)', options: ['never'] },
@@ -53,6 +55,7 @@ run({
     },
     { code: 'fn({\n\ta: 1\n}, b)', options: ['never'] },
     { code: 'fn(`\n`, a)', options: ['never'], parserOptions: { ecmaVersion: 6 } },
+    { code: 'import(a, b)', options: ['never'] },
 
     /* "consistent" */
     { code: 'fn(a, b, c)', options: ['consistent'] },
@@ -75,6 +78,19 @@ run({
           column: 6,
           endLine: 1,
           endColumn: 7,
+        },
+      ],
+    },
+    {
+      code: 'import(a, b)',
+      output: 'import(a,\nb)',
+      errors: [
+        {
+          messageId: 'missingLineBreak',
+          line: 1,
+          column: 10,
+          endLine: 1,
+          endColumn: 11,
         },
       ],
     },
@@ -226,6 +242,20 @@ run({
           column: 3,
           endLine: 2,
           endColumn: 4,
+        },
+      ],
+    },
+    {
+      code: 'import(a, b)',
+      output: 'import(a,\nb)',
+      options: ['always'],
+      errors: [
+        {
+          messageId: 'missingLineBreak',
+          line: 1,
+          column: 10,
+          endLine: 1,
+          endColumn: 11,
         },
       ],
     },
@@ -552,6 +582,20 @@ run({
           column: 17,
           endLine: 3,
           endColumn: 1,
+        },
+      ],
+    },
+    {
+      code: 'import(a,\n\tb)',
+      output: 'import(a, b)',
+      options: ['never'],
+      errors: [
+        {
+          messageId: 'unexpectedLineBreak',
+          line: 1,
+          column: 10,
+          endLine: 2,
+          endColumn: 2,
         },
       ],
     },

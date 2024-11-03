@@ -58,14 +58,15 @@ export default createRule<RuleOptions, MessageIds>({
 
     /**
      * Check all arguments for line breaks in the CallExpression
-     * @param node node to evaluate
+     * @param argumentNodes arguments to evaluate
      * @param checker selected checker
      * @private
      */
-    function checkArguments(node: Tree.CallExpression | Tree.NewExpression, checker: Checker) {
-      for (let i = 1; i < node.arguments.length; i++) {
-        const prevArgToken = sourceCode.getLastToken(node.arguments[i - 1])!
-        const currentArgToken = sourceCode.getFirstToken(node.arguments[i])!
+    function checkArguments(argumentNodes: Tree.CallExpressionArgument[], checker: Checker) {
+      for (let i = 1; i < argumentNodes.length; i++) {
+        const argumentNode = argumentNodes[i - 1]
+        const prevArgToken = sourceCode.getLastToken(argumentNode)!
+        const currentArgToken = sourceCode.getFirstToken(argumentNodes[i])!
 
         if (checker.check(prevArgToken, currentArgToken)) {
           const tokenBefore = sourceCode.getTokenBefore(
@@ -76,7 +77,7 @@ export default createRule<RuleOptions, MessageIds>({
           const hasLineCommentBefore = tokenBefore.type === 'Line'
 
           context.report({
-            node,
+            node: argumentNodes[i - 1],
             loc: {
               start: tokenBefore.loc.end,
               end: currentArgToken.loc.start,
@@ -90,35 +91,39 @@ export default createRule<RuleOptions, MessageIds>({
 
     /**
      * Check if open space is present in a function name
-     * @param node node to evaluate
+     * @param argumentNodes arguments to evaluate
      * @private
      */
-    function check(node: Tree.CallExpression | Tree.NewExpression) {
-      if (node.arguments.length < 2)
+    function check(argumentNodes: Tree.CallExpressionArgument[]) {
+      if (argumentNodes.length < 2)
         return
 
       const option = context.options[0] || 'always'
 
       if (option === 'never') {
-        checkArguments(node, checkers.unexpected)
+        checkArguments(argumentNodes, checkers.unexpected)
       }
       else if (option === 'always') {
-        checkArguments(node, checkers.missing)
+        checkArguments(argumentNodes, checkers.missing)
       }
       else if (option === 'consistent') {
-        const firstArgToken = sourceCode.getLastToken(node.arguments[0])
-        const secondArgToken = sourceCode.getFirstToken(node.arguments[1])
+        const firstArgToken = sourceCode.getLastToken(argumentNodes[0])
+        const secondArgToken = sourceCode.getFirstToken(argumentNodes[1])
 
         if (firstArgToken?.loc.end.line === secondArgToken?.loc.start.line)
-          checkArguments(node, checkers.unexpected)
+          checkArguments(argumentNodes, checkers.unexpected)
         else
-          checkArguments(node, checkers.missing)
+          checkArguments(argumentNodes, checkers.missing)
       }
     }
 
     return {
-      CallExpression: check,
-      NewExpression: check,
+      CallExpression: node => check(node.arguments),
+      NewExpression: node => check(node.arguments),
+      ImportExpression: (node) => {
+        if (node.options)
+          check([node.source, node.options])
+      },
     }
   },
 })
