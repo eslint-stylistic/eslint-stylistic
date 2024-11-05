@@ -449,6 +449,9 @@ export default createRule<RuleOptions, MessageIds>({
 
     /** Checks the comma placement in TypeScript class implements. */
     function visitClassImplements(node: Tree.ClassDeclaration | Tree.ClassExpression) {
+      if (!node.implements)
+        // The js parser's AST does not have implements.
+        return
       validateComma(node, node.implements)
     }
     /** Checks the comma placement in TypeScript enum/literal members. */
