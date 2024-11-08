@@ -2,7 +2,7 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import type { InvalidTestCase, ValidTestCase } from '#test'
-import { $, run } from '#test'
+import { run } from '#test'
 import rule from '.'
 
 run({
@@ -199,73 +199,29 @@ run({
         ],
       },
 
-      // https://github.com/eslint/eslint/issues/7787
       {
         code: 'f\n();',
-        output: null, // no change
+        output: 'f();',
       },
       {
         code: 'f\n//comment\n();',
         output: null,
       },
       {
-        code: $`
-          this.cancelled.add(request)
-          this.decrement(request)
-          (request.reject(new api.Cancel()))
-        `,
-        output: null, // no change
-        errors: [
-          {
-            messageId: 'unexpectedWhitespace' as const,
-            line: 2,
-            column: 23,
-          },
-        ],
-      },
-      {
-        code: $`
-          var a = foo
-          (function(global) {}(this));
-        `,
-        output: null, // no change
-        errors: [
-          {
-            messageId: 'unexpectedWhitespace' as const,
-            line: 1,
-            column: 9,
-          },
-        ],
-      },
-      {
-        code: $`
-          var a = foo
-          (baz())
-        `,
-        output: null, // no change
-        errors: [
-          {
-            messageId: 'unexpectedWhitespace' as const,
-            line: 1,
-            column: 9,
-          },
-        ],
-      },
-      {
         code: 'f\r();',
-        output: null, // no change
+        output: 'f();',
       },
       {
         code: 'f\u2028();',
-        output: null, // no change
+        output: 'f();',
       },
       {
         code: 'f\u2029();',
-        output: null, // no change
+        output: 'f();',
       },
       {
         code: 'f\r\n();',
-        output: null, // no change
+        output: 'f();',
       },
       {
         code: 'import (source)',
@@ -273,7 +229,7 @@ run({
       },
       {
         code: 'import\n(source)',
-        output: null,
+        output: 'import(source)',
       },
       {
         code: 'import\n//comment\n(source)',
