@@ -1,3 +1,4 @@
+// TODO: Stage 3: Isn't inherited by ts version, can delete directly
 /**
  * @fileoverview Rule to control spacing within function calls
  * @author Matt DuVall <http://www.mattduvall.com>
