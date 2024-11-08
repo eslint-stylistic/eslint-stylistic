@@ -4,7 +4,7 @@ import type { BlockSpacingRuleOptions } from '../../eslint-plugin/rules/block-sp
 import type { BraceStyleRuleOptions } from '../../eslint-plugin/rules/brace-style/types'
 import type { CommaDangleRuleOptions } from '../../eslint-plugin/rules/comma-dangle/types._ts_'
 import type { CommaSpacingRuleOptions } from '../../eslint-plugin/rules/comma-spacing/types._ts_'
-import type { FunctionCallSpacingRuleOptions } from '../../eslint-plugin/rules/function-call-spacing/types'
+import type { FunctionCallSpacingRuleOptions } from '../../eslint-plugin/rules/function-call-spacing/types._ts_'
 import type { IndentRuleOptions } from '../../eslint-plugin/rules/indent/types'
 import type { KeySpacingRuleOptions } from '../../eslint-plugin/rules/key-spacing/types'
 import type { KeywordSpacingRuleOptions } from '../../eslint-plugin/rules/keyword-spacing/types._ts_'
