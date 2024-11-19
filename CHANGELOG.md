@@ -1,5 +1,26 @@
 # Changelog
 
+## [2.11.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.10.1...v2.11.0) (2024-11-19)
+
+
+### Features
+
+* **comma-dangle:** add support for Import Attributes ([#586](https://github.com/eslint-stylistic/eslint-stylistic/issues/586)) ([4c177c3](https://github.com/eslint-stylistic/eslint-stylistic/commit/4c177c35057652e3872f65756fa62dc05b34cf93))
+* **comma-style:** add support for more syntax ([#597](https://github.com/eslint-stylistic/eslint-stylistic/issues/597)) ([922151c](https://github.com/eslint-stylistic/eslint-stylistic/commit/922151c98b2dc75ad4a135f082050b9dd1b26d11))
+* **function-call-argument-newline:** add support for Import Attributes ([#603](https://github.com/eslint-stylistic/eslint-stylistic/issues/603)) ([8ee0c24](https://github.com/eslint-stylistic/eslint-stylistic/commit/8ee0c24da827c36da3df2e9724744b88fc3aa988))
+* **function-call-spacing:** add `optionalChain` to control the space around the `optional chain` ([#605](https://github.com/eslint-stylistic/eslint-stylistic/issues/605)) ([f732798](https://github.com/eslint-stylistic/eslint-stylistic/commit/f73279887c755db71e47cb3248fea746fb34e783))
+* **function-paren-newline:** add support for Import Attributes ([#585](https://github.com/eslint-stylistic/eslint-stylistic/issues/585)) ([4ede153](https://github.com/eslint-stylistic/eslint-stylistic/commit/4ede153af46af01ed3250e16365975e034631455))
+
+
+### Bug Fixes
+
+* fix the `update` script in `Windows` ([#604](https://github.com/eslint-stylistic/eslint-stylistic/issues/604)) ([dede119](https://github.com/eslint-stylistic/eslint-stylistic/commit/dede11938e3e15a9e36efefeb548eaa1f3cb1484))
+
+
+### Build Related
+
+* **deps:** bump codecov/codecov-action from 4 to 5 ([#612](https://github.com/eslint-stylistic/eslint-stylistic/issues/612)) ([047a384](https://github.com/eslint-stylistic/eslint-stylistic/commit/047a3840e43bea3731c5bef629e18a06b10c55a8))
+
 ## [2.10.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.10.0...v2.10.1) (2024-11-01)
 
 
