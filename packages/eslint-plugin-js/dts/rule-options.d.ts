@@ -14,7 +14,7 @@ import type { ComputedPropertySpacingRuleOptions } from '../../eslint-plugin/rul
 import type { DotLocationRuleOptions } from '../../eslint-plugin/rules/dot-location/types'
 import type { EolLastRuleOptions } from '../../eslint-plugin/rules/eol-last/types'
 import type { FunctionCallArgumentNewlineRuleOptions } from '../../eslint-plugin/rules/function-call-argument-newline/types'
-import type { FunctionCallSpacingRuleOptions } from '../../eslint-plugin/rules/function-call-spacing/types'
+import type { FunctionCallSpacingRuleOptions } from '../../eslint-plugin/rules/function-call-spacing/types._js_'
 import type { FunctionParenNewlineRuleOptions } from '../../eslint-plugin/rules/function-paren-newline/types'
 import type { GeneratorStarSpacingRuleOptions } from '../../eslint-plugin/rules/generator-star-spacing/types'
 import type { ImplicitArrowLinebreakRuleOptions } from '../../eslint-plugin/rules/implicit-arrow-linebreak/types'

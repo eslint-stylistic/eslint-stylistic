@@ -45,6 +45,21 @@ export default createRule<RuleOptions, MessageIds>({
               properties: {
                 allowNewlines: {
                   type: 'boolean',
+                  default: false,
+                },
+                optionalChain: {
+                  type: 'object',
+                  properties: {
+                    before: {
+                      type: 'boolean',
+                      default: true,
+                    },
+                    after: {
+                      type: 'boolean',
+                      default: true,
+                    },
+                  },
+                  additionalProperties: false,
                 },
               },
               additionalProperties: false,
@@ -67,6 +82,7 @@ export default createRule<RuleOptions, MessageIds>({
   create(context, [option, config]) {
     const sourceCode = context.sourceCode
     const text = sourceCode.getText()
+    const { allowNewlines = false, optionalChain = { before: true, after: true } } = config!
 
     /**
      * Check if open space is present in a function name
@@ -121,15 +137,42 @@ export default createRule<RuleOptions, MessageIds>({
         }
       }
       else if (isOptionalCall) {
-        // disallow:
-        // foo?. ();
-        // foo ?.();
-        // foo ?. ();
-        if (hasWhitespace || hasNewline) {
+        const { before: beforeOptionChain = true, after: afterOptionChain = true } = optionalChain
+
+        const hasPrefixSpace = /^\s/u.test(textBetweenTokens)
+        const hasSuffixSpace = /\s$/u.test(textBetweenTokens)
+        const hasCorrectPrefixSpace = beforeOptionChain ? hasPrefixSpace : !hasPrefixSpace
+        const hasCorrectSuffixSpace = afterOptionChain ? hasSuffixSpace : !hasSuffixSpace
+        const hasCorrectNewline = allowNewlines || !hasNewline
+
+        if (!hasCorrectPrefixSpace || !hasCorrectSuffixSpace || !hasCorrectNewline) {
+          const messageId = !hasCorrectNewline
+            ? 'unexpectedNewline'
+            : (!beforeOptionChain && hasPrefixSpace) || (!afterOptionChain && hasSuffixSpace)
+                ? 'unexpectedWhitespace'
+                : 'missing'
+
           context.report({
             node,
             loc: leftToken.loc.start,
-            messageId: 'unexpectedWhitespace',
+            messageId,
+            fix(fixer) {
+              // Don't remove comments.
+              if (sourceCode.commentsExistBetween(leftToken, rightToken))
+                return null
+
+              let text = textBetweenTokens
+              if (!allowNewlines) {
+                const GLOBAL_LINEBREAK_MATCHER = new RegExp(LINEBREAK_MATCHER.source, 'g')
+                text = text.replaceAll(GLOBAL_LINEBREAK_MATCHER, ' ')
+              }
+              if (!hasCorrectPrefixSpace)
+                text = beforeOptionChain ? ` ${text}` : text.trimStart()
+              if (!hasCorrectSuffixSpace)
+                text = afterOptionChain ? `${text} ` : text.trimEnd()
+
+              return fixer.replaceTextRange([leftToken.range[1], rightToken.range[0]], text)
+            },
           })
         }
       }
@@ -144,7 +187,7 @@ export default createRule<RuleOptions, MessageIds>({
             },
           })
         }
-        else if (!config!.allowNewlines && hasNewline) {
+        else if (!allowNewlines && hasNewline) {
           context.report({
             node,
             loc: leftToken.loc.start,
