@@ -29,8 +29,8 @@ catalog:
   '@types/node': ^22.8.4
   '@types/picomatch': ^3.0.1
   '@types/semver': ^7.5.8
-  '@typescript-eslint/parser': ^8.12.2
-  '@typescript-eslint/utils': ^8.12.2
+  '@typescript-eslint/parser': ^8.13.0
+  '@typescript-eslint/utils': ^8.13.0
   '@unocss/reset': ^0.63.6
   '@vitest/coverage-v8': ^2.1.4
   '@vitest/ui': ^2.1.4
