@@ -504,6 +504,245 @@ run({
 
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/158
     { code: 'a => 42;', options: ['always'], parserOptions: { ecmaVersion: 'latest' } },
+
+    // dynamic import
+    {
+      code: 'import(source)',
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source, )',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source, options, )',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source)',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 15 },
+    },
+    {
+      code: 'import(source,)',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 16 },
+    },
+    {
+      code: 'import(source)',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source, options)',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source)',
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source, options)',
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: $`
+        import(
+          source,
+        )
+      `,
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: $`
+        import(
+          source,
+          options,
+        )
+      `,
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source)',
+      options: ['only-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source, options)',
+      options: ['only-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: $`
+        import(
+          source,
+        )
+      `,
+      options: ['only-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: $`
+        import(
+          source
+        )
+      `,
+      options: ['only-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: $`
+        import(
+          source,
+          options,
+        )
+      `,
+      options: ['only-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: $`
+        import(
+          source,
+          options
+        )
+      `,
+      options: ['only-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source)',
+      options: { functions: 'always' },
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source,)',
+      options: { functions: 'never', dynamicImports: 'always' },
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+
+    // import attributes
+    {
+      code: 'import foo from "foo" with {type: "json"}',
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import foo from "foo" with {type: "json",}',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import foo from "foo" with {type: "json"}',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import foo from "foo" with {type: "json"}',
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: $`
+        import foo from "foo" with {
+          type: "json",
+        }
+      `,
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import foo from "foo" with {type: "json"}',
+      options: ['only-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import foo from "foo" with {type: "json",}',
+      options: { functions: 'never', importAttributes: 'always' },
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export {foo} from "foo" with {type: "json"}',
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export {foo,} from "foo" with {type: "json",}',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export {foo} from "foo" with {type: "json"}',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export {foo} from "foo" with {type: "json"}',
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: $`
+        export {foo} from "foo" with {
+          type: "json",
+        }
+      `,
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export {foo} from "foo" with {type: "json"}',
+      options: ['only-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export {foo} from "foo" with {type: "json",}',
+      options: { functions: 'never', importAttributes: 'always' },
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export * from "foo" with {type: "json"}',
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export * from "foo" with {type: "json",}',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export * from "foo" with {type: "json"}',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export * from "foo" with {type: "json"}',
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: $`
+        export * from "foo" with {
+          type: "json",
+        }
+      `,
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export * from "foo" with {type: "json"}',
+      options: ['only-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export * from "foo" with {type: "json",}',
+      options: { functions: 'never', importAttributes: 'always' },
+      parserOptions: { ecmaVersion: 'latest' },
+    },
   ],
   invalid: [
     {
@@ -1849,6 +2088,246 @@ run({
       `,
       options: [{ imports: 'never' }],
       errors: 2,
+    },
+
+    // dynamic import
+    {
+      code: 'import(source,)',
+      output: 'import(source)',
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source)',
+      output: 'import(source,)',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source, options)',
+      output: 'import(source, options,)',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source,)',
+      output: 'import(source)',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source, options,)',
+      output: 'import(source, options)',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source,)',
+      output: 'import(source)',
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source, options,)',
+      output: 'import(source, options)',
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: $`
+        import(
+          source
+        )
+      `,
+      output: $`
+        import(
+          source,
+        )
+      `,
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: $`
+        import(
+          source,
+          options
+        )
+      `,
+      output: $`
+        import(
+          source,
+          options,
+        )
+      `,
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source,)',
+      output: 'import(source)',
+      options: ['only-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source, options,)',
+      output: 'import(source, options)',
+      options: ['only-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import(source)',
+      output: 'import(source,)',
+      options: { functions: 'never', dynamicImports: 'always' },
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+
+    // import attributes
+    {
+      code: 'import foo from "foo" with {type: "json",}',
+      output: 'import foo from "foo" with {type: "json"}',
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import foo from "foo" with {type: "json"}',
+      output: 'import foo from "foo" with {type: "json",}',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import foo from "foo" with {type: "json",}',
+      output: 'import foo from "foo" with {type: "json"}',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import foo from "foo" with {type: "json",}',
+      output: 'import foo from "foo" with {type: "json"}',
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: $`
+        import foo from "foo" with {
+          type: "json"
+        }
+      `,
+      output: $`
+        import foo from "foo" with {
+          type: "json",
+        }
+      `,
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import foo from "foo" with {type: "json",}',
+      output: 'import foo from "foo" with {type: "json"}',
+      options: ['only-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'import foo from "foo" with {type: "json"}',
+      output: 'import foo from "foo" with {type: "json",}',
+      options: { functions: 'never', importAttributes: 'always' },
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export {foo} from "foo" with {type: "json",}',
+      output: 'export {foo} from "foo" with {type: "json"}',
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export {foo} from "foo" with {type: "json"}',
+      output: 'export {foo,} from "foo" with {type: "json",}',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export {foo} from "foo" with {type: "json",}',
+      output: 'export {foo} from "foo" with {type: "json"}',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export {foo} from "foo" with {type: "json",}',
+      output: 'export {foo} from "foo" with {type: "json"}',
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: $`
+        export {foo} from "foo" with {
+          type: "json"
+        }
+      `,
+      output: $`
+        export {foo} from "foo" with {
+          type: "json",
+        }
+      `,
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export {foo} from "foo" with {type: "json",}',
+      output: 'export {foo} from "foo" with {type: "json"}',
+      options: ['only-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export {foo} from "foo" with {type: "json"}',
+      output: 'export {foo} from "foo" with {type: "json",}',
+      options: { functions: 'never', importAttributes: 'always' },
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export * from "foo" with {type: "json",}',
+      output: 'export * from "foo" with {type: "json"}',
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export * from "foo" with {type: "json"}',
+      output: 'export * from "foo" with {type: "json",}',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export * from "foo" with {type: "json",}',
+      output: 'export * from "foo" with {type: "json"}',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export * from "foo" with {type: "json",}',
+      output: 'export * from "foo" with {type: "json"}',
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: $`
+        export * from "foo" with {
+          type: "json"
+        }
+      `,
+      output: $`
+        export * from "foo" with {
+          type: "json",
+        }
+      `,
+      options: ['always-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export * from "foo" with {type: "json",}',
+      output: 'export * from "foo" with {type: "json"}',
+      options: ['only-multiline'],
+      parserOptions: { ecmaVersion: 'latest' },
+    },
+    {
+      code: 'export * from "foo" with {type: "json"}',
+      output: 'export * from "foo" with {type: "json",}',
+      options: { functions: 'never', importAttributes: 'always' },
+      parserOptions: { ecmaVersion: 'latest' },
     },
   ],
 })
