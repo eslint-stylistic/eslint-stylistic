@@ -1,6 +1,7 @@
 import type { JSONSchema4 } from 'json-schema'
 import { existsSync, promises as fs } from 'node:fs'
 import { basename, join, resolve } from 'node:path'
+import { pathToFileURL } from 'node:url'
 import { pascalCase } from 'change-case'
 import fg from 'fast-glob'
 import { compile } from 'json-schema-to-typescript-lite'
@@ -28,7 +29,7 @@ export async function generateDtsFromSchema() {
 
     const pkgs = PACKAGES.filter(i => existsSync(join(dir, `${name}._${i}_.ts`)))
     const formatted = await Promise.all(pkgs.map(async (pkg) => {
-      const file = join(dir, `${name}._${pkg}_.ts`)
+      const file = pathToFileURL(join(dir, `${name}._${pkg}_.ts`)).href
       const formatted = await getDts(
         file,
         name,

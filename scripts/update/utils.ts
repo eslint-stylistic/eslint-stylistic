@@ -1,6 +1,6 @@
 import type { PackageInfo, RuleInfo } from '../../packages/metadata/src/types'
 import { existsSync } from 'node:fs'
-import { basename, join, relative, resolve } from 'node:path'
+import { basename, join, posix, relative, resolve, win32 } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { pascalCase } from 'change-case'
 import fg from 'fast-glob'
@@ -276,4 +276,8 @@ export const rules: Readonly<RuleInfo[]> = Object.freeze(packages.flatMap(p => p
 `.trimStart(),
     'utf-8',
   )
+}
+
+export function normalizePath(id: string) {
+  return posix.normalize(id).replaceAll(win32.sep, posix.sep)
 }

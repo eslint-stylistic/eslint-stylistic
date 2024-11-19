@@ -10,7 +10,7 @@ import { pathToFileURL } from 'node:url'
 import fg from 'fast-glob'
 import { RULE_ALIAS, RULE_ORIGINAL_ID_MAP } from './update/meta'
 import { generateDtsFromSchema } from './update/schema-to-ts'
-import { generateConfigs, generateMetadata, resolveAlias, rulesInSharedConfig, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
+import { generateConfigs, generateMetadata, normalizePath, resolveAlias, rulesInSharedConfig, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
 
 async function readPackages() {
   const RULES_DIR = './packages/eslint-plugin/rules/'
@@ -71,8 +71,8 @@ async function readPackages() {
             name: realName,
             ruleId: `${pkgId}/${realName}`,
             originalId: RULE_ORIGINAL_ID_MAP[originalId] || originalId,
-            entry,
-            docsEntry: pkg ? join(RULES_DIR, i.name, `README._${pkg}_.md`) : '',
+            entry: normalizePath(entry),
+            docsEntry: pkg ? normalizePath(join(RULES_DIR, i.name, `README._${pkg}_.md`)) : '',
             meta: {
               fixable: meta?.fixable,
               docs: {
