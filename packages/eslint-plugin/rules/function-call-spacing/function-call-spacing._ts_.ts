@@ -107,7 +107,10 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasWhitespace) {
           return context.report({
             node,
-            loc: leftToken.loc.start,
+            loc: {
+              start: leftToken.loc.end,
+              end: rightToken.loc.start,
+            },
             messageId: 'unexpectedWhitespace',
             fix(fixer) {
               // Don't remove comments.
@@ -149,7 +152,10 @@ export default createRule<RuleOptions, MessageIds>({
 
           context.report({
             node,
-            loc: leftToken.loc.start,
+            loc: {
+              start: leftToken.loc.end,
+              end: rightToken.loc.start,
+            },
             messageId,
             fix(fixer) {
               // Don't remove comments.
@@ -175,7 +181,10 @@ export default createRule<RuleOptions, MessageIds>({
         if (!hasWhitespace) {
           context.report({
             node,
-            loc: leftToken.loc.start,
+            loc: {
+              start: leftToken.loc.end,
+              end: rightToken.loc.start,
+            },
             messageId: 'missing',
             fix(fixer) {
               return fixer.insertTextBefore(rightToken, ' ')
@@ -185,7 +194,10 @@ export default createRule<RuleOptions, MessageIds>({
         else if (!allowNewlines && hasNewline) {
           context.report({
             node,
-            loc: leftToken.loc.start,
+            loc: {
+              start: leftToken.loc.end,
+              end: rightToken.loc.start,
+            },
             messageId: 'unexpectedNewline',
             fix(fixer) {
               // Don't remove comments.
