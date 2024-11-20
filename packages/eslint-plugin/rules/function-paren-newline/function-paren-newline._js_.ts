@@ -285,7 +285,7 @@ export default createRule<RuleOptions, MessageIds>({
         let params
 
         if (node.type === 'ImportExpression')
-          params = [node.source]
+          params = [node.source, ...node.options ? [node.options] : []]
         else if (isFunction(node))
           params = node.params
         else

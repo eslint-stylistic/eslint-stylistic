@@ -101,6 +101,7 @@ run({
       'f?.b ();',
       'f?.b ()?.c ();',
       'f?.b<a> (b, b)',
+      'f ?. ();',
     ].map<ValidTestCase>(code => ({
       code,
       options: ['always'],
@@ -122,10 +123,28 @@ run({
       // optional call
       'f?.b \n ();',
       'f\n() ()?.b \n()\n ()',
+      'f ?. ();',
+      'f\n?.\n();',
     ].map<ValidTestCase>(code => ({
       code,
       options: ['always', { allowNewlines: true }],
     })),
+    {
+      code: 'f?. ();',
+      options: ['always', { optionalChain: { before: false } }],
+    },
+    {
+      code: 'f ?.();',
+      options: ['always', { optionalChain: { after: false } }],
+    },
+    {
+      code: 'f?.\n();',
+      options: ['always', { allowNewlines: true, optionalChain: { before: false } }],
+    },
+    {
+      code: 'f\n?.();',
+      options: ['always', { allowNewlines: true, optionalChain: { after: false } }],
+    },
   ],
   invalid: [
     // "never"
@@ -468,6 +487,7 @@ run({
     })),
 
     // optional chain
+    // never
     ...[
       'f ?.();',
       'f?. ();',
@@ -475,43 +495,122 @@ run({
       'f\n?.();',
       'f?.\n();',
       'f\n?.\n();',
-    ].reduce<InvalidTestCase[]>((acc, code) => {
-      acc.push(
+      'f ?.\n();',
+      'f\n?. ();',
+    ].map<InvalidTestCase>(code => ({
+      options: ['never'],
+      output: 'f?.();',
+      errors: [
         {
-          options: ['always', { allowNewlines: true }],
+          messageId: 'unexpectedWhitespace',
+        },
+      ],
+      code,
+    })),
+    // always
+    ...[
+      'f?.();',
+      'f ?.();',
+      'f?. ();',
+      'f\n?.();',
+      'f?.\n();',
+      'f\n?.\n();',
+      'f ?.\n();',
+      'f\n?. ();',
+    ].map<InvalidTestCase>(code => ({
+      options: ['always'],
+      output: 'f ?. ();',
+      errors: [
+        {
+          messageId: code.includes('\n') ? 'unexpectedNewline' : 'missing',
+        },
+      ],
+      code,
+    })),
+    // always allowNewlines: true
+    ...[
+      {
+        code: 'f\n?.();',
+        output: 'f\n?. ();',
+      },
+      {
+        code: 'f?.\n();',
+        output: 'f ?.\n();',
+      },
+    ].map<InvalidTestCase>(code => ({
+      options: ['always', { allowNewlines: true }],
+      errors: [
+        {
+          messageId: 'missing',
+        },
+      ],
+      ...code,
+    })),
+    // always optionalChain: { before: false }
+    ...[
+      'f?.();',
+      'f ?.();',
+      'f\n?.();',
+      'f\n?.\n();',
+      'f ?.\n();',
+      'f\n?. ();',
+    ].flatMap<InvalidTestCase>((code) => {
+      const messageId = code.includes('f ') || code.includes('f\n') ? 'unexpectedWhitespace' : 'missing'
+      return [
+        {
+          options: ['always', { optionalChain: { before: false } }],
+          output: 'f?. ();',
           errors: [
             {
-              messageId: 'unexpectedWhitespace',
+              messageId: code.includes('\n') ? 'unexpectedNewline' : messageId,
             },
           ],
           code,
-          // apply no fixers to it
-          output: null,
         },
         {
-          options: ['always'],
+          options: ['always', { allowNewlines: true, optionalChain: { before: false } }],
+          output: code.includes('\n()') ? 'f?.\n();' : 'f?. ();',
           errors: [
             {
-              messageId: 'unexpectedWhitespace',
+              messageId,
             },
           ],
           code,
-          // apply no fixers to it
-          output: null,
         },
+      ]
+    }),
+    // always optionalChain: { after: false }
+    ...[
+      'f?.();',
+      'f?. ();',
+      'f?.\n();',
+      'f\n?.\n();',
+      'f ?.\n();',
+      'f\n?. ();',
+    ].flatMap<InvalidTestCase>((code) => {
+      const messageId = code.includes(' ();') || code.includes('\n();') ? 'unexpectedWhitespace' : 'missing'
+      return [
         {
-          options: ['never'],
+          options: ['always', { optionalChain: { after: false } }],
+          output: 'f ?.();',
           errors: [
             {
-              messageId: 'unexpectedWhitespace',
+              messageId: code.includes('\n') ? 'unexpectedNewline' : messageId,
             },
           ],
           code,
-          output: 'f?.();',
         },
-      )
-
-      return acc
-    }, []),
+        {
+          options: ['always', { allowNewlines: true, optionalChain: { after: false } }],
+          output: code.includes('f\n') ? 'f\n?.();' : 'f ?.();',
+          errors: [
+            {
+              messageId,
+            },
+          ],
+          code,
+        },
+      ]
+    }),
   ],
 })

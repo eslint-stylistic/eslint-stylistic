@@ -53,7 +53,9 @@ This rule has a string option or an object option:
         "objects": "never",
         "imports": "never",
         "exports": "never",
-        "functions": "never"
+        "functions": "never",
+        "importAttributes": "never",
+        "dynamicImports": "never"
     }]
 }
 ```
@@ -73,6 +75,9 @@ The default for each option is `"never"` unless otherwise specified.
 - `exports` is for export declarations of ES Modules. (e.g. `export {a,};`)
 - `functions` is for function declarations and function calls. (e.g. `(function(a,){ })(b,);`)
   - `functions` should only be enabled when linting ECMAScript 2017 or higher.
+- `importAttributes` is for import attributes. (e.g. `import foo from "foo" with { type: "json", };`)
+- `dynamicImports` is for dynamic import calls. (e.g. `import(a,);`)
+  - `dynamicImports` should only be enabled when linting ECMAScript 2025 or higher.
 
 ### never
 

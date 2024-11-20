@@ -58,6 +58,27 @@ export default createRule<RuleOptions, MessageIds>({
       ImportDeclaration: true,
       ObjectPattern: true,
       NewExpression: true,
+      ExportAllDeclaration: true,
+      ExportNamedDeclaration: true,
+      ImportExpression: true,
+      SequenceExpression: true,
+      ClassDeclaration: true,
+      ClassExpression: true,
+      TSDeclareFunction: true,
+      TSFunctionType: true,
+      TSConstructorType: true,
+      TSEmptyBodyFunctionExpression: true,
+      TSEnumBody: true,
+      TSTypeLiteral: true,
+      TSIndexSignature: true,
+      TSMethodSignature: true,
+      TSCallSignatureDeclaration: true,
+      TSConstructSignatureDeclaration: true,
+      TSInterfaceBody: true,
+      TSInterfaceDeclaration: true,
+      TSTupleType: true,
+      TSTypeParameterDeclaration: true,
+      TSTypeParameterInstantiation: true,
     } as Record<NodeTypes, boolean>
 
     if (context.options.length === 2 && Object.prototype.hasOwnProperty.call(context.options[1], 'exceptions')) {
@@ -120,7 +141,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param reportItem The item to use when reporting an error.
      * @private
      */
-    function validateCommaItemSpacing(previousItemToken: Token, commaToken: Token, currentItemToken: Token, reportItem: Token): void {
+    function validateCommaItemSpacing(previousItemToken: Token, commaToken: Token, currentItemToken: Token, reportItem: ASTNode | Token): void {
       // if single line
       if (isTokenOnSameLine(commaToken, currentItemToken)
         && isTokenOnSameLine(previousItemToken, commaToken)) {
@@ -164,11 +185,10 @@ export default createRule<RuleOptions, MessageIds>({
     /**
      * Checks the comma placement with regards to a declaration/property/element
      * @param node The binary expression node to check
-     * @param property The property of the node containing child nodes.
+     * @param items The child nodes.
      * @private
      */
-    function validateComma<T extends NodeType, const K extends keyof T>(node: T, property: K): void {
-      const items = node[property] as (Tree.Token | ASTNode)[]
+    function validateComma<T extends NodeType>(node: T, items: (ASTNode | null)[]): void {
       const arrayLiteral = (node.type === 'ArrayExpression' || node.type === 'ArrayPattern')
 
       if (items.length > 1 || arrayLiteral) {
@@ -177,7 +197,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         items.forEach((item) => {
           const commaToken = item ? sourceCode.getTokenBefore(item)! : previousItemToken
-          const currentItemToken = item ? sourceCode.getFirstToken(item as ASTNode)! : sourceCode.getTokenAfter(commaToken)!
+          const currentItemToken = item ? sourceCode.getFirstToken(item)! : sourceCode.getTokenAfter(commaToken)!
           const reportItem = item || currentItemToken
 
           /**
@@ -195,14 +215,21 @@ export default createRule<RuleOptions, MessageIds>({
            * they are always valid regardless of an undefined item.
            */
           if (isCommaToken(commaToken))
-            validateCommaItemSpacing(previousItemToken, commaToken, currentItemToken!, reportItem as Tree.Token)
+            validateCommaItemSpacing(previousItemToken, commaToken, currentItemToken!, reportItem)
 
           if (item) {
-            const tokenAfterItem = sourceCode.getTokenAfter(item, isNotClosingParenToken)
+            const tokenLastItem = sourceCode.getLastToken(item)
+            if (tokenLastItem && isCommaToken(tokenLastItem)) {
+              // TypeElement such as TSPropertySignature may have a comma at the end of the node.
+              previousItemToken = sourceCode.getTokenBefore(tokenLastItem)!
+            }
+            else {
+              const tokenAfterItem = sourceCode.getTokenAfter(item, isNotClosingParenToken)
 
-            previousItemToken = tokenAfterItem
-              ? sourceCode.getTokenBefore(tokenAfterItem)!
-              : sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1] as ReturnType<typeof sourceCode.getLastToken>
+              previousItemToken = tokenAfterItem
+                ? sourceCode.getTokenBefore(tokenAfterItem)!
+                : sourceCode.ast.tokens[sourceCode.ast.tokens.length - 1] as ReturnType<typeof sourceCode.getLastToken>
+            }
           }
           else {
             previousItemToken = currentItemToken
@@ -243,65 +270,200 @@ export default createRule<RuleOptions, MessageIds>({
       | Tree.ImportDeclaration
       | Tree.NewExpression
       | Tree.ArrowFunctionExpression
+      | Tree.ExportAllDeclaration
+      | Tree.ExportNamedDeclaration
+      | Tree.ImportExpression
+      | Tree.SequenceExpression
+      | Tree.ClassDeclaration
+      | Tree.ClassExpression
+      | Tree.TSDeclareFunction
+      | Tree.TSFunctionType
+      | Tree.TSConstructorType
+      | Tree.TSEmptyBodyFunctionExpression
+      | Tree.TSEnumBody
+      | Tree.TSTypeLiteral
+      | Tree.TSIndexSignature
+      | Tree.TSMethodSignature
+      | Tree.TSCallSignatureDeclaration
+      | Tree.TSConstructSignatureDeclaration
+      | Tree.TSInterfaceBody
+      | Tree.TSInterfaceDeclaration
+      | Tree.TSTupleType
+      | Tree.TSTypeParameterDeclaration
+      | Tree.TSTypeParameterInstantiation
 
     const nodes: RuleListener = {}
 
     if (!exceptions.VariableDeclaration) {
-      nodes.VariableDeclaration = function (node) {
-        validateComma(node, 'declarations')
-      }
+      nodes.VariableDeclaration = node =>
+        validateComma(node, node.declarations)
     }
     if (!exceptions.ObjectExpression) {
-      nodes.ObjectExpression = function (node) {
-        validateComma(node, 'properties')
-      }
+      nodes.ObjectExpression = validateObjectProperties
     }
     if (!exceptions.ObjectPattern) {
-      nodes.ObjectPattern = function (node) {
-        validateComma(node, 'properties')
-      }
+      nodes.ObjectPattern = validateObjectProperties
     }
     if (!exceptions.ArrayExpression) {
-      nodes.ArrayExpression = function (node) {
-        validateComma(node, 'elements')
-      }
+      nodes.ArrayExpression = validateArrayElements
     }
     if (!exceptions.ArrayPattern) {
-      nodes.ArrayPattern = function (node) {
-        validateComma(node, 'elements')
-      }
+      nodes.ArrayPattern = validateArrayElements
     }
     if (!exceptions.FunctionDeclaration) {
-      nodes.FunctionDeclaration = function (node) {
-        validateComma(node, 'params')
-      }
+      nodes.FunctionDeclaration = validateFunctionParams
     }
     if (!exceptions.FunctionExpression) {
-      nodes.FunctionExpression = function (node) {
-        validateComma(node, 'params')
-      }
+      nodes.FunctionExpression = validateFunctionParams
     }
     if (!exceptions.ArrowFunctionExpression) {
-      nodes.ArrowFunctionExpression = function (node) {
-        validateComma(node, 'params')
-      }
+      nodes.ArrowFunctionExpression = validateFunctionParams
     }
     if (!exceptions.CallExpression) {
-      nodes.CallExpression = function (node) {
-        validateComma(node, 'arguments')
-      }
+      nodes.CallExpression = validateCallArguments
     }
     if (!exceptions.ImportDeclaration) {
-      nodes.ImportDeclaration = function (node) {
-        validateComma(node, 'specifiers')
+      nodes.ImportDeclaration = (node) => {
+        visitModulesSpecifiers(node)
+        visitImportAttributes(node)
       }
     }
     if (!exceptions.NewExpression) {
-      nodes.NewExpression = function (node) {
-        validateComma(node, 'arguments')
+      nodes.NewExpression = validateCallArguments
+    }
+    if (!exceptions.ExportAllDeclaration) {
+      nodes.ExportAllDeclaration = visitImportAttributes
+    }
+    if (!exceptions.ExportNamedDeclaration) {
+      nodes.ExportNamedDeclaration = (node) => {
+        visitModulesSpecifiers(node)
+        visitImportAttributes(node)
       }
+    }
+    if (!exceptions.ImportExpression) {
+      nodes.ImportExpression = (node) => {
+        if (node.options)
+          validateComma(node, [node.source, node.options])
+      }
+    }
+    if (!exceptions.SequenceExpression) {
+      nodes.SequenceExpression = node =>
+        validateComma(node, node.expressions)
+    }
+    if (!exceptions.ClassDeclaration) {
+      nodes.ClassDeclaration = visitClassImplements
+    }
+    if (!exceptions.ClassExpression) {
+      nodes.ClassExpression = visitClassImplements
+    }
+    if (!exceptions.TSDeclareFunction) {
+      nodes.TSDeclareFunction = validateFunctionParams
+    }
+    if (!exceptions.TSFunctionType) {
+      nodes.TSFunctionType = validateFunctionParams
+    }
+    if (!exceptions.TSConstructorType) {
+      nodes.TSConstructorType = validateFunctionParams
+    }
+    if (!exceptions.TSEmptyBodyFunctionExpression) {
+      nodes.TSEmptyBodyFunctionExpression = validateFunctionParams
+    }
+    if (!exceptions.TSMethodSignature) {
+      nodes.TSMethodSignature = validateFunctionParams
+    }
+    if (!exceptions.TSCallSignatureDeclaration) {
+      nodes.TSCallSignatureDeclaration = validateFunctionParams
+    }
+    if (!exceptions.TSConstructSignatureDeclaration) {
+      nodes.TSConstructSignatureDeclaration = validateFunctionParams
+    }
+    if (!exceptions.TSTypeParameterDeclaration) {
+      nodes.TSTypeParameterDeclaration = validateTypeParams
+    }
+    if (!exceptions.TSTypeParameterInstantiation) {
+      nodes.TSTypeParameterInstantiation = validateTypeParams
+    }
+    if (!exceptions.TSEnumBody) {
+      nodes.TSEnumBody = visitMembers
+    }
+    if (!exceptions.TSTypeLiteral) {
+      nodes.TSTypeLiteral = visitMembers
+    }
+    if (!exceptions.TSIndexSignature) {
+      nodes.TSIndexSignature = node =>
+        validateComma(node, node.parameters)
+    }
+    if (!exceptions.TSInterfaceDeclaration) {
+      nodes.TSInterfaceDeclaration = node =>
+        validateComma(node, node.extends)
+    }
+    if (!exceptions.TSInterfaceBody) {
+      nodes.TSInterfaceBody = node =>
+        validateComma(node, node.body)
+    }
+    if (!exceptions.TSTupleType) {
+      nodes.TSTupleType = node =>
+        validateComma(node, node.elementTypes)
     }
 
     return nodes
+
+    /** Checks the comma placement in object properties. */
+    function validateObjectProperties(node: Tree.ObjectExpression | Tree.ObjectPattern) {
+      validateComma(node, node.properties)
+    }
+    /** Checks the comma placement in array elements. */
+    function validateArrayElements(node: Tree.ArrayExpression | Tree.ArrayPattern) {
+      validateComma(node, node.elements)
+    }
+    /** Checks the comma placement in function parameters. */
+    function validateFunctionParams(
+      node: Tree.FunctionDeclaration
+        | Tree.FunctionExpression
+        | Tree.ArrowFunctionExpression
+        | Tree.TSDeclareFunction
+        | Tree.TSFunctionType
+        | Tree.TSConstructorType
+        | Tree.TSEmptyBodyFunctionExpression
+        | Tree.TSMethodSignature
+        | Tree.TSCallSignatureDeclaration
+        | Tree.TSConstructSignatureDeclaration,
+    ) {
+      validateComma(node, node.params)
+    }
+    /** Checks the comma placement in call arguments. */
+    function validateCallArguments(node: Tree.CallExpression | Tree.NewExpression) {
+      validateComma(node, node.arguments)
+    }
+    /** Checks the comma placement in import attributes. */
+    function visitImportAttributes(node: Tree.ImportDeclaration | Tree.ExportAllDeclaration | Tree.ExportNamedDeclaration) {
+      if (!node.attributes)
+        // The old parser's AST does not have attributes.
+        return
+      validateComma(node, node.attributes)
+    }
+    /** Checks the comma placement in module specifiers. */
+    function visitModulesSpecifiers(node: Tree.ImportDeclaration | Tree.ExportNamedDeclaration) {
+      validateComma(node, node.specifiers)
+    }
+
+    /** Checks the comma placement in TypeScript class implements. */
+    function visitClassImplements(node: Tree.ClassDeclaration | Tree.ClassExpression) {
+      if (!node.implements)
+        // The js parser's AST does not have implements.
+        return
+      validateComma(node, node.implements)
+    }
+    /** Checks the comma placement in TypeScript enum/literal members. */
+    function visitMembers(node: Tree.TSEnumBody | Tree.TSTypeLiteral) {
+      validateComma(node, node.members)
+    }
+    /** Checks the comma placement in type parameters. */
+    function validateTypeParams(
+      node: Tree.TSTypeParameterDeclaration
+        | Tree.TSTypeParameterInstantiation,
+    ) {
+      validateComma(node, node.params)
+    }
   },
 })

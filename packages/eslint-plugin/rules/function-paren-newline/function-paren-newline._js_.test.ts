@@ -105,6 +105,12 @@ run({
       code: 'import(source\n  + ext)',
       parserOptions: { ecmaVersion: 2020 },
     },
+    {
+      code: 'import(source, options)',
+    },
+    {
+      code: 'import(source\n  + ext, options)',
+    },
 
     // multiline-arguments
     {
@@ -303,6 +309,14 @@ run({
       options: ['multiline-arguments'],
       parserOptions: { ecmaVersion: 2020 },
     },
+    {
+      code: 'import(source, options)',
+      options: ['multiline-arguments'],
+    },
+    {
+      code: 'import(source\n  + ext, options)',
+      options: ['multiline-arguments'],
+    },
 
     {
       code: $`
@@ -402,6 +416,10 @@ run({
       options: ['always'],
       parserOptions: { ecmaVersion: 2020 },
     },
+    {
+      code: 'import(\n  source, options\n)',
+      options: ['always'],
+    },
 
     // never option
     {
@@ -442,6 +460,10 @@ run({
       code: 'import(source)',
       options: ['never'],
       parserOptions: { ecmaVersion: 2020 },
+    },
+    {
+      code: 'import(source, options)',
+      options: ['never'],
     },
 
     // minItems option
@@ -499,6 +521,14 @@ run({
       code: 'import(\n  source\n)',
       options: [{ minItems: 1 }],
       parserOptions: { ecmaVersion: 2020 },
+    },
+    {
+      code: 'import(source, options)',
+      options: [{ minItems: 3 }],
+    },
+    {
+      code: 'import(\n  source, options\n)',
+      options: [{ minItems: 2 }],
     },
 
     // consistent option
@@ -573,9 +603,12 @@ run({
       parserOptions: { ecmaVersion: 2020 },
     },
     {
-      code: 'import(\n  source\n)',
+      code: 'import(source, options)',
       options: ['consistent'],
-      parserOptions: { ecmaVersion: 2020 },
+    },
+    {
+      code: 'import(\n  source, options\n)',
+      options: ['consistent'],
     },
 
     // https://github.com/eslint/eslint/issues/15091#issuecomment-975605821
@@ -808,6 +841,11 @@ run({
       code: 'import(\n  source\n)',
       output: 'import(source)',
       parserOptions: { ecmaVersion: 2020 },
+      errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
+    },
+    {
+      code: 'import(\n  source, options\n)',
+      output: 'import(source, options)',
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
 
@@ -1067,6 +1105,18 @@ run({
       parserOptions: { ecmaVersion: 2020 },
       errors: [RIGHT_MISSING_ERROR],
     },
+    {
+      code: 'import(source, options\n)',
+      output: 'import(source, options)',
+      options: ['multiline-arguments'],
+      errors: [RIGHT_UNEXPECTED_ERROR],
+    },
+    {
+      code: 'import(source,\noptions)',
+      output: 'import(\nsource,\noptions\n)',
+      options: ['multiline-arguments'],
+      errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
+    },
 
     // always option
     {
@@ -1198,6 +1248,12 @@ run({
       output: 'import(\nsource\n)',
       options: ['always'],
       parserOptions: { ecmaVersion: 2020 },
+      errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
+    },
+    {
+      code: 'import(source, options)',
+      output: 'import(\nsource, options\n)',
+      options: ['always'],
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
     },
 
@@ -1357,6 +1413,12 @@ run({
       parserOptions: { ecmaVersion: 2020 },
       errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
     },
+    {
+      code: 'import(\n  source, options\n)',
+      output: 'import(source, options)',
+      options: ['never'],
+      errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
+    },
 
     // minItems option
     {
@@ -1453,6 +1515,18 @@ run({
       parserOptions: { ecmaVersion: 2020 },
       errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
     },
+    {
+      code: 'import(\n  source, options\n)',
+      output: 'import(source, options)',
+      options: [{ minItems: 3 }],
+      errors: [LEFT_UNEXPECTED_ERROR, RIGHT_UNEXPECTED_ERROR],
+    },
+    {
+      code: 'import(source, options)',
+      output: 'import(\nsource, options\n)',
+      options: [{ minItems: 2 }],
+      errors: [LEFT_MISSING_ERROR, RIGHT_MISSING_ERROR],
+    },
 
     // consistent option
     {
@@ -1525,6 +1599,18 @@ run({
       output: 'import(\n  source\n)',
       options: ['consistent'],
       parserOptions: { ecmaVersion: 2020 },
+      errors: [RIGHT_MISSING_ERROR],
+    },
+    {
+      code: 'import(source, options\n)',
+      output: 'import(source, options)',
+      options: ['consistent'],
+      errors: [RIGHT_UNEXPECTED_ERROR],
+    },
+    {
+      code: 'import(\n  source, options)',
+      output: 'import(\n  source, options\n)',
+      options: ['consistent'],
       errors: [RIGHT_MISSING_ERROR],
     },
 
