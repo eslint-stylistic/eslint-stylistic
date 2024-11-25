@@ -1487,5 +1487,46 @@ const obj = {
       options: [{ propertyValue: 'parens' }],
       errors: [{ messageId: 'missingParens' }],
     },
+    {
+      code: `
+    const MissingParenWIthCOmment = () =>
+      // Something about this line
+      <>
+        <input />
+      </>
+          `,
+      output: `
+    const MissingParenWIthCOmment = () => (
+      // Something about this line
+      <>
+        <input />
+      </>
+    )
+          `,
+      options: [{ arrow: 'parens-new-line' }],
+      errors: [{ messageId: 'missingParens' }],
+    },
+    {
+      code: `
+    var hello = {
+      foo:
+        // Something about this line
+        <div>
+          <p>Hello</p>
+        </div>
+    };
+          `,
+      output: `
+    var hello = {
+      foo: (
+        // Something about this line
+        <div>
+          <p>Hello</p>
+        </div>
+      )};
+          `,
+      options: [{ propertyValue: 'parens-new-line' }],
+      errors: [{ messageId: 'missingParens' }],
+    },
   ),
 })
