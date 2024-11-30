@@ -118,9 +118,9 @@ export default createRule<RuleOptions, MessageIds>({
             spaceBefore
               ? fixer.insertTextBefore(commaToken, ' ')
               : fixer.replaceTextRange(
-                [prevToken.range[1], commaToken.range[0]],
-                '',
-              ),
+                  [prevToken.range[1], commaToken.range[0]],
+                  '',
+                ),
         })
       }
 
@@ -143,9 +143,9 @@ export default createRule<RuleOptions, MessageIds>({
             spaceAfter
               ? fixer.insertTextAfter(commaToken, ' ')
               : fixer.replaceTextRange(
-                [commaToken.range[1], nextToken.range[0]],
-                '',
-              ),
+                  [commaToken.range[1], nextToken.range[0]],
+                  '',
+                ),
         })
       }
     }
