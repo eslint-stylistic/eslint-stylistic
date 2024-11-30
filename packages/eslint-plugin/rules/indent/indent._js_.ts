@@ -1166,7 +1166,10 @@ export default createRule<RuleOptions, MessageIds>({
           offsets.setDesiredOffset(
             firstConsequentToken,
             firstToken,
-            firstConsequentToken.type === 'Punctuator' && options.offsetTernaryExpressions ? 2 : 1,
+            (
+              firstConsequentToken.type === 'Punctuator'
+              || node.consequent.type === 'CallExpression'
+            ) && options.offsetTernaryExpressions ? 2 : 1,
           )
 
           /**
@@ -1192,8 +1195,14 @@ export default createRule<RuleOptions, MessageIds>({
              * If `baz` were aligned with `bar` rather than being offset by 1 from `foo`, `baz` would end up
              * having no expected indentation.
              */
-            offsets.setDesiredOffset(firstAlternateToken, firstToken, firstAlternateToken.type === 'Punctuator'
-            && options.offsetTernaryExpressions ? 2 : 1)
+            offsets.setDesiredOffset(
+              firstAlternateToken,
+              firstToken,
+              (
+                firstAlternateToken.type === 'Punctuator'
+                || node.alternate.type === 'CallExpression'
+              ) && options.offsetTernaryExpressions ? 2 : 1,
+            )
           }
         }
       },
