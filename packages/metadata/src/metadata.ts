@@ -192,20 +192,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
-        "name": "func-call-spacing",
-        "ruleId": "@stylistic/js/func-call-spacing",
-        "originalId": "func-call-spacing",
-        "entry": "packages/eslint-plugin/rules/function-call-spacing/function-call-spacing._js_.ts",
-        "docsEntry": "packages/eslint-plugin/rules/function-call-spacing/README._js_.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require or disallow spacing between function identifiers and their invocations",
-            "recommended": false
-          }
-        }
-      },
-      {
         "name": "function-call-argument-newline",
         "ruleId": "@stylistic/js/function-call-argument-newline",
         "originalId": "function-call-argument-newline",
@@ -222,7 +208,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
       {
         "name": "function-call-spacing",
         "ruleId": "@stylistic/js/function-call-spacing",
-        "originalId": "func-call-spacing",
+        "originalId": "function-call-spacing",
         "entry": "packages/eslint-plugin/rules/function-call-spacing/function-call-spacing._js_.ts",
         "docsEntry": "packages/eslint-plugin/rules/function-call-spacing/README._js_.md",
         "meta": {
@@ -1334,23 +1320,9 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
-        "name": "func-call-spacing",
-        "ruleId": "@stylistic/ts/func-call-spacing",
-        "originalId": "@typescript-eslint/func-call-spacing",
-        "entry": "packages/eslint-plugin/rules/function-call-spacing/function-call-spacing._ts_.ts",
-        "docsEntry": "packages/eslint-plugin/rules/function-call-spacing/README._ts_.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require or disallow spacing between function identifiers and their invocations",
-            "recommended": false
-          }
-        }
-      },
-      {
         "name": "function-call-spacing",
         "ruleId": "@stylistic/ts/function-call-spacing",
-        "originalId": "@typescript-eslint/func-call-spacing",
+        "originalId": "@typescript-eslint/function-call-spacing",
         "entry": "packages/eslint-plugin/rules/function-call-spacing/function-call-spacing._ts_.ts",
         "docsEntry": "packages/eslint-plugin/rules/function-call-spacing/README._ts_.md",
         "meta": {
@@ -1892,20 +1864,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "docs": {
             "description": "Require or disallow newline at the end of files",
             "recommended": true
-          }
-        }
-      },
-      {
-        "name": "func-call-spacing",
-        "ruleId": "@stylistic/func-call-spacing",
-        "originalId": "",
-        "entry": "packages/eslint-plugin/rules/function-call-spacing/index.ts",
-        "docsEntry": "packages/eslint-plugin/rules/function-call-spacing/README._js_.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require or disallow spacing between function identifiers and their invocations",
-            "recommended": false
           }
         }
       },
