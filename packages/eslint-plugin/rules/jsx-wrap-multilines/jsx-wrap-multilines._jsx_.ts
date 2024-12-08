@@ -121,7 +121,7 @@ export default createRule<RuleOptions, MessageIds>({
       return node.loc.start.line !== node.loc.end.line
     }
 
-    function trimTokenBeforeNewline(node: ASTNode, tokenBefore: Token) {
+    function trimTokenBeforeNewline(tokenBefore: Token) {
       // if the token before the jsx is a bracket or curly brace
       // we don't want a space between the opening parentheses and the multiline jsx
       const isBracket = tokenBefore.value === '{' || tokenBefore.value === '['
@@ -145,10 +145,12 @@ export default createRule<RuleOptions, MessageIds>({
 
       if (option === 'parens-new-line' && isMultilines(node)) {
         if (!isParenthesized(node, context.sourceCode)) {
-          const tokenBefore = sourceCode.getTokenBefore(node, { includeComments: true })!
-          const tokenAfter = sourceCode.getTokenAfter(node, { includeComments: true })!
+          const tokenBefore = sourceCode.getTokenBefore(node)!
+          const tokenAfter = sourceCode.getTokenAfter(node)!
           const start = node.loc.start
           if (tokenBefore.loc.end.line < start.line) {
+            const textBetween = sourceCode.getText().slice(tokenBefore.range[1], node.range[0]).trim()
+            const indent = start.column > 0 ? ' '.repeat(start.column) : ''
             // Strip newline after operator if parens newline is specified
             context.report({
               node,
@@ -158,7 +160,7 @@ export default createRule<RuleOptions, MessageIds>({
                   tokenBefore.range[0],
                   tokenAfter && (tokenAfter.value === ';' || tokenAfter.value === '}') ? tokenAfter.range[0] : node.range[1],
                 ],
-                `${trimTokenBeforeNewline(node, tokenBefore)}(\n${start.column > 0 ? ' '.repeat(start.column) : ''}${sourceCode.getText(node)}\n${start.column > 0 ? ' '.repeat(start.column - 2) : ''})`,
+                `${trimTokenBeforeNewline(tokenBefore)}(\n${indent}${textBetween}${textBetween.length > 0 ? `\n${indent}` : ''}${sourceCode.getText(node)}\n${start.column > 0 ? ' '.repeat(start.column - 2) : ''})`,
               ),
             })
           }
