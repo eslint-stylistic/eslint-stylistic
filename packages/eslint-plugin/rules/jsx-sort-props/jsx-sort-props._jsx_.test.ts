@@ -809,6 +809,25 @@ run({
         },
       ],
     },
+    {
+      code: `
+        <Button
+          label="count is"
+          count={count}
+          // color="red"
+          setCount={setCount}
+        />
+      `,
+      errors: [expectedError],
+      output: `
+        <Button
+          count={count}
+          label="count is"
+          // color="red"
+          setCount={setCount}
+        />
+      `,
+    },
     semver.satisfies(eslintPkg.version, '> 3') ? {
       code: `
         <foo
