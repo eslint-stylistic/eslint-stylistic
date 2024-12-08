@@ -45,18 +45,15 @@ export default createRule<RuleOptions, MessageIds>({
               properties: {
                 allowNewlines: {
                   type: 'boolean',
-                  default: false,
                 },
                 optionalChain: {
                   type: 'object',
                   properties: {
                     before: {
                       type: 'boolean',
-                      default: true,
                     },
                     after: {
                       type: 'boolean',
-                      default: true,
                     },
                   },
                   additionalProperties: false,
