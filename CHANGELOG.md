@@ -1,5 +1,25 @@
 # Changelog
 
+## [2.12.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.11.0...v2.12.0) (2024-12-08)
+
+
+### Bug Fixes
+
+* **comma-style:** handles comma after default import and trailing comma ([#600](https://github.com/eslint-stylistic/eslint-stylistic/issues/600)) ([2d8d8ce](https://github.com/eslint-stylistic/eslint-stylistic/commit/2d8d8ce57a12b597de1cffab8e9784b8e20fca15))
+* **function-call-spacing:** remove invalid defaults from schema ([#617](https://github.com/eslint-stylistic/eslint-stylistic/issues/617)) ([0714754](https://github.com/eslint-stylistic/eslint-stylistic/commit/07147543dad01ecdf99ebb17b00384f134926bc5))
+* **indent:** consider `CallExpression` when `offsetTernaryExpressions` is true ([#625](https://github.com/eslint-stylistic/eslint-stylistic/issues/625)) ([55d3529](https://github.com/eslint-stylistic/eslint-stylistic/commit/55d3529bd8da0d5d944e0647713a8afa17296639))
+* **jsx-wrap-multilines:** text between replacement texts included in parentheses ([#618](https://github.com/eslint-stylistic/eslint-stylistic/issues/618)) ([0764252](https://github.com/eslint-stylistic/eslint-stylistic/commit/07642521b779636a9580d5236a0e03fceaa74d58))
+
+
+### Documentation
+
+* support eslint v9 parser ([#631](https://github.com/eslint-stylistic/eslint-stylistic/issues/631)) ([0e4b1cb](https://github.com/eslint-stylistic/eslint-stylistic/commit/0e4b1cbd6df7f7ef45f99c5fe4bfc99bb595f009))
+
+
+### Chores
+
+* release-please-mark ([ceff702](https://github.com/eslint-stylistic/eslint-stylistic/commit/ceff702a78e6abc0f714714fedfab3100d2f5625))
+
 ## [2.11.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.10.1...v2.11.0) (2024-11-19)
 
 
