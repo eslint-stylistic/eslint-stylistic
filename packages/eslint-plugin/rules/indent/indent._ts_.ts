@@ -100,7 +100,6 @@ export default createRule<RuleOptions, MessageIds>({
     // typescript docs and playground use 4 space indent
     4,
     {
-      // TODO: Stage 2: Set to `0` can pass test cases, but it will change the behavior
       // typescript docs indent the case from the switch
       // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-8.html#example-4
       SwitchCase: 1,
