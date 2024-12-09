@@ -3,8 +3,7 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 import { run } from '#test'
-// TODO: Stage 2: Test merged rule
-import rule from './function-call-spacing._js_'
+import rule from '.'
 
 run({
   name: 'function-call-spacing',
@@ -218,12 +217,12 @@ run({
     },
     {
       code: 'func ?.()',
-      options: ['always'],
+      options: ['always', { optionalChain: { after: false } }],
       parserOptions: { ecmaVersion: 2020 },
     },
     {
       code: 'func?. ()',
-      options: ['always'],
+      options: ['always', { optionalChain: { before: false } }],
       parserOptions: { ecmaVersion: 2020 },
     },
     {
@@ -254,7 +253,7 @@ run({
           type: 'CallExpression',
           column: 4,
           line: 1,
-          endColumn: 4,
+          endColumn: 5,
           endLine: 1,
         },
       ],
@@ -268,7 +267,7 @@ run({
           type: 'CallExpression',
           column: 8,
           line: 1,
-          endColumn: 8,
+          endColumn: 9,
           endLine: 1,
         },
       ],
@@ -318,35 +317,34 @@ run({
       errors: [{ messageId: 'unexpectedWhitespace', type: 'ImportExpression' }],
     },
 
-    // https://github.com/eslint/eslint/issues/7787
     {
       code: 'f\n();',
-      output: null, // no change
+      output: 'f();',
       errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
     },
     {
       code: 'f\r();',
-      output: null, // no change
+      output: 'f();',
       errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
     },
     {
       code: 'f\u2028();',
-      output: null, // no change
+      output: 'f();',
       errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
     },
     {
       code: 'f\u2029();',
-      output: null, // no change
+      output: 'f();',
       errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
     },
     {
       code: 'f\r\n();',
-      output: null, // no change
+      output: 'f();',
       errors: [{ messageId: 'unexpectedWhitespace', type: 'CallExpression' }],
     },
     {
       code: 'import\n(source);',
-      output: null,
+      output: 'import(source);',
       parserOptions: { ecmaVersion: 2020 },
       errors: [{ messageId: 'unexpectedWhitespace', type: 'ImportExpression' }],
     },
@@ -374,7 +372,7 @@ run({
           type: 'CallExpression',
           column: 4,
           line: 1,
-          endColumn: 5,
+          endColumn: 6,
           endLine: 1,
         },
       ],
@@ -389,7 +387,7 @@ run({
           type: 'CallExpression',
           column: 8,
           line: 1,
-          endColumn: 8,
+          endColumn: 9,
           endLine: 1,
         },
       ],
@@ -447,80 +445,9 @@ run({
       errors: [{ messageId: 'unexpectedWhitespace', type: 'ImportExpression' }],
     },
 
-    // https://github.com/eslint/eslint/issues/7787
-    {
-      code: 'f\n();',
-      output: null, // no change
-      options: ['never'],
-      errors: [
-        {
-          messageId: 'unexpectedWhitespace',
-          type: 'CallExpression',
-          line: 1,
-          column: 2,
-          endLine: 2,
-          endColumn: 0,
-        },
-      ],
-    },
-    {
-      code: [
-        'this.cancelled.add(request)',
-        'this.decrement(request)',
-        '(0, request.reject)(new api.Cancel())',
-      ].join('\n'),
-      output: null, // no change
-      options: ['never'],
-      errors: [
-        {
-          messageId: 'unexpectedWhitespace',
-          type: 'CallExpression',
-          line: 2,
-          column: 24,
-          endLine: 3,
-          endColumn: 0,
-        },
-      ],
-    },
-    {
-      code: [
-        'var a = foo',
-        '(function(global) {}(this));',
-      ].join('\n'),
-      output: null, // no change
-      options: ['never'],
-      errors: [
-        {
-          messageId: 'unexpectedWhitespace',
-          type: 'CallExpression',
-          line: 1,
-          column: 12,
-          endLine: 2,
-          endColumn: 0,
-        },
-      ],
-    },
-    {
-      code: [
-        'var a = foo',
-        '(0, baz())',
-      ].join('\n'),
-      output: null, // no change
-      options: ['never'],
-      errors: [
-        {
-          messageId: 'unexpectedWhitespace',
-          type: 'CallExpression',
-          line: 1,
-          column: 12,
-          endColumn: 0,
-          endLine: 2,
-        },
-      ],
-    },
     {
       code: 'f\r();',
-      output: null, // no change
+      output: 'f();',
       options: ['never'],
       errors: [
         {
@@ -531,7 +458,7 @@ run({
     },
     {
       code: 'f\u2028();',
-      output: null, // no change
+      output: 'f();',
       options: ['never'],
       errors: [
         {
@@ -542,7 +469,7 @@ run({
     },
     {
       code: 'f\u2029();',
-      output: null, // no change
+      output: 'f();',
       options: ['never'],
       errors: [
         {
@@ -553,7 +480,7 @@ run({
     },
     {
       code: 'f\r\n();',
-      output: null, // no change
+      output: 'f();',
       options: ['never'],
       errors: [
         {
@@ -572,7 +499,7 @@ run({
     },
     {
       code: 'f\n();',
-      output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
+      output: 'f ();',
       options: ['always'],
       errors: [{ messageId: 'unexpectedNewline', type: 'CallExpression' }],
     },
@@ -584,7 +511,7 @@ run({
     },
     {
       code: 'f\n(a, b);',
-      output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
+      output: 'f (a, b);',
       options: ['always'],
       errors: [{ messageId: 'unexpectedNewline', type: 'CallExpression' }],
     },
@@ -596,7 +523,7 @@ run({
         {
           messageId: 'missing',
           type: 'CallExpression',
-          column: 3,
+          column: 4,
           line: 1,
           endLine: 1,
           endColumn: 4,
@@ -605,7 +532,7 @@ run({
     },
     {
       code: 'f.b\n();',
-      output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
+      output: 'f.b ();',
       options: ['always'],
       errors: [
         {
@@ -622,11 +549,11 @@ run({
       code: 'f.b().c ();',
       output: 'f.b ().c ();',
       options: ['always'],
-      errors: [{ messageId: 'missing', type: 'CallExpression', column: 3 }],
+      errors: [{ messageId: 'missing', type: 'CallExpression', column: 4 }],
     },
     {
       code: 'f.b\n().c ();',
-      output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
+      output: 'f.b ().c ();',
       options: ['always'],
       errors: [
         {
@@ -647,13 +574,13 @@ run({
     },
     {
       code: 'f\n() ()',
-      output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
+      output: 'f () ()',
       options: ['always'],
       errors: [{ messageId: 'unexpectedNewline', type: 'CallExpression' }],
     },
     {
       code: 'f\n()()',
-      output: 'f\n() ()', // Don't fix the first error to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
+      output: 'f () ()',
       options: ['always'],
       errors: [
         { messageId: 'unexpectedNewline', type: 'CallExpression' },
@@ -708,25 +635,25 @@ run({
     },
     {
       code: 'f\r();',
-      output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
+      output: 'f ();',
       options: ['always'],
       errors: [{ messageId: 'unexpectedNewline', type: 'CallExpression' }],
     },
     {
       code: 'f\u2028();',
-      output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
+      output: 'f ();',
       options: ['always'],
       errors: [{ messageId: 'unexpectedNewline', type: 'CallExpression' }],
     },
     {
       code: 'f\u2029();',
-      output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
+      output: 'f ();',
       options: ['always'],
       errors: [{ messageId: 'unexpectedNewline', type: 'CallExpression' }],
     },
     {
       code: 'f\r\n();',
-      output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
+      output: 'f ();',
       options: ['always'],
       errors: [{ messageId: 'unexpectedNewline', type: 'CallExpression' }],
     },
@@ -754,7 +681,7 @@ run({
         {
           messageId: 'missing',
           type: 'CallExpression',
-          column: 3,
+          column: 4,
         },
       ],
     },
@@ -762,7 +689,7 @@ run({
       code: 'f.b().c ();',
       output: 'f.b ().c ();',
       options: ['always', { allowNewlines: true }],
-      errors: [{ messageId: 'missing', type: 'CallExpression', column: 3 }],
+      errors: [{ messageId: 'missing', type: 'CallExpression', column: 4 }],
     },
     {
       code: 'f() ()',
@@ -819,13 +746,13 @@ run({
           line: 1,
           column: 2,
           endLine: 1,
-          endColumn: 5,
+          endColumn: 6,
         },
       ],
     },
     {
       code: 'f\n ();',
-      output: null,
+      output: 'f();',
       errors: [
         {
           messageId: 'unexpectedWhitespace',
@@ -833,7 +760,7 @@ run({
           line: 1,
           column: 2,
           endLine: 2,
-          endColumn: 1,
+          endColumn: 2,
         },
       ],
     },
@@ -846,7 +773,7 @@ run({
           messageId: 'missing',
           type: 'CallExpression',
           line: 1,
-          column: 2,
+          column: 3,
           endLine: 1,
           endColumn: 3,
         },
@@ -854,7 +781,7 @@ run({
     },
     {
       code: 'fnn\n (a, b);',
-      output: null, // Don't fix to avoid hiding no-unexpected-multiline (https://github.com/eslint/eslint/issues/7787)
+      output: 'fnn (a, b);',
       options: ['always'],
       errors: [
         {
@@ -924,28 +851,28 @@ run({
     },
     {
       code: 'func?.()',
-      output: null, // Not sure inserting a space into either before/after `?.`.
+      output: 'func ?. ()',
       options: ['always'],
       parserOptions: { ecmaVersion: 2020 },
       errors: [{ messageId: 'missing' }],
     },
     {
       code: 'func\n  ?.()',
-      output: 'func ?.()',
+      output: 'func   ?. ()',
       options: ['always'],
       parserOptions: { ecmaVersion: 2020 },
       errors: [{ messageId: 'unexpectedNewline' }],
     },
     {
       code: 'func?.\n  ()',
-      output: 'func?. ()',
+      output: 'func ?.   ()',
       options: ['always'],
       parserOptions: { ecmaVersion: 2020 },
       errors: [{ messageId: 'unexpectedNewline' }],
     },
     {
       code: 'func  ?.\n  ()',
-      output: 'func ?. ()',
+      output: 'func  ?.   ()',
       options: ['always'],
       parserOptions: { ecmaVersion: 2020 },
       errors: [{ messageId: 'unexpectedNewline' }],
