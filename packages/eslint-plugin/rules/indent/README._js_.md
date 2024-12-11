@@ -1,6 +1,7 @@
 ---
 title: indent
 rule_type: layout
+outline: deep
 ---
 
 # js/indent
@@ -101,6 +102,7 @@ This rule has an object option:
 - `"ImportDeclaration"` (default: 1) enforces indentation level for import statements. It can be set to the string `"first"`, indicating that all imported members from a module should be aligned with the first member in the list. This can also be set to `"off"` to disable checking for imported module members.
 - `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
 - `"offsetTernaryExpressions": true` (`false` by default) requires indentation for values of ternary expressions.
+- `"offsetTernaryExpressionsOffsetFunctionCalls": true` (`true` by default), handles an edge case for call expressions nested in ternary. It's only effective when `offsetTernaryExpressions` is set to `true`.
 - `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 - `"tabLength"` (default: 4) when using tabbed indentation, the indentation used to calculate the insertion value of the template string
 
@@ -1051,6 +1053,52 @@ condition
     : () => {
         return false
       }
+```
+
+:::
+
+### offsetTernaryExpressionsOffsetCallExpressions
+
+> This option is only effective when `offsetTernaryExpressions` is set to `true`.
+
+Since v2.12.0, we [introduced a fix](https://github.com/eslint-stylistic/eslint-stylistic/pull/625) to call expressions handling inside ternary. With the new version, the rule now expect the following code to be correct:
+
+::: correct
+
+```js
+/*eslint indent: ["error", 2, { "offsetTernaryExpressions": true }]*/
+
+condition
+  ? gerUser({
+      name: 'foo',
+      age: 20,
+    })
+  : condition2
+    ? gerUser({
+        id: 'bar',
+      })
+    : undefined
+```
+
+:::
+
+Due to the new fix introduced changes to some existing codebase, we introduced this `offsetTernaryExpressionsOffsetCallExpressions` option to toggle the behaviors. It's set to `true` by default, where you can set it to `false` to use the previous behavior.
+
+::: correct
+
+```js
+/*eslint indent: ["error", 2, { "offsetTernaryExpressions": true, "offsetTernaryExpressionsOffsetCallExpressions": false }]*/
+
+condition
+  ? gerUser({
+    name: 'foo',
+    age: 20,
+  })
+  : condition2
+    ? gerUser({
+      id: 'bar',
+    })
+    : undefined
 ```
 
 :::
