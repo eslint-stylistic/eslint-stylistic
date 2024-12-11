@@ -1,5 +1,22 @@
 # Changelog
 
+## [2.12.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.12.0...v2.12.1) (2024-12-11)
+
+
+### Features
+
+* **indent:** introduce `offsetTernaryExpressionsOffsetCallExpressions` options ([#636](https://github.com/eslint-stylistic/eslint-stylistic/issues/636)) ([c14a3ee](https://github.com/eslint-stylistic/eslint-stylistic/commit/c14a3eef1898c0ade0952208a4a470a6c6dd091f))
+
+
+### Documentation
+
+* correct eslint flat config in migration guide ([#634](https://github.com/eslint-stylistic/eslint-stylistic/issues/634)) ([16a0ae0](https://github.com/eslint-stylistic/eslint-stylistic/commit/16a0ae0b181230007ca7b80c1eb60b13e79a1ac2))
+
+
+### Chores
+
+* release-please-mark ([e9ca882](https://github.com/eslint-stylistic/eslint-stylistic/commit/e9ca88292b0c137226dadfbfa77bf9d73584802b))
+
 ## [2.12.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.11.0...v2.12.0) (2024-12-08)
 
 
