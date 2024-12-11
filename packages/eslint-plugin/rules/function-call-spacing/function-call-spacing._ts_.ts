@@ -117,16 +117,11 @@ export default createRule<RuleOptions, MessageIds>({
                   rightToken.range[0],
                 ], '?.')
               }
-              /**
-               * Only autofix if there is no newline
-               * https://github.com/eslint/eslint/issues/7787
-               */
-              if (!hasNewline) {
-                return fixer.removeRange([
-                  leftToken.range[1],
-                  rightToken.range[0],
-                ])
-              }
+
+              return fixer.removeRange([
+                leftToken.range[1],
+                rightToken.range[0],
+              ])
 
               return null
             },
