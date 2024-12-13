@@ -102,7 +102,7 @@ This rule has an object option:
 - `"ImportDeclaration"` (default: 1) enforces indentation level for import statements. It can be set to the string `"first"`, indicating that all imported members from a module should be aligned with the first member in the list. This can also be set to `"off"` to disable checking for imported module members.
 - `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
 - `"offsetTernaryExpressions": true` (`false` by default) requires indentation for values of ternary expressions.
-- `"offsetTernaryExpressionsOffsetFunctionCalls": true` (`true` by default), handles an edge case for call expressions nested in ternary. It's only effective when `offsetTernaryExpressions` is set to `true`.
+- `"offsetTernaryExpressionsOffsetCallExpressions": true` (`true` by default), handles an edge case for call expressions nested in ternary. It's only effective when `offsetTernaryExpressions` is set to `true`.
 - `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 - `"tabLength"` (default: 4) when using tabbed indentation, the indentation used to calculate the insertion value of the template string
 
