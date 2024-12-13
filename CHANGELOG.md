@@ -1,5 +1,12 @@
 # Changelog
 
+## [2.12.2](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.12.1...v2.12.2) (2024-12-13)
+
+
+### Documentation
+
+* **indent:** fix incorrect option description ([#638](https://github.com/eslint-stylistic/eslint-stylistic/issues/638)) ([d427d47](https://github.com/eslint-stylistic/eslint-stylistic/commit/d427d47c430b5d9db90349438eaaa2c30b083511))
+
 ## [2.12.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.12.0...v2.12.1) (2024-12-11)
 
 
