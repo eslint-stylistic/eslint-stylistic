@@ -1253,21 +1253,23 @@ run({
     },
     {
       code: $`
-        var a = { key : value };
+        var obj = {
+          'a': 42 - 12,
+          foobar : 'value',
+          [(expr)] :val
+        }
       `,
-      options: [{ ignoredNodes: ['Property'] }],
+      options: [{ ignoredNodes: ['ObjectExpression'] }],
     },
     {
       code: $`
-        import "./foo" with { type : "json" }
+        var {
+          a: b,
+          c : d,
+          e :f,
+        } = obj
       `,
-      options: [{ ignoredNodes: ['ImportAttribute'] }],
-    },
-    {
-      code: $`
-        export {foo} from "./foo" with { type : "json" }
-      `,
-      options: [{ ignoredNodes: ['ImportAttribute'] }],
+      options: [{ ignoredNodes: ['ObjectPattern'] }],
     },
     {
       code: $`

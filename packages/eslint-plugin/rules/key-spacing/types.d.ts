@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: cWqWPSqo6p */
+/* @checksum: Vl4RUSFlaP */
 
 export type KeySpacingSchema0 =
   | {
@@ -16,9 +16,8 @@ export type KeySpacingSchema0 =
     beforeColon?: boolean
     afterColon?: boolean
     ignoredNodes?: (
-      | 'Property'
-      | 'ImportAttribute'
       | 'ObjectExpression'
+      | 'ObjectPattern'
       | 'ImportDeclaration'
       | 'ExportNamedDeclaration'
       | 'ExportAllDeclaration'

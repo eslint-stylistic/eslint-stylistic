@@ -10,9 +10,8 @@ import { createRule } from '#utils/create-rule'
 import { getStringLength } from '#utils/string'
 
 const listeningNodes = [
-  'Property',
-  'ImportAttribute',
   'ObjectExpression',
+  'ObjectPattern',
   'ImportDeclaration',
   'ExportNamedDeclaration',
   'ExportAllDeclaration',
@@ -663,7 +662,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param lineOptions Configured singleLine or multiLine options
      */
     function verifySpacing(node: Tree.Property | Tree.ImportAttribute, lineOptions: { beforeColon: number, afterColon: number, mode: 'strict' | 'minimum' }) {
-      if (ignoredNodes.includes(node.type))
+      if (ignoredNodes.includes(node.parent.type))
         return
       const actual = getPropertyWhitespace(node)
 
@@ -742,7 +741,7 @@ export default createRule<RuleOptions, MessageIds>({
         verifySpacing(node, isSingleLine(node.parent) ? singleLineOptions : multiLineOptions)
       },
       ImportAttribute(node) {
-        const parent = node.parent as Tree.ImportDeclaration | Tree.ExportNamedDeclaration | Tree.ExportAllDeclaration
+        const parent = node.parent
         verifySpacing(node, isSingleLineImportAttributes(parent, sourceCode) ? singleLineOptions : multiLineOptions)
       },
     }
