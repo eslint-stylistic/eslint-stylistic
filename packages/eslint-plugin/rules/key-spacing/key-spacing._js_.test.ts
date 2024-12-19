@@ -1251,6 +1251,82 @@ run({
       `,
       options: [{ align: 'colon' }],
     },
+    {
+      code: $`
+        var a = { key : value };
+      `,
+      options: [{ ignoredNodes: ['Property'] }],
+    },
+    {
+      code: $`
+        import "./foo" with { type : "json" }
+      `,
+      options: [{ ignoredNodes: ['ImportAttribute'] }],
+    },
+    {
+      code: $`
+        export {foo} from "./foo" with { type : "json" }
+      `,
+      options: [{ ignoredNodes: ['ImportAttribute'] }],
+    },
+    {
+      code: $`
+        var obj = {
+          'a': (42 - 12),
+          foobar: 'value',
+          [(expr)]: val
+        }
+      `,
+      options: [{
+        align: 'colon',
+        ignoredNodes: ['ObjectExpression'],
+      }],
+    },
+    {
+      code: $`
+        import foo from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      options: [{
+        beforeColon: true,
+        afterColon: true,
+        align: 'colon',
+        ignoredNodes: ['ImportDeclaration'],
+      }],
+    },
+    {
+      code: $`
+        export {foo} from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      options: [{
+        beforeColon: true,
+        afterColon: true,
+        align: 'colon',
+        ignoredNodes: ['ExportNamedDeclaration'],
+      }],
+    },
+    {
+      code: $`
+        export * from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      options: [{
+        beforeColon: true,
+        afterColon: true,
+        align: 'colon',
+        ignoredNodes: ['ExportAllDeclaration'],
+      }],
+    },
   ],
   invalid: [
     {
