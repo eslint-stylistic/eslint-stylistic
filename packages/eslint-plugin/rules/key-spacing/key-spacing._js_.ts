@@ -9,6 +9,18 @@ import { getStaticPropertyName, isClosingBraceToken, isColonToken, isOpeningBrac
 import { createRule } from '#utils/create-rule'
 import { getStringLength } from '#utils/string'
 
+const listeningNodes = [
+  'ObjectExpression',
+  'ObjectPattern',
+  'ImportDeclaration',
+  'ExportNamedDeclaration',
+  'ExportAllDeclaration',
+
+  'TSTypeLiteral',
+  'TSInterfaceBody',
+  'ClassBody',
+] satisfies (keyof typeof Tree.AST_NODE_TYPES)[]
+
 /**
  * Checks whether a string contains a line terminator as defined in
  * http://www.ecma-international.org/ecma-262/5.1/#sec-7.3
@@ -132,6 +144,7 @@ function initOptions(toOptions: any, fromOptions: any) {
       }
     }
   }
+  toOptions.ignoredNodes = fromOptions.ignoredNodes || []
 
   return toOptions
 }
@@ -190,6 +203,13 @@ export default createRule<RuleOptions, MessageIds>({
             },
             afterColon: {
               type: 'boolean',
+            },
+            ignoredNodes: {
+              type: 'array',
+              items: {
+                type: 'string',
+                enum: listeningNodes,
+              },
             },
           },
           additionalProperties: false,
@@ -342,6 +362,7 @@ export default createRule<RuleOptions, MessageIds>({
     const multiLineOptions = ruleOptions.multiLine
     const singleLineOptions = ruleOptions.singleLine
     const alignmentOptions = ruleOptions.align || null
+    const ignoredNodes: Tree.AST_NODE_TYPES[] = ruleOptions.ignoredNodes
 
     const sourceCode = context.sourceCode
 
@@ -641,6 +662,8 @@ export default createRule<RuleOptions, MessageIds>({
      * @param lineOptions Configured singleLine or multiLine options
      */
     function verifySpacing(node: Tree.Property | Tree.ImportAttribute, lineOptions: { beforeColon: number, afterColon: number, mode: 'strict' | 'minimum' }) {
+      if (ignoredNodes.includes(node.parent.type))
+        return
       const actual = getPropertyWhitespace(node)
 
       if (actual) { // Object literal getters/setters lack colons
@@ -677,6 +700,8 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function verifyImportAttributes(node: Tree.ImportDeclaration | Tree.ExportNamedDeclaration | Tree.ExportAllDeclaration) {
+      if (ignoredNodes.includes(node.type))
+        return
       if (!node.attributes)
         // The old parser's AST does not have attributes.
         return
@@ -691,6 +716,8 @@ export default createRule<RuleOptions, MessageIds>({
     if (alignmentOptions) { // Verify vertical alignment
       return {
         ObjectExpression(node) {
+          if (ignoredNodes.includes(node.type))
+            return
           if (isSingleLine(node))
             verifyListSpacing(node.properties.filter(isKeyValueProperty), singleLineOptions)
           else
@@ -714,7 +741,7 @@ export default createRule<RuleOptions, MessageIds>({
         verifySpacing(node, isSingleLine(node.parent) ? singleLineOptions : multiLineOptions)
       },
       ImportAttribute(node) {
-        const parent = node.parent as Tree.ImportDeclaration | Tree.ExportNamedDeclaration | Tree.ExportAllDeclaration
+        const parent = node.parent
         verifySpacing(node, isSingleLineImportAttributes(parent, sourceCode) ? singleLineOptions : multiLineOptions)
       },
     }

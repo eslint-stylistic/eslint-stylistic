@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: En2BtZQg2T */
+/* @checksum: Vl4RUSFlaP */
 
 export type KeySpacingSchema0 =
   | {
@@ -15,6 +15,16 @@ export type KeySpacingSchema0 =
     mode?: 'strict' | 'minimum'
     beforeColon?: boolean
     afterColon?: boolean
+    ignoredNodes?: (
+      | 'ObjectExpression'
+      | 'ObjectPattern'
+      | 'ImportDeclaration'
+      | 'ExportNamedDeclaration'
+      | 'ExportAllDeclaration'
+      | 'TSTypeLiteral'
+      | 'TSInterfaceBody'
+      | 'ClassBody'
+    )[]
   }
   | {
     singleLine?: {
