@@ -1273,6 +1273,36 @@ run({
     },
     {
       code: $`
+        import foo from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      options: [{ ignoredNodes: ['ImportDeclaration'] }],
+    },
+    {
+      code: $`
+        export {foo} from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      options: [{ ignoredNodes: ['ExportNamedDeclaration'] }],
+    },
+    {
+      code: $`
+        export * from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      options: [{ ignoredNodes: ['ExportAllDeclaration'] }],
+    },
+    {
+      code: $`
         var obj = {
           'a': (42 - 12),
           foobar: 'value',
@@ -1293,8 +1323,6 @@ run({
             }
       `,
       options: [{
-        beforeColon: true,
-        afterColon: true,
         align: 'colon',
         ignoredNodes: ['ImportDeclaration'],
       }],
@@ -1308,8 +1336,6 @@ run({
             }
       `,
       options: [{
-        beforeColon: true,
-        afterColon: true,
         align: 'colon',
         ignoredNodes: ['ExportNamedDeclaration'],
       }],
@@ -1323,8 +1349,6 @@ run({
             }
       `,
       options: [{
-        beforeColon: true,
-        afterColon: true,
         align: 'colon',
         ignoredNodes: ['ExportAllDeclaration'],
       }],

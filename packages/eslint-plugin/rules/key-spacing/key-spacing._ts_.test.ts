@@ -619,6 +619,36 @@ run({
     {
       code: $`
         type X = {
+          a :number;
+          b: string;
+          c :string;
+        };
+      `,
+      options: [{ ignoredNodes: ['TSTypeLiteral'] }],
+    },
+    {
+      code: $`
+        interface X {
+          a :number;
+          b: string;
+          c :string;
+        };
+      `,
+      options: [{ ignoredNodes: ['TSInterfaceBody'] }],
+    },
+    {
+      code: $`
+        class X {
+          a :number;
+          b: string;
+          c :string;
+        };
+      `,
+      options: [{ ignoredNodes: ['ClassBody'] }],
+    },
+    {
+      code: $`
+        type X = {
           a: number;
           abc: string
         };
