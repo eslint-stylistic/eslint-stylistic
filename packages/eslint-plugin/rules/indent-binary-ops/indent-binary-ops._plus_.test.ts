@@ -407,36 +407,36 @@ it('snapshots', async () => {
   expect.soft(
     fix($`
       a = 1
-      + 2
-          + 3;
+      - 2
+          - 3;
     `),
   ).toMatchInlineSnapshot(`
       "a = 1
-        + 2
-        + 3;"
+        - 2
+        - 3;"
   `)
 
   expect.soft(
     fix($`
-      const a = 1 +
-      2 +
+      const a = 1 *
+      2 *
           3;
     `),
   ).toMatchInlineSnapshot(`
-    "const a = 1 +
-      2 +
+    "const a = 1 *
+      2 *
       3;"
   `)
 
   expect.soft(
     fix($`
-      a = 1 +
-      2 +
+      a = 1 /
+      2 /
           3;
     `),
   ).toMatchInlineSnapshot(`
-    "a = 1 +
-      2 +
+    "a = 1 /
+      2 /
       3;"
   `)
 
