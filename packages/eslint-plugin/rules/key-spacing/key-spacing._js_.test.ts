@@ -1251,6 +1251,108 @@ run({
       `,
       options: [{ align: 'colon' }],
     },
+    {
+      code: $`
+        var obj = {
+          'a': 42 - 12,
+          foobar : 'value',
+          [(expr)] :val
+        }
+      `,
+      options: [{ ignoredNodes: ['ObjectExpression'] }],
+    },
+    {
+      code: $`
+        var {
+          a: b,
+          c : d,
+          e :f,
+        } = obj
+      `,
+      options: [{ ignoredNodes: ['ObjectPattern'] }],
+    },
+    {
+      code: $`
+        import foo from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      options: [{ ignoredNodes: ['ImportDeclaration'] }],
+    },
+    {
+      code: $`
+        export {foo} from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      options: [{ ignoredNodes: ['ExportNamedDeclaration'] }],
+    },
+    {
+      code: $`
+        export * from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      options: [{ ignoredNodes: ['ExportAllDeclaration'] }],
+    },
+    {
+      code: $`
+        var obj = {
+          'a': (42 - 12),
+          foobar: 'value',
+          [(expr)]: val
+        }
+      `,
+      options: [{
+        align: 'colon',
+        ignoredNodes: ['ObjectExpression'],
+      }],
+    },
+    {
+      code: $`
+        import foo from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      options: [{
+        align: 'colon',
+        ignoredNodes: ['ImportDeclaration'],
+      }],
+    },
+    {
+      code: $`
+        export {foo} from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      options: [{
+        align: 'colon',
+        ignoredNodes: ['ExportNamedDeclaration'],
+      }],
+    },
+    {
+      code: $`
+        export * from "./foo" with
+            {
+              type : "json",
+              foo : "bar"
+            }
+      `,
+      options: [{
+        align: 'colon',
+        ignoredNodes: ['ExportAllDeclaration'],
+      }],
+    },
   ],
   invalid: [
     {
