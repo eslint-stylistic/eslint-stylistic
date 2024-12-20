@@ -94,7 +94,15 @@ export default createRule<RuleOptions, MessageIds>({
                 type: 'boolean',
               },
               allowTemplateLiterals: {
-                type: 'boolean',
+                anyOf: [
+                  {
+                    type: 'boolean',
+                  },
+                  {
+                    type: 'string',
+                    enum: ['never', 'avoidEscape', 'always'],
+                  },
+                ],
               },
               ignoreStringLiterals: {
                 type: 'boolean',
@@ -115,14 +123,26 @@ export default createRule<RuleOptions, MessageIds>({
     const quoteOption = context.options[0]
     const settings = QUOTE_SETTINGS[quoteOption || 'double']
     const options = context.options[1]
-    const allowTemplateLiterals = options && typeof (options) === 'object' && options.allowTemplateLiterals === true
-    const ignoreStringLiterals = options && typeof (options) === 'object' && options.ignoreStringLiterals === true
     const sourceCode = context.sourceCode
-    let avoidEscape = options && typeof (options) === 'object' && options.avoidEscape === true
-
-    // deprecated
-    if (options === AVOID_ESCAPE)
+    let avoidEscape = false
+    let ignoreStringLiterals = false
+    let allowTemplateLiteralsAlways = false
+    let allowTemplateLiteralsToAvoidEscape = false
+    if (typeof (options) === 'object') {
+      avoidEscape = options.avoidEscape === true
+      ignoreStringLiterals = options.ignoreStringLiterals === true
+      if (typeof (options.allowTemplateLiterals) === 'string') {
+        allowTemplateLiteralsAlways = options.allowTemplateLiterals === 'always'
+        allowTemplateLiteralsToAvoidEscape = allowTemplateLiteralsAlways || options.allowTemplateLiterals === 'avoidEscape'
+      }
+      else if (typeof (options.allowTemplateLiterals) === 'boolean') {
+        allowTemplateLiteralsAlways = options.allowTemplateLiterals === true
+        allowTemplateLiteralsToAvoidEscape = options.allowTemplateLiterals === true
+      }
+    }
+    else if (options === AVOID_ESCAPE) { // deprecated
       avoidEscape = true
+    }
 
     /**
      * Determines if a given node is part of JSX syntax.
@@ -316,14 +336,14 @@ export default createRule<RuleOptions, MessageIds>({
       TemplateLiteral(node) {
         // Don't throw an error if backticks are expected or a template literal feature is in use.
         if (
-          allowTemplateLiterals
+          allowTemplateLiteralsAlways
           || quoteOption === 'backtick'
           || isUsingFeatureOfTemplateLiteral(node)
         ) {
           return
         }
 
-        if (allowTemplateLiterals && avoidEscape && sourceCode.getText(node).includes(settings.quote))
+        if (allowTemplateLiteralsToAvoidEscape && avoidEscape && sourceCode.getText(node).includes(settings.quote))
           return
 
         context.report({
