@@ -308,8 +308,6 @@ var obj = {
 
 :::
 
-:::
-
 ### ignoredNodes
 
 The "ignoredNodes" object property is optional (default: []).
