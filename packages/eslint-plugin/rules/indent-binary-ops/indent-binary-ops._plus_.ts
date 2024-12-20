@@ -1,6 +1,7 @@
 import type { ASTNode } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'indent-binary-ops',
@@ -83,6 +84,11 @@ export default createRule<RuleOptions, MessageIds>({
       return openBracketCount < closeBracketCount
     }
 
+    // https://github.com/estree/estree/blob/master/es5.md#assignmentoperator
+    // https://github.com/estree/estree/blob/master/es2016.md#assignmentoperator
+    // https://github.com/estree/estree/blob/master/es2021.md#assignmentoperator
+    const ASSIGNMENT_OPERATOR = ['=', '+=', '-=', '*=', '/=', '%=', '<<=', '>>=', '>>>=', '|=', '^=', '&=', '**=', '||=', '&&=', '??=']
+
     function handler(node: ASTNode, right: ASTNode) {
       if (node.loc.start.line === node.loc.end.line)
         return
@@ -112,11 +118,13 @@ export default createRule<RuleOptions, MessageIds>({
         || (firstTokenOfLineLeft?.type === 'Keyword' && !['typeof', 'instanceof', 'this'].includes(firstTokenOfLineLeft.value))
         // First line is a `type` keyword in a type alias declaration
         || (firstTokenOfLineLeft?.type === 'Identifier' && firstTokenOfLineLeft.value === 'type' && node.parent?.type === 'TSTypeAliasDeclaration')
-      // End of line is a opening bracket
-        || [':', '[', '(', '<', '='].includes(lastTokenOfLineLeft?.value || '')
-      // Before the left token is a opening bracket
-        || (['[', '(', '=>', ':'].includes(tokenBeforeAll?.value || '') && firstTokenOfLineLeft?.loc.start.line === tokenBeforeAll?.loc.start.line)
-      // Chain of `||` or `&&` operators
+        // End of line is a opening bracket (`[`, `(`),
+        //  or the expression is an assignment
+        || [':', '[', '(', '<'].concat(ASSIGNMENT_OPERATOR).includes(lastTokenOfLineLeft?.value || '')
+        // Before the left token is a opening bracket (`[`, `(`),
+        //  or the expression is an assignment
+        || (['[', '(', '=>', ':'].concat(ASSIGNMENT_OPERATOR).includes(tokenBeforeAll?.value || '') && firstTokenOfLineLeft?.loc.start.line === tokenBeforeAll?.loc.start.line)
+        // Chain of `||` or `&&` operators
         || (['||', '&&'].includes(lastTokenOfLineLeft?.value || '') && node.loc.start.line === tokenLeft.loc.start.line && node.loc.start.column !== getIndentOfLine(node.loc.start.line).length)
 
       const needSubtractionIndent = false
