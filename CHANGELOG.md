@@ -1,5 +1,17 @@
 # Changelog
 
+## [2.13.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.12.1...v2.13.0) (2024-12-20)
+
+
+### Features
+
+* **key-spacing:** add ignoredNodes option ([#640](https://github.com/eslint-stylistic/eslint-stylistic/issues/640)) ([33ae1f6](https://github.com/eslint-stylistic/eslint-stylistic/commit/33ae1f6fbeb15f36967998fe566b74df7db8d3d5))
+
+
+### Documentation
+
+* **indent:** fix incorrect option description ([#638](https://github.com/eslint-stylistic/eslint-stylistic/issues/638)) ([d427d47](https://github.com/eslint-stylistic/eslint-stylistic/commit/d427d47c430b5d9db90349438eaaa2c30b083511))
+
 ## [2.12.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.12.0...v2.12.1) (2024-12-11)
 
 
