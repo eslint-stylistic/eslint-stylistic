@@ -25,6 +25,11 @@ export const DECIMAL_INTEGER_PATTERN = /^(?:0|0[0-7]*[89]\d*|[1-9](?:_?\d)*)$/u
 // Tests the presence of at least one LegacyOctalEscapeSequence or NonOctalDecimalEscapeSequence in a raw string
 export const OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN = /^(?:[^\\]|\\.)*\\(?:[1-9]|0\d)/su
 
+// https://github.com/estree/estree/blob/master/es5.md#assignmentoperator
+// https://github.com/estree/estree/blob/master/es2016.md#assignmentoperator
+// https://github.com/estree/estree/blob/master/es2021.md#assignmentoperator
+export const ASSIGNMENT_OPERATOR = ['=', '+=', '-=', '*=', '/=', '%=', '<<=', '>>=', '>>>=', '|=', '^=', '&=', '**=', '||=', '&&=', '??=']
+
 /**
  * Creates a version of the `lineBreakPattern` regex with the global flag.
  * Global regexes are mutable, so this needs to be a function instead of a constant.

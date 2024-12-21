@@ -1,5 +1,6 @@
 import type { ASTNode } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { ASSIGNMENT_OPERATOR } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -82,11 +83,6 @@ export default createRule<RuleOptions, MessageIds>({
       }
       return openBracketCount < closeBracketCount
     }
-
-    // https://github.com/estree/estree/blob/master/es5.md#assignmentoperator
-    // https://github.com/estree/estree/blob/master/es2016.md#assignmentoperator
-    // https://github.com/estree/estree/blob/master/es2021.md#assignmentoperator
-    const ASSIGNMENT_OPERATOR = ['=', '+=', '-=', '*=', '/=', '%=', '<<=', '>>=', '>>>=', '|=', '^=', '&=', '**=', '||=', '&&=', '??=']
 
     function handler(node: ASTNode, right: ASTNode) {
       if (node.loc.start.line === node.loc.end.line)
