@@ -64,7 +64,7 @@ export default createRule<RuleOptions, MessageIds>({
     function hasLeadingSpace(token: Token) {
       const tokenBefore = sourceCode.getTokenBefore(token)
 
-      return tokenBefore && isTokenOnSameLine(tokenBefore, token) && sourceCode.isSpaceBetweenTokens(tokenBefore, token)
+      return tokenBefore && isTokenOnSameLine(tokenBefore, token) && sourceCode.isSpaceBetween(tokenBefore, token)
     }
 
     /**
@@ -75,7 +75,7 @@ export default createRule<RuleOptions, MessageIds>({
     function hasTrailingSpace(token: Token) {
       const tokenAfter = sourceCode.getTokenAfter(token)
 
-      return tokenAfter && isTokenOnSameLine(token, tokenAfter) && sourceCode.isSpaceBetweenTokens(token, tokenAfter)
+      return tokenAfter && isTokenOnSameLine(token, tokenAfter) && sourceCode.isSpaceBetween(token, tokenAfter)
     }
 
     /**
