@@ -116,8 +116,6 @@ export default createRule<RuleOptions, MessageIds>({
         || [':', '[', '(', '<', '='].includes(lastTokenOfLineLeft?.value || '')
       // Before the left token is a opening bracket
         || (['[', '(', '=>', ':'].includes(tokenBeforeAll?.value || '') && firstTokenOfLineLeft?.loc.start.line === tokenBeforeAll?.loc.start.line)
-      // Chain of `||` or `&&` operators
-        || (['||', '&&'].includes(lastTokenOfLineLeft?.value || '') && node.loc.start.line === tokenLeft.loc.start.line && node.loc.start.column !== getIndentOfLine(node.loc.start.line).length)
 
       const needSubtractionIndent = false
         // End of line is a closing bracket
