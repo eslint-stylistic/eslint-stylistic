@@ -83,10 +83,6 @@ export default createRule<RuleOptions, MessageIds>({
       return openBracketCount < closeBracketCount
     }
 
-    // https://github.com/estree/estree/blob/master/es5.md#logicaloperator
-    // https://github.com/estree/estree/blob/master/es2020.md#logicalexpression
-    const LOGICAL_OPERATOR = ['||', '&&', '??']
-
     function handler(node: ASTNode, right: ASTNode) {
       if (node.loc.start.line === node.loc.end.line)
         return
@@ -120,8 +116,6 @@ export default createRule<RuleOptions, MessageIds>({
         || [':', '[', '(', '<', '='].includes(lastTokenOfLineLeft?.value || '')
       // Before the left token is a opening bracket
         || (['[', '(', '=>', ':'].includes(tokenBeforeAll?.value || '') && firstTokenOfLineLeft?.loc.start.line === tokenBeforeAll?.loc.start.line)
-      // Chain of `||` or `&&` operators
-        || (LOGICAL_OPERATOR.includes(lastTokenOfLineLeft?.value || '') && node.loc.start.line === tokenLeft.loc.start.line && node.loc.start.column !== getIndentOfLine(node.loc.start.line).length)
 
       const needSubtractionIndent = false
         // End of line is a closing bracket
