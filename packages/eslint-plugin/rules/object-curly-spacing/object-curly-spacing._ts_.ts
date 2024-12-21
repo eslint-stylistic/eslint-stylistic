@@ -160,10 +160,10 @@ export default createRule<RuleOptions, MessageIds>({
 
         const openingCurlyBraceMustBeSpaced
           = options.arraysInObjectsException
-          && [
-            AST_NODE_TYPES.TSMappedType,
-            AST_NODE_TYPES.TSIndexSignature,
-          ].includes(secondType)
+            && [
+              AST_NODE_TYPES.TSMappedType,
+              AST_NODE_TYPES.TSIndexSignature,
+            ].includes(secondType)
             ? !options.spaced
             : options.spaced
 

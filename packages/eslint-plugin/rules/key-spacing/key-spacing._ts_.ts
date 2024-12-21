@@ -166,9 +166,9 @@ export default createRule<RuleOptions, MessageIds>({
       })!.loc.start.column
       const difference
         = typeStart
-        - colonToken.loc.start.column
-        - 1
-        - expectedWhitespaceAfterColon
+          - colonToken.loc.start.column
+          - 1
+          - expectedWhitespaceAfterColon
       if (mode === 'strict' ? difference : difference < 0) {
         context.report({
           node,

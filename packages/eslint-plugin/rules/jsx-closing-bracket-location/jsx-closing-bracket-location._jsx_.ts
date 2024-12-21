@@ -295,7 +295,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (correctColumn !== null) {
           expectedNextLine = tokens.lastProp
-          && ((tokens.lastProp as LastPropLocation).lastLine === tokens.closing.line)
+            && ((tokens.lastProp as LastPropLocation).lastLine === tokens.closing.line)
           data.details = ` (expected column ${correctColumn + 1}${expectedNextLine ? ' on the next line)' : ')'}`
         }
 
