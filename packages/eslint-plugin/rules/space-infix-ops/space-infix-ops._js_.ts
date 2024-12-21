@@ -55,7 +55,7 @@ export default createRule<RuleOptions, MessageIds>({
       const prev = sourceCode.getTokenBefore(operator)!
       const next = sourceCode.getTokenAfter(operator)!
 
-      if (!sourceCode.isSpaceBetweenTokens(prev, operator) || !sourceCode.isSpaceBetweenTokens(operator, next))
+      if (!sourceCode.isSpaceBetween(prev, operator) || !sourceCode.isSpaceBetween(operator, next))
         return operator
       return null
     }
@@ -175,8 +175,8 @@ export default createRule<RuleOptions, MessageIds>({
         const rightToken = sourceCode.getTokenAfter(operatorToken)!
 
         if (
-          !sourceCode.isSpaceBetweenTokens(leftToken, operatorToken)
-          || !sourceCode.isSpaceBetweenTokens(operatorToken, rightToken)
+          !sourceCode.isSpaceBetween(leftToken, operatorToken)
+          || !sourceCode.isSpaceBetween(operatorToken, rightToken)
         ) {
           report(node, operatorToken)
         }

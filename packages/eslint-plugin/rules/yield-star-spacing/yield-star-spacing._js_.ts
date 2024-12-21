@@ -69,7 +69,7 @@ export default createRule<RuleOptions, MessageIds>({
      *     token if side is "after".
      */
     function checkSpacing(side: 'before' | 'after', leftToken: Token, rightToken: Token) {
-      if (sourceCode.isSpaceBetweenTokens(leftToken, rightToken) !== mode[side]) {
+      if (sourceCode.isSpaceBetween(leftToken, rightToken) !== mode[side]) {
         const after = leftToken.value === '*'
         const spaceRequired = mode[side]
         const node = after ? leftToken : rightToken

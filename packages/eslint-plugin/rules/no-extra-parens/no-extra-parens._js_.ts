@@ -376,7 +376,7 @@ export default createRule<RuleOptions, MessageIds>({
       const tokenBeforeRightParen = sourceCode.getLastToken(node)!
 
       return rightParenToken && tokenAfterRightParen
-        && !sourceCode.isSpaceBetweenTokens(rightParenToken, tokenAfterRightParen)
+        && !sourceCode.isSpaceBetween(rightParenToken, tokenAfterRightParen)
         && !canTokensBeAdjacent(tokenBeforeRightParen, tokenAfterRightParen)
     }
 

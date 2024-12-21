@@ -38,7 +38,7 @@ function validateClosingSlash(
   if ('selfClosing' in node && node.selfClosing) {
     const lastTokens = sourceCode.getLastTokens(node, 2)
 
-    adjacent = !sourceCode.isSpaceBetweenTokens(lastTokens[0], lastTokens[1])
+    adjacent = !sourceCode.isSpaceBetween(lastTokens[0], lastTokens[1])
 
     if (option === 'never') {
       if (!adjacent) {
@@ -72,7 +72,7 @@ function validateClosingSlash(
   else {
     const firstTokens = sourceCode.getFirstTokens(node, 2)
 
-    adjacent = !sourceCode.isSpaceBetweenTokens(firstTokens[0], firstTokens[1])
+    adjacent = !sourceCode.isSpaceBetween(firstTokens[0], firstTokens[1])
 
     if (option === 'never') {
       if (!adjacent) {
@@ -131,7 +131,7 @@ function validateBeforeSelfClosing(
   if (leftToken.loc.end.line !== closingSlash.loc.start.line)
     return
 
-  const adjacent = !sourceCode.isSpaceBetweenTokens(leftToken as unknown as Token, closingSlash)
+  const adjacent = !sourceCode.isSpaceBetween(leftToken as unknown as Token, closingSlash)
 
   if ((option === 'always' || option === 'proportional-always') && adjacent) {
     context.report({
@@ -169,7 +169,7 @@ function validateAfterOpening(
       return
   }
 
-  const adjacent = !sourceCode.isSpaceBetweenTokens(openingToken, node.name as unknown as Token)
+  const adjacent = !sourceCode.isSpaceBetween(openingToken, node.name as unknown as Token)
 
   if (option === 'never' || option === 'allow-multiline') {
     if (!adjacent) {
@@ -231,7 +231,7 @@ function validateBeforeClosing(
     if (leftToken.loc.start.line !== closingToken.loc.start.line)
       return
 
-    const adjacent = !sourceCode.isSpaceBetweenTokens(leftToken as unknown as Token, closingToken)
+    const adjacent = !sourceCode.isSpaceBetween(leftToken as unknown as Token, closingToken)
 
     if (option === 'never' && !adjacent) {
       context.report({

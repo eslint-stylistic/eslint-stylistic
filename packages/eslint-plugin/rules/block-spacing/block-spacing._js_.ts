@@ -68,7 +68,7 @@ export default createRule<RuleOptions, MessageIds>({
     function isValid(left: Token, right: Token): boolean {
       return (
         !isTokenOnSameLine(left, right)
-        || sourceCode.isSpaceBetweenTokens(left, right) === always
+        || sourceCode.isSpaceBetween(left, right) === always
       )
     }
 

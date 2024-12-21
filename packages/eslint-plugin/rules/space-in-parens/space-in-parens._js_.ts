@@ -132,7 +132,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns True if the opening paren is missing a required space
      */
     function openerMissingSpace(openingParenToken: Token, tokenAfterOpeningParen: Token) {
-      if (sourceCode.isSpaceBetweenTokens(openingParenToken, tokenAfterOpeningParen))
+      if (sourceCode.isSpaceBetween(openingParenToken, tokenAfterOpeningParen))
         return false
 
       if (!options.empty && isClosingParenToken(tokenAfterOpeningParen))
@@ -157,7 +157,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (tokenAfterOpeningParen.type === 'Line')
         return false
 
-      if (!sourceCode.isSpaceBetweenTokens(openingParenToken, tokenAfterOpeningParen))
+      if (!sourceCode.isSpaceBetween(openingParenToken, tokenAfterOpeningParen))
         return false
 
       if (ALWAYS)
@@ -173,7 +173,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns True if the closing paren is missing a required space
      */
     function closerMissingSpace(tokenBeforeClosingParen: Token, closingParenToken: Token) {
-      if (sourceCode.isSpaceBetweenTokens(tokenBeforeClosingParen, closingParenToken))
+      if (sourceCode.isSpaceBetween(tokenBeforeClosingParen, closingParenToken))
         return false
 
       if (!options.empty && isOpeningParenToken(tokenBeforeClosingParen))
@@ -195,7 +195,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (!isTokenOnSameLine(tokenBeforeClosingParen, closingParenToken))
         return false
 
-      if (!sourceCode.isSpaceBetweenTokens(tokenBeforeClosingParen, closingParenToken))
+      if (!sourceCode.isSpaceBetween(tokenBeforeClosingParen, closingParenToken))
         return false
 
       if (ALWAYS)

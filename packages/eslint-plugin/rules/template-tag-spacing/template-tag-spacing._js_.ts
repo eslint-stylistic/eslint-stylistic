@@ -43,7 +43,7 @@ export default createRule<RuleOptions, MessageIds>({
     function checkSpacing(node: Tree.TaggedTemplateExpression) {
       const tagToken = sourceCode.getTokenBefore(node.quasi)!
       const literalToken = sourceCode.getFirstToken(node.quasi)!
-      const hasWhitespace = sourceCode.isSpaceBetweenTokens(tagToken, literalToken)
+      const hasWhitespace = sourceCode.isSpaceBetween(tagToken, literalToken)
 
       if (never && hasWhitespace) {
         context.report({

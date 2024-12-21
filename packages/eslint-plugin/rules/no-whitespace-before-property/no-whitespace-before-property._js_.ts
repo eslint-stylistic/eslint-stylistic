@@ -85,7 +85,7 @@ export default createRule<RuleOptions, MessageIds>({
           leftToken = sourceCode.getTokenBefore(rightToken, 1)!
         }
 
-        if (sourceCode.isSpaceBetweenTokens(leftToken, rightToken))
+        if (sourceCode.isSpaceBetween(leftToken, rightToken))
           reportError(node, leftToken, rightToken)
       },
     }
