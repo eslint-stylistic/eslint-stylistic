@@ -47,6 +47,45 @@ run({
         foo()
       }
     `,
+    $`
+      type Foo = Pick<Bar,
+        Baz
+        | Qux,
+      >;
+    `,
+    $`
+      type Foo = [Bar,
+        Baz
+        | Qux,
+      ];
+    `,
+    $`
+      type Foo = { x: Foo,
+        y: Baz
+          | Quz
+      };
+    `,
+    $`
+      type Foo = Pick<Bar
+        | Baz,
+        Baz
+        | Qux,
+      >;
+    `,
+    $`
+      type Foo = [Bar
+        | Baz,
+        Baz
+        | Qux,
+      ];
+    `,
+    $`
+      type Foo = { x: Foo
+        | Baz,
+        y: Baz
+          | Quz
+      };
+    `,
   ],
   invalid: [],
 })
@@ -365,5 +404,95 @@ it('snapshots', async () => {
       } & {
         c: string;
       });"
+  `)
+
+  expect.soft(
+    fix($`
+      type Foo = Pick<Bar,
+      Baz
+          | Qux,
+      >;
+    `),
+  ).toMatchInlineSnapshot(`
+    "type Foo = Pick<Bar,
+      Baz
+      | Qux,
+    >;"
+    `)
+
+  expect.soft(
+    fix($`
+      type Foo = [Bar,
+      Baz
+            | Qux,
+      ];
+    `),
+  ).toMatchInlineSnapshot(`
+    "type Foo = [Bar,
+      Baz
+      | Qux,
+    ];"
+  `)
+
+  expect.soft(
+    fix($`
+      type Foo = { x: Foo,
+        y: Baz
+        | Quz
+      };
+    `),
+  ).toMatchInlineSnapshot(`
+    "type Foo = { x: Foo,
+      y: Baz
+        | Quz
+    };"
+  `)
+
+  expect.soft(
+    fix($`
+      type Foo = Pick<Bar
+      | Baz,
+      Baz
+          | Qux,
+      >;
+    `),
+  ).toMatchInlineSnapshot(`
+    "type Foo = Pick<Bar
+      | Baz,
+      Baz
+      | Qux,
+    >;"
+    `)
+
+  expect.soft(
+    fix($`
+      type Foo = [Bar
+      | Baz,
+      Baz
+            | Qux,
+      ];
+    `),
+  ).toMatchInlineSnapshot(`
+    "type Foo = [Bar
+      | Baz,
+      Baz
+      | Qux,
+    ];"
+  `)
+
+  expect.soft(
+    fix($`
+      type Foo = { x: Foo
+      | Baz,
+        y: Baz
+        | Quz
+      };
+    `),
+  ).toMatchInlineSnapshot(`
+    "type Foo = { x: Foo
+      | Baz,
+      y: Baz
+        | Quz
+    };"
   `)
 })

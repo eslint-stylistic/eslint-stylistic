@@ -157,7 +157,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function validateBraceSpacing(node: ASTNode, first: Token, second: Token, penultimate: Token, last: Token) {
       if (isTokenOnSameLine(first, second)) {
-        const firstSpaced = sourceCode.isSpaceBetweenTokens(first, second)
+        const firstSpaced = sourceCode.isSpaceBetween(first, second)
 
         if (options.spaced && !firstSpaced)
           reportRequiredBeginningSpace(node, first)
@@ -178,7 +178,7 @@ export default createRule<RuleOptions, MessageIds>({
           || options.objectsInObjectsException && (penultimateType === 'ObjectExpression' || penultimateType === 'ObjectPattern')
         ) ? !options.spaced : options.spaced
 
-        const lastSpaced = sourceCode.isSpaceBetweenTokens(penultimate, last)
+        const lastSpaced = sourceCode.isSpaceBetween(penultimate, last)
 
         if (closingCurlyBraceMustBeSpaced && !lastSpaced)
           reportRequiredEndingSpace(node, last)

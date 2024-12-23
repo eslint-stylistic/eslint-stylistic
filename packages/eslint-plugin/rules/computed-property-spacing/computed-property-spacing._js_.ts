@@ -153,22 +153,22 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (isTokenOnSameLine(before, first)) {
           if (propertyNameMustBeSpaced) {
-            if (!sourceCode.isSpaceBetweenTokens(before, first) && isTokenOnSameLine(before, first))
+            if (!sourceCode.isSpaceBetween(before, first) && isTokenOnSameLine(before, first))
               reportRequiredBeginningSpace(node, before)
           }
           else {
-            if (sourceCode.isSpaceBetweenTokens(before, first))
+            if (sourceCode.isSpaceBetween(before, first))
               reportNoBeginningSpace(node, before, first)
           }
         }
 
         if (isTokenOnSameLine(last, after)) {
           if (propertyNameMustBeSpaced) {
-            if (!sourceCode.isSpaceBetweenTokens(last, after) && isTokenOnSameLine(last, after))
+            if (!sourceCode.isSpaceBetween(last, after) && isTokenOnSameLine(last, after))
               reportRequiredEndingSpace(node, after)
           }
           else {
-            if (sourceCode.isSpaceBetweenTokens(last, after))
+            if (sourceCode.isSpaceBetween(last, after))
               reportNoEndingSpace(node, after, last)
           }
         }
