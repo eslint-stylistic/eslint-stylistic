@@ -47,7 +47,7 @@ export default createRule<RuleOptions, MessageIds>({
     ) {
       const operator = sourceCode.getFirstToken(node)!
       const nextToken = sourceCode.getTokenAfter(operator)!
-      const hasWhitespace = sourceCode.isSpaceBetweenTokens(operator, nextToken)
+      const hasWhitespace = sourceCode.isSpaceBetween(operator, nextToken)
       let type
 
       switch (node.type) {

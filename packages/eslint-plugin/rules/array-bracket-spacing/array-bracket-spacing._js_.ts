@@ -199,18 +199,18 @@ export default createRule<RuleOptions, MessageIds>({
                   ? !options.spaced : options.spaced
 
       if (isTokenOnSameLine(first, second)) {
-        if (openingBracketMustBeSpaced && !sourceCode.isSpaceBetweenTokens(first, second))
+        if (openingBracketMustBeSpaced && !sourceCode.isSpaceBetween(first, second))
           reportRequiredBeginningSpace(node, first)
 
-        if (!openingBracketMustBeSpaced && sourceCode.isSpaceBetweenTokens(first, second))
+        if (!openingBracketMustBeSpaced && sourceCode.isSpaceBetween(first, second))
           reportNoBeginningSpace(node, first)
       }
 
       if (first !== penultimate && isTokenOnSameLine(penultimate, last)) {
-        if (closingBracketMustBeSpaced && !sourceCode.isSpaceBetweenTokens(penultimate, last))
+        if (closingBracketMustBeSpaced && !sourceCode.isSpaceBetween(penultimate, last))
           reportRequiredEndingSpace(node, last)
 
-        if (!closingBracketMustBeSpaced && sourceCode.isSpaceBetweenTokens(penultimate, last))
+        if (!closingBracketMustBeSpaced && sourceCode.isSpaceBetween(penultimate, last))
           reportNoEndingSpace(node, last)
       }
     }

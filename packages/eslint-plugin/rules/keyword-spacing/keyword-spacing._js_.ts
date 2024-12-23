@@ -108,7 +108,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !isOpenParenOfTemplate(prevToken)
         && !tokensToIgnore.has(prevToken)
         && isTokenOnSameLine(prevToken, token)
-        && !sourceCode.isSpaceBetweenTokens(prevToken, token)
+        && !sourceCode.isSpaceBetween(prevToken, token)
       ) {
         context.report({
           loc: token.loc,
@@ -135,7 +135,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !isOpenParenOfTemplate(prevToken)
         && !tokensToIgnore.has(prevToken)
         && isTokenOnSameLine(prevToken, token)
-        && sourceCode.isSpaceBetweenTokens(prevToken, token)
+        && sourceCode.isSpaceBetween(prevToken, token)
       ) {
         context.report({
           loc: { start: prevToken.loc.end, end: token.loc.start },
@@ -162,7 +162,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !isCloseParenOfTemplate(nextToken)
         && !tokensToIgnore.has(nextToken)
         && isTokenOnSameLine(token, nextToken)
-        && !sourceCode.isSpaceBetweenTokens(token, nextToken)
+        && !sourceCode.isSpaceBetween(token, nextToken)
       ) {
         context.report({
           loc: token.loc,
@@ -189,7 +189,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !isCloseParenOfTemplate(nextToken)
         && !tokensToIgnore.has(nextToken)
         && isTokenOnSameLine(token, nextToken)
-        && sourceCode.isSpaceBetweenTokens(token, nextToken)
+        && sourceCode.isSpaceBetween(token, nextToken)
       ) {
         context.report({
           loc: { start: token.loc.end, end: nextToken.loc.start },

@@ -130,7 +130,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       const rightToken = sourceCode.getFirstToken(node, isOpeningParenToken)!
       const leftToken = sourceCode.getTokenBefore(rightToken)!
-      const hasSpacing = sourceCode.isSpaceBetweenTokens(leftToken, rightToken)
+      const hasSpacing = sourceCode.isSpaceBetween(leftToken, rightToken)
 
       if (hasSpacing && functionConfig === 'never') {
         context.report({
