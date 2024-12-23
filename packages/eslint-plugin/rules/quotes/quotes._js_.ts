@@ -135,7 +135,7 @@ export default createRule<RuleOptions, MessageIds>({
         allowTemplateLiteralsAlways = options.allowTemplateLiterals === 'always'
         allowTemplateLiteralsToAvoidEscape = allowTemplateLiteralsAlways || options.allowTemplateLiterals === 'avoidEscape'
       }
-      else if (typeof (options.allowTemplateLiterals) === 'boolean') {
+      else if (typeof (options.allowTemplateLiterals) === 'boolean') { // deprecated
         allowTemplateLiteralsAlways = options.allowTemplateLiterals === true
         allowTemplateLiteralsToAvoidEscape = options.allowTemplateLiterals === true
       }
