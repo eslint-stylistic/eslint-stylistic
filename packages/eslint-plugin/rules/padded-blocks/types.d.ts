@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: ek9SNYoFAT */
+/* @checksum: yjIw8dIIpG */
 
 export type PaddedBlocksSchema0 =
   | ('always' | 'never' | 'start' | 'end')
@@ -20,4 +20,4 @@ export type PaddedBlocksRuleOptions = [
 ]
 
 export type RuleOptions = PaddedBlocksRuleOptions
-export type MessageIds = 'alwaysPadBlock' | 'neverPadBlock'
+export type MessageIds = 'missingPadBlock' | 'extraPadBlock'

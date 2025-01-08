@@ -60,8 +60,8 @@ export default createRule<RuleOptions, MessageIds>({
     ],
 
     messages: {
-      alwaysPadBlock: 'Block must be padded by blank lines.',
-      neverPadBlock: 'Block must not be padded by blank lines.',
+      missingPadBlock: 'Block must be padded by blank lines.',
+      extraPadBlock: 'Block must not be padded by blank lines.',
     },
   },
   create(context) {
@@ -202,7 +202,7 @@ export default createRule<RuleOptions, MessageIds>({
             fix(fixer) {
               return fixer.replaceTextRange([tokenBeforeFirst.range[1], firstBlockToken.range[0] - firstBlockToken.loc.start.column], '\n')
             },
-            messageId: 'neverPadBlock',
+            messageId: 'extraPadBlock',
           })
         }
       }
@@ -217,7 +217,7 @@ export default createRule<RuleOptions, MessageIds>({
             fix(fixer) {
               return fixer.insertTextAfter(tokenBeforeFirst, '\n')
             },
-            messageId: 'alwaysPadBlock',
+            messageId: 'missingPadBlock',
           })
         }
       }
@@ -230,7 +230,7 @@ export default createRule<RuleOptions, MessageIds>({
               end: tokenAfterLast.loc.start,
               start: lastBlockToken.loc.end,
             },
-            messageId: 'neverPadBlock',
+            messageId: 'extraPadBlock',
             fix(fixer) {
               return fixer.replaceTextRange([lastBlockToken.range[1], tokenAfterLast.range[0] - tokenAfterLast.loc.start.column], '\n')
             },
@@ -248,7 +248,7 @@ export default createRule<RuleOptions, MessageIds>({
             fix(fixer) {
               return fixer.insertTextBefore(tokenAfterLast, '\n')
             },
-            messageId: 'alwaysPadBlock',
+            messageId: 'missingPadBlock',
           })
         }
       }
