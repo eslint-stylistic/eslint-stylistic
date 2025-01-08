@@ -4,9 +4,12 @@
  */
 
 import type { ASTNode, Token, Tree } from '#types'
-import type { MessageIds, RuleOptions } from './types'
+import type { MessageIds, PaddedBlocksSchema0, RuleOptions } from './types'
 import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+
+const OPTION_ENUMS = ['always', 'never', 'start', 'end']
+type OptionSchema = Extract<PaddedBlocksSchema0, object>
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'padded-blocks',
@@ -22,22 +25,22 @@ export default createRule<RuleOptions, MessageIds>({
         oneOf: [
           {
             type: 'string',
-            enum: ['always', 'never'],
+            enum: OPTION_ENUMS,
           },
           {
             type: 'object',
             properties: {
               blocks: {
                 type: 'string',
-                enum: ['always', 'never'],
+                enum: OPTION_ENUMS,
               },
               switches: {
                 type: 'string',
-                enum: ['always', 'never'],
+                enum: OPTION_ENUMS,
               },
               classes: {
                 type: 'string',
-                enum: ['always', 'never'],
+                enum: OPTION_ENUMS,
               },
             },
             additionalProperties: false,
@@ -62,30 +65,19 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   create(context) {
-    const options: Record<string, boolean> = {}
+    const options: OptionSchema = {}
     const typeOptions = context.options[0] || 'always'
     const exceptOptions = context.options[1] || {}
 
     if (typeof typeOptions === 'string') {
-      const shouldHavePadding = typeOptions === 'always'
-
-      options.blocks = shouldHavePadding
-      options.switches = shouldHavePadding
-      options.classes = shouldHavePadding
+      options.blocks = typeOptions
+      options.switches = typeOptions
+      options.classes = typeOptions
     }
     else {
-      if (Object.prototype.hasOwnProperty.call(typeOptions, 'blocks'))
-        options.blocks = typeOptions.blocks === 'always'
-
-      if (Object.prototype.hasOwnProperty.call(typeOptions, 'switches'))
-        options.switches = typeOptions.switches === 'always'
-
-      if (Object.prototype.hasOwnProperty.call(typeOptions, 'classes'))
-        options.classes = typeOptions.classes === 'always'
+      Object.assign(options, typeOptions)
     }
-
-    if (Object.prototype.hasOwnProperty.call(exceptOptions, 'allowSingleLineBlocks'))
-      options.allowSingleLineBlocks = exceptOptions.allowSingleLineBlocks === true
+    exceptOptions.allowSingleLineBlocks ??= false
 
     const sourceCode = context.sourceCode
 
@@ -194,39 +186,13 @@ export default createRule<RuleOptions, MessageIds>({
       const blockHasTopPadding = isPaddingBetweenTokens(tokenBeforeFirst, firstBlockToken)
       const blockHasBottomPadding = isPaddingBetweenTokens(lastBlockToken, tokenAfterLast)
 
-      if (options.allowSingleLineBlocks && isTokenOnSameLine(tokenBeforeFirst, tokenAfterLast))
+      if (exceptOptions.allowSingleLineBlocks && isTokenOnSameLine(tokenBeforeFirst, tokenAfterLast))
         return
 
-      if (requirePaddingFor(node)) {
-        if (!blockHasTopPadding) {
-          context.report({
-            node,
-            loc: {
-              start: tokenBeforeFirst.loc.start,
-              end: firstBlockToken.loc.start,
-            },
-            fix(fixer) {
-              return fixer.insertTextAfter(tokenBeforeFirst, '\n')
-            },
-            messageId: 'alwaysPadBlock',
-          })
-        }
-        if (!blockHasBottomPadding) {
-          context.report({
-            node,
-            loc: {
-              end: tokenAfterLast.loc.start,
-              start: lastBlockToken.loc.end,
-            },
-            fix(fixer) {
-              return fixer.insertTextBefore(tokenAfterLast, '\n')
-            },
-            messageId: 'alwaysPadBlock',
-          })
-        }
-      }
-      else {
-        if (blockHasTopPadding) {
+      const requiredPadding = requirePaddingFor(node)
+
+      if (blockHasTopPadding) {
+        if (requiredPadding === 'never' || requiredPadding === 'end') {
           context.report({
             node,
             loc: {
@@ -239,8 +205,25 @@ export default createRule<RuleOptions, MessageIds>({
             messageId: 'neverPadBlock',
           })
         }
+      }
+      else {
+        if (requiredPadding === 'always' || requiredPadding === 'start') {
+          context.report({
+            node,
+            loc: {
+              start: tokenBeforeFirst.loc.start,
+              end: firstBlockToken.loc.start,
+            },
+            fix(fixer) {
+              return fixer.insertTextAfter(tokenBeforeFirst, '\n')
+            },
+            messageId: 'alwaysPadBlock',
+          })
+        }
+      }
 
-        if (blockHasBottomPadding) {
+      if (blockHasBottomPadding) {
+        if (requiredPadding === 'never' || requiredPadding === 'start') {
           context.report({
             node,
             loc: {
@@ -251,6 +234,21 @@ export default createRule<RuleOptions, MessageIds>({
             fix(fixer) {
               return fixer.replaceTextRange([lastBlockToken.range[1], tokenAfterLast.range[0] - tokenAfterLast.loc.start.column], '\n')
             },
+          })
+        }
+      }
+      else {
+        if (requiredPadding === 'always' || requiredPadding === 'end') {
+          context.report({
+            node,
+            loc: {
+              end: tokenAfterLast.loc.start,
+              start: lastBlockToken.loc.end,
+            },
+            fix(fixer) {
+              return fixer.insertTextBefore(tokenAfterLast, '\n')
+            },
+            messageId: 'alwaysPadBlock',
           })
         }
       }
