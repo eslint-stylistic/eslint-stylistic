@@ -1,4 +1,3 @@
-/* eslint-disable style/no-tabs -- There are some example cases using tabs. */
 /**
  * @fileoverview Prevent missing parentheses around multilines JSX
  * @author Yannick Croissant
@@ -344,12 +343,14 @@ const ARROW_NO_PAREN = `
   </div>;
 `
 
+/* eslint-disable style/no-tabs */
 const ARROW_NO_PAREN_NEWLINE_TABS = `
 var hello = () =>
 	<div>
 		<p>Hello</p>
 	</div>;
 `
+/* eslint-enable style/no-tabs */
 
 const ARROW_NO_PAREN_FRAGMENT = `
   var hello = () => <>
@@ -365,6 +366,7 @@ const ARROW_PAREN_NEW_LINE = `
   );
 `
 
+/* eslint-disable style/no-tabs */
 const ARROW_PAREN_NEWLINE_TABS = `
 var hello = () => (
 	<div>
@@ -372,6 +374,7 @@ var hello = () => (
 	</div>
 );
 `
+/* eslint-enable style/no-tabs */
 
 const CONDITION_SINGLE_LINE = 'foo ? <p>Hello</p> : null;'
 

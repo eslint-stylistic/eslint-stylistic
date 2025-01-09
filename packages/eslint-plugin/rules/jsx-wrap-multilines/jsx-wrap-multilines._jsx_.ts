@@ -149,8 +149,11 @@ export default createRule<RuleOptions, MessageIds>({
           const tokenAfter = sourceCode.getTokenAfter(node)!
           const start = node.loc.start
           if (tokenBefore.loc.end.line < start.line) {
-            const textBetween = sourceCode.getText().slice(tokenBefore.range[1], node.range[0]).trim()
-            const indent = start.column > 0 ? ' '.repeat(start.column) : ''
+            const textBefore = sourceCode.getText().slice(tokenBefore.range[1], node.range[0]).trim()
+            const isTab = /^\t/.test(sourceCode.lines[start.line - 1])
+            const INDENT = isTab ? '\t' : ' '
+            const indentBefore = INDENT.repeat(start.column)
+            const indentAfter = INDENT.repeat(Math.max(0, start.column - (isTab ? 1 : 2)))
             // Strip newline after operator if parens newline is specified
             context.report({
               node,
@@ -160,7 +163,7 @@ export default createRule<RuleOptions, MessageIds>({
                   tokenBefore.range[0],
                   tokenAfter && (tokenAfter.value === ';' || tokenAfter.value === '}') ? tokenAfter.range[0] : node.range[1],
                 ],
-                `${trimTokenBeforeNewline(tokenBefore)}(\n${indent}${textBetween}${textBetween.length > 0 ? `\n${indent}` : ''}${sourceCode.getText(node)}\n${start.column > 0 ? ' '.repeat(start.column - 2) : ''})`,
+                `${trimTokenBeforeNewline(tokenBefore)}(\n${indentBefore}${textBefore}${textBefore.length > 0 ? `\n${indentBefore}` : ''}${sourceCode.getText(node)}\n${indentAfter})`,
               ),
             })
           }
