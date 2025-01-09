@@ -343,14 +343,12 @@ const ARROW_NO_PAREN = `
   </div>;
 `
 
-/* eslint-disable style/no-tabs */
 const ARROW_NO_PAREN_NEWLINE_TABS = `
 var hello = () =>
-	<div>
-		<p>Hello</p>
-	</div>;
+\t<div>
+\t\t<p>Hello</p>
+\t</div>;
 `
-/* eslint-enable style/no-tabs */
 
 const ARROW_NO_PAREN_FRAGMENT = `
   var hello = () => <>
@@ -366,15 +364,13 @@ const ARROW_PAREN_NEW_LINE = `
   );
 `
 
-/* eslint-disable style/no-tabs */
 const ARROW_PAREN_NEWLINE_TABS = `
 var hello = () => (
-	<div>
-		<p>Hello</p>
-	</div>
+\t<div>
+\t\t<p>Hello</p>
+\t</div>
 );
 `
-/* eslint-enable style/no-tabs */
 
 const CONDITION_SINGLE_LINE = 'foo ? <p>Hello</p> : null;'
 
