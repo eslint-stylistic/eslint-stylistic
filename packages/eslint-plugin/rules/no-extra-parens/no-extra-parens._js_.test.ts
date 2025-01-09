@@ -769,11 +769,11 @@ run({
     '(a ? b : c) ? d : e',
     {
       code: 'a ? (b ? c : d) : e',
-      options: ['all', { nestedTernaryExpressions: false }],
+      options: ['all', { nestedConditionalExpressions: false }],
     },
     {
       code: 'a ? b : (c ? d : e)',
-      options: ['all', { nestedTernaryExpressions: false }],
+      options: ['all', { nestedConditionalExpressions: false }],
     },
 
     // https://github.com/eslint/eslint/issues/16850

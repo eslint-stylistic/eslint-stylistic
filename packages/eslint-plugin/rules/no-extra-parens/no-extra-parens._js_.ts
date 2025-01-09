@@ -67,7 +67,7 @@ export default createRule<RuleOptions, MessageIds>({
                 enforceForNewInMemberExpressions: { type: 'boolean' },
                 enforceForFunctionPrototypeMethods: { type: 'boolean' },
                 allowParensAfterCommentPattern: { type: 'string' },
-                nestedTernaryExpressions: { type: 'boolean' },
+                nestedConditionalExpressions: { type: 'boolean' },
               },
               additionalProperties: false,
             },
@@ -103,7 +103,7 @@ export default createRule<RuleOptions, MessageIds>({
     const IGNORE_FUNCTION_PROTOTYPE_METHODS = ALL_NODES && context.options[1]
       && context.options[1].enforceForFunctionPrototypeMethods === false
     const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && context.options[1] && context.options[1].allowParensAfterCommentPattern
-    const ALLOW_NESTED_TERNARY = ALL_NODES && context.options[1] && context.options[1].nestedTernaryExpressions === false
+    const ALLOW_NESTED_TERNARY = ALL_NODES && context.options[1] && context.options[1].nestedConditionalExpressions === false
 
     // @ts-expect-error other properties are not used
     const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' })
