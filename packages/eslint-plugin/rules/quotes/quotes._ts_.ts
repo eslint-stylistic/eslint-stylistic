@@ -23,7 +23,7 @@ export default createRule<RuleOptions, MessageIds>({
   defaultOptions: [
     'double',
     {
-      allowTemplateLiterals: false,
+      allowTemplateLiterals: 'never',
       avoidEscape: false,
       ignoreStringLiterals: false,
     },
