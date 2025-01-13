@@ -86,6 +86,31 @@ run({
           | Quz
       };
     `,
+    $`
+      const a = 1
+        + 2
+        + 3;
+    `,
+    $`
+      a = 1
+        + 2
+        + 3;
+    `,
+    $`
+      const a = 1 +
+        2 +
+        3;
+    `,
+    $`
+      a = 1 +
+        2 +
+        3;
+    `,
+    $`
+      this.a = this.b
+        || c
+        || d;
+    `,
   ],
   invalid: [],
 })
@@ -494,5 +519,65 @@ it('snapshots', async () => {
       y: Baz
         | Quz
     };"
+  `)
+
+  expect.soft(
+    fix($`
+      const a = 1
+      + 2
+          + 3;
+    `),
+  ).toMatchInlineSnapshot(`
+    "const a = 1
+      + 2
+      + 3;"
+  `)
+
+  expect.soft(
+    fix($`
+      a = 1
+      - 2
+          - 3;
+    `),
+  ).toMatchInlineSnapshot(`
+      "a = 1
+        - 2
+        - 3;"
+  `)
+
+  expect.soft(
+    fix($`
+      const a = 1 *
+      2 *
+          3;
+    `),
+  ).toMatchInlineSnapshot(`
+    "const a = 1 *
+      2 *
+      3;"
+  `)
+
+  expect.soft(
+    fix($`
+      a = 1 /
+      2 /
+          3;
+    `),
+  ).toMatchInlineSnapshot(`
+    "a = 1 /
+      2 /
+      3;"
+  `)
+
+  expect.soft(
+    fix($`
+      this.a = this.b
+      || 2
+          || 3;
+    `),
+  ).toMatchInlineSnapshot(`
+    "this.a = this.b
+      || 2
+      || 3;"
   `)
 })

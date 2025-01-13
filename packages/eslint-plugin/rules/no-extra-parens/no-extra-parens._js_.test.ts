@@ -766,6 +766,16 @@ run({
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
     },
 
+    '(a ? b : c) ? d : e',
+    {
+      code: 'a ? (b ? c : d) : e',
+      options: ['all', { nestedConditionalExpressions: false }],
+    },
+    {
+      code: 'a ? b : (c ? d : e)',
+      options: ['all', { nestedConditionalExpressions: false }],
+    },
+
     // https://github.com/eslint/eslint/issues/16850
     '(a) = function () {};',
     '(a) = () => {};',
