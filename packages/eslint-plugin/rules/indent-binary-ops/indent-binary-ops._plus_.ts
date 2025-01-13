@@ -1,5 +1,6 @@
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { ASSIGNMENT_OPERATOR } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -131,11 +132,13 @@ export default createRule<RuleOptions, MessageIds>({
         || (firstTokenOfLineLeft?.type === 'Keyword' && !['typeof', 'instanceof', 'this'].includes(firstTokenOfLineLeft.value))
         // First line is a `type` keyword in a type alias declaration
         || (firstTokenOfLineLeft?.type === 'Identifier' && firstTokenOfLineLeft.value === 'type' && isTypeKeywordOfNode(firstTokenOfLineLeft, node))
-      // End of line is a opening bracket
-        || [':', '[', '(', '<', '='].includes(lastTokenOfLineLeft?.value || '')
-      // Before the left token is a opening bracket
-        || (['[', '(', '=>', ':'].includes(tokenBeforeAll?.value || '') && firstTokenOfLineLeft?.loc.start.line === tokenBeforeAll?.loc.start.line)
-      // Chain of `||` or `&&` operators
+        // End of line is a opening bracket (`[`, `(`),
+        //  or the expression is an assignment
+        || [':', '[', '(', '<'].concat(ASSIGNMENT_OPERATOR).includes(lastTokenOfLineLeft?.value || '')
+        // Before the left token is a opening bracket (`[`, `(`),
+        //  or the expression is an assignment
+        || (['[', '(', '=>', ':'].concat(ASSIGNMENT_OPERATOR).includes(tokenBeforeAll?.value || '') && firstTokenOfLineLeft?.loc.start.line === tokenBeforeAll?.loc.start.line)
+        // Chain of `||` or `&&` operators
         || (['||', '&&'].includes(lastTokenOfLineLeft?.value || '') && node.loc.start.line === tokenLeft.loc.start.line && node.loc.start.column !== getIndentOfLine(node.loc.start.line).length)
 
       const needSubtractionIndent = false
