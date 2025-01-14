@@ -37,11 +37,15 @@ String option:
 
 Object option:
 
-- `"avoidEscape": true` allows strings to use single-quotes, double-quotes, or template literals so long as the string contains a quote that would have to be escaped otherwise
-- `"allowTemplateLiterals": true` allows strings to use backticks
-- `"ignoreStringLiterals": true` don’t report string literals, only template strings
+- `"avoidEscape": true` allows strings to use single-quotes, double-quotes, or template literals so long as the string contains a quote that would have to be escaped otherwise (default: `false`)
+- `"allowTemplateLiterals": "always"` allows strings to use backticks in all cases
+- `"allowTemplateLiterals": "avoidEscape"` allows strings to use backticks only if necessary to avoid escaping a string
+- `"allowTemplateLiterals": "never"` (default) disallows strings to use backtick in all cases
+- `"ignoreStringLiterals": true` don’t report string literals, only template strings (default: `false`)
 
 **Deprecated**: The object property `avoid-escape` is deprecated; please use the object property `avoidEscape` instead.
+
+**Deprecated**: Boolean values for `allowTemplateLiterals` are deprecated. `true` equates to `"always"` and `false` equates to `"never"`.
 
 ### double
 

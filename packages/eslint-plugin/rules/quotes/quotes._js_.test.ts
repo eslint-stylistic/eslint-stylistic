@@ -22,7 +22,11 @@ run({
     { code: 'var foo = "\'";', options: ['single', { avoidEscape: true }] },
     { code: 'var foo = \'"\';', options: ['double', { avoidEscape: true }] },
     { code: 'var foo = `\'`;', options: ['single', { avoidEscape: true, allowTemplateLiterals: true }] },
+    { code: 'var foo = `\'`;', options: ['single', { avoidEscape: true, allowTemplateLiterals: 'always' }] },
+    { code: 'var foo = `\'`;', options: ['single', { avoidEscape: true, allowTemplateLiterals: 'avoidEscape' }] },
     { code: 'var foo = `"`;', options: ['double', { avoidEscape: true, allowTemplateLiterals: true }] },
+    { code: 'var foo = `"`;', options: ['double', { avoidEscape: true, allowTemplateLiterals: 'always' }] },
+    { code: 'var foo = `"`;', options: ['double', { avoidEscape: true, allowTemplateLiterals: 'avoidEscape' }] },
     { code: 'var foo = <>Hello world</>;', options: ['single'], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
     { code: 'var foo = <>Hello world</>;', options: ['double'], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
     { code: 'var foo = <>Hello world</>;', options: ['double', { avoidEscape: true }], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
@@ -57,8 +61,11 @@ run({
 
     // Backticks are also okay if allowTemplateLiterals
     { code: 'var foo = `bar \'foo\' baz` + \'bar\';', options: ['single', { allowTemplateLiterals: true }], parserOptions: { ecmaVersion: 6 } },
+    { code: 'var foo = `bar \'foo\' baz` + \'bar\';', options: ['single', { allowTemplateLiterals: 'always' }], parserOptions: { ecmaVersion: 6 } },
     { code: 'var foo = `bar \'foo\' baz` + "bar";', options: ['double', { allowTemplateLiterals: true }], parserOptions: { ecmaVersion: 6 } },
+    { code: 'var foo = `bar \'foo\' baz` + "bar";', options: ['double', { allowTemplateLiterals: 'always' }], parserOptions: { ecmaVersion: 6 } },
     { code: 'var foo = `bar \'foo\' baz` + `bar`;', options: ['backtick', { allowTemplateLiterals: true }], parserOptions: { ecmaVersion: 6 } },
+    { code: 'var foo = `bar \'foo\' baz` + `bar`;', options: ['backtick', { allowTemplateLiterals: 'always' }], parserOptions: { ecmaVersion: 6 } },
 
     // `backtick` should not warn the directive prologues.
     { code: '"use strict"; var foo = `backtick`;', options: ['backtick'], parserOptions: { ecmaVersion: 6 } },
@@ -252,9 +259,29 @@ run({
       }],
     },
     {
+      code: 'var foo = "bar";',
+      output: 'var foo = \'bar\';',
+      options: ['single', { allowTemplateLiterals: 'always' }],
+      errors: [{
+        messageId: 'wrongQuotes',
+        data: { description: 'singlequote' },
+        type: 'Literal',
+      }],
+    },
+    {
       code: 'var foo = \'bar\';',
       output: 'var foo = "bar";',
       options: ['double', { allowTemplateLiterals: true }],
+      errors: [{
+        messageId: 'wrongQuotes',
+        data: { description: 'doublequote' },
+        type: 'Literal',
+      }],
+    },
+    {
+      code: 'var foo = \'bar\';',
+      output: 'var foo = "bar";',
+      options: ['double', { allowTemplateLiterals: 'always' }],
       errors: [{
         messageId: 'wrongQuotes',
         data: { description: 'doublequote' },
@@ -807,6 +834,38 @@ run({
         {
           avoidEscape: true,
           allowTemplateLiterals: false,
+        },
+      ],
+      errors: [{
+        messageId: 'wrongQuotes',
+        data: { description: 'doublequote' },
+        type: 'TemplateLiteral',
+      }],
+    },
+    {
+      code: 'var foo = `"bar"`',
+      output: 'var foo = "\\"bar\\""',
+      options: [
+        'double',
+        {
+          avoidEscape: true,
+          allowTemplateLiterals: 'never',
+        },
+      ],
+      errors: [{
+        messageId: 'wrongQuotes',
+        data: { description: 'doublequote' },
+        type: 'TemplateLiteral',
+      }],
+    },
+    {
+      code: 'var foo = `bar`',
+      output: 'var foo = "bar"',
+      options: [
+        'double',
+        {
+          avoidEscape: true,
+          allowTemplateLiterals: 'avoidEscape',
         },
       ],
       errors: [{
