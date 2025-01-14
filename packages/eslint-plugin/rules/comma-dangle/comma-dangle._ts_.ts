@@ -71,6 +71,8 @@ export default createRule<RuleOptions, MessageIds>({
                 imports: { $ref: '#/$defs/valueWithIgnore' },
                 exports: { $ref: '#/$defs/valueWithIgnore' },
                 functions: { $ref: '#/$defs/valueWithIgnore' },
+                importAttributes: { $ref: '#/$defs/valueWithIgnore' },
+                dynamicImports: { $ref: '#/$defs/valueWithIgnore' },
                 enums: { $ref: '#/$defs/valueWithIgnore' },
                 generics: { $ref: '#/$defs/valueWithIgnore' },
                 tuples: { $ref: '#/$defs/valueWithIgnore' },

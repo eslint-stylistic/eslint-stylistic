@@ -65,6 +65,30 @@ run({
     { code: 'class A{\n\nfoo;\n\n}', parserOptions: { ecmaVersion: 2022 } },
     { code: 'class A{\nfoo;\n}', options: ['never'], parserOptions: { ecmaVersion: 2022 } },
 
+    { code: '{\n\na();\n/* comment */ }', options: ['start'] },
+    { code: '{\n\na();\n/* comment */ }', options: [{ blocks: 'start' }] },
+    { code: 'switch (a) {}', options: [{ switches: 'start' }] },
+    { code: 'switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n}', options: ['start'] },
+    { code: 'switch (a) {\n\ncase 0: foo();\ncase 1: bar();\n}', options: [{ switches: 'start' }] },
+    { code: 'switch (a) {\n\n//comment\ncase 0: foo();//comment\n}', options: [{ switches: 'start' }] },
+    { code: 'switch (a) {//comment\n\ncase 0: foo();\ncase 1: bar();\n/* comment */}', options: [{ switches: 'start' }] },
+    { code: 'class A{\n\nfoo(){}\n}', options: ['start'] },
+    { code: 'class A{}', options: [{ classes: 'start' }] },
+    { code: 'class A{\n}', options: [{ classes: 'start' }] },
+    { code: 'class A{\n\nfoo(){}\n}', options: [{ classes: 'start' }] },
+
+    { code: '{\na();\n\n/* comment */ }', options: ['end'] },
+    { code: '{\na();\n\n/* comment */ }', options: [{ blocks: 'end' }] },
+    { code: 'switch (a) {}', options: [{ switches: 'end' }] },
+    { code: 'switch (a) {\ncase 0: foo();\ncase 1: bar();\n\n}', options: ['end'] },
+    { code: 'switch (a) {\ncase 0: foo();\ncase 1: bar();\n\n}', options: [{ switches: 'end' }] },
+    { code: 'switch (a) {\n//comment\ncase 0: foo();//comment\n\n}', options: [{ switches: 'end' }] },
+    { code: 'switch (a) {//comment\ncase 0: foo();\ncase 1: bar();\n\n/* comment */}', options: [{ switches: 'end' }] },
+    { code: 'class A{\nfoo(){}\n\n}', options: ['end'] },
+    { code: 'class A{}', options: [{ classes: 'end' }] },
+    { code: 'class A{\n}', options: [{ classes: 'end' }] },
+    { code: 'class A{\nfoo(){}\n\n}', options: [{ classes: 'end' }] },
+
     // Ignore block statements if not configured
     { code: '{\na();\n}', options: [{ switches: 'always' }] },
     { code: '{\n\na();\n\n}', options: [{ switches: 'never' }] },
@@ -186,7 +210,7 @@ run({
       output: '{\n\n//comment\na();\n\n}',
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 1,
           endLine: 2,
@@ -199,7 +223,7 @@ run({
       output: '{ //comment\n\na();\n\n}',
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 3,
           endLine: 2,
@@ -212,7 +236,7 @@ run({
       output: '{\n\na();\n//comment\n\n}',
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 4,
           column: 10,
           endLine: 5,
@@ -225,7 +249,7 @@ run({
       output: '{\n\na()\n//comment\n\n}',
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 4,
           column: 10,
           endLine: 5,
@@ -238,7 +262,7 @@ run({
       output: '{\n\na();\n\n}',
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 1,
           endLine: 2,
@@ -251,7 +275,7 @@ run({
       output: '{\n\na();\n\n}',
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 3,
           column: 5,
           endLine: 4,
@@ -264,14 +288,14 @@ run({
       output: '{\n\na();\n\n}',
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 1,
           endLine: 2,
           endColumn: 1,
         },
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 2,
           column: 5,
           endLine: 3,
@@ -284,14 +308,14 @@ run({
       output: '{\n\r\na();\r\n\n}',
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 1,
           endLine: 2,
           endColumn: 1,
         },
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 2,
           column: 5,
           endLine: 3,
@@ -304,14 +328,14 @@ run({
       output: '{\n\na();\n}',
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 1,
           endLine: 2,
           endColumn: 1,
         },
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 2,
           column: 5,
           endLine: 2,
@@ -324,14 +348,14 @@ run({
       output: '{\na();\n\n}',
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 1,
           endLine: 1,
           endColumn: 2,
         },
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 6,
           endLine: 2,
@@ -345,14 +369,14 @@ run({
       options: [{ blocks: 'always' }],
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 1,
           endLine: 1,
           endColumn: 2,
         },
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 6,
           endLine: 2,
@@ -366,14 +390,14 @@ run({
       options: ['always'],
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 12,
           endLine: 2,
           endColumn: 1,
         },
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 3,
           column: 15,
           endLine: 4,
@@ -387,14 +411,14 @@ run({
       options: [{ switches: 'always' }],
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 12,
           endLine: 2,
           endColumn: 1,
         },
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 3,
           column: 15,
           endLine: 4,
@@ -408,14 +432,14 @@ run({
       options: [{ switches: 'always' }],
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 12,
           endLine: 2,
           endColumn: 1,
         },
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 3,
           column: 24,
           endLine: 4,
@@ -430,14 +454,14 @@ run({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 9,
           endLine: 2,
           endColumn: 1,
         },
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 2,
           column: 16,
           endLine: 3,
@@ -452,14 +476,14 @@ run({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 9,
           endLine: 2,
           endColumn: 1,
         },
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 2,
           column: 16,
           endLine: 3,
@@ -472,14 +496,14 @@ run({
       output: '{\na();\n}',
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 1,
           endLine: 1,
           endColumn: 2,
         },
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 6,
           endLine: 1,
@@ -493,7 +517,7 @@ run({
       options: ['never'],
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 3,
           column: 10,
           endLine: 5,
@@ -507,14 +531,14 @@ run({
       options: ['never'],
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 1,
           column: 1,
           endLine: 3,
           endColumn: 1,
         },
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 3,
           column: 5,
           endLine: 5,
@@ -528,14 +552,14 @@ run({
       options: ['never'],
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 1,
           column: 1,
           endLine: 3,
           endColumn: 1,
         },
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 3,
           column: 5,
           endLine: 5,
@@ -549,14 +573,14 @@ run({
       options: ['never'],
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 1,
           column: 1,
           endLine: 4,
           endColumn: 3,
         },
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 4,
           column: 7,
           endLine: 7,
@@ -570,7 +594,7 @@ run({
       options: ['never'],
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 1,
           column: 1,
           endLine: 3,
@@ -584,7 +608,7 @@ run({
       options: ['never'],
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 1,
           column: 1,
           endLine: 3,
@@ -598,7 +622,7 @@ run({
       options: ['never'],
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 2,
           column: 5,
           endLine: 4,
@@ -612,7 +636,7 @@ run({
       options: ['never'],
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 2,
           column: 9,
           endLine: 4,
@@ -626,7 +650,7 @@ run({
       options: ['always'],
       errors: [
         {
-          messageId: 'alwaysPadBlock',
+          messageId: 'missingPadBlock',
           line: 1,
           column: 1,
           endLine: 2,
@@ -640,7 +664,7 @@ run({
       options: ['never'],
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 1,
           column: 1,
           endLine: 3,
@@ -654,7 +678,7 @@ run({
       options: [{ blocks: 'never' }],
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 1,
           column: 1,
           endLine: 3,
@@ -668,14 +692,14 @@ run({
       options: ['never'],
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 1,
           column: 12,
           endLine: 3,
           endColumn: 1,
         },
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 3,
           column: 15,
           endLine: 5,
@@ -689,7 +713,7 @@ run({
       options: [{ switches: 'never' }],
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 1,
           column: 12,
           endLine: 3,
@@ -703,7 +727,7 @@ run({
       options: [{ switches: 'never' }],
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 2,
           column: 15,
           endLine: 4,
@@ -718,28 +742,28 @@ run({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 1,
           column: 9,
           endLine: 3,
           endColumn: 1,
         },
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 3,
           column: 14,
           endLine: 5,
           endColumn: 1,
         },
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 5,
           column: 7,
           endLine: 7,
           endColumn: 1,
         },
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 7,
           column: 2,
           endLine: 9,
@@ -754,14 +778,14 @@ run({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 1,
           column: 9,
           endLine: 3,
           endColumn: 1,
         },
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 7,
           column: 2,
           endLine: 9,
@@ -776,28 +800,28 @@ run({
       parserOptions: { ecmaVersion: 6 },
       errors: [
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 1,
           column: 9,
           endLine: 3,
           endColumn: 1,
         },
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 3,
           column: 14,
           endLine: 5,
           endColumn: 1,
         },
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 5,
           column: 7,
           endLine: 7,
           endColumn: 1,
         },
         {
-          messageId: 'neverPadBlock',
+          messageId: 'extraPadBlock',
           line: 7,
           column: 2,
           endLine: 9,
@@ -806,53 +830,236 @@ run({
       ],
     },
     {
+      code: '{\n\na();\n\n}',
+      output: '{\n\na();\n}',
+      options: ['start'],
+      errors: [
+        {
+          messageId: 'extraPadBlock',
+          line: 3,
+          column: 5,
+          endLine: 5,
+          endColumn: 1,
+        },
+      ],
+    },
+    {
+      code: '{\n\na();\n\n}',
+      output: '{\n\na();\n}',
+      options: [{ blocks: 'start' }],
+      errors: [
+        {
+          messageId: 'extraPadBlock',
+          line: 3,
+          column: 5,
+          endLine: 5,
+          endColumn: 1,
+        },
+      ],
+    },
+    {
+      code: 'switch (a) {\n\ncase 0: foo();\n\n}',
+      output: 'switch (a) {\n\ncase 0: foo();\n}',
+      options: ['start'],
+      errors: [
+        {
+          messageId: 'extraPadBlock',
+          line: 3,
+          column: 15,
+          endLine: 5,
+          endColumn: 1,
+        },
+      ],
+    },
+    {
+      code: 'switch (a) {\n\ncase 0: foo();\n\n  }',
+      output: 'switch (a) {\n\ncase 0: foo();\n  }',
+      options: [{ switches: 'start' }],
+      errors: [
+        {
+          messageId: 'extraPadBlock',
+          line: 3,
+          column: 15,
+          endLine: 5,
+          endColumn: 3,
+        },
+      ],
+    },
+    {
+      code: 'class A {\n\nconstructor(){\n\nfoo();\n\n}\n\n}',
+      output: 'class A {\n\nconstructor(){\n\nfoo();\n}\n}',
+      options: ['start'],
+      errors: [
+        {
+          messageId: 'extraPadBlock',
+          line: 5,
+          column: 7,
+          endLine: 7,
+          endColumn: 1,
+        },
+        {
+          messageId: 'extraPadBlock',
+          line: 7,
+          column: 2,
+          endLine: 9,
+          endColumn: 1,
+        },
+      ],
+    },
+    {
+      code: 'class A {\n\nconstructor(){\n\nfoo();\n\n}\n\n}',
+      output: 'class A {\n\nconstructor(){\n\nfoo();\n\n}\n}',
+      options: [{ classes: 'start' }],
+      errors: [
+        {
+          messageId: 'extraPadBlock',
+          line: 7,
+          column: 2,
+          endLine: 9,
+          endColumn: 1,
+        },
+      ],
+    },
+
+    {
+      code: '{\n\na();\n\n}',
+      output: '{\na();\n\n}',
+      options: ['end'],
+      errors: [
+        {
+          messageId: 'extraPadBlock',
+          line: 1,
+          column: 1,
+          endLine: 3,
+          endColumn: 1,
+        },
+      ],
+    },
+    {
+      code: '{\n\na();\n\n}',
+      output: '{\na();\n\n}',
+      options: [{ blocks: 'end' }],
+      errors: [
+        {
+          messageId: 'extraPadBlock',
+          line: 1,
+          column: 1,
+          endLine: 3,
+          endColumn: 1,
+        },
+      ],
+    },
+    {
+      code: 'switch (a) {\n\ncase 0: foo();\n\n}',
+      output: 'switch (a) {\ncase 0: foo();\n\n}',
+      options: ['end'],
+      errors: [
+        {
+          messageId: 'extraPadBlock',
+          line: 1,
+          column: 12,
+          endLine: 3,
+          endColumn: 1,
+        },
+      ],
+    },
+    {
+      code: 'switch (a) {\n\ncase 0: foo();\n\n  }',
+      output: 'switch (a) {\ncase 0: foo();\n\n  }',
+      options: [{ switches: 'end' }],
+      errors: [
+        {
+          messageId: 'extraPadBlock',
+          line: 1,
+          column: 12,
+          endLine: 3,
+          endColumn: 1,
+        },
+      ],
+    },
+    {
+      code: 'class A {\n\nconstructor(){\n\nfoo();\n\n}\n\n}',
+      output: 'class A {\nconstructor(){\nfoo();\n\n}\n\n}',
+      options: ['end'],
+      errors: [
+        {
+          messageId: 'extraPadBlock',
+          line: 1,
+          column: 9,
+          endLine: 3,
+          endColumn: 1,
+        },
+        {
+          messageId: 'extraPadBlock',
+          line: 3,
+          column: 14,
+          endLine: 5,
+          endColumn: 1,
+        },
+      ],
+    },
+    {
+      code: 'class A {\n\nconstructor(){\n\nfoo();\n\n}\n\n}',
+      output: 'class A {\nconstructor(){\n\nfoo();\n\n}\n\n}',
+      options: [{ classes: 'end' }],
+      errors: [
+        {
+          messageId: 'extraPadBlock',
+          line: 1,
+          column: 9,
+          endLine: 3,
+          endColumn: 1,
+        },
+      ],
+    },
+    {
       code: 'function foo() { // a\n\n  b;\n}',
       output: 'function foo() { // a\n  b;\n}',
       options: ['never'],
-      errors: [{ messageId: 'neverPadBlock' }],
+      errors: [{ messageId: 'extraPadBlock' }],
     },
     {
       code: 'function foo() { /* a\n */\n\n  bar;\n}',
       output: 'function foo() { /* a\n */\n  bar;\n}',
       options: ['never'],
-      errors: [{ messageId: 'neverPadBlock' }],
+      errors: [{ messageId: 'extraPadBlock' }],
     },
     {
       code: 'function foo() {\n\n  bar;\n/* a\n */}',
       output: 'function foo() {\n\n  bar;\n\n/* a\n */}',
       options: ['always'],
-      errors: [{ messageId: 'alwaysPadBlock' }],
+      errors: [{ messageId: 'missingPadBlock' }],
     },
     {
       code: 'function foo() { /* a\n */\n/* b\n */\n  bar;\n}',
       output: 'function foo() { /* a\n */\n\n/* b\n */\n  bar;\n\n}',
       options: ['always'],
-      errors: [{ messageId: 'alwaysPadBlock' }, { messageId: 'alwaysPadBlock' }],
+      errors: [{ messageId: 'missingPadBlock' }, { messageId: 'missingPadBlock' }],
     },
     {
       code: 'function foo() { /* a\n */ /* b\n */\n  bar;\n}',
       output: 'function foo() { /* a\n */ /* b\n */\n\n  bar;\n\n}',
       options: ['always'],
-      errors: [{ messageId: 'alwaysPadBlock' }, { messageId: 'alwaysPadBlock' }],
+      errors: [{ messageId: 'missingPadBlock' }, { messageId: 'missingPadBlock' }],
     },
     {
       code: 'function foo() { /* a\n */ /* b\n */\n  bar;\n/* c\n *//* d\n */}',
       output: 'function foo() { /* a\n */ /* b\n */\n\n  bar;\n\n/* c\n *//* d\n */}',
       options: ['always'],
-      errors: [{ messageId: 'alwaysPadBlock' }, { messageId: 'alwaysPadBlock' }],
+      errors: [{ messageId: 'missingPadBlock' }, { messageId: 'missingPadBlock' }],
     },
     {
       code: 'class A{\nfoo;\n}',
       output: 'class A{\n\nfoo;\n\n}',
       parserOptions: { ecmaVersion: 2022 },
-      errors: [{ messageId: 'alwaysPadBlock' }, { messageId: 'alwaysPadBlock' }],
+      errors: [{ messageId: 'missingPadBlock' }, { messageId: 'missingPadBlock' }],
     },
     {
       code: 'class A{\n\nfoo;\n\n}',
       output: 'class A{\nfoo;\n}',
       options: ['never'],
       parserOptions: { ecmaVersion: 2022 },
-      errors: [{ messageId: 'neverPadBlock' }, { messageId: 'neverPadBlock' }],
+      errors: [{ messageId: 'extraPadBlock' }, { messageId: 'extraPadBlock' }],
     },
 
     // class static blocks
@@ -861,28 +1068,28 @@ run({
       output: 'class C {\n\n static {\n\nfoo;\n\n} \n\n}',
       options: ['always'],
       parserOptions: { ecmaVersion: 2022 },
-      errors: [{ messageId: 'alwaysPadBlock' }],
+      errors: [{ messageId: 'missingPadBlock' }],
     },
     {
       code: 'class C {\n\n static\n {\nfoo;\n\n} \n\n}',
       output: 'class C {\n\n static\n {\n\nfoo;\n\n} \n\n}',
       options: ['always'],
       parserOptions: { ecmaVersion: 2022 },
-      errors: [{ messageId: 'alwaysPadBlock' }],
+      errors: [{ messageId: 'missingPadBlock' }],
     },
     {
       code: 'class C {\n\n static\n\n {\nfoo;\n\n} \n\n}',
       output: 'class C {\n\n static\n\n {\n\nfoo;\n\n} \n\n}',
       options: ['always'],
       parserOptions: { ecmaVersion: 2022 },
-      errors: [{ messageId: 'alwaysPadBlock' }],
+      errors: [{ messageId: 'missingPadBlock' }],
     },
     {
       code: 'class C {\n\n static {\n\nfoo;\n} \n\n}',
       output: 'class C {\n\n static {\n\nfoo;\n\n} \n\n}',
       options: ['always'],
       parserOptions: { ecmaVersion: 2022 },
-      errors: [{ messageId: 'alwaysPadBlock' }],
+      errors: [{ messageId: 'missingPadBlock' }],
     },
     {
       code: 'class C {\n\n static {foo;} \n\n}',
@@ -890,8 +1097,8 @@ run({
       options: ['always'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
-        { messageId: 'alwaysPadBlock' },
-        { messageId: 'alwaysPadBlock' },
+        { messageId: 'missingPadBlock' },
+        { messageId: 'missingPadBlock' },
       ],
     },
     {
@@ -900,8 +1107,8 @@ run({
       options: ['always'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
-        { messageId: 'alwaysPadBlock' },
-        { messageId: 'alwaysPadBlock' },
+        { messageId: 'missingPadBlock' },
+        { messageId: 'missingPadBlock' },
       ],
     },
     {
@@ -910,8 +1117,8 @@ run({
       options: ['always'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
-        { messageId: 'alwaysPadBlock' },
-        { messageId: 'alwaysPadBlock' },
+        { messageId: 'missingPadBlock' },
+        { messageId: 'missingPadBlock' },
       ],
     },
     {
@@ -920,8 +1127,8 @@ run({
       options: ['always'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
-        { messageId: 'alwaysPadBlock' },
-        { messageId: 'alwaysPadBlock' },
+        { messageId: 'missingPadBlock' },
+        { messageId: 'missingPadBlock' },
       ],
     },
     {
@@ -930,8 +1137,8 @@ run({
       options: ['always'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
-        { messageId: 'alwaysPadBlock' },
-        { messageId: 'alwaysPadBlock' },
+        { messageId: 'missingPadBlock' },
+        { messageId: 'missingPadBlock' },
       ],
     },
     {
@@ -940,8 +1147,8 @@ run({
       options: [{ blocks: 'always', classes: 'never' }], // "blocks" applies to static blocks
       parserOptions: { ecmaVersion: 2022 },
       errors: [
-        { messageId: 'alwaysPadBlock' },
-        { messageId: 'alwaysPadBlock' },
+        { messageId: 'missingPadBlock' },
+        { messageId: 'missingPadBlock' },
       ],
     },
     {
@@ -949,28 +1156,28 @@ run({
       output: 'class C {\n static {\nfoo;\n} \n}',
       options: ['never'],
       parserOptions: { ecmaVersion: 2022 },
-      errors: [{ messageId: 'neverPadBlock' }],
+      errors: [{ messageId: 'extraPadBlock' }],
     },
     {
       code: 'class C {\n static\n {\n\nfoo;\n} \n}',
       output: 'class C {\n static\n {\nfoo;\n} \n}',
       options: ['never'],
       parserOptions: { ecmaVersion: 2022 },
-      errors: [{ messageId: 'neverPadBlock' }],
+      errors: [{ messageId: 'extraPadBlock' }],
     },
     {
       code: 'class C {\n static\n\n {\n\nfoo;\n} \n}',
       output: 'class C {\n static\n\n {\nfoo;\n} \n}',
       options: ['never'],
       parserOptions: { ecmaVersion: 2022 },
-      errors: [{ messageId: 'neverPadBlock' }],
+      errors: [{ messageId: 'extraPadBlock' }],
     },
     {
       code: 'class C {\n static {\nfoo;\n\n} \n}',
       output: 'class C {\n static {\nfoo;\n} \n}',
       options: ['never'],
       parserOptions: { ecmaVersion: 2022 },
-      errors: [{ messageId: 'neverPadBlock' }],
+      errors: [{ messageId: 'extraPadBlock' }],
     },
     {
       code: 'class C {\n static {\n\nfoo;\n\n} \n}',
@@ -978,8 +1185,8 @@ run({
       options: ['never'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
-        { messageId: 'neverPadBlock' },
-        { messageId: 'neverPadBlock' },
+        { messageId: 'extraPadBlock' },
+        { messageId: 'extraPadBlock' },
       ],
     },
     {
@@ -988,8 +1195,8 @@ run({
       options: ['never'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
-        { messageId: 'neverPadBlock' },
-        { messageId: 'neverPadBlock' },
+        { messageId: 'extraPadBlock' },
+        { messageId: 'extraPadBlock' },
       ],
     },
     {
@@ -998,8 +1205,8 @@ run({
       options: ['never'],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
-        { messageId: 'neverPadBlock' },
-        { messageId: 'neverPadBlock' },
+        { messageId: 'extraPadBlock' },
+        { messageId: 'extraPadBlock' },
       ],
     },
     {
@@ -1008,8 +1215,8 @@ run({
       options: [{ blocks: 'never', classes: 'always' }], // "blocks" applies to static blocks
       parserOptions: { ecmaVersion: 2022 },
       errors: [
-        { messageId: 'neverPadBlock' },
-        { messageId: 'neverPadBlock' },
+        { messageId: 'extraPadBlock' },
+        { messageId: 'extraPadBlock' },
       ],
     },
   ],

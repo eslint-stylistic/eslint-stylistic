@@ -1,4 +1,3 @@
-// TODO: Stage 2: Doesn't inherit js version
 import type { Tree } from '#types'
 
 import type { MessageIds, RuleOptions } from './types._ts_'
@@ -107,8 +106,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (
         prevToken
         && isTokenOnSameLine(prevToken, commaToken)
-        //  -- TODO - switch once our min ESLint version is 6.7.0
-        && spaceBefore !== sourceCode.isSpaceBetweenTokens(prevToken, commaToken)
+        && spaceBefore !== sourceCode.isSpaceBetween(prevToken, commaToken)
       ) {
         context.report({
           node: commaToken,
@@ -120,31 +118,20 @@ export default createRule<RuleOptions, MessageIds>({
             spaceBefore
               ? fixer.insertTextBefore(commaToken, ' ')
               : fixer.replaceTextRange(
-                [prevToken.range[1], commaToken.range[0]],
-                '',
-              ),
+                  [prevToken.range[1], commaToken.range[0]],
+                  '',
+                ),
         })
       }
-
-      if (nextToken && isClosingParenToken(nextToken))
-        return
-
-      if (
-        spaceAfter
-        && nextToken
-        && (isClosingBraceToken(nextToken) || isClosingBracketToken(nextToken))
-      ) {
-        return
-      }
-
-      if (!spaceAfter && nextToken && nextToken.type === AST_TOKEN_TYPES.Line)
-        return
 
       if (
         nextToken
         && isTokenOnSameLine(commaToken, nextToken)
-        //  -- TODO - switch once our min ESLint version is 6.7.0
-        && spaceAfter !== sourceCode.isSpaceBetweenTokens(commaToken, nextToken)
+        && !isClosingParenToken(nextToken) // controlled by space-in-parens
+        && !isClosingBracketToken(nextToken) // controlled by array-bracket-spacing
+        && !isClosingBraceToken(nextToken) // controlled by object-curly-spacing
+        && !(!spaceAfter && nextToken.type === AST_TOKEN_TYPES.Line)
+        && spaceAfter !== sourceCode.isSpaceBetween(commaToken, nextToken)
       ) {
         context.report({
           node: commaToken,
@@ -156,9 +143,9 @@ export default createRule<RuleOptions, MessageIds>({
             spaceAfter
               ? fixer.insertTextAfter(commaToken, ' ')
               : fixer.replaceTextRange(
-                [commaToken.range[1], nextToken.range[0]],
-                '',
-              ),
+                  [commaToken.range[1], nextToken.range[0]],
+                  '',
+                ),
         })
       }
     }

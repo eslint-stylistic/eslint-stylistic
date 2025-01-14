@@ -55,7 +55,7 @@ export default createRule<RuleOptions, MessageIds>({
     const sourceCode = context.sourceCode
     const options = context.options[0] || {}
     const ignoreEOLComments = options.ignoreEOLComments
-    const exceptions = Object.assign({ Property: true }, options.exceptions)
+    const exceptions = Object.assign({ Property: true, ImportAttribute: true }, options.exceptions)
     const hasExceptions = Object.keys(exceptions).some(key => exceptions[key])
 
     const spacesRe = options.includeTabs === false ? / {2}/ : /[ \t]{2}/

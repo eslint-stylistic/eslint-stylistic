@@ -1,5 +1,6 @@
-import type { ASTNode } from '#types'
+import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { ASSIGNMENT_OPERATOR } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -42,12 +43,64 @@ export default createRule<RuleOptions, MessageIds>({
       return sourceCode.lines[line - 1].match(/^\s*/)?.[0] ?? ''
     }
 
+    function subtractionIndent(indent: string) {
+      if (options[0] === 'tab') {
+        return indent.slice(1)
+      }
+      return indent.slice(options[0] ?? 2)
+    }
+
+    function getTargetIndent(indent: string, needAdditionIndent: boolean, needSubtractionIndent: boolean) {
+      if (needAdditionIndent && !needSubtractionIndent) {
+        return indent + indentStr
+      }
+      if (!needAdditionIndent && needSubtractionIndent) {
+        return subtractionIndent(indent)
+      }
+      return indent
+    }
+
     function firstTokenOfLine(line: number) {
       return sourceCode.tokensAndComments.find(token => token.loc.start.line === line)
     }
 
     function lastTokenOfLine(line: number) {
       return [...sourceCode.tokensAndComments].reverse().find(token => token.loc.end.line === line)
+    }
+
+    function isGreaterThanCloseBracketOfLine(line: number) {
+      const tokensAndCommentsOfLine = sourceCode.tokensAndComments.filter(token => token.loc.start.line === line)
+
+      let openBracketCount = 0
+      let closeBracketCount = 0
+      for (const token of tokensAndCommentsOfLine) {
+        if (token.value === '(') {
+          openBracketCount++
+        }
+        if (token.value === ')') {
+          closeBracketCount++
+        }
+      }
+      return openBracketCount < closeBracketCount
+    }
+
+    /**
+     * Determines if a given type token is the keyword for a node's type alias declaration.
+     * @param typeToken The identifier token representing the type keyword.
+     * @param node The AST node to check, typically a descendant of the type alias declaration.
+     * @returns `true` if the type token is the keyword for the node's type alias declaration; otherwise, `false`.
+     */
+    function isTypeKeywordOfNode(typeToken: Tree.IdentifierToken, node: ASTNode): boolean {
+      while (node.parent) {
+        node = node.parent
+        if (
+          node.type === 'TSTypeAliasDeclaration'
+          && context.sourceCode.getTokenBefore(node.id) === typeToken
+        ) {
+          return true
+        }
+      }
+      return false
     }
 
     function handler(node: ASTNode, right: ASTNode) {
@@ -78,16 +131,28 @@ export default createRule<RuleOptions, MessageIds>({
         // First line is a keyword (but exclude `typeof`, `instanceof`, `this`)
         || (firstTokenOfLineLeft?.type === 'Keyword' && !['typeof', 'instanceof', 'this'].includes(firstTokenOfLineLeft.value))
         // First line is a `type` keyword in a type alias declaration
-        || (firstTokenOfLineLeft?.type === 'Identifier' && firstTokenOfLineLeft.value === 'type' && node.parent?.type === 'TSTypeAliasDeclaration')
-        // End of line is a opening bracket
-        || [':', '[', '(', '<', '='].includes(lastTokenOfLineLeft?.value || '')
-        // Before the left token is a opening bracket
-        || (['[', '(', '=>', ':'].includes(tokenBeforeAll?.value || '') && firstTokenOfLineLeft?.loc.start.line === tokenBeforeAll?.loc.start.line)
+        || (firstTokenOfLineLeft?.type === 'Identifier' && firstTokenOfLineLeft.value === 'type' && isTypeKeywordOfNode(firstTokenOfLineLeft, node))
+        // End of line is a opening bracket (`[`, `(`),
+        //  or the expression is an assignment
+        || [':', '[', '(', '<'].concat(ASSIGNMENT_OPERATOR).includes(lastTokenOfLineLeft?.value || '')
+        // Before the left token is a opening bracket (`[`, `(`),
+        //  or the expression is an assignment
+        || (['[', '(', '=>', ':'].concat(ASSIGNMENT_OPERATOR).includes(tokenBeforeAll?.value || '') && firstTokenOfLineLeft?.loc.start.line === tokenBeforeAll?.loc.start.line)
         // Chain of `||` or `&&` operators
         || (['||', '&&'].includes(lastTokenOfLineLeft?.value || '') && node.loc.start.line === tokenLeft.loc.start.line && node.loc.start.column !== getIndentOfLine(node.loc.start.line).length)
 
-      const indentTarget = getIndentOfLine(tokenLeft.loc.start.line) + (needAdditionIndent ? indentStr : '')
+      const needSubtractionIndent = false
+        // End of line is a closing bracket
+        || (
+          lastTokenOfLineLeft?.value === ')'
+          && isGreaterThanCloseBracketOfLine(tokenLeft.loc.start.line)
+          && ![']', ')', '}'].includes(firstTokenOfLineLeft?.value || '')
+        )
+
+      const indentLeft = getIndentOfLine(tokenLeft.loc.start.line)
       const indentRight = getIndentOfLine(tokenRight.loc.start.line)
+      const indentTarget = getTargetIndent(indentLeft, needAdditionIndent, needSubtractionIndent)
+
       if (indentTarget !== indentRight) {
         const start = {
           line: tokenRight.loc.start.line,

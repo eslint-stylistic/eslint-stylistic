@@ -2,7 +2,7 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import type { InvalidTestCase, ValidTestCase } from '#test'
-import { $, run } from '#test'
+import { run } from '#test'
 import rule from '.'
 
 run({
@@ -34,6 +34,7 @@ run({
       '( f )<a>( 0 )',
       '( (f) )<a>( (0) )',
       '( f()() )<a>(0)',
+      'import(source)',
 
       // optional call
       'f?.();',
@@ -94,11 +95,13 @@ run({
       '( f )<a> ( 0 )',
       '( (f) )<a> ( (0) )',
       '( f () )<a> (0)',
+      'import (source)',
 
       // optional call
       'f?.b ();',
       'f?.b ()?.c ();',
       'f?.b<a> (b, b)',
+      'f ?. ();',
     ].map<ValidTestCase>(code => ({
       code,
       options: ['always'],
@@ -115,14 +118,33 @@ run({
       'f\u2028();',
       'f\u2029();',
       'f\r\n();',
+      'import\n(source)',
 
       // optional call
       'f?.b \n ();',
       'f\n() ()?.b \n()\n ()',
+      'f ?. ();',
+      'f\n?.\n();',
     ].map<ValidTestCase>(code => ({
       code,
       options: ['always', { allowNewlines: true }],
     })),
+    {
+      code: 'f?. ();',
+      options: ['always', { optionalChain: { before: false } }],
+    },
+    {
+      code: 'f ?.();',
+      options: ['always', { optionalChain: { after: false } }],
+    },
+    {
+      code: 'f?.\n();',
+      options: ['always', { allowNewlines: true, optionalChain: { before: false } }],
+    },
+    {
+      code: 'f\n?.();',
+      options: ['always', { allowNewlines: true, optionalChain: { after: false } }],
+    },
   ],
   invalid: [
     // "never"
@@ -130,6 +152,10 @@ run({
       {
         code: 'f ();',
         output: 'f();',
+      },
+      {
+        code: 'f /* comment */ ();',
+        output: null,
       },
       {
         code: 'f (a, b);',
@@ -168,6 +194,10 @@ run({
         output: 'var f = new Foo()',
       },
       {
+        code: 'var f = new Foo /* comment */ ()',
+        output: null,
+      },
+      {
         code: 'f ( (0) )',
         output: 'f( (0) )',
       },
@@ -188,69 +218,41 @@ run({
         ],
       },
 
-      // https://github.com/eslint/eslint/issues/7787
       {
         code: 'f\n();',
-        output: null, // no change
+        output: 'f();',
       },
       {
-        code: $`
-          this.cancelled.add(request)
-          this.decrement(request)
-          (request.reject(new api.Cancel()))
-        `,
-        output: null, // no change
-        errors: [
-          {
-            messageId: 'unexpectedWhitespace' as const,
-            line: 2,
-            column: 23,
-          },
-        ],
-      },
-      {
-        code: $`
-          var a = foo
-          (function(global) {}(this));
-        `,
-        output: null, // no change
-        errors: [
-          {
-            messageId: 'unexpectedWhitespace' as const,
-            line: 1,
-            column: 9,
-          },
-        ],
-      },
-      {
-        code: $`
-          var a = foo
-          (baz())
-        `,
-        output: null, // no change
-        errors: [
-          {
-            messageId: 'unexpectedWhitespace' as const,
-            line: 1,
-            column: 9,
-          },
-        ],
+        code: 'f\n//comment\n();',
+        output: null,
       },
       {
         code: 'f\r();',
-        output: null, // no change
+        output: 'f();',
       },
       {
         code: 'f\u2028();',
-        output: null, // no change
+        output: 'f();',
       },
       {
         code: 'f\u2029();',
-        output: null, // no change
+        output: 'f();',
       },
       {
         code: 'f\r\n();',
-        output: null, // no change
+        output: 'f();',
+      },
+      {
+        code: 'import (source)',
+        output: 'import(source)',
+      },
+      {
+        code: 'import\n(source)',
+        output: 'import(source)',
+      },
+      {
+        code: 'import\n//comment\n(source)',
+        output: null,
       },
     ].map<InvalidTestCase>(code => ({
       options: ['never'],
@@ -288,6 +290,10 @@ run({
         code: 'f(0) (1)',
         output: 'f (0) (1)',
       },
+      {
+        code: 'import(source)',
+        output: 'import (source)',
+      },
     ].map<InvalidTestCase>(code => ({
       options: ['always'],
       errors: [
@@ -301,6 +307,10 @@ run({
       {
         code: 'f\n();',
         output: 'f ();',
+      },
+      {
+        code: 'f\n//comment\n();',
+        output: null,
       },
       {
         code: 'f\n(a, b);',
@@ -477,6 +487,7 @@ run({
     })),
 
     // optional chain
+    // never
     ...[
       'f ?.();',
       'f?. ();',
@@ -484,44 +495,122 @@ run({
       'f\n?.();',
       'f?.\n();',
       'f\n?.\n();',
-    ].reduce<InvalidTestCase[]>((acc, code) => {
-      acc.push(
+      'f ?.\n();',
+      'f\n?. ();',
+    ].map<InvalidTestCase>(code => ({
+      options: ['never'],
+      output: 'f?.();',
+      errors: [
         {
-          options: ['always', { allowNewlines: true }],
+          messageId: 'unexpectedWhitespace',
+        },
+      ],
+      code,
+    })),
+    // always
+    ...[
+      'f?.();',
+      'f ?.();',
+      'f?. ();',
+      'f\n?.();',
+      'f?.\n();',
+      'f\n?.\n();',
+      'f ?.\n();',
+      'f\n?. ();',
+    ].map<InvalidTestCase>(code => ({
+      options: ['always'],
+      output: 'f ?. ();',
+      errors: [
+        {
+          messageId: code.includes('\n') ? 'unexpectedNewline' : 'missing',
+        },
+      ],
+      code,
+    })),
+    // always allowNewlines: true
+    ...[
+      {
+        code: 'f\n?.();',
+        output: 'f\n?. ();',
+      },
+      {
+        code: 'f?.\n();',
+        output: 'f ?.\n();',
+      },
+    ].map<InvalidTestCase>(code => ({
+      options: ['always', { allowNewlines: true }],
+      errors: [
+        {
+          messageId: 'missing',
+        },
+      ],
+      ...code,
+    })),
+    // always optionalChain: { before: false }
+    ...[
+      'f?.();',
+      'f ?.();',
+      'f\n?.();',
+      'f\n?.\n();',
+      'f ?.\n();',
+      'f\n?. ();',
+    ].flatMap<InvalidTestCase>((code) => {
+      const messageId = code.includes('f ') || code.includes('f\n') ? 'unexpectedWhitespace' : 'missing'
+      return [
+        {
+          options: ['always', { optionalChain: { before: false } }],
+          output: 'f?. ();',
           errors: [
             {
-              messageId: 'unexpectedWhitespace',
+              messageId: code.includes('\n') ? 'unexpectedNewline' : messageId,
             },
           ],
           code,
-          // apply no fixers to it
-          output: null,
         },
         {
-          options: ['always'],
+          options: ['always', { allowNewlines: true, optionalChain: { before: false } }],
+          output: code.includes('\n()') ? 'f?.\n();' : 'f?. ();',
           errors: [
             {
-              messageId: 'unexpectedWhitespace',
+              messageId,
             },
           ],
           code,
-          // apply no fixers to it
-          output: null,
         },
+      ]
+    }),
+    // always optionalChain: { after: false }
+    ...[
+      'f?.();',
+      'f?. ();',
+      'f?.\n();',
+      'f\n?.\n();',
+      'f ?.\n();',
+      'f\n?. ();',
+    ].flatMap<InvalidTestCase>((code) => {
+      const messageId = code.includes(' ();') || code.includes('\n();') ? 'unexpectedWhitespace' : 'missing'
+      return [
         {
-          options: ['never'],
+          options: ['always', { optionalChain: { after: false } }],
+          output: 'f ?.();',
           errors: [
             {
-              messageId: 'unexpectedWhitespace',
+              messageId: code.includes('\n') ? 'unexpectedNewline' : messageId,
             },
           ],
           code,
-          // apply no fixers to it
-          output: null,
         },
-      )
-
-      return acc
-    }, []),
+        {
+          options: ['always', { allowNewlines: true, optionalChain: { after: false } }],
+          output: code.includes('f\n') ? 'f\n?.();' : 'f ?.();',
+          errors: [
+            {
+              messageId,
+            },
+          ],
+          code,
+        },
+      ]
+    }),
   ],
 })

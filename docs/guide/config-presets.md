@@ -27,7 +27,7 @@ export default [
     jsx: true,
     // ...
   }),
-  // ...you other config items
+  // ...your other config items
 ]
 ```
 

@@ -45,8 +45,8 @@ export default createRule<RuleOptions, MessageIds>({
 
           const sourceCode = context.sourceCode
           const equalToken = sourceCode.getTokenAfter(attrNode.name)!
-          const spacedBefore = sourceCode.isSpaceBetweenTokens(attrNode.name as unknown as Token, equalToken)
-          const spacedAfter = sourceCode.isSpaceBetweenTokens(equalToken, attrNode.value as unknown as Token)
+          const spacedBefore = sourceCode.isSpaceBetween(attrNode.name as unknown as Token, equalToken)
+          const spacedAfter = sourceCode.isSpaceBetween(equalToken, attrNode.value as unknown as Token)
 
           if (config === 'never') {
             if (spacedBefore) {

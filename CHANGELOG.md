@@ -1,5 +1,140 @@
 # Changelog
 
+## [2.13.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.12.1...v2.13.0) (2025-01-13)
+
+
+### Features
+
+* **key-spacing:** add ignoredNodes option ([#640](https://github.com/eslint-stylistic/eslint-stylistic/issues/640)) ([33ae1f6](https://github.com/eslint-stylistic/eslint-stylistic/commit/33ae1f6fbeb15f36967998fe566b74df7db8d3d5))
+* **no-extra-parens:** introduce `nestedConditionalExpressions` option ([#657](https://github.com/eslint-stylistic/eslint-stylistic/issues/657)) ([bf63800](https://github.com/eslint-stylistic/eslint-stylistic/commit/bf63800c49218d554c79b4da6513c8ef90f59857))
+* **padded-blocks:** add start and end options ([#655](https://github.com/eslint-stylistic/eslint-stylistic/issues/655)) ([cf49939](https://github.com/eslint-stylistic/eslint-stylistic/commit/cf49939a716a8f66f2d5be1d043a7c736133a986))
+
+
+### Bug Fixes
+
+* **indent-binary-ops:** correctly handle `TypeAliasDeclaration` ([#647](https://github.com/eslint-stylistic/eslint-stylistic/issues/647)) ([ca2aabc](https://github.com/eslint-stylistic/eslint-stylistic/commit/ca2aabc52a9d219cd16889cc9c4ea8b04d6af054))
+* **indent-binary-ops:** indent on multiline assignment ([#644](https://github.com/eslint-stylistic/eslint-stylistic/issues/644)) ([d708587](https://github.com/eslint-stylistic/eslint-stylistic/commit/d7085874e84d7113a140878650f90f4efae87766))
+
+
+### Documentation
+
+* fix incorrect breadcrumbs ([#642](https://github.com/eslint-stylistic/eslint-stylistic/issues/642)) ([eea9267](https://github.com/eslint-stylistic/eslint-stylistic/commit/eea92676326d26ec3786d2e2ee842507678fb565))
+* **indent:** fix incorrect option description ([#638](https://github.com/eslint-stylistic/eslint-stylistic/issues/638)) ([d427d47](https://github.com/eslint-stylistic/eslint-stylistic/commit/d427d47c430b5d9db90349438eaaa2c30b083511))
+
+
+### Chores
+
+* replace deprecated `isSpaceBetweenTokens` with `isSpaceBetween` ([#646](https://github.com/eslint-stylistic/eslint-stylistic/issues/646)) ([6da7c42](https://github.com/eslint-stylistic/eslint-stylistic/commit/6da7c42da0633ad9c8156910200c592cbe888a30))
+
+## [2.12.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.12.0...v2.12.1) (2024-12-11)
+
+
+### Features
+
+* **indent:** introduce `offsetTernaryExpressionsOffsetCallExpressions` options ([#636](https://github.com/eslint-stylistic/eslint-stylistic/issues/636)) ([c14a3ee](https://github.com/eslint-stylistic/eslint-stylistic/commit/c14a3eef1898c0ade0952208a4a470a6c6dd091f))
+
+
+### Documentation
+
+* correct eslint flat config in migration guide ([#634](https://github.com/eslint-stylistic/eslint-stylistic/issues/634)) ([16a0ae0](https://github.com/eslint-stylistic/eslint-stylistic/commit/16a0ae0b181230007ca7b80c1eb60b13e79a1ac2))
+
+
+### Chores
+
+* release-please-mark ([e9ca882](https://github.com/eslint-stylistic/eslint-stylistic/commit/e9ca88292b0c137226dadfbfa77bf9d73584802b))
+
+## [2.12.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.11.0...v2.12.0) (2024-12-08)
+
+
+### Bug Fixes
+
+* **comma-style:** handles comma after default import and trailing comma ([#600](https://github.com/eslint-stylistic/eslint-stylistic/issues/600)) ([2d8d8ce](https://github.com/eslint-stylistic/eslint-stylistic/commit/2d8d8ce57a12b597de1cffab8e9784b8e20fca15))
+* **function-call-spacing:** remove invalid defaults from schema ([#617](https://github.com/eslint-stylistic/eslint-stylistic/issues/617)) ([0714754](https://github.com/eslint-stylistic/eslint-stylistic/commit/07147543dad01ecdf99ebb17b00384f134926bc5))
+* **indent:** consider `CallExpression` when `offsetTernaryExpressions` is true ([#625](https://github.com/eslint-stylistic/eslint-stylistic/issues/625)) ([55d3529](https://github.com/eslint-stylistic/eslint-stylistic/commit/55d3529bd8da0d5d944e0647713a8afa17296639))
+* **jsx-wrap-multilines:** text between replacement texts included in parentheses ([#618](https://github.com/eslint-stylistic/eslint-stylistic/issues/618)) ([0764252](https://github.com/eslint-stylistic/eslint-stylistic/commit/07642521b779636a9580d5236a0e03fceaa74d58))
+
+
+### Documentation
+
+* support eslint v9 parser ([#631](https://github.com/eslint-stylistic/eslint-stylistic/issues/631)) ([0e4b1cb](https://github.com/eslint-stylistic/eslint-stylistic/commit/0e4b1cbd6df7f7ef45f99c5fe4bfc99bb595f009))
+
+
+### Chores
+
+* release-please-mark ([ceff702](https://github.com/eslint-stylistic/eslint-stylistic/commit/ceff702a78e6abc0f714714fedfab3100d2f5625))
+
+## [2.11.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.10.1...v2.11.0) (2024-11-19)
+
+
+### Features
+
+* **comma-dangle:** add support for Import Attributes ([#586](https://github.com/eslint-stylistic/eslint-stylistic/issues/586)) ([4c177c3](https://github.com/eslint-stylistic/eslint-stylistic/commit/4c177c35057652e3872f65756fa62dc05b34cf93))
+* **comma-style:** add support for more syntax ([#597](https://github.com/eslint-stylistic/eslint-stylistic/issues/597)) ([922151c](https://github.com/eslint-stylistic/eslint-stylistic/commit/922151c98b2dc75ad4a135f082050b9dd1b26d11))
+* **function-call-argument-newline:** add support for Import Attributes ([#603](https://github.com/eslint-stylistic/eslint-stylistic/issues/603)) ([8ee0c24](https://github.com/eslint-stylistic/eslint-stylistic/commit/8ee0c24da827c36da3df2e9724744b88fc3aa988))
+* **function-call-spacing:** add `optionalChain` to control the space around the `optional chain` ([#605](https://github.com/eslint-stylistic/eslint-stylistic/issues/605)) ([f732798](https://github.com/eslint-stylistic/eslint-stylistic/commit/f73279887c755db71e47cb3248fea746fb34e783))
+* **function-paren-newline:** add support for Import Attributes ([#585](https://github.com/eslint-stylistic/eslint-stylistic/issues/585)) ([4ede153](https://github.com/eslint-stylistic/eslint-stylistic/commit/4ede153af46af01ed3250e16365975e034631455))
+
+
+### Bug Fixes
+
+* fix the `update` script in `Windows` ([#604](https://github.com/eslint-stylistic/eslint-stylistic/issues/604)) ([dede119](https://github.com/eslint-stylistic/eslint-stylistic/commit/dede11938e3e15a9e36efefeb548eaa1f3cb1484))
+
+
+### Build Related
+
+* **deps:** bump codecov/codecov-action from 4 to 5 ([#612](https://github.com/eslint-stylistic/eslint-stylistic/issues/612)) ([047a384](https://github.com/eslint-stylistic/eslint-stylistic/commit/047a3840e43bea3731c5bef629e18a06b10c55a8))
+
+## [2.10.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.10.0...v2.10.1) (2024-11-01)
+
+
+### Features
+
+* **indent-binary-ops:** disabled to lower indent when starts closing bracket ([#591](https://github.com/eslint-stylistic/eslint-stylistic/issues/591)) ([25fe554](https://github.com/eslint-stylistic/eslint-stylistic/commit/25fe554cc19e0193e973dd4dd48ed5e218b5c6a5))
+
+
+### Bug Fixes
+
+* **key-spacing:** crash for import without attributes when using `align: "colon"` ([#594](https://github.com/eslint-stylistic/eslint-stylistic/issues/594)) ([6000f43](https://github.com/eslint-stylistic/eslint-stylistic/commit/6000f43d0d6522af1616192321a84cb2ead9b95d))
+
+
+### Chores
+
+* release-please-mark ([5e7a284](https://github.com/eslint-stylistic/eslint-stylistic/commit/5e7a2841f226347c853559a58c3601d369b8a1ad))
+* release-please-mark ([08b65a5](https://github.com/eslint-stylistic/eslint-stylistic/commit/08b65a5a605f4e86808983275370271548e98ec9))
+
+## [2.10.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.9.0...v2.10.0) (2024-10-30)
+
+
+### Features
+
+* cross test `comma-spacing` ([#562](https://github.com/eslint-stylistic/eslint-stylistic/issues/562)) ([ea72317](https://github.com/eslint-stylistic/eslint-stylistic/commit/ea72317f548bf6904d10d7f415ce38dc04e454ff))
+* **function-call-spacing:** auto-fix optional chain when option is `never` ([#589](https://github.com/eslint-stylistic/eslint-stylistic/issues/589)) ([7a2b47f](https://github.com/eslint-stylistic/eslint-stylistic/commit/7a2b47f9cfa32e311eea5b16b3a26c9d034f60df))
+* **function-call-spacing:** support `ImportExpression` in `ts` version ([#570](https://github.com/eslint-stylistic/eslint-stylistic/issues/570)) ([19d1f8c](https://github.com/eslint-stylistic/eslint-stylistic/commit/19d1f8c4a4ae674c53adb4c908bd82985f9af6b9))
+* **indent-binary-ops:** logical expression indent ([#576](https://github.com/eslint-stylistic/eslint-stylistic/issues/576)) ([cbf800d](https://github.com/eslint-stylistic/eslint-stylistic/commit/cbf800ddebf04b2439a751a5d773b80c498f504e))
+* **indent:** add support for Import Attributes ([#579](https://github.com/eslint-stylistic/eslint-stylistic/issues/579)) ([4f944d8](https://github.com/eslint-stylistic/eslint-stylistic/commit/4f944d803f779194d76bbd8d9308cef2fb22d7ec))
+* **key-spacing:** add support for Import Attributes ([#583](https://github.com/eslint-stylistic/eslint-stylistic/issues/583)) ([789d893](https://github.com/eslint-stylistic/eslint-stylistic/commit/789d8935de1f05c6f525017bbb55b2729cff55b2))
+* **max-statements-per-line:** new option to allow specific statements ([#558](https://github.com/eslint-stylistic/eslint-stylistic/issues/558)) ([2ed4054](https://github.com/eslint-stylistic/eslint-stylistic/commit/2ed405430c52ee13b5eaf2754e7c6c178d4e79e5))
+* **no-multi-spaces:** add support for Import Attributes ([#584](https://github.com/eslint-stylistic/eslint-stylistic/issues/584)) ([0da0713](https://github.com/eslint-stylistic/eslint-stylistic/commit/0da07139a6c8e65d0478db91b534498d9a6c9889))
+* **padding-line-between-statements:** add support for multiline-export and singleline-export ([#582](https://github.com/eslint-stylistic/eslint-stylistic/issues/582)) ([2690a30](https://github.com/eslint-stylistic/eslint-stylistic/commit/2690a302d50b044a58f7143fd26cb4204ab7e19d))
+* **quote-props:** add support for Import Attributes ([#581](https://github.com/eslint-stylistic/eslint-stylistic/issues/581)) ([4edfee2](https://github.com/eslint-stylistic/eslint-stylistic/commit/4edfee2c573214b8feec1e1f1c06835e5cdb626c))
+
+
+### Bug Fixes
+
+* correct the type of `quotes` in `customize` ([#590](https://github.com/eslint-stylistic/eslint-stylistic/issues/590)) ([b86c2df](https://github.com/eslint-stylistic/eslint-stylistic/commit/b86c2df9a4700bbe37dd2fbb6fe45dba904895f7))
+* **function-call-spacing:** don't remove comments while auto-fixing ([#588](https://github.com/eslint-stylistic/eslint-stylistic/issues/588)) ([53b4a55](https://github.com/eslint-stylistic/eslint-stylistic/commit/53b4a55b6ddca27e8f1cebf90a8835dc383fd07b))
+* **jsx-closing-bracket-location:** should not remove comment in jsx ([#566](https://github.com/eslint-stylistic/eslint-stylistic/issues/566)) ([e2ba8d5](https://github.com/eslint-stylistic/eslint-stylistic/commit/e2ba8d535884a4f997f22b42be0c3f5c0d4f1c64))
+
+
+### Documentation
+
+* **func-call-spacing:** fixing broken links ([#587](https://github.com/eslint-stylistic/eslint-stylistic/issues/587)) ([d3dbc22](https://github.com/eslint-stylistic/eslint-stylistic/commit/d3dbc22f89c6cf7c8e54feedb5b73a8b64e145e9))
+
+
+### Chores
+
+* replace deprecated api with new api ([#567](https://github.com/eslint-stylistic/eslint-stylistic/issues/567)) ([3db4870](https://github.com/eslint-stylistic/eslint-stylistic/commit/3db4870f56b5f999439987eb904361488e764cc6))
+
 ## [2.9.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.8.0...v2.9.0) (2024-10-05)
 
 

@@ -46,6 +46,18 @@ export default createRule<RuleOptions, MessageIds>({
                 allowNewlines: {
                   type: 'boolean',
                 },
+                optionalChain: {
+                  type: 'object',
+                  properties: {
+                    before: {
+                      type: 'boolean',
+                    },
+                    after: {
+                      type: 'boolean',
+                    },
+                  },
+                  additionalProperties: false,
+                },
               },
               additionalProperties: false,
             },
@@ -67,6 +79,7 @@ export default createRule<RuleOptions, MessageIds>({
   create(context, [option, config]) {
     const sourceCode = context.sourceCode
     const text = sourceCode.getText()
+    const { allowNewlines = false, optionalChain = { before: true, after: true } } = config!
 
     /**
      * Check if open space is present in a function name
@@ -74,30 +87,14 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function checkSpacing(
-      node: Tree.CallExpression | Tree.NewExpression,
+      node: Tree.CallExpression | Tree.NewExpression | Tree.ImportExpression,
+      leftToken: Tree.Token,
+      rightToken: Tree.Token,
     ): void {
       const isOptionalCall = isOptionalCallExpression(node)
 
-      const closingParenToken = sourceCode.getLastToken(node)!
-      const lastCalleeTokenWithoutPossibleParens = sourceCode.getLastToken(
-        node.typeArguments ?? node.callee,
-      )!
-      const openingParenToken = sourceCode.getFirstTokenBetween(
-        lastCalleeTokenWithoutPossibleParens,
-        closingParenToken,
-        isOpeningParenToken,
-      )
-      if (!openingParenToken || openingParenToken.range[1] >= node.range[1]) {
-        // new expression with no parens...
-        return
-      }
-      const lastCalleeToken = sourceCode.getTokenBefore(
-        openingParenToken,
-        isNotOptionalChainPunctuator,
-      )!
-
       const textBetweenTokens = text
-        .slice(lastCalleeToken.range[1], openingParenToken.range[0])
+        .slice(leftToken.range[1], rightToken.range[0])
         .replace(/\/\*.*?\*\//gu, '')
       const hasWhitespace = /\s/u.test(textBetweenTokens)
       const hasNewline
@@ -107,23 +104,24 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasWhitespace) {
           return context.report({
             node,
-            loc: lastCalleeToken.loc.start,
+            loc: leftToken.loc.start,
             messageId: 'unexpectedWhitespace',
             fix(fixer) {
-              /**
-               * Only autofix if there is no newline
-               * https://github.com/eslint/eslint/issues/7787
-               */
-              if (
-                !hasNewline
-                // don't fix optional calls
-                && !isOptionalCall
-              ) {
-                return fixer.removeRange([
-                  lastCalleeToken.range[1],
-                  openingParenToken.range[0],
-                ])
+              // Don't remove comments.
+              if (sourceCode.commentsExistBetween(leftToken, rightToken))
+                return null
+
+              if (isOptionalCall) {
+                return fixer.replaceTextRange([
+                  leftToken.range[1],
+                  rightToken.range[0],
+                ], '?.')
               }
+
+              return fixer.removeRange([
+                leftToken.range[1],
+                rightToken.range[0],
+              ])
 
               return null
             },
@@ -131,15 +129,42 @@ export default createRule<RuleOptions, MessageIds>({
         }
       }
       else if (isOptionalCall) {
-        // disallow:
-        // foo?. ();
-        // foo ?.();
-        // foo ?. ();
-        if (hasWhitespace || hasNewline) {
+        const { before: beforeOptionChain = true, after: afterOptionChain = true } = optionalChain
+
+        const hasPrefixSpace = /^\s/u.test(textBetweenTokens)
+        const hasSuffixSpace = /\s$/u.test(textBetweenTokens)
+        const hasCorrectPrefixSpace = beforeOptionChain ? hasPrefixSpace : !hasPrefixSpace
+        const hasCorrectSuffixSpace = afterOptionChain ? hasSuffixSpace : !hasSuffixSpace
+        const hasCorrectNewline = allowNewlines || !hasNewline
+
+        if (!hasCorrectPrefixSpace || !hasCorrectSuffixSpace || !hasCorrectNewline) {
+          const messageId = !hasCorrectNewline
+            ? 'unexpectedNewline'
+            : (!beforeOptionChain && hasPrefixSpace) || (!afterOptionChain && hasSuffixSpace)
+                ? 'unexpectedWhitespace'
+                : 'missing'
+
           context.report({
             node,
-            loc: lastCalleeToken.loc.start,
-            messageId: 'unexpectedWhitespace',
+            loc: leftToken.loc.start,
+            messageId,
+            fix(fixer) {
+              // Don't remove comments.
+              if (sourceCode.commentsExistBetween(leftToken, rightToken))
+                return null
+
+              let text = textBetweenTokens
+              if (!allowNewlines) {
+                const GLOBAL_LINEBREAK_MATCHER = new RegExp(LINEBREAK_MATCHER.source, 'g')
+                text = text.replaceAll(GLOBAL_LINEBREAK_MATCHER, ' ')
+              }
+              if (!hasCorrectPrefixSpace)
+                text = beforeOptionChain ? ` ${text}` : text.trimStart()
+              if (!hasCorrectSuffixSpace)
+                text = afterOptionChain ? `${text} ` : text.trimEnd()
+
+              return fixer.replaceTextRange([leftToken.range[1], rightToken.range[0]], text)
+            },
           })
         }
       }
@@ -147,21 +172,25 @@ export default createRule<RuleOptions, MessageIds>({
         if (!hasWhitespace) {
           context.report({
             node,
-            loc: lastCalleeToken.loc.start,
+            loc: leftToken.loc.start,
             messageId: 'missing',
             fix(fixer) {
-              return fixer.insertTextBefore(openingParenToken, ' ')
+              return fixer.insertTextBefore(rightToken, ' ')
             },
           })
         }
-        else if (!config!.allowNewlines && hasNewline) {
+        else if (!allowNewlines && hasNewline) {
           context.report({
             node,
-            loc: lastCalleeToken.loc.start,
+            loc: leftToken.loc.start,
             messageId: 'unexpectedNewline',
             fix(fixer) {
+              // Don't remove comments.
+              if (sourceCode.commentsExistBetween(leftToken, rightToken))
+                return null
+
               return fixer.replaceTextRange(
-                [lastCalleeToken.range[1], openingParenToken.range[0]],
+                [leftToken.range[1], rightToken.range[0]],
                 ' ',
               )
             },
@@ -171,8 +200,34 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     return {
-      CallExpression: checkSpacing,
-      NewExpression: checkSpacing,
+      'CallExpression, NewExpression': function (node: Tree.CallExpression | Tree.NewExpression) {
+        const closingParenToken = sourceCode.getLastToken(node)!
+        const lastCalleeTokenWithoutPossibleParens = sourceCode.getLastToken(
+          node.typeArguments ?? node.callee,
+        )!
+
+        const openingParenToken = sourceCode.getFirstTokenBetween(
+          lastCalleeTokenWithoutPossibleParens,
+          closingParenToken,
+          isOpeningParenToken,
+        )
+        if (!openingParenToken || openingParenToken.range[1] >= node.range[1]) {
+          // new expression with no parens...
+          return
+        }
+        const lastCalleeToken = sourceCode.getTokenBefore(
+          openingParenToken,
+          isNotOptionalChainPunctuator,
+        )!
+
+        checkSpacing(node, lastCalleeToken, openingParenToken)
+      },
+      ImportExpression(node) {
+        const leftToken = sourceCode.getFirstToken(node)!
+        const rightToken = sourceCode.getTokenAfter(leftToken)!
+
+        checkSpacing(node, leftToken, rightToken)
+      },
     }
   },
 })

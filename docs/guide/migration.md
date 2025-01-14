@@ -89,14 +89,16 @@ npm i -D @stylistic/eslint-plugin-js
 import stylisticJs from '@stylistic/eslint-plugin-js'
 
 export default [
-  plugins: {
-    '@stylistic/js': stylisticJs
-  },
-  rules: {
-    // ESLint built-in stylistic rules:
-    // Add `@stylistic/js/` prefix
-    'semi': 'error', // [!code --]
-    '@stylistic/js/semi': 'error', // [!code ++]
+  {
+    plugins: {
+      '@stylistic/js': stylisticJs
+    },
+    rules: {
+      // ESLint built-in stylistic rules:
+      // Add `@stylistic/js/` prefix
+      'semi': 'error', // [!code --]
+      '@stylistic/js/semi': 'error', // [!code ++]
+    }
   }
 ]
 ```
@@ -132,14 +134,16 @@ npm i -D @stylistic/eslint-plugin-ts
 import stylisticTs from '@stylistic/eslint-plugin-ts'
 
 export default [
-  plugins: {
-    '@stylistic/ts': stylisticTs
-  },
-  rules: {
-    // `@typescript-eslint` rules:
-    // Change `@typescript-eslint/` to `@stylistic/ts/` prefix
-    '@typescript-eslint/semi': 'error', // [!code --]
-    '@stylistic/ts/semi': 'error', // [!code ++]
+  {
+    plugins: {
+      '@stylistic/ts': stylisticTs
+    },
+    rules: {
+      // `@typescript-eslint` rules:
+      // Change `@typescript-eslint/` to `@stylistic/ts/` prefix
+      '@typescript-eslint/semi': 'error', // [!code --]
+      '@stylistic/ts/semi': 'error', // [!code ++]
+    }
   }
 ]
 ```
@@ -174,14 +178,16 @@ npm i -D @stylistic/eslint-plugin-jsx
 import stylisticJsx from '@stylistic/eslint-plugin-jsx'
 
 export default [
-  plugins: [
-    '@stylistic/jsx'
-  ],
-  rules: {
-    // `eslint-plugin-react` rules:
-    // Change `react/` to `@stylistic/jsx/` prefix
-    'react/jsx-indent': 'error', // [!code --]
-    '@stylistic/jsx/jsx-indent': 'error', // [!code ++]
+  {
+    plugins: [
+      '@stylistic/jsx'
+    ],
+    rules: {
+      // `eslint-plugin-react` rules:
+      // Change `react/` to `@stylistic/jsx/` prefix
+      'react/jsx-indent': 'error', // [!code --]
+      '@stylistic/jsx/jsx-indent': 'error', // [!code ++]
+    }
   }
 ]
 ```

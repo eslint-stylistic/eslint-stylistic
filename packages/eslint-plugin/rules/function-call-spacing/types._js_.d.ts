@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: m5GCegSIt6 */
+/* @checksum: rNIZg9D7xl */
 
 export type FunctionCallSpacingSchema0 =
   | []
@@ -11,10 +11,6 @@ export type FunctionCallSpacingSchema0 =
     'always',
     {
       allowNewlines?: boolean
-      optionalChain?: {
-        before?: boolean
-        after?: boolean
-      }
     },
   ]
 

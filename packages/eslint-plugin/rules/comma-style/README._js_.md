@@ -42,13 +42,34 @@ This rule also accepts an additional `exceptions` object:
   - `"CallExpression": true` ignores comma style in the arguments of function calls
   - `"FunctionDeclaration": true` ignores comma style in the parameters of function declarations
   - `"FunctionExpression": true` ignores comma style in the parameters of function expressions
-  - `"ImportDeclaration": true` ignores comma style in the specifiers of import declarations
+  - `"ImportDeclaration": true` ignores comma style in the specifiers / import attributes of import declarations
   - `"ObjectExpression": true` ignores comma style in object literals
   - `"ObjectPattern": true` ignores comma style in object patterns of destructuring
   - `"VariableDeclaration": true` ignores comma style in variable declarations
   - `"NewExpression": true` ignores comma style in the parameters of constructor expressions
+  - `"ExportAllDeclaration": true` ignores comma style in the import attributes of export all declarations
+  - `"ExportNamedDeclaration": true` ignores comma style in the specifiers / import attributes of export named declarations
+  - `"ImportExpression": true` ignores comma style in the arguments of import expressions
+  - `"SequenceExpression": true` ignores comma style in sequence expressions
+  - `"ClassDeclaration": true` ignores comma style in the TypeScript implements of class declarations
+  - `"ClassExpression": true` ignores comma style in the TypeScript implements of class declarations
+  - `"TSDeclareFunction": true` ignores comma style in the parameters of TypeScript declare functions
+  - `"TSFunctionType": true` ignores comma style in the parameters of TypeScript function types
+  - `"TSConstructorType": true` ignores comma style in the parameters of TypeScript constructor types
+  - `"TSEmptyBodyFunctionExpression": true` ignores comma style in the parameters of TypeScript empty body function expressions
+  - `"TSMethodSignature": true` ignores comma style in the parameters of TypeScript method signatures
+  - `"TSCallSignatureDeclaration": true` ignores comma style in the parameters of TypeScript call signature declarations
+  - `"TSConstructSignatureDeclaration": true` ignores comma style in the parameters of TypeScript construct signature declarations
+  - `"TSEnumBody": true` ignores comma style in the members of TypeScript enums
+  - `"TSTypeLiteral": true` ignores comma style in the members of TypeScript type literals
+  - `"TSInterfaceBody": true` ignores comma style in the members of TypeScript interfaces
+  - `"TSIndexSignature": true` ignores comma style in the key parameters of TypeScript index signatures
+  - `"TSInterfaceDeclaration": true` ignores comma style in the extend classes of TypeScript interfaces
+  - `"TSTupleType": true` ignores comma style in the elements of TypeScript tuple types
+  - `"TSTypeParameterDeclaration": true` ignores comma style in the type parameters of TypeScript type parameter declarations
+  - `"TSTypeParameterInstantiation": true` ignores comma style in the type arguments of TypeScript type parameter instantiations
 
-A way to determine the node types as defined by [ESTree](https://github.com/estree/estree) is to use [AST Explorer](https://astexplorer.net/) with the espree parser.
+A way to determine the node types as defined by [ESTree](https://github.com/estree/estree) and [@typescript-eslint/parser](https://typescript-eslint.io/packages/parser/) is to use [AST Explorer](https://astexplorer.net/) with the espree parser or @typescript-eslint/parser.
 
 ### last
 

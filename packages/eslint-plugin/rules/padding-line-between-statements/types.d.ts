@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 6uKu5Yp4W2 */
+/* @checksum: dpKjh9VDsc */
 
 export type PaddingType = 'any' | 'never' | 'always'
 export type StatementType =
@@ -15,9 +15,11 @@ export type StatementType =
     | 'multiline-block-like'
     | 'multiline-expression'
     | 'multiline-const'
+    | 'multiline-export'
     | 'multiline-let'
     | 'multiline-var'
     | 'singleline-const'
+    | 'singleline-export'
     | 'singleline-let'
     | 'singleline-var'
     | 'block'
@@ -63,9 +65,11 @@ export type StatementType =
         | 'multiline-block-like'
         | 'multiline-expression'
         | 'multiline-const'
+        | 'multiline-export'
         | 'multiline-let'
         | 'multiline-var'
         | 'singleline-const'
+        | 'singleline-export'
         | 'singleline-let'
         | 'singleline-var'
         | 'block'
@@ -110,9 +114,11 @@ export type StatementType =
         | 'multiline-block-like'
         | 'multiline-expression'
         | 'multiline-const'
+        | 'multiline-export'
         | 'multiline-let'
         | 'multiline-var'
         | 'singleline-const'
+        | 'singleline-export'
         | 'singleline-let'
         | 'singleline-var'
         | 'block'

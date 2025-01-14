@@ -54,7 +54,7 @@ export default createRule<RuleOptions, MessageIds>({
       return (
         isClosingBraceToken(right)
         || !isTokenOnSameLine(left, right)
-        || sourceCode.isSpaceBetweenTokens(left, right) === expected
+        || sourceCode.isSpaceBetween(left, right) === expected
       )
     }
 

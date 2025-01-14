@@ -240,9 +240,9 @@ function isDirective(
     && (node.parent?.type === AST_NODE_TYPES.Program
       || (node.parent?.type === AST_NODE_TYPES.BlockStatement
         && isFunction(node.parent.parent)))
-        && node.expression.type === AST_NODE_TYPES.Literal
-        && typeof node.expression.value === 'string'
-        && !isParenthesized(node.expression, sourceCode)
+      && node.expression.type === AST_NODE_TYPES.Literal
+      && typeof node.expression.value === 'string'
+      && !isParenthesized(node.expression, sourceCode)
   )
 }
 
@@ -340,11 +340,11 @@ function getActualLastToken(
   const nextToken = sourceCode.getTokenAfter(semiToken)
   const isSemicolonLessStyle
     = prevToken
-    && nextToken
-    && prevToken.range[0] >= node.range[0]
-    && isSemicolonToken(semiToken)
-    && semiToken.loc.start.line !== prevToken.loc.end.line
-    && semiToken.loc.end.line === nextToken.loc.start.line
+      && nextToken
+      && prevToken.range[0] >= node.range[0]
+      && isSemicolonToken(semiToken)
+      && semiToken.loc.start.line !== prevToken.loc.end.line
+      && semiToken.loc.end.line === nextToken.loc.start.line
 
   return isSemicolonLessStyle ? prevToken : semiToken
 }
@@ -525,9 +525,11 @@ const StatementTypes: Record<string, NodeTestObject> = {
   },
 
   'multiline-const': newMultilineKeywordTester('const'),
+  'multiline-export': newMultilineKeywordTester('export'),
   'multiline-let': newMultilineKeywordTester('let'),
   'multiline-var': newMultilineKeywordTester('var'),
   'singleline-const': newSinglelineKeywordTester('const'),
+  'singleline-export': newSinglelineKeywordTester('export'),
   'singleline-let': newSinglelineKeywordTester('let'),
   'singleline-var': newSinglelineKeywordTester('var'),
 

@@ -132,8 +132,7 @@ export default createRule<RuleOptions, MessageIds>({
       const precedingToken = sourceCode.getTokenBefore(node)
 
       if (precedingToken && !isConflicted(precedingToken, node) && isTokenOnSameLine(precedingToken, node)) {
-        // @ts-expect-error type cast
-        const hasSpace = sourceCode.isSpaceBetweenTokens(precedingToken, node)
+        const hasSpace = sourceCode.isSpaceBetween(precedingToken, node)
         let requireSpace
         let requireNoSpace
 
