@@ -67,6 +67,7 @@ export default createRule<RuleOptions, MessageIds>({
                 enforceForNewInMemberExpressions: { type: 'boolean' },
                 enforceForFunctionPrototypeMethods: { type: 'boolean' },
                 allowParensAfterCommentPattern: { type: 'string' },
+                nestedConditionalExpressions: { type: 'boolean' },
               },
               additionalProperties: false,
             },
@@ -102,6 +103,7 @@ export default createRule<RuleOptions, MessageIds>({
     const IGNORE_FUNCTION_PROTOTYPE_METHODS = ALL_NODES && context.options[1]
       && context.options[1].enforceForFunctionPrototypeMethods === false
     const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && context.options[1] && context.options[1].allowParensAfterCommentPattern
+    const ALLOW_NESTED_TERNARY = ALL_NODES && context.options[1] && context.options[1].nestedConditionalExpressions === false
 
     // @ts-expect-error other properties are not used
     const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' })
@@ -376,7 +378,7 @@ export default createRule<RuleOptions, MessageIds>({
       const tokenBeforeRightParen = sourceCode.getLastToken(node)!
 
       return rightParenToken && tokenAfterRightParen
-        && !sourceCode.isSpaceBetweenTokens(rightParenToken, tokenAfterRightParen)
+        && !sourceCode.isSpaceBetween(rightParenToken, tokenAfterRightParen)
         && !canTokensBeAdjacent(tokenBeforeRightParen, tokenAfterRightParen)
     }
 
@@ -885,6 +887,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.test.type))
+          && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.test.type))
           && !isCondAssignException(node)
           // @ts-expect-error other properties are not used
           && hasExcessParensWithPrecedence(node.test, precedence({ type: 'LogicalExpression', operator: '||' }))
@@ -894,12 +897,14 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.consequent.type))
+          && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.consequent.type))
           && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
           report(node.consequent)
         }
 
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.alternate.type))
+          && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.alternate.type))
           && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
           report(node.alternate)
         }

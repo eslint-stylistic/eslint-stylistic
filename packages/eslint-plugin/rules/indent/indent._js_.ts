@@ -597,6 +597,10 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'boolean',
             default: false,
           },
+          offsetTernaryExpressionsOffsetCallExpressions: {
+            type: 'boolean',
+            default: true,
+          },
           ignoredNodes: {
             type: 'array',
             items: {
@@ -661,6 +665,7 @@ export default createRule<RuleOptions, MessageIds>({
       ignoredNodes: [],
       ignoreComments: false,
       offsetTernaryExpressions: false,
+      offsetTernaryExpressionsOffsetCallExpressions: true,
       tabLength: 4,
     }
 
@@ -1163,10 +1168,18 @@ export default createRule<RuleOptions, MessageIds>({
           offsets.setDesiredOffset(questionMarkToken, firstToken, 1)
           offsets.setDesiredOffset(colonToken, firstToken, 1)
 
+          let offset = 1
+          if (options.offsetTernaryExpressions) {
+            if (firstConsequentToken.type === 'Punctuator')
+              offset = 2
+            if (options.offsetTernaryExpressionsOffsetCallExpressions && node.consequent.type === 'CallExpression')
+              offset = 2
+          }
+
           offsets.setDesiredOffset(
             firstConsequentToken,
             firstToken,
-            firstConsequentToken.type === 'Punctuator' && options.offsetTernaryExpressions ? 2 : 1,
+            offset,
           )
 
           /**
@@ -1183,6 +1196,13 @@ export default createRule<RuleOptions, MessageIds>({
             offsets.setDesiredOffset(firstAlternateToken, firstConsequentToken, 0)
           }
           else {
+            let offset = 1
+            if (options.offsetTernaryExpressions) {
+              if (firstAlternateToken.type === 'Punctuator')
+                offset = 2
+              if (options.offsetTernaryExpressionsOffsetCallExpressions && node.alternate.type === 'CallExpression')
+                offset = 2
+            }
             /**
              * If the alternate and consequent do not share part of a line, offset the alternate from the first
              * token of the conditional expression. For example:
@@ -1192,8 +1212,11 @@ export default createRule<RuleOptions, MessageIds>({
              * If `baz` were aligned with `bar` rather than being offset by 1 from `foo`, `baz` would end up
              * having no expected indentation.
              */
-            offsets.setDesiredOffset(firstAlternateToken, firstToken, firstAlternateToken.type === 'Punctuator'
-            && options.offsetTernaryExpressions ? 2 : 1)
+            offsets.setDesiredOffset(
+              firstAlternateToken,
+              firstToken,
+              offset,
+            )
           }
         }
       },

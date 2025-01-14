@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: IlsCRoaVnx */
+/* @checksum: B8DyPsI0dM */
 
 export type IndentSchema0 = 'tab' | number
 
@@ -34,6 +34,7 @@ export interface IndentSchema1 {
   ImportDeclaration?: number | ('first' | 'off')
   flatTernaryExpressions?: boolean
   offsetTernaryExpressions?: boolean
+  offsetTernaryExpressionsOffsetCallExpressions?: boolean
   ignoredNodes?: string[]
   ignoreComments?: boolean
   tabLength?: number

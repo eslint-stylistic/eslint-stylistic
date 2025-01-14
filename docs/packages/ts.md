@@ -27,7 +27,9 @@ export default [
     plugins: {
       '@stylistic/ts': stylisticTs // [!code ++]
     },
-    parser: parserTs,
+    languageOptions: {
+      parser: parserTs,
+    },
     rules: {
       '@typescript-eslint/indent': ['error', 2], // [!code --]
       '@stylistic/ts/indent': ['error', 2], // [!code ++]

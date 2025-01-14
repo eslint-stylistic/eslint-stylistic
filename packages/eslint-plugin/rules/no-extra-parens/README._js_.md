@@ -60,6 +60,7 @@ This rule has an object option for exceptions to the `"all"` option:
 - `"enforceForNewInMemberExpressions": false` allows extra parentheses around `new` expressions in member expressions
 - `"enforceForFunctionPrototypeMethods": false` allows extra parentheses around immediate `.call` and `.apply` method calls on function expressions and around function expressions in the same context.
 - `"allowParensAfterCommentPattern": "any-string-pattern"` allows extra parentheses preceded by a comment that matches a regular expression.
+- `"nestedConditionalExpressions": false` allows extra parentheses in nested conditional(ternary) expressions
 
 ### all
 
@@ -428,6 +429,21 @@ a = (b * c);
 (a * b) + c;
 
 typeof (a);
+```
+
+:::
+
+### nestedConditionalExpressions
+
+Examples of **correct** code for this rule with the `"all"` and `{ "nestedConditionalExpressions": false }` options:
+
+::: correct
+
+```js
+/* eslint no-extra-parens: ["error", "all", { "nestedConditionalExpressions": false }] */
+
+a ? (b ? c : d) : e;
+a ? b : (c ? d : e);
 ```
 
 :::

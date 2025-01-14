@@ -35,13 +35,15 @@ The second one is an object option, it can allow exceptions.
 
 String option:
 
-- `"always"` (default) requires empty lines at the beginning and ending of block statements, function bodies, class static blocks, classes, and `switch` statements.
-- `"never"` disallows empty lines at the beginning and ending of block statements, function bodies, class static blocks, classes, and `switch` statements.
+- `"always"` (default) **requires** empty lines at the **beginning** and **ending** of `block` statements, function bodies, class static blocks, `classes`, and `switch` statements.
+- `"never"` **disallows** empty lines at the **beginning** and **ending** of `block` statements, function bodies, class static blocks, `classes`, and `switch` statements.
+- `"start"` **require** empty lines at the **beginning** of `block` statements, function bodies, class static blocks, `classes`, and `switch` statements.
+- `"end"` **require** empty lines at the **ending** of `block` statements, function bodies, class static blocks, `classes`, and `switch` statements.
 
 Object option:
 
-- `"blocks"` require or disallow padding within block statements, function bodies, and class static blocks
-- `"classes"` require or disallow padding within classes
+- `"blocks"` require or disallow padding within `block` statements, function bodies, and class static blocks
+- `"classes"` require or disallow padding within `classes`
 - `"switches"` require or disallow padding within `switch` statements
 
 ### Second option

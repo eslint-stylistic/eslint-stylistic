@@ -38,6 +38,7 @@ export default createRule<RuleOptions, MessageIds>({
   defaultOptions: [{}],
   create(context, [_options]) {
     const options: OptionsUnion = _options || {}
+    const ignoredNodes = options.ignoredNodes || []
     const sourceCode = context.sourceCode
     const baseRules = baseRule.create(context)
 
@@ -165,9 +166,9 @@ export default createRule<RuleOptions, MessageIds>({
       })!.loc.start.column
       const difference
         = typeStart
-        - colonToken.loc.start.column
-        - 1
-        - expectedWhitespaceAfterColon
+          - colonToken.loc.start.column
+          - 1
+          - expectedWhitespaceAfterColon
       if (mode === 'strict' ? difference : difference < 0) {
         context.report({
           node,
@@ -370,6 +371,9 @@ export default createRule<RuleOptions, MessageIds>({
         | Tree.TSInterfaceBody
         | Tree.TSTypeLiteral,
     ): void {
+      if (ignoredNodes.includes(body.type))
+        return
+
       const isSingleLine = body.loc.start.line === body.loc.end.line
 
       const members = body.type === AST_NODE_TYPES.TSTypeLiteral

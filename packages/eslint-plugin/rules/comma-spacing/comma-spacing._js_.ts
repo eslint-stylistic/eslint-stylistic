@@ -144,7 +144,7 @@ export default createRule<RuleOptions, MessageIds>({
             && !commaTokensToIgnore.includes(token)
 
             && isTokenOnSameLine(previousToken, token)
-            && options.before !== sourceCode.isSpaceBetweenTokens(previousToken, token)
+            && options.before !== sourceCode.isSpaceBetween(previousToken, token)
           ) {
             report(token, 'before', previousToken)
           }
@@ -157,7 +157,7 @@ export default createRule<RuleOptions, MessageIds>({
             && !isClosingBraceToken(nextToken) // controlled by object-curly-spacing
             && !(!options.after && nextToken.type === 'Line') // special case, allow space before line comment
             && isTokenOnSameLine(token, nextToken)
-            && options.after !== sourceCode.isSpaceBetweenTokens(token, nextToken)
+            && options.after !== sourceCode.isSpaceBetween(token, nextToken)
           ) {
             report(token, 'after', nextToken)
           }

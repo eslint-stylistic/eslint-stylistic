@@ -2249,6 +2249,82 @@ run({
       `,
       options: ['tab', { offsetTernaryExpressions: true }],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/621
+    {
+      code: $`
+        const _obj = {
+          condition:
+            list.length > 3
+              ? t('string', {
+                  num: list.length,
+                })
+              : '',
+        };
+      `,
+      options: [2, { offsetTernaryExpressions: true }],
+    },
+    {
+      code: $`
+        const _obj = {
+          condition:
+            list.length > 3
+              ? t('string', {
+                num: list.length,
+              })
+              : '',
+        };
+      `,
+      options: [2, { offsetTernaryExpressions: false }],
+    },
+    {
+      code: $`
+        condition1
+          ? condition2
+            ? t()
+            : t({
+                foo,
+              })
+          : () => {
+              t()
+            }
+      `,
+      options: [2, { offsetTernaryExpressions: true }],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/633
+    {
+      code: $`
+        const _obj = {
+          condition:
+            list.length > 3
+              ? t('string', {
+                num: list.length,
+              })
+              : '',
+        };
+      `,
+      options: [2, {
+        offsetTernaryExpressions: true,
+        offsetTernaryExpressionsOffsetCallExpressions: false,
+      }],
+    },
+    {
+      code: $`
+        condition1
+          ? condition2
+            ? t()
+            : t({
+              foo,
+            })
+          : () => {
+              t()
+            }
+      `,
+      options: [2, {
+        offsetTernaryExpressions: true,
+        offsetTernaryExpressionsOffsetCallExpressions: false,
+      }],
+    },
+
     $`
       [
           foo ?

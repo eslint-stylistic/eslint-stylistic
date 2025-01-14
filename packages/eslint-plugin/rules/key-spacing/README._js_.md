@@ -28,6 +28,7 @@ This rule has an object option:
   - `"value"`: enforces horizontal alignment of values in object literals.
   - `"colon"` enforces horizontal alignment of both colons and values in object literals.
 - `"align"` with an object value allows for fine-grained spacing when values are being aligned in object literals.
+- `"ignoredNodes"` can be used to disable spacing checking for the AST node. It can be used to resolve conflicts with [`type-annotation-spacing`](../ts/type-annotation-spacing).
 - `"singleLine"` specifies a spacing style for single-line object literals.
 - `"multiLine"` specifies a spacing style for multi-line object literals.
 
@@ -303,6 +304,31 @@ var obj = {
     "one":  1,
     "seven":7
 }
+```
+
+:::
+
+### ignoredNodes
+
+The "ignoredNodes" object property is optional (default: []).
+
+Examples of **correct** code for this rule with sample `{ "ignoredNodes": [] }` options:
+
+::: correct
+
+```js
+/*eslint "key-spacing": [2, { "ignoredNodes": ["ObjectExpression"] }]*/
+var obj = {
+    a: 1,
+    b : 2,
+    c :3,
+}
+/*eslint "key-spacing": [2, { "ignoredNodes": ["ObjectPattern"] }]*/
+var {
+    a: b,
+    c : d,
+    e :f,
+} = obj
 ```
 
 :::

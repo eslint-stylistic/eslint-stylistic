@@ -35,16 +35,16 @@ function MarkdownTransform(): Plugin {
     name: 'local:markdown-transform',
     enforce: 'pre',
     transform(code, id) {
-      if (!id.match(/README\.(?:_\w+_\.)?md$/))
+      let shortId = /README\._(\w+)_\.md$/.exec(id)?.[1]
+      if (!shortId)
         return null
 
-      const isDefaultPackage = id.endsWith('README._merged_.md')
-      const ruleName = basename(dirname(id))
-      const pkgName = isDefaultPackage
-        ? 'default'
-        : basename(dirname(dirname(dirname(id))))
+      if (id.endsWith('README._merged_.md'))
+        shortId = 'default'
 
-      const pkg = packages.find(p => p.shortId === pkgName || p.name.includes(pkgName))
+      const ruleName = basename(dirname(id))
+
+      const pkg = packages.find(p => p.shortId === shortId)
       const rule = pkg?.rules.find(r => r.name === ruleName)
 
       if (!pkg || !rule)

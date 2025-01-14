@@ -363,12 +363,12 @@ export default createRule<RuleOptions, MessageIds>({
       const isObjectLiteral = first.value === second.value
       const spacing = isObjectLiteral ? config.objectLiteralSpaces : config.when
       if (spacing === SPACING.always) {
-        if (!sourceCode.isSpaceBetweenTokens(first, second))
+        if (!sourceCode.isSpaceBetween(first, second))
           reportRequiredBeginningSpace(node, first)
         else if (!config.allowMultiline && isMultiline(first, second))
           reportNoBeginningNewline(node, first, spacing)
 
-        if (!sourceCode.isSpaceBetweenTokens(penultimate, last))
+        if (!sourceCode.isSpaceBetween(penultimate, last))
           reportRequiredEndingSpace(node, last)
         else if (!config.allowMultiline && isMultiline(penultimate, last))
           reportNoEndingNewline(node, last, spacing)
@@ -378,14 +378,14 @@ export default createRule<RuleOptions, MessageIds>({
           if (!config.allowMultiline)
             reportNoBeginningNewline(node, first, spacing)
         }
-        else if (sourceCode.isSpaceBetweenTokens(first, second)) {
+        else if (sourceCode.isSpaceBetween(first, second)) {
           reportNoBeginningSpace(node, first)
         }
         if (isMultiline(penultimate, last)) {
           if (!config.allowMultiline)
             reportNoEndingNewline(node, last, spacing)
         }
-        else if (sourceCode.isSpaceBetweenTokens(penultimate, last)) {
+        else if (sourceCode.isSpaceBetween(penultimate, last)) {
           reportNoEndingSpace(node, last)
         }
       }
