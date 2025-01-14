@@ -1,5 +1,31 @@
 # Changelog
 
+## [2.13.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.12.1...v2.13.0) (2025-01-13)
+
+
+### Features
+
+* **key-spacing:** add ignoredNodes option ([#640](https://github.com/eslint-stylistic/eslint-stylistic/issues/640)) ([33ae1f6](https://github.com/eslint-stylistic/eslint-stylistic/commit/33ae1f6fbeb15f36967998fe566b74df7db8d3d5))
+* **no-extra-parens:** introduce `nestedConditionalExpressions` option ([#657](https://github.com/eslint-stylistic/eslint-stylistic/issues/657)) ([bf63800](https://github.com/eslint-stylistic/eslint-stylistic/commit/bf63800c49218d554c79b4da6513c8ef90f59857))
+* **padded-blocks:** add start and end options ([#655](https://github.com/eslint-stylistic/eslint-stylistic/issues/655)) ([cf49939](https://github.com/eslint-stylistic/eslint-stylistic/commit/cf49939a716a8f66f2d5be1d043a7c736133a986))
+
+
+### Bug Fixes
+
+* **indent-binary-ops:** correctly handle `TypeAliasDeclaration` ([#647](https://github.com/eslint-stylistic/eslint-stylistic/issues/647)) ([ca2aabc](https://github.com/eslint-stylistic/eslint-stylistic/commit/ca2aabc52a9d219cd16889cc9c4ea8b04d6af054))
+* **indent-binary-ops:** indent on multiline assignment ([#644](https://github.com/eslint-stylistic/eslint-stylistic/issues/644)) ([d708587](https://github.com/eslint-stylistic/eslint-stylistic/commit/d7085874e84d7113a140878650f90f4efae87766))
+
+
+### Documentation
+
+* fix incorrect breadcrumbs ([#642](https://github.com/eslint-stylistic/eslint-stylistic/issues/642)) ([eea9267](https://github.com/eslint-stylistic/eslint-stylistic/commit/eea92676326d26ec3786d2e2ee842507678fb565))
+* **indent:** fix incorrect option description ([#638](https://github.com/eslint-stylistic/eslint-stylistic/issues/638)) ([d427d47](https://github.com/eslint-stylistic/eslint-stylistic/commit/d427d47c430b5d9db90349438eaaa2c30b083511))
+
+
+### Chores
+
+* replace deprecated `isSpaceBetweenTokens` with `isSpaceBetween` ([#646](https://github.com/eslint-stylistic/eslint-stylistic/issues/646)) ([6da7c42](https://github.com/eslint-stylistic/eslint-stylistic/commit/6da7c42da0633ad9c8156910200c592cbe888a30))
+
 ## [2.12.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.12.0...v2.12.1) (2024-12-11)
 
 
