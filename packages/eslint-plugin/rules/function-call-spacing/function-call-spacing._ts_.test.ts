@@ -167,7 +167,8 @@ run({
         errors: [
           {
             messageId: 'unexpectedWhitespace' as const,
-            column: 3,
+            column: 4,
+            endColumn: 5,
           },
         ],
       },
@@ -177,7 +178,8 @@ run({
         errors: [
           {
             messageId: 'unexpectedWhitespace' as const,
-            column: 7,
+            column: 8,
+            endColumn: 9,
           },
         ],
       },
@@ -322,7 +324,7 @@ run({
         errors: [
           {
             messageId: 'missing' as const,
-            column: 3,
+            column: 4,
           },
         ],
       },
@@ -336,7 +338,7 @@ run({
         errors: [
           {
             messageId: 'missing' as const,
-            column: 3,
+            column: 4,
           },
         ],
       },
@@ -436,7 +438,7 @@ run({
         errors: [
           {
             messageId: 'missing' as const,
-            column: 3,
+            column: 4,
           },
         ],
       },
