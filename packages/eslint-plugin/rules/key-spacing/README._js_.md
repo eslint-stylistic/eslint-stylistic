@@ -323,6 +323,13 @@ var obj = {
     b : 2,
     c :3,
 }
+```
+
+:::
+
+::: correct
+
+```js
 /*eslint key-spacing: [2, { "ignoredNodes": ["ObjectPattern"] }]*/
 var {
     a: b,
