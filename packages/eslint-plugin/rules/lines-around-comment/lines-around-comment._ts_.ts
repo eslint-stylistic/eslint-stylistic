@@ -308,7 +308,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       const interfaceStartAllowed
         = Boolean(options.allowInterfaceStart)
-        && isCommentAtInterfaceStart(token)
+          && isCommentAtInterfaceStart(token)
       const interfaceEndAllowed
         = Boolean(options.allowInterfaceEnd) && isCommentAtInterfaceEnd(token)
       const typeStartAllowed
@@ -326,14 +326,14 @@ export default createRule<RuleOptions, MessageIds>({
 
       const exceptionStartAllowed
         = interfaceStartAllowed
-        || typeStartAllowed
-        || enumStartAllowed
-        || moduleStartAllowed
+          || typeStartAllowed
+          || enumStartAllowed
+          || moduleStartAllowed
       const exceptionEndAllowed
         = interfaceEndAllowed
-        || typeEndAllowed
-        || enumEndAllowed
-        || moduleEndAllowed
+          || typeEndAllowed
+          || enumEndAllowed
+          || moduleEndAllowed
 
       const previousTokenOrComment = sourceCode.getTokenBefore(token, {
         includeComments: true,

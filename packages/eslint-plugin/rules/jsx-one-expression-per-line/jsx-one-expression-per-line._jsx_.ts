@@ -3,7 +3,7 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
-import type { ASTNode, Token, Tree } from '#types'
+import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isWhiteSpaces } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
@@ -190,15 +190,19 @@ export default createRule<RuleOptions, MessageIds>({
             return
 
           const spaceBetweenPrev = () => {
+            // There must only be one token at most
+            const tokenBetweenNodes = context.sourceCode.getTokensBetween(prevChild!, child)[0]
             return ((prevChild!.type === 'Literal' || prevChild!.type === 'JSXText') && prevChild!.raw.endsWith(' '))
               || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.startsWith(' '))
-              || context.sourceCode.isSpaceBetweenTokens(prevChild as unknown as Token, child as unknown as Token)
+              || isWhiteSpaces(tokenBetweenNodes?.value)
           }
 
           const spaceBetweenNext = () => {
+            // There must only be one token at most
+            const tokenBetweenNodes = context.sourceCode.getTokensBetween(child, nextChild!)[0]
             return ((nextChild!.type === 'Literal' || nextChild!.type === 'JSXText') && nextChild!.raw.startsWith(' '))
               || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.endsWith(' '))
-              || context.sourceCode.isSpaceBetweenTokens(child as unknown as Token, nextChild as unknown as Token)
+              || isWhiteSpaces(tokenBetweenNodes?.value)
           }
 
           const source = context.sourceCode.getText(child)

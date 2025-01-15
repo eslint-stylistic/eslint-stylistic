@@ -343,6 +343,13 @@ const ARROW_NO_PAREN = `
   </div>;
 `
 
+const ARROW_NO_PAREN_NEWLINE_TABS = `
+var hello = () =>
+\t<div>
+\t\t<p>Hello</p>
+\t</div>;
+`
+
 const ARROW_NO_PAREN_FRAGMENT = `
   var hello = () => <>
     <p>Hello</p>
@@ -355,6 +362,14 @@ const ARROW_PAREN_NEW_LINE = `
       <p>Hello</p>
     </div>
   );
+`
+
+const ARROW_PAREN_NEWLINE_TABS = `
+var hello = () => (
+\t<div>
+\t\t<p>Hello</p>
+\t</div>
+);
 `
 
 const CONDITION_SINGLE_LINE = 'foo ? <p>Hello</p> : null;'
@@ -782,6 +797,14 @@ run({
       options: [{ arrow: 'ignore' }],
     },
     {
+      code: ARROW_NO_PAREN_NEWLINE_TABS,
+      options: [{ arrow: 'ignore' }],
+    },
+    {
+      code: ARROW_PAREN_NEWLINE_TABS,
+      options: [{ arrow: 'parens-new-line' }],
+    },
+    {
       code: ARROW_NO_PAREN_FRAGMENT,
       features: ['fragment'],
       options: [{ arrow: 'ignore' }],
@@ -1036,6 +1059,12 @@ run({
       code: ARROW_NO_PAREN,
       output: ARROW_PAREN,
       options: [{ arrow: true }],
+      errors: [{ messageId: 'missingParens' }],
+    },
+    {
+      code: ARROW_NO_PAREN_NEWLINE_TABS,
+      output: ARROW_PAREN_NEWLINE_TABS,
+      options: [{ arrow: 'parens-new-line' }],
       errors: [{ messageId: 'missingParens' }],
     },
     {

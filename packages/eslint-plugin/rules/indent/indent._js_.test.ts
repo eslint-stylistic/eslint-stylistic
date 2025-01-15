@@ -8,8 +8,7 @@ import { join } from 'node:path'
 import { $, run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import tsParser from '@typescript-eslint/parser'
-// TODO: Stage 2: Test merged rule
-import rule from './indent._js_'
+import rule from '.'
 
 const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
 const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')
@@ -994,75 +993,90 @@ run({
       `,
       options: [4, { SwitchCase: 2 }],
     },
-    $`
-      switch (a) {
-      case "foo":
-          a();
-          break;
-      case "bar":
-          switch(x){
-          case '1':
-              break;
-          case '2':
-              a = 6;
-              break;
-          }
-      }
-    `,
-    $`
-      switch (a) {
-      case "foo":
-          a();
-          break;
-      case "bar":
-          if(x){
-              a = 2;
-          }
-          else{
-              a = 6;
-          }
-      }
-    `,
-    $`
-      switch (a) {
-      case "foo":
-          a();
-          break;
-      case "bar":
-          if(x){
-              a = 2;
-          }
-          else
-              a = 6;
-      }
-    `,
-    $`
-      switch (a) {
-      case "foo":
-          a();
-          break;
-      case "bar":
-          a(); break;
-      case "baz":
-          a(); break;
-      }
-    `,
+    {
+      code: $`
+        switch (a) {
+        case "foo":
+            a();
+            break;
+        case "bar":
+            switch(x){
+            case '1':
+                break;
+            case '2':
+                a = 6;
+                break;
+            }
+        }
+      `,
+      options: [4, { SwitchCase: 0 }],
+    },
+    {
+      code: $`
+        switch (a) {
+        case "foo":
+            a();
+            break;
+        case "bar":
+            if(x){
+                a = 2;
+            }
+            else{
+                a = 6;
+            }
+        }
+      `,
+      options: [4, { SwitchCase: 0 }],
+    },
+    {
+      code: $`
+        switch (a) {
+        case "foo":
+            a();
+            break;
+        case "bar":
+            if(x){
+                a = 2;
+            }
+            else
+                a = 6;
+        }
+      `,
+      options: [4, { SwitchCase: 0 }],
+    },
+    {
+      code: $`
+        switch (a) {
+        case "foo":
+            a();
+            break;
+        case "bar":
+            a(); break;
+        case "baz":
+            a(); break;
+        }
+      `,
+      options: [4, { SwitchCase: 0 }],
+    },
     $`
       switch (0) {
       }
     `,
-    $`
-      function foo() {
-          var a = "a";
-          switch(a) {
-          case "a":
-              return "A";
-          case "b":
-              return "B";
-          }
-      }
-      foo();
-    `,
+    {
+      code: $`
+        function foo() {
+            var a = "a";
+            switch(a) {
+            case "a":
+                return "A";
+            case "b":
+                return "B";
+            }
+        }
+        foo();
+      `,
+      options: [4, { SwitchCase: 0 }],
+    },
     {
       code: $`
         switch(value){
@@ -7023,24 +7037,17 @@ run({
       `,
       output: $`
         switch(value){
-        case "1":
-            a();
-            break;
-        case "2":
-            break;
-        default:
-            break;
+            case "1":
+                a();
+                break;
+            case "2":
+                break;
+            default:
+                break;
         }
       `,
       options: [4],
-      errors: expectedErrors([
-        [3, 4, 8, 'Identifier'],
-        [4, 4, 8, 'Keyword'],
-        [5, 0, 4, 'Keyword'],
-        [6, 4, 8, 'Keyword'],
-        [7, 0, 4, 'Keyword'],
-        [8, 4, 8, 'Keyword'],
-      ]),
+      errors: expectedErrors([2, 4, 0, 'Keyword']),
     },
     {
       code: $`

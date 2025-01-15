@@ -1,4 +1,3 @@
-// TODO: Stage 2: Doesn't inherit js version
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
@@ -104,7 +103,10 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasWhitespace) {
           return context.report({
             node,
-            loc: leftToken.loc.start,
+            loc: {
+              start: leftToken.loc.end,
+              end: rightToken.loc.start,
+            },
             messageId: 'unexpectedWhitespace',
             fix(fixer) {
               // Don't remove comments.
@@ -117,16 +119,11 @@ export default createRule<RuleOptions, MessageIds>({
                   rightToken.range[0],
                 ], '?.')
               }
-              /**
-               * Only autofix if there is no newline
-               * https://github.com/eslint/eslint/issues/7787
-               */
-              if (!hasNewline) {
-                return fixer.removeRange([
-                  leftToken.range[1],
-                  rightToken.range[0],
-                ])
-              }
+
+              return fixer.removeRange([
+                leftToken.range[1],
+                rightToken.range[0],
+              ])
 
               return null
             },
@@ -151,7 +148,10 @@ export default createRule<RuleOptions, MessageIds>({
 
           context.report({
             node,
-            loc: leftToken.loc.start,
+            loc: {
+              start: leftToken.loc.end,
+              end: rightToken.loc.start,
+            },
             messageId,
             fix(fixer) {
               // Don't remove comments.
@@ -177,7 +177,10 @@ export default createRule<RuleOptions, MessageIds>({
         if (!hasWhitespace) {
           context.report({
             node,
-            loc: leftToken.loc.start,
+            loc: {
+              start: leftToken.loc.end,
+              end: rightToken.loc.start,
+            },
             messageId: 'missing',
             fix(fixer) {
               return fixer.insertTextBefore(rightToken, ' ')
@@ -187,7 +190,10 @@ export default createRule<RuleOptions, MessageIds>({
         else if (!allowNewlines && hasNewline) {
           context.report({
             node,
-            loc: leftToken.loc.start,
+            loc: {
+              start: leftToken.loc.end,
+              end: rightToken.loc.start,
+            },
             messageId: 'unexpectedNewline',
             fix(fixer) {
               // Don't remove comments.

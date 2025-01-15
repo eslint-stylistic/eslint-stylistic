@@ -57,37 +57,7 @@ export default createRule<RuleOptions, MessageIds>({
   create(context) {
     const style = context.options[0] || 'last'
     const sourceCode = context.sourceCode
-    const exceptions = {
-      ArrayPattern: true,
-      ArrowFunctionExpression: true,
-      CallExpression: true,
-      FunctionDeclaration: true,
-      FunctionExpression: true,
-      ImportDeclaration: true,
-      ObjectPattern: true,
-      NewExpression: true,
-      ExportAllDeclaration: true,
-      ExportNamedDeclaration: true,
-      ImportExpression: true,
-      SequenceExpression: true,
-      ClassDeclaration: true,
-      ClassExpression: true,
-      TSDeclareFunction: true,
-      TSFunctionType: true,
-      TSConstructorType: true,
-      TSEmptyBodyFunctionExpression: true,
-      TSEnumBody: true,
-      TSTypeLiteral: true,
-      TSIndexSignature: true,
-      TSMethodSignature: true,
-      TSCallSignatureDeclaration: true,
-      TSConstructSignatureDeclaration: true,
-      TSInterfaceBody: true,
-      TSInterfaceDeclaration: true,
-      TSTupleType: true,
-      TSTypeParameterDeclaration: true,
-      TSTypeParameterInstantiation: true,
-    } as Record<NodeTypes, boolean>
+    const exceptions = {} as Record<NodeTypes, boolean>
 
     if (context.options.length === 2 && Object.prototype.hasOwnProperty.call(context.options[1], 'exceptions')) {
       context.options[1] ??= { exceptions: {} }
@@ -133,7 +103,7 @@ export default createRule<RuleOptions, MessageIds>({
     function getFixerFunction(styleType: string, tokenBeforeComma: Token, commaToken: Token, tokenAfterComma: Tree.Token) {
       const text
                 = sourceCode.text.slice(tokenBeforeComma.range[1], commaToken.range[0])
-                + sourceCode.text.slice(commaToken.range[1], tokenAfterComma.range[0])
+                  + sourceCode.text.slice(commaToken.range[1], tokenAfterComma.range[0])
       const range = [tokenBeforeComma.range[1], tokenAfterComma.range[0]] as const
 
       return function (fixer: RuleFixer) {
