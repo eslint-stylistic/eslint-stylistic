@@ -317,13 +317,13 @@ Examples of **correct** code for this rule with sample `{ "ignoredNodes": [] }` 
 ::: correct
 
 ```js
-/*eslint "key-spacing": [2, { "ignoredNodes": ["ObjectExpression"] }]*/
+/*eslint key-spacing: [2, { "ignoredNodes": ["ObjectExpression"] }]*/
 var obj = {
     a: 1,
     b : 2,
     c :3,
 }
-/*eslint "key-spacing": [2, { "ignoredNodes": ["ObjectPattern"] }]*/
+/*eslint key-spacing: [2, { "ignoredNodes": ["ObjectPattern"] }]*/
 var {
     a: b,
     c : d,
@@ -416,7 +416,7 @@ Examples of **correct** code for this rule with sample `{ "singleLine": { }, "mu
 ::: correct
 
 ```js
-/*eslint "key-spacing": [2, {
+/*eslint key-spacing: [2, {
     "singleLine": {
         "beforeColon": false,
         "afterColon": true
