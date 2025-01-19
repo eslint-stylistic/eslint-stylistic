@@ -40,20 +40,38 @@ run({
     `const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}`,
   ],
   invalid: ([
+    ['type Foo< T> = T', 'type Foo<T> = T'],
+    ['type Foo<T > = T', 'type Foo<T> = T'],
+    ['type Foo< T > = T', 'type Foo<T> = T', 2],
+    ['function foo< T >() {}', 'function foo<T>() {}', 2],
+    ['type Foo< T = true    > = T', 'type Foo<T = true> = T', 2],
     ['type Foo<T=true> = T', 'type Foo<T = true> = T'],
     ['type Foo<T=(true)> = T', 'type Foo<T = (true)> = T'],
     ['type Foo<T extends (true)=(true)> = T', 'type Foo<T extends (true) = (true)> = T'],
     ['type Foo<T,K> = T', 'type Foo<T, K> = T'],
+    ['type Foo< T,K   > = T', 'type Foo<T, K> = T', 3],
     ['type Foo<T=false,K=1|2> = T', 'type Foo<T = false, K = 1|2> = T', 3],
     ['function foo <T>() {}', 'function foo<T>() {}'],
+    ['function foo< T >() {}', 'function foo<T>() {}', 2],
     [`interface Log {
     foo <T>(name: T): void
   }`, `interface Log {
     foo<T>(name: T): void
   }`],
-  ] as const).map(i => ({
-    code: i[0],
-    output: i[1],
-    errors: Array.from({ length: i[2] || 1 }, () => ({ messageId: 'genericSpacingMismatch' })),
-  })),
+    [`interface Log {
+    foo<  T >(name: T): void
+  }`, `interface Log {
+    foo<T>(name: T): void
+  }`, 2],
+    [
+      'const toSortedImplementation = Array.prototype.toSorted || function <    T >(name: T): void {}',
+      'const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}',
+      2,
+    ],
+  ] as const)
+    .map(i => ({
+      code: i[0],
+      output: i[1],
+      errors: Array.from({ length: i[2] || 1 }, () => ({ messageId: 'genericSpacingMismatch' })),
+    })),
 })
