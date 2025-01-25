@@ -550,6 +550,12 @@ importers:
       eslint:
         specifier: '*'
         version: 9.19.0(jiti@2.4.2)
+      eslint-visitor-keys:
+        specifier: 'catalog:'
+        version: 4.2.0
+      espree:
+        specifier: 'catalog:'
+        version: 10.3.0
 
   packages/eslint-plugin-ts:
     dependencies:

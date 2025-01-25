@@ -42,5 +42,9 @@
   },
   "peerDependencies": {
     "eslint": "*"
+  },
+  "dependencies": {
+    "eslint-visitor-keys": "catalog:",
+    "espree": "catalog:"
   }
 }
