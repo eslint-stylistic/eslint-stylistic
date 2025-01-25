@@ -1,5 +1,39 @@
 # Changelog
 
+## [3.0.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.13.0...v3.0.0) (2025-01-25)
+
+
+### ⚠ BREAKING CHANGES
+
+* **indent-binary-ops:** remove unnecessary logic ([#645](https://github.com/eslint-stylistic/eslint-stylistic/issues/645))
+* cross test `function-call-spacing` ([#565](https://github.com/eslint-stylistic/eslint-stylistic/issues/565))
+* **comma-style:** turn off all exceptions option by default ([#602](https://github.com/eslint-stylistic/eslint-stylistic/issues/602))
+
+### Features
+
+* **comma-style:** turn off all exceptions option by default ([#602](https://github.com/eslint-stylistic/eslint-stylistic/issues/602)) ([c424d63](https://github.com/eslint-stylistic/eslint-stylistic/commit/c424d63eda46bc471d871d699b375d84ff3262bb))
+* cross test `function-call-spacing` ([#565](https://github.com/eslint-stylistic/eslint-stylistic/issues/565)) ([80ec2e4](https://github.com/eslint-stylistic/eslint-stylistic/commit/80ec2e4e3dc5c06e4c0837ac38b41bfad337bfe6))
+* **quotes:** Option to allow template literals only to avoid escape ([#643](https://github.com/eslint-stylistic/eslint-stylistic/issues/643)) ([5558bdb](https://github.com/eslint-stylistic/eslint-stylistic/commit/5558bdbb2eb989b81bf7b91c62d5e9f1c80bb822))
+* **type-generic-spacing:** remove whitespaces in generic types ([#667](https://github.com/eslint-stylistic/eslint-stylistic/issues/667)) ([8dd68e2](https://github.com/eslint-stylistic/eslint-stylistic/commit/8dd68e2c7dd6720ce2c0e6fcdbe9c0573c3a1eda))
+
+
+### Bug Fixes
+
+* **jsx-wrap-multilines:** prevent crash when using tabs ([#653](https://github.com/eslint-stylistic/eslint-stylistic/issues/653)) ([8cbc9f8](https://github.com/eslint-stylistic/eslint-stylistic/commit/8cbc9f85d6b8b75acb3eac6e606d2361cc1d2af6))
+* **plus:** dependencies bundle ([ba9ed81](https://github.com/eslint-stylistic/eslint-stylistic/commit/ba9ed81029c7cc06a38a36f16faf443138bd4800))
+
+
+### Documentation
+
+* add `flat: true` to flat config customize example ([#669](https://github.com/eslint-stylistic/eslint-stylistic/issues/669)) ([4710771](https://github.com/eslint-stylistic/eslint-stylistic/commit/4710771c11548a4b854c89188351d0d4a1b27fd7))
+* typo ([#662](https://github.com/eslint-stylistic/eslint-stylistic/issues/662)) ([a87f5bd](https://github.com/eslint-stylistic/eslint-stylistic/commit/a87f5bd4e6428b5887359b5e793d36fbdd9376a0))
+
+
+### Chores
+
+* cross test `indent` ([#563](https://github.com/eslint-stylistic/eslint-stylistic/issues/563)) ([80c5486](https://github.com/eslint-stylistic/eslint-stylistic/commit/80c5486682a1ff3ecea525cdf4e3d27d0e2a0bb8))
+* **indent-binary-ops:** remove unnecessary logic ([#645](https://github.com/eslint-stylistic/eslint-stylistic/issues/645)) ([a06ed18](https://github.com/eslint-stylistic/eslint-stylistic/commit/a06ed180b4b5a09d7bd0f2e06eff76b70f265546))
+
 ## [2.13.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.12.1...v2.13.0) (2025-01-13)
 
 
