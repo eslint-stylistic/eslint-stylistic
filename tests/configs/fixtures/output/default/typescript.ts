@@ -1,7 +1,7 @@
 export {}
 
 // Define a TypeScript interface
-interface Person< T = string, K = number > {
+interface Person<T = string, K = number> {
   name: string
   age: number
 }
@@ -24,7 +24,7 @@ for (const person of people) {
 }
 
 // Define a generic function
-function identity< T >(arg: T): T {
+function identity<T>(arg: T): T {
   return arg
 }
 

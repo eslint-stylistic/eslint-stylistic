@@ -491,7 +491,7 @@ importers:
         specifier: 8.13.0
         version: 8.13.0(eslint@9.19.0(jiti@2.4.2))(typescript@5.7.3)
       eslint:
-        specifier: '>=8.40.0'
+        specifier: '>=9.0.0'
         version: 9.19.0(jiti@2.4.2)
       eslint-visitor-keys:
         specifier: 'catalog:'
@@ -509,7 +509,7 @@ importers:
   packages/eslint-plugin-js:
     dependencies:
       eslint:
-        specifier: '>=8.40.0'
+        specifier: '>=9.0.0'
         version: 9.19.0(jiti@2.4.2)
       eslint-visitor-keys:
         specifier: 'catalog:'
@@ -521,7 +521,7 @@ importers:
   packages/eslint-plugin-jsx:
     dependencies:
       eslint:
-        specifier: '>=8.40.0'
+        specifier: '>=9.0.0'
         version: 9.19.0(jiti@2.4.2)
       eslint-visitor-keys:
         specifier: 'catalog:'
@@ -550,6 +550,12 @@ importers:
       eslint:
         specifier: '*'
         version: 9.19.0(jiti@2.4.2)
+      eslint-visitor-keys:
+        specifier: 'catalog:'
+        version: 4.2.0
+      espree:
+        specifier: 'catalog:'
+        version: 10.3.0
 
   packages/eslint-plugin-ts:
     dependencies:
@@ -557,7 +563,7 @@ importers:
         specifier: 8.13.0
         version: 8.13.0(eslint@9.19.0(jiti@2.4.2))(typescript@5.7.3)
       eslint:
-        specifier: '>=8.40.0'
+        specifier: '>=9.0.0'
         version: 9.19.0(jiti@2.4.2)
       eslint-visitor-keys:
         specifier: 'catalog:'
