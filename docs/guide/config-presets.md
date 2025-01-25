@@ -20,6 +20,7 @@ import stylistic from '@stylistic/eslint-plugin'
 
 export default [
   stylistic.configs.customize({
+    flat: true, // required for flat config
     // the following options are the default values
     indent: 2,
     quotes: 'single',
