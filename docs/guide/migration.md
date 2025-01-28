@@ -130,7 +130,7 @@ npm i -D @stylistic/eslint-plugin-ts
 ::: code-group
 
 ```js [Flat Config]
-// .eslint.conf.js
+// .eslint.config.js
 import stylisticTs from '@stylistic/eslint-plugin-ts'
 
 export default [
@@ -174,7 +174,7 @@ npm i -D @stylistic/eslint-plugin-jsx
 ::: code-group
 
 ```js [Flat Config]
-// .eslint.conf.js
+// .eslint.config.js
 import stylisticJsx from '@stylistic/eslint-plugin-jsx'
 
 export default [
