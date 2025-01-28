@@ -174,7 +174,7 @@ npm i -D @stylistic/eslint-plugin-jsx
 ::: code-group
 
 ```js [Flat Config]
-// .eslint.config.js
+// eslint.config.mjs
 import stylisticJsx from '@stylistic/eslint-plugin-jsx'
 
 export default [
