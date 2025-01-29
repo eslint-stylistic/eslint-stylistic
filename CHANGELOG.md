@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.0.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v3.0.0...v3.0.1) (2025-01-29)
+
+
+### Bug Fixes
+
+* **deps:** unpin typescript-eslint deps ([#673](https://github.com/eslint-stylistic/eslint-stylistic/issues/673)) ([9fb672d](https://github.com/eslint-stylistic/eslint-stylistic/commit/9fb672df83c5138a3f521f281e37babb307606bc))
+
 ## [3.0.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v2.13.0...v3.0.0) (2025-01-25)
 
 
