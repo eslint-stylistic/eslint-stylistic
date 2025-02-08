@@ -33,6 +33,10 @@ export default [
 ```
 
 ```js [Legacy Config]
+// Legacy config is no longer supported in v4+
+// Please use v3.x if you need to use legacy config
+// We encourage you to migrate to flat config soon
+
 // .eslintrc.js
 const stylistic = require('@stylistic/eslint-plugin')
 
@@ -94,6 +98,10 @@ export default [
 ```
 
 ```js [Legacy Config]
+// Legacy config is no longer supported in v4+
+// Please use v3.x if you need to use legacy config
+// We encourage you to migrate to flat config soon
+
 // .eslintrc.js
 module.exports = {
   extends: [
@@ -128,6 +136,10 @@ export default [
 ```
 
 ```js [Legacy Config]
+// Legacy config is no longer supported in v4+
+// Please use v3.x if you need to use legacy config
+// We encourage you to migrate to flat config soon
+
 // .eslintrc.js
 module.exports = {
   extends: [
@@ -162,6 +174,10 @@ export default [
 ```
 
 ```js [Legacy Config]
+// Legacy config is no longer supported in v4+
+// Please use v3.x if you need to use legacy config
+// We encourage you to migrate to flat config soon
+
 // .eslintrc.js
 module.exports = {
   extends: [
