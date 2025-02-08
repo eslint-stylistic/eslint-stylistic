@@ -16,7 +16,6 @@
   "exports": {
     ".": {
       "types": "./dist/dts/index.d.ts",
-      "import": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./define-config-support": {

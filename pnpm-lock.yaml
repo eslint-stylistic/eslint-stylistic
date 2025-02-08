@@ -546,7 +546,7 @@ importers:
   packages/eslint-plugin-plus:
     dependencies:
       eslint:
-        specifier: '*'
+        specifier: '>=9.0.0'
         version: 9.19.0(jiti@2.4.2)
       eslint-visitor-keys:
         specifier: 'catalog:'

@@ -40,7 +40,7 @@
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
-    "eslint": "*"
+    "eslint": ">=9.0.0"
   },
   "dependencies": {
     "eslint-visitor-keys": "catalog:",
