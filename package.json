@@ -1,7 +1,7 @@
 {
   "name": "@eslint-stylistic/monorepo",
   "type": "module",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "private": true,
   "packageManager": "pnpm@9.15.4",
   "license": "MIT",
@@ -96,7 +96,8 @@
     "vue-tsc": "catalog:"
   },
   "resolutions": {
-    "@typescript-eslint/utils": "catalog:",
+    "@typescript-eslint/parser": "8.13.0",
+    "@typescript-eslint/utils": "8.13.0",
     "rollup": "catalog:",
     "twoslash-eslint": "catalog:",
     "unbuild": "catalog:",
