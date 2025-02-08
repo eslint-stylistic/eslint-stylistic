@@ -351,7 +351,7 @@ In cases that you are extending some presets that still include legacy rules and
 ```js [Flat Config]
 // eslint.config.js
 import { FlatCompat } from '@eslint/eslintrc'
-import StylisticPlugin from '@stylistic/eslint-plugin'
+import stylistic from '@stylistic/eslint-plugin'
 
 const compat = new FlatCompat()
 
@@ -365,11 +365,11 @@ export default [
     ],
   }),
   // override the legacy rules
-  StylisticPlugin.configs['disable-legacy'], // [!code ++]
+  stylistic.configs['disable-legacy'], // [!code ++]
   // your own rules
   {
     plugins: {
-      stylistic: StylisticPlugin
+      stylistic,
     },
     rules: {
       'stylistic/semi': 'error',
