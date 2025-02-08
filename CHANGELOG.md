@@ -1,5 +1,12 @@
 # Changelog
 
+## [3.1.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v3.0.1...v3.1.0) (2025-02-08)
+
+
+### Features
+
+* **generic-spacing:** remove spaces in type param instantiation ([#677](https://github.com/eslint-stylistic/eslint-stylistic/issues/677)) ([2a29e28](https://github.com/eslint-stylistic/eslint-stylistic/commit/2a29e2820116c5e728de9f15f324677e4240d25f))
+
 ## [3.0.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v3.0.0...v3.0.1) (2025-01-29)
 
 
