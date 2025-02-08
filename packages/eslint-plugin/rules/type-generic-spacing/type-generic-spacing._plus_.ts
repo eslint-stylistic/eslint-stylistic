@@ -27,6 +27,48 @@ export default createRule<RuleOptions, MessageIds>({
     const sourceCode = context.sourceCode
 
     return {
+      TSTypeParameterInstantiation: (node) => {
+        const params = node.params
+
+        const openToken = sourceCode.getTokenBefore(params[0])
+        const firstToken = openToken ? sourceCode.getTokenAfter(openToken) : null
+
+        const closeToken = sourceCode.getTokenAfter(params[params.length - 1])
+        const lastToken = closeToken ? sourceCode.getTokenBefore(closeToken) : null
+
+        // remove spaces between "<" and the first type parameter
+        if (openToken && firstToken) {
+          const textBetween = sourceCode.text.slice(openToken.range[1], firstToken.range[0])
+
+          // raise error only if there is no newline
+          if (/\s/.test(textBetween) && !/^[\r\n]/.test(textBetween)) {
+            context.report({
+              node,
+              messageId: 'genericSpacingMismatch',
+              *fix(fixer) {
+                yield fixer.replaceTextRange([openToken.range[1], firstToken.range[0]], '')
+              },
+            })
+          }
+        }
+
+        // remove spaces between the last type parameter and ">"
+        if (closeToken && lastToken) {
+          const textBetween = sourceCode.text.slice(lastToken.range[1], closeToken.range[0])
+
+          // raise error only if there is no newline
+          if (/\s/.test(textBetween) && !/^[\r\n]/.test(textBetween)) {
+            context.report({
+              node,
+              messageId: 'genericSpacingMismatch',
+              *fix(fixer) {
+                yield fixer.replaceTextRange([lastToken.range[1], closeToken.range[0]], '')
+              },
+            })
+          }
+        }
+      },
+
       TSTypeParameterDeclaration: (node) => {
         if (!PRESERVE_PREFIX_SPACE_BEFORE_GENERIC.has(node.parent.type)) {
           const pre = sourceCode.text.slice(0, node.range[0])

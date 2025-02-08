@@ -5,6 +5,7 @@ run({
   name: 'type-generic-spacing',
   rule,
   valid: [
+    'const foo: Array<number> = []',
     'type Foo<T = true> = T',
     'type Foo<T extends true = true> = T',
     'type Foo<T = (true)> = T',
@@ -40,6 +41,9 @@ run({
     `const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}`,
   ],
   invalid: ([
+    ['const val: Set< string> = new Set()', 'const val: Set<string> = new Set()'],
+    ['const val: Array<  number > = []', 'const val: Array<number> = []', 2],
+    ['const val = callback< string  >(() => \'foo\')', 'const val = callback<string>(() => \'foo\')', 2],
     ['type Foo< T> = T', 'type Foo<T> = T'],
     ['type Foo<T > = T', 'type Foo<T> = T'],
     ['type Foo< T > = T', 'type Foo<T> = T', 2],
