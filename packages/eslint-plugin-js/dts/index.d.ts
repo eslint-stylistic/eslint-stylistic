@@ -19,11 +19,13 @@ declare const plugin: {
     /**
      * Enable all rules, in Flat Config Format
      */
-    'all-flat': Linter.Config
+    'all': Linter.Config
     /**
-     * Enable all rules, in Legacy Config Format
+     * Enable all rules, in Flat Config Format
+     *
+     * @deprecated use `all` instead
      */
-    'all-extends': Linter.BaseConfig
+    'all-flat': Linter.Config
   }
 }
 

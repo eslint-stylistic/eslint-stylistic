@@ -92,7 +92,7 @@ The default options are:
 import stylistic from '@stylistic/eslint-plugin'
 
 export default [
-  stylistic.configs['recommended-flat'],
+  stylistic.configs.recommended,
   // ...your other config items
 ]
 ```
@@ -130,7 +130,7 @@ Many rules in ESLint Stylistic are migrated from ESLint's 10 years of codebase. 
 import stylistic from '@stylistic/eslint-plugin'
 
 export default [
-  stylistic.configs['all-flat'],
+  stylistic.configs.all,
   // ...your other config items
 ]
 ```
@@ -168,7 +168,7 @@ This config is also available in each plugin package, for example, for `@stylist
 import stylisticJs from '@stylistic/eslint-plugin-js'
 
 export default [
-  stylisticJs.configs['all-flat'],
+  stylisticJs.configs.all
   // ...your other config items
 ]
 ```

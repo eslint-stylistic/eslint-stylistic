@@ -1,9 +1,4 @@
-export interface StylisticCustomizeOptions<Flat extends boolean = true> {
-  /**
-   * Get a flat config
-   * @default true
-   */
-  flat?: Flat
+export interface StylisticCustomizeOptions {
   /**
    * The name of the registered plugin, used to prefix rule IDs
    * @default '@stylistic'

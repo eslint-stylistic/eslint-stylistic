@@ -11,7 +11,7 @@ declare const plugin: {
   rules: Rules
   configs: {
     /**
-     * Disable all legacy rules from `eslint-plugin-react`
+     * Disable all legacy rules from `eslint`
      *
      * This config works for both flat and legacy config format
      */
@@ -19,11 +19,13 @@ declare const plugin: {
     /**
      * Enable all rules, in Flat Config Format
      */
-    'all-flat': Linter.Config
+    'all': Linter.Config
     /**
-     * Enable all rules, in Legacy Config Format
+     * Enable all rules, in Flat Config Format
+     *
+     * @deprecated use `all` instead
      */
-    'all-extends': Linter.BaseConfig
+    'all-flat': Linter.Config
   }
 }
 

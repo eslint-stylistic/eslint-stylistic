@@ -1,8 +1,7 @@
 import type { Linter } from 'eslint'
 import type { StylisticCustomizeOptions } from './options'
 
-export declare function customize(options: StylisticCustomizeOptions<false>): Linter.BaseConfig
-export declare function customize(options?: StylisticCustomizeOptions<true>): Linter.Config
+export declare function customize(options?: StylisticCustomizeOptions): Linter.Config
 
 export declare const configs: {
   /**
@@ -18,23 +17,23 @@ export declare const configs: {
   /**
    * The default recommended config in Flat Config Format
    */
-  'recommended-flat': Linter.Config
+  'recommended': Linter.Config
   /**
-   * The default recommended config in Legacy Config Format
+   * The default recommended config in Flat Config Format
+   *
+   * @deprecated use `recommended` instead.
    */
-  'recommended-extends': Linter.BaseConfig
+  'recommended-flat': Linter.Config
   /**
    * Enable all rules, in Flat Config Format
    */
+  'all': Linter.Config
+  /**
+   * Enable all rules, in Flat Config Format
+   *
+   * @deprecated use `all` instead.
+   */
   'all-flat': Linter.Config
-  /**
-   * Enable all rules, in Legacy Config Format
-   */
-  'all-extends': Linter.BaseConfig
-  /**
-   * @deprecated Use `recommended-extends` instead
-   */
-  'recommended-legacy': Linter.BaseConfig
 }
 
 export type Configs = typeof configs
