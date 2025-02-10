@@ -14,7 +14,10 @@
   "bugs": {
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
   },
-  "main": "./dist/index.cjs",
+  "exports": {
+    ".": "./dist/index.mjs"
+  },
+  "main": "./dist/index.mjs",
   "files": [
     "dist"
   ],
