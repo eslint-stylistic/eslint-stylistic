@@ -1,5 +1,21 @@
 # Changelog
 
+## [4.0.0-beta.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v3.1.0...v4.0.0-beta.1) (2025-02-10)
+
+
+### ⚠ BREAKING CHANGES
+
+* migrate to ESM-only, requires ESLint v9+ ([#670](https://github.com/eslint-stylistic/eslint-stylistic/issues/670))
+
+### Features
+
+* migrate to ESM-only, requires ESLint v9+ ([#670](https://github.com/eslint-stylistic/eslint-stylistic/issues/670)) ([3145d50](https://github.com/eslint-stylistic/eslint-stylistic/commit/3145d5082191505f319e576cc30da51b907c380e))
+
+
+### Chores
+
+* release-please-mark ([100a4fd](https://github.com/eslint-stylistic/eslint-stylistic/commit/100a4fd52a097ba9487b43c5e4c3fff222094a1e))
+
 ## [3.1.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v3.0.1...v3.1.0) (2025-02-08)
 
 
