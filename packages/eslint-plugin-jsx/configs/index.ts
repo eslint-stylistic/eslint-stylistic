@@ -2,8 +2,13 @@ import { createAllConfigs } from '#utils/configs-all'
 import plugin from '../src/plugin'
 import disableLegacy from './disable-legacy'
 
+const all = /* @__PURE__ */ createAllConfigs(plugin, '@stylistic/jsx')
+
 export const configs = {
   'disable-legacy': disableLegacy,
-  'all-flat': createAllConfigs(plugin, '@stylistic/jsx', true),
-  'all-extends': createAllConfigs(plugin, '@stylistic/jsx', false),
+  all,
+  /**
+   * @deprecated use `all` instead.
+   */
+  'all-flat': all,
 }

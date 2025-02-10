@@ -95,9 +95,12 @@
     "vue": "catalog:",
     "vue-tsc": "catalog:"
   },
+  "pnpm": {
+    "patchedDependencies": {
+      "@typescript-eslint/visitor-keys": "patches/@typescript-eslint__visitor-keys.patch"
+    }
+  },
   "resolutions": {
-    "@typescript-eslint/parser": "8.13.0",
-    "@typescript-eslint/utils": "8.13.0",
     "rollup": "catalog:",
     "twoslash-eslint": "catalog:",
     "unbuild": "catalog:",

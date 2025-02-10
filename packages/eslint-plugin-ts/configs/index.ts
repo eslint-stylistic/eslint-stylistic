@@ -2,8 +2,13 @@ import { createAllConfigs } from '#utils/configs-all'
 import plugin from '../src/plugin'
 import disableLegacy from './disable-legacy'
 
+const all = /* @__PURE__ */ createAllConfigs(plugin, '@stylistic/ts')
+
 export const configs = {
   'disable-legacy': disableLegacy,
-  'all-flat': createAllConfigs(plugin, '@stylistic/ts', true),
-  'all-extends': createAllConfigs(plugin, '@stylistic/ts', false),
+  all,
+  /**
+   * @deprecated use `all` instead.
+   */
+  'all-flat': all,
 }

@@ -51,7 +51,7 @@ export function createRule<
         ...meta.docs,
         url: `https://eslint.style/rules/${pkg}/${name}`,
       },
-    },
+    } as any,
   }
 }
 

@@ -55,7 +55,7 @@ function isSingleLine(node: ASTNode) {
  * @returns True if the node is a single line.
  */
 function isSingleLineImportAttributes(
-  node: Tree.ImportDeclaration | Tree.ExportNamedDeclaration | Tree.ExportAllDeclaration,
+  node: Tree.ImportDeclaration | Tree.ExportNamedDeclaration | Tree.ExportAllDeclaration | Tree.TSImportType,
   sourceCode: SourceCode,
 ) {
   const openingBrace = sourceCode.getTokenBefore(node.attributes[0], isOpeningBraceToken)!

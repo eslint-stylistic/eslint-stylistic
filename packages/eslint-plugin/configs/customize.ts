@@ -12,15 +12,12 @@ type Rules = Partial<{
 /**
  * A factory function to customize the recommended config
  */
-export function customize(options: StylisticCustomizeOptions<false>): Linter.BaseConfig
-export function customize(options?: StylisticCustomizeOptions<true>): Linter.Config
-export function customize(options: StylisticCustomizeOptions<boolean> = {}): Linter.Config | Linter.BaseConfig {
+export function customize(options: StylisticCustomizeOptions = {}): Linter.Config {
   const {
     arrowParens = false,
     blockSpacing = true,
     braceStyle = 'stroustrup',
     commaDangle = 'always-multiline',
-    flat = true,
     indent = 2,
     jsx = true,
     pluginName = '@stylistic',
@@ -188,21 +185,10 @@ export function customize(options: StylisticCustomizeOptions<boolean> = {}): Lin
     )
   }
 
-  if (flat) {
-    return {
-      plugins: {
-        [pluginName]: plugin,
-      },
-      rules,
-    } satisfies Linter.Config
-  }
-  else {
-    if (pluginName !== '@stylistic')
-      throw new Error('PluginName in non-flat config can not be customized')
-
-    return {
-      plugins: ['@stylistic'],
-      rules,
-    } satisfies Linter.BaseConfig
-  }
+  return {
+    plugins: {
+      [pluginName]: plugin,
+    },
+    rules,
+  } satisfies Linter.Config
 }

@@ -28,8 +28,48 @@ To make the rules configuration easier, we merged all three plugins into one sin
 npm i -D @stylistic/eslint-plugin
 ```
 
-```js
-// .eslintrc.js  [Legacy Config]
+::: warning
+
+In v4, we moved the plugin to **ESM-only**, which only supports flat config and ESLint v9+. If you are still using legacy config, please install v3.x with `npm i -D @stylistic/eslint-plugin@3` first and then move to flat config.
+
+:::
+
+::: code-group
+
+```js [Flat Config]
+import stylistic from '@stylistic/eslint-plugin'
+
+export default [
+  {
+    plugins: {
+      '@stylistic': stylistic
+    },
+    rules: {
+      // ESLint built-in stylistic rules:
+      // Add `@stylistic/` prefix
+      'semi': 'error', // [!code --]
+      '@stylistic/semi': 'error', // [!code ++]
+
+      // `@typescript-eslint` rules:
+      // Change `@typescript-eslint/` to `@stylistic/` prefix
+      '@typescript-eslint/semi': 'error', // [!code --]
+      '@stylistic/semi': 'error', // [!code ++]
+
+      // `eslint-plugin-react` rules:
+      // Change `react/` to `@stylistic/` prefix
+      'react/jsx-indent': 'error', // [!code --]
+      '@stylistic/jsx-indent': 'error', // [!code ++]
+    }
+  }
+]
+```
+
+```js [Legacy Config]
+// Legacy config is no longer supported in v4+
+// Please use v3.x if you need to use legacy config
+// We encourage you to migrate to flat config soon
+
+// .eslintrc.js
 module.exports = {
   plugins: [
     '@stylistic'
@@ -53,10 +93,38 @@ module.exports = {
 }
 ```
 
+:::
+
 And usually typescript-eslint would ask you to disable the built-in rules, in favor of the `@typescript-eslint` version. With ESLint Stylistic, you only need one rule to handle both JavaScript and TypeScript:
 
-```js
-// .eslintrc.js  [Legacy Config]
+::: code-group
+
+```js [Flat Config]
+import stylistic from '@stylistic/eslint-plugin'
+
+export default [
+  {
+    plugins: {
+      '@stylistic': stylistic
+    },
+    rules: {
+      // Previously, you need to disable the built-in rule
+      'semi': 'off', // [!code --]
+      '@typescript-eslint/semi': 'error', // [!code --]
+
+      // Now only need one rule
+      '@stylistic/semi': 'error', // [!code ++]
+    }
+  }
+]
+```
+
+```js [Legacy Config]
+// Legacy config is no longer supported in v4+
+// Please use v3.x if you need to use legacy config
+// We encourage you to migrate to flat config soon
+
+// .eslintrc.js
 module.exports = {
   plugins: [
     '@stylistic'
@@ -71,6 +139,8 @@ module.exports = {
   }
 }
 ```
+
+:::
 
 ### Approach 2: Migrate to 1-to-1 Plugins
 
@@ -104,6 +174,10 @@ export default [
 ```
 
 ```js [Legacy Config]
+// Legacy config is no longer supported in v4+
+// Please use v3.x if you need to use legacy config
+// We encourage you to migrate to flat config soon
+
 // .eslintrc.js
 module.exports = {
   plugins: [
@@ -149,6 +223,10 @@ export default [
 ```
 
 ```js [Legacy Config]
+// Legacy config is no longer supported in v4+
+// Please use v3.x if you need to use legacy config
+// We encourage you to migrate to flat config soon
+
 // .eslintrc.js
 module.exports = {
   plugins: [
@@ -174,6 +252,10 @@ npm i -D @stylistic/eslint-plugin-jsx
 ::: code-group
 
 ```js [Flat Config]
+// Legacy config is no longer supported in v4+
+// Please use v3.x if you need to use legacy config
+// We encourage you to migrate to flat config soon
+
 // eslint.config.mjs
 import stylisticJsx from '@stylistic/eslint-plugin-jsx'
 
@@ -193,6 +275,10 @@ export default [
 ```
 
 ```js [Legacy Config]
+// Legacy config is no longer supported in v4+
+// Please use v3.x if you need to use legacy config
+// We encourage you to migrate to flat config soon
+
 // .eslintrc.js
 module.exports = {
   plugins: [
@@ -217,7 +303,13 @@ We provide an ESLint plugin for migrating built-in stylistic rules to the `@styl
 npm i -D @stylistic/eslint-plugin-migrate
 ```
 
-```js
+::: code-group
+
+```js [Legacy Config]
+// Legacy config is no longer supported in v4+
+// Please use v3.x if you need to use legacy config
+// We encourage you to migrate to flat config soon
+
 // .eslintrc.js
 module.exports = {
   plugins: [
@@ -226,9 +318,13 @@ module.exports = {
 }
 ```
 
+:::
+
 And opt-in to your eslint configure file by adding eslint comments to the top of your file:
 
-```js
+::: code-group
+
+```js [Legacy Config]
 // Migrate built-in rules to @stylistic/js namespace
 /* eslint @stylistic/migrate/migrate-js: "error" */
 
@@ -244,6 +340,8 @@ module.exports = {
 }
 ```
 
+:::
+
 ## Disable Legacy Rules
 
 In cases that you are extending some presets that still include legacy rules and haven't migrated, we provide configuration presets to disable them all.
@@ -253,7 +351,7 @@ In cases that you are extending some presets that still include legacy rules and
 ```js [Flat Config]
 // eslint.config.js
 import { FlatCompat } from '@eslint/eslintrc'
-import StylisticPlugin from '@stylistic/eslint-plugin'
+import stylistic from '@stylistic/eslint-plugin'
 
 const compat = new FlatCompat()
 
@@ -267,11 +365,11 @@ export default [
     ],
   }),
   // override the legacy rules
-  StylisticPlugin.configs['disable-legacy'], // [!code ++]
+  stylistic.configs['disable-legacy'], // [!code ++]
   // your own rules
   {
     plugins: {
-      stylistic: StylisticPlugin
+      stylistic,
     },
     rules: {
       'stylistic/semi': 'error',
@@ -282,6 +380,10 @@ export default [
 ```
 
 ```js [Legacy Config]
+// Legacy config is no longer supported in v4+
+// Please use v3.x if you need to use legacy config
+// We encourage you to migrate to flat config soon
+
 // .eslintrc.js
 module.exports = {
   extends: [

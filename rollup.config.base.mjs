@@ -50,7 +50,7 @@ export function createConfig(cwd) {
       output: [
         {
           dir: 'dist',
-          format: 'cjs',
+          format: 'esm',
           manualChunks(id) {
             if (id.includes('node_modules')) {
               console.log('vendor', id)

@@ -23,7 +23,7 @@ runWithConfig('tab-quotes-semi', {
   semi: true,
 })
 
-runWithConfig('all', 'all-flat')
+runWithConfig('all', 'all')
 
 function runWithConfig(name: string, configs: StylisticCustomizeOptions | string, ...items: Linter[]) {
   it.concurrent(name, async ({ expect }) => {

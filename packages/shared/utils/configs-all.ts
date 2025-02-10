@@ -1,3 +1,5 @@
+import type { Linter } from 'eslint'
+
 /**
  * Generate sharable configs for all rules in a plugin
  *
@@ -8,9 +10,8 @@
 export function createAllConfigs<T extends { rules: Record<string, any> }>(
   plugin: T,
   name: string,
-  flat: boolean,
   filter?: (name: string, rule: any) => boolean,
-) {
+): Linter.Config {
   const rules = Object.fromEntries(
     Object
       .entries(plugin.rules)
@@ -25,20 +26,12 @@ export function createAllConfigs<T extends { rules: Record<string, any> }>(
         && (!filter || filter(key, rule)),
       )
       .map(([key]) => [`${name}/${key}`, 2]),
-  )
+  ) as Linter.Config['rules']
 
-  if (flat) {
-    return {
-      plugins: {
-        [name]: plugin,
-      },
-      rules,
-    }
-  }
-  else {
-    return {
-      plugins: [name],
-      rules,
-    }
+  return {
+    plugins: {
+      [name]: plugin,
+    },
+    rules,
   }
 }

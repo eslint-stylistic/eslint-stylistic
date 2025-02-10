@@ -1,6 +1,6 @@
 {
   "name": "@stylistic/eslint-plugin-jsx",
-  "type": "commonjs",
+  "type": "module",
   "version": "3.1.0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
@@ -16,7 +16,6 @@
   "exports": {
     ".": {
       "types": "./dist/dts/index.d.ts",
-      "require": "./dist/index.js",
       "default": "./dist/index.js"
     },
     "./define-config-support": {
@@ -60,7 +59,7 @@
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
-    "eslint": ">=8.40.0"
+    "eslint": ">=9.0.0"
   },
   "dependencies": {
     "eslint-visitor-keys": "catalog:",

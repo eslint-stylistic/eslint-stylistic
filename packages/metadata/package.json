@@ -1,6 +1,6 @@
 {
   "name": "@eslint-stylistic/metadata",
-  "type": "commonjs",
+  "type": "module",
   "version": "3.1.0",
   "description": "Metadata for eslint-stylistic packages",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
