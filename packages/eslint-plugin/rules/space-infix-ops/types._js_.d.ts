@@ -1,10 +1,9 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: MI2WwmCEtC */
+/* @checksum: 84L7BHWC2p */
 
 export interface SpaceInfixOpsSchema0 {
   int32Hint?: boolean
-  ignoreTypes?: boolean
 }
 
 export type SpaceInfixOpsRuleOptions = [

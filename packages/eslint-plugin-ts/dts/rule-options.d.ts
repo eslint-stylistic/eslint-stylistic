@@ -22,7 +22,7 @@ import type { QuotesRuleOptions } from '../../eslint-plugin/rules/quotes/types'
 import type { SemiRuleOptions } from '../../eslint-plugin/rules/semi/types'
 import type { SpaceBeforeBlocksRuleOptions } from '../../eslint-plugin/rules/space-before-blocks/types'
 import type { SpaceBeforeFunctionParenRuleOptions } from '../../eslint-plugin/rules/space-before-function-paren/types._ts_'
-import type { SpaceInfixOpsRuleOptions } from '../../eslint-plugin/rules/space-infix-ops/types'
+import type { SpaceInfixOpsRuleOptions } from '../../eslint-plugin/rules/space-infix-ops/types._ts_'
 import type { TypeAnnotationSpacingRuleOptions } from '../../eslint-plugin/rules/type-annotation-spacing/types'
 
 export interface RuleOptions {
