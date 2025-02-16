@@ -6,11 +6,10 @@ import { pascalCase } from 'change-case'
 import fg from 'fast-glob'
 
 import fs from 'fs-extra'
-// @ts-expect-error https://github.com/privatenumber/tsx/issues/38
-import config from '../../packages/eslint-plugin/configs/customize'
+import { customize } from '../../packages/eslint-plugin/configs/customize'
 import { GEN_HEADER, ROOT, RULE_ALIAS, RULE_ORIGINAL_ID_MAP } from './meta'
 
-export const rulesInSharedConfig = new Set<string>(Object.keys(config.customize().rules))
+export const rulesInSharedConfig = new Set<string>(Object.keys(customize().rules!))
 
 export async function readPackage(path: string): Promise<PackageInfo> {
   const dir = relative(join(ROOT, 'packages'), path)
@@ -182,7 +181,7 @@ export async function updateExports(pkg: PackageInfo) {
   pkgJson.exports = {
     '.': {
       types: './dist/dts/index.d.ts',
-      require: './dist/index.js',
+      import: './dist/index.js',
       default: './dist/index.js',
     },
     './define-config-support': {
