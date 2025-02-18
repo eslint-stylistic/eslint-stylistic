@@ -1,11 +1,10 @@
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { castRuleModule, createRule } from '#utils/create-rule'
+import { createRule } from '#utils/create-rule'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
-import _baseRule from './block-spacing._js_'
 
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
+type SupportedNodes = Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement | Tree.TSInterfaceBody | Tree.TSTypeLiteral | Tree.TSEnumDeclaration
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'block-spacing',
@@ -17,24 +16,25 @@ export default createRule<RuleOptions, MessageIds>({
         'Disallow or enforce spaces inside of blocks after opening block and before closing block',
     },
     fixable: 'whitespace',
-    hasSuggestions: baseRule.meta.hasSuggestions,
-    schema: baseRule.meta.schema,
-    messages: baseRule.meta.messages,
+    schema: [
+      { type: 'string', enum: ['always', 'never'] },
+    ],
+    messages: {
+      missing: 'Requires a space {{location}} \'{{token}}\'.',
+      extra: 'Unexpected space(s) {{location}} \'{{token}}\'.',
+    },
   },
   defaultOptions: ['always'],
 
   create(context, [whenToApplyOption]) {
     const sourceCode = context.sourceCode
-    const baseRules = baseRule.create(context)
     const always = whenToApplyOption !== 'never'
     const messageId = always ? 'missing' : 'extra'
     /**
      * Gets the open brace token from a given node.
      * @returns The token of the open brace.
      */
-    function getOpenBrace(
-      node: Tree.TSEnumDeclaration,
-    ): Tree.PunctuatorToken {
+    function getOpenBrace(node: SupportedNodes): Tree.PunctuatorToken {
       // guaranteed for enums
       // This is the only change made here from the base rule
       return sourceCode.getFirstToken(node, {
@@ -64,7 +64,7 @@ export default createRule<RuleOptions, MessageIds>({
     /**
      * Checks and reports invalid spacing style inside braces.
      */
-    function checkSpacingInsideBraces(node: Tree.TSEnumDeclaration): void {
+    function checkSpacingInsideBraces(node: SupportedNodes): void {
       // Gets braces and the first/last token of content.
       const openBrace = getOpenBrace(node)
       const closeBrace = sourceCode.getLastToken(node)!
@@ -143,14 +143,16 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
     return {
-      ...baseRules,
+      BlockStatement: checkSpacingInsideBraces,
+      StaticBlock: checkSpacingInsideBraces,
+      SwitchStatement: checkSpacingInsideBraces,
 
       // This code worked "out of the box" for interface and type literal
       // Enums were very close to match as well, the only reason they are not is that was that enums don't have a body node in the parser
       // So the opening brace punctuator starts in the middle of the node - `getFirstToken` in
       // the base rule did not filter for the first opening brace punctuator
-      TSInterfaceBody: baseRules.BlockStatement as never,
-      TSTypeLiteral: baseRules.BlockStatement as never,
+      TSInterfaceBody: checkSpacingInsideBraces,
+      TSTypeLiteral: checkSpacingInsideBraces,
       TSEnumDeclaration: checkSpacingInsideBraces,
     }
   },
