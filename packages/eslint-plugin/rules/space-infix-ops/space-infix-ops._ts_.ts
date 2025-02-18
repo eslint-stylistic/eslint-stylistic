@@ -1,5 +1,5 @@
 import type { ASTNode, RuleModule, Token, Tree } from '#types'
-import type { MessageIds, RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types._ts_'
 import { castRuleModule, createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isNotOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
@@ -19,15 +19,32 @@ export default createRule<RuleOptions, MessageIds>({
     },
     fixable: baseRule.meta.fixable,
     hasSuggestions: baseRule.meta.hasSuggestions,
-    schema: baseRule.meta.schema,
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          int32Hint: {
+            type: 'boolean',
+            default: false,
+          },
+          ignoreTypes: {
+            type: 'boolean',
+            default: false,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: baseRule.meta.messages,
   },
   defaultOptions: [
     {
       int32Hint: false,
+      ignoreTypes: false,
     },
   ],
   create(context) {
+    const ignoreTypes = context.options[0] ? context.options[0].ignoreTypes === true : false
     const rules = (baseRule as any as RuleModule<any, any>).create(context)
     const sourceCode = context.sourceCode
 
@@ -130,7 +147,7 @@ export default createRule<RuleOptions, MessageIds>({
           skipFunctionParenthesis,
         )
 
-        if (operator != null && UNIONS.includes(operator.value)) {
+        if (!ignoreTypes && operator != null && UNIONS.includes(operator.value)) {
           const prev = sourceCode.getTokenBefore(operator)
           const next = sourceCode.getTokenAfter(operator)
 

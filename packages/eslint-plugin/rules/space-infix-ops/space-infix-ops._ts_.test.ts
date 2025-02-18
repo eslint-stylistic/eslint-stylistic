@@ -399,6 +399,48 @@ run({
         function bar(): string & number {}
       `,
     },
+    {
+      code: 'var foo: string|number = 123;',
+      options: [{
+        ignoreTypes: true,
+      }],
+    },
+    {
+      code: 'var foo: string&number = 123;',
+      options: [{
+        ignoreTypes: true,
+      }],
+    },
+    {
+      code: 'function foo(): string|number {}',
+      options: [{
+        ignoreTypes: true,
+      }],
+    },
+    {
+      code: 'function foo(): string&number {}',
+      options: [{
+        ignoreTypes: true,
+      }],
+    },
+    {
+      code: `
+        interface IFoo {
+          id: string&number;
+        }`,
+      options: [{
+        ignoreTypes: true,
+      }],
+    },
+    {
+      code: `
+        interface IFoo {
+          id: string & number;
+        }`,
+      options: [{
+        ignoreTypes: true,
+      }],
+    },
   ],
   invalid: [
     {
