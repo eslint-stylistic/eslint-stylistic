@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, Token, Tree } from '#types'
-import type { MessageIds, RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types._js_'
 import { isEqToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
