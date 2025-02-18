@@ -19,6 +19,7 @@ import type { ObjectPropertyNewlineRuleOptions } from '../../eslint-plugin/rules
 import type { PaddingLineBetweenStatementsRuleOptions } from '../../eslint-plugin/rules/padding-line-between-statements/types._ts_'
 import type { QuotePropsRuleOptions } from '../../eslint-plugin/rules/quote-props/types'
 import type { QuotesRuleOptions } from '../../eslint-plugin/rules/quotes/types'
+import type { SemiSpacingRuleOptions } from '../../eslint-plugin/rules/semi-spacing/types'
 import type { SemiRuleOptions } from '../../eslint-plugin/rules/semi/types'
 import type { SpaceBeforeBlocksRuleOptions } from '../../eslint-plugin/rules/space-before-blocks/types'
 import type { SpaceBeforeFunctionParenRuleOptions } from '../../eslint-plugin/rules/space-before-function-paren/types._ts_'
@@ -131,6 +132,11 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/ts/semi
    */
   '@stylistic/ts/semi': SemiRuleOptions
+  /**
+   * Enforce consistent spacing before and after semicolons
+   * @see https://eslint.style/rules/ts/semi-spacing
+   */
+  '@stylistic/ts/semi-spacing': SemiSpacingRuleOptions
   /**
    * Enforce consistent spacing before blocks
    * @see https://eslint.style/rules/ts/space-before-blocks
@@ -259,6 +265,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/ts/semi
    */
   'semi': SemiRuleOptions
+  /**
+   * Enforce consistent spacing before and after semicolons
+   * @see https://eslint.style/rules/ts/semi-spacing
+   */
+  'semi-spacing': SemiSpacingRuleOptions
   /**
    * Enforce consistent spacing before blocks
    * @see https://eslint.style/rules/ts/space-before-blocks

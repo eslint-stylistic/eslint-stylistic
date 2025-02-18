@@ -1572,6 +1572,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "semi-spacing",
+        "ruleId": "@stylistic/ts/semi-spacing",
+        "originalId": "@typescript-eslint/semi-spacing",
+        "entry": "packages/eslint-plugin/rules/semi-spacing/semi-spacing._ts_.ts",
+        "docsEntry": "packages/eslint-plugin/rules/semi-spacing/README._ts_.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Enforce consistent spacing before and after semicolons",
+            "recommended": true
+          }
+        }
+      },
+      {
         "name": "space-before-blocks",
         "ruleId": "@stylistic/ts/space-before-blocks",
         "originalId": "@typescript-eslint/space-before-blocks",
