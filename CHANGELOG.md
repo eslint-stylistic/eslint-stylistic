@@ -1,5 +1,18 @@
 # Changelog
 
+## [4.0.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.0.0-beta.1...v4.0.0) (2025-02-18)
+
+
+### Features
+
+* **semi-spacing:** support handling typescript ([#687](https://github.com/eslint-stylistic/eslint-stylistic/issues/687)) ([8b76c93](https://github.com/eslint-stylistic/eslint-stylistic/commit/8b76c931178b705523bb130eb2d8e154071ea7ff))
+* **space-infix-ops:** allow to ignore types in ts variant ([#684](https://github.com/eslint-stylistic/eslint-stylistic/issues/684)) ([c83ce20](https://github.com/eslint-stylistic/eslint-stylistic/commit/c83ce20633966e6abfc181ee667ff4a9ea7d8c79))
+
+
+### Chores
+
+* release-please-mark ([b894a75](https://github.com/eslint-stylistic/eslint-stylistic/commit/b894a75f8d38ab9af6ae419d69447a2de0ff337e))
+
 ## [4.0.0-beta.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v3.1.0...v4.0.0-beta.1) (2025-02-10)
 
 
