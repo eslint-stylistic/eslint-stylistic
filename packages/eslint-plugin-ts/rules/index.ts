@@ -21,6 +21,7 @@ import objectPropertyNewline from './object-property-newline/object-property-new
 import paddingLineBetweenStatements from './padding-line-between-statements/padding-line-between-statements'
 import quoteProps from './quote-props/quote-props'
 import quotes from './quotes/quotes'
+import semiSpacing from './semi-spacing/semi-spacing'
 import semi from './semi/semi'
 import spaceBeforeBlocks from './space-before-blocks/space-before-blocks'
 import spaceBeforeFunctionParen from './space-before-function-paren/space-before-function-paren'
@@ -49,6 +50,7 @@ export default {
   'quote-props': quoteProps,
   'quotes': quotes,
   'semi': semi,
+  'semi-spacing': semiSpacing,
   'space-before-blocks': spaceBeforeBlocks,
   'space-before-function-paren': spaceBeforeFunctionParen,
   'space-infix-ops': spaceInfixOps,

@@ -24,6 +24,7 @@ const config: Linter.Config = {
     '@typescript-eslint/quote-props': 0,
     '@typescript-eslint/quotes': 0,
     '@typescript-eslint/semi': 0,
+    '@typescript-eslint/semi-spacing': 0,
     '@typescript-eslint/space-before-blocks': 0,
     '@typescript-eslint/space-before-function-paren': 0,
     '@typescript-eslint/space-infix-ops': 0,

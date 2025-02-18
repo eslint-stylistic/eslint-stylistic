@@ -1,1 +1,1 @@
-export { default } from './semi-spacing._js_'
+export { default } from './semi-spacing._ts_'

@@ -46,6 +46,7 @@
     "./rules/quote-props": "./dist/rules/quote-props.js",
     "./rules/quotes": "./dist/rules/quotes.js",
     "./rules/semi": "./dist/rules/semi.js",
+    "./rules/semi-spacing": "./dist/rules/semi-spacing.js",
     "./rules/space-before-blocks": "./dist/rules/space-before-blocks.js",
     "./rules/space-before-function-paren": "./dist/rules/space-before-function-paren.js",
     "./rules/space-infix-ops": "./dist/rules/space-infix-ops.js",
