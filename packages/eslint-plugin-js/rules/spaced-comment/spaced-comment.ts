@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/spaced-comment/spaced-comment._js_'
+export { default } from '../../../eslint-plugin/rules/spaced-comment/index'

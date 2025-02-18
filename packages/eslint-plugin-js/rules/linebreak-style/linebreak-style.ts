@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/linebreak-style/linebreak-style._js_'
+export { default } from '../../../eslint-plugin/rules/linebreak-style/index'

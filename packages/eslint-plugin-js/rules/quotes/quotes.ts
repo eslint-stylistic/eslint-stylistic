@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/quotes/quotes._js_'
+export { default } from '../../../eslint-plugin/rules/quotes/index'

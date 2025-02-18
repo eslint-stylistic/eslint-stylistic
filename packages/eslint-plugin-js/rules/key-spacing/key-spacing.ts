@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/key-spacing/key-spacing._js_'
+export { default } from '../../../eslint-plugin/rules/key-spacing/index'

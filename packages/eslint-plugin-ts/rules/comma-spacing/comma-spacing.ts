@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/comma-spacing/comma-spacing._ts_'
+export { default } from '../../../eslint-plugin/rules/comma-spacing/index'

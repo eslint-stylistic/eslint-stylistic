@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/no-trailing-spaces/no-trailing-spaces._js_'
+export { default } from '../../../eslint-plugin/rules/no-trailing-spaces/index'

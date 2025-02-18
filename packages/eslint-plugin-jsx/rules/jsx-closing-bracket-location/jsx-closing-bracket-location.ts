@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/jsx-closing-bracket-location/jsx-closing-bracket-location._jsx_'
+export { default } from '../../../eslint-plugin/rules/jsx-closing-bracket-location/index'

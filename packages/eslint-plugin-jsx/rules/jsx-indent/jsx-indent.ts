@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/jsx-indent/jsx-indent._jsx_'
+export { default } from '../../../eslint-plugin/rules/jsx-indent/index'

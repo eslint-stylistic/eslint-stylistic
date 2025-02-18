@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/space-infix-ops/space-infix-ops._js_'
+export { default } from '../../../eslint-plugin/rules/space-infix-ops/index'

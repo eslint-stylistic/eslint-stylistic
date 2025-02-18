@@ -177,7 +177,7 @@ export interface RuleOptions {
    */
   '@stylistic/js/jsx-quotes': JsxQuotesRuleOptions
   /**
-   * Enforce consistent spacing between keys and values in object literal properties
+   * Enforce consistent spacing between property names and type annotations in types and interfaces
    * @see https://eslint.style/rules/js/key-spacing
    */
   '@stylistic/js/key-spacing': KeySpacingRuleOptions
@@ -332,7 +332,7 @@ export interface RuleOptions {
    */
   '@stylistic/js/padding-line-between-statements': PaddingLineBetweenStatementsRuleOptions
   /**
-   * Require quotes around object literal property names
+   * Require quotes around object literal, type literal, interfaces and enums property names
    * @see https://eslint.style/rules/js/quote-props
    */
   '@stylistic/js/quote-props': QuotePropsRuleOptions
@@ -367,7 +367,7 @@ export interface RuleOptions {
    */
   '@stylistic/js/space-before-blocks': SpaceBeforeBlocksRuleOptions
   /**
-   * Enforce consistent spacing before `function` definition opening parenthesis
+   * Enforce consistent spacing before function parenthesis
    * @see https://eslint.style/rules/js/space-before-function-paren
    */
   '@stylistic/js/space-before-function-paren': SpaceBeforeFunctionParenRuleOptions
@@ -530,7 +530,7 @@ export interface UnprefixedRuleOptions {
    */
   'jsx-quotes': JsxQuotesRuleOptions
   /**
-   * Enforce consistent spacing between keys and values in object literal properties
+   * Enforce consistent spacing between property names and type annotations in types and interfaces
    * @see https://eslint.style/rules/js/key-spacing
    */
   'key-spacing': KeySpacingRuleOptions
@@ -685,7 +685,7 @@ export interface UnprefixedRuleOptions {
    */
   'padding-line-between-statements': PaddingLineBetweenStatementsRuleOptions
   /**
-   * Require quotes around object literal property names
+   * Require quotes around object literal, type literal, interfaces and enums property names
    * @see https://eslint.style/rules/js/quote-props
    */
   'quote-props': QuotePropsRuleOptions
@@ -720,7 +720,7 @@ export interface UnprefixedRuleOptions {
    */
   'space-before-blocks': SpaceBeforeBlocksRuleOptions
   /**
-   * Enforce consistent spacing before `function` definition opening parenthesis
+   * Enforce consistent spacing before function parenthesis
    * @see https://eslint.style/rules/js/space-before-function-paren
    */
   'space-before-function-paren': SpaceBeforeFunctionParenRuleOptions
