@@ -111,6 +111,28 @@ run({
         || c
         || d;
     `,
+    $`
+      { aaaaa &&
+        bbbbb &&
+        ccccc }
+    `,
+    $`
+      {
+        aaaaa &&
+        bbbbb &&
+        ccccc
+      }
+    `,
+    $`
+      if (condition1 &&
+        condition2 &&
+        condition3
+      ) {
+        a &&
+        b() &&
+        c()
+      }
+    `,
   ],
   invalid: [],
 })
@@ -580,4 +602,17 @@ it('snapshots', async () => {
       || 2
       || 3;"
   `)
+
+  expect.soft(
+    fix($`
+      { aaaaa &&
+            bbbbb &&
+          ccccc }
+    `),
+  ).toMatchInlineSnapshot(`
+      "{ aaaaa &&
+        bbbbb &&
+        ccccc }"
+    `,
+  )
 })

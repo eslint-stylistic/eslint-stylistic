@@ -135,9 +135,9 @@ export default createRule<RuleOptions, MessageIds>({
         // End of line is a opening bracket (`[`, `(`),
         //  or the expression is an assignment
         || [':', '[', '(', '<'].concat(ASSIGNMENT_OPERATOR).includes(lastTokenOfLineLeft?.value || '')
-        // Before the left token is a opening bracket (`[`, `(`),
+        // Before the left token is a opening bracket (`[`, `(`, `{`),
         //  or the expression is an assignment
-        || (['[', '(', '=>', ':'].concat(ASSIGNMENT_OPERATOR).includes(tokenBeforeAll?.value || '') && firstTokenOfLineLeft?.loc.start.line === tokenBeforeAll?.loc.start.line)
+        || (['[', '(', '{', '=>', ':'].concat(ASSIGNMENT_OPERATOR).includes(tokenBeforeAll?.value || '') && firstTokenOfLineLeft?.loc.start.line === tokenBeforeAll?.loc.start.line)
 
       const needSubtractionIndent = false
         // End of line is a closing bracket
