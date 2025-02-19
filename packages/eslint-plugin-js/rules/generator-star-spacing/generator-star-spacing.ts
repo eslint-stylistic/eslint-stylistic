@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/generator-star-spacing/generator-star-spacing._js_'
+export { default } from '../../../eslint-plugin/rules/generator-star-spacing/index'

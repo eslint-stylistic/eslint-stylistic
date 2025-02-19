@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/eol-last/eol-last._js_'
+export { default } from '../../../eslint-plugin/rules/eol-last/index'

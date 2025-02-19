@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/quote-props/quote-props._ts_'
+export { default } from '../../../eslint-plugin/rules/quote-props/index'

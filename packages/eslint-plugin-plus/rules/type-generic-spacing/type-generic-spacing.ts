@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/type-generic-spacing/type-generic-spacing._plus_'
+export { default } from '../../../eslint-plugin/rules/type-generic-spacing/index'

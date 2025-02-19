@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/no-mixed-operators/no-mixed-operators._js_'
+export { default } from '../../../eslint-plugin/rules/no-mixed-operators/index'

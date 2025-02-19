@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/comma-dangle/comma-dangle._js_'
+export { default } from '../../../eslint-plugin/rules/comma-dangle/index'

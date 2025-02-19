@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/no-extra-semi/no-extra-semi._js_'
+export { default } from '../../../eslint-plugin/rules/no-extra-semi/index'

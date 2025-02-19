@@ -55,7 +55,7 @@ async function readPackages() {
           const realName = i.name
           const name = resolveAlias(realName)
 
-          const entry = join(RULES_DIR, name, pkg ? `${name}._${pkg}_.ts` : 'index.ts')
+          const entry = join(RULES_DIR, name, 'index.ts')
           const url = pathToFileURL(entry).href
           const mod = await import(url)
           const meta = mod.default?.meta

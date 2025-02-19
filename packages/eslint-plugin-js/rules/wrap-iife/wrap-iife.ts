@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/wrap-iife/wrap-iife._js_'
+export { default } from '../../../eslint-plugin/rules/wrap-iife/index'
