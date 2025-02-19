@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.0.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.0.0...v4.0.1) (2025-02-19)
+
+
+### Bug Fixes
+
+* **indent-binary-ops:** handle `{` for left token check ([#693](https://github.com/eslint-stylistic/eslint-stylistic/issues/693)) ([7f2740e](https://github.com/eslint-stylistic/eslint-stylistic/commit/7f2740e824b621c07fe373f81bdd7dac093f2422))
+
+
+### Chores
+
+* merge `block-spacing` ([#690](https://github.com/eslint-stylistic/eslint-stylistic/issues/690)) ([b239b71](https://github.com/eslint-stylistic/eslint-stylistic/commit/b239b717bb6dc9eb0632ce9d3bb3379501b72471))
+
 ## [4.0.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.0.0-beta.1...v4.0.0) (2025-02-18)
 
 
