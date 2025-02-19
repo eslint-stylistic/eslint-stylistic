@@ -5,8 +5,6 @@
 
 import { $, run } from '#test'
 import { invalids as _invalids, valids as _valids } from '#test/parsers-jsx'
-import { version as eslintVersion } from 'eslint/package.json'
-import semver from 'semver'
 import rule from '.'
 import { expectedErrors } from './indent._js_.test'
 
@@ -1073,7 +1071,7 @@ const Component = () => (
           // JSX
         );
       `,
-      features: ['flow'].concat(semver.satisfies(eslintVersion, '< 8') ? 'no-babel-old' : []),
+      features: ['flow'],
     },
     {
       code: `
@@ -2324,7 +2322,7 @@ const Component = () => (
       options: [2],
       errors: expectedErrors([4, 4, 0, 'Punctuator']),
     },
-    semver.satisfies(eslintVersion, '> 4') ? {
+    {
       code: `
         import React from 'react';
 
@@ -2357,6 +2355,6 @@ const Component = () => (
         { messageId: 'wrongIndentation', line: 5 },
         { messageId: 'wrongIndentation', line: 8 },
       ],
-    } : [],
+    },
   ),
 })

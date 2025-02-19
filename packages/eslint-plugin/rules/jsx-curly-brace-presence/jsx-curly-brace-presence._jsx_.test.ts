@@ -7,8 +7,6 @@
 
 import { run } from '#test'
 import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '#test/parsers-jsx'
-import eslintPkg from 'eslint/package.json'
-import semver from 'semver'
 import rule from './jsx-curly-brace-presence._jsx_'
 
 run({
@@ -406,27 +404,25 @@ run({
     {
       code: `<App>{/* comment */}</App>`,
     },
-    (semver.satisfies(eslintPkg.version, '> 3') ? [
-      {
-        code: `<App>{/* comment */ <Foo />}</App>`,
-      },
-      {
-        code: `<App>{/* comment */ 'foo'}</App>`,
-      },
-      {
-        code: `<App prop={/* comment */ 'foo'} />`,
-      },
-      {
-        code: `
-          <App>
-            {
-              // comment
-              <Foo />
-            }
-          </App>
-        `,
-      },
-    ] : []),
+    {
+      code: `<App>{/* comment */ <Foo />}</App>`,
+    },
+    {
+      code: `<App>{/* comment */ 'foo'}</App>`,
+    },
+    {
+      code: `<App prop={/* comment */ 'foo'} />`,
+    },
+    {
+      code: `
+        <App>
+          {
+            // comment
+            <Foo />
+          }
+        </App>
+      `,
+    },
     {
       code: `<App horror=<div /> />`,
       features: ['no-ts'],
@@ -595,7 +591,7 @@ run({
         { messageId: 'unnecessaryCurly', line: 5 },
       ],
     },
-    semver.satisfies(eslintPkg.version, '^7.5.0') ? { // require('@babel/eslint-parser/package.json').peerDependencies.eslint
+    { // require('@babel/eslint-parser/package.json').peerDependencies.eslint
       // TODO: figure out how to make all other parsers work this well
       code: `
         <MyComponent>
@@ -626,7 +622,7 @@ run({
         { messageId: 'unnecessaryCurly', line: 7 },
         { messageId: 'unnecessaryCurly', line: 8 },
       ],
-    } : [],
+    },
     {
       code: `<MyComponent prop='bar'>foo</MyComponent>`,
       output: '<MyComponent prop={"bar"}>foo</MyComponent>',

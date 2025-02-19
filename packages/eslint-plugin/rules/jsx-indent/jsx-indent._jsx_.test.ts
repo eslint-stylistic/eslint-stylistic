@@ -5,8 +5,6 @@
 
 import { run } from '#test'
 import { invalids, skipDueToMultiErrorSorting, valids } from '#test/parsers-jsx'
-import { version as eslintVersion } from 'eslint/package.json'
-import semver from 'semver'
 import rule from './jsx-indent._jsx_'
 
 run({
@@ -1098,7 +1096,7 @@ const Component = () => (
           // JSX
         );
       `,
-      features: ['flow'].concat(semver.satisfies(eslintVersion, '< 8') ? 'no-babel-old' : []),
+      features: ['flow'],
     },
     {
       code: `
@@ -3130,7 +3128,7 @@ const Component = () => (
         },
       ],
     },
-    semver.satisfies(eslintVersion, '> 4') ? {
+    {
       code: `
         import React from 'react';
 
@@ -3163,6 +3161,6 @@ const Component = () => (
         { messageId: 'wrongIndent', line: 6 },
         { messageId: 'wrongIndent', line: 9 },
       ],
-    } : [],
+    },
   ),
 })
