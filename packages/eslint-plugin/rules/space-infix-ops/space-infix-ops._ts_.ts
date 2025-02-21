@@ -1,11 +1,8 @@
-import type { ASTNode, RuleModule, Token, Tree } from '#types'
+import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types._ts_'
-import { castRuleModule, createRule } from '#utils/create-rule'
+import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isNotOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
-import _baseRule from './space-infix-ops._js_'
-
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 const UNIONS = ['|', '&']
 
@@ -17,8 +14,7 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Require spacing around infix operators',
     },
-    fixable: baseRule.meta.fixable,
-    hasSuggestions: baseRule.meta.hasSuggestions,
+    fixable: 'whitespace',
     schema: [
       {
         type: 'object',
@@ -35,7 +31,9 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    messages: baseRule.meta.messages,
+    messages: {
+      missingSpace: 'Operator \'{{operator}}\' must be spaced.',
+    },
   },
   defaultOptions: [
     {
@@ -44,8 +42,8 @@ export default createRule<RuleOptions, MessageIds>({
     },
   ],
   create(context) {
+    const int32Hint = context.options[0] ? context.options[0].int32Hint === true : false
     const ignoreTypes = context.options[0] ? context.options[0].ignoreTypes === true : false
-    const rules = (baseRule as any as RuleModule<any, any>).create(context)
     const sourceCode = context.sourceCode
 
     function report(node: ASTNode, operator: Token): void {
@@ -72,6 +70,84 @@ export default createRule<RuleOptions, MessageIds>({
           return fixer.replaceText(operator, fixString)
         },
       })
+    }
+
+    /**
+     * Returns the first token which violates the rule
+     * @param left The left node of the main node
+     * @param right The right node of the main node
+     * @param op The operator of the main node
+     * @returns The violator token or null
+     * @private
+     */
+    function getFirstNonSpacedToken(left: ASTNode, right: ASTNode, op: string) {
+      const operator = sourceCode.getFirstTokenBetween(left, right, token => token.value === op)!
+      const prev = sourceCode.getTokenBefore(operator)!
+      const next = sourceCode.getTokenAfter(operator)!
+
+      if (!sourceCode.isSpaceBetween(prev, operator) || !sourceCode.isSpaceBetween(operator, next))
+        return operator
+      return null
+    }
+
+    /**
+     * Check if the node is binary then report
+     * @param node node to evaluate
+     * @private
+     */
+    function checkBinary(
+      node:
+        | Tree.AssignmentExpression
+        | Tree.AssignmentPattern
+        | Tree.BinaryExpression
+        | Tree.LogicalExpression,
+    ) {
+      const leftNode = ('typeAnnotation' in node.left && node.left.typeAnnotation)
+        ? node.left.typeAnnotation : node.left
+      const rightNode = node.right
+
+      // search for = in AssignmentPattern nodes
+      const operator = ('operator' in node && node.operator) ? node.operator : '='
+
+      const nonSpacedNode = getFirstNonSpacedToken(leftNode, rightNode, operator)
+
+      if (nonSpacedNode) {
+        if (!(int32Hint && sourceCode.getText(node).endsWith('|0')))
+          report(node, nonSpacedNode)
+      }
+    }
+
+    /**
+     * Check if the node is conditional
+     * @param node node to evaluate
+     * @private
+     */
+    function checkConditional(node: Tree.ConditionalExpression) {
+      const nonSpacedConsequentNode = getFirstNonSpacedToken(node.test, node.consequent, '?')
+      const nonSpacedAlternateNode = getFirstNonSpacedToken(node.consequent, node.alternate, ':')
+
+      if (nonSpacedConsequentNode)
+        report(node, nonSpacedConsequentNode)
+
+      if (nonSpacedAlternateNode)
+        report(node, nonSpacedAlternateNode)
+    }
+
+    /**
+     * Check if the node is a variable
+     * @param node node to evaluate
+     * @private
+     */
+    function checkVar(node: Tree.VariableDeclarator) {
+      const leftNode = (node.id.typeAnnotation) ? node.id.typeAnnotation : node.id
+      const rightNode = node.init
+
+      if (rightNode) {
+        const nonSpacedNode = getFirstNonSpacedToken(leftNode, rightNode, '=')
+
+        if (nonSpacedNode)
+          report(node, nonSpacedNode)
+      }
     }
 
     function isSpaceChar(token: Token): boolean {
@@ -181,7 +257,12 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     return {
-      ...rules,
+      AssignmentExpression: checkBinary,
+      AssignmentPattern: checkBinary,
+      BinaryExpression: checkBinary,
+      LogicalExpression: checkBinary,
+      ConditionalExpression: checkConditional,
+      VariableDeclarator: checkVar,
       TSEnumMember: checkForEnumAssignmentSpace,
       PropertyDefinition: checkForPropertyDefinitionAssignmentSpace,
       TSTypeAliasDeclaration: checkForTypeAliasAssignment,
