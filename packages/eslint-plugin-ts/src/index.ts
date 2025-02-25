@@ -3,4 +3,9 @@ import plugin from './plugin'
 
 export type * from '../dts'
 
-export default Object.assign(plugin, { configs })
+const index = Object.assign(plugin, { configs })
+
+export {
+  index as default,
+  index as 'module.exports',
+}

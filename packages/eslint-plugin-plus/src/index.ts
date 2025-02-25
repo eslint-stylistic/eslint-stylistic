@@ -2,6 +2,9 @@ import rules from '../rules'
 
 export type * from '../dts'
 
-export default {
-  rules,
+const index = { rules }
+
+export {
+  index as default,
+  index as 'module.exports',
 }
