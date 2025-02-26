@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/padded-blocks/padded-blocks._js_'
+export { default } from '../../../eslint-plugin/rules/padded-blocks/padded-blocks'

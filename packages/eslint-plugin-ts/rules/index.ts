@@ -12,7 +12,6 @@ import keySpacing from './key-spacing/key-spacing'
 import keywordSpacing from './keyword-spacing/keyword-spacing'
 import linesAroundComment from './lines-around-comment/lines-around-comment'
 import linesBetweenClassMembers from './lines-between-class-members/lines-between-class-members'
-import memberDelimiterStyle from './member-delimiter-style/member-delimiter-style'
 import noExtraParens from './no-extra-parens/no-extra-parens'
 import noExtraSemi from './no-extra-semi/no-extra-semi'
 import objectCurlyNewline from './object-curly-newline/object-curly-newline'
@@ -26,7 +25,6 @@ import semi from './semi/semi'
 import spaceBeforeBlocks from './space-before-blocks/space-before-blocks'
 import spaceBeforeFunctionParen from './space-before-function-paren/space-before-function-paren'
 import spaceInfixOps from './space-infix-ops/space-infix-ops'
-import typeAnnotationSpacing from './type-annotation-spacing/type-annotation-spacing'
 
 export default {
   'block-spacing': blockSpacing,
@@ -40,7 +38,6 @@ export default {
   'keyword-spacing': keywordSpacing,
   'lines-around-comment': linesAroundComment,
   'lines-between-class-members': linesBetweenClassMembers,
-  'member-delimiter-style': memberDelimiterStyle,
   'no-extra-parens': noExtraParens,
   'no-extra-semi': noExtraSemi,
   'object-curly-newline': objectCurlyNewline,
@@ -54,5 +51,4 @@ export default {
   'space-before-blocks': spaceBeforeBlocks,
   'space-before-function-paren': spaceBeforeFunctionParen,
   'space-infix-ops': spaceInfixOps,
-  'type-annotation-spacing': typeAnnotationSpacing,
 } as unknown as Rules

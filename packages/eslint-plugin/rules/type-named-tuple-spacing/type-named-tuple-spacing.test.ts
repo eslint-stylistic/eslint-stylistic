@@ -1,5 +1,5 @@
 import { $, run } from '#test'
-import rule from './type-named-tuple-spacing._plus_'
+import rule from './type-named-tuple-spacing'
 
 run({
   name: 'type-named-tuple-spacing',

@@ -5,7 +5,7 @@
 
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-first-prop-new-line._jsx_'
+import rule from './jsx-first-prop-new-line'
 
 run({
   name: 'jsx-first-prop-new-line',

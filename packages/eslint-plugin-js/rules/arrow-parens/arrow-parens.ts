@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/arrow-parens/arrow-parens._js_'
+export { default } from '../../../eslint-plugin/rules/arrow-parens/arrow-parens'

@@ -1,1 +1,1 @@
-export { default } from './jsx-quotes._js_'
+export { default } from './jsx-quotes'

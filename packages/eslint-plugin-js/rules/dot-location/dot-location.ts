@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/dot-location/dot-location._js_'
+export { default } from '../../../eslint-plugin/rules/dot-location/dot-location'

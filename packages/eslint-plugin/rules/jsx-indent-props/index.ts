@@ -1,1 +1,1 @@
-export { default } from './jsx-indent-props._jsx_'
+export { default } from './jsx-indent-props'

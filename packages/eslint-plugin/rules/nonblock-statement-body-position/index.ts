@@ -1,1 +1,1 @@
-export { default } from './nonblock-statement-body-position._js_'
+export { default } from './nonblock-statement-body-position'

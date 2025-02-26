@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/jsx-wrap-multilines/jsx-wrap-multilines._jsx_'
+export { default } from '../../../eslint-plugin/rules/jsx-wrap-multilines/jsx-wrap-multilines'

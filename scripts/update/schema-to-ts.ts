@@ -16,6 +16,7 @@ const PACKAGES = [
   'jsx',
   'plus',
   'js',
+  'default',
 ]
 
 export async function generateDtsFromSchema() {
@@ -27,9 +28,9 @@ export async function generateDtsFromSchema() {
   for (const dir of dirs) {
     const name = basename(dir)
 
-    const pkgs = PACKAGES.filter(i => existsSync(join(dir, `${name}._${i}_.ts`)))
+    const pkgs = PACKAGES.filter(i => existsSync(join(dir, i === 'default' ? `${name}.ts` : `${name}._${i}_.ts`)))
     const formatted = await Promise.all(pkgs.map(async (pkg) => {
-      const file = pathToFileURL(join(dir, `${name}._${pkg}_.ts`)).href
+      const file = pathToFileURL(join(dir, pkg === 'default' ? `${name}.ts` : `${name}._${pkg}_.ts`)).href
       const formatted = await getDts(
         file,
         name,
@@ -42,7 +43,7 @@ export async function generateDtsFromSchema() {
     }
     else {
       for (const [pkg, dts] of formatted) {
-        await fs.writeFile(resolve(dir, `types._${pkg}_.d.ts`), dts, 'utf-8')
+        await fs.writeFile(resolve(dir, pkg === 'default' ? 'types.d.ts' : `types._${pkg}_.d.ts`), dts, 'utf-8')
       }
       await fs.writeFile(resolve(dir, `types.d.ts`), formatted[0][1], 'utf-8')
     }

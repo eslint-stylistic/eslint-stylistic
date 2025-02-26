@@ -1,1 +1,1 @@
-export { default } from './arrow-spacing._js_'
+export { default } from './arrow-spacing'

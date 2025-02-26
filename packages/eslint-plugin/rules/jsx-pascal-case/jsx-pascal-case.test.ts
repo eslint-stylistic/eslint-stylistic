@@ -8,7 +8,7 @@
 
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-pascal-case._jsx_'
+import rule from './jsx-pascal-case'
 
 run({
   name: 'jsx-pascal-case',

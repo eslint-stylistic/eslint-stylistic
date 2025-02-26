@@ -1,5 +1,5 @@
 import { $, run } from '#test'
-import rule from './type-generic-spacing._plus_'
+import rule from './type-generic-spacing'
 
 run({
   name: 'type-generic-spacing',

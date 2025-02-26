@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/jsx-sort-props/jsx-sort-props._jsx_'
+export { default } from '../../../eslint-plugin/rules/jsx-sort-props/jsx-sort-props'

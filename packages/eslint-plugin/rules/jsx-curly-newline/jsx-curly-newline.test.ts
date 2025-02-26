@@ -4,7 +4,7 @@
 
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-curly-newline._jsx_'
+import rule from './jsx-curly-newline'
 
 const LEFT_MISSING_ERROR = { messageId: 'expectedAfter', type: 'Punctuator' }
 const LEFT_UNEXPECTED_ERROR = { messageId: 'unexpectedAfter', type: 'Punctuator' }

@@ -1,6 +1,6 @@
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-function-call-newline._jsx_'
+import rule from './jsx-function-call-newline'
 
 run({
   name: 'jsx-function-call-newline',

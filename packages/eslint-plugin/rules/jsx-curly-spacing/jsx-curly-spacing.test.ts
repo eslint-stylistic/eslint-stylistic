@@ -6,7 +6,7 @@
 
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-curly-spacing._jsx_'
+import rule from './jsx-curly-spacing'
 
 run({
   name: 'jsx-curly-spacing',

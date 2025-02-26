@@ -1,1 +1,1 @@
-export { default } from './multiline-comment-style._js_'
+export { default } from './multiline-comment-style'

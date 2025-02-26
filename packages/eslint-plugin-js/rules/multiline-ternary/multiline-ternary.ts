@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/multiline-ternary/multiline-ternary._js_'
+export { default } from '../../../eslint-plugin/rules/multiline-ternary/multiline-ternary'

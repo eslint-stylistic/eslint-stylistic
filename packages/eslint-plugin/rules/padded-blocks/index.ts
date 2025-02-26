@@ -1,1 +1,1 @@
-export { default } from './padded-blocks._js_'
+export { default } from './padded-blocks'

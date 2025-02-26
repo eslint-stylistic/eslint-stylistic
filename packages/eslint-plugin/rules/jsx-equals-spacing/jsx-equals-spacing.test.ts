@@ -5,7 +5,7 @@
 
 import { run } from '#test'
 import { invalids, skipDueToMultiErrorSorting, valids } from '#test/parsers-jsx'
-import rule from './jsx-equals-spacing._jsx_'
+import rule from './jsx-equals-spacing'
 
 run({
   name: 'jsx-equals-spacing',

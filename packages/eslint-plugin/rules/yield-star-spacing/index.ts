@@ -1,1 +1,1 @@
-export { default } from './yield-star-spacing._js_'
+export { default } from './yield-star-spacing'

@@ -5,7 +5,7 @@
 
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-self-closing-comp._jsx_'
+import rule from './jsx-self-closing-comp'
 
 run({
   name: 'self-closing-comp',

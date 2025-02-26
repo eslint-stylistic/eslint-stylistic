@@ -1,1 +1,1 @@
-export { default } from './space-unary-ops._js_'
+export { default } from './space-unary-ops'

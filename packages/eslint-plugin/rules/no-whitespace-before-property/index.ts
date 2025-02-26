@@ -1,1 +1,1 @@
-export { default } from './no-whitespace-before-property._js_'
+export { default } from './no-whitespace-before-property'

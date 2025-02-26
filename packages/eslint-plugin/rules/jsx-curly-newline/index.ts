@@ -1,1 +1,1 @@
-export { default } from './jsx-curly-newline._jsx_'
+export { default } from './jsx-curly-newline'

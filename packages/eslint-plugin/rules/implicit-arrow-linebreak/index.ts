@@ -1,1 +1,1 @@
-export { default } from './implicit-arrow-linebreak._js_'
+export { default } from './implicit-arrow-linebreak'

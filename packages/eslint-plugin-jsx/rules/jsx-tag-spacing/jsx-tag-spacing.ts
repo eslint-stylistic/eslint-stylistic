@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/jsx-tag-spacing/jsx-tag-spacing._jsx_'
+export { default } from '../../../eslint-plugin/rules/jsx-tag-spacing/jsx-tag-spacing'

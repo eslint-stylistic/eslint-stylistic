@@ -5,7 +5,7 @@
 
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-closing-tag-location._jsx_'
+import rule from './jsx-closing-tag-location'
 
 run({
   name: 'jsx-closing-tag-location',

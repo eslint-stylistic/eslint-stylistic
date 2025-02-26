@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/curly-newline/curly-newline._plus_'
+export { default } from '../../../eslint-plugin/rules/curly-newline/curly-newline'

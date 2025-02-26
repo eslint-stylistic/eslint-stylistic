@@ -1,1 +1,1 @@
-export { default } from './line-comment-position._js_'
+export { default } from './line-comment-position'

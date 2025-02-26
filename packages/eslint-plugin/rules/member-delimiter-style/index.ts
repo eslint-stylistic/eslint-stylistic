@@ -1,1 +1,1 @@
-export { default } from './member-delimiter-style._ts_'
+export { default } from './member-delimiter-style'

@@ -1,1 +1,1 @@
-export { default } from './jsx-props-no-multi-spaces._jsx_'
+export { default } from './jsx-props-no-multi-spaces'

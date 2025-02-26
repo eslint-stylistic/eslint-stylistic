@@ -1,1 +1,1 @@
-export { default } from './new-parens._js_'
+export { default } from './new-parens'

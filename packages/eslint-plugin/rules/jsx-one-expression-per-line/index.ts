@@ -1,1 +1,1 @@
-export { default } from './jsx-one-expression-per-line._jsx_'
+export { default } from './jsx-one-expression-per-line'

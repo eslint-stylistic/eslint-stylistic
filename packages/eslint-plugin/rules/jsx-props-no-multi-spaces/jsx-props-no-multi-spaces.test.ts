@@ -5,7 +5,7 @@
 
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-props-no-multi-spaces._jsx_'
+import rule from './jsx-props-no-multi-spaces'
 
 run({
   name: 'jsx-props-no-multi-spaces',

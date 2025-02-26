@@ -5,7 +5,7 @@
 
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-wrap-multilines._jsx_'
+import rule from './jsx-wrap-multilines'
 
 // ------------------------------------------------------------------------------
 // Constants/Code Snippets

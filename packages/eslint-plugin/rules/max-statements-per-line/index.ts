@@ -1,1 +1,1 @@
-export { default } from './max-statements-per-line._js_'
+export { default } from './max-statements-per-line'

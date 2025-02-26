@@ -67,12 +67,17 @@ async function readPackages() {
                 ? `react/${name}`
                 : ''
 
+          const docsEntry = [
+            pkg ? normalizePath(join(RULES_DIR, i.name, `README._${pkg}_.md`)) : '',
+            normalizePath(join(RULES_DIR, i.name, 'README.md')),
+          ].filter(Boolean).find(i => existsSync(i))
+
           return {
             name: realName,
             ruleId: `${pkgId}/${realName}`,
             originalId: RULE_ORIGINAL_ID_MAP[originalId] || originalId,
             entry: normalizePath(entry),
-            docsEntry: pkg ? normalizePath(join(RULES_DIR, i.name, `README._${pkg}_.md`)) : '',
+            docsEntry,
             meta: {
               fixable: meta?.fixable,
               docs: {

@@ -1,1 +1,1 @@
-export { default } from './no-floating-decimal._js_'
+export { default } from './no-floating-decimal'

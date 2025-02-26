@@ -1,1 +1,1 @@
-export { default } from './template-tag-spacing._js_'
+export { default } from './template-tag-spacing'

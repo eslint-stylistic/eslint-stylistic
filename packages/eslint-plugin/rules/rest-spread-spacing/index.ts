@@ -1,1 +1,1 @@
-export { default } from './rest-spread-spacing._js_'
+export { default } from './rest-spread-spacing'

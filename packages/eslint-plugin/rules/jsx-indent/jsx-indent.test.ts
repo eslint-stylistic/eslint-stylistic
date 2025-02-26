@@ -5,7 +5,7 @@
 
 import { run } from '#test'
 import { invalids, skipDueToMultiErrorSorting, valids } from '#test/parsers-jsx'
-import rule from './jsx-indent._jsx_'
+import rule from './jsx-indent'
 
 run({
   name: 'jsx-indent',

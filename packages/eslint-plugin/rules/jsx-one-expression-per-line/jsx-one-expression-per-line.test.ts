@@ -5,7 +5,7 @@
 
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-one-expression-per-line._jsx_'
+import rule from './jsx-one-expression-per-line'
 
 run({
   name: 'jsx-one-expression-per-line',

@@ -1,1 +1,1 @@
-export { default } from './function-call-argument-newline._js_'
+export { default } from './function-call-argument-newline'

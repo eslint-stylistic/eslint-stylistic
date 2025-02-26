@@ -1,1 +1,1 @@
-export { default } from './eol-last._js_'
+export { default } from './eol-last'

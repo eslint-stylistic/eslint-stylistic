@@ -1,1 +1,1 @@
-export { default } from './wrap-regex._js_'
+export { default } from './wrap-regex'

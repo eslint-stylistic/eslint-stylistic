@@ -1,1 +1,1 @@
-export { default } from '../../../eslint-plugin/rules/no-confusing-arrow/no-confusing-arrow._js_'
+export { default } from '../../../eslint-plugin/rules/no-confusing-arrow/no-confusing-arrow'

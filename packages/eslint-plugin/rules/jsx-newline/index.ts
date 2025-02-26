@@ -1,1 +1,1 @@
-export { default } from './jsx-newline._jsx_'
+export { default } from './jsx-newline'
