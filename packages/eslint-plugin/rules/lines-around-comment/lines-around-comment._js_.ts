@@ -3,6 +3,9 @@
  * @author Jamund Ferguson
  */
 
+// MERGED: The JS version of this rule is merged to the TS version, this file will be removed
+// in the next major when we remove the `@stylistic/eslint-plugin-js` package.
+
 import type { ASTNode, NodeTypes, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types._ts_'
 import { COMMENTS_IGNORE_PATTERN, isCommentToken, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
