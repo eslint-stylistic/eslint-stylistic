@@ -71,7 +71,9 @@ export function createConfig(cwd) {
       ],
       plugins: [
         commonjs(),
-        esbuild(),
+        esbuild({
+          target: 'esnext',
+        }),
         resolve(),
         aliasPlugin(),
       ],
