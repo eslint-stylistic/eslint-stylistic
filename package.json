@@ -11,7 +11,6 @@
     "stub": "pnpm -r --parallel run stub",
     "lint": "eslint . --cache",
     "update": "esno scripts/update.ts && pnpm run lint --fix",
-    "merge": "esno scripts/merge.ts && pnpm run update",
     "publish:ci": "esno scripts/publish.ts",
     "test": "vitest -c vitest.config.unit.ts",
     "test:fixtures": "vitest -c vitest.config.fixtures.ts",
