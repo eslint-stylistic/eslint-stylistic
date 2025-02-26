@@ -1,5 +1,25 @@
 # Changelog
 
+## [4.1.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.0.1...v4.1.0) (2025-02-26)
+
+
+### Features
+
+* add `module.exports` named export for `require(esm)` compatibility ([#700](https://github.com/eslint-stylistic/eslint-stylistic/issues/700)) ([668c955](https://github.com/eslint-stylistic/eslint-stylistic/commit/668c9556212423702dad4b73685c2299ece2527a))
+
+
+### Documentation
+
+* update merged note ([07b08f1](https://github.com/eslint-stylistic/eslint-stylistic/commit/07b08f1c7d74de0fe2cb6886b4f49baae574a71b))
+
+
+### Chores
+
+* merge `lines-around-comment` ([#691](https://github.com/eslint-stylistic/eslint-stylistic/issues/691)) ([f59605b](https://github.com/eslint-stylistic/eslint-stylistic/commit/f59605b9d1967357e9507998b0f7649c20094d55))
+* merge `space-before-blocks` ([#698](https://github.com/eslint-stylistic/eslint-stylistic/issues/698)) ([6e8554d](https://github.com/eslint-stylistic/eslint-stylistic/commit/6e8554dbcb4dc87814c7131d3a235f3c68dee16e))
+* merge `space-infix-ops` ([#697](https://github.com/eslint-stylistic/eslint-stylistic/issues/697)) ([1a1b388](https://github.com/eslint-stylistic/eslint-stylistic/commit/1a1b3886c42baeb15f113a8129256d1e0d9c23a6))
+* remove unnecessary ternary expression ([#695](https://github.com/eslint-stylistic/eslint-stylistic/issues/695)) ([66a4b18](https://github.com/eslint-stylistic/eslint-stylistic/commit/66a4b18d46979a1a51e350a0f547d28900a078dc))
+
 ## [4.0.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.0.0...v4.0.1) (2025-02-19)
 
 
