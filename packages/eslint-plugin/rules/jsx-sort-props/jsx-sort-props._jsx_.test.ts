@@ -5,8 +5,6 @@
 
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import eslintPkg from 'eslint/package.json'
-import semver from 'semver'
 import rule from './jsx-sort-props._jsx_'
 
 const expectedError = {
@@ -809,7 +807,7 @@ run({
         },
       ],
     },
-    semver.satisfies(eslintPkg.version, '> 3') ? {
+    {
       code: `
         <foo
           m={0}
@@ -858,8 +856,8 @@ run({
           line: 11,
         },
       ],
-    } : [],
-    semver.satisfies(eslintPkg.version, '> 3') ? {
+    },
+    {
       code: `
         <foo
           m={0}
@@ -912,8 +910,8 @@ run({
           line: 11,
         },
       ],
-    } : [],
-    semver.satisfies(eslintPkg.version, '> 3') ? {
+    },
+    {
       code: `
         <foo
           a1={0}
@@ -968,8 +966,8 @@ run({
           line: 12,
         },
       ],
-    } : [],
-    semver.satisfies(eslintPkg.version, '> 3') ? {
+    },
+    {
       code: `
         <foo
           a1={0}
@@ -1016,8 +1014,8 @@ run({
           line: 12,
         },
       ],
-    } : [],
-    semver.satisfies(eslintPkg.version, '> 3') ? {
+    },
+    {
       code: `
         <foo a={0} b={1} /* comment for b and ab */ ab={1} aa={0} />
       `,
@@ -1034,8 +1032,8 @@ run({
           line: 2,
         },
       ],
-    } : [],
-    semver.satisfies(eslintPkg.version, '> 3') ? {
+    },
+    {
       code: `
         <ReactJson src={rowResult} name="data" collapsed={4} collapseStringsAfterLength={60} onEdit={onEdit} /* onDelete={onEdit} */ />
       `,
@@ -1060,7 +1058,7 @@ run({
           line: 2,
         },
       ],
-    } : [],
+    },
     {
       code: `
         <Page
