@@ -17,6 +17,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce consistent spacing before `function` definition opening parenthesis',
+      recommended: true,
     },
 
     fixable: 'whitespace',

@@ -28,6 +28,7 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Enforce closing tag location for multiline JSX',
+      recommended: true,
     },
     fixable: 'whitespace',
     messages,

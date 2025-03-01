@@ -35,6 +35,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Require or disallow an empty line between class members',
+      recommended: true,
     },
 
     fixable: 'whitespace',

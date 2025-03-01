@@ -31,6 +31,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce consistent spacing before blocks',
+      recommended: true,
     },
 
     fixable: 'whitespace',

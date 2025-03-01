@@ -152,6 +152,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce consistent spacing after the `//` or `/*` in a comment',
+      recommended: true,
     },
 
     fixable: 'whitespace',

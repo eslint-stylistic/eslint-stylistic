@@ -20,6 +20,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce proper position of the first property in JSX',
+      recommended: true,
     },
     fixable: 'code',
 

@@ -17,6 +17,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Disallow all tabs',
+      recommended: true,
     },
     schema: [{
       type: 'object',

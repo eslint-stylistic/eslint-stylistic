@@ -16,6 +16,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce consistent spacing inside computed property brackets',
+      recommended: true,
     },
 
     fixable: 'whitespace',

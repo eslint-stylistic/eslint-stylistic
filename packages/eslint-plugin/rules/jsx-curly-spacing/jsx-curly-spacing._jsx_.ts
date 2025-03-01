@@ -35,6 +35,7 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Enforce or disallow spaces inside of curly braces in JSX attributes and expressions',
+      recommended: true,
     },
     fixable: 'code',
 

@@ -81,6 +81,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Disallow mixed binary operators',
+      recommended: true,
     },
 
     schema: [

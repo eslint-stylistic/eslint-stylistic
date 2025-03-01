@@ -15,6 +15,7 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Enforces consistent spacing inside TypeScript type generics',
+      recommended: true,
     },
     fixable: 'whitespace',
     schema: [],

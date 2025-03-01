@@ -290,6 +290,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce whitespace in and around the JSX opening and closing brackets',
+      recommended: true,
     },
     fixable: 'whitespace',
 

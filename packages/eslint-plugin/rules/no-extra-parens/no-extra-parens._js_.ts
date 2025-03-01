@@ -30,6 +30,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Disallow unnecessary parentheses',
+      recommended: true,
     },
 
     fixable: 'code',

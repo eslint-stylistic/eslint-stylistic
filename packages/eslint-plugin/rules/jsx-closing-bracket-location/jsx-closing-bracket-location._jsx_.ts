@@ -18,6 +18,7 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Enforce closing bracket location in JSX',
+      recommended: true,
     },
     fixable: 'code',
 

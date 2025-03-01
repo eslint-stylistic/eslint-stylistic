@@ -16,6 +16,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce consistent spacing before and after semicolons',
+      recommended: true,
     },
 
     fixable: 'whitespace',

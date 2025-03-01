@@ -16,9 +16,6 @@ export default createRule<RuleOptions, MessageIds>({
   package: 'ts',
   meta: {
     ...baseRule.meta,
-    docs: {
-      description: 'Enforce consistent spacing inside braces',
-    },
   },
   defaultOptions: ['never'],
   create(context) {

@@ -14,6 +14,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Disallow mixed spaces and tabs for indentation',
+      recommended: true,
     },
 
     schema: [

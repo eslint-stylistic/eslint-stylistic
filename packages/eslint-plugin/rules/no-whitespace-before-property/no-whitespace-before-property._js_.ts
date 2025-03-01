@@ -16,6 +16,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Disallow whitespace before properties',
+      recommended: true,
     },
 
     fixable: 'whitespace',

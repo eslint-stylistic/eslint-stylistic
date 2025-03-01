@@ -25,6 +25,7 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Enforce maximum of props on a single line in JSX',
+      recommended: true,
     },
     fixable: 'code',
 

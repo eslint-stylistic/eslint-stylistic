@@ -15,6 +15,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Disallow multiple empty lines',
+      recommended: true,
     },
 
     fixable: 'whitespace',

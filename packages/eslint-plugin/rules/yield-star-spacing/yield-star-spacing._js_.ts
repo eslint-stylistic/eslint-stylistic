@@ -15,6 +15,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Require or disallow spacing around the `*` in `yield*` expressions',
+      recommended: true,
     },
 
     fixable: 'whitespace',

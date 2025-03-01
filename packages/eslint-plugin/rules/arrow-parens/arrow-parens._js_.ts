@@ -25,6 +25,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Require parentheses around arrow function arguments',
+      recommended: true,
     },
 
     fixable: 'code',

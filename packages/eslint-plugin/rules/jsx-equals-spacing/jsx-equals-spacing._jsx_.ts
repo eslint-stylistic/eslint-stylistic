@@ -21,6 +21,7 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Enforce or disallow spaces around equal signs in JSX attributes',
+      recommended: true,
     },
     fixable: 'code',
 

@@ -14,6 +14,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Require or disallow newline at the end of files',
+      recommended: true,
     },
 
     fixable: 'whitespace',

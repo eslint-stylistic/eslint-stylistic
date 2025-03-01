@@ -13,6 +13,7 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Require spacing around infix operators',
+      recommended: true,
     },
     fixable: 'whitespace',
     schema: [

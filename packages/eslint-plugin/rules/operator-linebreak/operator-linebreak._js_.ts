@@ -16,6 +16,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce consistent linebreak style for operators',
+      recommended: true,
     },
 
     schema: [

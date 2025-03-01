@@ -18,6 +18,7 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Require or disallow padding within blocks',
+      recommended: true,
     },
     fixable: 'whitespace',
     schema: [

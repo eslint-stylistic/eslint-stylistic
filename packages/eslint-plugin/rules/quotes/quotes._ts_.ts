@@ -11,10 +11,7 @@ export default createRule<RuleOptions, MessageIds>({
   package: 'ts',
   meta: {
     type: 'layout',
-    docs: {
-      description:
-        'Enforce the consistent use of either backticks, double, or single quotes',
-    },
+    docs: baseRule.meta.docs,
     fixable: 'code',
     hasSuggestions: baseRule.meta.hasSuggestions,
     messages: baseRule.meta.messages,

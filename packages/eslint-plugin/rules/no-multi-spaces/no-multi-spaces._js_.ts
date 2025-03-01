@@ -16,6 +16,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Disallow multiple spaces',
+      recommended: true,
     },
 
     fixable: 'whitespace',

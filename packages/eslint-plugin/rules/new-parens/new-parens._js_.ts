@@ -15,6 +15,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce or disallow parentheses when invoking a constructor with no arguments',
+      recommended: true,
     },
 
     fixable: 'code',

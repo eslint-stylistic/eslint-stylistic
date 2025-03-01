@@ -15,6 +15,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce spacing between rest and spread operators and their expressions',
+      recommended: true,
     },
 
     fixable: 'whitespace',

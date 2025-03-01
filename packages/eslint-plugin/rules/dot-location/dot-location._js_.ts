@@ -16,6 +16,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce consistent newlines before and after dots',
+      recommended: true,
     },
 
     schema: [

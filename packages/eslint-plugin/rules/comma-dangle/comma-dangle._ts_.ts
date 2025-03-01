@@ -42,9 +42,7 @@ export default createRule<RuleOptions, MessageIds>({
   package: 'ts',
   meta: {
     type: 'layout',
-    docs: {
-      description: 'Require or disallow trailing commas',
-    },
+    docs: baseRule.meta.docs,
     schema: {
       $defs: {
         value: {

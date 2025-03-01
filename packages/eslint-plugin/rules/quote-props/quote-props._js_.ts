@@ -19,6 +19,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Require quotes around object literal property names',
+      recommended: true,
     },
 
     schema: {

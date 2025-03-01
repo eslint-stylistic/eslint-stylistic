@@ -15,6 +15,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Disallow leading or trailing decimal points in numeric literals',
+      recommended: true,
     },
 
     schema: [],

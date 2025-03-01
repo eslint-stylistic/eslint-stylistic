@@ -16,6 +16,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce consistent spacing before or after unary operators',
+      recommended: true,
     },
 
     fixable: 'whitespace',

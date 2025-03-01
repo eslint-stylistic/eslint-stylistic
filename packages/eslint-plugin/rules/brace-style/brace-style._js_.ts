@@ -19,6 +19,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce consistent brace style for blocks',
+      recommended: true,
     },
 
     schema: [

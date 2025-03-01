@@ -39,6 +39,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce the consistent use of either double or single quotes in JSX attributes',
+      recommended: true,
     },
 
     fixable: 'whitespace',

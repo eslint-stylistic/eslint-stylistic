@@ -33,6 +33,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Disallow missing parentheses around multiline JSX',
+      recommended: true,
     },
 
     fixable: 'code',

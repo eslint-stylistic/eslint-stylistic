@@ -484,6 +484,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce consistent indentation',
+      recommended: true,
     },
 
     fixable: 'whitespace',

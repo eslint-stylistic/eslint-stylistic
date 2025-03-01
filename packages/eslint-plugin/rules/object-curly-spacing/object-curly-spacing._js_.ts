@@ -15,6 +15,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce consistent spacing inside braces',
+      recommended: true,
     },
 
     fixable: 'whitespace',

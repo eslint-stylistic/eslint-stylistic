@@ -44,6 +44,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce consistent linebreaks in curly braces in JSX attributes and expressions',
+      recommended: true,
     },
 
     fixable: 'whitespace',

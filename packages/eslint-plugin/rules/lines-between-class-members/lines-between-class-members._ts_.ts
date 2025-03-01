@@ -29,9 +29,7 @@ export default createRule<RuleOptions, MessageIds>({
   package: 'ts',
   meta: {
     type: 'layout',
-    docs: {
-      description: 'Require or disallow an empty line between class members',
-    },
+    docs: baseRule.meta.docs,
     fixable: 'whitespace',
     hasSuggestions: baseRule.meta.hasSuggestions,
     schema,

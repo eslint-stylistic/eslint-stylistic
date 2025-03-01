@@ -26,6 +26,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Require one JSX element per line',
+      recommended: true,
     },
 
     fixable: 'whitespace',

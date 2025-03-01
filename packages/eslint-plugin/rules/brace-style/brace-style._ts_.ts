@@ -10,10 +10,8 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'brace-style',
   package: 'ts',
   meta: {
-    type: 'layout',
-    docs: {
-      description: 'Enforce consistent brace style for blocks',
-    },
+    type: baseRule.meta.type,
+    docs: baseRule.meta.docs,
     messages: baseRule.meta.messages,
     fixable: baseRule.meta.fixable,
     hasSuggestions: baseRule.meta.hasSuggestions,

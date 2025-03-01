@@ -31,9 +31,7 @@ export default createRule<RuleOptions, MessageIds>({
   package: 'ts',
   meta: {
     type: 'layout',
-    docs: {
-      description: 'Enforce consistent spacing before and after keywords',
-    },
+    docs: baseRule.meta.docs,
     fixable: 'whitespace',
     hasSuggestions: baseRule.meta.hasSuggestions,
     schema: [schema],

@@ -47,6 +47,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce props indentation in JSX',
+      recommended: true,
     },
     fixable: 'code',
 

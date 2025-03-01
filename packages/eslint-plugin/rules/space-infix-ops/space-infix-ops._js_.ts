@@ -19,6 +19,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Require spacing around infix operators',
+      recommended: true,
     },
 
     fixable: 'whitespace',

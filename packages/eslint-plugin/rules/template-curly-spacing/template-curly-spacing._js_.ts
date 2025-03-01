@@ -16,6 +16,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Require or disallow spacing around embedded expressions of template strings',
+      recommended: true,
     },
 
     fixable: 'whitespace',

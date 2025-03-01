@@ -18,6 +18,7 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Enforce consistent spacing before and after commas',
+      recommended: true,
     },
     fixable: 'whitespace',
     schema: [

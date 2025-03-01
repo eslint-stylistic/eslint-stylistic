@@ -28,6 +28,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce line breaks before and after JSX elements when they are used as arguments to a function.',
+      recommended: true,
     },
 
     fixable: 'whitespace',

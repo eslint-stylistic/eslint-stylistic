@@ -17,6 +17,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Require or disallow semicolons instead of ASI',
+      recommended: true,
     },
 
     fixable: 'code',

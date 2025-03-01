@@ -96,6 +96,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Require or disallow trailing commas',
+      recommended: true,
     },
 
     fixable: 'code',

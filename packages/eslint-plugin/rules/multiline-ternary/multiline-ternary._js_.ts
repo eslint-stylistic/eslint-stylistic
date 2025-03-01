@@ -15,6 +15,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce newlines between operands of ternary expressions',
+      recommended: true,
     },
 
     schema: [

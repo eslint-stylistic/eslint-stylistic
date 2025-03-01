@@ -30,6 +30,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Require parentheses around immediate `function` invocations',
+      recommended: true,
     },
 
     schema: [

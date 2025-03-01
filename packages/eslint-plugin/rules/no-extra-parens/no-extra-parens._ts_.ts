@@ -16,9 +16,7 @@ export default createRule<RuleOptions, MessageIds>({
   package: 'ts',
   meta: {
     type: 'layout',
-    docs: {
-      description: 'Disallow unnecessary parentheses',
-    },
+    docs: baseRule.meta.recommended,
     fixable: 'code',
     hasSuggestions: baseRule.meta.hasSuggestions,
     schema: baseRule.meta.schema,

@@ -15,6 +15,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Require or disallow spacing between template tags and their literals',
+      recommended: true,
     },
 
     fixable: 'whitespace',

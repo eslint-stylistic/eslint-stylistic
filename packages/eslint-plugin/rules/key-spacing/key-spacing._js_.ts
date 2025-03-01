@@ -157,6 +157,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce consistent spacing between keys and values in object literal properties',
+      recommended: true,
     },
 
     fixable: 'whitespace',

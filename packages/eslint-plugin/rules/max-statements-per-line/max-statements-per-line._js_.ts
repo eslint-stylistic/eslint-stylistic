@@ -42,6 +42,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce a maximum number of statements allowed per line',
+      recommended: true,
     },
 
     schema: [

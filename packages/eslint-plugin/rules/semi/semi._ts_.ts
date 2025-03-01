@@ -12,10 +12,7 @@ export default createRule<RuleOptions, MessageIds>({
   package: 'ts',
   meta: {
     type: 'layout',
-    docs: {
-      description: 'Require or disallow semicolons instead of ASI',
-      // too opinionated to be recommended
-    },
+    docs: baseRule.meta.docs,
     fixable: 'code',
     hasSuggestions: baseRule.meta.hasSuggestions,
     schema: baseRule.meta.schema,

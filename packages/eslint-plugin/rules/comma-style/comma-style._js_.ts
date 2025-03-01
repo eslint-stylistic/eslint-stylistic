@@ -24,6 +24,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Enforce consistent comma style',
+      recommended: true,
     },
 
     fixable: 'code',

@@ -16,6 +16,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     docs: {
       description: 'Disallow trailing whitespace at the end of lines',
+      recommended: true,
     },
 
     fixable: 'whitespace',
