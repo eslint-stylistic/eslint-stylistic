@@ -82,19 +82,71 @@ Another benefit of this rule is specificity of diffs when a property is changed:
 +var obj = { foo: "foo", bar: "bazz", baz: "baz" };
 ```
 
-### Optional Exception
+### Configuration Options
 
-The rule offers one object option, `allowAllPropertiesOnSameLine` (a deprecated synonym is `allowMultiplePropertiesPerLine`). If you set it to `true`, object literals such as the first two above, with all property specifications on the same line, will be permitted, but one like
+The rule offers several configuration options:
+
+#### Basic Configuration
+
+When using the basic configuration, all supported node types will use the same configuration:
+
+```js
+{
+  "object-property-newline": ["error", {
+    "allowAllPropertiesOnSameLine": true
+  }]
+}
+```
+
+With `allowAllPropertiesOnSameLine` set to `true`, object literals such as the first two above, with all property specifications on the same line, will be permitted, but one like
 
 ```js
 const newObject = {
     a: 'a.m.', b: 'p.m.',
     c: 'daylight saving time'
 };
-
 ```
 
 will be prohibited, because two properties, but not all properties, appear on the same line.
+
+A deprecated synonym is `allowMultiplePropertiesPerLine`, which has the same effect as `allowAllPropertiesOnSameLine`.
+
+#### Granular Configuration
+
+The rule also supports configuring each node type separately:
+
+```js
+{
+  "object-property-newline": ["error", {
+    "ObjectExpression": { "allowAllPropertiesOnSameLine": true },
+    "ObjectPattern": { "allowAllPropertiesOnSameLine": false },
+    "ImportDeclaration": { "allowAllPropertiesOnSameLine": true },
+    "ExportDeclaration": { "allowAllPropertiesOnSameLine": false }
+  }]
+}
+```
+
+This allows you to have different rules for different types of nodes:
+
+- `ObjectExpression`: Object literals
+- `ObjectPattern`: Object destructuring patterns
+- `ImportDeclaration`: Named imports
+- `ExportDeclaration`: Named exports
+- `TSTypeLiteral`: TypeScript type literals (TypeScript plugin only)
+- `TSInterfaceBody`: TypeScript interface bodies (TypeScript plugin only)
+
+You can also use a boolean shorthand where `true` means `{ allowAllPropertiesOnSameLine: true }` and `false` means `{ allowAllPropertiesOnSameLine: false }`:
+
+```js
+{
+  "object-property-newline": ["error", {
+    "ObjectExpression": true,  // Allow all properties on same line
+    "ImportDeclaration": false // Require each import on its own line
+  }]
+}
+```
+
+If a specific node type is not configured, it will fall back to the global options (if provided).
 
 ### Notations
 
@@ -118,6 +170,23 @@ const newObject = {
 ```
 
 (This behavior differs from that of the JSCS rule cited below, which does not treat the leading `[` of a computed property name as part of that property specification. The JSCS rule prohibits the second of these formats but permits the first.)
+
+### Import and Export Declarations
+
+This rule also applies to named imports and exports, requiring each to be on its own line. For example:
+
+```js
+// Invalid - multiple imports on same line
+import { foo, bar } from 'module';
+
+// Valid - each import on its own line
+import {
+    foo,
+    bar
+} from 'module';
+```
+
+The `allowAllPropertiesOnSameLine` option also applies to import and export declarations, allowing all specifiers to be on the same line when set to `true`.
 
 ### Multiline Properties
 
@@ -272,6 +341,29 @@ const user = process.argv[2];
 const obj3 = {
     user, [process.argv[3] ? "foo" : "bar"]: 0, baz: [1, 2, 4, 8]
 };
+```
+
+:::
+
+Examples of **correct** code for this rule with granular configuration:
+
+::: correct
+
+```js
+/*eslint object-property-newline: ["error", {
+  "ObjectExpression": { "allowAllPropertiesOnSameLine": true },
+  "ImportDeclaration": { "allowAllPropertiesOnSameLine": false }
+}]*/
+
+// Object literal properties can be on the same line
+const obj = { foo: "foo", bar: "bar", baz: "baz" };
+
+// But import specifiers must be on separate lines
+import {
+    foo,
+    bar,
+    baz
+} from 'module';
 ```
 
 :::

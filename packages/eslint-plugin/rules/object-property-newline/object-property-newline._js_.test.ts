@@ -55,6 +55,84 @@ run({
 
     // allowMultiplePropertiesPerLine: true (deprecated)
     { code: 'var obj = { k1: \'val1\', k2: \'val2\', k3: \'val3\' };', options: [{ allowMultiplePropertiesPerLine: true }] },
+
+    // Import declaration tests
+    'import {a} from \'module\';',
+    'import {\na\n} from \'module\';',
+    'import {} from \'module\';',
+    'import DefaultExport from \'module\';',
+    'import * as All from \'module\';',
+
+    'import {\na,\nb\n} from \'module\';',
+    'import {\na,\nb,\nc\n} from \'module\';',
+
+    // allowAllPropertiesOnSameLine: true for import declarations
+    { code: 'import {a, b, c} from \'module\';', options: [{ allowAllPropertiesOnSameLine: true }] },
+    { code: 'import {\na, b, c\n} from \'module\';', options: [{ allowAllPropertiesOnSameLine: true }] },
+    { code: 'var obj = { a: 1, b: 2 }; import { c, d } from "module";', options: [{
+      ObjectExpression: { allowAllPropertiesOnSameLine: true },
+      ImportDeclaration: { allowAllPropertiesOnSameLine: true },
+    }] },
+
+    // Granular configuration for different node types
+    {
+      code: 'var obj = { a: 1, b: 2 }; import { c, d } from \'module\';',
+      options: [{
+        ObjectExpression: true,
+        ImportDeclaration: true,
+      }],
+    },
+    {
+      code: 'var obj = { a: 1, b: 2 }; const { c, d } = obj;',
+      options: [{
+        ObjectExpression: true,
+        ObjectPattern: true,
+      }],
+    },
+    {
+      code: 'var obj = {\na: 1,\nb: 2\n}; import { c, d } from \'module\';',
+      options: [{
+        ObjectExpression: false,
+        ImportDeclaration: true,
+      }],
+    },
+    {
+      code: 'var obj = { a: 1, b: 2 }; import {\nc,\nd\n} from \'module\';',
+      options: [{
+        ObjectExpression: true,
+        ImportDeclaration: false,
+      }],
+    },
+    {
+      code: 'var obj = { a: 1, b: 2 }; export { c, d } from \'module\';',
+      options: [{
+        ObjectExpression: true,
+        ExportDeclaration: true,
+      }],
+    },
+    {
+      code: 'var obj = { a: 1, b: 2 }; import {\nc,\nd\n} from \'module\'; export { e, f } from \'module\';',
+      options: [{
+        ObjectExpression: true,
+        ImportDeclaration: false,
+        ExportDeclaration: true,
+      }],
+    },
+    // Boolean shorthand syntax tests
+    {
+      code: 'var obj = { a: 1, b: 2 }; import { c, d } from \'module\';',
+      options: [{
+        ObjectExpression: true,
+        ImportDeclaration: true,
+      }],
+    },
+    {
+      code: 'var obj = {\na: 1,\nb: 2\n}; import {\nc,\nd\n} from \'module\';',
+      options: [{
+        ObjectExpression: false,
+        ImportDeclaration: false,
+      }],
+    },
   ],
 
   invalid: [
@@ -656,6 +734,192 @@ run({
           column: 13,
           endLine: 3,
           endColumn: 15,
+        },
+      ],
+    },
+
+    // Import declaration tests
+    {
+      code: 'import {a, b} from \'module\';',
+      output: 'import {a,\nb} from \'module\';',
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 12,
+        },
+      ],
+    },
+    {
+      code: 'import {a, b, c} from \'module\';',
+      output: 'import {a,\nb,\nc} from \'module\';',
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 12,
+        },
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 15,
+        },
+      ],
+    },
+    {
+      code: 'import {\na, b\n} from \'module\';',
+      output: 'import {\na,\nb\n} from \'module\';',
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 2,
+          column: 4,
+        },
+      ],
+    },
+    {
+      code: 'import DefaultExport, {a, b} from \'module\';',
+      output: 'import DefaultExport, {a,\nb} from \'module\';',
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 27,
+        },
+      ],
+    },
+
+    // With allowAllPropertiesOnSameLine: true
+    {
+      code: 'import {a, b} from \'module\';',
+      output: 'import {a,\nb} from \'module\';',
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 12,
+        },
+      ],
+    },
+    {
+      code: 'import {a, b, c} from \'module\';',
+      output: 'import {a,\nb,\nc} from \'module\';',
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 12,
+        },
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 15,
+        },
+      ],
+    },
+
+    // With granular configuration
+    {
+      code: 'var obj = { a: 1, b: 2 }; import { c, d } from "module";',
+      output: 'var obj = { a: 1,\nb: 2 }; import { c, d } from "module";',
+      options: [{
+        ObjectExpression: { allowAllPropertiesOnSameLine: false },
+        ImportDeclaration: { allowAllPropertiesOnSameLine: true },
+      }],
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ObjectExpression',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 20,
+        },
+      ],
+    },
+    {
+      code: 'var obj = { a: 1, b: 2 }; import { c, d } from "module";',
+      output: 'var obj = { a: 1, b: 2 }; import { c,\nd } from "module";',
+      options: [{
+        ObjectExpression: { allowAllPropertiesOnSameLine: true },
+        ImportDeclaration: { allowAllPropertiesOnSameLine: false },
+      }],
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 39,
+          endLine: 1,
+          endColumn: 40,
+        },
+      ],
+    },
+    {
+      code: 'var obj = { a: 1, b: 2 }; import { c, d } from "module";',
+      output: 'var obj = { a: 1,\nb: 2 }; import { c,\nd } from "module";',
+      options: [{
+        ObjectExpression: false,
+        ImportDeclaration: false,
+      }],
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ObjectExpression',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 20,
+        },
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 39,
+          endLine: 1,
+          endColumn: 40,
+        },
+      ],
+    },
+    {
+      code: 'const { a, b } = obj;',
+      output: 'const { a,\nb } = obj;',
+      options: [{
+        ObjectPattern: { allowAllPropertiesOnSameLine: false },
+      }],
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ObjectPattern',
+          line: 1,
+          column: 12,
+          endLine: 1,
+          endColumn: 13,
+        },
+      ],
+    },
+    {
+      code: 'export { a, b } from "module";',
+      output: 'export { a,\nb } from "module";',
+      options: [{
+        ExportDeclaration: { allowAllPropertiesOnSameLine: false },
+      }],
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ExportNamedDeclaration',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 14,
         },
       ],
     },

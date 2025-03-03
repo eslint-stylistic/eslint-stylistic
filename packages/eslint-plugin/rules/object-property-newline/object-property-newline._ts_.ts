@@ -27,6 +27,7 @@ export default createRule<RuleOptions, MessageIds>({
     return {
       ...rules,
       TSTypeLiteral(node: Tree.TSTypeLiteral) {
+        // Use the ObjectExpression handler but with the TSTypeLiteral node
         return rules.ObjectExpression!({
           ...node,
           // @ts-expect-error only used to get token and loc
@@ -34,6 +35,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
       TSInterfaceBody(node: Tree.TSInterfaceBody) {
+        // Use the ObjectExpression handler but with the TSInterfaceBody node
         return rules.ObjectExpression!({
           ...node,
           // @ts-expect-error only used to get token and loc
