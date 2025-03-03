@@ -38,6 +38,7 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
     '@stylistic/computed-property-spacing': ['error', 'never', { enforceForClassMembers: true }],
     '@stylistic/dot-location': ['error', 'property'],
     '@stylistic/eol-last': 'error',
+    '@stylistic/generator-star-spacing': ['error', { after: true, before: false }],
     '@stylistic/indent': ['error', indent, {
       ArrayExpression: 1,
       CallExpression: { arguments: 1 },
@@ -132,7 +133,7 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
     '@stylistic/type-generic-spacing': 'error',
     '@stylistic/type-named-tuple-spacing': 'error',
     '@stylistic/wrap-iife': ['error', 'any', { functionPrototypeMethods: true }],
-    '@stylistic/yield-star-spacing': ['error', 'both'],
+    '@stylistic/yield-star-spacing': ['error', { after: true, before: false }],
 
     ...jsx
       ? {
