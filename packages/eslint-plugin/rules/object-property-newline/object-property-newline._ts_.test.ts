@@ -76,6 +76,24 @@ run({
         '{ id: number; name: string; age: number; }',
       ],
     ].flatMap(code => createValidRule(code, true)),
+    {
+      code: 'type T = { a: string, b: number };',
+      options: [{
+        allowAllPropertiesOnSameLine: true,
+      }],
+    },
+    {
+      code: 'interface Foo { a: string, b: number }',
+      options: [{
+        allowAllPropertiesOnSameLine: true,
+      }],
+    },
+    {
+      code: 'type T = { a: string, b: number }; interface Bar { c: boolean, d: string }',
+      options: [{
+        allowAllPropertiesOnSameLine: true,
+      }],
+    },
   ],
   invalid: [
     ...[
@@ -156,5 +174,39 @@ run({
         ],
       },
     ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, true)),
+
+    // Invalid tests for granular configuration
+    {
+      code: 'type T = { a: string, b: number };',
+      output: 'type T = { a: string,\nb: number };',
+      options: [{
+        TSTypeLiteral: { allowAllPropertiesOnSameLine: false },
+      }],
+      errors: [
+        { messageId: 'propertiesOnNewline', line: 1, column: 23 },
+      ],
+    },
+    {
+      code: 'interface Foo { a: string, b: number }',
+      output: 'interface Foo { a: string,\nb: number }',
+      options: [{
+        TSInterfaceBody: { allowAllPropertiesOnSameLine: false },
+      }],
+      errors: [
+        { messageId: 'propertiesOnNewline', line: 1, column: 28 },
+      ],
+    },
+    {
+      code: 'type T = { a: string, b: number }; interface Bar { c: boolean, d: string }',
+      output: 'type T = { a: string,\nb: number }; interface Bar { c: boolean,\nd: string }',
+      options: [{
+        TSTypeLiteral: { allowAllPropertiesOnSameLine: false },
+        TSInterfaceBody: { allowAllPropertiesOnSameLine: false },
+      }],
+      errors: [
+        { messageId: 'propertiesOnNewline', line: 1, column: 23 },
+        { messageId: 'propertiesOnNewline', line: 1, column: 64 },
+      ],
+    },
   ],
 })
