@@ -26,7 +26,10 @@ export default createRule<RuleOptions, MessageIds>({
   package: 'ts',
   meta: {
     type: 'layout',
-    docs: baseRule.meta.docs,
+    docs: {
+      description: 'Enforce consistent spacing between property names and type annotations in types and interfaces',
+      recommended: true,
+    },
     fixable: 'whitespace',
     hasSuggestions: baseRule.meta.hasSuggestions,
     schema: [baseSchema],

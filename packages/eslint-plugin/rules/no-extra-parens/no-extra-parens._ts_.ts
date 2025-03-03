@@ -16,7 +16,7 @@ export default createRule<RuleOptions, MessageIds>({
   package: 'ts',
   meta: {
     type: 'layout',
-    docs: baseRule.meta.recommended,
+    docs: baseRule.meta.docs,
     fixable: 'code',
     hasSuggestions: baseRule.meta.hasSuggestions,
     schema: baseRule.meta.schema,
