@@ -1,5 +1,17 @@
 # Changelog
 
+## [4.2.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.1.0...v4.2.0) (2025-03-03)
+
+
+### Features
+
+* **config:** update `yield-star-spacing` and `generator-star-spacing` config to align with Prettier ([86d17c8](https://github.com/eslint-stylistic/eslint-stylistic/commit/86d17c808df86abd89549b3554b793f71903d27b))
+
+
+### Documentation
+
+* remove legacy config option, close [#703](https://github.com/eslint-stylistic/eslint-stylistic/issues/703) ([de8369e](https://github.com/eslint-stylistic/eslint-stylistic/commit/de8369e3d9b85055014562c6055c5bf6e801dba1))
+
 ## [4.1.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.0.1...v4.1.0) (2025-02-26)
 
 
