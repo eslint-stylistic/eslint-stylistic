@@ -1130,55 +1130,32 @@ export default createRule<RuleOptions, MessageIds>({
         return rule(node)
       },
       ForStatement(node) {
-        const rule = (node: Tree.ForStatement) => {
-          if (node.test && hasExcessParens(node.test) && !isCondAssignException(node))
-            report(node.test)
+        if (node.test && hasExcessParens(node.test) && !isCondAssignException(node) && !isTypeAssertion(node.test))
+          report(node.test)
 
-          if (node.update && hasExcessParens(node.update))
-            report(node.update)
+        if (node.update && hasExcessParens(node.update) && !isTypeAssertion(node.update))
+          report(node.update)
 
-          if (node.init) {
-            if (node.init.type !== 'VariableDeclaration') {
-              const firstToken = sourceCode.getFirstToken(node.init, isNotOpeningParenToken)!
+        if (node.init && !isTypeAssertion(node.init)) {
+          if (node.init.type !== 'VariableDeclaration') {
+            const firstToken = sourceCode.getFirstToken(node.init, isNotOpeningParenToken)!
 
-              if (
-                firstToken.value === 'let'
-                && isOpeningBracketToken(
-                  sourceCode.getTokenAfter(firstToken, isNotClosingParenToken)!,
-                )
-              ) {
+            if (
+              firstToken.value === 'let'
+              && isOpeningBracketToken(
+                sourceCode.getTokenAfter(firstToken, isNotClosingParenToken)!,
+              )
+            ) {
               // ForStatement#init expression cannot start with `let[`.
-                tokensToIgnore.add(firstToken)
-              }
+              tokensToIgnore.add(firstToken)
             }
-
-            startNewReportsBuffering()
-
-            if (hasExcessParens(node.init))
-              report(node.init)
           }
-        }
-        // make the rule skip the piece by removing it entirely
-        if (node.init && isTypeAssertion(node.init)) {
-          return rule({
-            ...node,
-            init: null,
-          })
-        }
-        if (node.test && isTypeAssertion(node.test)) {
-          return rule({
-            ...node,
-            test: null,
-          })
-        }
-        if (node.update && isTypeAssertion(node.update)) {
-          return rule({
-            ...node,
-            update: null,
-          })
-        }
 
-        return rule(node)
+          startNewReportsBuffering()
+
+          if (hasExcessParens(node.init))
+            report(node.init)
+        }
       },
       'ForStatement > *.init:exit': function (node: ASTNode) {
         if (isTypeAssertion(node))
