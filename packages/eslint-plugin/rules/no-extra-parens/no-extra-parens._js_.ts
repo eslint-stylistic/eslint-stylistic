@@ -29,6 +29,7 @@ type ReportsBuffer = {
 } | undefined
 // eslint-disable-next-line import/no-mutable-exports
 export let reportsBuffer: ReportsBuffer
+export const tokensToIgnore = new WeakSet()
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',
@@ -94,7 +95,7 @@ export default createRule<RuleOptions, MessageIds>({
   create(context) {
     const sourceCode = context.sourceCode
 
-    const tokensToIgnore = new WeakSet()
+    // const tokensToIgnore = new WeakSet()
     const precedence = getPrecedence
     const ALL_NODES = context.options[0] !== 'functions'
     const EXCEPT_COND_ASSIGN = ALL_NODES && context.options[1] && context.options[1].conditionalAssign === false
