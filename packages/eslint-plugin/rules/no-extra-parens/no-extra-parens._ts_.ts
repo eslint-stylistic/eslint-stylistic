@@ -273,19 +273,19 @@ export default createRule<RuleOptions, MessageIds>({
           case 'all':
             return false
 
-            // Exclude this JSX element if it is multi-line element
+          // Exclude this JSX element if it is multi-line element
           case 'multi-line':
             return isSingleLine
 
-            // Exclude this JSX element if it is single-line element
+          // Exclude this JSX element if it is single-line element
           case 'single-line':
             return !isSingleLine
 
-            // Nothing special to be done for JSX elements
+          // Nothing special to be done for JSX elements
           case 'none':
             break
 
-                        // no default
+          // no default
         }
       }
 
@@ -498,97 +498,6 @@ export default createRule<RuleOptions, MessageIds>({
         return hasExcessParens(node)
 
       return hasDoubleExcessParens(node)
-    }
-
-    function checkCallNew(
-      node: Tree.CallExpression | Tree.NewExpression,
-    ): void {
-      const rule = (node: Tree.CallExpression | Tree.NewExpression) => {
-        const callee = node.callee
-
-        if (hasExcessParensWithPrecedence(callee, precedence(node))) {
-          if (
-            hasDoubleExcessParens(callee)
-            || !(
-              isIIFE(node)
-              // (new A)(); new (new A)();
-              || (
-                callee.type === 'NewExpression'
-                && !isNewExpressionWithParens(callee)
-                && !(
-                  node.type === 'NewExpression'
-                  && !isNewExpressionWithParens(node)
-                )
-              )
-
-              // new (a().b)(); new (a.b().c);
-              || (
-                node.type === 'NewExpression'
-                && callee.type === 'MemberExpression'
-                && doesMemberExpressionContainCallExpression(callee)
-              )
-
-              // (a?.b)(); (a?.())();
-              || (
-                (!('optional' in node) || !node.optional)
-                && callee.type === 'ChainExpression'
-              )
-            )
-          ) {
-            report(node.callee)
-          }
-        }
-        node.arguments
-          .filter(arg => hasExcessParensWithPrecedence(arg, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          .forEach(report)
-      }
-
-      if (isTypeAssertion(node.callee)) {
-        // reduces the precedence of the node so the rule thinks it needs to be wrapped
-        return rule({
-          ...node,
-          callee: {
-            ...node.callee,
-            type: AST_NODE_TYPES.SequenceExpression as any,
-          },
-        })
-      }
-
-      if (
-        node.typeArguments
-        && node.arguments.length === 1
-        // is there any opening parenthesis in type arguments
-        && sourceCode.getTokenAfter(node.callee, isOpeningParenToken)
-        !== sourceCode.getTokenBefore(node.arguments[0], isOpeningParenToken)
-      ) {
-        return rule({
-          ...node,
-          arguments: [
-            {
-              ...node.arguments[0],
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          ],
-        })
-      }
-
-      return rule(node)
-    }
-    function unaryUpdateExpression(
-      node: Tree.UnaryExpression | Tree.UpdateExpression,
-    ): void {
-      if (isTypeAssertion(node.argument)) {
-        // reduces the precedence of the node so the rule thinks it needs to be wrapped
-        return checkArgumentWithPrecedence({
-          ...node,
-          argument: {
-            ...node.argument,
-            type: AST_NODE_TYPES.SequenceExpression as any,
-          },
-        })
-      }
-
-      return checkArgumentWithPrecedence(node)
     }
 
     /**
@@ -835,6 +744,81 @@ export default createRule<RuleOptions, MessageIds>({
       return rule(node)
     }
 
+    function checkCallNew(
+      node: Tree.CallExpression | Tree.NewExpression,
+    ): void {
+      const rule = (node: Tree.CallExpression | Tree.NewExpression) => {
+        const callee = node.callee
+
+        if (hasExcessParensWithPrecedence(callee, precedence(node))) {
+          if (
+            hasDoubleExcessParens(callee)
+            || !(
+              isIIFE(node)
+              // (new A)(); new (new A)();
+              || (
+                callee.type === 'NewExpression'
+                && !isNewExpressionWithParens(callee)
+                && !(
+                  node.type === 'NewExpression'
+                  && !isNewExpressionWithParens(node)
+                )
+              )
+
+              // new (a().b)(); new (a.b().c);
+              || (
+                node.type === 'NewExpression'
+                && callee.type === 'MemberExpression'
+                && doesMemberExpressionContainCallExpression(callee)
+              )
+
+              // (a?.b)(); (a?.())();
+              || (
+                (!('optional' in node) || !node.optional)
+                && callee.type === 'ChainExpression'
+              )
+            )
+          ) {
+            report(node.callee)
+          }
+        }
+        node.arguments
+          .filter(arg => hasExcessParensWithPrecedence(arg, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          .forEach(report)
+      }
+
+      if (isTypeAssertion(node.callee)) {
+        // reduces the precedence of the node so the rule thinks it needs to be wrapped
+        return rule({
+          ...node,
+          callee: {
+            ...node.callee,
+            type: AST_NODE_TYPES.SequenceExpression as any,
+          },
+        })
+      }
+
+      if (
+        node.typeArguments
+        && node.arguments.length === 1
+        // is there any opening parenthesis in type arguments
+        && sourceCode.getTokenAfter(node.callee, isOpeningParenToken)
+        !== sourceCode.getTokenBefore(node.arguments[0], isOpeningParenToken)
+      ) {
+        return rule({
+          ...node,
+          arguments: [
+            {
+              ...node.arguments[0],
+              type: AST_NODE_TYPES.SequenceExpression as any,
+            },
+          ],
+        })
+      }
+
+      return rule(node)
+    }
+
     /**
      * Check the parentheses around the super class of the given class definition.
      * @param node The node of class declarations to check.
@@ -891,6 +875,23 @@ export default createRule<RuleOptions, MessageIds>({
 
       if (hasExtraParens)
         report(node)
+    }
+
+    function checkUnaryUpdate(
+      node: Tree.UnaryExpression | Tree.UpdateExpression,
+    ): void {
+      if (isTypeAssertion(node.argument)) {
+        // reduces the precedence of the node so the rule thinks it needs to be wrapped
+        return checkArgumentWithPrecedence({
+          ...node,
+          argument: {
+            ...node.argument,
+            type: AST_NODE_TYPES.SequenceExpression as any,
+          },
+        })
+      }
+
+      return checkArgumentWithPrecedence(node)
     }
 
     return {
@@ -1431,10 +1432,10 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasExcessParensNoLineTerminator(throwToken, node.argument))
           report(node.argument)
       },
-      'UnaryExpression': unaryUpdateExpression,
+      'UnaryExpression': checkUnaryUpdate,
       UpdateExpression(node) {
         if (isTypeAssertion(node.argument)) {
-          return unaryUpdateExpression(node)
+          return checkUnaryUpdate(node)
         }
 
         if (node.prefix) {
