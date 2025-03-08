@@ -1208,7 +1208,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       'CallExpression': addFunctionCallIndent,
 
-      'ClassDeclaration[superClass], ClassExpression[superClass]': function (node: Tree.ClassDeclaration) {
+      'ClassDeclaration, ClassExpression': function (node: Tree.ClassDeclaration) {
         if (!node.superClass)
           return
 
@@ -1728,7 +1728,7 @@ export default createRule<RuleOptions, MessageIds>({
         }
       },
 
-      'JSXAttribute[value]': function (node: Tree.JSXAttribute) {
+      JSXAttribute(node) {
         if (!node.value)
           return
         const equalsToken = sourceCode.getFirstTokenBetween(node.name, node.value, token => token.type === 'Punctuator' && token.value === '=')!
@@ -2241,13 +2241,11 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      'TSInterfaceDeclaration[extends.length > 0]': function (
-        node: Tree.TSInterfaceDeclaration,
-      ) {
+      TSInterfaceDeclaration(node: Tree.TSInterfaceDeclaration) {
+        if (node.extends.length === 0)
+          return
         // transform it to a ClassDeclaration
-        return rules[
-          'ClassDeclaration[superClass], ClassExpression[superClass]'
-        ]({
+        return rules['ClassDeclaration, ClassExpression']({
           type: AST_NODE_TYPES.ClassDeclaration,
           body: node.body as any,
           id: null,
