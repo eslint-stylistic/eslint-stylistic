@@ -7,11 +7,8 @@
 import type { ASTNode, JSONSchema, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine, STATEMENT_LIST_PARENTS } from '#utils/ast'
-import { castRuleModule, createRule } from '#utils/create-rule'
+import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import _baseRule from './indent._js_'
-
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 const KNOWN_NODES = new Set([
   'AssignmentExpression',
@@ -704,18 +701,6 @@ export default createRule<RuleOptions, MessageIds>({
     },
   ],
   create(context, optionsWithDefaults) {
-    // because we extend the base rule, have to update opts on the context
-    // the context defines options as readonly though...
-    const contextWithDefaults: typeof context = Object.create(context, {
-      options: {
-        writable: false,
-        configurable: false,
-        value: optionsWithDefaults,
-      },
-    })
-
-    const rules = baseRule.create(contextWithDefaults) as Record<string, RuleFunction<any>>
-
     const DEFAULT_VARIABLE_INDENT = 1
     const DEFAULT_PARAMETER_INDENT = 1
     const DEFAULT_FUNCTION_BODY_INDENT = 1
@@ -1959,6 +1944,11 @@ export default createRule<RuleOptions, MessageIds>({
         ...base,
       } as Tree.PropertyDefinition
     }
+
+    const rules = {
+      ...offsetListeners,
+      ...ignoredNodeListeners,
+    } as Record<string, RuleFunction<any>>
 
     return {
       // Listeners
