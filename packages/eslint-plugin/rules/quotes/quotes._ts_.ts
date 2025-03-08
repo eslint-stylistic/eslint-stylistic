@@ -1,11 +1,8 @@
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { hasOctalOrNonOctalDecimalEscapeSequence, isParenthesised, isSurroundedBy, isTopLevelExpressionStatement, LINEBREAKS } from '#utils/ast'
-import { castRuleModule, createRule } from '#utils/create-rule'
+import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import _baseRule from './quotes._js_'
-
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 /**
  * Switches quoting of javascript string between ' " and `
@@ -73,9 +70,46 @@ export default createRule<RuleOptions, MessageIds>({
         'Enforce the consistent use of either backticks, double, or single quotes',
     },
     fixable: 'code',
-    hasSuggestions: baseRule.meta.hasSuggestions,
-    messages: baseRule.meta.messages,
-    schema: baseRule.meta.schema,
+    schema: [
+      {
+        type: 'string',
+        enum: ['single', 'double', 'backtick'],
+      },
+      {
+        anyOf: [
+          {
+            type: 'string',
+            enum: ['avoid-escape'],
+          },
+          {
+            type: 'object',
+            properties: {
+              avoidEscape: {
+                type: 'boolean',
+              },
+              allowTemplateLiterals: {
+                anyOf: [
+                  {
+                    type: 'boolean',
+                  },
+                  {
+                    type: 'string',
+                    enum: ['never', 'avoidEscape', 'always'],
+                  },
+                ],
+              },
+              ignoreStringLiterals: {
+                type: 'boolean',
+              },
+            },
+            additionalProperties: false,
+          },
+        ],
+      },
+    ],
+    messages: {
+      wrongQuotes: 'Strings must use {{description}}.',
+    },
   },
   defaultOptions: [
     'double',
