@@ -1,17 +1,35 @@
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { castRuleModule, createRule } from '#utils/create-rule'
-import _baseRule from './object-property-newline._js_'
-
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-property-newline',
   package: 'ts',
   meta: {
-    ...baseRule.meta,
+    type: 'layout',
     docs: {
       description: 'Enforce placing object properties on separate lines',
+    },
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          allowAllPropertiesOnSameLine: {
+            type: 'boolean',
+            default: false,
+          },
+          allowMultiplePropertiesPerLine: { // Deprecated
+            type: 'boolean',
+            default: false,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
+    fixable: 'whitespace',
+    messages: {
+      propertiesOnNewlineAll: 'Object properties must go on a new line if they aren\'t all on the same line.',
+      propertiesOnNewline: 'Object properties must go on a new line.',
     },
   },
   defaultOptions: [
