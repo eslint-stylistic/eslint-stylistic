@@ -4,7 +4,7 @@
  * This is done intentionally based on the internal implementation of the base indent rule.
  */
 
-import type { ASTNode, RuleFunction, Tree } from '#types'
+import type { ASTNode, JSONSchema, RuleFunction, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { castRuleModule, createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
@@ -82,6 +82,19 @@ const KNOWN_NODES = new Set([
   // AST_NODE_TYPES.TSUnionType,
 ])
 
+const ELEMENT_LIST_SCHEMA: JSONSchema.JSONSchema4 = {
+  oneOf: [
+    {
+      type: 'integer',
+      minimum: 0,
+    },
+    {
+      type: 'string',
+      enum: ['first', 'off'],
+    },
+  ],
+}
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'indent',
   package: 'ts',
@@ -92,9 +105,144 @@ export default createRule<RuleOptions, MessageIds>({
       // too opinionated to be recommended
     },
     fixable: 'whitespace',
-    hasSuggestions: baseRule.meta.hasSuggestions,
-    schema: baseRule.meta.schema,
-    messages: baseRule.meta.messages,
+    schema: [
+      {
+        oneOf: [
+          {
+            type: 'string',
+            enum: ['tab'],
+          },
+          {
+            type: 'integer',
+            minimum: 0,
+          },
+        ],
+      },
+      {
+        type: 'object',
+        properties: {
+          SwitchCase: {
+            type: 'integer',
+            minimum: 0,
+            default: 0,
+          },
+          VariableDeclarator: {
+            oneOf: [
+              ELEMENT_LIST_SCHEMA,
+              {
+                type: 'object',
+                properties: {
+                  var: ELEMENT_LIST_SCHEMA,
+                  let: ELEMENT_LIST_SCHEMA,
+                  const: ELEMENT_LIST_SCHEMA,
+                },
+                additionalProperties: false,
+              },
+            ],
+          },
+          outerIIFEBody: {
+            oneOf: [
+              {
+                type: 'integer',
+                minimum: 0,
+              },
+              {
+                type: 'string',
+                enum: ['off'],
+              },
+            ],
+          },
+          MemberExpression: {
+            oneOf: [
+              {
+                type: 'integer',
+                minimum: 0,
+              },
+              {
+                type: 'string',
+                enum: ['off'],
+              },
+            ],
+          },
+          FunctionDeclaration: {
+            type: 'object',
+            properties: {
+              parameters: ELEMENT_LIST_SCHEMA,
+              body: {
+                type: 'integer',
+                minimum: 0,
+              },
+            },
+            additionalProperties: false,
+          },
+          FunctionExpression: {
+            type: 'object',
+            properties: {
+              parameters: ELEMENT_LIST_SCHEMA,
+              body: {
+                type: 'integer',
+                minimum: 0,
+              },
+            },
+            additionalProperties: false,
+          },
+          StaticBlock: {
+            type: 'object',
+            properties: {
+              body: {
+                type: 'integer',
+                minimum: 0,
+              },
+            },
+            additionalProperties: false,
+          },
+          CallExpression: {
+            type: 'object',
+            properties: {
+              arguments: ELEMENT_LIST_SCHEMA,
+            },
+            additionalProperties: false,
+          },
+          ArrayExpression: ELEMENT_LIST_SCHEMA,
+          ObjectExpression: ELEMENT_LIST_SCHEMA,
+          ImportDeclaration: ELEMENT_LIST_SCHEMA,
+          flatTernaryExpressions: {
+            type: 'boolean',
+            default: false,
+          },
+          offsetTernaryExpressions: {
+            type: 'boolean',
+            default: false,
+          },
+          offsetTernaryExpressionsOffsetCallExpressions: {
+            type: 'boolean',
+            default: true,
+          },
+          ignoredNodes: {
+            type: 'array',
+            items: {
+              type: 'string',
+              // @ts-expect-error Not sure the original intention
+              not: {
+                pattern: ':exit$',
+              },
+            },
+          },
+          ignoreComments: {
+            type: 'boolean',
+            default: false,
+          },
+          tabLength: {
+            type: 'number',
+            default: 4,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
+    messages: {
+      wrongIndentation: 'Expected indentation of {{expected}} but found {{actual}}.',
+    },
   },
   defaultOptions: [
     // typescript docs and playground use 4 space indent
