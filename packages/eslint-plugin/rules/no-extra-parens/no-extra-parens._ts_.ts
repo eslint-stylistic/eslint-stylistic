@@ -6,6 +6,8 @@ import {
   canTokensBeAdjacent,
   getPrecedence,
   getStaticPropertyName,
+  isClosingParenToken,
+  isDecimalInteger,
   isParenthesized as isParenthesizedRaw,
   isTopLevelExpressionStatement,
   skipChainExpression,
@@ -46,6 +48,8 @@ export default createRule<RuleOptions, MessageIds>({
       && context.options[1].ignoreJSX
     const IGNORE_SEQUENCE_EXPRESSIONS = ALL_NODES && context.options[1]
       && context.options[1].enforceForSequenceExpressions === false
+    const IGNORE_NEW_IN_MEMBER_EXPR = ALL_NODES && context.options[1]
+      && context.options[1].enforceForNewInMemberExpressions === false
     const IGNORE_FUNCTION_PROTOTYPE_METHODS = ALL_NODES && context.options[1]
       && context.options[1].enforceForFunctionPrototypeMethods === false
     const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && context.options[1]
@@ -215,6 +219,59 @@ export default createRule<RuleOptions, MessageIds>({
       }
 
       return false
+    }
+
+    /**
+     * Determines if a constructor function is newed-up with parens
+     * @param newExpression The NewExpression node to be checked.
+     * @returns True if the constructor is called with parens.
+     * @private
+     */
+    function isNewExpressionWithParens(newExpression: Tree.NewExpression) {
+      const lastToken = sourceCode.getLastToken(newExpression)!
+      const penultimateToken = sourceCode.getTokenBefore(lastToken)!
+
+      return newExpression.arguments.length > 0
+        || (
+
+      // The expression should end with its own parens, e.g., new new foo() is not a new expression with parens
+          isOpeningParenToken(penultimateToken)
+          && isClosingParenToken(lastToken)
+          && newExpression.callee.range[1] < newExpression.range[1]
+        )
+    }
+
+    /**
+     * Checks whether a node is a MemberExpression at NewExpression's callee.
+     * @param node node to check.
+     * @returns True if the node is a MemberExpression at NewExpression's callee. false otherwise.
+     */
+    function isMemberExpInNewCallee(node: ASTNode): boolean {
+      if (node.type === 'MemberExpression') {
+        return node.parent.type === 'NewExpression' && node.parent.callee === node
+          ? true
+          : 'object' in node.parent && node.parent.object === node && isMemberExpInNewCallee(node.parent)
+      }
+      return false
+    }
+
+    /**
+     * Check if a member expression contains a call expression
+     * @param node MemberExpression node to evaluate
+     * @returns true if found, false if not
+     */
+    function doesMemberExpressionContainCallExpression(node: Tree.MemberExpression) {
+      let currentNode = node.object
+      let currentNodeType = node.object.type
+
+      while (currentNodeType === 'MemberExpression') {
+        if (!('object' in currentNode))
+          break
+        currentNode = currentNode.object
+        currentNodeType = currentNode.type
+      }
+
+      return currentNodeType === 'CallExpression'
     }
 
     /**
@@ -702,9 +759,60 @@ export default createRule<RuleOptions, MessageIds>({
       },
       'LogicalExpression': binaryExp,
       MemberExpression(node) {
+        const rule = (node: Tree.MemberExpression) => {
+          const shouldAllowWrapOnce = isMemberExpInNewCallee(node)
+            && doesMemberExpressionContainCallExpression(node)
+          const nodeObjHasExcessParens = shouldAllowWrapOnce
+            ? hasDoubleExcessParens(node.object)
+            : hasExcessParens(node.object)
+              && !(
+                isImmediateFunctionPrototypeMethodCall(node.parent)
+                && 'callee' in node.parent && node.parent.callee === node
+                && IGNORE_FUNCTION_PROTOTYPE_METHODS
+              )
+
+          if (
+            nodeObjHasExcessParens
+            && precedence(node.object) >= precedence(node)
+            && (
+              node.computed
+              || !(
+                isDecimalInteger(node.object)
+
+                // RegExp literal is allowed to have parens (#1589)
+                || (node.object.type === 'Literal' && 'regex' in node.object && node.object.regex)
+              )
+            )
+          ) {
+            report(node.object)
+          }
+
+          if (nodeObjHasExcessParens
+            && node.object.type === 'CallExpression'
+          ) {
+            report(node.object)
+          }
+
+          if (nodeObjHasExcessParens
+            && !IGNORE_NEW_IN_MEMBER_EXPR
+            && node.object.type === 'NewExpression'
+            && isNewExpressionWithParens(node.object)) {
+            report(node.object)
+          }
+
+          if (nodeObjHasExcessParens
+            && node.optional
+            && node.object.type === 'ChainExpression'
+          ) {
+            report(node.object)
+          }
+
+          if (node.computed && hasExcessParens(node.property))
+            report(node.property)
+        }
         if (isTypeAssertion(node.object)) {
           // reduces the precedence of the node so the rule thinks it needs to be wrapped
-          return rules.MemberExpression!({
+          return rule({
             ...node,
             object: {
               ...node.object,
@@ -714,7 +822,7 @@ export default createRule<RuleOptions, MessageIds>({
         }
 
         if (isTypeAssertion(node.property)) {
-          return rules.MemberExpression!({
+          return rule({
             ...node,
             property: ({
               ...node.property,
@@ -723,7 +831,7 @@ export default createRule<RuleOptions, MessageIds>({
           })
         }
 
-        return rules.MemberExpression!(node)
+        return rule(node)
       },
       MethodDefinition(node) {
         if (!node.computed)
