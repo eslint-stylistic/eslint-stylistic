@@ -50,6 +50,8 @@ export default createRule<RuleOptions, MessageIds>({
 
     // @ts-expect-error other properties are not used
     const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' })
+    // @ts-expect-error other properties are not used
+    const PRECEDENCE_OF_UPDATE_EXPR = precedence({ type: 'UpdateExpression' })
 
     type ReportsBuffer = {
       upper: ReportsBuffer
@@ -138,6 +140,27 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function isParenthesisedTwice(node: ASTNode) {
       return isParenthesizedRaw(node, sourceCode, 2)
+    }
+
+    /**
+     * Determines if a node is surrounded by (potentially) invalid parentheses.
+     * @param node The node to be checked.
+     * @returns True if the node is incorrectly parenthesised.
+     * @private
+     */
+    function hasExcessParens(node: ASTNode) {
+      return ruleApplies(node) && isParenthesised(node)
+    }
+
+    /**
+     * Determines if a node that is expected to be parenthesised is surrounded by
+     * (potentially) invalid extra parentheses.
+     * @param node The node to be checked.
+     * @returns True if the node is has an unexpected extra pair of parentheses.
+     * @private
+     */
+    function hasDoubleExcessParens(node: ASTNode) {
+      return ruleApplies(node) && isParenthesisedTwice(node)
     }
 
     /**
@@ -387,6 +410,26 @@ export default createRule<RuleOptions, MessageIds>({
         report(node.argument)
     }
 
+    /**
+     * Check the parentheses around the super class of the given class definition.
+     * @param node The node of class declarations to check.
+     */
+    function checkClass(node: Tree.ClassExpression | Tree.ClassDeclaration) {
+      if (!node.superClass)
+        return
+
+      /**
+       * If `node.superClass` is a LeftHandSideExpression, parentheses are extra.
+       * Otherwise, parentheses are needed.
+       */
+      const hasExtraParens = precedence(node.superClass) > PRECEDENCE_OF_UPDATE_EXPR
+        ? hasExcessParens(node.superClass)
+        : hasDoubleExcessParens(node.superClass)
+
+      if (hasExtraParens)
+        report(node.superClass)
+    }
+
     const overrides: TSESLint.RuleListener = {
       ArrayExpression(node) {
         node.elements
@@ -420,7 +463,7 @@ export default createRule<RuleOptions, MessageIds>({
       'CallExpression': callExp,
       ClassDeclaration(node) {
         if (node.superClass?.type === AST_NODE_TYPES.TSAsExpression) {
-          return rules.ClassDeclaration!({
+          return checkClass({
             ...node,
             superClass: {
               ...node.superClass,
@@ -428,11 +471,11 @@ export default createRule<RuleOptions, MessageIds>({
             },
           })
         }
-        return rules.ClassDeclaration!(node)
+        return checkClass(node)
       },
       ClassExpression(node) {
         if (node.superClass?.type === AST_NODE_TYPES.TSAsExpression) {
-          return rules.ClassExpression!({
+          return checkClass({
             ...node,
             superClass: {
               ...node.superClass,
@@ -440,7 +483,7 @@ export default createRule<RuleOptions, MessageIds>({
             },
           })
         }
-        return rules.ClassExpression!(node)
+        return checkClass(node)
       },
       ConditionalExpression(node) {
         // reduces the precedence of the node so the rule thinks it needs to be wrapped
