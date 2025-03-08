@@ -150,10 +150,10 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     const predicate: Record<Value | 'ignore' | string, (info: VerifyInfo) => void> = {
-      'always': forceComma,
-      'always-multiline': forceCommaIfMultiline,
-      'only-multiline': allowCommaIfMultiline,
-      'never': forbidComma,
+      'always': forceTrailingComma,
+      'always-multiline': forceTrailingCommaIfMultiline,
+      'only-multiline': allowTrailingCommaIfMultiline,
+      'never': forbidTrailingComma,
       // https://github.com/typescript-eslint/typescript-eslint/issues/7220
       'ignore': () => {},
     }
@@ -219,7 +219,7 @@ export default createRule<RuleOptions, MessageIds>({
      * Reports a trailing comma if it exists.
      * @param info The information to verify.
      */
-    function forbidComma(info: VerifyInfo): void {
+    function forbidTrailingComma(info: VerifyInfo): void {
       /**
        * We allow tailing comma in TSTypeParameterDeclaration in TSX,
        * because it's used to differentiate JSX tags from generics.
@@ -267,14 +267,14 @@ export default createRule<RuleOptions, MessageIds>({
      * comma is disallowed, so report if it exists.
      * @param info The information to verify.
      */
-    function forceComma(info: VerifyInfo): void {
+    function forceTrailingComma(info: VerifyInfo): void {
       const lastItem = info.lastItem
 
       if (!lastItem)
         return
 
       if (!isTrailingCommaAllowed(lastItem)) {
-        forbidComma(info)
+        forbidTrailingComma(info)
         return
       }
 
@@ -316,9 +316,9 @@ export default createRule<RuleOptions, MessageIds>({
      * Otherwise, reports a trailing comma if it exists.
      * @param info The information to verify.
      */
-    function allowCommaIfMultiline(info: VerifyInfo) {
+    function allowTrailingCommaIfMultiline(info: VerifyInfo) {
       if (!isMultiline(info))
-        forbidComma(info)
+        forbidTrailingComma(info)
     }
 
     /**
@@ -327,11 +327,11 @@ export default createRule<RuleOptions, MessageIds>({
      * Otherwise, reports a trailing comma if it exists.
      * @param info The information to verify.
      */
-    function forceCommaIfMultiline(info: VerifyInfo) {
+    function forceTrailingCommaIfMultiline(info: VerifyInfo) {
       if (isMultiline(info))
-        forceComma(info)
+        forceTrailingComma(info)
       else
-        forbidComma(info)
+        forbidTrailingComma(info)
     }
 
     return {
