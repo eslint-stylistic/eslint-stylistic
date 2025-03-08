@@ -257,7 +257,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Enforce consistent spacing around `*` operators in generator functions",
-            "recommended": false
+            "recommended": true
           }
         }
       },
@@ -1975,7 +1975,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
           "fixable": "whitespace",
           "docs": {
             "description": "Enforce consistent spacing around `*` operators in generator functions",
-            "recommended": false
+            "recommended": true
           }
         }
       },
