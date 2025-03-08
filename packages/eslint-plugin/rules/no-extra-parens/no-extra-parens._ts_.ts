@@ -1,6 +1,6 @@
 // any is required to work around manipulating the AST in weird ways
 
-import type { ASTNode, Tree } from '#types'
+import type { ASTNode, Token, Tree } from '#types'
 import type { TSESLint } from '@typescript-eslint/utils'
 import type { MessageIds, RuleOptions } from './types'
 import {
@@ -183,6 +183,21 @@ export default createRule<RuleOptions, MessageIds>({
         }
       }
       return false
+    }
+
+    /**
+     * Determines if a node following a [no LineTerminator here] restriction is
+     * surrounded by (potentially) invalid extra parentheses.
+     * @param token The token preceding the [no LineTerminator here] restriction.
+     * @param node The node to be checked.
+     * @returns True if the node is incorrectly parenthesised.
+     * @private
+     */
+    function hasExcessParensNoLineTerminator(token: Token, node: ASTNode) {
+      if (token.loc.end.line === node.loc.start.line)
+        return hasExcessParens(node)
+
+      return hasDoubleExcessParens(node)
     }
 
     function binaryExp(
@@ -622,8 +637,17 @@ export default createRule<RuleOptions, MessageIds>({
       // WhileStatement
       // WithStatement - i'm not going to even bother implementing this terrible and never used feature
       YieldExpression(node) {
-        if (node.argument && !isTypeAssertion(node.argument))
-          return rules.YieldExpression!(node)
+        if (!node.argument || isTypeAssertion(node.argument))
+          return
+
+        const yieldToken = sourceCode.getFirstToken(node)
+
+        if ((precedence(node.argument) >= precedence(node)
+          && yieldToken
+          && hasExcessParensNoLineTerminator(yieldToken, node.argument))
+        || hasDoubleExcessParens(node.argument)) {
+          report(node.argument)
+        }
       },
       ForInStatement(node) {
         if (isTypeAssertion(node.right)) {
