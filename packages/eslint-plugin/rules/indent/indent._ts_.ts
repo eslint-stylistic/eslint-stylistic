@@ -1586,7 +1586,7 @@ export default createRule<RuleOptions, MessageIds>({
         }
       },
 
-      StaticBlock(node: Tree.StaticBlock) {
+      StaticBlock(node) {
         const openingCurly = sourceCode.getFirstToken(node, { skip: 1 })! // skip the `static` token
         const closingCurly = sourceCode.getLastToken(node)!
 
@@ -2087,7 +2087,7 @@ export default createRule<RuleOptions, MessageIds>({
         }
       },
 
-      TSAsExpression(node: Tree.TSAsExpression) {
+      TSAsExpression(node) {
         // transform it to a BinaryExpression
         return rules['BinaryExpression, LogicalExpression']({
           type: AST_NODE_TYPES.BinaryExpression,
@@ -2103,7 +2103,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSConditionalType(node: Tree.TSConditionalType) {
+      TSConditionalType(node) {
         // transform it to a ConditionalExpression
         return rules.ConditionalExpression({
           type: AST_NODE_TYPES.ConditionalExpression,
@@ -2152,7 +2152,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSImportEqualsDeclaration(node: Tree.TSImportEqualsDeclaration) {
+      TSImportEqualsDeclaration(node) {
         // transform it to an VariableDeclaration
         // use VariableDeclaration instead of ImportDeclaration because it's essentially the same thing
         const { id, moduleReference } = node
@@ -2206,7 +2206,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSIndexedAccessType(node: Tree.TSIndexedAccessType) {
+      TSIndexedAccessType(node) {
         // convert to a MemberExpression
         return rules['MemberExpression, JSXMemberExpression, MetaProperty']({
           type: AST_NODE_TYPES.MemberExpression,
@@ -2222,7 +2222,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSInterfaceBody(node: Tree.TSInterfaceBody) {
+      TSInterfaceBody(node) {
         // transform it to an ClassBody
         return rules['BlockStatement, ClassBody']({
           type: AST_NODE_TYPES.ClassBody,
@@ -2241,7 +2241,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSInterfaceDeclaration(node: Tree.TSInterfaceDeclaration) {
+      TSInterfaceDeclaration(node) {
         if (node.extends.length === 0)
           return
         // transform it to a ClassDeclaration
@@ -2267,7 +2267,7 @@ export default createRule<RuleOptions, MessageIds>({
         )
       },
 
-      TSMappedType(node: Tree.TSMappedType) {
+      TSMappedType(node) {
         const sourceCode = context.sourceCode
 
         const squareBracketStart = sourceCode.getTokenBefore(
@@ -2312,7 +2312,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSModuleBlock(node: Tree.TSModuleBlock) {
+      TSModuleBlock(node) {
         // transform it to a BlockStatement
         return rules['BlockStatement, ClassBody']({
           type: AST_NODE_TYPES.BlockStatement,
@@ -2325,7 +2325,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSQualifiedName(node: Tree.TSQualifiedName) {
+      TSQualifiedName(node) {
         return rules['MemberExpression, JSXMemberExpression, MetaProperty']({
           type: AST_NODE_TYPES.MemberExpression,
           object: node.left as any,
@@ -2340,7 +2340,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSTupleType(node: Tree.TSTupleType) {
+      TSTupleType(node) {
         // transform it to an ArrayExpression
         return rules['ArrayExpression, ArrayPattern']({
           type: AST_NODE_TYPES.ArrayExpression,
@@ -2353,7 +2353,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSTypeParameterDeclaration(node: Tree.TSTypeParameterDeclaration) {
+      TSTypeParameterDeclaration(node) {
         if (!node.params.length)
           return
 
@@ -2376,7 +2376,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
 
-      TSTypeParameterInstantiation(node: Tree.TSTypeParameterInstantiation) {
+      TSTypeParameterInstantiation(node) {
         if (!node.params.length)
           return
 
