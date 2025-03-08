@@ -586,10 +586,13 @@ export default createRule<RuleOptions, MessageIds>({
         report(node.argument)
       },
       SwitchCase(node) {
-        if (node.test && !isTypeAssertion(node.test))
-          return rules.SwitchCase!(node)
+        if (node.test && !isTypeAssertion(node.test) && hasExcessParens(node.test))
+          report(node.test)
       },
-      // SwitchStatement
+      SwitchStatement(node) {
+        if (hasExcessParens(node.discriminant))
+          report(node.discriminant)
+      },
       ThrowStatement(node) {
         if (node.argument && !isTypeAssertion(node.argument))
           return rules.ThrowStatement!(node)
