@@ -1,7 +1,6 @@
 // any is required to work around manipulating the AST in weird ways
 
 import type { ASTNode, Token, Tree } from '#types'
-import type { TSESLint } from '@typescript-eslint/utils'
 import type { MessageIds, RuleOptions } from './types'
 import {
   canTokensBeAdjacent,
@@ -531,7 +530,7 @@ export default createRule<RuleOptions, MessageIds>({
         report(node.superClass)
     }
 
-    const overrides: TSESLint.RuleListener = {
+    return {
       ArrayExpression(node) {
         node.elements
           .map(element =>
@@ -551,7 +550,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (!isTypeAssertion(node.body))
           return rules.ArrowFunctionExpression!(node)
       },
-      // AssignmentExpression
+      'AssignmentExpression': rules.AssignmentExpression,
       AssignmentPattern(node) {
         const { left, right } = node
 
@@ -636,8 +635,8 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasExcessParens(node.test) && !isCondAssignException(node))
           report(node.test)
       },
-      // ExportDefaultDeclaration
-      // ExpressionStatement
+      'ExportDefaultDeclaration': rules.ExportDefaultDeclaration,
+      'ExpressionStatement': rules.ExpressionStatement,
       ForInStatement(node) {
         if (isTypeAssertion(node.right)) {
           // as of 7.20.0 there's no way to skip checking the right of the ForIn
@@ -875,6 +874,5 @@ export default createRule<RuleOptions, MessageIds>({
         }
       },
     }
-    return Object.assign({}, rules, overrides)
   },
 })
