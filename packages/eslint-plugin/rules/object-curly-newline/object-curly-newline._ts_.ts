@@ -32,6 +32,15 @@ const OPTION_VALUE: JSONSchema.JSONSchema4 = {
 
 const defaultOptionValue = { multiline: false, minProperties: Number.POSITIVE_INFINITY, consistent: true }
 
+interface NormalizedOptions {
+  ObjectExpression: { multiline: boolean, minProperties: number, consistent: boolean }
+  ObjectPattern: { multiline: boolean, minProperties: number, consistent: boolean }
+  ImportDeclaration: { multiline: boolean, minProperties: number, consistent: boolean }
+  ExportNamedDeclaration: { multiline: boolean, minProperties: number, consistent: boolean }
+  TSTypeLiteral: { multiline: boolean, minProperties: number, consistent: boolean }
+  TSInterfaceBody: { multiline: boolean, minProperties: number, consistent: boolean }
+}
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-curly-newline',
   package: 'ts',
@@ -133,16 +142,9 @@ export default createRule<RuleOptions, MessageIds>({
     /**
      * Normalizes a given option value.
      * @param options An option value to parse.
-     * @returns {{
-     *   ObjectExpression: {multiline: boolean, minProperties: number, consistent: boolean},
-     *   ObjectPattern: {multiline: boolean, minProperties: number, consistent: boolean},
-     *   ImportDeclaration: {multiline: boolean, minProperties: number, consistent: boolean},
-     *   ExportNamedDeclaration : {multiline: boolean, minProperties: number, consistent: boolean}
-     *   TSTypeLiteral : {multiline: boolean, minProperties: number, consistent: boolean}
-     *   TSInterfaceBody : {multiline: boolean, minProperties: number, consistent: boolean}
-     * }} Normalized option object.
+     * @returns Normalized option object.
      */
-    function normalizeOptions(options: any) {
+    function normalizeOptions(options: any): NormalizedOptions {
       if (isObject(options) && Object.values(options).some(isNodeSpecificOption)) {
         return {
           ObjectExpression: normalizeOptionValue(options.ObjectExpression),
