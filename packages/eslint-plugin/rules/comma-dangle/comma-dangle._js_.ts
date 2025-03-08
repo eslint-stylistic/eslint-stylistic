@@ -2,6 +2,10 @@
  * @fileoverview Rule to forbid or enforce dangling commas.
  * @author Ian Christian Myers
  */
+
+// MERGED: The JS version of this rule is merged to the TS version, this file will be removed
+// in the next major when we remove the `@stylistic/eslint-plugin-js` package.
+
 import type { EcmaVersion, Tree } from '#types'
 import type { MessageIds, RuleOptions, Value } from './types._js_'
 import { getNextLocation, isCommaToken } from '#utils/ast'

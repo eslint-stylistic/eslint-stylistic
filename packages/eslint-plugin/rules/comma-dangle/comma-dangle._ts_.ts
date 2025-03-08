@@ -2,12 +2,9 @@ import type { EcmaVersion, Tree } from '#types'
 import type { Value } from './types'
 import type { MessageIds, RuleOptions } from './types._ts_'
 import { getNextLocation } from '#utils/ast'
-import { castRuleModule, createRule } from '#utils/create-rule'
+import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isCommaToken } from '@typescript-eslint/utils/ast-utils'
-import _baseRule from './comma-dangle._js_'
-
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 type Extract<T> = T extends Record<any, any> ? T : never
 type Option = RuleOptions[0]
@@ -102,8 +99,10 @@ export default createRule<RuleOptions, MessageIds>({
       additionalItems: false,
     },
     fixable: 'code',
-    hasSuggestions: baseRule.meta.hasSuggestions,
-    messages: baseRule.meta.messages,
+    messages: {
+      unexpected: 'Unexpected trailing comma.',
+      missing: 'Missing trailing comma.',
+    },
   },
   defaultOptions: ['never'],
   create(context, [options]) {
