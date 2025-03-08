@@ -20,16 +20,15 @@ export default createRule<RuleOptions, MessageIds>({
     hasSuggestions: baseRule.meta.hasSuggestions,
     schema: baseRule.meta.schema,
   },
-  defaultOptions: ['1tbs'],
-  create(context) {
+  defaultOptions: ['1tbs', { allowSingleLine: false }],
+  create(context, optionsWithDefaults) {
     const [
       style,
       { allowSingleLine } = { allowSingleLine: false },
-    ] = context.options
+    ] = optionsWithDefaults
 
     const isAllmanStyle = style === 'allman'
     const sourceCode = context.sourceCode
-    const rules = baseRule.create(context)
 
     /**
      * Fixes a place where a newline unexpectedly appears
@@ -113,8 +112,31 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
+    /**
+     * Validates the location of a token that appears before a keyword (e.g. a newline before `else`)
+     * @param curlyToken The closing curly token. This is assumed to precede a keyword token (such as `else` or `finally`).
+     */
+    function validateCurlyBeforeKeyword(curlyToken: Token): void {
+      const keywordToken = sourceCode.getTokenAfter(curlyToken)!
+
+      if (style === '1tbs' && !isTokenOnSameLine(curlyToken, keywordToken)) {
+        context.report({
+          node: curlyToken,
+          messageId: 'nextLineClose',
+          fix: removeNewlineBetween(curlyToken, keywordToken),
+        })
+      }
+
+      if (style !== '1tbs' && isTokenOnSameLine(curlyToken, keywordToken)) {
+        context.report({
+          node: curlyToken,
+          messageId: 'sameLineClose',
+          fix: fixer => fixer.insertTextAfter(curlyToken, '\n'),
+        })
+      }
+    }
+
     return {
-      ...rules,
       BlockStatement(node) {
         if (!STATEMENT_LIST_PARENTS.has(node.parent.type))
           validateCurlyPair(sourceCode.getFirstToken(node)!, sourceCode.getLastToken(node)!)
@@ -133,6 +155,21 @@ export default createRule<RuleOptions, MessageIds>({
         const openingCurly = sourceCode.getTokenBefore(node.cases.length ? node.cases[0] : closingCurly!)
 
         validateCurlyPair(openingCurly!, closingCurly!)
+      },
+      IfStatement(node) {
+        if (node.consequent.type === 'BlockStatement' && node.alternate) {
+          // Handle the keyword after the `if` block (before `else`)
+          validateCurlyBeforeKeyword(sourceCode.getLastToken(node.consequent)!)
+        }
+      },
+      TryStatement(node) {
+        // Handle the keyword after the `try` block (before `catch` or `finally`)
+        validateCurlyBeforeKeyword(sourceCode.getLastToken(node.block)!)
+
+        if (node.handler && node.finalizer) {
+          // Handle the keyword after the `catch` block (before `finally`)
+          validateCurlyBeforeKeyword(sourceCode.getLastToken(node.handler.body)!)
+        }
       },
       'TSInterfaceBody, TSModuleBlock': function (
         node: Tree.TSInterfaceBody | Tree.TSModuleBlock,
