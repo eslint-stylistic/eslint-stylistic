@@ -199,33 +199,32 @@ export default createRule<RuleOptions, MessageIds>({
 
       switch (parent.type) {
         // Directive Prologues.
-        case 'ExpressionStatement':
+        case AST_NODE_TYPES.ExpressionStatement:
           return !isParenthesised(sourceCode, node) && isExpressionInOrJustAfterDirectivePrologue(node)
 
           // LiteralPropertyName.
-        case 'Property':
-        case 'PropertyDefinition':
-        case 'MethodDefinition':
+        case AST_NODE_TYPES.Property:
+        case AST_NODE_TYPES.MethodDefinition:
           return parent.key === node && !parent.computed
 
           // ModuleSpecifier.
-        case 'ImportDeclaration':
-        case 'ExportNamedDeclaration':
+        case AST_NODE_TYPES.ImportDeclaration:
+        case AST_NODE_TYPES.ExportNamedDeclaration:
           return parent.source === node
 
           // ModuleExportName or ModuleSpecifier.
-        case 'ExportAllDeclaration':
+        case AST_NODE_TYPES.ExportAllDeclaration:
           return parent.exported === node || parent.source === node
 
           // ModuleExportName.
-        case 'ImportSpecifier':
+        case AST_NODE_TYPES.ImportSpecifier:
           return parent.imported === node
 
           // ModuleExportName.
-        case 'ExportSpecifier':
+        case AST_NODE_TYPES.ExportSpecifier:
           return parent.local === node || parent.exported === node
 
-        case 'ImportAttribute':
+        case AST_NODE_TYPES.ImportAttribute:
           return parent.value === node
 
         case AST_NODE_TYPES.TSAbstractMethodDefinition:
