@@ -22,10 +22,6 @@ const OPTION_VALUE_SCHEME = [
   'only-multiline',
 ]
 
-const DEFAULT_OPTION_VALUE = 'never'
-
-const closeBraces = ['}', ']', ')', '>']
-
 type TargetASTNode =
   | Tree.ArrayExpression
   | Tree.ArrayPattern
@@ -57,31 +53,6 @@ type ItemASTNode = NonNullable<
   | Tree.TSTypeParameter
   | Tree.TypeNode
 >
-
-/**
- * Checks whether or not a trailing comma is allowed in a given node.
- * If the `lastItem` is `RestElement` or `RestProperty`, it disallows trailing commas.
- * @param lastItem The node of the last element in the given node.
- * @returns `true` if a trailing comma is allowed.
- */
-function isTrailingCommaAllowed(lastItem: ItemASTNode) {
-  return lastItem.type !== 'RestElement'
-}
-
-function normalizeOptions(options: Option = {}): NormalizedOptions {
-  if (typeof options === 'string') {
-    return {
-      enums: options,
-      generics: options,
-      tuples: options,
-    }
-  }
-  return {
-    enums: options.enums ?? DEFAULT_OPTION_VALUE,
-    generics: options.generics ?? DEFAULT_OPTION_VALUE,
-    tuples: options.tuples ?? DEFAULT_OPTION_VALUE,
-  }
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'comma-dangle',
@@ -138,9 +109,29 @@ export default createRule<RuleOptions, MessageIds>({
   create(context, [options]) {
     const rules = baseRule.create(context)
     const sourceCode = context.sourceCode
+
+    function normalizeOptions(options: Option = {}): NormalizedOptions {
+      const DEFAULT_OPTION_VALUE = 'never'
+
+      if (typeof options === 'string') {
+        return {
+          enums: options,
+          generics: options,
+          tuples: options,
+        }
+      }
+      return {
+        enums: options.enums ?? DEFAULT_OPTION_VALUE,
+        generics: options.generics ?? DEFAULT_OPTION_VALUE,
+        tuples: options.tuples ?? DEFAULT_OPTION_VALUE,
+      }
+    }
+
     const normalizedOptions = normalizeOptions(options)
     const isTSX = context.parserOptions?.ecmaFeatures?.jsx
       && context.filename?.endsWith('.tsx')
+
+    const closeBraces = ['}', ']', ')', '>']
 
     interface VerifyInfo {
       /** A node to check. */
@@ -213,6 +204,16 @@ export default createRule<RuleOptions, MessageIds>({
         return false
 
       return lastToken.loc.end.line !== penultimateToken.loc.end.line
+    }
+
+    /**
+     * Checks whether or not a trailing comma is allowed in a given node.
+     * If the `lastItem` is `RestElement` or `RestProperty`, it disallows trailing commas.
+     * @param lastItem The node of the last element in the given node.
+     * @returns `true` if a trailing comma is allowed.
+     */
+    function isTrailingCommaAllowed(lastItem: ItemASTNode) {
+      return lastItem.type !== 'RestElement'
     }
 
     /**
