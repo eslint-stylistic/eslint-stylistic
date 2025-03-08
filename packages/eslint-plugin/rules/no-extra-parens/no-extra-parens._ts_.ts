@@ -14,7 +14,7 @@ import {
 import { castRuleModule, createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
-import _baseRule from './no-extra-parens._js_'
+import _baseRule, { reportsBuffer } from './no-extra-parens._js_'
 
 const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
@@ -57,12 +57,12 @@ export default createRule<RuleOptions, MessageIds>({
     // @ts-expect-error other properties are not used
     const PRECEDENCE_OF_UPDATE_EXPR = precedence({ type: 'UpdateExpression' })
 
-    type ReportsBuffer = {
-      upper: ReportsBuffer
-      inExpressionNodes: ASTNode[]
-      reports: { node: ASTNode, finishReport: () => void }[]
-    } | undefined
-    let reportsBuffer: ReportsBuffer
+    // type ReportsBuffer = {
+    //   upper: ReportsBuffer
+    //   inExpressionNodes: ASTNode[]
+    //   reports: { node: ASTNode, finishReport: () => void }[]
+    // } | undefined
+    // let reportsBuffer: ReportsBuffer
 
     /**
      * Determines whether the given node is a `call` or `apply` method call, invoked directly on a `FunctionExpression` node.

@@ -22,6 +22,14 @@ import {
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
+type ReportsBuffer = {
+  upper: ReportsBuffer
+  inExpressionNodes: ASTNode[]
+  reports: { node: ASTNode, finishReport: () => void }[]
+} | undefined
+// eslint-disable-next-line import/no-mutable-exports
+export let reportsBuffer: ReportsBuffer
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',
   package: 'js',
@@ -110,12 +118,12 @@ export default createRule<RuleOptions, MessageIds>({
     // @ts-expect-error other properties are not used
     const PRECEDENCE_OF_UPDATE_EXPR = precedence({ type: 'UpdateExpression' })
 
-    type ReportsBuffer = {
-      upper: ReportsBuffer
-      inExpressionNodes: ASTNode[]
-      reports: { node: ASTNode, finishReport: () => void }[]
-    } | undefined
-    let reportsBuffer: ReportsBuffer
+    // type ReportsBuffer = {
+    //   upper: ReportsBuffer
+    //   inExpressionNodes: ASTNode[]
+    //   reports: { node: ASTNode, finishReport: () => void }[]
+    // } | undefined
+    // let reportsBuffer: ReportsBuffer
 
     /**
      * Determines whether the given node is a `call` or `apply` method call, invoked directly on a `FunctionExpression` node.
