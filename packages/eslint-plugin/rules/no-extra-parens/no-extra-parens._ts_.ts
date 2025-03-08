@@ -52,6 +52,8 @@ export default createRule<RuleOptions, MessageIds>({
       && context.options[1].returnAssign === false
     const IGNORE_JSX = ALL_NODES && context.options[1]
       && context.options[1].ignoreJSX
+    const IGNORE_ARROW_CONDITIONALS = ALL_NODES && context.options[1]
+      && context.options[1].enforceForArrowConditionals === false
     const IGNORE_SEQUENCE_EXPRESSIONS = ALL_NODES && context.options[1]
       && context.options[1].enforceForSequenceExpressions === false
     const IGNORE_NEW_IN_MEMBER_EXPR = ALL_NODES && context.options[1]
@@ -679,8 +681,30 @@ export default createRule<RuleOptions, MessageIds>({
           .forEach(report)
       },
       ArrowFunctionExpression(node) {
-        if (!isTypeAssertion(node.body))
-          return rules.ArrowFunctionExpression!(node)
+        if (isTypeAssertion(node.body))
+          return
+
+        if (isReturnAssignException(node))
+          return
+
+        if (
+          node.body.type === 'ConditionalExpression'
+          && IGNORE_ARROW_CONDITIONALS
+        ) {
+          return
+        }
+
+        if (node.body.type === 'BlockStatement')
+          return
+
+        const firstBodyToken = sourceCode.getFirstToken(node.body, isNotOpeningParenToken)!
+        const tokenBeforeFirst = sourceCode.getTokenBefore(firstBodyToken)!
+
+        if (isOpeningParenToken(tokenBeforeFirst) && isOpeningBraceToken(firstBodyToken))
+          tokensToIgnore.add(firstBodyToken)
+
+        if (hasExcessParensWithPrecedence(node.body, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          report(node.body)
       },
       AssignmentExpression(node) {
         if (canBeAssignmentTarget(node.left) && hasExcessParens(node.left)
