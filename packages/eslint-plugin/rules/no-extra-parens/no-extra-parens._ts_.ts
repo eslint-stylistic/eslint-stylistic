@@ -20,7 +20,7 @@ import {
 import { castRuleModule, createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
-import _baseRule, { reportsBuffer, tokensToIgnore } from './no-extra-parens._js_'
+import _baseRule, { tokensToIgnore } from './no-extra-parens._js_'
 
 const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
@@ -40,7 +40,6 @@ export default createRule<RuleOptions, MessageIds>({
   defaultOptions: ['all'],
   create(context) {
     const sourceCode = context.sourceCode
-    const rules = baseRule.create(context)
 
     // const tokensToIgnore = new WeakSet()
     const precedence = getPrecedence
@@ -73,12 +72,129 @@ export default createRule<RuleOptions, MessageIds>({
     // @ts-expect-error other properties are not used
     const PRECEDENCE_OF_UPDATE_EXPR = precedence({ type: 'UpdateExpression' })
 
-    // type ReportsBuffer = {
-    //   upper: ReportsBuffer
-    //   inExpressionNodes: ASTNode[]
-    //   reports: { node: ASTNode, finishReport: () => void }[]
-    // } | undefined
-    // let reportsBuffer: ReportsBuffer
+    type ReportsBuffer = {
+      upper: ReportsBuffer
+      inExpressionNodes: ASTNode[]
+      reports: { node: ASTNode, finishReport: () => void }[]
+    } | undefined
+    let reportsBuffer: ReportsBuffer
+
+    /**
+     * Finds the path from the given node to the specified ancestor.
+     * @param node First node in the path.
+     * @param ancestor Last node in the path.
+     * @returns Path, including both nodes.
+     * @throws {Error} If the given node does not have the specified ancestor.
+     */
+    function pathToAncestor(node: ASTNode, ancestor: ASTNode) {
+      const path = [node]
+      let currentNode: ASTNode | null | undefined = node
+
+      while (currentNode !== ancestor) {
+        currentNode = currentNode.parent
+
+        /* c8 ignore start */
+        if (currentNode === null || currentNode === undefined)
+          throw new Error('Nodes are not in the ancestor-descendant relationship.')
+        /* c8 ignore stop */
+
+        path.push(currentNode)
+      }
+
+      return path
+    }
+
+    /**
+     * Finds the path from the given node to the specified descendant.
+     * @param node First node in the path.
+     * @param descendant Last node in the path.
+     * @returns Path, including both nodes.
+     * @throws {Error} If the given node does not have the specified descendant.
+     */
+    function pathToDescendant(node: ASTNode, descendant: ASTNode) {
+      return pathToAncestor(descendant, node).reverse()
+    }
+
+    /**
+     * Checks whether the syntax of the given ancestor of an 'in' expression inside a for-loop initializer
+     * is preventing the 'in' keyword from being interpreted as a part of an ill-formed for-in loop.
+     * @param node Ancestor of an 'in' expression.
+     * @param child Child of the node, ancestor of the same 'in' expression or the 'in' expression itself.
+     * @returns True if the keyword 'in' would be interpreted as the 'in' operator, without any parenthesis.
+     */
+    function isSafelyEnclosingInExpression(node: ASTNode, child: ASTNode) {
+      switch (node.type) {
+        case 'ArrayExpression':
+        case 'ArrayPattern':
+        case 'BlockStatement':
+        case 'ObjectExpression':
+        case 'ObjectPattern':
+        case 'TemplateLiteral':
+          return true
+        case 'ArrowFunctionExpression':
+        case 'FunctionExpression':
+          // @ts-expect-error type cast
+          return node.params.includes(child)
+        case 'CallExpression':
+        case 'NewExpression':
+          // @ts-expect-error type cast
+          return node.arguments.includes(child)
+        case 'MemberExpression':
+          return node.computed && node.property === child
+        case 'ConditionalExpression':
+          return node.consequent === child
+        default:
+          return false
+      }
+    }
+
+    /**
+     * Starts a new reports buffering. Warnings will be stored in a buffer instead of being reported immediately.
+     * An additional logic that requires multiple nodes (e.g. a whole subtree) may dismiss some of the stored warnings.
+     */
+    function startNewReportsBuffering() {
+      reportsBuffer = {
+        upper: reportsBuffer,
+        inExpressionNodes: [],
+        reports: [],
+      }
+    }
+
+    /**
+     * Ends the current reports buffering.
+     */
+    function endCurrentReportsBuffering() {
+      const { upper, inExpressionNodes, reports } = reportsBuffer ?? {}
+
+      if (upper) {
+        upper.inExpressionNodes.push(...inExpressionNodes ?? [])
+        upper.reports.push(...reports ?? [])
+      }
+      else {
+        // flush remaining reports
+        reports?.forEach(({ finishReport }) => finishReport())
+      }
+
+      reportsBuffer = upper
+    }
+
+    /**
+     * Checks whether the given node is in the current reports buffer.
+     * @param node Node to check.
+     * @returns True if the node is in the current buffer, false otherwise.
+     */
+    function isInCurrentReportsBuffer(node: ASTNode) {
+      return reportsBuffer?.reports.some(r => r.node === node)
+    }
+
+    /**
+     * Removes the given node from the current reports buffer.
+     * @param node Node to remove.
+     */
+    function removeFromCurrentReportsBuffer(node: ASTNode) {
+      if (reportsBuffer)
+        reportsBuffer.reports = reportsBuffer.reports.filter(r => r.node !== node)
+    }
 
     /**
      * Determines whether the given node is a `call` or `apply` method call, invoked directly on a `FunctionExpression` node.
@@ -973,31 +1089,119 @@ export default createRule<RuleOptions, MessageIds>({
         return rule(node)
       },
       ForStatement(node) {
+        const rule = (node: Tree.ForStatement) => {
+          if (node.test && hasExcessParens(node.test) && !isCondAssignException(node))
+            report(node.test)
+
+          if (node.update && hasExcessParens(node.update))
+            report(node.update)
+
+          if (node.init) {
+            if (node.init.type !== 'VariableDeclaration') {
+              const firstToken = sourceCode.getFirstToken(node.init, isNotOpeningParenToken)!
+
+              if (
+                firstToken.value === 'let'
+                && isOpeningBracketToken(
+                  sourceCode.getTokenAfter(firstToken, isNotClosingParenToken)!,
+                )
+              ) {
+              // ForStatement#init expression cannot start with `let[`.
+                tokensToIgnore.add(firstToken)
+              }
+            }
+
+            startNewReportsBuffering()
+
+            if (hasExcessParens(node.init))
+              report(node.init)
+          }
+        }
         // make the rule skip the piece by removing it entirely
         if (node.init && isTypeAssertion(node.init)) {
-          return rules.ForStatement!({
+          return rule({
             ...node,
             init: null,
           })
         }
         if (node.test && isTypeAssertion(node.test)) {
-          return rules.ForStatement!({
+          return rule({
             ...node,
             test: null,
           })
         }
         if (node.update && isTypeAssertion(node.update)) {
-          return rules.ForStatement!({
+          return rule({
             ...node,
             update: null,
           })
         }
 
-        return rules.ForStatement!(node)
+        return rule(node)
       },
       'ForStatement > *.init:exit': function (node: ASTNode) {
-        if (!isTypeAssertion(node))
-          return (rules as any)['ForStatement > *.init:exit'](node)
+        if (isTypeAssertion(node))
+          return
+
+        /**
+         * Removing parentheses around `in` expressions might change semantics and cause errors.
+         *
+         * For example, this valid for loop:
+         *      for (let a = (b in c); ;);
+         * after removing parentheses would be treated as an invalid for-in loop:
+         *      for (let a = b in c; ;);
+         */
+
+        if (reportsBuffer?.reports.length) {
+          reportsBuffer.inExpressionNodes.forEach((inExpressionNode) => {
+            const path = pathToDescendant(node, inExpressionNode)
+            let nodeToExclude: ASTNode | null = null
+
+            for (let i = 0; i < path.length; i++) {
+              const pathNode = path[i]
+
+              if (i < path.length - 1) {
+                const nextPathNode = path[i + 1]
+
+                if (isSafelyEnclosingInExpression(pathNode, nextPathNode)) {
+                  // The 'in' expression in safely enclosed by the syntax of its ancestor nodes (e.g. by '{}' or '[]').
+                  return
+                }
+              }
+
+              if (isParenthesised(pathNode)) {
+                if (isInCurrentReportsBuffer(pathNode)) {
+                  // This node was supposed to be reported, but parentheses might be necessary.
+
+                  if (isParenthesisedTwice(pathNode)) {
+                    /**
+                     * This node is parenthesised twice, it certainly has at least one pair of `extra` parentheses.
+                     * If the --fix option is on, the current fixing iteration will remove only one pair of parentheses.
+                     * The remaining pair is safely enclosing the 'in' expression.
+                     */
+                    return
+                  }
+
+                  // Exclude the outermost node only.
+                  if (!nodeToExclude)
+                    nodeToExclude = pathNode
+
+                  // Don't break the loop here, there might be some safe nodes or parentheses that will stay inside.
+                }
+                else {
+                  // This node will stay parenthesised, the 'in' expression in safely enclosed by '()'.
+                  return
+                }
+              }
+            }
+
+            if (nodeToExclude)
+              // Exclude the node from the list (i.e. treat parentheses as necessary)
+              removeFromCurrentReportsBuffer(nodeToExclude)
+          })
+        }
+
+        endCurrentReportsBuffering()
       },
       IfStatement(node) {
         if (hasExcessParens(node.test) && !isCondAssignException(node))
