@@ -8,6 +8,7 @@ import {
   getStaticPropertyName,
   isClosingParenToken,
   isDecimalInteger,
+  isMixedLogicalAndCoalesceExpressions,
   isNotClosingParenToken,
   isNotOpeningParenToken,
   isOpeningBraceToken,
@@ -48,6 +49,8 @@ export default createRule<RuleOptions, MessageIds>({
       && context.options[1].conditionalAssign === false
     const EXCEPT_COND_TERNARY = ALL_NODES && context.options[1]
       && context.options[1].ternaryOperandBinaryExpressions === false
+    const NESTED_BINARY = ALL_NODES && context.options[1]
+      && context.options[1].nestedBinaryExpressions === false
     const EXCEPT_RETURN_ASSIGN = ALL_NODES && context.options[1]
       && context.options[1].returnAssign === false
     const IGNORE_JSX = ALL_NODES && context.options[1]
@@ -341,38 +344,6 @@ export default createRule<RuleOptions, MessageIds>({
       return hasDoubleExcessParens(node)
     }
 
-    function binaryExp(
-      node: Tree.BinaryExpression | Tree.LogicalExpression,
-    ): void {
-      const rule = rules.BinaryExpression as (n: typeof node) => void
-
-      // makes the rule think it should skip the left or right
-      const isLeftTypeAssertion = isTypeAssertion(node.left)
-      const isRightTypeAssertion = isTypeAssertion(node.right)
-      if (isLeftTypeAssertion && isRightTypeAssertion)
-        return // ignore
-
-      if (isLeftTypeAssertion) {
-        return rule({
-          ...node,
-          left: {
-            ...node.left,
-            type: AST_NODE_TYPES.SequenceExpression as any,
-          },
-        })
-      }
-      if (isRightTypeAssertion) {
-        return rule({
-          ...node,
-          right: {
-            ...node.right,
-            type: AST_NODE_TYPES.SequenceExpression as any,
-          },
-        })
-      }
-
-      return rule(node)
-    }
     function callExp(
       node: Tree.CallExpression | Tree.NewExpression,
     ): void {
@@ -607,6 +578,70 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
+     * Evaluate binary logicals
+     * @param node node to evaluate
+     * @private
+     */
+    function checkBinaryLogical(node: Tree.BinaryExpression | Tree.LogicalExpression) {
+      // makes the rule think it should skip the left or right
+      const isLeftTypeAssertion = isTypeAssertion(node.left)
+      const isRightTypeAssertion = isTypeAssertion(node.right)
+      if (isLeftTypeAssertion && isRightTypeAssertion)
+        return // ignore
+
+      const rule = (n: Tree.BinaryExpression | Tree.LogicalExpression) => {
+        const prec = precedence(n)
+        const leftPrecedence = precedence(n.left)
+        const rightPrecedence = precedence(n.right)
+        const isExponentiation = n.operator === '**'
+        const shouldSkipLeft = NESTED_BINARY && (n.left.type === 'BinaryExpression' || n.left.type === 'LogicalExpression')
+        const shouldSkipRight = NESTED_BINARY && (n.right.type === 'BinaryExpression' || n.right.type === 'LogicalExpression')
+
+        if (!shouldSkipLeft && hasExcessParens(n.left)) {
+          if (
+            !(['AwaitExpression', 'UnaryExpression'].includes(n.left.type) && isExponentiation)
+            && !isMixedLogicalAndCoalesceExpressions(n.left, n)
+            && (leftPrecedence > prec || (leftPrecedence === prec && !isExponentiation))
+            || isParenthesisedTwice(n.left)
+          ) {
+            report(n.left)
+          }
+        }
+
+        if (!shouldSkipRight && hasExcessParens(n.right)) {
+          if (
+            !isMixedLogicalAndCoalesceExpressions(n.right, n)
+            && (rightPrecedence > prec || (rightPrecedence === prec && isExponentiation))
+            || isParenthesisedTwice(n.right)
+          ) {
+            report(n.right)
+          }
+        }
+      }
+
+      if (isLeftTypeAssertion) {
+        return rule({
+          ...node,
+          left: {
+            ...node.left,
+            type: AST_NODE_TYPES.SequenceExpression as any,
+          },
+        })
+      }
+      if (isRightTypeAssertion) {
+        return rule({
+          ...node,
+          right: {
+            ...node.right,
+            type: AST_NODE_TYPES.SequenceExpression as any,
+          },
+        })
+      }
+
+      return rule(node)
+    }
+
+    /**
      * Check the parentheses around the super class of the given class definition.
      * @param node The node of class declarations to check.
      */
@@ -737,7 +772,12 @@ export default createRule<RuleOptions, MessageIds>({
         }
         return checkArgumentWithPrecedence(node)
       },
-      'BinaryExpression': binaryExp,
+      BinaryExpression(node) {
+        if (reportsBuffer && node.operator === 'in')
+          reportsBuffer.inExpressionNodes.push(node)
+
+        checkBinaryLogical(node)
+      },
       'CallExpression': callExp,
       ClassDeclaration(node) {
         if (node.superClass?.type === AST_NODE_TYPES.TSAsExpression) {
@@ -936,7 +976,7 @@ export default createRule<RuleOptions, MessageIds>({
           report(source)
         }
       },
-      'LogicalExpression': binaryExp,
+      'LogicalExpression': checkBinaryLogical,
       MemberExpression(node) {
         const rule = (node: Tree.MemberExpression) => {
           const shouldAllowWrapOnce = isMemberExpInNewCallee(node)
