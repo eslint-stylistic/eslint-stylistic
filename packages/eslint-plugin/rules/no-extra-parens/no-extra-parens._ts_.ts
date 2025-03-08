@@ -542,6 +542,11 @@ export default createRule<RuleOptions, MessageIds>({
           .filter((e): e is NonNullable<typeof e> => !!e && hasExcessParensWithPrecedence(e, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           .forEach(report)
       },
+      ArrayPattern(node) {
+        node.elements
+          .filter((e): e is NonNullable<typeof e> => !!e && canBeAssignmentTarget(e) && hasExcessParens(e))
+          .forEach(report)
+      },
       ArrowFunctionExpression(node) {
         if (!isTypeAssertion(node.body))
           return rules.ArrowFunctionExpression!(node)
