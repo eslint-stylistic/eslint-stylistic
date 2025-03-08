@@ -1,24 +1,46 @@
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isNotCommaToken } from '#utils/ast'
-import { castRuleModule, createRule } from '#utils/create-rule'
+import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import {
   isClosingBraceToken,
   isClosingBracketToken,
   isTokenOnSameLine,
 } from '@typescript-eslint/utils/ast-utils'
-import _baseRule from './object-curly-spacing._js_'
-
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-curly-spacing',
   package: 'ts',
   meta: {
-    ...baseRule.meta,
+    type: 'layout',
     docs: {
       description: 'Enforce consistent spacing inside braces',
+    },
+    fixable: 'whitespace',
+    schema: [
+      {
+        type: 'string',
+        enum: ['always', 'never'],
+      },
+      {
+        type: 'object',
+        properties: {
+          arraysInObjects: {
+            type: 'boolean',
+          },
+          objectsInObjects: {
+            type: 'boolean',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
+    messages: {
+      requireSpaceBefore: 'A space is required before \'{{token}}\'.',
+      requireSpaceAfter: 'A space is required after \'{{token}}\'.',
+      unexpectedSpaceBefore: 'There should be no space before \'{{token}}\'.',
+      unexpectedSpaceAfter: 'There should be no space after \'{{token}}\'.',
     },
   },
   defaultOptions: ['never'],
