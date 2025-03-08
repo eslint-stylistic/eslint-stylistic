@@ -1,4 +1,4 @@
-import type { Tree } from '#types'
+import type { EcmaVersion, Tree } from '#types'
 import type { Value } from './types'
 import type { MessageIds, RuleOptions } from './types._ts_'
 import { getNextLocation } from '#utils/ast'
@@ -12,7 +12,7 @@ const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 type Extract<T> = T extends Record<any, any> ? T : never
 type Option = RuleOptions[0]
 type NormalizedOptions = Required<
-  Pick<Extract<Exclude<Option, string>>, 'enums' | 'generics' | 'tuples'>
+  Extract<Exclude<Option, string>>
 >
 
 const OPTION_VALUE_SCHEME = [
@@ -107,30 +107,44 @@ export default createRule<RuleOptions, MessageIds>({
   },
   defaultOptions: ['never'],
   create(context, [options]) {
-    const rules = baseRule.create(context)
-    const sourceCode = context.sourceCode
-
-    function normalizeOptions(options: Option = {}): NormalizedOptions {
+    function normalizeOptions(options: Option = {}, ecmaVersion: EcmaVersion | 'latest' | undefined): NormalizedOptions {
       const DEFAULT_OPTION_VALUE = 'never'
 
       if (typeof options === 'string') {
         return {
+          arrays: options,
+          objects: options,
+          imports: options,
+          exports: options,
+          functions: !ecmaVersion || ecmaVersion === 'latest' ? options : ecmaVersion < 2017 ? 'ignore' : options,
+          importAttributes: options,
+          dynamicImports: !ecmaVersion || ecmaVersion === 'latest' ? options : ecmaVersion < 2025 ? 'ignore' : options,
           enums: options,
           generics: options,
           tuples: options,
         }
       }
       return {
+        arrays: options.arrays ?? DEFAULT_OPTION_VALUE,
+        objects: options.objects ?? DEFAULT_OPTION_VALUE,
+        imports: options.imports ?? DEFAULT_OPTION_VALUE,
+        exports: options.exports ?? DEFAULT_OPTION_VALUE,
+        functions: options.functions ?? DEFAULT_OPTION_VALUE,
+        importAttributes: options.importAttributes ?? DEFAULT_OPTION_VALUE,
+        dynamicImports: options.dynamicImports ?? DEFAULT_OPTION_VALUE,
         enums: options.enums ?? DEFAULT_OPTION_VALUE,
         generics: options.generics ?? DEFAULT_OPTION_VALUE,
         tuples: options.tuples ?? DEFAULT_OPTION_VALUE,
       }
     }
 
-    const normalizedOptions = normalizeOptions(options)
+    const ecmaVersion = context?.languageOptions?.ecmaVersion ?? context.parserOptions.ecmaVersion as EcmaVersion | undefined
+    const normalizedOptions = normalizeOptions(options, ecmaVersion)
+
     const isTSX = context.parserOptions?.ecmaFeatures?.jsx
       && context.filename?.endsWith('.tsx')
 
+    const sourceCode = context.sourceCode
     const closeBraces = ['}', ']', ')', '>']
 
     interface VerifyInfo {
@@ -336,7 +350,95 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     return {
-      ...rules,
+      ObjectExpression: (node) => {
+        predicate[normalizedOptions.objects]({
+          node,
+          lastItem: last(node.properties),
+        })
+      },
+      ObjectPattern: (node) => {
+        predicate[normalizedOptions.objects]({
+          node,
+          lastItem: last(node.properties),
+        })
+      },
+      ArrayExpression: (node) => {
+        predicate[normalizedOptions.arrays]({
+          node,
+          lastItem: last(node.elements),
+        })
+      },
+      ArrayPattern: (node) => {
+        predicate[normalizedOptions.arrays]({
+          node,
+          lastItem: last(node.elements),
+        })
+      },
+      ImportDeclaration: (node) => {
+        const lastSpecifier = last(node.specifiers)
+        if (lastSpecifier?.type === 'ImportSpecifier') {
+          predicate[normalizedOptions.imports]({
+            node,
+            lastItem: lastSpecifier,
+          })
+        }
+        predicate[normalizedOptions.importAttributes]({
+          node,
+          lastItem: last(node.attributes),
+        })
+      },
+      ExportNamedDeclaration: (node) => {
+        predicate[normalizedOptions.exports]({
+          node,
+          lastItem: last(node.specifiers),
+        })
+        predicate[normalizedOptions.importAttributes]({
+          node,
+          lastItem: last(node.attributes),
+        })
+      },
+      ExportAllDeclaration: (node) => {
+        predicate[normalizedOptions.importAttributes]({
+          node,
+          lastItem: last(node.attributes),
+        })
+      },
+      FunctionDeclaration: (node) => {
+        predicate[normalizedOptions.functions]({
+          node,
+          lastItem: last(node.params),
+        })
+      },
+      FunctionExpression: (node) => {
+        predicate[normalizedOptions.functions]({
+          node,
+          lastItem: last(node.params),
+        })
+      },
+      ArrowFunctionExpression: (node) => {
+        predicate[normalizedOptions.functions]({
+          node,
+          lastItem: last(node.params),
+        })
+      },
+      CallExpression: (node) => {
+        predicate[normalizedOptions.functions]({
+          node,
+          lastItem: last(node.arguments),
+        })
+      },
+      NewExpression: (node) => {
+        predicate[normalizedOptions.functions]({
+          node,
+          lastItem: last(node.arguments),
+        })
+      },
+      ImportExpression: (node) => {
+        predicate[normalizedOptions.dynamicImports]({
+          node,
+          lastItem: node.options ?? node.source,
+        })
+      },
       TSEnumDeclaration(node) {
         predicate[normalizedOptions.enums]({
           node,
