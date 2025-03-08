@@ -1,11 +1,8 @@
 import type { ReportFixFunction, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { STATEMENT_LIST_PARENTS } from '#utils/ast'
-import { castRuleModule, createRule } from '#utils/create-rule'
+import { createRule } from '#utils/create-rule'
 import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
-import _baseRule from './brace-style._js_'
-
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'brace-style',
@@ -15,10 +12,31 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Enforce consistent brace style for blocks',
     },
-    messages: baseRule.meta.messages,
-    fixable: baseRule.meta.fixable,
-    hasSuggestions: baseRule.meta.hasSuggestions,
-    schema: baseRule.meta.schema,
+    fixable: 'whitespace',
+    schema: [
+      {
+        type: 'string',
+        enum: ['1tbs', 'stroustrup', 'allman'],
+      },
+      {
+        type: 'object',
+        properties: {
+          allowSingleLine: {
+            type: 'boolean',
+            default: false,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
+    messages: {
+      nextLineOpen: 'Opening curly brace does not appear on the same line as controlling statement.',
+      sameLineOpen: 'Opening curly brace appears on the same line as controlling statement.',
+      blockSameLine: 'Statement inside of curly braces should be on next line.',
+      nextLineClose: 'Closing curly brace does not appear on the same line as the subsequent block.',
+      singleLineClose: 'Closing curly brace should be on the same line as opening curly brace or on the line after the previous block.',
+      sameLineClose: 'Closing curly brace appears on the same line as the subsequent block.',
+    },
   },
   defaultOptions: ['1tbs', { allowSingleLine: false }],
   create(context, optionsWithDefaults) {
