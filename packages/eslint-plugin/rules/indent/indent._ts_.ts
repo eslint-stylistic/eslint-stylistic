@@ -4,7 +4,7 @@
  * This is done intentionally based on the internal implementation of the base indent rule.
  */
 
-import type { ASTNode, JSONSchema, RuleFunction, Tree } from '#types'
+import type { ASTNode, JSONSchema, ReportFixFunction, RuleFunction, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { castRuleModule, createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
@@ -268,6 +268,134 @@ export default createRule<RuleOptions, MessageIds>({
 
     const rules = baseRule.create(contextWithDefaults) as Record<string, RuleFunction<any>>
 
+    const DEFAULT_VARIABLE_INDENT = 1
+    const DEFAULT_PARAMETER_INDENT = 1
+    const DEFAULT_FUNCTION_BODY_INDENT = 1
+
+    let indentType = 'space'
+    let indentSize = 4
+    const options = {
+      SwitchCase: 0,
+      VariableDeclarator: {
+        var: DEFAULT_VARIABLE_INDENT as number | 'first',
+        let: DEFAULT_VARIABLE_INDENT as number | 'first',
+        const: DEFAULT_VARIABLE_INDENT as number | 'first',
+      },
+      outerIIFEBody: 1,
+      FunctionDeclaration: {
+        parameters: DEFAULT_PARAMETER_INDENT,
+        body: DEFAULT_FUNCTION_BODY_INDENT,
+      },
+      FunctionExpression: {
+        parameters: DEFAULT_PARAMETER_INDENT,
+        body: DEFAULT_FUNCTION_BODY_INDENT,
+      },
+      StaticBlock: {
+        body: DEFAULT_FUNCTION_BODY_INDENT,
+      },
+      CallExpression: {
+        arguments: DEFAULT_PARAMETER_INDENT,
+      },
+      MemberExpression: 1,
+      ArrayExpression: 1,
+      ObjectExpression: 1,
+      ImportDeclaration: 1,
+      flatTernaryExpressions: false,
+      ignoredNodes: [],
+      ignoreComments: false,
+      offsetTernaryExpressions: false,
+      offsetTernaryExpressionsOffsetCallExpressions: true,
+      tabLength: 4,
+    }
+
+    if (optionsWithDefaults.length) {
+      if (optionsWithDefaults[0] === 'tab') {
+        indentSize = 1
+        indentType = 'tab'
+      }
+      else {
+        indentSize = optionsWithDefaults[0] ?? indentSize
+        indentType = 'space'
+      }
+
+      const userOptions = context.options[1]
+      if (userOptions) {
+        Object.assign(options, userOptions)
+
+        if (typeof userOptions.VariableDeclarator === 'number' || userOptions.VariableDeclarator === 'first') {
+          options.VariableDeclarator = {
+            var: userOptions.VariableDeclarator,
+            let: userOptions.VariableDeclarator,
+            const: userOptions.VariableDeclarator,
+          }
+        }
+      }
+    }
+
+    /**
+     * Creates an error message for a line, given the expected/actual indentation.
+     * @param expectedAmount The expected amount of indentation characters for this line
+     * @param actualSpaces The actual number of indentation spaces that were found on this line
+     * @param actualTabs The actual number of indentation tabs that were found on this line
+     * @returns An error message for this line
+     */
+    function createErrorMessageData(expectedAmount: number, actualSpaces: number, actualTabs: number) {
+      const expectedStatement = `${expectedAmount} ${indentType}${expectedAmount === 1 ? '' : 's'}` // e.g. "2 tabs"
+      const foundSpacesWord = `space${actualSpaces === 1 ? '' : 's'}` // e.g. "space"
+      const foundTabsWord = `tab${actualTabs === 1 ? '' : 's'}` // e.g. "tabs"
+      let foundStatement
+
+      if (actualSpaces > 0) {
+        /**
+         * Abbreviate the message if the expected indentation is also spaces.
+         * e.g. 'Expected 4 spaces but found 2' rather than 'Expected 4 spaces but found 2 spaces'
+         */
+        foundStatement = indentType === 'space' ? actualSpaces : `${actualSpaces} ${foundSpacesWord}`
+      }
+      else if (actualTabs > 0) {
+        foundStatement = indentType === 'tab' ? actualTabs : `${actualTabs} ${foundTabsWord}`
+      }
+      else {
+        foundStatement = '0'
+      }
+      return {
+        expected: expectedStatement,
+        actual: foundStatement,
+      }
+    }
+
+    // JSXText
+    function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
+      let src = context.sourceCode.getText(node, node.loc.start.column)
+      const lines = src.split('\n')
+      if (byLastLine)
+        src = lines[lines.length - 1]
+      else
+        src = lines[0]
+
+      const skip = excludeCommas ? ',' : ''
+
+      let regExp
+      if (indentType === 'space')
+        regExp = new RegExp(`^[ ${skip}]+`)
+      else
+        regExp = new RegExp(`^[\t${skip}]+`)
+
+      const indent = regExp.exec(src)
+      return indent ? indent[0].length : 0
+    }
+
+    const indentChar = indentType === 'space' ? ' ' : '\t'
+    function getFixerFunction(node: Tree.Literal | Tree.JSXText, needed: number): ReportFixFunction {
+      const indent = new Array(needed + 1).join(indentChar)
+
+      return function fix(fixer) {
+        const regExp = /\n[\t ]*(\S)/g
+        const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indent}${p1}`)
+        return fixer.replaceText(node, fixedText)
+      }
+    }
+
     /**
      * Converts from a TSPropertySignature to a Property
      * @param node a TSPropertySignature node
@@ -323,6 +451,39 @@ export default createRule<RuleOptions, MessageIds>({
 
     return {
       ...rules,
+
+      // Special handling for JSXText nodes
+      JSXText(node) {
+        if (!node.parent)
+          return
+
+        if (node.parent.type !== 'JSXElement' && node.parent.type !== 'JSXFragment')
+          return
+
+        const value = node.value
+        // eslint-disable-next-line regexp/no-super-linear-backtracking, regexp/optimal-quantifier-concatenation
+        const regExp = indentType === 'space' ? /\n( *)[\t ]*\S/g : /\n(\t*)[\t ]*\S/g
+        const nodeIndentsPerLine = Array.from(
+          String(value).matchAll(regExp),
+          match => (match[1] ? match[1].length : 0),
+        )
+        const hasFirstInLineNode = nodeIndentsPerLine.length > 0
+        const parentNodeIndent = getNodeIndent(node.parent)
+        const indent = parentNodeIndent + indentSize
+        if (
+          hasFirstInLineNode
+          && !nodeIndentsPerLine.every(actualIndent => actualIndent === indent)
+        ) {
+          nodeIndentsPerLine.forEach((nodeIndent) => {
+            context.report({
+              node,
+              messageId: 'wrongIndentation',
+              data: createErrorMessageData(indent, nodeIndent, nodeIndent),
+              fix: getFixerFunction(node, indent),
+            })
+          })
+        }
+      },
 
       // overwrite the base rule here so we can use our KNOWN_NODES list instead
       '*:exit': function (node: ASTNode) {
