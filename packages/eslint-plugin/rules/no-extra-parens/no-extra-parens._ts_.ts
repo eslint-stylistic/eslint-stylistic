@@ -345,11 +345,9 @@ export default createRule<RuleOptions, MessageIds>({
     function unaryUpdateExpression(
       node: Tree.UnaryExpression | Tree.UpdateExpression,
     ): void {
-      const rule = rules.UnaryExpression as (n: typeof node) => void
-
       if (isTypeAssertion(node.argument)) {
         // reduces the precedence of the node so the rule thinks it needs to be wrapped
-        return rule({
+        return checkArgumentWithPrecedence({
           ...node,
           argument: {
             ...node.argument,
@@ -358,7 +356,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       }
 
-      return rule(node)
+      return checkArgumentWithPrecedence(node)
     }
 
     /**
