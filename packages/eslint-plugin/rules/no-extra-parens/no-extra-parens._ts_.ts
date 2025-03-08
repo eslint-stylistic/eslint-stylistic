@@ -725,8 +725,9 @@ export default createRule<RuleOptions, MessageIds>({
 
         return rules.MemberExpression!(node)
       },
-      // TODO: use MethodDefinition directly
-      'MethodDefinition[computed=true]': function (node: Tree.MethodDefinition) {
+      MethodDefinition(node) {
+        if (!node.computed)
+          return
         if (hasExcessParensWithPrecedence(node.key, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           report(node.key)
       },
