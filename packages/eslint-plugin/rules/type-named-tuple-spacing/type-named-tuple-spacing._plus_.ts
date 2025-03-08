@@ -50,7 +50,7 @@ export default createRule<RuleOptions, MessageIds>({
           context.report({
             node,
             messageId: 'unexpectedSpaceBetween',
-            *fix(fixer) {
+            * fix(fixer) {
               yield fixer.replaceTextRange(node.range, code.replace(tupleRe, getReplaceValue()))
             },
           })
@@ -60,7 +60,7 @@ export default createRule<RuleOptions, MessageIds>({
           context.report({
             node,
             messageId: 'unexpectedSpaceBefore',
-            *fix(fixer) {
+            * fix(fixer) {
               yield fixer.replaceTextRange(node.range, code.replace(tupleRe, getReplaceValue()))
             },
           })
@@ -70,7 +70,7 @@ export default createRule<RuleOptions, MessageIds>({
           context.report({
             node,
             messageId: 'expectedSpaceAfter',
-            *fix(fixer) {
+            * fix(fixer) {
               yield fixer.replaceTextRange(node.range, code.replace(tupleRe, getReplaceValue()))
             },
           })

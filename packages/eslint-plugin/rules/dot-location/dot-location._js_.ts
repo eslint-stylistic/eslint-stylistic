@@ -58,7 +58,7 @@ export default createRule<RuleOptions, MessageIds>({
             node,
             loc: dotToken.loc,
             messageId: 'expectedDotAfterObject',
-            *fix(fixer) {
+            * fix(fixer) {
               if (dotToken.value.startsWith('.') && isDecimalIntegerNumericToken(tokenBeforeDot))
                 yield fixer.insertTextAfter(tokenBeforeDot, ` ${dotToken.value}`)
               else
@@ -74,7 +74,7 @@ export default createRule<RuleOptions, MessageIds>({
           node,
           loc: dotToken.loc,
           messageId: 'expectedDotBeforeProperty',
-          *fix(fixer) {
+          * fix(fixer) {
             yield fixer.remove(dotToken)
             yield fixer.insertTextBefore(property, dotToken.value)
           },

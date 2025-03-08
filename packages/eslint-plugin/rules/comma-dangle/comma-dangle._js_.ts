@@ -239,7 +239,7 @@ export default createRule<RuleOptions, MessageIds>({
           node: lastItem,
           loc: trailingToken.loc,
           messageId: 'unexpected',
-          *fix(fixer) {
+          * fix(fixer) {
             yield fixer.remove(trailingToken)
 
             /**
@@ -291,7 +291,7 @@ export default createRule<RuleOptions, MessageIds>({
           end: getNextLocation(sourceCode, trailingToken.loc.end)!,
         },
         messageId: 'missing',
-        *fix(fixer) {
+        * fix(fixer) {
           yield fixer.insertTextAfter(trailingToken, ',')
 
           /**
