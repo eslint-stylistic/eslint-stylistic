@@ -17,12 +17,9 @@ import {
   isTopLevelExpressionStatement,
   skipChainExpression,
 } from '#utils/ast'
-import { castRuleModule, createRule } from '#utils/create-rule'
+import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
-import _baseRule from './no-extra-parens._js_'
-
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',
@@ -33,9 +30,52 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Disallow unnecessary parentheses',
     },
     fixable: 'code',
-    hasSuggestions: baseRule.meta.hasSuggestions,
-    schema: baseRule.meta.schema,
-    messages: baseRule.meta.messages,
+    schema: {
+      anyOf: [
+        {
+          type: 'array',
+          items: [
+            {
+              type: 'string',
+              enum: ['functions'],
+            },
+          ],
+          minItems: 0,
+          maxItems: 1,
+        },
+        {
+          type: 'array',
+          items: [
+            {
+              type: 'string',
+              enum: ['all'],
+            },
+            {
+              type: 'object',
+              properties: {
+                conditionalAssign: { type: 'boolean' },
+                ternaryOperandBinaryExpressions: { type: 'boolean' },
+                nestedBinaryExpressions: { type: 'boolean' },
+                returnAssign: { type: 'boolean' },
+                ignoreJSX: { type: 'string', enum: ['none', 'all', 'single-line', 'multi-line'] },
+                enforceForArrowConditionals: { type: 'boolean' },
+                enforceForSequenceExpressions: { type: 'boolean' },
+                enforceForNewInMemberExpressions: { type: 'boolean' },
+                enforceForFunctionPrototypeMethods: { type: 'boolean' },
+                allowParensAfterCommentPattern: { type: 'string' },
+                nestedConditionalExpressions: { type: 'boolean' },
+              },
+              additionalProperties: false,
+            },
+          ],
+          minItems: 0,
+          maxItems: 2,
+        },
+      ],
+    },
+    messages: {
+      unexpected: 'Unnecessary parentheses around expression.',
+    },
   },
   defaultOptions: ['all'],
   create(context) {
