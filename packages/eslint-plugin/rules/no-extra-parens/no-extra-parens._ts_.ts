@@ -10,6 +10,7 @@ import {
   isDecimalInteger,
   isNotClosingParenToken,
   isNotOpeningParenToken,
+  isOpeningBraceToken,
   isOpeningBracketToken,
   isParenthesized as isParenthesizedRaw,
   isTopLevelExpressionStatement,
@@ -588,6 +589,44 @@ export default createRule<RuleOptions, MessageIds>({
         report(node.superClass)
     }
 
+    /**
+     * Checks the parentheses for an ExpressionStatement or ExportDefaultDeclaration
+     * @param node The ExpressionStatement.expression or ExportDefaultDeclaration.declaration node
+     */
+    function checkExpressionOrExportStatement(node: Tree.ExportDefaultDeclaration | Tree.ExpressionStatement | Tree.DefaultExportDeclarations) {
+      const firstToken = isParenthesised(node) ? sourceCode.getTokenBefore(node)! : sourceCode.getFirstToken(node)!
+      const secondToken = sourceCode.getTokenAfter(firstToken, isNotOpeningParenToken)!
+      const thirdToken = secondToken ? sourceCode.getTokenAfter(secondToken) : null
+      const tokenAfterClosingParens = secondToken ? sourceCode.getTokenAfter(secondToken, isNotClosingParenToken) : null
+
+      if (
+        isOpeningParenToken(firstToken)
+        && (
+          isOpeningBraceToken(secondToken)
+          || secondToken.type === 'Keyword' && (
+            secondToken.value === 'function'
+            || secondToken.value === 'class'
+            || secondToken.value === 'let'
+            && tokenAfterClosingParens
+            && (
+              isOpeningBracketToken(tokenAfterClosingParens)
+              || tokenAfterClosingParens.type === 'Identifier'
+            )
+          )
+          || secondToken && secondToken.type === 'Identifier' && secondToken.value === 'async' && thirdToken && thirdToken.type === 'Keyword' && thirdToken.value === 'function'
+        )
+      ) {
+        tokensToIgnore.add(secondToken)
+      }
+
+      const hasExtraParens = node.parent.type === 'ExportDefaultDeclaration'
+        ? hasExcessParensWithPrecedence(node, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+        : hasExcessParens(node)
+
+      if (hasExtraParens)
+        report(node)
+    }
+
     return {
       ArrayExpression(node) {
         node.elements
@@ -693,8 +732,12 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasExcessParens(node.test) && !isCondAssignException(node))
           report(node.test)
       },
-      'ExportDefaultDeclaration': rules.ExportDefaultDeclaration,
-      'ExpressionStatement': rules.ExpressionStatement,
+      ExportDefaultDeclaration(node) {
+        checkExpressionOrExportStatement(node.declaration)
+      },
+      ExpressionStatement(node) {
+        checkExpressionOrExportStatement(node.expression)
+      },
       ForInStatement(node) {
         if (isTypeAssertion(node.right)) {
           // as of 7.20.0 there's no way to skip checking the right of the ForIn
