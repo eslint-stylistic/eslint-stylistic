@@ -577,8 +577,13 @@ export default createRule<RuleOptions, MessageIds>({
       // ReturnStatement
       // SequenceExpression
       SpreadElement(node) {
-        if (!isTypeAssertion(node.argument))
-          return rules.SpreadElement!(node)
+        if (isTypeAssertion(node.argument))
+          return
+
+        if (!hasExcessParensWithPrecedence(node.argument, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          return
+
+        report(node.argument)
       },
       SwitchCase(node) {
         if (node.test && !isTypeAssertion(node.test))
