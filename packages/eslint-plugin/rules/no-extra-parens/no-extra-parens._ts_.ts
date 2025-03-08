@@ -39,6 +39,10 @@ export default createRule<RuleOptions, MessageIds>({
     const tokensToIgnore = new WeakSet()
     const precedence = getPrecedence
     const ALL_NODES = context.options[0] !== 'functions'
+    const EXCEPT_COND_ASSIGN = ALL_NODES && context.options[1]
+      && context.options[1].conditionalAssign === false
+    const EXCEPT_RETURN_ASSIGN = ALL_NODES && context.options[1]
+      && context.options[1].returnAssign === false
     const IGNORE_JSX = ALL_NODES && context.options[1]
       && context.options[1].ignoreJSX
     const IGNORE_SEQUENCE_EXPRESSIONS = ALL_NODES && context.options[1]
@@ -183,6 +187,77 @@ export default createRule<RuleOptions, MessageIds>({
         }
       }
       return false
+    }
+
+    /**
+     * Determines if a node test expression is allowed to have a parenthesised assignment
+     * @param node The node to be checked.
+     * @returns True if the assignment can be parenthesised.
+     * @private
+     */
+    function isCondAssignException(node: Tree.ConditionalExpression | Tree.DoWhileStatement | Tree.WhileStatement | Tree.IfStatement | Tree.ForStatement) {
+      return EXCEPT_COND_ASSIGN && node.test && node.test.type === 'AssignmentExpression'
+    }
+
+    /**
+     * Determines if a node is in a return statement
+     * @param node The node to be checked.
+     * @returns True if the node is in a return statement.
+     * @private
+     */
+    function isInReturnStatement(node: ASTNode) {
+      for (let currentNode = node; currentNode; currentNode = currentNode.parent!) {
+        if (
+          currentNode.type === 'ReturnStatement'
+          || (currentNode.type === 'ArrowFunctionExpression' && currentNode.body.type !== 'BlockStatement')
+        ) {
+          return true
+        }
+      }
+
+      return false
+    }
+
+    /**
+     * Determines if a node is or contains an assignment expression
+     * @param node The node to be checked.
+     * @returns True if the node is or contains an assignment expression.
+     * @private
+     */
+    function containsAssignment(node: ASTNode) {
+      if (node.type === 'AssignmentExpression')
+        return true
+
+      if (node.type === 'ConditionalExpression'
+        && (node.consequent.type === 'AssignmentExpression' || node.alternate.type === 'AssignmentExpression')) {
+        return true
+      }
+
+      if ('left' in node && ((node.left && node.left.type === 'AssignmentExpression')
+        || (node.right && node.right.type === 'AssignmentExpression'))) {
+        return true
+      }
+
+      return false
+    }
+
+    /**
+     * Determines if a node is contained by or is itself a return statement and is allowed to have a parenthesised assignment
+     * @param node The node to be checked.
+     * @returns True if the assignment can be parenthesised.
+     * @private
+     */
+    function isReturnAssignException(node: ASTNode) {
+      if (!EXCEPT_RETURN_ASSIGN || !isInReturnStatement(node))
+        return false
+
+      if (node.type === 'ReturnStatement')
+        return node.argument && containsAssignment(node.argument)
+
+      if (node.type === 'ArrowFunctionExpression' && node.body.type !== 'BlockStatement')
+        return containsAssignment(node.body)
+
+      return containsAssignment(node)
     }
 
     /**
@@ -333,6 +408,17 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
+     * Determines if the given node can be the assignment target in destructuring or the LHS of an assignment.
+     * This is to avoid an autofix that could change behavior because parsers mistakenly allow invalid syntax,
+     * such as `(a = b) = c` and `[(a = b) = c] = []`. Ideally, this function shouldn't be necessary.
+     * @param [node] The node to check
+     * @returns `true` if the given node can be a valid assignment target
+     */
+    function canBeAssignmentTarget(node: ASTNode) {
+      return !!(node && (node.type === 'Identifier' || node.type === 'MemberExpression'))
+    }
+
+    /**
      * Checks if a node is fixable.
      * A node is fixable if removing a single pair of surrounding parentheses does not turn it
      * into a directive after fixing other nodes.
@@ -461,6 +547,15 @@ export default createRule<RuleOptions, MessageIds>({
           return rules.ArrowFunctionExpression!(node)
       },
       // AssignmentExpression
+      AssignmentPattern(node) {
+        const { left, right } = node
+
+        if (canBeAssignmentTarget(left) && hasExcessParens(left))
+          report(left)
+
+        if (right && hasExcessParensWithPrecedence(right, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          report(right)
+      },
       AwaitExpression(node) {
         if (isTypeAssertion(node.argument)) {
           // reduces the precedence of the node so the rule thinks it needs to be wrapped
@@ -532,8 +627,35 @@ export default createRule<RuleOptions, MessageIds>({
         }
         return rules.ConditionalExpression!(node)
       },
-      // DoWhileStatement
-      // ForIn and ForOf are guarded by eslint version
+      DoWhileStatement(node) {
+        if (hasExcessParens(node.test) && !isCondAssignException(node))
+          report(node.test)
+      },
+      // ExportDefaultDeclaration
+      // ExpressionStatement
+      ForInStatement(node) {
+        if (isTypeAssertion(node.right)) {
+          // as of 7.20.0 there's no way to skip checking the right of the ForIn
+          // so just don't validate it at all
+          return
+        }
+        return rules.ForInStatement!(node)
+      },
+      ForOfStatement(node) {
+        if (isTypeAssertion(node.right)) {
+          // makes the rule skip checking of the right
+          return rules.ForOfStatement!({
+            ...node,
+            type: AST_NODE_TYPES.ForOfStatement,
+            right: {
+              ...node.right,
+              type: AST_NODE_TYPES.SequenceExpression as any,
+            },
+          })
+        }
+
+        return rules.ForOfStatement!(node)
+      },
       ForStatement(node) {
         // make the rule skip the piece by removing it entirely
         if (node.init && isTypeAssertion(node.init)) {
@@ -561,7 +683,21 @@ export default createRule<RuleOptions, MessageIds>({
         if (!isTypeAssertion(node))
           return (rules as any)['ForStatement > *.init:exit'](node)
       },
-      // IfStatement
+      IfStatement(node) {
+        if (hasExcessParens(node.test) && !isCondAssignException(node))
+          report(node.test)
+      },
+      ImportExpression(node) {
+        const { source } = node
+
+        if (source.type === 'SequenceExpression') {
+          if (hasDoubleExcessParens(source))
+            report(source)
+        }
+        else if (hasExcessParens(source)) {
+          report(source)
+        }
+      },
       'LogicalExpression': binaryExp,
       MemberExpression(node) {
         if (isTypeAssertion(node.object)) {
@@ -587,10 +723,69 @@ export default createRule<RuleOptions, MessageIds>({
 
         return rules.MemberExpression!(node)
       },
+      // TODO: use MethodDefinition directly
+      'MethodDefinition[computed=true]': function (node: Tree.MethodDefinition) {
+        if (hasExcessParensWithPrecedence(node.key, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          report(node.key)
+      },
       'NewExpression': callExp,
-      // ObjectExpression
-      // ReturnStatement
-      // SequenceExpression
+      ObjectExpression(node) {
+        node.properties
+          .filter((property): property is Tree.Property => property.type === 'Property' && property.value && hasExcessParensWithPrecedence(property.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          .forEach(property => report(property.value))
+      },
+      ObjectPattern(node) {
+        node.properties
+          .filter((property) => {
+            const value = property.value
+
+            return value && canBeAssignmentTarget(value) && hasExcessParens(value)
+          })
+          .forEach(property => report(property.value!))
+      },
+      Property(node) {
+        if (node.computed) {
+          const { key } = node
+
+          if (key && hasExcessParensWithPrecedence(key, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+            report(key)
+        }
+      },
+      PropertyDefinition(node) {
+        if (node.computed && hasExcessParensWithPrecedence(node.key, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          report(node.key)
+
+        if (node.value && hasExcessParensWithPrecedence(node.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          report(node.value)
+      },
+      RestElement(node) {
+        const argument = node.argument
+
+        if (canBeAssignmentTarget(argument) && hasExcessParens(argument))
+          report(argument)
+      },
+      ReturnStatement(node) {
+        const returnToken = sourceCode.getFirstToken(node)
+
+        if (isReturnAssignException(node))
+          return
+
+        if (node.argument
+          && returnToken
+          && hasExcessParensNoLineTerminator(returnToken, node.argument)
+
+        // RegExp literal is allowed to have parens (#1589)
+          && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex)) {
+          report(node.argument)
+        }
+      },
+      SequenceExpression(node) {
+        const precedenceOfNode = precedence(node)
+
+        node.expressions
+          .filter(e => hasExcessParensWithPrecedence(e, precedenceOfNode))
+          .forEach(report)
+      },
       SpreadElement(node) {
         if (isTypeAssertion(node.argument))
           return
@@ -608,6 +803,11 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasExcessParens(node.discriminant))
           report(node.discriminant)
       },
+      TemplateLiteral(node) {
+        node.expressions
+          .filter(e => e && hasExcessParens(e))
+          .forEach(report)
+      },
       ThrowStatement(node) {
         if (node.argument && !isTypeAssertion(node.argument))
           return rules.ThrowStatement!(node)
@@ -619,7 +819,6 @@ export default createRule<RuleOptions, MessageIds>({
         }
         return rules.UpdateExpression!(node)
       },
-      // VariableDeclarator
       VariableDeclarator(node) {
         if (isTypeAssertion(node.init)) {
           return rules.VariableDeclarator!({
@@ -634,8 +833,14 @@ export default createRule<RuleOptions, MessageIds>({
 
         return rules.VariableDeclarator!(node)
       },
-      // WhileStatement
-      // WithStatement - i'm not going to even bother implementing this terrible and never used feature
+      WhileStatement(node) {
+        if (hasExcessParens(node.test) && !isCondAssignException(node))
+          report(node.test)
+      },
+      WithStatement(node) {
+        if (hasExcessParens(node.object))
+          report(node.object)
+      },
       YieldExpression(node) {
         if (!node.argument || isTypeAssertion(node.argument))
           return
@@ -648,29 +853,6 @@ export default createRule<RuleOptions, MessageIds>({
         || hasDoubleExcessParens(node.argument)) {
           report(node.argument)
         }
-      },
-      ForInStatement(node) {
-        if (isTypeAssertion(node.right)) {
-          // as of 7.20.0 there's no way to skip checking the right of the ForIn
-          // so just don't validate it at all
-          return
-        }
-        return rules.ForInStatement!(node)
-      },
-      ForOfStatement(node) {
-        if (isTypeAssertion(node.right)) {
-          // makes the rule skip checking of the right
-          return rules.ForOfStatement!({
-            ...node,
-            type: AST_NODE_TYPES.ForOfStatement,
-            right: {
-              ...node.right,
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          })
-        }
-
-        return rules.ForOfStatement!(node)
       },
       TSStringKeyword(node) {
         if (hasExcessParens(node)) {
