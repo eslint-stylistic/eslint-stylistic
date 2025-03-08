@@ -846,8 +846,18 @@ export default createRule<RuleOptions, MessageIds>({
         }
       },
       VariableDeclarator(node) {
+        const rule = (node: Tree.VariableDeclarator) => {
+          if (
+            node.init && hasExcessParensWithPrecedence(node.init, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+
+            // RegExp literal is allowed to have parens (#1589)
+            && !(node.init.type === 'Literal' && 'regex' in node.init && node.init.regex)
+          ) {
+            report(node.init)
+          }
+        }
         if (isTypeAssertion(node.init)) {
-          return rules.VariableDeclarator!({
+          return rule({
             ...node,
             type: AST_NODE_TYPES.VariableDeclarator,
             init: {
@@ -857,7 +867,7 @@ export default createRule<RuleOptions, MessageIds>({
           } as any)
         }
 
-        return rules.VariableDeclarator!(node)
+        return rule(node)
       },
       WhileStatement(node) {
         if (hasExcessParens(node.test) && !isCondAssignException(node))
