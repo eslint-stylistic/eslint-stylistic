@@ -809,8 +809,15 @@ export default createRule<RuleOptions, MessageIds>({
           .forEach(report)
       },
       ThrowStatement(node) {
-        if (node.argument && !isTypeAssertion(node.argument))
-          return rules.ThrowStatement!(node)
+        if (!node.argument || isTypeAssertion(node.argument))
+          return
+
+        const throwToken = sourceCode.getFirstToken(node)
+        if (!throwToken)
+          return
+
+        if (hasExcessParensNoLineTerminator(throwToken, node.argument))
+          report(node.argument)
       },
       'UnaryExpression': unaryUpdateExpression,
       UpdateExpression(node) {
