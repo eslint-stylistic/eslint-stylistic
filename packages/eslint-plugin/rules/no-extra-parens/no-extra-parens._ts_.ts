@@ -1257,8 +1257,7 @@ export default createRule<RuleOptions, MessageIds>({
               node.computed
               || !(
                 isDecimalInteger(node.object)
-
-                // RegExp literal is allowed to have parens (#1589)
+                // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
                 || (node.object.type === 'Literal' && 'regex' in node.object && node.object.regex)
               )
             )
@@ -1360,12 +1359,13 @@ export default createRule<RuleOptions, MessageIds>({
         if (isReturnAssignException(node))
           return
 
-        if (node.argument
+        if (
+          node.argument
           && returnToken
           && hasExcessParensNoLineTerminator(returnToken, node.argument)
-
-        // RegExp literal is allowed to have parens (#1589)
-          && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex)) {
+          // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
+          && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex)
+        ) {
           report(node.argument)
         }
       },
@@ -1435,8 +1435,7 @@ export default createRule<RuleOptions, MessageIds>({
         const rule = (node: Tree.VariableDeclarator) => {
           if (
             node.init && hasExcessParensWithPrecedence(node.init, PRECEDENCE_OF_ASSIGNMENT_EXPR)
-
-            // RegExp literal is allowed to have parens (#1589)
+            // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
             && !(node.init.type === 'Literal' && 'regex' in node.init && node.init.regex)
           ) {
             report(node.init)
