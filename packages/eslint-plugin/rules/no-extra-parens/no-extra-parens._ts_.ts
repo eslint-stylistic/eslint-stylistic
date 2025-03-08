@@ -20,7 +20,7 @@ import {
 import { castRuleModule, createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
-import _baseRule, { tokensToIgnore } from './no-extra-parens._js_'
+import _baseRule from './no-extra-parens._js_'
 
 const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
@@ -41,7 +41,7 @@ export default createRule<RuleOptions, MessageIds>({
   create(context) {
     const sourceCode = context.sourceCode
 
-    // const tokensToIgnore = new WeakSet()
+    const tokensToIgnore = new WeakSet()
     const precedence = getPrecedence
     const ALL_NODES = context.options[0] !== 'functions'
     const EXCEPT_COND_ASSIGN = ALL_NODES && context.options[1]
