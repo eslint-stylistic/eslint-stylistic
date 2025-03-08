@@ -673,10 +673,12 @@ export default createRule<RuleOptions, MessageIds>({
         return rules.ForOfStatement!(node)
       },
       TSStringKeyword(node) {
-        return rules.TSStringKeyword!({
-          ...node,
-          type: AST_NODE_TYPES.FunctionExpression as any,
-        })
+        if (hasExcessParens(node)) {
+          report({
+            ...node,
+            type: AST_NODE_TYPES.FunctionExpression as any,
+          })
+        }
       },
     }
     return Object.assign({}, rules, overrides)
