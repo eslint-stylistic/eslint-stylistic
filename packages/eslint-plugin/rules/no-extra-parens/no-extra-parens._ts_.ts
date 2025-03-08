@@ -344,10 +344,48 @@ export default createRule<RuleOptions, MessageIds>({
       return hasDoubleExcessParens(node)
     }
 
-    function callExp(
+    function checkCallNew(
       node: Tree.CallExpression | Tree.NewExpression,
     ): void {
-      const rule = rules.CallExpression as (n: typeof node) => void
+      const rule = (node: Tree.CallExpression | Tree.NewExpression) => {
+        const callee = node.callee
+
+        if (hasExcessParensWithPrecedence(callee, precedence(node))) {
+          if (
+            hasDoubleExcessParens(callee)
+            || !(
+              isIIFE(node)
+              // (new A)(); new (new A)();
+              || (
+                callee.type === 'NewExpression'
+                && !isNewExpressionWithParens(callee)
+                && !(
+                  node.type === 'NewExpression'
+                  && !isNewExpressionWithParens(node)
+                )
+              )
+
+              // new (a().b)(); new (a.b().c);
+              || (
+                node.type === 'NewExpression'
+                && callee.type === 'MemberExpression'
+                && doesMemberExpressionContainCallExpression(callee)
+              )
+
+              // (a?.b)(); (a?.())();
+              || (
+                (!('optional' in node) || !node.optional)
+                && callee.type === 'ChainExpression'
+              )
+            )
+          ) {
+            report(node.callee)
+          }
+        }
+        node.arguments
+          .filter(arg => hasExcessParensWithPrecedence(arg, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          .forEach(report)
+      }
 
       if (isTypeAssertion(node.callee)) {
         // reduces the precedence of the node so the rule thinks it needs to be wrapped
@@ -778,7 +816,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         checkBinaryLogical(node)
       },
-      'CallExpression': callExp,
+      'CallExpression': checkCallNew,
       ClassDeclaration(node) {
         if (node.superClass?.type === AST_NODE_TYPES.TSAsExpression) {
           return checkClass({
@@ -1058,7 +1096,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasExcessParensWithPrecedence(node.key, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           report(node.key)
       },
-      'NewExpression': callExp,
+      'NewExpression': checkCallNew,
       ObjectExpression(node) {
         node.properties
           .filter((property): property is Tree.Property => property.type === 'Property' && property.value && hasExcessParensWithPrecedence(property.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
