@@ -1099,35 +1099,20 @@ export default createRule<RuleOptions, MessageIds>({
           report(node.right)
       },
       ForOfStatement(node) {
-        const rule = (node: Tree.ForOfStatement) => {
-          if (node.left.type !== 'VariableDeclaration') {
-            const firstLeftToken = sourceCode.getFirstToken(node.left, isNotOpeningParenToken)!
+        if (node.left.type !== 'VariableDeclaration') {
+          const firstLeftToken = sourceCode.getFirstToken(node.left, isNotOpeningParenToken)!
 
-            if (firstLeftToken.value === 'let') {
+          if (firstLeftToken.value === 'let') {
             // ForOfStatement#left expression cannot start with `let`.
-              tokensToIgnore.add(firstLeftToken)
-            }
+            tokensToIgnore.add(firstLeftToken)
           }
-
-          if (hasExcessParens(node.left))
-            report(node.left)
-
-          if (hasExcessParensWithPrecedence(node.right, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-            report(node.right)
-        }
-        if (isTypeAssertion(node.right)) {
-          // makes the rule skip checking of the right
-          return rule({
-            ...node,
-            type: AST_NODE_TYPES.ForOfStatement,
-            right: {
-              ...node.right,
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          })
         }
 
-        return rule(node)
+        if (hasExcessParens(node.left))
+          report(node.left)
+
+        if (!isTypeAssertion(node.right) && hasExcessParensWithPrecedence(node.right, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          report(node.right)
       },
       ForStatement(node) {
         if (node.test && hasExcessParens(node.test) && !isCondAssignException(node) && !isTypeAssertion(node.test))
