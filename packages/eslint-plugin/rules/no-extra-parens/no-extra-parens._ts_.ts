@@ -377,6 +377,16 @@ export default createRule<RuleOptions, MessageIds>({
       finishReport()
     }
 
+    /**
+     * Evaluate a argument of the node.
+     * @param node node to evaluate
+     * @private
+     */
+    function checkArgumentWithPrecedence(node: ASTNode) {
+      if ('argument' in node && node.argument && hasExcessParensWithPrecedence(node.argument, precedence(node)))
+        report(node.argument)
+    }
+
     const overrides: TSESLint.RuleListener = {
       ArrayExpression(node) {
         node.elements
@@ -396,7 +406,7 @@ export default createRule<RuleOptions, MessageIds>({
       AwaitExpression(node) {
         if (isTypeAssertion(node.argument)) {
           // reduces the precedence of the node so the rule thinks it needs to be wrapped
-          return rules.AwaitExpression!({
+          return checkArgumentWithPrecedence({
             ...node,
             argument: {
               ...node.argument,
@@ -404,7 +414,7 @@ export default createRule<RuleOptions, MessageIds>({
             },
           })
         }
-        return rules.AwaitExpression!(node)
+        return checkArgumentWithPrecedence(node)
       },
       'BinaryExpression': binaryExp,
       'CallExpression': callExp,
