@@ -828,7 +828,22 @@ export default createRule<RuleOptions, MessageIds>({
         if (isTypeAssertion(node.argument)) {
           return unaryUpdateExpression(node)
         }
-        return rules.UpdateExpression!(node)
+
+        if (node.prefix) {
+          checkArgumentWithPrecedence(node)
+        }
+        else {
+          const { argument } = node
+          const operatorToken = sourceCode.getLastToken(node)!
+
+          if (argument.loc.end.line === operatorToken.loc.start.line) {
+            checkArgumentWithPrecedence(node)
+          }
+          else {
+            if (hasDoubleExcessParens(argument))
+              report(argument)
+          }
+        }
       },
       VariableDeclarator(node) {
         if (isTypeAssertion(node.init)) {
