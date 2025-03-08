@@ -723,9 +723,25 @@ export default createRule<RuleOptions, MessageIds>({
           report(node.right)
       },
       ForOfStatement(node) {
+        const rule = (node: Tree.ForOfStatement) => {
+          if (node.left.type !== 'VariableDeclaration') {
+            const firstLeftToken = sourceCode.getFirstToken(node.left, isNotOpeningParenToken)!
+
+            if (firstLeftToken.value === 'let') {
+            // ForOfStatement#left expression cannot start with `let`.
+              tokensToIgnore.add(firstLeftToken)
+            }
+          }
+
+          if (hasExcessParens(node.left))
+            report(node.left)
+
+          if (hasExcessParensWithPrecedence(node.right, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+            report(node.right)
+        }
         if (isTypeAssertion(node.right)) {
           // makes the rule skip checking of the right
-          return rules.ForOfStatement!({
+          return rule({
             ...node,
             type: AST_NODE_TYPES.ForOfStatement,
             right: {
@@ -735,7 +751,7 @@ export default createRule<RuleOptions, MessageIds>({
           })
         }
 
-        return rules.ForOfStatement!(node)
+        return rule(node)
       },
       ForStatement(node) {
         // make the rule skip the piece by removing it entirely
