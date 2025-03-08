@@ -4,7 +4,7 @@
  * This is done intentionally based on the internal implementation of the base indent rule.
  */
 
-import type { ASTNode, JSONSchema, ReportFixFunction, RuleFunction, Token, Tree } from '#types'
+import type { ASTNode, JSONSchema, RuleFunction, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { castRuleModule, createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
@@ -318,7 +318,7 @@ export default createRule<RuleOptions, MessageIds>({
         indentType = 'space'
       }
 
-      const userOptions = context.options[1]
+      const userOptions = optionsWithDefaults[1]
       if (userOptions) {
         Object.assign(options, userOptions)
 
@@ -383,17 +383,6 @@ export default createRule<RuleOptions, MessageIds>({
 
       const indent = regExp.exec(src)
       return indent ? indent[0].length : 0
-    }
-
-    const indentChar = indentType === 'space' ? ' ' : '\t'
-    function getFixerFunction(node: Tree.Literal | Tree.JSXText, needed: number): ReportFixFunction {
-      const indent = new Array(needed + 1).join(indentChar)
-
-      return function fix(fixer) {
-        const regExp = /\n[\t ]*(\S)/g
-        const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indent}${p1}`)
-        return fixer.replaceText(node, fixedText)
-      }
     }
 
     /**
@@ -479,7 +468,13 @@ export default createRule<RuleOptions, MessageIds>({
               node,
               messageId: 'wrongIndentation',
               data: createErrorMessageData(indent, nodeIndent, nodeIndent),
-              fix: getFixerFunction(node, indent),
+              fix(fixer) {
+                const indentChar = indentType === 'space' ? ' ' : '\t'
+                const indentStr = new Array(indent + 1).join(indentChar)
+                const regExp = /\n[\t ]*(\S)/g
+                const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indentStr}${p1}`)
+                return fixer.replaceText(node, fixedText)
+              },
             })
           })
         }
