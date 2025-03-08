@@ -8,6 +8,9 @@ import {
   getStaticPropertyName,
   isClosingParenToken,
   isDecimalInteger,
+  isNotClosingParenToken,
+  isNotOpeningParenToken,
+  isOpeningBracketToken,
   isParenthesized as isParenthesizedRaw,
   isTopLevelExpressionStatement,
   skipChainExpression,
@@ -698,7 +701,26 @@ export default createRule<RuleOptions, MessageIds>({
           // so just don't validate it at all
           return
         }
-        return rules.ForInStatement!(node)
+
+        if (node.left.type !== 'VariableDeclaration') {
+          const firstLeftToken = sourceCode.getFirstToken(node.left, isNotOpeningParenToken)!
+
+          if (
+            firstLeftToken.value === 'let'
+            && isOpeningBracketToken(
+              sourceCode.getTokenAfter(firstLeftToken, isNotClosingParenToken)!,
+            )
+          ) {
+            // ForInStatement#left expression cannot start with `let[`.
+            tokensToIgnore.add(firstLeftToken)
+          }
+        }
+
+        if (hasExcessParens(node.left))
+          report(node.left)
+
+        if (hasExcessParens(node.right))
+          report(node.right)
       },
       ForOfStatement(node) {
         if (isTypeAssertion(node.right)) {
