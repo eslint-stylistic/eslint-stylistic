@@ -15,9 +15,60 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'quote-props',
   package: 'ts',
   meta: {
-    ...baseRule.meta,
+    type: 'layout',
     docs: {
       description: 'Require quotes around object literal, type literal, interfaces and enums property names',
+    },
+    fixable: 'code',
+    schema: {
+      anyOf: [
+        {
+          type: 'array',
+          items: [
+            {
+              type: 'string',
+              enum: ['always', 'as-needed', 'consistent', 'consistent-as-needed'],
+            },
+          ],
+          minItems: 0,
+          maxItems: 1,
+        },
+        {
+          type: 'array',
+          items: [
+            {
+              type: 'string',
+              enum: ['always', 'as-needed', 'consistent', 'consistent-as-needed'],
+            },
+            {
+              type: 'object',
+              properties: {
+                keywords: {
+                  type: 'boolean',
+                },
+                unnecessary: {
+                  type: 'boolean',
+                },
+                numbers: {
+                  type: 'boolean',
+                },
+              },
+              additionalProperties: false,
+            },
+          ],
+          minItems: 0,
+          maxItems: 2,
+        },
+      ],
+    },
+    messages: {
+      requireQuotesDueToReservedWord: 'Properties should be quoted as \'{{property}}\' is a reserved word.',
+      inconsistentlyQuotedProperty: 'Inconsistently quoted property \'{{key}}\' found.',
+      unnecessarilyQuotedProperty: 'Unnecessarily quoted property \'{{property}}\' found.',
+      unquotedReservedProperty: 'Unquoted reserved word \'{{property}}\' used as key.',
+      unquotedNumericProperty: 'Unquoted number literal \'{{property}}\' used as key.',
+      unquotedPropertyFound: 'Unquoted property \'{{property}}\' found.',
+      redundantQuoting: 'Properties shouldn\'t be quoted as all quotes are redundant.',
     },
   },
   defaultOptions: ['always'],
