@@ -1,30 +1,53 @@
-import type { Tree } from '#types'
+import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { castRuleModule, createRule } from '#utils/create-rule'
+import { isNotCommaToken } from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import {
   isClosingBraceToken,
   isClosingBracketToken,
   isTokenOnSameLine,
 } from '@typescript-eslint/utils/ast-utils'
-import _baseRule from './object-curly-spacing._js_'
-
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-curly-spacing',
   package: 'ts',
   meta: {
-    ...baseRule.meta,
+    type: 'layout',
     docs: {
       description: 'Enforce consistent spacing inside braces',
+    },
+    fixable: 'whitespace',
+    schema: [
+      {
+        type: 'string',
+        enum: ['always', 'never'],
+      },
+      {
+        type: 'object',
+        properties: {
+          arraysInObjects: {
+            type: 'boolean',
+          },
+          objectsInObjects: {
+            type: 'boolean',
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
+    messages: {
+      requireSpaceBefore: 'A space is required before \'{{token}}\'.',
+      requireSpaceAfter: 'A space is required after \'{{token}}\'.',
+      unexpectedSpaceBefore: 'There should be no space before \'{{token}}\'.',
+      unexpectedSpaceAfter: 'There should be no space after \'{{token}}\'.',
     },
   },
   defaultOptions: ['never'],
   create(context) {
     const [firstOption, secondOption] = context.options
     const spaced = firstOption === 'always'
-    const sourceCode = context.sourceCode || context.getSourceCode()
+    const sourceCode = context.sourceCode
 
     /**
      * Determines whether an option is set, relative to the spacing option.
@@ -34,7 +57,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns Whether or not the property is excluded.
      */
     function isOptionSet(
-      option: 'arraysInObjects' | 'objectsInObjects',
+      option: keyof NonNullable<RuleOptions[1]>,
     ): boolean {
       return secondOption ? secondOption[option] === !spaced : false
     }
@@ -51,7 +74,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param token The token to use for the report.
      */
     function reportNoBeginningSpace(
-      node: Tree.TSMappedType | Tree.TSTypeLiteral,
+      node: ASTNode,
       token: Tree.Token,
     ): void {
       const nextToken = sourceCode.getTokenAfter(token, { includeComments: true })!
@@ -75,7 +98,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param token The token to use for the report.
      */
     function reportNoEndingSpace(
-      node: Tree.TSMappedType | Tree.TSTypeLiteral,
+      node: ASTNode,
       token: Tree.Token,
     ): void {
       const previousToken = sourceCode.getTokenBefore(token, { includeComments: true })!
@@ -99,7 +122,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param token The token to use for the report.
      */
     function reportRequiredBeginningSpace(
-      node: Tree.TSMappedType | Tree.TSTypeLiteral,
+      node: ASTNode,
       token: Tree.Token,
     ): void {
       context.report({
@@ -121,7 +144,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param token The token to use for the report.
      */
     function reportRequiredEndingSpace(
-      node: Tree.TSMappedType | Tree.TSTypeLiteral,
+      node: ASTNode,
       token: Tree.Token,
     ): void {
       context.report({
@@ -146,7 +169,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param last The last token to check (should be closing brace)
      */
     function validateBraceSpacing(
-      node: Tree.TSMappedType | Tree.TSTypeLiteral,
+      node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.ImportDeclaration | Tree.ExportNamedDeclaration | Tree.TSMappedType | Tree.TSTypeLiteral,
       first: Tree.Token,
       second: Tree.Token,
       penultimate: Tree.Token,
@@ -190,14 +213,23 @@ export default createRule<RuleOptions, MessageIds>({
           : undefined
 
         const closingCurlyBraceMustBeSpaced
-          = (options.arraysInObjectsException
-            && penultimateType === AST_NODE_TYPES.TSTupleType)
-          || (options.objectsInObjectsException
+          = (
+            options.arraysInObjectsException
+            && [
+              AST_NODE_TYPES.ArrayExpression,
+              AST_NODE_TYPES.TSTupleType,
+            ].includes(penultimateType!)
+          )
+          || (
+            options.objectsInObjectsException
             && penultimateType !== undefined
             && [
+              AST_NODE_TYPES.ObjectExpression,
+              AST_NODE_TYPES.ObjectPattern,
               AST_NODE_TYPES.TSMappedType,
               AST_NODE_TYPES.TSTypeLiteral,
-            ].includes(penultimateType))
+            ].includes(penultimateType)
+          )
             ? !options.spaced
             : options.spaced
 
@@ -223,16 +255,85 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns '}' token.
      */
     function getClosingBraceOfObject(
-      node: Tree.TSTypeLiteral,
+      node: Tree.ObjectPattern | Tree.ObjectExpression | Tree.TSTypeLiteral,
     ): Tree.Token | null {
-      const lastProperty = node.members[node.members.length - 1]
+      const lastProperty = node.type === 'TSTypeLiteral'
+        ? node.members[node.members.length - 1]
+        : node.properties[node.properties.length - 1]
 
       return sourceCode.getTokenAfter(lastProperty, isClosingBraceToken)
     }
 
-    const rules = baseRule.create(context)
+    /**
+     * Reports a given object node if spacing in curly braces is invalid.
+     * @param node An ObjectExpression or ObjectPattern node to check.
+     */
+    function checkForObject(node:
+      | Tree.ObjectExpression
+      | Tree.ObjectPattern) {
+      if (node.properties.length === 0)
+        return
+
+      const first = sourceCode.getFirstToken(node)!
+      const last = getClosingBraceOfObject(node)!
+      const second = sourceCode.getTokenAfter(first, { includeComments: true })!
+      const penultimate = sourceCode.getTokenBefore(last, { includeComments: true })!
+
+      validateBraceSpacing(node, first, second, penultimate, last)
+    }
+
+    /**
+     * Reports a given import node if spacing in curly braces is invalid.
+     * @param node An ImportDeclaration node to check.
+     */
+    function checkForImport(node: Tree.ImportDeclaration) {
+      if (node.specifiers.length === 0)
+        return
+
+      let firstSpecifier = node.specifiers[0]
+      const lastSpecifier = node.specifiers[node.specifiers.length - 1]
+
+      if (lastSpecifier.type !== 'ImportSpecifier')
+        return
+
+      if (firstSpecifier.type !== 'ImportSpecifier')
+        firstSpecifier = node.specifiers[1]
+
+      const first = sourceCode.getTokenBefore(firstSpecifier)!
+      const last = sourceCode.getTokenAfter(lastSpecifier, isNotCommaToken)!
+      const second = sourceCode.getTokenAfter(first, { includeComments: true })!
+      const penultimate = sourceCode.getTokenBefore(last, { includeComments: true })!
+
+      validateBraceSpacing(node, first, second, penultimate, last)
+    }
+
+    /**
+     * Reports a given export node if spacing in curly braces is invalid.
+     * @param node An ExportNamedDeclaration node to check.
+     */
+    function checkForExport(node: Tree.ExportNamedDeclaration) {
+      if (node.specifiers.length === 0)
+        return
+
+      const firstSpecifier = node.specifiers[0]
+      const lastSpecifier = node.specifiers[node.specifiers.length - 1]
+      const first = sourceCode.getTokenBefore(firstSpecifier)!
+      const last = sourceCode.getTokenAfter(lastSpecifier, isNotCommaToken)!
+      const second = sourceCode.getTokenAfter(first, { includeComments: true })!
+      const penultimate = sourceCode.getTokenBefore(last, { includeComments: true })!
+
+      validateBraceSpacing(node, first, second, penultimate, last)
+    }
+
     return {
-      ...rules,
+      // var {x} = y;
+      ObjectPattern: checkForObject,
+      // var y = {x: 'y'}
+      ObjectExpression: checkForObject,
+      // import {y} from 'x';
+      ImportDeclaration: checkForImport,
+      // export {name} from 'yo';
+      ExportNamedDeclaration: checkForExport,
       TSMappedType(node: Tree.TSMappedType): void {
         const first = sourceCode.getFirstToken(node)!
         const last = sourceCode.getLastToken(node)!
