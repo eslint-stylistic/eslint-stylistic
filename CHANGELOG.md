@@ -1,5 +1,19 @@
 # Changelog
 
+## [4.2.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.2.0...v4.2.1) (2025-03-10)
+
+
+### Chores
+
+* `comma-dangle` ([#716](https://github.com/eslint-stylistic/eslint-stylistic/issues/716)) ([7e55b16](https://github.com/eslint-stylistic/eslint-stylistic/commit/7e55b1645d228ee7471bfdd71ff92bf9a7a0cd16))
+* merge `brace-style` ([#715](https://github.com/eslint-stylistic/eslint-stylistic/issues/715)) ([5769933](https://github.com/eslint-stylistic/eslint-stylistic/commit/5769933da4c402fd54a59cfeb664f172c27948eb))
+* merge `indent` ([#713](https://github.com/eslint-stylistic/eslint-stylistic/issues/713)) ([a57c2bb](https://github.com/eslint-stylistic/eslint-stylistic/commit/a57c2bb27226d5daf3098f09444ff91de2338084))
+* merge `no-extra-parens` ([#711](https://github.com/eslint-stylistic/eslint-stylistic/issues/711)) ([d6809c9](https://github.com/eslint-stylistic/eslint-stylistic/commit/d6809c910510a4477e01ea248071f0701d0af4ed))
+* merge `object-property-newline` ([#719](https://github.com/eslint-stylistic/eslint-stylistic/issues/719)) ([d49ef91](https://github.com/eslint-stylistic/eslint-stylistic/commit/d49ef91e765938c60e2b344391a0d5a09c85bdc1))
+* merge `quotes` ([#720](https://github.com/eslint-stylistic/eslint-stylistic/issues/720)) ([9284830](https://github.com/eslint-stylistic/eslint-stylistic/commit/9284830c2b816c66b8ae50bd4e0c0ecff1ad555e))
+* merge object-curly-newline ([#717](https://github.com/eslint-stylistic/eslint-stylistic/issues/717)) ([0d3e33b](https://github.com/eslint-stylistic/eslint-stylistic/commit/0d3e33bda279dfc532efd4f6cafeb0b1881a3f9e))
+* merge object-curly-spacing ([#718](https://github.com/eslint-stylistic/eslint-stylistic/issues/718)) ([d943ef0](https://github.com/eslint-stylistic/eslint-stylistic/commit/d943ef0c41a59ad361a2e14ea80058c3c0f9a2a6))
+
 ## [4.2.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.1.0...v4.2.0) (2025-03-03)
 
 
