@@ -1,28 +1,9 @@
-import type { ASTNode, JSONSchema, Token } from '#types'
+import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types._ts_'
 import { isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
-import { castRuleModule, createRule } from '#utils/create-rule'
-import { deepMerge } from '#utils/merge'
+import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import _baseRule from './lines-between-class-members._js_'
 
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
-
-const schema = Object.values(
-  deepMerge(
-    { ...baseRule.meta.schema },
-    {
-      1: {
-        properties: {
-          exceptAfterOverload: {
-            type: 'boolean',
-            default: true,
-          },
-        },
-      },
-    },
-  ),
-) as JSONSchema.JSONSchema4[]
 type NodeTest = (
   node: ASTNode
 ) => boolean
@@ -50,9 +31,55 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Require or disallow an empty line between class members',
     },
     fixable: 'whitespace',
-    hasSuggestions: baseRule.meta.hasSuggestions,
-    schema,
-    messages: baseRule.meta.messages,
+    schema: [
+      {
+        anyOf: [
+          {
+            type: 'object',
+            properties: {
+              enforce: {
+                type: 'array',
+                items: {
+                  type: 'object',
+                  properties: {
+                    blankLine: { type: 'string', enum: ['always', 'never'] },
+                    prev: { type: 'string', enum: ['method', 'field', '*'] },
+                    next: { type: 'string', enum: ['method', 'field', '*'] },
+                  },
+                  additionalProperties: false,
+                  required: ['blankLine', 'prev', 'next'],
+                },
+                minItems: 1,
+              },
+            },
+            additionalProperties: false,
+            required: ['enforce'],
+          },
+          {
+            type: 'string',
+            enum: ['always', 'never'],
+          },
+        ],
+      },
+      {
+        type: 'object',
+        properties: {
+          exceptAfterSingleLine: {
+            type: 'boolean',
+            default: false,
+          },
+          exceptAfterOverload: {
+            type: 'boolean',
+            default: true,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
+    messages: {
+      never: 'Unexpected blank line between class members.',
+      always: 'Expected blank line between class members.',
+    },
   },
   defaultOptions: [
     'always',
