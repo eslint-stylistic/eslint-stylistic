@@ -16,6 +16,7 @@ import type { NoExtraSemiRuleOptions } from '../../eslint-plugin/rules/no-extra-
 import type { ObjectCurlyNewlineRuleOptions } from '../../eslint-plugin/rules/object-curly-newline/types'
 import type { ObjectCurlySpacingRuleOptions } from '../../eslint-plugin/rules/object-curly-spacing/types'
 import type { ObjectPropertyNewlineRuleOptions } from '../../eslint-plugin/rules/object-property-newline/types'
+import type { OperatorLinebreakRuleOptions } from '../../eslint-plugin/rules/operator-linebreak/types'
 import type { PaddingLineBetweenStatementsRuleOptions } from '../../eslint-plugin/rules/padding-line-between-statements/types._ts_'
 import type { QuotePropsRuleOptions } from '../../eslint-plugin/rules/quote-props/types'
 import type { QuotesRuleOptions } from '../../eslint-plugin/rules/quotes/types'
@@ -112,6 +113,11 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/ts/object-property-newline
    */
   '@stylistic/ts/object-property-newline': ObjectPropertyNewlineRuleOptions
+  /**
+   * Enforce consistent linebreak style for operators
+   * @see https://eslint.style/rules/ts/operator-linebreak
+   */
+  '@stylistic/ts/operator-linebreak': OperatorLinebreakRuleOptions
   /**
    * Require or disallow padding lines between statements
    * @see https://eslint.style/rules/ts/padding-line-between-statements
@@ -245,6 +251,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/ts/object-property-newline
    */
   'object-property-newline': ObjectPropertyNewlineRuleOptions
+  /**
+   * Enforce consistent linebreak style for operators
+   * @see https://eslint.style/rules/ts/operator-linebreak
+   */
+  'operator-linebreak': OperatorLinebreakRuleOptions
   /**
    * Require or disallow padding lines between statements
    * @see https://eslint.style/rules/ts/padding-line-between-statements

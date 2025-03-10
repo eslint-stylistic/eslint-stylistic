@@ -2,6 +2,7 @@
  * @fileoverview Operator linebreak - enforces operator linebreak style of two types: after and before
  * @author Benoît Zugmeyer
  */
+// TODO: Stage 3: Isn't inherited by ts version, can delete directly
 
 import type { ASTNode, ReportFixFunction, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
