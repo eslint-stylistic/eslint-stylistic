@@ -196,8 +196,8 @@ export default createRule<RuleOptions, MessageIds>({
     function checkForPropertyDefinitionAssignmentSpace(
       node: Tree.PropertyDefinition,
     ): void {
-      const leftNode
-        = node.optional && !node.typeAnnotation
+      const leftNode =
+        node.optional && !node.typeAnnotation
           ? sourceCode.getTokenAfter(node.key)
           : node.typeAnnotation ?? node.key
 
@@ -214,8 +214,8 @@ export default createRule<RuleOptions, MessageIds>({
       const types = typeAnnotation.types
 
       types.forEach((type) => {
-        const skipFunctionParenthesis
-          = type.type === AST_NODE_TYPES.TSFunctionType
+        const skipFunctionParenthesis =
+          type.type === AST_NODE_TYPES.TSFunctionType
             ? isNotOpeningParenToken
             : 0
         const operator = sourceCode.getTokenBefore(

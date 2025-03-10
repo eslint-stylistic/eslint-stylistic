@@ -210,8 +210,8 @@ export default createRule<Options, MessageIds>({
         }
       }
 
-      const previousDelta
-        = punctuatorTokenStart.range[0] - previousToken.range[1]
+      const previousDelta =
+        punctuatorTokenStart.range[0] - previousToken.range[1]
       const nextDelta = nextNode.range[0] - punctuatorTokenEnd.range[1]
 
       if (after && nextDelta === 0) {

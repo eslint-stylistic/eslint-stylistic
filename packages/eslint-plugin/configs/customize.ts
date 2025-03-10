@@ -104,7 +104,7 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
     '@stylistic/no-trailing-spaces': 'error',
     '@stylistic/no-whitespace-before-property': 'error',
     '@stylistic/object-curly-spacing': ['error', 'always'],
-    '@stylistic/operator-linebreak': ['error', 'before'],
+    '@stylistic/operator-linebreak': ['error', 'before', { overrides: { '=': 'after' } }],
     '@stylistic/padded-blocks': ['error', { blocks: 'never', classes: 'never', switches: 'never' }],
     '@stylistic/quote-props': ['error', quoteProps],
     '@stylistic/quotes': ['error', quotes, { allowTemplateLiterals: true, avoidEscape: false }],

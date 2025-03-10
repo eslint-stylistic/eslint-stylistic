@@ -470,9 +470,9 @@ export default createRule<RuleOptions, MessageIds>({
     function getPaddingType(prevNode: ASTNode, nextNode: ASTNode) {
       for (let i = configureList.length - 1; i >= 0; --i) {
         const configure = configureList[i]
-        const matched
-                    = match(prevNode, configure.prev)
-                      && match(nextNode, configure.next)
+        const matched =
+                    match(prevNode, configure.prev)
+                    && match(nextNode, configure.next)
 
         if (matched)
           return PaddingTypes[configure.blankLine]
@@ -516,9 +516,9 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function verify(node: ASTNode): void {
       const parentType = node.parent!.type
-      const validParent
-                = STATEMENT_LIST_PARENTS.has(parentType)
-                  || parentType === 'SwitchStatement'
+      const validParent =
+                STATEMENT_LIST_PARENTS.has(parentType)
+                || parentType === 'SwitchStatement'
 
       if (!validParent)
         return
