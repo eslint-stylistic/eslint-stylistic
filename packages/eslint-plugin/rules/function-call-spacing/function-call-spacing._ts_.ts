@@ -96,8 +96,8 @@ export default createRule<RuleOptions, MessageIds>({
         .slice(leftToken.range[1], rightToken.range[0])
         .replace(/\/\*.*?\*\//gu, '')
       const hasWhitespace = /\s/u.test(textBetweenTokens)
-      const hasNewline
-        = hasWhitespace && LINEBREAK_MATCHER.test(textBetweenTokens)
+      const hasNewline =
+        hasWhitespace && LINEBREAK_MATCHER.test(textBetweenTokens)
 
       if (option === 'never') {
         if (hasWhitespace) {

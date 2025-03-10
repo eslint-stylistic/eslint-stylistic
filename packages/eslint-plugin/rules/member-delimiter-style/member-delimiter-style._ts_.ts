@@ -328,8 +328,8 @@ export default createRule<Options, MessageIds>({
           isSingleLine = true
       }
 
-      const typeOpts
-        = node.type === AST_NODE_TYPES.TSInterfaceBody
+      const typeOpts =
+        node.type === AST_NODE_TYPES.TSInterfaceBody
           ? interfaceOptions
           : typeLiteralOptions
       const opts = isSingleLine

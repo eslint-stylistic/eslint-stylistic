@@ -5,8 +5,8 @@ import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isCommentToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
-const COMMENTS_IGNORE_PATTERN
-  = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
+const COMMENTS_IGNORE_PATTERN =
+  /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
 
 /**
  * @returns an array with with any line numbers that are empty.
@@ -419,71 +419,71 @@ export default createRule<RuleOptions, MessageIds>({
       if (codeAroundComment(token))
         return
 
-      const blockStartAllowed
-        = Boolean(options.allowBlockStart)
-          && isCommentAtBlockStart(token)
-          && !(options.allowClassStart === false && isCommentAtClassStart(token))
-      const blockEndAllowed
-        = Boolean(options.allowBlockEnd)
-          && isCommentAtBlockEnd(token)
-          && !(
-            options.allowClassEnd === false
-            && isCommentAtClassEnd(token)
-          )
-      const classStartAllowed
-        = Boolean(options.allowClassStart)
-          && isCommentAtClassStart(token)
-      const classEndAllowed
-        = Boolean(options.allowClassEnd)
+      const blockStartAllowed =
+        Boolean(options.allowBlockStart)
+        && isCommentAtBlockStart(token)
+        && !(options.allowClassStart === false && isCommentAtClassStart(token))
+      const blockEndAllowed =
+        Boolean(options.allowBlockEnd)
+        && isCommentAtBlockEnd(token)
+        && !(
+          options.allowClassEnd === false
           && isCommentAtClassEnd(token)
-      const objectStartAllowed
-        = Boolean(options.allowObjectStart)
-          && isCommentAtObjectStart(token)
-      const objectEndAllowed
-        = Boolean(options.allowObjectEnd)
-          && isCommentAtObjectEnd(token)
-      const arrayStartAllowed
-        = Boolean(options.allowArrayStart)
-          && isCommentAtArrayStart(token)
-      const arrayEndAllowed
-        = Boolean(options.allowArrayEnd)
-          && isCommentAtArrayEnd(token)
-      const interfaceStartAllowed
-        = Boolean(options.allowInterfaceStart)
-          && isCommentAtInterfaceStart(token)
-      const interfaceEndAllowed
-        = Boolean(options.allowInterfaceEnd) && isCommentAtInterfaceEnd(token)
-      const typeStartAllowed
-        = Boolean(options.allowTypeStart) && isCommentAtTypeStart(token)
-      const typeEndAllowed
-        = Boolean(options.allowTypeEnd) && isCommentAtTypeEnd(token)
-      const enumStartAllowed
-        = Boolean(options.allowEnumStart) && isCommentAtEnumStart(token)
-      const enumEndAllowed
-        = Boolean(options.allowEnumEnd) && isCommentAtEnumEnd(token)
-      const moduleStartAllowed
-        = Boolean(options.allowModuleStart) && isCommentAtModuleStart(token)
-      const moduleEndAllowed
-        = Boolean(options.allowModuleEnd) && isCommentAtModuleEnd(token)
+        )
+      const classStartAllowed =
+        Boolean(options.allowClassStart)
+        && isCommentAtClassStart(token)
+      const classEndAllowed =
+        Boolean(options.allowClassEnd)
+        && isCommentAtClassEnd(token)
+      const objectStartAllowed =
+        Boolean(options.allowObjectStart)
+        && isCommentAtObjectStart(token)
+      const objectEndAllowed =
+        Boolean(options.allowObjectEnd)
+        && isCommentAtObjectEnd(token)
+      const arrayStartAllowed =
+        Boolean(options.allowArrayStart)
+        && isCommentAtArrayStart(token)
+      const arrayEndAllowed =
+        Boolean(options.allowArrayEnd)
+        && isCommentAtArrayEnd(token)
+      const interfaceStartAllowed =
+        Boolean(options.allowInterfaceStart)
+        && isCommentAtInterfaceStart(token)
+      const interfaceEndAllowed =
+        Boolean(options.allowInterfaceEnd) && isCommentAtInterfaceEnd(token)
+      const typeStartAllowed =
+        Boolean(options.allowTypeStart) && isCommentAtTypeStart(token)
+      const typeEndAllowed =
+        Boolean(options.allowTypeEnd) && isCommentAtTypeEnd(token)
+      const enumStartAllowed =
+        Boolean(options.allowEnumStart) && isCommentAtEnumStart(token)
+      const enumEndAllowed =
+        Boolean(options.allowEnumEnd) && isCommentAtEnumEnd(token)
+      const moduleStartAllowed =
+        Boolean(options.allowModuleStart) && isCommentAtModuleStart(token)
+      const moduleEndAllowed =
+        Boolean(options.allowModuleEnd) && isCommentAtModuleEnd(token)
 
-      const exceptionStartAllowed
-        = blockStartAllowed
-          || classStartAllowed
-          || objectStartAllowed
-          || arrayStartAllowed
-          || interfaceStartAllowed
-          || typeStartAllowed
-          || enumStartAllowed
-          || moduleStartAllowed
-      const exceptionEndAllowed
-        = blockEndAllowed
-          || classEndAllowed
-          || objectEndAllowed
-          || arrayEndAllowed
-          || interfaceEndAllowed
-          || typeEndAllowed
-          || enumEndAllowed
-          || moduleEndAllowed
+      const exceptionStartAllowed =
+        blockStartAllowed
+        || classStartAllowed
+        || objectStartAllowed
+        || arrayStartAllowed
+        || interfaceStartAllowed
+        || typeStartAllowed
+        || enumStartAllowed
+        || moduleStartAllowed
+      const exceptionEndAllowed =
+        blockEndAllowed
+        || classEndAllowed
+        || objectEndAllowed
+        || arrayEndAllowed
+        || interfaceEndAllowed
+        || typeEndAllowed
+        || enumEndAllowed
+        || moduleEndAllowed
 
       const previousTokenOrComment = sourceCode.getTokenBefore(token, {
         includeComments: true,

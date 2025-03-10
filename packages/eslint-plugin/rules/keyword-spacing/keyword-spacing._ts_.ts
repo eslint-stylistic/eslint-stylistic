@@ -94,8 +94,8 @@ export default createRule<RuleOptions, MessageIds>({
         )
           return
 
-        const spacesBetweenTypeAndPunctuator
-          = punctuatorToken.range[0] - typeToken.range[1]
+        const spacesBetweenTypeAndPunctuator =
+          punctuatorToken.range[0] - typeToken.range[1]
         if (
           (typeOptionOverride.after ?? after) === true
           && spacesBetweenTypeAndPunctuator === 0

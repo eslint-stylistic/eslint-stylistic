@@ -46,8 +46,8 @@ export default createRule<RuleOptions, MessageIds>({
   ],
   create(context, [firstOption, secondOption]) {
     const rules = baseRule.create(context)
-    const exceptAfterOverload
-      = secondOption?.exceptAfterOverload && (
+    const exceptAfterOverload =
+      secondOption?.exceptAfterOverload && (
         firstOption === 'always'
         || (
           typeof firstOption !== 'string'

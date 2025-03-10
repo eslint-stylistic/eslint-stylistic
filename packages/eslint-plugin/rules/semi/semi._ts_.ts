@@ -30,8 +30,8 @@ export default createRule<RuleOptions, MessageIds>({
   ] as unknown as RuleOptions,
   create(context) {
     const rules = baseRule.create(context)
-    const checkForSemicolon
-      = rules.ExpressionStatement as TSESLint.RuleFunction<ASTNode>
+    const checkForSemicolon =
+      rules.ExpressionStatement as TSESLint.RuleFunction<ASTNode>
 
     /**
       The following nodes are handled by the member-delimiter-style rule
