@@ -2,31 +2,9 @@ import type { ASTNode, JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types._ts_'
 import { nullThrows, NullThrowsReasons } from '#utils/assert'
 import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
-import { castRuleModule, createRule } from '#utils/create-rule'
-
+import { createRule } from '#utils/create-rule'
 import { KEYWORDS_JS } from '#utils/keywords'
-import { deepMerge } from '#utils/merge'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import _baseRule from './keyword-spacing._js_'
-
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
-
-const baseSchema = Array.isArray(baseRule.meta.schema)
-  ? baseRule.meta.schema[0]
-  : baseRule.meta.schema
-
-const schema = deepMerge(
-  baseSchema,
-  {
-    properties: {
-      overrides: {
-        properties: {
-          type: baseSchema.properties.overrides.properties.import,
-        },
-      },
-    },
-  },
-) as unknown as JSONSchema.JSONSchema4
 
 const PREV_TOKEN = /^[)\]}>]$/u
 const NEXT_TOKEN = /^(?:[([{<~!]|\+\+?|--?)$/u
@@ -35,7 +13,7 @@ const NEXT_TOKEN_M = /^[{*]$/u
 const TEMPLATE_OPEN_PAREN = /\$\{$/u
 const TEMPLATE_CLOSE_PAREN = /^\}/u
 const CHECK_TYPE = /^(?:JSXElement|RegularExpression|String|Template|PrivateIdentifier)$/u
-const KEYS = KEYWORDS_JS.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'yield'])
+const KEYS = KEYWORDS_JS.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'yield', 'type'])
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'keyword-spacing',
@@ -46,9 +24,37 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforce consistent spacing before and after keywords',
     },
     fixable: 'whitespace',
-    hasSuggestions: baseRule.meta.hasSuggestions,
-    schema: [schema],
-    messages: baseRule.meta.messages,
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          before: { type: 'boolean', default: true },
+          after: { type: 'boolean', default: true },
+          overrides: {
+            type: 'object',
+            properties: KEYS.reduce<Record<string, JSONSchema.JSONSchema4>>((retv, key) => {
+              retv[key] = {
+                type: 'object',
+                properties: {
+                  before: { type: 'boolean' },
+                  after: { type: 'boolean' },
+                },
+                additionalProperties: false,
+              }
+              return retv
+            }, {}),
+            additionalProperties: false,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
+    messages: {
+      expectedBefore: 'Expected space(s) before "{{value}}".',
+      expectedAfter: 'Expected space(s) after "{{value}}".',
+      unexpectedBefore: 'Unexpected space(s) before "{{value}}".',
+      unexpectedAfter: 'Unexpected space(s) after "{{value}}".',
+    },
   },
   defaultOptions: [{}],
   create(context, [options]) {
