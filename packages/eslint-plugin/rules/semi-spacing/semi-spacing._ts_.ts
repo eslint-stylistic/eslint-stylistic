@@ -186,9 +186,27 @@ export default createRule<RuleOptions, MessageIds>({
       checkSemicolonSpacing(token!, node)
     }
 
-    const rules = baseRule.create(context)
     return {
-      ...rules,
+      VariableDeclaration: checkNode,
+      ExpressionStatement: checkNode,
+      BreakStatement: checkNode,
+      ContinueStatement: checkNode,
+      DebuggerStatement: checkNode,
+      DoWhileStatement: checkNode,
+      ReturnStatement: checkNode,
+      ThrowStatement: checkNode,
+      ImportDeclaration: checkNode,
+      ExportNamedDeclaration: checkNode,
+      ExportAllDeclaration: checkNode,
+      ExportDefaultDeclaration: checkNode,
+      ForStatement(node) {
+        if (node.init)
+          checkSemicolonSpacing(sourceCode.getTokenAfter(node.init)!, node)
+
+        if (node.test)
+          checkSemicolonSpacing(sourceCode.getTokenAfter(node.test)!, node)
+      },
+      PropertyDefinition: checkNode,
       TSDeclareFunction: checkNode,
       TSTypeAliasDeclaration: checkNode,
       TSTypeAnnotation(node) {
