@@ -1,14 +1,10 @@
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isNumericLiteral } from '#utils/ast'
-import { castRuleModule, createRule } from '#utils/create-rule'
+import { createRule } from '#utils/create-rule'
 import { KEYWORDS_JS } from '#utils/keywords'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 // @ts-expect-error missing types
 import { tokenize } from 'espree'
-import _baseRule from './quote-props._js_'
-
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'quote-props',
@@ -206,17 +202,18 @@ export default createRule<RuleOptions, MessageIds>({
 
     /**
      * Ensures that an object's keys are consistently quoted, optionally checks for redundancy of quotes
-     * @param node Property AST node
+     * @param properties ObjectLiteralElement AST node
      * @param checkQuotesRedundancy Whether to check quotes' redundancy
      */
-    function checkConsistencyForObject(node: Tree.ObjectExpression, checkQuotesRedundancy: boolean): void {
+    function checkConsistencyForObject(properties: Tree.ObjectLiteralElement[], checkQuotesRedundancy: boolean): void {
       checkConsistency(
-        node.properties.filter((property): property is Tree.PropertyNonComputedName =>
+        properties.filter((property): property is Tree.PropertyNonComputedName =>
           property.type !== 'SpreadElement'
           // When called from `quote-props._ts_.ts`, it may be a `TypeElement`.
           // Therefore, we need to check whether the `key` exists.
           && property.key
-          && !property.method && !property.computed && !property.shorthand),
+          && !property.method && !property.computed && !property.shorthand,
+        ),
         checkQuotesRedundancy,
       )
     }
@@ -311,7 +308,6 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    const rules = baseRule.create(context)
     return {
       Property(node) {
         if (MODE === 'always' || !MODE)
@@ -322,10 +318,10 @@ export default createRule<RuleOptions, MessageIds>({
       },
       ObjectExpression(node) {
         if (MODE === 'consistent')
-          checkConsistencyForObject(node, false)
+          checkConsistencyForObject(node.properties, false)
 
         if (MODE === 'consistent-as-needed')
-          checkConsistencyForObject(node, true)
+          checkConsistencyForObject(node.properties, true)
       },
       ImportAttribute(node) {
         if (MODE === 'always' || !MODE)
@@ -358,26 +354,27 @@ export default createRule<RuleOptions, MessageIds>({
           checkUnnecessaryQuotes(node)
       },
       TSTypeLiteral(node) {
-        return rules.ObjectExpression!({
-          ...node,
-          type: AST_NODE_TYPES.ObjectExpression,
-          properties: node.members as any,
-        })
+        if (MODE === 'consistent')
+          checkConsistencyForObject(node.members as any, false)
+
+        if (MODE === 'consistent-as-needed')
+          checkConsistencyForObject(node.members as any, true)
       },
       TSInterfaceBody(node) {
-        return rules.ObjectExpression!({
-          ...node,
-          type: AST_NODE_TYPES.ObjectExpression,
-          properties: node.body as any,
-        })
+        if (MODE === 'consistent')
+          checkConsistencyForObject(node.body as any, false)
+
+        if (MODE === 'consistent-as-needed')
+          checkConsistencyForObject(node.body as any, true)
       },
       TSEnumDeclaration(node) {
-        const members = node.body?.members || node.members
-        return rules.ObjectExpression!({
-          ...node,
-          type: AST_NODE_TYPES.ObjectExpression,
-          properties: members.map(member => ({ ...member, key: member.id })) as any,
-        })
+        const members = (node.body?.members || node.members).map(member => ({ ...member, key: member.id })) as any
+
+        if (MODE === 'consistent')
+          checkConsistencyForObject(members, false)
+
+        if (MODE === 'consistent-as-needed')
+          checkConsistencyForObject(members, true)
       },
     }
   },
