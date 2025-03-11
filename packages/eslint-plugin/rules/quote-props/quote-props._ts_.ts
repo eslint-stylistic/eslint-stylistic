@@ -1,5 +1,4 @@
 import type { Tree } from '#types'
-
 import type { MessageIds, RuleOptions } from './types'
 import { isNumericLiteral } from '#utils/ast'
 import { castRuleModule, createRule } from '#utils/create-rule'
@@ -131,12 +130,13 @@ export default createRule<RuleOptions, MessageIds>({
      * Ensures that a property's key is quoted only when necessary
      * @param node Property AST node
      */
-    function checkUnnecessaryQuotes(node: Tree.Property | Tree.ImportAttribute): void {
-      const key = node.key
-
-      if (node.type !== 'ImportAttribute' && (node.method || node.computed || node.shorthand))
+    function checkUnnecessaryQuotes(node: Tree.Property | Tree.ImportAttribute | Tree.TSPropertySignature | Tree.TSEnumMember): void {
+      if (node.type === 'Property' && (node.method || node.computed || node.shorthand))
+        return
+      if (node.type !== 'ImportAttribute' && node.computed)
         return
 
+      const key = node.type === 'TSEnumMember' ? node.id : node.key
       if (key.type === 'Literal' && typeof key.value === 'string') {
         let tokens
 
@@ -186,11 +186,13 @@ export default createRule<RuleOptions, MessageIds>({
      * Ensures that a property's key is quoted
      * @param node Property AST node
      */
-    function checkOmittedQuotes(node: Tree.Property | Tree.ImportAttribute): void {
-      if (node.type !== 'ImportAttribute' && (node.method || node.computed || node.shorthand))
+    function checkOmittedQuotes(node: Tree.Property | Tree.ImportAttribute | Tree.TSPropertySignature | Tree.TSEnumMember): void {
+      if (node.type === 'Property' && (node.method || node.computed || node.shorthand))
+        return
+      if (node.type !== 'ImportAttribute' && node.computed)
         return
 
-      const key = node.key
+      const key = node.type === 'TSEnumMember' ? node.id : node.key
       if (key.type === 'Literal' && typeof key.value === 'string')
         return
 
@@ -342,36 +344,18 @@ export default createRule<RuleOptions, MessageIds>({
         checkImportAttributes(node.attributes)
       },
       TSPropertySignature(node) {
-        return rules.Property!({
-          ...node as unknown as Tree.Property,
-          type: AST_NODE_TYPES.Property,
-          shorthand: false,
-          method: false,
-          kind: 'init',
-          value: null as any,
-        })
-      },
-      TSMethodSignature(node) {
-        return rules.Property!({
-          ...node as unknown as Tree.Property,
-          type: AST_NODE_TYPES.Property,
-          shorthand: false,
-          method: true,
-          kind: 'init',
-          value: null as any,
-        })
+        if (MODE === 'always' || !MODE)
+          checkOmittedQuotes(node)
+
+        if (MODE === 'as-needed')
+          checkUnnecessaryQuotes(node)
       },
       TSEnumMember(node) {
-        return rules.Property!({
-          ...node as unknown as Tree.Property,
-          type: AST_NODE_TYPES.Property,
-          key: node.id as any,
-          optional: false,
-          shorthand: false,
-          method: false,
-          kind: 'init',
-          value: null as any,
-        })
+        if (MODE === 'always' || !MODE)
+          checkOmittedQuotes(node)
+
+        if (MODE === 'as-needed')
+          checkUnnecessaryQuotes(node)
       },
       TSTypeLiteral(node) {
         return rules.ObjectExpression!({
