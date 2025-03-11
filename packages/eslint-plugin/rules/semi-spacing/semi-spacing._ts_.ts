@@ -2,11 +2,8 @@ import type { ASTNode, Token } from '#types'
 import type { TSESTree } from '@typescript-eslint/utils'
 import type { MessageIds, RuleOptions } from './types'
 import { isClosingBraceToken, isClosingParenToken, isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
-import { castRuleModule, createRule } from '#utils/create-rule'
+import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import _baseRule from './semi-spacing._js_'
-
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'semi-spacing',
@@ -17,9 +14,29 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforce consistent spacing before and after semicolons',
     },
     fixable: 'whitespace',
-    hasSuggestions: baseRule.meta.hasSuggestions,
-    schema: baseRule.meta.schema,
-    messages: baseRule.meta.messages,
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          before: {
+            type: 'boolean',
+            default: false,
+          },
+          after: {
+            type: 'boolean',
+            default: true,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
+
+    messages: {
+      unexpectedWhitespaceBefore: 'Unexpected whitespace before semicolon.',
+      unexpectedWhitespaceAfter: 'Unexpected whitespace after semicolon.',
+      missingWhitespaceBefore: 'Missing whitespace before semicolon.',
+      missingWhitespaceAfter: 'Missing whitespace after semicolon.',
+    },
   },
   create(context) {
     const config = context.options[0]
