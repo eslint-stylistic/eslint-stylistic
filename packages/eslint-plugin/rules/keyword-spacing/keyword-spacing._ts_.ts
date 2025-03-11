@@ -564,7 +564,51 @@ export default createRule<RuleOptions, MessageIds>({
       'ExportDefaultDeclaration': checkSpacingForModuleDeclaration,
       'ExportAllDeclaration': checkSpacingForModuleDeclaration,
       'FunctionDeclaration': checkSpacingForFunction,
-      'ImportDeclaration': checkSpacingForModuleDeclaration,
+      ImportDeclaration(node) {
+        checkSpacingForModuleDeclaration(node)
+
+        if (node.importKind === 'type') {
+          const { type: typeOptionOverride = {} } = overrides ?? {}
+          const typeToken = sourceCode.getFirstToken(node, { skip: 1 })!
+          const punctuatorToken = sourceCode.getTokenAfter(typeToken)!
+          if (
+            node.specifiers?.[0]?.type === AST_NODE_TYPES.ImportDefaultSpecifier
+          )
+            return
+
+          const spacesBetweenTypeAndPunctuator
+            = punctuatorToken.range[0] - typeToken.range[1]
+          if (
+            (typeOptionOverride.after ?? after) === true
+            && spacesBetweenTypeAndPunctuator === 0
+          ) {
+            context.report({
+              loc: typeToken.loc,
+              messageId: 'expectedAfter',
+              data: { value: 'type' },
+              fix(fixer) {
+                return fixer.insertTextAfter(typeToken, ' ')
+              },
+            })
+          }
+          if (
+            (typeOptionOverride.after ?? after) === false
+            && spacesBetweenTypeAndPunctuator > 0
+          ) {
+            context.report({
+              loc: typeToken.loc,
+              messageId: 'unexpectedAfter',
+              data: { value: 'type' },
+              fix(fixer) {
+                return fixer.removeRange([
+                  typeToken.range[1],
+                  typeToken.range[1] + spacesBetweenTypeAndPunctuator,
+                ])
+              },
+            })
+          }
+        }
+      },
       'VariableDeclaration': checkSpacingAroundFirstToken,
 
       // Expressions
@@ -629,49 +673,6 @@ export default createRule<RuleOptions, MessageIds>({
         baseRules.DebuggerStatement!(satisfiesToken as never)
 
         satisfiesToken.type = oldTokenType
-      },
-      'ImportDeclaration[importKind=type]': function (
-        node: Tree.ImportDeclaration,
-      ): void {
-        const { type: typeOptionOverride = {} } = overrides ?? {}
-        const typeToken = sourceCode.getFirstToken(node, { skip: 1 })!
-        const punctuatorToken = sourceCode.getTokenAfter(typeToken)!
-        if (
-          node.specifiers?.[0]?.type === AST_NODE_TYPES.ImportDefaultSpecifier
-        )
-          return
-
-        const spacesBetweenTypeAndPunctuator
-          = punctuatorToken.range[0] - typeToken.range[1]
-        if (
-          (typeOptionOverride.after ?? after) === true
-          && spacesBetweenTypeAndPunctuator === 0
-        ) {
-          context.report({
-            loc: typeToken.loc,
-            messageId: 'expectedAfter',
-            data: { value: 'type' },
-            fix(fixer) {
-              return fixer.insertTextAfter(typeToken, ' ')
-            },
-          })
-        }
-        if (
-          (typeOptionOverride.after ?? after) === false
-          && spacesBetweenTypeAndPunctuator > 0
-        ) {
-          context.report({
-            loc: typeToken.loc,
-            messageId: 'unexpectedAfter',
-            data: { value: 'type' },
-            fix(fixer) {
-              return fixer.removeRange([
-                typeToken.range[1],
-                typeToken.range[1] + spacesBetweenTypeAndPunctuator,
-              ])
-            },
-          })
-        }
       },
     }
   },
