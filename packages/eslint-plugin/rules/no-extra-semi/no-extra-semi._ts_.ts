@@ -1,11 +1,8 @@
 import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isClosingBraceToken, isSemicolonToken, isTopLevelExpressionStatement } from '#utils/ast'
-import { castRuleModule, createRule } from '#utils/create-rule'
+import { createRule } from '#utils/create-rule'
 import { FixTracker } from '#utils/fix-tracker'
-import _baseRule from './no-extra-semi._js_'
-
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-semi',
@@ -16,9 +13,10 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Disallow unnecessary semicolons',
     },
     fixable: 'code',
-    hasSuggestions: baseRule.meta.hasSuggestions,
-    schema: baseRule.meta.schema,
-    messages: baseRule.meta.messages,
+    schema: [],
+    messages: {
+      unexpected: 'Unnecessary semicolon.',
+    },
   },
   defaultOptions: [],
   create(context) {
