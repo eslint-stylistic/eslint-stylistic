@@ -22,8 +22,6 @@ export default createRule<RuleOptions, MessageIds>({
   },
   defaultOptions: [],
   create(context) {
-    const rules = baseRule.create(context)
-
     const sourceCode = context.sourceCode
 
     /**
@@ -122,8 +120,11 @@ export default createRule<RuleOptions, MessageIds>({
       StaticBlock(node) {
         checkForPartOfClassBody(sourceCode.getTokenAfter(node)!)
       },
-      'TSAbstractMethodDefinition, TSAbstractPropertyDefinition': function (node: never): void {
-        rules['MethodDefinition, PropertyDefinition, StaticBlock']?.(node)
+      TSAbstractMethodDefinition(node) {
+        checkForPartOfClassBody(sourceCode.getTokenAfter(node)!)
+      },
+      TSAbstractPropertyDefinition(node) {
+        checkForPartOfClassBody(sourceCode.getTokenAfter(node)!)
       },
     }
   },
