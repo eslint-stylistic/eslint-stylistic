@@ -536,34 +536,34 @@ export default createRule<RuleOptions, MessageIds>({
     const baseRules = baseRule.create(context)
     return {
       // Statements
-      'DebuggerStatement': checkSpacingAroundFirstToken,
-      'WithStatement': checkSpacingAroundFirstToken,
+      DebuggerStatement: checkSpacingAroundFirstToken,
+      WithStatement: checkSpacingAroundFirstToken,
 
       // Statements - Control flow
-      'BreakStatement': checkSpacingAroundFirstToken,
-      'ContinueStatement': checkSpacingAroundFirstToken,
-      'ReturnStatement': checkSpacingAroundFirstToken,
-      'ThrowStatement': checkSpacingAroundFirstToken,
-      'TryStatement': checkSpacingForTryStatement,
+      BreakStatement: checkSpacingAroundFirstToken,
+      ContinueStatement: checkSpacingAroundFirstToken,
+      ReturnStatement: checkSpacingAroundFirstToken,
+      ThrowStatement: checkSpacingAroundFirstToken,
+      TryStatement: checkSpacingForTryStatement,
 
       // Statements - Choice
-      'IfStatement': checkSpacingForIfStatement,
-      'SwitchStatement': checkSpacingAroundFirstToken,
-      'SwitchCase': checkSpacingAroundFirstToken,
+      IfStatement: checkSpacingForIfStatement,
+      SwitchStatement: checkSpacingAroundFirstToken,
+      SwitchCase: checkSpacingAroundFirstToken,
 
       // Statements - Loops
-      'DoWhileStatement': checkSpacingForDoWhileStatement,
-      'ForInStatement': checkSpacingForForInStatement,
-      'ForOfStatement': checkSpacingForForOfStatement,
-      'ForStatement': checkSpacingAroundFirstToken,
-      'WhileStatement': checkSpacingAroundFirstToken,
+      DoWhileStatement: checkSpacingForDoWhileStatement,
+      ForInStatement: checkSpacingForForInStatement,
+      ForOfStatement: checkSpacingForForOfStatement,
+      ForStatement: checkSpacingAroundFirstToken,
+      WhileStatement: checkSpacingAroundFirstToken,
 
       // Statements - Declarations
-      'ClassDeclaration': checkSpacingForClass,
-      'ExportNamedDeclaration': checkSpacingForModuleDeclaration,
-      'ExportDefaultDeclaration': checkSpacingForModuleDeclaration,
-      'ExportAllDeclaration': checkSpacingForModuleDeclaration,
-      'FunctionDeclaration': checkSpacingForFunction,
+      ClassDeclaration: checkSpacingForClass,
+      ExportNamedDeclaration: checkSpacingForModuleDeclaration,
+      ExportDefaultDeclaration: checkSpacingForModuleDeclaration,
+      ExportAllDeclaration: checkSpacingForModuleDeclaration,
+      FunctionDeclaration: checkSpacingForFunction,
       ImportDeclaration(node) {
         checkSpacingForModuleDeclaration(node)
 
@@ -609,30 +609,32 @@ export default createRule<RuleOptions, MessageIds>({
           }
         }
       },
-      'VariableDeclaration': checkSpacingAroundFirstToken,
+      VariableDeclaration: checkSpacingAroundFirstToken,
 
       // Expressions
-      'ArrowFunctionExpression': checkSpacingForFunction,
-      'AwaitExpression': checkSpacingForAwaitExpression,
-      'ClassExpression': checkSpacingForClass,
-      'FunctionExpression': checkSpacingForFunction,
-      'NewExpression': checkSpacingBeforeFirstToken,
-      'Super': checkSpacingBeforeFirstToken,
-      'ThisExpression': checkSpacingBeforeFirstToken,
-      'UnaryExpression': checkSpacingBeforeFirstToken,
-      'YieldExpression': checkSpacingBeforeFirstToken,
+      ArrowFunctionExpression: checkSpacingForFunction,
+      AwaitExpression: checkSpacingForAwaitExpression,
+      ClassExpression: checkSpacingForClass,
+      FunctionExpression: checkSpacingForFunction,
+      NewExpression: checkSpacingBeforeFirstToken,
+      Super: checkSpacingBeforeFirstToken,
+      ThisExpression: checkSpacingBeforeFirstToken,
+      UnaryExpression: checkSpacingBeforeFirstToken,
+      YieldExpression: checkSpacingBeforeFirstToken,
 
       // Others
-      'ImportSpecifier': checkSpacingForImportSpecifier,
-      'ExportSpecifier': checkSpacingForExportSpecifier,
-      'ImportNamespaceSpecifier': checkSpacingForImportNamespaceSpecifier,
-      'MethodDefinition': checkSpacingForProperty,
-      'PropertyDefinition': checkSpacingForProperty,
-      'StaticBlock': checkSpacingAroundFirstToken,
-      'Property': checkSpacingForProperty,
+      ImportSpecifier: checkSpacingForImportSpecifier,
+      ExportSpecifier: checkSpacingForExportSpecifier,
+      ImportNamespaceSpecifier: checkSpacingForImportNamespaceSpecifier,
+      MethodDefinition: checkSpacingForProperty,
+      PropertyDefinition: checkSpacingForProperty,
+      StaticBlock: checkSpacingAroundFirstToken,
+      Property: checkSpacingForProperty,
 
-      // To avoid conflicts with `space-infix-ops`, e.g. `a > this.b`
-      'BinaryExpression[operator=\'>\']': function (node: Tree.BinaryExpression) {
+      BinaryExpression(node) {
+        // To avoid conflicts with `space-infix-ops`, e.g. `a > this.b`
+        if (node.operator !== '>')
+          return
         const operatorToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
 
         tokensToIgnore.add(operatorToken)
