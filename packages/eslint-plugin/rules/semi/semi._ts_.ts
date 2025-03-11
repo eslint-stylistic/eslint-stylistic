@@ -335,7 +335,6 @@ export default createRule<RuleOptions, MessageIds>({
           report(node)
       }
     }
-    const rules = baseRule.create(context)
 
     // The following nodes are handled by the member-delimiter-style rule
     // AST_NODE_TYPES.TSCallSignatureDeclaration,
@@ -344,14 +343,28 @@ export default createRule<RuleOptions, MessageIds>({
     // AST_NODE_TYPES.TSMethodSignature,
     // AST_NODE_TYPES.TSPropertySignature,
     return {
-      ...rules,
-      PropertyDefinition: checkForSemicolon,
-      TSAbstractPropertyDefinition: checkForSemicolon,
-      TSDeclareFunction: checkForSemicolon,
-      TSExportAssignment: checkForSemicolon,
-      TSImportEqualsDeclaration: checkForSemicolon,
-      TSTypeAliasDeclaration: checkForSemicolon,
-      TSEmptyBodyFunctionExpression: checkForSemicolon,
+      VariableDeclaration(node) {
+        const parent = node.parent
+
+        if ((parent.type !== 'ForStatement' || parent.init !== node)
+          && (!/^For(?:In|Of)Statement/u.test(parent.type) || (parent as Tree.ForInStatement).left !== node)
+        ) {
+          checkForSemicolon(node)
+        }
+      },
+      ExpressionStatement: checkForSemicolon,
+      ReturnStatement: checkForSemicolon,
+      ThrowStatement: checkForSemicolon,
+      DoWhileStatement: checkForSemicolon,
+      DebuggerStatement: checkForSemicolon,
+      BreakStatement: checkForSemicolon,
+      ContinueStatement: checkForSemicolon,
+      ImportDeclaration: checkForSemicolon,
+      ExportAllDeclaration: checkForSemicolon,
+      ExportNamedDeclaration(node) {
+        if (!node.declaration)
+          checkForSemicolon(node)
+      },
       ExportDefaultDeclaration(node) {
         if (node.declaration.type === AST_NODE_TYPES.TSInterfaceDeclaration)
           return
@@ -359,6 +372,13 @@ export default createRule<RuleOptions, MessageIds>({
         if (!/(?:Class|Function)Declaration/u.test(node.declaration.type))
           checkForSemicolon(node)
       },
+      PropertyDefinition: checkForSemicolon,
+      TSAbstractPropertyDefinition: checkForSemicolon,
+      TSDeclareFunction: checkForSemicolon,
+      TSExportAssignment: checkForSemicolon,
+      TSImportEqualsDeclaration: checkForSemicolon,
+      TSTypeAliasDeclaration: checkForSemicolon,
+      TSEmptyBodyFunctionExpression: checkForSemicolon,
     }
   },
 })
