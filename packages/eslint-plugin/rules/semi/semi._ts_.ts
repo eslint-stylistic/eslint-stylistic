@@ -352,9 +352,12 @@ export default createRule<RuleOptions, MessageIds>({
       TSImportEqualsDeclaration: checkForSemicolon,
       TSTypeAliasDeclaration: checkForSemicolon,
       TSEmptyBodyFunctionExpression: checkForSemicolon,
-      ExportDefaultDeclaration(node): void {
-        if (node.declaration.type !== AST_NODE_TYPES.TSInterfaceDeclaration)
-          rules.ExportDefaultDeclaration!(node)
+      ExportDefaultDeclaration(node) {
+        if (node.declaration.type === AST_NODE_TYPES.TSInterfaceDeclaration)
+          return
+
+        if (!/(?:Class|Function)Declaration/u.test(node.declaration.type))
+          checkForSemicolon(node)
       },
     }
   },
