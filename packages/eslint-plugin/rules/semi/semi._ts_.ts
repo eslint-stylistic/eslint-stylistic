@@ -1,12 +1,9 @@
 import type { ASTNode, RuleFixer, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
-import { castRuleModule, createRule } from '#utils/create-rule'
+import { createRule } from '#utils/create-rule'
 import { FixTracker } from '#utils/fix-tracker'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import _baseRule from './semi._js_'
-
-const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'semi',
@@ -18,9 +15,54 @@ export default createRule<RuleOptions, MessageIds>({
       // too opinionated to be recommended
     },
     fixable: 'code',
-    hasSuggestions: baseRule.meta.hasSuggestions,
-    schema: baseRule.meta.schema,
-    messages: baseRule.meta.messages,
+    schema: {
+      anyOf: [
+        {
+          type: 'array',
+          items: [
+            {
+              type: 'string',
+              enum: ['never'],
+            },
+            {
+              type: 'object',
+              properties: {
+                beforeStatementContinuationChars: {
+                  type: 'string',
+                  enum: ['always', 'any', 'never'],
+                },
+              },
+              additionalProperties: false,
+            },
+          ],
+          minItems: 0,
+          maxItems: 2,
+        },
+        {
+          type: 'array',
+          items: [
+            {
+              type: 'string',
+              enum: ['always'],
+            },
+            {
+              type: 'object',
+              properties: {
+                omitLastInOneLineBlock: { type: 'boolean' },
+                omitLastInOneLineClassBody: { type: 'boolean' },
+              },
+              additionalProperties: false,
+            },
+          ],
+          minItems: 0,
+          maxItems: 2,
+        },
+      ],
+    },
+    messages: {
+      missingSemi: 'Missing semicolon.',
+      extraSemi: 'Extra semicolon.',
+    },
   },
   defaultOptions: [
     'always',
