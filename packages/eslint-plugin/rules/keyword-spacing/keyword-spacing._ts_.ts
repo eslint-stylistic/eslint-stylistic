@@ -332,83 +332,6 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Reports `if` and `else` keywords of a given node if usage of spacing
-     * around those keywords is invalid.
-     * @param node A node to report.
-     */
-    function checkSpacingForIfStatement(node: Tree.IfStatement) {
-      checkSpacingAroundFirstToken(node)
-      checkSpacingAroundTokenBefore(node.alternate)
-    }
-
-    /**
-     * Reports `try`, `catch`, and `finally` keywords of a given node if usage
-     * of spacing around those keywords is invalid.
-     * @param node A node to report.
-     */
-    function checkSpacingForTryStatement(node: Tree.TryStatement) {
-      checkSpacingAroundFirstToken(node)
-      checkSpacingAroundFirstToken(node.handler)
-      checkSpacingAroundTokenBefore(node.finalizer)
-    }
-
-    /**
-     * Reports `do` and `while` keywords of a given node if usage of spacing
-     * around those keywords is invalid.
-     * @param node A node to report.
-     */
-    function checkSpacingForDoWhileStatement(node: Tree.DoWhileStatement) {
-      checkSpacingAroundFirstToken(node)
-      checkSpacingAroundTokenBefore(node.test)
-    }
-
-    /**
-     * Reports `for` and `in` keywords of a given node if usage of spacing
-     * around those keywords is invalid.
-     * @param node A node to report.
-     */
-    function checkSpacingForForInStatement(node: Tree.ForInStatement) {
-      checkSpacingAroundFirstToken(node)
-
-      const inToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
-      const previousToken = sourceCode.getTokenBefore(inToken)
-
-      // @ts-expect-error espree has PrivateIdentifier in tokens
-      // https://github.com/eslint/espree/blob/1584ddb00f0b4e3ada764ac86ae20e1480003de3/lib/token-translator.js#L22C23-L22C23
-      // but Tree.Token has not
-      if (previousToken.type !== 'PrivateIdentifier')
-        checkSpacingBefore(inToken)
-
-      checkSpacingAfter(inToken)
-    }
-
-    /**
-     * Reports `for` and `of` keywords of a given node if usage of spacing
-     * around those keywords is invalid.
-     * @param node A node to report.
-     */
-    function checkSpacingForForOfStatement(node: Tree.ForOfStatement) {
-      if (node.await) {
-        checkSpacingBefore(sourceCode.getFirstToken(node, 0)!)
-        checkSpacingAfter(sourceCode.getFirstToken(node, 1)!)
-      }
-      else {
-        checkSpacingAroundFirstToken(node)
-      }
-
-      const ofToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
-      const previousToken = sourceCode.getTokenBefore(ofToken)
-
-      // @ts-expect-error espree has PrivateIdentifier in tokens
-      // https://github.com/eslint/espree/blob/1584ddb00f0b4e3ada764ac86ae20e1480003de3/lib/token-translator.js#L22C23-L22C23
-      // but Tree.Token has not
-      if (previousToken.type !== 'PrivateIdentifier')
-        checkSpacingBefore(ofToken)
-
-      checkSpacingAfter(ofToken)
-    }
-
-    /**
      * Reports `import`, `export`, `as`, and `from` keywords of a given node if
      * usage of spacing around those keywords is invalid.
      *
@@ -449,44 +372,6 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Reports `as` keyword of a given node if usage of spacing around this
-     * keyword is invalid.
-     * @param node An `ImportSpecifier` node to check.
-     */
-    function checkSpacingForImportSpecifier(node: Tree.ImportSpecifier) {
-      if (node.imported.range[0] !== node.local.range[0]) {
-        const asToken = sourceCode.getTokenBefore(node.local)!
-
-        checkSpacingBefore(asToken, PREV_TOKEN_M)
-      }
-    }
-
-    /**
-     * Reports `as` keyword of a given node if usage of spacing around this
-     * keyword is invalid.
-     * @param node An `ExportSpecifier` node to check.
-     */
-    function checkSpacingForExportSpecifier(node: Tree.ExportSpecifier) {
-      if (node.local.range[0] !== node.exported.range[0]) {
-        const asToken = sourceCode.getTokenBefore(node.exported)!
-
-        checkSpacingBefore(asToken, PREV_TOKEN_M)
-        checkSpacingAfter(asToken, NEXT_TOKEN_M)
-      }
-    }
-
-    /**
-     * Reports `as` keyword of a given node if usage of spacing around this
-     * keyword is invalid.
-     * @param node A node to report.
-     */
-    function checkSpacingForImportNamespaceSpecifier(node: Tree.ImportNamespaceSpecifier) {
-      const asToken = sourceCode.getFirstToken(node, 1)!
-
-      checkSpacingBefore(asToken, PREV_TOKEN_M)
-    }
-
-    /**
      * Reports `static`, `get`, and `set` keywords of a given node if usage of
      * spacing around those keywords is invalid.
      * @param node A node to report.
@@ -524,15 +409,6 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    /**
-     * Reports `await` keyword of a given node if usage of spacing before
-     * this keyword is invalid.
-     * @param node A node to report.
-     */
-    function checkSpacingForAwaitExpression(node: Tree.AwaitExpression) {
-      checkSpacingBefore(sourceCode.getFirstToken(node)!)
-    }
-
     const baseRules = baseRule.create(context)
     return {
       // Statements
@@ -544,17 +420,59 @@ export default createRule<RuleOptions, MessageIds>({
       ContinueStatement: checkSpacingAroundFirstToken,
       ReturnStatement: checkSpacingAroundFirstToken,
       ThrowStatement: checkSpacingAroundFirstToken,
-      TryStatement: checkSpacingForTryStatement,
+      TryStatement(node) {
+        checkSpacingAroundFirstToken(node)
+        checkSpacingAroundFirstToken(node.handler)
+        checkSpacingAroundTokenBefore(node.finalizer)
+      },
 
       // Statements - Choice
-      IfStatement: checkSpacingForIfStatement,
+      IfStatement(node) {
+        checkSpacingAroundFirstToken(node)
+        checkSpacingAroundTokenBefore(node.alternate)
+      },
       SwitchStatement: checkSpacingAroundFirstToken,
       SwitchCase: checkSpacingAroundFirstToken,
 
       // Statements - Loops
-      DoWhileStatement: checkSpacingForDoWhileStatement,
-      ForInStatement: checkSpacingForForInStatement,
-      ForOfStatement: checkSpacingForForOfStatement,
+      DoWhileStatement(node) {
+        checkSpacingAroundFirstToken(node)
+        checkSpacingAroundTokenBefore(node.test)
+      },
+      ForInStatement(node) {
+        checkSpacingAroundFirstToken(node)
+
+        const inToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
+        const previousToken = sourceCode.getTokenBefore(inToken)
+
+        // @ts-expect-error espree has PrivateIdentifier in tokens
+        // https://github.com/eslint/espree/blob/1584ddb00f0b4e3ada764ac86ae20e1480003de3/lib/token-translator.js#L22C23-L22C23
+        // but Tree.Token has not
+        if (previousToken.type !== 'PrivateIdentifier')
+          checkSpacingBefore(inToken)
+
+        checkSpacingAfter(inToken)
+      },
+      ForOfStatement(node) {
+        if (node.await) {
+          checkSpacingBefore(sourceCode.getFirstToken(node, 0)!)
+          checkSpacingAfter(sourceCode.getFirstToken(node, 1)!)
+        }
+        else {
+          checkSpacingAroundFirstToken(node)
+        }
+
+        const ofToken = sourceCode.getTokenBefore(node.right, isNotOpeningParenToken)!
+        const previousToken = sourceCode.getTokenBefore(ofToken)
+
+        // @ts-expect-error espree has PrivateIdentifier in tokens
+        // https://github.com/eslint/espree/blob/1584ddb00f0b4e3ada764ac86ae20e1480003de3/lib/token-translator.js#L22C23-L22C23
+        // but Tree.Token has not
+        if (previousToken.type !== 'PrivateIdentifier')
+          checkSpacingBefore(ofToken)
+
+        checkSpacingAfter(ofToken)
+      },
       ForStatement: checkSpacingAroundFirstToken,
       WhileStatement: checkSpacingAroundFirstToken,
 
@@ -613,7 +531,9 @@ export default createRule<RuleOptions, MessageIds>({
 
       // Expressions
       ArrowFunctionExpression: checkSpacingForFunction,
-      AwaitExpression: checkSpacingForAwaitExpression,
+      AwaitExpression(node) {
+        checkSpacingBefore(sourceCode.getFirstToken(node)!)
+      },
       ClassExpression: checkSpacingForClass,
       FunctionExpression: checkSpacingForFunction,
       NewExpression: checkSpacingBeforeFirstToken,
@@ -623,9 +543,26 @@ export default createRule<RuleOptions, MessageIds>({
       YieldExpression: checkSpacingBeforeFirstToken,
 
       // Others
-      ImportSpecifier: checkSpacingForImportSpecifier,
-      ExportSpecifier: checkSpacingForExportSpecifier,
-      ImportNamespaceSpecifier: checkSpacingForImportNamespaceSpecifier,
+      ImportSpecifier(node) {
+        if (node.imported.range[0] !== node.local.range[0]) {
+          const asToken = sourceCode.getTokenBefore(node.local)!
+
+          checkSpacingBefore(asToken, PREV_TOKEN_M)
+        }
+      },
+      ExportSpecifier(node) {
+        if (node.local.range[0] !== node.exported.range[0]) {
+          const asToken = sourceCode.getTokenBefore(node.exported)!
+
+          checkSpacingBefore(asToken, PREV_TOKEN_M)
+          checkSpacingAfter(asToken, NEXT_TOKEN_M)
+        }
+      },
+      ImportNamespaceSpecifier(node) {
+        const asToken = sourceCode.getFirstToken(node, 1)!
+
+        checkSpacingBefore(asToken, PREV_TOKEN_M)
+      },
       MethodDefinition: checkSpacingForProperty,
       PropertyDefinition: checkSpacingForProperty,
       StaticBlock: checkSpacingAroundFirstToken,
