@@ -6,7 +6,7 @@ import { castRuleModule, createRule } from '#utils/create-rule'
 
 import { KEYWORDS_JS } from '#utils/keywords'
 import { deepMerge } from '#utils/merge'
-import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import _baseRule from './keyword-spacing._js_'
 
 const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
@@ -409,7 +409,6 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    const baseRules = baseRule.create(context)
     return {
       // Statements
       DebuggerStatement: checkSpacingAroundFirstToken,
@@ -584,20 +583,8 @@ export default createRule<RuleOptions, MessageIds>({
           ),
           NullThrowsReasons.MissingToken('as', node.type),
         )
-        const oldTokenType = asToken.type
-        // as is a contextual keyword, so it's always reported as an Identifier
-        // the rule looks for keyword tokens, so we temporarily override it
-        // we mutate it at the token level because the rule calls sourceCode.getFirstToken,
-        // so mutating a copy would not change the underlying copy returned by that method
-        asToken.type = AST_TOKEN_TYPES.Keyword
-
-        // TODO: Stage3: use this selector just because it is just a call to `checkSpacingAroundFirstToken`
-        baseRules.DebuggerStatement!(asToken as never)
-
-        // make sure to reset the type afterward so we don't permanently mutate the AST
-        asToken.type = oldTokenType
+        checkSpacingAround(asToken)
       },
-      // TODO: Stage3: copy from `TSAsExpression`, just call `checkSpacingAroundFirstToken` when refactor
       TSSatisfiesExpression(node): void {
         const satisfiesToken = nullThrows(
           sourceCode.getTokenAfter(
@@ -606,12 +593,7 @@ export default createRule<RuleOptions, MessageIds>({
           ),
           NullThrowsReasons.MissingToken('satisfies', node.type),
         )
-        const oldTokenType = satisfiesToken.type
-        satisfiesToken.type = AST_TOKEN_TYPES.Keyword
-
-        baseRules.DebuggerStatement!(satisfiesToken as never)
-
-        satisfiesToken.type = oldTokenType
+        checkSpacingAround(satisfiesToken)
       },
     }
   },
