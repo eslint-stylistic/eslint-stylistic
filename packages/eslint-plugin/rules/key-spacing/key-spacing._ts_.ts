@@ -12,9 +12,17 @@ import _baseRule from './key-spacing._js_'
 
 const baseRule = /* @__PURE__ */ castRuleModule(_baseRule)
 
-const baseSchema = Array.isArray(baseRule.meta.schema)
-  ? baseRule.meta.schema[0]
-  : baseRule.meta.schema
+const listeningNodes = [
+  'ObjectExpression',
+  'ObjectPattern',
+  'ImportDeclaration',
+  'ExportNamedDeclaration',
+  'ExportAllDeclaration',
+
+  'TSTypeLiteral',
+  'TSInterfaceBody',
+  'ClassBody',
+] satisfies (keyof typeof Tree.AST_NODE_TYPES)[]
 
 type UnionToIntersection<U> =
   (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never
@@ -31,9 +39,191 @@ export default createRule<RuleOptions, MessageIds>({
         'Enforce consistent spacing between property names and type annotations in types and interfaces',
     },
     fixable: 'whitespace',
-    hasSuggestions: baseRule.meta.hasSuggestions,
-    schema: [baseSchema],
-    messages: baseRule.meta.messages,
+    schema: [{
+      anyOf: [
+        {
+          type: 'object',
+          properties: {
+            align: {
+              anyOf: [
+                {
+                  type: 'string',
+                  enum: ['colon', 'value'],
+                },
+                {
+                  type: 'object',
+                  properties: {
+                    mode: {
+                      type: 'string',
+                      enum: ['strict', 'minimum'],
+                    },
+                    on: {
+                      type: 'string',
+                      enum: ['colon', 'value'],
+                    },
+                    beforeColon: {
+                      type: 'boolean',
+                    },
+                    afterColon: {
+                      type: 'boolean',
+                    },
+                  },
+                  additionalProperties: false,
+                },
+              ],
+            },
+            mode: {
+              type: 'string',
+              enum: ['strict', 'minimum'],
+            },
+            beforeColon: {
+              type: 'boolean',
+            },
+            afterColon: {
+              type: 'boolean',
+            },
+            ignoredNodes: {
+              type: 'array',
+              items: {
+                type: 'string',
+                enum: listeningNodes,
+              },
+            },
+          },
+          additionalProperties: false,
+        },
+        {
+          type: 'object',
+          properties: {
+            singleLine: {
+              type: 'object',
+              properties: {
+                mode: {
+                  type: 'string',
+                  enum: ['strict', 'minimum'],
+                },
+                beforeColon: {
+                  type: 'boolean',
+                },
+                afterColon: {
+                  type: 'boolean',
+                },
+              },
+              additionalProperties: false,
+            },
+            multiLine: {
+              type: 'object',
+              properties: {
+                align: {
+                  anyOf: [
+                    {
+                      type: 'string',
+                      enum: ['colon', 'value'],
+                    },
+                    {
+                      type: 'object',
+                      properties: {
+                        mode: {
+                          type: 'string',
+                          enum: ['strict', 'minimum'],
+                        },
+                        on: {
+                          type: 'string',
+                          enum: ['colon', 'value'],
+                        },
+                        beforeColon: {
+                          type: 'boolean',
+                        },
+                        afterColon: {
+                          type: 'boolean',
+                        },
+                      },
+                      additionalProperties: false,
+                    },
+                  ],
+                },
+                mode: {
+                  type: 'string',
+                  enum: ['strict', 'minimum'],
+                },
+                beforeColon: {
+                  type: 'boolean',
+                },
+                afterColon: {
+                  type: 'boolean',
+                },
+              },
+              additionalProperties: false,
+            },
+          },
+          additionalProperties: false,
+        },
+        {
+          type: 'object',
+          properties: {
+            singleLine: {
+              type: 'object',
+              properties: {
+                mode: {
+                  type: 'string',
+                  enum: ['strict', 'minimum'],
+                },
+                beforeColon: {
+                  type: 'boolean',
+                },
+                afterColon: {
+                  type: 'boolean',
+                },
+              },
+              additionalProperties: false,
+            },
+            multiLine: {
+              type: 'object',
+              properties: {
+                mode: {
+                  type: 'string',
+                  enum: ['strict', 'minimum'],
+                },
+                beforeColon: {
+                  type: 'boolean',
+                },
+                afterColon: {
+                  type: 'boolean',
+                },
+              },
+              additionalProperties: false,
+            },
+            align: {
+              type: 'object',
+              properties: {
+                mode: {
+                  type: 'string',
+                  enum: ['strict', 'minimum'],
+                },
+                on: {
+                  type: 'string',
+                  enum: ['colon', 'value'],
+                },
+                beforeColon: {
+                  type: 'boolean',
+                },
+                afterColon: {
+                  type: 'boolean',
+                },
+              },
+              additionalProperties: false,
+            },
+          },
+          additionalProperties: false,
+        },
+      ],
+    }],
+    messages: {
+      extraKey: 'Extra space after {{computed}}key \'{{key}}\'.',
+      extraValue: 'Extra space before value for {{computed}}key \'{{key}}\'.',
+      missingKey: 'Missing space after {{computed}}key \'{{key}}\'.',
+      missingValue: 'Missing space before value for {{computed}}key \'{{key}}\'.',
+    },
   },
   defaultOptions: [{}],
   create(context, [_options]) {
