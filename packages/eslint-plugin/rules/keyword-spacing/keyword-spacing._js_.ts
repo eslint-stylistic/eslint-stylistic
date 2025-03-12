@@ -3,6 +3,9 @@
  * @author Toru Nagashima
  */
 
+// MERGED: The JS version of this rule is merged to the TS version, this file will be removed
+// in the next major when we remove the `@stylistic/eslint-plugin-js` package.
+
 import type { ASTNode, JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types._js_'
 import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
