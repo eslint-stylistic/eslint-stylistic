@@ -16,8 +16,8 @@ const baseSchema = Array.isArray(baseRule.meta.schema)
   ? baseRule.meta.schema[0]
   : baseRule.meta.schema
 
-type UnionToIntersection<U> =
-  (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never
+type UnionToIntersection<U>
+  = (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never
 
 type OptionsUnion = UnionToIntersection<Exclude<RuleOptions[0], undefined>>
 
@@ -62,10 +62,10 @@ export default createRule<RuleOptions, MessageIds>({
       return sourceCode.getTokenBefore(colonToken)!
     }
 
-    type KeyTypeNode =
-      | Tree.PropertyDefinition
-      | Tree.TSIndexSignature
-      | Tree.TSPropertySignature
+    type KeyTypeNode
+      = | Tree.PropertyDefinition
+        | Tree.TSIndexSignature
+        | Tree.TSPropertySignature
 
     type KeyTypeNodeWithTypeAnnotation = KeyTypeNode & {
       typeAnnotation: Tree.TSTypeAnnotation
