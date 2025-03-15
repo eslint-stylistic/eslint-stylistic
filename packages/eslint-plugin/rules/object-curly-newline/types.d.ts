@@ -2,8 +2,8 @@
 
 /* @checksum: arNfL2pa8v */
 
-export type ObjectCurlyNewlineSchema0 =
-  | (
+export type ObjectCurlyNewlineSchema0
+  = | (
       | ('always' | 'never')
       | {
         multiline?: boolean
@@ -61,8 +61,8 @@ export type ObjectCurlyNewlineRuleOptions = [
 ]
 
 export type RuleOptions = ObjectCurlyNewlineRuleOptions
-export type MessageIds =
-  | 'unexpectedLinebreakBeforeClosingBrace'
-  | 'unexpectedLinebreakAfterOpeningBrace'
-  | 'expectedLinebreakBeforeClosingBrace'
-  | 'expectedLinebreakAfterOpeningBrace'
+export type MessageIds
+  = | 'unexpectedLinebreakBeforeClosingBrace'
+    | 'unexpectedLinebreakAfterOpeningBrace'
+    | 'expectedLinebreakBeforeClosingBrace'
+    | 'expectedLinebreakAfterOpeningBrace'
