@@ -2,8 +2,8 @@
 
 /* @checksum: Vl4RUSFlaP */
 
-export type KeySpacingSchema0 =
-  | {
+export type KeySpacingSchema0
+  = | {
     align?:
         | ('colon' | 'value')
         | {
@@ -68,8 +68,8 @@ export type KeySpacingSchema0 =
 export type KeySpacingRuleOptions = [KeySpacingSchema0?]
 
 export type RuleOptions = KeySpacingRuleOptions
-export type MessageIds =
-  | 'extraKey'
-  | 'extraValue'
-  | 'missingKey'
-  | 'missingValue'
+export type MessageIds
+  = | 'extraKey'
+    | 'extraValue'
+    | 'missingKey'
+    | 'missingValue'

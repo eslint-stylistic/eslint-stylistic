@@ -2,9 +2,9 @@
 
 /* @checksum: jxsRj1vZfG */
 
-export type NoMixedSpacesAndTabsSchema0 =
-  | 'smart-tabs'
-  | boolean
+export type NoMixedSpacesAndTabsSchema0
+  = | 'smart-tabs'
+    | boolean
 
 export type NoMixedSpacesAndTabsRuleOptions = [
   NoMixedSpacesAndTabsSchema0?,

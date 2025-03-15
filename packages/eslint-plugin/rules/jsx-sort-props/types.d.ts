@@ -16,13 +16,13 @@ export interface JsxSortPropsSchema0 {
 export type JsxSortPropsRuleOptions = [JsxSortPropsSchema0?]
 
 export type RuleOptions = JsxSortPropsRuleOptions
-export type MessageIds =
-  | 'noUnreservedProps'
-  | 'listIsEmpty'
-  | 'listReservedPropsFirst'
-  | 'listCallbacksLast'
-  | 'listShorthandFirst'
-  | 'listShorthandLast'
-  | 'listMultilineFirst'
-  | 'listMultilineLast'
-  | 'sortPropsByAlpha'
+export type MessageIds
+  = | 'noUnreservedProps'
+    | 'listIsEmpty'
+    | 'listReservedPropsFirst'
+    | 'listCallbacksLast'
+    | 'listShorthandFirst'
+    | 'listShorthandLast'
+    | 'listMultilineFirst'
+    | 'listMultilineLast'
+    | 'sortPropsByAlpha'

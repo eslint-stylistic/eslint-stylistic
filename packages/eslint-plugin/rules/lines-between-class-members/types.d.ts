@@ -2,8 +2,8 @@
 
 /* @checksum: x1JAY1Pf9o */
 
-export type LinesBetweenClassMembersSchema0 =
-  | {
+export type LinesBetweenClassMembersSchema0
+  = | {
     /**
      * @minItems 1
      */
@@ -32,6 +32,6 @@ export type LinesBetweenClassMembersRuleOptions = [
   LinesBetweenClassMembersSchema1?,
 ]
 
-export type RuleOptions =
-  LinesBetweenClassMembersRuleOptions
+export type RuleOptions
+  = LinesBetweenClassMembersRuleOptions
 export type MessageIds = 'never' | 'always'

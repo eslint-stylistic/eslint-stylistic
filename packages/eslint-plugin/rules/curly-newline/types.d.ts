@@ -2,180 +2,180 @@
 
 /* @checksum: lTm9TwfObZ */
 
-export type CurlyNewlineSchema0 =
-  | ('always' | 'never')
-  | {
-    IfStatementConsequent?:
+export type CurlyNewlineSchema0
+  = | ('always' | 'never')
+    | {
+      IfStatementConsequent?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    IfStatementAlternative?:
+      IfStatementAlternative?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    DoWhileStatement?:
+      DoWhileStatement?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    ForInStatement?:
+      ForInStatement?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    ForOfStatement?:
+      ForOfStatement?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    ForStatement?:
+      ForStatement?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    WhileStatement?:
+      WhileStatement?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    SwitchStatement?:
+      SwitchStatement?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    SwitchCase?:
+      SwitchCase?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    TryStatementBlock?:
+      TryStatementBlock?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    TryStatementHandler?:
+      TryStatementHandler?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    TryStatementFinalizer?:
+      TryStatementFinalizer?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    BlockStatement?:
+      BlockStatement?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    ArrowFunctionExpression?:
+      ArrowFunctionExpression?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    FunctionDeclaration?:
+      FunctionDeclaration?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    FunctionExpression?:
+      FunctionExpression?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    Property?:
+      Property?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    ClassBody?:
+      ClassBody?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    StaticBlock?:
+      StaticBlock?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    WithStatement?:
+      WithStatement?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    TSEnumBody?:
+      TSEnumBody?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    TSInterfaceBody?:
+      TSInterfaceBody?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    TSModuleBlock?:
+      TSModuleBlock?:
         | ('always' | 'never')
         | {
           multiline?: boolean
           minElements?: number
           consistent?: boolean
         }
-    multiline?: boolean
-    minElements?: number
-    consistent?: boolean
-  }
+      multiline?: boolean
+      minElements?: number
+      consistent?: boolean
+    }
 
 export type CurlyNewlineRuleOptions = [CurlyNewlineSchema0?]
 
 export type RuleOptions = CurlyNewlineRuleOptions
-export type MessageIds =
-  | 'unexpectedLinebreakBeforeClosingBrace'
-  | 'unexpectedLinebreakAfterOpeningBrace'
-  | 'expectedLinebreakBeforeClosingBrace'
-  | 'expectedLinebreakAfterOpeningBrace'
+export type MessageIds
+  = | 'unexpectedLinebreakBeforeClosingBrace'
+    | 'unexpectedLinebreakAfterOpeningBrace'
+    | 'expectedLinebreakBeforeClosingBrace'
+    | 'expectedLinebreakAfterOpeningBrace'

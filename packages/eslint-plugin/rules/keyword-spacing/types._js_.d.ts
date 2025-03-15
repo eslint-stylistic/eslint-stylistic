@@ -290,8 +290,8 @@ export type KeywordSpacingRuleOptions = [
 ]
 
 export type RuleOptions = KeywordSpacingRuleOptions
-export type MessageIds =
-  | 'expectedBefore'
-  | 'expectedAfter'
-  | 'unexpectedBefore'
-  | 'unexpectedAfter'
+export type MessageIds
+  = | 'expectedBefore'
+    | 'expectedAfter'
+    | 'unexpectedBefore'
+    | 'unexpectedAfter'

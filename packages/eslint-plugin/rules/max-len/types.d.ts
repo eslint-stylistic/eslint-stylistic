@@ -2,8 +2,8 @@
 
 /* @checksum: HsGpTK1r5l */
 
-export type MaxLenSchema0 =
-  | {
+export type MaxLenSchema0
+  = | {
     code?: number
     comments?: number
     tabWidth?: number
@@ -17,8 +17,8 @@ export type MaxLenSchema0 =
   }
   | number
 
-export type MaxLenSchema1 =
-  | {
+export type MaxLenSchema1
+  = | {
     code?: number
     comments?: number
     tabWidth?: number

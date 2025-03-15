@@ -24,10 +24,10 @@ export type SpacedCommentRuleOptions = [
 ]
 
 export type RuleOptions = SpacedCommentRuleOptions
-export type MessageIds =
-  | 'unexpectedSpaceAfterMarker'
-  | 'expectedExceptionAfter'
-  | 'unexpectedSpaceBefore'
-  | 'unexpectedSpaceAfter'
-  | 'expectedSpaceBefore'
-  | 'expectedSpaceAfter'
+export type MessageIds
+  = | 'unexpectedSpaceAfterMarker'
+    | 'expectedExceptionAfter'
+    | 'unexpectedSpaceBefore'
+    | 'unexpectedSpaceAfter'
+    | 'expectedSpaceBefore'
+    | 'expectedSpaceAfter'
