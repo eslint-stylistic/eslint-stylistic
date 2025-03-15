@@ -318,15 +318,6 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Gets the last element of an array.
-     * @param arr An array.
-     * @returns Last element of arr.
-     */
-    function last<T>(arr: T[]): T {
-      return arr[arr.length - 1]
-    }
-
-    /**
      * Checks whether a node is contained on a single line.
      * @param node AST Node being evaluated.
      * @returns True if the node is a single line.
@@ -356,7 +347,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function isSingleLineProperties(properties: ASTNode[]) {
       const [firstProp] = properties
-      const lastProp = last(properties)
+      const lastProp = properties.at(-1)!
 
       return firstProp.loc.start.line === lastProp.loc.end.line
     }
@@ -438,7 +429,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (
         leadingComments.length
         && leadingComments[0].loc.start.line - groupEndLine <= 1
-        && candidateValueStartLine - last(leadingComments).loc.end.line <= 1
+        && candidateValueStartLine - leadingComments.at(-1)!.loc.end.line <= 1
       ) {
         for (let i = 1; i < leadingComments.length; i++) {
           if (leadingComments[i].loc.start.line - leadingComments[i - 1].loc.end.line > 1)
@@ -593,8 +584,8 @@ export default createRule<RuleOptions, MessageIds>({
         return [properties]
 
       return properties.reduce<(Tree.ObjectLiteralElement | Tree.ImportAttribute)[][]>((groups, property) => {
-        const currentGroup = last(groups)
-        const prev = last(currentGroup)
+        const currentGroup = groups.at(-1)!
+        const prev = currentGroup.at(-1)
 
         if (!prev || continuesPropertyGroup(prev, property))
           currentGroup.push(property)
