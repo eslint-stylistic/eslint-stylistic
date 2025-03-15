@@ -298,6 +298,7 @@ export default createRule<RuleOptions, MessageIds>({
   },
   defaultOptions: [{}],
   create(context, [_options]) {
+    // TODO: need to unify the usage of options
     const options: OptionsUnion = _options || {}
     const ruleOptions = initOptions({}, options)
     const multiLineOptions = ruleOptions.multiLine
