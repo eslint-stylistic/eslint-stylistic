@@ -439,12 +439,6 @@ export default createRule<RuleOptions, MessageIds>({
         ) {
           return
         }
-        const srcLineList = context.sourceCode.getText(node).split('\n')
-        const lastLine = srcLineList[srcLineList.length - 1]
-        const bare = lastLine.trim()
-        if (!(bare === ')' || bare === ');')) {
-          return
-        }
 
         const srcLineList = context.sourceCode.getText(node).split('\n')
         const lastLine = srcLineList[srcLineList.length - 1]
