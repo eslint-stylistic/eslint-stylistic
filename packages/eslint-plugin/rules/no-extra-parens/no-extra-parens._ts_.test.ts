@@ -27,13 +27,6 @@ run({
     'new a<import(\'\')>(1);',
     'a<A>(1);',
     {
-      code: $`
-        return (
-          a % b == 0
-        )
-      `,
-    },
-    {
       code: '(++(<A>a))(b); ((c as C)++)(d);',
       parserOptions: { ecmaFeatures: { jsx: false } },
     },
@@ -795,23 +788,6 @@ run({
         {
           messageId: 'unexpected',
           column: 9,
-        },
-      ],
-    },
-    {
-      code: $`
-        function fn(){
-          return (a==b)
-        }
-      `,
-      output: $`
-        function fn(){
-          return a==b
-        }
-      `,
-      errors: [
-        {
-          messageId: 'unexpected',
         },
       ],
     },

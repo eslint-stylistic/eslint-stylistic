@@ -1166,6 +1166,28 @@ const Component = () => (
       options: [2],
     },
     {
+      code: `
+        function test (){
+          return (
+            <div>
+            </div>);
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: `
+        function test (){
+          const render = ()=>(<></>)
+          return (
+            <div>
+              {render()}</div>
+          );
+        }
+      `,
+      options: [2],
+    },
+    {
       options: [2, { checkAttributes: true, indentLogicalExpressions: true }],
       code: `
       <>
@@ -1431,16 +1453,6 @@ const Component = () => (
       errors: [
         {
           messageId: 'wrongIndent',
-          line: 3,
-          data: {
-            needed: 10,
-            type: 'space',
-            characters: 'characters',
-            gotten: 12,
-          },
-        },
-        {
-          messageId: 'wrongIndent',
           line: 5,
           data: {
             needed: 10,
@@ -1486,6 +1498,23 @@ const Component = () => (
           },
         },
       ],
+    },
+    {
+      code: `
+        export function A() {
+          return (
+            <div>
+          </div>);
+        }
+      `,
+      output: `
+        export function A() {
+          return (
+            <div>
+            </div>);
+        }
+      `,
+      options: [2],
     },
     {
       code: `
