@@ -439,14 +439,11 @@ export default createRule<RuleOptions, MessageIds>({
         ) {
           return
         }
-
-        const srcLines = context.sourceCode.getText(node).split('\n')
-        const lastLine = srcLines[srcLines.length - 1]
-        const len = lastLine.length
-        for (let idx = len - 1; idx > len - 3; --idx) {
-          if (lastLine[idx] === ')' && lastLine[idx - 1] !== ' ') {
-            return
-          }
+        const srcLineList = context.sourceCode.getText(node).split('\n')
+        const lastLine = srcLineList[srcLineList.length - 1]
+        const bare = lastLine.trim()
+        if (!(bare === ')' || bare === ');')) {
+          return
         }
 
         const openingIndent = getNodeIndent(node)

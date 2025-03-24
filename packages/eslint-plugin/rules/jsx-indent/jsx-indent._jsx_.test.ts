@@ -1178,6 +1178,16 @@ const Component = () => (
     {
       code: `
         function test (){
+          return (
+            <div>
+            </div> );
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: `
+        function test (){
           const render = ()=>(<></>)
           return (
             <div>
@@ -1412,16 +1422,6 @@ const Component = () => (
       `,
       options: [2],
       errors: [
-        {
-          messageId: 'wrongIndent',
-          line: 3,
-          data: {
-            needed: 10,
-            type: 'space',
-            characters: 'characters',
-            gotten: 17,
-          },
-        },
         {
           messageId: 'wrongIndent',
           line: 5,
