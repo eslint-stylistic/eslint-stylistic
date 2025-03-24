@@ -1351,6 +1351,7 @@ export default createRule<RuleOptions, MessageIds>({
           // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
           && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex)
         ) {
+          // When multiple lines are returned and the first line contains only one '(', do not report, otherwise it will destroy the program
           const returnNode = node.argument
           const returnLine = sourceCode.getText(node).split('\n')[0]
           if ((returnLine.match(/\(/g) || []).length === 1 && returnNode.loc.start.line !== returnNode.loc.end.line)
