@@ -852,5 +852,27 @@ run({
         },
       ],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/699
+    {
+      code: `
+        ((a, b) => {
+          return (
+            a % b == 0
+          ) || (a % b == 1)
+        })()
+      `,
+      output: `
+        ((a, b) => {
+          return (
+            a % b == 0
+          ) || a % b == 1
+        })()
+      `,
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
   ],
 })
