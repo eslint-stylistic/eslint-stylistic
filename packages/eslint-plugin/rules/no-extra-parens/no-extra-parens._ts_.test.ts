@@ -874,5 +874,47 @@ run({
         },
       ],
     },
+    {
+      code: `
+        ((a, b) => {
+          return (a % b == 0)
+            || (a % b == 1)
+        })()
+      `,
+      output: `
+        ((a, b) => {
+          return a % b == 0
+            || a % b == 1
+        })()
+      `,
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
+    {
+      code: `
+        (a, b) => {
+          return (a % b == 0) || (a % b == 1)
+        }
+      `,
+      output: `
+        (a, b) => {
+          return a % b == 0 || a % b == 1
+        }
+      `,
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
   ],
 })
