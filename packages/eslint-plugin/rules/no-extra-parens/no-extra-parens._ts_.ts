@@ -704,6 +704,8 @@ export default createRule<RuleOptions, MessageIds>({
           if (
             !(['AwaitExpression', 'UnaryExpression'].includes(n.left.type) && isExponentiation)
             && !isMixedLogicalAndCoalesceExpressions(n.left, n)
+            // The parent is a ReturnStatement spanning multiple lines without parentheses
+            && !(n.parent.type === 'ReturnStatement' && n.parent.loc.start.line !== n.left.loc.start.line && !isParenthesised(n))
             && (leftPrecedence > prec || (leftPrecedence === prec && !isExponentiation))
             || isParenthesisedTwice(n.left)
           ) {
@@ -1351,16 +1353,6 @@ export default createRule<RuleOptions, MessageIds>({
           // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
           && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex)
         ) {
-          /**
-           * When multiple lines are returned and the first line contains only one '(', do not report.
-           * Otherwise, it will destroy the program
-           * (https://github.com/eslint-stylistic/eslint-stylistic/issues/699)
-           */
-          const returnNode = node.argument
-          const returnLine = sourceCode.getText(node).split('\n')[0]
-          if ((returnLine.match(/\(/g) || []).length === 1 && returnNode.loc.start.line !== returnNode.loc.end.line)
-            return
-
           report(node.argument)
         }
       },
