@@ -3,6 +3,7 @@
  * @author Michael Ficarra
  */
 
+import type { RuleOptions } from './types'
 import { $, run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from '.'
@@ -35,7 +36,7 @@ function invalid(code: string, output: string | null, type?: string, line?: numb
   return result
 }
 
-run({
+run<RuleOptions>({
   name: 'no-extra-parens',
   rule,
   lang: 'js',

@@ -3,10 +3,11 @@
  * @author Matt DuVall <http://www.mattduvall.com/>, Michael Paulukonis
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'quotes',
   rule,
   lang: 'js',

@@ -3,6 +3,7 @@
  * @author Toru Nagashima
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
@@ -11,7 +12,7 @@ const expectedAfterError = { messageId: 'expectedAfter' }
 const unexpectedBeforeError = { messageId: 'unexpectedBefore' }
 const unexpectedAfterError = { messageId: 'unexpectedAfter' }
 
-run({
+run<RuleOptions>({
   name: 'switch-colon-spacing',
   rule,
   valid: [

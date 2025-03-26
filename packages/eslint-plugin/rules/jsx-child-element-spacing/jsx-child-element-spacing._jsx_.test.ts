@@ -1,8 +1,9 @@
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-child-element-spacing._jsx_'
 
-run({
+run<RuleOptions>({
   name: 'jsx-child-element-spacing',
   rule,
   parserOptions: {
@@ -11,7 +12,7 @@ run({
     },
   },
 
-  valid: valids(
+  valid: valids<RuleOptions>(
     {
       code: `
         <App>
@@ -184,7 +185,7 @@ run({
     },
   ),
 
-  invalid: invalids(
+  invalid: invalids<RuleOptions>(
     {
       code: `
         <App>

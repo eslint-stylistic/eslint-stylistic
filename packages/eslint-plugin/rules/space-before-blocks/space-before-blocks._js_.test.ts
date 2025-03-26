@@ -3,25 +3,26 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from '.'
 
-const alwaysArgs = ['always']
-const neverArgs = ['never']
-const functionsOnlyArgs = [{ functions: 'always', keywords: 'never', classes: 'never' }]
-const keywordOnlyArgs = [{ functions: 'never', keywords: 'always', classes: 'never' }]
-const classesOnlyArgs = [{ functions: 'never', keywords: 'never', classes: 'always' }]
-const functionsAlwaysOthersOffArgs = [{ functions: 'always', keywords: 'off', classes: 'off' }]
-const keywordAlwaysOthersOffArgs = [{ functions: 'off', keywords: 'always', classes: 'off' }]
-const classesAlwaysOthersOffArgs = [{ functions: 'off', keywords: 'off', classes: 'always' }]
-const functionsNeverOthersOffArgs = [{ functions: 'never', keywords: 'off', classes: 'off' }]
-const keywordNeverOthersOffArgs = [{ functions: 'off', keywords: 'never', classes: 'off' }]
-const classesNeverOthersOffArgs = [{ functions: 'off', keywords: 'off', classes: 'never' }]
+const alwaysArgs: RuleOptions = ['always']
+const neverArgs: RuleOptions = ['never']
+const functionsOnlyArgs: RuleOptions = [{ functions: 'always', keywords: 'never', classes: 'never' }]
+const keywordOnlyArgs: RuleOptions = [{ functions: 'never', keywords: 'always', classes: 'never' }]
+const classesOnlyArgs: RuleOptions = [{ functions: 'never', keywords: 'never', classes: 'always' }]
+const functionsAlwaysOthersOffArgs: RuleOptions = [{ functions: 'always', keywords: 'off', classes: 'off' }]
+const keywordAlwaysOthersOffArgs: RuleOptions = [{ functions: 'off', keywords: 'always', classes: 'off' }]
+const classesAlwaysOthersOffArgs: RuleOptions = [{ functions: 'off', keywords: 'off', classes: 'always' }]
+const functionsNeverOthersOffArgs: RuleOptions = [{ functions: 'never', keywords: 'off', classes: 'off' }]
+const keywordNeverOthersOffArgs: RuleOptions = [{ functions: 'off', keywords: 'never', classes: 'off' }]
+const classesNeverOthersOffArgs: RuleOptions = [{ functions: 'off', keywords: 'off', classes: 'never' }]
 const expectedSpacingError = { messageId: 'missingSpace' }
 const expectedNoSpacingError = { messageId: 'unexpectedSpace' }
 
-run({
+run<RuleOptions>({
   name: 'space-before-blocks',
   rule,
   lang: 'js',

@@ -3,10 +3,11 @@
  * @author Ian Christian Myers
  */
 
+import type { RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'brace-style',
   rule,
   valid: [

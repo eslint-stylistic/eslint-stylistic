@@ -3,13 +3,14 @@
  * @author Teddy Katz
  */
 
+import type { RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from '.'
 
 const EXPECTED_LINEBREAK = { messageId: 'expectLinebreak' }
 const UNEXPECTED_LINEBREAK = { messageId: 'expectNoLinebreak' }
 
-run({
+run<RuleOptions>({
   name: 'nonblock-statement-body-position',
   rule,
 

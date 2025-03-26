@@ -3,11 +3,12 @@
  * @author Michael Ficarra
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'space-infix-ops',
   rule,
   lang: 'js',

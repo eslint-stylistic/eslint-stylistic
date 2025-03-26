@@ -3,11 +3,12 @@
  * @author Joachim Seminck
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-first-prop-new-line._jsx_'
 
-run({
+run<RuleOptions>({
   name: 'jsx-first-prop-new-line',
   rule,
   parserOptions: {
@@ -16,7 +17,7 @@ run({
     },
   },
 
-  valid: valids(
+  valid: valids<RuleOptions>(
     {
       code: '<Foo />',
       options: ['never'],
@@ -146,7 +147,7 @@ run({
     },
   ),
 
-  invalid: invalids(
+  invalid: invalids<RuleOptions>(
     {
       code: `
         <Foo propOne="one" propTwo="two" />

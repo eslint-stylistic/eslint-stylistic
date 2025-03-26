@@ -3,13 +3,15 @@
  * @author Toru Nagashima
  */
 
+import type { InvalidTestCase, ValidTestCase } from '#test'
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-const valid: any[] = []
-const invalid: any[] = []
+const valid: ValidTestCase<RuleOptions>[] = []
+const invalid: InvalidTestCase<RuleOptions>[] = []
 
-function test(options: any, code: string, output?: null | string, ...errors: any[]) {
+function test(options: RuleOptions[0], code: string, output?: null | string, ...errors: any[]) {
   if (output === undefined) {
     valid.push({ code, options: options !== undefined ? [options] : [] })
   }
@@ -139,9 +141,11 @@ test({ multiline: true, consistent: true, minElements: 2 }, `{\nvoid 0;void 0\n}
 
 // specializations
 
-function specializationTest(specialization: string, code: string): void
-function specializationTest(specialization: string, code: string, output: string, openingBraceColumn: number, closingBraceColumn: number): void
-function specializationTest(specialization: string, code: string, output?: string, openingBraceColumn?: number, closingBraceColumn?: number) {
+type SpecializationOption = keyof Extract<RuleOptions[0], object>
+
+function specializationTest(specialization: SpecializationOption, code: string): void
+function specializationTest(specialization: SpecializationOption, code: string, output: string, openingBraceColumn: number, closingBraceColumn: number): void
+function specializationTest(specialization: SpecializationOption, code: string, output?: string, openingBraceColumn?: number, closingBraceColumn?: number) {
   invalid.push({
     code: `{\n${code}\n}`,
     output: `{${output ?? code}}`,
@@ -187,7 +191,7 @@ specializationTest('TSEnumBody', `enum _{}`, `enum _{\n}`, 7, 8)
 specializationTest('TSInterfaceBody', `interface _{}`, `interface _{\n}`, 12, 13)
 specializationTest('TSModuleBlock', `module _{}`, `module _{\n}`, 9, 10)
 
-run({
+run<RuleOptions>({
   name: 'curly-newline',
   rule,
   valid,

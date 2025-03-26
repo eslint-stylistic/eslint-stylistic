@@ -3,13 +3,14 @@
  * @author Sharmila Jesupaul
  */
 
+import type { RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from '.'
 
 const EXPECTED_LINEBREAK = { messageId: 'expected' }
 const UNEXPECTED_LINEBREAK = { messageId: 'unexpected' }
 
-run({
+run<RuleOptions>({
   name: 'implicit-arrow-linebreak',
   rule,
   valid: [

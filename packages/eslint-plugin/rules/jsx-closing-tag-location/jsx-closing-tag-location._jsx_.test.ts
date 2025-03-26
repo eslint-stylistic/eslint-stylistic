@@ -3,11 +3,12 @@
  * @author Ross Solomon
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-closing-tag-location._jsx_'
 
-run({
+run<RuleOptions>({
   name: 'jsx-closing-tag-location',
   rule,
   parserOptions: {

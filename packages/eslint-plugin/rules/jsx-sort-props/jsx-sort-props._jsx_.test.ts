@@ -3,6 +3,7 @@
  * @author Yannick Croissant
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-sort-props._jsx_'
@@ -42,55 +43,55 @@ const expectedInvalidReservedFirstError = {
   messageId: 'noUnreservedProps',
   data: { unreservedWords: 'notReserved' },
 }
-const callbacksLastArgs = [{ callbacksLast: true }]
-const ignoreCaseAndCallbackLastArgs = [
+const callbacksLastArgs: RuleOptions = [{ callbacksLast: true }]
+const ignoreCaseAndCallbackLastArgs: RuleOptions = [
   {
     callbacksLast: true,
     ignoreCase: true,
   },
 ]
-const reservedFirstAndCallbacksLastArgs = [
+const reservedFirstAndCallbacksLastArgs: RuleOptions = [
   {
     callbacksLast: true,
     reservedFirst: true,
   },
 ]
-const shorthandFirstArgs = [{ shorthandFirst: true }]
-const shorthandLastArgs = [{ shorthandLast: true }]
-const shorthandAndCallbackLastArgs = [
+const shorthandFirstArgs: RuleOptions = [{ shorthandFirst: true }]
+const shorthandLastArgs: RuleOptions = [{ shorthandLast: true }]
+const shorthandAndCallbackLastArgs: RuleOptions = [
   {
     callbacksLast: true,
     shorthandLast: true,
   },
 ]
-const ignoreCaseArgs = [{ ignoreCase: true }]
-const noSortAlphabeticallyArgs = [{ noSortAlphabetically: true }]
-const sortAlphabeticallyArgs = [{ noSortAlphabetically: false }]
-const reservedFirstAsBooleanArgs = [{ reservedFirst: true }]
-const reservedFirstAsArrayArgs = [{ reservedFirst: ['children', 'dangerouslySetInnerHTML', 'key'] }]
-const reservedFirstWithNoSortAlphabeticallyArgs = [
+const ignoreCaseArgs: RuleOptions = [{ ignoreCase: true }]
+const noSortAlphabeticallyArgs: RuleOptions = [{ noSortAlphabetically: true }]
+const sortAlphabeticallyArgs: RuleOptions = [{ noSortAlphabetically: false }]
+const reservedFirstAsBooleanArgs: RuleOptions = [{ reservedFirst: true }]
+const reservedFirstAsArrayArgs: RuleOptions = [{ reservedFirst: ['children', 'dangerouslySetInnerHTML', 'key'] }]
+const reservedFirstWithNoSortAlphabeticallyArgs: RuleOptions = [
   {
     noSortAlphabetically: true,
     reservedFirst: true,
   },
 ]
-const reservedFirstWithShorthandLast = [
+const reservedFirstWithShorthandLast: RuleOptions = [
   {
     reservedFirst: true,
     shorthandLast: true,
   },
 ]
-const reservedFirstAsEmptyArrayArgs = [{ reservedFirst: [] }]
-const reservedFirstAsInvalidArrayArgs = [{ reservedFirst: ['notReserved'] }]
-const multilineFirstArgs = [{ multiline: 'first' }]
-const multilineAndShorthandFirstArgs = [
+const reservedFirstAsEmptyArrayArgs: RuleOptions = [{ reservedFirst: [] }]
+const reservedFirstAsInvalidArrayArgs: RuleOptions = [{ reservedFirst: ['notReserved'] }]
+const multilineFirstArgs: RuleOptions = [{ multiline: 'first' }]
+const multilineAndShorthandFirstArgs: RuleOptions = [
   {
     multiline: 'first',
     shorthandFirst: true,
   },
 ]
-const multilineLastArgs = [{ multiline: 'last' }]
-const multilineAndShorthandAndCallbackLastArgs = [
+const multilineLastArgs: RuleOptions = [{ multiline: 'last' }]
+const multilineAndShorthandAndCallbackLastArgs: RuleOptions = [
   {
     multiline: 'last',
     shorthandLast: true,
@@ -98,7 +99,7 @@ const multilineAndShorthandAndCallbackLastArgs = [
   },
 ]
 
-run({
+run<RuleOptions>({
   name: 'jsx-sort-props',
   rule,
   parserOptions: {
@@ -107,7 +108,7 @@ run({
     },
   },
 
-  valid: valids(
+  valid: valids<RuleOptions>(
     { code: '<App />;' },
     { code: '<App {...this.props} />;' },
     { code: '<App a b c />;' },
@@ -283,7 +284,7 @@ run({
       options: [{ locale: 'sk-SK' }],
     },
   ),
-  invalid: invalids(
+  invalid: invalids<RuleOptions>(
     {
       code: '<App b a />;',
       errors: [expectedError],

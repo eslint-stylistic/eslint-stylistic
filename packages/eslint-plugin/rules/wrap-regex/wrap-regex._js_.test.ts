@@ -3,10 +3,11 @@
  * @author Nicholas C. Zakas
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'wrap-regex',
   rule,
   valid: [

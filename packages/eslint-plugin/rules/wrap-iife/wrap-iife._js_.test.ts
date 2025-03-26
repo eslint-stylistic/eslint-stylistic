@@ -3,6 +3,7 @@
  * @author Ilya Volodin
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
@@ -10,7 +11,7 @@ const wrapInvocationError = { messageId: 'wrapInvocation', type: 'CallExpression
 const wrapExpressionError = { messageId: 'wrapExpression', type: 'CallExpression' }
 const moveInvocationError = { messageId: 'moveInvocation', type: 'CallExpression' }
 
-run({
+run<RuleOptions>({
   name: 'wrap-iife',
   rule,
   valid: [

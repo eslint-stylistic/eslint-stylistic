@@ -3,6 +3,7 @@
  * @author Bryan Smith
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
@@ -11,7 +12,7 @@ const missingAfterError = { messageId: 'missingAfter', type: 'Punctuator' }
 const unexpectedBeforeError = { messageId: 'unexpectedBefore', type: 'Punctuator' }
 const unexpectedAfterError = { messageId: 'unexpectedAfter', type: 'Punctuator' }
 
-run({
+run<RuleOptions>({
   name: 'yield-star-spacing',
   rule,
 

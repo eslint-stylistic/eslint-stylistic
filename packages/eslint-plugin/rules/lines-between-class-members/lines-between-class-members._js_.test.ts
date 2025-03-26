@@ -3,13 +3,14 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
 const alwaysError = { messageId: 'always' }
 const neverError = { messageId: 'never' }
 
-run({
+run<RuleOptions>({
   name: 'lines-between-class-members',
   rule,
   valid: [

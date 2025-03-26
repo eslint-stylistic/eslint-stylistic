@@ -1,3 +1,4 @@
+import type { RuleOptions } from './types'
 /**
  * @fileoverview This option sets a specific tab width for your code
  * @author Dmitriy Shekhovtsov
@@ -55,7 +56,7 @@ export function expectedErrors(providedIndentType: any, providedErrors?: any): E
   }))
 }
 
-run({
+run<RuleOptions>({
   name: 'indent',
   rule,
   lang: 'js',

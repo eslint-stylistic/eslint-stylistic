@@ -3,10 +3,11 @@
  * @author Jary Niebur
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'no-mixed-spaces-and-tabs',
   rule,
 

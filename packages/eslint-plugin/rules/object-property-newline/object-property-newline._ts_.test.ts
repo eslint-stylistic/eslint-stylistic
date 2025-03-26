@@ -1,5 +1,6 @@
 import type { InvalidTestCase, TestCaseError, ValidTestCase } from '#test'
 import type { NodeTypes } from '#types'
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
@@ -13,7 +14,7 @@ function createValidRule(input: string[], option: boolean) {
   const code = `${input.join('\n')}// ${JSON.stringify(option) || 'default'}`
 
   return Object.entries(prefixOfNodes).flatMap(([_, prefix]) => {
-    const res: ValidTestCase[] = [
+    const res: ValidTestCase<RuleOptions>[] = [
       { code: `${prefix}${code}`, options: [{ allowAllPropertiesOnSameLine: option }] },
       { code: `${prefix}${code}`, options: [{ /* deprecated */ allowMultiplePropertiesPerLine: option }] },
     ]
@@ -35,7 +36,7 @@ function createInvalidRule(input: string[], out: string[], err: TestCaseError[],
       column: e.line === 1 && typeof e.column === 'number' ? e.column + prefix.length : e.column,
     }))
 
-    const res: InvalidTestCase[] = [
+    const res: InvalidTestCase<RuleOptions>[] = [
       { code: `${prefix}${code}`, output: `${prefix}${output}`, errors, options: [{ allowAllPropertiesOnSameLine: option }] },
       { code: `${prefix}${code}`, output: `${prefix}${output}`, errors, options: [{ /* deprecated */ allowMultiplePropertiesPerLine: option }] },
     ]
@@ -46,7 +47,7 @@ function createInvalidRule(input: string[], out: string[], err: TestCaseError[],
   })
 }
 
-run({
+run<RuleOptions>({
   name: 'object-property-newline',
   rule,
   valid: [

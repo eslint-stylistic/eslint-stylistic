@@ -3,6 +3,7 @@
  * @author Greg Cochard
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
@@ -58,7 +59,7 @@ function getExpectedErrorBOF(lines: number) {
   }
 }
 
-run({
+run<RuleOptions>({
   name: 'no-multiple-empty-lines',
   rule,
 

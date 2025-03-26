@@ -3,10 +3,11 @@
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'quote-props',
   rule,
   lang: 'js',

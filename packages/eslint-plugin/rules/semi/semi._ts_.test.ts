@@ -20,7 +20,7 @@ const extraSemicolon = {
   messageId: 'extraSemi' as const,
 }
 
-run({
+run<RuleOptions>({
   name: 'semi',
   rule,
   valid: [
@@ -256,7 +256,7 @@ run({
       'export default (foo) => foo.bar();',
       'export default foo = 42;',
       'export default foo += 42;',
-    ].reduce<ValidTestCase[]>((acc, code) => {
+    ].reduce<ValidTestCase<RuleOptions>[]>((acc, code) => {
       acc.push({
         code,
         options: ['always'],
@@ -1071,7 +1071,7 @@ run({
           },
         ],
       },
-    ].reduce<InvalidTestCase[]>((acc, test) => {
+    ].reduce<InvalidTestCase<RuleOptions>[]>((acc, test) => {
       acc.push({
         code: test.code.replace(/;/g, ''),
         output: test.code,
