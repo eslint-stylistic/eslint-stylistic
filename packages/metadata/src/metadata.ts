@@ -1516,6 +1516,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "operator-linebreak",
+        "ruleId": "@stylistic/ts/operator-linebreak",
+        "originalId": "@typescript-eslint/operator-linebreak",
+        "entry": "packages/eslint-plugin/rules/operator-linebreak/operator-linebreak._ts_.ts",
+        "docsEntry": "packages/eslint-plugin/rules/operator-linebreak/README._ts_.md",
+        "meta": {
+          "fixable": "code",
+          "docs": {
+            "description": "Enforce consistent linebreak style for operators",
+            "recommended": true
+          }
+        }
+      },
+      {
         "name": "padding-line-between-statements",
         "ruleId": "@stylistic/ts/padding-line-between-statements",
         "originalId": "@typescript-eslint/padding-line-between-statements",

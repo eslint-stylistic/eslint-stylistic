@@ -9,8 +9,8 @@ export type TemplateCurlySpacingRuleOptions = [
 ]
 
 export type RuleOptions = TemplateCurlySpacingRuleOptions
-export type MessageIds =
-  | 'expectedBefore'
-  | 'expectedAfter'
-  | 'unexpectedBefore'
-  | 'unexpectedAfter'
+export type MessageIds
+  = | 'expectedBefore'
+    | 'expectedAfter'
+    | 'unexpectedBefore'
+    | 'unexpectedAfter'
