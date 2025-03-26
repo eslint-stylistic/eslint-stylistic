@@ -620,12 +620,12 @@ run<RuleOptions>({
     },
     {
       code: 'import(source)',
-      options: { functions: 'always' },
+      options: [{ functions: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
     {
       code: 'import(source,)',
-      options: { functions: 'never', dynamicImports: 'always' },
+      options: [{ functions: 'never', dynamicImports: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
 
@@ -665,7 +665,7 @@ run<RuleOptions>({
     },
     {
       code: 'import foo from "foo" with {type: "json",}',
-      options: { functions: 'never', importAttributes: 'always' },
+      options: [{ functions: 'never', importAttributes: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
     {
@@ -703,7 +703,7 @@ run<RuleOptions>({
     },
     {
       code: 'export {foo} from "foo" with {type: "json",}',
-      options: { functions: 'never', importAttributes: 'always' },
+      options: [{ functions: 'never', importAttributes: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
     {
@@ -741,7 +741,7 @@ run<RuleOptions>({
     },
     {
       code: 'export * from "foo" with {type: "json",}',
-      options: { functions: 'never', importAttributes: 'always' },
+      options: [{ functions: 'never', importAttributes: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
   ],
@@ -2178,7 +2178,7 @@ run<RuleOptions>({
     {
       code: 'import(source)',
       output: 'import(source,)',
-      options: { functions: 'never', dynamicImports: 'always' },
+      options: [{ functions: 'never', dynamicImports: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
 
@@ -2229,7 +2229,7 @@ run<RuleOptions>({
     {
       code: 'import foo from "foo" with {type: "json"}',
       output: 'import foo from "foo" with {type: "json",}',
-      options: { functions: 'never', importAttributes: 'always' },
+      options: [{ functions: 'never', importAttributes: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
     {
@@ -2278,7 +2278,7 @@ run<RuleOptions>({
     {
       code: 'export {foo} from "foo" with {type: "json"}',
       output: 'export {foo} from "foo" with {type: "json",}',
-      options: { functions: 'never', importAttributes: 'always' },
+      options: [{ functions: 'never', importAttributes: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
     {
@@ -2327,7 +2327,7 @@ run<RuleOptions>({
     {
       code: 'export * from "foo" with {type: "json"}',
       output: 'export * from "foo" with {type: "json",}',
-      options: { functions: 'never', importAttributes: 'always' },
+      options: [{ functions: 'never', importAttributes: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
   ],
