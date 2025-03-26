@@ -440,6 +440,17 @@ export default createRule<RuleOptions, MessageIds>({
           return
         }
 
+        /**
+         * If the last line is equal to something other than ')' or ');', skip checking
+         * (https://github.com/eslint-stylistic/eslint-stylistic/issues/737)
+         */
+        const srcLineList = context.sourceCode.getText(node).split('\n')
+        const lastLine = srcLineList[srcLineList.length - 1]
+        const bare = lastLine.trim()
+        if (!(bare === ')' || bare === ');')) {
+          return
+        }
+
         const openingIndent = getNodeIndent(node)
         const closingIndent = getNodeIndent(node, true)
 
