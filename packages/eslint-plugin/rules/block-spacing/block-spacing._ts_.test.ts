@@ -34,7 +34,7 @@ run<RuleOptions>({
     // Empty blocks don't apply
     ...options.flatMap(option =>
       typeDeclarations.flatMap<ValidTestCase<RuleOptions>>(typeDec =>
-        emptyBlocks.map<ValidTestCase>(blockType => ({
+        emptyBlocks.map<ValidTestCase<RuleOptions>>(blockType => ({
           code: typeDec.stringPrefix + blockType,
           options: [option],
         })),
