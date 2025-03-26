@@ -32,6 +32,8 @@ export default createRule<RuleOptions, MessageIds>({
   },
 
   create(context) {
+    const { sourceCode } = context
+
     const always = context.options[0] === 'always'
 
     /**
@@ -59,11 +61,15 @@ export default createRule<RuleOptions, MessageIds>({
       declarations.forEach((current) => {
         if (prev && prev.loc.end.line === current.loc.start.line) {
           if (always || prev.init || current.init) {
+            const tokenBeforeDeclarator = sourceCode.getTokenBefore(current, { includeComments: false })
+            if (tokenBeforeDeclarator === null || tokenBeforeDeclarator.value !== ',')
+              return null
+
             context.report({
               node,
               messageId: 'expectVarOnNewline',
               loc: current.loc,
-              fix: fixer => fixer.insertTextBefore(current, '\n'),
+              fix: fixer => fixer.insertTextAfter(tokenBeforeDeclarator, '\n'),
             })
           }
         }
