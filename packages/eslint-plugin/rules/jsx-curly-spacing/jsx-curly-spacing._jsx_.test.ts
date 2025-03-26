@@ -4,11 +4,12 @@
  * @author Erik Wendel
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-curly-spacing._jsx_'
 
-run({
+run<RuleOptions>({
   name: 'jsx-curly-spacing',
   rule,
   parserOptions: {
@@ -17,7 +18,7 @@ run({
     },
   },
 
-  valid: valids(
+  valid: valids<RuleOptions>(
     {
       code: '<App foo={bar} />;',
     },
@@ -815,7 +816,7 @@ run({
     },
   ),
 
-  invalid: invalids(
+  invalid: invalids<RuleOptions>(
     {
       code: '<App foo={ bar }>{bar}</App>;',
       output: '<App foo={bar}>{bar}</App>;',

@@ -3,6 +3,7 @@
  * @author Teddy Katz
  */
 
+import type { RuleOptions } from './types'
 import { $, run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from '.'
@@ -13,7 +14,7 @@ const RIGHT_MISSING_ERROR = { messageId: 'expectedBefore', type: 'Punctuator' }
 const RIGHT_UNEXPECTED_ERROR = { messageId: 'unexpectedBefore', type: 'Punctuator' }
 const EXPECTED_BETWEEN = { messageId: 'expectedBetween', type: 'Identifier' }
 
-run({
+run<RuleOptions>({
   name: 'function-paren-newline',
   rule,
   lang: 'js',

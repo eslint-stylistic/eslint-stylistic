@@ -1,7 +1,8 @@
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'function-call-argument-newline',
   rule,
   valid: [

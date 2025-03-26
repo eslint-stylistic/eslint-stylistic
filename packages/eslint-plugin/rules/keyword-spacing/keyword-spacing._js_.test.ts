@@ -4,6 +4,7 @@
  */
 
 import type { TestCase } from '#test'
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from '.'
@@ -110,7 +111,7 @@ const OVERRIDES_WITH: Partial<TestCase> = {
   },
 }
 
-run({
+run<RuleOptions>({
   name: 'keyword-spacing',
   rule,
   lang: 'js',

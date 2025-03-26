@@ -3,10 +3,11 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'padded-blocks',
   rule,
   valid: [

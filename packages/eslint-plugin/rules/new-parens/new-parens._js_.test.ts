@@ -3,6 +3,7 @@
  * @author Ilya Volodin
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from '.'
@@ -10,7 +11,7 @@ import rule from '.'
 const error = { messageId: 'missing', type: 'NewExpression' }
 const neverError = { messageId: 'unnecessary', type: 'NewExpression' }
 
-run({
+run<RuleOptions>({
   name: 'new-parens',
   rule,
   lang: 'js',

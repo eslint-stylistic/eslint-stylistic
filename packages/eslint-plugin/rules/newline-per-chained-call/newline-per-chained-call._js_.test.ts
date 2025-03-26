@@ -3,10 +3,11 @@
  * @author Rajendra Patil
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'newline-per-chained-call',
   rule,
   valid: [

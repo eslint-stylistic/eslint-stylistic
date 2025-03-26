@@ -3,11 +3,12 @@
  * @author Yannick Croissant
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, skipDueToMultiErrorSorting, valids } from '#test/parsers-jsx'
 import rule from './jsx-indent._jsx_'
 
-run({
+run<RuleOptions>({
   name: 'jsx-indent',
   rule,
   parserOptions: {
@@ -16,7 +17,7 @@ run({
     },
   },
 
-  valid: valids(
+  valid: valids<RuleOptions>(
     {
       code: `
         <App></App>
@@ -1197,7 +1198,7 @@ const Component = () => (
     },
   ),
 
-  invalid: invalids(
+  invalid: invalids<RuleOptions>(
     {
       code: `
         <div>

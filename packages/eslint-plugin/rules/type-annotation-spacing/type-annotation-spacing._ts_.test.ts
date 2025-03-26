@@ -2,10 +2,11 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import type { InvalidTestCase, ValidTestCase } from '#test'
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'type-annotation-spacing',
   rule,
   valid: [
@@ -3792,7 +3793,7 @@ type Foo = {
 // Optional Annotation Tests
 // ------------------------------------------------------------------------------
 
-run({
+run<RuleOptions>({
   name: 'type-annotation-spacing',
   rule,
   valid: [
@@ -6553,10 +6554,10 @@ type Foo = {
 
 const operators = ['+?:', '-?:']
 
-run({
+run<RuleOptions>({
   name: 'type-annotation-spacing',
   rule,
-  valid: operators.reduce<ValidTestCase[]>(
+  valid: operators.reduce<ValidTestCase<RuleOptions>[]>(
     (validCases, operator) => validCases.concat([
       {
         code: `type Foo<T> = { [P in keyof T]${operator} T[P] }`,
@@ -6597,7 +6598,7 @@ run({
     ]),
     [],
   ),
-  invalid: operators.reduce<InvalidTestCase[]>(
+  invalid: operators.reduce<InvalidTestCase<RuleOptions>[]>(
     (invalidCases, operator) => invalidCases.concat([
       // space before + after cases
       {

@@ -47,7 +47,7 @@ function createInvalidRule(input: string[], out: string[], err: TestCaseError[],
   })
 }
 
-run({
+run<RuleOptions>({
   name: 'object-curly-newline',
   rule,
   valid: [

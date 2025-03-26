@@ -3,10 +3,11 @@
  * @author Kenneth Williams
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'max-statements-per-line',
   rule,
   valid: [

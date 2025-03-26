@@ -6,11 +6,12 @@
  * @author Sukka [https://skk.moe]
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-pascal-case._jsx_'
 
-run({
+run<RuleOptions>({
   name: 'jsx-pascal-case',
   rule,
   parserOptions: {
@@ -19,7 +20,7 @@ run({
     },
   },
 
-  valid: valids([
+  valid: valids<RuleOptions>([
     {
     // The rule must not warn on components that start with a lowercase
     // because they are interpreted as HTML elements by React
@@ -120,7 +121,7 @@ run({
     },
   ]),
 
-  invalid: invalids([
+  invalid: invalids<RuleOptions>([
     {
       code: '<Test_component />',
       errors: [

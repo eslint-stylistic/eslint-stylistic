@@ -1,7 +1,8 @@
+import type { RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from './type-named-tuple-spacing._plus_'
 
-run({
+run<RuleOptions>({
   name: 'type-named-tuple-spacing',
   rule,
   valid: [

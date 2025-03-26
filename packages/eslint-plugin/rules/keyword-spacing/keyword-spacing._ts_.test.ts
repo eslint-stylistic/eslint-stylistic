@@ -75,7 +75,7 @@ function unexpectedAfter(
   return [{ messageId: 'unexpectedAfter', data: { value: keyword } }]
 }
 
-run({
+run<RuleOptions>({
   name: 'keyword-spacing',
   rule,
   valid: [

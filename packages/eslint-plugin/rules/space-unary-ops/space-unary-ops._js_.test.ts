@@ -3,10 +3,11 @@
  * @author Marcin Kumorek
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'space-unary-ops',
   rule,
   lang: 'js',

@@ -2,10 +2,12 @@
  * @fileoverview Tests for func-call-spacing rule.
  * @author Matt DuVall <http://www.mattduvall.com>
  */
+
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'function-call-spacing',
   rule,
   valid: [

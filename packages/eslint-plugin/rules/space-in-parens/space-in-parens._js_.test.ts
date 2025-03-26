@@ -3,10 +3,11 @@
  * @author Jonathan Rajavuori
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'space-in-parens',
   rule,
 

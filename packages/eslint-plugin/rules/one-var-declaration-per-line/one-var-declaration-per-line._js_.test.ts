@@ -3,6 +3,7 @@
  * @author Alberto Rodríguez
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
@@ -26,7 +27,7 @@ function errorAt(line: number, column: number) {
   }
 }
 
-run({
+run<RuleOptions>({
   name: 'one-var-declaration-per-line',
   rule,
   valid: [

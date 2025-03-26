@@ -3,13 +3,14 @@
  * @author James Allardice
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
 const leadingError = { messageId: 'leading', type: 'Literal' }
 const trailingError = { messageId: 'trailing', type: 'Literal' }
 
-run({
+run<RuleOptions>({
   name: 'no-floating-decimal',
   rule,
   valid: [

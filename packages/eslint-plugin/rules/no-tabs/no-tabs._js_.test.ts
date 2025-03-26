@@ -3,10 +3,11 @@
  * @author Gyandeep Singh
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'no-tabs',
   rule,
   valid: [

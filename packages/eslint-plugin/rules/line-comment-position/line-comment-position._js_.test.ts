@@ -3,10 +3,11 @@
  * @author Alberto Rodríguez
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'line-comment-position',
   rule,
 

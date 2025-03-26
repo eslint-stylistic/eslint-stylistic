@@ -3,10 +3,11 @@
  * @author Brandon Mills
  */
 
+import type { RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'key-spacing',
   rule,
   valid: [

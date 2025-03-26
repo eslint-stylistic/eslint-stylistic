@@ -20,7 +20,7 @@ const extraSemicolon = {
   messageId: 'extraSemi' as const,
 }
 
-run({
+run<RuleOptions>({
   name: 'semi',
   rule,
   valid: [

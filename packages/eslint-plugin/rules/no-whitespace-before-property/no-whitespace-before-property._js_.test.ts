@@ -3,10 +3,11 @@
  * @author Kai Cataldo
  */
 
+import type { RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions>({
   name: 'no-whitespace-before-property',
   rule,
   lang: 'js',
