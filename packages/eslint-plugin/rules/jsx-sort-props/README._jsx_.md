@@ -132,7 +132,7 @@ If given as an array, the array's values will override the default list of reser
 These props will respect the order specified in the array:
 
 ```jsx
-// ['error', { reservedFirst: ['v-if', 'v-for'] }]
+// 'jsx-sort-props': [1, { reservedFirst: ['v-if', 'v-for'] }]
 
 // before
 <App a v-for={i in list} v-if={list} b />
@@ -153,7 +153,7 @@ This can be an array option. These props must be listed after all other props.
 These will respect the order specified in the array:
 
 ```jsx
-// ['error', { reservedLast: ['v-slot'] }]
+// 'jsx-sort-props': [1, { reservedLast: ['v-slot'] }]
 
 // before
 <App v-slot={{ foo }} onClick={onClick} />
