@@ -135,10 +135,10 @@ These props will respect the order specified in the array:
 // ['error', { reservedFirst: ['v-if', 'v-for'] }]
 
 // before
-<App a v-for={i in 4} v-if={true} b />
+<App a v-for={i in list} v-if={list} b />
 
 // after
-<App v-if={true} v-for={i in 4} a b />
+<App v-if={list} v-for={i in list} a b />
 ```
 
 With `reservedFirst: ["key"]`, the following will **not** warn:
@@ -156,10 +156,10 @@ These will respect the order specified in the array:
 // ['error', { reservedLast: ['v-slot'] }]
 
 // before
-<App v-slot={{ foo }} onClick={clickHandle} />
+<App v-slot={{ foo }} onClick={onClick} />
 
 // after
-<App onClick={clickHandle} v-slot={{ foo }} />
+<App onClick={onClick} v-slot={{ foo }} />
 ```
 
 ### `locale`
