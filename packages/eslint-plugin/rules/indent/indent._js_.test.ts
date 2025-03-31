@@ -2338,6 +2338,41 @@ run({
         offsetTernaryExpressionsOffsetCallExpressions: false,
       }],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/750
+    {
+      code: $`
+        isHeader(1)
+          ? renderSectionHeader?.(
+            typeof item === "string" ? item : "",
+            virtualRow.size,
+          )
+          : renderItem(
+            item,
+            virtualRow.size,
+          )
+      `,
+      options: [2, {
+        offsetTernaryExpressions: true,
+        offsetTernaryExpressionsOffsetCallExpressions: false,
+      }],
+    },
+    {
+      code: $`
+        isHeader(1)
+          ? renderSectionHeader?.(
+              typeof item === "string" ? item : "",
+              virtualRow.size,
+            )
+          : renderItem(
+              item,
+              virtualRow.size,
+            )
+      `,
+      options: [2, {
+        offsetTernaryExpressions: true,
+        offsetTernaryExpressionsOffsetCallExpressions: true,
+      }],
+    },
 
     $`
       [
@@ -14652,6 +14687,35 @@ run({
             ,
         )
       `,
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/750
+    {
+      code: $`
+        isHeader(1)
+          ? renderSectionHeader?.(
+            typeof item === "string" ? item : "",
+            virtualRow.size,
+          )
+          : renderItem(
+            item,
+            virtualRow.size,
+          )
+      `,
+      output: $`
+        isHeader(1)
+          ? renderSectionHeader?.(
+              typeof item === "string" ? item : "",
+              virtualRow.size,
+            )
+          : renderItem(
+              item,
+              virtualRow.size,
+            )
+      `,
+      options: [2, {
+        offsetTernaryExpressions: true,
+        offsetTernaryExpressionsOffsetCallExpressions: true,
+      }],
     },
   ],
 })
