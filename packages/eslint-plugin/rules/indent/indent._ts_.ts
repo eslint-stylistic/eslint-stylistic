@@ -6,7 +6,7 @@
 
 import type { ASTNode, JSONSchema, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine, STATEMENT_LIST_PARENTS } from '#utils/ast'
+import { createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
@@ -1244,7 +1244,7 @@ export default createRule<RuleOptions, MessageIds>({
           if (options.offsetTernaryExpressions) {
             if (firstConsequentToken.type === 'Punctuator')
               offset = 2
-            if (options.offsetTernaryExpressionsOffsetCallExpressions && node.consequent.type === 'CallExpression')
+            if (options.offsetTernaryExpressionsOffsetCallExpressions && skipChainExpression(node.consequent).type === 'CallExpression')
               offset = 2
           }
 
@@ -1272,7 +1272,7 @@ export default createRule<RuleOptions, MessageIds>({
             if (options.offsetTernaryExpressions) {
               if (firstAlternateToken.type === 'Punctuator')
                 offset = 2
-              if (options.offsetTernaryExpressionsOffsetCallExpressions && node.alternate.type === 'CallExpression')
+              if (options.offsetTernaryExpressionsOffsetCallExpressions && skipChainExpression(node.alternate).type === 'CallExpression')
                 offset = 2
             }
             /**
