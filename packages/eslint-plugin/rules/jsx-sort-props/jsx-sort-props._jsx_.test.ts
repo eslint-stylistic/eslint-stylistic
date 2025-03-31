@@ -11,6 +11,10 @@ const expectedError = {
   messageId: 'sortPropsByAlpha',
   type: 'JSXIdentifier',
 }
+const expectedWithNamespaceError = {
+  messageId: 'sortPropsByAlpha',
+  nodeType: 'JSXNamespacedName',
+}
 const expectedCallbackError = {
   messageId: 'listCallbacksLast',
   type: 'JSXIdentifier',
@@ -35,12 +39,16 @@ const expectedReservedFirstError = {
   messageId: 'listReservedPropsFirst',
   type: 'JSXIdentifier',
 }
+const expectedReservedLastError = {
+  messageId: 'listReservedPropsLast',
+  type: 'JSXIdentifier',
+}
+const expectedReservedFirstWithNamespaceError = {
+  messageId: 'listReservedPropsFirst',
+  type: 'JSXNamespacedName',
+}
 const expectedEmptyReservedFirstError = {
   messageId: 'listIsEmpty',
-}
-const expectedInvalidReservedFirstError = {
-  messageId: 'noUnreservedProps',
-  data: { unreservedWords: 'notReserved' },
 }
 const callbacksLastArgs = [{ callbacksLast: true }]
 const ignoreCaseAndCallbackLastArgs = [
@@ -81,7 +89,6 @@ const reservedFirstWithShorthandLast = [
   },
 ]
 const reservedFirstAsEmptyArrayArgs = [{ reservedFirst: [] }]
-const reservedFirstAsInvalidArrayArgs = [{ reservedFirst: ['notReserved'] }]
 const multilineFirstArgs = [{ multiline: 'first' }]
 const multilineAndShorthandFirstArgs = [
   {
@@ -509,6 +516,30 @@ run({
       output: '<App key="key" ref="ref" veryLastAttribute="yes" isShorthand />',
     },
     {
+      code: '<App a v-for={i in 4} v-if={true} b />',
+      errors: [expectedReservedFirstError, expectedReservedFirstError],
+      options: [{ reservedFirst: ['v-if', 'v-for'] }],
+      output: '<App v-if={true} v-for={i in 4} a b />',
+    },
+    {
+      code: '<App v-slot={{ foo }} v-slots={{}} onClick={() => {}} />',
+      errors: [expectedReservedLastError],
+      options: [{ reservedLast: ['v-slots', 'v-slot'] }],
+      output: '<App onClick={() => {}} v-slots={{}} v-slot={{ foo }} />',
+    },
+    {
+      code: '<App a v-model:b={foo} b v-model={foo} c v-slot:b={{ foo }} v-slot:a={{ foo }} onClick={() => {}} />',
+      errors: [expectedReservedFirstWithNamespaceError, expectedReservedFirstError, expectedWithNamespaceError, expectedReservedLastError],
+      options: [{ reservedFirst: ['v-model'], reservedLast: ['v-slot'] }],
+      output: '<App v-model={foo} v-model:b={foo} a b c onClick={() => {}} v-slot:a={{ foo }} v-slot:b={{ foo }} />',
+    },
+    {
+      code: '<App a v-model:b={foo} b v-model={foo} c v-slot:b={{ foo }} v-slot:a={{ foo }} onClick={() => {}} />',
+      errors: [expectedReservedFirstWithNamespaceError, expectedReservedFirstError, expectedReservedLastError],
+      options: [{ noSortAlphabetically: true, reservedFirst: ['v-model'], reservedLast: ['v-slot'] }],
+      output: '<App v-model:b={foo} v-model={foo} a b c onClick={() => {}} v-slot:b={{ foo }} v-slot:a={{ foo }} />',
+    },
+    {
       code: '<App a z onFoo onBar />;',
       errors: [expectedError],
       options: callbacksLastArgs,
@@ -590,7 +621,7 @@ run({
     {
       code: '<App key={3} children={<App />} />',
       options: reservedFirstAsArrayArgs,
-      errors: [expectedError],
+      errors: [expectedReservedFirstError],
       output: '<App children={<App />} key={3} />',
     },
     {
@@ -603,11 +634,6 @@ run({
       code: '<App key={4} />',
       options: reservedFirstAsEmptyArrayArgs,
       errors: [expectedEmptyReservedFirstError],
-    },
-    {
-      code: '<App key={5} />',
-      options: reservedFirstAsInvalidArrayArgs,
-      errors: [expectedInvalidReservedFirstError],
     },
     {
       code: '<App onBar z />;',
