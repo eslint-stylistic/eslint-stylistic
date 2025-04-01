@@ -27,6 +27,13 @@ run({
     'new a<import(\'\')>(1);',
     'a<A>(1);',
     {
+      code: $`
+        return (
+          a % b == 0
+        )
+      `,
+    },
+    {
       code: '(++(<A>a))(b); ((c as C)++)(d);',
       parserOptions: { ecmaFeatures: { jsx: false } },
     },
@@ -792,6 +799,23 @@ run({
       ],
     },
     {
+      code: $`
+        function fn(){
+          return (a==b)
+        }
+      `,
+      output: $`
+        function fn(){
+          return a==b
+        }
+      `,
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
+    {
       code: 'const x = (a as string)',
       output: 'const x = a as string',
       errors: [
@@ -823,6 +847,93 @@ run({
       code: 'const x: (string) = ""',
       output: 'const x: string = ""',
       errors: [
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/699
+    {
+      code: `
+        ((a, b) => {
+          return (
+            a % b == 0
+          ) || (a % b == 1)
+        })()
+      `,
+      output: `
+        ((a, b) => {
+          return (
+            a % b == 0
+          ) || a % b == 1
+        })()
+      `,
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
+    {
+      code: `
+        ((a, b) => {
+          return (
+            (a % b == 0)
+            || a % b == 1
+          )
+        })()
+      `,
+      output: `
+        ((a, b) => {
+          return (
+            a % b == 0
+            || a % b == 1
+          )
+        })()
+      `,
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
+    {
+      code: `
+        ((a, b) => {
+          return (a % b == 0)
+            || (a % b == 1)
+        })()
+      `,
+      output: `
+        ((a, b) => {
+          return a % b == 0
+            || a % b == 1
+        })()
+      `,
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
+    {
+      code: `
+        (a, b) => {
+          return (a % b == 0) || (a % b == 1)
+        }
+      `,
+      output: `
+        (a, b) => {
+          return a % b == 0 || a % b == 1
+        }
+      `,
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
         {
           messageId: 'unexpected',
         },
