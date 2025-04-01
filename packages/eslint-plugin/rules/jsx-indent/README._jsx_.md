@@ -1,5 +1,7 @@
 # jsx/jsx-indent
 
+> **Deprecated**: Use [`indent`](https://eslint.style/rules/default/indent) instead, as it fully covers all test cases from this rule.
+
 Enforce JSX indentation.
 
 Note: The fixer will fix whitespace and tabs indentation.
