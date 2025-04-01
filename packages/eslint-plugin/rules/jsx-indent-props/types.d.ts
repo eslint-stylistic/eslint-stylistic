@@ -2,14 +2,14 @@
 
 /* @checksum: r5qBrSQa6a */
 
-export type JsxIndentPropsSchema0 =
-  | ('tab' | 'first')
-  | number
-  | {
-    indentMode?: ('tab' | 'first') | number
-    ignoreTernaryOperator?: boolean
-    [k: string]: unknown
-  }
+export type JsxIndentPropsSchema0
+  = | ('tab' | 'first')
+    | number
+    | {
+      indentMode?: ('tab' | 'first') | number
+      ignoreTernaryOperator?: boolean
+      [k: string]: unknown
+    }
 
 export type JsxIndentPropsRuleOptions = [
   JsxIndentPropsSchema0?,

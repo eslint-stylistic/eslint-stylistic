@@ -42,6 +42,7 @@
     "./rules/object-curly-newline": "./dist/rules/object-curly-newline.js",
     "./rules/object-curly-spacing": "./dist/rules/object-curly-spacing.js",
     "./rules/object-property-newline": "./dist/rules/object-property-newline.js",
+    "./rules/operator-linebreak": "./dist/rules/operator-linebreak.js",
     "./rules/padding-line-between-statements": "./dist/rules/padding-line-between-statements.js",
     "./rules/quote-props": "./dist/rules/quote-props.js",
     "./rules/quotes": "./dist/rules/quotes.js",

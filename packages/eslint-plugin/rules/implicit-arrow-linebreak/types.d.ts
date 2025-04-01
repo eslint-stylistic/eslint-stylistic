@@ -2,9 +2,9 @@
 
 /* @checksum: 165Ci8urIO */
 
-export type ImplicitArrowLinebreakSchema0 =
-  | 'beside'
-  | 'below'
+export type ImplicitArrowLinebreakSchema0
+  = | 'beside'
+    | 'below'
 
 export type ImplicitArrowLinebreakRuleOptions = [
   ImplicitArrowLinebreakSchema0?,

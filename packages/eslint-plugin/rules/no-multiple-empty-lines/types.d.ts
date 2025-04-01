@@ -13,7 +13,7 @@ export type NoMultipleEmptyLinesRuleOptions = [
 ]
 
 export type RuleOptions = NoMultipleEmptyLinesRuleOptions
-export type MessageIds =
-  | 'blankBeginningOfFile'
-  | 'blankEndOfFile'
-  | 'consecutiveBlank'
+export type MessageIds
+  = | 'blankBeginningOfFile'
+    | 'blankEndOfFile'
+    | 'consecutiveBlank'

@@ -2,9 +2,9 @@
 
 /* @checksum: ZKLP0E4wnP */
 
-export type ComputedPropertySpacingSchema0 =
-  | 'always'
-  | 'never'
+export type ComputedPropertySpacingSchema0
+  = | 'always'
+    | 'never'
 
 export interface ComputedPropertySpacingSchema1 {
   enforceForClassMembers?: boolean
@@ -16,8 +16,8 @@ export type ComputedPropertySpacingRuleOptions = [
 ]
 
 export type RuleOptions = ComputedPropertySpacingRuleOptions
-export type MessageIds =
-  | 'unexpectedSpaceBefore'
-  | 'unexpectedSpaceAfter'
-  | 'missingSpaceBefore'
-  | 'missingSpaceAfter'
+export type MessageIds
+  = | 'unexpectedSpaceBefore'
+    | 'unexpectedSpaceAfter'
+    | 'missingSpaceBefore'
+    | 'missingSpaceAfter'
