@@ -58,6 +58,14 @@ run({
             code: `${typeDec.stringPrefix}{ //comment\n ${property}}`,
             options: ['never'],
           },
+          {
+            code: `${typeDec.stringPrefix}{${property}} // always with ignoreNodes`,
+            options: ['always', { ignoredNodes: [typeDec.nodeType] }],
+          },
+          {
+            code: `${typeDec.stringPrefix}{ ${property} } // never with ignoreNodes`,
+            options: ['never', { ignoredNodes: [typeDec.nodeType] }],
+          },
         ]
       },
     ),
@@ -83,23 +91,44 @@ run({
               code = code.replace(':', '=')
             }
 
-            return {
-              code,
-              options: [option],
-              output,
-              errors: [
-                {
-                  type: typeDec.nodeType,
-                  messageId: option === 'always' ? 'missing' : 'extra',
-                  data: { location: 'after', token: '{' },
-                },
-                {
-                  type: typeDec.nodeType,
-                  messageId: option === 'always' ? 'missing' : 'extra',
-                  data: { location: 'before', token: '}' },
-                },
-              ],
-            }
+            const ignoredNodes = typeDeclarations.filter(innerTypeDec => typeDec.nodeType !== innerTypeDec.nodeType).map(innerTypeDec => innerTypeDec.nodeType)
+
+            return [
+              {
+                code,
+                options: [option],
+                output,
+                errors: [
+                  {
+                    type: typeDec.nodeType,
+                    messageId: option === 'always' ? 'missing' : 'extra',
+                    data: { location: 'after', token: '{' },
+                  },
+                  {
+                    type: typeDec.nodeType,
+                    messageId: option === 'always' ? 'missing' : 'extra',
+                    data: { location: 'before', token: '}' },
+                  },
+                ],
+              },
+              {
+                code,
+                options: [option, { ignoredNodes }],
+                output,
+                errors: [
+                  {
+                    type: typeDec.nodeType,
+                    messageId: option === 'always' ? 'missing' : 'extra',
+                    data: { location: 'after', token: '{' },
+                  },
+                  {
+                    type: typeDec.nodeType,
+                    messageId: option === 'always' ? 'missing' : 'extra',
+                    data: { location: 'before', token: '}' },
+                  },
+                ],
+              },
+            ]
           },
         )
       }),
@@ -107,6 +136,7 @@ run({
     // With block comments
     ...options.flatMap(option =>
       typeDeclarations.flatMap<InvalidTestCase>((typeDec) => {
+        const ignoredNodes = typeDeclarations.filter(innerTypeDec => typeDec.nodeType !== innerTypeDec.nodeType).map(innerTypeDec => innerTypeDec.nodeType)
         const property
           = typeDec.nodeType === AST_NODE_TYPES.TSEnumDeclaration
             ? 'bar = 1'
@@ -118,6 +148,23 @@ run({
             code: `${typeDec.stringPrefix}{${alwaysSpace}${blockComment}${property}${blockComment}${alwaysSpace}}  /* ${option} */`,
             output: `${typeDec.stringPrefix}{${neverSpace}${blockComment}${property}${blockComment}${neverSpace}}  /* ${option} */`,
             options: [option],
+            errors: [
+              {
+                type: typeDec.nodeType,
+                messageId: option === 'always' ? 'missing' : 'extra',
+                data: { location: 'after', token: '{' },
+              },
+              {
+                type: typeDec.nodeType,
+                messageId: option === 'always' ? 'missing' : 'extra',
+                data: { location: 'before', token: '}' },
+              },
+            ],
+          },
+          {
+            code: `${typeDec.stringPrefix}{${alwaysSpace}${blockComment}${property}${blockComment}${alwaysSpace}}  /* ${option} */`,
+            output: `${typeDec.stringPrefix}{${neverSpace}${blockComment}${property}${blockComment}${neverSpace}}  /* ${option} */`,
+            options: [option, { ignoredNodes }],
             errors: [
               {
                 type: typeDec.nodeType,
