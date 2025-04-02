@@ -19,6 +19,10 @@ This rule has a string option:
 - `"always"` (default) requires one or more spaces
 - `"never"` disallows spaces
 
+This rule has an object option:
+
+- `"ignoredNodes"` can be used to disable spacing checking for the AST node. It can be used to resolve conflicts with [`object-curly-spacing`](../ts/object-curly-spacing).
+
 ### always
 
 Examples of **incorrect** code for this rule with the default `"always"` option:
@@ -90,6 +94,21 @@ if (foo) {bar = 0;}
 class C {
     static {this.bar = 0;}
 }
+```
+
+:::
+
+### ignoredNodes
+
+The "ignoredNodes" object property is optional (default: []).
+
+Examples of **correct** code for this rule with sample `{ "ignoredNodes": [] }` options:
+
+::: correct
+
+```js
+/*eslint block-spacing: ["error", "always", { "ignoredNodes": ["TSTypeLiteral"] }]*/
+function foo(bar: Array<{a: number; b: number;}>) { return bar; }
 ```
 
 :::
