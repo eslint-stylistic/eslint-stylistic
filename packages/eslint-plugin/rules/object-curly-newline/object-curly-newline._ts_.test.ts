@@ -253,7 +253,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 1, column: 2, messageId: 'expectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -267,7 +267,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 1, column: 12, messageId: 'expectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -281,7 +281,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 1, column: 21, messageId: 'expectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -297,7 +297,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 2, column: 12, messageId: 'expectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
     ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, 'always')),
     ...[
@@ -312,7 +312,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
           { line: 2, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -326,7 +326,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
           { line: 3, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -340,7 +340,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
           { line: 3, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -356,7 +356,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
           { line: 4, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
     ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, 'never')),
     ...[
@@ -371,7 +371,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
           { line: 2, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -385,7 +385,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
           { line: 3, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -399,7 +399,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
           { line: 3, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -415,7 +415,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 2, column: 12, messageId: 'expectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
     ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, { multiline: true })),
     ...[
@@ -430,7 +430,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
           { line: 2, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -444,7 +444,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
           { line: 3, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -458,7 +458,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 1, column: 21, messageId: 'expectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -474,7 +474,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 2, column: 12, messageId: 'expectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
     ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, { minProperties: 2 })),
     ...[
@@ -488,7 +488,7 @@ run<RuleOptions, MessageIds>({
         ],
         errors: [
           { line: 2, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -500,7 +500,7 @@ run<RuleOptions, MessageIds>({
         ],
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -512,7 +512,7 @@ run<RuleOptions, MessageIds>({
         ],
         errors: [
           { line: 2, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -524,7 +524,7 @@ run<RuleOptions, MessageIds>({
         ],
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
     ].flatMap(c => [
       ...createInvalidRule(c.code, c.output, c.errors),
@@ -542,7 +542,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
           { line: 2, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -556,7 +556,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
           { line: 3, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -572,7 +572,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 2, column: 12, messageId: 'expectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
     ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, { multiline: true, minProperties: 2 })),
     ...[
@@ -586,7 +586,7 @@ run<RuleOptions, MessageIds>({
         ],
         errors: [
           { line: 2, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -598,7 +598,7 @@ run<RuleOptions, MessageIds>({
         ],
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -610,7 +610,7 @@ run<RuleOptions, MessageIds>({
         ],
         errors: [
           { line: 2, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -622,7 +622,7 @@ run<RuleOptions, MessageIds>({
         ],
         errors: [
           { line: 1, column: 1, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -638,7 +638,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 2, column: 12, messageId: 'expectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
     ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, { multiline: true, consistent: true })),
     ...[
@@ -654,7 +654,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 1, column: 21, messageId: 'expectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -670,7 +670,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 2, column: 12, messageId: 'expectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
     ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, { minProperties: 2, consistent: true })),
     ...[
@@ -686,7 +686,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 1, column: 21, messageId: 'expectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -702,7 +702,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 1, messageId: 'expectedLinebreakAfterOpeningBrace' },
           { line: 2, column: 12, messageId: 'expectedLinebreakBeforeClosingBrace' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
     ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, { multiline: true, minProperties: 2, consistent: true })),
   ],

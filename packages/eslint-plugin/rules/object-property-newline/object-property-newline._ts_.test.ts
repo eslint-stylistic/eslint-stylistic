@@ -92,7 +92,7 @@ run<RuleOptions, MessageIds>({
         ],
         errors: [
           { line: 1, column: 16, messageId: 'propertiesOnNewline' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -108,7 +108,7 @@ run<RuleOptions, MessageIds>({
         ],
         errors: [
           { line: 2, column: 15, messageId: 'propertiesOnNewline' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -122,7 +122,7 @@ run<RuleOptions, MessageIds>({
         errors: [
           { line: 1, column: 15, messageId: 'propertiesOnNewline' },
           { line: 1, column: 29, messageId: 'propertiesOnNewline' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
     ].flatMap<InvalidTestCase<RuleOptions, MessageIds>>(c => createInvalidRule(c.code, c.output, c.errors, false)),
     ...([
@@ -138,7 +138,7 @@ run<RuleOptions, MessageIds>({
         ],
         errors: [
           { line: 1, column: 16, messageId: 'propertiesOnNewlineAll' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -154,7 +154,7 @@ run<RuleOptions, MessageIds>({
         ],
         errors: [
           { line: 2, column: 15, messageId: 'propertiesOnNewlineAll' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
     ]).flatMap<InvalidTestCase<RuleOptions, MessageIds>>(c => createInvalidRule(c.code, c.output, c.errors, true)),
   ],
