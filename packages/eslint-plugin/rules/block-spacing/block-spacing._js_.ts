@@ -11,6 +11,16 @@ import type { MessageIds, RuleOptions } from './types'
 import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
+const listeningNodes = [
+  'BlockStatement',
+  'StaticBlock',
+  'SwitchStatement',
+
+  'TSTypeLiteral',
+  'TSInterfaceBody',
+  'TSEnumDeclaration',
+] satisfies (keyof typeof Tree.AST_NODE_TYPES)[]
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'block-spacing',
   package: 'js',
@@ -25,6 +35,19 @@ export default createRule<RuleOptions, MessageIds>({
 
     schema: [
       { type: 'string', enum: ['always', 'never'] },
+      {
+        type: 'object',
+        properties: {
+          ignoredNodes: {
+            type: 'array',
+            items: {
+              type: 'string',
+              enum: listeningNodes,
+            },
+          },
+        },
+        additionalProperties: false,
+      },
     ],
 
     messages: {
@@ -37,6 +60,7 @@ export default createRule<RuleOptions, MessageIds>({
     const always = (context.options[0] !== 'never')
     const messageId = always ? 'missing' : 'extra'
     const sourceCode = context.sourceCode
+    const ignoredNodes = (context.options[1] ?? {}).ignoredNodes ?? []
 
     /**
      * Gets the open brace token from a given node.
@@ -80,6 +104,8 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node A BlockStatement/StaticBlock/SwitchStatement node to check.
      */
     function checkSpacingInsideBraces(node: Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement): void {
+      if (ignoredNodes.includes(node.type))
+        return
       // Gets braces and the first/last token of content.
       const openBrace = getOpenBrace(node)
       const closeBrace = sourceCode.getLastToken(node)!
