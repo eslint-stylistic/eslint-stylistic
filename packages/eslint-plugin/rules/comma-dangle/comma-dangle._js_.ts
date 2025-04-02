@@ -2,6 +2,10 @@
  * @fileoverview Rule to forbid or enforce dangling commas.
  * @author Ian Christian Myers
  */
+
+// MERGED: The JS version of this rule is merged to the TS version, this file will be removed
+// in the next major when we remove the `@stylistic/eslint-plugin-js` package.
+
 import type { EcmaVersion, Tree } from '#types'
 import type { MessageIds, RuleOptions, Value } from './types._js_'
 import { getNextLocation, isCommaToken } from '#utils/ast'
@@ -239,7 +243,7 @@ export default createRule<RuleOptions, MessageIds>({
           node: lastItem,
           loc: trailingToken.loc,
           messageId: 'unexpected',
-          *fix(fixer) {
+          * fix(fixer) {
             yield fixer.remove(trailingToken)
 
             /**
@@ -291,7 +295,7 @@ export default createRule<RuleOptions, MessageIds>({
           end: getNextLocation(sourceCode, trailingToken.loc.end)!,
         },
         messageId: 'missing',
-        *fix(fixer) {
+        * fix(fixer) {
           yield fixer.insertTextAfter(trailingToken, ',')
 
           /**

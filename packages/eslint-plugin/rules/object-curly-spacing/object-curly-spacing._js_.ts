@@ -2,6 +2,10 @@
  * @fileoverview Disallows or enforces spaces inside of object literals.
  * @author Jamund Ferguson
  */
+
+// MERGED: The JS version of this rule is merged to the TS version, this file will be removed
+// in the next major when we remove the `@stylistic/eslint-plugin-js` package.
+
 import type { ASTNode, RuleFixer, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isClosingBraceToken, isClosingBracketToken, isNotCommaToken, isTokenOnSameLine } from '#utils/ast'

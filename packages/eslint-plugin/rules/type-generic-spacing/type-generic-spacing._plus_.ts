@@ -45,7 +45,7 @@ export default createRule<RuleOptions, MessageIds>({
             context.report({
               node,
               messageId: 'genericSpacingMismatch',
-              *fix(fixer) {
+              * fix(fixer) {
                 yield fixer.replaceTextRange([openToken.range[1], firstToken.range[0]], '')
               },
             })
@@ -61,7 +61,7 @@ export default createRule<RuleOptions, MessageIds>({
             context.report({
               node,
               messageId: 'genericSpacingMismatch',
-              *fix(fixer) {
+              * fix(fixer) {
                 yield fixer.replaceTextRange([lastToken.range[1], closeToken.range[0]], '')
               },
             })
@@ -79,7 +79,7 @@ export default createRule<RuleOptions, MessageIds>({
             context.report({
               node,
               messageId: 'genericSpacingMismatch',
-              *fix(fixer) {
+              * fix(fixer) {
                 yield fixer.replaceTextRange([node.range[0] - preSpace.length, node.range[0]], '')
               },
             })
@@ -103,7 +103,7 @@ export default createRule<RuleOptions, MessageIds>({
             context.report({
               node,
               messageId: 'genericSpacingMismatch',
-              *fix(fixer) {
+              * fix(fixer) {
                 yield fixer.replaceTextRange([openToken.range[1], firstToken.range[0]], '')
               },
             })
@@ -119,7 +119,7 @@ export default createRule<RuleOptions, MessageIds>({
             context.report({
               node,
               messageId: 'genericSpacingMismatch',
-              *fix(fixer) {
+              * fix(fixer) {
                 yield fixer.replaceTextRange([lastToken.range[1], closeToken.range[0]], '')
               },
             })
@@ -135,7 +135,7 @@ export default createRule<RuleOptions, MessageIds>({
           const span = sourceCode.text.slice(from, to)
           if (span !== ', ' && !span.match(/,\s*\n/)) {
             context.report({
-              *fix(fixer) {
+              * fix(fixer) {
                 yield fixer.replaceTextRange([from, to], ', ')
               },
               loc: {
@@ -161,7 +161,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (!span.match(/(?:^|[^ ]) = (?:$|[^ ])/)) {
           context.report({
-            *fix(fixer) {
+            * fix(fixer) {
               yield fixer.replaceTextRange([from, to], span.replace(/\s*=\s*/, ' = '))
             },
             loc: {

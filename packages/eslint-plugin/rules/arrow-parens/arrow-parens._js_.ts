@@ -129,7 +129,7 @@ export default createRule<RuleOptions, MessageIds>({
             node,
             messageId: requireForBlockBody ? 'expectedParensBlock' : 'expectedParens',
             loc: param.loc,
-            *fix(fixer) {
+            * fix(fixer) {
               yield fixer.insertTextBefore(param, '(')
               yield fixer.insertTextAfter(param, ')')
             },
@@ -150,7 +150,7 @@ export default createRule<RuleOptions, MessageIds>({
             node,
             messageId: requireForBlockBody ? 'unexpectedParensInline' : 'unexpectedParens',
             loc: param.loc,
-            *fix(fixer) {
+            * fix(fixer) {
               const tokenBeforeOpeningParen = sourceCode.getTokenBefore(openingParen)
               const closingParen = getClosingParenOfParams(node)!
 
