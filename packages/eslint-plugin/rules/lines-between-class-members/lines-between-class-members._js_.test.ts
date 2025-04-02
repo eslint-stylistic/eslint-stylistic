@@ -3,13 +3,15 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
+import type { TestCaseError } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-const alwaysError = { messageId: 'always' }
-const neverError = { messageId: 'never' }
+const alwaysError: TestCaseError<MessageIds> = { messageId: 'always' }
+const neverError: TestCaseError<MessageIds> = { messageId: 'never' }
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'lines-between-class-members',
   rule,
   valid: [

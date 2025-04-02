@@ -3,10 +3,11 @@
  * @author Jamund Ferguson
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'lines-around-comment',
   rule,
   lang: 'js',

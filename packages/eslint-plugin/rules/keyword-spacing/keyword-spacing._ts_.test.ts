@@ -2,7 +2,7 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import type { TestCaseError } from '#test'
-import type { RuleOptions } from './types._ts_'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
@@ -40,7 +40,7 @@ function overrides(keyword: string, value: RuleOptions[0] = {}): RuleOptions[0] 
  * @param keyword A keyword.
  * @returns An error message.
  */
-function expectedBefore(keyword: string): TestCaseError[] {
+function expectedBefore(keyword: string): TestCaseError<MessageIds>[] {
   return [{ messageId: 'expectedBefore', data: { value: keyword } }]
 }
 
@@ -49,7 +49,7 @@ function expectedBefore(keyword: string): TestCaseError[] {
  * @param keyword A keyword.
  * @returns An error message.
  */
-function expectedAfter(keyword: string): TestCaseError[] {
+function expectedAfter(keyword: string): TestCaseError<MessageIds>[] {
   return [{ messageId: 'expectedAfter', data: { value: keyword } }]
 }
 
@@ -60,7 +60,7 @@ function expectedAfter(keyword: string): TestCaseError[] {
  */
 function unexpectedBefore(
   keyword: string,
-): TestCaseError[] {
+): TestCaseError<MessageIds>[] {
   return [{ messageId: 'unexpectedBefore', data: { value: keyword } }]
 }
 
@@ -71,11 +71,11 @@ function unexpectedBefore(
  */
 function unexpectedAfter(
   keyword: string,
-): TestCaseError[] {
+): TestCaseError<MessageIds>[] {
   return [{ messageId: 'unexpectedAfter', data: { value: keyword } }]
 }
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'keyword-spacing',
   rule,
   valid: [

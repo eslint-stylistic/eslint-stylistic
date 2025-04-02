@@ -3,7 +3,7 @@
  * @author Diogo Franco (Kovensky)
  */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-tag-spacing._jsx_'
@@ -16,7 +16,7 @@ type Option = Exclude<RuleOptions[0], undefined>
 
 // generate options object that disables checks other than the tested one
 
-function closingSlashOptions(option: Option['closingSlash']) {
+function closingSlashOptions(option: Option['closingSlash']): RuleOptions {
   return [
     {
       closingSlash: option,
@@ -27,7 +27,7 @@ function closingSlashOptions(option: Option['closingSlash']) {
   ]
 }
 
-function beforeSelfClosingOptions(option: Option['beforeSelfClosing']) {
+function beforeSelfClosingOptions(option: Option['beforeSelfClosing']): RuleOptions {
   return [
     {
       closingSlash: 'allow',
@@ -38,7 +38,7 @@ function beforeSelfClosingOptions(option: Option['beforeSelfClosing']) {
   ]
 }
 
-function afterOpeningOptions(option: Option['afterOpening']) {
+function afterOpeningOptions(option: Option['afterOpening']): RuleOptions {
   return [
     {
       closingSlash: 'allow',
@@ -49,7 +49,7 @@ function afterOpeningOptions(option: Option['afterOpening']) {
   ]
 }
 
-function beforeClosingOptions(option: Option['beforeClosing']) {
+function beforeClosingOptions(option: Option['beforeClosing']): RuleOptions {
   return [
     {
       closingSlash: 'allow',
@@ -64,7 +64,7 @@ function beforeClosingOptions(option: Option['beforeClosing']) {
 // Tests
 // -----------------------------------------------------------------------------
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'jsx-tag-spacing',
   rule,
   lang: 'js',
@@ -74,7 +74,7 @@ run({
     },
   },
 
-  valid: valids(
+  valid: valids<RuleOptions>(
     {
       code: '<App />',
     },
@@ -290,7 +290,7 @@ run({
     },
   ),
 
-  invalid: invalids(
+  invalid: invalids<RuleOptions, MessageIds>(
     {
       code: '<App/>',
       output: '<App />',

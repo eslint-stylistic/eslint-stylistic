@@ -3,11 +3,12 @@
  * @author Yannick Croissant
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-self-closing-comp._jsx_'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'self-closing-comp',
   rule,
   parserOptions: {
@@ -16,7 +17,7 @@ run({
     },
   },
 
-  valid: valids(
+  valid: valids<RuleOptions>(
     {
       code: 'var HelloJohn = <Hello name="John" />;',
     },
@@ -165,7 +166,7 @@ run({
     },
   ),
 
-  invalid: invalids(
+  invalid: invalids<RuleOptions, MessageIds>(
     {
       code: 'var contentContainer = <div className="content"></div>;',
       output: 'var contentContainer = <div className="content" />;',

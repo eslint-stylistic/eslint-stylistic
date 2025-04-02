@@ -3,11 +3,12 @@
  * @author Ian Christian Myers
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from '.'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'comma-dangle',
   rule,
   lang: 'js',
@@ -619,12 +620,12 @@ run({
     },
     {
       code: 'import(source)',
-      options: { functions: 'always' },
+      options: [{ functions: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
     {
       code: 'import(source,)',
-      options: { functions: 'never', dynamicImports: 'always' },
+      options: [{ functions: 'never', dynamicImports: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
 
@@ -664,7 +665,7 @@ run({
     },
     {
       code: 'import foo from "foo" with {type: "json",}',
-      options: { functions: 'never', importAttributes: 'always' },
+      options: [{ functions: 'never', importAttributes: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
     {
@@ -702,7 +703,7 @@ run({
     },
     {
       code: 'export {foo} from "foo" with {type: "json",}',
-      options: { functions: 'never', importAttributes: 'always' },
+      options: [{ functions: 'never', importAttributes: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
     {
@@ -740,7 +741,7 @@ run({
     },
     {
       code: 'export * from "foo" with {type: "json",}',
-      options: { functions: 'never', importAttributes: 'always' },
+      options: [{ functions: 'never', importAttributes: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
   ],
@@ -2177,7 +2178,7 @@ run({
     {
       code: 'import(source)',
       output: 'import(source,)',
-      options: { functions: 'never', dynamicImports: 'always' },
+      options: [{ functions: 'never', dynamicImports: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
 
@@ -2228,7 +2229,7 @@ run({
     {
       code: 'import foo from "foo" with {type: "json"}',
       output: 'import foo from "foo" with {type: "json",}',
-      options: { functions: 'never', importAttributes: 'always' },
+      options: [{ functions: 'never', importAttributes: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
     {
@@ -2277,7 +2278,7 @@ run({
     {
       code: 'export {foo} from "foo" with {type: "json"}',
       output: 'export {foo} from "foo" with {type: "json",}',
-      options: { functions: 'never', importAttributes: 'always' },
+      options: [{ functions: 'never', importAttributes: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
     {
@@ -2326,7 +2327,7 @@ run({
     {
       code: 'export * from "foo" with {type: "json"}',
       output: 'export * from "foo" with {type: "json",}',
-      options: { functions: 'never', importAttributes: 'always' },
+      options: [{ functions: 'never', importAttributes: 'always' }],
       parserOptions: { ecmaVersion: 'latest' },
     },
   ],

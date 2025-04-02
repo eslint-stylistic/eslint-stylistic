@@ -7,12 +7,12 @@ export * from 'eslint-vitest-rule-tester'
 
 export { unindent as $ } from 'eslint-vitest-rule-tester'
 
-export interface ExtendedRuleTesterOptions extends RuleTesterInitOptions, TestCasesOptions {
+export interface ExtendedRuleTesterOptions<RuleOptions = any, MessageIds extends string = string> extends RuleTesterInitOptions, TestCasesOptions<RuleOptions, MessageIds> {
   lang?: 'js' | 'ts'
 }
 
-export function run(options: ExtendedRuleTesterOptions) {
-  return _run({
+export function run<RuleOptions = any, MessageIds extends string = string>(options: ExtendedRuleTesterOptions<RuleOptions, MessageIds>) {
+  return _run<RuleOptions, MessageIds>({
     recursive: false,
     verifyAfterFix: false,
     ...(options.lang === 'js' ? {} : { parser: tsParser as any }),

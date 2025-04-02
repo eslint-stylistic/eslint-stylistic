@@ -3,11 +3,12 @@
  * @author Ian Christian Myers
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from '.'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'array-bracket-spacing',
   rule,
 

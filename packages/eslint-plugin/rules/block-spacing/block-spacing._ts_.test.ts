@@ -1,4 +1,5 @@
 import type { InvalidTestCase, ValidTestCase } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import rule from '.'
@@ -26,20 +27,20 @@ const emptyBlocks = ['{}', '{ }']
 const singlePropertyBlocks = ['{bar: true}', '{ bar: true }']
 const blockComment = '/* comment */'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'block-spacing',
   rule,
   valid: [
     // Empty blocks don't apply
     ...options.flatMap(option =>
-      typeDeclarations.flatMap(typeDec =>
-        emptyBlocks.map<ValidTestCase>(blockType => ({
+      typeDeclarations.flatMap<ValidTestCase<RuleOptions>>(typeDec =>
+        emptyBlocks.map<ValidTestCase<RuleOptions>>(blockType => ({
           code: typeDec.stringPrefix + blockType,
           options: [option],
         })),
       ),
     ),
-    ...typeDeclarations.flatMap<ValidTestCase>(
+    ...typeDeclarations.flatMap<ValidTestCase<RuleOptions>>(
       (typeDec) => {
         const property
           = typeDec.nodeType === AST_NODE_TYPES.TSEnumDeclaration
@@ -65,7 +66,7 @@ run({
   invalid: [
     ...options.flatMap(option =>
       typeDeclarations.flatMap((typeDec) => {
-        return singlePropertyBlocks.flatMap<InvalidTestCase>(
+        return singlePropertyBlocks.flatMap<InvalidTestCase<RuleOptions, MessageIds>>(
           (blockType, blockIndex) => {
             // These are actually valid, so filter them out
             if (
@@ -106,7 +107,7 @@ run({
     ),
     // With block comments
     ...options.flatMap(option =>
-      typeDeclarations.flatMap<InvalidTestCase>((typeDec) => {
+      typeDeclarations.flatMap <InvalidTestCase<RuleOptions, MessageIds>>((typeDec) => {
         const property
           = typeDec.nodeType === AST_NODE_TYPES.TSEnumDeclaration
             ? 'bar = 1'

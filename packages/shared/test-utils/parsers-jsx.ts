@@ -1,11 +1,11 @@
 /* eslint-disable antfu/no-top-level-await */
 import type { InvalidTestCaseBase, ValidTestCaseBase } from './runner'
 
-export interface InvalidTestCase extends InvalidTestCaseBase {
+export interface InvalidTestCase<RuleOptions = any, MessageIds extends string = string> extends InvalidTestCaseBase<RuleOptions, MessageIds> {
   features?: string[]
 }
 
-export interface ValidTestCase extends ValidTestCaseBase {
+export interface ValidTestCase<RuleOptions = any> extends ValidTestCaseBase<RuleOptions> {
   features?: string[]
 }
 
@@ -33,7 +33,7 @@ function minEcmaVersion(features: any, parserOptions: any) {
 export const BABEL_ESLINT = await import('@babel/eslint-parser').then(m => m.default)
 export const TYPESCRIPT_ESLINT = await import('@typescript-eslint/parser').then(m => m.default)
 
-export function tsParserOptions(test: Partial<InvalidTestCase | ValidTestCase>, features: Set<string>) {
+export function tsParserOptions<RuleOptions = any>(test: Partial<InvalidTestCase<RuleOptions> | ValidTestCase<RuleOptions>>, features: Set<string>) {
   return {
     ...test.parserOptions,
     ecmaFeatures: {
@@ -44,7 +44,7 @@ export function tsParserOptions(test: Partial<InvalidTestCase | ValidTestCase>, 
   }
 }
 
-export function babelParserOptions(test: Partial<InvalidTestCase | ValidTestCase>, features: Set<string>) {
+export function babelParserOptions<RuleOptions = any>(test: Partial<InvalidTestCase<RuleOptions> | ValidTestCase<RuleOptions>>, features: Set<string>) {
   return Object.assign({}, test.parserOptions, {
     requireConfigFile: false,
     babelOptions: {
@@ -73,9 +73,9 @@ export function babelParserOptions(test: Partial<InvalidTestCase | ValidTestCase
   })
 }
 
-function applyAllParsers(tests: InvalidTestCase[]): InvalidTestCase[]
-function applyAllParsers(tests: ValidTestCase[]): ValidTestCase[]
-function applyAllParsers(tests: ValidTestCase[] | InvalidTestCase[]) {
+function applyAllParsers<RuleOptions = any, MessageIds extends string = string>(tests: InvalidTestCase<RuleOptions, MessageIds>[]): InvalidTestCase<RuleOptions, MessageIds>[]
+function applyAllParsers<RuleOptions = any>(tests: ValidTestCase<RuleOptions>[]): ValidTestCase<RuleOptions>[]
+function applyAllParsers<RuleOptions = any, MessageIds extends string = string>(tests: ValidTestCase<RuleOptions>[] | InvalidTestCase<RuleOptions, MessageIds>[]) {
   const t = tests.flatMap((test: any): any => {
     if (typeof test === 'string')
       test = { code: test }
@@ -184,12 +184,12 @@ function applyAllParsers(tests: ValidTestCase[] | InvalidTestCase[]) {
   return t
 }
 
-export function valids(...tests: (ValidTestCase | ValidTestCase[] | undefined | false)[]): ValidTestCase[] {
-  return applyAllParsers(tests.flat().filter(Boolean) as ValidTestCase[])
+export function valids<RuleOptions>(...tests: (ValidTestCase<RuleOptions> | ValidTestCase<RuleOptions>[] | undefined | false)[]): ValidTestCase<RuleOptions>[] {
+  return applyAllParsers(tests.flat().filter(Boolean) as ValidTestCase<RuleOptions>[])
 }
 
-export function invalids(...tests: (InvalidTestCase | InvalidTestCase[] | undefined | false)[]): InvalidTestCase[] {
-  return applyAllParsers(tests.flat().filter(Boolean) as InvalidTestCase[])
+export function invalids<RuleOptions = any, MessageIds extends string = string>(...tests: (InvalidTestCase<RuleOptions, MessageIds> | InvalidTestCase<RuleOptions, MessageIds>[] | undefined | false)[]): InvalidTestCase<RuleOptions, MessageIds>[] {
+  return applyAllParsers(tests.flat().filter(Boolean) as InvalidTestCase<RuleOptions, MessageIds>[])
 }
 
 export const skipDueToMultiErrorSorting = true

@@ -3,6 +3,7 @@
  * @author Yannick Croissant
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-closing-bracket-location._jsx_'
@@ -18,7 +19,7 @@ function details(expectedColumn: number, expectedNextLine: boolean) {
   return ` (expected column ${expectedColumn}${expectedNextLine ? ' on the next line)' : ')'}`
 }
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'jsx-closing-bracket-location',
   rule,
   parserOptions: {
@@ -27,7 +28,7 @@ run({
     },
   },
 
-  valid: valids(
+  valid: valids<RuleOptions>(
     {
       code: `
         <App />
@@ -430,7 +431,7 @@ run({
     },
   ),
 
-  invalid: invalids(
+  invalid: invalids<RuleOptions, MessageIds>(
     {
       code: `
         <App

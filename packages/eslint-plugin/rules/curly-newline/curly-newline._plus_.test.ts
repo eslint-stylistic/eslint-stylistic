@@ -3,13 +3,15 @@
  * @author Toru Nagashima
  */
 
+import type { InvalidTestCase, TestCaseError, ValidTestCase } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-const valid: any[] = []
-const invalid: any[] = []
+const valid: ValidTestCase<RuleOptions>[] = []
+const invalid: InvalidTestCase<RuleOptions, MessageIds>[] = []
 
-function test(options: any, code: string, output?: null | string, ...errors: any[]) {
+function test(options: RuleOptions[0], code: string, output?: null | string, ...errors: TestCaseError<MessageIds>[]) {
   if (output === undefined) {
     valid.push({ code, options: options !== undefined ? [options] : [] })
   }
@@ -139,9 +141,11 @@ test({ multiline: true, consistent: true, minElements: 2 }, `{\nvoid 0;void 0\n}
 
 // specializations
 
-function specializationTest(specialization: string, code: string): void
-function specializationTest(specialization: string, code: string, output: string, openingBraceColumn: number, closingBraceColumn: number): void
-function specializationTest(specialization: string, code: string, output?: string, openingBraceColumn?: number, closingBraceColumn?: number) {
+type SpecializationOption = keyof Extract<RuleOptions[0], object>
+
+function specializationTest(specialization: SpecializationOption, code: string): void
+function specializationTest(specialization: SpecializationOption, code: string, output: string, openingBraceColumn: number, closingBraceColumn: number): void
+function specializationTest(specialization: SpecializationOption, code: string, output?: string, openingBraceColumn?: number, closingBraceColumn?: number) {
   invalid.push({
     code: `{\n${code}\n}`,
     output: `{${output ?? code}}`,
@@ -155,11 +159,12 @@ function specializationTest(specialization: string, code: string, output?: strin
           ]
         : [],
       { line: 3, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-    ],
+    ] as TestCaseError<MessageIds>[],
   })
 }
 
-test({ BlockStatement: 'always' }, 'for(;;){{}}', 'for(;;){{\n}}', 9, 10)
+test({ BlockStatement: 'always' }, 'for(;;){{}}', 'for(;;){{\n}}', { line: 1, column: 9, messageId: 'expectedLinebreakAfterOpeningBrace' }, { line: 1, column: 10, messageId: 'expectedLinebreakBeforeClosingBrace' },
+)
 specializationTest('IfStatementConsequent', `if(true){}`, `if(true){\n}`, 9, 10)
 specializationTest('IfStatementAlternative', `if(true){}else{}`, `if(true){}else{\n}`, 15, 16)
 specializationTest('DoWhileStatement', `do{}while(true)`, `do{\n}while(true)`, 3, 4)
@@ -187,7 +192,7 @@ specializationTest('TSEnumBody', `enum _{}`, `enum _{\n}`, 7, 8)
 specializationTest('TSInterfaceBody', `interface _{}`, `interface _{\n}`, 12, 13)
 specializationTest('TSModuleBlock', `module _{}`, `module _{\n}`, 9, 10)
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'curly-newline',
   rule,
   valid,

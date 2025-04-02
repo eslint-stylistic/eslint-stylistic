@@ -3,12 +3,13 @@
  * @author Yannick Croissant
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import { invalids as _invalids, valids as _valids } from '#test/parsers-jsx'
 import rule from '.'
 import { expectedErrors } from './indent._js_.test'
 
-function valids(...tests: Parameters<typeof _valids>) {
+function valids(...tests: Parameters<typeof _valids<RuleOptions>>) {
   tests.forEach((test) => {
     if (test !== false && !Array.isArray(test) && test?.code)
       test.code = $(test.code)
@@ -16,7 +17,7 @@ function valids(...tests: Parameters<typeof _valids>) {
   return _valids(...tests)
 }
 
-function invalids(...tests: Parameters<typeof _invalids>) {
+function invalids(...tests: Parameters<typeof _invalids<RuleOptions, MessageIds>>) {
   tests.forEach((test) => {
     if (test !== false && !Array.isArray(test)) {
       if (test?.code)
@@ -29,7 +30,7 @@ function invalids(...tests: Parameters<typeof _invalids>) {
   return _invalids(...tests)
 }
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'jsx-indent',
   rule,
   parserOptions: {

@@ -3,15 +3,17 @@
  * @author Toru Nagashima
  */
 
+import type { TestCaseError } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-const expectedBeforeError = { messageId: 'expectedBefore' }
-const expectedAfterError = { messageId: 'expectedAfter' }
-const unexpectedBeforeError = { messageId: 'unexpectedBefore' }
-const unexpectedAfterError = { messageId: 'unexpectedAfter' }
+const expectedBeforeError: TestCaseError<MessageIds> = { messageId: 'expectedBefore' }
+const expectedAfterError: TestCaseError<MessageIds> = { messageId: 'expectedAfter' }
+const unexpectedBeforeError: TestCaseError<MessageIds> = { messageId: 'unexpectedBefore' }
+const unexpectedAfterError: TestCaseError<MessageIds> = { messageId: 'unexpectedAfter' }
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'switch-colon-spacing',
   rule,
   valid: [

@@ -3,11 +3,12 @@
  * @author Jamund Ferguson
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from '.'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'object-curly-spacing',
   rule,
   lang: 'js',

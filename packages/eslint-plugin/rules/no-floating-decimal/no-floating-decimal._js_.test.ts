@@ -3,13 +3,15 @@
  * @author James Allardice
  */
 
+import type { TestCaseError } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-const leadingError = { messageId: 'leading', type: 'Literal' }
-const trailingError = { messageId: 'trailing', type: 'Literal' }
+const leadingError: TestCaseError<MessageIds> = { messageId: 'leading', type: 'Literal' }
+const trailingError: TestCaseError<MessageIds> = { messageId: 'trailing', type: 'Literal' }
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'no-floating-decimal',
   rule,
   valid: [
