@@ -1,9 +1,9 @@
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-function-call-newline._jsx_'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'jsx-function-call-newline',
   rule,
   parserOptions: {
@@ -74,7 +74,7 @@ run<RuleOptions>({
       code: `new OBJ(\n<div />\n,\n<div ></div>)`,
     },
   ),
-  invalid: invalids<RuleOptions>(
+  invalid: invalids<RuleOptions, MessageIds>(
     {
       code: `fn(<div
         />)`,

@@ -3,7 +3,8 @@
  * @author Greg Cochard
  */
 
-import type { RuleOptions } from './types'
+import type { TestCaseError } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
@@ -13,7 +14,7 @@ import rule from '.'
  * @returns the expected error message object
  * @private
  */
-function getExpectedError(lines: number) {
+function getExpectedError(lines: number): TestCaseError<MessageIds> {
   return {
     messageId: 'consecutiveBlank',
     data: {
@@ -31,7 +32,7 @@ function getExpectedError(lines: number) {
  * @returns the expected error message object
  * @private
  */
-function getExpectedErrorEOF(lines: number) {
+function getExpectedErrorEOF(lines: number): TestCaseError<MessageIds> {
   return {
     messageId: 'blankEndOfFile',
     data: {
@@ -48,7 +49,7 @@ function getExpectedErrorEOF(lines: number) {
  * @returns the expected error message object
  * @private
  */
-function getExpectedErrorBOF(lines: number) {
+function getExpectedErrorBOF(lines: number): TestCaseError<MessageIds> {
   return {
     messageId: 'blankBeginningOfFile',
     data: {
@@ -59,7 +60,7 @@ function getExpectedErrorBOF(lines: number) {
   }
 }
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'no-multiple-empty-lines',
   rule,
 

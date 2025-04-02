@@ -3,15 +3,15 @@
  * @author Toru Nagashima
  */
 
-import type { InvalidTestCase, ValidTestCase } from '#test'
-import type { RuleOptions } from './types'
+import type { InvalidTestCase, TestCaseError, ValidTestCase } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
 const valid: ValidTestCase<RuleOptions>[] = []
-const invalid: InvalidTestCase<RuleOptions>[] = []
+const invalid: InvalidTestCase<RuleOptions, MessageIds>[] = []
 
-function test(options: RuleOptions[0], code: string, output?: null | string, ...errors: any[]) {
+function test(options: RuleOptions[0], code: string, output?: null | string, ...errors: TestCaseError<MessageIds>[]) {
   if (output === undefined) {
     valid.push({ code, options: options !== undefined ? [options] : [] })
   }
@@ -159,7 +159,7 @@ function specializationTest(specialization: SpecializationOption, code: string, 
           ]
         : [],
       { line: 3, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
-    ],
+    ] as TestCaseError<MessageIds>[],
   })
 }
 
@@ -191,7 +191,7 @@ specializationTest('TSEnumBody', `enum _{}`, `enum _{\n}`, 7, 8)
 specializationTest('TSInterfaceBody', `interface _{}`, `interface _{\n}`, 12, 13)
 specializationTest('TSModuleBlock', `module _{}`, `module _{\n}`, 9, 10)
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'curly-newline',
   rule,
   valid,

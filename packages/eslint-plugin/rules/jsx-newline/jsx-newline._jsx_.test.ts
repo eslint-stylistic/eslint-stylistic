@@ -4,12 +4,12 @@
  * @author Joseph Stiles
  */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-newline._jsx_'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'jsx-newline',
   rule,
   parserOptions: {
@@ -195,7 +195,7 @@ run<RuleOptions>({
       options: [{ prevent: true, allowMultilines: true }],
     },
   ),
-  invalid: invalids<RuleOptions>(
+  invalid: invalids<RuleOptions, MessageIds>(
     {
       code: `
         <div>

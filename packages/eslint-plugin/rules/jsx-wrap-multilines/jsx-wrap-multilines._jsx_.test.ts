@@ -3,7 +3,7 @@
  * @author Yannick Croissant
  */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-wrap-multilines._jsx_'
@@ -621,7 +621,7 @@ function addNewLineSymbols(code: string) {
   return code.replace(/\(</g, '(\n<').replace(/>\)/g, '>\n)')
 }
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'jsx-wrap-multilines',
   rule,
   parserOptions: {
@@ -914,7 +914,7 @@ run<RuleOptions>({
     },
   ),
 
-  invalid: invalids<RuleOptions>(
+  invalid: invalids<RuleOptions, MessageIds>(
     {
       code: RETURN_NO_PAREN,
       output: RETURN_PAREN,

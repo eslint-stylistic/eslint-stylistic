@@ -3,43 +3,44 @@
  * @author Yannick Croissant
  */
 
-import type { RuleOptions } from './types'
+import type { TestCaseError } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-sort-props._jsx_'
 
-const expectedError = {
+const expectedError: TestCaseError<MessageIds> = {
   messageId: 'sortPropsByAlpha',
   type: 'JSXIdentifier',
 }
-const expectedCallbackError = {
+const expectedCallbackError: TestCaseError<MessageIds> = {
   messageId: 'listCallbacksLast',
   type: 'JSXIdentifier',
 }
-const expectedShorthandFirstError = {
+const expectedShorthandFirstError: TestCaseError<MessageIds> = {
   messageId: 'listShorthandFirst',
   type: 'JSXIdentifier',
 }
-const expectedShorthandLastError = {
+const expectedShorthandLastError: TestCaseError<MessageIds> = {
   messageId: 'listShorthandLast',
   type: 'JSXIdentifier',
 }
-const expectedMultilineFirstError = {
+const expectedMultilineFirstError: TestCaseError<MessageIds> = {
   messageId: 'listMultilineFirst',
   type: 'JSXIdentifier',
 }
-const expectedMultilineLastError = {
+const expectedMultilineLastError: TestCaseError<MessageIds> = {
   messageId: 'listMultilineLast',
   type: 'JSXIdentifier',
 }
-const expectedReservedFirstError = {
+const expectedReservedFirstError: TestCaseError<MessageIds> = {
   messageId: 'listReservedPropsFirst',
   type: 'JSXIdentifier',
 }
-const expectedEmptyReservedFirstError = {
+const expectedEmptyReservedFirstError: TestCaseError<MessageIds> = {
   messageId: 'listIsEmpty',
 }
-const expectedInvalidReservedFirstError = {
+const expectedInvalidReservedFirstError: TestCaseError<MessageIds> = {
   messageId: 'noUnreservedProps',
   data: { unreservedWords: 'notReserved' },
 }
@@ -99,7 +100,7 @@ const multilineAndShorthandAndCallbackLastArgs: RuleOptions = [
   },
 ]
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'jsx-sort-props',
   rule,
   parserOptions: {
@@ -284,7 +285,7 @@ run<RuleOptions>({
       options: [{ locale: 'sk-SK' }],
     },
   ),
-  invalid: invalids<RuleOptions>(
+  invalid: invalids<RuleOptions, MessageIds>(
     {
       code: '<App b a />;',
       errors: [expectedError],

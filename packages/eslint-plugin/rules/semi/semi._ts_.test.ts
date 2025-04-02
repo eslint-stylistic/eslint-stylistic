@@ -2,7 +2,7 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import type { InvalidTestCase, ValidTestCase } from '#test'
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from '.'
 
@@ -20,7 +20,7 @@ const extraSemicolon = {
   messageId: 'extraSemi' as const,
 }
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'semi',
   rule,
   valid: [
@@ -1071,7 +1071,7 @@ run<RuleOptions>({
           },
         ],
       },
-    ].reduce<InvalidTestCase<RuleOptions>[]>((acc, test) => {
+    ].reduce<InvalidTestCase<RuleOptions, MessageIds>[]>((acc, test) => {
       acc.push({
         code: test.code.replace(/;/g, ''),
         output: test.code,

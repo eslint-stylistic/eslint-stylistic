@@ -3,12 +3,12 @@
  * @author Yannick Croissant
  */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, skipDueToMultiErrorSorting, valids } from '#test/parsers-jsx'
 import rule from './jsx-indent._jsx_'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'jsx-indent',
   rule,
   parserOptions: {
@@ -1198,7 +1198,7 @@ const Component = () => (
     },
   ),
 
-  invalid: invalids<RuleOptions>(
+  invalid: invalids<RuleOptions, MessageIds>(
     {
       code: `
         <div>

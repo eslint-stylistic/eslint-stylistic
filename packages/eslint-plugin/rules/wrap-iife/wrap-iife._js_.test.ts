@@ -3,15 +3,16 @@
  * @author Ilya Volodin
  */
 
-import type { RuleOptions } from './types'
+import type { TestCaseError } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-const wrapInvocationError = { messageId: 'wrapInvocation', type: 'CallExpression' }
-const wrapExpressionError = { messageId: 'wrapExpression', type: 'CallExpression' }
-const moveInvocationError = { messageId: 'moveInvocation', type: 'CallExpression' }
+const wrapInvocationError: TestCaseError<MessageIds> = { messageId: 'wrapInvocation', type: 'CallExpression' }
+const wrapExpressionError: TestCaseError<MessageIds> = { messageId: 'wrapExpression', type: 'CallExpression' }
+const moveInvocationError: TestCaseError<MessageIds> = { messageId: 'moveInvocation', type: 'CallExpression' }
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'wrap-iife',
   rule,
   valid: [

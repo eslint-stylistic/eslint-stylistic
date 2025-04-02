@@ -3,7 +3,7 @@
  * @author Diogo Franco (Kovensky)
  */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-tag-spacing._jsx_'
@@ -64,7 +64,7 @@ function beforeClosingOptions(option: Option['beforeClosing']): RuleOptions {
 // Tests
 // -----------------------------------------------------------------------------
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'jsx-tag-spacing',
   rule,
   lang: 'js',
@@ -290,7 +290,7 @@ run<RuleOptions>({
     },
   ),
 
-  invalid: invalids<RuleOptions>(
+  invalid: invalids<RuleOptions, MessageIds>(
     {
       code: '<App/>',
       output: '<App />',

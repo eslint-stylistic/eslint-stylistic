@@ -1,5 +1,5 @@
 import type { InvalidTestCase, ValidTestCase } from '#test'
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import rule from '.'
@@ -27,7 +27,7 @@ const emptyBlocks = ['{}', '{ }']
 const singlePropertyBlocks = ['{bar: true}', '{ bar: true }']
 const blockComment = '/* comment */'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'block-spacing',
   rule,
   valid: [
@@ -66,7 +66,7 @@ run<RuleOptions>({
   invalid: [
     ...options.flatMap(option =>
       typeDeclarations.flatMap((typeDec) => {
-        return singlePropertyBlocks.flatMap<InvalidTestCase<RuleOptions>>(
+        return singlePropertyBlocks.flatMap<InvalidTestCase<RuleOptions, MessageIds>>(
           (blockType, blockIndex) => {
             // These are actually valid, so filter them out
             if (
@@ -107,7 +107,7 @@ run<RuleOptions>({
     ),
     // With block comments
     ...options.flatMap(option =>
-      typeDeclarations.flatMap <InvalidTestCase<RuleOptions>>((typeDec) => {
+      typeDeclarations.flatMap <InvalidTestCase<RuleOptions, MessageIds>>((typeDec) => {
         const property
           = typeDec.nodeType === AST_NODE_TYPES.TSEnumDeclaration
             ? 'bar = 1'

@@ -3,14 +3,15 @@
  * @author Teddy Katz
  */
 
-import type { RuleOptions } from './types'
+import type { TestCaseError } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from '.'
 
-const EXPECTED_LINEBREAK = { messageId: 'expectLinebreak' }
-const UNEXPECTED_LINEBREAK = { messageId: 'expectNoLinebreak' }
+const EXPECTED_LINEBREAK: TestCaseError<MessageIds> = { messageId: 'expectLinebreak' }
+const UNEXPECTED_LINEBREAK: TestCaseError<MessageIds> = { messageId: 'expectNoLinebreak' }
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'nonblock-statement-body-position',
   rule,
 

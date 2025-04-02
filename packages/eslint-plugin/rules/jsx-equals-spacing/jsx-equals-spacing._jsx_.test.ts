@@ -3,12 +3,12 @@
  * @author ryym
  */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, skipDueToMultiErrorSorting, valids } from '#test/parsers-jsx'
 import rule from './jsx-equals-spacing._jsx_'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'jsx-equals-spacing',
   rule,
   parserOptions: {
@@ -75,7 +75,7 @@ run<RuleOptions>({
     },
   ),
 
-  invalid: invalids<RuleOptions>(
+  invalid: invalids<RuleOptions, MessageIds>(
     skipDueToMultiErrorSorting ? [] : {
       code: '<App foo = {bar} />',
       output: '<App foo={bar} />',

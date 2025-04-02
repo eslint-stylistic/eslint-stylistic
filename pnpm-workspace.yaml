@@ -41,7 +41,7 @@ catalog:
   eslint: ^9.20.0
   eslint-plugin-format: ^1.0.1
   eslint-visitor-keys: ^4.2.0
-  eslint-vitest-rule-tester: ^2.1.0
+  eslint-vitest-rule-tester: ^2.2.0
   esno: ^4.8.0
   espree: ^10.3.0
   estraverse: ^5.3.0

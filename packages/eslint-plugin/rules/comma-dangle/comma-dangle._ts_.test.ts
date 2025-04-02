@@ -1,11 +1,11 @@
 // this rule tests the new lines, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from '.'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'comma-dangle',
   rule,
 

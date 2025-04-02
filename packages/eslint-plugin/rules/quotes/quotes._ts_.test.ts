@@ -1,7 +1,7 @@
 // this rule tests quotes, which prettier will want to fix and break the tests
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from '.'
 
@@ -26,7 +26,7 @@ const useBacktick = {
   },
 }
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'quotes',
   rule,
   valid: [

@@ -1,4 +1,4 @@
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 /**
  * @fileoverview This option sets a specific tab width for your code
  * @author Dmitriy Shekhovtsov
@@ -16,7 +16,7 @@ const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixtu
 
 type ErrorInput = [number, number | string, number | string, string]
 interface ErrorOutput {
-  messageId: string
+  messageId: MessageIds
   data: {
     expected: string
     actual: string | number
@@ -56,7 +56,7 @@ export function expectedErrors(providedIndentType: any, providedErrors?: any): E
   }))
 }
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'indent',
   rule,
   lang: 'js',

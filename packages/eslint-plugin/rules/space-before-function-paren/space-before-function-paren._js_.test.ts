@@ -3,12 +3,12 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from '.'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'space-before-function-paren',
   rule,
 

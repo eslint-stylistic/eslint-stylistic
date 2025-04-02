@@ -3,16 +3,17 @@
  * @author Bryan Smith
  */
 
-import type { RuleOptions } from './types'
+import type { TestCaseError } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-const missingBeforeError = { messageId: 'missingBefore', type: 'Punctuator' }
-const missingAfterError = { messageId: 'missingAfter', type: 'Punctuator' }
-const unexpectedBeforeError = { messageId: 'unexpectedBefore', type: 'Punctuator' }
-const unexpectedAfterError = { messageId: 'unexpectedAfter', type: 'Punctuator' }
+const missingBeforeError: TestCaseError<MessageIds> = { messageId: 'missingBefore', type: 'Punctuator' }
+const missingAfterError: TestCaseError<MessageIds> = { messageId: 'missingAfter', type: 'Punctuator' }
+const unexpectedBeforeError: TestCaseError<MessageIds> = { messageId: 'unexpectedBefore', type: 'Punctuator' }
+const unexpectedAfterError: TestCaseError<MessageIds> = { messageId: 'unexpectedAfter', type: 'Punctuator' }
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'yield-star-spacing',
   rule,
 

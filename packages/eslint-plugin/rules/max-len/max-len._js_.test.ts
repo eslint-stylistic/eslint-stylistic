@@ -3,13 +3,13 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
 const parserOptions = { ecmaVersion: 6 } as const
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'max-len',
   rule,
   valid: [

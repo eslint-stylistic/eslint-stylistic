@@ -2,11 +2,11 @@
 /* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
 
 import type { InvalidTestCase, ValidTestCase } from '#test'
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'function-call-spacing',
   rule,
   valid: [
@@ -257,7 +257,7 @@ run<RuleOptions>({
         code: 'import\n//comment\n(source)',
         output: null,
       },
-    ].map<InvalidTestCase<RuleOptions>>(code => ({
+    ].map<InvalidTestCase<RuleOptions, MessageIds>>(code => ({
       options: ['never'],
       errors: [
         {
@@ -297,7 +297,7 @@ run<RuleOptions>({
         code: 'import(source)',
         output: 'import (source)',
       },
-    ].map<InvalidTestCase<RuleOptions>>(code => ({
+    ].map<InvalidTestCase<RuleOptions, MessageIds>>(code => ({
       options: ['always'],
       errors: [
         {
@@ -410,7 +410,7 @@ run<RuleOptions>({
         code: 'f\r\n();',
         output: 'f ();',
       },
-    ].map<InvalidTestCase<RuleOptions>>(code => ({
+    ].map<InvalidTestCase<RuleOptions, MessageIds>>(code => ({
       options: ['always'],
       errors: [
         {
@@ -479,7 +479,7 @@ run<RuleOptions>({
           },
         ],
       },
-    ].map<InvalidTestCase<RuleOptions>>(code => ({
+    ].map<InvalidTestCase<RuleOptions, MessageIds>>(code => ({
       options: ['always', { allowNewlines: true }],
       errors: [
         {
@@ -500,7 +500,7 @@ run<RuleOptions>({
       'f\n?.\n();',
       'f ?.\n();',
       'f\n?. ();',
-    ].map<InvalidTestCase<RuleOptions>>(code => ({
+    ].map<InvalidTestCase<RuleOptions, MessageIds>>(code => ({
       options: ['never'],
       output: 'f?.();',
       errors: [
@@ -520,7 +520,7 @@ run<RuleOptions>({
       'f\n?.\n();',
       'f ?.\n();',
       'f\n?. ();',
-    ].map<InvalidTestCase<RuleOptions>>(code => ({
+    ].map<InvalidTestCase<RuleOptions, MessageIds>>(code => ({
       options: ['always'],
       output: 'f ?. ();',
       errors: [
@@ -540,7 +540,7 @@ run<RuleOptions>({
         code: 'f?.\n();',
         output: 'f ?.\n();',
       },
-    ].map<InvalidTestCase<RuleOptions>>(code => ({
+    ].map<InvalidTestCase<RuleOptions, MessageIds>>(code => ({
       options: ['always', { allowNewlines: true }],
       errors: [
         {
@@ -557,7 +557,7 @@ run<RuleOptions>({
       'f\n?.\n();',
       'f ?.\n();',
       'f\n?. ();',
-    ].flatMap<InvalidTestCase<RuleOptions>>((code) => {
+    ].flatMap<InvalidTestCase<RuleOptions, MessageIds>>((code) => {
       const messageId = code.includes('f ') || code.includes('f\n') ? 'unexpectedWhitespace' : 'missing'
       return [
         {
@@ -590,7 +590,7 @@ run<RuleOptions>({
       'f\n?.\n();',
       'f ?.\n();',
       'f\n?. ();',
-    ].flatMap<InvalidTestCase<RuleOptions>>((code) => {
+    ].flatMap<InvalidTestCase<RuleOptions, MessageIds>>((code) => {
       const messageId = code.includes(' ();') || code.includes('\n();') ? 'unexpectedWhitespace' : 'missing'
       return [
         {

@@ -1,6 +1,6 @@
 import type { InvalidTestCase, TestCaseError, ValidTestCase } from '#test'
 import type { NodeTypes } from '#types'
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
@@ -25,7 +25,7 @@ function createValidRule(input: string[], option: boolean) {
   })
 }
 
-function createInvalidRule(input: string[], out: string[], err: TestCaseError[], option: boolean) {
+function createInvalidRule(input: string[], out: string[], err: TestCaseError<MessageIds>[], option: boolean) {
   // add comment for better experience in `vitest` extension
   const code = `${input.join('\n')}// ${JSON.stringify(option) || 'default'}`
   const output = `${out.join('\n')}// ${JSON.stringify(option) || 'default'}`
@@ -36,7 +36,7 @@ function createInvalidRule(input: string[], out: string[], err: TestCaseError[],
       column: e.line === 1 && typeof e.column === 'number' ? e.column + prefix.length : e.column,
     }))
 
-    const res: InvalidTestCase<RuleOptions>[] = [
+    const res: InvalidTestCase<RuleOptions, MessageIds>[] = [
       { code: `${prefix}${code}`, output: `${prefix}${output}`, errors, options: [{ allowAllPropertiesOnSameLine: option }] },
       { code: `${prefix}${code}`, output: `${prefix}${output}`, errors, options: [{ /* deprecated */ allowMultiplePropertiesPerLine: option }] },
     ]
@@ -47,7 +47,7 @@ function createInvalidRule(input: string[], out: string[], err: TestCaseError[],
   })
 }
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'object-property-newline',
   rule,
   valid: [
@@ -124,8 +124,8 @@ run<RuleOptions>({
           { line: 1, column: 29, messageId: 'propertiesOnNewline' },
         ],
       },
-    ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, false)),
-    ...[
+    ].flatMap<InvalidTestCase<RuleOptions, MessageIds>>(c => createInvalidRule(c.code, c.output, c.errors, false)),
+    ...([
       {
         code: [
           '{  id: number; name: string;',
@@ -156,6 +156,6 @@ run<RuleOptions>({
           { line: 2, column: 15, messageId: 'propertiesOnNewlineAll' },
         ],
       },
-    ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, true)),
+    ]).flatMap<InvalidTestCase<RuleOptions, MessageIds>>(c => createInvalidRule(c.code, c.output, c.errors, true)),
   ],
 })

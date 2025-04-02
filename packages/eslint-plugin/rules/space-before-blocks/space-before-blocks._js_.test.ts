@@ -3,7 +3,8 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import type { RuleOptions } from './types'
+import type { TestCaseError } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from '.'
@@ -19,10 +20,10 @@ const classesAlwaysOthersOffArgs: RuleOptions = [{ functions: 'off', keywords: '
 const functionsNeverOthersOffArgs: RuleOptions = [{ functions: 'never', keywords: 'off', classes: 'off' }]
 const keywordNeverOthersOffArgs: RuleOptions = [{ functions: 'off', keywords: 'never', classes: 'off' }]
 const classesNeverOthersOffArgs: RuleOptions = [{ functions: 'off', keywords: 'off', classes: 'never' }]
-const expectedSpacingError = { messageId: 'missingSpace' }
-const expectedNoSpacingError = { messageId: 'unexpectedSpace' }
+const expectedSpacingError: TestCaseError<MessageIds> = { messageId: 'missingSpace' }
+const expectedNoSpacingError: TestCaseError<MessageIds> = { messageId: 'unexpectedSpace' }
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'space-before-blocks',
   rule,
   lang: 'js',

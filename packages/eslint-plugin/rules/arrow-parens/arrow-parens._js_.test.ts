@@ -3,14 +3,14 @@
  * @author Jxck
  */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from '.'
 
 const type = 'ArrowFunctionExpression'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'arrow-parens',
   rule,
   valid: [

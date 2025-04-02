@@ -3,7 +3,8 @@
  * @author Alberto Rodríguez
  */
 
-import type { RuleOptions } from './types'
+import type { TestCaseError } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
@@ -18,7 +19,7 @@ import rule from '.'
  * @param column column number
  * @returns Error object
  */
-function errorAt(line: number, column: number) {
+function errorAt(line: number, column: number): TestCaseError<MessageIds> {
   return {
     messageId: 'expectVarOnNewline',
     type: 'VariableDeclaration',
@@ -27,7 +28,7 @@ function errorAt(line: number, column: number) {
   }
 }
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'one-var-declaration-per-line',
   rule,
   valid: [

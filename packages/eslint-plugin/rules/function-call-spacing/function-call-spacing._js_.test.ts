@@ -3,11 +3,11 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'function-call-spacing',
   rule,
   valid: [

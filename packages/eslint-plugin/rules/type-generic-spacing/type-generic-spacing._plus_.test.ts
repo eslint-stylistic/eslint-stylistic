@@ -1,8 +1,8 @@
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from './type-generic-spacing._plus_'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'type-generic-spacing',
   rule,
   valid: [

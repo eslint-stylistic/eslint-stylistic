@@ -1,7 +1,7 @@
 // this rule tests the spacing, which prettier will want to fix and break the tests
 
 import type { InvalidTestCase, TestCaseError, TestCasesOptions, ValidTestCase } from '#test'
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import rule from '.'
@@ -591,12 +591,12 @@ type Foo = string | {
             `,
     ],
   },
-].reduce<TestCasesOptions<RuleOptions>>(
+].reduce<TestCasesOptions<RuleOptions, MessageIds>>(
   (acc, testCase) => {
     const indent = '    '
 
     const validCases: ValidTestCase<RuleOptions>[] = [...acc.valid!]
-    const invalidCases: InvalidTestCase<RuleOptions>[] = [...acc.invalid!]
+    const invalidCases: InvalidTestCase<RuleOptions, MessageIds>[] = [...acc.invalid!]
 
     const codeCases = testCase.code.map(code => [
       '', // newline to make test error messages nicer
@@ -614,7 +614,7 @@ type Foo = string | {
         output: code,
         errors: code
           .split('\n')
-          .map<TestCaseError | null>((line, lineNum) => {
+          .map<TestCaseError<MessageIds> | null>((line, lineNum) => {
             const indentCount = line.split(indent).length - 1
             const spaceCount = indentCount * indent.length
 
@@ -632,7 +632,7 @@ type Foo = string | {
             }
           })
           .filter(
-            (error): error is TestCaseError =>
+            (error): error is TestCaseError<MessageIds> =>
               error != null,
           ),
       }
@@ -646,7 +646,7 @@ type Foo = string | {
 )
 // #endregion
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'indent',
   rule,
   valid: [

@@ -3,12 +3,12 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-one-expression-per-line._jsx_'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'jsx-one-expression-per-line',
   rule,
   parserOptions: {
@@ -305,7 +305,7 @@ run<RuleOptions>({
     },
   ),
 
-  invalid: invalids<RuleOptions>(
+  invalid: invalids<RuleOptions, MessageIds>(
     {
       code: `
         <App>{"foo"}</App>

@@ -3,11 +3,11 @@
  * @author Vitor Balocco
  */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'object-property-newline',
   rule,
 

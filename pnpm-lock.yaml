@@ -121,8 +121,8 @@ catalogs:
       specifier: ^4.2.0
       version: 4.2.0
     eslint-vitest-rule-tester:
-      specifier: ^2.1.0
-      version: 2.1.0
+      specifier: ^2.2.0
+      version: 2.2.0
     esno:
       specifier: ^4.8.0
       version: 4.8.0
@@ -351,7 +351,7 @@ importers:
         version: 4.2.0
       eslint-vitest-rule-tester:
         specifier: 'catalog:'
-        version: 2.1.0(eslint@9.20.0(jiti@2.4.2))(typescript@5.7.3)(vitest@3.0.5)
+        version: 2.2.0(eslint@9.20.0(jiti@2.4.2))(typescript@5.7.3)(vitest@3.0.5)
       esno:
         specifier: 'catalog:'
         version: 4.8.0
@@ -2571,8 +2571,8 @@ packages:
     resolution: {integrity: sha512-UyLnSehNt62FFhSwjZlHmeokpRK59rcz29j+F1/aDgbkbRTk7wIc9XzdoasMUbRNKDM0qQt/+BJ4BrpFeABemw==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  eslint-vitest-rule-tester@2.1.0:
-    resolution: {integrity: sha512-+uKXk6NlE1750N2L6ePnRJnWSrZ5vMWXPkE0IBZZ480IPPfvtJaoZS+1iQAWKzOItaJBvN1zJdVEGKn4pHgW4A==}
+  eslint-vitest-rule-tester@2.2.0:
+    resolution: {integrity: sha512-4qnX3piKH1a41zBFHE2fQUKZI2/yhhpqJyEOTDGwP1jZ1tkcwvkXbtYNDcTY3YmirqqlNPAWw0UvIPW1rcEtLw==}
     peerDependencies:
       eslint: ^9.0.0
       vitest: ^3.0.5
@@ -6572,7 +6572,7 @@ snapshots:
 
   eslint-visitor-keys@4.2.0: {}
 
-  eslint-vitest-rule-tester@2.1.0(eslint@9.20.0(jiti@2.4.2))(typescript@5.7.3)(vitest@3.0.5):
+  eslint-vitest-rule-tester@2.2.0(eslint@9.20.0(jiti@2.4.2))(typescript@5.7.3)(vitest@3.0.5):
     dependencies:
       '@types/eslint': 9.6.1
       '@typescript-eslint/utils': 8.28.0(eslint@9.20.0(jiti@2.4.2))(typescript@5.7.3)

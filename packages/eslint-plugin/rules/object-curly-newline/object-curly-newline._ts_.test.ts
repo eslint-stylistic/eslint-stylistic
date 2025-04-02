@@ -1,6 +1,6 @@
-import type { TestCaseError } from '#test'
+import type { InvalidTestCase, TestCaseError } from '#test'
 import type { NodeTypes } from '#types'
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
@@ -25,7 +25,7 @@ function createValidRule(input: string[], options?: RuleOptions[0]) {
   )
 }
 
-function createInvalidRule(input: string[], out: string[], err: TestCaseError[], options?: RuleOptions[0]) {
+function createInvalidRule(input: string[], out: string[], err: TestCaseError<MessageIds>[], options?: RuleOptions[0]): InvalidTestCase<RuleOptions, MessageIds>[] {
   // add comment for better experience in `vitest` extension
   const code = `${input.join('\n')}// ${JSON.stringify(options) || 'default'}`
   const output = `${out.join('\n')}// ${JSON.stringify(options) || 'default'}`
@@ -47,7 +47,7 @@ function createInvalidRule(input: string[], out: string[], err: TestCaseError[],
   })
 }
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'object-curly-newline',
   rule,
   valid: [

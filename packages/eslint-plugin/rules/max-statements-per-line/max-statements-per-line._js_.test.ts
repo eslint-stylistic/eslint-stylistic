@@ -3,11 +3,11 @@
  * @author Kenneth Williams
  */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'max-statements-per-line',
   rule,
   valid: [

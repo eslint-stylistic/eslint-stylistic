@@ -3,12 +3,12 @@
  * @author Ross Solomon
  */
 
-import type { RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-closing-tag-location._jsx_'
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'jsx-closing-tag-location',
   rule,
   parserOptions: {
@@ -18,7 +18,7 @@ run<RuleOptions>({
     },
   },
 
-  valid: valids(
+  valid: valids<RuleOptions>(
     {
       code: `
         <App>
@@ -98,7 +98,7 @@ run<RuleOptions>({
     },
   ),
 
-  invalid: invalids(
+  invalid: invalids<RuleOptions, MessageIds>(
     {
       code: `
         <App>

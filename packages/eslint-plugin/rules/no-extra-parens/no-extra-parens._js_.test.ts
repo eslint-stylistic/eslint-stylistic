@@ -3,7 +3,8 @@
  * @author Michael Ficarra
  */
 
-import type { RuleOptions } from './types'
+import type { InvalidTestCase } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from '.'
@@ -18,8 +19,8 @@ import rule from '.'
  * @returns result object
  * @private
  */
-function invalid(code: string, output: string | null, type?: string, line?: number | null, config?: any) {
-  const result = {
+function invalid(code: string, output: string | null, type?: string, line?: number | null, config?: any): InvalidTestCase<RuleOptions, MessageIds> {
+  return {
     code,
     output,
     parserOptions: config && config.parserOptions || {},
@@ -32,11 +33,9 @@ function invalid(code: string, output: string | null, type?: string, line?: numb
     ],
     options: config && config.options || [],
   }
-
-  return result
 }
 
-run<RuleOptions>({
+run<RuleOptions, MessageIds>({
   name: 'no-extra-parens',
   rule,
   lang: 'js',
