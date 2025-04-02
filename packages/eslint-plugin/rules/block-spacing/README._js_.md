@@ -102,7 +102,7 @@ class C {
 
 The "ignoredNodes" object property is optional (default: []).
 
-Examples of **correct** code for this rule with sample `{ "ignoredNodes": [] }` options:
+Examples of **correct** code for this rule with sample `{ "ignoredNodes": ["TSTypeLiteral"] }` options:
 
 ::: correct
 
