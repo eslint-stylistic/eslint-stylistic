@@ -180,7 +180,9 @@ run({
       code: 'type T = { a: string, b: number };',
       output: 'type T = { a: string,\nb: number };',
       options: [{
-        TSTypeLiteral: { allowAllPropertiesOnSameLine: false },
+        overrides: {
+          TSTypeLiteral: { allowAllPropertiesOnSameLine: false },
+        },
       }],
       errors: [
         { messageId: 'propertiesOnNewline', line: 1, column: 23 },
@@ -190,7 +192,9 @@ run({
       code: 'interface Foo { a: string, b: number }',
       output: 'interface Foo { a: string,\nb: number }',
       options: [{
-        TSInterfaceBody: { allowAllPropertiesOnSameLine: false },
+        overrides: {
+          TSInterfaceBody: { allowAllPropertiesOnSameLine: false },
+        },
       }],
       errors: [
         { messageId: 'propertiesOnNewline', line: 1, column: 28 },
@@ -200,8 +204,10 @@ run({
       code: 'type T = { a: string, b: number }; interface Bar { c: boolean, d: string }',
       output: 'type T = { a: string,\nb: number }; interface Bar { c: boolean,\nd: string }',
       options: [{
-        TSTypeLiteral: { allowAllPropertiesOnSameLine: false },
-        TSInterfaceBody: { allowAllPropertiesOnSameLine: false },
+        overrides: {
+          TSTypeLiteral: { allowAllPropertiesOnSameLine: false },
+          TSInterfaceBody: { allowAllPropertiesOnSameLine: false },
+        },
       }],
       errors: [
         { messageId: 'propertiesOnNewline', line: 1, column: 23 },

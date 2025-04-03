@@ -15,7 +15,7 @@ import type { NoExtraParensRuleOptions } from '../../eslint-plugin/rules/no-extr
 import type { NoExtraSemiRuleOptions } from '../../eslint-plugin/rules/no-extra-semi/types'
 import type { ObjectCurlyNewlineRuleOptions } from '../../eslint-plugin/rules/object-curly-newline/types'
 import type { ObjectCurlySpacingRuleOptions } from '../../eslint-plugin/rules/object-curly-spacing/types'
-import type { ObjectPropertyNewlineRuleOptions } from '../../eslint-plugin/rules/object-property-newline/types'
+import type { ObjectPropertyNewlineRuleOptions } from '../../eslint-plugin/rules/object-property-newline/types._ts_'
 import type { PaddingLineBetweenStatementsRuleOptions } from '../../eslint-plugin/rules/padding-line-between-statements/types._ts_'
 import type { QuotePropsRuleOptions } from '../../eslint-plugin/rules/quote-props/types'
 import type { QuotesRuleOptions } from '../../eslint-plugin/rules/quotes/types'

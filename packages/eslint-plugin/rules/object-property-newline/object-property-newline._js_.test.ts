@@ -70,67 +70,85 @@ run({
     { code: 'import {a, b, c} from \'module\';', options: [{ allowAllPropertiesOnSameLine: true }] },
     { code: 'import {\na, b, c\n} from \'module\';', options: [{ allowAllPropertiesOnSameLine: true }] },
     { code: 'var obj = { a: 1, b: 2 }; import { c, d } from "module";', options: [{
-      ObjectExpression: { allowAllPropertiesOnSameLine: true },
-      ImportDeclaration: { allowAllPropertiesOnSameLine: true },
+      overrides: {
+        ObjectExpression: { allowAllPropertiesOnSameLine: true },
+        ImportDeclaration: { allowAllPropertiesOnSameLine: true },
+      },
     }] },
 
     // Granular configuration for different node types
     {
       code: 'var obj = { a: 1, b: 2 }; import { c, d } from \'module\';',
       options: [{
-        ObjectExpression: true,
-        ImportDeclaration: true,
+        overrides: {
+          ObjectExpression: { allowAllPropertiesOnSameLine: true },
+          ImportDeclaration: { allowAllPropertiesOnSameLine: true },
+        },
       }],
     },
     {
       code: 'var obj = { a: 1, b: 2 }; const { c, d } = obj;',
       options: [{
-        ObjectExpression: true,
-        ObjectPattern: true,
+        overrides: {
+          ObjectExpression: { allowAllPropertiesOnSameLine: true },
+          ObjectPattern: { allowAllPropertiesOnSameLine: true },
+        },
       }],
     },
     {
       code: 'var obj = {\na: 1,\nb: 2\n}; import { c, d } from \'module\';',
       options: [{
-        ObjectExpression: false,
-        ImportDeclaration: true,
+        overrides: {
+          ObjectExpression: { allowAllPropertiesOnSameLine: false },
+          ImportDeclaration: { allowAllPropertiesOnSameLine: true },
+        },
       }],
     },
     {
       code: 'var obj = { a: 1, b: 2 }; import {\nc,\nd\n} from \'module\';',
       options: [{
-        ObjectExpression: true,
-        ImportDeclaration: false,
+        overrides: {
+          ObjectExpression: { allowAllPropertiesOnSameLine: true },
+          ImportDeclaration: { allowAllPropertiesOnSameLine: false },
+        },
       }],
     },
     {
       code: 'var obj = { a: 1, b: 2 }; export { c, d } from \'module\';',
       options: [{
-        ObjectExpression: true,
-        ExportDeclaration: true,
+        overrides: {
+          ObjectExpression: { allowAllPropertiesOnSameLine: true },
+          ExportNamedDeclaration: { allowAllPropertiesOnSameLine: true },
+        },
       }],
     },
     {
       code: 'var obj = { a: 1, b: 2 }; import {\nc,\nd\n} from \'module\'; export { e, f } from \'module\';',
       options: [{
-        ObjectExpression: true,
-        ImportDeclaration: false,
-        ExportDeclaration: true,
+        overrides: {
+          ObjectExpression: { allowAllPropertiesOnSameLine: true },
+          ImportDeclaration: { allowAllPropertiesOnSameLine: false },
+          ExportNamedDeclaration: { allowAllPropertiesOnSameLine: true },
+        },
       }],
     },
     // Boolean shorthand syntax tests
     {
       code: 'var obj = { a: 1, b: 2 }; import { c, d } from \'module\';',
       options: [{
-        ObjectExpression: true,
-        ImportDeclaration: true,
+        overrides: {
+          ObjectExpression: { allowAllPropertiesOnSameLine: true },
+          ImportDeclaration: { allowAllPropertiesOnSameLine: true },
+        },
       }],
     },
     {
       code: 'var obj = {\na: 1,\nb: 2\n}; import {\nc,\nd\n} from \'module\';',
       options: [{
-        ObjectExpression: false,
-        ImportDeclaration: false,
+        overrides: {
+          ObjectExpression: { allowAllPropertiesOnSameLine: false },
+          ImportDeclaration: { allowAllPropertiesOnSameLine: false },
+        },
       }],
     },
   ],
@@ -831,8 +849,10 @@ run({
       code: 'var obj = { a: 1, b: 2 }; import { c, d } from "module";',
       output: 'var obj = { a: 1,\nb: 2 }; import { c, d } from "module";',
       options: [{
-        ObjectExpression: { allowAllPropertiesOnSameLine: false },
-        ImportDeclaration: { allowAllPropertiesOnSameLine: true },
+        overrides: {
+          ObjectExpression: { allowAllPropertiesOnSameLine: false },
+          ImportDeclaration: { allowAllPropertiesOnSameLine: true },
+        },
       }],
       errors: [
         {
@@ -849,8 +869,10 @@ run({
       code: 'var obj = { a: 1, b: 2 }; import { c, d } from "module";',
       output: 'var obj = { a: 1, b: 2 }; import { c,\nd } from "module";',
       options: [{
-        ObjectExpression: { allowAllPropertiesOnSameLine: true },
-        ImportDeclaration: { allowAllPropertiesOnSameLine: false },
+        overrides: {
+          ObjectExpression: { allowAllPropertiesOnSameLine: true },
+          ImportDeclaration: { allowAllPropertiesOnSameLine: false },
+        },
       }],
       errors: [
         {
@@ -867,8 +889,10 @@ run({
       code: 'var obj = { a: 1, b: 2 }; import { c, d } from "module";',
       output: 'var obj = { a: 1,\nb: 2 }; import { c,\nd } from "module";',
       options: [{
-        ObjectExpression: false,
-        ImportDeclaration: false,
+        overrides: {
+          ObjectExpression: { allowAllPropertiesOnSameLine: false },
+          ImportDeclaration: { allowAllPropertiesOnSameLine: false },
+        },
       }],
       errors: [
         {
@@ -893,7 +917,9 @@ run({
       code: 'const { a, b } = obj;',
       output: 'const { a,\nb } = obj;',
       options: [{
-        ObjectPattern: { allowAllPropertiesOnSameLine: false },
+        overrides: {
+          ObjectPattern: { allowAllPropertiesOnSameLine: false },
+        },
       }],
       errors: [
         {
@@ -910,7 +936,9 @@ run({
       code: 'export { a, b } from "module";',
       output: 'export { a,\nb } from "module";',
       options: [{
-        ExportDeclaration: { allowAllPropertiesOnSameLine: false },
+        overrides: {
+          ExportNamedDeclaration: { allowAllPropertiesOnSameLine: false },
+        },
       }],
       errors: [
         {

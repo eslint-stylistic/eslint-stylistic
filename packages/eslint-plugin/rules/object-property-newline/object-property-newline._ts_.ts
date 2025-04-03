@@ -1,6 +1,32 @@
-import type { ASTNode, Tree } from '#types'
+import type { ASTNode, JSONSchema, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
+
+const SUPPORTED_NODES = [
+  'ObjectExpression',
+  'ObjectPattern',
+  'ImportDeclaration',
+  'ExportNamedDeclaration',
+  'TSTypeLiteral',
+  'TSInterfaceBody',
+] satisfies (keyof typeof Tree.AST_NODE_TYPES)[]
+
+type SupportedNodes = Extract<ASTNode, {
+  type: typeof SUPPORTED_NODES[number]
+}>
+
+const BASE_SCHEMA: JSONSchema.JSONSchema4 = {
+  type: 'object',
+  properties: {
+    allowAllPropertiesOnSameLine: {
+      type: 'boolean',
+    },
+    allowMultiplePropertiesPerLine: { // Deprecated
+      type: 'boolean',
+    },
+  },
+  additionalProperties: false,
+}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-property-newline',
@@ -12,18 +38,19 @@ export default createRule<RuleOptions, MessageIds>({
     },
     schema: [
       {
+        ...BASE_SCHEMA,
         type: 'object',
         properties: {
-          allowAllPropertiesOnSameLine: {
-            type: 'boolean',
-            default: false,
-          },
-          allowMultiplePropertiesPerLine: { // Deprecated
-            type: 'boolean',
-            default: false,
+          ...BASE_SCHEMA.properties,
+          overrides: {
+            type: 'object',
+            properties: SUPPORTED_NODES.reduce((acc, cur) => {
+              acc[cur] = BASE_SCHEMA
+              return acc
+            }, {} as Record<string, JSONSchema.JSONSchema4>),
+            additionalProperties: false,
           },
         },
-        additionalProperties: false,
       },
     ],
     fixable: 'whitespace',
@@ -43,13 +70,23 @@ export default createRule<RuleOptions, MessageIds>({
     const allowSameLine = context.options[0] && (
       (context.options[0].allowAllPropertiesOnSameLine || context.options[0].allowMultiplePropertiesPerLine /* Deprecated */)
     )
-    const messageId = allowSameLine
-      ? 'propertiesOnNewlineAll'
-      : 'propertiesOnNewline'
+    const overrides = context.options[0]?.overrides
 
     const sourceCode = context.sourceCode
 
-    function check(node: ASTNode, children: Tree.ObjectLiteralElement[] | Tree.TypeElement[]) {
+    function getOptionByNode(node: SupportedNodes) {
+      const overridesOption = overrides?.[node.type]
+      return overridesOption?.allowAllPropertiesOnSameLine
+        || overridesOption?.allowMultiplePropertiesPerLine /* Deprecated */
+        || allowSameLine
+    }
+
+    function check(node: SupportedNodes, children: ASTNode[]) {
+      const allowSameLine = getOptionByNode(node)
+      const messageId = allowSameLine
+        ? 'propertiesOnNewlineAll'
+        : 'propertiesOnNewline'
+
       if (allowSameLine) {
         if (children.length > 1) {
           const firstTokenOfFirstProperty = sourceCode.getFirstToken(children[0])!
@@ -89,6 +126,16 @@ export default createRule<RuleOptions, MessageIds>({
     return {
       ObjectExpression(node) {
         check(node, node.properties)
+      },
+      ObjectPattern(node) {
+        check(node, node.properties)
+      },
+      ImportDeclaration(node) {
+        const specifiers = node.specifiers.filter(specifier => specifier.type === 'ImportSpecifier')
+        check(node, specifiers)
+      },
+      ExportNamedDeclaration(node) {
+        check(node, node.specifiers)
       },
       TSTypeLiteral(node) {
         check(node, node.members)

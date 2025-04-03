@@ -1,36 +1,46 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: kx7iqirNdw */
+/* @checksum: lIcu3uwAmu */
 
 export interface ObjectPropertyNewlineSchema0 {
   allowAllPropertiesOnSameLine?: boolean
   allowMultiplePropertiesPerLine?: boolean
-  overrides?: {
-    ObjectExpression?: {
+  ObjectExpression?:
+    | boolean
+    | {
       allowAllPropertiesOnSameLine?: boolean
       allowMultiplePropertiesPerLine?: boolean
     }
-    ObjectPattern?: {
+  ObjectPattern?:
+    | boolean
+    | {
       allowAllPropertiesOnSameLine?: boolean
       allowMultiplePropertiesPerLine?: boolean
     }
-    ImportDeclaration?: {
+  ImportDeclaration?:
+    | boolean
+    | {
       allowAllPropertiesOnSameLine?: boolean
       allowMultiplePropertiesPerLine?: boolean
     }
-    ExportNamedDeclaration?: {
+  ExportDeclaration?:
+    | boolean
+    | {
       allowAllPropertiesOnSameLine?: boolean
       allowMultiplePropertiesPerLine?: boolean
     }
-    TSTypeLiteral?: {
+  TSTypeLiteral?:
+    | boolean
+    | {
       allowAllPropertiesOnSameLine?: boolean
       allowMultiplePropertiesPerLine?: boolean
     }
-    TSInterfaceBody?: {
+  TSInterfaceBody?:
+    | boolean
+    | {
       allowAllPropertiesOnSameLine?: boolean
       allowMultiplePropertiesPerLine?: boolean
     }
-  }
 }
 
 export type ObjectPropertyNewlineRuleOptions = [
