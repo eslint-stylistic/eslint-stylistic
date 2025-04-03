@@ -46,7 +46,7 @@ import type { NoWhitespaceBeforePropertyRuleOptions } from '../../eslint-plugin/
 import type { NonblockStatementBodyPositionRuleOptions } from '../../eslint-plugin/rules/nonblock-statement-body-position/types'
 import type { ObjectCurlyNewlineRuleOptions } from '../../eslint-plugin/rules/object-curly-newline/types'
 import type { ObjectCurlySpacingRuleOptions } from '../../eslint-plugin/rules/object-curly-spacing/types'
-import type { ObjectPropertyNewlineRuleOptions } from '../../eslint-plugin/rules/object-property-newline/types'
+import type { ObjectPropertyNewlineRuleOptions } from '../../eslint-plugin/rules/object-property-newline/types._js_'
 import type { OneVarDeclarationPerLineRuleOptions } from '../../eslint-plugin/rules/one-var-declaration-per-line/types'
 import type { OperatorLinebreakRuleOptions } from '../../eslint-plugin/rules/operator-linebreak/types'
 import type { PaddedBlocksRuleOptions } from '../../eslint-plugin/rules/padded-blocks/types'
