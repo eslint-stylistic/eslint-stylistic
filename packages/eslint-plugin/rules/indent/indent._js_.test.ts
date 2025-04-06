@@ -2374,6 +2374,40 @@ run({
       }],
     },
 
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/756
+    {
+      code: $`
+        menus
+          ? await Promise.all(
+            menus.map(async (menu) => ({
+              menuName: menu.name,
+              menu: await resolveUrlToFile(menu.fileUrl),
+            })),
+          )
+          : []
+      `,
+      options: [2, {
+        offsetTernaryExpressions: true,
+        offsetTernaryExpressionsOffsetCallExpressions: false,
+      }],
+    },
+    {
+      code: $`
+        menus
+          ? await Promise.all(
+              menus.map(async (menu) => ({
+                menuName: menu.name,
+                menu: await resolveUrlToFile(menu.fileUrl),
+              })),
+            )
+          : []
+      `,
+      options: [2, {
+        offsetTernaryExpressions: true,
+        offsetTernaryExpressionsOffsetCallExpressions: true,
+      }],
+    },
+
     $`
       [
           foo ?
@@ -14711,6 +14745,33 @@ run({
               item,
               virtualRow.size,
             )
+      `,
+      options: [2, {
+        offsetTernaryExpressions: true,
+        offsetTernaryExpressionsOffsetCallExpressions: true,
+      }],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/756
+    {
+      code: $`
+        menus
+          ? await Promise.all(
+            menus.map(async (menu) => ({
+              menuName: menu.name,
+              menu: await resolveUrlToFile(menu.fileUrl),
+            })),
+          )
+          : []
+      `,
+      output: $`
+        menus
+          ? await Promise.all(
+              menus.map(async (menu) => ({
+                menuName: menu.name,
+                menu: await resolveUrlToFile(menu.fileUrl),
+              })),
+            )
+          : []
       `,
       options: [2, {
         offsetTernaryExpressions: true,

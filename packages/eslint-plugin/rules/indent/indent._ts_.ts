@@ -1244,8 +1244,14 @@ export default createRule<RuleOptions, MessageIds>({
           if (options.offsetTernaryExpressions) {
             if (firstConsequentToken.type === 'Punctuator')
               offset = 2
-            if (options.offsetTernaryExpressionsOffsetCallExpressions && skipChainExpression(node.consequent).type === 'CallExpression')
+
+            const consequentType = skipChainExpression(node.consequent).type
+            if (
+              options.offsetTernaryExpressionsOffsetCallExpressions
+              && (consequentType === 'CallExpression' || consequentType === 'AwaitExpression')
+            ) {
               offset = 2
+            }
           }
 
           offsets.setDesiredOffset(
@@ -1272,8 +1278,14 @@ export default createRule<RuleOptions, MessageIds>({
             if (options.offsetTernaryExpressions) {
               if (firstAlternateToken.type === 'Punctuator')
                 offset = 2
-              if (options.offsetTernaryExpressionsOffsetCallExpressions && skipChainExpression(node.alternate).type === 'CallExpression')
+
+              const alternateType = skipChainExpression(node.alternate).type
+              if (
+                options.offsetTernaryExpressionsOffsetCallExpressions
+                && (alternateType === 'CallExpression' || alternateType === 'AwaitExpression')
+              ) {
                 offset = 2
+              }
             }
             /**
              * If the alternate and consequent do not share part of a line, offset the alternate from the first
