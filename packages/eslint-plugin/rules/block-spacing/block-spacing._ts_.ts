@@ -6,6 +6,16 @@ import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 type SupportedNodes = Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement | Tree.TSInterfaceBody | Tree.TSTypeLiteral | Tree.TSEnumDeclaration
 
+const listeningNodes = [
+  'BlockStatement',
+  'StaticBlock',
+  'SwitchStatement',
+
+  'TSTypeLiteral',
+  'TSInterfaceBody',
+  'TSEnumDeclaration',
+] satisfies (keyof typeof Tree.AST_NODE_TYPES)[]
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'block-spacing',
   package: 'ts',
@@ -18,18 +28,37 @@ export default createRule<RuleOptions, MessageIds>({
     fixable: 'whitespace',
     schema: [
       { type: 'string', enum: ['always', 'never'] },
+      {
+        type: 'object',
+        properties: {
+          ignoredNodes: {
+            type: 'array',
+            items: {
+              type: 'string',
+              enum: listeningNodes,
+            },
+          },
+        },
+        additionalProperties: false,
+      },
     ],
     messages: {
       missing: 'Requires a space {{location}} \'{{token}}\'.',
       extra: 'Unexpected space(s) {{location}} \'{{token}}\'.',
     },
   },
-  defaultOptions: ['always'],
+  defaultOptions: [
+    'always',
+    {
+      ignoredNodes: [],
+    },
+  ],
 
-  create(context, [whenToApplyOption]) {
+  create(context, [whenToApplyOption, options = {}]) {
     const sourceCode = context.sourceCode
     const always = whenToApplyOption !== 'never'
     const messageId = always ? 'missing' : 'extra'
+    const { ignoredNodes = [] } = options
     /**
      * Gets the open brace token from a given node.
      * @returns The token of the open brace.
@@ -65,6 +94,8 @@ export default createRule<RuleOptions, MessageIds>({
      * Checks and reports invalid spacing style inside braces.
      */
     function checkSpacingInsideBraces(node: SupportedNodes): void {
+      if (ignoredNodes.includes(node.type))
+        return
       // Gets braces and the first/last token of content.
       const openBrace = getOpenBrace(node)
       const closeBrace = sourceCode.getLastToken(node)!
