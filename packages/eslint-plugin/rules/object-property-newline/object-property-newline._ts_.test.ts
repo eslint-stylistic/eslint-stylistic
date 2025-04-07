@@ -1,5 +1,6 @@
 import type { InvalidTestCase, TestCaseError, ValidTestCase } from '#test'
 import type { NodeTypes } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
@@ -13,7 +14,7 @@ function createValidRule(input: string[], option: boolean) {
   const code = `${input.join('\n')}// ${JSON.stringify(option) || 'default'}`
 
   return Object.entries(prefixOfNodes).flatMap(([_, prefix]) => {
-    const res: ValidTestCase[] = [
+    const res: ValidTestCase<RuleOptions>[] = [
       { code: `${prefix}${code}`, options: [{ allowAllPropertiesOnSameLine: option }] },
       { code: `${prefix}${code}`, options: [{ /* deprecated */ allowMultiplePropertiesPerLine: option }] },
     ]
@@ -24,7 +25,7 @@ function createValidRule(input: string[], option: boolean) {
   })
 }
 
-function createInvalidRule(input: string[], out: string[], err: TestCaseError[], option: boolean) {
+function createInvalidRule(input: string[], out: string[], err: TestCaseError<MessageIds>[], option: boolean) {
   // add comment for better experience in `vitest` extension
   const code = `${input.join('\n')}// ${JSON.stringify(option) || 'default'}`
   const output = `${out.join('\n')}// ${JSON.stringify(option) || 'default'}`
@@ -35,7 +36,7 @@ function createInvalidRule(input: string[], out: string[], err: TestCaseError[],
       column: e.line === 1 && typeof e.column === 'number' ? e.column + prefix.length : e.column,
     }))
 
-    const res: InvalidTestCase[] = [
+    const res: InvalidTestCase<RuleOptions, MessageIds>[] = [
       { code: `${prefix}${code}`, output: `${prefix}${output}`, errors, options: [{ allowAllPropertiesOnSameLine: option }] },
       { code: `${prefix}${code}`, output: `${prefix}${output}`, errors, options: [{ /* deprecated */ allowMultiplePropertiesPerLine: option }] },
     ]
@@ -46,7 +47,7 @@ function createInvalidRule(input: string[], out: string[], err: TestCaseError[],
   })
 }
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'object-property-newline',
   rule,
   valid: [
@@ -91,7 +92,7 @@ run({
         ],
         errors: [
           { line: 1, column: 16, messageId: 'propertiesOnNewline' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -107,7 +108,7 @@ run({
         ],
         errors: [
           { line: 2, column: 15, messageId: 'propertiesOnNewline' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -121,10 +122,10 @@ run({
         errors: [
           { line: 1, column: 15, messageId: 'propertiesOnNewline' },
           { line: 1, column: 29, messageId: 'propertiesOnNewline' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
-    ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, false)),
-    ...[
+    ].flatMap<InvalidTestCase<RuleOptions, MessageIds>>(c => createInvalidRule(c.code, c.output, c.errors, false)),
+    ...([
       {
         code: [
           '{  id: number; name: string;',
@@ -137,7 +138,7 @@ run({
         ],
         errors: [
           { line: 1, column: 16, messageId: 'propertiesOnNewlineAll' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
       {
         code: [
@@ -153,8 +154,8 @@ run({
         ],
         errors: [
           { line: 2, column: 15, messageId: 'propertiesOnNewlineAll' },
-        ],
+        ] as TestCaseError<MessageIds>[],
       },
-    ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, true)),
+    ]).flatMap<InvalidTestCase<RuleOptions, MessageIds>>(c => createInvalidRule(c.code, c.output, c.errors, true)),
   ],
 })
