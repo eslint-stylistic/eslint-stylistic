@@ -3,11 +3,12 @@
  * @author Yannick Croissant
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-indent-props._jsx_'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'jsx-indent-props',
   rule,
   parserOptions: {
@@ -17,7 +18,7 @@ run({
       jsx: true,
     },
   },
-  valid: valids(
+  valid: valids<RuleOptions>(
     {
       code: `
         <App foo
@@ -309,7 +310,7 @@ run({
     },
   ),
 
-  invalid: invalids(
+  invalid: invalids<RuleOptions, MessageIds>(
     {
       code: `
         <App

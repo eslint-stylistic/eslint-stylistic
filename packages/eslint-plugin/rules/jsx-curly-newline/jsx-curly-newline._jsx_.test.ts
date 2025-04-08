@@ -2,21 +2,23 @@
  * @fileoverview enforce consistent line breaks inside jsx curly
  */
 
+import type { TestCaseError } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-curly-newline._jsx_'
 
-const LEFT_MISSING_ERROR = { messageId: 'expectedAfter', type: 'Punctuator' }
-const LEFT_UNEXPECTED_ERROR = { messageId: 'unexpectedAfter', type: 'Punctuator' }
-const RIGHT_MISSING_ERROR = { messageId: 'expectedBefore', type: 'Punctuator' }
-const RIGHT_UNEXPECTED_ERROR = { messageId: 'unexpectedBefore', type: 'Punctuator' }
-// const EXPECTED_BETWEEN = {messageId: 'expectedBetween', type: 'Identifier'};
+const LEFT_MISSING_ERROR: TestCaseError<MessageIds> = { messageId: 'expectedAfter', type: 'Punctuator' }
+const LEFT_UNEXPECTED_ERROR: TestCaseError<MessageIds> = { messageId: 'unexpectedAfter', type: 'Punctuator' }
+const RIGHT_MISSING_ERROR: TestCaseError<MessageIds> = { messageId: 'expectedBefore', type: 'Punctuator' }
+const RIGHT_UNEXPECTED_ERROR: TestCaseError<MessageIds> = { messageId: 'unexpectedBefore', type: 'Punctuator' }
+// const EXPECTED_BETWEEN: TestCaseError<MessageIds> = {messageId: 'expectedBetween', type: 'Identifier'};
 
-const CONSISTENT = ['consistent']
-const NEVER = ['never']
-const MULTILINE_REQUIRE = [{ singleline: 'consistent', multiline: 'require' }]
+const CONSISTENT: RuleOptions = ['consistent']
+const NEVER: RuleOptions = ['never']
+const MULTILINE_REQUIRE: RuleOptions = [{ singleline: 'consistent', multiline: 'require' }]
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'jsx-curly-newline',
   rule,
   parserOptions: {
@@ -25,7 +27,7 @@ run({
     },
   },
 
-  valid: valids(
+  valid: valids<RuleOptions>(
     // consistent option (default)
     {
       code: '<div>{foo}</div>',
@@ -128,7 +130,7 @@ run({
     },
   ),
 
-  invalid: invalids(
+  invalid: invalids<RuleOptions, MessageIds>(
     // consistent option (default)
     {
       code: `

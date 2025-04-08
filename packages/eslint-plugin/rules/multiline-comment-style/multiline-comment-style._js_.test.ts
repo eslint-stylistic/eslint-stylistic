@@ -2,10 +2,11 @@
  * @fileoverview enforce a particular style for multiline comments
  * @author Teddy Katz
  */
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'multiline-comment-style',
   rule,
   valid: [

@@ -3,10 +3,11 @@
  * @author Toru Nagashima
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'block-spacing',
   rule,
   valid: [

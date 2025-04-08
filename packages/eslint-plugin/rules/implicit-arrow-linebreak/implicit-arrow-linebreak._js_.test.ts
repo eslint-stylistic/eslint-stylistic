@@ -3,13 +3,15 @@
  * @author Sharmila Jesupaul
  */
 
+import type { TestCaseError } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from '.'
 
-const EXPECTED_LINEBREAK = { messageId: 'expected' }
-const UNEXPECTED_LINEBREAK = { messageId: 'unexpected' }
+const EXPECTED_LINEBREAK: TestCaseError<MessageIds> = { messageId: 'expected' }
+const UNEXPECTED_LINEBREAK: TestCaseError<MessageIds> = { messageId: 'unexpected' }
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'implicit-arrow-linebreak',
   rule,
   valid: [
