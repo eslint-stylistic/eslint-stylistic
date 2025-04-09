@@ -23,8 +23,8 @@ This rule has an object option:
 - `"afterBlockComment": true` requires an empty line after block comments
 - `"beforeLineComment": true` requires an empty line before line comments
 - `"afterLineComment": true` requires an empty line after line comments
-- `"allowBlockStart": true` allows comments to appear at the start of block statements, function bodies, classes, switch statements, and class static blocks
-- `"allowBlockEnd": true` allows comments to appear at the end of block statements, function bodies, classes, switch statements, and class static blocks
+- `"allowGroupStart": ['{', '[', '(']` allows comments to appear at the start of the group
+- `"allowGroupEnd": ['}', ']', ')']` allows comments to appear at the end of group
 - `"allowObjectStart": true` allows comments to appear at the start of object literals
 - `"allowObjectEnd": true` allows comments to appear at the end of object literals
 - `"allowArrayStart": true` allows comments to appear at the start of array literals
@@ -161,14 +161,14 @@ var day = "great"
 
 :::
 
-### allowBlockStart
+### allowGroupStart
 
-Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowBlockStart": true }` options:
+Examples of **correct** code for this rule with the `{ "beforeLineComment": true, "allowGroupStart": ['{'] }` options:
 
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowBlockStart": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowGroupStart": ['{'] }]*/
 
 function foo(){
     // what a great and wonderful day
@@ -198,12 +198,12 @@ class C {
 
 :::
 
-Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowBlockStart": true }` options:
+Examples of **correct** code for this rule with the `{ "beforeBlockComment": true, "allowGroupStart": ['{'] }` options:
 
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowBlockStart": true }]*/
+/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowGroupStart": ['{'] }]*/
 
 function foo(){
     /* what a great and wonderful day */
@@ -241,14 +241,14 @@ switch (foo) {
 
 :::
 
-### allowBlockEnd
+### allowGroupEnd
 
-Examples of **correct** code for this rule with the `{ "afterLineComment": true, "allowBlockEnd": true }` option:
+Examples of **correct** code for this rule with the `{ "afterLineComment": true, "allowGroupEnd": ['}'] }` option:
 
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowBlockEnd": true }]*/
+/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowGroupEnd": ['}'] }]*/
 
 function foo(){
     var day = "great"
@@ -279,12 +279,12 @@ class C {
 
 :::
 
-Examples of **correct** code for this rule with the `{ "afterBlockComment": true, "allowBlockEnd": true }` option:
+Examples of **correct** code for this rule with the `{ "afterBlockComment": true, "allowGroupEnd": ['}'] }` option:
 
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowBlockEnd": true }]*/
+/*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowGroupEnd": ['}'] }]*/
 
 function foo(){
     var day = "great"

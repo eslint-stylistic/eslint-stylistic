@@ -86,133 +86,133 @@ run<RuleOptions, MessageIds>({
       code: 'var a,\n\n// line\nb;',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'function foo(){   \n// line at block start\nvar g = 1;\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'function foo(){// line at block start\nvar g = 1;\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'var foo = function(){\n// line at block start\nvar g = 1;\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'var foo = function(){\n// line at block start\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'if(true){\n// line at block start\nvar g = 1;\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'if(true){\n\n// line at block start\nvar g = 1;\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'if(true){\n// line at block start\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'if(true){ bar(); } else {\n// line at block start\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\n// line at switch case start\nbreak;\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\n\n// line at switch case start\nbreak;\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\nbreak;\n\ndefault:\n// line at switch case start\nbreak;\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\nbreak;\n\ndefault:\n\n// line at switch case start\nbreak;\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'function foo(){   \n/* block comment at block start */\nvar g = 1;\n}',
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'function foo(){/* block comment at block start */\nvar g = 1;\n}',
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'var foo = function(){\n/* block comment at block start */\nvar g = 1;\n}',
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'if(true){\n/* block comment at block start */\nvar g = 1;\n}',
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'if(true){\n\n/* block comment at block start */\nvar g = 1;\n}',
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'while(true){\n\n/* \nblock comment at block start\n */\nvar g = 1;\n}',
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'class A {\n/**\n* hi\n */\nconstructor() {}\n}',
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
       parserOptions: { ecmaVersion: 6 },
     },
@@ -226,7 +226,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class A {\n/**\n* hi\n */\nconstructor() {}\n}',
       options: [{
-        allowBlockStart: false,
         allowClassStart: true,
       }],
       parserOptions: { ecmaVersion: 6 },
@@ -234,25 +233,25 @@ run<RuleOptions, MessageIds>({
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\n/* block comment at switch case start */\nbreak;\n}',
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\n\n/* block comment at switch case start */\nbreak;\n}',
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\nbreak;\n\ndefault:\n/* block comment at switch case start */\nbreak;\n}',
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\nbreak;\n\ndefault:\n\n/* block comment at switch case start */\nbreak;\n}',
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
@@ -270,7 +269,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
       parserOptions: { ecmaVersion: 2022 },
     },
@@ -291,7 +290,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
       parserOptions: { ecmaVersion: 2022 },
     },
@@ -321,7 +320,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [{
         beforeBlockComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
       parserOptions: { ecmaVersion: 2022 },
     },
@@ -355,7 +354,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [{
         beforeBlockComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
       parserOptions: { ecmaVersion: 2022 },
     },
@@ -364,27 +363,27 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         switch (foo) {
-        // this comment is allowed by allowBlockStart: true 
+        // this comment is allowed by allowGroupStart: ['{'] 
             
         case 1:    
             bar();
             break;
             
-        // this comment is allowed by allowBlockEnd: true
+        // this comment is allowed by allowGroupEnd: ['}']
         }
       `,
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
         beforeLineComment: true,
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: $`
         switch (foo)
         {
-        // this comment is allowed by allowBlockStart: true 
+        // this comment is allowed by allowGroupStart: ['{'] 
             
         case 1:    
             bar();
@@ -392,7 +391,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
         beforeLineComment: true,
         afterLineComment: true,
       }],
@@ -403,13 +402,13 @@ run<RuleOptions, MessageIds>({
             function(){}()
         )
         {
-            // this comment is allowed by allowBlockStart: true
+            // this comment is allowed by allowGroupStart: ['{']
             case foo:
                 break;
         }
       `,
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
         beforeLineComment: true,
       }],
     },
@@ -419,93 +418,93 @@ run<RuleOptions, MessageIds>({
       code: 'var a,\n// line\n\nb;',
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'function foo(){\nvar g = 91;\n// line at block end\n}',
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'function foo(){\nvar g = 61;\n\n\n// line at block end\n}',
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'var foo = function(){\nvar g = 1;\n\n\n// line at block end\n}',
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'if(true){\nvar g = 1;\n// line at block end\n}',
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'if(true){\nvar g = 1;\n\n// line at block end\n}',
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\nvar g = 1;\n\n// line at switch case end\n}',
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\nvar g = 1;\n\n// line at switch case end\n\n}',
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\nbreak;\n\ndefault:\nvar g = 1;\n\n// line at switch case end\n}',
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\nbreak;\n\ndefault:\nvar g = 1;\n\n// line at switch case end\n\n}',
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'while(true){\n// line at block start and end\n}',
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'while(true){\n// line at block start and end\n}',
       options: [{
         afterLineComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'while(true){\n// line at block start and end\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
       }],
     },
     {
@@ -513,15 +512,15 @@ run<RuleOptions, MessageIds>({
       options: [{
         afterLineComment: true,
         beforeLineComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'while(true){\n// line at block start and end\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
     },
     {
@@ -529,7 +528,7 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeBlockComment: false,
         afterBlockComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
@@ -537,7 +536,7 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeBlockComment: false,
         afterBlockComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
@@ -545,7 +544,7 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeBlockComment: false,
         afterBlockComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
@@ -553,28 +552,28 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeBlockComment: false,
         afterBlockComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'if(true){\nvar g = 1;\n\n/* block comment at block end */\n}',
       options: [{
         afterBlockComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'while(true){\n\nvar g = 1;\n\n/* \nblock comment at block end\n */}',
       options: [{
         afterBlockComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'class B {\nconstructor() {}\n\n/**\n* hi\n */\n}',
       options: [{
         afterBlockComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
       parserOptions: { ecmaVersion: 6 },
     },
@@ -590,7 +589,6 @@ run<RuleOptions, MessageIds>({
       code: 'class B {\nconstructor() {}\n\n/**\n* hi\n */\n}',
       options: [{
         afterBlockComment: true,
-        allowBlockEnd: false,
         allowClassEnd: true,
       }],
       parserOptions: { ecmaVersion: 6 },
@@ -599,28 +597,28 @@ run<RuleOptions, MessageIds>({
       code: 'switch (\'foo\'){\ncase \'foo\':\nvar g = 1;\n\n/* block comment at switch case end */\n}',
       options: [{
         afterBlockComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\nvar g = 1;\n\n/* block comment at switch case end */\n\n}',
       options: [{
         afterBlockComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\nbreak;\n\ndefault:\nvar g = 1;\n\n/* block comment at switch case end */\n}',
       options: [{
         afterBlockComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
       code: 'switch (\'foo\'){\ncase \'foo\':\nbreak;\n\ndefault:\nvar g = 1;\n\n/* block comment at switch case end */\n\n}',
       options: [{
         afterBlockComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
     },
     {
@@ -638,7 +636,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
       parserOptions: { ecmaVersion: 2022 },
     },
@@ -669,7 +667,7 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeBlockComment: false, // default is `true`
         afterBlockComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
       parserOptions: { ecmaVersion: 2022 },
     },
@@ -1072,6 +1070,82 @@ run<RuleOptions, MessageIds>({
       code: '#!comment\nvar a = 1;',
       options: [{ afterLineComment: true, afterBlockComment: true }],
     },
+    {
+      code: $`
+        if (
+          // Support named imports in JSON modules
+          format === 'json'
+          || pattern.test(url)
+        ) {}
+      `,
+      options: [{ beforeLineComment: true, allowGroupStart: ['('] }],
+    },
+    {
+      code: $`
+        const arr = [
+          // Comment describing the first item
+          firstItem,
+        
+          // Comment describing the second item
+          secondItem,
+        ]
+      `,
+      options: [{ beforeLineComment: true, allowGroupStart: ['['] }],
+    },
+    {
+      code: $`
+        const arr = [
+          firstItem,
+          // Comment describing the first item
+        ]
+      `,
+      options: [{ afterLineComment: true, allowGroupEnd: [']'] }],
+    },
+    {
+      code: `
+        const {
+          some
+
+          /* block comment at object-like end */
+        } = {};
+      `,
+      options: [{ afterBlockComment: true, allowGroupEnd: ['}'] }],
+    },
+    {
+      code: $`
+        const myFunc = (
+          // Comment describing the first parameter
+          firstParam,
+        
+          // Comment describing the second parameter
+          secondParam,
+        ) => {}
+      `,
+      options: [{ beforeLineComment: true, allowGroupStart: ['('] }],
+    },
+    {
+      code: $`
+        const myFunc = (
+          secondParam,
+          // Comment describing the second parameter
+        ) => {}
+      `,
+      options: [{ afterLineComment: true, allowGroupEnd: [')'] }],
+    },
+    {
+      code: `
+        function myFunc() {
+          return [].concat(
+            // comment 1
+            [1],
+          
+            // comment 2
+            [2],
+          )
+        }
+      `,
+      options: [{ beforeLineComment: true, allowGroupStart: ['('] }],
+    },
   ],
 
   invalid: [
@@ -1151,7 +1225,7 @@ run<RuleOptions, MessageIds>({
       output: 'var a,\n\n// line\nb;',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
       errors: [{ messageId: 'before', type: 'Line', line: 2 }],
     },
@@ -1160,7 +1234,7 @@ run<RuleOptions, MessageIds>({
       output: 'function foo(){\nvar a = 1;\n\n// line at block start\nvar g = 1;\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
       errors: [{ messageId: 'before', type: 'Line', line: 3 }],
     },
@@ -1169,7 +1243,7 @@ run<RuleOptions, MessageIds>({
       output: 'var a,\n// line\n\nb;',
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
       errors: [{ messageId: 'after', type: 'Line', line: 2 }],
     },
@@ -1178,7 +1252,7 @@ run<RuleOptions, MessageIds>({
       output: 'function foo(){\nvar a = 1;\n\n// line at block start\n\nvar g = 1;\n}',
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
       errors: [{ messageId: 'after', type: 'Line', line: 4 }],
     },
@@ -1203,7 +1277,7 @@ run<RuleOptions, MessageIds>({
       output: 'while(true){\n// line at block start and end\n\n}',
       options: [{
         afterLineComment: true,
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
       }],
       errors: [{ messageId: 'after', type: 'Line', line: 2 }],
     },
@@ -1212,7 +1286,7 @@ run<RuleOptions, MessageIds>({
       output: 'while(true){\n\n// line at block start and end\n}',
       options: [{
         beforeLineComment: true,
-        allowBlockEnd: true,
+        allowGroupEnd: ['}'],
       }],
       errors: [{ messageId: 'before', type: 'Line', line: 2 }],
     },
@@ -1220,16 +1294,6 @@ run<RuleOptions, MessageIds>({
       code: 'class A {\n// line at class start\nconstructor() {}\n}',
       output: 'class A {\n\n// line at class start\nconstructor() {}\n}',
       options: [{
-        beforeLineComment: true,
-      }],
-      parserOptions: { ecmaVersion: 6 },
-      errors: [{ messageId: 'before', type: 'Line', line: 2 }],
-    },
-    {
-      code: 'class A {\n// line at class start\nconstructor() {}\n}',
-      output: 'class A {\n\n// line at class start\nconstructor() {}\n}',
-      options: [{
-        allowBlockStart: true,
         allowClassStart: false,
         beforeLineComment: true,
       }],
@@ -1250,7 +1314,6 @@ run<RuleOptions, MessageIds>({
       output: 'class B {\nconstructor() {}\n\n// line at class end\n\n}',
       options: [{
         afterLineComment: true,
-        allowBlockEnd: true,
         allowClassEnd: false,
       }],
       parserOptions: { ecmaVersion: 6 },
@@ -1289,8 +1352,8 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
         allowClassStart: true,
         allowClassEnd: true,
       }],
@@ -1318,8 +1381,8 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
         allowClassStart: true,
         allowClassEnd: true,
       }],
@@ -1348,8 +1411,8 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
         allowClassStart: true,
         allowClassEnd: true,
       }],
@@ -1381,8 +1444,8 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
         allowClassStart: true,
         allowClassEnd: true,
       }],
@@ -1413,8 +1476,8 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
       }],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
@@ -1444,8 +1507,8 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
       }],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
@@ -1473,8 +1536,8 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
       }],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
@@ -1504,8 +1567,8 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
       }],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
@@ -1536,8 +1599,8 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
       }],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
@@ -1571,8 +1634,8 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
       }],
       parserOptions: { ecmaVersion: 2022 },
       errors: [
@@ -1597,8 +1660,8 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeLineComment: true,
         afterLineComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
         allowClassStart: true,
         allowClassEnd: true,
       }],
@@ -1626,8 +1689,8 @@ run<RuleOptions, MessageIds>({
       options: [{
         beforeBlockComment: true,
         afterBlockComment: true,
-        allowBlockStart: true,
-        allowBlockEnd: true,
+        allowGroupStart: ['{'],
+        allowGroupEnd: ['}'],
         allowClassStart: true,
         allowClassEnd: true,
       }],
@@ -2211,7 +2274,7 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         switch (
-        // this comment is not allowed by allowBlockStart: true
+        // this comment is not allowed by allowGroupStart: ['{']
         
             foo
         )
@@ -2224,7 +2287,7 @@ run<RuleOptions, MessageIds>({
       output: $`
         switch (
         
-        // this comment is not allowed by allowBlockStart: true
+        // this comment is not allowed by allowGroupStart: ['{']
         
             foo
         )
@@ -2235,7 +2298,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [{
-        allowBlockStart: true,
+        allowGroupStart: ['{'],
         beforeLineComment: true,
         afterLineComment: true,
       }],
