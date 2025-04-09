@@ -3,7 +3,8 @@
  * @author Toru Nagashima
  */
 
-import type { TestCase } from '#test'
+import type { CompatConfigOptions, TestCaseError } from '#test'
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from '.'
@@ -46,7 +47,7 @@ function override(keyword: string, value: { before?: boolean, after?: boolean })
  * @param keyword A keyword.
  * @returns An error message.
  */
-function expectedBefore(keyword: string) {
+function expectedBefore(keyword: string): TestCaseError<MessageIds>[] {
   return [{ messageId: 'expectedBefore', data: { value: keyword } }]
 }
 
@@ -55,7 +56,7 @@ function expectedBefore(keyword: string) {
  * @param keyword A keyword.
  * @returns An error message.
  */
-function expectedAfter(keyword: string) {
+function expectedAfter(keyword: string): TestCaseError<MessageIds>[] {
   return [{ messageId: 'expectedAfter', data: { value: keyword } }]
 }
 
@@ -65,7 +66,7 @@ function expectedAfter(keyword: string) {
  * @param keyword A keyword.
  * @returns Error messages.
  */
-function expectedBeforeAndAfter(keyword: string) {
+function expectedBeforeAndAfter(keyword: string): TestCaseError<MessageIds>[] {
   return [
     { messageId: 'expectedBefore', data: { value: keyword } },
     { messageId: 'expectedAfter', data: { value: keyword } },
@@ -77,7 +78,7 @@ function expectedBeforeAndAfter(keyword: string) {
  * @param keyword A keyword.
  * @returns An error message.
  */
-function unexpectedBefore(keyword: string) {
+function unexpectedBefore(keyword: string): TestCaseError<MessageIds>[] {
   return [{ messageId: 'unexpectedBefore', data: { value: keyword } }]
 }
 
@@ -86,7 +87,7 @@ function unexpectedBefore(keyword: string) {
  * @param keyword A keyword.
  * @returns An error message.
  */
-function unexpectedAfter(keyword: string) {
+function unexpectedAfter(keyword: string): TestCaseError<MessageIds>[] {
   return [{ messageId: 'unexpectedAfter', data: { value: keyword } }]
 }
 
@@ -96,21 +97,21 @@ function unexpectedAfter(keyword: string) {
  * @param keyword A keyword.
  * @returns Error messages.
  */
-function unexpectedBeforeAndAfter(keyword: string) {
+function unexpectedBeforeAndAfter(keyword: string): TestCaseError<MessageIds>[] {
   return [
     { messageId: 'unexpectedBefore', data: { value: keyword } },
     { messageId: 'unexpectedAfter', data: { value: keyword } },
   ]
 }
 
-const OVERRIDES_WITH: Partial<TestCase> = {
+const OVERRIDES_WITH: CompatConfigOptions = {
   parserOptions: {
     ecmaVersion: 3,
     sourceType: 'script',
   },
 }
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'keyword-spacing',
   rule,
   lang: 'js',
