@@ -704,6 +704,8 @@ export default createRule<RuleOptions, MessageIds>({
           if (
             !(['AwaitExpression', 'UnaryExpression'].includes(n.left.type) && isExponentiation)
             && !isMixedLogicalAndCoalesceExpressions(n.left, n)
+            // The parent is a ReturnStatement spanning multiple lines without parentheses
+            && !(n.parent.type === 'ReturnStatement' && n.parent.loc.start.line !== n.left.loc.start.line && !isParenthesised(n))
             && (leftPrecedence > prec || (leftPrecedence === prec && !isExponentiation))
             || isParenthesisedTwice(n.left)
           ) {
