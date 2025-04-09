@@ -9,7 +9,8 @@ export interface JsxSortPropsSchema0 {
   multiline?: 'ignore' | 'first' | 'last'
   ignoreCase?: boolean
   noSortAlphabetically?: boolean
-  reservedFirst?: unknown[] | boolean
+  reservedFirst?: string[] | boolean
+  reservedLast?: string[]
   locale?: string
 }
 
@@ -17,9 +18,9 @@ export type JsxSortPropsRuleOptions = [JsxSortPropsSchema0?]
 
 export type RuleOptions = JsxSortPropsRuleOptions
 export type MessageIds =
-  | 'noUnreservedProps'
   | 'listIsEmpty'
   | 'listReservedPropsFirst'
+  | 'listReservedPropsLast'
   | 'listCallbacksLast'
   | 'listShorthandFirst'
   | 'listShorthandLast'
