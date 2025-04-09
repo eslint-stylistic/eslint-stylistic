@@ -1,14 +1,12 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: mfXKoTNJmS */
+/* @checksum: BwmbnXkhP7 */
 
 export interface LinesAroundCommentSchema0 {
   beforeBlockComment?: boolean
   afterBlockComment?: boolean
   beforeLineComment?: boolean
   afterLineComment?: boolean
-  allowBlockStart?: boolean
-  allowBlockEnd?: boolean
   allowClassStart?: boolean
   allowClassEnd?: boolean
   allowObjectStart?: boolean
@@ -18,6 +16,8 @@ export interface LinesAroundCommentSchema0 {
   ignorePattern?: string
   applyDefaultIgnorePatterns?: boolean
   afterHashbangComment?: boolean
+  allowGroupStart?: ('(' | '[' | '{')[]
+  allowGroupEnd?: (')' | ']' | '}')[]
 }
 
 export type LinesAroundCommentRuleOptions = [
