@@ -1,14 +1,12 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: mdB77khD1L */
+/* @checksum: GwJgM3s5Yy */
 
 export interface LinesAroundCommentSchema0 {
   beforeBlockComment?: boolean
   afterBlockComment?: boolean
   beforeLineComment?: boolean
   afterLineComment?: boolean
-  allowBlockStart?: boolean
-  allowBlockEnd?: boolean
   allowClassStart?: boolean
   allowClassEnd?: boolean
   allowObjectStart?: boolean

@@ -67,15 +67,6 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'boolean',
             default: false,
           },
-          // TODO: remove allowBlockStart / allowBlockEnd after polyfill `SwitchCase`
-          allowBlockStart: {
-            type: 'boolean',
-            default: false,
-          },
-          allowBlockEnd: {
-            type: 'boolean',
-            default: false,
-          },
           allowClassStart: {
             type: 'boolean',
           },
@@ -290,36 +281,6 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Returns whether or not comments are at the block start or not.
-     * @param token The Comment token.
-     * @returns True if the comment is at block start.
-     */
-    function isCommentAtBlockStart(token: Token) {
-      return (
-        isCommentAtParentStart(token, AST_NODE_TYPES.ClassBody)
-        || isCommentAtParentStart(token, AST_NODE_TYPES.BlockStatement)
-        || isCommentAtParentStart(token, AST_NODE_TYPES.StaticBlock)
-        || isCommentAtParentStart(token, AST_NODE_TYPES.SwitchCase)
-        || isCommentAtParentStart(token, AST_NODE_TYPES.SwitchStatement)
-      )
-    }
-
-    /**
-     * Returns whether or not comments are at the block end or not.
-     * @param token The Comment token.
-     * @returns True if the comment is at block end.
-     */
-    function isCommentAtBlockEnd(token: Token) {
-      return (
-        isCommentAtParentEnd(token, AST_NODE_TYPES.ClassBody)
-        || isCommentAtParentEnd(token, AST_NODE_TYPES.BlockStatement)
-        || isCommentAtParentEnd(token, AST_NODE_TYPES.StaticBlock)
-        || isCommentAtParentEnd(token, AST_NODE_TYPES.SwitchCase)
-        || isCommentAtParentEnd(token, AST_NODE_TYPES.SwitchStatement)
-      )
-    }
-
-    /**
      * Returns whether or not comments are at the class start or not.
      * @param token The Comment token.
      * @returns True if the comment is at class start.
@@ -419,12 +380,21 @@ export default createRule<RuleOptions, MessageIds>({
     }
     function isCommentAtGroupStart(token: Tree.Comment, groupTokenValue: GroupTokenValue): boolean {
       const beforeToken = sourceCode.getTokenBefore(token, { includeComments: false })
-      return !!beforeToken && groupChecker[groupTokenValue](beforeToken)
+      const value = !!beforeToken && groupChecker[groupTokenValue](beforeToken)
+      // SwitchCase can have no brace
+      if (groupTokenValue === '{') {
+        return value || isCommentAtParentStart(token, AST_NODE_TYPES.SwitchCase)
+      }
+      return value
     }
-
     function isCommentAtGroupEnd(token: Tree.Comment, groupTokenValue: GroupTokenValue): boolean {
       const afterToken = sourceCode.getTokenAfter(token, { includeComments: false })
-      return !!afterToken && groupChecker[groupTokenValue](afterToken)
+      const value = !!afterToken && groupChecker[groupTokenValue](afterToken)
+      // SwitchCase can have no brace
+      if (groupTokenValue === '}') {
+        return value || isCommentAtParentEnd(token, AST_NODE_TYPES.SwitchCase)
+      }
+      return value
     }
 
     function checkForEmptyLine(
@@ -455,17 +425,6 @@ export default createRule<RuleOptions, MessageIds>({
       if (codeAroundComment(token))
         return
 
-      const blockStartAllowed
-        = Boolean(options.allowBlockStart)
-          && isCommentAtBlockStart(token)
-          && !(options.allowClassStart === false && isCommentAtClassStart(token))
-      const blockEndAllowed
-        = Boolean(options.allowBlockEnd)
-          && isCommentAtBlockEnd(token)
-          && !(
-            options.allowClassEnd === false
-            && isCommentAtClassEnd(token)
-          )
       const classStartAllowed
         = Boolean(options.allowClassStart)
           && isCommentAtClassStart(token)
@@ -515,8 +474,7 @@ export default createRule<RuleOptions, MessageIds>({
         = (options.allowGroupEnd || []).includes('}') && isCommentAtGroupEnd(token, '}')
 
       const exceptionStartAllowed
-        = blockStartAllowed
-          || classStartAllowed
+        = classStartAllowed
           || objectStartAllowed
           || arrayStartAllowed
           || interfaceStartAllowed
@@ -527,8 +485,7 @@ export default createRule<RuleOptions, MessageIds>({
           || bracketStartAllowed
           || braceStartAllowed
       const exceptionEndAllowed
-        = blockEndAllowed
-          || classEndAllowed
+        = classEndAllowed
           || objectEndAllowed
           || arrayEndAllowed
           || interfaceEndAllowed
