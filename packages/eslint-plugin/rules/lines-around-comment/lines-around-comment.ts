@@ -1,10 +1,11 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isOpeningBraceToken } from '#utils/ast'
+import { isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isCommentToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
+type GroupTokenValue = '(' | '[' | '{' | ')' | ']' | '}'
 const COMMENTS_IGNORE_PATTERN
   = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
 
@@ -65,6 +66,7 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'boolean',
             default: false,
           },
+          // TODO: remove allowBlockStart / allowBlockEnd after polyfill `SwitchCase`
           allowBlockStart: {
             type: 'boolean',
             default: false,
@@ -123,6 +125,22 @@ export default createRule<RuleOptions, MessageIds>({
           },
           afterHashbangComment: {
             type: 'boolean',
+          },
+          allowGroupStart: {
+            type: 'array',
+            items: {
+              type: 'string',
+              enum: ['(', '[', '{'],
+            },
+            uniqueItems: true,
+          },
+          allowGroupEnd: {
+            type: 'array',
+            items: {
+              type: 'string',
+              enum: [')', ']', '}'],
+            },
+            uniqueItems: true,
           },
         },
         additionalProperties: false,
@@ -390,6 +408,24 @@ export default createRule<RuleOptions, MessageIds>({
       return isCommentAtParentEnd(token, AST_NODE_TYPES.TSModuleBlock)
     }
 
+    const groupChecker = {
+      '(': isOpeningParenToken,
+      ')': isClosingParenToken,
+      '[': isOpeningBracketToken,
+      ']': isClosingBracketToken,
+      '{': isOpeningBraceToken,
+      '}': isClosingBraceToken,
+    }
+    function isCommentAtGroupStart(token: Tree.Comment, groupTokenValue: GroupTokenValue): boolean {
+      const beforeToken = sourceCode.getTokenBefore(token, { includeComments: false })
+      return !!beforeToken && groupChecker[groupTokenValue](beforeToken)
+    }
+
+    function isCommentAtGroupEnd(token: Tree.Comment, groupTokenValue: GroupTokenValue): boolean {
+      const afterToken = sourceCode.getTokenAfter(token, { includeComments: false })
+      return !!afterToken && groupChecker[groupTokenValue](afterToken)
+    }
+
     function checkForEmptyLine(
       token: Tree.Comment,
       { before, after }: { before?: boolean, after?: boolean },
@@ -464,6 +500,18 @@ export default createRule<RuleOptions, MessageIds>({
         = Boolean(options.allowModuleStart) && isCommentAtModuleStart(token)
       const moduleEndAllowed
         = Boolean(options.allowModuleEnd) && isCommentAtModuleEnd(token)
+      const parenStartAllowed
+        = (options.allowGroupStart || []).includes('(') && isCommentAtGroupStart(token, '(')
+      const parenEndAllowed
+        = (options.allowGroupEnd || []).includes(')') && isCommentAtGroupEnd(token, ')')
+      const bracketStartAllowed
+        = (options.allowGroupStart || []).includes('[') && isCommentAtGroupStart(token, '[')
+      const bracketEndAllowed
+        = (options.allowGroupEnd || []).includes(']') && isCommentAtGroupEnd(token, ']')
+      const braceStartAllowed
+        = (options.allowGroupStart || []).includes('{') && isCommentAtGroupStart(token, '{')
+      const braceEndAllowed
+        = (options.allowGroupEnd || []).includes('}') && isCommentAtGroupEnd(token, '}')
 
       const exceptionStartAllowed
         = blockStartAllowed
@@ -474,6 +522,9 @@ export default createRule<RuleOptions, MessageIds>({
           || typeStartAllowed
           || enumStartAllowed
           || moduleStartAllowed
+          || parenStartAllowed
+          || bracketStartAllowed
+          || braceStartAllowed
       const exceptionEndAllowed
         = blockEndAllowed
           || classEndAllowed
@@ -483,6 +534,9 @@ export default createRule<RuleOptions, MessageIds>({
           || typeEndAllowed
           || enumEndAllowed
           || moduleEndAllowed
+          || parenEndAllowed
+          || bracketEndAllowed
+          || braceEndAllowed
 
       const previousTokenOrComment = sourceCode.getTokenBefore(token, {
         includeComments: true,
