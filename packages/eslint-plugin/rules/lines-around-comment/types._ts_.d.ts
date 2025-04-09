@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: oCkj3wE1pw */
+/* @checksum: mdB77khD1L */
 
 export interface LinesAroundCommentSchema0 {
   beforeBlockComment?: boolean
@@ -26,6 +26,8 @@ export interface LinesAroundCommentSchema0 {
   ignorePattern?: string
   applyDefaultIgnorePatterns?: boolean
   afterHashbangComment?: boolean
+  allowGroupStart?: ('(' | '[' | '{')[]
+  allowGroupEnd?: (')' | ']' | '}')[]
 }
 
 export type LinesAroundCommentRuleOptions = [
