@@ -2,10 +2,10 @@ import type { ESLint } from 'eslint'
 import type { Configs } from './configs'
 import type { Rules } from './rules'
 
-export type * from './configs'
-export type * from './options'
-export type * from './rule-options'
-export type * from './rules'
+export type { Configs } from './configs'
+export type { StylisticCustomizeOptions } from './options'
+export type { RuleOptions, UnprefixedRuleOptions } from './rule-options'
+export type { Rules } from './rules'
 
 declare const plugin: {
   rules: Rules
