@@ -2,9 +2,9 @@
 
 /* @checksum: 14LTg00vip */
 
-export type JsxQuotesSchema0 =
-  | 'prefer-single'
-  | 'prefer-double'
+export type JsxQuotesSchema0
+  = | 'prefer-single'
+    | 'prefer-double'
 
 export type JsxQuotesRuleOptions = [JsxQuotesSchema0?]
 
