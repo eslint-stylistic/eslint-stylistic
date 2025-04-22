@@ -16,7 +16,10 @@ const NEXT_TOKEN_M = /^[{*]$/u
 const TEMPLATE_OPEN_PAREN = /\$\{$/u
 const TEMPLATE_CLOSE_PAREN = /^\}/u
 const CHECK_TYPE = /^(?:JSXElement|RegularExpression|String|Template|PrivateIdentifier)$/u
-const KEYS = KEYWORDS_JS.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'yield']);
+const SPECIAL_TOKENS = [
+  'catchWithParam', // `catch` can be followed by a block or an param.
+]
+const KEYS = KEYWORDS_JS.concat(SPECIAL_TOKENS, ['as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'yield']);
 
 // check duplications.
 (function () {
@@ -256,6 +259,16 @@ export default createRule<RuleOptions, MessageIds>({
      *      token to check.
      */
     function checkSpacingBefore(token: Token, pattern?: RegExp) {
+      if (token.value === 'catch') {
+        // `catch` is a special case, because it can be followed by a block or
+        // an identifier. So, we need to check the next token.
+        const nextToken = sourceCode.getTokenAfter(token, { includeComments: false })
+        if (nextToken && nextToken.value === '(') {
+          // If the next token is '(', we need to use the special token handler
+          checkMethodMap.catchWithParam.before(token, pattern || PREV_TOKEN)
+          return
+        }
+      }
       checkMethodMap[token.value].before(token, pattern || PREV_TOKEN)
     }
 
@@ -267,6 +280,16 @@ export default createRule<RuleOptions, MessageIds>({
      *      token to check.
      */
     function checkSpacingAfter(token: Token, pattern?: RegExp) {
+      if (token.value === 'catch') {
+        // `catch` is a special case, because it can be followed by a block or
+        // an identifier. So, we need to check the next token.
+        const nextToken = sourceCode.getTokenAfter(token, { includeComments: false })
+        if (nextToken && nextToken.value === '(') {
+          // If the next token is '(', we need to use the special token handler
+          checkMethodMap.catchWithParam.after(token, pattern || NEXT_TOKEN)
+          return
+        }
+      }
       checkMethodMap[token.value].after(token, pattern || NEXT_TOKEN)
     }
 
