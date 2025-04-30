@@ -97,7 +97,7 @@ function contextCompare(a: Tree.JSXAttribute, b: Tree.JSXAttribute, options: Jsx
       return -1
 
     if (aLastIndex > -1 && bLastIndex > -1 && aPropNamespace !== bPropNamespace)
-      return aLastIndex > bLastIndex ? 1 : -1
+      return aLastIndex > bLastIndex ? -1 : 1
   }
 
   if (options.callbacksLast) {
@@ -469,6 +469,7 @@ export default createRule<RuleOptions, MessageIds>({
             if (
               previousReservedIndex > -1
               && currentReservedIndex > -1
+              && currentReservedIndex > previousReservedIndex
               && previousReservedNamespace !== currentReservedNamespace
             ) {
               return decl
@@ -491,6 +492,7 @@ export default createRule<RuleOptions, MessageIds>({
             if (
               previousReservedIndex > -1
               && currentReservedIndex > -1
+              && currentReservedIndex > previousReservedIndex
               && previousReservedNamespace !== currentReservedNamespace
             ) {
               return decl

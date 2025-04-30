@@ -525,8 +525,8 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: '<App v-slot={{ foo }} v-slots={{}} onClick={() => {}} />',
-      errors: [expectedReservedLastError],
-      options: [{ reservedLast: ['v-slots', 'v-slot'] }],
+      errors: [expectedReservedLastError, expectedReservedLastError],
+      options: [{ reservedLast: ['v-slot', 'v-slots'] }],
       output: '<App onClick={() => {}} v-slots={{}} v-slot={{ foo }} />',
     },
     {
