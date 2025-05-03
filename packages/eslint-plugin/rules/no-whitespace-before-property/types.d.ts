@@ -4,6 +4,6 @@
 
 export type NoWhitespaceBeforePropertyRuleOptions = []
 
-export type RuleOptions =
-  NoWhitespaceBeforePropertyRuleOptions
+export type RuleOptions
+  = NoWhitespaceBeforePropertyRuleOptions
 export type MessageIds = 'unexpectedWhitespace'

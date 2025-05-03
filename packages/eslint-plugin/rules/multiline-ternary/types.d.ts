@@ -2,10 +2,10 @@
 
 /* @checksum: 6ZkkudXjiy */
 
-export type MultilineTernarySchema0 =
-  | 'always'
-  | 'always-multiline'
-  | 'never'
+export type MultilineTernarySchema0
+  = | 'always'
+    | 'always-multiline'
+    | 'never'
 
 export interface MultilineTernarySchema1 {
   ignoreJSX?: boolean
@@ -18,8 +18,8 @@ export type MultilineTernaryRuleOptions = [
 ]
 
 export type RuleOptions = MultilineTernaryRuleOptions
-export type MessageIds =
-  | 'expectedTestCons'
-  | 'expectedConsAlt'
-  | 'unexpectedTestCons'
-  | 'unexpectedConsAlt'
+export type MessageIds
+  = | 'expectedTestCons'
+    | 'expectedConsAlt'
+    | 'unexpectedTestCons'
+    | 'unexpectedConsAlt'

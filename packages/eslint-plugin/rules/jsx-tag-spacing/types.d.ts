@@ -26,16 +26,16 @@ export type JsxTagSpacingRuleOptions = [
 ]
 
 export type RuleOptions = JsxTagSpacingRuleOptions
-export type MessageIds =
-  | 'selfCloseSlashNoSpace'
-  | 'selfCloseSlashNeedSpace'
-  | 'closeSlashNoSpace'
-  | 'closeSlashNeedSpace'
-  | 'beforeSelfCloseNoSpace'
-  | 'beforeSelfCloseNeedSpace'
-  | 'beforeSelfCloseNeedNewline'
-  | 'afterOpenNoSpace'
-  | 'afterOpenNeedSpace'
-  | 'beforeCloseNoSpace'
-  | 'beforeCloseNeedSpace'
-  | 'beforeCloseNeedNewline'
+export type MessageIds
+  = | 'selfCloseSlashNoSpace'
+    | 'selfCloseSlashNeedSpace'
+    | 'closeSlashNoSpace'
+    | 'closeSlashNeedSpace'
+    | 'beforeSelfCloseNoSpace'
+    | 'beforeSelfCloseNeedSpace'
+    | 'beforeSelfCloseNeedNewline'
+    | 'afterOpenNoSpace'
+    | 'afterOpenNeedSpace'
+    | 'beforeCloseNoSpace'
+    | 'beforeCloseNeedSpace'
+    | 'beforeCloseNeedNewline'

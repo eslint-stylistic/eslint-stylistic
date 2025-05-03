@@ -2,8 +2,8 @@
 
 /* @checksum: yn75DJFI2y */
 
-export type JsxCurlyBracePresenceSchema0 =
-  | {
+export type JsxCurlyBracePresenceSchema0
+  = | {
     props?: 'always' | 'never' | 'ignore'
     children?: 'always' | 'never' | 'ignore'
     propElementValues?: 'always' | 'never' | 'ignore'
