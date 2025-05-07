@@ -1562,7 +1562,7 @@ export default createRule<RuleOptions, MessageIds>({
       PropertyDefinition(node) {
         const firstToken = sourceCode.getFirstToken(node)!
         const maybeSemicolonToken = sourceCode.getLastToken(node)!
-        let keyLastToken = null
+        let keyLastToken: Tree.Token | null = null
 
         // Indent key.
         if (node.computed) {
@@ -1587,9 +1587,11 @@ export default createRule<RuleOptions, MessageIds>({
         if (node.value) {
           const eqToken = sourceCode.getTokenBefore(node.value, isEqToken)!
           const valueToken = sourceCode.getTokenAfter(eqToken)!
+          const typeToken = sourceCode.getTokenBefore(eqToken)!
 
           offsets.setDesiredOffset(eqToken, keyLastToken, 1)
-          offsets.setDesiredOffset(valueToken, eqToken, 1)
+          // value token set offset by equal token or ts type token
+          offsets.setDesiredOffset(valueToken, keyLastToken === typeToken ? eqToken : typeToken, 1)
           if (isSemicolonToken(maybeSemicolonToken))
             offsets.setDesiredOffset(maybeSemicolonToken, eqToken, 1)
         }
