@@ -372,6 +372,85 @@ interface A {
         }
       `,
     },
+    {
+      code: $`
+        interface A {
+          /* this is inline block comment */ 
+          foo: string;
+        }
+      `,
+      options: [{ beforeBlockComment: true, allowGroupStart: ['{'] }],
+    },
+    {
+      code: $`
+        interface A {
+          // this is inline block comment
+          foo: string;
+        }
+      `,
+      options: [{ beforeLineComment: true, allowGroupStart: ['{'] }],
+    },
+    {
+      code: $`
+        interface A {
+          /* this is inline block comment */ 
+          foo: string;
+        }
+      `,
+      options: [{ beforeBlockComment: true, allowInterfaceStart: true, allowGroupStart: ['{'] }],
+    },
+    {
+      code: $`
+        const myFunc = (
+          /** Comment describing the first parameter */
+          firstParam,
+        
+          /** Comment describing the second parameter */
+          secondParam,
+        ) => {}
+      `,
+      options: [{ beforeBlockComment: true, allowGroupStart: ['('] }],
+    },
+    {
+      code: $`
+        export type Parent = {
+          /**
+           * Comment B
+           */
+          filename: string | null;
+        };
+      `,
+      options: [{ beforeBlockComment: true, allowGroupStart: ['{'] }],
+    },
+    {
+      code: $`
+        export type Parent = {
+          // Comment B
+          filename: string | null;
+        };
+      `,
+      options: [{ beforeLineComment: true, allowGroupStart: ['{'] }],
+    },
+    {
+      code: $`
+        export type Parent = {
+          // Comment B
+          filename: string | null;
+        };
+      `,
+      options: [{ beforeLineComment: true, allowEnumStart: true, allowGroupStart: ['{'] }],
+    },
+    {
+      code: $`
+        declare module 'module' {
+          // Comment A
+          interface LoadHookContext {
+            importAttributes: ImportAssertions;
+          }
+        }
+      `,
+      options: [{ beforeLineComment: true, allowGroupStart: ['{'] }],
+    },
   ],
   invalid: [
     // ESLint base rule test to cover the usage of the original reporter

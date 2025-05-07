@@ -6,9 +6,9 @@
 // MERGED: The JS version of this rule is merged to the TS version, this file will be removed
 // in the next major when we remove the `@stylistic/eslint-plugin-js` package.
 
-import type { ASTNode, NodeTypes, Token } from '#types'
-import type { MessageIds, RuleOptions } from './types._ts_'
-import { COMMENTS_IGNORE_PATTERN, isCommentToken, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
+import type { ASTNode, NodeTypes, Token, Tree } from '#types'
+import type { MessageIds, RuleOptions } from './types._js_'
+import { COMMENTS_IGNORE_PATTERN, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isCommentToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 /**
@@ -74,14 +74,6 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'boolean',
             default: false,
           },
-          allowBlockStart: {
-            type: 'boolean',
-            default: false,
-          },
-          allowBlockEnd: {
-            type: 'boolean',
-            default: false,
-          },
           allowClassStart: {
             type: 'boolean',
           },
@@ -109,6 +101,22 @@ export default createRule<RuleOptions, MessageIds>({
           afterHashbangComment: {
             type: 'boolean',
             default: false,
+          },
+          allowGroupStart: {
+            type: 'array',
+            items: {
+              type: 'string',
+              enum: ['(', '[', '{'],
+            },
+            uniqueItems: true,
+          },
+          allowGroupEnd: {
+            type: 'array',
+            items: {
+              type: 'string',
+              enum: [')', ']', '}'],
+            },
+            uniqueItems: true,
           },
         },
         additionalProperties: false,
@@ -256,36 +264,6 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Returns whether or not comments are at the block start or not.
-     * @param token The Comment token.
-     * @returns True if the comment is at block start.
-     */
-    function isCommentAtBlockStart(token: Token) {
-      return (
-        isCommentAtParentStart(token, 'ClassBody')
-        || isCommentAtParentStart(token, 'BlockStatement')
-        || isCommentAtParentStart(token, 'StaticBlock')
-        || isCommentAtParentStart(token, 'SwitchCase')
-        || isCommentAtParentStart(token, 'SwitchStatement')
-      )
-    }
-
-    /**
-     * Returns whether or not comments are at the block end or not.
-     * @param token The Comment token.
-     * @returns True if the comment is at block end.
-     */
-    function isCommentAtBlockEnd(token: Token) {
-      return (
-        isCommentAtParentEnd(token, 'ClassBody')
-        || isCommentAtParentEnd(token, 'BlockStatement')
-        || isCommentAtParentEnd(token, 'StaticBlock')
-        || isCommentAtParentEnd(token, 'SwitchCase')
-        || isCommentAtParentEnd(token, 'SwitchStatement')
-      )
-    }
-
-    /**
      * Returns whether or not comments are at the class start or not.
      * @param token The Comment token.
      * @returns True if the comment is at class start.
@@ -343,6 +321,34 @@ export default createRule<RuleOptions, MessageIds>({
         || isCommentAtParentEnd(token, 'ArrayPattern')
     }
 
+    type GroupTokenValue = '(' | '[' | '{' | ')' | ']' | '}'
+    const groupChecker = {
+      '(': isOpeningParenToken,
+      ')': isClosingParenToken,
+      '[': isOpeningBracketToken,
+      ']': isClosingBracketToken,
+      '{': isOpeningBraceToken,
+      '}': isClosingBraceToken,
+    }
+    function isCommentAtGroupStart(token: Tree.Comment, groupTokenValue: GroupTokenValue): boolean {
+      const beforeToken = sourceCode.getTokenBefore(token, { includeComments: false })
+      const value = !!beforeToken && groupChecker[groupTokenValue](beforeToken)
+      // SwitchCase can have no brace
+      if (groupTokenValue === '{') {
+        return value || isCommentAtParentStart(token, 'SwitchCase')
+      }
+      return value
+    }
+    function isCommentAtGroupEnd(token: Tree.Comment, groupTokenValue: GroupTokenValue): boolean {
+      const afterToken = sourceCode.getTokenAfter(token, { includeComments: false })
+      const value = !!afterToken && groupChecker[groupTokenValue](afterToken)
+      // SwitchCase can have no brace
+      if (groupTokenValue === '}') {
+        return value || isCommentAtParentEnd(token, 'SwitchCase')
+      }
+      return value
+    }
+
     interface BeforAndAfter {
       before: boolean | undefined
       after: boolean | undefined
@@ -355,7 +361,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param opts.after Should have a newline after this line.
      * @param opts.before Should have a newline before this line.
      */
-    function checkForEmptyLine(token: Token, opts: BeforAndAfter) {
+    function checkForEmptyLine(token: Tree.Comment, opts: BeforAndAfter) {
       if (applyDefaultIgnorePatterns && defaultIgnoreRegExp.test(token.value))
         return
 
@@ -369,19 +375,39 @@ export default createRule<RuleOptions, MessageIds>({
       const nextLineNum = token.loc.end.line + 1
       const commentIsNotAlone = codeAroundComment(token)
 
-      const blockStartAllowed = options.allowBlockStart
-        && isCommentAtBlockStart(token)
-        && !(options.allowClassStart === false && isCommentAtClassStart(token))
-      const blockEndAllowed = options.allowBlockEnd && isCommentAtBlockEnd(token) && !(options.allowClassEnd === false && isCommentAtClassEnd(token))
       const classStartAllowed = options.allowClassStart && isCommentAtClassStart(token)
       const classEndAllowed = options.allowClassEnd && isCommentAtClassEnd(token)
       const objectStartAllowed = options.allowObjectStart && isCommentAtObjectStart(token)
       const objectEndAllowed = options.allowObjectEnd && isCommentAtObjectEnd(token)
       const arrayStartAllowed = options.allowArrayStart && isCommentAtArrayStart(token)
       const arrayEndAllowed = options.allowArrayEnd && isCommentAtArrayEnd(token)
+      const parenStartAllowed
+        = (options.allowGroupStart || []).includes('(') && isCommentAtGroupStart(token, '(')
+      const parenEndAllowed
+        = (options.allowGroupEnd || []).includes(')') && isCommentAtGroupEnd(token, ')')
+      const bracketStartAllowed
+        = (options.allowGroupStart || []).includes('[') && isCommentAtGroupStart(token, '[')
+      const bracketEndAllowed
+        = (options.allowGroupEnd || []).includes(']') && isCommentAtGroupEnd(token, ']')
+      const braceStartAllowed
+        = (options.allowGroupStart || []).includes('{') && isCommentAtGroupStart(token, '{')
+      const braceEndAllowed
+        = (options.allowGroupEnd || []).includes('}') && isCommentAtGroupEnd(token, '}')
 
-      const exceptionStartAllowed = blockStartAllowed || classStartAllowed || objectStartAllowed || arrayStartAllowed
-      const exceptionEndAllowed = blockEndAllowed || classEndAllowed || objectEndAllowed || arrayEndAllowed
+      const exceptionStartAllowed
+        = parenStartAllowed
+          || bracketStartAllowed
+          || braceStartAllowed
+          || classStartAllowed
+          || objectStartAllowed
+          || arrayStartAllowed
+      const exceptionEndAllowed
+        = parenEndAllowed
+          || bracketEndAllowed
+          || braceEndAllowed
+          || classEndAllowed
+          || objectEndAllowed
+          || arrayEndAllowed
 
       // ignore top of the file and bottom of the file
       if (prevLineNum < 1)
