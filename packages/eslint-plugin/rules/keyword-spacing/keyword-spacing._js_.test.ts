@@ -355,8 +355,10 @@ run<RuleOptions, MessageIds>({
 
     'try {} catch (e) {}',
     { code: 'try{}catch(e) {}', options: [NEITHER] },
-    { code: 'try{} catch (e) {}', options: [override('catch', BOTH)] },
-    { code: 'try {}catch(e) {}', options: [override('catch', NEITHER)] },
+    { code: 'try{} catch {}', options: [override('catch', BOTH)] },
+    { code: 'try {}catch{}', options: [override('catch', NEITHER)] },
+    { code: 'try{} catch (e) {}', options: [override('catchWithParam', BOTH)] },
+    { code: 'try {}catch(e) {}', options: [override('catchWithParam', NEITHER)] },
     'try {}\ncatch (e) {}',
     { code: 'try{}\ncatch(e) {}', options: [NEITHER] },
 
@@ -1990,15 +1992,27 @@ run<RuleOptions, MessageIds>({
       errors: unexpectedBeforeAndAfter('catch'),
     },
     {
+      code: 'try{}catch{}',
+      output: 'try{} catch {}',
+      options: [override('catch', BOTH)],
+      errors: expectedBeforeAndAfter('catch'),
+    },
+    {
+      code: 'try {} catch {}',
+      output: 'try {}catch{}',
+      options: [override('catch', NEITHER)],
+      errors: unexpectedBeforeAndAfter('catch'),
+    },
+    {
       code: 'try{}catch(e) {}',
       output: 'try{} catch (e) {}',
-      options: [override('catch', BOTH)],
+      options: [override('catchWithParam', BOTH)],
       errors: expectedBeforeAndAfter('catch'),
     },
     {
       code: 'try {} catch (e) {}',
       output: 'try {}catch(e) {}',
-      options: [override('catch', NEITHER)],
+      options: [override('catchWithParam', NEITHER)],
       errors: unexpectedBeforeAndAfter('catch'),
     },
 

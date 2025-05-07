@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: jkXafurrsR */
+/* @checksum: VKayd8zeLb */
 
 export interface KeywordSpacingSchema0 {
   before?: boolean
@@ -39,6 +39,10 @@ export interface KeywordSpacingSchema0 {
       after?: boolean
     }
     catch?: {
+      before?: boolean
+      after?: boolean
+    }
+    catchWithParam?: {
       before?: boolean
       after?: boolean
     }

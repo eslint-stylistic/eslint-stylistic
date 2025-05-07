@@ -24,7 +24,7 @@ However, if you want to enforce the style of spacing between the `function` keyw
 
 ## Rule Details
 
-This rule enforces consistent spacing around keywords and keyword-like tokens: `as` (in module declarations), `async` (of async functions), `await` (of await expressions), `break`, `case`, `catch`, `class`, `const`, `continue`, `debugger`, `default`, `delete`, `do`, `else`, `export`, `extends`, `finally`, `for`, `from` (in module declarations), `function`, `get` (of getters), `if`, `import`, `in` (in for-in statements), `let`, `new`, `of` (in for-of statements), `return`, `set` (of setters), `static`, `super`, `switch`, `this`, `throw`, `try`, `typeof`, `var`, `void`, `while`, `with`, and `yield`. This rule is designed carefully not to conflict with other spacing rules: it does not apply to spacing where other rules report problems.
+This rule enforces consistent spacing around keywords and keyword-like tokens: `as` (in module declarations), `async` (of async functions), `await` (of await expressions), `break`, `case`, `catch`, `catchWithParam` (in try-catch statements with a parameter), `class`, `const`, `continue`, `debugger`, `default`, `delete`, `do`, `else`, `export`, `extends`, `finally`, `for`, `from` (in module declarations), `function`, `get` (of getters), `if`, `import`, `in` (in for-in statements), `let`, `new`, `of` (in for-of statements), `return`, `set` (of setters), `static`, `super`, `switch`, `this`, `throw`, `try`, `typeof`, `var`, `void`, `while`, `with`, and `yield`. This rule is designed carefully not to conflict with other spacing rules: it does not apply to spacing where other rules report problems.
 
 ## Options
 
@@ -280,7 +280,7 @@ if(foo) {
 
 ### overrides
 
-Examples of **correct** code for this rule with the `{ "overrides": { "if": { "after": false }, "for": { "after": false }, "while": { "after": false }, "static": { "after": false }, "as": { "after": false } } }` option:
+Examples of **correct** code for this rule with the `{ "overrides": { "if": { "after": false }, "for": { "after": false }, "while": { "after": false }, "static": { "after": false }, "as": { "after": false }, "catchWithParam": { "after": false } } }` option:
 
 ::: correct
 
@@ -290,7 +290,8 @@ Examples of **correct** code for this rule with the `{ "overrides": { "if": { "a
   "for": { "after": false },
   "while": { "after": false },
   "static": { "after": false },
-  "as": { "after": false }
+  "as": { "after": false },
+  "catchWithParam": { "after": false }
 } }]*/
 
 if(foo) {
@@ -314,6 +315,13 @@ class C {
 }
 
 export { C as"my class" };
+
+try {
+
+}
+catch(e) {
+
+}
 ```
 
 :::
