@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: l9oVuVvODt */
+/* @checksum: S0uX1jluIc */
 
 export type NoExtraParensSchema0 =
   | []
@@ -25,6 +25,7 @@ export type NoExtraParensSchema0 =
       enforceForFunctionPrototypeMethods?: boolean
       allowParensAfterCommentPattern?: string
       nestedConditionalExpressions?: boolean
+      allowNodesInSpreadElement?: string[]
     },
   ]
 

@@ -6,7 +6,6 @@
 import type { InvalidTestCase } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
-import tsParser from '@typescript-eslint/parser'
 import rule from '.'
 
 /**
@@ -788,10 +787,41 @@ run<RuleOptions, MessageIds>({
       options: ['functions'],
     },
 
-    // https://github.com/eslint/eslint/issues/17173
     {
-      code: 'const x = (1 satisfies number).toFixed();',
-      parser: tsParser,
+      code: $`
+        const x = [
+          ...a ? [1, 2, 3] : [],
+          ...(a ? [1, 2, 3] : []),
+        ]
+      `,
+      options: ['all', { allowNodesInSpreadElement: ['ConditionalExpression'] }],
+    },
+    {
+      code: $`
+        const x = [
+          ...b ?? c,
+          ...(b ?? c),
+        ]
+      `,
+      options: ['all', { allowNodesInSpreadElement: ['LogicalExpression'] }],
+    },
+    {
+      code: $`
+        const fruits = {
+          ...isSummer && { watermelon: 30 },
+          ...(isSummer && { watermelon: 30 }),
+        };
+      `,
+      options: ['all', { allowNodesInSpreadElement: ['LogicalExpression'] }],
+    },
+    {
+      code: $`
+        async function example() {
+          const promiseArray = Promise.resolve([1, 2, 3]);
+          console.log(...(await promiseArray));
+        }
+      `,
+      options: ['all', { allowNodesInSpreadElement: ['AwaitExpression'] }],
     },
   ],
 
