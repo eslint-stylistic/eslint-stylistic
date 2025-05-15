@@ -585,6 +585,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "entry": "packages/eslint-plugin/rules/no-tabs/no-tabs._js_.ts",
         "docsEntry": "packages/eslint-plugin/rules/no-tabs/README._js_.md",
         "meta": {
+          "fixable": "code",
           "docs": {
             "description": "Disallow all tabs",
             "recommended": true
@@ -2609,6 +2610,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "entry": "packages/eslint-plugin/rules/no-tabs/index.ts",
         "docsEntry": "packages/eslint-plugin/rules/no-tabs/README._js_.md",
         "meta": {
+          "fixable": "code",
           "docs": {
             "description": "Disallow all tabs",
             "recommended": true

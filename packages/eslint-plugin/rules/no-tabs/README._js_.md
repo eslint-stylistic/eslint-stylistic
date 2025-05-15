@@ -50,6 +50,7 @@ var x = 1; // test
 This rule has an optional object option with the following properties:
 
 - `allowIndentationTabs` (default: false): If this is set to true, then the rule will not report tabs used for indentation.
+- `tabSize` (default: false): The number of spaces used to replace tab during repair, or set false to disable fix.
 
 #### allowIndentationTabs
 
@@ -61,10 +62,40 @@ Examples of **correct** code for this rule with the `allowIndentationTabs: true`
 /* eslint no-tabs: ["error", { allowIndentationTabs: true }] */
 
 function test() {
-\tdoSomething();
+	doSomething();
 }
 
-\t// comment with leading indentation tab
+	// comment with leading indentation tab
+```
+
+:::
+
+#### tabSize
+
+Examples of **incorrect** code for this rule with the `tabSize: 2` option:
+::: incorrect
+
+```js
+/* eslint no-tabs: ["error", { tabSize: 2 }] */
+
+function test() {
+	doSomething();
+}
+
+```
+
+:::
+
+Examples of **correct** code for this rule with the `tabSize: 2` option:
+
+::: correct
+
+```js
+/* eslint no-tabs: ["error", { tabSize: 2 }] */
+
+function test() {
+  doSomething();
+}
 ```
 
 :::

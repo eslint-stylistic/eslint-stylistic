@@ -18,6 +18,7 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Disallow all tabs',
     },
+    fixable: 'code',
     schema: [{
       type: 'object',
       properties: {
@@ -25,10 +26,20 @@ export default createRule<RuleOptions, MessageIds>({
           type: 'boolean',
           default: false,
         },
+        tabSize: {
+          oneOf: [
+            { type: 'integer' },
+            { type: 'boolean', enum: [false] },
+          ],
+          default: 4,
+        },
       },
       additionalProperties: false,
     }],
-
+    defaultOptions: [{
+      allowIndentationTabs: false,
+      tabSize: false,
+    }],
     messages: {
       unexpectedTab: 'Unexpected tab character.',
     },
@@ -37,6 +48,7 @@ export default createRule<RuleOptions, MessageIds>({
   create(context) {
     const sourceCode = context.sourceCode
     const allowIndentationTabs = context.options && context.options[0] && context.options[0].allowIndentationTabs
+    const tabSize = context.options && context.options[0] && context.options[0].tabSize
 
     return {
       Program(node) {
@@ -47,20 +59,34 @@ export default createRule<RuleOptions, MessageIds>({
             if (allowIndentationTabs && !anyNonWhitespaceRegex.test(line.slice(0, match.index)))
               continue
 
-            context.report({
-              node,
-              loc: {
-                start: {
-                  line: index + 1,
-                  column: match.index,
-                },
-                end: {
-                  line: index + 1,
-                  column: match.index + match[0].length,
-                },
+            const loc = {
+              start: {
+                line: index + 1,
+                column: match.index,
               },
-              messageId: 'unexpectedTab',
-            })
+              end: {
+                line: index + 1,
+                column: match.index + match[0].length,
+              },
+            }
+            if (tabSize !== undefined && tabSize !== false) {
+              const tabCount = match[0].split('\t').length - 1
+              context.report({
+                node,
+                loc,
+                messageId: 'unexpectedTab',
+                fix(fixer) {
+                  return fixer.replaceTextRange([sourceCode.getIndexFromLoc(loc.start), sourceCode.getIndexFromLoc(loc.end)], ' '.repeat(tabSize).repeat(tabCount))
+                },
+              })
+            }
+            else {
+              context.report({
+                node,
+                loc,
+                messageId: 'unexpectedTab',
+              })
+            }
           }
         })
       },

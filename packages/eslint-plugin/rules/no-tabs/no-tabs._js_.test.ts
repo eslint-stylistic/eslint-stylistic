@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { $, run } from '#test'
 import rule from '.'
 
 run<RuleOptions, MessageIds>({
@@ -12,10 +12,13 @@ run<RuleOptions, MessageIds>({
   rule,
   valid: [
     'function test(){\n}',
-    'function test(){\n'
-    + '  //   sdfdsf \n'
-    + '}',
-
+    {
+      code: $`
+        function test(){
+          //   sdfdsf 
+        }
+      `,
+    },
     {
       code: '\tdoSomething();',
       options: [{ allowIndentationTabs: true }],
@@ -28,6 +31,20 @@ run<RuleOptions, MessageIds>({
   invalid: [
     {
       code: 'function test(){\t}',
+      output: 'function test(){    }',
+      options: [{ tabSize: 4 }],
+      errors: [{
+        messageId: 'unexpectedTab',
+        line: 1,
+        column: 17,
+        endLine: 1,
+        endColumn: 18,
+      }],
+    },
+    {
+      code: 'function test(){\t}',
+      output: 'function test(){\t}',
+      options: [{ tabSize: false }],
       errors: [{
         messageId: 'unexpectedTab',
         line: 1,
@@ -38,6 +55,8 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: '/** \t comment test */',
+      output: '/**      comment test */',
+      options: [{ tabSize: 4 }],
       errors: [{
         messageId: 'unexpectedTab',
         line: 1,
@@ -47,10 +66,17 @@ run<RuleOptions, MessageIds>({
       }],
     },
     {
-      code:
-            'function test(){\n'
-            + '  //\tsdfdsf \n'
-            + '}',
+      code: $`
+        function test(){
+          //\tsdfdsf
+        }
+      `,
+      output: $`
+        function test(){
+          //    sdfdsf
+        }
+      `,
+      options: [{ tabSize: 4 }],
       errors: [{
         messageId: 'unexpectedTab',
         line: 2,
@@ -60,10 +86,17 @@ run<RuleOptions, MessageIds>({
       }],
     },
     {
-      code:
-            'function\ttest(){\n'
-            + '  //sdfdsf \n'
-            + '}',
+      code: $`
+        function\ttest(){
+          //sdfdsf
+        }
+      `,
+      output: $`
+        function    test(){
+          //sdfdsf
+        }
+      `,
+      options: [{ tabSize: 4 }],
       errors: [{
         messageId: 'unexpectedTab',
         line: 1,
@@ -73,10 +106,17 @@ run<RuleOptions, MessageIds>({
       }],
     },
     {
-      code:
-            'function test(){\n'
-            + '  //\tsdfdsf \n'
-            + '\t}',
+      code: $`
+        function test(){
+          //\tsdfdsf
+        \t}
+      `,
+      output: $`
+        function test(){
+          //    sdfdsf
+            }
+      `,
+      options: [{ tabSize: 4 }],
       errors: [
         {
           messageId: 'unexpectedTab',
@@ -96,7 +136,8 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: '\t// Comment with leading tab \t and inline tab',
-      options: [{ allowIndentationTabs: true }],
+      output: '\t// Comment with leading tab      and inline tab',
+      options: [{ allowIndentationTabs: true, tabSize: 4 }],
       errors: [{
         messageId: 'unexpectedTab',
         line: 1,
@@ -107,6 +148,8 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: '\t\ta =\t\t\tb +\tc\t\t;\t\t',
+      output: '    a =      b +  c    ;    ',
+      options: [{ tabSize: 2 }],
       errors: [
         {
           messageId: 'unexpectedTab',
