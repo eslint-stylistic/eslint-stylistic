@@ -118,10 +118,12 @@ The rule also supports configuring each node type separately:
 ```js
 {
   "object-property-newline": ["error", {
-    "ObjectExpression": { "allowAllPropertiesOnSameLine": true },
-    "ObjectPattern": { "allowAllPropertiesOnSameLine": false },
-    "ImportDeclaration": { "allowAllPropertiesOnSameLine": true },
-    "ExportDeclaration": { "allowAllPropertiesOnSameLine": false }
+    "overrides": {
+      "ObjectExpression": { "allowAllPropertiesOnSameLine": true },
+      "ObjectPattern": { "allowAllPropertiesOnSameLine": false },
+      "ImportDeclaration": { "allowAllPropertiesOnSameLine": true },
+      "ExportDeclaration": { "allowAllPropertiesOnSameLine": false }
+    }
   }]
 }
 ```
@@ -131,7 +133,7 @@ This allows you to have different rules for different types of nodes:
 - `ObjectExpression`: Object literals
 - `ObjectPattern`: Object destructuring patterns
 - `ImportDeclaration`: Named imports
-- `ExportDeclaration`: Named exports
+- `ExportNamedDeclaration`: Named exports
 - `TSTypeLiteral`: TypeScript type literals (TypeScript plugin only)
 - `TSInterfaceBody`: TypeScript interface bodies (TypeScript plugin only)
 
@@ -140,8 +142,10 @@ You can also use a boolean shorthand where `true` means `{ allowAllPropertiesOnS
 ```js
 {
   "object-property-newline": ["error", {
-    "ObjectExpression": true,  // Allow all properties on same line
-    "ImportDeclaration": false // Require each import on its own line
+    "overrides": {
+      "ObjectExpression": true,  // Allow all properties on same line
+      "ImportDeclaration": false // Require each import on its own line
+    }
   }]
 }
 ```
@@ -351,8 +355,10 @@ Examples of **correct** code for this rule with granular configuration:
 
 ```js
 /*eslint object-property-newline: ["error", {
-  "ObjectExpression": { "allowAllPropertiesOnSameLine": true },
-  "ImportDeclaration": { "allowAllPropertiesOnSameLine": false }
+  "overrides": {
+    "ObjectExpression": { "allowAllPropertiesOnSameLine": true },
+    "ImportDeclaration": { "allowAllPropertiesOnSameLine": false }
+  }
 }]*/
 
 // Object literal properties can be on the same line
