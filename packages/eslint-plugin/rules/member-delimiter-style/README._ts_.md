@@ -108,9 +108,8 @@ Examples of code for this rule with the default config:
 
 ::: incorrect
 
-<!-- prettier-ignore -->
 ```ts
-/*eslint @stylistic/ts/member-delimiter-style: "error"*/
+/*eslint @stylistic/member-delimiter-style: "error"*/
 
 // missing semicolon delimiter
 interface Foo {
@@ -137,11 +136,12 @@ type FooBar = { name: string, greet(): string }
 type FooBar = { name: string; greet(): string; }
 ```
 
+:::
+
 ::: correct
 
-<!-- prettier-ignore -->
 ```ts
-/*eslint @stylistic/ts/member-delimiter-style: "error"*/
+/*eslint @stylistic/member-delimiter-style: "error"*/
 
 interface Foo {
     name: string;
@@ -159,6 +159,8 @@ type Bar = { name: string }
 
 type FooBar = { name: string; greet(): string }
 ```
+
+:::
 
 ## When Not To Use It
 

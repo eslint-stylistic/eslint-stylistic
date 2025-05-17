@@ -1,8 +1,9 @@
+import type { MessageIds, RuleOptions } from './types'
 import { $, createLinter, run } from '#test'
 import { expect, it } from 'vitest'
 import rule from './indent-binary-ops._plus_'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'indent-binary-ops',
   rule,
   valid: [
