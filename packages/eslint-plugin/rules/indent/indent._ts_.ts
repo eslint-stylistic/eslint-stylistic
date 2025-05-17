@@ -1122,13 +1122,18 @@ export default createRule<RuleOptions, MessageIds>({
 
     const ignoredNodeFirstTokens = new Set<Token>()
 
-    const baseOffsetListeners: RuleListener = {
-      'ArrayExpression, ArrayPattern': function (node: Tree.ArrayExpression | Tree.ArrayPattern) {
-        const openingBracket = sourceCode.getFirstToken(node)!
-        const closingBracket = sourceCode.getTokenAfter([...node.elements].reverse().find(_ => _) || openingBracket, isClosingBracketToken)!
+    function checkArrayLikeNode(node: Tree.ArrayExpression | Tree.ArrayPattern | Tree.TSTupleType) {
+      const elementList = node.type === AST_NODE_TYPES.TSTupleType ? node.elementTypes : node.elements
+      const openingBracket = sourceCode.getFirstToken(node)!
+      const closingBracket = sourceCode.getTokenAfter([...elementList].reverse().find(_ => _) || openingBracket, isClosingBracketToken)!
 
-        addElementListIndent(node.elements, openingBracket, closingBracket, options.ArrayExpression)
-      },
+      addElementListIndent(elementList, openingBracket, closingBracket, options.ArrayExpression)
+    }
+
+    const baseOffsetListeners: RuleListener = {
+      'ArrayExpression': checkArrayLikeNode,
+
+      'ArrayPattern': checkArrayLikeNode,
 
       'ObjectExpression, ObjectPattern': function (node: Tree.ObjectExpression | Tree.ObjectPattern) {
         const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
@@ -1829,6 +1834,8 @@ export default createRule<RuleOptions, MessageIds>({
         )
       },
 
+      'TSTupleType': checkArrayLikeNode,
+
       '*': function (node: ASTNode) {
         const firstToken = sourceCode.getFirstToken(node)
 
@@ -2351,19 +2358,6 @@ export default createRule<RuleOptions, MessageIds>({
           loc: node.loc,
           optional: false,
           computed: false,
-        })
-      },
-
-      TSTupleType(node) {
-        // transform it to an ArrayExpression
-        return rules['ArrayExpression, ArrayPattern']({
-          type: AST_NODE_TYPES.ArrayExpression,
-          elements: node.elementTypes as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
         })
       },
 
