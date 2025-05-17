@@ -63,4 +63,11 @@ export interface StylisticCustomizeOptions {
    * @default 'always-multiline'
    */
   commaDangle?: 'never' | 'always' | 'always-multiline' | 'only-multiline'
+  /**
+   * Severity level of the rules
+   * Determines how violations are reported.
+   *
+   * @default 'error'
+   */
+  severity?: 'error' | 'warn'
 }

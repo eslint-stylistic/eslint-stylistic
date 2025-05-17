@@ -3,12 +3,13 @@
  * @author Gyandeep Singh
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
 const validShebangProgram = '#!/path/to/node\nvar a = 3;'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'spaced-comment',
   rule,
 
