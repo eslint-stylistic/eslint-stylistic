@@ -1130,6 +1130,93 @@ export default createRule<RuleOptions, MessageIds>({
       addElementListIndent(elementList, openingBracket, closingBracket, options.ArrayExpression)
     }
 
+    function checkConditionalNode(node: Tree.ConditionalExpression | Tree.TSConditionalType, test: Tree.Node, consequent: Tree.Node, alternate: Tree.Node) {
+      const firstToken = sourceCode.getFirstToken(node)!
+
+      // `flatTernaryExpressions` option is for the following style:
+      // var a =
+      //     foo > 0 ? bar :
+      //     foo < 0 ? baz :
+      //     /*else*/ qiz ;
+      if (!options.flatTernaryExpressions
+        || !isTokenOnSameLine(test, consequent)
+        || isOnFirstLineOfStatement(firstToken, node)
+      ) {
+        const questionMarkToken = sourceCode.getFirstTokenBetween(test, consequent, token => token.type === 'Punctuator' && token.value === '?')!
+        const colonToken = sourceCode.getFirstTokenBetween(consequent, alternate, token => token.type === 'Punctuator' && token.value === ':')!
+
+        const firstConsequentToken = sourceCode.getTokenAfter(questionMarkToken)!
+        const lastConsequentToken = sourceCode.getTokenBefore(colonToken)!
+        const firstAlternateToken = sourceCode.getTokenAfter(colonToken)!
+
+        offsets.setDesiredOffset(questionMarkToken, firstToken, 1)
+        offsets.setDesiredOffset(colonToken, firstToken, 1)
+
+        let offset = 1
+        if (options.offsetTernaryExpressions) {
+          if (firstConsequentToken.type === 'Punctuator')
+            offset = 2
+
+          const consequentType = skipChainExpression(consequent).type
+          if (
+            options.offsetTernaryExpressionsOffsetCallExpressions
+            && (consequentType === 'CallExpression' || consequentType === 'AwaitExpression')
+          ) {
+            offset = 2
+          }
+        }
+
+        offsets.setDesiredOffset(
+          firstConsequentToken,
+          firstToken,
+          offset,
+        )
+
+        /**
+         * The alternate and the consequent should usually have the same indentation.
+         * If they share part of a line, align the alternate against the first token of the consequent.
+         * This allows the alternate to be indented correctly in cases like this:
+         * foo ? (
+         *   bar
+         * ) : ( // this '(' is aligned with the '(' above, so it's considered to be aligned with `foo`
+         *   baz // as a result, `baz` is offset by 1 rather than 2
+         * )
+         */
+        if (lastConsequentToken.loc.end.line === firstAlternateToken.loc.start.line) {
+          offsets.setDesiredOffset(firstAlternateToken, firstConsequentToken, 0)
+        }
+        else {
+          let offset = 1
+          if (options.offsetTernaryExpressions) {
+            if (firstAlternateToken.type === 'Punctuator')
+              offset = 2
+
+            const alternateType = skipChainExpression(alternate).type
+            if (
+              options.offsetTernaryExpressionsOffsetCallExpressions
+              && (alternateType === 'CallExpression' || alternateType === 'AwaitExpression')
+            ) {
+              offset = 2
+            }
+          }
+          /**
+           * If the alternate and consequent do not share part of a line, offset the alternate from the first
+           * token of the conditional expression. For example:
+           * foo ? bar
+           *   : baz
+           *
+           * If `baz` were aligned with `bar` rather than being offset by 1 from `foo`, `baz` would end up
+           * having no expected indentation.
+           */
+          offsets.setDesiredOffset(
+            firstAlternateToken,
+            firstToken,
+            offset,
+          )
+        }
+      }
+    }
+
     function checkOperatorToken(left: Tree.Node, right: Tree.Node, operator: string) {
       const operatorToken = sourceCode.getFirstTokenBetween(left, right, token => token.value === operator)!
 
@@ -1908,6 +1995,29 @@ export default createRule<RuleOptions, MessageIds>({
 
       // TODO: TSSatisfiesExpression
 
+      TSConditionalType(node) {
+        // transform it to a ConditionalExpression
+        checkConditionalNode(
+          node,
+          {
+            parent: node,
+            type: AST_NODE_TYPES.BinaryExpression,
+            operator: 'extends' as any,
+            left: node.checkType as any,
+            right: node.extendsType as any,
+
+            // location data
+            range: [node.checkType.range[0], node.extendsType.range[1]],
+            loc: {
+              start: node.checkType.loc.start,
+              end: node.extendsType.loc.end,
+            },
+          },
+          node.trueType,
+          node.falseType,
+        )
+      },
+
       '*': function (node: ASTNode) {
         const firstToken = sourceCode.getFirstToken(node)
 
@@ -2118,34 +2228,6 @@ export default createRule<RuleOptions, MessageIds>({
           // Otherwise, report the token/comment.
           report(firstTokenOfLine, offsets.getDesiredIndent(firstTokenOfLine)!)
         }
-      },
-
-      TSConditionalType(node) {
-        // transform it to a ConditionalExpression
-        return rules.ConditionalExpression({
-          type: AST_NODE_TYPES.ConditionalExpression,
-          test: {
-            parent: node,
-            type: AST_NODE_TYPES.BinaryExpression,
-            operator: 'extends' as any,
-            left: node.checkType as any,
-            right: node.extendsType as any,
-
-            // location data
-            range: [node.checkType.range[0], node.extendsType.range[1]],
-            loc: {
-              start: node.checkType.loc.start,
-              end: node.extendsType.loc.end,
-            },
-          },
-          consequent: node.trueType as any,
-          alternate: node.falseType as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
       },
 
       'TSEnumDeclaration, TSTypeLiteral': function (
