@@ -137,21 +137,6 @@ This allows you to have different rules for different types of nodes:
 - `TSTypeLiteral`: TypeScript type literals (TypeScript plugin only)
 - `TSInterfaceBody`: TypeScript interface bodies (TypeScript plugin only)
 
-You can also use a boolean shorthand where `true` means `{ allowAllPropertiesOnSameLine: true }` and `false` means `{ allowAllPropertiesOnSameLine: false }`:
-
-```js
-{
-  "object-property-newline": ["error", {
-    "overrides": {
-      "ObjectExpression": true,  // Allow all properties on same line
-      "ImportDeclaration": false // Require each import on its own line
-    }
-  }]
-}
-```
-
-If a specific node type is not configured, it will fall back to the global options (if provided).
-
 ### Notations
 
 This rule applies equally to all property specifications, regardless of notation, including:
@@ -349,7 +334,7 @@ const obj3 = {
 
 :::
 
-Examples of **correct** code for this rule with granular configuration:
+Examples of **correct** code for this rule with `overrides` option:
 
 ::: correct
 
