@@ -1130,6 +1130,69 @@ export default createRule<RuleOptions, MessageIds>({
       addElementListIndent(elementList, openingBracket, closingBracket, options.ArrayExpression)
     }
 
+    /**
+     * Converts from a TSPropertySignature to a Property
+     * @param node a TSPropertySignature node
+     * @param [type] the type to give the new node
+     * @returns a Property node
+     */
+    function TSPropertySignatureToProperty(
+      node:
+        | Tree.TSEnumMember
+        | Tree.TSPropertySignature
+        | Tree.TypeElement,
+      type:
+        | AST_NODE_TYPES.Property
+        | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
+    ): ASTNode | null {
+      const base = {
+        // indent doesn't actually use these
+        key: null as any,
+        value: null as any,
+
+        // Property flags
+        computed: false,
+        method: false,
+        kind: 'init',
+        // this will stop eslint from interrogating the type literal
+        shorthand: true,
+
+        // location data
+        parent: node.parent,
+        range: node.range,
+        loc: node.loc,
+      }
+      if (type === AST_NODE_TYPES.Property) {
+        return {
+          ...base as unknown as Tree.Property,
+          type,
+        }
+      }
+      return {
+        type,
+        accessibility: undefined,
+        declare: false,
+        decorators: [],
+        definite: false,
+        optional: false,
+        override: false,
+        readonly: false,
+        static: false,
+        typeAnnotation: undefined,
+        ...base,
+      } as Tree.PropertyDefinition
+    }
+
+    function checkObjectLikeNode(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSEnumDeclaration | Tree.TSTypeLiteral | Tree.TSMappedType, properties: Tree.Node[]) {
+      const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
+      const closingCurly = sourceCode.getTokenAfter(
+        properties.length ? properties[properties.length - 1] : openingCurly,
+        isClosingBraceToken,
+      )!
+
+      addElementListIndent(properties, openingCurly, closingCurly, options.ObjectExpression)
+    }
+
     function checkConditionalNode(node: Tree.ConditionalExpression | Tree.TSConditionalType, test: Tree.Node, consequent: Tree.Node, alternate: Tree.Node) {
       const firstToken = sourceCode.getFirstToken(node)!
 
@@ -1258,14 +1321,12 @@ export default createRule<RuleOptions, MessageIds>({
 
       'ArrayPattern': checkArrayLikeNode,
 
-      'ObjectExpression, ObjectPattern': function (node: Tree.ObjectExpression | Tree.ObjectPattern) {
-        const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
-        const closingCurly = sourceCode.getTokenAfter(
-          node.properties.length ? node.properties[node.properties.length - 1] : openingCurly,
-          isClosingBraceToken,
-        )!
+      ObjectExpression(node) {
+        checkObjectLikeNode(node, node.properties)
+      },
 
-        addElementListIndent(node.properties, openingCurly, closingCurly, options.ObjectExpression)
+      ObjectPattern(node) {
+        checkObjectLikeNode(node, node.properties)
       },
 
       ArrowFunctionExpression(node) {
@@ -1989,6 +2050,57 @@ export default createRule<RuleOptions, MessageIds>({
 
       'TSTupleType': checkArrayLikeNode,
 
+      TSEnumDeclaration(node) {
+        const members = node.body?.members || node.members
+
+        checkObjectLikeNode(node, members.map(
+          member => TSPropertySignatureToProperty(member) as Tree.Property,
+        ))
+      },
+
+      TSTypeLiteral(node) {
+        checkObjectLikeNode(node, node.members.map(
+          member => TSPropertySignatureToProperty(member) as Tree.Property,
+        ))
+      },
+
+      TSMappedType(node) {
+        const squareBracketStart = sourceCode.getTokenBefore(
+          node.constraint || node.typeParameter,
+        )!
+
+        const properties: Tree.Property[] = [
+          {
+            parent: node as any,
+            type: AST_NODE_TYPES.Property,
+            key: node.key || node.typeParameter,
+            value: node.typeAnnotation as any,
+
+            // location data
+            range: [
+              squareBracketStart.range[0],
+              node.typeAnnotation
+                ? node.typeAnnotation.range[1]
+                : squareBracketStart.range[0],
+            ],
+            loc: {
+              start: squareBracketStart.loc.start,
+              end: node.typeAnnotation
+                ? node.typeAnnotation.loc.end
+                : squareBracketStart.loc.end,
+            },
+            kind: 'init',
+            computed: false,
+            method: false,
+            optional: false,
+            shorthand: false,
+          },
+        ]
+
+        // transform it to an ObjectExpression
+        checkObjectLikeNode(node, properties)
+      },
+
       TSAsExpression(node) {
         checkOperatorToken(node.expression, node.typeAnnotation, 'as')
       },
@@ -2073,59 +2185,6 @@ export default createRule<RuleOptions, MessageIds>({
       (listeners, ignoredSelector) => Object.assign(listeners, { [ignoredSelector]: addToIgnoredNodes }),
       {},
     )
-
-    /**
-     * Converts from a TSPropertySignature to a Property
-     * @param node a TSPropertySignature node
-     * @param [type] the type to give the new node
-     * @returns a Property node
-     */
-    function TSPropertySignatureToProperty(
-      node:
-        | Tree.TSEnumMember
-        | Tree.TSPropertySignature
-        | Tree.TypeElement,
-      type:
-        | AST_NODE_TYPES.Property
-        | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
-    ): ASTNode | null {
-      const base = {
-        // indent doesn't actually use these
-        key: null as any,
-        value: null as any,
-
-        // Property flags
-        computed: false,
-        method: false,
-        kind: 'init',
-        // this will stop eslint from interrogating the type literal
-        shorthand: true,
-
-        // location data
-        parent: node.parent,
-        range: node.range,
-        loc: node.loc,
-      }
-      if (type === AST_NODE_TYPES.Property) {
-        return {
-          ...base as unknown as Tree.Property,
-          type,
-        }
-      }
-      return {
-        type,
-        accessibility: undefined,
-        declare: false,
-        decorators: [],
-        definite: false,
-        optional: false,
-        override: false,
-        readonly: false,
-        static: false,
-        typeAnnotation: undefined,
-        ...base,
-      } as Tree.PropertyDefinition
-    }
 
     const rules = {
       ...offsetListeners,
@@ -2228,27 +2287,6 @@ export default createRule<RuleOptions, MessageIds>({
           // Otherwise, report the token/comment.
           report(firstTokenOfLine, offsets.getDesiredIndent(firstTokenOfLine)!)
         }
-      },
-
-      'TSEnumDeclaration, TSTypeLiteral': function (
-        node: Tree.TSEnumDeclaration | Tree.TSTypeLiteral,
-      ) {
-        const members = 'body' in node
-          ? node.body?.members || node.members
-          : node.members
-
-        // transform it to an ObjectExpression
-        return rules['ObjectExpression, ObjectPattern']({
-          type: AST_NODE_TYPES.ObjectExpression,
-          properties: members.map(
-            member => TSPropertySignatureToProperty(member) as Tree.Property,
-          ),
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
       },
 
       TSImportEqualsDeclaration(node) {
@@ -2364,51 +2402,6 @@ export default createRule<RuleOptions, MessageIds>({
           loc: node.loc,
         },
         )
-      },
-
-      TSMappedType(node) {
-        const sourceCode = context.sourceCode
-
-        const squareBracketStart = sourceCode.getTokenBefore(
-          node.constraint || node.typeParameter,
-        )!
-
-        // transform it to an ObjectExpression
-        return rules['ObjectExpression, ObjectPattern']({
-          type: AST_NODE_TYPES.ObjectExpression,
-          properties: [
-            {
-              parent: node,
-              type: AST_NODE_TYPES.Property,
-              key: node.key || node.typeParameter as any,
-              value: node.typeAnnotation as any,
-
-              // location data
-              range: [
-                squareBracketStart.range[0],
-                node.typeAnnotation
-                  ? node.typeAnnotation.range[1]
-                  : squareBracketStart.range[0],
-              ],
-              loc: {
-                start: squareBracketStart.loc.start,
-                end: node.typeAnnotation
-                  ? node.typeAnnotation.loc.end
-                  : squareBracketStart.loc.end,
-              },
-              kind: 'init' as const,
-              computed: false,
-              method: false,
-              optional: false,
-              shorthand: false,
-            },
-          ],
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
       },
 
       TSModuleBlock(node) {
