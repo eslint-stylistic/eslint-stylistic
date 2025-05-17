@@ -1130,6 +1130,21 @@ export default createRule<RuleOptions, MessageIds>({
       addElementListIndent(elementList, openingBracket, closingBracket, options.ArrayExpression)
     }
 
+    function checkOperatorToken(left: Tree.Node, right: Tree.Node, operator: string) {
+      const operatorToken = sourceCode.getFirstTokenBetween(left, right, token => token.value === operator)!
+
+      /**
+       * For backwards compatibility, don't check BinaryExpression indents, e.g.
+       * var foo = bar &&
+       *                   baz;
+       */
+
+      const tokenAfterOperator = sourceCode.getTokenAfter(operatorToken)!
+      offsets.ignoreToken(operatorToken)
+      offsets.ignoreToken(tokenAfterOperator)
+      offsets.setDesiredOffset(tokenAfterOperator, operatorToken, 0)
+    }
+
     // JSXText
     function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
       let src = context.sourceCode.getText(node, node.loc.start.column)
@@ -1189,20 +1204,12 @@ export default createRule<RuleOptions, MessageIds>({
         offsets.ignoreToken(sourceCode.getTokenAfter(operator)!)
       },
 
-      'BinaryExpression, LogicalExpression': function (node: Tree.BinaryExpression | Tree.LogicalExpression) {
-        const operator = sourceCode.getFirstTokenBetween(node.left, node.right, token => token.value === node.operator)!
+      BinaryExpression(node) {
+        checkOperatorToken(node.left, node.right, node.operator)
+      },
 
-        /**
-         * For backwards compatibility, don't check BinaryExpression indents, e.g.
-         * var foo = bar &&
-         *                   baz;
-         */
-
-        const tokenAfterOperator = sourceCode.getTokenAfter(operator)!
-
-        offsets.ignoreToken(operator)
-        offsets.ignoreToken(tokenAfterOperator)
-        offsets.setDesiredOffset(tokenAfterOperator, operator, 0)
+      LogicalExpression(node) {
+        checkOperatorToken(node.left, node.right, node.operator)
       },
 
       'BlockStatement, ClassBody': function (node: Tree.BlockStatement | Tree.ClassBody) {
@@ -1895,6 +1902,12 @@ export default createRule<RuleOptions, MessageIds>({
 
       'TSTupleType': checkArrayLikeNode,
 
+      TSAsExpression(node) {
+        checkOperatorToken(node.expression, node.typeAnnotation, 'as')
+      },
+
+      // TODO: TSSatisfiesExpression
+
       '*': function (node: ASTNode) {
         const firstToken = sourceCode.getFirstToken(node)
 
@@ -2105,22 +2118,6 @@ export default createRule<RuleOptions, MessageIds>({
           // Otherwise, report the token/comment.
           report(firstTokenOfLine, offsets.getDesiredIndent(firstTokenOfLine)!)
         }
-      },
-
-      TSAsExpression(node) {
-        // transform it to a BinaryExpression
-        return rules['BinaryExpression, LogicalExpression']({
-          type: AST_NODE_TYPES.BinaryExpression,
-          operator: 'as' as any,
-          left: node.expression,
-          // the first typeAnnotation includes the as token
-          right: node.typeAnnotation as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
       },
 
       TSConditionalType(node) {
