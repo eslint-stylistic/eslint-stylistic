@@ -1122,22 +1122,211 @@ export default createRule<RuleOptions, MessageIds>({
 
     const ignoredNodeFirstTokens = new Set<Token>()
 
-    const baseOffsetListeners: RuleListener = {
-      'ArrayExpression, ArrayPattern': function (node: Tree.ArrayExpression | Tree.ArrayPattern) {
-        const openingBracket = sourceCode.getFirstToken(node)!
-        const closingBracket = sourceCode.getTokenAfter([...node.elements].reverse().find(_ => _) || openingBracket, isClosingBracketToken)!
+    function checkArrayLikeNode(node: Tree.ArrayExpression | Tree.ArrayPattern | Tree.TSTupleType) {
+      const elementList = node.type === AST_NODE_TYPES.TSTupleType ? node.elementTypes : node.elements
+      const openingBracket = sourceCode.getFirstToken(node)!
+      const closingBracket = sourceCode.getTokenAfter([...elementList].reverse().find(_ => _) || openingBracket, isClosingBracketToken)!
 
-        addElementListIndent(node.elements, openingBracket, closingBracket, options.ArrayExpression)
+      addElementListIndent(elementList, openingBracket, closingBracket, options.ArrayExpression)
+    }
+
+    /**
+     * Converts from a TSPropertySignature to a Property
+     * @param node a TSPropertySignature node
+     * @param [type] the type to give the new node
+     * @returns a Property node
+     */
+    function TSPropertySignatureToProperty(
+      node:
+        | Tree.TSEnumMember
+        | Tree.TSPropertySignature
+        | Tree.TypeElement,
+      type:
+        | AST_NODE_TYPES.Property
+        | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
+    ): ASTNode | null {
+      const base = {
+        // indent doesn't actually use these
+        key: null as any,
+        value: null as any,
+
+        // Property flags
+        computed: false,
+        method: false,
+        kind: 'init',
+        // this will stop eslint from interrogating the type literal
+        shorthand: true,
+
+        // location data
+        parent: node.parent,
+        range: node.range,
+        loc: node.loc,
+      }
+      if (type === AST_NODE_TYPES.Property) {
+        return {
+          ...base as unknown as Tree.Property,
+          type,
+        }
+      }
+      return {
+        type,
+        accessibility: undefined,
+        declare: false,
+        decorators: [],
+        definite: false,
+        optional: false,
+        override: false,
+        readonly: false,
+        static: false,
+        typeAnnotation: undefined,
+        ...base,
+      } as Tree.PropertyDefinition
+    }
+
+    function checkObjectLikeNode(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSEnumDeclaration | Tree.TSTypeLiteral | Tree.TSMappedType, properties: Tree.Node[]) {
+      const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
+      const closingCurly = sourceCode.getTokenAfter(
+        properties.length ? properties[properties.length - 1] : openingCurly,
+        isClosingBraceToken,
+      )!
+
+      addElementListIndent(properties, openingCurly, closingCurly, options.ObjectExpression)
+    }
+
+    function checkConditionalNode(node: Tree.ConditionalExpression | Tree.TSConditionalType, test: Tree.Node, consequent: Tree.Node, alternate: Tree.Node) {
+      const firstToken = sourceCode.getFirstToken(node)!
+
+      // `flatTernaryExpressions` option is for the following style:
+      // var a =
+      //     foo > 0 ? bar :
+      //     foo < 0 ? baz :
+      //     /*else*/ qiz ;
+      if (!options.flatTernaryExpressions
+        || !isTokenOnSameLine(test, consequent)
+        || isOnFirstLineOfStatement(firstToken, node)
+      ) {
+        const questionMarkToken = sourceCode.getFirstTokenBetween(test, consequent, token => token.type === 'Punctuator' && token.value === '?')!
+        const colonToken = sourceCode.getFirstTokenBetween(consequent, alternate, token => token.type === 'Punctuator' && token.value === ':')!
+
+        const firstConsequentToken = sourceCode.getTokenAfter(questionMarkToken)!
+        const lastConsequentToken = sourceCode.getTokenBefore(colonToken)!
+        const firstAlternateToken = sourceCode.getTokenAfter(colonToken)!
+
+        offsets.setDesiredOffset(questionMarkToken, firstToken, 1)
+        offsets.setDesiredOffset(colonToken, firstToken, 1)
+
+        let offset = 1
+        if (options.offsetTernaryExpressions) {
+          if (firstConsequentToken.type === 'Punctuator')
+            offset = 2
+
+          const consequentType = skipChainExpression(consequent).type
+          if (
+            options.offsetTernaryExpressionsOffsetCallExpressions
+            && (consequentType === 'CallExpression' || consequentType === 'AwaitExpression')
+          ) {
+            offset = 2
+          }
+        }
+
+        offsets.setDesiredOffset(
+          firstConsequentToken,
+          firstToken,
+          offset,
+        )
+
+        /**
+         * The alternate and the consequent should usually have the same indentation.
+         * If they share part of a line, align the alternate against the first token of the consequent.
+         * This allows the alternate to be indented correctly in cases like this:
+         * foo ? (
+         *   bar
+         * ) : ( // this '(' is aligned with the '(' above, so it's considered to be aligned with `foo`
+         *   baz // as a result, `baz` is offset by 1 rather than 2
+         * )
+         */
+        if (lastConsequentToken.loc.end.line === firstAlternateToken.loc.start.line) {
+          offsets.setDesiredOffset(firstAlternateToken, firstConsequentToken, 0)
+        }
+        else {
+          let offset = 1
+          if (options.offsetTernaryExpressions) {
+            if (firstAlternateToken.type === 'Punctuator')
+              offset = 2
+
+            const alternateType = skipChainExpression(alternate).type
+            if (
+              options.offsetTernaryExpressionsOffsetCallExpressions
+              && (alternateType === 'CallExpression' || alternateType === 'AwaitExpression')
+            ) {
+              offset = 2
+            }
+          }
+          /**
+           * If the alternate and consequent do not share part of a line, offset the alternate from the first
+           * token of the conditional expression. For example:
+           * foo ? bar
+           *   : baz
+           *
+           * If `baz` were aligned with `bar` rather than being offset by 1 from `foo`, `baz` would end up
+           * having no expected indentation.
+           */
+          offsets.setDesiredOffset(
+            firstAlternateToken,
+            firstToken,
+            offset,
+          )
+        }
+      }
+    }
+
+    function checkOperatorToken(left: Tree.Node, right: Tree.Node, operator: string) {
+      const operatorToken = sourceCode.getFirstTokenBetween(left, right, token => token.value === operator)!
+
+      /**
+       * For backwards compatibility, don't check BinaryExpression indents, e.g.
+       * var foo = bar &&
+       *                   baz;
+       */
+
+      const tokenAfterOperator = sourceCode.getTokenAfter(operatorToken)!
+      offsets.ignoreToken(operatorToken)
+      offsets.ignoreToken(tokenAfterOperator)
+      offsets.setDesiredOffset(tokenAfterOperator, operatorToken, 0)
+    }
+
+    // JSXText
+    function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
+      let src = context.sourceCode.getText(node, node.loc.start.column)
+      const lines = src.split('\n')
+      if (byLastLine)
+        src = lines[lines.length - 1]
+      else
+        src = lines[0]
+
+      const skip = excludeCommas ? ',' : ''
+
+      let regExp
+      if (indentType === 'space')
+        regExp = new RegExp(`^[ ${skip}]+`)
+      else
+        regExp = new RegExp(`^[\t${skip}]+`)
+
+      const indent = regExp.exec(src)
+      return indent ? indent[0].length : 0
+    }
+
+    const baseOffsetListeners: RuleListener = {
+      'ArrayExpression': checkArrayLikeNode,
+
+      'ArrayPattern': checkArrayLikeNode,
+
+      ObjectExpression(node) {
+        checkObjectLikeNode(node, node.properties)
       },
 
-      'ObjectExpression, ObjectPattern': function (node: Tree.ObjectExpression | Tree.ObjectPattern) {
-        const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
-        const closingCurly = sourceCode.getTokenAfter(
-          node.properties.length ? node.properties[node.properties.length - 1] : openingCurly,
-          isClosingBraceToken,
-        )!
-
-        addElementListIndent(node.properties, openingCurly, closingCurly, options.ObjectExpression)
+      ObjectPattern(node) {
+        checkObjectLikeNode(node, node.properties)
       },
 
       ArrowFunctionExpression(node) {
@@ -1163,20 +1352,12 @@ export default createRule<RuleOptions, MessageIds>({
         offsets.ignoreToken(sourceCode.getTokenAfter(operator)!)
       },
 
-      'BinaryExpression, LogicalExpression': function (node: Tree.BinaryExpression | Tree.LogicalExpression) {
-        const operator = sourceCode.getFirstTokenBetween(node.left, node.right, token => token.value === node.operator)!
+      BinaryExpression(node) {
+        checkOperatorToken(node.left, node.right, node.operator)
+      },
 
-        /**
-         * For backwards compatibility, don't check BinaryExpression indents, e.g.
-         * var foo = bar &&
-         *                   baz;
-         */
-
-        const tokenAfterOperator = sourceCode.getTokenAfter(operator)!
-
-        offsets.ignoreToken(operator)
-        offsets.ignoreToken(tokenAfterOperator)
-        offsets.setDesiredOffset(tokenAfterOperator, operator, 0)
+      LogicalExpression(node) {
+        checkOperatorToken(node.left, node.right, node.operator)
       },
 
       'BlockStatement, ClassBody': function (node: Tree.BlockStatement | Tree.ClassBody) {
@@ -1740,6 +1921,44 @@ export default createRule<RuleOptions, MessageIds>({
         }
       },
 
+      JSXText(node) {
+        if (!node.parent)
+          return
+
+        if (node.parent.type !== 'JSXElement' && node.parent.type !== 'JSXFragment')
+          return
+
+        const value = node.value
+        // eslint-disable-next-line regexp/no-super-linear-backtracking, regexp/optimal-quantifier-concatenation
+        const regExp = indentType === 'space' ? /\n( *)[\t ]*\S/g : /\n(\t*)[\t ]*\S/g
+        const nodeIndentsPerLine = Array.from(
+          String(value).matchAll(regExp),
+          match => (match[1] ? match[1].length : 0),
+        )
+        const hasFirstInLineNode = nodeIndentsPerLine.length > 0
+        const parentNodeIndent = getNodeIndent(node.parent)
+        const indent = parentNodeIndent + indentSize
+        if (
+          hasFirstInLineNode
+          && !nodeIndentsPerLine.every(actualIndent => actualIndent === indent)
+        ) {
+          nodeIndentsPerLine.forEach((nodeIndent) => {
+            context.report({
+              node,
+              messageId: 'wrongIndentation',
+              data: createErrorMessageData(indent, nodeIndent, nodeIndent),
+              fix(fixer) {
+                const indentChar = indentType === 'space' ? ' ' : '\t'
+                const indentStr = new Array(indent + 1).join(indentChar)
+                const regExp = /\n[\t ]*(\S)/g
+                const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indentStr}${p1}`)
+                return fixer.replaceText(node, fixedText)
+              },
+            })
+          })
+        }
+      },
+
       JSXAttribute(node) {
         if (!node.value)
           return
@@ -1827,6 +2046,88 @@ export default createRule<RuleOptions, MessageIds>({
         )
       },
 
+      'TSTupleType': checkArrayLikeNode,
+
+      TSEnumDeclaration(node) {
+        const members = node.body?.members || node.members
+
+        checkObjectLikeNode(node, members.map(
+          member => TSPropertySignatureToProperty(member) as Tree.Property,
+        ))
+      },
+
+      TSTypeLiteral(node) {
+        checkObjectLikeNode(node, node.members.map(
+          member => TSPropertySignatureToProperty(member) as Tree.Property,
+        ))
+      },
+
+      TSMappedType(node) {
+        const squareBracketStart = sourceCode.getTokenBefore(
+          node.constraint || node.typeParameter,
+        )!
+
+        const properties: Tree.Property[] = [
+          {
+            parent: node as any,
+            type: AST_NODE_TYPES.Property,
+            key: node.key || node.typeParameter,
+            value: node.typeAnnotation as any,
+
+            // location data
+            range: [
+              squareBracketStart.range[0],
+              node.typeAnnotation
+                ? node.typeAnnotation.range[1]
+                : squareBracketStart.range[0],
+            ],
+            loc: {
+              start: squareBracketStart.loc.start,
+              end: node.typeAnnotation
+                ? node.typeAnnotation.loc.end
+                : squareBracketStart.loc.end,
+            },
+            kind: 'init',
+            computed: false,
+            method: false,
+            optional: false,
+            shorthand: false,
+          },
+        ]
+
+        // transform it to an ObjectExpression
+        checkObjectLikeNode(node, properties)
+      },
+
+      TSAsExpression(node) {
+        checkOperatorToken(node.expression, node.typeAnnotation, 'as')
+      },
+
+      // TODO: TSSatisfiesExpression
+
+      TSConditionalType(node) {
+        // transform it to a ConditionalExpression
+        checkConditionalNode(
+          node,
+          {
+            parent: node,
+            type: AST_NODE_TYPES.BinaryExpression,
+            operator: 'extends' as any,
+            left: node.checkType as any,
+            right: node.extendsType as any,
+
+            // location data
+            range: [node.checkType.range[0], node.extendsType.range[1]],
+            loc: {
+              start: node.checkType.loc.start,
+              end: node.extendsType.loc.end,
+            },
+          },
+          node.trueType,
+          node.falseType,
+        )
+      },
+
       '*': function (node: ASTNode) {
         const firstToken = sourceCode.getFirstToken(node)
 
@@ -1883,80 +2184,6 @@ export default createRule<RuleOptions, MessageIds>({
       {},
     )
 
-    // JSXText
-    function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
-      let src = context.sourceCode.getText(node, node.loc.start.column)
-      const lines = src.split('\n')
-      if (byLastLine)
-        src = lines[lines.length - 1]
-      else
-        src = lines[0]
-
-      const skip = excludeCommas ? ',' : ''
-
-      let regExp
-      if (indentType === 'space')
-        regExp = new RegExp(`^[ ${skip}]+`)
-      else
-        regExp = new RegExp(`^[\t${skip}]+`)
-
-      const indent = regExp.exec(src)
-      return indent ? indent[0].length : 0
-    }
-
-    /**
-     * Converts from a TSPropertySignature to a Property
-     * @param node a TSPropertySignature node
-     * @param [type] the type to give the new node
-     * @returns a Property node
-     */
-    function TSPropertySignatureToProperty(
-      node:
-        | Tree.TSEnumMember
-        | Tree.TSPropertySignature
-        | Tree.TypeElement,
-      type:
-        | AST_NODE_TYPES.Property
-        | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
-    ): ASTNode | null {
-      const base = {
-        // indent doesn't actually use these
-        key: null as any,
-        value: null as any,
-
-        // Property flags
-        computed: false,
-        method: false,
-        kind: 'init',
-        // this will stop eslint from interrogating the type literal
-        shorthand: true,
-
-        // location data
-        parent: node.parent,
-        range: node.range,
-        loc: node.loc,
-      }
-      if (type === AST_NODE_TYPES.Property) {
-        return {
-          ...base as unknown as Tree.Property,
-          type,
-        }
-      }
-      return {
-        type,
-        accessibility: undefined,
-        declare: false,
-        decorators: [],
-        definite: false,
-        optional: false,
-        override: false,
-        readonly: false,
-        static: false,
-        typeAnnotation: undefined,
-        ...base,
-      } as Tree.PropertyDefinition
-    }
-
     const rules = {
       ...offsetListeners,
       ...ignoredNodeListeners,
@@ -1968,45 +2195,6 @@ export default createRule<RuleOptions, MessageIds>({
 
       // Ignored nodes
       ...ignoredNodeListeners,
-
-      // Special handling for JSXText nodes
-      JSXText(node) {
-        if (!node.parent)
-          return
-
-        if (node.parent.type !== 'JSXElement' && node.parent.type !== 'JSXFragment')
-          return
-
-        const value = node.value
-        // eslint-disable-next-line regexp/no-super-linear-backtracking, regexp/optimal-quantifier-concatenation
-        const regExp = indentType === 'space' ? /\n( *)[\t ]*\S/g : /\n(\t*)[\t ]*\S/g
-        const nodeIndentsPerLine = Array.from(
-          String(value).matchAll(regExp),
-          match => (match[1] ? match[1].length : 0),
-        )
-        const hasFirstInLineNode = nodeIndentsPerLine.length > 0
-        const parentNodeIndent = getNodeIndent(node.parent)
-        const indent = parentNodeIndent + indentSize
-        if (
-          hasFirstInLineNode
-          && !nodeIndentsPerLine.every(actualIndent => actualIndent === indent)
-        ) {
-          nodeIndentsPerLine.forEach((nodeIndent) => {
-            context.report({
-              node,
-              messageId: 'wrongIndentation',
-              data: createErrorMessageData(indent, nodeIndent, nodeIndent),
-              fix(fixer) {
-                const indentChar = indentType === 'space' ? ' ' : '\t'
-                const indentStr = new Array(indent + 1).join(indentChar)
-                const regExp = /\n[\t ]*(\S)/g
-                const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indentStr}${p1}`)
-                return fixer.replaceText(node, fixedText)
-              },
-            })
-          })
-        }
-      },
 
       // overwrite the base rule here so we can use our KNOWN_NODES list instead
       '*:exit': function (node: ASTNode) {
@@ -2097,71 +2285,6 @@ export default createRule<RuleOptions, MessageIds>({
           // Otherwise, report the token/comment.
           report(firstTokenOfLine, offsets.getDesiredIndent(firstTokenOfLine)!)
         }
-      },
-
-      TSAsExpression(node) {
-        // transform it to a BinaryExpression
-        return rules['BinaryExpression, LogicalExpression']({
-          type: AST_NODE_TYPES.BinaryExpression,
-          operator: 'as' as any,
-          left: node.expression,
-          // the first typeAnnotation includes the as token
-          right: node.typeAnnotation as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
-      TSConditionalType(node) {
-        // transform it to a ConditionalExpression
-        return rules.ConditionalExpression({
-          type: AST_NODE_TYPES.ConditionalExpression,
-          test: {
-            parent: node,
-            type: AST_NODE_TYPES.BinaryExpression,
-            operator: 'extends' as any,
-            left: node.checkType as any,
-            right: node.extendsType as any,
-
-            // location data
-            range: [node.checkType.range[0], node.extendsType.range[1]],
-            loc: {
-              start: node.checkType.loc.start,
-              end: node.extendsType.loc.end,
-            },
-          },
-          consequent: node.trueType as any,
-          alternate: node.falseType as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
-      'TSEnumDeclaration, TSTypeLiteral': function (
-        node: Tree.TSEnumDeclaration | Tree.TSTypeLiteral,
-      ) {
-        const members = 'body' in node
-          ? node.body?.members || node.members
-          : node.members
-
-        // transform it to an ObjectExpression
-        return rules['ObjectExpression, ObjectPattern']({
-          type: AST_NODE_TYPES.ObjectExpression,
-          properties: members.map(
-            member => TSPropertySignatureToProperty(member) as Tree.Property,
-          ),
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
       },
 
       TSImportEqualsDeclaration(node) {
@@ -2279,51 +2402,6 @@ export default createRule<RuleOptions, MessageIds>({
         )
       },
 
-      TSMappedType(node) {
-        const sourceCode = context.sourceCode
-
-        const squareBracketStart = sourceCode.getTokenBefore(
-          node.constraint || node.typeParameter,
-        )!
-
-        // transform it to an ObjectExpression
-        return rules['ObjectExpression, ObjectPattern']({
-          type: AST_NODE_TYPES.ObjectExpression,
-          properties: [
-            {
-              parent: node,
-              type: AST_NODE_TYPES.Property,
-              key: node.key || node.typeParameter as any,
-              value: node.typeAnnotation as any,
-
-              // location data
-              range: [
-                squareBracketStart.range[0],
-                node.typeAnnotation
-                  ? node.typeAnnotation.range[1]
-                  : squareBracketStart.range[0],
-              ],
-              loc: {
-                start: squareBracketStart.loc.start,
-                end: node.typeAnnotation
-                  ? node.typeAnnotation.loc.end
-                  : squareBracketStart.loc.end,
-              },
-              kind: 'init' as const,
-              computed: false,
-              method: false,
-              optional: false,
-              shorthand: false,
-            },
-          ],
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
       TSModuleBlock(node) {
         // transform it to a BlockStatement
         return rules['BlockStatement, ClassBody']({
@@ -2349,19 +2427,6 @@ export default createRule<RuleOptions, MessageIds>({
           loc: node.loc,
           optional: false,
           computed: false,
-        })
-      },
-
-      TSTupleType(node) {
-        // transform it to an ArrayExpression
-        return rules['ArrayExpression, ArrayPattern']({
-          type: AST_NODE_TYPES.ArrayExpression,
-          elements: node.elementTypes as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
         })
       },
 
