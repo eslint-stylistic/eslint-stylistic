@@ -80,7 +80,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function isWrappedInGroupingParens(node: ASTNode) {
-      return isParenthesized(node, sourceCode, 1)
+      return isParenthesized(node, sourceCode)
     }
 
     /**
