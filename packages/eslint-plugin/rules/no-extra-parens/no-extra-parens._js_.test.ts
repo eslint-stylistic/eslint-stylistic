@@ -765,6 +765,10 @@ run<RuleOptions, MessageIds>({
       code: 'const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));',
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
     },
+    {
+      code: '/** @type */(/** @type */(undefined))',
+      options: ['all', { allowParensAfterCommentPattern: '@type' }],
+    },
 
     '(a ? b : c) ? d : e',
     {
@@ -3363,6 +3367,18 @@ run<RuleOptions, MessageIds>({
       code: 'const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));',
       output: 'const net = ipaddr.parseCIDR(/** @type {string} */ cidr);',
       options: ['all', { allowParensAfterCommentPattern: 'invalid' }],
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: '(/** @type */(undefined))',
+      output: '/** @type */(undefined)',
+      options: ['all', { allowParensAfterCommentPattern: '@type' }],
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: '/** @type */((undefined))',
+      output: '/** @type */(undefined)',
+      options: ['all', { allowParensAfterCommentPattern: '@type' }],
       errors: [{ messageId: 'unexpected' }],
     },
 

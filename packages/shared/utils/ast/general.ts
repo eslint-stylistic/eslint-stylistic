@@ -860,7 +860,7 @@ export function getTokenBeforeClosingBracket(node: Tree.JSXOpeningElement | Tree
  * Get the left parenthesis of the parent node syntax if it exists.
  * E.g., `if (a) {}` then the `(`.
  */
-function getParentSyntaxParen(node: ASTNode, sourceCode: SourceCode) {
+export function getParentSyntaxParen(node: ASTNode, sourceCode: SourceCode) {
   const parent = node.parent
   if (!parent)
     return null

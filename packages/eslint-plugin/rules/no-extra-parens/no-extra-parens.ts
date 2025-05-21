@@ -4,6 +4,7 @@ import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
   canTokensBeAdjacent,
+  getParentSyntaxParen,
   getPrecedence,
   getStaticPropertyName,
   isClosingParenToken,
@@ -615,17 +616,18 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function report(node: ASTNode) {
-      const leftParenToken = sourceCode.getTokenBefore(node)!
-      const rightParenToken = sourceCode.getTokenAfter(node)!
+      if (!isParenthesisedTwice(node) && tokensToIgnore.has(sourceCode.getFirstToken(node)!)) {
+        return
+      }
 
-      if (!isParenthesisedTwice(node)) {
-        if (tokensToIgnore.has(sourceCode.getFirstToken(node)!))
-          return
+      if (isIIFE(node) && !('callee' in node && isParenthesised(node.callee)))
+        return
 
-        if (isIIFE(node) && !('callee' in node && isParenthesised(node.callee)))
-          return
+      let leftParenToken = sourceCode.getTokenBefore(node)!
+      let rightParenToken = sourceCode.getTokenAfter(node)!
 
-        if (ALLOW_PARENS_AFTER_COMMENT_PATTERN) {
+      if (ALLOW_PARENS_AFTER_COMMENT_PATTERN) {
+        for (;;) {
           const commentsBeforeLeftParenToken = sourceCode.getCommentsBefore(leftParenToken)
           const totalCommentsBeforeLeftParenTokenCount = commentsBeforeLeftParenToken.length
           const ignorePattern = new RegExp(ALLOW_PARENS_AFTER_COMMENT_PATTERN, 'u')
@@ -634,7 +636,21 @@ export default createRule<RuleOptions, MessageIds>({
             totalCommentsBeforeLeftParenTokenCount > 0
             && ignorePattern.test(commentsBeforeLeftParenToken[totalCommentsBeforeLeftParenTokenCount - 1].value)
           ) {
-            return
+            leftParenToken = sourceCode.getTokenBefore(leftParenToken)!
+            rightParenToken = sourceCode.getTokenAfter(rightParenToken)!
+
+            if (leftParenToken == null
+              || rightParenToken == null
+              || (leftParenToken.type !== 'Punctuator' || leftParenToken.value !== '(')
+              || (rightParenToken.type !== 'Punctuator' || rightParenToken.value !== ')')
+              // Avoid false positive such as `if (a) {}`
+              || leftParenToken === getParentSyntaxParen(node, sourceCode)
+            ) {
+              return
+            }
+          }
+          else {
+            break
           }
         }
       }
