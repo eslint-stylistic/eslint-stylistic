@@ -4,9 +4,9 @@ import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
   canTokensBeAdjacent,
-  getParentSyntaxParen,
   getPrecedence,
   getStaticPropertyName,
+  getSurroundingParens,
   isClosingParenToken,
   isDecimalInteger,
   isMixedLogicalAndCoalesceExpressions,
@@ -14,7 +14,6 @@ import {
   isNotOpeningParenToken,
   isOpeningBraceToken,
   isOpeningBracketToken,
-  isParenthesized as isParenthesizedRaw,
   isTopLevelExpressionStatement,
   skipChainExpression,
 } from '#utils/ast'
@@ -305,7 +304,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function isParenthesised(node: ASTNode) {
-      return isParenthesizedRaw(node, sourceCode, 1)
+      return getSurroundingParens(node, sourceCode, { includeParentSyntaxParens: false }) != null
     }
 
     /**
@@ -315,7 +314,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function isParenthesisedTwice(node: ASTNode) {
-      return isParenthesizedRaw(node, sourceCode, 2)
+      return getSurroundingParens(node, sourceCode, { includeParentSyntaxParens: false, skip: 1 }) != null
     }
 
     /**
@@ -623,37 +622,26 @@ export default createRule<RuleOptions, MessageIds>({
       if (isIIFE(node) && !('callee' in node && isParenthesised(node.callee)))
         return
 
-      let leftParenToken = sourceCode.getTokenBefore(node)!
-      let rightParenToken = sourceCode.getTokenAfter(node)!
+      const parens = getSurroundingParens(node, sourceCode, {
+        includeParentSyntaxParens: false,
+        filter(parens) {
+          if (!ALLOW_PARENS_AFTER_COMMENT_PATTERN) {
+            return true
+          }
 
-      if (ALLOW_PARENS_AFTER_COMMENT_PATTERN) {
-        for (;;) {
-          const commentsBeforeLeftParenToken = sourceCode.getCommentsBefore(leftParenToken)
+          const commentsBeforeLeftParenToken = sourceCode.getCommentsBefore(parens[0])
           const totalCommentsBeforeLeftParenTokenCount = commentsBeforeLeftParenToken.length
           const ignorePattern = new RegExp(ALLOW_PARENS_AFTER_COMMENT_PATTERN, 'u')
 
-          if (
-            totalCommentsBeforeLeftParenTokenCount > 0
-            && ignorePattern.test(commentsBeforeLeftParenToken[totalCommentsBeforeLeftParenTokenCount - 1].value)
-          ) {
-            leftParenToken = sourceCode.getTokenBefore(leftParenToken)!
-            rightParenToken = sourceCode.getTokenAfter(rightParenToken)!
+          return totalCommentsBeforeLeftParenTokenCount === 0 || !ignorePattern.test(commentsBeforeLeftParenToken[totalCommentsBeforeLeftParenTokenCount - 1].value)
+        },
+      })
 
-            if (leftParenToken == null
-              || rightParenToken == null
-              || (leftParenToken.type !== 'Punctuator' || leftParenToken.value !== '(')
-              || (rightParenToken.type !== 'Punctuator' || rightParenToken.value !== ')')
-              // Avoid false positive such as `if (a) {}`
-              || leftParenToken === getParentSyntaxParen(node, sourceCode)
-            ) {
-              return
-            }
-          }
-          else {
-            break
-          }
-        }
+      if (parens == null) {
+        return
       }
+
+      const [leftParenToken, rightParenToken] = parens
 
       /**
        * Finishes reporting
