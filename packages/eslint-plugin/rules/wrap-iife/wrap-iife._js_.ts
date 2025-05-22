@@ -5,7 +5,7 @@
 
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { getStaticPropertyName, isParenthesised, isParenthesized, skipChainExpression } from '#utils/ast'
+import { getStaticPropertyName, getSurroundingParens, skipChainExpression } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 /**
@@ -70,7 +70,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function isWrappedInAnyParens(node: ASTNode) {
-      return isParenthesised(sourceCode, node)
+      return getSurroundingParens(node, sourceCode) != null
     }
 
     /**
@@ -80,7 +80,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function isWrappedInGroupingParens(node: ASTNode) {
-      return isParenthesized(node, sourceCode)
+      return getSurroundingParens(node, sourceCode, { includeParentSyntaxParens: false }) != null
     }
 
     /**

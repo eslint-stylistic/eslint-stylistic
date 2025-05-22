@@ -1,13 +1,13 @@
 import type { ASTNode, Tree } from '#types'
 import type { TSESLint } from '@typescript-eslint/utils'
 
+import { getSurroundingParens } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import {
   isClosingBraceToken,
   isFunction,
   isNotSemicolonToken,
-  isParenthesized,
   isSemicolonToken,
   isTokenOnSameLine,
 } from '@typescript-eslint/utils/ast-utils'
@@ -242,7 +242,7 @@ function isDirective(
         && isFunction(node.parent.parent)))
       && node.expression.type === AST_NODE_TYPES.Literal
       && typeof node.expression.value === 'string'
-      && !isParenthesized(node.expression, sourceCode)
+      && getSurroundingParens(node.expression, sourceCode) == null
   )
 }
 

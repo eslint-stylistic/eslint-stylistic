@@ -8,7 +8,7 @@
 
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { hasOctalOrNonOctalDecimalEscapeSequence, isParenthesised, isSurroundedBy, isTopLevelExpressionStatement, LINEBREAKS } from '#utils/ast'
+import { getSurroundingParens, hasOctalOrNonOctalDecimalEscapeSequence, isSurroundedBy, isTopLevelExpressionStatement, LINEBREAKS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 /**
@@ -187,7 +187,7 @@ export default createRule<RuleOptions, MessageIds>({
         node.type === 'ExpressionStatement'
         && node.expression.type === 'Literal'
         && typeof node.expression.value === 'string'
-        && !isParenthesised(sourceCode, node.expression)
+        && getSurroundingParens(node.expression, sourceCode) == null
       )
     }
 
@@ -237,7 +237,7 @@ export default createRule<RuleOptions, MessageIds>({
       switch (parent.type) {
         // Directive Prologues.
         case 'ExpressionStatement':
-          return !isParenthesised(sourceCode, node) && isExpressionInOrJustAfterDirectivePrologue(node)
+          return getSurroundingParens(node, sourceCode) == null && isExpressionInOrJustAfterDirectivePrologue(node)
 
           // LiteralPropertyName.
         case 'Property':
@@ -356,7 +356,7 @@ export default createRule<RuleOptions, MessageIds>({
             description: settings.description,
           },
           fix(fixer) {
-            if (isTopLevelExpressionStatement(node.parent) && !isParenthesised(sourceCode, node)) {
+            if (isTopLevelExpressionStatement(node.parent) && getSurroundingParens(node, sourceCode) == null) {
               /**
                * TemplateLiterals aren't actually directives, but fixing them might turn
                * them into directives and change the behavior of the code.

@@ -154,6 +154,7 @@ run<RuleOptions, MessageIds>({
     'for(a in b, c);',
     'for(a of b);',
     'for (a of (b, c));',
+    'try{}catch(a){}',
     'var a = (b, c);',
     '[]',
     '[a, b]',
