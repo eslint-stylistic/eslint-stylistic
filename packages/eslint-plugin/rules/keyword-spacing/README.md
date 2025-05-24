@@ -36,6 +36,8 @@ This rule has an object option:
 - `"after": false` disallows spaces after keywords
 - `"overrides"` allows overriding spacing style for specified keywords
 
+> `catch` has two additional options `beforeWithParam` and `afterWithParam`, and their default values inherit from `before` and `after`. which are used to specify the case when catch has parameters
+
 ### before
 
 Examples of **incorrect** code for this rule with the default `{ "before": true }` option:
@@ -280,7 +282,7 @@ if(foo) {
 
 ### overrides
 
-Examples of **correct** code for this rule with the `{ "overrides": { "if": { "after": false }, "for": { "after": false }, "while": { "after": false }, "static": { "after": false }, "as": { "after": false } } }` option:
+Examples of **correct** code for this rule with the `{ "overrides": { "if": { "after": false }, "for": { "after": false }, "while": { "after": false }, "static": { "after": false }, "as": { "after": false }, "catch": { "afterWithParam": false } } }` option:
 
 ::: correct
 
@@ -290,7 +292,8 @@ Examples of **correct** code for this rule with the `{ "overrides": { "if": { "a
   "for": { "after": false },
   "while": { "after": false },
   "static": { "after": false },
-  "as": { "after": false }
+  "as": { "after": false },
+  "catch": { "afterWithParam": false }
 } }]*/
 
 if(foo) {
@@ -314,6 +317,13 @@ class C {
 }
 
 export { C as"my class" };
+
+try {
+
+}
+catch(e) {
+
+}
 ```
 
 :::

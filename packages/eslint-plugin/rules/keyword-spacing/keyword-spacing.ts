@@ -33,12 +33,17 @@ export default createRule<RuleOptions, MessageIds>({
           overrides: {
             type: 'object',
             properties: KEYS.reduce<Record<string, JSONSchema.JSONSchema4>>((retv, key) => {
+              const properties: Record<string, JSONSchema.JSONSchema4> = {
+                before: { type: 'boolean' },
+                after: { type: 'boolean' },
+              }
+              if (key === 'catch') {
+                properties.beforeWithParam = { type: 'boolean' }
+                properties.afterWithParam = { type: 'boolean' }
+              }
               retv[key] = {
                 type: 'object',
-                properties: {
-                  before: { type: 'boolean' },
-                  after: { type: 'boolean' },
-                },
+                properties,
                 additionalProperties: false,
               }
               return retv
@@ -197,10 +202,17 @@ export default createRule<RuleOptions, MessageIds>({
      *      Keys are keywords (there are for every keyword).
      *      Values are instances of `{"before": function, "after": function}`.
      */
-    function parseOptions(options: Options = {}): Record<string, {
+    function parseOptions(options: Options = {}): Record<typeof KEYS[number], {
       before: (token: Token, pattern?: RegExp) => void
       after: (token: Token, pattern?: RegExp) => void
-    }> {
+    }> & {
+      catch: {
+        before: (token: Token, pattern?: RegExp) => void
+        after: (token: Token, pattern?: RegExp) => void
+        beforeWithParam: (token: Token, pattern?: RegExp) => void
+        afterWithParam: (token: Token, pattern?: RegExp) => void
+      }
+    } {
       const before = options.before !== false
       const after = options.after !== false
       const defaultValue = {
@@ -222,9 +234,19 @@ export default createRule<RuleOptions, MessageIds>({
             before: thisBefore ? expectSpaceBefore : unexpectSpaceBefore,
             after: thisAfter ? expectSpaceAfter : unexpectSpaceAfter,
           }
+          if (key === 'catch') {
+            const withParamBefore = ('beforeWithParam' in override) ? override.beforeWithParam : thisBefore
+            const withParamAfter = ('afterWithParam' in override) ? override.afterWithParam : thisAfter
+            retv[key].beforeWithParam = withParamBefore ? expectSpaceBefore : unexpectSpaceBefore
+            retv[key].afterWithParam = withParamAfter ? expectSpaceAfter : unexpectSpaceAfter
+          }
         }
         else {
           retv[key] = defaultValue
+          if (key === 'catch') {
+            retv[key].beforeWithParam = defaultValue.before
+            retv[key].afterWithParam = defaultValue.after
+          }
         }
       }
 
@@ -232,6 +254,18 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     const checkMethodMap = parseOptions(context.options[0]!)
+
+    function isCatchWithParam(token: Token) {
+      if (token.value === 'catch') {
+        // `catch` is a special case, because it can be followed by a block or
+        // an identifier. So, we need to check the next token.
+        const nextToken = sourceCode.getTokenAfter(token, { includeComments: false })
+        if (nextToken && nextToken.value === '(') {
+          return true
+        }
+      }
+      return false
+    }
 
     /**
      * Reports a given token if usage of spacing followed by the token is
@@ -241,6 +275,10 @@ export default createRule<RuleOptions, MessageIds>({
      *      token to check.
      */
     function checkSpacingBefore(token: Token, pattern?: RegExp) {
+      if (isCatchWithParam(token)) {
+        checkMethodMap.catch.beforeWithParam(token, pattern || PREV_TOKEN)
+        return
+      }
       checkMethodMap[token.value].before(token, pattern || PREV_TOKEN)
     }
 
@@ -252,6 +290,10 @@ export default createRule<RuleOptions, MessageIds>({
      *      token to check.
      */
     function checkSpacingAfter(token: Token, pattern?: RegExp) {
+      if (isCatchWithParam(token)) {
+        checkMethodMap.catch.afterWithParam(token, pattern || NEXT_TOKEN)
+        return
+      }
       checkMethodMap[token.value].after(token, pattern || NEXT_TOKEN)
     }
 
