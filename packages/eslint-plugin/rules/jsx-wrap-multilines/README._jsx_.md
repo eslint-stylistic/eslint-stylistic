@@ -1,4 +1,4 @@
-# jsx/jsx-wrap-multilines
+# jsx-wrap-multilines
 
 Disallow missing parentheses around multiline JSX.
 

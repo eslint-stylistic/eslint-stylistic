@@ -9,7 +9,7 @@ related_rules:
   - max-statements
 ---
 
-# js/max-len
+# max-len
 
 Very long lines of code in any language can be difficult to read. In order to aid in readability and maintainability many coders have developed a convention to limit lines of code to X number of characters (traditionally 80 characters).
 

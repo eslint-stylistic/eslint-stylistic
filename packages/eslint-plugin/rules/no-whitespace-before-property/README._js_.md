@@ -3,7 +3,7 @@ title: no-whitespace-before-property
 rule_type: layout
 ---
 
-# js/no-whitespace-before-property
+# no-whitespace-before-property
 
 JavaScript allows whitespace between objects and their properties. However, inconsistent spacing can make code harder to read and can lead to errors.
 

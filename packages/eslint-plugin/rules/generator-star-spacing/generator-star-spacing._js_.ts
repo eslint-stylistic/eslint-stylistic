@@ -26,7 +26,6 @@ const OVERRIDE_SCHEMA: JSONSchema.JSONSchema4 = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'generator-star-spacing',
-  package: 'js',
   meta: {
     type: 'layout',
 

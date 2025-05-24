@@ -1,1 +1,1 @@
-export { default } from './lines-between-class-members._ts_'
+export { default } from './lines-between-class-members'

@@ -10,7 +10,6 @@ import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'array-bracket-spacing',
-  package: 'js',
   meta: {
     type: 'layout',
 

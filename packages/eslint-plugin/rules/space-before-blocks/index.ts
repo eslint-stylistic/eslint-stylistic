@@ -1,1 +1,1 @@
-export { default } from './space-before-blocks._ts_'
+export { default } from './space-before-blocks'

@@ -10,7 +10,6 @@ import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'operator-linebreak',
-  package: 'js',
   meta: {
     type: 'layout',
 

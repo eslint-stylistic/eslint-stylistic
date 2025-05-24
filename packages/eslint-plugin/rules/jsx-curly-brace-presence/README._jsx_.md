@@ -1,4 +1,4 @@
-# jsx/jsx-curly-brace-presence
+# jsx-curly-brace-presence
 
 Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes.
 

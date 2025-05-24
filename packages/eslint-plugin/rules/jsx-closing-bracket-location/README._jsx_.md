@@ -1,4 +1,4 @@
-# jsx/jsx-closing-bracket-location
+# jsx-closing-bracket-location
 
 Enforce the closing bracket location for JSX multiline elements.
 

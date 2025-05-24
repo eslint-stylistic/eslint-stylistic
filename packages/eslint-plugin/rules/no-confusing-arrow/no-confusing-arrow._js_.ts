@@ -20,7 +20,6 @@ function isConditional(node: ASTNode) {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-confusing-arrow',
-  package: 'js',
   meta: {
     type: 'layout',
 

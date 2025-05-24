@@ -1,4 +1,4 @@
-# jsx/jsx-sort-props
+# jsx-sort-props
 
 Enforce props alphabetical sorting.
 
