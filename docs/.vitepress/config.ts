@@ -34,6 +34,7 @@ const CONTRIBUTES: DefaultTheme.NavItemWithLink[] = [
 
 const VERSIONS: DefaultTheme.NavItemWithLink[] = [
   { text: `v${version} (current)`, link: '/' },
+  { text: `v4.x`, link: 'https://v4.eslint.style/', target: '_blank' },
   { text: `Release Notes`, link: 'https://github.com/eslint-stylistic/eslint-stylistic/releases' },
   { text: `Contributing`, link: '/contribute/guide' },
 ]

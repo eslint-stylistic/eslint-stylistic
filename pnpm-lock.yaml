@@ -287,9 +287,6 @@ importers:
       '@stylistic/eslint-plugin':
         specifier: workspace:*
         version: link:packages/eslint-plugin
-      '@stylistic/eslint-plugin-migrate':
-        specifier: workspace:*
-        version: link:packages/eslint-plugin-migrate
       '@types/estraverse':
         specifier: 'catalog:'
         version: 5.1.7
@@ -510,15 +507,6 @@ importers:
       picomatch:
         specifier: 'catalog:'
         version: 4.0.2
-
-  packages/eslint-plugin-migrate:
-    dependencies:
-      '@eslint-stylistic/metadata':
-        specifier: workspace:*
-        version: link:../metadata
-      '@typescript-eslint/utils':
-        specifier: 'catalog:'
-        version: 8.32.1(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)
 
   packages/metadata:
     devDependencies:
