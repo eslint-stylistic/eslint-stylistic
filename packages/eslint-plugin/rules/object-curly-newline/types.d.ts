@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: arNfL2pa8v */
+/* @checksum: hu8uNyY0uF2oOwBVs3XSWntyeircOKV-bwWugkN54z4 */
 
 export type ObjectCurlyNewlineSchema0 =
   | (

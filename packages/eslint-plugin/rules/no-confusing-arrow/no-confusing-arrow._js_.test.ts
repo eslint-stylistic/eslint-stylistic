@@ -3,10 +3,11 @@
  * @author Jxck <https://github.com/Jxck>
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'no-confusing-arrow',
   rule,
   valid: [

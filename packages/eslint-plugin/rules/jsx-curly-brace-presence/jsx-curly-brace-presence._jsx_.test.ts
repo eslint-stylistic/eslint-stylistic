@@ -5,11 +5,12 @@
 
 // For better readability on tests involving quotes
 
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-curly-brace-presence._jsx_'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'jsx-curly-brace-presence',
   rule,
   parserOptions: {
@@ -18,7 +19,7 @@ run({
     },
   },
 
-  valid: valids(
+  valid: valids<RuleOptions>(
     {
       code: '<App {...props}>foo</App>',
     },
@@ -464,7 +465,7 @@ run({
     },
   ),
 
-  invalid: invalids(
+  invalid: invalids<RuleOptions, MessageIds>(
     {
       code: '<App prop={`foo`} />',
       output: '<App prop="foo" />',

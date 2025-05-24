@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: no5UME8Cf1 */
+/* @checksum: vN2RTEroG1AzS_X9PWGKNqCnIBv7EnaAXCiNjD7b-4U */
 
 export interface SwitchColonSpacingSchema0 {
   before?: boolean

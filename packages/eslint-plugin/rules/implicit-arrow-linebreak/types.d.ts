@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 165Ci8urIO */
+/* @checksum: 474u-mGxbyUHJ5FayGvt8jzsOnCUzbZgcIJ3Y99iGwY */
 
 export type ImplicitArrowLinebreakSchema0 =
   | 'beside'

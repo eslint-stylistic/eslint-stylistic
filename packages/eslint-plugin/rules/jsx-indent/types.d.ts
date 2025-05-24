@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 2AciiVGHYi */
+/* @checksum: _u_FkEjnx0q1l077LIppq-Pb4un0KwpPMPegE7ujW_Q */
 
 export type JsxIndentSchema0 = 'tab' | number
 

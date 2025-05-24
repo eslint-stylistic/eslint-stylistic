@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: GK8w2BDmW4 */
+/* @checksum: f13JqP_piwI0i2N9PkYMUEJe1nPmE6TaNFrUZgDGDm4 */
 
 export type NoFloatingDecimalRuleOptions = []
 

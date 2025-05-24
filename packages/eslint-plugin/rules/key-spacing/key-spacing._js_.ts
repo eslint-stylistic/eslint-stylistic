@@ -3,6 +3,9 @@
  * @author Brandon Mills
  */
 
+// MERGED: The JS version of this rule is merged to the TS version, this file will be removed
+// in the next major when we remove the `@stylistic/eslint-plugin-js` package.
+
 import type { ASTNode, ReportFixFunction, SourceCode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { getStaticPropertyName, isClosingBraceToken, isColonToken, isOpeningBraceToken, LINEBREAK_MATCHER } from '#utils/ast'
@@ -58,6 +61,12 @@ function isSingleLineImportAttributes(
   node: Tree.ImportDeclaration | Tree.ExportNamedDeclaration | Tree.ExportAllDeclaration | Tree.TSImportType,
   sourceCode: SourceCode,
 ) {
+  if (node.type === 'TSImportType') {
+    if ('options' in node && node.options) {
+      return isSingleLine(node.options)
+    }
+    return false
+  }
   const openingBrace = sourceCode.getTokenBefore(node.attributes[0], isOpeningBraceToken)!
   const closingBrace = sourceCode.getTokenAfter(node.attributes[node.attributes.length - 1], isClosingBraceToken)!
   return (closingBrace.loc.end.line === openingBrace.loc.start.line)

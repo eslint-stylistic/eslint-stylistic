@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: j2dbADp7Jl */
+/* @checksum: 2q70CUD0hf1bWFxDUHD1MpOAf3tZJOu0A5v4DuHpQGU */
 
 export type FunctionCallArgumentNewlineSchema0 =
   | 'always'

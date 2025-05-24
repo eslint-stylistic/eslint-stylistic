@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: r5qBrSQa6a */
+/* @checksum: yoq47ZFhtyO96ComOIYTmw3_4sqKrrg0Nv2kSf7dBYo */
 
 export type JsxIndentPropsSchema0 =
   | ('tab' | 'first')

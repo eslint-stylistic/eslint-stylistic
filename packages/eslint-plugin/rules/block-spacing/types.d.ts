@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: MqLqcA4JlQ */
+/* @checksum: 0CO_DxC8CFaaWKp6_oLRq5djO2_6dnBAM5JWz-D1vk4 */
 
 export type BlockSpacingSchema0 = 'always' | 'never'
 

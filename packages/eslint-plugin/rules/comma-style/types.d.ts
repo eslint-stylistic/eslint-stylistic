@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: I1v3EAP2Ud */
+/* @checksum: 4CFLF0dsXq9vfuMeaQuh3qs5GouBJzx0P8lcAFNtnDM */
 
 export type CommaStyleSchema0 = 'first' | 'last'
 

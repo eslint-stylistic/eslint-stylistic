@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: MI2WwmCEtC */
+/* @checksum: sOySMlf7qRkIbUPnE7seVtr-cQ_-LOzGRtDOZM9HUQQ */
 
 export interface SpaceInfixOpsSchema0 {
   int32Hint?: boolean

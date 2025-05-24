@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: arlotpXTUG */
+/* @checksum: NY45ke5muMk6VsEirG9Ll0vblQN2HggHTXAfYQ6vkcw */
 
 export type IndentBinaryOpsSchema0 = number | 'tab'
 
