@@ -41,6 +41,8 @@ export interface KeywordSpacingSchema0 {
     catch?: {
       before?: boolean
       after?: boolean
+      beforeWithParam?: boolean
+      afterWithParam?: boolean
     }
     char?: {
       before?: boolean
