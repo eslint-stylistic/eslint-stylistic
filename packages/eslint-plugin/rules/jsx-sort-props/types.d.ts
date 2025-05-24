@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: PK3sqWq6MM */
+/* @checksum: ZW3ItToD0ZJv3v-zWRdiNe_O4mcY5C4tKJc7EdSbDy8 */
 
 export interface JsxSortPropsSchema0 {
   callbacksLast?: boolean
@@ -10,6 +10,7 @@ export interface JsxSortPropsSchema0 {
   ignoreCase?: boolean
   noSortAlphabetically?: boolean
   reservedFirst?: unknown[] | boolean
+  reservedLast?: unknown[]
   locale?: string
 }
 
@@ -17,9 +18,9 @@ export type JsxSortPropsRuleOptions = [JsxSortPropsSchema0?]
 
 export type RuleOptions = JsxSortPropsRuleOptions
 export type MessageIds =
-  | 'noUnreservedProps'
   | 'listIsEmpty'
   | 'listReservedPropsFirst'
+  | 'listReservedPropsLast'
   | 'listCallbacksLast'
   | 'listShorthandFirst'
   | 'listShorthandLast'

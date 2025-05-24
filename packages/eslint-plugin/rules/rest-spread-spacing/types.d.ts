@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: OlZxWBGdwc */
+/* @checksum: ubRzju77uLAQN3kfKdcaKd53ZNU-LUyrHXsEIby-lso */
 
 export type RestSpreadSpacingSchema0 = 'always' | 'never'
 

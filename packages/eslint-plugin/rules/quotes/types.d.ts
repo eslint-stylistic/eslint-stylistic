@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 4GFgaFKvmu */
+/* @checksum: rnWryiOrrUCu4hK3gg9AzR-sVUJKU3JI0yexRTt16ec */
 
 export type QuotesSchema0 = 'single' | 'double' | 'backtick'
 

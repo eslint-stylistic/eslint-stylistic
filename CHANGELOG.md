@@ -1,5 +1,52 @@
 # Changelog
 
+## [4.3.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.2.0...v4.3.0) (2025-05-24)
+
+
+### Features
+
+* **configs:** add new severity option for all rules ([#733](https://github.com/eslint-stylistic/eslint-stylistic/issues/733)) ([#736](https://github.com/eslint-stylistic/eslint-stylistic/issues/736)) ([c553a9c](https://github.com/eslint-stylistic/eslint-stylistic/commit/c553a9ca745b8a46f1fc41986cde43da2d016431))
+* **jsx-sort-props:** support custom reservedFirst and reservedLast ([#744](https://github.com/eslint-stylistic/eslint-stylistic/issues/744)) ([fb17e96](https://github.com/eslint-stylistic/eslint-stylistic/commit/fb17e9635a39873452a82e9e186af11966db679f))
+
+
+### Bug Fixes
+
+* **eslint-plugin:** only export interfaces in index ([#763](https://github.com/eslint-stylistic/eslint-stylistic/issues/763)) ([93a4eb1](https://github.com/eslint-stylistic/eslint-stylistic/commit/93a4eb1a55615dce0cf86f3124ac6aa891b5bd8a))
+* handle new AST change on `TSImportType` ([8f31461](https://github.com/eslint-stylistic/eslint-stylistic/commit/8f31461f22f6d59836705ddeb5713129b118d50c))
+* **indent:** handle `ChainExpression` and `AwaitExpression` when `offsetTernaryExpressionsOffsetCallExpressions` ([#751](https://github.com/eslint-stylistic/eslint-stylistic/issues/751)) ([a1af663](https://github.com/eslint-stylistic/eslint-stylistic/commit/a1af6635dce41dbea7ae7abcae037e40dee667b7))
+* **indent:** wrong PropertyDefinition value offset when ts type have multiple line ([#774](https://github.com/eslint-stylistic/eslint-stylistic/issues/774)) ([140e18f](https://github.com/eslint-stylistic/eslint-stylistic/commit/140e18f3fc18a99e3e38f05d99eea6776b284938))
+* **no-extra-parens:** do not break specific `ReturnStatement` ([#738](https://github.com/eslint-stylistic/eslint-stylistic/issues/738)) ([a375a92](https://github.com/eslint-stylistic/eslint-stylistic/commit/a375a92fefe3905ba46961e3278cc80cdf3ba050))
+
+
+### Documentation
+
+* deprecate `jsx-indent` ([#741](https://github.com/eslint-stylistic/eslint-stylistic/issues/741)) ([ca23ce1](https://github.com/eslint-stylistic/eslint-stylistic/commit/ca23ce1ef0063f946e4defbf4118edc4eae49748))
+* fix comment example ([#759](https://github.com/eslint-stylistic/eslint-stylistic/issues/759)) ([c841bb6](https://github.com/eslint-stylistic/eslint-stylistic/commit/c841bb6fe72fd13a1db28e21580a1056036d25fe))
+* fix eslint error ([#775](https://github.com/eslint-stylistic/eslint-stylistic/issues/775)) ([f2866f9](https://github.com/eslint-stylistic/eslint-stylistic/commit/f2866f9120fa73c5ed98e501364fdd3948cabd82))
+* fix eslint error tip does not display ([#792](https://github.com/eslint-stylistic/eslint-stylistic/issues/792)) ([b09756d](https://github.com/eslint-stylistic/eslint-stylistic/commit/b09756de4061e249dc34c424948be9a53dbed821))
+* incorrect error tip should display ([#747](https://github.com/eslint-stylistic/eslint-stylistic/issues/747)) ([7e06b81](https://github.com/eslint-stylistic/eslint-stylistic/commit/7e06b8118c563e7ab0e7b99bd1f579249e3b5de9))
+* typo ([#723](https://github.com/eslint-stylistic/eslint-stylistic/issues/723)) ([b6ed751](https://github.com/eslint-stylistic/eslint-stylistic/commit/b6ed75158336a3253378b6312c5311ebbd139bcb))
+
+
+### Chores
+
+* `comma-dangle` ([#716](https://github.com/eslint-stylistic/eslint-stylistic/issues/716)) ([7e55b16](https://github.com/eslint-stylistic/eslint-stylistic/commit/7e55b1645d228ee7471bfdd71ff92bf9a7a0cd16))
+* merge `brace-style` ([#715](https://github.com/eslint-stylistic/eslint-stylistic/issues/715)) ([5769933](https://github.com/eslint-stylistic/eslint-stylistic/commit/5769933da4c402fd54a59cfeb664f172c27948eb))
+* merge `indent` ([#713](https://github.com/eslint-stylistic/eslint-stylistic/issues/713)) ([a57c2bb](https://github.com/eslint-stylistic/eslint-stylistic/commit/a57c2bb27226d5daf3098f09444ff91de2338084))
+* merge `key-spacing` ([#734](https://github.com/eslint-stylistic/eslint-stylistic/issues/734)) ([99c0873](https://github.com/eslint-stylistic/eslint-stylistic/commit/99c0873f74464bff90f148efb8d4282a042956a0))
+* merge `keyword-spacing` ([#732](https://github.com/eslint-stylistic/eslint-stylistic/issues/732)) ([0018519](https://github.com/eslint-stylistic/eslint-stylistic/commit/001851960ad5cf7e2490aa097655202dde2a80ba))
+* merge `lines-between-class-members` ([#730](https://github.com/eslint-stylistic/eslint-stylistic/issues/730)) ([9f4bda0](https://github.com/eslint-stylistic/eslint-stylistic/commit/9f4bda0044d3ccb760eba65467a2062349c4409e))
+* merge `no-extra-parens` ([#711](https://github.com/eslint-stylistic/eslint-stylistic/issues/711)) ([d6809c9](https://github.com/eslint-stylistic/eslint-stylistic/commit/d6809c910510a4477e01ea248071f0701d0af4ed))
+* merge `no-extra-semi` ([#731](https://github.com/eslint-stylistic/eslint-stylistic/issues/731)) ([880814e](https://github.com/eslint-stylistic/eslint-stylistic/commit/880814e49fae4f25d1ff58204348427e65609714))
+* merge `object-property-newline` ([#719](https://github.com/eslint-stylistic/eslint-stylistic/issues/719)) ([d49ef91](https://github.com/eslint-stylistic/eslint-stylistic/commit/d49ef91e765938c60e2b344391a0d5a09c85bdc1))
+* merge `quote-props` ([#729](https://github.com/eslint-stylistic/eslint-stylistic/issues/729)) ([e5b09a5](https://github.com/eslint-stylistic/eslint-stylistic/commit/e5b09a52c1501295de96fa95e97b91d4ffeadddd))
+* merge `quotes` ([#720](https://github.com/eslint-stylistic/eslint-stylistic/issues/720)) ([9284830](https://github.com/eslint-stylistic/eslint-stylistic/commit/9284830c2b816c66b8ae50bd4e0c0ecff1ad555e))
+* merge `semi-spacing` ([#727](https://github.com/eslint-stylistic/eslint-stylistic/issues/727)) ([72856a8](https://github.com/eslint-stylistic/eslint-stylistic/commit/72856a876c64071cc68e9437562ec2422dfd39f6))
+* merge `semi` ([#728](https://github.com/eslint-stylistic/eslint-stylistic/issues/728)) ([85eeaa1](https://github.com/eslint-stylistic/eslint-stylistic/commit/85eeaa16f102190f04801a8bfa9675f6638b51a4))
+* merge object-curly-newline ([#717](https://github.com/eslint-stylistic/eslint-stylistic/issues/717)) ([0d3e33b](https://github.com/eslint-stylistic/eslint-stylistic/commit/0d3e33bda279dfc532efd4f6cafeb0b1881a3f9e))
+* merge object-curly-spacing ([#718](https://github.com/eslint-stylistic/eslint-stylistic/issues/718)) ([d943ef0](https://github.com/eslint-stylistic/eslint-stylistic/commit/d943ef0c41a59ad361a2e14ea80058c3c0f9a2a6))
+* use `RuleOptions` and `MessageIds` generic type ([#742](https://github.com/eslint-stylistic/eslint-stylistic/issues/742)) ([ace84e3](https://github.com/eslint-stylistic/eslint-stylistic/commit/ace84e3f15ec50443f250106aedbb5e38af4b5bd))
+
 ## [4.2.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.1.0...v4.2.0) (2025-03-03)
 
 

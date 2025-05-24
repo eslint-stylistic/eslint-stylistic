@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: etnYbGuMd5 */
+/* @checksum: AmzkYVmsrCtfPahAL0G5FJy30kHvyL_KrX9cxXJspWk */
 
 export type JsxCurlyNewlineSchema0 =
   | ('consistent' | 'never')

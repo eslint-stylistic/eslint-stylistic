@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: NQGrK717MM */
+/* @checksum: Xqp7M5FZy9k-iDnbExvuvaMe9_lIwgK5sx-hNcf3Tdk */
 
 export type SemiSchema0 =
   | []

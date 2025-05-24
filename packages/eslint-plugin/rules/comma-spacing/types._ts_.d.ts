@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: XI5pYVSsRD */
+/* @checksum: 8PYhCzGBZnXUhnxmy7L_k9ydRJzV8LXzzIzKlmSZj14 */
 
 export interface CommaSpacingSchema0 {
   before?: boolean

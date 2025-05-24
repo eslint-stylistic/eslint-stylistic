@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: krMnWeRGeD */
+/* @checksum: bvbRmH_q4r4TwHYQKuuH7KdPdHlTaAIJBPnPwrfvKsM */
 
 export type OperatorLinebreakSchema0 =
   | ('after' | 'before' | 'none')

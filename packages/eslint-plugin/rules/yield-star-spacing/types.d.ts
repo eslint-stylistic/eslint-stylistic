@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: UDG2BPqkvM */
+/* @checksum: iJF_VO2_4_ujnVoIeaUVFZjSmzJdTCdF_cmoQx0gk_A */
 
 export type YieldStarSpacingSchema0 =
   | ('before' | 'after' | 'both' | 'neither')

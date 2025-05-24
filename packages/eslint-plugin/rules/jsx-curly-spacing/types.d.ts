@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 5O1C6pQBTj */
+/* @checksum: 6np7FJPRpiFgbrMsnDL-PC4zMTYMNJoW_bCYp5XgxUg */
 
 export type JsxCurlySpacingSchema0 =
   | []

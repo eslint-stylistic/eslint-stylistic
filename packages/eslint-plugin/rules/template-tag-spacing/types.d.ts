@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: urhGNQ8Crp */
+/* @checksum: 7SPkP215vqXYTi_wV4ernIRl6AOMAA__VrsM8XIuoIM */
 
 export type TemplateTagSpacingSchema0 = 'always' | 'never'
 

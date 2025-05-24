@@ -1,24 +1,12 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: lhltjxE540 */
+/* @checksum: 6RaHSpkd0xngnBtv0uggStdq40cIo2NW9uru1q_OApM */
 
 export interface KeywordSpacingSchema0 {
   before?: boolean
   after?: boolean
   overrides?: {
     abstract?: {
-      before?: boolean
-      after?: boolean
-    }
-    as?: {
-      before?: boolean
-      after?: boolean
-    }
-    async?: {
-      before?: boolean
-      after?: boolean
-    }
-    await?: {
       before?: boolean
       after?: boolean
     }
@@ -114,15 +102,7 @@ export interface KeywordSpacingSchema0 {
       before?: boolean
       after?: boolean
     }
-    from?: {
-      before?: boolean
-      after?: boolean
-    }
     function?: {
-      before?: boolean
-      after?: boolean
-    }
-    get?: {
       before?: boolean
       after?: boolean
     }
@@ -158,10 +138,6 @@ export interface KeywordSpacingSchema0 {
       before?: boolean
       after?: boolean
     }
-    let?: {
-      before?: boolean
-      after?: boolean
-    }
     long?: {
       before?: boolean
       after?: boolean
@@ -175,10 +151,6 @@ export interface KeywordSpacingSchema0 {
       after?: boolean
     }
     null?: {
-      before?: boolean
-      after?: boolean
-    }
-    of?: {
       before?: boolean
       after?: boolean
     }
@@ -199,14 +171,6 @@ export interface KeywordSpacingSchema0 {
       after?: boolean
     }
     return?: {
-      before?: boolean
-      after?: boolean
-    }
-    satisfies?: {
-      before?: boolean
-      after?: boolean
-    }
-    set?: {
       before?: boolean
       after?: boolean
     }
@@ -275,6 +239,42 @@ export interface KeywordSpacingSchema0 {
       after?: boolean
     }
     with?: {
+      before?: boolean
+      after?: boolean
+    }
+    as?: {
+      before?: boolean
+      after?: boolean
+    }
+    async?: {
+      before?: boolean
+      after?: boolean
+    }
+    await?: {
+      before?: boolean
+      after?: boolean
+    }
+    from?: {
+      before?: boolean
+      after?: boolean
+    }
+    get?: {
+      before?: boolean
+      after?: boolean
+    }
+    let?: {
+      before?: boolean
+      after?: boolean
+    }
+    of?: {
+      before?: boolean
+      after?: boolean
+    }
+    satisfies?: {
+      before?: boolean
+      after?: boolean
+    }
+    set?: {
       before?: boolean
       after?: boolean
     }

@@ -16,6 +16,7 @@ export default antfu(
     ],
     jsx: true,
     markdown: false,
+    pnpm: true,
     typescript: true,
   },
   {

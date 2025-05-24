@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: rNIZg9D7xl */
+/* @checksum: Pk_ZP4o71U4BDmPTAvIssruXck2TqB_0QpMpDf-tA8s */
 
 export type FunctionCallSpacingSchema0 =
   | []
