@@ -14,6 +14,6 @@ export type JsxPascalCaseRuleOptions = [
 ]
 
 export type RuleOptions = JsxPascalCaseRuleOptions
-export type MessageIds =
-  | 'usePascalCase'
-  | 'usePascalOrSnakeCase'
+export type MessageIds
+  = | 'usePascalCase'
+    | 'usePascalOrSnakeCase'

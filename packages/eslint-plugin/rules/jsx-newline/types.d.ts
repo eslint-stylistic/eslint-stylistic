@@ -10,7 +10,7 @@ export interface JsxNewlineSchema0 {
 export type JsxNewlineRuleOptions = [JsxNewlineSchema0?]
 
 export type RuleOptions = JsxNewlineRuleOptions
-export type MessageIds =
-  | 'require'
-  | 'prevent'
-  | 'allowMultilines'
+export type MessageIds
+  = | 'require'
+    | 'prevent'
+    | 'allowMultilines'
