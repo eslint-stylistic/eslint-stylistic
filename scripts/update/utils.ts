@@ -1,5 +1,4 @@
 import type { PackageInfo, RuleInfo } from '../../packages/metadata/src/types'
-import { existsSync } from 'node:fs'
 import { basename, join, posix, relative, resolve, win32 } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { pascalCase } from 'change-case'
@@ -113,14 +112,7 @@ export async function writePackageDTS(pkg: PackageInfo) {
     ...pkg.rules
       .filter(r => !(r.name in RULE_ALIAS))
       .map((rule) => {
-        let path = `../rules/${rule.name}/types`
-        if (pkg.shortId !== 'default') {
-          const dir = `eslint-plugin/rules/${rule.name}`
-          if (existsSync(join(ROOT, 'packages', dir, `types._${pkg.shortId}_.d.ts`)))
-            path = `../../${dir}/types._${pkg.shortId}_`
-          else
-            path = `../../${dir}/types`
-        }
+        const path = `../rules/${rule.name}/types`
         return `import type { ${pascalCase(rule.name)}RuleOptions } from '${path}'`
       }),
     '',
@@ -130,7 +122,7 @@ export async function writePackageDTS(pkg: PackageInfo) {
       return [
         '  /**',
         `   * ${rule.meta?.docs?.description || ''}`,
-        `   * @see https://eslint.style/rules/${pkg.shortId}/${original}`,
+        `   * @see https://eslint.style/rules/${original}`,
         '   */',
         `  '${pkg.name.replace(/eslint-plugin-|\/eslint-plugin$/, '')}/${rule.name}': ${pascalCase(original)}RuleOptions`,
       ]
@@ -143,7 +135,7 @@ export async function writePackageDTS(pkg: PackageInfo) {
       return [
         '  /**',
         `   * ${rule.meta?.docs?.description || ''}`,
-        `   * @see https://eslint.style/rules/${pkg.shortId}/${original}`,
+        `   * @see https://eslint.style/rules/${original}`,
         '   */',
         `  '${rule.name}': ${pascalCase(original)}RuleOptions`,
       ]

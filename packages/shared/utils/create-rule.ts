@@ -16,7 +16,6 @@ export function createRule<
 >(
   {
     name,
-    package: pkg,
     create,
     defaultOptions = [] as any,
     meta,
@@ -24,7 +23,6 @@ export function createRule<
     Readonly<RuleWithMetaAndName<TOptions, TMessageIds>>,
     'defaultOptions'
   > & {
-    package: 'js' | 'ts' | 'jsx' | 'plus'
     defaultOptions?: TOptions
   },
 ): ESLintRuleModule<TOptions, TMessageIds> {
@@ -49,7 +47,7 @@ export function createRule<
       ...meta,
       docs: {
         ...meta.docs,
-        url: `https://eslint.style/rules/${pkg}/${name}`,
+        url: `https://eslint.style/rules/${name}`,
       },
     } as any,
   }

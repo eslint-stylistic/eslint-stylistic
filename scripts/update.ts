@@ -5,8 +5,8 @@
 import type { PackageInfo } from '../packages/metadata/src/types'
 import { existsSync } from 'node:fs'
 import { basename, join } from 'node:path'
-import { pathToFileURL } from 'node:url'
 
+import { pathToFileURL } from 'node:url'
 import fg from 'fast-glob'
 import { RULE_ALIAS, RULE_ORIGINAL_ID_MAP } from './update/meta'
 import { generateDtsFromSchema } from './update/schema-to-ts'
@@ -14,12 +14,6 @@ import { generateConfigs, generateMetadata, normalizePath, resolveAlias, rulesIn
 
 async function readPackages() {
   const RULES_DIR = './packages/eslint-plugin/rules/'
-  const PACKAGES = [
-    'js',
-    'jsx',
-    'ts',
-    'plus',
-  ]
 
   const ruleDirs = await fg('*', {
     cwd: RULES_DIR,
@@ -29,13 +23,9 @@ async function readPackages() {
 
   const rulesMeta = await Promise.all(ruleDirs.map(async (path) => {
     const name = basename(path)
-
-    const packages = [...PACKAGES].reverse().filter(pkg => existsSync(join(path, `${name}._${pkg}_.ts`)))
-
     return {
       path,
       name,
-      packages,
     }
   }))
 
@@ -43,11 +33,9 @@ async function readPackages() {
     pkg: string,
     rules: typeof rulesMeta,
   ): Promise<PackageInfo> {
-    const pkgId = pkg
-      ? `@stylistic/${pkg}`
-      : '@stylistic'
+    const pkgId = '@stylistic'
     const shortId = pkg || 'default'
-    const path = `packages/eslint-plugin${pkg ? `-${pkg}` : ''}`
+    const path = `packages/eslint-plugin`
 
     const resolvedRules = await Promise.all(
       rules
@@ -67,12 +55,21 @@ async function readPackages() {
                 ? `react/${name}`
                 : ''
 
+          const docsBase = join(RULES_DIR, i.name)
+          let docs = ''
+          for (const suffix of ['.md', '._ts_.md', '._js_.md', '._jsx_.md', '._plus_.md']) {
+            if (existsSync(join(docsBase, `README${suffix}`))) {
+              docs = join(docsBase, `README${suffix}`)
+              break
+            }
+          }
+
           return {
             name: realName,
             ruleId: `${pkgId}/${realName}`,
             originalId: RULE_ORIGINAL_ID_MAP[originalId] || originalId,
             entry: normalizePath(entry),
-            docsEntry: pkg ? normalizePath(join(RULES_DIR, i.name, `README._${pkg}_.md`)) : '',
+            docsEntry: docs,
             meta: {
               fixable: meta?.fixable,
               docs: {
@@ -98,7 +95,7 @@ async function readPackages() {
     resolvedRules.sort((a, b) => a.name.localeCompare(b.name))
 
     return {
-      name: pkg ? `@stylistic/eslint-plugin-${pkg}` : '@stylistic/eslint-plugin',
+      name: '@stylistic/eslint-plugin',
       shortId,
       pkgId,
       path,
@@ -107,15 +104,8 @@ async function readPackages() {
   }
 
   const mainPackage = await createPackageInfo('', rulesMeta)
-  const subPackages = await Promise.all(PACKAGES.map(pkg => createPackageInfo(pkg, rulesMeta.filter(i => i.packages.includes(pkg)))))
 
-  mainPackage.rules.forEach((rule) => {
-    const subrule = subPackages.map(sub => sub.rules.find(r => r.name === rule.name)).filter(Boolean)[0]
-    if (subrule)
-      rule.docsEntry = subrule.docsEntry
-  })
-
-  return [...subPackages, mainPackage]
+  return [mainPackage]
 }
 
 async function run() {
