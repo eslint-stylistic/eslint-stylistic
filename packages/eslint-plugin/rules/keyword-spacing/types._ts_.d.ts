@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: lhltjxE540 */
+/* @checksum: 6RaHSpkd0xngnBtv0uggStdq40cIo2NW9uru1q_OApM */
 
 export interface KeywordSpacingSchema0 {
   before?: boolean

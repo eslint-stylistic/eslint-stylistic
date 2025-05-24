@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 0N9lM0w0YD */
+/* @checksum: Te_mTr8YWwnjsLBOnKPVqpPjgzpfUWuueujJGnWy6EE */
 
 export type NoExtraSemiRuleOptions = []
 

@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: yyAjyYSRX7 */
+/* @checksum: 6RE7sTv7B42Zl0eNMFGAuMcfLLmbQxr5rBGZoWmrKoI */
 
 export type OneVarDeclarationPerLineSchema0 =
   | 'always'

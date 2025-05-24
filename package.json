@@ -3,7 +3,7 @@
   "type": "module",
   "version": "4.2.0",
   "private": true,
-  "packageManager": "pnpm@9.15.4",
+  "packageManager": "pnpm@10.11.0",
   "license": "MIT",
   "scripts": {
     "build": "pnpm -r run build",
@@ -97,7 +97,12 @@
   "pnpm": {
     "patchedDependencies": {
       "@typescript-eslint/visitor-keys": "patches/@typescript-eslint__visitor-keys.patch"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "esbuild",
+      "simple-git-hooks",
+      "unrs-resolver"
+    ]
   },
   "resolutions": {
     "rollup": "catalog:",

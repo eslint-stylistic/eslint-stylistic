@@ -2,50 +2,50 @@ packages:
   - docs
   - packages/*
 catalog:
-  '@antfu/eslint-config': ^4.1.1
+  '@antfu/eslint-config': ^4.13.2
   '@antfu/eslint-define-config': 1.23.0-2
-  '@antfu/ni': ^23.3.1
-  '@antfu/utils': ^8.1.0
-  '@babel/eslint-parser': ^7.26.5
-  '@babel/plugin-syntax-decorators': ^7.25.9
-  '@babel/plugin-syntax-do-expressions': ^7.25.9
-  '@babel/plugin-syntax-function-bind': ^7.25.9
-  '@babel/preset-react': ^7.26.3
-  '@iconify-json/carbon': ^1.2.6
+  '@antfu/ni': ^24.4.0
+  '@antfu/utils': ^9.2.0
+  '@babel/eslint-parser': ^7.27.1
+  '@babel/plugin-syntax-decorators': ^7.27.1
+  '@babel/plugin-syntax-do-expressions': ^7.27.1
+  '@babel/plugin-syntax-function-bind': ^7.27.1
+  '@babel/preset-react': ^7.27.1
+  '@iconify-json/carbon': ^1.2.8
   '@iconify-json/ri': ^1.2.5
   '@rollup/plugin-alias': ^5.1.1
-  '@rollup/plugin-commonjs': ^28.0.2
-  '@rollup/plugin-node-resolve': ^16.0.0
-  '@shikijs/transformers': ^2.3.2
-  '@shikijs/twoslash': ^2.3.2
-  '@shikijs/vitepress-twoslash': ^2.3.2
+  '@rollup/plugin-commonjs': ^28.0.3
+  '@rollup/plugin-node-resolve': ^16.0.1
+  '@shikijs/transformers': ^3.4.2
+  '@shikijs/twoslash': ^3.4.2
+  '@shikijs/vitepress-twoslash': ^3.4.2
   '@types/estraverse': ^5.1.7
-  '@types/estree': ^1.0.6
+  '@types/estree': ^1.0.7
   '@types/fs-extra': ^11.0.4
   '@types/hast': ^3.0.4
   '@types/js-yaml': ^4.0.9
   '@types/json-schema': ^7.0.15
   '@types/markdown-it-container': ^2.0.10
-  '@types/node': ^22.13.1
-  '@types/picomatch': ^3.0.2
-  '@types/semver': ^7.5.8
-  '@typescript-eslint/parser': ^8.23.0
-  '@typescript-eslint/utils': ^8.23.0
-  '@unocss/reset': ^65.4.3
-  '@vitest/coverage-v8': ^3.0.5
-  '@vitest/ui': ^3.0.5
-  '@vueuse/core': ^12.5.0
-  acorn: ^8.14.0
+  '@types/node': ^22.15.21
+  '@types/picomatch': ^4.0.0
+  '@types/semver': ^7.7.0
+  '@typescript-eslint/parser': ^8.32.1
+  '@typescript-eslint/utils': ^8.32.1
+  '@unocss/reset': ^66.1.2
+  '@vitest/coverage-v8': ^3.1.4
+  '@vitest/ui': ^3.1.4
+  '@vueuse/core': ^13.2.0
+  acorn: ^8.14.1
   change-case: ^5.4.4
   escape-string-regexp: ^5.0.0
-  eslint: ^9.20.0
+  eslint: ^9.27.0
   eslint-plugin-format: ^1.0.1
   eslint-visitor-keys: ^4.2.0
   eslint-vitest-rule-tester: ^2.2.0
   esno: ^4.8.0
   espree: ^10.3.0
   estraverse: ^5.3.0
-  execa: ^9.5.2
+  execa: ^9.5.3
   fast-glob: ^3.3.3
   fs-extra: ^11.3.0
   fuse.js: ^7.1.0
@@ -54,29 +54,29 @@ catalog:
   js-yaml: ^4.1.0
   json-schema: ^0.4.0
   json-schema-to-typescript-lite: ^14.1.0
-  lint-staged: ^15.4.3
+  lint-staged: ^16.0.0
   markdown-it-container: ^4.0.0
-  ohash: ^1.1.4
+  ohash: ^2.0.11
   picomatch: ^4.0.2
-  pnpm: ^9.15.5
-  prettier: ^3.4.2
+  pnpm: ^10.11.0
+  prettier: ^3.5.3
   rimraf: ^6.0.1
-  rollup: ^4.34.6
-  rollup-plugin-dts: ^6.1.1
-  rollup-plugin-esbuild: ^6.2.0
-  semver: ^7.7.1
-  shiki: ^2.3.2
-  simple-git-hooks: ^2.11.1
-  taze: ^18.4.0
-  tsx: ^4.19.2
-  twoslash: ^0.2.12
-  twoslash-eslint: ^0.2.12
-  typescript: ^5.7.3
-  unbuild: ^3.3.1
-  unocss: ^65.4.3
-  unplugin-vue-components: ^28.0.0
-  vite: ^6.1.0
+  rollup: ^4.41.0
+  rollup-plugin-dts: ^6.2.1
+  rollup-plugin-esbuild: ^6.2.1
+  semver: ^7.7.2
+  shiki: ^3.4.2
+  simple-git-hooks: ^2.13.0
+  taze: ^19.1.0
+  tsx: ^4.19.4
+  twoslash: ^0.3.1
+  twoslash-eslint: ^0.3.1
+  typescript: ^5.8.3
+  unbuild: ^3.5.0
+  unocss: ^66.1.2
+  unplugin-vue-components: ^28.5.0
+  vite: ^6.3.5
   vitepress: ^1.6.3
-  vitest: ^3.0.5
-  vue: ^3.5.13
-  vue-tsc: ^2.2.0
+  vitest: ^3.1.4
+  vue: ^3.5.14
+  vue-tsc: ^2.2.10

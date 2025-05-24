@@ -164,7 +164,7 @@ Examples of **correct** code for this rule with the `{ "ignoreStrings": true }` 
 ```js
 /*eslint max-len: ["error", { "ignoreStrings": true }]*/
 
-var longString = 'this is a really really really really really long string!';
+var longString = 'this is a really really really really really really really long string!';
 ```
 
 :::
@@ -204,7 +204,10 @@ Examples of **correct** code for this rule with the `ignorePattern` option:
 ::: correct
 
 ```js
-/*eslint max-len: ["error", { "ignorePattern": "^\\s*var\\s.+=\\s*require\\s*\\(" }]*/
+/*eslint max-len: [
+  "error",
+  { "ignorePattern": "^\\s*var\\s.+=\\s*require\\s*\\(" }
+]*/
 
 var dep = require('really/really/really/really/really/really/really/really/long/module');
 ```

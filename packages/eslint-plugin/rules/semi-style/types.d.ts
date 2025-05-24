@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 0k8Y2DBAM7 */
+/* @checksum: 74EU6Tx06A-f8QClfT5_-3p42RhL8Dxf-cFUVhUElbc */
 
 export type SemiStyleSchema0 = 'last' | 'first'
 

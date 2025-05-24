@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: V7zR3iZvBb */
+/* @checksum: U7Qr2apF2YKrIKyL3cL-WlXDPID73rUMb8TVLH8uS_k */
 
 export type TypeGenericSpacingRuleOptions = []
 

@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: uWsIUfdXrx */
+/* @checksum: W_rVrl_djl4ntkWNl0FUsijz9ZU02OqFr9gome1H2hg */
 
 export interface JsxWrapMultilinesSchema0 {
   declaration?:

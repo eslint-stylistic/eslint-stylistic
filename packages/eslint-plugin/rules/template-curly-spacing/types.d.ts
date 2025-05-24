@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: pBJajkMdYu */
+/* @checksum: RRUJ_DzsA0WcUCUPQItGMvYylBbFZjIknFBicSgIPA4 */
 
 export type TemplateCurlySpacingSchema0 = 'always' | 'never'
 

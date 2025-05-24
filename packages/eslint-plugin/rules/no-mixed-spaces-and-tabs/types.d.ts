@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: jxsRj1vZfG */
+/* @checksum: HbBKHJYPNR0rrgfsuyFu94rh-NrUjU8mJqla6DMUtkA */
 
 export type NoMixedSpacesAndTabsSchema0 =
   | 'smart-tabs'

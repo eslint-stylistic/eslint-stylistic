@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: cA782arHsO */
+/* @checksum: B7aIWfVz5q4Qoi7oJC1rQeVSonYUwCm6SsPG6p-woHg */
 
 export type JsxEqualsSpacingSchema0 = 'always' | 'never'
 

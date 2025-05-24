@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: yYolAXaS4x */
+/* @checksum: 5jBQx_NI6I5_D6cOILI7Wf1xXwfkgn-4nuQzJBKuCok */
 
 export type ObjectCurlySpacingSchema0 = 'always' | 'never'
 

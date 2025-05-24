@@ -3106,6 +3106,29 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
+        const a = import("./foo", { with: {
+          type : "json",
+          foo : "bar"
+        }})
+      `,
+      output: $`
+        const a = import("./foo", { with : {
+          type : "json",
+          foo  : "bar"
+        }})
+      `,
+      options: [{
+        beforeColon: true,
+        afterColon: true,
+        align: 'colon',
+      }],
+      errors: [
+        { messageId: 'missingKey', data: { computed: '', key: 'with' } },
+        { messageId: 'missingKey', data: { computed: '', key: 'foo' } },
+      ],
+    },
+    {
+      code: $`
         export * from "./foo" with
             {
               type : "json",

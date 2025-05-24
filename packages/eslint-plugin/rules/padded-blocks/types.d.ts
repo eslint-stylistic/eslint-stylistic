@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: yjIw8dIIpG */
+/* @checksum: veNQ1MNZZfG15sLlCxTwOZ4mBGEFJm99r7w7oSUrbwI */
 
 export type PaddedBlocksSchema0 =
   | ('always' | 'never' | 'start' | 'end')
