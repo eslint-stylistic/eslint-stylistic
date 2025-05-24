@@ -1,5 +1,12 @@
 # Changelog
 
+## [4.4.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.3.0...v4.4.0) (2025-05-24)
+
+
+### Features
+
+* deprecate sub packages and emit warnings ([#793](https://github.com/eslint-stylistic/eslint-stylistic/issues/793)) ([48503aa](https://github.com/eslint-stylistic/eslint-stylistic/commit/48503aa38a932aedbcbe9e2b0003f477c0385286))
+
 ## [4.3.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.2.0...v4.3.0) (2025-05-24)
 
 
