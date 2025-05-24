@@ -2,8 +2,10 @@
 
 Supplementary rules introduced by ESLint Stylistic.
 
-::: tip
-We recommend using [`@stylistic/eslint-plugin`](/packages/default) as it includes all available rules.
+::: warning
+We recommend using [`@stylistic/eslint-plugin`](/packages/default) as it includes the rules for both JavaScript and TypeScript.
+
+This package is deprecated and will be soon removed.
 :::
 
 ## Install

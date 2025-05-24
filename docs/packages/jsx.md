@@ -4,8 +4,10 @@ JSX stylistic rules for ESLint, migrated from [`eslint-plugin-react`](https://gi
 
 Credits to all contributors who have committed to the original rules.
 
-::: tip
-We recommend using [`@stylistic/eslint-plugin`](/packages/default) as it includes the rules for both JavaScript and TypeScript
+::: warning
+We recommend using [`@stylistic/eslint-plugin`](/packages/default) as it includes the rules for both JavaScript and TypeScript.
+
+This package is deprecated and will be soon removed.
 :::
 
 ## Install
