@@ -11,4 +11,4 @@ export {
 }
 
 // eslint-disable-next-line no-console
-console.log('[@eslint-stylistic/eslint-plugin-ts] This package is deprecated in favor of the unified @eslint-stylistic/eslint-plugin, please consider migrating to the main package')
+console.log('[@stylistic/eslint-plugin-ts] This package is deprecated in favor of the unified @stylistic/eslint-plugin, please consider migrating to the main package')
