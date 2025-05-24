@@ -2,7 +2,7 @@
 
 import type { InvalidTestCase, TestCaseError, TestCasesOptions, ValidTestCase } from '#test'
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { $, run } from '#test'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import rule from '.'
 
@@ -778,6 +778,47 @@ const map2 = Object.keys(map)
     result[key] = map[key];
     return result;
   }, {});
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        class Some {
+          range: {
+            index?: number
+            length?: number
+          } = {
+            index: 0,
+            length: 0
+          }
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        const some: {
+          index?: number
+          length?: number
+        } = {
+          index: 0,
+          length: 0
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        const some: {
+          index?: number
+          length?: number
+        } = {
+          index: 0,
+          length: 0
+        } as {
+          index?: number
+          length?: number
+        }
       `,
       options: [2],
     },
