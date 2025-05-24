@@ -12,6 +12,7 @@ import {
   canTokensBeAdjacent,
   getPrecedence,
   getStaticPropertyName,
+  getSurroundingParens,
   isClosingParenToken,
   isDecimalInteger,
   isMixedLogicalAndCoalesceExpressions,
@@ -20,7 +21,6 @@ import {
   isOpeningBraceToken,
   isOpeningBracketToken,
   isOpeningParenToken,
-  isParenthesized as isParenthesizedRaw,
   isTopLevelExpressionStatement,
   skipChainExpression,
 } from '#utils/ast'
@@ -190,7 +190,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function isParenthesised(node: ASTNode) {
-      return isParenthesizedRaw(node, sourceCode, 1)
+      return getSurroundingParens(node, sourceCode, { includeParentSyntaxParens: false }) != null
     }
 
     /**
@@ -200,7 +200,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function isParenthesisedTwice(node: ASTNode) {
-      return isParenthesizedRaw(node, sourceCode, 2)
+      return getSurroundingParens(node, sourceCode, { includeParentSyntaxParens: false, skip: 1 }) != null
     }
 
     /**
