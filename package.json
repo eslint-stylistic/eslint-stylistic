@@ -72,6 +72,7 @@
     "js-yaml": "catalog:",
     "json-schema": "catalog:",
     "json-schema-to-typescript-lite": "catalog:",
+    "jsonc-eslint-parser": "catalog:",
     "lint-staged": "catalog:",
     "ohash": "catalog:",
     "picomatch": "catalog:",
@@ -93,16 +94,6 @@
     "vitest": "catalog:",
     "vue": "catalog:",
     "vue-tsc": "catalog:"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "@typescript-eslint/visitor-keys": "patches/@typescript-eslint__visitor-keys.patch"
-    },
-    "onlyBuiltDependencies": [
-      "esbuild",
-      "simple-git-hooks",
-      "unrs-resolver"
-    ]
   },
   "resolutions": {
     "rollup": "catalog:",
