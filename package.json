@@ -93,6 +93,7 @@
     "vite": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
+    "vue-eslint-parser": "catalog:",
     "vue-tsc": "catalog:"
   },
   "resolutions": {
