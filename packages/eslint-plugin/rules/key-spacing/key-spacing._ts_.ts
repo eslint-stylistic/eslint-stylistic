@@ -336,6 +336,12 @@ export default createRule<RuleOptions, MessageIds>({
       node: Tree.ImportDeclaration | Tree.ExportNamedDeclaration | Tree.ExportAllDeclaration | Tree.TSImportType,
       sourceCode: SourceCode,
     ) {
+      if (node.type === 'TSImportType') {
+        if ('options' in node && node.options) {
+          return isSingleLine(node.options)
+        }
+        return false
+      }
       const openingBrace = sourceCode.getTokenBefore(node.attributes[0], isOpeningBraceToken)!
       const closingBrace = sourceCode.getTokenAfter(node.attributes[node.attributes.length - 1], isClosingBraceToken)!
       return (closingBrace.loc.end.line === openingBrace.loc.start.line)
