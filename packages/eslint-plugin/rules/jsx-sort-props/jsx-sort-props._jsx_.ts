@@ -15,8 +15,9 @@ interface JsxCompareOptions {
   shorthandLast: boolean
   multiline: 'first' | 'ignore' | 'last'
   noSortAlphabetically: boolean
-  reservedFirst: boolean | unknown[]
-  reservedList: unknown[]
+  reservedFirst: boolean | string[]
+  reservedList: string[]
+  reservedLast: string[]
   locale: string
 }
 
@@ -29,9 +30,9 @@ function isMultilineProp(node: ASTNode) {
 }
 
 const messages = {
-  noUnreservedProps: 'A customized reserved first list must only contain a subset of React reserved props. Remove: {{unreservedWords}}',
   listIsEmpty: 'A customized reserved first list must not be empty',
   listReservedPropsFirst: 'Reserved props must be listed before all other props',
+  listReservedPropsLast: 'Reserved props must be listed after all other props',
   listCallbacksLast: 'Callbacks must be listed after all other props',
   listShorthandFirst: 'Shorthand props must be listed before all other props',
   listShorthandLast: 'Shorthand props must be listed after all other props',
@@ -47,8 +48,8 @@ const RESERVED_PROPS_LIST = [
   'ref',
 ]
 
-function isReservedPropName(name: unknown, list: unknown[]) {
-  return list.includes(name)
+function getReservedPropIndex(name: string, list: string[]) {
+  return list.indexOf(name.split(':')[0])
 }
 
 let attributeMap: WeakMap<Tree.JSXAttribute, { end: number, hasComment: boolean }>
@@ -62,6 +63,8 @@ function shouldSortToEnd(node: Tree.JSXAttribute) {
 function contextCompare(a: Tree.JSXAttribute, b: Tree.JSXAttribute, options: JsxCompareOptions) {
   let aProp = getPropName(a)
   let bProp = getPropName(b)
+  const aPropNamespace = aProp.split(':')[0]
+  const bPropNamespace = bProp.split(':')[0]
 
   const aSortToEnd = shouldSortToEnd(a)
   const bSortToEnd = shouldSortToEnd(b)
@@ -72,13 +75,29 @@ function contextCompare(a: Tree.JSXAttribute, b: Tree.JSXAttribute, options: Jsx
     return -1
 
   if (options.reservedFirst) {
-    const aIsReserved = isReservedPropName(aProp, options.reservedList)
-    const bIsReserved = isReservedPropName(bProp, options.reservedList)
-    if (aIsReserved && !bIsReserved)
+    const aIndex = getReservedPropIndex(aProp, options.reservedList)
+    const bIndex = getReservedPropIndex(bProp, options.reservedList)
+    if (aIndex > -1 && bIndex === -1)
       return -1
 
-    if (!aIsReserved && bIsReserved)
+    if (aIndex === -1 && bIndex > -1)
       return 1
+
+    if (aIndex > -1 && bIndex > -1 && aPropNamespace !== bPropNamespace)
+      return aIndex > bIndex ? 1 : -1
+  }
+
+  if (options.reservedLast.length > 0) {
+    const aLastIndex = getReservedPropIndex(aProp, options.reservedLast)
+    const bLastIndex = getReservedPropIndex(bProp, options.reservedLast)
+    if (aLastIndex > -1 && bLastIndex === -1)
+      return 1
+
+    if (aLastIndex === -1 && bLastIndex > -1)
+      return -1
+
+    if (aLastIndex > -1 && bLastIndex > -1 && aPropNamespace !== bPropNamespace)
+      return aLastIndex > bLastIndex ? -1 : 1
   }
 
   if (options.callbacksLast) {
@@ -214,7 +233,7 @@ function getGroupsOfSortableAttributes(attributes: (Tree.JSXAttribute | Tree.JSX
   return sortableAttributeGroups
 }
 
-function generateFixerFunction(node: Tree.JSXOpeningElement, context: Readonly<RuleContext<MessageIds, RuleOptions>>, reservedList: unknown[]) {
+function generateFixerFunction(node: Tree.JSXOpeningElement, context: Readonly<RuleContext<MessageIds, RuleOptions>>, reservedList: string[]) {
   const sourceCode = context.sourceCode
   const attributes = node.attributes.slice(0)
   const configuration = context.options[0] || {}
@@ -225,6 +244,7 @@ function generateFixerFunction(node: Tree.JSXOpeningElement, context: Readonly<R
   const multiline = configuration.multiline || 'ignore'
   const noSortAlphabetically = configuration.noSortAlphabetically || false
   const reservedFirst = configuration.reservedFirst || false
+  const reservedLast = configuration.reservedLast || []
   const locale = configuration.locale || 'auto'
 
   // Sort props according to the context. Only supports ignoreCase.
@@ -239,6 +259,7 @@ function generateFixerFunction(node: Tree.JSXOpeningElement, context: Readonly<R
     noSortAlphabetically,
     reservedFirst,
     reservedList,
+    reservedLast,
     locale,
   }
   const sortableAttributeGroups = getGroupsOfSortableAttributes(attributes, context)
@@ -286,28 +307,11 @@ function generateFixerFunction(node: Tree.JSXOpeningElement, context: Readonly<R
 function validateReservedFirstConfig(context: Readonly<RuleContext<MessageIds, RuleOptions>>, reservedFirst: unknown[] | boolean) {
   if (reservedFirst) {
     if (Array.isArray(reservedFirst)) {
-      // Only allow a subset of reserved words in customized lists
-      const nonReservedWords = reservedFirst.filter(word => !isReservedPropName(
-        word,
-        RESERVED_PROPS_LIST,
-      ))
-
       if (reservedFirst.length === 0) {
         return function Report(decl: ASTNode | Tree.Token) {
           context.report({
             node: decl,
             messageId: 'listIsEmpty',
-          })
-        }
-      }
-      if (nonReservedWords.length > 0) {
-        return function Report(decl: ASTNode | Tree.Token) {
-          context.report({
-            node: decl,
-            messageId: 'noUnreservedProps',
-            data: {
-              unreservedWords: nonReservedWords.toString(),
-            },
           })
         }
       }
@@ -326,7 +330,7 @@ const reportedNodeAttributes = new WeakMap()
  * @param context The context of the rule
  * @param reservedList The list of reserved props
  */
-function reportNodeAttribute(nodeAttribute: Tree.JSXAttribute | Tree.JSXSpreadAttribute, errorType: MessageIds, node: Tree.JSXOpeningElement, context: Readonly<RuleContext<MessageIds, RuleOptions>>, reservedList: unknown[]) {
+function reportNodeAttribute(nodeAttribute: Tree.JSXAttribute | Tree.JSXSpreadAttribute, errorType: MessageIds, node: Tree.JSXOpeningElement, context: Readonly<RuleContext<MessageIds, RuleOptions>>, reservedList: string[]) {
   const errors = reportedNodeAttributes.get(nodeAttribute) || []
 
   if (errors.includes(errorType))
@@ -388,6 +392,9 @@ export default createRule<RuleOptions, MessageIds>({
         reservedFirst: {
           type: ['array', 'boolean'],
         },
+        reservedLast: {
+          type: 'array',
+        },
         locale: {
           type: 'string',
           default: 'auto',
@@ -408,6 +415,7 @@ export default createRule<RuleOptions, MessageIds>({
     const reservedFirst = configuration.reservedFirst || false
     const reservedFirstError = validateReservedFirstConfig(context, reservedFirst)
     const reservedList = Array.isArray(reservedFirst) ? reservedFirst : RESERVED_PROPS_LIST
+    const reservedLastList = configuration.reservedLast || []
     const locale = configuration.locale || 'auto'
 
     return {
@@ -425,6 +433,8 @@ export default createRule<RuleOptions, MessageIds>({
 
           let previousPropName = getPropName(memo)
           let currentPropName = getPropName(decl)
+          const previousReservedNamespace = previousPropName.split(':')[0]
+          const currentReservedNamespace = currentPropName.split(':')[0]
           const previousValue = (<Tree.JSXAttribute>memo).value
           const currentValue = decl.value
           const previousIsCallback = isCallbackPropName(previousPropName)
@@ -441,16 +451,51 @@ export default createRule<RuleOptions, MessageIds>({
               return memo
             }
 
-            const previousIsReserved = isReservedPropName(previousPropName, nodeReservedList)
-            const currentIsReserved = isReservedPropName(currentPropName, nodeReservedList)
+            const previousReservedIndex = getReservedPropIndex(previousPropName, nodeReservedList)
+            const currentReservedIndex = getReservedPropIndex(currentPropName, nodeReservedList)
 
-            if (previousIsReserved && !currentIsReserved)
+            if (previousReservedIndex > -1 && currentReservedIndex === -1)
               return decl
 
-            if (!previousIsReserved && currentIsReserved) {
+            if (
+              reservedFirst !== true && previousReservedIndex > currentReservedIndex
+              || previousReservedIndex === -1 && currentReservedIndex > -1
+            ) {
               reportNodeAttribute(decl, 'listReservedPropsFirst', node, context, nodeReservedList)
 
               return memo
+            }
+
+            if (
+              previousReservedIndex > -1
+              && currentReservedIndex > -1
+              && currentReservedIndex > previousReservedIndex
+              && previousReservedNamespace !== currentReservedNamespace
+            ) {
+              return decl
+            }
+          }
+
+          if (reservedLastList.length > 0) {
+            const previousReservedIndex = getReservedPropIndex(previousPropName, reservedLastList)
+            const currentReservedIndex = getReservedPropIndex(currentPropName, reservedLastList)
+
+            if (previousReservedIndex === -1 && currentReservedIndex > -1)
+              return decl
+
+            if (previousReservedIndex < currentReservedIndex || previousReservedIndex > -1 && currentReservedIndex === -1) {
+              reportNodeAttribute(decl, 'listReservedPropsLast', node, context, nodeReservedList)
+
+              return memo
+            }
+
+            if (
+              previousReservedIndex > -1
+              && currentReservedIndex > -1
+              && currentReservedIndex > previousReservedIndex
+              && previousReservedNamespace !== currentReservedNamespace
+            ) {
+              return decl
             }
           }
 
