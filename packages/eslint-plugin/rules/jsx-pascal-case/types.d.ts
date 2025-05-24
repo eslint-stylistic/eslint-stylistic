@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: StrxMOY3zm */
+/* @checksum: mKBTo5YATVWkrE-tj8TGjrj-8YVNLoHWenR7FDFU440 */
 
 export interface JsxPascalCaseSchema0 {
   allowAllCaps?: boolean

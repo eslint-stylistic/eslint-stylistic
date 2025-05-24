@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: frgFR6WHar */
+/* @checksum: 9-og7wevREqpE2djWnS3iTi1w8IXRsAqrojNvFfOVwA */
 
 export type SpaceBeforeBlocksSchema0 =
   | ('always' | 'never')

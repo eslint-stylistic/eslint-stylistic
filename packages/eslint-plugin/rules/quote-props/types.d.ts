@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: AifIMgbCOa */
+/* @checksum: _ZLcvo6X5vkWvnpwUR5rmsnxkBY3balwUPXKNdCPaqs */
 
 export type QuotePropsSchema0 =
   | []

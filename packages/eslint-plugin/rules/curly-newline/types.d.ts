@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: lTm9TwfObZ */
+/* @checksum: i3b0aknGcTQnhtgKT82gyVRFtbup5yRve-SEl0i8WA8 */
 
 export type CurlyNewlineSchema0 =
   | ('always' | 'never')

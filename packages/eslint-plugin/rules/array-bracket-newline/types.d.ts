@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: uqhENsnElJ */
+/* @checksum: WKQe0orC7z285Xaajj2oQmnoj_l63UyKP_jh9x_fBfs */
 
 export type ArrayBracketNewlineSchema0 =
   | ('always' | 'never' | 'consistent')

@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 8ZdSi52D0M */
+/* @checksum: RKAqDKRVp0pyFLxfhNvczVPyKf9CGsnhKIRTJ9bSOMQ */
 
 export type JsxFunctionCallNewlineSchema0 =
   | 'always'

@@ -377,8 +377,7 @@ run<RuleOptions, MessageIds>({
         column: 6,
         endLine: 1,
         endColumn: 7,
-      },
-      ],
+      }],
     },
     {
       code: 'do {} while (true) ;',

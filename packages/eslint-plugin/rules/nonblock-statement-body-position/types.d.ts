@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 8d4o7nbOzv */
+/* @checksum: _aMiV-YzSkA-iKB2xG9qWH4O_8ARbTNl3CEDUP79nEs */
 
 export type NonblockStatementBodyPositionSchema0 =
   | 'beside'

@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: DrPNTis4KE */
+/* @checksum: LwbUY_5LjYZJrnJIUEgRedxcNisS9OhY7h3DTPGtRtc */
 
 export type FunctionParenNewlineSchema0 =
   | (

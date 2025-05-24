@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: ihThufpOcY */
+/* @checksum: -JLonaHr69Q7HNRoq1pL5bnrWnsGRymOTM-AEuqK-zU */
 
 export type SpaceInParensSchema0 = 'always' | 'never'
 

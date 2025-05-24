@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: PK3sqWq6MM */
+/* @checksum: H52HrYMKnkZa-H0_Ga5TXF8p0l7A3PP0Ajlrml0MnGU */
 
 export interface JsxSortPropsSchema0 {
   callbacksLast?: boolean
