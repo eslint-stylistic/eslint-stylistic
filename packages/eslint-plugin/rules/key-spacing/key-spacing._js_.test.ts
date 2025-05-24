@@ -3,10 +3,11 @@
  * @author Brandon Mills
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'key-spacing',
   rule,
   valid: [
@@ -3100,6 +3101,29 @@ run({
         align: 'colon',
       }],
       errors: [
+        { messageId: 'missingKey', data: { computed: '', key: 'foo' } },
+      ],
+    },
+    {
+      code: $`
+        const a = import("./foo", { with: {
+          type : "json",
+          foo : "bar"
+        }})
+      `,
+      output: $`
+        const a = import("./foo", { with : {
+          type : "json",
+          foo  : "bar"
+        }})
+      `,
+      options: [{
+        beforeColon: true,
+        afterColon: true,
+        align: 'colon',
+      }],
+      errors: [
+        { messageId: 'missingKey', data: { computed: '', key: 'with' } },
         { messageId: 'missingKey', data: { computed: '', key: 'foo' } },
       ],
     },

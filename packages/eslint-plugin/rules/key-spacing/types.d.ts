@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: Vl4RUSFlaP */
+/* @checksum: bSSf6jYV0ntXulhcL_6Q295ahoFlBGYiVPnzz7AkFXc */
 
 export type KeySpacingSchema0 =
   | {

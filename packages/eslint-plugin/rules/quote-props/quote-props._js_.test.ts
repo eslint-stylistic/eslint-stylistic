@@ -3,10 +3,11 @@
  * @author Mathias Bynens <http://mathiasbynens.be/>
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'quote-props',
   rule,
   lang: 'js',
@@ -394,8 +395,7 @@ run({
     errors: [{
       messageId: 'unquotedPropertyFound',
       data: { property: '1' },
-    },
-    ],
+    }],
   }, {
     code: '({ 1n: 1 })',
     output: '({ "1": 1 })',

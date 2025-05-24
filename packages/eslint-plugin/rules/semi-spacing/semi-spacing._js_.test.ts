@@ -3,10 +3,11 @@
  * @author Mathias Schreck
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'semi-spacing',
   rule,
   valid: [
@@ -376,8 +377,7 @@ run({
         column: 6,
         endLine: 1,
         endColumn: 7,
-      },
-      ],
+      }],
     },
     {
       code: 'do {} while (true) ;',

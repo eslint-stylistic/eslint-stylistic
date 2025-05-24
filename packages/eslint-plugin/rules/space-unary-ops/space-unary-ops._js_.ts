@@ -270,10 +270,11 @@ export default createRule<RuleOptions, MessageIds>({
      * Verifies UnaryExpression, UpdateExpression and NewExpression satisfy spacing requirements
      * @param node AST node
      */
-    function checkForSpaces(node:
-      | Tree.UnaryExpression
-      | Tree.UpdateExpression
-      | Tree.NewExpression,
+    function checkForSpaces(
+      node:
+        | Tree.UnaryExpression
+        | Tree.UpdateExpression
+        | Tree.NewExpression,
     ) {
       const tokens = node.type === 'UpdateExpression' && !node.prefix
         ? sourceCode.getLastTokens(node, 2)

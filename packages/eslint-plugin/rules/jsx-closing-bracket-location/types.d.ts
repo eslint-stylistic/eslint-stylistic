@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 66hMuodTQn */
+/* @checksum: ITC1HpoWPK43-Lw-CE-jrCz6h13gHVcmdnxIuxa6QeU */
 
 export type JsxClosingBracketLocationSchema0 =
   | (

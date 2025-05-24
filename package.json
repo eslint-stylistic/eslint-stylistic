@@ -3,7 +3,7 @@
   "type": "module",
   "version": "4.2.0",
   "private": true,
-  "packageManager": "pnpm@9.15.4",
+  "packageManager": "pnpm@10.11.0",
   "license": "MIT",
   "scripts": {
     "build": "pnpm -r run build",
@@ -72,6 +72,7 @@
     "js-yaml": "catalog:",
     "json-schema": "catalog:",
     "json-schema-to-typescript-lite": "catalog:",
+    "jsonc-eslint-parser": "catalog:",
     "lint-staged": "catalog:",
     "ohash": "catalog:",
     "picomatch": "catalog:",
@@ -92,12 +93,8 @@
     "vite": "catalog:",
     "vitest": "catalog:",
     "vue": "catalog:",
+    "vue-eslint-parser": "catalog:",
     "vue-tsc": "catalog:"
-  },
-  "pnpm": {
-    "patchedDependencies": {
-      "@typescript-eslint/visitor-keys": "patches/@typescript-eslint__visitor-keys.patch"
-    }
   },
   "resolutions": {
     "rollup": "catalog:",

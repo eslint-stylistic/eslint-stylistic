@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: EZIe3UPcAt */
+/* @checksum: IN76zDI_5Eflxch3xBGRZfYmFJwkTo_ePaM60Ya5ERM */
 
 export type JsxChildElementSpacingRuleOptions = []
 

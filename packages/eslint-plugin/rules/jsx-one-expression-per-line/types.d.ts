@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: sEDqiitpat */
+/* @checksum: gcOxnlYiGJg4sb2_pFJMAmEWbEpFL5mcFc-zfymlet8 */
 
 export interface JsxOneExpressionPerLineSchema0 {
   allow?:

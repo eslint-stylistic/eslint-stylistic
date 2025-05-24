@@ -3,10 +3,11 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'jsx-quotes',
   rule,
   parserOptions: {

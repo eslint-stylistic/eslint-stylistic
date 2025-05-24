@@ -1,7 +1,8 @@
+import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from './type-named-tuple-spacing._plus_'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'type-named-tuple-spacing',
   rule,
   valid: [

@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: nOU8UGw880 */
+/* @checksum: Kz_Mu_8GLtgwE6ZVqrwQZnwlqOZRD4NAWufYw9AJBDk */
 
 export type SpaceBeforeFunctionParenSchema0 =
   | ('always' | 'never')

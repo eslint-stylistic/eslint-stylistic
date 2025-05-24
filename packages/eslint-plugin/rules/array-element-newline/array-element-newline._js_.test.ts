@@ -3,10 +3,11 @@
  * @author Jan Peer Stöcklmair <https://github.com/JPeer264>
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from '.'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'array-element-newline',
   rule,
 

@@ -660,16 +660,19 @@ Examples of **correct** code for the `ignorePattern` option:
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error"]*/
+/*eslint @stylistic/js/lines-around-comment: ["error"]*/
 
 foo();
-/* eslint mentioned in this comment */
+/* mentioned in this comment */
 bar();
+```
 
+```js
 /*eslint lines-around-comment: ["error", { "ignorePattern": "pragma" }] */
 
 foo();
 /* a valid comment using pragma in it */
+bar();
 ```
 
 :::
@@ -712,7 +715,7 @@ Examples of **incorrect** code for the `{ "applyDefaultIgnorePatterns": false }`
 /*eslint lines-around-comment: ["error", { "applyDefaultIgnorePatterns": false }] */
 
 foo();
-/* eslint mentioned in comment */
+/* mentioned in comment */
 
 ```
 

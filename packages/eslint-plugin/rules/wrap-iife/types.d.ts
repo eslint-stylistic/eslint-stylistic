@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: ojiYA3LzNb */
+/* @checksum: Ec8oGhWpV0YOm4BlrLIQjLs9XUur2gJeX8j4Xt86TgA */
 
 export type WrapIifeSchema0 = 'outside' | 'inside' | 'any'
 

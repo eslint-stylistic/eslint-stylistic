@@ -3,6 +3,9 @@
  * @author 薛定谔的猫<hh_2013@foxmail.com>
  */
 
+// MERGED: The JS version of this rule is merged to the TS version, this file will be removed
+// in the next major when we remove the `@stylistic/eslint-plugin-js` package.
+
 import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types._js_'
 import { isSemicolonToken, isTokenOnSameLine } from '#utils/ast'

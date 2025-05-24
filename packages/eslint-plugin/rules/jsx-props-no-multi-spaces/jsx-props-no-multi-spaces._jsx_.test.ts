@@ -3,11 +3,12 @@
  * @author Adrian Moennich
  */
 
+import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-props-no-multi-spaces._jsx_'
 
-run({
+run<RuleOptions, MessageIds>({
   name: 'jsx-props-no-multi-spaces',
   rule,
   parserOptions: {
@@ -16,7 +17,7 @@ run({
     },
   },
 
-  valid: valids(
+  valid: valids<RuleOptions>(
     {
       code: `
         <App />
@@ -136,7 +137,7 @@ run({
     },
   ),
 
-  invalid: invalids(
+  invalid: invalids<RuleOptions, MessageIds>(
     {
       code: `
         <App  foo />

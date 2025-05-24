@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: dpKjh9VDsc */
+/* @checksum: AKQtfWxdY7gvpdU0PyMcX1vT36R3UbWHr_wa7Bygdz0 */
 
 export type PaddingType = 'any' | 'never' | 'always'
 export type StatementType =

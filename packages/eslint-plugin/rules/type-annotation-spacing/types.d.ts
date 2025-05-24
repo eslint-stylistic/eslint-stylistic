@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: LcEkMg91dp */
+/* @checksum: W8VBfH12khrfK-jOBx6A0SeVBtrZCmFqtYGaG3ZKP0E */
 
 export interface TypeAnnotationSpacingSchema0 {
   before?: boolean

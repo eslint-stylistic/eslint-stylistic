@@ -6,7 +6,7 @@
 
 import type { ASTNode, JSONSchema, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine, STATEMENT_LIST_PARENTS } from '#utils/ast'
+import { createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
@@ -1244,8 +1244,14 @@ export default createRule<RuleOptions, MessageIds>({
           if (options.offsetTernaryExpressions) {
             if (firstConsequentToken.type === 'Punctuator')
               offset = 2
-            if (options.offsetTernaryExpressionsOffsetCallExpressions && node.consequent.type === 'CallExpression')
+
+            const consequentType = skipChainExpression(node.consequent).type
+            if (
+              options.offsetTernaryExpressionsOffsetCallExpressions
+              && (consequentType === 'CallExpression' || consequentType === 'AwaitExpression')
+            ) {
               offset = 2
+            }
           }
 
           offsets.setDesiredOffset(
@@ -1272,8 +1278,14 @@ export default createRule<RuleOptions, MessageIds>({
             if (options.offsetTernaryExpressions) {
               if (firstAlternateToken.type === 'Punctuator')
                 offset = 2
-              if (options.offsetTernaryExpressionsOffsetCallExpressions && node.alternate.type === 'CallExpression')
+
+              const alternateType = skipChainExpression(node.alternate).type
+              if (
+                options.offsetTernaryExpressionsOffsetCallExpressions
+                && (alternateType === 'CallExpression' || alternateType === 'AwaitExpression')
+              ) {
                 offset = 2
+              }
             }
             /**
              * If the alternate and consequent do not share part of a line, offset the alternate from the first
