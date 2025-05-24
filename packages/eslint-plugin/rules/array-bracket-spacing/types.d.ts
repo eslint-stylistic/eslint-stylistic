@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: gjMOeO3oK8 */
+/* @checksum: rBInn72Rodz8Vglilb-cVBqmpHRFM8I2l8X2Uq-hbEA */
 
 export type ArrayBracketSpacingSchema0 = 'always' | 'never'
 

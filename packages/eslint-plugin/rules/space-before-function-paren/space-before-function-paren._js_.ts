@@ -95,8 +95,7 @@ export default createRule<RuleOptions, MessageIds>({
     function getConfigForFunction(node:
       | Tree.ArrowFunctionExpression
       | Tree.FunctionDeclaration
-      | Tree.FunctionExpression,
-    ) {
+      | Tree.FunctionExpression) {
       if (node.type === 'ArrowFunctionExpression') {
         // Always ignore non-async functions and arrow functions without parens, e.g. async foo => bar
         if (node.async && isOpeningParenToken(sourceCode.getFirstToken(node, { skip: 1 })!))
@@ -121,8 +120,7 @@ export default createRule<RuleOptions, MessageIds>({
     function checkFunction(node:
       | Tree.ArrowFunctionExpression
       | Tree.FunctionDeclaration
-      | Tree.FunctionExpression,
-    ) {
+      | Tree.FunctionExpression) {
       const functionConfig = getConfigForFunction(node)
 
       if (functionConfig === 'ignore')

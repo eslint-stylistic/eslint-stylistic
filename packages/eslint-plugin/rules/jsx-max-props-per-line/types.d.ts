@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 1KuzEQeBsM */
+/* @checksum: KOe_wU0r0lsPla5JCuUUOQFmBSnDNOIm5DXIMsRs3g4 */
 
 export type JsxMaxPropsPerLineSchema0 =
   | {

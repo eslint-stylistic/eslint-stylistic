@@ -395,8 +395,7 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'unquotedPropertyFound',
       data: { property: '1' },
-    },
-    ],
+    }],
   }, {
     code: '({ 1n: 1 })',
     output: '({ "1": 1 })',

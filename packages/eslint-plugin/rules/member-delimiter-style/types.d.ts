@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: FFB8NA1lQD */
+/* @checksum: 5paylpW46ErYHxINMGLIUmLyuu702qsArRo4yIDM0Rs */
 
 export type MultiLineOption = 'none' | 'semi' | 'comma'
 export type SingleLineOption = 'semi' | 'comma'

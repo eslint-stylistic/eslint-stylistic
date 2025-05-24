@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: XGeChLxr8P */
+/* @checksum: ljofdOuHuEhA0dW5Fg2dfdaqPq0pwLcMkpmO2QLzva4 */
 
 export type JsxFirstPropNewLineSchema0 =
   | 'always'

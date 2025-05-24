@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: et8w0QYMFF */
+/* @checksum: gRBQGHvb-vEfYATGubl5fD8jvdXHVeljybcQGfj9id0 */
 
 export interface JsxSelfClosingCompSchema0 {
   component?: boolean

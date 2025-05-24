@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: BH2rziLNWE */
+/* @checksum: 6p0DVBA1jyP_DivtKE5cJHDUrlqPRmfL1c7UrlwUA24 */
 
 export type GeneratorStarSpacingSchema0 =
   | ('before' | 'after' | 'both' | 'neither')

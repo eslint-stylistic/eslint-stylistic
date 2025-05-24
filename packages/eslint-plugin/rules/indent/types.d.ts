@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: B8DyPsI0dM */
+/* @checksum: D7D9ke3d40qr6hi89XWsahsr6YW8HCiN2-GNt5pD-lA */
 
 export type IndentSchema0 = 'tab' | number
 

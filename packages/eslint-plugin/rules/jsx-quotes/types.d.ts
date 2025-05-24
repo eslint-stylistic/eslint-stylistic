@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 14LTg00vip */
+/* @checksum: lHQNTMU61bXc8u2ReMXFB88NYXU5ljypltUX5FPTPMo */
 
 export type JsxQuotesSchema0 =
   | 'prefer-single'
