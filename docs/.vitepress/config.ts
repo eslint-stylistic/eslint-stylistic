@@ -2,15 +2,11 @@
 import type { ESLint, Linter } from 'eslint'
 import type { DefaultTheme } from 'vitepress'
 import fs from 'node:fs/promises'
-import { basename, dirname, join } from 'node:path'
+import { join } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { transformerRenderWhitespace } from '@shikijs/transformers'
 import { transformerTwoslash } from '@shikijs/vitepress-twoslash'
 import stylistic from '@stylistic/eslint-plugin'
-import stylisticJs from '@stylistic/eslint-plugin-js'
-import stylisticJsx from '@stylistic/eslint-plugin-jsx'
-import stylisticPlus from '@stylistic/eslint-plugin-plus'
-import stylisticTs from '@stylistic/eslint-plugin-ts'
 import * as parserTs from '@typescript-eslint/parser'
 import MarkdownItContainer from 'markdown-it-container'
 import { createTwoslasher } from 'twoslash-eslint'
@@ -18,10 +14,7 @@ import { defineConfig } from 'vitepress'
 import { packages } from '../../packages/metadata/src'
 import vite from './vite.config'
 
-const mainPackages = packages.filter(p => p.rules.length)
-const defaultPackage = packages.find(p => p.shortId === 'default')!
-const jsPackage = packages.find(p => p.shortId === 'js')!
-const tsPackage = packages.find(p => p.shortId === 'ts')!
+const mainPackages = packages[0]
 const projectRoot = fileURLToPath(new URL('../..', import.meta.url))
 const version = JSON.parse(await fs.readFile(join(projectRoot, 'package.json'), 'utf-8')).version
 
@@ -29,6 +22,7 @@ const GUIDES: DefaultTheme.NavItemWithLink[] = [
   { text: 'Getting Started', link: '/guide/getting-started' },
   { text: 'Why', link: '/guide/why' },
   { text: 'Shared Configs', link: '/guide/config-presets' },
+  { text: 'Rules', link: '/rules' },
   { text: 'Migration', link: '/guide/migration' },
   { text: 'FAQ', link: '/guide/faq' },
 ]
@@ -38,98 +32,21 @@ const CONTRIBUTES: DefaultTheme.NavItemWithLink[] = [
   { text: 'Contributing', link: '/contribute/guide' },
 ]
 
-const PACKAGES: DefaultTheme.NavItemWithLink[] = [
-  { text: 'Default', link: '/packages/default' },
-  { text: 'JavaScript', link: '/packages/js' },
-  { text: 'TypeScript', link: '/packages/ts' },
-  { text: 'JSX', link: '/packages/jsx' },
-  { text: 'Additional', link: '/packages/plus' },
-]
-
 const VERSIONS: DefaultTheme.NavItemWithLink[] = [
   { text: `v${version} (current)`, link: '/' },
   { text: `Release Notes`, link: 'https://github.com/eslint-stylistic/eslint-stylistic/releases' },
   { text: `Contributing`, link: '/contribute/guide' },
 ]
 
-const packageNames: Record<string, string> = {
-  default: 'All Rules',
-  js: 'JavaScript Rules',
-  ts: 'TypeScript Rules',
-  jsx: 'JSX Rules',
-  extra: 'Additional Rules',
-}
-
-// Because VitePress does not support rewrite single source to multiple targets,
-// we have to duplicate the markdown files for the aliases.
-await Promise.all(
-  defaultPackage.rules.map(async (rule) => {
-    const newPath = join(
-      dirname(rule.docsEntry),
-      `${basename(rule.docsEntry, '.md').replace(/\._\w+_$/, '')}._merged_.md`,
-    )
-    const jsEntry = jsPackage.rules.find(r => r.name === rule.name)
-    const tsEntry = tsPackage.rules.find(r => r.name === rule.name)
-    if (tsEntry && jsEntry) {
-      const tsContent = (await fs.readFile(
-        join(projectRoot, tsEntry.docsEntry),
-        'utf-8',
-      ))
-        // Remove frontmatter
-        .replace(/^---[\s\S]*?\n---\n/, '')
-        .trim()
-        .split(/\r?\n/g)
-        // Remove lines redirecting to the JS rule, as we already have them above
-        .filter(l => !l.startsWith('This rule extends the base') && !l.startsWith('It adds support for '))
-        // Adding one level of heading
-        .map(i => i.startsWith('#') ? `#${i}` : i)
-        .join('\n')
-        .trim()
-      if (tsContent) {
-        const jsContent = await fs.readFile(
-          join(projectRoot, jsEntry.docsEntry),
-          'utf-8',
-        )
-        const content = [
-          jsContent,
-          '',
-          '## TypeScript Specific',
-          '',
-          tsContent,
-        ]
-        await fs.writeFile(
-          join(projectRoot, newPath),
-          content.join('\n'),
-        )
-      }
-      else {
-        await fs.copyFile(
-          join(projectRoot, jsEntry.docsEntry),
-          join(projectRoot, newPath),
-        )
-      }
-    }
-    else {
-      // console.log('No JS or TS entry found for', rule.name)
-      await fs.copyFile(
-        join(projectRoot, rule.docsEntry),
-        join(projectRoot, newPath),
-      )
-    }
-    rule.docsEntry = newPath
-  }),
-)
-
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
   title: 'ESLint Stylistic',
   description: 'Stylistic & Formatting Rules for ESLint',
   rewrites: {
-    // rewrite rules to /rules/js/:name
     ...Object.fromEntries(
       packages
         .flatMap(pkg => pkg.rules
-          .map(r => [r.docsEntry, `rules/${pkg.shortId}/${r.name}.md`])),
+          .map(r => [r.docsEntry, `rules/${r.name}.md`])),
     ),
     // rewrite docs markdown because we set the `srcDir` to the root of the monorepo
     'docs/:name(.+).md': ':name.md',
@@ -185,10 +102,6 @@ export default defineConfig({
               files: ['**'],
               plugins: {
                 '@stylistic': stylistic as ESLint.Plugin,
-                '@stylistic/js': stylisticJs as ESLint.Plugin,
-                '@stylistic/jsx': stylisticJsx as ESLint.Plugin,
-                '@stylistic/ts': stylisticTs as ESLint.Plugin,
-                '@stylistic/plus': stylisticPlus as ESLint.Plugin,
               },
               languageOptions: {
                 parser: parserTs as Linter.Parser,
@@ -222,10 +135,6 @@ export default defineConfig({
         ],
       },
       {
-        text: 'Packages',
-        items: PACKAGES,
-      },
-      {
         text: 'Rules',
         link: '/rules',
       },
@@ -236,24 +145,12 @@ export default defineConfig({
     ],
 
     sidebar: Object.assign(
-      {},
-      ...mainPackages.map((pkg) => {
-        return {
-          [`/rules/${pkg.shortId}/`]: [
-            {
-              text: 'Packages',
-              items: PACKAGES,
-            },
-            {
-              text: packageNames[pkg.shortId] || pkg.name,
-              items: pkg.rules.map((rule): DefaultTheme.SidebarItem => ({
-                text: rule.name,
-                link: `/rules/${pkg.shortId}/${rule.name}`,
-              })),
-            },
-          ],
-        }
-      }),
+      {
+        '/rules/': mainPackages.rules.map((rule): DefaultTheme.SidebarItem => ({
+          text: rule.name,
+          link: `/rules/${rule.name}`,
+        })),
+      },
       {
         '/': [
           {
@@ -263,10 +160,6 @@ export default defineConfig({
           {
             text: 'Contribute',
             items: CONTRIBUTES,
-          },
-          {
-            text: 'Packages',
-            items: PACKAGES,
           },
         ],
       },
