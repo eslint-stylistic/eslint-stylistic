@@ -375,6 +375,80 @@ export default createRule<RuleOptions, MessageIds>({
         checkSpacingBefore(fromToken, PREV_TOKEN_M)
         checkSpacingAfter(fromToken, NEXT_TOKEN_M)
       }
+
+      checkSpacingForTypeKeywordInImportExport(node)
+    }
+
+    /**
+     * Report the `type` keyword in `import type`, `export type`, and `export type *` declaration nodes
+     * if there is invalid use of spaces around the `type` keyword.
+     * @param node A node to report.
+     */
+    function checkSpacingForTypeKeywordInImportExport(
+      node:
+        | Tree.ExportNamedDeclaration
+        | Tree.ExportDefaultDeclaration
+        | Tree.ExportAllDeclaration
+        | Tree.ImportDeclaration,
+    ) {
+      let kind: undefined | string
+
+      switch (node.type) {
+        case AST_NODE_TYPES.ImportDeclaration: {
+          if (node.specifiers?.[0]?.type === AST_NODE_TYPES.ImportDefaultSpecifier) {
+            return
+          }
+          kind = node.importKind
+          break
+        }
+
+        // case AST_NODE_TYPES.ExportDefaultDeclaration:
+        case AST_NODE_TYPES.ExportAllDeclaration:
+        case AST_NODE_TYPES.ExportNamedDeclaration: {
+          kind = node.exportKind
+          break
+        }
+      }
+
+      if (kind !== 'type') {
+        return
+      }
+
+      const { type: typeOptionOverride = {} } = overrides ?? {}
+      const typeToken = sourceCode.getFirstToken(node, { skip: 1 })!
+      const punctuatorToken = sourceCode.getTokenAfter(typeToken)!
+      const spacesBetweenTypeAndPunctuator = punctuatorToken.range[0] - typeToken.range[1]
+
+      if (
+        (typeOptionOverride.after ?? after) === true
+        && spacesBetweenTypeAndPunctuator === 0
+      ) {
+        context.report({
+          loc: typeToken.loc,
+          messageId: 'expectedAfter',
+          data: { value: 'type' },
+          fix(fixer) {
+            return fixer.insertTextAfter(typeToken, ' ')
+          },
+        })
+      }
+
+      if (
+        (typeOptionOverride.after ?? after) === false
+        && spacesBetweenTypeAndPunctuator > 0
+      ) {
+        context.report({
+          loc: typeToken.loc,
+          messageId: 'unexpectedAfter',
+          data: { value: 'type' },
+          fix(fixer) {
+            return fixer.removeRange([
+              typeToken.range[1],
+              typeToken.range[1] + spacesBetweenTypeAndPunctuator,
+            ])
+          },
+        })
+      }
     }
 
     /**
@@ -487,51 +561,7 @@ export default createRule<RuleOptions, MessageIds>({
       ExportDefaultDeclaration: checkSpacingForModuleDeclaration,
       ExportAllDeclaration: checkSpacingForModuleDeclaration,
       FunctionDeclaration: checkSpacingForFunction,
-      ImportDeclaration(node) {
-        checkSpacingForModuleDeclaration(node)
-
-        if (node.importKind === 'type') {
-          const { type: typeOptionOverride = {} } = overrides ?? {}
-          const typeToken = sourceCode.getFirstToken(node, { skip: 1 })!
-          const punctuatorToken = sourceCode.getTokenAfter(typeToken)!
-          if (
-            node.specifiers?.[0]?.type === AST_NODE_TYPES.ImportDefaultSpecifier
-          )
-            return
-
-          const spacesBetweenTypeAndPunctuator
-            = punctuatorToken.range[0] - typeToken.range[1]
-          if (
-            (typeOptionOverride.after ?? after) === true
-            && spacesBetweenTypeAndPunctuator === 0
-          ) {
-            context.report({
-              loc: typeToken.loc,
-              messageId: 'expectedAfter',
-              data: { value: 'type' },
-              fix(fixer) {
-                return fixer.insertTextAfter(typeToken, ' ')
-              },
-            })
-          }
-          if (
-            (typeOptionOverride.after ?? after) === false
-            && spacesBetweenTypeAndPunctuator > 0
-          ) {
-            context.report({
-              loc: typeToken.loc,
-              messageId: 'unexpectedAfter',
-              data: { value: 'type' },
-              fix(fixer) {
-                return fixer.removeRange([
-                  typeToken.range[1],
-                  typeToken.range[1] + spacesBetweenTypeAndPunctuator,
-                ])
-              },
-            })
-          }
-        }
-      },
+      ImportDeclaration: checkSpacingForModuleDeclaration,
       VariableDeclaration: checkSpacingAroundFirstToken,
 
       // Expressions
