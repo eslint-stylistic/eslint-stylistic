@@ -2004,5 +2004,26 @@ class Foo {
         },
       ],
     },
+    {
+      code: `
+  type Foo = number;
+type Bar = string;
+      `,
+      output: `
+type Foo = number;
+type Bar = string;
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '0 spaces',
+            actual: 2,
+          },
+          line: 2,
+          column: 1,
+        },
+      ],
+    },
   ],
 })
