@@ -2008,11 +2008,20 @@ class Foo {
       code: `
   type Foo = number;
 type Bar = string;
+namespace T {
+type Baz = string;
+  type Asdf = number;
+}
       `,
       output: `
 type Foo = number;
 type Bar = string;
+namespace T {
+  type Baz = string;
+  type Asdf = number;
+}
       `,
+      options: [2],
       errors: [
         {
           messageId: 'wrongIndentation',
@@ -2021,6 +2030,15 @@ type Bar = string;
             actual: 2,
           },
           line: 2,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '2 spaces',
+            actual: 0,
+          },
+          line: 5,
           column: 1,
         },
       ],
