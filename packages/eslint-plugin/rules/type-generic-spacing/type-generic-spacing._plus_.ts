@@ -33,7 +33,10 @@ export default createRule<RuleOptions, MessageIds>({
       // raise error only if there is no newline
       if (/\s/.test(textBetween) && !/^[\r\n]/.test(textBetween)) {
         context.report({
-          node: left,
+          loc: {
+            start: left.loc.end,
+            end: right.loc.start,
+          },
           messageId: 'genericSpacingMismatch',
           * fix(fixer) {
             yield fixer.replaceTextRange([left.range[1], right.range[0]], '')
