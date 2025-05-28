@@ -2005,21 +2005,21 @@ class Foo {
       ],
     },
     {
-      code: `
-  type Foo = number;
-type Bar = string;
-namespace T {
-type Baz = string;
-  type Asdf = number;
-}
+      code: $`
+          type Foo = number;
+        type Bar = string;
+        namespace T {
+        type Baz = string;
+          type Asdf = number;
+        }
       `,
-      output: `
-type Foo = number;
-type Bar = string;
-namespace T {
-  type Baz = string;
-  type Asdf = number;
-}
+      output: $`
+        type Foo = number;
+        type Bar = string;
+        namespace T {
+          type Baz = string;
+          type Asdf = number;
+        }
       `,
       options: [2],
       errors: [
