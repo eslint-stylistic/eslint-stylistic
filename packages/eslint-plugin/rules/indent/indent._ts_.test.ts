@@ -2008,6 +2008,8 @@ class Foo {
       code: $`
           type Foo = number;
         type Bar = string;
+        type Baz =
+            string;
         namespace T {
         type Baz = string;
           type Asdf = number;
@@ -2016,6 +2018,8 @@ class Foo {
       output: $`
         type Foo = number;
         type Bar = string;
+        type Baz =
+          string;
         namespace T {
           type Baz = string;
           type Asdf = number;
@@ -2029,7 +2033,16 @@ class Foo {
             expected: '0 spaces',
             actual: 2,
           },
-          line: 2,
+          line: 1,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '2 spaces',
+            actual: 4,
+          },
+          line: 4,
           column: 1,
         },
         {
@@ -2038,7 +2051,7 @@ class Foo {
             expected: '2 spaces',
             actual: 0,
           },
-          line: 5,
+          line: 6,
           column: 1,
         },
       ],
