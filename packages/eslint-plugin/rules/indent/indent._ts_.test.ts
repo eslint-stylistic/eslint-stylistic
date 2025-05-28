@@ -822,6 +822,13 @@ const map2 = Object.keys(map)
       `,
       options: [2],
     },
+    {
+      code: $`
+        type Foo =
+          string
+      `,
+      options: [2],
+    },
   ],
   invalid: [
     ...individualNodeTests.invalid!,
