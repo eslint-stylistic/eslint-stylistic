@@ -369,6 +369,14 @@ run<RuleOptions, MessageIds>({
       options: [BOTH],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
+    {
+      code: 'import type{}from"foo";',
+      options: [NEITHER],
+    },
+    {
+      code: 'export type{}from"foo";',
+      options: [NEITHER],
+    },
   ],
   invalid: [
     // ----------------------------------------------------------------------
@@ -548,6 +556,26 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
         { messageId: 'unexpectedAfter', data: { value: 'type' } },
+        { messageId: 'unexpectedAfter', data: { value: 'from' } },
+      ],
+    },
+    {
+      code: 'import type {} from "foo";',
+      output: 'import type{}from"foo";',
+      options: [NEITHER],
+      errors: [
+        { messageId: 'unexpectedAfter', data: { value: 'type' } },
+        { messageId: 'unexpectedBefore', data: { value: 'from' } },
+        { messageId: 'unexpectedAfter', data: { value: 'from' } },
+      ],
+    },
+    {
+      code: 'export type {} from "foo";',
+      output: 'export type{}from"foo";',
+      options: [NEITHER],
+      errors: [
+        { messageId: 'unexpectedAfter', data: { value: 'type' } },
+        { messageId: 'unexpectedBefore', data: { value: 'from' } },
         { messageId: 'unexpectedAfter', data: { value: 'from' } },
       ],
     },
