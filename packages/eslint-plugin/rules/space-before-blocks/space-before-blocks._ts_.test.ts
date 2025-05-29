@@ -81,6 +81,61 @@ run<RuleOptions, MessageIds>({
       `,
       options: [{ classes: 'off' }],
     },
+    {
+      code: $`
+        namespace Test{
+          type foo = number;
+        }
+        declare module 'foo'{
+          type foo = number;
+        }
+      `,
+      options: ['never'],
+    },
+    {
+      code: $`
+        namespace Test {
+          type foo = number;
+        }
+        declare module 'foo' {
+          type foo = number;
+        }
+      `,
+      options: ['always'],
+    },
+    {
+      code: $`
+        namespace Test{
+          type foo = number;
+        }
+        declare module 'foo'{
+          type foo = number;
+        }
+      `,
+      options: [{ classes: 'never' }],
+    },
+    {
+      code: $`
+        namespace Test {
+          type foo = number;
+        }
+        declare module 'foo' {
+          type foo = number;
+        }
+      `,
+      options: [{ classes: 'always' }],
+    },
+    {
+      code: $`
+        namespace Test{
+          type foo = number;
+        }
+        declare module 'foo'{
+          type foo = number;
+        }
+      `,
+      options: [{ classes: 'off' }],
+    },
   ],
   invalid: [
     {
@@ -234,6 +289,114 @@ run<RuleOptions, MessageIds>({
         },
       ],
       options: [{ classes: 'never' }],
+    },
+    {
+      code: $`
+        namespace Test {
+          type foo = number;
+        }
+        declare module 'foo' {
+          type foo = number;
+        }
+      `,
+      output: $`
+        namespace Test{
+          type foo = number;
+        }
+        declare module 'foo'{
+          type foo = number;
+        }
+      `,
+      errors: [
+        {
+          messageId: 'unexpectedSpace',
+        },
+        {
+          messageId: 'unexpectedSpace',
+        },
+      ],
+      options: ['never'],
+    },
+    {
+      code: $`
+        namespace Test{
+          type foo = number;
+        }
+        declare module 'foo'{
+          type foo = number;
+        }
+      `,
+      output: $`
+        namespace Test {
+          type foo = number;
+        }
+        declare module 'foo' {
+          type foo = number;
+        }
+      `,
+      errors: [
+        {
+          messageId: 'missingSpace',
+        },
+        {
+          messageId: 'missingSpace',
+        },
+      ],
+      options: ['always'],
+    },
+    {
+      code: $`
+        namespace Test {
+          type foo = number;
+        }
+        declare module 'foo' {
+          type foo = number;
+        }
+      `,
+      output: $`
+        namespace Test{
+          type foo = number;
+        }
+        declare module 'foo'{
+          type foo = number;
+        }
+      `,
+      errors: [
+        {
+          messageId: 'unexpectedSpace',
+        },
+        {
+          messageId: 'unexpectedSpace',
+        },
+      ],
+      options: [{ classes: 'never' }],
+    },
+    {
+      code: $`
+        namespace Test{
+          type foo = number;
+        }
+        declare module 'foo'{
+          type foo = number;
+        }
+      `,
+      output: $`
+        namespace Test {
+          type foo = number;
+        }
+        declare module 'foo' {
+          type foo = number;
+        }
+      `,
+      errors: [
+        {
+          messageId: 'missingSpace',
+        },
+        {
+          messageId: 'missingSpace',
+        },
+      ],
+      options: [{ classes: 'always' }],
     },
   ],
 })
