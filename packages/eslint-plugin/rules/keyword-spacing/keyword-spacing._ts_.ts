@@ -376,7 +376,9 @@ export default createRule<RuleOptions, MessageIds>({
         checkSpacingAfter(fromToken, NEXT_TOKEN_M)
       }
 
-      checkSpacingForTypeKeywordInImportExport(node)
+      // ExportDefaultDeclaration never have a `type` keyword
+      if (node.type !== 'ExportDefaultDeclaration')
+        checkSpacingForTypeKeywordInImportExport(node)
     }
 
     /**
@@ -387,7 +389,6 @@ export default createRule<RuleOptions, MessageIds>({
     function checkSpacingForTypeKeywordInImportExport(
       node:
         | Tree.ExportNamedDeclaration
-        | Tree.ExportDefaultDeclaration
         | Tree.ExportAllDeclaration
         | Tree.ImportDeclaration,
     ) {
@@ -402,7 +403,6 @@ export default createRule<RuleOptions, MessageIds>({
           break
         }
 
-        // case AST_NODE_TYPES.ExportDefaultDeclaration:
         case AST_NODE_TYPES.ExportAllDeclaration:
         case AST_NODE_TYPES.ExportNamedDeclaration: {
           kind = node.exportKind
