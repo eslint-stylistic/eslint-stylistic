@@ -5,6 +5,7 @@ import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '#util
 import { createRule } from '#utils/create-rule'
 import { KEYWORDS_JS } from '#utils/keywords'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import { isTypeKeyword } from '@typescript-eslint/utils/ast-utils'
 
 const PREV_TOKEN = /^[)\]}>]$/u
 const NEXT_TOKEN = /^(?:[([{<~!]|\+\+?|--?)$/u
@@ -57,8 +58,7 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   defaultOptions: [{}],
-  create(context, [options]) {
-    const { after, overrides } = options ?? {}
+  create(context) {
     const sourceCode = context.sourceCode
 
     const tokensToIgnore = new WeakSet()
@@ -396,9 +396,6 @@ export default createRule<RuleOptions, MessageIds>({
 
       switch (node.type) {
         case AST_NODE_TYPES.ImportDeclaration: {
-          if (node.specifiers?.[0]?.type === AST_NODE_TYPES.ImportDefaultSpecifier) {
-            return
-          }
           kind = node.importKind
           break
         }
@@ -410,45 +407,16 @@ export default createRule<RuleOptions, MessageIds>({
         }
       }
 
-      if (kind !== 'type') {
+      if (kind !== 'type')
         return
-      }
 
-      const { type: typeOptionOverride = {} } = overrides ?? {}
       const typeToken = sourceCode.getFirstToken(node, { skip: 1 })!
-      const punctuatorToken = sourceCode.getTokenAfter(typeToken)!
-      const spacesBetweenTypeAndPunctuator = punctuatorToken.range[0] - typeToken.range[1]
 
-      if (
-        (typeOptionOverride.after ?? after) === true
-        && spacesBetweenTypeAndPunctuator === 0
-      ) {
-        context.report({
-          loc: typeToken.loc,
-          messageId: 'expectedAfter',
-          data: { value: 'type' },
-          fix(fixer) {
-            return fixer.insertTextAfter(typeToken, ' ')
-          },
-        })
-      }
+      if (!isTypeKeyword(typeToken))
+        return
 
-      if (
-        (typeOptionOverride.after ?? after) === false
-        && spacesBetweenTypeAndPunctuator > 0
-      ) {
-        context.report({
-          loc: typeToken.loc,
-          messageId: 'unexpectedAfter',
-          data: { value: 'type' },
-          fix(fixer) {
-            return fixer.removeRange([
-              typeToken.range[1],
-              typeToken.range[1] + spacesBetweenTypeAndPunctuator,
-            ])
-          },
-        })
-      }
+      checkSpacingBefore(typeToken, PREV_TOKEN_M)
+      checkSpacingAfter(typeToken, NEXT_TOKEN_M)
     }
 
     /**
