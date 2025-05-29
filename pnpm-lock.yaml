@@ -232,11 +232,6 @@ overrides:
   vue: ^3.5.14
   vue-tsc: ^2.2.10
 
-patchedDependencies:
-  '@typescript-eslint/visitor-keys':
-    hash: 006779e0dede53f951ab2f2bf5403e76a4b307ded6c216eb68cefa3753935e11
-    path: patches/@typescript-eslint__visitor-keys.patch
-
 importers:
 
   .:
@@ -5507,7 +5502,7 @@ snapshots:
       '@typescript-eslint/scope-manager': 8.32.1
       '@typescript-eslint/type-utils': 8.32.1(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)
       '@typescript-eslint/utils': 8.32.1(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)
-      '@typescript-eslint/visitor-keys': 8.32.1(patch_hash=006779e0dede53f951ab2f2bf5403e76a4b307ded6c216eb68cefa3753935e11)
+      '@typescript-eslint/visitor-keys': 8.32.1
       eslint: 9.27.0(jiti@2.4.2)
       graphemer: 1.4.0
       ignore: 7.0.4
@@ -5522,7 +5517,7 @@ snapshots:
       '@typescript-eslint/scope-manager': 8.32.1
       '@typescript-eslint/types': 8.32.1
       '@typescript-eslint/typescript-estree': 8.32.1(typescript@5.8.3)
-      '@typescript-eslint/visitor-keys': 8.32.1(patch_hash=006779e0dede53f951ab2f2bf5403e76a4b307ded6c216eb68cefa3753935e11)
+      '@typescript-eslint/visitor-keys': 8.32.1
       debug: 4.4.0
       eslint: 9.27.0(jiti@2.4.2)
       typescript: 5.8.3
@@ -5532,7 +5527,7 @@ snapshots:
   '@typescript-eslint/scope-manager@8.32.1':
     dependencies:
       '@typescript-eslint/types': 8.32.1
-      '@typescript-eslint/visitor-keys': 8.32.1(patch_hash=006779e0dede53f951ab2f2bf5403e76a4b307ded6c216eb68cefa3753935e11)
+      '@typescript-eslint/visitor-keys': 8.32.1
 
   '@typescript-eslint/type-utils@8.32.1(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)':
     dependencies:
@@ -5550,7 +5545,7 @@ snapshots:
   '@typescript-eslint/typescript-estree@8.32.1(typescript@5.8.3)':
     dependencies:
       '@typescript-eslint/types': 8.32.1
-      '@typescript-eslint/visitor-keys': 8.32.1(patch_hash=006779e0dede53f951ab2f2bf5403e76a4b307ded6c216eb68cefa3753935e11)
+      '@typescript-eslint/visitor-keys': 8.32.1
       debug: 4.4.0
       fast-glob: 3.3.3
       is-glob: 4.0.3
@@ -5572,7 +5567,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/visitor-keys@8.32.1(patch_hash=006779e0dede53f951ab2f2bf5403e76a4b307ded6c216eb68cefa3753935e11)':
+  '@typescript-eslint/visitor-keys@8.32.1':
     dependencies:
       '@typescript-eslint/types': 8.32.1
       eslint-visitor-keys: 4.2.0

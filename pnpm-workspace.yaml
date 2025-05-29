@@ -1,8 +1,6 @@
 packages:
   - docs
   - packages/*
-patchedDependencies:
-  '@typescript-eslint/visitor-keys': patches/@typescript-eslint__visitor-keys.patch
 catalog:
   '@antfu/eslint-config': ^4.13.2
   '@antfu/eslint-define-config': 1.23.0-2

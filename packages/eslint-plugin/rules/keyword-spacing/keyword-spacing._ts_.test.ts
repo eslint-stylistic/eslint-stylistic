@@ -272,6 +272,111 @@ run<RuleOptions, MessageIds>({
       options: [BOTH],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
+    {
+      code: 'export type { foo } from "foo";',
+      options: [BOTH],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
+    {
+      code: 'export type * as Foo from \'foo\'',
+      options: [BOTH],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
+    {
+      code: 'export type { SavedQueries } from "./SavedQueries.js";',
+      options: [
+        {
+          before: true,
+          after: false,
+          overrides: {
+            else: { after: true },
+            return: { after: true },
+            try: { after: true },
+            catch: { after: false },
+            case: { after: true },
+            const: { after: true },
+            throw: { after: true },
+            let: { after: true },
+            do: { after: true },
+            of: { after: true },
+            as: { after: true },
+            finally: { after: true },
+            from: { after: true },
+            import: { after: true },
+            export: { after: true },
+            default: { after: true },
+            // The new option:
+            type: { after: true },
+          },
+        },
+      ],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
+    {
+      // Space after export is not configurable from option since it's invalid syntax with export type
+      code: 'export type { SavedQueries } from "./SavedQueries.js";',
+      options: [
+        {
+          before: true,
+          after: true,
+          overrides: {
+            export: { after: false },
+          },
+        },
+      ],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
+    {
+      code: 'export type{SavedQueries} from \'./SavedQueries.js\';',
+      options: [
+        {
+          before: true,
+          after: false,
+          overrides: {
+            from: { after: true },
+          },
+        },
+      ],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
+    {
+      code: 'export type{SavedQueries} from\'./SavedQueries.js\';',
+      options: [
+        {
+          before: true,
+          after: false,
+        },
+      ],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
+    {
+      code: 'export type {} from "foo";',
+      options: [BOTH],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
+    {
+      code: 'export type { foo1, foo2 } from "foo";',
+      options: [BOTH],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
+    {
+      code: 'export type { foo1 as _foo1, foo2 as _foo2 } from "foo";',
+      options: [BOTH],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
+    {
+      code: 'export type { foo as bar } from "foo";',
+      options: [BOTH],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
+    {
+      code: 'import type{}from"foo";',
+      options: [NEITHER],
+    },
+    {
+      code: 'export type{}from"foo";',
+      options: [NEITHER],
+    },
   ],
   invalid: [
     // ----------------------------------------------------------------------
@@ -393,6 +498,84 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
       errors: [
         { messageId: 'unexpectedAfter', data: { value: 'type' } },
+        { messageId: 'unexpectedAfter', data: { value: 'from' } },
+      ],
+    },
+    {
+      code: 'export type{ foo } from "foo";',
+      output: 'export type { foo } from "foo";',
+      options: [{ after: true, before: true }],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+      errors: expectedAfter('type'),
+    },
+    {
+      code: 'export type { foo } from"foo";',
+      output: 'export type{ foo } from"foo";',
+      options: [{ after: false, before: true }],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+      errors: unexpectedAfter('type'),
+    },
+    {
+      code: 'export type* as foo from "foo";',
+      output: 'export type * as foo from "foo";',
+      options: [{ after: true, before: true }],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+      errors: expectedAfter('type'),
+    },
+    {
+      code: 'export type * as foo from"foo";',
+      output: 'export type* as foo from"foo";',
+      options: [{ after: false, before: true }],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+      errors: unexpectedAfter('type'),
+    },
+    {
+      code: 'export type {SavedQueries} from \'./SavedQueries.js\';',
+      output: 'export type{SavedQueries} from \'./SavedQueries.js\';',
+      options: [
+        {
+          before: true,
+          after: false,
+          overrides: {
+            from: { after: true },
+          },
+        },
+      ],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+      errors: unexpectedAfter('type'),
+    },
+    {
+      code: 'export type {SavedQueries} from \'./SavedQueries.js\';',
+      output: 'export type{SavedQueries} from\'./SavedQueries.js\';',
+      options: [
+        {
+          before: true,
+          after: false,
+        },
+      ],
+      parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+      errors: [
+        { messageId: 'unexpectedAfter', data: { value: 'type' } },
+        { messageId: 'unexpectedAfter', data: { value: 'from' } },
+      ],
+    },
+    {
+      code: 'import type {} from "foo";',
+      output: 'import type{}from"foo";',
+      options: [NEITHER],
+      errors: [
+        { messageId: 'unexpectedAfter', data: { value: 'type' } },
+        { messageId: 'unexpectedBefore', data: { value: 'from' } },
+        { messageId: 'unexpectedAfter', data: { value: 'from' } },
+      ],
+    },
+    {
+      code: 'export type {} from "foo";',
+      output: 'export type{}from"foo";',
+      options: [NEITHER],
+      errors: [
+        { messageId: 'unexpectedAfter', data: { value: 'type' } },
+        { messageId: 'unexpectedBefore', data: { value: 'from' } },
         { messageId: 'unexpectedAfter', data: { value: 'from' } },
       ],
     },
