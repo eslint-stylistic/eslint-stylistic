@@ -2130,6 +2130,17 @@ export default createRule<RuleOptions, MessageIds>({
         )
       },
 
+      TSImportEqualsDeclaration(node) {
+        const indent = DEFAULT_VARIABLE_INDENT
+        const firstToken = sourceCode.getFirstToken(node)!
+        const lastToken = sourceCode.getLastToken(node)!
+
+        offsets.setDesiredOffsets(node.range, firstToken, indent)
+
+        if (isSemicolonToken(lastToken))
+          offsets.ignoreToken(lastToken)
+      },
+
       '*': function (node: ASTNode) {
         const firstToken = sourceCode.getFirstToken(node)
 
@@ -2287,60 +2298,6 @@ export default createRule<RuleOptions, MessageIds>({
           // Otherwise, report the token/comment.
           report(firstTokenOfLine, offsets.getDesiredIndent(firstTokenOfLine)!)
         }
-      },
-
-      TSImportEqualsDeclaration(node) {
-        // transform it to an VariableDeclaration
-        // use VariableDeclaration instead of ImportDeclaration because it's essentially the same thing
-        const { id, moduleReference } = node
-
-        return rules.VariableDeclaration({
-          type: AST_NODE_TYPES.VariableDeclaration,
-          kind: 'const' as const,
-          declarations: [
-            {
-              type: AST_NODE_TYPES.VariableDeclarator,
-              range: [id.range[0], moduleReference.range[1]],
-              loc: {
-                start: id.loc.start,
-                end: moduleReference.loc.end,
-              },
-              id,
-              init: {
-                type: AST_NODE_TYPES.CallExpression,
-                callee: {
-                  type: AST_NODE_TYPES.Identifier,
-                  name: 'require',
-                  range: [
-                    moduleReference.range[0],
-                    moduleReference.range[0] + 'require'.length,
-                  ],
-                  loc: {
-                    start: moduleReference.loc.start,
-                    end: {
-                      line: moduleReference.loc.end.line,
-                      column: moduleReference.loc.start.line + 'require'.length,
-                    },
-                  },
-                },
-                arguments:
-                  'expression' in moduleReference
-                    ? [moduleReference.expression]
-                    : [],
-
-                // location data
-                range: moduleReference.range,
-                loc: moduleReference.loc,
-              },
-            } as Tree.VariableDeclarator,
-          ],
-          declare: false,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
       },
 
       TSIndexedAccessType(node) {
