@@ -4,21 +4,12 @@
  */
 
 import type { ASTNode, RuleContext, RuleFixer, Tree } from '#types'
-import type { MessageIds, RuleOptions } from './types'
+import type { JsxSortPropsRuleOptions, MessageIds, RuleOptions } from './types'
 import { getPropName, isDOMComponent } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
 
-interface JsxCompareOptions {
-  ignoreCase: boolean
-  callbacksLast: boolean
-  shorthandFirst: boolean
-  shorthandLast: boolean
-  multiline: 'first' | 'ignore' | 'last'
-  noSortAlphabetically: boolean
-  reservedFirst: boolean | string[]
+type JsxCompareOptions = Required<JsxSortPropsRuleOptions[0]> & {
   reservedList: string[]
-  reservedLast: string[]
-  locale: string
 }
 
 function isCallbackPropName(name: string) {
@@ -390,10 +381,23 @@ export default createRule<RuleOptions, MessageIds>({
           type: 'boolean',
         },
         reservedFirst: {
-          type: ['array', 'boolean'],
+          oneOf: [
+            {
+              type: 'array',
+              items: {
+                type: 'string',
+              },
+            },
+            {
+              type: 'boolean',
+            },
+          ],
         },
         reservedLast: {
           type: 'array',
+          items: {
+            type: 'string',
+          },
         },
         locale: {
           type: 'string',
