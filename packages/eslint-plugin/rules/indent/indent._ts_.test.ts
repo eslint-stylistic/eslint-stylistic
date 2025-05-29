@@ -1391,6 +1391,36 @@ import Dialogs = require("widgets/Dialogs");
     },
     {
       code: `
+    import Dialogs =
+      require("widgets/Dialogs");
+      `,
+      output: `
+import Dialogs =
+    require("widgets/Dialogs");
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '0 spaces',
+            actual: 4,
+          },
+          line: 2,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 6,
+          },
+          line: 3,
+          column: 1,
+        },
+      ],
+    },
+    {
+      code: `
 class Foo {
 public bar : string;
 private bar : string;
