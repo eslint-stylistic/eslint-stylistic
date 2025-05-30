@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { $, run } from '#test'
 import rule from '.'
 
 run<RuleOptions, MessageIds>({
@@ -137,6 +137,43 @@ run<RuleOptions, MessageIds>({
       code: 'class C { foo\n=\n0 }',
       options: ['none', { overrides: { '=': 'ignore' } }],
       parserOptions: { ecmaVersion: 2022 },
+    },
+
+    {
+      code: $`
+        import F1
+          = A;
+        import F2
+          = A.B.C;
+        import F3
+          = require('mod');
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        import F1 =
+          A;
+        import F2 =
+          A.B.C;
+        import F3 =
+          require('mod');
+      `,
+      options: ['after'],
+    },
+    {
+      code: $`
+        type A
+          = string;
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        type A =
+          string;
+      `,
+      options: ['after'],
     },
   ],
 
@@ -896,6 +933,121 @@ run<RuleOptions, MessageIds>({
         endLine: 2,
         endColumn: 3,
       }],
+    },
+
+    {
+      code: $`
+        import F1 =
+          A;
+        import F2 =
+          A.B.C;
+        import F3 =
+          require('mod');
+      `,
+      output: $`
+        import F1
+          = A;
+        import F2
+          = A.B.C;
+        import F3
+          = require('mod');
+      `,
+      options: ['before'],
+      errors: [
+        { messageId: 'operatorAtBeginning' },
+        { messageId: 'operatorAtBeginning' },
+        { messageId: 'operatorAtBeginning' },
+      ],
+    },
+    {
+      code: $`
+        import F1
+          = A;
+        import F2
+          = A.B.C;
+        import F3
+          = require('mod');
+      `,
+      output: $`
+        import F1 =
+          A;
+        import F2 =
+          A.B.C;
+        import F3 =
+          require('mod');
+      `,
+      options: ['after'],
+      errors: [
+        { messageId: 'operatorAtEnd' },
+        { messageId: 'operatorAtEnd' },
+        { messageId: 'operatorAtEnd' },
+      ],
+    },
+    {
+      code: $`
+        import F1
+          = A;
+        import F2 =
+          A.B.C;
+        import F3
+          = require('mod');
+      `,
+      output: $`
+        import F1  = A;
+        import F2 =  A.B.C;
+        import F3  = require('mod');
+      `,
+      options: ['none'],
+      errors: [
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+      ],
+    },
+    {
+      code: $`
+        type A =
+          string;
+      `,
+      output: $`
+        type A
+          = string;
+      `,
+      options: ['before'],
+      errors: [
+        { messageId: 'operatorAtBeginning' },
+      ],
+    },
+    {
+      code: $`
+        type A
+          = string;
+      `,
+      output: $`
+        type A =
+          string;
+      `,
+      errors: [
+        { messageId: 'operatorAtEnd' },
+      ],
+      options: ['after'],
+    },
+    {
+      code: $`
+        type A
+          = string;
+        type A =
+          string;
+      `,
+      output: $`
+        type A  = string;
+        type A =  string;
+      `,
+      errors: [
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+      ],
+      options: ['none'],
     },
   ],
 })

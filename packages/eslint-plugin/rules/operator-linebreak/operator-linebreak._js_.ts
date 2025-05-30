@@ -225,6 +225,12 @@ export default createRule<RuleOptions, MessageIds>({
         validateNode(node, node.consequent, '?')
         validateNode(node, node.alternate, ':')
       },
+      TSImportEqualsDeclaration(node) {
+        validateNode(node, node.moduleReference, '=')
+      },
+      TSTypeAliasDeclaration(node) {
+        validateNode(node, node.typeAnnotation, '=')
+      },
     }
   },
 })
