@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 02PuRdri2Ah8xof0a4EId59lV1EylMlbcVYrm6YhlZA */
+/* @checksum: j7pVQgD85Yqx8oy0sXo6_X-XNfZnasNl3T3r4svCCaM */
 
 export interface KeywordSpacingSchema0 {
   before?: boolean
@@ -255,6 +255,10 @@ export interface KeywordSpacingSchema0 {
       after?: boolean
     }
     typeof?: {
+      before?: boolean
+      after?: boolean
+    }
+    using?: {
       before?: boolean
       after?: boolean
     }

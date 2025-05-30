@@ -329,12 +329,22 @@ const StatementTypes = {
   'multiline-const': newMultilineKeywordTester('const'),
   'multiline-export': newMultilineKeywordTester('export'),
   'multiline-let': newMultilineKeywordTester('let'),
+  'multiline-using': {
+    test: node => node.loc.start.line !== node.loc.end.line
+      && node.type === 'VariableDeclaration'
+      && (node.kind === 'using' || node.kind === 'await using'),
+  },
   'multiline-var': newMultilineKeywordTester('var'),
   'singleline-const': newSinglelineKeywordTester('const'),
   'singleline-export': newSinglelineKeywordTester('export'),
   'singleline-let': newSinglelineKeywordTester('let'),
-  'singleline-var': newSinglelineKeywordTester('var'),
+  'singleline-using': {
+    test: node => node.loc.start.line === node.loc.end.line
+      && node.type === 'VariableDeclaration'
+      && (node.kind === 'using' || node.kind === 'await using'),
+  },
 
+  'singleline-var': newSinglelineKeywordTester('var'),
   'block': newNodeTypeTester('BlockStatement'),
   'empty': newNodeTypeTester('EmptyStatement'),
   'function': newNodeTypeTester('FunctionDeclaration'),
@@ -356,6 +366,10 @@ const StatementTypes = {
   'switch': newKeywordTester('switch'),
   'throw': newKeywordTester('throw'),
   'try': newKeywordTester('try'),
+  'using': {
+    test: node => node.type === 'VariableDeclaration'
+      && (node.kind === 'using' || node.kind === 'await using'),
+  },
   'var': newKeywordTester('var'),
   'while': newKeywordTester('while'),
   'with': newKeywordTester('with'),

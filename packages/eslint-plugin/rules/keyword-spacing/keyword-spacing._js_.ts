@@ -19,7 +19,7 @@ const NEXT_TOKEN_M = /^[{*]$/u
 const TEMPLATE_OPEN_PAREN = /\$\{$/u
 const TEMPLATE_CLOSE_PAREN = /^\}/u
 const CHECK_TYPE = /^(?:JSXElement|RegularExpression|String|Template|PrivateIdentifier)$/u
-const KEYS = KEYWORDS_JS.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'yield']);
+const KEYS = KEYWORDS_JS.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'using', 'yield']);
 
 // check duplications.
 (function () {
@@ -305,8 +305,27 @@ export default createRule<RuleOptions, MessageIds>({
     function checkSpacingBeforeFirstToken(node: ASTNode | null) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
-      if (firstToken && firstToken.type === 'Keyword')
-        checkSpacingBefore(firstToken)
+      if (!firstToken)
+        return
+
+      if (firstToken.type !== 'Keyword') {
+        // If the first token is not a keyword,
+        // the node is checked to see if it needs to be validated.
+        if (node.type === 'VariableDeclaration') {
+          if (
+            node.kind !== 'using'
+            && node.kind !== 'await using'
+            || firstToken.type !== 'Identifier'
+          ) {
+            return
+          }
+        }
+        else {
+          return
+        }
+      }
+
+      checkSpacingBefore(firstToken)
     }
 
     /**
