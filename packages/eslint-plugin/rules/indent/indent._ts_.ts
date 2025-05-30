@@ -1830,6 +1830,14 @@ export default createRule<RuleOptions, MessageIds>({
         )
       },
 
+      TSTypeAliasDeclaration(node) {
+        const equalOperator = sourceCode.getTokenBefore(node.typeAnnotation, isNotOpeningParenToken)!
+        const tokenAfterOperator = sourceCode.getTokenAfter(equalOperator)!
+
+        offsets.setDesiredOffset(equalOperator, sourceCode.getLastToken(node.id), 1)
+        offsets.setDesiredOffsets([tokenAfterOperator.range[0], node.range[1]], equalOperator, 1)
+      },
+
       '*': function (node: ASTNode) {
         const firstToken = sourceCode.getFirstToken(node)
 
