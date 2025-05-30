@@ -19,23 +19,23 @@ const OPTION_VALUE_SCHEME = [
   'only-multiline',
 ]
 
-type TargetASTNode =
-  | Tree.ArrayExpression
-  | Tree.ArrayPattern
-  | Tree.ObjectExpression
-  | Tree.ObjectPattern
-  | Tree.ImportDeclaration
-  | Tree.ExportNamedDeclaration
-  | Tree.FunctionDeclaration
-  | Tree.FunctionExpression
-  | Tree.ArrowFunctionExpression
-  | Tree.CallExpression
-  | Tree.NewExpression
-  | Tree.ImportExpression
-  | Tree.ExportAllDeclaration
-  | Tree.TSEnumDeclaration
-  | Tree.TSTypeParameterDeclaration
-  | Tree.TSTupleType
+type TargetASTNode
+  = | Tree.ArrayExpression
+    | Tree.ArrayPattern
+    | Tree.ObjectExpression
+    | Tree.ObjectPattern
+    | Tree.ImportDeclaration
+    | Tree.ExportNamedDeclaration
+    | Tree.FunctionDeclaration
+    | Tree.FunctionExpression
+    | Tree.ArrowFunctionExpression
+    | Tree.CallExpression
+    | Tree.NewExpression
+    | Tree.ImportExpression
+    | Tree.ExportAllDeclaration
+    | Tree.TSEnumDeclaration
+    | Tree.TSTypeParameterDeclaration
+    | Tree.TSTupleType
 
 type ItemASTNode = NonNullable<
   | Tree.ObjectLiteralElement

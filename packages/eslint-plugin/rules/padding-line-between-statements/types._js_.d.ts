@@ -3,8 +3,8 @@
 /* @checksum: l-ueNG5V_YDW2SyXNdLmp_ZAJ9GVlUtXPaaSpUcLdEA */
 
 export type PaddingType = 'any' | 'never' | 'always'
-export type StatementType =
-  | (
+export type StatementType
+  = | (
     | '*'
     | 'block-like'
     | 'cjs-export'
@@ -138,11 +138,11 @@ export type PaddingLineBetweenStatementsSchema0 = {
   next: StatementType
 }[]
 
-export type PaddingLineBetweenStatementsRuleOptions =
-  PaddingLineBetweenStatementsSchema0
+export type PaddingLineBetweenStatementsRuleOptions
+  = PaddingLineBetweenStatementsSchema0
 
-export type RuleOptions =
-  PaddingLineBetweenStatementsRuleOptions
-export type MessageIds =
-  | 'unexpectedBlankLine'
-  | 'expectedBlankLine'
+export type RuleOptions
+  = PaddingLineBetweenStatementsRuleOptions
+export type MessageIds
+  = | 'unexpectedBlankLine'
+    | 'expectedBlankLine'

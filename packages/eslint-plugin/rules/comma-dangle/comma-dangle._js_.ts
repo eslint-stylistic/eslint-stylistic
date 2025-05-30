@@ -23,20 +23,20 @@ const DEFAULT_OPTIONS = Object.freeze({
 
 const closeBraces = ['}', ']', ')', '>']
 
-type TargetASTNode =
-  | Tree.ArrayExpression
-  | Tree.ArrayPattern
-  | Tree.ObjectExpression
-  | Tree.ObjectPattern
-  | Tree.ImportDeclaration
-  | Tree.ExportNamedDeclaration
-  | Tree.FunctionDeclaration
-  | Tree.FunctionExpression
-  | Tree.ArrowFunctionExpression
-  | Tree.CallExpression
-  | Tree.NewExpression
-  | Tree.ImportExpression
-  | Tree.ExportAllDeclaration
+type TargetASTNode
+  = | Tree.ArrayExpression
+    | Tree.ArrayPattern
+    | Tree.ObjectExpression
+    | Tree.ObjectPattern
+    | Tree.ImportDeclaration
+    | Tree.ExportNamedDeclaration
+    | Tree.FunctionDeclaration
+    | Tree.FunctionExpression
+    | Tree.ArrowFunctionExpression
+    | Tree.CallExpression
+    | Tree.NewExpression
+    | Tree.ImportExpression
+    | Tree.ExportAllDeclaration
 
 type ItemASTNode = NonNullable<
   | Tree.ObjectLiteralElement
