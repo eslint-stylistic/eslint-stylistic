@@ -231,6 +231,10 @@ export default createRule<RuleOptions, MessageIds>({
       TSTypeAliasDeclaration(node) {
         validateNode(node, node.typeAnnotation, '=')
       },
+      TSConditionalType(node) {
+        validateNode(node, node.trueType, '?')
+        validateNode(node, node.falseType, ':')
+      },
     }
   },
 })

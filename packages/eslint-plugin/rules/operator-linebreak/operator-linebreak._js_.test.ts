@@ -178,6 +178,29 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['after'],
     },
+    // TSConditionalType
+    {
+      code: $`
+        type A = Foo extends Bar
+          ? true
+          : false;
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        type A = Foo extends Bar ?
+          true :
+          false;
+      `,
+      options: ['after'],
+    },
+    {
+      code: $`
+        type A = Foo extends Bar ? true : false;
+      `,
+      options: ['none'],
+    },
   ],
 
   invalid: [
@@ -1046,6 +1069,56 @@ run<RuleOptions, MessageIds>({
       output: $`
         type A  = string;
         type A =  string;
+      `,
+      errors: [
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+      ],
+      options: ['none'],
+    },
+    // TSConditionalType
+    {
+      code: $`
+        type A = Foo extends Bar ?
+          true :
+          false;
+      `,
+      output: $`
+        type A = Foo extends Bar
+          ? true
+          : false;
+      `,
+      errors: [
+        { messageId: 'operatorAtBeginning' },
+        { messageId: 'operatorAtBeginning' },
+      ],
+      options: ['before'],
+    },
+    {
+      code: $`
+        type A = Foo extends Bar
+          ? true
+          : false;
+      `,
+      output: $`
+        type A = Foo extends Bar ?
+          true :
+          false;
+      `,
+      errors: [
+        { messageId: 'operatorAtEnd' },
+        { messageId: 'operatorAtEnd' },
+      ],
+      options: ['after'],
+    },
+    {
+      code: $`
+        type A = Foo extends Bar ?
+          true :
+          false;
+      `,
+      output: $`
+        type A = Foo extends Bar ?  true :  false;
       `,
       errors: [
         { messageId: 'noLinebreak' },
