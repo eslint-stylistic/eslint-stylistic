@@ -138,7 +138,7 @@ run<RuleOptions, MessageIds>({
       options: ['none', { overrides: { '=': 'ignore' } }],
       parserOptions: { ecmaVersion: 2022 },
     },
-
+    // TSImportEqualsDeclaration
     {
       code: $`
         import F1
@@ -147,6 +147,7 @@ run<RuleOptions, MessageIds>({
           = A.B.C;
         import F3
           = require('mod');
+        import F1 = A;
       `,
       options: ['before'],
     },
@@ -158,9 +159,11 @@ run<RuleOptions, MessageIds>({
           A.B.C;
         import F3 =
           require('mod');
+        import F1 = A;
       `,
       options: ['after'],
     },
+    // TSTypeAliasDeclaration
     {
       code: $`
         type A
@@ -934,7 +937,7 @@ run<RuleOptions, MessageIds>({
         endColumn: 3,
       }],
     },
-
+    // TSImportEqualsDeclaration
     {
       code: $`
         import F1 =
@@ -1004,6 +1007,7 @@ run<RuleOptions, MessageIds>({
         { messageId: 'noLinebreak' },
       ],
     },
+    // TSTypeAliasDeclaration
     {
       code: $`
         type A =
