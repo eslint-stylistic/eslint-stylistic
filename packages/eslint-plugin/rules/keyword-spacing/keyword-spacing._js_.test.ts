@@ -2136,6 +2136,38 @@ run<RuleOptions, MessageIds>({
     },
 
     // ----------------------------------------------------------------------
+    // using
+    // ----------------------------------------------------------------------
+
+    {
+      code: '{}using a = b',
+      output: '{} using a = b',
+      parserOptions: { ecmaVersion: 2026 },
+      errors: expectedBefore('using'),
+    },
+    {
+      code: '{} using a = b',
+      output: '{}using a = b',
+      options: [NEITHER],
+      parserOptions: { ecmaVersion: 2026 },
+      errors: unexpectedBefore('using'),
+    },
+    {
+      code: '{}using a = b',
+      output: '{} using a = b',
+      options: [override('using', BOTH)],
+      parserOptions: { ecmaVersion: 2026 },
+      errors: expectedBefore('using'),
+    },
+    {
+      code: '{} using a = b',
+      output: '{}using a = b',
+      options: [override('using', NEITHER)],
+      parserOptions: { ecmaVersion: 2026 },
+      errors: unexpectedBefore('using'),
+    },
+
+    // ----------------------------------------------------------------------
     // continue
     // ----------------------------------------------------------------------
 

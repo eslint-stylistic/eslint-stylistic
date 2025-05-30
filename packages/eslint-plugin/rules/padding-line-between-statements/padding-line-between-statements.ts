@@ -512,10 +512,20 @@ const StatementTypes: Record<string, NodeTestObject> = {
   'multiline-const': newMultilineKeywordTester('const'),
   'multiline-export': newMultilineKeywordTester('export'),
   'multiline-let': newMultilineKeywordTester('let'),
+  'multiline-using': {
+    test: node => node.loc.start.line !== node.loc.end.line
+      && node.type === 'VariableDeclaration'
+      && (node.kind === 'using' || node.kind === 'await using'),
+  },
   'multiline-var': newMultilineKeywordTester('var'),
   'singleline-const': newSinglelineKeywordTester('const'),
   'singleline-export': newSinglelineKeywordTester('export'),
   'singleline-let': newSinglelineKeywordTester('let'),
+  'singleline-using': {
+    test: node => node.loc.start.line === node.loc.end.line
+      && node.type === 'VariableDeclaration'
+      && (node.kind === 'using' || node.kind === 'await using'),
+  },
   'singleline-var': newSinglelineKeywordTester('var'),
 
   'block': newNodeTypeTester(AST_NODE_TYPES.BlockStatement),
@@ -557,6 +567,10 @@ const StatementTypes: Record<string, NodeTestObject> = {
   'switch': newKeywordTester(AST_NODE_TYPES.SwitchStatement, 'switch'),
   'throw': newKeywordTester(AST_NODE_TYPES.ThrowStatement, 'throw'),
   'try': newKeywordTester(AST_NODE_TYPES.TryStatement, 'try'),
+  'using': {
+    test: node => node.type === 'VariableDeclaration'
+      && (node.kind === 'using' || node.kind === 'await using'),
+  },
   'var': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'var'),
   'while': newKeywordTester(
     [AST_NODE_TYPES.WhileStatement, AST_NODE_TYPES.DoWhileStatement],
