@@ -223,6 +223,56 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['none'],
     },
+    // TSIntersectionType
+    {
+      code: $`
+        type A = Foo
+          & Bar
+          & {};
+        type A = Foo & {};
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        type A = Foo &
+          Bar &
+          {};
+        type A = Foo & {};
+      `,
+      options: ['after'],
+    },
+    {
+      code: $`
+        type A = Foo & {};
+      `,
+      options: ['none'],
+    },
+    // TSUnionType
+    {
+      code: $`
+        type A = Foo
+          | Bar
+          | {};
+        type A = Foo | {};
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        type A = Foo |
+          Bar |
+          {};
+        type A = Foo | {};
+      `,
+      options: ['after'],
+    },
+    {
+      code: $`
+        type A = Foo | {};
+      `,
+      options: ['none'],
+    },
   ],
 
   invalid: [
@@ -1147,6 +1197,106 @@ run<RuleOptions, MessageIds>({
         { messageId: 'noLinebreak' },
       ],
       options: ['none'],
+    },
+    // TSIntersectionType
+    {
+      code: $`
+        type A = Foo &
+          Bar &
+          {};
+      `,
+      output: $`
+        type A = Foo
+          & Bar
+          & {};
+      `,
+      options: ['before'],
+      errors: [
+        { messageId: 'operatorAtBeginning' },
+        { messageId: 'operatorAtBeginning' },
+      ],
+    },
+    {
+      code: $`
+        type A = Foo
+          & Bar
+          & {};
+      `,
+      output: $`
+        type A = Foo &
+          Bar &
+          {};
+      `,
+      options: ['after'],
+      errors: [
+        { messageId: 'operatorAtEnd' },
+        { messageId: 'operatorAtEnd' },
+      ],
+    },
+    {
+      code: $`
+        type A = Foo &
+          Bar
+          & {};
+      `,
+      output: $`
+        type A = Foo &  Bar  & {};
+      `,
+      options: ['none'],
+      errors: [
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+      ],
+    },
+    // TSUnionType
+    {
+      code: $`
+        type A = Foo |
+          Bar |
+          {};
+      `,
+      output: $`
+        type A = Foo
+          | Bar
+          | {};
+      `,
+      options: ['before'],
+      errors: [
+        { messageId: 'operatorAtBeginning' },
+        { messageId: 'operatorAtBeginning' },
+      ],
+    },
+    {
+      code: $`
+        type A = Foo
+          | Bar
+          | {};
+      `,
+      output: $`
+        type A = Foo |
+          Bar |
+          {};
+      `,
+      options: ['after'],
+      errors: [
+        { messageId: 'operatorAtEnd' },
+        { messageId: 'operatorAtEnd' },
+      ],
+    },
+    {
+      code: $`
+        type A = Foo |
+          Bar
+          | {};
+      `,
+      output: $`
+        type A = Foo |  Bar  | {};
+      `,
+      options: ['none'],
+      errors: [
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+      ],
     },
   ],
 })

@@ -235,6 +235,18 @@ export default createRule<RuleOptions, MessageIds>({
         validateNode(node, node.trueType, '?')
         validateNode(node, node.falseType, ':')
       },
+      TSIntersectionType(node) {
+        const { types } = node
+        for (let idx = 0; idx < types.length - 1; idx++) {
+          validateNode(types[idx], types[idx + 1], '&')
+        }
+      },
+      TSUnionType(node) {
+        const { types } = node
+        for (let idx = 0; idx < types.length - 1; idx++) {
+          validateNode(types[idx], types[idx + 1], '|')
+        }
+      },
     }
   },
 })
