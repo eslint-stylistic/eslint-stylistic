@@ -306,6 +306,38 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['none'],
     },
+    // TSEnumMember
+    {
+      code: $`
+        enum Foo {
+          A,
+          B = 2,
+          C
+            = 4,
+        }
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B = 2,
+          C =
+            4,
+        }
+      `,
+      options: ['after'],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B = 2,
+        }
+      `,
+      options: ['none'],
+    },
   ],
 
   invalid: [
@@ -1392,6 +1424,76 @@ run<RuleOptions, MessageIds>({
         { messageId: 'noLinebreak' },
         { messageId: 'noLinebreak' },
       ],
+    },
+    // TSEnumMember
+    {
+      code: $`
+        enum Foo {
+          A,
+          B = 2,
+          C =
+            4,
+        }
+      `,
+      output: $`
+        enum Foo {
+          A,
+          B = 2,
+          C
+            = 4,
+        }
+      `,
+      options: ['before'],
+      errors: [
+        { messageId: 'operatorAtBeginning' },
+      ],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B = 2,
+          C
+            = 4,
+        }
+      `,
+      output: $`
+        enum Foo {
+          A,
+          B = 2,
+          C =
+            4,
+        }
+      `,
+      errors: [
+        { messageId: 'operatorAtEnd' },
+      ],
+      options: ['after'],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B = 2,
+          C
+            = 4,
+          D =
+            6,
+        }
+      `,
+      output: $`
+        enum Foo {
+          A,
+          B = 2,
+          C    = 4,
+          D =    6,
+        }
+      `,
+      errors: [
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+      ],
+      options: ['none'],
     },
   ],
 })

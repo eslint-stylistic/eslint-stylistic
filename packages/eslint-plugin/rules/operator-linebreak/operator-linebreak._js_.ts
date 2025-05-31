@@ -252,6 +252,11 @@ export default createRule<RuleOptions, MessageIds>({
           return
         validateNode(node, node.default, '=')
       },
+      TSEnumMember(node) {
+        if (!node.initializer)
+          return
+        validateNode(node, node.initializer, '=')
+      },
     }
   },
 })
