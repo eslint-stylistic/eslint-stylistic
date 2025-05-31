@@ -273,6 +273,39 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['none'],
     },
+    // TSTypeParameter
+    {
+      code: $`
+        type Foo<T
+          = number> = {
+          a: T;
+        };
+        type Foo<T = number> = {
+          a: T;
+        };
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        type Foo<T =
+          number> = {
+          a: T;
+        };
+        type Foo<T = number> = {
+          a: T;
+        };
+      `,
+      options: ['after'],
+    },
+    {
+      code: $`
+        type Foo<T = number> = {
+          a: T;
+        };
+      `,
+      options: ['none'],
+    },
   ],
 
   invalid: [
@@ -1291,6 +1324,68 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         type A = Foo |  Bar  | {};
+      `,
+      options: ['none'],
+      errors: [
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+      ],
+    },
+    // TSTypeParameter
+    {
+      code: $`
+        type Foo<T =
+          number> = {
+          a: T;
+        };
+      `,
+      output: $`
+        type Foo<T
+          = number> = {
+          a: T;
+        };
+      `,
+      options: ['before'],
+      errors: [
+        { messageId: 'operatorAtBeginning' },
+      ],
+    },
+    {
+      code: $`
+        type Foo<T
+          = number> = {
+          a: T;
+        };
+      `,
+      output: $`
+        type Foo<T =
+          number> = {
+          a: T;
+        };
+      `,
+      options: ['after'],
+      errors: [
+        { messageId: 'operatorAtEnd' },
+      ],
+    },
+    {
+      code: $`
+        type Foo<T
+          = number> = {
+          a: T;
+        };
+        type Foo<T =
+          number> = {
+          a: T;
+        };
+      `,
+      output: $`
+        type Foo<T  = number> = {
+          a: T;
+        };
+        type Foo<T =  number> = {
+          a: T;
+        };
       `,
       options: ['none'],
       errors: [

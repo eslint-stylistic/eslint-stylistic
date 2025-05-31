@@ -247,6 +247,11 @@ export default createRule<RuleOptions, MessageIds>({
           validateNode(types[idx], types[idx + 1], '|')
         }
       },
+      TSTypeParameter(node) {
+        if (!node.default)
+          return
+        validateNode(node, node.default, '=')
+      },
     }
   },
 })
