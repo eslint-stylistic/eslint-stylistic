@@ -2,8 +2,8 @@
 
 /* @checksum: LwbUY_5LjYZJrnJIUEgRedxcNisS9OhY7h3DTPGtRtc */
 
-export type FunctionParenNewlineSchema0 =
-  | (
+export type FunctionParenNewlineSchema0
+  = | (
     | 'always'
     | 'never'
     | 'consistent'
@@ -19,9 +19,9 @@ export type FunctionParenNewlineRuleOptions = [
 ]
 
 export type RuleOptions = FunctionParenNewlineRuleOptions
-export type MessageIds =
-  | 'expectedBefore'
-  | 'expectedAfter'
-  | 'expectedBetween'
-  | 'unexpectedBefore'
-  | 'unexpectedAfter'
+export type MessageIds
+  = | 'expectedBefore'
+    | 'expectedAfter'
+    | 'expectedBetween'
+    | 'unexpectedBefore'
+    | 'unexpectedAfter'

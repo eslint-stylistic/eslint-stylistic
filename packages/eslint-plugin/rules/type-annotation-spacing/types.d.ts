@@ -24,9 +24,9 @@ export type TypeAnnotationSpacingRuleOptions = [
 ]
 
 export type RuleOptions = TypeAnnotationSpacingRuleOptions
-export type MessageIds =
-  | 'expectedSpaceAfter'
-  | 'expectedSpaceBefore'
-  | 'unexpectedSpaceAfter'
-  | 'unexpectedSpaceBefore'
-  | 'unexpectedSpaceBetween'
+export type MessageIds
+  = | 'expectedSpaceAfter'
+    | 'expectedSpaceBefore'
+    | 'unexpectedSpaceAfter'
+    | 'unexpectedSpaceBefore'
+    | 'unexpectedSpaceBetween'

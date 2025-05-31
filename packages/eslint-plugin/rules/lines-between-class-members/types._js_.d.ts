@@ -2,8 +2,8 @@
 
 /* @checksum: y8e_6shUGU3joei8-zuLmOZbpJV8TQIP9XRJoZyeajw */
 
-export type LinesBetweenClassMembersSchema0 =
-  | {
+export type LinesBetweenClassMembersSchema0
+  = | {
     /**
      * @minItems 1
      */
@@ -31,6 +31,6 @@ export type LinesBetweenClassMembersRuleOptions = [
   LinesBetweenClassMembersSchema1?,
 ]
 
-export type RuleOptions =
-  LinesBetweenClassMembersRuleOptions
+export type RuleOptions
+  = LinesBetweenClassMembersRuleOptions
 export type MessageIds = 'never' | 'always'

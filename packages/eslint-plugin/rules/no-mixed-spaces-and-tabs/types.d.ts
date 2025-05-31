@@ -2,9 +2,9 @@
 
 /* @checksum: HbBKHJYPNR0rrgfsuyFu94rh-NrUjU8mJqla6DMUtkA */
 
-export type NoMixedSpacesAndTabsSchema0 =
-  | 'smart-tabs'
-  | boolean
+export type NoMixedSpacesAndTabsSchema0
+  = | 'smart-tabs'
+    | boolean
 
 export type NoMixedSpacesAndTabsRuleOptions = [
   NoMixedSpacesAndTabsSchema0?,
