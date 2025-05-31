@@ -148,6 +148,8 @@ run<RuleOptions, MessageIds>({
         import F3
           = require('mod');
         import F1 = A;
+        import F2 = A.B.C;
+        import F3 = require('mod');
       `,
       options: ['before'],
     },
@@ -160,14 +162,25 @@ run<RuleOptions, MessageIds>({
         import F3 =
           require('mod');
         import F1 = A;
+        import F2 = A.B.C;
+        import F3 = require('mod');
       `,
       options: ['after'],
+    },
+    {
+      code: $`
+        import F1 = A;
+        import F2 = A.B.C;
+        import F3 = require('mod');
+      `,
+      options: ['none'],
     },
     // TSTypeAliasDeclaration
     {
       code: $`
         type A
           = string;
+        type A = string;
       `,
       options: ['before'],
     },
@@ -175,8 +188,15 @@ run<RuleOptions, MessageIds>({
       code: $`
         type A =
           string;
+        type A = string;
       `,
       options: ['after'],
+    },
+    {
+      code: $`
+        type A = string;
+      `,
+      options: ['none'],
     },
     // TSConditionalType
     {
@@ -184,6 +204,7 @@ run<RuleOptions, MessageIds>({
         type A = Foo extends Bar
           ? true
           : false;
+        type A = Foo extends Bar ? true : false;
       `,
       options: ['before'],
     },
@@ -192,6 +213,7 @@ run<RuleOptions, MessageIds>({
         type A = Foo extends Bar ?
           true :
           false;
+        type A = Foo extends Bar ? true : false;
       `,
       options: ['after'],
     },
