@@ -1,5 +1,5 @@
 import type { ASTNode, JSONSchema, Token, Tree } from '#types'
-import type { MessageIds, RuleOptions } from './types._ts_'
+import type { MessageIds, RuleOptions } from './types'
 import { nullThrows, NullThrowsReasons } from '#utils/assert'
 import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
