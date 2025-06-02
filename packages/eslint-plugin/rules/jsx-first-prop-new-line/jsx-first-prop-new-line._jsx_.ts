@@ -14,7 +14,6 @@ const messages = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-first-prop-new-line',
-  package: 'jsx',
   meta: {
     type: 'layout',
 

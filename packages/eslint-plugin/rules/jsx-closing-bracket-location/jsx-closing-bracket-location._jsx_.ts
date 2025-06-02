@@ -13,7 +13,6 @@ const messages = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-closing-bracket-location',
-  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {

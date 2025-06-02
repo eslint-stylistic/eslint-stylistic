@@ -16,7 +16,6 @@ const messages = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-self-closing-comp',
-  package: 'jsx',
   meta: {
     type: 'layout',
 

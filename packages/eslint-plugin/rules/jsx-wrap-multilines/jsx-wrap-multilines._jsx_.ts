@@ -27,7 +27,6 @@ const messages = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-wrap-multilines',
-  package: 'jsx',
   meta: {
     type: 'layout',
 

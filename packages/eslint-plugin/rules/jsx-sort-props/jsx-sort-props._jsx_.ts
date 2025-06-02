@@ -349,7 +349,6 @@ function reportNodeAttribute(nodeAttribute: Tree.JSXAttribute | Tree.JSXSpreadAt
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-sort-props',
-  package: 'jsx',
   meta: {
     type: 'layout',
 
