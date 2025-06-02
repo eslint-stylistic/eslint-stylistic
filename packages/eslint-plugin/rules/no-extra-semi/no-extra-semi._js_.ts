@@ -59,11 +59,11 @@ export default createRule<RuleOptions, MessageIds>({
         node: nodeOrToken,
         messageId: 'unexpected',
         fix: isFixable(nodeOrToken as Token)
-        /**
-         * Expand the replacement range to include the surrounding
-         * tokens to avoid conflicting with semi.
-         * https://github.com/eslint/eslint/issues/7928
-         */
+          /**
+           * Expand the replacement range to include the surrounding
+           * tokens to avoid conflicting with semi.
+           * https://github.com/eslint/eslint/issues/7928
+           */
           ? (fixer: any) => new FixTracker(fixer, context.sourceCode as any)
               .retainSurroundingTokens(nodeOrToken as any)
               .remove(nodeOrToken as ASTNode)
