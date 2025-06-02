@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: H52HrYMKnkZa-H0_Ga5TXF8p0l7A3PP0Ajlrml0MnGU */
+/* @checksum: ZW3ItToD0ZJv3v-zWRdiNe_O4mcY5C4tKJc7EdSbDy8 */
 
 export interface JsxSortPropsSchema0 {
   callbacksLast?: boolean
@@ -9,21 +9,21 @@ export interface JsxSortPropsSchema0 {
   multiline?: 'ignore' | 'first' | 'last'
   ignoreCase?: boolean
   noSortAlphabetically?: boolean
-  reservedFirst?: string[] | boolean
-  reservedLast?: string[]
+  reservedFirst?: unknown[] | boolean
+  reservedLast?: unknown[]
   locale?: string
 }
 
 export type JsxSortPropsRuleOptions = [JsxSortPropsSchema0?]
 
 export type RuleOptions = JsxSortPropsRuleOptions
-export type MessageIds
-  = | 'listIsEmpty'
-    | 'listReservedPropsFirst'
-    | 'listReservedPropsLast'
-    | 'listCallbacksLast'
-    | 'listShorthandFirst'
-    | 'listShorthandLast'
-    | 'listMultilineFirst'
-    | 'listMultilineLast'
-    | 'sortPropsByAlpha'
+export type MessageIds =
+  | 'listIsEmpty'
+  | 'listReservedPropsFirst'
+  | 'listReservedPropsLast'
+  | 'listCallbacksLast'
+  | 'listShorthandFirst'
+  | 'listShorthandLast'
+  | 'listMultilineFirst'
+  | 'listMultilineLast'
+  | 'sortPropsByAlpha'

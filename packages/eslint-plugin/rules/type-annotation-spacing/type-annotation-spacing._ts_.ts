@@ -32,12 +32,12 @@ interface Config extends WhitespaceRule {
 type WhitespaceRules = Required<WhitespaceOverride>
 
 type Options = [Config?]
-type MessageIds
-  = | 'expectedSpaceAfter'
-    | 'expectedSpaceBefore'
-    | 'unexpectedSpaceAfter'
-    | 'unexpectedSpaceBefore'
-    | 'unexpectedSpaceBetween'
+type MessageIds =
+  | 'expectedSpaceAfter'
+  | 'expectedSpaceBefore'
+  | 'unexpectedSpaceAfter'
+  | 'unexpectedSpaceBefore'
+  | 'unexpectedSpaceBetween'
 
 function createRules(options?: Config): WhitespaceRules {
   const globals = {
@@ -210,8 +210,8 @@ export default createRule<Options, MessageIds>({
         }
       }
 
-      const previousDelta
-        = punctuatorTokenStart.range[0] - previousToken.range[1]
+      const previousDelta =
+        punctuatorTokenStart.range[0] - previousToken.range[1]
       const nextDelta = nextNode.range[0] - punctuatorTokenEnd.range[1]
 
       if (after && nextDelta === 0) {

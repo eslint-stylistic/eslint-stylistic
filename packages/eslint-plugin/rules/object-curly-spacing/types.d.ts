@@ -15,8 +15,8 @@ export type ObjectCurlySpacingRuleOptions = [
 ]
 
 export type RuleOptions = ObjectCurlySpacingRuleOptions
-export type MessageIds
-  = | 'requireSpaceBefore'
-    | 'requireSpaceAfter'
-    | 'unexpectedSpaceBefore'
-    | 'unexpectedSpaceAfter'
+export type MessageIds =
+  | 'requireSpaceBefore'
+  | 'requireSpaceAfter'
+  | 'unexpectedSpaceBefore'
+  | 'unexpectedSpaceAfter'

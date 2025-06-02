@@ -5,6 +5,6 @@
 export type JsxChildElementSpacingRuleOptions = []
 
 export type RuleOptions = JsxChildElementSpacingRuleOptions
-export type MessageIds
-  = | 'spacingAfterPrev'
-    | 'spacingBeforeNext'
+export type MessageIds =
+  | 'spacingAfterPrev'
+  | 'spacingBeforeNext'

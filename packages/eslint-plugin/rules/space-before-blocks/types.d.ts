@@ -2,13 +2,13 @@
 
 /* @checksum: 9-og7wevREqpE2djWnS3iTi1w8IXRsAqrojNvFfOVwA */
 
-export type SpaceBeforeBlocksSchema0
-  = | ('always' | 'never')
-    | {
-      keywords?: 'always' | 'never' | 'off'
-      functions?: 'always' | 'never' | 'off'
-      classes?: 'always' | 'never' | 'off'
-    }
+export type SpaceBeforeBlocksSchema0 =
+  | ('always' | 'never')
+  | {
+    keywords?: 'always' | 'never' | 'off'
+    functions?: 'always' | 'never' | 'off'
+    classes?: 'always' | 'never' | 'off'
+  }
 
 export type SpaceBeforeBlocksRuleOptions = [
   SpaceBeforeBlocksSchema0?,

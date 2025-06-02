@@ -14,8 +14,8 @@ export type ArrowParensRuleOptions = [
 ]
 
 export type RuleOptions = ArrowParensRuleOptions
-export type MessageIds
-  = | 'unexpectedParens'
-    | 'expectedParens'
-    | 'unexpectedParensInline'
-    | 'expectedParensBlock'
+export type MessageIds =
+  | 'unexpectedParens'
+  | 'expectedParens'
+  | 'unexpectedParensInline'
+  | 'expectedParensBlock'

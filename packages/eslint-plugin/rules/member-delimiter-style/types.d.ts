@@ -36,8 +36,8 @@ export type MemberDelimiterStyleRuleOptions = [
 ]
 
 export type RuleOptions = MemberDelimiterStyleRuleOptions
-export type MessageIds
-  = | 'unexpectedComma'
-    | 'unexpectedSemi'
-    | 'expectedComma'
-    | 'expectedSemi'
+export type MessageIds =
+  | 'unexpectedComma'
+  | 'unexpectedSemi'
+  | 'expectedComma'
+  | 'expectedSemi'

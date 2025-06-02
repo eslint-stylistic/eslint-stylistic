@@ -2,14 +2,14 @@
 
 /* @checksum: e2Haj08rfAq4MOSeRT_RDC0iAb3Fz-2x-mRdt0DkPdI */
 
-export type LineCommentPositionSchema0
-  = | ('above' | 'beside')
-    | {
-      position?: 'above' | 'beside'
-      ignorePattern?: string
-      applyDefaultPatterns?: boolean
-      applyDefaultIgnorePatterns?: boolean
-    }
+export type LineCommentPositionSchema0 =
+  | ('above' | 'beside')
+  | {
+    position?: 'above' | 'beside'
+    ignorePattern?: string
+    applyDefaultPatterns?: boolean
+    applyDefaultIgnorePatterns?: boolean
+  }
 
 export type LineCommentPositionRuleOptions = [
   LineCommentPositionSchema0?,

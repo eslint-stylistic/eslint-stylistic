@@ -21,8 +21,8 @@ const listeningNodes = [
   'ClassBody',
 ] satisfies (keyof typeof Tree.AST_NODE_TYPES)[]
 
-type UnionToIntersection<U>
-  = (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never
+type UnionToIntersection<U> =
+  (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never
 
 type OptionsUnion = UnionToIntersection<Exclude<RuleOptions[0], undefined>>
 
@@ -746,10 +746,10 @@ export default createRule<RuleOptions, MessageIds>({
       )
     }
 
-    type KeyTypeNode
-      = | Tree.PropertyDefinition
-        | Tree.TSIndexSignature
-        | Tree.TSPropertySignature
+    type KeyTypeNode =
+      | Tree.PropertyDefinition
+      | Tree.TSIndexSignature
+      | Tree.TSPropertySignature
 
     type KeyTypeNodeWithTypeAnnotation = KeyTypeNode & {
       typeAnnotation: Tree.TSTypeAnnotation
@@ -848,11 +848,11 @@ export default createRule<RuleOptions, MessageIds>({
       const typeStart = sourceCode.getTokenAfter(colonToken, {
         includeComments: true,
       })!.loc.start.column
-      const difference
-        = typeStart
-          - colonToken.loc.start.column
-          - 1
-          - expectedWhitespaceAfterColon
+      const difference =
+        typeStart
+        - colonToken.loc.start.column
+        - 1
+        - expectedWhitespaceAfterColon
       if (mode === 'strict' ? difference : difference < 0) {
         context.report({
           node,
@@ -919,14 +919,14 @@ export default createRule<RuleOptions, MessageIds>({
 
     function checkAlignGroup(group: ASTNode[]): void {
       let alignColumn = 0
-      const align: 'colon' | 'value'
-        = (typeof options.align === 'object'
+      const align: 'colon' | 'value' =
+        (typeof options.align === 'object'
           ? options.align.on
           : typeof options.multiLine?.align === 'object'
             ? options.multiLine.align.on
             : options.multiLine?.align ?? options.align) ?? 'colon'
-      const beforeColon
-        = (typeof options.align === 'object'
+      const beforeColon =
+        (typeof options.align === 'object'
           ? options.align.beforeColon
           : options.multiLine
             ? typeof options.multiLine.align === 'object'
@@ -934,8 +934,8 @@ export default createRule<RuleOptions, MessageIds>({
               : options.multiLine.beforeColon
             : options.beforeColon) ?? false
       const expectedWhitespaceBeforeColon = beforeColon ? 1 : 0
-      const afterColon
-        = (typeof options.align === 'object'
+      const afterColon =
+        (typeof options.align === 'object'
           ? options.align.afterColon
           : options.multiLine
             ? typeof options.multiLine.align === 'object'
@@ -943,8 +943,8 @@ export default createRule<RuleOptions, MessageIds>({
               : options.multiLine.afterColon
             : options.afterColon) ?? true
       const expectedWhitespaceAfterColon = afterColon ? 1 : 0
-      const mode
-        = (typeof options.align === 'object'
+      const mode =
+        (typeof options.align === 'object'
           ? options.align.mode
           : options.multiLine
             ? typeof options.multiLine.align === 'object'
@@ -973,8 +973,8 @@ export default createRule<RuleOptions, MessageIds>({
           continue
 
         const { typeAnnotation } = node
-        const toCheck
-          = align === 'colon' ? typeAnnotation : typeAnnotation.typeAnnotation
+        const toCheck =
+          align === 'colon' ? typeAnnotation : typeAnnotation.typeAnnotation
         const difference = adjustedColumn(toCheck.loc.start) - alignColumn
 
         if (difference) {
@@ -1025,8 +1025,8 @@ export default createRule<RuleOptions, MessageIds>({
             : options.beforeColon
       ) ?? false
       const expectedWhitespaceBeforeColon = beforeColon ? 1 : 0
-      const afterColon
-        = (singleLine
+      const afterColon =
+        (singleLine
           ? options.singleLine
             ? options.singleLine.afterColon
             : options.afterColon
@@ -1034,8 +1034,8 @@ export default createRule<RuleOptions, MessageIds>({
             ? options.multiLine.afterColon
             : options.afterColon) ?? true
       const expectedWhitespaceAfterColon = afterColon ? 1 : 0
-      const mode
-        = (singleLine
+      const mode =
+        (singleLine
           ? options.singleLine
             ? options.singleLine.mode
             : options.mode

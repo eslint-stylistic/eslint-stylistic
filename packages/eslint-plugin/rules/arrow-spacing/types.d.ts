@@ -10,8 +10,8 @@ export interface ArrowSpacingSchema0 {
 export type ArrowSpacingRuleOptions = [ArrowSpacingSchema0?]
 
 export type RuleOptions = ArrowSpacingRuleOptions
-export type MessageIds
-  = | 'expectedBefore'
-    | 'unexpectedBefore'
-    | 'expectedAfter'
-    | 'unexpectedAfter'
+export type MessageIds =
+  | 'expectedBefore'
+  | 'unexpectedBefore'
+  | 'expectedAfter'
+  | 'unexpectedAfter'

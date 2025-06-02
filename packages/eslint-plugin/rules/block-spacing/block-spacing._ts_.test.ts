@@ -42,8 +42,8 @@ run<RuleOptions, MessageIds>({
     ),
     ...typeDeclarations.flatMap<ValidTestCase<RuleOptions>>(
       (typeDec) => {
-        const property
-          = typeDec.nodeType === AST_NODE_TYPES.TSEnumDeclaration
+        const property =
+          typeDec.nodeType === AST_NODE_TYPES.TSEnumDeclaration
             ? 'bar = 1'
             : 'bar: true;'
         return [
@@ -108,8 +108,8 @@ run<RuleOptions, MessageIds>({
     // With block comments
     ...options.flatMap(option =>
       typeDeclarations.flatMap <InvalidTestCase<RuleOptions, MessageIds>>((typeDec) => {
-        const property
-          = typeDec.nodeType === AST_NODE_TYPES.TSEnumDeclaration
+        const property =
+          typeDec.nodeType === AST_NODE_TYPES.TSEnumDeclaration
             ? 'bar = 1'
             : 'bar: true;'
         const alwaysSpace = option === 'always' ? '' : ' '

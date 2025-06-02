@@ -58,6 +58,6 @@ export type JsxWrapMultilinesRuleOptions = [
 ]
 
 export type RuleOptions = JsxWrapMultilinesRuleOptions
-export type MessageIds
-  = | 'missingParens'
-    | 'parensOnNewLines'
+export type MessageIds =
+  | 'missingParens'
+  | 'parensOnNewLines'

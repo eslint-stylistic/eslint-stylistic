@@ -2,33 +2,33 @@
 
 /* @checksum: 6np7FJPRpiFgbrMsnDL-PC4zMTYMNJoW_bCYp5XgxUg */
 
-export type JsxCurlySpacingSchema0
-  = | []
-    | [
+export type JsxCurlySpacingSchema0 =
+  | []
+  | [
       | (BasicConfig & {
         attributes?: BasicConfigOrBoolean
         children?: BasicConfigOrBoolean
         [k: string]: unknown
       })
       | ('always' | 'never'),
-    ]
-    | [
-      (
+  ]
+  | [
+    (
         | (BasicConfig & {
           attributes?: BasicConfigOrBoolean
           children?: BasicConfigOrBoolean
           [k: string]: unknown
         })
         | ('always' | 'never')
-      ),
-      {
-        allowMultiline?: boolean
-        spacing?: {
-          objectLiterals?: 'always' | 'never'
-          [k: string]: unknown
-        }
-      },
-    ]
+    ),
+    {
+      allowMultiline?: boolean
+      spacing?: {
+        objectLiterals?: 'always' | 'never'
+        [k: string]: unknown
+      }
+    },
+  ]
 export type BasicConfigOrBoolean = BasicConfig | boolean
 
 export interface BasicConfig {
@@ -41,14 +41,14 @@ export interface BasicConfig {
   [k: string]: unknown
 }
 
-export type JsxCurlySpacingRuleOptions
-  = JsxCurlySpacingSchema0
+export type JsxCurlySpacingRuleOptions =
+  JsxCurlySpacingSchema0
 
 export type RuleOptions = JsxCurlySpacingRuleOptions
-export type MessageIds
-  = | 'noNewlineAfter'
-    | 'noNewlineBefore'
-    | 'noSpaceAfter'
-    | 'noSpaceBefore'
-    | 'spaceNeededAfter'
-    | 'spaceNeededBefore'
+export type MessageIds =
+  | 'noNewlineAfter'
+  | 'noNewlineBefore'
+  | 'noSpaceAfter'
+  | 'noSpaceBefore'
+  | 'spaceNeededAfter'
+  | 'spaceNeededBefore'

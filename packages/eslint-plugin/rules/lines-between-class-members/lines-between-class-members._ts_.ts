@@ -205,9 +205,9 @@ export default createRule<RuleOptions, MessageIds>({
     function getPaddingType(prevNode: ASTNode, nextNode: ASTNode) {
       for (let i = configureList.length - 1; i >= 0; --i) {
         const configure = configureList[i]
-        const matched
-                        = match(prevNode, configure.prev)
-                          && match(nextNode, configure.next)
+        const matched =
+                        match(prevNode, configure.prev)
+                        && match(nextNode, configure.next)
 
         if (matched)
           return configure.blankLine
@@ -215,8 +215,8 @@ export default createRule<RuleOptions, MessageIds>({
       return null
     }
 
-    const exceptAfterOverload
-      = secondOption?.exceptAfterOverload && (
+    const exceptAfterOverload =
+      secondOption?.exceptAfterOverload && (
         firstOption === 'always'
         || (
           typeof firstOption !== 'string'

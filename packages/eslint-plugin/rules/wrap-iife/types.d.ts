@@ -14,7 +14,7 @@ export type WrapIifeRuleOptions = [
 ]
 
 export type RuleOptions = WrapIifeRuleOptions
-export type MessageIds
-  = | 'wrapInvocation'
-    | 'wrapExpression'
-    | 'moveInvocation'
+export type MessageIds =
+  | 'wrapInvocation'
+  | 'wrapExpression'
+  | 'moveInvocation'

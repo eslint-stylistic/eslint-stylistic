@@ -9,8 +9,8 @@ export type JsxEqualsSpacingRuleOptions = [
 ]
 
 export type RuleOptions = JsxEqualsSpacingRuleOptions
-export type MessageIds
-  = | 'noSpaceBefore'
-    | 'noSpaceAfter'
-    | 'needSpaceBefore'
-    | 'needSpaceAfter'
+export type MessageIds =
+  | 'noSpaceBefore'
+  | 'noSpaceAfter'
+  | 'needSpaceBefore'
+  | 'needSpaceAfter'

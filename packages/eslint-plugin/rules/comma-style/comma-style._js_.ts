@@ -101,9 +101,9 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function getFixerFunction(styleType: string, tokenBeforeComma: Token, commaToken: Token, tokenAfterComma: Tree.Token) {
-      const text
-                = sourceCode.text.slice(tokenBeforeComma.range[1], commaToken.range[0])
-                  + sourceCode.text.slice(commaToken.range[1], tokenAfterComma.range[0])
+      const text =
+                sourceCode.text.slice(tokenBeforeComma.range[1], commaToken.range[0])
+                + sourceCode.text.slice(commaToken.range[1], tokenAfterComma.range[0])
       const range = [tokenBeforeComma.range[1], tokenAfterComma.range[0]] as const
 
       return function (fixer: RuleFixer) {
@@ -261,39 +261,39 @@ export default createRule<RuleOptions, MessageIds>({
       })
     }
 
-    type NodeType
-      = | Tree.VariableDeclaration
-        | Tree.ArrayExpression
-        | Tree.ObjectExpression
-        | Tree.ObjectPattern
-        | Tree.ArrayPattern
-        | Tree.FunctionDeclaration
-        | Tree.FunctionExpression
-        | Tree.CallExpression
-        | Tree.ImportDeclaration
-        | Tree.NewExpression
-        | Tree.ArrowFunctionExpression
-        | Tree.ExportAllDeclaration
-        | Tree.ExportNamedDeclaration
-        | Tree.ImportExpression
-        | Tree.SequenceExpression
-        | Tree.ClassDeclaration
-        | Tree.ClassExpression
-        | Tree.TSDeclareFunction
-        | Tree.TSFunctionType
-        | Tree.TSConstructorType
-        | Tree.TSEmptyBodyFunctionExpression
-        | Tree.TSEnumBody
-        | Tree.TSTypeLiteral
-        | Tree.TSIndexSignature
-        | Tree.TSMethodSignature
-        | Tree.TSCallSignatureDeclaration
-        | Tree.TSConstructSignatureDeclaration
-        | Tree.TSInterfaceBody
-        | Tree.TSInterfaceDeclaration
-        | Tree.TSTupleType
-        | Tree.TSTypeParameterDeclaration
-        | Tree.TSTypeParameterInstantiation
+    type NodeType =
+      | Tree.VariableDeclaration
+      | Tree.ArrayExpression
+      | Tree.ObjectExpression
+      | Tree.ObjectPattern
+      | Tree.ArrayPattern
+      | Tree.FunctionDeclaration
+      | Tree.FunctionExpression
+      | Tree.CallExpression
+      | Tree.ImportDeclaration
+      | Tree.NewExpression
+      | Tree.ArrowFunctionExpression
+      | Tree.ExportAllDeclaration
+      | Tree.ExportNamedDeclaration
+      | Tree.ImportExpression
+      | Tree.SequenceExpression
+      | Tree.ClassDeclaration
+      | Tree.ClassExpression
+      | Tree.TSDeclareFunction
+      | Tree.TSFunctionType
+      | Tree.TSConstructorType
+      | Tree.TSEmptyBodyFunctionExpression
+      | Tree.TSEnumBody
+      | Tree.TSTypeLiteral
+      | Tree.TSIndexSignature
+      | Tree.TSMethodSignature
+      | Tree.TSCallSignatureDeclaration
+      | Tree.TSConstructSignatureDeclaration
+      | Tree.TSInterfaceBody
+      | Tree.TSInterfaceDeclaration
+      | Tree.TSTupleType
+      | Tree.TSTypeParameterDeclaration
+      | Tree.TSTypeParameterInstantiation
 
     const nodes: RuleListener = {}
 

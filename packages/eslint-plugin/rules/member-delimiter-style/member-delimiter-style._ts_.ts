@@ -27,11 +27,11 @@ type Config = BaseOptions & {
   multilineDetection?: 'brackets' | 'last-member'
 }
 type Options = [Config]
-type MessageIds
-  = | 'expectedComma'
-    | 'expectedSemi'
-    | 'unexpectedComma'
-    | 'unexpectedSemi'
+type MessageIds =
+  | 'expectedComma'
+  | 'expectedSemi'
+  | 'unexpectedComma'
+  | 'unexpectedSemi'
 type LastTokenType = Tree.Token
 
 interface MakeFixFunctionParams {
@@ -44,9 +44,9 @@ interface MakeFixFunctionParams {
   isSingleLine: boolean
 }
 
-type MakeFixFunctionReturnType
-  = | ((fixer: TSESLint.RuleFixer) => TSESLint.RuleFix)
-    | null
+type MakeFixFunctionReturnType =
+  | ((fixer: TSESLint.RuleFixer) => TSESLint.RuleFix)
+  | null
 
 function isLastTokenEndOfLine(token: LastTokenType, line: string): boolean {
   const positionInLine = token.loc.start.column
@@ -328,8 +328,8 @@ export default createRule<Options, MessageIds>({
           isSingleLine = true
       }
 
-      const typeOpts
-        = node.type === AST_NODE_TYPES.TSInterfaceBody
+      const typeOpts =
+        node.type === AST_NODE_TYPES.TSInterfaceBody
           ? interfaceOptions
           : typeLiteralOptions
       const opts = isSingleLine
