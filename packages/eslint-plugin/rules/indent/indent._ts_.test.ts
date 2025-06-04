@@ -822,6 +822,13 @@ const map2 = Object.keys(map)
       `,
       options: [2],
     },
+    {
+      code: $`
+        type Foo =
+          string
+      `,
+      options: [2],
+    },
   ],
   invalid: [
     ...individualNodeTests.invalid!,
@@ -2000,6 +2007,58 @@ class Foo {
             actual: 4,
           },
           line: 5,
+          column: 1,
+        },
+      ],
+    },
+    {
+      code: $`
+          type Foo = number;
+        type Bar = string;
+        type Baz =
+            string;
+        namespace T {
+        type Baz = string;
+          type Asdf = number;
+        }
+      `,
+      output: $`
+        type Foo = number;
+        type Bar = string;
+        type Baz =
+          string;
+        namespace T {
+          type Baz = string;
+          type Asdf = number;
+        }
+      `,
+      options: [2],
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '0 spaces',
+            actual: 2,
+          },
+          line: 1,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '2 spaces',
+            actual: 4,
+          },
+          line: 4,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '2 spaces',
+            actual: 0,
+          },
+          line: 6,
           column: 1,
         },
       ],

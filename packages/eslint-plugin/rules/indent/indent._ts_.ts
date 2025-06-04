@@ -150,6 +150,7 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.TSRestType,
   AST_NODE_TYPES.TSThisType,
   AST_NODE_TYPES.TSTupleType,
+  AST_NODE_TYPES.TSTypeAliasDeclaration,
   AST_NODE_TYPES.TSTypeAnnotation,
   AST_NODE_TYPES.TSTypeLiteral,
   AST_NODE_TYPES.TSTypeOperator,
@@ -1827,6 +1828,14 @@ export default createRule<RuleOptions, MessageIds>({
           openingCurly,
           1,
         )
+      },
+
+      TSTypeAliasDeclaration(node) {
+        const equalOperator = sourceCode.getTokenBefore(node.typeAnnotation, isNotOpeningParenToken)!
+        const tokenAfterOperator = sourceCode.getTokenAfter(equalOperator)!
+
+        offsets.setDesiredOffset(equalOperator, sourceCode.getLastToken(node.id), 1)
+        offsets.setDesiredOffsets([tokenAfterOperator.range[0], node.range[1]], equalOperator, 1)
       },
 
       '*': function (node: ASTNode) {
