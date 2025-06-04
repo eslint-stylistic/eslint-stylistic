@@ -1,3 +1,4 @@
+import type { Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 
@@ -25,47 +26,50 @@ export default createRule<RuleOptions, MessageIds>({
   create: (context) => {
     const sourceCode = context.sourceCode
 
+    function removeSpaceBetween(left: Token, right: Token) {
+      const textBetween = sourceCode.text.slice(left.range[1], right.range[0])
+
+      // raise error only if there is no newline
+      if (/\s/.test(textBetween) && !/^[\r\n]/.test(textBetween)) {
+        context.report({
+          loc: {
+            start: left.loc.end,
+            end: right.loc.start,
+          },
+          messageId: 'genericSpacingMismatch',
+          * fix(fixer) {
+            yield fixer.replaceTextRange([left.range[1], right.range[0]], '')
+          },
+        })
+      }
+    }
+
+    function checkBracketSpacing(openToken: Token | null, closeToken: Token | null) {
+      if (openToken) {
+        const firstToken = sourceCode.getTokenAfter(openToken)
+
+        if (firstToken) {
+          removeSpaceBetween(openToken, firstToken)
+        }
+      }
+
+      if (closeToken) {
+        const lastToken = sourceCode.getTokenBefore(closeToken)
+
+        if (lastToken) {
+          removeSpaceBetween(lastToken, closeToken)
+        }
+      }
+    }
+
     return {
       TSTypeParameterInstantiation: (node) => {
         const params = node.params
 
         const openToken = sourceCode.getTokenBefore(params[0])
-        const firstToken = openToken ? sourceCode.getTokenAfter(openToken) : null
-
         const closeToken = sourceCode.getTokenAfter(params[params.length - 1])
-        const lastToken = closeToken ? sourceCode.getTokenBefore(closeToken) : null
 
-        // remove spaces between "<" and the first type parameter
-        if (openToken && firstToken) {
-          const textBetween = sourceCode.text.slice(openToken.range[1], firstToken.range[0])
-
-          // raise error only if there is no newline
-          if (/\s/.test(textBetween) && !/^[\r\n]/.test(textBetween)) {
-            context.report({
-              node,
-              messageId: 'genericSpacingMismatch',
-              * fix(fixer) {
-                yield fixer.replaceTextRange([openToken.range[1], firstToken.range[0]], '')
-              },
-            })
-          }
-        }
-
-        // remove spaces between the last type parameter and ">"
-        if (closeToken && lastToken) {
-          const textBetween = sourceCode.text.slice(lastToken.range[1], closeToken.range[0])
-
-          // raise error only if there is no newline
-          if (/\s/.test(textBetween) && !/^[\r\n]/.test(textBetween)) {
-            context.report({
-              node,
-              messageId: 'genericSpacingMismatch',
-              * fix(fixer) {
-                yield fixer.replaceTextRange([lastToken.range[1], closeToken.range[0]], '')
-              },
-            })
-          }
-        }
+        checkBracketSpacing(openToken, closeToken)
       },
 
       TSTypeParameterDeclaration: (node) => {
@@ -88,42 +92,9 @@ export default createRule<RuleOptions, MessageIds>({
         const params = node.params
 
         const openToken = sourceCode.getTokenBefore(params[0])
-        const firstToken = openToken ? sourceCode.getTokenAfter(openToken) : null
-
         const closeToken = sourceCode.getTokenAfter(params[params.length - 1])
-        const lastToken = closeToken ? sourceCode.getTokenBefore(closeToken) : null
 
-        // remove spaces between "<" and the first type parameter
-        if (openToken && firstToken) {
-          const textBetween = sourceCode.text.slice(openToken.range[1], firstToken.range[0])
-
-          // raise error only if there is no newline
-          if (/\s/.test(textBetween) && !/^[\r\n]/.test(textBetween)) {
-            context.report({
-              node,
-              messageId: 'genericSpacingMismatch',
-              * fix(fixer) {
-                yield fixer.replaceTextRange([openToken.range[1], firstToken.range[0]], '')
-              },
-            })
-          }
-        }
-
-        // remove spaces between the last type parameter and ">"
-        if (closeToken && lastToken) {
-          const textBetween = sourceCode.text.slice(lastToken.range[1], closeToken.range[0])
-
-          // raise error only if there is no newline
-          if (/\s/.test(textBetween) && !/^[\r\n]/.test(textBetween)) {
-            context.report({
-              node,
-              messageId: 'genericSpacingMismatch',
-              * fix(fixer) {
-                yield fixer.replaceTextRange([lastToken.range[1], closeToken.range[0]], '')
-              },
-            })
-          }
-        }
+        checkBracketSpacing(openToken, closeToken)
 
         // add space between <T,K>
         for (let i = 1; i < params.length; i++) {
