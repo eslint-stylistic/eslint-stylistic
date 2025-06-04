@@ -1,1 +1,1 @@
-export { default } from './jsx-sort-props._jsx_'
+export { default } from './jsx-sort-props'

@@ -1,1 +1,1 @@
-export { default } from './comma-spacing._ts_'
+export { default } from './comma-spacing'

@@ -5,7 +5,7 @@ related_rules:
   - comma-style
 ---
 
-# js/operator-linebreak
+# operator-linebreak
 
 When a statement is too long to fit on a single line, line breaks are generally inserted next to the operators separating expressions. The first style coming to mind would be to place the operator at the end of the line, following the English punctuation rules.
 

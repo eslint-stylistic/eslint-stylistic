@@ -1,4 +1,4 @@
-# jsx/jsx-indent-props
+# jsx-indent-props
 
 Enforce props indentation in JSX.
 

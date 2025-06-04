@@ -1,1 +1,1 @@
-export { default } from './space-in-parens._js_'
+export { default } from './space-in-parens'

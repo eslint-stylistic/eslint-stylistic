@@ -1,1 +1,1 @@
-export { default } from './lines-around-comment._ts_'
+export { default } from './lines-around-comment'

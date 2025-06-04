@@ -1,1 +1,1 @@
-export { default } from './type-annotation-spacing._ts_'
+export { default } from './type-annotation-spacing'

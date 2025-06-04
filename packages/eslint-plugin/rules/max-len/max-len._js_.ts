@@ -59,7 +59,6 @@ const OPTIONS_OR_INTEGER_SCHEMA: JSONSchema.JSONSchema4 = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'max-len',
-  package: 'js',
   meta: {
     type: 'layout',
 

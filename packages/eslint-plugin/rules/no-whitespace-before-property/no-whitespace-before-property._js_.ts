@@ -10,7 +10,6 @@ import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-whitespace-before-property',
-  package: 'js',
   meta: {
     type: 'layout',
 

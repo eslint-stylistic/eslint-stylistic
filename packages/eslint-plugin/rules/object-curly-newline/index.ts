@@ -1,1 +1,1 @@
-export { default } from './object-curly-newline._ts_'
+export { default } from './object-curly-newline'

@@ -23,7 +23,6 @@ const MESSAGE_LOCATION = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-closing-tag-location',
-  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {

@@ -1,4 +1,4 @@
-# plus/curly-newline
+# curly-newline
 
 A number of style guides require or disallow line breaks inside of block statements and block-like code.
 

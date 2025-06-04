@@ -1,1 +1,1 @@
-export { default } from './array-bracket-spacing._js_'
+export { default } from './array-bracket-spacing'

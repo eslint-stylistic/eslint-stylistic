@@ -1,1 +1,1 @@
-export { default } from './space-infix-ops._ts_'
+export { default } from './space-infix-ops'

@@ -1,1 +1,1 @@
-export { default } from './block-spacing._ts_'
+export { default } from './block-spacing'

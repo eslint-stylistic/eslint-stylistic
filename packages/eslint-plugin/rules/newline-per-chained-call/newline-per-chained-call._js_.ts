@@ -11,7 +11,6 @@ import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'newline-per-chained-call',
-  package: 'js',
   meta: {
     type: 'layout',
 

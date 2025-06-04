@@ -3,7 +3,7 @@ title: multiline-comment-style
 rule_type: suggestion
 ---
 
-# js/multiline-comment-style
+# multiline-comment-style
 
 Many style guides require a particular style for comments that span multiple lines. For example, some style guides prefer the use of a single block comment for multiline comments, whereas other style guides prefer consecutive line comments.
 
