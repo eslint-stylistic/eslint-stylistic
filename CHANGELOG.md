@@ -1,5 +1,21 @@
 # Changelog
 
+## [5.0.0-beta.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.4.1...v5.0.0-beta.1) (2025-06-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* v5: remove sub packages ([#794](https://github.com/eslint-stylistic/eslint-stylistic/issues/794))
+
+### Features
+
+* v5: remove sub packages ([#794](https://github.com/eslint-stylistic/eslint-stylistic/issues/794)) ([3b2fd6e](https://github.com/eslint-stylistic/eslint-stylistic/commit/3b2fd6e09650aefc96ba7a8006012eac9a75d96f))
+
+
+### Chores
+
+* release-please-mark ([4a689f1](https://github.com/eslint-stylistic/eslint-stylistic/commit/4a689f178dc62de258580aa4267e9a134eefb8ea))
+
 ## [4.4.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.4.0...v4.4.1) (2025-06-02)
 
 
