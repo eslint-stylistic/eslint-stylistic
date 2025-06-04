@@ -330,7 +330,13 @@ const reportedNodeAttributes = new WeakMap()
  * @param context The context of the rule
  * @param reservedList The list of reserved props
  */
-function reportNodeAttribute(nodeAttribute: Tree.JSXAttribute | Tree.JSXSpreadAttribute, errorType: MessageIds, node: Tree.JSXOpeningElement, context: Readonly<RuleContext<MessageIds, RuleOptions>>, reservedList: string[]) {
+function reportNodeAttribute(
+  nodeAttribute: Tree.JSXAttribute | Tree.JSXSpreadAttribute,
+  errorType: MessageIds,
+  node: Tree.JSXOpeningElement,
+  context: Readonly<RuleContext<MessageIds, RuleOptions>>,
+  reservedList: string[],
+) {
   const errors = reportedNodeAttributes.get(nodeAttribute) || []
 
   if (errors.includes(errorType))
@@ -390,6 +396,9 @@ export default createRule<RuleOptions, MessageIds>({
         },
         reservedFirst: {
           type: ['array', 'boolean'],
+          items: {
+            type: 'string',
+          },
         },
         reservedLast: {
           type: 'array',

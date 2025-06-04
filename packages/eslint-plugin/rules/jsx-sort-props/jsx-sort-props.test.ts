@@ -7,7 +7,7 @@ import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-sort-props._jsx_'
+import rule from './jsx-sort-props'
 
 const expectedError: TestCaseError<MessageIds> = {
   messageId: 'sortPropsByAlpha',

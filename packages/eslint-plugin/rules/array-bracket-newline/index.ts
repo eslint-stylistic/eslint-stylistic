@@ -1,1 +1,1 @@
-export { default } from './array-bracket-newline._js_'
+export { default } from './array-bracket-newline'

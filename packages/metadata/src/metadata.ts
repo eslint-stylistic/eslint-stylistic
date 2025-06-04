@@ -14,7 +14,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "ruleId": "@stylistic/array-bracket-newline",
         "originalId": "",
         "entry": "packages/eslint-plugin/rules/array-bracket-newline/index.ts",
-        "docsEntry": "packages/eslint-plugin/rules/array-bracket-newline/README._js_.md",
+        "docsEntry": "packages/eslint-plugin/rules/array-bracket-newline/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -28,7 +28,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "ruleId": "@stylistic/array-bracket-spacing",
         "originalId": "",
         "entry": "packages/eslint-plugin/rules/array-bracket-spacing/index.ts",
-        "docsEntry": "packages/eslint-plugin/rules/array-bracket-spacing/README._js_.md",
+        "docsEntry": "packages/eslint-plugin/rules/array-bracket-spacing/README.md",
         "meta": {
           "fixable": "whitespace",
           "docs": {
@@ -572,7 +572,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "ruleId": "@stylistic/jsx-sort-props",
         "originalId": "",
         "entry": "packages/eslint-plugin/rules/jsx-sort-props/index.ts",
-        "docsEntry": "packages/eslint-plugin/rules/jsx-sort-props/README._jsx_.md",
+        "docsEntry": "packages/eslint-plugin/rules/jsx-sort-props/README.md",
         "meta": {
           "fixable": "code",
           "docs": {
