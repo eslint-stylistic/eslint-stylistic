@@ -17,10 +17,6 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'boolean',
             default: false,
           },
-          allowMultiplePropertiesPerLine: { // Deprecated
-            type: 'boolean',
-            default: false,
-          },
         },
         additionalProperties: false,
       },
@@ -34,14 +30,12 @@ export default createRule<RuleOptions, MessageIds>({
   defaultOptions: [
     {
       allowAllPropertiesOnSameLine: false,
-      allowMultiplePropertiesPerLine: false,
     },
   ],
 
   create(context) {
-    const allowSameLine = context.options[0] && (
-      (context.options[0].allowAllPropertiesOnSameLine || context.options[0].allowMultiplePropertiesPerLine /* Deprecated */)
-    )
+    const allowSameLine = context.options[0] && (context.options[0].allowAllPropertiesOnSameLine)
+
     const messageId = allowSameLine
       ? 'propertiesOnNewlineAll'
       : 'propertiesOnNewline'
