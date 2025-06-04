@@ -1,4 +1,4 @@
-# jsx/jsx-tag-spacing
+# jsx-tag-spacing
 
 Enforce whitespace in and around the JSX opening and closing brackets.
 

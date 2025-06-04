@@ -36,7 +36,6 @@ const listeningNodes = [
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'max-statements-per-line',
-  package: 'js',
   meta: {
     type: 'layout',
 

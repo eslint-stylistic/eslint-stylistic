@@ -1,1 +1,1 @@
-export { default } from './quotes._ts_'
+export { default } from './quotes'

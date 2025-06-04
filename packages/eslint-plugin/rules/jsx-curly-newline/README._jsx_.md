@@ -1,4 +1,4 @@
-# jsx/jsx-curly-newline
+# jsx-curly-newline
 
 Enforce consistent linebreaks in curly braces in JSX attributes and expressions.
 

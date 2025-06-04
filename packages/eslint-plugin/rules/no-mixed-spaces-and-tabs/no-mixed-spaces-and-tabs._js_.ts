@@ -8,7 +8,6 @@ import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-mixed-spaces-and-tabs',
-  package: 'js',
   meta: {
     type: 'layout',
 

@@ -13,7 +13,6 @@ type OptionSchema = Extract<PaddedBlocksSchema0, object>
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'padded-blocks',
-  package: 'js',
   meta: {
     type: 'layout',
     docs: {

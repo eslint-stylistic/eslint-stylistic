@@ -1,4 +1,4 @@
-# jsx/jsx-indent
+# jsx-indent
 
 > **Deprecated**: Use [`indent`](https://eslint.style/rules/default/indent) instead, as it fully covers all test cases from this rule.
 

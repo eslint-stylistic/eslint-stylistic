@@ -11,7 +11,7 @@ related_rules:
   - space-return-throw-case
 ---
 
-# js/no-multi-spaces
+# no-multi-spaces
 
 Multiple spaces in a row that are not used for indentation are typically mistakes. For example:
 

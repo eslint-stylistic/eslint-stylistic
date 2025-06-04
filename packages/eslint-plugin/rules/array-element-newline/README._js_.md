@@ -12,7 +12,7 @@ related_rules:
   - brace-style
 ---
 
-# js/array-element-newline
+# array-element-newline
 
 A number of style guides require or disallow line breaks between array elements.
 

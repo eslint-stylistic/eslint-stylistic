@@ -15,7 +15,6 @@ interface ParensPair {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'function-paren-newline',
-  package: 'js',
   meta: {
     type: 'layout',
 

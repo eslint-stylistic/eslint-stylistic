@@ -1,1 +1,1 @@
-export { default } from './spaced-comment._js_'
+export { default } from './spaced-comment'

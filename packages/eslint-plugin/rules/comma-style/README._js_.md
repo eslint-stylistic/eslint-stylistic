@@ -7,7 +7,7 @@ further_reading:
   - 'https://gist.github.com/isaacs/357981'
 ---
 
-# js/comma-style
+# comma-style
 
 The Comma Style rule enforces styles for comma-separated lists. There are two comma styles primarily used in JavaScript:
 

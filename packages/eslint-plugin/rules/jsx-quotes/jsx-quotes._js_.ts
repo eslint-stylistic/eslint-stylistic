@@ -33,7 +33,6 @@ const QUOTE_SETTINGS: Record<string, QuoteSetting> = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-quotes',
-  package: 'js',
   meta: {
     type: 'layout',
 

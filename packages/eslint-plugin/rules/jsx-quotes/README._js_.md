@@ -5,7 +5,7 @@ related_rules:
   - quotes
 ---
 
-# js/jsx-quotes
+# jsx-quotes
 
 JSX attribute values can contain string literals, which are delimited with single or double quotes.
 

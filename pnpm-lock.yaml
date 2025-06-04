@@ -287,18 +287,6 @@ importers:
       '@stylistic/eslint-plugin':
         specifier: workspace:*
         version: link:packages/eslint-plugin
-      '@stylistic/eslint-plugin-js':
-        specifier: workspace:*
-        version: link:packages/eslint-plugin-js
-      '@stylistic/eslint-plugin-migrate':
-        specifier: workspace:*
-        version: link:packages/eslint-plugin-migrate
-      '@stylistic/eslint-plugin-plus':
-        specifier: workspace:*
-        version: link:packages/eslint-plugin-plus
-      '@stylistic/eslint-plugin-ts':
-        specifier: workspace:*
-        version: link:packages/eslint-plugin-ts
       '@types/estraverse':
         specifier: 'catalog:'
         version: 5.1.7
@@ -519,72 +507,6 @@ importers:
       picomatch:
         specifier: 'catalog:'
         version: 4.0.2
-
-  packages/eslint-plugin-js:
-    dependencies:
-      eslint:
-        specifier: '>=9.0.0'
-        version: 9.27.0(jiti@2.4.2)
-      eslint-visitor-keys:
-        specifier: 'catalog:'
-        version: 4.2.0
-      espree:
-        specifier: 'catalog:'
-        version: 10.3.0
-
-  packages/eslint-plugin-jsx:
-    dependencies:
-      eslint:
-        specifier: '>=9.0.0'
-        version: 9.27.0(jiti@2.4.2)
-      eslint-visitor-keys:
-        specifier: 'catalog:'
-        version: 4.2.0
-      espree:
-        specifier: 'catalog:'
-        version: 10.3.0
-      estraverse:
-        specifier: 'catalog:'
-        version: 5.3.0
-      picomatch:
-        specifier: 'catalog:'
-        version: 4.0.2
-
-  packages/eslint-plugin-migrate:
-    dependencies:
-      '@eslint-stylistic/metadata':
-        specifier: workspace:*
-        version: link:../metadata
-      '@typescript-eslint/utils':
-        specifier: 'catalog:'
-        version: 8.32.1(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)
-
-  packages/eslint-plugin-plus:
-    dependencies:
-      eslint:
-        specifier: '>=9.0.0'
-        version: 9.27.0(jiti@2.4.2)
-      eslint-visitor-keys:
-        specifier: 'catalog:'
-        version: 4.2.0
-      espree:
-        specifier: 'catalog:'
-        version: 10.3.0
-
-  packages/eslint-plugin-ts:
-    dependencies:
-      '@typescript-eslint/utils':
-        specifier: 'catalog:'
-        version: 8.32.1(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)
-      eslint:
-        specifier: '>=9.0.0'
-        version: 9.27.0(jiti@2.4.2)
-      eslint-visitor-keys:
-        specifier: 'catalog:'
-        version: 4.2.0
-      espree:
-        specifier: 'catalog:'
-        version: 10.3.0
 
   packages/metadata:
     devDependencies:

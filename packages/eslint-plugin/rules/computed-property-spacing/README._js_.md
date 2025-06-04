@@ -7,7 +7,7 @@ related_rules:
   - space-in-parens
 ---
 
-# js/computed-property-spacing
+# computed-property-spacing
 
 While formatting preferences are very personal, a number of style guides require
 or disallow spaces between computed properties in the following situations:

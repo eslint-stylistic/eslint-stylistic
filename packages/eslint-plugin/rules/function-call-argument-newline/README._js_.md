@@ -8,7 +8,7 @@ related_rules:
   - array-element-newline
 ---
 
-# js/function-call-argument-newline
+# function-call-argument-newline
 
 A number of style guides require or disallow line breaks between arguments of a function call.
 

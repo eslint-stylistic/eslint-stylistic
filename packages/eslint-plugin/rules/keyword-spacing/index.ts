@@ -1,1 +1,1 @@
-export { default } from './keyword-spacing._ts_'
+export { default } from './keyword-spacing'

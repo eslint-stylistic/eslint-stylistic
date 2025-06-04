@@ -45,7 +45,6 @@ const messages = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-child-element-spacing',
-  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {
