@@ -128,7 +128,7 @@ export default createRule<RuleOptions, MessageIds>({
           requireSpace = alwaysFunctions
           requireNoSpace = neverFunctions
         }
-        else if (node.type === 'ClassBody' || node.type === 'TSEnumBody' || node.type === 'TSInterfaceBody') {
+        else if (node.type === 'ClassBody' || node.type === 'TSEnumBody' || node.type === 'TSInterfaceBody' || node.type === 'TSModuleBlock') {
           requireSpace = alwaysClasses
           requireNoSpace = neverClasses
         }
@@ -177,6 +177,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       TSEnumBody: checkPrecedingSpace,
       TSInterfaceBody: checkPrecedingSpace,
+      TSModuleBlock: checkPrecedingSpace,
     }
   },
 })
