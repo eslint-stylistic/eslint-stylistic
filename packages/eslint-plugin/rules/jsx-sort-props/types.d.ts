@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: NydfzVm1GbTYEniPm4xodwC7QinDGKC_Yyc3J6S8OR0 */
+/* @checksum: 6P9ZNPfL6QvIDBC44UNhH_JHsRzBqoqCPC5Z0SkQWAs */
 
 export interface JsxSortPropsSchema0 {
   callbacksLast?: boolean
@@ -10,7 +10,7 @@ export interface JsxSortPropsSchema0 {
   ignoreCase?: boolean
   noSortAlphabetically?: boolean
   reservedFirst?: string[] | boolean
-  reservedLast?: unknown[]
+  reservedLast?: string[]
   locale?: string
 }
 

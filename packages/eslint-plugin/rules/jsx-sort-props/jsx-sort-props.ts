@@ -402,6 +402,9 @@ export default createRule<RuleOptions, MessageIds>({
         },
         reservedLast: {
           type: 'array',
+          items: {
+            type: 'string',
+          },
         },
         locale: {
           type: 'string',
