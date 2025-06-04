@@ -22,9 +22,6 @@ catalogs:
     '@antfu/utils':
       specifier: ^9.3.0
       version: 9.3.0
-    '@types/estraverse':
-      specifier: ^5.1.7
-      version: 5.1.7
     '@types/estree':
       specifier: ^1.0.8
       version: 1.0.8
@@ -153,9 +150,6 @@ catalogs:
     espree:
       specifier: ^10.4.0
       version: 10.4.0
-    estraverse:
-      specifier: ^5.3.0
-      version: 5.3.0
     picomatch:
       specifier: ^4.0.3
       version: 4.0.3
@@ -229,9 +223,6 @@ importers:
       '@stylistic/eslint-plugin':
         specifier: workspace:*
         version: link:packages/eslint-plugin
-      '@types/estraverse':
-        specifier: catalog:dev
-        version: 5.1.7
       '@types/estree':
         specifier: catalog:dev
         version: 1.0.8
@@ -280,9 +271,6 @@ importers:
       espree:
         specifier: catalog:prod
         version: 10.4.0
-      estraverse:
-        specifier: catalog:prod
-        version: 5.3.0
       execa:
         specifier: catalog:dev
         version: 9.6.0
@@ -416,9 +404,6 @@ importers:
       espree:
         specifier: catalog:prod
         version: 10.4.0
-      estraverse:
-        specifier: catalog:prod
-        version: 5.3.0
       picomatch:
         specifier: catalog:prod
         version: 4.0.3
@@ -1454,9 +1439,6 @@ packages:
 
   '@types/eslint@9.6.1':
     resolution: {integrity: sha512-FXx2pKgId/WyYo2jXw63kk7/+TY7u7AziEJxJAnSFzHlqTAS3Ync6SvgYAN/k4/PQpnnVuzoMuVnByKK2qp0ag==}
-
-  '@types/estraverse@5.1.7':
-    resolution: {integrity: sha512-JRVtdKYZz7VkNp7hMC/WKoiZ8DS3byw20ZGoMZ1R8eBrBPIY7iBaDAS1zcrnXQCwK44G4vbXkimeU7R0VLG8UQ==}
 
   '@types/estree@1.0.8':
     resolution: {integrity: sha512-dWHzHa2WqEXI/O1E9OjrocMTKJl2mSrEolh1Iomrv6U+JuNwaHXsXx9bLu5gG7BUWFIN0skIQJQ/L1rIex4X6w==}
@@ -4918,10 +4900,6 @@ snapshots:
     dependencies:
       '@types/estree': 1.0.8
       '@types/json-schema': 7.0.15
-
-  '@types/estraverse@5.1.7':
-    dependencies:
-      '@types/estree': 1.0.8
 
   '@types/estree@1.0.8': {}
 

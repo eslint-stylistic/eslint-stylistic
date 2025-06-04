@@ -10,7 +10,6 @@ catalogs:
     '@antfu/eslint-config': ^6.0.0
     '@antfu/eslint-define-config': 1.23.0-2
     '@antfu/utils': ^9.3.0
-    '@types/estraverse': ^5.1.7
     '@types/estree': ^1.0.8
     '@types/node': ^24.7.2
     '@types/picomatch': ^4.0.2
@@ -59,7 +58,6 @@ catalogs:
     '@typescript-eslint/types': ^8.46.1
     eslint-visitor-keys: ^4.2.1
     espree: ^10.4.0
-    estraverse: ^5.3.0
     picomatch: ^4.0.3
   test:
     '@babel/eslint-parser': ^7.28.4
