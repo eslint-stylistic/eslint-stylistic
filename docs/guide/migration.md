@@ -10,6 +10,14 @@ ESLint Stylistic is migrated from 3 different sources packages:
 - `@typescript-eslint/eslint-plugin`: Stylistic rules for TypeScript
 - `eslint-plugin-react`: Framework-agnostic JSX rules
 
+:::tip
+
+If you are directly migrating from `eslint` and `@typescript-eslint/eslint-plugin`, we you might want to check v4 first for a even smoother migration experience.
+
+[Check the migration guide for v4](https://v4.eslint.style/guide/migration)
+
+:::
+
 ## Manual Migrate
 
 To make the rules configuration easier, we merged all three plugins into one single plugin.
@@ -20,7 +28,7 @@ npm i -D @stylistic/eslint-plugin
 
 ::: warning
 
-In v4, we moved the plugin to **ESM-only**, which only supports flat config and ESLint v9+. If you are still using legacy config, please install v3.x with `npm i -D @stylistic/eslint-plugin@3` first and then move to flat config.
+Since v4, we moved the plugin to **ESM-only**, which only supports flat config and ESLint v9+. If you are still using legacy config, please install v3.x with `npm i -D @stylistic/eslint-plugin@3` first and then move to flat config.
 
 :::
 
