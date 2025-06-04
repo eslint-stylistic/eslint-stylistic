@@ -9,7 +9,6 @@ import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'rest-spread-spacing',
-  package: 'js',
   meta: {
     type: 'layout',
 

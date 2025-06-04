@@ -1,4 +1,4 @@
-# jsx/jsx-first-prop-new-line
+# jsx-first-prop-new-line
 
 Enforce proper position of the first property in JSX.
 

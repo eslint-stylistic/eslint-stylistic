@@ -15,7 +15,6 @@ interface Checker {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'function-call-argument-newline',
-  package: 'js',
   meta: {
     type: 'layout',
 

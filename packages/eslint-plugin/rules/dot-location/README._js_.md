@@ -6,7 +6,7 @@ related_rules:
   - dot-notation
 ---
 
-# js/dot-location
+# dot-location
 
 JavaScript allows you to place newlines before or after a dot in a member expression.
 

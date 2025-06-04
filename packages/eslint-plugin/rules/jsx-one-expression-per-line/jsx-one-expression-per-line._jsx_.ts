@@ -20,7 +20,6 @@ type Child = Tree.JSXChild | Tree.JSXText | Tree.Literal
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-one-expression-per-line',
-  package: 'jsx',
   meta: {
     type: 'layout',
 

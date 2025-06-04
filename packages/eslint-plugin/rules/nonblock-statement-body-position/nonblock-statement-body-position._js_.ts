@@ -16,7 +16,6 @@ const POSITION_SCHEMA: JSONSchema.JSONSchema4 = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'nonblock-statement-body-position',
-  package: 'js',
   meta: {
     type: 'layout',
 

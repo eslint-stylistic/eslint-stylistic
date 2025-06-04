@@ -9,7 +9,6 @@ import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-floating-decimal',
-  package: 'js',
   meta: {
     type: 'layout',
 

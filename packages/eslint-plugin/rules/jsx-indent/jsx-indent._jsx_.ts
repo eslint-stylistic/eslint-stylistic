@@ -42,7 +42,6 @@ const messages = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-indent',
-  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {

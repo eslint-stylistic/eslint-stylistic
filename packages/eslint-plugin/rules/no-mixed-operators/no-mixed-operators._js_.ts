@@ -75,7 +75,6 @@ type NodeType = Tree.BinaryExpression | Tree.LogicalExpression
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-mixed-operators',
-  package: 'js',
   meta: {
     type: 'layout',
 

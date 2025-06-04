@@ -1,1 +1,1 @@
-export { default } from './object-property-newline._ts_'
+export { default } from './object-property-newline'

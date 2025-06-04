@@ -1,1 +1,1 @@
-export { default } from './one-var-declaration-per-line._js_'
+export { default } from './one-var-declaration-per-line'

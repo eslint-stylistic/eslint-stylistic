@@ -18,7 +18,6 @@ import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'comma-style',
-  package: 'js',
   meta: {
     type: 'layout',
 

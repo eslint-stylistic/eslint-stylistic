@@ -71,7 +71,6 @@ const messages = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-pascal-case',
-  package: 'jsx',
   meta: {
     type: 'suggestion',
 

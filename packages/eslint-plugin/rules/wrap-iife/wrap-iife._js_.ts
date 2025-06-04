@@ -24,7 +24,6 @@ function isCalleeOfNewExpression(node: ASTNode) {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'wrap-iife',
-  package: 'js',
   meta: {
     type: 'layout',
 

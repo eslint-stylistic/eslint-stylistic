@@ -20,7 +20,6 @@ const messages = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-max-props-per-line',
-  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {

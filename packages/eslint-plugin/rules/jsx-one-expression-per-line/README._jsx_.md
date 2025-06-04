@@ -1,4 +1,4 @@
-# jsx/jsx-one-expression-per-line
+# jsx-one-expression-per-line
 
 Require one JSX element per line.
 

@@ -1,1 +1,1 @@
-export { default } from './no-extra-parens._ts_'
+export { default } from './no-extra-parens'

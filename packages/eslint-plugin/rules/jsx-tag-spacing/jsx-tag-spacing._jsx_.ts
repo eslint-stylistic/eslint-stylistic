@@ -284,7 +284,6 @@ const optionDefaults: Required<Option> = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-tag-spacing',
-  package: 'jsx',
   meta: {
     type: 'layout',
 

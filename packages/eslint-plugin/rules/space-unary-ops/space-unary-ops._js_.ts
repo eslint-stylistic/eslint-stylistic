@@ -10,7 +10,6 @@ import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'space-unary-ops',
-  package: 'js',
   meta: {
     type: 'layout',
 

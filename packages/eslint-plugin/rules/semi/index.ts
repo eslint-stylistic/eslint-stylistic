@@ -1,1 +1,1 @@
-export { default } from './semi._ts_'
+export { default } from './semi'

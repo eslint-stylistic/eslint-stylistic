@@ -12,6 +12,7 @@ import { GEN_HEADER } from './meta'
 const VERSION = 'v1'
 
 const PACKAGES = [
+  '',
   'ts',
   'jsx',
   'plus',
@@ -27,25 +28,15 @@ export async function generateDtsFromSchema() {
   for (const dir of dirs) {
     const name = basename(dir)
 
-    const pkgs = PACKAGES.filter(i => existsSync(join(dir, `${name}._${i}_.ts`)))
+    const pkgs = PACKAGES
+      .filter(i => existsSync(join(dir, i ? `${name}._${i}_.ts` : `${name}.ts`)))
     const formatted = await Promise.all(pkgs.map(async (pkg) => {
-      const file = pathToFileURL(join(dir, `${name}._${pkg}_.ts`)).href
-      const formatted = await getDts(
-        file,
-        name,
-      )
+      const file = pathToFileURL(join(dir, pkg ? `${name}._${pkg}_.ts` : `${name}.ts`)).href
+      const formatted = await getDts(file, name)
       return [pkg, formatted] as const
     }))
 
-    if (new Set(formatted.map(i => i[1])).size === 1) {
-      await fs.writeFile(resolve(dir, `types.d.ts`), formatted[0][1], 'utf-8')
-    }
-    else {
-      for (const [pkg, dts] of formatted) {
-        await fs.writeFile(resolve(dir, `types._${pkg}_.d.ts`), dts, 'utf-8')
-      }
-      await fs.writeFile(resolve(dir, `types.d.ts`), formatted[0][1], 'utf-8')
-    }
+    await fs.writeFile(resolve(dir, `types.d.ts`), formatted[0][1], 'utf-8')
   }
 }
 

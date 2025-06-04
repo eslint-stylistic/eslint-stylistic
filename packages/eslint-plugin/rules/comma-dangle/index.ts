@@ -1,1 +1,1 @@
-export { default } from './comma-dangle._ts_'
+export { default } from './comma-dangle'

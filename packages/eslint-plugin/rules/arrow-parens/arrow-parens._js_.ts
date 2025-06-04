@@ -19,7 +19,6 @@ function hasBlockBody(node: Tree.ArrowFunctionExpression) {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'arrow-parens',
-  package: 'js',
   meta: {
     type: 'layout',
 

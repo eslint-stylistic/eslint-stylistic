@@ -38,7 +38,6 @@ const messages = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-curly-newline',
-  package: 'jsx',
   meta: {
     type: 'layout',
 

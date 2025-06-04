@@ -27,7 +27,6 @@ const messages = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-curly-brace-presence',
-  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {

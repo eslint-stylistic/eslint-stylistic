@@ -1,1 +1,1 @@
-export { default } from './brace-style._ts_'
+export { default } from './brace-style'

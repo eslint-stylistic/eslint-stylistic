@@ -1,4 +1,4 @@
-# jsx/jsx-curly-spacing
+# jsx-curly-spacing
 
 Enforce or disallow spaces inside of curly braces in JSX attributes and expressions.
 
