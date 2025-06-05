@@ -31,11 +31,6 @@ export default antfu(
       'style/max-statements-per-line': 'off',
       'style/multiline-ternary': 'off',
       'style/no-mixed-operators': 'off',
-      'style/operator-linebreak': ['error', 'before', {
-        overrides: {
-          '=': 'after',
-        },
-      }],
       'ts/no-require-import': 'off',
       'ts/no-require-imports': 'off',
       'ts/no-var-requires': 'off',
