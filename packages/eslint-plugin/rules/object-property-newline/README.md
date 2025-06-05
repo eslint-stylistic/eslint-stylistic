@@ -84,7 +84,7 @@ Another benefit of this rule is specificity of diffs when a property is changed:
 
 ### Optional Exception
 
-The rule offers one object option, `allowAllPropertiesOnSameLine` (a deprecated synonym is `allowMultiplePropertiesPerLine`). If you set it to `true`, object literals such as the first two above, with all property specifications on the same line, will be permitted, but one like
+The rule offers one object option, `allowAllPropertiesOnSameLine`. If you set it to `true`, object literals such as the first two above, with all property specifications on the same line, will be permitted, but one like
 
 ```js
 const newObject = {

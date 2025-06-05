@@ -53,9 +53,6 @@ run<RuleOptions, MessageIds>({
     { code: 'var obj = {k1: [\'foo\', \'bar\'], k2: \'val1\', k3: \'val2\'};', options: [{ allowAllPropertiesOnSameLine: true }] },
     { code: 'var obj = {\nk1: [\'foo\', \'bar\'], k2: \'val1\', k3: \'val2\'\n};', options: [{ allowAllPropertiesOnSameLine: true }] },
     { code: 'var obj = {\nk1: \'val1\', k2: {e1: \'foo\', e2: \'bar\'}, k3: \'val2\'\n};', options: [{ allowAllPropertiesOnSameLine: true }] },
-
-    // allowMultiplePropertiesPerLine: true (deprecated)
-    { code: 'var obj = { k1: \'val1\', k2: \'val2\', k3: \'val3\' };', options: [{ allowMultiplePropertiesPerLine: true }] },
   ],
 
   invalid: [
@@ -632,23 +629,6 @@ run<RuleOptions, MessageIds>({
       output: 'foo({\n...{},\nk1: \'val1\',\nk2: \'val2\'\n})',
       options: [{ allowAllPropertiesOnSameLine: true }],
       parserOptions: { ecmaVersion: 2018 },
-      errors: [
-        {
-          messageId: 'propertiesOnNewlineAll',
-          type: 'ObjectExpression',
-          line: 3,
-          column: 13,
-          endLine: 3,
-          endColumn: 15,
-        },
-      ],
-    },
-
-    // allowMultiplePropertiesPerLine: true (deprecated)
-    {
-      code: 'var obj = {\nk1: \'val1\',\nk2: \'val2\', k3: \'val3\'\n};',
-      output: 'var obj = {\nk1: \'val1\',\nk2: \'val2\',\nk3: \'val3\'\n};',
-      options: [{ allowMultiplePropertiesPerLine: true }],
       errors: [
         {
           messageId: 'propertiesOnNewlineAll',
