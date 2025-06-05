@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { $, run } from '#test'
 import rule from '.'
 
 run<RuleOptions, MessageIds>({
@@ -137,6 +137,206 @@ run<RuleOptions, MessageIds>({
       code: 'class C { foo\n=\n0 }',
       options: ['none', { overrides: { '=': 'ignore' } }],
       parserOptions: { ecmaVersion: 2022 },
+    },
+    // TSImportEqualsDeclaration
+    {
+      code: $`
+        import F1
+          = A;
+        import F2
+          = A.B.C;
+        import F3
+          = require('mod');
+        import F1 = A;
+        import F2 = A.B.C;
+        import F3 = require('mod');
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        import F1 =
+          A;
+        import F2 =
+          A.B.C;
+        import F3 =
+          require('mod');
+        import F1 = A;
+        import F2 = A.B.C;
+        import F3 = require('mod');
+      `,
+      options: ['after'],
+    },
+    {
+      code: $`
+        import F1 = A;
+        import F2 = A.B.C;
+        import F3 = require('mod');
+      `,
+      options: ['none'],
+    },
+    // TSTypeAliasDeclaration
+    {
+      code: $`
+        type A
+          = string;
+        type A = string;
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        type A =
+          string;
+        type A = string;
+      `,
+      options: ['after'],
+    },
+    {
+      code: $`
+        type A = string;
+      `,
+      options: ['none'],
+    },
+    // TSConditionalType
+    {
+      code: $`
+        type A = Foo extends Bar
+          ? true
+          : false;
+        type A = Foo extends Bar ? true : false;
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        type A = Foo extends Bar ?
+          true :
+          false;
+        type A = Foo extends Bar ? true : false;
+      `,
+      options: ['after'],
+    },
+    {
+      code: $`
+        type A = Foo extends Bar ? true : false;
+      `,
+      options: ['none'],
+    },
+    // TSIntersectionType
+    {
+      code: $`
+        type A = Foo
+          & Bar
+          & {};
+        type A = Foo & {};
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        type A = Foo &
+          Bar &
+          {};
+        type A = Foo & {};
+      `,
+      options: ['after'],
+    },
+    {
+      code: $`
+        type A = Foo & {};
+      `,
+      options: ['none'],
+    },
+    // TSUnionType
+    {
+      code: $`
+        type A = Foo
+          | Bar
+          | {};
+        type A = Foo | {};
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        type A = Foo |
+          Bar |
+          {};
+        type A = Foo | {};
+      `,
+      options: ['after'],
+    },
+    {
+      code: $`
+        type A = Foo | {};
+      `,
+      options: ['none'],
+    },
+    // TSTypeParameter
+    {
+      code: $`
+        type Foo<T
+          = number> = {
+          a: T;
+        };
+        type Foo<T = number> = {
+          a: T;
+        };
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        type Foo<T =
+          number> = {
+          a: T;
+        };
+        type Foo<T = number> = {
+          a: T;
+        };
+      `,
+      options: ['after'],
+    },
+    {
+      code: $`
+        type Foo<T = number> = {
+          a: T;
+        };
+      `,
+      options: ['none'],
+    },
+    // TSEnumMember
+    {
+      code: $`
+        enum Foo {
+          A,
+          B = 2,
+          C
+            = 4,
+        }
+      `,
+      options: ['before'],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B = 2,
+          C =
+            4,
+        }
+      `,
+      options: ['after'],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B = 2,
+        }
+      `,
+      options: ['none'],
     },
   ],
 
@@ -896,6 +1096,404 @@ run<RuleOptions, MessageIds>({
         endLine: 2,
         endColumn: 3,
       }],
+    },
+    // TSImportEqualsDeclaration
+    {
+      code: $`
+        import F1 =
+          A;
+        import F2 =
+          A.B.C;
+        import F3 =
+          require('mod');
+      `,
+      output: $`
+        import F1
+          = A;
+        import F2
+          = A.B.C;
+        import F3
+          = require('mod');
+      `,
+      options: ['before'],
+      errors: [
+        { messageId: 'operatorAtBeginning' },
+        { messageId: 'operatorAtBeginning' },
+        { messageId: 'operatorAtBeginning' },
+      ],
+    },
+    {
+      code: $`
+        import F1
+          = A;
+        import F2
+          = A.B.C;
+        import F3
+          = require('mod');
+      `,
+      output: $`
+        import F1 =
+          A;
+        import F2 =
+          A.B.C;
+        import F3 =
+          require('mod');
+      `,
+      options: ['after'],
+      errors: [
+        { messageId: 'operatorAtEnd' },
+        { messageId: 'operatorAtEnd' },
+        { messageId: 'operatorAtEnd' },
+      ],
+    },
+    {
+      code: $`
+        import F1
+          = A;
+        import F2 =
+          A.B.C;
+        import F3
+          = require('mod');
+      `,
+      output: $`
+        import F1  = A;
+        import F2 =  A.B.C;
+        import F3  = require('mod');
+      `,
+      options: ['none'],
+      errors: [
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+      ],
+    },
+    // TSTypeAliasDeclaration
+    {
+      code: $`
+        type A =
+          string;
+      `,
+      output: $`
+        type A
+          = string;
+      `,
+      options: ['before'],
+      errors: [
+        { messageId: 'operatorAtBeginning' },
+      ],
+    },
+    {
+      code: $`
+        type A
+          = string;
+      `,
+      output: $`
+        type A =
+          string;
+      `,
+      errors: [
+        { messageId: 'operatorAtEnd' },
+      ],
+      options: ['after'],
+    },
+    {
+      code: $`
+        type A
+          = string;
+        type A =
+          string;
+      `,
+      output: $`
+        type A  = string;
+        type A =  string;
+      `,
+      errors: [
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+      ],
+      options: ['none'],
+    },
+    // TSConditionalType
+    {
+      code: $`
+        type A = Foo extends Bar ?
+          true :
+          false;
+      `,
+      output: $`
+        type A = Foo extends Bar
+          ? true
+          : false;
+      `,
+      errors: [
+        { messageId: 'operatorAtBeginning' },
+        { messageId: 'operatorAtBeginning' },
+      ],
+      options: ['before'],
+    },
+    {
+      code: $`
+        type A = Foo extends Bar
+          ? true
+          : false;
+      `,
+      output: $`
+        type A = Foo extends Bar ?
+          true :
+          false;
+      `,
+      errors: [
+        { messageId: 'operatorAtEnd' },
+        { messageId: 'operatorAtEnd' },
+      ],
+      options: ['after'],
+    },
+    {
+      code: $`
+        type A = Foo extends Bar ?
+          true :
+          false;
+      `,
+      output: $`
+        type A = Foo extends Bar ?  true :  false;
+      `,
+      errors: [
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+      ],
+      options: ['none'],
+    },
+    // TSIntersectionType
+    {
+      code: $`
+        type A = Foo &
+          Bar &
+          {};
+      `,
+      output: $`
+        type A = Foo
+          & Bar
+          & {};
+      `,
+      options: ['before'],
+      errors: [
+        { messageId: 'operatorAtBeginning' },
+        { messageId: 'operatorAtBeginning' },
+      ],
+    },
+    {
+      code: $`
+        type A = Foo
+          & Bar
+          & {};
+      `,
+      output: $`
+        type A = Foo &
+          Bar &
+          {};
+      `,
+      options: ['after'],
+      errors: [
+        { messageId: 'operatorAtEnd' },
+        { messageId: 'operatorAtEnd' },
+      ],
+    },
+    {
+      code: $`
+        type A = Foo &
+          Bar
+          & {};
+      `,
+      output: $`
+        type A = Foo &  Bar  & {};
+      `,
+      options: ['none'],
+      errors: [
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+      ],
+    },
+    // TSUnionType
+    {
+      code: $`
+        type A = Foo |
+          Bar |
+          {};
+      `,
+      output: $`
+        type A = Foo
+          | Bar
+          | {};
+      `,
+      options: ['before'],
+      errors: [
+        { messageId: 'operatorAtBeginning' },
+        { messageId: 'operatorAtBeginning' },
+      ],
+    },
+    {
+      code: $`
+        type A = Foo
+          | Bar
+          | {};
+      `,
+      output: $`
+        type A = Foo |
+          Bar |
+          {};
+      `,
+      options: ['after'],
+      errors: [
+        { messageId: 'operatorAtEnd' },
+        { messageId: 'operatorAtEnd' },
+      ],
+    },
+    {
+      code: $`
+        type A = Foo |
+          Bar
+          | {};
+      `,
+      output: $`
+        type A = Foo |  Bar  | {};
+      `,
+      options: ['none'],
+      errors: [
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+      ],
+    },
+    // TSTypeParameter
+    {
+      code: $`
+        type Foo<T =
+          number> = {
+          a: T;
+        };
+      `,
+      output: $`
+        type Foo<T
+          = number> = {
+          a: T;
+        };
+      `,
+      options: ['before'],
+      errors: [
+        { messageId: 'operatorAtBeginning' },
+      ],
+    },
+    {
+      code: $`
+        type Foo<T
+          = number> = {
+          a: T;
+        };
+      `,
+      output: $`
+        type Foo<T =
+          number> = {
+          a: T;
+        };
+      `,
+      options: ['after'],
+      errors: [
+        { messageId: 'operatorAtEnd' },
+      ],
+    },
+    {
+      code: $`
+        type Foo<T
+          = number> = {
+          a: T;
+        };
+        type Foo<T =
+          number> = {
+          a: T;
+        };
+      `,
+      output: $`
+        type Foo<T  = number> = {
+          a: T;
+        };
+        type Foo<T =  number> = {
+          a: T;
+        };
+      `,
+      options: ['none'],
+      errors: [
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+      ],
+    },
+    // TSEnumMember
+    {
+      code: $`
+        enum Foo {
+          A,
+          B = 2,
+          C =
+            4,
+        }
+      `,
+      output: $`
+        enum Foo {
+          A,
+          B = 2,
+          C
+            = 4,
+        }
+      `,
+      options: ['before'],
+      errors: [
+        { messageId: 'operatorAtBeginning' },
+      ],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B = 2,
+          C
+            = 4,
+        }
+      `,
+      output: $`
+        enum Foo {
+          A,
+          B = 2,
+          C =
+            4,
+        }
+      `,
+      errors: [
+        { messageId: 'operatorAtEnd' },
+      ],
+      options: ['after'],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B = 2,
+          C
+            = 4,
+          D =
+            6,
+        }
+      `,
+      output: $`
+        enum Foo {
+          A,
+          B = 2,
+          C    = 4,
+          D =    6,
+        }
+      `,
+      errors: [
+        { messageId: 'noLinebreak' },
+        { messageId: 'noLinebreak' },
+      ],
+      options: ['none'],
     },
   ],
 })

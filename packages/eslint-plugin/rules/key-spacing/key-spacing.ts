@@ -21,8 +21,8 @@ const listeningNodes = [
   'ClassBody',
 ] satisfies (keyof typeof Tree.AST_NODE_TYPES)[]
 
-type UnionToIntersection<U> =
-  (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never
+type UnionToIntersection<U>
+  = (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never
 
 type OptionsUnion = UnionToIntersection<Exclude<RuleOptions[0], undefined>>
 
@@ -745,10 +745,10 @@ export default createRule<RuleOptions, MessageIds>({
       )
     }
 
-    type KeyTypeNode =
-      | Tree.PropertyDefinition
-      | Tree.TSIndexSignature
-      | Tree.TSPropertySignature
+    type KeyTypeNode
+      = | Tree.PropertyDefinition
+        | Tree.TSIndexSignature
+        | Tree.TSPropertySignature
 
     type KeyTypeNodeWithTypeAnnotation = KeyTypeNode & {
       typeAnnotation: Tree.TSTypeAnnotation

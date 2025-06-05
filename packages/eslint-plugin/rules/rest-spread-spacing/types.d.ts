@@ -9,6 +9,6 @@ export type RestSpreadSpacingRuleOptions = [
 ]
 
 export type RuleOptions = RestSpreadSpacingRuleOptions
-export type MessageIds =
-  | 'unexpectedWhitespace'
-  | 'expectedWhitespace'
+export type MessageIds
+  = | 'unexpectedWhitespace'
+    | 'expectedWhitespace'

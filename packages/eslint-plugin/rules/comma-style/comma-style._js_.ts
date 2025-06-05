@@ -260,39 +260,39 @@ export default createRule<RuleOptions, MessageIds>({
       })
     }
 
-    type NodeType =
-      | Tree.VariableDeclaration
-      | Tree.ArrayExpression
-      | Tree.ObjectExpression
-      | Tree.ObjectPattern
-      | Tree.ArrayPattern
-      | Tree.FunctionDeclaration
-      | Tree.FunctionExpression
-      | Tree.CallExpression
-      | Tree.ImportDeclaration
-      | Tree.NewExpression
-      | Tree.ArrowFunctionExpression
-      | Tree.ExportAllDeclaration
-      | Tree.ExportNamedDeclaration
-      | Tree.ImportExpression
-      | Tree.SequenceExpression
-      | Tree.ClassDeclaration
-      | Tree.ClassExpression
-      | Tree.TSDeclareFunction
-      | Tree.TSFunctionType
-      | Tree.TSConstructorType
-      | Tree.TSEmptyBodyFunctionExpression
-      | Tree.TSEnumBody
-      | Tree.TSTypeLiteral
-      | Tree.TSIndexSignature
-      | Tree.TSMethodSignature
-      | Tree.TSCallSignatureDeclaration
-      | Tree.TSConstructSignatureDeclaration
-      | Tree.TSInterfaceBody
-      | Tree.TSInterfaceDeclaration
-      | Tree.TSTupleType
-      | Tree.TSTypeParameterDeclaration
-      | Tree.TSTypeParameterInstantiation
+    type NodeType
+      = | Tree.VariableDeclaration
+        | Tree.ArrayExpression
+        | Tree.ObjectExpression
+        | Tree.ObjectPattern
+        | Tree.ArrayPattern
+        | Tree.FunctionDeclaration
+        | Tree.FunctionExpression
+        | Tree.CallExpression
+        | Tree.ImportDeclaration
+        | Tree.NewExpression
+        | Tree.ArrowFunctionExpression
+        | Tree.ExportAllDeclaration
+        | Tree.ExportNamedDeclaration
+        | Tree.ImportExpression
+        | Tree.SequenceExpression
+        | Tree.ClassDeclaration
+        | Tree.ClassExpression
+        | Tree.TSDeclareFunction
+        | Tree.TSFunctionType
+        | Tree.TSConstructorType
+        | Tree.TSEmptyBodyFunctionExpression
+        | Tree.TSEnumBody
+        | Tree.TSTypeLiteral
+        | Tree.TSIndexSignature
+        | Tree.TSMethodSignature
+        | Tree.TSCallSignatureDeclaration
+        | Tree.TSConstructSignatureDeclaration
+        | Tree.TSInterfaceBody
+        | Tree.TSInterfaceDeclaration
+        | Tree.TSTupleType
+        | Tree.TSTypeParameterDeclaration
+        | Tree.TSTypeParameterInstantiation
 
     const nodes: RuleListener = {}
 

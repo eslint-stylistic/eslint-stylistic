@@ -11,6 +11,6 @@ export type ObjectPropertyNewlineRuleOptions = [
 ]
 
 export type RuleOptions = ObjectPropertyNewlineRuleOptions
-export type MessageIds =
-  | 'propertiesOnNewlineAll'
-  | 'propertiesOnNewline'
+export type MessageIds
+  = | 'propertiesOnNewlineAll'
+    | 'propertiesOnNewline'
