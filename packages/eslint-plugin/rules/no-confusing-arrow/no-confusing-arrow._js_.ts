@@ -6,7 +6,7 @@
 
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isParenthesised } from '#utils/ast'
+import { getSurroundingParens } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 /**
@@ -57,7 +57,7 @@ export default createRule<RuleOptions, MessageIds>({
       const body = node.body
 
       if (isConditional(body)
-        && !(allowParens && isParenthesised(sourceCode, body))
+        && !(allowParens && getSurroundingParens(body, sourceCode) != null)
         && !(onlyOneSimpleParam && !(node.params.length === 1 && node.params[0].type === 'Identifier'))) {
         context.report({
           node,

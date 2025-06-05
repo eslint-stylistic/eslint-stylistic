@@ -203,22 +203,6 @@ export function negate<T extends Function>(f: T): T {
 }
 
 /**
- * Determines if a node is surrounded by parentheses.
- * @param sourceCode The ESLint source code object
- * @param node The node to be checked.
- * @returns True if the node is parenthesised.
- * @private
- */
-export function isParenthesised(sourceCode: TSESLint.SourceCode, node: ASTNode) {
-  const previousToken = sourceCode.getTokenBefore(node)
-  const nextToken = sourceCode.getTokenAfter(node)
-
-  return !!previousToken && !!nextToken
-    && previousToken.value === '(' && previousToken.range[1] <= node.range![0]
-    && nextToken.value === ')' && nextToken.range[0] >= node.range![1]
-}
-
-/**
  * Checks if the given token is a `=` token or not.
  * @param token The token to check.
  * @returns `true` if the token is a `=` token.
@@ -918,36 +902,38 @@ function getParentSyntaxParen(node: ASTNode, sourceCode: SourceCode) {
 /**
  * Check whether a given node is parenthesized or not.
  */
-export function isParenthesized(
+export function getSurroundingParens(
   node: ASTNode,
   sourceCode: SourceCode,
-  times = 1,
-) {
-  let maybeLeftParen, maybeRightParen
+  {
+    includeParentSyntaxParens = true,
+    skip = 0,
+    filter,
+  }: {
+    includeParentSyntaxParens?: boolean
+    skip?: number
+    filter?: (
+      parens: [Tree.PunctuatorToken, Tree.PunctuatorToken],
+      node: ASTNode,
+      sourceCode: SourceCode
+    ) => boolean
+  } = {},
+): [Tree.PunctuatorToken, Tree.PunctuatorToken] | null {
+  let maybeLeftParen: ASTNode | Token | null = node
+  let maybeRightParen: ASTNode | Token | null = node
 
-  if (
-    node == null
-    // `Program` can't be parenthesized
-    || node.parent == null
-    // `CatchClause.param` can't be parenthesized, example `try {} catch (error) {}`
-    || (node.parent.type === 'CatchClause' && node.parent.param === node)
-  ) {
-    return false
+  for (;;) {
+    maybeLeftParen = sourceCode.getTokenBefore(maybeLeftParen!)
+    maybeRightParen = sourceCode.getTokenAfter(maybeRightParen!)
+
+    if (maybeLeftParen == null || maybeRightParen == null || !isOpeningParenToken(maybeLeftParen) || !isClosingParenToken(maybeRightParen)) {
+      return null
+    }
+
+    const pair = [maybeLeftParen, maybeRightParen] as [any, any]
+
+    if ((includeParentSyntaxParens || maybeLeftParen !== getParentSyntaxParen(node, sourceCode)) && (filter == null || filter(pair, node, sourceCode)) && skip-- === 0) {
+      return pair
+    }
   }
-
-  maybeLeftParen = maybeRightParen = node
-  do {
-    maybeLeftParen = sourceCode.getTokenBefore(maybeLeftParen)
-    maybeRightParen = sourceCode.getTokenAfter(maybeRightParen)
-  } while (
-    maybeLeftParen != null
-    && maybeRightParen != null
-    && (maybeLeftParen.type === 'Punctuator' && maybeLeftParen.value === '(')
-    && (maybeRightParen.type === 'Punctuator' && maybeRightParen.value === ')')
-    // Avoid false positive such as `if (a) {}`
-    && maybeLeftParen !== getParentSyntaxParen(node, sourceCode)
-    && --times > 0
-  )
-
-  return times === 0
 }

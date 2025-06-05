@@ -154,6 +154,7 @@ run<RuleOptions, MessageIds>({
     'for(a in b, c);',
     'for(a of b);',
     'for (a of (b, c));',
+    'try{}catch(a){}',
     'var a = (b, c);',
     '[]',
     '[a, b]',
@@ -763,6 +764,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: 'const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));',
+      options: ['all', { allowParensAfterCommentPattern: '@type' }],
+    },
+    {
+      code: '/** @type */(/** @type */(undefined))',
       options: ['all', { allowParensAfterCommentPattern: '@type' }],
     },
 
@@ -3363,6 +3368,18 @@ run<RuleOptions, MessageIds>({
       code: 'const net = ipaddr.parseCIDR(/** @type {string} */ (cidr));',
       output: 'const net = ipaddr.parseCIDR(/** @type {string} */ cidr);',
       options: ['all', { allowParensAfterCommentPattern: 'invalid' }],
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: '(/** @type */(undefined))',
+      output: '/** @type */(undefined)',
+      options: ['all', { allowParensAfterCommentPattern: '@type' }],
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: '/** @type */((undefined))',
+      output: '/** @type */(undefined)',
+      options: ['all', { allowParensAfterCommentPattern: '@type' }],
       errors: [{ messageId: 'unexpected' }],
     },
 

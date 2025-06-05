@@ -5,7 +5,7 @@
 
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { getPrecedence, isNotClosingParenToken, isParenthesised } from '#utils/ast'
+import { getPrecedence, getSurroundingParens, isNotClosingParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const ARITHMETIC_OPERATORS = ['+', '-', '*', '/', '%', '**']
@@ -152,7 +152,7 @@ export default createRule<RuleOptions, MessageIds>({
     function isMixedWithParent(node: NodeType): boolean {
       return (
         node.operator !== (node.parent as NodeType).operator
-        && !isParenthesised(sourceCode, node)
+        && getSurroundingParens(node, sourceCode) == null
       )
     }
 
