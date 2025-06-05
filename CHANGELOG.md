@@ -1,5 +1,56 @@
 # Changelog
 
+## [6.0.0-beta.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0-beta.1...v6.0.0-beta.1) (2025-06-05)
+
+
+### ⚠ BREAKING CHANGES
+
+* **object-property-newline:** remove deprecated option ([#809](https://github.com/eslint-stylistic/eslint-stylistic/issues/809))
+
+### Features
+
+* **object-property-newline:** remove deprecated option ([#809](https://github.com/eslint-stylistic/eslint-stylistic/issues/809)) ([30614af](https://github.com/eslint-stylistic/eslint-stylistic/commit/30614af0e865c3dd6ff0c1d8d9d8407619d4d263))
+* **operator-linebreak:** support TS Nodes ([#805](https://github.com/eslint-stylistic/eslint-stylistic/issues/805)) ([d7ab8d2](https://github.com/eslint-stylistic/eslint-stylistic/commit/d7ab8d226dcf8a3962c91d036ead4dbfc33c7e99))
+
+
+### Bug Fixes
+
+* **jsx-sort-props:** correct option schema ([#801](https://github.com/eslint-stylistic/eslint-stylistic/issues/801)) ([f80f38a](https://github.com/eslint-stylistic/eslint-stylistic/commit/f80f38a9d68d9f98b6a32329b94ce8a5f61a58f7))
+
+
+### Documentation
+
+* redirect sub packages links ([#811](https://github.com/eslint-stylistic/eslint-stylistic/issues/811)) ([3a6aff2](https://github.com/eslint-stylistic/eslint-stylistic/commit/3a6aff2ae24c8cc7367f311d008e5dc7e9dc896d))
+
+## [5.0.0-beta.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.4.1...v5.0.0-beta.1) (2025-06-04)
+
+
+### ⚠ BREAKING CHANGES
+
+* v5: remove sub packages ([#794](https://github.com/eslint-stylistic/eslint-stylistic/issues/794))
+
+### Features
+
+* v5: remove sub packages ([#794](https://github.com/eslint-stylistic/eslint-stylistic/issues/794)) ([3b2fd6e](https://github.com/eslint-stylistic/eslint-stylistic/commit/3b2fd6e09650aefc96ba7a8006012eac9a75d96f))
+
+
+### Chores
+
+* release-please-mark ([4a689f1](https://github.com/eslint-stylistic/eslint-stylistic/commit/4a689f178dc62de258580aa4267e9a134eefb8ea))
+
+## [4.4.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.4.0...v4.4.1) (2025-06-02)
+
+
+### Bug Fixes
+
+* **keyword-spacing:** check spaces around the `type` keyword in `export` declarations ([#797](https://github.com/eslint-stylistic/eslint-stylistic/issues/797)) ([6854a3c](https://github.com/eslint-stylistic/eslint-stylistic/commit/6854a3c832a35397d1b5a558c85508f6edef18d8))
+
+
+### Chores
+
+* **indent-binary-ops:** use unified testing tool ([#806](https://github.com/eslint-stylistic/eslint-stylistic/issues/806)) ([3a8fc53](https://github.com/eslint-stylistic/eslint-stylistic/commit/3a8fc53f5b05c23ecd0665c8ce4c2e6d5e94dd96))
+* **type-generic-spacing:** unify spacing checks ([#800](https://github.com/eslint-stylistic/eslint-stylistic/issues/800)) ([6f8b01c](https://github.com/eslint-stylistic/eslint-stylistic/commit/6f8b01c550383d631d1da5d5e3919a29fb9a593b))
+
 ## [4.4.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v4.3.0...v4.4.0) (2025-05-24)
 
 

@@ -1,1 +1,1 @@
-export { default } from './type-generic-spacing._plus_'
+export { default } from './type-generic-spacing'

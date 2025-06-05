@@ -1,1 +1,1 @@
-export { default } from './type-named-tuple-spacing._plus_'
+export { default } from './type-named-tuple-spacing'

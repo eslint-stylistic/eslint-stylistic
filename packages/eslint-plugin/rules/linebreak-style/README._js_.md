@@ -3,7 +3,7 @@ title: linebreak-style
 rule_type: layout
 ---
 
-# js/linebreak-style
+# linebreak-style
 
 When developing with a lot of people all having different editors, VCS applications and operating systems it may occur that
 different line endings are written by either of the mentioned (might especially happen when using the windows and mac versions of SourceTree together).

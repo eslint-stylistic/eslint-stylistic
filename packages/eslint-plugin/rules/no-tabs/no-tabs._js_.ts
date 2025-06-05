@@ -11,7 +11,6 @@ const anyNonWhitespaceRegex = /\S/u
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-tabs',
-  package: 'js',
   meta: {
     type: 'layout',
 

@@ -1,1 +1,1 @@
-export { default } from './switch-colon-spacing._js_'
+export { default } from './switch-colon-spacing'

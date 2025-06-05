@@ -30,7 +30,6 @@ const messages = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-curly-spacing',
-  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {

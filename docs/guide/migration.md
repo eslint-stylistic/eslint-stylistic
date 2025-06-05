@@ -4,23 +4,21 @@
 
 This guide will help you to do the migration.
 
-## Manual Migrate
-
 ESLint Stylistic is migrated from 3 different sources packages:
 
-- `eslint` -> `@stylistic/eslint-plugin-js`
-  - Built-in stylistic rules for JavaScript
-- `@typescript-eslint/eslint-plugin` -> `@stylistic/eslint-plugin-ts`
-  - Stylistic rules for TypeScript
-- `eslint-plugin-react` -> `@stylistic/eslint-plugin-jsx`
-  - Framework-agnostic JSX rules
+- `eslint`: Built-in stylistic rules for JavaScript
+- `@typescript-eslint/eslint-plugin`: Stylistic rules for TypeScript
+- `eslint-plugin-react`: Framework-agnostic JSX rules
 
-There are two ways to migrate your project to ESLint Stylistic:
+:::tip
 
-- [Approach 1: Migrate to Single Plugin](#approach-1-migrate-to-single-plugin): One single package for JavaScript, TypeScript and JSX. This is the recommended way.
-- [Approach 2: Migrate to 1-to-1 Plugins](#approach-2-migrate-to-1-to-1-plugins): One package for each source package. Rules are 1:1 mapped, and would be easier to migrate.
+If you are directly migrating from `eslint` and `@typescript-eslint/eslint-plugin`, we you might want to check v4 first for a even smoother migration experience.
 
-### Approach 1: Migrate to Single Plugin
+[Check the migration guide for v4](https://v4.eslint.style/guide/migration)
+
+:::
+
+## Manual Migrate
 
 To make the rules configuration easier, we merged all three plugins into one single plugin.
 
@@ -30,7 +28,7 @@ npm i -D @stylistic/eslint-plugin
 
 ::: warning
 
-In v4, we moved the plugin to **ESM-only**, which only supports flat config and ESLint v9+. If you are still using legacy config, please install v3.x with `npm i -D @stylistic/eslint-plugin@3` first and then move to flat config.
+Since v4, we moved the plugin to **ESM-only**, which only supports flat config and ESLint v9+. If you are still using legacy config, please install v3.x with `npm i -D @stylistic/eslint-plugin@3` first and then move to flat config.
 
 :::
 
@@ -136,206 +134,6 @@ module.exports = {
 
     // Now only need one rule
     '@stylistic/semi': 'error', // [!code ++]
-  }
-}
-```
-
-:::
-
-### Approach 2: Migrate to 1-to-1 Plugins
-
-To make the migration easier, we also provide a 1-to-1 mapping for each source package's plugins. Unlike the [single plugin approach](#approach-1-migrate-to-single-plugin), you need to install 3 different packages with additional prefixes in the rules.
-
-#### ESLint Code (JavaScript)
-
-```sh
-npm i -D @stylistic/eslint-plugin-js
-```
-
-::: code-group
-
-```js [Flat Config]
-// .eslint.config.js
-import stylisticJs from '@stylistic/eslint-plugin-js'
-
-export default [
-  {
-    plugins: {
-      '@stylistic/js': stylisticJs
-    },
-    rules: {
-      // ESLint built-in stylistic rules:
-      // Add `@stylistic/js/` prefix
-      'semi': 'error', // [!code --]
-      '@stylistic/js/semi': 'error', // [!code ++]
-    }
-  }
-]
-```
-
-```js [Legacy Config]
-// Legacy config is no longer supported in v4+
-// Please use v3.x if you need to use legacy config
-// We encourage you to migrate to flat config soon
-
-// .eslintrc.js
-module.exports = {
-  plugins: [
-    '@stylistic/js'
-  ],
-  rules: {
-    // ESLint built-in stylistic rules:
-    // Add `@stylistic/js/` prefix
-    'semi': 'error', // [!code --]
-    '@stylistic/js/semi': 'error', // [!code ++]
-  }
-}
-
-```
-
-:::
-
-#### TypeScript
-
-```sh
-npm i -D @stylistic/eslint-plugin-ts
-```
-
-::: code-group
-
-```js [Flat Config]
-// eslint.config.mjs
-import stylisticTs from '@stylistic/eslint-plugin-ts'
-
-export default [
-  {
-    plugins: {
-      '@stylistic/ts': stylisticTs
-    },
-    rules: {
-      // `@typescript-eslint` rules:
-      // Change `@typescript-eslint/` to `@stylistic/ts/` prefix
-      '@typescript-eslint/semi': 'error', // [!code --]
-      '@stylistic/ts/semi': 'error', // [!code ++]
-    }
-  }
-]
-```
-
-```js [Legacy Config]
-// Legacy config is no longer supported in v4+
-// Please use v3.x if you need to use legacy config
-// We encourage you to migrate to flat config soon
-
-// .eslintrc.js
-module.exports = {
-  plugins: [
-    '@stylistic/ts'
-  ],
-  rules: {
-    // `@typescript-eslint` rules:
-    // Change `@typescript-eslint/` to `@stylistic/ts/` prefix
-    '@typescript-eslint/semi': 'error', // [!code --]
-    '@stylistic/ts/semi': 'error', // [!code ++]
-  }
-}
-```
-
-:::
-
-#### JSX
-
-```sh
-npm i -D @stylistic/eslint-plugin-jsx
-```
-
-::: code-group
-
-```js [Flat Config]
-// Legacy config is no longer supported in v4+
-// Please use v3.x if you need to use legacy config
-// We encourage you to migrate to flat config soon
-
-// eslint.config.mjs
-import stylisticJsx from '@stylistic/eslint-plugin-jsx'
-
-export default [
-  {
-    plugins: [
-      '@stylistic/jsx'
-    ],
-    rules: {
-      // `eslint-plugin-react` rules:
-      // Change `react/` to `@stylistic/jsx/` prefix
-      'react/jsx-indent': 'error', // [!code --]
-      '@stylistic/jsx/jsx-indent': 'error', // [!code ++]
-    }
-  }
-]
-```
-
-```js [Legacy Config]
-// Legacy config is no longer supported in v4+
-// Please use v3.x if you need to use legacy config
-// We encourage you to migrate to flat config soon
-
-// .eslintrc.js
-module.exports = {
-  plugins: [
-    '@stylistic/jsx'
-  ],
-  rules: {
-    // `eslint-plugin-react` rules:
-    // Change `react/` to `@stylistic/jsx/` prefix
-    'react/jsx-indent': 'error', // [!code --]
-    '@stylistic/jsx/jsx-indent': 'error', // [!code ++]
-  }
-}
-```
-
-:::
-
-## ESLint Migrate Plugin
-
-We provide an ESLint plugin for migrating built-in stylistic rules to the `@stylistic` namespace.
-
-```sh
-npm i -D @stylistic/eslint-plugin-migrate
-```
-
-::: code-group
-
-```js [Legacy Config]
-// Legacy config is no longer supported in v4+
-// Please use v3.x if you need to use legacy config
-// We encourage you to migrate to flat config soon
-
-// .eslintrc.js
-module.exports = {
-  plugins: [
-    '@stylistic/migrate'
-  ],
-}
-```
-
-:::
-
-And opt-in to your eslint configure file by adding eslint comments to the top of your file:
-
-::: code-group
-
-```js [Legacy Config]
-// Migrate built-in rules to @stylistic/js namespace
-/* eslint @stylistic/migrate/migrate-js: "error" */
-
-// Migrate `@typescript-eslint` rules to @stylistic/ts namespace
-/* eslint @stylistic/migrate/migrate-ts: "error" */
-
-module.exports = {
-  rules: {
-    indent: ['error', 2], // Error: Use @stylistic/js/indent instead
-
-    '@typescript-eslint/indent': ['error', 2], // Error: Use @stylistic/ts/indent instead
   }
 }
 ```

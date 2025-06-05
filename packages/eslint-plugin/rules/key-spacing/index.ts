@@ -1,1 +1,1 @@
-export { default } from './key-spacing._ts_'
+export { default } from './key-spacing'

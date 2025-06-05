@@ -16,7 +16,6 @@ function createValidRule(input: string[], option: boolean) {
   return Object.entries(prefixOfNodes).flatMap(([_, prefix]) => {
     const res: ValidTestCase<RuleOptions>[] = [
       { code: `${prefix}${code}`, options: [{ allowAllPropertiesOnSameLine: option }] },
-      { code: `${prefix}${code}`, options: [{ /* deprecated */ allowMultiplePropertiesPerLine: option }] },
     ]
     if (!option)
       res.push({ code: `${prefix}${code}` })
@@ -38,7 +37,6 @@ function createInvalidRule(input: string[], out: string[], err: TestCaseError<Me
 
     const res: InvalidTestCase<RuleOptions, MessageIds>[] = [
       { code: `${prefix}${code}`, output: `${prefix}${output}`, errors, options: [{ allowAllPropertiesOnSameLine: option }] },
-      { code: `${prefix}${code}`, output: `${prefix}${output}`, errors, options: [{ /* deprecated */ allowMultiplePropertiesPerLine: option }] },
     ]
     if (!option)
       res.push({ code: `${prefix}${code}`, output: `${prefix}${output}`, errors })

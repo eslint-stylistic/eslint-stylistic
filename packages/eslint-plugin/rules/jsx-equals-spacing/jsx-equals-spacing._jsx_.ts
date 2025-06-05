@@ -16,7 +16,6 @@ const messages = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-equals-spacing',
-  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {

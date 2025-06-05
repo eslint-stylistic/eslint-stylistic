@@ -10,7 +10,6 @@ import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'operator-linebreak',
-  package: 'js',
   meta: {
     type: 'layout',
 
@@ -224,6 +223,38 @@ export default createRule<RuleOptions, MessageIds>({
       ConditionalExpression(node) {
         validateNode(node, node.consequent, '?')
         validateNode(node, node.alternate, ':')
+      },
+      TSImportEqualsDeclaration(node) {
+        validateNode(node, node.moduleReference, '=')
+      },
+      TSTypeAliasDeclaration(node) {
+        validateNode(node, node.typeAnnotation, '=')
+      },
+      TSConditionalType(node) {
+        validateNode(node, node.trueType, '?')
+        validateNode(node, node.falseType, ':')
+      },
+      TSIntersectionType(node) {
+        const { types } = node
+        for (let idx = 0; idx < types.length - 1; idx++) {
+          validateNode(types[idx], types[idx + 1], '&')
+        }
+      },
+      TSUnionType(node) {
+        const { types } = node
+        for (let idx = 0; idx < types.length - 1; idx++) {
+          validateNode(types[idx], types[idx + 1], '|')
+        }
+      },
+      TSTypeParameter(node) {
+        if (!node.default)
+          return
+        validateNode(node, node.default, '=')
+      },
+      TSEnumMember(node) {
+        if (!node.initializer)
+          return
+        validateNode(node, node.initializer, '=')
       },
     }
   },

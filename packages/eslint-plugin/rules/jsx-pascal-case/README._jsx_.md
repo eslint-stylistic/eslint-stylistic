@@ -1,4 +1,4 @@
-# jsx/jsx-pascal-case
+# jsx-pascal-case
 
 Enforces coding style that user-defined JSX components are defined and referenced in PascalCase.
 

@@ -3,7 +3,7 @@ title: line-comment-position
 rule_type: layout
 ---
 
-# js/line-comment-position
+# line-comment-position
 
 Line comments can be positioned above or beside code. This rule helps teams maintain a consistent style.
 

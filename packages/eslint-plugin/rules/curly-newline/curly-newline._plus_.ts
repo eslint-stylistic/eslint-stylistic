@@ -114,7 +114,6 @@ function normalizeOptions(options: any): {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'curly-newline',
-  package: 'plus',
   meta: {
     type: 'layout',
     docs: {

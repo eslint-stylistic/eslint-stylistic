@@ -14,7 +14,6 @@ const messages = {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-props-no-multi-spaces',
-  package: 'jsx',
   meta: {
     type: 'layout',
     docs: {

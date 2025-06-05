@@ -1,1 +1,1 @@
-export { default } from './function-call-spacing._ts_'
+export { default } from './function-call-spacing'

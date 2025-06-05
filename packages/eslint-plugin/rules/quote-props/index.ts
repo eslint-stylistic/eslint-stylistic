@@ -1,1 +1,1 @@
-export { default } from './quote-props._ts_'
+export { default } from './quote-props'

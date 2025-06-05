@@ -16,7 +16,7 @@ export type CommaStyleRuleOptions = [
 ]
 
 export type RuleOptions = CommaStyleRuleOptions
-export type MessageIds =
-  | 'unexpectedLineBeforeAndAfterComma'
-  | 'expectedCommaFirst'
-  | 'expectedCommaLast'
+export type MessageIds
+  = | 'unexpectedLineBeforeAndAfterComma'
+    | 'expectedCommaFirst'
+    | 'expectedCommaLast'

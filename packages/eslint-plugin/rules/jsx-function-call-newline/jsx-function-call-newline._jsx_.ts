@@ -22,7 +22,6 @@ function endWithComma(context: RuleContext<any, any>, node: ASTNode) {
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-function-call-newline',
-  package: 'jsx',
   meta: {
     type: 'layout',
 
