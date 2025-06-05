@@ -11,3 +11,11 @@ from = "/chat"
 to = "https://discord.gg/Xta6huNhVv"
 status = 302
 force = true
+
+[[redirects]]
+from = "/packages/:package"
+to = "/rules"
+
+[[redirects]]
+from = "/rules/:package/:rule"
+to = "/rules/:rule"

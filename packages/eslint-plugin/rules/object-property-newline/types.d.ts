@@ -1,10 +1,9 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 5Mb8fSzqK56KnzBecs-OMMnNTvsiNJ4SHgS3e2dzAPY */
+/* @checksum: soIHpiM5cFCk368MarW27c-YxxnV_-4kK7HlPO1MR1A */
 
 export interface ObjectPropertyNewlineSchema0 {
   allowAllPropertiesOnSameLine?: boolean
-  allowMultiplePropertiesPerLine?: boolean
 }
 
 export type ObjectPropertyNewlineRuleOptions = [
