@@ -174,11 +174,11 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    type NodeType =
-      | Tree.Property
-      | Tree.PropertyDefinition
-      | Tree.MemberExpression
-      | Tree.MethodDefinition
+    type NodeType
+      = | Tree.Property
+        | Tree.PropertyDefinition
+        | Tree.MemberExpression
+        | Tree.MethodDefinition
 
     const listeners: RuleListener = {
       Property: checkSpacing<Tree.Property>('key'),

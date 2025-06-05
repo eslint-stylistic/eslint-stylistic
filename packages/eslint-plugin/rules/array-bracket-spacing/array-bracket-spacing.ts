@@ -185,16 +185,16 @@ export default createRule<RuleOptions, MessageIds>({
       const firstElement = node.elements[0]
       const lastElement = node.elements[node.elements.length - 1]
 
-      const openingBracketMustBeSpaced =
-                firstElement && options.objectsInArraysException && isObjectType(firstElement)
-                || firstElement && options.arraysInArraysException && isArrayType(firstElement)
-                || options.singleElementException && node.elements.length === 1
+      const openingBracketMustBeSpaced
+                = firstElement && options.objectsInArraysException && isObjectType(firstElement)
+                  || firstElement && options.arraysInArraysException && isArrayType(firstElement)
+                  || options.singleElementException && node.elements.length === 1
                   ? !options.spaced : options.spaced
 
-      const closingBracketMustBeSpaced =
-                lastElement && options.objectsInArraysException && isObjectType(lastElement)
-                || lastElement && options.arraysInArraysException && isArrayType(lastElement)
-                || options.singleElementException && node.elements.length === 1
+      const closingBracketMustBeSpaced
+                = lastElement && options.objectsInArraysException && isObjectType(lastElement)
+                  || lastElement && options.arraysInArraysException && isArrayType(lastElement)
+                  || options.singleElementException && node.elements.length === 1
                   ? !options.spaced : options.spaced
 
       if (isTokenOnSameLine(first, second)) {

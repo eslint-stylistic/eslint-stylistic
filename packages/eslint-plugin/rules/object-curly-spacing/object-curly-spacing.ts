@@ -180,12 +180,12 @@ export default createRule<RuleOptions, MessageIds>({
           second.range[0],
         )!.type
 
-        const openingCurlyBraceMustBeSpaced =
-          options.arraysInObjectsException
-          && [
-            AST_NODE_TYPES.TSMappedType,
-            AST_NODE_TYPES.TSIndexSignature,
-          ].includes(secondType)
+        const openingCurlyBraceMustBeSpaced
+          = options.arraysInObjectsException
+            && [
+              AST_NODE_TYPES.TSMappedType,
+              AST_NODE_TYPES.TSIndexSignature,
+            ].includes(secondType)
             ? !options.spaced
             : options.spaced
 
@@ -202,8 +202,8 @@ export default createRule<RuleOptions, MessageIds>({
       }
 
       if (isTokenOnSameLine(penultimate, last)) {
-        const shouldCheckPenultimate =
-          (options.arraysInObjectsException
+        const shouldCheckPenultimate
+          = (options.arraysInObjectsException
             && isClosingBracketToken(penultimate))
           || (options.objectsInObjectsException
             && isClosingBraceToken(penultimate))
@@ -211,8 +211,8 @@ export default createRule<RuleOptions, MessageIds>({
           ? sourceCode.getNodeByRangeIndex(penultimate.range[0])!.type
           : undefined
 
-        const closingCurlyBraceMustBeSpaced =
-          (
+        const closingCurlyBraceMustBeSpaced
+          = (
             options.arraysInObjectsException
             && [
               AST_NODE_TYPES.ArrayExpression,

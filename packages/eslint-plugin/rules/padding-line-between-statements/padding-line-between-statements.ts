@@ -213,8 +213,8 @@ function isBlockLikeStatement(
 
   // Checks the last token is a closing brace of blocks.
   const lastToken = sourceCode.getLastToken(node, isNotSemicolonToken)
-  const belongingNode =
-    lastToken && isClosingBraceToken(lastToken)
+  const belongingNode
+    = lastToken && isClosingBraceToken(lastToken)
       ? sourceCode.getNodeByRangeIndex(lastToken.range[0])
       : null
 
@@ -338,13 +338,13 @@ function getActualLastToken(
   const semiToken = sourceCode.getLastToken(node)!
   const prevToken = sourceCode.getTokenBefore(semiToken)
   const nextToken = sourceCode.getTokenAfter(semiToken)
-  const isSemicolonLessStyle =
-    prevToken
-    && nextToken
-    && prevToken.range[0] >= node.range[0]
-    && isSemicolonToken(semiToken)
-    && semiToken.loc.start.line !== prevToken.loc.end.line
-    && semiToken.loc.end.line === nextToken.loc.start.line
+  const isSemicolonLessStyle
+    = prevToken
+      && nextToken
+      && prevToken.range[0] >= node.range[0]
+      && isSemicolonToken(semiToken)
+      && semiToken.loc.start.line !== prevToken.loc.end.line
+      && semiToken.loc.end.line === nextToken.loc.start.line
 
   return isSemicolonLessStyle ? prevToken : semiToken
 }
@@ -447,8 +447,8 @@ function verifyForAlways(
     fix(fixer) {
       const sourceCode = context.sourceCode
       let prevToken = getActualLastToken(prevNode, sourceCode)!
-      const nextToken =
-        sourceCode.getFirstTokenBetween(prevToken, nextNode, {
+      const nextToken
+        = sourceCode.getFirstTokenBetween(prevToken, nextNode, {
           includeComments: true,
 
           /**

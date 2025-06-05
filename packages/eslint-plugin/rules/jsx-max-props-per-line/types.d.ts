@@ -2,8 +2,8 @@
 
 /* @checksum: KOe_wU0r0lsPla5JCuUUOQFmBSnDNOIm5DXIMsRs3g4 */
 
-export type JsxMaxPropsPerLineSchema0 =
-  | {
+export type JsxMaxPropsPerLineSchema0
+  = | {
     maximum?: {
       single?: number
       multi?: number
