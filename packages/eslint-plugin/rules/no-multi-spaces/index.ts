@@ -1,1 +1,1 @@
-export { default } from './no-multi-spaces._js_'
+export { default } from './no-multi-spaces'

@@ -1,1 +1,1 @@
-export { default } from './jsx-first-prop-new-line._jsx_'
+export { default } from './jsx-first-prop-new-line'

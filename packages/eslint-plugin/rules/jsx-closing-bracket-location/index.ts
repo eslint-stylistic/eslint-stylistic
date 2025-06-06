@@ -1,1 +1,1 @@
-export { default } from './jsx-closing-bracket-location._jsx_'
+export { default } from './jsx-closing-bracket-location'

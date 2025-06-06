@@ -1,1 +1,1 @@
-export { default } from './jsx-closing-tag-location._jsx_'
+export { default } from './jsx-closing-tag-location'

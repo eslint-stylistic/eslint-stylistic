@@ -1,1 +1,1 @@
-export { default } from './jsx-wrap-multilines._jsx_'
+export { default } from './jsx-wrap-multilines'

@@ -1,1 +1,1 @@
-export { default } from './jsx-pascal-case._jsx_'
+export { default } from './jsx-pascal-case'

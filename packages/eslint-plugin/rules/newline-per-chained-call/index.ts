@@ -1,1 +1,1 @@
-export { default } from './newline-per-chained-call._js_'
+export { default } from './newline-per-chained-call'

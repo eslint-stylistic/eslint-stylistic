@@ -1,1 +1,1 @@
-export { default } from './multiline-ternary._js_'
+export { default } from './multiline-ternary'

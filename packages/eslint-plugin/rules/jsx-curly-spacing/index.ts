@@ -1,1 +1,1 @@
-export { default } from './jsx-curly-spacing._jsx_'
+export { default } from './jsx-curly-spacing'

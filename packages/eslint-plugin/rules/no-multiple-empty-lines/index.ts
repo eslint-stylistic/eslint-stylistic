@@ -1,1 +1,1 @@
-export { default } from './no-multiple-empty-lines._js_'
+export { default } from './no-multiple-empty-lines'

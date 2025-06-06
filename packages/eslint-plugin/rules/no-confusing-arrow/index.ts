@@ -1,1 +1,1 @@
-export { default } from './no-confusing-arrow._js_'
+export { default } from './no-confusing-arrow'

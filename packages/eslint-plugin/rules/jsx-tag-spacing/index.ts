@@ -1,1 +1,1 @@
-export { default } from './jsx-tag-spacing._jsx_'
+export { default } from './jsx-tag-spacing'

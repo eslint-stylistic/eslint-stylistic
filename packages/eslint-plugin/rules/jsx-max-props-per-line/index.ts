@@ -1,1 +1,1 @@
-export { default } from './jsx-max-props-per-line._jsx_'
+export { default } from './jsx-max-props-per-line'

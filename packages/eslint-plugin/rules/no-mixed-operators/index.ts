@@ -1,1 +1,1 @@
-export { default } from './no-mixed-operators._js_'
+export { default } from './no-mixed-operators'

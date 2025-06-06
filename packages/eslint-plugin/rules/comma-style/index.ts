@@ -1,1 +1,1 @@
-export { default } from './comma-style._js_'
+export { default } from './comma-style'

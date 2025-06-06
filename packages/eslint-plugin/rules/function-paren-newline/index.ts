@@ -1,1 +1,1 @@
-export { default } from './function-paren-newline._js_'
+export { default } from './function-paren-newline'

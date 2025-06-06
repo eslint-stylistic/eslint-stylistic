@@ -1,1 +1,1 @@
-export { default } from './computed-property-spacing._js_'
+export { default } from './computed-property-spacing'

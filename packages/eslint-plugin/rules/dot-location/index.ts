@@ -1,1 +1,1 @@
-export { default } from './dot-location._js_'
+export { default } from './dot-location'

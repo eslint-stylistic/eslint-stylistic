@@ -3,12 +3,11 @@
  */
 
 import type { PackageInfo } from '../packages/metadata/src/types'
-import { existsSync } from 'node:fs'
 import { basename, join } from 'node:path'
-
 import { pathToFileURL } from 'node:url'
 import fg from 'fast-glob'
-import { RULE_ALIAS, RULE_ORIGINAL_ID_MAP } from './update/meta'
+import fs from 'fs-extra'
+import { RULE_ALIAS } from './update/meta'
 import { generateDtsFromSchema } from './update/schema-to-ts'
 import { generateConfigs, generateMetadata, normalizePath, resolveAlias, rulesInSharedConfig, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
 
@@ -43,31 +42,19 @@ async function readPackages() {
           const realName = i.name
           const name = resolveAlias(realName)
 
-          const entry = join(RULES_DIR, name, pkg ? `${name}._${pkg}_.ts` : 'index.ts')
+          await fs.rm(join(RULES_DIR, i.name, 'index.ts'), { force: true })
+
+          const entry = join(RULES_DIR, name, `${name}.ts`)
           const url = pathToFileURL(entry).href
           const mod = await import(url)
           const meta = mod.default?.meta
-          const originalId = shortId === 'js'
-            ? name
-            : shortId === 'ts'
-              ? `@typescript-eslint/${name}`
-              : shortId === 'jsx'
-                ? `react/${name}`
-                : ''
 
           const docsBase = join(RULES_DIR, i.name)
-          let docs = ''
-          for (const suffix of ['.md', '._ts_.md', '._js_.md', '._jsx_.md', '._plus_.md']) {
-            if (existsSync(join(docsBase, `README${suffix}`))) {
-              docs = join(docsBase, `README${suffix}`)
-              break
-            }
-          }
+          const docs = join(docsBase, `README.md`)
 
           return {
             name: realName,
             ruleId: `${pkgId}/${realName}`,
-            originalId: RULE_ORIGINAL_ID_MAP[originalId] || originalId,
             entry: normalizePath(entry),
             docsEntry: docs,
             meta: {

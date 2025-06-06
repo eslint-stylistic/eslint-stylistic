@@ -1,1 +1,1 @@
-export { default } from './curly-newline._plus_'
+export { default } from './curly-newline'

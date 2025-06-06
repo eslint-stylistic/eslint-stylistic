@@ -1,1 +1,1 @@
-export { default } from './max-len._js_'
+export { default } from './max-len'

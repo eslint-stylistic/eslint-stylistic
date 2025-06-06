@@ -1,1 +1,1 @@
-export { default } from './array-element-newline._js_'
+export { default } from './array-element-newline'

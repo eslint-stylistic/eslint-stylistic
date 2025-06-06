@@ -6,7 +6,7 @@ import fg from 'fast-glob'
 
 import fs from 'fs-extra'
 import { customize } from '../../packages/eslint-plugin/configs/customize'
-import { GEN_HEADER, ROOT, RULE_ALIAS, RULE_ORIGINAL_ID_MAP } from './meta'
+import { GEN_HEADER, ROOT, RULE_ALIAS } from './meta'
 
 export const rulesInSharedConfig = new Set<string>(Object.keys(customize().rules!))
 
@@ -39,17 +39,10 @@ export async function readPackage(path: string): Promise<PackageInfo> {
       const url = pathToFileURL(entry).href
       const mod = await import(url)
       const meta = mod.default?.meta
-      const originalId = shortId === 'js'
-        ? name
-        : shortId === 'ts'
-          ? `@typescript-eslint/${name}`
-          : shortId === 'jsx'
-            ? `react/${name}`
-            : ''
+
       const rule: RuleInfo = {
         name: realName,
         ruleId: `${pkgId}/${realName}`,
-        originalId: RULE_ORIGINAL_ID_MAP[originalId] || originalId,
         entry: relative(ROOT, entry).replace(/\\/g, '/'),
         // TODO: check if entry exists
         docsEntry: relative(ROOT, resolve(path, docsDir, 'README.md')).replace(/\\/g, '/'),
@@ -92,7 +85,7 @@ export async function writeRulesIndex(pkg: PackageInfo) {
     '',
     ...pkg.rules
       .filter(i => !(i.name in RULE_ALIAS))
-      .map(i => `import ${camelCase(i.name)} from './${i.name}/${pkg.shortId === 'default' ? 'index' : i.name}'`),
+      .map(i => `import ${camelCase(i.name)} from './${i.name}/${i.name}'`),
     '',
     'export default {',
     ...pkg.rules.map(i => `  '${i.name}': ${camelCase(resolveAlias(i.name))},`),

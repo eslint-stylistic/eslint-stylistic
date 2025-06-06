@@ -1,1 +1,1 @@
-export { default } from './linebreak-style._js_'
+export { default } from './linebreak-style'

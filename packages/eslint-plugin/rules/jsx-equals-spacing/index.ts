@@ -1,1 +1,1 @@
-export { default } from './jsx-equals-spacing._jsx_'
+export { default } from './jsx-equals-spacing'

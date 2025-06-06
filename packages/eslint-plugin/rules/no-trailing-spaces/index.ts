@@ -1,1 +1,1 @@
-export { default } from './no-trailing-spaces._js_'
+export { default } from './no-trailing-spaces'

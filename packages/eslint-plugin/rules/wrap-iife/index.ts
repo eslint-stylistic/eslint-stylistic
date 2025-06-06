@@ -1,1 +1,1 @@
-export { default } from './wrap-iife._js_'
+export { default } from './wrap-iife'
