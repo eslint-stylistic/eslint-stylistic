@@ -1,13 +1,13 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: hY74YhES9eoNEfu5brdpFWXsHAnaqm_qaqolYKkrxes */
+/* @checksum: w-cQC8WLDQV7ZHyRFgDZlAcqALcP9MozGIpOT2a7L_s */
 
 export interface NoMultiSpacesSchema0 {
   exceptions?: {
     [k: string]: boolean
   }
   ignoreEOLComments?: boolean
-  includeTabs?: boolean
+  includeTabs?: boolean | 'as-multiple-spaces'
 }
 
 export type NoMultiSpacesRuleOptions = [
