@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.0.0-beta.3](https://github.com/eslint-stylistic/eslint-stylistic/compare/v6.0.0-beta.1...v5.0.0-beta.3) (2025-06-06)
+
+
+### Chores
+
+* release-please-mark ([d99936f](https://github.com/eslint-stylistic/eslint-stylistic/commit/d99936f4667ac2d8710db526e4dd7328aaccb396))
+
 ## [6.0.0-beta.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0-beta.1...v6.0.0-beta.1) (2025-06-05)
 
 
