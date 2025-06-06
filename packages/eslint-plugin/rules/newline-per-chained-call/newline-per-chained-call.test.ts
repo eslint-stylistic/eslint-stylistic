@@ -5,7 +5,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './newline-per-chained-call'
 
 run<RuleOptions, MessageIds>({
   name: 'newline-per-chained-call',

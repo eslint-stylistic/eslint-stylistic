@@ -6,7 +6,7 @@
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
-import rule from '.'
+import rule from './arrow-parens'
 
 const type = 'ArrowFunctionExpression'
 

@@ -6,7 +6,7 @@
 import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
-import rule from '.'
+import rule from './nonblock-statement-body-position'
 
 const EXPECTED_LINEBREAK: TestCaseError<MessageIds> = { messageId: 'expectLinebreak' }
 const UNEXPECTED_LINEBREAK: TestCaseError<MessageIds> = { messageId: 'expectNoLinebreak' }

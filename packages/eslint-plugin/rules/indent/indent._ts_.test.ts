@@ -4,7 +4,7 @@ import type { InvalidTestCase, TestCaseError, TestCasesOptions, ValidTestCase } 
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import rule from '.'
+import rule from './indent'
 
 /**
  * Marks a test case as a plain javascript case which should be indented the same

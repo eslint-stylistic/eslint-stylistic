@@ -5,7 +5,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './max-statements-per-line'
 
 run<RuleOptions, MessageIds>({
   name: 'max-statements-per-line',

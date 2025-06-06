@@ -6,7 +6,7 @@ import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-curly-newline._jsx_'
+import rule from './jsx-curly-newline'
 
 const LEFT_MISSING_ERROR: TestCaseError<MessageIds> = { messageId: 'expectedAfter', type: 'Punctuator' }
 const LEFT_UNEXPECTED_ERROR: TestCaseError<MessageIds> = { messageId: 'unexpectedAfter', type: 'Punctuator' }

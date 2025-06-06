@@ -7,7 +7,7 @@ import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
-import rule from '.'
+import rule from './new-parens'
 
 const error: TestCaseError<MessageIds> = { messageId: 'missing', type: 'NewExpression' }
 const neverError: TestCaseError<MessageIds> = { messageId: 'unnecessary', type: 'NewExpression' }

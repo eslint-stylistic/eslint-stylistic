@@ -6,7 +6,7 @@
 import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './no-multiple-empty-lines'
 
 /**
  * Creates the expected error message object for the specified number of lines

@@ -6,7 +6,7 @@
 import type { InvalidTestCase, TestCaseError, ValidTestCase } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './curly-newline'
 
 const valid: ValidTestCase<RuleOptions>[] = []
 const invalid: InvalidTestCase<RuleOptions, MessageIds>[] = []

@@ -3,7 +3,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './member-delimiter-style'
 
 run<RuleOptions, MessageIds>({
   name: 'member-delimiter-style',

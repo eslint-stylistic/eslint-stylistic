@@ -5,7 +5,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './computed-property-spacing'
 
 run<RuleOptions, MessageIds>({
   name: 'computed-property-spacing',

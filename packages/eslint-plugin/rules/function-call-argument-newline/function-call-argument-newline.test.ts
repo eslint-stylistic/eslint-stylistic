@@ -1,6 +1,6 @@
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './function-call-argument-newline'
 
 run<RuleOptions, MessageIds>({
   name: 'function-call-argument-newline',

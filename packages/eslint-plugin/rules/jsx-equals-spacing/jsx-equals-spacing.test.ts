@@ -6,7 +6,7 @@
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, skipDueToMultiErrorSorting, valids } from '#test/parsers-jsx'
-import rule from './jsx-equals-spacing._jsx_'
+import rule from './jsx-equals-spacing'
 
 run<RuleOptions, MessageIds>({
   name: 'jsx-equals-spacing',

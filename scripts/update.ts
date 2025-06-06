@@ -7,9 +7,8 @@ import { basename, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
-import { RULE_ALIAS } from './update/meta'
 import { generateDtsFromSchema } from './update/schema-to-ts'
-import { generateConfigs, generateMetadata, normalizePath, resolveAlias, rulesInSharedConfig, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
+import { generateConfigs, generateMetadata, normalizePath, rulesInSharedConfig, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
 
 async function readPackages() {
   const RULES_DIR = './packages/eslint-plugin/rules/'
@@ -39,8 +38,7 @@ async function readPackages() {
     const resolvedRules = await Promise.all(
       rules
         .map(async (i) => {
-          const realName = i.name
-          const name = resolveAlias(realName)
+          const name = i.name
 
           await fs.rm(join(RULES_DIR, i.name, 'index.ts'), { force: true })
 
@@ -53,31 +51,20 @@ async function readPackages() {
           const docs = join(docsBase, `README.md`)
 
           return {
-            name: realName,
-            ruleId: `${pkgId}/${realName}`,
+            name,
+            ruleId: `${pkgId}/${name}`,
             entry: normalizePath(entry),
             docsEntry: docs,
             meta: {
               fixable: meta?.fixable,
               docs: {
                 description: meta?.docs?.description,
-                recommended: rulesInSharedConfig.has(`@stylistic/${realName}`),
+                recommended: rulesInSharedConfig.has(`@stylistic/${name}`),
               },
             },
           }
         }),
     )
-
-    for (const [alias, source] of Object.entries(RULE_ALIAS)) {
-      const rule = resolvedRules.find(i => i.name === source)
-      if (rule) {
-        resolvedRules.push({
-          ...rule,
-          name: alias,
-          ruleId: `${pkgId}/${alias}`,
-        })
-      }
-    }
 
     resolvedRules.sort((a, b) => a.name.localeCompare(b.name))
 

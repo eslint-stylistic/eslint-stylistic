@@ -9,7 +9,7 @@ import { join } from 'node:path'
 import { $, run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import tsParser from '@typescript-eslint/parser'
-import rule from '.'
+import rule from './indent'
 
 const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
 const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')

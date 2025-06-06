@@ -6,7 +6,7 @@
 import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './lines-between-class-members'
 
 const alwaysError: TestCaseError<MessageIds> = { messageId: 'always' }
 const neverError: TestCaseError<MessageIds> = { messageId: 'never' }

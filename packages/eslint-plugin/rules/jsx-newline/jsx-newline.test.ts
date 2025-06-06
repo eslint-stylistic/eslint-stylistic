@@ -7,7 +7,7 @@
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-newline._jsx_'
+import rule from './jsx-newline'
 
 run<RuleOptions, MessageIds>({
   name: 'jsx-newline',

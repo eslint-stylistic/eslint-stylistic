@@ -5,7 +5,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './template-curly-spacing'
 
 run<RuleOptions, MessageIds>({
   name: 'template-curly-spacing',

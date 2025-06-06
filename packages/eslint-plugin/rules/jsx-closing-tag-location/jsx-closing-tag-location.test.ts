@@ -6,7 +6,7 @@
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-closing-tag-location._jsx_'
+import rule from './jsx-closing-tag-location'
 
 run<RuleOptions, MessageIds>({
   name: 'jsx-closing-tag-location',

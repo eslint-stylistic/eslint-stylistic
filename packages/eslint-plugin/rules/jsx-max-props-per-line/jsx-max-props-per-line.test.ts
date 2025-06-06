@@ -6,7 +6,7 @@
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-max-props-per-line._jsx_'
+import rule from './jsx-max-props-per-line'
 
 run<RuleOptions, MessageIds>({
   name: 'jsx-max-props-per-line',

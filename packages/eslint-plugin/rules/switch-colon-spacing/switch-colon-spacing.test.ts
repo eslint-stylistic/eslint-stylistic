@@ -6,7 +6,7 @@
 import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './switch-colon-spacing'
 
 const expectedBeforeError: TestCaseError<MessageIds> = { messageId: 'expectedBefore' }
 const expectedAfterError: TestCaseError<MessageIds> = { messageId: 'expectedAfter' }

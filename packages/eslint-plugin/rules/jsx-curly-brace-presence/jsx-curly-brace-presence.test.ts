@@ -8,7 +8,7 @@
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { BABEL_ESLINT, babelParserOptions, invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-curly-brace-presence._jsx_'
+import rule from './jsx-curly-brace-presence'
 
 run<RuleOptions, MessageIds>({
   name: 'jsx-curly-brace-presence',

@@ -6,7 +6,7 @@
 import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './generator-star-spacing'
 
 const missingBeforeError: TestCaseError<MessageIds> = { messageId: 'missingBefore', type: 'Punctuator' }
 const missingAfterError: TestCaseError<MessageIds> = { messageId: 'missingAfter', type: 'Punctuator' }

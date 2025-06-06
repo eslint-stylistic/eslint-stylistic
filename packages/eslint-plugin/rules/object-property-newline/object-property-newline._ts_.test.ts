@@ -2,7 +2,7 @@ import type { InvalidTestCase, TestCaseError, ValidTestCase } from '#test'
 import type { NodeTypes } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './object-property-newline'
 
 const prefixOfNodes = {
   TSTypeLiteral: 'type Foo = ',

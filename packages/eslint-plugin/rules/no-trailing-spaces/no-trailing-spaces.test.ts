@@ -4,7 +4,7 @@
  */
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './no-trailing-spaces'
 
 run<RuleOptions, MessageIds>({
   name: 'no-trailing-spaces',

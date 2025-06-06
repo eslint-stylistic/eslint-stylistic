@@ -192,19 +192,6 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
-        "name": "func-call-spacing",
-        "ruleId": "@stylistic/func-call-spacing",
-        "entry": "packages/eslint-plugin/rules/function-call-spacing/function-call-spacing.ts",
-        "docsEntry": "packages/eslint-plugin/rules/function-call-spacing/README.md",
-        "meta": {
-          "fixable": "whitespace",
-          "docs": {
-            "description": "Require or disallow spacing between function identifiers and their invocations",
-            "recommended": false
-          }
-        }
-      },
-      {
         "name": "function-call-argument-newline",
         "ruleId": "@stylistic/function-call-argument-newline",
         "entry": "packages/eslint-plugin/rules/function-call-argument-newline/function-call-argument-newline.ts",

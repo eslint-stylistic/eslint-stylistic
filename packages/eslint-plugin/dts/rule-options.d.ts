@@ -168,11 +168,6 @@ export interface RuleOptions {
    */
   '@stylistic/eol-last': EolLastRuleOptions
   /**
-   * Require or disallow spacing between function identifiers and their invocations
-   * @see https://eslint.style/rules/function-call-spacing
-   */
-  '@stylistic/func-call-spacing': FunctionCallSpacingRuleOptions
-  /**
    * Enforce line breaks between arguments of a function call
    * @see https://eslint.style/rules/function-call-argument-newline
    */
@@ -650,11 +645,6 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/eol-last
    */
   'eol-last': EolLastRuleOptions
-  /**
-   * Require or disallow spacing between function identifiers and their invocations
-   * @see https://eslint.style/rules/function-call-spacing
-   */
-  'func-call-spacing': FunctionCallSpacingRuleOptions
   /**
    * Enforce line breaks between arguments of a function call
    * @see https://eslint.style/rules/function-call-argument-newline

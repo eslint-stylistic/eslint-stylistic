@@ -2,7 +2,7 @@ import type { InvalidTestCase, ValidTestCase } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import rule from '.'
+import rule from './block-spacing'
 
 const options = ['always', 'never'] as const
 const typeDeclarations = [

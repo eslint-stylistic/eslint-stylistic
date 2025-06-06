@@ -5,7 +5,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
-import rule from '.'
+import rule from './operator-linebreak'
 
 run<RuleOptions, MessageIds>({
   name: 'operator-linebreak',

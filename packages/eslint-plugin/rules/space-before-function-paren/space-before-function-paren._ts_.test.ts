@@ -4,7 +4,7 @@
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import rule from '.'
+import rule from './space-before-function-paren'
 
 run<RuleOptions, MessageIds>({
   name: 'space-before-function-paren',

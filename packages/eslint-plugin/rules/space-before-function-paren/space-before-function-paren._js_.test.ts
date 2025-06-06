@@ -6,7 +6,7 @@
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
-import rule from '.'
+import rule from './space-before-function-paren'
 
 run<RuleOptions, MessageIds>({
   name: 'space-before-function-paren',

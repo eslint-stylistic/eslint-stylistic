@@ -5,7 +5,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './max-len'
 
 const parserOptions = { ecmaVersion: 6 } as const
 

@@ -113,7 +113,6 @@ export default {
   'curly-newline': curlyNewline,
   'dot-location': dotLocation,
   'eol-last': eolLast,
-  'func-call-spacing': functionCallSpacing,
   'function-call-argument-newline': functionCallArgumentNewline,
   'function-call-spacing': functionCallSpacing,
   'function-paren-newline': functionParenNewline,

@@ -7,7 +7,7 @@ import type { InvalidTestCase } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import tsParser from '@typescript-eslint/parser'
-import rule from '.'
+import rule from './no-extra-parens'
 
 /**
  * Create error message object for failure cases

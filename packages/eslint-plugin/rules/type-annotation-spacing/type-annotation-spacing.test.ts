@@ -4,7 +4,7 @@
 import type { InvalidTestCase, ValidTestCase } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './type-annotation-spacing'
 
 run<RuleOptions, MessageIds>({
   name: 'type-annotation-spacing',

@@ -9,7 +9,7 @@
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'
-import rule from './jsx-pascal-case._jsx_'
+import rule from './jsx-pascal-case'
 
 run<RuleOptions, MessageIds>({
   name: 'jsx-pascal-case',

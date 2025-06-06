@@ -5,7 +5,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './template-tag-spacing'
 
 run<RuleOptions, MessageIds>({
   name: 'template-tag-spacing',

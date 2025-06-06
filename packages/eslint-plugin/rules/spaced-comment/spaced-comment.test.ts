@@ -5,7 +5,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './spaced-comment'
 
 const validShebangProgram = '#!/path/to/node\nvar a = 3;'
 

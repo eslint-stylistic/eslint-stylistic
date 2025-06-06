@@ -1,6 +1,6 @@
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './quote-props'
 
 run<RuleOptions, MessageIds>({
   name: 'quote-props',
