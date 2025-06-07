@@ -1377,6 +1377,13 @@ export default createRule<RuleOptions, MessageIds>({
       )
     }
 
+    function checkHeritages(node: Tree.ClassDeclaration | Tree.ClassExpression | Tree.TSInterfaceDeclaration, heritages: Tree.Node[]) {
+      const classToken = sourceCode.getFirstToken(node)!
+      const extendsToken = sourceCode.getTokenBefore(heritages[0], isNotOpeningParenToken)!
+
+      offsets.setDesiredOffsets([extendsToken.range[0], node.body.range[0]], classToken, 1)
+    }
+
     // JSXText
     function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
       let src = context.sourceCode.getText(node, node.loc.start.column)
@@ -1448,14 +1455,18 @@ export default createRule<RuleOptions, MessageIds>({
 
       'CallExpression': addFunctionCallIndent,
 
-      'ClassDeclaration, ClassExpression': function (node: Tree.ClassDeclaration) {
+      ClassDeclaration(node) {
         if (!node.superClass)
           return
 
-        const classToken = sourceCode.getFirstToken(node)!
-        const extendsToken = sourceCode.getTokenBefore(node.superClass, isNotOpeningParenToken)!
+        checkHeritages(node, [node.superClass])
+      },
 
-        offsets.setDesiredOffsets([extendsToken.range[0], node.body.range[0]], classToken, 1)
+      ClassExpression(node) {
+        if (!node.superClass)
+          return
+
+        checkHeritages(node, [node.superClass])
       },
 
       ConditionalExpression(node) {
@@ -2166,6 +2177,13 @@ export default createRule<RuleOptions, MessageIds>({
 
       'TSInterfaceBody': checkBlockLikeNode,
 
+      TSInterfaceDeclaration(node) {
+        if (node.extends.length === 0)
+          return
+
+        checkHeritages(node, node.extends)
+      },
+
       TSQualifiedName(node) {
         checkMemberExpression(node, node.left, node.right)
       },
@@ -2247,11 +2265,6 @@ export default createRule<RuleOptions, MessageIds>({
       (listeners, ignoredSelector) => Object.assign(listeners, { [ignoredSelector]: addToIgnoredNodes }),
       {},
     )
-
-    const rules = {
-      ...offsetListeners,
-      ...ignoredNodeListeners,
-    } as Record<string, RuleFunction<any>>
 
     return {
       // Listeners
@@ -2349,32 +2362,6 @@ export default createRule<RuleOptions, MessageIds>({
           // Otherwise, report the token/comment.
           report(firstTokenOfLine, offsets.getDesiredIndent(firstTokenOfLine)!)
         }
-      },
-
-      TSInterfaceDeclaration(node) {
-        if (node.extends.length === 0)
-          return
-        // transform it to a ClassDeclaration
-        return rules['ClassDeclaration, ClassExpression']({
-          type: AST_NODE_TYPES.ClassDeclaration,
-          body: node.body as any,
-          id: null,
-          // TODO: This is invalid, there can be more than one extends in interface
-          superClass: node.extends[0].expression as any,
-          abstract: false,
-          declare: false,
-          decorators: [],
-          implements: [],
-          superTypeArguments: undefined,
-          superTypeParameters: undefined,
-          typeParameters: undefined,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        },
-        )
       },
     }
   },
