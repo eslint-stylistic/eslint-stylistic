@@ -362,6 +362,11 @@ import foo = require(
   {
     node: AST_NODE_TYPES.TSMappedType,
     code: [
+      $`
+        type Partial<T> = {
+            [P in keyof T];
+        }
+      `,
       `
 type Partial<T> = {
     [P in keyof T]: T[P];
