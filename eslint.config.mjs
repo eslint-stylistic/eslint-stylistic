@@ -60,7 +60,7 @@ export default antfu(
   },
   {
     files: [
-      'packages/eslint-plugin-{js,jsx,ts,plus}/{rules,utils}/**/*.ts',
+      'packages/eslint-plugin/{rules,utils}/**/*.ts',
       'packages/shared/utils/**/*.ts',
     ],
     ignores: ['**/*.test.ts'],
