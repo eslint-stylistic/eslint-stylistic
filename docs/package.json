@@ -16,7 +16,6 @@
     "@shikijs/transformers": "catalog:",
     "@shikijs/twoslash": "catalog:",
     "@shikijs/vitepress-twoslash": "catalog:",
-    "@types/hast": "catalog:",
     "@types/markdown-it-container": "catalog:",
     "@vueuse/core": "catalog:",
     "markdown-it-container": "catalog:",

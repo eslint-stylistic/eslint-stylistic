@@ -63,9 +63,6 @@ catalogs:
     '@types/fs-extra':
       specifier: ^11.0.4
       version: 11.0.4
-    '@types/hast':
-      specifier: ^3.0.4
-      version: 3.0.4
     '@types/markdown-it-container':
       specifier: ^2.0.10
       version: 2.0.10
@@ -408,9 +405,6 @@ importers:
       '@shikijs/vitepress-twoslash':
         specifier: 'catalog:'
         version: 3.4.2(typescript@5.8.3)
-      '@types/hast':
-        specifier: 'catalog:'
-        version: 3.0.4
       '@types/markdown-it-container':
         specifier: 'catalog:'
         version: 2.0.10
