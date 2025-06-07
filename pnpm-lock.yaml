@@ -84,9 +84,6 @@ catalogs:
     '@typescript-eslint/utils':
       specifier: ^8.32.1
       version: 8.32.1
-    '@unocss/reset':
-      specifier: ^66.1.2
-      version: 66.1.2
     '@vitest/coverage-v8':
       specifier: ^3.1.4
       version: 3.1.4
@@ -423,9 +420,6 @@ importers:
       '@types/markdown-it-container':
         specifier: 'catalog:'
         version: 2.0.10
-      '@unocss/reset':
-        specifier: 'catalog:'
-        version: 66.1.2
       '@vueuse/core':
         specifier: 'catalog:'
         version: 13.2.0(vue@3.5.14(typescript@5.8.3))
