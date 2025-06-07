@@ -11,13 +11,18 @@
     "fuse.js": "catalog:"
   },
   "devDependencies": {
+    "@iconify-json/carbon": "catalog:",
+    "@iconify-json/ri": "catalog:",
     "@shikijs/transformers": "catalog:",
+    "@shikijs/twoslash": "catalog:",
+    "@shikijs/vitepress-twoslash": "catalog:",
     "@types/hast": "catalog:",
     "@types/markdown-it-container": "catalog:",
     "@vueuse/core": "catalog:",
     "markdown-it-container": "catalog:",
     "shiki": "catalog:",
     "twoslash": "catalog:",
+    "twoslash-eslint": "catalog:",
     "unocss": "catalog:",
     "unplugin-vue-components": "catalog:",
     "vitepress": "catalog:",
