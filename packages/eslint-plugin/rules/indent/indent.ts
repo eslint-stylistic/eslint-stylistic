@@ -1350,6 +1350,33 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
+    function checkBlockLikeNode(node: Tree.BlockStatement | Tree.ClassBody | Tree.TSInterfaceBody | Tree.TSModuleBlock) {
+      let blockIndentLevel
+
+      if (node.parent && isOuterIIFE(node.parent))
+        blockIndentLevel = options.outerIIFEBody
+      else if (node.parent && (node.parent.type === 'FunctionExpression' || node.parent.type === 'ArrowFunctionExpression'))
+        blockIndentLevel = options.FunctionExpression.body
+      else if (node.parent && node.parent.type === 'FunctionDeclaration')
+        blockIndentLevel = options.FunctionDeclaration.body
+      else
+        blockIndentLevel = 1
+
+      /**
+       * For blocks that aren't lone statements, ensure that the opening curly brace
+       * is aligned with the parent.
+       */
+      if (!STATEMENT_LIST_PARENTS.has(node.parent.type))
+        offsets.setDesiredOffset(sourceCode.getFirstToken(node)!, sourceCode.getFirstToken(node.parent)!, 0)
+
+      addElementListIndent(
+        node.body,
+        sourceCode.getFirstToken(node)!,
+        sourceCode.getLastToken(node)!,
+        blockIndentLevel,
+      )
+    }
+
     // JSXText
     function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
       let src = context.sourceCode.getText(node, node.loc.start.column)
@@ -1415,32 +1442,9 @@ export default createRule<RuleOptions, MessageIds>({
         checkOperatorToken(node.left, node.right, node.operator)
       },
 
-      'BlockStatement, ClassBody': function (node: Tree.BlockStatement | Tree.ClassBody) {
-        let blockIndentLevel
+      'BlockStatement': checkBlockLikeNode,
 
-        if (node.parent && isOuterIIFE(node.parent))
-          blockIndentLevel = options.outerIIFEBody
-        else if (node.parent && (node.parent.type === 'FunctionExpression' || node.parent.type === 'ArrowFunctionExpression'))
-          blockIndentLevel = options.FunctionExpression.body
-        else if (node.parent && node.parent.type === 'FunctionDeclaration')
-          blockIndentLevel = options.FunctionDeclaration.body
-        else
-          blockIndentLevel = 1
-
-        /**
-         * For blocks that aren't lone statements, ensure that the opening curly brace
-         * is aligned with the parent.
-         */
-        if (!STATEMENT_LIST_PARENTS.has(node.parent.type))
-          offsets.setDesiredOffset(sourceCode.getFirstToken(node)!, sourceCode.getFirstToken(node.parent)!, 0)
-
-        addElementListIndent(
-          node.body,
-          sourceCode.getFirstToken(node)!,
-          sourceCode.getLastToken(node)!,
-          blockIndentLevel,
-        )
-      },
+      'ClassBody': checkBlockLikeNode,
 
       'CallExpression': addFunctionCallIndent,
 
@@ -2160,6 +2164,8 @@ export default createRule<RuleOptions, MessageIds>({
         checkMemberExpression(node, node.objectType, node.indexType, true)
       },
 
+      'TSInterfaceBody': checkBlockLikeNode,
+
       TSQualifiedName(node) {
         checkMemberExpression(node, node.left, node.right)
       },
@@ -2183,6 +2189,8 @@ export default createRule<RuleOptions, MessageIds>({
 
         addElementListIndent(node.params, firstToken, closingToken, 1)
       },
+
+      'TSModuleBlock': checkBlockLikeNode,
 
       '*': function (node: ASTNode) {
         const firstToken = sourceCode.getFirstToken(node)
@@ -2343,25 +2351,6 @@ export default createRule<RuleOptions, MessageIds>({
         }
       },
 
-      TSInterfaceBody(node) {
-        // transform it to an ClassBody
-        return rules['BlockStatement, ClassBody']({
-          type: AST_NODE_TYPES.ClassBody,
-          body: node.body.map(
-            p =>
-              convertTSPropertySignatureToProperty(
-                p,
-                AST_NODE_TYPES.PropertyDefinition,
-              ) as Tree.PropertyDefinition,
-          ),
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
       TSInterfaceDeclaration(node) {
         if (node.extends.length === 0)
           return
@@ -2386,19 +2375,6 @@ export default createRule<RuleOptions, MessageIds>({
           loc: node.loc,
         },
         )
-      },
-
-      TSModuleBlock(node) {
-        // transform it to a BlockStatement
-        return rules['BlockStatement, ClassBody']({
-          type: AST_NODE_TYPES.BlockStatement,
-          body: node.body as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
       },
     }
   },
