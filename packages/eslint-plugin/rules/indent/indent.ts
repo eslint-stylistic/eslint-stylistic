@@ -1129,59 +1129,6 @@ export default createRule<RuleOptions, MessageIds>({
       addElementListIndent(elementList, openingBracket, closingBracket, options.ArrayExpression)
     }
 
-    /**
-     * Converts from a TSPropertySignature to a Property
-     * @param node a TSPropertySignature node
-     * @param [type] the type to give the new node
-     * @returns a Property node
-     */
-    function convertTSPropertySignatureToProperty(
-      node:
-        | Tree.TSEnumMember
-        | Tree.TSPropertySignature
-        | Tree.TypeElement,
-      type:
-        | AST_NODE_TYPES.Property
-        | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
-    ): ASTNode | null {
-      const base = {
-        // indent doesn't actually use these
-        key: null as any,
-        value: null as any,
-
-        // Property flags
-        computed: false,
-        method: false,
-        kind: 'init',
-        // this will stop eslint from interrogating the type literal
-        shorthand: true,
-
-        // location data
-        parent: node.parent,
-        range: node.range,
-        loc: node.loc,
-      }
-      if (type === AST_NODE_TYPES.Property) {
-        return {
-          ...base as unknown as Tree.Property,
-          type,
-        }
-      }
-      return {
-        type,
-        accessibility: undefined,
-        declare: false,
-        decorators: [],
-        definite: false,
-        optional: false,
-        override: false,
-        readonly: false,
-        static: false,
-        typeAnnotation: undefined,
-        ...base,
-      } as Tree.PropertyDefinition
-    }
-
     function checkObjectLikeNode(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSEnumDeclaration | Tree.TSTypeLiteral | Tree.TSMappedType, properties: Tree.Node[]) {
       const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
       const closingCurly = sourceCode.getTokenAfter(
@@ -2083,15 +2030,11 @@ export default createRule<RuleOptions, MessageIds>({
       TSEnumDeclaration(node) {
         const members = node.body?.members || node.members
 
-        checkObjectLikeNode(node, members.map(
-          member => convertTSPropertySignatureToProperty(member) as Tree.Property,
-        ))
+        checkObjectLikeNode(node, members)
       },
 
       TSTypeLiteral(node) {
-        checkObjectLikeNode(node, node.members.map(
-          member => convertTSPropertySignatureToProperty(member) as Tree.Property,
-        ))
+        checkObjectLikeNode(node, node.members)
       },
 
       TSMappedType(node) {
