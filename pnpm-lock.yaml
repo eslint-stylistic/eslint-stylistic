@@ -15,27 +15,6 @@ catalogs:
     '@antfu/utils':
       specifier: ^9.2.0
       version: 9.2.0
-    '@babel/eslint-parser':
-      specifier: ^7.27.1
-      version: 7.27.1
-    '@babel/plugin-syntax-decorators':
-      specifier: ^7.27.1
-      version: 7.27.1
-    '@babel/plugin-syntax-do-expressions':
-      specifier: ^7.27.1
-      version: 7.27.1
-    '@babel/plugin-syntax-function-bind':
-      specifier: ^7.27.1
-      version: 7.27.1
-    '@babel/preset-react':
-      specifier: ^7.27.1
-      version: 7.27.1
-    '@iconify-json/carbon':
-      specifier: ^1.2.8
-      version: 1.2.8
-    '@iconify-json/ri':
-      specifier: ^1.2.5
-      version: 1.2.5
     '@rollup/plugin-alias':
       specifier: ^5.1.1
       version: 5.1.1
@@ -45,15 +24,6 @@ catalogs:
     '@rollup/plugin-node-resolve':
       specifier: ^16.0.1
       version: 16.0.1
-    '@shikijs/transformers':
-      specifier: ^3.4.2
-      version: 3.4.2
-    '@shikijs/twoslash':
-      specifier: ^3.4.2
-      version: 3.4.2
-    '@shikijs/vitepress-twoslash':
-      specifier: ^3.4.2
-      version: 3.4.2
     '@types/estraverse':
       specifier: ^5.1.7
       version: 5.1.7
@@ -63,9 +33,6 @@ catalogs:
     '@types/fs-extra':
       specifier: ^11.0.4
       version: 11.0.4
-    '@types/markdown-it-container':
-      specifier: ^2.0.10
-      version: 2.0.10
     '@types/node':
       specifier: ^22.15.21
       version: 22.15.21
@@ -81,15 +48,6 @@ catalogs:
     '@typescript-eslint/utils':
       specifier: ^8.32.1
       version: 8.32.1
-    '@vitest/coverage-v8':
-      specifier: ^3.1.4
-      version: 3.1.4
-    '@vitest/ui':
-      specifier: ^3.1.4
-      version: 3.1.4
-    '@vueuse/core':
-      specifier: ^13.2.0
-      version: 13.2.0
     change-case:
       specifier: ^5.4.4
       version: 5.4.4
@@ -105,9 +63,6 @@ catalogs:
     eslint-visitor-keys:
       specifier: ^4.2.0
       version: 4.2.0
-    eslint-vitest-rule-tester:
-      specifier: ^2.2.0
-      version: 2.2.0
     espree:
       specifier: ^10.3.0
       version: 10.3.0
@@ -123,9 +78,6 @@ catalogs:
     fs-extra:
       specifier: ^11.3.0
       version: 11.3.0
-    fuse.js:
-      specifier: ^7.1.0
-      version: 7.1.0
     gray-matter:
       specifier: ^4.0.3
       version: 4.0.3
@@ -141,9 +93,6 @@ catalogs:
     lint-staged:
       specifier: ^16.0.0
       version: 16.0.0
-    markdown-it-container:
-      specifier: ^4.0.0
-      version: 4.0.0
     ohash:
       specifier: ^2.0.11
       version: 2.0.11
@@ -168,9 +117,6 @@ catalogs:
     semver:
       specifier: ^7.7.2
       version: 7.7.2
-    shiki:
-      specifier: ^3.4.2
-      version: 3.4.2
     simple-git-hooks:
       specifier: ^2.13.0
       version: 2.13.0
@@ -180,12 +126,46 @@ catalogs:
     tsx:
       specifier: ^4.19.4
       version: 4.19.4
-    twoslash:
-      specifier: ^0.3.1
-      version: 0.3.1
     typescript:
       specifier: ^5.8.3
       version: 5.8.3
+    vue-eslint-parser:
+      specifier: ^10.1.3
+      version: 10.1.3
+  docs:
+    '@iconify-json/carbon':
+      specifier: ^1.2.8
+      version: 1.2.8
+    '@iconify-json/ri':
+      specifier: ^1.2.5
+      version: 1.2.5
+    '@shikijs/transformers':
+      specifier: ^3.4.2
+      version: 3.4.2
+    '@shikijs/twoslash':
+      specifier: ^3.4.2
+      version: 3.6.0
+    '@shikijs/vitepress-twoslash':
+      specifier: ^3.4.2
+      version: 3.4.2
+    '@types/markdown-it-container':
+      specifier: ^2.0.10
+      version: 2.0.10
+    '@vueuse/core':
+      specifier: ^13.2.0
+      version: 13.2.0
+    fuse.js:
+      specifier: ^7.1.0
+      version: 7.1.0
+    markdown-it-container:
+      specifier: ^4.0.0
+      version: 4.0.0
+    shiki:
+      specifier: ^3.4.2
+      version: 3.4.2
+    twoslash:
+      specifier: ^0.3.1
+      version: 0.3.1
     unocss:
       specifier: ^66.1.2
       version: 66.1.2
@@ -195,9 +175,31 @@ catalogs:
     vitepress:
       specifier: ^1.6.3
       version: 1.6.3
-    vue-eslint-parser:
-      specifier: ^10.1.3
-      version: 10.1.3
+  test:
+    '@babel/eslint-parser':
+      specifier: ^7.27.1
+      version: 7.27.1
+    '@babel/plugin-syntax-decorators':
+      specifier: ^7.27.1
+      version: 7.27.1
+    '@babel/plugin-syntax-do-expressions':
+      specifier: ^7.27.1
+      version: 7.27.1
+    '@babel/plugin-syntax-function-bind':
+      specifier: ^7.27.1
+      version: 7.27.1
+    '@babel/preset-react':
+      specifier: ^7.27.1
+      version: 7.27.1
+    '@vitest/coverage-v8':
+      specifier: ^3.1.4
+      version: 3.1.4
+    '@vitest/ui':
+      specifier: ^3.1.4
+      version: 3.1.4
+    eslint-vitest-rule-tester:
+      specifier: ^2.2.0
+      version: 2.2.0
 
 overrides:
   rollup: ^4.41.0
@@ -222,19 +224,19 @@ importers:
         specifier: 'catalog:'
         version: 9.2.0
       '@babel/eslint-parser':
-        specifier: 'catalog:'
+        specifier: catalog:test
         version: 7.27.1(@babel/core@7.26.0)(eslint@9.27.0(jiti@2.4.2))
       '@babel/plugin-syntax-decorators':
-        specifier: 'catalog:'
+        specifier: catalog:test
         version: 7.27.1(@babel/core@7.26.0)
       '@babel/plugin-syntax-do-expressions':
-        specifier: 'catalog:'
+        specifier: catalog:test
         version: 7.27.1(@babel/core@7.26.0)
       '@babel/plugin-syntax-function-bind':
-        specifier: 'catalog:'
+        specifier: catalog:test
         version: 7.27.1(@babel/core@7.26.0)
       '@babel/preset-react':
-        specifier: 'catalog:'
+        specifier: catalog:test
         version: 7.27.1(@babel/core@7.26.0)
       '@rollup/plugin-alias':
         specifier: 'catalog:'
@@ -273,10 +275,10 @@ importers:
         specifier: 'catalog:'
         version: 8.32.1(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)
       '@vitest/coverage-v8':
-        specifier: 'catalog:'
+        specifier: catalog:test
         version: 3.1.4(vitest@3.1.4)
       '@vitest/ui':
-        specifier: 'catalog:'
+        specifier: catalog:test
         version: 3.1.4(vitest@3.1.4)
       change-case:
         specifier: 'catalog:'
@@ -294,7 +296,7 @@ importers:
         specifier: 'catalog:'
         version: 4.2.0
       eslint-vitest-rule-tester:
-        specifier: 'catalog:'
+        specifier: catalog:test
         version: 2.2.0(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)(vitest@3.1.4)
       espree:
         specifier: 'catalog:'
@@ -387,50 +389,50 @@ importers:
   docs:
     dependencies:
       fuse.js:
-        specifier: 'catalog:'
+        specifier: catalog:docs
         version: 7.1.0
     devDependencies:
       '@iconify-json/carbon':
-        specifier: 'catalog:'
+        specifier: catalog:docs
         version: 1.2.8
       '@iconify-json/ri':
-        specifier: 'catalog:'
+        specifier: catalog:docs
         version: 1.2.5
       '@shikijs/transformers':
-        specifier: 'catalog:'
+        specifier: catalog:docs
         version: 3.4.2
       '@shikijs/twoslash':
-        specifier: 'catalog:'
-        version: 3.4.2(typescript@5.8.3)
+        specifier: catalog:docs
+        version: 3.6.0(typescript@5.8.3)
       '@shikijs/vitepress-twoslash':
-        specifier: 'catalog:'
+        specifier: catalog:docs
         version: 3.4.2(typescript@5.8.3)
       '@types/markdown-it-container':
-        specifier: 'catalog:'
+        specifier: catalog:docs
         version: 2.0.10
       '@vueuse/core':
-        specifier: 'catalog:'
+        specifier: catalog:docs
         version: 13.2.0(vue@3.5.14(typescript@5.8.3))
       markdown-it-container:
-        specifier: 'catalog:'
+        specifier: catalog:docs
         version: 4.0.0
       shiki:
-        specifier: 'catalog:'
+        specifier: catalog:docs
         version: 3.4.2
       twoslash:
-        specifier: 'catalog:'
+        specifier: catalog:docs
         version: 0.3.1(typescript@5.8.3)
       twoslash-eslint:
         specifier: ^0.3.1
         version: 0.3.1(eslint@9.27.0(jiti@2.4.2))
       unocss:
-        specifier: 'catalog:'
+        specifier: catalog:docs
         version: 66.1.2(postcss@8.5.3)(vite@6.3.5(@types/node@22.15.21)(jiti@2.4.2)(tsx@4.19.4)(yaml@2.8.0))(vue@3.5.14(typescript@5.8.3))
       unplugin-vue-components:
-        specifier: 'catalog:'
+        specifier: catalog:docs
         version: 28.5.0(@babel/parser@7.27.2)(vue@3.5.14(typescript@5.8.3))
       vitepress:
-        specifier: 'catalog:'
+        specifier: catalog:docs
         version: 1.6.3(@algolia/client-search@5.19.0)(@types/node@22.15.21)(change-case@5.4.4)(fuse.js@7.1.0)(jiti@2.4.2)(postcss@8.5.3)(search-insights@2.17.1)(tsx@4.19.4)(typescript@5.8.3)(yaml@2.8.0)
       vue:
         specifier: ^3.5.14
@@ -1468,11 +1470,6 @@ packages:
 
   '@shikijs/transformers@3.4.2':
     resolution: {integrity: sha512-I5baLVi/ynLEOZoWSAMlACHNnG+yw5HDmse0oe+GW6U1u+ULdEB3UHiVWaHoJSSONV7tlcVxuaMy74sREDkSvg==}
-
-  '@shikijs/twoslash@3.4.2':
-    resolution: {integrity: sha512-zRNPmi2lA8o+k7UQfmbPwH2jPvfW9OrgpsO4OUOM+8QTxrepFU9TNF8vNcxZEW5cbishQkJrV19cI9Zk3cb5aQ==}
-    peerDependencies:
-      typescript: '>=5.5.0'
 
   '@shikijs/twoslash@3.6.0':
     resolution: {integrity: sha512-AxRxLWtmrVftwxN/2hSL6Hym+bannS+zuUEXpbNuo6BpG4jHTM0KEkICEH3B3Gm5ZNzGdI74NdDiAqAZ6WPJuQ==}
@@ -5248,15 +5245,6 @@ snapshots:
     dependencies:
       '@shikijs/core': 3.4.2
       '@shikijs/types': 3.4.2
-
-  '@shikijs/twoslash@3.4.2(typescript@5.8.3)':
-    dependencies:
-      '@shikijs/core': 3.4.2
-      '@shikijs/types': 3.4.2
-      twoslash: 0.3.1(typescript@5.8.3)
-      typescript: 5.8.3
-    transitivePeerDependencies:
-      - supports-color
 
   '@shikijs/twoslash@3.6.0(typescript@5.8.3)':
     dependencies:
