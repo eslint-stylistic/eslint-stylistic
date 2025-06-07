@@ -66,9 +66,6 @@ catalogs:
     '@types/hast':
       specifier: ^3.0.4
       version: 3.0.4
-    '@types/json-schema':
-      specifier: ^7.0.15
-      version: 7.0.15
     '@types/markdown-it-container':
       specifier: ^2.0.10
       version: 2.0.10
@@ -141,9 +138,6 @@ catalogs:
     jiti:
       specifier: ^2.4.2
       version: 2.4.2
-    json-schema:
-      specifier: ^0.4.0
-      version: 0.4.0
     json-schema-to-typescript-lite:
       specifier: ^14.1.0
       version: 14.1.0
@@ -281,9 +275,6 @@ importers:
       '@types/fs-extra':
         specifier: 'catalog:'
         version: 11.0.4
-      '@types/json-schema':
-        specifier: 'catalog:'
-        version: 7.0.15
       '@types/node':
         specifier: 'catalog:'
         version: 22.15.21
@@ -344,9 +335,6 @@ importers:
       jiti:
         specifier: 'catalog:'
         version: 2.4.2
-      json-schema:
-        specifier: 'catalog:'
-        version: 0.4.0
       json-schema-to-typescript-lite:
         specifier: 'catalog:'
         version: 14.1.0
@@ -3015,9 +3003,6 @@ packages:
 
   json-schema-traverse@0.4.1:
     resolution: {integrity: sha512-xbbCH5dCYU5T8LcEhhuh7HJ88HXuW3qsI3Y0zOZFKfZEHcpWiHU/Jxzk629Brsab/mMiHQti9wMP+845RPe3Vg==}
-
-  json-schema@0.4.0:
-    resolution: {integrity: sha512-es94M3nTIfsEPisRafak+HDLfHXnKBhV3vU5eqPcS3flIWqcxJWgXHXiey3YrpaNsanY5ei1VoYEbOzijuq9BA==}
 
   json-stable-stringify-without-jsonify@1.0.1:
     resolution: {integrity: sha512-Bdboy+l7tA3OGW6FjyFHWkP5LuByj1Tk33Ljyq0axyzdk9//JSi2u3fP1QSmd1KNwq6VOKYGlAu87CisVir6Pw==}
@@ -7051,8 +7036,6 @@ snapshots:
       '@types/json-schema': 7.0.15
 
   json-schema-traverse@0.4.1: {}
-
-  json-schema@0.4.0: {}
 
   json-stable-stringify-without-jsonify@1.0.1: {}
 

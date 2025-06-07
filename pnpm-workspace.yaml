@@ -22,7 +22,6 @@ catalog:
   '@types/estree': ^1.0.7
   '@types/fs-extra': ^11.0.4
   '@types/hast': ^3.0.4
-  '@types/json-schema': ^7.0.15
   '@types/markdown-it-container': ^2.0.10
   '@types/node': ^22.15.21
   '@types/picomatch': ^4.0.0
@@ -47,7 +46,6 @@ catalog:
   fuse.js: ^7.1.0
   gray-matter: ^4.0.3
   jiti: ^2.4.2
-  json-schema: ^0.4.0
   json-schema-to-typescript-lite: ^14.1.0
   jsonc-eslint-parser: ^2.4.0
   lint-staged: ^16.0.0
