@@ -1294,6 +1294,62 @@ export default createRule<RuleOptions, MessageIds>({
       offsets.setDesiredOffset(tokenAfterOperator, operatorToken, 0)
     }
 
+    function checkMemberExpression(
+      node: Tree.MemberExpression | Tree.JSXMemberExpression | Tree.MetaProperty | Tree.TSIndexedAccessType | Tree.TSQualifiedName,
+      object: Tree.Node,
+      property: Tree.Node,
+      computed = false,
+    ) {
+      const firstNonObjectToken = sourceCode.getFirstTokenBetween(object, property, isNotClosingParenToken)!
+      const secondNonObjectToken = sourceCode.getTokenAfter(firstNonObjectToken)!
+
+      const objectParenCount = sourceCode.getTokensBetween(object, property, { filter: isClosingParenToken }).length
+      const firstObjectToken = objectParenCount
+        ? sourceCode.getTokenBefore(object, { skip: objectParenCount - 1 })!
+        : sourceCode.getFirstToken(object)!
+      const lastObjectToken = sourceCode.getTokenBefore(firstNonObjectToken)!
+      const firstPropertyToken = computed ? firstNonObjectToken : secondNonObjectToken
+
+      if (computed) {
+        // For computed MemberExpressions, match the closing bracket with the opening bracket.
+        offsets.setDesiredOffset(sourceCode.getLastToken(node)!, firstNonObjectToken, 0)
+        offsets.setDesiredOffsets(property.range, firstNonObjectToken, 1)
+      }
+
+      /**
+       * If the object ends on the same line that the property starts, match against the last token
+       * of the object, to ensure that the MemberExpression is not indented.
+       *
+       * Otherwise, match against the first token of the object, e.g.
+       * foo
+       *   .bar
+       *   .baz // <-- offset by 1 from `foo`
+       */
+      const offsetBase = lastObjectToken.loc.end.line === firstPropertyToken.loc.start.line
+        ? lastObjectToken
+        : firstObjectToken
+
+      if (typeof options.MemberExpression === 'number') {
+        // Match the dot (for non-computed properties) or the opening bracket (for computed properties) against the object.
+        offsets.setDesiredOffset(firstNonObjectToken, offsetBase, options.MemberExpression)
+
+        /**
+         * For computed MemberExpressions, match the first token of the property against the opening bracket.
+         * Otherwise, match the first token of the property against the object.
+         */
+        offsets.setDesiredOffset(secondNonObjectToken, computed ? firstNonObjectToken : offsetBase, options.MemberExpression)
+      }
+      else {
+        // If the MemberExpression option is off, ignore the dot and the first token of the property.
+        offsets.ignoreToken(firstNonObjectToken)
+        offsets.ignoreToken(secondNonObjectToken)
+
+        // To ignore the property indentation, ensure that the property tokens depend on the ignored tokens.
+        offsets.setDesiredOffset(firstNonObjectToken, offsetBase, 0)
+        offsets.setDesiredOffset(secondNonObjectToken, firstNonObjectToken, 0)
+      }
+    }
+
     // JSXText
     function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
       let src = context.sourceCode.getText(node, node.loc.start.column)
@@ -1670,56 +1726,12 @@ export default createRule<RuleOptions, MessageIds>({
         addElementListIndent([node.source], openingParen, closingParen, options.CallExpression.arguments)
       },
 
-      'MemberExpression, JSXMemberExpression, MetaProperty': function (node: Tree.MemberExpression | Tree.JSXMemberExpression | Tree.MetaProperty) {
-        const object = node.type === 'MetaProperty' ? node.meta : node.object
-        const firstNonObjectToken = sourceCode.getFirstTokenBetween(object, node.property, isNotClosingParenToken)!
-        const secondNonObjectToken = sourceCode.getTokenAfter(firstNonObjectToken)!
+      MemberExpression(node) {
+        checkMemberExpression(node, node.object, node.property, node.computed)
+      },
 
-        const objectParenCount = sourceCode.getTokensBetween(object, node.property, { filter: isClosingParenToken }).length
-        const firstObjectToken = objectParenCount
-          ? sourceCode.getTokenBefore(object, { skip: objectParenCount - 1 })!
-          : sourceCode.getFirstToken(object)!
-        const lastObjectToken = sourceCode.getTokenBefore(firstNonObjectToken)!
-        const firstPropertyToken = ('computed' in node && node.computed) ? firstNonObjectToken : secondNonObjectToken
-
-        if ('computed' in node && node.computed) {
-          // For computed MemberExpressions, match the closing bracket with the opening bracket.
-          offsets.setDesiredOffset(sourceCode.getLastToken(node)!, firstNonObjectToken, 0)
-          offsets.setDesiredOffsets(node.property.range, firstNonObjectToken, 1)
-        }
-
-        /**
-         * If the object ends on the same line that the property starts, match against the last token
-         * of the object, to ensure that the MemberExpression is not indented.
-         *
-         * Otherwise, match against the first token of the object, e.g.
-         * foo
-         *   .bar
-         *   .baz // <-- offset by 1 from `foo`
-         */
-        const offsetBase = lastObjectToken.loc.end.line === firstPropertyToken.loc.start.line
-          ? lastObjectToken
-          : firstObjectToken
-
-        if (typeof options.MemberExpression === 'number') {
-          // Match the dot (for non-computed properties) or the opening bracket (for computed properties) against the object.
-          offsets.setDesiredOffset(firstNonObjectToken, offsetBase, options.MemberExpression)
-
-          /**
-           * For computed MemberExpressions, match the first token of the property against the opening bracket.
-           * Otherwise, match the first token of the property against the object.
-           */
-          offsets.setDesiredOffset(secondNonObjectToken, ('computed' in node && node.computed) ? firstNonObjectToken : offsetBase, options.MemberExpression)
-        }
-        else {
-          // If the MemberExpression option is off, ignore the dot and the first token of the property.
-          offsets.ignoreToken(firstNonObjectToken)
-          offsets.ignoreToken(secondNonObjectToken)
-
-          // To ignore the property indentation, ensure that the property tokens depend on the ignored tokens.
-          offsets.setDesiredOffset(firstNonObjectToken, offsetBase, 0)
-          offsets.setDesiredOffset(secondNonObjectToken, firstNonObjectToken, 0)
-        }
+      MetaProperty(node) {
+        checkMemberExpression(node, node.meta, node.property)
       },
 
       NewExpression(node) {
@@ -2047,6 +2059,10 @@ export default createRule<RuleOptions, MessageIds>({
         )
       },
 
+      JSXMemberExpression(node) {
+        checkMemberExpression(node, node.object, node.property)
+      },
+
       'TSTupleType': checkArrayLikeNode,
 
       TSEnumDeclaration(node) {
@@ -2138,6 +2154,14 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (isSemicolonToken(lastToken))
           offsets.ignoreToken(lastToken)
+      },
+
+      TSIndexedAccessType(node) {
+        checkMemberExpression(node, node.objectType, node.indexType, true)
+      },
+
+      TSQualifiedName(node) {
+        checkMemberExpression(node, node.left, node.right)
       },
 
       '*': function (node: ASTNode) {
@@ -2299,22 +2323,6 @@ export default createRule<RuleOptions, MessageIds>({
         }
       },
 
-      TSIndexedAccessType(node) {
-        // convert to a MemberExpression
-        return rules['MemberExpression, JSXMemberExpression, MetaProperty']({
-          type: AST_NODE_TYPES.MemberExpression,
-          object: node.objectType as any,
-          property: node.indexType as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-          optional: false,
-          computed: true,
-        })
-      },
-
       TSInterfaceBody(node) {
         // transform it to an ClassBody
         return rules['BlockStatement, ClassBody']({
@@ -2370,21 +2378,6 @@ export default createRule<RuleOptions, MessageIds>({
           parent: node.parent,
           range: node.range,
           loc: node.loc,
-        })
-      },
-
-      TSQualifiedName(node) {
-        return rules['MemberExpression, JSXMemberExpression, MetaProperty']({
-          type: AST_NODE_TYPES.MemberExpression,
-          object: node.left as any,
-          property: node.right as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-          optional: false,
-          computed: false,
         })
       },
 
