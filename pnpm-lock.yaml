@@ -87,9 +87,6 @@ catalogs:
     json-schema-to-typescript-lite:
       specifier: ^14.1.0
       version: 14.1.0
-    jsonc-eslint-parser:
-      specifier: ^2.4.0
-      version: 2.4.0
     lint-staged:
       specifier: ^16.0.0
       version: 16.0.0
@@ -322,9 +319,6 @@ importers:
       json-schema-to-typescript-lite:
         specifier: 'catalog:'
         version: 14.1.0
-      jsonc-eslint-parser:
-        specifier: 'catalog:'
-        version: 2.4.0
       lint-staged:
         specifier: 'catalog:'
         version: 16.0.0

@@ -29,7 +29,6 @@ catalog:
   gray-matter: ^4.0.3
   jiti: ^2.4.2
   json-schema-to-typescript-lite: ^14.1.0
-  jsonc-eslint-parser: ^2.4.0
   lint-staged: ^16.0.0
   ohash: ^2.0.11
   picomatch: ^4.0.2
