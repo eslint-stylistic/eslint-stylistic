@@ -2002,7 +2002,7 @@ export default createRule<RuleOptions, MessageIds>({
         else {
           closingToken = sourceCode.getLastToken(node)!
         }
-        offsets.setDesiredOffsets(node.name.range, sourceCode.getFirstToken(node), 0)
+        offsets.setDesiredOffsets(node.name.range, firstToken, 0)
         addElementListIndent(node.attributes, firstToken, closingToken, 1)
       },
 
@@ -2162,6 +2162,26 @@ export default createRule<RuleOptions, MessageIds>({
 
       TSQualifiedName(node) {
         checkMemberExpression(node, node.left, node.right)
+      },
+
+      TSTypeParameterDeclaration(node) {
+        if (!node.params.length)
+          return
+
+        const firstToken = sourceCode.getFirstToken(node)!
+        const closingToken = sourceCode.getLastToken(node)!
+
+        addElementListIndent(node.params, firstToken, closingToken, 1)
+      },
+
+      TSTypeParameterInstantiation(node) {
+        if (!node.params.length)
+          return
+
+        const firstToken = sourceCode.getFirstToken(node)!
+        const closingToken = sourceCode.getLastToken(node)!
+
+        addElementListIndent(node.params, firstToken, closingToken, 1)
       },
 
       '*': function (node: ASTNode) {
@@ -2373,52 +2393,6 @@ export default createRule<RuleOptions, MessageIds>({
         return rules['BlockStatement, ClassBody']({
           type: AST_NODE_TYPES.BlockStatement,
           body: node.body as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
-      TSTypeParameterDeclaration(node) {
-        if (!node.params.length)
-          return
-
-        const [name, ...attributes] = node.params
-
-        // JSX is about the closest we can get because the angle brackets
-        // it's not perfect but it works!
-        return rules.JSXOpeningElement({
-          type: AST_NODE_TYPES.JSXOpeningElement,
-          selfClosing: false,
-          name: name as any,
-          attributes: attributes as any,
-          typeArguments: undefined,
-          typeParameters: undefined,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
-      TSTypeParameterInstantiation(node) {
-        if (!node.params.length)
-          return
-
-        const [name, ...attributes] = node.params
-
-        // JSX is about the closest we can get because the angle brackets
-        // it's not perfect but it works!
-        return rules.JSXOpeningElement({
-          type: AST_NODE_TYPES.JSXOpeningElement,
-          selfClosing: false,
-          name: name as any,
-          attributes: attributes as any,
-          typeArguments: undefined,
-          typeParameters: undefined,
 
           // location data
           parent: node.parent,
