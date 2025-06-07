@@ -1020,6 +1020,27 @@ run<RuleOptions, MessageIds>({
     },
 
     // ----------------------------------------------------------------------
+    // using
+    // ----------------------------------------------------------------------
+
+    ...['using', 'await using'].flatMap(usingType => [
+      {
+        code: `${usingType} a=1\n\nfoo()`,
+        options: [
+          { blankLine: 'never', prev: '*', next: '*' },
+          { blankLine: 'always', prev: 'using', next: '*' },
+        ] as RuleOptions,
+      },
+    ]),
+    {
+      code: 'var a=1\nfoo()',
+      options: [
+        { blankLine: 'never', prev: '*', next: '*' },
+        { blankLine: 'always', prev: 'using', next: '*' },
+      ],
+    },
+
+    // ----------------------------------------------------------------------
     // var
     // ----------------------------------------------------------------------
 
@@ -1137,6 +1158,41 @@ run<RuleOptions, MessageIds>({
     },
 
     // ----------------------------------------------------------------------
+    // multiline-using
+    // ----------------------------------------------------------------------
+
+    ...['using', 'await using'].flatMap(usingType => [
+      {
+        code: `${usingType} a={\nb:1,\nc:2\n}\n\n${usingType} d=3`,
+        options: [
+          { blankLine: 'never', prev: '*', next: '*' },
+          { blankLine: 'always', prev: 'multiline-using', next: '*' },
+        ] as RuleOptions,
+      },
+      {
+        code: `${usingType} a=1\n\n${usingType} b={\nc:2,\nd:3\n}`,
+        options: [
+          { blankLine: 'never', prev: '*', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'multiline-using' },
+        ] as RuleOptions,
+      },
+      {
+        code: `${usingType} a=1\n${usingType} b=2`,
+        options: [
+          { blankLine: 'never', prev: '*', next: '*' },
+          { blankLine: 'always', prev: 'multiline-using', next: '*' },
+        ] as RuleOptions,
+      },
+      {
+        code: `${usingType} a=1\n${usingType} b=2`,
+        options: [
+          { blankLine: 'never', prev: '*', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'multiline-using' },
+        ] as RuleOptions,
+      },
+    ]),
+
+    // ----------------------------------------------------------------------
     // multiline-var
     // ----------------------------------------------------------------------
 
@@ -1234,6 +1290,41 @@ run<RuleOptions, MessageIds>({
         { blankLine: 'always', prev: '*', next: 'singleline-let' },
       ],
     },
+
+    // ----------------------------------------------------------------------
+    // singleline-using
+    // ----------------------------------------------------------------------
+
+    ...['using', 'await using'].flatMap(usingType => [
+      {
+        code: `${usingType} a=1\n\n${usingType} b=2`,
+        options: [
+          { blankLine: 'never', prev: '*', next: '*' },
+          { blankLine: 'always', prev: 'singleline-using', next: '*' },
+        ] as RuleOptions,
+      },
+      {
+        code: `${usingType} a=1\n\n${usingType} b=2`,
+        options: [
+          { blankLine: 'never', prev: '*', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'singleline-using' },
+        ] as RuleOptions,
+      },
+      {
+        code: `${usingType} a={\nb:1,\nc:2\n}\n${usingType} d={\ne:3,\nf:4\n}`,
+        options: [
+          { blankLine: 'never', prev: '*', next: '*' },
+          { blankLine: 'always', prev: 'singleline-using', next: '*' },
+        ] as RuleOptions,
+      },
+      {
+        code: `${usingType} a={\nb:1,\nc:2\n}\n${usingType} d={\ne:3,\nf:4\n}`,
+        options: [
+          { blankLine: 'never', prev: '*', next: '*' },
+          { blankLine: 'always', prev: '*', next: 'singleline-using' },
+        ] as RuleOptions,
+      },
+    ]),
 
     // ----------------------------------------------------------------------
     // singleline-var
@@ -4031,6 +4122,25 @@ run<RuleOptions, MessageIds>({
     },
 
     // ----------------------------------------------------------------------
+    // using
+    // ----------------------------------------------------------------------
+
+    ...['using', 'await using'].flatMap(usingType => [
+      {
+        code: `${usingType} a = x\n\nfoo()`,
+        output: `${usingType} a = x\nfoo()`,
+        options: [{ blankLine: 'never', prev: 'using', next: '*' }] as RuleOptions,
+        errors: [{ messageId: 'unexpectedBlankLine' as const }],
+      },
+      {
+        code: `${usingType} a = x\nfoo()`,
+        output: `${usingType} a = x\n\nfoo()`,
+        options: [{ blankLine: 'always', prev: 'using', next: '*' }] as RuleOptions,
+        errors: [{ messageId: 'expectedBlankLine' as const }],
+      },
+    ]),
+
+    // ----------------------------------------------------------------------
     // var
     // ----------------------------------------------------------------------
 
@@ -4170,6 +4280,45 @@ run<RuleOptions, MessageIds>({
     },
 
     // ----------------------------------------------------------------------
+    // multiline-using
+    // ----------------------------------------------------------------------
+
+    ...['using', 'await using'].flatMap(usingType => [
+      {
+        code: `${usingType} a={\nb:1,\nc:2\n}\n\n${usingType} d=3`,
+        output: `${usingType} a={\nb:1,\nc:2\n}\n${usingType} d=3`,
+        options: [
+          { blankLine: 'never', prev: 'multiline-using', next: '*' },
+        ] as RuleOptions,
+        errors: [{ messageId: 'unexpectedBlankLine' as const }],
+      },
+      {
+        code: `${usingType} a={\nb:1,\nc:2\n}\n${usingType} d=3`,
+        output: `${usingType} a={\nb:1,\nc:2\n}\n\n${usingType} d=3`,
+        options: [
+          { blankLine: 'always', prev: 'multiline-using', next: '*' },
+        ] as RuleOptions,
+        errors: [{ messageId: 'expectedBlankLine' as const }],
+      },
+      {
+        code: `${usingType} a=1\n\n${usingType} b={\nc:2,\nd:3\n}`,
+        output: `${usingType} a=1\n${usingType} b={\nc:2,\nd:3\n}`,
+        options: [
+          { blankLine: 'never', prev: '*', next: 'multiline-using' },
+        ] as RuleOptions,
+        errors: [{ messageId: 'unexpectedBlankLine' as const }],
+      },
+      {
+        code: `${usingType} a=1\n${usingType} b={\nc:2,\nd:3\n}`,
+        output: `${usingType} a=1\n\n${usingType} b={\nc:2,\nd:3\n}`,
+        options: [
+          { blankLine: 'always', prev: '*', next: 'multiline-using' },
+        ] as RuleOptions,
+        errors: [{ messageId: 'expectedBlankLine' as const }],
+      },
+    ]),
+
+    // ----------------------------------------------------------------------
     // multiline-var
     // ----------------------------------------------------------------------
 
@@ -4279,6 +4428,37 @@ run<RuleOptions, MessageIds>({
       ],
       errors: [{ messageId: 'expectedBlankLine' }],
     },
+
+    // ----------------------------------------------------------------------
+    // singleline-using
+    // ----------------------------------------------------------------------
+
+    ...['using', 'await using'].flatMap(usingType => [
+      {
+        code: `${usingType} a=1\n\n${usingType} b=2`,
+        output: `${usingType} a=1\n${usingType} b=2`,
+        options: [{ blankLine: 'never', prev: 'singleline-using', next: '*' }] as RuleOptions,
+        errors: [{ messageId: 'unexpectedBlankLine' as const }],
+      },
+      {
+        code: `${usingType} a=1\n${usingType} b=2`,
+        output: `${usingType} a=1\n\n${usingType} b=2`,
+        options: [{ blankLine: 'always', prev: 'singleline-using', next: '*' }] as RuleOptions,
+        errors: [{ messageId: 'expectedBlankLine' as const }],
+      },
+      {
+        code: `${usingType} a=1\n\n${usingType} b=2`,
+        output: `${usingType} a=1\n${usingType} b=2`,
+        options: [{ blankLine: 'never', prev: '*', next: 'singleline-using' }] as RuleOptions,
+        errors: [{ messageId: 'unexpectedBlankLine' as const }],
+      },
+      {
+        code: `${usingType} a=1\n${usingType} b=2`,
+        output: `${usingType} a=1\n\n${usingType} b=2`,
+        options: [{ blankLine: 'always', prev: '*', next: 'singleline-using' }] as RuleOptions,
+        errors: [{ messageId: 'expectedBlankLine' as const }],
+      },
+    ]),
 
     // ----------------------------------------------------------------------
     // singleline-var

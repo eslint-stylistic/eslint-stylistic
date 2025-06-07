@@ -579,5 +579,33 @@ run<RuleOptions, MessageIds>({
         { messageId: 'unexpectedAfter', data: { value: 'from' } },
       ],
     },
+
+    // ----------------------------------------------------------------------
+    // using
+    // ----------------------------------------------------------------------
+
+    {
+      code: '{}using a = b',
+      output: '{} using a = b',
+      errors: expectedBefore('using'),
+    },
+    {
+      code: '{} using a = b',
+      output: '{}using a = b',
+      options: [NEITHER],
+      errors: unexpectedBefore('using'),
+    },
+    {
+      code: '{}using a = b',
+      output: '{} using a = b',
+      options: [overrides('using', BOTH)],
+      errors: expectedBefore('using'),
+    },
+    {
+      code: '{} using a = b',
+      output: '{}using a = b',
+      options: [overrides('using', NEITHER)],
+      errors: unexpectedBefore('using'),
+    },
   ],
 })
