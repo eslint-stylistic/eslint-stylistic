@@ -77,7 +77,7 @@
     "vite": "catalog:",
     "vitest": "catalog:test",
     "vue": "catalog:docs",
-    "vue-eslint-parser": "catalog:",
+    "vue-eslint-parser": "catalog:test",
     "vue-tsc": "catalog:"
   },
   "resolutions": {
