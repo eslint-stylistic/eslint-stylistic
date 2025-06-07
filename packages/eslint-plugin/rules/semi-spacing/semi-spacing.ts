@@ -1,5 +1,4 @@
-import type { ASTNode, Token } from '#types'
-import type { TSESTree } from '@typescript-eslint/utils'
+import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isClosingBraceToken, isClosingParenToken, isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -230,7 +229,7 @@ export default createRule<RuleOptions, MessageIds>({
           AST_NODE_TYPES.TSDeclareFunction,
         ])
         if (node.parent && !excludeNodeTypes.has(node.parent.type))
-          checkNode!(node.parent as TSESTree.ExpressionStatement)
+          checkNode!(node.parent as Tree.ExpressionStatement)
       },
     }
   },
