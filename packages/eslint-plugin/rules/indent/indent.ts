@@ -1135,7 +1135,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param [type] the type to give the new node
      * @returns a Property node
      */
-    function TSPropertySignatureToProperty(
+    function convertTSPropertySignatureToProperty(
       node:
         | Tree.TSEnumMember
         | Tree.TSPropertySignature
@@ -2069,13 +2069,13 @@ export default createRule<RuleOptions, MessageIds>({
         const members = node.body?.members || node.members
 
         checkObjectLikeNode(node, members.map(
-          member => TSPropertySignatureToProperty(member) as Tree.Property,
+          member => convertTSPropertySignatureToProperty(member) as Tree.Property,
         ))
       },
 
       TSTypeLiteral(node) {
         checkObjectLikeNode(node, node.members.map(
-          member => TSPropertySignatureToProperty(member) as Tree.Property,
+          member => convertTSPropertySignatureToProperty(member) as Tree.Property,
         ))
       },
 
@@ -2329,7 +2329,7 @@ export default createRule<RuleOptions, MessageIds>({
           type: AST_NODE_TYPES.ClassBody,
           body: node.body.map(
             p =>
-              TSPropertySignatureToProperty(
+              convertTSPropertySignatureToProperty(
                 p,
                 AST_NODE_TYPES.PropertyDefinition,
               ) as Tree.PropertyDefinition,
