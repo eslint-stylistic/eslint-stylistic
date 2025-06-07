@@ -1,4 +1,4 @@
-import type { JSONSchema4 } from 'json-schema'
+import type { JSONSchema } from '#types'
 import { existsSync, promises as fs } from 'node:fs'
 import { basename, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
@@ -49,7 +49,7 @@ async function getDts(ruleFile: string, name: string) {
   })
 
   const messageIds = Object.keys(meta.messages ?? {})
-  let schemas = meta.schema as JSONSchema4[] ?? []
+  let schemas = meta.schema as JSONSchema.JSONSchema4[] ?? []
   if (!Array.isArray(schemas))
     schemas = [schemas]
 

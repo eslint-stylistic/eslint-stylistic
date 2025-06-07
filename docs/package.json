@@ -8,20 +8,23 @@
     "docs:preview": "vitepress preview"
   },
   "dependencies": {
-    "fuse.js": "catalog:"
+    "fuse.js": "catalog:docs"
   },
   "devDependencies": {
-    "@shikijs/transformers": "catalog:",
-    "@types/hast": "catalog:",
-    "@types/markdown-it-container": "catalog:",
-    "@unocss/reset": "catalog:",
-    "@vueuse/core": "catalog:",
-    "markdown-it-container": "catalog:",
-    "shiki": "catalog:",
-    "twoslash": "catalog:",
-    "unocss": "catalog:",
-    "unplugin-vue-components": "catalog:",
-    "vitepress": "catalog:",
-    "vue": "catalog:"
+    "@iconify-json/carbon": "catalog:docs",
+    "@iconify-json/ri": "catalog:docs",
+    "@shikijs/transformers": "catalog:docs",
+    "@shikijs/twoslash": "catalog:docs",
+    "@shikijs/vitepress-twoslash": "catalog:docs",
+    "@types/markdown-it-container": "catalog:docs",
+    "@vueuse/core": "catalog:docs",
+    "markdown-it-container": "catalog:docs",
+    "shiki": "catalog:docs",
+    "twoslash": "catalog:docs",
+    "twoslash-eslint": "catalog:docs",
+    "unocss": "catalog:docs",
+    "unplugin-vue-components": "catalog:docs",
+    "vitepress": "catalog:docs",
+    "vue": "catalog:docs"
   }
 }
