@@ -11,10 +11,6 @@ export default defineConfig({
       cleanOnRerun: false,
       include: ['**/rules/**'],
       exclude: [
-        '**/eslint-plugin-js/**',
-        '**/eslint-plugin-ts/**',
-        '**/eslint-plugin-jsx/**',
-        '**/eslint-plugin-plus/**',
         '**/rules/index.ts',
         '**/rules/*/index.ts',
         '**/fixtures/**',

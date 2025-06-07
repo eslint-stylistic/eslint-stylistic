@@ -63,8 +63,6 @@ module.exports = {
 
 Refer to the [source code](https://github.com/eslint-stylistic/eslint-stylistic/blob/main/packages/eslint-plugin/configs/customize.ts) for the full list of configured rules.
 
-Currently this factory is only available in the [`@stylistic/eslint-plugin`](/packages/default) package.
-
 ::: info Rules' Default
 Please note that not all rules are used and options configured for each rule might be different from rules' own default values.
 :::
@@ -155,38 +153,6 @@ module.exports = {
 ::: info
 
 Due to the compatibility between rules, the `all` config is does not include JSX rules and non-fixable rules. You may need to configure them manually.
-
-:::
-
-This config is also available in each plugin package, for example, for `@stylistic/eslint-plugin-js`:
-
-::: code-group
-
-```js [Flat Config]
-// eslint.config.js
-import stylisticJs from '@stylistic/eslint-plugin-js'
-
-export default [
-  stylisticJs.configs.all
-  // ...your other config items
-]
-```
-
-```js [Legacy Config]
-// Legacy config is no longer supported in v4+
-// Please use v3.x if you need to use legacy config
-// We encourage you to migrate to flat config soon
-
-// .eslintrc.js
-module.exports = {
-  extends: [
-    'plugin:@stylistic/js/all-extends'
-  ],
-  rules: {
-    // ...your other rules
-  }
-}
-```
 
 :::
 

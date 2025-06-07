@@ -14,7 +14,7 @@ hero:
       link: /guide/getting-started
     - theme: alt
       text: Rules
-      link: /packages/default
+      link: /rules
     - theme: alt
       text: Why
       link: /guide/why

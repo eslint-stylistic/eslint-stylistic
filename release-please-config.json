@@ -62,31 +62,6 @@
         },
         {
           "type": "json",
-          "path": "packages/eslint-plugin-js/package.json",
-          "jsonpath": "$.version"
-        },
-        {
-          "type": "json",
-          "path": "packages/eslint-plugin-jsx/package.json",
-          "jsonpath": "$.version"
-        },
-        {
-          "type": "json",
-          "path": "packages/eslint-plugin-migrate/package.json",
-          "jsonpath": "$.version"
-        },
-        {
-          "type": "json",
-          "path": "packages/eslint-plugin-plus/package.json",
-          "jsonpath": "$.version"
-        },
-        {
-          "type": "json",
-          "path": "packages/eslint-plugin-ts/package.json",
-          "jsonpath": "$.version"
-        },
-        {
-          "type": "json",
           "path": "packages/eslint-plugin/package.json",
           "jsonpath": "$.version"
         },
