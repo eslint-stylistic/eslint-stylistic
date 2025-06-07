@@ -2,7 +2,7 @@ import {
   defineConfig,
   presetAttributify,
   presetIcons,
-  presetWind3,
+  presetUno,
 } from 'unocss'
 
 export default defineConfig({
@@ -11,7 +11,7 @@ export default defineConfig({
     'border-base': 'border-color-$vp-c-divider',
   },
   presets: [
-    presetWind3(),
+    presetUno(),
     presetAttributify(),
     presetIcons(),
   ],
