@@ -12,9 +12,6 @@ catalogs:
     '@antfu/eslint-define-config':
       specifier: 1.23.0-2
       version: 1.23.0-2
-    '@antfu/ni':
-      specifier: ^24.4.0
-      version: 24.4.0
     '@antfu/utils':
       specifier: ^9.2.0
       version: 9.2.0
@@ -69,9 +66,6 @@ catalogs:
     '@types/hast':
       specifier: ^3.0.4
       version: 3.0.4
-    '@types/js-yaml':
-      specifier: ^4.0.9
-      version: 4.0.9
     '@types/json-schema':
       specifier: ^7.0.15
       version: 7.0.15
@@ -123,9 +117,6 @@ catalogs:
     eslint-vitest-rule-tester:
       specifier: ^2.2.0
       version: 2.2.0
-    esno:
-      specifier: ^4.8.0
-      version: 4.8.0
     espree:
       specifier: ^10.3.0
       version: 10.3.0
@@ -150,9 +141,6 @@ catalogs:
     jiti:
       specifier: ^2.4.2
       version: 2.4.2
-    js-yaml:
-      specifier: ^4.1.0
-      version: 4.1.0
     json-schema:
       specifier: ^0.4.0
       version: 0.4.0
@@ -242,9 +230,6 @@ importers:
       '@antfu/eslint-define-config':
         specifier: 'catalog:'
         version: 1.23.0-2
-      '@antfu/ni':
-        specifier: 'catalog:'
-        version: 24.4.0
       '@antfu/utils':
         specifier: 'catalog:'
         version: 9.2.0
@@ -296,9 +281,6 @@ importers:
       '@types/fs-extra':
         specifier: 'catalog:'
         version: 11.0.4
-      '@types/js-yaml':
-        specifier: 'catalog:'
-        version: 4.0.9
       '@types/json-schema':
         specifier: 'catalog:'
         version: 7.0.15
@@ -341,9 +323,6 @@ importers:
       eslint-vitest-rule-tester:
         specifier: 'catalog:'
         version: 2.2.0(eslint@9.27.0(jiti@2.4.2))(typescript@5.8.3)(vitest@3.1.4)
-      esno:
-        specifier: 'catalog:'
-        version: 4.8.0
       espree:
         specifier: 'catalog:'
         version: 10.3.0
@@ -365,9 +344,6 @@ importers:
       jiti:
         specifier: 'catalog:'
         version: 2.4.2
-      js-yaml:
-        specifier: 'catalog:'
-        version: 4.1.0
       json-schema:
         specifier: 'catalog:'
         version: 0.4.0
@@ -1580,9 +1556,6 @@ packages:
   '@types/hast@3.0.4':
     resolution: {integrity: sha512-WPs+bbQw5aCj+x6laNGWLH3wviHtoCv/P3+otBhbOhJgG8qtpdAMlTCxLtsTWA7LH1Oh/bFCHsBn0TPS5m30EQ==}
 
-  '@types/js-yaml@4.0.9':
-    resolution: {integrity: sha512-k4MGaQl5TGo/iipqb2UDG2UwjXziSWkh0uysQelTlJpX1qGlpUZYm8PnO4DxG1qBomtJUdYJ6qR6xdIah10JLg==}
-
   '@types/json-schema@7.0.15':
     resolution: {integrity: sha512-5+fP8P8MFNC+AyZCDxrB2pkZFPGzqQWUzpSeuuVLvm8VMcorNYavBqoFcxK8bQz4Qsbn4oUEEem4wDLfcysGHA==}
 
@@ -2637,10 +2610,6 @@ packages:
     peerDependenciesMeta:
       jiti:
         optional: true
-
-  esno@4.8.0:
-    resolution: {integrity: sha512-acMtooReAQGzLU0zcuEDHa8S62meh5aIyi8jboYxyvAePdmuWx2Mpwmt0xjwO0bs9/SXf+dvXJ0QJoDWw814Iw==}
-    hasBin: true
 
   espree@10.3.0:
     resolution: {integrity: sha512-0QYC8b24HWY8zjRnDTL6RiHfDbAWn63qb4LMj1Z4b076A4une81+z03Kg7l7mn/48PUTqoLptSXez8oknU8Clg==}
@@ -5406,8 +5375,6 @@ snapshots:
     dependencies:
       '@types/unist': 3.0.3
 
-  '@types/js-yaml@4.0.9': {}
-
   '@types/json-schema@7.0.15': {}
 
   '@types/jsonfile@6.1.4':
@@ -6711,10 +6678,6 @@ snapshots:
       jiti: 2.4.2
     transitivePeerDependencies:
       - supports-color
-
-  esno@4.8.0:
-    dependencies:
-      tsx: 4.19.4
 
   espree@10.3.0:
     dependencies:
