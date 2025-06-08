@@ -1,4 +1,4 @@
-import type { ReportFixFunction, Token, Tree } from '#types'
+import type { ReportFixFunction, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
