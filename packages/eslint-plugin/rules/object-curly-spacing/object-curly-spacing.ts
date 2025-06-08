@@ -264,19 +264,14 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Reports a given object node if spacing in curly braces is invalid.
-     * @param node An ObjectExpression or ObjectPattern node to check.
+     * Reports a given object-like node if spacing in curly braces is invalid.
+     * @param node An object-like node to check.
      */
-    function checkForObject(node:
-      | Tree.ObjectExpression
-      | Tree.ObjectPattern) {
-      if (node.properties.length === 0)
-        return
+    function checkForObjectLike(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSTypeLiteral) {
+      const openingToken = sourceCode.getFirstToken(node)!
+      const closeToken = getClosingBraceOfObject(node)!
 
-      const first = sourceCode.getFirstToken(node)!
-      const last = getClosingBraceOfObject(node)!
-
-      validateBraceSpacing(node, first, last)
+      validateBraceSpacing(node, openingToken, closeToken)
     }
 
     /**
@@ -320,27 +315,34 @@ export default createRule<RuleOptions, MessageIds>({
 
     return {
       // var {x} = y;
-      ObjectPattern: checkForObject,
+      ObjectPattern(node) {
+        if (node.properties.length === 0)
+          return
+
+        checkForObjectLike(node)
+      },
       // var y = {x: 'y'}
-      ObjectExpression: checkForObject,
+      ObjectExpression(node) {
+        if (node.properties.length === 0)
+          return
+
+        checkForObjectLike(node)
+      },
       // import {y} from 'x';
       ImportDeclaration: checkForImport,
       // export {name} from 'yo';
       ExportNamedDeclaration: checkForExport,
       TSMappedType(node: Tree.TSMappedType): void {
-        const first = sourceCode.getFirstToken(node)!
-        const last = sourceCode.getLastToken(node)!
+        const openingToken = sourceCode.getFirstToken(node)!
+        const closeToken = sourceCode.getLastToken(node)!
 
-        validateBraceSpacing(node, first, last)
+        validateBraceSpacing(node, openingToken, closeToken)
       },
       TSTypeLiteral(node: Tree.TSTypeLiteral): void {
         if (node.members.length === 0)
           return
 
-        const first = sourceCode.getFirstToken(node)!
-        const last = getClosingBraceOfObject(node)!
-
-        validateBraceSpacing(node, first, last)
+        checkForObjectLike(node)
       },
     }
   },
