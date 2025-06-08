@@ -319,6 +319,12 @@ export default createRule<RuleOptions, MessageIds>({
       TSTypeLiteral(node) {
         checkForObjectLike(node, node.members)
       },
+      TSInterfaceBody(node) {
+        checkForObjectLike(node, node.body)
+      },
+      TSEnumBody(node) {
+        checkForObjectLike(node, node.members)
+      },
     }
   },
 })
