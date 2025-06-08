@@ -4,7 +4,7 @@ import { createRule } from '#utils/create-rule'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
-type SupportedNodes = Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement | Tree.TSInterfaceBody | Tree.TSTypeLiteral | Tree.TSEnumDeclaration
+type SupportedNodes = Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'block-spacing',
