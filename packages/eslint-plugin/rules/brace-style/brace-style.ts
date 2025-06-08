@@ -188,20 +188,9 @@ export default createRule<RuleOptions, MessageIds>({
           validateCurlyBeforeKeyword(sourceCode.getLastToken(node.handler.body)!)
         }
       },
-      'TSInterfaceBody, TSModuleBlock': function (
-        node: Tree.TSInterfaceBody | Tree.TSModuleBlock,
-      ): void {
+      TSModuleBlock(node) {
         const openingCurly = sourceCode.getFirstToken(node)!
         const closingCurly = sourceCode.getLastToken(node)!
-
-        validateCurlyPair(openingCurly, closingCurly)
-      },
-      TSEnumDeclaration(node): void {
-        const closingCurly = sourceCode.getLastToken(node)!
-        const members = node.body?.members || node.members
-        const openingCurly = sourceCode.getTokenBefore(
-          members.length ? members[0] : closingCurly,
-        )!
 
         validateCurlyPair(openingCurly, closingCurly)
       },
