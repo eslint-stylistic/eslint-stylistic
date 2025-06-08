@@ -166,7 +166,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param closingToken The last token to check (should be closing brace)
      */
     function validateBraceSpacing(
-      node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.ImportDeclaration | Tree.ExportNamedDeclaration | Tree.TSMappedType | Tree.TSTypeLiteral,
+      node: ASTNode,
       openingToken: Tree.Token,
       closingToken: Tree.Token,
     ): void {
@@ -243,33 +243,17 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Gets '}' token of an object node.
-     *
-     * Because the last token of object patterns might be a type annotation,
-     * this traverses tokens preceded by the last property, then returns the
-     * first '}' token.
-     * @param node The node to get. This node is an
-     *      ObjectExpression or an ObjectPattern. And this node has one or
-     *      more properties.
-     * @returns '}' token.
-     */
-    function getClosingBraceOfObject(
-      node: Tree.ObjectPattern | Tree.ObjectExpression | Tree.TSTypeLiteral,
-    ): Tree.Token | null {
-      const lastProperty = node.type === 'TSTypeLiteral'
-        ? node.members[node.members.length - 1]
-        : node.properties[node.properties.length - 1]
-
-      return sourceCode.getTokenAfter(lastProperty, isClosingBraceToken)
-    }
-
-    /**
      * Reports a given object-like node if spacing in curly braces is invalid.
      * @param node An object-like node to check.
+     * @param properties The properties of the object-like node
      */
-    function checkForObjectLike(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSTypeLiteral) {
+    function checkForObjectLike(node: ASTNode, properties: ASTNode[]) {
+      if (properties.length === 0)
+        return
+
+      const closeToken = sourceCode.getTokenAfter(properties.at(-1)!, isClosingBraceToken)!
+
       const openingToken = sourceCode.getFirstToken(node)!
-      const closeToken = getClosingBraceOfObject(node)!
 
       validateBraceSpacing(node, openingToken, closeToken)
     }
@@ -316,33 +300,24 @@ export default createRule<RuleOptions, MessageIds>({
     return {
       // var {x} = y;
       ObjectPattern(node) {
-        if (node.properties.length === 0)
-          return
-
-        checkForObjectLike(node)
+        checkForObjectLike(node, node.properties)
       },
       // var y = {x: 'y'}
       ObjectExpression(node) {
-        if (node.properties.length === 0)
-          return
-
-        checkForObjectLike(node)
+        checkForObjectLike(node, node.properties)
       },
       // import {y} from 'x';
       ImportDeclaration: checkForImport,
       // export {name} from 'yo';
       ExportNamedDeclaration: checkForExport,
-      TSMappedType(node: Tree.TSMappedType): void {
+      TSMappedType(node) {
         const openingToken = sourceCode.getFirstToken(node)!
         const closeToken = sourceCode.getLastToken(node)!
 
         validateBraceSpacing(node, openingToken, closeToken)
       },
-      TSTypeLiteral(node: Tree.TSTypeLiteral): void {
-        if (node.members.length === 0)
-          return
-
-        checkForObjectLike(node)
+      TSTypeLiteral(node) {
+        checkForObjectLike(node, node.members)
       },
     }
   },
