@@ -467,8 +467,19 @@ export default createRule<RuleOptions, MessageIds>({
       ReturnStatement: checkSpacingAroundFirstToken,
       ThrowStatement: checkSpacingAroundFirstToken,
       TryStatement(node) {
+        // try
         checkSpacingAroundFirstToken(node)
-        checkSpacingAroundFirstToken(node.handler)
+        // catch
+        if (node.handler) {
+          // The space after `catch` handled by the `space-before-function-paren`
+          if (node.handler.param) {
+            checkSpacingBeforeFirstToken(node.handler)
+          }
+          else {
+            checkSpacingAroundFirstToken(node.handler)
+          }
+        }
+        // finally
         checkSpacingAroundTokenBefore(node.finalizer)
       },
 
