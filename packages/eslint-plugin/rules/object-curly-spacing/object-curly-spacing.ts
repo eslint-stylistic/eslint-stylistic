@@ -162,22 +162,20 @@ export default createRule<RuleOptions, MessageIds>({
     /**
      * Determines if spacing in curly braces is valid.
      * @param node The AST node to check.
-     * @param first The first token to check (should be the opening brace)
-     * @param second The second token to check (should be first after the opening brace)
-     * @param penultimate The penultimate token to check (should be last before closing brace)
-     * @param last The last token to check (should be closing brace)
+     * @param openingToken The first token to check (should be the opening brace)
+     * @param closingToken The last token to check (should be closing brace)
      */
     function validateBraceSpacing(
-      node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.ImportDeclaration | Tree.ExportNamedDeclaration | Tree.TSMappedType | Tree.TSTypeLiteral,
-      first: Tree.Token,
-      second: Tree.Token,
-      penultimate: Tree.Token,
-      last: Tree.Token,
+      node: ASTNode,
+      openingToken: Tree.Token,
+      closingToken: Tree.Token,
     ): void {
-      if (isTokenOnSameLine(first, second)) {
-        const firstSpaced = sourceCode.isSpaceBetween!(first, second)
+      const tokenAfterOpening = sourceCode.getTokenAfter(openingToken, { includeComments: true })!
+
+      if (isTokenOnSameLine(openingToken, tokenAfterOpening)) {
+        const firstSpaced = sourceCode.isSpaceBetween!(openingToken, tokenAfterOpening)
         const secondType = sourceCode.getNodeByRangeIndex(
-          second.range[0],
+          tokenAfterOpening.range[0],
         )!.type
 
         const openingCurlyBraceMustBeSpaced
@@ -190,25 +188,27 @@ export default createRule<RuleOptions, MessageIds>({
             : options.spaced
 
         if (openingCurlyBraceMustBeSpaced && !firstSpaced)
-          reportRequiredBeginningSpace(node, first)
+          reportRequiredBeginningSpace(node, openingToken)
 
         if (
           !openingCurlyBraceMustBeSpaced
           && firstSpaced
-          && second.type !== AST_TOKEN_TYPES.Line
+          && tokenAfterOpening.type !== AST_TOKEN_TYPES.Line
         ) {
-          reportNoBeginningSpace(node, first)
+          reportNoBeginningSpace(node, openingToken)
         }
       }
 
-      if (isTokenOnSameLine(penultimate, last)) {
+      const tokenBeforeClosing = sourceCode.getTokenBefore(closingToken, { includeComments: true })!
+
+      if (isTokenOnSameLine(tokenBeforeClosing, closingToken)) {
         const shouldCheckPenultimate
           = (options.arraysInObjectsException
-            && isClosingBracketToken(penultimate))
+            && isClosingBracketToken(tokenBeforeClosing))
           || (options.objectsInObjectsException
-            && isClosingBraceToken(penultimate))
+            && isClosingBraceToken(tokenBeforeClosing))
         const penultimateType = shouldCheckPenultimate
-          ? sourceCode.getNodeByRangeIndex(penultimate.range[0])!.type
+          ? sourceCode.getNodeByRangeIndex(tokenBeforeClosing.range[0])!.type
           : undefined
 
         const closingCurlyBraceMustBeSpaced
@@ -232,53 +232,30 @@ export default createRule<RuleOptions, MessageIds>({
             ? !options.spaced
             : options.spaced
 
-        const lastSpaced = sourceCode.isSpaceBetween!(penultimate, last)
+        const lastSpaced = sourceCode.isSpaceBetween!(tokenBeforeClosing, closingToken)
 
         if (closingCurlyBraceMustBeSpaced && !lastSpaced)
-          reportRequiredEndingSpace(node, last)
+          reportRequiredEndingSpace(node, closingToken)
 
         if (!closingCurlyBraceMustBeSpaced && lastSpaced)
-          reportNoEndingSpace(node, last)
+          reportNoEndingSpace(node, closingToken)
       }
     }
 
     /**
-     * Gets '}' token of an object node.
-     *
-     * Because the last token of object patterns might be a type annotation,
-     * this traverses tokens preceded by the last property, then returns the
-     * first '}' token.
-     * @param node The node to get. This node is an
-     *      ObjectExpression or an ObjectPattern. And this node has one or
-     *      more properties.
-     * @returns '}' token.
+     * Reports a given object-like node if spacing in curly braces is invalid.
+     * @param node An object-like node to check.
+     * @param properties The properties of the object-like node
      */
-    function getClosingBraceOfObject(
-      node: Tree.ObjectPattern | Tree.ObjectExpression | Tree.TSTypeLiteral,
-    ): Tree.Token | null {
-      const lastProperty = node.type === 'TSTypeLiteral'
-        ? node.members[node.members.length - 1]
-        : node.properties[node.properties.length - 1]
-
-      return sourceCode.getTokenAfter(lastProperty, isClosingBraceToken)
-    }
-
-    /**
-     * Reports a given object node if spacing in curly braces is invalid.
-     * @param node An ObjectExpression or ObjectPattern node to check.
-     */
-    function checkForObject(node:
-      | Tree.ObjectExpression
-      | Tree.ObjectPattern) {
-      if (node.properties.length === 0)
+    function checkForObjectLike(node: ASTNode, properties: ASTNode[]) {
+      if (properties.length === 0)
         return
 
-      const first = sourceCode.getFirstToken(node)!
-      const last = getClosingBraceOfObject(node)!
-      const second = sourceCode.getTokenAfter(first, { includeComments: true })!
-      const penultimate = sourceCode.getTokenBefore(last, { includeComments: true })!
+      const closeToken = sourceCode.getTokenAfter(properties.at(-1)!, isClosingBraceToken)!
 
-      validateBraceSpacing(node, first, second, penultimate, last)
+      const openingToken = sourceCode.getFirstToken(node)!
+
+      validateBraceSpacing(node, openingToken, closeToken)
     }
 
     /**
@@ -300,10 +277,8 @@ export default createRule<RuleOptions, MessageIds>({
 
       const first = sourceCode.getTokenBefore(firstSpecifier)!
       const last = sourceCode.getTokenAfter(lastSpecifier, isNotCommaToken)!
-      const second = sourceCode.getTokenAfter(first, { includeComments: true })!
-      const penultimate = sourceCode.getTokenBefore(last, { includeComments: true })!
 
-      validateBraceSpacing(node, first, second, penultimate, last)
+      validateBraceSpacing(node, first, last)
     }
 
     /**
@@ -318,47 +293,37 @@ export default createRule<RuleOptions, MessageIds>({
       const lastSpecifier = node.specifiers[node.specifiers.length - 1]
       const first = sourceCode.getTokenBefore(firstSpecifier)!
       const last = sourceCode.getTokenAfter(lastSpecifier, isNotCommaToken)!
-      const second = sourceCode.getTokenAfter(first, { includeComments: true })!
-      const penultimate = sourceCode.getTokenBefore(last, { includeComments: true })!
 
-      validateBraceSpacing(node, first, second, penultimate, last)
+      validateBraceSpacing(node, first, last)
     }
 
     return {
       // var {x} = y;
-      ObjectPattern: checkForObject,
+      ObjectPattern(node) {
+        checkForObjectLike(node, node.properties)
+      },
       // var y = {x: 'y'}
-      ObjectExpression: checkForObject,
+      ObjectExpression(node) {
+        checkForObjectLike(node, node.properties)
+      },
       // import {y} from 'x';
       ImportDeclaration: checkForImport,
       // export {name} from 'yo';
       ExportNamedDeclaration: checkForExport,
-      TSMappedType(node: Tree.TSMappedType): void {
-        const first = sourceCode.getFirstToken(node)!
-        const last = sourceCode.getLastToken(node)!
-        const second = sourceCode.getTokenAfter(first, {
-          includeComments: true,
-        })!
-        const penultimate = sourceCode.getTokenBefore(last, {
-          includeComments: true,
-        })!
+      TSMappedType(node) {
+        const openingToken = sourceCode.getFirstToken(node)!
+        const closeToken = sourceCode.getLastToken(node)!
 
-        validateBraceSpacing(node, first, second, penultimate, last)
+        validateBraceSpacing(node, openingToken, closeToken)
       },
-      TSTypeLiteral(node: Tree.TSTypeLiteral): void {
-        if (node.members.length === 0)
-          return
-
-        const first = sourceCode.getFirstToken(node)!
-        const last = getClosingBraceOfObject(node)!
-        const second = sourceCode.getTokenAfter(first, {
-          includeComments: true,
-        })!
-        const penultimate = sourceCode.getTokenBefore(last, {
-          includeComments: true,
-        })!
-
-        validateBraceSpacing(node, first, second, penultimate, last)
+      TSTypeLiteral(node) {
+        checkForObjectLike(node, node.members)
+      },
+      TSInterfaceBody(node) {
+        checkForObjectLike(node, node.body)
+      },
+      TSEnumBody(node) {
+        checkForObjectLike(node, node.members)
       },
     }
   },

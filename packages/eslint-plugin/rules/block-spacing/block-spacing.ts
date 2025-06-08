@@ -4,7 +4,7 @@ import { createRule } from '#utils/create-rule'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
-type SupportedNodes = Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement | Tree.TSInterfaceBody | Tree.TSTypeLiteral | Tree.TSEnumDeclaration
+type SupportedNodes = Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'block-spacing',
@@ -145,14 +145,6 @@ export default createRule<RuleOptions, MessageIds>({
       BlockStatement: checkSpacingInsideBraces,
       StaticBlock: checkSpacingInsideBraces,
       SwitchStatement: checkSpacingInsideBraces,
-
-      // This code worked "out of the box" for interface and type literal
-      // Enums were very close to match as well, the only reason they are not is that was that enums don't have a body node in the parser
-      // So the opening brace punctuator starts in the middle of the node - `getFirstToken` in
-      // the base rule did not filter for the first opening brace punctuator
-      TSInterfaceBody: checkSpacingInsideBraces,
-      TSTypeLiteral: checkSpacingInsideBraces,
-      TSEnumDeclaration: checkSpacingInsideBraces,
     }
   },
 })
