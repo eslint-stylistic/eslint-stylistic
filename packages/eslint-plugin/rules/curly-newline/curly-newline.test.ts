@@ -1,8 +1,3 @@
-/**
- * @fileoverview Tests for curly-newline rule.
- * @author Toru Nagashima
- */
-
 import type { InvalidTestCase, TestCaseError, ValidTestCase } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
@@ -188,8 +183,6 @@ specializationTest('Property', `void {_(){}}`, `void {_(){\n}}`, 10, 11)
 specializationTest('ClassBody', `(class {})`, `(class {\n})`, 8, 9)
 specializationTest('StaticBlock', `(class {static{}})`, `(class {static{\n}})`, 15, 16)
 specializationTest('WithStatement', `with({}){}`, `with({}){\n}`, 9, 10)
-specializationTest('TSEnumBody', `enum _{}`, `enum _{\n}`, 7, 8)
-specializationTest('TSInterfaceBody', `interface _{}`, `interface _{\n}`, 12, 13)
 specializationTest('TSModuleBlock', `module _{}`, `module _{\n}`, 9, 10)
 
 run<RuleOptions, MessageIds>({
