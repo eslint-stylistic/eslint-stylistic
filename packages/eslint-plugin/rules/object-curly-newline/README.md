@@ -46,6 +46,9 @@ You can specify different options for object literals, destructuring assignments
 - `"ObjectPattern"` configuration for object patterns of destructuring assignments
 - `"ImportDeclaration"` configuration for named imports
 - `"ExportDeclaration"` configuration for named exports
+- `"TSTypeLiteral"` configuration for type literals
+- `"TSInterfaceBody"` configuration for interface declaration body
+- `"TSEnumBody"` configuration for enum declaration body
 
 ### always
 

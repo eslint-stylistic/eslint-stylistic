@@ -472,28 +472,6 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
-        interface Foo {
-        }
-      `,
-      options: ['1tbs'],
-    },
-    {
-      code: $`
-        interface Foo {
-        }
-      `,
-      options: ['stroustrup'],
-    },
-    {
-      code: $`
-        interface Foo
-        {
-        }
-      `,
-      options: ['allman'],
-    },
-    {
-      code: $`
         module "Foo" {
         }
       `,
@@ -535,38 +513,6 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: ['allman'],
-    },
-    {
-      code: $`
-        enum Foo
-        {
-          A,
-          B
-        }
-      `,
-      options: ['allman'],
-    },
-    {
-      code: $`
-        enum Foo {
-          A,
-          B
-        }
-      `,
-      options: ['1tbs'],
-    },
-    {
-      code: $`
-        enum Foo {
-          A,
-          B
-        }
-      `,
-      options: ['stroustrup'],
-    },
-    {
-      code: 'enum Foo { A, B }',
-      options: ['1tbs', { allowSingleLine: true }],
     },
   ],
 
@@ -1049,37 +995,6 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
-        interface Foo
-        {
-        }
-      `,
-      output: $`
-        interface Foo {
-        }
-      `,
-      errors: [{ messageId: 'nextLineOpen' }],
-    },
-    {
-      code: $`
-        interface Foo
-        {
-        }
-      `,
-      output: $`
-        interface Foo {
-        }
-      `,
-      options: ['stroustrup'],
-      errors: [{ messageId: 'nextLineOpen' }],
-    },
-    {
-      code: 'interface Foo { \n }',
-      output: 'interface Foo \n{ \n }',
-      options: ['allman'],
-      errors: [{ messageId: 'sameLineOpen' }],
-    },
-    {
-      code: $`
         module "Foo"
         {
         }
@@ -1139,41 +1054,6 @@ run<RuleOptions, MessageIds>({
       output: 'namespace Foo \n{ \n }',
       options: ['allman'],
       errors: [{ messageId: 'sameLineOpen' }],
-    },
-    {
-      code: $`
-        enum Foo
-        {
-        }
-      `,
-      output: $`
-        enum Foo {
-        }
-      `,
-      errors: [{ messageId: 'nextLineOpen' }],
-    },
-    {
-      code: $`
-        enum Foo
-        {
-        }
-      `,
-      output: $`
-        enum Foo {
-        }
-      `,
-      options: ['stroustrup'],
-      errors: [{ messageId: 'nextLineOpen' }],
-    },
-    {
-      code: 'enum Foo { A }',
-      output: 'enum Foo \n{\n A \n}',
-      options: ['allman'],
-      errors: [
-        { messageId: 'sameLineOpen' },
-        { messageId: 'blockSameLine' },
-        { messageId: 'singleLineClose' },
-      ],
     },
   ],
 })

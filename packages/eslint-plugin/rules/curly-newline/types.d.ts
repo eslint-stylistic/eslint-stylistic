@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: i3b0aknGcTQnhtgKT82gyVRFtbup5yRve-SEl0i8WA8 */
+/* @checksum: FXQzYFIdmMVSvv5IIEr2TDhzQftjPKqye03TYt7lymE */
 
 export type CurlyNewlineSchema0
   = | ('always' | 'never')
@@ -139,20 +139,6 @@ export type CurlyNewlineSchema0
           consistent?: boolean
         }
       WithStatement?:
-        | ('always' | 'never')
-        | {
-          multiline?: boolean
-          minElements?: number
-          consistent?: boolean
-        }
-      TSEnumBody?:
-        | ('always' | 'never')
-        | {
-          multiline?: boolean
-          minElements?: number
-          consistent?: boolean
-        }
-      TSInterfaceBody?:
         | ('always' | 'never')
         | {
           multiline?: boolean

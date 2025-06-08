@@ -1,4 +1,4 @@
-import type { JSONSchema, RuleListener, Token, Tree } from '#types'
+import type { JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isCommentToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -68,8 +68,6 @@ enum Specialization {
   WithStatement = 'WithStatement',
 
   // typescript
-  TSEnumBody = 'TSEnumBody',
-  TSInterfaceBody = 'TSInterfaceBody',
   TSModuleBlock = 'TSModuleBlock',
 };
 
@@ -150,18 +148,12 @@ export default createRule<RuleOptions, MessageIds>({
     const sourceCode = context.sourceCode
     const normalizedOptions = normalizeOptions(context.options[0])
 
-    /**
-     * Reports a given node if it violated this rule.
-     * @param node A node to check. This is an ObjectExpression, ObjectPattern, ImportDeclaration, ExportNamedDeclaration, TSTypeLiteral or TSInterfaceBody node.
-     */
     function check(
       node:
         | Tree.BlockStatement
         | Tree.ClassBody
         | Tree.StaticBlock
         | Tree.SwitchStatement
-        | Tree.TSEnumBody
-        | Tree.TSInterfaceBody
         | Tree.TSModuleBlock,
       specialization: keyof typeof Specialization,
     ) {
@@ -181,11 +173,6 @@ export default createRule<RuleOptions, MessageIds>({
           openBrace = sourceCode.getFirstToken(node, token => token.value === '{')!
           closeBrace = sourceCode.getLastToken(node)!
           elementCount = node.body.length
-          break
-        case 'TSEnumBody':
-          openBrace = sourceCode.getFirstToken(node)!
-          closeBrace = sourceCode.getLastToken(node)!
-          elementCount = node.members.length
           break
         default:
           openBrace = sourceCode.getFirstToken(node)!
@@ -292,14 +279,12 @@ export default createRule<RuleOptions, MessageIds>({
         | Tree.SwitchStatement
         | Tree.ClassBody
         | Tree.StaticBlock
-        | Tree.TSEnumBody
-        | Tree.TSInterfaceBody
         | Tree.TSModuleBlock,
     ) {
       check(node, node.type)
     }
 
-    return <RuleListener>{
+    return {
       BlockStatement(node) {
         const { parent } = node
 
@@ -360,8 +345,6 @@ export default createRule<RuleOptions, MessageIds>({
       SwitchStatement: checkBlockLike,
       ClassBody: checkBlockLike,
       StaticBlock: checkBlockLike,
-      TSEnumBody: checkBlockLike,
-      TSInterfaceBody: checkBlockLike,
       TSModuleBlock: checkBlockLike,
     }
   },
