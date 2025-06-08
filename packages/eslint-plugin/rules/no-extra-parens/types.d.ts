@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: _V2ZZxRh1Dm7A-uGUyCdksxnvgEp-rjODwSqHkfP6Ac */
+/* @checksum: KKrAixzzGAN09ZclL9LL0qFoWiaYwe4nTFUmIo46Nn8 */
 
 export type NoExtraParensSchema0
   = | []
@@ -25,6 +25,11 @@ export type NoExtraParensSchema0
         enforceForFunctionPrototypeMethods?: boolean
         allowParensAfterCommentPattern?: string
         nestedConditionalExpressions?: boolean
+        allowNodesInSpreadElement?: {
+          ConditionalExpression?: boolean
+          LogicalExpression?: boolean
+          AwaitExpression?: boolean
+        }
       },
     ]
 
