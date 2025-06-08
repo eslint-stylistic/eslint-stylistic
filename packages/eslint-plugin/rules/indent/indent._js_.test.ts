@@ -1656,6 +1656,35 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
+        var Foo = class
+          extends Bar {
+          baz() {}
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        var Foo = class extends
+          Bar {
+          baz() {}
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        var Foo = class extends
+          (
+            Bar
+          ) {
+          baz() {}
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
         fs.readdirSync(path.join(__dirname, '../rules')).forEach(name => {
           files[name] = foo;
         });
@@ -8086,6 +8115,34 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
       errors: expectedErrors([[2, 4, 2, 'Identifier'], [4, 4, 2, 'Identifier']]),
+    },
+    {
+      code: $`
+        class A
+        extends B {
+        }
+      `,
+      output: $`
+        class A
+            extends B {
+        }
+      `,
+      options: [4],
+      errors: expectedErrors([[2, 4, 0, 'Keyword']]),
+    },
+    {
+      code: $`
+        var A = class
+        extends B {
+        };
+      `,
+      output: $`
+        var A = class
+            extends B {
+        };
+      `,
+      options: [4],
+      errors: expectedErrors([[2, 4, 0, 'Keyword']]),
     },
     {
       code: $`

@@ -1121,22 +1121,248 @@ export default createRule<RuleOptions, MessageIds>({
 
     const ignoredNodeFirstTokens = new Set<Token>()
 
-    const baseOffsetListeners: RuleListener = {
-      'ArrayExpression, ArrayPattern': function (node: Tree.ArrayExpression | Tree.ArrayPattern) {
-        const openingBracket = sourceCode.getFirstToken(node)!
-        const closingBracket = sourceCode.getTokenAfter([...node.elements].reverse().find(_ => _) || openingBracket, isClosingBracketToken)!
+    function checkArrayLikeNode(node: Tree.ArrayExpression | Tree.ArrayPattern | Tree.TSTupleType) {
+      const elementList = node.type === AST_NODE_TYPES.TSTupleType ? node.elementTypes : node.elements
+      const openingBracket = sourceCode.getFirstToken(node)!
+      const closingBracket = sourceCode.getTokenAfter([...elementList].reverse().find(_ => _) || openingBracket, isClosingBracketToken)!
 
-        addElementListIndent(node.elements, openingBracket, closingBracket, options.ArrayExpression)
+      addElementListIndent(elementList, openingBracket, closingBracket, options.ArrayExpression)
+    }
+
+    function checkObjectLikeNode(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSEnumDeclaration | Tree.TSTypeLiteral | Tree.TSMappedType, properties: Tree.Node[]) {
+      const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
+      const closingCurly = sourceCode.getTokenAfter(
+        properties.length ? properties[properties.length - 1] : openingCurly,
+        isClosingBraceToken,
+      )!
+
+      addElementListIndent(properties, openingCurly, closingCurly, options.ObjectExpression)
+    }
+
+    function checkConditionalNode(node: Tree.ConditionalExpression | Tree.TSConditionalType, test: Tree.Node, consequent: Tree.Node, alternate: Tree.Node) {
+      const firstToken = sourceCode.getFirstToken(node)!
+
+      // `flatTernaryExpressions` option is for the following style:
+      // var a =
+      //     foo > 0 ? bar :
+      //     foo < 0 ? baz :
+      //     /*else*/ qiz ;
+      if (!options.flatTernaryExpressions
+        || !isTokenOnSameLine(test, consequent)
+        || isOnFirstLineOfStatement(firstToken, node)
+      ) {
+        const questionMarkToken = sourceCode.getFirstTokenBetween(test, consequent, token => token.type === 'Punctuator' && token.value === '?')!
+        const colonToken = sourceCode.getFirstTokenBetween(consequent, alternate, token => token.type === 'Punctuator' && token.value === ':')!
+
+        const firstConsequentToken = sourceCode.getTokenAfter(questionMarkToken)!
+        const lastConsequentToken = sourceCode.getTokenBefore(colonToken)!
+        const firstAlternateToken = sourceCode.getTokenAfter(colonToken)!
+
+        offsets.setDesiredOffset(questionMarkToken, firstToken, 1)
+        offsets.setDesiredOffset(colonToken, firstToken, 1)
+
+        let offset = 1
+        if (options.offsetTernaryExpressions) {
+          if (firstConsequentToken.type === 'Punctuator')
+            offset = 2
+
+          const consequentType = skipChainExpression(consequent).type
+          if (
+            options.offsetTernaryExpressionsOffsetCallExpressions
+            && (consequentType === 'CallExpression' || consequentType === 'AwaitExpression')
+          ) {
+            offset = 2
+          }
+        }
+
+        offsets.setDesiredOffset(
+          firstConsequentToken,
+          firstToken,
+          offset,
+        )
+
+        /**
+         * The alternate and the consequent should usually have the same indentation.
+         * If they share part of a line, align the alternate against the first token of the consequent.
+         * This allows the alternate to be indented correctly in cases like this:
+         * foo ? (
+         *   bar
+         * ) : ( // this '(' is aligned with the '(' above, so it's considered to be aligned with `foo`
+         *   baz // as a result, `baz` is offset by 1 rather than 2
+         * )
+         */
+        if (lastConsequentToken.loc.end.line === firstAlternateToken.loc.start.line) {
+          offsets.setDesiredOffset(firstAlternateToken, firstConsequentToken, 0)
+        }
+        else {
+          let offset = 1
+          if (options.offsetTernaryExpressions) {
+            if (firstAlternateToken.type === 'Punctuator')
+              offset = 2
+
+            const alternateType = skipChainExpression(alternate).type
+            if (
+              options.offsetTernaryExpressionsOffsetCallExpressions
+              && (alternateType === 'CallExpression' || alternateType === 'AwaitExpression')
+            ) {
+              offset = 2
+            }
+          }
+          /**
+           * If the alternate and consequent do not share part of a line, offset the alternate from the first
+           * token of the conditional expression. For example:
+           * foo ? bar
+           *   : baz
+           *
+           * If `baz` were aligned with `bar` rather than being offset by 1 from `foo`, `baz` would end up
+           * having no expected indentation.
+           */
+          offsets.setDesiredOffset(
+            firstAlternateToken,
+            firstToken,
+            offset,
+          )
+        }
+      }
+    }
+
+    function checkOperatorToken(left: Tree.Node, right: Tree.Node, operator: string) {
+      const operatorToken = sourceCode.getFirstTokenBetween(left, right, token => token.value === operator)!
+
+      /**
+       * For backwards compatibility, don't check BinaryExpression indents, e.g.
+       * var foo = bar &&
+       *                   baz;
+       */
+
+      const tokenAfterOperator = sourceCode.getTokenAfter(operatorToken)!
+      offsets.ignoreToken(operatorToken)
+      offsets.ignoreToken(tokenAfterOperator)
+      offsets.setDesiredOffset(tokenAfterOperator, operatorToken, 0)
+    }
+
+    function checkMemberExpression(
+      node: Tree.MemberExpression | Tree.JSXMemberExpression | Tree.MetaProperty | Tree.TSIndexedAccessType | Tree.TSQualifiedName,
+      object: Tree.Node,
+      property: Tree.Node,
+      computed = false,
+    ) {
+      const firstNonObjectToken = sourceCode.getFirstTokenBetween(object, property, isNotClosingParenToken)!
+      const secondNonObjectToken = sourceCode.getTokenAfter(firstNonObjectToken)!
+
+      const objectParenCount = sourceCode.getTokensBetween(object, property, { filter: isClosingParenToken }).length
+      const firstObjectToken = objectParenCount
+        ? sourceCode.getTokenBefore(object, { skip: objectParenCount - 1 })!
+        : sourceCode.getFirstToken(object)!
+      const lastObjectToken = sourceCode.getTokenBefore(firstNonObjectToken)!
+      const firstPropertyToken = computed ? firstNonObjectToken : secondNonObjectToken
+
+      if (computed) {
+        // For computed MemberExpressions, match the closing bracket with the opening bracket.
+        offsets.setDesiredOffset(sourceCode.getLastToken(node)!, firstNonObjectToken, 0)
+        offsets.setDesiredOffsets(property.range, firstNonObjectToken, 1)
+      }
+
+      /**
+       * If the object ends on the same line that the property starts, match against the last token
+       * of the object, to ensure that the MemberExpression is not indented.
+       *
+       * Otherwise, match against the first token of the object, e.g.
+       * foo
+       *   .bar
+       *   .baz // <-- offset by 1 from `foo`
+       */
+      const offsetBase = lastObjectToken.loc.end.line === firstPropertyToken.loc.start.line
+        ? lastObjectToken
+        : firstObjectToken
+
+      if (typeof options.MemberExpression === 'number') {
+        // Match the dot (for non-computed properties) or the opening bracket (for computed properties) against the object.
+        offsets.setDesiredOffset(firstNonObjectToken, offsetBase, options.MemberExpression)
+
+        /**
+         * For computed MemberExpressions, match the first token of the property against the opening bracket.
+         * Otherwise, match the first token of the property against the object.
+         */
+        offsets.setDesiredOffset(secondNonObjectToken, computed ? firstNonObjectToken : offsetBase, options.MemberExpression)
+      }
+      else {
+        // If the MemberExpression option is off, ignore the dot and the first token of the property.
+        offsets.ignoreToken(firstNonObjectToken)
+        offsets.ignoreToken(secondNonObjectToken)
+
+        // To ignore the property indentation, ensure that the property tokens depend on the ignored tokens.
+        offsets.setDesiredOffset(firstNonObjectToken, offsetBase, 0)
+        offsets.setDesiredOffset(secondNonObjectToken, firstNonObjectToken, 0)
+      }
+    }
+
+    function checkBlockLikeNode(node: Tree.BlockStatement | Tree.ClassBody | Tree.TSInterfaceBody | Tree.TSModuleBlock) {
+      let blockIndentLevel
+
+      if (node.parent && isOuterIIFE(node.parent))
+        blockIndentLevel = options.outerIIFEBody
+      else if (node.parent && (node.parent.type === 'FunctionExpression' || node.parent.type === 'ArrowFunctionExpression'))
+        blockIndentLevel = options.FunctionExpression.body
+      else if (node.parent && node.parent.type === 'FunctionDeclaration')
+        blockIndentLevel = options.FunctionDeclaration.body
+      else
+        blockIndentLevel = 1
+
+      /**
+       * For blocks that aren't lone statements, ensure that the opening curly brace
+       * is aligned with the parent.
+       */
+      if (!STATEMENT_LIST_PARENTS.has(node.parent.type))
+        offsets.setDesiredOffset(sourceCode.getFirstToken(node)!, sourceCode.getFirstToken(node.parent)!, 0)
+
+      addElementListIndent(
+        node.body,
+        sourceCode.getFirstToken(node)!,
+        sourceCode.getLastToken(node)!,
+        blockIndentLevel,
+      )
+    }
+
+    function checkHeritages(node: Tree.ClassDeclaration | Tree.ClassExpression | Tree.TSInterfaceDeclaration, heritages: Tree.Node[]) {
+      const classToken = sourceCode.getFirstToken(node)!
+      const extendsToken = sourceCode.getTokenBefore(heritages[0], isNotOpeningParenToken)!
+
+      offsets.setDesiredOffsets([extendsToken.range[0], node.body.range[0]], classToken, 1)
+    }
+
+    // JSXText
+    function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
+      let src = context.sourceCode.getText(node, node.loc.start.column)
+      const lines = src.split('\n')
+      if (byLastLine)
+        src = lines[lines.length - 1]
+      else
+        src = lines[0]
+
+      const skip = excludeCommas ? ',' : ''
+
+      let regExp
+      if (indentType === 'space')
+        regExp = new RegExp(`^[ ${skip}]+`)
+      else
+        regExp = new RegExp(`^[\t${skip}]+`)
+
+      const indent = regExp.exec(src)
+      return indent ? indent[0].length : 0
+    }
+
+    const baseOffsetListeners: RuleListener = {
+      'ArrayExpression': checkArrayLikeNode,
+
+      'ArrayPattern': checkArrayLikeNode,
+
+      ObjectExpression(node) {
+        checkObjectLikeNode(node, node.properties)
       },
 
-      'ObjectExpression, ObjectPattern': function (node: Tree.ObjectExpression | Tree.ObjectPattern) {
-        const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
-        const closingCurly = sourceCode.getTokenAfter(
-          node.properties.length ? node.properties[node.properties.length - 1] : openingCurly,
-          isClosingBraceToken,
-        )!
-
-        addElementListIndent(node.properties, openingCurly, closingCurly, options.ObjectExpression)
+      ObjectPattern(node) {
+        checkObjectLikeNode(node, node.properties)
       },
 
       ArrowFunctionExpression(node) {
@@ -1162,146 +1388,36 @@ export default createRule<RuleOptions, MessageIds>({
         offsets.ignoreToken(sourceCode.getTokenAfter(operator)!)
       },
 
-      'BinaryExpression, LogicalExpression': function (node: Tree.BinaryExpression | Tree.LogicalExpression) {
-        const operator = sourceCode.getFirstTokenBetween(node.left, node.right, token => token.value === node.operator)!
-
-        /**
-         * For backwards compatibility, don't check BinaryExpression indents, e.g.
-         * var foo = bar &&
-         *                   baz;
-         */
-
-        const tokenAfterOperator = sourceCode.getTokenAfter(operator)!
-
-        offsets.ignoreToken(operator)
-        offsets.ignoreToken(tokenAfterOperator)
-        offsets.setDesiredOffset(tokenAfterOperator, operator, 0)
+      BinaryExpression(node) {
+        checkOperatorToken(node.left, node.right, node.operator)
       },
 
-      'BlockStatement, ClassBody': function (node: Tree.BlockStatement | Tree.ClassBody) {
-        let blockIndentLevel
-
-        if (node.parent && isOuterIIFE(node.parent))
-          blockIndentLevel = options.outerIIFEBody
-        else if (node.parent && (node.parent.type === 'FunctionExpression' || node.parent.type === 'ArrowFunctionExpression'))
-          blockIndentLevel = options.FunctionExpression.body
-        else if (node.parent && node.parent.type === 'FunctionDeclaration')
-          blockIndentLevel = options.FunctionDeclaration.body
-        else
-          blockIndentLevel = 1
-
-        /**
-         * For blocks that aren't lone statements, ensure that the opening curly brace
-         * is aligned with the parent.
-         */
-        if (!STATEMENT_LIST_PARENTS.has(node.parent.type))
-          offsets.setDesiredOffset(sourceCode.getFirstToken(node)!, sourceCode.getFirstToken(node.parent)!, 0)
-
-        addElementListIndent(
-          node.body,
-          sourceCode.getFirstToken(node)!,
-          sourceCode.getLastToken(node)!,
-          blockIndentLevel,
-        )
+      LogicalExpression(node) {
+        checkOperatorToken(node.left, node.right, node.operator)
       },
+
+      'BlockStatement': checkBlockLikeNode,
+
+      'ClassBody': checkBlockLikeNode,
 
       'CallExpression': addFunctionCallIndent,
 
-      'ClassDeclaration, ClassExpression': function (node: Tree.ClassDeclaration) {
+      ClassDeclaration(node) {
         if (!node.superClass)
           return
 
-        const classToken = sourceCode.getFirstToken(node)!
-        const extendsToken = sourceCode.getTokenBefore(node.superClass, isNotOpeningParenToken)!
+        checkHeritages(node, [node.superClass])
+      },
 
-        offsets.setDesiredOffsets([extendsToken.range[0], node.body.range[0]], classToken, 1)
+      ClassExpression(node) {
+        if (!node.superClass)
+          return
+
+        checkHeritages(node, [node.superClass])
       },
 
       ConditionalExpression(node) {
-        const firstToken = sourceCode.getFirstToken(node)!
-
-        // `flatTernaryExpressions` option is for the following style:
-        // var a =
-        //     foo > 0 ? bar :
-        //     foo < 0 ? baz :
-        //     /*else*/ qiz ;
-        if (!options.flatTernaryExpressions
-          || !isTokenOnSameLine(node.test, node.consequent)
-          || isOnFirstLineOfStatement(firstToken, node)
-        ) {
-          const questionMarkToken = sourceCode.getFirstTokenBetween(node.test, node.consequent, token => token.type === 'Punctuator' && token.value === '?')!
-          const colonToken = sourceCode.getFirstTokenBetween(node.consequent, node.alternate, token => token.type === 'Punctuator' && token.value === ':')!
-
-          const firstConsequentToken = sourceCode.getTokenAfter(questionMarkToken)!
-          const lastConsequentToken = sourceCode.getTokenBefore(colonToken)!
-          const firstAlternateToken = sourceCode.getTokenAfter(colonToken)!
-
-          offsets.setDesiredOffset(questionMarkToken, firstToken, 1)
-          offsets.setDesiredOffset(colonToken, firstToken, 1)
-
-          let offset = 1
-          if (options.offsetTernaryExpressions) {
-            if (firstConsequentToken.type === 'Punctuator')
-              offset = 2
-
-            const consequentType = skipChainExpression(node.consequent).type
-            if (
-              options.offsetTernaryExpressionsOffsetCallExpressions
-              && (consequentType === 'CallExpression' || consequentType === 'AwaitExpression')
-            ) {
-              offset = 2
-            }
-          }
-
-          offsets.setDesiredOffset(
-            firstConsequentToken,
-            firstToken,
-            offset,
-          )
-
-          /**
-           * The alternate and the consequent should usually have the same indentation.
-           * If they share part of a line, align the alternate against the first token of the consequent.
-           * This allows the alternate to be indented correctly in cases like this:
-           * foo ? (
-           *   bar
-           * ) : ( // this '(' is aligned with the '(' above, so it's considered to be aligned with `foo`
-           *   baz // as a result, `baz` is offset by 1 rather than 2
-           * )
-           */
-          if (lastConsequentToken.loc.end.line === firstAlternateToken.loc.start.line) {
-            offsets.setDesiredOffset(firstAlternateToken, firstConsequentToken, 0)
-          }
-          else {
-            let offset = 1
-            if (options.offsetTernaryExpressions) {
-              if (firstAlternateToken.type === 'Punctuator')
-                offset = 2
-
-              const alternateType = skipChainExpression(node.alternate).type
-              if (
-                options.offsetTernaryExpressionsOffsetCallExpressions
-                && (alternateType === 'CallExpression' || alternateType === 'AwaitExpression')
-              ) {
-                offset = 2
-              }
-            }
-            /**
-             * If the alternate and consequent do not share part of a line, offset the alternate from the first
-             * token of the conditional expression. For example:
-             * foo ? bar
-             *   : baz
-             *
-             * If `baz` were aligned with `bar` rather than being offset by 1 from `foo`, `baz` would end up
-             * having no expected indentation.
-             */
-            offsets.setDesiredOffset(
-              firstAlternateToken,
-              firstToken,
-              offset,
-            )
-          }
-        }
+        checkConditionalNode(node, node.test, node.consequent, node.alternate)
       },
 
       'DoWhileStatement, WhileStatement, ForInStatement, ForOfStatement, WithStatement': function (
@@ -1489,56 +1605,12 @@ export default createRule<RuleOptions, MessageIds>({
         addElementListIndent([node.source], openingParen, closingParen, options.CallExpression.arguments)
       },
 
-      'MemberExpression, JSXMemberExpression, MetaProperty': function (node: Tree.MemberExpression | Tree.JSXMemberExpression | Tree.MetaProperty) {
-        const object = node.type === 'MetaProperty' ? node.meta : node.object
-        const firstNonObjectToken = sourceCode.getFirstTokenBetween(object, node.property, isNotClosingParenToken)!
-        const secondNonObjectToken = sourceCode.getTokenAfter(firstNonObjectToken)!
+      MemberExpression(node) {
+        checkMemberExpression(node, node.object, node.property, node.computed)
+      },
 
-        const objectParenCount = sourceCode.getTokensBetween(object, node.property, { filter: isClosingParenToken }).length
-        const firstObjectToken = objectParenCount
-          ? sourceCode.getTokenBefore(object, { skip: objectParenCount - 1 })!
-          : sourceCode.getFirstToken(object)!
-        const lastObjectToken = sourceCode.getTokenBefore(firstNonObjectToken)!
-        const firstPropertyToken = ('computed' in node && node.computed) ? firstNonObjectToken : secondNonObjectToken
-
-        if ('computed' in node && node.computed) {
-          // For computed MemberExpressions, match the closing bracket with the opening bracket.
-          offsets.setDesiredOffset(sourceCode.getLastToken(node)!, firstNonObjectToken, 0)
-          offsets.setDesiredOffsets(node.property.range, firstNonObjectToken, 1)
-        }
-
-        /**
-         * If the object ends on the same line that the property starts, match against the last token
-         * of the object, to ensure that the MemberExpression is not indented.
-         *
-         * Otherwise, match against the first token of the object, e.g.
-         * foo
-         *   .bar
-         *   .baz // <-- offset by 1 from `foo`
-         */
-        const offsetBase = lastObjectToken.loc.end.line === firstPropertyToken.loc.start.line
-          ? lastObjectToken
-          : firstObjectToken
-
-        if (typeof options.MemberExpression === 'number') {
-          // Match the dot (for non-computed properties) or the opening bracket (for computed properties) against the object.
-          offsets.setDesiredOffset(firstNonObjectToken, offsetBase, options.MemberExpression)
-
-          /**
-           * For computed MemberExpressions, match the first token of the property against the opening bracket.
-           * Otherwise, match the first token of the property against the object.
-           */
-          offsets.setDesiredOffset(secondNonObjectToken, ('computed' in node && node.computed) ? firstNonObjectToken : offsetBase, options.MemberExpression)
-        }
-        else {
-          // If the MemberExpression option is off, ignore the dot and the first token of the property.
-          offsets.ignoreToken(firstNonObjectToken)
-          offsets.ignoreToken(secondNonObjectToken)
-
-          // To ignore the property indentation, ensure that the property tokens depend on the ignored tokens.
-          offsets.setDesiredOffset(firstNonObjectToken, offsetBase, 0)
-          offsets.setDesiredOffset(secondNonObjectToken, firstNonObjectToken, 0)
-        }
+      MetaProperty(node) {
+        checkMemberExpression(node, node.meta, node.property)
       },
 
       NewExpression(node) {
@@ -1741,6 +1813,44 @@ export default createRule<RuleOptions, MessageIds>({
         }
       },
 
+      JSXText(node) {
+        if (!node.parent)
+          return
+
+        if (node.parent.type !== 'JSXElement' && node.parent.type !== 'JSXFragment')
+          return
+
+        const value = node.value
+        // eslint-disable-next-line regexp/no-super-linear-backtracking, regexp/optimal-quantifier-concatenation
+        const regExp = indentType === 'space' ? /\n( *)[\t ]*\S/g : /\n(\t*)[\t ]*\S/g
+        const nodeIndentsPerLine = Array.from(
+          String(value).matchAll(regExp),
+          match => (match[1] ? match[1].length : 0),
+        )
+        const hasFirstInLineNode = nodeIndentsPerLine.length > 0
+        const parentNodeIndent = getNodeIndent(node.parent)
+        const indent = parentNodeIndent + indentSize
+        if (
+          hasFirstInLineNode
+          && !nodeIndentsPerLine.every(actualIndent => actualIndent === indent)
+        ) {
+          nodeIndentsPerLine.forEach((nodeIndent) => {
+            context.report({
+              node,
+              messageId: 'wrongIndentation',
+              data: createErrorMessageData(indent, nodeIndent, nodeIndent),
+              fix(fixer) {
+                const indentChar = indentType === 'space' ? ' ' : '\t'
+                const indentStr = new Array(indent + 1).join(indentChar)
+                const regExp = /\n[\t ]*(\S)/g
+                const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indentStr}${p1}`)
+                return fixer.replaceText(node, fixedText)
+              },
+            })
+          })
+        }
+      },
+
       JSXAttribute(node) {
         if (!node.value)
           return
@@ -1771,7 +1881,7 @@ export default createRule<RuleOptions, MessageIds>({
         else {
           closingToken = sourceCode.getLastToken(node)!
         }
-        offsets.setDesiredOffsets(node.name.range, sourceCode.getFirstToken(node), 0)
+        offsets.setDesiredOffsets(node.name.range, firstToken, 0)
         addElementListIndent(node.attributes, firstToken, closingToken, 1)
       },
 
@@ -1827,6 +1937,138 @@ export default createRule<RuleOptions, MessageIds>({
           1,
         )
       },
+
+      JSXMemberExpression(node) {
+        checkMemberExpression(node, node.object, node.property)
+      },
+
+      'TSTupleType': checkArrayLikeNode,
+
+      TSEnumDeclaration(node) {
+        const members = node.body?.members || node.members
+
+        checkObjectLikeNode(node, members)
+      },
+
+      TSTypeLiteral(node) {
+        checkObjectLikeNode(node, node.members)
+      },
+
+      TSMappedType(node) {
+        const squareBracketStart = sourceCode.getTokenBefore(
+          node.constraint || node.typeParameter,
+        )!
+
+        const properties: Tree.Property[] = [
+          {
+            parent: node as any,
+            type: AST_NODE_TYPES.Property,
+            key: node.key || node.typeParameter,
+            value: node.typeAnnotation as any,
+
+            // location data
+            range: [
+              squareBracketStart.range[0],
+              node.typeAnnotation
+                ? node.typeAnnotation.range[1]
+                : squareBracketStart.range[0],
+            ],
+            loc: {
+              start: squareBracketStart.loc.start,
+              end: node.typeAnnotation
+                ? node.typeAnnotation.loc.end
+                : squareBracketStart.loc.end,
+            },
+            kind: 'init',
+            computed: false,
+            method: false,
+            optional: false,
+            shorthand: false,
+          },
+        ]
+
+        // transform it to an ObjectExpression
+        checkObjectLikeNode(node, properties)
+      },
+
+      TSAsExpression(node) {
+        checkOperatorToken(node.expression, node.typeAnnotation, 'as')
+      },
+
+      // TODO: TSSatisfiesExpression
+
+      TSConditionalType(node) {
+        // transform it to a ConditionalExpression
+        checkConditionalNode(
+          node,
+          {
+            parent: node,
+            type: AST_NODE_TYPES.BinaryExpression,
+            operator: 'extends' as any,
+            left: node.checkType as any,
+            right: node.extendsType as any,
+
+            // location data
+            range: [node.checkType.range[0], node.extendsType.range[1]],
+            loc: {
+              start: node.checkType.loc.start,
+              end: node.extendsType.loc.end,
+            },
+          },
+          node.trueType,
+          node.falseType,
+        )
+      },
+
+      TSImportEqualsDeclaration(node) {
+        const indent = DEFAULT_VARIABLE_INDENT
+        const firstToken = sourceCode.getFirstToken(node)!
+        const lastToken = sourceCode.getLastToken(node)!
+
+        offsets.setDesiredOffsets(node.range, firstToken, indent)
+
+        if (isSemicolonToken(lastToken))
+          offsets.ignoreToken(lastToken)
+      },
+
+      TSIndexedAccessType(node) {
+        checkMemberExpression(node, node.objectType, node.indexType, true)
+      },
+
+      'TSInterfaceBody': checkBlockLikeNode,
+
+      TSInterfaceDeclaration(node) {
+        if (node.extends.length === 0)
+          return
+
+        checkHeritages(node, node.extends)
+      },
+
+      TSQualifiedName(node) {
+        checkMemberExpression(node, node.left, node.right)
+      },
+
+      TSTypeParameterDeclaration(node) {
+        if (!node.params.length)
+          return
+
+        const firstToken = sourceCode.getFirstToken(node)!
+        const closingToken = sourceCode.getLastToken(node)!
+
+        addElementListIndent(node.params, firstToken, closingToken, 1)
+      },
+
+      TSTypeParameterInstantiation(node) {
+        if (!node.params.length)
+          return
+
+        const firstToken = sourceCode.getFirstToken(node)!
+        const closingToken = sourceCode.getLastToken(node)!
+
+        addElementListIndent(node.params, firstToken, closingToken, 1)
+      },
+
+      'TSModuleBlock': checkBlockLikeNode,
 
       '*': function (node: ASTNode) {
         const firstToken = sourceCode.getFirstToken(node)
@@ -1884,130 +2126,12 @@ export default createRule<RuleOptions, MessageIds>({
       {},
     )
 
-    // JSXText
-    function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
-      let src = context.sourceCode.getText(node, node.loc.start.column)
-      const lines = src.split('\n')
-      if (byLastLine)
-        src = lines[lines.length - 1]
-      else
-        src = lines[0]
-
-      const skip = excludeCommas ? ',' : ''
-
-      let regExp
-      if (indentType === 'space')
-        regExp = new RegExp(`^[ ${skip}]+`)
-      else
-        regExp = new RegExp(`^[\t${skip}]+`)
-
-      const indent = regExp.exec(src)
-      return indent ? indent[0].length : 0
-    }
-
-    /**
-     * Converts from a TSPropertySignature to a Property
-     * @param node a TSPropertySignature node
-     * @param [type] the type to give the new node
-     * @returns a Property node
-     */
-    function TSPropertySignatureToProperty(
-      node:
-        | Tree.TSEnumMember
-        | Tree.TSPropertySignature
-        | Tree.TypeElement,
-      type:
-        | AST_NODE_TYPES.Property
-        | AST_NODE_TYPES.PropertyDefinition = AST_NODE_TYPES.Property,
-    ): ASTNode | null {
-      const base = {
-        // indent doesn't actually use these
-        key: null as any,
-        value: null as any,
-
-        // Property flags
-        computed: false,
-        method: false,
-        kind: 'init',
-        // this will stop eslint from interrogating the type literal
-        shorthand: true,
-
-        // location data
-        parent: node.parent,
-        range: node.range,
-        loc: node.loc,
-      }
-      if (type === AST_NODE_TYPES.Property) {
-        return {
-          ...base as unknown as Tree.Property,
-          type,
-        }
-      }
-      return {
-        type,
-        accessibility: undefined,
-        declare: false,
-        decorators: [],
-        definite: false,
-        optional: false,
-        override: false,
-        readonly: false,
-        static: false,
-        typeAnnotation: undefined,
-        ...base,
-      } as Tree.PropertyDefinition
-    }
-
-    const rules = {
-      ...offsetListeners,
-      ...ignoredNodeListeners,
-    } as Record<string, RuleFunction<any>>
-
     return {
       // Listeners
       ...offsetListeners,
 
       // Ignored nodes
       ...ignoredNodeListeners,
-
-      // Special handling for JSXText nodes
-      JSXText(node) {
-        if (!node.parent)
-          return
-
-        if (node.parent.type !== 'JSXElement' && node.parent.type !== 'JSXFragment')
-          return
-
-        const value = node.value
-        // eslint-disable-next-line regexp/no-super-linear-backtracking, regexp/optimal-quantifier-concatenation
-        const regExp = indentType === 'space' ? /\n( *)[\t ]*\S/g : /\n(\t*)[\t ]*\S/g
-        const nodeIndentsPerLine = Array.from(
-          String(value).matchAll(regExp),
-          match => (match[1] ? match[1].length : 0),
-        )
-        const hasFirstInLineNode = nodeIndentsPerLine.length > 0
-        const parentNodeIndent = getNodeIndent(node.parent)
-        const indent = parentNodeIndent + indentSize
-        if (
-          hasFirstInLineNode
-          && !nodeIndentsPerLine.every(actualIndent => actualIndent === indent)
-        ) {
-          nodeIndentsPerLine.forEach((nodeIndent) => {
-            context.report({
-              node,
-              messageId: 'wrongIndentation',
-              data: createErrorMessageData(indent, nodeIndent, nodeIndent),
-              fix(fixer) {
-                const indentChar = indentType === 'space' ? ' ' : '\t'
-                const indentStr = new Array(indent + 1).join(indentChar)
-                const regExp = /\n[\t ]*(\S)/g
-                const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indentStr}${p1}`)
-                return fixer.replaceText(node, fixedText)
-              },
-            })
-          })
-        }
-      },
 
       // overwrite the base rule here so we can use our KNOWN_NODES list instead
       '*:exit': function (node: ASTNode) {
@@ -2098,318 +2222,6 @@ export default createRule<RuleOptions, MessageIds>({
           // Otherwise, report the token/comment.
           report(firstTokenOfLine, offsets.getDesiredIndent(firstTokenOfLine)!)
         }
-      },
-
-      TSAsExpression(node) {
-        // transform it to a BinaryExpression
-        return rules['BinaryExpression, LogicalExpression']({
-          type: AST_NODE_TYPES.BinaryExpression,
-          operator: 'as' as any,
-          left: node.expression,
-          // the first typeAnnotation includes the as token
-          right: node.typeAnnotation as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
-      TSConditionalType(node) {
-        // transform it to a ConditionalExpression
-        return rules.ConditionalExpression({
-          type: AST_NODE_TYPES.ConditionalExpression,
-          test: {
-            parent: node,
-            type: AST_NODE_TYPES.BinaryExpression,
-            operator: 'extends' as any,
-            left: node.checkType as any,
-            right: node.extendsType as any,
-
-            // location data
-            range: [node.checkType.range[0], node.extendsType.range[1]],
-            loc: {
-              start: node.checkType.loc.start,
-              end: node.extendsType.loc.end,
-            },
-          },
-          consequent: node.trueType as any,
-          alternate: node.falseType as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
-      'TSEnumDeclaration, TSTypeLiteral': function (
-        node: Tree.TSEnumDeclaration | Tree.TSTypeLiteral,
-      ) {
-        const members = 'body' in node
-          ? node.body?.members || node.members
-          : node.members
-
-        // transform it to an ObjectExpression
-        return rules['ObjectExpression, ObjectPattern']({
-          type: AST_NODE_TYPES.ObjectExpression,
-          properties: members.map(
-            member => TSPropertySignatureToProperty(member) as Tree.Property,
-          ),
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
-      TSImportEqualsDeclaration(node) {
-        // transform it to an VariableDeclaration
-        // use VariableDeclaration instead of ImportDeclaration because it's essentially the same thing
-        const { id, moduleReference } = node
-
-        return rules.VariableDeclaration({
-          type: AST_NODE_TYPES.VariableDeclaration,
-          kind: 'const' as const,
-          declarations: [
-            {
-              type: AST_NODE_TYPES.VariableDeclarator,
-              range: [id.range[0], moduleReference.range[1]],
-              loc: {
-                start: id.loc.start,
-                end: moduleReference.loc.end,
-              },
-              id,
-              init: {
-                type: AST_NODE_TYPES.CallExpression,
-                callee: {
-                  type: AST_NODE_TYPES.Identifier,
-                  name: 'require',
-                  range: [
-                    moduleReference.range[0],
-                    moduleReference.range[0] + 'require'.length,
-                  ],
-                  loc: {
-                    start: moduleReference.loc.start,
-                    end: {
-                      line: moduleReference.loc.end.line,
-                      column: moduleReference.loc.start.line + 'require'.length,
-                    },
-                  },
-                },
-                arguments:
-                  'expression' in moduleReference
-                    ? [moduleReference.expression]
-                    : [],
-
-                // location data
-                range: moduleReference.range,
-                loc: moduleReference.loc,
-              },
-            } as Tree.VariableDeclarator,
-          ],
-          declare: false,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
-      TSIndexedAccessType(node) {
-        // convert to a MemberExpression
-        return rules['MemberExpression, JSXMemberExpression, MetaProperty']({
-          type: AST_NODE_TYPES.MemberExpression,
-          object: node.objectType as any,
-          property: node.indexType as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-          optional: false,
-          computed: true,
-        })
-      },
-
-      TSInterfaceBody(node) {
-        // transform it to an ClassBody
-        return rules['BlockStatement, ClassBody']({
-          type: AST_NODE_TYPES.ClassBody,
-          body: node.body.map(
-            p =>
-              TSPropertySignatureToProperty(
-                p,
-                AST_NODE_TYPES.PropertyDefinition,
-              ) as Tree.PropertyDefinition,
-          ),
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
-      TSInterfaceDeclaration(node) {
-        if (node.extends.length === 0)
-          return
-        // transform it to a ClassDeclaration
-        return rules['ClassDeclaration, ClassExpression']({
-          type: AST_NODE_TYPES.ClassDeclaration,
-          body: node.body as any,
-          id: null,
-          // TODO: This is invalid, there can be more than one extends in interface
-          superClass: node.extends[0].expression as any,
-          abstract: false,
-          declare: false,
-          decorators: [],
-          implements: [],
-          superTypeArguments: undefined,
-          superTypeParameters: undefined,
-          typeParameters: undefined,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        },
-        )
-      },
-
-      TSMappedType(node) {
-        const sourceCode = context.sourceCode
-
-        const squareBracketStart = sourceCode.getTokenBefore(
-          node.constraint || node.typeParameter,
-        )!
-
-        // transform it to an ObjectExpression
-        return rules['ObjectExpression, ObjectPattern']({
-          type: AST_NODE_TYPES.ObjectExpression,
-          properties: [
-            {
-              parent: node,
-              type: AST_NODE_TYPES.Property,
-              key: node.key || node.typeParameter as any,
-              value: node.typeAnnotation as any,
-
-              // location data
-              range: [
-                squareBracketStart.range[0],
-                node.typeAnnotation
-                  ? node.typeAnnotation.range[1]
-                  : squareBracketStart.range[0],
-              ],
-              loc: {
-                start: squareBracketStart.loc.start,
-                end: node.typeAnnotation
-                  ? node.typeAnnotation.loc.end
-                  : squareBracketStart.loc.end,
-              },
-              kind: 'init' as const,
-              computed: false,
-              method: false,
-              optional: false,
-              shorthand: false,
-            },
-          ],
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
-      TSModuleBlock(node) {
-        // transform it to a BlockStatement
-        return rules['BlockStatement, ClassBody']({
-          type: AST_NODE_TYPES.BlockStatement,
-          body: node.body as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
-      TSQualifiedName(node) {
-        return rules['MemberExpression, JSXMemberExpression, MetaProperty']({
-          type: AST_NODE_TYPES.MemberExpression,
-          object: node.left as any,
-          property: node.right as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-          optional: false,
-          computed: false,
-        })
-      },
-
-      TSTupleType(node) {
-        // transform it to an ArrayExpression
-        return rules['ArrayExpression, ArrayPattern']({
-          type: AST_NODE_TYPES.ArrayExpression,
-          elements: node.elementTypes as any,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
-      TSTypeParameterDeclaration(node) {
-        if (!node.params.length)
-          return
-
-        const [name, ...attributes] = node.params
-
-        // JSX is about the closest we can get because the angle brackets
-        // it's not perfect but it works!
-        return rules.JSXOpeningElement({
-          type: AST_NODE_TYPES.JSXOpeningElement,
-          selfClosing: false,
-          name: name as any,
-          attributes: attributes as any,
-          typeArguments: undefined,
-          typeParameters: undefined,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
-      },
-
-      TSTypeParameterInstantiation(node) {
-        if (!node.params.length)
-          return
-
-        const [name, ...attributes] = node.params
-
-        // JSX is about the closest we can get because the angle brackets
-        // it's not perfect but it works!
-        return rules.JSXOpeningElement({
-          type: AST_NODE_TYPES.JSXOpeningElement,
-          selfClosing: false,
-          name: name as any,
-          attributes: attributes as any,
-          typeArguments: undefined,
-          typeParameters: undefined,
-
-          // location data
-          parent: node.parent,
-          range: node.range,
-          loc: node.loc,
-        })
       },
     }
   },
