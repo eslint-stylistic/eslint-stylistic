@@ -54,7 +54,7 @@ async function readPackages() {
             name,
             ruleId: `${pkgId}/${name}`,
             entry: normalizePath(entry),
-            docsEntry: docs,
+            docsEntry: normalizePath(docs),
             meta: {
               fixable: meta?.fixable,
               docs: {
