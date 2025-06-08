@@ -1,4 +1,4 @@
-import type { Tree } from '#types'
+import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
@@ -33,6 +33,10 @@ export default createRule<RuleOptions, MessageIds>({
                 enum: ['always', 'never', 'ignore'],
               },
               asyncArrow: {
+                type: 'string',
+                enum: ['always', 'never', 'ignore'],
+              },
+              catch: {
                 type: 'string',
                 enum: ['always', 'never', 'ignore'],
               },
@@ -133,6 +137,9 @@ export default createRule<RuleOptions, MessageIds>({
       if (functionConfig === 'ignore')
         return
 
+      if (functionConfig === 'always' && node.typeParameters && !node.id)
+        return
+
       let leftToken: Tree.Token
       let rightToken: Tree.Token
       if (node.typeParameters) {
@@ -144,9 +151,24 @@ export default createRule<RuleOptions, MessageIds>({
         leftToken = sourceCode.getTokenBefore(rightToken)!
       }
 
+      checkSpace(node, leftToken, rightToken, functionConfig)
+    }
+
+    function checkSpace(
+      node:
+        | Tree.ArrowFunctionExpression
+        | Tree.FunctionDeclaration
+        | Tree.FunctionExpression
+        | Tree.CatchClause
+        | Tree.TSDeclareFunction
+        | Tree.TSEmptyBodyFunctionExpression,
+      leftToken: Token,
+      rightToken: Token,
+      option: FuncOption,
+    ) {
       const hasSpacing = sourceCode.isSpaceBetween(leftToken, rightToken)
 
-      if (hasSpacing && functionConfig === 'never') {
+      if (hasSpacing && option === 'never') {
         context.report({
           node,
           loc: {
@@ -168,11 +190,7 @@ export default createRule<RuleOptions, MessageIds>({
           },
         })
       }
-      else if (
-        !hasSpacing
-        && functionConfig === 'always'
-        && (!node.typeParameters || node.id)
-      ) {
+      else if (!hasSpacing && option === 'always') {
         context.report({
           node,
           loc: rightToken.loc,
@@ -188,6 +206,20 @@ export default createRule<RuleOptions, MessageIds>({
       FunctionExpression: checkFunction,
       TSEmptyBodyFunctionExpression: checkFunction,
       TSDeclareFunction: checkFunction,
+      CatchClause(node) {
+        if (!node.param)
+          return
+
+        const option = overrideConfig.catch ?? baseConfig
+
+        if (option === 'ignore')
+          return
+
+        const rightToken = sourceCode.getFirstToken(node, isOpeningParenToken)!
+        const leftToken = sourceCode.getTokenBefore(rightToken)!
+
+        checkSpace(node, leftToken, rightToken, option)
+      },
     }
   },
 })

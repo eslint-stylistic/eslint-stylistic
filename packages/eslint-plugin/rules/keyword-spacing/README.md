@@ -1,6 +1,8 @@
 ---
 title: keyword-spacing
 rule_type: layout
+related_rules:
+  - space-before-function-paren
 ---
 
 # keyword-spacing
@@ -20,7 +22,10 @@ if (foo) {
 
 Of course, you could also have a style guide that disallows spaces around keywords.
 
-However, if you want to enforce the style of spacing between the `function` keyword and the following opening parenthesis, please refer to [space-before-function-paren](space-before-function-paren).
+However, if you want to enforce the style of following spacing cases, please refer to [space-before-function-paren](space-before-function-paren).
+
+- Between the `function` keyword and the following opening parenthesis
+- After the `catch` keyword and the following opening parenthesis (only when parameters are present)
 
 ## Rule Details
 
