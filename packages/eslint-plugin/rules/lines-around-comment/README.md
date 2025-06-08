@@ -34,6 +34,8 @@ This rule has an object option:
 - `"applyDefaultIgnorePatterns"` enables or disables the default comment patterns to be ignored by the rule
 - `"ignorePattern"` custom patterns to be ignored by the rule
 - `"afterHashbangComment": true` requires an empty line after hashbang comments
+- `"allowGroupStart": ['{', '[', '(']` allows comments to appear at the start of the group
+- `"allowGroupEnd": ['}', ']', ')']` allows comments to appear at the end of group
 
 ### beforeBlockComment
 
@@ -746,6 +748,70 @@ Examples of **correct** code for this rule with the `{ "afterHashbangComment": t
 var day = "great"
 
 /*eslint lines-around-comment: ["error", { "afterHashbangComment": true }] */
+```
+
+:::
+
+### allowGroupStart
+
+Examples of **correct** code for this rule with the `{ "allowGroupStart": ['{', '[', '('] }` option:
+
+::: correct
+
+```js
+/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowGroupStart": ['{', '[', '('] }] */
+
+if (bar) {
+    // what a great and wonderful day
+    foo();
+}
+
+var day = [
+    // what a great and wonderful day
+    "great",
+    "wonderful"
+];
+
+const myFunc = (
+    // Comment describing the first parameter
+    firstParam,
+
+    // Comment describing the second parameter
+    secondParam,
+) => {}
+```
+
+:::
+
+### allowGroupEnd
+
+Examples of **correct** code for this rule with the `{ "afterLineComment": true, "allowGroupEnd": ['}', ']', ')'] }` option:
+
+::: correct
+
+```js
+/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowGroupEnd": ['}', ']', ')'] }] */
+
+if (bar) {
+    foo();
+    // what a great and wonderful day
+}
+
+var day = [
+    "great",
+    // what a great and wonderful day
+
+    "wonderful"
+    // what a great and wonderful day
+];
+
+const myFunc = (
+    firstParam,
+    // Comment describing the first parameter
+
+    secondParam,
+    // Comment describing the second parameter
+) => {}
 ```
 
 :::

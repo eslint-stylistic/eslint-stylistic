@@ -451,6 +451,18 @@ interface A {
       `,
       options: [{ beforeLineComment: true, allowGroupStart: ['{'] }],
     },
+    {
+      code: $`
+        enum Color { 
+          // Comment A
+          Red = 1,
+        
+          // Comment A
+          Green = 2,
+        }
+      `,
+      options: [{ beforeLineComment: true, allowGroupStart: ['{'] }],
+    },
   ],
   invalid: [
     // ESLint base rule test to cover the usage of the original reporter

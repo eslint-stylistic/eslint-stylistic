@@ -66,7 +66,6 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'boolean',
             default: false,
           },
-          // TODO: remove allowBlockStart / allowBlockEnd after polyfill `SwitchCase`
           allowBlockStart: {
             type: 'boolean',
             default: false,
@@ -418,12 +417,14 @@ export default createRule<RuleOptions, MessageIds>({
     }
     function isCommentAtGroupStart(token: Tree.Comment, groupTokenValue: GroupTokenValue): boolean {
       const beforeToken = sourceCode.getTokenBefore(token, { includeComments: false })
-      return !!beforeToken && groupChecker[groupTokenValue](beforeToken)
+      const value = !!beforeToken && groupChecker[groupTokenValue](beforeToken)
+      return value
     }
 
     function isCommentAtGroupEnd(token: Tree.Comment, groupTokenValue: GroupTokenValue): boolean {
       const afterToken = sourceCode.getTokenAfter(token, { includeComments: false })
-      return !!afterToken && groupChecker[groupTokenValue](afterToken)
+      const value = !!afterToken && groupChecker[groupTokenValue](afterToken)
+      return value
     }
 
     function checkForEmptyLine(
