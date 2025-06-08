@@ -26,6 +26,15 @@ var { x, y } = y;
 // import/export declarations (EcmaScript 6)
 import { foo } from "bar";
 export { foo };
+
+// type literals
+type Foo = { bar: string };
+
+// interface
+interface Foo = { bar: string };
+
+// enum
+enum Foo = { Bar };
 ```
 
 ## Rule Details
@@ -63,6 +72,10 @@ var obj = { baz: {'foo': 'qux'}, bar};
 var obj = {baz: { 'foo': 'qux'}, bar};
 var {x } = y;
 import { foo } from 'bar';
+export { foo };
+type Foo = { bar: string };
+interface Foo = { bar: string };
+enum Foo = { Bar };
 ```
 
 :::
@@ -86,6 +99,10 @@ var obj = {
 var obj = {};
 var {x} = y;
 import {foo} from 'bar';
+export {foo};
+type Foo = {bar: string};
+interface Foo = {bar: string};
+enum Foo = {Bar};
 ```
 
 :::
@@ -109,6 +126,10 @@ var obj = {
   'foo':'bar'};
 var {x} = y;
 import {foo } from 'bar';
+export {foo };
+type Foo = {bar: string };
+interface Foo = {bar: string };
+enum Foo = {Bar };
 ```
 
 :::
@@ -128,6 +149,10 @@ var obj = {
 };
 var { x } = y;
 import { foo } from 'bar';
+export { foo };
+type Foo = { bar: string };
+interface Foo = { bar: string };
+enum Foo = { Bar };
 ```
 
 :::
