@@ -31,10 +31,10 @@ export { foo };
 type Foo = { bar: string };
 
 // interface
-interface Foo = { bar: string };
+interface Foo { bar: string };
 
 // enum
-enum Foo = { Bar };
+enum Foo { Bar };
 ```
 
 ## Rule Details
@@ -74,8 +74,8 @@ var {x } = y;
 import { foo } from 'bar';
 export { foo };
 type Foo = { bar: string };
-interface Foo = { bar: string };
-enum Foo = { Bar };
+interface Foo { bar: string };
+enum Foo { Bar };
 ```
 
 :::
@@ -101,8 +101,8 @@ var {x} = y;
 import {foo} from 'bar';
 export {foo};
 type Foo = {bar: string};
-interface Foo = {bar: string};
-enum Foo = {Bar};
+interface Foo {bar: string};
+enum Foo {Bar};
 ```
 
 :::
@@ -128,8 +128,8 @@ var {x} = y;
 import {foo } from 'bar';
 export {foo };
 type Foo = {bar: string };
-interface Foo = {bar: string };
-enum Foo = {Bar };
+interface Foo {bar: string };
+enum Foo {Bar };
 ```
 
 :::
@@ -151,8 +151,8 @@ var { x } = y;
 import { foo } from 'bar';
 export { foo };
 type Foo = { bar: string };
-interface Foo = { bar: string };
-enum Foo = { Bar };
+interface Foo { bar: string };
+enum Foo { Bar };
 ```
 
 :::
