@@ -133,6 +133,9 @@ export default createRule<RuleOptions, MessageIds>({
       if (functionConfig === 'ignore')
         return
 
+      if (functionConfig === 'always' && node.typeParameters && !node.id)
+        return
+
       let leftToken: Tree.Token
       let rightToken: Tree.Token
       if (node.typeParameters) {
@@ -168,11 +171,7 @@ export default createRule<RuleOptions, MessageIds>({
           },
         })
       }
-      else if (
-        !hasSpacing
-        && functionConfig === 'always'
-        && (!node.typeParameters || node.id)
-      ) {
+      else if (!hasSpacing && functionConfig === 'always') {
         context.report({
           node,
           loc: rightToken.loc,
