@@ -63,6 +63,15 @@ export default createRule<RuleOptions, MessageIds>({
                 enforceForFunctionPrototypeMethods: { type: 'boolean' },
                 allowParensAfterCommentPattern: { type: 'string' },
                 nestedConditionalExpressions: { type: 'boolean' },
+                allowNodesInSpreadElement: {
+                  type: 'object',
+                  properties: {
+                    ConditionalExpression: { type: 'boolean' },
+                    LogicalExpression: { type: 'boolean' },
+                    AwaitExpression: { type: 'boolean' },
+                  },
+                  additionalProperties: false,
+                },
               },
               additionalProperties: false,
             },
@@ -105,6 +114,8 @@ export default createRule<RuleOptions, MessageIds>({
       && context.options[1].allowParensAfterCommentPattern
     const ALLOW_NESTED_TERNARY = ALL_NODES && context.options[1]
       && context.options[1].nestedConditionalExpressions === false
+    const ALLOW_NODES_IN_SPREAD = ALL_NODES && context.options[1]
+      && new Set(Object.entries(context.options[1].allowNodesInSpreadElement || {}).filter(([_, value]) => value).map(([key]) => key))
 
     // @ts-expect-error other properties are not used
     const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' })
@@ -1364,6 +1375,9 @@ export default createRule<RuleOptions, MessageIds>({
       },
       SpreadElement(node) {
         if (isTypeAssertion(node.argument))
+          return
+
+        if (ALLOW_NODES_IN_SPREAD && ALLOW_NODES_IN_SPREAD.has(node.argument.type))
           return
 
         if (!hasExcessParensWithPrecedence(node.argument, PRECEDENCE_OF_ASSIGNMENT_EXPR))

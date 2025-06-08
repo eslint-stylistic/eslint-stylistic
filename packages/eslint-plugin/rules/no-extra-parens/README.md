@@ -61,6 +61,10 @@ This rule has an object option for exceptions to the `"all"` option:
 - `"enforceForFunctionPrototypeMethods": false` allows extra parentheses around immediate `.call` and `.apply` method calls on function expressions and around function expressions in the same context.
 - `"allowParensAfterCommentPattern": "any-string-pattern"` allows extra parentheses preceded by a comment that matches a regular expression.
 - `"nestedConditionalExpressions": false` allows extra parentheses in nested conditional(ternary) expressions
+- `"allowNodesInSpreadElement"` object has properties whose names correspond to node types in the abstract syntax tree (AST) of JavaScript code. Allows extra parentheses to be added to these nodes within the spread syntax
+  - `"ConditionalExpression": true`
+  - `"LogicalExpression": true`
+  - `"AwaitExpression": true`
 
 ### all
 
@@ -444,6 +448,32 @@ Examples of **correct** code for this rule with the `"all"` and `{ "nestedCondit
 
 a ? (b ? c : d) : e;
 a ? b : (c ? d : e);
+```
+
+:::
+
+### allowNodesInSpreadElement
+
+Examples of **correct** code for this rule with the `"all"` and `{ "allowNodesInSpreadElement": { LogicalExpression: true, ConditionalExpression: true } }` options:
+
+::: correct
+
+```js
+/* eslint no-extra-parens: [
+    "error",
+    "all",
+    { "allowNodesInSpreadElement": { LogicalExpression: true, ConditionalExpression: true } }
+ ] */
+
+const x = [
+    ...a ? [1, 2, 3] : [],
+    ...(a ? [1, 2, 3] : []),
+]
+
+const fruits = {
+    ...isSummer && { watermelon: 30 },
+    ...(isSummer && { watermelon: 30 }),
+};
 ```
 
 :::
