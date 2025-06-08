@@ -54,8 +54,7 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ::: incorrect
 
 ```js
-/*eslint object-curly-newline: ["error", "always"]*/
-/*eslint-env es6*/
+/* eslint @stylistic/object-curly-newline: ["error", "always"] */
 
 let a = {};
 let b = {foo: 1};
@@ -83,8 +82,7 @@ Examples of **correct** code for this rule with the `"always"` option:
 ::: correct
 
 ```js
-/*eslint object-curly-newline: ["error", "always"]*/
-/*eslint-env es6*/
+/* eslint @stylistic/object-curly-newline: ["error", "always"] */
 
 let a = {
 };
@@ -132,8 +130,7 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 ::: incorrect
 
 ```js
-/*eslint object-curly-newline: ["error", "never"]*/
-/*eslint-env es6*/
+/* eslint @stylistic/object-curly-newline: ["error", "never"] */
 
 let a = {
 };
@@ -179,8 +176,7 @@ Examples of **correct** code for this rule with the `"never"` option:
 ::: correct
 
 ```js
-/*eslint object-curly-newline: ["error", "never"]*/
-/*eslint-env es6*/
+/* eslint @stylistic/object-curly-newline: ["error", "never"] */
 
 let a = {};
 let b = {foo: 1};
@@ -210,8 +206,7 @@ Examples of **incorrect** code for this rule with the `{ "multiline": true }` op
 ::: incorrect
 
 ```js
-/*eslint object-curly-newline: ["error", { "multiline": true }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/object-curly-newline: ["error", { "multiline": true }] */
 
 let a = {
 };
@@ -249,8 +244,7 @@ Examples of **correct** code for this rule with the `{ "multiline": true }` opti
 ::: correct
 
 ```js
-/*eslint object-curly-newline: ["error", { "multiline": true }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/object-curly-newline: ["error", { "multiline": true }] */
 
 let a = {};
 let b = {foo: 1};
@@ -288,8 +282,7 @@ Examples of **incorrect** code for this rule with the `{ "minProperties": 2 }` o
 ::: incorrect
 
 ```js
-/*eslint object-curly-newline: ["error", { "minProperties": 2 }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/object-curly-newline: ["error", { "minProperties": 2 }] */
 
 let a = {
 };
@@ -327,8 +320,7 @@ Examples of **correct** code for this rule with the `{ "minProperties": 2 }` opt
 ::: correct
 
 ```js
-/*eslint object-curly-newline: ["error", { "minProperties": 2 }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/object-curly-newline: ["error", { "minProperties": 2 }] */
 
 let a = {};
 let b = {foo: 1};
@@ -366,8 +358,7 @@ Examples of **incorrect** code for this rule with the default `{ "consistent": t
 ::: incorrect
 
 ```js
-/*eslint object-curly-newline: ["error", { "consistent": true }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/object-curly-newline: ["error", { "consistent": true }] */
 
 let a = {foo: 1
 };
@@ -414,8 +405,7 @@ Examples of **correct** code for this rule with the default `{ "consistent": tru
 ::: correct
 
 ```js
-/*eslint object-curly-newline: ["error", { "consistent": true }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/object-curly-newline: ["error", { "consistent": true }] */
 
 let empty1 = {};
 let empty2 = {
@@ -472,8 +462,7 @@ Examples of **incorrect** code for this rule with the `{ "ObjectExpression": "al
 ::: incorrect
 
 ```js
-/*eslint object-curly-newline: ["error", { "ObjectExpression": "always", "ObjectPattern": "never" }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/object-curly-newline: ["error", { "ObjectExpression": "always", "ObjectPattern": "never" }] */
 
 let a = {};
 let b = {foo: 1};
@@ -510,8 +499,7 @@ Examples of **correct** code for this rule with the `{ "ObjectExpression": "alwa
 ::: correct
 
 ```js
-/*eslint object-curly-newline: ["error", { "ObjectExpression": "always", "ObjectPattern": "never" }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/object-curly-newline: ["error", { "ObjectExpression": "always", "ObjectPattern": "never" }] */
 
 let a = {
 };
@@ -550,8 +538,7 @@ Examples of **incorrect** code for this rule with the `{ "ImportDeclaration": "a
 ::: incorrect
 
 ```js
-/*eslint object-curly-newline: ["error", { "ImportDeclaration": "always", "ExportDeclaration": "never" }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/object-curly-newline: ["error", { "ImportDeclaration": "always", "ExportDeclaration": "never" }] */
 
 import {foo, bar} from 'foo-bar';
 import {foo as f, baz} from 'foo-bar';
@@ -575,8 +562,7 @@ Examples of **correct** code for this rule with the `{ "ImportDeclaration": "alw
 ::: correct
 
 ```js
-/*eslint object-curly-newline: ["error", { "ImportDeclaration": "always", "ExportDeclaration": "never" }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/object-curly-newline: ["error", { "ImportDeclaration": "always", "ExportDeclaration": "never" }] */
 
 import {
     foo,

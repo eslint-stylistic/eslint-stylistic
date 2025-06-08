@@ -16,7 +16,7 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
-/*eslint no-trailing-spaces: "error"*/
+/* eslint @stylistic/no-trailing-spaces: "error" */
 
 var foo = 0;/* trailing whitespace */
 var baz = 5;/* trailing whitespace */
@@ -30,7 +30,7 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
-/*eslint no-trailing-spaces: "error"*/
+/* eslint @stylistic/no-trailing-spaces: "error" */
 
 var foo = 0;
 var baz = 5;
@@ -54,7 +54,7 @@ Examples of **correct** code for this rule with the `{ "skipBlankLines": true }`
 ::: correct
 
 ```js
-/*eslint no-trailing-spaces: ["error", { "skipBlankLines": true }]*/
+/* eslint @stylistic/no-trailing-spaces: ["error", { "skipBlankLines": true }] */
 
 var foo = 0;
 var baz = 5;
@@ -71,7 +71,7 @@ Examples of **correct** code for this rule with the `{ "ignoreComments": true }`
 ::: correct
 
 ```js
-/*eslint no-trailing-spaces: ["error", { "ignoreComments": true }]*/
+/* eslint @stylistic/no-trailing-spaces: ["error", { "ignoreComments": true }] */
 
 // ↓ these comments have trailing whitespace →
 //

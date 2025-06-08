@@ -40,7 +40,7 @@ Examples of **incorrect** code for this rule with the default `"prefer-double"` 
 :::incorrect { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
-/*eslint jsx-quotes: ["error", "prefer-double"]*/
+/* eslint @stylistic/jsx-quotes: ["error", "prefer-double"] */
 
 <a b='c' />;
 ```
@@ -52,7 +52,7 @@ Examples of **correct** code for this rule with the default `"prefer-double"` op
 :::correct { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
-/*eslint jsx-quotes: ["error", "prefer-double"]*/
+/* eslint @stylistic/jsx-quotes: ["error", "prefer-double"] */
 
 <a b="c" />;
 <a b='"' />;
@@ -67,7 +67,7 @@ Examples of **incorrect** code for this rule with the `"prefer-single"` option:
 :::incorrect { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
-/*eslint jsx-quotes: ["error", "prefer-single"]*/
+/* eslint @stylistic/jsx-quotes: ["error", "prefer-single"] */
 
 <a b="c" />;
 ```
@@ -79,7 +79,7 @@ Examples of **correct** code for this rule with the `"prefer-single"` option:
 :::correct { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
-/*eslint jsx-quotes: ["error", "prefer-single"]*/
+/* eslint @stylistic/jsx-quotes: ["error", "prefer-single"] */
 
 <a b='c' />;
 <a b="'" />;

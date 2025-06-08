@@ -25,7 +25,7 @@ Examples of **incorrect** code for this rule with the default `"beside"` option:
 ::: incorrect
 
 ```js
-/* eslint implicit-arrow-linebreak: ["error", "beside"] */
+/* eslint @stylistic/implicit-arrow-linebreak: ["error", "beside"] */
 
 (foo) =>
   bar;
@@ -50,7 +50,7 @@ Examples of **correct** code for this rule with the default `"beside"` option:
 ::: correct
 
 ```js
-/* eslint implicit-arrow-linebreak: ["error", "beside"] */
+/* eslint @stylistic/implicit-arrow-linebreak: ["error", "beside"] */
 
 (foo) => bar;
 
@@ -81,7 +81,7 @@ Examples of **incorrect** code for this rule with the `"below"` option:
 ::: incorrect
 
 ```js
-/* eslint implicit-arrow-linebreak: ["error", "below"] */
+/* eslint @stylistic/implicit-arrow-linebreak: ["error", "below"] */
 
 (foo) => bar;
 
@@ -97,7 +97,7 @@ Examples of **correct** code for this rule with the `"below"` option:
 ::: correct
 
 ```js
-/* eslint implicit-arrow-linebreak: ["error", "below"] */
+/* eslint @stylistic/implicit-arrow-linebreak: ["error", "below"] */
 
 (foo) =>
   bar;

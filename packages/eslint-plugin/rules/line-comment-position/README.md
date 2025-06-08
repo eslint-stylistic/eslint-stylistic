@@ -34,7 +34,7 @@ Examples of **incorrect** code for the `{ "position": "above" }` option:
 ::: incorrect
 
 ```js
-/*eslint line-comment-position: ["error", { "position": "above" }]*/
+/* eslint @stylistic/line-comment-position: ["error", { "position": "above" }] */
 1 + 1; // invalid comment
 ```
 
@@ -45,7 +45,7 @@ Examples of **correct** code for the `{ "position": "above" }` option:
 ::: correct
 
 ```js
-/*eslint line-comment-position: ["error", { "position": "above" }]*/
+/* eslint @stylistic/line-comment-position: ["error", { "position": "above" }] */
 // valid comment
 1 + 1;
 ```
@@ -59,7 +59,7 @@ Examples of **incorrect** code for the `{ "position": "beside" }` option:
 ::: incorrect
 
 ```js
-/*eslint line-comment-position: ["error", { "position": "beside" }]*/
+/* eslint @stylistic/line-comment-position: ["error", { "position": "beside" }] */
 // invalid comment
 1 + 1;
 ```
@@ -71,7 +71,7 @@ Examples of **correct** code for the `{ "position": "beside" }` option:
 ::: correct
 
 ```js
-/*eslint line-comment-position: ["error", { "position": "beside" }]*/
+/* eslint @stylistic/line-comment-position: ["error", { "position": "beside" }] */
 1 + 1; // valid comment
 ```
 
@@ -86,7 +86,7 @@ Examples of **incorrect** code for the `ignorePattern` option:
 ::: incorrect
 
 ```js
-/*eslint line-comment-position: ["error", { "ignorePattern": "pragma" }]*/
+/* eslint @stylistic/line-comment-position: ["error", { "ignorePattern": "pragma" }] */
 1 + 1; // invalid comment
 ```
 
@@ -97,7 +97,7 @@ Examples of **correct** code for the `ignorePattern` option:
 ::: correct
 
 ```js
-/*eslint line-comment-position: ["error", { "ignorePattern": "pragma" }]*/
+/* eslint @stylistic/line-comment-position: ["error", { "ignorePattern": "pragma" }] */
 1 + 1; // pragma valid comment
 ```
 
@@ -112,7 +112,7 @@ Examples of **incorrect** code for the `{ "applyDefaultIgnorePatterns": false }`
 ::: incorrect
 
 ```js
-/*eslint line-comment-position: ["error", { "ignorePattern": "pragma", "applyDefaultIgnorePatterns": false }]*/
+/* eslint @stylistic/line-comment-position: ["error", { "ignorePattern": "pragma", "applyDefaultIgnorePatterns": false }] */
 1 + 1; // falls through
 ```
 
@@ -123,7 +123,7 @@ Examples of **correct** code for the `{ "applyDefaultIgnorePatterns": false }` o
 ::: correct
 
 ```js
-/*eslint line-comment-position: ["error", { "ignorePattern": "pragma", "applyDefaultIgnorePatterns": false }]*/
+/* eslint @stylistic/line-comment-position: ["error", { "ignorePattern": "pragma", "applyDefaultIgnorePatterns": false }] */
 1 + 1; // pragma valid comment
 ```
 

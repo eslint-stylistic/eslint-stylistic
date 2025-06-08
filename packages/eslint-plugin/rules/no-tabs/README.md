@@ -58,7 +58,7 @@ Examples of **correct** code for this rule with the `allowIndentationTabs: true`
 ::: correct
 
 ```js
-/* eslint no-tabs: ["error", { allowIndentationTabs: true }] */
+/* eslint @stylistic/no-tabs: ["error", { allowIndentationTabs: true }] */
 
 function test() {
 \tdoSomething();

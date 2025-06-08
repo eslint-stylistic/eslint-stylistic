@@ -26,7 +26,7 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 :::incorrect
 
 ```js
-/*eslint block-spacing: "error"*/
+/* eslint @stylistic/block-spacing: "error" */
 
 function foo() {return true;}
 if (foo) { bar = 0;}
@@ -46,7 +46,7 @@ Examples of **correct** code for this rule with the default `"always"` option:
 :::correct
 
 ```js
-/*eslint block-spacing: "error"*/
+/* eslint @stylistic/block-spacing: "error" */
 
 function foo() { return true; }
 if (foo) { bar = 0; }
@@ -65,7 +65,7 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 :::incorrect
 
 ```js
-/*eslint block-spacing: ["error", "never"]*/
+/* eslint @stylistic/block-spacing: ["error", "never"] */
 
 function foo() { return true; }
 if (foo) { bar = 0;}
@@ -82,7 +82,7 @@ Examples of **correct** code for this rule with the `"never"` option:
 :::correct
 
 ```js
-/*eslint block-spacing: ["error", "never"]*/
+/* eslint @stylistic/block-spacing: ["error", "never"] */
 
 function foo() {return true;}
 if (foo) {bar = 0;}

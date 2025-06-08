@@ -51,7 +51,7 @@ Examples of **incorrect** code for this rule with the default options:
 ::: incorrect
 
 ```js
-/*eslint indent: "error"*/
+/* eslint @stylistic/indent: "error" */
 
 if (a) {
   b=c;
@@ -68,7 +68,7 @@ Examples of **correct** code for this rule with the default options:
 ::: correct
 
 ```js
-/*eslint indent: "error"*/
+/* eslint @stylistic/indent: "error" */
 
 if (a) {
     b=c;
@@ -130,7 +130,7 @@ Examples of **incorrect** code for this rule with the `"tab"` option:
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", "tab"]*/
+/* eslint @stylistic/indent: ["error", "tab"] */
 
 if (a) {
      b=c;
@@ -147,7 +147,7 @@ Examples of **correct** code for this rule with the `"tab"` option:
 ::: correct
 
 ```js
-/*eslint indent: ["error", "tab"]*/
+/* eslint @stylistic/indent: ["error", "tab"] */
 
 if (a) {
 	b=c;
@@ -168,7 +168,7 @@ Examples of **correct** code for this rule with the `4, { "ignoredNodes": ["Cond
 ::: correct
 
 ```js
-/*eslint indent: ["error", 4, { "ignoredNodes": ["ConditionalExpression"] }]*/
+/* eslint @stylistic/indent: ["error", 4, { "ignoredNodes": ["ConditionalExpression"] }] */
 
 var a = foo
       ? bar
@@ -188,7 +188,7 @@ Examples of **correct** code for this rule with the `4, { "ignoredNodes": ["Call
 ::: correct
 
 ```js
-/*eslint indent: ["error", 4, { "ignoredNodes": ["CallExpression > FunctionExpression.callee > BlockStatement.body"] }]*/
+/* eslint @stylistic/indent: ["error", 4, { "ignoredNodes": ["CallExpression > FunctionExpression.callee > BlockStatement.body"] }] */
 
 (function() {
 
@@ -209,7 +209,7 @@ Examples of **incorrect** code for this rule with the `2, { "SwitchCase": 1 }` o
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, { "SwitchCase": 1 }]*/
+/* eslint @stylistic/indent: ["error", 2, { "SwitchCase": 1 }] */
 
 switch(a){
 case "a":
@@ -226,7 +226,7 @@ Examples of **correct** code for this rule with the `2, { "SwitchCase": 1 }` opt
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "SwitchCase": 1 }]*/
+/* eslint @stylistic/indent: ["error", 2, { "SwitchCase": 1 }] */
 
 switch(a){
   case "a":
@@ -245,8 +245,7 @@ Examples of **incorrect** code for this rule with the `2, { "VariableDeclarator"
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, { "VariableDeclarator": 1 }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/indent: ["error", 2, { "VariableDeclarator": 1 }] */
 
 var a,
     b,
@@ -266,8 +265,7 @@ Examples of **correct** code for this rule with the `2, { "VariableDeclarator": 
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "VariableDeclarator": 1 }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/indent: ["error", 2, { "VariableDeclarator": 1 }] */
 
 var a,
   b,
@@ -287,8 +285,7 @@ Examples of **correct** code for this rule with the `2, { "VariableDeclarator": 
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "VariableDeclarator": 2 }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/indent: ["error", 2, { "VariableDeclarator": 2 }] */
 
 var a,
     b,
@@ -308,8 +305,7 @@ Examples of **incorrect** code for this rule with the `2, { "VariableDeclarator"
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, { "VariableDeclarator": "first" }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/indent: ["error", 2, { "VariableDeclarator": "first" }] */
 
 var a,
   b,
@@ -329,8 +325,7 @@ Examples of **correct** code for this rule with the `2, { "VariableDeclarator": 
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "VariableDeclarator": "first" }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/indent: ["error", 2, { "VariableDeclarator": "first" }] */
 
 var a,
     b,
@@ -350,8 +345,7 @@ Examples of **correct** code for this rule with the `2, { "VariableDeclarator": 
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "VariableDeclarator": { "var": 2, "let": 2, "const": 3 } }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/indent: ["error", 2, { "VariableDeclarator": { "var": 2, "let": 2, "const": 3 } }] */
 
 var a,
     b,
@@ -373,7 +367,7 @@ Examples of **incorrect** code for this rule with the options `2, { "outerIIFEBo
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, { "outerIIFEBody": 0 }]*/
+/* eslint @stylistic/indent: ["error", 2, { "outerIIFEBody": 0 }] */
 
 (function() {
 
@@ -395,7 +389,7 @@ Examples of **correct** code for this rule with the options `2, { "outerIIFEBody
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "outerIIFEBody": 0 }]*/
+/* eslint @stylistic/indent: ["error", 2, { "outerIIFEBody": 0 }] */
 
 (function() {
 
@@ -417,7 +411,7 @@ Examples of **correct** code for this rule with the options `2, { "outerIIFEBody
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "outerIIFEBody": "off" }]*/
+/* eslint @stylistic/indent: ["error", 2, { "outerIIFEBody": "off" }] */
 
 (function() {
 
@@ -449,7 +443,7 @@ Examples of **incorrect** code for this rule with the `2, { "MemberExpression": 
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, { "MemberExpression": 1 }]*/
+/* eslint @stylistic/indent: ["error", 2, { "MemberExpression": 1 }] */
 
 foo
 .bar
@@ -463,7 +457,7 @@ Examples of **correct** code for this rule with the `2, { "MemberExpression": 1 
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "MemberExpression": 1 }]*/
+/* eslint @stylistic/indent: ["error", 2, { "MemberExpression": 1 }] */
 
 foo
   .bar
@@ -479,7 +473,7 @@ Examples of **incorrect** code for this rule with the `2, { "FunctionDeclaration
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, { "FunctionDeclaration": {"body": 1, "parameters": 2} }]*/
+/* eslint @stylistic/indent: ["error", 2, { "FunctionDeclaration": {"body": 1, "parameters": 2} }] */
 
 function foo(bar,
   baz,
@@ -495,7 +489,7 @@ Examples of **correct** code for this rule with the `2, { "FunctionDeclaration":
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "FunctionDeclaration": {"body": 1, "parameters": 2} }]*/
+/* eslint @stylistic/indent: ["error", 2, { "FunctionDeclaration": {"body": 1, "parameters": 2} }] */
 
 function foo(bar,
     baz,
@@ -511,7 +505,7 @@ Examples of **incorrect** code for this rule with the `2, { "FunctionDeclaration
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, {"FunctionDeclaration": {"parameters": "first"}}]*/
+/* eslint @stylistic/indent: ["error", 2, {"FunctionDeclaration": {"parameters": "first"}}] */
 
 function foo(bar, baz,
   qux, boop) {
@@ -526,7 +520,7 @@ Examples of **correct** code for this rule with the `2, { "FunctionDeclaration":
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, {"FunctionDeclaration": {"parameters": "first"}}]*/
+/* eslint @stylistic/indent: ["error", 2, {"FunctionDeclaration": {"parameters": "first"}}] */
 
 function foo(bar, baz,
              qux, boop) {
@@ -543,7 +537,7 @@ Examples of **incorrect** code for this rule with the `2, { "FunctionExpression"
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, { "FunctionExpression": {"body": 1, "parameters": 2} }]*/
+/* eslint @stylistic/indent: ["error", 2, { "FunctionExpression": {"body": 1, "parameters": 2} }] */
 
 var foo = function(bar,
   baz,
@@ -559,7 +553,7 @@ Examples of **correct** code for this rule with the `2, { "FunctionExpression": 
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "FunctionExpression": {"body": 1, "parameters": 2} }]*/
+/* eslint @stylistic/indent: ["error", 2, { "FunctionExpression": {"body": 1, "parameters": 2} }] */
 
 var foo = function(bar,
     baz,
@@ -575,7 +569,7 @@ Examples of **incorrect** code for this rule with the `2, { "FunctionExpression"
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, {"FunctionExpression": {"parameters": "first"}}]*/
+/* eslint @stylistic/indent: ["error", 2, {"FunctionExpression": {"parameters": "first"}}] */
 
 var foo = function(bar, baz,
   qux, boop) {
@@ -590,7 +584,7 @@ Examples of **correct** code for this rule with the `2, { "FunctionExpression": 
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, {"FunctionExpression": {"parameters": "first"}}]*/
+/* eslint @stylistic/indent: ["error", 2, {"FunctionExpression": {"parameters": "first"}}] */
 
 var foo = function(bar, baz,
                    qux, boop) {
@@ -607,7 +601,7 @@ Examples of **incorrect** code for this rule with the `2, { "StaticBlock": {"bod
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, { "StaticBlock": {"body": 1} }]*/
+/* eslint @stylistic/indent: ["error", 2, { "StaticBlock": {"body": 1} }] */
 
 class C {
   static {
@@ -623,7 +617,7 @@ Examples of **correct** code for this rule with the `2, { "StaticBlock": {"body"
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "StaticBlock": {"body": 1} }]*/
+/* eslint @stylistic/indent: ["error", 2, { "StaticBlock": {"body": 1} }] */
 
 class C {
   static {
@@ -639,7 +633,7 @@ Examples of **incorrect** code for this rule with the `2, { "StaticBlock": {"bod
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, { "StaticBlock": {"body": 2} }]*/
+/* eslint @stylistic/indent: ["error", 2, { "StaticBlock": {"body": 2} }] */
 
 class C {
   static {
@@ -655,7 +649,7 @@ Examples of **correct** code for this rule with the `2, { "StaticBlock": {"body"
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "StaticBlock": {"body": 2} }]*/
+/* eslint @stylistic/indent: ["error", 2, { "StaticBlock": {"body": 2} }] */
 
 class C {
   static {
@@ -673,7 +667,7 @@ Examples of **incorrect** code for this rule with the `2, { "CallExpression": {"
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, { "CallExpression": {"arguments": 1} }]*/
+/* eslint @stylistic/indent: ["error", 2, { "CallExpression": {"arguments": 1} }] */
 
 foo(bar,
     baz,
@@ -688,7 +682,7 @@ Examples of **correct** code for this rule with the `2, { "CallExpression": {"ar
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "CallExpression": {"arguments": 1} }]*/
+/* eslint @stylistic/indent: ["error", 2, { "CallExpression": {"arguments": 1} }] */
 
 foo(bar,
   baz,
@@ -703,7 +697,7 @@ Examples of **incorrect** code for this rule with the `2, { "CallExpression": {"
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, {"CallExpression": {"arguments": "first"}}]*/
+/* eslint @stylistic/indent: ["error", 2, {"CallExpression": {"arguments": "first"}}] */
 
 foo(bar, baz,
   baz, boop, beep);
@@ -716,7 +710,7 @@ Examples of **correct** code for this rule with the `2, { "CallExpression": {"ar
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, {"CallExpression": {"arguments": "first"}}]*/
+/* eslint @stylistic/indent: ["error", 2, {"CallExpression": {"arguments": "first"}}] */
 
 foo(bar, baz,
     baz, boop, beep);
@@ -731,7 +725,7 @@ Examples of **incorrect** code for this rule with the `2, { "ArrayExpression": 1
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, { "ArrayExpression": 1 }]*/
+/* eslint @stylistic/indent: ["error", 2, { "ArrayExpression": 1 }] */
 
 var foo = [
     bar,
@@ -747,7 +741,7 @@ Examples of **correct** code for this rule with the `2, { "ArrayExpression": 1 }
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "ArrayExpression": 1 }]*/
+/* eslint @stylistic/indent: ["error", 2, { "ArrayExpression": 1 }] */
 
 var foo = [
   bar,
@@ -763,7 +757,7 @@ Examples of **incorrect** code for this rule with the `2, { "ArrayExpression": "
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, {"ArrayExpression": "first"}]*/
+/* eslint @stylistic/indent: ["error", 2, {"ArrayExpression": "first"}] */
 
 var foo = [bar,
   baz,
@@ -778,7 +772,7 @@ Examples of **correct** code for this rule with the `2, { "ArrayExpression": "fi
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, {"ArrayExpression": "first"}]*/
+/* eslint @stylistic/indent: ["error", 2, {"ArrayExpression": "first"}] */
 
 var foo = [bar,
            baz,
@@ -795,7 +789,7 @@ Examples of **incorrect** code for this rule with the `2, { "ObjectExpression": 
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, { "ObjectExpression": 1 }]*/
+/* eslint @stylistic/indent: ["error", 2, { "ObjectExpression": 1 }] */
 
 var foo = {
     bar: 1,
@@ -811,7 +805,7 @@ Examples of **correct** code for this rule with the `2, { "ObjectExpression": 1 
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "ObjectExpression": 1 }]*/
+/* eslint @stylistic/indent: ["error", 2, { "ObjectExpression": 1 }] */
 
 var foo = {
   bar: 1,
@@ -827,7 +821,7 @@ Examples of **incorrect** code for this rule with the `2, { "ObjectExpression": 
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, {"ObjectExpression": "first"}]*/
+/* eslint @stylistic/indent: ["error", 2, {"ObjectExpression": "first"}] */
 
 var foo = { bar: 1,
   baz: 2 };
@@ -840,7 +834,7 @@ Examples of **correct** code for this rule with the `2, { "ObjectExpression": "f
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, {"ObjectExpression": "first"}]*/
+/* eslint @stylistic/indent: ["error", 2, {"ObjectExpression": "first"}] */
 
 var foo = { bar: 1,
             baz: 2 };
@@ -855,7 +849,7 @@ Examples of **correct** code for this rule with the `4, { "ImportDeclaration": 1
 ::: correct
 
 ```js
-/*eslint indent: ["error", 4, { "ImportDeclaration": 1 }]*/
+/* eslint @stylistic/indent: ["error", 4, { "ImportDeclaration": 1 }] */
 
 import { foo,
     bar,
@@ -868,7 +862,7 @@ import { foo,
 ::: correct
 
 ```js
-/*eslint indent: ["error", 4, { "ImportDeclaration": 1 }]*/
+/* eslint @stylistic/indent: ["error", 4, { "ImportDeclaration": 1 }] */
 
 import {
     foo,
@@ -884,7 +878,7 @@ Examples of **incorrect** code for this rule with the `4, { "ImportDeclaration":
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 4, { "ImportDeclaration": "first" }]*/
+/* eslint @stylistic/indent: ["error", 4, { "ImportDeclaration": "first" }] */
 
 import { foo,
     bar,
@@ -899,7 +893,7 @@ Examples of **correct** code for this rule with the `4, { "ImportDeclaration": "
 ::: correct
 
 ```js
-/*eslint indent: ["error", 4, { "ImportDeclaration": "first" }]*/
+/* eslint @stylistic/indent: ["error", 4, { "ImportDeclaration": "first" }] */
 
 import { foo,
          bar,
@@ -916,7 +910,7 @@ Examples of **incorrect** code for this rule with the default `4, { "flatTernary
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 4, { "flatTernaryExpressions": false }]*/
+/* eslint @stylistic/indent: ["error", 4, { "flatTernaryExpressions": false }] */
 
 var a =
     foo ? bar :
@@ -931,7 +925,7 @@ Examples of **correct** code for this rule with the default `4, { "flatTernaryEx
 ::: correct
 
 ```js
-/*eslint indent: ["error", 4, { "flatTernaryExpressions": false }]*/
+/* eslint @stylistic/indent: ["error", 4, { "flatTernaryExpressions": false }] */
 
 var a =
     foo ? bar :
@@ -946,7 +940,7 @@ Examples of **incorrect** code for this rule with the `4, { "flatTernaryExpressi
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 4, { "flatTernaryExpressions": true }]*/
+/* eslint @stylistic/indent: ["error", 4, { "flatTernaryExpressions": true }] */
 
 var a =
     foo ? bar :
@@ -961,7 +955,7 @@ Examples of **correct** code for this rule with the `4, { "flatTernaryExpression
 ::: correct
 
 ```js
-/*eslint indent: ["error", 4, { "flatTernaryExpressions": true }]*/
+/* eslint @stylistic/indent: ["error", 4, { "flatTernaryExpressions": true }] */
 
 var a =
     foo ? bar :
@@ -978,7 +972,7 @@ Examples of **incorrect** code for this rule with the default `2, { "offsetTerna
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, { "offsetTernaryExpressions": false }]*/
+/* eslint @stylistic/indent: ["error", 2, { "offsetTernaryExpressions": false }] */
 
 condition
   ? () => {
@@ -996,7 +990,7 @@ Examples of **correct** code for this rule with the default `2, { "offsetTernary
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "offsetTernaryExpressions": false }]*/
+/* eslint @stylistic/indent: ["error", 2, { "offsetTernaryExpressions": false }] */
 
 condition
   ? () => {
@@ -1018,7 +1012,7 @@ Examples of **incorrect** code for this rule with the `2, { "offsetTernaryExpres
 ::: incorrect
 
 ```js
-/*eslint indent: ["error", 2, { "offsetTernaryExpressions": true }]*/
+/* eslint @stylistic/indent: ["error", 2, { "offsetTernaryExpressions": true }] */
 
 condition
   ? () => {
@@ -1040,7 +1034,7 @@ Examples of **correct** code for this rule with the `2, { "offsetTernaryExpressi
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "offsetTernaryExpressions": true }]*/
+/* eslint @stylistic/indent: ["error", 2, { "offsetTernaryExpressions": true }] */
 
 condition
   ? () => {
@@ -1066,7 +1060,7 @@ Since v2.12.0, we [introduced a fix](https://github.com/eslint-stylistic/eslint-
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "offsetTernaryExpressions": true }]*/
+/* eslint @stylistic/indent: ["error", 2, { "offsetTernaryExpressions": true }] */
 
 condition
   ? gerUser({
@@ -1087,7 +1081,7 @@ Due to the new fix introduced changes to some existing codebase, we introduced t
 ::: correct
 
 ```js
-/*eslint indent: ["error", 2, { "offsetTernaryExpressions": true, "offsetTernaryExpressionsOffsetCallExpressions": false }]*/
+/* eslint @stylistic/indent: ["error", 2, { "offsetTernaryExpressions": true, "offsetTernaryExpressionsOffsetCallExpressions": false }] */
 
 condition
   ? gerUser({
@@ -1110,7 +1104,7 @@ Examples of additional **correct** code for this rule with the `4, { "ignoreComm
 ::: correct
 
 ```js
-/*eslint indent: ["error", 4, { "ignoreComments": true }] */
+/* eslint @stylistic/indent: ["error", 4, { "ignoreComments": true }] */
 
 if (foo) {
     doSomething();

@@ -64,7 +64,7 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 ::: incorrect
 
 ```js
-/*eslint object-curly-spacing: ["error", "never"]*/
+/* eslint @stylistic/object-curly-spacing: ["error", "never"] */
 
 var obj = { 'foo': 'bar' };
 var obj = {'foo': 'bar' };
@@ -85,7 +85,7 @@ Examples of **correct** code for this rule with the default `"never"` option:
 ::: correct
 
 ```js
-/*eslint object-curly-spacing: ["error", "never"]*/
+/* eslint @stylistic/object-curly-spacing: ["error", "never"] */
 
 var obj = {'foo': 'bar'};
 var obj = {'foo': {'bar': 'baz'}, 'qux': 'quxx'};
@@ -114,7 +114,7 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ::: incorrect
 
 ```js
-/*eslint object-curly-spacing: ["error", "always"]*/
+/* eslint @stylistic/object-curly-spacing: ["error", "always"] */
 
 var obj = {'foo': 'bar'};
 var obj = {'foo': 'bar' };
@@ -139,7 +139,7 @@ Examples of **correct** code for this rule with the `"always"` option:
 ::: correct
 
 ```js
-/*eslint object-curly-spacing: ["error", "always"]*/
+/* eslint @stylistic/object-curly-spacing: ["error", "always"] */
 
 var obj = {};
 var obj = { 'foo': 'bar' };
@@ -164,7 +164,7 @@ Examples of additional **correct** code for this rule with the `"never", { "arra
 ::: correct
 
 ```js
-/*eslint object-curly-spacing: ["error", "never", { "arraysInObjects": true }]*/
+/* eslint @stylistic/object-curly-spacing: ["error", "never", { "arraysInObjects": true }] */
 
 var obj = {"foo": [ 1, 2 ] };
 var obj = {"foo": [ "baz", "bar" ] };
@@ -177,7 +177,7 @@ Examples of additional **correct** code for this rule with the `"always", { "arr
 ::: correct
 
 ```js
-/*eslint object-curly-spacing: ["error", "always", { "arraysInObjects": false }]*/
+/* eslint @stylistic/object-curly-spacing: ["error", "always", { "arraysInObjects": false }] */
 
 var obj = { "foo": [ 1, 2 ]};
 var obj = { "foo": [ "baz", "bar" ]};
@@ -192,7 +192,7 @@ Examples of additional **correct** code for this rule with the `"never", { "obje
 ::: correct
 
 ```js
-/*eslint object-curly-spacing: ["error", "never", { "objectsInObjects": true }]*/
+/* eslint @stylistic/object-curly-spacing: ["error", "never", { "objectsInObjects": true }] */
 
 var obj = {"foo": {"baz": 1, "bar": 2} };
 ```
@@ -204,7 +204,7 @@ Examples of additional **correct** code for this rule with the `"always", { "obj
 ::: correct
 
 ```js
-/*eslint object-curly-spacing: ["error", "always", { "objectsInObjects": false }]*/
+/* eslint @stylistic/object-curly-spacing: ["error", "always", { "objectsInObjects": false }] */
 
 var obj = { "foo": { "baz": 1, "bar": 2 }};
 ```
