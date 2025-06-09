@@ -29,6 +29,8 @@ fn(<div />, <div
   />, <p>baz</p>)
 ```
 
+:::
+
 Examples of **correct** code for this rule, when configured with `"always"`:
 
 ::: correct
@@ -58,6 +60,8 @@ fn(
 )
 ```
 
+:::
+
 Examples of **incorrect** code for this rule, when configured with `"multiline"`:
 
 ::: incorrect
@@ -76,6 +80,8 @@ fn (
   </span>
 )
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `"multiline"`:
 
@@ -102,6 +108,8 @@ fn (
   </span>
 )
 ```
+
+:::
 
 ## Rule Options
 

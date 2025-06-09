@@ -47,55 +47,102 @@ For examples:
 
 Examples of **incorrect** code for this rule, when configured with `{ props: "always", children: "always" }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: ["error", { props: "always", children: "always" }] */
+
 <App>Hello world</App>;
 <App prop='Hello world'>{'Hello world'}</App>;
 ```
 
+:::
+
 They can be fixed to:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: ["error", { props: "always", children: "always" }] */
+
 <App>{"Hello world"}</App>;
 <App prop={"Hello world"}>{'Hello world'}</App>;
 ```
 
+:::
+
 Examples of **incorrect** code for this rule, when configured with `{ props: "never", children: "never" }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: ["error", { props: "never", children: "never" }] */
+
 <App>{'Hello world'}</App>;
 <App prop={'Hello world'} attr={"foo"} />;
 ```
 
+:::
+
 They can be fixed to:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: ["error", { props: "never", children: "never" }] */
 <App>Hello world</App>;
 <App prop="Hello world" attr="foo" />;
 ```
 
+:::
+
 Examples of **incorrect** code for this rule, when configured with `{ props: "always", children: "always", "propElementValues": "always" }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: ["error", { props: "always", children: "always", "propElementValues": "always" }] */
+
 <App prop=<div /> />;
 ```
 
+:::
+
 They can be fixed to:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: ["error", { props: "always", children: "always", "propElementValues": "always" }] */
+
 <App prop={<div />} />;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `{ props: "never", children: "never", "propElementValues": "never" }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: ["error", { props: "never", children: "never", "propElementValues": "never" }] */
+
 <App prop={<div />} />;
 ```
 
+:::
+
 They can be fixed to:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: ["error", { props: "never", children: "never", "propElementValues": "never" }] */
+
 <App prop=<div /> />;
 ```
+
+:::
 
 ### Alternative syntax
 
@@ -107,29 +154,53 @@ For examples:
 
 Examples of **incorrect** code for this rule, when configured with `"always"`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: ["error", "always"] */
+
 <App>Hello world</App>;
 <App prop='Hello world' attr="foo">Hello world</App>;
 ```
 
+:::
+
 They can be fixed to:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: ["error", "always"] */
+
 <App>{"Hello world"}</App>;
 <App prop={"Hello world"} attr={"foo"}>{"Hello world"}</App>;
 ```
 
+:::
+
 Examples of **incorrect** code for this rule, when configured with `"never"`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: ["error", "never"] */
+
 <App prop={'foo'} attr={"bar"}>{'Hello world'}</App>;
 ```
 
+:::
+
 It can fixed to:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: ["error", "never"] */
+
 <App prop="foo" attr="bar">Hello world</App>;
 ```
+
+:::
 
 ## Edge cases
 
@@ -137,46 +208,76 @@ The fix also deals with template literals, strings with quotes, and strings with
 
 - If the rule is set to get rid of unnecessary curly braces and the template literal inside a JSX expression has no expression, it will throw a warning and be fixed with double quotes. For example:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: "error" */
+
 <App prop={`Hello world`}>{`Hello world`}</App>;
 ```
 
+:::
+
 will be warned and fixed to:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: "error" */
+
 <App prop="Hello world">Hello world</App>;
 ```
+
+:::
 
 - If the rule is set to enforce curly braces and the strings have quotes, it will be fixed with double quotes for JSX children and the normal way for JSX attributes. Also, double quotes will be escaped in the fix.
 
 For example:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: "error" */
+
 <App prop='Hello "foo" world'>Hello 'foo' "bar" world</App>;
 ```
 
+:::
+
 will warned and fixed to:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-brace-presence: "error" */
+
 <App prop={"Hello \"foo\" world"}>{"Hello 'foo' \"bar\" world"}</App>;
 ```
+
+:::
 
 - If the rule is set to get rid of unnecessary curly braces(JSX expression) and there are characters that need to be escaped in its JSX form, such as quote characters, [forbidden JSX text characters](https://facebook.github.io/jsx/), escaped characters and anything that looks like HTML entity names, the code will not be warned because the fix may make the code less readable.
 
 Examples of **correct** code for this rule, even when configured with `"never"`:
 
+::: correct
+
 ```jsx
-<Color text={"\u00a0"} />
+/* eslint @stylistic/jsx-curly-brace-presence: ["error", "never"] */
+
+<Color text={"\u00a0"} />;
 <App>{"Hello \u00b7 world"}</App>;
 <style type="text/css">{'.main { margin-top: 0; }'}</style>;
 /**
  * there's no way to inject a whitespace into jsx without a container so this
  * will always be allowed.
  */
-<App>{' '}</App>
-<App>{'     '}</App>
-<App>{/* comment */ <Bpp />}</App> // the comment makes the container necessary
+<App>{' '}</App>;
+<App>{'     '}</App>;
+<App>{/* comment */ <Bpp />}</App>; // the comment makes the container necessary
 ```
+
+:::
 
 ## When Not To Use It
 

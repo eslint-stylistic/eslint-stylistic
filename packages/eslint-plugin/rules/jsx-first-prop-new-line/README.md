@@ -14,89 +14,135 @@ This rule checks whether the first property of all JSX elements is correctly pla
 
 Examples of **incorrect** code for this rule, when configured with `"always"`:
 
+::: incorrect
+
 ```jsx
-<Hello personal={true} />
+/* eslint @stylistic/jsx-first-prop-new-line: ["error", "always"] */
+
+<Hello personal={true} />;
 
 <Hello personal={true}
     foo="bar"
-/>
+/>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `"always"`:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-first-prop-new-line: ["error", "always"] */
+
 <Hello
-    personal />
+    personal />;
 
 <Hello
     personal
-/>
+/>;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `"never"`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-first-prop-new-line: ["error", "never"] */
+
 <Hello
-    personal />
+    personal />;
 
 <Hello
     personal
-/>
+/>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `"never"`:
 
+::: correct
+
 ```jsx
-<Hello personal={true} />
+/* eslint @stylistic/jsx-first-prop-new-line: ["error", "never"] */
+
+<Hello personal={true} />;
 
 <Hello personal={true}
     foo="bar"
-/>
+/>;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `"multiline"`:
 
-```jsx
-<Hello personal
-    prop />
-```
+::: incorrect
 
 ```jsx
+/* eslint @stylistic/jsx-first-prop-new-line: ["error", "multiline"] */
+
+<Hello personal
+    prop />;
+
 <Hello foo={{
-}} />
+}} />;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `"multiline"`:
 
+::: correct
+
 ```jsx
-<Hello personal={true} />
+/* eslint @stylistic/jsx-first-prop-new-line: ["error", "multiline"] */
+
+<Hello personal={true} />;
 
 <Hello
     personal={true}
     foo="bar"
-/>
+/>;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `"multiline-multiprop"`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-first-prop-new-line: ["error", "multiline-multiprop"] */
+
 <Hello foo={{
     }}
-    bar />
+    bar />;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `"multiline-multiprop"`:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-first-prop-new-line: ["error", "multiline-multiprop"] */
+
 <Hello foo={{
-}} />
+}} />;
 
 <Hello
     foo={{
     }}
     bar
-/>
+/>;
 ```
+
+:::
 
 ## Rule Options
 

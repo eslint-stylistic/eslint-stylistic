@@ -13,45 +13,45 @@ Examples of **incorrect** code for this rule:
 ```jsx
 /* eslint @stylistic/jsx-one-expression-per-line: "error" */
 
-<App><Hello /></App>
+<App><Hello /></App>;
 
 <App><Hello />
-</App>
+</App>;
 
 <App>
   <Hello>
-  </Hello></App>
+  </Hello></App>;
 
 <App>
   <Hello /> World
-</App>
+</App>;
 
 <App>
   <Hello /> { 'World' }
-</App>
+</App>;
 
 <App>
   <Hello /> { this.world() }
-</App>
+</App>;
 
 <App>
   { 'Hello' }{ ' ' }{ 'World' }
-</App>
+</App>;
 
 <App
   foo
 ><Hello />
-</App>
+</App>;
 
 <App><Hello
   foo
 />
-</App>
+</App>;
 
 <App><Hello1 />
      <Hello2 />
      <Hello3 />
-</App>
+</App>;
 ```
 
 Examples of **correct** code for this rule:
@@ -59,54 +59,58 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```jsx
+/* eslint @stylistic/jsx-one-expression-per-line: "error" */
+
 <App>
   <Hello />
-</App>
+</App>;
 
 <App>
   <Hello>
   </Hello>
-</App>
+</App>;
 
 <App>
   <Hello />
   World
-</App>
+</App>;
 
 <App>
   <Hello />
   { 'World' }
-</App>
+</App>;
 
 <App>
   <Hello />
   { this.world() }
-</App>
+</App>;
 
 <App>
   { 'Hello' }
   { ' ' }
   { 'World' }
-</App>
+</App>;
 
 <App
   foo
 >
   <Hello />
-</App>
+</App>;
 
 <App>
   <Hello
     foo
   />
-</App>
+</App>;
 
 <App>
   <Hello1 />
   <Hello2 />
   <Hello3 />
-</App>
+</App>;
 ```
+
+:::
 
 ## Rule Options
 
@@ -122,42 +126,66 @@ Defaults to `none`.
 
 Examples of **correct** code for this rule, when configured as `"literal"`:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-one-expression-per-line: ["error", { "allow": "literal" }] */
+
 <App>Hello</App>
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured as `"single-child"`:
 
+::: correct
+
 ```jsx
-<App>Hello</App>
+/* eslint @stylistic/jsx-one-expression-per-line: ["error", { "allow": "single-child" }] */
 
-<App>{"Hello"}</App>
+<App>Hello</App>;
 
-<App><Hello /></App>
+<App>{"Hello"}</App>;
+
+<App><Hello /></App>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured as `"single-line"`:
 
-```jsx
-<App>Hello <span>ESLint</span></App>
+::: correct
 
-<App>{"Hello"} {"ESLint"}</App>
+```jsx
+/* eslint @stylistic/jsx-one-expression-per-line: ["error", { "allow": "single-line" }] */
+
+<App>Hello <span>ESLint</span></App>;
+
+<App>{"Hello"} {"ESLint"}</App>;
 
 <App>
   <Hello /> <ESLint />
-</App>
+</App>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured as `"non-jsx"`:
 
-```jsx
-<App>Hello {someVariable}</App>
+::: correct
 
-<App>Hello {<Hello />} there!</App>
+```jsx
+/* eslint @stylistic/jsx-one-expression-per-line: ["error", { "allow": "non-jsx" }] */
+
+<App>Hello {someVariable}</App>;
+
+<App>Hello {<Hello />} there!</App>;
 
 <App>
   Hello
   <Hello />
   there!
-</App>
+</App>;
 ```
+
+:::

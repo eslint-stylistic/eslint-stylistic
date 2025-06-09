@@ -25,15 +25,25 @@ There are also two properties that allow specifying how the rule should work wit
 
 Examples of **incorrect** code for this rule, when configured with `{ "when": "never" }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "never" }] */
+
 <Hello name={ firstname } />;
 <Hello name={ firstname} />;
 <Hello name={firstname } />;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "never" }] */
+
 <Hello name={firstname} />;
 <Hello name={{ firstname: 'John', lastname: 'Doe' }} />;
 <Hello name={
@@ -45,19 +55,31 @@ Examples of **correct** code for this rule:
   firstname
 }</Hello>;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `{ "when": "never", "children": true }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "never", "children": true }] */
+
 <Hello name={ firstname } />;
 <Hello name={ firstname} />;
 <Hello name={firstname } />;
 <Hello>{ firstname }</Hello>;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "never", "children": true }] */
+
 <Hello name={firstname} />;
 <Hello name={{ firstname: 'John', lastname: 'Doe' }} />;
 <Hello name={
@@ -68,20 +90,32 @@ Examples of **correct** code for this rule:
   firstname
 }</Hello>;
 ```
+
+:::
 
 ### always
 
 Examples of **incorrect** code for this rule, when configured with `{ "when": "always" }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "always" }] */
+
 <Hello name={firstname} />;
 <Hello name={ firstname} />;
 <Hello name={firstname } />;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "always" }] */
+
 <Hello name={ firstname } />;
 <Hello name={ {firstname: 'John', lastname: 'Doe'} } />;
 <Hello name={
@@ -93,19 +127,31 @@ Examples of **correct** code for this rule:
   firstname
 }</Hello>;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `{ "when": "always", "children": true }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "always", "children": true }] */
+
 <Hello name={firstname} />;
 <Hello name={ firstname} />;
 <Hello name={firstname } />;
 <Hello>{firstname}</Hello>;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "always", "children": true }] */
+
 <Hello name={ firstname } />;
 <Hello name={ {firstname: 'John', lastname: 'Doe'} } />;
 <Hello name={
@@ -116,6 +162,8 @@ Examples of **correct** code for this rule:
   firstname
 }</Hello>;
 ```
+
+:::
 
 ### Braces spanning multiple lines
 
@@ -127,7 +175,11 @@ By default, braces spanning multiple lines are allowed with either setting. If y
 
 Examples of **incorrect** code for this rule, when configured with `"never"` and `"allowMultiline": false`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "never", "allowMultiline": false }] */
+
 <Hello name={ firstname } />;
 <Hello name={ firstname} />;
 <Hello name={firstname } />;
@@ -136,9 +188,15 @@ Examples of **incorrect** code for this rule, when configured with `"never"` and
 } />;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "never", "allowMultiline": false }] */
+
 <Hello name={firstname} />;
 <Hello name={{ firstname: 'John', lastname: 'Doe' }} />;
 <Hello>{firstname}</Hello>;
@@ -148,9 +206,15 @@ Examples of **correct** code for this rule:
 }</Hello>;
 ```
 
+:::
+
 Examples of **incorrect** code for this rule, when configured with `"always"` and `"allowMultiline": false`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "always", "allowMultiline": false }] */
+
 <Hello name={firstname} />;
 <Hello name={ firstname} />;
 <Hello name={firstname } />;
@@ -159,9 +223,15 @@ Examples of **incorrect** code for this rule, when configured with `"always"` an
 } />;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "always", "allowMultiline": false }] */
+
 <Hello name={ firstname } />;
 <Hello name={ {firstname: 'John', lastname: 'Doe'} } />;
 <Hello>{firstname}</Hello>;
@@ -171,9 +241,15 @@ Examples of **correct** code for this rule:
 }</Hello>;
 ```
 
+:::
+
 Examples of **incorrect** code for this rule, when configured with `{ "when": "never", "attributes": { "allowMultiline": false }, "children": true }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "never", "attributes": { "allowMultiline": false }, "children": true }] */
+
 <Hello name={ firstname } />;
 <Hello name={
   firstname
@@ -181,15 +257,23 @@ Examples of **incorrect** code for this rule, when configured with `{ "when": "n
 <Hello>{ firstname }</Hello>;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "never", "attributes": { "allowMultiline": false }, "children": true }] */
+
 <Hello name={firstname} />;
 <Hello>{firstname}</Hello>;
 <Hello>{
   firstname
 }</Hello>;
 ```
+
+:::
 
 ### Granular spacing controls
 
@@ -207,17 +291,29 @@ All spacing options accept either the string `"always"` or the string `"never"`.
 
 Examples of **correct** code for this rule, when configured with `"always"` and `{ "objectLiterals": "never" }`:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "always", "spacing": { "objectLiterals": "never" } }] */
+
 <App blah={ 3 } foo={{ bar: true, baz: true }} />;
 ```
 
+:::
+
 Examples of **correct** code for this rule, when configured with `"never"` and `{ "objectLiterals": "always" }`:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-spacing: ["error", { "when": "never", "spacing": { "objectLiterals": "always" } }] */
+
 <App blah={3} foo={ {bar: true, baz: true} } />;
 ```
 
-Please note that spacing of the object literal curly braces themselves is controlled by the built-in [`object-curly-spacing`](https://eslint.org/docs/rules/object-curly-spacing) rule.
+:::
+
+Please note that spacing of the object literal curly braces themselves is controlled by the built-in [`object-curly-spacing`](object-curly-spacing) rule.
 
 ### Shorthand options
 
