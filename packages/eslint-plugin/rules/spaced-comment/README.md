@@ -88,6 +88,7 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 
 ```js
 /* eslint @stylistic/spaced-comment: ["error", "always", { "block": { "balanced": true } }] */
+
 /* This is a comment with whitespace at the beginning but not the end*/
 ```
 
@@ -110,14 +111,6 @@ Examples of **correct** code for this rule with the `"always"` option:
 
 /** This comment has a newline
 */
-```
-
-:::
-
-::: correct
-
-```js
-/* eslint @stylistic/spaced-comment: ["error", "always"] */
 
 /**
 * I am jsdoc
@@ -148,6 +141,7 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 
 ```js
 /* eslint @stylistic/spaced-comment: ["error", "never", { "block": { "balanced": true } }] */
+
 /*This is a comment with whitespace at the end */
 ```
 
@@ -161,14 +155,6 @@ Examples of **correct** code for this rule with the `"never"` option:
 /* eslint @stylistic/spaced-comment: ["error", "never"] */
 
 /*This is a comment with no whitespace at the beginning */
-```
-
-:::
-
-::: correct
-
-```js
-/* eslint @stylistic/spaced-comment: ["error", "never"] */
 
 /**
 * I am jsdoc
@@ -337,6 +323,7 @@ Examples of **incorrect** code for this rule with the `"always"` option combined
 
 ```js
 /* eslint @stylistic/spaced-comment: ["error", "always", { "block": { "markers": ["!"], "balanced": true } }] */
+
 /*! This is a comment with a marker but without whitespace at the end*/
 ```
 
@@ -346,6 +333,7 @@ Examples of **incorrect** code for this rule with the `"always"` option combined
 
 ```js
 /* eslint @stylistic/spaced-comment: ["error", "never", { "block": { "markers": ["!"], "balanced": true } }] */
+
 /*!This is a comment with a marker but with whitespace at the end */
 ```
 
