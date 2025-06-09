@@ -75,7 +75,7 @@ Examples of **incorrect** code for this rule with the default `{ "tabWidth": 4 }
 ```js
 /* eslint @stylistic/max-len: ["error", { "code": 80, "tabWidth": 4 }] */
 
-\t  \t  var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" } };
+		var foo = { "bar": "This is a bar.", "baz": { "qux": "This is a qux" } };
 ```
 
 :::
@@ -87,10 +87,10 @@ Examples of **correct** code for this rule with the default `{ "tabWidth": 4 }` 
 ```js
 /* eslint @stylistic/max-len: ["error", { "code": 80, "tabWidth": 4 }] */
 
-\t  \t  var foo = {
-\t  \t  \t  \t  "bar": "This is a bar.",
-\t  \t  \t  \t  "baz": { "qux": "This is a qux" }
-\t  \t  };
+		var foo = {
+				"bar": "This is a bar.",
+				"baz": { "qux": "This is a qux" }
+		};
 ```
 
 :::
@@ -122,7 +122,7 @@ Examples of **correct** code for this rule with the `{ "ignoreComments": true }`
 
 /**
  * This is a really really really really really really really really really long comment
-**/
+ **/
 ```
 
 :::

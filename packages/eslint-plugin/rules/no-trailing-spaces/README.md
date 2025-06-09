@@ -18,9 +18,10 @@ Examples of **incorrect** code for this rule:
 ```js
 /* eslint @stylistic/no-trailing-spaces: "error" */
 
-var foo = 0;/* trailing whitespace */
-var baz = 5;/* trailing whitespace */
-/* trailing whitespace */
+var foo = 0; 
+var baz = 5;  
+  
+⏎
 ```
 
 :::
@@ -59,7 +60,8 @@ Examples of **correct** code for this rule with the `{ "skipBlankLines": true }`
 var foo = 0;
 var baz = 5;
 // ↓ a line with whitespace only ↓
-
+  
+// ↑ a line with whitespace only ↑
 ```
 
 :::
@@ -76,9 +78,9 @@ Examples of **correct** code for this rule with the `{ "ignoreComments": true }`
 // ↓ these comments have trailing whitespace →
 //
 /**
- * baz
- *
- * bar
+ * baz   
+ *   
+ * bar   
  */
 ```
 

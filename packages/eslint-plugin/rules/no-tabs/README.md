@@ -16,14 +16,16 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
-var a \t= 2;
+/* eslint @stylistic/no-tabs: "error" */
+
+var a 	= 2;
 
 /**
-* \t\t it's a test function
-*/
+ * 		it's a test function
+ */
 function test(){}
 
-var x = 1; // \t test
+var x = 1; // 	test
 ```
 
 :::
@@ -33,11 +35,13 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
+/* eslint @stylistic/no-tabs: "error" */
+
 var a = 2;
 
 /**
-* it's a test function
-*/
+ * it's a test function
+ */
 function test(){}
 
 var x = 1; // test
@@ -61,10 +65,10 @@ Examples of **correct** code for this rule with the `allowIndentationTabs: true`
 /* eslint @stylistic/no-tabs: ["error", { allowIndentationTabs: true }] */
 
 function test() {
-\tdoSomething();
+	doSomething();
 }
 
-\t// comment with leading indentation tab
+	// comment with leading indentation tab
 ```
 
 :::
