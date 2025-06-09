@@ -71,7 +71,7 @@ Examples of **incorrect** code for this rule with the default `{"words": true, "
 ::: incorrect
 
 ```js
-/*eslint space-unary-ops: "error"*/
+/* eslint @stylistic/space-unary-ops: "error" */
 
 typeof!foo;
 
@@ -95,8 +95,7 @@ foo --;
 ::: incorrect
 
 ```js
-/*eslint space-unary-ops: "error"*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-unary-ops: "error" */
 
 function *foo() {
     yield(0)
@@ -108,7 +107,7 @@ function *foo() {
 ::: incorrect
 
 ```js
-/*eslint space-unary-ops: "error"*/
+/* eslint @stylistic/space-unary-ops: "error" */
 
 async function foo() {
     await(bar);
@@ -122,7 +121,7 @@ Examples of **correct** code for this rule with the `{"words": true, "nonwords":
 ::: correct
 
 ```js
-/*eslint space-unary-ops: "error"*/
+/* eslint @stylistic/space-unary-ops: "error" */
 
 // Word unary operator "typeof" is followed by a whitespace.
 typeof !foo;
@@ -154,8 +153,7 @@ foo--;
 ::: correct
 
 ```js
-/*eslint space-unary-ops: "error"*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-unary-ops: "error" */
 
 function *foo() {
     yield (0)
@@ -167,7 +165,7 @@ function *foo() {
 ::: correct
 
 ```js
-/*eslint space-unary-ops: "error"*/
+/* eslint @stylistic/space-unary-ops: "error" */
 
 async function foo() {
     await (bar);

@@ -187,7 +187,7 @@ Examples of **incorrect** code for this rule, with no object option or with `all
 ::: incorrect
 
 ```js
-/*eslint object-property-newline: "error"*/
+/* eslint @stylistic/object-property-newline: "error" */
 
 const obj0 = { foo: "foo", bar: "bar", baz: "baz" };
 
@@ -227,7 +227,7 @@ Examples of **correct** code for this rule, with no object option or with `allow
 ::: correct
 
 ```js
-/*eslint object-property-newline: "error"*/
+/* eslint @stylistic/object-property-newline: "error" */
 
 const obj1 = {
     foo: "foo",
@@ -261,7 +261,7 @@ Examples of additional **correct** code for this rule with the `{ "allowAllPrope
 ::: correct
 
 ```js
-/*eslint object-property-newline: ["error", { "allowAllPropertiesOnSameLine": true }]*/
+/* eslint @stylistic/object-property-newline: ["error", { "allowAllPropertiesOnSameLine": true }] */
 
 const obj = { foo: "foo", bar: "bar", baz: "baz" };
 

@@ -8,8 +8,6 @@ rule_type: layout
 This rule normalize style of spacing before/after an arrow function's arrow(`=>`).
 
 ```js
-/*eslint-env es6*/
-
 // { "before": true, "after": true }
 (a) => {}
 
@@ -30,8 +28,7 @@ Examples of **incorrect** code for this rule with the default `{ "before": true,
 :::incorrect
 
 ```js
-/*eslint arrow-spacing: "error"*/
-/*eslint-env es6*/
+/* eslint @stylistic/arrow-spacing: "error" */
 
 ()=> {};
 () =>{};
@@ -50,8 +47,7 @@ Examples of **correct** code for this rule with the default `{ "before": true, "
 :::correct
 
 ```js
-/*eslint arrow-spacing: "error"*/
-/*eslint-env es6*/
+/* eslint @stylistic/arrow-spacing: "error" */
 
 () => {};
 (a) => {};
@@ -66,8 +62,7 @@ Examples of **incorrect** code for this rule with the `{ "before": false, "after
 :::incorrect
 
 ```js
-/*eslint arrow-spacing: ["error", { "before": false, "after": false }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/arrow-spacing: ["error", { "before": false, "after": false }] */
 
 () =>{};
 (a) => {};
@@ -81,8 +76,7 @@ Examples of **correct** code for this rule with the `{ "before": false, "after":
 :::correct
 
 ```js
-/*eslint arrow-spacing: ["error", { "before": false, "after": false }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/arrow-spacing: ["error", { "before": false, "after": false }] */
 
 ()=>{};
 (a)=>{};
@@ -96,8 +90,7 @@ Examples of **incorrect** code for this rule with the `{ "before": false, "after
 :::incorrect
 
 ```js
-/*eslint arrow-spacing: ["error", { "before": false, "after": true }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/arrow-spacing: ["error", { "before": false, "after": true }] */
 
 () =>{};
 (a) => {};
@@ -111,8 +104,7 @@ Examples of **correct** code for this rule with the `{ "before": false, "after":
 :::correct
 
 ```js
-/*eslint arrow-spacing: ["error", { "before": false, "after": true }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/arrow-spacing: ["error", { "before": false, "after": true }] */
 
 ()=> {};
 (a)=> {};

@@ -8,7 +8,10 @@ This rule checks all JSX elements and verifies that the number of props per line
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-max-props-per-line: "error" */
 <Hello lastName="Smith" firstName="John" />;
 
 <Hello foo={{
@@ -16,9 +19,14 @@ Examples of **incorrect** code for this rule:
 }} baz />;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-max-props-per-line: "error" */
 <Hello
   firstName="John"
   lastName="Smith"
@@ -31,17 +39,19 @@ Examples of **correct** code for this rule:
 />;
 ```
 
+:::
+
 ## Rule Options
 
 ```js
 ...
-"@stylistic/jsx/jsx-max-props-per-line": [<enabled>, { "maximum": <number>, "when": <string> }]
+"@stylistic/jsx-max-props-per-line": [<enabled>, { "maximum": <number>, "when": <string> }]
 ...
 
 // OR
 
 ...
-"@stylistic/jsx/jsx-max-props-per-line": [<enabled>, { "maximum": { "single": <number>, "multi": <number> } }]
+"@stylistic/jsx-max-props-per-line": [<enabled>, { "maximum": { "single": <number>, "multi": <number> } }]
 ...
 ```
 
@@ -51,20 +61,30 @@ Maximum number of props allowed on a single line. Default to `1`.
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```jsx
-// [1, { "maximum": 2 }]
+/* eslint @stylistic/jsx-max-props-per-line: ["error", { "maximum": 2 }] */
+
 <Hello firstName="John" lastName="Smith" tel={5555555} />;
 ```
 
+:::
+
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
-// [1, { "maximum": 2 }]
+/* eslint @stylistic/jsx-max-props-per-line: ["error", { "maximum": 2 }] */
+
 <Hello
   firstName="John" lastName="Smith"
   tel={5555555}
 />;
 ```
+
+:::
 
 Maximum can be specified as object `{ single: 1, multi: 1 }` to specify maximum allowed number of props for single line and multiple line tags.
 
@@ -79,21 +99,31 @@ Possible values:
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```jsx
-// [1, { "when": "always" }]
+/* eslint @stylistic/jsx-max-props-per-line: ["error", { "when": "always" }] */
+
 <Hello firstName="John" lastName="Smith" />
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
-// [1, { "when": "multiline" }]
-<Hello firstName="John" lastName="Smith" />
+/* eslint @stylistic/jsx-max-props-per-line: ["error", { "when": "multiline" }] */
+
+<Hello firstName="John" lastName="Smith" />;
 <Hello
   firstName="John"
   lastName="Smith"
-/>
+/>;
 ```
+
+:::
 
 ## When Not To Use It
 

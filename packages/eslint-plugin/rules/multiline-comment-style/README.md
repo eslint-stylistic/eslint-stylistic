@@ -27,7 +27,7 @@ Examples of **incorrect** code for this rule with the default `"starred-block"` 
 
 ```js
 
-/* eslint multiline-comment-style: ["error", "starred-block"] */
+/* eslint @stylistic/multiline-comment-style: ["error", "starred-block"] */
 
 // this line
 // calls foo()
@@ -62,7 +62,7 @@ Examples of **correct** code for this rule with the default `"starred-block"` op
 ::: correct
 
 ```js
-/* eslint multiline-comment-style: ["error", "starred-block"] */
+/* eslint @stylistic/multiline-comment-style: ["error", "starred-block"] */
 
 /*
  * this line
@@ -80,7 +80,7 @@ Examples of **incorrect** code for this rule with the `"bare-block"` option:
 ::: incorrect
 
 ```js
-/* eslint multiline-comment-style: ["error", "bare-block"] */
+/* eslint @stylistic/multiline-comment-style: ["error", "bare-block"] */
 
 // this line
 // calls foo()
@@ -100,7 +100,7 @@ Examples of **correct** code for this rule with the `"bare-block"` option:
 ::: correct
 
 ```js
-/* eslint multiline-comment-style: ["error", "bare-block"] */
+/* eslint @stylistic/multiline-comment-style: ["error", "bare-block"] */
 
 /* this line
    calls foo() */
@@ -115,7 +115,7 @@ Examples of **incorrect** code for this rule with the `"separate-lines"` option:
 
 ```js
 
-/* eslint multiline-comment-style: ["error", "separate-lines"] */
+/* eslint @stylistic/multiline-comment-style: ["error", "separate-lines"] */
 
 /* This line
 calls foo() */
@@ -136,7 +136,7 @@ Examples of **correct** code for this rule with the `"separate-lines"` option:
 ::: correct
 
 ```js
-/* eslint multiline-comment-style: ["error", "separate-lines"] */
+/* eslint @stylistic/multiline-comment-style: ["error", "separate-lines"] */
 
 // This line
 // calls foo()
@@ -152,7 +152,7 @@ Examples of **incorrect** code for this rule with the `"separate-lines"` option 
 
 ```js
 
-/* eslint multiline-comment-style: ["error", "separate-lines", { "checkJSDoc": true }] */
+/* eslint @stylistic/multiline-comment-style: ["error", "separate-lines", { "checkJSDoc": true }] */
 
 /**
  * I am a JSDoc comment
@@ -169,7 +169,7 @@ Examples of **correct** code for this rule with the `"separate-lines"` option an
 ::: correct
 
 ```js
-/* eslint multiline-comment-style: ["error", "separate-lines", { "checkJSDoc": true }] */
+/* eslint @stylistic/multiline-comment-style: ["error", "separate-lines", { "checkJSDoc": true }] */
 
 // I am a JSDoc comment
 // and I'm not allowed

@@ -8,36 +8,40 @@ Enforces that there is exactly one space between all attributes and after tag na
 
 Examples of **incorrect** code for this rule:
 
-```jsx
-<App  spacy />
-```
+::: incorrect
 
 ```jsx
-<App too  spacy />
-```
+/* eslint @stylistic/jsx-props-no-multi-spaces: "error" */
 
-```jsx
+<App  spacy />;
+
+<App too  spacy />;
+
 <App
   prop1='abc'
 
-  prop2='def' />
+  prop2='def' />;
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
-```jsx
-<App cozy />
-```
+::: correct
 
 ```jsx
-<App very cozy />
-```
+/* eslint @stylistic/jsx-props-no-multi-spaces: "error" */
 
-```jsx
+<App cozy />;
+
+<App very cozy />;
+
 <App
   prop1='abc'
-  prop2='def' />
+  prop2='def' />;
 ```
+
+:::
 
 ## When Not To Use It
 

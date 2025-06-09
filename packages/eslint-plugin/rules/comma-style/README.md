@@ -78,7 +78,7 @@ Examples of **incorrect** code for this rule with the default `"last"` option:
 :::incorrect
 
 ```js
-/*eslint comma-style: ["error", "last"]*/
+/* eslint @stylistic/comma-style: ["error", "last"] */
 
 var foo = 1
 ,
@@ -105,7 +105,7 @@ Examples of **correct** code for this rule with the default `"last"` option:
 :::correct
 
 ```js
-/*eslint comma-style: ["error", "last"]*/
+/* eslint @stylistic/comma-style: ["error", "last"] */
 
 var foo = 1, bar = 2;
 
@@ -132,7 +132,7 @@ Examples of **incorrect** code for this rule with the `"first"` option:
 :::incorrect
 
 ```js
-/*eslint comma-style: ["error", "first"]*/
+/* eslint @stylistic/comma-style: ["error", "first"] */
 
 var foo = 1,
     bar = 2;
@@ -155,7 +155,7 @@ Examples of **correct** code for this rule with the `"first"` option:
 :::correct
 
 ```js
-/*eslint comma-style: ["error", "first"]*/
+/* eslint @stylistic/comma-style: ["error", "first"] */
 
 var foo = 1, bar = 2;
 
@@ -184,7 +184,7 @@ Examples of **incorrect** code for this rule with sample `"first", { "exceptions
 :::incorrect
 
 ```js
-/*eslint comma-style: ["error", "first", { "exceptions": { "ArrayExpression": true, "ObjectExpression": true } }]*/
+/* eslint @stylistic/comma-style: ["error", "first", { "exceptions": { "ArrayExpression": true, "ObjectExpression": true } }] */
 
 var o = {},
     a = [];
@@ -197,7 +197,7 @@ Examples of **correct** code for this rule with sample `"first", { "exceptions":
 :::correct
 
 ```js
-/*eslint comma-style: ["error", "first", { "exceptions": { "ArrayExpression": true, "ObjectExpression": true } }]*/
+/* eslint @stylistic/comma-style: ["error", "first", { "exceptions": { "ArrayExpression": true, "ObjectExpression": true } }] */
 
 var o = {fst:1,
          snd: [1,
