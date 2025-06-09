@@ -23,11 +23,11 @@ export interface LinesAroundCommentSchema0 {
   allowEnumEnd?: boolean
   allowModuleStart?: boolean
   allowModuleEnd?: boolean
+  allowGroupStart?: ('(' | '[' | '{')[]
+  allowGroupEnd?: (')' | ']' | '}')[]
   ignorePattern?: string
   applyDefaultIgnorePatterns?: boolean
   afterHashbangComment?: boolean
-  allowGroupStart?: ('(' | '[' | '{')[]
-  allowGroupEnd?: (')' | ']' | '}')[]
 }
 
 export type LinesAroundCommentRuleOptions = [

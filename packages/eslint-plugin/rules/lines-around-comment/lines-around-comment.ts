@@ -118,15 +118,6 @@ export default createRule<RuleOptions, MessageIds>({
           allowModuleEnd: {
             type: 'boolean',
           },
-          ignorePattern: {
-            type: 'string',
-          },
-          applyDefaultIgnorePatterns: {
-            type: 'boolean',
-          },
-          afterHashbangComment: {
-            type: 'boolean',
-          },
           allowGroupStart: {
             type: 'array',
             items: {
@@ -142,6 +133,15 @@ export default createRule<RuleOptions, MessageIds>({
               enum: [')', ']', '}'],
             },
             uniqueItems: true,
+          },
+          ignorePattern: {
+            type: 'string',
+          },
+          applyDefaultIgnorePatterns: {
+            type: 'boolean',
+          },
+          afterHashbangComment: {
+            type: 'boolean',
           },
         },
         additionalProperties: false,

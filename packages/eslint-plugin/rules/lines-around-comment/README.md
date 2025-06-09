@@ -31,8 +31,8 @@ This rule has an object option:
 - `"allowArrayEnd": true` allows comments to appear at the end of array literals
 - `"allowClassStart": true` allows comments to appear at the start of classes
 - `"allowClassEnd": true` allows comments to appear at the end of classes
-- `"allowGroupStart": ['{', '[', '(']` allows comments to appear after specifying parentheses, this rule can be used to replace other `allow*Start` options
-- `"allowGroupEnd": ['}', ']', ')']` allows comments to appear before specifying parentheses, this rule can be used to replace other `allow*End` options
+- `"allowGroupStart": ['{', '[', '(']` allows comments to appear after specifying parentheses, this option can be used to replace other `allow*Start` options
+- `"allowGroupEnd": ['}', ']', ')']` allows comments to appear before specifying parentheses, this option can be used to replace other `allow*End` options
 - `"applyDefaultIgnorePatterns"` enables or disables the default comment patterns to be ignored by the rule
 - `"ignorePattern"` custom patterns to be ignored by the rule
 - `"afterHashbangComment": true` requires an empty line after hashbang comments
