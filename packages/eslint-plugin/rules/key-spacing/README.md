@@ -318,6 +318,7 @@ Examples of **correct** code for this rule with sample `{ "ignoredNodes": [] }` 
 
 ```js
 /* eslint @stylistic/key-spacing: [2, { "ignoredNodes": ["ObjectExpression"] }] */
+
 var obj = {
     a: 1,
     b : 2,
@@ -331,6 +332,7 @@ var obj = {
 
 ```js
 /* eslint @stylistic/key-spacing: [2, { "ignoredNodes": ["ObjectPattern"] }] */
+
 var {
     a: b,
     c : d,
@@ -434,6 +436,7 @@ Examples of **correct** code for this rule with sample `{ "singleLine": { }, "mu
         "align": "colon"
     }
 }] */
+
 var obj = { one: 1, "two": 2, three: 3 };
 var obj2 = {
     "two" : 2,
