@@ -1,7 +1,7 @@
 import type { ASTNode, Tree } from '#types'
 import type { TSESLint } from '@typescript-eslint/utils'
 
-import { isTopLevelExpressionStatement } from '#utils/ast'
+import { isTopLevelExpressionStatement, skipChainExpression } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import {
@@ -123,18 +123,6 @@ function newNodeTypeTester(type: AST_NODE_TYPES): NodeTestObject {
   return {
     test: (node): boolean => node.type === type,
   }
-}
-
-/**
- * Skips a chain expression node
- * @param node The node to test
- * @returnsA non-chain expression
- * @private
- */
-function skipChainExpression(node: ASTNode): ASTNode {
-  return node && node.type === AST_NODE_TYPES.ChainExpression
-    ? node.expression
-    : node
 }
 
 /**
