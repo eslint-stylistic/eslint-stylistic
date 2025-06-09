@@ -25,10 +25,78 @@ export const DECIMAL_INTEGER_PATTERN = /^(?:0|0[0-7]*[89]\d*|[1-9](?:_?\d)*)$/u
 // Tests the presence of at least one LegacyOctalEscapeSequence or NonOctalDecimalEscapeSequence in a raw string
 export const OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN = /^(?:[^\\]|\\.)*\\(?:[1-9]|0\d)/su
 
-// https://github.com/estree/estree/blob/master/es5.md#assignmentoperator
-// https://github.com/estree/estree/blob/master/es2016.md#assignmentoperator
-// https://github.com/estree/estree/blob/master/es2021.md#assignmentoperator
+/**
+ * @see https://github.com/estree/estree/blob/master/es5.md#assignmentoperator
+ * @see https://github.com/estree/estree/blob/master/es2016.md#assignmentoperator
+ * @see https://github.com/estree/estree/blob/master/es2021.md#assignmentoperator
+ */
 export const ASSIGNMENT_OPERATOR = ['=', '+=', '-=', '*=', '/=', '%=', '<<=', '>>=', '>>>=', '|=', '^=', '&=', '**=', '||=', '&&=', '??=']
+
+/**
+ * A shared list of ES3 keywords.
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#keywords
+ */
+export const KEYWORDS_JS = [
+  'abstract',
+  'boolean',
+  'break',
+  'byte',
+  'case',
+  'catch',
+  'char',
+  'class',
+  'const',
+  'continue',
+  'debugger',
+  'default',
+  'delete',
+  'do',
+  'double',
+  'else',
+  'enum',
+  'export',
+  'extends',
+  'false',
+  'final',
+  'finally',
+  'float',
+  'for',
+  'function',
+  'goto',
+  'if',
+  'implements',
+  'import',
+  'in',
+  'instanceof',
+  'int',
+  'interface',
+  'long',
+  'native',
+  'new',
+  'null',
+  'package',
+  'private',
+  'protected',
+  'public',
+  'return',
+  'short',
+  'static',
+  'super',
+  'switch',
+  'synchronized',
+  'this',
+  'throw',
+  'throws',
+  'transient',
+  'true',
+  'try',
+  'typeof',
+  'var',
+  'void',
+  'volatile',
+  'while',
+  'with',
+]
 
 /**
  * Creates a version of the `lineBreakPattern` regex with the global flag.

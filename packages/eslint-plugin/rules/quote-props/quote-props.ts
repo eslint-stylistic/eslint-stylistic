@@ -1,8 +1,7 @@
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isNumericLiteral } from '#utils/ast'
+import { isNumericLiteral, KEYWORDS_JS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { KEYWORDS_JS } from '#utils/keywords'
 // @ts-expect-error missing types
 import { tokenize } from 'espree'
 
