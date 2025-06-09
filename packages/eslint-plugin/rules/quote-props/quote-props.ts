@@ -1,6 +1,6 @@
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isNumericLiteral, KEYWORDS_JS } from '#utils/ast'
+import { isNumericLiteral, isStringLiteral, KEYWORDS_JS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 // @ts-expect-error missing types
 import { tokenize } from 'espree'
@@ -111,7 +111,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns A replacement string for this property
      */
     function getQuotedKey(key: Tree.Literal | Tree.Identifier): string {
-      if (key.type === 'Literal' && typeof key.value === 'string') {
+      if (isStringLiteral(key)) {
         // If the key is already a string literal, don't replace the quotes with double quotes.
         return sourceCode.getText(key)
       }

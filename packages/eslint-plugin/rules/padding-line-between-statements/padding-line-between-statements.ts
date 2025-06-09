@@ -1,6 +1,7 @@
 import type { ASTNode, Tree } from '#types'
 import type { TSESLint } from '@typescript-eslint/utils'
 
+import { isTopLevelExpressionStatement } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import {
@@ -236,13 +237,10 @@ function isDirective(
   sourceCode: TSESLint.SourceCode,
 ): boolean {
   return (
-    node.type === AST_NODE_TYPES.ExpressionStatement
-    && (node.parent?.type === AST_NODE_TYPES.Program
-      || (node.parent?.type === AST_NODE_TYPES.BlockStatement
-        && isFunction(node.parent.parent)))
-      && node.expression.type === AST_NODE_TYPES.Literal
-      && typeof node.expression.value === 'string'
-      && !isParenthesized(node.expression, sourceCode)
+    isTopLevelExpressionStatement(node)
+    && node.expression.type === AST_NODE_TYPES.Literal
+    && typeof node.expression.value === 'string'
+    && !isParenthesized(node.expression, sourceCode)
   )
 }
 
