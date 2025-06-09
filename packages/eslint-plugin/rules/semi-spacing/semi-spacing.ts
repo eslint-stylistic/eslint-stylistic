@@ -1,8 +1,8 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isClosingBraceToken, isClosingParenToken, isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import { isClosingBraceToken, isClosingParenToken, isSemicolonToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'semi-spacing',

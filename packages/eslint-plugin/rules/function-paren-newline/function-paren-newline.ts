@@ -5,8 +5,8 @@
 
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 interface ParensPair {
   leftParen: Token
@@ -152,7 +152,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function validateArguments(parens: ParensPair, elements: Tree.CallExpressionArgument[] | Tree.Parameter[]) {
       const leftParen = parens.leftParen
-      const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)
+      const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)!
       const hasLeftNewline = !isTokenOnSameLine(leftParen, tokenAfterLeftParen)
       const needsNewlines = shouldHaveNewlines(elements, hasLeftNewline)
 

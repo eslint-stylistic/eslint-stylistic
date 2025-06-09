@@ -3,9 +3,9 @@
  * @author Gyandeep Singh
  */
 
-import type { ASTNode, ESNode, SourceCode, Token, Tree } from '#types'
+import type { ASTNode, SourceCode, Token, Tree } from '#types'
 import type { TSESLint } from '@typescript-eslint/utils'
-import type * as ESTree from 'estree'
+import { isClosingParenToken, isColonToken, isFunction, isOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
@@ -50,20 +50,6 @@ export function getUpperFunction(node: ASTNode) {
       return currentNode
   }
   return null
-}
-
-/**
- * Checks whether a given node is a function node or not.
- * The following types are function nodes:
- *
- * - ArrowFunctionExpression
- * - FunctionDeclaration
- * - FunctionExpression
- * @param node A node to check.
- * @returns `true` if the node is a function node.
- */
-export function isFunction(node?: ASTNode | null): node is Tree.ArrowFunctionExpression | Tree.FunctionDeclaration | Tree.FunctionExpression {
-  return Boolean(node && anyFunctionPattern.test(node.type))
 }
 
 /**
@@ -193,16 +179,6 @@ export function skipChainExpression(node: ASTNode) {
 }
 
 /**
- * Creates the negate function of the given function.
- * @param f The function to negate.
- * @returns Negated function.
- */
-// eslint-disable-next-line ts/no-unsafe-function-type
-export function negate<T extends Function>(f: T): T {
-  return ((token: any) => !f(token)) as unknown as T
-}
-
-/**
  * Determines if a node is surrounded by parentheses.
  * @param sourceCode The ESLint source code object
  * @param node The node to be checked.
@@ -214,8 +190,8 @@ export function isParenthesised(sourceCode: TSESLint.SourceCode, node: ASTNode) 
   const nextToken = sourceCode.getTokenAfter(node)
 
   return !!previousToken && !!nextToken
-    && previousToken.value === '(' && previousToken.range[1] <= node.range![0]
-    && nextToken.value === ')' && nextToken.range[0] >= node.range![1]
+    && isOpeningParenToken(previousToken) && previousToken.range[1] <= node.range![0]
+    && isClosingParenToken(nextToken) && nextToken.range[0] >= node.range![1]
 }
 
 /**
@@ -225,117 +201,6 @@ export function isParenthesised(sourceCode: TSESLint.SourceCode, node: ASTNode) 
  */
 export function isEqToken(token: Token) {
   return token.value === '=' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is an arrow token or not.
- * @param token The token to check.
- * @returns `true` if the token is an arrow token.
- */
-export function isArrowToken(token: Token) {
-  return token.value === '=>' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a comma token or not.
- * @param token The token to check.
- * @returns `true` if the token is a comma token.
- */
-export function isCommaToken(token: Token) {
-  return token.value === ',' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a `?.` token or not.
- * @param token The token to check.
- * @returns `true` if the token is a `?.` token.
- */
-export function isQuestionDotToken(token: Token) {
-  return token.value === '?.' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a semicolon token or not.
- * @param token The token to check.
- * @returns `true` if the token is a semicolon token.
- */
-export function isSemicolonToken(token: Token) {
-  return token.value === ';' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a colon token or not.
- * @param token The token to check.
- * @returns `true` if the token is a colon token.
- */
-export function isColonToken(token: Token) {
-  return token.value === ':' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is an opening parenthesis token or not.
- * @param token The token to check.
- * @returns `true` if the token is an opening parenthesis token.
- */
-export function isOpeningParenToken(token: Token) {
-  return token.value === '(' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a closing parenthesis token or not.
- * @param token The token to check.
- * @returns `true` if the token is a closing parenthesis token.
- */
-export function isClosingParenToken(token: Token) {
-  return token.value === ')' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is an opening square bracket token or not.
- * @param token The token to check.
- * @returns `true` if the token is an opening square bracket token.
- */
-export function isOpeningBracketToken(token: Token) {
-  return token.value === '[' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a closing square bracket token or not.
- * @param token The token to check.
- * @returns `true` if the token is a closing square bracket token.
- */
-export function isClosingBracketToken(token: Token) {
-  return token.value === ']' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is an opening brace token or not.
- * @param token The token to check.
- * @returns `true` if the token is an opening brace token.
- */
-export function isOpeningBraceToken(token: Token) {
-  return token.value === '{' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a closing brace token or not.
- * @param token The token to check.
- * @returns `true` if the token is a closing brace token.
- */
-export function isClosingBraceToken(token: Token) {
-  return token.value === '}' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a comment token or not.
- * @param token The token to check.
- * @returns `true` if the token is a comment token.
- */
-export function isCommentToken(token: Token | ESTree.Comment | null) {
-  if (!token)
-    return false
-  // @ts-expect-error 'Shebang' is not in the type definition
-  return token.type === 'Line' || token.type === 'Block' || token.type === 'Shebang'
 }
 
 /**
@@ -432,23 +297,6 @@ export function isTopLevelExpressionStatement(node: ASTNode) {
 export function isDirective(node: ASTNode) {
   return node.type === 'ExpressionStatement' && typeof node.directive === 'string'
 }
-
-/**
- * Determines whether two adjacent tokens are on the same line.
- * @param left The left token object.
- * @param right The right token object.
- * @returns Whether or not the tokens are on the same line.
- * @public
- */
-export function isTokenOnSameLine(left: Token | ESNode | ASTNode | null, right: Token | ESNode | ASTNode | null) {
-  return left?.loc?.end.line === right?.loc?.start.line
-}
-
-export const isNotClosingParenToken = /* @__PURE__ */ negate(isClosingParenToken)
-export const isNotCommaToken = /* @__PURE__ */ negate(isCommaToken)
-export const isNotQuestionDotToken = /* @__PURE__ */ negate(isQuestionDotToken)
-export const isNotOpeningParenToken = /* @__PURE__ */ negate(isOpeningParenToken)
-export const isNotSemicolonToken = /* @__PURE__ */ negate(isSemicolonToken)
 
 /**
  * Checks whether or not a given node is a string literal.
@@ -854,100 +702,4 @@ export function getTokenBeforeClosingBracket(node: Tree.JSXOpeningElement | Tree
     return node.name
 
   return attributes[attributes.length - 1]
-}
-
-/**
- * Get the left parenthesis of the parent node syntax if it exists.
- * E.g., `if (a) {}` then the `(`.
- */
-function getParentSyntaxParen(node: ASTNode, sourceCode: SourceCode) {
-  const parent = node.parent
-  if (!parent)
-    return null
-
-  switch (parent.type) {
-    case 'CallExpression':
-    case 'NewExpression':
-      if (parent.arguments.length === 1 && parent.arguments[0] === node) {
-        return sourceCode.getTokenAfter(
-          parent.callee,
-          isOpeningParenToken,
-        )
-      }
-      return null
-
-    case 'DoWhileStatement':
-      if (parent.test === node) {
-        return sourceCode.getTokenAfter(
-          parent.body,
-          isOpeningParenToken,
-        )
-      }
-      return null
-
-    case 'IfStatement':
-    case 'WhileStatement':
-      if (parent.test === node) {
-        return sourceCode.getFirstToken(parent, 1)
-      }
-      return null
-
-    case 'ImportExpression':
-      if (parent.source === node) {
-        return sourceCode.getFirstToken(parent, 1)
-      }
-      return null
-
-    case 'SwitchStatement':
-      if (parent.discriminant === node) {
-        return sourceCode.getFirstToken(parent, 1)
-      }
-      return null
-
-    case 'WithStatement':
-      if (parent.object === node) {
-        return sourceCode.getFirstToken(parent, 1)
-      }
-      return null
-
-    default:
-      return null
-  }
-}
-
-/**
- * Check whether a given node is parenthesized or not.
- */
-export function isParenthesized(
-  node: ASTNode,
-  sourceCode: SourceCode,
-  times = 1,
-) {
-  let maybeLeftParen, maybeRightParen
-
-  if (
-    node == null
-    // `Program` can't be parenthesized
-    || node.parent == null
-    // `CatchClause.param` can't be parenthesized, example `try {} catch (error) {}`
-    || (node.parent.type === 'CatchClause' && node.parent.param === node)
-  ) {
-    return false
-  }
-
-  maybeLeftParen = maybeRightParen = node
-  do {
-    maybeLeftParen = sourceCode.getTokenBefore(maybeLeftParen)
-    maybeRightParen = sourceCode.getTokenAfter(maybeRightParen)
-  } while (
-    maybeLeftParen != null
-    && maybeRightParen != null
-    && (maybeLeftParen.type === 'Punctuator' && maybeLeftParen.value === '(')
-    && (maybeRightParen.type === 'Punctuator' && maybeRightParen.value === ')')
-    // Avoid false positive such as `if (a) {}`
-    && maybeLeftParen !== getParentSyntaxParen(node, sourceCode)
-    && --times > 0
-  )
-
-  return times === 0
 }

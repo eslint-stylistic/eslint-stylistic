@@ -1,8 +1,9 @@
 import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isClosingBraceToken, isSemicolonToken, isTopLevelExpressionStatement } from '#utils/ast'
+import { isTopLevelExpressionStatement } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { FixTracker } from '#utils/fix-tracker'
+import { isClosingBraceToken, isSemicolonToken } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-semi',

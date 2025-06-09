@@ -6,9 +6,10 @@
 
 import type { ASTNode, JSONSchema, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
+import { createGlobalLinebreakMatcher, isEqToken, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import { isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isSemicolonToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 const KNOWN_NODES = new Set([
   'AssignmentExpression',
@@ -1001,7 +1002,7 @@ export default createRule<RuleOptions, MessageIds>({
        * This logic is copied from `MemberExpression`'s.
        */
       if ('optional' in node && node.optional) {
-        const dotToken = sourceCode.getTokenAfter(node.callee, isQuestionDotToken)!
+        const dotToken = sourceCode.getTokenAfter(node.callee, isOptionalChainPunctuator)!
         const calleeParenCount = sourceCode.getTokensBetween(node.callee, dotToken, { filter: isClosingParenToken }).length
         const firstTokenOfCallee = calleeParenCount
           ? sourceCode.getTokenBefore(node.callee, { skip: calleeParenCount - 1 })!
@@ -1544,7 +1545,7 @@ export default createRule<RuleOptions, MessageIds>({
           const lastToken = sourceCode.getLastToken(nodeToCheck)!
 
           if (isSemicolonToken(lastToken)) {
-            const tokenBeforeLast = sourceCode.getTokenBefore(lastToken)
+            const tokenBeforeLast = sourceCode.getTokenBefore(lastToken)!
             const tokenAfterLast = sourceCode.getTokenAfter(lastToken)
 
             // override indentation of `;` only if its line looks like a semicolon-first style line

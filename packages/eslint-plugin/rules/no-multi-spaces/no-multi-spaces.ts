@@ -5,8 +5,8 @@
 
 import type { Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isCommentToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { isCommentToken } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-multi-spaces',

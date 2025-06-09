@@ -1,11 +1,11 @@
 import type { ASTNode, JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { nullThrows, NullThrowsReasons } from '#utils/assert'
-import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
+import { isKeywordToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { KEYWORDS_JS } from '#utils/keywords'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { isTypeKeyword } from '@typescript-eslint/utils/ast-utils'
+import { isNotOpeningParenToken, isTokenOnSameLine, isTypeKeyword } from '@typescript-eslint/utils/ast-utils'
 
 const PREV_TOKEN = /^[)\]}>]$/u
 const NEXT_TOKEN = /^(?:[([{<~!]|\+\+?|--?)$/u

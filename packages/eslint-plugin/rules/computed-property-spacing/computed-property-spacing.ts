@@ -5,8 +5,8 @@
 
 import type { ASTNode, RuleListener, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'computed-property-spacing',

@@ -5,8 +5,9 @@
 
 import type { ASTNode, ReportFixFunction, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { createGlobalLinebreakMatcher, isTokenOnSameLine } from '#utils/ast'
+import { createGlobalLinebreakMatcher } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'operator-linebreak',
@@ -139,8 +140,8 @@ export default createRule<RuleOptions, MessageIds>({
        * value equals the operator, in order to skip possible opening parentheses before the right side node.
        */
       const operatorToken = sourceCode.getTokenBefore(rightSide, token => token.value === operator)!
-      const leftToken = sourceCode.getTokenBefore(operatorToken)
-      const rightToken = sourceCode.getTokenAfter(operatorToken)
+      const leftToken = sourceCode.getTokenBefore(operatorToken)!
+      const rightToken = sourceCode.getTokenAfter(operatorToken)!
       const operatorStyleOverride = styleOverrides[operator]
       const style = operatorStyleOverride || globalStyle
       const fix = getFixer(operatorToken, style)

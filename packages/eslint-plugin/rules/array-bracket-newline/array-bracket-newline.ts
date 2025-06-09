@@ -5,8 +5,8 @@
 
 import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isCommentToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { isCommentToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'array-bracket-newline',

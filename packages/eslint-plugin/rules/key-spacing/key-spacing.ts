@@ -1,12 +1,14 @@
 import type { ASTNode, ReportFixFunction, RuleListener, SourceCode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { getStaticPropertyName, isClosingBraceToken, isOpeningBraceToken, LINEBREAK_MATCHER } from '#utils/ast'
+import { getStaticPropertyName, LINEBREAK_MATCHER } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { getStringLength } from '#utils/string'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import {
+  isClosingBraceToken,
   isClosingBracketToken,
   isColonToken,
+  isOpeningBraceToken,
 } from '@typescript-eslint/utils/ast-utils'
 
 const listeningNodes = [

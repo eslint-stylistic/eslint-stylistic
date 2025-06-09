@@ -6,19 +6,21 @@ import {
   canTokensBeAdjacent,
   getPrecedence,
   getStaticPropertyName,
-  isClosingParenToken,
   isDecimalInteger,
   isMixedLogicalAndCoalesceExpressions,
-  isNotClosingParenToken,
-  isNotOpeningParenToken,
-  isOpeningBraceToken,
-  isOpeningBracketToken,
-  isParenthesized as isParenthesizedRaw,
   isTopLevelExpressionStatement,
   skipChainExpression,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import {
+  isClosingParenToken,
+  isNotClosingParenToken,
+  isNotOpeningParenToken,
+  isOpeningBraceToken,
+  isOpeningBracketToken,
+  isParenthesized as isParenthesizedRaw,
+} from '@typescript-eslint/utils/ast-utils'
 import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -315,7 +317,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function isParenthesised(node: ASTNode) {
-      return isParenthesizedRaw(node, sourceCode, 1)
+      return isParenthesizedRaw(1, node, sourceCode)
     }
 
     /**
@@ -325,7 +327,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function isParenthesisedTwice(node: ASTNode) {
-      return isParenthesizedRaw(node, sourceCode, 2)
+      return isParenthesizedRaw(2, node, sourceCode)
     }
 
     /**

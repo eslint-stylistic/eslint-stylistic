@@ -5,8 +5,8 @@
 
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, PaddedBlocksSchema0, RuleOptions } from './types'
-import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 const OPTION_ENUMS = ['always', 'never', 'start', 'end']
 type OptionSchema = Extract<PaddedBlocksSchema0, object>
