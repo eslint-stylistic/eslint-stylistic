@@ -271,7 +271,7 @@ export default createRule<RuleOptions, MessageIds>({
     function checkSpacingAroundFirstToken(node: ASTNode | null) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
-      if (firstToken && firstToken.type === 'Keyword')
+      if (isKeywordToken(firstToken))
         checkSpacingAround(firstToken)
     }
 
@@ -286,7 +286,7 @@ export default createRule<RuleOptions, MessageIds>({
     function checkSpacingBeforeFirstToken(node: ASTNode | null) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
-      if (firstToken && firstToken.type === 'Keyword')
+      if (isKeywordToken(firstToken))
         checkSpacingBefore(firstToken)
     }
 
@@ -318,7 +318,7 @@ export default createRule<RuleOptions, MessageIds>({
       const firstToken = node && sourceCode.getFirstToken(node)
 
       if (firstToken
-        && ((firstToken.type === 'Keyword' && firstToken.value === 'function')
+        && ((isKeywordToken(firstToken) && firstToken.value === 'function')
           || firstToken.value === 'async')
       ) {
         checkSpacingBefore(firstToken)

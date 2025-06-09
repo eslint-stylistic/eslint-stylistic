@@ -7,6 +7,7 @@ import {
   getPrecedence,
   getStaticPropertyName,
   isDecimalInteger,
+  isKeywordToken,
   isMixedLogicalAndCoalesceExpressions,
   isTopLevelExpressionStatement,
   skipChainExpression,
@@ -867,7 +868,7 @@ export default createRule<RuleOptions, MessageIds>({
         isOpeningParenToken(firstToken)
         && (
           isOpeningBraceToken(secondToken)
-          || secondToken.type === 'Keyword' && (
+          || isKeywordToken(secondToken) && (
             secondToken.value === 'function'
             || secondToken.value === 'class'
             || secondToken.value === 'let'
@@ -877,7 +878,7 @@ export default createRule<RuleOptions, MessageIds>({
               || tokenAfterClosingParens.type === 'Identifier'
             )
           )
-          || secondToken && secondToken.type === 'Identifier' && secondToken.value === 'async' && thirdToken && thirdToken.type === 'Keyword' && thirdToken.value === 'function'
+          || secondToken && secondToken.type === 'Identifier' && secondToken.value === 'async' && isKeywordToken(thirdToken) && thirdToken.value === 'function'
         )
       ) {
         tokensToIgnore.add(secondToken)

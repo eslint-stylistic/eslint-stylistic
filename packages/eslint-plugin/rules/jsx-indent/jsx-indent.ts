@@ -35,6 +35,7 @@ import type { MessageIds, RuleOptions } from './types'
 import { getFirstNodeInLine, isNodeFirstInLine } from '#utils/ast'
 import { isJSX, isReturningJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
+import { isColonToken, isCommaToken } from '@typescript-eslint/utils/ast-utils'
 
 const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
@@ -344,12 +345,12 @@ export default createRule<RuleOptions, MessageIds>({
         return
 
       // Use the parent in a list or an array
-      if (prevToken.type === 'JSXText' || ((prevToken.type === 'Punctuator') && prevToken.value === ',')) {
+      if (prevToken.type === 'JSXText' || isCommaToken(prevToken)) {
         prevToken = sourceCode.getNodeByRangeIndex(prevToken.range[0])!
         prevToken = prevToken.type === 'Literal' || prevToken.type === 'JSXText' ? prevToken.parent : prevToken
         // Use the first non-punctuator token in a conditional expression
       }
-      else if (prevToken.type === 'Punctuator' && prevToken.value === ':') {
+      else if (isColonToken(prevToken)) {
         do
           prevToken = sourceCode.getTokenBefore(prevToken)!
 

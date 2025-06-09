@@ -166,7 +166,7 @@ export default createRule<RuleOptions, MessageIds>({
           fix: fixer => fixer.replaceText(key, getQuotedKey(key)),
         })
       }
-      else if (NUMBERS && key.type === 'Literal' && isNumericLiteral(key)) {
+      else if (NUMBERS && isNumericLiteral(key)) {
         context.report({
           node,
           messageId: 'unquotedNumericProperty',

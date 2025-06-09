@@ -6,7 +6,7 @@
 
 import type { ASTNode, JSONSchema, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { createGlobalLinebreakMatcher, isEqToken, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
+import { createGlobalLinebreakMatcher, isEqToken, isQuestionToken, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isSemicolonToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
@@ -1152,8 +1152,8 @@ export default createRule<RuleOptions, MessageIds>({
         || !isTokenOnSameLine(test, consequent)
         || isOnFirstLineOfStatement(firstToken, node)
       ) {
-        const questionMarkToken = sourceCode.getFirstTokenBetween(test, consequent, token => token.type === 'Punctuator' && token.value === '?')!
-        const colonToken = sourceCode.getFirstTokenBetween(consequent, alternate, token => token.type === 'Punctuator' && token.value === ':')!
+        const questionMarkToken = sourceCode.getFirstTokenBetween(test, consequent, isQuestionToken)!
+        const colonToken = sourceCode.getFirstTokenBetween(consequent, alternate, isColonToken)!
 
         const firstConsequentToken = sourceCode.getTokenAfter(questionMarkToken)!
         const lastConsequentToken = sourceCode.getTokenBefore(colonToken)!
@@ -1855,7 +1855,7 @@ export default createRule<RuleOptions, MessageIds>({
       JSXAttribute(node) {
         if (!node.value)
           return
-        const equalsToken = sourceCode.getFirstTokenBetween(node.name, node.value, token => token.type === 'Punctuator' && token.value === '=')!
+        const equalsToken = sourceCode.getFirstTokenBetween(node.name, node.value, isEqToken)!
 
         offsets.setDesiredOffsets([equalsToken.range[0], node.value.range[1]], sourceCode.getFirstToken(node.name), 1)
       },

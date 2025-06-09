@@ -272,12 +272,21 @@ export function isEqToken(token: Token) {
 }
 
 /**
+ * Checks if the given token is a `?` token or not.
+ * @param token The token to check.
+ * @returns `true` if the token is a `?` token.
+ */
+export function isQuestionToken(token: Token) {
+  return token.value === '?' && token.type === 'Punctuator'
+}
+
+/**
  * Checks if the given token is a keyword token or not.
  * @param token The token to check.
  * @returns `true` if the token is a keyword token.
  */
-export function isKeywordToken(token: Token) {
-  return token.type === 'Keyword'
+export function isKeywordToken(token: Token | null | undefined): token is Tree.KeywordToken {
+  return token?.type === 'Keyword'
 }
 
 /**
@@ -599,7 +608,7 @@ export function getNextLocation(sourceCode: { lines: string[] }, { column, line 
  * @param node The node to check.
  * @returns `true` if the node is a number or bigint literal.
  */
-export function isNumericLiteral(node: ASTNode) {
+export function isNumericLiteral(node: ASTNode): node is Tree.NumberLiteral | Tree.BigIntLiteral {
   return node.type === 'Literal' && (typeof node.value === 'number' || Boolean('bigint' in node && node.bigint))
 }
 
