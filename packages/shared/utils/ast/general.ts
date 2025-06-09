@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, SourceCode, Token, Tree } from '#types'
-import type { TSESLint } from '@typescript-eslint/utils'
+import type { AST_NODE_TYPES, TSESLint } from '@typescript-eslint/utils'
 import { isClosingParenToken, isColonToken, isFunction, isOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
@@ -292,7 +292,7 @@ export function isKeywordToken(token: Token) {
  * @returns `true` if the node is `&&` or `||`.
  * @see https://tc39.es/ecma262/#prod-ShortCircuitExpression
  */
-export function isLogicalExpression(node: ASTNode) {
+export function isLogicalExpression(node: ASTNode): node is (ASTNode & { type: AST_NODE_TYPES.LogicalExpression, operator: '&&' | '||' }) {
   return (
     node.type === 'LogicalExpression'
     && (node.operator === '&&' || node.operator === '||')
@@ -310,7 +310,7 @@ export function isLogicalExpression(node: ASTNode) {
  * @param node The node to check.
  * @returns `true` if the node is `??`.
  */
-export function isCoalesceExpression(node: ASTNode) {
+export function isCoalesceExpression(node: ASTNode): node is (ASTNode & { type: AST_NODE_TYPES.LogicalExpression, operator: '??' }) {
   return node.type === 'LogicalExpression' && node.operator === '??'
 }
 
@@ -348,7 +348,7 @@ export function getSwitchCaseColonToken(node: ASTNode, sourceCode: TSESLint.Sour
  * @returns Whether or not the node is an ExpressionStatement at the top level of a
  * file or function body.
  */
-export function isTopLevelExpressionStatement(node: ASTNode) {
+export function isTopLevelExpressionStatement(node: ASTNode): node is Tree.ExpressionStatement {
   if (node.type !== 'ExpressionStatement')
     return false
 
@@ -362,7 +362,7 @@ export function isTopLevelExpressionStatement(node: ASTNode) {
  * @param node The node to check.
  * @returns `true` if the node is a part of directive prologue.
  */
-export function isDirective(node: ASTNode) {
+export function isDirective(node: ASTNode): node is Tree.ExpressionStatement {
   return node.type === 'ExpressionStatement' && typeof node.directive === 'string'
 }
 
