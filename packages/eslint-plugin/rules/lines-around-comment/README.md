@@ -660,7 +660,7 @@ Examples of **correct** code for the `ignorePattern` option:
 ::: correct
 
 ```js
-/* eslint @stylistic/js/lines-around-comment: ["error"] */
+/* eslint @stylistic/lines-around-comment: ["error", { "ignorePattern": "mentioned" }] */
 
 foo();
 /* mentioned in this comment */

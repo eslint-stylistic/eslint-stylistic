@@ -352,8 +352,10 @@ class MyClass {
 
 Examples of **correct** code for the `{ "exceptAfterOverload": true }` option:
 
+::: correct
+
 ```ts
-/* eslint @typescript-eslint/lines-between-class-members: ["error", "always", { "exceptAfterOverload": true }] */
+/* eslint @stylistic/lines-between-class-members: ["error", "always", { "exceptAfterOverload": true }] */
 
 class foo {
   bar(a: string): void;
@@ -365,13 +367,17 @@ class foo {
   qux() {}
 }
 ```
+
+:::
 
 ### `exceptAfterOverload: false`
 
 Examples of **correct** code for the `{ "exceptAfterOverload": false }` option:
 
+::: correct
+
 ```ts
-/* eslint @typescript-eslint/lines-between-class-members: ["error", "always", { "exceptAfterOverload": false }] */
+/* eslint @stylistic/lines-between-class-members: ["error", "always", { "exceptAfterOverload": false }] */
 
 class foo {
   bar(a: string): void;
@@ -385,6 +391,8 @@ class foo {
   qux() {}
 }
 ```
+
+:::
 
 ## When Not To Use It
 
