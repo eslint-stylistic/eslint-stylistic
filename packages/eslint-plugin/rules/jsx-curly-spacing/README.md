@@ -122,7 +122,7 @@ Examples of **correct** code for this rule:
 By default, braces spanning multiple lines are allowed with either setting. If you want to disallow them you can specify an additional `allowMultiline` property with the value `false`:
 
 ```json
-"@stylistic/jsx/jsx-curly-spacing": [2, {"when": "never", "allowMultiline": false}]
+"@stylistic/jsx-curly-spacing": [2, {"when": "never", "allowMultiline": false}]
 ```
 
 Examples of **incorrect** code for this rule, when configured with `"never"` and `"allowMultiline": false`:
@@ -196,7 +196,7 @@ Examples of **correct** code for this rule:
 You can specify an additional `spacing` property that is an object with the following possible values:
 
 ```json
-"@stylistic/jsx/jsx-curly-spacing": [2, {"when": "always", "spacing": {
+"@stylistic/jsx-curly-spacing": [2, {"when": "always", "spacing": {
   "objectLiterals": "never"
 }}]
 ```
@@ -224,31 +224,31 @@ Please note that spacing of the object literal curly braces themselves is contro
 To preserve backward compatibility, two additional options are supported:
 
 ```json
-"@stylistic/jsx/jsx-curly-spacing": [2, "always"]
+"@stylistic/jsx-curly-spacing": [2, "always"]
 ```
 
 which is a shorthand for
 
 ```json
-"@stylistic/jsx/jsx-curly-spacing": [2, {"when": "always"}]
+"@stylistic/jsx-curly-spacing": [2, {"when": "always"}]
 ```
 
 and
 
 ```json
-"@stylistic/jsx/jsx-curly-spacing": [2, "never"]
+"@stylistic/jsx-curly-spacing": [2, "never"]
 ```
 
 which is a shorthand for
 
 ```json
-"@stylistic/jsx/jsx-curly-spacing": [2, {"when": "never"}]
+"@stylistic/jsx-curly-spacing": [2, {"when": "never"}]
 ```
 
 When using the shorthand options, only attributes will be checked. To specify other options, use another argument:
 
 ```json
-"@stylistic/jsx/jsx-curly-spacing": [2, "never", {
+"@stylistic/jsx-curly-spacing": [2, "never", {
   "allowMultiline": false,
   "spacing": {"objectLiterals": "always"}
 }]

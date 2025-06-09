@@ -106,7 +106,7 @@ fn (
 ## Rule Options
 
 ```jsx
-"@stylistic/jsx/jsx-function-call-newline": "always" | "multiline"
+"@stylistic/jsx-function-call-newline": "always" | "multiline"
 ```
 
 ## When Not To Use It

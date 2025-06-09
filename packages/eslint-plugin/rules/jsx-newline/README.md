@@ -10,7 +10,7 @@ This is a stylistic rule intended to make JSX code more readable by requiring or
 
 ```json5
 ...
-"@stylistic/jsx/jsx-newline": [<enabled>, { "prevent": <boolean>, "allowMultilines": <boolean> }]
+"@stylistic/jsx-newline": [<enabled>, { "prevent": <boolean>, "allowMultilines": <boolean> }]
 ...
 ```
 

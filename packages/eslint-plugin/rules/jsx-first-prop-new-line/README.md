@@ -101,7 +101,7 @@ Examples of **correct** code for this rule, when configured with `"multiline-mul
 ## Rule Options
 
 ```jsx
-"@stylistic/jsx/jsx-first-prop-new-line": `"always" | "never" | "multiline" | "multiprop" | "multiline-multiprop"`
+"@stylistic/jsx-first-prop-new-line": `"always" | "never" | "multiline" | "multiprop" | "multiline-multiprop"`
 ```
 
 ## When Not To Use It

@@ -16,7 +16,7 @@ You can pass in options to enforce the presence of curly braces on JSX props, ch
 
 ```js
 ...
-"@stylistic/jsx/jsx-curly-brace-presence": [<enabled>, { "props": <string>, "children": <string>, "propElementValues": <string> }]
+"@stylistic/jsx-curly-brace-presence": [<enabled>, { "props": <string>, "children": <string>, "propElementValues": <string> }]
 ...
 ```
 
@@ -24,7 +24,7 @@ or alternatively
 
 ```js
 ...
-"@stylistic/jsx/jsx-curly-brace-presence": [<enabled>, <string>]
+"@stylistic/jsx-curly-brace-presence": [<enabled>, <string>]
 ...
 ```
 

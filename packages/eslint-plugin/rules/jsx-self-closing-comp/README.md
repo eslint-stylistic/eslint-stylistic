@@ -38,7 +38,7 @@ The rule can take one argument to select types of tags, which should be self-clo
 
 ```js
 ...
-"@stylistic/jsx/jsx-self-closing-comp": ["error", {
+"@stylistic/jsx-self-closing-comp": ["error", {
   "component": true,
   "html": true
 }]

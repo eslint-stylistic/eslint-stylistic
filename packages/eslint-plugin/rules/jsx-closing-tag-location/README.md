@@ -39,7 +39,7 @@ The first form is a string shortcut corresponding to the `location` values speci
 
 ```json
 {
-  "@stylistic/jsx/jsx-closing-tag-location": ["error", "tag-aligned"]
+  "@stylistic/jsx-closing-tag-location": ["error", "tag-aligned"]
 }
 ```
 

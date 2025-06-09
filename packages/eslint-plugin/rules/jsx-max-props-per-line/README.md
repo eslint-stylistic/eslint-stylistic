@@ -35,13 +35,13 @@ Examples of **correct** code for this rule:
 
 ```js
 ...
-"@stylistic/jsx/jsx-max-props-per-line": [<enabled>, { "maximum": <number>, "when": <string> }]
+"@stylistic/jsx-max-props-per-line": [<enabled>, { "maximum": <number>, "when": <string> }]
 ...
 
 // OR
 
 ...
-"@stylistic/jsx/jsx-max-props-per-line": [<enabled>, { "maximum": { "single": <number>, "multi": <number> } }]
+"@stylistic/jsx-max-props-per-line": [<enabled>, { "maximum": { "single": <number>, "multi": <number> } }]
 ...
 ```
 

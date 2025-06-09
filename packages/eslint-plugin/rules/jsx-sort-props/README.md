@@ -25,7 +25,7 @@ Examples of **correct** code for this rule:
 
 ```js
 ...
-"@stylistic/jsx/jsx-sort-props": [<enabled>, {
+"@stylistic/jsx-sort-props": [<enabled>, {
   "callbacksLast": <boolean>,
   "shorthandFirst": <boolean>,
   "shorthandLast": <boolean>,

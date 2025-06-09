@@ -112,7 +112,7 @@ Examples of **correct** code for this rule:
 
 ```js
 ...
-"@stylistic/jsx/jsx-one-expression-per-line": [<enabled>, { "allow": "none"|"literal"|"single-child"|"non-jsx" }]
+"@stylistic/jsx-one-expression-per-line": [<enabled>, { "allow": "none"|"literal"|"single-child"|"non-jsx" }]
 ...
 ```
 

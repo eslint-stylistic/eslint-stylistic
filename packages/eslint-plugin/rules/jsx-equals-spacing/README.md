@@ -16,7 +16,7 @@ There are two options for the rule:
 Depending on your coding conventions, you can choose either option by specifying it in your configuration:
 
 ```json
-"@stylistic/jsx/jsx-equals-spacing": [2, "always"]
+"@stylistic/jsx-equals-spacing": [2, "always"]
 ```
 
 ### never

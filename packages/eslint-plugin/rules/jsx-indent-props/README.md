@@ -34,7 +34,7 @@ If the second parameter is an object, it can be used to specify the indent mode 
 
 ```js
 ...
-"@stylistic/jsx/jsx-indent-props": [<enabled>, 'tab'|<number>|'first'|<object>]
+"@stylistic/jsx-indent-props": [<enabled>, 'tab'|<number>|'first'|<object>]
 ...
 ```
 
