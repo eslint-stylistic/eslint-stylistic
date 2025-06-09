@@ -31,11 +31,11 @@ This rule has an object option:
 - `"allowArrayEnd": true` allows comments to appear at the end of array literals
 - `"allowClassStart": true` allows comments to appear at the start of classes
 - `"allowClassEnd": true` allows comments to appear at the end of classes
+- `"allowGroupStart": ['{', '[', '(']` allows comments to appear after specifying parentheses, this rule can be used to replace other `allow*Start` options
+- `"allowGroupEnd": ['}', ']', ')']` allows comments to appear before specifying parentheses, this rule can be used to replace other `allow*End` options
 - `"applyDefaultIgnorePatterns"` enables or disables the default comment patterns to be ignored by the rule
 - `"ignorePattern"` custom patterns to be ignored by the rule
 - `"afterHashbangComment": true` requires an empty line after hashbang comments
-- `"allowGroupStart": ['{', '[', '(']` allows comments to appear at the start of the group
-- `"allowGroupEnd": ['}', ']', ')']` allows comments to appear at the end of group
 
 ### beforeBlockComment
 
@@ -759,7 +759,7 @@ Examples of **correct** code for this rule with the `{ "allowGroupStart": ['{', 
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowGroupStart": ['{', '[', '('] }] */
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeLineComment": true, "allowGroupStart": ['{', '[', '('] }] */
 
 if (bar) {
     // what a great and wonderful day
@@ -790,7 +790,7 @@ Examples of **correct** code for this rule with the `{ "afterLineComment": true,
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowGroupEnd": ['}', ']', ')'] }] */
+/* eslint @stylistic/lines-around-comment: ["error", { "afterLineComment": true, "allowGroupEnd": ['}', ']', ')'] }] */
 
 if (bar) {
     foo();

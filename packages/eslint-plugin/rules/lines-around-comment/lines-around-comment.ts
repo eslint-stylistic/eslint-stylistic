@@ -1,11 +1,13 @@
 import type { ASTNode, Token, Tree } from '#types'
-import type { MessageIds, RuleOptions } from './types'
+import type { LinesAroundCommentSchema0, MessageIds, RuleOptions } from './types'
 import { isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import { isCommentToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
-type GroupTokenValue = '(' | '[' | '{' | ')' | ']' | '}'
+type RuleOption = Required<LinesAroundCommentSchema0>
+type GroupTokenValue = RuleOption['allowGroupStart'][number] | RuleOption['allowGroupEnd'][number]
+
 const COMMENTS_IGNORE_PATTERN
   = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
 
@@ -169,6 +171,11 @@ export default createRule<RuleOptions, MessageIds>({
     const commentLines = getCommentLineNums(comments)
     const emptyLines = getEmptyLineNums(lines)
     const commentAndEmptyLines = new Set(commentLines.concat(emptyLines))
+
+    const {
+      allowGroupStart = [],
+      allowGroupEnd = [],
+    } = options
 
     /**
      * @returns whether comments are on lines starting with or ending with code.
@@ -407,7 +414,7 @@ export default createRule<RuleOptions, MessageIds>({
       return isCommentAtParentEnd(token, AST_NODE_TYPES.TSModuleBlock)
     }
 
-    const groupChecker = {
+    const groupChecker: Record<GroupTokenValue, (token: Token) => boolean> = {
       '(': isOpeningParenToken,
       ')': isClosingParenToken,
       '[': isOpeningBracketToken,
@@ -415,16 +422,14 @@ export default createRule<RuleOptions, MessageIds>({
       '{': isOpeningBraceToken,
       '}': isClosingBraceToken,
     }
-    function isCommentAtGroupStart(token: Tree.Comment, groupTokenValue: GroupTokenValue): boolean {
+    function isCommentAtGroupStart(token: Tree.Comment, tokenVal: GroupTokenValue): boolean {
       const beforeToken = sourceCode.getTokenBefore(token, { includeComments: false })
-      const value = !!beforeToken && groupChecker[groupTokenValue](beforeToken)
-      return value
+      return !!beforeToken && groupChecker[tokenVal](beforeToken)
     }
 
-    function isCommentAtGroupEnd(token: Tree.Comment, groupTokenValue: GroupTokenValue): boolean {
+    function isCommentAtGroupEnd(token: Tree.Comment, tokenVal: GroupTokenValue): boolean {
       const afterToken = sourceCode.getTokenAfter(token, { includeComments: false })
-      const value = !!afterToken && groupChecker[groupTokenValue](afterToken)
-      return value
+      return !!afterToken && groupChecker[tokenVal](afterToken)
     }
 
     function checkForEmptyLine(
@@ -502,17 +507,17 @@ export default createRule<RuleOptions, MessageIds>({
       const moduleEndAllowed
         = Boolean(options.allowModuleEnd) && isCommentAtModuleEnd(token)
       const parenStartAllowed
-        = (options.allowGroupStart || []).includes('(') && isCommentAtGroupStart(token, '(')
+        = allowGroupStart.includes('(') && isCommentAtGroupStart(token, '(')
       const parenEndAllowed
-        = (options.allowGroupEnd || []).includes(')') && isCommentAtGroupEnd(token, ')')
+        = allowGroupEnd.includes(')') && isCommentAtGroupEnd(token, ')')
       const bracketStartAllowed
-        = (options.allowGroupStart || []).includes('[') && isCommentAtGroupStart(token, '[')
+        = allowGroupStart.includes('[') && isCommentAtGroupStart(token, '[')
       const bracketEndAllowed
-        = (options.allowGroupEnd || []).includes(']') && isCommentAtGroupEnd(token, ']')
+        = allowGroupEnd.includes(']') && isCommentAtGroupEnd(token, ']')
       const braceStartAllowed
-        = (options.allowGroupStart || []).includes('{') && isCommentAtGroupStart(token, '{')
+        = allowGroupStart.includes('{') && isCommentAtGroupStart(token, '{')
       const braceEndAllowed
-        = (options.allowGroupEnd || []).includes('}') && isCommentAtGroupEnd(token, '}')
+        = allowGroupEnd.includes('}') && isCommentAtGroupEnd(token, '}')
 
       const exceptionStartAllowed
         = blockStartAllowed
