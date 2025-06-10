@@ -272,6 +272,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         case AST_NODE_TYPES.TSAbstractPropertyDefinition:
         case AST_NODE_TYPES.PropertyDefinition:
+        case AST_NODE_TYPES.AccessorProperty:
           return parent.key === node && !parent.computed
 
         case AST_NODE_TYPES.TSLiteralType:

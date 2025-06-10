@@ -487,6 +487,34 @@ run<RuleOptions, MessageIds>({
       options: ['backtick'],
     },
 
+    // AccessorProperty
+    {
+      code: $`
+        class Foo {
+          accessor a = "";
+          accessor "a-b" = "";
+        }
+      `,
+    },
+    {
+      code: $`
+        class Foo {
+          accessor a = '';
+          accessor 'a-b' = '';
+        }
+      `,
+      options: ['single'],
+    },
+    {
+      code: $`
+        class Foo {
+          accessor a = \`\`;
+          accessor 'a-b' = \`\`;
+        }
+      `,
+      options: ['backtick'],
+    },
+
     // TSAbstractPropertyDefinition
     {
       code: $`
@@ -1120,6 +1148,98 @@ run<RuleOptions, MessageIds>({
           ...useBacktick,
           line: 3,
           column: 18,
+        },
+      ],
+      options: ['backtick'],
+    },
+
+    // AccessorProperty
+    {
+      code: $`
+        class Foo {
+          accessor a = '';
+          accessor 'a-b' = '';
+        }
+      `,
+      output: $`
+        class Foo {
+          accessor a = "";
+          accessor "a-b" = "";
+        }
+      `,
+      errors: [
+        {
+          ...useDoubleQuote,
+          line: 2,
+          column: 16,
+        },
+        {
+          ...useDoubleQuote,
+          line: 3,
+          column: 12,
+        },
+        {
+          ...useDoubleQuote,
+          line: 3,
+          column: 20,
+        },
+      ],
+    },
+    {
+      code: $`
+        class Foo {
+          accessor a = "";
+          accessor "a-b" = "";
+        }
+      `,
+      output: $`
+        class Foo {
+          accessor a = '';
+          accessor 'a-b' = '';
+        }
+      `,
+      errors: [
+        {
+          ...useSingleQuote,
+          line: 2,
+          column: 16,
+        },
+        {
+          ...useSingleQuote,
+          line: 3,
+          column: 12,
+        },
+        {
+          ...useSingleQuote,
+          line: 3,
+          column: 20,
+        },
+      ],
+      options: ['single'],
+    },
+    {
+      code: $`
+        class Foo {
+          accessor a = "";
+          accessor "a-b" = "";
+        }
+      `,
+      output: $`
+        class Foo {
+          accessor a = \`\`;
+          accessor "a-b" = \`\`;
+        }
+      `,
+      errors: [
+        {
+          ...useBacktick,
+          line: 2,
+          column: 16,
+        },
+        {
+          ...useBacktick,
+          line: 3,
+          column: 20,
         },
       ],
       options: ['backtick'],
