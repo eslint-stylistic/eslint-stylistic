@@ -12,7 +12,6 @@ jobs:
         with:
           node-version: lts/*
           cache: pnpm
-      - uses: pnpm/action-setup@v4
       - run: pnpm install
       - run: pnpm build
       - run: pnpx pkg-pr-new publish --compact './packages/*'
