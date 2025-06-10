@@ -222,6 +222,7 @@ export default createRule<RuleOptions, MessageIds>({
           checkSemicolonSpacing(sourceCode.getTokenAfter(node.test)!, node)
       },
       PropertyDefinition: checkNode,
+      AccessorProperty: checkNode,
       TSDeclareFunction: checkNode,
       TSTypeAliasDeclaration: checkNode,
       TSTypeAnnotation(node) {
