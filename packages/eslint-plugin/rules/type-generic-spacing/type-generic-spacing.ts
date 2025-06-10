@@ -66,6 +66,9 @@ export default createRule<RuleOptions, MessageIds>({
       TSTypeParameterInstantiation: (node) => {
         const params = node.params
 
+        if (params.length === 0)
+          return
+
         const openToken = sourceCode.getTokenBefore(params[0])
         const closeToken = sourceCode.getTokenAfter(params[params.length - 1])
 
@@ -90,6 +93,9 @@ export default createRule<RuleOptions, MessageIds>({
         }
 
         const params = node.params
+
+        if (params.length === 0)
+          return
 
         const openToken = sourceCode.getTokenBefore(params[0])
         const closeToken = sourceCode.getTokenAfter(params[params.length - 1])
