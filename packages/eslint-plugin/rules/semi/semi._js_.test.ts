@@ -2261,6 +2261,29 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: ['always'],
+      errors: [
+        { messageId: 'missingSemi' },
+        { messageId: 'missingSemi' },
+      ],
+    },
+    {
+      code: $`
+        class C {
+          accessor foo;
+          accessor [bar];
+        }
+      `,
+      output: $`
+        class C {
+          accessor foo
+          accessor [bar]
+        }
+      `,
+      options: ['never'],
+      errors: [
+        { messageId: 'extraSemi' },
+        { messageId: 'extraSemi' },
+      ],
     },
 
     // omitLastInOneLineClassBody
