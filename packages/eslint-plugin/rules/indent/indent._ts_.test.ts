@@ -827,6 +827,15 @@ const map2 = Object.keys(map)
       `,
       options: [2],
     },
+    {
+      code: $`
+        class Foo {
+          accessor [bar]: string
+          accessor baz: number
+        }
+      `,
+      options: [2],
+    },
   ],
   invalid: [
     ...individualNodeTests.invalid!,
@@ -2037,6 +2046,25 @@ class Foo {
           line: 5,
           column: 1,
         },
+      ],
+    },
+    {
+      code: $`
+        class Foo {
+        accessor [bar]: string
+            accessor baz: number
+        }
+      `,
+      output: $`
+        class Foo {
+          accessor [bar]: string
+          accessor baz: number
+        }
+      `,
+      options: [2],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 0 } },
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 4 } },
       ],
     },
   ],
