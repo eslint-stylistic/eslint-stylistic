@@ -414,6 +414,7 @@ export default createRule<RuleOptions, MessageIds>({
           checkForSemicolon(node)
       },
       PropertyDefinition: checkForSemicolon,
+      AccessorProperty: checkForSemicolon,
       TSAbstractPropertyDefinition: checkForSemicolon,
       TSDeclareFunction: checkForSemicolon,
       TSExportAssignment: checkForSemicolon,
