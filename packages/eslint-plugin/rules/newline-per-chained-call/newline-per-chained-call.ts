@@ -6,9 +6,9 @@
 
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { LINEBREAK_MATCHER, skipChainExpression } from '#utils/ast'
+import { skipChainExpression } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { isNotClosingParenToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
+import { isNotClosingParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'newline-per-chained-call',
