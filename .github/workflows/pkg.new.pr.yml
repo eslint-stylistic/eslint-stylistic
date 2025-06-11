@@ -14,4 +14,4 @@ jobs:
           cache: pnpm
       - run: pnpm install
       - run: pnpm build
-      - run: pnpx pkg-pr-new publish --compact './packages/*'
+      - run: pnpx pkg-pr-new publish --compact --pnpm './packages/*'
