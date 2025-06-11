@@ -1,5 +1,4 @@
-import type { ASTNode, Token } from '#types'
-import type { TSESLint } from '@typescript-eslint/utils'
+import type { ASTNode, RuleContext, SourceCode, Token } from '#types'
 
 import { isTopLevelExpressionStatement, skipChainExpression } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -32,7 +31,7 @@ const CJS_IMPORT = /^require\(/u
 
 type NodeTest = (
   node: ASTNode,
-  sourceCode: TSESLint.SourceCode,
+  sourceCode: SourceCode,
 ) => boolean
 
 interface NodeTestObject {
@@ -183,7 +182,7 @@ function isCJSRequire(node: ASTNode): boolean {
  */
 function isBlockLikeStatement(
   node: ASTNode,
-  sourceCode: TSESLint.SourceCode,
+  sourceCode: SourceCode,
 ): boolean {
   // do-while with a block is a block-like statement.
   if (
@@ -222,7 +221,7 @@ function isBlockLikeStatement(
  */
 function isDirective(
   node: ASTNode,
-  sourceCode: TSESLint.SourceCode,
+  sourceCode: SourceCode,
 ): boolean {
   return (
     isTopLevelExpressionStatement(node)
@@ -240,7 +239,7 @@ function isDirective(
  */
 function isDirectivePrologue(
   node: ASTNode,
-  sourceCode: TSESLint.SourceCode,
+  sourceCode: SourceCode,
 ): boolean {
   if (
     isDirective(node, sourceCode)
@@ -296,7 +295,7 @@ function isCJSExport(node: ASTNode): boolean {
  */
 function isExpression(
   node: ASTNode,
-  sourceCode: TSESLint.SourceCode,
+  sourceCode: SourceCode,
 ): boolean {
   return (
     node.type === AST_NODE_TYPES.ExpressionStatement
@@ -319,7 +318,7 @@ function isExpression(
  */
 function getActualLastToken(
   node: ASTNode,
-  sourceCode: TSESLint.SourceCode,
+  sourceCode: SourceCode,
 ): Token | null {
   const semiToken = sourceCode.getLastToken(node)!
   const prevToken = sourceCode.getTokenBefore(semiToken)
@@ -375,7 +374,7 @@ function verifyForAny(): void {
  * @private
  */
 function verifyForNever(
-  context: TSESLint.RuleContext<MessageIds, Options>,
+  context: RuleContext<MessageIds, Options>,
   _: ASTNode,
   nextNode: ASTNode,
   paddingLines: [Token, Token][],
@@ -419,7 +418,7 @@ function verifyForNever(
  * @private
  */
 function verifyForAlways(
-  context: TSESLint.RuleContext<MessageIds, Options>,
+  context: RuleContext<MessageIds, Options>,
   prevNode: ASTNode,
   nextNode: ASTNode,
   paddingLines: [Token, Token][],

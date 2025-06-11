@@ -1,5 +1,4 @@
-import type { JSONSchema, Token, Tree } from '#types'
-import type { TSESLint } from '@typescript-eslint/utils'
+import type { JSONSchema, ReportFixFunction, Token, Tree } from '#types'
 import { createRule } from '#utils/create-rule'
 import { deepMerge } from '#utils/merge'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
@@ -43,10 +42,6 @@ interface MakeFixFunctionParams {
   isSingleLine: boolean
 }
 
-type MakeFixFunctionReturnType
-  = | ((fixer: TSESLint.RuleFixer) => TSESLint.RuleFix)
-    | null
-
 function isLastTokenEndOfLine(token: Token, line: string): boolean {
   const positionInLine = token.loc.start.column
 
@@ -73,7 +68,7 @@ function makeFixFunction({
   missingDelimiter,
   lastTokenLine,
   isSingleLine,
-}: MakeFixFunctionParams): MakeFixFunctionReturnType {
+}: MakeFixFunctionParams): ReportFixFunction | undefined {
   // if removing is the action but last token is not the end of the line
   if (
     optsNone
@@ -81,10 +76,10 @@ function makeFixFunction({
     && !isCommentsEndOfLine(lastToken, commentsAfterLastToken, lastTokenLine)
     && !isSingleLine
   ) {
-    return null
+    return
   }
 
-  return (fixer: TSESLint.RuleFixer): TSESLint.RuleFix => {
+  return (fixer) => {
     if (optsNone) {
       // remove the unneeded token
       return fixer.remove(lastToken)

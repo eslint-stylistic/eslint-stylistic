@@ -4,7 +4,7 @@
  */
 
 import type { ASTNode, SourceCode, Token, Tree } from '#types'
-import type { AST_NODE_TYPES, TSESLint } from '@typescript-eslint/utils'
+import type { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isClosingParenToken, isColonToken, isFunction, isOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
@@ -253,7 +253,7 @@ export function skipChainExpression(node: ASTNode) {
  * @returns True if the node is parenthesised.
  * @private
  */
-export function isParenthesised(sourceCode: TSESLint.SourceCode, node: ASTNode) {
+export function isParenthesised(sourceCode: SourceCode, node: ASTNode) {
   const previousToken = sourceCode.getTokenBefore(node)
   const nextToken = sourceCode.getTokenAfter(node)
 
@@ -342,7 +342,7 @@ export function isMixedLogicalAndCoalesceExpressions(left: ASTNode, right: ASTNo
  * @param sourceCode The source code object to get tokens.
  * @returns The colon token of the node.
  */
-export function getSwitchCaseColonToken(node: ASTNode, sourceCode: TSESLint.SourceCode) {
+export function getSwitchCaseColonToken(node: ASTNode, sourceCode: SourceCode) {
   if ('test' in node && node.test)
     return sourceCode.getTokenAfter(node.test, token => isColonToken(token))
   return sourceCode.getFirstToken(node, 1)

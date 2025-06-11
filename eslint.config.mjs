@@ -72,6 +72,7 @@ export default antfu(
             group: ['@typescript-eslint/utils', '@typescript-eslint/utils/*'],
             importNames: [
               'TSESTree',
+              'TSESLint',
               'RuleFunction',
               'RuleListener',
               'SourceCode',
