@@ -140,8 +140,8 @@ export default createRule<RuleOptions, MessageIds>({
       if (functionConfig === 'always' && node.typeParameters && !node.id)
         return
 
-      let leftToken: Tree.Token
-      let rightToken: Tree.Token
+      let leftToken: Token
+      let rightToken: Token
       if (node.typeParameters) {
         leftToken = sourceCode.getLastToken(node.typeParameters)!
         rightToken = sourceCode.getTokenAfter(leftToken)!

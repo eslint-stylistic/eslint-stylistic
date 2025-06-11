@@ -1,4 +1,4 @@
-import type { Tree } from '#types'
+import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
@@ -52,7 +52,7 @@ export default createRule<RuleOptions, MessageIds>({
      *    When the option is `"never"`, `true` if there are not any spaces between given tokens.
      *    If given tokens are not on same line, it's always `true`.
      */
-    function isValid(left: Tree.Token, right: Tree.Token): boolean {
+    function isValid(left: Token, right: Token): boolean {
       return (
         !isTokenOnSameLine(left, right)
         || sourceCode.isSpaceBetween!(left, right) === always

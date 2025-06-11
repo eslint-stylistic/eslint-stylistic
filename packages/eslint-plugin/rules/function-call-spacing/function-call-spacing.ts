@@ -86,8 +86,8 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkSpacing(
       node: Tree.CallExpression | Tree.NewExpression | Tree.ImportExpression,
-      leftToken: Tree.Token,
-      rightToken: Tree.Token,
+      leftToken: Token,
+      rightToken: Token,
     ): void {
       const isOptionalCall = isOptionalCallExpression(node)
 

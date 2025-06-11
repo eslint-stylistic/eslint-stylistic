@@ -90,6 +90,18 @@ export default antfu(
           },
         ],
       }],
+      'ts/no-restricted-types': ['error', {
+        types: {
+          'Tree.Node': {
+            fixWith: 'ASTNode',
+            message: 'Import ASTNode from "#types" instead.',
+          },
+          'Tree.Token': {
+            fixWith: 'Token',
+            message: 'Import Token from "#types" instead.',
+          },
+        },
+      }],
     },
   },
 )

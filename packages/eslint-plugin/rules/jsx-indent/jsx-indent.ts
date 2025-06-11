@@ -340,7 +340,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     function handleOpeningElement(node: Tree.JSXOpeningElement | Tree.JSXOpeningFragment) {
       const sourceCode = context.sourceCode
-      let prevToken: ASTNode | Tree.Token = sourceCode.getTokenBefore(node)!
+      let prevToken: ASTNode | Token = sourceCode.getTokenBefore(node)!
       if (!prevToken)
         return
 

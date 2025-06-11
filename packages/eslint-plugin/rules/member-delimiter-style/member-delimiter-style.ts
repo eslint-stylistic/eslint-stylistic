@@ -32,7 +32,7 @@ type MessageIds
     | 'expectedSemi'
     | 'unexpectedComma'
     | 'unexpectedSemi'
-type LastTokenType = Tree.Token
+type LastTokenType = Token
 
 interface MakeFixFunctionParams {
   optsNone: boolean

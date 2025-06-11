@@ -74,7 +74,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function reportNoBeginningSpace(
       node: ASTNode,
-      token: Tree.Token,
+      token: Token,
     ): void {
       const nextToken = sourceCode.getTokenAfter(token, { includeComments: true })!
 
@@ -98,7 +98,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function reportNoEndingSpace(
       node: ASTNode,
-      token: Tree.Token,
+      token: Token,
     ): void {
       const previousToken = sourceCode.getTokenBefore(token, { includeComments: true })!
 
@@ -122,7 +122,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function reportRequiredBeginningSpace(
       node: ASTNode,
-      token: Tree.Token,
+      token: Token,
     ): void {
       context.report({
         node,
@@ -144,7 +144,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function reportRequiredEndingSpace(
       node: ASTNode,
-      token: Tree.Token,
+      token: Token,
     ): void {
       context.report({
         node,
@@ -167,8 +167,8 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function validateBraceSpacing(
       node: ASTNode,
-      openingToken: Tree.Token,
-      closingToken: Tree.Token,
+      openingToken: Token,
+      closingToken: Token,
     ): void {
       const tokenAfterOpening = sourceCode.getTokenAfter(openingToken, { includeComments: true })!
 

@@ -1,4 +1,4 @@
-import type { ASTNode, Tree } from '#types'
+import type { ASTNode, Token } from '#types'
 import type { TSESLint } from '@typescript-eslint/utils'
 
 import { isTopLevelExpressionStatement, skipChainExpression } from '#utils/ast'
@@ -320,7 +320,7 @@ function isExpression(
 function getActualLastToken(
   node: ASTNode,
   sourceCode: TSESLint.SourceCode,
-): Tree.Token | null {
+): Token | null {
   const semiToken = sourceCode.getLastToken(node)!
   const prevToken = sourceCode.getTokenBefore(semiToken)
   const nextToken = sourceCode.getTokenAfter(semiToken)
@@ -378,7 +378,7 @@ function verifyForNever(
   context: TSESLint.RuleContext<MessageIds, Options>,
   _: ASTNode,
   nextNode: ASTNode,
-  paddingLines: [Tree.Token, Tree.Token][],
+  paddingLines: [Token, Token][],
 ): void {
   if (paddingLines.length === 0)
     return
@@ -422,7 +422,7 @@ function verifyForAlways(
   context: TSESLint.RuleContext<MessageIds, Options>,
   prevNode: ASTNode,
   nextNode: ASTNode,
-  paddingLines: [Tree.Token, Tree.Token][],
+  paddingLines: [Token, Token][],
 ): void {
   if (paddingLines.length > 0)
     return
@@ -737,13 +737,13 @@ export default createRule<Options, MessageIds>({
     function getPaddingLineSequences(
       prevNode: ASTNode,
       nextNode: ASTNode,
-    ): [Tree.Token, Tree.Token][] {
-      const pairs: [Tree.Token, Tree.Token][] = []
-      let prevToken: Tree.Token = getActualLastToken(prevNode, sourceCode)!
+    ): [Token, Token][] {
+      const pairs: [Token, Token][] = []
+      let prevToken: Token = getActualLastToken(prevNode, sourceCode)!
 
       if (nextNode.loc.start.line - prevToken.loc.end.line >= 2) {
         do {
-          const token: Tree.Token = sourceCode.getTokenAfter(prevToken, {
+          const token: Token = sourceCode.getTokenAfter(prevToken, {
             includeComments: true,
           })!
 

@@ -299,7 +299,7 @@ function validateReservedFirstConfig(context: Readonly<RuleContext<MessageIds, R
   if (reservedFirst) {
     if (Array.isArray(reservedFirst)) {
       if (reservedFirst.length === 0) {
-        return function Report(decl: ASTNode | Tree.Token) {
+        return function Report(decl: ASTNode | Token) {
           context.report({
             node: decl,
             messageId: 'listIsEmpty',

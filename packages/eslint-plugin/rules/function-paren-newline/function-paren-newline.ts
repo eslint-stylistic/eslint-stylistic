@@ -191,7 +191,7 @@ export default createRule<RuleOptions, MessageIds>({
       const isOpeningParenTokenOutsideTypeParameter = () => {
         let typeParameterOpeningLevel = 0
 
-        return (token: Tree.Token) => {
+        return (token: Token) => {
           if (token.type === 'Punctuator' && token.value === '<')
             typeParameterOpeningLevel += 1
 

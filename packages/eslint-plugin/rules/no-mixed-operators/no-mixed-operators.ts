@@ -163,7 +163,7 @@ export default createRule<RuleOptions, MessageIds>({
      *      node or a LogicalExpression node.
      * @returns The operator token of the node.
      */
-    function getOperatorToken(node: NodeType): Tree.Token {
+    function getOperatorToken(node: NodeType): Token {
       return sourceCode.getTokenAfter(getChildNode(node), isNotClosingParenToken)!
     }
 

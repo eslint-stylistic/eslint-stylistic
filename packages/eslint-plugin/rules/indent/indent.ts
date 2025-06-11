@@ -1130,7 +1130,7 @@ export default createRule<RuleOptions, MessageIds>({
       addElementListIndent(elementList, openingBracket, closingBracket, options.ArrayExpression)
     }
 
-    function checkObjectLikeNode(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSEnumDeclaration | Tree.TSTypeLiteral | Tree.TSMappedType, properties: Tree.Node[]) {
+    function checkObjectLikeNode(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSEnumDeclaration | Tree.TSTypeLiteral | Tree.TSMappedType, properties: ASTNode[]) {
       const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
       const closingCurly = sourceCode.getTokenAfter(
         properties.length ? properties[properties.length - 1] : openingCurly,
@@ -1140,7 +1140,7 @@ export default createRule<RuleOptions, MessageIds>({
       addElementListIndent(properties, openingCurly, closingCurly, options.ObjectExpression)
     }
 
-    function checkConditionalNode(node: Tree.ConditionalExpression | Tree.TSConditionalType, test: Tree.Node, consequent: Tree.Node, alternate: Tree.Node) {
+    function checkConditionalNode(node: Tree.ConditionalExpression | Tree.TSConditionalType, test: ASTNode, consequent: ASTNode, alternate: ASTNode) {
       const firstToken = sourceCode.getFirstToken(node)!
 
       // `flatTernaryExpressions` option is for the following style:
@@ -1227,7 +1227,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function checkOperatorToken(left: Tree.Node, right: Tree.Node, operator: string) {
+    function checkOperatorToken(left: ASTNode, right: ASTNode, operator: string) {
       const operatorToken = sourceCode.getFirstTokenBetween(left, right, token => token.value === operator)!
 
       /**
@@ -1244,8 +1244,8 @@ export default createRule<RuleOptions, MessageIds>({
 
     function checkMemberExpression(
       node: Tree.MemberExpression | Tree.JSXMemberExpression | Tree.MetaProperty | Tree.TSIndexedAccessType | Tree.TSQualifiedName,
-      object: Tree.Node,
-      property: Tree.Node,
+      object: ASTNode,
+      property: ASTNode,
       computed = false,
     ) {
       const firstNonObjectToken = sourceCode.getFirstTokenBetween(object, property, isNotClosingParenToken)!
@@ -1325,7 +1325,7 @@ export default createRule<RuleOptions, MessageIds>({
       )
     }
 
-    function checkHeritages(node: Tree.ClassDeclaration | Tree.ClassExpression | Tree.TSInterfaceDeclaration, heritages: Tree.Node[]) {
+    function checkHeritages(node: Tree.ClassDeclaration | Tree.ClassExpression | Tree.TSInterfaceDeclaration, heritages: ASTNode[]) {
       const classToken = sourceCode.getFirstToken(node)!
       const extendsToken = sourceCode.getTokenBefore(heritages[0], isNotOpeningParenToken)!
 
@@ -1634,7 +1634,7 @@ export default createRule<RuleOptions, MessageIds>({
       PropertyDefinition(node) {
         const firstToken = sourceCode.getFirstToken(node)!
         const maybeSemicolonToken = sourceCode.getLastToken(node)!
-        let keyLastToken: Tree.Token | null = null
+        let keyLastToken: Token | null = null
 
         // Indent key.
         if (node.computed) {
