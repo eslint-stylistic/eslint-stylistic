@@ -1,4 +1,4 @@
-import type { JSONSchema, Tree } from '#types'
+import type { JSONSchema, Token, Tree } from '#types'
 import type { TSESLint } from '@typescript-eslint/utils'
 import { createRule } from '#utils/create-rule'
 import { deepMerge } from '#utils/merge'
@@ -32,13 +32,12 @@ type MessageIds
     | 'expectedSemi'
     | 'unexpectedComma'
     | 'unexpectedSemi'
-type LastTokenType = Token
 
 interface MakeFixFunctionParams {
   optsNone: boolean
   optsSemi: boolean
-  lastToken: LastTokenType
-  commentsAfterLastToken: LastTokenType | undefined
+  lastToken: Token
+  commentsAfterLastToken: Token | undefined
   missingDelimiter: boolean
   lastTokenLine: string
   isSingleLine: boolean
@@ -48,13 +47,13 @@ type MakeFixFunctionReturnType
   = | ((fixer: TSESLint.RuleFixer) => TSESLint.RuleFix)
     | null
 
-function isLastTokenEndOfLine(token: LastTokenType, line: string): boolean {
+function isLastTokenEndOfLine(token: Token, line: string): boolean {
   const positionInLine = token.loc.start.column
 
   return positionInLine === line.length - 1
 }
 
-function isCommentsEndOfLine(token: LastTokenType, comments: LastTokenType | undefined, line: string): boolean {
+function isCommentsEndOfLine(token: Token, comments: Token | undefined, line: string): boolean {
   if (!comments)
     return false
 

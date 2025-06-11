@@ -3,7 +3,7 @@
  * @author Toru Nagashima
  */
 
-import type { ASTNode, Tree } from '#types'
+import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { getPrecedence, isParenthesised } from '#utils/ast'
 import { createRule } from '#utils/create-rule'

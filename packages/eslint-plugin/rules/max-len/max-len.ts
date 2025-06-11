@@ -3,7 +3,7 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import type { ASTNode, JSONSchema, Tree } from '#types'
+import type { ASTNode, JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 

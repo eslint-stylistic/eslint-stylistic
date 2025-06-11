@@ -1,4 +1,4 @@
-import type { Tree } from '#types'
+import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 

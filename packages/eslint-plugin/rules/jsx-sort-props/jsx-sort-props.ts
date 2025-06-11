@@ -3,7 +3,7 @@
  * @author Ilya Volodin, Yannick Croissant
  */
 
-import type { ASTNode, RuleContext, RuleFixer, Tree } from '#types'
+import type { ASTNode, RuleContext, RuleFixer, Token, Tree } from '#types'
 import type { JsxSortPropsRuleOptions, MessageIds, RuleOptions } from './types'
 import { getPropName, isDOMComponent } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
