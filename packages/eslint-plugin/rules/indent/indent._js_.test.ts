@@ -2686,7 +2686,7 @@ run<RuleOptions, MessageIds>({
             bar();
           case closed:
             /* multiline comment
-            */
+             */
         }
       `,
       options: [2, { SwitchCase: 1 }],
@@ -14250,6 +14250,124 @@ run<RuleOptions, MessageIds>({
         offsetTernaryExpressions: true,
         offsetTernaryExpressionsOffsetCallExpressions: true,
       }],
+    },
+    {
+      code: $`
+        function a() {
+            /**
+           *  comment
+                  */
+        } 
+      `,
+      output: $`
+        function a() {
+          /**
+           *  comment
+           */
+        } 
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        function b() {
+        /** 
+             *  comment
+                  * 
+             */
+        }
+      `,
+      output: $`
+        function b() {
+        /** 
+         *  comment
+         * 
+         */
+        }
+      `,
+      options: ['tab'],
+    },
+    {
+      code: $`
+        function c() {
+            /*   comment
+          */
+        } 
+      `,
+      output: $`
+        function c() {
+          /*   comment
+           */
+        } 
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        function e() {
+            /*
+                comment
+          */
+        } 
+      `,
+      output: $`
+        function e() {
+          /*
+                comment
+           */
+        } 
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        const a = {
+        a: {
+              a: {
+              /* 
+                * comment
+        
+              
+              */
+          }
+            }
+        }
+      `,
+      output: $`
+        const a = {
+          a: {
+            a: {
+              /* 
+               * comment
+        
+              
+               */
+            }
+          }
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        function d() {
+          /*   
+                \\/*
+                            * comment
+                            *\\/
+        */
+        } 
+      `,
+      output: $`
+        function d() {
+          /*   
+                \\/*
+                            * comment
+                            *\\/
+           */
+        } 
+      `,
+      options: [2],
     },
   ],
 })

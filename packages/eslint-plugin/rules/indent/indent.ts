@@ -1757,7 +1757,7 @@ export default createRule<RuleOptions, MessageIds>({
               expression starting with new line ${
                   'ending'} on the same line
             `
-          */
+           */
 
           // minus 2 for exclude ${
           const tokenBeforeText = sourceCode.text.slice(previousQuasi.range[1] - previousQuasi.loc.end.column, previousQuasi.range[1] - 2).split('')
@@ -2246,11 +2246,85 @@ export default createRule<RuleOptions, MessageIds>({
             if (tokenAfter && isSemicolonToken(tokenAfter) && !isTokenOnSameLine(firstTokenOfLine, tokenAfter))
               offsets.setDesiredOffset(firstTokenOfLine, tokenAfter, 0)
 
-            // If a comment matches the expected indentation of the token immediately before or after, don't report it.
-            if (
-              mayAlignWithBefore && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenBefore)!)
+            const isAllowCommentIndent = mayAlignWithBefore && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenBefore)!)
               || mayAlignWithAfter && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenAfter)!)
-            ) {
+
+            // validate the block comment
+            if (firstTokenOfLine.type === 'Block') {
+              interface ReportRecordData {
+                loc: Tree.SourceLocation
+                range: [number, number]
+                numSpaces: number
+                numTabs: number
+              }
+              function reportBlockComment(neededIndent: string, { loc, range, numSpaces, numTabs }: ReportRecordData) {
+                context.report({
+                  loc,
+                  messageId: 'wrongIndentation',
+                  data: createErrorMessageData(neededIndent.length + (indentType === 'space' ? 1 : 0), numSpaces, numTabs),
+                  fix(fixer) {
+                    const indentStr = new Array(neededIndent.length + 1).join(indentType === 'space' ? ' ' : '\t')
+                    return fixer.replaceTextRange(range, `${indentStr} `)
+                  },
+                })
+              }
+              // the first line of the comment control is validated by `firstTokenOfLine`(current comment token)
+              const startLine = firstTokenOfLine.loc.start.line + 1
+              const endLine = firstTokenOfLine.loc.end.line
+              // comment can have same indent with before token or after token
+              const indent = isAllowCommentIndent ? tokenInfo.getTokenIndent(firstTokenOfLine) : offsets.getDesiredIndent(firstTokenOfLine)!
+
+              const reportRecord: ReportRecordData[] = []
+              let reportContentError = true
+              for (let i = startLine; i <= endLine; i++) {
+                const line = sourceCode.lines[i - 1]
+                const loc = {
+                  start: {
+                    line: i,
+                    column: 0,
+                  },
+                  end: {
+                    line: i,
+                    column: line.match(/^\s*/)?.[0].length || 0,
+                  },
+                }
+                const range: [number, number] = [sourceCode.getIndexFromLoc(loc.start), sourceCode.getIndexFromLoc(loc.end)]
+                const realIndent = Array.from(sourceCode.text.slice(range[0], range[1]))
+                const numSpaces = realIndent.filter(char => char === ' ').length
+                const numTabs = realIndent.filter(char => char === '\t').length
+                /*
+                  block comment only format line start with `*`. like
+                    \/*
+                    * comment
+                    *\/
+
+                  if the lines of a block comment contain both those starting with `*` and those not starting with `*`
+                  all lines will not be format
+                 */
+                if (line.trim().startsWith('*')) {
+                  // the close line of block comment always need to be format
+                  const isInsertSpaceAtStart = line.trim().startsWith('*/') && (indentType === 'space' ? realIndent.length % indentSize !== 1 : line[loc.end.column - 1] !== ' ')
+                  if (isInsertSpaceAtStart) {
+                    reportBlockComment(indent, { loc, range, numSpaces, numTabs })
+                  }
+                  else if ((indentType === 'space' ? numSpaces : numTabs) !== indent.length + (indentType === 'space' ? 1 : 0) || realIndent.length !== indent.length + 1) {
+                    reportRecord.push({ loc, range, numSpaces, numTabs })
+                  }
+                }
+                else if (line.trim().length > 0 && i !== endLine) {
+                  reportContentError = false
+                }
+              }
+
+              if (reportContentError) {
+                for (const { loc, range, numSpaces, numTabs } of reportRecord) {
+                  reportBlockComment(indent, { loc, range, numSpaces, numTabs })
+                }
+              }
+            }
+
+            // If a comment matches the expected indentation of the token immediately before or after, don't report it.
+            if (isAllowCommentIndent) {
               continue
             }
           }
