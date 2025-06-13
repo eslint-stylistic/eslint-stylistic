@@ -5,17 +5,14 @@
 
 import type { ASTNode, SourceCode, Token, Tree } from '#types'
 import type { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { isClosingParenToken, isColonToken, isFunction, isOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
+import { isClosingParenToken, isColonToken, isFunction, isOpeningParenToken, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
 
-const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
-
 export const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
 
 export const LINEBREAKS = /* @__PURE__ */ new Set(['\r\n', '\r', '\n', '\u2028', '\u2029'])
-export const LINEBREAK_MATCHER = /\r\n|[\r\n\u2028\u2029]/u
 
 // A set of node types that can contain a list of statements
 export const STATEMENT_LIST_PARENTS = /* @__PURE__ */ new Set(['Program', 'BlockStatement', 'StaticBlock', 'SwitchCase'])
@@ -106,6 +103,8 @@ export const KEYWORDS_JS = [
 export function createGlobalLinebreakMatcher() {
   return new RegExp(LINEBREAK_MATCHER.source, 'gu')
 }
+
+const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
 
 /**
  * Finds a function node from ancestors of a node.
@@ -342,8 +341,8 @@ export function isMixedLogicalAndCoalesceExpressions(left: ASTNode, right: ASTNo
  * @param sourceCode The source code object to get tokens.
  * @returns The colon token of the node.
  */
-export function getSwitchCaseColonToken(node: ASTNode, sourceCode: SourceCode) {
-  if ('test' in node && node.test)
+export function getSwitchCaseColonToken(node: Tree.SwitchCase, sourceCode: SourceCode) {
+  if (node.test)
     return sourceCode.getTokenAfter(node.test, token => isColonToken(token))
   return sourceCode.getFirstToken(node, 1)
 }
@@ -759,7 +758,7 @@ export function getFirstNodeInLine(context: { sourceCode: SourceCode }, node: AS
  * Checks if the node is the first in its line, excluding whitespace.
  * @param context The node to check
  * @param node The node to check
- * @return {boolean} true if it's the first node in its line
+ * @return true if it's the first node in its line
  */
 export function isNodeFirstInLine(context: { sourceCode: SourceCode }, node: ASTNode) {
   const token = getFirstNodeInLine(context, node)
