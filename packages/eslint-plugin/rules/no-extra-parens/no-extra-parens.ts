@@ -6,19 +6,22 @@ import {
   canTokensBeAdjacent,
   getPrecedence,
   getStaticPropertyName,
-  isClosingParenToken,
   isDecimalInteger,
+  isKeywordToken,
   isMixedLogicalAndCoalesceExpressions,
-  isNotClosingParenToken,
-  isNotOpeningParenToken,
-  isOpeningBraceToken,
-  isOpeningBracketToken,
-  isParenthesized as isParenthesizedRaw,
   isTopLevelExpressionStatement,
   skipChainExpression,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import {
+  isClosingParenToken,
+  isNotClosingParenToken,
+  isNotOpeningParenToken,
+  isOpeningBraceToken,
+  isOpeningBracketToken,
+  isParenthesized as isParenthesizedRaw,
+} from '@typescript-eslint/utils/ast-utils'
 import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -315,7 +318,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function isParenthesised(node: ASTNode) {
-      return isParenthesizedRaw(node, sourceCode, 1)
+      return isParenthesizedRaw(1, node, sourceCode)
     }
 
     /**
@@ -325,7 +328,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function isParenthesisedTwice(node: ASTNode) {
-      return isParenthesizedRaw(node, sourceCode, 2)
+      return isParenthesizedRaw(2, node, sourceCode)
     }
 
     /**
@@ -865,7 +868,7 @@ export default createRule<RuleOptions, MessageIds>({
         isOpeningParenToken(firstToken)
         && (
           isOpeningBraceToken(secondToken)
-          || secondToken.type === 'Keyword' && (
+          || isKeywordToken(secondToken) && (
             secondToken.value === 'function'
             || secondToken.value === 'class'
             || secondToken.value === 'let'
@@ -875,7 +878,7 @@ export default createRule<RuleOptions, MessageIds>({
               || tokenAfterClosingParens.type === 'Identifier'
             )
           )
-          || secondToken && secondToken.type === 'Identifier' && secondToken.value === 'async' && thirdToken && thirdToken.type === 'Keyword' && thirdToken.value === 'function'
+          || secondToken && secondToken.type === 'Identifier' && secondToken.value === 'async' && isKeywordToken(thirdToken) && thirdToken.value === 'function'
         )
       ) {
         tokensToIgnore.add(secondToken)

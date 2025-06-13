@@ -5,8 +5,8 @@
 
 import type { Token, Tree } from '#types'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
-import { isCommaToken, isCommentToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { isCommaToken, isCommentToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'array-element-newline',
@@ -139,7 +139,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param token The token to use for the report.
      */
     function reportNoLineBreak(token: Token): void {
-      const tokenBefore = sourceCode.getTokenBefore(token, { includeComments: true })
+      const tokenBefore = sourceCode.getTokenBefore(token, { includeComments: true })!
 
       context.report({
         loc: {
@@ -168,7 +168,7 @@ export default createRule<RuleOptions, MessageIds>({
            *     1, 2, 3
            * ]
            */
-          const twoTokensBefore = sourceCode.getTokenBefore(tokenBefore!, { includeComments: true })
+          const twoTokensBefore = sourceCode.getTokenBefore(tokenBefore!, { includeComments: true })!
 
           if (isCommentToken(twoTokensBefore))
             return null
@@ -239,8 +239,8 @@ export default createRule<RuleOptions, MessageIds>({
           continue
 
         const commaToken = sourceCode.getFirstTokenBetween(previousElement, element, isCommaToken)!
-        const lastTokenOfPreviousElement = sourceCode.getTokenBefore(commaToken)
-        const firstTokenOfCurrentElement = sourceCode.getTokenAfter(commaToken)
+        const lastTokenOfPreviousElement = sourceCode.getTokenBefore(commaToken)!
+        const firstTokenOfCurrentElement = sourceCode.getTokenAfter(commaToken)!
 
         if (!isTokenOnSameLine(lastTokenOfPreviousElement, firstTokenOfCurrentElement))
           linebreaksCount++
@@ -266,7 +266,7 @@ export default createRule<RuleOptions, MessageIds>({
           return
 
         const commaToken = sourceCode.getFirstTokenBetween(previousElement, element, isCommaToken)!
-        const lastTokenOfPreviousElement = sourceCode.getTokenBefore(commaToken)
+        const lastTokenOfPreviousElement = sourceCode.getTokenBefore(commaToken)!
         const firstTokenOfCurrentElement = sourceCode.getTokenAfter(commaToken)!
 
         if (needsLinebreaks) {

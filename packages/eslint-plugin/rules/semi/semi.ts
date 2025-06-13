@@ -1,9 +1,10 @@
 import type { ASTNode, RuleFixer, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
+import { getNextLocation } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { FixTracker } from '#utils/fix-tracker'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import { isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'semi',
@@ -210,7 +211,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns `true` if the node is on the same line with the next token.
      */
     function isOnSameLineWithNextToken(node: ASTNode) {
-      const prevToken = sourceCode.getLastToken(node, 1)
+      const prevToken = sourceCode.getLastToken(node, 1)!
       const nextToken = sourceCode.getTokenAfter(node)
 
       return !!nextToken && isTokenOnSameLine(prevToken, nextToken)

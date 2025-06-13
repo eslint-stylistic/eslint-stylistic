@@ -3,10 +3,11 @@
  * @author Toru Nagashima
  */
 
-import type { ASTNode, Tree } from '#types'
+import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { getPrecedence, isNotClosingParenToken, isParenthesised } from '#utils/ast'
+import { getPrecedence, isParenthesised } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { isNotClosingParenToken } from '@typescript-eslint/utils/ast-utils'
 
 const ARITHMETIC_OPERATORS = ['+', '-', '*', '/', '%', '**']
 const BITWISE_OPERATORS = ['&', '|', '^', '~', '<<', '>>', '>>>']
@@ -162,7 +163,7 @@ export default createRule<RuleOptions, MessageIds>({
      *      node or a LogicalExpression node.
      * @returns The operator token of the node.
      */
-    function getOperatorToken(node: NodeType): Tree.Token {
+    function getOperatorToken(node: NodeType): Token {
       return sourceCode.getTokenAfter(getChildNode(node), isNotClosingParenToken)!
     }
 

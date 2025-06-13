@@ -5,7 +5,7 @@
 
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { canTokensBeAdjacent } from '#utils/ast'
+import { canTokensBeAdjacent, isKeywordToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -281,7 +281,7 @@ export default createRule<RuleOptions, MessageIds>({
       const firstToken = tokens[0]
       const secondToken = tokens[1]
 
-      if ((node.type === 'NewExpression' || node.prefix) && firstToken.type === 'Keyword') {
+      if ((node.type === 'NewExpression' || node.prefix) && isKeywordToken(firstToken)) {
         checkUnaryWordOperatorForSpaces(node, firstToken, secondToken, firstToken.value)
         return
       }

@@ -3,7 +3,7 @@
  * @author Matt DuVall <http://www.mattduvall.com>
  */
 
-import type { ASTNode, JSONSchema, Tree } from '#types'
+import type { ASTNode, JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 
@@ -213,7 +213,7 @@ export default createRule<RuleOptions, MessageIds>({
      * Retrieves an array containing all strings (" or ') in the source code.
      * @returns An array of string nodes.
      */
-    function getAllStrings(): Tree.Token[] {
+    function getAllStrings(): Token[] {
       return sourceCode.ast.tokens.filter(token => (token.type === 'String'
         || (token.type === 'JSXText' && sourceCode.getNodeByRangeIndex(token.range[0] - 1)!.type === 'JSXAttribute')))
     }
@@ -222,7 +222,7 @@ export default createRule<RuleOptions, MessageIds>({
      * Retrieves an array containing all template literals in the source code.
      * @returns An array of template literal nodes.
      */
-    function getAllTemplateLiterals(): Tree.Token[] {
+    function getAllTemplateLiterals(): Token[] {
       return sourceCode.ast.tokens.filter(token => token.type === 'Template')
     }
 
@@ -230,7 +230,7 @@ export default createRule<RuleOptions, MessageIds>({
      * Retrieves an array containing all RegExp literals in the source code.
      * @returns An array of RegExp literal nodes.
      */
-    function getAllRegExpLiterals(): Tree.Token[] {
+    function getAllRegExpLiterals(): Token[] {
       return sourceCode.ast.tokens.filter(token => token.type === 'RegularExpression')
     }
 
@@ -240,8 +240,8 @@ export default createRule<RuleOptions, MessageIds>({
      * @param arr array of AST nodes
      * @returns accululated AST nodes
      */
-    function groupArrayByLineNumber(arr: Tree.Token[]): Record<number, Tree.Token[]> {
-      const obj: Record<number, Tree.Token[]> = {}
+    function groupArrayByLineNumber(arr: Token[]): Record<number, Token[]> {
+      const obj: Record<number, Token[]> = {}
 
       for (let i = 0; i < arr.length; i++) {
         const node = arr[i]

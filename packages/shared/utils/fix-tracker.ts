@@ -3,7 +3,7 @@
  * @author Alan Pierce
  */
 
-import type { ASTNode, ESToken, RuleFixer, SourceCode, Token, Tree } from '#types'
+import type { ASTNode, ESToken, RuleFixer, SourceCode, Token } from '#types'
 import type { AST } from 'eslint'
 import { getUpperFunction } from './ast'
 
@@ -61,7 +61,7 @@ export class FixTracker {
    *      point. The token to the left and right are use in the range.
    * @returns The same RuleFixer, for chained calls.
    */
-  retainSurroundingTokens(nodeOrToken: Tree.Token | ASTNode) {
+  retainSurroundingTokens(nodeOrToken: Token | ASTNode) {
     const tokenBefore = this.sourceCode.getTokenBefore(nodeOrToken) || nodeOrToken
     const tokenAfter = this.sourceCode.getTokenAfter(nodeOrToken) || nodeOrToken
 

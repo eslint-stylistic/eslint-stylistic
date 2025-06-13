@@ -9,7 +9,7 @@
  * @author Erik Wendel
  */
 
-import type { ASTNode, RuleFixer, Token, Tree } from '#types'
+import type { ASTNode, RuleFixer, Token } from '#types'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 
@@ -157,7 +157,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param right - The right token object.
      * @returns Whether or not there is a newline between the tokens.
      */
-    function isMultiline(left: Tree.Token, right: Tree.Token) {
+    function isMultiline(left: Token, right: Token) {
       return left.loc.end.line !== right.loc.start.line
     }
 
@@ -191,7 +191,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param token - The token to use for the report.
      * @param spacing
      */
-    function reportNoBeginningNewline(node: ASTNode, token: Tree.Token, spacing: string) {
+    function reportNoBeginningNewline(node: ASTNode, token: Token, spacing: string) {
       context.report({
         node,
         loc: token.loc.start,

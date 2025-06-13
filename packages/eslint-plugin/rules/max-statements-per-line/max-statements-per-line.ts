@@ -5,8 +5,8 @@
 
 import type { ASTNode } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isNotSemicolonToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { isNotSemicolonToken } from '@typescript-eslint/utils/ast-utils'
 
 const listeningNodes = [
   'BreakStatement',
