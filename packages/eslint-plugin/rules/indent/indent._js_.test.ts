@@ -2686,7 +2686,7 @@ run<RuleOptions, MessageIds>({
             bar();
           case closed:
             /* multiline comment
-             */
+            */
         }
       `,
       options: [2, { SwitchCase: 1 }],
