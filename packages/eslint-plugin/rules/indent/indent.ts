@@ -2261,10 +2261,10 @@ export default createRule<RuleOptions, MessageIds>({
                 context.report({
                   loc,
                   messageId: 'wrongIndentation',
-                  data: createErrorMessageData(neededIndent.length + (indentType === 'space' ? 1 : 0), numSpaces, numTabs),
+                  data: createErrorMessageData(neededIndent.length, numSpaces, numTabs),
                   fix(fixer) {
                     const indentStr = new Array(neededIndent.length + 1).join(indentType === 'space' ? ' ' : '\t')
-                    return fixer.replaceTextRange(range, `${indentStr} `)
+                    return fixer.replaceTextRange(range, `${indentStr}`)
                   },
                 })
               }
@@ -2301,14 +2301,22 @@ export default createRule<RuleOptions, MessageIds>({
                   if the lines of a block comment contain both those starting with `*` and those not starting with `*`
                   all lines will not be format
                  */
-                if (line.trim().startsWith('*')) {
-                  // the close line of block comment always need to be format
-                  const isInsertSpaceAtStart = line.trim().startsWith('*/') && (indentType === 'space' ? realIndent.length % indentSize !== 1 : line[loc.end.column - 1] !== ' ')
-                  if (isInsertSpaceAtStart) {
-                    reportBlockComment(indent, { loc, range, numSpaces, numTabs })
-                  }
-                  else if ((indentType === 'space' ? numSpaces : numTabs) !== indent.length + (indentType === 'space' ? 1 : 0) || realIndent.length !== indent.length + 1) {
-                    reportRecord.push({ loc, range, numSpaces, numTabs })
+                if (line.trimStart().startsWith('*')) {
+                  const spaceIndent = ' '.repeat(numSpaces)
+                  const tabIndent = '\t'.repeat(numTabs)
+                  // allow each line have a space before `*`
+                  if (
+                    realIndent.length > indent.length + 1
+                    || indentType === 'space' && (spaceIndent !== indent && spaceIndent !== `${indent} `)
+                    || indentType === 'tab' && (tabIndent !== indent && tabIndent !== `${indent} `)
+                  ) {
+                    // the close line of block comment always need to be format
+                    if (line.trimStart().startsWith('*/')) {
+                      reportBlockComment(indent, { loc, range, numSpaces, numTabs })
+                    }
+                    else {
+                      reportRecord.push({ loc, range, numSpaces, numTabs })
+                    }
                   }
                 }
                 else if (line.trim().length > 0 && i !== endLine) {
