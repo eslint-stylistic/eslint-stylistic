@@ -6794,6 +6794,52 @@ run<RuleOptions, MessageIds>({
               from: "foo"
           };
     `,
+    {
+      code: $`
+        const a = {
+          a: {
+            a: {
+              /* 
+              * comment
+          
+                
+              */
+            }
+          }
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        const a = {
+          a: {
+            a: {
+              /* 
+               * comment
+          
+                
+               */
+            }
+          }
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        const a = {
+         a: {
+          /* 
+          \t* comment
+        
+           
+           */
+         }
+        }
+      `,
+      options: [1],
+    },
   ],
 
   invalid: [
@@ -14848,7 +14894,7 @@ run<RuleOptions, MessageIds>({
         function a() {
           /**
            *  comment
-           */
+          */
         } 
       `,
       options: [2],
@@ -14865,9 +14911,9 @@ run<RuleOptions, MessageIds>({
       output: $`
         function b() {
         /** 
-         *  comment
-         * 
-         */
+        *  comment
+        * 
+        */
         }
       `,
       options: ['tab'],
@@ -14882,7 +14928,7 @@ run<RuleOptions, MessageIds>({
       output: $`
         function c() {
           /*   comment
-           */
+          */
         } 
       `,
       options: [2],
@@ -14899,7 +14945,7 @@ run<RuleOptions, MessageIds>({
         function e() {
           /*
                 comment
-           */
+          */
         } 
       `,
       options: [2],
@@ -14923,10 +14969,10 @@ run<RuleOptions, MessageIds>({
           a: {
             a: {
               /* 
-               * comment
+              * comment
         
               
-               */
+              */
             }
           }
         }
@@ -14949,7 +14995,7 @@ run<RuleOptions, MessageIds>({
                 \\/*
                             * comment
                             *\\/
-           */
+          */
         } 
       `,
       options: [2],
