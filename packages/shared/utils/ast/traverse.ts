@@ -65,7 +65,7 @@ export function traverseReturns(
     }
     return;
   }
-  */
+   */
 
   if (
     nodeType !== 'FunctionExpression'
