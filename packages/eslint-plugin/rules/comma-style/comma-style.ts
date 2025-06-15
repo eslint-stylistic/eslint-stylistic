@@ -5,6 +5,7 @@
 
 import type { ASTNode, NodeTypes, RuleFixer, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { createRule } from '#utils/create-rule'
 import {
   isCommaToken,
   isNotClosingParenToken,
@@ -13,8 +14,7 @@ import {
   isOpeningBracketToken,
   isTokenOnSameLine,
   LINEBREAK_MATCHER,
-} from '#utils/ast'
-import { createRule } from '#utils/create-rule'
+} from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'comma-style',
@@ -99,7 +99,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns Fixer function
      * @private
      */
-    function getFixerFunction(styleType: string, tokenBeforeComma: Token, commaToken: Token, tokenAfterComma: Tree.Token) {
+    function getFixerFunction(styleType: string, tokenBeforeComma: Token, commaToken: Token, tokenAfterComma: Token) {
       const text
                 = sourceCode.text.slice(tokenBeforeComma.range[1], commaToken.range[0])
                   + sourceCode.text.slice(commaToken.range[1], tokenAfterComma.range[0])
@@ -117,7 +117,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param tokenAfterComma The token after the comma token.
      * @private
      */
-    function validateCommaItemSpacing(tokenBeforeComma: Token, commaToken: Token, tokenAfterComma: Tree.Token): void {
+    function validateCommaItemSpacing(tokenBeforeComma: Token, commaToken: Token, tokenAfterComma: Token): void {
       // if single line
       if (isTokenOnSameLine(commaToken, tokenAfterComma)
         && isTokenOnSameLine(tokenBeforeComma, commaToken)) {

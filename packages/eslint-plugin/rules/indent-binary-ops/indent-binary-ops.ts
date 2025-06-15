@@ -1,6 +1,6 @@
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { ASSIGNMENT_OPERATOR } from '#utils/ast'
+import { ASSIGNMENT_OPERATOR, isKeywordToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -128,7 +128,7 @@ export default createRule<RuleOptions, MessageIds>({
       const lastTokenOfLineLeft = lastTokenOfLine(tokenLeft.loc.start.line)
       const needAdditionIndent = false
         // First line is a keyword (but exclude `typeof`, `instanceof`, `this`)
-        || (firstTokenOfLineLeft?.type === 'Keyword' && !['typeof', 'instanceof', 'this'].includes(firstTokenOfLineLeft.value))
+        || (isKeywordToken(firstTokenOfLineLeft) && !['typeof', 'instanceof', 'this'].includes(firstTokenOfLineLeft.value))
         // First line is a `type` keyword in a type alias declaration
         || (firstTokenOfLineLeft?.type === 'Identifier' && firstTokenOfLineLeft.value === 'type' && isTypeKeywordOfNode(firstTokenOfLineLeft, node))
         // End of line is a opening bracket (`[`, `(`),

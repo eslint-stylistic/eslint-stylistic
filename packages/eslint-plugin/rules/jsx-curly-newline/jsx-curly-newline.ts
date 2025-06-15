@@ -2,7 +2,7 @@
  * @fileoverview enforce consistent line breaks inside jsx curly
  */
 
-import type { ASTNode, RuleContext, Tree } from '#types'
+import type { ASTNode, RuleContext, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 
@@ -85,7 +85,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param right - The right token object.
      * @returns Whether or not the tokens are on the same line.
      */
-    function isTokenOnSameLine(left: ASTNode | Tree.Token, right: ASTNode | Tree.Token) {
+    function isTokenOnSameLine(left: ASTNode | Token, right: ASTNode | Token) {
       return left.loc.end.line === right.loc.start.line
     }
 
@@ -111,7 +111,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param curlys An object with keys `leftParen` for the left paren token, and `rightParen` for the right paren token
      * @param expression The expression inside the curly
      */
-    function validateCurlys(curlys: { leftCurly: Tree.Token, rightCurly: Tree.Token }, expression: ASTNode) {
+    function validateCurlys(curlys: { leftCurly: Token, rightCurly: Token }, expression: ASTNode) {
       const leftCurly = curlys.leftCurly
       const rightCurly = curlys.rightCurly
       const tokenAfterLeftCurly = sourceCode.getTokenAfter(leftCurly)

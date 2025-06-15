@@ -3,7 +3,7 @@
  * @author Ilya Volodin, Yannick Croissant
  */
 
-import type { ASTNode, RuleContext, RuleFixer, Tree } from '#types'
+import type { ASTNode, RuleContext, RuleFixer, Token, Tree } from '#types'
 import type { JsxSortPropsRuleOptions, MessageIds, RuleOptions } from './types'
 import { getPropName, isDOMComponent } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
@@ -299,7 +299,7 @@ function validateReservedFirstConfig(context: Readonly<RuleContext<MessageIds, R
   if (reservedFirst) {
     if (Array.isArray(reservedFirst)) {
       if (reservedFirst.length === 0) {
-        return function Report(decl: ASTNode | Tree.Token) {
+        return function Report(decl: ASTNode | Token) {
           context.report({
             node: decl,
             messageId: 'listIsEmpty',
