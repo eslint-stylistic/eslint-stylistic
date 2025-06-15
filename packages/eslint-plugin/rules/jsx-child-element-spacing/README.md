@@ -8,36 +8,44 @@ Since React removes extraneous new lines between elements when possible, it is p
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-child-element-spacing: "error" */
+
 <div>
   Here is a
   <a>link</a>
-</div>
-```
+</div>;
 
-```jsx
 <div>
   <b>This text</b>
   is bold
-</div>
+</div>;
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-child-element-spacing: "error" */
+
 <div>
   Spacing is
   {' '}
   <a>explicit</a>
-</div>
-```
+</div>;
 
-```jsx
 <div>
   Lack of spacing is{/*
   */}<a>explicit</a>
-</div>
+</div>;
 ```
+
+:::
 
 ## When Not To Use It
 

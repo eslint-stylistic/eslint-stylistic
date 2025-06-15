@@ -42,7 +42,7 @@ This rule aims to enforce specific spacing patterns around type annotations and 
 ::: incorrect
 
 ```ts
-/*eslint @stylistic/ts/type-annotation-spacing: "error"*/
+/* eslint @stylistic/type-annotation-spacing: "error" */
 
 let foo:string = "bar";
 let foo :string = "bar";
@@ -74,7 +74,7 @@ type Foo = ()=> {};
 ::: correct
 
 ```ts
-/*eslint @stylistic/ts/type-annotation-spacing: "error"*/
+/* eslint @stylistic/type-annotation-spacing: "error" */
 
 let foo: string = "bar";
 
@@ -100,7 +100,7 @@ Examples of **incorrect** code for this rule with the `{ "before": false, "after
 ::: incorrect
 
 ```ts
-/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": false, "after": true }]*/
+/* eslint @stylistic/type-annotation-spacing: ["error", { "before": false, "after": true }] */
 
 let foo:string = "bar";
 let foo :string = "bar";
@@ -134,7 +134,7 @@ Examples of **correct** code for this rule with the `{ "before": false, "after":
 ::: correct
 
 ```ts
-/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": false, "after": true }]*/
+/* eslint @stylistic/type-annotation-spacing: ["error", { "before": false, "after": true }] */
 
 let foo: string = "bar";
 
@@ -158,7 +158,7 @@ Examples of **incorrect** code for this rule with the `{ "before": true, "after"
 ::: incorrect
 
 ```ts
-/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": true, "after": true }]*/
+/* eslint @stylistic/type-annotation-spacing: ["error", { "before": true, "after": true }] */
 
 let foo: string = "bar";
 let foo:string = "bar";
@@ -192,7 +192,7 @@ Examples of **correct** code for this rule with the `{ "before": true, "after": 
 ::: correct
 
 ```ts
-/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": true, "after": true }]*/
+/* eslint @stylistic/type-annotation-spacing: ["error", { "before": true, "after": true }] */
 
 let foo : string = "bar";
 
@@ -216,7 +216,7 @@ Examples of **incorrect** code for this rule with the `{ "before": false, "after
 ::: incorrect
 
 ```ts
-/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": false, "after": false, "overrides": { "colon": { "before": true, "after": true } } }]*/
+/* eslint @stylistic/type-annotation-spacing: ["error", { "before": false, "after": false, "overrides": { "colon": { "before": true, "after": true } } }] */
 
 let foo: string = "bar";
 let foo:string = "bar";
@@ -250,7 +250,7 @@ Examples of **correct** code for this rule with the `{ "before": false, "after":
 ::: correct
 
 ```ts
-/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": false, "after": false, "overrides": { "colon": { "before": true, "after": true } } }]*/
+/* eslint @stylistic/type-annotation-spacing: ["error", { "before": false, "after": false, "overrides": { "colon": { "before": true, "after": true } } }] */
 
 let foo : string = "bar";
 
@@ -278,7 +278,7 @@ Examples of **incorrect** code for this rule with the `{ "before": false, "after
 ::: incorrect
 
 ```ts
-/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }]*/
+/* eslint @stylistic/type-annotation-spacing: ["error", { "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }] */
 
 let foo: string = "bar";
 let foo : string = "bar";
@@ -312,7 +312,7 @@ Examples of **correct** code for this rule with the `{ "before": false, "after":
 ::: correct
 
 ```ts
-/*eslint @stylistic/ts/type-annotation-spacing: ["error", { "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }]*/
+/* eslint @stylistic/type-annotation-spacing: ["error", { "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }] */
 
 let foo:string = "bar";
 

@@ -42,7 +42,7 @@ Examples of **incorrect** code for this rule with the default `{ "beforeBlockCom
 ::: incorrect
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeBlockComment": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeBlockComment": true }] */
 
 var night = "long";
 /* what a great and wonderful day */
@@ -56,7 +56,7 @@ Examples of **correct** code for this rule with the default `{ "beforeBlockComme
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeBlockComment": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeBlockComment": true }] */
 
 var night = "long";
 
@@ -73,7 +73,7 @@ Examples of **incorrect** code for this rule with the `{ "afterBlockComment": tr
 ::: incorrect
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterBlockComment": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "afterBlockComment": true }] */
 
 var night = "long";
 
@@ -88,7 +88,7 @@ Examples of **correct** code for this rule with the `{ "afterBlockComment": true
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterBlockComment": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "afterBlockComment": true }] */
 
 var night = "long";
 
@@ -106,7 +106,7 @@ Examples of **incorrect** code for this rule with the `{ "beforeLineComment": tr
 ::: incorrect
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeLineComment": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeLineComment": true }] */
 
 var night = "long";
 // what a great and wonderful day
@@ -120,7 +120,7 @@ Examples of **correct** code for this rule with the `{ "beforeLineComment": true
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeLineComment": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeLineComment": true }] */
 
 var night = "long";
 
@@ -137,7 +137,7 @@ Examples of **incorrect** code for this rule with the `{ "afterLineComment": tru
 ::: incorrect
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterLineComment": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "afterLineComment": true }] */
 
 var night = "long";
 // what a great and wonderful day
@@ -151,7 +151,7 @@ Examples of **correct** code for this rule with the `{ "afterLineComment": true 
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterLineComment": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "afterLineComment": true }] */
 
 var night = "long";
 // what a great and wonderful day
@@ -168,7 +168,7 @@ Examples of **correct** code for this rule with the `{ "beforeLineComment": true
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowBlockStart": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeLineComment": true, "allowBlockStart": true }] */
 
 function foo(){
     // what a great and wonderful day
@@ -203,7 +203,7 @@ Examples of **correct** code for this rule with the `{ "beforeBlockComment": tru
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowBlockStart": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeBlockComment": true, "allowBlockStart": true }] */
 
 function foo(){
     /* what a great and wonderful day */
@@ -248,7 +248,7 @@ Examples of **correct** code for this rule with the `{ "afterLineComment": true,
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowBlockEnd": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "afterLineComment": true, "allowBlockEnd": true }] */
 
 function foo(){
     var day = "great"
@@ -284,7 +284,7 @@ Examples of **correct** code for this rule with the `{ "afterBlockComment": true
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowBlockEnd": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "afterBlockComment": true, "allowBlockEnd": true }] */
 
 function foo(){
     var day = "great"
@@ -334,7 +334,7 @@ Examples of **incorrect** code for this rule with the `{ "beforeLineComment": tr
 ::: incorrect
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": false }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": false }] */
 
 class foo {
     // what a great and wonderful day
@@ -349,7 +349,7 @@ Examples of **correct** code for this rule with the `{ "beforeLineComment": true
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": false }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": false }] */
 
 class foo {
 
@@ -365,7 +365,7 @@ Examples of **correct** code for this rule with the `{ "beforeLineComment": true
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeLineComment": true, "allowClassStart": true }] */
 
 class foo {
     // what a great and wonderful day
@@ -380,7 +380,7 @@ Examples of **incorrect** code for this rule with the `{ "beforeBlockComment": t
 ::: incorrect
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": false }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": false }] */
 
 class foo {
     /* what a great and wonderful day */
@@ -395,7 +395,7 @@ Examples of **correct** code for this rule with the `{ "beforeBlockComment": tru
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": false }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": false }] */
 
 class foo {
 
@@ -411,7 +411,7 @@ Examples of **correct** code for this rule with the `{ "beforeBlockComment": tru
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeBlockComment": true, "allowClassStart": true }] */
 
 class foo {
     /* what a great and wonderful day */
@@ -428,7 +428,7 @@ Examples of **correct** code for this rule with the `{ "afterLineComment": true,
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowClassEnd": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "afterLineComment": true, "allowClassEnd": true }] */
 
 class foo {
     day() {}
@@ -443,7 +443,7 @@ Examples of **correct** code for this rule with the `{ "afterBlockComment": true
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowClassEnd": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "afterBlockComment": true, "allowClassEnd": true }] */
 
 class foo {
     day() {}
@@ -461,7 +461,7 @@ Examples of **correct** code for this rule with the `{ "beforeLineComment": true
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowObjectStart": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeLineComment": true, "allowObjectStart": true }] */
 
 var foo = {
     // what a great and wonderful day
@@ -486,7 +486,7 @@ Examples of **correct** code for this rule with the `{ "beforeBlockComment": tru
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowObjectStart": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeBlockComment": true, "allowObjectStart": true }] */
 
 var foo = {
     /* what a great and wonderful day */
@@ -513,7 +513,7 @@ Examples of **correct** code for this rule with the `{ "afterLineComment": true,
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowObjectEnd": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "afterLineComment": true, "allowObjectEnd": true }] */
 
 var foo = {
     day: "great"
@@ -538,7 +538,7 @@ Examples of **correct** code for this rule with the `{ "afterBlockComment": true
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowObjectEnd": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "afterBlockComment": true, "allowObjectEnd": true }] */
 
 var foo = {
     day: "great"
@@ -568,7 +568,7 @@ Examples of **correct** code for this rule with the `{ "beforeLineComment": true
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeLineComment": true, "allowArrayStart": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeLineComment": true, "allowArrayStart": true }] */
 
 var day = [
     // what a great and wonderful day
@@ -589,7 +589,7 @@ Examples of **correct** code for this rule with the `{ "beforeBlockComment": tru
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "beforeBlockComment": true, "allowArrayStart": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "beforeBlockComment": true, "allowArrayStart": true }] */
 
 var day = [
     /* what a great and wonderful day */
@@ -612,7 +612,7 @@ Examples of **correct** code for this rule with the `{ "afterLineComment": true,
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterLineComment": true, "allowArrayEnd": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "afterLineComment": true, "allowArrayEnd": true }] */
 
 var day = [
     "great",
@@ -633,7 +633,7 @@ Examples of **correct** code for this rule with the `{ "afterBlockComment": true
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "afterBlockComment": true, "allowArrayEnd": true }]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "afterBlockComment": true, "allowArrayEnd": true }] */
 
 var day = [
     "great",
@@ -660,7 +660,7 @@ Examples of **correct** code for the `ignorePattern` option:
 ::: correct
 
 ```js
-/*eslint @stylistic/js/lines-around-comment: ["error"]*/
+/* eslint @stylistic/lines-around-comment: ["error", { "ignorePattern": "mentioned" }] */
 
 foo();
 /* mentioned in this comment */
@@ -668,7 +668,7 @@ bar();
 ```
 
 ```js
-/*eslint lines-around-comment: ["error", { "ignorePattern": "pragma" }] */
+/* eslint @stylistic/lines-around-comment: ["error", { "ignorePattern": "pragma" }] */
 
 foo();
 /* a valid comment using pragma in it */
@@ -682,7 +682,7 @@ Examples of **incorrect** code for the `ignorePattern` option:
 ::: incorrect
 
 ```js
-/*eslint lines-around-comment: ["error", { "ignorePattern": "pragma" }] */
+/* eslint @stylistic/lines-around-comment: ["error", { "ignorePattern": "pragma" }] */
 
 1 + 1;
 /* something else */
@@ -699,7 +699,7 @@ Examples of **correct** code for the `{ "applyDefaultIgnorePatterns": false }` o
 ::: correct
 
 ```js
-/*eslint lines-around-comment: ["error", { "ignorePattern": "pragma", applyDefaultIgnorePatterns: false }] */
+/* eslint @stylistic/lines-around-comment: ["error", { "ignorePattern": "pragma", applyDefaultIgnorePatterns: false }] */
 
 foo();
 /* a valid comment using pragma in it */
@@ -712,7 +712,7 @@ Examples of **incorrect** code for the `{ "applyDefaultIgnorePatterns": false }`
 ::: incorrect
 
 ```js
-/*eslint lines-around-comment: ["error", { "applyDefaultIgnorePatterns": false }] */
+/* eslint @stylistic/lines-around-comment: ["error", { "applyDefaultIgnorePatterns": false }] */
 
 foo();
 /* mentioned in comment */
@@ -731,7 +731,7 @@ Examples of **incorrect** code for this rule with the `{ "afterHashbangComment":
 #!foo
 var day = "great"
 
-/*eslint lines-around-comment: ["error", { "afterHashbangComment": true }] */
+/* eslint @stylistic/lines-around-comment: ["error", { "afterHashbangComment": true }] */
 ```
 
 :::
@@ -745,7 +745,7 @@ Examples of **correct** code for this rule with the `{ "afterHashbangComment": t
 
 var day = "great"
 
-/*eslint lines-around-comment: ["error", { "afterHashbangComment": true }] */
+/* eslint @stylistic/lines-around-comment: ["error", { "afterHashbangComment": true }] */
 ```
 
 :::

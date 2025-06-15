@@ -15,7 +15,7 @@ Examples of **incorrect** code for this rule:
 :::incorrect
 
 ```ts
-/*eslint type-generic-spacing: ["error"]*/
+/* eslint @stylistic/type-generic-spacing: ["error"] */
 
 type Foo<T=true> = T
 type Foo<T,K> = T
@@ -32,7 +32,7 @@ Examples of **correct** code for this rule:
 :::correct
 
 ```ts
-/*eslint type-generic-spacing: ["error"]*/
+/* eslint @stylistic/type-generic-spacing: ["error"] */
 
 type Foo<T = true> = T
 type Foo<T, K> = T

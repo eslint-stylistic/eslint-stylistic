@@ -40,7 +40,7 @@ Examples of **incorrect** code for the default `"object"` option:
 ::: incorrect
 
 ```js
-/*eslint dot-location: ["error", "object"]*/
+/* eslint @stylistic/dot-location: ["error", "object"] */
 
 var foo = object
 .property;
@@ -53,7 +53,7 @@ Examples of **correct** code for the default `"object"` option:
 ::: correct
 
 ```js
-/*eslint dot-location: ["error", "object"]*/
+/* eslint @stylistic/dot-location: ["error", "object"] */
 
 var foo = object.
 property;
@@ -77,7 +77,7 @@ Examples of **incorrect** code for the `"property"` option:
 ::: incorrect
 
 ```js
-/*eslint dot-location: ["error", "property"]*/
+/* eslint @stylistic/dot-location: ["error", "property"] */
 
 var foo = object.
 property;
@@ -90,7 +90,7 @@ Examples of **correct** code for the `"property"` option:
 ::: correct
 
 ```js
-/*eslint dot-location: ["error", "property"]*/
+/* eslint @stylistic/dot-location: ["error", "property"] */
 
 var foo = object
 .property;

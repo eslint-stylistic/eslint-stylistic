@@ -57,7 +57,7 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 ::: incorrect
 
 ```js
-/*eslint padded-blocks: ["error", "always"]*/
+/* eslint @stylistic/padded-blocks: ["error", "always"] */
 
 if (a) {
     b();
@@ -95,7 +95,7 @@ Examples of **correct** code for this rule with the default `"always"` option:
 ::: correct
 
 ```js
-/*eslint padded-blocks: ["error", "always"]*/
+/* eslint @stylistic/padded-blocks: ["error", "always"] */
 
 if (a) {
 
@@ -137,7 +137,7 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 ::: incorrect
 
 ```js
-/*eslint padded-blocks: ["error", "never"]*/
+/* eslint @stylistic/padded-blocks: ["error", "never"] */
 
 if (a) {
 
@@ -180,7 +180,7 @@ Examples of **correct** code for this rule with the `"never"` option:
 ::: correct
 
 ```js
-/*eslint padded-blocks: ["error", "never"]*/
+/* eslint @stylistic/padded-blocks: ["error", "never"] */
 
 if (a) {
     b();
@@ -207,7 +207,7 @@ Examples of **incorrect** code for this rule with the `{ "blocks": "always" }` o
 ::: incorrect
 
 ```js
-/*eslint padded-blocks: ["error", { "blocks": "always" }]*/
+/* eslint @stylistic/padded-blocks: ["error", { "blocks": "always" }] */
 
 if (a) {
     b();
@@ -252,7 +252,7 @@ Examples of **correct** code for this rule with the `{ "blocks": "always" }` opt
 ::: correct
 
 ```js
-/*eslint padded-blocks: ["error", { "blocks": "always" }]*/
+/* eslint @stylistic/padded-blocks: ["error", { "blocks": "always" }] */
 
 if (a) {
 
@@ -301,7 +301,7 @@ Examples of **incorrect** code for this rule with the `{ "blocks": "never" }` op
 ::: incorrect
 
 ```js
-/*eslint padded-blocks: ["error", { "blocks": "never" }]*/
+/* eslint @stylistic/padded-blocks: ["error", { "blocks": "never" }] */
 
 if (a) {
 
@@ -342,7 +342,7 @@ Examples of **correct** code for this rule with the `{ "blocks": "never" }` opti
 ::: correct
 
 ```js
-/*eslint padded-blocks: ["error", { "blocks": "never" }]*/
+/* eslint @stylistic/padded-blocks: ["error", { "blocks": "never" }] */
 
 if (a) {
     b();
@@ -377,7 +377,7 @@ Examples of **incorrect** code for this rule with the `{ "classes": "always" }` 
 ::: incorrect
 
 ```js
-/*eslint padded-blocks: ["error", { "classes": "always" }]*/
+/* eslint @stylistic/padded-blocks: ["error", { "classes": "always" }] */
 
 class  A {
     constructor(){
@@ -392,7 +392,7 @@ Examples of **correct** code for this rule with the `{ "classes": "always" }` op
 ::: correct
 
 ```js
-/*eslint padded-blocks: ["error", { "classes": "always" }]*/
+/* eslint @stylistic/padded-blocks: ["error", { "classes": "always" }] */
 
 class  A {
 
@@ -409,7 +409,7 @@ Examples of **incorrect** code for this rule with the `{ "classes": "never" }` o
 ::: incorrect
 
 ```js
-/*eslint padded-blocks: ["error", { "classes": "never" }]*/
+/* eslint @stylistic/padded-blocks: ["error", { "classes": "never" }] */
 
 class  A {
 
@@ -426,7 +426,7 @@ Examples of **correct** code for this rule with the `{ "classes": "never" }` opt
 ::: correct
 
 ```js
-/*eslint padded-blocks: ["error", { "classes": "never" }]*/
+/* eslint @stylistic/padded-blocks: ["error", { "classes": "never" }] */
 
 class  A {
     constructor(){
@@ -443,7 +443,7 @@ Examples of **incorrect** code for this rule with the `{ "switches": "always" }`
 ::: incorrect
 
 ```js
-/*eslint padded-blocks: ["error", { "switches": "always" }]*/
+/* eslint @stylistic/padded-blocks: ["error", { "switches": "always" }] */
 
 switch (a) {
     case 0: foo();
@@ -457,7 +457,7 @@ Examples of **correct** code for this rule with the `{ "switches": "always" }` o
 ::: correct
 
 ```js
-/*eslint padded-blocks: ["error", { "switches": "always" }]*/
+/* eslint @stylistic/padded-blocks: ["error", { "switches": "always" }] */
 
 switch (a) {
 
@@ -477,7 +477,7 @@ Examples of **incorrect** code for this rule with the `{ "switches": "never" }` 
 ::: incorrect
 
 ```js
-/*eslint padded-blocks: ["error", { "switches": "never" }]*/
+/* eslint @stylistic/padded-blocks: ["error", { "switches": "never" }] */
 
 switch (a) {
 
@@ -493,7 +493,7 @@ Examples of **correct** code for this rule with the `{ "switches": "never" }` op
 ::: correct
 
 ```js
-/*eslint padded-blocks: ["error", { "switches": "never" }]*/
+/* eslint @stylistic/padded-blocks: ["error", { "switches": "never" }] */
 
 switch (a) {
     case 0: foo();
@@ -515,7 +515,7 @@ Examples of **incorrect** code for this rule with the `"always", {"allowSingleLi
 ::: incorrect
 
 ```js
-/*eslint padded-blocks: ["error", "always", { allowSingleLineBlocks: true }]*/
+/* eslint @stylistic/padded-blocks: ["error", "always", { allowSingleLineBlocks: true }] */
 
 if (a) {
     b();
@@ -539,7 +539,7 @@ Examples of **correct** code for this rule with the `"always", {"allowSingleLine
 ::: correct
 
 ```js
-/*eslint padded-blocks: ["error", "always", { allowSingleLineBlocks: true }]*/
+/* eslint @stylistic/padded-blocks: ["error", "always", { allowSingleLineBlocks: true }] */
 
 if (a) { b(); }
 

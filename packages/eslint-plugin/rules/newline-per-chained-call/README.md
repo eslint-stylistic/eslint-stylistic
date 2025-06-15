@@ -70,7 +70,7 @@ Examples of **incorrect** code for this rule with the default `{ "ignoreChainWit
 ::: incorrect
 
 ```js
-/*eslint newline-per-chained-call: ["error", { "ignoreChainWithDepth": 2 }]*/
+/* eslint @stylistic/newline-per-chained-call: ["error", { "ignoreChainWithDepth": 2 }] */
 
 _.chain({}).map(foo).filter(bar).value();
 
@@ -93,7 +93,7 @@ Examples of **correct** code for this rule with the default `{ "ignoreChainWithD
 ::: correct
 
 ```js
-/*eslint newline-per-chained-call: ["error", { "ignoreChainWithDepth": 2 }]*/
+/* eslint @stylistic/newline-per-chained-call: ["error", { "ignoreChainWithDepth": 2 }] */
 
 _
   .chain({})

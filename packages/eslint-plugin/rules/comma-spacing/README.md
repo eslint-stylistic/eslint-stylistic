@@ -53,7 +53,7 @@ Examples of **incorrect** code for this rule with the default `{ "before": false
 :::incorrect
 
 ```js
-/*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
+/* eslint @stylistic/comma-spacing: ["error", { "before": false, "after": true }] */
 
 var foo = 1 ,bar = 2;
 var arr = [1 , 2];
@@ -71,7 +71,7 @@ Examples of **correct** code for this rule with the default `{ "before": false, 
 :::correct
 
 ```js
-/*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
+/* eslint @stylistic/comma-spacing: ["error", { "before": false, "after": true }] */
 
 var foo = 1, bar = 2
     , baz = 3;
@@ -91,7 +91,7 @@ Additional examples of **correct** code for this rule with the default `{ "befor
 :::correct
 
 ```js
-/*eslint comma-spacing: ["error", { "before": false, "after": true }]*/
+/* eslint @stylistic/comma-spacing: ["error", { "before": false, "after": true }] */
 
 // this rule does not enforce spacing between two commas
 var arr = [
@@ -125,7 +125,7 @@ Examples of **incorrect** code for this rule with the `{ "before": true, "after"
 :::incorrect
 
 ```js
-/*eslint comma-spacing: ["error", { "before": true, "after": false }]*/
+/* eslint @stylistic/comma-spacing: ["error", { "before": true, "after": false }] */
 
 var foo = 1, bar = 2;
 var arr = [1 , 2];
@@ -142,7 +142,7 @@ Examples of **correct** code for this rule with the `{ "before": true, "after": 
 :::correct
 
 ```js
-/*eslint comma-spacing: ["error", { "before": true, "after": false }]*/
+/* eslint @stylistic/comma-spacing: ["error", { "before": true, "after": false }] */
 
 var foo = 1 ,bar = 2 ,
     baz = true;

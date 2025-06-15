@@ -38,7 +38,7 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
-/*eslint no-multi-spaces: "error"*/
+/* eslint @stylistic/no-multi-spaces: "error" */
 
 var a =  1;
 
@@ -58,7 +58,7 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
-/*eslint no-multi-spaces: "error"*/
+/* eslint @stylistic/no-multi-spaces: "error" */
 
 var a = 1;
 
@@ -88,7 +88,7 @@ Examples of **incorrect** code for this rule with the `{ "ignoreEOLComments": fa
 ::: incorrect
 
 ```js
-/*eslint no-multi-spaces: ["error", { ignoreEOLComments: false }]*/
+/* eslint @stylistic/no-multi-spaces: ["error", { ignoreEOLComments: false }] */
 
 var x = 5;      // comment
 var x = 5;      /* multiline
@@ -103,7 +103,7 @@ Examples of **correct** code for this rule with the `{ "ignoreEOLComments": fals
 ::: correct
 
 ```js
-/*eslint no-multi-spaces: ["error", { ignoreEOLComments: false }]*/
+/* eslint @stylistic/no-multi-spaces: ["error", { ignoreEOLComments: false }] */
 
 var x = 5; // comment
 var x = 5; /* multiline
@@ -118,7 +118,7 @@ Examples of **correct** code for this rule with the `{ "ignoreEOLComments": true
 ::: correct
 
 ```js
-/*eslint no-multi-spaces: ["error", { ignoreEOLComments: true }]*/
+/* eslint @stylistic/no-multi-spaces: ["error", { ignoreEOLComments: true }] */
 
 var x = 5; // comment
 var x = 5;      // comment
@@ -145,8 +145,8 @@ Examples of **correct** code for the default `"exceptions": { "Property": true, 
 ::: correct
 
 ```js
-/*eslint no-multi-spaces: "error"*/
-/*eslint key-spacing: ["error", { align: "value" }]*/
+/* eslint @stylistic/no-multi-spaces: "error" */
+/* eslint @stylistic/key-spacing: ["error", { align: "value" }] */
 
 var obj = {
     first:  "first",
@@ -161,8 +161,8 @@ Examples of **incorrect** code for the `"exceptions": { "Property": false }` opt
 ::: incorrect
 
 ```js
-/*eslint no-multi-spaces: ["error", { exceptions: { "Property": false } }]*/
-/*eslint key-spacing: ["error", { align: "value" }]*/
+/* eslint @stylistic/no-multi-spaces: ["error", { exceptions: { "Property": false } }] */
+/* eslint @stylistic/key-spacing: ["error", { align: "value" }] */
 
 var obj = {
     first:  "first",
@@ -177,7 +177,7 @@ Examples of **correct** code for the `"exceptions": { "BinaryExpression": true }
 ::: correct
 
 ```js
-/*eslint no-multi-spaces: ["error", { exceptions: { "BinaryExpression": true } }]*/
+/* eslint @stylistic/no-multi-spaces: ["error", { exceptions: { "BinaryExpression": true } }] */
 
 var a = 1  *  2;
 ```
@@ -189,7 +189,7 @@ Examples of **correct** code for the `"exceptions": { "VariableDeclarator": true
 ::: correct
 
 ```js
-/*eslint no-multi-spaces: ["error", { exceptions: { "VariableDeclarator": true } }]*/
+/* eslint @stylistic/no-multi-spaces: ["error", { exceptions: { "VariableDeclarator": true } }] */
 
 var someVar      = 'foo';
 var someOtherVar = 'barBaz';
@@ -202,7 +202,7 @@ Examples of **correct** code for the `"exceptions": { "ImportDeclaration": true 
 ::: correct
 
 ```js
-/*eslint no-multi-spaces: ["error", { exceptions: { "ImportDeclaration": true } }]*/
+/* eslint @stylistic/no-multi-spaces: ["error", { exceptions: { "ImportDeclaration": true } }] */
 
 import mod          from 'mod';
 import someOtherMod from 'some-other-mod';
@@ -219,7 +219,7 @@ Example of **incorrect** code for this rule with the `{ "includeTabs": true }` o
 ::: incorrect
 
 ```js
-/*eslint no-multi-spaces: ["error", { "includeTabs": true }]*/
+/* eslint @stylistic/no-multi-spaces: ["error", { "includeTabs": true }] */
 
 var a =	 1 +		2;
 ```

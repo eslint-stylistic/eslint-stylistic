@@ -86,7 +86,7 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 :::incorrect
 
 ```js
-/*eslint comma-dangle: ["error", "never"]*/
+/* eslint @stylistic/comma-dangle: ["error", "never"] */
 
 var foo = {
     bar: "baz",
@@ -108,7 +108,7 @@ Examples of **correct** code for this rule with the default `"never"` option:
 :::correct
 
 ```js
-/*eslint comma-dangle: ["error", "never"]*/
+/* eslint @stylistic/comma-dangle: ["error", "never"] */
 
 var foo = {
     bar: "baz",
@@ -132,7 +132,7 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 :::incorrect
 
 ```js
-/*eslint comma-dangle: ["error", "always"]*/
+/* eslint @stylistic/comma-dangle: ["error", "always"] */
 
 var foo = {
     bar: "baz",
@@ -154,7 +154,7 @@ Examples of **correct** code for this rule with the `"always"` option:
 :::correct
 
 ```js
-/*eslint comma-dangle: ["error", "always"]*/
+/* eslint @stylistic/comma-dangle: ["error", "always"] */
 
 var foo = {
     bar: "baz",
@@ -178,7 +178,7 @@ Examples of **incorrect** code for this rule with the `"always-multiline"` optio
 :::incorrect
 
 ```js
-/*eslint comma-dangle: ["error", "always-multiline"]*/
+/* eslint @stylistic/comma-dangle: ["error", "always-multiline"] */
 
 var foo = {
     bar: "baz",
@@ -210,7 +210,7 @@ Examples of **correct** code for this rule with the `"always-multiline"` option:
 :::correct
 
 ```js
-/*eslint comma-dangle: ["error", "always-multiline"]*/
+/* eslint @stylistic/comma-dangle: ["error", "always-multiline"] */
 
 var foo = {
     bar: "baz",
@@ -243,7 +243,7 @@ Examples of **incorrect** code for this rule with the `"only-multiline"` option:
 :::incorrect
 
 ```js
-/*eslint comma-dangle: ["error", "only-multiline"]*/
+/* eslint @stylistic/comma-dangle: ["error", "only-multiline"] */
 
 var foo = { bar: "baz", qux: "quux", };
 
@@ -261,7 +261,7 @@ Examples of **correct** code for this rule with the `"only-multiline"` option:
 :::correct
 
 ```js
-/*eslint comma-dangle: ["error", "only-multiline"]*/
+/* eslint @stylistic/comma-dangle: ["error", "only-multiline"] */
 
 var foo = {
     bar: "baz",
@@ -309,7 +309,7 @@ Examples of **incorrect** code for this rule with the `{"functions": "never"}` o
 :::incorrect
 
 ```js
-/*eslint comma-dangle: ["error", {"functions": "never"}]*/
+/* eslint @stylistic/comma-dangle: ["error", {"functions": "never"}] */
 
 function foo(a, b,) {
 }
@@ -325,7 +325,7 @@ Examples of **correct** code for this rule with the `{"functions": "never"}` opt
 :::correct
 
 ```js
-/*eslint comma-dangle: ["error", {"functions": "never"}]*/
+/* eslint @stylistic/comma-dangle: ["error", {"functions": "never"}] */
 
 function foo(a, b) {
 }
@@ -341,7 +341,7 @@ Examples of **incorrect** code for this rule with the `{"functions": "always"}` 
 :::incorrect
 
 ```js
-/*eslint comma-dangle: ["error", {"functions": "always"}]*/
+/* eslint @stylistic/comma-dangle: ["error", {"functions": "always"}] */
 
 function foo(a, b) {
 }
@@ -357,7 +357,7 @@ Examples of **correct** code for this rule with the `{"functions": "always"}` op
 :::correct
 
 ```js
-/*eslint comma-dangle: ["error", {"functions": "always"}]*/
+/* eslint @stylistic/comma-dangle: ["error", {"functions": "always"}] */
 
 function foo(a, b,) {
 }

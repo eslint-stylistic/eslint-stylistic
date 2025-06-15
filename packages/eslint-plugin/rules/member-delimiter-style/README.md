@@ -109,7 +109,7 @@ Examples of code for this rule with the default config:
 ::: incorrect
 
 ```ts
-/*eslint @stylistic/member-delimiter-style: "error"*/
+/* eslint @stylistic/member-delimiter-style: "error" */
 
 // missing semicolon delimiter
 interface Foo {
@@ -141,7 +141,7 @@ type FooBar = { name: string; greet(): string; }
 ::: correct
 
 ```ts
-/*eslint @stylistic/member-delimiter-style: "error"*/
+/* eslint @stylistic/member-delimiter-style: "error" */
 
 interface Foo {
     name: string;

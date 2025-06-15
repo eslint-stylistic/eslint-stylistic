@@ -16,44 +16,68 @@ There are two options for the rule:
 Depending on your coding conventions, you can choose either option by specifying it in your configuration:
 
 ```json
-"@stylistic/jsx/jsx-equals-spacing": [2, "always"]
+"@stylistic/jsx-equals-spacing": [2, "always"]
 ```
 
 ### never
 
 Examples of **incorrect** code for this rule, when configured with `"never"`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-equals-spacing: ["error", "never"] */
+
 <Hello name = {firstname} />;
 <Hello name ={firstname} />;
 <Hello name= {firstname} />;
 ```
 
+:::
+
 Examples of **correct** code for this rule, when configured with `"never"`:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-equals-spacing: ["error", "never"] */
+
 <Hello name={firstname} />;
 <Hello name />;
 <Hello {...props} />;
 ```
+
+:::
 
 ### always
 
 Examples of **incorrect** code for this rule, when configured with `"always"`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-equals-spacing: ["error", "always"] */
+
 <Hello name={firstname} />;
 <Hello name ={firstname} />;
 <Hello name= {firstname} />;
 ```
 
+:::
+
 Examples of **correct** code for this rule, when configured with `"always"`:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-equals-spacing: ["error", "always"] */
+
 <Hello name = {firstname} />;
 <Hello name />;
 <Hello {...props} />;
 ```
+
+:::
 
 ## When Not To Use It
 

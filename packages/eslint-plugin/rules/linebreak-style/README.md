@@ -31,7 +31,7 @@ Examples of **incorrect** code for this rule with the default `"unix"` option:
 ::: incorrect
 
 ```js
-/*eslint linebreak-style: ["error", "unix"]*/
+/* eslint @stylistic/linebreak-style: ["error", "unix"] */
 
 var a = 'a'; // \r\n
 
@@ -44,7 +44,7 @@ Examples of **correct** code for this rule with the default `"unix"` option:
 ::: correct
 
 ```js
-/*eslint linebreak-style: ["error", "unix"]*/
+/* eslint @stylistic/linebreak-style: ["error", "unix"] */
 
 var a = 'a', // \n
     b = 'b'; // \n
@@ -63,7 +63,7 @@ Examples of **incorrect** code for this rule with the `"windows"` option:
 ::: incorrect
 
 ```js
-/*eslint linebreak-style: ["error", "windows"]*/
+/* eslint @stylistic/linebreak-style: ["error", "windows"] */
 
 var a = 'a'; // \n
 ```
@@ -75,7 +75,7 @@ Examples of **correct** code for this rule with the `"windows"` option:
 ::: correct
 
 ```js
-/*eslint linebreak-style: ["error", "windows"]*/
+/* eslint @stylistic/linebreak-style: ["error", "windows"] */
 
 var a = 'a', // \r\n
     b = 'b'; // \r\n

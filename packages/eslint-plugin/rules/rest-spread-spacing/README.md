@@ -83,7 +83,7 @@ Examples of **incorrect** code for this rule with `"never"`:
 ::: incorrect
 
 ```js
-/*eslint rest-spread-spacing: ["error", "never"]*/
+/* eslint @stylistic/rest-spread-spacing: ["error", "never"] */
 
 fn(... args);
 [... arr, 4, 5, 6];
@@ -100,7 +100,7 @@ Examples of **correct** code for this rule with `"never"`:
 ::: correct
 
 ```js
-/*eslint rest-spread-spacing: ["error", "never"]*/
+/* eslint @stylistic/rest-spread-spacing: ["error", "never"] */
 
 fn(...args);
 [...arr, 4, 5, 6];
@@ -125,7 +125,7 @@ Examples of **incorrect** code for this rule with `"always"`:
 ::: incorrect
 
 ```js
-/*eslint rest-spread-spacing:["error", "always"]*/
+/* eslint @stylistic/rest-spread-spacing:["error", "always"] */
 
 fn(...args);
 [...arr, 4, 5, 6];
@@ -142,7 +142,7 @@ Examples of **correct** code for this rule with `"always"`:
 ::: correct
 
 ```js
-/*eslint rest-spread-spacing: ["error", "always"]*/
+/* eslint @stylistic/rest-spread-spacing: ["error", "always"] */
 
 fn(... args);
 [... arr, 4, 5, 6];
