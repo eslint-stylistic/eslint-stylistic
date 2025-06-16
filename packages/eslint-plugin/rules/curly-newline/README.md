@@ -32,7 +32,8 @@ You can specify different options for different kinds of blocks:
 }
 ```
 
-- `"IfStatement"` - An `if` statement body
+- `"IfStatementConsequent"` - An `if` statement body
+- `"IfStatementAlternative"` - An `else` statement body
 - `"ForStatement"` - A `for` statement body
 - `"ForInStatement"` - A `for..in` statement body
 - `"ForOfStatement"` - A `for..of` statement body
