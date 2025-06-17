@@ -66,24 +66,31 @@ export default antfu(
     ignores: ['**/*.test.ts'],
     name: 'local/restricted-imports',
     rules: {
-      'no-restricted-imports': ['error', {
+      'ts/no-restricted-imports': ['error', {
         patterns: [
           {
-            group: ['@typescript-eslint/utils', '@typescript-eslint/utils/*'],
+            group: ['@typescript-eslint/utils'],
             importNames: [
               'TSESTree',
               'TSESLint',
-              'RuleFunction',
-              'RuleListener',
-              'SourceCode',
-              'RuleFixer',
-              'ReportFixFunction',
-              'RuleContext',
+              'JSONSchema',
+              'RuleWithMetaAndName',
               'EcmaVersion',
               'ReportDescriptor',
+              'ReportFixFunction',
+              'RuleContext',
+              'RuleFixer',
+              'RuleFunction',
+              'RuleListener',
+              'RuleModule',
               'Scope',
+              'SourceCode',
             ],
             message: 'Import from "#types" instead',
+          },
+          {
+            group: ['@typescript-eslint/utils/ast-utils'],
+            message: 'Import from "#utils/ast" instead',
           },
           {
             group: ['#test', '#test/*'],
