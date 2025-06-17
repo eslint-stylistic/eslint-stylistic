@@ -5,9 +5,6 @@ import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
 
-// eslint-disable-next-line ts/no-restricted-imports
-export * from '@typescript-eslint/utils/ast-utils'
-
 export const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
 
 export const LINEBREAKS = /* @__PURE__ */ new Set(['\r\n', '\r', '\n', '\u2028', '\u2029'])
