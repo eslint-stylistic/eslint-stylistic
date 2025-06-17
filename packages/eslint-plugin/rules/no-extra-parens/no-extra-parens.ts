@@ -3,6 +3,7 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
+  AST_NODE_TYPES,
   canTokensBeAdjacent,
   getPrecedence,
   getStaticPropertyName,
@@ -21,7 +22,6 @@ import {
   skipChainExpression,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',

@@ -1,5 +1,6 @@
 import type { ASTNode, RuleContext, SourceCode, Token } from '#types'
 import {
+  AST_NODE_TYPES,
   isClosingBraceToken,
   isFunction,
   isNotSemicolonToken,
@@ -10,7 +11,6 @@ import {
   skipChainExpression,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 const CJS_EXPORT = /^(?:module\s*\.\s*)?exports(?:\s*\.|\s*\[|$)/u
 const CJS_IMPORT = /^require\(/u
