@@ -87,7 +87,10 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node the node to check.
      * @returns `true` if the node is function body.
      */
-    function isFunctionBody(node: ASTNode): node is Tree.BlockStatement {
+    function isFunctionBody(node: ASTNode | Token): node is Tree.BlockStatement {
+      if (!('parent' in node))
+        return false
+
       const parent = node.parent
 
       return (
@@ -111,7 +114,6 @@ export default createRule<RuleOptions, MessageIds>({
         isArrowToken(precedingToken)
         || (
           isKeywordToken(precedingToken)
-          // @ts-expect-error type cast
           && !isFunctionBody(node)
         )
         || (
@@ -132,7 +134,6 @@ export default createRule<RuleOptions, MessageIds>({
         let requireSpace
         let requireNoSpace
 
-        // @ts-expect-error type cast
         if (isFunctionBody(node)) {
           requireSpace = alwaysFunctions
           requireNoSpace = neverFunctions
