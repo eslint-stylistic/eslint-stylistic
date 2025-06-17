@@ -4,8 +4,8 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
+import { isNotClosingParenToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { isNotClosingParenToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'multiline-ternary',

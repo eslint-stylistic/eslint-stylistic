@@ -32,10 +32,9 @@
 
 import type { ASTNode, ReportFixFunction, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { getFirstNodeInLine, isNodeFirstInLine } from '#utils/ast'
+import { getFirstNodeInLine, isColonToken, isCommaToken, isNodeFirstInLine } from '#utils/ast'
 import { isJSX, isReturningJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
-import { isColonToken, isCommaToken } from '@typescript-eslint/utils/ast-utils'
 
 const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',

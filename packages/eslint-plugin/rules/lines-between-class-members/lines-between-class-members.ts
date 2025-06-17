@@ -1,8 +1,8 @@
 import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { isSemicolonToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 type NodeTest = (
   node: ASTNode

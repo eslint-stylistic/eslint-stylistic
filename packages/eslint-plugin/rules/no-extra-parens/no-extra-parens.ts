@@ -6,23 +6,22 @@ import {
   canTokensBeAdjacent,
   getPrecedence,
   getStaticPropertyName,
+  isClosingParenToken,
   isDecimalInteger,
   isKeywordToken,
   isMixedLogicalAndCoalesceExpressions,
-  isTopLevelExpressionStatement,
-  skipChainExpression,
-} from '#utils/ast'
-import { createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import {
-  isClosingParenToken,
   isNotClosingParenToken,
   isNotOpeningParenToken,
   isOpeningBraceToken,
   isOpeningBracketToken,
+  isOpeningParenToken,
   isParenthesized as isParenthesizedRaw,
-} from '@typescript-eslint/utils/ast-utils'
-import { isOpeningParenToken, isTypeAssertion } from '@typescript-eslint/utils/ast-utils'
+  isTopLevelExpressionStatement,
+  isTypeAssertion,
+  skipChainExpression,
+} from '#utils/ast'
+import { createRule } from '#utils/create-rule'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',

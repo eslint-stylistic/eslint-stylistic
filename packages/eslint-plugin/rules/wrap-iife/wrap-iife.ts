@@ -5,9 +5,8 @@
 
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { getStaticPropertyName, isParenthesised, skipChainExpression } from '#utils/ast'
+import { getStaticPropertyName, isParenthesised, isParenthesized, skipChainExpression } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { isParenthesized } from '@typescript-eslint/utils/ast-utils'
 
 /**
  * Check if the given node is callee of a `NewExpression` node

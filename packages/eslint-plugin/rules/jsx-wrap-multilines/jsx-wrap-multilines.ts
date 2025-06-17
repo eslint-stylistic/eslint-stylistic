@@ -5,9 +5,9 @@
 
 import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isParenthesized } from '#utils/ast'
 import { isJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
-import { isParenthesized } from '@typescript-eslint/utils/ast-utils'
 
 const DEFAULTS: Required<Exclude<RuleOptions[0], undefined>> = {
   declaration: 'parens',

@@ -1,13 +1,13 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
-import { isNotCommaToken } from '@typescript-eslint/utils/ast-utils'
 import {
   isClosingBraceToken,
   isClosingBracketToken,
+  isNotCommaToken,
   isTokenOnSameLine,
-} from '@typescript-eslint/utils/ast-utils'
+} from '#utils/ast'
+import { createRule } from '#utils/create-rule'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-curly-spacing',

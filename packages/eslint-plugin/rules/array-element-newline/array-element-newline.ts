@@ -5,8 +5,8 @@
 
 import type { Token, Tree } from '#types'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
+import { isCommaToken, isCommentToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { isCommaToken, isCommentToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'array-element-newline',

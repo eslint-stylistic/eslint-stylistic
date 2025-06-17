@@ -5,7 +5,6 @@
 
 import type { ASTNode, NodeTypes, RuleFixer, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { createRule } from '#utils/create-rule'
 import {
   isCommaToken,
   isNotClosingParenToken,
@@ -14,7 +13,8 @@ import {
   isOpeningBracketToken,
   isTokenOnSameLine,
   LINEBREAK_MATCHER,
-} from '@typescript-eslint/utils/ast-utils'
+} from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'comma-style',

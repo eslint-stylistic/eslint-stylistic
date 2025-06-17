@@ -1,9 +1,8 @@
 import type { EcmaVersion, Tree } from '#types'
 import type { MessageIds, RuleOptions, Value } from './types'
-import { getNextLocation } from '#utils/ast'
+import { getNextLocation, isCommaToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { isCommaToken } from '@typescript-eslint/utils/ast-utils'
 
 type Extract<T> = T extends Record<any, any> ? T : never
 type Option = RuleOptions[0]

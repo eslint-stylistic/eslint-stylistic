@@ -1,8 +1,4 @@
 import type { ASTNode, RuleContext, SourceCode, Token } from '#types'
-
-import { isTopLevelExpressionStatement, skipChainExpression } from '#utils/ast'
-import { createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import {
   isClosingBraceToken,
   isFunction,
@@ -10,7 +6,11 @@ import {
   isParenthesized,
   isSemicolonToken,
   isTokenOnSameLine,
-} from '@typescript-eslint/utils/ast-utils'
+  isTopLevelExpressionStatement,
+  skipChainExpression,
+} from '#utils/ast'
+import { createRule } from '#utils/create-rule'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 const CJS_EXPORT = /^(?:module\s*\.\s*)?exports(?:\s*\.|\s*\[|$)/u
 const CJS_IMPORT = /^require\(/u

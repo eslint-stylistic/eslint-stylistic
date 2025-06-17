@@ -5,9 +5,8 @@
 
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isDecimalInteger } from '#utils/ast'
+import { isDecimalInteger, isOpeningBracketToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { isOpeningBracketToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-whitespace-before-property',

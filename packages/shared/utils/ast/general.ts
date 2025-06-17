@@ -1,14 +1,13 @@
-/**
- * @fileoverview Common utils for AST.
- * @author Gyandeep Singh
- */
-
 import type { ASTNode, SourceCode, Token, Tree } from '#types'
 import type { AST_NODE_TYPES } from '@typescript-eslint/utils'
+// eslint-disable-next-line ts/no-restricted-imports
 import { isClosingParenToken, isColonToken, isFunction, isOpeningParenToken, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
+
+// eslint-disable-next-line ts/no-restricted-imports
+export * from '@typescript-eslint/utils/ast-utils'
 
 export const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
 
@@ -737,7 +736,7 @@ export function hasOctalOrNonOctalDecimalEscapeSequence(rawString: string) {
  * Gets the first node in a line from the initial node, excluding whitespace.
  * @param context The node to check
  * @param node The node to check
- * @return {ASTNode} the first node in the line
+ * @return the first node in the line
  */
 export function getFirstNodeInLine(context: { sourceCode: SourceCode }, node: ASTNode | Token) {
   const sourceCode = context.sourceCode

@@ -1,8 +1,8 @@
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { isOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
 
 type FuncOption = 'always' | 'never' | 'ignore'
 

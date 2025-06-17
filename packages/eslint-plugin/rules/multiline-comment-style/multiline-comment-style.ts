@@ -5,9 +5,8 @@
 
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { COMMENTS_IGNORE_PATTERN } from '#utils/ast'
+import { COMMENTS_IGNORE_PATTERN, LINEBREAK_MATCHER } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'multiline-comment-style',

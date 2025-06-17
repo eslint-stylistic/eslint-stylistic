@@ -5,8 +5,8 @@
 
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isCommentToken, isNotOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { isCommentToken, isNotOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'implicit-arrow-linebreak',

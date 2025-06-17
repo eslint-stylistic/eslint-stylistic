@@ -4,8 +4,8 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
+import { isClosingParenToken, isOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { isClosingParenToken, isOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'new-parens',
