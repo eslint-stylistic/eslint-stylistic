@@ -1,8 +1,7 @@
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isClosingBraceToken, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
+import { AST_TOKEN_TYPES, isClosingBraceToken, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 
 type SupportedNodes = Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement
 
