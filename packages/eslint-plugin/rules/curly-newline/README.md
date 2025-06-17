@@ -51,8 +51,6 @@ You can specify different options for different kinds of blocks:
 - `"ClassBody"` - A class body
 - `"StaticBlock"` - A static declaration block
 - `"WithStatement"` - A with statement body
-- `"TSEnumBody"` - A TypeScript `enum` declaration body
-- `"TSInterfaceBody"` - A TypeScript `interface` declaration body
 - `"TSModuleBlock"` - A TypeScript module block
 
 ### always
