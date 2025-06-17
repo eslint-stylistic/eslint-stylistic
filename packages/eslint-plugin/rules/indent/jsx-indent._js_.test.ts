@@ -6,7 +6,7 @@
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import { invalids as _invalids, valids as _valids } from '#test/parsers-jsx'
-import rule from '.'
+import rule from './indent'
 import { expectedErrors } from './indent._js_.test'
 
 function valids(...tests: Parameters<typeof _valids<RuleOptions>>) {

@@ -1,5 +1,4 @@
 import type { PackageInfo, RuleInfo } from '../../packages/metadata/src/types'
-import { existsSync } from 'node:fs'
 import { basename, join, posix, relative, resolve, win32 } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { pascalCase } from 'change-case'
@@ -7,7 +6,7 @@ import fg from 'fast-glob'
 
 import fs from 'fs-extra'
 import { customize } from '../../packages/eslint-plugin/configs/customize'
-import { GEN_HEADER, ROOT, RULE_ALIAS, RULE_ORIGINAL_ID_MAP } from './meta'
+import { GEN_HEADER, ROOT } from './meta'
 
 export const rulesInSharedConfig = new Set<string>(Object.keys(customize().rules!))
 
@@ -24,43 +23,26 @@ export async function readPackage(path: string): Promise<PackageInfo> {
 
   const rules = await Promise.all(
     rulesDir.map(async (ruleDir) => {
-      const realName = basename(ruleDir)
-      const name = resolveAlias(realName)
+      const name = basename(ruleDir)
 
       const docsDir = ruleDir
-
-      if (realName !== name) {
-        const pathSegments = docsDir.split('/')
-        pathSegments.pop()
-        pathSegments.push(name)
-        ruleDir = pathSegments.join('/')
-      }
 
       const entry = join(path, ruleDir, `${name}.ts`).replace(/\\/g, '/')
       const url = pathToFileURL(entry).href
       const mod = await import(url)
       const meta = mod.default?.meta
-      const originalId = shortId === 'js'
-        ? name
-        : shortId === 'ts'
-          ? `@typescript-eslint/${name}`
-          : shortId === 'jsx'
-            ? `react/${name}`
-            : ''
+
       const rule: RuleInfo = {
-        name: realName,
-        ruleId: `${pkgId}/${realName}`,
-        originalId: RULE_ORIGINAL_ID_MAP[originalId] || originalId,
+        name,
+        ruleId: `${pkgId}/${name}`,
         entry: relative(ROOT, entry).replace(/\\/g, '/'),
         // TODO: check if entry exists
         docsEntry: relative(ROOT, resolve(path, docsDir, 'README.md')).replace(/\\/g, '/'),
         meta: {
           fixable: meta?.fixable,
           docs: {
-            description: realName !== name
-              ? `${meta?.docs?.description}. Alias of \`${name}\`.`
-              : meta?.docs?.description,
-            recommended: rulesInSharedConfig.has(`@stylistic/${realName}`),
+            description: meta?.docs?.description,
+            recommended: rulesInSharedConfig.has(`@stylistic/${name}`),
           },
         },
       }
@@ -92,11 +74,10 @@ export async function writeRulesIndex(pkg: PackageInfo) {
     'import type { Rules } from \'../dts\'',
     '',
     ...pkg.rules
-      .filter(i => !(i.name in RULE_ALIAS))
-      .map(i => `import ${camelCase(i.name)} from './${i.name}/${pkg.shortId === 'default' ? 'index' : i.name}'`),
+      .map(i => `import ${camelCase(i.name)} from './${i.name}/${i.name}'`),
     '',
     'export default {',
-    ...pkg.rules.map(i => `  '${i.name}': ${camelCase(resolveAlias(i.name))},`),
+    ...pkg.rules.map(i => `  '${i.name}': ${camelCase(i.name)},`),
     '} as unknown as Rules',
     '',
   ].join('\n')
@@ -111,41 +92,31 @@ export async function writePackageDTS(pkg: PackageInfo) {
   const lines = [
     GEN_HEADER,
     ...pkg.rules
-      .filter(r => !(r.name in RULE_ALIAS))
       .map((rule) => {
-        let path = `../rules/${rule.name}/types`
-        if (pkg.shortId !== 'default') {
-          const dir = `eslint-plugin/rules/${rule.name}`
-          if (existsSync(join(ROOT, 'packages', dir, `types._${pkg.shortId}_.d.ts`)))
-            path = `../../${dir}/types._${pkg.shortId}_`
-          else
-            path = `../../${dir}/types`
-        }
+        const path = `../rules/${rule.name}/types`
         return `import type { ${pascalCase(rule.name)}RuleOptions } from '${path}'`
       }),
     '',
     'export interface RuleOptions {',
     ...pkg.rules.flatMap((rule) => {
-      const original = resolveAlias(rule.name)
       return [
         '  /**',
         `   * ${rule.meta?.docs?.description || ''}`,
-        `   * @see https://eslint.style/rules/${pkg.shortId}/${original}`,
+        `   * @see https://eslint.style/rules/${rule.name}`,
         '   */',
-        `  '${pkg.name.replace(/eslint-plugin-|\/eslint-plugin$/, '')}/${rule.name}': ${pascalCase(original)}RuleOptions`,
+        `  '${pkg.name.replace(/eslint-plugin-|\/eslint-plugin$/, '')}/${rule.name}': ${pascalCase(rule.name)}RuleOptions`,
       ]
     }),
     '}',
     '',
     'export interface UnprefixedRuleOptions {',
     ...pkg.rules.flatMap((rule) => {
-      const original = resolveAlias(rule.name)
       return [
         '  /**',
         `   * ${rule.meta?.docs?.description || ''}`,
-        `   * @see https://eslint.style/rules/${pkg.shortId}/${original}`,
+        `   * @see https://eslint.style/rules/${rule.name}`,
         '   */',
-        `  '${rule.name}': ${pascalCase(original)}RuleOptions`,
+        `  '${rule.name}': ${pascalCase(rule.name)}RuleOptions`,
       ]
     }),
     '}',
@@ -204,14 +175,7 @@ export async function writeREADME(pkg: PackageInfo) {
   if (!pkg.rules.length)
     return
 
-  const description = (i: RuleInfo) => {
-    const desc = i.meta?.docs?.description || ''
-
-    if (i.name !== resolveAlias(i.name))
-      return `${desc}. Alias of \`${resolveAlias(i.name)}\`.`
-
-    return desc
-  }
+  const description = (i: RuleInfo) => i.meta?.docs?.description || ''
 
   const lines = [
     '<!--',
@@ -255,12 +219,6 @@ export function camelCase(str: string) {
   return str
     .replace(/[^\w-]+/, '')
     .replace(/-([a-z])/g, (_, c) => c.toUpperCase())
-}
-
-export function resolveAlias(name: string): string {
-  if (RULE_ALIAS[name])
-    return RULE_ALIAS[name]
-  return name
 }
 
 export async function generateMetadata(packages: PackageInfo[]) {

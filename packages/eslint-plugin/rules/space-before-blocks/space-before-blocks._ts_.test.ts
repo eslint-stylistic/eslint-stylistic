@@ -3,7 +3,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
-import rule from '.'
+import rule from './space-before-blocks'
 
 run<RuleOptions, MessageIds>({
   name: 'space-before-blocks',

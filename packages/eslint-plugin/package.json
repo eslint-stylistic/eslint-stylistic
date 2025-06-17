@@ -1,7 +1,7 @@
 {
   "name": "@stylistic/eslint-plugin",
   "type": "module",
-  "version": "4.4.0",
+  "version": "5.0.0-beta.4",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
@@ -39,7 +39,6 @@
     "./rules/curly-newline": "./dist/rules/curly-newline.js",
     "./rules/dot-location": "./dist/rules/dot-location.js",
     "./rules/eol-last": "./dist/rules/eol-last.js",
-    "./rules/func-call-spacing": "./dist/rules/func-call-spacing.js",
     "./rules/function-call-argument-newline": "./dist/rules/function-call-argument-newline.js",
     "./rules/function-call-spacing": "./dist/rules/function-call-spacing.js",
     "./rules/function-paren-newline": "./dist/rules/function-paren-newline.js",

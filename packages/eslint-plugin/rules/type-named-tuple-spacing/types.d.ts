@@ -5,7 +5,7 @@
 export type TypeNamedTupleSpacingRuleOptions = []
 
 export type RuleOptions = TypeNamedTupleSpacingRuleOptions
-export type MessageIds =
-  | 'expectedSpaceAfter'
-  | 'unexpectedSpaceBetween'
-  | 'unexpectedSpaceBefore'
+export type MessageIds
+  = | 'expectedSpaceAfter'
+    | 'unexpectedSpaceBetween'
+    | 'unexpectedSpaceBefore'

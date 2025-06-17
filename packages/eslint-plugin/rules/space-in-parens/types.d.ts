@@ -14,8 +14,8 @@ export type SpaceInParensRuleOptions = [
 ]
 
 export type RuleOptions = SpaceInParensRuleOptions
-export type MessageIds =
-  | 'missingOpeningSpace'
-  | 'missingClosingSpace'
-  | 'rejectedOpeningSpace'
-  | 'rejectedClosingSpace'
+export type MessageIds
+  = | 'missingOpeningSpace'
+    | 'missingClosingSpace'
+    | 'rejectedOpeningSpace'
+    | 'rejectedClosingSpace'

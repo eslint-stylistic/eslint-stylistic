@@ -1,8 +1,8 @@
 import type { InvalidTestCase, TestCaseError } from '#test'
 import type { NodeTypes } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
-import rule from '.'
+import { $, run } from '#test'
+import rule from './object-curly-newline'
 
 const prefixOfNodes = {
   TSTypeLiteral: 'type Foo = ',
@@ -239,6 +239,137 @@ run<RuleOptions, MessageIds>({
         '}',
       ],
     ].flatMap(c => createValidRule(c, { multiline: true, minProperties: 2, consistent: true })),
+    {
+      code: $`
+        enum Foo {
+          A, B,
+        }
+      `,
+      options: ['always'],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B,
+        }
+      `,
+      options: ['always'],
+    },
+    {
+      code: $`
+        enum Foo { A, B }
+      `,
+      options: ['never'],
+    },
+    {
+      code: $`
+        enum Foo { A,
+          B }
+      `,
+      options: ['never'],
+    },
+    {
+      code: $`
+        enum Foo { A, B }
+      `,
+      options: [{ multiline: true }],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B,
+        }
+      `,
+      options: [{ multiline: true }],
+    },
+    {
+      code: $`
+        enum Foo {
+          A, B
+        }
+      `,
+      options: [{ minProperties: 2 }],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B,
+        }
+      `,
+      options: [{ minProperties: 2 }],
+    },
+    {
+      code: $`
+        enum Foo {
+          A, B
+        }
+      `,
+      options: [{ consistent: true }],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B,
+        }
+      `,
+      options: [{ consistent: true }],
+    },
+    {
+      code: $`
+        enum Foo {
+          A, B
+        }
+      `,
+      options: [{ multiline: true, minProperties: 2 }],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B,
+        }
+      `,
+      options: [{ multiline: true, minProperties: 2 }],
+    },
+    {
+      code: $`
+        enum Foo {
+          A, B
+        }
+      `,
+      options: [{ multiline: true, consistent: true }],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B,
+        }
+      `,
+      options: [{ multiline: true, consistent: true }],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B,
+        }
+      `,
+      options: [{ minProperties: 2, consistent: true }],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B,
+        }
+      `,
+      options: [{ multiline: true, minProperties: 2, consistent: true }],
+    },
   ],
   invalid: [
     ...[
@@ -705,5 +836,204 @@ run<RuleOptions, MessageIds>({
         ] as TestCaseError<MessageIds>[],
       },
     ].flatMap(c => createInvalidRule(c.code, c.output, c.errors, { multiline: true, minProperties: 2, consistent: true })),
+    // #region TSEnumBody
+    // #region always
+    {
+      code: 'enum Foo {}',
+      output: $`
+        enum Foo {
+        }
+      `,
+      options: ['always'],
+      errors: [
+        { line: 1, column: 10, messageId: 'expectedLinebreakAfterOpeningBrace' },
+        { line: 1, column: 11, messageId: 'expectedLinebreakBeforeClosingBrace' },
+      ],
+    },
+    {
+      code: 'enum Foo {A,B}',
+      output: $`
+        enum Foo {
+        A,B
+        }
+      `,
+      options: ['always'],
+      errors: [
+        { line: 1, column: 10, messageId: 'expectedLinebreakAfterOpeningBrace' },
+        { line: 1, column: 14, messageId: 'expectedLinebreakBeforeClosingBrace' },
+      ],
+    },
+    {
+      code: $`
+        enum Foo {A,
+          B}
+      `,
+      output: $`
+        enum Foo {
+        A,
+          B
+        }
+      `,
+      options: ['always'],
+      errors: [
+        { line: 1, column: 10, messageId: 'expectedLinebreakAfterOpeningBrace' },
+        { line: 2, column: 4, messageId: 'expectedLinebreakBeforeClosingBrace' },
+      ],
+    },
+    // #endregion
+    // #region never
+    {
+      code: $`
+        enum Foo {
+        }
+      `,
+      output: 'enum Foo {}',
+      options: ['never'],
+      errors: [
+        { line: 1, column: 10, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
+        { line: 2, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
+      ],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,B
+        }
+      `,
+      output: 'enum Foo {A,B}',
+      options: ['never'],
+      errors: [
+        { line: 1, column: 10, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
+        { line: 3, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
+      ],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B
+        }
+      `,
+      output: $`
+        enum Foo {A,
+          B}
+      `,
+      options: ['never'],
+      errors: [
+        { line: 1, column: 10, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
+        { line: 4, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
+      ],
+    },
+    // #endregion
+    // #region multiline
+    {
+      code: $`
+        enum Foo {
+          A,B
+        }
+      `,
+      output: 'enum Foo {A,B}',
+      options: [{ multiline: true }],
+      errors: [
+        { line: 1, column: 10, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
+        { line: 3, column: 1, messageId: 'unexpectedLinebreakBeforeClosingBrace' },
+      ],
+    },
+    {
+      code: $`
+        enum Foo {A,
+          B}
+      `,
+      output: $`
+        enum Foo {
+        A,
+          B
+        }
+      `,
+      options: [{ multiline: true }],
+      errors: [
+        { line: 1, column: 10, messageId: 'expectedLinebreakAfterOpeningBrace' },
+        { line: 2, column: 4, messageId: 'expectedLinebreakBeforeClosingBrace' },
+      ],
+    },
+    // #endregion
+    // #region minProperties
+    {
+      code: 'enum Foo {A,B}',
+      output: $`
+        enum Foo {
+        A,B
+        }
+      `,
+      options: [{ minProperties: 2 }],
+      errors: [
+        { line: 1, column: 10, messageId: 'expectedLinebreakAfterOpeningBrace' },
+        { line: 1, column: 14, messageId: 'expectedLinebreakBeforeClosingBrace' },
+      ],
+    },
+    {
+      code: $`
+        enum Foo {A,
+          B}
+      `,
+      output: $`
+        enum Foo {
+        A,
+          B
+        }
+      `,
+      options: [{ minProperties: 2 }],
+      errors: [
+        { line: 1, column: 10, messageId: 'expectedLinebreakAfterOpeningBrace' },
+        { line: 2, column: 4, messageId: 'expectedLinebreakBeforeClosingBrace' },
+      ],
+    },
+    // #endregion
+    // #region consistent
+    {
+      code: $`
+        enum Foo {
+          A,B}
+      `,
+      output: 'enum Foo {A,B}',
+      options: [{ consistent: true }],
+      errors: [
+        { line: 1, column: 10, messageId: 'unexpectedLinebreakAfterOpeningBrace' },
+      ],
+    },
+    // #endregion
+    // #region { multiline: true, minProperties: 2, consistent: true }
+    {
+      code: 'enum Foo {A,B}',
+      output: $`
+        enum Foo {
+        A,B
+        }
+      `,
+      options: [{ multiline: true, minProperties: 2, consistent: true }],
+      errors: [
+        { line: 1, column: 10, messageId: 'expectedLinebreakAfterOpeningBrace' },
+        { line: 1, column: 14, messageId: 'expectedLinebreakBeforeClosingBrace' },
+      ],
+    },
+    {
+      code: $`
+        enum Foo {A,
+          B}
+      `,
+      output: $`
+        enum Foo {
+        A,
+          B
+        }
+      `,
+      options: [{ multiline: true, minProperties: 2, consistent: true }],
+      errors: [
+        { line: 1, column: 10, messageId: 'expectedLinebreakAfterOpeningBrace' },
+        { line: 2, column: 4, messageId: 'expectedLinebreakBeforeClosingBrace' },
+      ],
+    },
+    // #endregion
+    // #endregion
   ],
 })

@@ -60,7 +60,26 @@ export default antfu(
   },
   {
     files: [
-      'packages/eslint-plugin-{js,jsx,ts,plus}/{rules,utils}/**/*.ts',
+      '**/no-mixed-spaces-and-tabs/README.md',
+    ],
+    name: 'local/no-mixed-spaces-and-tabs/readme',
+    rules: {
+      'style/no-mixed-spaces-and-tabs': 'off',
+    },
+  },
+  {
+    files: [
+      '**/no-trailing-spaces/README.md',
+    ],
+    name: 'local/no-trailing-spaces/readme',
+    rules: {
+      'format/prettier': 'off',
+      'style/no-trailing-spaces': 'off',
+    },
+  },
+  {
+    files: [
+      'packages/eslint-plugin/{rules,utils}/**/*.ts',
       'packages/shared/utils/**/*.ts',
     ],
     ignores: ['**/*.test.ts'],

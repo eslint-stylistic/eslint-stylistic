@@ -4,7 +4,7 @@
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import rule from '.'
+import rule from './object-curly-spacing'
 
 run<RuleOptions, MessageIds>({
   name: 'object-curly-spacing',
@@ -807,6 +807,35 @@ run<RuleOptions, MessageIds>({
     {
       code: 'const x:{[key: string]: [number]}',
       options: ['always', { arraysInObjects: false }],
+    },
+
+    // default - TSInterfaceBody
+    {
+      code: 'interface x {f: number}',
+    },
+    // always - TSInterfaceBody
+    {
+      code: 'interface x { f: number }',
+      options: ['always'],
+    },
+    // never - TSInterfaceBody
+    {
+      code: 'interface x {f: number}',
+      options: ['never'],
+    },
+    // default - TSEnumBody
+    {
+      code: 'enum Foo {ONE, TWO,}',
+    },
+    // always - TSEnumBody
+    {
+      code: 'enum Foo { ONE, TWO = 2 }',
+      options: ['always'],
+    },
+    // never - TSEnumBody
+    {
+      code: 'enum Foo {ONE, TWO,}',
+      options: ['never'],
     },
   ],
 
@@ -2127,6 +2156,42 @@ run<RuleOptions, MessageIds>({
         { messageId: 'unexpectedSpaceAfter' },
         { messageId: 'unexpectedSpaceBefore' },
         { messageId: 'unexpectedSpaceBefore' },
+      ],
+    },
+    // TSInterfaceBody
+    {
+      code: 'interface x { f: number }',
+      output: 'interface x {f: number}',
+      errors: [
+        { messageId: 'unexpectedSpaceAfter' },
+        { messageId: 'unexpectedSpaceBefore' },
+      ],
+    },
+    {
+      code: 'interface x {f: number}',
+      output: 'interface x { f: number }',
+      options: ['always'],
+      errors: [
+        { messageId: 'requireSpaceAfter' },
+        { messageId: 'requireSpaceBefore' },
+      ],
+    },
+    // TSEnumBody
+    {
+      code: 'enum Foo { ONE, TWO = 2 }',
+      output: 'enum Foo {ONE, TWO = 2}',
+      errors: [
+        { messageId: 'unexpectedSpaceAfter' },
+        { messageId: 'unexpectedSpaceBefore' },
+      ],
+    },
+    {
+      code: 'enum Foo {ONE, TWO,}',
+      output: 'enum Foo { ONE, TWO, }',
+      options: ['always'],
+      errors: [
+        { messageId: 'requireSpaceAfter' },
+        { messageId: 'requireSpaceBefore' },
       ],
     },
   ],

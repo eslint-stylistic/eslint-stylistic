@@ -32,13 +32,7 @@ To develop and test this project:
 
 3. Once you make changes to the code, run `pnpm run test` again to build the project.
 
-> We use pnpm v8. If you are working on multiple projects with different versions of pnpm, it's recommended to enable [Corepack](https://github.com/nodejs/corepack) by running `corepack enable`.
-
-## How Rules are Organized
-
-This project consists of [4 types of rules](https://eslint.style/guide/getting-started#packages), they were orignally ported from different sources. We are currently in the process of reorganizing the rules to finally exposing a single package for all rules.
-
-From v1.8.0, all rules are placed under `packages/eslint-plugin/rules/*` with suffix of `._js_.` or `._ts_.` to indicate the rule's original packages. Rules are still redistributed in the original `@stylistic/eslint-plugin-*` packages for backward compatibility. We will merge each rule into a single file in v2.0, before that, please keep the file references still seperated.
+> We use pnpm v10. If you are working on multiple projects with different versions of pnpm, it's recommended to enable [Corepack](https://github.com/nodejs/corepack) by running `corepack enable`.
 
 ### Running Tests
 

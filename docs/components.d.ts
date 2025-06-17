@@ -9,7 +9,6 @@ export {}
 declare module 'vue' {
   export interface GlobalComponents {
     CustomWrapper: typeof import('./.vitepress/components/CustomWrapper.vue')['default']
-    Layout: typeof import('./.vitepress/components/Layout.vue')['default']
     RuleItem: typeof import('./.vitepress/components/RuleItem.vue')['default']
     RuleList: typeof import('./.vitepress/components/RuleList.vue')['default']
   }
