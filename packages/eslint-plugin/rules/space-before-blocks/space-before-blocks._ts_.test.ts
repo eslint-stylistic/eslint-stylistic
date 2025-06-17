@@ -112,7 +112,7 @@ run<RuleOptions, MessageIds>({
           type foo = number;
         }
       `,
-      options: [{ classes: 'never' }],
+      options: [{ modules: 'never' }],
     },
     {
       code: $`
@@ -123,7 +123,7 @@ run<RuleOptions, MessageIds>({
           type foo = number;
         }
       `,
-      options: [{ classes: 'always' }],
+      options: [{ modules: 'always' }],
     },
     {
       code: $`
@@ -134,7 +134,7 @@ run<RuleOptions, MessageIds>({
           type foo = number;
         }
       `,
-      options: [{ classes: 'off' }],
+      options: [{ modules: 'off' }],
     },
   ],
   invalid: [
@@ -369,7 +369,7 @@ run<RuleOptions, MessageIds>({
           messageId: 'unexpectedSpace',
         },
       ],
-      options: [{ classes: 'never' }],
+      options: [{ modules: 'never' }],
     },
     {
       code: $`
@@ -396,7 +396,7 @@ run<RuleOptions, MessageIds>({
           messageId: 'missingSpace',
         },
       ],
-      options: [{ classes: 'always' }],
+      options: [{ modules: 'always' }],
     },
   ],
 })

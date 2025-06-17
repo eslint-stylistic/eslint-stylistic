@@ -33,6 +33,10 @@ export default createRule<RuleOptions, MessageIds>({
                 type: 'string',
                 enum: ['always', 'never', 'off'],
               },
+              modules: {
+                type: 'string',
+                enum: ['always', 'never', 'off'],
+              },
             },
             additionalProperties: false,
           },
@@ -51,25 +55,31 @@ export default createRule<RuleOptions, MessageIds>({
     let alwaysFunctions = true
     let alwaysKeywords = true
     let alwaysClasses = true
+    let alwaysModules = true
     let neverFunctions = false
     let neverKeywords = false
     let neverClasses = false
+    let neverModules = false
 
     if (typeof config === 'object') {
       alwaysFunctions = config.functions === 'always'
       alwaysKeywords = config.keywords === 'always'
       alwaysClasses = config.classes === 'always'
+      alwaysModules = config.modules === 'always'
       neverFunctions = config.functions === 'never'
       neverKeywords = config.keywords === 'never'
       neverClasses = config.classes === 'never'
+      neverModules = config.modules === 'never'
     }
     else if (config === 'never') {
       alwaysFunctions = false
       alwaysKeywords = false
       alwaysClasses = false
+      alwaysModules = false
       neverFunctions = true
       neverKeywords = true
       neverClasses = true
+      neverModules = true
     }
 
     /**
@@ -127,9 +137,13 @@ export default createRule<RuleOptions, MessageIds>({
           requireSpace = alwaysFunctions
           requireNoSpace = neverFunctions
         }
-        else if (node.type === 'ClassBody' || node.type === 'TSEnumBody' || node.type === 'TSInterfaceBody' || node.type === 'TSModuleBlock') {
+        else if (node.type === 'ClassBody' || node.type === 'TSEnumBody' || node.type === 'TSInterfaceBody') {
           requireSpace = alwaysClasses
           requireNoSpace = neverClasses
+        }
+        else if (node.type === 'TSModuleBlock') {
+          requireSpace = alwaysModules
+          requireNoSpace = neverModules
         }
         else {
           requireSpace = alwaysKeywords
