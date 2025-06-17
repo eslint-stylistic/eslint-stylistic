@@ -8,31 +8,43 @@ Note that since React's JSX uses the upper vs. lower case convention to distingu
 
 Examples of **incorrect** code for this rule:
 
-```jsx
-<Test_component />
+::: incorrect
 
-<TEST_COMPONENT />
+```jsx
+/* eslint @stylistic/jsx-pascal-case: "error" */
+
+<Test_component />;
+
+<TEST_COMPONENT />;
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
-```jsx
-<div />
+::: correct
 
-<TestComponent />
+```jsx
+/* eslint @stylistic/jsx-pascal-case: "error" */
+
+<div />;
+
+<TestComponent />;
 
 <TestComponent>
   <div />
-</TestComponent>
+</TestComponent>;
 
-<CSSTransitionGroup />
+<CSSTransitionGroup />;
 ```
+
+:::
 
 ## Rule Options
 
 ```js
 ...
-"@stylistic/jsx/jsx-pascal-case": [<enabled>, { allowAllCaps: <boolean>, allowNamespace: <boolean>, allowLeadingUnderscore: <boolean>, ignore: <string[]> }]
+"@stylistic/jsx-pascal-case": [<enabled>, { allowAllCaps: <boolean>, allowNamespace: <boolean>, allowLeadingUnderscore: <boolean>, ignore: <string[]> }]
 ```
 
 - `enabled`: for enabling the rule. 0=off, 1=warn, 2=error. Defaults to 0.
@@ -45,30 +57,48 @@ Examples of **correct** code for this rule:
 
 Examples of **correct** code for this rule, when `allowAllCaps` is `true`:
 
+::: correct
+
 ```jsx
-<ALLOWED />
-<TEST_COMPONENT />
+/* eslint @stylistic/jsx-pascal-case: ["error", { "allowAllCaps": true }] */
+
+<ALLOWED />;
+<TEST_COMPONENT />;
 ```
+
+:::
 
 ### `allowNamespace`
 
 Examples of **correct** code for this rule, when `allowNamespace` is `true`:
 
+::: correct
+
 ```jsx
-<Allowed.div />
-<TestComponent.p />
+/* eslint @stylistic/jsx-pascal-case: ["error", { "allowNamespace": true }] */
+
+<Allowed.div />;
+<TestComponent.p />;
 ```
+
+:::
 
 ### `allowLeadingUnderscore`
 
 Examples of **correct** code for this rule, when `allowLeadingUnderscore` is `true`:
 
+::: correct
+
 ```jsx
-<_AllowedComponent />
+/* eslint @stylistic/jsx-pascal-case: ["error", { "allowLeadingUnderscore": true }] */
+
+<_AllowedComponent />;
 <_AllowedComponent>
   <div />
-</_AllowedComponent>
+</_AllowedComponent>;
 ```
+
+:::
 
 **WARNING:** Adding a leading underscore to the name of a component does **NOT** affect the visibility or accessibility of that component. Attempting to use leading underscores to enforce privacy of your components is an error.
 

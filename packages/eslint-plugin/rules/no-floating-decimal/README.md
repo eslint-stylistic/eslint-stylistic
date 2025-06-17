@@ -24,7 +24,7 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
-/*eslint no-floating-decimal: "error"*/
+/* eslint @stylistic/no-floating-decimal: "error" */
 
 var num = .5;
 var num = 2.;
@@ -38,7 +38,7 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
-/*eslint no-floating-decimal: "error"*/
+/* eslint @stylistic/no-floating-decimal: "error" */
 
 var num = 0.5;
 var num = 2.0;

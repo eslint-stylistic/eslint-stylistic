@@ -31,7 +31,7 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 ::: incorrect
 
 ```js
-/*eslint function-call-argument-newline: ["error", "always"]*/
+/* eslint @stylistic/function-call-argument-newline: ["error", "always"] */
 
 foo("one", "two", "three");
 
@@ -52,7 +52,7 @@ Examples of **correct** code for this rule with the default `"always"` option:
 ::: correct
 
 ```js
-/*eslint function-call-argument-newline: ["error", "always"]*/
+/* eslint @stylistic/function-call-argument-newline: ["error", "always"] */
 
 foo(
     "one",
@@ -93,7 +93,7 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 ::: incorrect
 
 ```js
-/*eslint function-call-argument-newline: ["error", "never"]*/
+/* eslint @stylistic/function-call-argument-newline: ["error", "never"] */
 
 foo(
     "one",
@@ -123,7 +123,7 @@ Examples of **correct** code for this rule with the `"never"` option:
 ::: correct
 
 ```js
-/*eslint function-call-argument-newline: ["error", "never"]*/
+/* eslint @stylistic/function-call-argument-newline: ["error", "never"] */
 
 foo("one", "two", "three");
 // or
@@ -152,7 +152,7 @@ Examples of **incorrect** code for this rule with the `"consistent"` option:
 ::: incorrect
 
 ```js
-/*eslint function-call-argument-newline: ["error", "consistent"]*/
+/* eslint @stylistic/function-call-argument-newline: ["error", "consistent"] */
 
 foo("one", "two",
     "three");
@@ -176,7 +176,7 @@ Examples of **correct** code for this rule with the `"consistent"` option:
 ::: correct
 
 ```js
-/*eslint function-call-argument-newline: ["error", "consistent"]*/
+/* eslint @stylistic/function-call-argument-newline: ["error", "consistent"] */
 
 foo("one", "two", "three");
 // or

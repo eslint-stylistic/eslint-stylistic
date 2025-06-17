@@ -66,8 +66,7 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 ::: incorrect
 
 ```js
-/*eslint space-before-function-paren: "error"*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-before-function-paren: "error" */
 
 function foo() {
     // ...
@@ -109,8 +108,7 @@ Examples of **correct** code for this rule with the default `"always"` option:
 ::: correct
 
 ```js
-/*eslint space-before-function-paren: "error"*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-before-function-paren: "error" */
 
 function foo () {
     // ...
@@ -154,8 +152,7 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 ::: incorrect
 
 ```js
-/*eslint space-before-function-paren: ["error", "never"]*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-before-function-paren: ["error", "never"] */
 
 function foo () {
     // ...
@@ -197,8 +194,7 @@ Examples of **correct** code for this rule with the `"never"` option:
 ::: correct
 
 ```js
-/*eslint space-before-function-paren: ["error", "never"]*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-before-function-paren: ["error", "never"] */
 
 function foo() {
     // ...
@@ -242,8 +238,7 @@ Examples of **incorrect** code for this rule with the `{"anonymous": "always", "
 ::: incorrect
 
 ```js
-/*eslint space-before-function-paren: ["error", {"anonymous": "always", "named": "never", "asyncArrow": "always", "catch": "always"}]*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-before-function-paren: ["error", {"anonymous": "always", "named": "never", "asyncArrow": "always", "catch": "always"}] */
 
 function foo () {
     // ...
@@ -281,8 +276,7 @@ Examples of **correct** code for this rule with the `{"anonymous": "always", "na
 ::: correct
 
 ```js
-/*eslint space-before-function-paren: ["error", {"anonymous": "always", "named": "never", "asyncArrow": "always", "catch": "always"}]*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-before-function-paren: ["error", {"anonymous": "always", "named": "never", "asyncArrow": "always", "catch": "always"}] */
 
 function foo() {
     // ...
@@ -322,8 +316,7 @@ Examples of **incorrect** code for this rule with the `{"anonymous": "never", "n
 ::: incorrect
 
 ```js
-/*eslint space-before-function-paren: ["error", { "anonymous": "never", "named": "always", "catch": "never" }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-before-function-paren: ["error", { "anonymous": "never", "named": "always", "catch": "never" }] */
 
 function foo() {
     // ...
@@ -359,8 +352,7 @@ Examples of **correct** code for this rule with the `{"anonymous": "never", "nam
 ::: correct
 
 ```js
-/*eslint space-before-function-paren: ["error", { "anonymous": "never", "named": "always", "catch": "never" }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-before-function-paren: ["error", { "anonymous": "never", "named": "always", "catch": "never" }] */
 
 function foo () {
     // ...
@@ -398,8 +390,7 @@ Examples of **incorrect** code for this rule with the `{"anonymous": "ignore", "
 ::: incorrect
 
 ```js
-/*eslint space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always", "catch": "never" }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always", "catch": "never" }] */
 
 function foo() {
     // ...
@@ -431,8 +422,7 @@ Examples of **correct** code for this rule with the `{"anonymous": "ignore", "na
 ::: correct
 
 ```js
-/*eslint space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always", "catch": "never" }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-before-function-paren: ["error", { "anonymous": "ignore", "named": "always", "catch": "never" }] */
 
 var bar = function() {
     // ...

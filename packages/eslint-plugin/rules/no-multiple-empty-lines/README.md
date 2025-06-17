@@ -26,7 +26,7 @@ Examples of **incorrect** code for this rule with the default `{ "max": 2 }` opt
 ::: incorrect
 
 ```js
-/*eslint no-multiple-empty-lines: "error"*/⏎
+/* eslint @stylistic/no-multiple-empty-lines: "error" */⏎
 ⏎
 var foo = 5;⏎
 ⏎
@@ -42,7 +42,7 @@ Examples of **correct** code for this rule with the default `{ "max": 2 }` optio
 ::: correct
 
 ```js
-/*eslint no-multiple-empty-lines: "error"*/⏎
+/* eslint @stylistic/no-multiple-empty-lines: "error" */⏎
 ⏎
 var foo = 5;⏎
 ⏎
@@ -59,7 +59,7 @@ Examples of **incorrect** code for this rule with the `{ max: 2, maxEOF: 0 }` op
 ::: incorrect
 
 ```js
-/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
+/* eslint @stylistic/no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }] */⏎
 ⏎
 var foo = 5;⏎
 ⏎
@@ -76,7 +76,7 @@ Examples of **correct** code for this rule with the `{ max: 2, maxEOF: 0 }` opti
 ::: correct
 
 ```js
-/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
+/* eslint @stylistic/no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }] */⏎
 ⏎
 var foo = 5;⏎
 ⏎
@@ -93,7 +93,7 @@ var bar = 3;
 ::: correct
 
 ```js
-/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }]*/⏎
+/* eslint @stylistic/no-multiple-empty-lines: ["error", { "max": 2, "maxEOF": 0 }] */⏎
 ⏎
 var foo = 5;⏎
 ⏎
@@ -113,7 +113,7 @@ Examples of **incorrect** code for this rule with the `{ max: 2, maxBOF: 1 }` op
 ```js
 ⏎
 ⏎
-/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxBOF": 1 }]*/⏎
+/* eslint @stylistic/no-multiple-empty-lines: ["error", { "max": 2, "maxBOF": 1 }] */⏎
 ⏎
 var foo = 5;⏎
 ⏎
@@ -127,7 +127,7 @@ Examples of **correct** code for this rule with the `{ max: 2, maxBOF: 1 }` opti
 ::: correct
 
 ```js
-/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxBOF": 1}]*/⏎
+/* eslint @stylistic/no-multiple-empty-lines: ["error", { "max": 2, "maxBOF": 1}] */⏎
 ⏎
 var foo = 5;⏎
 ⏎
@@ -141,7 +141,7 @@ var bar = 3;
 
 ```js
 ⏎
-/*eslint no-multiple-empty-lines: ["error", { "max": 2, "maxBOF": 1}]*/⏎
+/* eslint @stylistic/no-multiple-empty-lines: ["error", { "max": 2, "maxBOF": 1}] */⏎
 ⏎
 var foo = 5;⏎
 ⏎

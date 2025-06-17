@@ -45,7 +45,7 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 ::: incorrect
 
 ```js
-/*eslint space-in-parens: ["error", "never"]*/
+/* eslint @stylistic/space-in-parens: ["error", "never"] */
 
 foo( );
 
@@ -66,7 +66,7 @@ Examples of **correct** code for this rule with the default `"never"` option:
 ::: correct
 
 ```js
-/*eslint space-in-parens: ["error", "never"]*/
+/* eslint @stylistic/space-in-parens: ["error", "never"] */
 
 foo();
 
@@ -87,7 +87,7 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ::: incorrect
 
 ```js
-/*eslint space-in-parens: ["error", "always"]*/
+/* eslint @stylistic/space-in-parens: ["error", "always"] */
 
 foo( 'bar');
 foo('bar' );
@@ -106,7 +106,7 @@ Examples of **correct** code for this rule with the `"always"` option:
 ::: correct
 
 ```js
-/*eslint space-in-parens: ["error", "always"]*/
+/* eslint @stylistic/space-in-parens: ["error", "always"] */
 
 foo();
 foo( );
@@ -145,7 +145,7 @@ Examples of **incorrect** code for this rule with the `"never", { "exceptions": 
 ::: incorrect
 
 ```js
-/*eslint space-in-parens: ["error", "never", { "exceptions": ["{}"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "never", { "exceptions": ["{}"] }] */
 
 foo({bar: 'baz'});
 foo(1, {bar: 'baz'});
@@ -158,7 +158,7 @@ Examples of **correct** code for this rule with the `"never", { "exceptions": ["
 ::: correct
 
 ```js
-/*eslint space-in-parens: ["error", "never", { "exceptions": ["{}"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "never", { "exceptions": ["{}"] }] */
 
 foo( {bar: 'baz'} );
 foo(1, {bar: 'baz'} );
@@ -171,7 +171,7 @@ Examples of **incorrect** code for this rule with the `"always", { "exceptions":
 ::: incorrect
 
 ```js
-/*eslint space-in-parens: ["error", "always", { "exceptions": ["{}"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "always", { "exceptions": ["{}"] }] */
 
 foo( {bar: 'baz'} );
 foo( 1, {bar: 'baz'} );
@@ -184,7 +184,7 @@ Examples of **correct** code for this rule with the `"always", { "exceptions": [
 ::: correct
 
 ```js
-/*eslint space-in-parens: ["error", "always", { "exceptions": ["{}"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "always", { "exceptions": ["{}"] }] */
 
 foo({bar: 'baz'});
 foo( 1, {bar: 'baz'});
@@ -197,7 +197,7 @@ Examples of **incorrect** code for this rule with the `"never", { "exceptions": 
 ::: incorrect
 
 ```js
-/*eslint space-in-parens: ["error", "never", { "exceptions": ["[]"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "never", { "exceptions": ["[]"] }] */
 
 foo([bar, baz]);
 foo([bar, baz], 1);
@@ -210,7 +210,7 @@ Examples of **correct** code for this rule with the `"never", { "exceptions": ["
 ::: correct
 
 ```js
-/*eslint space-in-parens: ["error", "never", { "exceptions": ["[]"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "never", { "exceptions": ["[]"] }] */
 
 foo( [bar, baz] );
 foo( [bar, baz], 1);
@@ -223,7 +223,7 @@ Examples of **incorrect** code for this rule with the `"always", { "exceptions":
 ::: incorrect
 
 ```js
-/*eslint space-in-parens: ["error", "always", { "exceptions": ["[]"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "always", { "exceptions": ["[]"] }] */
 
 foo( [bar, baz] );
 foo( [bar, baz], 1 );
@@ -236,7 +236,7 @@ Examples of **correct** code for this rule with the `"always", { "exceptions": [
 ::: correct
 
 ```js
-/*eslint space-in-parens: ["error", "always", { "exceptions": ["[]"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "always", { "exceptions": ["[]"] }] */
 
 foo([bar, baz]);
 foo([bar, baz], 1 );
@@ -249,7 +249,7 @@ Examples of **incorrect** code for this rule with the `"never", { "exceptions": 
 ::: incorrect
 
 ```js
-/*eslint space-in-parens: ["error", "never", { "exceptions": ["()"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "never", { "exceptions": ["()"] }] */
 
 foo((1 + 2));
 foo((1 + 2), 1);
@@ -263,7 +263,7 @@ Examples of **correct** code for this rule with the `"never", { "exceptions": ["
 ::: correct
 
 ```js
-/*eslint space-in-parens: ["error", "never", { "exceptions": ["()"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "never", { "exceptions": ["()"] }] */
 
 foo( (1 + 2) );
 foo( (1 + 2), 1);
@@ -277,7 +277,7 @@ Examples of **incorrect** code for this rule with the `"always", { "exceptions":
 ::: incorrect
 
 ```js
-/*eslint space-in-parens: ["error", "always", { "exceptions": ["()"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "always", { "exceptions": ["()"] }] */
 
 foo( ( 1 + 2 ) );
 foo( ( 1 + 2 ), 1 );
@@ -290,7 +290,7 @@ Examples of **correct** code for this rule with the `"always", { "exceptions": [
 ::: correct
 
 ```js
-/*eslint space-in-parens: ["error", "always", { "exceptions": ["()"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "always", { "exceptions": ["()"] }] */
 
 foo(( 1 + 2 ));
 foo(( 1 + 2 ), 1 );
@@ -305,7 +305,7 @@ Example of **incorrect** code for this rule with the `"never", { "exceptions": [
 ::: incorrect
 
 ```js
-/*eslint space-in-parens: ["error", "never", { "exceptions": ["empty"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "never", { "exceptions": ["empty"] }] */
 
 foo();
 ```
@@ -317,7 +317,7 @@ Example of **correct** code for this rule with the `"never", { "exceptions": ["e
 ::: correct
 
 ```js
-/*eslint space-in-parens: ["error", "never", { "exceptions": ["empty"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "never", { "exceptions": ["empty"] }] */
 
 foo( );
 ```
@@ -329,7 +329,7 @@ Example of **incorrect** code for this rule with the `"always", { "exceptions": 
 ::: incorrect
 
 ```js
-/*eslint space-in-parens: ["error", "always", { "exceptions": ["empty"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "always", { "exceptions": ["empty"] }] */
 
 foo( );
 ```
@@ -341,7 +341,7 @@ Example of **correct** code for this rule with the `"always", { "exceptions": ["
 ::: correct
 
 ```js
-/*eslint space-in-parens: ["error", "always", { "exceptions": ["empty"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "always", { "exceptions": ["empty"] }] */
 
 foo();
 ```
@@ -355,7 +355,7 @@ Examples of **incorrect** code for this rule with the `"always", { "exceptions":
 ::: incorrect
 
 ```js
-/*eslint space-in-parens: ["error", "always", { "exceptions": ["{}", "[]"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "always", { "exceptions": ["{}", "[]"] }] */
 
 bar( {bar:'baz'} );
 baz( 1, [1,2] );
@@ -369,7 +369,7 @@ Examples of **correct** code for this rule with the `"always", { "exceptions": [
 ::: correct
 
 ```js
-/*eslint space-in-parens: ["error", "always", { "exceptions": ["{}", "[]"] }]*/
+/* eslint @stylistic/space-in-parens: ["error", "always", { "exceptions": ["{}", "[]"] }] */
 
 bar({bar:'baz'});
 baz( 1, [1,2]);

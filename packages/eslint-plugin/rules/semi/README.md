@@ -99,7 +99,7 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 ::: incorrect
 
 ```js
-/*eslint semi: ["error", "always"]*/
+/* eslint @stylistic/semi: ["error", "always"] */
 
 var name = "ESLint"
 
@@ -119,7 +119,7 @@ Examples of **correct** code for this rule with the default `"always"` option:
 ::: correct
 
 ```js
-/*eslint semi: "error"*/
+/* eslint @stylistic/semi: "error" */
 
 var name = "ESLint";
 
@@ -141,7 +141,7 @@ Examples of additional **correct** code for this rule with the `"always", { "omi
 ::: correct
 
 ```js
-/*eslint semi: ["error", "always", { "omitLastInOneLineBlock": true}] */
+/* eslint @stylistic/semi: ["error", "always", { "omitLastInOneLineBlock": true}] */
 
 if (foo) { bar() }
 
@@ -165,7 +165,7 @@ Examples of additional **correct** code for this rule with the `"always", { "omi
 ::: correct
 
 ```js
-/*eslint semi: ["error", "always", { "omitLastInOneLineClassBody": true}] */
+/* eslint @stylistic/semi: ["error", "always", { "omitLastInOneLineClassBody": true}] */
 
 export class SomeClass{
     logType(){
@@ -187,7 +187,7 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 ::: incorrect
 
 ```js
-/*eslint semi: ["error", "never"]*/
+/* eslint @stylistic/semi: ["error", "never"] */
 
 var name = "ESLint";
 
@@ -207,7 +207,7 @@ Examples of **correct** code for this rule with the `"never"` option:
 ::: correct
 
 ```js
-/*eslint semi: ["error", "never"]*/
+/* eslint @stylistic/semi: ["error", "never"] */
 
 var name = "ESLint"
 
@@ -245,7 +245,7 @@ Examples of additional **incorrect** code for this rule with the `"never", { "be
 ::: incorrect
 
 ```js
-/*eslint semi: ["error", "never", { "beforeStatementContinuationChars": "always"}] */
+/* eslint @stylistic/semi: ["error", "never", { "beforeStatementContinuationChars": "always"}] */
 import a from "a"
 
 (function() {
@@ -260,7 +260,7 @@ Examples of additional **incorrect** code for this rule with the `"never", { "be
 ::: incorrect
 
 ```js
-/*eslint semi: ["error", "never", { "beforeStatementContinuationChars": "never"}] */
+/* eslint @stylistic/semi: ["error", "never", { "beforeStatementContinuationChars": "never"}] */
 import a from "a"
 
 ;(function() {

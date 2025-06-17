@@ -30,8 +30,7 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
-/*eslint no-confusing-arrow: "error"*/
-/*eslint-env es6*/
+/* eslint @stylistic/no-confusing-arrow: "error" */
 
 var x = a => 1 ? 2 : 3;
 var x = (a) => 1 ? 2 : 3;
@@ -44,8 +43,8 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
-/*eslint no-confusing-arrow: "error"*/
-/*eslint-env es6*/
+/* eslint @stylistic/no-confusing-arrow: "error" */
+
 var x = a => (1 ? 2 : 3);
 var x = (a) => (1 ? 2 : 3);
 var x = (a) => {
@@ -81,8 +80,8 @@ Examples of **incorrect** code for this rule with the `{"allowParens": false}` o
 ::: incorrect
 
 ```js
-/*eslint no-confusing-arrow: ["error", {"allowParens": false}]*/
-/*eslint-env es6*/
+/* eslint @stylistic/no-confusing-arrow: ["error", {"allowParens": false}] */
+
 var x = a => (1 ? 2 : 3);
 var x = (a) => (1 ? 2 : 3);
 ```
@@ -99,8 +98,8 @@ Examples of **correct** code for this rule with the `{"onlyOneSimpleParam": true
 ::: correct
 
 ```js
-/*eslint no-confusing-arrow: ["error", {"onlyOneSimpleParam": true}]*/
-/*eslint-env es6*/
+/* eslint @stylistic/no-confusing-arrow: ["error", {"onlyOneSimpleParam": true}] */
+
 () => 1 ? 2 : 3;
 (a, b) => 1 ? 2 : 3;
 (a = b) => 1 ? 2 : 3;
