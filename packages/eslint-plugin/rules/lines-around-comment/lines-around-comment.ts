@@ -1,9 +1,7 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isOpeningBraceToken } from '#utils/ast'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES, isCommentToken, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
-import { isCommentToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 const COMMENTS_IGNORE_PATTERN
   = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
@@ -156,8 +154,8 @@ export default createRule<RuleOptions, MessageIds>({
     /**
      * @returns whether comments are on lines starting with or ending with code.
      */
-    function codeAroundComment(token: Tree.Token): boolean {
-      let currentToken: Tree.Token | null = token
+    function codeAroundComment(token: Token): boolean {
+      let currentToken: Token | null = token
 
       do {
         currentToken = sourceCode.getTokenBefore(currentToken, {
@@ -194,7 +192,7 @@ export default createRule<RuleOptions, MessageIds>({
     /**
      * @returns the parent node that contains the given token.
      */
-    function getParentNodeOfToken(token: Tree.Token): ASTNode | null {
+    function getParentNodeOfToken(token: Token): ASTNode | null {
       const node = sourceCode.getNodeByRangeIndex(token.range[0])
 
       /**
@@ -258,7 +256,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns whether comments are at the parent end.
      */
     function isCommentAtParentEnd(
-      token: Tree.Token,
+      token: Token,
       nodeType: Tree.AST_NODE_TYPES,
     ): boolean {
       const parent = getParentNodeOfToken(token)

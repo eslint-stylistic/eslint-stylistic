@@ -152,7 +152,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function validateArguments(parens: ParensPair, elements: Tree.CallExpressionArgument[] | Tree.Parameter[]) {
       const leftParen = parens.leftParen
-      const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)
+      const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)!
       const hasLeftNewline = !isTokenOnSameLine(leftParen, tokenAfterLeftParen)
       const needsNewlines = shouldHaveNewlines(elements, hasLeftNewline)
 
@@ -191,7 +191,7 @@ export default createRule<RuleOptions, MessageIds>({
       const isOpeningParenTokenOutsideTypeParameter = () => {
         let typeParameterOpeningLevel = 0
 
-        return (token: Tree.Token) => {
+        return (token: Token) => {
           if (token.type === 'Punctuator' && token.value === '<')
             typeParameterOpeningLevel += 1
 

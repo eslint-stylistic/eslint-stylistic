@@ -1,16 +1,16 @@
-import type { ASTNode, Tree } from '#types'
-import type { TSESLint } from '@typescript-eslint/utils'
-
-import { createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import type { ASTNode, RuleContext, SourceCode, Token } from '#types'
 import {
+  AST_NODE_TYPES,
   isClosingBraceToken,
   isFunction,
   isNotSemicolonToken,
   isParenthesized,
   isSemicolonToken,
   isTokenOnSameLine,
-} from '@typescript-eslint/utils/ast-utils'
+  isTopLevelExpressionStatement,
+  skipChainExpression,
+} from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 const CJS_EXPORT = /^(?:module\s*\.\s*)?exports(?:\s*\.|\s*\[|$)/u
 const CJS_IMPORT = /^require\(/u
@@ -31,7 +31,7 @@ const CJS_IMPORT = /^require\(/u
 
 type NodeTest = (
   node: ASTNode,
-  sourceCode: TSESLint.SourceCode,
+  sourceCode: SourceCode,
 ) => boolean
 
 interface NodeTestObject {
@@ -125,18 +125,6 @@ function newNodeTypeTester(type: AST_NODE_TYPES): NodeTestObject {
 }
 
 /**
- * Skips a chain expression node
- * @param node The node to test
- * @returnsA non-chain expression
- * @private
- */
-function skipChainExpression(node: ASTNode): ASTNode {
-  return node && node.type === AST_NODE_TYPES.ChainExpression
-    ? node.expression
-    : node
-}
-
-/**
  * Checks the given node is an expression statement of IIFE.
  * @param node The node to check.
  * @returns `true` if the node is an expression statement of IIFE.
@@ -194,7 +182,7 @@ function isCJSRequire(node: ASTNode): boolean {
  */
 function isBlockLikeStatement(
   node: ASTNode,
-  sourceCode: TSESLint.SourceCode,
+  sourceCode: SourceCode,
 ): boolean {
   // do-while with a block is a block-like statement.
   if (
@@ -233,16 +221,13 @@ function isBlockLikeStatement(
  */
 function isDirective(
   node: ASTNode,
-  sourceCode: TSESLint.SourceCode,
+  sourceCode: SourceCode,
 ): boolean {
   return (
-    node.type === AST_NODE_TYPES.ExpressionStatement
-    && (node.parent?.type === AST_NODE_TYPES.Program
-      || (node.parent?.type === AST_NODE_TYPES.BlockStatement
-        && isFunction(node.parent.parent)))
-      && node.expression.type === AST_NODE_TYPES.Literal
-      && typeof node.expression.value === 'string'
-      && !isParenthesized(node.expression, sourceCode)
+    isTopLevelExpressionStatement(node)
+    && node.expression.type === AST_NODE_TYPES.Literal
+    && typeof node.expression.value === 'string'
+    && !isParenthesized(node.expression, sourceCode)
   )
 }
 
@@ -254,7 +239,7 @@ function isDirective(
  */
 function isDirectivePrologue(
   node: ASTNode,
-  sourceCode: TSESLint.SourceCode,
+  sourceCode: SourceCode,
 ): boolean {
   if (
     isDirective(node, sourceCode)
@@ -310,7 +295,7 @@ function isCJSExport(node: ASTNode): boolean {
  */
 function isExpression(
   node: ASTNode,
-  sourceCode: TSESLint.SourceCode,
+  sourceCode: SourceCode,
 ): boolean {
   return (
     node.type === AST_NODE_TYPES.ExpressionStatement
@@ -333,8 +318,8 @@ function isExpression(
  */
 function getActualLastToken(
   node: ASTNode,
-  sourceCode: TSESLint.SourceCode,
-): Tree.Token | null {
+  sourceCode: SourceCode,
+): Token | null {
   const semiToken = sourceCode.getLastToken(node)!
   const prevToken = sourceCode.getTokenBefore(semiToken)
   const nextToken = sourceCode.getTokenAfter(semiToken)
@@ -389,10 +374,10 @@ function verifyForAny(): void {
  * @private
  */
 function verifyForNever(
-  context: TSESLint.RuleContext<MessageIds, Options>,
+  context: RuleContext<MessageIds, Options>,
   _: ASTNode,
   nextNode: ASTNode,
-  paddingLines: [Tree.Token, Tree.Token][],
+  paddingLines: [Token, Token][],
 ): void {
   if (paddingLines.length === 0)
     return
@@ -433,10 +418,10 @@ function verifyForNever(
  * @private
  */
 function verifyForAlways(
-  context: TSESLint.RuleContext<MessageIds, Options>,
+  context: RuleContext<MessageIds, Options>,
   prevNode: ASTNode,
   nextNode: ASTNode,
-  paddingLines: [Tree.Token, Tree.Token][],
+  paddingLines: [Token, Token][],
 ): void {
   if (paddingLines.length > 0)
     return
@@ -751,13 +736,13 @@ export default createRule<Options, MessageIds>({
     function getPaddingLineSequences(
       prevNode: ASTNode,
       nextNode: ASTNode,
-    ): [Tree.Token, Tree.Token][] {
-      const pairs: [Tree.Token, Tree.Token][] = []
-      let prevToken: Tree.Token = getActualLastToken(prevNode, sourceCode)!
+    ): [Token, Token][] {
+      const pairs: [Token, Token][] = []
+      let prevToken: Token = getActualLastToken(prevNode, sourceCode)!
 
       if (nextNode.loc.start.line - prevToken.loc.end.line >= 2) {
         do {
-          const token: Tree.Token = sourceCode.getTokenAfter(prevToken, {
+          const token: Token = sourceCode.getTokenAfter(prevToken, {
             includeComments: true,
           })!
 

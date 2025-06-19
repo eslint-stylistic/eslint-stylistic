@@ -1,11 +1,8 @@
 import type { ASTNode, JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { nullThrows, NullThrowsReasons } from '#utils/assert'
-import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
+import { AST_NODE_TYPES, isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine, isTypeKeyword, KEYWORDS_JS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { KEYWORDS_JS } from '#utils/keywords'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { isTypeKeyword } from '@typescript-eslint/utils/ast-utils'
 
 const PREV_TOKEN = /^[)\]}>]$/u
 const NEXT_TOKEN = /^(?:[([{<~!]|\+\+?|--?)$/u
@@ -272,7 +269,7 @@ export default createRule<RuleOptions, MessageIds>({
     function checkSpacingAroundFirstToken(node: ASTNode | null) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
-      if (firstToken && firstToken.type === 'Keyword')
+      if (isKeywordToken(firstToken))
         checkSpacingAround(firstToken)
     }
 
@@ -287,7 +284,7 @@ export default createRule<RuleOptions, MessageIds>({
     function checkSpacingBeforeFirstToken(node: ASTNode | null) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
-      if (firstToken && firstToken.type === 'Keyword')
+      if (isKeywordToken(firstToken))
         checkSpacingBefore(firstToken)
     }
 
@@ -319,7 +316,7 @@ export default createRule<RuleOptions, MessageIds>({
       const firstToken = node && sourceCode.getFirstToken(node)
 
       if (firstToken
-        && ((firstToken.type === 'Keyword' && firstToken.value === 'function')
+        && ((isKeywordToken(firstToken) && firstToken.value === 'function')
           || firstToken.value === 'async')
       ) {
         checkSpacingBefore(firstToken)
