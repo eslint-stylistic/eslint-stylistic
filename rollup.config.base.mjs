@@ -79,7 +79,7 @@ export function createConfig(cwd) {
         resolve(),
         aliasPlugin(),
         codecovRollupPlugin({
-          enableBundleAnalysis: true,
+          enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
           bundleName: pkg.name,
           uploadToken: process.env.CODECOV_TOKEN,
           gitService: 'github',
