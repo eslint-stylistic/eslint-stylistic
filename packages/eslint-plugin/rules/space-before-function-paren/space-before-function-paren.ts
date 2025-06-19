@@ -110,9 +110,8 @@ export default createRule<RuleOptions, MessageIds>({
       }
       else if (isNamedFunction(node)) {
         return overrideConfig.named ?? baseConfig
-
-        // `generator-star-spacing` should warn anonymous generators. E.g. `function* () {}`
       }
+      // `generator-star-spacing` should warn anonymous generators. E.g. `function* () {}`
       else if (!node.generator) {
         return overrideConfig.anonymous ?? baseConfig
       }
