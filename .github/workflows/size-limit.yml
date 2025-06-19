@@ -6,7 +6,7 @@ on:
 permissions:
   pull-requests: write
 jobs:
-  size-limit:
+  report-build-size-diff:
     runs-on: ubuntu-latest
     env:
       CI_JOB_NUMBER: 1
@@ -15,4 +15,5 @@ jobs:
       - uses: pnpm/action-setup@v4
       - uses: preactjs/compressed-size-action@v2
         with:
-          repo-token: ${{ secrets.GITHUB_TOKEN }}
+          pattern: '**/dist/**/*.{js,mjs,cjs,d.ts}'
+          repo-token: '${{ secrets.GITHUB_TOKEN }}'
