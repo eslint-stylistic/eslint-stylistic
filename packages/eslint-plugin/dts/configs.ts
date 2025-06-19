@@ -19,21 +19,9 @@ export declare const configs: {
    */
   'recommended': Linter.Config
   /**
-   * The default recommended config in Flat Config Format
-   *
-   * @deprecated use `recommended` instead.
-   */
-  'recommended-flat': Linter.Config
-  /**
    * Enable all rules, in Flat Config Format
    */
   'all': Linter.Config
-  /**
-   * Enable all rules, in Flat Config Format
-   *
-   * @deprecated use `all` instead.
-   */
-  'all-flat': Linter.Config
 }
 
 export type Configs = typeof configs

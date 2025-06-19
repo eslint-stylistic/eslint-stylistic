@@ -21,7 +21,5 @@ export const configs: Configs = {
   'disable-legacy': disableLegacy,
   'customize': customize,
   'recommended': recommended,
-  'recommended-flat': recommended,
   'all': all,
-  'all-flat': all,
 }
