@@ -48,7 +48,7 @@ Examples of **incorrect** code for this rule with the default `{ "before": true 
 ::: incorrect
 
 ```js
-/*eslint keyword-spacing: ["error", { "before": true }]*/
+/* eslint @stylistic/keyword-spacing: ["error", { "before": true }] */
 
 if (foo) {
     //...
@@ -66,8 +66,7 @@ Examples of **correct** code for this rule with the default `{ "before": true }`
 ::: correct { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
-/*eslint keyword-spacing: ["error", { "before": true }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/keyword-spacing: ["error", { "before": true }] */
 
 if (foo) {
     //...
@@ -125,7 +124,7 @@ Examples of **incorrect** code for this rule with the `{ "before": false }` opti
 ::: incorrect
 
 ```js
-/*eslint keyword-spacing: ["error", { "before": false }]*/
+/* eslint @stylistic/keyword-spacing: ["error", { "before": false }] */
 
 if (foo) {
     //...
@@ -143,7 +142,7 @@ Examples of **correct** code for this rule with the `{ "before": false }` option
 ::: correct
 
 ```js
-/*eslint keyword-spacing: ["error", { "before": false }]*/
+/* eslint @stylistic/keyword-spacing: ["error", { "before": false }] */
 
 if (foo) {
     //...
@@ -163,7 +162,7 @@ Examples of **incorrect** code for this rule with the default `{ "after": true }
 ::: incorrect
 
 ```js
-/*eslint keyword-spacing: ["error", { "after": true }]*/
+/* eslint @stylistic/keyword-spacing: ["error", { "after": true }] */
 
 if(foo) {
     //...
@@ -181,7 +180,7 @@ Examples of **correct** code for this rule with the default `{ "after": true }` 
 ::: correct { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
-/*eslint keyword-spacing: ["error", { "after": true }]*/
+/* eslint @stylistic/keyword-spacing: ["error", { "after": true }] */
 
 if (foo) {
     //...
@@ -252,7 +251,7 @@ Examples of **incorrect** code for this rule with the `{ "after": false }` optio
 ::: incorrect
 
 ```js
-/*eslint keyword-spacing: ["error", { "after": false }]*/
+/* eslint @stylistic/keyword-spacing: ["error", { "after": false }] */
 
 if (foo) {
     //...
@@ -270,7 +269,7 @@ Examples of **correct** code for this rule with the `{ "after": false }` option:
 ::: correct
 
 ```js
-/*eslint keyword-spacing: ["error", { "after": false }]*/
+/* eslint @stylistic/keyword-spacing: ["error", { "after": false }] */
 
 if(foo) {
     //...
@@ -290,13 +289,13 @@ Examples of **correct** code for this rule with the `{ "overrides": { "if": { "a
 ::: correct
 
 ```js
-/*eslint keyword-spacing: ["error", { "overrides": {
+/* eslint @stylistic/keyword-spacing: ["error", { "overrides": {
   "if": { "after": false },
   "for": { "after": false },
   "while": { "after": false },
   "static": { "after": false },
   "as": { "after": false }
-} }]*/
+} }] */
 
 if(foo) {
     //...

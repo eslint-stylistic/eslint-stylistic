@@ -1171,6 +1171,8 @@ interface Foo {
     },
     // https://github.com/typescript-eslint/typescript-eslint/issues/1663
     'type ConstructorFn = new (...args: any[]) => any;',
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/441
+    `function error_is_reported_ok(): (void) {}`,
   ],
   invalid: [
     {
@@ -3784,6 +3786,13 @@ type Foo = {
           line: 5,
           column: 59,
         },
+      ],
+    },
+    {
+      code: `function error_is_reported_ok():(void) {}`,
+      output: `function error_is_reported_ok(): (void) {}`,
+      errors: [
+        { messageId: 'expectedSpaceAfter', data: { type: ':' }, line: 1, column: 32 },
       ],
     },
   ],

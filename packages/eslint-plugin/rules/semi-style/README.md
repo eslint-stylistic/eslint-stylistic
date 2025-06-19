@@ -31,7 +31,7 @@ Examples of **incorrect** code for this rule with `"last"` option:
 ::: incorrect
 
 ```js
-/*eslint semi-style: ["error", "last"]*/
+/* eslint @stylistic/semi-style: ["error", "last"] */
 
 foo()
 ;[1, 2, 3].forEach(bar)
@@ -59,7 +59,7 @@ Examples of **correct** code for this rule with `"last"` option:
 ::: correct
 
 ```js
-/*eslint semi-style: ["error", "last"]*/
+/* eslint @stylistic/semi-style: ["error", "last"] */
 
 foo();
 [1, 2, 3].forEach(bar)
@@ -87,7 +87,7 @@ Examples of **incorrect** code for this rule with `"first"` option:
 ::: incorrect
 
 ```js
-/*eslint semi-style: ["error", "first"]*/
+/* eslint @stylistic/semi-style: ["error", "first"] */
 
 foo();
 [1, 2, 3].forEach(bar)
@@ -115,7 +115,7 @@ Examples of **correct** code for this rule with `"first"` option:
 ::: correct
 
 ```js
-/*eslint semi-style: ["error", "first"]*/
+/* eslint @stylistic/semi-style: ["error", "first"] */
 
 foo()
 ;[1, 2, 3].forEach(bar)

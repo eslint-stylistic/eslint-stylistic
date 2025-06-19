@@ -4,6 +4,7 @@ import {
   isFunction,
   isFunctionOrFunctionType,
   isIdentifier,
+  isNotOpeningParenToken,
   isTSConstructorType,
   isTSFunctionType,
   isVariableDeclarator,
@@ -164,8 +165,9 @@ export default createRule<Options, MessageIds>({
     function checkTypeAnnotationSpacing(
       typeAnnotation: Tree.TypeNode,
     ): void {
-      const nextNode = typeAnnotation
-      const punctuatorTokenEnd = sourceCode.getTokenBefore(nextNode)!
+      /** :, => */
+      const punctuatorTokenEnd = sourceCode.getTokenBefore(typeAnnotation, isNotOpeningParenToken)!
+      /** :, =>, ?() */
       let punctuatorTokenStart = punctuatorTokenEnd
       let previousToken = sourceCode.getTokenBefore(punctuatorTokenEnd)!
       let type = punctuatorTokenEnd.value
@@ -176,9 +178,8 @@ export default createRule<Options, MessageIds>({
       const { before, after } = getRules(ruleSet, typeAnnotation)
 
       if (type === ':' && previousToken.value === '?') {
-        if (
-          sourceCode.isSpaceBetween(previousToken, punctuatorTokenStart)
-        ) {
+        // space between ? and :
+        if (sourceCode.isSpaceBetween(previousToken, punctuatorTokenStart)) {
           context.report({
             node: punctuatorTokenStart,
             messageId: 'unexpectedSpaceBetween',
@@ -208,11 +209,9 @@ export default createRule<Options, MessageIds>({
         }
       }
 
-      const previousDelta
-        = punctuatorTokenStart.range[0] - previousToken.range[1]
-      const nextDelta = nextNode.range[0] - punctuatorTokenEnd.range[1]
+      const hasNextSpace = sourceCode.isSpaceBetween(punctuatorTokenEnd, typeAnnotation)
 
-      if (after && nextDelta === 0) {
+      if (after && !hasNextSpace) {
         context.report({
           node: punctuatorTokenEnd,
           messageId: 'expectedSpaceAfter',
@@ -224,7 +223,7 @@ export default createRule<Options, MessageIds>({
           },
         })
       }
-      else if (!after && nextDelta > 0) {
+      else if (!after && hasNextSpace) {
         context.report({
           node: punctuatorTokenEnd,
           messageId: 'unexpectedSpaceAfter',
@@ -234,13 +233,15 @@ export default createRule<Options, MessageIds>({
           fix(fixer) {
             return fixer.removeRange([
               punctuatorTokenEnd.range[1],
-              nextNode.range[0],
+              typeAnnotation.range[0],
             ])
           },
         })
       }
 
-      if (before && previousDelta === 0) {
+      const hasPrevSpace = sourceCode.isSpaceBetween(previousToken, punctuatorTokenStart)
+
+      if (before && !hasPrevSpace) {
         context.report({
           node: punctuatorTokenStart,
           messageId: 'expectedSpaceBefore',
@@ -252,7 +253,7 @@ export default createRule<Options, MessageIds>({
           },
         })
       }
-      else if (!before && previousDelta > 0) {
+      else if (!before && hasPrevSpace) {
         context.report({
           node: punctuatorTokenStart,
           messageId: 'unexpectedSpaceBefore',
