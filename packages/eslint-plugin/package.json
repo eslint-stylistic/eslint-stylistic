@@ -143,11 +143,5 @@
     "espree": "catalog:",
     "estraverse": "catalog:",
     "picomatch": "catalog:"
-  },
-  "size-limit": [
-    {
-      "path": "dist/",
-      "limit": "1 MB"
-    }
-  ]
+  }
 }
