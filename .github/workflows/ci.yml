@@ -67,6 +67,8 @@ jobs:
 
       - name: Build
         run: nr build
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
 
       - name: Test
         run: nr test
