@@ -49,8 +49,6 @@ This rule has a string option or an object option:
 - `always` (default) requires a space followed by the `(` of arguments.
 - `never` disallows any space followed by the `(` of arguments.
 
-The string option does not check async arrow function expressions for backward compatibility.
-
 You can also use a separate option for each type of function.
 Each of the following options can be set to `"always"`, `"never"`, or `"ignore"`. The default is `"always"`.
 
