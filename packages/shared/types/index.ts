@@ -6,13 +6,13 @@ import type * as ESTree from 'estree'
 // TypeScript Enabled Types (recommended, should be used in most cases)
 export type ASTNode = TSESTree.Node
 export type Token = TSESTree.Token
-export { TSESTree as Tree }
+export type { TSESTree as Tree }
 export type NodeTypes = `${AST_NODE_TYPES}`
-export { JSONSchema } from '@typescript-eslint/utils'
-export {
+export type { JSONSchema } from '@typescript-eslint/utils'
+export type {
   RuleWithMetaAndName,
 } from '@typescript-eslint/utils/eslint-utils'
-export {
+export type {
   EcmaVersion,
   ReportDescriptor,
   ReportFixFunction,

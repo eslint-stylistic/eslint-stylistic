@@ -41,6 +41,7 @@
     "@types/picomatch": "catalog:",
     "@types/semver": "catalog:",
     "@typescript-eslint/parser": "catalog:",
+    "@typescript-eslint/types": "catalog:",
     "@typescript-eslint/utils": "catalog:",
     "@vitest/coverage-v8": "catalog:test",
     "@vitest/ui": "catalog:test",

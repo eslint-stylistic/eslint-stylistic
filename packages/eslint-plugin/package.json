@@ -138,7 +138,8 @@
     "eslint": ">=9.0.0"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "catalog:",
+    "@eslint-community/eslint-utils": "catalog:",
+    "@typescript-eslint/types": "catalog:",
     "eslint-visitor-keys": "catalog:",
     "espree": "catalog:",
     "estraverse": "catalog:",

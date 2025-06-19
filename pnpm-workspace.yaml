@@ -5,6 +5,7 @@ catalog:
   '@antfu/eslint-config': ^4.13.2
   '@antfu/eslint-define-config': 1.23.0-2
   '@antfu/utils': ^9.2.0
+  '@eslint-community/eslint-utils': ^4.7.0
   '@rollup/plugin-alias': ^5.1.1
   '@rollup/plugin-commonjs': ^28.0.3
   '@rollup/plugin-node-resolve': ^16.0.1
@@ -15,6 +16,7 @@ catalog:
   '@types/picomatch': ^4.0.0
   '@types/semver': ^7.7.0
   '@typescript-eslint/parser': ^8.32.1
+  '@typescript-eslint/types': ^8.32.1
   '@typescript-eslint/utils': ^8.32.1
   change-case: ^5.4.4
   escape-string-regexp: ^5.0.0
