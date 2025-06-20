@@ -1,5 +1,39 @@
 # Changelog
 
+## [5.0.0-beta.5](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0-beta.4...v5.0.0-beta.5) (2025-06-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* handle TS object-like nodes in `object-curly-newline` instead of `brace-style` and `curly-newline` ([#823](https://github.com/eslint-stylistic/eslint-stylistic/issues/823))
+
+### Features
+
+* handle TS object-like nodes in `object-curly-newline` instead of `brace-style` and `curly-newline` ([#823](https://github.com/eslint-stylistic/eslint-stylistic/issues/823)) ([32f743f](https://github.com/eslint-stylistic/eslint-stylistic/commit/32f743f85dd2ef5f9d3625ca3c79864cdf3c572f))
+* no longer deps on `typescript` ([#838](https://github.com/eslint-stylistic/eslint-stylistic/issues/838)) ([c18efb0](https://github.com/eslint-stylistic/eslint-stylistic/commit/c18efb0f22c7b06f0be52b1aaa5afacf24a8ac12))
+
+
+### Bug Fixes
+
+* **space-before-blocks:** check space before `TSModuleBlock` nodes ([#798](https://github.com/eslint-stylistic/eslint-stylistic/issues/798)) ([2e9d116](https://github.com/eslint-stylistic/eslint-stylistic/commit/2e9d1168c1bb28c938703ba6c8765d37177a2a0d))
+* **type-annotation-spacing:** handle type annotation in parens ([#836](https://github.com/eslint-stylistic/eslint-stylistic/issues/836)) ([0f7b461](https://github.com/eslint-stylistic/eslint-stylistic/commit/0f7b46143d51922a352cfe3268b0e44daef7ceff))
+
+
+### Documentation
+
+* **space-before-function-paren:** remove outdated info ([#837](https://github.com/eslint-stylistic/eslint-stylistic/issues/837)) ([6929b22](https://github.com/eslint-stylistic/eslint-stylistic/commit/6929b227c597c8dd9e90baffad3a2d5531a2ba25))
+
+
+### Build Related
+
+* setup codecov bundle analysis ([#839](https://github.com/eslint-stylistic/eslint-stylistic/issues/839)) ([1b0daad](https://github.com/eslint-stylistic/eslint-stylistic/commit/1b0daadc2acfa48bf2d18f1abab730eddbb72cf4))
+
+
+### Chores
+
+* release-please-mark ([7240084](https://github.com/eslint-stylistic/eslint-stylistic/commit/72400840f2604e0364047cd600251986863d4d09))
+* restrict imports from `typescript-eslint` ([#825](https://github.com/eslint-stylistic/eslint-stylistic/issues/825)) ([3d1b817](https://github.com/eslint-stylistic/eslint-stylistic/commit/3d1b817594aa1cd0b3c9523393bbcc103f793c20))
+
 ## [5.0.0-beta.4](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0-beta.3...v5.0.0-beta.4) (2025-06-17)
 
 
