@@ -10,9 +10,11 @@ related_rules:
 
 # object-property-newline
 
-This rule permits you to restrict the locations of property specifications in object literals. You may prohibit any part of any property specification from appearing on the same line as any part of any other property specification. You may make this prohibition absolute, or, by invoking an object option, you may allow an exception, permitting an object literal to have all parts of all of its property specifications on a single line.
+This rule permits you to restrict the locations of property specifications in object literals.
 
 ## Rule Details
+
+You may prohibit any part of any property specification from appearing on the same line as any part of any other property specification. You may make this prohibition absolute, or, by invoking an object option, you may allow an exception, permitting an object literal to have all parts of all of its property specifications on a single line.
 
 ### Motivations
 
@@ -82,9 +84,11 @@ Another benefit of this rule is specificity of diffs when a property is changed:
 +var obj = { foo: "foo", bar: "bazz", baz: "baz" };
 ```
 
-### Optional Exception
+## Options
 
-The rule offers one object option, `allowAllPropertiesOnSameLine`. If you set it to `true`, object literals such as the first two above, with all property specifications on the same line, will be permitted, but one like
+The rule offers one object option:
+
+- `"allowAllPropertiesOnSameLine": false`: If you set it to `true`, object literals such as the first two above, with all property specifications on the same line, will be permitted, but one like
 
 ```js
 const newObject = {
@@ -95,6 +99,30 @@ const newObject = {
 ```
 
 will be prohibited, because two properties, but not all properties, appear on the same line.
+
+You can specify different options for object literals, destructuring assignments, named imports and exports, type literals, interface declarations and enum bodies:
+
+```json
+{
+    "object-property-newline": ["error", {
+        "ObjectExpression": { "allowAllPropertiesOnSameLine": false },
+        "ObjectPattern": { "allowAllPropertiesOnSameLine": false },
+        "ImportDeclaration": { "allowAllPropertiesOnSameLine": true },
+        "ExportDeclaration": { "allowAllPropertiesOnSameLine": true },
+        "TSTypeLiteral": { "allowAllPropertiesOnSameLine": false },
+        "TSInterfaceBody": { "allowAllPropertiesOnSameLine": false },
+        "TSEnumBody": { "allowAllPropertiesOnSameLine": false },
+    }]
+}
+```
+
+- `"ObjectExpression"` configuration for object literals
+- `"ObjectPattern"` configuration for object patterns of destructuring assignments
+- `"ImportDeclaration"` configuration for named imports
+- `"ExportDeclaration"` configuration for named exports
+- `"TSTypeLiteral"` configuration for type literals
+- `"TSInterfaceBody"` configuration for interface declaration body
+- `"TSEnumBody"` configuration for enum declaration body
 
 ### Notations
 
@@ -157,22 +185,34 @@ const newFunction = multiplier => ({
 
 If this rule is invoked with the command-line `--fix` option, object literals that violate the rule are generally modified to comply with it. The modification in each case is to move a property specification to the next line whenever there is part or all of a previous property specification on the same line. For example,
 
+::: incorrect
+
 ```js
+/* eslint @stylistic/object-property-newline: "error" */
+
 const newObject = {
     a: 'a.m.', b: 'p.m.',
     c: 'daylight saving time'
 };
 ```
 
+:::
+
 is converted to
 
+::: correct
+
 ```js
+/* eslint @stylistic/object-property-newline: "error" */
+
 const newObject = {
     a: 'a.m.',
 b: 'p.m.',
     c: 'daylight saving time'
 };
 ```
+
+:::
 
 The modification does not depend on whether the object option is set to `true`. In other words, ESLint never collects all the property specifications onto a single line, even when the object option would permit that.
 
@@ -218,6 +258,35 @@ const obj5 = {
     foo: "foo", [
     domain.includes(":") ? "complexdomain" : "simpledomain"
 ]: true};
+
+const {
+    foo,
+    bar = 2, baz,
+} = obj;
+
+import {
+    foo, bar,
+    baz,
+} from "module";
+
+export {
+    foo,
+    bar, baz
+};
+
+type Obj = {
+    Foo: string;
+    Bar?: number; Baz: boolean;
+}
+
+interface Obj {
+    Foo: string; Bar?: number;
+    Baz: boolean;
+}
+
+enum Foo {
+    A, B = 2, C,
+}
 ```
 
 :::
@@ -252,6 +321,42 @@ const obj3 = {
         8
     ]
 };
+
+const {
+    foo = 1,
+    bar = {},
+    baz,
+} = obj;
+
+import {
+    foo,
+    bar,
+    baz,
+} from "module";
+
+export {
+    foo,
+    bar,
+    baz
+};
+
+type Obj = {
+    Foo: string;
+    Bar?: number;
+    Baz: boolean;
+}
+
+interface Obj {
+    Foo: string;
+    Bar?: number;
+    Baz: boolean;
+}
+
+enum Foo {
+    A,
+    B,
+    C,
+}
 ```
 
 :::
@@ -272,6 +377,24 @@ const user = process.argv[2];
 const obj3 = {
     user, [process.argv[3] ? "foo" : "bar"]: 0, baz: [1, 2, 4, 8]
 };
+
+const {
+    foo, bar = 1, baz = { x: 1, y: 2 }
+} = obj;
+
+import { foo, bar, baz } from "module";
+
+export { foo, bar, baz } from "module";
+
+type Obj = { Foo: string; Bar?: number; Baz: boolean }
+
+interface Obj {
+    Foo: string; Bar?: number; Baz: boolean
+}
+
+enum Foo {
+    A, B = 2, C
+}
 ```
 
 :::

@@ -54,8 +54,8 @@ export default createRule<RuleOptions, MessageIds>({
     ],
     fixable: 'whitespace',
     messages: {
-      propertiesOnNewlineAll: 'Object properties must go on a new line if they aren\'t all on the same line.',
-      propertiesOnNewline: 'Object properties must go on a new line.',
+      propertiesOnNewlineAll: `Properties must go on a new line if they aren't all on the same line.`,
+      propertiesOnNewline: 'Properties must go on a new line.',
     },
   },
   defaultOptions: [
