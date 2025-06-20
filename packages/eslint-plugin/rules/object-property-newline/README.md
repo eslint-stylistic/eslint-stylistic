@@ -10,7 +10,7 @@ related_rules:
 
 # object-property-newline
 
-This rule permits you to restrict the locations of property specifications in object literals.
+This rule permits you to restrict the locations of property specifications in object literals, destructuring assignments, named imports and exports, type literals, interface declarations and enum declarations.
 
 ## Rule Details
 
@@ -100,7 +100,7 @@ const newObject = {
 
 will be prohibited, because two properties, but not all properties, appear on the same line.
 
-You can specify different options for object literals, destructuring assignments, named imports and exports, type literals, interface declarations and enum bodies:
+You can specify different options for object literals, destructuring assignments, named imports and exports, type literals, interface declarations and enum declarations:
 
 ```json
 {
