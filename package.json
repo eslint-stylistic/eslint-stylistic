@@ -30,6 +30,7 @@
     "@babel/plugin-syntax-do-expressions": "catalog:test",
     "@babel/plugin-syntax-function-bind": "catalog:test",
     "@babel/preset-react": "catalog:test",
+    "@codecov/rollup-plugin": "catalog:",
     "@rollup/plugin-alias": "catalog:",
     "@rollup/plugin-commonjs": "catalog:",
     "@rollup/plugin-node-resolve": "catalog:",

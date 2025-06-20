@@ -5,6 +5,7 @@ catalog:
   '@antfu/eslint-config': ^4.13.2
   '@antfu/eslint-define-config': 1.23.0-2
   '@antfu/utils': ^9.2.0
+  '@codecov/rollup-plugin': ^1.9.1
   '@eslint-community/eslint-utils': ^4.7.0
   '@rollup/plugin-alias': ^5.1.1
   '@rollup/plugin-commonjs': ^28.0.3
