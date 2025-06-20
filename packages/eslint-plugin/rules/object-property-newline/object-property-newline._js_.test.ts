@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { $, run } from '#test'
 import rule from './object-property-newline'
 
 run<RuleOptions, MessageIds>({
@@ -53,6 +53,93 @@ run<RuleOptions, MessageIds>({
     { code: 'var obj = {k1: [\'foo\', \'bar\'], k2: \'val1\', k3: \'val2\'};', options: [{ allowAllPropertiesOnSameLine: true }] },
     { code: 'var obj = {\nk1: [\'foo\', \'bar\'], k2: \'val1\', k3: \'val2\'\n};', options: [{ allowAllPropertiesOnSameLine: true }] },
     { code: 'var obj = {\nk1: \'val1\', k2: {e1: \'foo\', e2: \'bar\'}, k3: \'val2\'\n};', options: [{ allowAllPropertiesOnSameLine: true }] },
+    {
+      code: 'var obj = {\nk1: \'val1\', k2: {e1: \'foo\', e2: \'bar\'}, k3: \'val2\'\n};',
+      options: [{ ObjectExpression: { allowAllPropertiesOnSameLine: true } }],
+    },
+
+    // #region ImportDeclaration
+    'import {a} from "module";',
+    $`
+      import {
+        a
+      } from 'module';
+    `,
+    'import {} from "module";',
+    'import DefaultExport from "module";',
+    'import * as All from "module";',
+    $`
+      import {
+        a,
+        b,
+        c
+      } from 'module';
+    `,
+
+    // allowAllPropertiesOnSameLine: true
+    { code: 'import {a, b, c} from "module";', options: [{ allowAllPropertiesOnSameLine: true }] },
+    {
+      code: $`
+        import {
+          a, b, c
+        } from 'module';
+      `,
+      options: [{ allowAllPropertiesOnSameLine: true }],
+    },
+    {
+      code: 'import { c, d } from "module";',
+      options: [{ ImportDeclaration: { allowAllPropertiesOnSameLine: true } }],
+    },
+    // #endregion
+    // #region ObjectPattern
+    'const { a } = obj;',
+    'const { } = obj;',
+    $`
+      const {
+        a
+      } = obj;
+    `,
+    $`
+      const {
+        a,
+        b,
+        c
+      } = obj;
+    `,
+    {
+      code: 'const { a, b } = obj;',
+      options: [{ allowAllPropertiesOnSameLine: true }],
+    },
+    {
+      code: 'const { a, b } = obj;',
+      options: [{ ObjectPattern: { allowAllPropertiesOnSameLine: true } }],
+    },
+    {
+      code: $`
+        const {
+          a, b, c
+        } = obj;
+      `,
+      options: [{ ObjectPattern: { allowAllPropertiesOnSameLine: true } }],
+    },
+    // #endregion
+    // #region ExportNamedDeclaration
+    'export { } from "module";',
+    'export { a } from "module";',
+    $`
+      export {
+        a
+      } from "module";
+    `,
+    {
+      code: 'export { c, d } from "module";',
+      options: [{ ExportNamedDeclaration: { allowAllPropertiesOnSameLine: true } }],
+    },
+    {
+      code: 'export { e, f } from "module";',
+      options: [{ ExportNamedDeclaration: { allowAllPropertiesOnSameLine: true } }],
+    },
+    // #endregion
   ],
 
   invalid: [
@@ -637,6 +724,181 @@ run<RuleOptions, MessageIds>({
           column: 13,
           endLine: 3,
           endColumn: 15,
+        },
+      ],
+    },
+    // ImportDeclaration
+    {
+      code: `import {a, b, c} from 'module';`,
+      output: `import {a,\nb,\nc} from 'module';`,
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 12,
+        },
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 15,
+        },
+      ],
+    },
+    {
+      code: 'import {\na, b\n} from \'module\';',
+      output: 'import {\na,\nb\n} from \'module\';',
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 2,
+          column: 4,
+        },
+      ],
+    },
+    {
+      code: 'import DefaultExport, {a, b} from \'module\';',
+      output: 'import DefaultExport, {a,\nb} from \'module\';',
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 27,
+        },
+      ],
+    },
+
+    // With allowAllPropertiesOnSameLine: true
+    {
+      code: 'import {a, b} from \'module\';',
+      output: 'import {a,\nb} from \'module\';',
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 12,
+        },
+      ],
+    },
+    {
+      code: 'import {a, b, c} from \'module\';',
+      output: 'import {a,\nb,\nc} from \'module\';',
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 12,
+        },
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 15,
+        },
+      ],
+    },
+
+    {
+      code: 'var obj = { a: 1, b: 2 }; import { c, d } from "module";',
+      output: 'var obj = { a: 1,\nb: 2 }; import { c, d } from "module";',
+      options: [{
+        ObjectExpression: { allowAllPropertiesOnSameLine: false },
+        ImportDeclaration: { allowAllPropertiesOnSameLine: true },
+      }],
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ObjectExpression',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 20,
+        },
+      ],
+    },
+    {
+      code: 'var obj = { a: 1, b: 2 }; import { c, d } from "module";',
+      output: 'var obj = { a: 1, b: 2 }; import { c,\nd } from "module";',
+      options: [{
+        ObjectExpression: { allowAllPropertiesOnSameLine: true },
+        ImportDeclaration: { allowAllPropertiesOnSameLine: false },
+      }],
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 39,
+          endLine: 1,
+          endColumn: 40,
+        },
+      ],
+    },
+    {
+      code: 'var obj = { a: 1, b: 2 }; import { c, d } from "module";',
+      output: 'var obj = { a: 1,\nb: 2 }; import { c,\nd } from "module";',
+      options: [{
+        ObjectExpression: { allowAllPropertiesOnSameLine: false },
+        ImportDeclaration: { allowAllPropertiesOnSameLine: false },
+      }],
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ObjectExpression',
+          line: 1,
+          column: 19,
+          endLine: 1,
+          endColumn: 20,
+        },
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 39,
+          endLine: 1,
+          endColumn: 40,
+        },
+      ],
+    },
+    {
+      code: 'const { a, b } = obj;',
+      output: 'const { a,\nb } = obj;',
+      options: [{
+        ObjectPattern: { allowAllPropertiesOnSameLine: false },
+      }],
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ObjectPattern',
+          line: 1,
+          column: 12,
+          endLine: 1,
+          endColumn: 13,
+        },
+      ],
+    },
+    {
+      code: 'export { a, b } from "module";',
+      output: $`
+        export { a,
+        b } from "module";
+      `,
+      options: [{
+        ExportNamedDeclaration: { allowAllPropertiesOnSameLine: false },
+      }],
+      errors: [
+        {
+          messageId: 'propertiesOnNewline',
+          type: 'ExportNamedDeclaration',
+          line: 1,
+          column: 13,
+          endLine: 1,
+          endColumn: 14,
         },
       ],
     },

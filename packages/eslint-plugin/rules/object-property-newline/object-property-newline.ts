@@ -1,6 +1,33 @@
-import type { ASTNode, Tree } from '#types'
+import type { ASTNode, JSONSchema, NodeTypes } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+
+const SUPPORTED_NODES = [
+  'ObjectExpression',
+  'ObjectPattern',
+  'ImportDeclaration',
+  'ExportNamedDeclaration',
+  'TSTypeLiteral',
+  'TSInterfaceBody',
+  'TSEnumBody',
+] satisfies NodeTypes[]
+
+type SupportedNode = Extract<ASTNode, { type: typeof SUPPORTED_NODES[number] }>
+
+type NormalizedOptions = Extract<RuleOptions[0], { ObjectExpression?: any }>
+
+const OPTION_VALUE: JSONSchema.JSONSchema4ObjectSchema = {
+  type: 'object',
+  properties: {
+    allowAllPropertiesOnSameLine: {
+      type: 'boolean',
+    },
+  },
+  additionalProperties: false,
+}
+
+const defaultOptionValue = { allowAllPropertiesOnSameLine: false }
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-property-newline',
@@ -11,14 +38,18 @@ export default createRule<RuleOptions, MessageIds>({
     },
     schema: [
       {
-        type: 'object',
-        properties: {
-          allowAllPropertiesOnSameLine: {
-            type: 'boolean',
-            default: false,
+        oneOf: [
+          OPTION_VALUE,
+          {
+            type: 'object',
+            properties: SUPPORTED_NODES.reduce((retv, node) => {
+              retv[node] = OPTION_VALUE
+              return retv
+            }, {} as Record<NodeTypes, JSONSchema.JSONSchema4>),
+            additionalProperties: false,
+            minProperties: 1,
           },
-        },
-        additionalProperties: false,
+        ],
       },
     ],
     fixable: 'whitespace',
@@ -29,37 +60,56 @@ export default createRule<RuleOptions, MessageIds>({
   },
   defaultOptions: [
     {
-      allowAllPropertiesOnSameLine: false,
+      ObjectExpression: defaultOptionValue,
+      ObjectPattern: defaultOptionValue,
+      ImportDeclaration: defaultOptionValue,
+      ExportNamedDeclaration: defaultOptionValue,
+      TSTypeLiteral: defaultOptionValue,
+      TSInterfaceBody: defaultOptionValue,
+      TSEnumBody: defaultOptionValue,
     },
   ],
 
-  create(context) {
-    const allowSameLine = context.options[0] && (context.options[0].allowAllPropertiesOnSameLine)
-
-    const messageId = allowSameLine
-      ? 'propertiesOnNewlineAll'
-      : 'propertiesOnNewline'
+  create(context, [options = {}]) {
+    const normalizeOptions: NormalizedOptions = (function () {
+      if ('allowAllPropertiesOnSameLine' in options) {
+        return SUPPORTED_NODES.reduce((retv, node) => ({
+          ...retv,
+          [node]: options,
+        }), {})
+      }
+      else {
+        return options
+      }
+    }())
 
     const sourceCode = context.sourceCode
 
-    function check(node: ASTNode, children: Tree.ObjectLiteralElement[] | Tree.TypeElement[]) {
-      if (allowSameLine) {
-        if (children.length > 1) {
-          const firstTokenOfFirstProperty = sourceCode.getFirstToken(children[0])!
-          const lastTokenOfLastProperty = sourceCode.getLastToken(children[children.length - 1])!
+    function check(node: SupportedNode, children: ASTNode[]) {
+      if (children.length <= 1)
+        return
 
-          if (firstTokenOfFirstProperty.loc.end.line === lastTokenOfLastProperty.loc.start.line) {
-            // All keys and values are on the same line
-            return
-          }
+      const allowSameLine = normalizeOptions[node.type]?.allowAllPropertiesOnSameLine
+
+      if (allowSameLine) {
+        const firstTokenOfFirstProperty = sourceCode.getFirstToken(children[0])!
+        const lastTokenOfLastProperty = sourceCode.getLastToken(children.at(-1)!)!
+
+        if (isTokenOnSameLine(firstTokenOfFirstProperty, lastTokenOfLastProperty)) {
+          // All keys and values are on the same line
+          return
         }
       }
+
+      const messageId = allowSameLine
+        ? 'propertiesOnNewlineAll'
+        : 'propertiesOnNewline'
 
       for (let i = 1; i < children.length; i++) {
         const lastTokenOfPreviousProperty = sourceCode.getLastToken(children[i - 1])!
         const firstTokenOfCurrentProperty = sourceCode.getFirstToken(children[i])!
 
-        if (lastTokenOfPreviousProperty.loc.end.line === firstTokenOfCurrentProperty.loc.start.line) {
+        if (isTokenOnSameLine(lastTokenOfPreviousProperty, firstTokenOfCurrentProperty)) {
           context.report({
             node,
             loc: firstTokenOfCurrentProperty.loc,
@@ -83,11 +133,24 @@ export default createRule<RuleOptions, MessageIds>({
       ObjectExpression(node) {
         check(node, node.properties)
       },
+      ObjectPattern(node) {
+        check(node, node.properties)
+      },
+      ImportDeclaration(node) {
+        const specifiers = node.specifiers.filter(specifier => specifier.type === 'ImportSpecifier')
+        check(node, specifiers)
+      },
+      ExportNamedDeclaration(node) {
+        check(node, node.specifiers)
+      },
       TSTypeLiteral(node) {
         check(node, node.members)
       },
       TSInterfaceBody(node) {
         check(node, node.body)
+      },
+      TSEnumBody(node) {
+        check(node, node.members)
       },
     }
   },
