@@ -220,6 +220,10 @@ export default createRule<RuleOptions, MessageIds>({
         if (node.value)
           validateNode(node, node.value, '=')
       },
+      AccessorProperty(node) {
+        if (node.value)
+          validateNode(node, node.value, '=')
+      },
       ConditionalExpression(node) {
         validateNode(node, node.consequent, '?')
         validateNode(node, node.alternate, ':')

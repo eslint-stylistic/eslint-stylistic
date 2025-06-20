@@ -177,6 +177,7 @@ export default createRule<RuleOptions, MessageIds>({
     type NodeType
       = | Tree.Property
         | Tree.PropertyDefinition
+        | Tree.AccessorProperty
         | Tree.MemberExpression
         | Tree.MethodDefinition
 
@@ -188,6 +189,7 @@ export default createRule<RuleOptions, MessageIds>({
     if (enforceForClassMembers) {
       listeners.MethodDefinition = checkSpacing<Tree.MethodDefinition>('key')
       listeners.PropertyDefinition = checkSpacing<Tree.PropertyDefinition>('key')
+      listeners.AccessorProperty = checkSpacing<Tree.AccessorProperty>('key')
     }
 
     return listeners
