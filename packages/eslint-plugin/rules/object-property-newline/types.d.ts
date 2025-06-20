@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: g6odvVWmHAgPmZKGVqoR8PU-mmkJpxbICmVb1aOuyqI */
+/* @checksum: Ljct-hulrsvuX4UytO9f1kiJqDjxvHOl8NT-QrrDLVk */
 
 export type ObjectPropertyNewlineSchema0
   = | {
