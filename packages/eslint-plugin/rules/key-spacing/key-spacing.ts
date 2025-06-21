@@ -7,6 +7,7 @@ import {
   isClosingBracketToken,
   isColonToken,
   isOpeningBraceToken,
+  isTokenOnSameLine,
   LINEBREAK_MATCHER,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -346,7 +347,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
       const openingBrace = sourceCode.getTokenBefore(node.attributes[0], isOpeningBraceToken)!
       const closingBrace = sourceCode.getTokenAfter(node.attributes[node.attributes.length - 1], isClosingBraceToken)!
-      return (closingBrace.loc.end.line === openingBrace.loc.start.line)
+      return (isTokenOnSameLine(closingBrace, openingBrace))
     }
 
     /**
@@ -358,7 +359,7 @@ export default createRule<RuleOptions, MessageIds>({
       const [firstProp] = properties
       const lastProp = properties.at(-1)!
 
-      return firstProp.loc.start.line === lastProp.loc.end.line
+      return isTokenOnSameLine(lastProp, firstProp)
     }
 
     /**
@@ -773,7 +774,7 @@ export default createRule<RuleOptions, MessageIds>({
     ): node is KeyTypeNodeWithTypeAnnotation {
       return (
         isKeyTypeNode(node)
-        && node.typeAnnotation.loc.start.line === node.loc.end.line
+        && isTokenOnSameLine(node, node.typeAnnotation)
       )
     }
 

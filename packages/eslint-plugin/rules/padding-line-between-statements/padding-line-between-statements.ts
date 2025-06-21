@@ -328,8 +328,8 @@ function getActualLastToken(
       && nextToken
       && prevToken.range[0] >= node.range[0]
       && isSemicolonToken(semiToken)
-      && semiToken.loc.start.line !== prevToken.loc.end.line
-      && semiToken.loc.end.line === nextToken.loc.start.line
+      && !isTokenOnSameLine(prevToken, semiToken)
+      && isTokenOnSameLine(semiToken, nextToken)
 
   return isSemicolonLessStyle ? prevToken : semiToken
 }

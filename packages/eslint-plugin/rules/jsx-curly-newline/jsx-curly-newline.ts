@@ -4,6 +4,7 @@
 
 import type { ASTNode, RuleContext, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 function getNormalizedOption(context: Readonly<RuleContext<MessageIds, RuleOptions>>) {
@@ -78,16 +79,6 @@ export default createRule<RuleOptions, MessageIds>({
   create(context) {
     const sourceCode = context.sourceCode
     const option = getNormalizedOption(context)
-
-    /**
-     * Determines whether two adjacent tokens are on the same line.
-     * @param left - The left token object.
-     * @param right - The right token object.
-     * @returns Whether or not the tokens are on the same line.
-     */
-    function isTokenOnSameLine(left: ASTNode | Token, right: ASTNode | Token) {
-      return left.loc.end.line === right.loc.start.line
-    }
 
     /**
      * Determines whether there should be newlines inside curlys

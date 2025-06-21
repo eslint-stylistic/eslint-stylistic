@@ -5,7 +5,7 @@
 
 import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isParenthesized } from '#utils/ast'
+import { isParenthesized, isTokenOnSameLine } from '#utils/ast'
 import { isJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
 
@@ -98,7 +98,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (!isParenthesized(node, context.sourceCode))
         return false
 
-      if (previousToken.loc.end.line === node.loc.start.line)
+      if (isTokenOnSameLine(previousToken, node))
         return true
 
       return false
@@ -110,7 +110,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (!isParenthesized(node, context.sourceCode))
         return false
 
-      if (node.loc.end.line === nextToken.loc.end.line)
+      if (isTokenOnSameLine(node, nextToken))
         return true
 
       return false

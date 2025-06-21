@@ -1,6 +1,6 @@
 import type { ASTNode, SourceCode, Token, Tree } from '#types'
 import type { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { isClosingParenToken, isColonToken, isFunction, isOpeningParenToken, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
+import { isClosingParenToken, isColonToken, isFunction, isOpeningParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
@@ -757,9 +757,11 @@ export function getFirstNodeInLine(context: { sourceCode: SourceCode }, node: AS
  */
 export function isNodeFirstInLine(context: { sourceCode: SourceCode }, node: ASTNode) {
   const token = getFirstNodeInLine(context, node)
-  const startLine = node.loc!.start.line
-  const endLine = token ? token.loc.end.line : -1
-  return startLine !== endLine
+
+  if (!token)
+    return false
+
+  return !isTokenOnSameLine(token, node)
 }
 
 /**

@@ -5,7 +5,7 @@
 
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { COMMENTS_IGNORE_PATTERN, LINEBREAK_MATCHER } from '#utils/ast'
+import { COMMENTS_IGNORE_PATTERN, isTokenOnSameLine, LINEBREAK_MATCHER } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -363,7 +363,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         const tokenAfter = sourceCode.getTokenAfter(firstComment, { includeComments: true })
 
-        if (tokenAfter && firstComment.loc.end.line === tokenAfter.loc.start.line)
+        if (tokenAfter && isTokenOnSameLine(firstComment, tokenAfter))
           return
 
         context.report({

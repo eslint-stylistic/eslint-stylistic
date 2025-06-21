@@ -5,7 +5,7 @@
 
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isCommentToken, isNotOpeningParenToken } from '#utils/ast'
+import { isCommentToken, isNotOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -46,14 +46,16 @@ export default createRule<RuleOptions, MessageIds>({
       const arrowToken = sourceCode.getTokenBefore(node.body, isNotOpeningParenToken)!
       const firstTokenOfBody = sourceCode.getTokenAfter(arrowToken)!
 
-      if (arrowToken.loc.end.line === firstTokenOfBody.loc.start.line && option === 'below') {
+      const onSameLine = isTokenOnSameLine(arrowToken, firstTokenOfBody)
+
+      if (onSameLine && option === 'below') {
         context.report({
           node: firstTokenOfBody,
           messageId: 'expected',
           fix: fixer => fixer.insertTextBefore(firstTokenOfBody, '\n'),
         })
       }
-      else if (arrowToken.loc.end.line !== firstTokenOfBody.loc.start.line && option === 'beside') {
+      else if (!onSameLine && option === 'beside') {
         context.report({
           node: firstTokenOfBody,
           messageId: 'unexpected',

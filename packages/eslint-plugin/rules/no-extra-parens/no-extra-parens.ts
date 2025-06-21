@@ -17,6 +17,7 @@ import {
   isOpeningBracketToken,
   isOpeningParenToken,
   isParenthesized as isParenthesizedRaw,
+  isTokenOnSameLine,
   isTopLevelExpressionStatement,
   isTypeAssertion,
   skipChainExpression,
@@ -506,7 +507,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function hasExcessParensNoLineTerminator(token: Token, node: ASTNode) {
-      if (token.loc.end.line === node.loc.start.line)
+      if (isTokenOnSameLine(token, node))
         return hasExcessParens(node)
 
       return hasDoubleExcessParens(node)
@@ -1424,7 +1425,7 @@ export default createRule<RuleOptions, MessageIds>({
           const { argument } = node
           const operatorToken = sourceCode.getLastToken(node)!
 
-          if (argument.loc.end.line === operatorToken.loc.start.line) {
+          if (isTokenOnSameLine(argument, operatorToken)) {
             checkArgumentWithPrecedence(node)
           }
           else {

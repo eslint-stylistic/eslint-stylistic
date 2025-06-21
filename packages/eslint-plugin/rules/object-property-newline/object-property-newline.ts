@@ -1,5 +1,6 @@
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -48,7 +49,7 @@ export default createRule<RuleOptions, MessageIds>({
           const firstTokenOfFirstProperty = sourceCode.getFirstToken(children[0])!
           const lastTokenOfLastProperty = sourceCode.getLastToken(children[children.length - 1])!
 
-          if (firstTokenOfFirstProperty.loc.end.line === lastTokenOfLastProperty.loc.start.line) {
+          if (isTokenOnSameLine(firstTokenOfFirstProperty, lastTokenOfLastProperty)) {
             // All keys and values are on the same line
             return
           }
@@ -59,7 +60,7 @@ export default createRule<RuleOptions, MessageIds>({
         const lastTokenOfPreviousProperty = sourceCode.getLastToken(children[i - 1])!
         const firstTokenOfCurrentProperty = sourceCode.getFirstToken(children[i])!
 
-        if (lastTokenOfPreviousProperty.loc.end.line === firstTokenOfCurrentProperty.loc.start.line) {
+        if (isTokenOnSameLine(lastTokenOfPreviousProperty, firstTokenOfCurrentProperty)) {
           context.report({
             node,
             loc: firstTokenOfCurrentProperty.loc,

@@ -320,9 +320,9 @@ export default createRule<RuleOptions, MessageIds>({
         return parent.loc.start.line === parent.loc.end.line
 
       if (parent.type === 'StaticBlock') {
-        const openingBrace = sourceCode.getFirstToken(parent, { skip: 1 }) as Token
+        const openingBrace = sourceCode.getFirstToken(parent, { skip: 1 })!
 
-        return openingBrace.loc.start.line === parent.loc.end.line
+        return isTokenOnSameLine(parent, openingBrace)
       }
 
       return false
