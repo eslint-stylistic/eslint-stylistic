@@ -1,6 +1,6 @@
 import type { EcmaVersion, Tree } from '#types'
 import type { MessageIds, RuleOptions, Value } from './types'
-import { AST_NODE_TYPES, getNextLocation, isCommaToken, isTokenOnSameLine } from '#utils/ast'
+import { AST_NODE_TYPES, getNextLocation, isCommaToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 type Extract<T> = T extends Record<any, any> ? T : never
@@ -212,7 +212,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (!lastToken)
         return false
 
-      return !isTokenOnSameLine(lastToken, penultimateToken)
+      return lastToken.loc.end.line !== penultimateToken.loc.end.line
     }
 
     /**
