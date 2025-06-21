@@ -9,6 +9,7 @@ import {
   isSingleLine,
   isTokenOnSameLine,
   isTopLevelExpressionStatement,
+  LINEBREAKS,
   skipChainExpression,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -48,9 +49,7 @@ interface PaddingOption {
 type MessageIds = 'expectedBlankLine' | 'unexpectedBlankLine'
 type Options = PaddingOption[]
 
-const LT = `[${Array.from(
-  new Set(['\r\n', '\r', '\n', '\u2028', '\u2029']),
-).join('')}]`
+const LT = `[${Array.from(LINEBREAKS).join('')}]`
 const PADDING_LINE_SEQUENCE = new RegExp(
   String.raw`^(\s*?${LT})\s*${LT}(\s*;?)$`,
   'u',
