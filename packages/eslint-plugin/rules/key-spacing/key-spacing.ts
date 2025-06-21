@@ -7,6 +7,8 @@ import {
   isClosingBracketToken,
   isColonToken,
   isOpeningBraceToken,
+  isSingleLine,
+  isTokenOnSameLine,
   LINEBREAK_MATCHER,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -325,15 +327,6 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node AST Node being evaluated.
      * @returns True if the node is a single line.
      */
-    function isSingleLine(node: ASTNode) {
-      return (node.loc.end.line === node.loc.start.line)
-    }
-
-    /**
-     * Checks whether a node is contained on a single line.
-     * @param node AST Node being evaluated.
-     * @returns True if the node is a single line.
-     */
     function isSingleLineImportAttributes(
       node: Tree.ImportDeclaration | Tree.ExportNamedDeclaration | Tree.ExportAllDeclaration | Tree.TSImportType,
       sourceCode: SourceCode,
@@ -346,7 +339,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
       const openingBrace = sourceCode.getTokenBefore(node.attributes[0], isOpeningBraceToken)!
       const closingBrace = sourceCode.getTokenAfter(node.attributes[node.attributes.length - 1], isClosingBraceToken)!
-      return (closingBrace.loc.end.line === openingBrace.loc.start.line)
+      return (isTokenOnSameLine(closingBrace, openingBrace))
     }
 
     /**
@@ -358,7 +351,7 @@ export default createRule<RuleOptions, MessageIds>({
       const [firstProp] = properties
       const lastProp = properties.at(-1)!
 
-      return firstProp.loc.start.line === lastProp.loc.end.line
+      return isTokenOnSameLine(lastProp, firstProp)
     }
 
     /**
@@ -773,7 +766,7 @@ export default createRule<RuleOptions, MessageIds>({
     ): node is KeyTypeNodeWithTypeAnnotation {
       return (
         isKeyTypeNode(node)
-        && node.typeAnnotation.loc.start.line === node.loc.end.line
+        && isTokenOnSameLine(node, node.typeAnnotation)
       )
     }
 
@@ -1060,8 +1053,6 @@ export default createRule<RuleOptions, MessageIds>({
       if (ignoredNodes.includes(body.type))
         return
 
-      const isSingleLine = body.loc.start.line === body.loc.end.line
-
       const members = body.type === AST_NODE_TYPES.TSTypeLiteral
         ? body.members
         : body.body
@@ -1112,7 +1103,7 @@ export default createRule<RuleOptions, MessageIds>({
         checkAlignGroup(group)
 
       for (const node of unalignedElements)
-        checkIndividualNode(node, { singleLine: isSingleLine })
+        checkIndividualNode(node, { singleLine: isSingleLine(body) })
     }
     return {
       ...baseRules,

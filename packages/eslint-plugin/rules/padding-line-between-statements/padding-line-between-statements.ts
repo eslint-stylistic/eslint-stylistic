@@ -6,8 +6,10 @@ import {
   isNotSemicolonToken,
   isParenthesized,
   isSemicolonToken,
+  isSingleLine,
   isTokenOnSameLine,
   isTopLevelExpressionStatement,
+  LINEBREAKS,
   skipChainExpression,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -47,9 +49,7 @@ interface PaddingOption {
 type MessageIds = 'expectedBlankLine' | 'unexpectedBlankLine'
 type Options = PaddingOption[]
 
-const LT = `[${Array.from(
-  new Set(['\r\n', '\r', '\n', '\u2028', '\u2029']),
-).join('')}]`
+const LT = `[${Array.from(LINEBREAKS).join('')}]`
 const PADDING_LINE_SEQUENCE = new RegExp(
   String.raw`^(\s*?${LT})\s*${LT}(\s*;?)$`,
   'u',
@@ -88,7 +88,7 @@ function newSinglelineKeywordTester(keyword: string): NodeTestObject {
   return {
     test(node, sourceCode): boolean {
       return (
-        node.loc.start.line === node.loc.end.line
+        isSingleLine(node)
         && sourceCode.getFirstToken(node)!.value === keyword
       )
     },
@@ -105,7 +105,7 @@ function newMultilineKeywordTester(keyword: string): NodeTestObject {
   return {
     test(node, sourceCode): boolean {
       return (
-        node.loc.start.line !== node.loc.end.line
+        !isSingleLine(node)
         && sourceCode.getFirstToken(node)!.value === keyword
       )
     },
@@ -328,8 +328,8 @@ function getActualLastToken(
       && nextToken
       && prevToken.range[0] >= node.range[0]
       && isSemicolonToken(semiToken)
-      && semiToken.loc.start.line !== prevToken.loc.end.line
-      && semiToken.loc.end.line === nextToken.loc.start.line
+      && !isTokenOnSameLine(prevToken, semiToken)
+      && isTokenOnSameLine(semiToken, nextToken)
 
   return isSemicolonLessStyle ? prevToken : semiToken
 }
@@ -500,11 +500,11 @@ const StatementTypes: Record<string, NodeTestObject> = {
   'iife': { test: isIIFEStatement },
 
   'multiline-block-like': {
-    test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
+    test: (node, sourceCode) => !isSingleLine(node)
       && isBlockLikeStatement(node, sourceCode),
   },
   'multiline-expression': {
-    test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
+    test: (node, sourceCode) => !isSingleLine(node)
       && node.type === AST_NODE_TYPES.ExpressionStatement
       && !isDirectivePrologue(node, sourceCode),
   },

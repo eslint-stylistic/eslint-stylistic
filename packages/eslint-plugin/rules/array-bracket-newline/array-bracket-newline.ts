@@ -195,17 +195,17 @@ export default createRule<RuleOptions, MessageIds>({
         || (
           options.multiline
           && elements.length > 0
-          && firstIncComment.loc!.start.line !== lastIncComment.loc!.end.line
+          && !isTokenOnSameLine(lastIncComment, firstIncComment)
         )
         || (
           elements.length === 0
           && firstIncComment.type === 'Block'
-          && firstIncComment.loc!.start.line !== lastIncComment.loc!.end.line
+          && !isTokenOnSameLine(lastIncComment, firstIncComment)
           && firstIncComment === lastIncComment
         )
         || (
           options.consistent
-          && openBracket.loc.end.line !== first.loc.start.line
+          && !isTokenOnSameLine(openBracket, first)
         )
       )
 

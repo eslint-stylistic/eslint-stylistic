@@ -5,7 +5,7 @@
 
 import type { Token, Tree } from '#types'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
-import { isCommaToken, isCommentToken, isTokenOnSameLine } from '#utils/ast'
+import { isCommaToken, isCommentToken, isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -225,8 +225,8 @@ export default createRule<RuleOptions, MessageIds>({
        */
       if (options.multiline) {
         elementBreak = elements
-          .filter((element: any) => element !== null)
-          .some((element: any) => element!.loc.start.line !== element!.loc.end.line)
+          .filter(element => element !== null)
+          .some(element => !isSingleLine(element))
       }
 
       let linebreaksCount = 0

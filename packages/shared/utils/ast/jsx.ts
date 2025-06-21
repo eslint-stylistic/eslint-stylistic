@@ -29,14 +29,6 @@ export function isJSX(node: ASTNode): node is (Tree.JSXElement | Tree.JSXFragmen
 }
 
 /**
- * Check if value has only whitespaces
- * @param value
- */
-export function isWhiteSpaces(value: string): boolean {
-  return typeof value === 'string' ? /^\s*$/.test(value) : false
-}
-
-/**
  * Check if the node is returning JSX or null
  *
  * @param ASTnode The AST node being checked

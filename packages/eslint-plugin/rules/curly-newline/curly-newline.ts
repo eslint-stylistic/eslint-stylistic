@@ -184,7 +184,7 @@ export default createRule<RuleOptions, MessageIds>({
       let last = sourceCode.getTokenBefore(closeBrace, { includeComments: true })!
 
       const needsLineBreaks = elementCount >= options.minElements
-        || (options.multiline && elementCount > 0 && first.loc.start.line !== last.loc.end.line)
+        || (options.multiline && elementCount > 0 && !isTokenOnSameLine(last, first))
 
       const hasCommentsFirstToken = isCommentToken(first)
       const hasCommentsLastToken = isCommentToken(last)

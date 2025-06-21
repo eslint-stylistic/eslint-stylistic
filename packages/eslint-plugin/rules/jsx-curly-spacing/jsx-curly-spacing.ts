@@ -11,6 +11,7 @@
 
 import type { ASTNode, RuleFixer, Token } from '#types'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
+import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const SPACING = {
@@ -150,16 +151,6 @@ export default createRule<RuleOptions, MessageIds>({
     const attributesConfig = attributes ? normalizeConfig(attributes, defaultConfig, true) : null
     const children = 'children' in originalConfig ? originalConfig.children : DEFAULT_CHILDREN
     const childrenConfig = children ? normalizeConfig(children, defaultConfig, true) : null
-
-    /**
-     * Determines whether two adjacent tokens have a newline between them.
-     * @param - The left token object.
-     * @param right - The right token object.
-     * @returns Whether or not there is a newline between the tokens.
-     */
-    function isMultiline(left: Token, right: Token) {
-      return left.loc.end.line !== right.loc.start.line
-    }
 
     /**
      * Trims text of whitespace between two ranges
@@ -364,23 +355,23 @@ export default createRule<RuleOptions, MessageIds>({
       if (spacing === SPACING.always) {
         if (!sourceCode.isSpaceBetween(first, second))
           reportRequiredBeginningSpace(node, first)
-        else if (!config.allowMultiline && isMultiline(first, second))
+        else if (!config.allowMultiline && !isTokenOnSameLine(first, second))
           reportNoBeginningNewline(node, first, spacing)
 
         if (!sourceCode.isSpaceBetween(penultimate, last))
           reportRequiredEndingSpace(node, last)
-        else if (!config.allowMultiline && isMultiline(penultimate, last))
+        else if (!config.allowMultiline && !isTokenOnSameLine(penultimate, last))
           reportNoEndingNewline(node, last, spacing)
       }
       else if (spacing === SPACING.never) {
-        if (isMultiline(first, second)) {
+        if (!isTokenOnSameLine(first, second)) {
           if (!config.allowMultiline)
             reportNoBeginningNewline(node, first, spacing)
         }
         else if (sourceCode.isSpaceBetween(first, second)) {
           reportNoBeginningSpace(node, first)
         }
-        if (isMultiline(penultimate, last)) {
+        if (!isTokenOnSameLine(penultimate, last)) {
           if (!config.allowMultiline)
             reportNoEndingNewline(node, last, spacing)
         }

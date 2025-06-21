@@ -5,7 +5,7 @@
 
 import type { RuleFixer, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { getSwitchCaseColonToken, isClosingBraceToken, isCommentToken, isTokenOnSameLine } from '#utils/ast'
+import { getSwitchCaseColonToken, hasCommentsBetween, isClosingBraceToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -58,23 +58,6 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Check whether comments exist between the given 2 tokens.
-     * @param left The left token to check.
-     * @param right The right token to check.
-     * @returns `true` if comments exist between the given 2 tokens.
-     */
-    function commentsExistBetween(left: Token, right: Token) {
-      return sourceCode.getFirstTokenBetween(
-        left,
-        right,
-        {
-          includeComments: true,
-          filter: isCommentToken,
-        },
-      ) !== null
-    }
-
-    /**
      * Fix the spacing between the given 2 tokens.
      * @param fixer The fixer to fix.
      * @param left The left token of fix range.
@@ -83,7 +66,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns The fix object.
      */
     function fix(fixer: RuleFixer, left: Token, right: Token, spacing: boolean) {
-      if (commentsExistBetween(left, right))
+      if (hasCommentsBetween(sourceCode, left, right))
         return null
 
       if (spacing)
