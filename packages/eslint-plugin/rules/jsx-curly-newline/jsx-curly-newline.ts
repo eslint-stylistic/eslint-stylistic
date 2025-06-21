@@ -4,7 +4,7 @@
 
 import type { ASTNode, RuleContext, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isTokenOnSameLine } from '#utils/ast'
+import { isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 function getNormalizedOption(context: Readonly<RuleContext<MessageIds, RuleOptions>>) {
@@ -87,9 +87,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns `true` if there should be newlines inside the function curlys
      */
     function shouldHaveNewlines(expression: ASTNode, hasLeftNewline: boolean) {
-      const isMultiline = expression.loc.start.line !== expression.loc.end.line
-
-      switch (isMultiline ? option.multiline : option.singleline) {
+      switch (!isSingleLine(expression) ? option.multiline : option.singleline) {
         case 'forbid': return false
         case 'require': return true
         case 'consistent':

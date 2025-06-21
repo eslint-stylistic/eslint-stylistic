@@ -5,6 +5,7 @@ import {
   getNextLocation,
   isClosingBraceToken,
   isSemicolonToken,
+  isSingleLine,
   isTokenOnSameLine,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -317,7 +318,7 @@ export default createRule<RuleOptions, MessageIds>({
         return false
 
       if (parent.type === 'BlockStatement')
-        return parent.loc.start.line === parent.loc.end.line
+        return isSingleLine(parent)
 
       if (parent.type === 'StaticBlock') {
         const openingBrace = sourceCode.getFirstToken(parent, { skip: 1 })!
@@ -342,7 +343,7 @@ export default createRule<RuleOptions, MessageIds>({
         return false
 
       if (parent.type === 'ClassBody')
-        return parent.loc.start.line === parent.loc.end.line
+        return isSingleLine(parent)
 
       return false
     }

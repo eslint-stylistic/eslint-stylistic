@@ -17,6 +17,7 @@ import {
   isOpeningBracketToken,
   isOpeningParenToken,
   isParenthesized as isParenthesizedRaw,
+  isSingleLine,
   isTokenOnSameLine,
   isTopLevelExpressionStatement,
   isTypeAssertion,
@@ -279,8 +280,6 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function ruleApplies(node: ASTNode) {
       if (node.type === 'JSXElement' || node.type === 'JSXFragment') {
-        const isSingleLine = node.loc.start.line === node.loc.end.line
-
         switch (IGNORE_JSX) {
           // Exclude this JSX element from linting
           case 'all':
@@ -288,11 +287,11 @@ export default createRule<RuleOptions, MessageIds>({
 
           // Exclude this JSX element if it is multi-line element
           case 'multi-line':
-            return isSingleLine
+            return isSingleLine(node)
 
           // Exclude this JSX element if it is single-line element
           case 'single-line':
-            return !isSingleLine
+            return !isSingleLine(node)
 
           // Nothing special to be done for JSX elements
           case 'none':

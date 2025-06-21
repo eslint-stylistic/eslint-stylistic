@@ -6,6 +6,7 @@ import {
   isNotSemicolonToken,
   isParenthesized,
   isSemicolonToken,
+  isSingleLine,
   isTokenOnSameLine,
   isTopLevelExpressionStatement,
   skipChainExpression,
@@ -88,7 +89,7 @@ function newSinglelineKeywordTester(keyword: string): NodeTestObject {
   return {
     test(node, sourceCode): boolean {
       return (
-        node.loc.start.line === node.loc.end.line
+        isSingleLine(node)
         && sourceCode.getFirstToken(node)!.value === keyword
       )
     },
@@ -105,7 +106,7 @@ function newMultilineKeywordTester(keyword: string): NodeTestObject {
   return {
     test(node, sourceCode): boolean {
       return (
-        node.loc.start.line !== node.loc.end.line
+        !isSingleLine(node)
         && sourceCode.getFirstToken(node)!.value === keyword
       )
     },
@@ -500,11 +501,11 @@ const StatementTypes: Record<string, NodeTestObject> = {
   'iife': { test: isIIFEStatement },
 
   'multiline-block-like': {
-    test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
+    test: (node, sourceCode) => !isSingleLine(node)
       && isBlockLikeStatement(node, sourceCode),
   },
   'multiline-expression': {
-    test: (node, sourceCode) => node.loc.start.line !== node.loc.end.line
+    test: (node, sourceCode) => !isSingleLine(node)
       && node.type === AST_NODE_TYPES.ExpressionStatement
       && !isDirectivePrologue(node, sourceCode),
   },

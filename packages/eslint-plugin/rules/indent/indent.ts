@@ -6,7 +6,7 @@
 
 import type { ASTNode, JSONSchema, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
+import { AST_NODE_TYPES, createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const KNOWN_NODES = new Set([
@@ -1705,7 +1705,7 @@ export default createRule<RuleOptions, MessageIds>({
         node.expressions.forEach((expression, index) => {
           const previousQuasi = node.quasis[index]
           const nextQuasi = node.quasis[index + 1]
-          const tokenToAlignFrom = previousQuasi.loc.start.line === previousQuasi.loc.end.line
+          const tokenToAlignFrom = isSingleLine(previousQuasi)
             ? sourceCode.getFirstToken(previousQuasi)
             : null
 

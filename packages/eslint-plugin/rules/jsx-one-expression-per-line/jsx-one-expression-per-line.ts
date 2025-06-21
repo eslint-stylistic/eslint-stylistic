@@ -67,7 +67,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       if (
         options.allow === 'non-jsx'
-        && !children.find(child => (child.type === 'JSXFragment' || child.type === 'JSXElement'))
+        && !children.some(child => (child.type === 'JSXFragment' || child.type === 'JSXElement'))
       ) {
         return
       }

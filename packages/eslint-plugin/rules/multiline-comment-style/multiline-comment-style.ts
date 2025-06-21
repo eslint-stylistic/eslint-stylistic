@@ -5,7 +5,7 @@
 
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { COMMENTS_IGNORE_PATTERN, isTokenOnSameLine, LINEBREAK_MATCHER } from '#utils/ast'
+import { COMMENTS_IGNORE_PATTERN, isSingleLine, isTokenOnSameLine, LINEBREAK_MATCHER } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -452,7 +452,7 @@ export default createRule<RuleOptions, MessageIds>({
 
             return commentGroups
           }, [])
-          .filter(commentGroup => !(commentGroup.length === 1 && commentGroup[0].loc.start.line === commentGroup[0].loc.end.line))
+          .filter(commentGroup => !(commentGroup.length === 1 && isSingleLine(commentGroup[0])))
           .forEach(commentGroupCheckers[option])
       },
     }

@@ -7,6 +7,7 @@ import {
   isClosingBracketToken,
   isColonToken,
   isOpeningBraceToken,
+  isSingleLine,
   isTokenOnSameLine,
   LINEBREAK_MATCHER,
 } from '#utils/ast'
@@ -319,15 +320,6 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function containsLineTerminator(str: string) {
       return LINEBREAK_MATCHER.test(str)
-    }
-
-    /**
-     * Checks whether a node is contained on a single line.
-     * @param node AST Node being evaluated.
-     * @returns True if the node is a single line.
-     */
-    function isSingleLine(node: ASTNode) {
-      return (node.loc.end.line === node.loc.start.line)
     }
 
     /**
@@ -1061,8 +1053,6 @@ export default createRule<RuleOptions, MessageIds>({
       if (ignoredNodes.includes(body.type))
         return
 
-      const isSingleLine = body.loc.start.line === body.loc.end.line
-
       const members = body.type === AST_NODE_TYPES.TSTypeLiteral
         ? body.members
         : body.body
@@ -1113,7 +1103,7 @@ export default createRule<RuleOptions, MessageIds>({
         checkAlignGroup(group)
 
       for (const node of unalignedElements)
-        checkIndividualNode(node, { singleLine: isSingleLine })
+        checkIndividualNode(node, { singleLine: isSingleLine(body) })
     }
     return {
       ...baseRules,

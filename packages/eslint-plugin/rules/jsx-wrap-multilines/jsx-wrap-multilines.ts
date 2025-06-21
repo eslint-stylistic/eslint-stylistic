@@ -5,7 +5,7 @@
 
 import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isParenthesized, isTokenOnSameLine } from '#utils/ast'
+import { isParenthesized, isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { isJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
 
@@ -116,10 +116,6 @@ export default createRule<RuleOptions, MessageIds>({
       return false
     }
 
-    function isMultilines(node: ASTNode) {
-      return node.loc.start.line !== node.loc.end.line
-    }
-
     function trimTokenBeforeNewline(tokenBefore: Token) {
       // if the token before the jsx is a bracket or curly brace
       // we don't want a space between the opening parentheses and the multiline jsx
@@ -134,7 +130,7 @@ export default createRule<RuleOptions, MessageIds>({
       const sourceCode = context.sourceCode
       const option = getOption(type)
 
-      if ((option === true || option === 'parens') && !isParenthesized(node, context.sourceCode) && isMultilines(node)) {
+      if ((option === true || option === 'parens') && !isParenthesized(node, context.sourceCode) && !isSingleLine(node)) {
         context.report({
           node,
           messageId: 'missingParens',
@@ -142,7 +138,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       }
 
-      if (option === 'parens-new-line' && isMultilines(node)) {
+      if (option === 'parens-new-line' && !isSingleLine(node)) {
         if (!isParenthesized(node, context.sourceCode)) {
           const tokenBefore = sourceCode.getTokenBefore(node)!
           const tokenAfter = sourceCode.getTokenAfter(node)!

@@ -6,16 +6,13 @@
 
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isSingleLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const messages = {
   require: 'JSX element should start in a new line',
   prevent: 'JSX element should not start in a new line',
   allowMultilines: 'Multiline JSX elements should start in a new line',
-}
-
-function isMultilined(node: Tree.JSXChild) {
-  return node && node.loc.start.line !== node.loc.end.line
 }
 
 export default createRule<RuleOptions, MessageIds>({
@@ -101,11 +98,14 @@ export default createRule<RuleOptions, MessageIds>({
 
               if (isBlockCommentInCurlyBraces(element))
                 return
+
+              const nextNonBlockComment = elements.slice(index + 2).find(isNonBlockComment)
+
               if (
                 allowMultilines
                 && (
-                  isMultilined(element)
-                  || isMultilined(elements.slice(index + 2).find(isNonBlockComment)!)
+                  !isSingleLine(element)
+                  || nextNonBlockComment && !isSingleLine(nextNonBlockComment)
                 )
               ) {
                 if (!isWithoutNewLine)
