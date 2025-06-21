@@ -5,7 +5,7 @@
 
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { COMMENTS_IGNORE_PATTERN, isSingleLine, isTokenOnSameLine, LINEBREAK_MATCHER } from '#utils/ast'
+import { COMMENTS_IGNORE_PATTERN, isSingleLine, isTokenOnSameLine, isWhiteSpaces, LINEBREAK_MATCHER, WHITE_SPACES_PATTERN } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -93,7 +93,7 @@ export default createRule<RuleOptions, MessageIds>({
       const lines = firstComment.value.split(LINEBREAK_MATCHER)
 
       // The first and last lines can only contain whitespace.
-      return lines.length > 0 && lines.every((line, i) => (i === 0 || i === lines.length - 1 ? /^\s*$/u : /^\s*\*/u).test(line))
+      return lines.length > 0 && lines.every((line, i) => i === 0 || i === lines.length - 1 ? isWhiteSpaces(line) : isStarredCommentLine(line))
     }
 
     /**
@@ -109,7 +109,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       return /^\*\s*$/u.test(lines[0])
         && lines.slice(1, -1).every(line => /^\s* /u.test(line))
-        && /^\s*$/u.test(lines.at(-1)!)
+        && isWhiteSpaces(lines.at(-1)!)
     }
 
     /**
@@ -132,7 +132,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns An array of the processed lines.
      */
     function processStarredBlockComment(comment: Token): string[] {
-      const lines = comment.value.split(LINEBREAK_MATCHER).filter((line, i, linesArr) => !(i === 0 || i === linesArr.length - 1)).map(line => line.replace(/^\s*$/u, ''))
+      const lines = comment.value.split(LINEBREAK_MATCHER).filter((line, i, linesArr) => !(i === 0 || i === linesArr.length - 1)).map(line => line.replace(WHITE_SPACES_PATTERN, ''))
       const allLinesHaveLeadingSpace = lines
         .map(line => line.replace(/\s*\*/u, ''))
         .filter(line => line.trim().length)
@@ -147,7 +147,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns An array of the processed lines.
      */
     function processBareBlockComment(comment: Token): string[] {
-      const lines = comment.value.split(LINEBREAK_MATCHER).map(line => line.replace(/^\s*$/u, ''))
+      const lines = comment.value.split(LINEBREAK_MATCHER).map(line => line.replace(WHITE_SPACES_PATTERN, ''))
       const leadingWhitespace = `${sourceCode.text.slice(comment.range[0] - comment.loc.start.column, comment.range[0])}   `
       let offset = ''
 
@@ -288,7 +288,7 @@ export default createRule<RuleOptions, MessageIds>({
             })
           }
 
-          if (!/^\s*$/u.test(lines.at(-1)!)) {
+          if (!isWhiteSpaces(lines.at(-1)!)) {
             context.report({
               loc: {
                 start: { line: firstComment.loc.end.line, column: firstComment.loc.end.column - 2 },

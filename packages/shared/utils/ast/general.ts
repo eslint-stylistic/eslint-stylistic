@@ -728,6 +728,16 @@ export function hasOctalOrNonOctalDecimalEscapeSequence(rawString: string) {
   return OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN.test(rawString)
 }
 
+export const WHITE_SPACES_PATTERN = /^\s*$/u
+
+/**
+ * Check if value has only whitespaces
+ * @param value
+ */
+export function isWhiteSpaces(value: string): boolean {
+  return typeof value === 'string' ? WHITE_SPACES_PATTERN.test(value) : false
+}
+
 /**
  * Gets the first node in a line from the initial node, excluding whitespace.
  * @param context The node to check
@@ -744,7 +754,7 @@ export function getFirstNodeInLine(context: { sourceCode: SourceCode }, node: AS
       ? token.value.split('\n')
       : null
   } while (
-    token.type === 'JSXText' && lines && /^\s*$/.test(lines[lines.length - 1])
+    token.type === 'JSXText' && lines && isWhiteSpaces(lines.at(-1)!)
   )
   return token
 }
