@@ -776,3 +776,12 @@ export function getTokenBeforeClosingBracket(node: Tree.JSXOpeningElement | Tree
 
   return attributes[attributes.length - 1]
 }
+
+/**
+ * Checks if the node is a single line.
+ * @param node - The node to check.
+ * @returns True if the node is a single line, false otherwise.
+ */
+export function isSingleLine(node: ASTNode | Token) {
+  return node.loc.start.line === node.loc.end.line
+}
