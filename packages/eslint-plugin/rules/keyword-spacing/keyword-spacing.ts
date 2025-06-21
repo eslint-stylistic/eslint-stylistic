@@ -281,7 +281,7 @@ export default createRule<RuleOptions, MessageIds>({
             && node.kind !== 'await using'
             || firstToken.type !== 'Identifier'
           ) {
-            /* c8 ignore next */ // Currently, there is no syntax to reach this branch.
+            /* c8 ignore next 2 */ // Currently, there is no syntax to reach this branch.
             return
           }
         }
