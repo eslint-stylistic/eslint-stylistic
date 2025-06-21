@@ -118,7 +118,7 @@ export default createRule<RuleOptions, MessageIds>({
         const linePartitionedProps = [[firstProp]]
 
         node.attributes.reduce((last, decl) => {
-          if (last.loc.end.line === decl.loc.start.line)
+          if (isTokenOnSameLine(last, decl))
             linePartitionedProps[linePartitionedProps.length - 1].push(decl)
           else
             linePartitionedProps.push([decl])
