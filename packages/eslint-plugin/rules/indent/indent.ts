@@ -149,6 +149,7 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.TSRestType,
   AST_NODE_TYPES.TSThisType,
   AST_NODE_TYPES.TSTupleType,
+  AST_NODE_TYPES.TSTypeAliasDeclaration,
   AST_NODE_TYPES.TSTypeAnnotation,
   AST_NODE_TYPES.TSTypeLiteral,
   AST_NODE_TYPES.TSTypeOperator,
@@ -1120,6 +1121,15 @@ export default createRule<RuleOptions, MessageIds>({
 
     const ignoredNodeFirstTokens = new Set<Token>()
 
+    function checkDeclarator(node: Tree.VariableDeclarator | Tree.TSTypeAliasDeclaration, equalOperator: Token) {
+      const tokenAfterOperator = sourceCode.getTokenAfter(equalOperator)!
+
+      offsets.ignoreToken(equalOperator)
+      offsets.ignoreToken(tokenAfterOperator)
+      offsets.setDesiredOffsets([tokenAfterOperator.range[0], node.range[1]], equalOperator, 1)
+      offsets.setDesiredOffset(equalOperator, sourceCode.getLastToken(node.id), 0)
+    }
+
     function checkArrayLikeNode(node: Tree.ArrayExpression | Tree.ArrayPattern | Tree.TSTupleType) {
       const elementList = node.type === AST_NODE_TYPES.TSTupleType ? node.elementTypes : node.elements
       const openingBracket = sourceCode.getFirstToken(node)!
@@ -1802,13 +1812,9 @@ export default createRule<RuleOptions, MessageIds>({
 
       VariableDeclarator(node) {
         if (node.init) {
-          const equalOperator = sourceCode.getTokenBefore(node.init, isNotOpeningParenToken)!
-          const tokenAfterOperator = sourceCode.getTokenAfter(equalOperator)!
+          const equalOperator = sourceCode.getTokenBefore(node.init, isEqToken)!
 
-          offsets.ignoreToken(equalOperator)
-          offsets.ignoreToken(tokenAfterOperator)
-          offsets.setDesiredOffsets([tokenAfterOperator.range[0], node.range[1]], equalOperator, 1)
-          offsets.setDesiredOffset(equalOperator, sourceCode.getLastToken(node.id), 0)
+          checkDeclarator(node, equalOperator)
         }
       },
 
@@ -1939,6 +1945,12 @@ export default createRule<RuleOptions, MessageIds>({
 
       JSXMemberExpression(node) {
         checkMemberExpression(node, node.object, node.property)
+      },
+
+      TSTypeAliasDeclaration(node) {
+        const equalOperator = sourceCode.getTokenBefore(node.typeAnnotation, isEqToken)!
+
+        checkDeclarator(node, equalOperator)
       },
 
       'TSTupleType': checkArrayLikeNode,
