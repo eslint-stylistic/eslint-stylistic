@@ -2166,6 +2166,33 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2026 },
       errors: unexpectedBefore('using'),
     },
+    {
+      code: '{}await using a = b',
+      output: '{} await using a = b',
+      parserOptions: { ecmaVersion: 2026 },
+      errors: expectedBefore('await'),
+    },
+    {
+      code: '{} await using a = b',
+      output: '{}await using a = b',
+      options: [NEITHER],
+      parserOptions: { ecmaVersion: 2026 },
+      errors: unexpectedBefore('await'),
+    },
+    {
+      code: '{}await using a = b',
+      output: '{} await using a = b',
+      options: [override('await', BOTH)],
+      parserOptions: { ecmaVersion: 2026 },
+      errors: expectedBefore('await'),
+    },
+    {
+      code: '{} await using a = b',
+      output: '{}await using a = b',
+      options: [override('await', NEITHER)],
+      parserOptions: { ecmaVersion: 2026 },
+      errors: unexpectedBefore('await'),
+    },
 
     // ----------------------------------------------------------------------
     // continue
