@@ -9,7 +9,7 @@ import { join } from 'node:path'
 import { $, run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import tsParser from '@typescript-eslint/parser'
-import rule from '.'
+import rule from './indent'
 
 const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
 const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')
@@ -1646,6 +1646,35 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         class Foo extends
+          (
+            Bar
+          ) {
+          baz() {}
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        var Foo = class
+          extends Bar {
+          baz() {}
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        var Foo = class extends
+          Bar {
+          baz() {}
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        var Foo = class extends
           (
             Bar
           ) {
@@ -8086,6 +8115,34 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
       errors: expectedErrors([[2, 4, 2, 'Identifier'], [4, 4, 2, 'Identifier']]),
+    },
+    {
+      code: $`
+        class A
+        extends B {
+        }
+      `,
+      output: $`
+        class A
+            extends B {
+        }
+      `,
+      options: [4],
+      errors: expectedErrors([[2, 4, 0, 'Keyword']]),
+    },
+    {
+      code: $`
+        var A = class
+        extends B {
+        };
+      `,
+      output: $`
+        var A = class
+            extends B {
+        };
+      `,
+      options: [4],
+      errors: expectedErrors([[2, 4, 0, 'Keyword']]),
     },
     {
       code: $`

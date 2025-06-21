@@ -3,7 +3,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
-import rule from '.'
+import rule from './no-extra-parens'
 
 run<RuleOptions, MessageIds>({
   name: 'no-extra-parens',
@@ -533,6 +533,10 @@ run<RuleOptions, MessageIds>({
           jsx: true,
         },
       },
+    },
+    // https://github.com/eslint/eslint/issues/17173
+    {
+      code: 'const x = (1 satisfies number).toFixed();',
     },
   ],
 

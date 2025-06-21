@@ -3,8 +3,8 @@
 import type { InvalidTestCase, TestCaseError, TestCasesOptions, ValidTestCase } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import rule from '.'
+import { AST_NODE_TYPES } from '#utils/ast'
+import rule from './indent'
 
 /**
  * Marks a test case as a plain javascript case which should be indented the same
@@ -362,6 +362,11 @@ import foo = require(
   {
     node: AST_NODE_TYPES.TSMappedType,
     code: [
+      $`
+        type Partial<T> = {
+            [P in keyof T];
+        }
+      `,
       `
 type Partial<T> = {
     [P in keyof T]: T[P];
@@ -1392,6 +1397,36 @@ import Dialogs = require("widgets/Dialogs");
             actual: 4,
           },
           line: 2,
+          column: 1,
+        },
+      ],
+    },
+    {
+      code: `
+    import Dialogs =
+      require("widgets/Dialogs");
+      `,
+      output: `
+import Dialogs =
+    require("widgets/Dialogs");
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '0 spaces',
+            actual: 4,
+          },
+          line: 2,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 6,
+          },
+          line: 3,
           column: 1,
         },
       ],

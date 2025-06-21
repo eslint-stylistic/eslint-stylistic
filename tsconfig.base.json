@@ -9,18 +9,6 @@
       "@eslint-stylistic/metadata": [
         "./packages/metadata/src/index.ts"
       ],
-      "@stylistic/eslint-plugin-js": [
-        "./packages/eslint-plugin-js/src/index.ts"
-      ],
-      "@stylistic/eslint-plugin-ts": [
-        "./packages/eslint-plugin-ts/src/index.ts"
-      ],
-      "@stylistic/eslint-plugin-jsx": [
-        "./packages/eslint-plugin-jsx/src/index.ts"
-      ],
-      "@stylistic/eslint-plugin-plus": [
-        "./packages/eslint-plugin-plus/src/index.ts"
-      ],
       "@stylistic/eslint-plugin": [
         "./packages/eslint-plugin/src/index.ts"
       ],

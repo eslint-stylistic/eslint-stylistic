@@ -5,7 +5,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import rule from '.'
+import rule from './no-extra-semi'
 
 run<RuleOptions, MessageIds>({
   name: 'no-extra-semi',

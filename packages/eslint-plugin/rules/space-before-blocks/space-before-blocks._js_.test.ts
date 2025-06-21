@@ -7,7 +7,7 @@ import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
-import rule from '.'
+import rule from './space-before-blocks'
 
 const alwaysArgs: RuleOptions = ['always']
 const neverArgs: RuleOptions = ['never']

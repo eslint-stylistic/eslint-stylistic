@@ -6,7 +6,7 @@
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
-import rule from '.'
+import rule from './space-before-function-paren'
 
 run<RuleOptions, MessageIds>({
   name: 'space-before-function-paren',
@@ -117,6 +117,15 @@ run<RuleOptions, MessageIds>({
     { code: 'async () => 1', parserOptions: { ecmaVersion: 8 } },
     { code: 'async () => 1', options: ['always'], parserOptions: { ecmaVersion: 8 } },
     { code: 'async() => 1', options: ['never'], parserOptions: { ecmaVersion: 8 } },
+
+    // Catch clause
+    { code: 'try {} catch (e) {}' },
+    { code: 'try {} catch (e) {}', options: ['always'] },
+    { code: 'try {} catch(e) {}', options: ['never'] },
+    { code: 'try {} catch (e) {}', options: [{ catch: 'always' }] },
+    { code: 'try {} catch(e) {}', options: [{ catch: 'never' }] },
+    { code: 'try {} catch (e) {}', options: [{ catch: 'ignore' }] },
+    { code: 'try {} catch(e) {}', options: [{ catch: 'ignore' }] },
   ],
 
   invalid: [
@@ -611,6 +620,37 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       parserOptions: { ecmaVersion: 8 },
       errors: [{ messageId: 'unexpectedSpace', type: 'ArrowFunctionExpression' }],
+    },
+
+    // Catch clause
+    {
+      code: 'try {} catch(e) {}',
+      output: 'try {} catch (e) {}',
+      errors: [{ messageId: 'missingSpace', type: 'CatchClause' }],
+    },
+    {
+      code: 'try {} catch(e) {}',
+      output: 'try {} catch (e) {}',
+      options: ['always'],
+      errors: [{ messageId: 'missingSpace', type: 'CatchClause' }],
+    },
+    {
+      code: 'try {} catch (e) {}',
+      output: 'try {} catch(e) {}',
+      options: ['never'],
+      errors: [{ messageId: 'unexpectedSpace', type: 'CatchClause' }],
+    },
+    {
+      code: 'try {} catch(e) {}',
+      output: 'try {} catch (e) {}',
+      options: [{ catch: 'always' }],
+      errors: [{ messageId: 'missingSpace', type: 'CatchClause' }],
+    },
+    {
+      code: 'try {} catch (e) {}',
+      output: 'try {} catch(e) {}',
+      options: [{ catch: 'never' }],
+      errors: [{ messageId: 'unexpectedSpace', type: 'CatchClause' }],
     },
   ],
 })

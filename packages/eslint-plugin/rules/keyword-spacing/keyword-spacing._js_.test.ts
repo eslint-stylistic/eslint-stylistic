@@ -7,7 +7,7 @@ import type { CompatConfigOptions, TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
-import rule from '.'
+import rule from './keyword-spacing'
 
 const BOTH = { before: true, after: true }
 const NEITHER = { before: false, after: false }
@@ -353,6 +353,12 @@ run<RuleOptions, MessageIds>({
     // catch
     // ----------------------------------------------------------------------
 
+    'try {} catch {}',
+    { code: 'try{}catch{}', options: [NEITHER] },
+    { code: 'try{} catch {}', options: [override('catch', BOTH)] },
+    { code: 'try {}catch{}', options: [override('catch', NEITHER)] },
+    'try {}\ncatch {}',
+    { code: 'try{}\ncatch{}', options: [NEITHER] },
     'try {} catch (e) {}',
     { code: 'try{}catch(e) {}', options: [NEITHER] },
     { code: 'try{} catch (e) {}', options: [override('catch', BOTH)] },
@@ -1979,27 +1985,50 @@ run<RuleOptions, MessageIds>({
     // ----------------------------------------------------------------------
 
     {
-      code: 'try {}catch(e) {}',
-      output: 'try {} catch (e) {}',
+      code: 'try {}catch{}',
+      output: 'try {} catch {}',
       errors: expectedBeforeAndAfter('catch'),
     },
     {
-      code: 'try{} catch (e) {}',
-      output: 'try{}catch(e) {}',
+      code: 'try{} catch {}',
+      output: 'try{}catch{}',
       options: [NEITHER],
       errors: unexpectedBeforeAndAfter('catch'),
     },
     {
-      code: 'try{}catch(e) {}',
-      output: 'try{} catch (e) {}',
+      code: 'try{}catch{}',
+      output: 'try{} catch {}',
       options: [override('catch', BOTH)],
       errors: expectedBeforeAndAfter('catch'),
     },
     {
-      code: 'try {} catch (e) {}',
-      output: 'try {}catch(e) {}',
+      code: 'try {} catch {}',
+      output: 'try {}catch{}',
       options: [override('catch', NEITHER)],
       errors: unexpectedBeforeAndAfter('catch'),
+    },
+    {
+      code: 'try {}catch(e) {}',
+      output: 'try {} catch(e) {}',
+      errors: expectedBefore('catch'),
+    },
+    {
+      code: 'try{} catch (e) {}',
+      output: 'try{}catch (e) {}',
+      options: [NEITHER],
+      errors: unexpectedBefore('catch'),
+    },
+    {
+      code: 'try{}catch(e) {}',
+      output: 'try{} catch(e) {}',
+      options: [override('catch', BOTH)],
+      errors: expectedBefore('catch'),
+    },
+    {
+      code: 'try {} catch (e) {}',
+      output: 'try {}catch (e) {}',
+      options: [override('catch', NEITHER)],
+      errors: unexpectedBefore('catch'),
     },
 
     // ----------------------------------------------------------------------
