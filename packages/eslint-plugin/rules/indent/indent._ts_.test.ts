@@ -827,13 +827,13 @@ const map2 = Object.keys(map)
       `,
       options: [2],
     },
-    {
-      code: $`
-        type Foo =
-          string
-      `,
-      options: [2],
-    },
+    $`
+      type Foo = string
+      declare type Foo = number
+      namespace Foo {
+          type Bar = boolean
+      }
+    `,
   ],
   invalid: [
     ...individualNodeTests.invalid!,
@@ -2048,54 +2048,23 @@ class Foo {
     },
     {
       code: $`
-          type Foo = number;
-        type Bar = string;
-        type Baz =
-            string;
-        namespace T {
-        type Baz = string;
-          type Asdf = number;
+         type A = number
+          declare type B = number
+        namespace Foo {
+              declare type C = number
         }
       `,
       output: $`
-        type Foo = number;
-        type Bar = string;
-        type Baz =
-          string;
-        namespace T {
-          type Baz = string;
-          type Asdf = number;
+        type A = number
+        declare type B = number
+        namespace Foo {
+            declare type C = number
         }
       `,
-      options: [2],
       errors: [
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '0 spaces',
-            actual: 2,
-          },
-          line: 1,
-          column: 1,
-        },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '2 spaces',
-            actual: 4,
-          },
-          line: 4,
-          column: 1,
-        },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '2 spaces',
-            actual: 0,
-          },
-          line: 6,
-          column: 1,
-        },
+        { messageId: 'wrongIndentation', data: { expected: '0 spaces', actual: 1 }, line: 1, column: 1 },
+        { messageId: 'wrongIndentation', data: { expected: '0 spaces', actual: 2 }, line: 2, column: 1 },
+        { messageId: 'wrongIndentation', data: { expected: '4 spaces', actual: 6 }, line: 4, column: 1 },
       ],
     },
   ],
