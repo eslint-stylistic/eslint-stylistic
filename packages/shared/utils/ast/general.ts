@@ -1,6 +1,6 @@
 import type { ASTNode, SourceCode, Token, Tree } from '#types'
 import type { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { isClosingParenToken, isColonToken, isFunction, isOpeningParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
+import { isClosingParenToken, isColonToken, isCommentToken, isFunction, isOpeningParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
@@ -794,4 +794,39 @@ export function getTokenBeforeClosingBracket(node: Tree.JSXOpeningElement | Tree
  */
 export function isSingleLine(node: ASTNode | Token) {
   return node.loc.start.line === node.loc.end.line
+}
+
+/**
+ * Check whether comments exist between the given 2 tokens.
+ * @param left The left token to check.
+ * @param right The right token to check.
+ * @returns `true` if comments exist between the given 2 tokens.
+ */
+export function hasCommentsBetween(sourceCode: SourceCode, left: ASTNode | Token, right: ASTNode | Token) {
+  return sourceCode.getFirstTokenBetween(
+    left,
+    right,
+    {
+      includeComments: true,
+      filter: isCommentToken,
+    },
+  ) !== null
+}
+
+/**
+ * Get comments exist between the given 2 tokens.
+ * @param sourceCode The source code object to get tokens.
+ * @param left The left token to check.
+ * @param right The right token to check.
+ * @returns The comments exist between the given 2 tokens.
+ */
+export function getCommentsBetween(sourceCode: SourceCode, left: ASTNode | Token, right: ASTNode | Token) {
+  return sourceCode.getTokensBetween(
+    left,
+    right,
+    {
+      includeComments: true,
+      filter: isCommentToken,
+    },
+  )
 }

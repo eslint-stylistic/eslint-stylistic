@@ -5,7 +5,7 @@
 
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isCommentToken, isNotOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
+import { hasCommentsBetween, isNotOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -60,7 +60,7 @@ export default createRule<RuleOptions, MessageIds>({
           node: firstTokenOfBody,
           messageId: 'unexpected',
           fix(fixer) {
-            if (sourceCode.getFirstTokenBetween(arrowToken, firstTokenOfBody, { includeComments: true, filter: isCommentToken }))
+            if (hasCommentsBetween(sourceCode, arrowToken, firstTokenOfBody))
               return null
 
             return fixer.replaceTextRange([arrowToken.range[1], firstTokenOfBody.range[0]], ' ')
