@@ -11,7 +11,7 @@ const NEXT_TOKEN_M = /^[{*]$/u
 const TEMPLATE_OPEN_PAREN = /\$\{$/u
 const TEMPLATE_CLOSE_PAREN = /^\}/u
 const CHECK_TYPE = /^(?:JSXElement|RegularExpression|String|Template|PrivateIdentifier)$/u
-const KEYS = KEYWORDS_JS.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'yield', 'type'])
+const KEYS = KEYWORDS_JS.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'using', 'yield', 'type'])
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'keyword-spacing',
@@ -269,8 +269,28 @@ export default createRule<RuleOptions, MessageIds>({
     function checkSpacingAroundFirstToken(node: ASTNode | null) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
-      if (isKeywordToken(firstToken))
-        checkSpacingAround(firstToken)
+      if (!firstToken)
+        return
+
+      if (!isKeywordToken(firstToken)) {
+        // If the first token is not a keyword,
+        // the node is checked to see if it needs to be validated.
+        if (node.type === 'VariableDeclaration') {
+          if (
+            node.kind !== 'using'
+            && node.kind !== 'await using'
+            || firstToken.type !== 'Identifier'
+          ) {
+            /* c8 ignore next 2 */ // Currently, there is no syntax to reach this branch.
+            return
+          }
+        }
+        else {
+          return
+        }
+      }
+
+      checkSpacingAround(firstToken)
     }
 
     /**
