@@ -272,7 +272,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (!firstToken)
         return
 
-      if (firstToken.type !== 'Keyword') {
+      if (!isKeywordToken(firstToken)) {
         // If the first token is not a keyword,
         // the node is checked to see if it needs to be validated.
         if (node.type === 'VariableDeclaration') {
