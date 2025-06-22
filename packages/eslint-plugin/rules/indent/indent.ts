@@ -1812,7 +1812,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       VariableDeclarator(node) {
         if (node.init) {
-          const equalOperator = sourceCode.getTokenBefore(node.init, isEqToken)!
+          const equalOperator = sourceCode.getTokenBefore(node.init, isNotOpeningParenToken)!
 
           checkDeclarator(node, equalOperator)
         }
@@ -1948,7 +1948,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       TSTypeAliasDeclaration(node) {
-        const equalOperator = sourceCode.getTokenBefore(node.typeAnnotation, isEqToken)!
+        const equalOperator = sourceCode.getTokenBefore(node.typeAnnotation, isNotOpeningParenToken)!
 
         checkDeclarator(node, equalOperator)
       },
