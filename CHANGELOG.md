@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.0.0-beta.6](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0-beta.5...v5.0.0-beta.6) (2025-06-22)
+
+
+### Features
+
+* add support for `using` ([#804](https://github.com/eslint-stylistic/eslint-stylistic/issues/804)) ([d133385](https://github.com/eslint-stylistic/eslint-stylistic/commit/d133385cbf1603d5dea29bc1b0f24fba1ece456b))
+
+
+### Chores
+
+* release-please-mark ([6c6a154](https://github.com/eslint-stylistic/eslint-stylistic/commit/6c6a1545987c5102770221c8b303e2c10ecafee7))
+* unify some ast-utils ([#842](https://github.com/eslint-stylistic/eslint-stylistic/issues/842)) ([b30a26b](https://github.com/eslint-stylistic/eslint-stylistic/commit/b30a26b99c119a75ea96a145391832c778553e37))
+
 ## [5.0.0-beta.5](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0-beta.4...v5.0.0-beta.5) (2025-06-20)
 
 
