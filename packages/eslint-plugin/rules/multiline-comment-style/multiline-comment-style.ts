@@ -425,9 +425,13 @@ export default createRule<RuleOptions, MessageIds>({
     return {
       Program() {
         return sourceCode.getAllComments()
-          .filter(comment => (!isHashbangComment(comment)))
-          .filter(comment => !COMMENTS_IGNORE_PATTERN.test(comment.value))
           .filter((comment) => {
+            if (isHashbangComment(comment))
+              return false
+
+            if (COMMENTS_IGNORE_PATTERN.test(comment.value))
+              return false
+
             const tokenBefore = sourceCode.getTokenBefore(comment, { includeComments: true })
 
             return !tokenBefore || tokenBefore.loc.end.line < comment.loc.start.line
