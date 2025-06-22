@@ -284,6 +284,21 @@ export function isKeywordToken(token: Token | null | undefined): token is Tree.K
 }
 
 /**
+ * example:
+ * #!/usr/bin/env node
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#hashbang_comments
+ */
+export function isHashbangComment(comment: Tree.Comment): Tree.Comment {
+  // @ts-expect-error 'Shebang' is not in the type definition
+  // If a hashbang comment was passed as a token object from SourceCode,
+  // its type will be "Shebang" because of the way ESLint itself handles hashbangs.
+  // If a hashbang comment was passed in a string and then tokenized in this function,
+  // its type will be "Hashbang" because of the way Espree tokenizes hashbangs.
+  // https://github.com/typescript-eslint/typescript-eslint/issues/6500
+  return comment.type === 'Shebang' || comment.type === 'Hashbang'
+}
+
+/**
  * Check if the given node is a true logical expression or not.
  *
  * The three binary expressions logical-or (`||`), logical-and (`&&`), and
@@ -646,13 +661,7 @@ export function canTokensBeAdjacent(leftValue: Token | string, rightValue: Token
     leftToken = leftValue
   }
 
-  /**
-   * If a hashbang comment was passed as a token object from SourceCode,
-   * its type will be "Shebang" because of the way ESLint itself handles hashbangs.
-   * If a hashbang comment was passed in a string and then tokenized in this function,
-   * its type will be "Hashbang" because of the way Espree tokenizes hashbangs.
-   */
-  if (leftToken.type === 'Shebang' || leftToken.type === 'Hashbang')
+  if (isHashbangComment(leftToken))
     return false
 
   let rightToken

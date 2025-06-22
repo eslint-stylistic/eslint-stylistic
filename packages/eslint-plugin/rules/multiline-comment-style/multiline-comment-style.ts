@@ -5,7 +5,7 @@
 
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { COMMENTS_IGNORE_PATTERN, isSingleLine, isTokenOnSameLine, isWhiteSpaces, LINEBREAK_MATCHER, WHITE_SPACES_PATTERN } from '#utils/ast'
+import { COMMENTS_IGNORE_PATTERN, isHashbangComment, isSingleLine, isTokenOnSameLine, isWhiteSpaces, LINEBREAK_MATCHER, WHITE_SPACES_PATTERN } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -425,9 +425,7 @@ export default createRule<RuleOptions, MessageIds>({
     return {
       Program() {
         return sourceCode.getAllComments()
-          // This type exists in espree, but not in typescript-eslint
-          // https://github.com/typescript-eslint/typescript-eslint/issues/6500
-          .filter(comment => (comment.type as Tree.Comment & { type: 'Hashbang' }) !== 'Shebang')
+          .filter(comment => (!isHashbangComment(comment)))
           .filter(comment => !COMMENTS_IGNORE_PATTERN.test(comment.value))
           .filter((comment) => {
             const tokenBefore = sourceCode.getTokenBefore(comment, { includeComments: true })
