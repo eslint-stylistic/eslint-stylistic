@@ -578,6 +578,7 @@ export default createRule<RuleOptions, MessageIds>({
                   var: ELEMENT_LIST_SCHEMA,
                   let: ELEMENT_LIST_SCHEMA,
                   const: ELEMENT_LIST_SCHEMA,
+                  using: ELEMENT_LIST_SCHEMA,
                 },
                 additionalProperties: false,
               },
@@ -711,6 +712,7 @@ export default createRule<RuleOptions, MessageIds>({
         var: DEFAULT_VARIABLE_INDENT as number | 'first',
         let: DEFAULT_VARIABLE_INDENT as number | 'first',
         const: DEFAULT_VARIABLE_INDENT as number | 'first',
+        using: DEFAULT_VARIABLE_INDENT as number | 'first',
       },
       outerIIFEBody: 1,
       FunctionDeclaration: {
@@ -758,6 +760,7 @@ export default createRule<RuleOptions, MessageIds>({
             var: userOptions.VariableDeclarator,
             let: userOptions.VariableDeclarator,
             const: userOptions.VariableDeclarator,
+            using: userOptions.VariableDeclarator,
           }
         }
       }
@@ -1749,14 +1752,15 @@ export default createRule<RuleOptions, MessageIds>({
         if (node.declarations.length === 0)
           return
 
-        let variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, node.kind)
-          ? options.VariableDeclarator[node.kind as keyof typeof options.VariableDeclarator]
+        const kind = node.kind === 'await using' ? 'using' : node.kind
+        let variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, kind)
+          ? options.VariableDeclarator[kind]
           : DEFAULT_VARIABLE_INDENT
 
         const firstToken = sourceCode.getFirstToken(node)!
         const lastToken = sourceCode.getLastToken(node)!
 
-        if (options.VariableDeclarator[node.kind as keyof typeof options.VariableDeclarator] === 'first') {
+        if (options.VariableDeclarator[kind] === 'first') {
           if (node.declarations.length > 1) {
             addElementListIndent(
               node.declarations,

@@ -110,7 +110,7 @@ Level of indentation denotes the multiple of the indent specified. Example:
 
 - Indent of 4 spaces with `VariableDeclarator` set to `2` will indent the multi-line variable declarations with 8 spaces.
 - Indent of 2 spaces with `VariableDeclarator` set to `2` will indent the multi-line variable declarations with 4 spaces.
-- Indent of 2 spaces with `VariableDeclarator` set to `{"var": 2, "let": 2, "const": 3}` will indent the multi-line variable declarations with 4 spaces for `var` and `let`, 6 spaces for `const` statements.
+- Indent of 2 spaces with `VariableDeclarator` set to `{"var": 2, "let": 2, "const": 3, "using": 3}` will indent the multi-line variable declarations with 4 spaces for `var` and `let`, 6 spaces for `const`, `using` and `await using` statements.
 - Indent of tab with `VariableDeclarator` set to `2` will indent the multi-line variable declarations with 2 tabs.
 - Indent of 2 spaces with `SwitchCase` set to `0` will not indent `case` clauses with respect to `switch` statements.
 - Indent of 2 spaces with `SwitchCase` set to `1` will indent `case` clauses with 2 spaces with respect to `switch` statements.
@@ -256,6 +256,12 @@ let d,
 const g = 1,
     h = 2,
     i = 3;
+using j = foo(),
+    k = bar(),
+    l = baz();
+await using j = foo(),
+    k = bar(),
+    l = baz();
 ```
 
 :::
@@ -276,6 +282,12 @@ let d,
 const g = 1,
   h = 2,
   i = 3;
+using j = foo(),
+  k = bar(),
+  l = baz();
+await using j = foo(),
+  k = bar(),
+  l = baz();
 ```
 
 :::
@@ -296,6 +308,12 @@ let d,
 const g = 1,
     h = 2,
     i = 3;
+using j = foo(),
+    k = bar(),
+    l = baz();
+await using j = foo(),
+    k = bar(),
+    l = baz();
 ```
 
 :::
@@ -316,6 +334,12 @@ let d,
 const g = 1,
   h = 2,
   i = 3;
+using j = foo(),
+  k = bar(),
+  l = baz();
+await using j = foo(),
+  k = bar(),
+  l = baz();
 ```
 
 :::
@@ -336,16 +360,22 @@ let d,
 const g = 1,
       h = 2,
       i = 3;
+using j = foo(),
+      k = bar(),
+      l = baz();
+await using j = foo(),
+            k = bar(),
+            l = baz();
 ```
 
 :::
 
-Examples of **correct** code for this rule with the `2, { "VariableDeclarator": { "var": 2, "let": 2, "const": 3 } }` options:
+Examples of **correct** code for this rule with the `2, { "VariableDeclarator": { "var": 2, "let": 2, "const": 3, "using": "first" } }` options:
 
 ::: correct
 
 ```js
-/* eslint @stylistic/indent: ["error", 2, { "VariableDeclarator": { "var": 2, "let": 2, "const": 3 } }] */
+/* eslint @stylistic/indent: ["error", 2, { "VariableDeclarator": { "var": 2, "let": 2, "const": 3, "using": "first" } }] */
 
 var a,
     b,
@@ -356,6 +386,12 @@ let d,
 const g = 1,
       h = 2,
       i = 3;
+using j = foo(),
+      k = bar(),
+      l = baz();
+await using j = foo(),
+            k = bar(),
+            l = baz();
 ```
 
 :::
