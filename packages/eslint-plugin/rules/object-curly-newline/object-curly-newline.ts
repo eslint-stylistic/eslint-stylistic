@@ -211,7 +211,7 @@ export default createRule<RuleOptions, MessageIds>({
         || (
           options.multiline
           && objectProperties.length > 0
-          && first.loc.start.line !== last.loc.end.line
+          && !isTokenOnSameLine(last, first)
         )
     }
 
