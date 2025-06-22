@@ -1,6 +1,6 @@
 import type { ASTNode, SourceCode, Token, Tree } from '#types'
 import type { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { isClosingParenToken, isColonToken, isFunction, isOpeningParenToken, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
+import { isClosingParenToken, isColonToken, isCommentToken, isFunction, isOpeningParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
@@ -281,6 +281,21 @@ export function isQuestionToken(token: Token) {
  */
 export function isKeywordToken(token: Token | null | undefined): token is Tree.KeywordToken {
   return token?.type === 'Keyword'
+}
+
+/**
+ * example:
+ * #!/usr/bin/env node
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#hashbang_comments
+ */
+export function isHashbangComment(comment: Tree.Comment): Tree.Comment {
+  // @ts-expect-error 'Shebang' is not in the type definition
+  // If a hashbang comment was passed as a token object from SourceCode,
+  // its type will be "Shebang" because of the way ESLint itself handles hashbangs.
+  // If a hashbang comment was passed in a string and then tokenized in this function,
+  // its type will be "Hashbang" because of the way Espree tokenizes hashbangs.
+  // https://github.com/typescript-eslint/typescript-eslint/issues/6500
+  return comment.type === 'Shebang' || comment.type === 'Hashbang'
 }
 
 /**
@@ -646,13 +661,7 @@ export function canTokensBeAdjacent(leftValue: Token | string, rightValue: Token
     leftToken = leftValue
   }
 
-  /**
-   * If a hashbang comment was passed as a token object from SourceCode,
-   * its type will be "Shebang" because of the way ESLint itself handles hashbangs.
-   * If a hashbang comment was passed in a string and then tokenized in this function,
-   * its type will be "Hashbang" because of the way Espree tokenizes hashbangs.
-   */
-  if (leftToken.type === 'Shebang' || leftToken.type === 'Hashbang')
+  if (isHashbangComment(leftToken))
     return false
 
   let rightToken
@@ -728,6 +737,16 @@ export function hasOctalOrNonOctalDecimalEscapeSequence(rawString: string) {
   return OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN.test(rawString)
 }
 
+export const WHITE_SPACES_PATTERN = /^\s*$/u
+
+/**
+ * Check if value has only whitespaces
+ * @param value
+ */
+export function isWhiteSpaces(value: string): boolean {
+  return typeof value === 'string' ? WHITE_SPACES_PATTERN.test(value) : false
+}
+
 /**
  * Gets the first node in a line from the initial node, excluding whitespace.
  * @param context The node to check
@@ -744,7 +763,7 @@ export function getFirstNodeInLine(context: { sourceCode: SourceCode }, node: AS
       ? token.value.split('\n')
       : null
   } while (
-    token.type === 'JSXText' && lines && /^\s*$/.test(lines[lines.length - 1])
+    token.type === 'JSXText' && lines && isWhiteSpaces(lines.at(-1)!)
   )
   return token
 }
@@ -757,9 +776,11 @@ export function getFirstNodeInLine(context: { sourceCode: SourceCode }, node: AS
  */
 export function isNodeFirstInLine(context: { sourceCode: SourceCode }, node: ASTNode) {
   const token = getFirstNodeInLine(context, node)
-  const startLine = node.loc!.start.line
-  const endLine = token ? token.loc.end.line : -1
-  return startLine !== endLine
+
+  if (!token)
+    return false
+
+  return !isTokenOnSameLine(token, node)
 }
 
 /**
@@ -773,4 +794,48 @@ export function getTokenBeforeClosingBracket(node: Tree.JSXOpeningElement | Tree
     return node.name
 
   return attributes[attributes.length - 1]
+}
+
+/**
+ * Checks if the node is a single line.
+ * @param node - The node to check.
+ * @returns True if the node is a single line, false otherwise.
+ */
+export function isSingleLine(node: ASTNode | Token) {
+  return node.loc.start.line === node.loc.end.line
+}
+
+/**
+ * Check whether comments exist between the given 2 tokens.
+ * @param left The left token to check.
+ * @param right The right token to check.
+ * @returns `true` if comments exist between the given 2 tokens.
+ */
+export function hasCommentsBetween(sourceCode: SourceCode, left: ASTNode | Token, right: ASTNode | Token) {
+  return sourceCode.getFirstTokenBetween(
+    left,
+    right,
+    {
+      includeComments: true,
+      filter: isCommentToken,
+    },
+  ) !== null
+}
+
+/**
+ * Get comments exist between the given 2 tokens.
+ * @param sourceCode The source code object to get tokens.
+ * @param left The left token to check.
+ * @param right The right token to check.
+ * @returns The comments exist between the given 2 tokens.
+ */
+export function getCommentsBetween(sourceCode: SourceCode, left: ASTNode | Token, right: ASTNode | Token) {
+  return sourceCode.getTokensBetween(
+    left,
+    right,
+    {
+      includeComments: true,
+      filter: isCommentToken,
+    },
+  )
 }

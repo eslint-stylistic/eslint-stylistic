@@ -3,8 +3,8 @@
  * @author Joachim Seminck
  */
 
-import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isSingleLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const messages = {
@@ -35,15 +35,11 @@ export default createRule<RuleOptions, MessageIds>({
   create(context) {
     const configuration = context.options[0] || 'multiline-multiprop'
 
-    function isMultilineJSX(jsxNode: Tree.JSXOpeningElement) {
-      return jsxNode.loc.start.line < jsxNode.loc.end.line
-    }
-
     return {
       JSXOpeningElement(node) {
         if (
-          (configuration === 'multiline' && isMultilineJSX(node))
-          || (configuration === 'multiline-multiprop' && isMultilineJSX(node) && node.attributes.length > 1)
+          (configuration === 'multiline' && !isSingleLine(node))
+          || (configuration === 'multiline-multiprop' && !isSingleLine(node) && node.attributes.length > 1)
           || (configuration === 'multiprop' && node.attributes.length > 1)
           || (configuration === 'always')
         ) {
@@ -62,7 +58,7 @@ export default createRule<RuleOptions, MessageIds>({
         }
         else if (
           (configuration === 'never' && node.attributes.length > 0)
-          || (configuration === 'multiprop' && isMultilineJSX(node) && node.attributes.length <= 1)
+          || (configuration === 'multiprop' && !isSingleLine(node) && node.attributes.length <= 1)
         ) {
           const firstNode = node.attributes[0]
           if (node.loc.start.line < firstNode.loc.start.line) {
