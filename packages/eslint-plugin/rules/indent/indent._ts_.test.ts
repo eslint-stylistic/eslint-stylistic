@@ -2012,6 +2012,48 @@ class Foo {
         },
       ],
     },
+    // Type parameter is no longer mistaken for JSX opening element and ignored
+    // (failed in v4.4.1 in that no lint errors were reported, but now passes)
+    {
+      code: $`
+        async function foo(
+          a: string,
+          b: number,
+        ): Promise<{
+          prop1: string,
+          prop2: number,
+          prop3: boolean,
+          prop4: string[],
+        }> {
+          return {} as any;
+        }
+      `,
+      output: $`
+        async function foo(
+          a: string,
+          b: number,
+        ): Promise<{
+            prop1: string,
+            prop2: number,
+            prop3: boolean,
+            prop4: string[],
+          }> {
+          return {} as any;
+        }
+      `,
+      options: [2, {
+        ignoredNodes: [
+          'JSXOpeningElement',
+        ],
+      }],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '4 spaces', actual: 2 }, line: 5, column: 1 },
+        { messageId: 'wrongIndentation', data: { expected: '4 spaces', actual: 2 }, line: 6, column: 1 },
+        { messageId: 'wrongIndentation', data: { expected: '4 spaces', actual: 2 }, line: 7, column: 1 },
+        { messageId: 'wrongIndentation', data: { expected: '4 spaces', actual: 2 }, line: 8, column: 1 },
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 0 }, line: 9, column: 1 },
+      ],
+    },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/486
     {
       code: `
