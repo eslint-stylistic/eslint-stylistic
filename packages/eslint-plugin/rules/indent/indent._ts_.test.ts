@@ -2083,6 +2083,10 @@ class Foo {
         { messageId: 'wrongIndentation', data: { expected: '0 spaces', actual: 1 }, line: 1, column: 1 },
         { messageId: 'wrongIndentation', data: { expected: '0 spaces', actual: 2 }, line: 2, column: 1 },
         { messageId: 'wrongIndentation', data: { expected: '4 spaces', actual: 6 }, line: 4, column: 1 },
+      ],
+    },
+    {
+      code: $`
         using a = foo(),
           b = bar();
         await using c = baz(),
