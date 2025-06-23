@@ -5,6 +5,7 @@
 
 import type { ASTNode, JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isSingleLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const OPTIONS_SCHEMA: JSONSchema.JSONSchema4 = {
@@ -180,7 +181,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       const parent = node.parent
 
-      return parent.loc.start.line === parent.loc.end.line
+      return isSingleLine(parent)
     }
 
     /**

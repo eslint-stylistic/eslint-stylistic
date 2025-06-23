@@ -834,6 +834,24 @@ const map2 = Object.keys(map)
           type Bar = boolean
       }
     `,
+    {
+      code: $`
+        using a = foo(),
+          b = bar();
+        await using c = baz(),
+          d = qux();
+      `,
+      options: [2, { VariableDeclarator: 1 }],
+    },
+    {
+      code: $`
+        using a = foo(),
+              b = bar();
+        await using c = baz(),
+                    d = qux();
+      `,
+      options: [2, { VariableDeclarator: { using: 'first' } }],
+    },
   ],
   invalid: [
     ...individualNodeTests.invalid!,
@@ -2065,6 +2083,40 @@ class Foo {
         { messageId: 'wrongIndentation', data: { expected: '0 spaces', actual: 1 }, line: 1, column: 1 },
         { messageId: 'wrongIndentation', data: { expected: '0 spaces', actual: 2 }, line: 2, column: 1 },
         { messageId: 'wrongIndentation', data: { expected: '4 spaces', actual: 6 }, line: 4, column: 1 },
+        using a = foo(),
+          b = bar();
+        await using c = baz(),
+          d = qux();
+      `,
+      output: $`
+        using a = foo(),
+              b = bar();
+        await using c = baz(),
+                    d = qux();
+      `,
+      options: [2, { VariableDeclarator: 'first' }],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '6 spaces', actual: 2 } },
+        { messageId: 'wrongIndentation', data: { expected: '12 spaces', actual: 2 } },
+      ],
+    },
+    {
+      code: $`
+        using a = foo(),
+              b = bar();
+        await using c = baz(),
+                    d = qux();
+      `,
+      output: $`
+        using a = foo(),
+          b = bar();
+        await using c = baz(),
+          d = qux();
+      `,
+      options: [2, { VariableDeclarator: { using: 1 } }],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 6 } },
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 12 } },
       ],
     },
   ],
