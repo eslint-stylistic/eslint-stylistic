@@ -5,7 +5,7 @@
 
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isWhiteSpaces } from '#utils/ast/jsx'
+import { isWhiteSpaces } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const optionDefaults = {
@@ -67,7 +67,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       if (
         options.allow === 'non-jsx'
-        && !children.find(child => (child.type === 'JSXFragment' || child.type === 'JSXElement'))
+        && !children.some(child => (child.type === 'JSXFragment' || child.type === 'JSXElement'))
       ) {
         return
       }

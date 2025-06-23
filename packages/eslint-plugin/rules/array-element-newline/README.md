@@ -55,7 +55,7 @@ Examples of **incorrect** code for this rule with the default `"always"` option:
 :::incorrect
 
 ```js
-/*eslint array-element-newline: ["error", "always"]*/
+/* eslint @stylistic/array-element-newline: ["error", "always"] */
 
 var c = [1, 2];
 var d = [1, 2, 3];
@@ -80,7 +80,7 @@ Examples of **correct** code for this rule with the default `"always"` option:
 :::correct
 
 ```js
-/*eslint array-element-newline: ["error", "always"]*/
+/* eslint @stylistic/array-element-newline: ["error", "always"] */
 
 var a = [];
 var b = [1];
@@ -113,7 +113,7 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 :::incorrect
 
 ```js
-/*eslint array-element-newline: ["error", "never"]*/
+/* eslint @stylistic/array-element-newline: ["error", "never"] */
 
 var c = [
     1,
@@ -141,7 +141,7 @@ Examples of **correct** code for this rule with the `"never"` option:
 :::correct
 
 ```js
-/*eslint array-element-newline: ["error", "never"]*/
+/* eslint @stylistic/array-element-newline: ["error", "never"] */
 
 var a = [];
 var b = [1];
@@ -170,7 +170,7 @@ Examples of **incorrect** code for this rule with the `"consistent"` option:
 :::incorrect
 
 ```js
-/*eslint array-element-newline: ["error", "consistent"]*/
+/* eslint @stylistic/array-element-newline: ["error", "consistent"] */
 
 var a = [
     1, 2,
@@ -195,7 +195,7 @@ Examples of **correct** code for this rule with the `"consistent"` option:
 :::correct
 
 ```js
-/*eslint array-element-newline: ["error", "consistent"]*/
+/* eslint @stylistic/array-element-newline: ["error", "consistent"] */
 
 var a = [];
 var b = [1];
@@ -241,7 +241,7 @@ Examples of **incorrect** code for this rule with the `{ "multiline": true }` op
 :::incorrect
 
 ```js
-/*eslint array-element-newline: ["error", { "multiline": true }]*/
+/* eslint @stylistic/array-element-newline: ["error", { "multiline": true }] */
 
 var c = [
     1,
@@ -266,7 +266,7 @@ Examples of **correct** code for this rule with the `{ "multiline": true }` opti
 :::correct
 
 ```js
-/*eslint array-element-newline: ["error", { "multiline": true }]*/
+/* eslint @stylistic/array-element-newline: ["error", { "multiline": true }] */
 
 var a = [];
 var b = [1];
@@ -291,7 +291,7 @@ Examples of **incorrect** code for this rule with the `{ "consistent": true, "mu
 :::incorrect
 
 ```js
-/*eslint array-element-newline: ["error", { "consistent": true, "multiline": true }]*/
+/* eslint @stylistic/array-element-newline: ["error", { "consistent": true, "multiline": true }] */
 
 var d = [1,
     2, 3];
@@ -311,7 +311,7 @@ Examples of **correct** code for this rule with the `{ "consistent": true, "mult
 :::correct
 
 ```js
-/*eslint array-element-newline: ["error", { "consistent": true, "multiline": true }]*/
+/* eslint @stylistic/array-element-newline: ["error", { "consistent": true, "multiline": true }] */
 
 var a = [];
 var b = [1];
@@ -341,7 +341,7 @@ Examples of **incorrect** code for this rule with the `{ "minItems": 3 }` option
 :::incorrect
 
 ```js
-/*eslint array-element-newline: ["error", { "minItems": 3 }]*/
+/* eslint @stylistic/array-element-newline: ["error", { "minItems": 3 }] */
 
 var c = [1,
     2];
@@ -363,7 +363,7 @@ Examples of **correct** code for this rule with the `{ "minItems": 3 }` option:
 :::correct
 
 ```js
-/*eslint array-element-newline: ["error", { "minItems": 3 }]*/
+/* eslint @stylistic/array-element-newline: ["error", { "minItems": 3 }] */
 
 var a = [];
 var b = [1];
@@ -389,7 +389,7 @@ Examples of **incorrect** code for this rule with the `{ "multiline": true, "min
 :::incorrect
 
 ```js
-/*eslint array-element-newline: ["error", { "multiline": true, "minItems": 3 }]*/
+/* eslint @stylistic/array-element-newline: ["error", { "multiline": true, "minItems": 3 }] */
 
 var c = [1,
 2];
@@ -410,7 +410,7 @@ Examples of **correct** code for this rule with the `{ "multiline": true, "minIt
 :::correct
 
 ```js
-/*eslint array-element-newline: ["error", { "multiline": true, "minItems": 3 }]*/
+/* eslint @stylistic/array-element-newline: ["error", { "multiline": true, "minItems": 3 }] */
 
 var a = [];
 var b = [1];
@@ -437,7 +437,7 @@ Examples of **incorrect** code for this rule with the `{ "ArrayExpression": "alw
 :::incorrect
 
 ```js
-/*eslint array-element-newline: ["error", { "ArrayExpression": "always", "ArrayPattern": "never" }]*/
+/* eslint @stylistic/array-element-newline: ["error", { "ArrayExpression": "always", "ArrayPattern": "never" }] */
 
 var a = [1, 2];
 var b = [1, 2, 3];
@@ -469,7 +469,7 @@ Examples of **correct** code for this rule with the `{ "ArrayExpression": "alway
 :::correct
 
 ```js
-/*eslint array-element-newline: ["error", { "ArrayExpression": "always", "ArrayPattern": "never" }]*/
+/* eslint @stylistic/array-element-newline: ["error", { "ArrayExpression": "always", "ArrayPattern": "never" }] */
 
 var a = [1,
     2];

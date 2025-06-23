@@ -55,7 +55,7 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
-/*eslint semi-spacing: "error"*/
+/* eslint @stylistic/semi-spacing: "error" */
 
 var foo ;
 var foo;var bar;
@@ -72,7 +72,7 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
-/*eslint semi-spacing: "error"*/
+/* eslint @stylistic/semi-spacing: "error" */
 
 var foo;
 var foo; var bar;
@@ -95,7 +95,7 @@ Examples of **incorrect** code for this rule with the `{"before": true, "after":
 ::: incorrect
 
 ```js
-/*eslint semi-spacing: ["error", { "before": true, "after": false }]*/
+/* eslint @stylistic/semi-spacing: ["error", { "before": true, "after": false }] */
 
 var foo;
 var foo ; var bar;
@@ -112,7 +112,7 @@ Examples of **correct** code for this rule with the `{"before": true, "after": f
 ::: correct
 
 ```js
-/*eslint semi-spacing: ["error", { "before": true, "after": false }]*/
+/* eslint @stylistic/semi-spacing: ["error", { "before": true, "after": false }] */
 
 var foo ;
 var foo ;var bar ;

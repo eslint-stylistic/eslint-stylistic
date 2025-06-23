@@ -1,6 +1,6 @@
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
-import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
+import { AST_TOKEN_TYPES } from '#utils/ast'
 import rule from './lines-around-comment'
 
 run<RuleOptions, MessageIds>({

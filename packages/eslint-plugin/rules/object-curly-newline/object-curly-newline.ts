@@ -39,6 +39,7 @@ interface NormalizedOptions {
   ExportNamedDeclaration: { multiline: boolean, minProperties: number, consistent: boolean }
   TSTypeLiteral: { multiline: boolean, minProperties: number, consistent: boolean }
   TSInterfaceBody: { multiline: boolean, minProperties: number, consistent: boolean }
+  TSEnumBody: { multiline: boolean, minProperties: number, consistent: boolean }
 }
 
 export default createRule<RuleOptions, MessageIds>({
@@ -62,6 +63,7 @@ export default createRule<RuleOptions, MessageIds>({
               ExportDeclaration: OPTION_VALUE,
               TSTypeLiteral: OPTION_VALUE,
               TSInterfaceBody: OPTION_VALUE,
+              TSEnumBody: OPTION_VALUE,
             },
             additionalProperties: false,
             minProperties: 1,
@@ -152,12 +154,13 @@ export default createRule<RuleOptions, MessageIds>({
           ExportNamedDeclaration: normalizeOptionValue(options.ExportDeclaration),
           TSTypeLiteral: normalizeOptionValue(options.TSTypeLiteral),
           TSInterfaceBody: normalizeOptionValue(options.TSInterfaceBody),
+          TSEnumBody: normalizeOptionValue(options.TSEnumBody),
         }
       }
 
       const value = normalizeOptionValue(options)
 
-      return { ObjectExpression: value, ObjectPattern: value, ImportDeclaration: value, ExportNamedDeclaration: value, TSTypeLiteral: value, TSInterfaceBody: value }
+      return { ObjectExpression: value, ObjectPattern: value, ImportDeclaration: value, ExportNamedDeclaration: value, TSTypeLiteral: value, TSInterfaceBody: value, TSEnumBody: value }
     }
 
     const normalizedOptions = normalizeOptions(context.options[0])
@@ -178,7 +181,8 @@ export default createRule<RuleOptions, MessageIds>({
         | Tree.ImportDeclaration
         | Tree.ExportNamedDeclaration
         | Tree.TSTypeLiteral
-        | Tree.TSInterfaceBody,
+        | Tree.TSInterfaceBody
+        | Tree.TSEnumBody,
       options: { multiline: boolean, minProperties: number, consistent: boolean },
       first: Token,
       last: Token,
@@ -194,6 +198,9 @@ export default createRule<RuleOptions, MessageIds>({
       else if (node.type === 'TSInterfaceBody') {
         objectProperties = node.body
       }
+      else if (node.type === 'TSEnumBody') {
+        objectProperties = node.members
+      }
       else {
         // is ImportDeclaration or ExportNamedDeclaration
         objectProperties = node.specifiers
@@ -204,7 +211,7 @@ export default createRule<RuleOptions, MessageIds>({
         || (
           options.multiline
           && objectProperties.length > 0
-          && first.loc.start.line !== last.loc.end.line
+          && !isTokenOnSameLine(last, first)
         )
     }
 
@@ -219,7 +226,8 @@ export default createRule<RuleOptions, MessageIds>({
         | Tree.ImportDeclaration
         | Tree.ExportNamedDeclaration
         | Tree.TSTypeLiteral
-        | Tree.TSInterfaceBody,
+        | Tree.TSInterfaceBody
+        | Tree.TSEnumBody,
     ) {
       const options = normalizedOptions[node.type]
 
@@ -341,6 +349,7 @@ export default createRule<RuleOptions, MessageIds>({
       ExportNamedDeclaration: check,
       TSTypeLiteral: check,
       TSInterfaceBody: check,
+      TSEnumBody: check,
     }
   },
 })

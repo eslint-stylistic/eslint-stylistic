@@ -32,7 +32,8 @@ You can specify different options for different kinds of blocks:
 }
 ```
 
-- `"IfStatement"` - An `if` statement body
+- `"IfStatementConsequent"` - An `if` statement body
+- `"IfStatementAlternative"` - An `else` statement body
 - `"ForStatement"` - A `for` statement body
 - `"ForInStatement"` - A `for..in` statement body
 - `"ForOfStatement"` - A `for..of` statement body
@@ -50,8 +51,6 @@ You can specify different options for different kinds of blocks:
 - `"ClassBody"` - A class body
 - `"StaticBlock"` - A static declaration block
 - `"WithStatement"` - A with statement body
-- `"TSEnumBody"` - A TypeScript `enum` declaration body
-- `"TSInterfaceBody"` - A TypeScript `interface` declaration body
 - `"TSModuleBlock"` - A TypeScript module block
 
 ### always
@@ -61,7 +60,7 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ::: incorrect
 
 ```js
-/*eslint curly-newline: ["error", "always"]*/
+/* eslint @stylistic/curly-newline: ["error", "always"] */
 
 if (true) {}
 
@@ -81,7 +80,7 @@ Examples of **correct** code for this rule with the `"always"` option:
 ::: correct
 
 ```js
-/*eslint curly-newline: ["error", "always"]*/
+/* eslint @stylistic/curly-newline: ["error", "always"] */
 
 if (true) {
 }
@@ -111,7 +110,7 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 ::: incorrect
 
 ```js
-/*eslint curly-newline: ["error", "never"]*/
+/* eslint @stylistic/curly-newline: ["error", "never"] */
 
 if (true) {
 }
@@ -139,7 +138,7 @@ Examples of **correct** code for this rule with the `"never"` option:
 ::: correct
 
 ```js
-/*eslint curly-newline: ["error", "never"]*/
+/* eslint @stylistic/curly-newline: ["error", "never"] */
 
 if (true) {}
 if (true) { foo(); }
@@ -159,7 +158,7 @@ Examples of **incorrect** code for this rule with the `{ "multiline": true }` op
 ::: incorrect
 
 ```js
-/*eslint curly-newline: ["error", { "multiline": true }]*/
+/* eslint @stylistic/curly-newline: ["error", { "multiline": true }] */
 
 if (true) {
 }
@@ -184,8 +183,7 @@ Examples of **correct** code for this rule with the `{ "multiline": true }` opti
 ::: correct
 
 ```js
-/*eslint curly-newline: ["error", { "multiline": true }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/curly-newline: ["error", { "multiline": true }] */
 
 if (true) {}
 if (true) { foo(); }
@@ -209,7 +207,7 @@ Examples of **incorrect** code for this rule with the `{ "minElements": 2 }` opt
 ::: incorrect
 
 ```js
-/*eslint curly-newline: ["error", { "minElements": 2 }]*/
+/* eslint @stylistic/curly-newline: ["error", { "minElements": 2 }] */
 
 if (true) {
 }
@@ -232,7 +230,7 @@ Examples of **correct** code for this rule with the `{ "minElements": 2 }` optio
 ::: correct
 
 ```js
-/*eslint curly-newline: ["error", { "minElements": 2 }]*/
+/* eslint @stylistic/curly-newline: ["error", { "minElements": 2 }] */
 
 if (true) {}
 if (true) { foo(); }
@@ -256,7 +254,7 @@ Examples of **incorrect** code for this rule with the default `{ "consistent": t
 ::: incorrect
 
 ```js
-/*eslint curly-newline: ["error", { "consistent": true }]*/
+/* eslint @stylistic/curly-newline: ["error", { "consistent": true }] */
 
 if (true) { foo();
 }
@@ -282,7 +280,7 @@ Examples of **correct** code for this rule with the default `{ "consistent": tru
 ::: correct
 
 ```js
-/*eslint curly-newline: ["error", { "consistent": true }]*/
+/* eslint @stylistic/curly-newline: ["error", { "consistent": true }] */
 
 if (true) {}
 if (true) {

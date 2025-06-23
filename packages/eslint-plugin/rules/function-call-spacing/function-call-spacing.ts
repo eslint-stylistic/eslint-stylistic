@@ -1,13 +1,12 @@
-import type { Tree } from '#types'
+import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { createRule } from '#utils/create-rule'
-
 import {
   isNotOptionalChainPunctuator,
   isOpeningParenToken,
   isOptionalCallExpression,
   LINEBREAK_MATCHER,
-} from '@typescript-eslint/utils/ast-utils'
+} from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'function-call-spacing',
@@ -86,8 +85,8 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkSpacing(
       node: Tree.CallExpression | Tree.NewExpression | Tree.ImportExpression,
-      leftToken: Tree.Token,
-      rightToken: Tree.Token,
+      leftToken: Token,
+      rightToken: Token,
     ): void {
       const isOptionalCall = isOptionalCallExpression(node)
 

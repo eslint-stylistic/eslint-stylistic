@@ -1,8 +1,7 @@
-import type { JSONSchema, Tree } from '#types'
-import type { TSESLint } from '@typescript-eslint/utils'
+import type { JSONSchema, ReportFixFunction, Token, Tree } from '#types'
+import { AST_NODE_TYPES, isSingleLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { deepMerge } from '#utils/merge'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 type Delimiter = 'comma' | 'none' | 'semi'
 // need type's implicit index sig for deepMerge
@@ -32,29 +31,24 @@ type MessageIds
     | 'expectedSemi'
     | 'unexpectedComma'
     | 'unexpectedSemi'
-type LastTokenType = Tree.Token
 
 interface MakeFixFunctionParams {
   optsNone: boolean
   optsSemi: boolean
-  lastToken: LastTokenType
-  commentsAfterLastToken: LastTokenType | undefined
+  lastToken: Token
+  commentsAfterLastToken: Token | undefined
   missingDelimiter: boolean
   lastTokenLine: string
   isSingleLine: boolean
 }
 
-type MakeFixFunctionReturnType
-  = | ((fixer: TSESLint.RuleFixer) => TSESLint.RuleFix)
-    | null
-
-function isLastTokenEndOfLine(token: LastTokenType, line: string): boolean {
+function isLastTokenEndOfLine(token: Token, line: string): boolean {
   const positionInLine = token.loc.start.column
 
   return positionInLine === line.length - 1
 }
 
-function isCommentsEndOfLine(token: LastTokenType, comments: LastTokenType | undefined, line: string): boolean {
+function isCommentsEndOfLine(token: Token, comments: Token | undefined, line: string): boolean {
   if (!comments)
     return false
 
@@ -74,7 +68,7 @@ function makeFixFunction({
   missingDelimiter,
   lastTokenLine,
   isSingleLine,
-}: MakeFixFunctionParams): MakeFixFunctionReturnType {
+}: MakeFixFunctionParams): ReportFixFunction | undefined {
   // if removing is the action but last token is not the end of the line
   if (
     optsNone
@@ -82,10 +76,10 @@ function makeFixFunction({
     && !isCommentsEndOfLine(lastToken, commentsAfterLastToken, lastTokenLine)
     && !isSingleLine
   ) {
-    return null
+    return
   }
 
-  return (fixer: TSESLint.RuleFixer): TSESLint.RuleFix => {
+  return (fixer) => {
     if (optsNone) {
       // remove the unneeded token
       return fixer.remove(lastToken)
@@ -316,22 +310,22 @@ export default createRule<Options, MessageIds>({
     ): void {
       const members = node.type === AST_NODE_TYPES.TSInterfaceBody ? node.body : node.members
 
-      let isSingleLine = node.loc.start.line === node.loc.end.line
+      let _isSingleLine = isSingleLine(node)
       if (
         options.multilineDetection === 'last-member'
-        && !isSingleLine
+        && !_isSingleLine
         && members.length > 0
       ) {
         const lastMember = members[members.length - 1]
         if (lastMember.loc.end.line === node.loc.end.line)
-          isSingleLine = true
+          _isSingleLine = true
       }
 
       const typeOpts
         = node.type === AST_NODE_TYPES.TSInterfaceBody
           ? interfaceOptions
           : typeLiteralOptions
-      const opts = isSingleLine
+      const opts = _isSingleLine
         ? { ...typeOpts.singleline, type: 'single-line' }
         : { ...typeOpts.multiline, type: 'multi-line' }
 

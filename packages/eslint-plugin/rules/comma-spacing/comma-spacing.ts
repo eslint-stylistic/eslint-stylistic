@@ -1,14 +1,14 @@
-import type { Tree } from '#types'
+import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { createRule } from '#utils/create-rule'
-import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import {
+  AST_TOKEN_TYPES,
   isClosingBraceToken,
   isClosingBracketToken,
   isClosingParenToken,
   isCommaToken,
   isTokenOnSameLine,
-} from '@typescript-eslint/utils/ast-utils'
+} from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'comma-spacing',
@@ -60,7 +60,7 @@ export default createRule<RuleOptions, MessageIds>({
     ): void {
       let previousToken = sourceCode.getFirstToken(node)
       for (const element of node.elements) {
-        let token: Tree.Token | null
+        let token: Token | null
         if (element == null) {
           token = sourceCode.getTokenAfter(previousToken!)
           if (token && isCommaToken(token))
@@ -98,8 +98,8 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function validateCommaSpacing(
       commaToken: Tree.PunctuatorToken,
-      prevToken: Tree.Token | null,
-      nextToken: Tree.Token | null,
+      prevToken: Token | null,
+      nextToken: Token | null,
     ): void {
       if (
         prevToken

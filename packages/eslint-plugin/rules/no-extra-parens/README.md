@@ -73,7 +73,7 @@ Examples of **incorrect** code for this rule with the default `"all"` option:
 ::: incorrect
 
 ```js
-/* eslint no-extra-parens: "error" */
+/* eslint @stylistic/no-extra-parens: "error" */
 
 a = (b * c);
 
@@ -105,7 +105,7 @@ Examples of **correct** code for this rule with the default `"all"` option:
 ::: correct
 
 ```js
-/* eslint no-extra-parens: "error" */
+/* eslint @stylistic/no-extra-parens: "error" */
 
 (0).toString();
 
@@ -141,7 +141,7 @@ Examples of **correct** code for this rule with the `"all"` and `{ "conditionalA
 ::: correct
 
 ```js
-/* eslint no-extra-parens: ["error", "all", { "conditionalAssign": false }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { "conditionalAssign": false }] */
 
 while ((foo = bar())) {}
 
@@ -161,7 +161,7 @@ Examples of **correct** code for this rule with the `"all"` and `{ "returnAssign
 ::: correct
 
 ```js
-/* eslint no-extra-parens: ["error", "all", { "returnAssign": false }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { "returnAssign": false }] */
 
 function a1(b) {
   return (b = 1);
@@ -185,7 +185,7 @@ Examples of **correct** code for this rule with the `"all"` and `{ "nestedBinary
 ::: correct
 
 ```js
-/* eslint no-extra-parens: ["error", "all", { "nestedBinaryExpressions": false }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { "nestedBinaryExpressions": false }] */
 
 x = a || (b && c);
 x = a + (b * c);
@@ -201,7 +201,7 @@ Examples of **correct** code for this rule with the `"all"` and `{ "ternaryOpera
 ::: correct
 
 ```js
-/* eslint no-extra-parens: ["error", "all", { "ternaryOperandBinaryExpressions": false }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { "ternaryOperandBinaryExpressions": false }] */
 
 (a && b) ? foo : bar;
 
@@ -221,7 +221,7 @@ Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "a
 ::: correct { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
-/* eslint no-extra-parens: ["error", "all", { ignoreJSX: "all" }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { ignoreJSX: "all" }] */
 const ThisComponent = (<div />)
 const ThatComponent = (
     <div
@@ -237,7 +237,7 @@ Examples of **incorrect** code for this rule with the `all` and `{ "ignoreJSX": 
 ::: incorrect { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
-/* eslint no-extra-parens: ["error", "all", { ignoreJSX: "multi-line" }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { ignoreJSX: "multi-line" }] */
 const ThisComponent = (<div />)
 const ThatComponent = (<div><p /></div>)
 ```
@@ -249,7 +249,7 @@ Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "m
 ::: correct { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
-/* eslint no-extra-parens: ["error", "all", { ignoreJSX: "multi-line" }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { ignoreJSX: "multi-line" }] */
 const ThisComponent = (
     <div>
         <p />
@@ -269,7 +269,7 @@ Examples of **incorrect** code for this rule with the `all` and `{ "ignoreJSX": 
 ::: incorrect { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
-/* eslint no-extra-parens: ["error", "all", { ignoreJSX: "single-line" }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { ignoreJSX: "single-line" }] */
 const ThisComponent = (
     <div>
         <p />
@@ -289,7 +289,7 @@ Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "s
 ::: correct { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
-/* eslint no-extra-parens: ["error", "all", { ignoreJSX: "single-line" }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { ignoreJSX: "single-line" }] */
 const ThisComponent = (<div />)
 const ThatComponent = (<div><p /></div>)
 ```
@@ -303,7 +303,7 @@ Examples of **correct** code for this rule with the `"all"` and `{ "enforceForAr
 ::: correct
 
 ```js
-/* eslint no-extra-parens: ["error", "all", { "enforceForArrowConditionals": false }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { "enforceForArrowConditionals": false }] */
 
 const b = a => 1 ? 2 : 3;
 const d = c => (1 ? 2 : 3);
@@ -318,7 +318,7 @@ Examples of **correct** code for this rule with the `"all"` and `{ "enforceForSe
 ::: correct
 
 ```js
-/* eslint no-extra-parens: ["error", "all", { "enforceForSequenceExpressions": false }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { "enforceForSequenceExpressions": false }] */
 
 (a, b);
 
@@ -336,7 +336,7 @@ Examples of **correct** code for this rule with the `"all"` and `{ "enforceForNe
 ::: correct
 
 ```js
-/* eslint no-extra-parens: ["error", "all", { "enforceForNewInMemberExpressions": false }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { "enforceForNewInMemberExpressions": false }] */
 
 const foo = (new Bar()).baz;
 
@@ -354,7 +354,7 @@ Examples of **correct** code for this rule with the `"all"` and `{ "enforceForFu
 ::: correct
 
 ```js
-/* eslint no-extra-parens: ["error", "all", { "enforceForFunctionPrototypeMethods": false }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { "enforceForFunctionPrototypeMethods": false }] */
 
 const foo = (function () {}).call();
 
@@ -376,7 +376,7 @@ Examples of **correct** code for this rule with the `"all"` and `{ "allowParensA
 ::: correct
 
 ```js
-/* eslint no-extra-parens: ["error", "all", { "allowParensAfterCommentPattern": "@type" }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { "allowParensAfterCommentPattern": "@type" }] */
 
 const span = /**@type {HTMLSpanElement}*/(event.currentTarget);
 
@@ -402,7 +402,7 @@ Examples of **incorrect** code for this rule with the `"functions"` option:
 ::: incorrect
 
 ```js
-/* eslint no-extra-parens: ["error", "functions"] */
+/* eslint @stylistic/no-extra-parens: ["error", "functions"] */
 
 ((function foo() {}))();
 
@@ -416,7 +416,7 @@ Examples of **correct** code for this rule with the `"functions"` option:
 ::: correct
 
 ```js
-/* eslint no-extra-parens: ["error", "functions"] */
+/* eslint @stylistic/no-extra-parens: ["error", "functions"] */
 
 (0).toString();
 
@@ -444,7 +444,7 @@ Examples of **correct** code for this rule with the `"all"` and `{ "nestedCondit
 ::: correct
 
 ```js
-/* eslint no-extra-parens: ["error", "all", { "nestedConditionalExpressions": false }] */
+/* eslint @stylistic/no-extra-parens: ["error", "all", { "nestedConditionalExpressions": false }] */
 
 a ? (b ? c : d) : e;
 a ? b : (c ? d : e);
@@ -459,7 +459,7 @@ Examples of **correct** code for this rule with the `"all"` and `{ "allowNodesIn
 ::: correct
 
 ```js
-/* eslint no-extra-parens: [
+/* eslint @stylistic/no-extra-parens: [
     "error",
     "all",
     { "allowNodesInSpreadElement": { LogicalExpression: true, ConditionalExpression: true } }

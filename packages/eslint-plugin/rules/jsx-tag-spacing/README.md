@@ -33,34 +33,58 @@ If it is `"never"`, the check warns whenever a space is separating the two chara
 
 Examples of **incorrect** code for this rule, when configured with `{ "closingSlash": "never" }`:
 
+::: incorrect
+
 ```jsx
-<App/ >
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "closingSlash": "never" }] */
+
+<App/ >;
 <input/
->
-<Provider>< /Provider>
+>;
+<Provider>< /Provider>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ "closingSlash": "never" }`:
 
+::: correct
+
 ```jsx
-<App/>
-<input/>
-<Provider></Provider>
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "closingSlash": "never" }] */
+
+<App/>;
+<input/>;
+<Provider></Provider>;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `{ "closingSlash": "always" }`:
 
+::: incorrect
+
 ```jsx
-<Hello/>
-<Goodbye></Goodbye>
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "closingSlash": "always" }] */
+
+<Hello/>;
+<Goodbye></Goodbye>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ "closingSlash": "always" }`:
 
+::: correct
+
 ```jsx
-<Hello/ >
-<Goodbye>< /Goodbye>
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "closingSlash": "always" }] */
+
+<Hello/ >;
+<Goodbye>< /Goodbye>;
 ```
+
+:::
 
 ### `beforeSelfClosing`
 
@@ -70,59 +94,95 @@ If it is `"always"`, the check warns whenever a space is missing before the clos
 
 Examples of **incorrect** code for this rule, when configured with `{ "beforeSelfClosing": "always" }`:
 
+::: incorrect
+
 ```jsx
-<Hello/>
-<Hello firstname="John"/>
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "beforeSelfClosing": "always" }] */
+
+<Hello/>;
+<Hello firstname="John"/>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ "beforeSelfClosing": "always" }`:
 
+::: correct
+
 ```jsx
-<Hello />
-<Hello firstName="John" />
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "beforeSelfClosing": "always" }] */
+
+<Hello />;
+<Hello firstName="John" />;
 <Hello
   firstName="John"
   lastName="Smith"
-/>
+/>;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `{ "beforeSelfClosing": "never" }`:
 
+::: incorrect
+
 ```jsx
-<Hello />
-<Hello firstName="John" />
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "beforeSelfClosing": "never" }] */
+
+<Hello />;
+<Hello firstName="John" />;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ "beforeSelfClosing": "never" }`:
 
+::: correct
+
 ```jsx
-<Hello/>
-<Hello firstname="John"/>
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "beforeSelfClosing": "never" }] */
+
+<Hello/>;
+<Hello firstname="John"/>;
 <Hello
   firstName="John"
   lastName="Smith"
-/>
+/>;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `{ "beforeSelfClosing": "proportional-always" }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "beforeSelfClosing": "proportional-always" }] */
+
 <Hello
   firstName="John"
-  lastName="Smith" />
+  lastName="Smith" />;
 <Hello
   firstName="John"
-  lastName="Smith"/>
+  lastName="Smith"/>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ "beforeSelfClosing": "proportional-always" }`:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "beforeSelfClosing": "proportional-always" }] */
+
 <Hello
   firstName="John"
   lastName="Smith"
 />
 ```
+
+:::
 
 ### `afterOpening`
 
@@ -132,72 +192,108 @@ If it is `"always"`, the check warns whenever a space is missing after the openi
 
 Examples of **incorrect** code for this rule, when configured with `{ "afterOpening": "always" }`:
 
+::: incorrect
+
 ```jsx
-<Hello></Hello>
-<Hello firstname="John"/>
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "afterOpening": "always" }] */
+
+<Hello></Hello>;
+<Hello firstname="John"/>;
 <Hello
   firstName="John"
   lastName="Smith"
-/>
+/>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ "afterOpening": "always" }`:
 
+::: correct
+
 ```jsx
-< Hello></ Hello>
-< Hello firstName="John"/>
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "afterOpening": "always" }] */
+
+< Hello></ Hello>;
+< Hello firstName="John"/>;
 <
   Hello
   firstName="John"
   lastName="Smith"
-/>
+/>;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `{ "afterOpening": "never" }`:
 
+::: incorrect
+
 ```jsx
-< Hello></ Hello>
-< Hello firstName="John"/>
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "afterOpening": "never" }] */
+
+< Hello></ Hello>;
+< Hello firstName="John"/>;
 <
   Hello
   firstName="John"
   lastName="Smith"
-/>
+/>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ "afterOpening": "never" }`:
 
+::: correct
+
 ```jsx
-<Hello></Hello>
-<Hello firstname="John"/>
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "afterOpening": "never" }] */
+
+<Hello></Hello>;
+<Hello firstname="John"/>;
 <Hello
   firstName="John"
   lastName="Smith"
-/>
+/>;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `{ "afterOpening": "allow-multiline" }`:
 
+::: incorrect
+
 ```jsx
-< Hello></ Hello>
-< Hello firstName="John"/>
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "afterOpening": "allow-multiline" }] */
+
+< Hello></ Hello>;
+< Hello firstName="John"/>;
 < Hello
   firstName="John"
   lastName="Smith"
-/>
+/>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ "afterOpening": "allow-multiline" }`:
 
+::: correct
+
 ```jsx
-<Hello></Hello>
-<Hello firstName="John"/>
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "afterOpening": "allow-multiline" }] */
+
+<Hello></Hello>;
+<Hello firstName="John"/>;
 <
   Hello
   firstName="John"
   lastName="Smith"
-/>
+/>;
 ```
+
+:::
 
 ### `beforeClosing`
 
@@ -207,57 +303,91 @@ If it is `"always"` the check warns whenever whitespace is missing before the cl
 
 Examples of **incorrect** code for this rule, when configured with `{ "beforeClosing": "always" }`:
 
+::: incorrect
+
 ```jsx
-<Hello></Hello>
-<Hello></Hello >
-<Hello ></Hello>
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "beforeClosing": "always" }] */
+
+<Hello></Hello>;
+<Hello></Hello >;
+<Hello ></Hello>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ "beforeClosing": "always" }`:
 
+::: correct
+
 ```jsx
-<Hello ></Hello >
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "beforeClosing": "always" }] */
+
+<Hello ></Hello >;
 <Hello
   firstName="John"
->
-</Hello >
+>;
+</Hello >;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `{ "beforeClosing": "never" }`:
 
+::: incorrect
+
 ```jsx
-<Hello ></Hello>
-<Hello></Hello >
-<Hello ></Hello >
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "beforeClosing": "never" }] */
+
+<Hello ></Hello>;
+<Hello></Hello >;
+<Hello ></Hello >;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ "beforeClosing": "never" }`:
 
+::: correct
+
 ```jsx
-<Hello></Hello>
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "beforeClosing": "never" }] */
+
+<Hello></Hello>;
 <Hello
   firstName="John"
->
-</Hello>
+>;
+</Hello>;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `{ "beforeClosing": "proportional-always" }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "beforeClosing": "proportional-always" }] */
+
 <Hello
   firstName="John"
   lastName="Smith">
-</Hello>
+</Hello>;
 <Hello
   firstName="John"
   lastName="Smith" >
   Goodbye
-</Hello>
+</Hello>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ "beforeClosing": "proportional-always" }`:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-tag-spacing: ["error", { "beforeClosing": "proportional-always" }] */
+
 <Hello
   firstName="John"
   lastName="Smith"
@@ -265,6 +395,8 @@ Examples of **correct** code for this rule, when configured with `{ "beforeClosi
   Goodbye
 </Hello>
 ```
+
+:::
 
 ## When Not To Use It
 

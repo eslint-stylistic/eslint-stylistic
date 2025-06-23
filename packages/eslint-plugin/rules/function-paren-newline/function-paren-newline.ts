@@ -80,7 +80,7 @@ export default createRule<RuleOptions, MessageIds>({
         return hasLeftNewline
 
       if (multilineOption || multilineArgumentsOption)
-        return elements.some((element, index) => index !== elements.length - 1 && element.loc.end.line !== elements[index + 1].loc.start.line)
+        return elements.some((element, index) => index !== elements.length - 1 && !isTokenOnSameLine(element, elements[index + 1]))
 
       if (consistentOption)
         return hasLeftNewline
@@ -152,14 +152,14 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function validateArguments(parens: ParensPair, elements: Tree.CallExpressionArgument[] | Tree.Parameter[]) {
       const leftParen = parens.leftParen
-      const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)
+      const tokenAfterLeftParen = sourceCode.getTokenAfter(leftParen)!
       const hasLeftNewline = !isTokenOnSameLine(leftParen, tokenAfterLeftParen)
       const needsNewlines = shouldHaveNewlines(elements, hasLeftNewline)
 
       for (let i = 0; i <= elements.length - 2; i++) {
         const currentElement = elements[i]
         const nextElement = elements[i + 1]
-        const hasNewLine = currentElement.loc.end.line !== nextElement.loc.start.line
+        const hasNewLine = !isTokenOnSameLine(currentElement, nextElement)
 
         if (!hasNewLine && needsNewlines) {
           context.report({
@@ -191,7 +191,7 @@ export default createRule<RuleOptions, MessageIds>({
       const isOpeningParenTokenOutsideTypeParameter = () => {
         let typeParameterOpeningLevel = 0
 
-        return (token: Tree.Token) => {
+        return (token: Token) => {
           if (token.type === 'Punctuator' && token.value === '<')
             typeParameterOpeningLevel += 1
 

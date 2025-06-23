@@ -1,8 +1,7 @@
-import type { ReportFixFunction, Token, Tree } from '#types'
+import type { ReportFixFunction, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { STATEMENT_LIST_PARENTS } from '#utils/ast'
+import { isTokenOnSameLine, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'brace-style',
@@ -188,20 +187,9 @@ export default createRule<RuleOptions, MessageIds>({
           validateCurlyBeforeKeyword(sourceCode.getLastToken(node.handler.body)!)
         }
       },
-      'TSInterfaceBody, TSModuleBlock': function (
-        node: Tree.TSInterfaceBody | Tree.TSModuleBlock,
-      ): void {
+      TSModuleBlock(node) {
         const openingCurly = sourceCode.getFirstToken(node)!
         const closingCurly = sourceCode.getLastToken(node)!
-
-        validateCurlyPair(openingCurly, closingCurly)
-      },
-      TSEnumDeclaration(node): void {
-        const closingCurly = sourceCode.getLastToken(node)!
-        const members = node.body?.members || node.members
-        const openingCurly = sourceCode.getTokenBefore(
-          members.length ? members[0] : closingCurly,
-        )!
 
         validateCurlyPair(openingCurly, closingCurly)
       },

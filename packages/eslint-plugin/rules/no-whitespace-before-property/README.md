@@ -27,7 +27,7 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
-/*eslint no-whitespace-before-property: "error"*/
+/* eslint @stylistic/no-whitespace-before-property: "error" */
 
 foo [bar]
 
@@ -51,7 +51,7 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
-/*eslint no-whitespace-before-property: "error"*/
+/* eslint @stylistic/no-whitespace-before-property: "error" */
 
 foo.bar
 

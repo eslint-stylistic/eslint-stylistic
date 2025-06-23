@@ -5,7 +5,7 @@
 
 import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isParenthesized } from '#utils/ast'
+import { isParenthesized, isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { isJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
 
@@ -98,7 +98,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (!isParenthesized(node, context.sourceCode))
         return false
 
-      if (previousToken.loc.end.line === node.loc.start.line)
+      if (isTokenOnSameLine(previousToken, node))
         return true
 
       return false
@@ -110,14 +110,10 @@ export default createRule<RuleOptions, MessageIds>({
       if (!isParenthesized(node, context.sourceCode))
         return false
 
-      if (node.loc.end.line === nextToken.loc.end.line)
+      if (isTokenOnSameLine(node, nextToken))
         return true
 
       return false
-    }
-
-    function isMultilines(node: ASTNode) {
-      return node.loc.start.line !== node.loc.end.line
     }
 
     function trimTokenBeforeNewline(tokenBefore: Token) {
@@ -134,7 +130,7 @@ export default createRule<RuleOptions, MessageIds>({
       const sourceCode = context.sourceCode
       const option = getOption(type)
 
-      if ((option === true || option === 'parens') && !isParenthesized(node, context.sourceCode) && isMultilines(node)) {
+      if ((option === true || option === 'parens') && !isParenthesized(node, context.sourceCode) && !isSingleLine(node)) {
         context.report({
           node,
           messageId: 'missingParens',
@@ -142,7 +138,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       }
 
-      if (option === 'parens-new-line' && isMultilines(node)) {
+      if (option === 'parens-new-line' && !isSingleLine(node)) {
         if (!isParenthesized(node, context.sourceCode)) {
           const tokenBefore = sourceCode.getTokenBefore(node)!
           const tokenAfter = sourceCode.getTokenAfter(node)!

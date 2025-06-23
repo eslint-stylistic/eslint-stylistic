@@ -3,7 +3,7 @@
 import type { InvalidTestCase, TestCaseError, TestCasesOptions, ValidTestCase } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '#utils/ast'
 import rule from './indent'
 
 /**
@@ -826,6 +826,24 @@ const map2 = Object.keys(map)
         }
       `,
       options: [2],
+    },
+    {
+      code: $`
+        using a = foo(),
+          b = bar();
+        await using c = baz(),
+          d = qux();
+      `,
+      options: [2, { VariableDeclarator: 1 }],
+    },
+    {
+      code: $`
+        using a = foo(),
+              b = bar();
+        await using c = baz(),
+                    d = qux();
+      `,
+      options: [2, { VariableDeclarator: { using: 'first' } }],
     },
   ],
   invalid: [
@@ -2037,6 +2055,44 @@ class Foo {
           line: 5,
           column: 1,
         },
+      ],
+    },
+    {
+      code: $`
+        using a = foo(),
+          b = bar();
+        await using c = baz(),
+          d = qux();
+      `,
+      output: $`
+        using a = foo(),
+              b = bar();
+        await using c = baz(),
+                    d = qux();
+      `,
+      options: [2, { VariableDeclarator: 'first' }],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '6 spaces', actual: 2 } },
+        { messageId: 'wrongIndentation', data: { expected: '12 spaces', actual: 2 } },
+      ],
+    },
+    {
+      code: $`
+        using a = foo(),
+              b = bar();
+        await using c = baz(),
+                    d = qux();
+      `,
+      output: $`
+        using a = foo(),
+          b = bar();
+        await using c = baz(),
+          d = qux();
+      `,
+      options: [2, { VariableDeclarator: { using: 1 } }],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 6 } },
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 12 } },
       ],
     },
   ],

@@ -1,8 +1,14 @@
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { hasOctalOrNonOctalDecimalEscapeSequence, isParenthesised, isSurroundedBy, isTopLevelExpressionStatement, LINEBREAKS } from '#utils/ast'
+import {
+  AST_NODE_TYPES,
+  hasOctalOrNonOctalDecimalEscapeSequence,
+  isParenthesised,
+  isSurroundedBy,
+  isTopLevelExpressionStatement,
+  LINEBREAKS,
+} from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 /**
  * Switches quoting of javascript string between ' " and `

@@ -3,7 +3,7 @@
  * @author Alberto Rodríguez
  */
 import type { MessageIds, RuleOptions } from './types'
-import { COMMENTS_IGNORE_PATTERN } from '#utils/ast'
+import { COMMENTS_IGNORE_PATTERN, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -92,7 +92,7 @@ export default createRule<RuleOptions, MessageIds>({
             return
 
           const previous = sourceCode.getTokenBefore(node, { includeComments: true })
-          const isOnSameLine = previous && previous.loc.end.line === node.loc.start.line
+          const isOnSameLine = previous && isTokenOnSameLine(previous, node)
 
           if (above) {
             if (isOnSameLine) {

@@ -3,7 +3,7 @@
  * @author Toru Nagashima
  */
 
-import type { ASTNode, Tree } from '#types'
+import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { getPrecedence, isNotClosingParenToken, isParenthesised } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -162,7 +162,7 @@ export default createRule<RuleOptions, MessageIds>({
      *      node or a LogicalExpression node.
      * @returns The operator token of the node.
      */
-    function getOperatorToken(node: NodeType): Tree.Token {
+    function getOperatorToken(node: NodeType): Token {
       return sourceCode.getTokenAfter(getChildNode(node), isNotClosingParenToken)!
     }
 

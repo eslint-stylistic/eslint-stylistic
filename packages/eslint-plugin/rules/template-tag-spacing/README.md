@@ -45,7 +45,7 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 ::: incorrect
 
 ```js
-/*eslint template-tag-spacing: "error"*/
+/* eslint @stylistic/template-tag-spacing: "error" */
 
 func `Hello world`;
 ```
@@ -57,7 +57,7 @@ Examples of **correct** code for this rule with the default `"never"` option:
 ::: correct
 
 ```js
-/*eslint template-tag-spacing: "error"*/
+/* eslint @stylistic/template-tag-spacing: "error" */
 
 func`Hello world`;
 ```
@@ -71,7 +71,7 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ::: incorrect
 
 ```js
-/*eslint template-tag-spacing: ["error", "always"]*/
+/* eslint @stylistic/template-tag-spacing: ["error", "always"] */
 
 func`Hello world`;
 ```
@@ -83,7 +83,7 @@ Examples of **correct** code for this rule with the `"always"` option:
 ::: correct
 
 ```js
-/*eslint template-tag-spacing: ["error", "always"]*/
+/* eslint @stylistic/template-tag-spacing: ["error", "always"] */
 
 func `Hello world`;
 ```

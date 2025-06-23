@@ -11,10 +11,10 @@ Properly blank lines help developers to understand the code.
 For example, the following configuration requires a blank line between a variable declaration and a `return` statement.
 
 ```js
-/*eslint padding-line-between-statements: [
+/* eslint @stylistic/padding-line-between-statements: [
     "error",
     { blankLine: "always", prev: "var", next: "return" }
-]*/
+] */
 
 function foo() {
     var a = 1;
@@ -78,15 +78,18 @@ You can supply any number of configurations. If a statement pair matches multipl
   - `"multiline-export"` is multiline `export` declarations.
   - `"multiline-expression"` is expression statements. This is the same as `expression` type, but only if the statement is multiline.
   - `"multiline-let"` is multiline `let` variable declarations.
+  - `"multiline-using"` is multiline `using` and `await using` variable declarations.
   - `"multiline-var"` is multiline `var` variable declarations.
   - `"return"` is `return` statements.
   - `"singleline-const"` is single-line `const` variable declarations.
   - `"singleline-export"` is single-line `export` declarations.
   - `"singleline-let"` is single-line `let` variable declarations.
+  - `"singleline-using"` is single-line `using` and `await using` variable declarations.
   - `"singleline-var"` is single-line `var` variable declarations.
   - `"switch"` is `switch` statements.
   - `"throw"` is `throw` statements.
   - `"try"` is `try` statements.
+  - `"using"` is `using` and `await using` variable declarations, both single-line and multiline.
   - `"var"` is `var` variable declarations, both single-line and multiline.
   - `"while"` is `while` loop statements.
   - `"with"` is `with` statements.
@@ -100,10 +103,10 @@ Examples of **incorrect** code for the `[{ blankLine: "always", prev: "*", next:
 ::: incorrect
 
 ```js
-/*eslint padding-line-between-statements: [
+/* eslint @stylistic/padding-line-between-statements: [
     "error",
     { blankLine: "always", prev: "*", next: "return" }
-]*/
+] */
 
 function foo() {
     bar();
@@ -118,10 +121,10 @@ Examples of **correct** code for the `[{ blankLine: "always", prev: "*", next: "
 ::: correct
 
 ```js
-/*eslint padding-line-between-statements: [
+/* eslint @stylistic/padding-line-between-statements: [
     "error",
     { blankLine: "always", prev: "*", next: "return" }
-]*/
+] */
 
 function foo1() {
     bar();
@@ -145,11 +148,11 @@ Examples of **incorrect** code for the `[{ blankLine: "always", prev: ["const", 
 ::: incorrect
 
 ```js
-/*eslint padding-line-between-statements: [
+/* eslint @stylistic/padding-line-between-statements: [
     "error",
     { blankLine: "always", prev: ["const", "let", "var"], next: "*"},
     { blankLine: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}
-]*/
+] */
 
 function foo1() {
     var a = 0;
@@ -181,11 +184,11 @@ Examples of **correct** code for the `[{ blankLine: "always", prev: ["const", "l
 ::: correct
 
 ```js
-/*eslint padding-line-between-statements: [
+/* eslint @stylistic/padding-line-between-statements: [
     "error",
     { blankLine: "always", prev: ["const", "let", "var"], next: "*"},
     { blankLine: "any",    prev: ["const", "let", "var"], next: ["const", "let", "var"]}
-]*/
+] */
 
 function foo1() {
     var a = 0;
@@ -229,11 +232,11 @@ Examples of **incorrect** code for the `[{ blankLine: "always", prev: "directive
 ::: incorrect
 
 ```js
-/*eslint padding-line-between-statements: [
+/* eslint @stylistic/padding-line-between-statements: [
     "error",
     { blankLine: "always", prev: "directive", next: "*" },
     { blankLine: "any",    prev: "directive", next: "directive" }
-]*/
+] */
 
 "use strict";
 foo();
@@ -246,11 +249,11 @@ Examples of **correct** code for the `[{ blankLine: "always", prev: "directive",
 ::: correct
 
 ```js
-/*eslint padding-line-between-statements: [
+/* eslint @stylistic/padding-line-between-statements: [
     "error",
     { blankLine: "always", prev: "directive", next: "*" },
     { blankLine: "any",    prev: "directive", next: "directive" }
-]*/
+] */
 
 "use strict";
 "use asm";
@@ -269,10 +272,10 @@ Examples of **incorrect** code for the `[{ blankLine: "always", prev: ["case", "
 ::: incorrect
 
 ```js
-/*eslint padding-line-between-statements: [
+/* eslint @stylistic/padding-line-between-statements: [
     "error",
     { blankLine: "always", prev: ["case", "default"], next: "*" }
-]*/
+] */
 
 switch (foo) {
     case 1:
@@ -294,10 +297,10 @@ Examples of **correct** code for the `[{ blankLine: "always", prev: ["case", "de
 ::: correct
 
 ```js
-/*eslint padding-line-between-statements: [
+/* eslint @stylistic/padding-line-between-statements: [
     "error",
     { blankLine: "always", prev: ["case", "default"], next: "*" }
-]*/
+] */
 
 switch (foo) {
     case 1:

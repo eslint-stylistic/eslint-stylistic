@@ -45,7 +45,7 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ::: incorrect
 
 ```js
-/* eslint function-paren-newline: ["error", "always"] */
+/* eslint @stylistic/function-paren-newline: ["error", "always"] */
 
 function foo(bar, baz) {}
 
@@ -63,7 +63,7 @@ Examples of **correct** code for this rule with the `"always"` option:
 ::: correct
 
 ```js
-/* eslint function-paren-newline: ["error", "always"] */
+/* eslint @stylistic/function-paren-newline: ["error", "always"] */
 
 function foo(
   bar,
@@ -92,7 +92,7 @@ Examples of **incorrect** code for this rule with the `"never"` option:
 ::: incorrect
 
 ```js
-/* eslint function-paren-newline: ["error", "never"] */
+/* eslint @stylistic/function-paren-newline: ["error", "never"] */
 
 function foo(
   bar,
@@ -121,7 +121,7 @@ Examples of **correct** code for this rule with the `"never"` option:
 ::: correct
 
 ```js
-/* eslint function-paren-newline: ["error", "never"] */
+/* eslint @stylistic/function-paren-newline: ["error", "never"] */
 
 function foo(bar, baz) {}
 
@@ -145,7 +145,7 @@ Examples of **incorrect** code for this rule with the default `"multiline"` opti
 ::: incorrect
 
 ```js
-/* eslint function-paren-newline: ["error", "multiline"] */
+/* eslint @stylistic/function-paren-newline: ["error", "multiline"] */
 
 function foo(bar,
   baz
@@ -176,7 +176,7 @@ Examples of **correct** code for this rule with the default `"multiline"` option
 ::: correct
 
 ```js
-/* eslint function-paren-newline: ["error", "multiline"] */
+/* eslint @stylistic/function-paren-newline: ["error", "multiline"] */
 
 function foo(bar, baz) {}
 
@@ -207,7 +207,7 @@ Examples of **incorrect** code for this rule with the `"consistent"` option:
 ::: incorrect
 
 ```js
-/* eslint function-paren-newline: ["error", "consistent"] */
+/* eslint @stylistic/function-paren-newline: ["error", "consistent"] */
 
 function foo(bar,
   baz
@@ -238,7 +238,7 @@ Examples of **correct** code for this rule with the `"consistent"` option:
 ::: correct
 
 ```js
-/* eslint function-paren-newline: ["error", "consistent"] */
+/* eslint @stylistic/function-paren-newline: ["error", "consistent"] */
 
 function foo(bar,
   baz) {}
@@ -268,7 +268,7 @@ Examples of **incorrect** code for this rule with the `"multiline-arguments"` op
 ::: incorrect
 
 ```js
-/* eslint function-paren-newline: ["error", "multiline-arguments"] */
+/* eslint @stylistic/function-paren-newline: ["error", "multiline-arguments"] */
 
 function foo(bar,
   baz
@@ -299,7 +299,7 @@ Examples of **correct** code for this rule with the consistent `"multiline-argum
 ::: correct
 
 ```js
-/* eslint function-paren-newline: ["error", "multiline-arguments"] */
+/* eslint @stylistic/function-paren-newline: ["error", "multiline-arguments"] */
 
 function foo(
   bar,
@@ -326,7 +326,7 @@ Examples of **incorrect** code for this rule with the `{ "minItems": 3 }` option
 ::: incorrect
 
 ```js
-/* eslint function-paren-newline: ["error", { "minItems": 3 }] */
+/* eslint @stylistic/function-paren-newline: ["error", { "minItems": 3 }] */
 
 function foo(
   bar,
@@ -357,7 +357,7 @@ Examples of **correct** code for this rule with the `{ "minItems": 3 }` option:
 ::: correct
 
 ```js
-/* eslint function-paren-newline: ["error", { "minItems": 3 }] */
+/* eslint @stylistic/function-paren-newline: ["error", { "minItems": 3 }] */
 
 function foo(bar, baz) {}
 

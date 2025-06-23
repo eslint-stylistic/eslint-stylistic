@@ -39,7 +39,7 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 ::: incorrect
 
 ```js
-/*eslint template-curly-spacing: "error"*/
+/* eslint @stylistic/template-curly-spacing: "error" */
 
 `hello, ${ people.name}!`;
 `hello, ${people.name }!`;
@@ -54,7 +54,7 @@ Examples of **correct** code for this rule with the default `"never"` option:
 ::: correct
 
 ```js
-/*eslint template-curly-spacing: "error"*/
+/* eslint @stylistic/template-curly-spacing: "error" */
 
 `hello, ${people.name}!`;
 
@@ -72,7 +72,7 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ::: incorrect
 
 ```js
-/*eslint template-curly-spacing: ["error", "always"]*/
+/* eslint @stylistic/template-curly-spacing: ["error", "always"] */
 
 `hello, ${ people.name}!`;
 `hello, ${people.name }!`;
@@ -87,7 +87,7 @@ Examples of **correct** code for this rule with the `"always"` option:
 ::: correct
 
 ```js
-/*eslint template-curly-spacing: ["error", "always"]*/
+/* eslint @stylistic/template-curly-spacing: ["error", "always"] */
 
 `hello, ${ people.name }!`;
 

@@ -2,6 +2,8 @@
 
 import fs from 'node:fs'
 import { basename, dirname, join } from 'node:path'
+import process from 'node:process'
+import { codecovRollupPlugin } from '@codecov/rollup-plugin'
 import alias from '@rollup/plugin-alias'
 import commonjs from '@rollup/plugin-commonjs'
 import resolve from '@rollup/plugin-node-resolve'
@@ -76,6 +78,12 @@ export function createConfig(cwd) {
         }),
         resolve(),
         aliasPlugin(),
+        codecovRollupPlugin({
+          enableBundleAnalysis: process.env.CODECOV_TOKEN !== undefined,
+          bundleName: pkg.name,
+          uploadToken: process.env.CODECOV_TOKEN,
+          gitService: 'github',
+        }),
       ],
       external: [
         ...[

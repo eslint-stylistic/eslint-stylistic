@@ -2,8 +2,9 @@
  * @fileoverview enforce consistent line breaks inside jsx curly
  */
 
-import type { ASTNode, RuleContext, Tree } from '#types'
+import type { ASTNode, RuleContext, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 function getNormalizedOption(context: Readonly<RuleContext<MessageIds, RuleOptions>>) {
@@ -80,25 +81,13 @@ export default createRule<RuleOptions, MessageIds>({
     const option = getNormalizedOption(context)
 
     /**
-     * Determines whether two adjacent tokens are on the same line.
-     * @param left - The left token object.
-     * @param right - The right token object.
-     * @returns Whether or not the tokens are on the same line.
-     */
-    function isTokenOnSameLine(left: ASTNode | Tree.Token, right: ASTNode | Tree.Token) {
-      return left.loc.end.line === right.loc.start.line
-    }
-
-    /**
      * Determines whether there should be newlines inside curlys
      * @param expression The expression contained in the curlys
      * @param hasLeftNewline `true` if the left curly has a newline in the current code.
      * @returns `true` if there should be newlines inside the function curlys
      */
     function shouldHaveNewlines(expression: ASTNode, hasLeftNewline: boolean) {
-      const isMultiline = expression.loc.start.line !== expression.loc.end.line
-
-      switch (isMultiline ? option.multiline : option.singleline) {
+      switch (!isSingleLine(expression) ? option.multiline : option.singleline) {
         case 'forbid': return false
         case 'require': return true
         case 'consistent':
@@ -111,7 +100,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param curlys An object with keys `leftParen` for the left paren token, and `rightParen` for the right paren token
      * @param expression The expression inside the curly
      */
-    function validateCurlys(curlys: { leftCurly: Tree.Token, rightCurly: Tree.Token }, expression: ASTNode) {
+    function validateCurlys(curlys: { leftCurly: Token, rightCurly: Token }, expression: ASTNode) {
       const leftCurly = curlys.leftCurly
       const rightCurly = curlys.rightCurly
       const tokenAfterLeftCurly = sourceCode.getTokenAfter(leftCurly)

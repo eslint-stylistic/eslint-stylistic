@@ -1,9 +1,9 @@
 {
   "name": "@eslint-stylistic/monorepo",
   "type": "module",
-  "version": "5.0.0-beta.3",
+  "version": "5.0.0",
   "private": true,
-  "packageManager": "pnpm@10.11.0",
+  "packageManager": "pnpm@10.12.1",
   "license": "MIT",
   "scripts": {
     "build": "pnpm -r run build",
@@ -30,6 +30,7 @@
     "@babel/plugin-syntax-do-expressions": "catalog:test",
     "@babel/plugin-syntax-function-bind": "catalog:test",
     "@babel/preset-react": "catalog:test",
+    "@codecov/rollup-plugin": "catalog:",
     "@rollup/plugin-alias": "catalog:",
     "@rollup/plugin-commonjs": "catalog:",
     "@rollup/plugin-node-resolve": "catalog:",
@@ -41,6 +42,7 @@
     "@types/picomatch": "catalog:",
     "@types/semver": "catalog:",
     "@typescript-eslint/parser": "catalog:",
+    "@typescript-eslint/types": "catalog:",
     "@typescript-eslint/utils": "catalog:",
     "@vitest/coverage-v8": "catalog:test",
     "@vitest/ui": "catalog:test",

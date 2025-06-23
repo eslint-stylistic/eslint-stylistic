@@ -5,7 +5,7 @@
 
 import type { RuleContext, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { getTokenBeforeClosingBracket } from '#utils/ast'
+import { getTokenBeforeClosingBracket, isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 type Option = Exclude<RuleOptions[0], undefined>
@@ -114,8 +114,8 @@ function validateBeforeSelfClosing(
   const leftToken = getTokenBeforeClosingBracket(node)
   const closingSlash = sourceCode.getTokenAfter(leftToken)!
 
-  if (node.loc.start.line !== node.loc.end.line && option === 'proportional-always') {
-    if (leftToken.loc.end.line === closingSlash.loc.start.line) {
+  if (!isSingleLine(node) && option === 'proportional-always') {
+    if (isTokenOnSameLine(leftToken, closingSlash)) {
       context.report({
         node,
         messageId: 'beforeSelfCloseNeedNewline',
@@ -128,7 +128,7 @@ function validateBeforeSelfClosing(
     }
   }
 
-  if (leftToken.loc.end.line !== closingSlash.loc.start.line)
+  if (!isTokenOnSameLine(leftToken, closingSlash))
     return
 
   const adjacent = !sourceCode.isSpaceBetween(leftToken as unknown as Token, closingSlash)
@@ -214,8 +214,8 @@ function validateBeforeClosing(
       : sourceCode.getLastTokens(node, 2)[0]
     const closingToken = sourceCode.getTokenAfter(leftToken)!
 
-    if (node.loc.start.line !== node.loc.end.line && option === 'proportional-always') {
-      if (leftToken.loc.end.line === closingToken.loc.start.line) {
+    if (!isSingleLine(node) && option === 'proportional-always') {
+      if (isTokenOnSameLine(leftToken, closingToken)) {
         context.report({
           node,
           messageId: 'beforeCloseNeedNewline',
@@ -259,7 +259,7 @@ function validateBeforeClosing(
         },
       })
     }
-    else if (option === 'proportional-always' && node.type === 'JSXOpeningElement' && adjacent !== (node.loc.start.line === node.loc.end.line)) {
+    else if (option === 'proportional-always' && node.type === 'JSXOpeningElement' && adjacent !== (isSingleLine(node))) {
       context.report({
         node,
         messageId: 'beforeCloseNeedSpace',

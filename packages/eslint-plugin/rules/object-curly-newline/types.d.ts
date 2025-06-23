@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: hu8uNyY0uF2oOwBVs3XSWntyeircOKV-bwWugkN54z4 */
+/* @checksum: fGZfDC_IVLYcuEXwtylV_Zd8g9CwGSC7ebmvga79Iu8 */
 
 export type ObjectCurlyNewlineSchema0
   = | (
@@ -48,6 +48,13 @@ export type ObjectCurlyNewlineSchema0
           consistent?: boolean
         }
       TSInterfaceBody?:
+        | ('always' | 'never')
+        | {
+          multiline?: boolean
+          minProperties?: number
+          consistent?: boolean
+        }
+      TSEnumBody?:
         | ('always' | 'never')
         | {
           multiline?: boolean

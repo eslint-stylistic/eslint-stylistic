@@ -40,7 +40,7 @@ Examples of **incorrect** code for this rule:
 :::incorrect
 
 ```ts
-/*eslint indent-binary-ops: ["error", 2]*/
+/* eslint @stylistic/indent-binary-ops: ["error", 2] */
 
 if (a
     && b
@@ -61,7 +61,7 @@ Examples of **correct** code for this rule:
 :::correct
 
 ```ts
-/*eslint indent-binary-ops: ["error", 2]*/
+/* eslint @stylistic/indent-binary-ops: ["error", 2] */
 
 if (a
   && b

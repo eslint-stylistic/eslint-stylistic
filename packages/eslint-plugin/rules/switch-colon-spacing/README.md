@@ -30,7 +30,7 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
-/*eslint switch-colon-spacing: "error"*/
+/* eslint @stylistic/switch-colon-spacing: "error" */
 
 switch (a) {
     case 0 :break;
@@ -45,7 +45,7 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
-/*eslint switch-colon-spacing: "error"*/
+/* eslint @stylistic/switch-colon-spacing: "error" */
 
 switch (a) {
     case 0: foo(); break;
@@ -65,7 +65,7 @@ Examples of **incorrect** code for this rule with `{"after": false, "before": tr
 ::: incorrect
 
 ```js
-/*eslint switch-colon-spacing: ["error", {"after": false, "before": true}]*/
+/* eslint @stylistic/switch-colon-spacing: ["error", {"after": false, "before": true}] */
 
 switch (a) {
     case 0: break;
@@ -80,7 +80,7 @@ Examples of **correct** code for this rule with `{"after": false, "before": true
 ::: correct
 
 ```js
-/*eslint switch-colon-spacing: ["error", {"after": false, "before": true}]*/
+/* eslint @stylistic/switch-colon-spacing: ["error", {"after": false, "before": true}] */
 
 switch (a) {
     case 0 :foo(); break;

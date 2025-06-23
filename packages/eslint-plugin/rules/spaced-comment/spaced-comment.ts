@@ -4,7 +4,7 @@
  */
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { LINEBREAKS } from '#utils/ast'
+import { isHashbangComment, LINEBREAKS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import escapeRegExp from 'escape-string-regexp'
 
@@ -371,8 +371,7 @@ export default createRule<RuleOptions, MessageIds>({
       Program() {
         const comments = sourceCode.getAllComments()
 
-        // @ts-expect-error 'Shebang' is not in the type definition
-        comments.filter(token => token.type !== 'Shebang').forEach(checkCommentForSpace)
+        comments.filter(token => !isHashbangComment(token)).forEach(checkCommentForSpace)
       },
     }
   },

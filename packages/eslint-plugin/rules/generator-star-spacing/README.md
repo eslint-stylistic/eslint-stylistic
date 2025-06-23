@@ -13,8 +13,6 @@ These special functions are indicated by placing an `*` after the `function` key
 Here is an example of a generator function:
 
 ```js
-/*eslint-env es6*/
-
 function* generator() {
     yield "44";
     yield "55";
@@ -24,8 +22,6 @@ function* generator() {
 This is also valid:
 
 ```js
-/*eslint-env es6*/
-
 function *generator() {
     yield "44";
     yield "55";
@@ -35,8 +31,6 @@ function *generator() {
 This is valid as well:
 
 ```js
-/*eslint-env es6*/
-
 function * generator() {
     yield "44";
     yield "55";
@@ -112,8 +106,7 @@ Examples of **correct** code for this rule with the `"before"` option:
 ::: correct
 
 ```js
-/*eslint generator-star-spacing: ["error", {"before": true, "after": false}]*/
-/*eslint-env es6*/
+/* eslint @stylistic/generator-star-spacing: ["error", {"before": true, "after": false}] */
 
 function *generator() {}
 
@@ -131,8 +124,7 @@ Examples of **correct** code for this rule with the `"after"` option:
 ::: correct
 
 ```js
-/*eslint generator-star-spacing: ["error", {"before": false, "after": true}]*/
-/*eslint-env es6*/
+/* eslint @stylistic/generator-star-spacing: ["error", {"before": false, "after": true}] */
 
 function* generator() {}
 
@@ -150,8 +142,7 @@ Examples of **correct** code for this rule with the `"both"` option:
 ::: correct
 
 ```js
-/*eslint generator-star-spacing: ["error", {"before": true, "after": true}]*/
-/*eslint-env es6*/
+/* eslint @stylistic/generator-star-spacing: ["error", {"before": true, "after": true}] */
 
 function * generator() {}
 
@@ -169,8 +160,7 @@ Examples of **correct** code for this rule with the `"neither"` option:
 ::: correct
 
 ```js
-/*eslint generator-star-spacing: ["error", {"before": false, "after": false}]*/
-/*eslint-env es6*/
+/* eslint @stylistic/generator-star-spacing: ["error", {"before": false, "after": false}] */
 
 function*generator() {}
 
@@ -186,13 +176,12 @@ Examples of **incorrect** code for this rule with overrides present:
 ::: incorrect
 
 ```js
-/*eslint generator-star-spacing: ["error", {
+/* eslint @stylistic/generator-star-spacing: ["error", {
     "before": false,
     "after": true,
     "anonymous": "neither",
     "method": {"before": true, "after": true}
-}]*/
-/*eslint-env es6*/
+}] */
 
 function * generator() {}
 
@@ -210,13 +199,12 @@ Examples of **correct** code for this rule with overrides present:
 ::: correct
 
 ```js
-/*eslint generator-star-spacing: ["error", {
+/* eslint @stylistic/generator-star-spacing: ["error", {
     "before": false,
     "after": true,
     "anonymous": "neither",
     "method": {"before": true, "after": true}
-}]*/
-/*eslint-env es6*/
+}] */
 
 function* generator() {}
 

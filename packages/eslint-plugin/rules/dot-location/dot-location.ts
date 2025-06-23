@@ -68,7 +68,7 @@ export default createRule<RuleOptions, MessageIds>({
           })
         }
       }
-      else if (!isTokenOnSameLine(dotToken, property) && dotToken) {
+      else if (dotToken && !isTokenOnSameLine(dotToken, property)) {
         context.report({
           node,
           loc: dotToken.loc,

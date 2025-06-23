@@ -3,7 +3,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '#utils/ast'
 import rule from './object-curly-spacing'
 
 run<RuleOptions, MessageIds>({

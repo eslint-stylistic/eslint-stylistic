@@ -1,8 +1,7 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES, isNotOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
-import { isNotOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
 
 const UNIONS = ['|', '&']
 

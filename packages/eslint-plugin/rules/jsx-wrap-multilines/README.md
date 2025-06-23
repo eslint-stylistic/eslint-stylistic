@@ -27,7 +27,20 @@ Note: conditions are checked by default in declarations or assignments.
 
 Examples of **incorrect** code for this rule, when configured with `parens` or `parens-new-line`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", {
+  "declaration": "parens",
+  "assignment": "parens",
+  "return": "parens",
+  "arrow": "parens",
+  "condition": "ignore",
+  "logical": "ignore",
+  "prop": "ignore",
+  "propertyValue": "ignore"
+}] */
+
 var Hello = createReactClass({
   render: function() {
     return <div>
@@ -37,9 +50,24 @@ var Hello = createReactClass({
 });
 ```
 
+:::
+
 Examples of **incorrect** code for this rule, when configured with `parens-new-line`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", {
+  "declaration": "parens-new-line",
+  "assignment": "parens-new-line",
+  "return": "parens-new-line",
+  "arrow": "parens-new-line",
+  "condition": "ignore",
+  "logical": "ignore",
+  "prop": "ignore",
+  "propertyValue": "ignore"
+}] */
+
 var Hello = createReactClass({
   render: function() {
     return (<div>
@@ -49,9 +77,15 @@ var Hello = createReactClass({
 });
 ```
 
+:::
+
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: "error" */
+
 var singleLineJSX = <p>Hello</p>
 
 var Hello = createReactClass({
@@ -65,11 +99,17 @@ var Hello = createReactClass({
 });
 ```
 
+:::
+
 ### `declaration`
 
 Examples of **incorrect** code for this rule, when configured with `{ declaration: "parens" }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { declaration: "parens" }] */
+
 var hello = <div>
   <p>Hello</p>
 </div>;
@@ -77,37 +117,57 @@ var hello = <div>
 
 Examples of **correct** code for this rule, when configured with `{ declaration: "parens" }`:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { declaration: "parens" }] */
+
 var hello = (
   <div>
     <p>Hello</p>
   </div>
 );
-```
 
-```jsx
 var hello = (<div>
   <p>Hello</p>
 </div>);
 ```
 
+:::
+
 Examples of **incorrect** code for this rule, when configured with `{ declaration: "parens-new-line" }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { declaration: "parens-new-line" }] */
+
 var hello = <div>
   <p>Hello</p>
 </div>;
 ```
 
+:::
+
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { declaration: "parens-new-line" }] */
+
 var hello = (<div>
   <p>Hello</p>
 </div>);
 ```
 
+:::
+
 Examples of **correct** code for this rule, when configured with `{ declaration: "parens-new-line" }`.
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { declaration: "parens-new-line" }] */
+
 var hello = (
   <div>
     <p>Hello</p>
@@ -115,54 +175,74 @@ var hello = (
 );
 ```
 
+:::
+
 ### `assignment`
 
 Examples of **incorrect** code for this rule, when configured with `{ assignment: "parens" }`.
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { assignment: "parens" }] */
+
 var hello;
 hello = <div>
   <p>Hello</p>
 </div>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ assignment: "parens" }`.
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { assignment: "parens" }] */
+
 var hello;
 hello = (
   <div>
     <p>Hello</p>
   </div>
 );
-```
 
-```jsx
 var hello;
 hello = (<div>
   <p>Hello</p>
 </div>);
 ```
 
+:::
+
 Examples of **incorrect** code for this rule, when configured with `{ assignment: "parens-new-line" }`.
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { assignment: "parens-new-line" }] */
+
 var hello;
 hello = <div>
   <p>Hello</p>
 </div>;
-```
 
-```jsx
 var hello;
 hello = (<div>
   <p>Hello</p>
 </div>);
 ```
 
+:::
+
 Examples of **correct** code for this rule, when configured with `{ assignment: "parens-new-line" }`.
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { assignment: "parens-new-line" }] */
+
 var hello;
 hello = (
   <div>
@@ -170,22 +250,34 @@ hello = (
   </div>
 );
 ```
+
+:::
 
 ### `return`
 
 Examples of **incorrect** code for this rule, when configured with `{ return: "parens" }`.
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { return: "parens" }] */
+
 function hello() {
   return <div>
     <p>Hello</p>
   </div>;
 }
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ return: "parens" }`.
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { return: "parens" }] */
+
 function hello() {
   return (
     <div>
@@ -193,9 +285,7 @@ function hello() {
     </div>
   );
 }
-```
 
-```jsx
 function hello() {
   return (<div>
     <p>Hello</p>
@@ -203,17 +293,21 @@ function hello() {
 }
 ```
 
+:::
+
 Examples of **incorrect** code for this rule, when configured with `{ return: "parens-new-line" }`.
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { return: "parens-new-line" }] */
+
 function hello() {
   return <div>
     <p>Hello</p>
   </div>;
 }
-```
 
-```jsx
 function hello() {
   return (<div>
     <p>Hello</p>
@@ -221,9 +315,15 @@ function hello() {
 }
 ```
 
+:::
+
 Examples of **correct** code for this rule, when configured with `{ return: "parens-new-line" }`.
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { return: "parens-new-line" }] */
+
 function hello() {
   return (
     <div>
@@ -232,110 +332,150 @@ function hello() {
   );
 }
 ```
+
+:::
 
 ### `arrow`
 
 Examples of **incorrect** code for this rule, when configured with `{ arrow: "parens" }`.
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { arrow: "parens" }] */
+
 var hello = () => <div>
   <p>World</p>
 </div>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured `{ arrow: "parens" }`.
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { arrow: "parens" }] */
+
 var hello = () => (
   <div>
     <p>World</p>
   </div>
 );
-```
 
-```jsx
 var hello = () => (<div>
   <p>World</p>
 </div>);
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `{ arrow: "parens-new-line" }`.
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { arrow: "parens-new-line" }] */
+
 var hello = () => <div>
   <p>World</p>
 </div>;
-```
 
-```jsx
 var hello = () => (<div>
   <p>World</p>
 </div>);
 ```
 
+:::
+
 Examples of **correct** code for this rule, when configured with `{ arrow: "parens-new-line" }`.
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { arrow: "parens-new-line" }] */
+
 var hello = () => (
   <div>
     <p>World</p>
   </div>
 );
 ```
+
+:::
 
 ### `condition`
 
 Examples of **incorrect** code for this rule, when configured with `{ condition: "parens" }`.
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { condition: "parens" }] */
+
 <div>
   {foo ? <div>
       <p>Hello</p>
     </div> : null}
 </div>
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ condition: "parens" }`.
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { condition: "parens" }] */
+
 <div>
   {foo ? (<div>
       <p>Hello</p>
   </div>) : null}
-</div>
-```
+</div>;
 
-```jsx
 <div>
   {foo ? (
     <div>
       <p>Hello</p>
     </div>
   ): null}
-</div>
+</div>;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `{ condition: "parens-new-line" }`.
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { condition: "parens-new-line" }] */
+
 <div>
   {foo ? <div>
       <p>Hello</p>
     </div> : null}
-</div>
-```
+</div>;
 
-```jsx
 <div>
   {foo ? (<div>
       <p>Hello</p>
   </div>) : null}
-</div>
+</div>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ condition: "parens-new-line" }`.
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { condition: "parens-new-line" }] */
+
 <div>
   {foo ? (
     <div>
@@ -344,12 +484,18 @@ Examples of **correct** code for this rule, when configured with `{ condition: "
   ): null}
 </div>
 ```
+
+:::
 
 ### `logical`
 
 Examples of **incorrect** code for this rule, when configured with `{ logical: "parens" }`.
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { logical: "parens" }] */
+
 <div>
   {foo &&
     <div>
@@ -358,54 +504,68 @@ Examples of **incorrect** code for this rule, when configured with `{ logical: "
   }
 </div>
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ logical: "parens" }`.
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { logical: "parens" }] */
+
 <div>
   {foo &&
     (<div>
       <p>Hello World</p>
     </div>)
   }
-</div>
-```
+</div>;
 
-```jsx
 <div>
   {foo && (
     <div>
       <p>Hello World</p>
     </div>
   )}
-</div>
+</div>;
 ```
+
+:::
 
 Examples of **incorrect** code for this rule, when configured with `{ logical: "parens-new-line" }`.
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { logical: "parens-new-line" }] */
+
 <div>
   {foo &&
     <div>
       <p>Hello World</p>
     </div>
   }
-</div>
-```
+</div>;
 
-```jsx
 <div>
   {foo &&
     (<div>
       <p>Hello World</p>
     </div>)
   }
-</div>
+</div>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ logical: "parens-new-line" }`.
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { logical: "parens-new-line" }] */
+
 <div>
   {foo && (
     <div>
@@ -414,30 +574,40 @@ Examples of **correct** code for this rule, when configured with `{ logical: "pa
   )}
 </div>
 ```
+
+:::
 
 ### `prop`
 
 Examples of **incorrect** code for this rule, when configured with `{ prop: "parens" }`.
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { prop: "parens" }] */
+
 <div foo={<div>
     <p>Hello</p>
   </div>}>
   <p>Hello</p>
 </div>;
 ```
+
+:::
 
 Examples of **correct** code for this rule, when configured with `{ prop: "parens" }`.
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { prop: "parens" }] */
+
 <div foo={(<div>
     <p>Hello</p>
   </div>)}>
   <p>Hello</p>
 </div>;
-```
 
-```jsx
 <div foo={(
   <div>
     <p>Hello</p>
@@ -447,17 +617,21 @@ Examples of **correct** code for this rule, when configured with `{ prop: "paren
 </div>;
 ```
 
+:::
+
 Examples of **incorrect** code for this rule, when configured with `{ prop: "parens-new-line" }`.
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { prop: "parens-new-line" }] */
+
 <div foo={<div>
     <p>Hello</p>
   </div>}>
   <p>Hello</p>
 </div>;
-```
 
-```jsx
 <div foo={(<div>
     <p>Hello</p>
   </div>)}>
@@ -465,9 +639,15 @@ Examples of **incorrect** code for this rule, when configured with `{ prop: "par
 </div>;
 ```
 
+:::
+
 Examples of **correct** code for this rule, when configured with `{ prop: "parens-new-line" }`.
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { prop: "parens-new-line" }] */
+
 <div foo={(
   <div>
     <p>Hello</p>
@@ -476,12 +656,18 @@ Examples of **correct** code for this rule, when configured with `{ prop: "paren
   <p>Hello</p>
 </div>;
 ```
+
+:::
 
 ### `propertyValue`
 
 Examples of **incorrect** code for this rule, when configured with `{ propertyValue: "parens" }`.
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { propertyValue: "parens" }] */
+
 var hello = {
   foo: <div>
     <p>Hello</p>
@@ -489,9 +675,15 @@ var hello = {
 };
 ```
 
+:::
+
 Examples of **correct** code for this rule, when configured with `{ propertyValue: "parens" }`.
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-wrap-multilines: ["error", { propertyValue: "parens" }] */
+
 var hello = {
   foo: (
     <div>
@@ -500,3 +692,5 @@ var hello = {
   )
 };
 ```
+
+:::
