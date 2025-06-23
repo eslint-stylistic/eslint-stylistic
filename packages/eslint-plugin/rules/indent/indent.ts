@@ -6,7 +6,7 @@
 
 import type { ASTNode, JSONSchema, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
+import { AST_NODE_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const KNOWN_NODES = new Set([
@@ -578,6 +578,7 @@ export default createRule<RuleOptions, MessageIds>({
                   var: ELEMENT_LIST_SCHEMA,
                   let: ELEMENT_LIST_SCHEMA,
                   const: ELEMENT_LIST_SCHEMA,
+                  using: ELEMENT_LIST_SCHEMA,
                 },
                 additionalProperties: false,
               },
@@ -711,6 +712,7 @@ export default createRule<RuleOptions, MessageIds>({
         var: DEFAULT_VARIABLE_INDENT as number | 'first',
         let: DEFAULT_VARIABLE_INDENT as number | 'first',
         const: DEFAULT_VARIABLE_INDENT as number | 'first',
+        using: DEFAULT_VARIABLE_INDENT as number | 'first',
       },
       outerIIFEBody: 1,
       FunctionDeclaration: {
@@ -758,6 +760,7 @@ export default createRule<RuleOptions, MessageIds>({
             var: userOptions.VariableDeclarator,
             let: userOptions.VariableDeclarator,
             const: userOptions.VariableDeclarator,
+            using: userOptions.VariableDeclarator,
           }
         }
       }
@@ -1006,7 +1009,7 @@ export default createRule<RuleOptions, MessageIds>({
           ? sourceCode.getTokenBefore(node.callee, { skip: calleeParenCount - 1 })!
           : sourceCode.getFirstToken(node.callee)!
         const lastTokenOfCallee = sourceCode.getTokenBefore(dotToken)!
-        const offsetBase = lastTokenOfCallee.loc.end.line === openingParen.loc.start.line
+        const offsetBase = isTokenOnSameLine(lastTokenOfCallee, openingParen)
           ? lastTokenOfCallee
           : firstTokenOfCallee
 
@@ -1190,7 +1193,7 @@ export default createRule<RuleOptions, MessageIds>({
          *   baz // as a result, `baz` is offset by 1 rather than 2
          * )
          */
-        if (lastConsequentToken.loc.end.line === firstAlternateToken.loc.start.line) {
+        if (isTokenOnSameLine(lastConsequentToken, firstAlternateToken)) {
           offsets.setDesiredOffset(firstAlternateToken, firstConsequentToken, 0)
         }
         else {
@@ -1271,7 +1274,7 @@ export default createRule<RuleOptions, MessageIds>({
        *   .bar
        *   .baz // <-- offset by 1 from `foo`
        */
-      const offsetBase = lastObjectToken.loc.end.line === firstPropertyToken.loc.start.line
+      const offsetBase = isTokenOnSameLine(lastObjectToken, firstPropertyToken)
         ? lastObjectToken
         : firstObjectToken
 
@@ -1684,10 +1687,10 @@ export default createRule<RuleOptions, MessageIds>({
         offsets.setDesiredOffsets([openingCurly.range[1], closingCurly.range[0]], openingCurly, options.SwitchCase)
 
         if (node.cases.length) {
-          sourceCode.getTokensBetween(
+          getCommentsBetween(
+            sourceCode,
             node.cases[node.cases.length - 1],
             closingCurly,
-            { includeComments: true, filter: isCommentToken },
           ).forEach(token => offsets.ignoreToken(token))
         }
       },
@@ -1705,12 +1708,12 @@ export default createRule<RuleOptions, MessageIds>({
         node.expressions.forEach((expression, index) => {
           const previousQuasi = node.quasis[index]
           const nextQuasi = node.quasis[index + 1]
-          const tokenToAlignFrom = previousQuasi.loc.start.line === previousQuasi.loc.end.line
+          const tokenToAlignFrom = isSingleLine(previousQuasi)
             ? sourceCode.getFirstToken(previousQuasi)
             : null
 
-          const startsOnSameLine = previousQuasi.loc.end.line === expression.loc.start.line
-          const endsOnSameLine = nextQuasi.loc.start.line === expression.loc.end.line
+          const startsOnSameLine = isTokenOnSameLine(previousQuasi, expression)
+          const endsOnSameLine = isTokenOnSameLine(expression, nextQuasi)
 
           if (tokenToAlignFrom || (endsOnSameLine && !startsOnSameLine)) {
             offsets.setDesiredOffsets([previousQuasi.range[1], nextQuasi.range[0]], tokenToAlignFrom, 1)
@@ -1749,14 +1752,15 @@ export default createRule<RuleOptions, MessageIds>({
         if (node.declarations.length === 0)
           return
 
-        let variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, node.kind)
-          ? options.VariableDeclarator[node.kind as keyof typeof options.VariableDeclarator]
+        const kind = node.kind === 'await using' ? 'using' : node.kind
+        let variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, kind)
+          ? options.VariableDeclarator[kind]
           : DEFAULT_VARIABLE_INDENT
 
         const firstToken = sourceCode.getFirstToken(node)!
         const lastToken = sourceCode.getLastToken(node)!
 
-        if (options.VariableDeclarator[node.kind as keyof typeof options.VariableDeclarator] === 'first') {
+        if (options.VariableDeclarator[kind] === 'first') {
           if (node.declarations.length > 1) {
             addElementListIndent(
               node.declarations,

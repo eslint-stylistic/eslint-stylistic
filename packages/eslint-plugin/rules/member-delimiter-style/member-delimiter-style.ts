@@ -1,5 +1,5 @@
 import type { JSONSchema, ReportFixFunction, Token, Tree } from '#types'
-import { AST_NODE_TYPES } from '#utils/ast'
+import { AST_NODE_TYPES, isSingleLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { deepMerge } from '#utils/merge'
 
@@ -310,22 +310,22 @@ export default createRule<Options, MessageIds>({
     ): void {
       const members = node.type === AST_NODE_TYPES.TSInterfaceBody ? node.body : node.members
 
-      let isSingleLine = node.loc.start.line === node.loc.end.line
+      let _isSingleLine = isSingleLine(node)
       if (
         options.multilineDetection === 'last-member'
-        && !isSingleLine
+        && !_isSingleLine
         && members.length > 0
       ) {
         const lastMember = members[members.length - 1]
         if (lastMember.loc.end.line === node.loc.end.line)
-          isSingleLine = true
+          _isSingleLine = true
       }
 
       const typeOpts
         = node.type === AST_NODE_TYPES.TSInterfaceBody
           ? interfaceOptions
           : typeLiteralOptions
-      const opts = isSingleLine
+      const opts = _isSingleLine
         ? { ...typeOpts.singleline, type: 'single-line' }
         : { ...typeOpts.multiline, type: 'multi-line' }
 

@@ -1,10 +1,7 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, AST_TOKEN_TYPES, isCommentToken, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES, COMMENTS_IGNORE_PATTERN, isCommentToken, isHashbangComment, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-
-const COMMENTS_IGNORE_PATTERN
-  = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
 
 /**
  * @returns an array with with any line numbers that are empty.
@@ -550,8 +547,7 @@ export default createRule<RuleOptions, MessageIds>({
               })
             }
           }
-          // @ts-expect-error 'Shebang' is not in the type definition
-          else if (token.type === 'Shebang') {
+          else if (isHashbangComment(token)) {
             if (options.afterHashbangComment) {
               checkForEmptyLine(token, {
                 after: options.afterHashbangComment,

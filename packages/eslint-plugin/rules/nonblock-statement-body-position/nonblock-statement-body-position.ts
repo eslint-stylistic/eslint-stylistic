@@ -5,6 +5,7 @@
 
 import type { JSONSchema, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 type KeywordName = keyof NonNullable<NonNullable<RuleOptions['1']>['overrides']>
@@ -79,14 +80,16 @@ export default createRule<RuleOptions, MessageIds>({
 
       const tokenBefore = sourceCode.getTokenBefore(node)!
 
-      if (tokenBefore.loc.end.line === node.loc.start.line && option === 'below') {
+      const onSameLine = isTokenOnSameLine(tokenBefore, node)
+
+      if (onSameLine && option === 'below') {
         context.report({
           node,
           messageId: 'expectLinebreak',
           fix: fixer => fixer.insertTextBefore(node, '\n'),
         })
       }
-      else if (tokenBefore.loc.end.line !== node.loc.start.line && option === 'beside') {
+      else if (!onSameLine && option === 'beside') {
         context.report({
           node,
           messageId: 'expectNoLinebreak',
