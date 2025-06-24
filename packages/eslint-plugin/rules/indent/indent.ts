@@ -1441,6 +1441,12 @@ export default createRule<RuleOptions, MessageIds>({
         checkAssignmentOperator(node, node.left, operator)
       },
 
+      AssignmentPattern(node) {
+        const operator = sourceCode.getFirstTokenBetween(node.left, node.right, isEqToken)!
+
+        checkAssignmentOperator(node, node.left, operator)
+      },
+
       BinaryExpression(node) {
         checkOperatorToken(node.left, node.right, node.operator)
       },
@@ -2018,6 +2024,15 @@ export default createRule<RuleOptions, MessageIds>({
         const members = node.body?.members || node.members
 
         checkObjectLikeNode(node, members)
+      },
+
+      TSEnumMember(node) {
+        if (!node.initializer)
+          return
+
+        const operator = sourceCode.getTokenBefore(node.initializer, isEqToken)!
+
+        checkAssignmentOperator(node, node.id, operator)
       },
 
       TSTypeLiteral(node) {
