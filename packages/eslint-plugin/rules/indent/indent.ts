@@ -586,6 +586,18 @@ export default createRule<RuleOptions, MessageIds>({
               },
             ],
           },
+          assignmentOperator: {
+            oneOf: [
+              {
+                type: 'integer',
+                minimum: 0,
+              },
+              {
+                type: 'string',
+                enum: ['off'],
+              },
+            ],
+          },
           outerIIFEBody: {
             oneOf: [
               {
@@ -726,6 +738,7 @@ export default createRule<RuleOptions, MessageIds>({
         using: DEFAULT_VARIABLE_INDENT as number | 'first',
       },
       outerIIFEBody: 1,
+      assignmentOperator: 'off',
       FunctionDeclaration: {
         parameters: DEFAULT_PARAMETER_INDENT,
         body: DEFAULT_FUNCTION_BODY_INDENT,
@@ -1136,6 +1149,21 @@ export default createRule<RuleOptions, MessageIds>({
 
     const ignoredNodeFirstTokens = new Set<Token>()
 
+    function checkAssignmentOperator(node: ASTNode, left: ASTNode, operator: Token) {
+      if (typeof options.assignmentOperator === 'number') {
+        offsets.setDesiredOffsets(
+          [operator.range[0], node.range[1]],
+          sourceCode.getLastToken(left)!,
+          options.assignmentOperator,
+        )
+      }
+      else {
+        const tokenAfterOperator = sourceCode.getTokenAfter(operator)!
+        offsets.ignoreToken(operator)
+        offsets.ignoreToken(tokenAfterOperator)
+      }
+    }
+
     function checkDeclarator(node: Tree.VariableDeclarator | Tree.TSTypeAliasDeclaration, equalOperator: Token) {
       const tokenAfterOperator = sourceCode.getTokenAfter(equalOperator)!
 
@@ -1410,9 +1438,7 @@ export default createRule<RuleOptions, MessageIds>({
       AssignmentExpression(node) {
         const operator = sourceCode.getFirstTokenBetween(node.left, node.right, token => token.value === node.operator)!
 
-        offsets.setDesiredOffsets([operator.range[0], node.range[1]], sourceCode.getLastToken(node.left)!, 1)
-        offsets.ignoreToken(operator)
-        offsets.ignoreToken(sourceCode.getTokenAfter(operator)!)
+        checkAssignmentOperator(node, node.left, operator)
       },
 
       BinaryExpression(node) {
@@ -1843,7 +1869,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (node.init) {
           const equalOperator = sourceCode.getTokenBefore(node.init, isNotOpeningParenToken)!
 
-          checkDeclarator(node, equalOperator)
+          checkAssignmentOperator(node, node.id, equalOperator)
         }
       },
 
