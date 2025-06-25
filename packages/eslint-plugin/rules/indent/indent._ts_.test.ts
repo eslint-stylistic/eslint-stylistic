@@ -845,6 +845,50 @@ const map2 = Object.keys(map)
       `,
       options: [2, { VariableDeclarator: { using: 'first' } }],
     },
+    {
+      code: $`
+        async function foo(bar: number): Promise<
+          number
+        > {
+          return 2;
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        async function foo(
+          bar: number,
+        ): Promise<
+          number
+        > {
+          return 2;
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        function foo(bar: number): (
+          number
+        ) {
+          return 2;
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        function foo(
+          bar: number,
+        ): (
+          number
+        ) {
+          return 2;
+        }
+      `,
+      options: [2],
+    },
   ],
   invalid: [
     ...individualNodeTests.invalid!,
