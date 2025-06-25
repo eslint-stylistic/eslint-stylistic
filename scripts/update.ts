@@ -6,7 +6,6 @@ import type { PackageInfo } from '../packages/metadata/src/types'
 import { basename, join } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import fg from 'fast-glob'
-import fs from 'fs-extra'
 import { generateDtsFromSchema } from './update/schema-to-ts'
 import { generateMetadata, normalizePath, rulesInSharedConfig, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
 
@@ -39,8 +38,6 @@ async function readPackages() {
       rules
         .map(async (i) => {
           const name = i.name
-
-          await fs.rm(join(RULES_DIR, i.name, 'index.ts'), { force: true })
 
           const entry = join(RULES_DIR, name, `${name}.ts`)
           const url = pathToFileURL(entry).href

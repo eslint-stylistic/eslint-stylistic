@@ -1,10 +1,9 @@
 import type { PackageInfo, RuleInfo } from '../../packages/metadata/src/types'
+import fs from 'node:fs/promises'
 import { basename, join, posix, relative, resolve, win32 } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { pascalCase } from 'change-case'
 import fg from 'fast-glob'
-
-import fs from 'fs-extra'
 import { customize } from '../../packages/eslint-plugin/configs/customize'
 import { GEN_HEADER, ROOT } from './meta'
 
