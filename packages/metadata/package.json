@@ -20,11 +20,8 @@
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub",
-    "prepublishOnly": "unbuild"
-  },
-  "devDependencies": {
-    "unbuild": "catalog:"
+    "build": "tsdown",
+    "dev": "tsdown --watch",
+    "prepublishOnly": "tsdown"
   }
 }
