@@ -71,7 +71,7 @@ Examples of **incorrect** code for this rule with the default `"1tbs"` option:
 :::incorrect
 
 ```js
-/*eslint brace-style: "error"*/
+/* eslint @stylistic/brace-style: "error" */
 
 function foo()
 {
@@ -114,7 +114,7 @@ Examples of **correct** code for this rule with the default `"1tbs"` option:
 :::correct
 
 ```js
-/*eslint brace-style: "error"*/
+/* eslint @stylistic/brace-style: "error" */
 
 function foo() {
   return true;
@@ -154,7 +154,7 @@ Examples of **correct** code for this rule with the `"1tbs", { "allowSingleLine"
 :::correct
 
 ```js
-/*eslint brace-style: ["error", "1tbs", { "allowSingleLine": true }]*/
+/* eslint @stylistic/brace-style: ["error", "1tbs", { "allowSingleLine": true }] */
 
 function nop() { return; }
 
@@ -201,7 +201,7 @@ Examples of **incorrect** code for this rule with the `"stroustrup"` option:
 :::incorrect
 
 ```js
-/*eslint brace-style: ["error", "stroustrup"]*/
+/* eslint @stylistic/brace-style: ["error", "stroustrup"] */
 
 function foo()
 {
@@ -243,7 +243,7 @@ Examples of **correct** code for this rule with the `"stroustrup"` option:
 :::correct
 
 ```js
-/*eslint brace-style: ["error", "stroustrup"]*/
+/* eslint @stylistic/brace-style: ["error", "stroustrup"] */
 
 function foo() {
   return true;
@@ -285,7 +285,7 @@ Examples of **correct** code for this rule with the `"stroustrup", { "allowSingl
 :::correct
 
 ```js
-/*eslint brace-style: ["error", "stroustrup", { "allowSingleLine": true }]*/
+/* eslint @stylistic/brace-style: ["error", "stroustrup", { "allowSingleLine": true }] */
 
 function nop() { return; }
 
@@ -313,7 +313,7 @@ Examples of **incorrect** code for this rule with the `"allman"` option:
 :::incorrect
 
 ```js
-/*eslint brace-style: ["error", "allman"]*/
+/* eslint @stylistic/brace-style: ["error", "allman"] */
 
 function foo() {
   return true;
@@ -351,7 +351,7 @@ Examples of **correct** code for this rule with the `"allman"` option:
 :::correct
 
 ```js
-/*eslint brace-style: ["error", "allman"]*/
+/* eslint @stylistic/brace-style: ["error", "allman"] */
 
 function foo()
 {
@@ -401,7 +401,7 @@ Examples of **correct** code for this rule with the `"allman", { "allowSingleLin
 :::correct
 
 ```js
-/*eslint brace-style: ["error", "allman", { "allowSingleLine": true }]*/
+/* eslint @stylistic/brace-style: ["error", "allman", { "allowSingleLine": true }] */
 
 function nop() { return; }
 

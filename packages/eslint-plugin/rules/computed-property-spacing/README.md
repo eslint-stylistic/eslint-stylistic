@@ -13,8 +13,6 @@ While formatting preferences are very personal, a number of style guides require
 or disallow spaces between computed properties in the following situations:
 
 ```js
-/*eslint-env es6*/
-
 var obj = { prop: "value" };
 var a = "prop";
 var x = obj[a]; // computed property in object member expression
@@ -56,8 +54,7 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 ::: incorrect
 
 ```js
-/*eslint computed-property-spacing: ["error", "never"]*/
-/*eslint-env es6*/
+/* eslint @stylistic/computed-property-spacing: ["error", "never"] */
 
 obj[foo ]
 obj[ 'foo']
@@ -75,8 +72,7 @@ Examples of **correct** code for this rule with the default `"never"` option:
 ::: correct
 
 ```js
-/*eslint computed-property-spacing: ["error", "never"]*/
-/*eslint-env es6*/
+/* eslint @stylistic/computed-property-spacing: ["error", "never"] */
 
 obj[foo]
 obj['foo']
@@ -96,8 +92,7 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ::: incorrect
 
 ```js
-/*eslint computed-property-spacing: ["error", "always"]*/
-/*eslint-env es6*/
+/* eslint @stylistic/computed-property-spacing: ["error", "always"] */
 
 obj[foo]
 var x = {[b]: a}
@@ -116,8 +111,7 @@ Examples of **correct** code for this rule with the `"always"` option:
 ::: correct
 
 ```js
-/*eslint computed-property-spacing: ["error", "always"]*/
-/*eslint-env es6*/
+/* eslint @stylistic/computed-property-spacing: ["error", "always"] */
 
 obj[ foo ]
 obj[ 'foo' ]
@@ -138,8 +132,7 @@ Examples of **incorrect** code for this rule with `"never"` and `{ "enforceForCl
 ::: incorrect
 
 ```js
-/*eslint computed-property-spacing: ["error", "never", { "enforceForClassMembers": true }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/computed-property-spacing: ["error", "never", { "enforceForClassMembers": true }] */
 
 class Foo {
   [a ]() {}
@@ -162,8 +155,7 @@ Examples of **correct** code for this rule with `"never"` and `{ "enforceForClas
 ::: correct
 
 ```js
-/*eslint computed-property-spacing: ["error", "never", { "enforceForClassMembers": true }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/computed-property-spacing: ["error", "never", { "enforceForClassMembers": true }] */
 
 class Foo {
   [a]() {}
@@ -186,8 +178,7 @@ Examples of **correct** code for this rule with `"never"` and `{ "enforceForClas
 ::: correct
 
 ```js
-/*eslint computed-property-spacing: ["error", "never", { "enforceForClassMembers": false }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/computed-property-spacing: ["error", "never", { "enforceForClassMembers": false }] */
 
 class Foo {
   [a ]() {}

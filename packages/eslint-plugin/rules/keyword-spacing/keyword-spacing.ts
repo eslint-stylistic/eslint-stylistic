@@ -1,11 +1,8 @@
 import type { ASTNode, JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { nullThrows, NullThrowsReasons } from '#utils/assert'
-import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
+import { AST_NODE_TYPES, isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine, isTypeKeyword, KEYWORDS_JS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { KEYWORDS_JS } from '#utils/keywords'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { isTypeKeyword } from '@typescript-eslint/utils/ast-utils'
 
 const PREV_TOKEN = /^[)\]}>]$/u
 const NEXT_TOKEN = /^(?:[([{<~!]|\+\+?|--?)$/u
@@ -14,7 +11,7 @@ const NEXT_TOKEN_M = /^[{*]$/u
 const TEMPLATE_OPEN_PAREN = /\$\{$/u
 const TEMPLATE_CLOSE_PAREN = /^\}/u
 const CHECK_TYPE = /^(?:JSXElement|RegularExpression|String|Template|PrivateIdentifier)$/u
-const KEYS = KEYWORDS_JS.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'yield', 'type'])
+const KEYS = KEYWORDS_JS.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'using', 'yield', 'type'])
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'keyword-spacing',
@@ -272,8 +269,28 @@ export default createRule<RuleOptions, MessageIds>({
     function checkSpacingAroundFirstToken(node: ASTNode | null) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
-      if (firstToken && firstToken.type === 'Keyword')
-        checkSpacingAround(firstToken)
+      if (!firstToken)
+        return
+
+      if (!isKeywordToken(firstToken)) {
+        // If the first token is not a keyword,
+        // the node is checked to see if it needs to be validated.
+        if (node.type === 'VariableDeclaration') {
+          if (
+            node.kind !== 'using'
+            && node.kind !== 'await using'
+            || firstToken.type !== 'Identifier'
+          ) {
+            /* c8 ignore next 2 */ // Currently, there is no syntax to reach this branch.
+            return
+          }
+        }
+        else {
+          return
+        }
+      }
+
+      checkSpacingAround(firstToken)
     }
 
     /**
@@ -287,7 +304,7 @@ export default createRule<RuleOptions, MessageIds>({
     function checkSpacingBeforeFirstToken(node: ASTNode | null) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
-      if (firstToken && firstToken.type === 'Keyword')
+      if (isKeywordToken(firstToken))
         checkSpacingBefore(firstToken)
     }
 
@@ -319,7 +336,7 @@ export default createRule<RuleOptions, MessageIds>({
       const firstToken = node && sourceCode.getFirstToken(node)
 
       if (firstToken
-        && ((firstToken.type === 'Keyword' && firstToken.value === 'function')
+        && ((isKeywordToken(firstToken) && firstToken.value === 'function')
           || firstToken.value === 'async')
       ) {
         checkSpacingBefore(firstToken)

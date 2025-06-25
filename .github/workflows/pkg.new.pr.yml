@@ -1,0 +1,26 @@
+name: Continuous Releases
+on:
+  push:
+    branches:
+      - main
+      - v**
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: corepack enable
+      - uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: pnpm
+      - run: pnpm install
+      - run: pnpm build
+        env:
+          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      - run: pnpx pkg-pr-new publish --compact --pnpm './packages/*'

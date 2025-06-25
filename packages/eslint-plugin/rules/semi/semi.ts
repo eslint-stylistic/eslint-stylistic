@@ -1,9 +1,15 @@
 import type { ASTNode, RuleFixer, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { getNextLocation, isClosingBraceToken, isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
+import {
+  AST_NODE_TYPES,
+  getNextLocation,
+  isClosingBraceToken,
+  isSemicolonToken,
+  isSingleLine,
+  isTokenOnSameLine,
+} from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { FixTracker } from '#utils/fix-tracker'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'semi',
@@ -210,7 +216,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns `true` if the node is on the same line with the next token.
      */
     function isOnSameLineWithNextToken(node: ASTNode) {
-      const prevToken = sourceCode.getLastToken(node, 1)
+      const prevToken = sourceCode.getLastToken(node, 1)!
       const nextToken = sourceCode.getTokenAfter(node)
 
       return !!nextToken && isTokenOnSameLine(prevToken, nextToken)
@@ -312,12 +318,12 @@ export default createRule<RuleOptions, MessageIds>({
         return false
 
       if (parent.type === 'BlockStatement')
-        return parent.loc.start.line === parent.loc.end.line
+        return isSingleLine(parent)
 
       if (parent.type === 'StaticBlock') {
-        const openingBrace = sourceCode.getFirstToken(parent, { skip: 1 }) as Token
+        const openingBrace = sourceCode.getFirstToken(parent, { skip: 1 })!
 
-        return openingBrace.loc.start.line === parent.loc.end.line
+        return isTokenOnSameLine(parent, openingBrace)
       }
 
       return false
@@ -337,7 +343,7 @@ export default createRule<RuleOptions, MessageIds>({
         return false
 
       if (parent.type === 'ClassBody')
-        return parent.loc.start.line === parent.loc.end.line
+        return isSingleLine(parent)
 
       return false
     }

@@ -21,7 +21,7 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
-/*eslint no-extra-semi: "error"*/
+/* eslint @stylistic/no-extra-semi: "error" */
 
 var x = 5;;
 
@@ -49,7 +49,7 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
-/*eslint no-extra-semi: "error"*/
+/* eslint @stylistic/no-extra-semi: "error" */
 
 var x = 5;
 

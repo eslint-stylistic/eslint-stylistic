@@ -12,7 +12,7 @@ ESLint Stylistic is migrated from 3 different sources packages:
 
 :::tip
 
-If you are directly migrating from `eslint` and `@typescript-eslint/eslint-plugin`, we you might want to check v4 first for a even smoother migration experience.
+If you are directly migrating from `eslint` and `@typescript-eslint/eslint-plugin`, you might want to check v4 first for a even smoother migration experience.
 
 [Check the migration guide for v4](https://v4.eslint.style/guide/migration)
 

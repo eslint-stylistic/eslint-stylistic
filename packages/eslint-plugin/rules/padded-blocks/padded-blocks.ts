@@ -127,7 +127,7 @@ export default createRule<RuleOptions, MessageIds>({
       do {
         prev = first
         first = sourceCode.getTokenAfter(first, { includeComments: true })!
-      } while (isComment(first) && first.loc.start.line === prev.loc.end.line)
+      } while (isComment(first) && isTokenOnSameLine(prev, first))
 
       return first
     }
@@ -144,7 +144,7 @@ export default createRule<RuleOptions, MessageIds>({
       do {
         next = last
         last = sourceCode.getTokenBefore(last, { includeComments: true })!
-      } while (isComment(last) && last.loc.end.line === next.loc.start.line)
+      } while (isComment(last) && isTokenOnSameLine(last, next))
 
       return last
     }

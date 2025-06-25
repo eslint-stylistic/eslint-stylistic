@@ -33,6 +33,10 @@ export default createRule<RuleOptions, MessageIds>({
                 type: 'string',
                 enum: ['always', 'never', 'off'],
               },
+              modules: {
+                type: 'string',
+                enum: ['always', 'never', 'off'],
+              },
             },
             additionalProperties: false,
           },
@@ -51,25 +55,31 @@ export default createRule<RuleOptions, MessageIds>({
     let alwaysFunctions = true
     let alwaysKeywords = true
     let alwaysClasses = true
+    let alwaysModules = true
     let neverFunctions = false
     let neverKeywords = false
     let neverClasses = false
+    let neverModules = false
 
     if (typeof config === 'object') {
       alwaysFunctions = config.functions === 'always'
       alwaysKeywords = config.keywords === 'always'
       alwaysClasses = config.classes === 'always'
+      alwaysModules = config.modules === 'always'
       neverFunctions = config.functions === 'never'
       neverKeywords = config.keywords === 'never'
       neverClasses = config.classes === 'never'
+      neverModules = config.modules === 'never'
     }
     else if (config === 'never') {
       alwaysFunctions = false
       alwaysKeywords = false
       alwaysClasses = false
+      alwaysModules = false
       neverFunctions = true
       neverKeywords = true
       neverClasses = true
+      neverModules = true
     }
 
     /**
@@ -77,7 +87,10 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node the node to check.
      * @returns `true` if the node is function body.
      */
-    function isFunctionBody(node: ASTNode): node is Tree.BlockStatement {
+    function isFunctionBody(node: ASTNode | Token): node is Tree.BlockStatement {
+      if (!('parent' in node))
+        return false
+
       const parent = node.parent
 
       return (
@@ -101,7 +114,6 @@ export default createRule<RuleOptions, MessageIds>({
         isArrowToken(precedingToken)
         || (
           isKeywordToken(precedingToken)
-          // @ts-expect-error type cast
           && !isFunctionBody(node)
         )
         || (
@@ -122,7 +134,6 @@ export default createRule<RuleOptions, MessageIds>({
         let requireSpace
         let requireNoSpace
 
-        // @ts-expect-error type cast
         if (isFunctionBody(node)) {
           requireSpace = alwaysFunctions
           requireNoSpace = neverFunctions
@@ -130,6 +141,10 @@ export default createRule<RuleOptions, MessageIds>({
         else if (node.type === 'ClassBody' || node.type === 'TSEnumBody' || node.type === 'TSInterfaceBody') {
           requireSpace = alwaysClasses
           requireNoSpace = neverClasses
+        }
+        else if (node.type === 'TSModuleBlock') {
+          requireSpace = alwaysModules
+          requireNoSpace = neverModules
         }
         else {
           requireSpace = alwaysKeywords
@@ -176,6 +191,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       TSEnumBody: checkPrecedingSpace,
       TSInterfaceBody: checkPrecedingSpace,
+      TSModuleBlock: checkPrecedingSpace,
     }
   },
 })

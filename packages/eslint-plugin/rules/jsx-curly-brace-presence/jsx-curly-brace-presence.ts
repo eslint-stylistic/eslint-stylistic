@@ -6,7 +6,8 @@
 
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isJSX, isWhiteSpaces } from '#utils/ast/jsx'
+import { isWhiteSpaces, LINEBREAK_MATCHER } from '#utils/ast'
+import { isJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
 
 const OPTION_ALWAYS = 'always'
@@ -66,7 +67,7 @@ export default createRule<RuleOptions, MessageIds>({
       : Object.assign({}, DEFAULT_CONFIG, ruleOptions)
 
     function containsLineTerminators(rawStringValue: string) {
-      return /[\n\r\u2028\u2029]/.test(rawStringValue)
+      return LINEBREAK_MATCHER.test(rawStringValue)
     }
 
     function containsBackslash(rawStringValue: string) {

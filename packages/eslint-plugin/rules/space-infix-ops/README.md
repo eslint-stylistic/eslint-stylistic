@@ -44,8 +44,7 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
-/*eslint space-infix-ops: "error"*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-infix-ops: "error" */
 
 a+b
 
@@ -69,8 +68,7 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
-/*eslint space-infix-ops: "error"*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-infix-ops: "error" */
 
 a + b
 

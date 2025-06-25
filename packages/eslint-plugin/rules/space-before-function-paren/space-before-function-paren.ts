@@ -1,8 +1,7 @@
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { AST_NODE_TYPES, isOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { isOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
 
 type FuncOption = 'always' | 'never' | 'ignore'
 
@@ -110,9 +109,8 @@ export default createRule<RuleOptions, MessageIds>({
       }
       else if (isNamedFunction(node)) {
         return overrideConfig.named ?? baseConfig
-
-        // `generator-star-spacing` should warn anonymous generators. E.g. `function* () {}`
       }
+      // `generator-star-spacing` should warn anonymous generators. E.g. `function* () {}`
       else if (!node.generator) {
         return overrideConfig.anonymous ?? baseConfig
       }
@@ -140,8 +138,8 @@ export default createRule<RuleOptions, MessageIds>({
       if (functionConfig === 'always' && node.typeParameters && !node.id)
         return
 
-      let leftToken: Tree.Token
-      let rightToken: Tree.Token
+      let leftToken: Token
+      let rightToken: Token
       if (node.typeParameters) {
         leftToken = sourceCode.getLastToken(node.typeParameters)!
         rightToken = sourceCode.getTokenAfter(leftToken)!

@@ -1,13 +1,14 @@
-import type { ASTNode, Tree } from '#types'
+import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isNotCommaToken } from '#utils/ast'
-import { createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
 import {
+  AST_NODE_TYPES,
+  AST_TOKEN_TYPES,
   isClosingBraceToken,
   isClosingBracketToken,
+  isNotCommaToken,
   isTokenOnSameLine,
-} from '@typescript-eslint/utils/ast-utils'
+} from '#utils/ast'
+import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-curly-spacing',
@@ -74,7 +75,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function reportNoBeginningSpace(
       node: ASTNode,
-      token: Tree.Token,
+      token: Token,
     ): void {
       const nextToken = sourceCode.getTokenAfter(token, { includeComments: true })!
 
@@ -98,7 +99,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function reportNoEndingSpace(
       node: ASTNode,
-      token: Tree.Token,
+      token: Token,
     ): void {
       const previousToken = sourceCode.getTokenBefore(token, { includeComments: true })!
 
@@ -122,7 +123,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function reportRequiredBeginningSpace(
       node: ASTNode,
-      token: Tree.Token,
+      token: Token,
     ): void {
       context.report({
         node,
@@ -144,7 +145,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function reportRequiredEndingSpace(
       node: ASTNode,
-      token: Tree.Token,
+      token: Token,
     ): void {
       context.report({
         node,
@@ -167,8 +168,8 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function validateBraceSpacing(
       node: ASTNode,
-      openingToken: Tree.Token,
-      closingToken: Tree.Token,
+      openingToken: Token,
+      closingToken: Token,
     ): void {
       const tokenAfterOpening = sourceCode.getTokenAfter(openingToken, { includeComments: true })!
 

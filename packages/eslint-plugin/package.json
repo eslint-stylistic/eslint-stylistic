@@ -1,7 +1,7 @@
 {
   "name": "@stylistic/eslint-plugin",
   "type": "module",
-  "version": "5.0.0-beta.3",
+  "version": "5.0.0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
@@ -138,7 +138,8 @@
     "eslint": ">=9.0.0"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "catalog:",
+    "@eslint-community/eslint-utils": "catalog:",
+    "@typescript-eslint/types": "catalog:",
     "eslint-visitor-keys": "catalog:",
     "espree": "catalog:",
     "estraverse": "catalog:",

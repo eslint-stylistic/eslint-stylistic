@@ -1,8 +1,7 @@
-import type { Tree } from '#types'
+import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { AST_TOKEN_TYPES, isClosingBraceToken, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
-import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 type SupportedNodes = Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement
 
@@ -37,8 +36,7 @@ export default createRule<RuleOptions, MessageIds>({
       // guaranteed for enums
       // This is the only change made here from the base rule
       return sourceCode.getFirstToken(node, {
-        filter: token =>
-          token.type === AST_TOKEN_TYPES.Punctuator && token.value === '{',
+        filter: token => isOpeningBraceToken(token),
       }) as Tree.PunctuatorToken
     }
 
@@ -53,7 +51,7 @@ export default createRule<RuleOptions, MessageIds>({
      *    When the option is `"never"`, `true` if there are not any spaces between given tokens.
      *    If given tokens are not on same line, it's always `true`.
      */
-    function isValid(left: Tree.Token, right: Tree.Token): boolean {
+    function isValid(left: Token, right: Token): boolean {
       return (
         !isTokenOnSameLine(left, right)
         || sourceCode.isSpaceBetween!(left, right) === always
@@ -76,10 +74,8 @@ export default createRule<RuleOptions, MessageIds>({
 
       // Skip if the node is invalid or empty.
       if (
-        openBrace.type !== AST_TOKEN_TYPES.Punctuator
-        || openBrace.value !== '{'
-        || closeBrace.type !== AST_TOKEN_TYPES.Punctuator
-        || closeBrace.value !== '}'
+        !isOpeningBraceToken(openBrace)
+        || !isClosingBraceToken(closeBrace)
         || firstToken === closeBrace
       ) {
         return

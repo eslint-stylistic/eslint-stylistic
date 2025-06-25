@@ -5,6 +5,7 @@
 
 import type { ReportFixFunction, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 interface Checker {
@@ -43,13 +44,13 @@ export default createRule<RuleOptions, MessageIds>({
     const checkers = {
       unexpected: {
         messageId: 'unexpectedLineBreak',
-        check: (prevToken, currentToken) => prevToken.loc.end.line !== currentToken.loc.start.line,
+        check: (prevToken, currentToken) => !isTokenOnSameLine(prevToken, currentToken),
         createFix: (token, tokenBefore) => fixer =>
           fixer.replaceTextRange([tokenBefore.range[1], token.range[0]], ' '),
       },
       missing: {
         messageId: 'missingLineBreak',
-        check: (prevToken, currentToken) => prevToken.loc.end.line === currentToken.loc.start.line,
+        check: (prevToken, currentToken) => isTokenOnSameLine(prevToken, currentToken),
         createFix: (token, tokenBefore) => fixer =>
           fixer.replaceTextRange([tokenBefore.range[1], token.range[0]], '\n'),
       },
@@ -106,10 +107,10 @@ export default createRule<RuleOptions, MessageIds>({
         checkArguments(argumentNodes, checkers.missing)
       }
       else if (option === 'consistent') {
-        const firstArgToken = sourceCode.getLastToken(argumentNodes[0])
-        const secondArgToken = sourceCode.getFirstToken(argumentNodes[1])
+        const firstArgToken = sourceCode.getLastToken(argumentNodes[0])!
+        const secondArgToken = sourceCode.getFirstToken(argumentNodes[1])!
 
-        if (firstArgToken?.loc.end.line === secondArgToken?.loc.start.line)
+        if (isTokenOnSameLine(firstArgToken, secondArgToken))
           checkArguments(argumentNodes, checkers.unexpected)
         else
           checkArguments(argumentNodes, checkers.missing)

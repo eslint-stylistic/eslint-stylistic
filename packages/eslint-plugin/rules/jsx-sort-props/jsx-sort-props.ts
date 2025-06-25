@@ -3,8 +3,9 @@
  * @author Ilya Volodin, Yannick Croissant
  */
 
-import type { ASTNode, RuleContext, RuleFixer, Tree } from '#types'
+import type { ASTNode, RuleContext, RuleFixer, Token, Tree } from '#types'
 import type { JsxSortPropsRuleOptions, MessageIds, RuleOptions } from './types'
+import { isSingleLine } from '#utils/ast'
 import { getPropName, isDOMComponent } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
 
@@ -14,10 +15,6 @@ type JsxCompareOptions = Required<JsxSortPropsRuleOptions[0]> & {
 
 function isCallbackPropName(name: string) {
   return /^on[A-Z]/.test(name)
-}
-
-function isMultilineProp(node: ASTNode) {
-  return node.loc.start.line !== node.loc.end.line
 }
 
 const messages = {
@@ -112,8 +109,8 @@ function contextCompare(a: Tree.JSXAttribute, b: Tree.JSXAttribute, options: Jsx
 
   if (options.multiline !== 'ignore') {
     const multilineSign = options.multiline === 'first' ? -1 : 1
-    const aIsMultiline = isMultilineProp(a)
-    const bIsMultiline = isMultilineProp(b)
+    const aIsMultiline = !isSingleLine(a)
+    const bIsMultiline = !isSingleLine(b)
     if (aIsMultiline && !bIsMultiline)
       return multilineSign
 
@@ -299,7 +296,7 @@ function validateReservedFirstConfig(context: Readonly<RuleContext<MessageIds, R
   if (reservedFirst) {
     if (Array.isArray(reservedFirst)) {
       if (reservedFirst.length === 0) {
-        return function Report(decl: ASTNode | Tree.Token) {
+        return function Report(decl: ASTNode | Token) {
           context.report({
             node: decl,
             messageId: 'listIsEmpty',
@@ -543,8 +540,8 @@ export default createRule<RuleOptions, MessageIds>({
             }
           }
 
-          const previousIsMultiline = isMultilineProp(memo)
-          const currentIsMultiline = isMultilineProp(decl)
+          const previousIsMultiline = !isSingleLine(memo)
+          const currentIsMultiline = !isSingleLine(decl)
           if (multiline === 'first') {
             if (previousIsMultiline && !currentIsMultiline) {
               // Exiting the multiline prop section
