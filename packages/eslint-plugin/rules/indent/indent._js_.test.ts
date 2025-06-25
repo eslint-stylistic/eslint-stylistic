@@ -2686,7 +2686,7 @@ run<RuleOptions, MessageIds>({
             bar();
           case closed:
             /* multiline comment
-            */
+             */
         }
       `,
       options: [2, { SwitchCase: 1 }],
@@ -6514,22 +6514,6 @@ run<RuleOptions, MessageIds>({
           a: {
             a: {
               /* 
-              * comment
-          
-                
-              */
-            }
-          }
-        }
-      `,
-      options: [2],
-    },
-    {
-      code: $`
-        const a = {
-          a: {
-            a: {
-              /* 
                * comment
           
                 
@@ -6545,7 +6529,7 @@ run<RuleOptions, MessageIds>({
         const a = {
          a: {
           /* 
-          \t* comment
+          \t\t\t* comment
         
            
            */
@@ -14309,7 +14293,7 @@ run<RuleOptions, MessageIds>({
         function a() {
           /**
            *  comment
-          */
+           */
         } 
       `,
       options: [2],
@@ -14326,9 +14310,9 @@ run<RuleOptions, MessageIds>({
       output: $`
         function b() {
         /** 
-        *  comment
-        * 
-        */
+         *  comment
+         * 
+         */
         }
       `,
       options: ['tab'],
@@ -14343,7 +14327,7 @@ run<RuleOptions, MessageIds>({
       output: $`
         function c() {
           /*   comment
-          */
+           */
         } 
       `,
       options: [2],
@@ -14360,7 +14344,7 @@ run<RuleOptions, MessageIds>({
         function e() {
           /*
                 comment
-          */
+           */
         } 
       `,
       options: [2],
@@ -14374,7 +14358,7 @@ run<RuleOptions, MessageIds>({
                 * comment
         
               
-              */
+               */
           }
             }
         }
@@ -14384,13 +14368,34 @@ run<RuleOptions, MessageIds>({
           a: {
             a: {
               /* 
-              * comment
+                * comment
         
               
-              */
+               */
             }
           }
         }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        function d() {
+          /**
+                \\/*
+                            * comment
+                            *\\/
+        */
+        } 
+      `,
+      output: $`
+        function d() {
+          /**
+                \\/*
+           * comment
+           *\\/
+           */
+        } 
       `,
       options: [2],
     },
@@ -14410,10 +14415,27 @@ run<RuleOptions, MessageIds>({
                 \\/*
                             * comment
                             *\\/
-          */
+           */
         } 
       `,
       options: [2],
+    },
+    {
+      code: $`
+        function e() {
+            /*
+                comment
+          */
+        } 
+      `,
+      output: $`
+        function e() {
+        \t/*
+                comment
+        \t */
+        } 
+      `,
+      options: ['tab'],
     },
   ],
 })

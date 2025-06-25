@@ -2251,31 +2251,13 @@ export default createRule<RuleOptions, MessageIds>({
 
             // validate the block comment
             if (firstTokenOfLine.type === 'Block') {
-              interface ReportRecordData {
-                loc: Tree.SourceLocation
-                range: [number, number]
-                numSpaces: number
-                numTabs: number
-              }
-              function reportBlockComment(neededIndent: string, { loc, range, numSpaces, numTabs }: ReportRecordData) {
-                context.report({
-                  loc,
-                  messageId: 'wrongIndentation',
-                  data: createErrorMessageData(neededIndent.length, numSpaces, numTabs),
-                  fix(fixer) {
-                    const indentStr = new Array(neededIndent.length + 1).join(indentType === 'space' ? ' ' : '\t')
-                    return fixer.replaceTextRange(range, `${indentStr}`)
-                  },
-                })
-              }
               // the first line of the comment control is validated by `firstTokenOfLine`(current comment token)
               const startLine = firstTokenOfLine.loc.start.line + 1
               const endLine = firstTokenOfLine.loc.end.line
               // comment can have same indent with before token or after token
               const indent = isAllowCommentIndent ? tokenInfo.getTokenIndent(firstTokenOfLine) : offsets.getDesiredIndent(firstTokenOfLine)!
+              const correctIndent = new Array(indent.length + 1).join(indentType === 'space' ? ' ' : '\t')
 
-              const reportRecord: ReportRecordData[] = []
-              let reportContentError = true
               for (let i = startLine; i <= endLine; i++) {
                 const line = sourceCode.lines[i - 1]
                 const loc = {
@@ -2289,44 +2271,23 @@ export default createRule<RuleOptions, MessageIds>({
                   },
                 }
                 const range: [number, number] = [sourceCode.getIndexFromLoc(loc.start), sourceCode.getIndexFromLoc(loc.end)]
-                const realIndent = Array.from(sourceCode.text.slice(range[0], range[1]))
-                const numSpaces = realIndent.filter(char => char === ' ').length
-                const numTabs = realIndent.filter(char => char === '\t').length
-                /*
-                  block comment only format line start with `*`. like
-                    \/*
-                    * comment
-                    *\/
-
-                  if the lines of a block comment contain both those starting with `*` and those not starting with `*`
-                  all lines will not be format
-                 */
-                if (line.trimStart().startsWith('*')) {
-                  const spaceIndent = ' '.repeat(numSpaces)
-                  const tabIndent = '\t'.repeat(numTabs)
-                  // allow each line have a space before `*`
-                  if (
-                    realIndent.length > indent.length + 1
-                    || indentType === 'space' && (spaceIndent !== indent && spaceIndent !== `${indent} `)
-                    || indentType === 'tab' && (tabIndent !== indent && tabIndent !== `${indent} `)
-                  ) {
-                    // the close line of block comment always need to be format
-                    if (line.trimStart().startsWith('*/')) {
-                      reportBlockComment(indent, { loc, range, numSpaces, numTabs })
-                    }
-                    else {
-                      reportRecord.push({ loc, range, numSpaces, numTabs })
-                    }
+                const realIndent = sourceCode.text.slice(range[0], range[1])
+                const numSpaces = Array.from(realIndent).filter(char => char === ' ').length
+                const numTabs = Array.from(realIndent).filter(char => char === '\t').length
+                // format /** */ but not format /* */
+                // last line of comment always needs format
+                if (firstTokenOfLine.value.startsWith('*') || i === endLine) {
+                  if (sourceCode.text.slice(range[1], range[1] + 1) !== '*') continue
+                  if (realIndent !== `${correctIndent} `) {
+                    context.report({
+                      loc,
+                      messageId: 'wrongIndentation',
+                      data: createErrorMessageData(indent.length + (indentType === 'space' ? 1 : 0), numSpaces, numTabs),
+                      fix(fixer) {
+                        return fixer.replaceTextRange(range, `${correctIndent} `)
+                      },
+                    })
                   }
-                }
-                else if (line.trim().length > 0 && i !== endLine) {
-                  reportContentError = false
-                }
-              }
-
-              if (reportContentError) {
-                for (const { loc, range, numSpaces, numTabs } of reportRecord) {
-                  reportBlockComment(indent, { loc, range, numSpaces, numTabs })
                 }
               }
             }
