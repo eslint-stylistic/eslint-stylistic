@@ -1,5 +1,3 @@
-/* GENERATED, DO NOT EDIT DIRECTLY */
-
 import type { Linter } from 'eslint'
 
 const config: Linter.Config = {
