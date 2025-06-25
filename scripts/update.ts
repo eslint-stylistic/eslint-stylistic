@@ -8,7 +8,7 @@ import { pathToFileURL } from 'node:url'
 import fg from 'fast-glob'
 import fs from 'fs-extra'
 import { generateDtsFromSchema } from './update/schema-to-ts'
-import { generateConfigs, generateMetadata, normalizePath, rulesInSharedConfig, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
+import { generateMetadata, normalizePath, rulesInSharedConfig, updateExports, writePackageDTS, writeREADME, writeRulesIndex } from './update/utils'
 
 async function readPackages() {
   const RULES_DIR = './packages/eslint-plugin/rules/'
@@ -89,7 +89,6 @@ async function run() {
     await writeRulesIndex(pkg)
     await writeREADME(pkg)
     await writePackageDTS(pkg)
-    await generateConfigs(pkg)
     await updateExports(pkg)
   }
 
