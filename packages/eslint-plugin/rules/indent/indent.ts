@@ -1372,7 +1372,10 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (isOpeningParenToken(maybeOpeningParen)) {
           const openingParen = maybeOpeningParen
-          const closingParen = sourceCode.getTokenBefore(node.body, isClosingParenToken)!
+          const closingParen = sourceCode.getTokenBefore(
+            node.returnType ?? node.body,
+            { filter: isClosingParenToken },
+          )!
 
           parameterParens.add(openingParen)
           parameterParens.add(closingParen)
