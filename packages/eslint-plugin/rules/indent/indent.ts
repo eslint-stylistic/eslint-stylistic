@@ -1497,20 +1497,25 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       'FunctionDeclaration, FunctionExpression': function (node: Tree.FunctionDeclaration | Tree.FunctionExpression) {
-        const closingParen = sourceCode.getTokenBefore(node.body)!
-        const openingParen = sourceCode.getTokenBefore(
-          node.params.length
-            ? node.params[0].decorators?.length
-              ? node.params[0].decorators[0]
-              : node.params[0] : closingParen,
-          {
-            filter: isOpeningParenToken,
-          },
-        )!
+        const paramsClosingParen = sourceCode.getTokenBefore(
+          node.returnType ?? node.body,
+          { filter: isClosingParenToken },
+        )
+        if (!paramsClosingParen)
+          throw new Error('Expected to find a closing parenthesis for function parameters.')
 
-        parameterParens.add(openingParen)
-        parameterParens.add(closingParen)
-        addElementListIndent(node.params, openingParen, closingParen, options[node.type].parameters)
+        const paramsOpeningParen = sourceCode.getTokenBefore(
+          node.params.length
+            ? (node.params[0].decorators?.[0] ?? node.params[0])
+            : paramsClosingParen,
+          { filter: isOpeningParenToken },
+        )
+        if (!paramsOpeningParen)
+          throw new Error('Expected to find an opening parenthesis for function parameters.')
+
+        parameterParens.add(paramsOpeningParen)
+        parameterParens.add(paramsClosingParen)
+        addElementListIndent(node.params, paramsOpeningParen, paramsClosingParen, options[node.type].parameters)
       },
 
       IfStatement(node) {
