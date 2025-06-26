@@ -889,6 +889,20 @@ const map2 = Object.keys(map)
       `,
       options: [2],
     },
+    {
+      code: $`
+        const a = (
+          param: 2 | 3,
+        ): Promise<
+          (
+            2 | 3
+          )
+        > => {
+          return Promise.resolve(param)
+        }
+      `,
+      options: [2],
+    },
   ],
   invalid: [
     ...individualNodeTests.invalid!,
