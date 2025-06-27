@@ -2221,7 +2221,6 @@ export default createRule<RuleOptions, MessageIds>({
               // comment can have same indent with before token or after token
               const indent = isAllowCommentIndent ? tokenInfo.getTokenIndent(firstTokenOfLine) : offsets.getDesiredIndent(firstTokenOfLine)!
               const neededIndentStr = `${new Array(indent.length + 1).join(indentType === 'space' ? ' ' : '\t')} `
-              const startWithStar = firstTokenOfLine.value.startsWith('*')
 
               for (let i = startLine; i <= endLine; i++) {
                 const line = sourceCode.lines[i - 1]
@@ -2240,11 +2239,8 @@ export default createRule<RuleOptions, MessageIds>({
                 const actualIndent = Array.from(actualIndentStr)
                 const numSpaces = actualIndent.filter(char => char === ' ').length
                 const numTabs = actualIndent.filter(char => char === '\t').length
-                // format /** */ but not format /* */
-                // last line of comment always needs format
                 if (
-                  (startWithStar || i === endLine)
-                  && sourceCode.text.slice(range[1], range[1] + 1) === '*'
+                  sourceCode.text.slice(range[1], range[1] + 1) === '*'
                   && actualIndentStr !== neededIndentStr
                 ) {
                   context.report({
