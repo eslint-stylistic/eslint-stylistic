@@ -24,6 +24,7 @@ export function createConfig(cwd: string) {
 
   return defineConfig([
     {
+      cwd,
       entry: './src/index.ts',
       dts: false,
       hash: false,
@@ -64,13 +65,14 @@ export function createConfig(cwd: string) {
       ],
     },
     {
+      cwd,
       entry: [
         './dts/index.d.ts',
         './dts/define-config-support.d.ts',
         './dts/rule-options.d.ts',
       ],
+      tsconfig: 'tsconfig.dts.json',
       dts: {
-        tsconfig: join(cwd, 'tsconfig.dts.json'),
         dtsInput: true,
       },
       hash: false,
