@@ -2277,7 +2277,8 @@ export default createRule<RuleOptions, MessageIds>({
                 // format /** */ but not format /* */
                 // last line of comment always needs format
                 if (firstTokenOfLine.value.startsWith('*') || i === endLine) {
-                  if (sourceCode.text.slice(range[1], range[1] + 1) !== '*') continue
+                  if (sourceCode.text.slice(range[1], range[1] + 1) !== '*')
+                    continue
                   if (realIndent !== `${correctIndent} `) {
                     context.report({
                       loc,
