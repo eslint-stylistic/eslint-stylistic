@@ -6528,8 +6528,8 @@ run<RuleOptions, MessageIds>({
       code: $`
         const a = {
          a: {
-          /* 
-          \t\t\t* comment
+          /**
+           * comment
         
            
            */
@@ -6537,6 +6537,49 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [1],
+    },
+    {
+      code: $`
+        /**
+         * Desc
+         *
+         * @param {{
+          foo: Bar,
+          bar: Baz
+         * }} foo
+         *
+         */
+        function quux (foo) {
+
+        }
+      `,
+    },
+    {
+      code: $`
+        const a = {
+        \ta: {
+        \t\ta: {
+        \t\t\t/* 
+        \t\t\t * comment
+
+        \t\t\t\t
+        \t\t\t */
+        \t\t}
+        \t}
+        }
+      `,
+      options: ['tab'],
+    },
+    {
+      code: $`
+        const obj = {
+          /** 
+           * jsdoc
+           */
+          handler() {}
+        }
+      `,
+      options: [2],
     },
   ],
 
@@ -14436,6 +14479,60 @@ run<RuleOptions, MessageIds>({
         } 
       `,
       options: ['tab'],
+    },
+    {
+      code: $`
+        const a = {
+        \ta: {
+        \t\ta: {
+        \t\t\t/**
+        \t\t\t\t* comment
+
+        \t\t\t\t
+        \t\t\t */
+        \t\t}
+        \t}
+        }
+      `,
+      output: $`
+        const a = {
+        \ta: {
+        \t\ta: {
+        \t\t\t/**
+        \t\t\t * comment
+
+        \t\t\t\t
+        \t\t\t */
+        \t\t}
+        \t}
+        }
+      `,
+      options: ['tab'],
+    },
+    {
+      code: $`
+        const a = {
+         a: {
+          /**
+          \t* comment
+        
+           
+           */
+         }
+        }
+      `,
+      output: $`
+        const a = {
+         a: {
+          /**
+           * comment
+        
+           
+           */
+         }
+        }
+      `,
+      options: [1],
     },
   ],
 })
