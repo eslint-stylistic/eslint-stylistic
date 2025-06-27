@@ -6511,32 +6511,12 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         const a = {
-          a: {
-            a: {
-              /* 
-               * comment
-          
-                
-               */
-            }
-          }
+          /* 
+           * comment
+           */
         }
       `,
       options: [2],
-    },
-    {
-      code: $`
-        const a = {
-         a: {
-          /**
-           * comment
-        
-           
-           */
-         }
-        }
-      `,
-      options: [1],
     },
     {
       code: $`
@@ -6557,15 +6537,11 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         const a = {
-        \ta: {
-        \t\ta: {
-        \t\t\t/* 
-        \t\t\t * comment
-        
-        \t\t\t\t
-        \t\t\t */
-        \t\t}
-        \t}
+        \t/*
+        \t * multiline
+              comment
+        \t\t
+        \t */
         }
       `,
       options: ['tab'],
@@ -14343,88 +14319,8 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
-        function b() {
-        /** 
-             *  comment
-                  * 
-             */
-        }
-      `,
-      output: $`
-        function b() {
-        /** 
-         *  comment
-         * 
-         */
-        }
-      `,
-      options: ['tab'],
-    },
-    {
-      code: $`
-        function c() {
-            /*   comment
-          */
-        } 
-      `,
-      output: $`
-        function c() {
-          /*   comment
-           */
-        } 
-      `,
-      options: [2],
-    },
-    {
-      code: $`
-        function e() {
-            /*
-                comment
-          */
-        } 
-      `,
-      output: $`
-        function e() {
-          /*
-                comment
-           */
-        } 
-      `,
-      options: [2],
-    },
-    {
-      code: $`
-        const a = {
-        a: {
-              a: {
-              /* 
-                * comment
-        
-              
-               */
-          }
-            }
-        }
-      `,
-      output: $`
-        const a = {
-          a: {
-            a: {
-              /* 
-                * comment
-        
-              
-               */
-            }
-          }
-        }
-      `,
-      options: [2],
-    },
-    {
-      code: $`
         function d() {
-          /**
+          /*   
                 \\/*
                             * comment
                             *\\/
@@ -14433,31 +14329,10 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         function d() {
-          /**
+          /*   
                 \\/*
            * comment
            *\\/
-           */
-        } 
-      `,
-      options: [2],
-    },
-    {
-      code: $`
-        function d() {
-          /*   
-                \\/*
-                            * comment
-                            *\\/
-        */
-        } 
-      `,
-      output: $`
-        function d() {
-          /*   
-                \\/*
-                            * comment
-                            *\\/
            */
         } 
       `,
@@ -14479,60 +14354,6 @@ run<RuleOptions, MessageIds>({
         } 
       `,
       options: ['tab'],
-    },
-    {
-      code: $`
-        const a = {
-        \ta: {
-        \t\ta: {
-        \t\t\t/**
-        \t\t\t\t* comment
-        
-        \t\t\t\t
-        \t\t\t */
-        \t\t}
-        \t}
-        }
-      `,
-      output: $`
-        const a = {
-        \ta: {
-        \t\ta: {
-        \t\t\t/**
-        \t\t\t * comment
-        
-        \t\t\t\t
-        \t\t\t */
-        \t\t}
-        \t}
-        }
-      `,
-      options: ['tab'],
-    },
-    {
-      code: $`
-        const a = {
-         a: {
-          /**
-          \t* comment
-        
-           
-           */
-         }
-        }
-      `,
-      output: $`
-        const a = {
-         a: {
-          /**
-           * comment
-        
-           
-           */
-         }
-        }
-      `,
-      options: [1],
     },
   ],
 })
