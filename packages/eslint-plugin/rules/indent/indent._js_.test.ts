@@ -6836,7 +6836,7 @@ run<RuleOptions, MessageIds>({
          *
          */
         function quux (foo) {
-
+        
         }
       `,
     },
@@ -6847,7 +6847,7 @@ run<RuleOptions, MessageIds>({
         \t\ta: {
         \t\t\t/* 
         \t\t\t * comment
-
+        
         \t\t\t\t
         \t\t\t */
         \t\t}
@@ -15072,7 +15072,7 @@ run<RuleOptions, MessageIds>({
         \t\ta: {
         \t\t\t/**
         \t\t\t\t* comment
-
+        
         \t\t\t\t
         \t\t\t */
         \t\t}
@@ -15085,7 +15085,7 @@ run<RuleOptions, MessageIds>({
         \t\ta: {
         \t\t\t/**
         \t\t\t * comment
-
+        
         \t\t\t\t
         \t\t\t */
         \t\t}
