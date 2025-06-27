@@ -2204,14 +2204,15 @@ export default createRule<RuleOptions, MessageIds>({
          * Create a Map from (tokenOrComment) => (precedingToken).
          * This is necessary because sourceCode.getTokenBefore does not handle a comment as an argument correctly.
          */
-        const precedingTokens = new WeakMap()
+        const precedingTokens = new WeakMap<Token, Token>()
+        const comments = sourceCode.getAllComments()
 
-        for (let i = 0; i < sourceCode.ast.comments.length; i++) {
-          const comment = sourceCode.ast.comments[i]
+        for (let i = 0; i < comments.length; i++) {
+          const comment = comments[i]
 
           const tokenOrCommentBefore = sourceCode.getTokenBefore(comment, { includeComments: true })!
           const hasToken = precedingTokens.has(tokenOrCommentBefore)
-            ? precedingTokens.get(tokenOrCommentBefore)
+            ? precedingTokens.get(tokenOrCommentBefore)!
             : tokenOrCommentBefore
 
           precedingTokens.set(comment, hasToken)
@@ -2256,11 +2257,12 @@ export default createRule<RuleOptions, MessageIds>({
               const endLine = firstTokenOfLine.loc.end.line
               // comment can have same indent with before token or after token
               const indent = isAllowCommentIndent ? tokenInfo.getTokenIndent(firstTokenOfLine) : offsets.getDesiredIndent(firstTokenOfLine)!
-              const correctIndent = new Array(indent.length + 1).join(indentType === 'space' ? ' ' : '\t')
+              const neededIndentStr = `${new Array(indent.length + 1).join(indentType === 'space' ? ' ' : '\t')} `
+              const startWithStar = firstTokenOfLine.value.startsWith('*')
 
               for (let i = startLine; i <= endLine; i++) {
                 const line = sourceCode.lines[i - 1]
-                const loc = {
+                const loc: Tree.SourceLocation = {
                   start: {
                     line: i,
                     column: 0,
@@ -2271,24 +2273,25 @@ export default createRule<RuleOptions, MessageIds>({
                   },
                 }
                 const range: [number, number] = [sourceCode.getIndexFromLoc(loc.start), sourceCode.getIndexFromLoc(loc.end)]
-                const realIndent = sourceCode.text.slice(range[0], range[1])
-                const numSpaces = Array.from(realIndent).filter(char => char === ' ').length
-                const numTabs = Array.from(realIndent).filter(char => char === '\t').length
+                const actualIndentStr = sourceCode.text.slice(range[0], range[1])
+                const actualIndent = Array.from(actualIndentStr)
+                const numSpaces = actualIndent.filter(char => char === ' ').length
+                const numTabs = actualIndent.filter(char => char === '\t').length
                 // format /** */ but not format /* */
                 // last line of comment always needs format
-                if (firstTokenOfLine.value.startsWith('*') || i === endLine) {
-                  if (sourceCode.text.slice(range[1], range[1] + 1) !== '*')
-                    continue
-                  if (realIndent !== `${correctIndent} `) {
-                    context.report({
-                      loc,
-                      messageId: 'wrongIndentation',
-                      data: createErrorMessageData(indent.length + (indentType === 'space' ? 1 : 0), numSpaces, numTabs),
-                      fix(fixer) {
-                        return fixer.replaceTextRange(range, `${correctIndent} `)
-                      },
-                    })
-                  }
+                if (
+                  (startWithStar || i === endLine)
+                  && sourceCode.text.slice(range[1], range[1] + 1) === '*'
+                  && actualIndentStr !== neededIndentStr
+                ) {
+                  context.report({
+                    loc,
+                    messageId: 'wrongIndentation',
+                    data: createErrorMessageData(indent.length + (indentType === 'space' ? 1 : 0), numSpaces, numTabs),
+                    fix(fixer) {
+                      return fixer.replaceTextRange(range, neededIndentStr)
+                    },
+                  })
                 }
               }
             }
