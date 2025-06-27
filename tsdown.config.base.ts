@@ -27,6 +27,7 @@ export function createConfig(cwd: string) {
       entry: './src/index.ts',
       dts: false,
       hash: false,
+      minify: 'dce-only',
       outputOptions: {
         advancedChunks: {
           groups: [
