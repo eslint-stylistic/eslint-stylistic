@@ -40,7 +40,7 @@ export function createConfig(cwd: string) {
             },
             ...rulesEntry.map(file => ({
               name: `rules/${basename(dirname(file))}`,
-              test: basename(dirname(file)),
+              test: new RegExp(`rules[\\/]${basename(dirname(file))}[\\/]`),
             })),
             {
               name: 'configs',
