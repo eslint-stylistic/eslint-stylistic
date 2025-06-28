@@ -10,6 +10,7 @@ import rule from './no-extra-semi'
 run<RuleOptions, MessageIds>({
   name: 'no-extra-semi',
   rule,
+  lang: 'js',
   valid: [
     'var x = 5;',
     'function foo(){}',
@@ -21,7 +22,6 @@ run<RuleOptions, MessageIds>({
     'if(true);',
     'if(true); else;',
     'foo: ;',
-    'with(foo);',
 
     // Class body.
     { code: 'class A { }', parserOptions: { ecmaVersion: 6 } },
@@ -92,16 +92,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'foo:;;',
       output: 'foo:;',
-      errors: [{ messageId: 'unexpected', type: 'EmptyStatement' }],
-    },
-    {
-      code: 'with(foo);;',
-      output: 'with(foo);',
-      errors: [{ messageId: 'unexpected', type: 'EmptyStatement' }],
-    },
-    {
-      code: 'with(foo){;}',
-      output: 'with(foo){}',
       errors: [{ messageId: 'unexpected', type: 'EmptyStatement' }],
     },
     {
