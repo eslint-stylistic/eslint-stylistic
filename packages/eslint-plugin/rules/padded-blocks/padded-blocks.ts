@@ -254,34 +254,30 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     const rule: Record<string, any> = {}
-
-    if (Object.prototype.hasOwnProperty.call(options, 'switches')) {
-      rule.SwitchStatement = function (node: Tree.SwitchStatement) {
-        if (node.cases.length === 0)
-          return
-
-        checkPadding(node)
-      }
+    const RULE_CONFIGS: Record<string, Record<string, string>> = {
+      switches: {
+        SwitchStatement: 'cases',
+      },
+      blocks: {
+        BlockStatement: 'body',
+        StaticBlock: 'body',
+      },
+      classes: {
+        ClassBody: 'body',
+      },
     }
 
-    if (Object.prototype.hasOwnProperty.call(options, 'blocks')) {
-      rule.BlockStatement = function (node: Tree.BlockStatement) {
-        if (node.body.length === 0)
-          return
-
-        checkPadding(node)
+    Object.entries(RULE_CONFIGS).forEach(([optionName, nodeConfigs]) => {
+      if (Object.prototype.hasOwnProperty.call(options, optionName)) {
+        Object.entries(nodeConfigs).forEach(([nodeType, lengthProp]) => {
+          rule[nodeType] = (node: any) => {
+            if (node[lengthProp].length === 0)
+              return
+            checkPadding(node)
+          }
+        })
       }
-      rule.StaticBlock = rule.BlockStatement
-    }
-
-    if (Object.prototype.hasOwnProperty.call(options, 'classes')) {
-      rule.ClassBody = function (node: Tree.ClassBody) {
-        if (node.body.length === 0)
-          return
-
-        checkPadding(node)
-      }
-    }
+    })
 
     return rule
   },
