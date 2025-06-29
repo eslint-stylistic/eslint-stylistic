@@ -3,13 +3,14 @@
  * @author Mathias Schreck <https://github.com/lo1tuma>
  */
 
-import type { ASTNode, Token, Tree } from '#types'
+import type { ASTNode, JSONSchema, Token } from '#types'
 import type { MessageIds, PaddedBlocksSchema0, RuleOptions } from './types'
 import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const OPTION_ENUMS = ['always', 'never', 'start', 'end']
 type OptionSchema = Extract<PaddedBlocksSchema0, object>
+const OPTION_NODES = ['blocks', 'switches', 'classes', 'types', 'enums', 'interfaces', 'modules'] as const
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'padded-blocks',
@@ -28,20 +29,13 @@ export default createRule<RuleOptions, MessageIds>({
           },
           {
             type: 'object',
-            properties: {
-              blocks: {
+            properties: OPTION_NODES.reduce<Record<string, JSONSchema.JSONSchema4>>((pre, name) => {
+              pre[name] = {
                 type: 'string',
                 enum: OPTION_ENUMS,
-              },
-              switches: {
-                type: 'string',
-                enum: OPTION_ENUMS,
-              },
-              classes: {
-                type: 'string',
-                enum: OPTION_ENUMS,
-              },
-            },
+              }
+              return pre
+            }, {}),
             additionalProperties: false,
             minProperties: 1,
           },
@@ -69,9 +63,9 @@ export default createRule<RuleOptions, MessageIds>({
     const exceptOptions = context.options[1] || {}
 
     if (typeof typeOptions === 'string') {
-      options.blocks = typeOptions
-      options.switches = typeOptions
-      options.classes = typeOptions
+      OPTION_NODES.forEach((nodeName) => {
+        options[nodeName] = typeOptions
+      })
     }
     else {
       Object.assign(options, typeOptions)
@@ -85,14 +79,13 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node A BlockStatement or SwitchStatement node from which to get the open brace.
      * @returns The token of the open brace.
      */
-    function getOpenBrace(node: Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement | Tree.ClassBody): Token {
+    function getOpenBrace(node: ASTNode): Token {
       if (node.type === 'SwitchStatement')
         return sourceCode.getTokenBefore(node.cases[0])!
 
       if (node.type === 'StaticBlock')
         return sourceCode.getFirstToken(node, { skip: 1 })! // skip the `static` token
 
-      // `BlockStatement` or `ClassBody`
       return sourceCode.getFirstToken(node)!
     }
 
@@ -156,26 +149,33 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns True if the node should be padded, false otherwise.
      */
     function requirePaddingFor(node: ASTNode) {
-      switch (node.type) {
-        case 'BlockStatement':
-        case 'StaticBlock':
-          return options.blocks
-        case 'SwitchStatement':
-          return options.switches
-        case 'ClassBody':
-          return options.classes
-
-          /* c8 ignore next */
-        default:
-          throw new Error('unreachable')
+      const paddingMap = {
+        BlockStatement: options.blocks,
+        StaticBlock: options.blocks,
+        SwitchStatement: options.switches,
+        ClassBody: options.classes,
+        TSTypeLiteral: options.types,
+        TSMappedType: options.types,
+        TSTypeAliasDeclaration: options.types,
+        TSEnumDeclaration: options.enums,
+        TSEnumBody: options.enums,
+        TSInterfaceBody: options.interfaces,
+        TSModuleBlock: options.interfaces,
       }
+
+      const type = node.type
+      if (!(type in paddingMap)) {
+        throw new Error('unreachable')
+      }
+
+      return paddingMap[type as keyof typeof paddingMap]
     }
 
     /**
      * Checks the given BlockStatement node to be padded if the block is not empty.
      * @param node The AST node of a BlockStatement.
      */
-    function checkPadding(node: Tree.BlockStatement | Tree.SwitchStatement | Tree.ClassBody) {
+    function checkPadding(node: ASTNode) {
       const openBrace = getOpenBrace(node)
       const firstBlockToken = getFirstBlockToken(openBrace)
       const tokenBeforeFirst = sourceCode.getTokenBefore(firstBlockToken, { includeComments: true })!
@@ -254,26 +254,73 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     const rule: Record<string, any> = {}
-    const RULE_CONFIGS: Record<string, Record<string, string>> = {
+    const RULE_CONFIGS: Record<string, Record<string, { checkProp: string | string[] | null, checkToken: string | string[] | null }>> = {
       switches: {
-        SwitchStatement: 'cases',
+        SwitchStatement: {
+          checkProp: 'cases',
+          checkToken: null,
+        },
       },
       blocks: {
-        BlockStatement: 'body',
-        StaticBlock: 'body',
+        BlockStatement: {
+          checkProp: 'body',
+          checkToken: null,
+        },
+        StaticBlock: {
+          checkProp: 'body',
+          checkToken: null,
+        },
       },
       classes: {
-        ClassBody: 'body',
+        ClassBody: {
+          checkProp: 'body',
+          checkToken: null,
+        },
+      },
+      types: {
+        TSTypeLiteral: {
+          checkProp: 'members',
+          checkToken: null,
+        },
+        TSMappedType: {
+          checkProp: null,
+          checkToken: null,
+        },
+      },
+      enums: {
+        TSEnumDeclaration: {
+          checkProp: ['body', 'members'],
+          checkToken: 'body',
+        },
+      },
+      interfaces: {
+        TSInterfaceBody: {
+          checkProp: 'body',
+          checkToken: null,
+        },
+      },
+      modules: {
+        TSModuleBlock: {
+          checkProp: 'body',
+          checkToken: null,
+        },
       },
     }
 
     Object.entries(RULE_CONFIGS).forEach(([optionName, nodeConfigs]) => {
       if (Object.prototype.hasOwnProperty.call(options, optionName)) {
-        Object.entries(nodeConfigs).forEach(([nodeType, lengthProp]) => {
+        Object.entries(nodeConfigs).forEach(([nodeType, { checkProp, checkToken }]) => {
           rule[nodeType] = (node: any) => {
-            if (node[lengthProp].length === 0)
-              return
-            checkPadding(node)
+            if (checkProp) {
+              const props = Array.isArray(checkProp) ? checkProp : [checkProp]
+              if (props.reduce((acc, prop) => acc[prop], node).length === 0)
+                return
+            }
+            let token = node
+            if (checkToken !== null) {
+              token = Array.isArray(checkToken) ? checkToken : [checkToken].reduce((acc, prop) => acc[prop], node)
+            }
+            checkPadding(token)
           }
         })
       }
