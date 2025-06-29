@@ -57,7 +57,7 @@ var globalCounter = { }
 })()
 ```
 
-In this example, a semicolon will not be inserted after the first line, causing a run-time error (because an empty object is called as if it's a function). The [no-unexpected-multiline](no-unexpected-multiline) rule can protect your code from such cases.
+In this example, a semicolon will not be inserted after the first line, causing a run-time error (because an empty object is called as if it's a function). The [no-unexpected-multiline](https://eslint.org/docs/latest/rules/no-unexpected-multiline) rule can protect your code from such cases.
 
 Although ASI allows for more freedom over your coding style, it can also make your code behave in an unexpected way, whether you use semicolons or not. Therefore, it is best to know when ASI takes place and when it does not, and have ESLint protect your code from these potentially unexpected cases. In short, as once described by Isaac Schlueter, a `\n` character always ends a statement (just like a semicolon) unless one of the following is true:
 
