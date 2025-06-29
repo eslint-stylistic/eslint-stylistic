@@ -1149,18 +1149,18 @@ export default createRule<RuleOptions, MessageIds>({
 
     const ignoredNodeFirstTokens = new Set<Token>()
 
-    function checkAssignmentOperator(node: ASTNode, left: ASTNode, operator: Token) {
+    function checkAssignmentOperator(operator: Token) {
+      const left = sourceCode.getTokenBefore(operator)!
+      const right = sourceCode.getTokenAfter(operator)!
+
       if (typeof options.assignmentOperator === 'number') {
-        offsets.setDesiredOffsets(
-          [operator.range[0], node.range[1]],
-          sourceCode.getLastToken(left)!,
-          options.assignmentOperator,
-        )
+        offsets.setDesiredOffset(operator, left, options.assignmentOperator)
+        offsets.setDesiredOffset(right, operator, options.assignmentOperator)
       }
       else {
-        const tokenAfterOperator = sourceCode.getTokenAfter(operator)!
+        offsets.ignoreToken(left)
         offsets.ignoreToken(operator)
-        offsets.ignoreToken(tokenAfterOperator)
+        offsets.ignoreToken(right)
       }
     }
 
@@ -1438,13 +1438,13 @@ export default createRule<RuleOptions, MessageIds>({
       AssignmentExpression(node) {
         const operator = sourceCode.getFirstTokenBetween(node.left, node.right, token => token.value === node.operator)!
 
-        checkAssignmentOperator(node, node.left, operator)
+        checkAssignmentOperator(operator)
       },
 
       AssignmentPattern(node) {
         const operator = sourceCode.getFirstTokenBetween(node.left, node.right, isEqToken)!
 
-        checkAssignmentOperator(node, node.left, operator)
+        checkAssignmentOperator(operator)
       },
 
       BinaryExpression(node) {
@@ -1697,7 +1697,7 @@ export default createRule<RuleOptions, MessageIds>({
       PropertyDefinition(node) {
         const firstToken = sourceCode.getFirstToken(node)!
         const maybeSemicolonToken = sourceCode.getLastToken(node)!
-        let keyLastToken: Token | null = null
+        let keyLastToken: Token
 
         // Indent key.
         if (node.computed) {
@@ -1875,7 +1875,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (node.init) {
           const equalOperator = sourceCode.getTokenBefore(node.init, isNotOpeningParenToken)!
 
-          checkAssignmentOperator(node, node.id, equalOperator)
+          checkAssignmentOperator(equalOperator)
         }
       },
 
@@ -2032,7 +2032,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         const operator = sourceCode.getTokenBefore(node.initializer, isEqToken)!
 
-        checkAssignmentOperator(node, node.id, operator)
+        checkAssignmentOperator(operator)
       },
 
       TSTypeLiteral(node) {
