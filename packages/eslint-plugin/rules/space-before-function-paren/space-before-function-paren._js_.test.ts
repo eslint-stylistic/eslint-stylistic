@@ -4,14 +4,14 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { $, run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from './space-before-function-paren'
 
 run<RuleOptions, MessageIds>({
   name: 'space-before-function-paren',
   rule,
-
+  lang: 'js',
   valid: [
     'function foo () {}',
     'var foo = function () {}',
@@ -53,24 +53,24 @@ run<RuleOptions, MessageIds>({
     },
 
     {
-      code: [
-        'function foo() {}',
-        'var bar = function () {}',
-        'function* baz() {}',
-        'var bat = function*() {};',
-        'var obj = { get foo() {}, set foo(val) {}, bar() {} };',
-      ].join('\n'),
+      code: $`
+        function foo() {}
+        var bar = function () {}
+        function* baz() {}
+        var bat = function*() {};
+        var obj = { get foo() {}, set foo(val) {}, bar() {} };
+      `,
       options: [{ named: 'never', anonymous: 'always' }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: [
-        'function foo () {}',
-        'var bar = function() {}',
-        'function* baz () {}',
-        'var bat = function* () {};',
-        'var obj = { get foo () {}, set foo (val) {}, bar () {} };',
-      ].join('\n'),
+      code: $`
+        function foo () {}
+        var bar = function() {}
+        function* baz () {}
+        var bat = function* () {};
+        var obj = { get foo () {}, set foo (val) {}, bar () {} };
+      `,
       options: [{ named: 'always', anonymous: 'never' }],
       parserOptions: { ecmaVersion: 6 },
     },
@@ -408,16 +408,16 @@ run<RuleOptions, MessageIds>({
     },
 
     {
-      code: [
-        'function foo () {}',
-        'var bar = function() {}',
-        'var obj = { get foo () {}, set foo (val) {}, bar () {} };',
-      ].join('\n'),
-      output: [
-        'function foo() {}',
-        'var bar = function () {}',
-        'var obj = { get foo() {}, set foo(val) {}, bar() {} };',
-      ].join('\n'),
+      code: $`
+        function foo () {}
+        var bar = function() {}
+        var obj = { get foo () {}, set foo (val) {}, bar () {} };
+      `,
+      output: $`
+        function foo() {}
+        var bar = function () {}
+        var obj = { get foo() {}, set foo(val) {}, bar() {} };
+      `,
       options: [{ named: 'never', anonymous: 'always' }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
@@ -488,16 +488,16 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
-      code: [
-        'function foo() {}',
-        'var bar = function () {}',
-        'var obj = { get foo() {}, set foo(val) {}, bar() {} };',
-      ].join('\n'),
-      output: [
-        'function foo () {}',
-        'var bar = function() {}',
-        'var obj = { get foo () {}, set foo (val) {}, bar () {} };',
-      ].join('\n'),
+      code: $`
+        function foo() {}
+        var bar = function () {}
+        var obj = { get foo() {}, set foo(val) {}, bar() {} };
+      `,
+      output: $`
+        function foo () {}
+        var bar = function() {}
+        var obj = { get foo () {}, set foo (val) {}, bar () {} };
+      `,
       options: [{ named: 'always', anonymous: 'never' }],
       parserOptions: { ecmaVersion: 6 },
       errors: [

@@ -31,6 +31,7 @@ function errorAt(line: number, column: number): TestCaseError<MessageIds> {
 run<RuleOptions, MessageIds>({
   name: 'one-var-declaration-per-line',
   rule,
+  lang: 'js',
   valid: [
     { code: 'var a, b, c,\nd = 0;', options: ['initializations'] },
     { code: 'var a, b, c,\n\nd = 0;', options: ['initializations'] },

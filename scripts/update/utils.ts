@@ -1,10 +1,9 @@
 import type { PackageInfo, RuleInfo } from '../../packages/metadata/src/types'
+import fs from 'node:fs/promises'
 import { basename, join, posix, relative, resolve, win32 } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { pascalCase } from 'change-case'
 import fg from 'fast-glob'
-
-import fs from 'fs-extra'
 import { customize } from '../../packages/eslint-plugin/configs/customize'
 import { GEN_HEADER, ROOT } from './meta'
 
@@ -190,29 +189,6 @@ export async function writeREADME(pkg: PackageInfo) {
   ]
 
   await fs.writeFile(join(pkg.path, 'rules.md'), lines.join('\n'), 'utf-8')
-}
-
-export async function generateConfigs(pkg: PackageInfo) {
-  if (!pkg.rules.length)
-    return
-
-  if (['js', 'ts', 'jsx'].includes(pkg.shortId)) {
-    await fs.ensureDir(join(pkg.path, 'configs'))
-
-    const disabledRules = Object.fromEntries(pkg.rules.map(i => [i.originalId, 0] as const))
-
-    await fs.writeFile(
-      join(pkg.path, 'configs', 'disable-legacy.ts'),
-      [
-        GEN_HEADER,
-        'import type { Linter } from \'eslint\'',
-        `const config: Linter.Config = ${JSON.stringify({ rules: disabledRules }, null, 2)}`,
-        'export default config',
-        '',
-      ].join('\n'),
-      'utf-8',
-    )
-  }
 }
 
 export function camelCase(str: string) {

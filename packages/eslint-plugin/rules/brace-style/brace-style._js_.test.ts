@@ -10,6 +10,7 @@ import rule from './brace-style'
 run<RuleOptions, MessageIds>({
   name: 'brace-style',
   rule,
+  lang: 'js',
   valid: [
     $`
       function f() {
@@ -21,86 +22,310 @@ run<RuleOptions, MessageIds>({
           }
       }
     `,
-    'if (tag === 1) glyph.id = pbf.readVarint();\nelse if (tag === 2) glyph.bitmap = pbf.readBytes();',
-    'function foo () { \nreturn; \n}',
-    'function a(b,\nc,\nd) { }',
-    '!function foo () { \nreturn;\n }',
-    '!function a(b,\nc,\nd) { }',
-    'if (foo) { \n bar(); \n}',
-    'if (a) { \nb();\n } else { \nc();\n }',
-    'while (foo) { \n bar();\n }',
-    'for (;;) { \n bar(); \n}',
-    'with (foo) { \n bar(); \n}',
-    'switch (foo) { \n case "bar": break;\n }',
-    'try { \n bar();\n } catch (e) {\n baz(); \n }',
-    'do { \n bar();\n } while (true)',
-    'for (foo in bar) { \n baz(); \n }',
-    'if (a &&\n b &&\n c) { \n }',
-    'switch(0) {\n}',
-    'class Foo {\n}',
-    '(class {\n})',
-    'class\nFoo {\n}',
+    $`
+      if (tag === 1) glyph.id = pbf.readVarint();
+      else if (tag === 2) glyph.bitmap = pbf.readBytes();
+    `,
+    $`
+      function foo () {
+        return;
+      }
+    `,
+    $`
+      function a(b,
+      c,
+      d) { }
+    `,
+    $`
+      !function foo () {
+        return;
+      }
+    `,
+    $`
+      !function a(b,
+      c,
+      d) { }
+    `,
+    $`
+      if (foo) {
+        bar();
+      }
+    `,
+    $`
+      if (a) {
+        b();
+      } else {
+        c();
+      }
+    `,
+    $`
+      while (foo) {
+        bar();
+      }
+    `,
+    $`
+      for (;;) {
+        bar();
+      }
+    `,
+    $`
+      switch (foo) {
+        case 'bar': break;
+      }
+    `,
+    $`
+      try {
+        bar();
+      } catch (e) {
+        baz();
+      }
+    `,
+    $`
+      do {
+        bar();
+      } while (true)
+    `,
+    $`
+      for (foo in bar) {
+        baz();
+      }
+    `,
+    $`
+      if (a &&
+        b &&
+        c) {
+      }
+    `,
+    $`
+      switch(0) {
+      }
+    `,
+    $`
+      class Foo {
+      }
+    `,
+    $`
+      (class {
+      })
+    `,
+    $`
+      class
+      Foo {
+      }
+    `,
     $`
       class Foo {
           bar() {
-      
           }
       }
     `,
-    { code: 'if (foo) {\n}\nelse {\n}', options: ['stroustrup'] },
-    { code: 'if (foo)\n{\n}\nelse\n{\n}', options: ['allman'] },
-    { code: 'try { \n bar();\n }\ncatch (e) {\n baz(); \n }', options: ['stroustrup'] },
-    { code: 'try\n{\n bar();\n}\ncatch (e)\n{\n baz(); \n}', options: ['allman'] },
-
-    // allowSingleLine: true
-    { code: 'function foo () { return; }', options: ['1tbs', { allowSingleLine: true }] },
-    { code: 'function foo () { a(); b(); return; }', options: ['1tbs', { allowSingleLine: true }] },
-    { code: 'function a(b,c,d) { }', options: ['1tbs', { allowSingleLine: true }] },
-    { code: '!function foo () { return; }', options: ['1tbs', { allowSingleLine: true }] },
-    { code: '!function a(b,c,d) { }', options: ['1tbs', { allowSingleLine: true }] },
-    { code: 'if (foo) {  bar(); }', options: ['1tbs', { allowSingleLine: true }] },
-    { code: 'if (a) { b(); } else { c(); }', options: ['1tbs', { allowSingleLine: true }] },
-    { code: 'while (foo) {  bar(); }', options: ['1tbs', { allowSingleLine: true }] },
-    { code: 'for (;;) {  bar(); }', options: ['1tbs', { allowSingleLine: true }] },
-    { code: 'with (foo) {  bar(); }', options: ['1tbs', { allowSingleLine: true }] },
-    { code: 'switch (foo) {  case "bar": break; }', options: ['1tbs', { allowSingleLine: true }] },
-    { code: 'try {  bar(); } catch (e) { baz();  }', options: ['1tbs', { allowSingleLine: true }] },
-    { code: 'do {  bar(); } while (true)', options: ['1tbs', { allowSingleLine: true }] },
-    { code: 'for (foo in bar) {  baz();  }', options: ['1tbs', { allowSingleLine: true }] },
-    { code: 'if (a && b && c) {  }', options: ['1tbs', { allowSingleLine: true }] },
-    { code: 'switch(0) {}', options: ['1tbs', { allowSingleLine: true }] },
-    { code: 'if (foo) {}\nelse {}', options: ['stroustrup', { allowSingleLine: true }] },
-    { code: 'try {  bar(); }\ncatch (e) { baz();  }', options: ['stroustrup', { allowSingleLine: true }] },
-    { code: 'var foo = () => { return; }', options: ['stroustrup', { allowSingleLine: true }], parserOptions: { ecmaVersion: 6 } },
-    { code: 'if (foo) {}\nelse {}', options: ['allman', { allowSingleLine: true }] },
-    { code: 'try {  bar(); }\ncatch (e) { baz();  }', options: ['allman', { allowSingleLine: true }] },
-    { code: 'var foo = () => { return; }', options: ['allman', { allowSingleLine: true }], parserOptions: { ecmaVersion: 6 } },
     {
-      code: 'if (foo) { baz(); } else {\n  boom();\n}',
-      options: ['1tbs', { allowSingleLine: true }],
-    },
-    {
-      code: 'if (foo) { baz(); } else if (bar) {\n  boom();\n}',
-      options: ['1tbs', { allowSingleLine: true }],
-    },
-    {
-      code: 'if (foo) { baz(); } else\nif (bar) {\n  boom();\n}',
-      options: ['1tbs', { allowSingleLine: true }],
-    },
-    {
-      code: 'try { somethingRisky(); } catch(e) {\n  handleError();\n}',
-      options: ['1tbs', { allowSingleLine: true }],
-    },
-    {
-      code: 'if (tag === 1) fontstack.name = pbf.readString(); \nelse if (tag === 2) fontstack.range = pbf.readString(); \nelse if (tag === 3) {\n var glyph = pbf.readMessage(readGlyph, {});\n fontstack.glyphs[glyph.id] = glyph; \n}',
-      options: ['1tbs'],
-    },
-    {
-      code: 'if (tag === 1) fontstack.name = pbf.readString(); \nelse if (tag === 2) fontstack.range = pbf.readString(); \nelse if (tag === 3) {\n var glyph = pbf.readMessage(readGlyph, {});\n fontstack.glyphs[glyph.id] = glyph; \n}',
+      code: $`
+        if (foo) {
+        }
+        else {
+        }
+      `,
       options: ['stroustrup'],
     },
     {
-      code: 'switch(x) \n{ \n case 1: \nbar(); \n }\n ',
+      code: $`
+        if (foo)
+        {
+        }
+        else
+        {
+        }
+      `,
+      options: ['allman'],
+    },
+    {
+      code: $`
+        try {
+          bar();
+        }
+        catch (e) {
+          baz();
+        }
+      `,
+      options: ['stroustrup'],
+    },
+    {
+      code: $`
+        try
+        {
+          bar();
+        }
+        catch (e)
+        {
+          baz();
+        }
+      `,
+      options: ['allman'],
+    },
+
+    // allowSingleLine: true
+    {
+      code: 'function foo () { return; }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'function foo () { a(); b(); return; }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'function a(b,c,d) { }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: '!function foo () { return; }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: '!function a(b,c,d) { }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'if (foo) {  bar(); }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'if (a) { b(); } else { c(); }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'while (foo) {  bar(); }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'for (;;) {  bar(); }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'switch (foo) {  case "bar": break; }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'try {  bar(); } catch (e) { baz();  }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'do {  bar(); } while (true)',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'for (foo in bar) {  baz();  }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'if (a && b && c) {  }',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: 'switch(0) {}',
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: $`
+        if (foo) {}
+        else {}
+      `,
+      options: ['stroustrup', { allowSingleLine: true }],
+    },
+    {
+      code: $`
+        try {  bar(); }
+        catch (e) { baz();  }
+      `,
+      options: ['stroustrup', { allowSingleLine: true }],
+    },
+    {
+      code: 'var foo = () => { return; }',
+      options: ['stroustrup', { allowSingleLine: true }],
+      parserOptions: { ecmaVersion: 6 },
+    },
+    {
+      code: $`
+        if (foo) {}
+        else {}
+      `,
+      options: ['allman', { allowSingleLine: true }],
+    },
+    {
+      code: $`
+        try {  bar(); }
+        catch (e) { baz();  }
+      `,
+      options: ['allman', { allowSingleLine: true }],
+    },
+    {
+      code: 'var foo = () => { return; }',
+      options: ['allman', { allowSingleLine: true }],
+      parserOptions: { ecmaVersion: 6 },
+    },
+    {
+      code: $`
+        if (foo) { baz(); } else {
+          boom();
+        }
+      `,
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: $`
+        if (foo) { baz(); } else if (bar) {
+          boom();
+        }
+      `,
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: $`
+        if (foo) { baz(); } else
+        if (bar) {
+          boom();
+        }
+      `,
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: $`
+        try { somethingRisky(); } catch(e) {
+          handleError();
+        }
+      `,
+      options: ['1tbs', { allowSingleLine: true }],
+    },
+    {
+      code: $`
+        if (tag === 1) fontstack.name = pbf.readString();
+        else if (tag === 2) fontstack.range = pbf.readString();
+        else if (tag === 3) {
+          var glyph = pbf.readMessage(readGlyph, {});
+          fontstack.glyphs[glyph.id] = glyph;
+        }
+      `,
+      options: ['1tbs'],
+    },
+    {
+      code: $`
+        if (tag === 1) fontstack.name = pbf.readString();
+        else if (tag === 2) fontstack.range = pbf.readString();
+        else if (tag === 3) {
+          var glyph = pbf.readMessage(readGlyph, {});
+          fontstack.glyphs[glyph.id] = glyph;
+        }
+      `,
+      options: ['stroustrup'],
+    },
+    {
+      code: $`
+        switch(x)
+        {
+          case 1:
+            bar();
+        }
+      `,
       options: ['allman'],
     },
     {
@@ -108,23 +333,42 @@ run<RuleOptions, MessageIds>({
       options: ['allman', { allowSingleLine: true }],
     },
     {
-      code: 'class Foo {\n}',
+      code: $`
+        class Foo {
+        }
+      `,
       options: ['stroustrup'],
     },
     {
-      code: '(class {\n})',
+      code: $`
+        (class {
+        })
+      `,
       options: ['stroustrup'],
     },
     {
-      code: 'class Foo\n{\n}',
+      code: $`
+        class Foo
+        {
+        }
+      `,
       options: ['allman'],
     },
     {
-      code: '(class\n{\n})',
+      code: $`
+        (class
+        {
+        })
+      `,
       options: ['allman'],
     },
     {
-      code: 'class\nFoo\n{\n}',
+      code: $`
+        class
+        Foo
+        {
+        }
+      `,
       options: ['allman'],
     },
     {
@@ -146,34 +390,31 @@ run<RuleOptions, MessageIds>({
 
     // https://github.com/eslint/eslint/issues/7908
     '{}',
-    `
-            if (foo) {
-
-            }
-
-            {
-
-            }
-        `,
-    `
-            switch (foo) {
-                case bar:
-                    baz();
-                    {
-                        qux();
-                    }
-            }
-        `,
-    `
-            {
-            }
-        `,
-    `
-            {
-                {
-                }
-            }
-        `,
+    $`
+      if (foo) {
+      }
+      {
+      }
+    `,
+    $`
+      switch (foo) {
+        case bar:
+          baz();
+          {
+            qux();
+          }
+      }
+    `,
+    $`
+      {
+      }
+    `,
+    $`
+      {
+        {
+        }
+      }
+    `,
 
     // https://github.com/eslint/eslint/issues/7974
     $`
@@ -320,60 +561,94 @@ run<RuleOptions, MessageIds>({
 
   invalid: [
     {
-      code: 'if (f) {\nbar;\n}\nelse\nbaz;',
-      output: 'if (f) {\nbar;\n} else\nbaz;',
+      code: $`
+        if (f) {
+          bar;
+        }
+        else
+          baz;
+      `,
+      output: $`
+        if (f) {
+          bar;
+        } else
+          baz;
+      `,
       errors: [{ messageId: 'nextLineClose', type: 'Punctuator' }],
     },
     {
       code: 'var foo = () => { return; }',
       output: 'var foo = () => {\n return; \n}',
       parserOptions: { ecmaVersion: 6 },
-      errors: [{ messageId: 'blockSameLine', type: 'Punctuator' }, { messageId: 'singleLineClose', type: 'Punctuator' }],
+      errors: [
+        { messageId: 'blockSameLine', type: 'Punctuator' },
+        { messageId: 'singleLineClose', type: 'Punctuator' },
+      ],
     },
     {
       code: 'function foo() { return; }',
       output: 'function foo() {\n return; \n}',
-      errors: [{ messageId: 'blockSameLine', type: 'Punctuator' }, { messageId: 'singleLineClose', type: 'Punctuator' }],
+      errors: [
+        { messageId: 'blockSameLine', type: 'Punctuator' },
+        { messageId: 'singleLineClose', type: 'Punctuator' },
+      ],
     },
     {
       code: 'function foo() \n { \n return; }',
       output: 'function foo() { \n return; \n}',
-      errors: [{ messageId: 'nextLineOpen', type: 'Punctuator' }, { messageId: 'singleLineClose', type: 'Punctuator' }],
+      errors: [
+        { messageId: 'nextLineOpen', type: 'Punctuator' },
+        { messageId: 'singleLineClose', type: 'Punctuator' },
+      ],
     },
     {
       code: '!function foo() \n { \n return; }',
       output: '!function foo() { \n return; \n}',
-      errors: [{ messageId: 'nextLineOpen', type: 'Punctuator' }, { messageId: 'singleLineClose', type: 'Punctuator' }],
+      errors: [
+        { messageId: 'nextLineOpen', type: 'Punctuator' },
+        { messageId: 'singleLineClose', type: 'Punctuator' },
+      ],
     },
     {
       code: 'if (foo) \n { \n bar(); }',
       output: 'if (foo) { \n bar(); \n}',
-      errors: [{ messageId: 'nextLineOpen', type: 'Punctuator' }, { messageId: 'singleLineClose', type: 'Punctuator' }],
+      errors: [
+        { messageId: 'nextLineOpen', type: 'Punctuator' },
+        { messageId: 'singleLineClose', type: 'Punctuator' },
+      ],
     },
     {
       code: 'if (a) { \nb();\n } else \n { c(); }',
       output: 'if (a) { \nb();\n } else {\n c(); \n}',
-      errors: [{ messageId: 'nextLineOpen', type: 'Punctuator' }, { messageId: 'blockSameLine', type: 'Punctuator' }, { messageId: 'singleLineClose', type: 'Punctuator' }],
+      errors: [
+        { messageId: 'nextLineOpen', type: 'Punctuator' },
+        { messageId: 'blockSameLine', type: 'Punctuator' },
+        { messageId: 'singleLineClose', type: 'Punctuator' },
+      ],
     },
     {
       code: 'while (foo) \n { \n bar(); }',
       output: 'while (foo) { \n bar(); \n}',
-      errors: [{ messageId: 'nextLineOpen', type: 'Punctuator' }, { messageId: 'singleLineClose', type: 'Punctuator' }],
+      errors: [
+        { messageId: 'nextLineOpen', type: 'Punctuator' },
+        { messageId: 'singleLineClose', type: 'Punctuator' },
+      ],
     },
     {
       code: 'for (;;) \n { \n bar(); }',
       output: 'for (;;) { \n bar(); \n}',
-      errors: [{ messageId: 'nextLineOpen', type: 'Punctuator' }, { messageId: 'singleLineClose', type: 'Punctuator' }],
-    },
-    {
-      code: 'with (foo) \n { \n bar(); }',
-      output: 'with (foo) { \n bar(); \n}',
-      errors: [{ messageId: 'nextLineOpen', type: 'Punctuator' }, { messageId: 'singleLineClose', type: 'Punctuator' }],
+      errors: [
+        { messageId: 'nextLineOpen', type: 'Punctuator' },
+        { messageId: 'singleLineClose', type: 'Punctuator' },
+      ],
     },
     {
       code: 'switch (foo) \n { \n case "bar": break; }',
       output: 'switch (foo) { \n case "bar": break; \n}',
-      errors: [{ messageId: 'nextLineOpen', type: 'Punctuator' }, { messageId: 'singleLineClose', type: 'Punctuator' }],
+      errors: [
+        { messageId: 'nextLineOpen', type: 'Punctuator' },
+        { messageId: 'singleLineClose', type: 'Punctuator' },
+      ],
     },
     {
       code: 'switch (foo) \n { }',
@@ -573,12 +848,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'for (;;) { bar(); \n }',
       output: 'for (;;) {\n bar(); \n }',
-      options: ['1tbs', { allowSingleLine: true }],
-      errors: [{ messageId: 'blockSameLine', type: 'Punctuator' }],
-    },
-    {
-      code: 'with (foo) { bar(); \n }',
-      output: 'with (foo) {\n bar(); \n }',
       options: ['1tbs', { allowSingleLine: true }],
       errors: [{ messageId: 'blockSameLine', type: 'Punctuator' }],
     },

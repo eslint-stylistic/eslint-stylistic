@@ -1,5 +1,5 @@
 import type { JSONSchema } from '#types'
-import { existsSync, promises as fs } from 'node:fs'
+import fs from 'node:fs/promises'
 import { basename, join, resolve } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { pascalCase } from 'change-case'
@@ -11,14 +11,6 @@ import { GEN_HEADER } from './meta'
 
 const VERSION = 'v1'
 
-const PACKAGES = [
-  '',
-  'ts',
-  'jsx',
-  'plus',
-  'js',
-]
-
 export async function generateDtsFromSchema() {
   const dirs = await fg('packages/eslint-plugin/rules/*', {
     onlyDirectories: true,
@@ -28,15 +20,10 @@ export async function generateDtsFromSchema() {
   for (const dir of dirs) {
     const name = basename(dir)
 
-    const pkgs = PACKAGES
-      .filter(i => existsSync(join(dir, i ? `${name}._${i}_.ts` : `${name}.ts`)))
-    const formatted = await Promise.all(pkgs.map(async (pkg) => {
-      const file = pathToFileURL(join(dir, pkg ? `${name}._${pkg}_.ts` : `${name}.ts`)).href
-      const formatted = await getDts(file, name)
-      return [pkg, formatted] as const
-    }))
+    const file = pathToFileURL(join(dir, `${name}.ts`)).href
+    const formatted = await getDts(file, name)
 
-    await fs.writeFile(resolve(dir, `types.d.ts`), formatted[0][1], 'utf-8')
+    await fs.writeFile(resolve(dir, `types.d.ts`), formatted, 'utf-8')
   }
 }
 

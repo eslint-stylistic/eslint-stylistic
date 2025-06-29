@@ -10,6 +10,7 @@ import rule from './comma-spacing'
 run<RuleOptions, MessageIds>({
   name: 'comma-spacing',
   rule,
+  lang: 'js',
   valid: [
     'myfunc(404, true/* bla bla bla */, \'hello\');',
     'myfunc(404, true /* bla bla bla */, \'hello\');',
