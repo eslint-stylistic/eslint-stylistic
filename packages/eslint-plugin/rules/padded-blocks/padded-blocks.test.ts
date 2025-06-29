@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { $, run } from '#test'
 import rule from './padded-blocks'
 
 run<RuleOptions, MessageIds>({
@@ -203,7 +203,154 @@ run<RuleOptions, MessageIds>({
       options: [{ classes: 'never' }], // if there's no "blocks" in the object option, static blocks are ignored
       parserOptions: { ecmaVersion: 2022 },
     },
-
+    {
+      code: $`
+        type A = {
+        
+          a: string;
+          b: number;
+          c: boolean;
+        
+        };
+      `,
+      options: ['always'],
+    },
+    {
+      code: $`
+        type A = {
+          a: string;
+          b: number;
+          c: boolean;
+        };
+      `,
+      options: ['never'],
+    },
+    {
+      code: $`
+        function processUser(user: {
+        
+          id: number;
+          name: string;
+          active: boolean;
+        
+        }) {
+          // ...
+        }
+      `,
+      options: ['always'],
+    },
+    {
+      code: $`
+        type NestedConfig = {
+          database: {
+            host: string;
+            port: number;
+          };
+          cache: {
+            ttl: number;
+          };
+        };
+      `,
+      options: ['never'],
+    },
+    {
+      code: $`
+        type Partial<T> = {
+          [P in keyof T]?: T[P];
+        };
+      `,
+      options: ['never'],
+    },
+    {
+      code: $`
+        type Partial<T> = {
+        
+          [P in keyof T]?: T[P];
+        };
+      `,
+      options: ['start'],
+    },
+    {
+      code: $`
+        enum Direction {
+        
+        }
+      `,
+      options: ['never'],
+    },
+    {
+      code: $`
+        enum Direction {
+        
+          Up,
+          Down,
+          Left,
+          Right
+        
+        }
+      `,
+      options: ['always'],
+    },
+    {
+      code: $`
+        const enum Theme {
+          Light = "light",
+          Dark = "dark"
+        }
+      `,
+      options: ['never'],
+    },
+    {
+      code: $`
+        interface EventEmitter {
+          on: (event: string, listener: (data: any) => void) => void;
+          emit: (event: string, data?: any) => boolean;
+        }
+      `,
+      options: ['never'],
+    },
+    {
+      code: $`
+        interface AdminUser extends User {
+        
+          permissions: string[];
+          role: 'admin' | 'super-admin';
+        
+        }
+      `,
+      options: ['always'],
+    },
+    {
+      code: $`
+        namespace MyNamespace {
+        
+          export const value = 42;
+          export function helper() {}
+          
+        }
+      `,
+      options: ['always'],
+    },
+    {
+      code: $`
+        declare module "my-module" {
+          export interface Config {
+            name: string;
+          }
+        }
+      `,
+      options: ['never'],
+    },
+    {
+      code: $`
+        declare global {
+          interface Window {
+            myGlobal: string;
+          }
+        }
+      `,
+      options: ['never'],
+    },
   ],
   invalid: [
     {
@@ -1219,6 +1366,153 @@ run<RuleOptions, MessageIds>({
         { messageId: 'extraPadBlock' },
         { messageId: 'extraPadBlock' },
       ],
+    },
+    {
+      code: $`
+        type A = {
+          a: string;
+          b: number;
+          c: boolean;
+        };
+      `,
+      output: $`
+        type A = {
+        
+          a: string;
+          b: number;
+          c: boolean;
+        
+        };
+      `,
+      options: [{ types: 'always' }],
+    },
+    {
+      code: $`
+        type A = {
+        
+          a: string;
+          b: number;
+          c: boolean;
+        
+        };
+      `,
+      output: $`
+        type A = {
+          a: string;
+          b: number;
+          c: boolean;
+        };
+      `,
+      options: [{ types: 'never' }],
+    },
+    {
+      code: $`
+        function processUser(user: {
+        
+          id: number;
+          name: string;
+          active: boolean;
+        
+        }) {
+          // ...
+        }
+      `,
+      output: $`
+        function processUser(user: {
+          id: number;
+          name: string;
+          active: boolean;
+        }) {
+          // ...
+        }
+      `,
+      options: [{ types: 'never' }],
+    },
+    {
+      code: $`
+        type NestedConfig = {
+          database: {
+            host: string;
+            port: number;
+          };
+          cache: {
+            ttl: number;
+          };
+        };
+      `,
+      output: $`
+        type NestedConfig = {
+        
+          database: {
+        
+            host: string;
+            port: number;
+          
+        };
+          cache: {
+        
+            ttl: number;
+          
+        };
+        
+        };
+      `,
+      options: [{ types: 'always' }],
+    },
+    {
+      code: $`
+        type A = {
+          [key: string]: number;
+          a: 2;
+          b: 3;
+        };
+      `,
+      output: $`
+        type A = {
+        
+          [key: string]: number;
+          a: 2;
+          b: 3;
+        
+        };
+      `,
+      options: [{ types: 'always' }],
+    },
+    {
+      code: $`
+        type A = {
+        
+          [key: string]: string | number;
+          a: string;
+          b: number;
+        };
+      `,
+      output: $`
+        type A = {
+          [key: string]: string | number;
+          a: string;
+          b: number;
+        
+        };
+      `,
+      options: [{ types: 'end' }],
+    },
+    {
+      code: $`
+        type AbstractConstructor<T = {
+          a: string;
+          b: number;
+        }> = abstract new (...args: any[]) => T;
+      `,
+      output: $`
+        type AbstractConstructor<T = {
+        
+          a: string;
+          b: number;
+        
+        }> = abstract new (...args: any[]) => T;
+      `,
+      options: [{ types: 'always' }],
     },
   ],
 })

@@ -35,16 +35,22 @@ The second one is an object option, it can allow exceptions.
 
 String option:
 
-- `"always"` (default) **requires** empty lines at the **beginning** and **ending** of `block` statements, function bodies, class static blocks, `classes`, and `switch` statements.
-- `"never"` **disallows** empty lines at the **beginning** and **ending** of `block` statements, function bodies, class static blocks, `classes`, and `switch` statements.
-- `"start"` **require** empty lines at the **beginning** of `block` statements, function bodies, class static blocks, `classes`, and `switch` statements.
-- `"end"` **require** empty lines at the **ending** of `block` statements, function bodies, class static blocks, `classes`, and `switch` statements.
+- `"always"` (default) **requires** empty lines at the **beginning** and **ending** of the checked statements.
+- `"never"` **disallows** empty lines at the **beginning** and **ending** of the checked statements.
+- `"start"` **require** empty lines at the **beginning** of the checked statements.
+- `"end"` **require** empty lines at the **ending** of the checked statements.
+
+The statements to be checked are `block` statements, function bodies, class static blocks, `classes`, and `switch` statements, `type` statements, `enum` statements, `interface` statements, `module` statements, `namespace` statements, `declare` statements.
 
 Object option:
 
 - `"blocks"` require or disallow padding within `block` statements, function bodies, and class static blocks
 - `"classes"` require or disallow padding within `classes`
 - `"switches"` require or disallow padding within `switch` statements
+- `"types"` require or disallow padding within `type`
+- `"enums"` require or disallow padding within `enum`
+- `"interfaces"` require or disallow padding within `interface`
+- `"modules"` require or disallow padding within `declare` or `namespace`
 
 ### Second option
 
