@@ -1720,13 +1720,9 @@ export default createRule<RuleOptions, MessageIds>({
 
         // Indent initializer.
         if (node.value) {
-          const eqToken = sourceCode.getTokenBefore(node.value, isEqToken)!
-          const valueToken = sourceCode.getTokenAfter(eqToken)!
-          const typeToken = sourceCode.getTokenBefore(eqToken)!
+          const eqToken = sourceCode.getTokenBefore(node.value, isNotOpeningParenToken)!
 
-          offsets.setDesiredOffset(eqToken, keyLastToken, 1)
-          // value token set offset by equal token or ts type token
-          offsets.setDesiredOffset(valueToken, keyLastToken === typeToken ? eqToken : typeToken, 1)
+          checkAssignmentOperator(eqToken)
           if (isSemicolonToken(maybeSemicolonToken))
             offsets.setDesiredOffset(maybeSemicolonToken, eqToken, 1)
         }
