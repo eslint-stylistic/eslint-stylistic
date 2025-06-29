@@ -738,7 +738,7 @@ export default createRule<RuleOptions, MessageIds>({
         using: DEFAULT_VARIABLE_INDENT as number | 'first',
       },
       outerIIFEBody: 1,
-      assignmentOperator: 'off',
+      assignmentOperator: 1,
       FunctionDeclaration: {
         parameters: DEFAULT_PARAMETER_INDENT,
         body: DEFAULT_FUNCTION_BODY_INDENT,
