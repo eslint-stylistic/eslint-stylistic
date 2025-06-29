@@ -15,16 +15,13 @@
     "url": "https://github.com/eslint-stylistic/eslint-stylistic/issues"
   },
   "main": "./dist/index.cjs",
-  "types": "./dist/index.d.ts",
+  "types": "./dist/index.d.cts",
   "files": [
     "dist"
   ],
   "scripts": {
-    "build": "unbuild",
-    "stub": "unbuild --stub",
-    "prepublishOnly": "unbuild"
-  },
-  "devDependencies": {
-    "unbuild": "catalog:"
+    "build": "tsdown --format cjs",
+    "dev": "tsdown --watch",
+    "prepublishOnly": "tsdown"
   }
 }
