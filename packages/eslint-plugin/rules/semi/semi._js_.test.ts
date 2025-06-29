@@ -67,7 +67,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class C { static { foo();\n (a) } }',
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-
     },
     {
       code: 'class C { static { do ; while (foo)\n (a)} }',
@@ -76,6 +75,16 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class C { static { do ; while (foo)\n ;(a)} }',
       options: ['never', { beforeStatementContinuationChars: 'always' }],
+    },
+    'class C { accessor foo; } ',
+    'class C { accessor [foo]; } ',
+    {
+      code: 'class C { accessor foo } ',
+      options: ['never'],
+    },
+    {
+      code: 'class C { accessor foo\n accessor [foo] } ',
+      options: ['never'],
     },
 
     // omitLastInOneLineBlock: true
@@ -241,27 +250,38 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class C {\nfoo;}',
       options: ['always', { omitLastInOneLineClassBody: true }],
-
     },
     {
       code: 'class C {foo;\n}',
       options: ['always', { omitLastInOneLineClassBody: true }],
-
     },
     {
       code: 'class C {foo;\nbar;}',
       options: ['always', { omitLastInOneLineClassBody: true }],
-
     },
     {
       code: '{ foo; }',
       options: ['always', { omitLastInOneLineClassBody: true }],
-
     },
     {
       code: 'class C\n{ foo }',
       options: ['always', { omitLastInOneLineClassBody: true }],
-
+    },
+    {
+      code: 'class C { accessor foo; }',
+      options: ['always', { omitLastInOneLineClassBody: false }],
+    },
+    {
+      code: 'class C { accessor foo }',
+      options: ['always', { omitLastInOneLineClassBody: true }],
+    },
+    {
+      code: 'class C { accessor [foo]; }',
+      options: ['always', { omitLastInOneLineClassBody: false }],
+    },
+    {
+      code: 'class C { accessor [foo] }',
+      options: ['always', { omitLastInOneLineClassBody: true }],
     },
 
     // method definitions and static blocks don't have a semicolon.
@@ -447,112 +467,90 @@ run<RuleOptions, MessageIds>({
     // Class fields
     {
       code: 'class C { foo; }',
-
     },
     {
       code: 'class C { foo; }',
       options: ['always'],
-
     },
     {
       code: 'class C { foo }',
       options: ['never'],
-
     },
     {
       code: 'class C { foo = obj\n;[bar] }',
       options: ['never'],
-
     },
     {
       code: 'class C { foo;\n[bar]; }',
       options: ['always'],
-
     },
     {
       code: 'class C { foo\n;[bar] }',
       options: ['never'],
-
     },
     {
       code: 'class C { foo\n[bar] }',
       options: ['never'],
-
     },
     {
       code: 'class C { foo\n;[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-
     },
     {
       code: 'class C { foo\n[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-
     },
     {
       code: 'class C { foo = () => {}\n;[bar] }',
       options: ['never'],
-
     },
     {
       code: 'class C { foo = () => {}\n[bar] }',
       options: ['never'],
-
     },
     {
       code: 'class C { foo = () => {}\n;[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-
     },
     {
       code: 'class C { foo = () => {}\n[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-
     },
     {
       code: 'class C { foo() {} }',
       options: ['always'],
-
     },
     {
       code: 'class C { foo() {}; }', // no-extra-semi reports it
       options: ['never'],
-
     },
     {
       code: 'class C { static {}; }', // no-extra-semi reports it
       options: ['never'],
-
     },
     {
       code: 'class C { a=b;\n*foo() {} }',
       options: ['never'],
-
     },
     {
       code: 'class C { get;\nfoo() {} }',
       options: ['never'],
-
     },
     {
       code: 'class C { set;\nfoo() {} }',
       options: ['never'],
-
     },
     {
       code: 'class C { static;\nfoo() {} }',
       options: ['never'],
-
     },
     {
       code: 'class C { a=b;\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { a=b;\ninstanceof }',
       options: ['never'],
-
     },
     {
       code: `
@@ -568,7 +566,6 @@ run<RuleOptions, MessageIds>({
                 }
             `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-
     },
     {
       code: `
@@ -584,72 +581,58 @@ run<RuleOptions, MessageIds>({
                 }
             `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-
     },
     {
       code: 'class C { foo\n[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-
     },
     {
       code: 'class C { foo = () => {}\n[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-
     },
     {
       code: 'class C { foo\n;[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-
     },
     {
       code: 'class C { foo = () => {}\n;[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-
     },
     {
       code: 'class C { [foo] = bar;\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { #foo = bar;\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { static static = bar;\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { [foo];\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { [get];\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { [get] = 5;\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { #get;\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { #set = 5;\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { static static;\nin }',
       options: ['never'],
-
     },
   ],
   invalid: [
@@ -1174,7 +1157,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class C { static { foo() } }',
       output: 'class C { static { foo(); } }',
-
       errors: [{
         messageId: 'missingSemi',
         type: 'ExpressionStatement',
@@ -1188,7 +1170,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { foo() } }',
       output: 'class C { static { foo(); } }',
       options: ['always'],
-
       errors: [{
         messageId: 'missingSemi',
         type: 'ExpressionStatement',
@@ -1201,7 +1182,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class C { static { foo(); bar() } }',
       output: 'class C { static { foo(); bar(); } }',
-
       errors: [{
         messageId: 'missingSemi',
         type: 'ExpressionStatement',
@@ -1214,7 +1194,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class C { static { foo()\nbar(); } }',
       output: 'class C { static { foo();\nbar(); } }',
-
       errors: [{
         messageId: 'missingSemi',
         type: 'ExpressionStatement',
@@ -1227,7 +1206,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class C { static { foo(); bar()\nbaz(); } }',
       output: 'class C { static { foo(); bar();\nbaz(); } }',
-
       errors: [{
         messageId: 'missingSemi',
         type: 'ExpressionStatement',
@@ -1241,7 +1219,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { foo(); } }',
       output: 'class C { static { foo() } }',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         type: 'ExpressionStatement',
@@ -1255,7 +1232,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { foo();\nbar() } }',
       output: 'class C { static { foo()\nbar() } }',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         type: 'ExpressionStatement',
@@ -1269,7 +1245,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { foo()\nbar(); } }',
       output: 'class C { static { foo()\nbar() } }',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         type: 'ExpressionStatement',
@@ -1283,7 +1258,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { foo()\nbar();\nbaz() } }',
       output: 'class C { static { foo()\nbar()\nbaz() } }',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         type: 'ExpressionStatement',
@@ -1297,7 +1271,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { do ; while (foo)\n (a)} }',
       output: 'class C { static { do ; while (foo);\n (a)} }',
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-
       errors: [{
         messageId: 'missingSemi',
         type: 'DoWhileStatement',
@@ -1311,7 +1284,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { do ; while (foo)\n ;(a)} }',
       output: 'class C { static { do ; while (foo)\n (a)} }',
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-
       errors: [{
         messageId: 'extraSemi',
         type: 'DoWhileStatement',
@@ -2096,7 +2068,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class C { foo }',
       output: 'class C { foo; }',
-
       errors: [{
         messageId: 'missingSemi',
         line: 1,
@@ -2109,7 +2080,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { foo }',
       output: 'class C { foo; }',
       options: ['always'],
-
       errors: [{
         messageId: 'missingSemi',
         line: 1,
@@ -2122,7 +2092,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { foo; }',
       output: 'class C { foo }',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2135,7 +2104,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { foo\n[bar]; }',
       output: 'class C { foo;\n[bar]; }',
       options: ['always'],
-
       errors: [{
         messageId: 'missingSemi',
         line: 1,
@@ -2150,7 +2118,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { [get];\nfoo\n}',
       output: 'class C { [get]\nfoo\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2163,7 +2130,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { [set];\nfoo\n}',
       output: 'class C { [set]\nfoo\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2176,7 +2142,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { #get;\nfoo\n}',
       output: 'class C { #get\nfoo\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2189,7 +2154,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { #set;\nfoo\n}',
       output: 'class C { #set\nfoo\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2202,7 +2166,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { #static;\nfoo\n}',
       output: 'class C { #static\nfoo\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2215,7 +2178,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { get=1;\nfoo\n}',
       output: 'class C { get=1\nfoo\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2228,7 +2190,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static static;\nfoo\n}',
       output: 'class C { static static\nfoo\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2241,7 +2202,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static;\n}',
       output: 'class C { static\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2249,6 +2209,44 @@ run<RuleOptions, MessageIds>({
         endLine: 1,
         endColumn: 18,
       }],
+    },
+    {
+      code: $`
+        class C {
+          accessor foo
+          accessor [bar]
+        }
+      `,
+      output: $`
+        class C {
+          accessor foo;
+          accessor [bar];
+        }
+      `,
+      options: ['always'],
+      errors: [
+        { messageId: 'missingSemi' },
+        { messageId: 'missingSemi' },
+      ],
+    },
+    {
+      code: $`
+        class C {
+          accessor foo;
+          accessor [bar];
+        }
+      `,
+      output: $`
+        class C {
+          accessor foo
+          accessor [bar]
+        }
+      `,
+      options: ['never'],
+      errors: [
+        { messageId: 'extraSemi' },
+        { messageId: 'extraSemi' },
+      ],
     },
 
     // omitLastInOneLineClassBody

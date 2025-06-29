@@ -51,6 +51,7 @@ const KNOWN_NODES = new Set([
   'Program',
   'Property',
   'PropertyDefinition',
+  AST_NODE_TYPES.AccessorProperty,
   'RestElement',
   'ReturnStatement',
   'SequenceExpression',
@@ -1502,7 +1503,8 @@ export default createRule<RuleOptions, MessageIds>({
           node.params.length
             ? node.params[0].decorators?.length
               ? node.params[0].decorators[0]
-              : node.params[0] : closingParen,
+              : node.params[0]
+            : closingParen,
           {
             filter: isOpeningParenToken,
           },

@@ -10,9 +10,7 @@ import rule from './computed-property-spacing'
 run<RuleOptions, MessageIds>({
   name: 'computed-property-spacing',
   rule,
-
   valid: [
-
     // default - never
     'obj[foo]',
     'obj[\'foo\']',
@@ -72,106 +70,106 @@ run<RuleOptions, MessageIds>({
 
     // explicitly disabled option
     {
-      code: 'class A { [ a ](){} }',
+      code: 'class A { [ a ](){} accessor [ b ] }',
       options: ['never', { enforceForClassMembers: false }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'A = class { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }',
+      code: 'A = class { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} accessor [ g ] }',
       options: ['never', { enforceForClassMembers: false }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'A = class { [a](){} }',
+      code: 'A = class { [a](){} accessor [b] = 1 }',
       options: ['always', { enforceForClassMembers: false }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'class A { [a](){} get [b](){} set [b](foo){} static [c](){} static get [d](){} static set [d](bar){} }',
+      code: 'class A { [a](){} get [b](){} set [b](foo){} static [c](){} static get [d](){} static set [d](bar){} accessor [e] = 1 }',
       options: ['always', { enforceForClassMembers: false }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'class A { [ a ]; }',
+      code: 'class A { [ a ]; accessor [ b ]; }',
       options: ['never', { enforceForClassMembers: false }],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: 'class A { [a]; }',
+      code: 'class A { [a]; accessor [b]; }',
       options: ['always', { enforceForClassMembers: false }],
       parserOptions: { ecmaVersion: 2022 },
     },
 
     // valid spacing
     {
-      code: 'A = class { [a](){} }',
+      code: 'A = class { [a](){} accessor [b] = 1 }',
       options: ['never', { enforceForClassMembers: true }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'class A { [a] ( ) { } }',
+      code: 'class A { [a] ( ) { } accessor [b] = 1 }',
       options: ['never', { enforceForClassMembers: true }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'A = class { [ \n a \n ](){} }',
+      code: 'A = class { [ \n a \n ](){} accessor [ \n b \n ] = 1 }',
       options: ['never', { enforceForClassMembers: true }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'class A { [a](){} get [b](){} set [b](foo){} static [c](){} static get [d](){} static set [d](bar){} }',
+      code: 'class A { [a](){} get [b](){} set [b](foo){} static [c](){} static get [d](){} static set [d](bar){} accessor [e] = 1 }',
       options: ['never', { enforceForClassMembers: true }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'class A { [ a ](){} }',
+      code: 'class A { [ a ](){} accessor [ b ] = 1 }',
       options: ['always', { enforceForClassMembers: true }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'class A { [ a ](){}[ b ](){} }',
+      code: 'class A { [ a ](){}[ b ](){}\naccessor [ c ] = 1 }',
       options: ['always', { enforceForClassMembers: true }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'A = class { [\na\n](){} }',
+      code: 'A = class { [\na\n](){} accessor [ b ] = 1 }',
       options: ['always', { enforceForClassMembers: true }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'A = class { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} }',
+      code: 'A = class { [ a ](){} get [ b ](){} set [ c ](foo){} static [ d ](){} static get [ e ](){} static set [ f ](bar){} accessor [ g ] = 1 }',
       options: ['always', { enforceForClassMembers: true }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'A = class { [a]; static [a]; [a] = 0; static [a] = 0; }',
+      code: 'A = class { [a]; static [a]; [a] = 0; static [a] = 0; accessor [b] = 1 }',
       options: ['never', { enforceForClassMembers: true }],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: 'A = class { [ a ]; static [ a ]; [ a ] = 0; static [ a ] = 0; }',
+      code: 'A = class { [ a ]; static [ a ]; [ a ] = 0; static [ a ] = 0; accessor [ b ] = 1 }',
       options: ['always', { enforceForClassMembers: true }],
       parserOptions: { ecmaVersion: 2022 },
     },
 
     // non-computed
     {
-      code: 'class A { a ( ) { } get b(){} set b ( foo ){} static c (){} static get d() {} static set d( bar ) {} }',
+      code: 'class A { a ( ) { } get b(){} set b ( foo ){} static c (){} static get d() {} static set d( bar ) {} accessor e = 1 }',
       options: ['never', { enforceForClassMembers: true }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'A = class {a(){}get b(){}set b(foo){}static c(){}static get d(){}static set d(bar){}}',
+      code: 'A = class {a(){}get b(){}set b(foo){}static c(){}static get d(){}static set d(bar){} accessor e = 1}',
       options: ['always', { enforceForClassMembers: true }],
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'A = class { foo; #a; static #b; #c = 0; static #d = 0; }',
+      code: 'A = class { foo; #a; static #b; #c = 0; static #d = 0; accessor e = 1; }',
       options: ['never', { enforceForClassMembers: true }],
       parserOptions: { ecmaVersion: 2022 },
     },
     {
-      code: 'A = class { foo; #a; static #b; #c = 0; static #d = 0; }',
+      code: 'A = class { foo; #a; static #b; #c = 0; static #d = 0; accessor e = 1; }',
       options: ['always', { enforceForClassMembers: true }],
       parserOptions: { ecmaVersion: 2022 },
     },
@@ -1450,6 +1448,15 @@ run<RuleOptions, MessageIds>({
         },
       ],
     },
+    {
+      code: 'class A { accessor [ a ] = 0 }',
+      output: 'class A { accessor [a] = 0 }',
+      options: ['never', { enforceForClassMembers: true }],
+      errors: [
+        { messageId: 'unexpectedSpaceAfter', column: 21, endColumn: 22 },
+        { messageId: 'unexpectedSpaceBefore', column: 23, endColumn: 24 },
+      ],
+    },
 
     // always - classes
     {
@@ -1692,6 +1699,15 @@ run<RuleOptions, MessageIds>({
           column: 50,
           endColumn: 51,
         },
+      ],
+    },
+    {
+      code: 'class A { accessor [a] = 0 }',
+      output: 'class A { accessor [ a ] = 0 }',
+      options: ['always', { enforceForClassMembers: true }],
+      errors: [
+        { messageId: 'missingSpaceAfter', column: 20, endColumn: 21 },
+        { messageId: 'missingSpaceBefore', column: 22, endColumn: 23 },
       ],
     },
 
