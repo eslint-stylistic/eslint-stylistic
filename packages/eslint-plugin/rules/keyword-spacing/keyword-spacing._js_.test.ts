@@ -9,8 +9,8 @@ import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from './keyword-spacing'
 
-const BOTH = { before: true, after: true }
-const NEITHER = { before: false, after: false }
+export const BOTH = { before: true, after: true }
+export const NEITHER = { before: false, after: false }
 
 /**
  * Creates an option object to test an "overrides" option.
@@ -30,7 +30,7 @@ const NEITHER = { before: false, after: false }
  * @param value A value to override.
  * @returns An option object to test an "overrides" option.
  */
-function override(keyword: string, value: { before?: boolean, after?: boolean }) {
+export function override(keyword: string, value: { before?: boolean, after?: boolean }) {
   const retv = {
     before: value.before === false,
     after: value.after === false,
@@ -47,7 +47,7 @@ function override(keyword: string, value: { before?: boolean, after?: boolean })
  * @param keyword A keyword.
  * @returns An error message.
  */
-function expectedBefore(keyword: string): TestCaseError<MessageIds>[] {
+export function expectedBefore(keyword: string): TestCaseError<MessageIds>[] {
   return [{ messageId: 'expectedBefore', data: { value: keyword } }]
 }
 
@@ -56,7 +56,7 @@ function expectedBefore(keyword: string): TestCaseError<MessageIds>[] {
  * @param keyword A keyword.
  * @returns An error message.
  */
-function expectedAfter(keyword: string): TestCaseError<MessageIds>[] {
+export function expectedAfter(keyword: string): TestCaseError<MessageIds>[] {
   return [{ messageId: 'expectedAfter', data: { value: keyword } }]
 }
 
@@ -66,7 +66,7 @@ function expectedAfter(keyword: string): TestCaseError<MessageIds>[] {
  * @param keyword A keyword.
  * @returns Error messages.
  */
-function expectedBeforeAndAfter(keyword: string): TestCaseError<MessageIds>[] {
+export function expectedBeforeAndAfter(keyword: string): TestCaseError<MessageIds>[] {
   return [
     { messageId: 'expectedBefore', data: { value: keyword } },
     { messageId: 'expectedAfter', data: { value: keyword } },
@@ -78,7 +78,7 @@ function expectedBeforeAndAfter(keyword: string): TestCaseError<MessageIds>[] {
  * @param keyword A keyword.
  * @returns An error message.
  */
-function unexpectedBefore(keyword: string): TestCaseError<MessageIds>[] {
+export function unexpectedBefore(keyword: string): TestCaseError<MessageIds>[] {
   return [{ messageId: 'unexpectedBefore', data: { value: keyword } }]
 }
 
@@ -87,7 +87,7 @@ function unexpectedBefore(keyword: string): TestCaseError<MessageIds>[] {
  * @param keyword A keyword.
  * @returns An error message.
  */
-function unexpectedAfter(keyword: string): TestCaseError<MessageIds>[] {
+export function unexpectedAfter(keyword: string): TestCaseError<MessageIds>[] {
   return [{ messageId: 'unexpectedAfter', data: { value: keyword } }]
 }
 
@@ -97,7 +97,7 @@ function unexpectedAfter(keyword: string): TestCaseError<MessageIds>[] {
  * @param keyword A keyword.
  * @returns Error messages.
  */
-function unexpectedBeforeAndAfter(keyword: string): TestCaseError<MessageIds>[] {
+export function unexpectedBeforeAndAfter(keyword: string): TestCaseError<MessageIds>[] {
   return [
     { messageId: 'unexpectedBefore', data: { value: keyword } },
     { messageId: 'unexpectedAfter', data: { value: keyword } },

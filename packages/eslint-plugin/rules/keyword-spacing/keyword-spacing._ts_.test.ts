@@ -1,79 +1,7 @@
-// this rule tests the spacing, which prettier will want to fix and break the tests
-/* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
-
-import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './keyword-spacing'
-
-const BOTH = { before: true, after: true }
-const NEITHER = { before: false, after: false }
-
-/**
- * Creates an option object to test an 'overrides' option.
- *
- * e.g.
- *
- *     override('as', BOTH)
- *
- * returns
- *
- *     {
- *         before: false,
- *         after: false,
- *         overrides: {as: {before: true, after: true}}
- *     }
- * @param keyword A keyword to be overridden.
- * @param value A value to override.
- * @returns An option object to test an 'overrides' option.
- */
-function overrides(keyword: string, value: RuleOptions[0] = {}): RuleOptions[0] {
-  return {
-    before: value.before === false,
-    after: value.after === false,
-    overrides: { [keyword]: value },
-  }
-}
-
-/**
- * Gets an error message that expected space(s) before a specified keyword.
- * @param keyword A keyword.
- * @returns An error message.
- */
-function expectedBefore(keyword: string): TestCaseError<MessageIds>[] {
-  return [{ messageId: 'expectedBefore', data: { value: keyword } }]
-}
-
-/**
- * Gets an error message that expected space(s) after a specified keyword.
- * @param keyword A keyword.
- * @returns An error message.
- */
-function expectedAfter(keyword: string): TestCaseError<MessageIds>[] {
-  return [{ messageId: 'expectedAfter', data: { value: keyword } }]
-}
-
-/**
- * Gets an error message that unexpected space(s) before a specified keyword.
- * @param keyword A keyword.
- * @returns An error message.
- */
-function unexpectedBefore(
-  keyword: string,
-): TestCaseError<MessageIds>[] {
-  return [{ messageId: 'unexpectedBefore', data: { value: keyword } }]
-}
-
-/**
- * Gets an error message that unexpected space(s) after a specified keyword.
- * @param keyword A keyword.
- * @returns An error message.
- */
-function unexpectedAfter(
-  keyword: string,
-): TestCaseError<MessageIds>[] {
-  return [{ messageId: 'unexpectedAfter', data: { value: keyword } }]
-}
+import { BOTH, expectedAfter, expectedBefore, NEITHER, override, unexpectedAfter, unexpectedBefore } from './keyword-spacing._js_.test'
 
 run<RuleOptions, MessageIds>({
   name: 'keyword-spacing',
@@ -93,12 +21,12 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: 'const foo = {} as {};',
-      options: [overrides('as', BOTH)],
+      options: [override('as', BOTH)],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
       code: 'const foo = {}as{};',
-      options: [overrides('as', NEITHER)],
+      options: [override('as', NEITHER)],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
@@ -113,15 +41,15 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: 'const foo = {} satisfies {};',
-      options: [overrides('satisfies', BOTH)],
+      options: [override('satisfies', BOTH)],
     },
     {
       code: 'const foo = {}satisfies{};',
-      options: [overrides('satisfies', NEITHER)],
+      options: [override('satisfies', NEITHER)],
     },
     {
       code: 'const foo = {} satisfies {};',
-      options: [overrides('satisfies', BOTH)],
+      options: [override('satisfies', BOTH)],
     },
     {
       code: 'const a = 1 as any',
@@ -598,13 +526,13 @@ run<RuleOptions, MessageIds>({
     {
       code: '{}using a = b',
       output: '{} using a = b',
-      options: [overrides('using', BOTH)],
+      options: [override('using', BOTH)],
       errors: expectedBefore('using'),
     },
     {
       code: '{} using a = b',
       output: '{}using a = b',
-      options: [overrides('using', NEITHER)],
+      options: [override('using', NEITHER)],
       errors: unexpectedBefore('using'),
     },
     {
@@ -623,14 +551,14 @@ run<RuleOptions, MessageIds>({
     {
       code: '{}await using a = b',
       output: '{} await using a = b',
-      options: [overrides('await', BOTH)],
+      options: [override('await', BOTH)],
       parserOptions: { ecmaVersion: 2026 },
       errors: expectedBefore('await'),
     },
     {
       code: '{} await using a = b',
       output: '{}await using a = b',
-      options: [overrides('await', NEITHER)],
+      options: [override('await', NEITHER)],
       parserOptions: { ecmaVersion: 2026 },
       errors: unexpectedBefore('await'),
     },

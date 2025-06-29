@@ -10,8 +10,8 @@ import rule from './function-call-spacing'
 run<RuleOptions, MessageIds>({
   name: 'function-call-spacing',
   rule,
+  lang: 'js',
   valid: [
-
     // default ("never")
     'f();',
     'f(a, b);',
@@ -29,10 +29,25 @@ run<RuleOptions, MessageIds>({
     'f(0, (1))',
     'describe/**/(\'foo\', function () {});',
     'new (foo())',
-    {
-      code: 'import(source)',
-      parserOptions: { ecmaVersion: 2020 },
-    },
+    'import(source)',
+    'f?.(a, b);',
+    'f?.b()?.c();',
+    'f.b?.();',
+    'f.b?.().c();',
+    '(function() {}?.())',
+    'f?.( (0) )',
+    '(function(){ if (foo) { bar(); } }?.());',
+    'f?.(0, (1))',
+    'describe/**/?.(\'foo\', function () {});',
+    'describe?./**/(\'foo\', function () {});',
+    '( f )?.( 0 )',
+    '( (f) )?.( (0) )',
+    '( f?.()() )(0)',
+    '( f()?.() )(0)',
+    '( f?.()?.() )(0)',
+    '( f?.()() )?.(0)',
+    '( f()?.() )?.(0)',
+    '( f?.()?.() )?.(0)',
 
     // "never"
     {
@@ -151,6 +166,14 @@ run<RuleOptions, MessageIds>({
       options: ['always'],
     },
     {
+      code: '( f ) ( 0 )',
+      options: ['always'],
+    },
+    {
+      code: '( (f) ) ( (0) )',
+      options: ['always'],
+    },
+    {
       code: 'f ();\n t   ();',
       options: ['always'],
     },
@@ -158,6 +181,18 @@ run<RuleOptions, MessageIds>({
       code: 'import (source)',
       options: ['always'],
       parserOptions: { ecmaVersion: 2020 },
+    },
+    {
+      code: 'f?.b ();',
+      options: ['always'],
+    },
+    {
+      code: 'f?.b ()?.c ();',
+      options: ['always'],
+    },
+    {
+      code: 'f ?. ();',
+      options: ['always'],
     },
 
     // "always", "allowNewlines": true
@@ -210,6 +245,26 @@ run<RuleOptions, MessageIds>({
       options: ['always', { allowNewlines: true }],
       parserOptions: { ecmaVersion: 2020 },
     },
+    {
+      code: 'f?.b \n ();',
+      options: ['always', { allowNewlines: true }],
+      parserOptions: { ecmaVersion: 2020 },
+    },
+    {
+      code: 'f\n() ()?.b \n()\n ()',
+      options: ['always', { allowNewlines: true }],
+      parserOptions: { ecmaVersion: 2020 },
+    },
+    {
+      code: 'f ?. ();',
+      options: ['always', { allowNewlines: true }],
+      parserOptions: { ecmaVersion: 2020 },
+    },
+    {
+      code: 'f\n?.\n();',
+      options: ['always', { allowNewlines: true }],
+      parserOptions: { ecmaVersion: 2020 },
+    },
 
     // Optional chaining
     {
@@ -232,6 +287,15 @@ run<RuleOptions, MessageIds>({
       options: ['always'],
       parserOptions: { ecmaVersion: 2020 },
     },
+    {
+      code: 'f?.\n();',
+      options: ['always', { allowNewlines: true, optionalChain: { before: false } }],
+    },
+    {
+      code: 'f\n?.();',
+      options: ['always', { allowNewlines: true, optionalChain: { after: false } }],
+    },
+
   ],
   invalid: [
 
@@ -739,6 +803,22 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
+      code: 'f\n?.();',
+      output: 'f\n?. ();',
+      options: ['always', { allowNewlines: true }],
+      errors: [
+        { messageId: 'missing' },
+      ],
+    },
+    {
+      code: 'f?.\n();',
+      output: 'f ?.\n();',
+      options: ['always', { allowNewlines: true }],
+      errors: [
+        { messageId: 'missing' },
+      ],
+    },
+    {
       code: 'f    ();',
       output: 'f();',
       errors: [
@@ -809,6 +889,24 @@ run<RuleOptions, MessageIds>({
       errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
+      code: 'var f = new Foo /* comment */ ()',
+      output: null, // Don't remove comments
+      options: ['never'],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
+    },
+    {
+      code: 'import\n//comment\n(source)',
+      output: null, // Don't remove comments
+      options: ['never'],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
+    },
+    {
+      code: 'f\n//comment\n();',
+      output: null,
+      options: ['always'],
+      errors: [{ messageId: 'unexpectedNewline' }],
+    },
+    {
       code: 'f/*comment*/()',
       output: 'f/*comment*/ ()',
       options: ['always'],
@@ -845,6 +943,27 @@ run<RuleOptions, MessageIds>({
       errors: [{ messageId: 'unexpectedWhitespace' }],
     },
     {
+      code: 'func\n?.\n()',
+      output: 'func?.()',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 2020 },
+      errors: [{ messageId: 'unexpectedWhitespace' }],
+    },
+    {
+      code: 'func ?.\n()',
+      output: 'func?.()',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 2020 },
+      errors: [{ messageId: 'unexpectedWhitespace' }],
+    },
+    {
+      code: 'func\n?. ()',
+      output: 'func?.()',
+      options: ['never'],
+      parserOptions: { ecmaVersion: 2020 },
+      errors: [{ messageId: 'unexpectedWhitespace' }],
+    },
+    {
       code: 'func\n//comment\n?.()',
       output: null, // Don't remove comments
       options: ['never'],
@@ -853,6 +972,20 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: 'func?.()',
+      output: 'func ?. ()',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 2020 },
+      errors: [{ messageId: 'missing' }],
+    },
+    {
+      code: 'func ?.()',
+      output: 'func ?. ()',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 2020 },
+      errors: [{ messageId: 'missing' }],
+    },
+    {
+      code: 'func?. ()',
       output: 'func ?. ()',
       options: ['always'],
       parserOptions: { ecmaVersion: 2020 },
@@ -880,11 +1013,99 @@ run<RuleOptions, MessageIds>({
       errors: [{ messageId: 'unexpectedNewline' }],
     },
     {
+      code: 'func\n?.\n()',
+      output: 'func ?. ()',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 2020 },
+      errors: [{ messageId: 'unexpectedNewline' }],
+    },
+    {
+      code: 'func\n?. ()',
+      output: 'func ?. ()',
+      options: ['always'],
+      parserOptions: { ecmaVersion: 2020 },
+      errors: [{ messageId: 'unexpectedNewline' }],
+    },
+    {
       code: 'func\n /*comment*/ ?.()',
       output: null, // Don't remove comments
       options: ['always'],
       parserOptions: { ecmaVersion: 2020 },
       errors: [{ messageId: 'unexpectedNewline' }],
+    },
+
+    {
+      code: 'func?.()',
+      output: 'func?. ()',
+      options: ['always', { optionalChain: { before: false } }],
+      errors: [{ messageId: 'missing' }],
+    },
+    {
+      code: 'func\n?.()',
+      output: 'func?. ()',
+      options: ['always', { optionalChain: { before: false } }],
+      errors: [{ messageId: 'unexpectedNewline' }],
+    },
+    {
+      code: 'func ?.\n()',
+      output: 'func?. ()',
+      options: ['always', { optionalChain: { before: false } }],
+      errors: [{ messageId: 'unexpectedNewline' }],
+    },
+    {
+      code: 'func?.()',
+      output: 'func?. ()',
+      options: ['always', { allowNewlines: true, optionalChain: { before: false } }],
+      errors: [{ messageId: 'missing' }],
+    },
+    {
+      code: 'func\n?.()',
+      output: 'func?. ()',
+      options: ['always', { allowNewlines: true, optionalChain: { before: false } }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
+    },
+    {
+      code: 'func ?.\n()',
+      output: 'func?.\n()',
+      options: ['always', { allowNewlines: true, optionalChain: { before: false } }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
+    },
+
+    {
+      code: 'func?.()',
+      output: 'func ?.()',
+      options: ['always', { optionalChain: { after: false } }],
+      errors: [{ messageId: 'missing' }],
+    },
+    {
+      code: 'func?.\n()',
+      output: 'func ?.()',
+      options: ['always', { optionalChain: { after: false } }],
+      errors: [{ messageId: 'unexpectedNewline' }],
+    },
+    {
+      code: 'func\n?. ()',
+      output: 'func ?.()',
+      options: ['always', { optionalChain: { after: false } }],
+      errors: [{ messageId: 'unexpectedNewline' }],
+    },
+    {
+      code: 'func?.()',
+      output: 'func ?.()',
+      options: ['always', { allowNewlines: true, optionalChain: { after: false } }],
+      errors: [{ messageId: 'missing' }],
+    },
+    {
+      code: 'func\n?. ()',
+      output: 'func\n?.()',
+      options: ['always', { allowNewlines: true, optionalChain: { after: false } }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
+    },
+    {
+      code: 'func?.\n()',
+      output: 'func ?.()',
+      options: ['always', { allowNewlines: true, optionalChain: { after: false } }],
+      errors: [{ messageId: 'unexpectedWhitespace' }],
     },
   ],
 })

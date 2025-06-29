@@ -12,47 +12,6 @@ run<RuleOptions, MessageIds>({
   name: 'comma-dangle',
   rule,
   lang: 'js',
-  // configs: [
-  //   {
-  //     plugins: {
-  //       temp: {
-  //         rules: {
-  //           'add-named-import': createRule({
-  //             meta: {
-  //               type: 'problem',
-  //               schema: [],
-  //               fixable: 'code',
-  //               messages: {
-  //                 'add-named-import': 'add-named-import.',
-  //               },
-  //             },
-  //             create(context) {
-  //               return {
-  //                 ImportDeclaration(node) {
-  //                   const sourceCode = context.sourceCode
-  //                   const closingBrace = sourceCode.getLastToken(node, token => token.value === '}')!
-  //                   const addComma = sourceCode.getTokenBefore(closingBrace)!.value !== ','
-
-  //                   context.report({
-  //                     messageId: 'add-named-import',
-  //                     node,
-  //                     fix(fixer) {
-  //                       return fixer.insertTextBefore(closingBrace, `${addComma ? ',' : ''}I18nManager`)
-  //                     },
-  //                   })
-  //                 },
-  //               }
-  //             },
-  //           }),
-  //         },
-  //       },
-  //     },
-  //     rules: {
-  //       'temp/add-named-import': 'error',
-  //     },
-  //   },
-  // ],
-
   valid: [
     'var foo = { bar: \'baz\' }',
     'var foo = {\nbar: \'baz\'\n}',
@@ -1044,20 +1003,22 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
-      code:
-            'var foo = [\n'
-            + '  bar,\n'
-            + '  (\n'
-            + '    baz\n'
-            + '  )\n'
-            + '];',
-      output:
-            'var foo = [\n'
-            + '  bar,\n'
-            + '  (\n'
-            + '    baz\n'
-            + '  ),\n'
-            + '];',
+      code: $`
+        var foo = [
+          bar,
+          (
+            baz
+          )
+        ];
+      `,
+      output: $`
+        var foo = [
+          bar,
+          (
+            baz
+          ),
+        ];
+      `,
       options: ['always'],
       errors: [
         {
@@ -1069,20 +1030,22 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
-      code:
-            'var foo = {\n'
-            + '  foo: \'bar\',\n'
-            + '  baz: (\n'
-            + '    qux\n'
-            + '  )\n'
-            + '};',
-      output:
-            'var foo = {\n'
-            + '  foo: \'bar\',\n'
-            + '  baz: (\n'
-            + '    qux\n'
-            + '  ),\n'
-            + '};',
+      code: $`
+        var foo = {
+          foo: 'bar',
+          baz: (
+            qux
+          )
+        };
+      `,
+      output: $`
+        var foo = {
+          foo: 'bar',
+          baz: (
+            qux
+          ),
+        };
+      `,
       options: ['always'],
       errors: [
         {
@@ -1096,20 +1059,22 @@ run<RuleOptions, MessageIds>({
     {
 
       // https://github.com/eslint/eslint/issues/7291
-      code:
-            'var foo = [\n'
-            + '  (bar\n'
-            + '    ? baz\n'
-            + '    : qux\n'
-            + '  )\n'
-            + '];',
-      output:
-            'var foo = [\n'
-            + '  (bar\n'
-            + '    ? baz\n'
-            + '    : qux\n'
-            + '  ),\n'
-            + '];',
+      code: $`
+        var foo = [
+          (bar
+            ? baz
+            : qux
+          )
+        ];
+      `,
+      output: $`
+        var foo = [
+          (bar
+            ? baz
+            : qux
+          ),
+        ];
+      `,
       options: ['always'],
       errors: [
         {
