@@ -1,19 +1,19 @@
 import type { StylisticCustomizeOptions } from '@stylistic/eslint-plugin'
 import type { Linter } from 'eslint'
+import fs, { promises as fsp } from 'node:fs'
 import { join, resolve } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { execa } from 'execa'
 import fg from 'fast-glob'
-import fs from 'fs-extra'
 import { afterAll, beforeAll, it } from 'vitest'
 
 const fixturesDir = fileURLToPath(new URL('fixtures', import.meta.url))
 
 beforeAll(async () => {
-  await fs.rm('_fixtures', { recursive: true, force: true })
+  await fsp.rm('_fixtures', { recursive: true, force: true })
 })
 afterAll(async () => {
-  await fs.rm('_fixtures', { recursive: true, force: true })
+  await fsp.rm('_fixtures', { recursive: true, force: true })
 })
 
 runWithConfig('default', {})
@@ -31,12 +31,13 @@ function runWithConfig(name: string, configs: StylisticCustomizeOptions | string
     const output = resolve(fixturesDir, 'output', name)
     const target = resolve('_fixtures', name)
 
-    await fs.copy(from, target, {
+    await fsp.cp(from, target, {
+      recursive: true,
       filter: (src) => {
         return !src.includes('node_modules')
       },
     })
-    await fs.writeFile(join(target, 'eslint.config.js'), `
+    await fsp.writeFile(join(target, 'eslint.config.js'), `
 // @eslint-disable
 import stylistic from '@stylistic/eslint-plugin'
 import parserTs from '@typescript-eslint/parser'
@@ -108,13 +109,13 @@ export default [
     })
 
     await Promise.all(files.map(async (file) => {
-      const content = (await fs.readFile(join(target, file), 'utf-8')).replace(/\r\n/g, '\n').trim()
-      const source = (await fs.readFile(join(from, file), 'utf-8')).replace(/\r\n/g, '\n').trim()
+      const content = (await fsp.readFile(join(target, file), 'utf-8')).replace(/\r\n/g, '\n').trim()
+      const source = (await fsp.readFile(join(from, file), 'utf-8')).replace(/\r\n/g, '\n').trim()
       const targetPath = join(output, file)
 
       if (content === source) {
         if (fs.existsSync(targetPath))
-          await fs.remove(targetPath)
+          await fsp.unlink(targetPath)
       }
       else {
         await expect.soft(content)
