@@ -1771,9 +1771,10 @@ export default createRule<RuleOptions, MessageIds>({
           return
 
         const kind = node.kind === 'await using' ? 'using' : node.kind
-        const variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, kind)
+        let variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, kind)
           ? options.VariableDeclarator[kind]
           : DEFAULT_VARIABLE_INDENT
+        const alignFirstVariable = variableIndent === 'first'
 
         const firstToken = sourceCode.getFirstToken(node)!
         const lastToken = sourceCode.getLastToken(node)!
@@ -1805,9 +1806,18 @@ export default createRule<RuleOptions, MessageIds>({
            * on the same line as the start of the declaration, provided that there are declarators that
            * follow this one.
            */
+          if (alignFirstVariable) {
+            const firstTokenOfFirstElement = sourceCode.getFirstToken(node.declarations[0])!
+
+            variableIndent = (tokenInfo.getTokenIndent(firstTokenOfFirstElement).length - tokenInfo.getTokenIndent(firstToken).length) / indentSize
+          }
+
           offsets.setDesiredOffsets(node.range, firstToken, variableIndent, true)
         }
         else {
+          if (alignFirstVariable)
+            variableIndent = DEFAULT_VARIABLE_INDENT
+
           offsets.setDesiredOffsets(node.range, firstToken, variableIndent)
         }
 
