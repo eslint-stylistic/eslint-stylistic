@@ -7887,6 +7887,66 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
+        var abc =
+             {
+               a: 1,
+                b: 2
+             };
+      `,
+      output: $`
+        var abc =
+             {
+               a: 1,
+               b: 2
+             };
+      `,
+      options: [2, { VariableDeclarator: 'first', SwitchCase: 1 }],
+      errors: expectedErrors([4, 7, 8, 'Identifier']),
+    },
+    {
+      code: $`
+        var foo = {
+              bar: 1,
+              baz: {
+                qux: 2
+              }
+            },
+          bar = 1;
+      `,
+      output: $`
+        var foo = {
+              bar: 1,
+              baz: {
+                qux: 2
+              }
+            },
+            bar = 1;
+      `,
+      options: [2, { VariableDeclarator: 'first' }],
+      errors: expectedErrors([7, 4, 2, 'Identifier']),
+    },
+    {
+      code: $`
+        var a = 1,
+            B = class {
+            constructor(){}
+              a(){}
+              get b(){}
+            };
+      `,
+      output: $`
+        var a = 1,
+            B = class {
+              constructor(){}
+              a(){}
+              get b(){}
+            };
+      `,
+      options: [2, { VariableDeclarator: 'first', SwitchCase: 1 }],
+      errors: expectedErrors([[3, 6, 4, 'Identifier']]),
+    },
+    {
+      code: $`
         var foo = 'foo',
           bar = bar;
       `,
