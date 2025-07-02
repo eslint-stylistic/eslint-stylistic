@@ -6,13 +6,6 @@ import { $, run } from '#test'
 import { AST_NODE_TYPES } from '#utils/ast'
 import rule from './indent'
 
-/**
- * Marks a test case as a plain javascript case which should be indented the same
- */
-function nonTsTestCase(example: TemplateStringsArray): string {
-  return ['// Non-TS Test Case', example].join('\n')
-}
-
 // #region individualNodeTests
 const individualNodeTests = [
   {
@@ -73,13 +66,6 @@ const individualNodeTests = [
             bar: number,
         };
       `,
-      nonTsTestCase`
-const foo = {} ===
-{
-    foo: string,
-    bar: number,
-};
-            `,
       $`
         const foo = {} as
         {
@@ -92,16 +78,6 @@ const foo = {} ===
   {
     node: AST_NODE_TYPES.TSConditionalType,
     code: [
-      nonTsTestCase`
-const Foo = T
-    ? {
-        a: number,
-        b: boolean
-    }
-    : {
-        c: string
-    };
-            `,
       $`
         type Foo<T> = T extends string
             ? {
@@ -112,12 +88,6 @@ const Foo = T
                 c: string
             };
       `,
-      nonTsTestCase`
-const Foo = T ? {
-    a: number,
-    b: boolean
-} : string;
-            `,
       $`
         type Foo<T> = T extends string ? {
             a: number,
@@ -268,11 +238,6 @@ enum Foo
   {
     node: AST_NODE_TYPES.TSIndexedAccessType,
     code: [
-      nonTsTestCase`
-const Foo = Bar[
-    'asdf'
-];
-            `,
       $`
         type Foo = Bar[
             'asdf'
@@ -346,11 +311,6 @@ const Foo = Bar[
   {
     node: 'TSImportEqualsDeclaration, TSExternalModuleReference',
     code: [
-      nonTsTestCase`
-const foo = require(
-    'asdf'
-);
-            `,
       $`
         import foo = require(
             'asdf'
@@ -423,11 +383,6 @@ const foo = require(
   {
     node: AST_NODE_TYPES.TSNonNullExpression,
     code: [
-      nonTsTestCase`
-const foo = a
-    .b.
-    c;
-            `,
       $`
         const foo = a!
             .b!.
@@ -477,14 +432,6 @@ const foo = a
             b: 2,
         };
       `,
-      nonTsTestCase`
-const a = Foo.
-    bar
-    .baz = {
-        a: 1,
-        b: 2,
-    };
-            `,
       $`
         const a: Foo.
             bar
@@ -523,26 +470,12 @@ const a = Foo.
   {
     node: AST_NODE_TYPES.TSTupleType,
     code: [
-      nonTsTestCase`
-const foo = [
-    string,
-    number,
-];
-            `,
       $`
         type foo = [
             string,
             number,
         ];
       `,
-      nonTsTestCase`
-const foo = [
-    [
-        string,
-        number,
-    ],
-];
-            `,
       $`
         type foo = [
             [
