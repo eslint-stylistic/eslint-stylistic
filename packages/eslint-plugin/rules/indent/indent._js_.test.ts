@@ -680,6 +680,40 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
+        var a = {
+          a: 1,
+          b: 2
+        };
+      `,
+      options: [2, { VariableDeclarator: 'first' }],
+    },
+    {
+      code: $`
+        var a = 2,
+            c = {
+              a: 1,
+              b: 2
+            },
+            b = 2;
+      `,
+      options: [2, { VariableDeclarator: 'first' }],
+    },
+    {
+      code: $`
+        var x = {
+              a: 1,
+              b: 2
+            },
+            y = {
+              c: 1,
+              d: 3
+            },
+            z = 5;
+      `,
+      options: [2, { VariableDeclarator: 'first' }],
+    },
+    {
+      code: $`
         var abc =
             {
               a: 1,
