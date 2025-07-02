@@ -1164,15 +1164,6 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function checkDeclarator(node: Tree.VariableDeclarator | Tree.TSTypeAliasDeclaration, equalOperator: Token) {
-      const tokenAfterOperator = sourceCode.getTokenAfter(equalOperator)!
-
-      offsets.ignoreToken(equalOperator)
-      offsets.ignoreToken(tokenAfterOperator)
-      offsets.setDesiredOffsets([tokenAfterOperator.range[0], node.range[1]], equalOperator, 1)
-      offsets.setDesiredOffset(equalOperator, sourceCode.getLastToken(node.id), 0)
-    }
-
     function checkArrayLikeNode(node: Tree.ArrayExpression | Tree.ArrayPattern | Tree.TSTupleType) {
       const elementList = node.type === AST_NODE_TYPES.TSTupleType ? node.elementTypes : node.elements
       const openingBracket = sourceCode.getFirstToken(node)!
@@ -2007,7 +1998,7 @@ export default createRule<RuleOptions, MessageIds>({
       TSTypeAliasDeclaration(node) {
         const equalOperator = sourceCode.getTokenBefore(node.typeAnnotation, isNotOpeningParenToken)!
 
-        checkDeclarator(node, equalOperator)
+        checkAssignmentOperator(equalOperator)
 
         const lastToken = sourceCode.getLastToken(node)!
         if (isSemicolonToken(lastToken))
