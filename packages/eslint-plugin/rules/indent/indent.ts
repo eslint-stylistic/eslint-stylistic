@@ -1771,28 +1771,21 @@ export default createRule<RuleOptions, MessageIds>({
           return
 
         const kind = node.kind === 'await using' ? 'using' : node.kind
-        let variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, kind)
+        const variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, kind)
           ? options.VariableDeclarator[kind]
           : DEFAULT_VARIABLE_INDENT
 
         const firstToken = sourceCode.getFirstToken(node)!
         const lastToken = sourceCode.getLastToken(node)!
 
-        if (options.VariableDeclarator[kind] === 'first') {
-          if (node.declarations.length > 1) {
-            addElementListIndent(
-              node.declarations,
-              firstToken,
-              lastToken,
-              'first',
-            )
-            return
-          }
-
-          variableIndent = DEFAULT_VARIABLE_INDENT
-        }
-
         if (node.declarations[node.declarations.length - 1].loc.start.line > node.loc.start.line) {
+          addElementListIndent(
+            node.declarations,
+            firstToken,
+            lastToken,
+            variableIndent,
+          )
+
           /**
            * VariableDeclarator indentation is a bit different from other forms of indentation, in that the
            * indentation of an opening bracket sometimes won't match that of a closing bracket. For example,
