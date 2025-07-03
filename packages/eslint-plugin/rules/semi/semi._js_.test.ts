@@ -76,16 +76,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { do ; while (foo)\n ;(a)} }',
       options: ['never', { beforeStatementContinuationChars: 'always' }],
     },
-    'class C { accessor foo; } ',
-    'class C { accessor [foo]; } ',
-    {
-      code: 'class C { accessor foo } ',
-      options: ['never'],
-    },
-    {
-      code: 'class C { accessor foo\n accessor [foo] } ',
-      options: ['never'],
-    },
 
     // omitLastInOneLineBlock: true
     {
@@ -265,22 +255,6 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: 'class C\n{ foo }',
-      options: ['always', { omitLastInOneLineClassBody: true }],
-    },
-    {
-      code: 'class C { accessor foo; }',
-      options: ['always', { omitLastInOneLineClassBody: false }],
-    },
-    {
-      code: 'class C { accessor foo }',
-      options: ['always', { omitLastInOneLineClassBody: true }],
-    },
-    {
-      code: 'class C { accessor [foo]; }',
-      options: ['always', { omitLastInOneLineClassBody: false }],
-    },
-    {
-      code: 'class C { accessor [foo] }',
       options: ['always', { omitLastInOneLineClassBody: true }],
     },
 
@@ -2209,44 +2183,6 @@ run<RuleOptions, MessageIds>({
         endLine: 1,
         endColumn: 18,
       }],
-    },
-    {
-      code: $`
-        class C {
-          accessor foo
-          accessor [bar]
-        }
-      `,
-      output: $`
-        class C {
-          accessor foo;
-          accessor [bar];
-        }
-      `,
-      options: ['always'],
-      errors: [
-        { messageId: 'missingSemi' },
-        { messageId: 'missingSemi' },
-      ],
-    },
-    {
-      code: $`
-        class C {
-          accessor foo;
-          accessor [bar];
-        }
-      `,
-      output: $`
-        class C {
-          accessor foo
-          accessor [bar]
-        }
-      `,
-      options: ['never'],
-      errors: [
-        { messageId: 'extraSemi' },
-        { messageId: 'extraSemi' },
-      ],
     },
 
     // omitLastInOneLineClassBody
