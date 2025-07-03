@@ -195,6 +195,21 @@ run<RuleOptions, MessageIds>({
       options: [BOTH],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
+    // ----------------------------------------------------------------------
+    // import attributes
+    // ----------------------------------------------------------------------
+    {
+      code: `import pkgJson from 'package.json' with { type: 'json' }`,
+      options: [BOTH],
+    },
+    {
+      code: `export{ name }from'package.json'with{ type: 'json' }`,
+      options: [NEITHER],
+    },
+    {
+      code: `export * from 'package.json'with{ type: 'json' }`,
+      options: [override('with', NEITHER)],
+    },
     {
       code: 'class A { delete() {} }',
       options: [BOTH],
@@ -505,6 +520,36 @@ run<RuleOptions, MessageIds>({
         { messageId: 'unexpectedAfter', data: { value: 'type' } },
         { messageId: 'unexpectedBefore', data: { value: 'from' } },
         { messageId: 'unexpectedAfter', data: { value: 'from' } },
+      ],
+    },
+    // ----------------------------------------------------------------------
+    // import attributes
+    // ----------------------------------------------------------------------
+    {
+      code: `import pkgJson from'package.json' with { type: 'json' }`,
+      output: `import pkgJson from'package.json'with{ type: 'json' }`,
+      options: [NEITHER],
+      errors: [
+        { messageId: 'unexpectedBefore', data: { value: 'with' } },
+        { messageId: 'unexpectedAfter', data: { value: 'with' } },
+      ],
+    },
+    {
+      code: `export { name } from 'package.json'with{ type: 'json' }`,
+      output: `export { name } from 'package.json' with { type: 'json' }`,
+      options: [BOTH],
+      errors: [
+        { messageId: 'expectedBefore', data: { value: 'with' } },
+        { messageId: 'expectedAfter', data: { value: 'with' } },
+      ],
+    },
+    {
+      code: `export*from'package.json'with{ type: 'json' }`,
+      output: `export*from'package.json' with { type: 'json' }`,
+      options: [override('with', BOTH)],
+      errors: [
+        { messageId: 'expectedBefore', data: { value: 'with' } },
+        { messageId: 'expectedAfter', data: { value: 'with' } },
       ],
     },
 
