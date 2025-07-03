@@ -1780,12 +1780,18 @@ export default createRule<RuleOptions, MessageIds>({
         const lastToken = sourceCode.getLastToken(node)!
 
         if (node.declarations[node.declarations.length - 1].loc.start.line > node.loc.start.line) {
-          addElementListIndent(
-            node.declarations,
-            firstToken,
-            lastToken,
-            variableIndent,
-          )
+          if (alignFirstVariable) {
+            addElementListIndent(
+              node.declarations,
+              firstToken,
+              lastToken,
+              variableIndent,
+            )
+
+            const firstTokenOfFirstElement = sourceCode.getFirstToken(node.declarations[0])!
+
+            variableIndent = (tokenInfo.getTokenIndent(firstTokenOfFirstElement).length - tokenInfo.getTokenIndent(firstToken).length) / indentSize
+          }
 
           /**
            * VariableDeclarator indentation is a bit different from other forms of indentation, in that the
@@ -1806,12 +1812,6 @@ export default createRule<RuleOptions, MessageIds>({
            * on the same line as the start of the declaration, provided that there are declarators that
            * follow this one.
            */
-          if (alignFirstVariable) {
-            const firstTokenOfFirstElement = sourceCode.getFirstToken(node.declarations[0])!
-
-            variableIndent = (tokenInfo.getTokenIndent(firstTokenOfFirstElement).length - tokenInfo.getTokenIndent(firstToken).length) / indentSize
-          }
-
           offsets.setDesiredOffsets(node.range, firstToken, variableIndent, true)
         }
         else {
