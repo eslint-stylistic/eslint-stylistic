@@ -312,16 +312,19 @@ export default createRule<RuleOptions, MessageIds>({
       ImportDeclaration(node) {
         checkForImport(node)
 
-        checkForObjectLike(node, node.attributes)
+        if (node.attributes)
+          checkForObjectLike(node, node.attributes)
       },
       // export {name} from 'yo';
       ExportNamedDeclaration(node) {
         checkForExport(node)
 
-        checkForObjectLike(node, node.attributes)
+        if (node.attributes)
+          checkForObjectLike(node, node.attributes)
       },
       ExportAllDeclaration(node) {
-        checkForObjectLike(node, node.attributes)
+        if (node.attributes)
+          checkForObjectLike(node, node.attributes)
       },
       TSMappedType(node) {
         const openingToken = sourceCode.getFirstToken(node)!
