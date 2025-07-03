@@ -1774,25 +1774,27 @@ export default createRule<RuleOptions, MessageIds>({
         let variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, kind)
           ? options.VariableDeclarator[kind]
           : DEFAULT_VARIABLE_INDENT
+        const alignFirstVariable = variableIndent === 'first'
 
         const firstToken = sourceCode.getFirstToken(node)!
         const lastToken = sourceCode.getLastToken(node)!
 
-        if (options.VariableDeclarator[kind] === 'first') {
-          if (node.declarations.length > 1) {
+        const hasDeclaratorOnNewLine = node.declarations.at(-1)!.loc.start.line > node.loc.start.line
+
+        if (hasDeclaratorOnNewLine) {
+          if (alignFirstVariable) {
             addElementListIndent(
               node.declarations,
               firstToken,
               lastToken,
-              'first',
+              variableIndent,
             )
-            return
+
+            const firstTokenOfFirstElement = sourceCode.getFirstToken(node.declarations[0])!
+
+            variableIndent = (tokenInfo.getTokenIndent(firstTokenOfFirstElement).length - tokenInfo.getTokenIndent(firstToken).length) / indentSize
           }
 
-          variableIndent = DEFAULT_VARIABLE_INDENT
-        }
-
-        if (node.declarations[node.declarations.length - 1].loc.start.line > node.loc.start.line) {
           /**
            * VariableDeclarator indentation is a bit different from other forms of indentation, in that the
            * indentation of an opening bracket sometimes won't match that of a closing bracket. For example,
@@ -1815,6 +1817,9 @@ export default createRule<RuleOptions, MessageIds>({
           offsets.setDesiredOffsets(node.range, firstToken, variableIndent, true)
         }
         else {
+          if (alignFirstVariable)
+            variableIndent = DEFAULT_VARIABLE_INDENT
+
           offsets.setDesiredOffsets(node.range, firstToken, variableIndent)
         }
 
