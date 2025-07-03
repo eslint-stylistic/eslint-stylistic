@@ -1,5 +1,24 @@
 # Changelog
 
+## [5.1.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0...v5.1.0) (2025-06-29)
+
+
+### Bug Fixes
+
+* correct rule name in `disable-legacy` ([#849](https://github.com/eslint-stylistic/eslint-stylistic/issues/849)) ([e63f1e4](https://github.com/eslint-stylistic/eslint-stylistic/commit/e63f1e418aae14b7bfdfc764c3a1a310d7af4ddb))
+* **indent:** correct handling of return type annotations ([#853](https://github.com/eslint-stylistic/eslint-stylistic/issues/853)) ([5259950](https://github.com/eslint-stylistic/eslint-stylistic/commit/5259950b5f5be86d1d73f6dcb07952b1d36f31e1))
+
+
+### Build Related
+
+* migrate to `tsdown` ([#854](https://github.com/eslint-stylistic/eslint-stylistic/issues/854)) ([5d2bec1](https://github.com/eslint-stylistic/eslint-stylistic/commit/5d2bec10f1da31eb56ccf637d936dcbba79983cc))
+
+
+### Chores
+
+* cleanup duplicate test cases ([#855](https://github.com/eslint-stylistic/eslint-stylistic/issues/855)) ([140db85](https://github.com/eslint-stylistic/eslint-stylistic/commit/140db8594f195193abb39d16aef5f01d386cc651))
+* release-please-mark ([da0be03](https://github.com/eslint-stylistic/eslint-stylistic/commit/da0be031fc4fbea6c52640f913269e0bf07093c5))
+
 ## [5.0.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0-beta.6...v5.0.0) (2025-06-23)
 
 

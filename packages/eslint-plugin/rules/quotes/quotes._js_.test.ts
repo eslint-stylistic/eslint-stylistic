@@ -11,7 +11,6 @@ run<RuleOptions, MessageIds>({
   name: 'quotes',
   rule,
   lang: 'js',
-
   valid: [
     'var foo = "bar";',
     { code: 'var foo = \'bar\';', options: ['single'] },

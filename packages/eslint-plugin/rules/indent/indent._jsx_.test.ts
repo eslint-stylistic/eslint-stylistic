@@ -96,11 +96,11 @@ run<RuleOptions, MessageIds>({
       options: [0],
     },
     {
-      code: `
-<App>
-\t<Foo />
-</App>
-`,
+      code: $`
+        <App>
+        \t<Foo />
+        </App>
+      `,
       options: ['tab'],
     },
     {
@@ -931,18 +931,18 @@ run<RuleOptions, MessageIds>({
       options: [2],
     },
     {
-      code: `
-const Component = () => (
-\t<View
-\t\tListFooterComponent={(
-\t\t\t<View
-\t\t\t\trowSpan={3}
-\t\t\t\tplaceholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"
-\t\t\t/>
-\t\t)}
-\t/>
-);
-    `,
+      code: $`
+        const Component = () => (
+        \t<View
+        \t\tListFooterComponent={(
+        \t\t\t<View
+        \t\t\t\trowSpan={3}
+        \t\t\t\tplaceholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"
+        \t\t\t/>
+        \t\t)}
+        \t/>
+        );
+      `,
       options: ['tab'],
     },
     {
@@ -989,25 +989,25 @@ const Component = () => (
       `,
     },
     {
-      code: `
-<App>
-\ttext
-</App>
-`,
+      code: $`
+        <App>
+        \ttext
+        </App>
+      `,
       options: ['tab'],
     },
     {
-      code: `
-<App>
-\t{undefined}
-\t{null}
-\t{true}
-\t{false}
-\t{42}
-\t{NaN}
-\t{"foo"}
-</App>
-`,
+      code: $`
+        <App>
+        \t{undefined}
+        \t{null}
+        \t{true}
+        \t{false}
+        \t{42}
+        \t{NaN}
+        \t{"foo"}
+        </App>
+      `,
       options: ['tab'],
     },
     {
@@ -1348,38 +1348,38 @@ const Component = () => (
       errors: expectedErrors('tab', [2, 1, 0, 'Punctuator']),
     },
     {
-      code: `
-<App>
-\t{options.map((option, index) => (
-\t\t<option key={index} value={option.key}>
-\t\t{option.name}
-\t\t</option>
-\t))}
-</App>
-`,
-      output: `
-<App>
-\t{options.map((option, index) => (
-\t\t<option key={index} value={option.key}>
-\t\t\t{option.name}
-\t\t</option>
-\t))}
-</App>
-`,
+      code: $`
+        <App>
+        \t{options.map((option, index) => (
+        \t\t<option key={index} value={option.key}>
+        \t\t{option.name}
+        \t\t</option>
+        \t))}
+        </App>
+      `,
+      output: $`
+        <App>
+        \t{options.map((option, index) => (
+        \t\t<option key={index} value={option.key}>
+        \t\t\t{option.name}
+        \t\t</option>
+        \t))}
+        </App>
+      `,
       options: ['tab'],
       errors: expectedErrors('tab', [4, 3, 2, 'Punctuator']),
     },
     {
-      code: `
-<App>\n
-<Foo />\n
-</App>
-`,
-      output: `
-<App>\n
-\t<Foo />\n
-</App>
-`,
+      code: $`
+        <App>\n
+        <Foo />\n
+        </App>
+      `,
+      output: $`
+        <App>\n
+        \t<Foo />\n
+        </App>
+      `,
       options: ['tab'],
       errors: expectedErrors('tab', [3, 1, 0, 'Punctuator']),
     },
@@ -1942,30 +1942,30 @@ const Component = () => (
       errors: expectedErrors([8, 4, 0, 'Punctuator']),
     },
     {
-      code: `
-const Component = () => (
-\t<View
-\t\tListFooterComponent={(
-\t\t\t<View
-\t\t\t\trowSpan={3}
-\t\t\t\tplaceholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"
-\t\t\t/>
-)}
-\t/>
-);
-    `,
-      output: `
-const Component = () => (
-\t<View
-\t\tListFooterComponent={(
-\t\t\t<View
-\t\t\t\trowSpan={3}
-\t\t\t\tplaceholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"
-\t\t\t/>
-\t\t)}
-\t/>
-);
-    `,
+      code: $`
+        const Component = () => (
+        \t<View
+        \t\tListFooterComponent={(
+        \t\t\t<View
+        \t\t\t\trowSpan={3}
+        \t\t\t\tplaceholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"
+        \t\t\t/>
+        )}
+        \t/>
+        );
+      `,
+      output: $`
+        const Component = () => (
+        \t<View
+        \t\tListFooterComponent={(
+        \t\t\t<View
+        \t\t\t\trowSpan={3}
+        \t\t\t\tplaceholder="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do"
+        \t\t\t/>
+        \t\t)}
+        \t/>
+        );
+      `,
       options: ['tab'],
       errors: expectedErrors('tab', [8, 2, 0, 'Punctuator']),
     },

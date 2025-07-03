@@ -150,6 +150,7 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.TSRestType,
   AST_NODE_TYPES.TSThisType,
   AST_NODE_TYPES.TSTupleType,
+  AST_NODE_TYPES.TSTypeAliasDeclaration,
   AST_NODE_TYPES.TSTypeAnnotation,
   AST_NODE_TYPES.TSTypeLiteral,
   AST_NODE_TYPES.TSTypeOperator,
@@ -1124,6 +1125,15 @@ export default createRule<RuleOptions, MessageIds>({
 
     const ignoredNodeFirstTokens = new Set<Token>()
 
+    function checkDeclarator(node: Tree.VariableDeclarator | Tree.TSTypeAliasDeclaration, equalOperator: Token) {
+      const tokenAfterOperator = sourceCode.getTokenAfter(equalOperator)!
+
+      offsets.ignoreToken(equalOperator)
+      offsets.ignoreToken(tokenAfterOperator)
+      offsets.setDesiredOffsets([tokenAfterOperator.range[0], node.range[1]], equalOperator, 1)
+      offsets.setDesiredOffset(equalOperator, sourceCode.getLastToken(node.id), 0)
+    }
+
     function checkArrayLikeNode(node: Tree.ArrayExpression | Tree.ArrayPattern | Tree.TSTupleType) {
       const elementList = node.type === AST_NODE_TYPES.TSTupleType ? node.elementTypes : node.elements
       const openingBracket = sourceCode.getFirstToken(node)!
@@ -1373,7 +1383,10 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (isOpeningParenToken(maybeOpeningParen)) {
           const openingParen = maybeOpeningParen
-          const closingParen = sourceCode.getTokenBefore(node.body, isClosingParenToken)!
+          const closingParen = sourceCode.getTokenBefore(
+            node.returnType ?? node.body,
+            { filter: isClosingParenToken },
+          )!
 
           parameterParens.add(openingParen)
           parameterParens.add(closingParen)
@@ -1498,21 +1511,25 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       'FunctionDeclaration, FunctionExpression': function (node: Tree.FunctionDeclaration | Tree.FunctionExpression) {
-        const closingParen = sourceCode.getTokenBefore(node.body)!
-        const openingParen = sourceCode.getTokenBefore(
-          node.params.length
-            ? node.params[0].decorators?.length
-              ? node.params[0].decorators[0]
-              : node.params[0]
-            : closingParen,
-          {
-            filter: isOpeningParenToken,
-          },
-        )!
+        const paramsClosingParen = sourceCode.getTokenBefore(
+          node.returnType ?? node.body,
+          { filter: isClosingParenToken },
+        )
+        if (!paramsClosingParen)
+          throw new Error('Expected to find a closing parenthesis for function parameters.')
 
-        parameterParens.add(openingParen)
-        parameterParens.add(closingParen)
-        addElementListIndent(node.params, openingParen, closingParen, options[node.type].parameters)
+        const paramsOpeningParen = sourceCode.getTokenBefore(
+          node.params.length
+            ? (node.params[0].decorators?.[0] ?? node.params[0])
+            : paramsClosingParen,
+          { filter: isOpeningParenToken },
+        )
+        if (!paramsOpeningParen)
+          throw new Error('Expected to find an opening parenthesis for function parameters.')
+
+        parameterParens.add(paramsOpeningParen)
+        parameterParens.add(paramsClosingParen)
+        addElementListIndent(node.params, paramsOpeningParen, paramsClosingParen, options[node.type].parameters)
       },
 
       IfStatement(node) {
@@ -1758,25 +1775,27 @@ export default createRule<RuleOptions, MessageIds>({
         let variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, kind)
           ? options.VariableDeclarator[kind]
           : DEFAULT_VARIABLE_INDENT
+        const alignFirstVariable = variableIndent === 'first'
 
         const firstToken = sourceCode.getFirstToken(node)!
         const lastToken = sourceCode.getLastToken(node)!
 
-        if (options.VariableDeclarator[kind] === 'first') {
-          if (node.declarations.length > 1) {
+        const hasDeclaratorOnNewLine = node.declarations.at(-1)!.loc.start.line > node.loc.start.line
+
+        if (hasDeclaratorOnNewLine) {
+          if (alignFirstVariable) {
             addElementListIndent(
               node.declarations,
               firstToken,
               lastToken,
-              'first',
+              variableIndent,
             )
-            return
+
+            const firstTokenOfFirstElement = sourceCode.getFirstToken(node.declarations[0])!
+
+            variableIndent = (tokenInfo.getTokenIndent(firstTokenOfFirstElement).length - tokenInfo.getTokenIndent(firstToken).length) / indentSize
           }
 
-          variableIndent = DEFAULT_VARIABLE_INDENT
-        }
-
-        if (node.declarations[node.declarations.length - 1].loc.start.line > node.loc.start.line) {
           /**
            * VariableDeclarator indentation is a bit different from other forms of indentation, in that the
            * indentation of an opening bracket sometimes won't match that of a closing bracket. For example,
@@ -1799,6 +1818,9 @@ export default createRule<RuleOptions, MessageIds>({
           offsets.setDesiredOffsets(node.range, firstToken, variableIndent, true)
         }
         else {
+          if (alignFirstVariable)
+            variableIndent = DEFAULT_VARIABLE_INDENT
+
           offsets.setDesiredOffsets(node.range, firstToken, variableIndent)
         }
 
@@ -1809,12 +1831,8 @@ export default createRule<RuleOptions, MessageIds>({
       VariableDeclarator(node) {
         if (node.init) {
           const equalOperator = sourceCode.getTokenBefore(node.init, isNotOpeningParenToken)!
-          const tokenAfterOperator = sourceCode.getTokenAfter(equalOperator)!
 
-          offsets.ignoreToken(equalOperator)
-          offsets.ignoreToken(tokenAfterOperator)
-          offsets.setDesiredOffsets([tokenAfterOperator.range[0], node.range[1]], equalOperator, 1)
-          offsets.setDesiredOffset(equalOperator, sourceCode.getLastToken(node.id), 0)
+          checkDeclarator(node, equalOperator)
         }
       },
 
@@ -1945,6 +1963,12 @@ export default createRule<RuleOptions, MessageIds>({
 
       JSXMemberExpression(node) {
         checkMemberExpression(node, node.object, node.property)
+      },
+
+      TSTypeAliasDeclaration(node) {
+        const equalOperator = sourceCode.getTokenBefore(node.typeAnnotation, isNotOpeningParenToken)!
+
+        checkDeclarator(node, equalOperator)
       },
 
       'TSTupleType': checkArrayLikeNode,

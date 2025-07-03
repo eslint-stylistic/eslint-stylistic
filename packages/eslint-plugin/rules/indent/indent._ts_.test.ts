@@ -6,185 +6,155 @@ import { $, run } from '#test'
 import { AST_NODE_TYPES } from '#utils/ast'
 import rule from './indent'
 
-/**
- * Marks a test case as a plain javascript case which should be indented the same
- */
-function nonTsTestCase(example: TemplateStringsArray): string {
-  return ['// Non-TS Test Case', example].join('\n')
-}
-
 // #region individualNodeTests
 const individualNodeTests = [
   {
     node: AST_NODE_TYPES.ClassDeclaration,
     code: [
-      `
-abstract class Foo {
-    constructor() {}
-    method() {
-        console.log('hi');
-    }
-}
-            `,
+      $`
+        abstract class Foo {
+            constructor() {}
+            method() {
+                console.log('hi');
+            }
+        }
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSAbstractPropertyDefinition,
     code: [
-      `
-class Foo {
-    abstract bar : baz;
-    abstract foo : {
-        a : number
-        b : number
-    };
-}
-            `,
+      $`
+        class Foo {
+            abstract bar : baz;
+            abstract foo : {
+                a : number
+                b : number
+            };
+        }
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSAbstractMethodDefinition,
     code: [
-      `
-class Foo {
-    abstract bar() : baz;
-    abstract foo() : {
-        a : number
-        b : number
-    };
-}
-            `,
+      $`
+        class Foo {
+            abstract bar() : baz;
+            abstract foo() : {
+                a : number
+                b : number
+            };
+        }
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSArrayType,
     code: [
-      `
-type foo = ArrType[];
-            `,
+      $`
+        type foo = ArrType[];
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSAsExpression,
     code: [
-      `
-const foo = {} as {
-    foo: string,
-    bar: number,
-};
-            `,
-      nonTsTestCase`
-const foo = {} ===
-{
-    foo: string,
-    bar: number,
-};
-            `,
-      `
-const foo = {} as
-{
-    foo: string,
-    bar: number,
-};
-            `,
+      $`
+        const foo = {} as {
+            foo: string,
+            bar: number,
+        };
+      `,
+      $`
+        const foo = {} as
+        {
+            foo: string,
+            bar: number,
+        };
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSConditionalType,
     code: [
-      nonTsTestCase`
-const Foo = T
-    ? {
-        a: number,
-        b: boolean
-    }
-    : {
-        c: string
-    };
-            `,
-      `
-type Foo<T> = T extends string
-    ? {
-        a: number,
-        b: boolean
-    }
-    : {
-        c: string
-    };
-            `,
-      nonTsTestCase`
-const Foo = T ? {
-    a: number,
-    b: boolean
-} : string;
-            `,
-      `
-type Foo<T> = T extends string ? {
-    a: number,
-    b: boolean
-} : string;
-            `,
+      $`
+        type Foo<T> = T extends string
+            ? {
+                a: number,
+                b: boolean
+            }
+            : {
+                c: string
+            };
+      `,
+      $`
+        type Foo<T> = T extends string ? {
+            a: number,
+            b: boolean
+        } : string;
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSConstructorType,
     code: [
-      `
-type Constructor<T> = new (
-    ...args: any[]
-) => T;
-            `,
+      $`
+        type Constructor<T> = new (
+            ...args: any[]
+        ) => T;
+      `,
     ],
   },
   {
     node: 'TSConstructSignature',
     code: [
-      `
-interface Foo {
-    new () : Foo
-    new () : {
-        bar : string
-        baz : string
-    }
-}
-            `,
+      $`
+        interface Foo {
+            new () : Foo
+            new () : {
+                bar : string
+                baz : string
+            }
+        }
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSDeclareFunction,
     code: [
-      `
-declare function foo() : {
-    bar : number,
-    baz : string,
-};
-            `,
+      $`
+        declare function foo() : {
+            bar : number,
+            baz : string,
+        };
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSEmptyBodyFunctionExpression,
     code: [
-      `
-class Foo {
-    constructor(
-        a : string,
-        b : {
-            c : number
+      $`
+        class Foo {
+            constructor(
+                a : string,
+                b : {
+                    c : number
+                }
+            )
         }
-    )
-}
-            `,
+      `,
     ],
   },
   {
     node: 'TSEnumDeclaration, TSEnumMember',
     code: [
-      `
-enum Foo {
-    bar = 1,
-    baz = 1,
-}
-            `,
+      $`
+        enum Foo {
+            bar = 1,
+            baz = 1,
+        }
+      `,
       `
 enum Foo
 {
@@ -197,165 +167,155 @@ enum Foo
   {
     node: AST_NODE_TYPES.TSExportAssignment,
     code: [
-      `
-export = {
-    a: 1,
-    b: 2,
-}
-            `,
+      $`
+        export = {
+            a: 1,
+            b: 2,
+        }
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSFunctionType,
     code: [
-      `
-const foo: () => void = () => ({
-    a: 1,
-    b: 2,
-});
-            `,
-      `
-const foo: () => {
-    a: number,
-    b: number,
-} = () => ({
-    a: 1,
-    b: 2,
-});
-            `,
-      `
-const foo: ({
-    a: number,
-    b: number,
-}) => void = (arg) => ({
-    a: 1,
-    b: 2,
-});
-            `,
-      `
-const foo: ({
-    a: number,
-    b: number,
-}) => {
-    a: number,
-    b: number,
-} = (arg) => ({
-    a: arg.a,
-    b: arg.b,
-});
-            `,
+      $`
+        const foo: () => void = () => ({
+            a: 1,
+            b: 2,
+        });
+      `,
+      $`
+        const foo: () => {
+            a: number,
+            b: number,
+        } = () => ({
+            a: 1,
+            b: 2,
+        });
+      `,
+      $`
+        const foo: ({
+            a: number,
+            b: number,
+        }) => void = (arg) => ({
+            a: 1,
+            b: 2,
+        });
+      `,
+      $`
+        const foo: ({
+            a: number,
+            b: number,
+        }) => {
+            a: number,
+            b: number,
+        } = (arg) => ({
+            a: arg.a,
+            b: arg.b,
+        });
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSImportType,
     code: [
-      `
-const foo: import("bar") = {
-    a: 1,
-    b: 2,
-};
-            `,
-      `
-const foo: import(
-    "bar"
-) = {
-    a: 1,
-    b: 2,
-};
-            `,
+      $`
+        const foo: import("bar") = {
+            a: 1,
+            b: 2,
+        };
+      `,
+      $`
+        const foo: import(
+            "bar"
+        ) = {
+            a: 1,
+            b: 2,
+        };
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSIndexedAccessType,
     code: [
-      nonTsTestCase`
-const Foo = Bar[
-    'asdf'
-];
-            `,
-      `
-type Foo = Bar[
-    'asdf'
-];
-            `,
+      $`
+        type Foo = Bar[
+            'asdf'
+        ];
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSIndexSignature,
     code: [
-      `
-type Foo = {
-    [a : string] : {
-        x : foo
-        [b : number] : boolean
-    }
-}
-            `,
+      $`
+        type Foo = {
+            [a : string] : {
+                x : foo
+                [b : number] : boolean
+            }
+        }
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSInferType,
     code: [
-      `
-type Foo<T> = T extends string
-    ? infer U
-    : {
-        a : string
-    };
-            `,
+      $`
+        type Foo<T> = T extends string
+            ? infer U
+            : {
+                a : string
+            };
+      `,
     ],
   },
   {
     node: 'TSInterfaceBody, TSInterfaceDeclaration',
     code: [
-      `
-interface Foo {
-    a : string
-    b : {
-        c : number
-        d : boolean
-    }
-}
-            `,
+      $`
+        interface Foo {
+            a : string
+            b : {
+                c : number
+                d : boolean
+            }
+        }
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSInterfaceHeritage,
     code: [
-      `
-interface Foo extends Bar {
-    a : string
-    b : {
-        c : number
-        d : boolean
-    }
-}
-            `,
+      $`
+        interface Foo extends Bar {
+            a : string
+            b : {
+                c : number
+                d : boolean
+            }
+        }
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSIntersectionType,
     code: [
-      `
-type Foo = "string" & {
-    a : number
-} & number;
-            `,
+      $`
+        type Foo = "string" & {
+            a : number
+        } & number;
+      `,
     ],
   },
   {
     node: 'TSImportEqualsDeclaration, TSExternalModuleReference',
     code: [
-      nonTsTestCase`
-const foo = require(
-    'asdf'
-);
-            `,
-      `
-import foo = require(
-    'asdf'
-);
-            `,
+      $`
+        import foo = require(
+            'asdf'
+        );
+      `,
     ],
   },
   // TSLiteralType
@@ -367,190 +327,163 @@ import foo = require(
             [P in keyof T];
         }
       `,
-      `
-type Partial<T> = {
-    [P in keyof T]: T[P];
-}
-            `,
-      `
-// TSQuestionToken
-type Partial<T> = {
-    [P in keyof T]?: T[P];
-}
-            `,
-      `
-// TSPlusToken
-type Partial<T> = {
-    [P in keyof T]+?: T[P];
-}
-            `,
-      `
-// TSMinusToken
-type Partial<T> = {
-    [P in keyof T]-?: T[P];
-}
-            `,
+      $`
+        type Partial<T> = {
+            [P in keyof T]: T[P];
+        }
+      `,
+      $`
+        // TSQuestionToken
+        type Partial<T> = {
+            [P in keyof T]?: T[P];
+        }
+      `,
+      $`
+        // TSPlusToken
+        type Partial<T> = {
+            [P in keyof T]+?: T[P];
+        }
+      `,
+      $`
+        // TSMinusToken
+        type Partial<T> = {
+            [P in keyof T]-?: T[P];
+        }
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSMethodSignature,
     code: [
-      `
-interface Foo {
-    method() : string
-    method2() : {
-        a : number
-        b : string
-    }
-}
-            `,
+      $`
+        interface Foo {
+            method() : string
+            method2() : {
+                a : number
+                b : string
+            }
+        }
+      `,
     ],
   },
   // TSMinusToken - tested in TSMappedType
   {
     node: 'TSModuleBlock, TSModuleDeclaration',
     code: [
-      `
-declare module "foo" {
-    export const bar : {
-        a : string,
-        b : number,
-    }
-}
-            `,
+      $`
+        declare module "foo" {
+            export const bar : {
+                a : string,
+                b : number,
+            }
+        }
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSNonNullExpression,
     code: [
-      nonTsTestCase`
-const foo = a
-    .b.
-    c;
-            `,
-      `
-const foo = a!
-    .b!.
-    c;
-            `,
+      $`
+        const foo = a!
+            .b!.
+            c;
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSParameterProperty,
     code: [
-      `
-class Foo {
-    constructor(
-        private foo : string,
-        public bar : {
-            a : string,
-            b : number,
+      $`
+        class Foo {
+            constructor(
+                private foo : string,
+                public bar : {
+                    a : string,
+                    b : number,
+                }
+            ) {
+                console.log('foo')
+            }
         }
-    ) {
-        console.log('foo')
-    }
-}
-            `,
+      `,
     ],
   },
   // TSPlusToken - tested in TSMappedType
   {
     node: AST_NODE_TYPES.TSPropertySignature,
     code: [
-      `
-interface Foo {
-    bar : string
-    baz : {
-        a : string
-        b : number
-    }
-}
-            `,
+      $`
+        interface Foo {
+            bar : string
+            baz : {
+                a : string
+                b : number
+            }
+        }
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSQualifiedName,
     code: [
-      `
-const a: Foo.bar = {
-    a: 1,
-    b: 2,
-};
-            `,
-      nonTsTestCase`
-const a = Foo.
-    bar
-    .baz = {
-        a: 1,
-        b: 2,
-    };
-            `,
-      `
-const a: Foo.
-    bar
-    .baz = {
-        a: 1,
-        b: 2,
-    };
-            `,
+      $`
+        const a: Foo.bar = {
+            a: 1,
+            b: 2,
+        };
+      `,
+      $`
+        const a: Foo.
+            bar
+            .baz = {
+                a: 1,
+                b: 2,
+            };
+      `,
     ],
   },
   // TSQuestionToken - tested in TSMappedType
   {
     node: AST_NODE_TYPES.TSRestType,
     code: [
-      `
-type foo = [
-    string,
-    ...string[],
-];
-            `,
+      $`
+        type foo = [
+            string,
+            ...string[],
+        ];
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSThisType,
     code: [
-      `
-declare class MyArray<T> extends Array<T> {
-    sort(compareFn?: (a: T, b: T) => number): this;
-    meth() : {
-        a: number,
-    }
-}
-            `,
+      $`
+        declare class MyArray<T> extends Array<T> {
+            sort(compareFn?: (a: T, b: T) => number): this;
+            meth() : {
+                a: number,
+            }
+        }
+      `,
     ],
   },
   {
     node: AST_NODE_TYPES.TSTupleType,
     code: [
-      nonTsTestCase`
-const foo = [
-    string,
-    number,
-];
-            `,
-      `
-type foo = [
-    string,
-    number,
-];
-            `,
-      nonTsTestCase`
-const foo = [
-    [
-        string,
-        number,
-    ],
-];
-            `,
-      `
-type foo = [
-    [
-        string,
-        number,
-    ],
-];
-            `,
+      $`
+        type foo = [
+            string,
+            number,
+        ];
+      `,
+      $`
+        type foo = [
+            [
+                string,
+                number,
+            ],
+        ];
+      `,
     ],
   },
   // TSTypeAnnotation - tested in everything..
@@ -558,42 +491,42 @@ type foo = [
   {
     node: AST_NODE_TYPES.TSTypeOperator,
     code: [
-      `
-type T = keyof {
-    a: 1,
-    b: 2,
-};
-            `,
+      $`
+        type T = keyof {
+            a: 1,
+            b: 2,
+        };
+      `,
     ],
   },
   {
     node: 'TSTypeParameter, TSTypeParameterDeclaration',
     code: [
-      `
-type Foo<T> = {
-    a : unknown,
-    b : never,
-}
-            `,
-      `
-function foo<
-    T,
-    U
->() {
-    console.log('');
-}
-            `,
+      $`
+        type Foo<T> = {
+            a : unknown,
+            b : never,
+        }
+      `,
+      $`
+        function foo<
+            T,
+            U
+        >() {
+            console.log('');
+        }
+      `,
     ],
   },
   // TSTypeReference - tested in everything..
   {
     node: AST_NODE_TYPES.TSUnionType,
     code: [
-      `
-type Foo = string | {
-    a : number
-} | number;
-            `,
+      $`
+        type Foo = string | {
+            a : number
+        } | number;
+      `,
     ],
   },
 ].reduce<TestCasesOptions<RuleOptions, MessageIds>>(
@@ -656,98 +589,98 @@ run<RuleOptions, MessageIds>({
   rule,
   valid: [
     ...individualNodeTests.valid!,
-    `
-@Component({
-    components: {
-        ErrorPage: () => import('@/components/ErrorPage.vue'),
-    },
-    head: {
-        titleTemplate(title) {
-            if (title) {
-                return \`test\`
-            }
-            return 'Title'
-        },
-        htmlAttrs: {
-            lang: 'en',
-        },
-        meta: [
-            { charset: 'utf-8' },
-            { name: 'viewport', content: 'width=device-width, initial-scale=1' },
-        ],
-    },
-})
-export default class App extends Vue
-{
-    get error()
-    {
-        return this.$store.state.errorHandler.error
-    }
-}
+    $`
+      @Component({
+          components: {
+              ErrorPage: () => import('@/components/ErrorPage.vue'),
+          },
+          head: {
+              titleTemplate(title) {
+                  if (title) {
+                      return \`test\`
+                  }
+                  return 'Title'
+              },
+              htmlAttrs: {
+                  lang: 'en',
+              },
+              meta: [
+                  { charset: 'utf-8' },
+                  { name: 'viewport', content: 'width=device-width, initial-scale=1' },
+              ],
+          },
+      })
+      export default class App extends Vue
+      {
+          get error()
+          {
+              return this.$store.state.errorHandler.error
+          }
+      }
     `,
     // https://github.com/eslint/typescript-eslint-parser/issues/474
-    `
-/**
- * @param {string} name
- * @param {number} age
- * @returns {string}
- */
-function foo(name: string, age: number): string {}
+    $`
+      /**
+       * @param {string} name
+       * @param {number} age
+       * @returns {string}
+       */
+      function foo(name: string, age: number): string {}
     `,
-    `
-const firebaseApp = firebase.apps.length
-    ? firebase.app()
-    : firebase.initializeApp({
-        apiKey: __FIREBASE_API_KEY__,
-        authDomain: __FIREBASE_AUTH_DOMAIN__,
-        databaseURL: __FIREBASE_DATABASE_URL__,
-        projectId: __FIREBASE_PROJECT_ID__,
-        storageBucket: __FIREBASE_STORAGE_BUCKET__,
-        messagingSenderId: __FIREBASE_MESSAGING_SENDER_ID__,
-    })
+    $`
+      const firebaseApp = firebase.apps.length
+          ? firebase.app()
+          : firebase.initializeApp({
+              apiKey: __FIREBASE_API_KEY__,
+              authDomain: __FIREBASE_AUTH_DOMAIN__,
+              databaseURL: __FIREBASE_DATABASE_URL__,
+              projectId: __FIREBASE_PROJECT_ID__,
+              storageBucket: __FIREBASE_STORAGE_BUCKET__,
+              messagingSenderId: __FIREBASE_MESSAGING_SENDER_ID__,
+          })
     `,
     // https://github.com/bradzacher/eslint-plugin-typescript/issues/271
     {
-      code: `
-const foo = {
-                a: 1,
-                b: 2
-            },
-            bar = 1;
+      code: $`
+        const foo = {
+                        a: 1,
+                        b: 2
+                    },
+                    bar = 1;
       `,
       options: [4, { VariableDeclarator: { const: 3 } }],
     },
     {
-      code: `
-const foo : Foo = {
-                a: 1,
-                b: 2
-            },
-            bar = 1;
+      code: $`
+        const foo : Foo = {
+                        a: 1,
+                        b: 2
+                    },
+                    bar = 1;
       `,
       options: [4, { VariableDeclarator: { const: 3 } }],
     },
     {
-      code: `
-const name: string = '  Typescript  '
-        .toUpperCase()
-        .trim(),
-
-      greeting: string = (" Hello " + name)
-        .toUpperCase()
-        .trim();
+      code: $`
+        const name: string = '  Typescript  '
+                .toUpperCase()
+                .trim(),
+        
+              greeting: string = (" Hello " + name)
+                .toUpperCase()
+                .trim();
       `,
       options: [2, { VariableDeclarator: { const: 3 } }],
     },
     {
-      code: `
-const div: JQuery<HTMLElement> = $('<div>')
-        .addClass('some-class')
-        .appendTo($('body')),
-
-      button: JQuery<HTMLElement> = $('<button>')
-        .text('Cancel')
-        .appendTo(div);
+      code: $`
+        const div: JQuery<HTMLElement> = $('<div>')
+                .addClass('some-class')
+                .appendTo($('body')),
+        
+              button: JQuery<HTMLElement> = $('<button>')
+                .text('Cancel')
+                .appendTo(div);
       `,
       options: [2, { VariableDeclarator: { const: 3 } }],
     },
@@ -759,30 +692,30 @@ const div: JQuery<HTMLElement> = $('<div>')
 
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/229
     {
-      code: `
-@Bar()
-export class Foo {
-  @a
-  id: string;
-
-  @a @b()
-  age: number;
-
-  @a @b() username: string;
-}
+      code: $`
+        @Bar()
+        export class Foo {
+          @a
+          id: string;
+        
+          @a @b()
+          age: number;
+        
+          @a @b() username: string;
+        }
       `,
       options: [2],
     },
 
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/270
     {
-      code: `
-const map2 = Object.keys(map)
-  .filter((key) => true)
-  .reduce<Record<string, string>>((result, key) => {
-    result[key] = map[key];
-    return result;
-  }, {});
+      code: $`
+        const map2 = Object.keys(map)
+          .filter((key) => true)
+          .reduce<Record<string, string>>((result, key) => {
+            result[key] = map[key];
+            return result;
+          }, {});
       `,
       options: [2],
     },
@@ -827,6 +760,13 @@ const map2 = Object.keys(map)
       `,
       options: [2],
     },
+    $`
+      type Foo = string
+      declare type Foo = number
+      namespace Foo {
+          type Bar = boolean
+      }
+    `,
     {
       code: $`
         class Foo {
@@ -854,23 +794,90 @@ const map2 = Object.keys(map)
       `,
       options: [2, { VariableDeclarator: { using: 'first' } }],
     },
+    {
+      code: $`
+        async function foo(bar: number): Promise<
+          number
+        > {
+          return 2;
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        async function foo(
+          bar: number,
+        ): Promise<
+          number
+        > {
+          return 2;
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        function foo(bar: number): (
+          number
+        ) {
+          return 2;
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        function foo(
+          bar: number,
+        ): (
+          number
+        ) {
+          return 2;
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        const a = (
+          param: 2 | 3,
+        ): Promise<
+          (
+            2 | 3
+          )
+        > => {
+          return Promise.resolve(param)
+        }
+      `,
+      options: [2],
+    },
   ],
   invalid: [
     ...individualNodeTests.invalid!,
     {
-      code: `
-type Foo = {
-bar : string,
-age : number,
-}
+      code: $`
+        type Foo = {
+        bar : string,
+        age : number,
+        }
       `,
-      output: `
-type Foo = {
-    bar : string,
-    age : number,
-}
+      output: $`
+        type Foo = {
+            bar : string,
+            age : number,
+        }
       `,
       errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 2,
+          column: 1,
+        },
         {
           messageId: 'wrongIndentation',
           data: {
@@ -880,47 +887,47 @@ type Foo = {
           line: 3,
           column: 1,
         },
+      ],
+    },
+    {
+      code: $`
+        interface Foo {
+        bar : string,
+        age : number,
+        foo(): boolean,
+        baz(
+        asdf: string,
+        ): boolean,
+        new(): Foo,
+        new(
+        asdf: string,
+        ): Foo,
+        }
+      `,
+      output: $`
+        interface Foo {
+            bar : string,
+            age : number,
+            foo(): boolean,
+            baz(
+                asdf: string,
+            ): boolean,
+            new(): Foo,
+            new(
+                asdf: string,
+            ): Foo,
+        }
+      `,
+      errors: [
         {
           messageId: 'wrongIndentation',
           data: {
             expected: '4 spaces',
             actual: 0,
           },
-          line: 4,
+          line: 2,
           column: 1,
         },
-      ],
-    },
-    {
-      code: `
-interface Foo {
-bar : string,
-age : number,
-foo(): boolean,
-baz(
-asdf: string,
-): boolean,
-new(): Foo,
-new(
-asdf: string,
-): Foo,
-}
-      `,
-      output: `
-interface Foo {
-    bar : string,
-    age : number,
-    foo(): boolean,
-    baz(
-        asdf: string,
-    ): boolean,
-    new(): Foo,
-    new(
-        asdf: string,
-    ): Foo,
-}
-      `,
-      errors: [
         {
           messageId: 'wrongIndentation',
           data: {
@@ -951,7 +958,7 @@ interface Foo {
         {
           messageId: 'wrongIndentation',
           data: {
-            expected: '4 spaces',
+            expected: '8 spaces',
             actual: 0,
           },
           line: 6,
@@ -960,7 +967,7 @@ interface Foo {
         {
           messageId: 'wrongIndentation',
           data: {
-            expected: '8 spaces',
+            expected: '4 spaces',
             actual: 0,
           },
           line: 7,
@@ -987,7 +994,7 @@ interface Foo {
         {
           messageId: 'wrongIndentation',
           data: {
-            expected: '4 spaces',
+            expected: '8 spaces',
             actual: 0,
           },
           line: 10,
@@ -996,39 +1003,30 @@ interface Foo {
         {
           messageId: 'wrongIndentation',
           data: {
-            expected: '8 spaces',
+            expected: '4 spaces',
             actual: 0,
           },
           line: 11,
           column: 1,
         },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '4 spaces',
-            actual: 0,
-          },
-          line: 12,
-          column: 1,
-        },
       ],
     },
     {
-      code: `
-interface Foo {
-bar : {
-baz : string,
-},
-age : number,
-}
-      `,
-      output: `
-interface Foo {
-    bar : {
+      code: $`
+        interface Foo {
+        bar : {
         baz : string,
-    },
-    age : number,
-}
+        },
+        age : number,
+        }
+      `,
+      output: $`
+        interface Foo {
+            bar : {
+                baz : string,
+            },
+            age : number,
+        }
       `,
       errors: [
         {
@@ -1037,13 +1035,22 @@ interface Foo {
             expected: '4 spaces',
             actual: 0,
           },
-          line: 3,
+          line: 2,
           column: 1,
         },
         {
           messageId: 'wrongIndentation',
           data: {
             expected: '8 spaces',
+            actual: 0,
+          },
+          line: 3,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
             actual: 0,
           },
           line: 4,
@@ -1058,29 +1065,20 @@ interface Foo {
           line: 5,
           column: 1,
         },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '4 spaces',
-            actual: 0,
-          },
-          line: 6,
-          column: 1,
-        },
       ],
     },
     {
-      code: `
-interface Foo extends Bar {
-bar : string,
-age : number,
-}
+      code: $`
+        interface Foo extends Bar {
+        bar : string,
+        age : number,
+        }
       `,
-      output: `
-interface Foo extends Bar {
-    bar : string,
-    age : number,
-}
+      output: $`
+        interface Foo extends Bar {
+            bar : string,
+            age : number,
+        }
       `,
       errors: [
         {
@@ -1089,7 +1087,7 @@ interface Foo extends Bar {
             expected: '4 spaces',
             actual: 0,
           },
-          line: 3,
+          line: 2,
           column: 1,
         },
         {
@@ -1098,7 +1096,7 @@ interface Foo extends Bar {
             expected: '4 spaces',
             actual: 0,
           },
-          line: 4,
+          line: 3,
           column: 1,
         },
       ],
@@ -1106,21 +1104,30 @@ interface Foo extends Bar {
     // this is just to show how eslint handles class with extends on a new line so we can keep the interface indent
     // handling the same
     {
-      code: `
-class Foo
-extends Bar {
-bar : string = "asdf";
-age : number = 1;
-}
+      code: $`
+        class Foo
+        extends Bar {
+        bar : string = "asdf";
+        age : number = 1;
+        }
       `,
-      output: `
-class Foo
-    extends Bar {
-    bar : string = "asdf";
-    age : number = 1;
-}
+      output: $`
+        class Foo
+            extends Bar {
+            bar : string = "asdf";
+            age : number = 1;
+        }
       `,
       errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 2,
+          column: 1,
+        },
         {
           messageId: 'wrongIndentation',
           data: {
@@ -1137,35 +1144,35 @@ class Foo
             actual: 0,
           },
           line: 4,
-          column: 1,
-        },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '4 spaces',
-            actual: 0,
-          },
-          line: 5,
           column: 1,
         },
       ],
     },
     {
-      code: `
-interface Foo
-extends Bar {
-bar : string,
-age : number,
-}
+      code: $`
+        interface Foo
+        extends Bar {
+        bar : string,
+        age : number,
+        }
       `,
-      output: `
-interface Foo
-    extends Bar {
-    bar : string,
-    age : number,
-}
+      output: $`
+        interface Foo
+            extends Bar {
+            bar : string,
+            age : number,
+        }
       `,
       errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 2,
+          column: 1,
+        },
         {
           messageId: 'wrongIndentation',
           data: {
@@ -1182,31 +1189,22 @@ interface Foo
             actual: 0,
           },
           line: 4,
-          column: 1,
-        },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '4 spaces',
-            actual: 0,
-          },
-          line: 5,
           column: 1,
         },
       ],
     },
     {
-      code: `
-const foo : Foo<{
-bar : string,
-age : number,
-}>
+      code: $`
+        const foo : Foo<{
+        bar : string,
+        age : number,
+        }>
       `,
-      output: `
-const foo : Foo<{
-    bar : string,
-    age : number,
-}>
+      output: $`
+        const foo : Foo<{
+            bar : string,
+            age : number,
+        }>
       `,
       errors: [
         {
@@ -1215,7 +1213,7 @@ const foo : Foo<{
             expected: '4 spaces',
             actual: 0,
           },
-          line: 3,
+          line: 2,
           column: 1,
         },
         {
@@ -1224,26 +1222,75 @@ const foo : Foo<{
             expected: '4 spaces',
             actual: 0,
           },
-          line: 4,
+          line: 3,
           column: 1,
         },
       ],
     },
     // https://github.com/eslint-stylistic/eslint-stylistic/pull/256
     {
-      code: `
-type FooAlias = Foo<
-Bar,
-Baz
->
+      code: $`
+        type FooAlias = Foo<
+        Bar,
+        Baz
+        >
       `,
-      output: `
-type FooAlias = Foo<
-    Bar,
-    Baz
->
+      output: $`
+        type FooAlias = Foo<
+            Bar,
+            Baz
+        >
       `,
       errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 2,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 3,
+          column: 1,
+        },
+      ],
+    },
+    {
+      code: $`
+        type T = {
+        bar : string,
+        age : number,
+        } | {
+        bar : string,
+        age : number,
+        }
+      `,
+      output: $`
+        type T = {
+            bar : string,
+            age : number,
+        } | {
+            bar : string,
+            age : number,
+        }
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 2,
+          column: 1,
+        },
         {
           messageId: 'wrongIndentation',
           data: {
@@ -1257,108 +1304,6 @@ type FooAlias = Foo<
           messageId: 'wrongIndentation',
           data: {
             expected: '4 spaces',
-            actual: 0,
-          },
-          line: 4,
-          column: 1,
-        },
-      ],
-    },
-    {
-      code: `
-type T = {
-bar : string,
-age : number,
-} | {
-bar : string,
-age : number,
-}
-      `,
-      output: `
-type T = {
-    bar : string,
-    age : number,
-} | {
-    bar : string,
-    age : number,
-}
-      `,
-      errors: [
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '4 spaces',
-            actual: 0,
-          },
-          line: 3,
-          column: 1,
-        },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '4 spaces',
-            actual: 0,
-          },
-          line: 4,
-          column: 1,
-        },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '4 spaces',
-            actual: 0,
-          },
-          line: 6,
-          column: 1,
-        },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '4 spaces',
-            actual: 0,
-          },
-          line: 7,
-          column: 1,
-        },
-      ],
-    },
-    {
-      code: `
-type T =
-    | {
-bar : string,
-age : number,
-}
-    | {
-    bar : string,
-    age : number,
-}
-      `,
-      output: `
-type T =
-    | {
-        bar : string,
-        age : number,
-    }
-    | {
-        bar : string,
-        age : number,
-    }
-      `,
-      errors: [
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '8 spaces',
-            actual: 0,
-          },
-          line: 4,
-          column: 1,
-        },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '8 spaces',
             actual: 0,
           },
           line: 5,
@@ -1371,6 +1316,68 @@ type T =
             actual: 0,
           },
           line: 6,
+          column: 1,
+        },
+      ],
+    },
+    {
+      code: $`
+        type T =
+            | {
+        bar : string,
+        age : number,
+        }
+            | {
+            bar : string,
+            age : number,
+        }
+      `,
+      output: $`
+        type T =
+            | {
+                bar : string,
+                age : number,
+            }
+            | {
+                bar : string,
+                age : number,
+            }
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '8 spaces',
+            actual: 0,
+          },
+          line: 3,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '8 spaces',
+            actual: 0,
+          },
+          line: 4,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 5,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '8 spaces',
+            actual: 4,
+          },
+          line: 7,
           column: 1,
         },
         {
@@ -1385,29 +1392,18 @@ type T =
         {
           messageId: 'wrongIndentation',
           data: {
-            expected: '8 spaces',
-            actual: 4,
-          },
-          line: 9,
-          column: 1,
-        },
-        {
-          messageId: 'wrongIndentation',
-          data: {
             expected: '4 spaces',
             actual: 0,
           },
-          line: 10,
+          line: 9,
           column: 1,
         },
       ],
     },
     {
-      code: `
-    import Dialogs = require("widgets/Dialogs");
-      `,
-      output: `
-import Dialogs = require("widgets/Dialogs");
+      code: `    import Dialogs = require("widgets/Dialogs");`,
+      output: $`
+        import Dialogs = require("widgets/Dialogs");
       `,
       errors: [
         {
@@ -1416,7 +1412,7 @@ import Dialogs = require("widgets/Dialogs");
             expected: '0 spaces',
             actual: 4,
           },
-          line: 2,
+          line: 1,
           column: 1,
         },
       ],
@@ -1452,39 +1448,48 @@ import Dialogs =
       ],
     },
     {
-      code: `
-class Foo {
-public bar : string;
-private bar : string;
-protected bar : string;
-abstract bar : string;
-foo : string;
-constructor() {
-const foo = "";
-}
-constructor(
-asdf : number,
-private test : boolean,
-) {}
-}
-      `,
-      output: `
-class Foo {
-    public bar : string;
-    private bar : string;
-    protected bar : string;
-    abstract bar : string;
-    foo : string;
-    constructor() {
+      code: $`
+        class Foo {
+        public bar : string;
+        private bar : string;
+        protected bar : string;
+        abstract bar : string;
+        foo : string;
+        constructor() {
         const foo = "";
-    }
-    constructor(
+        }
+        constructor(
         asdf : number,
         private test : boolean,
-    ) {}
-}
+        ) {}
+        }
+      `,
+      output: $`
+        class Foo {
+            public bar : string;
+            private bar : string;
+            protected bar : string;
+            abstract bar : string;
+            foo : string;
+            constructor() {
+                const foo = "";
+            }
+            constructor(
+                asdf : number,
+                private test : boolean,
+            ) {}
+        }
       `,
       errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 2,
+          column: 1,
+        },
         {
           messageId: 'wrongIndentation',
           data: {
@@ -1533,7 +1538,7 @@ class Foo {
         {
           messageId: 'wrongIndentation',
           data: {
-            expected: '4 spaces',
+            expected: '8 spaces',
             actual: 0,
           },
           line: 8,
@@ -1542,7 +1547,7 @@ class Foo {
         {
           messageId: 'wrongIndentation',
           data: {
-            expected: '8 spaces',
+            expected: '4 spaces',
             actual: 0,
           },
           line: 9,
@@ -1560,7 +1565,7 @@ class Foo {
         {
           messageId: 'wrongIndentation',
           data: {
-            expected: '4 spaces',
+            expected: '8 spaces',
             actual: 0,
           },
           line: 11,
@@ -1578,19 +1583,10 @@ class Foo {
         {
           messageId: 'wrongIndentation',
           data: {
-            expected: '8 spaces',
-            actual: 0,
-          },
-          line: 13,
-          column: 1,
-        },
-        {
-          messageId: 'wrongIndentation',
-          data: {
             expected: '4 spaces',
             actual: 0,
           },
-          line: 14,
+          line: 13,
           column: 1,
         },
       ],
@@ -1627,21 +1623,30 @@ class Foo {}
       ],
     },
     {
-      code: `
-enum Foo {
-bar,
-baz = 1,
-buzz = '',
-}
+      code: $`
+        enum Foo {
+        bar,
+        baz = 1,
+        buzz = '',
+        }
       `,
-      output: `
-enum Foo {
-    bar,
-    baz = 1,
-    buzz = '',
-}
+      output: $`
+        enum Foo {
+            bar,
+            baz = 1,
+            buzz = '',
+        }
       `,
       errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 2,
+          column: 1,
+        },
         {
           messageId: 'wrongIndentation',
           data: {
@@ -1658,35 +1663,35 @@ enum Foo {
             actual: 0,
           },
           line: 4,
-          column: 1,
-        },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '4 spaces',
-            actual: 0,
-          },
-          line: 5,
           column: 1,
         },
       ],
     },
     {
-      code: `
-const enum Foo {
-bar,
-baz = 1,
-buzz = '',
-}
+      code: $`
+        const enum Foo {
+        bar,
+        baz = 1,
+        buzz = '',
+        }
       `,
-      output: `
-const enum Foo {
-    bar,
-    baz = 1,
-    buzz = '',
-}
+      output: $`
+        const enum Foo {
+            bar,
+            baz = 1,
+            buzz = '',
+        }
       `,
       errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 0,
+          },
+          line: 2,
+          column: 1,
+        },
         {
           messageId: 'wrongIndentation',
           data: {
@@ -1703,15 +1708,6 @@ const enum Foo {
             actual: 0,
           },
           line: 4,
-          column: 1,
-        },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '4 spaces',
-            actual: 0,
-          },
-          line: 5,
           column: 1,
         },
       ],
@@ -1757,15 +1753,15 @@ declare function h(x: number): number;
       ],
     },
     {
-      code: `
-declare function h(
-x: number,
-): number;
+      code: $`
+        declare function h(
+        x: number,
+        ): number;
       `,
-      output: `
-declare function h(
-    x: number,
-): number;
+      output: $`
+        declare function h(
+            x: number,
+        ): number;
       `,
       errors: [
         {
@@ -1774,25 +1770,25 @@ declare function h(
             expected: '4 spaces',
             actual: 0,
           },
-          line: 3,
+          line: 2,
           column: 1,
         },
       ],
     },
     {
-      code: `
-namespace Validation {
-export interface StringValidator {
-isAcceptable(s: string): boolean;
-}
-}
-      `,
-      output: `
-namespace Validation {
-    export interface StringValidator {
+      code: $`
+        namespace Validation {
+        export interface StringValidator {
         isAcceptable(s: string): boolean;
-    }
-}
+        }
+        }
+      `,
+      output: $`
+        namespace Validation {
+            export interface StringValidator {
+                isAcceptable(s: string): boolean;
+            }
+        }
       `,
       errors: [
         {
@@ -1801,7 +1797,7 @@ namespace Validation {
             expected: '4 spaces',
             actual: 0,
           },
-          line: 3,
+          line: 2,
           column: 1,
         },
         {
@@ -1810,7 +1806,7 @@ namespace Validation {
             expected: '8 spaces',
             actual: 0,
           },
-          line: 4,
+          line: 3,
           column: 1,
         },
         {
@@ -1819,25 +1815,25 @@ namespace Validation {
             expected: '4 spaces',
             actual: 0,
           },
-          line: 5,
+          line: 4,
           column: 1,
         },
       ],
     },
     {
-      code: `
-declare module "Validation" {
-export interface StringValidator {
-isAcceptable(s: string): boolean;
-}
-}
-      `,
-      output: `
-declare module "Validation" {
-    export interface StringValidator {
+      code: $`
+        declare module "Validation" {
+        export interface StringValidator {
         isAcceptable(s: string): boolean;
-    }
-}
+        }
+        }
+      `,
+      output: $`
+        declare module "Validation" {
+            export interface StringValidator {
+                isAcceptable(s: string): boolean;
+            }
+        }
       `,
       errors: [
         {
@@ -1846,7 +1842,7 @@ declare module "Validation" {
             expected: '4 spaces',
             actual: 0,
           },
-          line: 3,
+          line: 2,
           column: 1,
         },
         {
@@ -1855,7 +1851,7 @@ declare module "Validation" {
             expected: '8 spaces',
             actual: 0,
           },
-          line: 4,
+          line: 3,
           column: 1,
         },
         {
@@ -1864,7 +1860,7 @@ declare module "Validation" {
             expected: '4 spaces',
             actual: 0,
           },
-          line: 5,
+          line: 4,
           column: 1,
         },
       ],
@@ -1872,29 +1868,29 @@ declare module "Validation" {
     // Class Decorators and Property Decorators
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/208
     {
-      code: `
-    @Decorator()
-class Foo {
-    @a
-        foo: any;
-
-@b @c()
-    bar: any;
-
-        @d baz: any;
-}
+      code: $`
+            @Decorator()
+        class Foo {
+            @a
+                foo: any;
+        
+        @b @c()
+            bar: any;
+        
+                @d baz: any;
+        }
       `,
-      output: `
-@Decorator()
-class Foo {
-    @a
-    foo: any;
-
-    @b @c()
-    bar: any;
-
-    @d baz: any;
-}
+      output: $`
+        @Decorator()
+        class Foo {
+            @a
+            foo: any;
+        
+            @b @c()
+            bar: any;
+        
+            @d baz: any;
+        }
       `,
       errors: [
         {
@@ -1903,7 +1899,7 @@ class Foo {
             expected: '0 spaces',
             actual: 4,
           },
-          line: 2,
+          line: 1,
           column: 1,
         },
         {
@@ -1912,7 +1908,7 @@ class Foo {
             expected: '4 spaces',
             actual: 8,
           },
-          line: 5,
+          line: 4,
           column: 1,
         },
         {
@@ -1921,7 +1917,7 @@ class Foo {
             expected: '4 spaces',
             actual: 0,
           },
-          line: 7,
+          line: 6,
           column: 1,
         },
         {
@@ -1930,32 +1926,32 @@ class Foo {
             expected: '4 spaces',
             actual: 8,
           },
-          line: 10,
+          line: 9,
           column: 1,
         },
       ],
     },
     // Method Decorators and Accessor Decorators
     {
-      code: `
-class Foo {
-    @a
-      func() {}
-  @b
-    get bar() { return }
-  @c
-  baz: () => 1
-}
+      code: $`
+        class Foo {
+            @a
+              func() {}
+          @b
+            get bar() { return }
+          @c
+          baz: () => 1
+        }
       `,
-      output: `
-class Foo {
-    @a
-    func() {}
-    @b
-    get bar() { return }
-    @c
-    baz: () => 1
-}
+      output: $`
+        class Foo {
+            @a
+            func() {}
+            @b
+            get bar() { return }
+            @c
+            baz: () => 1
+        }
       `,
       errors: [
         {
@@ -1964,6 +1960,15 @@ class Foo {
             expected: '4 spaces',
             actual: 6,
           },
+          line: 3,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 2,
+          },
           line: 4,
           column: 1,
         },
@@ -1973,7 +1978,7 @@ class Foo {
             expected: '4 spaces',
             actual: 2,
           },
-          line: 5,
+          line: 6,
           column: 1,
         },
         {
@@ -1985,29 +1990,20 @@ class Foo {
           line: 7,
           column: 1,
         },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '4 spaces',
-            actual: 2,
-          },
-          line: 8,
-          column: 1,
-        },
       ],
     },
     {
-      code: `
-class Foo {
-    bar =
-"baz";
-}
-      `,
-      output: `
-class Foo {
-    bar =
+      code: $`
+        class Foo {
+            bar =
         "baz";
-}
+        }
+      `,
+      output: $`
+        class Foo {
+            bar =
+                "baz";
+        }
       `,
       errors: [
         {
@@ -2016,34 +2012,34 @@ class Foo {
             expected: '8 spaces',
             actual: 0,
           },
-          line: 4,
+          line: 3,
           column: 1,
         },
       ],
     },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/486
     {
-      code: `
-class Foo {
-    func(
-            @Param('foo') foo: string,
-    @Param('bar') bar: string,
-        @Param('baz') baz: string
-    ) {
-        return { foo, bar, baz };
-    }
-}
+      code: $`
+        class Foo {
+            func(
+                    @Param('foo') foo: string,
+            @Param('bar') bar: string,
+                @Param('baz') baz: string
+            ) {
+                return { foo, bar, baz };
+            }
+        }
       `,
-      output: `
-class Foo {
-    func(
-        @Param('foo') foo: string,
-        @Param('bar') bar: string,
-        @Param('baz') baz: string
-    ) {
-        return { foo, bar, baz };
-    }
-}
+      output: $`
+        class Foo {
+            func(
+                @Param('foo') foo: string,
+                @Param('bar') bar: string,
+                @Param('baz') baz: string
+            ) {
+                return { foo, bar, baz };
+            }
+        }
       `,
       errors: [
         {
@@ -2052,7 +2048,7 @@ class Foo {
             expected: '8 spaces',
             actual: 12,
           },
-          line: 4,
+          line: 3,
           column: 1,
         },
         {
@@ -2061,7 +2057,7 @@ class Foo {
             expected: '8 spaces',
             actual: 4,
           },
-          line: 5,
+          line: 4,
           column: 1,
         },
       ],
@@ -2083,6 +2079,27 @@ class Foo {
       errors: [
         { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 0 } },
         { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 4 } },
+      ],
+    },
+    {
+      code: $`
+         type A = number
+          declare type B = number
+        namespace Foo {
+              declare type C = number
+        }
+      `,
+      output: $`
+        type A = number
+        declare type B = number
+        namespace Foo {
+            declare type C = number
+        }
+      `,
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '0 spaces', actual: 1 }, line: 1, column: 1 },
+        { messageId: 'wrongIndentation', data: { expected: '0 spaces', actual: 2 }, line: 2, column: 1 },
+        { messageId: 'wrongIndentation', data: { expected: '4 spaces', actual: 6 }, line: 4, column: 1 },
       ],
     },
     {
