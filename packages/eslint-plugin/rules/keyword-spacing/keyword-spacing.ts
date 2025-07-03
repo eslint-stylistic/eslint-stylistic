@@ -392,7 +392,7 @@ export default createRule<RuleOptions, MessageIds>({
         checkSpacingAfter(fromToken, NEXT_TOKEN_M)
 
         // ImportAttribute must be after source
-        if ('attributes' in node && node.attributes) {
+        if (node.attributes) {
           const withToken = sourceCode.getTokenAfter(node.source)
           if (isKeywordToken(withToken))
             checkSpacingAround(withToken)
