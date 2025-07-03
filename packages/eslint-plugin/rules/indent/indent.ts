@@ -1779,7 +1779,9 @@ export default createRule<RuleOptions, MessageIds>({
         const firstToken = sourceCode.getFirstToken(node)!
         const lastToken = sourceCode.getLastToken(node)!
 
-        if (node.declarations[node.declarations.length - 1].loc.start.line > node.loc.start.line) {
+        const hasDeclaratorOnNewLine = node.declarations.at(-1)!.loc.start.line > node.loc.start.line
+
+        if (hasDeclaratorOnNewLine) {
           if (alignFirstVariable) {
             addElementListIndent(
               node.declarations,
