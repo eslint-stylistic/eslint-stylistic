@@ -138,6 +138,41 @@ run<RuleOptions, MessageIds>({
       options: ['none', { overrides: { '=': 'ignore' } }],
       parserOptions: { ecmaVersion: 2022 },
     },
+    {
+      code: 'class C { accessor foo =\n0 }',
+    },
+    {
+      code: 'class C { accessor foo\n= 0 }',
+      options: ['before'],
+    },
+    {
+      code: 'class C { accessor [foo\n]= 0 }',
+      options: ['before'],
+    },
+    {
+      code: 'class C { accessor [foo]\n= 0 }',
+      options: ['before'],
+    },
+    {
+      code: 'class C { accessor [foo\n]\n= 0 }',
+      options: ['before'],
+    },
+    {
+      code: 'class C { accessor [foo\n]= 0 }',
+      options: ['after'],
+    },
+    {
+      code: 'class C { accessor [foo\n]=\n0 }',
+      options: ['after'],
+    },
+    {
+      code: 'class C { accessor [foo\n]= 0 }',
+      options: ['none'],
+    },
+    {
+      code: 'class C { accessor foo\n=\n0 }',
+      options: ['none', { overrides: { '=': 'ignore' } }],
+    },
     // TSImportEqualsDeclaration
     {
       code: $`
@@ -1091,6 +1126,90 @@ run<RuleOptions, MessageIds>({
         messageId: 'noLinebreak',
         data: { operator: '=' },
         type: 'PropertyDefinition',
+        line: 2,
+        column: 2,
+        endLine: 2,
+        endColumn: 3,
+      }],
+    },
+    {
+      code: 'class C { accessor a\n= 0; }',
+      output: 'class C { accessor a =\n0; }',
+      options: ['after'],
+      errors: [{
+        messageId: 'operatorAtEnd',
+        data: { operator: '=' },
+        type: 'AccessorProperty',
+        line: 2,
+        column: 1,
+        endLine: 2,
+        endColumn: 2,
+      }],
+    },
+    {
+      code: 'class C { accessor a =\n0; }',
+      output: 'class C { accessor a\n= 0; }',
+      options: ['before'],
+      errors: [{
+        messageId: 'operatorAtBeginning',
+        data: { operator: '=' },
+        type: 'AccessorProperty',
+        line: 1,
+        column: 22,
+        endLine: 1,
+        endColumn: 23,
+      }],
+    },
+    {
+      code: 'class C { accessor a =\n0; }',
+      output: 'class C { accessor a =0; }',
+      options: ['none'],
+      errors: [{
+        messageId: 'noLinebreak',
+        data: { operator: '=' },
+        type: 'AccessorProperty',
+        line: 1,
+        column: 22,
+        endLine: 1,
+        endColumn: 23,
+      }],
+    },
+    {
+      code: 'class C { accessor [a]\n= 0; }',
+      output: 'class C { accessor [a] =\n0; }',
+      options: ['after'],
+      errors: [{
+        messageId: 'operatorAtEnd',
+        data: { operator: '=' },
+        type: 'AccessorProperty',
+        line: 2,
+        column: 1,
+        endLine: 2,
+        endColumn: 2,
+      }],
+    },
+    {
+      code: 'class C { accessor [a] =\n0; }',
+      output: 'class C { accessor [a]\n= 0; }',
+      options: ['before'],
+      errors: [{
+        messageId: 'operatorAtBeginning',
+        data: { operator: '=' },
+        type: 'AccessorProperty',
+        line: 1,
+        column: 24,
+        endLine: 1,
+        endColumn: 25,
+      }],
+    },
+    {
+      code: 'class C { accessor [a]\n =0; }',
+      output: 'class C { accessor [a] =0; }',
+      options: ['none'],
+      errors: [{
+        messageId: 'noLinebreak',
+        data: { operator: '=' },
+        type: 'AccessorProperty',
         line: 2,
         column: 2,
         endLine: 2,

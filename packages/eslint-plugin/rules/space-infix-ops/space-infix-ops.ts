@@ -192,7 +192,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node The node to report
      */
     function checkForPropertyDefinitionAssignmentSpace(
-      node: Tree.PropertyDefinition,
+      node: Tree.PropertyDefinition | Tree.AccessorProperty,
     ): void {
       const leftNode
         = node.optional && !node.typeAnnotation
@@ -263,6 +263,7 @@ export default createRule<RuleOptions, MessageIds>({
       VariableDeclarator: checkVar,
       TSEnumMember: checkForEnumAssignmentSpace,
       PropertyDefinition: checkForPropertyDefinitionAssignmentSpace,
+      AccessorProperty: checkForPropertyDefinitionAssignmentSpace,
       TSTypeAliasDeclaration: checkForTypeAliasAssignment,
       TSUnionType: checkForTypeAnnotationSpace,
       TSIntersectionType: checkForTypeAnnotationSpace,

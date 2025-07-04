@@ -120,6 +120,25 @@ run<RuleOptions, MessageIds>({
       options: ['last'],
     },
 
+    {
+      code: $`
+        class C {
+          ;foo
+          ;accessor bar
+        }
+      `,
+      options: ['first'],
+    },
+    {
+      code: $`
+        class C {
+          foo;
+          accessor bar;
+        }
+      `,
+      options: ['last'],
+    },
+
     // Class static blocks
     {
       code: $`
@@ -600,6 +619,44 @@ run<RuleOptions, MessageIds>({
         data: {
           pos: 'the beginning of the next line',
         },
+      }],
+    },
+    {
+      code: $`
+        class C {
+          ;accessor foo
+          ;accessor bar
+        }
+      `,
+      output: $`
+        class C {
+          ;accessor foo;
+        accessor bar
+        }
+      `,
+      options: ['last'],
+      errors: [{
+        messageId: 'expectedSemiColon',
+        data: { pos: 'the end of the previous line' },
+      }],
+    },
+    {
+      code: $`
+        class C {
+          accessor foo;
+          accessor bar
+        }
+      `,
+      output: $`
+        class C {
+          accessor foo
+        ;accessor bar
+        }
+      `,
+      options: ['first'],
+      errors: [{
+        messageId: 'expectedSemiColon',
+        data: { pos: 'the beginning of the next line' },
       }],
     },
 

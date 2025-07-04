@@ -908,6 +908,14 @@ export default createRule<RuleOptions, MessageIds>({
       return checkArgumentWithPrecedence(node)
     }
 
+    function checkClassProperty(node: Tree.PropertyDefinition | Tree.AccessorProperty) {
+      if (node.computed && hasExcessParensWithPrecedence(node.key, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+        report(node.key)
+
+      if (node.value && hasExcessParensWithPrecedence(node.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+        report(node.value)
+    }
+
     return {
       ArrayExpression(node) {
         node.elements
@@ -1339,13 +1347,8 @@ export default createRule<RuleOptions, MessageIds>({
             report(key)
         }
       },
-      PropertyDefinition(node) {
-        if (node.computed && hasExcessParensWithPrecedence(node.key, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          report(node.key)
-
-        if (node.value && hasExcessParensWithPrecedence(node.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          report(node.value)
-      },
+      'PropertyDefinition': checkClassProperty,
+      'AccessorProperty': checkClassProperty,
       RestElement(node) {
         const argument = node.argument
 
