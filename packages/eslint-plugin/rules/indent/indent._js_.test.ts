@@ -2686,7 +2686,7 @@ run<RuleOptions, MessageIds>({
             bar();
           case closed:
             /* multiline comment
-            */
+             */
         }
       `,
       options: [2, { SwitchCase: 1 }],
@@ -6508,6 +6508,55 @@ run<RuleOptions, MessageIds>({
               from: "foo"
           };
     `,
+    {
+      code: $`
+        const a = {
+          /* 
+           * comment
+           */
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        /**
+         * Desc
+         *
+         * @param {{
+          foo: Bar,
+          bar: Baz
+         * }} foo
+         *
+         */
+        function quux (foo) {
+        
+        }
+      `,
+    },
+    {
+      code: $`
+        const a = {
+        \t/*
+        \t * multiline
+              comment
+        \t\t
+        \t */
+        }
+      `,
+      options: ['tab'],
+    },
+    {
+      code: $`
+        const obj = {
+          /** 
+           * jsdoc
+           */
+          handler() {}
+        }
+      `,
+      options: [2],
+    },
   ],
 
   invalid: [
@@ -14250,6 +14299,61 @@ run<RuleOptions, MessageIds>({
         offsetTernaryExpressions: true,
         offsetTernaryExpressionsOffsetCallExpressions: true,
       }],
+    },
+    {
+      code: $`
+        function a() {
+            /**
+           *  comment
+                  */
+        } 
+      `,
+      output: $`
+        function a() {
+          /**
+           *  comment
+           */
+        } 
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        function d() {
+          /*   
+                \\/*
+                            * comment
+                            *\\/
+        */
+        } 
+      `,
+      output: $`
+        function d() {
+          /*   
+                \\/*
+           * comment
+           *\\/
+           */
+        } 
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        function e() {
+            /*
+                comment
+          */
+        } 
+      `,
+      output: $`
+        function e() {
+        \t/*
+                comment
+        \t */
+        } 
+      `,
+      options: ['tab'],
     },
   ],
 })
