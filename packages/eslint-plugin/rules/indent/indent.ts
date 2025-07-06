@@ -6,7 +6,7 @@
 
 import type { ASTNode, JSONSchema, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const KNOWN_NODES = new Set([
@@ -882,10 +882,7 @@ export default createRule<RuleOptions, MessageIds>({
      * or the total number of linebreaks if the string is all whitespace.
      */
     function countTrailingLinebreaks(string: string) {
-      const trailingWhitespace = string.match(/\s*$/u)![0]
-      const linebreakMatches = trailingWhitespace.match(createGlobalLinebreakMatcher())
-
-      return linebreakMatches === null ? 0 : linebreakMatches.length
+      return (string.match(createGlobalLinebreakMatcher()) || []).length
     }
 
     /**
@@ -945,14 +942,23 @@ export default createRule<RuleOptions, MessageIds>({
             const firstTokenOfPreviousElement = previousElement && getFirstToken(previousElement)!
             const previousElementLastToken = previousElement && sourceCode.getLastToken(previousElement)!
 
-            if (
-              previousElement && previousElementLastToken.loc.end.line - countTrailingLinebreaks(previousElementLastToken.value) > startToken.loc.end.line
-            ) {
-              offsets.setDesiredOffsets(
-                [previousElement.range[1], element.range[1]],
-                firstTokenOfPreviousElement,
-                0,
+            if (previousElement) {
+              const linebreaks = countTrailingLinebreaks(
+                previousElementLastToken.type === AST_TOKEN_TYPES.Punctuator
+                  ? firstTokenOfPreviousElement.value
+                  : sourceCode.getText(previousElement),
               )
+
+              if (
+                previousElementLastToken.loc.end.line - linebreaks > startToken.loc.end.line
+                || (previousElement.type !== AST_NODE_TYPES.JSXText && element.loc.start.line === previousElement.loc.end.line)
+              ) {
+                offsets.setDesiredOffsets(
+                  [previousElement.range[1], element.range[1]],
+                  firstTokenOfPreviousElement,
+                  0,
+                )
+              }
             }
           }
         })

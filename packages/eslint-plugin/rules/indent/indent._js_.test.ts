@@ -6508,6 +6508,38 @@ run<RuleOptions, MessageIds>({
               from: "foo"
           };
     `,
+    {
+      code: $`
+        const answer = showInformationMessage("The MySQL Router config directory " +
+          "some",
+          "Yes", "No");
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        const answer = showInformationMessage("The MySQL Router config directory " +
+          "some", "Yes", "No");
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        console.log(true ?
+          "some": "obb",
+          "aa")
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        console.log(function () {
+          console.log('???')
+        },
+        "aa")
+      `,
+      options: [2],
+    },
   ],
 
   invalid: [
@@ -14250,6 +14282,66 @@ run<RuleOptions, MessageIds>({
         offsetTernaryExpressions: true,
         offsetTernaryExpressionsOffsetCallExpressions: true,
       }],
+    },
+    {
+      code: $`
+        const answer = showInformationMessage("The MySQL Router config directory " +
+              "some",
+        "Yes", "No");
+      `,
+      output: $`
+        const answer = showInformationMessage("The MySQL Router config directory " +
+              "some",
+          "Yes", "No");
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        console.log(true ?
+              "some": "obb",
+            "aa")
+      `,
+      output: $`
+        console.log(true ?
+          "some": "obb",
+          "aa")
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        const list = [true ?
+                "some": "obb",
+            "aa",
+            "cc",
+        ]
+      `,
+      output: $`
+        const list = [true ?
+          "some": "obb",
+          "aa",
+          "cc",
+        ]
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        const list = ["multi line string" +
+                "second line",
+            "aa",
+            "cc",
+        ]
+      `,
+      output: $`
+        const list = ["multi line string" +
+                "second line",
+          "aa",
+          "cc",
+        ]
+      `,
+      options: [2],
     },
   ],
 })
