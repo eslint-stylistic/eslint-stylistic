@@ -5,6 +5,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
+import { warnDeprecated } from '#utils/index'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'eol-last',
@@ -54,10 +55,12 @@ export default createRule<RuleOptions, MessageIds>({
         let appendCRLF = false
 
         if (mode === 'unix') {
+          warnDeprecated('option ("unix")', '"always" and "@stylistic/eslint-plugin/rules/linebreak-style"', 'eol-last')
           // `"unix"` should behave exactly as `"always"`
           mode = 'always'
         }
         if (mode === 'windows') {
+          warnDeprecated('option ("windows")', '"always" and "@stylistic/eslint-plugin/rules/linebreak-style"', 'eol-last')
           // `"windows"` should behave exactly as `"always"`, but append CRLF in the fixer for backwards compatibility
           mode = 'always'
           appendCRLF = true
