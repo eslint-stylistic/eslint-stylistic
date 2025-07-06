@@ -6,7 +6,7 @@
 
 import type { ASTNode, JSONSchema, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, AST_TOKEN_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
+import { AST_NODE_TYPES, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const KNOWN_NODES = new Set([
@@ -876,16 +876,6 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Counts the number of linebreaks that follow the last non-whitespace character in a string
-     * @param string The string to check
-     * @returns The number of JavaScript linebreaks that follow the last non-whitespace character,
-     * or the total number of linebreaks if the string is all whitespace.
-     */
-    function countTrailingLinebreaks(string: string) {
-      return (string.match(createGlobalLinebreakMatcher()) || []).length
-    }
-
-    /**
      * Check indentation for lists of elements (arrays, objects, function params)
      * @param elements List of elements that should be offset
      * @param startToken The start token of the list that element should be aligned against, e.g. '['
@@ -943,14 +933,8 @@ export default createRule<RuleOptions, MessageIds>({
             const previousElementLastToken = previousElement && sourceCode.getLastToken(previousElement)!
 
             if (previousElement) {
-              const linebreaks = countTrailingLinebreaks(
-                previousElementLastToken.type === AST_TOKEN_TYPES.Punctuator
-                  ? firstTokenOfPreviousElement.value
-                  : sourceCode.getText(previousElement),
-              )
-
               if (
-                previousElementLastToken.loc.end.line - linebreaks > startToken.loc.end.line
+                previousElementLastToken.loc.end.line - firstTokenOfPreviousElement.loc.start.line > startToken.loc.end.line
                 || (previousElement.type !== AST_NODE_TYPES.JSXText && element.loc.start.line === previousElement.loc.end.line)
               ) {
                 offsets.setDesiredOffsets(
