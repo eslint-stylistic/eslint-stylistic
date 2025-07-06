@@ -36,6 +36,7 @@ String option:
 - `"after"` requires linebreaks to be placed after the operator
 - `"before"` requires linebreaks to be placed before the operator
 - `"none"` disallows linebreaks on either side of the operator
+- `"ignore"` ignores linebreaks on either side of the operator (only in `overrides`)
 
 Object option:
 
