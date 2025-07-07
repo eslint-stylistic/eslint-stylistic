@@ -148,12 +148,13 @@ export default createRule<RuleOptions, MessageIds>({
         allowTemplateLiteralsToAvoidEscape = options.allowTemplateLiterals === true
       }
     }
-    /* v8 ignore if */
+    /* v8 ignore start */
     else if (options === AVOID_ESCAPE) { // deprecated
       warnDeprecated(`option("${AVOID_ESCAPE}")`, '"avoidEscape"', 'quotes')
 
       avoidEscape = true
     }
+    /* v8 ignore stop */
 
     /**
      * Determines if a given node is part of JSX syntax.
