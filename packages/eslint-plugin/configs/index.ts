@@ -29,7 +29,7 @@ export const configs = new Proxy<Configs>({
   get(target, p, receiver) {
     const prop = p.toString()
     if (prop.endsWith('-flat'))
-      warnDeprecated(`config ("${prop}")`, `"${prop.replace('-flat', '')}}"`)
+      warnDeprecated(`config("${prop}")`, `"${prop.replace('-flat', '')}"`)
 
     return Reflect.get(target, p, receiver)
   },

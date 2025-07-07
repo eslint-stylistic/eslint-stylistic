@@ -142,14 +142,14 @@ export default createRule<RuleOptions, MessageIds>({
         allowTemplateLiteralsToAvoidEscape = allowTemplateLiteralsAlways || options.allowTemplateLiterals === 'avoidEscape'
       }
       else if (typeof (options.allowTemplateLiterals) === 'boolean') { // deprecated
-        warnDeprecated('value (boolean) for "allowTemplateLiterals"', '"always"/"never"', 'quotes')
+        warnDeprecated('value(boolean) for "allowTemplateLiterals"', '"always"/"never"', 'quotes')
 
         allowTemplateLiteralsAlways = options.allowTemplateLiterals === true
         allowTemplateLiteralsToAvoidEscape = options.allowTemplateLiterals === true
       }
     }
     else if (options === AVOID_ESCAPE) { // deprecated
-      warnDeprecated(`option ("${AVOID_ESCAPE}")`, '"avoidEscape"', 'quotes')
+      warnDeprecated(`option("${AVOID_ESCAPE}")`, '"avoidEscape"', 'quotes')
 
       avoidEscape = true
     }

@@ -73,7 +73,7 @@ export default createRule<RuleOptions, MessageIds>({
         applyDefaultIgnorePatterns = options.applyDefaultPatterns !== false
 
       if (typeof options.applyDefaultPatterns !== 'undefined') {
-        warnDeprecated('option ("applyDefaultPatterns")', '"applyDefaultIgnorePatterns"', 'line-comment-position')
+        warnDeprecated('option("applyDefaultPatterns")', '"applyDefaultIgnorePatterns"', 'line-comment-position')
       }
     }
 

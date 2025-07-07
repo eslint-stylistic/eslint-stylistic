@@ -83,7 +83,7 @@ export default createRule<RuleOptions, MessageIds>({
   },
 
   create(context) {
-    warnDeprecated('rule ("jsx-indent")', '"indent"')
+    warnDeprecated('rule("jsx-indent")', '"indent"')
 
     const extraColumnStart = 0
     let indentType = 'space'
