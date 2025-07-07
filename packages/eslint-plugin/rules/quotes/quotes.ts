@@ -148,6 +148,7 @@ export default createRule<RuleOptions, MessageIds>({
         allowTemplateLiteralsToAvoidEscape = options.allowTemplateLiterals === true
       }
     }
+    /* v8 ignore if */
     else if (options === AVOID_ESCAPE) { // deprecated
       warnDeprecated(`option("${AVOID_ESCAPE}")`, '"avoidEscape"', 'quotes')
 
