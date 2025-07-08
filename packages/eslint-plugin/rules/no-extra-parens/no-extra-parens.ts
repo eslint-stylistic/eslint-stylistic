@@ -325,7 +325,13 @@ export default createRule<RuleOptions, MessageIds>({
       if (isImmediateFunctionPrototypeMethodCall(node) && IGNORE_FUNCTION_PROTOTYPE_METHODS)
         return false
 
-      return ALL_NODES || node.type === 'FunctionExpression' || node.type === 'ArrowFunctionExpression'
+      if (node.type === AST_NODE_TYPES.FunctionExpression || node.type === AST_NODE_TYPES.ArrowFunctionExpression)
+        return true
+
+      if (isTypeAssertion(node))
+        return true
+
+      return ALL_NODES
     }
 
     /**
@@ -926,11 +932,6 @@ export default createRule<RuleOptions, MessageIds>({
     return {
       ArrayExpression(node) {
         node.elements
-          .map(element =>
-            isTypeAssertion(element)
-              ? { ...element, type: AST_NODE_TYPES.FunctionExpression as any }
-              : element,
-          )
           .filter((e): e is NonNullable<typeof e> => !!e && hasExcessParensWithPrecedence(e, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           .forEach(report)
       },
@@ -1313,16 +1314,6 @@ export default createRule<RuleOptions, MessageIds>({
           })
         }
 
-        if (isTypeAssertion(node.property)) {
-          return rule({
-            ...node,
-            property: ({
-              ...node.property,
-              type: AST_NODE_TYPES.FunctionExpression as any,
-            } as any),
-          })
-        }
-
         return rule(node)
       },
       MethodDefinition(node) {
@@ -1449,28 +1440,14 @@ export default createRule<RuleOptions, MessageIds>({
         }
       },
       VariableDeclarator(node) {
-        const rule = (node: Tree.VariableDeclarator) => {
-          if (
-            node.init
-            && hasExcessParensWithPrecedence(node.init, PRECEDENCE_OF_ASSIGNMENT_EXPR)
-            // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
-            && !isRegExpLiteral(node.init)
-          ) {
-            report(node.init)
-          }
+        if (
+          node.init
+          && hasExcessParensWithPrecedence(node.init, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
+          && !isRegExpLiteral(node.init)
+        ) {
+          report(node.init)
         }
-        if (isTypeAssertion(node.init)) {
-          return rule({
-            ...node,
-            type: AST_NODE_TYPES.VariableDeclarator,
-            init: {
-              ...(node.init as Tree.TSAsExpression),
-              type: AST_NODE_TYPES.FunctionExpression as any,
-            },
-          } as any)
-        }
-
-        return rule(node)
       },
       WhileStatement(node) {
         if (hasExcessParens(node.test) && !isCondAssignException(node))
@@ -1493,12 +1470,10 @@ export default createRule<RuleOptions, MessageIds>({
           report(node.argument)
         }
       },
+      // TODO: more cases like `number`, `boolean`
       TSStringKeyword(node) {
         if (hasExcessParens(node)) {
-          report({
-            ...node,
-            type: AST_NODE_TYPES.FunctionExpression as any,
-          })
+          report(node)
         }
       },
     }
