@@ -380,15 +380,12 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function hasExcessParensWithPrecedence(node: ASTNode, precedenceLowerLimit: number) {
-      if (ruleApplies(node) && isParenthesised(node)) {
-        if (
+      return ruleApplies(node)
+        && isParenthesised(node)
+        && (
           precedence(node) >= precedenceLowerLimit
           || isParenthesisedTwice(node)
-        ) {
-          return true
-        }
-      }
-      return false
+        )
     }
 
     /**
