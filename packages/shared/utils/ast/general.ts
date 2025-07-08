@@ -1,7 +1,7 @@
 import type { ASTNode, SourceCode, Token, Tree } from '#types'
 import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isClosingParenToken, isColonToken, isCommentToken, isFunction, isOpeningParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
-import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
+import { visitorKeys } from '@typescript-eslint/visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
 
@@ -498,7 +498,7 @@ export function getPrecedence(node: ASTNode) {
       return 19
 
     default:
-      if (node.type in eslintVisitorKeys)
+      if (node.type in visitorKeys)
         return 20
 
       /**
