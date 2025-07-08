@@ -479,5 +479,13 @@ run<RuleOptions, MessageIds>({
         },
       ],
     },
+    {
+      code: 'function foo(x: (number)): (boolean) {}',
+      output: 'function foo(x: number): boolean {}',
+      errors: [
+        { messageId: 'unexpected' },
+        { messageId: 'unexpected' },
+      ],
+    },
   ],
 })

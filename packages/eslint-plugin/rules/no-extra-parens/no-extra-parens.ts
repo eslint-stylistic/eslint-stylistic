@@ -1477,10 +1477,10 @@ export default createRule<RuleOptions, MessageIds>({
           report(node.argument)
         }
       },
-      TSStringKeyword(node) {
-        if (hasExcessParens(node)) {
+      TSTypeAnnotation(node) {
+        if (hasExcessParens(node.typeAnnotation)) {
           report({
-            ...node,
+            ...node.typeAnnotation,
             type: AST_NODE_TYPES.FunctionExpression as any,
           })
         }
