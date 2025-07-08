@@ -487,5 +487,36 @@ run<RuleOptions, MessageIds>({
         { messageId: 'unexpected' },
       ],
     },
+    {
+      code: $`
+        type Foo = ({
+          a: <T>(x: T) => any
+        })
+      `,
+      output: $`
+        type Foo = {
+          a: <T>(x: T) => any
+        }
+      `,
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: $`
+        enum Foo = {
+          A = (1),
+          B = ("x"),
+        }
+      `,
+      output: $`
+        enum Foo = {
+          A = 1,
+          B = "x",
+        }
+      `,
+      errors: [
+        { messageId: 'unexpected' },
+        { messageId: 'unexpected' },
+      ],
+    },
   ],
 })
