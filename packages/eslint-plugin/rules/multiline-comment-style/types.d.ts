@@ -11,6 +11,7 @@ export type MultilineCommentStyleSchema0
       'separate-lines',
       {
         checkJSDoc?: boolean
+        checkExclamation?: boolean
       },
     ]
 
