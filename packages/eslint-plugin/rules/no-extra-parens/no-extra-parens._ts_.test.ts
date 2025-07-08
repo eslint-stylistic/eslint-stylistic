@@ -502,19 +502,18 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
-        enum Foo = {
-          A = (1),
+        enum Foo {
+          A,
           B = ("x"),
         }
       `,
       output: $`
-        enum Foo = {
-          A = 1,
+        enum Foo {
+          A,
           B = "x",
         }
       `,
       errors: [
-        { messageId: 'unexpected' },
         { messageId: 'unexpected' },
       ],
     },

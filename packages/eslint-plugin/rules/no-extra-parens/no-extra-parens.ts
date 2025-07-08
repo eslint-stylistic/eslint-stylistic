@@ -1479,10 +1479,19 @@ export default createRule<RuleOptions, MessageIds>({
       },
       TSTypeAnnotation(node) {
         if (hasExcessParens(node.typeAnnotation)) {
-          report({
-            ...node.typeAnnotation,
-            type: AST_NODE_TYPES.FunctionExpression as any,
-          })
+          report(node.typeAnnotation)
+        }
+      },
+      TSTypeAliasDeclaration(node) {
+        if (hasExcessParens(node.typeAnnotation)) {
+          report(node.typeAnnotation)
+        }
+      },
+      TSEnumMember(node) {
+        if (!node.initializer)
+          return
+        if (hasExcessParens(node.initializer)) {
+          report(node.initializer)
         }
       },
     }
