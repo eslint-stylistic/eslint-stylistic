@@ -1,5 +1,5 @@
 import type { ASTNode, SourceCode, Token, Tree } from '#types'
-import type { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 import { isClosingParenToken, isColonToken, isCommentToken, isFunction, isOpeningParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
@@ -146,7 +146,7 @@ export function getStaticStringValue(node: ASTNode) {
         if (isNullLiteral(node))
           return String(node.value) // "null"
 
-        if ('regex' in node && node.regex)
+        if (isRegExpLiteral(node))
           return `/${node.regex.pattern}/${node.regex.flags}`
 
         if ('bigint' in node && node.bigint)
@@ -394,6 +394,10 @@ export function isStringLiteral(node: ASTNode): node is Tree.StringLiteral | Tre
     (node.type === 'Literal' && typeof node.value === 'string')
     || node.type === 'TemplateLiteral'
   )
+}
+
+export function isRegExpLiteral(node: ASTNode): node is Tree.RegExpLiteral {
+  return node.type === AST_NODE_TYPES.Literal && 'regex' in node
 }
 
 /**
