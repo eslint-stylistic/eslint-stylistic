@@ -765,8 +765,10 @@ run<RuleOptions, MessageIds>({
                 // bar
             `,
       output: `
-                /* foo
-                   bar */
+                /*
+                   foo
+                   bar
+                 */
             `,
       options: ['bare-block'],
       errors: [{ messageId: 'expectedBlock', line: 2 }],
@@ -778,9 +780,11 @@ run<RuleOptions, MessageIds>({
                 // bar
             `,
       output: `
-                /* foo
+                /*
+                   foo
                 ${' '.repeat(3)}
-                   bar */
+                   bar
+                 */
             `,
       options: ['bare-block'],
       errors: [{ messageId: 'expectedBlock', line: 2 }],
@@ -791,8 +795,10 @@ run<RuleOptions, MessageIds>({
                 //bar
             `,
       output: `
-                /* foo
-                   bar */
+                /*
+                   foo
+                   bar
+                 */
             `,
       options: ['bare-block'],
       errors: [{ messageId: 'expectedBlock', line: 2 }],
@@ -803,8 +809,10 @@ run<RuleOptions, MessageIds>({
                 //   bar
             `,
       output: `
-                /*   foo
-                     bar */
+                /*
+                     foo
+                     bar
+                 */
             `,
       options: ['bare-block'],
       errors: [{ messageId: 'expectedBlock', line: 2 }],
@@ -815,8 +823,10 @@ run<RuleOptions, MessageIds>({
               // bar
             `,
       output: `
-                /* foo
-                   bar */
+                /*
+                   foo
+                   bar
+                 */
             `,
       options: ['bare-block'],
       errors: [{ messageId: 'expectedBlock', line: 2 }],
@@ -829,10 +839,12 @@ run<RuleOptions, MessageIds>({
                 // qux
             `,
       output: `
-                /*    foo
+                /*
+                      foo
                    bar
                     baz
-                   qux */
+                   qux
+                 */
             `,
       options: ['bare-block'],
       errors: [{ messageId: 'expectedBlock', line: 2 }],
@@ -845,8 +857,10 @@ run<RuleOptions, MessageIds>({
                 */
             `,
       output: `
-                /* foo
-                   bar */
+                /*
+                   foo
+                   bar
+                 */
             `,
       options: ['bare-block'],
       errors: [{ messageId: 'expectedBareBlock', line: 2 }],
@@ -859,8 +873,10 @@ run<RuleOptions, MessageIds>({
                 */
             `,
       output: `
-                /* foo
-                   bar */
+                /*
+                   foo
+                   bar
+                 */
             `,
       options: ['bare-block'],
       errors: [{ messageId: 'expectedBareBlock', line: 2 }],
@@ -873,8 +889,10 @@ run<RuleOptions, MessageIds>({
                 */
             `,
       output: `
-                /*   foo
-                     bar */
+                /*
+                     foo
+                     bar
+                 */
             `,
       options: ['bare-block'],
       errors: [{ messageId: 'expectedBareBlock', line: 2 }],
@@ -887,8 +905,10 @@ run<RuleOptions, MessageIds>({
                 */
             `,
       output: `
-                /* foo
-                   bar */
+                /*
+                   foo
+                   bar
+                 */
             `,
       options: ['bare-block'],
       errors: [{ messageId: 'expectedBareBlock', line: 2 }],
@@ -903,10 +923,12 @@ run<RuleOptions, MessageIds>({
                  */
             `,
       output: `
-                /*    foo
+                /*
+                      foo
                     bar
                      baz
-                   qux */
+                   qux
+                 */
             `,
       options: ['bare-block'],
       errors: [{ messageId: 'expectedBareBlock', line: 2 }],
@@ -922,10 +944,10 @@ run<RuleOptions, MessageIds>({
             `,
       output: `
                 /*
-                 *{
-                 *    "foo": 1,
-                 *    "bar": 2
-                 *}
+                 * {
+                 *     "foo": 1,
+                 *     "bar": 2
+                 * }
                  */
             `,
       errors: [
@@ -947,10 +969,10 @@ run<RuleOptions, MessageIds>({
             `,
       output: `
                 /*
-                 *{
-                 *\t"foo": 1,
-                 *\t"bar": 2
-                 *}
+                 * {
+                 * \t"foo": 1,
+                 * \t"bar": 2
+                 * }
                  */
             `,
       errors: [
@@ -972,10 +994,10 @@ run<RuleOptions, MessageIds>({
             `,
       output: `
                 /*
-                 *{
-                 *\t  "foo": 1,
-                 *\t  "bar": 2
-                 *}
+                 * {
+                 * \t  "foo": 1,
+                 * \t  "bar": 2
+                 * }
                  */
             `,
       errors: [
@@ -997,10 +1019,10 @@ run<RuleOptions, MessageIds>({
             `,
       output: `
                 /*
-                 *{
-                 *"foo": 1,
-                 *"bar": 2
-                 *}
+                 * {
+                 * "foo": 1,
+                 * "bar": 2
+                 * }
                  */
             `,
       errors: [
@@ -1022,10 +1044,10 @@ run<RuleOptions, MessageIds>({
             `,
       output: `
                 \t /*
-                \t  *{
-                \t  *"foo": 1,
-                \t  *"bar": 2
-                \t  *}
+                \t  * {
+                \t  * "foo": 1,
+                \t  * "bar": 2
+                \t  * }
                 \t  */
             `,
       errors: [
@@ -1087,12 +1109,12 @@ run<RuleOptions, MessageIds>({
                  */
             `,
       output: `
-                //${' '}
+                //
                 // {
                 //     "foo": 1,
                 //     "bar": 2
                 // }
-                //${' '}
+                //
             `,
       options: ['separate-lines'],
       errors: [
@@ -1111,12 +1133,12 @@ run<RuleOptions, MessageIds>({
                  */
             `,
       output: `
-                /*${' '}
+                /*
                    {
                        "foo": 1,
                        "bar": 2
                    }
-                    */
+                 */
             `,
       options: ['bare-block'],
       errors: [
@@ -1135,12 +1157,12 @@ run<RuleOptions, MessageIds>({
                  */
             `,
       output: `
-                /*${' '}
+                /*
                    {
                        "foo": 1,
                        "bar": 2
                    }
-                    */
+                 */
             `,
       options: ['bare-block'],
       errors: [
@@ -1237,12 +1259,12 @@ run<RuleOptions, MessageIds>({
                 */
             `,
       output: `
-                //${' '}
+                //
                 // {
                 //     "foo": 1,
                 //     "bar": 2
                 // }
-                //${' '}
+                //
             `,
       options: ['separate-lines'],
       errors: [
@@ -1260,7 +1282,7 @@ run<RuleOptions, MessageIds>({
                 // {
                 //     "foo": 1,
                 //     "bar": 2
-                // }${' '}
+                // }
             `,
       options: ['separate-lines'],
       errors: [
@@ -1277,7 +1299,7 @@ run<RuleOptions, MessageIds>({
             `,
       output: `
                 // foo
-                //${' '}
+                //
                 // bar
             `,
       options: ['separate-lines'],
@@ -1293,7 +1315,7 @@ run<RuleOptions, MessageIds>({
             `,
       output: `
                 // foo
-                //${' '}
+                //
                 // bar
             `,
       options: ['separate-lines'],
@@ -1308,9 +1330,11 @@ run<RuleOptions, MessageIds>({
                  */
             `,
       output: `
-                /* foo
+                /*
+                   foo
 ${'                   '}
-                   bar */
+                   bar
+                 */
             `,
       options: ['bare-block'],
       errors: [{ messageId: 'expectedBareBlock', line: 2 }],
@@ -1324,9 +1348,11 @@ ${'                   '}
                  */
             `,
       output: `
-                /* foo
+                /*
+                   foo
 ${'                   '}
-                   bar */
+                   bar
+                 */
             `,
       options: ['bare-block'],
       errors: [{ messageId: 'expectedBareBlock', line: 2 }],
@@ -1370,9 +1396,11 @@ ${'                   '}
                 // bar
             `,
       output: `
-                /* foo
+                /*
+                   foo
 ${'                   '}
-                   bar */
+                   bar
+                 */
             `,
       options: ['bare-block'],
       errors: [{ messageId: 'expectedBlock', line: 2 }],
@@ -1385,8 +1413,8 @@ ${'                   '}
             `,
       output: `
                 // foo
-                //${' '}
-                // bar${' '}
+                //
+                // bar
             `,
       options: ['separate-lines'],
       errors: [{ messageId: 'expectedLines', line: 2 }],
@@ -1399,8 +1427,8 @@ ${'                   '}
             `,
       output: `
                 // foo
-                //${' '}
-                // bar${' '}
+                //
+                // bar
             `,
       options: ['separate-lines'],
       errors: [{ messageId: 'expectedLines', line: 2 }],
@@ -1455,9 +1483,9 @@ ${'                   '}
             `,
       output: `
                 /*
-                 *foo
+                 * foo
                  *
-                 *bar${' '}
+                 * bar${' '}
                  */
             `,
       options: ['starred-block'],
@@ -1476,9 +1504,9 @@ ${'                   '}
             `,
       output: `
                 /*
-                 *foo
+                 * foo
                  *${' '}
-                 *bar${' '}
+                 * bar${' '}
                  */
             `,
       options: ['starred-block'],
@@ -1499,7 +1527,7 @@ ${'                   '}
       output: `
                 /*
                  * // a line comment
-                 *some.code();
+                 * some.code();
                  */
             `,
       options: ['starred-block'],
@@ -1559,13 +1587,38 @@ ${'                   '}
             `,
       output: `
                 /*
-                 *{
-                 *\t"foo": 1,
-                 *\t//"bar": 2
-                 *}
+                 * {
+                 * \t"foo": 1,
+                 * \t//"bar": 2
+                 * }
                  */
             `,
       options: ['starred-block'],
+      errors: [
+        { messageId: 'missingStar', line: 3 },
+        { messageId: 'missingStar', line: 4 },
+        { messageId: 'missingStar', line: 5 },
+        { messageId: 'missingStar', line: 6 },
+        { messageId: 'alignment', line: 7 },
+      ],
+    },
+    {
+      code: `
+                /*
+                  Copyright OpenJS Foundation and other contributors, <www.openjsf.org>
+                  Copyright (c) 2023-PRESENT ESLint Stylistic contributors
+
+                  Licensed under the MIT license. See LICENSE file in the project root for details.
+                */
+      `,
+      output: `
+                /*
+                 * Copyright OpenJS Foundation and other contributors, <www.openjsf.org>
+                 * Copyright (c) 2023-PRESENT ESLint Stylistic contributors
+                 *
+                 * Licensed under the MIT license. See LICENSE file in the project root for details.
+                 */
+      `,
       errors: [
         { messageId: 'missingStar', line: 3 },
         { messageId: 'missingStar', line: 4 },
