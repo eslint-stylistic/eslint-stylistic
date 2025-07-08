@@ -26,23 +26,6 @@ import {
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
-/**
- * extends from https://github.com/typescript-eslint/typescript-eslint/blob/5c5e3d5c3853ab613e06be0d77a40e970017b3fc/packages/utils/src/ast-utils/predicates.ts#L57
- *
- * Checks if a node is a type assertion:
- *
- * ``` ts
- * x as foo
- * <foo>x
- * x satisfies foo
- * ```
- */
-const isTypeAssertion = isNodeOfTypes([
-  AST_NODE_TYPES.TSAsExpression,
-  AST_NODE_TYPES.TSTypeAssertion,
-  AST_NODE_TYPES.TSSatisfiesExpression,
-])
-
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',
   meta: {
@@ -150,6 +133,23 @@ export default createRule<RuleOptions, MessageIds>({
       reports: { node: ASTNode, finishReport: () => void }[]
     } | undefined
     let reportsBuffer: ReportsBuffer
+
+    /**
+     * extends from https://github.com/typescript-eslint/typescript-eslint/blob/5c5e3d5c3853ab613e06be0d77a40e970017b3fc/packages/utils/src/ast-utils/predicates.ts#L57
+     *
+     * Checks if a node is a type assertion:
+     *
+     * ``` ts
+     * x as foo
+     * <foo>x
+     * x satisfies foo
+     * ```
+     */
+    const isTypeAssertion = isNodeOfTypes([
+      AST_NODE_TYPES.TSAsExpression,
+      AST_NODE_TYPES.TSTypeAssertion,
+      AST_NODE_TYPES.TSSatisfiesExpression,
+    ])
 
     /**
      * Finds the path from the given node to the specified ancestor.
