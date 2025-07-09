@@ -918,13 +918,17 @@ export default createRule<RuleOptions, MessageIds>({
     return {
       ArrayExpression(node) {
         node.elements
-          .filter((e): e is NonNullable<typeof e> => !!e && hasExcessParensWithPrecedence(e, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          .forEach(report)
+          .forEach((ele) => {
+            if (ele && hasExcessParensWithPrecedence(ele, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+              report(ele)
+          })
       },
       ArrayPattern(node) {
         node.elements
-          .filter((e): e is NonNullable<typeof e> => !!e && canBeAssignmentTarget(e) && hasExcessParens(e))
-          .forEach(report)
+          .forEach((ele) => {
+            if (ele && canBeAssignmentTarget(ele) && hasExcessParens(ele))
+              report(ele)
+          })
       },
       ArrowFunctionExpression(node) {
         if (isTypeAssertion(node.body))
