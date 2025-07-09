@@ -388,10 +388,10 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function hasExcessParensWithPrecedence(node: ASTNode, precedenceLowerLimit: number) {
       return ruleApplies(node)
-        && isParenthesised(node)
         && (
           precedence(node) >= precedenceLowerLimit
-          || isParenthesisedTwice(node)
+            ? isParenthesised(node)
+            : isParenthesisedTwice(node)
         )
     }
 
