@@ -108,7 +108,7 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
     '@stylistic/operator-linebreak': [severity, 'before'],
     '@stylistic/padded-blocks': [severity, { blocks: 'never', classes: 'never', switches: 'never' }],
     '@stylistic/quote-props': [severity, quoteProps],
-    '@stylistic/quotes': [severity, quotes, { allowTemplateLiterals: true, avoidEscape: false }],
+    '@stylistic/quotes': [severity, quotes, { allowTemplateLiterals: 'always', avoidEscape: false }],
     '@stylistic/rest-spread-spacing': [severity, 'never'],
     '@stylistic/semi': [severity, semi ? 'always' : 'never'],
     '@stylistic/semi-spacing': [severity, { after: true, before: false }],
