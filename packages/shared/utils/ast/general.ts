@@ -1,5 +1,5 @@
 import type { ASTNode, SourceCode, Token, Tree } from '#types'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import { AST_NODE_TYPES } from '@typescript-eslint/types'
 import { isClosingParenToken, isColonToken, isCommentToken, isFunction, isOpeningParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
 import { visitorKeys } from '@typescript-eslint/visitor-keys'
 // @ts-expect-error missing types
