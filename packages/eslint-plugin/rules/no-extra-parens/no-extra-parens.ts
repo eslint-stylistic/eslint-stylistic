@@ -709,8 +709,14 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function checkArgumentWithPrecedence(node: ASTNode) {
-      if ('argument' in node && node.argument && hasExcessParensWithPrecedence(node.argument, precedence(node)))
-        report(node.argument)
+      if ('argument' in node && node.argument) {
+        const shouldCheck = isTypeAssertion(node.argument)
+          ? hasDoubleExcessParens(node.argument)
+          : hasExcessParensWithPrecedence(node.argument, precedence(node))
+
+        if (shouldCheck)
+          report(node.argument)
+      }
     }
 
     /**
@@ -900,23 +906,6 @@ export default createRule<RuleOptions, MessageIds>({
         report(node)
     }
 
-    function checkUnaryUpdate(
-      node: Tree.UnaryExpression | Tree.UpdateExpression,
-    ): void {
-      if (isTypeAssertion(node.argument)) {
-        // reduces the precedence of the node so the rule thinks it needs to be wrapped
-        return checkArgumentWithPrecedence({
-          ...node,
-          argument: {
-            ...node.argument,
-            type: AST_NODE_TYPES.SequenceExpression as any,
-          },
-        })
-      }
-
-      return checkArgumentWithPrecedence(node)
-    }
-
     return {
       ArrayExpression(node) {
         node.elements
@@ -976,19 +965,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (right && hasExcessParensWithPrecedence(right, PRECEDENCE_OF_ASSIGNMENT_EXPR))
           report(right)
       },
-      AwaitExpression(node) {
-        if (isTypeAssertion(node.argument)) {
-          // reduces the precedence of the node so the rule thinks it needs to be wrapped
-          return checkArgumentWithPrecedence({
-            ...node,
-            argument: {
-              ...node.argument,
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          })
-        }
-        return checkArgumentWithPrecedence(node)
-      },
+      'AwaitExpression': checkArgumentWithPrecedence,
       BinaryExpression(node) {
         if (reportsBuffer && node.operator === 'in')
           reportsBuffer.inExpressionNodes.push(node)
@@ -1026,13 +1003,18 @@ export default createRule<RuleOptions, MessageIds>({
 
         const availableTypes = new Set(['BinaryExpression', 'LogicalExpression'])
 
+        function shouldCheck(expression: ASTNode, precedenceLimit: number) {
+          return isTypeAssertion(expression)
+            ? hasDoubleExcessParens(expression)
+            : hasExcessParensWithPrecedence(expression, precedenceLimit)
+        }
+
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.test.type))
           && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.test.type))
           && !isCondAssignException(node)
           // @ts-expect-error other properties are not used
-          && hasExcessParensWithPrecedence(node.test, precedence({ type: 'LogicalExpression', operator: '||' }))
-          && !isTypeAssertion(node.test)
+          && shouldCheck(node.test, precedence({ type: 'LogicalExpression', operator: '||' }))
         ) {
           report(node.test)
         }
@@ -1040,8 +1022,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.consequent.type))
           && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.consequent.type))
-          && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)
-          && !isTypeAssertion(node.consequent)
+          && shouldCheck(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)
         ) {
           report(node.consequent)
         }
@@ -1049,8 +1030,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.alternate.type))
           && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.alternate.type))
-          && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)
-          && !isTypeAssertion(node.alternate)
+          && shouldCheck(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)
         ) {
           report(node.alternate)
         }
@@ -1379,12 +1359,8 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasExcessParensNoLineTerminator(throwToken, node.argument))
           report(node.argument)
       },
-      'UnaryExpression': checkUnaryUpdate,
+      'UnaryExpression': checkArgumentWithPrecedence,
       UpdateExpression(node) {
-        if (isTypeAssertion(node.argument)) {
-          return checkUnaryUpdate(node)
-        }
-
         if (node.prefix) {
           checkArgumentWithPrecedence(node)
         }
