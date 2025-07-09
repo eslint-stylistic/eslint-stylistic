@@ -710,11 +710,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkArgumentWithPrecedence(node: ASTNode) {
       if ('argument' in node && node.argument) {
-        const shouldCheck = isTypeAssertion(node.argument)
-          ? hasDoubleExcessParens(node.argument)
-          : hasExcessParensWithPrecedence(node.argument, precedence(node))
-
-        if (shouldCheck)
+        if (hasExcessParensWithPrecedence(node.argument, precedence(node)))
           report(node.argument)
       }
     }
@@ -736,7 +732,6 @@ export default createRule<RuleOptions, MessageIds>({
           NESTED_BINARY
           && (expression.type === 'BinaryExpression' || expression.type === 'LogicalExpression')
         )
-        || isTypeAssertion(expression)
         || !hasExcessParens(expression)
       }
 
@@ -860,7 +855,7 @@ export default createRule<RuleOptions, MessageIds>({
        * If `node.superClass` is a LeftHandSideExpression, parentheses are extra.
        * Otherwise, parentheses are needed.
        */
-      const hasExtraParens = !isTypeAssertion(node.superClass) && precedence(node.superClass) > PRECEDENCE_OF_UPDATE_EXPR
+      const hasExtraParens = precedence(node.superClass) > PRECEDENCE_OF_UPDATE_EXPR
         ? hasExcessParens(node.superClass)
         : hasDoubleExcessParens(node.superClass)
 
@@ -982,6 +977,7 @@ export default createRule<RuleOptions, MessageIds>({
 
         const availableTypes = new Set(['BinaryExpression', 'LogicalExpression'])
 
+        // TODO: fix in v6
         function shouldCheck(expression: ASTNode, precedenceLimit: number) {
           return isTypeAssertion(expression)
             ? hasDoubleExcessParens(expression)
@@ -992,8 +988,7 @@ export default createRule<RuleOptions, MessageIds>({
           !(EXCEPT_COND_TERNARY && availableTypes.has(node.test.type))
           && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.test.type))
           && !isCondAssignException(node)
-          // @ts-expect-error other properties are not used
-          && shouldCheck(node.test, precedence({ type: 'LogicalExpression', operator: '||' }))
+          && shouldCheck(node.test, precedence({ type: 'LogicalExpression', operator: '||' } as Tree.LogicalExpression))
         ) {
           report(node.test)
         }

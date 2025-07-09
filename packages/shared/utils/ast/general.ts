@@ -427,6 +427,12 @@ export function getPrecedence(node: ASTNode) {
     case 'YieldExpression':
       return 1
 
+    case AST_NODE_TYPES.TSAsExpression:
+    case AST_NODE_TYPES.TSNonNullExpression:
+    case AST_NODE_TYPES.TSSatisfiesExpression:
+    case AST_NODE_TYPES.TSTypeAssertion:
+      return 2
+
     case 'ConditionalExpression':
       return 3
 
