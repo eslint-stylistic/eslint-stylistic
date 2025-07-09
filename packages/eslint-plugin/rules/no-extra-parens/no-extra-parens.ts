@@ -1015,67 +1015,39 @@ export default createRule<RuleOptions, MessageIds>({
         return checkClass(node)
       },
       ConditionalExpression(node) {
-        const rule = (node: Tree.ConditionalExpression) => {
-          if (isReturnAssignException(node))
-            return
+        if (isReturnAssignException(node))
+          return
 
-          const availableTypes = new Set(['BinaryExpression', 'LogicalExpression'])
+        const availableTypes = new Set(['BinaryExpression', 'LogicalExpression'])
 
-          if (
-            !(EXCEPT_COND_TERNARY && availableTypes.has(node.test.type))
-            && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.test.type))
-            && !isCondAssignException(node)
-            // @ts-expect-error other properties are not used
-            && hasExcessParensWithPrecedence(node.test, precedence({ type: 'LogicalExpression', operator: '||' }))
-          ) {
-            report(node.test)
-          }
-
-          if (
-            !(EXCEPT_COND_TERNARY && availableTypes.has(node.consequent.type))
-            && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.consequent.type))
-            && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
-            report(node.consequent)
-          }
-
-          if (
-            !(EXCEPT_COND_TERNARY && availableTypes.has(node.alternate.type))
-            && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.alternate.type))
-            && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)) {
-            report(node.alternate)
-          }
+        if (
+          !(EXCEPT_COND_TERNARY && availableTypes.has(node.test.type))
+          && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.test.type))
+          && !isCondAssignException(node)
+          // @ts-expect-error other properties are not used
+          && hasExcessParensWithPrecedence(node.test, precedence({ type: 'LogicalExpression', operator: '||' }))
+          && !isTypeAssertion(node.test)
+        ) {
+          report(node.test)
         }
 
-        // reduces the precedence of the node so the rule thinks it needs to be wrapped
-        if (isTypeAssertion(node.test)) {
-          return rule({
-            ...node,
-            test: {
-              ...node.test,
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          })
+        if (
+          !(EXCEPT_COND_TERNARY && availableTypes.has(node.consequent.type))
+          && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.consequent.type))
+          && hasExcessParensWithPrecedence(node.consequent, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          && !isTypeAssertion(node.consequent)
+        ) {
+          report(node.consequent)
         }
-        if (isTypeAssertion(node.consequent)) {
-          return rule({
-            ...node,
-            consequent: {
-              ...node.consequent,
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          })
+
+        if (
+          !(EXCEPT_COND_TERNARY && availableTypes.has(node.alternate.type))
+          && !(ALLOW_NESTED_TERNARY && ['ConditionalExpression'].includes(node.alternate.type))
+          && hasExcessParensWithPrecedence(node.alternate, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          && !isTypeAssertion(node.alternate)
+        ) {
+          report(node.alternate)
         }
-        if (isTypeAssertion(node.alternate)) {
-          // reduces the precedence of the node so the rule thinks it needs to be wrapped
-          return rule({
-            ...node,
-            alternate: {
-              ...node.alternate,
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          })
-        }
-        return rule(node)
       },
       DoWhileStatement(node) {
         if (hasExcessParens(node.test) && !isCondAssignException(node))
