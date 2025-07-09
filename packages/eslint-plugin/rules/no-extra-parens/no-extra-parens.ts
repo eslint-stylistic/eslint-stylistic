@@ -804,8 +804,10 @@ export default createRule<RuleOptions, MessageIds>({
           }
         }
         node.arguments
-          .filter(arg => hasExcessParensWithPrecedence(arg, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          .forEach(report)
+          .forEach((arg) => {
+            if (hasExcessParensWithPrecedence(arg, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+              report(arg)
+          })
       }
 
       if (isTypeAssertion(node.callee)) {
@@ -1274,17 +1276,24 @@ export default createRule<RuleOptions, MessageIds>({
       'NewExpression': checkCallNew,
       ObjectExpression(node) {
         node.properties
-          .filter((property): property is Tree.Property => property.type === 'Property' && property.value && hasExcessParensWithPrecedence(property.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          .forEach(property => report(property.value))
+          .forEach((property) => {
+            if (
+              property.type === 'Property'
+              && property.value
+              && hasExcessParensWithPrecedence(property.value, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+            ) {
+              report(property.value)
+            }
+          })
       },
       ObjectPattern(node) {
         node.properties
-          .filter((property) => {
+          .forEach((property) => {
             const value = property.value
 
-            return value && canBeAssignmentTarget(value) && hasExcessParens(value)
+            if (value && canBeAssignmentTarget(value) && hasExcessParens(value))
+              report(value)
           })
-          .forEach(property => report(property.value!))
       },
       Property(node) {
         if (node.computed) {
@@ -1327,8 +1336,10 @@ export default createRule<RuleOptions, MessageIds>({
         const precedenceOfNode = precedence(node)
 
         node.expressions
-          .filter(e => hasExcessParensWithPrecedence(e, precedenceOfNode))
-          .forEach(report)
+          .forEach((ele) => {
+            if (hasExcessParensWithPrecedence(ele, precedenceOfNode))
+              report(ele)
+          })
       },
       SpreadElement(node) {
         if (isTypeAssertion(node.argument))
@@ -1352,8 +1363,10 @@ export default createRule<RuleOptions, MessageIds>({
       },
       TemplateLiteral(node) {
         node.expressions
-          .filter(e => e && hasExcessParens(e))
-          .forEach(report)
+          .forEach((ele) => {
+            if (hasExcessParens(ele))
+              report(ele)
+          })
       },
       ThrowStatement(node) {
         if (!node.argument || isTypeAssertion(node.argument))
