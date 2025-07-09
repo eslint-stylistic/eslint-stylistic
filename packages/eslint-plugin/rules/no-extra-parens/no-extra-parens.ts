@@ -147,8 +147,9 @@ export default createRule<RuleOptions, MessageIds>({
      */
     const isTypeAssertion = isNodeOfTypes([
       AST_NODE_TYPES.TSAsExpression,
-      AST_NODE_TYPES.TSTypeAssertion,
+      AST_NODE_TYPES.TSNonNullExpression,
       AST_NODE_TYPES.TSSatisfiesExpression,
+      AST_NODE_TYPES.TSTypeAssertion,
     ])
 
     /**
