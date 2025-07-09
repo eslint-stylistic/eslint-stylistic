@@ -725,58 +725,44 @@ export default createRule<RuleOptions, MessageIds>({
       if (isLeftTypeAssertion && isRightTypeAssertion)
         return // ignore
 
-      const rule = (n: Tree.BinaryExpression | Tree.LogicalExpression) => {
-        const prec = precedence(n)
-        const leftPrecedence = precedence(n.left)
-        const rightPrecedence = precedence(n.right)
-        const isExponentiation = n.operator === '**'
-        const shouldSkipLeft = NESTED_BINARY && (n.left.type === 'BinaryExpression' || n.left.type === 'LogicalExpression')
-        const shouldSkipRight = NESTED_BINARY && (n.right.type === 'BinaryExpression' || n.right.type === 'LogicalExpression')
+      function shouldSkip(expression: ASTNode) {
+        return (
+          NESTED_BINARY
+          && (expression.type === 'BinaryExpression' || expression.type === 'LogicalExpression')
+        )
+        || isTypeAssertion(expression)
+        || !hasExcessParens(expression)
+      }
 
-        if (!shouldSkipLeft && hasExcessParens(n.left)) {
-          if (
-            !(['AwaitExpression', 'UnaryExpression'].includes(n.left.type) && isExponentiation)
-            && !isMixedLogicalAndCoalesceExpressions(n.left, n)
-            // The parent is a ReturnStatement spanning multiple lines without parentheses
-            && !(n.parent.type === 'ReturnStatement' && n.parent.loc.start.line !== n.left.loc.start.line && !isParenthesised(n))
-            && (leftPrecedence > prec || (leftPrecedence === prec && !isExponentiation))
-            || isParenthesisedTwice(n.left)
-          ) {
-            report(n.left)
-          }
-        }
+      const nodePrecedence = precedence(node)
+      const isExponentiation = node.operator === '**'
 
-        if (!shouldSkipRight && hasExcessParens(n.right)) {
-          if (
-            !isMixedLogicalAndCoalesceExpressions(n.right, n)
-            && (rightPrecedence > prec || (rightPrecedence === prec && isExponentiation))
-            || isParenthesisedTwice(n.right)
-          ) {
-            report(n.right)
-          }
+      if (!shouldSkip(node.left)) {
+        const leftPrecedence = precedence(node.left)
+
+        if (
+          !(['AwaitExpression', 'UnaryExpression'].includes(node.left.type) && isExponentiation)
+          // The parent is a ReturnStatement spanning multiple lines without parentheses
+          && !(node.parent.type === 'ReturnStatement' && node.parent.loc.start.line !== node.left.loc.start.line && !isParenthesised(node))
+          && !isMixedLogicalAndCoalesceExpressions(node.left, node)
+          && (leftPrecedence > nodePrecedence || (leftPrecedence === nodePrecedence && !isExponentiation))
+          || isParenthesisedTwice(node.left)
+        ) {
+          report(node.left)
         }
       }
 
-      if (isLeftTypeAssertion) {
-        return rule({
-          ...node,
-          left: {
-            ...node.left,
-            type: AST_NODE_TYPES.SequenceExpression as any,
-          },
-        })
-      }
-      if (isRightTypeAssertion) {
-        return rule({
-          ...node,
-          right: {
-            ...node.right,
-            type: AST_NODE_TYPES.SequenceExpression as any,
-          },
-        })
-      }
+      if (!shouldSkip(node.right)) {
+        const rightPrecedence = precedence(node.right)
 
-      return rule(node)
+        if (
+          !isMixedLogicalAndCoalesceExpressions(node.right, node)
+          && (rightPrecedence > nodePrecedence || (rightPrecedence === nodePrecedence && isExponentiation))
+          || isParenthesisedTwice(node.right)
+        ) {
+          report(node.right)
+        }
+      }
     }
 
     function checkCallNew(
