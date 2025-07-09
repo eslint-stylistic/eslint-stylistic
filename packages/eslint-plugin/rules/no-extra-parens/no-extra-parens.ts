@@ -860,7 +860,7 @@ export default createRule<RuleOptions, MessageIds>({
        * If `node.superClass` is a LeftHandSideExpression, parentheses are extra.
        * Otherwise, parentheses are needed.
        */
-      const hasExtraParens = precedence(node.superClass) > PRECEDENCE_OF_UPDATE_EXPR
+      const hasExtraParens = !isTypeAssertion(node.superClass) && precedence(node.superClass) > PRECEDENCE_OF_UPDATE_EXPR
         ? hasExcessParens(node.superClass)
         : hasDoubleExcessParens(node.superClass)
 
@@ -973,30 +973,9 @@ export default createRule<RuleOptions, MessageIds>({
         checkBinaryLogical(node)
       },
       'CallExpression': checkCallNew,
-      ClassDeclaration(node) {
-        if (node.superClass?.type === AST_NODE_TYPES.TSAsExpression) {
-          return checkClass({
-            ...node,
-            superClass: {
-              ...node.superClass,
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          })
-        }
-        return checkClass(node)
-      },
-      ClassExpression(node) {
-        if (node.superClass?.type === AST_NODE_TYPES.TSAsExpression) {
-          return checkClass({
-            ...node,
-            superClass: {
-              ...node.superClass,
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          })
-        }
-        return checkClass(node)
-      },
+      'ClassDeclaration': checkClass,
+      'ClassExpression': checkClass,
+
       ConditionalExpression(node) {
         if (isReturnAssignException(node))
           return
