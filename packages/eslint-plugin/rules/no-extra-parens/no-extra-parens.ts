@@ -1211,68 +1211,55 @@ export default createRule<RuleOptions, MessageIds>({
       },
       'LogicalExpression': checkBinaryLogical,
       MemberExpression(node) {
-        const rule = (node: Tree.MemberExpression) => {
-          const shouldAllowWrapOnce = isMemberExpInNewCallee(node)
-            && doesMemberExpressionContainCallExpression(node)
-          const nodeObjHasExcessParens = shouldAllowWrapOnce
-            ? hasDoubleExcessParens(node.object)
-            : hasExcessParens(node.object)
-              && !(
-                isImmediateFunctionPrototypeMethodCall(node.parent)
-                && 'callee' in node.parent && node.parent.callee === node
-                && IGNORE_FUNCTION_PROTOTYPE_METHODS
-              )
-
-          if (
-            nodeObjHasExcessParens
-            && precedence(node.object) >= precedence(node)
-            && (
-              node.computed
-              || !(
-                isDecimalInteger(node.object)
-                // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
-                || isRegExpLiteral(node.object)
-              )
+        const shouldAllowWrapOnce = isMemberExpInNewCallee(node)
+          && doesMemberExpressionContainCallExpression(node)
+        const nodeObjHasExcessParens = shouldAllowWrapOnce
+          ? hasDoubleExcessParens(node.object)
+          : hasExcessParens(node.object)
+            && !(
+              isImmediateFunctionPrototypeMethodCall(node.parent)
+              && 'callee' in node.parent && node.parent.callee === node
+              && IGNORE_FUNCTION_PROTOTYPE_METHODS
             )
-          ) {
-            report(node.object)
-          }
+            && !isTypeAssertion(node.object)
 
-          if (nodeObjHasExcessParens
-            && node.object.type === 'CallExpression'
-          ) {
-            report(node.object)
-          }
-
-          if (nodeObjHasExcessParens
-            && !IGNORE_NEW_IN_MEMBER_EXPR
-            && node.object.type === 'NewExpression'
-            && isNewExpressionWithParens(node.object)) {
-            report(node.object)
-          }
-
-          if (nodeObjHasExcessParens
-            && node.optional
-            && node.object.type === 'ChainExpression'
-          ) {
-            report(node.object)
-          }
-
-          if (node.computed && hasExcessParens(node.property))
-            report(node.property)
-        }
-        if (isTypeAssertion(node.object)) {
-          // reduces the precedence of the node so the rule thinks it needs to be wrapped
-          return rule({
-            ...node,
-            object: {
-              ...node.object,
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          })
+        if (
+          nodeObjHasExcessParens
+          && precedence(node.object) >= precedence(node)
+          && (
+            node.computed
+            || !(
+              isDecimalInteger(node.object)
+              // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
+              || isRegExpLiteral(node.object)
+            )
+          )
+        ) {
+          report(node.object)
         }
 
-        return rule(node)
+        if (nodeObjHasExcessParens
+          && node.object.type === 'CallExpression'
+        ) {
+          report(node.object)
+        }
+
+        if (nodeObjHasExcessParens
+          && !IGNORE_NEW_IN_MEMBER_EXPR
+          && node.object.type === 'NewExpression'
+          && isNewExpressionWithParens(node.object)) {
+          report(node.object)
+        }
+
+        if (nodeObjHasExcessParens
+          && node.optional
+          && node.object.type === 'ChainExpression'
+        ) {
+          report(node.object)
+        }
+
+        if (node.computed && hasExcessParens(node.property))
+          report(node.property)
       },
       MethodDefinition(node) {
         if (!node.computed)
