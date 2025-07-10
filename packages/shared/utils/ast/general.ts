@@ -424,6 +424,7 @@ export function getPrecedence(node: ASTNode) {
       return 1
 
     case 'ConditionalExpression':
+    case 'TSConditionalType':
       return 3
 
     case 'LogicalExpression':
@@ -478,6 +479,11 @@ export function getPrecedence(node: ASTNode) {
 
       /* falls through */
 
+    case 'TSUnionType':
+      return 6
+    case 'TSIntersectionType':
+      return 8
+
     case 'UnaryExpression':
     case 'AwaitExpression':
       return 16
@@ -492,6 +498,10 @@ export function getPrecedence(node: ASTNode) {
 
     case 'NewExpression':
       return 19
+
+    case 'TSImportType':
+    case 'TSArrayType':
+      return 20
 
     default:
       if (node.type in eslintVisitorKeys)
