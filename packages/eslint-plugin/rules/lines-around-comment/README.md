@@ -31,6 +31,14 @@ This rule has an object option:
 - `"allowArrayEnd": true` allows comments to appear at the end of array literals
 - `"allowClassStart": true` allows comments to appear at the start of classes
 - `"allowClassEnd": true` allows comments to appear at the end of classes
+- `"allowEnumEnd": true` doesn't require a blank line after an enum body block end
+- `"allowEnumStart": true` doesn't require a blank line before an enum body block start
+- `"allowInterfaceEnd": true` doesn't require a blank line before an interface body block end
+- `"allowInterfaceStart": true` doesn't require a blank line after an interface body block start
+- `"allowModuleEnd": true` doesn't require a blank line before a module body block end
+- `"allowModuleStart": true` doesn't require a blank line after a module body block start
+- `"allowTypeEnd": true` doesn't require a blank line before a type literal block end
+- `"allowTypeStart": true` doesn't require a blank line after a type literal block start
 - `"applyDefaultIgnorePatterns"` enables or disables the default comment patterns to be ignored by the rule
 - `"ignorePattern"` custom patterns to be ignored by the rule
 - `"afterHashbangComment": true` requires an empty line after hashbang comments
@@ -749,17 +757,6 @@ var day = "great"
 ```
 
 :::
-
-## TypeScript Specific Options
-
-- `allowEnumEnd: true` doesn't require a blank line after an enum body block end
-- `allowEnumStart: true` doesn't require a blank line before an enum body block start
-- `allowInterfaceEnd: true` doesn't require a blank line before an interface body block end
-- `allowInterfaceStart: true` doesn't require a blank line after an interface body block start
-- `allowModuleEnd: true` doesn't require a blank line before a module body block end
-- `allowModuleStart: true` doesn't require a blank line after a module body block start
-- `allowTypeEnd: true` doesn't require a blank line before a type literal block end
-- `allowTypeStart: true` doesn't require a blank line after a type literal block start
 
 ## When Not To Use It
 

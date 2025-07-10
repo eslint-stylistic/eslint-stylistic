@@ -57,4 +57,4 @@ This rule has a string option:
 - `"unix"` (deprecated) is identical to "always"
 - `"windows"` (deprecated) is identical to "always", but will use a CRLF character when autofixing
 
-**Deprecated:** The options `"unix"` and `"windows"` are deprecated. If you need to enforce a specific linebreak style, use this rule in conjunction with `linebreak-style`.
+**Deprecated:** The options `"unix"` and `"windows"` are deprecated. If you need to enforce a specific linebreak style, use this rule in conjunction with [`linebreak-style`](linebreak-style).
