@@ -358,6 +358,9 @@ run<RuleOptions, MessageIds>({
     {
       code: 'const x = (1 satisfies number).toFixed();',
     },
+
+    `type Foo = string & (number | 'bar')`,
+    `type Foo = (a extends string ? 'bar' : number)[]`,
   ],
 
   invalid: [
@@ -513,6 +516,28 @@ run<RuleOptions, MessageIds>({
           B = "x",
         }
       `,
+      errors: [
+        { messageId: 'unexpected' },
+      ],
+    },
+    {
+      code: `type Foo = (string & number) | 'bar'`,
+      output: `type Foo = string & number | 'bar'`,
+      errors: [
+        { messageId: 'unexpected' },
+      ],
+    },
+    {
+      code: 'type Foo = ((string | number))[]',
+      output: 'type Foo = (string | number)[]',
+      errors: [
+        { messageId: 'unexpected' },
+      ],
+    },
+    {
+      code: `type Foo = ((import('x')))[]`,
+      output: `type Foo = import('x')[]`,
+      recursive: Number.POSITIVE_INFINITY,
       errors: [
         { messageId: 'unexpected' },
       ],

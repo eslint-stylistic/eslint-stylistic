@@ -1477,6 +1477,22 @@ export default createRule<RuleOptions, MessageIds>({
           report(node.argument)
         }
       },
+      TSArrayType(node) {
+        if (hasExcessParensWithPrecedence(node.elementType, precedence(node)))
+          report(node.elementType)
+      },
+      TSIntersectionType(node) {
+        node.types.forEach((type) => {
+          if (hasExcessParensWithPrecedence(type, precedence(node)))
+            report(type)
+        })
+      },
+      TSUnionType(node) {
+        node.types.forEach((type) => {
+          if (hasExcessParensWithPrecedence(type, precedence(node)))
+            report(type)
+        })
+      },
       TSTypeAnnotation(node) {
         if (hasExcessParens(node.typeAnnotation)) {
           report(node.typeAnnotation)
