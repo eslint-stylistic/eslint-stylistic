@@ -1,5 +1,28 @@
 # Changelog
 
+## [5.2.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.1.0...v5.2.0) (2025-07-10)
+
+
+### Features
+
+* **indent:** support `TSTypeAliasDeclaration` ([#796](https://github.com/eslint-stylistic/eslint-stylistic/issues/796)) ([c62afea](https://github.com/eslint-stylistic/eslint-stylistic/commit/c62afeab8695e2271267be5dc5dff59d35ad2f42))
+
+
+### Bug Fixes
+
+* **indent:** align first element when `VariableDeclarator` is `first` ([#861](https://github.com/eslint-stylistic/eslint-stylistic/issues/861)) ([ddd14c8](https://github.com/eslint-stylistic/eslint-stylistic/commit/ddd14c83cf77344a1775df745b1abca01543f5d6))
+
+
+### Documentation
+
+* enhance readability ([#880](https://github.com/eslint-stylistic/eslint-stylistic/issues/880)) ([4a5fe59](https://github.com/eslint-stylistic/eslint-stylistic/commit/4a5fe59f528021fa2e6e8f787d2f21a69739391b))
+* fix link of `no-unexpected-multiline` ([#847](https://github.com/eslint-stylistic/eslint-stylistic/issues/847)) ([0639099](https://github.com/eslint-stylistic/eslint-stylistic/commit/06390997277f78dba4f24e1830d5ffbc332360bb))
+
+
+### Chores
+
+* **indent:** cleanup cases ([#859](https://github.com/eslint-stylistic/eslint-stylistic/issues/859)) ([9d8a9c6](https://github.com/eslint-stylistic/eslint-stylistic/commit/9d8a9c6303f29c236ffbdf5a63cf7f67c418d68c))
+
 ## [5.1.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0...v5.1.0) (2025-06-29)
 
 
