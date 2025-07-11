@@ -6,7 +6,7 @@
 
 import type { ASTNode, JSONSchema, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
+import { AST_NODE_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const KNOWN_NODES = new Set([
@@ -681,6 +681,16 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'number',
             default: 4,
           },
+          offsetMultiLineInList: {
+            type: 'array',
+            items: {
+              type: 'string',
+              // @ts-expect-error Not sure the original intention
+              not: {
+                pattern: ':exit$',
+              },
+            },
+          },
         },
         additionalProperties: false,
       },
@@ -740,6 +750,7 @@ export default createRule<RuleOptions, MessageIds>({
       offsetTernaryExpressions: false,
       offsetTernaryExpressionsOffsetCallExpressions: true,
       tabLength: 4,
+      offsetMultiLineInList: [],
     }
 
     if (optionsWithDefaults.length) {
@@ -771,6 +782,7 @@ export default createRule<RuleOptions, MessageIds>({
     const tokenInfo = new TokenInfo(sourceCode)
     const offsets = new OffsetStorage(tokenInfo, indentSize, indentType === 'space' ? ' ' : '\t', sourceCode.text.length)
     const parameterParens = new WeakSet()
+    const offsetMultiLineInListNodes = new Set<string>(options.offsetMultiLineInList)
 
     /**
      * Creates an error message for a line, given the expected/actual indentation.
@@ -876,6 +888,19 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
+     * Counts the number of linebreaks that follow the last non-whitespace character in a string
+     * @param string The string to check
+     * @returns The number of JavaScript linebreaks that follow the last non-whitespace character,
+     * or the total number of linebreaks if the string is all whitespace.
+     */
+    function countTrailingLinebreaks(string: string) {
+      const trailingWhitespace = string.match(/\s*$/u)![0]
+      const linebreakMatches = trailingWhitespace.match(createGlobalLinebreakMatcher())
+
+      return linebreakMatches === null ? 0 : linebreakMatches.length
+    }
+
+    /**
      * Check indentation for lists of elements (arrays, objects, function params)
      * @param elements List of elements that should be offset
      * @param startToken The start token of the list that element should be aligned against, e.g. '['
@@ -921,8 +946,17 @@ export default createRule<RuleOptions, MessageIds>({
           }
 
           // Offset the following elements correctly relative to the first element
-          if (index === 0)
+          if (index === 0) {
+            if (offsetMultiLineInListNodes.has(element.type) && element.loc.start.line !== element.loc.end.line) {
+              offsets.setDesiredOffsets(
+                element.range,
+                startToken,
+                1,
+                true,
+              )
+            }
             return
+          }
 
           if (offset === 'first' && tokenInfo.isFirstTokenOfLine(getFirstToken(element))) {
             offsets.matchOffsetOf(getFirstToken(elements[0]!), getFirstToken(element))
@@ -932,17 +966,14 @@ export default createRule<RuleOptions, MessageIds>({
             const firstTokenOfPreviousElement = previousElement && getFirstToken(previousElement)!
             const previousElementLastToken = previousElement && sourceCode.getLastToken(previousElement)!
 
-            if (previousElement) {
-              if (
-                previousElementLastToken.loc.end.line - firstTokenOfPreviousElement.loc.start.line > startToken.loc.end.line
-                || (previousElement.type !== AST_NODE_TYPES.JSXText && element.loc.start.line === previousElement.loc.end.line)
-              ) {
-                offsets.setDesiredOffsets(
-                  [previousElement.range[1], element.range[1]],
-                  firstTokenOfPreviousElement,
-                  0,
-                )
-              }
+            if (
+              previousElement && previousElementLastToken.loc.end.line - countTrailingLinebreaks(previousElementLastToken.value) > startToken.loc.end.line
+            ) {
+              offsets.setDesiredOffsets(
+                [previousElement.range[1], element.range[1]],
+                firstTokenOfPreviousElement,
+                0,
+              )
             }
           }
         })

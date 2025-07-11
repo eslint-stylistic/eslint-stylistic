@@ -6508,38 +6508,6 @@ run<RuleOptions, MessageIds>({
               from: "foo"
           };
     `,
-    {
-      code: $`
-        const answer = showInformationMessage("The MySQL Router config directory " +
-          "some",
-          "Yes", "No");
-      `,
-      options: [2],
-    },
-    {
-      code: $`
-        const answer = showInformationMessage("The MySQL Router config directory " +
-          "some", "Yes", "No");
-      `,
-      options: [2],
-    },
-    {
-      code: $`
-        console.log(true ?
-          "some": "obb",
-          "aa")
-      `,
-      options: [2],
-    },
-    {
-      code: $`
-        console.log(function () {
-          console.log('???')
-        },
-        "aa")
-      `,
-      options: [2],
-    },
   ],
 
   invalid: [
@@ -14285,63 +14253,137 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
+        [{
+          foo
+        },
+        
+        // Comment between nodes
+        
+        { // comment
+          bar
+        }];
+      `,
+      output: $`
+        [{
+            foo
+          },
+        
+          // Comment between nodes
+        
+          { // comment
+            bar
+          }];
+      `,
+      options: [2, { offsetMultiLineInList: ['ObjectExpression'] }],
+    },
+    {
+      code: $`
         const answer = showInformationMessage("The MySQL Router config directory " +
+              "some" +
               "some",
         "Yes", "No");
       `,
       output: $`
         const answer = showInformationMessage("The MySQL Router config directory " +
+              "some" +
               "some",
           "Yes", "No");
       `,
-      options: [2],
+      options: [2, { offsetMultiLineInList: ['BinaryExpression'] }],
+    },
+    {
+      code: $`
+        const answer = showInformationMessage("The MySQL Router config directory ",
+        "Yes" +
+              "some" +
+              "some",
+        "No");
+      `,
+      output: $`
+        const answer = showInformationMessage("The MySQL Router config directory ",
+          "Yes" +
+              "some" +
+              "some",
+          "No");
+      `,
+      options: [2, { offsetMultiLineInList: ['BinaryExpression'] }],
+    },
+    {
+      code: $`
+        console.log(true &&
+              "some",
+            "aa")
+      `,
+      output: $`
+        console.log(true &&
+              "some",
+          "aa")
+      `,
+      options: [2, { offsetMultiLineInList: ['LogicalExpression'] }],
     },
     {
       code: $`
         console.log(true ?
-              "some": "obb",
+              "some" :
+              "obb",
             "aa")
       `,
       output: $`
         console.log(true ?
-          "some": "obb",
+            "some" :
+            "obb",
           "aa")
       `,
-      options: [2],
+      options: [2, { offsetMultiLineInList: ['ConditionalExpression'] }],
     },
     {
       code: $`
-        const list = [true ?
-                "some": "obb",
-            "aa",
-            "cc",
-        ]
+        console.log(function() {
+          console.log()
+        },
+        "aa")
       `,
       output: $`
-        const list = [true ?
-          "some": "obb",
-          "aa",
-          "cc",
-        ]
+        console.log(function() {
+            console.log()
+          },
+          "aa")
       `,
-      options: [2],
+      options: [2, { offsetMultiLineInList: ['FunctionExpression'] }],
     },
     {
       code: $`
-        const list = ["multi line string" +
-                "second line",
-            "aa",
-            "cc",
-        ]
+        class MyClass {myProp = {
+          a: 2
+        }
+        a = 2
+        }
       `,
       output: $`
-        const list = ["multi line string" +
-                "second line",
-          "aa",
-          "cc",
-        ]
+        class MyClass {myProp = {
+            a: 2
+          }
+          a = 2
+        }
       `,
-      options: [2],
+      options: [2, { offsetMultiLineInList: ['PropertyDefinition'] }],
+    },
+    {
+      code: $`
+        const obj = {a: {
+          b: 1
+        }, c: 2,
+        d: 3
+        }
+      `,
+      output: $`
+        const obj = {a: {
+            b: 1
+          }, c: 2,
+          d: 3
+        }
+      `,
+      options: [2, { offsetMultiLineInList: ['Property'] }],
     },
   ],
 })
