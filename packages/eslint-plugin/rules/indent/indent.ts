@@ -712,7 +712,7 @@ export default createRule<RuleOptions, MessageIds>({
     const DEFAULT_VARIABLE_INDENT = 1
     const DEFAULT_PARAMETER_INDENT = 1
     const DEFAULT_FUNCTION_BODY_INDENT = 1
-    const DEFAULT_FUNCTION_RETURN_TYPE_INDENT = 4
+    const DEFAULT_FUNCTION_RETURN_TYPE_INDENT = 0
 
     let indentType = 'space'
     let indentSize = 4
