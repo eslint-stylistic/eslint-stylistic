@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 6np7FJPRpiFgbrMsnDL-PC4zMTYMNJoW_bCYp5XgxUg */
+/* @checksum: rmsGs7ZFrVG4SO4GoAoakEXhdq9TICtKptLvUpZNPRI */
 
 export type JsxCurlySpacingSchema0
   = | []
@@ -8,7 +8,6 @@ export type JsxCurlySpacingSchema0
       | (BasicConfig & {
         attributes?: BasicConfigOrBoolean
         children?: BasicConfigOrBoolean
-        [k: string]: unknown
       })
       | ('always' | 'never'),
     ]
@@ -17,7 +16,6 @@ export type JsxCurlySpacingSchema0
         | (BasicConfig & {
           attributes?: BasicConfigOrBoolean
           children?: BasicConfigOrBoolean
-          [k: string]: unknown
         })
         | ('always' | 'never')
       ),
@@ -25,7 +23,6 @@ export type JsxCurlySpacingSchema0
         allowMultiline?: boolean
         spacing?: {
           objectLiterals?: 'always' | 'never'
-          [k: string]: unknown
         }
       },
     ]
@@ -36,9 +33,7 @@ export interface BasicConfig {
   allowMultiline?: boolean
   spacing?: {
     objectLiterals?: 'always' | 'never'
-    [k: string]: unknown
   }
-  [k: string]: unknown
 }
 
 export type JsxCurlySpacingRuleOptions
