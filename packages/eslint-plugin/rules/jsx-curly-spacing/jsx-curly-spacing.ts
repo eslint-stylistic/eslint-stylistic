@@ -10,6 +10,7 @@
  */
 
 import type { ASTNode, RuleFixer, Token } from '#types'
+import type { JSONSchema4 } from '@typescript-eslint/utils/json-schema'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
 import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -29,6 +30,36 @@ const messages = {
   spaceNeededBefore: 'A space is required before \'{{token}}\'',
 }
 
+const BASIC_CONFIG_SCHEMA = {
+  type: 'object',
+  properties: {
+    when: {
+      type: 'string',
+      enum: SPACING_VALUES,
+    },
+    allowMultiline: {
+      type: 'boolean',
+    },
+    spacing: {
+      type: 'object',
+      properties: {
+        objectLiterals: {
+          type: 'string',
+          enum: SPACING_VALUES,
+        },
+      },
+      additionalProperties: false,
+    },
+  },
+  additionalProperties: false,
+} satisfies JSONSchema4
+
+const BASIC_CONFIG_OR_BOOLEAN_SCHEMA = {
+  anyOf: [BASIC_CONFIG_SCHEMA, {
+    type: 'boolean',
+  }],
+} satisfies JSONSchema4
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-curly-spacing',
   meta: {
@@ -41,55 +72,16 @@ export default createRule<RuleOptions, MessageIds>({
     messages,
 
     schema: {
-      definitions: {
-        basicConfig: {
-          type: 'object',
-          properties: {
-            when: {
-              type: 'string',
-              enum: SPACING_VALUES,
-            },
-            allowMultiline: {
-              type: 'boolean',
-            },
-            spacing: {
-              type: 'object',
-              properties: {
-                objectLiterals: {
-                  type: 'string',
-                  enum: SPACING_VALUES,
-                },
-              },
-              additionalProperties: false,
-            },
-          },
-          additionalProperties: false,
-        },
-        basicConfigOrBoolean: {
-          anyOf: [{
-            $ref: '#/definitions/basicConfig',
-          }, {
-            type: 'boolean',
-          }],
-        },
-      },
       type: 'array',
       items: [{
         anyOf: [{
-          allOf: [{
-            $ref: '#/definitions/basicConfig',
-          }, {
-            type: 'object',
-            properties: {
-              attributes: {
-                $ref: '#/definitions/basicConfigOrBoolean',
-              },
-              children: {
-                $ref: '#/definitions/basicConfigOrBoolean',
-              },
-            },
-            additionalProperties: false,
-          }],
+          type: 'object',
+          additionalProperties: false,
+          properties: {
+            ...BASIC_CONFIG_SCHEMA.properties,
+            attributes: BASIC_CONFIG_OR_BOOLEAN_SCHEMA,
+            children: BASIC_CONFIG_OR_BOOLEAN_SCHEMA,
+          },
         }, {
           type: 'string',
           enum: SPACING_VALUES,
