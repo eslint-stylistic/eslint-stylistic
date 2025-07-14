@@ -60,8 +60,10 @@ export default createRule<RuleOptions, MessageIds>({
                   enum: SPACING_VALUES,
                 },
               },
+              additionalProperties: false,
             },
           },
+          additionalProperties: false,
         },
         basicConfigOrBoolean: {
           anyOf: [{
@@ -86,6 +88,7 @@ export default createRule<RuleOptions, MessageIds>({
                 $ref: '#/definitions/basicConfigOrBoolean',
               },
             },
+            additionalProperties: false,
           }],
         }, {
           type: 'string',
@@ -105,6 +108,7 @@ export default createRule<RuleOptions, MessageIds>({
                 enum: SPACING_VALUES,
               },
             },
+            additionalProperties: false,
           },
         },
         additionalProperties: false,
