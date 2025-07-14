@@ -9,8 +9,7 @@
  * @author Erik Wendel
  */
 
-import type { ASTNode, RuleFixer, Token } from '#types'
-import type { JSONSchema4 } from '@typescript-eslint/utils/json-schema'
+import type { ASTNode, JSONSchema, RuleFixer, Token } from '#types'
 import type { BasicConfig, MessageIds, RuleOptions } from './types'
 import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -52,13 +51,17 @@ const BASIC_CONFIG_SCHEMA = {
     },
   },
   additionalProperties: false,
-} satisfies JSONSchema4
+} satisfies JSONSchema.JSONSchema4
 
 const BASIC_CONFIG_OR_BOOLEAN_SCHEMA = {
   anyOf: [BASIC_CONFIG_SCHEMA, {
     type: 'boolean',
   }],
-} satisfies JSONSchema4
+} satisfies JSONSchema.JSONSchema4
+
+interface NormalizedConfig extends BasicConfig {
+  objectLiteralSpaces?: 'always' | 'never'
+}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-curly-spacing',
@@ -109,11 +112,11 @@ export default createRule<RuleOptions, MessageIds>({
   },
 
   create(context) {
-    function normalizeConfig(configOrTrue: RuleOptions[0] | true, defaults: BasicConfig, lastPass: boolean = false) {
+    function normalizeConfig(configOrTrue: RuleOptions[0] | true, defaults: NormalizedConfig, lastPass: boolean = false): NormalizedConfig {
       const config = configOrTrue === true ? {} : configOrTrue as NonStringConfig
-      const when = (config as BasicConfig).when || defaults.when
+      const when = config.when || defaults.when
       const allowMultiline = 'allowMultiline' in config ? config.allowMultiline : defaults.allowMultiline
-      const spacing = (config as BasicConfig).spacing || {}
+      const spacing = config.spacing || {}
       let objectLiteralSpaces = spacing.objectLiterals || defaults.objectLiteralSpaces
       if (lastPass) {
         // On the final pass assign the values that should be derived from others if they are still undefined
