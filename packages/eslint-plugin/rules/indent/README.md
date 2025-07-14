@@ -510,7 +510,7 @@ Examples of **incorrect** code for this rule with the `2, { "FunctionDeclaration
 
 ::: incorrect
 
-```ts
+```js
 /* eslint @stylistic/indent: ["error", 2, { "FunctionDeclaration": {"body": 1, "parameters": 2, "returnType": 1} }] */
 
 function foo(bar,
