@@ -10,7 +10,7 @@
  */
 
 import type { ASTNode, JSONSchema, RuleFixer, Token } from '#types'
-import type { BasicConfig, MessageIds, RuleOptions } from './types'
+import type { MessageIds, RuleOptions } from './types'
 import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
@@ -54,10 +54,15 @@ const BASIC_CONFIG_SCHEMA = {
 } satisfies JSONSchema.JSONSchema4
 
 const BASIC_CONFIG_OR_BOOLEAN_SCHEMA = {
-  anyOf: [BASIC_CONFIG_SCHEMA, {
-    type: 'boolean',
-  }],
+  anyOf: [
+    BASIC_CONFIG_SCHEMA,
+    {
+      type: 'boolean',
+    },
+  ],
 } satisfies JSONSchema.JSONSchema4
+
+type BasicConfig = Pick<Extract<RuleOptions[0], { when?: any }>, 'when' | 'allowMultiline' | 'spacing'>
 
 interface NormalizedConfig extends BasicConfig {
   objectLiteralSpaces?: 'always' | 'never'
