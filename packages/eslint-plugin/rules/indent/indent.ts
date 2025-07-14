@@ -1375,8 +1375,7 @@ export default createRule<RuleOptions, MessageIds>({
       return indent ? indent[0].length : 0
     }
 
-    const baseOffsetListeners:
-    RuleListener = {
+    const baseOffsetListeners: RuleListener = {
       'ArrayExpression': checkArrayLikeNode,
 
       'ArrayPattern': checkArrayLikeNode,
