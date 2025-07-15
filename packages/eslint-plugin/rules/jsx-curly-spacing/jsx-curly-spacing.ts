@@ -50,8 +50,7 @@ const BASIC_CONFIG_SCHEMA = {
       additionalProperties: false,
     },
   },
-  additionalProperties: false,
-} satisfies JSONSchema.JSONSchema4
+} satisfies JSONSchema.JSONSchema4ObjectSchema
 
 const BASIC_CONFIG_OR_BOOLEAN_SCHEMA = {
   anyOf: [
@@ -60,7 +59,7 @@ const BASIC_CONFIG_OR_BOOLEAN_SCHEMA = {
       type: 'boolean',
     },
   ],
-} satisfies JSONSchema.JSONSchema4
+} satisfies JSONSchema.JSONSchema4AnyOfSchema
 
 type BasicConfig = Pick<Extract<RuleOptions[0], { when?: any }>, keyof typeof BASIC_CONFIG_SCHEMA['properties']>
 
@@ -82,18 +81,21 @@ export default createRule<RuleOptions, MessageIds>({
     schema: {
       type: 'array',
       items: [{
-        anyOf: [{
-          type: 'object',
-          additionalProperties: false,
-          properties: {
-            ...BASIC_CONFIG_SCHEMA.properties,
-            attributes: BASIC_CONFIG_OR_BOOLEAN_SCHEMA,
-            children: BASIC_CONFIG_OR_BOOLEAN_SCHEMA,
+        anyOf: [
+          {
+            type: 'object',
+            additionalProperties: false,
+            properties: {
+              ...BASIC_CONFIG_SCHEMA.properties,
+              attributes: BASIC_CONFIG_OR_BOOLEAN_SCHEMA,
+              children: BASIC_CONFIG_OR_BOOLEAN_SCHEMA,
+            },
           },
-        }, {
-          type: 'string',
-          enum: SPACING_VALUES,
-        }],
+          {
+            type: 'string',
+            enum: SPACING_VALUES,
+          },
+        ],
       }, {
         type: 'object',
         properties: {
