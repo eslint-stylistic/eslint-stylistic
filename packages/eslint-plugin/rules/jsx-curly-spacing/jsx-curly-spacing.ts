@@ -62,7 +62,7 @@ const BASIC_CONFIG_OR_BOOLEAN_SCHEMA = {
   ],
 } satisfies JSONSchema.JSONSchema4
 
-type BasicConfig = Pick<Extract<RuleOptions[0], { when?: any }>, 'when' | 'allowMultiline' | 'spacing'>
+type BasicConfig = Pick<Extract<RuleOptions[0], { when?: any }>, keyof typeof BASIC_CONFIG_SCHEMA['properties']>
 
 interface NormalizedConfig extends BasicConfig {
   objectLiteralSpaces?: 'always' | 'never'
