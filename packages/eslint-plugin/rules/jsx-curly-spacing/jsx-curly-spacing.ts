@@ -50,6 +50,7 @@ const BASIC_CONFIG_SCHEMA = {
       additionalProperties: false,
     },
   },
+  additionalProperties: false,
 } satisfies JSONSchema.JSONSchema4ObjectSchema
 
 const BASIC_CONFIG_OR_BOOLEAN_SCHEMA = {
