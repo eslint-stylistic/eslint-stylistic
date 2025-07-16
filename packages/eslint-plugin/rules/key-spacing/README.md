@@ -28,7 +28,7 @@ This rule has an object option:
   - `"value"`: enforces horizontal alignment of values in object literals.
   - `"colon"` enforces horizontal alignment of both colons and values in object literals.
 - `"align"` with an object value allows for fine-grained spacing when values are being aligned in object literals.
-- `"ignoredNodes"` can be used to disable spacing checking for the AST node. It can be used to resolve conflicts with [`type-annotation-spacing`](../ts/type-annotation-spacing).
+- `"ignoredNodes"` can be used to disable spacing checking for the AST node. It can be used to resolve conflicts with [`type-annotation-spacing`](type-annotation-spacing).
 - `"singleLine"` specifies a spacing style for single-line object literals.
 - `"multiLine"` specifies a spacing style for multi-line object literals.
 

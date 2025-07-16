@@ -2011,6 +2011,20 @@ run<RuleOptions, MessageIds>({
         },
       ],
     },
+    // AccessorProperty
+    {
+      code: `
+        class Test {
+          accessor optional?= false;
+        }
+      `,
+      output: `
+        class Test {
+          accessor optional? = false;
+        }
+      `,
+      errors: [{ messageId: 'missingSpace', column: 29, line: 3 }],
+    },
     {
       code: `
         function foo<T extends string &number>() {}

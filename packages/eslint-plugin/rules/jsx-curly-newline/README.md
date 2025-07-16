@@ -129,7 +129,7 @@ Examples of **correct** code for this rule:
 
 :::
 
-## require
+### require
 
 Examples of **incorrect** code for this rule, when configured with `{ multiline: "require", singleline: "require" }`:
 

@@ -3,12 +3,12 @@
  * @author Toru Nagashima
  */
 
-import type { ASTNode, Token } from '#types'
+import type { ASTNode, NodeTypes, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
-const SELECTOR = [
+const SELECTOR = ([
   'BreakStatement',
   'ContinueStatement',
   'DebuggerStatement',
@@ -22,7 +22,8 @@ const SELECTOR = [
   'ThrowStatement',
   'VariableDeclaration',
   'PropertyDefinition',
-].join(',')
+  'AccessorProperty',
+] satisfies NodeTypes[]).join(',')
 
 /**
  * Get the child node list of a given node.

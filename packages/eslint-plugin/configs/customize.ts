@@ -44,8 +44,8 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
       ArrayExpression: 1,
       CallExpression: { arguments: 1 },
       flatTernaryExpressions: false,
-      FunctionDeclaration: { body: 1, parameters: 1 },
-      FunctionExpression: { body: 1, parameters: 1 },
+      FunctionDeclaration: { body: 1, parameters: 1, returnType: 1 },
+      FunctionExpression: { body: 1, parameters: 1, returnType: 1 },
       ignoreComments: false,
       ignoredNodes: [
         'TSUnionType',

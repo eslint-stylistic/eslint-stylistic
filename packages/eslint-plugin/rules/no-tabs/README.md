@@ -49,7 +49,7 @@ var x = 1; // test
 
 :::
 
-### Options
+## Options
 
 This rule has an optional object option with the following properties:
 
