@@ -1,5 +1,37 @@
 # Changelog
 
+## [5.2.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.1.0...v5.2.0) (2025-07-16)
+
+
+### Features
+
+* add `warnOnce` utility for deprecation warnings ([#867](https://github.com/eslint-stylistic/eslint-stylistic/issues/867)) ([f015822](https://github.com/eslint-stylistic/eslint-stylistic/commit/f0158222e8a97fcbb9d0e7c921e4f3de1baa1816))
+* **indent:** introduce `returnType` for `FunctionDeclaration` and `FunctionExpression` ([#884](https://github.com/eslint-stylistic/eslint-stylistic/issues/884)) ([c0a09fb](https://github.com/eslint-stylistic/eslint-stylistic/commit/c0a09fb48859bac61bb6a53704dc326f16d824aa))
+* **indent:** support `TSTypeAliasDeclaration` ([#796](https://github.com/eslint-stylistic/eslint-stylistic/issues/796)) ([c62afea](https://github.com/eslint-stylistic/eslint-stylistic/commit/c62afeab8695e2271267be5dc5dff59d35ad2f42))
+* **keyword-spacing:** support `ImportAttribute` ([#863](https://github.com/eslint-stylistic/eslint-stylistic/issues/863)) ([08d4193](https://github.com/eslint-stylistic/eslint-stylistic/commit/08d4193872c5d335f881fce2d3ba5a4699cda383))
+* **multiline-comment-style:** add support for exclamation comments ([#876](https://github.com/eslint-stylistic/eslint-stylistic/issues/876)) ([b2ece9f](https://github.com/eslint-stylistic/eslint-stylistic/commit/b2ece9f09fa968a8c4866d61b231ec57897b0e43))
+* **no-extra-parens:** support part of TS Nodes ([#873](https://github.com/eslint-stylistic/eslint-stylistic/issues/873)) ([7d4aa27](https://github.com/eslint-stylistic/eslint-stylistic/commit/7d4aa27c0378c58023b133cea4018b0ba069308f))
+* **object-curly-spacing:** support `ImportAttribute` ([#862](https://github.com/eslint-stylistic/eslint-stylistic/issues/862)) ([000f2f4](https://github.com/eslint-stylistic/eslint-stylistic/commit/000f2f49e706a63ed478eb7390284ed7558e78dd))
+* support `AccessorProperty` ([#829](https://github.com/eslint-stylistic/eslint-stylistic/issues/829)) ([2143f34](https://github.com/eslint-stylistic/eslint-stylistic/commit/2143f34976e80a3f43db7838706d4180e736f981))
+
+
+### Bug Fixes
+
+* disallow extra properties in rule options ([#883](https://github.com/eslint-stylistic/eslint-stylistic/issues/883)) ([bac5f3f](https://github.com/eslint-stylistic/eslint-stylistic/commit/bac5f3f5623264a6fe88dd0b56f959f0401acc07))
+* **indent:** align first element when `VariableDeclarator` is `first` ([#861](https://github.com/eslint-stylistic/eslint-stylistic/issues/861)) ([ddd14c8](https://github.com/eslint-stylistic/eslint-stylistic/commit/ddd14c83cf77344a1775df745b1abca01543f5d6))
+
+
+### Documentation
+
+* enhance readability ([#880](https://github.com/eslint-stylistic/eslint-stylistic/issues/880)) ([4a5fe59](https://github.com/eslint-stylistic/eslint-stylistic/commit/4a5fe59f528021fa2e6e8f787d2f21a69739391b))
+* fix link of `no-unexpected-multiline` ([#847](https://github.com/eslint-stylistic/eslint-stylistic/issues/847)) ([0639099](https://github.com/eslint-stylistic/eslint-stylistic/commit/06390997277f78dba4f24e1830d5ffbc332360bb))
+* **operator-linebreak:** add description for "ignore" option earlier ([#866](https://github.com/eslint-stylistic/eslint-stylistic/issues/866)) ([46e43f5](https://github.com/eslint-stylistic/eslint-stylistic/commit/46e43f5b79fa8d253bd63bf4b22e2e2f6b1d0268))
+
+
+### Chores
+
+* **indent:** cleanup cases ([#859](https://github.com/eslint-stylistic/eslint-stylistic/issues/859)) ([9d8a9c6](https://github.com/eslint-stylistic/eslint-stylistic/commit/9d8a9c6303f29c236ffbdf5a63cf7f67c418d68c))
+
 ## [5.1.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0...v5.1.0) (2025-06-29)
 
 
