@@ -1,6 +1,6 @@
 import type { Linter } from 'eslint'
 import type { Configs } from '../dts/configs'
-import { warnDeprecated } from '#utils/index'
+import { warnDeprecation } from '#utils/index'
 import { createAllConfigs } from '../../shared/utils/configs-all'
 import plugin from '../src/plugin'
 import { customize } from './customize'
@@ -29,7 +29,7 @@ export const configs = new Proxy<Configs>({
   get(target, p, receiver) {
     const prop = p.toString()
     if (prop.endsWith('-flat'))
-      warnDeprecated(`config("${prop}")`, `"${prop.replace('-flat', '')}"`)
+      warnDeprecation(`config("${prop}")`, `"${prop.replace('-flat', '')}"`)
 
     return Reflect.get(target, p, receiver)
   },
