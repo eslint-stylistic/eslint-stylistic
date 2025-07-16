@@ -44,7 +44,6 @@ You can supply any number of configurations. If a statement pair matches multipl
 ```
 
 - `LINEBREAK_TYPE` is one of the following.
-
   - `"any"` just ignores the statement pair.
   - `"never"` disallows blank lines.
   - `"always"` requires one or more blank lines. Note it does not count lines that comments exist as blank lines.

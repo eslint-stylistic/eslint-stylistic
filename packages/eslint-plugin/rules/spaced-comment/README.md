@@ -21,13 +21,11 @@ exceptions for various documentation styles.
 The rule takes two options.
 
 - The first is a string which be either `"always"` or `"never"`. The default is `"always"`.
-
   - If `"always"` then the `//` or `/*` must be followed by at least one whitespace.
 
   - If `"never"` then there should be no whitespace following.
 
 - This rule can also take a 2nd option, an object with any of the following keys: `"exceptions"` and `"markers"`.
-
   - The `"exceptions"` value is an array of string patterns which are considered exceptions to the rule. The rule will not warn when the pattern starts from the beginning of the comment and repeats until the end of the line or `*/` if the comment is a single line comment.
     Please note that exceptions are ignored if the first argument is `"never"`.
 

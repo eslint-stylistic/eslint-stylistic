@@ -35,7 +35,6 @@ This rule has a string option:
 This rule also accepts an additional `exceptions` object:
 
 - `"exceptions"` has properties whose names correspond to node types in the abstract syntax tree (AST) of JavaScript code:
-
   - `"ArrayExpression": true` ignores comma style in array literals
   - `"ArrayPattern": true` ignores comma style in array patterns of destructuring
   - `"ArrowFunctionExpression": true` ignores comma style in the parameters of arrow function expressions
