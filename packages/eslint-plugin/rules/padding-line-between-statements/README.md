@@ -93,6 +93,10 @@ You can supply any number of configurations. If a statement pair matches multipl
   - `"var"` is `var` variable declarations, both single-line and multiline.
   - `"while"` is `while` loop statements.
   - `"with"` is `with` statements.
+  - `enum`
+  - `interface`
+  - `type`
+  - `function-overload`
 
 ## Examples
 
@@ -141,7 +145,7 @@ function foo2() {
 
 ---
 
-This configuration would require blank lines after every sequence of variable declarations, like the [newline-after-var](newline-after-var) rule.
+This configuration would require blank lines after every sequence of variable declarations, like the [newline-after-var](https://eslint.org/docs/latest/rules/newline-after-var) rule.
 
 Examples of **incorrect** code for the `[{ blankLine: "always", prev: ["const", "let", "var"], next: "*"}, { blankLine: "any", prev: ["const", "let", "var"], next: ["const", "let", "var"]}]` configuration:
 
@@ -225,7 +229,7 @@ class C {
 
 ---
 
-This configuration would require blank lines after all directive prologues, like the [lines-around-directive](lines-around-directive) rule.
+This configuration would require blank lines after all directive prologues, like the [lines-around-directive](https://eslint.org/docs/latest/rules/lines-around-directive) rule.
 
 Examples of **incorrect** code for the `[{ blankLine: "always", prev: "directive", next: "*" }, { blankLine: "any", prev: "directive", next: "directive" }]` configuration:
 
@@ -319,43 +323,6 @@ switch (foo) {
 ```
 
 :::
-
-## TypeScript Specific Options
-
-- `enum`
-- `interface`
-- `type`
-- `function-overload`
-
-For example, to add blank lines before enums, interfaces and type definitions:
-
-```jsonc
-{
-  "@stylistic/padding-line-between-statements": [
-    "error",
-    {
-      "blankLine": "always",
-      "prev": "*",
-      "next": ["enum", "interface", "type"]
-    }
-  ]
-}
-```
-
-To avoid blank lines between function overloads and the function body:
-
-```jsonc
-{
-  "@stylistic/padding-line-between-statements": [
-    "error",
-    {
-      "blankLine": "never",
-      "prev": "function-overload",
-      "next": "function"
-    }
-  ]
-}
-```
 
 ## When Not To Use It
 

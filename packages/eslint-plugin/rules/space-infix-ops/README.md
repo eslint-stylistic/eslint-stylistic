@@ -85,14 +85,6 @@ function foo(a = 0) { }
 
 :::
 
-## TypeScript Specific Options
-
-This rule accepts the same options as the base rule plus the an option to disable type checking:
-
-```json
-"space-infix-ops": ["error", { "int32Hint": false, "ignoreTypes": false }]
-```
-
 ### `ignoreTypes`
 
 Set the `ignoreTypes` option to `true` (default is `false`) to allow write `string|number` without space.

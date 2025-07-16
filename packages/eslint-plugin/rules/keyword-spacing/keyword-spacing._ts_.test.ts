@@ -195,10 +195,29 @@ run<RuleOptions, MessageIds>({
       options: [BOTH],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
+    // ----------------------------------------------------------------------
+    // import attributes
+    // ----------------------------------------------------------------------
+    {
+      code: `import pkgJson from 'package.json' with { type: 'json' }`,
+      options: [BOTH],
+    },
+    {
+      code: `export{ name }from'package.json'with{ type: 'json' }`,
+      options: [NEITHER],
+    },
+    {
+      code: `export * from 'package.json'with{ type: 'json' }`,
+      options: [override('with', NEITHER)],
+    },
     {
       code: 'class A { delete() {} }',
       options: [BOTH],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
+    },
+    {
+      code: 'class C { @readonly accessor foo = 1 }',
+      options: [NEITHER],
     },
     {
       code: 'export type { foo } from "foo";',
@@ -372,6 +391,12 @@ run<RuleOptions, MessageIds>({
       errors: expectedAfter('satisfies'),
     },
     {
+      code: 'class C { @readonly() accessor foo = 1 }',
+      output: 'class C { @readonly()accessor foo = 1 }',
+      options: [NEITHER],
+      errors: unexpectedBefore('accessor'),
+    },
+    {
       code: 'import type{ foo } from "foo";',
       output: 'import type { foo } from "foo";',
       options: [{ after: true, before: true }],
@@ -505,6 +530,36 @@ run<RuleOptions, MessageIds>({
         { messageId: 'unexpectedAfter', data: { value: 'type' } },
         { messageId: 'unexpectedBefore', data: { value: 'from' } },
         { messageId: 'unexpectedAfter', data: { value: 'from' } },
+      ],
+    },
+    // ----------------------------------------------------------------------
+    // import attributes
+    // ----------------------------------------------------------------------
+    {
+      code: `import pkgJson from'package.json' with { type: 'json' }`,
+      output: `import pkgJson from'package.json'with{ type: 'json' }`,
+      options: [NEITHER],
+      errors: [
+        { messageId: 'unexpectedBefore', data: { value: 'with' } },
+        { messageId: 'unexpectedAfter', data: { value: 'with' } },
+      ],
+    },
+    {
+      code: `export { name } from 'package.json'with{ type: 'json' }`,
+      output: `export { name } from 'package.json' with { type: 'json' }`,
+      options: [BOTH],
+      errors: [
+        { messageId: 'expectedBefore', data: { value: 'with' } },
+        { messageId: 'expectedAfter', data: { value: 'with' } },
+      ],
+    },
+    {
+      code: `export*from'package.json'with{ type: 'json' }`,
+      output: `export*from'package.json' with { type: 'json' }`,
+      options: [override('with', BOTH)],
+      errors: [
+        { messageId: 'expectedBefore', data: { value: 'with' } },
+        { messageId: 'expectedAfter', data: { value: 'with' } },
       ],
     },
 

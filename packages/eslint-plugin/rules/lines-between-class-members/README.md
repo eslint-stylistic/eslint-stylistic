@@ -67,7 +67,7 @@ class MyClass {
 
 :::
 
-### Options
+## Options
 
 This rule has two options, first option can be string or object, second option is object.
 
@@ -85,6 +85,8 @@ Second option is an object with a property named `exceptAfterSingleLine`:
 
 - `"exceptAfterSingleLine": false`(default) **do not** skip checking empty lines after single-line class members
 - `"exceptAfterSingleLine": true` skip checking empty lines after single-line class members
+- `"exceptAfterOverload": true` (default) - Skip checking empty lines after overload class members
+- `"exceptAfterOverload": false` - **do not** skip checking empty lines after overload class members
 
 Examples of **incorrect** code for this rule with the string option:
 
@@ -339,17 +341,6 @@ class MyClass {
 
 :::
 
-## TypeScript Specific Options
-
-- Object option:
-
-  - `"exceptAfterOverload": true` (default) - Skip checking empty lines after overload class members
-  - `"exceptAfterOverload": false` - **do not** skip checking empty lines after overload class members
-
-- [See the other options allowed](https://github.com/eslint/eslint/blob/main/docs/src/rules/lines-between-class-members.md#options)
-
-### `exceptAfterOverload: true`
-
 Examples of **correct** code for the `{ "exceptAfterOverload": true }` option:
 
 ::: correct
@@ -370,7 +361,7 @@ class foo {
 
 :::
 
-### `exceptAfterOverload: false`
+### exceptAfterOverload
 
 Examples of **correct** code for the `{ "exceptAfterOverload": false }` option:
 

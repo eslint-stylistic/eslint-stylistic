@@ -12,6 +12,8 @@ Spacing around colons improves readability of `case`/`default` clauses.
 This rule controls spacing around colons of `case` and `default` clauses in `switch` statements.
 This rule does the check only if the consecutive tokens exist on the same line.
 
+## Options
+
 This rule has 2 options that are boolean value.
 
 ```json

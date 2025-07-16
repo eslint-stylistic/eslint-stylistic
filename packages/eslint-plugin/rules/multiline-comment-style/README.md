@@ -11,7 +11,7 @@ Many style guides require a particular style for comments that span multiple lin
 
 This rule aims to enforce a particular style for multiline comments.
 
-### Options
+## Options
 
 This rule has a string option, which can have one of the following values:
 
