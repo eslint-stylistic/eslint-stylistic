@@ -315,6 +315,17 @@ run<RuleOptions, MessageIds>({
       code: 'enum Foo {ONE, TWO,}',
       options: ['never'],
     },
+    {
+      code: `import pkgJson from 'package.json' with {type: 'json'}`,
+    },
+    {
+      code: `export { name } from 'package.json' with { type: 'json' }`,
+      options: ['always'],
+    },
+    {
+      code: `export * from 'package.json' with {type: 'json'}`,
+      options: ['never'],
+    },
   ],
 
   invalid: [
@@ -465,6 +476,32 @@ run<RuleOptions, MessageIds>({
       errors: [
         { messageId: 'requireSpaceAfter' },
         { messageId: 'requireSpaceBefore' },
+      ],
+    },
+    {
+      code: `import pkgJson from 'package.json' with { type: 'json' }`,
+      output: `import pkgJson from 'package.json' with {type: 'json'}`,
+      errors: [
+        { messageId: 'unexpectedSpaceAfter' },
+        { messageId: 'unexpectedSpaceBefore' },
+      ],
+    },
+    {
+      code: `export { name } from 'package.json' with {type: 'json'}`,
+      output: `export { name } from 'package.json' with { type: 'json' }`,
+      options: ['always'],
+      errors: [
+        { messageId: 'requireSpaceAfter' },
+        { messageId: 'requireSpaceBefore' },
+      ],
+    },
+    {
+      code: `export * from 'package.json' with { type: 'json' }`,
+      output: `export * from 'package.json' with {type: 'json'}`,
+      options: ['never'],
+      errors: [
+        { messageId: 'unexpectedSpaceAfter' },
+        { messageId: 'unexpectedSpaceBefore' },
       ],
     },
   ],
