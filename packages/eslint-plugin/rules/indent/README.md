@@ -90,11 +90,11 @@ This rule has an object option:
 - `"FunctionDeclaration"` takes an object to define rules for function declarations.
   - `parameters` (default: 1) enforces indentation level for parameters in a function declaration. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the declaration must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionDeclaration parameters.
   - `body` (default: 1) enforces indentation level for the body of a function declaration.
-  - `returnType` (default: 0) enforces indentation level for the return type of a function declaration.
+  - `returnType` (default: 1) enforces indentation level for the return type of a function declaration.
 - `"FunctionExpression"` takes an object to define rules for function expressions.
   - `parameters` (default: 1) enforces indentation level for parameters in a function expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the expression must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionExpression parameters.
   - `body` (default: 1) enforces indentation level for the body of a function expression.
-  - `returnType` (default: 0) enforces indentation level for the return type of a function expression.
+  - `returnType` (default: 1) enforces indentation level for the return type of a function expression.
 - `"StaticBlock"` takes an object to define rules for class static blocks.
   - `body` (default: 1) enforces indentation level for the body of a class static block.
 - `"CallExpression"` takes an object to define rules for function call expressions.
