@@ -146,7 +146,7 @@ export function getStaticStringValue(node: ASTNode) {
         if (isNullLiteral(node))
           return String(node.value) // "null"
 
-        if ('regex' in node && node.regex)
+        if (isRegExpLiteral(node))
           return `/${node.regex.pattern}/${node.regex.flags}`
 
         if ('bigint' in node && node.bigint)
@@ -394,6 +394,15 @@ export function isStringLiteral(node: ASTNode): node is Tree.StringLiteral | Tre
     (node.type === 'Literal' && typeof node.value === 'string')
     || node.type === 'TemplateLiteral'
   )
+}
+
+/**
+ * Checks whether or not a given node is a regular expression literal.
+ * @param node The node to check.
+ * @returns `true` if the node is a regular expression literal.
+ */
+export function isRegExpLiteral(node: ASTNode): node is Tree.RegExpLiteral {
+  return node.type === 'Literal' && 'regex' in node
 }
 
 /**

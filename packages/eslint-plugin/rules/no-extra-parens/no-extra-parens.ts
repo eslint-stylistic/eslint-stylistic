@@ -17,6 +17,7 @@ import {
   isOpeningBracketToken,
   isOpeningParenToken,
   isParenthesized as isParenthesizedRaw,
+  isRegExpLiteral,
   isSingleLine,
   isTokenOnSameLine,
   isTopLevelExpressionStatement,
@@ -1265,7 +1266,7 @@ export default createRule<RuleOptions, MessageIds>({
               || !(
                 isDecimalInteger(node.object)
                 // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
-                || (node.object.type === 'Literal' && 'regex' in node.object && node.object.regex)
+                || isRegExpLiteral(node.object)
               )
             )
           ) {
@@ -1366,7 +1367,7 @@ export default createRule<RuleOptions, MessageIds>({
           && returnToken
           && hasExcessParensNoLineTerminator(returnToken, node.argument)
           // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
-          && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex)
+          && !isRegExpLiteral(node.argument)
         ) {
           report(node.argument)
         }
@@ -1441,7 +1442,7 @@ export default createRule<RuleOptions, MessageIds>({
           if (
             node.init && hasExcessParensWithPrecedence(node.init, PRECEDENCE_OF_ASSIGNMENT_EXPR)
             // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
-            && !(node.init.type === 'Literal' && 'regex' in node.init && node.init.regex)
+            && !isRegExpLiteral(node.init)
           ) {
             report(node.init)
           }
