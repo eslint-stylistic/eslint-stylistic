@@ -376,15 +376,6 @@ export function isTopLevelExpressionStatement(node: ASTNode): node is Tree.Expre
 }
 
 /**
- * Check whether the given node is a part of a directive prologue or not.
- * @param node The node to check.
- * @returns `true` if the node is a part of directive prologue.
- */
-export function isDirective(node: ASTNode): node is Tree.ExpressionStatement {
-  return node.type === 'ExpressionStatement' && typeof node.directive === 'string'
-}
-
-/**
  * Checks whether or not a given node is a string literal.
  * @param node A node to check.
  * @returns `true` if the node is a string literal.
