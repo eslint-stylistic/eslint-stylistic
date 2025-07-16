@@ -769,6 +769,15 @@ run<RuleOptions, MessageIds>({
     `,
     {
       code: $`
+        class Foo {
+          accessor [bar]: string
+          accessor baz: number
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
         using a = foo(),
           b = bar();
         await using c = baz(),
@@ -2058,6 +2067,25 @@ declare function h(x: number): number;
           line: 4,
           column: 1,
         },
+      ],
+    },
+    {
+      code: $`
+        class Foo {
+        accessor [bar]: string
+            accessor baz: number
+        }
+      `,
+      output: $`
+        class Foo {
+          accessor [bar]: string
+          accessor baz: number
+        }
+      `,
+      options: [2],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 0 } },
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 4 } },
       ],
     },
     {

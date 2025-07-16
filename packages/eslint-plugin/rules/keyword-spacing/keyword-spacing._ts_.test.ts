@@ -216,6 +216,10 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
     },
     {
+      code: 'class C { @readonly accessor foo = 1 }',
+      options: [NEITHER],
+    },
+    {
       code: 'export type { foo } from "foo";',
       options: [BOTH],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
@@ -385,6 +389,12 @@ run<RuleOptions, MessageIds>({
       output: 'const foo = {} satisfies {};',
       options: [{ overrides: { satisfies: {} } }],
       errors: expectedAfter('satisfies'),
+    },
+    {
+      code: 'class C { @readonly() accessor foo = 1 }',
+      output: 'class C { @readonly()accessor foo = 1 }',
+      options: [NEITHER],
+      errors: unexpectedBefore('accessor'),
     },
     {
       code: 'import type{ foo } from "foo";',

@@ -51,6 +51,7 @@ const KNOWN_NODES = new Set([
   'Program',
   'Property',
   'PropertyDefinition',
+  AST_NODE_TYPES.AccessorProperty,
   'RestElement',
   'ReturnStatement',
   'SequenceExpression',

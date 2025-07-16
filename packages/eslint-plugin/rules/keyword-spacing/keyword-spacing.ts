@@ -11,7 +11,7 @@ const NEXT_TOKEN_M = /^[{*]$/u
 const TEMPLATE_OPEN_PAREN = /\$\{$/u
 const TEMPLATE_CLOSE_PAREN = /^\}/u
 const CHECK_TYPE = /^(?:JSXElement|RegularExpression|String|Template|PrivateIdentifier)$/u
-const KEYS = KEYWORDS_JS.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'using', 'yield', 'type'])
+const KEYS = KEYWORDS_JS.concat(['accessor', 'as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'using', 'yield', 'type'])
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'keyword-spacing',
@@ -443,12 +443,12 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Reports `static`, `get`, and `set` keywords of a given node if usage of
+     * Reports `accessor`, `static`, `get`, and `set` keywords of a given node if usage of
      * spacing around those keywords is invalid.
      * @param node A node to report.
      * @throws {Error} If unable to find token get, set, or async beside method name.
      */
-    function checkSpacingForProperty(node: Tree.MethodDefinition | Tree.PropertyDefinition | Tree.Property) {
+    function checkSpacingForProperty(node: Tree.MethodDefinition | Tree.PropertyDefinition | Tree.AccessorProperty | Tree.Property) {
       if ('static' in node && node.static)
         checkSpacingAroundFirstToken(node)
 
@@ -458,6 +458,7 @@ export default createRule<RuleOptions, MessageIds>({
           (('method' in node && node.method) || node.type === 'MethodDefinition')
           && 'async' in node.value && node.value.async
         )
+        || node.type === AST_NODE_TYPES.AccessorProperty
       ) {
         const token = sourceCode.getTokenBefore(
           node.key,
@@ -466,6 +467,7 @@ export default createRule<RuleOptions, MessageIds>({
               case 'get':
               case 'set':
               case 'async':
+              case 'accessor':
                 return true
               default:
                 return false
@@ -602,6 +604,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       MethodDefinition: checkSpacingForProperty,
       PropertyDefinition: checkSpacingForProperty,
+      AccessorProperty: checkSpacingForProperty,
       StaticBlock: checkSpacingAroundFirstToken,
       Property: checkSpacingForProperty,
 

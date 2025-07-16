@@ -479,5 +479,10 @@ run<RuleOptions, MessageIds>({
         },
       ],
     },
+    {
+      code: 'class A{ accessor [((foo))] = 1 }',
+      output: 'class A{ accessor [(foo)] = 1 }',
+      errors: [{ messageId: 'unexpected' }],
+    },
   ],
 })

@@ -15,6 +15,8 @@ run<RuleOptions, MessageIds>({
       'export = Foo;',
       'import f = require("f");',
       'type Foo = {};',
+      'class C { accessor foo; } ',
+      'class C { accessor [foo]; } ',
       // https://github.com/typescript-eslint/typescript-eslint/issues/409
       $`
         class Class {
@@ -208,6 +210,24 @@ run<RuleOptions, MessageIds>({
             line: 2,
           },
         ],
+      },
+      {
+        code: $`
+          class C {
+            accessor foo;
+            accessor [bar];
+          }
+        `,
+        errors: [{ line: 2 }, { line: 3 }],
+      },
+      {
+        code: $`
+          class C {
+            accessor foo;
+            accessor [bar];
+          }
+        `,
+        errors: [{ line: 2 }, { line: 3 }],
       },
     ].reduce<InvalidTestCase<RuleOptions, MessageIds>[]>((acc, test) => {
       acc.push({
