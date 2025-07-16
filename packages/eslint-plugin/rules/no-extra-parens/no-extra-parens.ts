@@ -1480,12 +1480,37 @@ export default createRule<RuleOptions, MessageIds>({
           report(node.argument)
         }
       },
-      TSStringKeyword(node) {
-        if (hasExcessParens(node)) {
-          report({
-            ...node,
-            type: AST_NODE_TYPES.FunctionExpression as any,
-          })
+      TSArrayType(node) {
+        if (hasExcessParensWithPrecedence(node.elementType, precedence(node)))
+          report(node.elementType)
+      },
+      TSIntersectionType(node) {
+        node.types.forEach((type) => {
+          if (hasExcessParensWithPrecedence(type, precedence(node)))
+            report(type)
+        })
+      },
+      TSUnionType(node) {
+        node.types.forEach((type) => {
+          if (hasExcessParensWithPrecedence(type, precedence(node)))
+            report(type)
+        })
+      },
+      TSTypeAnnotation(node) {
+        if (hasExcessParens(node.typeAnnotation)) {
+          report(node.typeAnnotation)
+        }
+      },
+      TSTypeAliasDeclaration(node) {
+        if (hasExcessParens(node.typeAnnotation)) {
+          report(node.typeAnnotation)
+        }
+      },
+      TSEnumMember(node) {
+        if (!node.initializer)
+          return
+        if (hasExcessParens(node.initializer)) {
+          report(node.initializer)
         }
       },
     }
