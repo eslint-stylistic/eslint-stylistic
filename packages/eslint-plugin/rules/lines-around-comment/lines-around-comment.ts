@@ -7,13 +7,12 @@ import { createRule } from '#utils/create-rule'
  * @returns an array with with any line numbers that are empty.
  */
 function getEmptyLineNums(lines: string[]): number[] {
-  const emptyLines = lines
-    .map((line, i) => ({
-      code: line.trim(),
-      num: i + 1,
-    }))
-    .filter(line => !line.code)
-    .map(line => line.num)
+  const emptyLines: number[] = []
+
+  lines.forEach((line, i) => {
+    if (!line.trim())
+      emptyLines.push(i + 1)
+  })
 
   return emptyLines
 }

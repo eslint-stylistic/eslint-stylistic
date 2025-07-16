@@ -224,9 +224,7 @@ export default createRule<RuleOptions, MessageIds>({
        * ]
        */
       if (options.multiline) {
-        elementBreak = elements
-          .filter(element => element !== null)
-          .some(element => !isSingleLine(element))
+        elementBreak = elements.some(element => element !== null && !isSingleLine(element))
       }
 
       let linebreaksCount = 0

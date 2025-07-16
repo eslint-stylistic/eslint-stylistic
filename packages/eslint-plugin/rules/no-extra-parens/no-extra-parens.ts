@@ -796,9 +796,10 @@ export default createRule<RuleOptions, MessageIds>({
             report(node.callee)
           }
         }
-        node.arguments
-          .filter(arg => hasExcessParensWithPrecedence(arg, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          .forEach(report)
+        node.arguments.forEach((arg) => {
+          if (hasExcessParensWithPrecedence(arg, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+            report(arg)
+        })
       }
 
       if (isTypeAssertion(node.callee)) {
@@ -924,13 +925,16 @@ export default createRule<RuleOptions, MessageIds>({
               ? { ...element, type: AST_NODE_TYPES.FunctionExpression as any }
               : element,
           )
-          .filter((e): e is NonNullable<typeof e> => !!e && hasExcessParensWithPrecedence(e, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          .forEach(report)
+          .forEach((ele) => {
+            if (!!ele && hasExcessParensWithPrecedence(ele, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+              report(ele)
+          })
       },
       ArrayPattern(node) {
-        node.elements
-          .filter((e): e is NonNullable<typeof e> => !!e && canBeAssignmentTarget(e) && hasExcessParens(e))
-          .forEach(report)
+        node.elements.forEach((ele) => {
+          if (!!ele && canBeAssignmentTarget(ele) && hasExcessParens(ele))
+            report(ele)
+        })
       },
       ArrowFunctionExpression(node) {
         if (isTypeAssertion(node.body))
@@ -1326,18 +1330,26 @@ export default createRule<RuleOptions, MessageIds>({
       },
       'NewExpression': checkCallNew,
       ObjectExpression(node) {
-        node.properties
-          .filter((property): property is Tree.Property => property.type === 'Property' && property.value && hasExcessParensWithPrecedence(property.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          .forEach(property => report(property.value))
+        node.properties.forEach((property) => {
+          if (
+            property.type === 'Property'
+            && property.value
+            && hasExcessParensWithPrecedence(property.value, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          ) {
+            report(property.value)
+          }
+        })
       },
       ObjectPattern(node) {
-        node.properties
-          .filter((property) => {
-            const value = property.value
-
-            return value && canBeAssignmentTarget(value) && hasExcessParens(value)
-          })
-          .forEach(property => report(property.value!))
+        node.properties.forEach(({ value }) => {
+          if (
+            value
+            && canBeAssignmentTarget(value)
+            && hasExcessParens(value)
+          ) {
+            report(value)
+          }
+        })
       },
       Property(node) {
         if (node.computed) {
@@ -1374,9 +1386,10 @@ export default createRule<RuleOptions, MessageIds>({
       SequenceExpression(node) {
         const precedenceOfNode = precedence(node)
 
-        node.expressions
-          .filter(e => hasExcessParensWithPrecedence(e, precedenceOfNode))
-          .forEach(report)
+        node.expressions.forEach((expression) => {
+          if (hasExcessParensWithPrecedence(expression, precedenceOfNode))
+            report(expression)
+        })
       },
       SpreadElement(node) {
         if (isTypeAssertion(node.argument))
@@ -1399,9 +1412,10 @@ export default createRule<RuleOptions, MessageIds>({
           report(node.discriminant)
       },
       TemplateLiteral(node) {
-        node.expressions
-          .filter(e => e && hasExcessParens(e))
-          .forEach(report)
+        node.expressions.forEach((expression) => {
+          if (hasExcessParens(expression))
+            report(expression)
+        })
       },
       ThrowStatement(node) {
         if (!node.argument || isTypeAssertion(node.argument))

@@ -475,8 +475,14 @@ export default createRule<RuleOptions, MessageIds>({
 
             return commentGroups
           }, [])
-          .filter(commentGroup => !(commentGroup.length === 1 && isSingleLine(commentGroup[0])))
-          .forEach(commentGroupCheckers[option])
+          .forEach((commentGroup) => {
+            if (commentGroup.length === 1 && isSingleLine(commentGroup[0]))
+              return
+
+            const check = commentGroupCheckers[option]
+
+            check(commentGroup)
+          })
       },
     }
   },
