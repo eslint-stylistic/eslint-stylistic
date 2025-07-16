@@ -1,45 +1,73 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 6np7FJPRpiFgbrMsnDL-PC4zMTYMNJoW_bCYp5XgxUg */
+/* @checksum: _pSba4lVI8bSVjFb0Xmp0h46hFdDbMk9iLr41NY4nwY */
 
 export type JsxCurlySpacingSchema0
   = | []
     | [
-      | (BasicConfig & {
-        attributes?: BasicConfigOrBoolean
-        children?: BasicConfigOrBoolean
-        [k: string]: unknown
-      })
+      | {
+        when?: 'always' | 'never'
+        allowMultiline?: boolean
+        spacing?: {
+          objectLiterals?: 'always' | 'never'
+        }
+        attributes?:
+          | {
+            when?: 'always' | 'never'
+            allowMultiline?: boolean
+            spacing?: {
+              objectLiterals?: 'always' | 'never'
+            }
+          }
+          | boolean
+        children?:
+          | {
+            when?: 'always' | 'never'
+            allowMultiline?: boolean
+            spacing?: {
+              objectLiterals?: 'always' | 'never'
+            }
+          }
+          | boolean
+      }
       | ('always' | 'never'),
     ]
     | [
       (
-        | (BasicConfig & {
-          attributes?: BasicConfigOrBoolean
-          children?: BasicConfigOrBoolean
-          [k: string]: unknown
-        })
+        | {
+          when?: 'always' | 'never'
+          allowMultiline?: boolean
+          spacing?: {
+            objectLiterals?: 'always' | 'never'
+          }
+          attributes?:
+            | {
+              when?: 'always' | 'never'
+              allowMultiline?: boolean
+              spacing?: {
+                objectLiterals?: 'always' | 'never'
+              }
+            }
+            | boolean
+          children?:
+            | {
+              when?: 'always' | 'never'
+              allowMultiline?: boolean
+              spacing?: {
+                objectLiterals?: 'always' | 'never'
+              }
+            }
+            | boolean
+        }
         | ('always' | 'never')
       ),
       {
         allowMultiline?: boolean
         spacing?: {
           objectLiterals?: 'always' | 'never'
-          [k: string]: unknown
         }
       },
     ]
-export type BasicConfigOrBoolean = BasicConfig | boolean
-
-export interface BasicConfig {
-  when?: 'always' | 'never'
-  allowMultiline?: boolean
-  spacing?: {
-    objectLiterals?: 'always' | 'never'
-    [k: string]: unknown
-  }
-  [k: string]: unknown
-}
 
 export type JsxCurlySpacingRuleOptions
   = JsxCurlySpacingSchema0
