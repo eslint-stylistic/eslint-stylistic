@@ -90,9 +90,11 @@ This rule has an object option:
 - `"FunctionDeclaration"` takes an object to define rules for function declarations.
   - `parameters` (default: 1) enforces indentation level for parameters in a function declaration. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the declaration must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionDeclaration parameters.
   - `body` (default: 1) enforces indentation level for the body of a function declaration.
+  - `returnType` (default: 1) enforces indentation level for the return type of a function declaration.
 - `"FunctionExpression"` takes an object to define rules for function expressions.
   - `parameters` (default: 1) enforces indentation level for parameters in a function expression. This can either be a number indicating indentation level, or the string `"first"` indicating that all parameters of the expression must be aligned with the first parameter. This can also be set to `"off"` to disable checking for FunctionExpression parameters.
   - `body` (default: 1) enforces indentation level for the body of a function expression.
+  - `returnType` (default: 1) enforces indentation level for the return type of a function expression.
 - `"StaticBlock"` takes an object to define rules for class static blocks.
   - `body` (default: 1) enforces indentation level for the body of a class static block.
 - `"CallExpression"` takes an object to define rules for function call expressions.
@@ -504,33 +506,43 @@ foo
 
 ### FunctionDeclaration
 
-Examples of **incorrect** code for this rule with the `2, { "FunctionDeclaration": {"body": 1, "parameters": 2} }` option:
+Examples of **incorrect** code for this rule with the `2, { "FunctionDeclaration": {"body": 1, "parameters": 2, "returnType": 1} }` option:
 
 ::: incorrect
 
 ```js
-/* eslint @stylistic/indent: ["error", 2, { "FunctionDeclaration": {"body": 1, "parameters": 2} }] */
+/* eslint @stylistic/indent: ["error", 2, { "FunctionDeclaration": {"body": 1, "parameters": 2, "returnType": 1} }] */
 
 function foo(bar,
   baz,
   qux) {
     qux();
 }
+
+function foo(a: string)
+: a is 'a' {
+  return bar()
+}
 ```
 
 :::
 
-Examples of **correct** code for this rule with the `2, { "FunctionDeclaration": {"body": 1, "parameters": 2} }` option:
+Examples of **correct** code for this rule with the `2, { "FunctionDeclaration": {"body": 1, "parameters": 2, "returnType": 1} }` option:
 
 ::: correct
 
 ```js
-/* eslint @stylistic/indent: ["error", 2, { "FunctionDeclaration": {"body": 1, "parameters": 2} }] */
+/* eslint @stylistic/indent: ["error", 2, { "FunctionDeclaration": {"body": 1, "parameters": 2, "returnType": 1} }] */
 
 function foo(bar,
     baz,
     qux) {
   qux();
+}
+
+function foo(a: string)
+  : a is 'a' {
+  return bar()
 }
 ```
 
@@ -568,33 +580,43 @@ function foo(bar, baz,
 
 ### FunctionExpression
 
-Examples of **incorrect** code for this rule with the `2, { "FunctionExpression": {"body": 1, "parameters": 2} }` option:
+Examples of **incorrect** code for this rule with the `2, { "FunctionExpression": {"body": 1, "parameters": 2, "returnType": 1} }` option:
 
 ::: incorrect
 
 ```js
-/* eslint @stylistic/indent: ["error", 2, { "FunctionExpression": {"body": 1, "parameters": 2} }] */
+/* eslint @stylistic/indent: ["error", 2, { "FunctionExpression": {"body": 1, "parameters": 2, "returnType": 1} }] */
 
 var foo = function(bar,
   baz,
   qux) {
     qux();
 }
+
+const foo = function(a: string)
+: a is 'a' {
+  return bar()
+}
 ```
 
 :::
 
-Examples of **correct** code for this rule with the `2, { "FunctionExpression": {"body": 1, "parameters": 2} }` option:
+Examples of **correct** code for this rule with the `2, { "FunctionExpression": {"body": 1, "parameters": 2, "returnType": 1} }` option:
 
 ::: correct
 
 ```js
-/* eslint @stylistic/indent: ["error", 2, { "FunctionExpression": {"body": 1, "parameters": 2} }] */
+/* eslint @stylistic/indent: ["error", 2, { "FunctionExpression": {"body": 1, "parameters": 2, "returnType": 1} }] */
 
 var foo = function(bar,
     baz,
     qux) {
   qux();
+}
+
+const foo = function(a: string)
+  : a is 'a' {
+  return bar()
 }
 ```
 

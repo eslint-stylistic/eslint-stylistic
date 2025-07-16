@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: OXKn3_mfEuRvCVJ6qv5__ZiBZDQpamanEmwuqMCGavo */
+/* @checksum: QbJKtgTG8LGJ01CuOk9fHSorj_SGJMdNlfWA7zJbTew */
 
 export type IndentSchema0 = 'tab' | number
 
@@ -19,10 +19,12 @@ export interface IndentSchema1 {
   FunctionDeclaration?: {
     parameters?: number | ('first' | 'off')
     body?: number
+    returnType?: number
   }
   FunctionExpression?: {
     parameters?: number | ('first' | 'off')
     body?: number
+    returnType?: number
   }
   StaticBlock?: {
     body?: number
