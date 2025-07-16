@@ -354,7 +354,7 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Reports `import`, `export`, `as`, and `from` keywords of a given node if
+     * Reports `import`, `export`, `as`, `from` and `with` keywords of a given node if
      * usage of spacing around those keywords is invalid.
      *
      * This rule handles the `*` token in module declarations.
@@ -390,6 +390,13 @@ export default createRule<RuleOptions, MessageIds>({
 
         checkSpacingBefore(fromToken, PREV_TOKEN_M)
         checkSpacingAfter(fromToken, NEXT_TOKEN_M)
+
+        // ImportAttribute must be after source
+        if (node.attributes) {
+          const withToken = sourceCode.getTokenAfter(node.source)
+          if (isKeywordToken(withToken))
+            checkSpacingAround(withToken)
+        }
       }
 
       // ExportDefaultDeclaration never have a `type` keyword

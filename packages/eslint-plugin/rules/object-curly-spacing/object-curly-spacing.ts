@@ -6,6 +6,7 @@ import {
   isClosingBraceToken,
   isClosingBracketToken,
   isNotCommaToken,
+  isOpeningBraceToken,
   isTokenOnSameLine,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -254,7 +255,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       const closeToken = sourceCode.getTokenAfter(properties.at(-1)!, isClosingBraceToken)!
 
-      const openingToken = sourceCode.getFirstToken(node)!
+      const openingToken = sourceCode.getTokenBefore(properties[0], isOpeningBraceToken)!
 
       validateBraceSpacing(node, openingToken, closeToken)
     }
@@ -308,9 +309,23 @@ export default createRule<RuleOptions, MessageIds>({
         checkForObjectLike(node, node.properties)
       },
       // import {y} from 'x';
-      ImportDeclaration: checkForImport,
+      ImportDeclaration(node) {
+        checkForImport(node)
+
+        if (node.attributes)
+          checkForObjectLike(node, node.attributes)
+      },
       // export {name} from 'yo';
-      ExportNamedDeclaration: checkForExport,
+      ExportNamedDeclaration(node) {
+        checkForExport(node)
+
+        if (node.attributes)
+          checkForObjectLike(node, node.attributes)
+      },
+      ExportAllDeclaration(node) {
+        if (node.attributes)
+          checkForObjectLike(node, node.attributes)
+      },
       TSMappedType(node) {
         const openingToken = sourceCode.getFirstToken(node)!
         const closeToken = sourceCode.getLastToken(node)!
