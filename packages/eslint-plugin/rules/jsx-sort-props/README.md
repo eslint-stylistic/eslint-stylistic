@@ -252,7 +252,7 @@ These will respect the order specified in the array:
 
 Defaults to `"auto"`, meaning, the locale of the current environment.
 
-Any other string provided here may be passed to `String.prototype.localeCompare` - note that an unknown or invalid locale may throw an exception and crash.
+Any other string provided here may be passed to [`String.prototype.localeCompare`](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/String/localeCompare) - note that an unknown or invalid locale may throw an exception and crash.
 
 ## When Not To Use It
 

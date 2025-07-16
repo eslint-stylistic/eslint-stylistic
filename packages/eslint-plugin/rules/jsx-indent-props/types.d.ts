@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: yoq47ZFhtyO96ComOIYTmw3_4sqKrrg0Nv2kSf7dBYo */
+/* @checksum: 30G_ZrWyAGlBb_DWlLb43wDD7IXoSKVHzxArM3d3ta0 */
 
 export type JsxIndentPropsSchema0
   = | ('tab' | 'first')
@@ -8,7 +8,6 @@ export type JsxIndentPropsSchema0
     | {
       indentMode?: ('tab' | 'first') | number
       ignoreTernaryOperator?: boolean
-      [k: string]: unknown
     }
 
 export type JsxIndentPropsRuleOptions = [

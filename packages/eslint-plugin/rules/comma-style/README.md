@@ -35,7 +35,6 @@ This rule has a string option:
 This rule also accepts an additional `exceptions` object:
 
 - `"exceptions"` has properties whose names correspond to node types in the abstract syntax tree (AST) of JavaScript code:
-
   - `"ArrayExpression": true` ignores comma style in array literals
   - `"ArrayPattern": true` ignores comma style in array patterns of destructuring
   - `"ArrowFunctionExpression": true` ignores comma style in the parameters of arrow function expressions
@@ -69,7 +68,7 @@ This rule also accepts an additional `exceptions` object:
   - `"TSTypeParameterDeclaration": true` ignores comma style in the type parameters of TypeScript type parameter declarations
   - `"TSTypeParameterInstantiation": true` ignores comma style in the type arguments of TypeScript type parameter instantiations
 
-A way to determine the node types as defined by [ESTree](https://github.com/estree/estree) and [@typescript-eslint/parser](https://typescript-eslint.io/packages/parser/) is to use [AST Explorer](https://astexplorer.net/) with the espree parser or @typescript-eslint/parser.
+A way to determine the node types as defined by [ESTree](https://github.com/estree/estree) and [@typescript-eslint/parser](https://typescript-eslint.io/packages/parser/) is to use [AST Explorer](https://ast-explorer.dev/) with the espree parser or @typescript-eslint/parser.
 
 ### last
 

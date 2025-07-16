@@ -46,6 +46,7 @@ export default createRule<RuleOptions, MessageIds>({
                 minimum: 1,
               },
             },
+            additionalProperties: false,
           },
         },
         additionalProperties: false,

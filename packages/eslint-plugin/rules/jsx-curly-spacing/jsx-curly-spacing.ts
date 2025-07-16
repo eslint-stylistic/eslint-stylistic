@@ -9,8 +9,8 @@
  * @author Erik Wendel
  */
 
-import type { ASTNode, RuleFixer, Token } from '#types'
-import type { BasicConfig, MessageIds, RuleOptions } from './types'
+import type { ASTNode, JSONSchema, RuleFixer, Token } from '#types'
+import type { MessageIds, RuleOptions } from './types'
 import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
@@ -29,6 +29,45 @@ const messages = {
   spaceNeededBefore: 'A space is required before \'{{token}}\'',
 }
 
+const BASIC_CONFIG_SCHEMA = {
+  type: 'object',
+  properties: {
+    when: {
+      type: 'string',
+      enum: SPACING_VALUES,
+    },
+    allowMultiline: {
+      type: 'boolean',
+    },
+    spacing: {
+      type: 'object',
+      properties: {
+        objectLiterals: {
+          type: 'string',
+          enum: SPACING_VALUES,
+        },
+      },
+      additionalProperties: false,
+    },
+  },
+  additionalProperties: false,
+} satisfies JSONSchema.JSONSchema4ObjectSchema
+
+const BASIC_CONFIG_OR_BOOLEAN_SCHEMA = {
+  anyOf: [
+    BASIC_CONFIG_SCHEMA,
+    {
+      type: 'boolean',
+    },
+  ],
+} satisfies JSONSchema.JSONSchema4AnyOfSchema
+
+type BasicConfig = Pick<Extract<RuleOptions[0], { when?: any }>, keyof typeof BASIC_CONFIG_SCHEMA['properties']>
+
+interface NormalizedConfig extends BasicConfig {
+  objectLiteralSpaces?: 'always' | 'never'
+}
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-curly-spacing',
   meta: {
@@ -41,56 +80,23 @@ export default createRule<RuleOptions, MessageIds>({
     messages,
 
     schema: {
-      definitions: {
-        basicConfig: {
-          type: 'object',
-          properties: {
-            when: {
-              type: 'string',
-              enum: SPACING_VALUES,
-            },
-            allowMultiline: {
-              type: 'boolean',
-            },
-            spacing: {
-              type: 'object',
-              properties: {
-                objectLiterals: {
-                  type: 'string',
-                  enum: SPACING_VALUES,
-                },
-              },
-            },
-          },
-        },
-        basicConfigOrBoolean: {
-          anyOf: [{
-            $ref: '#/definitions/basicConfig',
-          }, {
-            type: 'boolean',
-          }],
-        },
-      },
       type: 'array',
       items: [{
-        anyOf: [{
-          allOf: [{
-            $ref: '#/definitions/basicConfig',
-          }, {
+        anyOf: [
+          {
             type: 'object',
+            additionalProperties: false,
             properties: {
-              attributes: {
-                $ref: '#/definitions/basicConfigOrBoolean',
-              },
-              children: {
-                $ref: '#/definitions/basicConfigOrBoolean',
-              },
+              ...BASIC_CONFIG_SCHEMA.properties,
+              attributes: BASIC_CONFIG_OR_BOOLEAN_SCHEMA,
+              children: BASIC_CONFIG_OR_BOOLEAN_SCHEMA,
             },
-          }],
-        }, {
-          type: 'string',
-          enum: SPACING_VALUES,
-        }],
+          },
+          {
+            type: 'string',
+            enum: SPACING_VALUES,
+          },
+        ],
       }, {
         type: 'object',
         properties: {
@@ -105,6 +111,7 @@ export default createRule<RuleOptions, MessageIds>({
                 enum: SPACING_VALUES,
               },
             },
+            additionalProperties: false,
           },
         },
         additionalProperties: false,
@@ -113,11 +120,11 @@ export default createRule<RuleOptions, MessageIds>({
   },
 
   create(context) {
-    function normalizeConfig(configOrTrue: RuleOptions[0] | true, defaults: BasicConfig, lastPass: boolean = false) {
+    function normalizeConfig(configOrTrue: RuleOptions[0] | true, defaults: NormalizedConfig, lastPass: boolean = false): NormalizedConfig {
       const config = configOrTrue === true ? {} : configOrTrue as NonStringConfig
-      const when = (config as BasicConfig).when || defaults.when
+      const when = config.when || defaults.when
       const allowMultiline = 'allowMultiline' in config ? config.allowMultiline : defaults.allowMultiline
-      const spacing = (config as BasicConfig).spacing || {}
+      const spacing = config.spacing || {}
       let objectLiteralSpaces = spacing.objectLiterals || defaults.objectLiteralSpaces
       if (lastPass) {
         // On the final pass assign the values that should be derived from others if they are still undefined

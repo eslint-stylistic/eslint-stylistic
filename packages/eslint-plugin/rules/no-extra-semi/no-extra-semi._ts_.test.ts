@@ -16,6 +16,8 @@ run<RuleOptions, MessageIds>({
       code: $`
         export class Foo {
           public foo: number = 0;
+          accessor bar: number = 1;
+          accessor [baz]: number = 2;
         }
       `,
     },
@@ -23,6 +25,7 @@ run<RuleOptions, MessageIds>({
       code: $`
         export class Foo {
           public foo: number = 0; public bar: number = 1;
+          accessor bar: number = 1; accessor [baz]: number = 2;
         }
       `,
     },
@@ -73,6 +76,27 @@ run<RuleOptions, MessageIds>({
         class Foo {
           public foo: number = 0; public bar: number = 1;
           public baz: number = 1;
+        }
+      `,
+      errors: [
+        'unexpected',
+        'unexpected',
+        'unexpected',
+      ],
+    },
+
+    // accessor property
+    {
+      code: $`
+        class Foo {
+          accessor foo: number;; accessor [bar]: number;;
+          accessor baz: number;;
+        }
+      `,
+      output: $`
+        class Foo {
+          accessor foo: number; accessor [bar]: number;
+          accessor baz: number;
         }
       `,
       errors: [

@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: F-2EEbab-hKzmU-DEbejw9951edJ-x4z3ngYponoEZI */
+/* @checksum: B9Xuzw8xZiK_fneqs8jInWdZlTCYrLuG3DJ0naQrxnY */
 
 export type MultilineTernarySchema0
   = | 'always'
@@ -9,7 +9,6 @@ export type MultilineTernarySchema0
 
 export interface MultilineTernarySchema1 {
   ignoreJSX?: boolean
-  [k: string]: unknown
 }
 
 export type MultilineTernaryRuleOptions = [

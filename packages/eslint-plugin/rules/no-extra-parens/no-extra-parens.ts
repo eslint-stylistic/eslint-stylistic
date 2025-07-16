@@ -902,6 +902,14 @@ export default createRule<RuleOptions, MessageIds>({
         report(node)
     }
 
+    function checkClassProperty(node: Tree.PropertyDefinition | Tree.AccessorProperty) {
+      if (node.computed && hasExcessParensWithPrecedence(node.key, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+        report(node.key)
+
+      if (node.value && hasExcessParensWithPrecedence(node.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+        report(node.value)
+    }
+
     return {
       ArrayExpression(node) {
         node.elements
@@ -1258,13 +1266,8 @@ export default createRule<RuleOptions, MessageIds>({
             report(key)
         }
       },
-      PropertyDefinition(node) {
-        if (node.computed && hasExcessParensWithPrecedence(node.key, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          report(node.key)
-
-        if (node.value && hasExcessParensWithPrecedence(node.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          report(node.value)
-      },
+      'PropertyDefinition': checkClassProperty,
+      'AccessorProperty': checkClassProperty,
       RestElement(node) {
         const argument = node.argument
 
@@ -1383,10 +1386,37 @@ export default createRule<RuleOptions, MessageIds>({
           report(node.argument)
         }
       },
-      // TODO: more cases like `number`, `boolean`
-      TSStringKeyword(node) {
-        if (hasExcessParens(node)) {
-          report(node)
+      TSArrayType(node) {
+        if (hasExcessParensWithPrecedence(node.elementType, precedence(node)))
+          report(node.elementType)
+      },
+      TSIntersectionType(node) {
+        node.types.forEach((type) => {
+          if (hasExcessParensWithPrecedence(type, precedence(node)))
+            report(type)
+        })
+      },
+      TSUnionType(node) {
+        node.types.forEach((type) => {
+          if (hasExcessParensWithPrecedence(type, precedence(node)))
+            report(type)
+        })
+      },
+      TSTypeAnnotation(node) {
+        if (hasExcessParens(node.typeAnnotation)) {
+          report(node.typeAnnotation)
+        }
+      },
+      TSTypeAliasDeclaration(node) {
+        if (hasExcessParens(node.typeAnnotation)) {
+          report(node.typeAnnotation)
+        }
+      },
+      TSEnumMember(node) {
+        if (!node.initializer)
+          return
+        if (hasExcessParens(node.initializer)) {
+          report(node.initializer)
         }
       },
     }
