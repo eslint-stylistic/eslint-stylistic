@@ -9,6 +9,7 @@ import {
   LINEBREAKS,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { warnDeprecation } from '#utils/index'
 
 /**
  * Switches quoting of javascript string between ' " and `
@@ -141,13 +142,19 @@ export default createRule<RuleOptions, MessageIds>({
         allowTemplateLiteralsToAvoidEscape = allowTemplateLiteralsAlways || options.allowTemplateLiterals === 'avoidEscape'
       }
       else if (typeof (options.allowTemplateLiterals) === 'boolean') { // deprecated
+        warnDeprecation('value(boolean) for "allowTemplateLiterals"', '"always"/"never"', 'quotes')
+
         allowTemplateLiteralsAlways = options.allowTemplateLiterals === true
         allowTemplateLiteralsToAvoidEscape = options.allowTemplateLiterals === true
       }
     }
+    /* v8 ignore start */
     else if (options === AVOID_ESCAPE) { // deprecated
+      warnDeprecation(`option("${AVOID_ESCAPE}")`, '"avoidEscape"', 'quotes')
+
       avoidEscape = true
     }
+    /* v8 ignore stop */
 
     /**
      * Determines if a given node is part of JSX syntax.
