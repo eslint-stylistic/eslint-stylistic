@@ -23,6 +23,15 @@ run<RuleOptions, MessageIds>({
              */
         `,
     `
+            /*!
+             * this is
+             * an exclamation comment
+             */
+        `,
+    `
+            /*! this is a single line exclamation comment */
+        `,
+    `
             /* eslint semi: [
               "error"
             ] */
@@ -236,6 +245,33 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: `
+                /*!
+                 * This is
+                 * an exclamation comment
+                 */
+            `,
+      options: ['separate-lines'],
+    },
+    {
+      code: `
+                /*!
+                 * This is
+                 * an exclamation comment
+                 */
+            `,
+      options: ['starred-block'],
+    },
+    {
+      code: `
+                /*!
+                 * This is
+                 * an exclamation comment
+                 */
+            `,
+      options: ['bare-block'],
+    },
+    {
+      code: `
                 /* This is
                    a comment */
             `,
@@ -311,6 +347,39 @@ run<RuleOptions, MessageIds>({
       code: `
                 /**
                  *    JSDoc blocks
+                 *  are
+                 *   ignored
+                 * !
+                 */
+            `,
+      options: ['separate-lines'],
+    },
+    {
+      code: `
+                /*!
+                 *    Exclamation blocks
+                 *  are
+                 *   ignored
+                 * !
+                 */
+            `,
+      options: ['bare-block'],
+    },
+    {
+      code: `
+                /*!
+                 *    Exclamation blocks
+                 *  are
+                 *   ignored
+                 * !
+                 */
+            `,
+      options: ['starred-block'],
+    },
+    {
+      code: `
+                /*!
+                 *    Exclamation blocks
                  *  are
                  *   ignored
                  * !
@@ -447,6 +516,34 @@ run<RuleOptions, MessageIds>({
                 /**
                  * this JSDoc comment
                  * is missing a newline at the start
+                 */
+            `,
+      errors: [{ messageId: 'startNewline', line: 2 }],
+    },
+    {
+      code: `
+                /*! this Exclamation comment
+                 * is missing a newline
+                 * at the start
+                 */
+            `,
+      output: `
+                /*!
+                 * this Exclamation comment
+                 * is missing a newline
+                 * at the start
+                 */
+            `,
+      errors: [{ messageId: 'startNewline', line: 2 }],
+    },
+    {
+      code: `
+                /*! this Exclamation comment is missing a newline at the start
+                 */
+            `,
+      output: `
+                /*!
+                 * this Exclamation comment is missing a newline at the start
                  */
             `,
       errors: [{ messageId: 'startNewline', line: 2 }],
@@ -630,6 +727,20 @@ run<RuleOptions, MessageIds>({
                 // Comment
             `,
       options: ['separate-lines', { checkJSDoc: true }],
+      errors: [{ messageId: 'expectedLines', line: 2 }],
+    },
+    {
+      code: `
+                /*!
+                 * Exclamation
+                 * Comment
+                 */
+            `,
+      output: `
+                // Exclamation
+                // Comment
+            `,
+      options: ['separate-lines', { checkExclamation: true }],
       errors: [{ messageId: 'expectedLines', line: 2 }],
     },
     {
