@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: AMUDF0zDKV4UnPFxPyafyi1DqhUgG4ZWXfRUYYm5gO8 */
+/* @checksum: EBe9POsq35VFQbksvNsZFoKCI0pjF4NaOAe0KydqIwA */
 
 export type MultilineCommentStyleSchema0
   = | []
