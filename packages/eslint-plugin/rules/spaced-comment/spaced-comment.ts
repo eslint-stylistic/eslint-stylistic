@@ -371,7 +371,11 @@ export default createRule<RuleOptions, MessageIds>({
       Program() {
         const comments = sourceCode.getAllComments()
 
-        comments.filter(token => !isHashbangComment(token)).forEach(checkCommentForSpace)
+        comments.forEach((comment) => {
+          if (!isHashbangComment(comment))
+            checkCommentForSpace(comment)
+        },
+        )
       },
     }
   },

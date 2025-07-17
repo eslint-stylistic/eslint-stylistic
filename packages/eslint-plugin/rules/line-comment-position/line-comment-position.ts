@@ -89,7 +89,10 @@ export default createRule<RuleOptions, MessageIds>({
       Program() {
         const comments = sourceCode.getAllComments()
 
-        comments.filter(token => token.type === 'Line').forEach((node) => {
+        comments.forEach((node) => {
+          if (node.type !== 'Line')
+            return
+
           if (applyDefaultIgnorePatterns && (defaultIgnoreRegExp.test(node.value) || fallThroughRegExp.test(node.value)))
             return
 
