@@ -1,5 +1,22 @@
 # Changelog
 
+## [5.2.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.2.0...v5.2.1) (2025-07-18)
+
+
+### Bug Fixes
+
+* run update, correct schema ([#887](https://github.com/eslint-stylistic/eslint-stylistic/issues/887)) ([cc06d9a](https://github.com/eslint-stylistic/eslint-stylistic/commit/cc06d9ab03ac99ac09633be4b9b18ee398083943))
+
+
+### Chores
+
+* unify `isRegExpLiteral` ([#891](https://github.com/eslint-stylistic/eslint-stylistic/issues/891)) ([0d9a5f7](https://github.com/eslint-stylistic/eslint-stylistic/commit/0d9a5f736c83a2fb89d6fc466616fd87babd3272))
+
+
+### Performance
+
+* reduce array iterations ([#886](https://github.com/eslint-stylistic/eslint-stylistic/issues/886)) ([84b7d0e](https://github.com/eslint-stylistic/eslint-stylistic/commit/84b7d0e2c91f01c2bedfbd505555daf4c22bccb8))
+
 ## [5.2.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.1.0...v5.2.0) (2025-07-16)
 
 
