@@ -4,7 +4,7 @@ ESLint Stylistic is a collection of stylistic rules for ESLint, migrated from `e
 
 ## Plugin
 
-ESLint Stylistic is provided as a unified plugin, which supports supports JS, TS and JSX out of the box.
+ESLint Stylistic is provided as a unified plugin, which supports JS, TS and JSX out of the box.
 
 [Check the rules and install guide](/rules) for more details.
 
