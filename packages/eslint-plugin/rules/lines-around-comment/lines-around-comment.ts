@@ -1,11 +1,10 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { LinesAroundCommentSchema0, MessageIds, RuleOptions } from './types'
-import { isClosingBraceToken, isClosingBracketToken, isClosingParenToken, AST_NODE_TYPES, AST_TOKEN_TYPES, COMMENTS_IGNORE_PATTERN, isCommentToken, isHashbangComment, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES, COMMENTS_IGNORE_PATTERN, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isCommentToken, isHashbangComment, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 type RuleOption = Required<LinesAroundCommentSchema0>
 type GroupTokenValue = RuleOption['allowGroupStart'][number] | RuleOption['allowGroupEnd'][number]
-
 
 /**
  * @returns an array with with any line numbers that are empty.
