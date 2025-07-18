@@ -107,6 +107,7 @@ This rule has an object option:
 - `"offsetTernaryExpressionsOffsetCallExpressions": true` (`true` by default), handles an edge case for call expressions nested in ternary. It's only effective when `offsetTernaryExpressions` is set to `true`.
 - `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 - `"tabLength"` (default: 4) when using tabbed indentation, the indentation used to calculate the insertion value of the template string
+- `"offsetMultiLineInList"` can be used to offset the indentation of AST node that are at the first item in the "list" and have the same starting line as their parent. This accepts an array of [selectors](https://eslint.org/docs/latest/extend/selectors).
 
 Level of indentation denotes the multiple of the indent specified. Example:
 
@@ -1169,6 +1170,39 @@ if (foo) {
 
 // comment intentionally de-indented
     doSomethingElse();
+}
+```
+
+:::
+
+### offsetMultiLineInList
+
+Examples of additional **correct** code for this rule with the `2, { "offsetMultiLineInList": ["BinaryExpression", "Property", "AssignmentPattern"] }` option:
+
+::: correct
+
+```js
+/* eslint @stylistic/indent: ["error", 2, { "offsetMultiLineInList": ["BinaryExpression", "Property", "AssignmentPattern"] }] */
+
+const answer = showInformationMessage("The MySQL Router config directory ",
+  "Yes" +
+    "some" +
+      "some",
+  "No");
+
+const obj = {a: {
+    b: 1
+  },
+  c: 2,
+  d: 3,
+}
+
+function computed(callback = function(a) {
+    return a
+  }, argA,
+  argB,
+) {
+  console.log()
 }
 ```
 
