@@ -17,6 +17,7 @@ import {
   isOpeningBracketToken,
   isOpeningParenToken,
   isParenthesized as isParenthesizedRaw,
+  isRegExpLiteral,
   isSingleLine,
   isTokenOnSameLine,
   isTopLevelExpressionStatement,
@@ -796,9 +797,10 @@ export default createRule<RuleOptions, MessageIds>({
             report(node.callee)
           }
         }
-        node.arguments
-          .filter(arg => hasExcessParensWithPrecedence(arg, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          .forEach(report)
+        node.arguments.forEach((arg) => {
+          if (hasExcessParensWithPrecedence(arg, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+            report(arg)
+        })
       }
 
       if (isTypeAssertion(node.callee)) {
@@ -908,6 +910,14 @@ export default createRule<RuleOptions, MessageIds>({
       return checkArgumentWithPrecedence(node)
     }
 
+    function checkClassProperty(node: Tree.PropertyDefinition | Tree.AccessorProperty) {
+      if (node.computed && hasExcessParensWithPrecedence(node.key, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+        report(node.key)
+
+      if (node.value && hasExcessParensWithPrecedence(node.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+        report(node.value)
+    }
+
     return {
       ArrayExpression(node) {
         node.elements
@@ -916,13 +926,16 @@ export default createRule<RuleOptions, MessageIds>({
               ? { ...element, type: AST_NODE_TYPES.FunctionExpression as any }
               : element,
           )
-          .filter((e): e is NonNullable<typeof e> => !!e && hasExcessParensWithPrecedence(e, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          .forEach(report)
+          .forEach((ele) => {
+            if (!!ele && hasExcessParensWithPrecedence(ele, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+              report(ele)
+          })
       },
       ArrayPattern(node) {
-        node.elements
-          .filter((e): e is NonNullable<typeof e> => !!e && canBeAssignmentTarget(e) && hasExcessParens(e))
-          .forEach(report)
+        node.elements.forEach((ele) => {
+          if (!!ele && canBeAssignmentTarget(ele) && hasExcessParens(ele))
+            report(ele)
+        })
       },
       ArrowFunctionExpression(node) {
         if (isTypeAssertion(node.body))
@@ -1257,7 +1270,7 @@ export default createRule<RuleOptions, MessageIds>({
               || !(
                 isDecimalInteger(node.object)
                 // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
-                || (node.object.type === 'Literal' && 'regex' in node.object && node.object.regex)
+                || isRegExpLiteral(node.object)
               )
             )
           ) {
@@ -1318,18 +1331,26 @@ export default createRule<RuleOptions, MessageIds>({
       },
       'NewExpression': checkCallNew,
       ObjectExpression(node) {
-        node.properties
-          .filter((property): property is Tree.Property => property.type === 'Property' && property.value && hasExcessParensWithPrecedence(property.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          .forEach(property => report(property.value))
+        node.properties.forEach((property) => {
+          if (
+            property.type === 'Property'
+            && property.value
+            && hasExcessParensWithPrecedence(property.value, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          ) {
+            report(property.value)
+          }
+        })
       },
       ObjectPattern(node) {
-        node.properties
-          .filter((property) => {
-            const value = property.value
-
-            return value && canBeAssignmentTarget(value) && hasExcessParens(value)
-          })
-          .forEach(property => report(property.value!))
+        node.properties.forEach(({ value }) => {
+          if (
+            value
+            && canBeAssignmentTarget(value)
+            && hasExcessParens(value)
+          ) {
+            report(value)
+          }
+        })
       },
       Property(node) {
         if (node.computed) {
@@ -1339,13 +1360,8 @@ export default createRule<RuleOptions, MessageIds>({
             report(key)
         }
       },
-      PropertyDefinition(node) {
-        if (node.computed && hasExcessParensWithPrecedence(node.key, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          report(node.key)
-
-        if (node.value && hasExcessParensWithPrecedence(node.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-          report(node.value)
-      },
+      'PropertyDefinition': checkClassProperty,
+      'AccessorProperty': checkClassProperty,
       RestElement(node) {
         const argument = node.argument
 
@@ -1363,7 +1379,7 @@ export default createRule<RuleOptions, MessageIds>({
           && returnToken
           && hasExcessParensNoLineTerminator(returnToken, node.argument)
           // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
-          && !(node.argument.type === 'Literal' && 'regex' in node.argument && node.argument.regex)
+          && !isRegExpLiteral(node.argument)
         ) {
           report(node.argument)
         }
@@ -1371,9 +1387,10 @@ export default createRule<RuleOptions, MessageIds>({
       SequenceExpression(node) {
         const precedenceOfNode = precedence(node)
 
-        node.expressions
-          .filter(e => hasExcessParensWithPrecedence(e, precedenceOfNode))
-          .forEach(report)
+        node.expressions.forEach((expression) => {
+          if (hasExcessParensWithPrecedence(expression, precedenceOfNode))
+            report(expression)
+        })
       },
       SpreadElement(node) {
         if (isTypeAssertion(node.argument))
@@ -1396,9 +1413,10 @@ export default createRule<RuleOptions, MessageIds>({
           report(node.discriminant)
       },
       TemplateLiteral(node) {
-        node.expressions
-          .filter(e => e && hasExcessParens(e))
-          .forEach(report)
+        node.expressions.forEach((expression) => {
+          if (hasExcessParens(expression))
+            report(expression)
+        })
       },
       ThrowStatement(node) {
         if (!node.argument || isTypeAssertion(node.argument))
@@ -1438,7 +1456,7 @@ export default createRule<RuleOptions, MessageIds>({
           if (
             node.init && hasExcessParensWithPrecedence(node.init, PRECEDENCE_OF_ASSIGNMENT_EXPR)
             // RegExp literal is allowed to have parens (https://github.com/eslint/eslint/issues/1589)
-            && !(node.init.type === 'Literal' && 'regex' in node.init && node.init.regex)
+            && !isRegExpLiteral(node.init)
           ) {
             report(node.init)
           }
@@ -1477,12 +1495,37 @@ export default createRule<RuleOptions, MessageIds>({
           report(node.argument)
         }
       },
-      TSStringKeyword(node) {
-        if (hasExcessParens(node)) {
-          report({
-            ...node,
-            type: AST_NODE_TYPES.FunctionExpression as any,
-          })
+      TSArrayType(node) {
+        if (hasExcessParensWithPrecedence(node.elementType, precedence(node)))
+          report(node.elementType)
+      },
+      TSIntersectionType(node) {
+        node.types.forEach((type) => {
+          if (hasExcessParensWithPrecedence(type, precedence(node)))
+            report(type)
+        })
+      },
+      TSUnionType(node) {
+        node.types.forEach((type) => {
+          if (hasExcessParensWithPrecedence(type, precedence(node)))
+            report(type)
+        })
+      },
+      TSTypeAnnotation(node) {
+        if (hasExcessParens(node.typeAnnotation)) {
+          report(node.typeAnnotation)
+        }
+      },
+      TSTypeAliasDeclaration(node) {
+        if (hasExcessParens(node.typeAnnotation)) {
+          report(node.typeAnnotation)
+        }
+      },
+      TSEnumMember(node) {
+        if (!node.initializer)
+          return
+        if (hasExcessParens(node.initializer)) {
+          report(node.initializer)
         }
       },
     }

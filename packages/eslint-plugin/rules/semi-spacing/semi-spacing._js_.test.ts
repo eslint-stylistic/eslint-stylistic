@@ -59,6 +59,8 @@ run<RuleOptions, MessageIds>({
       code: 'class C { foo }',
       parserOptions: { ecmaVersion: 2022 },
     },
+    'class C { accessor foo; accessor [bar]; }',
+    'class C { accessor foo }',
 
     // Empty are ignored (`no-extra-semi` rule will remove those)
     'foo; ;;;;;;;;;',
@@ -484,6 +486,25 @@ run<RuleOptions, MessageIds>({
         endLine: 1,
         endColumn: 15,
       }],
+    },
+    {
+      code: 'class C { accessor foo ;accessor [bar] ;}',
+      output: 'class C { accessor foo; accessor [bar];}',
+      errors: [
+        { messageId: 'unexpectedWhitespaceBefore' },
+        { messageId: 'missingWhitespaceAfter' },
+        { messageId: 'unexpectedWhitespaceBefore' },
+      ],
+    },
+    {
+      code: 'class C { accessor foo; accessor [bar]; }',
+      output: 'class C { accessor foo ;accessor [bar] ; }',
+      options: [{ before: true, after: false }],
+      errors: [
+        { messageId: 'missingWhitespaceBefore' },
+        { messageId: 'unexpectedWhitespaceAfter' },
+        { messageId: 'missingWhitespaceBefore' },
+      ],
     },
   ],
 })

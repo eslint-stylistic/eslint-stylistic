@@ -19,10 +19,12 @@ export interface IndentSchema1 {
   FunctionDeclaration?: {
     parameters?: number | ('first' | 'off')
     body?: number
+    returnType?: number
   }
   FunctionExpression?: {
     parameters?: number | ('first' | 'off')
     body?: number
+    returnType?: number
   }
   StaticBlock?: {
     body?: number

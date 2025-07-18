@@ -146,7 +146,7 @@ export function getStaticStringValue(node: ASTNode) {
         if (isNullLiteral(node))
           return String(node.value) // "null"
 
-        if ('regex' in node && node.regex)
+        if (isRegExpLiteral(node))
           return `/${node.regex.pattern}/${node.regex.flags}`
 
         if ('bigint' in node && node.bigint)
@@ -376,15 +376,6 @@ export function isTopLevelExpressionStatement(node: ASTNode): node is Tree.Expre
 }
 
 /**
- * Check whether the given node is a part of a directive prologue or not.
- * @param node The node to check.
- * @returns `true` if the node is a part of directive prologue.
- */
-export function isDirective(node: ASTNode): node is Tree.ExpressionStatement {
-  return node.type === 'ExpressionStatement' && typeof node.directive === 'string'
-}
-
-/**
  * Checks whether or not a given node is a string literal.
  * @param node A node to check.
  * @returns `true` if the node is a string literal.
@@ -394,6 +385,15 @@ export function isStringLiteral(node: ASTNode): node is Tree.StringLiteral | Tre
     (node.type === 'Literal' && typeof node.value === 'string')
     || node.type === 'TemplateLiteral'
   )
+}
+
+/**
+ * Checks whether or not a given node is a regular expression literal.
+ * @param node The node to check.
+ * @returns `true` if the node is a regular expression literal.
+ */
+export function isRegExpLiteral(node: ASTNode): node is Tree.RegExpLiteral {
+  return node.type === 'Literal' && 'regex' in node
 }
 
 /**
@@ -424,6 +424,7 @@ export function getPrecedence(node: ASTNode) {
       return 1
 
     case 'ConditionalExpression':
+    case 'TSConditionalType':
       return 3
 
     case 'LogicalExpression':
@@ -478,6 +479,11 @@ export function getPrecedence(node: ASTNode) {
 
       /* falls through */
 
+    case 'TSUnionType':
+      return 6
+    case 'TSIntersectionType':
+      return 8
+
     case 'UnaryExpression':
     case 'AwaitExpression':
       return 16
@@ -492,6 +498,10 @@ export function getPrecedence(node: ASTNode) {
 
     case 'NewExpression':
       return 19
+
+    case 'TSImportType':
+    case 'TSArrayType':
+      return 20
 
     default:
       if (node.type in eslintVisitorKeys)

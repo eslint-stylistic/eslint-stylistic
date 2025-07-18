@@ -51,6 +51,7 @@ const KNOWN_NODES = new Set([
   'Program',
   'Property',
   'PropertyDefinition',
+  AST_NODE_TYPES.AccessorProperty,
   'RestElement',
   'ReturnStatement',
   'SequenceExpression',
@@ -617,6 +618,10 @@ export default createRule<RuleOptions, MessageIds>({
                 type: 'integer',
                 minimum: 0,
               },
+              returnType: {
+                type: 'integer',
+                minimum: 0,
+              },
             },
             additionalProperties: false,
           },
@@ -625,6 +630,10 @@ export default createRule<RuleOptions, MessageIds>({
             properties: {
               parameters: ELEMENT_LIST_SCHEMA,
               body: {
+                type: 'integer',
+                minimum: 0,
+              },
+              returnType: {
                 type: 'integer',
                 minimum: 0,
               },
@@ -714,6 +723,7 @@ export default createRule<RuleOptions, MessageIds>({
     const DEFAULT_VARIABLE_INDENT = 1
     const DEFAULT_PARAMETER_INDENT = 1
     const DEFAULT_FUNCTION_BODY_INDENT = 1
+    const DEFAULT_FUNCTION_RETURN_TYPE_INDENT = 1
 
     let indentType = 'space'
     let indentSize = 4
@@ -729,10 +739,12 @@ export default createRule<RuleOptions, MessageIds>({
       FunctionDeclaration: {
         parameters: DEFAULT_PARAMETER_INDENT,
         body: DEFAULT_FUNCTION_BODY_INDENT,
+        returnType: DEFAULT_FUNCTION_RETURN_TYPE_INDENT,
       },
       FunctionExpression: {
         parameters: DEFAULT_PARAMETER_INDENT,
         body: DEFAULT_FUNCTION_BODY_INDENT,
+        returnType: DEFAULT_FUNCTION_RETURN_TYPE_INDENT,
       },
       StaticBlock: {
         body: DEFAULT_FUNCTION_BODY_INDENT,
@@ -1534,22 +1546,22 @@ export default createRule<RuleOptions, MessageIds>({
         const paramsClosingParen = sourceCode.getTokenBefore(
           node.returnType ?? node.body,
           { filter: isClosingParenToken },
-        )
-        if (!paramsClosingParen)
-          throw new Error('Expected to find a closing parenthesis for function parameters.')
+        )!
 
         const paramsOpeningParen = sourceCode.getTokenBefore(
           node.params.length
             ? (node.params[0].decorators?.[0] ?? node.params[0])
             : paramsClosingParen,
           { filter: isOpeningParenToken },
-        )
-        if (!paramsOpeningParen)
-          throw new Error('Expected to find an opening parenthesis for function parameters.')
+        )!
 
         parameterParens.add(paramsOpeningParen)
         parameterParens.add(paramsClosingParen)
         addElementListIndent(node.params, paramsOpeningParen, paramsClosingParen, options[node.type].parameters)
+
+        if (node.returnType) {
+          offsets.setDesiredOffsets(node.returnType.range, paramsClosingParen, options[node.type].returnType)
+        }
       },
 
       IfStatement(node) {

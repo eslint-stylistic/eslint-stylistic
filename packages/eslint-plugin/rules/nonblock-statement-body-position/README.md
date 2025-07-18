@@ -36,7 +36,7 @@ This rule aims to enforce a consistent location for single-line statements.
 
 Note that this rule does not enforce the usage of single-line statements in general. If you would like to disallow single-line statements, use the [`curly`](https://eslint.org/docs/latest/rules/curly) rule instead.
 
-### Options
+## Options
 
 This rule accepts a string option:
 

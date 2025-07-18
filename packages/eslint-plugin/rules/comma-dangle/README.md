@@ -20,20 +20,20 @@ Another argument in favor of trailing commas is that it improves the clarity of 
 Less clear:
 
 ```diff
- var foo = {
+var foo = {
 -    bar: "baz",
 -    qux: "quux"
 +    bar: "baz"
- };
+};
 ```
 
 More clear:
 
 ```diff
- var foo = {
-     bar: "baz",
--    qux: "quux",
- };
+var foo = {
+    bar: "baz",
+-   qux: "quux",
+};
 ```
 
 ## Rule Details
@@ -55,7 +55,10 @@ This rule has a string option or an object option:
         "exports": "never",
         "functions": "never",
         "importAttributes": "never",
-        "dynamicImports": "never"
+        "dynamicImports": "never",
+        "enums": "never",
+        "generics": "never",
+        "tuples": "never"
     }]
 }
 ```
@@ -78,6 +81,9 @@ The default for each option is `"never"` unless otherwise specified.
 - `importAttributes` is for import attributes. (e.g. `import foo from "foo" with { type: "json", };`)
 - `dynamicImports` is for dynamic import calls. (e.g. `import(a,);`)
   - `dynamicImports` should only be enabled when linting ECMAScript 2025 or higher.
+- `"enums"` is for trailing comma in enum. (e.g. `enum Foo = {Bar,}`)
+- `"generics"` is for trailing comma in generic. (e.g. `function foo<T,>() {}`)
+- `"tuples"` is for trailing comma in tuple. (e.g. `type Foo = [string,]`)
 
 ### never
 
@@ -367,12 +373,6 @@ new foo(a, b,);
 ```
 
 :::
-
-## TypeScript Specific Options
-
-- `"enums"` is for trailing comma in enum. (e.g. `enum Foo = {Bar,}`)
-- `"generics"` is for trailing comma in generic. (e.g. `function foo<T,>() {}`)
-- `"tuples"` is for trailing comma in tuple. (e.g. `type Foo = [string,]`)
 
 ## When Not To Use It
 

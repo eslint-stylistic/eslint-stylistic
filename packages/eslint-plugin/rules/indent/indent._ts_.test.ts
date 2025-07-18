@@ -769,6 +769,15 @@ run<RuleOptions, MessageIds>({
     `,
     {
       code: $`
+        class Foo {
+          accessor [bar]: string
+          accessor baz: number
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
         using a = foo(),
           b = bar();
         await using c = baz(),
@@ -843,6 +852,13 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/875
+    $`
+      export function isAuthenticated(authResult: AuthenticationResult | null | undefined)
+          : authResult is SuccessAuthenticationResult {
+          return !! authResult && authResult.isAuthenticated();
+      }
+    `,
   ],
   invalid: [
     ...individualNodeTests.invalid!,
@@ -2055,6 +2071,25 @@ declare function h(x: number): number;
     },
     {
       code: $`
+        class Foo {
+        accessor [bar]: string
+            accessor baz: number
+        }
+      `,
+      output: $`
+        class Foo {
+          accessor [bar]: string
+          accessor baz: number
+        }
+      `,
+      options: [2],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 0 } },
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 4 } },
+      ],
+    },
+    {
+      code: $`
          type A = number
           declare type B = number
         namespace Foo {
@@ -2110,6 +2145,41 @@ declare function h(x: number): number;
       errors: [
         { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 6 } },
         { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 12 } },
+      ],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/875
+    {
+      code: $`
+        export function isAuthenticated(authResult: AuthenticationResult | null | undefined)
+        : authResult is SuccessAuthenticationResult {
+          return !! authResult && authResult.isAuthenticated();
+        }
+      `,
+      output: $`
+        export function isAuthenticated(authResult: AuthenticationResult | null | undefined)
+            : authResult is SuccessAuthenticationResult {
+          return !! authResult && authResult.isAuthenticated();
+        }
+      `,
+      options: [2, { FunctionDeclaration: { returnType: 2 } }],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '4 spaces', actual: 0 } },
+      ],
+    },
+    {
+      code: $`
+        const foo = function(a: string)
+          : a is 'a' {
+        }
+      `,
+      output: $`
+        const foo = function(a: string)
+        : a is 'a' {
+        }
+      `,
+      options: [2, { FunctionExpression: { returnType: 0 } }],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '0 spaces', actual: 2 } },
       ],
     },
   ],
