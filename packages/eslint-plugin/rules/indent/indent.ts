@@ -2261,6 +2261,9 @@ export default createRule<RuleOptions, MessageIds>({
 
               for (let i = startLine; i <= endLine; i++) {
                 const line = sourceCode.lines[i - 1]
+                if (line.trim() === '') {
+                  continue
+                }
                 const loc: Tree.SourceLocation = {
                   start: {
                     line: i,
@@ -2276,18 +2279,31 @@ export default createRule<RuleOptions, MessageIds>({
                 const actualIndent = Array.from(actualIndentStr)
                 const numSpaces = actualIndent.filter(char => char === ' ').length
                 const numTabs = actualIndent.filter(char => char === '\t').length
-                if (
-                  sourceCode.text.slice(range[1], range[1] + 1) === '*'
-                  && actualIndentStr !== neededIndentStr
-                ) {
-                  context.report({
-                    loc,
-                    messageId: 'wrongIndentation',
-                    data: createErrorMessageData(indent.length + (indentType === 'space' ? 1 : 0), numSpaces, numTabs),
-                    fix(fixer) {
-                      return fixer.replaceTextRange(range, neededIndentStr)
-                    },
-                  })
+                if (sourceCode.text.slice(range[1], range[1] + 1) !== '*') {
+                  const indentNum = indentType === 'space' ? numSpaces : numTabs
+                  const lastIndentChar = sourceCode.text.slice(range[1] - 1, range[1])
+                  if (indentNum < indent.length || lastIndentChar !== ' ') {
+                    context.report({
+                      loc,
+                      messageId: 'wrongIndentation',
+                      data: createErrorMessageData(indent.length + (indentType === 'space' ? 1 : 0), numSpaces, numTabs),
+                      fix(fixer) {
+                        return fixer.replaceTextRange(range, `${(indentType === 'space' ? ' ' : '\t').repeat(Math.max(indent.length - indentNum, 0))}${actualIndentStr}${lastIndentChar === ' ' ? '' : ' '}`)
+                      },
+                    })
+                  }
+                }
+                else {
+                  if (actualIndentStr !== neededIndentStr) {
+                    context.report({
+                      loc,
+                      messageId: 'wrongIndentation',
+                      data: createErrorMessageData(indent.length + (indentType === 'space' ? 1 : 0), numSpaces, numTabs),
+                      fix(fixer) {
+                        return fixer.replaceTextRange(range, neededIndentStr)
+                      },
+                    })
+                  }
                 }
               }
             }

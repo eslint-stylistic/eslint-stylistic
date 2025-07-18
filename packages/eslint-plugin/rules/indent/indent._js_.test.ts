@@ -14,7 +14,7 @@ import rule from './indent'
 const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
 const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')
 
-type ErrorInput = [number, number | string, number | string, string]
+type ErrorInput = [number, number | string, number | string, string | null]
 interface ErrorOutput {
   messageId: MessageIds
   data: {
@@ -2490,7 +2490,7 @@ run<RuleOptions, MessageIds>({
         foo();
         // Line
         /* multiline
-          Line */
+         Line */
         bar();
         // trailing comment
       `,
@@ -6511,7 +6511,7 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         const a = {
-          /* 
+          /*
            * comment
            */
         }
@@ -6539,8 +6539,8 @@ run<RuleOptions, MessageIds>({
         const a = {
         \t/*
         \t * multiline
-              comment
-        \t\t
+        \t comment
+        
         \t */
         }
       `,
@@ -6549,7 +6549,7 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         const obj = {
-          /** 
+          /**
            * jsdoc
            */
           handler() {}
@@ -14306,35 +14306,35 @@ run<RuleOptions, MessageIds>({
             /**
            *  comment
                   */
-        } 
+        }
       `,
       output: $`
         function a() {
           /**
            *  comment
            */
-        } 
+        }
       `,
       options: [2],
     },
     {
       code: $`
         function d() {
-          /*   
+          /*
                 \\/*
                             * comment
                             *\\/
         */
-        } 
+        }
       `,
       output: $`
         function d() {
-          /*   
+          /*
                 \\/*
            * comment
            *\\/
            */
-        } 
+        }
       `,
       options: [2],
     },
@@ -14344,14 +14344,31 @@ run<RuleOptions, MessageIds>({
             /*
                 comment
           */
-        } 
+        }
       `,
       output: $`
         function e() {
         \t/*
-                comment
+        \t        comment
         \t */
-        } 
+        }
+      `,
+      options: ['tab'],
+    },
+    {
+      code: $`
+        function e() {
+        \t\t/*
+        comment
+        */
+        }
+      `,
+      output: $`
+        function e() {
+        \t/*
+        \t comment
+        \t */
+        }
       `,
       options: ['tab'],
     },
