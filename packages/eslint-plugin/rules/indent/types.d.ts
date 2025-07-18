@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: D7D9ke3d40qr6hi89XWsahsr6YW8HCiN2-GNt5pD-lA */
+/* @checksum: QbJKtgTG8LGJ01CuOk9fHSorj_SGJMdNlfWA7zJbTew */
 
 export type IndentSchema0 = 'tab' | number
 
@@ -12,16 +12,19 @@ export interface IndentSchema1 {
       var?: number | ('first' | 'off')
       let?: number | ('first' | 'off')
       const?: number | ('first' | 'off')
+      using?: number | ('first' | 'off')
     }
   outerIIFEBody?: number | 'off'
   MemberExpression?: number | 'off'
   FunctionDeclaration?: {
     parameters?: number | ('first' | 'off')
     body?: number
+    returnType?: number
   }
   FunctionExpression?: {
     parameters?: number | ('first' | 'off')
     body?: number
+    returnType?: number
   }
   StaticBlock?: {
     body?: number

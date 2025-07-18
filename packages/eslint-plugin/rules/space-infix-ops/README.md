@@ -44,8 +44,7 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
-/*eslint space-infix-ops: "error"*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-infix-ops: "error" */
 
 a+b
 
@@ -69,8 +68,7 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
-/*eslint space-infix-ops: "error"*/
-/*eslint-env es6*/
+/* eslint @stylistic/space-infix-ops: "error" */
 
 a + b
 
@@ -86,14 +84,6 @@ function foo(a = 0) { }
 ```
 
 :::
-
-## TypeScript Specific Options
-
-This rule accepts the same options as the base rule plus the an option to disable type checking:
-
-```json
-"space-infix-ops": ["error", { "int32Hint": false, "ignoreTypes": false }]
-```
 
 ### `ignoreTypes`
 

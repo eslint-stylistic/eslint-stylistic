@@ -15,7 +15,7 @@ Examples of **incorrect** code for this rule:
 :::incorrect
 
 ```ts
-/*eslint type-named-tuple-spacing: ["error"]*/
+/* eslint @stylistic/type-named-tuple-spacing: ["error"] */
 
 type T = [i:number]
 type T = [i?   :number]
@@ -29,7 +29,7 @@ Examples of **correct** code for this rule:
 :::correct
 
 ```ts
-/*eslint type-named-tuple-spacing: ["error"]*/
+/* eslint @stylistic/type-named-tuple-spacing: ["error"] */
 
 type T = [i: number]
 type T = [i?: number]

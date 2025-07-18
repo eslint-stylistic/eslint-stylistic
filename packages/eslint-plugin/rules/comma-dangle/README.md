@@ -20,20 +20,20 @@ Another argument in favor of trailing commas is that it improves the clarity of 
 Less clear:
 
 ```diff
- var foo = {
+var foo = {
 -    bar: "baz",
 -    qux: "quux"
 +    bar: "baz"
- };
+};
 ```
 
 More clear:
 
 ```diff
- var foo = {
-     bar: "baz",
--    qux: "quux",
- };
+var foo = {
+    bar: "baz",
+-   qux: "quux",
+};
 ```
 
 ## Rule Details
@@ -55,7 +55,10 @@ This rule has a string option or an object option:
         "exports": "never",
         "functions": "never",
         "importAttributes": "never",
-        "dynamicImports": "never"
+        "dynamicImports": "never",
+        "enums": "never",
+        "generics": "never",
+        "tuples": "never"
     }]
 }
 ```
@@ -78,6 +81,9 @@ The default for each option is `"never"` unless otherwise specified.
 - `importAttributes` is for import attributes. (e.g. `import foo from "foo" with { type: "json", };`)
 - `dynamicImports` is for dynamic import calls. (e.g. `import(a,);`)
   - `dynamicImports` should only be enabled when linting ECMAScript 2025 or higher.
+- `"enums"` is for trailing comma in enum. (e.g. `enum Foo = {Bar,}`)
+- `"generics"` is for trailing comma in generic. (e.g. `function foo<T,>() {}`)
+- `"tuples"` is for trailing comma in tuple. (e.g. `type Foo = [string,]`)
 
 ### never
 
@@ -86,7 +92,7 @@ Examples of **incorrect** code for this rule with the default `"never"` option:
 :::incorrect
 
 ```js
-/*eslint comma-dangle: ["error", "never"]*/
+/* eslint @stylistic/comma-dangle: ["error", "never"] */
 
 var foo = {
     bar: "baz",
@@ -108,7 +114,7 @@ Examples of **correct** code for this rule with the default `"never"` option:
 :::correct
 
 ```js
-/*eslint comma-dangle: ["error", "never"]*/
+/* eslint @stylistic/comma-dangle: ["error", "never"] */
 
 var foo = {
     bar: "baz",
@@ -132,7 +138,7 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 :::incorrect
 
 ```js
-/*eslint comma-dangle: ["error", "always"]*/
+/* eslint @stylistic/comma-dangle: ["error", "always"] */
 
 var foo = {
     bar: "baz",
@@ -154,7 +160,7 @@ Examples of **correct** code for this rule with the `"always"` option:
 :::correct
 
 ```js
-/*eslint comma-dangle: ["error", "always"]*/
+/* eslint @stylistic/comma-dangle: ["error", "always"] */
 
 var foo = {
     bar: "baz",
@@ -178,7 +184,7 @@ Examples of **incorrect** code for this rule with the `"always-multiline"` optio
 :::incorrect
 
 ```js
-/*eslint comma-dangle: ["error", "always-multiline"]*/
+/* eslint @stylistic/comma-dangle: ["error", "always-multiline"] */
 
 var foo = {
     bar: "baz",
@@ -210,7 +216,7 @@ Examples of **correct** code for this rule with the `"always-multiline"` option:
 :::correct
 
 ```js
-/*eslint comma-dangle: ["error", "always-multiline"]*/
+/* eslint @stylistic/comma-dangle: ["error", "always-multiline"] */
 
 var foo = {
     bar: "baz",
@@ -243,7 +249,7 @@ Examples of **incorrect** code for this rule with the `"only-multiline"` option:
 :::incorrect
 
 ```js
-/*eslint comma-dangle: ["error", "only-multiline"]*/
+/* eslint @stylistic/comma-dangle: ["error", "only-multiline"] */
 
 var foo = { bar: "baz", qux: "quux", };
 
@@ -261,7 +267,7 @@ Examples of **correct** code for this rule with the `"only-multiline"` option:
 :::correct
 
 ```js
-/*eslint comma-dangle: ["error", "only-multiline"]*/
+/* eslint @stylistic/comma-dangle: ["error", "only-multiline"] */
 
 var foo = {
     bar: "baz",
@@ -309,7 +315,7 @@ Examples of **incorrect** code for this rule with the `{"functions": "never"}` o
 :::incorrect
 
 ```js
-/*eslint comma-dangle: ["error", {"functions": "never"}]*/
+/* eslint @stylistic/comma-dangle: ["error", {"functions": "never"}] */
 
 function foo(a, b,) {
 }
@@ -325,7 +331,7 @@ Examples of **correct** code for this rule with the `{"functions": "never"}` opt
 :::correct
 
 ```js
-/*eslint comma-dangle: ["error", {"functions": "never"}]*/
+/* eslint @stylistic/comma-dangle: ["error", {"functions": "never"}] */
 
 function foo(a, b) {
 }
@@ -341,7 +347,7 @@ Examples of **incorrect** code for this rule with the `{"functions": "always"}` 
 :::incorrect
 
 ```js
-/*eslint comma-dangle: ["error", {"functions": "always"}]*/
+/* eslint @stylistic/comma-dangle: ["error", {"functions": "always"}] */
 
 function foo(a, b) {
 }
@@ -357,7 +363,7 @@ Examples of **correct** code for this rule with the `{"functions": "always"}` op
 :::correct
 
 ```js
-/*eslint comma-dangle: ["error", {"functions": "always"}]*/
+/* eslint @stylistic/comma-dangle: ["error", {"functions": "always"}] */
 
 function foo(a, b,) {
 }
@@ -367,12 +373,6 @@ new foo(a, b,);
 ```
 
 :::
-
-## TypeScript Specific Options
-
-- `"enums"` is for trailing comma in enum. (e.g. `enum Foo = {Bar,}`)
-- `"generics"` is for trailing comma in generic. (e.g. `function foo<T,>() {}`)
-- `"tuples"` is for trailing comma in tuple. (e.g. `type Foo = [string,]`)
 
 ## When Not To Use It
 

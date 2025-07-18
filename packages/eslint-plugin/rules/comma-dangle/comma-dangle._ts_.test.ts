@@ -115,13 +115,6 @@ run<RuleOptions, MessageIds>({
     },
   ],
   invalid: [
-    // base rule
-    {
-      code: 'const Foo = {bar: 1,}',
-      output: 'const Foo = {bar: 1}',
-      errors: [{ messageId: 'unexpected' }],
-    },
-
     // default
     {
       code: 'enum Foo {Bar,}',

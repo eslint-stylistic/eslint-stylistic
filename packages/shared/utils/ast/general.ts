@@ -1,21 +1,13 @@
-/**
- * @fileoverview Common utils for AST.
- * @author Gyandeep Singh
- */
-
-import type { ASTNode, ESNode, SourceCode, Token, Tree } from '#types'
-import type { TSESLint } from '@typescript-eslint/utils'
-import type * as ESTree from 'estree'
+import type { ASTNode, SourceCode, Token, Tree } from '#types'
+import type { AST_NODE_TYPES } from '@typescript-eslint/utils'
+import { isClosingParenToken, isColonToken, isCommentToken, isFunction, isOpeningParenToken, isTokenOnSameLine, LINEBREAK_MATCHER } from '@typescript-eslint/utils/ast-utils'
 import { KEYS as eslintVisitorKeys } from 'eslint-visitor-keys'
 // @ts-expect-error missing types
 import { latestEcmaVersion, tokenize } from 'espree'
 
-const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
-
 export const COMMENTS_IGNORE_PATTERN = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
 
 export const LINEBREAKS = /* @__PURE__ */ new Set(['\r\n', '\r', '\n', '\u2028', '\u2029'])
-export const LINEBREAK_MATCHER = /\r\n|[\r\n\u2028\u2029]/u
 
 // A set of node types that can contain a list of statements
 export const STATEMENT_LIST_PARENTS = /* @__PURE__ */ new Set(['Program', 'BlockStatement', 'StaticBlock', 'SwitchCase'])
@@ -25,10 +17,78 @@ export const DECIMAL_INTEGER_PATTERN = /^(?:0|0[0-7]*[89]\d*|[1-9](?:_?\d)*)$/u
 // Tests the presence of at least one LegacyOctalEscapeSequence or NonOctalDecimalEscapeSequence in a raw string
 export const OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN = /^(?:[^\\]|\\.)*\\(?:[1-9]|0\d)/su
 
-// https://github.com/estree/estree/blob/master/es5.md#assignmentoperator
-// https://github.com/estree/estree/blob/master/es2016.md#assignmentoperator
-// https://github.com/estree/estree/blob/master/es2021.md#assignmentoperator
+/**
+ * @see https://github.com/estree/estree/blob/master/es5.md#assignmentoperator
+ * @see https://github.com/estree/estree/blob/master/es2016.md#assignmentoperator
+ * @see https://github.com/estree/estree/blob/master/es2021.md#assignmentoperator
+ */
 export const ASSIGNMENT_OPERATOR = ['=', '+=', '-=', '*=', '/=', '%=', '<<=', '>>=', '>>>=', '|=', '^=', '&=', '**=', '||=', '&&=', '??=']
+
+/**
+ * A shared list of ES3 keywords.
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#keywords
+ */
+export const KEYWORDS_JS = [
+  'abstract',
+  'boolean',
+  'break',
+  'byte',
+  'case',
+  'catch',
+  'char',
+  'class',
+  'const',
+  'continue',
+  'debugger',
+  'default',
+  'delete',
+  'do',
+  'double',
+  'else',
+  'enum',
+  'export',
+  'extends',
+  'false',
+  'final',
+  'finally',
+  'float',
+  'for',
+  'function',
+  'goto',
+  'if',
+  'implements',
+  'import',
+  'in',
+  'instanceof',
+  'int',
+  'interface',
+  'long',
+  'native',
+  'new',
+  'null',
+  'package',
+  'private',
+  'protected',
+  'public',
+  'return',
+  'short',
+  'static',
+  'super',
+  'switch',
+  'synchronized',
+  'this',
+  'throw',
+  'throws',
+  'transient',
+  'true',
+  'try',
+  'typeof',
+  'var',
+  'void',
+  'volatile',
+  'while',
+  'with',
+]
 
 /**
  * Creates a version of the `lineBreakPattern` regex with the global flag.
@@ -38,6 +98,8 @@ export const ASSIGNMENT_OPERATOR = ['=', '+=', '-=', '*=', '/=', '%=', '<<=', '>
 export function createGlobalLinebreakMatcher() {
   return new RegExp(LINEBREAK_MATCHER.source, 'gu')
 }
+
+const anyFunctionPattern = /^(?:Function(?:Declaration|Expression)|ArrowFunctionExpression)$/u
 
 /**
  * Finds a function node from ancestors of a node.
@@ -50,20 +112,6 @@ export function getUpperFunction(node: ASTNode) {
       return currentNode
   }
   return null
-}
-
-/**
- * Checks whether a given node is a function node or not.
- * The following types are function nodes:
- *
- * - ArrowFunctionExpression
- * - FunctionDeclaration
- * - FunctionExpression
- * @param node A node to check.
- * @returns `true` if the node is a function node.
- */
-export function isFunction(node?: ASTNode | null): node is Tree.ArrowFunctionExpression | Tree.FunctionDeclaration | Tree.FunctionExpression {
-  return Boolean(node && anyFunctionPattern.test(node.type))
 }
 
 /**
@@ -98,7 +146,7 @@ export function getStaticStringValue(node: ASTNode) {
         if (isNullLiteral(node))
           return String(node.value) // "null"
 
-        if ('regex' in node && node.regex)
+        if (isRegExpLiteral(node))
           return `/${node.regex.pattern}/${node.regex.flags}`
 
         if ('bigint' in node && node.bigint)
@@ -193,29 +241,19 @@ export function skipChainExpression(node: ASTNode) {
 }
 
 /**
- * Creates the negate function of the given function.
- * @param f The function to negate.
- * @returns Negated function.
- */
-// eslint-disable-next-line ts/no-unsafe-function-type
-export function negate<T extends Function>(f: T): T {
-  return ((token: any) => !f(token)) as unknown as T
-}
-
-/**
  * Determines if a node is surrounded by parentheses.
  * @param sourceCode The ESLint source code object
  * @param node The node to be checked.
  * @returns True if the node is parenthesised.
  * @private
  */
-export function isParenthesised(sourceCode: TSESLint.SourceCode, node: ASTNode) {
+export function isParenthesised(sourceCode: SourceCode, node: ASTNode) {
   const previousToken = sourceCode.getTokenBefore(node)
   const nextToken = sourceCode.getTokenAfter(node)
 
   return !!previousToken && !!nextToken
-    && previousToken.value === '(' && previousToken.range[1] <= node.range![0]
-    && nextToken.value === ')' && nextToken.range[0] >= node.range![1]
+    && isOpeningParenToken(previousToken) && previousToken.range[1] <= node.range![0]
+    && isClosingParenToken(nextToken) && nextToken.range[0] >= node.range![1]
 }
 
 /**
@@ -228,114 +266,12 @@ export function isEqToken(token: Token) {
 }
 
 /**
- * Checks if the given token is an arrow token or not.
+ * Checks if the given token is a `?` token or not.
  * @param token The token to check.
- * @returns `true` if the token is an arrow token.
+ * @returns `true` if the token is a `?` token.
  */
-export function isArrowToken(token: Token) {
-  return token.value === '=>' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a comma token or not.
- * @param token The token to check.
- * @returns `true` if the token is a comma token.
- */
-export function isCommaToken(token: Token) {
-  return token.value === ',' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a `?.` token or not.
- * @param token The token to check.
- * @returns `true` if the token is a `?.` token.
- */
-export function isQuestionDotToken(token: Token) {
-  return token.value === '?.' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a semicolon token or not.
- * @param token The token to check.
- * @returns `true` if the token is a semicolon token.
- */
-export function isSemicolonToken(token: Token) {
-  return token.value === ';' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a colon token or not.
- * @param token The token to check.
- * @returns `true` if the token is a colon token.
- */
-export function isColonToken(token: Token) {
-  return token.value === ':' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is an opening parenthesis token or not.
- * @param token The token to check.
- * @returns `true` if the token is an opening parenthesis token.
- */
-export function isOpeningParenToken(token: Token) {
-  return token.value === '(' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a closing parenthesis token or not.
- * @param token The token to check.
- * @returns `true` if the token is a closing parenthesis token.
- */
-export function isClosingParenToken(token: Token) {
-  return token.value === ')' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is an opening square bracket token or not.
- * @param token The token to check.
- * @returns `true` if the token is an opening square bracket token.
- */
-export function isOpeningBracketToken(token: Token) {
-  return token.value === '[' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a closing square bracket token or not.
- * @param token The token to check.
- * @returns `true` if the token is a closing square bracket token.
- */
-export function isClosingBracketToken(token: Token) {
-  return token.value === ']' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is an opening brace token or not.
- * @param token The token to check.
- * @returns `true` if the token is an opening brace token.
- */
-export function isOpeningBraceToken(token: Token) {
-  return token.value === '{' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a closing brace token or not.
- * @param token The token to check.
- * @returns `true` if the token is a closing brace token.
- */
-export function isClosingBraceToken(token: Token) {
-  return token.value === '}' && token.type === 'Punctuator'
-}
-
-/**
- * Checks if the given token is a comment token or not.
- * @param token The token to check.
- * @returns `true` if the token is a comment token.
- */
-export function isCommentToken(token: Token | ESTree.Comment | null) {
-  if (!token)
-    return false
-  // @ts-expect-error 'Shebang' is not in the type definition
-  return token.type === 'Line' || token.type === 'Block' || token.type === 'Shebang'
+export function isQuestionToken(token: Token) {
+  return token.value === '?' && token.type === 'Punctuator'
 }
 
 /**
@@ -343,8 +279,23 @@ export function isCommentToken(token: Token | ESTree.Comment | null) {
  * @param token The token to check.
  * @returns `true` if the token is a keyword token.
  */
-export function isKeywordToken(token: Token) {
-  return token.type === 'Keyword'
+export function isKeywordToken(token: Token | null | undefined): token is Tree.KeywordToken {
+  return token?.type === 'Keyword'
+}
+
+/**
+ * example:
+ * #!/usr/bin/env node
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#hashbang_comments
+ */
+export function isHashbangComment(comment: Tree.Comment): Tree.Comment {
+  // @ts-expect-error 'Shebang' is not in the type definition
+  // If a hashbang comment was passed as a token object from SourceCode,
+  // its type will be "Shebang" because of the way ESLint itself handles hashbangs.
+  // If a hashbang comment was passed in a string and then tokenized in this function,
+  // its type will be "Hashbang" because of the way Espree tokenizes hashbangs.
+  // https://github.com/typescript-eslint/typescript-eslint/issues/6500
+  return comment.type === 'Shebang' || comment.type === 'Hashbang'
 }
 
 /**
@@ -359,7 +310,7 @@ export function isKeywordToken(token: Token) {
  * @returns `true` if the node is `&&` or `||`.
  * @see https://tc39.es/ecma262/#prod-ShortCircuitExpression
  */
-export function isLogicalExpression(node: ASTNode) {
+export function isLogicalExpression(node: ASTNode): node is (ASTNode & { type: AST_NODE_TYPES.LogicalExpression, operator: '&&' | '||' }) {
   return (
     node.type === 'LogicalExpression'
     && (node.operator === '&&' || node.operator === '||')
@@ -377,7 +328,7 @@ export function isLogicalExpression(node: ASTNode) {
  * @param node The node to check.
  * @returns `true` if the node is `??`.
  */
-export function isCoalesceExpression(node: ASTNode) {
+export function isCoalesceExpression(node: ASTNode): node is (ASTNode & { type: AST_NODE_TYPES.LogicalExpression, operator: '??' }) {
   return node.type === 'LogicalExpression' && node.operator === '??'
 }
 
@@ -400,8 +351,8 @@ export function isMixedLogicalAndCoalesceExpressions(left: ASTNode, right: ASTNo
  * @param sourceCode The source code object to get tokens.
  * @returns The colon token of the node.
  */
-export function getSwitchCaseColonToken(node: ASTNode, sourceCode: TSESLint.SourceCode) {
-  if ('test' in node && node.test)
+export function getSwitchCaseColonToken(node: Tree.SwitchCase, sourceCode: SourceCode) {
+  if (node.test)
     return sourceCode.getTokenAfter(node.test, token => isColonToken(token))
   return sourceCode.getFirstToken(node, 1)
 }
@@ -415,7 +366,7 @@ export function getSwitchCaseColonToken(node: ASTNode, sourceCode: TSESLint.Sour
  * @returns Whether or not the node is an ExpressionStatement at the top level of a
  * file or function body.
  */
-export function isTopLevelExpressionStatement(node: ASTNode) {
+export function isTopLevelExpressionStatement(node: ASTNode): node is Tree.ExpressionStatement {
   if (node.type !== 'ExpressionStatement')
     return false
 
@@ -423,32 +374,6 @@ export function isTopLevelExpressionStatement(node: ASTNode) {
 
   return parent.type === 'Program' || (parent.type === 'BlockStatement' && isFunction(parent.parent))
 }
-
-/**
- * Check whether the given node is a part of a directive prologue or not.
- * @param node The node to check.
- * @returns `true` if the node is a part of directive prologue.
- */
-export function isDirective(node: ASTNode) {
-  return node.type === 'ExpressionStatement' && typeof node.directive === 'string'
-}
-
-/**
- * Determines whether two adjacent tokens are on the same line.
- * @param left The left token object.
- * @param right The right token object.
- * @returns Whether or not the tokens are on the same line.
- * @public
- */
-export function isTokenOnSameLine(left: Token | ESNode | ASTNode | null, right: Token | ESNode | ASTNode | null) {
-  return left?.loc?.end.line === right?.loc?.start.line
-}
-
-export const isNotClosingParenToken = /* @__PURE__ */ negate(isClosingParenToken)
-export const isNotCommaToken = /* @__PURE__ */ negate(isCommaToken)
-export const isNotQuestionDotToken = /* @__PURE__ */ negate(isQuestionDotToken)
-export const isNotOpeningParenToken = /* @__PURE__ */ negate(isOpeningParenToken)
-export const isNotSemicolonToken = /* @__PURE__ */ negate(isSemicolonToken)
 
 /**
  * Checks whether or not a given node is a string literal.
@@ -460,6 +385,15 @@ export function isStringLiteral(node: ASTNode): node is Tree.StringLiteral | Tre
     (node.type === 'Literal' && typeof node.value === 'string')
     || node.type === 'TemplateLiteral'
   )
+}
+
+/**
+ * Checks whether or not a given node is a regular expression literal.
+ * @param node The node to check.
+ * @returns `true` if the node is a regular expression literal.
+ */
+export function isRegExpLiteral(node: ASTNode): node is Tree.RegExpLiteral {
+  return node.type === 'Literal' && 'regex' in node
 }
 
 /**
@@ -490,6 +424,7 @@ export function getPrecedence(node: ASTNode) {
       return 1
 
     case 'ConditionalExpression':
+    case 'TSConditionalType':
       return 3
 
     case 'LogicalExpression':
@@ -544,6 +479,11 @@ export function getPrecedence(node: ASTNode) {
 
       /* falls through */
 
+    case 'TSUnionType':
+      return 6
+    case 'TSIntersectionType':
+      return 8
+
     case 'UnaryExpression':
     case 'AwaitExpression':
       return 16
@@ -558,6 +498,10 @@ export function getPrecedence(node: ASTNode) {
 
     case 'NewExpression':
       return 19
+
+    case 'TSImportType':
+    case 'TSArrayType':
+      return 20
 
     default:
       if (node.type in eslintVisitorKeys)
@@ -683,7 +627,7 @@ export function getNextLocation(sourceCode: { lines: string[] }, { column, line 
  * @param node The node to check.
  * @returns `true` if the node is a number or bigint literal.
  */
-export function isNumericLiteral(node: ASTNode) {
+export function isNumericLiteral(node: ASTNode): node is Tree.NumberLiteral | Tree.BigIntLiteral {
   return node.type === 'Literal' && (typeof node.value === 'number' || Boolean('bigint' in node && node.bigint))
 }
 
@@ -727,13 +671,7 @@ export function canTokensBeAdjacent(leftValue: Token | string, rightValue: Token
     leftToken = leftValue
   }
 
-  /**
-   * If a hashbang comment was passed as a token object from SourceCode,
-   * its type will be "Shebang" because of the way ESLint itself handles hashbangs.
-   * If a hashbang comment was passed in a string and then tokenized in this function,
-   * its type will be "Hashbang" because of the way Espree tokenizes hashbangs.
-   */
-  if (leftToken.type === 'Shebang' || leftToken.type === 'Hashbang')
+  if (isHashbangComment(leftToken))
     return false
 
   let rightToken
@@ -809,11 +747,21 @@ export function hasOctalOrNonOctalDecimalEscapeSequence(rawString: string) {
   return OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN.test(rawString)
 }
 
+export const WHITE_SPACES_PATTERN = /^\s*$/u
+
+/**
+ * Check if value has only whitespaces
+ * @param value
+ */
+export function isWhiteSpaces(value: string): boolean {
+  return typeof value === 'string' ? WHITE_SPACES_PATTERN.test(value) : false
+}
+
 /**
  * Gets the first node in a line from the initial node, excluding whitespace.
  * @param context The node to check
  * @param node The node to check
- * @return {ASTNode} the first node in the line
+ * @return the first node in the line
  */
 export function getFirstNodeInLine(context: { sourceCode: SourceCode }, node: ASTNode | Token) {
   const sourceCode = context.sourceCode
@@ -825,7 +773,7 @@ export function getFirstNodeInLine(context: { sourceCode: SourceCode }, node: AS
       ? token.value.split('\n')
       : null
   } while (
-    token.type === 'JSXText' && lines && /^\s*$/.test(lines[lines.length - 1])
+    token.type === 'JSXText' && lines && isWhiteSpaces(lines.at(-1)!)
   )
   return token
 }
@@ -834,13 +782,15 @@ export function getFirstNodeInLine(context: { sourceCode: SourceCode }, node: AS
  * Checks if the node is the first in its line, excluding whitespace.
  * @param context The node to check
  * @param node The node to check
- * @return {boolean} true if it's the first node in its line
+ * @return true if it's the first node in its line
  */
 export function isNodeFirstInLine(context: { sourceCode: SourceCode }, node: ASTNode) {
   const token = getFirstNodeInLine(context, node)
-  const startLine = node.loc!.start.line
-  const endLine = token ? token.loc.end.line : -1
-  return startLine !== endLine
+
+  if (!token)
+    return false
+
+  return !isTokenOnSameLine(token, node)
 }
 
 /**
@@ -857,97 +807,45 @@ export function getTokenBeforeClosingBracket(node: Tree.JSXOpeningElement | Tree
 }
 
 /**
- * Get the left parenthesis of the parent node syntax if it exists.
- * E.g., `if (a) {}` then the `(`.
+ * Checks if the node is a single line.
+ * @param node - The node to check.
+ * @returns True if the node is a single line, false otherwise.
  */
-function getParentSyntaxParen(node: ASTNode, sourceCode: SourceCode) {
-  const parent = node.parent
-  if (!parent)
-    return null
-
-  switch (parent.type) {
-    case 'CallExpression':
-    case 'NewExpression':
-      if (parent.arguments.length === 1 && parent.arguments[0] === node) {
-        return sourceCode.getTokenAfter(
-          parent.callee,
-          isOpeningParenToken,
-        )
-      }
-      return null
-
-    case 'DoWhileStatement':
-      if (parent.test === node) {
-        return sourceCode.getTokenAfter(
-          parent.body,
-          isOpeningParenToken,
-        )
-      }
-      return null
-
-    case 'IfStatement':
-    case 'WhileStatement':
-      if (parent.test === node) {
-        return sourceCode.getFirstToken(parent, 1)
-      }
-      return null
-
-    case 'ImportExpression':
-      if (parent.source === node) {
-        return sourceCode.getFirstToken(parent, 1)
-      }
-      return null
-
-    case 'SwitchStatement':
-      if (parent.discriminant === node) {
-        return sourceCode.getFirstToken(parent, 1)
-      }
-      return null
-
-    case 'WithStatement':
-      if (parent.object === node) {
-        return sourceCode.getFirstToken(parent, 1)
-      }
-      return null
-
-    default:
-      return null
-  }
+export function isSingleLine(node: ASTNode | Token) {
+  return node.loc.start.line === node.loc.end.line
 }
 
 /**
- * Check whether a given node is parenthesized or not.
+ * Check whether comments exist between the given 2 tokens.
+ * @param left The left token to check.
+ * @param right The right token to check.
+ * @returns `true` if comments exist between the given 2 tokens.
  */
-export function isParenthesized(
-  node: ASTNode,
-  sourceCode: SourceCode,
-  times = 1,
-) {
-  let maybeLeftParen, maybeRightParen
+export function hasCommentsBetween(sourceCode: SourceCode, left: ASTNode | Token, right: ASTNode | Token) {
+  return sourceCode.getFirstTokenBetween(
+    left,
+    right,
+    {
+      includeComments: true,
+      filter: isCommentToken,
+    },
+  ) !== null
+}
 
-  if (
-    node == null
-    // `Program` can't be parenthesized
-    || node.parent == null
-    // `CatchClause.param` can't be parenthesized, example `try {} catch (error) {}`
-    || (node.parent.type === 'CatchClause' && node.parent.param === node)
-  ) {
-    return false
-  }
-
-  maybeLeftParen = maybeRightParen = node
-  do {
-    maybeLeftParen = sourceCode.getTokenBefore(maybeLeftParen)
-    maybeRightParen = sourceCode.getTokenAfter(maybeRightParen)
-  } while (
-    maybeLeftParen != null
-    && maybeRightParen != null
-    && (maybeLeftParen.type === 'Punctuator' && maybeLeftParen.value === '(')
-    && (maybeRightParen.type === 'Punctuator' && maybeRightParen.value === ')')
-    // Avoid false positive such as `if (a) {}`
-    && maybeLeftParen !== getParentSyntaxParen(node, sourceCode)
-    && --times > 0
+/**
+ * Get comments exist between the given 2 tokens.
+ * @param sourceCode The source code object to get tokens.
+ * @param left The left token to check.
+ * @param right The right token to check.
+ * @returns The comments exist between the given 2 tokens.
+ */
+export function getCommentsBetween(sourceCode: SourceCode, left: ASTNode | Token, right: ASTNode | Token) {
+  return sourceCode.getTokensBetween(
+    left,
+    right,
+    {
+      includeComments: true,
+      filter: isCommentToken,
+    },
   )
-
-  return times === 0
 }

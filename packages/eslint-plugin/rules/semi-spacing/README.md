@@ -29,7 +29,7 @@ This rule doesn't check spacing in the following cases:
 
 - The spacing after the semicolon if it is the first token in the line.
 
-- The spacing before the semicolon if it is after an opening parenthesis (`(` or `{`), or the spacing after the semicolon if it is before a closing parenthesis (`)` or `}`). That spacing is checked by `space-in-parens` or `block-spacing`.
+- The spacing before the semicolon if it is after an opening parenthesis (`(` or `{`), or the spacing after the semicolon if it is before a closing parenthesis (`)` or `}`). That spacing is checked by [`space-in-parens`](space-in-parens) or [`block-spacing`](block-spacing).
 
 - The spacing around the semicolon in a for loop with an empty condition (`for(;;)`).
 
@@ -55,7 +55,7 @@ Examples of **incorrect** code for this rule:
 ::: incorrect
 
 ```js
-/*eslint semi-spacing: "error"*/
+/* eslint @stylistic/semi-spacing: "error" */
 
 var foo ;
 var foo;var bar;
@@ -72,7 +72,7 @@ Examples of **correct** code for this rule:
 ::: correct
 
 ```js
-/*eslint semi-spacing: "error"*/
+/* eslint @stylistic/semi-spacing: "error" */
 
 var foo;
 var foo; var bar;
@@ -95,7 +95,7 @@ Examples of **incorrect** code for this rule with the `{"before": true, "after":
 ::: incorrect
 
 ```js
-/*eslint semi-spacing: ["error", { "before": true, "after": false }]*/
+/* eslint @stylistic/semi-spacing: ["error", { "before": true, "after": false }] */
 
 var foo;
 var foo ; var bar;
@@ -112,7 +112,7 @@ Examples of **correct** code for this rule with the `{"before": true, "after": f
 ::: correct
 
 ```js
-/*eslint semi-spacing: ["error", { "before": true, "after": false }]*/
+/* eslint @stylistic/semi-spacing: ["error", { "before": true, "after": false }] */
 
 var foo ;
 var foo ;var bar ;

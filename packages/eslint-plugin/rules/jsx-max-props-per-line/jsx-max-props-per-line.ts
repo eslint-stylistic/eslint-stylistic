@@ -5,6 +5,7 @@
 
 import type { ReportDescriptor, RuleContext, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 function getPropName(context: RuleContext<MessageIds, RuleOptions>, propNode: Tree.JSXAttribute | Tree.JSXSpreadAttribute) {
@@ -45,6 +46,7 @@ export default createRule<RuleOptions, MessageIds>({
                 minimum: 1,
               },
             },
+            additionalProperties: false,
           },
         },
         additionalProperties: false,
@@ -109,7 +111,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (!node.attributes.length)
           return
 
-        const isSingleLineTag = node.loc.start.line === node.loc.end.line
+        const isSingleLineTag = isSingleLine(node)
 
         if ((isSingleLineTag ? maxConfig.single : maxConfig.multi) === Infinity)
           return
@@ -118,7 +120,7 @@ export default createRule<RuleOptions, MessageIds>({
         const linePartitionedProps = [[firstProp]]
 
         node.attributes.reduce((last, decl) => {
-          if (last.loc.end.line === decl.loc.start.line)
+          if (isTokenOnSameLine(last, decl))
             linePartitionedProps[linePartitionedProps.length - 1].push(decl)
           else
             linePartitionedProps.push([decl])

@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { isNotClosingParenToken, isTokenOnSameLine } from '#utils/ast'
+import { isNotClosingParenToken, isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -29,6 +29,7 @@ export default createRule<RuleOptions, MessageIds>({
             default: false,
           },
         },
+        additionalProperties: false,
       },
     ],
 
@@ -128,7 +129,7 @@ export default createRule<RuleOptions, MessageIds>({
           }
         }
         else {
-          if (allowSingleLine && node.loc.start.line === node.loc.end.line)
+          if (allowSingleLine && isSingleLine(node))
             return
 
           if (areTestAndConsequentOnSameLine) {

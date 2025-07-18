@@ -1,7 +1,7 @@
 {
   "name": "@stylistic/eslint-plugin",
   "type": "module",
-  "version": "5.0.0-beta.3",
+  "version": "5.2.0",
   "author": "Anthony Fu <anthonyfu117@hotmail.com>",
   "license": "MIT",
   "homepage": "https://github.com/eslint-stylistic/eslint-stylistic#readme",
@@ -130,18 +130,19 @@
     "node": "^18.18.0 || ^20.9.0 || >=21.1.0"
   },
   "scripts": {
-    "build": "rimraf dist && rollup --config=rollup.config.mjs",
-    "dev": "rollup --config=rollup.config.mjs --watch",
+    "build": "tsdown",
+    "dev": "tsdown --watch",
     "prepublishOnly": "pnpm build"
   },
   "peerDependencies": {
     "eslint": ">=9.0.0"
   },
   "dependencies": {
-    "@typescript-eslint/utils": "catalog:",
-    "eslint-visitor-keys": "catalog:",
-    "espree": "catalog:",
-    "estraverse": "catalog:",
-    "picomatch": "catalog:"
+    "@eslint-community/eslint-utils": "catalog:prod",
+    "@typescript-eslint/types": "catalog:prod",
+    "eslint-visitor-keys": "catalog:prod",
+    "espree": "catalog:prod",
+    "estraverse": "catalog:prod",
+    "picomatch": "catalog:prod"
   }
 }

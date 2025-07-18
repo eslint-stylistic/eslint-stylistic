@@ -19,188 +19,12 @@ run<RuleOptions, MessageIds>({
     'async function f(arg: Promise<any>) { await arg; }',
     '(0).toString();',
     '(function(){}) ? a() : b();',
-    '(/^a$/).test(x);',
-    'for (a of (b, c));',
-    'for (a of b);',
-    'for (a in b, c);',
-    'for (a in b);',
     'a<import(\'\')>(1);',
     'new a<import(\'\')>(1);',
     'a<A>(1);',
     {
-      code: $`
-        return (
-          a % b == 0
-        )
-      `,
-    },
-    {
       code: '(++(<A>a))(b); ((c as C)++)(d);',
       parserOptions: { ecmaFeatures: { jsx: false } },
-    },
-    {
-      code: $`
-        while ((foo = bar())) {}
-      `,
-      options: ['all', { conditionalAssign: false }],
-    },
-    {
-      code: $`
-        if ((foo = bar())) {}
-      `,
-      options: ['all', { conditionalAssign: false }],
-    },
-    {
-      code: $`
-        do; while ((foo = bar()))
-      `,
-      options: ['all', { conditionalAssign: false }],
-    },
-    {
-      code: $`
-        for (;(a = b););
-      `,
-      options: ['all', { conditionalAssign: false }],
-    },
-    {
-      code: $`
-        function a(b) {
-          return (b = 1);
-        }
-      `,
-      options: ['all', { returnAssign: false }],
-    },
-    {
-      code: $`
-        function a(b) {
-          return b ? (c = d) : (c = e);
-        }
-      `,
-      options: ['all', { returnAssign: false }],
-    },
-    {
-      code: 'b => (b = 1);',
-      options: ['all', { returnAssign: false }],
-    },
-    {
-      code: 'b => b ? (c = d) : (c = e);',
-      options: ['all', { returnAssign: false }],
-    },
-    {
-      code: $`
-        x = a || (b && c);
-      `,
-      options: ['all', { nestedBinaryExpressions: false }],
-    },
-    {
-      code: $`
-        x = a + (b * c);
-      `,
-      options: ['all', { nestedBinaryExpressions: false }],
-    },
-    {
-      code: $`
-        x = (a * b) / c;
-      `,
-      options: ['all', { nestedBinaryExpressions: false }],
-    },
-    {
-      code: $`
-        const Component = (<div />)
-        const Component = (
-            <div
-                prop={true}
-            />
-        )
-      `,
-      options: ['all', { ignoreJSX: 'all' }],
-    },
-    {
-      code: $`
-        const Component = (
-            <div>
-                <p />
-            </div>
-        )
-        const Component = (
-            <div
-                prop={true}
-            />
-        )
-      `,
-      options: ['all', { ignoreJSX: 'multi-line' }],
-    },
-    {
-      code: $`
-        const Component = (<div />)
-      `,
-      options: ['all', { ignoreJSX: 'single-line' }],
-    },
-    {
-      code: $`
-        const Component = (<div><p /></div>)
-      `,
-      options: ['all', { ignoreJSX: 'single-line' }],
-    },
-    {
-      code: $`
-        const b = a => 1 ? 2 : 3;
-      `,
-      options: ['all', { enforceForArrowConditionals: false }],
-    },
-    {
-      code: $`
-        const d = c => (1 ? 2 : 3);
-      `,
-      options: ['all', { enforceForArrowConditionals: false }],
-    },
-    {
-      code: $`
-        (0).toString();
-      `,
-      options: ['functions'],
-    },
-    {
-      code: $`
-        (Object.prototype.toString.call());
-      `,
-      options: ['functions'],
-    },
-    {
-      code: $`
-        ({}.toString.call());
-      `,
-      options: ['functions'],
-    },
-    {
-      code: $`
-        (function(){} ? a() : b());
-      `,
-      options: ['functions'],
-    },
-    {
-      code: $`
-        (/^a$/).test(x);
-      `,
-      options: ['functions'],
-    },
-    {
-      code: $`
-        a = (b * c);
-      `,
-      options: ['functions'],
-    },
-    {
-      code: $`
-        (a * b) + c;
-      `,
-      options: ['functions'],
-    },
-    {
-      code: $`
-        typeof (a);
-      `,
-      options: ['functions'],
     },
     {
       code: 'const x = (1 as 1) | (1 as 1);',
@@ -253,10 +77,6 @@ run<RuleOptions, MessageIds>({
     { code: 'class Foo {}', parserOptions: { ecmaFeatures: { jsx: false } } },
     {
       code: 'class Foo extends (Bar as any) {}',
-      parserOptions: { ecmaFeatures: { jsx: false } },
-    },
-    {
-      code: 'const foo = class {};',
       parserOptions: { ecmaFeatures: { jsx: false } },
     },
     {
@@ -534,69 +354,16 @@ run<RuleOptions, MessageIds>({
         },
       },
     },
+    // https://github.com/eslint/eslint/issues/17173
+    {
+      code: 'const x = (1 satisfies number).toFixed();',
+    },
+
+    `type Foo = string & (number | 'bar')`,
+    `type Foo = (a extends string ? 'bar' : number)[]`,
   ],
 
   invalid: [
-    {
-      code: 'a = (b * c);',
-      output: 'a = b * c;',
-      errors: [
-        {
-          messageId: 'unexpected',
-          column: 5,
-        },
-      ],
-    },
-    {
-      code: '(a * b) + c;',
-      output: 'a * b + c;',
-      errors: [
-        {
-          messageId: 'unexpected',
-          column: 1,
-        },
-      ],
-    },
-    {
-      code: 'for (a in (b, c));',
-      output: 'for (a in b, c);',
-      errors: [
-        {
-          messageId: 'unexpected',
-          column: 11,
-        },
-      ],
-    },
-    {
-      code: 'for (a in (b));',
-      output: 'for (a in b);',
-      errors: [
-        {
-          messageId: 'unexpected',
-          column: 11,
-        },
-      ],
-    },
-    {
-      code: 'for (a of (b));',
-      output: 'for (a of b);',
-      errors: [
-        {
-          messageId: 'unexpected',
-          column: 11,
-        },
-      ],
-    },
-    {
-      code: 'typeof (a);',
-      output: 'typeof a;',
-      errors: [
-        {
-          messageId: 'unexpected',
-          column: 8,
-        },
-      ],
-    },
     {
       code: 'a<import(\'\')>((1));',
       output: 'a<import(\'\')>(1);',
@@ -668,16 +435,6 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
-      code: 'class Foo extends (Bar) {}',
-      output: 'class Foo extends Bar {}',
-      errors: [
-        {
-          messageId: 'unexpected',
-          column: 19,
-        },
-      ],
-    },
-    {
       code: 'const foo = class extends ((Bar as any)) {}',
       output: 'const foo = class extends (Bar as any) {}',
       errors: [
@@ -687,135 +444,7 @@ run<RuleOptions, MessageIds>({
         },
       ],
     },
-    {
-      code: 'const foo = class extends (Bar) {}',
-      output: 'const foo = class extends Bar {}',
-      errors: [
-        {
-          messageId: 'unexpected',
-          column: 27,
-        },
-      ],
-    },
 
-    {
-      code: $`
-        const Component = (<div />)
-      `,
-      output: $`
-        const Component = <div />
-      `,
-      options: ['all', { ignoreJSX: 'multi-line' }],
-      errors: [
-        {
-          messageId: 'unexpected',
-          column: 19,
-        },
-      ],
-    },
-    {
-      code: $`
-        const Component = (<div><p /></div>)
-      `,
-      output: $`
-        const Component = <div><p /></div>
-      `,
-      options: ['all', { ignoreJSX: 'multi-line' }],
-      errors: [
-        {
-          messageId: 'unexpected',
-          column: 19,
-        },
-      ],
-    },
-
-    {
-      code: $`
-        const Component = (
-            <div>
-                <p />
-            </div>
-        )
-        const Component = (
-            <div
-                prop={true}
-            />
-        )
-      `,
-      // eslint-disable-next-line prefer-template
-      output: $`
-        const Component = 
-            <div>
-                <p />
-            </div>
-        
-        const Component = 
-            <div
-                prop={true}
-            />
-      `
-        + '\n',
-      options: ['all', { ignoreJSX: 'single-line' }],
-      errors: [
-        {
-          messageId: 'unexpected',
-          line: 1,
-          column: 19,
-        },
-        {
-          messageId: 'unexpected',
-          line: 6,
-          column: 19,
-        },
-      ],
-    },
-    {
-      code: $`
-        ((function foo() {}))();
-      `,
-      output: $`
-        (function foo() {})();
-      `,
-      options: ['functions'],
-      errors: [
-        {
-          messageId: 'unexpected',
-          column: 2,
-        },
-      ],
-    },
-    {
-      code: $`
-        var y = (function () {return 1;});
-      `,
-      output: $`
-        var y = function () {return 1;};
-      `,
-      options: ['functions'],
-      errors: [
-        {
-          messageId: 'unexpected',
-          column: 9,
-        },
-      ],
-    },
-    {
-      code: $`
-        function fn(){
-          return (a==b)
-        }
-      `,
-      output: $`
-        function fn(){
-          return a==b
-        }
-      `,
-      errors: [
-        {
-          messageId: 'unexpected',
-        },
-      ],
-    },
     {
       code: 'const x = (a as string)',
       output: 'const x = a as string',
@@ -853,91 +482,69 @@ run<RuleOptions, MessageIds>({
         },
       ],
     },
-    // https://github.com/eslint-stylistic/eslint-stylistic/issues/699
     {
-      code: `
-        ((a, b) => {
-          return (
-            a % b == 0
-          ) || (a % b == 1)
-        })()
-      `,
-      output: `
-        ((a, b) => {
-          return (
-            a % b == 0
-          ) || a % b == 1
-        })()
-      `,
+      code: 'class A{ accessor [((foo))] = 1 }',
+      output: 'class A{ accessor [(foo)] = 1 }',
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: 'function foo(x: (number)): (boolean) {}',
+      output: 'function foo(x: number): boolean {}',
       errors: [
-        {
-          messageId: 'unexpected',
-        },
+        { messageId: 'unexpected' },
+        { messageId: 'unexpected' },
       ],
     },
     {
-      code: `
-        ((a, b) => {
-          return (
-            (a % b == 0)
-            || a % b == 1
-          )
-        })()
+      code: $`
+        type Foo = ({
+          a: <T>(x: T) => any
+        })
       `,
-      output: `
-        ((a, b) => {
-          return (
-            a % b == 0
-            || a % b == 1
-          )
-        })()
-      `,
-      errors: [
-        {
-          messageId: 'unexpected',
-        },
-      ],
-    },
-    {
-      code: `
-        ((a, b) => {
-          return (a % b == 0)
-            || (a % b == 1)
-        })()
-      `,
-      output: `
-        ((a, b) => {
-          return a % b == 0
-            || a % b == 1
-        })()
-      `,
-      errors: [
-        {
-          messageId: 'unexpected',
-        },
-        {
-          messageId: 'unexpected',
-        },
-      ],
-    },
-    {
-      code: `
-        (a, b) => {
-          return (a % b == 0) || (a % b == 1)
+      output: $`
+        type Foo = {
+          a: <T>(x: T) => any
         }
       `,
-      output: `
-        (a, b) => {
-          return a % b == 0 || a % b == 1
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: $`
+        enum Foo {
+          A,
+          B = ("x"),
+        }
+      `,
+      output: $`
+        enum Foo {
+          A,
+          B = "x",
         }
       `,
       errors: [
-        {
-          messageId: 'unexpected',
-        },
-        {
-          messageId: 'unexpected',
-        },
+        { messageId: 'unexpected' },
+      ],
+    },
+    {
+      code: `type Foo = (string & number) | 'bar'`,
+      output: `type Foo = string & number | 'bar'`,
+      errors: [
+        { messageId: 'unexpected' },
+      ],
+    },
+    {
+      code: 'type Foo = ((string | number))[]',
+      output: 'type Foo = (string | number)[]',
+      errors: [
+        { messageId: 'unexpected' },
+      ],
+    },
+    {
+      code: `type Foo = ((import('x')))[]`,
+      output: `type Foo = import('x')[]`,
+      recursive: Number.POSITIVE_INFINITY,
+      errors: [
+        { messageId: 'unexpected' },
       ],
     },
   ],

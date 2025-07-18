@@ -1,6 +1,8 @@
 ---
 title: keyword-spacing
 rule_type: layout
+related_rules:
+  - space-before-function-paren
 ---
 
 # keyword-spacing
@@ -20,11 +22,14 @@ if (foo) {
 
 Of course, you could also have a style guide that disallows spaces around keywords.
 
-However, if you want to enforce the style of spacing between the `function` keyword and the following opening parenthesis, please refer to [space-before-function-paren](space-before-function-paren).
+However, if you want to enforce the style of following spacing cases, please refer to [space-before-function-paren](space-before-function-paren).
+
+- Between the `function` keyword and the following opening parenthesis
+- After the `catch` keyword and the following opening parenthesis (only when parameters are present)
 
 ## Rule Details
 
-This rule enforces consistent spacing around keywords and keyword-like tokens: `as` (in module declarations), `async` (of async functions), `await` (of await expressions), `break`, `case`, `catch`, `class`, `const`, `continue`, `debugger`, `default`, `delete`, `do`, `else`, `export`, `extends`, `finally`, `for`, `from` (in module declarations), `function`, `get` (of getters), `if`, `import`, `in` (in for-in statements), `let`, `new`, `of` (in for-of statements), `return`, `set` (of setters), `static`, `super`, `switch`, `this`, `throw`, `try`, `typeof`, `var`, `void`, `while`, `with`, and `yield`. This rule is designed carefully not to conflict with other spacing rules: it does not apply to spacing where other rules report problems.
+This rule enforces consistent spacing around keywords and keyword-like tokens: `accessor` (of accessor property), `as` (in module declarations), `async` (of async functions), `await` (of await expressions), `break`, `case`, `catch`, `class`, `const`, `continue`, `debugger`, `default`, `delete`, `do`, `else`, `export`, `extends`, `finally`, `for`, `from` (in module declarations), `function`, `get` (of getters), `if`, `import`, `in` (in for-in statements), `let`, `new`, `of` (in for-of statements), `return`, `set` (of setters), `static`, `super`, `switch`, `this`, `throw`, `try`, `typeof`, `using`, `var`, `void`, `while`, `with`, and `yield`. This rule is designed carefully not to conflict with other spacing rules: it does not apply to spacing where other rules report problems.
 
 ## Options
 
@@ -43,7 +48,7 @@ Examples of **incorrect** code for this rule with the default `{ "before": true 
 ::: incorrect
 
 ```js
-/*eslint keyword-spacing: ["error", { "before": true }]*/
+/* eslint @stylistic/keyword-spacing: ["error", { "before": true }] */
 
 if (foo) {
     //...
@@ -61,8 +66,7 @@ Examples of **correct** code for this rule with the default `{ "before": true }`
 ::: correct { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
-/*eslint keyword-spacing: ["error", { "before": true }]*/
-/*eslint-env es6*/
+/* eslint @stylistic/keyword-spacing: ["error", { "before": true }] */
 
 if (foo) {
     //...
@@ -120,7 +124,7 @@ Examples of **incorrect** code for this rule with the `{ "before": false }` opti
 ::: incorrect
 
 ```js
-/*eslint keyword-spacing: ["error", { "before": false }]*/
+/* eslint @stylistic/keyword-spacing: ["error", { "before": false }] */
 
 if (foo) {
     //...
@@ -138,7 +142,7 @@ Examples of **correct** code for this rule with the `{ "before": false }` option
 ::: correct
 
 ```js
-/*eslint keyword-spacing: ["error", { "before": false }]*/
+/* eslint @stylistic/keyword-spacing: ["error", { "before": false }] */
 
 if (foo) {
     //...
@@ -158,7 +162,7 @@ Examples of **incorrect** code for this rule with the default `{ "after": true }
 ::: incorrect
 
 ```js
-/*eslint keyword-spacing: ["error", { "after": true }]*/
+/* eslint @stylistic/keyword-spacing: ["error", { "after": true }] */
 
 if(foo) {
     //...
@@ -176,7 +180,7 @@ Examples of **correct** code for this rule with the default `{ "after": true }` 
 ::: correct { "ecmaFeatures": { "jsx": true } }
 
 ```jsx
-/*eslint keyword-spacing: ["error", { "after": true }]*/
+/* eslint @stylistic/keyword-spacing: ["error", { "after": true }] */
 
 if (foo) {
     //...
@@ -247,7 +251,7 @@ Examples of **incorrect** code for this rule with the `{ "after": false }` optio
 ::: incorrect
 
 ```js
-/*eslint keyword-spacing: ["error", { "after": false }]*/
+/* eslint @stylistic/keyword-spacing: ["error", { "after": false }] */
 
 if (foo) {
     //...
@@ -265,7 +269,7 @@ Examples of **correct** code for this rule with the `{ "after": false }` option:
 ::: correct
 
 ```js
-/*eslint keyword-spacing: ["error", { "after": false }]*/
+/* eslint @stylistic/keyword-spacing: ["error", { "after": false }] */
 
 if(foo) {
     //...
@@ -285,13 +289,13 @@ Examples of **correct** code for this rule with the `{ "overrides": { "if": { "a
 ::: correct
 
 ```js
-/*eslint keyword-spacing: ["error", { "overrides": {
+/* eslint @stylistic/keyword-spacing: ["error", { "overrides": {
   "if": { "after": false },
   "for": { "after": false },
   "while": { "after": false },
   "static": { "after": false },
   "as": { "after": false }
-} }]*/
+} }] */
 
 if(foo) {
     //...

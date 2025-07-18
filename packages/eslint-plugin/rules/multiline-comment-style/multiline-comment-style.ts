@@ -5,7 +5,7 @@
 
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { COMMENTS_IGNORE_PATTERN, LINEBREAK_MATCHER } from '#utils/ast'
+import { COMMENTS_IGNORE_PATTERN, isHashbangComment, isSingleLine, isTokenOnSameLine, isWhiteSpaces, LINEBREAK_MATCHER, WHITE_SPACES_PATTERN } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -43,6 +43,9 @@ export default createRule<RuleOptions, MessageIds>({
                 checkJSDoc: {
                   type: 'boolean',
                 },
+                checkExclamation: {
+                  type: 'boolean',
+                },
               },
               additionalProperties: false,
             },
@@ -67,6 +70,7 @@ export default createRule<RuleOptions, MessageIds>({
     const option = context.options[0] || 'starred-block'
     const params = context.options[1] || {}
     const checkJSDoc = !!params.checkJSDoc
+    const checkExclamation = !!params.checkExclamation
 
     // ----------------------------------------------------------------------
     // Helpers
@@ -93,7 +97,7 @@ export default createRule<RuleOptions, MessageIds>({
       const lines = firstComment.value.split(LINEBREAK_MATCHER)
 
       // The first and last lines can only contain whitespace.
-      return lines.length > 0 && lines.every((line, i) => (i === 0 || i === lines.length - 1 ? /^\s*$/u : /^\s*\*/u).test(line))
+      return lines.length > 0 && lines.every((line, i) => i === 0 || i === lines.length - 1 ? isWhiteSpaces(line) : isStarredCommentLine(line))
     }
 
     /**
@@ -109,7 +113,23 @@ export default createRule<RuleOptions, MessageIds>({
 
       return /^\*\s*$/u.test(lines[0])
         && lines.slice(1, -1).every(line => /^\s* /u.test(line))
-        && /^\s*$/u.test(lines.at(-1)!)
+        && isWhiteSpaces(lines.at(-1)!)
+    }
+
+    /**
+     * Checks if a comment group is in exclamation form.
+     * @param firstComment A group of comments, containing either multiple line comments or a single block comment.
+     * @returns Whether or not the comment group is in exclamation form.
+     */
+    function isExclamationComment([firstComment]: Token[]): boolean {
+      if (firstComment.type !== 'Block')
+        return false
+
+      const lines = firstComment.value.split(LINEBREAK_MATCHER)
+
+      return /^!\s*$/u.test(lines[0])
+        && lines.slice(1, -1).every(line => /^\s* /u.test(line))
+        && isWhiteSpaces(lines.at(-1)!)
     }
 
     /**
@@ -132,7 +152,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns An array of the processed lines.
      */
     function processStarredBlockComment(comment: Token): string[] {
-      const lines = comment.value.split(LINEBREAK_MATCHER).filter((line, i, linesArr) => !(i === 0 || i === linesArr.length - 1)).map(line => line.replace(/^\s*$/u, ''))
+      const lines = comment.value.split(LINEBREAK_MATCHER).filter((line, i, linesArr) => !(i === 0 || i === linesArr.length - 1)).map(line => line.replace(WHITE_SPACES_PATTERN, ''))
       const allLinesHaveLeadingSpace = lines
         .map(line => line.replace(/\s*\*/u, ''))
         .filter(line => line.trim().length)
@@ -147,7 +167,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns An array of the processed lines.
      */
     function processBareBlockComment(comment: Token): string[] {
-      const lines = comment.value.split(LINEBREAK_MATCHER).map(line => line.replace(/^\s*$/u, ''))
+      const lines = comment.value.split(LINEBREAK_MATCHER).map(line => line.replace(WHITE_SPACES_PATTERN, ''))
       const leadingWhitespace = `${sourceCode.text.slice(comment.range[0] - comment.loc.start.column, comment.range[0])}   `
       let offset = ''
 
@@ -275,8 +295,8 @@ export default createRule<RuleOptions, MessageIds>({
           const expectedLeadingWhitespace = getInitialOffset(firstComment)
           const expectedLinePrefix = `${expectedLeadingWhitespace} *`
 
-          if (!/^\*?\s*$/u.test(lines[0])) {
-            const start = firstComment.value.startsWith('*') ? firstComment.range[0] + 1 : firstComment.range[0]
+          if (!/^[*!]?\s*$/u.test(lines[0])) {
+            const start = /^[*!]/.test(firstComment.value) ? firstComment.range[0] + 1 : firstComment.range[0]
 
             context.report({
               loc: {
@@ -288,7 +308,7 @@ export default createRule<RuleOptions, MessageIds>({
             })
           }
 
-          if (!/^\s*$/u.test(lines.at(-1)!)) {
+          if (!isWhiteSpaces(lines.at(-1)!)) {
             context.report({
               loc: {
                 start: { line: firstComment.loc.end.line, column: firstComment.loc.end.column - 2 },
@@ -352,18 +372,19 @@ export default createRule<RuleOptions, MessageIds>({
         const [firstComment] = commentGroup
 
         const isJSDoc = isJSDocComment(commentGroup)
+        const isExclamation = isExclamationComment(commentGroup)
 
-        if (firstComment.type !== 'Block' || (!checkJSDoc && isJSDoc))
+        if (firstComment.type !== 'Block' || (!checkJSDoc && isJSDoc) || (!checkExclamation && isExclamation))
           return
 
         let commentLines = getCommentLines(commentGroup)
 
-        if (isJSDoc)
+        if (isJSDoc || isExclamation)
           commentLines = commentLines.slice(1, commentLines.length - 1)
 
         const tokenAfter = sourceCode.getTokenAfter(firstComment, { includeComments: true })
 
-        if (tokenAfter && firstComment.loc.end.line === tokenAfter.loc.start.line)
+        if (tokenAfter && isTokenOnSameLine(firstComment, tokenAfter))
           return
 
         context.report({
@@ -378,7 +399,7 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
       'bare-block': function (commentGroup: Token[]) {
-        if (isJSDocComment(commentGroup))
+        if (isJSDocComment(commentGroup) || isExclamationComment(commentGroup))
           return
 
         const [firstComment] = commentGroup
@@ -425,11 +446,13 @@ export default createRule<RuleOptions, MessageIds>({
     return {
       Program() {
         return sourceCode.getAllComments()
-          // This type exists in espree, but not in typescript-eslint
-          // https://github.com/typescript-eslint/typescript-eslint/issues/6500
-          .filter(comment => (comment.type as Tree.Comment & { type: 'Hashbang' }) !== 'Shebang')
-          .filter(comment => !COMMENTS_IGNORE_PATTERN.test(comment.value))
           .filter((comment) => {
+            if (isHashbangComment(comment))
+              return false
+
+            if (COMMENTS_IGNORE_PATTERN.test(comment.value))
+              return false
+
             const tokenBefore = sourceCode.getTokenBefore(comment, { includeComments: true })
 
             return !tokenBefore || tokenBefore.loc.end.line < comment.loc.start.line
@@ -452,8 +475,14 @@ export default createRule<RuleOptions, MessageIds>({
 
             return commentGroups
           }, [])
-          .filter(commentGroup => !(commentGroup.length === 1 && commentGroup[0].loc.start.line === commentGroup[0].loc.end.line))
-          .forEach(commentGroupCheckers[option])
+          .forEach((commentGroup) => {
+            if (commentGroup.length === 1 && isSingleLine(commentGroup[0]))
+              return
+
+            const check = commentGroupCheckers[option]
+
+            check(commentGroup)
+          })
       },
     }
   },

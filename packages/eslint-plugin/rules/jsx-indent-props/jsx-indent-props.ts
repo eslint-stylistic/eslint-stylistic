@@ -78,6 +78,7 @@ export default createRule<RuleOptions, MessageIds>({
               type: 'boolean',
             },
           },
+          additionalProperties: false,
         },
       ],
     }],

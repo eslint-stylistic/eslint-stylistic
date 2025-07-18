@@ -3,7 +3,7 @@
  * @author Jamund Ferguson
  */
 
-import type { ASTNode, RuleListener, Tree } from '#types'
+import type { ASTNode, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isClosingBracketToken, isOpeningBracketToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -56,7 +56,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param token The token to use for the report.
      * @param tokenAfter The token after `token`.
      */
-    function reportNoBeginningSpace(node: ASTNode, token: Tree.Token, tokenAfter: Tree.Token): void {
+    function reportNoBeginningSpace(node: ASTNode, token: Token, tokenAfter: Token): void {
       context.report({
         node,
         loc: { start: token.loc.end, end: tokenAfter.loc.start },
@@ -76,7 +76,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param token The token to use for the report.
      * @param tokenBefore The token before `token`.
      */
-    function reportNoEndingSpace(node: ASTNode, token: Tree.Token, tokenBefore: Tree.Token): void {
+    function reportNoEndingSpace(node: ASTNode, token: Token, tokenBefore: Token): void {
       context.report({
         node,
         loc: { start: tokenBefore.loc.end, end: token.loc.start },
@@ -95,7 +95,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node The node to report in the event of an error.
      * @param token The token to use for the report.
      */
-    function reportRequiredBeginningSpace(node: ASTNode, token: Tree.Token): void {
+    function reportRequiredBeginningSpace(node: ASTNode, token: Token): void {
       context.report({
         node,
         loc: token.loc,
@@ -114,7 +114,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node The node to report in the event of an error.
      * @param token The token to use for the report.
      */
-    function reportRequiredEndingSpace(node: ASTNode, token: Tree.Token): void {
+    function reportRequiredEndingSpace(node: ASTNode, token: Token): void {
       context.report({
         node,
         loc: token.loc,
@@ -177,6 +177,7 @@ export default createRule<RuleOptions, MessageIds>({
     type NodeType
       = | Tree.Property
         | Tree.PropertyDefinition
+        | Tree.AccessorProperty
         | Tree.MemberExpression
         | Tree.MethodDefinition
 
@@ -188,6 +189,7 @@ export default createRule<RuleOptions, MessageIds>({
     if (enforceForClassMembers) {
       listeners.MethodDefinition = checkSpacing<Tree.MethodDefinition>('key')
       listeners.PropertyDefinition = checkSpacing<Tree.PropertyDefinition>('key')
+      listeners.AccessorProperty = checkSpacing<Tree.AccessorProperty>('key')
     }
 
     return listeners

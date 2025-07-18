@@ -4,12 +4,13 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { $, run } from '#test'
 import rule from './semi'
 
 run<RuleOptions, MessageIds>({
   name: 'semi',
   rule,
+  lang: 'js',
   valid: [
     'var x = 5;',
     'var x =5, y;',
@@ -19,8 +20,12 @@ run<RuleOptions, MessageIds>({
     'setTimeout(function() {foo = "bar";});',
     'for (var a in b){}',
     'for (var i;;){}',
-    'if (true) {}\n;[global, extended].forEach(function(){});',
+    $`
+      if (true) {}
+      ;[global, extended].forEach(function(){});
+    `,
     'throw new Error(\'foo\');',
+    'debugger;',
     { code: 'throw new Error(\'foo\')', options: ['never'] },
     { code: 'var x = 5', options: ['never'] },
     { code: 'var x =5, y', options: ['never'] },
@@ -62,7 +67,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class C { static { foo();\n (a) } }',
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-
     },
     {
       code: 'class C { static { do ; while (foo)\n (a)} }',
@@ -74,47 +78,131 @@ run<RuleOptions, MessageIds>({
     },
 
     // omitLastInOneLineBlock: true
-    { code: 'if (foo) { bar() }', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'if (foo) { bar(); baz() }', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'if (foo)\n{ bar(); baz() }', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'if (foo) {\n bar(); baz(); }', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'if (foo) { bar(); baz(); \n}', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'function foo() { bar(); baz() }', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'function foo()\n{ bar(); baz() }', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'function foo(){\n bar(); baz(); }', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'function foo(){ bar(); baz(); \n}', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: '() => { bar(); baz() };', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: '() =>\n { bar(); baz() };', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: '() => {\n bar(); baz(); };', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: '() => { bar(); baz(); \n};', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'const obj = { method() { bar(); baz() } };', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'const obj = { method()\n { bar(); baz() } };', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'const obj = { method() {\n bar(); baz(); } };', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'const obj = { method() { bar(); baz(); \n} };', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'class C {\n method() { bar(); baz() } \n}', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'class C {\n method()\n { bar(); baz() } \n}', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'class C {\n method() {\n bar(); baz(); } \n}', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'class C {\n method() { bar(); baz(); \n} \n}', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'class C {\n static { bar(); baz() } \n}', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'class C {\n static\n { bar(); baz() } \n}', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'class C {\n static {\n bar(); baz(); } \n}', options: ['always', { omitLastInOneLineBlock: true }] },
-    { code: 'class C {\n static { bar(); baz(); \n} \n}', options: ['always', { omitLastInOneLineBlock: true }] },
+    {
+      code: 'if (foo) { bar() }',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'if (foo) { bar(); baz() }',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: $`
+        if (foo)
+        { bar(); baz() }
+      `,
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: $`
+        if (foo) {
+          bar(); baz(); }
+      `,
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: $`
+        if (foo) { bar(); baz();
+        }
+      `,
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'function foo() { bar(); baz() }',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'function foo()\n{ bar(); baz() }',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'function foo(){\n bar(); baz(); }',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'function foo(){ bar(); baz(); \n}',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: '() => { bar(); baz() };',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: '() =>\n { bar(); baz() };',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: '() => {\n bar(); baz(); };',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: '() => { bar(); baz(); \n};',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'const obj = { method() { bar(); baz() } };',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'const obj = { method()\n { bar(); baz() } };',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'const obj = { method() {\n bar(); baz(); } };',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'const obj = { method() { bar(); baz(); \n} };',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'class C {\n method() { bar(); baz() } \n}',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'class C {\n method()\n { bar(); baz() } \n}',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'class C {\n method() {\n bar(); baz(); } \n}',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'class C {\n method() { bar(); baz(); \n} \n}',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'class C {\n static { bar(); baz() } \n}',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'class C {\n static\n { bar(); baz() } \n}',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'class C {\n static {\n bar(); baz(); } \n}',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
+    {
+      code: 'class C {\n static { bar(); baz(); \n} \n}',
+      options: ['always', { omitLastInOneLineBlock: true }],
+    },
 
     // omitLastInOneLineClassBody: true
     {
-      code: `
-                export class SomeClass{
-                    logType(){
-                        console.log(this.type);
-                    }
-                }
-
-                export class Variant1 extends SomeClass{type=1}
-                export class Variant2 extends SomeClass{type=2}
-                export class Variant3 extends SomeClass{type=3}
-                export class Variant4 extends SomeClass{type=4}
-                export class Variant5 extends SomeClass{type=5}
-            `,
+      code: $`
+        export class SomeClass{
+            logType(){
+                console.log(this.type);
+            }
+        }
+        
+        export class Variant1 extends SomeClass{type=1}
+        export class Variant2 extends SomeClass{type=2}
+        export class Variant3 extends SomeClass{type=3}
+        export class Variant4 extends SomeClass{type=4}
+        export class Variant5 extends SomeClass{type=5}
+      `,
       options: ['always', { omitLastInOneLineClassBody: true }],
       parserOptions: { ecmaVersion: 2022, sourceType: 'module' },
     },
@@ -152,27 +240,22 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class C {\nfoo;}',
       options: ['always', { omitLastInOneLineClassBody: true }],
-
     },
     {
       code: 'class C {foo;\n}',
       options: ['always', { omitLastInOneLineClassBody: true }],
-
     },
     {
       code: 'class C {foo;\nbar;}',
       options: ['always', { omitLastInOneLineClassBody: true }],
-
     },
     {
       code: '{ foo; }',
       options: ['always', { omitLastInOneLineClassBody: true }],
-
     },
     {
       code: 'class C\n{ foo }',
       options: ['always', { omitLastInOneLineClassBody: true }],
-
     },
 
     // method definitions and static blocks don't have a semicolon.
@@ -227,130 +310,130 @@ run<RuleOptions, MessageIds>({
 
     // https://github.com/eslint/eslint/issues/9521
     {
-      code: `
-                do; while(a);
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        do; while(a);
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'any' }],
     },
     {
-      code: `
-                do; while(a)
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        do; while(a)
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'any' }],
     },
     {
-      code: `
-                import a from "a";
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        import a from "a";
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
     },
     {
-      code: `
-                var a = 0; export {a};
-                [a] = b
-            `,
+      code: $`
+        var a = 0; export {a};
+        [a] = b
+      `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
     },
     {
-      code: `
-                function wrap() {
-                    return;
-                    ({a} = b)
-                }
-            `,
-      options: ['never', { beforeStatementContinuationChars: 'always' }],
-      parserOptions: { ecmaVersion: 2015 },
-    },
-    {
-      code: `
-                while (true) {
-                    break;
-                    +i
-                }
-            `,
-      options: ['never', { beforeStatementContinuationChars: 'always' }],
-    },
-    {
-      code: `
-                while (true) {
-                    continue;
-                    [1,2,3].forEach(doSomething)
-                }
-            `,
-      options: ['never', { beforeStatementContinuationChars: 'always' }],
-    },
-    {
-      code: `
-                do; while(a);
-                [1,2,3].forEach(doSomething)
-            `,
-      options: ['never', { beforeStatementContinuationChars: 'always' }],
-    },
-    {
-      code: `
-                const f = () => {};
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        function wrap() {
+          return;
+          ({a} = b)
+        }
+      `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: `
-                import a from "a"
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        while (true) {
+          break;
+          +i
+        }
+      `,
+      options: ['never', { beforeStatementContinuationChars: 'always' }],
+    },
+    {
+      code: $`
+        while (true) {
+          continue;
+          [1,2,3].forEach(doSomething)
+        }
+      `,
+      options: ['never', { beforeStatementContinuationChars: 'always' }],
+    },
+    {
+      code: $`
+        do; while(a);
+        [1,2,3].forEach(doSomething)
+      `,
+      options: ['never', { beforeStatementContinuationChars: 'always' }],
+    },
+    {
+      code: $`
+        const f = () => {};
+        [1,2,3].forEach(doSomething)
+      `,
+      options: ['never', { beforeStatementContinuationChars: 'always' }],
+      parserOptions: { ecmaVersion: 2015 },
+    },
+    {
+      code: $`
+        import a from "a"
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
     },
     {
-      code: `
-                var a = 0; export {a}
-                [a] = b
-            `,
+      code: $`
+        var a = 0; export {a}
+        [a] = b
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
     },
     {
-      code: `
-                function wrap() {
-                    return
-                    ({a} = b)
-                }
-            `,
+      code: $`
+        function wrap() {
+          return
+          ({a} = b)
+        }
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
       parserOptions: { ecmaVersion: 2015 },
     },
     {
-      code: `
-                while (true) {
-                    break
-                    +i
-                }
-            `,
+      code: $`
+        while (true) {
+          break
+          +i
+        }
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
     },
     {
-      code: `
-                while (true) {
-                    continue
-                    [1,2,3].forEach(doSomething)
-                }
-            `,
+      code: $`
+        while (true) {
+          continue
+          [1,2,3].forEach(doSomething)
+        }
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
     },
     {
-      code: `
-                do; while(a)
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        do; while(a)
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
     },
     {
-      code: `
-                const f = () => {}
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        const f = () => {}
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
       parserOptions: { ecmaVersion: 2015 },
     },
@@ -358,112 +441,90 @@ run<RuleOptions, MessageIds>({
     // Class fields
     {
       code: 'class C { foo; }',
-
     },
     {
       code: 'class C { foo; }',
       options: ['always'],
-
     },
     {
       code: 'class C { foo }',
       options: ['never'],
-
     },
     {
       code: 'class C { foo = obj\n;[bar] }',
       options: ['never'],
-
     },
     {
       code: 'class C { foo;\n[bar]; }',
       options: ['always'],
-
     },
     {
       code: 'class C { foo\n;[bar] }',
       options: ['never'],
-
     },
     {
       code: 'class C { foo\n[bar] }',
       options: ['never'],
-
     },
     {
       code: 'class C { foo\n;[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-
     },
     {
       code: 'class C { foo\n[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-
     },
     {
       code: 'class C { foo = () => {}\n;[bar] }',
       options: ['never'],
-
     },
     {
       code: 'class C { foo = () => {}\n[bar] }',
       options: ['never'],
-
     },
     {
       code: 'class C { foo = () => {}\n;[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-
     },
     {
       code: 'class C { foo = () => {}\n[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-
     },
     {
       code: 'class C { foo() {} }',
       options: ['always'],
-
     },
     {
       code: 'class C { foo() {}; }', // no-extra-semi reports it
       options: ['never'],
-
     },
     {
       code: 'class C { static {}; }', // no-extra-semi reports it
       options: ['never'],
-
     },
     {
       code: 'class C { a=b;\n*foo() {} }',
       options: ['never'],
-
     },
     {
       code: 'class C { get;\nfoo() {} }',
       options: ['never'],
-
     },
     {
       code: 'class C { set;\nfoo() {} }',
       options: ['never'],
-
     },
     {
       code: 'class C { static;\nfoo() {} }',
       options: ['never'],
-
     },
     {
       code: 'class C { a=b;\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { a=b;\ninstanceof }',
       options: ['never'],
-
     },
     {
       code: `
@@ -479,7 +540,6 @@ run<RuleOptions, MessageIds>({
                 }
             `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-
     },
     {
       code: `
@@ -495,72 +555,58 @@ run<RuleOptions, MessageIds>({
                 }
             `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-
     },
     {
       code: 'class C { foo\n[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-
     },
     {
       code: 'class C { foo = () => {}\n[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-
     },
     {
       code: 'class C { foo\n;[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-
     },
     {
       code: 'class C { foo = () => {}\n;[bar] }',
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-
     },
     {
       code: 'class C { [foo] = bar;\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { #foo = bar;\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { static static = bar;\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { [foo];\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { [get];\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { [get] = 5;\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { #get;\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { #set = 5;\nin }',
       options: ['never'],
-
     },
     {
       code: 'class C { static static;\nin }',
       options: ['never'],
-
     },
   ],
   invalid: [
@@ -1085,7 +1131,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class C { static { foo() } }',
       output: 'class C { static { foo(); } }',
-
       errors: [{
         messageId: 'missingSemi',
         type: 'ExpressionStatement',
@@ -1099,7 +1144,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { foo() } }',
       output: 'class C { static { foo(); } }',
       options: ['always'],
-
       errors: [{
         messageId: 'missingSemi',
         type: 'ExpressionStatement',
@@ -1112,7 +1156,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class C { static { foo(); bar() } }',
       output: 'class C { static { foo(); bar(); } }',
-
       errors: [{
         messageId: 'missingSemi',
         type: 'ExpressionStatement',
@@ -1125,7 +1168,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class C { static { foo()\nbar(); } }',
       output: 'class C { static { foo();\nbar(); } }',
-
       errors: [{
         messageId: 'missingSemi',
         type: 'ExpressionStatement',
@@ -1138,7 +1180,6 @@ run<RuleOptions, MessageIds>({
     {
       code: 'class C { static { foo(); bar()\nbaz(); } }',
       output: 'class C { static { foo(); bar();\nbaz(); } }',
-
       errors: [{
         messageId: 'missingSemi',
         type: 'ExpressionStatement',
@@ -1152,7 +1193,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { foo(); } }',
       output: 'class C { static { foo() } }',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         type: 'ExpressionStatement',
@@ -1166,7 +1206,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { foo();\nbar() } }',
       output: 'class C { static { foo()\nbar() } }',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         type: 'ExpressionStatement',
@@ -1180,7 +1219,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { foo()\nbar(); } }',
       output: 'class C { static { foo()\nbar() } }',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         type: 'ExpressionStatement',
@@ -1194,7 +1232,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { foo()\nbar();\nbaz() } }',
       output: 'class C { static { foo()\nbar()\nbaz() } }',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         type: 'ExpressionStatement',
@@ -1208,7 +1245,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { do ; while (foo)\n (a)} }',
       output: 'class C { static { do ; while (foo);\n (a)} }',
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-
       errors: [{
         messageId: 'missingSemi',
         type: 'DoWhileStatement',
@@ -1222,7 +1258,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static { do ; while (foo)\n ;(a)} }',
       output: 'class C { static { do ; while (foo)\n (a)} }',
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-
       errors: [{
         messageId: 'extraSemi',
         type: 'DoWhileStatement',
@@ -1710,430 +1745,303 @@ run<RuleOptions, MessageIds>({
 
     // https://github.com/eslint/eslint/issues/9521
     {
-      code: `
-                import a from "a"
-                [1,2,3].forEach(doSomething)
-            `,
-      output: `
-                import a from "a";
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        import a from "a"
+        [1,2,3].forEach(doSomething)
+      `,
+      output: $`
+        import a from "a";
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-      errors: [{
-        messageId: 'missingSemi',
-        line: 2,
-        column: 34,
-        endLine: 3,
-        endColumn: 1,
-      }],
+      errors: [{ messageId: 'missingSemi' }],
     },
     {
-      code: `
-                var a = 0; export {a}
-                [a] = b
-            `,
-      output: `
-                var a = 0; export {a};
-                [a] = b
-            `,
+      code: $`
+        var a = 0; export {a}
+        [a] = b
+      `,
+      output: $`
+        var a = 0; export {a};
+        [a] = b
+      `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-      errors: [{
-        messageId: 'missingSemi',
-        line: 2,
-        column: 38,
-        endLine: 3,
-        endColumn: 1,
-      }],
+      errors: [{ messageId: 'missingSemi' }],
     },
     {
-      code: `
-                function wrap() {
-                    return
-                    ({a} = b)
-                }
-            `,
-      output: `
-                function wrap() {
-                    return;
-                    ({a} = b)
-                }
-            `,
+      code: $`
+        function wrap() {
+          return
+          ({a} = b)
+        }
+      `,
+      output: $`
+        function wrap() {
+          return;
+          ({a} = b)
+        }
+      `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
       parserOptions: { ecmaVersion: 2015 },
-      errors: [{
-        messageId: 'missingSemi',
-        line: 3,
-        column: 27,
-        endLine: 4,
-        endColumn: 1,
-      }],
+      errors: [{ messageId: 'missingSemi' }],
     },
     {
-      code: `
-                while (true) {
-                    break
-                   +i
-                }
-            `,
-      output: `
-                while (true) {
-                    break;
-                   +i
-                }
-            `,
+      code: $`
+        while (true) {
+          break
+          +i
+        }
+      `,
+      output: $`
+        while (true) {
+          break;
+          +i
+        }
+      `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-      errors: [{
-        messageId: 'missingSemi',
-        line: 3,
-        column: 26,
-        endLine: 4,
-        endColumn: 1,
-      }],
+      errors: [{ messageId: 'missingSemi' }],
     },
     {
-      code: `
-                while (true) {
-                    continue
-                    [1,2,3].forEach(doSomething)
-                }
-            `,
-      output: `
-                while (true) {
-                    continue;
-                    [1,2,3].forEach(doSomething)
-                }
-            `,
+      code: $`
+        while (true) {
+          continue
+          [1,2,3].forEach(doSomething)
+        }
+      `,
+      output: $`
+        while (true) {
+          continue;
+          [1,2,3].forEach(doSomething)
+        }
+      `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-      errors: [{
-        messageId: 'missingSemi',
-        line: 3,
-        column: 29,
-        endLine: 4,
-        endColumn: 1,
-      }],
+      errors: [{ messageId: 'missingSemi' }],
     },
     {
-      code: `
-                do; while(a)
-                [1,2,3].forEach(doSomething)
-            `,
-      output: `
-                do; while(a);
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        do; while(a)
+        [1,2,3].forEach(doSomething)
+      `,
+      output: $`
+        do; while(a);
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
-      errors: [{
-        messageId: 'missingSemi',
-        line: 2,
-        column: 29,
-        endLine: 3,
-        endColumn: 1,
-      }],
+      errors: [{ messageId: 'missingSemi' }],
     },
     {
-      code: `
-                const f = () => {}
-                [1,2,3].forEach(doSomething)
-            `,
-      output: `
-                const f = () => {};
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        const f = () => {}
+        [1,2,3].forEach(doSomething)
+      `,
+      output: $`
+        const f = () => {};
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'always' }],
       parserOptions: { ecmaVersion: 2015 },
-      errors: [{
-        messageId: 'missingSemi',
-        line: 2,
-        column: 35,
-        endLine: 3,
-        endColumn: 1,
-      }],
+      errors: [{ messageId: 'missingSemi' }],
     },
     {
-      code: `
-                import a from "a";
-                [1,2,3].forEach(doSomething)
-            `,
-      output: `
-                import a from "a"
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        import a from "a";
+        [1,2,3].forEach(doSomething)
+      `,
+      output: $`
+        import a from "a"
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-      errors: [{
-        messageId: 'extraSemi',
-        line: 2,
-        column: 34,
-        endLine: 2,
-        endColumn: 35,
-      }],
+      errors: [{ messageId: 'extraSemi' }],
     },
     {
-      code: `
-                var a = 0; export {a};
-                [a] = b
-            `,
-      output: `
-                var a = 0; export {a}
-                [a] = b
-            `,
+      code: $`
+        var a = 0; export {a};
+        [a] = b
+      `,
+      output: $`
+        var a = 0; export {a}
+        [a] = b
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-      errors: [{
-        messageId: 'extraSemi',
-        line: 2,
-        column: 38,
-        endLine: 2,
-        endColumn: 39,
-      }],
+      errors: [{ messageId: 'extraSemi' }],
     },
     {
-      code: `
-                function wrap() {
-                    return;
-                    ({a} = b)
-                }
-            `,
-      output: `
-                function wrap() {
-                    return
-                    ({a} = b)
-                }
-            `,
+      code: $`
+        function wrap() {
+          return;
+          ({a} = b)
+        }
+      `,
+      output: $`
+        function wrap() {
+          return
+          ({a} = b)
+        }
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
       parserOptions: { ecmaVersion: 2015 },
-      errors: [{
-        messageId: 'extraSemi',
-        line: 3,
-        column: 27,
-        endLine: 3,
-        endColumn: 28,
-      }],
+      errors: [{ messageId: 'extraSemi' }],
     },
     {
-      code: `
-                while (true) {
-                    break;
-                    +i
-                }
-            `,
-      output: `
-                while (true) {
-                    break
-                    +i
-                }
-            `,
+      code: $`
+        while (true) {
+          break;
+          +i
+        }
+      `,
+      output: $`
+        while (true) {
+          break
+          +i
+        }
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-      errors: [{
-        messageId: 'extraSemi',
-        line: 3,
-        column: 26,
-        endLine: 3,
-        endColumn: 27,
-      }],
+      errors: [{ messageId: 'extraSemi' }],
     },
     {
-      code: `
-                while (true) {
-                    continue;
-                    [1,2,3].forEach(doSomething)
-                }
-            `,
-      output: `
-                while (true) {
-                    continue
-                    [1,2,3].forEach(doSomething)
-                }
-            `,
+      code: $`
+        while (true) {
+          continue;
+          [1,2,3].forEach(doSomething)
+        }
+      `,
+      output: $`
+        while (true) {
+          continue
+          [1,2,3].forEach(doSomething)
+        }
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-      errors: [{
-        messageId: 'extraSemi',
-        line: 3,
-        column: 29,
-        endLine: 3,
-        endColumn: 30,
-      }],
+      errors: [{ messageId: 'extraSemi' }],
     },
     {
-      code: `
-                do; while(a);
-                [1,2,3].forEach(doSomething)
-            `,
-      output: `
-                do; while(a)
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        do; while(a);
+        [1,2,3].forEach(doSomething)
+      `,
+      output: $`
+        do; while(a)
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-      errors: [{
-        messageId: 'extraSemi',
-        line: 2,
-        column: 29,
-        endLine: 2,
-        endColumn: 30,
-      }],
+      errors: [{ messageId: 'extraSemi' }],
     },
     {
-      code: `
-                const f = () => {};
-                [1,2,3].forEach(doSomething)
-            `,
-      output: `
-                const f = () => {}
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        const f = () => {};
+        [1,2,3].forEach(doSomething)
+      `,
+      output: $`
+        const f = () => {}
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
       parserOptions: { ecmaVersion: 2015 },
-      errors: [{
-        messageId: 'extraSemi',
-        line: 2,
-        column: 35,
-        endLine: 2,
-        endColumn: 36,
-      }],
+      errors: [{ messageId: 'extraSemi' }],
     },
     {
-      code: `
-                import a from "a"
-                ;[1,2,3].forEach(doSomething)
-            `,
-      output: `
-                import a from "a"
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        import a from "a"
+        ;[1,2,3].forEach(doSomething)
+      `,
+      output: $`
+        import a from "a"
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-      errors: [{
-        messageId: 'extraSemi',
-        line: 3,
-        column: 17,
-        endLine: 3,
-        endColumn: 18,
-      }],
+      errors: [{ messageId: 'extraSemi' }],
     },
     {
-      code: `
-                var a = 0; export {a}
-                ;[1,2,3].forEach(doSomething)
-            `,
-      output: `
-                var a = 0; export {a}
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        var a = 0; export {a}
+        ;[1,2,3].forEach(doSomething)
+      `,
+      output: $`
+        var a = 0; export {a}
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-      errors: [{
-        messageId: 'extraSemi',
-        line: 3,
-        column: 17,
-        endLine: 3,
-        endColumn: 18,
-      }],
+      errors: [{ messageId: 'extraSemi' }],
     },
     {
-      code: `
-                function wrap() {
-                    return
-                    ;[1,2,3].forEach(doSomething)
-                }
-            `,
-      output: `
-                function wrap() {
-                    return
-                    [1,2,3].forEach(doSomething)
-                }
-            `,
+      code: $`
+        function wrap() {
+          return
+          ;[1,2,3].forEach(doSomething)
+        }
+      `,
+      output: $`
+        function wrap() {
+          return
+          [1,2,3].forEach(doSomething)
+        }
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-      errors: [{
-        messageId: 'extraSemi',
-        line: 4,
-        column: 21,
-        endLine: 4,
-        endColumn: 22,
-      }],
+      errors: [{ messageId: 'extraSemi' }],
     },
     {
-      code: `
-                while (true) {
-                    break
-                    ;[1,2,3].forEach(doSomething)
-                }
-            `,
-      output: `
-                while (true) {
-                    break
-                    [1,2,3].forEach(doSomething)
-                }
-            `,
+      code: $`
+        while (true) {
+          break
+          ;[1,2,3].forEach(doSomething)
+        }
+      `,
+      output: $`
+        while (true) {
+          break
+          [1,2,3].forEach(doSomething)
+        }
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-      errors: [{
-        messageId: 'extraSemi',
-        line: 4,
-        column: 21,
-        endLine: 4,
-        endColumn: 22,
-      }],
+      errors: [{ messageId: 'extraSemi' }],
     },
     {
-      code: `
-                while (true) {
-                    continue
-                    ;[1,2,3].forEach(doSomething)
-                }
-            `,
-      output: `
-                while (true) {
-                    continue
-                    [1,2,3].forEach(doSomething)
-                }
-            `,
+      code: $`
+        while (true) {
+          continue
+          ;[1,2,3].forEach(doSomething)
+        }
+      `,
+      output: $`
+        while (true) {
+          continue
+          [1,2,3].forEach(doSomething)
+        }
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-      errors: [{
-        messageId: 'extraSemi',
-        line: 4,
-        column: 21,
-        endLine: 4,
-        endColumn: 22,
-      }],
+      errors: [{ messageId: 'extraSemi' }],
     },
     {
-      code: `
-                do; while(a)
-                ;[1,2,3].forEach(doSomething)
-            `,
-      output: `
-                do; while(a)
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        do; while(a)
+        ;[1,2,3].forEach(doSomething)
+      `,
+      output: $`
+        do; while(a)
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
-      errors: [{
-        messageId: 'extraSemi',
-        line: 3,
-        column: 17,
-        endLine: 3,
-        endColumn: 18,
-      }],
+      errors: [{ messageId: 'extraSemi' }],
     },
     {
-      code: `
-                const f = () => {}
-                ;[1,2,3].forEach(doSomething)
-            `,
-      output: `
-                const f = () => {}
-                [1,2,3].forEach(doSomething)
-            `,
+      code: $`
+        const f = () => {}
+        ;[1,2,3].forEach(doSomething)
+      `,
+      output: $`
+        const f = () => {}
+        [1,2,3].forEach(doSomething)
+      `,
       options: ['never', { beforeStatementContinuationChars: 'never' }],
       parserOptions: { ecmaVersion: 2015 },
-      errors: [{
-        messageId: 'extraSemi',
-        line: 3,
-        column: 17,
-        endLine: 3,
-        endColumn: 18,
-      }],
+      errors: [{ messageId: 'extraSemi' }],
     },
 
     // Class fields
     {
       code: 'class C { foo }',
       output: 'class C { foo; }',
-
       errors: [{
         messageId: 'missingSemi',
         line: 1,
@@ -2146,7 +2054,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { foo }',
       output: 'class C { foo; }',
       options: ['always'],
-
       errors: [{
         messageId: 'missingSemi',
         line: 1,
@@ -2159,7 +2066,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { foo; }',
       output: 'class C { foo }',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2172,7 +2078,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { foo\n[bar]; }',
       output: 'class C { foo;\n[bar]; }',
       options: ['always'],
-
       errors: [{
         messageId: 'missingSemi',
         line: 1,
@@ -2187,7 +2092,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { [get];\nfoo\n}',
       output: 'class C { [get]\nfoo\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2200,7 +2104,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { [set];\nfoo\n}',
       output: 'class C { [set]\nfoo\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2213,7 +2116,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { #get;\nfoo\n}',
       output: 'class C { #get\nfoo\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2226,7 +2128,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { #set;\nfoo\n}',
       output: 'class C { #set\nfoo\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2239,7 +2140,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { #static;\nfoo\n}',
       output: 'class C { #static\nfoo\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2252,7 +2152,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { get=1;\nfoo\n}',
       output: 'class C { get=1\nfoo\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2265,7 +2164,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static static;\nfoo\n}',
       output: 'class C { static static\nfoo\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,
@@ -2278,7 +2176,6 @@ run<RuleOptions, MessageIds>({
       code: 'class C { static;\n}',
       output: 'class C { static\n}',
       options: ['never'],
-
       errors: [{
         messageId: 'extraSemi',
         line: 1,

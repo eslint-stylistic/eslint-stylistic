@@ -1,13 +1,12 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: KOe_wU0r0lsPla5JCuUUOQFmBSnDNOIm5DXIMsRs3g4 */
+/* @checksum: Cw90UTKsHhPLRv0dTeRqkUFq1z8xJdtpn3CUONfizj4 */
 
 export type JsxMaxPropsPerLineSchema0
   = | {
     maximum?: {
       single?: number
       multi?: number
-      [k: string]: unknown
     }
   }
   | {

@@ -36,7 +36,7 @@ This rule aims to enforce a consistent location for single-line statements.
 
 Note that this rule does not enforce the usage of single-line statements in general. If you would like to disallow single-line statements, use the [`curly`](https://eslint.org/docs/latest/rules/curly) rule instead.
 
-### Options
+## Options
 
 This rule accepts a string option:
 
@@ -54,7 +54,7 @@ Examples of **incorrect** code for this rule with the default `"beside"` option:
 ::: incorrect
 
 ```js
-/* eslint nonblock-statement-body-position: ["error", "beside"] */
+/* eslint @stylistic/nonblock-statement-body-position: ["error", "beside"] */
 
 if (foo)
   bar();
@@ -80,7 +80,7 @@ Examples of **correct** code for this rule with the default `"beside"` option:
 ::: correct
 
 ```js
-/* eslint nonblock-statement-body-position: ["error", "beside"] */
+/* eslint @stylistic/nonblock-statement-body-position: ["error", "beside"] */
 
 if (foo) bar();
 else baz();
@@ -105,7 +105,7 @@ Examples of **incorrect** code for this rule with the `"below"` option:
 ::: incorrect
 
 ```js
-/* eslint nonblock-statement-body-position: ["error", "below"] */
+/* eslint @stylistic/nonblock-statement-body-position: ["error", "below"] */
 
 if (foo) bar();
 else baz();
@@ -124,7 +124,7 @@ Examples of **correct** code for this rule with the `"below"` option:
 ::: correct
 
 ```js
-/* eslint nonblock-statement-body-position: ["error", "below"] */
+/* eslint @stylistic/nonblock-statement-body-position: ["error", "below"] */
 
 if (foo)
   bar();
@@ -155,7 +155,7 @@ Examples of **incorrect** code for this rule with the `"beside", { "overrides": 
 ::: incorrect
 
 ```js
-/* eslint nonblock-statement-body-position: ["error", "beside", { "overrides": { "while": "below" } }] */
+/* eslint @stylistic/nonblock-statement-body-position: ["error", "beside", { "overrides": { "while": "below" } }] */
 
 if (foo)
   bar();
@@ -170,7 +170,7 @@ Examples of **correct** code for this rule with the `"beside", { "overrides": { 
 ::: correct
 
 ```js
-/* eslint nonblock-statement-body-position: ["error", "beside", { "overrides": { "while": "below" } }] */
+/* eslint @stylistic/nonblock-statement-body-position: ["error", "beside", { "overrides": { "while": "below" } }] */
 
 if (foo) bar();
 

@@ -4,9 +4,9 @@
  */
 
 import type { InvalidTestCase } from '#test'
+import type { AST_NODE_TYPES } from '#utils/ast'
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
-import tsParser from '@typescript-eslint/parser'
 import rule from './no-extra-parens'
 
 /**
@@ -19,7 +19,7 @@ import rule from './no-extra-parens'
  * @returns result object
  * @private
  */
-function invalid(code: string, output: string | null, type?: string, line?: number | null, config?: any): InvalidTestCase<RuleOptions, MessageIds> {
+function invalid(code: string, output: string | null, type?: `${AST_NODE_TYPES}`, line?: number | null, config?: any): InvalidTestCase<RuleOptions, MessageIds> {
   return {
     code,
     output,
@@ -39,14 +39,12 @@ run<RuleOptions, MessageIds>({
   name: 'no-extra-parens',
   rule,
   lang: 'js',
-
   parserOptions: {
     sourceType: 'script',
     ecmaFeatures: {
       jsx: true,
     },
   },
-
   valid: [
     // all precedence boundaries
     'foo',
@@ -350,40 +348,49 @@ run<RuleOptions, MessageIds>({
     'function *a() { yield b + c; }',
     'function *a() { (yield b) + c; }',
 
+    // https://github.com/eslint-stylistic/eslint-stylistic/pull/738
+    $`
+      function a() {
+        return (
+          a % b == 0
+        )
+      }
+    `,
+
     // https://github.com/eslint/eslint/issues/4229
-    [
-      'function a() {',
-      '    return (',
-      '        b',
-      '    );',
-      '}',
-    ].join('\n'),
-    [
-      'function a() {',
-      '    return (',
-      '        <JSX />',
-      '    );',
-      '}',
-    ].join('\n'),
-    [
-      'function a() {',
-      '    return (',
-      '        <></>',
-      '    );',
-      '}',
-    ].join('\n'),
-    [
-      'throw (',
-      '    a',
-      ');',
-    ].join('\n'),
-    [
-      'function *a() {',
-      '    yield (',
-      '        b',
-      '    );',
-      '}',
-    ].join('\n'),
+    $`
+      function a() {
+          return (
+              b
+          );
+      }
+    `,
+    $`
+      function a() {
+          return (
+              <JSX />
+          );
+      }
+    `,
+    $`
+      function a() {
+          return (
+              <></>
+          );
+      }
+    `,
+    $`
+      throw (
+          a
+      );
+    `,
+    $`
+      function *a() {
+          yield (
+              b
+          );
+      }
+    `,
 
     // linebreaks before postfix update operators are not allowed
     '(a\n)++',
@@ -418,7 +425,20 @@ run<RuleOptions, MessageIds>({
     '(async function () { }());',
 
     // ["all", { ignoreJSX: "all" }]
-    { code: 'const Component = (<div />)', options: ['all', { ignoreJSX: 'all' }] },
+    {
+      code: 'const Component = (<div />)',
+      options: ['all', { ignoreJSX: 'all' }],
+    },
+    {
+      code: $`
+        const Component = (
+            <div
+                prop={true}
+            />
+        )
+      `,
+      options: ['all', { ignoreJSX: 'all' }],
+    },
     { code: 'const Component = ((<div />))', options: ['all', { ignoreJSX: 'all' }] },
     {
       code: [
@@ -461,14 +481,24 @@ run<RuleOptions, MessageIds>({
     },
 
     // ["all", { ignoreJSX: "single-line" }]
-    { code: 'const Component = (<div />);', options: ['all', { ignoreJSX: 'single-line' }] },
-    { code: 'const Component = ((<div />));', options: ['all', { ignoreJSX: 'single-line' }] },
     {
-      code: [
-        'const Component = (',
-        '  <div />',
-        ');',
-      ].join('\n'),
+      code: 'const Component = (<div />);',
+      options: ['all', { ignoreJSX: 'single-line' }],
+    },
+    {
+      code: 'const Component = ((<div />));',
+      options: ['all', { ignoreJSX: 'single-line' }],
+    },
+    {
+      code: 'const Component = (<div><p /></div>)',
+      options: ['all', { ignoreJSX: 'single-line' }],
+    },
+    {
+      code: $`
+        const Component = (
+          <div />
+        );
+      `,
       options: ['all', { ignoreJSX: 'single-line' }],
     },
     {
@@ -527,9 +557,22 @@ run<RuleOptions, MessageIds>({
     },
 
     // ["all", { enforceForArrowConditionals: false }]
-    { code: 'var a = b => 1 ? 2 : 3', options: ['all', { enforceForArrowConditionals: false }] },
-    { code: 'var a = (b) => (1 ? 2 : 3)', options: ['all', { enforceForArrowConditionals: false }] },
-    { code: 'var a = (b) => ((1 ? 2 : 3))', options: ['all', { enforceForArrowConditionals: false }] },
+    {
+      code: 'var a = b => 1 ? 2 : 3',
+      options: ['all', { enforceForArrowConditionals: false }],
+    },
+    {
+      code: 'var a = b => (1 ? 2 : 3)',
+      options: ['all', { enforceForArrowConditionals: false }],
+    },
+    {
+      code: 'var a = (b) => (1 ? 2 : 3)',
+      options: ['all', { enforceForArrowConditionals: false }],
+    },
+    {
+      code: 'var a = (b) => ((1 ? 2 : 3))',
+      options: ['all', { enforceForArrowConditionals: false }],
+    },
 
     // ["all", { enforceForSequenceExpressions: false }]
     { code: '(a, b)', options: ['all', { enforceForSequenceExpressions: false }] },
@@ -730,7 +773,35 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2020 },
     },
     {
+      code: '(0).toString();',
+      options: ['functions'],
+    },
+    {
       code: '(Object.prototype.toString.call())',
+      options: ['functions'],
+    },
+    {
+      code: '({}.toString.call());',
+      options: ['functions'],
+    },
+    {
+      code: '(function(){} ? a() : b());',
+      options: ['functions'],
+    },
+    {
+      code: '(/^a$/).test(x);',
+      options: ['functions'],
+    },
+    {
+      code: 'a = (b * c);',
+      options: ['functions'],
+    },
+    {
+      code: '(a * b) + c;',
+      options: ['functions'],
+    },
+    {
+      code: 'typeof (a);',
       options: ['functions'],
     },
 
@@ -788,10 +859,55 @@ run<RuleOptions, MessageIds>({
       options: ['functions'],
     },
 
-    // https://github.com/eslint/eslint/issues/17173
     {
-      code: 'const x = (1 satisfies number).toFixed();',
-      parser: tsParser,
+      code: $`
+        const x = [
+          ...a ? [1, 2, 3] : [],
+          ...(a ? [1, 2, 3] : []),
+        ]
+      `,
+      options: ['all', { allowNodesInSpreadElement: { ConditionalExpression: true } }],
+    },
+    {
+      code: $`
+        const x = [
+          ...b ?? c,
+          ...(b ?? c),
+        ]
+      `,
+      options: ['all', { allowNodesInSpreadElement: { LogicalExpression: true } }],
+    },
+    {
+      code: $`
+        const fruits = {
+          ...isSummer && { watermelon: 30 },
+          ...(isSummer && { watermelon: 30 }),
+        };
+      `,
+      options: ['all', { allowNodesInSpreadElement: { LogicalExpression: true } }],
+    },
+    {
+      code: $`
+        async function example() {
+          const promiseArray = Promise.resolve([1, 2, 3]);
+          console.log(...(await promiseArray));
+        }
+      `,
+      options: ['all', { allowNodesInSpreadElement: { AwaitExpression: true } }],
+    },
+    {
+      code: $`
+        const x = [
+          ...a ? [1, 2, 3] : [],
+          ...(a ? [1, 2, 3] : []),
+        ]
+        
+        const fruits = {
+          ...isSummer && { watermelon: 30 },
+          ...(isSummer && { watermelon: 30 }),
+        };
+      `,
+      options: ['all', { allowNodesInSpreadElement: { LogicalExpression: true, ConditionalExpression: true } }],
     },
   ],
 
@@ -1012,6 +1128,30 @@ run<RuleOptions, MessageIds>({
     invalid('0, (_ => 0)', '0, _ => 0', 'ArrowFunctionExpression', 1, { options: ['functions'] }),
     invalid('(_ => 0), 0', '_ => 0, 0', 'ArrowFunctionExpression', 1, { options: ['functions'] }),
     invalid('a = (_ => 0)', 'a = _ => 0', 'ArrowFunctionExpression', 1, { options: ['functions'] }),
+
+    {
+      code: $`
+        var y = (function () {return 1;});
+      `,
+      output: $`
+        var y = function () {return 1;};
+      `,
+      options: ['functions'],
+      errors: [{ messageId: 'unexpected', column: 9 }],
+    },
+    {
+      code: $`
+        function fn(){
+          return (a==b)
+        }
+      `,
+      output: $`
+        function fn(){
+          return a==b
+        }
+      `,
+      errors: [{ messageId: 'unexpected' }],
+    },
 
     invalid('while ((foo = bar())) {}', 'while (foo = bar()) {}', 'AssignmentExpression'),
     invalid('while ((foo = bar())) {}', 'while (foo = bar()) {}', 'AssignmentExpression', 1, { options: ['all', { conditionalAssign: true }] }),
@@ -1314,6 +1454,78 @@ run<RuleOptions, MessageIds>({
           messageId: 'unexpected',
           type: 'AssignmentExpression',
         },
+      ],
+    },
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/699
+    {
+      code: `
+        ((a, b) => {
+          return (
+            a % b == 0
+          ) || (a % b == 1)
+        })()
+      `,
+      output: `
+        ((a, b) => {
+          return (
+            a % b == 0
+          ) || a % b == 1
+        })()
+      `,
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: `
+        ((a, b) => {
+          return (
+            (a % b == 0)
+            || a % b == 1
+          )
+        })()
+      `,
+      output: `
+        ((a, b) => {
+          return (
+            a % b == 0
+            || a % b == 1
+          )
+        })()
+      `,
+      errors: [{ messageId: 'unexpected' }],
+    },
+    {
+      code: `
+        ((a, b) => {
+          return (a % b == 0)
+            || (a % b == 1)
+        })()
+      `,
+      output: `
+        ((a, b) => {
+          return a % b == 0
+            || a % b == 1
+        })()
+      `,
+      errors: [
+        { messageId: 'unexpected' },
+        { messageId: 'unexpected' },
+      ],
+    },
+    {
+      code: `
+        (a, b) => {
+          return (a % b == 0) || (a % b == 1)
+        }
+      `,
+      output: `
+        (a, b) => {
+          return a % b == 0 || a % b == 1
+        }
+      `,
+      errors: [
+        { messageId: 'unexpected' },
+        { messageId: 'unexpected' },
       ],
     },
 
@@ -2359,6 +2571,7 @@ run<RuleOptions, MessageIds>({
     ),
 
     invalid('for (a in (b, c));', 'for (a in b, c);', 'SequenceExpression', null),
+    invalid('for (a of (b));', 'for (a of b);', 'Identifier'),
     invalid(
       '(let)',
       'let',

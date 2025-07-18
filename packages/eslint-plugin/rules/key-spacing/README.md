@@ -28,7 +28,7 @@ This rule has an object option:
   - `"value"`: enforces horizontal alignment of values in object literals.
   - `"colon"` enforces horizontal alignment of both colons and values in object literals.
 - `"align"` with an object value allows for fine-grained spacing when values are being aligned in object literals.
-- `"ignoredNodes"` can be used to disable spacing checking for the AST node. It can be used to resolve conflicts with [`type-annotation-spacing`](../ts/type-annotation-spacing).
+- `"ignoredNodes"` can be used to disable spacing checking for the AST node. It can be used to resolve conflicts with [`type-annotation-spacing`](type-annotation-spacing).
 - `"singleLine"` specifies a spacing style for single-line object literals.
 - `"multiLine"` specifies a spacing style for multi-line object literals.
 
@@ -41,7 +41,7 @@ Examples of **incorrect** code for this rule with the default `{ "beforeColon": 
 ::: incorrect
 
 ```js
-/*eslint key-spacing: ["error", { "beforeColon": false }]*/
+/* eslint @stylistic/key-spacing: ["error", { "beforeColon": false }] */
 
 var obj = { "foo" : 42 };
 ```
@@ -53,7 +53,7 @@ Examples of **correct** code for this rule with the default `{ "beforeColon": fa
 ::: correct
 
 ```js
-/*eslint key-spacing: ["error", { "beforeColon": false }]*/
+/* eslint @stylistic/key-spacing: ["error", { "beforeColon": false }] */
 
 var obj = { "foo": 42 };
 ```
@@ -65,7 +65,7 @@ Examples of **incorrect** code for this rule with the `{ "beforeColon": true }` 
 ::: incorrect
 
 ```js
-/*eslint key-spacing: ["error", { "beforeColon": true }]*/
+/* eslint @stylistic/key-spacing: ["error", { "beforeColon": true }] */
 
 var obj = { "foo": 42 };
 ```
@@ -77,7 +77,7 @@ Examples of **correct** code for this rule with the `{ "beforeColon": true }` op
 ::: correct
 
 ```js
-/*eslint key-spacing: ["error", { "beforeColon": true }]*/
+/* eslint @stylistic/key-spacing: ["error", { "beforeColon": true }] */
 
 var obj = { "foo" : 42 };
 ```
@@ -91,7 +91,7 @@ Examples of **incorrect** code for this rule with the default `{ "afterColon": t
 ::: incorrect
 
 ```js
-/*eslint key-spacing: ["error", { "afterColon": true }]*/
+/* eslint @stylistic/key-spacing: ["error", { "afterColon": true }] */
 
 var obj = { "foo":42 };
 ```
@@ -103,7 +103,7 @@ Examples of **correct** code for this rule with the default `{ "afterColon": tru
 ::: correct
 
 ```js
-/*eslint key-spacing: ["error", { "afterColon": true }]*/
+/* eslint @stylistic/key-spacing: ["error", { "afterColon": true }] */
 
 var obj = { "foo": 42 };
 ```
@@ -115,7 +115,7 @@ Examples of **incorrect** code for this rule with the `{ "afterColon": false }` 
 ::: incorrect
 
 ```js
-/*eslint key-spacing: ["error", { "afterColon": false }]*/
+/* eslint @stylistic/key-spacing: ["error", { "afterColon": false }] */
 
 var obj = { "foo": 42 };
 ```
@@ -127,7 +127,7 @@ Examples of **correct** code for this rule with the `{ "afterColon": false }` op
 ::: correct
 
 ```js
-/*eslint key-spacing: ["error", { "afterColon": false }]*/
+/* eslint @stylistic/key-spacing: ["error", { "afterColon": false }] */
 
 var obj = { "foo":42 };
 ```
@@ -141,7 +141,7 @@ Examples of **incorrect** code for this rule with the default `{ "mode": "strict
 ::: incorrect
 
 ```js
-/*eslint key-spacing: ["error", { "mode": "strict" }]*/
+/* eslint @stylistic/key-spacing: ["error", { "mode": "strict" }] */
 
 call({
     foobar: 42,
@@ -156,7 +156,7 @@ Examples of **correct** code for this rule with the default `{ "mode": "strict" 
 ::: correct
 
 ```js
-/*eslint key-spacing: ["error", { "mode": "strict" }]*/
+/* eslint @stylistic/key-spacing: ["error", { "mode": "strict" }] */
 
 call({
     foobar: 42,
@@ -171,7 +171,7 @@ Examples of **correct** code for this rule with the `{ "mode": "minimum" }` opti
 ::: correct
 
 ```js
-/*eslint key-spacing: ["error", { "mode": "minimum" }]*/
+/* eslint @stylistic/key-spacing: ["error", { "mode": "minimum" }] */
 
 call({
     foobar: 42,
@@ -188,7 +188,7 @@ Examples of **incorrect** code for this rule with the `{ "align": "value" }` opt
 ::: incorrect
 
 ```js
-/*eslint key-spacing: ["error", { "align": "value" }]*/
+/* eslint @stylistic/key-spacing: ["error", { "align": "value" }] */
 
 var obj = {
     a: value,
@@ -204,7 +204,7 @@ Examples of **correct** code for this rule with the `{ "align": "value" }` optio
 ::: correct
 
 ```js
-/*eslint key-spacing: ["error", { "align": "value" }]*/
+/* eslint @stylistic/key-spacing: ["error", { "align": "value" }] */
 
 var obj = {
     a:    value,
@@ -227,7 +227,7 @@ Examples of **incorrect** code for this rule with the `{ "align": "colon" }` opt
 ::: incorrect
 
 ```js
-/*eslint key-spacing: ["error", { "align": "colon" }]*/
+/* eslint @stylistic/key-spacing: ["error", { "align": "colon" }] */
 
 call({
     foobar: 42,
@@ -242,7 +242,7 @@ Examples of **correct** code for this rule with the `{ "align": "colon" }` optio
 ::: correct
 
 ```js
-/*eslint key-spacing: ["error", { "align": "colon" }]*/
+/* eslint @stylistic/key-spacing: ["error", { "align": "colon" }] */
 
 call({
     foobar: 42,
@@ -273,13 +273,13 @@ Examples of **correct** code for this rule with sample `{ "align": { } }` option
 ::: correct
 
 ```js
-/*eslint key-spacing: ["error", {
+/* eslint @stylistic/key-spacing: ["error", {
     "align": {
         "beforeColon": true,
         "afterColon": true,
         "on": "colon"
     }
-}]*/
+}] */
 
 var obj = {
     "one"   : 1,
@@ -292,13 +292,13 @@ var obj = {
 ::: correct
 
 ```js
-/*eslint key-spacing: ["error", {
+/* eslint @stylistic/key-spacing: ["error", {
     "align": {
         "beforeColon": false,
         "afterColon": false,
         "on": "value"
     }
-}]*/
+}] */
 
 var obj = {
     "one":  1,
@@ -317,7 +317,8 @@ Examples of **correct** code for this rule with sample `{ "ignoredNodes": [] }` 
 ::: correct
 
 ```js
-/*eslint key-spacing: [2, { "ignoredNodes": ["ObjectExpression"] }]*/
+/* eslint @stylistic/key-spacing: [2, { "ignoredNodes": ["ObjectExpression"] }] */
+
 var obj = {
     a: 1,
     b : 2,
@@ -330,7 +331,8 @@ var obj = {
 ::: correct
 
 ```js
-/*eslint key-spacing: [2, { "ignoredNodes": ["ObjectPattern"] }]*/
+/* eslint @stylistic/key-spacing: [2, { "ignoredNodes": ["ObjectPattern"] }] */
+
 var {
     a: b,
     c : d,
@@ -363,7 +365,7 @@ Examples of **incorrect** code for this rule with sample `{ "align": { }, "multi
 ::: incorrect
 
 ```js
-/*eslint key-spacing: ["error", {
+/* eslint @stylistic/key-spacing: ["error", {
     "multiLine": {
         "beforeColon": false,
         "afterColon":true
@@ -373,7 +375,7 @@ Examples of **incorrect** code for this rule with sample `{ "align": { }, "multi
         "afterColon": true,
         "on": "colon"
     }
-}]*/
+}] */
 
 var obj = {
     "myObjectFunction": function() {
@@ -391,7 +393,7 @@ Examples of **correct** code for this rule with sample `{ "align": { }, "multiLi
 ::: correct
 
 ```js
-/*eslint key-spacing: ["error", {
+/* eslint @stylistic/key-spacing: ["error", {
     "multiLine": {
         "beforeColon": false,
         "afterColon": true
@@ -402,7 +404,7 @@ Examples of **correct** code for this rule with sample `{ "align": { }, "multiLi
         "afterColon": true,
         "on": "colon"
     }
-}]*/
+}] */
 
 var obj = {
     "myObjectFunction": function() {
@@ -423,7 +425,7 @@ Examples of **correct** code for this rule with sample `{ "singleLine": { }, "mu
 ::: correct
 
 ```js
-/*eslint key-spacing: [2, {
+/* eslint @stylistic/key-spacing: [2, {
     "singleLine": {
         "beforeColon": false,
         "afterColon": true
@@ -433,7 +435,8 @@ Examples of **correct** code for this rule with sample `{ "singleLine": { }, "mu
         "afterColon": true,
         "align": "colon"
     }
-}]*/
+}] */
+
 var obj = { one: 1, "two": 2, three: 3 };
 var obj2 = {
     "two" : 2,

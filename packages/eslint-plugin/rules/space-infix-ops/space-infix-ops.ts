@@ -1,8 +1,7 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { AST_NODE_TYPES, AST_TOKEN_TYPES, isNotOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
-import { isNotOpeningParenToken } from '@typescript-eslint/utils/ast-utils'
 
 const UNIONS = ['|', '&']
 
@@ -193,7 +192,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node The node to report
      */
     function checkForPropertyDefinitionAssignmentSpace(
-      node: Tree.PropertyDefinition,
+      node: Tree.PropertyDefinition | Tree.AccessorProperty,
     ): void {
       const leftNode
         = node.optional && !node.typeAnnotation
@@ -264,6 +263,7 @@ export default createRule<RuleOptions, MessageIds>({
       VariableDeclarator: checkVar,
       TSEnumMember: checkForEnumAssignmentSpace,
       PropertyDefinition: checkForPropertyDefinitionAssignmentSpace,
+      AccessorProperty: checkForPropertyDefinitionAssignmentSpace,
       TSTypeAliasDeclaration: checkForTypeAliasAssignment,
       TSUnionType: checkForTypeAnnotationSpace,
       TSIntersectionType: checkForTypeAnnotationSpace,

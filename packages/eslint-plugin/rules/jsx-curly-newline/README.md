@@ -36,111 +36,147 @@ or an
 
 Examples of **incorrect** code for this rule, when configured with `consistent` or `{ multiline: "consistent", singleline: "consistent" }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-newline: "error" */
+
 <div>
   { foo
   }
-</div>
+</div>;
 
 <div>
   {
     foo }
-</div>
+</div>;
 
 <div>
   { foo &&
     foo.bar
   }
-</div>
+</div>;
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-newline: "error" */
+
 <div>
   { foo }
-</div>
+</div>;
 
 <div>
   {
     foo
   }
-</div>
+</div>;
 ```
+
+:::
 
 ### never
 
 Examples of **incorrect** code for this rule, when configured with `never` or `{ multiline: "forbid", singleline: "forbid" }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-newline: ["error", "never"] */
+
 <div>
   {
     foo &&
     foo.bar
   }
-</div>
+</div>;
 
 <div>
   {
     foo
   }
-</div>
+</div>;
 
 <div>
   { foo
   }
-</div>
+</div>;
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-newline: ["error", "never"] */
+
 <div>
   { foo &&
     foo.bar }
-</div>
+</div>;
 
 <div>
   { foo }
-</div>
+</div>;
 ```
 
-## require
+:::
+
+### require
 
 Examples of **incorrect** code for this rule, when configured with `{ multiline: "require", singleline: "require" }`:
 
+::: incorrect
+
 ```jsx
+/* eslint @stylistic/jsx-curly-newline: ["error", { multiline: "require", singleline: "require" }] */
+
 <div>
   { foo &&
     foo.bar }
-</div>
+</div>;
 
 <div>
   { foo }
-</div>
+</div>;
 
 <div>
   { foo
   }
-</div>
+</div>;
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-curly-newline: ["error", { multiline: "require", singleline: "require" }] */
+
 <div>
   {
     foo &&
     foo.bar
   }
-</div>
+</div>;
 
 <div>
   {
     foo
   }
-</div>
+</div>;
 ```
+
+:::
 
 ## When Not To Use It
 

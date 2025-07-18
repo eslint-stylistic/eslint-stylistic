@@ -139,8 +139,8 @@ export default createRule<RuleOptions, MessageIds>({
        * value equals the operator, in order to skip possible opening parentheses before the right side node.
        */
       const operatorToken = sourceCode.getTokenBefore(rightSide, token => token.value === operator)!
-      const leftToken = sourceCode.getTokenBefore(operatorToken)
-      const rightToken = sourceCode.getTokenAfter(operatorToken)
+      const leftToken = sourceCode.getTokenBefore(operatorToken)!
+      const rightToken = sourceCode.getTokenAfter(operatorToken)!
       const operatorStyleOverride = styleOverrides[operator]
       const style = operatorStyleOverride || globalStyle
       const fix = getFixer(operatorToken, style)
@@ -217,6 +217,10 @@ export default createRule<RuleOptions, MessageIds>({
           validateNode(node, node.init, '=')
       },
       PropertyDefinition(node) {
+        if (node.value)
+          validateNode(node, node.value, '=')
+      },
+      AccessorProperty(node) {
         if (node.value)
           validateNode(node, node.value, '=')
       },

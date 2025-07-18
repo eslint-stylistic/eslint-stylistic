@@ -8,8 +8,6 @@ rule_type: layout
 JavaScript allows you to define strings in one of three ways: double quotes, single quotes, and backticks (as of ECMAScript 6). For example:
 
 ```js
-/*eslint-env es6*/
-
 var double = "double";
 var single = 'single';
 var backtick = `backtick`;    // ES6 only
@@ -54,7 +52,7 @@ Examples of **incorrect** code for this rule with the default `"double"` option:
 ::: incorrect
 
 ```js
-/*eslint quotes: ["error", "double"]*/
+/* eslint @stylistic/quotes: ["error", "double"] */
 
 var single = 'single';
 var unescaped = 'a string containing "double" quotes';
@@ -68,8 +66,7 @@ Examples of **correct** code for this rule with the default `"double"` option:
 ::: correct
 
 ```js
-/*eslint quotes: ["error", "double"]*/
-/*eslint-env es6*/
+/* eslint @stylistic/quotes: ["error", "double"] */
 
 var double = "double";
 var backtick = `back
@@ -86,7 +83,7 @@ Examples of **incorrect** code for this rule with the `"single"` option:
 ::: incorrect
 
 ```js
-/*eslint quotes: ["error", "single"]*/
+/* eslint @stylistic/quotes: ["error", "single"] */
 
 var double = "double";
 var unescaped = "a string containing 'single' quotes";
@@ -99,8 +96,7 @@ Examples of **correct** code for this rule with the `"single"` option:
 ::: correct
 
 ```js
-/*eslint quotes: ["error", "single"]*/
-/*eslint-env es6*/
+/* eslint @stylistic/quotes: ["error", "single"] */
 
 var single = 'single';
 var backtick = `back${x}tick`; // backticks are allowed due to substitution
@@ -115,7 +111,7 @@ Examples of **incorrect** code for this rule with the `"backtick"` option:
 ::: incorrect
 
 ```js
-/*eslint quotes: ["error", "backtick"]*/
+/* eslint @stylistic/quotes: ["error", "backtick"] */
 
 var single = 'single';
 var double = "double";
@@ -129,8 +125,7 @@ Examples of **correct** code for this rule with the `"backtick"` option:
 ::: correct
 
 ```js
-/*eslint quotes: ["error", "backtick"]*/
-/*eslint-env es6*/
+/* eslint @stylistic/quotes: ["error", "backtick"] */
 
 "use strict"; // directives must use single or double quotes
 var backtick = `backtick`;
@@ -146,7 +141,7 @@ Examples of additional **correct** code for this rule with the `"double", { "avo
 ::: correct
 
 ```js
-/*eslint quotes: ["error", "double", { "avoidEscape": true }]*/
+/* eslint @stylistic/quotes: ["error", "double", { "avoidEscape": true }] */
 
 var single = 'a string containing "double" quotes';
 ```
@@ -158,7 +153,7 @@ Examples of additional **correct** code for this rule with the `"single", { "avo
 ::: correct
 
 ```js
-/*eslint quotes: ["error", "single", { "avoidEscape": true }]*/
+/* eslint @stylistic/quotes: ["error", "single", { "avoidEscape": true }] */
 
 var double = "a string containing 'single' quotes";
 ```
@@ -170,7 +165,7 @@ Examples of additional **correct** code for this rule with the `"backtick", { "a
 ::: correct
 
 ```js
-/*eslint quotes: ["error", "backtick", { "avoidEscape": true }]*/
+/* eslint @stylistic/quotes: ["error", "backtick", { "avoidEscape": true }] */
 
 var double = "a string containing `backtick` quotes"
 ```
@@ -184,7 +179,7 @@ Examples of additional **correct** code for this rule with the `"double", { "all
 ::: correct
 
 ```js
-/*eslint quotes: ["error", "double", { "allowTemplateLiterals": true }]*/
+/* eslint @stylistic/quotes: ["error", "double", { "allowTemplateLiterals": true }] */
 
 var double = "double";
 var double = `double`;
@@ -197,7 +192,7 @@ Examples of additional **correct** code for this rule with the `"single", { "all
 ::: correct
 
 ```js
-/*eslint quotes: ["error", "single", { "allowTemplateLiterals": true }]*/
+/* eslint @stylistic/quotes: ["error", "single", { "allowTemplateLiterals": true }] */
 
 var single = 'single';
 var single = `single`;
@@ -205,7 +200,7 @@ var single = `single`;
 
 :::
 
-`{ "allowTemplateLiterals": false }` will not disallow the usage of all template literals. If you want to forbid any instance of template literals, use [no-restricted-syntax](no-restricted-syntax) and target the `TemplateLiteral` selector.
+`{ "allowTemplateLiterals": false }` will not disallow the usage of all template literals. If you want to forbid any instance of template literals, use [no-restricted-syntax](https://eslint.org/docs/latest/rules/no-restricted-syntax) and target the `TemplateLiteral` selector.
 
 ## When Not To Use It
 

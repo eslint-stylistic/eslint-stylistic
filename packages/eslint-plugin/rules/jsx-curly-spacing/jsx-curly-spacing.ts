@@ -9,8 +9,9 @@
  * @author Erik Wendel
  */
 
-import type { ASTNode, RuleFixer, Token, Tree } from '#types'
-import type { BasicConfig, MessageIds, RuleOptions } from './types'
+import type { ASTNode, JSONSchema, RuleFixer, Token } from '#types'
+import type { MessageIds, RuleOptions } from './types'
+import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const SPACING = {
@@ -28,6 +29,45 @@ const messages = {
   spaceNeededBefore: 'A space is required before \'{{token}}\'',
 }
 
+const BASIC_CONFIG_SCHEMA = {
+  type: 'object',
+  properties: {
+    when: {
+      type: 'string',
+      enum: SPACING_VALUES,
+    },
+    allowMultiline: {
+      type: 'boolean',
+    },
+    spacing: {
+      type: 'object',
+      properties: {
+        objectLiterals: {
+          type: 'string',
+          enum: SPACING_VALUES,
+        },
+      },
+      additionalProperties: false,
+    },
+  },
+  additionalProperties: false,
+} satisfies JSONSchema.JSONSchema4ObjectSchema
+
+const BASIC_CONFIG_OR_BOOLEAN_SCHEMA = {
+  anyOf: [
+    BASIC_CONFIG_SCHEMA,
+    {
+      type: 'boolean',
+    },
+  ],
+} satisfies JSONSchema.JSONSchema4AnyOfSchema
+
+type BasicConfig = Pick<Extract<RuleOptions[0], { when?: any }>, keyof typeof BASIC_CONFIG_SCHEMA['properties']>
+
+interface NormalizedConfig extends BasicConfig {
+  objectLiteralSpaces?: 'always' | 'never'
+}
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-curly-spacing',
   meta: {
@@ -40,56 +80,23 @@ export default createRule<RuleOptions, MessageIds>({
     messages,
 
     schema: {
-      definitions: {
-        basicConfig: {
-          type: 'object',
-          properties: {
-            when: {
-              type: 'string',
-              enum: SPACING_VALUES,
-            },
-            allowMultiline: {
-              type: 'boolean',
-            },
-            spacing: {
-              type: 'object',
-              properties: {
-                objectLiterals: {
-                  type: 'string',
-                  enum: SPACING_VALUES,
-                },
-              },
-            },
-          },
-        },
-        basicConfigOrBoolean: {
-          anyOf: [{
-            $ref: '#/definitions/basicConfig',
-          }, {
-            type: 'boolean',
-          }],
-        },
-      },
       type: 'array',
       items: [{
-        anyOf: [{
-          allOf: [{
-            $ref: '#/definitions/basicConfig',
-          }, {
+        anyOf: [
+          {
             type: 'object',
+            additionalProperties: false,
             properties: {
-              attributes: {
-                $ref: '#/definitions/basicConfigOrBoolean',
-              },
-              children: {
-                $ref: '#/definitions/basicConfigOrBoolean',
-              },
+              ...BASIC_CONFIG_SCHEMA.properties,
+              attributes: BASIC_CONFIG_OR_BOOLEAN_SCHEMA,
+              children: BASIC_CONFIG_OR_BOOLEAN_SCHEMA,
             },
-          }],
-        }, {
-          type: 'string',
-          enum: SPACING_VALUES,
-        }],
+          },
+          {
+            type: 'string',
+            enum: SPACING_VALUES,
+          },
+        ],
       }, {
         type: 'object',
         properties: {
@@ -104,6 +111,7 @@ export default createRule<RuleOptions, MessageIds>({
                 enum: SPACING_VALUES,
               },
             },
+            additionalProperties: false,
           },
         },
         additionalProperties: false,
@@ -112,11 +120,11 @@ export default createRule<RuleOptions, MessageIds>({
   },
 
   create(context) {
-    function normalizeConfig(configOrTrue: RuleOptions[0] | true, defaults: BasicConfig, lastPass: boolean = false) {
+    function normalizeConfig(configOrTrue: RuleOptions[0] | true, defaults: NormalizedConfig, lastPass: boolean = false): NormalizedConfig {
       const config = configOrTrue === true ? {} : configOrTrue as NonStringConfig
-      const when = (config as BasicConfig).when || defaults.when
+      const when = config.when || defaults.when
       const allowMultiline = 'allowMultiline' in config ? config.allowMultiline : defaults.allowMultiline
-      const spacing = (config as BasicConfig).spacing || {}
+      const spacing = config.spacing || {}
       let objectLiteralSpaces = spacing.objectLiterals || defaults.objectLiteralSpaces
       if (lastPass) {
         // On the final pass assign the values that should be derived from others if they are still undefined
@@ -152,16 +160,6 @@ export default createRule<RuleOptions, MessageIds>({
     const childrenConfig = children ? normalizeConfig(children, defaultConfig, true) : null
 
     /**
-     * Determines whether two adjacent tokens have a newline between them.
-     * @param - The left token object.
-     * @param right - The right token object.
-     * @returns Whether or not there is a newline between the tokens.
-     */
-    function isMultiline(left: Tree.Token, right: Tree.Token) {
-      return left.loc.end.line !== right.loc.start.line
-    }
-
-    /**
      * Trims text of whitespace between two ranges
      * @param fixer - the eslint fixer object
      * @param fromLoc - the start location
@@ -191,7 +189,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param token - The token to use for the report.
      * @param spacing
      */
-    function reportNoBeginningNewline(node: ASTNode, token: Tree.Token, spacing: string) {
+    function reportNoBeginningNewline(node: ASTNode, token: Token, spacing: string) {
       context.report({
         node,
         loc: token.loc.start,
@@ -364,23 +362,23 @@ export default createRule<RuleOptions, MessageIds>({
       if (spacing === SPACING.always) {
         if (!sourceCode.isSpaceBetween(first, second))
           reportRequiredBeginningSpace(node, first)
-        else if (!config.allowMultiline && isMultiline(first, second))
+        else if (!config.allowMultiline && !isTokenOnSameLine(first, second))
           reportNoBeginningNewline(node, first, spacing)
 
         if (!sourceCode.isSpaceBetween(penultimate, last))
           reportRequiredEndingSpace(node, last)
-        else if (!config.allowMultiline && isMultiline(penultimate, last))
+        else if (!config.allowMultiline && !isTokenOnSameLine(penultimate, last))
           reportNoEndingNewline(node, last, spacing)
       }
       else if (spacing === SPACING.never) {
-        if (isMultiline(first, second)) {
+        if (!isTokenOnSameLine(first, second)) {
           if (!config.allowMultiline)
             reportNoBeginningNewline(node, first, spacing)
         }
         else if (sourceCode.isSpaceBetween(first, second)) {
           reportNoBeginningSpace(node, first)
         }
-        if (isMultiline(penultimate, last)) {
+        if (!isTokenOnSameLine(penultimate, last)) {
           if (!config.allowMultiline)
             reportNoEndingNewline(node, last, spacing)
         }

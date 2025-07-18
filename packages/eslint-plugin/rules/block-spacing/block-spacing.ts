@@ -1,10 +1,9 @@
-import type { Tree } from '#types'
+import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { AST_TOKEN_TYPES, isClosingBraceToken, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { AST_TOKEN_TYPES } from '@typescript-eslint/utils'
-import { isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
-type SupportedNodes = Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement | Tree.TSInterfaceBody | Tree.TSTypeLiteral | Tree.TSEnumDeclaration
+type SupportedNodes = Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'block-spacing',
@@ -37,8 +36,7 @@ export default createRule<RuleOptions, MessageIds>({
       // guaranteed for enums
       // This is the only change made here from the base rule
       return sourceCode.getFirstToken(node, {
-        filter: token =>
-          token.type === AST_TOKEN_TYPES.Punctuator && token.value === '{',
+        filter: token => isOpeningBraceToken(token),
       }) as Tree.PunctuatorToken
     }
 
@@ -53,7 +51,7 @@ export default createRule<RuleOptions, MessageIds>({
      *    When the option is `"never"`, `true` if there are not any spaces between given tokens.
      *    If given tokens are not on same line, it's always `true`.
      */
-    function isValid(left: Tree.Token, right: Tree.Token): boolean {
+    function isValid(left: Token, right: Token): boolean {
       return (
         !isTokenOnSameLine(left, right)
         || sourceCode.isSpaceBetween!(left, right) === always
@@ -76,10 +74,8 @@ export default createRule<RuleOptions, MessageIds>({
 
       // Skip if the node is invalid or empty.
       if (
-        openBrace.type !== AST_TOKEN_TYPES.Punctuator
-        || openBrace.value !== '{'
-        || closeBrace.type !== AST_TOKEN_TYPES.Punctuator
-        || closeBrace.value !== '}'
+        !isOpeningBraceToken(openBrace)
+        || !isClosingBraceToken(closeBrace)
         || firstToken === closeBrace
       ) {
         return
@@ -145,14 +141,6 @@ export default createRule<RuleOptions, MessageIds>({
       BlockStatement: checkSpacingInsideBraces,
       StaticBlock: checkSpacingInsideBraces,
       SwitchStatement: checkSpacingInsideBraces,
-
-      // This code worked "out of the box" for interface and type literal
-      // Enums were very close to match as well, the only reason they are not is that was that enums don't have a body node in the parser
-      // So the opening brace punctuator starts in the middle of the node - `getFirstToken` in
-      // the base rule did not filter for the first opening brace punctuator
-      TSInterfaceBody: checkSpacingInsideBraces,
-      TSTypeLiteral: checkSpacingInsideBraces,
-      TSEnumDeclaration: checkSpacingInsideBraces,
     }
   },
 })

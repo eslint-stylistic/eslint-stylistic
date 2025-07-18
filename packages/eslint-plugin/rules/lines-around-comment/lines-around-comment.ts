@@ -1,27 +1,22 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { LinesAroundCommentSchema0, MessageIds, RuleOptions } from './types'
-import { isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken } from '#utils/ast'
+import { isClosingBraceToken, isClosingBracketToken, isClosingParenToken, AST_NODE_TYPES, AST_TOKEN_TYPES, COMMENTS_IGNORE_PATTERN, isCommentToken, isHashbangComment, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES, AST_TOKEN_TYPES } from '@typescript-eslint/utils'
-import { isCommentToken, isTokenOnSameLine } from '@typescript-eslint/utils/ast-utils'
 
 type RuleOption = Required<LinesAroundCommentSchema0>
 type GroupTokenValue = RuleOption['allowGroupStart'][number] | RuleOption['allowGroupEnd'][number]
 
-const COMMENTS_IGNORE_PATTERN
-  = /^\s*(?:eslint|jshint\s+|jslint\s+|istanbul\s+|globals?\s+|exported\s+|jscs)/u
 
 /**
  * @returns an array with with any line numbers that are empty.
  */
 function getEmptyLineNums(lines: string[]): number[] {
-  const emptyLines = lines
-    .map((line, i) => ({
-      code: line.trim(),
-      num: i + 1,
-    }))
-    .filter(line => !line.code)
-    .map(line => line.num)
+  const emptyLines: number[] = []
+
+  lines.forEach((line, i) => {
+    if (!line.trim())
+      emptyLines.push(i + 1)
+  })
 
   return emptyLines
 }
@@ -180,8 +175,8 @@ export default createRule<RuleOptions, MessageIds>({
     /**
      * @returns whether comments are on lines starting with or ending with code.
      */
-    function codeAroundComment(token: Tree.Token): boolean {
-      let currentToken: Tree.Token | null = token
+    function codeAroundComment(token: Token): boolean {
+      let currentToken: Token | null = token
 
       do {
         currentToken = sourceCode.getTokenBefore(currentToken, {
@@ -218,7 +213,7 @@ export default createRule<RuleOptions, MessageIds>({
     /**
      * @returns the parent node that contains the given token.
      */
-    function getParentNodeOfToken(token: Tree.Token): ASTNode | null {
+    function getParentNodeOfToken(token: Token): ASTNode | null {
       const node = sourceCode.getNodeByRangeIndex(token.range[0])
 
       /**
@@ -282,7 +277,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns whether comments are at the parent end.
      */
     function isCommentAtParentEnd(
-      token: Tree.Token,
+      token: Token,
       nodeType: Tree.AST_NODE_TYPES,
     ): boolean {
       const parent = getParentNodeOfToken(token)
@@ -612,8 +607,7 @@ export default createRule<RuleOptions, MessageIds>({
               })
             }
           }
-          // @ts-expect-error 'Shebang' is not in the type definition
-          else if (token.type === 'Shebang') {
+          else if (isHashbangComment(token)) {
             if (options.afterHashbangComment) {
               checkForEmptyLine(token, {
                 after: options.afterHashbangComment,

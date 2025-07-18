@@ -1,5 +1,144 @@
 # Changelog
 
+## [5.2.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.1.0...v5.2.0) (2025-07-16)
+
+
+### Features
+
+* add `warnOnce` utility for deprecation warnings ([#867](https://github.com/eslint-stylistic/eslint-stylistic/issues/867)) ([f015822](https://github.com/eslint-stylistic/eslint-stylistic/commit/f0158222e8a97fcbb9d0e7c921e4f3de1baa1816))
+* **indent:** introduce `returnType` for `FunctionDeclaration` and `FunctionExpression` ([#884](https://github.com/eslint-stylistic/eslint-stylistic/issues/884)) ([c0a09fb](https://github.com/eslint-stylistic/eslint-stylistic/commit/c0a09fb48859bac61bb6a53704dc326f16d824aa))
+* **indent:** support `TSTypeAliasDeclaration` ([#796](https://github.com/eslint-stylistic/eslint-stylistic/issues/796)) ([c62afea](https://github.com/eslint-stylistic/eslint-stylistic/commit/c62afeab8695e2271267be5dc5dff59d35ad2f42))
+* **keyword-spacing:** support `ImportAttribute` ([#863](https://github.com/eslint-stylistic/eslint-stylistic/issues/863)) ([08d4193](https://github.com/eslint-stylistic/eslint-stylistic/commit/08d4193872c5d335f881fce2d3ba5a4699cda383))
+* **multiline-comment-style:** add support for exclamation comments ([#876](https://github.com/eslint-stylistic/eslint-stylistic/issues/876)) ([b2ece9f](https://github.com/eslint-stylistic/eslint-stylistic/commit/b2ece9f09fa968a8c4866d61b231ec57897b0e43))
+* **no-extra-parens:** support part of TS Nodes ([#873](https://github.com/eslint-stylistic/eslint-stylistic/issues/873)) ([7d4aa27](https://github.com/eslint-stylistic/eslint-stylistic/commit/7d4aa27c0378c58023b133cea4018b0ba069308f))
+* **object-curly-spacing:** support `ImportAttribute` ([#862](https://github.com/eslint-stylistic/eslint-stylistic/issues/862)) ([000f2f4](https://github.com/eslint-stylistic/eslint-stylistic/commit/000f2f49e706a63ed478eb7390284ed7558e78dd))
+* support `AccessorProperty` ([#829](https://github.com/eslint-stylistic/eslint-stylistic/issues/829)) ([2143f34](https://github.com/eslint-stylistic/eslint-stylistic/commit/2143f34976e80a3f43db7838706d4180e736f981))
+
+
+### Bug Fixes
+
+* disallow extra properties in rule options ([#883](https://github.com/eslint-stylistic/eslint-stylistic/issues/883)) ([bac5f3f](https://github.com/eslint-stylistic/eslint-stylistic/commit/bac5f3f5623264a6fe88dd0b56f959f0401acc07))
+* **indent:** align first element when `VariableDeclarator` is `first` ([#861](https://github.com/eslint-stylistic/eslint-stylistic/issues/861)) ([ddd14c8](https://github.com/eslint-stylistic/eslint-stylistic/commit/ddd14c83cf77344a1775df745b1abca01543f5d6))
+
+
+### Documentation
+
+* enhance readability ([#880](https://github.com/eslint-stylistic/eslint-stylistic/issues/880)) ([4a5fe59](https://github.com/eslint-stylistic/eslint-stylistic/commit/4a5fe59f528021fa2e6e8f787d2f21a69739391b))
+* fix link of `no-unexpected-multiline` ([#847](https://github.com/eslint-stylistic/eslint-stylistic/issues/847)) ([0639099](https://github.com/eslint-stylistic/eslint-stylistic/commit/06390997277f78dba4f24e1830d5ffbc332360bb))
+* **operator-linebreak:** add description for "ignore" option earlier ([#866](https://github.com/eslint-stylistic/eslint-stylistic/issues/866)) ([46e43f5](https://github.com/eslint-stylistic/eslint-stylistic/commit/46e43f5b79fa8d253bd63bf4b22e2e2f6b1d0268))
+
+
+### Chores
+
+* **indent:** cleanup cases ([#859](https://github.com/eslint-stylistic/eslint-stylistic/issues/859)) ([9d8a9c6](https://github.com/eslint-stylistic/eslint-stylistic/commit/9d8a9c6303f29c236ffbdf5a63cf7f67c418d68c))
+
+## [5.1.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0...v5.1.0) (2025-06-29)
+
+
+### Bug Fixes
+
+* correct rule name in `disable-legacy` ([#849](https://github.com/eslint-stylistic/eslint-stylistic/issues/849)) ([e63f1e4](https://github.com/eslint-stylistic/eslint-stylistic/commit/e63f1e418aae14b7bfdfc764c3a1a310d7af4ddb))
+* **indent:** correct handling of return type annotations ([#853](https://github.com/eslint-stylistic/eslint-stylistic/issues/853)) ([5259950](https://github.com/eslint-stylistic/eslint-stylistic/commit/5259950b5f5be86d1d73f6dcb07952b1d36f31e1))
+
+
+### Build Related
+
+* migrate to `tsdown` ([#854](https://github.com/eslint-stylistic/eslint-stylistic/issues/854)) ([5d2bec1](https://github.com/eslint-stylistic/eslint-stylistic/commit/5d2bec10f1da31eb56ccf637d936dcbba79983cc))
+
+
+### Chores
+
+* cleanup duplicate test cases ([#855](https://github.com/eslint-stylistic/eslint-stylistic/issues/855)) ([140db85](https://github.com/eslint-stylistic/eslint-stylistic/commit/140db8594f195193abb39d16aef5f01d386cc651))
+* release-please-mark ([da0be03](https://github.com/eslint-stylistic/eslint-stylistic/commit/da0be031fc4fbea6c52640f913269e0bf07093c5))
+
+## [5.0.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0-beta.6...v5.0.0) (2025-06-23)
+
+
+### Chores
+
+* release-please-mark ([3616355](https://github.com/eslint-stylistic/eslint-stylistic/commit/36163552bc0f010cbb16a2fdeeba955405500733))
+
+## [5.0.0-beta.6](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0-beta.5...v5.0.0-beta.6) (2025-06-22)
+
+
+### Features
+
+* add support for `using` ([#804](https://github.com/eslint-stylistic/eslint-stylistic/issues/804)) ([d133385](https://github.com/eslint-stylistic/eslint-stylistic/commit/d133385cbf1603d5dea29bc1b0f24fba1ece456b))
+
+
+### Chores
+
+* release-please-mark ([6c6a154](https://github.com/eslint-stylistic/eslint-stylistic/commit/6c6a1545987c5102770221c8b303e2c10ecafee7))
+* unify some ast-utils ([#842](https://github.com/eslint-stylistic/eslint-stylistic/issues/842)) ([b30a26b](https://github.com/eslint-stylistic/eslint-stylistic/commit/b30a26b99c119a75ea96a145391832c778553e37))
+
+## [5.0.0-beta.5](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0-beta.4...v5.0.0-beta.5) (2025-06-20)
+
+
+### ⚠ BREAKING CHANGES
+
+* handle TS object-like nodes in `object-curly-newline` instead of `brace-style` and `curly-newline` ([#823](https://github.com/eslint-stylistic/eslint-stylistic/issues/823))
+
+### Features
+
+* handle TS object-like nodes in `object-curly-newline` instead of `brace-style` and `curly-newline` ([#823](https://github.com/eslint-stylistic/eslint-stylistic/issues/823)) ([32f743f](https://github.com/eslint-stylistic/eslint-stylistic/commit/32f743f85dd2ef5f9d3625ca3c79864cdf3c572f))
+* no longer deps on `typescript` ([#838](https://github.com/eslint-stylistic/eslint-stylistic/issues/838)) ([c18efb0](https://github.com/eslint-stylistic/eslint-stylistic/commit/c18efb0f22c7b06f0be52b1aaa5afacf24a8ac12))
+
+
+### Bug Fixes
+
+* **space-before-blocks:** check space before `TSModuleBlock` nodes ([#798](https://github.com/eslint-stylistic/eslint-stylistic/issues/798)) ([2e9d116](https://github.com/eslint-stylistic/eslint-stylistic/commit/2e9d1168c1bb28c938703ba6c8765d37177a2a0d))
+* **type-annotation-spacing:** handle type annotation in parens ([#836](https://github.com/eslint-stylistic/eslint-stylistic/issues/836)) ([0f7b461](https://github.com/eslint-stylistic/eslint-stylistic/commit/0f7b46143d51922a352cfe3268b0e44daef7ceff))
+
+
+### Documentation
+
+* **space-before-function-paren:** remove outdated info ([#837](https://github.com/eslint-stylistic/eslint-stylistic/issues/837)) ([6929b22](https://github.com/eslint-stylistic/eslint-stylistic/commit/6929b227c597c8dd9e90baffad3a2d5531a2ba25))
+
+
+### Build Related
+
+* setup codecov bundle analysis ([#839](https://github.com/eslint-stylistic/eslint-stylistic/issues/839)) ([1b0daad](https://github.com/eslint-stylistic/eslint-stylistic/commit/1b0daadc2acfa48bf2d18f1abab730eddbb72cf4))
+
+
+### Chores
+
+* release-please-mark ([7240084](https://github.com/eslint-stylistic/eslint-stylistic/commit/72400840f2604e0364047cd600251986863d4d09))
+* restrict imports from `typescript-eslint` ([#825](https://github.com/eslint-stylistic/eslint-stylistic/issues/825)) ([3d1b817](https://github.com/eslint-stylistic/eslint-stylistic/commit/3d1b817594aa1cd0b3c9523393bbcc103f793c20))
+
+## [5.0.0-beta.4](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.0.0-beta.3...v5.0.0-beta.4) (2025-06-17)
+
+
+### ⚠ BREAKING CHANGES
+
+* handle TS object-like nodes in `object-curly-spacing` instead of `block-spacing` ([#822](https://github.com/eslint-stylistic/eslint-stylistic/issues/822))
+* **space-before-function-paren:** handle catch clause with param ([#821](https://github.com/eslint-stylistic/eslint-stylistic/issues/821))
+
+### Features
+
+* handle TS object-like nodes in `object-curly-spacing` instead of `block-spacing` ([#822](https://github.com/eslint-stylistic/eslint-stylistic/issues/822)) ([e9a4b80](https://github.com/eslint-stylistic/eslint-stylistic/commit/e9a4b80cc014be3df7141e0e005b284832126b44))
+* **no-extra-parens:** allow spread syntax to wrap parentheses ([#781](https://github.com/eslint-stylistic/eslint-stylistic/issues/781)) ([bc74e90](https://github.com/eslint-stylistic/eslint-stylistic/commit/bc74e9081b06a6ee2e695b1016b35289f0941976))
+* **space-before-function-paren:** handle catch clause with param ([#821](https://github.com/eslint-stylistic/eslint-stylistic/issues/821)) ([64c0607](https://github.com/eslint-stylistic/eslint-stylistic/commit/64c0607767a4a5022d8ce3a5b5bb346c48ec5dd4))
+
+
+### Bug Fixes
+
+* **indent:** correctly ignore `JSXText` and TS nodes ([#785](https://github.com/eslint-stylistic/eslint-stylistic/issues/785)) ([b0b4218](https://github.com/eslint-stylistic/eslint-stylistic/commit/b0b4218a4534ea14ea458f50fde2665f1a5757a7))
+* metadata path generate normalize ([#820](https://github.com/eslint-stylistic/eslint-stylistic/issues/820)) ([7c6d6ef](https://github.com/eslint-stylistic/eslint-stylistic/commit/7c6d6ef3a7490dc2fed4345b15d353babc2db704))
+* **type-generic-spacing:** prevent errors caused by empty type params ([#828](https://github.com/eslint-stylistic/eslint-stylistic/issues/828)) ([229eff0](https://github.com/eslint-stylistic/eslint-stylistic/commit/229eff0b6593183d39d518910900868155fca7f5))
+
+
+### Documentation
+
+* `if` property had incorrect name ([#834](https://github.com/eslint-stylistic/eslint-stylistic/issues/834)) ([85fe009](https://github.com/eslint-stylistic/eslint-stylistic/commit/85fe0096dfdba5b65f35f4a36a556a739ca58216))
+* cleanup outdated information ([#818](https://github.com/eslint-stylistic/eslint-stylistic/issues/818)) ([33d0edd](https://github.com/eslint-stylistic/eslint-stylistic/commit/33d0edd9dd6576130f1cd3208db8ca88bb56dd64))
+* use correct rule to validate code in code group ([#824](https://github.com/eslint-stylistic/eslint-stylistic/issues/824)) ([d7c1443](https://github.com/eslint-stylistic/eslint-stylistic/commit/d7c1443d45210a9123064c476d93328ca93bc147))
+
+
+### Chores
+
+* **one-var-declaration-per-line:** use replace string insert `\n` ([#705](https://github.com/eslint-stylistic/eslint-stylistic/issues/705)) ([48181b5](https://github.com/eslint-stylistic/eslint-stylistic/commit/48181b51e4c7309b8efc73de7a993e709faa8770))
+* release-please-mark ([4ead7ab](https://github.com/eslint-stylistic/eslint-stylistic/commit/4ead7abf53b752d35db28e910e6fe31cd9913734))
+
 ## [5.0.0-beta.3](https://github.com/eslint-stylistic/eslint-stylistic/compare/v6.0.0-beta.1...v5.0.0-beta.3) (2025-06-06)
 
 

@@ -1,11 +1,8 @@
 import type { ASTNode, JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { nullThrows, NullThrowsReasons } from '#utils/assert'
-import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
+import { AST_NODE_TYPES, isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine, isTypeKeyword, KEYWORDS_JS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { KEYWORDS_JS } from '#utils/keywords'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
-import { isTypeKeyword } from '@typescript-eslint/utils/ast-utils'
 
 const PREV_TOKEN = /^[)\]}>]$/u
 const NEXT_TOKEN = /^(?:[([{<~!]|\+\+?|--?)$/u
@@ -14,7 +11,7 @@ const NEXT_TOKEN_M = /^[{*]$/u
 const TEMPLATE_OPEN_PAREN = /\$\{$/u
 const TEMPLATE_CLOSE_PAREN = /^\}/u
 const CHECK_TYPE = /^(?:JSXElement|RegularExpression|String|Template|PrivateIdentifier)$/u
-const KEYS = KEYWORDS_JS.concat(['as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'yield', 'type'])
+const KEYS = KEYWORDS_JS.concat(['accessor', 'as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'using', 'yield', 'type'])
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'keyword-spacing',
@@ -272,8 +269,28 @@ export default createRule<RuleOptions, MessageIds>({
     function checkSpacingAroundFirstToken(node: ASTNode | null) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
-      if (firstToken && firstToken.type === 'Keyword')
-        checkSpacingAround(firstToken)
+      if (!firstToken)
+        return
+
+      if (!isKeywordToken(firstToken)) {
+        // If the first token is not a keyword,
+        // the node is checked to see if it needs to be validated.
+        if (node.type === 'VariableDeclaration') {
+          if (
+            node.kind !== 'using'
+            && node.kind !== 'await using'
+            || firstToken.type !== 'Identifier'
+          ) {
+            /* c8 ignore next 2 */ // Currently, there is no syntax to reach this branch.
+            return
+          }
+        }
+        else {
+          return
+        }
+      }
+
+      checkSpacingAround(firstToken)
     }
 
     /**
@@ -287,7 +304,7 @@ export default createRule<RuleOptions, MessageIds>({
     function checkSpacingBeforeFirstToken(node: ASTNode | null) {
       const firstToken = node && sourceCode.getFirstToken(node)
 
-      if (firstToken && firstToken.type === 'Keyword')
+      if (isKeywordToken(firstToken))
         checkSpacingBefore(firstToken)
     }
 
@@ -319,7 +336,7 @@ export default createRule<RuleOptions, MessageIds>({
       const firstToken = node && sourceCode.getFirstToken(node)
 
       if (firstToken
-        && ((firstToken.type === 'Keyword' && firstToken.value === 'function')
+        && ((isKeywordToken(firstToken) && firstToken.value === 'function')
           || firstToken.value === 'async')
       ) {
         checkSpacingBefore(firstToken)
@@ -337,7 +354,7 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Reports `import`, `export`, `as`, and `from` keywords of a given node if
+     * Reports `import`, `export`, `as`, `from` and `with` keywords of a given node if
      * usage of spacing around those keywords is invalid.
      *
      * This rule handles the `*` token in module declarations.
@@ -373,6 +390,13 @@ export default createRule<RuleOptions, MessageIds>({
 
         checkSpacingBefore(fromToken, PREV_TOKEN_M)
         checkSpacingAfter(fromToken, NEXT_TOKEN_M)
+
+        // ImportAttribute must be after source
+        if (node.attributes) {
+          const withToken = sourceCode.getTokenAfter(node.source)
+          if (isKeywordToken(withToken))
+            checkSpacingAround(withToken)
+        }
       }
 
       // ExportDefaultDeclaration never have a `type` keyword
@@ -419,12 +443,12 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Reports `static`, `get`, and `set` keywords of a given node if usage of
+     * Reports `accessor`, `static`, `get`, and `set` keywords of a given node if usage of
      * spacing around those keywords is invalid.
      * @param node A node to report.
      * @throws {Error} If unable to find token get, set, or async beside method name.
      */
-    function checkSpacingForProperty(node: Tree.MethodDefinition | Tree.PropertyDefinition | Tree.Property) {
+    function checkSpacingForProperty(node: Tree.MethodDefinition | Tree.PropertyDefinition | Tree.AccessorProperty | Tree.Property) {
       if ('static' in node && node.static)
         checkSpacingAroundFirstToken(node)
 
@@ -434,6 +458,7 @@ export default createRule<RuleOptions, MessageIds>({
           (('method' in node && node.method) || node.type === 'MethodDefinition')
           && 'async' in node.value && node.value.async
         )
+        || node.type === AST_NODE_TYPES.AccessorProperty
       ) {
         const token = sourceCode.getTokenBefore(
           node.key,
@@ -442,6 +467,7 @@ export default createRule<RuleOptions, MessageIds>({
               case 'get':
               case 'set':
               case 'async':
+              case 'accessor':
                 return true
               default:
                 return false
@@ -467,8 +493,19 @@ export default createRule<RuleOptions, MessageIds>({
       ReturnStatement: checkSpacingAroundFirstToken,
       ThrowStatement: checkSpacingAroundFirstToken,
       TryStatement(node) {
+        // try
         checkSpacingAroundFirstToken(node)
-        checkSpacingAroundFirstToken(node.handler)
+        // catch
+        if (node.handler) {
+          // The space after `catch` handled by the `space-before-function-paren`
+          if (node.handler.param) {
+            checkSpacingBeforeFirstToken(node.handler)
+          }
+          else {
+            checkSpacingAroundFirstToken(node.handler)
+          }
+        }
+        // finally
         checkSpacingAroundTokenBefore(node.finalizer)
       },
 
@@ -567,6 +604,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       MethodDefinition: checkSpacingForProperty,
       PropertyDefinition: checkSpacingForProperty,
+      AccessorProperty: checkSpacingForProperty,
       StaticBlock: checkSpacingAroundFirstToken,
       Property: checkSpacingForProperty,
 

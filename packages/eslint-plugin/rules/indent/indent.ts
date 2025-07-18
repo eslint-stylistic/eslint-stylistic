@@ -6,9 +6,8 @@
 
 import type { ASTNode, JSONSchema, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { createGlobalLinebreakMatcher, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isQuestionDotToken, isSemicolonToken, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
+import { AST_NODE_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { AST_NODE_TYPES } from '@typescript-eslint/utils'
 
 const KNOWN_NODES = new Set([
   'AssignmentExpression',
@@ -52,6 +51,7 @@ const KNOWN_NODES = new Set([
   'Program',
   'Property',
   'PropertyDefinition',
+  AST_NODE_TYPES.AccessorProperty,
   'RestElement',
   'ReturnStatement',
   'SequenceExpression',
@@ -150,6 +150,7 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.TSRestType,
   AST_NODE_TYPES.TSThisType,
   AST_NODE_TYPES.TSTupleType,
+  AST_NODE_TYPES.TSTypeAliasDeclaration,
   AST_NODE_TYPES.TSTypeAnnotation,
   AST_NODE_TYPES.TSTypeLiteral,
   AST_NODE_TYPES.TSTypeOperator,
@@ -579,6 +580,7 @@ export default createRule<RuleOptions, MessageIds>({
                   var: ELEMENT_LIST_SCHEMA,
                   let: ELEMENT_LIST_SCHEMA,
                   const: ELEMENT_LIST_SCHEMA,
+                  using: ELEMENT_LIST_SCHEMA,
                 },
                 additionalProperties: false,
               },
@@ -616,6 +618,10 @@ export default createRule<RuleOptions, MessageIds>({
                 type: 'integer',
                 minimum: 0,
               },
+              returnType: {
+                type: 'integer',
+                minimum: 0,
+              },
             },
             additionalProperties: false,
           },
@@ -624,6 +630,10 @@ export default createRule<RuleOptions, MessageIds>({
             properties: {
               parameters: ELEMENT_LIST_SCHEMA,
               body: {
+                type: 'integer',
+                minimum: 0,
+              },
+              returnType: {
                 type: 'integer',
                 minimum: 0,
               },
@@ -703,6 +713,7 @@ export default createRule<RuleOptions, MessageIds>({
     const DEFAULT_VARIABLE_INDENT = 1
     const DEFAULT_PARAMETER_INDENT = 1
     const DEFAULT_FUNCTION_BODY_INDENT = 1
+    const DEFAULT_FUNCTION_RETURN_TYPE_INDENT = 1
 
     let indentType = 'space'
     let indentSize = 4
@@ -712,15 +723,18 @@ export default createRule<RuleOptions, MessageIds>({
         var: DEFAULT_VARIABLE_INDENT as number | 'first',
         let: DEFAULT_VARIABLE_INDENT as number | 'first',
         const: DEFAULT_VARIABLE_INDENT as number | 'first',
+        using: DEFAULT_VARIABLE_INDENT as number | 'first',
       },
       outerIIFEBody: 1,
       FunctionDeclaration: {
         parameters: DEFAULT_PARAMETER_INDENT,
         body: DEFAULT_FUNCTION_BODY_INDENT,
+        returnType: DEFAULT_FUNCTION_RETURN_TYPE_INDENT,
       },
       FunctionExpression: {
         parameters: DEFAULT_PARAMETER_INDENT,
         body: DEFAULT_FUNCTION_BODY_INDENT,
+        returnType: DEFAULT_FUNCTION_RETURN_TYPE_INDENT,
       },
       StaticBlock: {
         body: DEFAULT_FUNCTION_BODY_INDENT,
@@ -759,6 +773,7 @@ export default createRule<RuleOptions, MessageIds>({
             var: userOptions.VariableDeclarator,
             let: userOptions.VariableDeclarator,
             const: userOptions.VariableDeclarator,
+            using: userOptions.VariableDeclarator,
           }
         }
       }
@@ -1001,13 +1016,13 @@ export default createRule<RuleOptions, MessageIds>({
        * This logic is copied from `MemberExpression`'s.
        */
       if ('optional' in node && node.optional) {
-        const dotToken = sourceCode.getTokenAfter(node.callee, isQuestionDotToken)!
+        const dotToken = sourceCode.getTokenAfter(node.callee, isOptionalChainPunctuator)!
         const calleeParenCount = sourceCode.getTokensBetween(node.callee, dotToken, { filter: isClosingParenToken }).length
         const firstTokenOfCallee = calleeParenCount
           ? sourceCode.getTokenBefore(node.callee, { skip: calleeParenCount - 1 })!
           : sourceCode.getFirstToken(node.callee)!
         const lastTokenOfCallee = sourceCode.getTokenBefore(dotToken)!
-        const offsetBase = lastTokenOfCallee.loc.end.line === openingParen.loc.start.line
+        const offsetBase = isTokenOnSameLine(lastTokenOfCallee, openingParen)
           ? lastTokenOfCallee
           : firstTokenOfCallee
 
@@ -1121,6 +1136,15 @@ export default createRule<RuleOptions, MessageIds>({
 
     const ignoredNodeFirstTokens = new Set<Token>()
 
+    function checkDeclarator(node: Tree.VariableDeclarator | Tree.TSTypeAliasDeclaration, equalOperator: Token) {
+      const tokenAfterOperator = sourceCode.getTokenAfter(equalOperator)!
+
+      offsets.ignoreToken(equalOperator)
+      offsets.ignoreToken(tokenAfterOperator)
+      offsets.setDesiredOffsets([tokenAfterOperator.range[0], node.range[1]], equalOperator, 1)
+      offsets.setDesiredOffset(equalOperator, sourceCode.getLastToken(node.id), 0)
+    }
+
     function checkArrayLikeNode(node: Tree.ArrayExpression | Tree.ArrayPattern | Tree.TSTupleType) {
       const elementList = node.type === AST_NODE_TYPES.TSTupleType ? node.elementTypes : node.elements
       const openingBracket = sourceCode.getFirstToken(node)!
@@ -1129,7 +1153,7 @@ export default createRule<RuleOptions, MessageIds>({
       addElementListIndent(elementList, openingBracket, closingBracket, options.ArrayExpression)
     }
 
-    function checkObjectLikeNode(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSEnumDeclaration | Tree.TSTypeLiteral | Tree.TSMappedType, properties: Tree.Node[]) {
+    function checkObjectLikeNode(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSEnumDeclaration | Tree.TSTypeLiteral | Tree.TSMappedType, properties: ASTNode[]) {
       const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
       const closingCurly = sourceCode.getTokenAfter(
         properties.length ? properties[properties.length - 1] : openingCurly,
@@ -1139,7 +1163,7 @@ export default createRule<RuleOptions, MessageIds>({
       addElementListIndent(properties, openingCurly, closingCurly, options.ObjectExpression)
     }
 
-    function checkConditionalNode(node: Tree.ConditionalExpression | Tree.TSConditionalType, test: Tree.Node, consequent: Tree.Node, alternate: Tree.Node) {
+    function checkConditionalNode(node: Tree.ConditionalExpression | Tree.TSConditionalType, test: ASTNode, consequent: ASTNode, alternate: ASTNode) {
       const firstToken = sourceCode.getFirstToken(node)!
 
       // `flatTernaryExpressions` option is for the following style:
@@ -1151,8 +1175,8 @@ export default createRule<RuleOptions, MessageIds>({
         || !isTokenOnSameLine(test, consequent)
         || isOnFirstLineOfStatement(firstToken, node)
       ) {
-        const questionMarkToken = sourceCode.getFirstTokenBetween(test, consequent, token => token.type === 'Punctuator' && token.value === '?')!
-        const colonToken = sourceCode.getFirstTokenBetween(consequent, alternate, token => token.type === 'Punctuator' && token.value === ':')!
+        const questionMarkToken = sourceCode.getFirstTokenBetween(test, consequent, isQuestionToken)!
+        const colonToken = sourceCode.getFirstTokenBetween(consequent, alternate, isColonToken)!
 
         const firstConsequentToken = sourceCode.getTokenAfter(questionMarkToken)!
         const lastConsequentToken = sourceCode.getTokenBefore(colonToken)!
@@ -1191,7 +1215,7 @@ export default createRule<RuleOptions, MessageIds>({
          *   baz // as a result, `baz` is offset by 1 rather than 2
          * )
          */
-        if (lastConsequentToken.loc.end.line === firstAlternateToken.loc.start.line) {
+        if (isTokenOnSameLine(lastConsequentToken, firstAlternateToken)) {
           offsets.setDesiredOffset(firstAlternateToken, firstConsequentToken, 0)
         }
         else {
@@ -1226,7 +1250,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function checkOperatorToken(left: Tree.Node, right: Tree.Node, operator: string) {
+    function checkOperatorToken(left: ASTNode, right: ASTNode, operator: string) {
       const operatorToken = sourceCode.getFirstTokenBetween(left, right, token => token.value === operator)!
 
       /**
@@ -1243,8 +1267,8 @@ export default createRule<RuleOptions, MessageIds>({
 
     function checkMemberExpression(
       node: Tree.MemberExpression | Tree.JSXMemberExpression | Tree.MetaProperty | Tree.TSIndexedAccessType | Tree.TSQualifiedName,
-      object: Tree.Node,
-      property: Tree.Node,
+      object: ASTNode,
+      property: ASTNode,
       computed = false,
     ) {
       const firstNonObjectToken = sourceCode.getFirstTokenBetween(object, property, isNotClosingParenToken)!
@@ -1272,7 +1296,7 @@ export default createRule<RuleOptions, MessageIds>({
        *   .bar
        *   .baz // <-- offset by 1 from `foo`
        */
-      const offsetBase = lastObjectToken.loc.end.line === firstPropertyToken.loc.start.line
+      const offsetBase = isTokenOnSameLine(lastObjectToken, firstPropertyToken)
         ? lastObjectToken
         : firstObjectToken
 
@@ -1324,7 +1348,7 @@ export default createRule<RuleOptions, MessageIds>({
       )
     }
 
-    function checkHeritages(node: Tree.ClassDeclaration | Tree.ClassExpression | Tree.TSInterfaceDeclaration, heritages: Tree.Node[]) {
+    function checkHeritages(node: Tree.ClassDeclaration | Tree.ClassExpression | Tree.TSInterfaceDeclaration, heritages: ASTNode[]) {
       const classToken = sourceCode.getFirstToken(node)!
       const extendsToken = sourceCode.getTokenBefore(heritages[0], isNotOpeningParenToken)!
 
@@ -1370,7 +1394,10 @@ export default createRule<RuleOptions, MessageIds>({
 
         if (isOpeningParenToken(maybeOpeningParen)) {
           const openingParen = maybeOpeningParen
-          const closingParen = sourceCode.getTokenBefore(node.body, isClosingParenToken)!
+          const closingParen = sourceCode.getTokenBefore(
+            node.returnType ?? node.body,
+            { filter: isClosingParenToken },
+          )!
 
           parameterParens.add(openingParen)
           parameterParens.add(closingParen)
@@ -1495,20 +1522,25 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       'FunctionDeclaration, FunctionExpression': function (node: Tree.FunctionDeclaration | Tree.FunctionExpression) {
-        const closingParen = sourceCode.getTokenBefore(node.body)!
-        const openingParen = sourceCode.getTokenBefore(
-          node.params.length
-            ? node.params[0].decorators?.length
-              ? node.params[0].decorators[0]
-              : node.params[0] : closingParen,
-          {
-            filter: isOpeningParenToken,
-          },
+        const paramsClosingParen = sourceCode.getTokenBefore(
+          node.returnType ?? node.body,
+          { filter: isClosingParenToken },
         )!
 
-        parameterParens.add(openingParen)
-        parameterParens.add(closingParen)
-        addElementListIndent(node.params, openingParen, closingParen, options[node.type].parameters)
+        const paramsOpeningParen = sourceCode.getTokenBefore(
+          node.params.length
+            ? (node.params[0].decorators?.[0] ?? node.params[0])
+            : paramsClosingParen,
+          { filter: isOpeningParenToken },
+        )!
+
+        parameterParens.add(paramsOpeningParen)
+        parameterParens.add(paramsClosingParen)
+        addElementListIndent(node.params, paramsOpeningParen, paramsClosingParen, options[node.type].parameters)
+
+        if (node.returnType) {
+          offsets.setDesiredOffsets(node.returnType.range, paramsClosingParen, options[node.type].returnType)
+        }
       },
 
       IfStatement(node) {
@@ -1544,7 +1576,7 @@ export default createRule<RuleOptions, MessageIds>({
           const lastToken = sourceCode.getLastToken(nodeToCheck)!
 
           if (isSemicolonToken(lastToken)) {
-            const tokenBeforeLast = sourceCode.getTokenBefore(lastToken)
+            const tokenBeforeLast = sourceCode.getTokenBefore(lastToken)!
             const tokenAfterLast = sourceCode.getTokenAfter(lastToken)
 
             // override indentation of `;` only if its line looks like a semicolon-first style line
@@ -1633,7 +1665,7 @@ export default createRule<RuleOptions, MessageIds>({
       PropertyDefinition(node) {
         const firstToken = sourceCode.getFirstToken(node)!
         const maybeSemicolonToken = sourceCode.getLastToken(node)!
-        let keyLastToken: Tree.Token | null = null
+        let keyLastToken: Token | null = null
 
         // Indent key.
         if (node.computed) {
@@ -1685,10 +1717,10 @@ export default createRule<RuleOptions, MessageIds>({
         offsets.setDesiredOffsets([openingCurly.range[1], closingCurly.range[0]], openingCurly, options.SwitchCase)
 
         if (node.cases.length) {
-          sourceCode.getTokensBetween(
+          getCommentsBetween(
+            sourceCode,
             node.cases[node.cases.length - 1],
             closingCurly,
-            { includeComments: true, filter: isCommentToken },
           ).forEach(token => offsets.ignoreToken(token))
         }
       },
@@ -1706,12 +1738,12 @@ export default createRule<RuleOptions, MessageIds>({
         node.expressions.forEach((expression, index) => {
           const previousQuasi = node.quasis[index]
           const nextQuasi = node.quasis[index + 1]
-          const tokenToAlignFrom = previousQuasi.loc.start.line === previousQuasi.loc.end.line
+          const tokenToAlignFrom = isSingleLine(previousQuasi)
             ? sourceCode.getFirstToken(previousQuasi)
             : null
 
-          const startsOnSameLine = previousQuasi.loc.end.line === expression.loc.start.line
-          const endsOnSameLine = nextQuasi.loc.start.line === expression.loc.end.line
+          const startsOnSameLine = isTokenOnSameLine(previousQuasi, expression)
+          const endsOnSameLine = isTokenOnSameLine(expression, nextQuasi)
 
           if (tokenToAlignFrom || (endsOnSameLine && !startsOnSameLine)) {
             offsets.setDesiredOffsets([previousQuasi.range[1], nextQuasi.range[0]], tokenToAlignFrom, 1)
@@ -1750,28 +1782,31 @@ export default createRule<RuleOptions, MessageIds>({
         if (node.declarations.length === 0)
           return
 
-        let variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, node.kind)
-          ? options.VariableDeclarator[node.kind as keyof typeof options.VariableDeclarator]
+        const kind = node.kind === 'await using' ? 'using' : node.kind
+        let variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, kind)
+          ? options.VariableDeclarator[kind]
           : DEFAULT_VARIABLE_INDENT
+        const alignFirstVariable = variableIndent === 'first'
 
         const firstToken = sourceCode.getFirstToken(node)!
         const lastToken = sourceCode.getLastToken(node)!
 
-        if (options.VariableDeclarator[node.kind as keyof typeof options.VariableDeclarator] === 'first') {
-          if (node.declarations.length > 1) {
+        const hasDeclaratorOnNewLine = node.declarations.at(-1)!.loc.start.line > node.loc.start.line
+
+        if (hasDeclaratorOnNewLine) {
+          if (alignFirstVariable) {
             addElementListIndent(
               node.declarations,
               firstToken,
               lastToken,
-              'first',
+              variableIndent,
             )
-            return
+
+            const firstTokenOfFirstElement = sourceCode.getFirstToken(node.declarations[0])!
+
+            variableIndent = (tokenInfo.getTokenIndent(firstTokenOfFirstElement).length - tokenInfo.getTokenIndent(firstToken).length) / indentSize
           }
 
-          variableIndent = DEFAULT_VARIABLE_INDENT
-        }
-
-        if (node.declarations[node.declarations.length - 1].loc.start.line > node.loc.start.line) {
           /**
            * VariableDeclarator indentation is a bit different from other forms of indentation, in that the
            * indentation of an opening bracket sometimes won't match that of a closing bracket. For example,
@@ -1794,6 +1829,9 @@ export default createRule<RuleOptions, MessageIds>({
           offsets.setDesiredOffsets(node.range, firstToken, variableIndent, true)
         }
         else {
+          if (alignFirstVariable)
+            variableIndent = DEFAULT_VARIABLE_INDENT
+
           offsets.setDesiredOffsets(node.range, firstToken, variableIndent)
         }
 
@@ -1804,12 +1842,8 @@ export default createRule<RuleOptions, MessageIds>({
       VariableDeclarator(node) {
         if (node.init) {
           const equalOperator = sourceCode.getTokenBefore(node.init, isNotOpeningParenToken)!
-          const tokenAfterOperator = sourceCode.getTokenAfter(equalOperator)!
 
-          offsets.ignoreToken(equalOperator)
-          offsets.ignoreToken(tokenAfterOperator)
-          offsets.setDesiredOffsets([tokenAfterOperator.range[0], node.range[1]], equalOperator, 1)
-          offsets.setDesiredOffset(equalOperator, sourceCode.getLastToken(node.id), 0)
+          checkDeclarator(node, equalOperator)
         }
       },
 
@@ -1854,7 +1888,7 @@ export default createRule<RuleOptions, MessageIds>({
       JSXAttribute(node) {
         if (!node.value)
           return
-        const equalsToken = sourceCode.getFirstTokenBetween(node.name, node.value, token => token.type === 'Punctuator' && token.value === '=')!
+        const equalsToken = sourceCode.getFirstTokenBetween(node.name, node.value, isEqToken)!
 
         offsets.setDesiredOffsets([equalsToken.range[0], node.value.range[1]], sourceCode.getFirstToken(node.name), 1)
       },
@@ -1940,6 +1974,12 @@ export default createRule<RuleOptions, MessageIds>({
 
       JSXMemberExpression(node) {
         checkMemberExpression(node, node.object, node.property)
+      },
+
+      TSTypeAliasDeclaration(node) {
+        const equalOperator = sourceCode.getTokenBefore(node.typeAnnotation, isNotOpeningParenToken)!
+
+        checkDeclarator(node, equalOperator)
       },
 
       'TSTupleType': checkArrayLikeNode,

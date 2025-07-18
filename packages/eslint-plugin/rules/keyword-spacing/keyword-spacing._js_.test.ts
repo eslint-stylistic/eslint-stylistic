@@ -9,8 +9,8 @@ import { run } from '#test'
 import tsParser from '@typescript-eslint/parser'
 import rule from './keyword-spacing'
 
-const BOTH = { before: true, after: true }
-const NEITHER = { before: false, after: false }
+export const BOTH = { before: true, after: true }
+export const NEITHER = { before: false, after: false }
 
 /**
  * Creates an option object to test an "overrides" option.
@@ -30,7 +30,7 @@ const NEITHER = { before: false, after: false }
  * @param value A value to override.
  * @returns An option object to test an "overrides" option.
  */
-function override(keyword: string, value: { before?: boolean, after?: boolean }) {
+export function override(keyword: string, value: { before?: boolean, after?: boolean }) {
   const retv = {
     before: value.before === false,
     after: value.after === false,
@@ -47,7 +47,7 @@ function override(keyword: string, value: { before?: boolean, after?: boolean })
  * @param keyword A keyword.
  * @returns An error message.
  */
-function expectedBefore(keyword: string): TestCaseError<MessageIds>[] {
+export function expectedBefore(keyword: string): TestCaseError<MessageIds>[] {
   return [{ messageId: 'expectedBefore', data: { value: keyword } }]
 }
 
@@ -56,7 +56,7 @@ function expectedBefore(keyword: string): TestCaseError<MessageIds>[] {
  * @param keyword A keyword.
  * @returns An error message.
  */
-function expectedAfter(keyword: string): TestCaseError<MessageIds>[] {
+export function expectedAfter(keyword: string): TestCaseError<MessageIds>[] {
   return [{ messageId: 'expectedAfter', data: { value: keyword } }]
 }
 
@@ -66,7 +66,7 @@ function expectedAfter(keyword: string): TestCaseError<MessageIds>[] {
  * @param keyword A keyword.
  * @returns Error messages.
  */
-function expectedBeforeAndAfter(keyword: string): TestCaseError<MessageIds>[] {
+export function expectedBeforeAndAfter(keyword: string): TestCaseError<MessageIds>[] {
   return [
     { messageId: 'expectedBefore', data: { value: keyword } },
     { messageId: 'expectedAfter', data: { value: keyword } },
@@ -78,7 +78,7 @@ function expectedBeforeAndAfter(keyword: string): TestCaseError<MessageIds>[] {
  * @param keyword A keyword.
  * @returns An error message.
  */
-function unexpectedBefore(keyword: string): TestCaseError<MessageIds>[] {
+export function unexpectedBefore(keyword: string): TestCaseError<MessageIds>[] {
   return [{ messageId: 'unexpectedBefore', data: { value: keyword } }]
 }
 
@@ -87,7 +87,7 @@ function unexpectedBefore(keyword: string): TestCaseError<MessageIds>[] {
  * @param keyword A keyword.
  * @returns An error message.
  */
-function unexpectedAfter(keyword: string): TestCaseError<MessageIds>[] {
+export function unexpectedAfter(keyword: string): TestCaseError<MessageIds>[] {
   return [{ messageId: 'unexpectedAfter', data: { value: keyword } }]
 }
 
@@ -97,7 +97,7 @@ function unexpectedAfter(keyword: string): TestCaseError<MessageIds>[] {
  * @param keyword A keyword.
  * @returns Error messages.
  */
-function unexpectedBeforeAndAfter(keyword: string): TestCaseError<MessageIds>[] {
+export function unexpectedBeforeAndAfter(keyword: string): TestCaseError<MessageIds>[] {
   return [
     { messageId: 'unexpectedBefore', data: { value: keyword } },
     { messageId: 'unexpectedAfter', data: { value: keyword } },
@@ -353,6 +353,12 @@ run<RuleOptions, MessageIds>({
     // catch
     // ----------------------------------------------------------------------
 
+    'try {} catch {}',
+    { code: 'try{}catch{}', options: [NEITHER] },
+    { code: 'try{} catch {}', options: [override('catch', BOTH)] },
+    { code: 'try {}catch{}', options: [override('catch', NEITHER)] },
+    'try {}\ncatch {}',
+    { code: 'try{}\ncatch{}', options: [NEITHER] },
     'try {} catch (e) {}',
     { code: 'try{}catch(e) {}', options: [NEITHER] },
     { code: 'try{} catch (e) {}', options: [override('catch', BOTH)] },
@@ -1979,27 +1985,50 @@ run<RuleOptions, MessageIds>({
     // ----------------------------------------------------------------------
 
     {
-      code: 'try {}catch(e) {}',
-      output: 'try {} catch (e) {}',
+      code: 'try {}catch{}',
+      output: 'try {} catch {}',
       errors: expectedBeforeAndAfter('catch'),
     },
     {
-      code: 'try{} catch (e) {}',
-      output: 'try{}catch(e) {}',
+      code: 'try{} catch {}',
+      output: 'try{}catch{}',
       options: [NEITHER],
       errors: unexpectedBeforeAndAfter('catch'),
     },
     {
-      code: 'try{}catch(e) {}',
-      output: 'try{} catch (e) {}',
+      code: 'try{}catch{}',
+      output: 'try{} catch {}',
       options: [override('catch', BOTH)],
       errors: expectedBeforeAndAfter('catch'),
     },
     {
-      code: 'try {} catch (e) {}',
-      output: 'try {}catch(e) {}',
+      code: 'try {} catch {}',
+      output: 'try {}catch{}',
       options: [override('catch', NEITHER)],
       errors: unexpectedBeforeAndAfter('catch'),
+    },
+    {
+      code: 'try {}catch(e) {}',
+      output: 'try {} catch(e) {}',
+      errors: expectedBefore('catch'),
+    },
+    {
+      code: 'try{} catch (e) {}',
+      output: 'try{}catch (e) {}',
+      options: [NEITHER],
+      errors: unexpectedBefore('catch'),
+    },
+    {
+      code: 'try{}catch(e) {}',
+      output: 'try{} catch(e) {}',
+      options: [override('catch', BOTH)],
+      errors: expectedBefore('catch'),
+    },
+    {
+      code: 'try {} catch (e) {}',
+      output: 'try {}catch (e) {}',
+      options: [override('catch', NEITHER)],
+      errors: unexpectedBefore('catch'),
     },
 
     // ----------------------------------------------------------------------
@@ -2104,6 +2133,65 @@ run<RuleOptions, MessageIds>({
       options: [override('const', NEITHER)],
       parserOptions: { ecmaVersion: 6 },
       errors: unexpectedBeforeAndAfter('const'),
+    },
+
+    // ----------------------------------------------------------------------
+    // using
+    // ----------------------------------------------------------------------
+
+    {
+      code: '{}using a = b',
+      output: '{} using a = b',
+      parserOptions: { ecmaVersion: 2026 },
+      errors: expectedBefore('using'),
+    },
+    {
+      code: '{} using a = b',
+      output: '{}using a = b',
+      options: [NEITHER],
+      parserOptions: { ecmaVersion: 2026 },
+      errors: unexpectedBefore('using'),
+    },
+    {
+      code: '{}using a = b',
+      output: '{} using a = b',
+      options: [override('using', BOTH)],
+      parserOptions: { ecmaVersion: 2026 },
+      errors: expectedBefore('using'),
+    },
+    {
+      code: '{} using a = b',
+      output: '{}using a = b',
+      options: [override('using', NEITHER)],
+      parserOptions: { ecmaVersion: 2026 },
+      errors: unexpectedBefore('using'),
+    },
+    {
+      code: '{}await using a = b',
+      output: '{} await using a = b',
+      parserOptions: { ecmaVersion: 2026 },
+      errors: expectedBefore('await'),
+    },
+    {
+      code: '{} await using a = b',
+      output: '{}await using a = b',
+      options: [NEITHER],
+      parserOptions: { ecmaVersion: 2026 },
+      errors: unexpectedBefore('await'),
+    },
+    {
+      code: '{}await using a = b',
+      output: '{} await using a = b',
+      options: [override('await', BOTH)],
+      parserOptions: { ecmaVersion: 2026 },
+      errors: expectedBefore('await'),
+    },
+    {
+      code: '{} await using a = b',
+      output: '{}await using a = b',
+      options: [override('await', NEITHER)],
+      parserOptions: { ecmaVersion: 2026 },
+      errors: unexpectedBefore('await'),
     },
 
     // ----------------------------------------------------------------------

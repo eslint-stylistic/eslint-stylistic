@@ -58,7 +58,7 @@ This rule aims to enforce consistent spacing between rest and spread operators a
 }
 ```
 
-Please read the user guide's section on [configuring parser options](../use/configure#specifying-parser-options) to learn more.
+Please read the user guide's section on [configuring parser options](https://eslint.org/docs/latest/use/configure/parser#configure-parser-options) to learn more.
 
 ## Options
 
@@ -83,7 +83,7 @@ Examples of **incorrect** code for this rule with `"never"`:
 ::: incorrect
 
 ```js
-/*eslint rest-spread-spacing: ["error", "never"]*/
+/* eslint @stylistic/rest-spread-spacing: ["error", "never"] */
 
 fn(... args);
 [... arr, 4, 5, 6];
@@ -100,7 +100,7 @@ Examples of **correct** code for this rule with `"never"`:
 ::: correct
 
 ```js
-/*eslint rest-spread-spacing: ["error", "never"]*/
+/* eslint @stylistic/rest-spread-spacing: ["error", "never"] */
 
 fn(...args);
 [...arr, 4, 5, 6];
@@ -125,7 +125,7 @@ Examples of **incorrect** code for this rule with `"always"`:
 ::: incorrect
 
 ```js
-/*eslint rest-spread-spacing:["error", "always"]*/
+/* eslint @stylistic/rest-spread-spacing:["error", "always"] */
 
 fn(...args);
 [...arr, 4, 5, 6];
@@ -142,7 +142,7 @@ Examples of **correct** code for this rule with `"always"`:
 ::: correct
 
 ```js
-/*eslint rest-spread-spacing: ["error", "always"]*/
+/* eslint @stylistic/rest-spread-spacing: ["error", "always"] */
 
 fn(... args);
 [... arr, 4, 5, 6];

@@ -3,8 +3,9 @@
  * @author Alberto Rodríguez
  */
 
-import type { NodeTypes, Tree } from '#types'
+import type { NodeTypes, RuleFixer, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -31,6 +32,7 @@ export default createRule<RuleOptions, MessageIds>({
   },
 
   create(context) {
+    const { sourceCode } = context
     const always = context.options[0] === 'always'
 
     /**
@@ -56,13 +58,22 @@ export default createRule<RuleOptions, MessageIds>({
       let prev: Tree.LetOrConstOrVarDeclarator
 
       declarations.forEach((current) => {
-        if (prev && prev.loc.end.line === current.loc.start.line) {
+        if (prev && isTokenOnSameLine(prev, current)) {
           if (always || prev.init || current.init) {
+            let fix = (fixer: RuleFixer) => fixer.insertTextBefore(current, '\n')
+            const tokenBeforeDeclarator = sourceCode.getTokenBefore(current, { includeComments: false })
+            if (tokenBeforeDeclarator) {
+              const betweenText = sourceCode.text.slice(
+                tokenBeforeDeclarator.range[1],
+                current.range[0],
+              )
+              fix = fixer => fixer.replaceTextRange([tokenBeforeDeclarator!.range[1], current.range[0]], `${betweenText}\n`)
+            }
             context.report({
               node,
               messageId: 'expectVarOnNewline',
               loc: current.loc,
-              fix: fixer => fixer.insertTextBefore(current, '\n'),
+              fix,
             })
           }
         }

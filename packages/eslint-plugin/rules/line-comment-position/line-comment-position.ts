@@ -3,8 +3,9 @@
  * @author Alberto Rodríguez
  */
 import type { MessageIds, RuleOptions } from './types'
-import { COMMENTS_IGNORE_PATTERN } from '#utils/ast'
+import { COMMENTS_IGNORE_PATTERN, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { warnDeprecation } from '#utils/index'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'line-comment-position',
@@ -70,6 +71,10 @@ export default createRule<RuleOptions, MessageIds>({
         applyDefaultIgnorePatterns = options.applyDefaultIgnorePatterns!
       else
         applyDefaultIgnorePatterns = options.applyDefaultPatterns !== false
+
+      if (typeof options.applyDefaultPatterns !== 'undefined') {
+        warnDeprecation('option("applyDefaultPatterns")', '"applyDefaultIgnorePatterns"', 'line-comment-position')
+      }
     }
 
     const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN
@@ -84,7 +89,10 @@ export default createRule<RuleOptions, MessageIds>({
       Program() {
         const comments = sourceCode.getAllComments()
 
-        comments.filter(token => token.type === 'Line').forEach((node) => {
+        comments.forEach((node) => {
+          if (node.type !== 'Line')
+            return
+
           if (applyDefaultIgnorePatterns && (defaultIgnoreRegExp.test(node.value) || fallThroughRegExp.test(node.value)))
             return
 
@@ -92,7 +100,7 @@ export default createRule<RuleOptions, MessageIds>({
             return
 
           const previous = sourceCode.getTokenBefore(node, { includeComments: true })
-          const isOnSameLine = previous && previous.loc.end.line === node.loc.start.line
+          const isOnSameLine = previous && isTokenOnSameLine(previous, node)
 
           if (above) {
             if (isOnSameLine) {

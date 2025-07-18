@@ -5,6 +5,7 @@
 
 import type { ASTNode, RuleContext, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
+import { isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { isJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
 
@@ -45,7 +46,7 @@ export default createRule<RuleOptions, MessageIds>({
     function needsOpeningNewLine(node: ASTNode) {
       const previousToken = context.sourceCode.getTokenBefore(node)!
 
-      if (previousToken.loc.end.line === node.loc.start.line)
+      if (isTokenOnSameLine(previousToken, node))
         return true
 
       return false
@@ -63,17 +64,13 @@ export default createRule<RuleOptions, MessageIds>({
       return false
     }
 
-    function isMultilines(node: ASTNode) {
-      return node.loc.start.line !== node.loc.end.line
-    }
-
     function check(node: ASTNode | null) {
       if (!node || !isJSX(node))
         return
 
       const sourceCode = context.sourceCode
 
-      if (option === 'always' || isMultilines(node)) {
+      if (option === 'always' || !isSingleLine(node)) {
         const needsOpening = needsOpeningNewLine(node)
         const needsClosing = needsClosingNewLine(node)
         if (needsOpening || needsClosing) {

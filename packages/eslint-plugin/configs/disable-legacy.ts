@@ -1,5 +1,3 @@
-/* GENERATED, DO NOT EDIT DIRECTLY */
-
 import type { Linter } from 'eslint'
 
 const config: Linter.Config = {
@@ -106,7 +104,7 @@ const config: Linter.Config = {
     'react/jsx-newline': 0,
     'react/jsx-one-expression-per-line': 0,
     'react/jsx-props-no-multi-spaces': 0,
-    'react/jsx-self-closing-comp': 0,
+    'react/self-closing-comp': 0,
     'react/jsx-sort-props': 0,
     'react/jsx-tag-spacing': 0,
     'react/jsx-wrap-multilines': 0,

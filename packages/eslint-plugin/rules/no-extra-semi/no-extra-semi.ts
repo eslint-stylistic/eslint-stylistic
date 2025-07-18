@@ -114,6 +114,9 @@ export default createRule<RuleOptions, MessageIds>({
       PropertyDefinition(node) {
         checkForPartOfClassBody(sourceCode.getTokenAfter(node)!)
       },
+      AccessorProperty(node) {
+        checkForPartOfClassBody(sourceCode.getTokenAfter(node)!)
+      },
       StaticBlock(node) {
         checkForPartOfClassBody(sourceCode.getTokenAfter(node)!)
       },

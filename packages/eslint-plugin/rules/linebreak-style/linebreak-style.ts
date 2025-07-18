@@ -3,7 +3,6 @@
  * @author Erik Mueller
  */
 
-import type { ReportFixFunction, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createGlobalLinebreakMatcher } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -33,19 +32,6 @@ export default createRule<RuleOptions, MessageIds>({
 
   create(context) {
     const sourceCode = context.sourceCode
-
-    /**
-     * Builds a fix function that replaces text at the specified range in the source text.
-     * @param range The range to replace
-     * @param text The text to insert.
-     * @returns Fixer function
-     * @private
-     */
-    function createFix(range: Readonly<Tree.Range>, text: string): ReportFixFunction {
-      return function (fixer) {
-        return fixer.replaceTextRange(range, text)
-      }
-    }
 
     return {
       Program: function checkForLinebreakStyle(node) {
@@ -79,7 +65,7 @@ export default createRule<RuleOptions, MessageIds>({
               },
             },
             messageId: expectedLF ? 'expectedLF' : 'expectedCRLF',
-            fix: createFix(range, expectedLFChars),
+            fix: fixer => fixer.replaceTextRange(range, expectedLFChars),
           })
         }
       },

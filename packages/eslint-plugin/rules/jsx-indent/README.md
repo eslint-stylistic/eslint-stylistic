@@ -12,22 +12,25 @@ This rule is aimed to enforce consistent indentation style. The default style is
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```jsx
-// 2 spaces indentation
-<App>
-  <Hello />
-</App>
+/* eslint @stylistic/jsx-indent: "error" */
 
-// no indentation
-<App>
+const app = <App>
+  <Hello />
+</App>;
+
+const app = <App>
 <Hello />
-</App>
+</App>;
 
-// 1 tab indentation
-<App>
-  <Hello />
-</App>
+const app = <App>
+	<Hello />
+</App>;
 ```
+
+:::
 
 ## Rule Options
 
@@ -36,26 +39,41 @@ To enable checking the indentation of attributes or add indentation to logical e
 
 ```js
 ...
-"@stylistic/jsx/jsx-indent": [<enabled>, 'tab'|<number>, {checkAttributes: <boolean>, indentLogicalExpressions: <boolean>}]
+"@stylistic/jsx-indent": [<enabled>, 'tab'|<number>, {checkAttributes: <boolean>, indentLogicalExpressions: <boolean>}]
 ...
 ```
 
 Examples of **incorrect** code for this rule:
 
+::: incorrect
+
 ```jsx
-// 2 spaces indentation
-// [2, 2]
+/* eslint @stylistic/jsx-indent: ["error", 2] */
+
 <App>
     <Hello />
 </App>
+```
 
-// tab indentation
-// [2, 'tab']
+:::
+
+::: incorrect
+
+```jsx
+/* eslint @stylistic/jsx-indent: ["error", "tab"] */
+
 <App>
   <Hello />
 </App>
+```
 
-// [2, 2, {checkAttributes: true}]
+:::
+
+::: incorrect
+
+```jsx
+/* eslint @stylistic/jsx-indent: ["error", 2, {checkAttributes: true}] */
+
 <App render={
   <Hello render={
     (bar) => <div>hi</div>
@@ -63,38 +81,67 @@ Examples of **incorrect** code for this rule:
   />
   }>
 </App>
+```
 
-// [2, 2, {indentLogicalExpressions: true}]
+:::
+
+::: incorrect
+
+```jsx
+/* eslint @stylistic/jsx-indent: ["error", 2, {indentLogicalExpressions: true}] */
+
 <App>
   {condition && (
   <Hello />
   )}
 </App>
 ```
+
+:::
 
 Examples of **correct** code for this rule:
 
+::: correct
+
 ```jsx
+/* eslint @stylistic/jsx-indent: ["error", 2] */
 
-// 2 spaces indentation
-// [2, 2]
 <App>
   <Hello />
 </App>
+```
 
-// tab indentation
-// [2, 'tab']
+:::
+
+::: correct
+
+```jsx
+/* eslint @stylistic/jsx-indent: ["error", "tab"] */
+
 <App>
-  <Hello />
+	<Hello />
 </App>
+```
 
-// no indentation
-// [2, 0]
+:::
+
+::: correct
+
+```jsx
+/* eslint @stylistic/jsx-indent: ["error", 0] */
+
 <App>
 <Hello />
 </App>
+```
 
-// [2, 2, {checkAttributes: false}]
+:::
+
+::: correct
+
+```jsx
+/* eslint @stylistic/jsx-indent: ["error", 2, {checkAttributes: false}] */
+
 <App render={
   <Hello render={
     (bar) => <div>hi</div>
@@ -102,14 +149,23 @@ Examples of **correct** code for this rule:
   />
   }>
 </App>
+```
 
-// [2, 2, {indentLogicalExpressions: true}]
+:::
+
+::: correct
+
+```jsx
+/* eslint @stylistic/jsx-indent: ["error", 2, {indentLogicalExpressions: true}] */
+
 <App>
   {condition && (
     <Hello />
   )}
 </App>
 ```
+
+:::
 
 ## When Not To Use It
 
