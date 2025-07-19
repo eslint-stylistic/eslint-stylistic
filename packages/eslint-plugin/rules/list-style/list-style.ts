@@ -24,7 +24,12 @@ export default createRule<RuleOptions, MessageIds>({
                   spacing: {
                     type: 'string',
                     enum: ['always', 'never'],
-                    default: 'never',
+                    default: 'always',
+                  },
+                  maxItems: {
+                    type: 'integer',
+                    minimum: 1,
+                    default: Number.POSITIVE_INFINITY,
                   },
                 },
               },
@@ -32,15 +37,10 @@ export default createRule<RuleOptions, MessageIds>({
                 type: 'object',
                 additionalProperties: false,
                 properties: {
-                  maxItemsPerLine: {
+                  maxItems: {
                     type: 'integer',
                     default: 1,
                     minimum: 1,
-                  },
-                  newlineAroundItems: {
-                    type: 'string',
-                    enum: ['always', 'never', 'ignore'],
-                    default: 'always',
                   },
                 },
               },
