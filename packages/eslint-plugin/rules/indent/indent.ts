@@ -690,6 +690,10 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'number',
             default: 4,
           },
+          offsetMultiLineInList: {
+            type: 'boolean',
+            default: false,
+          },
         },
         additionalProperties: false,
       },
@@ -752,6 +756,7 @@ export default createRule<RuleOptions, MessageIds>({
       offsetTernaryExpressions: false,
       offsetTernaryExpressionsOffsetCallExpressions: true,
       tabLength: 4,
+      offsetMultiLineInList: false,
     }
 
     if (optionsWithDefaults.length) {
@@ -946,8 +951,17 @@ export default createRule<RuleOptions, MessageIds>({
           }
 
           // Offset the following elements correctly relative to the first element
-          if (index === 0)
+          if (index === 0) {
+            if (options.offsetMultiLineInList && elements.length > 1 && !isSingleLine(element)) {
+              offsets.setDesiredOffsets(
+                element.range,
+                startToken,
+                1,
+                true,
+              )
+            }
             return
+          }
 
           if (offset === 'first' && tokenInfo.isFirstTokenOfLine(getFirstToken(element))) {
             offsets.matchOffsetOf(getFirstToken(elements[0]!), getFirstToken(element))
