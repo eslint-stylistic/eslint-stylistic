@@ -103,7 +103,7 @@ export async function writePackageDTS(pkg: PackageInfo) {
         `   * ${rule.meta?.docs?.description || ''}`,
         `   * @see https://eslint.style/rules/${rule.name}`,
         '   */',
-        `  '${pkg.name.replace(/eslint-plugin-|\/eslint-plugin$/, '')}/${rule.name}': ${pascalCase(rule.name)}RuleOptions`,
+        `  '${rule.ruleId}': ${pascalCase(rule.name)}RuleOptions`,
       ]
     }),
     '}',
@@ -115,7 +115,7 @@ export async function writePackageDTS(pkg: PackageInfo) {
         `   * ${rule.meta?.docs?.description || ''}`,
         `   * @see https://eslint.style/rules/${rule.name}`,
         '   */',
-        `  '${rule.name}': ${pascalCase(rule.name)}RuleOptions`,
+        `  '${rule.ruleId.split('/').at(-1)}': ${pascalCase(rule.name)}RuleOptions`,
       ]
     }),
     '}',
