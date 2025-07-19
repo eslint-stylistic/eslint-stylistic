@@ -37,7 +37,7 @@ async function readPackages() {
     const resolvedRules = await Promise.all(
       rules
         .map(async (i) => {
-          let name = i.name
+          const name = i.name
 
           const entry = join(RULES_DIR, name, `${name}.ts`)
           const url = pathToFileURL(entry).href
@@ -45,15 +45,12 @@ async function readPackages() {
           const meta = mod.default?.meta
           const experimental = Boolean(meta?.docs?.experimental)
 
-          if (experimental)
-            name = `exp-${name}`
-
           const docsBase = join(RULES_DIR, i.name)
           const docs = join(docsBase, `README.md`)
 
           return {
             name,
-            ruleId: `${pkgId}/${name}`,
+            ruleId: `${pkgId}/${experimental ? 'exp-' : ''}${name}`,
             entry: normalizePath(entry),
             docsEntry: normalizePath(docs),
             meta: {
