@@ -679,6 +679,20 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         }
       },
       {
+        "name": "list-style",
+        "ruleId": "@stylistic/exp-list-style",
+        "entry": "packages/eslint-plugin/rules/list-style/list-style.ts",
+        "docsEntry": "packages/eslint-plugin/rules/list-style/README.md",
+        "meta": {
+          "fixable": "whitespace",
+          "docs": {
+            "description": "Having line breaks styles to object, array and named imports",
+            "experimental": true,
+            "recommended": false
+          }
+        }
+      },
+      {
         "name": "max-len",
         "ruleId": "@stylistic/max-len",
         "entry": "packages/eslint-plugin/rules/max-len/max-len.ts",
