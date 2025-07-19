@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: XQlDLbaXo5Nnkb0hamsJTneGGnAGi9m0IiTQmmcWM6k */
+/* @checksum: K-miWHQYFcFtCo4iRPzVqbdrIBi6dOTCvEhv0814LRA */
 
 export type ListStyleSchema0 = BaseConfig & {
   overrides?: {
@@ -12,8 +12,6 @@ export type ListStyleSchema0 = BaseConfig & {
     FunctionDeclaration?: BaseConfig
     FunctionExpression?: BaseConfig
     ImportDeclaration?: BaseConfig
-    JSONArrayExpression?: BaseConfig
-    JSONObjectExpression?: BaseConfig
     JSXOpeningElement?: BaseConfig
     NewExpression?: BaseConfig
     ObjectExpression?: BaseConfig
@@ -24,16 +22,18 @@ export type ListStyleSchema0 = BaseConfig & {
     TSTypeLiteral?: BaseConfig
     TSTypeParameterDeclaration?: BaseConfig
     TSTypeParameterInstantiation?: BaseConfig
+    JSONArrayExpression?: BaseConfig
+    JSONObjectExpression?: BaseConfig
   }
 }
 
 export interface BaseConfig {
   singleLine?: {
     spacing?: 'always' | 'never'
+    maxItems?: number
   }
   multiline?: {
-    maxItemsPerLine?: number
-    newlineAroundItems?: 'always' | 'never' | 'ignore'
+    maxItems?: number
   }
 }
 
