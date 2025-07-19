@@ -1,63 +1,84 @@
 import type { PackageInfo, RuleInfo } from '../../packages/metadata/src/types'
 import fs from 'node:fs/promises'
-import { basename, join, posix, relative, resolve, win32 } from 'node:path'
+import { basename, join, posix, win32 } from 'node:path'
 import { pathToFileURL } from 'node:url'
 import { pascalCase } from 'change-case'
 import fg from 'fast-glob'
 import { customize } from '../../packages/eslint-plugin/configs/customize'
 import { GEN_HEADER, ROOT } from './meta'
 
-export const rulesInSharedConfig = new Set<string>(Object.keys(customize().rules!))
+const rulesInSharedConfig = new Set<string>(Object.keys(customize().rules!))
 
-export async function readPackage(path: string): Promise<PackageInfo> {
-  const dir = relative(join(ROOT, 'packages'), path)
-  const pkgId = `@stylistic/${dir.replace('eslint-plugin-', '')}`
-  const shortId = pkgId.replace('@stylistic/', '')
-  const pkgJSON = JSON.parse(await fs.readFile(join(path, 'package.json'), 'utf-8'))
-  console.log(`Preparing ${path}`)
-  const rulesDir = (await fg('rules/*', {
-    cwd: path,
+export async function readPackages() {
+  const RULES_DIR = './packages/eslint-plugin/rules/'
+
+  const ruleDirs = await fg('*', {
+    cwd: RULES_DIR,
     onlyDirectories: true,
-  })).sort()
+    absolute: true,
+  })
 
-  const rules = await Promise.all(
-    rulesDir.map(async (ruleDir) => {
-      const name = basename(ruleDir)
+  const rulesMeta = await Promise.all(ruleDirs.map(async (path) => {
+    const name = basename(path)
+    return {
+      path,
+      name,
+    }
+  }))
 
-      const docsDir = ruleDir
+  async function createPackageInfo(
+    pkg: string,
+    rules: typeof rulesMeta,
+  ): Promise<PackageInfo> {
+    const pkgId = '@stylistic'
+    const shortId = pkg || 'default'
+    const path = `packages/eslint-plugin`
 
-      const entry = join(path, ruleDir, `${name}.ts`).replace(/\\/g, '/')
-      const url = pathToFileURL(entry).href
-      const mod = await import(url)
-      const meta = mod.default?.meta
+    const resolvedRules = await Promise.all(
+      rules
+        .map(async (i) => {
+          const name = i.name
 
-      const rule: RuleInfo = {
-        name,
-        ruleId: `${pkgId}/${name}`,
-        entry: relative(ROOT, entry).replace(/\\/g, '/'),
-        // TODO: check if entry exists
-        docsEntry: relative(ROOT, resolve(path, docsDir, 'README.md')).replace(/\\/g, '/'),
-        meta: {
-          fixable: meta?.fixable,
-          docs: {
-            ...meta.docs,
-            recommended: rulesInSharedConfig.has(`@stylistic/${name}`),
-          },
-        },
-      }
-      return rule
-    }),
-  )
+          const entry = join(RULES_DIR, name, `${name}.ts`)
+          const url = pathToFileURL(entry).href
+          const mod = await import(url)
+          const meta = mod.default?.meta
+          const experimental = Boolean(meta?.docs?.experimental)
 
-  rules.sort((a, b) => a.name.localeCompare(b.name))
+          const docsBase = join(RULES_DIR, i.name)
+          const docs = join(docsBase, `README.md`)
 
-  return {
-    name: pkgJSON.name,
-    shortId,
-    pkgId,
-    path: relative(ROOT, path),
-    rules,
+          return {
+            name,
+            ruleId: `${pkgId}/${experimental ? 'exp-' : ''}${name}`,
+            entry: normalizePath(entry),
+            docsEntry: normalizePath(docs),
+            meta: {
+              fixable: meta?.fixable,
+              docs: {
+                description: meta?.docs?.description,
+                experimental,
+                recommended: rulesInSharedConfig.has(`@stylistic/${name}`),
+              },
+            },
+          }
+        }),
+    )
+
+    resolvedRules.sort((a, b) => a.name.localeCompare(b.name))
+
+    return {
+      name: '@stylistic/eslint-plugin',
+      shortId,
+      pkgId,
+      path,
+      rules: resolvedRules,
+    }
   }
+
+  const mainPackage = await createPackageInfo('', rulesMeta)
+
+  return [mainPackage]
 }
 
 export async function writeRulesIndex(pkg: PackageInfo) {
