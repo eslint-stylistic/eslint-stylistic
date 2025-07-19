@@ -48,6 +48,7 @@ import type { LineCommentPositionRuleOptions } from '../rules/line-comment-posit
 import type { LinebreakStyleRuleOptions } from '../rules/linebreak-style/types'
 import type { LinesAroundCommentRuleOptions } from '../rules/lines-around-comment/types'
 import type { LinesBetweenClassMembersRuleOptions } from '../rules/lines-between-class-members/types'
+import type { ListStyleRuleOptions } from '../rules/list-style/types'
 import type { MaxLenRuleOptions } from '../rules/max-len/types'
 import type { MaxStatementsPerLineRuleOptions } from '../rules/max-statements-per-line/types'
 import type { MemberDelimiterStyleRuleOptions } from '../rules/member-delimiter-style/types'
@@ -337,6 +338,11 @@ export interface RuleOptions {
    * @see https://eslint.style/rules/lines-between-class-members
    */
   '@stylistic/lines-between-class-members': LinesBetweenClassMembersRuleOptions
+  /**
+   * Having line breaks styles to object, array and named imports
+   * @see https://eslint.style/rules/list-style
+   */
+  '@stylistic/exp-list-style': ListStyleRuleOptions
   /**
    * Enforce a maximum line length
    * @see https://eslint.style/rules/max-len
@@ -815,6 +821,11 @@ export interface UnprefixedRuleOptions {
    * @see https://eslint.style/rules/lines-between-class-members
    */
   'lines-between-class-members': LinesBetweenClassMembersRuleOptions
+  /**
+   * Having line breaks styles to object, array and named imports
+   * @see https://eslint.style/rules/list-style
+   */
+  'exp-list-style': ListStyleRuleOptions
   /**
    * Enforce a maximum line length
    * @see https://eslint.style/rules/max-len

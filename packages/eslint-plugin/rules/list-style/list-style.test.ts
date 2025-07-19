@@ -136,7 +136,7 @@ run({
         2, 
         3
         ]
-      `
+      `,
     },
     {
       code: $`
@@ -146,7 +146,7 @@ run({
       `,
       output: $`
         const a = [1, 2, 3]
-      `
+      `,
     },
     {
       code: $`
@@ -157,7 +157,7 @@ run({
         foo,
         bar
          } from "foo"
-      `
+      `,
     },
     {
       code: $`
@@ -166,7 +166,7 @@ run({
       `,
       output: $`
         import { foo, bar } from "foo"
-      `
+      `,
     },
     {
       code: $`
@@ -177,19 +177,19 @@ run({
         log(
         a, 
         b)
-      `
+      `,
     },
     {
       code: $`
         function foo(
         a, b) {}
       `,
-      output:$`
+      output: $`
         function foo(
         a, 
         b
         ) {}
-      `
+      `,
     },
     {
       code: $`
@@ -201,7 +201,7 @@ run({
         a, 
         b
         ) => {}
-      `
+      `,
     },
     {
       code: $`
@@ -216,7 +216,7 @@ run({
         ): {
         a:b
         } => {}
-      `
+      `,
     },
     {
       code: $`
@@ -241,7 +241,7 @@ run({
         a: 1,
         b: 2
         }
-      `
+      `,
     },
     {
       description: 'Add delimiter to avoid syntax error, (interface)',
@@ -276,7 +276,7 @@ run({
         a: 1,
         b: 2
         }
-      `
+      `,
     },
     {
       description: 'Add delimiter to avoid syntax error, (type)',
