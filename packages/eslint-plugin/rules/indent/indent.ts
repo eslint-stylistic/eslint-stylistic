@@ -691,14 +691,8 @@ export default createRule<RuleOptions, MessageIds>({
             default: 4,
           },
           offsetMultiLineInList: {
-            type: 'array',
-            items: {
-              type: 'string',
-              // @ts-expect-error Not sure the original intention
-              not: {
-                pattern: ':exit$',
-              },
-            },
+            type: 'boolean',
+            default: false,
           },
         },
         additionalProperties: false,
@@ -762,7 +756,7 @@ export default createRule<RuleOptions, MessageIds>({
       offsetTernaryExpressions: false,
       offsetTernaryExpressionsOffsetCallExpressions: true,
       tabLength: 4,
-      offsetMultiLineInList: [],
+      offsetMultiLineInList: false,
     }
 
     if (optionsWithDefaults.length) {
@@ -794,7 +788,6 @@ export default createRule<RuleOptions, MessageIds>({
     const tokenInfo = new TokenInfo(sourceCode)
     const offsets = new OffsetStorage(tokenInfo, indentSize, indentType === 'space' ? ' ' : '\t', sourceCode.text.length)
     const parameterParens = new WeakSet()
-    const offsetMultiLineInListNodes = new Set<string>(options.offsetMultiLineInList)
 
     /**
      * Creates an error message for a line, given the expected/actual indentation.
@@ -959,7 +952,7 @@ export default createRule<RuleOptions, MessageIds>({
 
           // Offset the following elements correctly relative to the first element
           if (index === 0) {
-            if (offsetMultiLineInListNodes.has(element.type) && element.loc.start.line !== element.loc.end.line) {
+            if (options.offsetMultiLineInList && elements.length > 1 && !isSingleLine(element)) {
               offsets.setDesiredOffsets(
                 element.range,
                 startToken,

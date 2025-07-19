@@ -107,7 +107,7 @@ This rule has an object option:
 - `"offsetTernaryExpressionsOffsetCallExpressions": true` (`true` by default), handles an edge case for call expressions nested in ternary. It's only effective when `offsetTernaryExpressions` is set to `true`.
 - `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 - `"tabLength"` (default: 4) when using tabbed indentation, the indentation used to calculate the insertion value of the template string
-- `"offsetMultiLineInList"` can be used to offset the indentation of AST node that are at the first item in the "list" and have the same starting line as their parent. This accepts an array of [selectors](https://eslint.org/docs/latest/extend/selectors).
+- `"offsetMultiLineInList": true` (`false` by default) requires indentation for multi-line nodes in the "list" (e.g. ArrayExpression, ObjectExpression, CallExpression parameter, and more.).
 
 Level of indentation denotes the multiple of the indent specified. Example:
 

@@ -14274,7 +14274,7 @@ run<RuleOptions, MessageIds>({
             bar
           }];
       `,
-      options: [2, { offsetMultiLineInList: ['ObjectExpression'] }],
+      options: [2, { offsetMultiLineInList: true }],
     },
     {
       code: $`
@@ -14289,7 +14289,7 @@ run<RuleOptions, MessageIds>({
               "some",
           "Yes", "No");
       `,
-      options: [2, { offsetMultiLineInList: ['BinaryExpression'] }],
+      options: [2, { offsetMultiLineInList: true }],
     },
     {
       code: $`
@@ -14306,7 +14306,7 @@ run<RuleOptions, MessageIds>({
               "some",
           "No");
       `,
-      options: [2, { offsetMultiLineInList: ['BinaryExpression'] }],
+      options: [2, { offsetMultiLineInList: true }],
     },
     {
       code: $`
@@ -14319,7 +14319,7 @@ run<RuleOptions, MessageIds>({
               "some",
           "aa")
       `,
-      options: [2, { offsetMultiLineInList: ['LogicalExpression'] }],
+      options: [2, { offsetMultiLineInList: true }],
     },
     {
       code: $`
@@ -14334,7 +14334,7 @@ run<RuleOptions, MessageIds>({
             "obb",
           "aa")
       `,
-      options: [2, { offsetMultiLineInList: ['ConditionalExpression'] }],
+      options: [2, { offsetMultiLineInList: true }],
     },
     {
       code: $`
@@ -14349,7 +14349,7 @@ run<RuleOptions, MessageIds>({
           },
           "aa")
       `,
-      options: [2, { offsetMultiLineInList: ['FunctionExpression'] }],
+      options: [2, { offsetMultiLineInList: true }],
     },
     {
       code: $`
@@ -14366,7 +14366,7 @@ run<RuleOptions, MessageIds>({
           a = 2
         }
       `,
-      options: [2, { offsetMultiLineInList: ['PropertyDefinition'] }],
+      options: [2, { offsetMultiLineInList: true }],
     },
     {
       code: $`
@@ -14383,7 +14383,7 @@ run<RuleOptions, MessageIds>({
           d: 3
         }
       `,
-      options: [2, { offsetMultiLineInList: ['Property'] }],
+      options: [2, { offsetMultiLineInList: true }],
     },
   ],
 })
