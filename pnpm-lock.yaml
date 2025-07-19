@@ -70,6 +70,9 @@ catalogs:
     json-schema-to-typescript-lite:
       specifier: ^15.0.0
       version: 15.0.0
+    jsonc-eslint-parser:
+      specifier: ^2.4.0
+      version: 2.4.0
     lint-staged:
       specifier: ^16.1.5
       version: 16.1.5
@@ -296,7 +299,7 @@ importers:
         specifier: catalog:dev
         version: 15.0.0
       jsonc-eslint-parser:
-        specifier: ^2.4.0
+        specifier: catalog:dev
         version: 2.4.0
       lint-staged:
         specifier: catalog:dev
