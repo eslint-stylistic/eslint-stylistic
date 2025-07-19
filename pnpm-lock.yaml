@@ -295,6 +295,9 @@ importers:
       json-schema-to-typescript-lite:
         specifier: catalog:dev
         version: 15.0.0
+      jsonc-eslint-parser:
+        specifier: ^2.4.0
+        version: 2.4.0
       lint-staged:
         specifier: catalog:dev
         version: 16.1.5

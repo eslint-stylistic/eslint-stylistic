@@ -17,6 +17,7 @@ export type {
   ReportDescriptor,
   ReportFixFunction,
   RuleContext,
+  RuleFix,
   RuleFixer,
   RuleFunction,
   RuleListener,
