@@ -37,12 +37,16 @@ async function readPackages() {
     const resolvedRules = await Promise.all(
       rules
         .map(async (i) => {
-          const name = i.name
+          let name = i.name
 
           const entry = join(RULES_DIR, name, `${name}.ts`)
           const url = pathToFileURL(entry).href
           const mod = await import(url)
           const meta = mod.default?.meta
+          const experimental = Boolean(meta?.docs?.experimental)
+
+          if (experimental)
+            name = `exp-${name}`
 
           const docsBase = join(RULES_DIR, i.name)
           const docs = join(docsBase, `README.md`)
@@ -56,6 +60,7 @@ async function readPackages() {
               fixable: meta?.fixable,
               docs: {
                 description: meta?.docs?.description,
+                experimental,
                 recommended: rulesInSharedConfig.has(`@stylistic/${name}`),
               },
             },

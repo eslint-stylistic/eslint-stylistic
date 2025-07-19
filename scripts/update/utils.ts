@@ -40,7 +40,7 @@ export async function readPackage(path: string): Promise<PackageInfo> {
         meta: {
           fixable: meta?.fixable,
           docs: {
-            description: meta?.docs?.description,
+            ...meta.docs,
             recommended: rulesInSharedConfig.has(`@stylistic/${name}`),
           },
         },
