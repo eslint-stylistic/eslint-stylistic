@@ -10,6 +10,11 @@ import {
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
+const SUPPORTED_NODES = ['ObjectPattern', 'ObjectExpression', 'ImportDeclaration', 'ImportAttributes', 'ExportNamedDeclaration', 'ExportAllDeclaration', 'TSMappedType', 'TSTypeLiteral', 'TSInterfaceBody', 'TSEnumBody'] as const
+
+type SupportedNodeTypes = typeof SUPPORTED_NODES[number]
+type SupportedNodes = Extract<ASTNode, { type: SupportedNodeTypes }>
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-curly-spacing',
   meta: {
@@ -31,6 +36,19 @@ export default createRule<RuleOptions, MessageIds>({
           },
           objectsInObjects: {
             type: 'boolean',
+          },
+          overrides: {
+            type: 'object',
+            properties: Object.fromEntries(
+              SUPPORTED_NODES.map(node => [
+                node,
+                {
+                  type: 'string',
+                  enum: ['always', 'never'],
+                },
+              ]),
+            ),
+            additionalProperties: false,
           },
         },
         additionalProperties: false,
@@ -66,6 +84,7 @@ export default createRule<RuleOptions, MessageIds>({
       spaced,
       arraysInObjectsException: isOptionSet('arraysInObjects'),
       objectsInObjectsException: isOptionSet('objectsInObjects'),
+      overrides: secondOption?.overrides ?? {},
     }
 
     /**
@@ -167,11 +186,16 @@ export default createRule<RuleOptions, MessageIds>({
      * @param closingToken The last token to check (should be closing brace)
      */
     function validateBraceSpacing(
-      node: ASTNode,
+      node: SupportedNodes,
       openingToken: Token,
       closingToken: Token,
+      nodeType: SupportedNodeTypes = node.type,
     ): void {
       const tokenAfterOpening = sourceCode.getTokenAfter(openingToken, { includeComments: true })!
+
+      const spaced = options.overrides[nodeType]
+        ? options.overrides[nodeType] === 'always'
+        : options.spaced
 
       if (isTokenOnSameLine(openingToken, tokenAfterOpening)) {
         const firstSpaced = sourceCode.isSpaceBetween!(openingToken, tokenAfterOpening)
@@ -185,8 +209,8 @@ export default createRule<RuleOptions, MessageIds>({
               AST_NODE_TYPES.TSMappedType,
               AST_NODE_TYPES.TSIndexSignature,
             ].includes(secondType)
-            ? !options.spaced
-            : options.spaced
+            ? !spaced
+            : spaced
 
         if (openingCurlyBraceMustBeSpaced && !firstSpaced)
           reportRequiredBeginningSpace(node, openingToken)
@@ -230,8 +254,8 @@ export default createRule<RuleOptions, MessageIds>({
               AST_NODE_TYPES.TSTypeLiteral,
             ].includes(penultimateType)
           )
-            ? !options.spaced
-            : options.spaced
+            ? !spaced
+            : spaced
 
         const lastSpaced = sourceCode.isSpaceBetween!(tokenBeforeClosing, closingToken)
 
@@ -248,14 +272,14 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node An object-like node to check.
      * @param properties The properties of the object-like node
      */
-    function checkForObjectLike(node: ASTNode, properties: ASTNode[]) {
+    function checkForObjectLike(node: SupportedNodes, properties: ASTNode[], nodeType: SupportedNodeTypes = node.type) {
       if (properties.length === 0)
         return
 
       const openingToken = sourceCode.getTokenBefore(properties[0], isOpeningBraceToken)!
       const closeToken = sourceCode.getTokenAfter(properties.at(-1)!, isClosingBraceToken)!
 
-      validateBraceSpacing(node, openingToken, closeToken)
+      validateBraceSpacing(node, openingToken, closeToken, nodeType)
     }
 
     return {
@@ -270,7 +294,7 @@ export default createRule<RuleOptions, MessageIds>({
       // import {y} from 'x';
       ImportDeclaration(node) {
         if (node.attributes)
-          checkForObjectLike(node, node.attributes)
+          checkForObjectLike(node, node.attributes, 'ImportAttributes')
 
         if (node.specifiers.length === 0)
           return
@@ -286,11 +310,11 @@ export default createRule<RuleOptions, MessageIds>({
         checkForObjectLike(node, node.specifiers)
 
         if (node.attributes)
-          checkForObjectLike(node, node.attributes)
+          checkForObjectLike(node, node.attributes, 'ImportAttributes')
       },
       ExportAllDeclaration(node) {
         if (node.attributes)
-          checkForObjectLike(node, node.attributes)
+          checkForObjectLike(node, node.attributes, 'ImportAttributes')
       },
       TSMappedType(node) {
         const openingToken = sourceCode.getFirstToken(node)!
