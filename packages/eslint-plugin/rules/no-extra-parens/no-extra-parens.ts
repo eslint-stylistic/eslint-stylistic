@@ -77,6 +77,7 @@ export default createRule<RuleOptions, MessageIds>({
                   },
                   additionalProperties: false,
                 },
+                allowMultiline: { type: 'boolean' },
               },
               additionalProperties: false,
             },
@@ -121,6 +122,8 @@ export default createRule<RuleOptions, MessageIds>({
       && context.options[1].nestedConditionalExpressions === false
     const ALLOW_NODES_IN_SPREAD = ALL_NODES && context.options[1]
       && new Set(Object.entries(context.options[1].allowNodesInSpreadElement || {}).filter(([_, value]) => value).map(([key]) => key))
+    const ALLOW_MULTILINE = ALL_NODES && context.options[1]
+      && context.options[1].allowMultiline
 
     // @ts-expect-error other properties are not used
     const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' })
@@ -280,6 +283,9 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function ruleApplies(node: ASTNode) {
+      if (ALLOW_MULTILINE && !isSingleLine(node))
+        return false
+
       if (node.type === 'JSXElement' || node.type === 'JSXFragment') {
         switch (IGNORE_JSX) {
           // Exclude this JSX element from linting

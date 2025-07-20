@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: KKrAixzzGAN09ZclL9LL0qFoWiaYwe4nTFUmIo46Nn8 */
+/* @checksum: z9PnCWTaqusBDt0iiIIFqSrEtrGAGzPTUtIhOYaeMYE */
 
 export type NoExtraParensSchema0
   = | []
@@ -30,6 +30,7 @@ export type NoExtraParensSchema0
           LogicalExpression?: boolean
           AwaitExpression?: boolean
         }
+        allowMultiline?: boolean
       },
     ]
 

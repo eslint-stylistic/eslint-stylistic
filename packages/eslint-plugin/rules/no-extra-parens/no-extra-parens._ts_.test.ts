@@ -361,6 +361,17 @@ run<RuleOptions, MessageIds>({
 
     `type Foo = string & (number | 'bar')`,
     `type Foo = (a extends string ? 'bar' : number)[]`,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/872
+    {
+      code: $`
+        type TBar = (
+            First
+            & Second
+            & Third
+        );
+      `,
+      options: ['all', { allowMultiline: true }],
+    },
   ],
 
   invalid: [
