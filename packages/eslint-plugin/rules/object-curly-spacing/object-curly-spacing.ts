@@ -275,19 +275,11 @@ export default createRule<RuleOptions, MessageIds>({
         if (node.specifiers.length === 0)
           return
 
-        let firstSpecifier = node.specifiers[0]
-        const lastSpecifier = node.specifiers.at(-1)!
+        const specifiers = node.specifiers[0].type !== 'ImportSpecifier'
+          ? node.specifiers.slice(1)
+          : node.specifiers
 
-        if (lastSpecifier.type !== 'ImportSpecifier')
-          return
-
-        if (firstSpecifier.type !== 'ImportSpecifier')
-          firstSpecifier = node.specifiers[1]
-
-        const openingToken = sourceCode.getTokenBefore(firstSpecifier, isOpeningBraceToken)!
-        const closeToken = sourceCode.getTokenAfter(lastSpecifier, isClosingBraceToken)!
-
-        validateBraceSpacing(node, openingToken, closeToken)
+        checkForObjectLike(node, specifiers)
       },
       // export {name} from 'yo';
       ExportNamedDeclaration(node) {
