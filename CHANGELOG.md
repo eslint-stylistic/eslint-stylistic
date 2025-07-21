@@ -1,5 +1,24 @@
 # Changelog
 
+## [5.2.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.2.0...v5.2.1) (2025-07-21)
+
+
+### Bug Fixes
+
+* **indent:** ignore semicolon in `TSTypeAliasDeclaration` ([#903](https://github.com/eslint-stylistic/eslint-stylistic/issues/903)) ([71aaccc](https://github.com/eslint-stylistic/eslint-stylistic/commit/71aaccc8306f6625f57596d532c06a1562388129))
+* run update, correct schema ([#887](https://github.com/eslint-stylistic/eslint-stylistic/issues/887)) ([cc06d9a](https://github.com/eslint-stylistic/eslint-stylistic/commit/cc06d9ab03ac99ac09633be4b9b18ee398083943))
+
+
+### Chores
+
+* **object-curly-spacing:** simplify import/export checks ([#897](https://github.com/eslint-stylistic/eslint-stylistic/issues/897)) ([5c1b8e9](https://github.com/eslint-stylistic/eslint-stylistic/commit/5c1b8e92551806bcf548201534b2095244b29136))
+* unify `isRegExpLiteral` ([#891](https://github.com/eslint-stylistic/eslint-stylistic/issues/891)) ([0d9a5f7](https://github.com/eslint-stylistic/eslint-stylistic/commit/0d9a5f736c83a2fb89d6fc466616fd87babd3272))
+
+
+### Performance
+
+* reduce array iterations ([#886](https://github.com/eslint-stylistic/eslint-stylistic/issues/886)) ([84b7d0e](https://github.com/eslint-stylistic/eslint-stylistic/commit/84b7d0e2c91f01c2bedfbd505555daf4c22bccb8))
+
 ## [5.2.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.1.0...v5.2.0) (2025-07-16)
 
 
