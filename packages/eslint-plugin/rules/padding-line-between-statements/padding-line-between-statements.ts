@@ -454,7 +454,6 @@ const PaddingTypes = {
 const MaybeMultilineStatementType: Record<string, NodeTestObject> = {
   'block-like': { test: isBlockLikeStatement },
   'expression': { test: isExpression },
-
   'export': newKeywordTester(
     [
       AST_NODE_TYPES.ExportAllDeclaration,
@@ -463,7 +462,6 @@ const MaybeMultilineStatementType: Record<string, NodeTestObject> = {
     ],
     'export',
   ),
-
   'var': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'var'),
   'let': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'let'),
   'const': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'const'),
@@ -544,9 +542,7 @@ const StatementTypes: Record<string, NodeTestObject> = {
     AST_NODE_TYPES.TSTypeAliasDeclaration,
     'type',
   ),
-  'function-overload': {
-    test: node => node.type === 'TSDeclareFunction',
-  },
+  'function-overload': newNodeTypeTester(AST_NODE_TYPES.TSDeclareFunction),
   ...Object.fromEntries(
     Object.entries(MaybeMultilineStatementType)
       .flatMap(([key, value]) => [
