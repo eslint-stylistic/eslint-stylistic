@@ -1,6 +1,3 @@
-// this rule tests new lines which prettier tries to fix, breaking the tests
-/* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
-
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from './padding-line-between-statements'
@@ -440,6 +437,23 @@ run<RuleOptions, MessageIds>({
         type Foo = {\na(): string;\n\nb(): number;\n\nc(): boolean;\n\nd(): string;\n}
       `,
       options: [{ blankLine: 'always', prev: 'ts-method', next: '*' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: $`
+        type Foo = number
+        type Bar = {
+          x: string
+        }
+      `,
+      output: $`
+        type Foo = number
+        
+        type Bar = {
+          x: string
+        }
+      `,
+      options: [{ blankLine: 'always', prev: '*', next: 'multiline-type' }],
       errors: [{ messageId: 'expectedBlankLine' }],
     },
   ],
