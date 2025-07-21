@@ -72,19 +72,7 @@ You can supply any number of configurations. If a statement pair matches multipl
   - `"iife"` is immediately invoked function expression statements. This matches calls on a function expression, optionally prefixed with a unary operator.
   - `"import"` is `import` declarations.
   - `"let"` is `let` variable declarations, both single-line and multiline.
-  - `"multiline-block-like"` is block like statements. This is the same as `block-like` type, but only if the block is multiline.
-  - `"multiline-const"` is multiline `const` variable declarations.
-  - `"multiline-export"` is multiline `export` declarations.
-  - `"multiline-expression"` is expression statements. This is the same as `expression` type, but only if the statement is multiline.
-  - `"multiline-let"` is multiline `let` variable declarations.
-  - `"multiline-using"` is multiline `using` and `await using` variable declarations.
-  - `"multiline-var"` is multiline `var` variable declarations.
   - `"return"` is `return` statements.
-  - `"singleline-const"` is single-line `const` variable declarations.
-  - `"singleline-export"` is single-line `export` declarations.
-  - `"singleline-let"` is single-line `let` variable declarations.
-  - `"singleline-using"` is single-line `using` and `await using` variable declarations.
-  - `"singleline-var"` is single-line `var` variable declarations.
   - `"switch"` is `switch` statements.
   - `"throw"` is `throw` statements.
   - `"try"` is `try` statements.
@@ -92,14 +80,25 @@ You can supply any number of configurations. If a statement pair matches multipl
   - `"var"` is `var` variable declarations, both single-line and multiline.
   - `"while"` is `while` loop statements.
   - `"with"` is `with` statements.
-  - `enum`
-  - `interface`
-  - `type`
-  - `function-overload`
+  - `"enum"` is `enum` declarations.
+  - `"interface"` is `interface` declarations.
+  - `"type"` is `type alias` declarations.
+  - `"function-overload"` is function overloads.
+
+> [!NOTE]
+>
+> `STATEMENT_TYPE` following can add `singleline-` or `multiline-` prefix:
+>
+> `block-like`, `export`, `var`, `let`, `const`, `using`.
+>
+> For example:
+>
+> - `"singleline-var"` is single-line `var` variable declarations.
+> - `"multiline-var"` is multiline `var` variable declarations.
 
 ## Examples
 
-This configuration would require blank lines before all `return` statements, like the [newline-before-return](newline-before-return) rule.
+This configuration would require blank lines before all `return` statements, like the [newline-before-return](https://eslint.org/docs/latest/rules/newline-before-return) rule.
 
 Examples of **incorrect** code for the `[{ blankLine: "always", prev: "*", next: "return" }]` configuration:
 
