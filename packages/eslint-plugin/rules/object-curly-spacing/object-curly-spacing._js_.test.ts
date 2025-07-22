@@ -169,7 +169,7 @@ run<RuleOptions, MessageIds>({
       languageOptions: languageOptionsForBabelFlow,
     },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/906
-    `import ActionManagementApi, * as ActionManagementModule from '@lcep/action-management-api';`,
+    `import foo, * as bar from 'mod'`,
   ],
 
   invalid: [
