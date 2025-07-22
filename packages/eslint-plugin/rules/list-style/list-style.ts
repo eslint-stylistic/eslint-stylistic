@@ -89,7 +89,7 @@ export default createRule<RuleOptions, MessageIds>({
   },
   defaultOptions: [{
     singleLine: {
-      spacing: 'always',
+      spacing: 'never',
       maxItems: Number.POSITIVE_INFINITY,
     },
     multiLine: {
