@@ -89,11 +89,16 @@ export default createRule<RuleOptions, MessageIds>({
   },
   defaultOptions: [{
     singleLine: {
-      spacing: 'never',
+      spacing: 'always',
       maxItems: Number.POSITIVE_INFINITY,
     },
     multiLine: {
       maxItemsPerLine: 1,
+    },
+    overrides: {
+      ArrayExpression: { singleLine: { spacing: 'never' } },
+      ArrayPattern: { singleLine: { spacing: 'never' } },
+      JSONArrayExpression: { singleLine: { spacing: 'never' } },
     },
   }],
   create: (context, [options] = [{}]) => {
@@ -224,6 +229,36 @@ export default createRule<RuleOptions, MessageIds>({
       },
       ObjectPattern(node) {
         check('{}', node, node.properties)
+      },
+      ImportDeclaration(node) {
+        check('{}', node, node.specifiers.filter(specifier => specifier.type === 'ImportSpecifier'))
+
+        if (node.attributes)
+          check('{}', node, node.attributes)
+      },
+      ExportNamedDeclaration(node) {
+        check('{}', node, node.specifiers)
+
+        if (node.attributes)
+          check('{}', node, node.attributes)
+      },
+      ExportAllDeclaration(node) {
+        if (node.attributes)
+          check('{}', node, node.attributes)
+      },
+
+      // TSMappedType(node){
+
+      // },
+
+      TSTypeLiteral(node) {
+        check('{}', node, node.members)
+      },
+      TSInterfaceBody(node) {
+        check('{}', node, node.body)
+      },
+      TSEnumBody(node) {
+        check('{}', node, node.members)
       },
 
       JSONArrayExpression(node: Tree.ArrayExpression) {

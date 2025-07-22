@@ -1,8 +1,9 @@
+import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from './list-style'
 
-run({
-  name: 'list-newline',
+run<RuleOptions, MessageIds>({
+  name: 'list-style',
   rule,
   parserOptions: {
     ecmaFeatures: {
