@@ -579,7 +579,7 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         var foo
-          = 1,
+            = 1,
           bar
             = 2
       `,
@@ -588,18 +588,18 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         var foo
-          =
-          1,
+            =
+              1,
           bar
             =
-            2
+              2
       `,
-      options: [2, { VariableDeclarator: 1, assignmentOperator: 'off' }],
+      options: [2, { VariableDeclarator: 1 }],
     },
     {
       code: $`
         var foo
-          = (1),
+            = (1),
           bar
             = (2)
       `,
@@ -7597,20 +7597,20 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         var abc =
-             {
-               a: 1,
-                b: 2
-             };
+          {
+            a: 1,
+             b: 2
+          };
       `,
       output: $`
         var abc =
-             {
-               a: 1,
-               b: 2
-             };
+          {
+            a: 1,
+            b: 2
+          };
       `,
       options: [2, { VariableDeclarator: 'first', SwitchCase: 1 }],
-      errors: expectedErrors([4, 7, 8, 'Identifier']),
+      errors: expectedErrors([4, 4, 5, 'Identifier']),
     },
     {
       code: $`

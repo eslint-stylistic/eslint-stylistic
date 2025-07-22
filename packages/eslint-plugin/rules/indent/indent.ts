@@ -1374,6 +1374,43 @@ export default createRule<RuleOptions, MessageIds>({
       offsets.setDesiredOffsets([extendsToken.range[0], node.body.range[0]], classToken, 1)
     }
 
+    function checkClassProperty(node: Tree.PropertyDefinition | Tree.AccessorProperty) {
+      const firstToken = sourceCode.getFirstToken(node)!
+      let keyLastToken: Token
+
+      // Indent key.
+      if (node.computed) {
+        const bracketTokenL = sourceCode.getTokenBefore(node.key, isOpeningBracketToken)!
+        const bracketTokenR = keyLastToken = sourceCode.getTokenAfter(node.key, isClosingBracketToken)!
+        const keyRange: [number, number] = [bracketTokenL.range[1], bracketTokenR.range[0]]
+
+        if (bracketTokenL !== firstToken)
+          offsets.setDesiredOffset(bracketTokenL, firstToken, 0)
+
+        offsets.setDesiredOffsets(keyRange, bracketTokenL, 1)
+        offsets.setDesiredOffset(bracketTokenR, bracketTokenL, 0)
+      }
+      else {
+        const idToken = keyLastToken = sourceCode.getFirstToken(node.key)!
+
+        if (!node.decorators?.length && idToken !== firstToken)
+          offsets.setDesiredOffset(idToken, firstToken, 1)
+      }
+
+      const lastToken = sourceCode.getLastToken(node)!
+      if (node.value) {
+        const eqToken = sourceCode.getTokenBefore(node.value, isNotOpeningParenToken)!
+
+        checkAssignmentOperator(eqToken)
+        if (isSemicolonToken(lastToken))
+          offsets.setDesiredOffset(lastToken, eqToken, 1)
+      }
+      else if (isSemicolonToken(lastToken)) {
+        // TODO: ignore like `VariableDeclaration`
+        offsets.setDesiredOffset(lastToken, keyLastToken, 1)
+      }
+    }
+
     // JSXText
     function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
       let src = context.sourceCode.getText(node, node.loc.start.column)
@@ -1685,42 +1722,8 @@ export default createRule<RuleOptions, MessageIds>({
         }
       },
 
-      PropertyDefinition(node) {
-        const firstToken = sourceCode.getFirstToken(node)!
-        const maybeSemicolonToken = sourceCode.getLastToken(node)!
-        let keyLastToken: Token
-
-        // Indent key.
-        if (node.computed) {
-          const bracketTokenL = sourceCode.getTokenBefore(node.key, isOpeningBracketToken)!
-          const bracketTokenR = keyLastToken = sourceCode.getTokenAfter(node.key, isClosingBracketToken)!
-          const keyRange = [bracketTokenL.range[1], bracketTokenR.range[0]] as [number, number]
-
-          if (bracketTokenL !== firstToken)
-            offsets.setDesiredOffset(bracketTokenL, firstToken, 0)
-
-          offsets.setDesiredOffsets(keyRange, bracketTokenL, 1)
-          offsets.setDesiredOffset(bracketTokenR, bracketTokenL, 0)
-        }
-        else {
-          const idToken = keyLastToken = sourceCode.getFirstToken(node.key)!
-
-          if (!node.decorators?.length && idToken !== firstToken)
-            offsets.setDesiredOffset(idToken, firstToken, 1)
-        }
-
-        // Indent initializer.
-        if (node.value) {
-          const eqToken = sourceCode.getTokenBefore(node.value, isNotOpeningParenToken)!
-
-          checkAssignmentOperator(eqToken)
-          if (isSemicolonToken(maybeSemicolonToken))
-            offsets.setDesiredOffset(maybeSemicolonToken, eqToken, 1)
-        }
-        else if (isSemicolonToken(maybeSemicolonToken)) {
-          offsets.setDesiredOffset(maybeSemicolonToken, keyLastToken, 1)
-        }
-      },
+      'PropertyDefinition': checkClassProperty,
+      'AccessorProperty': checkClassProperty,
 
       StaticBlock(node) {
         const openingCurly = sourceCode.getFirstToken(node, { skip: 1 })! // skip the `static` token
