@@ -859,6 +859,14 @@ run<RuleOptions, MessageIds>({
           return !! authResult && authResult.isAuthenticated();
       }
     `,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/901
+    $`
+      type SomeType =
+        'one'
+        | 'two'
+        | 'four'
+      ;
+    `,
   ],
   invalid: [
     ...individualNodeTests.invalid!,
