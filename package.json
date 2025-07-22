@@ -1,7 +1,7 @@
 {
   "name": "@eslint-stylistic/monorepo",
   "type": "module",
-  "version": "5.2.1",
+  "version": "5.2.2",
   "private": true,
   "packageManager": "pnpm@10.13.1",
   "license": "MIT",
