@@ -79,40 +79,6 @@ function newKeywordTester(
 }
 
 /**
- * Creates tester which check if a node starts with specific keyword and spans a single line.
- * @param keyword The keyword to test.
- * @returns the created tester.
- * @private
- */
-function newSinglelineKeywordTester(keyword: string): NodeTestObject {
-  return {
-    test(node, sourceCode): boolean {
-      return (
-        isSingleLine(node)
-        && sourceCode.getFirstToken(node)!.value === keyword
-      )
-    },
-  }
-}
-
-/**
- * Creates tester which check if a node starts with specific keyword and spans multiple lines.
- * @param keyword The keyword to test.
- * @returns the created tester.
- * @private
- */
-function newMultilineKeywordTester(keyword: string): NodeTestObject {
-  return {
-    test(node, sourceCode): boolean {
-      return (
-        !isSingleLine(node)
-        && sourceCode.getFirstToken(node)!.value === keyword
-      )
-    },
-  }
-}
-
-/**
  * Creates tester which check if a node is specific type.
  * @param type The node type to test.
  * @returns the created tester.
@@ -485,6 +451,26 @@ const PaddingTypes = {
   always: { verify: verifyForAlways },
 }
 
+const MaybeMultilineStatementType: Record<string, NodeTestObject> = {
+  'block-like': { test: isBlockLikeStatement },
+  'expression': { test: isExpression },
+  'export': newKeywordTester(
+    [
+      AST_NODE_TYPES.ExportAllDeclaration,
+      AST_NODE_TYPES.ExportDefaultDeclaration,
+      AST_NODE_TYPES.ExportNamedDeclaration,
+    ],
+    'export',
+  ),
+  'var': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'var'),
+  'let': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'let'),
+  'const': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'const'),
+  'using': {
+    test: node => node.type === 'VariableDeclaration'
+      && (node.kind === 'using' || node.kind === 'await using'),
+  },
+}
+
 /**
  * Types of statements.
  * Those have `test` method to check it matches to the given statement.
@@ -492,41 +478,10 @@ const PaddingTypes = {
  */
 const StatementTypes: Record<string, NodeTestObject> = {
   '*': { test: (): boolean => true },
-  'block-like': { test: isBlockLikeStatement },
   'exports': { test: isCJSExport },
   'require': { test: isCJSRequire },
   'directive': { test: isDirectivePrologue },
-  'expression': { test: isExpression },
   'iife': { test: isIIFEStatement },
-
-  'multiline-block-like': {
-    test: (node, sourceCode) => !isSingleLine(node)
-      && isBlockLikeStatement(node, sourceCode),
-  },
-  'multiline-expression': {
-    test: (node, sourceCode) => !isSingleLine(node)
-      && node.type === AST_NODE_TYPES.ExpressionStatement
-      && !isDirectivePrologue(node, sourceCode),
-  },
-
-  'multiline-const': newMultilineKeywordTester('const'),
-  'multiline-export': newMultilineKeywordTester('export'),
-  'multiline-let': newMultilineKeywordTester('let'),
-  'multiline-using': {
-    test: node => node.loc.start.line !== node.loc.end.line
-      && node.type === 'VariableDeclaration'
-      && (node.kind === 'using' || node.kind === 'await using'),
-  },
-  'multiline-var': newMultilineKeywordTester('var'),
-  'singleline-const': newSinglelineKeywordTester('const'),
-  'singleline-export': newSinglelineKeywordTester('export'),
-  'singleline-let': newSinglelineKeywordTester('let'),
-  'singleline-using': {
-    test: node => node.loc.start.line === node.loc.end.line
-      && node.type === 'VariableDeclaration'
-      && (node.kind === 'using' || node.kind === 'await using'),
-  },
-  'singleline-var': newSinglelineKeywordTester('var'),
 
   'block': newNodeTypeTester(AST_NODE_TYPES.BlockStatement),
   'empty': newNodeTypeTester(AST_NODE_TYPES.EmptyStatement),
@@ -536,7 +491,6 @@ const StatementTypes: Record<string, NodeTestObject> = {
   'break': newKeywordTester(AST_NODE_TYPES.BreakStatement, 'break'),
   'case': newKeywordTester(AST_NODE_TYPES.SwitchCase, 'case'),
   'class': newKeywordTester(AST_NODE_TYPES.ClassDeclaration, 'class'),
-  'const': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'const'),
   'continue': newKeywordTester(AST_NODE_TYPES.ContinueStatement, 'continue'),
   'debugger': newKeywordTester(AST_NODE_TYPES.DebuggerStatement, 'debugger'),
   'default': newKeywordTester(
@@ -544,14 +498,6 @@ const StatementTypes: Record<string, NodeTestObject> = {
     'default',
   ),
   'do': newKeywordTester(AST_NODE_TYPES.DoWhileStatement, 'do'),
-  'export': newKeywordTester(
-    [
-      AST_NODE_TYPES.ExportAllDeclaration,
-      AST_NODE_TYPES.ExportDefaultDeclaration,
-      AST_NODE_TYPES.ExportNamedDeclaration,
-    ],
-    'export',
-  ),
   'for': newKeywordTester(
     [
       AST_NODE_TYPES.ForStatement,
@@ -562,16 +508,10 @@ const StatementTypes: Record<string, NodeTestObject> = {
   ),
   'if': newKeywordTester(AST_NODE_TYPES.IfStatement, 'if'),
   'import': newKeywordTester(AST_NODE_TYPES.ImportDeclaration, 'import'),
-  'let': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'let'),
   'return': newKeywordTester(AST_NODE_TYPES.ReturnStatement, 'return'),
   'switch': newKeywordTester(AST_NODE_TYPES.SwitchStatement, 'switch'),
   'throw': newKeywordTester(AST_NODE_TYPES.ThrowStatement, 'throw'),
   'try': newKeywordTester(AST_NODE_TYPES.TryStatement, 'try'),
-  'using': {
-    test: node => node.type === 'VariableDeclaration'
-      && (node.kind === 'using' || node.kind === 'await using'),
-  },
-  'var': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'var'),
   'while': newKeywordTester(
     [AST_NODE_TYPES.WhileStatement, AST_NODE_TYPES.DoWhileStatement],
     'while',
@@ -590,7 +530,6 @@ const StatementTypes: Record<string, NodeTestObject> = {
       && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init!)),
   },
 
-  // Additional Typescript constructs
   'enum': newKeywordTester(
     AST_NODE_TYPES.TSEnumDeclaration,
     'enum',
@@ -603,9 +542,28 @@ const StatementTypes: Record<string, NodeTestObject> = {
     AST_NODE_TYPES.TSTypeAliasDeclaration,
     'type',
   ),
-  'function-overload': {
-    test: node => node.type === 'TSDeclareFunction',
-  },
+  'function-overload': newNodeTypeTester(AST_NODE_TYPES.TSDeclareFunction),
+  ...Object.fromEntries(
+    Object.entries(MaybeMultilineStatementType)
+      .flatMap(([key, value]) => [
+        [key, value],
+        [
+          `singleline-${key}`,
+          {
+            ...value,
+            test: (node, sourceCode) => value.test(node, sourceCode) && isSingleLine(node),
+          },
+        ],
+        [
+          `multiline-${key}`,
+          {
+            ...value,
+            test: (node, sourceCode) => value.test(node, sourceCode) && !isSingleLine(node),
+          },
+        ],
+      ],
+      ),
+  ),
 }
 
 export default createRule<Options, MessageIds>({
@@ -625,17 +583,15 @@ export default createRule<Options, MessageIds>({
           enum: Object.keys(PaddingTypes),
         },
         statementType: {
+          type: 'string',
+          enum: Object.keys(StatementTypes),
+        },
+        statementOption: {
           anyOf: [
-            {
-              type: 'string',
-              enum: Object.keys(StatementTypes),
-            },
+            { $ref: '#/$defs/statementType' },
             {
               type: 'array',
-              items: {
-                type: 'string',
-                enum: Object.keys(StatementTypes),
-              },
+              items: { $ref: '#/$defs/statementType' },
               minItems: 1,
               uniqueItems: true,
               additionalItems: false,
@@ -649,8 +605,8 @@ export default createRule<Options, MessageIds>({
         type: 'object',
         properties: {
           blankLine: { $ref: '#/$defs/paddingType' },
-          prev: { $ref: '#/$defs/statementType' },
-          next: { $ref: '#/$defs/statementType' },
+          prev: { $ref: '#/$defs/statementOption' },
+          next: { $ref: '#/$defs/statementOption' },
         },
         additionalProperties: false,
         required: ['blankLine', 'prev', 'next'],
