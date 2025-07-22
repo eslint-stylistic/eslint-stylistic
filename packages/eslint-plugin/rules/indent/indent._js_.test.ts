@@ -6508,6 +6508,20 @@ run<RuleOptions, MessageIds>({
               from: "foo"
           };
     `,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/845
+    $`
+      const answer = showInformationMessage('The MySQL Router config directory ' +
+            '... was not found. Do you want to bootstrap a local MySQL Router ' +
+            'instance for development now?', {}, "Yes", "No");
+    `,
+    {
+      code: $`
+        showInformationMessage('The MySQL Router config directory ... was ' +
+          'not found. Please bootstrap a local MySQL Router instance for development first.', {},
+          "OK");
+      `,
+      options: [2, { offsetMultilineExpressions: true }],
+    },
   ],
 
   invalid: [
@@ -14274,52 +14288,7 @@ run<RuleOptions, MessageIds>({
             bar
           }];
       `,
-      options: [2, { offsetMultiLineInList: true }],
-    },
-    {
-      code: $`
-        const answer = showInformationMessage("The MySQL Router config directory " +
-              "some" +
-              "some",
-        "Yes", "No");
-      `,
-      output: $`
-        const answer = showInformationMessage("The MySQL Router config directory " +
-              "some" +
-              "some",
-          "Yes", "No");
-      `,
-      options: [2, { offsetMultiLineInList: true }],
-    },
-    {
-      code: $`
-        const answer = showInformationMessage("The MySQL Router config directory ",
-        "Yes" +
-              "some" +
-              "some",
-        "No");
-      `,
-      output: $`
-        const answer = showInformationMessage("The MySQL Router config directory ",
-          "Yes" +
-              "some" +
-              "some",
-          "No");
-      `,
-      options: [2, { offsetMultiLineInList: true }],
-    },
-    {
-      code: $`
-        console.log(true &&
-              "some",
-            "aa")
-      `,
-      output: $`
-        console.log(true &&
-              "some",
-          "aa")
-      `,
-      options: [2, { offsetMultiLineInList: true }],
+      options: [2, { offsetMultilineExpressions: true }],
     },
     {
       code: $`
@@ -14334,7 +14303,7 @@ run<RuleOptions, MessageIds>({
           },
           "aa")
       `,
-      options: [2, { offsetMultiLineInList: true }],
+      options: [2, { offsetMultilineExpressions: true }],
     },
     {
       code: $`
@@ -14351,7 +14320,7 @@ run<RuleOptions, MessageIds>({
           a = 2
         }
       `,
-      options: [2, { offsetMultiLineInList: true }],
+      options: [2, { offsetMultilineExpressions: true }],
     },
     {
       code: $`
@@ -14368,7 +14337,7 @@ run<RuleOptions, MessageIds>({
             d: 3
         }
       `,
-      options: [2, { ObjectExpression: 2, offsetMultiLineInList: true }],
+      options: [2, { ObjectExpression: 2, offsetMultilineExpressions: true }],
     },
   ],
 })
