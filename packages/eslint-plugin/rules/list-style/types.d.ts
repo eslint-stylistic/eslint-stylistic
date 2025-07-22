@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: K-miWHQYFcFtCo4iRPzVqbdrIBi6dOTCvEhv0814LRA */
+/* @checksum: teuhd7zPnvsuNFIpLyqgrrk2XjblDEHSTa-PdeSNwvw */
 
 export type ListStyleSchema0 = BaseConfig & {
   overrides?: {
@@ -33,7 +33,7 @@ export interface BaseConfig {
     maxItems?: number
   }
   multiline?: {
-    maxItems?: number
+    maxItemsPerLine?: number
   }
 }
 
