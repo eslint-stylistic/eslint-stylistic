@@ -1,3 +1,4 @@
+import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 
@@ -37,7 +38,7 @@ export default createRule<RuleOptions, MessageIds>({
                 type: 'object',
                 additionalProperties: false,
                 properties: {
-                  maxItems: {
+                  maxItemsPerLine: {
                     type: 'integer',
                     default: 1,
                     minimum: 1,
@@ -89,12 +90,48 @@ export default createRule<RuleOptions, MessageIds>({
       shouldNotWrap: 'Should not have line breaks between items, in node {{name}}',
     },
   },
-  defaultOptions: [{}],
+  defaultOptions: [{
+    singleLine: {
+      spacing: 'always',
+      maxItems: Number.POSITIVE_INFINITY,
+    },
+    multiline: {
+      maxItemsPerLine: 1,
+    },
+  }],
   // TODO: implement
   // eslint-disable-next-line unused-imports/no-unused-vars
-  create: (context, [options]) => {
-    return {
+  create: (context, [options] = [{}]) => {
+    // eslint-disable-next-line unused-imports/no-unused-vars
+    function checkInBrace(node: ASTNode) {
+      // TODO
+    }
 
+    // eslint-disable-next-line unused-imports/no-unused-vars
+    function checkInBracket(node: ASTNode) {
+      // TODO
+    }
+
+    return {
+      ArrayExpression(node) {
+        checkInBracket(node)
+      },
+      ArrayPattern(node) {
+        checkInBracket(node)
+      },
+      ObjectExpression(node) {
+        checkInBrace(node)
+      },
+      ObjectPattern(node) {
+        checkInBrace(node)
+      },
+
+      JSONArrayExpression(node: Tree.ArrayExpression) {
+        checkInBracket(node)
+      },
+      JSONObjectExpression(node: Tree.ObjectExpression) {
+        checkInBrace(node)
+      },
     }
   },
 })
