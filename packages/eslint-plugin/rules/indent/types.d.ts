@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: EymvwJlQ6j2Zv4M0C2lFPs4av5Hqaprf0K-1cF98Mh8 */
+/* @checksum: ZE8W2CZIwS0ursd3PES6PVlbzvNnUbQ3tcyO4IrGhZg */
 
 export type IndentSchema0 = 'tab' | number
 
@@ -38,10 +38,10 @@ export interface IndentSchema1 {
   flatTernaryExpressions?: boolean
   offsetTernaryExpressions?: boolean
   offsetTernaryExpressionsOffsetCallExpressions?: boolean
+  offsetMultilineExpressions?: boolean
   ignoredNodes?: string[]
   ignoreComments?: boolean
   tabLength?: number
-  offsetMultiLineInList?: boolean
 }
 
 export type IndentRuleOptions = [
