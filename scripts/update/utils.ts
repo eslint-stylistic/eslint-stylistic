@@ -61,7 +61,7 @@ export async function readPackages() {
                 recommended: rulesInSharedConfig.has(`@stylistic/${name}`),
               },
             },
-          }
+          } satisfies RuleInfo
         }),
     )
 
@@ -97,7 +97,7 @@ export async function writeRulesIndex(pkg: PackageInfo) {
       .map(i => `import ${camelCase(i.name)} from './${i.name}/${i.name}'`),
     '',
     'export default {',
-    ...pkg.rules.map(i => `  '${i.name}': ${camelCase(i.name)},`),
+    ...pkg.rules.map(i => `  '${i.ruleId.split('/').at(-1)}': ${camelCase(i.name)},`),
     '} as unknown as Rules',
     '',
   ].join('\n')
