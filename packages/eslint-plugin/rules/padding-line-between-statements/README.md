@@ -89,7 +89,7 @@ You can supply any number of configurations. If a statement pair matches multipl
 >
 > `STATEMENT_TYPE` following can add `singleline-` or `multiline-` prefix:
 >
-> `block-like`, `export`, `var`, `let`, `const`, `using`.
+> `block-like`, `expression`, `export`, `var`, `let`, `const`, `using`.
 >
 > For example:
 >
