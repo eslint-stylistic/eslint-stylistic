@@ -1980,6 +1980,10 @@ export default createRule<RuleOptions, MessageIds>({
         const equalOperator = sourceCode.getTokenBefore(node.typeAnnotation, isNotOpeningParenToken)!
 
         checkDeclarator(node, equalOperator)
+
+        const lastToken = sourceCode.getLastToken(node)!
+        if (isSemicolonToken(lastToken))
+          offsets.ignoreToken(lastToken)
       },
 
       'TSTupleType': checkArrayLikeNode,
