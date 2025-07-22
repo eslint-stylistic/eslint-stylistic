@@ -14323,21 +14323,6 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
-        console.log(true ?
-              "some" :
-              "obb",
-            "aa")
-      `,
-      output: $`
-        console.log(true ?
-            "some" :
-            "obb",
-          "aa")
-      `,
-      options: [2, { offsetMultiLineInList: true }],
-    },
-    {
-      code: $`
         console.log(function() {
           console.log()
         },
@@ -14378,12 +14363,12 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         const obj = {a: {
-            b: 1
-          }, c: 2,
-          d: 3
+                b: 1
+            }, c: 2,
+            d: 3
         }
       `,
-      options: [2, { offsetMultiLineInList: true }],
+      options: [2, { ObjectExpression: 2, offsetMultiLineInList: true }],
     },
   ],
 })
