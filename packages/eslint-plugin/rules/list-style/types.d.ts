@@ -1,8 +1,10 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: teuhd7zPnvsuNFIpLyqgrrk2XjblDEHSTa-PdeSNwvw */
+/* @checksum: OuHa5cDZxQXF-lcwk7jE62UJmbJ3OH_no86m7d1lzwU */
 
-export type ListStyleSchema0 = BaseConfig & {
+export interface ListStyleSchema0 {
+  singleLine?: SingleLineConfig
+  multiLine?: MultiLineConfig
   overrides?: {
     ArrayExpression?: BaseConfig
     ArrayPattern?: BaseConfig
@@ -26,15 +28,16 @@ export type ListStyleSchema0 = BaseConfig & {
     JSONObjectExpression?: BaseConfig
   }
 }
-
+export interface SingleLineConfig {
+  spacing?: 'always' | 'never'
+  maxItems?: number
+}
+export interface MultiLineConfig {
+  maxItemsPerLine?: number
+}
 export interface BaseConfig {
-  singleLine?: {
-    spacing?: 'always' | 'never'
-    maxItems?: number
-  }
-  multiline?: {
-    maxItemsPerLine?: number
-  }
+  singleLine?: SingleLineConfig
+  multiline?: MultiLineConfig
 }
 
 export type ListStyleRuleOptions = [ListStyleSchema0?]
