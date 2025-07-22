@@ -272,14 +272,12 @@ export default createRule<RuleOptions, MessageIds>({
         if (node.attributes)
           checkForObjectLike(node, node.attributes)
 
-        if (node.specifiers.length === 0)
+        const firstSpecifierIndex = node.specifiers.findIndex(specifier => specifier.type === 'ImportSpecifier')
+
+        if (firstSpecifierIndex === -1)
           return
 
-        const specifiers = node.specifiers[0].type !== 'ImportSpecifier'
-          ? node.specifiers.slice(1)
-          : node.specifiers
-
-        checkForObjectLike(node, specifiers)
+        checkForObjectLike(node, node.specifiers.slice(firstSpecifierIndex))
       },
       // export {name} from 'yo';
       ExportNamedDeclaration(node) {
