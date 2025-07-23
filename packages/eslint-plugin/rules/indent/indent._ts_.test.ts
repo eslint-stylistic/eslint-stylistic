@@ -870,12 +870,19 @@ run<RuleOptions, MessageIds>({
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/909
     $`
       genericFunction<
-        () => void
+          () => void
       >(
-        () => {
-          console.log("Test");
-        }
+          () => {
+              console.log("Test");
+          }
       );
+    `,
+    $`
+      genericFunction<() => void>(
+          () => {
+              console.log("Test");
+          }
+      )
     `,
   ],
   invalid: [
