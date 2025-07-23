@@ -867,6 +867,16 @@ run<RuleOptions, MessageIds>({
         | 'four'
       ;
     `,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/909
+    $`
+      genericFunction<
+        () => void
+      >(
+        () => {
+          console.log("Test");
+        }
+      );
+    `,
   ],
   invalid: [
     ...individualNodeTests.invalid!,
