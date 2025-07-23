@@ -1001,10 +1001,15 @@ export default createRule<RuleOptions, MessageIds>({
     function addFunctionCallIndent(node: Tree.CallExpression | Tree.NewExpression) {
       let openingParen
 
-      if (node.arguments.length)
-        openingParen = sourceCode.getTokenBefore(node.arguments[0], isOpeningParenToken)!
-      else
+      if (node.arguments.length) {
+        openingParen = sourceCode.getTokenAfter(
+          node.typeArguments ?? node.callee,
+          isOpeningParenToken,
+        )!
+      }
+      else {
         openingParen = sourceCode.getLastToken(node, 1)!
+      }
 
       const closingParen = sourceCode.getLastToken(node)!
 
