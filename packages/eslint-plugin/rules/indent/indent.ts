@@ -1002,7 +1002,7 @@ export default createRule<RuleOptions, MessageIds>({
       let openingParen
 
       if (node.arguments.length)
-        openingParen = sourceCode.getFirstTokenBetween(node.callee, node.arguments[0], isOpeningParenToken)!
+        openingParen = sourceCode.getTokenBefore(node.arguments[0], isOpeningParenToken)!
       else
         openingParen = sourceCode.getLastToken(node, 1)!
 
