@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.2.3](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.2.2...v5.2.3) (2025-07-24)
+
+
+### Bug Fixes
+
+* **indent:** correctly locate left paren in `CallExpression` with specific type arguments ([#910](https://github.com/eslint-stylistic/eslint-stylistic/issues/910)) ([f551685](https://github.com/eslint-stylistic/eslint-stylistic/commit/f55168509c46a6f6d12b54b68ea335feb1afb2dd))
+
 ## [5.2.2](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.2.1...v5.2.2) (2025-07-22)
 
 
