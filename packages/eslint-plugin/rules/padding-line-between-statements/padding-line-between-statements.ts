@@ -454,6 +454,7 @@ const PaddingTypes = {
 const MaybeMultilineStatementType: Record<string, NodeTestObject> = {
   'block-like': { test: isBlockLikeStatement },
   'expression': { test: isExpression },
+  'return': newKeywordTester(AST_NODE_TYPES.ReturnStatement, 'return'),
   'export': newKeywordTester(
     [
       AST_NODE_TYPES.ExportAllDeclaration,
@@ -469,6 +470,7 @@ const MaybeMultilineStatementType: Record<string, NodeTestObject> = {
     test: node => node.type === 'VariableDeclaration'
       && (node.kind === 'using' || node.kind === 'await using'),
   },
+  'type': newKeywordTester(AST_NODE_TYPES.TSTypeAliasDeclaration, 'type'),
 }
 
 /**
@@ -508,7 +510,6 @@ const StatementTypes: Record<string, NodeTestObject> = {
   ),
   'if': newKeywordTester(AST_NODE_TYPES.IfStatement, 'if'),
   'import': newKeywordTester(AST_NODE_TYPES.ImportDeclaration, 'import'),
-  'return': newKeywordTester(AST_NODE_TYPES.ReturnStatement, 'return'),
   'switch': newKeywordTester(AST_NODE_TYPES.SwitchStatement, 'switch'),
   'throw': newKeywordTester(AST_NODE_TYPES.ThrowStatement, 'throw'),
   'try': newKeywordTester(AST_NODE_TYPES.TryStatement, 'try'),
@@ -537,10 +538,6 @@ const StatementTypes: Record<string, NodeTestObject> = {
   'interface': newKeywordTester(
     AST_NODE_TYPES.TSInterfaceDeclaration,
     'interface',
-  ),
-  'type': newKeywordTester(
-    AST_NODE_TYPES.TSTypeAliasDeclaration,
-    'type',
   ),
   'function-overload': newNodeTypeTester(AST_NODE_TYPES.TSDeclareFunction),
   ...Object.fromEntries(
