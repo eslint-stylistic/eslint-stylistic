@@ -672,6 +672,10 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'boolean',
             default: true,
           },
+          offsetMultilineExpressions: {
+            type: 'boolean',
+            default: false,
+          },
           ignoredNodes: {
             type: 'array',
             items: {
@@ -751,6 +755,7 @@ export default createRule<RuleOptions, MessageIds>({
       ignoreComments: false,
       offsetTernaryExpressions: false,
       offsetTernaryExpressionsOffsetCallExpressions: true,
+      offsetMultilineExpressions: false,
       tabLength: 4,
     }
 
@@ -922,11 +927,13 @@ export default createRule<RuleOptions, MessageIds>({
         return sourceCode.getTokenAfter(token)!
       }
 
+      const offsetNumber = typeof offset === 'number' ? offset : 1
+
       // Run through all the tokens in the list, and offset them by one indent level (mainly for comments, other things will end up overridden)
       offsets.setDesiredOffsets(
         [startToken.range[1], endToken.range[0]],
         startToken,
-        typeof offset === 'number' ? offset : 1,
+        offsetNumber,
       )
       offsets.setDesiredOffset(endToken, startToken, 0)
 
@@ -946,8 +953,17 @@ export default createRule<RuleOptions, MessageIds>({
           }
 
           // Offset the following elements correctly relative to the first element
-          if (index === 0)
+          if (index === 0) {
+            if (options.offsetMultilineExpressions && elements.length > 1) {
+              offsets.setDesiredOffsets(
+                element.range,
+                startToken,
+                offsetNumber,
+                true,
+              )
+            }
             return
+          }
 
           if (offset === 'first' && tokenInfo.isFirstTokenOfLine(getFirstToken(element))) {
             offsets.matchOffsetOf(getFirstToken(elements[0]!), getFirstToken(element))
