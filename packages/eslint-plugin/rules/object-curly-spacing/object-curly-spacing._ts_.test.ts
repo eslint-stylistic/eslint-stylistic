@@ -326,6 +326,14 @@ run<RuleOptions, MessageIds>({
       code: `export * from 'package.json' with {type: 'json'}`,
       options: ['never'],
     },
+    {
+      code: `import {name, version} from 'package.json' with { type: 'json' }`,
+      options: ['never', {
+        overrides: {
+          ImportAttributes: 'always',
+        },
+      }],
+    },
   ],
 
   invalid: [
@@ -500,6 +508,21 @@ run<RuleOptions, MessageIds>({
       output: `export * from 'package.json' with {type: 'json'}`,
       options: ['never'],
       errors: [
+        { messageId: 'unexpectedSpaceAfter' },
+        { messageId: 'unexpectedSpaceBefore' },
+      ],
+    },
+    {
+      code: `import {name, version} from 'package.json' with { type: 'json' }`,
+      output: `import { name, version } from 'package.json' with {type: 'json'}`,
+      options: ['always', {
+        overrides: {
+          ImportAttributes: 'never',
+        },
+      }],
+      errors: [
+        { messageId: 'requireSpaceAfter' },
+        { messageId: 'requireSpaceBefore' },
         { messageId: 'unexpectedSpaceAfter' },
         { messageId: 'unexpectedSpaceBefore' },
       ],
