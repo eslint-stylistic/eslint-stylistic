@@ -23,7 +23,7 @@ features:
   - title: Fully Customizable
     icon: 🛠️
     details: Fine-tune every single rule to fit your needs.
-  - title: One-stop
+  - title: One-step
     icon: 👌
     details: Formatting and Linting in one go, configure once and auto-fix once.
   - title: JavaScript & TypeScript
