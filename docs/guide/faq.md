@@ -35,7 +35,7 @@ Add the following settings to your `.vscode/settings.json`:
 
 ```jsonc
 {
-  "editor.formatOnSave": false,
+  "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.fixAll.eslint": "explicit"
   },
