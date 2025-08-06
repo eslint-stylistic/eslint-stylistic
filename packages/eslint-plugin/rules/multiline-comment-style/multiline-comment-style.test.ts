@@ -1109,12 +1109,12 @@ run<RuleOptions, MessageIds>({
                  */
             `,
       output: `
-                //
+                //${' '}
                 // {
                 //     "foo": 1,
                 //     "bar": 2
                 // }
-                //
+                //${' '}
             `,
       options: ['separate-lines'],
       errors: [
@@ -1259,12 +1259,12 @@ run<RuleOptions, MessageIds>({
                 */
             `,
       output: `
-                //
+                //${' '}
                 // {
                 //     "foo": 1,
                 //     "bar": 2
                 // }
-                //
+                //${' '}
             `,
       options: ['separate-lines'],
       errors: [
@@ -1282,7 +1282,7 @@ run<RuleOptions, MessageIds>({
                 // {
                 //     "foo": 1,
                 //     "bar": 2
-                // }
+                // }${' '}
             `,
       options: ['separate-lines'],
       errors: [
@@ -1299,7 +1299,7 @@ run<RuleOptions, MessageIds>({
             `,
       output: `
                 // foo
-                //
+                //${' '}
                 // bar
             `,
       options: ['separate-lines'],
@@ -1315,7 +1315,7 @@ run<RuleOptions, MessageIds>({
             `,
       output: `
                 // foo
-                //
+                //${' '}
                 // bar
             `,
       options: ['separate-lines'],
@@ -1413,8 +1413,8 @@ ${'                   '}
             `,
       output: `
                 // foo
-                //
-                // bar
+                //${' '}
+                // bar${' '}
             `,
       options: ['separate-lines'],
       errors: [{ messageId: 'expectedLines', line: 2 }],
@@ -1427,8 +1427,8 @@ ${'                   '}
             `,
       output: `
                 // foo
-                //
-                // bar
+                //${' '}
+                // bar${' '}
             `,
       options: ['separate-lines'],
       errors: [{ messageId: 'expectedLines', line: 2 }],

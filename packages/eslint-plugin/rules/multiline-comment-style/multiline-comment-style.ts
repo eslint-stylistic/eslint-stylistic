@@ -248,7 +248,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns A representation of the comment value in separate-line form
      */
     function convertToSeparateLines(firstComment: Token, commentLinesList: string[]): string {
-      return commentLinesList.map(line => `// ${line}`.trimEnd()).join(`\n${getInitialOffset(firstComment)}`)
+      return commentLinesList.map(line => `// ${line}`).join(`\n${getInitialOffset(firstComment)}`)
     }
 
     /**
@@ -258,7 +258,12 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns A representation of the comment value in bare-block form
      */
     function convertToBlock(firstComment: Token, commentLinesList: string[]): string {
-      return `${commentLinesList.reduce((s, c, i, a) => `${s}${c}\n${getInitialOffset(firstComment)}${i < a.length - 1 ? '   ' : ' '}`, '/*')}*/`
+      // Indent the lines by their initial offset + additional 3 spaces;
+      // If its the last line, just add it with one additional space to account for the closing token ('*/');
+      const len = commentLinesList.length - 1
+      const indented = commentLinesList.map((c, i) => `${c}\n${getInitialOffset(firstComment)}${(i < len ? '   ' : ' ')}`)
+
+      return `/*${indented.join('')}*/`
     }
 
     /**
