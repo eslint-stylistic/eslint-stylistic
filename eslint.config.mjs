@@ -80,7 +80,7 @@ export default antfu(
   {
     files: [
       'packages/eslint-plugin/{rules,utils}/**/*.ts',
-      'packages/shared/utils/**/*.ts',
+      'shared/utils/**/*.ts',
     ],
     ignores: ['**/*.test.ts'],
     name: 'local/restrict-types',
@@ -130,7 +130,7 @@ export default antfu(
   {
     files: [
       'packages/eslint-plugin/rules/**/*.ts',
-      'packages/shared/types/**/*.ts',
+      'shared/types/**/*.ts',
     ],
     name: 'local/restrict-utils',
     rules: {
