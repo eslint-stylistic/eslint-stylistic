@@ -1,10 +1,34 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: soIHpiM5cFCk368MarW27c-YxxnV_-4kK7HlPO1MR1A */
+/* @checksum: Ljct-hulrsvuX4UytO9f1kiJqDjxvHOl8NT-QrrDLVk */
 
-export interface ObjectPropertyNewlineSchema0 {
-  allowAllPropertiesOnSameLine?: boolean
-}
+export type ObjectPropertyNewlineSchema0
+  = | {
+    allowAllPropertiesOnSameLine?: boolean
+  }
+  | {
+    ObjectExpression?: {
+      allowAllPropertiesOnSameLine?: boolean
+    }
+    ObjectPattern?: {
+      allowAllPropertiesOnSameLine?: boolean
+    }
+    ImportDeclaration?: {
+      allowAllPropertiesOnSameLine?: boolean
+    }
+    ExportNamedDeclaration?: {
+      allowAllPropertiesOnSameLine?: boolean
+    }
+    TSTypeLiteral?: {
+      allowAllPropertiesOnSameLine?: boolean
+    }
+    TSInterfaceBody?: {
+      allowAllPropertiesOnSameLine?: boolean
+    }
+    TSEnumBody?: {
+      allowAllPropertiesOnSameLine?: boolean
+    }
+  }
 
 export type ObjectPropertyNewlineRuleOptions = [
   ObjectPropertyNewlineSchema0?,
