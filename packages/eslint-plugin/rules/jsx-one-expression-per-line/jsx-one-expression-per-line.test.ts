@@ -1721,14 +1721,14 @@ Go to page 2
       options: [{ allow: 'single-line' }],
     },
     {
-      code: `
-<div><span>foo</span>
-</div>
+      code: $`
+        <div><span>foo</span>
+        </div>
       `,
-      output: `
-<div>
-<span>foo</span>
-</div>
+      output: $`
+        <div>
+        <span>foo</span>
+        </div>
       `,
       options: [{ allow: 'single-line' }],
       errors: [
@@ -1750,6 +1750,25 @@ Go to page 2
           foo
         >
         Up to {percent}% Off
+        </App>
+      `,
+      options: [{ allow: 'single-line' }],
+      errors: [
+        { messageId: 'moveToNewLine' },
+      ],
+    },
+    {
+      code: $`
+        <App
+          foo
+        >
+          Up to {percent}% Off</App>
+      `,
+      output: $`
+        <App
+          foo
+        >
+          Up to {percent}% Off
         </App>
       `,
       options: [{ allow: 'single-line' }],

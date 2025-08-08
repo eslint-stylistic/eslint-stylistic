@@ -159,7 +159,42 @@ export default createRule<RuleOptions, MessageIds>({
         }
       })
 
-      Object.keys(childrenGroupedByLine).forEach((_line) => {
+      const lines = Object.keys(childrenGroupedByLine)
+
+      if (lines.length === 1 && options.allow === 'single-line') {
+        const line = parseInt(lines[0])
+        const children = childrenGroupedByLine[line]
+        const firstChild = children[0]
+        if (line === openingElementEndLine) {
+          context.report({
+            messageId: 'moveToNewLine',
+            node: firstChild,
+            data: {
+              descriptor: nodeDescriptor(firstChild),
+            },
+            fix(fixer) {
+              return fixer.insertTextBefore(firstChild, '\n')
+            },
+          })
+        }
+
+        const lastChild = children.at(-1)!
+        if (line === closingElementStartLine) {
+          context.report({
+            messageId: 'moveToNewLine',
+            node: lastChild,
+            data: {
+              descriptor: nodeDescriptor(lastChild),
+            },
+            fix(fixer) {
+              return fixer.insertTextAfter(lastChild, '\n')
+            },
+          })
+        }
+        return
+      }
+
+      lines.forEach((_line) => {
         const line = parseInt(_line, 10)
         const firstIndex = 0
         const lastIndex = childrenGroupedByLine[line].length - 1
