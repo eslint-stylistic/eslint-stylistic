@@ -1738,6 +1738,7 @@ Go to page 2
         },
       ],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/869
     {
       code: $`
         <App
