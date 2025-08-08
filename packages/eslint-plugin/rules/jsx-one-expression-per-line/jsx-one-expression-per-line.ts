@@ -193,8 +193,8 @@ export default createRule<RuleOptions, MessageIds>({
           const lastIndex = childrenGroupedByLine[line].length - 1
 
           childrenGroupedByLine[line].forEach((child, i) => {
-            let prevChild: Child | Tree.JSXOpeningElement | Tree.JSXClosingElement | Tree.JSXClosingFragment | undefined
-            let nextChild: Child | Tree.JSXOpeningElement | Tree.JSXClosingElement | Tree.JSXClosingFragment | undefined
+            let prevChild: Child | Tree.JSXOpeningElement | Tree.JSXOpeningFragment | undefined
+            let nextChild: Child | Tree.JSXClosingElement | Tree.JSXClosingFragment | undefined
 
             if (i === firstIndex) {
               if (line === openingElementEndLine)
