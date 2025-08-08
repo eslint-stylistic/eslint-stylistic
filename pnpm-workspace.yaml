@@ -1,6 +1,7 @@
 packages:
   - docs
   - packages/*
+  - shared
 catalogs:
   build:
     '@codecov/rollup-plugin': ^1.9.1
