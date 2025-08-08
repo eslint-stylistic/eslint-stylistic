@@ -70,4 +70,10 @@ export interface StylisticCustomizeOptions {
    * @default 'error'
    */
   severity?: 'error' | 'warn'
+  /**
+   * Enable the experimental rules
+   *
+   * @default false
+   */
+  experimental?: boolean
 }
