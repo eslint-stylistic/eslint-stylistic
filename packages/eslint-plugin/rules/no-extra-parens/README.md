@@ -6,8 +6,7 @@ related_rules:
   - no-cond-assign
   - no-return-assign
 further_reading:
-  - >-
-    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence
+  - 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Operator_Precedence'
 ---
 
 # no-extra-parens

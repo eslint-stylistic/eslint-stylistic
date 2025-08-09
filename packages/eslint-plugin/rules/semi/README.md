@@ -7,8 +7,7 @@ related_rules:
   - semi-spacing
 further_reading:
   - 'https://blog.izs.me/2010/12/an-open-letter-to-javascript-leaders-regarding/'
-  - >-
-    https://web.archive.org/web/20200420230322/http://inimino.org/~inimino/blog/javascript_semicolons
+  - 'https://web.archive.org/web/20200420230322/http://inimino.org/~inimino/blog/javascript_semicolons'
 ---
 
 # semi
