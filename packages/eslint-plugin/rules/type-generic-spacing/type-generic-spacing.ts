@@ -7,6 +7,7 @@ const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set([
   'ArrowFunctionExpression',
   'TSFunctionType',
   'FunctionExpression',
+  'ClassExpression',
 ])
 
 export default createRule<RuleOptions, MessageIds>({
