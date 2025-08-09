@@ -1,6 +1,4 @@
 ---
-title: one-var-declaration-per-line
-rule_type: suggestion
 related_rules:
   - one-var
 ---

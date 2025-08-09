@@ -1,6 +1,4 @@
 ---
-title: quotes
-rule_type: layout
 ---
 
 # quotes

@@ -1,6 +1,4 @@
 ---
-title: no-trailing-spaces
-rule_type: layout
 ---
 
 # no-trailing-spaces

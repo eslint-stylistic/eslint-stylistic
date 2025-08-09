@@ -1,6 +1,4 @@
 ---
-title: switch-colon-spacing
-rule_type: layout
 ---
 
 # switch-colon-spacing

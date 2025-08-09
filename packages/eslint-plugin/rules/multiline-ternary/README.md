@@ -1,6 +1,4 @@
 ---
-title: multiline-ternary
-rule_type: layout
 related_rules:
   - operator-linebreak
 ---

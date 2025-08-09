@@ -1,6 +1,4 @@
 ---
-title: no-extra-semi
-rule_type: suggestion
 related_rules:
   - semi
   - semi-spacing

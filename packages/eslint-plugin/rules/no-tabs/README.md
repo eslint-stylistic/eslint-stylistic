@@ -1,6 +1,4 @@
 ---
-title: no-tabs
-rule_type: layout
 ---
 
 # no-tabs

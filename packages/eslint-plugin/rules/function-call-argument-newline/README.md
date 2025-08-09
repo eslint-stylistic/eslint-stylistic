@@ -1,6 +1,4 @@
 ---
-title: function-call-argument-newline
-rule_type: layout
 related_rules:
   - function-paren-newline
   - function-call-spacing

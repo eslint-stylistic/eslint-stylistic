@@ -1,6 +1,4 @@
 ---
-title: space-unary-ops
-rule_type: layout
 ---
 
 # space-unary-ops

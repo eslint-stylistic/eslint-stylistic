@@ -1,6 +1,4 @@
 ---
-title: multiline-comment-style
-rule_type: suggestion
 ---
 
 # multiline-comment-style

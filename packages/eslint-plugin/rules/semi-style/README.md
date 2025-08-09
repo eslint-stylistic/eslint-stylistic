@@ -1,6 +1,4 @@
 ---
-title: semi-style
-rule_type: layout
 related_rules:
   - no-extra-semi
   - semi

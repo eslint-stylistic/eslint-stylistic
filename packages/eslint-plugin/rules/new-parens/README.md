@@ -1,6 +1,4 @@
 ---
-title: new-parens
-rule_type: layout
 ---
 
 # new-parens

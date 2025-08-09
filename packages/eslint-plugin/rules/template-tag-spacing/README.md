@@ -1,11 +1,7 @@
 ---
-title: template-tag-spacing
-rule_type: layout
 further_reading:
-  - >-
-    https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_template_literals
-  - >-
-    https://exploringjs.com/es6/ch_template-literals.html#_examples-of-using-tagged-template-literals
+  - 'https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Template_literals#Tagged_template_literals'
+  - 'https://exploringjs.com/es6/ch_template-literals.html#_examples-of-using-tagged-template-literals'
 ---
 
 # template-tag-spacing

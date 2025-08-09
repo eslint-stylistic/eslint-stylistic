@@ -1,6 +1,4 @@
 ---
-title: function-paren-newline
-rule_type: layout
 ---
 
 # function-paren-newline

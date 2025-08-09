@@ -1,6 +1,4 @@
 ---
-title: comma-style
-rule_type: layout
 related_rules:
   - operator-linebreak
 further_reading:

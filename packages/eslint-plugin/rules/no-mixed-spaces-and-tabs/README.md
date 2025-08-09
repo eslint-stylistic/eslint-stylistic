@@ -1,6 +1,4 @@
 ---
-title: no-mixed-spaces-and-tabs
-rule_type: layout
 further_reading:
   - 'https://www.emacswiki.org/emacs/SmartTabs'
 ---

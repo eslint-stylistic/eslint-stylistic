@@ -1,6 +1,4 @@
 ---
-title: function-call-spacing
-rule_type: layout
 related_rules:
   - no-spaced-func
 ---

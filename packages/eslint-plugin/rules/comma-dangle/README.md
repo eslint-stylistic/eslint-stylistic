@@ -1,6 +1,4 @@
 ---
-title: comma-dangle
-rule_type: layout
 ---
 
 # comma-dangle

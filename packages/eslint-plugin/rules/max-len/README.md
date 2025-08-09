@@ -1,6 +1,4 @@
 ---
-title: max-len
-rule_type: layout
 related_rules:
   - complexity
   - max-depth

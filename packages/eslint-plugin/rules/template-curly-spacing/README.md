@@ -1,6 +1,4 @@
 ---
-title: template-curly-spacing
-rule_type: layout
 ---
 
 # template-curly-spacing

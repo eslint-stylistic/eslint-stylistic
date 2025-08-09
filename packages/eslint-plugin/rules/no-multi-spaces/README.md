@@ -1,6 +1,4 @@
 ---
-title: no-multi-spaces
-rule_type: layout
 related_rules:
   - key-spacing
   - space-infix-ops

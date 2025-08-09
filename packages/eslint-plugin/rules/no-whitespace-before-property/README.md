@@ -1,6 +1,4 @@
 ---
-title: no-whitespace-before-property
-rule_type: layout
 ---
 
 # no-whitespace-before-property

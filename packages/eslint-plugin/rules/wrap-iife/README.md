@@ -1,6 +1,4 @@
 ---
-title: wrap-iife
-rule_type: layout
 ---
 
 # wrap-iife

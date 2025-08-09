@@ -1,6 +1,4 @@
 ---
-title: quote-props
-rule_type: suggestion
 further_reading:
   - 'https://kangax.github.io/compat-table/es5/#Reserved_words_as_property_names'
   - 'https://mathiasbynens.be/notes/javascript-properties'

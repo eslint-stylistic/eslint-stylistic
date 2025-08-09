@@ -1,6 +1,4 @@
 ---
-title: object-curly-spacing
-rule_type: layout
 related_rules:
   - array-bracket-spacing
   - comma-spacing

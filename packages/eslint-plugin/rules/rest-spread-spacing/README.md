@@ -1,6 +1,4 @@
 ---
-title: rest-spread-spacing
-rule_type: layout
 further_reading:
   - 'https://github.com/tc39/proposal-object-rest-spread'
 ---
