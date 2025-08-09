@@ -69,16 +69,31 @@ run<RuleOptions, MessageIds>({
     ['type Foo<T=false,K=1|2> = T', 'type Foo<T = false, K = 1|2> = T', 3],
     ['function foo <T>() {}', 'function foo<T>() {}'],
     ['function foo< T >() {}', 'function foo<T>() {}', 2],
-    [`interface Log {
-    foo <T>(name: T): void
-  }`, `interface Log {
-    foo<T>(name: T): void
-  }`],
-    [`interface Log {
-    foo<  T >(name: T): void
-  }`, `interface Log {
-    foo<T>(name: T): void
-  }`, 2],
+    [
+      $`
+        interface Log {
+          foo <T>(name: T): void
+        }
+      `,
+      $`
+        interface Log {
+          foo<T>(name: T): void
+        }
+      `,
+    ],
+    [
+      $`
+        interface Log {
+          foo<  T >(name: T): void
+        }
+      `,
+      $`
+        interface Log {
+          foo<T>(name: T): void
+        }
+      `,
+      2,
+    ],
     [
       'const toSortedImplementation = Array.prototype.toSorted || function <    T >(name: T): void {}',
       'const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}',
