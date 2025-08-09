@@ -530,6 +530,8 @@ const StatementTypes: Record<string, NodeTestObject> = {
       && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init!)),
   },
 
+  'jsx-prop': newNodeTypeTester(AST_NODE_TYPES.JSXAttribute),
+
   'enum': newKeywordTester(
     AST_NODE_TYPES.TSEnumDeclaration,
     'enum',
@@ -674,8 +676,8 @@ export default createRule<Options, MessageIds>({
 
     /**
      * Finds the last matched configure from configureList.
-     * @paramprevNode The previous statement to match.
-     * @paramnextNode The current statement to match.
+     * @param prevNode The previous statement to match.
+     * @param nextNode The current statement to match.
      * @returns The tester of the last matched configure.
      * @private
      */
@@ -741,6 +743,7 @@ export default createRule<Options, MessageIds>({
           AST_NODE_TYPES.StaticBlock,
           AST_NODE_TYPES.SwitchCase,
           AST_NODE_TYPES.SwitchStatement,
+          AST_NODE_TYPES.JSXOpeningElement,
           AST_NODE_TYPES.TSInterfaceBody,
           AST_NODE_TYPES.TSModuleBlock,
           AST_NODE_TYPES.TSTypeLiteral,
@@ -777,28 +780,32 @@ export default createRule<Options, MessageIds>({
 
     return {
       'Program': enterScope,
-      'BlockStatement': enterScope,
-      'SwitchStatement': enterScope,
-      'StaticBlock': enterScope,
-      'TSInterfaceBody': enterScope,
-      'TSModuleBlock': enterScope,
-      'TSTypeLiteral': enterScope,
       'Program:exit': exitScope,
+      'BlockStatement': enterScope,
       'BlockStatement:exit': exitScope,
+      'SwitchStatement': enterScope,
       'SwitchStatement:exit': exitScope,
+      'SwitchCase': verifyThenEnterScope,
+      'SwitchCase:exit': exitScope,
+      'StaticBlock': enterScope,
       'StaticBlock:exit': exitScope,
+
+      'JSXOpeningElement': enterScope,
+      'JSXOpeningElement:exit': exitScope,
+      'JSXAttribute': verify,
+
+      'TSInterfaceBody': enterScope,
       'TSInterfaceBody:exit': exitScope,
+      'TSModuleBlock': enterScope,
       'TSModuleBlock:exit': exitScope,
+      'TSTypeLiteral': enterScope,
       'TSTypeLiteral:exit': exitScope,
+      'TSDeclareFunction': verifyThenEnterScope,
+      'TSDeclareFunction:exit': exitScope,
+      'TSMethodSignature': verifyThenEnterScope,
+      'TSMethodSignature:exit': exitScope,
 
       ':statement': verify,
-
-      'SwitchCase': verifyThenEnterScope,
-      'TSDeclareFunction': verifyThenEnterScope,
-      'TSMethodSignature': verifyThenEnterScope,
-      'SwitchCase:exit': exitScope,
-      'TSDeclareFunction:exit': exitScope,
-      'TSMethodSignature:exit': exitScope,
     }
   },
 })

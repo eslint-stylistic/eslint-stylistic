@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: y4nq9jRxhM5c5JzhbwRXJEGpJoO8nq-gg6Vs3QLiMY0 */
+/* @checksum: yYruGLUxwU26BUIxRHhGfINZhn5cLKHBZLuAwft56RU */
 
 export type PaddingType = 'any' | 'never' | 'always'
 export type StatementOption
@@ -38,6 +38,7 @@ export type StatementType
     | 'interface'
     | 'type'
     | 'function-overload'
+    | 'jsx-prop'
     | 'block-like'
     | 'singleline-block-like'
     | 'multiline-block-like'
