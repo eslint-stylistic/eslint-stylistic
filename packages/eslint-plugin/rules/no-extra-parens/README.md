@@ -1,6 +1,4 @@
 ---
-title: no-extra-parens
-rule_type: layout
 related_rules:
   - arrow-parens
   - no-cond-assign

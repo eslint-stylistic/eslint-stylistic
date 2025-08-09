@@ -1,6 +1,4 @@
 ---
-title: implicit-arrow-linebreak
-rule_type: layout
 related_rules:
   - brace-style
 ---

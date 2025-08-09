@@ -1,6 +1,4 @@
 ---
-title: object-property-newline
-rule_type: layout
 related_rules:
   - brace-style
   - comma-dangle

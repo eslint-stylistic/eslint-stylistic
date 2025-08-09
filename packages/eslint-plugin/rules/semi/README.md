@@ -1,6 +1,4 @@
 ---
-title: semi
-rule_type: layout
 related_rules:
   - no-extra-semi
   - no-unexpected-multiline

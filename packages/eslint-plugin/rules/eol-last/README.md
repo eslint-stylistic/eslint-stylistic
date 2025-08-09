@@ -1,6 +1,4 @@
 ---
-title: eol-last
-rule_type: layout
 ---
 
 # eol-last

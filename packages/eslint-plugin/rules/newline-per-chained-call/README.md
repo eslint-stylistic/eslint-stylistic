@@ -1,6 +1,4 @@
 ---
-title: newline-per-chained-call
-rule_type: layout
 ---
 
 # newline-per-chained-call

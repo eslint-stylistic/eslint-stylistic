@@ -1,6 +1,4 @@
 ---
-title: line-comment-position
-rule_type: layout
 ---
 
 # line-comment-position

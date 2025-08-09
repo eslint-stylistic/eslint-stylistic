@@ -1,6 +1,4 @@
 ---
-title: space-before-blocks
-rule_type: layout
 related_rules:
   - keyword-spacing
   - arrow-spacing

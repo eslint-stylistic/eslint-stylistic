@@ -1,6 +1,4 @@
 ---
-title: dot-location
-rule_type: layout
 related_rules:
   - newline-after-var
   - dot-notation
