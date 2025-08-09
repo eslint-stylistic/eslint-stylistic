@@ -1,6 +1,7 @@
 # jsx-props-no-multi-spaces
 
 > **Deprecated**: Use [`no-multi-spaces`](no-multi-spaces) instead, as it fully covers all test cases from this rule.
+> If you'd like to disallow empty line between props, use [`padpadding-line-between-statementsding`](padding-line-between-statements) instead.
 
 Disallow multiple spaces between inline JSX props.
 
