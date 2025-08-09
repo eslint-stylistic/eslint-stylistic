@@ -6508,6 +6508,20 @@ run<RuleOptions, MessageIds>({
               from: "foo"
           };
     `,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/845
+    $`
+      const answer = showInformationMessage('The MySQL Router config directory ' +
+            '... was not found. Do you want to bootstrap a local MySQL Router ' +
+            'instance for development now?', {}, "Yes", "No");
+    `,
+    {
+      code: $`
+        showInformationMessage('The MySQL Router config directory ... was ' +
+          'not found. Please bootstrap a local MySQL Router instance for development first.', {},
+          "OK");
+      `,
+      options: [2, { offsetMultilineExpressions: true }],
+    },
   ],
 
   invalid: [
@@ -14250,6 +14264,80 @@ run<RuleOptions, MessageIds>({
         offsetTernaryExpressions: true,
         offsetTernaryExpressionsOffsetCallExpressions: true,
       }],
+    },
+    {
+      code: $`
+        [{
+          foo
+        },
+        
+        // Comment between nodes
+        
+        { // comment
+          bar
+        }];
+      `,
+      output: $`
+        [{
+            foo
+          },
+        
+          // Comment between nodes
+        
+          { // comment
+            bar
+          }];
+      `,
+      options: [2, { offsetMultilineExpressions: true }],
+    },
+    {
+      code: $`
+        console.log(function() {
+          console.log()
+        },
+        "aa")
+      `,
+      output: $`
+        console.log(function() {
+            console.log()
+          },
+          "aa")
+      `,
+      options: [2, { offsetMultilineExpressions: true }],
+    },
+    {
+      code: $`
+        class MyClass {myProp = {
+          a: 2
+        }
+        a = 2
+        }
+      `,
+      output: $`
+        class MyClass {myProp = {
+            a: 2
+          }
+          a = 2
+        }
+      `,
+      options: [2, { offsetMultilineExpressions: true }],
+    },
+    {
+      code: $`
+        const obj = {a: {
+          b: 1
+        }, c: 2,
+        d: 3
+        }
+      `,
+      output: $`
+        const obj = {a: {
+                b: 1
+            }, c: 2,
+            d: 3
+        }
+      `,
+      options: [2, { ObjectExpression: 2, offsetMultilineExpressions: true }],
     },
   ],
 })
