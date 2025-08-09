@@ -1,4 +1,5 @@
 import type { Plugin } from 'vite'
+import type { RuleInfo } from '../../packages/metadata/src'
 import { basename, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import graymatter from 'gray-matter'
@@ -44,8 +45,11 @@ function MarkdownTransform(): Plugin {
 
       const pkg = packages.find(p => p.shortId === shortId)!
 
-      const ruleMapping = Object.groupBy(pkg.rules, rule => rule.name)
-      const rule = ruleMapping[ruleName]?.[0]
+      const ruleMapping = pkg.rules.reduce((prev, cur) => {
+        prev[cur.name] = cur
+        return prev
+      }, {} as Record<string, RuleInfo>)
+      const rule = ruleMapping[ruleName]
 
       if (!rule)
         return null
