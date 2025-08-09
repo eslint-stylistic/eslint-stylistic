@@ -1763,7 +1763,7 @@ export default createRule<RuleOptions, MessageIds>({
               expression starting with new line ${
                   'ending'} on the same line
             `
-          */
+           */
 
           // minus 2 for exclude ${
           const tokenBeforeText = sourceCode.text.slice(previousQuasi.range[1] - previousQuasi.loc.end.column, previousQuasi.range[1] - 2).split('')
@@ -2218,14 +2218,15 @@ export default createRule<RuleOptions, MessageIds>({
          * Create a Map from (tokenOrComment) => (precedingToken).
          * This is necessary because sourceCode.getTokenBefore does not handle a comment as an argument correctly.
          */
-        const precedingTokens = new WeakMap()
+        const precedingTokens = new WeakMap<Token, Token>()
+        const comments = sourceCode.getAllComments()
 
-        for (let i = 0; i < sourceCode.ast.comments.length; i++) {
-          const comment = sourceCode.ast.comments[i]
+        for (let i = 0; i < comments.length; i++) {
+          const comment = comments[i]
 
           const tokenOrCommentBefore = sourceCode.getTokenBefore(comment, { includeComments: true })!
           const hasToken = precedingTokens.has(tokenOrCommentBefore)
-            ? precedingTokens.get(tokenOrCommentBefore)
+            ? precedingTokens.get(tokenOrCommentBefore)!
             : tokenOrCommentBefore
 
           precedingTokens.set(comment, hasToken)
@@ -2260,11 +2261,69 @@ export default createRule<RuleOptions, MessageIds>({
             if (tokenAfter && isSemicolonToken(tokenAfter) && !isTokenOnSameLine(firstTokenOfLine, tokenAfter))
               offsets.setDesiredOffset(firstTokenOfLine, tokenAfter, 0)
 
-            // If a comment matches the expected indentation of the token immediately before or after, don't report it.
-            if (
-              mayAlignWithBefore && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenBefore)!)
+            const isAllowCommentIndent = mayAlignWithBefore && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenBefore)!)
               || mayAlignWithAfter && validateTokenIndent(firstTokenOfLine, offsets.getDesiredIndent(tokenAfter)!)
-            ) {
+
+            // validate the block comment
+            if (firstTokenOfLine.type === 'Block') {
+              // the first line of the comment control is validated by `firstTokenOfLine`(current comment token)
+              const startLine = firstTokenOfLine.loc.start.line + 1
+              const endLine = firstTokenOfLine.loc.end.line
+              // comment can have same indent with before token or after token
+              const indent = isAllowCommentIndent ? tokenInfo.getTokenIndent(firstTokenOfLine) : offsets.getDesiredIndent(firstTokenOfLine)!
+              const neededIndentStr = `${new Array(indent.length + 1).join(indentType === 'space' ? ' ' : '\t')} `
+
+              for (let i = startLine; i <= endLine; i++) {
+                const line = sourceCode.lines[i - 1]
+                if (line.trim() === '') {
+                  continue
+                }
+                const loc: Tree.SourceLocation = {
+                  start: {
+                    line: i,
+                    column: 0,
+                  },
+                  end: {
+                    line: i,
+                    column: line.match(/^\s*/)?.[0].length || 0,
+                  },
+                }
+                const range: [number, number] = [sourceCode.getIndexFromLoc(loc.start), sourceCode.getIndexFromLoc(loc.end)]
+                const actualIndentStr = sourceCode.text.slice(range[0], range[1])
+                const actualIndent = Array.from(actualIndentStr)
+                const numSpaces = actualIndent.filter(char => char === ' ').length
+                const numTabs = actualIndent.filter(char => char === '\t').length
+                if (sourceCode.text.slice(range[1], range[1] + 1) !== '*') {
+                  const indentNum = indentType === 'space' ? numSpaces : numTabs
+                  const lastIndentChar = sourceCode.text.slice(range[1] - 1, range[1])
+                  if (indentNum < indent.length || lastIndentChar !== ' ') {
+                    context.report({
+                      loc,
+                      messageId: 'wrongIndentation',
+                      data: createErrorMessageData(indent.length + (indentType === 'space' ? 1 : 0), numSpaces, numTabs),
+                      fix(fixer) {
+                        return fixer.replaceTextRange(range, `${(indentType === 'space' ? ' ' : '\t').repeat(Math.max(indent.length - indentNum, 0))}${actualIndentStr}${lastIndentChar === ' ' ? '' : ' '}`)
+                      },
+                    })
+                  }
+                }
+                else {
+                  if (actualIndentStr !== neededIndentStr) {
+                    context.report({
+                      loc,
+                      messageId: 'wrongIndentation',
+                      data: createErrorMessageData(indent.length + (indentType === 'space' ? 1 : 0), numSpaces, numTabs),
+                      fix(fixer) {
+                        return fixer.replaceTextRange(range, neededIndentStr)
+                      },
+                    })
+                  }
+                }
+              }
+            }
+
+            // If a comment matches the expected indentation of the token immediately before or after, don't report it.
+            if (isAllowCommentIndent) {
               continue
             }
           }

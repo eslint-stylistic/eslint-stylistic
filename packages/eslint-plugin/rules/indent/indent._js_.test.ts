@@ -14,7 +14,7 @@ import rule from './indent'
 const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
 const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')
 
-type ErrorInput = [number, number | string, number | string, string]
+type ErrorInput = [number, number | string, number | string, string | null]
 interface ErrorOutput {
   messageId: MessageIds
   data: {
@@ -2490,7 +2490,7 @@ run<RuleOptions, MessageIds>({
         foo();
         // Line
         /* multiline
-          Line */
+         Line */
         bar();
         // trailing comment
       `,
@@ -2686,7 +2686,7 @@ run<RuleOptions, MessageIds>({
             bar();
           case closed:
             /* multiline comment
-            */
+             */
         }
       `,
       options: [2, { SwitchCase: 1 }],
@@ -6508,6 +6508,55 @@ run<RuleOptions, MessageIds>({
               from: "foo"
           };
     `,
+    {
+      code: $`
+        const a = {
+          /*
+           * comment
+           */
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        /**
+         * Desc
+         *
+         * @param {{
+          foo: Bar,
+          bar: Baz
+         * }} foo
+         *
+         */
+        function quux (foo) {
+        
+        }
+      `,
+    },
+    {
+      code: $`
+        const a = {
+        \t/*
+        \t * multiline
+        \t comment
+        
+        \t */
+        }
+      `,
+      options: ['tab'],
+    },
+    {
+      code: $`
+        const obj = {
+          /**
+           * jsdoc
+           */
+          handler() {}
+        }
+      `,
+      options: [2],
+    },
   ],
 
   invalid: [
@@ -14250,6 +14299,78 @@ run<RuleOptions, MessageIds>({
         offsetTernaryExpressions: true,
         offsetTernaryExpressionsOffsetCallExpressions: true,
       }],
+    },
+    {
+      code: $`
+        function a() {
+            /**
+           *  comment
+                  */
+        }
+      `,
+      output: $`
+        function a() {
+          /**
+           *  comment
+           */
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        function d() {
+          /*
+                \\/*
+                            * comment
+                            *\\/
+        */
+        }
+      `,
+      output: $`
+        function d() {
+          /*
+                \\/*
+           * comment
+           *\\/
+           */
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        function e() {
+            /*
+                comment
+          */
+        }
+      `,
+      output: $`
+        function e() {
+        \t/*
+        \t        comment
+        \t */
+        }
+      `,
+      options: ['tab'],
+    },
+    {
+      code: $`
+        function e() {
+        \t\t/*
+        comment
+        */
+        }
+      `,
+      output: $`
+        function e() {
+        \t/*
+        \t comment
+        \t */
+        }
+      `,
+      options: ['tab'],
     },
   ],
 })
