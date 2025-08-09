@@ -35,19 +35,14 @@ function MarkdownTransform(): Plugin {
     name: 'local:markdown-transform',
     enforce: 'pre',
     transform(code, id) {
-      let shortId = /README\._(\w+)_\.md$/.exec(id)?.[1]
-      if (!shortId)
-        return null
-
-      if (id.endsWith('README._merged_.md'))
-        shortId = 'default'
+      const shortId = 'default'
 
       const ruleName = basename(dirname(id))
 
-      const pkg = packages.find(p => p.shortId === shortId)
-      const rule = pkg?.rules.find(r => r.name === ruleName)
+      const pkg = packages.find(p => p.shortId === shortId)!
+      const rule = pkg.rules.find(r => r.name === ruleName)
 
-      if (!pkg || !rule)
+      if (!rule)
         return null
 
       let {
@@ -55,23 +50,23 @@ function MarkdownTransform(): Plugin {
         content,
       } = graymatter(code)
 
-      content = content
-        .replaceAll(
-          `eslint ${rule.name}:`,
-          `eslint ${rule.ruleId}:`,
-        )
-        .replaceAll(
-          '@typescript-eslint/',
-          '@stylistic/ts/',
-        )
+      function extraLinks(title: string, links?: string[]) {
+        if (!links?.length)
+          return
+
+        return [
+          `## ${title}`,
+          ...links.map(link => `- [${link}](${link})`),
+        ].join('\n')
+      }
 
       content = [
-        `<p class="mb0!"><a href="/packages/${pkg.shortId}" class="font-mono no-underline!">${rule.ruleId.slice(0, -rule.name.length)}</a></p>`,
-        '',
         `# <samp>${rule.name}</samp>`,
         '',
         '\n',
         content.trimStart().replace(/^# .*\n/, ''),
+        extraLinks('Related Rules', data.related_rules),
+        extraLinks('Further Reading', data.further_reading),
       ].join('\n')
 
       return graymatter.stringify(content, { data })
