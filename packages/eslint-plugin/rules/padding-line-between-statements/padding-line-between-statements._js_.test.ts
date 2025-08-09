@@ -5538,5 +5538,34 @@ run<RuleOptions, MessageIds>({
       options: [{ blankLine: 'always', prev: '*', next: 'singleline-export' }],
       errors: [{ messageId: 'expectedBlankLine' }],
     },
+    {
+      code: $`
+        function foo() {
+          const a = 1
+          return 1
+        }
+        function bar() {
+          const a = 1
+          return {
+            a,
+          }
+        }
+      `,
+      output: $`
+        function foo() {
+          const a = 1
+          return 1
+        }
+        function bar() {
+          const a = 1
+        
+          return {
+            a,
+          }
+        }
+      `,
+      options: [{ blankLine: 'always', prev: '*', next: 'multiline-return' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
   ],
 })
