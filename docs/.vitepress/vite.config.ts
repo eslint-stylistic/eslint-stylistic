@@ -43,12 +43,25 @@ function MarkdownTransform(): Plugin {
       const ruleName = basename(dirname(id))
 
       const pkg = packages.find(p => p.shortId === shortId)!
-      const rule = pkg.rules.find(r => r.name === ruleName)!
+
+      const ruleMapping = Object.groupBy(pkg.rules, rule => rule.name)
+      const rule = ruleMapping[ruleName]?.[0]
+
+      if (!rule)
+        return null
 
       let {
         data,
         content,
       } = graymatter(code)
+
+      function resolveLink(link: string) {
+        if (!URL.canParse(link) && !ruleMapping[link]) {
+          return `https://eslint.org/docs/latest/rules/${link}`
+        }
+
+        return link
+      }
 
       function extraLinks(title: string, links?: string[]) {
         if (!links?.length)
@@ -56,14 +69,12 @@ function MarkdownTransform(): Plugin {
 
         return [
           `## ${title}`,
-          ...links.map(link => `- [${link}](${link})`),
+          ...links.map(link => `- [${link}](${resolveLink(link)})`),
         ].join('\n')
       }
 
       content = [
         `# <samp>${rule.name}</samp>`,
-        '',
-        '\n',
         content.trimStart().replace(/^# .*\n/, ''),
         extraLinks('Related Rules', data.related_rules),
         extraLinks('Further Reading', data.further_reading),
