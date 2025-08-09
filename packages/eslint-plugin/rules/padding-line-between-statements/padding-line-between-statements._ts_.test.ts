@@ -1,6 +1,3 @@
-// this rule tests new lines which prettier tries to fix, breaking the tests
-/* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
-
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from './padding-line-between-statements'
