@@ -35,15 +35,15 @@ function MarkdownTransform(): Plugin {
     name: 'local:markdown-transform',
     enforce: 'pre',
     transform(code, id) {
+      if (!id.endsWith('README.md'))
+        return null
+
       const shortId = 'default'
 
       const ruleName = basename(dirname(id))
 
       const pkg = packages.find(p => p.shortId === shortId)!
-      const rule = pkg.rules.find(r => r.name === ruleName)
-
-      if (!rule)
-        return null
+      const rule = pkg.rules.find(r => r.name === ruleName)!
 
       let {
         data,
