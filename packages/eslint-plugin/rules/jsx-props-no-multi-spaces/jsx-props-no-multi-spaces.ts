@@ -6,7 +6,6 @@
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
-import { warnDeprecation } from '#utils/index'
 
 const messages = {
   noLineGap: 'Expected no line gap between “{{prop1}}” and “{{prop2}}”',
@@ -40,8 +39,6 @@ export default createRule<RuleOptions, MessageIds>({
   },
 
   create(context) {
-    warnDeprecation('rule("jsx-props-no-multi-spaces")', '"no-multi-spaces"')
-
     const sourceCode = context.sourceCode
 
     function getPropName(propNode: NodeType): string | Tree.JSXIdentifier {

@@ -35,7 +35,6 @@ import type { MessageIds, RuleOptions } from './types'
 import { getFirstNodeInLine, isColonToken, isCommaToken, isNodeFirstInLine } from '#utils/ast'
 import { isJSX, isReturningJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
-import { warnDeprecation } from '#utils/index'
 
 const messages = {
   wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
@@ -94,8 +93,6 @@ export default createRule<RuleOptions, MessageIds>({
   },
 
   create(context) {
-    warnDeprecation('rule("jsx-indent")', '"indent"')
-
     const extraColumnStart = 0
     let indentType = 'space'
     let indentSize = 4
