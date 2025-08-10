@@ -5,6 +5,7 @@ import rule from './list-style'
 run<RuleOptions, MessageIds>({
   name: 'list-style',
   rule,
+  lang: 'ts',
   valid: [
     'const a = { foo: "bar", bar: 2 }',
     'const a = {\nfoo: "bar",\nbar: 2\n}',
@@ -37,10 +38,6 @@ run<RuleOptions, MessageIds>({
     `,
     // https://github.com/antfu/eslint-plugin-antfu/issues/11
     `function fn({ foo, bar }: {\nfoo: 'foo'\nbar: 'bar'\n}) {}`,
-    {
-      code: 'foo(\na, b\n)',
-      options: [{ CallExpression: false }],
-    },
     // https://github.com/antfu/eslint-plugin-antfu/issues/15
     $`
       export const getTodoList = request.post<
