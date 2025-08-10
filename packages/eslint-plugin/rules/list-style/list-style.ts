@@ -1,6 +1,16 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { isClosingBraceToken, isClosingBracketToken, isOpeningBraceToken, isOpeningBracketToken, isSingleLine } from '#utils/ast'
+import {
+  hasCommentsBetween,
+  isClosingBraceToken,
+  isClosingBracketToken,
+  isClosingParenToken,
+  isNotOpeningParenToken,
+  isOpeningBraceToken,
+  isOpeningBracketToken,
+  isOpeningParenToken,
+  isTokenOnSameLine,
+} from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -8,7 +18,7 @@ export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
     docs: {
-      description: 'Having line breaks styles to object, array and named imports',
+      description: 'Having line breaks styles to object, array, named imports and more.',
       experimental: true,
     },
     fixable: 'whitespace',
@@ -65,12 +75,11 @@ export default createRule<RuleOptions, MessageIds>({
               FunctionDeclaration: { $ref: '#/items/0/$defs/baseConfig' },
               FunctionExpression: { $ref: '#/items/0/$defs/baseConfig' },
               ImportDeclaration: { $ref: '#/items/0/$defs/baseConfig' },
-              JSXOpeningElement: { $ref: '#/items/0/$defs/baseConfig' },
               NewExpression: { $ref: '#/items/0/$defs/baseConfig' },
               ObjectExpression: { $ref: '#/items/0/$defs/baseConfig' },
               ObjectPattern: { $ref: '#/items/0/$defs/baseConfig' },
               TSFunctionType: { $ref: '#/items/0/$defs/baseConfig' },
-              TSInterfaceDeclaration: { $ref: '#/items/0/$defs/baseConfig' },
+              TSInterfaceBody: { $ref: '#/items/0/$defs/baseConfig' },
               TSTupleType: { $ref: '#/items/0/$defs/baseConfig' },
               TSTypeLiteral: { $ref: '#/items/0/$defs/baseConfig' },
               TSTypeParameterDeclaration: { $ref: '#/items/0/$defs/baseConfig' },
@@ -83,100 +92,130 @@ export default createRule<RuleOptions, MessageIds>({
       },
     ],
     messages: {
-      shouldWrap: 'Should have line breaks between items, in node {{name}}',
-      shouldNotWrap: 'Should not have line breaks between items, in node {{name}}',
+      shouldSpacing: `Should have space between '{{prev}}' and '{{next}}'`,
+      shouldNotSpacing: `Should not have space(s) between '{{prev}}' and '{{next}}'`,
+      shouldWrap: `Should have line break between '{{prev}}' and '{{next}}'`,
+      shouldNotWrap: 'Should not have line break(s) between items',
     },
   },
   defaultOptions: [{
     singleLine: {
-      spacing: 'always',
+      spacing: 'never',
       maxItems: Number.POSITIVE_INFINITY,
     },
     multiLine: {
       maxItemsPerLine: 1,
     },
     overrides: {
-      ArrayExpression: { singleLine: { spacing: 'never' } },
-      ArrayPattern: { singleLine: { spacing: 'never' } },
-      JSONArrayExpression: { singleLine: { spacing: 'never' } },
+      ObjectExpression: { singleLine: { spacing: 'always' } },
+      ObjectPattern: { singleLine: { spacing: 'always' } },
+      JSONObjectExpression: { singleLine: { spacing: 'always' } },
     },
   }],
   create: (context, [options] = [{}]) => {
     const { sourceCode } = context
     const {
       singleLine,
-      // multiline,
       // overrides,
     } = options!
 
-    function checkSingleLine(node: ASTNode, left: Token, right: Token) {
+    function checkSpacing(node: ASTNode, prev: Token, next: Token) {
       const shouldSpace = singleLine!.spacing === 'always'
+      const spaced = sourceCode.isSpaceBetween(prev, next)
 
+      if (!spaced && shouldSpace) {
+        context.report({
+          node,
+          messageId: 'shouldSpacing',
+          loc: {
+            start: prev.loc.end,
+            end: next.loc.start,
+          },
+          data: {
+            prev: prev.value,
+            next: next.value,
+          },
+          fix(fixer) {
+            return fixer.insertTextAfter(prev, ' ')
+          },
+        })
+      }
+      else if (spaced && !shouldSpace) {
+        context.report({
+          node,
+          messageId: 'shouldNotSpacing',
+          loc: {
+            start: prev.loc.end,
+            end: next.loc.start,
+          },
+          data: {
+            prev: prev.value,
+            next: next.value,
+          },
+          fix(fixer) {
+            return fixer.removeRange([prev.range[1], next.range[0]])
+          },
+        })
+      }
+    }
+
+    function checkSingleLine(node: ASTNode, left: Token, right: Token) {
       const firstToken = sourceCode.getTokenAfter(left, { includeComments: true })!
-      const firstSpaced = sourceCode.isSpaceBetween!(left, firstToken)
-      if (!firstSpaced && shouldSpace) {
-        context.report({
-          node,
-          messageId: 'shouldWrap',
-          loc: {
-            start: left.loc.end,
-            end: firstToken.loc.start,
-          },
-          fix(fixer) {
-            return fixer.insertTextAfter(left, ' ')
-          },
-        })
-      }
-      else if (firstSpaced && !shouldSpace) {
-        context.report({
-          node,
-          messageId: 'shouldNotWrap',
-          loc: {
-            start: left.loc.end,
-            end: firstToken.loc.start,
-          },
-          fix(fixer) {
-            return fixer.removeRange([left.range[1], firstToken.range[0]])
-          },
-        })
-      }
+      checkSpacing(node, left, firstToken)
 
       const lastToken = sourceCode.getTokenBefore(right, { includeComments: true })!
-      const lastSpaced = sourceCode.isSpaceBetween!(lastToken, right)
-      if (!lastSpaced && shouldSpace) {
+      checkSpacing(node, lastToken, right)
+    }
+
+    function checkWrap(node: ASTNode, prev: Token, next: Token) {
+      if (isTokenOnSameLine(prev, next)) {
         context.report({
           node,
           messageId: 'shouldWrap',
           loc: {
-            start: lastToken.loc.end,
-            end: right.loc.start,
+            start: prev.loc.end,
+            end: next.loc.start,
+          },
+          data: {
+            prev: prev.value,
+            next: next.value,
           },
           fix(fixer) {
-            return fixer.insertTextBefore(right, ' ')
+            if (hasCommentsBetween(sourceCode, prev, next))
+              return null
+
+            return fixer.insertTextAfter(
+              sourceCode.getTokenBefore(next, token => token === prev || isNotOpeningParenToken(token))!,
+              '\n',
+            )
           },
         })
       }
-      else if (lastSpaced && !shouldSpace) {
-        context.report({
+    }
+
+    function checkMultiLine(node: ASTNode, items: (ASTNode | null)[], left: Token, right: Token) {
+      const len = items.length
+
+      for (let i = 0; i < len; i++) {
+        const currentItem = items[i]
+        if (!currentItem)
+          break
+
+        checkWrap(
           node,
-          messageId: 'shouldNotWrap',
-          loc: {
-            start: lastToken.loc.end,
-            end: right.loc.start,
-          },
-          fix(fixer) {
-            return fixer.removeRange([lastToken.range[1], right.range[0]])
-          },
-        })
+          sourceCode.getTokenBefore(currentItem, { includeComments: false })!,
+          sourceCode.getFirstToken(currentItem)!,
+        )
       }
+
+      checkWrap(
+        node,
+        sourceCode.getTokenBefore(right, { includeComments: false })!,
+        right,
+      )
     }
 
-    // eslint-disable-next-line unused-imports/no-unused-vars
-    function checkMultiLine(node: ASTNode, left: Token, right: Token) {
-      // TODO
-    }
-
-    type ParenType = '[]' | '{}'
+    type ParenType = '[]' | '{}' | '()' | '<>'
 
     const parenMatchers: Record<ParenType, { left: (token: Token) => boolean, right: (token: Token) => boolean }> = {
       '[]': {
@@ -186,6 +225,14 @@ export default createRule<RuleOptions, MessageIds>({
       '{}': {
         left: isOpeningBraceToken,
         right: isClosingBraceToken,
+      },
+      '()': {
+        left: isOpeningParenToken,
+        right: isClosingParenToken,
+      },
+      '<>': {
+        left: token => token.value === '<',
+        right: token => token.value === '>',
       },
     }
 
@@ -211,10 +258,14 @@ export default createRule<RuleOptions, MessageIds>({
         ? sourceCode.getTokenAfter(lastItem, rightMatcher)!
         : sourceCode.getLastToken(node, rightMatcher)!
 
-      if (isSingleLine(node))
+      const {
+        singleLine,
+      } = options!
+
+      if (isTokenOnSameLine(left, right) && items.length <= singleLine!.maxItems!)
         checkSingleLine(node, left, right)
       else
-        checkMultiLine(node, left, right)
+        checkMultiLine(node, items, left, right)
     }
 
     return {
@@ -229,6 +280,21 @@ export default createRule<RuleOptions, MessageIds>({
       },
       ObjectPattern(node) {
         check('{}', node, node.properties)
+      },
+      FunctionDeclaration(node) {
+        check('()', node, node.params)
+      },
+      FunctionExpression(node) {
+        check('()', node, node.params)
+      },
+      ArrowFunctionExpression(node) {
+        check('()', node, node.params)
+      },
+      CallExpression(node) {
+        check('()', node, node.arguments)
+      },
+      NewExpression(node) {
+        check('()', node, node.arguments)
       },
       ImportDeclaration(node) {
         check('{}', node, node.specifiers.filter(specifier => specifier.type === 'ImportSpecifier'))
@@ -247,10 +313,12 @@ export default createRule<RuleOptions, MessageIds>({
           check('{}', node, node.attributes)
       },
 
-      // TSMappedType(node){
-
+      // TSMappedType(node) {
+      //   check('[]', node, )
       // },
-
+      TSTupleType(node) {
+        check('[]', node, node.elementTypes)
+      },
       TSTypeLiteral(node) {
         check('{}', node, node.members)
       },
@@ -259,6 +327,15 @@ export default createRule<RuleOptions, MessageIds>({
       },
       TSEnumBody(node) {
         check('{}', node, node.members)
+      },
+      TSFunctionType(node) {
+        check('()', node, node.params)
+      },
+      TSTypeParameterDeclaration(node) {
+        check('<>', node, node.params)
+      },
+      TSTypeParameterInstantiation(node) {
+        check('<>', node, node.params)
       },
 
       JSONArrayExpression(node: Tree.ArrayExpression) {

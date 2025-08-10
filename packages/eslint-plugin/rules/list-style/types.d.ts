@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: OuHa5cDZxQXF-lcwk7jE62UJmbJ3OH_no86m7d1lzwU */
+/* @checksum: oxE8d3vcKIQcZqytpovp6BQx1R71-HhvNJSlCtS8vTs */
 
 export interface ListStyleSchema0 {
   singleLine?: SingleLineConfig
@@ -14,12 +14,11 @@ export interface ListStyleSchema0 {
     FunctionDeclaration?: BaseConfig
     FunctionExpression?: BaseConfig
     ImportDeclaration?: BaseConfig
-    JSXOpeningElement?: BaseConfig
     NewExpression?: BaseConfig
     ObjectExpression?: BaseConfig
     ObjectPattern?: BaseConfig
     TSFunctionType?: BaseConfig
-    TSInterfaceDeclaration?: BaseConfig
+    TSInterfaceBody?: BaseConfig
     TSTupleType?: BaseConfig
     TSTypeLiteral?: BaseConfig
     TSTypeParameterDeclaration?: BaseConfig
@@ -43,4 +42,8 @@ export interface BaseConfig {
 export type ListStyleRuleOptions = [ListStyleSchema0?]
 
 export type RuleOptions = ListStyleRuleOptions
-export type MessageIds = 'shouldWrap' | 'shouldNotWrap'
+export type MessageIds
+  = | 'shouldSpacing'
+    | 'shouldNotSpacing'
+    | 'shouldWrap'
+    | 'shouldNotWrap'
