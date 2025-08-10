@@ -20,7 +20,18 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Disallow multiple spaces between inline JSX props. Deprecated, use `no-multi-spaces` rule instead.',
     },
-    deprecated: true,
+    deprecated: {
+      message: 'The rule was replaced with a more general rule.',
+      deprecatedSince: '5.0.0',
+      replacedBy: [
+        {
+          rule: {
+            name: 'no-multi-spaces',
+            url: 'https://eslint.style/rules/no-multi-spaces',
+          },
+        },
+      ],
+    },
     fixable: 'code',
 
     messages,

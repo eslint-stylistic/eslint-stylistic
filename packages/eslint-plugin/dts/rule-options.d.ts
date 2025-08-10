@@ -278,7 +278,7 @@ export interface RuleOptions {
    */
   '@stylistic/jsx-pascal-case': JsxPascalCaseRuleOptions
   /**
-   * Disallow multiple spaces between inline JSX props
+   * Disallow multiple spaces between inline JSX props. Deprecated, use `no-multi-spaces` rule instead.
    * @see https://eslint.style/rules/jsx-props-no-multi-spaces
    */
   '@stylistic/jsx-props-no-multi-spaces': JsxPropsNoMultiSpacesRuleOptions
@@ -756,7 +756,7 @@ export interface UnprefixedRuleOptions {
    */
   'jsx-pascal-case': JsxPascalCaseRuleOptions
   /**
-   * Disallow multiple spaces between inline JSX props
+   * Disallow multiple spaces between inline JSX props. Deprecated, use `no-multi-spaces` rule instead.
    * @see https://eslint.style/rules/jsx-props-no-multi-spaces
    */
   'jsx-props-no-multi-spaces': JsxPropsNoMultiSpacesRuleOptions
