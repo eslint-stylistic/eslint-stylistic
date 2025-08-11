@@ -1,7 +1,4 @@
 ---
-title: indent
-rule_type: layout
-outline: deep
 ---
 
 # indent

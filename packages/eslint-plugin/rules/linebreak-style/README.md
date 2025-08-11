@@ -1,6 +1,4 @@
 ---
-title: linebreak-style
-rule_type: layout
 ---
 
 # linebreak-style

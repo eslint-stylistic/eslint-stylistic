@@ -1,6 +1,4 @@
 ---
-title: arrow-spacing
-rule_type: layout
 ---
 
 # arrow-spacing

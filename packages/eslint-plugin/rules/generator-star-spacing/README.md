@@ -1,6 +1,4 @@
 ---
-title: generator-star-spacing
-rule_type: layout
 further_reading:
   - 'https://leanpub.com/understandinges6/read/#leanpub-auto-generators'
 ---

@@ -1,6 +1,4 @@
 ---
-title: padding-line-between-statements
-rule_type: layout
 ---
 
 # padding-line-between-statements

@@ -1,6 +1,4 @@
 ---
-title: array-bracket-spacing
-rule_type: layout
 related_rules:
   - space-in-parens
   - object-curly-spacing
