@@ -113,6 +113,7 @@ const KNOWN_NODES = new Set([
 
   // ts specific nodes we want to support
   AST_NODE_TYPES.TSAbstractPropertyDefinition,
+  AST_NODE_TYPES.TSAbstractAccessorProperty,
   AST_NODE_TYPES.TSAbstractMethodDefinition,
   AST_NODE_TYPES.TSArrayType,
   AST_NODE_TYPES.TSAsExpression,
