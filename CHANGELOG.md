@@ -1,5 +1,26 @@
 # Changelog
 
+## [5.2.3](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.2.2...v5.2.3) (2025-08-08)
+
+
+### Bug Fixes
+
+* **indent:** correctly locate left paren in `CallExpression` with specific type arguments ([#910](https://github.com/eslint-stylistic/eslint-stylistic/issues/910)) ([f551685](https://github.com/eslint-stylistic/eslint-stylistic/commit/f55168509c46a6f6d12b54b68ea335feb1afb2dd))
+* **indent:** prevent crashes during `JSXFragment` handling ([#919](https://github.com/eslint-stylistic/eslint-stylistic/issues/919)) ([5937be9](https://github.com/eslint-stylistic/eslint-stylistic/commit/5937be96559fe62b98e43e3e2087b797ce57500f))
+
+## [5.2.2](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.2.1...v5.2.2) (2025-07-22)
+
+
+### Bug Fixes
+
+* **no-extra-parens:** skip nested `TSUnionType/TSIntersectionType` when `nestedBinaryExpressions: false` ([#905](https://github.com/eslint-stylistic/eslint-stylistic/issues/905)) ([348f62f](https://github.com/eslint-stylistic/eslint-stylistic/commit/348f62f4fc0da84860dd44dc71c3da9f54c318cc))
+* **object-curly-spacing:** prevent crash when encountering multiple non-ImportSpecifier nodes ([#907](https://github.com/eslint-stylistic/eslint-stylistic/issues/907)) ([9b77d02](https://github.com/eslint-stylistic/eslint-stylistic/commit/9b77d02fb7f4b1a4f2578352801f2c0d430acd08))
+
+
+### Chores
+
+* **padding-line-between-statements:** simplify options definition ([#900](https://github.com/eslint-stylistic/eslint-stylistic/issues/900)) ([ced7591](https://github.com/eslint-stylistic/eslint-stylistic/commit/ced75917d747a34cad3f31ae163f6bf076506085))
+
 ## [5.2.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.2.0...v5.2.1) (2025-07-21)
 
 

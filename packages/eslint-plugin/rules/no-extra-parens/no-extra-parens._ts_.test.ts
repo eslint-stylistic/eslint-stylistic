@@ -361,6 +361,10 @@ run<RuleOptions, MessageIds>({
 
     `type Foo = string & (number | 'bar')`,
     `type Foo = (a extends string ? 'bar' : number)[]`,
+    {
+      code: `type Foo = boolean | (Bar & Baz)`,
+      options: ['all', { nestedBinaryExpressions: false }],
+    },
   ],
 
   invalid: [
@@ -542,6 +546,37 @@ run<RuleOptions, MessageIds>({
     {
       code: `type Foo = ((import('x')))[]`,
       output: `type Foo = import('x')[]`,
+      recursive: Number.POSITIVE_INFINITY,
+      errors: [
+        { messageId: 'unexpected' },
+      ],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/904
+    {
+      code: $`
+        type Foo = boolean | ((
+          & Bar
+          & Baz
+        ))
+      `,
+      output: $`
+        type Foo = boolean | (
+          & Bar
+          & Baz
+        )
+      `,
+      options: ['all', { nestedBinaryExpressions: false }],
+      errors: [
+        { messageId: 'unexpected' },
+      ],
+    },
+    {
+      code: $`
+        type Foo = boolean | ((Bar & Baz))
+      `,
+      output: $`
+        type Foo = boolean | Bar & Baz
+      `,
       recursive: Number.POSITIVE_INFINITY,
       errors: [
         { messageId: 'unexpected' },

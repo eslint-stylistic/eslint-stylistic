@@ -25,11 +25,16 @@ export const OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN = /^(?:[^\\]|\\.)*\\(?:[1
 export const ASSIGNMENT_OPERATOR = ['=', '+=', '-=', '*=', '/=', '%=', '<<=', '>>=', '>>>=', '|=', '^=', '&=', '**=', '||=', '&&=', '??=']
 
 /**
- * A shared list of ES3 keywords.
+ * A shared list of keywords.
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#keywords
  */
-export const KEYWORDS_JS = [
+/// keep-sorted
+export const KEYWORDS = [
   'abstract',
+  'arguments',
+  'as',
+  'async',
+  'await',
   'boolean',
   'break',
   'byte',
@@ -46,6 +51,7 @@ export const KEYWORDS_JS = [
   'double',
   'else',
   'enum',
+  'eval',
   'export',
   'extends',
   'false',
@@ -53,7 +59,9 @@ export const KEYWORDS_JS = [
   'finally',
   'float',
   'for',
+  'from',
   'function',
+  'get',
   'goto',
   'if',
   'implements',
@@ -62,15 +70,18 @@ export const KEYWORDS_JS = [
   'instanceof',
   'int',
   'interface',
+  'let',
   'long',
   'native',
   'new',
   'null',
+  'of',
   'package',
   'private',
   'protected',
   'public',
   'return',
+  'set',
   'short',
   'static',
   'super',
@@ -82,13 +93,20 @@ export const KEYWORDS_JS = [
   'transient',
   'true',
   'try',
+  'type',
   'typeof',
+  'using',
   'var',
   'void',
   'volatile',
   'while',
   'with',
-]
+  'yield',
+].concat([
+  // TypeScript
+  'accessor',
+  'satisfies',
+])
 
 /**
  * Creates a version of the `lineBreakPattern` regex with the global flag.

@@ -1,6 +1,4 @@
 ---
-title: comma-dangle
-rule_type: layout
 ---
 
 # comma-dangle
@@ -19,20 +17,20 @@ Another argument in favor of trailing commas is that it improves the clarity of 
 
 Less clear:
 
-```diff
+```js
 var foo = {
--    bar: "baz",
--    qux: "quux"
-+    bar: "baz"
+    bar: "baz", // [!code --]
+    qux: "quux" // [!code --]
+    bar: "baz" // [!code ++]
 };
 ```
 
 More clear:
 
-```diff
+```js
 var foo = {
     bar: "baz",
--   qux: "quux",
+    qux: "quux", // [!code --]
 };
 ```
 

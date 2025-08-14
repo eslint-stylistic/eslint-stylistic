@@ -1,6 +1,4 @@
 ---
-title: no-floating-decimal
-rule_type: suggestion
 ---
 
 # no-floating-decimal

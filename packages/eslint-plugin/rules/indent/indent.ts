@@ -482,13 +482,14 @@ class OffsetStorage {
       }
       else if (this._lockedFirstTokens.has(token)) {
         const firstToken = this._lockedFirstTokens.get(token)!
+        const firstTokenOfLine = this._tokenInfo.getFirstTokenOfLine(firstToken)!
 
         this._desiredIndentCache.set(
           token,
           // (indentation for the first element's line)
-          this.getDesiredIndent(this._tokenInfo.getFirstTokenOfLine(firstToken)!)
+          this.getDesiredIndent(firstTokenOfLine)
           // (space between the start of the first element's line and the first element)
-          + this._indentType.repeat(firstToken.loc.start.column - this._tokenInfo.getFirstTokenOfLine(firstToken)!.loc.start.column),
+          + this._indentType.repeat(firstToken.loc.start.column - firstTokenOfLine.loc.start.column),
         )
       }
       else {
@@ -1014,10 +1015,15 @@ export default createRule<RuleOptions, MessageIds>({
     function addFunctionCallIndent(node: Tree.CallExpression | Tree.NewExpression) {
       let openingParen
 
-      if (node.arguments.length)
-        openingParen = sourceCode.getFirstTokenBetween(node.callee, node.arguments[0], isOpeningParenToken)!
-      else
+      if (node.arguments.length) {
+        openingParen = sourceCode.getTokenAfter(
+          node.typeArguments ?? node.callee,
+          isOpeningParenToken,
+        )!
+      }
+      else {
         openingParen = sourceCode.getLastToken(node, 1)!
+      }
 
       const closingParen = sourceCode.getLastToken(node)!
 
@@ -1966,12 +1972,16 @@ export default createRule<RuleOptions, MessageIds>({
 
       JSXClosingFragment(node) {
         const firstToken = sourceCode.getFirstToken(node)!
-        const slashToken = sourceCode.getLastToken(node, { skip: 1 })!
         const closingToken = sourceCode.getLastToken(node)!
-        const tokenToMatch = isTokenOnSameLine(slashToken, closingToken) ? slashToken : closingToken
 
         offsets.setDesiredOffsets(node.range, firstToken, 1)
-        offsets.matchOffsetOf(firstToken, tokenToMatch)
+
+        const slashToken = sourceCode.getLastToken(node, token => token.value === '/')
+        if (slashToken) {
+          const tokenToMatch = isTokenOnSameLine(slashToken, closingToken) ? slashToken : closingToken
+
+          offsets.matchOffsetOf(firstToken, tokenToMatch)
+        }
       },
 
       JSXExpressionContainer(node) {

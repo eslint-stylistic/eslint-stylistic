@@ -1,6 +1,4 @@
 ---
-title: space-before-function-paren
-rule_type: layout
 related_rules:
   - keyword-spacing
 ---

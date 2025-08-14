@@ -1,7 +1,7 @@
 import type { ASTNode, JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { nullThrows, NullThrowsReasons } from '#utils/assert'
-import { AST_NODE_TYPES, isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine, isTypeKeyword, KEYWORDS_JS } from '#utils/ast'
+import { AST_NODE_TYPES, isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine, isTypeKeyword, KEYWORDS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const PREV_TOKEN = /^[)\]}>]$/u
@@ -11,7 +11,6 @@ const NEXT_TOKEN_M = /^[{*]$/u
 const TEMPLATE_OPEN_PAREN = /\$\{$/u
 const TEMPLATE_CLOSE_PAREN = /^\}/u
 const CHECK_TYPE = /^(?:JSXElement|RegularExpression|String|Template|PrivateIdentifier)$/u
-const KEYS = KEYWORDS_JS.concat(['accessor', 'as', 'async', 'await', 'from', 'get', 'let', 'of', 'satisfies', 'set', 'using', 'yield', 'type'])
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'keyword-spacing',
@@ -29,7 +28,7 @@ export default createRule<RuleOptions, MessageIds>({
           after: { type: 'boolean', default: true },
           overrides: {
             type: 'object',
-            properties: KEYS.reduce<Record<string, JSONSchema.JSONSchema4>>((retv, key) => {
+            properties: KEYWORDS.reduce<Record<string, JSONSchema.JSONSchema4>>((retv, key) => {
               retv[key] = {
                 type: 'object',
                 properties: {
@@ -207,8 +206,8 @@ export default createRule<RuleOptions, MessageIds>({
       const overrides = (options && options.overrides) || {} as any
       const retv = Object.create(null)
 
-      for (let i = 0; i < KEYS.length; ++i) {
-        const key = KEYS[i]
+      for (let i = 0; i < KEYWORDS.length; ++i) {
+        const key = KEYWORDS[i]
         const override = overrides[key]
 
         if (override) {

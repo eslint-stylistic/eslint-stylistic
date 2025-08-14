@@ -11,6 +11,7 @@ import {
   isDecimalInteger,
   isKeywordToken,
   isMixedLogicalAndCoalesceExpressions,
+  isNodeOfTypes,
   isNotClosingParenToken,
   isNotOpeningParenToken,
   isOpeningBraceToken,
@@ -101,7 +102,7 @@ export default createRule<RuleOptions, MessageIds>({
       && context.options[1].conditionalAssign === false
     const EXCEPT_COND_TERNARY = ALL_NODES && context.options[1]
       && context.options[1].ternaryOperandBinaryExpressions === false
-    const NESTED_BINARY = ALL_NODES && context.options[1]
+    const IGNORE_NESTED_BINARY = ALL_NODES && context.options[1]
       && context.options[1].nestedBinaryExpressions === false
     const EXCEPT_RETURN_ASSIGN = ALL_NODES && context.options[1]
       && context.options[1].returnAssign === false
@@ -710,8 +711,8 @@ export default createRule<RuleOptions, MessageIds>({
         const leftPrecedence = precedence(n.left)
         const rightPrecedence = precedence(n.right)
         const isExponentiation = n.operator === '**'
-        const shouldSkipLeft = NESTED_BINARY && (n.left.type === 'BinaryExpression' || n.left.type === 'LogicalExpression')
-        const shouldSkipRight = NESTED_BINARY && (n.right.type === 'BinaryExpression' || n.right.type === 'LogicalExpression')
+        const shouldSkipLeft = IGNORE_NESTED_BINARY && (n.left.type === 'BinaryExpression' || n.left.type === 'LogicalExpression')
+        const shouldSkipRight = IGNORE_NESTED_BINARY && (n.right.type === 'BinaryExpression' || n.right.type === 'LogicalExpression')
 
         if (!shouldSkipLeft && hasExcessParens(n.left)) {
           if (
@@ -916,6 +917,17 @@ export default createRule<RuleOptions, MessageIds>({
 
       if (node.value && hasExcessParensWithPrecedence(node.value, PRECEDENCE_OF_ASSIGNMENT_EXPR))
         report(node.value)
+    }
+
+    function checkTSBinaryType(node: Tree.TSUnionType | Tree.TSIntersectionType) {
+      node.types.forEach((type) => {
+        const shouldReport = IGNORE_NESTED_BINARY && isNodeOfTypes([AST_NODE_TYPES.TSUnionType, AST_NODE_TYPES.TSIntersectionType])(type)
+          ? isParenthesisedTwice(type)
+          : hasExcessParensWithPrecedence(type, precedence(node))
+
+        if (shouldReport)
+          report(type)
+      })
     }
 
     return {
@@ -1499,18 +1511,8 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasExcessParensWithPrecedence(node.elementType, precedence(node)))
           report(node.elementType)
       },
-      TSIntersectionType(node) {
-        node.types.forEach((type) => {
-          if (hasExcessParensWithPrecedence(type, precedence(node)))
-            report(type)
-        })
-      },
-      TSUnionType(node) {
-        node.types.forEach((type) => {
-          if (hasExcessParensWithPrecedence(type, precedence(node)))
-            report(type)
-        })
-      },
+      'TSIntersectionType': checkTSBinaryType,
+      'TSUnionType': checkTSBinaryType,
       TSTypeAnnotation(node) {
         if (hasExcessParens(node.typeAnnotation)) {
           report(node.typeAnnotation)

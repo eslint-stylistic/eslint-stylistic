@@ -168,6 +168,8 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       languageOptions: languageOptionsForBabelFlow,
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/906
+    `import foo, * as bar from 'mod'`,
   ],
 
   invalid: [

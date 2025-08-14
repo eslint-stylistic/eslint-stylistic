@@ -1,6 +1,4 @@
 ---
-title: lines-between-class-members
-rule_type: layout
 related_rules:
   - padded-blocks
   - padding-line-between-statements
