@@ -867,6 +867,18 @@ run<RuleOptions, MessageIds>({
         | 'four'
       ;
     `,
+    $`
+      function foo<
+          T
+              =
+                  Foo
+      >() {}
+    `,
+    $`
+      import foo
+          =
+              require('source')
+    `,
   ],
   invalid: [
     ...individualNodeTests.invalid!,
@@ -2188,6 +2200,42 @@ declare function h(x: number): number;
       options: [2, { FunctionExpression: { returnType: 0 } }],
       errors: [
         { messageId: 'wrongIndentation', data: { expected: '0 spaces', actual: 2 } },
+      ],
+    },
+    {
+      code: $`
+        function foo<
+            T
+            =
+            Foo
+        >() {}
+      `,
+      output: $`
+        function foo<
+            T
+                =
+                    Foo
+        >() {}
+      `,
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '8 spaces', actual: 4 } },
+        { messageId: 'wrongIndentation', data: { expected: '12 spaces', actual: 4 } },
+      ],
+    },
+    {
+      code: $`
+        import foo
+        =
+        require('source')
+      `,
+      output: $`
+        import foo
+            =
+                require('source')
+      `,
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '4 spaces', actual: 0 } },
+        { messageId: 'wrongIndentation', data: { expected: '8 spaces', actual: 0 } },
       ],
     },
   ],
