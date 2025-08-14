@@ -1161,6 +1161,16 @@ run<RuleOptions, MessageIds>({
       </>
       `,
     },
+    {
+      code: $`
+        <App
+          foo
+            =
+              "bar"
+        />
+      `,
+      options: [2],
+    },
   ),
 
   invalid: invalids(
@@ -2356,6 +2366,23 @@ run<RuleOptions, MessageIds>({
         { messageId: 'wrongIndentation', line: 5 },
         { messageId: 'wrongIndentation', line: 8 },
       ],
+    },
+    {
+      code: $`
+        <App
+          foo
+          =
+          "bar"
+        />
+      `,
+      output: $`
+        <App
+          foo
+            =
+              "bar"
+        />
+      `,
+      options: [2],
     },
   ),
 })

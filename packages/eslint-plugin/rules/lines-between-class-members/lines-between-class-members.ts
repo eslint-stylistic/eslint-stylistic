@@ -204,8 +204,8 @@ export default createRule<RuleOptions, MessageIds>({
       for (let i = configureList.length - 1; i >= 0; --i) {
         const configure = configureList[i]
         const matched
-                        = match(prevNode, configure.prev)
-                          && match(nextNode, configure.next)
+          = match(prevNode, configure.prev)
+            && match(nextNode, configure.next)
 
         if (matched)
           return configure.blankLine

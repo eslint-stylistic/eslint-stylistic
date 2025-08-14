@@ -512,7 +512,7 @@ run<RuleOptions, MessageIds>({
               b: 2
             };
       `,
-      options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
+      options: [2, { VariableDeclarator: 2, SwitchCase: 1, assignmentOperator: 0 }],
     },
     $`
       var
@@ -579,7 +579,7 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         var foo
-          = 1,
+            = 1,
           bar
             = 2
       `,
@@ -588,18 +588,18 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         var foo
-          =
-          1,
+            =
+              1,
           bar
             =
-            2
+              2
       `,
       options: [2, { VariableDeclarator: 1 }],
     },
     {
       code: $`
         var foo
-          = (1),
+            = (1),
           bar
             = (2)
       `,
@@ -676,7 +676,7 @@ run<RuleOptions, MessageIds>({
             bar =
             2
       `,
-      options: [2, { VariableDeclarator: 'first' }],
+      options: [2, { VariableDeclarator: 'first', assignmentOperator: 0 }],
     },
     {
       code: $`
@@ -720,7 +720,7 @@ run<RuleOptions, MessageIds>({
               b: 2
             };
       `,
-      options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
+      options: [2, { VariableDeclarator: 2, SwitchCase: 1, assignmentOperator: 2 }],
     },
     {
       code: $`
@@ -1276,7 +1276,7 @@ run<RuleOptions, MessageIds>({
               b: 2
             };
       `,
-      options: [2, { VariableDeclarator: { var: 2, const: 3 }, SwitchCase: 1 }],
+      options: [2, { VariableDeclarator: { var: 2, const: 3 }, SwitchCase: 1, assignmentOperator: 0 }],
     },
     {
       code: $`
@@ -1488,7 +1488,7 @@ run<RuleOptions, MessageIds>({
             },
             c = 3;
       `,
-      options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
+      options: [2, { VariableDeclarator: 2, SwitchCase: 1, assignmentOperator: 0 }],
     },
     {
       code: $`
@@ -1545,7 +1545,7 @@ run<RuleOptions, MessageIds>({
             ]
         };
       `,
-      options: [4, { VariableDeclarator: 0, SwitchCase: 1 }],
+      options: [4, { VariableDeclarator: 0, SwitchCase: 1, assignmentOperator: 0 }],
     },
     {
       code: $`
@@ -1556,7 +1556,7 @@ run<RuleOptions, MessageIds>({
             }
         ];
       `,
-      options: [4, { VariableDeclarator: 0, SwitchCase: 1 }],
+      options: [4, { VariableDeclarator: 0, SwitchCase: 1, assignmentOperator: 0 }],
     },
     $`
       [[
@@ -2558,7 +2558,7 @@ run<RuleOptions, MessageIds>({
           a: 1
         }
       `,
-      options: [2],
+      options: [2, { assignmentOperator: 0 }],
     },
     {
       code: $`
@@ -3214,7 +3214,7 @@ run<RuleOptions, MessageIds>({
         var foo =
                 1;
       `,
-      options: [4, { VariableDeclarator: 2 }],
+      options: [4, { VariableDeclarator: 2, assignmentOperator: 'off' }],
     },
     {
       code: $`
@@ -3222,7 +3222,7 @@ run<RuleOptions, MessageIds>({
             bar =
             2;
       `,
-      options: [4],
+      options: [4, { assignmentOperator: 0 }],
     },
     {
       code: $`
@@ -3296,16 +3296,24 @@ run<RuleOptions, MessageIds>({
     `,
 
     // Don't check AssignmentExpression assignments
-    $`
-      foo =
-          bar =
-          baz;
-    `,
-    $`
-      foo =
-      bar =
-          baz;
-    `,
+    // { assignmentOperator: 'off' }
+    {
+      code: $`
+        foo =
+            bar =
+            baz;
+      `,
+      options: [2, { assignmentOperator: 'off' }],
+    },
+
+    {
+      code: $`
+        foo =
+        bar =
+            baz;
+      `,
+      options: [4, { assignmentOperator: 'off' }],
+    },
     $`
       function foo() {
           const template = \`this indentation is not checked
@@ -4116,14 +4124,17 @@ run<RuleOptions, MessageIds>({
                   'bar'
               ));
     `,
-    $`
-      const foo = a.b(),
-          longName =
-          (baz(
-              'bar',
-              'bar'
-          ));
-    `,
+    {
+      code: $`
+        const foo = a.b(),
+            longName =
+            (baz(
+                'bar',
+                'bar'
+            ));
+      `,
+      options: [4, { assignmentOperator: 0 }],
+    },
     $`
       const foo = a.b(),
           longName =
@@ -4132,14 +4143,17 @@ run<RuleOptions, MessageIds>({
                   'bar'
               );
     `,
-    $`
-      const foo = a.b(),
-          longName =
-          baz(
-              'bar',
-              'bar'
-          );
-    `,
+    {
+      code: $`
+        const foo = a.b(),
+            longName =
+            baz(
+                'bar',
+                'bar'
+            );
+      `,
+      options: [4, { assignmentOperator: 0 }],
+    },
     $`
       const foo = a.b(),
           longName
@@ -4148,34 +4162,43 @@ run<RuleOptions, MessageIds>({
                   'bar'
               );
     `,
-    $`
-      const foo = a.b(),
-          longName
-          = baz(
-              'bar',
-              'bar'
-          );
-    `,
+    {
+      code: $`
+        const foo = a.b(),
+            longName
+            = baz(
+                'bar',
+                'bar'
+            );
+      `,
+      options: [4, { assignmentOperator: 0 }],
+    },
     $`
       const foo = a.b(),
           longName =
               ('fff');
     `,
-    $`
-      const foo = a.b(),
-          longName =
-          ('fff');
-    `,
+    {
+      code: $`
+        const foo = a.b(),
+            longName =
+            ('fff');
+      `,
+      options: [4, { assignmentOperator: 0 }],
+    },
     $`
       const foo = a.b(),
           longName
               = ('fff');
     `,
-    $`
-      const foo = a.b(),
-          longName
-          = ('fff');
-    `,
+    {
+      code: $`
+        const foo = a.b(),
+            longName
+            = ('fff');
+      `,
+      options: [4, { assignmentOperator: 0 }],
+    },
     $`
       const foo = a.b(),
           longName =
@@ -4183,13 +4206,16 @@ run<RuleOptions, MessageIds>({
                   'fff'
               );
     `,
-    $`
-      const foo = a.b(),
-          longName =
-          (
-              'fff'
-          );
-    `,
+    {
+      code: $`
+        const foo = a.b(),
+            longName =
+            (
+                'fff'
+            );
+      `,
+      options: [4, { assignmentOperator: 0 }],
+    },
     $`
       const foo = a.b(),
           longName
@@ -4197,13 +4223,16 @@ run<RuleOptions, MessageIds>({
                   'fff'
               );
     `,
-    $`
-      const foo = a.b(),
-          longName
-          =(
-              'fff'
-          );
-    `,
+    {
+      code: $`
+        const foo = a.b(),
+            longName
+            =(
+                'fff'
+            );
+      `,
+      options: [4, { assignmentOperator: 0 }],
+    },
 
     // ----------------------------------------------------------------------
     // Ignore Unknown Nodes
@@ -7568,20 +7597,20 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         var abc =
-             {
-               a: 1,
-                b: 2
-             };
+          {
+            a: 1,
+             b: 2
+          };
       `,
       output: $`
         var abc =
-             {
-               a: 1,
-               b: 2
-             };
+          {
+            a: 1,
+            b: 2
+          };
       `,
       options: [2, { VariableDeclarator: 'first', SwitchCase: 1 }],
-      errors: expectedErrors([4, 7, 8, 'Identifier']),
+      errors: expectedErrors([4, 4, 5, 'Identifier']),
     },
     {
       code: $`
@@ -7780,7 +7809,7 @@ run<RuleOptions, MessageIds>({
               b: 2
             };
       `,
-      options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
+      options: [2, { VariableDeclarator: 2, SwitchCase: 1, assignmentOperator: 0 }],
       errors: expectedErrors([6, 6, 7, 'Identifier']),
     },
     {
@@ -7798,7 +7827,7 @@ run<RuleOptions, MessageIds>({
                b: 2
              };
       `,
-      options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
+      options: [2, { VariableDeclarator: 2, SwitchCase: 1, assignmentOperator: 'off' }],
       errors: expectedErrors([4, 7, 8, 'Identifier']),
     },
     {
@@ -7935,7 +7964,7 @@ run<RuleOptions, MessageIds>({
               get b(){}
             };
       `,
-      options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
+      options: [2, { VariableDeclarator: 2, SwitchCase: 1, assignmentOperator: 'off' }],
       errors: expectedErrors([[3, 6, 4, 'Identifier']]),
     },
     {
@@ -10742,39 +10771,39 @@ run<RuleOptions, MessageIds>({
       code: $`
         const foo = a.b(),
             longName
-            = (baz(
-                    'bar',
-                    'bar'
-                ));
+                = (baz(
+                        'bar',
+                        'bar'
+                    ));
       `,
       output: $`
         const foo = a.b(),
             longName
-            = (baz(
-                'bar',
-                'bar'
-            ));
+                = (baz(
+                    'bar',
+                    'bar'
+                ));
       `,
-      errors: expectedErrors([[4, 8, 12, 'String'], [5, 8, 12, 'String'], [6, 4, 8, 'Punctuator']]),
+      errors: expectedErrors([[4, 12, 16, 'String'], [5, 12, 16, 'String'], [6, 8, 12, 'Punctuator']]),
     },
     {
       code: $`
         const foo = a.b(),
             longName =
-            (baz(
-                    'bar',
-                    'bar'
-                ));
+                (baz(
+                        'bar',
+                        'bar'
+                    ));
       `,
       output: $`
         const foo = a.b(),
             longName =
-            (baz(
-                'bar',
-                'bar'
-            ));
+                (baz(
+                    'bar',
+                    'bar'
+                ));
       `,
-      errors: expectedErrors([[4, 8, 12, 'String'], [5, 8, 12, 'String'], [6, 4, 8, 'Punctuator']]),
+      errors: expectedErrors([[4, 12, 16, 'String'], [5, 12, 16, 'String'], [6, 8, 12, 'Punctuator']]),
     },
     {
       code: $`
