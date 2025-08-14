@@ -1398,11 +1398,11 @@ export default createRule<RuleOptions, MessageIds>({
 
       const lastToken = sourceCode.getLastToken(node)!
       if (node.value) {
-        const eqToken = sourceCode.getTokenBefore(node.value, isNotOpeningParenToken)!
+        const operator = sourceCode.getTokenBefore(node.value, isNotOpeningParenToken)!
+        checkAssignmentOperator(operator)
 
-        checkAssignmentOperator(eqToken)
         if (isSemicolonToken(lastToken))
-          offsets.setDesiredOffset(lastToken, eqToken, 1)
+          offsets.setDesiredOffset(lastToken, operator, 1)
       }
       else if (isSemicolonToken(lastToken)) {
         // TODO: ignore like `VariableDeclaration`
@@ -1862,10 +1862,13 @@ export default createRule<RuleOptions, MessageIds>({
 
       VariableDeclarator(node) {
         if (node.init) {
-          const equalOperator = sourceCode.getTokenBefore(node.init, isNotOpeningParenToken)!
-
-          checkAssignmentOperator(equalOperator)
+          const operator = sourceCode.getTokenBefore(node.init, isNotOpeningParenToken)!
+          checkAssignmentOperator(operator)
         }
+
+        const lastToken = sourceCode.getLastToken(node)!
+        if (isSemicolonToken(lastToken))
+          offsets.ignoreToken(lastToken)
       },
 
       JSXText(node) {
@@ -1909,9 +1912,9 @@ export default createRule<RuleOptions, MessageIds>({
       JSXAttribute(node) {
         if (!node.value)
           return
-        const equalsToken = sourceCode.getFirstTokenBetween(node.name, node.value, isEqToken)!
 
-        offsets.setDesiredOffsets([equalsToken.range[0], node.value.range[1]], sourceCode.getFirstToken(node.name), 1)
+        const operator = sourceCode.getFirstTokenBetween(node.name, node.value, isEqToken)!
+        checkAssignmentOperator(operator)
       },
 
       JSXElement(node) {
@@ -1998,9 +2001,8 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       TSTypeAliasDeclaration(node) {
-        const equalOperator = sourceCode.getTokenBefore(node.typeAnnotation, isNotOpeningParenToken)!
-
-        checkAssignmentOperator(equalOperator)
+        const operator = sourceCode.getTokenBefore(node.typeAnnotation, isNotOpeningParenToken)!
+        checkAssignmentOperator(operator)
 
         const lastToken = sourceCode.getLastToken(node)!
         if (isSemicolonToken(lastToken))
@@ -2020,7 +2022,6 @@ export default createRule<RuleOptions, MessageIds>({
           return
 
         const operator = sourceCode.getTokenBefore(node.initializer, isEqToken)!
-
         checkAssignmentOperator(operator)
       },
 
@@ -2095,12 +2096,12 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       TSImportEqualsDeclaration(node) {
-        const indent = DEFAULT_VARIABLE_INDENT
-        const firstToken = sourceCode.getFirstToken(node)!
+        if (node.moduleReference) {
+          const operator = sourceCode.getTokenBefore(node.moduleReference, isEqToken)!
+          checkAssignmentOperator(operator)
+        }
+
         const lastToken = sourceCode.getLastToken(node)!
-
-        offsets.setDesiredOffsets(node.range, firstToken, indent)
-
         if (isSemicolonToken(lastToken))
           offsets.ignoreToken(lastToken)
       },
@@ -2120,6 +2121,14 @@ export default createRule<RuleOptions, MessageIds>({
 
       TSQualifiedName(node) {
         checkMemberExpression(node, node.left, node.right)
+      },
+
+      TSTypeParameter(node) {
+        if (!node.default)
+          return
+
+        const operator = sourceCode.getTokenBefore(node.default, isEqToken)!
+        checkAssignmentOperator(operator)
       },
 
       TSTypeParameterDeclaration(node) {
