@@ -1158,7 +1158,6 @@ export default createRule<RuleOptions, MessageIds>({
         offsets.setDesiredOffset(right, operator, options.assignmentOperator)
       }
       else {
-        offsets.ignoreToken(left)
         offsets.ignoreToken(operator)
         offsets.ignoreToken(right)
       }
