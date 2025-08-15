@@ -396,48 +396,6 @@ if (foo) {
 
 :::
 
-### functions
-
-Examples of **incorrect** code for this rule with the `"functions"` option:
-
-::: incorrect
-
-```js
-/* eslint @stylistic/no-extra-parens: ["error", "functions"] */
-
-((function foo() {}))();
-
-var y = (function () {return 1;});
-```
-
-:::
-
-Examples of **correct** code for this rule with the `"functions"` option:
-
-::: correct
-
-```js
-/* eslint @stylistic/no-extra-parens: ["error", "functions"] */
-
-(0).toString();
-
-(Object.prototype.toString.call());
-
-({}.toString.call());
-
-(function(){} ? a() : b());
-
-(/^a$/).test(x);
-
-a = (b * c);
-
-(a * b) + c;
-
-typeof (a);
-```
-
-:::
-
 ### nestedConditionalExpressions
 
 Examples of **correct** code for this rule with the `"all"` and `{ "nestedConditionalExpressions": false }` options:
@@ -526,3 +484,45 @@ type TBar = (
 :::
 
 All AST node types can be found at [ESTree](https://github.com/estree/estree) specification. You can use [AST Explorer](https://ast-explorer.dev/) with the `espree` or `@typescript-eslint/parser` to examine AST tree of a code snippet.
+
+### functions
+
+Examples of **incorrect** code for this rule with the `"functions"` option:
+
+::: incorrect
+
+```js
+/* eslint @stylistic/no-extra-parens: ["error", "functions"] */
+
+((function foo() {}))();
+
+var y = (function () {return 1;});
+```
+
+:::
+
+Examples of **correct** code for this rule with the `"functions"` option:
+
+::: correct
+
+```js
+/* eslint @stylistic/no-extra-parens: ["error", "functions"] */
+
+(0).toString();
+
+(Object.prototype.toString.call());
+
+({}.toString.call());
+
+(function(){} ? a() : b());
+
+(/^a$/).test(x);
+
+a = (b * c);
+
+(a * b) + c;
+
+typeof (a);
+```
+
+:::
