@@ -929,7 +929,7 @@ run<RuleOptions, MessageIds>({
             .join("")
         );
       `,
-      options: ['all', { ignoredNodes: ['VariableDeclarator[init.type="CallExpression"]'] }],
+      options: ['all', { ignoredNodes: ['VariableDeclarator[init]'] }],
     },
   ],
 

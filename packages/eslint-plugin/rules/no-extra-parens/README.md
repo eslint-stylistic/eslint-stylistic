@@ -45,26 +45,27 @@ In this case, the rule will not try to remove the parentheses around `"use stric
 
 This rule has a string option:
 
-- `"all"` (default) disallows unnecessary parentheses around _any_ expression
-- `"functions"` disallows unnecessary parentheses _only_ around function expressions
+- [`"all"`](#all) (default) disallows unnecessary parentheses around _any_ expression
+- [`"functions"`](#functions) disallows unnecessary parentheses _only_ around function expressions
 
 This rule has an object option for exceptions to the `"all"` option:
 
-- `"conditionalAssign": false` allows extra parentheses around assignments in conditional test expressions
-- `"returnAssign": false` allows extra parentheses around assignments in `return` statements
-- `"nestedBinaryExpressions": false` allows extra parentheses in nested binary expressions
-- `"ternaryOperandBinaryExpressions": false` allows extra parentheses around binary expressions that are operands of ternary `?:`
-- `"ignoreJSX": "none|all|multi-line|single-line"` allows extra parentheses around no/all/multi-line/single-line JSX components. Defaults to `none`.
-- `"enforceForArrowConditionals": false` allows extra parentheses around ternary expressions which are the body of an arrow function
-- `"enforceForSequenceExpressions": false` allows extra parentheses around sequence expressions
-- `"enforceForNewInMemberExpressions": false` allows extra parentheses around `new` expressions in member expressions
-- `"enforceForFunctionPrototypeMethods": false` allows extra parentheses around immediate `.call` and `.apply` method calls on function expressions and around function expressions in the same context.
-- `"allowParensAfterCommentPattern": "any-string-pattern"` allows extra parentheses preceded by a comment that matches a regular expression.
-- `"nestedConditionalExpressions": false` allows extra parentheses in nested conditional(ternary) expressions
-- `"allowNodesInSpreadElement"` object has properties whose names correspond to node types in the abstract syntax tree (AST) of JavaScript code. Allows extra parentheses to be added to these nodes within the spread syntax
+- [`"conditionalAssign": false`](#conditionalassign) allows extra parentheses around assignments in conditional test expressions
+- [`"returnAssign": false`](#returnassign) allows extra parentheses around assignments in `return` statements
+- [`"nestedBinaryExpressions": false`](#nestedbinaryexpressions) allows extra parentheses in nested binary expressions
+- [`"ternaryOperandBinaryExpressions": false`](#ternaryoperandbinaryexpressions) allows extra parentheses around binary expressions that are operands of ternary `?:`
+- [`"ignoreJSX": "none|all|multi-line|single-line"`](#ignorejsx) allows extra parentheses around no/all/multi-line/single-line JSX components. Defaults to `none`.
+- [`"enforceForArrowConditionals": false`](#enforceforarrowconditionals) allows extra parentheses around ternary expressions which are the body of an arrow function
+- [`"enforceForSequenceExpressions": false`](#enforceforsequenceexpressions) allows extra parentheses around sequence expressions
+- [`"enforceForNewInMemberExpressions": false`](#enforcefornewinmemberexpressions) allows extra parentheses around `new` expressions in member expressions
+- [`"enforceForFunctionPrototypeMethods": false`](#enforceforfunctionprototypemethods) allows extra parentheses around immediate `.call` and `.apply` method calls on function expressions and around function expressions in the same context.
+- [`"allowParensAfterCommentPattern": "any-string-pattern"`](#allowparensaftercommentpattern) allows extra parentheses preceded by a comment that matches a regular expression.
+- [`"nestedConditionalExpressions": false`](#nestedconditionalexpressions) allows extra parentheses in nested conditional(ternary) expressions
+- [`"allowNodesInSpreadElement"`](#allownodesinspreadelement) object has properties whose names correspond to node types in the abstract syntax tree (AST) of JavaScript code. Allows extra parentheses to be added to these nodes within the spread syntax
   - `"ConditionalExpression": true`
   - `"LogicalExpression": true`
   - `"AwaitExpression": true`
+- [`"ignoredNodes": []`](#ignorednodes) can be used to allow extra parentheses around any AST node. This accepts an array of [selectors](https://eslint.org/docs/latest/extend/selectors). If an AST node is matched by any of the selectors, the parentheses of tokens which are around that node will be ignored. This can be used as an escape hatch to relax the rule.
 
 ### all
 
@@ -477,3 +478,51 @@ const fruits = {
 ```
 
 :::
+
+### ignoredNodes
+
+The following configuration ignores init in `VariableDeclarator` nodes:
+
+Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["VariableDeclarator[init]"] }` option:
+
+::: correct
+
+```js
+/* eslint @stylistic/no-extra-parens: ["error", "all", { "ignoredNodes": ["VariableDeclarator[init]"] }] */
+
+const a = (
+    b &&
+    c &&
+    d
+)
+
+const foo = (
+    bar
+    .filter((item) => !!item)
+    .join('')
+)
+```
+
+:::
+
+The following configuration ignores parens around a `TSIntersectionType` as the typeAnnotation of a `TSTypeAliasDeclaration`.
+
+Examples of **correct** code for this rule with the `4, { "ignoredNodes": ['TSTypeAliasDeclaration[typeAnnotation.type='TSIntersectionType'] }` option:
+
+::: correct
+
+```js
+/* eslint @stylistic/no-extra-parens: ["error", "all", {
+    "ignoredNodes": ["TSTypeAliasDeclaration[typeAnnotation.type='TSIntersectionType']"]
+}] */
+
+type TBar = (
+    First
+    & Second
+    & Third
+)
+```
+
+:::
+
+All AST node types can be found at [ESTree](https://github.com/estree/estree) specification. You can use [AST Explorer](https://ast-explorer.dev/) with the `espree` or `@typescript-eslint/parser` to examine AST tree of a code snippet.
