@@ -1,6 +1,6 @@
 // any is required to work around manipulating the AST in weird ways
 
-import type { ASTNode, Token, Tree } from '#types'
+import type { ASTNode, RuleFunction, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
   AST_NODE_TYPES,
@@ -78,7 +78,16 @@ export default createRule<RuleOptions, MessageIds>({
                   },
                   additionalProperties: false,
                 },
-                allowMultiline: { type: 'boolean' },
+                ignoredNodes: {
+                  type: 'array',
+                  items: {
+                    type: 'string',
+                    not: {
+                      type: 'string',
+                      pattern: ':exit$',
+                    },
+                  },
+                },
               },
               additionalProperties: false,
             },
@@ -93,38 +102,25 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   defaultOptions: ['all'],
-  create(context) {
+  create(context, [nodes, options]) {
     const sourceCode = context.sourceCode
 
     const tokensToIgnore = new WeakSet()
     const precedence = getPrecedence
-    const ALL_NODES = context.options[0] !== 'functions'
-    const EXCEPT_COND_ASSIGN = ALL_NODES && context.options[1]
-      && context.options[1].conditionalAssign === false
-    const EXCEPT_COND_TERNARY = ALL_NODES && context.options[1]
-      && context.options[1].ternaryOperandBinaryExpressions === false
-    const IGNORE_NESTED_BINARY = ALL_NODES && context.options[1]
-      && context.options[1].nestedBinaryExpressions === false
-    const EXCEPT_RETURN_ASSIGN = ALL_NODES && context.options[1]
-      && context.options[1].returnAssign === false
-    const IGNORE_JSX = ALL_NODES && context.options[1]
-      && context.options[1].ignoreJSX
-    const IGNORE_ARROW_CONDITIONALS = ALL_NODES && context.options[1]
-      && context.options[1].enforceForArrowConditionals === false
-    const IGNORE_SEQUENCE_EXPRESSIONS = ALL_NODES && context.options[1]
-      && context.options[1].enforceForSequenceExpressions === false
-    const IGNORE_NEW_IN_MEMBER_EXPR = ALL_NODES && context.options[1]
-      && context.options[1].enforceForNewInMemberExpressions === false
-    const IGNORE_FUNCTION_PROTOTYPE_METHODS = ALL_NODES && context.options[1]
-      && context.options[1].enforceForFunctionPrototypeMethods === false
-    const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && context.options[1]
-      && context.options[1].allowParensAfterCommentPattern
-    const ALLOW_NESTED_TERNARY = ALL_NODES && context.options[1]
-      && context.options[1].nestedConditionalExpressions === false
+    const ALL_NODES = nodes !== 'functions'
+    const EXCEPT_COND_ASSIGN = ALL_NODES && options?.conditionalAssign === false
+    const EXCEPT_COND_TERNARY = ALL_NODES && options?.ternaryOperandBinaryExpressions === false
+    const IGNORE_NESTED_BINARY = ALL_NODES && options?.nestedBinaryExpressions === false
+    const EXCEPT_RETURN_ASSIGN = ALL_NODES && options?.returnAssign === false
+    const IGNORE_JSX = ALL_NODES && options?.ignoreJSX
+    const IGNORE_ARROW_CONDITIONALS = ALL_NODES && options?.enforceForArrowConditionals === false
+    const IGNORE_SEQUENCE_EXPRESSIONS = ALL_NODES && options?.enforceForSequenceExpressions === false
+    const IGNORE_NEW_IN_MEMBER_EXPR = ALL_NODES && options?.enforceForNewInMemberExpressions === false
+    const IGNORE_FUNCTION_PROTOTYPE_METHODS = ALL_NODES && options?.enforceForFunctionPrototypeMethods === false
+    const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && options?.allowParensAfterCommentPattern
+    const ALLOW_NESTED_TERNARY = ALL_NODES && options?.nestedConditionalExpressions === false
     const ALLOW_NODES_IN_SPREAD = ALL_NODES && context.options[1]
       && new Set(Object.entries(context.options[1].allowNodesInSpreadElement || {}).filter(([_, value]) => value).map(([key]) => key))
-    const ALLOW_MULTILINE = ALL_NODES && context.options[1]
-      && context.options[1].allowMultiline
 
     // @ts-expect-error other properties are not used
     const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' })
@@ -284,9 +280,6 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function ruleApplies(node: ASTNode) {
-      if (ALLOW_MULTILINE && !isSingleLine(node))
-        return false
-
       if (node.type === 'JSXElement' || node.type === 'JSXFragment') {
         switch (IGNORE_JSX) {
           // Exclude this JSX element from linting
@@ -936,7 +929,8 @@ export default createRule<RuleOptions, MessageIds>({
       })
     }
 
-    return {
+    // TODO: Maybe we can add `ignoreNodes` to `createRule`, so that every rule can specific AST Nodes to ignore.
+    const baseListeners: RuleListener = {
       ArrayExpression(node) {
         node.elements
           .map(element =>
@@ -1534,6 +1528,41 @@ export default createRule<RuleOptions, MessageIds>({
           return
         if (hasExcessParens(node.initializer)) {
           report(node.initializer)
+        }
+      },
+    }
+
+    const listeners: Record<string, (node: ASTNode) => void> = {}
+    const ignoreNodes = new Set<ASTNode>()
+    const listenerCallQueue: {
+      node: ASTNode
+      listener: RuleFunction<ASTNode>
+    }[] = []
+
+    for (const key in baseListeners) {
+      listeners[key] = node => listenerCallQueue.push({ node, listener: baseListeners[key]! as RuleFunction<ASTNode> })
+    }
+
+    return {
+      ...listeners,
+
+      ...options?.ignoredNodes?.reduce(
+        (listener, selector) =>
+          Object.assign(listener, {
+            [selector]: (node: ASTNode) => ignoreNodes.add(node),
+          }),
+        {} as RuleListener,
+      ),
+
+      'Program:exit': function () {
+        for (let i = 0; i < listenerCallQueue.length; i++) {
+          const {
+            node,
+            listener,
+          } = listenerCallQueue[i]
+
+          if (!ignoreNodes.has(node))
+            listener(node)
         }
       },
     }

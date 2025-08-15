@@ -374,7 +374,7 @@ run<RuleOptions, MessageIds>({
             & Third
         );
       `,
-      options: ['all', { allowMultiline: true }],
+      options: ['all', { ignoredNodes: ['TSTypeAliasDeclaration[typeAnnotation.type="TSIntersectionType"]'] }],
     },
   ],
 

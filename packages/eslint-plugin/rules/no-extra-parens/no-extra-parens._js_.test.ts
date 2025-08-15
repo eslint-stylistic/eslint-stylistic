@@ -918,7 +918,7 @@ run<RuleOptions, MessageIds>({
           condition3
         );
       `,
-      options: ['all', { allowMultiline: true }],
+      options: ['all', { ignoredNodes: ['VariableDeclarator[init.type="LogicalExpression"]'] }],
     },
     {
       code: $`
@@ -929,7 +929,7 @@ run<RuleOptions, MessageIds>({
             .join("")
         );
       `,
-      options: ['all', { allowMultiline: true }],
+      options: ['all', { ignoredNodes: ['VariableDeclarator[init.type="CallExpression"]'] }],
     },
   ],
 
