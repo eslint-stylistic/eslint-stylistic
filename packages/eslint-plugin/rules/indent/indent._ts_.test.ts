@@ -1701,6 +1701,44 @@ class Foo {}
     },
     {
       code: $`
+        enum Foo
+            {
+            bar,
+            baz = 1,
+            buzz = '',
+            }
+      `,
+      output: $`
+        enum Foo
+        {
+            bar,
+            baz = 1,
+            buzz = '',
+        }
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '0 spaces',
+            actual: 4,
+          },
+          line: 2,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '0 spaces',
+            actual: 4,
+          },
+          line: 6,
+          column: 1,
+        },
+      ],
+    },
+    {
+      code: $`
         const enum Foo {
         bar,
         baz = 1,
