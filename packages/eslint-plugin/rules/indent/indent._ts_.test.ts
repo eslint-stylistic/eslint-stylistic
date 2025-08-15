@@ -155,13 +155,13 @@ const individualNodeTests = [
             baz = 1,
         }
       `,
-      `
-enum Foo
-{
-    bar = 1,
-    baz = 1,
-}
-            `,
+      $`
+        enum Foo
+        {
+            bar = 1,
+            baz = 1,
+        }
+      `,
     ],
   },
   {

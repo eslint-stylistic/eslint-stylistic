@@ -123,6 +123,7 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.TSDeclareFunction,
   AST_NODE_TYPES.TSEmptyBodyFunctionExpression,
   AST_NODE_TYPES.TSEnumDeclaration,
+  AST_NODE_TYPES.TSEnumBody,
   AST_NODE_TYPES.TSEnumMember,
   AST_NODE_TYPES.TSExportAssignment,
   AST_NODE_TYPES.TSExternalModuleReference,
@@ -1327,7 +1328,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function checkBlockLikeNode(node: Tree.BlockStatement | Tree.ClassBody | Tree.TSInterfaceBody | Tree.TSModuleBlock) {
+    function checkBlockLikeNode(node: Tree.BlockStatement | Tree.ClassBody | Tree.TSInterfaceBody | Tree.TSEnumBody | Tree.TSModuleBlock) {
       let blockIndentLevel
 
       if (node.parent && isOuterIIFE(node.parent))
@@ -1347,7 +1348,7 @@ export default createRule<RuleOptions, MessageIds>({
         offsets.setDesiredOffset(sourceCode.getFirstToken(node)!, sourceCode.getFirstToken(node.parent)!, 0)
 
       addElementListIndent(
-        node.body,
+        node.type === AST_NODE_TYPES.TSEnumBody ? node.members : node.body,
         sourceCode.getFirstToken(node)!,
         sourceCode.getLastToken(node)!,
         blockIndentLevel,
@@ -1998,11 +1999,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       'TSTupleType': checkArrayLikeNode,
 
-      TSEnumDeclaration(node) {
-        const members = node.body?.members || node.members
-
-        checkObjectLikeNode(node, members)
-      },
+      'TSEnumBody': checkBlockLikeNode,
 
       TSTypeLiteral(node) {
         checkObjectLikeNode(node, node.members)
