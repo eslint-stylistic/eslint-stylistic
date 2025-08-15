@@ -69,6 +69,7 @@ export default createRule<RuleOptions, MessageIds>({
                 enforceForFunctionPrototypeMethods: { type: 'boolean' },
                 allowParensAfterCommentPattern: { type: 'string' },
                 nestedConditionalExpressions: { type: 'boolean' },
+                // TODO: Deprecate options that can be simply defined using ignoredNodes.
                 allowNodesInSpreadElement: {
                   type: 'object',
                   properties: {
