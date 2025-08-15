@@ -376,6 +376,16 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['all', { allowMultiline: true }],
     },
+    {
+      code: $`
+        const foo: (
+            First
+            & Second
+            & Third
+        ) = {};
+      `,
+      options: ['all', { allowMultiline: true }],
+    },
   ],
 
   invalid: [
