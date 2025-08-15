@@ -13,7 +13,9 @@ jobs:
   publish:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
       - run: corepack enable
       - uses: actions/setup-node@v4
         with:
