@@ -155,13 +155,13 @@ const individualNodeTests = [
             baz = 1,
         }
       `,
-      `
-enum Foo
-{
-    bar = 1,
-    baz = 1,
-}
-            `,
+      $`
+        enum Foo
+        {
+            bar = 1,
+            baz = 1,
+        }
+      `,
     ],
   },
   {
@@ -1695,6 +1695,44 @@ class Foo {}
             actual: 0,
           },
           line: 4,
+          column: 1,
+        },
+      ],
+    },
+    {
+      code: $`
+        enum Foo
+            {
+            bar,
+            baz = 1,
+            buzz = '',
+            }
+      `,
+      output: $`
+        enum Foo
+        {
+            bar,
+            baz = 1,
+            buzz = '',
+        }
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '0 spaces',
+            actual: 4,
+          },
+          line: 2,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '0 spaces',
+            actual: 4,
+          },
+          line: 6,
           column: 1,
         },
       ],
