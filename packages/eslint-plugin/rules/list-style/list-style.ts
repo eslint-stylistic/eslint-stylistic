@@ -6,7 +6,6 @@ import {
   isClosingBraceToken,
   isClosingBracketToken,
   isClosingParenToken,
-  isNodeOfType,
   isNodeOfTypes,
   isNotOpeningParenToken,
   isOpeningBraceToken,
@@ -71,25 +70,30 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'object',
             additionalProperties: false,
             properties: {
-              ArrayExpression: { $ref: '#/items/0/$defs/baseConfig' },
-              ArrayPattern: { $ref: '#/items/0/$defs/baseConfig' },
-              ArrowFunctionExpression: { $ref: '#/items/0/$defs/baseConfig' },
-              CallExpression: { $ref: '#/items/0/$defs/baseConfig' },
-              ExportNamedDeclaration: { $ref: '#/items/0/$defs/baseConfig' },
-              FunctionDeclaration: { $ref: '#/items/0/$defs/baseConfig' },
-              FunctionExpression: { $ref: '#/items/0/$defs/baseConfig' },
-              ImportDeclaration: { $ref: '#/items/0/$defs/baseConfig' },
-              NewExpression: { $ref: '#/items/0/$defs/baseConfig' },
-              ObjectExpression: { $ref: '#/items/0/$defs/baseConfig' },
-              ObjectPattern: { $ref: '#/items/0/$defs/baseConfig' },
-              TSFunctionType: { $ref: '#/items/0/$defs/baseConfig' },
-              TSInterfaceBody: { $ref: '#/items/0/$defs/baseConfig' },
-              TSTupleType: { $ref: '#/items/0/$defs/baseConfig' },
-              TSTypeLiteral: { $ref: '#/items/0/$defs/baseConfig' },
-              TSTypeParameterDeclaration: { $ref: '#/items/0/$defs/baseConfig' },
-              TSTypeParameterInstantiation: { $ref: '#/items/0/$defs/baseConfig' },
-              JSONArrayExpression: { $ref: '#/items/0/$defs/baseConfig' },
-              JSONObjectExpression: { $ref: '#/items/0/$defs/baseConfig' },
+              '[]': { $ref: '#/items/0/$defs/baseConfig' },
+              '{}': { $ref: '#/items/0/$defs/baseConfig' },
+              '<>': { $ref: '#/items/0/$defs/baseConfig' },
+              '()': { $ref: '#/items/0/$defs/baseConfig' },
+
+              'ArrayExpression': { $ref: '#/items/0/$defs/baseConfig' },
+              'ArrayPattern': { $ref: '#/items/0/$defs/baseConfig' },
+              'ArrowFunctionExpression': { $ref: '#/items/0/$defs/baseConfig' },
+              'CallExpression': { $ref: '#/items/0/$defs/baseConfig' },
+              'ExportNamedDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
+              'FunctionDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
+              'FunctionExpression': { $ref: '#/items/0/$defs/baseConfig' },
+              'ImportDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
+              'NewExpression': { $ref: '#/items/0/$defs/baseConfig' },
+              'ObjectExpression': { $ref: '#/items/0/$defs/baseConfig' },
+              'ObjectPattern': { $ref: '#/items/0/$defs/baseConfig' },
+              'TSFunctionType': { $ref: '#/items/0/$defs/baseConfig' },
+              'TSInterfaceBody': { $ref: '#/items/0/$defs/baseConfig' },
+              'TSTupleType': { $ref: '#/items/0/$defs/baseConfig' },
+              'TSTypeLiteral': { $ref: '#/items/0/$defs/baseConfig' },
+              'TSTypeParameterDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
+              'TSTypeParameterInstantiation': { $ref: '#/items/0/$defs/baseConfig' },
+              'JSONArrayExpression': { $ref: '#/items/0/$defs/baseConfig' },
+              'JSONObjectExpression': { $ref: '#/items/0/$defs/baseConfig' },
             },
           },
         },
@@ -111,12 +115,7 @@ export default createRule<RuleOptions, MessageIds>({
       maxItemsPerLine: 1,
     },
     overrides: {
-      ObjectExpression: { singleLine: { spacing: 'always' } },
-      ObjectPattern: { singleLine: { spacing: 'always' } },
-      ImportDeclaration: { singleLine: { spacing: 'always' } },
-      TSTypeLiteral: { singleLine: { spacing: 'always' } },
-      TSInterfaceBody: { singleLine: { spacing: 'always' } },
-      JSONObjectExpression: { singleLine: { spacing: 'always' } },
+      '{}': { singleLine: { spacing: 'always' } },
     },
   }],
   create: (context, [options] = [{}]) => {
@@ -320,7 +319,7 @@ export default createRule<RuleOptions, MessageIds>({
         ? sourceCode.getTokenAfter(lastItem, rightMatcher)!
         : sourceCode.getLastToken(node, rightMatcher)!
 
-      const overridesOptions = overrides![node.type as keyof NonNullable<typeof overrides>]
+      const overridesOptions = overrides![node.type as keyof NonNullable<typeof overrides>] ?? overrides![type]
       const singleLineConfig = overridesOptions?.singleLine ?? singleLine!
 
       if (isTokenOnSameLine(left, right) && items.length <= singleLineConfig.maxItems!) {
