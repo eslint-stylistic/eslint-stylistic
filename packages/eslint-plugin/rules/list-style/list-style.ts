@@ -10,6 +10,7 @@ import {
   isOpeningBracketToken,
   isOpeningParenToken,
   isTokenOnSameLine,
+  LINEBREAK_MATCHER,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
@@ -95,7 +96,7 @@ export default createRule<RuleOptions, MessageIds>({
       shouldSpacing: `Should have space between '{{prev}}' and '{{next}}'`,
       shouldNotSpacing: `Should not have space(s) between '{{prev}}' and '{{next}}'`,
       shouldWrap: `Should have line break between '{{prev}}' and '{{next}}'`,
-      shouldNotWrap: 'Should not have line break(s) between items',
+      shouldNotWrap: `Should not have line break(s) between '{{prev}}' and '{{next}}'`,
     },
   },
   defaultOptions: [{
@@ -109,6 +110,9 @@ export default createRule<RuleOptions, MessageIds>({
     overrides: {
       ObjectExpression: { singleLine: { spacing: 'always' } },
       ObjectPattern: { singleLine: { spacing: 'always' } },
+      ImportDeclaration: { singleLine: { spacing: 'always' } },
+      TSTypeLiteral: { singleLine: { spacing: 'always' } },
+      TSInterfaceBody: { singleLine: { spacing: 'always' } },
       JSONObjectExpression: { singleLine: { spacing: 'always' } },
     },
   }],
@@ -118,6 +122,13 @@ export default createRule<RuleOptions, MessageIds>({
       singleLine,
       // overrides,
     } = options!
+
+    function getDelimiter(root: ASTNode, current: Token): string | undefined {
+      if (root.type !== 'TSInterfaceBody' && root.type !== 'TSTypeLiteral')
+        return
+
+      return current.value.match(/(?:,|;)$/) ? undefined : ','
+    }
 
     function checkSpacing(node: ASTNode, prev: Token, next: Token) {
       const shouldSpace = singleLine!.spacing === 'always'
@@ -167,34 +178,66 @@ export default createRule<RuleOptions, MessageIds>({
       checkSpacing(node, lastToken, right)
     }
 
-    function checkWrap(node: ASTNode, prev: Token, next: Token) {
-      if (isTokenOnSameLine(prev, next)) {
-        context.report({
-          node,
-          messageId: 'shouldWrap',
-          loc: {
-            start: prev.loc.end,
-            end: next.loc.start,
-          },
-          data: {
-            prev: prev.value,
-            next: next.value,
-          },
-          fix(fixer) {
-            if (hasCommentsBetween(sourceCode, prev, next))
-              return null
-
-            return fixer.insertTextAfter(
-              sourceCode.getTokenBefore(next, token => token === prev || isNotOpeningParenToken(token))!,
-              '\n',
-            )
-          },
-        })
-      }
-    }
-
     function checkMultiLine(node: ASTNode, items: (ASTNode | null)[], left: Token, right: Token) {
       const len = items.length
+
+      const hasWrap = !isTokenOnSameLine(left, sourceCode.getTokenAfter(left)!)
+
+      function checkWrap(prev: Token, next: Token) {
+        if (isTokenOnSameLine(prev, next)) {
+          if (!hasWrap)
+            return
+
+          context.report({
+            node,
+            messageId: 'shouldWrap',
+            loc: {
+              start: prev.loc.end,
+              end: next.loc.start,
+            },
+            data: {
+              prev: prev.value,
+              next: next.value,
+            },
+            fix(fixer) {
+              if (hasCommentsBetween(sourceCode, prev, next))
+                return null
+
+              return fixer.insertTextBefore(
+                next,
+                '\n',
+              )
+            },
+          })
+        }
+        else {
+          if (hasWrap)
+            return
+
+          context.report({
+            node,
+            messageId: 'shouldNotWrap',
+            loc: {
+              start: prev.loc.end,
+              end: next.loc.start,
+            },
+            data: {
+              prev: prev.value,
+              next: next.value,
+            },
+            fix(fixer) {
+              if (hasCommentsBetween(sourceCode, prev, next))
+                return null
+
+              const range = [prev.range[1], next.range[0]] as const
+              const code = sourceCode.text.slice(...range)
+              const delimiter = items.length === 1 ? '' : getDelimiter(node, prev)
+
+              return fixer.replaceTextRange(range, code.replaceAll(new RegExp(LINEBREAK_MATCHER, 'g'), delimiter ?? ''))
+            },
+          })
+        }
+      }
 
       for (let i = 0; i < len; i++) {
         const currentItem = items[i]
@@ -202,14 +245,15 @@ export default createRule<RuleOptions, MessageIds>({
           break
 
         checkWrap(
-          node,
-          sourceCode.getTokenBefore(currentItem, { includeComments: false })!,
+          sourceCode.getTokenBefore(currentItem, {
+            filter: token => isNotOpeningParenToken(token) || token === left,
+            includeComments: false,
+          })!,
           sourceCode.getFirstToken(currentItem)!,
         )
       }
 
       checkWrap(
-        node,
         sourceCode.getTokenBefore(right, { includeComments: false })!,
         right,
       )
