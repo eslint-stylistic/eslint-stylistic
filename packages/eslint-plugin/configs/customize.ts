@@ -50,9 +50,6 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
       ignoredNodes: [
         'TSUnionType',
         'TSIntersectionType',
-        'TSTypeParameterInstantiation',
-        'FunctionExpression > .params[decorators.length > 0]',
-        'FunctionExpression > .params > :matches(Decorator, :not(:first-child))',
       ],
       ImportDeclaration: 1,
       MemberExpression: 1,
