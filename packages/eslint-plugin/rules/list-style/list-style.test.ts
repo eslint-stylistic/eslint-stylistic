@@ -283,17 +283,129 @@ run<RuleOptions, MessageIds>({
       code: 'type Foo = {a: 1\nb: 2\n}',
       output: 'type Foo = {a: 1,b: 2,}',
     },
-    'type Foo = [1,2,\n3]',
-    'new Foo(1,2,\n3)',
-    'new Foo(\n1,2,\n3)',
-    'foo(\n()=>bar(),\n()=>\nbaz())',
-    'foo(()=>bar(),\n()=>\nbaz())',
-    'foo<X,\nY>(1, 2)',
-    'foo<\nX,Y>(\n1, 2)',
-    'function foo<\nX,Y>() {}',
-    'const {a,\nb\n} = c',
-    'const [\na,b] = c',
-    'foo(([\na,b]) => {})',
+    {
+      code: $`
+        type Foo = [1,2,
+        3]
+      `,
+      output: 'type Foo = [1,2,3]',
+    },
+    {
+      code: $`
+        new Foo(1,2,
+        3)
+      `,
+      output: 'new Foo(1,2,3)',
+    },
+    {
+      code: $`
+        new Foo(
+        1,2,
+        3)
+      `,
+      output: $`
+        new Foo(
+        1,
+        2,
+        3
+        )
+      `,
+    },
+    {
+      code: $`
+        foo(
+        ()=>bar(),
+        ()=>
+        baz())
+      `,
+      output: $`
+        foo(
+        ()=>bar(),
+        ()=>
+        baz()
+        )
+      `,
+    },
+    {
+      code: $`
+        foo(()=>bar(),
+        ()=>
+        baz())
+      `,
+      output: $`
+        foo(()=>bar(),()=>
+        baz())
+      `,
+    },
+    {
+      code: $`
+        foo<X,
+        Y>(1, 2)
+      `,
+      output: 'foo<X,Y>(1, 2)',
+    },
+    {
+      code: $`
+        foo<
+        X,Y>(
+        1, 2)
+      `,
+      output: $`
+        foo<
+        X,
+        Y
+        >(
+        1, 
+        2
+        )
+      `,
+    },
+    {
+      code: $`
+        function foo<
+        X,Y>() {}
+      `,
+      output: $`
+        function foo<
+        X,
+        Y
+        >() {}
+      `,
+    },
+    {
+      code: $`
+        const {a,
+        b
+        } = c
+      `,
+      output: $`
+        const {a,b} = c
+      `,
+    },
+    {
+      code: $`
+        const [
+          a,b] = c
+      `,
+      output: $`
+        const [
+          a,
+        b
+        ] = c
+      `,
+    },
+    {
+      code: $`
+        foo(([
+        a,b]) => {})
+      `,
+      output: $`
+        foo(([
+        a,
+        b
+        ]) => {})
+      `,
+    },
     {
       description: 'CRLF',
       code: 'const a = {foo: "bar", \r\nbar: 2\r\n}',
