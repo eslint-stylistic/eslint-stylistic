@@ -113,6 +113,7 @@ const KNOWN_NODES = new Set([
 
   // ts specific nodes we want to support
   AST_NODE_TYPES.TSAbstractPropertyDefinition,
+  AST_NODE_TYPES.TSAbstractAccessorProperty,
   AST_NODE_TYPES.TSAbstractMethodDefinition,
   AST_NODE_TYPES.TSArrayType,
   AST_NODE_TYPES.TSAsExpression,
@@ -1361,6 +1362,47 @@ export default createRule<RuleOptions, MessageIds>({
       offsets.setDesiredOffsets([extendsToken.range[0], node.body.range[0]], classToken, 1)
     }
 
+    function checkClassProperty(node: Tree.PropertyDefinition | Tree.AccessorProperty | Tree.TSAbstractPropertyDefinition | Tree.TSAbstractAccessorProperty) {
+      const firstToken = sourceCode.getFirstToken(node)!
+      const maybeSemicolonToken = sourceCode.getLastToken(node)!
+      let keyLastToken: Token | null = null
+
+      // Indent key.
+      if (node.computed) {
+        const bracketTokenL = sourceCode.getTokenBefore(node.key, isOpeningBracketToken)!
+        const bracketTokenR = keyLastToken = sourceCode.getTokenAfter(node.key, isClosingBracketToken)!
+        const keyRange = [bracketTokenL.range[1], bracketTokenR.range[0]] as [number, number]
+
+        if (bracketTokenL !== firstToken)
+          offsets.setDesiredOffset(bracketTokenL, firstToken, 0)
+
+        offsets.setDesiredOffsets(keyRange, bracketTokenL, 1)
+        offsets.setDesiredOffset(bracketTokenR, bracketTokenL, 0)
+      }
+      else {
+        const idToken = keyLastToken = sourceCode.getFirstToken(node.key)!
+
+        if (!node.decorators?.length && idToken !== firstToken)
+          offsets.setDesiredOffset(idToken, firstToken, 1)
+      }
+
+      // Indent initializer.
+      if (node.value) {
+        const eqToken = sourceCode.getTokenBefore(node.value, isEqToken)!
+        const valueToken = sourceCode.getTokenAfter(eqToken)!
+        const typeToken = sourceCode.getTokenBefore(eqToken)!
+
+        offsets.setDesiredOffset(eqToken, keyLastToken, 1)
+        // value token set offset by equal token or ts type token
+        offsets.setDesiredOffset(valueToken, keyLastToken === typeToken ? eqToken : typeToken, 1)
+        if (isSemicolonToken(maybeSemicolonToken))
+          offsets.setDesiredOffset(maybeSemicolonToken, eqToken, 1)
+      }
+      else if (isSemicolonToken(maybeSemicolonToken)) {
+        offsets.setDesiredOffset(maybeSemicolonToken, keyLastToken, 1)
+      }
+    }
+
     // JSXText
     function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
       let src = context.sourceCode.getText(node, node.loc.start.column)
@@ -1668,46 +1710,10 @@ export default createRule<RuleOptions, MessageIds>({
         }
       },
 
-      PropertyDefinition(node) {
-        const firstToken = sourceCode.getFirstToken(node)!
-        const maybeSemicolonToken = sourceCode.getLastToken(node)!
-        let keyLastToken: Token | null = null
-
-        // Indent key.
-        if (node.computed) {
-          const bracketTokenL = sourceCode.getTokenBefore(node.key, isOpeningBracketToken)!
-          const bracketTokenR = keyLastToken = sourceCode.getTokenAfter(node.key, isClosingBracketToken)!
-          const keyRange = [bracketTokenL.range[1], bracketTokenR.range[0]] as [number, number]
-
-          if (bracketTokenL !== firstToken)
-            offsets.setDesiredOffset(bracketTokenL, firstToken, 0)
-
-          offsets.setDesiredOffsets(keyRange, bracketTokenL, 1)
-          offsets.setDesiredOffset(bracketTokenR, bracketTokenL, 0)
-        }
-        else {
-          const idToken = keyLastToken = sourceCode.getFirstToken(node.key)!
-
-          if (!node.decorators?.length && idToken !== firstToken)
-            offsets.setDesiredOffset(idToken, firstToken, 1)
-        }
-
-        // Indent initializer.
-        if (node.value) {
-          const eqToken = sourceCode.getTokenBefore(node.value, isEqToken)!
-          const valueToken = sourceCode.getTokenAfter(eqToken)!
-          const typeToken = sourceCode.getTokenBefore(eqToken)!
-
-          offsets.setDesiredOffset(eqToken, keyLastToken, 1)
-          // value token set offset by equal token or ts type token
-          offsets.setDesiredOffset(valueToken, keyLastToken === typeToken ? eqToken : typeToken, 1)
-          if (isSemicolonToken(maybeSemicolonToken))
-            offsets.setDesiredOffset(maybeSemicolonToken, eqToken, 1)
-        }
-        else if (isSemicolonToken(maybeSemicolonToken)) {
-          offsets.setDesiredOffset(maybeSemicolonToken, keyLastToken, 1)
-        }
-      },
+      'PropertyDefinition': checkClassProperty,
+      'AccessorProperty': checkClassProperty,
+      'TSAbstractPropertyDefinition': checkClassProperty,
+      'TSAbstractAccessorProperty': checkClassProperty,
 
       StaticBlock(node) {
         const openingCurly = sourceCode.getFirstToken(node, { skip: 1 })! // skip the `static` token
