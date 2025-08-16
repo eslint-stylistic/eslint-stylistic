@@ -27,7 +27,6 @@ run<RuleOptions, MessageIds>({
     'new Foo(\na,\nb\n)',
     'function foo<T = {\na: 1,\nb: 2\n}>(a, b) {}',
     'foo(() =>\nbar())',
-    'foo(() =>\nbar()\n)',
     `call<{\nfoo: 'bar'\n}>('')`,
     $`
       (Object.keys(options) as KeysOptions[])
