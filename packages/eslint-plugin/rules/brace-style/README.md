@@ -1,6 +1,4 @@
 ---
-title: brace-style
-rule_type: layout
 related_rules:
   - block-spacing
   - space-before-blocks

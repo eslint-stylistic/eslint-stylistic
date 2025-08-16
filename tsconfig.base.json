@@ -13,16 +13,16 @@
         "./packages/eslint-plugin/src/index.ts"
       ],
       "#types": [
-        "./packages/shared/types/index.ts"
+        "./shared/types/index.ts"
       ],
       "#test": [
-        "./packages/shared/test-utils/index.ts"
+        "./shared/test-utils/index.ts"
       ],
       "#test/*": [
-        "./packages/shared/test-utils/*"
+        "./shared/test-utils/*"
       ],
       "#utils/*": [
-        "./packages/shared/utils/*"
+        "./shared/utils/*"
       ]
     },
     "resolveJsonModule": true,
