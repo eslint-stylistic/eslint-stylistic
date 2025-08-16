@@ -152,6 +152,77 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
+     * Verify TSNonNullExpression has spaces before the ! operator
+     * @param node TSNonNullExpression AST node
+     * @param firstToken first token (the expression)
+     * @param secondToken second token (the ! operator)
+     */
+    function verifyNonNullHasSpaces(node: Tree.TSNonNullExpression, firstToken: Token, secondToken: Token) {
+      if (firstToken.range[1] === secondToken.range[0]) {
+        context.report({
+          node,
+          messageId: 'operator',
+          data: {
+            operator: '!',
+          },
+          fix(fixer) {
+            return fixer.insertTextBefore(secondToken, ' ')
+          },
+        })
+      }
+    }
+
+    /**
+     * Verify TSNonNullExpression doesn't have spaces before the ! operator
+     * @param node TSNonNullExpression AST node
+     * @param firstToken first token (the expression)
+     * @param secondToken second token (the ! operator)
+     */
+    function verifyNonNullDoesntHaveSpaces(node: Tree.TSNonNullExpression, firstToken: Token, secondToken: Token) {
+      if (secondToken.range[0] > firstToken.range[1]) {
+        context.report({
+          node,
+          messageId: 'unexpectedBefore',
+          data: {
+            operator: '!',
+          },
+          fix(fixer) {
+            return fixer.removeRange([firstToken.range[1], secondToken.range[0]])
+          },
+        })
+      }
+    }
+
+    /**
+     * Verifies TSNonNullExpression satisfy spacing requirements
+     * @param node TSNonNullExpression AST node
+     */
+    function checkForSpacesAroundNonNull(node: Tree.TSNonNullExpression) {
+      const tokens = sourceCode.getTokens(node)
+      const lastToken = tokens[tokens.length - 1] // The ! token
+      const secondLastToken = tokens[tokens.length - 2] // The token before !
+
+      if (!lastToken || !secondLastToken || lastToken.value !== '!') {
+        return
+      }
+
+      const operator = '!'
+
+      if (overrideExistsForOperator(operator)) {
+        if (overrideEnforcesSpaces(operator))
+          verifyNonNullHasSpaces(node, secondLastToken, lastToken)
+        else
+          verifyNonNullDoesntHaveSpaces(node, secondLastToken, lastToken)
+      }
+      else if (options.nonwords) {
+        verifyNonNullHasSpaces(node, secondLastToken, lastToken)
+      }
+      else {
+        verifyNonNullDoesntHaveSpaces(node, secondLastToken, lastToken)
+      }
+    }
+
+    /**
      * Verifies YieldExpressions satisfy spacing requirements
      * @param node AST node
      */
@@ -228,10 +299,14 @@ export default createRule<RuleOptions, MessageIds>({
      * @param firstToken First token in the expression
      * @param secondToken Second token in the expression
      */
-    function verifyNonWordsDontHaveSpaces(node:
-      | Tree.UnaryExpression
-      | Tree.UpdateExpression
-      | Tree.NewExpression, firstToken: Token, secondToken: Token) {
+    function verifyNonWordsDontHaveSpaces(
+      node:
+        | Tree.UnaryExpression
+        | Tree.UpdateExpression
+        | Tree.NewExpression,
+      firstToken: Token,
+      secondToken: Token,
+    ) {
       if (('prefix' in node && node.prefix)) {
         if (secondToken.range[0] > firstToken.range[1]) {
           context.report({
@@ -308,6 +383,7 @@ export default createRule<RuleOptions, MessageIds>({
       NewExpression: checkForSpaces,
       YieldExpression: checkForSpacesAfterYield,
       AwaitExpression: checkForSpacesAfterAwait,
+      TSNonNullExpression: checkForSpacesAroundNonNull,
     }
   },
 })
