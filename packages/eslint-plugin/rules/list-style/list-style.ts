@@ -83,6 +83,7 @@ export default createRule<RuleOptions, MessageIds>({
               'FunctionDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
               'FunctionExpression': { $ref: '#/items/0/$defs/baseConfig' },
               'ImportDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
+              'ImportAttributes': { $ref: '#/items/0/$defs/baseConfig' },
               'NewExpression': { $ref: '#/items/0/$defs/baseConfig' },
               'ObjectExpression': { $ref: '#/items/0/$defs/baseConfig' },
               'ObjectPattern': { $ref: '#/items/0/$defs/baseConfig' },
@@ -301,6 +302,8 @@ export default createRule<RuleOptions, MessageIds>({
         = isNodeOfTypes([
           AST_NODE_TYPES.CallExpression,
           AST_NODE_TYPES.NewExpression,
+          AST_NODE_TYPES.ImportDeclaration,
+          AST_NODE_TYPES.ExportNamedDeclaration,
         ])(node)
           ? undefined
           : sourceCode.getFirstToken(node, leftMatcher)
@@ -319,8 +322,9 @@ export default createRule<RuleOptions, MessageIds>({
         ? sourceCode.getTokenAfter(lastItem, rightMatcher)!
         : sourceCode.getLastToken(node, rightMatcher)!
 
-      const overridesOptions = overrides![node.type as keyof NonNullable<typeof overrides>] ?? overrides![type]
-      const singleLineConfig = overridesOptions?.singleLine ?? singleLine!
+      const nodeType = items[0]?.type === 'ImportAttribute' ? 'ImportAttributes' : node.type as keyof NonNullable<typeof overrides>
+      const singleLineConfig = structuredClone(singleLine!)
+      Object.assign(singleLineConfig, overrides![type]?.singleLine, overrides![nodeType]?.singleLine)
 
       if (isTokenOnSameLine(left, right) && items.length <= singleLineConfig.maxItems!) {
         checkSingleLine(node, left, right, singleLineConfig)

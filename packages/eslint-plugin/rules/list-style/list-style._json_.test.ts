@@ -20,11 +20,22 @@ run<RuleOptions, MessageIds>({
         ]
       }
     `,
-    $`
-      {
-        "foo": {"a": "1", "b": "2"}
-      }
-    `,
+    {
+      code: $`
+        {
+          "foo": {"a": "1", "b": "2"}
+        }
+      `,
+      options: [{
+        overrides: {
+          JSONObjectExpression: {
+            singleLine: {
+              spacing: 'never',
+            },
+          },
+        },
+      }],
+    },
     $`
       {
         "foo": {

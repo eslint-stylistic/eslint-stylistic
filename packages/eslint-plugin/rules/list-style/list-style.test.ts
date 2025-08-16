@@ -19,7 +19,7 @@ run<RuleOptions, MessageIds>({
     'function foo(a, b) {}',
     'function foo(\na,\nb\n) {}',
     'const foo = (a, b) => {\n\n}',
-    'const foo = (a, b): {a:b} => {\n\n}',
+    'const foo = (a, b): { a:b } => {\n\n}',
     'interface Foo { a: 1, b: 2 }',
     'interface Foo {\na: 1\nb: 2\n}',
     'a\n.filter(items => {\n\n})',
@@ -98,6 +98,26 @@ run<RuleOptions, MessageIds>({
         UserOutlined,
       } from '@ant-design/icons';
     `,
+    $`
+      export { name, version } from 'package.json' with {
+        type: 'json'
+        }
+    `,
+    {
+      code: $`
+        import { name, version } from 'package.json' with {type: 'json'}
+      `,
+      options: [{
+        overrides: {
+          '{}': {
+            singleLine: { spacing: 'always' },
+          },
+          'ImportAttributes': {
+            singleLine: { spacing: 'never' },
+          },
+        },
+      }],
+    },
   ],
   invalid: [
     {
@@ -228,6 +248,13 @@ run<RuleOptions, MessageIds>({
         b
         ): {a:b} => {}
       `,
+      options: [{
+        overrides: {
+          '{}': {
+            singleLine: { spacing: 'never' },
+          },
+        },
+      }],
     },
     {
       code: $`
@@ -588,6 +615,17 @@ run<RuleOptions, MessageIds>({
         function foo(
         a
         ){}
+      `,
+    },
+    {
+      code: $`
+        export { name, version} from 'package.json' with {
+          type: 'json'}
+      `,
+      output: $`
+        export { name, version } from 'package.json' with {
+          type: 'json'
+        }
       `,
     },
   ],
