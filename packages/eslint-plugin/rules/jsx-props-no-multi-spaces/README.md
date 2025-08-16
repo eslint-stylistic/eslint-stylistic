@@ -1,5 +1,8 @@
 # jsx-props-no-multi-spaces
 
+> **Deprecated**: Use [`no-multi-spaces`](no-multi-spaces) instead, as it fully covers all test cases from this rule.
+> If you'd like to disallow empty line between props, use [`padpadding-line-between-statementsding`](padding-line-between-statements) instead.
+
 Disallow multiple spaces between inline JSX props.
 
 Enforces that there is exactly one space between all attributes and after tag name and the first attribute in the same line.

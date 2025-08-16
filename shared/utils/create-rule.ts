@@ -1,5 +1,6 @@
 import type { RuleContext, RuleListener, RuleModule, RuleWithMetaAndName } from '#types'
 import type { Rule } from 'eslint'
+import { warnDeprecation } from '.'
 import { deepMerge, isObjectNotArray } from './merge'
 
 export interface ESLintRuleModule<
@@ -30,6 +31,24 @@ export function createRule<
     create: ((
       context: Readonly<RuleContext<TMessageIds, TOptions>>,
     ): RuleListener => {
+      if (meta.deprecated) {
+        let insted: string | undefined
+
+        if (typeof meta.deprecated !== 'boolean') {
+          const {
+            replacedBy,
+          } = meta.deprecated
+
+          if (replacedBy) {
+            insted = replacedBy
+              .map(({ rule, plugin }) => `"${rule?.name}"${plugin?.name ? ` in "${plugin.name}"` : ''}`)
+              .join(', ')
+          }
+        }
+
+        warnDeprecation(`rule("${name}")`, insted)
+      }
+
       const optionsCount = Math.max(context.options.length, defaultOptions.length)
       const optionsWithDefault = Array.from(
         { length: optionsCount },
