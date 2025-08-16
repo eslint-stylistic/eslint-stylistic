@@ -5,6 +5,7 @@ import rule from './list-style'
 run<RuleOptions, MessageIds>({
   name: 'list-style',
   rule,
+  lang: 'ts',
   parserOptions: {
     ecmaFeatures: {
       jsx: true,
@@ -41,7 +42,8 @@ run<RuleOptions, MessageIds>({
         function Foo() {
           return (
             <div 
-              className="text-white" onClick="bar"
+              className="text-white"
+              onClick="bar"
               style={{
                 color: 'red' 
               }}
