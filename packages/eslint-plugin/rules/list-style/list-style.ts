@@ -6,6 +6,7 @@ import {
   isClosingBraceToken,
   isClosingBracketToken,
   isClosingParenToken,
+  isNodeOfType,
   isNodeOfTypes,
   isNotOpeningParenToken,
   isOpeningBraceToken,
@@ -186,7 +187,7 @@ export default createRule<RuleOptions, MessageIds>({
     function checkMultiLine(node: ASTNode, items: (ASTNode | null)[], left: Token, right: Token) {
       const len = items.length
 
-      const hasWrap = !isTokenOnSameLine(left, sourceCode.getTokenAfter(left)!)
+      const hasWrap = !isTokenOnSameLine(left, items[0] ?? sourceCode.getTokenAfter(left)!)
 
       function checkWrap(prev: Token, next: Token) {
         if (isTokenOnSameLine(prev, next)) {
@@ -373,6 +374,11 @@ export default createRule<RuleOptions, MessageIds>({
       ExportAllDeclaration(node) {
         if (node.attributes)
           check('{}', node, node.attributes)
+      },
+
+      JSXOpeningElement(node) {
+        if (node.attributes)
+          check('<>', node, node.attributes)
       },
 
       // TSMappedType(node) {
