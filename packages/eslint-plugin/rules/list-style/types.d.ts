@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: XSub4ASKRCqTQxXz8Zhw0tsSEshz9hQ9Ip-n2Uq88r4 */
+/* @checksum: ylStHbP4xDqz9_jLivNdm8jagMeTDPs5yUEkKnsiXg4 */
 
 export interface ListStyleSchema0 {
   singleLine?: SingleLineConfig
@@ -18,6 +18,7 @@ export interface ListStyleSchema0 {
     'FunctionDeclaration'?: BaseConfig
     'FunctionExpression'?: BaseConfig
     'ImportDeclaration'?: BaseConfig
+    'ImportAttributes'?: BaseConfig
     'NewExpression'?: BaseConfig
     'ObjectExpression'?: BaseConfig
     'ObjectPattern'?: BaseConfig
