@@ -1,5 +1,37 @@
 # Changelog
 
+## [5.3.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.2.3...v5.3.0) (2025-08-16)
+
+
+### Features
+
+* **padding-between-statements:** support `jsx-prop` ([#926](https://github.com/eslint-stylistic/eslint-stylistic/issues/926)) ([86f332e](https://github.com/eslint-stylistic/eslint-stylistic/commit/86f332e7271ae1ab5d9c51e0dc18c50ab0ff41d1))
+* **padding-line-between-statements:** allow prefix `multiline`/`singleline` for `return` and `type` ([#902](https://github.com/eslint-stylistic/eslint-stylistic/issues/902)) ([6915135](https://github.com/eslint-stylistic/eslint-stylistic/commit/691513580ccccbea86c4899ee4b615ffdd96cb39))
+* update keyword list ([#929](https://github.com/eslint-stylistic/eslint-stylistic/issues/929)) ([3001449](https://github.com/eslint-stylistic/eslint-stylistic/commit/3001449e470ab19765f645f1f11b5c69c0aa534b))
+
+
+### Bug Fixes
+
+* deprecate `jsx-props-no-multi-spaces` rule in favor of `no-multi-spaces` ([#925](https://github.com/eslint-stylistic/eslint-stylistic/issues/925)) ([a3c39e6](https://github.com/eslint-stylistic/eslint-stylistic/commit/a3c39e60cb837a6d068dbe3592d0c82538416ef0))
+* **type-generic-spacing:** allow spaces between class and generic ([#927](https://github.com/eslint-stylistic/eslint-stylistic/issues/927)) ([84fa86a](https://github.com/eslint-stylistic/eslint-stylistic/commit/84fa86a31341e90dd906da1420b5fe22b1db539b))
+
+
+### Documentation
+
+* fix broken links ([#940](https://github.com/eslint-stylistic/eslint-stylistic/issues/940)) ([76ae614](https://github.com/eslint-stylistic/eslint-stylistic/commit/76ae6141034952ab64584cdd54d758b1d21d2603))
+* render extra links in markdown front matter section ([#924](https://github.com/eslint-stylistic/eslint-stylistic/issues/924)) ([f3f00dd](https://github.com/eslint-stylistic/eslint-stylistic/commit/f3f00dd73c071435bf1d64c4fe0c117ac42fa032))
+* use colored diffs in code blocks ([#931](https://github.com/eslint-stylistic/eslint-stylistic/issues/931)) ([a77013b](https://github.com/eslint-stylistic/eslint-stylistic/commit/a77013b6268a8911332e26cc2ab44ddda6607ea8))
+
+
+### Chores
+
+* move `shared` to root dir ([#923](https://github.com/eslint-stylistic/eslint-stylistic/issues/923)) ([66b6543](https://github.com/eslint-stylistic/eslint-stylistic/commit/66b6543053614b0131d551f7a2334ff09e49d88e))
+
+
+### Performance
+
+* **multiline-comment-style:** reduce array iterations ([#928](https://github.com/eslint-stylistic/eslint-stylistic/issues/928)) ([ddc9ad7](https://github.com/eslint-stylistic/eslint-stylistic/commit/ddc9ad7a30f9ecc421d85b363b58f48de4443b45))
+
 ## [5.2.3](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.2.2...v5.2.3) (2025-08-08)
 
 
