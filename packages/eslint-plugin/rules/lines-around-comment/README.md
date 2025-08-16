@@ -1,6 +1,4 @@
 ---
-title: lines-around-comment
-rule_type: layout
 related_rules:
   - space-before-blocks
   - spaced-comment

@@ -1,12 +1,28 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 0tNPtrNrDjJadutef2GW6iqpBoA0-S2njNA4xmFsc1c */
+/* @checksum: Q7K6VP_oN2h7THuZyzE_zA-NUKmbHhFvuIZiYB1wLZ4 */
 
 export interface KeywordSpacingSchema0 {
   before?: boolean
   after?: boolean
   overrides?: {
     abstract?: {
+      before?: boolean
+      after?: boolean
+    }
+    arguments?: {
+      before?: boolean
+      after?: boolean
+    }
+    as?: {
+      before?: boolean
+      after?: boolean
+    }
+    async?: {
+      before?: boolean
+      after?: boolean
+    }
+    await?: {
       before?: boolean
       after?: boolean
     }
@@ -74,6 +90,10 @@ export interface KeywordSpacingSchema0 {
       before?: boolean
       after?: boolean
     }
+    eval?: {
+      before?: boolean
+      after?: boolean
+    }
     export?: {
       before?: boolean
       after?: boolean
@@ -102,7 +122,15 @@ export interface KeywordSpacingSchema0 {
       before?: boolean
       after?: boolean
     }
+    from?: {
+      before?: boolean
+      after?: boolean
+    }
     function?: {
+      before?: boolean
+      after?: boolean
+    }
+    get?: {
       before?: boolean
       after?: boolean
     }
@@ -138,6 +166,10 @@ export interface KeywordSpacingSchema0 {
       before?: boolean
       after?: boolean
     }
+    let?: {
+      before?: boolean
+      after?: boolean
+    }
     long?: {
       before?: boolean
       after?: boolean
@@ -151,6 +183,10 @@ export interface KeywordSpacingSchema0 {
       after?: boolean
     }
     null?: {
+      before?: boolean
+      after?: boolean
+    }
+    of?: {
       before?: boolean
       after?: boolean
     }
@@ -171,6 +207,10 @@ export interface KeywordSpacingSchema0 {
       after?: boolean
     }
     return?: {
+      before?: boolean
+      after?: boolean
+    }
+    set?: {
       before?: boolean
       after?: boolean
     }
@@ -218,7 +258,15 @@ export interface KeywordSpacingSchema0 {
       before?: boolean
       after?: boolean
     }
+    type?: {
+      before?: boolean
+      after?: boolean
+    }
     typeof?: {
+      before?: boolean
+      after?: boolean
+    }
+    using?: {
       before?: boolean
       after?: boolean
     }
@@ -242,55 +290,15 @@ export interface KeywordSpacingSchema0 {
       before?: boolean
       after?: boolean
     }
-    accessor?: {
-      before?: boolean
-      after?: boolean
-    }
-    as?: {
-      before?: boolean
-      after?: boolean
-    }
-    async?: {
-      before?: boolean
-      after?: boolean
-    }
-    await?: {
-      before?: boolean
-      after?: boolean
-    }
-    from?: {
-      before?: boolean
-      after?: boolean
-    }
-    get?: {
-      before?: boolean
-      after?: boolean
-    }
-    let?: {
-      before?: boolean
-      after?: boolean
-    }
-    of?: {
-      before?: boolean
-      after?: boolean
-    }
-    satisfies?: {
-      before?: boolean
-      after?: boolean
-    }
-    set?: {
-      before?: boolean
-      after?: boolean
-    }
-    using?: {
-      before?: boolean
-      after?: boolean
-    }
     yield?: {
       before?: boolean
       after?: boolean
     }
-    type?: {
+    accessor?: {
+      before?: boolean
+      after?: boolean
+    }
+    satisfies?: {
       before?: boolean
       after?: boolean
     }

@@ -1,6 +1,4 @@
 ---
-title: key-spacing
-rule_type: layout
 ---
 
 # key-spacing

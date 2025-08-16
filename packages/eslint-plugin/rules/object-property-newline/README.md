@@ -1,6 +1,4 @@
 ---
-title: object-property-newline
-rule_type: layout
 related_rules:
   - brace-style
   - comma-dangle
@@ -66,20 +64,22 @@ const newObject = {
 
 Another benefit of this rule is specificity of diffs when a property is changed:
 
-```diff
-// More specific
- var obj = {
-     foo: "foo",
--    bar: "bar",
-+    bar: "bazz",
-     baz: "baz"
- };
+Less specific:
+
+```js
+var obj = { foo: "foo", bar: "bar", baz: "baz" }; // [!code --]
+var obj = { foo: "foo", bar: "bazz", baz: "baz" }; // [!code ++]
 ```
 
-```diff
-// Less specific
--var obj = { foo: "foo", bar: "bar", baz: "baz" };
-+var obj = { foo: "foo", bar: "bazz", baz: "baz" };
+More specific:
+
+```js
+ var obj = {
+     foo: "foo",
+     bar: "bar", // [!code --]
+     bar: "bazz", // [!code ++]
+     baz: "baz"
+ };
 ```
 
 ### Optional Exception

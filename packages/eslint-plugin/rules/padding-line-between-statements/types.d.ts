@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: yYruGLUxwU26BUIxRHhGfINZhn5cLKHBZLuAwft56RU */
+/* @checksum: kErv8daz4JbmG-vYHrJ-SzRKG2mIlo-tnqA0BTwEsBA */
 
 export type PaddingType = 'any' | 'never' | 'always'
 export type StatementOption
@@ -26,7 +26,6 @@ export type StatementType
     | 'for'
     | 'if'
     | 'import'
-    | 'return'
     | 'switch'
     | 'throw'
     | 'try'
@@ -36,7 +35,6 @@ export type StatementType
     | 'cjs-import'
     | 'enum'
     | 'interface'
-    | 'type'
     | 'function-overload'
     | 'jsx-prop'
     | 'block-like'
@@ -45,6 +43,9 @@ export type StatementType
     | 'expression'
     | 'singleline-expression'
     | 'multiline-expression'
+    | 'return'
+    | 'singleline-return'
+    | 'multiline-return'
     | 'export'
     | 'singleline-export'
     | 'multiline-export'
@@ -60,6 +61,9 @@ export type StatementType
     | 'using'
     | 'singleline-using'
     | 'multiline-using'
+    | 'type'
+    | 'singleline-type'
+    | 'multiline-type'
 export type PaddingLineBetweenStatementsSchema0 = {
   blankLine: PaddingType
   prev: StatementOption

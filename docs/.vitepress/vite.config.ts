@@ -1,4 +1,5 @@
 import type { Plugin } from 'vite'
+import type { RuleInfo } from '../../packages/metadata/src'
 import { basename, dirname } from 'node:path'
 import { fileURLToPath } from 'node:url'
 import graymatter from 'gray-matter'
@@ -35,19 +36,22 @@ function MarkdownTransform(): Plugin {
     name: 'local:markdown-transform',
     enforce: 'pre',
     transform(code, id) {
-      let shortId = /README\._(\w+)_\.md$/.exec(id)?.[1]
-      if (!shortId)
+      if (!id.endsWith('README.md'))
         return null
 
-      if (id.endsWith('README._merged_.md'))
-        shortId = 'default'
+      const shortId = 'default'
 
       const ruleName = basename(dirname(id))
 
-      const pkg = packages.find(p => p.shortId === shortId)
-      const rule = pkg?.rules.find(r => r.name === ruleName)
+      const pkg = packages.find(p => p.shortId === shortId)!
 
-      if (!pkg || !rule)
+      const ruleMapping = pkg.rules.reduce((prev, cur) => {
+        prev[cur.name] = cur
+        return prev
+      }, {} as Record<string, RuleInfo>)
+      const rule = ruleMapping[ruleName]
+
+      if (!rule)
         return null
 
       let {
@@ -55,23 +59,29 @@ function MarkdownTransform(): Plugin {
         content,
       } = graymatter(code)
 
-      content = content
-        .replaceAll(
-          `eslint ${rule.name}:`,
-          `eslint ${rule.ruleId}:`,
-        )
-        .replaceAll(
-          '@typescript-eslint/',
-          '@stylistic/ts/',
-        )
+      function resolveLink(link: string) {
+        if (!URL.canParse(link) && !ruleMapping[link]) {
+          return `https://eslint.org/docs/latest/rules/${link}`
+        }
+
+        return link
+      }
+
+      function extraLinks(title: string, links?: string[]) {
+        if (!links?.length)
+          return
+
+        return [
+          `## ${title}`,
+          ...links.map(link => `- [${link}](${resolveLink(link)})`),
+        ].join('\n')
+      }
 
       content = [
-        `<p class="mb0!"><a href="/packages/${pkg.shortId}" class="font-mono no-underline!">${rule.ruleId.slice(0, -rule.name.length)}</a></p>`,
-        '',
         `# <samp>${rule.name}</samp>`,
-        '',
-        '\n',
         content.trimStart().replace(/^# .*\n/, ''),
+        extraLinks('Related Rules', data.related_rules),
+        extraLinks('Further Reading', data.further_reading),
       ].join('\n')
 
       return graymatter.stringify(content, { data })

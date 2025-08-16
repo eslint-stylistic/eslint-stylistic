@@ -1,6 +1,4 @@
 ---
-title: padding-line-between-statements
-rule_type: layout
 ---
 
 # padding-line-between-statements
@@ -90,7 +88,7 @@ You can supply any number of configurations. If a statement pair matches multipl
 >
 > `STATEMENT_TYPE` following can add `singleline-` or `multiline-` prefix:
 >
-> `block-like`, `expression`, `export`, `var`, `let`, `const`, `using`.
+> `block-like`, `expression`, `return`, `export`, `var`, `let`, `const`, `using`, `type`.
 >
 > For example:
 >

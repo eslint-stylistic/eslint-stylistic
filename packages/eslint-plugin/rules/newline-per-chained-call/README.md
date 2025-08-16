@@ -1,6 +1,4 @@
 ---
-title: newline-per-chained-call
-rule_type: layout
 ---
 
 # newline-per-chained-call
@@ -38,19 +36,19 @@ Another argument in favor of this style is that it improves the clarity of diffs
 
 Less clear:
 
-```diff
--d3.select("body").selectAll("p").style("color", "white");
-+d3.select("body").selectAll("p").style("color", "blue");
+```js
+d3.select("body").selectAll("p").style("color", "white"); // [!code --]
+d3.select("body").selectAll("p").style("color", "blue"); // [!code ++]
 ```
 
 More clear:
 
-```diff
+```js
 d3
     .select("body")
     .selectAll("p")
--    .style("color", "white");
-+    .style("color", "blue");
+    .style("color", "white"); // [!code --]
+    .style("color", "blue"); // [!code ++]
 ```
 
 ## Rule Details

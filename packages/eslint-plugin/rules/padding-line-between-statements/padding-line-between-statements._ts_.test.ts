@@ -439,5 +439,22 @@ run<RuleOptions, MessageIds>({
       options: [{ blankLine: 'always', prev: 'ts-method', next: '*' }],
       errors: [{ messageId: 'expectedBlankLine' }],
     },
+    {
+      code: $`
+        type Foo = number
+        type Bar = {
+          x: string
+        }
+      `,
+      output: $`
+        type Foo = number
+        
+        type Bar = {
+          x: string
+        }
+      `,
+      options: [{ blankLine: 'always', prev: '*', next: 'multiline-type' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
   ],
 })
