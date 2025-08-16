@@ -109,8 +109,8 @@ run<RuleOptions, MessageIds>({
       output: $`
         const a = {
         foo: "bar", 
-        bar: 2
-         }
+        bar: 2 
+        }
       `,
     },
     {
@@ -148,13 +148,14 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
-        import {\nfoo, bar } from "foo"
+        import {
+        foo, bar } from "foo"
       `,
       output: $`
         import {
-        foo,
-        bar
-         } from "foo"
+        foo, 
+        bar 
+        } from "foo"
       `,
     },
     {
@@ -174,7 +175,8 @@ run<RuleOptions, MessageIds>({
       output: $`
         log(
         a, 
-        b)
+        b
+        )
       `,
     },
     {
@@ -360,7 +362,7 @@ run<RuleOptions, MessageIds>({
             foo: string, 
         bar: {
               bar: string, 
-        baz: string
+        baz: string 
         }
         ) => void
         }
