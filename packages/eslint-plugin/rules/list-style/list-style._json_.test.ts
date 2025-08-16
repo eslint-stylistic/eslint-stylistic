@@ -33,17 +33,6 @@ run<RuleOptions, MessageIds>({
         }
       }
     `,
-    {
-      description: 'Ignore when there is a comment',
-      code: $`
-        {
-          "foo": {          "a": "1",
-            // comment
-            "b": "2"
-          },
-        }
-      `,
-    },
   ],
   invalid: [
     {
@@ -122,8 +111,7 @@ run<RuleOptions, MessageIds>({
         {
           "foo": {          "a": "1",
             // comment
-            "b": "2"
-          },
+            "b": "2"  },
           "bar": ["1",  "2"]
         }
       `,
