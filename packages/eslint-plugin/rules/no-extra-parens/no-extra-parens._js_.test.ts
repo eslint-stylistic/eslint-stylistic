@@ -909,6 +909,28 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['all', { allowNodesInSpreadElement: { LogicalExpression: true, ConditionalExpression: true } }],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/872
+    {
+      code: $`
+        const conditionStatement = (
+          condition1 &&
+          condition2 &&
+          condition3
+        );
+      `,
+      options: ['all', { ignoredNodes: ['VariableDeclarator[init.type="LogicalExpression"]'] }],
+    },
+    {
+      code: $`
+        const joinedText = (
+          dataFromQuery
+            .filter((item) => item.isActive)
+            .map((item) => item.name)
+            .join("")
+        );
+      `,
+      options: ['all', { ignoredNodes: ['VariableDeclarator[init]'] }],
+    },
   ],
 
   invalid: [

@@ -365,6 +365,17 @@ run<RuleOptions, MessageIds>({
       code: `type Foo = boolean | (Bar & Baz)`,
       options: ['all', { nestedBinaryExpressions: false }],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/872
+    {
+      code: $`
+        type TBar = (
+            First
+            & Second
+            & Third
+        );
+      `,
+      options: ['all', { ignoredNodes: ['TSTypeAliasDeclaration[typeAnnotation.type="TSIntersectionType"]'] }],
+    },
   ],
 
   invalid: [
