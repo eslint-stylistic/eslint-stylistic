@@ -1,10 +1,12 @@
 import type { ASTNode, Token, Tree } from '#types'
-import type { MessageIds, RuleOptions } from './types'
+import type { MessageIds, RuleOptions, SingleLineConfig } from './types'
 import {
+  AST_NODE_TYPES,
   hasCommentsBetween,
   isClosingBraceToken,
   isClosingBracketToken,
   isClosingParenToken,
+  isNodeOfTypes,
   isNotOpeningParenToken,
   isOpeningBraceToken,
   isOpeningBracketToken,
@@ -120,7 +122,10 @@ export default createRule<RuleOptions, MessageIds>({
     const { sourceCode } = context
     const {
       singleLine,
-      // overrides,
+      // TODO: support multiLine options
+      // eslint-disable-next-line unused-imports/no-unused-vars
+      multiLine,
+      overrides,
     } = options!
 
     function getDelimiter(root: ASTNode, current: Token): string | undefined {
@@ -130,52 +135,52 @@ export default createRule<RuleOptions, MessageIds>({
       return current.value.match(/(?:,|;)$/) ? undefined : ','
     }
 
-    function checkSpacing(node: ASTNode, prev: Token, next: Token) {
-      const shouldSpace = singleLine!.spacing === 'always'
-      const spaced = sourceCode.isSpaceBetween(prev, next)
+    function checkSingleLine(node: ASTNode, left: Token, right: Token, config: SingleLineConfig) {
+      function checkSpacing(prev: Token, next: Token) {
+        const shouldSpace = config.spacing === 'always'
+        const spaced = sourceCode.isSpaceBetween(prev, next)
 
-      if (!spaced && shouldSpace) {
-        context.report({
-          node,
-          messageId: 'shouldSpacing',
-          loc: {
-            start: prev.loc.end,
-            end: next.loc.start,
-          },
-          data: {
-            prev: prev.value,
-            next: next.value,
-          },
-          fix(fixer) {
-            return fixer.insertTextAfter(prev, ' ')
-          },
-        })
+        if (!spaced && shouldSpace) {
+          context.report({
+            node,
+            messageId: 'shouldSpacing',
+            loc: {
+              start: prev.loc.end,
+              end: next.loc.start,
+            },
+            data: {
+              prev: prev.value,
+              next: next.value,
+            },
+            fix(fixer) {
+              return fixer.insertTextAfter(prev, ' ')
+            },
+          })
+        }
+        else if (spaced && !shouldSpace) {
+          context.report({
+            node,
+            messageId: 'shouldNotSpacing',
+            loc: {
+              start: prev.loc.end,
+              end: next.loc.start,
+            },
+            data: {
+              prev: prev.value,
+              next: next.value,
+            },
+            fix(fixer) {
+              return fixer.removeRange([prev.range[1], next.range[0]])
+            },
+          })
+        }
       }
-      else if (spaced && !shouldSpace) {
-        context.report({
-          node,
-          messageId: 'shouldNotSpacing',
-          loc: {
-            start: prev.loc.end,
-            end: next.loc.start,
-          },
-          data: {
-            prev: prev.value,
-            next: next.value,
-          },
-          fix(fixer) {
-            return fixer.removeRange([prev.range[1], next.range[0]])
-          },
-        })
-      }
-    }
 
-    function checkSingleLine(node: ASTNode, left: Token, right: Token) {
       const firstToken = sourceCode.getTokenAfter(left, { includeComments: true })!
-      checkSpacing(node, left, firstToken)
+      checkSpacing(left, firstToken)
 
       const lastToken = sourceCode.getTokenBefore(right, { includeComments: true })!
-      checkSpacing(node, lastToken, right)
+      checkSpacing(lastToken, right)
     }
 
     function checkMultiLine(node: ASTNode, items: (ASTNode | null)[], left: Token, right: Token) {
@@ -292,24 +297,37 @@ export default createRule<RuleOptions, MessageIds>({
       // May not have items[0] or items.at(-1), example:
       // const [, foo, ...bar, ] = arr
 
+      let left
+        = isNodeOfTypes([
+          AST_NODE_TYPES.CallExpression,
+          AST_NODE_TYPES.NewExpression,
+        ])(node)
+          ? undefined
+          : sourceCode.getFirstToken(node, leftMatcher)
+
+      if (isNodeOfTypes([AST_NODE_TYPES.CallExpression])(node)) {
+        left = sourceCode.getTokenAfter(
+          node.typeArguments ?? node.callee,
+        )
+      }
+
       const firstItem = items[0]
-      const left = firstItem
-        ? sourceCode.getTokenBefore(firstItem, leftMatcher)!
-        : sourceCode.getFirstToken(node, leftMatcher)!
+      left ??= sourceCode.getTokenBefore(firstItem!, leftMatcher)!
 
       const lastItem = items.at(-1)
       const right = lastItem
         ? sourceCode.getTokenAfter(lastItem, rightMatcher)!
         : sourceCode.getLastToken(node, rightMatcher)!
 
-      const {
-        singleLine,
-      } = options!
+      const overridesOptions = overrides![node.type as keyof NonNullable<typeof overrides>]
+      const singleLineConfig = overridesOptions?.singleLine ?? singleLine!
 
-      if (isTokenOnSameLine(left, right) && items.length <= singleLine!.maxItems!)
-        checkSingleLine(node, left, right)
-      else
+      if (isTokenOnSameLine(left, right) && items.length <= singleLineConfig.maxItems!) {
+        checkSingleLine(node, left, right, singleLineConfig)
+      }
+      else {
         checkMultiLine(node, items, left, right)
+      }
     }
 
     return {
