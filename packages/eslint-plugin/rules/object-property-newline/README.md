@@ -169,7 +169,7 @@ is converted to
 ```js
 const newObject = {
     a: 'a.m.',
-b: 'p.m.',
+    b: 'p.m.',
     c: 'daylight saving time'
 };
 ```
