@@ -252,10 +252,10 @@ run<RuleOptions, MessageIds>({
     // await
     // ----------------------------------------------------------------------
 
-    { code: 'async function wrap() { {} await +1 }' },
-    { code: 'async function wrap() { {}await +1 }', options: [NEITHER] },
+    { code: 'async function wrap() { {} await +1 }', options: [BOTH] },
+    { code: 'async function wrap() { {}await+1 }', options: [NEITHER] },
     { code: 'async function wrap() { {} await +1 }', options: [override('await', BOTH)] },
-    { code: 'async function wrap() { {}await +1 }', options: [override('await', NEITHER)] },
+    { code: 'async function wrap() { {}await+1 }', options: [override('await', NEITHER)] },
 
     // not conflict with `array-bracket-spacing`
     { code: 'async function wrap() { [await a] }' },
@@ -302,8 +302,34 @@ run<RuleOptions, MessageIds>({
     { code: 'async function wrap() { a > await a }', options: [NEITHER] },
 
     // not conflict with `space-unary-ops`
-    { code: 'async function wrap() { !await\'a\' }' },
-    { code: 'async function wrap() { ! await \'a\' }', options: [NEITHER] },
+    { code: 'async function wrap() { !await \'a\' }', options: [BOTH] },
+    { code: 'async function wrap() { !await\'a\' }', options: [NEITHER] },
+    { code: 'async function wrap() { ! await \'a\' }', options: [BOTH] },
+    { code: 'async function wrap() { ! await\'a\' }', options: [NEITHER] },
+    {
+      code: 'async function foo() { await {foo: 1} }',
+      parserOptions: { ecmaVersion: 8 },
+    },
+    {
+      code: 'async function foo() { await {bar: 2} }',
+      parserOptions: { ecmaVersion: 8 },
+      options: [BOTH],
+    },
+    {
+      code: 'async function foo() { await{baz: 3} }',
+      parserOptions: { ecmaVersion: 8 },
+      options: [NEITHER],
+    },
+    {
+      code: 'async function foo() { await {qux: 4} }',
+      parserOptions: { ecmaVersion: 8 },
+      options: [override('await', BOTH)],
+    },
+    {
+      code: 'async function foo() { await{foo: 5} }',
+      parserOptions: { ecmaVersion: 8 },
+      options: [override('await', NEITHER)],
+    },
 
     // not conflict with `template-curly-spacing`
     { code: 'async function wrap() { `${await a}` }' },
@@ -1910,6 +1936,34 @@ run<RuleOptions, MessageIds>({
       output: 'async function wrap() { for await(x of xs); }',
       options: [override('await', NEITHER)],
       parserOptions: { ecmaVersion: 2018 },
+      errors: unexpectedAfter('await'),
+    },
+    {
+      code: 'async function foo() { await{foo: \'bar\'} }',
+      output: 'async function foo() { await {foo: \'bar\'} }',
+      parserOptions: { ecmaVersion: 8 },
+      options: [BOTH],
+      errors: expectedAfter('await'),
+    },
+    {
+      code: 'async function foo() { await{baz: \'qux\'} }',
+      output: 'async function foo() { await {baz: \'qux\'} }',
+      parserOptions: { ecmaVersion: 8 },
+      options: [override('await', BOTH)],
+      errors: expectedAfter('await'),
+    },
+    {
+      code: 'async function foo() { await {foo: 1} }',
+      output: 'async function foo() { await{foo: 1} }',
+      parserOptions: { ecmaVersion: 8 },
+      options: [NEITHER],
+      errors: unexpectedAfter('await'),
+    },
+    {
+      code: 'async function foo() { await {bar: 2} }',
+      output: 'async function foo() { await{bar: 2} }',
+      parserOptions: { ecmaVersion: 8 },
+      options: [override('await', NEITHER)],
       errors: unexpectedAfter('await'),
     },
 

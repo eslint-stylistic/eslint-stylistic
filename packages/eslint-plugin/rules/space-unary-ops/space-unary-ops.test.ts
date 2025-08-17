@@ -180,29 +180,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
     },
     {
-      code: 'async function foo() { await {foo: 1} }',
-      parserOptions: { ecmaVersion: 8 },
-    },
-    {
-      code: 'async function foo() { await {bar: 2} }',
-      parserOptions: { ecmaVersion: 8 },
-    },
-    {
-      code: 'async function foo() { await{baz: 3} }',
-      options: [{ words: false }],
-      parserOptions: { ecmaVersion: 8 },
-    },
-    {
-      code: 'async function foo() { await {qux: 4} }',
-      options: [{ words: false, overrides: { await: true } }],
-      parserOptions: { ecmaVersion: 8 },
-    },
-    {
-      code: 'async function foo() { await{foo: 5} }',
-      options: [{ words: true, overrides: { await: false } }],
-      parserOptions: { ecmaVersion: 8 },
-    },
-    {
       code: 'foo++',
       options: [{ nonwords: true, overrides: { '++': false } }],
     },
@@ -753,57 +730,7 @@ run<RuleOptions, MessageIds>({
         column: 19,
       }],
     },
-    {
-      code: 'async function foo() { await{foo: \'bar\'} }',
-      output: 'async function foo() { await {foo: \'bar\'} }',
-      parserOptions: { ecmaVersion: 8 },
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'await' },
-        type: 'AwaitExpression',
-        line: 1,
-        column: 24,
-      }],
-    },
-    {
-      code: 'async function foo() { await{baz: \'qux\'} }',
-      output: 'async function foo() { await {baz: \'qux\'} }',
-      options: [{ words: false, overrides: { await: true } }],
-      parserOptions: { ecmaVersion: 8 },
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'await' },
-        type: 'AwaitExpression',
-        line: 1,
-        column: 24,
-      }],
-    },
-    {
-      code: 'async function foo() { await {foo: 1} }',
-      output: 'async function foo() { await{foo: 1} }',
-      options: [{ words: false }],
-      parserOptions: { ecmaVersion: 8 },
-      errors: [{
-        messageId: 'unexpectedAfterWord',
-        data: { word: 'await' },
-        type: 'AwaitExpression',
-        line: 1,
-        column: 24,
-      }],
-    },
-    {
-      code: 'async function foo() { await {bar: 2} }',
-      output: 'async function foo() { await{bar: 2} }',
-      options: [{ words: true, overrides: { await: false } }],
-      parserOptions: { ecmaVersion: 8 },
-      errors: [{
-        messageId: 'unexpectedAfterWord',
-        data: { word: 'await' },
-        type: 'AwaitExpression',
-        line: 1,
-        column: 24,
-      }],
-    },
+
     {
       code: 'class C { #x; *foo(bar) { yield #x in bar; } }',
       output: 'class C { #x; *foo(bar) { yield#x in bar; } }',

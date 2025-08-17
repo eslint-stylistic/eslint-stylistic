@@ -570,7 +570,7 @@ export default createRule<RuleOptions, MessageIds>({
       // Expressions
       ArrowFunctionExpression: checkSpacingForFunction,
       AwaitExpression(node) {
-        checkSpacingBefore(sourceCode.getFirstToken(node)!)
+        checkSpacingAround(sourceCode.getFirstToken(node)!)
       },
       ClassExpression: checkSpacingForClass,
       FunctionExpression: checkSpacingForFunction,
