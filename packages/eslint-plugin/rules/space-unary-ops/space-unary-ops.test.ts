@@ -34,30 +34,6 @@ run<RuleOptions, MessageIds>({
       code: 'foo.bar --',
       options: [{ nonwords: true }],
     },
-    {
-      code: 'void 0',
-      options: [{ words: true }],
-    },
-    {
-      code: '(void 0)',
-      options: [{ words: true }],
-    },
-    {
-      code: '(void (0))',
-      options: [{ words: true }],
-    },
-    {
-      code: 'void foo',
-      options: [{ words: true }],
-    },
-    {
-      code: 'void foo',
-      options: [{ words: false }],
-    },
-    {
-      code: 'void(foo)',
-      options: [{ words: false }],
-    },
 
     {
       code: '-1',
@@ -146,67 +122,6 @@ run<RuleOptions, MessageIds>({
   ],
 
   invalid: [
-
-    {
-      code: 'void(0);',
-      output: 'void (0);',
-      options: [{ words: true }],
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'void' },
-        type: 'UnaryExpression',
-      }],
-    },
-    {
-      code: 'void(foo);',
-      output: 'void (foo);',
-      options: [{ words: true }],
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'void' },
-        type: 'UnaryExpression',
-      }],
-    },
-    {
-      code: 'void[foo];',
-      output: 'void [foo];',
-      options: [{ words: true }],
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'void' },
-        type: 'UnaryExpression',
-      }],
-    },
-    {
-      code: 'void{a:0};',
-      output: 'void {a:0};',
-      options: [{ words: true }],
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'void' },
-        type: 'UnaryExpression',
-      }],
-    },
-    {
-      code: 'void (foo)',
-      output: 'void(foo)',
-      options: [{ words: false }],
-      errors: [{
-        messageId: 'unexpectedAfterWord',
-        data: { word: 'void' },
-        type: 'UnaryExpression',
-      }],
-    },
-    {
-      code: 'void [foo]',
-      output: 'void[foo]',
-      options: [{ words: false }],
-      errors: [{
-        messageId: 'unexpectedAfterWord',
-        data: { word: 'void' },
-        type: 'UnaryExpression',
-      }],
-    },
 
     {
       code: '! foo',

@@ -1427,8 +1427,16 @@ run<RuleOptions, MessageIds>({
     { code: 'a > void foo', options: [NEITHER] },
 
     // not conflict with `space-unary-ops`
-    '!void+foo',
-    { code: '! void +foo', options: [NEITHER] },
+    { code: '!void +foo', options: [BOTH] },
+    { code: '!void+foo', options: [NEITHER] },
+    { code: '! void +foo', options: [BOTH] },
+    { code: '! void+foo', options: [NEITHER] },
+    { code: 'void 0', options: [BOTH] },
+    { code: '(void 0)', options: [BOTH] },
+    { code: '(void (0))', options: [BOTH] },
+    { code: 'void foo', options: [BOTH] },
+    { code: 'void foo', options: [NEITHER] },
+    { code: 'void(foo)', options: [NEITHER] },
 
     // not conflict with `template-curly-spacing`
     { code: '`${void foo}`', parserOptions: { ecmaVersion: 6 } },
@@ -3831,6 +3839,42 @@ run<RuleOptions, MessageIds>({
       output: '{}void foo',
       options: [override('void', NEITHER)],
       errors: unexpectedBefore('void'),
+    },
+    {
+      code: 'void(0);',
+      output: 'void (0);',
+      options: [BOTH],
+      errors: expectedAfter('void'),
+    },
+    {
+      code: 'void(foo);',
+      output: 'void (foo);',
+      options: [BOTH],
+      errors: expectedAfter('void'),
+    },
+    {
+      code: 'void[foo];',
+      output: 'void [foo];',
+      options: [BOTH],
+      errors: expectedAfter('void'),
+    },
+    {
+      code: 'void{a:0};',
+      output: 'void {a:0};',
+      options: [BOTH],
+      errors: expectedAfter('void'),
+    },
+    {
+      code: 'void (foo)',
+      output: 'void(foo)',
+      options: [NEITHER],
+      errors: unexpectedAfter('void'),
+    },
+    {
+      code: 'void [foo]',
+      output: 'void[foo]',
+      options: [NEITHER],
+      errors: unexpectedAfter('void'),
     },
 
     // ----------------------------------------------------------------------
