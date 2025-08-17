@@ -170,19 +170,26 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns An array of the processed lines.
      */
     function processBareBlockComment(comment: Token): string[] {
-      const lines = comment.value.split(LINEBREAK_MATCHER).map(line => line.replace(WHITE_SPACES_PATTERN, ''))
+      const lines = comment.value.split(LINEBREAK_MATCHER)
       const leadingWhitespace = `${sourceCode.text.slice(comment.range[0] - comment.loc.start.column, comment.range[0])}   `
       let offset = ''
+
+      const linesInfo: { lineOffset: string, lineContents: string }[] = []
 
       /*
        * Calculate the offset of the least indented line and use that as the basis for offsetting all the lines.
        * The first line should not be checked because it is inline with the opening block comment delimiter.
        */
-      for (const [i, line] of lines.entries()) {
+      for (let [i, line] of lines.entries()) {
+        if (isWhiteSpaces(line))
+          line = ''
+
+        const [, lineOffset, lineContents] = line.match(/^(\s*\*?\s*)(.*)/u)!
+
+        linesInfo.push({ lineOffset, lineContents })
+
         if (!line.trim().length || i === 0)
           continue
-
-        const [, lineOffset] = line.match(/^(\s*\*?\s*)/u)!
 
         if (lineOffset.length < leadingWhitespace.length) {
           const newOffset = leadingWhitespace.slice(lineOffset.length - leadingWhitespace.length)
@@ -192,10 +199,7 @@ export default createRule<RuleOptions, MessageIds>({
         }
       }
 
-      return lines.map((line) => {
-        const match = line.match(/^(\s*\*?\s*)(.*)/u)!
-        const [, lineOffset, lineContents] = match
-
+      return linesInfo.map(({ lineOffset, lineContents }) => {
         if (lineOffset.length > leadingWhitespace.length)
           return `${lineOffset.slice(leadingWhitespace.length - (offset.length + lineOffset.length))}${lineContents}`
 
@@ -300,6 +304,7 @@ export default createRule<RuleOptions, MessageIds>({
 
           if (!/^[*!]?\s*$/u.test(lines[0])) {
             const start = /^[*!]/.test(firstComment.value) ? firstComment.range[0] + 1 : firstComment.range[0]
+            const [, offset = ''] = lines[0].match(/^[*!]?(\s*)/u) || []
 
             context.report({
               loc: {
@@ -307,7 +312,7 @@ export default createRule<RuleOptions, MessageIds>({
                 end: { line: firstComment.loc.start.line, column: firstComment.loc.start.column + 2 },
               },
               messageId: 'startNewline',
-              fix: fixer => fixer.insertTextAfterRange([start, start + 2], `\n${expectedLinePrefix}`),
+              fix: fixer => fixer.insertTextAfterRange([start, start + 2], `\n${expectedLinePrefix}${offset.length === 0 ? ' ' : ''}`),
             })
           }
 
@@ -358,8 +363,8 @@ export default createRule<RuleOptions, MessageIds>({
 
                     offset = `${commentTextPrefix.slice(prefix.length)}${initialOffset}`
 
-                    if (/^\s*\//u.test(lineText) && offset.length === 0)
-                      offset += ' '
+                    if (!isWhiteSpaces(lineText) && !/^\s*\/?\*\s/u.test(lineTextToAlignWith))
+                      offset = ` ${offset}`
 
                     break
                   }
