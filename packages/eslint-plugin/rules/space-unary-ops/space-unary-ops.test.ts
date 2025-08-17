@@ -64,38 +64,6 @@ run<RuleOptions, MessageIds>({
       options: [{ nonwords: true }],
     },
     {
-      code: 'function *foo () { yield (0) }',
-      parserOptions: { ecmaVersion: 6 },
-    },
-    {
-      code: 'function *foo() { yield +1 }',
-      parserOptions: { ecmaVersion: 6 },
-    },
-    {
-      code: 'function *foo() { yield* 0 }',
-      parserOptions: { ecmaVersion: 6 },
-    },
-    {
-      code: 'function *foo() { yield * 0 }',
-      parserOptions: { ecmaVersion: 6 },
-    },
-    {
-      code: 'function *foo() { (yield)*0 }',
-      parserOptions: { ecmaVersion: 6 },
-    },
-    {
-      code: 'function *foo() { (yield) * 0 }',
-      parserOptions: { ecmaVersion: 6 },
-    },
-    {
-      code: 'function *foo() { yield*0 }',
-      parserOptions: { ecmaVersion: 6 },
-    },
-    {
-      code: 'function *foo() { yield *0 }',
-      parserOptions: { ecmaVersion: 6 },
-    },
-    {
       code: 'foo++',
       options: [{ nonwords: true, overrides: { '++': false } }],
     },
@@ -287,43 +255,6 @@ run<RuleOptions, MessageIds>({
       }],
     },
     {
-      code: 'function *foo() { yield(0) }',
-      output: 'function *foo() { yield (0) }',
-      parserOptions: { ecmaVersion: 6 },
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'yield' },
-        type: 'YieldExpression',
-        line: 1,
-        column: 19,
-      }],
-    },
-    {
-      code: 'function *foo() { yield (0) }',
-      output: 'function *foo() { yield(0) }',
-      options: [{ words: false }],
-      parserOptions: { ecmaVersion: 6 },
-      errors: [{
-        messageId: 'unexpectedAfterWord',
-        data: { word: 'yield' },
-        type: 'YieldExpression',
-        line: 1,
-        column: 19,
-      }],
-    },
-    {
-      code: 'function *foo() { yield+0 }',
-      output: 'function *foo() { yield +0 }',
-      parserOptions: { ecmaVersion: 6 },
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'yield' },
-        type: 'YieldExpression',
-        line: 1,
-        column: 19,
-      }],
-    },
-    {
       code: 'foo++',
       output: 'foo ++',
       options: [{ nonwords: true, overrides: { '++': true } }],
@@ -375,47 +306,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'operator',
         data: { operator: '!' },
-      }],
-    },
-
-    {
-      code: 'function *foo() { yield(0) }',
-      output: 'function *foo() { yield (0) }',
-      options: [{ words: true, overrides: { yield: true } }],
-      parserOptions: { ecmaVersion: 6 },
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'yield' },
-        type: 'YieldExpression',
-        line: 1,
-        column: 19,
-      }],
-    },
-    {
-      code: 'function *foo() { yield(0) }',
-      output: 'function *foo() { yield (0) }',
-      options: [{ words: false, overrides: { yield: true } }],
-      parserOptions: { ecmaVersion: 6 },
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'yield' },
-        type: 'YieldExpression',
-        line: 1,
-        column: 19,
-      }],
-    },
-
-    {
-      code: 'class C { #x; *foo(bar) { yield #x in bar; } }',
-      output: 'class C { #x; *foo(bar) { yield#x in bar; } }',
-      options: [{ words: false }],
-      parserOptions: { ecmaVersion: 2022 },
-      errors: [{
-        messageId: 'unexpectedAfterWord',
-        data: { word: 'yield' },
-        type: 'YieldExpression',
-        line: 1,
-        column: 27,
       }],
     },
   ],

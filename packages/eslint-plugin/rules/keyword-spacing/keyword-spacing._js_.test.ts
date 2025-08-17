@@ -1538,8 +1538,56 @@ run<RuleOptions, MessageIds>({
     { code: 'function* foo() { a = yield foo }', options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
     // not conflict with `space-unary-ops`
-    { code: 'function* foo() { yield+foo }', parserOptions: { ecmaVersion: 6 } },
-    { code: 'function* foo() { yield +foo }', options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
+    {
+      code: 'function* foo() { yield+foo }',
+      parserOptions: { ecmaVersion: 6 },
+      options: [NEITHER],
+    },
+    {
+      code: 'function* foo() { yield +foo }',
+      parserOptions: { ecmaVersion: 6 },
+      options: [BOTH],
+    },
+    {
+      code: 'function *foo () { yield (0) }',
+      parserOptions: { ecmaVersion: 6 },
+      options: [BOTH],
+    },
+    {
+      code: 'function *foo() { yield +1 }',
+      parserOptions: { ecmaVersion: 6 },
+      options: [BOTH],
+    },
+    {
+      code: 'function *foo() { yield* 0 }',
+      parserOptions: { ecmaVersion: 6 },
+      options: [NEITHER],
+    },
+    {
+      code: 'function *foo() { yield * 0 }',
+      parserOptions: { ecmaVersion: 6 },
+      options: [BOTH],
+    },
+    {
+      code: 'function *foo() { yield*0 }',
+      parserOptions: { ecmaVersion: 6 },
+      options: [NEITHER],
+    },
+    {
+      code: 'function *foo() { yield *0 }',
+      parserOptions: { ecmaVersion: 6 },
+      options: [BOTH],
+    },
+    {
+      code: 'function *foo () { yield(0) }',
+      parserOptions: { ecmaVersion: 6 },
+      options: [override('yield', NEITHER)],
+    },
+    {
+      code: 'class C { #x; *foo(bar) { yield#x in bar; } }',
+      parserOptions: { ecmaVersion: 2022 },
+      options: [NEITHER],
+    },
 
     // not conflict with `template-curly-spacing`
     { code: '`${yield}`', parserOptions: { ecmaVersion: 6, sourceType: 'script' } },
@@ -3990,6 +4038,41 @@ run<RuleOptions, MessageIds>({
       options: [override('yield', NEITHER)],
       parserOptions: { ecmaVersion: 6 },
       errors: unexpectedBefore('yield'),
+    },
+    {
+      code: 'function *foo() { yield(0) }',
+      output: 'function *foo() { yield (0) }',
+      options: [BOTH],
+      parserOptions: { ecmaVersion: 6 },
+      errors: expectedAfter('yield'),
+    },
+    {
+      code: 'function *foo() { yield (0) }',
+      output: 'function *foo() { yield(0) }',
+      options: [NEITHER],
+      parserOptions: { ecmaVersion: 6 },
+      errors: unexpectedAfter('yield'),
+    },
+    {
+      code: 'function *foo() { yield+0 }',
+      output: 'function *foo() { yield +0 }',
+      options: [BOTH],
+      parserOptions: { ecmaVersion: 6 },
+      errors: expectedAfter('yield'),
+    },
+    {
+      code: 'function *foo() { yield(0) }',
+      output: 'function *foo() { yield (0) }',
+      options: [override('yield', BOTH)],
+      parserOptions: { ecmaVersion: 6 },
+      errors: expectedAfter('yield'),
+    },
+    {
+      code: 'class C { #x; *foo(bar) { yield #x in bar; } }',
+      output: 'class C { #x; *foo(bar) { yield#x in bar; } }',
+      options: [NEITHER],
+      parserOptions: { ecmaVersion: 2022 },
+      errors: unexpectedAfter('yield'),
     },
 
     // ----------------------------------------------------------------------
