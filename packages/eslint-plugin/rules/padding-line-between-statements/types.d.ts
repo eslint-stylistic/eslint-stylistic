@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 11RYh4WPmthmwVCsA-LKcSWyOt_8NdY54_V1Cl28IzI */
+/* @checksum: kErv8daz4JbmG-vYHrJ-SzRKG2mIlo-tnqA0BTwEsBA */
 
 export type PaddingType = 'any' | 'never' | 'always'
 export type StatementOption
@@ -33,7 +33,6 @@ export type StatementType
     | 'with'
     | 'cjs-export'
     | 'cjs-import'
-    | 'jsx-prop'
     | 'enum'
     | 'interface'
     | 'function-overload'
