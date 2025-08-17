@@ -738,7 +738,6 @@ export default createRule<Options, MessageIds>({
           AST_NODE_TYPES.StaticBlock,
           AST_NODE_TYPES.SwitchCase,
           AST_NODE_TYPES.SwitchStatement,
-          AST_NODE_TYPES.JSXOpeningElement,
           AST_NODE_TYPES.TSInterfaceBody,
           AST_NODE_TYPES.TSModuleBlock,
           AST_NODE_TYPES.TSTypeLiteral,
