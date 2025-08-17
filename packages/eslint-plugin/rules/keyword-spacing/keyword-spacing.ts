@@ -574,7 +574,7 @@ export default createRule<RuleOptions, MessageIds>({
       },
       ClassExpression: checkSpacingForClass,
       FunctionExpression: checkSpacingForFunction,
-      NewExpression: checkSpacingBeforeFirstToken,
+      NewExpression: checkSpacingAroundFirstToken,
       Super: checkSpacingBeforeFirstToken,
       ThisExpression: checkSpacingBeforeFirstToken,
       UnaryExpression: checkSpacingBeforeFirstToken,

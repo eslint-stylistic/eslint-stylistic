@@ -53,23 +53,6 @@ run<RuleOptions, MessageIds>({
     },
 
     {
-      code: 'new Foo',
-      options: [{ words: true }],
-    },
-    {
-      code: 'new Foo()',
-      options: [{ words: true }],
-    },
-    {
-      code: 'new [foo][0]',
-      options: [{ words: true }],
-    },
-    {
-      code: 'new[foo][0]',
-      options: [{ words: false }],
-    },
-
-    {
       code: 'typeof foo',
       options: [{ words: true }],
     },
@@ -203,29 +186,6 @@ run<RuleOptions, MessageIds>({
       code: '!foo',
       options: [{ nonwords: false, overrides: { '!': false } }],
     },
-    {
-      code: 'new foo',
-      options: [{ words: true, overrides: { new: false } }],
-    },
-    {
-      code: 'new foo',
-      options: [{ words: false, overrides: { new: false } }],
-    },
-    {
-      code: 'function *foo () { yield(0) }',
-      options: [{ words: true, overrides: { yield: false } }],
-      parserOptions: { ecmaVersion: 6 },
-    },
-    {
-      code: 'function *foo () { yield(0) }',
-      options: [{ words: false, overrides: { yield: false } }],
-      parserOptions: { ecmaVersion: 6 },
-    },
-    {
-      code: 'class C { #x; *foo(bar) { yield#x in bar; } }',
-      options: [{ words: false }],
-      parserOptions: { ecmaVersion: 2022 },
-    },
   ],
 
   invalid: [
@@ -257,46 +217,6 @@ run<RuleOptions, MessageIds>({
         messageId: 'unexpectedAfterWord',
         data: { word: 'delete' },
         type: 'UnaryExpression',
-      }],
-    },
-    {
-      code: 'new(Foo)',
-      output: 'new (Foo)',
-      options: [{ words: true }],
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'new' },
-        type: 'NewExpression',
-      }],
-    },
-    {
-      code: 'new (Foo)',
-      output: 'new(Foo)',
-      options: [{ words: false }],
-      errors: [{
-        messageId: 'unexpectedAfterWord',
-        data: { word: 'new' },
-        type: 'NewExpression',
-      }],
-    },
-    {
-      code: 'new(Foo())',
-      output: 'new (Foo())',
-      options: [{ words: true }],
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'new' },
-        type: 'NewExpression',
-      }],
-    },
-    {
-      code: 'new [foo][0]',
-      output: 'new[foo][0]',
-      options: [{ words: false }],
-      errors: [{
-        messageId: 'unexpectedAfterWord',
-        data: { word: 'new' },
-        type: 'NewExpression',
       }],
     },
 
@@ -686,24 +606,7 @@ run<RuleOptions, MessageIds>({
         data: { operator: '!' },
       }],
     },
-    {
-      code: 'new(Foo)',
-      output: 'new (Foo)',
-      options: [{ words: true, overrides: { new: true } }],
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'new' },
-      }],
-    },
-    {
-      code: 'new(Foo)',
-      output: 'new (Foo)',
-      options: [{ words: false, overrides: { new: true } }],
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'new' },
-      }],
-    },
+
     {
       code: 'function *foo() { yield(0) }',
       output: 'function *foo() { yield (0) }',

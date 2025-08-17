@@ -965,8 +965,15 @@ run<RuleOptions, MessageIds>({
     { code: 'a > new foo()', options: [NEITHER] },
 
     // not conflict with `space-unary-ops`
-    '!new(foo)()',
-    { code: '! new (foo)()', options: [NEITHER] },
+    { code: '!new (foo)()', options: [BOTH] },
+    { code: '!new(foo)()', options: [NEITHER] },
+    { code: '! new (foo)()', options: [BOTH] },
+    { code: '! new(foo)()', options: [NEITHER] },
+    { code: 'new Foo', options: [BOTH] },
+    { code: 'new Foo()', options: [BOTH] },
+    { code: 'new [foo][0]', options: [BOTH] },
+    { code: 'new[foo][0]', options: [NEITHER] },
+    { code: 'new foo', options: [override('new', NEITHER)] },
 
     // not conflict with `template-curly-spacing`
     { code: '`${new foo()}`', parserOptions: { ecmaVersion: 6 } },
@@ -3194,6 +3201,36 @@ run<RuleOptions, MessageIds>({
       output: '{}new foo()',
       options: [override('new', NEITHER)],
       errors: unexpectedBefore('new'),
+    },
+    {
+      code: 'new(Foo)',
+      output: 'new (Foo)',
+      options: [BOTH],
+      errors: expectedAfter('new'),
+    },
+    {
+      code: 'new (Foo)',
+      output: 'new(Foo)',
+      options: [NEITHER],
+      errors: unexpectedAfter('new'),
+    },
+    {
+      code: 'new(Foo())',
+      output: 'new (Foo())',
+      options: [BOTH],
+      errors: expectedAfter('new'),
+    },
+    {
+      code: 'new [foo][0]',
+      output: 'new[foo][0]',
+      options: [NEITHER],
+      errors: unexpectedAfter('new'),
+    },
+    {
+      code: 'new(Foo)',
+      output: 'new (Foo)',
+      options: [override('new', BOTH)],
+      errors: expectedAfter('new'),
     },
 
     // ----------------------------------------------------------------------
