@@ -35,31 +35,6 @@ run<RuleOptions, MessageIds>({
       options: [{ nonwords: true }],
     },
     {
-      code: 'typeof foo',
-      options: [{ words: true }],
-    },
-    {
-      code: 'typeof{foo:true}',
-      options: [{ words: false }],
-    },
-    {
-      code: 'typeof {foo:true}',
-      options: [{ words: true }],
-    },
-    {
-      code: 'typeof (foo)',
-      options: [{ words: true }],
-    },
-    {
-      code: 'typeof(foo)',
-      options: [{ words: false }],
-    },
-    {
-      code: 'typeof!foo',
-      options: [{ words: false }],
-    },
-
-    {
       code: 'void 0',
       options: [{ words: true }],
     },
@@ -171,77 +146,6 @@ run<RuleOptions, MessageIds>({
   ],
 
   invalid: [
-
-    {
-      code: 'typeof(foo)',
-      output: 'typeof (foo)',
-      options: [{ words: true }],
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'typeof' },
-        type: 'UnaryExpression',
-      }],
-    },
-    {
-      code: 'typeof (foo)',
-      output: 'typeof(foo)',
-      options: [{ words: false }],
-      errors: [{
-        messageId: 'unexpectedAfterWord',
-        data: { word: 'typeof' },
-        type: 'UnaryExpression',
-      }],
-    },
-    {
-      code: 'typeof[foo]',
-      output: 'typeof [foo]',
-      options: [{ words: true }],
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'typeof' },
-        type: 'UnaryExpression',
-      }],
-    },
-    {
-      code: 'typeof [foo]',
-      output: 'typeof[foo]',
-      options: [{ words: false }],
-      errors: [{
-        messageId: 'unexpectedAfterWord',
-        data: { word: 'typeof' },
-        type: 'UnaryExpression',
-      }],
-    },
-    {
-      code: 'typeof{foo:true}',
-      output: 'typeof {foo:true}',
-      options: [{ words: true }],
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'typeof' },
-        type: 'UnaryExpression',
-      }],
-    },
-    {
-      code: 'typeof {foo:true}',
-      output: 'typeof{foo:true}',
-      options: [{ words: false }],
-      errors: [{
-        messageId: 'unexpectedAfterWord',
-        data: { word: 'typeof' },
-        type: 'UnaryExpression',
-      }],
-    },
-    {
-      code: 'typeof!foo',
-      output: 'typeof !foo',
-      options: [{ words: true }],
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'typeof' },
-        type: 'UnaryExpression',
-      }],
-    },
 
     {
       code: 'void(0);',

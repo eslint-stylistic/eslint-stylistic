@@ -1336,8 +1336,16 @@ run<RuleOptions, MessageIds>({
     { code: 'a > typeof foo', options: [NEITHER] },
 
     // not conflict with `space-unary-ops`
-    '!typeof+foo',
-    { code: '! typeof +foo', options: [NEITHER] },
+    { code: '!typeof +foo', options: [BOTH] },
+    { code: '!typeof+foo', options: [NEITHER] },
+    { code: '! typeof +foo', options: [BOTH] },
+    { code: '! typeof+foo', options: [NEITHER] },
+    { code: 'typeof foo', options: [BOTH] },
+    { code: 'typeof{foo:true}', options: [NEITHER] },
+    { code: 'typeof {foo:true}', options: [BOTH] },
+    { code: 'typeof (foo)', options: [BOTH] },
+    { code: 'typeof(foo)', options: [NEITHER] },
+    { code: 'typeof!foo', options: [NEITHER] },
 
     // not conflict with `template-curly-spacing`
     { code: '`${typeof foo}`', parserOptions: { ecmaVersion: 6 } },
@@ -3721,6 +3729,48 @@ run<RuleOptions, MessageIds>({
       output: '{}typeof foo',
       options: [override('typeof', NEITHER)],
       errors: unexpectedBefore('typeof'),
+    },
+    {
+      code: 'typeof(foo)',
+      output: 'typeof (foo)',
+      options: [BOTH],
+      errors: expectedAfter('typeof'),
+    },
+    {
+      code: 'typeof (foo)',
+      output: 'typeof(foo)',
+      options: [NEITHER],
+      errors: unexpectedAfter('typeof'),
+    },
+    {
+      code: 'typeof[foo]',
+      output: 'typeof [foo]',
+      options: [BOTH],
+      errors: expectedAfter('typeof'),
+    },
+    {
+      code: 'typeof [foo]',
+      output: 'typeof[foo]',
+      options: [NEITHER],
+      errors: unexpectedAfter('typeof'),
+    },
+    {
+      code: 'typeof{foo:true}',
+      output: 'typeof {foo:true}',
+      options: [BOTH],
+      errors: expectedAfter('typeof'),
+    },
+    {
+      code: 'typeof {foo:true}',
+      output: 'typeof{foo:true}',
+      options: [NEITHER],
+      errors: unexpectedAfter('typeof'),
+    },
+    {
+      code: 'typeof!foo',
+      output: 'typeof !foo',
+      options: [BOTH],
+      errors: expectedAfter('typeof'),
     },
 
     // ----------------------------------------------------------------------
