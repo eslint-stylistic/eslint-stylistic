@@ -577,7 +577,7 @@ export default createRule<RuleOptions, MessageIds>({
       NewExpression: checkSpacingAroundFirstToken,
       Super: checkSpacingBeforeFirstToken,
       ThisExpression: checkSpacingBeforeFirstToken,
-      UnaryExpression: checkSpacingBeforeFirstToken,
+      UnaryExpression: checkSpacingAroundFirstToken,
       YieldExpression: checkSpacingBeforeFirstToken,
 
       // Others

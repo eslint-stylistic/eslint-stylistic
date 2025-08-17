@@ -34,24 +34,6 @@ run<RuleOptions, MessageIds>({
       code: 'foo.bar --',
       options: [{ nonwords: true }],
     },
-
-    {
-      code: 'delete foo.bar',
-      options: [{ words: true }],
-    },
-    {
-      code: 'delete foo["bar"]',
-      options: [{ words: true }],
-    },
-    {
-      code: 'delete foo.bar',
-      options: [{ words: false }],
-    },
-    {
-      code: 'delete(foo.bar)',
-      options: [{ words: false }],
-    },
-
     {
       code: 'typeof foo',
       options: [{ words: true }],
@@ -189,36 +171,6 @@ run<RuleOptions, MessageIds>({
   ],
 
   invalid: [
-    {
-      code: 'delete(foo.bar)',
-      output: 'delete (foo.bar)',
-      options: [{ words: true }],
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'delete' },
-        type: 'UnaryExpression',
-      }],
-    },
-    {
-      code: 'delete(foo["bar"]);',
-      output: 'delete (foo["bar"]);',
-      options: [{ words: true }],
-      errors: [{
-        messageId: 'wordOperator',
-        data: { word: 'delete' },
-        type: 'UnaryExpression',
-      }],
-    },
-    {
-      code: 'delete (foo.bar)',
-      output: 'delete(foo.bar)',
-      options: [{ words: false }],
-      errors: [{
-        messageId: 'unexpectedAfterWord',
-        data: { word: 'delete' },
-        type: 'UnaryExpression',
-      }],
-    },
 
     {
       code: 'typeof(foo)',

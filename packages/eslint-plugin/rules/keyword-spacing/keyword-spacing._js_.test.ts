@@ -588,8 +588,14 @@ run<RuleOptions, MessageIds>({
     { code: 'a > delete foo.a', options: [NEITHER] },
 
     // not conflict with `space-unary-ops`
-    '!delete(foo.a)',
-    { code: '! delete (foo.a)', options: [NEITHER] },
+    { code: 'delete foo.bar', options: [BOTH] },
+    { code: 'delete foo["bar"]', options: [BOTH] },
+    { code: 'delete foo.bar', options: [NEITHER] },
+    { code: 'delete(foo.bar)', options: [NEITHER] },
+    { code: '!delete (foo.a)', options: [BOTH] },
+    { code: '!delete(foo.a)', options: [NEITHER] },
+    { code: '! delete (foo.a)', options: [BOTH] },
+    { code: '! delete(foo.a)', options: [NEITHER] },
 
     // not conflict with `template-curly-spacing`
     { code: '`${delete foo.a}`', parserOptions: { ecmaVersion: 6 } },
@@ -2365,6 +2371,30 @@ run<RuleOptions, MessageIds>({
       output: '{}delete foo.a',
       options: [override('delete', NEITHER)],
       errors: unexpectedBefore('delete'),
+    },
+    {
+      code: '{} delete (foo.a)',
+      output: '{}delete(foo.a)',
+      options: [override('delete', NEITHER)],
+      errors: [...unexpectedBefore('delete'), ...unexpectedAfter('delete')],
+    },
+    {
+      code: 'delete(foo.bar)',
+      output: 'delete (foo.bar)',
+      options: [BOTH],
+      errors: expectedAfter('delete'),
+    },
+    {
+      code: 'delete(foo["bar"]);',
+      output: 'delete (foo["bar"]);',
+      options: [BOTH],
+      errors: expectedAfter('delete'),
+    },
+    {
+      code: 'delete (foo.bar)',
+      output: 'delete(foo.bar)',
+      options: [NEITHER],
+      errors: unexpectedAfter('delete'),
     },
 
     // ----------------------------------------------------------------------
