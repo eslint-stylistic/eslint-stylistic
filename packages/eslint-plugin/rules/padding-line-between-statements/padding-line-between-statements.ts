@@ -531,8 +531,6 @@ const StatementTypes: Record<string, NodeTestObject> = {
       && CJS_IMPORT.test(sourceCode.getText(node.declarations[0].init!)),
   },
 
-  'jsx-prop': newNodeTypeTester(AST_NODE_TYPES.JSXAttribute),
-
   'enum': newKeywordTester(
     AST_NODE_TYPES.TSEnumDeclaration,
     'enum',
@@ -740,7 +738,6 @@ export default createRule<Options, MessageIds>({
           AST_NODE_TYPES.StaticBlock,
           AST_NODE_TYPES.SwitchCase,
           AST_NODE_TYPES.SwitchStatement,
-          AST_NODE_TYPES.JSXOpeningElement,
           AST_NODE_TYPES.TSInterfaceBody,
           AST_NODE_TYPES.TSModuleBlock,
           AST_NODE_TYPES.TSTypeLiteral,
@@ -786,10 +783,6 @@ export default createRule<Options, MessageIds>({
       'SwitchCase:exit': exitScope,
       'StaticBlock': enterScope,
       'StaticBlock:exit': exitScope,
-
-      'JSXOpeningElement': enterScope,
-      'JSXOpeningElement:exit': exitScope,
-      'JSXAttribute': verify,
 
       'TSInterfaceBody': enterScope,
       'TSInterfaceBody:exit': exitScope,
