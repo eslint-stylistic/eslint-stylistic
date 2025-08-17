@@ -78,7 +78,6 @@ You can supply any number of configurations. If a statement pair matches multipl
   - `"var"` is `var` variable declarations, both single-line and multiline.
   - `"while"` is `while` loop statements.
   - `"with"` is `with` statements.
-  - `"jsx-prop"` is `JSXAttribute` in `JSXOpeningElement`.
   - `"enum"` is `enum` declarations.
   - `"interface"` is `interface` declarations.
   - `"type"` is `type alias` declarations.
@@ -317,31 +316,6 @@ switch (foo) {
     default:
         quux();
 }
-```
-
----
-
-This configuration would disallow blank lines between props in jsx opening element.
-
-:::
-
-Examples of **correct** code for the `[{ blankLine: "never", prev: "*", next: "jsx-prop" }]` configuration:
-
-::: correct
-
-```jsx
-/* eslint @stylistic/padding-line-between-statements: [
-    "error",
-    { blankLine: "never", prev: "*", next: "jsx-prop" }
-] */
-
-<button
-    title="Some button"
-    onClick={(value) => {
-        console.log(value);
-    }}
-    type="button"
-/>;
 ```
 
 :::
