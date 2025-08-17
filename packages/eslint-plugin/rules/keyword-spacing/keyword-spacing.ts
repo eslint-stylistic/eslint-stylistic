@@ -578,15 +578,7 @@ export default createRule<RuleOptions, MessageIds>({
       Super: checkSpacingBeforeFirstToken,
       ThisExpression: checkSpacingBeforeFirstToken,
       UnaryExpression: checkSpacingAroundFirstToken,
-      YieldExpression(node) {
-        const firstToken = sourceCode.getFirstToken(node)
-        if (isKeywordToken(firstToken)) {
-          // add special char *
-          const NEXT_TOKEN_YIELD = /^(?:[([{<~!*]|\+\+?|--?)$/u
-          checkSpacingBefore(firstToken)
-          checkSpacingAfter(firstToken, NEXT_TOKEN_YIELD)
-        }
-      },
+      YieldExpression: checkSpacingAroundFirstToken,
 
       // Others
       ImportSpecifier(node) {

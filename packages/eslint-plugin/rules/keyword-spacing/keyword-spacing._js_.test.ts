@@ -1559,26 +1559,6 @@ run<RuleOptions, MessageIds>({
       options: [BOTH],
     },
     {
-      code: 'function *foo() { yield* 0 }',
-      parserOptions: { ecmaVersion: 6 },
-      options: [NEITHER],
-    },
-    {
-      code: 'function *foo() { yield * 0 }',
-      parserOptions: { ecmaVersion: 6 },
-      options: [BOTH],
-    },
-    {
-      code: 'function *foo() { yield*0 }',
-      parserOptions: { ecmaVersion: 6 },
-      options: [NEITHER],
-    },
-    {
-      code: 'function *foo() { yield *0 }',
-      parserOptions: { ecmaVersion: 6 },
-      options: [BOTH],
-    },
-    {
       code: 'function *foo () { yield(0) }',
       parserOptions: { ecmaVersion: 6 },
       options: [override('yield', NEITHER)],
@@ -1596,6 +1576,28 @@ run<RuleOptions, MessageIds>({
     // not conflict with `jsx-curly-spacing`
     { code: 'function* foo() { <Foo onClick={yield} /> }', parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
     { code: 'function* foo() { <Foo onClick={ yield } /> }', options: [NEITHER], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
+
+    // not conflict with `yield-star-spacing`
+    {
+      code: 'function *foo() { yield * 0 }',
+      parserOptions: { ecmaVersion: 6 },
+      options: [NEITHER],
+    },
+    {
+      code: 'function *foo() { yield* 0 }',
+      parserOptions: { ecmaVersion: 6 },
+      options: [BOTH],
+    },
+    {
+      code: 'function *foo() { yield *0 }',
+      parserOptions: { ecmaVersion: 6 },
+      options: [NEITHER],
+    },
+    {
+      code: 'function *foo() { yield*0 }',
+      parserOptions: { ecmaVersion: 6 },
+      options: [BOTH],
+    },
 
     // ----------------------------------------------------------------------
     // typescript parser
