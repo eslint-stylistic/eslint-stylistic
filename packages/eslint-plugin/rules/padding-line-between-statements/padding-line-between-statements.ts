@@ -454,6 +454,7 @@ const PaddingTypes = {
 const MaybeMultilineStatementType: Record<string, NodeTestObject> = {
   'block-like': { test: isBlockLikeStatement },
   'expression': { test: isExpression },
+  'return': newKeywordTester(AST_NODE_TYPES.ReturnStatement, 'return'),
   'export': newKeywordTester(
     [
       AST_NODE_TYPES.ExportAllDeclaration,
@@ -469,6 +470,7 @@ const MaybeMultilineStatementType: Record<string, NodeTestObject> = {
     test: node => node.type === 'VariableDeclaration'
       && (node.kind === 'using' || node.kind === 'await using'),
   },
+  'type': newKeywordTester(AST_NODE_TYPES.TSTypeAliasDeclaration, 'type'),
 }
 
 /**
@@ -508,7 +510,6 @@ const StatementTypes: Record<string, NodeTestObject> = {
   ),
   'if': newKeywordTester(AST_NODE_TYPES.IfStatement, 'if'),
   'import': newKeywordTester(AST_NODE_TYPES.ImportDeclaration, 'import'),
-  'return': newKeywordTester(AST_NODE_TYPES.ReturnStatement, 'return'),
   'switch': newKeywordTester(AST_NODE_TYPES.SwitchStatement, 'switch'),
   'throw': newKeywordTester(AST_NODE_TYPES.ThrowStatement, 'throw'),
   'try': newKeywordTester(AST_NODE_TYPES.TryStatement, 'try'),
@@ -537,10 +538,6 @@ const StatementTypes: Record<string, NodeTestObject> = {
   'interface': newKeywordTester(
     AST_NODE_TYPES.TSInterfaceDeclaration,
     'interface',
-  ),
-  'type': newKeywordTester(
-    AST_NODE_TYPES.TSTypeAliasDeclaration,
-    'type',
   ),
   'function-overload': newNodeTypeTester(AST_NODE_TYPES.TSDeclareFunction),
   ...Object.fromEntries(
@@ -674,8 +671,8 @@ export default createRule<Options, MessageIds>({
 
     /**
      * Finds the last matched configure from configureList.
-     * @paramprevNode The previous statement to match.
-     * @paramnextNode The current statement to match.
+     * @param prevNode The previous statement to match.
+     * @param nextNode The current statement to match.
      * @returns The tester of the last matched configure.
      * @private
      */
@@ -777,28 +774,28 @@ export default createRule<Options, MessageIds>({
 
     return {
       'Program': enterScope,
-      'BlockStatement': enterScope,
-      'SwitchStatement': enterScope,
-      'StaticBlock': enterScope,
-      'TSInterfaceBody': enterScope,
-      'TSModuleBlock': enterScope,
-      'TSTypeLiteral': enterScope,
       'Program:exit': exitScope,
+      'BlockStatement': enterScope,
       'BlockStatement:exit': exitScope,
+      'SwitchStatement': enterScope,
       'SwitchStatement:exit': exitScope,
+      'SwitchCase': verifyThenEnterScope,
+      'SwitchCase:exit': exitScope,
+      'StaticBlock': enterScope,
       'StaticBlock:exit': exitScope,
+
+      'TSInterfaceBody': enterScope,
       'TSInterfaceBody:exit': exitScope,
+      'TSModuleBlock': enterScope,
       'TSModuleBlock:exit': exitScope,
+      'TSTypeLiteral': enterScope,
       'TSTypeLiteral:exit': exitScope,
+      'TSDeclareFunction': verifyThenEnterScope,
+      'TSDeclareFunction:exit': exitScope,
+      'TSMethodSignature': verifyThenEnterScope,
+      'TSMethodSignature:exit': exitScope,
 
       ':statement': verify,
-
-      'SwitchCase': verifyThenEnterScope,
-      'TSDeclareFunction': verifyThenEnterScope,
-      'TSMethodSignature': verifyThenEnterScope,
-      'SwitchCase:exit': exitScope,
-      'TSDeclareFunction:exit': exitScope,
-      'TSMethodSignature:exit': exitScope,
     }
   },
 })

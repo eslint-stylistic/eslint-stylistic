@@ -113,6 +113,7 @@ const KNOWN_NODES = new Set([
 
   // ts specific nodes we want to support
   AST_NODE_TYPES.TSAbstractPropertyDefinition,
+  AST_NODE_TYPES.TSAbstractAccessorProperty,
   AST_NODE_TYPES.TSAbstractMethodDefinition,
   AST_NODE_TYPES.TSArrayType,
   AST_NODE_TYPES.TSAsExpression,
@@ -1379,8 +1380,9 @@ export default createRule<RuleOptions, MessageIds>({
       offsets.setDesiredOffsets([extendsToken.range[0], node.body.range[0]], classToken, 1)
     }
 
-    function checkClassProperty(node: Tree.PropertyDefinition | Tree.AccessorProperty) {
+    function checkClassProperty(node: Tree.PropertyDefinition | Tree.AccessorProperty | Tree.TSAbstractPropertyDefinition | Tree.TSAbstractAccessorProperty) {
       const firstToken = sourceCode.getFirstToken(node)!
+      const lastToken = sourceCode.getLastToken(node)!
       let keyLastToken: Token
 
       // Indent key.
@@ -1402,9 +1404,9 @@ export default createRule<RuleOptions, MessageIds>({
           offsets.setDesiredOffset(idToken, firstToken, 1)
       }
 
-      const lastToken = sourceCode.getLastToken(node)!
+      // Indent initializer.
       if (node.value) {
-        const operator = sourceCode.getTokenBefore(node.value, isNotOpeningParenToken)!
+        const operator = sourceCode.getTokenBefore(node.value, isEqToken)!
         checkAssignmentOperator(operator)
 
         if (isSemicolonToken(lastToken))
@@ -1729,6 +1731,8 @@ export default createRule<RuleOptions, MessageIds>({
 
       'PropertyDefinition': checkClassProperty,
       'AccessorProperty': checkClassProperty,
+      'TSAbstractPropertyDefinition': checkClassProperty,
+      'TSAbstractAccessorProperty': checkClassProperty,
 
       StaticBlock(node) {
         const openingCurly = sourceCode.getFirstToken(node, { skip: 1 })! // skip the `static` token
