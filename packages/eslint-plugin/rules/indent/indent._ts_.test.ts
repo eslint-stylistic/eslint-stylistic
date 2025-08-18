@@ -2115,6 +2115,25 @@ declare function h(x: number): number;
     },
     {
       code: $`
+        abstract class Foo {
+        abstract protected bar: number
+            abstract accessor [baz]: string
+        }
+      `,
+      output: $`
+        abstract class Foo {
+          abstract protected bar: number
+          abstract accessor [baz]: string
+        }
+      `,
+      options: [2],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 0 } },
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 4 } },
+      ],
+    },
+    {
+      code: $`
          type A = number
           declare type B = number
         namespace Foo {
