@@ -137,13 +137,9 @@ export default createRule<RuleOptions, MessageIds>({
      * @param word The word to be used for reporting
      */
     function checkUnaryWordOperatorForSpaces(node: ASTNode, firstToken: Token, secondToken: Token, word: string) {
-      if (overrideExistsForOperator(word)) {
-        if (overrideEnforcesSpaces(word))
-          verifyWordHasSpaces(node, firstToken, secondToken, word)
-        else
-          verifyWordDoesntHaveSpaces(node, firstToken, secondToken, word)
-      }
-      else if (options.words) {
+      const shouldHaveSpace = overrideExistsForOperator(word) ? overrideEnforcesSpaces(word) : options.words
+
+      if (shouldHaveSpace) {
         verifyWordHasSpaces(node, firstToken, secondToken, word)
       }
       else {
@@ -313,13 +309,9 @@ export default createRule<RuleOptions, MessageIds>({
 
       const operator = ('prefix' in node && node.prefix) ? tokens[0].value : tokens[1].value
 
-      if (overrideExistsForOperator(operator)) {
-        if (overrideEnforcesSpaces(operator))
-          verifyNonWordsHaveSpaces(node, firstToken, secondToken)
-        else
-          verifyNonWordsDontHaveSpaces(node, firstToken, secondToken)
-      }
-      else if (options.nonwords) {
+      const shouldHaveSpace = overrideExistsForOperator(operator) ? overrideEnforcesSpaces(operator) : options.nonwords
+
+      if (shouldHaveSpace) {
         verifyNonWordsHaveSpaces(node, firstToken, secondToken)
       }
       else {
