@@ -45,9 +45,9 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedBefore: 'Unexpected space before unary operator \'{{operator}}\'.',
       unexpectedAfter: 'Unexpected space after unary operator \'{{operator}}\'.',
       unexpectedAfterWord: 'Unexpected space after unary word operator \'{{word}}\'.',
-      wordOperator: 'Unary word operator \'{{word}}\' must be followed by whitespace.',
-      operator: 'Unary operator \'{{operator}}\' must be followed by whitespace.',
-      beforeUnaryExpressions: 'Space is required before unary expressions \'{{token}}\'.',
+      requireAfterWord: 'Unary word operator \'{{word}}\' must be followed by whitespace.',
+      requireAfter: 'Unary operator \'{{operator}}\' must be followed by whitespace.',
+      requireBefore: 'Space is required before unary operator \'{{operator}}\'.',
     },
   },
 
@@ -94,7 +94,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (secondToken.range[0] === firstToken.range[1]) {
         context.report({
           node,
-          messageId: 'wordOperator',
+          messageId: 'requireAfterWord',
           data: {
             word,
           },
@@ -216,7 +216,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (firstToken.range[1] === secondToken.range[0]) {
           context.report({
             node,
-            messageId: 'operator',
+            messageId: 'requireAfter',
             data: {
               operator: firstToken.value,
             },
@@ -230,9 +230,9 @@ export default createRule<RuleOptions, MessageIds>({
         if (firstToken.range[1] === secondToken.range[0]) {
           context.report({
             node,
-            messageId: 'beforeUnaryExpressions',
+            messageId: 'requireBefore',
             data: {
-              token: secondToken.value,
+              operator: secondToken.value,
             },
             fix(fixer) {
               return fixer.insertTextBefore(secondToken, ' ')

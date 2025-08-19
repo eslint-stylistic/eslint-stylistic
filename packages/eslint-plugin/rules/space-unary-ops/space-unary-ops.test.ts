@@ -270,7 +270,7 @@ run<RuleOptions, MessageIds>({
       output: 'delete (foo.bar)',
       options: [{ words: true }],
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'delete' },
         type: 'UnaryExpression',
       }],
@@ -280,7 +280,7 @@ run<RuleOptions, MessageIds>({
       output: 'delete (foo["bar"]);',
       options: [{ words: true }],
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'delete' },
         type: 'UnaryExpression',
       }],
@@ -300,7 +300,7 @@ run<RuleOptions, MessageIds>({
       output: 'new (Foo)',
       options: [{ words: true }],
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'new' },
         type: 'NewExpression',
       }],
@@ -320,7 +320,7 @@ run<RuleOptions, MessageIds>({
       output: 'new (Foo())',
       options: [{ words: true }],
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'new' },
         type: 'NewExpression',
       }],
@@ -341,7 +341,7 @@ run<RuleOptions, MessageIds>({
       output: 'typeof (foo)',
       options: [{ words: true }],
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'typeof' },
         type: 'UnaryExpression',
       }],
@@ -361,7 +361,7 @@ run<RuleOptions, MessageIds>({
       output: 'typeof [foo]',
       options: [{ words: true }],
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'typeof' },
         type: 'UnaryExpression',
       }],
@@ -381,7 +381,7 @@ run<RuleOptions, MessageIds>({
       output: 'typeof {foo:true}',
       options: [{ words: true }],
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'typeof' },
         type: 'UnaryExpression',
       }],
@@ -401,7 +401,7 @@ run<RuleOptions, MessageIds>({
       output: 'typeof !foo',
       options: [{ words: true }],
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'typeof' },
         type: 'UnaryExpression',
       }],
@@ -412,7 +412,7 @@ run<RuleOptions, MessageIds>({
       output: 'void (0);',
       options: [{ words: true }],
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'void' },
         type: 'UnaryExpression',
       }],
@@ -422,7 +422,7 @@ run<RuleOptions, MessageIds>({
       output: 'void (foo);',
       options: [{ words: true }],
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'void' },
         type: 'UnaryExpression',
       }],
@@ -432,7 +432,7 @@ run<RuleOptions, MessageIds>({
       output: 'void [foo];',
       options: [{ words: true }],
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'void' },
         type: 'UnaryExpression',
       }],
@@ -442,7 +442,7 @@ run<RuleOptions, MessageIds>({
       output: 'void {a:0};',
       options: [{ words: true }],
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'void' },
         type: 'UnaryExpression',
       }],
@@ -482,7 +482,7 @@ run<RuleOptions, MessageIds>({
       output: '! foo',
       options: [{ nonwords: true }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '!' },
       }],
     },
@@ -504,7 +504,7 @@ run<RuleOptions, MessageIds>({
       output: '!! foo',
       options: [{ nonwords: true }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '!' },
         type: 'UnaryExpression',
         line: 1,
@@ -527,7 +527,7 @@ run<RuleOptions, MessageIds>({
       output: '- 1',
       options: [{ nonwords: true }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '-' },
         type: 'UnaryExpression',
       }],
@@ -538,8 +538,8 @@ run<RuleOptions, MessageIds>({
       output: 'foo ++',
       options: [{ nonwords: true }],
       errors: [{
-        messageId: 'beforeUnaryExpressions',
-        data: { token: '++' },
+        messageId: 'requireBefore',
+        data: { operator: '++' },
       }],
     },
     {
@@ -565,7 +565,7 @@ run<RuleOptions, MessageIds>({
       output: '++ foo',
       options: [{ nonwords: true }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '++' },
       }],
     },
@@ -574,8 +574,8 @@ run<RuleOptions, MessageIds>({
       output: 'foo .bar ++',
       options: [{ nonwords: true }],
       errors: [{
-        messageId: 'beforeUnaryExpressions',
-        data: { token: '++' },
+        messageId: 'requireBefore',
+        data: { operator: '++' },
       }],
     },
     {
@@ -636,7 +636,7 @@ run<RuleOptions, MessageIds>({
       output: 'function *foo() { yield (0) }',
       parserOptions: { ecmaVersion: 6 },
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'yield' },
         type: 'YieldExpression',
         line: 1,
@@ -661,7 +661,7 @@ run<RuleOptions, MessageIds>({
       output: 'function *foo() { yield +0 }',
       parserOptions: { ecmaVersion: 6 },
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'yield' },
         type: 'YieldExpression',
         line: 1,
@@ -673,8 +673,8 @@ run<RuleOptions, MessageIds>({
       output: 'foo ++',
       options: [{ nonwords: true, overrides: { '++': true } }],
       errors: [{
-        messageId: 'beforeUnaryExpressions',
-        data: { token: '++' },
+        messageId: 'requireBefore',
+        data: { operator: '++' },
       }],
     },
     {
@@ -682,8 +682,8 @@ run<RuleOptions, MessageIds>({
       output: 'foo ++',
       options: [{ nonwords: false, overrides: { '++': true } }],
       errors: [{
-        messageId: 'beforeUnaryExpressions',
-        data: { token: '++' },
+        messageId: 'requireBefore',
+        data: { operator: '++' },
       }],
     },
     {
@@ -691,7 +691,7 @@ run<RuleOptions, MessageIds>({
       output: '++ foo',
       options: [{ nonwords: true, overrides: { '++': true } }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '++' },
       }],
     },
@@ -700,7 +700,7 @@ run<RuleOptions, MessageIds>({
       output: '++ foo',
       options: [{ nonwords: false, overrides: { '++': true } }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '++' },
       }],
     },
@@ -709,7 +709,7 @@ run<RuleOptions, MessageIds>({
       output: '! foo',
       options: [{ nonwords: true, overrides: { '!': true } }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '!' },
       }],
     },
@@ -718,7 +718,7 @@ run<RuleOptions, MessageIds>({
       output: '! foo',
       options: [{ nonwords: false, overrides: { '!': true } }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '!' },
       }],
     },
@@ -727,7 +727,7 @@ run<RuleOptions, MessageIds>({
       output: 'new (Foo)',
       options: [{ words: true, overrides: { new: true } }],
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'new' },
       }],
     },
@@ -736,7 +736,7 @@ run<RuleOptions, MessageIds>({
       output: 'new (Foo)',
       options: [{ words: false, overrides: { new: true } }],
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'new' },
       }],
     },
@@ -746,7 +746,7 @@ run<RuleOptions, MessageIds>({
       options: [{ words: true, overrides: { yield: true } }],
       parserOptions: { ecmaVersion: 6 },
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'yield' },
         type: 'YieldExpression',
         line: 1,
@@ -759,7 +759,7 @@ run<RuleOptions, MessageIds>({
       options: [{ words: false, overrides: { yield: true } }],
       parserOptions: { ecmaVersion: 6 },
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'yield' },
         type: 'YieldExpression',
         line: 1,
@@ -771,7 +771,7 @@ run<RuleOptions, MessageIds>({
       output: 'async function foo() { await {foo: \'bar\'} }',
       parserOptions: { ecmaVersion: 8 },
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'await' },
         type: 'AwaitExpression',
         line: 1,
@@ -784,7 +784,7 @@ run<RuleOptions, MessageIds>({
       options: [{ words: false, overrides: { await: true } }],
       parserOptions: { ecmaVersion: 8 },
       errors: [{
-        messageId: 'wordOperator',
+        messageId: 'requireAfterWord',
         data: { word: 'await' },
         type: 'AwaitExpression',
         line: 1,
@@ -835,7 +835,7 @@ run<RuleOptions, MessageIds>({
       output: 'const w = func() !',
       options: [{ nonwords: false, overrides: { '!': true } }],
       errors: [
-        { messageId: 'beforeUnaryExpressions' },
+        { messageId: 'requireBefore', data: { operator: '!' } },
       ],
     },
     {
@@ -843,8 +843,8 @@ run<RuleOptions, MessageIds>({
       output: 'a!  .b!  .c',
       options: [{ nonwords: false }],
       errors: [
-        { messageId: 'unexpectedBefore' },
-        { messageId: 'unexpectedBefore' },
+        { messageId: 'unexpectedBefore', data: { operator: '!' } },
+        { messageId: 'unexpectedBefore', data: { operator: '!' } },
       ],
     },
   ],
