@@ -831,14 +831,21 @@ run<RuleOptions, MessageIds>({
       }],
     },
     {
-      code: 'const w = func() !',
-      output: 'const w = func()!',
-      options: [{ nonwords: false }],
+      code: 'const w = func()!',
+      output: 'const w = func() !',
+      options: [{ nonwords: false, overrides: { '!': true } }],
+      errors: [
+        { messageId: 'beforeUnaryExpressions' },
+      ],
     },
     {
       code: 'a  !  .b  !  .c',
       output: 'a!  .b!  .c',
       options: [{ nonwords: false }],
+      errors: [
+        { messageId: 'unexpectedBefore' },
+        { messageId: 'unexpectedBefore' },
+      ],
     },
   ],
 })

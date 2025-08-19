@@ -5,7 +5,7 @@
 
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, canTokensBeAdjacent, isKeywordToken } from '#utils/ast'
+import { canTokensBeAdjacent, isKeywordToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -156,27 +156,21 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node TSNonNullExpression AST node
      */
     function checkForSpacesAroundNonNull(node: Tree.TSNonNullExpression) {
-      const tokens = sourceCode.getTokens(node)
-      const lastToken = tokens[tokens.length - 1] // The ! token
-      const secondLastToken = tokens[tokens.length - 2] // The token before !
-
-      if (!lastToken || !secondLastToken || lastToken.value !== '!') {
-        return
-      }
-
       const operator = '!'
+      const operatorToken = sourceCode.getLastToken(node, token => token.value === operator)!
+      const prefixToken = sourceCode.getTokenBefore(operatorToken)!
 
       if (overrideExistsForOperator(operator)) {
         if (overrideEnforcesSpaces(operator))
-          verifyNonWordsHaveSpaces(node, secondLastToken, lastToken)
+          verifyNonWordsHaveSpaces(node, prefixToken, operatorToken)
         else
-          verifyNonWordsDontHaveSpaces(node, secondLastToken, lastToken)
+          verifyNonWordsDontHaveSpaces(node, prefixToken, operatorToken)
       }
       else if (options.nonwords) {
-        verifyNonWordsHaveSpaces(node, secondLastToken, lastToken)
+        verifyNonWordsHaveSpaces(node, prefixToken, operatorToken)
       }
       else {
-        verifyNonWordsDontHaveSpaces(node, secondLastToken, lastToken)
+        verifyNonWordsDontHaveSpaces(node, prefixToken, operatorToken)
       }
     }
 
@@ -219,7 +213,7 @@ export default createRule<RuleOptions, MessageIds>({
       firstToken: Token,
       secondToken: Token,
     ) {
-      if (('prefix' in node && node.prefix) || node.type === AST_NODE_TYPES.TSNonNullExpression) {
+      if ('prefix' in node && node.prefix) {
         if (isFirstBangInBangBangExpression(node))
           return
 
@@ -267,7 +261,7 @@ export default createRule<RuleOptions, MessageIds>({
       firstToken: Token,
       secondToken: Token,
     ) {
-      if (('prefix' in node && node.prefix) || node.type === AST_NODE_TYPES.TSNonNullExpression) {
+      if ('prefix' in node && node.prefix) {
         if (secondToken.range[0] > firstToken.range[1]) {
           context.report({
             node,
