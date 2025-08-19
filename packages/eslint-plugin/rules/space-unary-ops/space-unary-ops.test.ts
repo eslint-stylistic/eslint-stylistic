@@ -4,13 +4,12 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { $, run } from '#test'
 import rule from './space-unary-ops'
 
 run<RuleOptions, MessageIds>({
   name: 'space-unary-ops',
   rule,
-  lang: 'js',
 
   valid: [
     {
@@ -86,6 +85,20 @@ run<RuleOptions, MessageIds>({
     {
       code: '!foo',
       options: [{ nonwords: false, overrides: { '!': false } }],
+    },
+    {
+      code: $`
+        a!.b!.c
+        !a.b.c
+      `,
+      options: [{ nonwords: false }],
+    },
+    {
+      code: $`
+        a !.b !.c
+        ! a.b.c
+      `,
+      options: [{ nonwords: true }],
     },
   ],
 
@@ -307,6 +320,16 @@ run<RuleOptions, MessageIds>({
         messageId: 'operator',
         data: { operator: '!' },
       }],
+    },
+    {
+      code: 'const w = func() !',
+      output: 'const w = func()!',
+      options: [{ nonwords: false }],
+    },
+    {
+      code: 'a  !  .b  !  .c',
+      output: 'a!  .b!  .c',
+      options: [{ nonwords: false }],
     },
   ],
 })

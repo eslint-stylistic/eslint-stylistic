@@ -1,6 +1,5 @@
 import type { ASTNode, JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { nullThrows, NullThrowsReasons } from '#utils/assert'
 import { AST_NODE_TYPES, isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine, isTypeKeyword, KEYWORDS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
@@ -615,24 +614,20 @@ export default createRule<RuleOptions, MessageIds>({
 
         tokensToIgnore.add(operatorToken)
       },
-      TSAsExpression(node): void {
-        const asToken = nullThrows(
-          sourceCode.getTokenAfter(
-            node.expression,
-            token => token.value === 'as',
-          ),
-          NullThrowsReasons.MissingToken('as', node.type),
-        )
+      TSAsExpression(node) {
+        const asToken = sourceCode.getTokenAfter(
+          node.expression,
+          token => token.value === 'as',
+        )!
+
         checkSpacingAround(asToken)
       },
-      TSSatisfiesExpression(node): void {
-        const satisfiesToken = nullThrows(
-          sourceCode.getTokenAfter(
-            node.expression,
-            token => token.value === 'satisfies',
-          ),
-          NullThrowsReasons.MissingToken('satisfies', node.type),
-        )
+      TSSatisfiesExpression(node) {
+        const satisfiesToken = sourceCode.getTokenAfter(
+          node.expression,
+          token => token.value === 'satisfies',
+        )!
+
         checkSpacingAround(satisfiesToken)
       },
     }
