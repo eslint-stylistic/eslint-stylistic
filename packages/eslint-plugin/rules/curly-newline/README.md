@@ -45,6 +45,7 @@ You can specify different options for different kinds of blocks:
 - `"TryStatementHandler"` - A `try..catch..finally` statement handler body
 - `"TryStatementFinalizer"` - A `try..catch..finally` statement finalizer body
 - `"BlockStatement"` - A lone block
+- `"ArrowFunctionExpression"` - An arrow function expression body
 - `"FunctionDeclaration"` - A function declaration body
 - `"FunctionExpression"` - A function expression body
 - `"Property"` - An object method shorthand body
