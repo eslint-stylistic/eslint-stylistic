@@ -160,13 +160,9 @@ export default createRule<RuleOptions, MessageIds>({
       const operatorToken = sourceCode.getLastToken(node, token => token.value === operator)!
       const prefixToken = sourceCode.getTokenBefore(operatorToken)!
 
-      if (overrideExistsForOperator(operator)) {
-        if (overrideEnforcesSpaces(operator))
-          verifyNonWordsHaveSpaces(node, prefixToken, operatorToken)
-        else
-          verifyNonWordsDontHaveSpaces(node, prefixToken, operatorToken)
-      }
-      else if (options.nonwords) {
+      const shouldHaveSpace = overrideExistsForOperator(operator) ? overrideEnforcesSpaces(operator) : options.nonwords
+
+      if (shouldHaveSpace) {
         verifyNonWordsHaveSpaces(node, prefixToken, operatorToken)
       }
       else {
