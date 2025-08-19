@@ -1,9 +1,8 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: G9RVJDXZp1P_2jDjDkZI4P6p50O5qo0gyHUwlZ4JZOg */
+/* @checksum: aHiKXiB9SNxmPpx2kVe6rwCoifxytkGG_twErLHAHRQ */
 
 export interface SpaceUnaryOpsSchema0 {
-  words?: boolean
   nonwords?: boolean
   overrides?: {
     [k: string]: boolean
@@ -18,7 +17,5 @@ export type RuleOptions = SpaceUnaryOpsRuleOptions
 export type MessageIds
   = | 'unexpectedBefore'
     | 'unexpectedAfter'
-    | 'unexpectedAfterWord'
-    | 'wordOperator'
     | 'operator'
     | 'beforeUnaryExpressions'

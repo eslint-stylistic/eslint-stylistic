@@ -12,22 +12,10 @@ run<RuleOptions, MessageIds>({
   rule,
 
   valid: [
-    {
-      code: '++this.a',
-      options: [{ words: true }],
-    },
-    {
-      code: '--this.a',
-      options: [{ words: true }],
-    },
-    {
-      code: 'this.a++',
-      options: [{ words: true }],
-    },
-    {
-      code: 'this.a--',
-      options: [{ words: true }],
-    },
+    '++this.a',
+    '--this.a',
+    'this.a++',
+    'this.a--',
     'foo .bar++',
     {
       code: 'foo.bar --',
