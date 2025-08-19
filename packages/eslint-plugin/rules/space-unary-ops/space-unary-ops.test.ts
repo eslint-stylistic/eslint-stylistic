@@ -88,6 +88,13 @@ run<RuleOptions, MessageIds>({
       `,
       options: [{ nonwords: true }],
     },
+    {
+      code: $`
+        a!.b!.c
+        !a.b.c
+      `,
+      options: [{ nonwords: true, overrides: { '!': false } }],
+    },
   ],
 
   invalid: [
