@@ -5,7 +5,7 @@
 
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { canTokensBeAdjacent, isKeywordToken } from '#utils/ast'
+import { AST_NODE_TYPES, canTokensBeAdjacent, isKeywordToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -152,6 +152,35 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
+     * Verifies TSNonNullExpression satisfy spacing requirements
+     * @param node TSNonNullExpression AST node
+     */
+    function checkForSpacesAroundNonNull(node: Tree.TSNonNullExpression) {
+      const tokens = sourceCode.getTokens(node)
+      const lastToken = tokens[tokens.length - 1] // The ! token
+      const secondLastToken = tokens[tokens.length - 2] // The token before !
+
+      if (!lastToken || !secondLastToken || lastToken.value !== '!') {
+        return
+      }
+
+      const operator = '!'
+
+      if (overrideExistsForOperator(operator)) {
+        if (overrideEnforcesSpaces(operator))
+          verifyNonWordsHaveSpaces(node, secondLastToken, lastToken)
+        else
+          verifyNonWordsDontHaveSpaces(node, secondLastToken, lastToken)
+      }
+      else if (options.nonwords) {
+        verifyNonWordsHaveSpaces(node, secondLastToken, lastToken)
+      }
+      else {
+        verifyNonWordsDontHaveSpaces(node, secondLastToken, lastToken)
+      }
+    }
+
+    /**
      * Verifies YieldExpressions satisfy spacing requirements
      * @param node AST node
      */
@@ -185,11 +214,12 @@ export default createRule<RuleOptions, MessageIds>({
       node:
         | Tree.UnaryExpression
         | Tree.UpdateExpression
-        | Tree.NewExpression,
+        | Tree.NewExpression
+        | Tree.TSNonNullExpression,
       firstToken: Token,
       secondToken: Token,
     ) {
-      if (('prefix' in node && node.prefix)) {
+      if (('prefix' in node && node.prefix) || node.type === AST_NODE_TYPES.TSNonNullExpression) {
         if (isFirstBangInBangBangExpression(node))
           return
 
@@ -228,11 +258,16 @@ export default createRule<RuleOptions, MessageIds>({
      * @param firstToken First token in the expression
      * @param secondToken Second token in the expression
      */
-    function verifyNonWordsDontHaveSpaces(node:
-      | Tree.UnaryExpression
-      | Tree.UpdateExpression
-      | Tree.NewExpression, firstToken: Token, secondToken: Token) {
-      if (('prefix' in node && node.prefix)) {
+    function verifyNonWordsDontHaveSpaces(
+      node:
+        | Tree.UnaryExpression
+        | Tree.UpdateExpression
+        | Tree.NewExpression
+        | Tree.TSNonNullExpression,
+      firstToken: Token,
+      secondToken: Token,
+    ) {
+      if (('prefix' in node && node.prefix) || node.type === AST_NODE_TYPES.TSNonNullExpression) {
         if (secondToken.range[0] > firstToken.range[1]) {
           context.report({
             node,
@@ -308,6 +343,7 @@ export default createRule<RuleOptions, MessageIds>({
       NewExpression: checkForSpaces,
       YieldExpression: checkForSpacesAfterYield,
       AwaitExpression: checkForSpacesAfterAwait,
+      TSNonNullExpression: checkForSpacesAroundNonNull,
     }
   },
 })
