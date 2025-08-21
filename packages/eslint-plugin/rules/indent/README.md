@@ -102,6 +102,7 @@ This rule has an object option:
 - `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
 - `"offsetTernaryExpressions": true` (`false` by default) requires indentation for values of ternary expressions.
 - `"offsetTernaryExpressionsOffsetCallExpressions": true` (`true` by default), handles an edge case for call expressions nested in ternary. It's only effective when `offsetTernaryExpressions` is set to `true`.
+- `"offsetMultilineExpressions": true` (`false` by default) requires indentation for multiline nodes in the "list" (e.g. ArrayExpression, ObjectExpression, CallExpression parameter, and more).
 - `"ignoreComments"` (default: false) can be used when comments do not need to be aligned with nodes on the previous or next line.
 - `"tabLength"` (default: 4) when using tabbed indentation, the indentation used to calculate the insertion value of the template string
 
@@ -1148,6 +1149,68 @@ condition
       id: 'bar',
     })
     : undefined
+```
+
+:::
+
+### offsetMultilineExpressions
+
+For some historical reasons, if the first item in a list spread across multiple lines, the whole list's indentation could break. Like this:
+
+::: correct
+
+```js
+/* eslint @stylistic/indent: ["error", 2] */
+
+const arr = [{
+  foo: 1
+},
+2,
+3,
+]
+
+const obj = {foo() {
+
+},
+bar: 1,
+baz,
+}
+
+console.log('hello'
+  + 'world',
+'!!!'
+)
+```
+
+:::
+
+After v5.3.0, We added the `offsetMultilineExpressions` option to fix this while keeping old behavior possible.
+
+When enabled, the rule automatically fixes the indentation to look like this:
+
+::: correct
+
+```js
+/* eslint @stylistic/indent: ["error", 2, { "offsetMultilineExpressions": true }] */
+
+const arr = [{
+    foo: 1
+  },
+  2,
+  3,
+]
+
+const obj = {foo() {
+
+  },
+  bar: 1,
+  baz,
+}
+
+console.log('hello'
+  + 'world',
+  '!!!'
+)
 ```
 
 :::
