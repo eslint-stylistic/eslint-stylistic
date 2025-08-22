@@ -5,7 +5,7 @@
 
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, canTokensBeAdjacent, isKeywordToken } from '#utils/ast'
+import { canTokensBeAdjacent, isKeywordToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -45,9 +45,9 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedBefore: 'Unexpected space before unary operator \'{{operator}}\'.',
       unexpectedAfter: 'Unexpected space after unary operator \'{{operator}}\'.',
       unexpectedAfterWord: 'Unexpected space after unary word operator \'{{word}}\'.',
-      wordOperator: 'Unary word operator \'{{word}}\' must be followed by whitespace.',
-      operator: 'Unary operator \'{{operator}}\' must be followed by whitespace.',
-      beforeUnaryExpressions: 'Space is required before unary expressions \'{{token}}\'.',
+      requireAfterWord: 'Unary word operator \'{{word}}\' must be followed by whitespace.',
+      requireAfter: 'Unary operator \'{{operator}}\' must be followed by whitespace.',
+      requireBefore: 'Space is required before unary operator \'{{operator}}\'.',
     },
   },
 
@@ -94,7 +94,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (secondToken.range[0] === firstToken.range[1]) {
         context.report({
           node,
-          messageId: 'wordOperator',
+          messageId: 'requireAfterWord',
           data: {
             word,
           },
@@ -137,13 +137,9 @@ export default createRule<RuleOptions, MessageIds>({
      * @param word The word to be used for reporting
      */
     function checkUnaryWordOperatorForSpaces(node: ASTNode, firstToken: Token, secondToken: Token, word: string) {
-      if (overrideExistsForOperator(word)) {
-        if (overrideEnforcesSpaces(word))
-          verifyWordHasSpaces(node, firstToken, secondToken, word)
-        else
-          verifyWordDoesntHaveSpaces(node, firstToken, secondToken, word)
-      }
-      else if (options.words) {
+      const shouldHaveSpace = overrideExistsForOperator(word) ? overrideEnforcesSpaces(word) : options.words
+
+      if (shouldHaveSpace) {
         verifyWordHasSpaces(node, firstToken, secondToken, word)
       }
       else {
@@ -156,27 +152,17 @@ export default createRule<RuleOptions, MessageIds>({
      * @param node TSNonNullExpression AST node
      */
     function checkForSpacesAroundNonNull(node: Tree.TSNonNullExpression) {
-      const tokens = sourceCode.getTokens(node)
-      const lastToken = tokens[tokens.length - 1] // The ! token
-      const secondLastToken = tokens[tokens.length - 2] // The token before !
-
-      if (!lastToken || !secondLastToken || lastToken.value !== '!') {
-        return
-      }
-
       const operator = '!'
+      const operatorToken = sourceCode.getLastToken(node, token => token.value === operator)!
+      const prefixToken = sourceCode.getTokenBefore(operatorToken)!
 
-      if (overrideExistsForOperator(operator)) {
-        if (overrideEnforcesSpaces(operator))
-          verifyNonWordsHaveSpaces(node, secondLastToken, lastToken)
-        else
-          verifyNonWordsDontHaveSpaces(node, secondLastToken, lastToken)
-      }
-      else if (options.nonwords) {
-        verifyNonWordsHaveSpaces(node, secondLastToken, lastToken)
+      const shouldHaveSpace = overrideExistsForOperator(operator) ? overrideEnforcesSpaces(operator) : options.nonwords
+
+      if (shouldHaveSpace) {
+        verifyNonWordsHaveSpaces(node, prefixToken, operatorToken)
       }
       else {
-        verifyNonWordsDontHaveSpaces(node, secondLastToken, lastToken)
+        verifyNonWordsDontHaveSpaces(node, prefixToken, operatorToken)
       }
     }
 
@@ -219,14 +205,14 @@ export default createRule<RuleOptions, MessageIds>({
       firstToken: Token,
       secondToken: Token,
     ) {
-      if (('prefix' in node && node.prefix) || node.type === AST_NODE_TYPES.TSNonNullExpression) {
+      if ('prefix' in node && node.prefix) {
         if (isFirstBangInBangBangExpression(node))
           return
 
         if (firstToken.range[1] === secondToken.range[0]) {
           context.report({
             node,
-            messageId: 'operator',
+            messageId: 'requireAfter',
             data: {
               operator: firstToken.value,
             },
@@ -240,9 +226,9 @@ export default createRule<RuleOptions, MessageIds>({
         if (firstToken.range[1] === secondToken.range[0]) {
           context.report({
             node,
-            messageId: 'beforeUnaryExpressions',
+            messageId: 'requireBefore',
             data: {
-              token: secondToken.value,
+              operator: secondToken.value,
             },
             fix(fixer) {
               return fixer.insertTextBefore(secondToken, ' ')
@@ -267,7 +253,7 @@ export default createRule<RuleOptions, MessageIds>({
       firstToken: Token,
       secondToken: Token,
     ) {
-      if (('prefix' in node && node.prefix) || node.type === AST_NODE_TYPES.TSNonNullExpression) {
+      if ('prefix' in node && node.prefix) {
         if (secondToken.range[0] > firstToken.range[1]) {
           context.report({
             node,
@@ -323,13 +309,9 @@ export default createRule<RuleOptions, MessageIds>({
 
       const operator = ('prefix' in node && node.prefix) ? tokens[0].value : tokens[1].value
 
-      if (overrideExistsForOperator(operator)) {
-        if (overrideEnforcesSpaces(operator))
-          verifyNonWordsHaveSpaces(node, firstToken, secondToken)
-        else
-          verifyNonWordsDontHaveSpaces(node, firstToken, secondToken)
-      }
-      else if (options.nonwords) {
+      const shouldHaveSpace = overrideExistsForOperator(operator) ? overrideEnforcesSpaces(operator) : options.nonwords
+
+      if (shouldHaveSpace) {
         verifyNonWordsHaveSpaces(node, firstToken, secondToken)
       }
       else {
