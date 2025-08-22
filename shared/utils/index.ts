@@ -8,6 +8,10 @@ export function warnOnce(text: string) {
   console.warn(`[@stylistic/eslint-plugin]: ${text}`)
 }
 
-export function warnDeprecation(value: string, instead: string, rule = '') {
-  return warnOnce(`You are using deprecated ${value}${rule ? ` in "${rule}"` : ''}, please use ${instead} instead.`)
+export function warnDeprecation(value: string, instead?: string, rule = '') {
+  let message = `You are using deprecated ${value}${rule ? ` in "${rule}"` : ''}`
+  if (instead)
+    message += `, please use ${instead} instead.`
+
+  return warnOnce(message)
 }

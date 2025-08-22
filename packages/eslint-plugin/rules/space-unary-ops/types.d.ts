@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: G9RVJDXZp1P_2jDjDkZI4P6p50O5qo0gyHUwlZ4JZOg */
+/* @checksum: ZGFqQzg84hi9Hxqzf99MMK_yV8JG0ORwl-tVxacIUqI */
 
 export interface SpaceUnaryOpsSchema0 {
   words?: boolean
@@ -19,6 +19,6 @@ export type MessageIds
   = | 'unexpectedBefore'
     | 'unexpectedAfter'
     | 'unexpectedAfterWord'
-    | 'wordOperator'
-    | 'operator'
-    | 'beforeUnaryExpressions'
+    | 'requireAfterWord'
+    | 'requireAfter'
+    | 'requireBefore'
