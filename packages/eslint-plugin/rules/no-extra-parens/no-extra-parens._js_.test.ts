@@ -573,6 +573,18 @@ run<RuleOptions, MessageIds>({
       code: 'var a = (b) => ((1 ? 2 : 3))',
       options: ['all', { enforceForArrowConditionals: false }],
     },
+    {
+      code: 'var a = b => (1 ? 2 : 3)',
+      options: ['all', { ignoredNodes: ['ArrowFunctionExpression[body.type=ConditionalExpression]'] }],
+    },
+    {
+      code: 'var a = (b) => (1 ? 2 : 3)',
+      options: ['all', { ignoredNodes: ['ArrowFunctionExpression[body.type=ConditionalExpression]'] }],
+    },
+    {
+      code: 'var a = (b) => ((1 ? 2 : 3))',
+      options: ['all', { ignoredNodes: ['ArrowFunctionExpression[body.type=ConditionalExpression]'] }],
+    },
 
     // ["all", { enforceForSequenceExpressions: false }]
     { code: '(a, b)', options: ['all', { enforceForSequenceExpressions: false }] },
@@ -582,6 +594,13 @@ run<RuleOptions, MessageIds>({
     { code: 'if((a, b)){}', options: ['all', { enforceForSequenceExpressions: false }] },
     { code: 'if(((a, b))){}', options: ['all', { enforceForSequenceExpressions: false }] },
     { code: 'while ((val = foo(), val < 10));', options: ['all', { enforceForSequenceExpressions: false }] },
+    { code: '(a, b)', options: ['all', { ignoredNodes: ['SequenceExpression'] }] },
+    // { code: '((a, b))', options: ['all', { ignoredNodes: ['SequenceExpression'] }] },
+    // { code: '(foo(), bar());', options: ['all', { ignoredNodes: ['SequenceExpression'] }] },
+    // { code: '((foo(), bar()));', options: ['all', { ignoredNodes: ['SequenceExpression'] }] },
+    // { code: 'if((a, b)){}', options: ['all', { ignoredNodes: ['SequenceExpression'] }] },
+    // { code: 'if(((a, b))){}', options: ['all', { ignoredNodes: ['SequenceExpression'] }] },
+    // { code: 'while ((val = foo(), val < 10));', options: ['all', { ignoredNodes: ['SequenceExpression'] }] },
 
     // ["all", { enforceForNewInMemberExpressions: false }]
     { code: '(new foo()).bar', options: ['all', { enforceForNewInMemberExpressions: false }] },
@@ -591,6 +610,13 @@ run<RuleOptions, MessageIds>({
     { code: '(new foo.bar()).baz', options: ['all', { enforceForNewInMemberExpressions: false }] },
     { code: '(new foo.bar()).baz()', options: ['all', { enforceForNewInMemberExpressions: false }] },
     { code: '((new foo.bar())).baz()', options: ['all', { enforceForNewInMemberExpressions: false }] },
+    { code: '(new foo()).bar', options: ['all', { ignoredNodes: ['MemberExpression[object.type=NewExpression]'] }] },
+    { code: '(new foo())[bar]', options: ['all', { ignoredNodes: ['MemberExpression[object.type=NewExpression]'] }] },
+    { code: '(new foo()).bar()', options: ['all', { ignoredNodes: ['MemberExpression[object.type=NewExpression]'] }] },
+    { code: '(new foo(bar)).baz', options: ['all', { ignoredNodes: ['MemberExpression[object.type=NewExpression]'] }] },
+    { code: '(new foo.bar()).baz', options: ['all', { ignoredNodes: ['MemberExpression[object.type=NewExpression]'] }] },
+    { code: '(new foo.bar()).baz()', options: ['all', { ignoredNodes: ['MemberExpression[object.type=NewExpression]'] }] },
+    { code: '((new foo.bar())).baz()', options: ['all', { ignoredNodes: ['MemberExpression[object.type=NewExpression]'] }] },
 
     // ["all", { enforceForFunctionPrototypeMethods: false }]
     { code: 'var foo = (function(){}).call()', options: ['all', { enforceForFunctionPrototypeMethods: false }] },
@@ -871,11 +897,29 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         const x = [
+          ...a ? [1, 2, 3] : [],
+          ...(a ? [1, 2, 3] : []),
+        ]
+      `,
+      options: ['all', { ignoredNodes: ['SpreadElement[argument.type=ConditionalExpression]'] }],
+    },
+    {
+      code: $`
+        const x = [
           ...b ?? c,
           ...(b ?? c),
         ]
       `,
       options: ['all', { allowNodesInSpreadElement: { LogicalExpression: true } }],
+    },
+    {
+      code: $`
+        const x = [
+          ...b ?? c,
+          ...(b ?? c),
+        ]
+      `,
+      options: ['all', { ignoredNodes: ['SpreadElement[argument.type=LogicalExpression]'] }],
     },
     {
       code: $`
@@ -888,12 +932,30 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
+        const fruits = {
+          ...isSummer && { watermelon: 30 },
+          ...(isSummer && { watermelon: 30 }),
+        };
+      `,
+      options: ['all', { ignoredNodes: ['SpreadElement[argument.type=LogicalExpression]'] }],
+    },
+    {
+      code: $`
         async function example() {
           const promiseArray = Promise.resolve([1, 2, 3]);
           console.log(...(await promiseArray));
         }
       `,
       options: ['all', { allowNodesInSpreadElement: { AwaitExpression: true } }],
+    },
+    {
+      code: $`
+        async function example() {
+          const promiseArray = Promise.resolve([1, 2, 3]);
+          console.log(...(await promiseArray));
+        }
+      `,
+      options: ['all', { ignoredNodes: ['SpreadElement[argument.type=AwaitExpression]'] }],
     },
     {
       code: $`
@@ -908,6 +970,20 @@ run<RuleOptions, MessageIds>({
         };
       `,
       options: ['all', { allowNodesInSpreadElement: { LogicalExpression: true, ConditionalExpression: true } }],
+    },
+    {
+      code: $`
+        const x = [
+          ...a ? [1, 2, 3] : [],
+          ...(a ? [1, 2, 3] : []),
+        ]
+        
+        const fruits = {
+          ...isSummer && { watermelon: 30 },
+          ...(isSummer && { watermelon: 30 }),
+        };
+      `,
+      options: ['all', { ignoredNodes: ['SpreadElement'] }],
     },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/872
     {
