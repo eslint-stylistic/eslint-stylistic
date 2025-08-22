@@ -113,7 +113,7 @@ run<RuleOptions, MessageIds>({
       output: '! foo',
       options: [{ nonwords: true }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '!' },
       }],
     },
@@ -135,7 +135,7 @@ run<RuleOptions, MessageIds>({
       output: '!! foo',
       options: [{ nonwords: true }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '!' },
         type: 'UnaryExpression',
         line: 1,
@@ -158,7 +158,7 @@ run<RuleOptions, MessageIds>({
       output: '- 1',
       options: [{ nonwords: true }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '-' },
         type: 'UnaryExpression',
       }],
@@ -169,8 +169,8 @@ run<RuleOptions, MessageIds>({
       output: 'foo ++',
       options: [{ nonwords: true }],
       errors: [{
-        messageId: 'beforeUnaryExpressions',
-        data: { token: '++' },
+        messageId: 'requireBefore',
+        data: { operator: '++' },
       }],
     },
     {
@@ -196,7 +196,7 @@ run<RuleOptions, MessageIds>({
       output: '++ foo',
       options: [{ nonwords: true }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '++' },
       }],
     },
@@ -205,8 +205,8 @@ run<RuleOptions, MessageIds>({
       output: 'foo .bar ++',
       options: [{ nonwords: true }],
       errors: [{
-        messageId: 'beforeUnaryExpressions',
-        data: { token: '++' },
+        messageId: 'requireBefore',
+        data: { operator: '++' },
       }],
     },
     {
@@ -267,8 +267,8 @@ run<RuleOptions, MessageIds>({
       output: 'foo ++',
       options: [{ nonwords: true, overrides: { '++': true } }],
       errors: [{
-        messageId: 'beforeUnaryExpressions',
-        data: { token: '++' },
+        messageId: 'requireBefore',
+        data: { operator: '++' },
       }],
     },
     {
@@ -276,8 +276,8 @@ run<RuleOptions, MessageIds>({
       output: 'foo ++',
       options: [{ nonwords: false, overrides: { '++': true } }],
       errors: [{
-        messageId: 'beforeUnaryExpressions',
-        data: { token: '++' },
+        messageId: 'requireBefore',
+        data: { operator: '++' },
       }],
     },
     {
@@ -285,7 +285,7 @@ run<RuleOptions, MessageIds>({
       output: '++ foo',
       options: [{ nonwords: true, overrides: { '++': true } }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '++' },
       }],
     },
@@ -294,7 +294,7 @@ run<RuleOptions, MessageIds>({
       output: '++ foo',
       options: [{ nonwords: false, overrides: { '++': true } }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '++' },
       }],
     },
@@ -303,7 +303,7 @@ run<RuleOptions, MessageIds>({
       output: '! foo',
       options: [{ nonwords: true, overrides: { '!': true } }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '!' },
       }],
     },
@@ -312,19 +312,26 @@ run<RuleOptions, MessageIds>({
       output: '! foo',
       options: [{ nonwords: false, overrides: { '!': true } }],
       errors: [{
-        messageId: 'operator',
+        messageId: 'requireAfter',
         data: { operator: '!' },
       }],
     },
     {
-      code: 'const w = func() !',
-      output: 'const w = func()!',
-      options: [{ nonwords: false }],
+      code: 'const w = func()!',
+      output: 'const w = func() !',
+      options: [{ nonwords: false, overrides: { '!': true } }],
+      errors: [
+        { messageId: 'requireBefore', data: { operator: '!' } },
+      ],
     },
     {
       code: 'a  !  .b  !  .c',
       output: 'a!  .b!  .c',
       options: [{ nonwords: false }],
+      errors: [
+        { messageId: 'unexpectedBefore', data: { operator: '!' } },
+        { messageId: 'unexpectedBefore', data: { operator: '!' } },
+      ],
     },
   ],
 })

@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: aHiKXiB9SNxmPpx2kVe6rwCoifxytkGG_twErLHAHRQ */
+/* @checksum: _diSuC7dA1T1EMmf3Yzfioi86UupZcFBOdESE82AcYc */
 
 export interface SpaceUnaryOpsSchema0 {
   nonwords?: boolean
@@ -17,5 +17,5 @@ export type RuleOptions = SpaceUnaryOpsRuleOptions
 export type MessageIds
   = | 'unexpectedBefore'
     | 'unexpectedAfter'
-    | 'operator'
-    | 'beforeUnaryExpressions'
+    | 'requireAfter'
+    | 'requireBefore'

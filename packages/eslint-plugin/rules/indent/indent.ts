@@ -124,6 +124,7 @@ const KNOWN_NODES = new Set([
   AST_NODE_TYPES.TSDeclareFunction,
   AST_NODE_TYPES.TSEmptyBodyFunctionExpression,
   AST_NODE_TYPES.TSEnumDeclaration,
+  AST_NODE_TYPES.TSEnumBody,
   AST_NODE_TYPES.TSEnumMember,
   AST_NODE_TYPES.TSExportAssignment,
   AST_NODE_TYPES.TSExternalModuleReference,
@@ -588,6 +589,18 @@ export default createRule<RuleOptions, MessageIds>({
               },
             ],
           },
+          assignmentOperator: {
+            oneOf: [
+              {
+                type: 'integer',
+                minimum: 0,
+              },
+              {
+                type: 'string',
+                enum: ['off'],
+              },
+            ],
+          },
           outerIIFEBody: {
             oneOf: [
               {
@@ -728,6 +741,7 @@ export default createRule<RuleOptions, MessageIds>({
         using: DEFAULT_VARIABLE_INDENT as number | 'first',
       },
       outerIIFEBody: 1,
+      assignmentOperator: 1,
       FunctionDeclaration: {
         parameters: DEFAULT_PARAMETER_INDENT,
         body: DEFAULT_FUNCTION_BODY_INDENT,
@@ -1143,13 +1157,18 @@ export default createRule<RuleOptions, MessageIds>({
 
     const ignoredNodeFirstTokens = new Set<Token>()
 
-    function checkDeclarator(node: Tree.VariableDeclarator | Tree.TSTypeAliasDeclaration, equalOperator: Token) {
-      const tokenAfterOperator = sourceCode.getTokenAfter(equalOperator)!
+    function checkAssignmentOperator(operator: Token) {
+      const left = sourceCode.getTokenBefore(operator)!
+      const right = sourceCode.getTokenAfter(operator)!
 
-      offsets.ignoreToken(equalOperator)
-      offsets.ignoreToken(tokenAfterOperator)
-      offsets.setDesiredOffsets([tokenAfterOperator.range[0], node.range[1]], equalOperator, 1)
-      offsets.setDesiredOffset(equalOperator, sourceCode.getLastToken(node.id), 0)
+      if (typeof options.assignmentOperator === 'number') {
+        offsets.setDesiredOffset(operator, left, options.assignmentOperator)
+        offsets.setDesiredOffset(right, operator, options.assignmentOperator)
+      }
+      else {
+        offsets.ignoreToken(operator)
+        offsets.ignoreToken(right)
+      }
     }
 
     function checkArrayLikeNode(node: Tree.ArrayExpression | Tree.ArrayPattern | Tree.TSTupleType) {
@@ -1328,7 +1347,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function checkBlockLikeNode(node: Tree.BlockStatement | Tree.ClassBody | Tree.TSInterfaceBody | Tree.TSModuleBlock) {
+    function checkBlockLikeNode(node: Tree.BlockStatement | Tree.ClassBody | Tree.TSInterfaceBody | Tree.TSEnumBody | Tree.TSModuleBlock) {
       let blockIndentLevel
 
       if (node.parent && isOuterIIFE(node.parent))
@@ -1348,7 +1367,7 @@ export default createRule<RuleOptions, MessageIds>({
         offsets.setDesiredOffset(sourceCode.getFirstToken(node)!, sourceCode.getFirstToken(node.parent)!, 0)
 
       addElementListIndent(
-        node.body,
+        node.type === AST_NODE_TYPES.TSEnumBody ? node.members : node.body,
         sourceCode.getFirstToken(node)!,
         sourceCode.getLastToken(node)!,
         blockIndentLevel,
@@ -1364,14 +1383,14 @@ export default createRule<RuleOptions, MessageIds>({
 
     function checkClassProperty(node: Tree.PropertyDefinition | Tree.AccessorProperty | Tree.TSAbstractPropertyDefinition | Tree.TSAbstractAccessorProperty) {
       const firstToken = sourceCode.getFirstToken(node)!
-      const maybeSemicolonToken = sourceCode.getLastToken(node)!
-      let keyLastToken: Token | null = null
+      const lastToken = sourceCode.getLastToken(node)!
+      let keyLastToken: Token
 
       // Indent key.
       if (node.computed) {
         const bracketTokenL = sourceCode.getTokenBefore(node.key, isOpeningBracketToken)!
         const bracketTokenR = keyLastToken = sourceCode.getTokenAfter(node.key, isClosingBracketToken)!
-        const keyRange = [bracketTokenL.range[1], bracketTokenR.range[0]] as [number, number]
+        const keyRange: [number, number] = [bracketTokenL.range[1], bracketTokenR.range[0]]
 
         if (bracketTokenL !== firstToken)
           offsets.setDesiredOffset(bracketTokenL, firstToken, 0)
@@ -1388,18 +1407,15 @@ export default createRule<RuleOptions, MessageIds>({
 
       // Indent initializer.
       if (node.value) {
-        const eqToken = sourceCode.getTokenBefore(node.value, isEqToken)!
-        const valueToken = sourceCode.getTokenAfter(eqToken)!
-        const typeToken = sourceCode.getTokenBefore(eqToken)!
+        const operator = sourceCode.getTokenBefore(node.value, isEqToken)!
+        checkAssignmentOperator(operator)
 
-        offsets.setDesiredOffset(eqToken, keyLastToken, 1)
-        // value token set offset by equal token or ts type token
-        offsets.setDesiredOffset(valueToken, keyLastToken === typeToken ? eqToken : typeToken, 1)
-        if (isSemicolonToken(maybeSemicolonToken))
-          offsets.setDesiredOffset(maybeSemicolonToken, eqToken, 1)
+        if (isSemicolonToken(lastToken))
+          offsets.setDesiredOffset(lastToken, operator, 1)
       }
-      else if (isSemicolonToken(maybeSemicolonToken)) {
-        offsets.setDesiredOffset(maybeSemicolonToken, keyLastToken, 1)
+      else if (isSemicolonToken(lastToken)) {
+        // TODO: ignore like `VariableDeclaration`
+        offsets.setDesiredOffset(lastToken, keyLastToken, 1)
       }
     }
 
@@ -1458,9 +1474,13 @@ export default createRule<RuleOptions, MessageIds>({
       AssignmentExpression(node) {
         const operator = sourceCode.getFirstTokenBetween(node.left, node.right, token => token.value === node.operator)!
 
-        offsets.setDesiredOffsets([operator.range[0], node.range[1]], sourceCode.getLastToken(node.left)!, 1)
-        offsets.ignoreToken(operator)
-        offsets.ignoreToken(sourceCode.getTokenAfter(operator)!)
+        checkAssignmentOperator(operator)
+      },
+
+      AssignmentPattern(node) {
+        const operator = sourceCode.getFirstTokenBetween(node.left, node.right, isEqToken)!
+
+        checkAssignmentOperator(operator)
       },
 
       BinaryExpression(node) {
@@ -1853,10 +1873,13 @@ export default createRule<RuleOptions, MessageIds>({
 
       VariableDeclarator(node) {
         if (node.init) {
-          const equalOperator = sourceCode.getTokenBefore(node.init, isNotOpeningParenToken)!
-
-          checkDeclarator(node, equalOperator)
+          const operator = sourceCode.getTokenBefore(node.init, isNotOpeningParenToken)!
+          checkAssignmentOperator(operator)
         }
+
+        const lastToken = sourceCode.getLastToken(node)!
+        if (isSemicolonToken(lastToken))
+          offsets.ignoreToken(lastToken)
       },
 
       JSXText(node) {
@@ -1900,9 +1923,9 @@ export default createRule<RuleOptions, MessageIds>({
       JSXAttribute(node) {
         if (!node.value)
           return
-        const equalsToken = sourceCode.getFirstTokenBetween(node.name, node.value, isEqToken)!
 
-        offsets.setDesiredOffsets([equalsToken.range[0], node.value.range[1]], sourceCode.getFirstToken(node.name), 1)
+        const operator = sourceCode.getFirstTokenBetween(node.name, node.value, isEqToken)!
+        checkAssignmentOperator(operator)
       },
 
       JSXElement(node) {
@@ -1993,9 +2016,8 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       TSTypeAliasDeclaration(node) {
-        const equalOperator = sourceCode.getTokenBefore(node.typeAnnotation, isNotOpeningParenToken)!
-
-        checkDeclarator(node, equalOperator)
+        const operator = sourceCode.getTokenBefore(node.typeAnnotation, isNotOpeningParenToken)!
+        checkAssignmentOperator(operator)
 
         const lastToken = sourceCode.getLastToken(node)!
         if (isSemicolonToken(lastToken))
@@ -2004,10 +2026,14 @@ export default createRule<RuleOptions, MessageIds>({
 
       'TSTupleType': checkArrayLikeNode,
 
-      TSEnumDeclaration(node) {
-        const members = node.body?.members || node.members
+      'TSEnumBody': checkBlockLikeNode,
 
-        checkObjectLikeNode(node, members)
+      TSEnumMember(node) {
+        if (!node.initializer)
+          return
+
+        const operator = sourceCode.getTokenBefore(node.initializer, isEqToken)!
+        checkAssignmentOperator(operator)
       },
 
       TSTypeLiteral(node) {
@@ -2081,12 +2107,12 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       TSImportEqualsDeclaration(node) {
-        const indent = DEFAULT_VARIABLE_INDENT
-        const firstToken = sourceCode.getFirstToken(node)!
+        if (node.moduleReference) {
+          const operator = sourceCode.getTokenBefore(node.moduleReference, isEqToken)!
+          checkAssignmentOperator(operator)
+        }
+
         const lastToken = sourceCode.getLastToken(node)!
-
-        offsets.setDesiredOffsets(node.range, firstToken, indent)
-
         if (isSemicolonToken(lastToken))
           offsets.ignoreToken(lastToken)
       },
@@ -2106,6 +2132,14 @@ export default createRule<RuleOptions, MessageIds>({
 
       TSQualifiedName(node) {
         checkMemberExpression(node, node.left, node.right)
+      },
+
+      TSTypeParameter(node) {
+        if (!node.default)
+          return
+
+        const operator = sourceCode.getTokenBefore(node.default, isEqToken)!
+        checkAssignmentOperator(operator)
       },
 
       TSTypeParameterDeclaration(node) {
