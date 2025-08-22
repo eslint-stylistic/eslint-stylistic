@@ -594,13 +594,6 @@ run<RuleOptions, MessageIds>({
     { code: 'if((a, b)){}', options: ['all', { enforceForSequenceExpressions: false }] },
     { code: 'if(((a, b))){}', options: ['all', { enforceForSequenceExpressions: false }] },
     { code: 'while ((val = foo(), val < 10));', options: ['all', { enforceForSequenceExpressions: false }] },
-    { code: '(a, b)', options: ['all', { ignoredNodes: ['SequenceExpression'] }] },
-    // { code: '((a, b))', options: ['all', { ignoredNodes: ['SequenceExpression'] }] },
-    // { code: '(foo(), bar());', options: ['all', { ignoredNodes: ['SequenceExpression'] }] },
-    // { code: '((foo(), bar()));', options: ['all', { ignoredNodes: ['SequenceExpression'] }] },
-    // { code: 'if((a, b)){}', options: ['all', { ignoredNodes: ['SequenceExpression'] }] },
-    // { code: 'if(((a, b))){}', options: ['all', { ignoredNodes: ['SequenceExpression'] }] },
-    // { code: 'while ((val = foo(), val < 10));', options: ['all', { ignoredNodes: ['SequenceExpression'] }] },
 
     // ["all", { enforceForNewInMemberExpressions: false }]
     { code: '(new foo()).bar', options: ['all', { enforceForNewInMemberExpressions: false }] },

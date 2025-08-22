@@ -52,13 +52,13 @@ This rule has an object option for exceptions to the `"all"` option:
 - [`"nestedBinaryExpressions": false`](#nestedbinaryexpressions) allows extra parentheses in nested binary expressions
 - [`"ternaryOperandBinaryExpressions": false`](#ternaryoperandbinaryexpressions) allows extra parentheses around binary expressions that are operands of ternary `?:`
 - [`"ignoreJSX": "none|all|multi-line|single-line"`](#ignorejsx) allows extra parentheses around no/all/multi-line/single-line JSX components. Defaults to `none`.
-- [`"enforceForArrowConditionals": false`](#enforceforarrowconditionals) allows extra parentheses around ternary expressions which are the body of an arrow function
+- [`"enforceForArrowConditionals": false`](#enforceforarrowconditionals-deprecated) **(deprecated)** allows extra parentheses around ternary expressions which are the body of an arrow function
 - [`"enforceForSequenceExpressions": false`](#enforceforsequenceexpressions) allows extra parentheses around sequence expressions
-- [`"enforceForNewInMemberExpressions": false`](#enforcefornewinmemberexpressions) allows extra parentheses around `new` expressions in member expressions
+- [`"enforceForNewInMemberExpressions": false`](#enforcefornewinmemberexpressions-deprecated) **(deprecated)** allows extra parentheses around `new` expressions in member expressions
 - [`"enforceForFunctionPrototypeMethods": false`](#enforceforfunctionprototypemethods) allows extra parentheses around immediate `.call` and `.apply` method calls on function expressions and around function expressions in the same context.
 - [`"allowParensAfterCommentPattern": "any-string-pattern"`](#allowparensaftercommentpattern) allows extra parentheses preceded by a comment that matches a regular expression.
 - [`"nestedConditionalExpressions": false`](#nestedconditionalexpressions) allows extra parentheses in nested conditional(ternary) expressions
-- [`"allowNodesInSpreadElement"`](#allownodesinspreadelement) object has properties whose names correspond to node types in the abstract syntax tree (AST) of JavaScript code. Allows extra parentheses to be added to these nodes within the spread syntax
+- [`"allowNodesInSpreadElement"`](#allownodesinspreadelement-deprecated) **(deprecated)** object has properties whose names correspond to node types in the abstract syntax tree (AST) of JavaScript code. Allows extra parentheses to be added to these nodes within the spread syntax
   - `"ConditionalExpression": true`
   - `"LogicalExpression": true`
   - `"AwaitExpression": true`
@@ -294,7 +294,9 @@ const ThatComponent = (<div><p /></div>)
 
 :::
 
-### enforceForArrowConditionals
+### enforceForArrowConditionals (deprecated)
+
+This option is deprecated, please use [`ignoredNodes`](#ignorednodes) instead.
 
 Examples of **correct** code for this rule with the `"all"` and `{ "enforceForArrowConditionals": false }` options:
 
@@ -327,7 +329,9 @@ while ((val = foo(), val < 10));
 
 :::
 
-### enforceForNewInMemberExpressions
+### enforceForNewInMemberExpressions (deprecated)
+
+This option is deprecated, please use [`ignoredNodes`](#ignorednodes) instead.
 
 Examples of **correct** code for this rule with the `"all"` and `{ "enforceForNewInMemberExpressions": false }` options:
 
@@ -408,7 +412,9 @@ a ? b : (c ? d : e);
 
 :::
 
-### allowNodesInSpreadElement
+### allowNodesInSpreadElement (deprecated)
+
+This option is deprecated, please use [`ignoredNodes`](#ignorednodes) instead.
 
 Examples of **correct** code for this rule with the `"all"` and `{ "allowNodesInSpreadElement": { LogicalExpression: true, ConditionalExpression: true } }` options:
 
@@ -435,6 +441,76 @@ const fruits = {
 :::
 
 ### ignoredNodes
+
+The following configuration ignores `ConditionalExpression` in `ArrowFunctionExpression` nodes like [`enforceForArrowConditionals`](#enforceforarrowconditionals-deprecated):
+
+Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["ArrowFunctionExpression[body.type=ConditionalExpression"] }` option:
+
+::: correct
+
+```js
+/* eslint @stylistic/no-extra-parens: ["error", "all", { "ignoredNodes": ["ArrowFunctionExpression[body.type=ConditionalExpression]"] }] */
+
+const b = a => 1 ? 2 : 3;
+const d = c => (1 ? 2 : 3);
+```
+
+:::
+
+The following configuration ignores `NewExpression` in `MemberExpression` nodes like [`enforceForNewInMemberExpressions`](#enforcefornewinmemberexpressions-deprecated):
+
+Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["MemberExpression[object.type=NewExpression"] }` option:
+
+::: correct
+
+```js
+/* eslint @stylistic/no-extra-parens: ["error", "all", { "ignoredNodes": ["MemberExpression[object.type=NewExpression]"] }] */
+
+const foo = (new Bar()).baz;
+
+const quux = (new Bar())[baz];
+
+(new Bar()).doSomething();
+```
+
+:::
+
+The following configuration ignores `LogicalExpression`, `ConditionalExpression` in `SpreadElement` nodes like [`allowNodesInSpreadElement`](#allownodesinspreadelement-deprecated):
+
+Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["SpreadElement[argument.type=ConditionalExpression]", "SpreadElement[argument.type=LogicalExpression]", "SpreadElement[argument.type=AwaitExpression]"] }` option:
+
+::: correct
+
+```js
+/* eslint @stylistic/no-extra-parens: [
+    "error",
+    "all",
+    {
+        "ignoredNodes": [
+            "SpreadElement[argument.type=ConditionalExpression]",
+            "SpreadElement[argument.type=LogicalExpression]",
+            "SpreadElement[argument.type=AwaitExpression]",
+        ]
+    }
+ ] */
+
+const x = [
+    ...a ? [1, 2, 3] : [],
+    ...(a ? [1, 2, 3] : []),
+]
+
+const fruits = {
+    ...isSummer && { watermelon: 30 },
+    ...(isSummer && { watermelon: 30 }),
+};
+
+async function example() {
+    const promiseArray = Promise.resolve([1, 2, 3]);
+    console.log(...(await promiseArray));
+}
+```
+
+:::
 
 The following configuration ignores init in `VariableDeclarator` nodes:
 
