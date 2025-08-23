@@ -171,7 +171,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function processBareBlockComment(comment: Token): string[] {
       const lines = comment.value.split(LINEBREAK_MATCHER)
-      const leadingWhitespace = `${sourceCode.text.slice(comment.range[0] - comment.loc.start.column, comment.range[0])}   `
+      const leadingWhitespace = `${getInitialOffset(comment)}   `
       let offset = ''
 
       const linesInfo: { lineOffset: string, lineContents: string }[] = []
