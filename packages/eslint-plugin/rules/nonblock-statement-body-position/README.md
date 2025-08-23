@@ -1,6 +1,4 @@
 ---
-title: nonblock-statement-body-position
-rule_type: layout
 further_reading:
   - 'https://jscs-dev.github.io/rule/requireNewlineBeforeSingleStatementsInIf'
 ---

@@ -1,6 +1,4 @@
 ---
-title: wrap-regex
-rule_type: layout
 ---
 
 # wrap-regex

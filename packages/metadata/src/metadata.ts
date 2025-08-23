@@ -483,7 +483,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "code",
           "docs": {
-            "description": "Disallow multiple spaces between inline JSX props",
+            "description": "Disallow multiple spaces between inline JSX props. Deprecated, use `no-multi-spaces` rule instead.",
             "recommended": false
           }
         }

@@ -155,13 +155,13 @@ const individualNodeTests = [
             baz = 1,
         }
       `,
-      `
-enum Foo
-{
-    bar = 1,
-    baz = 1,
-}
-            `,
+      $`
+        enum Foo
+        {
+            bar = 1,
+            baz = 1,
+        }
+      `,
     ],
   },
   {
@@ -858,6 +858,43 @@ run<RuleOptions, MessageIds>({
           : authResult is SuccessAuthenticationResult {
           return !! authResult && authResult.isAuthenticated();
       }
+    `,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/901
+    $`
+      type SomeType =
+        'one'
+        | 'two'
+        | 'four'
+      ;
+    `,
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/909
+    $`
+      genericFunction<
+          () => void
+      >(
+          () => {
+              console.log("Test");
+          }
+      );
+    `,
+    $`
+      genericFunction<() => void>(
+          () => {
+              console.log("Test");
+          }
+      )
+    `,
+    $`
+      function foo<
+          T
+              =
+                  Foo
+      >() {}
+    `,
+    $`
+      import foo
+          =
+              require('source')
     `,
   ],
   invalid: [
@@ -1676,6 +1713,44 @@ class Foo {}
     },
     {
       code: $`
+        enum Foo
+            {
+            bar,
+            baz = 1,
+            buzz = '',
+            }
+      `,
+      output: $`
+        enum Foo
+        {
+            bar,
+            baz = 1,
+            buzz = '',
+        }
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '0 spaces',
+            actual: 4,
+          },
+          line: 2,
+          column: 1,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '0 spaces',
+            actual: 4,
+          },
+          line: 6,
+          column: 1,
+        },
+      ],
+    },
+    {
+      code: $`
         const enum Foo {
         bar,
         baz = 1,
@@ -2090,6 +2165,25 @@ declare function h(x: number): number;
     },
     {
       code: $`
+        abstract class Foo {
+        abstract protected bar: number
+            abstract accessor [baz]: string
+        }
+      `,
+      output: $`
+        abstract class Foo {
+          abstract protected bar: number
+          abstract accessor [baz]: string
+        }
+      `,
+      options: [2],
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 0 } },
+        { messageId: 'wrongIndentation', data: { expected: '2 spaces', actual: 4 } },
+      ],
+    },
+    {
+      code: $`
          type A = number
           declare type B = number
         namespace Foo {
@@ -2180,6 +2274,42 @@ declare function h(x: number): number;
       options: [2, { FunctionExpression: { returnType: 0 } }],
       errors: [
         { messageId: 'wrongIndentation', data: { expected: '0 spaces', actual: 2 } },
+      ],
+    },
+    {
+      code: $`
+        function foo<
+            T
+            =
+            Foo
+        >() {}
+      `,
+      output: $`
+        function foo<
+            T
+                =
+                    Foo
+        >() {}
+      `,
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '8 spaces', actual: 4 } },
+        { messageId: 'wrongIndentation', data: { expected: '12 spaces', actual: 4 } },
+      ],
+    },
+    {
+      code: $`
+        import foo
+        =
+        require('source')
+      `,
+      output: $`
+        import foo
+            =
+                require('source')
+      `,
+      errors: [
+        { messageId: 'wrongIndentation', data: { expected: '4 spaces', actual: 0 } },
+        { messageId: 'wrongIndentation', data: { expected: '8 spaces', actual: 0 } },
       ],
     },
   ],

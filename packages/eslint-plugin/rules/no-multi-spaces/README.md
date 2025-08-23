@@ -1,6 +1,4 @@
 ---
-title: no-multi-spaces
-rule_type: layout
 related_rules:
   - key-spacing
   - space-infix-ops
@@ -37,7 +35,7 @@ Examples of **incorrect** code for this rule:
 
 ::: incorrect
 
-```js
+```jsx
 /* eslint @stylistic/no-multi-spaces: "error" */
 
 var a =  1;
@@ -48,7 +46,11 @@ a <<  b
 
 var arr = [1,  2];
 
-a ?  b: c
+a ?  b: c;
+
+<App  spacy />;
+
+<App too  spacy />;
 ```
 
 :::
@@ -57,7 +59,7 @@ Examples of **correct** code for this rule:
 
 ::: correct
 
-```js
+```jsx
 /* eslint @stylistic/no-multi-spaces: "error" */
 
 var a = 1;
@@ -68,7 +70,11 @@ a << b
 
 var arr = [1, 2];
 
-a ? b: c
+a ? b: c;
+
+<App cozy />;
+
+<App very cozy />;
 ```
 
 :::

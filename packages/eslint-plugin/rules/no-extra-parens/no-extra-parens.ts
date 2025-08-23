@@ -1,6 +1,6 @@
 // any is required to work around manipulating the AST in weird ways
 
-import type { ASTNode, Token, Tree } from '#types'
+import type { ASTNode, RuleFunction, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
   AST_NODE_TYPES,
@@ -68,6 +68,7 @@ export default createRule<RuleOptions, MessageIds>({
                 enforceForFunctionPrototypeMethods: { type: 'boolean' },
                 allowParensAfterCommentPattern: { type: 'string' },
                 nestedConditionalExpressions: { type: 'boolean' },
+                // TODO: Deprecate options that can be simply defined using ignoredNodes.
                 allowNodesInSpreadElement: {
                   type: 'object',
                   properties: {
@@ -76,6 +77,16 @@ export default createRule<RuleOptions, MessageIds>({
                     AwaitExpression: { type: 'boolean' },
                   },
                   additionalProperties: false,
+                },
+                ignoredNodes: {
+                  type: 'array',
+                  items: {
+                    type: 'string',
+                    not: {
+                      type: 'string',
+                      pattern: ':exit$',
+                    },
+                  },
                 },
               },
               additionalProperties: false,
@@ -91,34 +102,23 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   defaultOptions: ['all'],
-  create(context) {
+  create(context, [nodes, options]) {
     const sourceCode = context.sourceCode
 
     const tokensToIgnore = new WeakSet()
     const precedence = getPrecedence
-    const ALL_NODES = context.options[0] !== 'functions'
-    const EXCEPT_COND_ASSIGN = ALL_NODES && context.options[1]
-      && context.options[1].conditionalAssign === false
-    const EXCEPT_COND_TERNARY = ALL_NODES && context.options[1]
-      && context.options[1].ternaryOperandBinaryExpressions === false
-    const NESTED_BINARY = ALL_NODES && context.options[1]
-      && context.options[1].nestedBinaryExpressions === false
-    const EXCEPT_RETURN_ASSIGN = ALL_NODES && context.options[1]
-      && context.options[1].returnAssign === false
-    const IGNORE_JSX = ALL_NODES && context.options[1]
-      && context.options[1].ignoreJSX
-    const IGNORE_ARROW_CONDITIONALS = ALL_NODES && context.options[1]
-      && context.options[1].enforceForArrowConditionals === false
-    const IGNORE_SEQUENCE_EXPRESSIONS = ALL_NODES && context.options[1]
-      && context.options[1].enforceForSequenceExpressions === false
-    const IGNORE_NEW_IN_MEMBER_EXPR = ALL_NODES && context.options[1]
-      && context.options[1].enforceForNewInMemberExpressions === false
-    const IGNORE_FUNCTION_PROTOTYPE_METHODS = ALL_NODES && context.options[1]
-      && context.options[1].enforceForFunctionPrototypeMethods === false
-    const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && context.options[1]
-      && context.options[1].allowParensAfterCommentPattern
-    const ALLOW_NESTED_TERNARY = ALL_NODES && context.options[1]
-      && context.options[1].nestedConditionalExpressions === false
+    const ALL_NODES = nodes !== 'functions'
+    const EXCEPT_COND_ASSIGN = ALL_NODES && options?.conditionalAssign === false
+    const EXCEPT_COND_TERNARY = ALL_NODES && options?.ternaryOperandBinaryExpressions === false
+    const IGNORE_NESTED_BINARY = ALL_NODES && options?.nestedBinaryExpressions === false
+    const EXCEPT_RETURN_ASSIGN = ALL_NODES && options?.returnAssign === false
+    const IGNORE_JSX = ALL_NODES && options?.ignoreJSX
+    const IGNORE_ARROW_CONDITIONALS = ALL_NODES && options?.enforceForArrowConditionals === false
+    const IGNORE_SEQUENCE_EXPRESSIONS = ALL_NODES && options?.enforceForSequenceExpressions === false
+    const IGNORE_NEW_IN_MEMBER_EXPR = ALL_NODES && options?.enforceForNewInMemberExpressions === false
+    const IGNORE_FUNCTION_PROTOTYPE_METHODS = ALL_NODES && options?.enforceForFunctionPrototypeMethods === false
+    const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && options?.allowParensAfterCommentPattern
+    const ALLOW_NESTED_TERNARY = ALL_NODES && options?.nestedConditionalExpressions === false
     const ALLOW_NODES_IN_SPREAD = ALL_NODES && context.options[1]
       && new Set(Object.entries(context.options[1].allowNodesInSpreadElement || {}).filter(([_, value]) => value).map(([key]) => key))
 
@@ -730,7 +730,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       function shouldSkip(expression: ASTNode) {
         return (
-          NESTED_BINARY
+          IGNORE_NESTED_BINARY
           && (expression.type === 'BinaryExpression' || expression.type === 'LogicalExpression')
         )
         || !hasExcessParens(expression)
@@ -910,7 +910,19 @@ export default createRule<RuleOptions, MessageIds>({
         report(node.value)
     }
 
-    return {
+    function checkTSBinaryType(node: Tree.TSUnionType | Tree.TSIntersectionType) {
+      node.types.forEach((type) => {
+        const shouldReport = IGNORE_NESTED_BINARY && isNodeOfTypes([AST_NODE_TYPES.TSUnionType, AST_NODE_TYPES.TSIntersectionType])(type)
+          ? isParenthesisedTwice(type)
+          : hasExcessParensWithPrecedence(type, precedence(node))
+
+        if (shouldReport)
+          report(type)
+      })
+    }
+
+    // TODO: Maybe we can add `ignoreNodes` to `createRule`, so that every rule can specific AST Nodes to ignore.
+    const baseListeners: RuleListener = {
       ArrayExpression(node) {
         node.elements
           .forEach((ele) => {
@@ -1390,18 +1402,8 @@ export default createRule<RuleOptions, MessageIds>({
         if (hasExcessParensWithPrecedence(node.elementType, precedence(node)))
           report(node.elementType)
       },
-      TSIntersectionType(node) {
-        node.types.forEach((type) => {
-          if (hasExcessParensWithPrecedence(type, precedence(node)))
-            report(type)
-        })
-      },
-      TSUnionType(node) {
-        node.types.forEach((type) => {
-          if (hasExcessParensWithPrecedence(type, precedence(node)))
-            report(type)
-        })
-      },
+      'TSIntersectionType': checkTSBinaryType,
+      'TSUnionType': checkTSBinaryType,
       TSTypeAnnotation(node) {
         if (hasExcessParens(node.typeAnnotation)) {
           report(node.typeAnnotation)
@@ -1417,6 +1419,41 @@ export default createRule<RuleOptions, MessageIds>({
           return
         if (hasExcessParens(node.initializer)) {
           report(node.initializer)
+        }
+      },
+    }
+
+    const listeners: Record<string, (node: ASTNode) => void> = {}
+    const ignoreNodes = new Set<ASTNode>()
+    const listenerCallQueue: {
+      node: ASTNode
+      listener: RuleFunction<ASTNode>
+    }[] = []
+
+    for (const key in baseListeners) {
+      listeners[key] = node => listenerCallQueue.push({ node, listener: baseListeners[key]! as RuleFunction<ASTNode> })
+    }
+
+    return {
+      ...listeners,
+
+      ...options?.ignoredNodes?.reduce(
+        (listener, selector) =>
+          Object.assign(listener, {
+            [selector]: (node: ASTNode) => ignoreNodes.add(node),
+          }),
+        {} as RuleListener,
+      ),
+
+      'Program:exit': function () {
+        for (let i = 0; i < listenerCallQueue.length; i++) {
+          const {
+            node,
+            listener,
+          } = listenerCallQueue[i]
+
+          if (!ignoreNodes.has(node))
+            listener(node)
         }
       },
     }

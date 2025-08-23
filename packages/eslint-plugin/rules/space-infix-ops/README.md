@@ -1,6 +1,4 @@
 ---
-title: space-infix-ops
-rule_type: layout
 ---
 
 # space-infix-ops

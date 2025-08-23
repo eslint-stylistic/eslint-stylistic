@@ -1,11 +1,10 @@
-import type { ASTNode, Token, Tree } from '#types'
+import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
   AST_NODE_TYPES,
   AST_TOKEN_TYPES,
   isClosingBraceToken,
   isClosingBracketToken,
-  isNotCommaToken,
   isOpeningBraceToken,
   isTokenOnSameLine,
 } from '#utils/ast'
@@ -253,50 +252,10 @@ export default createRule<RuleOptions, MessageIds>({
       if (properties.length === 0)
         return
 
+      const openingToken = sourceCode.getTokenBefore(properties[0], isOpeningBraceToken)!
       const closeToken = sourceCode.getTokenAfter(properties.at(-1)!, isClosingBraceToken)!
 
-      const openingToken = sourceCode.getTokenBefore(properties[0], isOpeningBraceToken)!
-
       validateBraceSpacing(node, openingToken, closeToken)
-    }
-
-    /**
-     * Reports a given import node if spacing in curly braces is invalid.
-     * @param node An ImportDeclaration node to check.
-     */
-    function checkForImport(node: Tree.ImportDeclaration) {
-      if (node.specifiers.length === 0)
-        return
-
-      let firstSpecifier = node.specifiers[0]
-      const lastSpecifier = node.specifiers[node.specifiers.length - 1]
-
-      if (lastSpecifier.type !== 'ImportSpecifier')
-        return
-
-      if (firstSpecifier.type !== 'ImportSpecifier')
-        firstSpecifier = node.specifiers[1]
-
-      const first = sourceCode.getTokenBefore(firstSpecifier)!
-      const last = sourceCode.getTokenAfter(lastSpecifier, isNotCommaToken)!
-
-      validateBraceSpacing(node, first, last)
-    }
-
-    /**
-     * Reports a given export node if spacing in curly braces is invalid.
-     * @param node An ExportNamedDeclaration node to check.
-     */
-    function checkForExport(node: Tree.ExportNamedDeclaration) {
-      if (node.specifiers.length === 0)
-        return
-
-      const firstSpecifier = node.specifiers[0]
-      const lastSpecifier = node.specifiers[node.specifiers.length - 1]
-      const first = sourceCode.getTokenBefore(firstSpecifier)!
-      const last = sourceCode.getTokenAfter(lastSpecifier, isNotCommaToken)!
-
-      validateBraceSpacing(node, first, last)
     }
 
     return {
@@ -310,14 +269,19 @@ export default createRule<RuleOptions, MessageIds>({
       },
       // import {y} from 'x';
       ImportDeclaration(node) {
-        checkForImport(node)
-
         if (node.attributes)
           checkForObjectLike(node, node.attributes)
+
+        const firstSpecifierIndex = node.specifiers.findIndex(specifier => specifier.type === 'ImportSpecifier')
+
+        if (firstSpecifierIndex === -1)
+          return
+
+        checkForObjectLike(node, node.specifiers.slice(firstSpecifierIndex))
       },
       // export {name} from 'yo';
       ExportNamedDeclaration(node) {
-        checkForExport(node)
+        checkForObjectLike(node, node.specifiers)
 
         if (node.attributes)
           checkForObjectLike(node, node.attributes)

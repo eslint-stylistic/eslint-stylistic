@@ -1,6 +1,4 @@
 ---
-title: object-curly-newline
-rule_type: layout
 related_rules:
   - comma-spacing
   - key-spacing

@@ -1,6 +1,4 @@
 ---
-title: no-multiple-empty-lines
-rule_type: layout
 ---
 
 # no-multiple-empty-lines

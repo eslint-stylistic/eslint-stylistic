@@ -139,9 +139,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function processSeparateLineComments(commentGroup: Token[]): string[] {
       const allLinesHaveLeadingSpace = commentGroup
-        .map(({ value }) => value)
-        .filter(line => line.trim().length)
-        .every(line => line.startsWith(' '))
+        .every(({ value: line }) => line.trim().length === 0 || line.startsWith(' '))
 
       return commentGroup.map(({ value }) => (allLinesHaveLeadingSpace ? value.replace(/^ /u, '') : value))
     }
@@ -152,11 +150,16 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns An array of the processed lines.
      */
     function processStarredBlockComment(comment: Token): string[] {
-      const lines = comment.value.split(LINEBREAK_MATCHER).filter((line, i, linesArr) => !(i === 0 || i === linesArr.length - 1)).map(line => line.replace(WHITE_SPACES_PATTERN, ''))
-      const allLinesHaveLeadingSpace = lines
-        .map(line => line.replace(/\s*\*/u, ''))
-        .filter(line => line.trim().length)
-        .every(line => line.startsWith(' '))
+      const lines = comment.value
+        .split(LINEBREAK_MATCHER)
+        .slice(1, -1)
+        .map(line => line.replace(WHITE_SPACES_PATTERN, ''))
+      const allLinesHaveLeadingSpace = lines.every((line) => {
+        // Remove the prefix space and one `*`. eg. ` * foo` will be transformed to ` foo`
+        const lineWithoutPrefix = line.replace(/\s*\*/u, '')
+
+        return lineWithoutPrefix.trim().length === 0 || lineWithoutPrefix.startsWith(' ')
+      })
 
       return lines.map(line => line.replace(allLinesHaveLeadingSpace ? /\s*\* ?/u : /\s*\*/u, ''))
     }
@@ -445,20 +448,20 @@ export default createRule<RuleOptions, MessageIds>({
 
     return {
       Program() {
-        return sourceCode.getAllComments()
-          .filter((comment) => {
+        const commentGroups: Tree.Comment[][] = []
+
+        sourceCode.getAllComments()
+          .forEach((comment, index, commentList) => {
             if (isHashbangComment(comment))
-              return false
+              return
 
             if (COMMENTS_IGNORE_PATTERN.test(comment.value))
-              return false
+              return
 
             const tokenBefore = sourceCode.getTokenBefore(comment, { includeComments: true })
 
-            return !tokenBefore || tokenBefore.loc.end.line < comment.loc.start.line
-          })
-          .reduce((commentGroups: Tree.Comment[][], comment, index, commentList) => {
-            const tokenBefore = sourceCode.getTokenBefore(comment, { includeComments: true })
+            if (tokenBefore && tokenBefore.loc.end.line >= comment.loc.start.line)
+              return
 
             if (
               comment.type === 'Line'
@@ -474,9 +477,17 @@ export default createRule<RuleOptions, MessageIds>({
             }
 
             return commentGroups
-          }, [])
-          .filter(commentGroup => !(commentGroup.length === 1 && isSingleLine(commentGroup[0])))
-          .forEach(commentGroupCheckers[option])
+          })
+
+        commentGroups
+          .forEach((commentGroup) => {
+            if (commentGroup.length === 1 && isSingleLine(commentGroup[0]))
+              return
+
+            const check = commentGroupCheckers[option]
+
+            check(commentGroup)
+          })
       },
     }
   },

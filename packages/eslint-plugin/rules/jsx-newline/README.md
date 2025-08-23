@@ -175,7 +175,9 @@ Examples of **correct** code for this rule, when configured with `{ "prevent": t
 <div>
   {showSomething === true && <Something />}
 
-  <Button>Button 3</Button>
+  <Button>
+    Button 3
+  </Button>
 
   {showSomethingElse === true ? (
     <SomethingElse />

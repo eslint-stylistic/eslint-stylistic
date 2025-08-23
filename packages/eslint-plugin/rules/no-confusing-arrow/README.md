@@ -1,6 +1,4 @@
 ---
-title: no-confusing-arrow
-rule_type: suggestion
 related_rules:
   - no-constant-condition
   - arrow-parens

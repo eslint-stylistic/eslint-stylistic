@@ -1,6 +1,4 @@
 ---
-title: semi-spacing
-rule_type: layout
 related_rules:
   - semi
   - no-extra-semi
