@@ -191,12 +191,10 @@ export default createRule<RuleOptions, MessageIds>({
         if (!line.trim().length || i === 0)
           continue
 
-        if (lineOffset.length < leadingWhitespace.length) {
-          const newOffset = leadingWhitespace.slice(lineOffset.length - leadingWhitespace.length)
+        const offsetLen = leadingWhitespace.length - lineOffset.length
 
-          if (newOffset.length > offset.length)
-            offset = newOffset
-        }
+        if (offsetLen > 0 && offsetLen > offset.length)
+          offset = leadingWhitespace.slice(-offsetLen)
       }
 
       return linesInfo.map(({ lineOffset, lineContents }) => {
