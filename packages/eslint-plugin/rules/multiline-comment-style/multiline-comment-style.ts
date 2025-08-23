@@ -281,6 +281,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (commentLines.some(value => value.includes('*/')))
           return
 
+        // convert separated lines comment to starred block comment
         if (commentGroup.length > 1) {
           context.report({
             loc: {
@@ -329,11 +330,12 @@ export default createRule<RuleOptions, MessageIds>({
 
           for (let lineNumber = firstComment.loc.start.line + 1; lineNumber <= firstComment.loc.end.line; lineNumber++) {
             const lineText = sourceCode.lines[lineNumber - 1]
-            const errorType = isStarredCommentLine(lineText)
-              ? 'alignment'
-              : 'missingStar'
 
             if (!lineText.startsWith(expectedLinePrefix)) {
+              const errorType = isStarredCommentLine(lineText)
+                ? 'alignment'
+                : 'missingStar'
+
               context.report({
                 loc: {
                   start: { line: lineNumber, column: 0 },
@@ -349,27 +351,28 @@ export default createRule<RuleOptions, MessageIds>({
 
                     return fixer.replaceTextRange([lineStartIndex, commentTextStartIndex], expectedLinePrefix)
                   }
+                  else {
+                    const [, commentTextPrefix = ''] = lineText.match(/^(\s*)/u) || []
+                    const commentTextStartIndex = lineStartIndex + commentTextPrefix.length
+                    let offset
 
-                  const [, commentTextPrefix = ''] = lineText.match(/^(\s*)/u) || []
-                  const commentTextStartIndex = lineStartIndex + commentTextPrefix.length
-                  let offset
+                    for (const [idx, line] of lines.entries()) {
+                      if (!/\S+/u.test(line))
+                        continue
 
-                  for (const [idx, line] of lines.entries()) {
-                    if (!/\S+/u.test(line))
-                      continue
+                      const lineTextToAlignWith = sourceCode.lines[firstComment.loc.start.line - 1 + idx]
+                      const [, prefix = '', initialOffset = ''] = lineTextToAlignWith.match(/^(\s*(?:\/?\*)?(\s*))/u) || []
 
-                    const lineTextToAlignWith = sourceCode.lines[firstComment.loc.start.line - 1 + idx]
-                    const [, prefix = '', initialOffset = ''] = lineTextToAlignWith.match(/^(\s*(?:\/?\*)?(\s*))/u) || []
+                      offset = `${commentTextPrefix.slice(prefix.length)}${initialOffset}`
 
-                    offset = `${commentTextPrefix.slice(prefix.length)}${initialOffset}`
+                      if (!isWhiteSpaces(lineText) && !/^\s*\/?\*\s/u.test(lineTextToAlignWith))
+                        offset = ` ${offset}`
 
-                    if (!isWhiteSpaces(lineText) && !/^\s*\/?\*\s/u.test(lineTextToAlignWith))
-                      offset = ` ${offset}`
+                      break
+                    }
 
-                    break
+                    return fixer.replaceTextRange([lineStartIndex, commentTextStartIndex], `${expectedLinePrefix}${offset}`)
                   }
-
-                  return fixer.replaceTextRange([lineStartIndex, commentTextStartIndex], `${expectedLinePrefix}${offset}`)
                 },
               })
             }
