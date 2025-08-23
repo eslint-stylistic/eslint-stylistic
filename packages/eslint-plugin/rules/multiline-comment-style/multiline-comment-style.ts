@@ -357,7 +357,7 @@ export default createRule<RuleOptions, MessageIds>({
                     let offset
 
                     for (const [idx, line] of lines.entries()) {
-                      if (!/\S+/u.test(line))
+                      if (isWhiteSpaces(line))
                         continue
 
                       const lineTextToAlignWith = sourceCode.lines[firstComment.loc.start.line - 1 + idx]
