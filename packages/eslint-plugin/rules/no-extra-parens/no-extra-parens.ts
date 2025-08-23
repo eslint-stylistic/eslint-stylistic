@@ -26,6 +26,18 @@ import {
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
+/**
+ * extends from https://github.com/typescript-eslint/typescript-eslint/blob/bd9e490eb76705ed4dec2f3f705eb18e4fe313e0/packages/utils/src/ast-utils/predicates.ts#L57
+ *
+ * Checks if a node is a type assertion:
+ *
+ * ``` ts
+ * x as foo
+ * <foo>x
+ * x satisfies foo
+ * x!
+ * ```
+ */
 const isTypeAssertion = isNodeOfTypes([
   AST_NODE_TYPES.TSAsExpression,
   AST_NODE_TYPES.TSNonNullExpression,
