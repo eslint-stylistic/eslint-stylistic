@@ -6,7 +6,7 @@ Enforce consistent linebreaks in curly braces in JSX attributes and expressions.
 
 This rule enforces consistent linebreaks inside of curlies of jsx curly expressions.
 
-## Rule Options
+## Options
 
 This rule accepts either an object option:
 

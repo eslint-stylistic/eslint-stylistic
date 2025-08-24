@@ -86,7 +86,9 @@ Second option is an object with a property named `exceptAfterSingleLine`:
 - `"exceptAfterOverload": true` (default) - Skip checking empty lines after overload class members
 - `"exceptAfterOverload": false` - **do not** skip checking empty lines after overload class members
 
-Examples of **incorrect** code for this rule with the string option:
+### always
+
+Examples of **incorrect** code for this rule with the `"always"` option:
 
 ::: incorrect
 
@@ -101,22 +103,7 @@ class Foo{
 
 :::
 
-::: incorrect
-
-```js
-/* eslint @stylistic/lines-between-class-members: ["error", "never"] */
-class Bar{
-  x;
-
-  bar(){}
-
-  baz(){}
-}
-```
-
-:::
-
-Examples of **correct** code for this rule with the string option:
+Examples of **correct** code for this rule with the `"always"` option:
 
 ::: correct
 
@@ -133,6 +120,27 @@ class Foo{
 
 :::
 
+### never
+
+Examples of **incorrect** code for this rule with the `"never"` option:
+
+::: incorrect
+
+```js
+/* eslint @stylistic/lines-between-class-members: ["error", "never"] */
+class Bar{
+  x;
+
+  bar(){}
+
+  baz(){}
+}
+```
+
+:::
+
+Examples of **correct** code for this rule with the `"never"` option:
+
 ::: correct
 
 ```js
@@ -145,6 +153,8 @@ class Bar{
 ```
 
 :::
+
+### enforce
 
 Examples of **incorrect** code for this rule with the array of configurations option:
 

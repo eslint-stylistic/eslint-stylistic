@@ -65,7 +65,7 @@ This rule has a string option, which can have one of the following values:
 
 The rule always ignores directive comments such as `/* eslint-disable */`.
 
-## Examples
+### starred-block
 
 Examples of **incorrect** code for this rule with the default `"starred-block"` option:
 
@@ -121,6 +121,8 @@ foo();
 
 :::
 
+### bare-block
+
 Examples of **incorrect** code for this rule with the `"bare-block"` option:
 
 ::: incorrect
@@ -154,6 +156,8 @@ foo();
 ```
 
 :::
+
+### separate-lines
 
 Examples of **incorrect** code for this rule with the `"separate-lines"` option:
 
@@ -192,6 +196,8 @@ foo();
 
 :::
 
+### checkJSDoc
+
 Examples of **incorrect** code for this rule with the `"separate-lines"` option and `checkJSDoc` set to `true`:
 
 ::: incorrect
@@ -224,6 +230,8 @@ foo();
 ```
 
 :::
+
+### checkExclamation
 
 Examples of **incorrect** code for this rule with the `"separate-lines"` option and `checkExclamation` set to `true`:
 
