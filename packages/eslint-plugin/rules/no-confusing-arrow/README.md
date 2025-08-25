@@ -68,6 +68,8 @@ This rule accepts two options argument with the following defaults:
 }
 ```
 
+### allowParens
+
 `allowParens` is a boolean setting that can be `true`(default) or `false`:
 
 1. `true` relaxes the rule and accepts parenthesis as a valid "confusion-preventing" syntax.
@@ -85,6 +87,8 @@ var x = (a) => (1 ? 2 : 3);
 ```
 
 :::
+
+### onlyOneSimpleParam
 
 `onlyOneSimpleParam` is a boolean setting that can be `true` or `false`(default):
 

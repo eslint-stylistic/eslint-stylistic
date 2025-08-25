@@ -15,7 +15,7 @@ Many versioning systems (like git and subversion) can automatically ensure the c
 
 This rule enforces consistent line endings independent of operating system, VCS, or editor used across your codebase.
 
-### Options
+## Options
 
 This rule has a string option:
 
@@ -85,7 +85,7 @@ function foo(params) { // \r\n
 
 :::
 
-### Using this rule with version control systems
+## Using this rule with version control systems
 
 Version control systems sometimes have special behavior for linebreaks. To make it easy for developers to contribute to your codebase from different platforms, you may want to configure your VCS to handle linebreaks appropriately.
 
