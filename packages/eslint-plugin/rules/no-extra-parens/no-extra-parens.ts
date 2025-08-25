@@ -822,6 +822,9 @@ export default createRule<RuleOptions, MessageIds>({
         })
       }
 
+      // This introduced by https://github.com/typescript-eslint/typescript-eslint/pull/2319
+      // It's a bug for `@eslint-community/eslint-utils`, please tracking https://github.com/eslint-community/eslint-utils/pull/258
+      // Once this PR is accepted and upstream packages is released, we can remove this `if`.
       if (
         node.typeArguments
         && node.arguments.length === 1
