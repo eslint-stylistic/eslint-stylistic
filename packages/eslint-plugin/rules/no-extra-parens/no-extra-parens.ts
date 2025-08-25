@@ -5,7 +5,6 @@ import type { MessageIds, RuleOptions } from './types'
 import {
   AST_NODE_TYPES,
   canTokensBeAdjacent,
-  getPrecedence,
   getStaticPropertyName,
   isClosingParenToken,
   isDecimalInteger,
@@ -22,6 +21,7 @@ import {
   isSingleLine,
   isTokenOnSameLine,
   isTopLevelExpressionStatement,
+  getPrecedence as precedence,
   skipChainExpression,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -106,7 +106,6 @@ export default createRule<RuleOptions, MessageIds>({
     const sourceCode = context.sourceCode
 
     const tokensToIgnore = new WeakSet()
-    const precedence = getPrecedence
     const ALL_NODES = nodes !== 'functions'
     const EXCEPT_COND_ASSIGN = ALL_NODES && options?.conditionalAssign === false
     const EXCEPT_COND_TERNARY = ALL_NODES && options?.ternaryOperandBinaryExpressions === false
@@ -123,9 +122,9 @@ export default createRule<RuleOptions, MessageIds>({
       && new Set(Object.entries(context.options[1].allowNodesInSpreadElement || {}).filter(([_, value]) => value).map(([key]) => key))
 
     // @ts-expect-error other properties are not used
-    const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' })
+    const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' }) as 1
     // @ts-expect-error other properties are not used
-    const PRECEDENCE_OF_UPDATE_EXPR = precedence({ type: 'UpdateExpression' })
+    const PRECEDENCE_OF_UPDATE_EXPR = precedence({ type: 'UpdateExpression' }) as 17
 
     type ReportsBuffer = {
       upper: ReportsBuffer
