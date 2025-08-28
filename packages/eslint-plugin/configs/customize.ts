@@ -113,7 +113,7 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
     '@stylistic/space-before-function-paren': [severity, { anonymous: 'always', asyncArrow: 'always', named: 'never' }],
     '@stylistic/space-in-parens': [severity, 'never'],
     '@stylistic/space-infix-ops': severity,
-    '@stylistic/space-unary-ops': [severity, { nonwords: false, words: true }],
+    '@stylistic/space-unary-ops': [severity, { nonwords: false }],
     '@stylistic/spaced-comment': [severity, 'always', {
       block: {
         balanced: true,
