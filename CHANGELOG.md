@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.3.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.3.0...v5.3.1) (2025-09-01)
+
+
+### Build Related
+
+* fix publish ([#961](https://github.com/eslint-stylistic/eslint-stylistic/issues/961)) ([722b259](https://github.com/eslint-stylistic/eslint-stylistic/commit/722b259e9c2b0593380f03f27a0401d7e48697f3))
+
 ## [5.3.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.2.3...v5.3.0) (2025-09-01)
 
 
