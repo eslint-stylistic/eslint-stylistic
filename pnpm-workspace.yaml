@@ -15,8 +15,8 @@ catalogs:
     '@types/node': ^24.3.0
     '@types/picomatch': ^4.0.2
     '@types/semver': ^7.7.0
-    '@typescript-eslint/parser': ^8.40.0
-    '@typescript-eslint/utils': ^8.40.0
+    '@typescript-eslint/parser': ^8.41.0
+    '@typescript-eslint/utils': ^8.41.0
     change-case: ^5.4.4
     escape-string-regexp: ^5.0.0
     eslint: ^9.34.0
@@ -39,23 +39,23 @@ catalogs:
   docs:
     '@iconify-json/carbon': ^1.2.13
     '@iconify-json/ri': ^1.2.5
-    '@shikijs/transformers': ^3.11.0
-    '@shikijs/twoslash': ^3.11.0
-    '@shikijs/vitepress-twoslash': ^3.11.0
+    '@shikijs/transformers': ^3.12.0
+    '@shikijs/twoslash': ^3.12.0
+    '@shikijs/vitepress-twoslash': ^3.12.0
     '@types/markdown-it-container': ^2.0.10
-    '@vueuse/core': ^13.7.0
+    '@vueuse/core': ^13.8.0
     fuse.js: ^7.1.0
     markdown-it-container: ^4.0.0
-    shiki: ^3.11.0
+    shiki: ^3.12.0
     twoslash: ^0.3.4
     twoslash-eslint: ^0.3.4
-    unocss: ^66.4.2
+    unocss: ^66.5.0
     unplugin-vue-components: ^29.0.0
     vitepress: ^1.6.4
     vue: ^3.5.20
   prod:
     '@eslint-community/eslint-utils': ^4.7.0
-    '@typescript-eslint/types': ^8.40.0
+    '@typescript-eslint/types': ^8.41.0
     eslint-visitor-keys: ^4.2.1
     espree: ^10.4.0
     estraverse: ^5.3.0
