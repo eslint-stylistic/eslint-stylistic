@@ -1,5 +1,55 @@
 # Changelog
 
+## [5.3.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.2.3...v5.3.0) (2025-09-01)
+
+
+### Features
+
+* **indent:** introduce `assignmentOperator` ([#933](https://github.com/eslint-stylistic/eslint-stylistic/issues/933)) ([0474f6b](https://github.com/eslint-stylistic/eslint-stylistic/commit/0474f6b63a4fca5e7672ad87a83f895371750706))
+* **jsx-one-expression-per-line:** enhance the fix result when `allow` is `single-line` ([#922](https://github.com/eslint-stylistic/eslint-stylistic/issues/922)) ([e0ce078](https://github.com/eslint-stylistic/eslint-stylistic/commit/e0ce078bdc24f41e6610ddecf8efec83ae3243e9))
+* **no-extra-parens:** deprecate some options in favor of `ignoredNodes` ([#953](https://github.com/eslint-stylistic/eslint-stylistic/issues/953)) ([8ccd980](https://github.com/eslint-stylistic/eslint-stylistic/commit/8ccd98090d8a19ce9d96044693f28ca05605508a))
+* **no-extra-parens:** handle `TSNonNullExpression` and `TSSatisfiesExpression` as a `TSAssertion` ([#954](https://github.com/eslint-stylistic/eslint-stylistic/issues/954)) ([6aca363](https://github.com/eslint-stylistic/eslint-stylistic/commit/6aca363467462cff6b215b11322cc7cb595f0ab6))
+* **no-extra-parens:** introduce `ignoredNodes` ([#899](https://github.com/eslint-stylistic/eslint-stylistic/issues/899)) ([d848423](https://github.com/eslint-stylistic/eslint-stylistic/commit/d8484237c8112b3b1841c957991ad3afbf1c7101))
+* **padding-between-statements:** support `jsx-prop` ([#926](https://github.com/eslint-stylistic/eslint-stylistic/issues/926)) ([86f332e](https://github.com/eslint-stylistic/eslint-stylistic/commit/86f332e7271ae1ab5d9c51e0dc18c50ab0ff41d1))
+* **padding-line-between-statements:** allow prefix `multiline`/`singleline` for `return` and `type` ([#902](https://github.com/eslint-stylistic/eslint-stylistic/issues/902)) ([6915135](https://github.com/eslint-stylistic/eslint-stylistic/commit/691513580ccccbea86c4899ee4b615ffdd96cb39))
+* **space-unary-ops:** support non null assertion ([#941](https://github.com/eslint-stylistic/eslint-stylistic/issues/941)) ([fff2ae9](https://github.com/eslint-stylistic/eslint-stylistic/commit/fff2ae98c60eba58c8d58940281ae51c97ae4951))
+* update deps ([#957](https://github.com/eslint-stylistic/eslint-stylistic/issues/957)) ([5f97042](https://github.com/eslint-stylistic/eslint-stylistic/commit/5f97042424b9dc54b669e2e921aabce51e6697ed))
+* update keyword list ([#929](https://github.com/eslint-stylistic/eslint-stylistic/issues/929)) ([3001449](https://github.com/eslint-stylistic/eslint-stylistic/commit/3001449e470ab19765f645f1f11b5c69c0aa534b))
+
+
+### Bug Fixes
+
+* **customize:** remove specific nodes in `ignoreNodes` of the `indent` rule ([#936](https://github.com/eslint-stylistic/eslint-stylistic/issues/936)) ([1264cba](https://github.com/eslint-stylistic/eslint-stylistic/commit/1264cbada17811f910f91915c2d056328c200db1))
+* deprecate `jsx-props-no-multi-spaces` rule in favor of `no-multi-spaces` ([#925](https://github.com/eslint-stylistic/eslint-stylistic/issues/925)) ([a3c39e6](https://github.com/eslint-stylistic/eslint-stylistic/commit/a3c39e60cb837a6d068dbe3592d0c82538416ef0))
+* **disable-legacy:** add missing `jsx-pascal-case` ([#942](https://github.com/eslint-stylistic/eslint-stylistic/issues/942)) ([3eea6dd](https://github.com/eslint-stylistic/eslint-stylistic/commit/3eea6ddce22e8fcb6b1d79edd3aea995871ea90d))
+* **indent:** align indent for `AccessorProperty`, `TSAbstractPropertyDefinition` and `TSAbstractAccessorProperty` with `PropertyDefinition` ([#932](https://github.com/eslint-stylistic/eslint-stylistic/issues/932)) ([2afb9a4](https://github.com/eslint-stylistic/eslint-stylistic/commit/2afb9a4a29b3fb014154058220f5cfd5e6954f44))
+* **indent:** ensure the opening curly brace is align with enum ([#938](https://github.com/eslint-stylistic/eslint-stylistic/issues/938)) ([2007646](https://github.com/eslint-stylistic/eslint-stylistic/commit/2007646b19164c89a238f5b223c95c622711c8f3))
+* remove `nullThrow`, use `NonNullAssertion` directly ([#943](https://github.com/eslint-stylistic/eslint-stylistic/issues/943)) ([9a78f70](https://github.com/eslint-stylistic/eslint-stylistic/commit/9a78f70d310057df5a45cb5d98f4d7cd9c9e7b90))
+* revert [#926](https://github.com/eslint-stylistic/eslint-stylistic/issues/926) ([#944](https://github.com/eslint-stylistic/eslint-stylistic/issues/944)) ([f6e3b9a](https://github.com/eslint-stylistic/eslint-stylistic/commit/f6e3b9abad7406b9d31c584b09d83e197fc2e0f7))
+* **space-unary-ops:** correct `messageId` ([#948](https://github.com/eslint-stylistic/eslint-stylistic/issues/948)) ([54bb446](https://github.com/eslint-stylistic/eslint-stylistic/commit/54bb446c598f210c92ca5eea7cfe2cb4af846942))
+* **type-generic-spacing:** allow spaces between class and generic ([#927](https://github.com/eslint-stylistic/eslint-stylistic/issues/927)) ([84fa86a](https://github.com/eslint-stylistic/eslint-stylistic/commit/84fa86a31341e90dd906da1420b5fe22b1db539b))
+
+
+### Documentation
+
+* add changelog link ([#949](https://github.com/eslint-stylistic/eslint-stylistic/issues/949)) ([d043a8f](https://github.com/eslint-stylistic/eslint-stylistic/commit/d043a8f10e8772962498b62d99081bef2dbf5754))
+* **curly-newline:** add missing `ArrowFunctionExpression` to option ([#947](https://github.com/eslint-stylistic/eslint-stylistic/issues/947)) ([df21d11](https://github.com/eslint-stylistic/eslint-stylistic/commit/df21d11a93d16991ae6e9fee63fb3a249cc7030b))
+* display deep outline ([#955](https://github.com/eslint-stylistic/eslint-stylistic/issues/955)) ([c735a5c](https://github.com/eslint-stylistic/eslint-stylistic/commit/c735a5cad30f410c90c97ae3eac430e8279905e9))
+* fix broken links ([#940](https://github.com/eslint-stylistic/eslint-stylistic/issues/940)) ([76ae614](https://github.com/eslint-stylistic/eslint-stylistic/commit/76ae6141034952ab64584cdd54d758b1d21d2603))
+* fix examples ([#950](https://github.com/eslint-stylistic/eslint-stylistic/issues/950)) ([0a72592](https://github.com/eslint-stylistic/eslint-stylistic/commit/0a725921e595688d4d958508ca5fdd0d06c71609))
+* render extra links in markdown front matter section ([#924](https://github.com/eslint-stylistic/eslint-stylistic/issues/924)) ([f3f00dd](https://github.com/eslint-stylistic/eslint-stylistic/commit/f3f00dd73c071435bf1d64c4fe0c117ac42fa032))
+* use colored diffs in code blocks ([#931](https://github.com/eslint-stylistic/eslint-stylistic/issues/931)) ([a77013b](https://github.com/eslint-stylistic/eslint-stylistic/commit/a77013b6268a8911332e26cc2ab44ddda6607ea8))
+
+
+### Chores
+
+* move `shared` to root dir ([#923](https://github.com/eslint-stylistic/eslint-stylistic/issues/923)) ([66b6543](https://github.com/eslint-stylistic/eslint-stylistic/commit/66b6543053614b0131d551f7a2334ff09e49d88e))
+
+
+### Performance
+
+* **multiline-comment-style:** reduce array iterations ([#928](https://github.com/eslint-stylistic/eslint-stylistic/issues/928)) ([ddc9ad7](https://github.com/eslint-stylistic/eslint-stylistic/commit/ddc9ad7a30f9ecc421d85b363b58f48de4443b45))
+
 ## [5.2.3](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.2.2...v5.2.3) (2025-08-08)
 
 
