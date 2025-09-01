@@ -151,7 +151,7 @@ export default createRule<RuleOptions, MessageIds>({
       warnDeprecation('option("enforceForArrowConditionals")', '"ignoreNodes"', 'no-extra-parens')
     if (IGNORE_NEW_IN_MEMBER_EXPR)
       warnDeprecation('option("enforceForNewInMemberExpressions")', '"ignoreNodes"', 'no-extra-parens')
-    if (ALLOW_NODES_IN_SPREAD)
+    if (context.options[1]?.allowNodesInSpreadElement)
       warnDeprecation('option("allowNodesInSpreadElement")', '"ignoreNodes"', 'no-extra-parens')
 
     // @ts-expect-error other properties are not used
