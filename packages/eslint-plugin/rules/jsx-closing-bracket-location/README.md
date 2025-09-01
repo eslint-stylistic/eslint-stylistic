@@ -42,7 +42,7 @@ Examples of **correct** code for this rule:
 
 :::
 
-## Rule Options
+## Options
 
 There are two ways to configure this rule.
 
@@ -137,11 +137,13 @@ var x = function() {
 
 <Hello
   firstName="John"
-  lastName="Smith" />;
+  lastName="Smith"
+/>;
 
 <Say
   firstName="John"
-  lastName="Smith">
+  lastName="Smith"
+>
   Hello
 </Say>;
 ```
@@ -156,12 +158,12 @@ var x = function() {
 <Hello
   firstName="John"
   lastName="Smith"
-  />;
+/>;
 
 <Say
   firstName="John"
   lastName="Smith"
-  >
+>
   Hello
 </Say>;
 ```
@@ -237,8 +239,27 @@ var x = function() {
 
 <Say
   firstName="John"
+  lastName="Smith">
+  Hello
+</Say>;
+```
+
+:::
+
+::: correct
+
+```jsx
+/* eslint @stylistic/jsx-closing-bracket-location: ["error", "props-aligned"] */
+
+<Hello
+  firstName="John"
   lastName="Smith"
->
+  />;
+
+<Say
+  firstName="John"
+  lastName="Smith"
+  >
   Hello
 </Say>;
 ```

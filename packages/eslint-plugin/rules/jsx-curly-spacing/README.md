@@ -8,7 +8,7 @@ This rule aims to maintain consistency around the spacing inside of JSX attribut
 
 It either requires or disallows spaces between those braces and the values inside of them.
 
-## Rule Options
+## Options
 
 There are two main options for the rule:
 
@@ -165,7 +165,7 @@ Examples of **correct** code for this rule:
 
 :::
 
-### Braces spanning multiple lines
+### allowMultiline
 
 By default, braces spanning multiple lines are allowed with either setting. If you want to disallow them you can specify an additional `allowMultiline` property with the value `false`:
 
@@ -275,7 +275,7 @@ Examples of **correct** code for this rule:
 
 :::
 
-### Granular spacing controls
+### spacing
 
 You can specify an additional `spacing` property that is an object with the following possible values:
 

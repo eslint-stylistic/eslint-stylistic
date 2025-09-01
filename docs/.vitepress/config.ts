@@ -166,7 +166,7 @@ export default defineConfig({
         ],
       },
     ),
-
+    outline: 'deep',
     editLink: {
       // don't add docs/:path, missing tsconfig file
       pattern: 'https://github.com/eslint-stylistic/eslint-stylistic/edit/main/:path',

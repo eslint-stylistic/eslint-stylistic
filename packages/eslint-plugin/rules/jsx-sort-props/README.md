@@ -33,7 +33,7 @@ Examples of **correct** code for this rule:
 
 :::
 
-## Rule Options
+## Options
 
 ```js
 ...
@@ -130,9 +130,9 @@ Defaults to `ignore`.
     greetings: classes.greetings,
   }}
   active
-  validate
   name="John"
   tel={5555555}
+  validate
 />
 ```
 
@@ -145,9 +145,9 @@ Defaults to `ignore`.
 
 <Hello
   active
-  validate
   name="John"
   tel={5555555}
+  validate
   classes={{
     greetings: classes.greetings,
   }}

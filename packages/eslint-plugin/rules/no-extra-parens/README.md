@@ -132,7 +132,7 @@ class B {
 
 :::
 
-### conditionalAssign
+#### conditionalAssign
 
 Examples of **correct** code for this rule with the `"all"` and `{ "conditionalAssign": false }` options:
 
@@ -152,7 +152,7 @@ for (;(a = b););
 
 :::
 
-### returnAssign
+#### returnAssign
 
 Examples of **correct** code for this rule with the `"all"` and `{ "returnAssign": false }` options:
 
@@ -176,7 +176,7 @@ b => b ? (c = d) : (c = e);
 
 :::
 
-### nestedBinaryExpressions
+#### nestedBinaryExpressions
 
 Examples of **correct** code for this rule with the `"all"` and `{ "nestedBinaryExpressions": false }` options:
 
@@ -192,7 +192,7 @@ x = (a * b) / c;
 
 :::
 
-### ternaryOperandBinaryExpressions
+#### ternaryOperandBinaryExpressions
 
 Examples of **correct** code for this rule with the `"all"` and `{ "ternaryOperandBinaryExpressions": false }` options:
 
@@ -212,7 +212,7 @@ foo ? bar : (baz || qux);
 
 :::
 
-### ignoreJSX
+#### ignoreJSX
 
 Examples of **correct** code for this rule with the `all` and `{ "ignoreJSX": "all" }` options:
 
@@ -294,7 +294,7 @@ const ThatComponent = (<div><p /></div>)
 
 :::
 
-### enforceForArrowConditionals (deprecated)
+#### enforceForArrowConditionals (deprecated)
 
 This option is deprecated, please use [`ignoredNodes`](#ignorednodes) instead.
 
@@ -311,7 +311,7 @@ const d = c => (1 ? 2 : 3);
 
 :::
 
-### enforceForSequenceExpressions
+#### enforceForSequenceExpressions
 
 Examples of **correct** code for this rule with the `"all"` and `{ "enforceForSequenceExpressions": false }` options:
 
@@ -329,7 +329,7 @@ while ((val = foo(), val < 10));
 
 :::
 
-### enforceForNewInMemberExpressions (deprecated)
+#### enforceForNewInMemberExpressions (deprecated)
 
 This option is deprecated, please use [`ignoredNodes`](#ignorednodes) instead.
 
@@ -349,7 +349,7 @@ const quux = (new Bar())[baz];
 
 :::
 
-### enforceForFunctionPrototypeMethods
+#### enforceForFunctionPrototypeMethods
 
 Examples of **correct** code for this rule with the `"all"` and `{ "enforceForFunctionPrototypeMethods": false }` options:
 
@@ -369,7 +369,7 @@ const quux = (function () {}.apply());
 
 :::
 
-### allowParensAfterCommentPattern
+#### allowParensAfterCommentPattern
 
 To make this rule allow extra parentheses preceded by specific comments, set this option to a string pattern that will be passed to the [`RegExp` constructor](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/RegExp/RegExp).
 
@@ -397,7 +397,7 @@ if (foo) {
 
 :::
 
-### nestedConditionalExpressions
+#### nestedConditionalExpressions
 
 Examples of **correct** code for this rule with the `"all"` and `{ "nestedConditionalExpressions": false }` options:
 
@@ -412,7 +412,7 @@ a ? b : (c ? d : e);
 
 :::
 
-### allowNodesInSpreadElement (deprecated)
+#### allowNodesInSpreadElement (deprecated)
 
 This option is deprecated, please use [`ignoredNodes`](#ignorednodes) instead.
 
@@ -440,7 +440,7 @@ const fruits = {
 
 :::
 
-### ignoredNodes
+#### ignoredNodes
 
 The following configuration ignores `ConditionalExpression` in `ArrowFunctionExpression` nodes like [`enforceForArrowConditionals`](#enforceforarrowconditionals-deprecated):
 
