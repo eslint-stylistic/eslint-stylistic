@@ -3,7 +3,7 @@
  * @author Teddy Katz
  */
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { $, run } from '#test'
 import rule from './multiline-comment-style'
 
 run<RuleOptions, MessageIds>({
@@ -394,6 +394,20 @@ run<RuleOptions, MessageIds>({
                  *some.code();
                  */
             `,
+      options: ['starred-block'],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/968
+    {
+      code: $`
+        // djb2 algorithm
+        let hash = 5381;
+        for (let i = 0; i < view.length; i++) {
+        
+          // eslint-disable-next-line
+          // hash * 33 + current byte -> truncate
+          hash = (((hash << 5) + hash) + view[i]) | 0;
+        }
+      `,
       options: ['starred-block'],
     },
   ],
