@@ -403,7 +403,7 @@ run<RuleOptions, MessageIds>({
         let hash = 5381;
         for (let i = 0; i < view.length; i++) {
         
-          // eslint-disable-next-line
+          // eslint-disable
           // hash * 33 + current byte -> truncate
           hash = (((hash << 5) + hash) + view[i]) | 0;
         }
