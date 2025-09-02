@@ -448,38 +448,34 @@ export default createRule<RuleOptions, MessageIds>({
 
     return {
       Program() {
-        const commentGroups: Tree.Comment[][] = []
-
-        sourceCode.getAllComments()
-          .forEach((comment, index, commentList) => {
-            if (isHashbangComment(comment))
-              return
-
-            if (COMMENTS_IGNORE_PATTERN.test(comment.value))
-              return
+        return sourceCode.getAllComments()
+          .filter((comment) => {
+            if (isHashbangComment(comment) || COMMENTS_IGNORE_PATTERN.test(comment.value))
+              return false
 
             const tokenBefore = sourceCode.getTokenBefore(comment, { includeComments: true })
 
-            if (tokenBefore && tokenBefore.loc.end.line >= comment.loc.start.line)
-              return
+            return !tokenBefore || tokenBefore.loc.end.line < comment.loc.start.line
+          })
+          .reduce((commentGroups: Tree.Comment[][], comment, index, commentList) => {
+            const tokenBefore = sourceCode.getTokenBefore(comment, { includeComments: true })
 
             if (
               comment.type === 'Line'
-              && index && commentList[index - 1].type === 'Line'
-              && tokenBefore && tokenBefore.loc.end.line === comment.loc.start.line - 1
+              && index
+              && commentList[index - 1].type === 'Line'
+              && tokenBefore
+              && tokenBefore.loc.end.line === comment.loc.start.line - 1
               && tokenBefore === commentList[index - 1]
             ) {
               commentGroups.at(-1)!.push(comment)
             }
-
             else {
               commentGroups.push([comment])
             }
 
             return commentGroups
-          })
-
-        commentGroups
+          }, [])
           .forEach((commentGroup) => {
             if (commentGroup.length === 1 && isSingleLine(commentGroup[0]))
               return
