@@ -21,3 +21,59 @@ The legacy docs is available at [v4.eslint.style](https://v4.eslint.style/).
 ## Migration
 
 Please refer to the [migration guide](/guide/migration) for more details.
+
+## Installation
+
+```bash
+# With npm
+npm i -D @stylistic/eslint-plugin
+
+# With pnpm
+pnpm add -D @stylistic/eslint-plugin
+
+# With yarn
+yarn add -D @stylistic/eslint-plugin
+```
+
+## Usage
+
+### Ready-to-use Preset
+
+```js
+// eslint.config.js
+import stylistic from "@stylistic/eslint-plugin";
+
+export default [
+  // Your parser / TS / React / other presets
+  // …
+
+  // Activate Stylistic's recommended preset
+  {
+    plugins: { "@stylistic": stylistic },
+    rules: {
+      ...stylistic.configs.recommended.rules,
+    },
+  },
+];
+```
+
+### The Factory (ready-to-insert configs)
+
+```js
+// eslint.config.js
+import stylistic from '@stylistic/eslint-plugin'
+
+export default [
+  stylistic.configs.customize({
+    // the following options are the default values
+    indent: 2,
+    quotes: 'single',
+    semi: false,
+    jsx: true,
+    // ...
+  }),
+  // ...your other config items
+]
+```
+
+For more configuration options and prebuilt presets, see the [Shared Configs](/guide/config-presets).

@@ -25,6 +25,7 @@ const GUIDES: DefaultTheme.NavItemWithLink[] = [
   { text: 'Rules', link: '/rules' },
   { text: 'Migration', link: '/guide/migration' },
   { text: 'FAQ', link: '/guide/faq' },
+  { text: 'Troubleshooting', link: '/guide/troubleshooting' },
 ]
 
 const CONTRIBUTES: DefaultTheme.NavItemWithLink[] = [

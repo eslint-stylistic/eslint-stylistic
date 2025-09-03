@@ -23,6 +23,30 @@ Community-maintained stylistic/formatting ESLint rules for JavaScript and TypeSc
 
 This project was initiated as ESLint and `typescript-eslint` teams [decided to deprecate formatting/stylistic-related rules](https://github.com/eslint/eslint/issues/17522) from their core due to the maintenance cost. This repo ports those rules and distributes them as separate packages and will keep them maintained by the community.
 
+## Quickstart (Flat Config)
+
+```js
+import stylistic from "@stylistic/eslint-plugin";
+
+export default [
+  {
+    plugins: { "@stylistic": stylistic },
+    rules: {
+      ...stylistic.configs.recommended.rules,
+    },
+  },
+];
+```
+
+> Need even less boilerplate?
+>
+> ```js
+> import { configs } from "@stylistic/eslint-plugin";
+> export default [ configs.recommended ];
+> ```
+
+For more configuration options, see the [Getting Started Guide](https://eslint.style/guide/getting-started) and [Factory Guide](https://eslint.style/guide/config-presets#configuration-factory).
+
 ## License
 
 [MIT](./LICENSE) License
