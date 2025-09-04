@@ -1,3 +1,5 @@
+import type { Arrayable } from '../types'
+
 const warned = new Set()
 
 export function warnOnce(text: string) {
@@ -14,4 +16,13 @@ export function warnDeprecation(value: string, instead?: string, rule = '') {
     message += `, please use ${instead} instead.`
 
   return warnOnce(message)
+}
+
+export function warnDeprecatedOptions<T extends Record<string, any>>(options: T | undefined, keys: Arrayable<keyof T>, instead?: keyof T, rule = '') {
+  if (!Array.isArray(keys))
+    keys = [keys]
+  keys.forEach((key) => {
+    if (options && Object.hasOwn(options, key))
+      warnDeprecation(`option("${key.toString()}")`, instead ? `"${instead.toString()}"` : undefined, rule)
+  })
 }

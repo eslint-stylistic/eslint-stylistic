@@ -25,7 +25,7 @@ import {
   skipChainExpression,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { warnDeprecation } from '#utils/index'
+import { warnDeprecatedOptions } from '#utils/index'
 
 /**
  * extends from https://github.com/typescript-eslint/typescript-eslint/blob/bd9e490eb76705ed4dec2f3f705eb18e4fe313e0/packages/utils/src/ast-utils/predicates.ts#L57
@@ -144,15 +144,15 @@ export default createRule<RuleOptions, MessageIds>({
     const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && options?.allowParensAfterCommentPattern
     const ALLOW_NESTED_TERNARY = ALL_NODES && options?.nestedConditionalExpressions === false
     /** @deprected */
-    const ALLOW_NODES_IN_SPREAD = ALL_NODES && context.options[1]
-      && new Set(Object.entries(context.options[1].allowNodesInSpreadElement || {}).filter(([_, value]) => value).map(([key]) => key))
+    const ALLOW_NODES_IN_SPREAD = ALL_NODES && options
+      && new Set(Object.entries(options.allowNodesInSpreadElement || {}).filter(([_, value]) => value).map(([key]) => key))
 
-    if (IGNORE_ARROW_CONDITIONALS)
-      warnDeprecation('option("enforceForArrowConditionals")', '"ignoreNodes"', 'no-extra-parens')
-    if (IGNORE_NEW_IN_MEMBER_EXPR)
-      warnDeprecation('option("enforceForNewInMemberExpressions")', '"ignoreNodes"', 'no-extra-parens')
-    if (context.options[1]?.allowNodesInSpreadElement)
-      warnDeprecation('option("allowNodesInSpreadElement")', '"ignoreNodes"', 'no-extra-parens')
+    warnDeprecatedOptions(
+      options,
+      ['enforceForArrowConditionals', 'enforceForNewInMemberExpressions', 'allowNodesInSpreadElement'],
+      'ignoredNodes',
+      'no-extra-parens',
+    )
 
     // @ts-expect-error other properties are not used
     const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' })
