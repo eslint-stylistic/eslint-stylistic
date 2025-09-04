@@ -5,7 +5,7 @@
 import type { MessageIds, RuleOptions } from './types'
 import { COMMENTS_IGNORE_PATTERN, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-import { warnDeprecation } from '#utils/index'
+import { warnDeprecatedOptions } from '#utils/index'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'line-comment-position',
@@ -72,9 +72,7 @@ export default createRule<RuleOptions, MessageIds>({
       else
         applyDefaultIgnorePatterns = options.applyDefaultPatterns !== false
 
-      if (typeof options.applyDefaultPatterns !== 'undefined') {
-        warnDeprecation('option("applyDefaultPatterns")', '"applyDefaultIgnorePatterns"', 'line-comment-position')
-      }
+      warnDeprecatedOptions(options, 'applyDefaultPatterns', 'applyDefaultIgnorePatterns', 'line-comment-position')
     }
 
     const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN

@@ -25,16 +25,11 @@ export const OCTAL_OR_NON_OCTAL_DECIMAL_ESCAPE_PATTERN = /^(?:[^\\]|\\.)*\\(?:[1
 export const ASSIGNMENT_OPERATOR = ['=', '+=', '-=', '*=', '/=', '%=', '<<=', '>>=', '>>>=', '|=', '^=', '&=', '**=', '||=', '&&=', '??=']
 
 /**
- * A shared list of keywords.
+ * A shared list of ES3 keywords.
  * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#keywords
  */
-/// keep-sorted
-export const KEYWORDS = [
+export const ES3_KEYWORDS = [
   'abstract',
-  'arguments',
-  'as',
-  'async',
-  'await',
   'boolean',
   'break',
   'byte',
@@ -51,7 +46,6 @@ export const KEYWORDS = [
   'double',
   'else',
   'enum',
-  'eval',
   'export',
   'extends',
   'false',
@@ -59,9 +53,7 @@ export const KEYWORDS = [
   'finally',
   'float',
   'for',
-  'from',
   'function',
-  'get',
   'goto',
   'if',
   'implements',
@@ -70,18 +62,15 @@ export const KEYWORDS = [
   'instanceof',
   'int',
   'interface',
-  'let',
   'long',
   'native',
   'new',
   'null',
-  'of',
   'package',
   'private',
   'protected',
   'public',
   'return',
-  'set',
   'short',
   'static',
   'super',
@@ -93,14 +82,33 @@ export const KEYWORDS = [
   'transient',
   'true',
   'try',
-  'type',
   'typeof',
-  'using',
   'var',
   'void',
   'volatile',
   'while',
   'with',
+]
+
+/**
+ * A shared list of keywords.
+ * @see https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Lexical_grammar#keywords
+ */
+/// keep-sorted
+export const KEYWORDS = [
+  ...ES3_KEYWORDS,
+  'arguments',
+  'as',
+  'async',
+  'await',
+  'eval',
+  'from',
+  'get',
+  'let',
+  'of',
+  'set',
+  'type',
+  'using',
   'yield',
 ].concat([
   // TypeScript
