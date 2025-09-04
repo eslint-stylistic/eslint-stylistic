@@ -1,6 +1,6 @@
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { KEYWORDS as _KEYWORDS, isNumericLiteral, isStringLiteral } from '#utils/ast'
+import { ES3_KEYWORDS, isNumericLiteral, isStringLiteral } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 // @ts-expect-error missing types
 import { tokenize } from 'espree'
@@ -79,7 +79,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns `true` if it is an ES3 token.
      */
     function isKeyword(tokenStr: string): boolean {
-      return _KEYWORDS.includes(tokenStr)
+      return ES3_KEYWORDS.includes(tokenStr)
     }
 
     /**
