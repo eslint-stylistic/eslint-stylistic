@@ -410,6 +410,26 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['starred-block'],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/970
+    {
+      code: $`
+        // eslint-disable
+        // @ts-nocheck
+        
+        import type { ESLint } from 'eslint';
+      `,
+      options: ['starred-block'],
+    },
+    {
+      code: $`
+        let x = 5; // first number
+        // second number
+        let y = 10;
+        
+        console.log(x + y);
+      `,
+      options: ['starred-block'],
+    },
   ],
 
   invalid: [
