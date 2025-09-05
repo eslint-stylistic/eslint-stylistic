@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: oK2R8S52XoAnbNzxzOnA3ppxaugBFB-PwM47mkhp8Cg */
+/* @checksum: 7ZOKN86HWNMa1S0dgsc6qdcHfKhGOwmb9W60zIwjHMo */
 
 export interface LinesAroundCommentSchema0 {
   beforeBlockComment?: boolean
@@ -23,6 +23,8 @@ export interface LinesAroundCommentSchema0 {
   allowEnumEnd?: boolean
   allowModuleStart?: boolean
   allowModuleEnd?: boolean
+  allowGroupStart?: ('(' | '[' | '{')[]
+  allowGroupEnd?: (')' | ']' | '}')[]
   ignorePattern?: string
   applyDefaultIgnorePatterns?: boolean
   afterHashbangComment?: boolean
