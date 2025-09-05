@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: ylStHbP4xDqz9_jLivNdm8jagMeTDPs5yUEkKnsiXg4 */
+/* @checksum: 3lTXl2JHFX2gdyPJpBDCCyBJP9O0Vvg1z2iOPF6WtDA */
 
 export interface ListStyleSchema0 {
   singleLine?: SingleLineConfig
@@ -36,9 +36,7 @@ export interface SingleLineConfig {
   spacing?: 'always' | 'never'
   maxItems?: number
 }
-export interface MultiLineConfig {
-  maxItemsPerLine?: number
-}
+export interface MultiLineConfig {}
 export interface BaseConfig {
   singleLine?: SingleLineConfig
   multiline?: MultiLineConfig

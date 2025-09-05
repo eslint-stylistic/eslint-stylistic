@@ -46,10 +46,6 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'object',
             additionalProperties: false,
             properties: {
-              maxItemsPerLine: {
-                type: 'integer',
-                minimum: 1,
-              },
             },
           },
           baseConfig: {
@@ -113,7 +109,6 @@ export default createRule<RuleOptions, MessageIds>({
       maxItems: Number.POSITIVE_INFINITY,
     },
     multiLine: {
-      maxItemsPerLine: 1,
     },
     overrides: {
       '{}': { singleLine: { spacing: 'always' } },
@@ -123,9 +118,6 @@ export default createRule<RuleOptions, MessageIds>({
     const { sourceCode } = context
     const {
       singleLine,
-      // TODO: support multiLine options
-      // eslint-disable-next-line unused-imports/no-unused-vars
-      multiLine,
       overrides,
     } = options!
 
