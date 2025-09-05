@@ -82,6 +82,7 @@ export default createRule<RuleOptions, MessageIds>({
               'NewExpression': { $ref: '#/items/0/$defs/baseConfig' },
               'ObjectExpression': { $ref: '#/items/0/$defs/baseConfig' },
               'ObjectPattern': { $ref: '#/items/0/$defs/baseConfig' },
+              'JSXOpeningElement': { $ref: '#/items/0/$defs/baseConfig' },
               'TSFunctionType': { $ref: '#/items/0/$defs/baseConfig' },
               'TSInterfaceBody': { $ref: '#/items/0/$defs/baseConfig' },
               'TSEnumBody': { $ref: '#/items/0/$defs/baseConfig' },
