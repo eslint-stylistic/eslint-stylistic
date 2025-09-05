@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 3lTXl2JHFX2gdyPJpBDCCyBJP9O0Vvg1z2iOPF6WtDA */
+/* @checksum: OhjO2wvGj0fZCxOqw2WoNehOyzKArqkEmAnDBi_H90k */
 
 export interface ListStyleSchema0 {
   singleLine?: SingleLineConfig
@@ -24,6 +24,7 @@ export interface ListStyleSchema0 {
     'ObjectPattern'?: BaseConfig
     'TSFunctionType'?: BaseConfig
     'TSInterfaceBody'?: BaseConfig
+    'TSEnumBody'?: BaseConfig
     'TSTupleType'?: BaseConfig
     'TSTypeLiteral'?: BaseConfig
     'TSTypeParameterDeclaration'?: BaseConfig

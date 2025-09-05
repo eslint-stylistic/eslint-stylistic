@@ -84,6 +84,7 @@ export default createRule<RuleOptions, MessageIds>({
               'ObjectPattern': { $ref: '#/items/0/$defs/baseConfig' },
               'TSFunctionType': { $ref: '#/items/0/$defs/baseConfig' },
               'TSInterfaceBody': { $ref: '#/items/0/$defs/baseConfig' },
+              'TSEnumBody': { $ref: '#/items/0/$defs/baseConfig' },
               'TSTupleType': { $ref: '#/items/0/$defs/baseConfig' },
               'TSTypeLiteral': { $ref: '#/items/0/$defs/baseConfig' },
               'TSTypeParameterDeclaration': { $ref: '#/items/0/$defs/baseConfig' },
@@ -178,11 +179,11 @@ export default createRule<RuleOptions, MessageIds>({
     function checkMultiLine(node: ASTNode, items: (ASTNode | null)[], left: Token, right: Token) {
       const len = items.length
 
-      const hasWrap = !isTokenOnSameLine(left, items[0] ?? sourceCode.getTokenAfter(left)!)
+      const needWrap = isTokenOnSameLine(left, right) || !isTokenOnSameLine(left, items[0] ?? sourceCode.getTokenAfter(left)!)
 
       function checkWrap(prev: Token, next: Token) {
         if (isTokenOnSameLine(prev, next)) {
-          if (!hasWrap)
+          if (!needWrap)
             return
 
           context.report({
@@ -208,7 +209,7 @@ export default createRule<RuleOptions, MessageIds>({
           })
         }
         else {
-          if (hasWrap)
+          if (needWrap)
             return
 
           context.report({
