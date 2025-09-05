@@ -16,11 +16,11 @@ export function run<RuleOptions = any, MessageIds extends string = string>(optio
     recursive: false,
     verifyAfterFix: false,
     ...(
-      options.lang === 'js'
-        ? {}
-        : options.lang === 'ts'
-          ? { parser: tsParser }
-          : { parser: jsonParser }
+      options.lang === 'json'
+        ? { parser: jsonParser }
+        : options.lang === 'js'
+          ? {}
+          : { parser: tsParser }
     ),
     ...options,
   })
