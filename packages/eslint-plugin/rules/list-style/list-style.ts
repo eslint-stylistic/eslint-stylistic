@@ -6,7 +6,6 @@ import {
   isClosingBraceToken,
   isClosingBracketToken,
   isClosingParenToken,
-  isNodeOfTypes,
   isNotOpeningParenToken,
   isOpeningBraceToken,
   isOpeningBracketToken,
@@ -278,6 +277,28 @@ export default createRule<RuleOptions, MessageIds>({
       },
     }
 
+    function getLeftParen(node: ASTNode, items: (ASTNode | null)[], matcher: (token: Token) => boolean) {
+      switch (node.type) {
+        case AST_NODE_TYPES.CallExpression:
+        case AST_NODE_TYPES.NewExpression:
+          return sourceCode.getTokenAfter(node.typeArguments ?? node.callee, matcher)
+
+        case AST_NODE_TYPES.ImportDeclaration:
+        case AST_NODE_TYPES.ExportNamedDeclaration:
+          return sourceCode.getTokenBefore(items[0]!, matcher)
+
+        default:
+          return sourceCode.getFirstToken(node, matcher)
+      }
+    }
+
+    function getRightParen(node: ASTNode, items: (ASTNode | null)[], matcher: (token: Token) => boolean) {
+      const lastItem = items.at(-1)
+      return lastItem
+        ? sourceCode.getTokenAfter(lastItem, matcher)
+        : sourceCode.getLastToken(node, matcher)
+    }
+
     function check(type: ParenType, node: ASTNode, items: (ASTNode | null)[]) {
       if (items.length === 0)
         return
@@ -287,32 +308,12 @@ export default createRule<RuleOptions, MessageIds>({
         right: rightMatcher,
       } = parenMatchers[type]
 
-      // May not have items[0] or items.at(-1), example:
-      // const [, foo, ...bar, ] = arr
+      const left = getLeftParen(node, items, leftMatcher)
+      const right = getRightParen(node, items, rightMatcher)
 
-      let left
-        = isNodeOfTypes([
-          AST_NODE_TYPES.CallExpression,
-          AST_NODE_TYPES.NewExpression,
-          AST_NODE_TYPES.ImportDeclaration,
-          AST_NODE_TYPES.ExportNamedDeclaration,
-        ])(node)
-          ? undefined
-          : sourceCode.getFirstToken(node, leftMatcher)
-
-      if (isNodeOfTypes([AST_NODE_TYPES.CallExpression])(node)) {
-        left = sourceCode.getTokenAfter(
-          node.typeArguments ?? node.callee,
-        )
-      }
-
-      const firstItem = items[0]
-      left ??= sourceCode.getTokenBefore(firstItem!, leftMatcher)!
-
-      const lastItem = items.at(-1)
-      const right = lastItem
-        ? sourceCode.getTokenAfter(lastItem, rightMatcher)!
-        : sourceCode.getLastToken(node, rightMatcher)!
+      // items => xxx
+      if (!left || !right)
+        return
 
       const nodeType = items[0]?.type === 'ImportAttribute' ? 'ImportAttributes' : node.type as keyof NonNullable<typeof overrides>
       const singleLineConfig = structuredClone(singleLine!)
