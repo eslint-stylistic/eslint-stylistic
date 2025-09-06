@@ -154,6 +154,13 @@ run<RuleOptions, MessageIds>({
         UserOutlined,
       } from '@ant-design/icons';
     `,
+    $`
+      const fix = a => (
+        call(
+          a
+        )
+      )
+    `,
   ],
   invalid: [
     {
@@ -732,6 +739,15 @@ run<RuleOptions, MessageIds>({
         const bar = { a: 1, b: 2 };
       `,
       options: [{ multiLine: { minItems: 3 } }],
+    },
+    {
+      code: $`
+        foo(a,
+        )
+      `,
+      output: $`
+        foo(a,)
+      `,
     },
   ],
 })

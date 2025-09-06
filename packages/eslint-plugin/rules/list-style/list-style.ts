@@ -6,6 +6,7 @@ import {
   isClosingBraceToken,
   isClosingBracketToken,
   isClosingParenToken,
+  isNotCommaToken,
   isNotOpeningParenToken,
   isOpeningBraceToken,
   isOpeningBracketToken,
@@ -313,29 +314,43 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function getLeftParen(node: ASTNode, items: (ASTNode | null)[], type: ParenType) {
-      const { left: matcher } = parenMatchers[type]
-
       switch (node.type) {
+        // fun<T>()
+        // new Foo<T>()
         case AST_NODE_TYPES.CallExpression:
         case AST_NODE_TYPES.NewExpression:
-          return sourceCode.getTokenAfter(node.typeArguments ?? node.callee, matcher)
+          return sourceCode.getTokenAfter(node.typeArguments ?? node.callee)
 
-        case AST_NODE_TYPES.ImportDeclaration:
-        case AST_NODE_TYPES.ExportNamedDeclaration:
-          return sourceCode.getTokenBefore(items[0]!, matcher)
+        // const foo = [, a]
+        // const [, a] = foo
+        case AST_NODE_TYPES.ArrayExpression:
+        case AST_NODE_TYPES.ArrayPattern:
+          return sourceCode.getFirstToken(node)
 
-        default:
-          return sourceCode.getFirstToken(node, matcher)
+        default: {
+          const maybeLeft = sourceCode.getTokenBefore(items[0]!)
+          // foo => bar
+          const { left: matcher } = parenMatchers[type]
+          return maybeLeft && matcher(maybeLeft) ? maybeLeft : null
+        }
       }
     }
 
     function getRightParen(node: ASTNode, items: (ASTNode | null)[], type: ParenType) {
-      const lastItem = items.at(-1)
-      const { right: matcher } = parenMatchers[type]
+      switch (node.type) {
+        // const foo = [a, ]
+        // const [a, ] = foo
+        case AST_NODE_TYPES.ArrayExpression:
+        case AST_NODE_TYPES.ArrayPattern:
+          return sourceCode.getLastToken(node)
 
-      return lastItem
-        ? sourceCode.getTokenAfter(lastItem, matcher)
-        : sourceCode.getLastToken(node, matcher)
+        default:{
+          const maybeRight = sourceCode.getTokenAfter(items.at(-1)!, isNotCommaToken)
+          // foo => bar
+          const { right: matcher } = parenMatchers[type]
+          return maybeRight && matcher(maybeRight) ? maybeRight : null
+        }
+      }
     }
 
     function check(parenType: ParenType, node: ASTNode, items: (ASTNode | null)[]) {
@@ -345,7 +360,6 @@ export default createRule<RuleOptions, MessageIds>({
       const left = getLeftParen(node, items, parenType)
       const right = getRightParen(node, items, parenType)
 
-      // ArrowFunctionExpressions (eg. const foo = items => xxx)
       if (!left || !right)
         return
 
