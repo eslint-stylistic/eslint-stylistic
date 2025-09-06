@@ -122,6 +122,11 @@ const filterList = [
     ]),
   },
   {
+    id: 'experimental',
+    name: 'Experimental',
+    rules: pkg.rules.filter(({ meta }) => meta?.docs?.experimental),
+  },
+  {
     id: 'misc',
     name: 'Misc.',
     rules: [],
@@ -188,6 +193,12 @@ function clearFilter() {
         Some problems reported are fixable by the <code>--fix</code> command line option
       </div>
     </div>
+    <div flex="~ items-center gap-2">
+      <code w-1.9em h-1.9em>🧪</code>
+      <div flex="~ items-center gap-2 wrap" text-sm>
+        This is an experimental rule, should have <code>exp-</code> prefix when using.
+      </div>
+    </div>
   </div>
 
   <div
@@ -240,6 +251,7 @@ function clearFilter() {
       <tr>
         <td>Rule</td>
         <td>Description</td>
+        <td />
         <td />
         <td />
       </tr>
