@@ -37,7 +37,7 @@ export default createRule<RuleOptions, MessageIds>({
               },
               maxItems: {
                 type: 'integer',
-                minimum: 1,
+                minimum: 0,
               },
             },
           },
