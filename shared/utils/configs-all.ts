@@ -18,8 +18,9 @@ export function createAllConfigs<T extends { rules: Record<string, any> }>(
       .filter(([key, rule]) =>
         // Only include fixable rules
         rule.meta.fixable
-        // Only include non-deprecated rules
+        // Only include non-deprecated and non-experimental rules
         && !rule.meta.deprecated
+        && !rule.meta.experimental
         // Not an alias
         && key === rule.meta.docs.url.split('/').pop()
         // Custom filter
