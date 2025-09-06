@@ -18,6 +18,7 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
     blockSpacing = true,
     braceStyle = 'stroustrup',
     commaDangle = 'always-multiline',
+    experimental: enableExperimentalRules = false,
     indent = 2,
     jsx = true,
     pluginName = '@stylistic',
@@ -171,6 +172,10 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
           ],
         }
       : {},
+  }
+
+  if (enableExperimentalRules) {
+    // PLACEHOLDER
   }
 
   if (pluginName !== '@stylistic') {
