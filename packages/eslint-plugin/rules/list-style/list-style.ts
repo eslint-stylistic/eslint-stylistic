@@ -21,7 +21,7 @@ export default createRule<RuleOptions, MessageIds>({
   meta: {
     type: 'layout',
     docs: {
-      description: 'Having line breaks styles to object, array, named imports and more.',
+      description: 'Enforce consistent spacing and line break styles inside brackets.',
       experimental: true,
     },
     fixable: 'whitespace',

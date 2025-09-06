@@ -13,7 +13,7 @@ related_rules:
 
 # list-style
 
-Enforce consistent line breaks inside brackets.
+Enforce consistent spacing and line break styles inside brackets.
 
 ## Rule Details
 
