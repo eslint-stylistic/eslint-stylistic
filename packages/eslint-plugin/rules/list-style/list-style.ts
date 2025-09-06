@@ -1,5 +1,5 @@
 import type { ASTNode, Token, Tree } from '#types'
-import type { MessageIds, RuleOptions, SingleLineConfig } from './types'
+import type { BaseConfig, MessageIds, RuleOptions, SingleLineConfig } from './types'
 import {
   AST_NODE_TYPES,
   hasCommentsBetween,
@@ -45,6 +45,10 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'object',
             additionalProperties: false,
             properties: {
+              minItems: {
+                type: 'integer',
+                minimum: 0,
+              },
             },
           },
           baseConfig: {
@@ -110,6 +114,7 @@ export default createRule<RuleOptions, MessageIds>({
       maxItems: Number.POSITIVE_INFINITY,
     },
     multiLine: {
+      minItems: 0,
     },
     overrides: {
       '{}': { singleLine: { spacing: 'always' } },
@@ -119,8 +124,35 @@ export default createRule<RuleOptions, MessageIds>({
     const { sourceCode } = context
     const {
       singleLine,
+      multiLine,
       overrides,
     } = options!
+
+    type OverrideKey = keyof NonNullable<typeof overrides>
+
+    const _resolvedOptions: Partial<Record<OverrideKey, Required<BaseConfig>>> = {}
+
+    function resolveOption(parenType: ParenType, nodeType: OverrideKey) {
+      if (!_resolvedOptions[nodeType]) {
+        const overridesByParen = overrides![parenType] ?? {}
+        const overridesByNode = overrides![nodeType] ?? {}
+
+        _resolvedOptions[nodeType] = {
+          singleLine: {
+            ...singleLine,
+            ...overridesByParen.singleLine,
+            ...overridesByNode.singleLine,
+          },
+          multiline: {
+            ...multiLine,
+            ...overridesByParen.multiline,
+            ...overridesByNode.multiline,
+          },
+        }
+      }
+
+      return _resolvedOptions[nodeType]
+    }
 
     function getDelimiter(root: ASTNode, current: Token): string | undefined {
       if (root.type !== 'TSInterfaceBody' && root.type !== 'TSTypeLiteral')
@@ -317,15 +349,27 @@ export default createRule<RuleOptions, MessageIds>({
       if (!left || !right)
         return
 
-      const nodeType = items[0]?.type === 'ImportAttribute' ? 'ImportAttributes' : node.type as keyof NonNullable<typeof overrides>
-      const singleLineConfig = structuredClone(singleLine!)
-      Object.assign(singleLineConfig, overrides![type]?.singleLine, overrides![nodeType]?.singleLine)
+      const nodeType = items[0]?.type === 'ImportAttribute' ? 'ImportAttributes' : node.type as OverrideKey
 
-      if (isTokenOnSameLine(left, right) && items.length <= singleLineConfig.maxItems!) {
-        checkSingleLine(node, left, right, singleLineConfig)
+      const {
+        singleLine: singleLineConfig,
+        multiline: multiLineConfig,
+      } = resolveOption(type, nodeType)
+
+      const singleLineChecker = () => checkSingleLine(node, left, right, singleLineConfig)
+      const multiLineChecker = () => checkMultiLine(node, items, left, right)
+
+      if (isTokenOnSameLine(left, right)) {
+        if (items.length <= singleLineConfig.maxItems!)
+          singleLineChecker()
+        else
+          multiLineChecker()
       }
       else {
-        checkMultiLine(node, items, left, right)
+        if (items.length <= multiLineConfig.minItems!)
+          singleLineChecker()
+        else
+          multiLineChecker()
       }
     }
 
