@@ -327,6 +327,10 @@ run<RuleOptions, MessageIds>({
       output: 'type Foo = [1,2,3]',
     },
     {
+      code: 'type Foo = [ 1, 2, 3 ]',
+      output: 'type Foo = [1, 2, 3]',
+    },
+    {
       code: $`
         new Foo(1,2,
         3)
