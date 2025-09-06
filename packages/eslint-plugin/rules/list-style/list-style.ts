@@ -313,7 +313,7 @@ export default createRule<RuleOptions, MessageIds>({
       const left = getLeftParen(node, items, leftMatcher)
       const right = getRightParen(node, items, rightMatcher)
 
-      // items => xxx
+      // ArrowFunctionExpressions (eg. const foo = items => xxx)
       if (!left || !right)
         return
 

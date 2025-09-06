@@ -420,6 +420,20 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
+        const {a,
+        b
+        } = c
+      `,
+      output: $`
+        const {a,b} = c
+      `,
+    },
+    {
+      code: 'const {a,b} = c',
+      output: 'const { a,b } = c',
+    },
+    {
+      code: $`
         const [
           a,b] = c
       `,
@@ -428,6 +442,15 @@ run<RuleOptions, MessageIds>({
           a,
         b
         ] = c
+      `,
+    },
+    {
+      code: $`
+        const [,
+        ] = foo
+      `,
+      output: $`
+        const [,] = foo
       `,
     },
     {
