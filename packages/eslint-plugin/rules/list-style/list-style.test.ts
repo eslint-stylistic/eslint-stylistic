@@ -18,16 +18,46 @@ run<RuleOptions, MessageIds>({
     'log(\na,\nb\n)',
     'function foo(a, b) {}',
     'function foo(\na,\nb\n) {}',
+    'const foo = function (a, b) {}',
+    'const foo = function (\na,\nb\n) {}',
     'const foo = (a, b) => {\n\n}',
     'const foo = (a, b): { a:b } => {\n\n}',
     'interface Foo { a: 1, b: 2 }',
     'interface Foo {\na: 1\nb: 2\n}',
+    'enum Foo { A, B }',
+    'enum Foo {\nA,\nB\n}',
     'a\n.filter(items => {\n\n})',
     'new Foo(a, b)',
     'new Foo(\na,\nb\n)',
     'function foo<T = {\na: 1,\nb: 2\n}>(a, b) {}',
     'foo(() =>\nbar())',
     `call<{\nfoo: 'bar'\n}>('')`,
+    'const { a } = foo;',
+    'const [, a] = foo;',
+    'const [a,] = foo;',
+    'const [, a,] = foo;',
+    $`
+      export { name, version } from 'package.json' with {
+        type: 'json'
+        }
+    `,
+    'export * from "foo" with { type: "json" }',
+    // overrides
+    {
+      code: $`
+        import { name, version } from 'package.json' with {type: 'json'}
+      `,
+      options: [{
+        overrides: {
+          '{}': {
+            singleLine: { spacing: 'always' },
+          },
+          'ImportAttributes': {
+            singleLine: { spacing: 'never' },
+          },
+        },
+      }],
+    },
     $`
       (Object.keys(options) as KeysOptions[])
       .forEach((key) => {
@@ -98,26 +128,6 @@ run<RuleOptions, MessageIds>({
         UserOutlined,
       } from '@ant-design/icons';
     `,
-    $`
-      export { name, version } from 'package.json' with {
-        type: 'json'
-        }
-    `,
-    {
-      code: $`
-        import { name, version } from 'package.json' with {type: 'json'}
-      `,
-      options: [{
-        overrides: {
-          '{}': {
-            singleLine: { spacing: 'always' },
-          },
-          'ImportAttributes': {
-            singleLine: { spacing: 'never' },
-          },
-        },
-      }],
-    },
   ],
   invalid: [
     {
