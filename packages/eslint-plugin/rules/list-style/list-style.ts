@@ -83,6 +83,7 @@ export default createRule<RuleOptions, MessageIds>({
               'ObjectExpression': { $ref: '#/items/0/$defs/baseConfig' },
               'ObjectPattern': { $ref: '#/items/0/$defs/baseConfig' },
               'JSXOpeningElement': { $ref: '#/items/0/$defs/baseConfig' },
+              'TSDeclareFunction': { $ref: '#/items/0/$defs/baseConfig' },
               'TSFunctionType': { $ref: '#/items/0/$defs/baseConfig' },
               'TSInterfaceBody': { $ref: '#/items/0/$defs/baseConfig' },
               'TSEnumBody': { $ref: '#/items/0/$defs/baseConfig' },
@@ -393,6 +394,9 @@ export default createRule<RuleOptions, MessageIds>({
       },
       TSEnumBody(node) {
         check('{}', node, node.members)
+      },
+      TSDeclareFunction(node) {
+        check('()', node, node.params)
       },
       TSFunctionType(node) {
         check('()', node, node.params)

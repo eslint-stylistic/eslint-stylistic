@@ -58,10 +58,21 @@ Examples of **incorrect** code for this rule with the `"always"` option:
 ```ts
 /* eslint @stylistic/exp-list-style: ["error", { "singleLine": { "spacing": "always" } }] */
 
-let foo = {a: 1};
-let bar = [1];
-let {a} = foo;
-let [b] = bar;
+let foo = {a: 1, b: 2};
+let bar = [1, 2];
+let {a, b} = foo;
+let [c, d] = bar;
+function foo(a) {}
+const foo = function (a) {}
+foo(a, b);
+new Foo<Bar>(a, b);
+import {name} from 'package.json' with {type: 'json'}
+export {name} from 'package.json' with {type: 'json'}
+export * from 'package.json' with {type: 'json'}
+type Foo<T> = {a: number; b: T};
+type Bar = [1, 2];
+type Baz<T> = (a: number, b: T) => void
+function foo<T>(a: number, b: T): void;
 ```
 
 :::
@@ -73,10 +84,21 @@ Examples of **correct** code for this rule with the `"always"` option:
 ```ts
 /* eslint @stylistic/exp-list-style: ["error", { "singleLine": { "spacing": "always" } }] */
 
-let foo = { a: 1 };
-let bar = [ 1 ];
-let { a } = foo;
-let [ b ] = bar;
+let foo = { a: 1, b: 2 };
+let bar = [ 1, 2 ];
+let { a, b } = foo;
+let [ c, d ] = bar;
+function foo( a ) {}
+const foo = function ( a ) {}
+foo( a, b );
+new Foo< Bar >( a, b );
+import { name } from 'package.json' with { type: 'json' }
+export { name } from 'package.json' with { type: 'json' }
+export * from 'package.json' with { type: 'json' }
+type Foo< T > = { a: number; b: T };
+type Bar = [ 1, 2 ];
+type Baz< T > = ( a: number, b: T ) => void
+function foo< T >( a: number, b: T ): void;
 ```
 
 :::
@@ -164,7 +186,8 @@ You can also specify different options for various node types:
 - `ObjectExpression`: object literals
 - `ObjectPattern`: object patterns of destructuring assignments
 - `JSXOpeningElement`: jsx props of opening elements
-- `TSFunctionType`: parameters of function types
+- `TSDeclareFunction`: parameters of function type declarations
+- `TSFunctionType`: parameters of arrow function type declarations
 - `TSInterfaceBody`: interfaces declarations
 - `TSEnumBody`: enum declarations
 - `TSTupleType`: tuple types

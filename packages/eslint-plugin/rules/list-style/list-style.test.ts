@@ -656,6 +656,14 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: $`
+        function foo< T >( a: number, b: string ): void
+      `,
+      output: $`
+        function foo<T>(a: number, b: string): void
+      `,
+    },
+    {
+      code: $`
         export { name, version} from 'package.json' with {
           type: 'json'}
       `,
