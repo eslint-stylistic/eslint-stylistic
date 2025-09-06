@@ -9,7 +9,6 @@ related_rules:
   - object-curly-spacing
   - object-property-newline
   - jsx-function-call-newline
-  - jsx-max-props-per-line
 ---
 
 # list-style
@@ -154,7 +153,7 @@ You can specify different options for specific bracket types:
 - `{}` - curly braces (objects)
 - `[]` - square brackets (arrays)
 - `()` - parentheses (function calls, parameters)
-- `<>` - angle brackets (TypeScript generics, JSX)
+- `<>` - angle brackets (TypeScript generics)
 
 Examples of correct code for this rule with the "overrides" option specified for brackets:
 
@@ -185,7 +184,6 @@ You can also specify different options for various node types:
 - `NewExpression`: parameters of new expressions
 - `ObjectExpression`: object literals
 - `ObjectPattern`: object patterns of destructuring assignments
-- `JSXOpeningElement`: jsx props of opening elements
 - `TSDeclareFunction`: parameters of function type declarations
 - `TSFunctionType`: parameters of arrow function type declarations
 - `TSInterfaceBody`: interfaces declarations

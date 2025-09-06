@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: fqd32SNtefJeTKo42g-h1FYC_BhsHQbebzYF8KmCncM */
+/* @checksum: fEnYE992Lo6yQw9f4nfdDFL4ErwALqmlqij8AZ-F5eY */
 
 export interface ListStyleSchema0 {
   singleLine?: SingleLineConfig
@@ -22,7 +22,6 @@ export interface ListStyleSchema0 {
     'NewExpression'?: BaseConfig
     'ObjectExpression'?: BaseConfig
     'ObjectPattern'?: BaseConfig
-    'JSXOpeningElement'?: BaseConfig
     'TSDeclareFunction'?: BaseConfig
     'TSFunctionType'?: BaseConfig
     'TSInterfaceBody'?: BaseConfig
