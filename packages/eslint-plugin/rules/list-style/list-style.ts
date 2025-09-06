@@ -1,5 +1,5 @@
 import type { ASTNode, Token, Tree } from '#types'
-import type { BaseConfig, MessageIds, RuleOptions, SingleLineConfig } from './types'
+import type { BaseConfig, MessageIds, RuleOptions } from './types'
 import {
   AST_NODE_TYPES,
   hasCommentsBetween,
@@ -161,9 +161,12 @@ export default createRule<RuleOptions, MessageIds>({
       return current.value.match(/(?:,|;)$/) ? undefined : ','
     }
 
-    function checkSingleLine(node: ASTNode, left: Token, right: Token, config: SingleLineConfig) {
-      function checkSpacing(prev: Token, next: Token) {
-        const shouldSpace = config.spacing === 'always'
+    function checkSpacing(node: ASTNode, left: Token, right: Token, config: BaseConfig) {
+      const shouldSpace = config.singleLine!.spacing === 'always'
+      const firstToken = sourceCode.getTokenAfter(left, { includeComments: true })!
+      const lastToken = sourceCode.getTokenBefore(right, { includeComments: true })!
+
+      function doCheck(prev: Token, next: Token) {
         const spaced = sourceCode.isSpaceBetween(prev, next)
 
         if (!spaced && shouldSpace) {
@@ -202,19 +205,17 @@ export default createRule<RuleOptions, MessageIds>({
         }
       }
 
-      const firstToken = sourceCode.getTokenAfter(left, { includeComments: true })!
-      checkSpacing(left, firstToken)
-
-      const lastToken = sourceCode.getTokenBefore(right, { includeComments: true })!
-      checkSpacing(lastToken, right)
+      doCheck(left, firstToken)
+      doCheck(lastToken, right)
     }
 
-    function checkMultiLine(node: ASTNode, items: (ASTNode | null)[], left: Token, right: Token) {
+    function checkWrap(node: ASTNode, items: (ASTNode | null)[], left: Token, right: Token, config: BaseConfig) {
       const len = items.length
 
-      const needWrap = isTokenOnSameLine(left, right) || !isTokenOnSameLine(left, items[0] ?? sourceCode.getTokenAfter(left)!)
+      const needWrap = items.length >= config.multiline!.minItems!
+        && (isTokenOnSameLine(left, right) || !isTokenOnSameLine(left, items[0] ?? sourceCode.getTokenAfter(left)!))
 
-      function checkWrap(prev: Token, next: Token) {
+      function doCheck(prev: Token, next: Token) {
         if (isTokenOnSameLine(prev, next)) {
           if (!needWrap)
             return
@@ -275,7 +276,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (!currentItem)
           break
 
-        checkWrap(
+        doCheck(
           sourceCode.getTokenBefore(currentItem, {
             filter: token => isNotOpeningParenToken(token) || token === left,
             includeComments: false,
@@ -284,7 +285,7 @@ export default createRule<RuleOptions, MessageIds>({
         )
       }
 
-      checkWrap(
+      doCheck(
         sourceCode.getTokenBefore(right, { includeComments: false })!,
         right,
       )
@@ -311,7 +312,9 @@ export default createRule<RuleOptions, MessageIds>({
       },
     }
 
-    function getLeftParen(node: ASTNode, items: (ASTNode | null)[], matcher: (token: Token) => boolean) {
+    function getLeftParen(node: ASTNode, items: (ASTNode | null)[], type: ParenType) {
+      const { left: matcher } = parenMatchers[type]
+
       switch (node.type) {
         case AST_NODE_TYPES.CallExpression:
         case AST_NODE_TYPES.NewExpression:
@@ -326,24 +329,21 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function getRightParen(node: ASTNode, items: (ASTNode | null)[], matcher: (token: Token) => boolean) {
+    function getRightParen(node: ASTNode, items: (ASTNode | null)[], type: ParenType) {
       const lastItem = items.at(-1)
+      const { right: matcher } = parenMatchers[type]
+
       return lastItem
         ? sourceCode.getTokenAfter(lastItem, matcher)
         : sourceCode.getLastToken(node, matcher)
     }
 
-    function check(type: ParenType, node: ASTNode, items: (ASTNode | null)[]) {
+    function check(parenType: ParenType, node: ASTNode, items: (ASTNode | null)[]) {
       if (items.length === 0)
         return
 
-      const {
-        left: leftMatcher,
-        right: rightMatcher,
-      } = parenMatchers[type]
-
-      const left = getLeftParen(node, items, leftMatcher)
-      const right = getRightParen(node, items, rightMatcher)
+      const left = getLeftParen(node, items, parenType)
+      const right = getRightParen(node, items, parenType)
 
       // ArrowFunctionExpressions (eg. const foo = items => xxx)
       if (!left || !right)
@@ -351,25 +351,13 @@ export default createRule<RuleOptions, MessageIds>({
 
       const nodeType = items[0]?.type === 'ImportAttribute' ? 'ImportAttributes' : node.type as OverrideKey
 
-      const {
-        singleLine: singleLineConfig,
-        multiline: multiLineConfig,
-      } = resolveOption(type, nodeType)
+      const config = resolveOption(parenType, nodeType)
 
-      const singleLineChecker = () => checkSingleLine(node, left, right, singleLineConfig)
-      const multiLineChecker = () => checkMultiLine(node, items, left, right)
-
-      if (isTokenOnSameLine(left, right)) {
-        if (items.length <= singleLineConfig.maxItems!)
-          singleLineChecker()
-        else
-          multiLineChecker()
+      if (isTokenOnSameLine(left, right) && items.length <= config.singleLine.maxItems!) {
+        checkSpacing(node, left, right, config)
       }
       else {
-        if (items.length <= multiLineConfig.minItems!)
-          singleLineChecker()
-        else
-          multiLineChecker()
+        checkWrap(node, items, left, right, config)
       }
     }
 

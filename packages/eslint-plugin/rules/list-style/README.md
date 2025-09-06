@@ -27,7 +27,9 @@ This rule accepts an object option:
 
 - [`"singleLine"`](#singleline): Options for when the node is single-line
   - [`"spacing"`](#spacing): Whether spaces are required inside the enclosing brackets
-  - [`"maxItems"`](#maxItems): Maximum number of elements allowed before auto-fixing to multi-line
+  - [`"maxItems"`](#maxitems): Maximum number of elements allowed before auto-fixing to multi-line
+- [`"multiLine"`](#multiline): Options for when the node is multi-line
+  - [`"minItems"`](#minitems): Minimum number of elements allowed before auto-fixing to single-line
 - [`"overrides"`](#overrides): Override options based on bracket type or node type
 
 The default configuration of this rule is:
@@ -133,6 +135,64 @@ let foo = {
 let bar = [
   1,
   2
+];
+let {
+  a,
+  b
+} = foo;
+let [
+  a,
+  b
+] = bar;
+```
+
+:::
+
+### multiLine
+
+#### minItems
+
+Examples of **incorrect** code for this rule with the `"minItems"` option:
+
+::: incorrect
+
+```ts
+/* eslint @stylistic/exp-list-style: ["error", { "multiLine": { "minItems": 3 } }] */
+
+let foo = {
+  a: 1,
+  b: 2,
+};
+let bar = [
+  1,
+  2,
+];
+let {
+  a,
+  b,
+} = foo;
+let [
+  a,
+  b,
+] = bar;
+```
+
+:::
+
+Examples of **correct** code for this rule with the `"minItems"` option:
+
+::: correct
+
+```ts
+/* eslint @stylistic/exp-list-style: ["error", { "multiLine": { "minItems": 1 } }] */
+
+let foo = {
+  a: 1,
+  b: 2,
+};
+let bar = [
+  1,
+  2,
 ];
 let {
   a,

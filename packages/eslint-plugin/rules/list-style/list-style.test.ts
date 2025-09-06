@@ -42,6 +42,32 @@ run<RuleOptions, MessageIds>({
         }
     `,
     'export * from "foo" with { type: "json" }',
+
+    {
+      code: $`
+        const foo = [1]
+        const bar = [
+          1, 
+          2,
+        ];
+      `,
+      options: [{ singleLine: { maxItems: 1 } }],
+    },
+    {
+      code: $`
+        const foo = [1, 2];
+        const bar = { a: 1, b: 2 };
+        const foo = [
+          1,
+          2,
+        ];
+        const bar = {
+          a: 1,
+          b: 2,
+        };
+      `,
+      options: [{ multiLine: { minItems: 2 } }],
+    },
     // overrides
     {
       code: $`
@@ -672,6 +698,40 @@ run<RuleOptions, MessageIds>({
           type: 'json'
         }
       `,
+    },
+    {
+      code: $`
+        const foo = [1, 2];
+        const bar = { a: 1, b: 2 };
+      `,
+      output: $`
+        const foo = [
+        1, 
+        2
+        ];
+        const bar = { 
+        a: 1, 
+        b: 2 
+        };
+      `,
+      options: [{ singleLine: { maxItems: 1 } }],
+    },
+    {
+      code: $`
+        const foo = [
+        1, 
+        2
+        ];
+        const bar = { 
+        a: 1, 
+        b: 2 
+        };
+      `,
+      output: $`
+        const foo = [1, 2];
+        const bar = { a: 1, b: 2 };
+      `,
+      options: [{ multiLine: { minItems: 3 } }],
     },
   ],
 })
