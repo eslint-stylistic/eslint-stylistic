@@ -40,6 +40,9 @@ The default configuration of this rule is:
     spacing: 'never',
     maxItems: Number.POSITIVE_INFINITY,
   },
+  multiLine: {
+    minItems: 0,
+  },
   overrides: {
     '{}': { singleLine: { spacing: 'always' } },
   },
