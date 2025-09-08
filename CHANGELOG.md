@@ -1,5 +1,30 @@
 # Changelog
 
+## [5.4.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.3.1...v5.4.0) (2025-09-08)
+
+
+### Features
+
+* introduce experimental mechanism ([#894](https://github.com/eslint-stylistic/eslint-stylistic/issues/894)) ([87f09ee](https://github.com/eslint-stylistic/eslint-stylistic/commit/87f09ee6fa2a05e14b745c0777a8e2c3fd73db1c))
+* **object-curly-spacing:** introduce `overrides` ([#898](https://github.com/eslint-stylistic/eslint-stylistic/issues/898)) ([2a422b7](https://github.com/eslint-stylistic/eslint-stylistic/commit/2a422b7955f317a141e1d921b05c9156072765e5))
+
+
+### Bug Fixes
+
+* correctly display the deprecation warning ([#967](https://github.com/eslint-stylistic/eslint-stylistic/issues/967)) ([094aa48](https://github.com/eslint-stylistic/eslint-stylistic/commit/094aa485264e0b904bee51b96612c4f7672a1979))
+* **multiline-comment-style:** correctly handle ignored comments ([#969](https://github.com/eslint-stylistic/eslint-stylistic/issues/969)) ([cad56b2](https://github.com/eslint-stylistic/eslint-stylistic/commit/cad56b2ad7d694efeda8891dabf8bb2c7fe1cfb0))
+* **quote-props:** only check ES3 reserved words for `keywords` option ([#964](https://github.com/eslint-stylistic/eslint-stylistic/issues/964)) ([bc4810f](https://github.com/eslint-stylistic/eslint-stylistic/commit/bc4810fb3482247612fc71f30d23411b9d334b71))
+
+
+### Documentation
+
+* **indent:** introduce `assignmentOperator` ([#974](https://github.com/eslint-stylistic/eslint-stylistic/issues/974)) ([8a096a8](https://github.com/eslint-stylistic/eslint-stylistic/commit/8a096a80619bf1ce6ce886a670bf199746d40299))
+
+
+### Build Related
+
+* **deps:** bump actions/setup-node from 4 to 5 ([#976](https://github.com/eslint-stylistic/eslint-stylistic/issues/976)) ([2983f00](https://github.com/eslint-stylistic/eslint-stylistic/commit/2983f0097bedc4d14dfbd0a574b0eff5dcc2a5b0))
+
 ## [5.3.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.3.0...v5.3.1) (2025-09-01)
 
 
