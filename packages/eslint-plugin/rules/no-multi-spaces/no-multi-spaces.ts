@@ -37,7 +37,10 @@ export default createRule<RuleOptions, MessageIds>({
             default: false,
           },
           includeTabs: {
-            type: 'boolean',
+            oneOf: [
+              { type: 'boolean' },
+              { type: 'string', enum: ['as-multiple-spaces'] },
+            ],
             default: true,
           },
         },
@@ -57,7 +60,11 @@ export default createRule<RuleOptions, MessageIds>({
     const exceptions = Object.assign({ Property: true, ImportAttribute: true }, options.exceptions)
     const hasExceptions = Object.keys(exceptions).some(key => exceptions[key])
 
-    const spacesRe = options.includeTabs === false ? / {2}/ : /[ \t]{2}/
+    const spacesRe = options.includeTabs === false
+      ? / {2}/
+      : options.includeTabs === 'as-multiple-spaces'
+        ? /(?:\t| {2})/
+        : /[ \t]{2}/
 
     /**
      * Formats value of given comment token for error message by truncating its length.
