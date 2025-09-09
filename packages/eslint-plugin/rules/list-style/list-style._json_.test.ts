@@ -110,7 +110,7 @@ run<RuleOptions, MessageIds>({
       description: 'Only ignore when there is a comment',
       code: $`
         {
-          "foo": {          "a": "1",
+          "foo": { "a": "1",
             // comment
             "b": "2"
           },
@@ -120,9 +120,11 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         {
-          "foo": {          "a": "1",
+          "foo": { 
+        "a": "1",
             // comment
-            "b": "2"  },
+            "b": "2"
+          },
           "bar": ["1",  "2"]
         }
       `,

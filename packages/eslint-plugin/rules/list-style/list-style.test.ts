@@ -161,6 +161,17 @@ run<RuleOptions, MessageIds>({
         )
       )
     `,
+    {
+      code: $`
+        const foo = {
+          /**
+           * @default 1
+           */
+          bar: 1,
+        }
+      `,
+      options: [{ multiLine: { minItems: 2 } }],
+    },
   ],
   invalid: [
     {
@@ -520,8 +531,10 @@ run<RuleOptions, MessageIds>({
         )
       `,
       output: $`
-        export default antfu({
-        },{
+        export default antfu(
+        {
+        },
+        {
           foo: 'bar'
         }
           // some comment
@@ -544,12 +557,14 @@ run<RuleOptions, MessageIds>({
         )
       `,
       output: $`
-        export default antfu({
+        export default antfu(
+        {
         },
         // some comment
         {
           foo: 'bar'
-        },{
+        },
+        {
         }
           // hello
         )
@@ -748,6 +763,24 @@ run<RuleOptions, MessageIds>({
       output: $`
         foo(a,)
       `,
+    },
+    {
+      code: $`
+        const x = { /* @default 1 */ a: 1, b: 2 }
+      `,
+      output: $`
+        const x = { 
+        /* @default 1 */ a: 1, 
+        b: 2 
+        }
+      `,
+      options: [{ singleLine: { maxItems: 1 } }],
+      errors: [
+        { messageId: 'shouldWrap', line: 1, column: 12 },
+        { messageId: 'shouldWrap', line: 1, column: 12 },
+        { messageId: 'shouldWrap', line: 1, column: 35 },
+        { messageId: 'shouldWrap', line: 1, column: 40 },
+      ],
     },
   ],
 })

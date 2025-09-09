@@ -11,6 +11,7 @@ import {
   isOpeningBraceToken,
   isOpeningBracketToken,
   isOpeningParenToken,
+  isSingleLine,
   isTokenOnSameLine,
   LINEBREAK_MATCHER,
 } from '#utils/ast'
@@ -213,8 +214,11 @@ export default createRule<RuleOptions, MessageIds>({
     function checkWrap(node: ASTNode, items: (ASTNode | null)[], left: Token, right: Token, config: BaseConfig) {
       const len = items.length
 
-      const needWrap = items.length >= config.multiline!.minItems!
-        && (isTokenOnSameLine(left, right) || !isTokenOnSameLine(left, items[0] ?? sourceCode.getTokenAfter(left)!))
+      const needWrap = (
+        isSingleLine(node)
+          ? len > config.singleLine!.maxItems!
+          : len >= config.multiline!.minItems! && !isTokenOnSameLine(left, items[0] ?? sourceCode.getTokenAfter(left)!)
+      ) || hasCommentsBetween(sourceCode, left, right, comment => comment.type === 'Line' || !isSingleLine(comment))
 
       function doCheck(prev: Token, next: Token) {
         if (isTokenOnSameLine(prev, next)) {
@@ -272,18 +276,26 @@ export default createRule<RuleOptions, MessageIds>({
         }
       }
 
+      const tokenAfterLeft = sourceCode.getTokenAfter(left, { includeComments: true })!
+
+      doCheck(left, tokenAfterLeft)
+
       for (let i = 0; i < len; i++) {
         const currentItem = items[i]
         if (!currentItem)
-          break
+          continue
 
-        doCheck(
-          sourceCode.getTokenBefore(currentItem, {
-            filter: token => isNotOpeningParenToken(token) || token === left,
-            includeComments: false,
-          })!,
-          sourceCode.getFirstToken(currentItem)!,
-        )
+        const currentFirstToken = sourceCode.getFirstToken(currentItem)!
+
+        if (i === 0 && tokenAfterLeft === currentFirstToken)
+          continue
+
+        const tokenBeforeItem = sourceCode.getTokenBefore(currentItem, {
+          filter: token => isNotOpeningParenToken(token) || token === left,
+          includeComments: false,
+        })!
+
+        doCheck(tokenBeforeItem, currentFirstToken)
       }
 
       doCheck(
