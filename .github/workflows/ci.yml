@@ -72,8 +72,6 @@ jobs:
 
       - name: Build
         run: nr build
-        env:
-          BUNDLE_ANALYSIS: true
 
       - name: Test
         run: nr test
