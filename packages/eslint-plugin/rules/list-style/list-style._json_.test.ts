@@ -58,6 +58,9 @@ run<RuleOptions, MessageIds>({
           "foo": ["bar",  "baz"],
         }
       `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 2, column: 17 },
+      ],
     },
     {
       code: $`
@@ -75,6 +78,9 @@ run<RuleOptions, MessageIds>({
           ],
         }
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 3, column: 11 },
+      ],
     },
     {
       code: $`
@@ -88,6 +94,9 @@ run<RuleOptions, MessageIds>({
           "foo": {"a": "1",  "b": "2"}
         }
       `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 2, column: 20 },
+      ],
     },
     {
       code: $`
@@ -105,6 +114,9 @@ run<RuleOptions, MessageIds>({
           }
         }
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 3, column: 14 },
+      ],
     },
     {
       description: 'Only ignore when there is a comment',
@@ -128,6 +140,10 @@ run<RuleOptions, MessageIds>({
           "bar": ["1",  "2"]
         }
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 11 },
+        { messageId: 'shouldNotWrap', line: 6, column: 15 },
+      ],
     },
   ],
 })

@@ -185,6 +185,10 @@ run<RuleOptions, MessageIds>({
         bar: 2 
         }
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 12 },
+        { messageId: 'shouldWrap', line: 2, column: 19 },
+      ],
     },
     {
       code: $`
@@ -195,6 +199,10 @@ run<RuleOptions, MessageIds>({
       output: $`
         const a = {foo: "bar", bar: 2}
       `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 23 },
+        { messageId: 'shouldNotWrap', line: 2, column: 7 },
+      ],
     },
     {
       code: $`
@@ -208,6 +216,11 @@ run<RuleOptions, MessageIds>({
         3
         ]
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 3 },
+        { messageId: 'shouldWrap', line: 2, column: 6 },
+        { messageId: 'shouldWrap', line: 2, column: 8 },
+      ],
     },
     {
       code: $`
@@ -218,6 +231,10 @@ run<RuleOptions, MessageIds>({
       output: $`
         const a = [1, 2, 3]
       `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 14 },
+        { messageId: 'shouldNotWrap', line: 2, column: 5 },
+      ],
     },
     {
       code: $`
@@ -230,6 +247,10 @@ run<RuleOptions, MessageIds>({
         bar 
         } from "foo"
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 5 },
+        { messageId: 'shouldWrap', line: 2, column: 9 },
+      ],
     },
     {
       code: $`
@@ -239,6 +260,9 @@ run<RuleOptions, MessageIds>({
       output: $`
         import { foo, bar } from "foo"
       `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 14 },
+      ],
     },
     {
       code: $`
@@ -251,6 +275,20 @@ run<RuleOptions, MessageIds>({
         b
         )
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 3 },
+        { messageId: 'shouldWrap', line: 2, column: 5 },
+      ],
+    },
+    {
+      code: $`
+        function foo(a, b
+        ){}
+      `,
+      output: 'function foo(a, b){}',
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 18 },
+      ],
     },
     {
       code: $`
@@ -263,6 +301,10 @@ run<RuleOptions, MessageIds>({
         b
         ) {}
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 3 },
+        { messageId: 'shouldWrap', line: 2, column: 5 },
+      ],
     },
     {
       code: $`
@@ -275,6 +317,10 @@ run<RuleOptions, MessageIds>({
         b
         ) => {}
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 3 },
+        { messageId: 'shouldWrap', line: 2, column: 5 },
+      ],
     },
     {
       code: $`
@@ -290,6 +336,11 @@ run<RuleOptions, MessageIds>({
         a:b
         } => {}
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 3 },
+        { messageId: 'shouldWrap', line: 2, column: 5 },
+        { messageId: 'shouldWrap', line: 3, column: 4 },
+      ],
     },
     {
       code: $`
@@ -309,6 +360,10 @@ run<RuleOptions, MessageIds>({
           },
         },
       }],
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 3 },
+        { messageId: 'shouldWrap', line: 2, column: 5 },
+      ],
     },
     {
       code: $`
@@ -322,16 +377,35 @@ run<RuleOptions, MessageIds>({
         b: 2
         }
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 6 },
+      ],
     },
     {
       description: 'Add delimiter to avoid syntax error, (interface)',
-      code: 'interface Foo {a: 1\nb: 2\n}',
+      code: $`
+        interface Foo {a: 1
+        b: 2
+        }
+      `,
       output: 'interface Foo {a: 1,b: 2,}',
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 20 },
+        { messageId: 'shouldNotWrap', line: 2, column: 5 },
+      ],
     },
     {
       description: 'Delimiter already exists',
-      code: 'interface Foo {a: 1;\nb: 2,\nc: 3}',
+      code: $`
+        interface Foo {a: 1;
+        b: 2,
+        c: 3}
+      `,
       output: 'interface Foo {a: 1;b: 2,c: 3}',
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 21 },
+        { messageId: 'shouldNotWrap', line: 2, column: 6 },
+      ],
     },
     {
       description: 'Delimiter in the middle',
@@ -344,6 +418,11 @@ run<RuleOptions, MessageIds>({
       output: $`
         export interface Foo {        a: 1,  b: Pick<Bar, 'baz'>,  c: 3,}
       `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 35 },
+        { messageId: 'shouldNotWrap', line: 2, column: 22 },
+        { messageId: 'shouldNotWrap', line: 3, column: 7 },
+      ],
     },
     {
       code: $`
@@ -357,11 +436,36 @@ run<RuleOptions, MessageIds>({
         b: 2
         }
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 6 },
+      ],
     },
     {
       description: 'Add delimiter to avoid syntax error, (type)',
-      code: 'type Foo = {a: 1\nb: 2\n}',
+      code: $`
+        type Foo = {a: 1
+        b: 2
+        }
+      `,
       output: 'type Foo = {a: 1,b: 2,}',
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 17 },
+        { messageId: 'shouldNotWrap', line: 2, column: 5 },
+      ],
+    },
+    {
+      code: $`
+        type foo = [
+        1]
+      `,
+      output: $`
+        type foo = [
+        1
+        ]
+      `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 2 },
+      ],
     },
     {
       code: $`
@@ -369,10 +473,17 @@ run<RuleOptions, MessageIds>({
         3]
       `,
       output: 'type Foo = [1,2,3]',
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 17 },
+      ],
     },
     {
       code: 'type Foo = [ 1, 2, 3 ]',
       output: 'type Foo = [1, 2, 3]',
+      errors: [
+        { messageId: 'shouldNotSpacing', line: 1, column: 13 },
+        { messageId: 'shouldNotSpacing', line: 1, column: 21 },
+      ],
     },
     {
       code: $`
@@ -380,6 +491,9 @@ run<RuleOptions, MessageIds>({
         3)
       `,
       output: 'new Foo(1,2,3)',
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 13 },
+      ],
     },
     {
       code: $`
@@ -394,6 +508,10 @@ run<RuleOptions, MessageIds>({
         3
         )
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 3 },
+        { messageId: 'shouldWrap', line: 3, column: 2 },
+      ],
     },
     {
       code: $`
@@ -409,6 +527,9 @@ run<RuleOptions, MessageIds>({
         baz()
         )
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 4, column: 6 },
+      ],
     },
     {
       code: $`
@@ -420,6 +541,9 @@ run<RuleOptions, MessageIds>({
         foo(()=>bar(),()=>
         baz())
       `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 15 },
+      ],
     },
     {
       code: $`
@@ -427,6 +551,9 @@ run<RuleOptions, MessageIds>({
         Y>(1, 2)
       `,
       output: 'foo<X,Y>(1, 2)',
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 7 },
+      ],
     },
     {
       code: $`
@@ -443,6 +570,12 @@ run<RuleOptions, MessageIds>({
         2
         )
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 3 },
+        { messageId: 'shouldWrap', line: 2, column: 4 },
+        { messageId: 'shouldWrap', line: 3, column: 3 },
+        { messageId: 'shouldWrap', line: 3, column: 5 },
+      ],
     },
     {
       code: $`
@@ -455,6 +588,10 @@ run<RuleOptions, MessageIds>({
         Y
         >() {}
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 3 },
+        { messageId: 'shouldWrap', line: 2, column: 4 },
+      ],
     },
     {
       code: $`
@@ -465,20 +602,18 @@ run<RuleOptions, MessageIds>({
       output: $`
         const {a,b} = c
       `,
-    },
-    {
-      code: $`
-        const {a,
-        b
-        } = c
-      `,
-      output: $`
-        const {a,b} = c
-      `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 10 },
+        { messageId: 'shouldNotWrap', line: 2, column: 2 },
+      ],
     },
     {
       code: 'const {a,b} = c',
       output: 'const { a,b } = c',
+      errors: [
+        { messageId: 'shouldSpacing', line: 1, column: 8 },
+        { messageId: 'shouldSpacing', line: 1, column: 11 },
+      ],
     },
     {
       code: $`
@@ -491,6 +626,10 @@ run<RuleOptions, MessageIds>({
         b
         ] = c
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 5 },
+        { messageId: 'shouldWrap', line: 2, column: 6 },
+      ],
     },
     {
       code: $`
@@ -500,6 +639,9 @@ run<RuleOptions, MessageIds>({
       output: $`
         const [,] = foo
       `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 9 },
+      ],
     },
     {
       code: $`
@@ -512,11 +654,19 @@ run<RuleOptions, MessageIds>({
         b
         ]) => {})
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 3 },
+        { messageId: 'shouldWrap', line: 2, column: 4 },
+      ],
     },
     {
       description: 'CRLF',
       code: 'const a = {foo: "bar", \r\nbar: 2\r\n}',
       output: 'const a = {foo: "bar", bar: 2}',
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 23 },
+        { messageId: 'shouldNotWrap', line: 2, column: 7 },
+      ],
     },
     // https://github.com/antfu/eslint-plugin-antfu/issues/18
     {
@@ -541,6 +691,9 @@ run<RuleOptions, MessageIds>({
           // hello
         )
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 1, column: 22 },
+      ],
     },
     // https://github.com/antfu/eslint-plugin-antfu/issues/18
     {
@@ -569,6 +722,9 @@ run<RuleOptions, MessageIds>({
           // hello
         )
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 1, column: 22 },
+      ],
     },
     {
       description: 'Check for function arguments in type',
@@ -590,6 +746,12 @@ run<RuleOptions, MessageIds>({
         ) => void
         }
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 3, column: 17 },
+        { messageId: 'shouldWrap', line: 4, column: 19 },
+        { messageId: 'shouldWrap', line: 4, column: 31 },
+        { messageId: 'shouldWrap', line: 4, column: 33 },
+      ],
     },
     {
       code: $`
@@ -601,6 +763,9 @@ run<RuleOptions, MessageIds>({
         a:1
         }
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 4 },
+      ],
     },
     {
       code: $`
@@ -610,6 +775,9 @@ run<RuleOptions, MessageIds>({
       output: $`
         interface foo {a:1}
       `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 19 },
+      ],
     },
     {
       code: $`
@@ -621,6 +789,9 @@ run<RuleOptions, MessageIds>({
         a:1
         }
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 4 },
+      ],
     },
     {
       code: $`
@@ -630,26 +801,9 @@ run<RuleOptions, MessageIds>({
       output: $`
         type foo = {a:1}
       `,
-    },
-    {
-      code: $`
-        type foo = [
-        1]
-      `,
-      output: $`
-        type foo = [
-        1
-        ]
-      `,
-    },
-    {
-      code: $`
-        type foo = [1
-        ]
-      `,
-      output: $`
-        type foo = [1]
-      `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 16 },
+      ],
     },
     {
       code: $`
@@ -661,6 +815,9 @@ run<RuleOptions, MessageIds>({
         1
         ]
       `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 2 },
+      ],
     },
     {
       code: $`
@@ -672,35 +829,9 @@ run<RuleOptions, MessageIds>({
         a:1
         }
       `,
-    },
-    {
-      code: $`
-        const foo = {a:1
-        }
-      `,
-      output: $`
-        const foo = {a:1}
-      `,
-    },
-    {
-      code: $`
-        function foo(a
-        ){}
-      `,
-      output: $`
-        function foo(a){}
-      `,
-    },
-    {
-      code: $`
-        function foo(
-        a){}
-      `,
-      output: $`
-        function foo(
-        a
-        ){}
-      `,
+      errors: [
+        { messageId: 'shouldWrap', line: 2, column: 4 },
+      ],
     },
     {
       code: $`
@@ -709,6 +840,12 @@ run<RuleOptions, MessageIds>({
       output: $`
         function foo<T>(a: number, b: string): void
       `,
+      errors: [
+        { messageId: 'shouldNotSpacing', line: 1, column: 14 },
+        { messageId: 'shouldNotSpacing', line: 1, column: 16 },
+        { messageId: 'shouldNotSpacing', line: 1, column: 19 },
+        { messageId: 'shouldNotSpacing', line: 1, column: 40 },
+      ],
     },
     {
       code: $`
@@ -720,6 +857,10 @@ run<RuleOptions, MessageIds>({
           type: 'json'
         }
       `,
+      errors: [
+        { messageId: 'shouldSpacing', line: 1, column: 23 },
+        { messageId: 'shouldWrap', line: 2, column: 15 },
+      ],
     },
     {
       code: $`
@@ -737,6 +878,14 @@ run<RuleOptions, MessageIds>({
         };
       `,
       options: [{ singleLine: { maxItems: 1 } }],
+      errors: [
+        { messageId: 'shouldWrap', line: 1, column: 14 },
+        { messageId: 'shouldWrap', line: 1, column: 16 },
+        { messageId: 'shouldWrap', line: 1, column: 18 },
+        { messageId: 'shouldWrap', line: 2, column: 14 },
+        { messageId: 'shouldWrap', line: 2, column: 20 },
+        { messageId: 'shouldWrap', line: 2, column: 25 },
+      ],
     },
     {
       code: $`
@@ -754,8 +903,17 @@ run<RuleOptions, MessageIds>({
         const bar = { a: 1, b: 2 };
       `,
       options: [{ multiLine: { minItems: 3 } }],
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 14 },
+        { messageId: 'shouldNotWrap', line: 2, column: 3 },
+        { messageId: 'shouldNotWrap', line: 3, column: 2 },
+        { messageId: 'shouldNotWrap', line: 5, column: 14 },
+        { messageId: 'shouldNotWrap', line: 6, column: 6 },
+        { messageId: 'shouldNotWrap', line: 7, column: 5 },
+      ],
     },
     {
+      description: 'Trailing semi',
       code: $`
         foo(a,
         )
@@ -763,6 +921,9 @@ run<RuleOptions, MessageIds>({
       output: $`
         foo(a,)
       `,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 7 },
+      ],
     },
     {
       code: $`
