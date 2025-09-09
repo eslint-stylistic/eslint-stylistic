@@ -21,6 +21,4 @@ jobs:
           cache: pnpm
       - run: pnpm install
       - run: pnpm build
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
       - run: pnpx pkg-pr-new publish --compact --pnpm './packages/*'

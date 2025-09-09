@@ -67,8 +67,13 @@ jobs:
       - name: Install
         run: nci
 
+      - run: echo "BUNDLE_ANALYSIS=1" >> $GITHUB_ENV
+        if: ${{ matrix.node == 'lts/*' && matrix.os == 'ubuntu-latest' }}
+
       - name: Build
         run: nr build
+        env:
+          BUNDLE_ANALYSIS: true
 
       - name: Test
         run: nr test
@@ -81,8 +86,8 @@ jobs:
       - name: Report coverage
         uses: codecov/codecov-action@v5
         if: ${{ matrix.node == 'lts/*' && matrix.os == 'ubuntu-latest' }}
-        env:
-          CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+        with:
+          use_oidc: true
 
       - name: Fixtures
         run: nr test:fixtures

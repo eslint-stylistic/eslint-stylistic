@@ -56,10 +56,12 @@ export function createConfig(cwd: string) {
           ? []
           : [
               codecovRollupPlugin({
-                enableBundleAnalysis: env.CODECOV_TOKEN !== undefined,
+                enableBundleAnalysis: env.BUNDLE_ANALYSIS !== undefined,
                 bundleName: pkg.name,
-                uploadToken: env.CODECOV_TOKEN,
                 gitService: 'github',
+                oidc: {
+                  useGitHubOIDC: true,
+                },
               }),
             ],
       ],
