@@ -50,13 +50,16 @@ export default createRule<RuleOptions, MessageIds>({
               named: OVERRIDE_SCHEMA,
               anonymous: OVERRIDE_SCHEMA,
               method: OVERRIDE_SCHEMA,
+              shorthand: OVERRIDE_SCHEMA,
             },
             additionalProperties: false,
           },
         ],
       },
     ],
-
+    defaultOptions: [
+      { before: true, after: false },
+    ],
     messages: {
       missingBefore: 'Missing space before *.',
       missingAfter: 'Missing space after *.',
@@ -65,7 +68,7 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
 
-  create(context) {
+  create(context, [options]) {
     const optionDefinitions = {
       before: { before: true, after: false },
       after: { before: false, after: true },
@@ -81,24 +84,27 @@ export default createRule<RuleOptions, MessageIds>({
      * @param defaults The defaults to use if options are not present
      * @returns the resolved object definition
      */
-    function optionToDefinition(option: NonNullable<RuleOptions[0]> | undefined, defaults: { before: boolean, after: boolean }) {
+    function optionToDefinition(option: RuleOptions[0], defaults: { before: boolean, after: boolean }) {
       if (!option)
         return defaults
 
       return typeof option === 'string'
-        ? optionDefinitions[option as keyof typeof optionDefinitions]
+        ? optionDefinitions[option]
         : Object.assign({}, defaults, option)
     }
 
-    const modes = (function (option) {
-      const defaults = optionToDefinition(option, optionDefinitions.before)
+    const modes = (function () {
+      const defaults = optionToDefinition(options, optionDefinitions.before)
+
+      const { named, anonymous, method, shorthand } = options as Options
 
       return {
-        named: optionToDefinition((<Options>option).named, defaults),
-        anonymous: optionToDefinition((<Options>option).anonymous, defaults),
-        method: optionToDefinition((<Options>option).method, defaults),
+        named: optionToDefinition(named, defaults),
+        anonymous: optionToDefinition(anonymous, defaults),
+        method: optionToDefinition(method, defaults),
+        shorthand: optionToDefinition(shorthand ?? method, defaults),
       }
-    }(context.options[0] || {}))
+    }())
 
     const sourceCode = context.sourceCode
 
@@ -178,13 +184,15 @@ export default createRule<RuleOptions, MessageIds>({
 
       let kind: keyof typeof modes = 'named'
 
-      if (node.parent.type === 'MethodDefinition' || (node.parent.type === 'Property' && node.parent.method))
+      if (node.parent.type === 'Property' && node.parent.method)
+        kind = 'shorthand'
+      else if (node.parent.type === 'MethodDefinition')
         kind = 'method'
       else if (!node.id)
         kind = 'anonymous'
 
       // Only check before when preceded by `function`|`static` keyword
-      if (!(kind === 'method' && starToken === sourceCode.getFirstToken(node.parent)))
+      if (!((kind === 'method' || kind === 'shorthand') && starToken === sourceCode.getFirstToken(node.parent)))
         checkSpacing(kind, 'before', prevToken, starToken)
 
       checkSpacing(kind, 'after', starToken, nextToken)

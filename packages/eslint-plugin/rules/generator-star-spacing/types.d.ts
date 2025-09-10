@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 6p0DVBA1jyP_DivtKE5cJHDUrlqPRmfL1c7UrlwUA24 */
+/* @checksum: CiweQ-8RN3GU-sTWp1BoBLA8LObnPfuHw6VO5-4-zj8 */
 
 export type GeneratorStarSpacingSchema0
   = | ('before' | 'after' | 'both' | 'neither')
@@ -20,6 +20,12 @@ export type GeneratorStarSpacingSchema0
           after?: boolean
         }
       method?:
+        | ('before' | 'after' | 'both' | 'neither')
+        | {
+          before?: boolean
+          after?: boolean
+        }
+      shorthand?:
         | ('before' | 'after' | 'both' | 'neither')
         | {
           before?: boolean
