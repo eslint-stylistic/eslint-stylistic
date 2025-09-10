@@ -29,6 +29,7 @@ const filterList = [
       /\bspacing\b/,
       /\bspace[sd]?\b/,
       /\bwhitespaces?\b/,
+      /^list-style$/,
     ]),
   },
   {
@@ -42,6 +43,7 @@ const filterList = [
       /^padding-line-/,
       /^eol-last$/,
       /^lines-/,
+      /^list-style$/,
     ]),
   },
   {
@@ -53,6 +55,7 @@ const filterList = [
       /\bbracket\b/,
       /\bparens?\b/,
       /\bwrap\b/,
+      /^list-style$/,
     ]),
   },
   {
