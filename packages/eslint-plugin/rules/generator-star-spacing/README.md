@@ -78,8 +78,8 @@ Additionally, this rule allows further configurability via overrides per functio
 
 - `named` provides overrides for named functions
 - `anonymous` provides overrides for anonymous functions
-- `method` provides overrides for class methods or property function shorthand (for backward compatibility)
-- `shorthand` provides overrides for property function shorthand
+- `method` provides overrides for class methods or property function shorthands (for backward compatibility)
+- `shorthand` provides overrides for property function shorthands
 
 An example of a configuration with overrides:
 
