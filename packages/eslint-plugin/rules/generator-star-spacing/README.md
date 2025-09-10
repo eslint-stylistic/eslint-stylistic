@@ -201,7 +201,7 @@ Examples of **correct** code for this rule with overrides present:
     "before": false,
     "after": true,
     "anonymous": "neither",
-    "method": {"before": true, "after": true}
+    "method": {"before": true, "after": true},
     "shorthand": {"before": true, "after": true}
 }] */
 
