@@ -110,6 +110,7 @@ export default createRule<RuleOptions, MessageIds>({
       shouldNotWrap: `Should not have line break(s) between '{{prev}}' and '{{next}}'`,
     },
   },
+  // #region defaultOptions
   defaultOptions: [{
     singleLine: {
       spacing: 'never',
@@ -122,6 +123,7 @@ export default createRule<RuleOptions, MessageIds>({
       '{}': { singleLine: { spacing: 'always' } },
     },
   }],
+  // #endregion defaultOptions
   create: (context, [options] = [{}]) => {
     const { sourceCode } = context
     const {

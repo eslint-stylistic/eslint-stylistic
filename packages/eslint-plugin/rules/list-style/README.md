@@ -34,20 +34,7 @@ This rule accepts an object option:
 
 The default configuration of this rule is:
 
-```js
-{
-  singleLine: {
-    spacing: 'never',
-    maxItems: Number.POSITIVE_INFINITY,
-  },
-  multiLine: {
-    minItems: 0,
-  },
-  overrides: {
-    '{}': { singleLine: { spacing: 'always' } },
-  },
-}
-```
+<<< ./list-style.ts#defaultOptions
 
 ### singleLine
 
