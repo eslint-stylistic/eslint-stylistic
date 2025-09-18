@@ -26,7 +26,7 @@ This rule can have up to two numbers as positional arguments (for `code` and `ta
 - `"code"` (default `80`) enforces a maximum line length
 - `"tabWidth"` (default `4`) specifies the character width for tab characters
 - `"comments"` enforces a maximum line length for comments; defaults to value of `code`
-- `"ignorePattern"` ignores lines matching a regular expression; can only match a single line and need to be double escaped when written in YAML or JSON
+- `"ignorePattern"` ignores lines matching a pattern; can only match a single line, needs to be double escaped when written in YAML or JSON and should not be a `RegExp` object but a string that can be passed to its constructor.
 - `"ignoreComments": true` ignores all trailing comments and comments on their own line
 - `"ignoreTrailingComments": true` ignores only trailing comments
 - `"ignoreUrls": true` ignores lines that contain a URL
@@ -196,6 +196,12 @@ var longRegExpLiteral = /this is a really really really really really long regul
 :::
 
 ### ignorePattern
+
+::: warning
+
+This option needs to be a string that can be passed to the `RegExp` constructor; passing a `RegExp` object will not work.
+
+:::
 
 Examples of **correct** code for this rule with the `ignorePattern` option:
 
