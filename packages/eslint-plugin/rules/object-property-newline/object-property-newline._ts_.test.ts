@@ -1,7 +1,7 @@
 import type { InvalidTestCase, TestCaseError, ValidTestCase } from '#test'
 import type { NodeTypes } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { $, run } from '#test'
 import rule from './object-property-newline'
 
 const prefixOfNodes = {
@@ -13,9 +13,10 @@ function createValidRule(input: string[], option: boolean) {
   // add comment for better experience in `vitest` extension
   const code = `${input.join('\n')}// ${JSON.stringify(option) || 'default'}`
 
-  return Object.entries(prefixOfNodes).flatMap(([_, prefix]) => {
+  return Object.entries(prefixOfNodes).flatMap(([nodeType, prefix]) => {
     const res: ValidTestCase<RuleOptions>[] = [
       { code: `${prefix}${code}`, options: [{ allowAllPropertiesOnSameLine: option }] },
+      { code: `${prefix}${code}`, options: [{ [nodeType]: { allowAllPropertiesOnSameLine: option } }] },
     ]
     if (!option)
       res.push({ code: `${prefix}${code}` })
@@ -29,7 +30,7 @@ function createInvalidRule(input: string[], out: string[], err: TestCaseError<Me
   const code = `${input.join('\n')}// ${JSON.stringify(option) || 'default'}`
   const output = `${out.join('\n')}// ${JSON.stringify(option) || 'default'}`
 
-  return Object.entries(prefixOfNodes).flatMap(([_, prefix]) => {
+  return Object.entries(prefixOfNodes).flatMap(([nodeType, prefix]) => {
     const errors = err.map(e => ({
       ...e,
       column: e.line === 1 && typeof e.column === 'number' ? e.column + prefix.length : e.column,
@@ -37,6 +38,7 @@ function createInvalidRule(input: string[], out: string[], err: TestCaseError<Me
 
     const res: InvalidTestCase<RuleOptions, MessageIds>[] = [
       { code: `${prefix}${code}`, output: `${prefix}${output}`, errors, options: [{ allowAllPropertiesOnSameLine: option }] },
+      { code: `${prefix}${code}`, output: `${prefix}${output}`, errors, options: [{ [nodeType]: { allowAllPropertiesOnSameLine: option } }] },
     ]
     if (!option)
       res.push({ code: `${prefix}${code}`, output: `${prefix}${output}`, errors })
@@ -75,6 +77,26 @@ run<RuleOptions, MessageIds>({
         '{ id: number; name: string; age: number; }',
       ],
     ].flatMap(code => createValidRule(code, true)),
+    $`
+      enum Foo {
+        foo,
+        bar
+      }
+    `,
+    {
+      code: $`
+        enum Foo { A, B }
+      `,
+      options: [{ allowAllPropertiesOnSameLine: true }],
+    },
+    {
+      code: $`
+        enum Foo {
+          A, B
+        }
+      `,
+      options: [{ TSEnumBody: { allowAllPropertiesOnSameLine: true } }],
+    },
   ],
   invalid: [
     ...[
@@ -155,5 +177,53 @@ run<RuleOptions, MessageIds>({
         ] as TestCaseError<MessageIds>[],
       },
     ]).flatMap<InvalidTestCase<RuleOptions, MessageIds>>(c => createInvalidRule(c.code, c.output, c.errors, true)),
+    {
+      code: $`
+        enum Foo {
+          A, B
+        }
+      `,
+      output: $`
+        enum Foo {
+          A,
+        B
+        }
+      `,
+      errors: [
+        { line: 2, column: 6, messageId: 'propertiesOnNewline' },
+      ],
+    },
+    {
+      code: $`
+        enum Foo { A, B }
+      `,
+      output: $`
+        enum Foo { A,
+        B }
+      `,
+      options: [{ allowAllPropertiesOnSameLine: false }],
+      errors: [
+        { line: 1, column: 15, messageId: 'propertiesOnNewline' },
+      ],
+    },
+    {
+      code: $`
+        enum Foo {
+          A, B,
+          C
+        }
+      `,
+      output: $`
+        enum Foo {
+          A,
+        B,
+          C
+        }
+      `,
+      options: [{ TSEnumBody: { allowAllPropertiesOnSameLine: true } }],
+      errors: [
+        { line: 2, column: 6, messageId: 'propertiesOnNewlineAll' },
+      ],
+    },
   ],
 })
