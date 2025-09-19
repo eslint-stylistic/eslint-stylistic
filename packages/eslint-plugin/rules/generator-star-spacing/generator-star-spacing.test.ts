@@ -426,6 +426,10 @@ run<RuleOptions, MessageIds>({
       code: 'class Foo { static * foo(){} }',
       options: [{ before: false, after: false, method: 'both' }],
     },
+    {
+      code: 'var foo = { * foo(){} }',
+      options: [{ before: false, after: false, shorthand: 'both' }],
+    },
 
     // default to top level "before"
     {
@@ -941,6 +945,12 @@ run<RuleOptions, MessageIds>({
       output: 'class Foo { static * foo(){} }',
       options: [{ before: false, after: false, method: 'both' }],
       errors: [missingBeforeError, missingAfterError],
+    },
+    {
+      code: 'var foo = { *foo(){} }',
+      output: 'var foo = { * foo(){} }',
+      options: [{ before: false, after: false, shorthand: 'both' }],
+      errors: [missingAfterError],
     },
 
     // default to top level "before"
