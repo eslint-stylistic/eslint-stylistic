@@ -4,7 +4,7 @@ import { env } from 'node:process'
 const warned = new Set()
 
 export function warnOnce(text: string) {
-  if (env.CI || warned.has(text))
+  if (env.TEST || warned.has(text))
     return
 
   warned.add(text)
