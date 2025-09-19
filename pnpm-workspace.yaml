@@ -29,6 +29,7 @@ catalogs:
     lint-staged: ^16.1.6
     ohash: ^2.0.11
     prettier: ^3.6.2
+    rolldown: 1.0.0-beta.35
     semver: ^7.7.2
     simple-git-hooks: ^2.13.1
     taze: ^19.6.0

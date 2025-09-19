@@ -71,6 +71,7 @@
     "vue-tsc": "catalog:dev"
   },
   "resolutions": {
+    "rolldown": "catalog:dev",
     "twoslash-eslint": "catalog:docs",
     "vite": "catalog:dev",
     "vitest": "catalog:test",
