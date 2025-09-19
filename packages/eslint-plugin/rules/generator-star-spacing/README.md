@@ -78,7 +78,8 @@ Additionally, this rule allows further configurability via overrides per functio
 
 - `named` provides overrides for named functions
 - `anonymous` provides overrides for anonymous functions
-- `method` provides overrides for class methods or property function shorthand
+- `method` provides overrides for class methods or property function shorthands (for backward compatibility)
+- `shorthand` provides overrides for property function shorthands
 
 An example of a configuration with overrides:
 
@@ -176,7 +177,8 @@ Examples of **incorrect** code for this rule with overrides present:
     "before": false,
     "after": true,
     "anonymous": "neither",
-    "method": {"before": true, "after": true}
+    "method": {"before": true, "after": true},
+    "shorthand": {"before": true, "after": true}
 }] */
 
 function * generator() {}
@@ -199,7 +201,8 @@ Examples of **correct** code for this rule with overrides present:
     "before": false,
     "after": true,
     "anonymous": "neither",
-    "method": {"before": true, "after": true}
+    "method": {"before": true, "after": true},
+    "shorthand": {"before": true, "after": true}
 }] */
 
 function* generator() {}

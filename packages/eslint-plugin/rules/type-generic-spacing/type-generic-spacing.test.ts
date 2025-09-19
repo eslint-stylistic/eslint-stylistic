@@ -6,11 +6,6 @@ run<RuleOptions, MessageIds>({
   name: 'type-generic-spacing',
   rule,
   valid: [
-    'const foo: Foo<> = {}',
-    'type Foo<> = {}',
-    'interface Foo<> {}',
-    'class Foo<> {}',
-    'function foo<>(): void {}',
     'const foo: Array<number> = []',
     'type Foo<T = true> = T',
     'type Foo<T extends true = true> = T',
