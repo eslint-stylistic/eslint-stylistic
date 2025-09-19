@@ -1,9 +1,10 @@
 import type { Arrayable } from '../types'
+import { env } from 'node:process'
 
 const warned = new Set()
 
 export function warnOnce(text: string) {
-  if (warned.has(text))
+  if (env.CI || warned.has(text))
     return
 
   warned.add(text)
