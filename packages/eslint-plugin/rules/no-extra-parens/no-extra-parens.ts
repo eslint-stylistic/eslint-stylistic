@@ -723,10 +723,8 @@ export default createRule<RuleOptions, MessageIds>({
      * @private
      */
     function checkArgumentWithPrecedence(node: ASTNode) {
-      if ('argument' in node && node.argument) {
-        if (hasExcessParensWithPrecedence(node.argument, precedence(node)))
-          report(node.argument)
-      }
+      if ('argument' in node && node.argument && hasExcessParensWithPrecedence(node.argument, precedence(node)))
+        report(node.argument)
     }
 
     /**
