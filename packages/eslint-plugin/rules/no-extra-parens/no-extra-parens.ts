@@ -166,24 +166,6 @@ export default createRule<RuleOptions, MessageIds>({
     let reportsBuffer: ReportsBuffer
 
     /**
-     * extends from https://github.com/typescript-eslint/typescript-eslint/blob/5c5e3d5c3853ab613e06be0d77a40e970017b3fc/packages/utils/src/ast-utils/predicates.ts#L57
-     *
-     * Checks if a node is a type assertion:
-     *
-     * ``` ts
-     * x as foo
-     * <foo>x
-     * x satisfies foo
-     * ```
-     */
-    const isTypeAssertion = isNodeOfTypes([
-      AST_NODE_TYPES.TSAsExpression,
-      AST_NODE_TYPES.TSNonNullExpression,
-      AST_NODE_TYPES.TSSatisfiesExpression,
-      AST_NODE_TYPES.TSTypeAssertion,
-    ])
-
-    /**
      * Finds the path from the given node to the specified ancestor.
      * @param node First node in the path.
      * @param ancestor Last node in the path.
