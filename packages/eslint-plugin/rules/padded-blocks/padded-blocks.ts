@@ -255,7 +255,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     const rule: Record<string, any> = {}
 
-    if (Object.prototype.hasOwnProperty.call(options, 'switches')) {
+    if (Object.hasOwn(options, 'switches')) {
       rule.SwitchStatement = function (node: Tree.SwitchStatement) {
         if (node.cases.length === 0)
           return
@@ -264,7 +264,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    if (Object.prototype.hasOwnProperty.call(options, 'blocks')) {
+    if (Object.hasOwn(options, 'blocks')) {
       rule.BlockStatement = function (node: Tree.BlockStatement) {
         if (node.body.length === 0)
           return
@@ -274,7 +274,7 @@ export default createRule<RuleOptions, MessageIds>({
       rule.StaticBlock = rule.BlockStatement
     }
 
-    if (Object.prototype.hasOwnProperty.call(options, 'classes')) {
+    if (Object.hasOwn(options, 'classes')) {
       rule.ClassBody = function (node: Tree.ClassBody) {
         if (node.body.length === 0)
           return
