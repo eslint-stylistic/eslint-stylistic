@@ -569,15 +569,15 @@ export default createRule<RuleOptions, MessageIds>({
       // Expressions
       ArrowFunctionExpression: checkSpacingForFunction,
       AwaitExpression(node) {
-        checkSpacingBefore(sourceCode.getFirstToken(node)!)
+        checkSpacingAround(sourceCode.getFirstToken(node)!)
       },
       ClassExpression: checkSpacingForClass,
       FunctionExpression: checkSpacingForFunction,
-      NewExpression: checkSpacingBeforeFirstToken,
+      NewExpression: checkSpacingAroundFirstToken,
       Super: checkSpacingBeforeFirstToken,
       ThisExpression: checkSpacingBeforeFirstToken,
-      UnaryExpression: checkSpacingBeforeFirstToken,
-      YieldExpression: checkSpacingBeforeFirstToken,
+      UnaryExpression: checkSpacingAroundFirstToken,
+      YieldExpression: checkSpacingAroundFirstToken,
 
       // Others
       ImportSpecifier(node) {
