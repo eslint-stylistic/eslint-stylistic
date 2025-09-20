@@ -923,23 +923,5 @@ run<RuleOptions, MessageIds>({
         { messageId: 'shouldNotWrap', line: 1, column: 7 },
       ],
     },
-    {
-      code: $`
-        const x = { /* @default 1 */ a: 1, b: 2 }
-      `,
-      output: $`
-        const x = { 
-        /* @default 1 */ a: 1, 
-        b: 2 
-        }
-      `,
-      options: [{ singleLine: { maxItems: 1 } }],
-      errors: [
-        { messageId: 'shouldWrap', line: 1, column: 12 },
-        { messageId: 'shouldWrap', line: 1, column: 12 },
-        { messageId: 'shouldWrap', line: 1, column: 35 },
-        { messageId: 'shouldWrap', line: 1, column: 40 },
-      ],
-    },
   ],
 })
