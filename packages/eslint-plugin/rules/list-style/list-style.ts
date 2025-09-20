@@ -278,7 +278,7 @@ export default createRule<RuleOptions, MessageIds>({
         }
       }
 
-      const tokenAfterLeft = sourceCode.getTokenAfter(left, { includeComments: true })!
+      const tokenAfterLeft = sourceCode.getTokenAfter(left, { includeComments: false })!
 
       doCheck(left, tokenAfterLeft)
 

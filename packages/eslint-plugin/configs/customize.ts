@@ -180,7 +180,7 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
       '@stylistic/array-bracket-newline': 'off',
       '@stylistic/array-bracket-spacing': 'off',
       '@stylistic/array-element-newline': 'off',
-      '@stylistic/exp-list-style': ['error'],
+      '@stylistic/exp-list-style': 'error',
       '@stylistic/function-call-argument-newline': 'off',
       '@stylistic/function-paren-newline': 'off',
       '@stylistic/jsx-function-call-newline': 'off',

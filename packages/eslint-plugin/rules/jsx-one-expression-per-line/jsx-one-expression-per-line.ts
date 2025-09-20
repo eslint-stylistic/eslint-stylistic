@@ -274,8 +274,7 @@ export default createRule<RuleOptions, MessageIds>({
 
           const replaceText = `${leadingSpaceString}${leadingNewLineString}${source}${trailingNewLineString}${trailingSpaceString}`
 
-          report(nodeToReport, fixer => fixer.replaceText(nodeToReport, replaceText),
-          )
+          report(nodeToReport, fixer => fixer.replaceText(nodeToReport, replaceText))
         })
       }
     }
