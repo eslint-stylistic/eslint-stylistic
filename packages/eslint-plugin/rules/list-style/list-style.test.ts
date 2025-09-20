@@ -161,17 +161,16 @@ run<RuleOptions, MessageIds>({
         )
       )
     `,
-    {
-      code: $`
-        const foo = {
-          /**
-           * @default 1
-           */
-          bar: 1,
-        }
-      `,
-      options: [{ multiLine: { minItems: 2 } }],
-    },
+    $`
+      run({
+        valid: [
+          /* comment */
+        ],
+        invalid: [
+          // comment
+        ]
+      })
+    `,
   ],
   invalid: [
     {
@@ -681,10 +680,8 @@ run<RuleOptions, MessageIds>({
         )
       `,
       output: $`
-        export default antfu(
-        {
-        },
-        {
+        export default antfu({
+        },{
           foo: 'bar'
         }
           // some comment
@@ -692,7 +689,8 @@ run<RuleOptions, MessageIds>({
         )
       `,
       errors: [
-        { messageId: 'shouldWrap', line: 1, column: 22 },
+        { messageId: 'shouldNotWrap', line: 2, column: 3 },
+        { messageId: 'shouldNotWrap', line: 5, column: 2 },
       ],
     },
     // https://github.com/antfu/eslint-plugin-antfu/issues/18
@@ -710,20 +708,20 @@ run<RuleOptions, MessageIds>({
         )
       `,
       output: $`
-        export default antfu(
-        {
+        export default antfu({
         },
         // some comment
         {
           foo: 'bar'
-        },
-        {
+        },{
         }
           // hello
         )
       `,
       errors: [
-        { messageId: 'shouldWrap', line: 1, column: 22 },
+        { messageId: 'shouldNotWrap', line: 2, column: 3 },
+        { messageId: 'shouldNotWrap', line: 6, column: 3 },
+        { messageId: 'shouldNotWrap', line: 8, column: 2 },
       ],
     },
     {

@@ -132,16 +132,15 @@ run<RuleOptions, MessageIds>({
       `,
       output: $`
         {
-          "foo": { 
-        "a": "1",
+          "foo": { "a": "1",
             // comment
-            "b": "2"
-          },
+            "b": "2"  },
           "bar": ["1",  "2"]
         }
       `,
       errors: [
-        { messageId: 'shouldWrap', line: 2, column: 11 },
+        { messageId: 'shouldNotWrap', line: 2, column: 21 },
+        { messageId: 'shouldNotWrap', line: 4, column: 13 },
         { messageId: 'shouldNotWrap', line: 6, column: 15 },
       ],
     },

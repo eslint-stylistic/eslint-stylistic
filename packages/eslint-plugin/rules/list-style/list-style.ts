@@ -220,7 +220,7 @@ export default createRule<RuleOptions, MessageIds>({
         isSingleLine(node)
           ? len > config.singleLine!.maxItems!
           : len >= config.multiline!.minItems! && !isTokenOnSameLine(left, items[0] ?? sourceCode.getTokenAfter(left)!)
-      ) || hasCommentsBetween(sourceCode, left, right, comment => comment.type === 'Line' || !isSingleLine(comment))
+      )
 
       function doCheck(prev: Token, next: Token) {
         if (isTokenOnSameLine(prev, next)) {
