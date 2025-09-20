@@ -1815,7 +1815,7 @@ export default createRule<RuleOptions, MessageIds>({
           return
 
         const kind = node.kind === 'await using' ? 'using' : node.kind
-        let variableIndent = Object.prototype.hasOwnProperty.call(options.VariableDeclarator, kind)
+        let variableIndent = Object.hasOwn(options.VariableDeclarator, kind)
           ? options.VariableDeclarator[kind]
           : DEFAULT_VARIABLE_INDENT
         const alignFirstVariable = variableIndent === 'first'
