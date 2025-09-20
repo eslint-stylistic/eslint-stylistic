@@ -818,11 +818,10 @@ export default createRule<RuleOptions, MessageIds>({
             report(node.callee)
           }
         }
-        node.arguments
-          .forEach((arg) => {
-            if (hasExcessParensWithPrecedence(arg, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-              report(arg)
-          })
+        node.arguments.forEach((arg) => {
+          if (hasExcessParensWithPrecedence(arg, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+            report(arg)
+        })
       }
 
       if (isTypeAssertion(node.callee)) {
@@ -940,18 +939,16 @@ export default createRule<RuleOptions, MessageIds>({
     // TODO: Maybe we can add `ignoreNodes` to `createRule`, so that every rule can specific AST Nodes to ignore.
     const baseListeners: RuleListener = {
       ArrayExpression(node) {
-        node.elements
-          .forEach((ele) => {
-            if (ele && hasExcessParensWithPrecedence(ele, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-              report(ele)
-          })
+        node.elements.forEach((ele) => {
+          if (!!ele && hasExcessParensWithPrecedence(ele, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+            report(ele)
+        })
       },
       ArrayPattern(node) {
-        node.elements
-          .forEach((ele) => {
-            if (ele && canBeAssignmentTarget(ele) && hasExcessParens(ele))
-              report(ele)
-          })
+        node.elements.forEach((ele) => {
+          if (!!ele && canBeAssignmentTarget(ele) && hasExcessParens(ele))
+            report(ele)
+        })
       },
       ArrowFunctionExpression(node) {
         if (isTypeAssertion(node.body))
@@ -1266,25 +1263,26 @@ export default createRule<RuleOptions, MessageIds>({
       },
       'NewExpression': checkCallNew,
       ObjectExpression(node) {
-        node.properties
-          .forEach((property) => {
-            if (
-              property.type === 'Property'
-              && property.value
-              && hasExcessParensWithPrecedence(property.value, PRECEDENCE_OF_ASSIGNMENT_EXPR)
-            ) {
-              report(property.value)
-            }
-          })
+        node.properties.forEach((property) => {
+          if (
+            property.type === 'Property'
+            && property.value
+            && hasExcessParensWithPrecedence(property.value, PRECEDENCE_OF_ASSIGNMENT_EXPR)
+          ) {
+            report(property.value)
+          }
+        })
       },
       ObjectPattern(node) {
-        node.properties
-          .forEach((property) => {
-            const value = property.value
-
-            if (value && canBeAssignmentTarget(value) && hasExcessParens(value))
-              report(value)
-          })
+        node.properties.forEach(({ value }) => {
+          if (
+            value
+            && canBeAssignmentTarget(value)
+            && hasExcessParens(value)
+          ) {
+            report(value)
+          }
+        })
       },
       Property(node) {
         if (node.computed) {
@@ -1321,11 +1319,10 @@ export default createRule<RuleOptions, MessageIds>({
       SequenceExpression(node) {
         const precedenceOfNode = precedence(node)
 
-        node.expressions
-          .forEach((ele) => {
-            if (hasExcessParensWithPrecedence(ele, precedenceOfNode))
-              report(ele)
-          })
+        node.expressions.forEach((expression) => {
+          if (hasExcessParensWithPrecedence(expression, precedenceOfNode))
+            report(expression)
+        })
       },
       SpreadElement(node) {
         if (isTypeAssertion(node.argument))
@@ -1348,11 +1345,10 @@ export default createRule<RuleOptions, MessageIds>({
           report(node.discriminant)
       },
       TemplateLiteral(node) {
-        node.expressions
-          .forEach((ele) => {
-            if (hasExcessParens(ele))
-              report(ele)
-          })
+        node.expressions.forEach((expression) => {
+          if (hasExcessParens(expression))
+            report(expression)
+        })
       },
       ThrowStatement(node) {
         if (!node.argument || isTypeAssertion(node.argument))
