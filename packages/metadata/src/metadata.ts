@@ -686,7 +686,7 @@ export const packages: Readonly<PackageInfo[]> = Object.freeze([
         "meta": {
           "fixable": "whitespace",
           "docs": {
-            "description": "Having line breaks styles to object, array, named imports and more.",
+            "description": "Enforce consistent spacing and line break styles inside brackets.",
             "experimental": true,
             "recommended": false
           }

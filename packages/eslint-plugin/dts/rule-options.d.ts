@@ -339,7 +339,7 @@ export interface RuleOptions {
    */
   '@stylistic/lines-between-class-members': LinesBetweenClassMembersRuleOptions
   /**
-   * Having line breaks styles to object, array, named imports and more.
+   * Enforce consistent spacing and line break styles inside brackets.
    * @see https://eslint.style/rules/list-style
    */
   '@stylistic/exp-list-style': ListStyleRuleOptions
@@ -822,7 +822,7 @@ export interface UnprefixedRuleOptions {
    */
   'lines-between-class-members': LinesBetweenClassMembersRuleOptions
   /**
-   * Having line breaks styles to object, array, named imports and more.
+   * Enforce consistent spacing and line break styles inside brackets.
    * @see https://eslint.style/rules/list-style
    */
   'exp-list-style': ListStyleRuleOptions
