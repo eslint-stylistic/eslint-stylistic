@@ -685,11 +685,6 @@ run<RuleOptions, MessageIds>({
       options: [2, { VariableDeclarator: { const: 3 } }],
     },
 
-    // https://github.com/typescript-eslint/typescript-eslint/issues/1115
-    {
-      code: 'const foo = function<> (): void {}',
-    },
-
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/229
     {
       code: $`

@@ -11,6 +11,10 @@ export interface ESLintRuleModule<
   defaultOptions: T
 }
 
+export interface RuleDocs {
+  experimental?: boolean
+}
+
 export function createRule<
   TOptions extends readonly unknown[],
   TMessageIds extends string,
@@ -21,7 +25,7 @@ export function createRule<
     defaultOptions = [] as any,
     meta,
   }: Omit<
-    Readonly<RuleWithMetaAndName<TOptions, TMessageIds>>,
+    Readonly<RuleWithMetaAndName<TOptions, TMessageIds, RuleDocs>>,
     'defaultOptions'
   > & {
     defaultOptions?: TOptions

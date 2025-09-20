@@ -32,7 +32,7 @@ const app = <App>
 
 :::
 
-## Rule Options
+## Options
 
 It takes an option as the second parameter which can be `"tab"` for tab-based indentation or a positive number for space indentations.
 To enable checking the indentation of attributes or add indentation to logical expressions, use the third parameter to turn on the `checkAttributes` (default is false) and `indentLogicalExpressions` (default is false) respectively.

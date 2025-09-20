@@ -13,6 +13,8 @@ Generally, semicolons are at the end of lines. However, in semicolon-less style,
 
 This rule reports line terminators around semicolons.
 
+## Options
+
 This rule has an option.
 
 ```json
@@ -23,6 +25,8 @@ This rule has an option.
 
 - `"last"` (Default) enforces that semicolons are at the end of statements.
 - `"first"` enforces that semicolons are at the beginning of statements. Semicolons of `for` loop heads (`for(a;b;c){}`) should be at the end of lines even if you use this option.
+
+### last
 
 Examples of **incorrect** code for this rule with `"last"` option:
 
@@ -79,6 +83,8 @@ class C {
 ```
 
 :::
+
+### first
 
 Examples of **incorrect** code for this rule with `"first"` option:
 

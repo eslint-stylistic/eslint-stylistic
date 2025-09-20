@@ -3,7 +3,7 @@
  * @author Mark Ivan Allen <Vydia.com>
  */
 
-import type { ASTNode, Tree } from '#types'
+import type { ASTNode, ReportFixFunction, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isWhiteSpaces } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -59,6 +59,17 @@ export default createRule<RuleOptions, MessageIds>({
         : context.sourceCode.getText(n).replace(/\n/g, '')
     }
 
+    function report(node: Child, fix: ReportFixFunction) {
+      context.report({
+        messageId: 'moveToNewLine',
+        node,
+        data: {
+          descriptor: nodeDescriptor(node),
+        },
+        fix,
+      })
+    }
+
     function handleJSX(node: Tree.JSXElement | Tree.JSXFragment) {
       const children = node.children as Child[]
 
@@ -72,8 +83,9 @@ export default createRule<RuleOptions, MessageIds>({
         return
       }
 
-      const openingElement = (<Tree.JSXElement>node).openingElement || (<Tree.JSXFragment>node).openingFragment
-      const closingElement = (<Tree.JSXElement>node).closingElement || (<Tree.JSXFragment>node).closingFragment
+      const isFragment = node.type === 'JSXFragment'
+      const openingElement = isFragment ? node.openingFragment : node.openingElement
+      const closingElement = isFragment ? node.closingFragment : node.closingElement!
       const openingElementStartLine = openingElement.loc.start.line
       const openingElementEndLine = openingElement.loc.end.line
       const closingElementStartLine = closingElement.loc.start.line
@@ -117,9 +129,8 @@ export default createRule<RuleOptions, MessageIds>({
 
       const childrenGroupedByLine: Record<number, Child[]> = {}
       const fixDetailsByNode: Record<string, {
-        node: Child | Tree.JSXOpeningElement | Tree.JSXClosingElement | Tree.JSXClosingFragment
+        node: Child
         source: string
-        descriptor: string
         leadingSpace?: boolean
         trailingSpace?: boolean
         leadingNewLine?: boolean
@@ -159,106 +170,114 @@ export default createRule<RuleOptions, MessageIds>({
         }
       })
 
-      Object.keys(childrenGroupedByLine).forEach((_line) => {
-        const line = parseInt(_line, 10)
-        const firstIndex = 0
-        const lastIndex = childrenGroupedByLine[line].length - 1
+      const lines = Object.keys(childrenGroupedByLine)
 
-        childrenGroupedByLine[line].forEach((child, i) => {
-          let prevChild: Child | Tree.JSXOpeningElement | Tree.JSXClosingElement | Tree.JSXClosingFragment | undefined
-          let nextChild: Child | Tree.JSXOpeningElement | Tree.JSXClosingElement | Tree.JSXClosingFragment | undefined
+      if (lines.length === 1 && options.allow === 'single-line') {
+        const line = parseInt(lines[0])
+        const children = childrenGroupedByLine[line]
 
-          if (i === firstIndex) {
-            if (line === openingElementEndLine)
-              prevChild = openingElement
-          }
-          else {
-            prevChild = childrenGroupedByLine[line][i - 1]
-          }
+        const firstChild = children[0]
+        if (line === openingElementEndLine) {
+          report(firstChild, fixer => fixer.insertTextBefore(firstChild, '\n'))
+        }
 
-          if (i === lastIndex) {
-            if (line === closingElementStartLine)
-              nextChild = closingElement
-          }
-          else {
-            // We don't need to append a trailing because the next child will prepend a leading.
-            // nextChild = childrenGroupedByLine[line][i + 1];
-          }
+        const lastChild = children.at(-1)!
+        if (line === closingElementStartLine) {
+          report(lastChild, fixer => fixer.insertTextAfter(lastChild, '\n'))
+        }
+      }
+      else {
+        lines.forEach((_line) => {
+          const line = parseInt(_line, 10)
+          const firstIndex = 0
+          const lastIndex = childrenGroupedByLine[line].length - 1
 
-          if (!prevChild && !nextChild)
-            return
+          childrenGroupedByLine[line].forEach((child, i) => {
+            let prevChild: Child | Tree.JSXOpeningElement | Tree.JSXOpeningFragment | undefined
+            let nextChild: Child | Tree.JSXClosingElement | Tree.JSXClosingFragment | undefined
 
-          const spaceBetweenPrev = () => {
-            // There must only be one token at most
-            const tokenBetweenNodes = context.sourceCode.getTokensBetween(prevChild!, child)[0]
-            return ((prevChild!.type === 'Literal' || prevChild!.type === 'JSXText') && prevChild!.raw.endsWith(' '))
-              || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.startsWith(' '))
-              || isWhiteSpaces(tokenBetweenNodes?.value)
-          }
-
-          const spaceBetweenNext = () => {
-            // There must only be one token at most
-            const tokenBetweenNodes = context.sourceCode.getTokensBetween(child, nextChild!)[0]
-            return ((nextChild!.type === 'Literal' || nextChild!.type === 'JSXText') && nextChild!.raw.startsWith(' '))
-              || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.endsWith(' '))
-              || isWhiteSpaces(tokenBetweenNodes?.value)
-          }
-
-          const source = context.sourceCode.getText(child)
-          const leadingSpace = !!(prevChild && spaceBetweenPrev())
-          const trailingSpace = !!(nextChild && spaceBetweenNext())
-          const leadingNewLine = !!prevChild
-          const trailingNewLine = !!nextChild
-
-          const key = nodeKey(child)
-
-          if (!fixDetailsByNode[key]) {
-            fixDetailsByNode[key] = {
-              node: child,
-              source,
-              descriptor: nodeDescriptor(child),
+            if (i === firstIndex) {
+              if (line === openingElementEndLine)
+                prevChild = openingElement
             }
-          }
+            else {
+              prevChild = childrenGroupedByLine[line][i - 1]
+            }
 
-          if (leadingSpace)
-            fixDetailsByNode[key].leadingSpace = true
+            if (i === lastIndex) {
+              if (line === closingElementStartLine)
+                nextChild = closingElement
+            }
+            else {
+              // We don't need to append a trailing because the next child will prepend a leading.
+              // nextChild = childrenGroupedByLine[line][i + 1];
+            }
 
-          if (leadingNewLine)
-            fixDetailsByNode[key].leadingNewLine = true
+            if (!prevChild && !nextChild)
+              return
 
-          if (trailingNewLine)
-            fixDetailsByNode[key].trailingNewLine = true
+            const spaceBetweenPrev = () => {
+              // There must only be one token at most
+              const tokenBetweenNodes = context.sourceCode.getTokensBetween(prevChild!, child)[0]
+              return ((prevChild!.type === 'Literal' || prevChild!.type === 'JSXText') && prevChild!.raw.endsWith(' '))
+                || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.startsWith(' '))
+                || isWhiteSpaces(tokenBetweenNodes?.value)
+            }
 
-          if (trailingSpace)
-            fixDetailsByNode[key].trailingSpace = true
+            const spaceBetweenNext = () => {
+              // There must only be one token at most
+              const tokenBetweenNodes = context.sourceCode.getTokensBetween(child, nextChild!)[0]
+              return ((nextChild!.type === 'Literal' || nextChild!.type === 'JSXText') && nextChild!.raw.startsWith(' '))
+                || ((child.type === 'Literal' || child.type === 'JSXText') && child.raw.endsWith(' '))
+                || isWhiteSpaces(tokenBetweenNodes?.value)
+            }
+
+            const source = context.sourceCode.getText(child)
+            const leadingSpace = !!(prevChild && spaceBetweenPrev())
+            const trailingSpace = !!(nextChild && spaceBetweenNext())
+            const leadingNewLine = !!prevChild
+            const trailingNewLine = !!nextChild
+
+            const key = nodeKey(child)
+
+            if (!fixDetailsByNode[key]) {
+              fixDetailsByNode[key] = {
+                node: child,
+                source,
+              }
+            }
+
+            if (leadingSpace)
+              fixDetailsByNode[key].leadingSpace = true
+
+            if (leadingNewLine)
+              fixDetailsByNode[key].leadingNewLine = true
+
+            if (trailingNewLine)
+              fixDetailsByNode[key].trailingNewLine = true
+
+            if (trailingSpace)
+              fixDetailsByNode[key].trailingSpace = true
+          })
         })
-      })
 
-      Object.keys(fixDetailsByNode).forEach((key) => {
-        const details = fixDetailsByNode[key]
+        Object.keys(fixDetailsByNode).forEach((key) => {
+          const details = fixDetailsByNode[key]
 
-        const nodeToReport = details.node
-        const descriptor = details.descriptor
-        const source = details.source.replace(/(^ +| +$)/g, '')
+          const nodeToReport = details.node
+          const source = details.source.replace(/(^ +| +$)/g, '')
 
-        const leadingSpaceString = details.leadingSpace ? '\n{\' \'}' : ''
-        const trailingSpaceString = details.trailingSpace ? '{\' \'}\n' : ''
-        const leadingNewLineString = details.leadingNewLine ? '\n' : ''
-        const trailingNewLineString = details.trailingNewLine ? '\n' : ''
+          const leadingSpaceString = details.leadingSpace ? '\n{\' \'}' : ''
+          const trailingSpaceString = details.trailingSpace ? '{\' \'}\n' : ''
+          const leadingNewLineString = details.leadingNewLine ? '\n' : ''
+          const trailingNewLineString = details.trailingNewLine ? '\n' : ''
 
-        const replaceText = `${leadingSpaceString}${leadingNewLineString}${source}${trailingNewLineString}${trailingSpaceString}`
+          const replaceText = `${leadingSpaceString}${leadingNewLineString}${source}${trailingNewLineString}${trailingSpaceString}`
 
-        context.report({
-          messageId: 'moveToNewLine',
-          node: nodeToReport,
-          data: {
-            descriptor,
-          },
-          fix(fixer) {
-            return fixer.replaceText(nodeToReport, replaceText)
-          },
+          report(nodeToReport, fixer => fixer.replaceText(nodeToReport, replaceText),
+          )
         })
-      })
+      }
     }
 
     return {

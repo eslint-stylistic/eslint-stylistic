@@ -16,6 +16,8 @@ run<RuleOptions, MessageIds>({
 
   valid: [
     'async function f(arg: any) { await (arg as Promise<void>); }',
+    'async function f(arg: any) { await (arg satisfies Promise<void>); }',
+    'async function f(arg: any) { await (arg!); }',
     'async function f(arg: Promise<any>) { await arg; }',
     '(0).toString();',
     '(function(){}) ? a() : b();',
@@ -461,6 +463,24 @@ run<RuleOptions, MessageIds>({
     {
       code: 'const x = a[(b as string)]',
       output: 'const x = a[b as string]',
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
+    {
+      code: 'const x = ({} satisfies X)',
+      output: 'const x = {} satisfies X',
+      errors: [
+        {
+          messageId: 'unexpected',
+        },
+      ],
+    },
+    {
+      code: 'const x = (foo!)',
+      output: 'const x = foo!',
       errors: [
         {
           messageId: 'unexpected',

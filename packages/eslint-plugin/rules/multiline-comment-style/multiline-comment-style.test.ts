@@ -3,7 +3,7 @@
  * @author Teddy Katz
  */
 import type { MessageIds, RuleOptions } from './types'
-import { run } from '#test'
+import { $, run } from '#test'
 import rule from './multiline-comment-style'
 
 run<RuleOptions, MessageIds>({
@@ -394,6 +394,40 @@ run<RuleOptions, MessageIds>({
                  *some.code();
                  */
             `,
+      options: ['starred-block'],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/968
+    {
+      code: $`
+        // djb2 algorithm
+        let hash = 5381;
+        for (let i = 0; i < view.length; i++) {
+        
+          // eslint-disable
+          // hash * 33 + current byte -> truncate
+          hash = (((hash << 5) + hash) + view[i]) | 0;
+        }
+      `,
+      options: ['starred-block'],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/970
+    {
+      code: $`
+        // eslint-disable
+        // @ts-nocheck
+        
+        import type { ESLint } from 'eslint';
+      `,
+      options: ['starred-block'],
+    },
+    {
+      code: $`
+        let x = 5; // first number
+        // second number
+        let y = 10;
+        
+        console.log(x + y);
+      `,
       options: ['starred-block'],
     },
   ],

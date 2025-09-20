@@ -1,9 +1,9 @@
 {
   "name": "@eslint-stylistic/monorepo",
   "type": "module",
-  "version": "5.2.3",
+  "version": "5.4.0",
   "private": true,
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@10.17.0",
   "license": "MIT",
   "scripts": {
     "build": "pnpm -r run build",
@@ -71,6 +71,7 @@
     "vue-tsc": "catalog:dev"
   },
   "resolutions": {
+    "rolldown": "catalog:dev",
     "twoslash-eslint": "catalog:docs",
     "vite": "catalog:dev",
     "vitest": "catalog:test",

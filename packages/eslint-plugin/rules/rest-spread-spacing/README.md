@@ -62,7 +62,7 @@ Please read the user guide's section on [configuring parser options](https://esl
 
 This rule takes one option: a string with the value of `"never"` or `"always"`. The default value is `"never"`.
 
-### "never"
+### never
 
 When using the default `"never"` option, whitespace is not allowed between spread operators and their expressions.
 
@@ -110,7 +110,7 @@ let n = { x, y, ...z };
 
 :::
 
-### "always"
+### always
 
 When using the `"always"` option, whitespace is required between spread operators and their expressions.
 

@@ -29,3 +29,5 @@ export type {
 export type ESToken = AST.Token
 export type ESNode = ESTree.Node
 export { ESTree }
+
+export type Arrayable<T> = T | T[]
