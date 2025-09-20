@@ -783,80 +783,45 @@ export default createRule<RuleOptions, MessageIds>({
     function checkCallNew(
       node: Tree.CallExpression | Tree.NewExpression,
     ): void {
-      const rule = (node: Tree.CallExpression | Tree.NewExpression) => {
-        const callee = node.callee
+      const callee = node.callee
 
-        if (hasExcessParensWithPrecedence(callee, precedence(node))) {
-          if (
-            hasDoubleExcessParens(callee)
-            || !(
-              isIIFE(node)
-              // (new A)(); new (new A)();
-              || (
-                callee.type === 'NewExpression'
-                && !isNewExpressionWithParens(callee)
-                && !(
-                  node.type === 'NewExpression'
-                  && !isNewExpressionWithParens(node)
-                )
-              )
-
-              // new (a().b)(); new (a.b().c);
-              || (
+      if (hasExcessParensWithPrecedence(callee, precedence(node))) {
+        if (
+          hasDoubleExcessParens(callee)
+          || !(
+            isIIFE(node)
+            // (new A)(); new (new A)();
+            || (
+              callee.type === 'NewExpression'
+              && !isNewExpressionWithParens(callee)
+              && !(
                 node.type === 'NewExpression'
-                && callee.type === 'MemberExpression'
-                && doesMemberExpressionContainCallExpression(callee)
-              )
-
-              // (a?.b)(); (a?.())();
-              || (
-                (!('optional' in node) || !node.optional)
-                && callee.type === 'ChainExpression'
+                && !isNewExpressionWithParens(node)
               )
             )
-          ) {
-            report(node.callee)
-          }
+
+            // new (a().b)(); new (a.b().c);
+            || (
+              node.type === 'NewExpression'
+              && callee.type === 'MemberExpression'
+              && doesMemberExpressionContainCallExpression(callee)
+            )
+
+            // (a?.b)(); (a?.())();
+            || (
+              (!('optional' in node) || !node.optional)
+              && callee.type === 'ChainExpression'
+            )
+          )
+        ) {
+          report(node.callee)
         }
-        node.arguments.forEach((arg) => {
-          if (hasExcessParensWithPrecedence(arg, PRECEDENCE_OF_ASSIGNMENT_EXPR))
-            report(arg)
-        })
       }
 
-      if (isTypeAssertion(node.callee)) {
-        // reduces the precedence of the node so the rule thinks it needs to be wrapped
-        return rule({
-          ...node,
-          callee: {
-            ...node.callee,
-            type: AST_NODE_TYPES.SequenceExpression as any,
-          },
-        })
-      }
-
-      // This introduced by https://github.com/typescript-eslint/typescript-eslint/pull/2319
-      // It's a bug for `@eslint-community/eslint-utils`, please tracking https://github.com/eslint-community/eslint-utils/pull/258
-      // Once this PR is accepted and upstream packages is released, we can remove this `if`.
-      if (
-        node.typeArguments
-        && node.arguments.length === 1
-        // is there any opening parenthesis in type arguments
-        && sourceCode.getTokenAfter(node.callee, isOpeningParenToken)
-        !== sourceCode.getTokenBefore(node.arguments[0], isOpeningParenToken)
-      ) {
-        return rule({
-          ...node,
-          arguments: [
-            {
-              ...node.arguments[0],
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          ],
-        })
-      }
-
-      return rule(node)
+      node.arguments.forEach((arg) => {
+        if (hasExcessParensWithPrecedence(arg, PRECEDENCE_OF_ASSIGNMENT_EXPR))
+          report(arg)
+      })
     }
 
     /**
