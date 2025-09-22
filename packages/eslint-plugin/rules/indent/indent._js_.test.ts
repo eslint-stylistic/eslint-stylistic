@@ -14280,5 +14280,28 @@ run<RuleOptions, MessageIds>({
         offsetTernaryExpressionsOffsetCallExpressions: true,
       }],
     },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/993
+    {
+      code: $`
+        menus
+          ? new abc({
+            a: 1,
+            b: 2
+          })
+          : undefined
+      `,
+      output: $`
+        menus
+          ? new abc({
+              a: 1,
+              b: 2
+            })
+          : undefined
+      `,
+      options: [2, {
+        offsetTernaryExpressions: true,
+        offsetTernaryExpressionsOffsetCallExpressions: true,
+      }],
+    },
   ],
 })
