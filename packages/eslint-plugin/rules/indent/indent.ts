@@ -680,7 +680,23 @@ export default createRule<RuleOptions, MessageIds>({
             default: false,
           },
           offsetTernaryExpressions: {
-            type: 'boolean',
+            oneOf: [
+              {
+                type: 'boolean',
+              },
+              {
+                type: 'object',
+                properties: {
+                  CallExpression: {
+                    type: 'boolean',
+                  },
+                  NewExpression: {
+                    type: 'boolean',
+                  },
+                },
+                additionalProperties: false,
+              },
+            ],
             default: false,
           },
           offsetTernaryExpressionsOffsetCallExpressions: {
@@ -765,7 +781,7 @@ export default createRule<RuleOptions, MessageIds>({
       flatTernaryExpressions: false,
       ignoredNodes: [],
       ignoreComments: false,
-      offsetTernaryExpressions: false,
+      offsetTernaryExpressions: false as NonNullable<RuleOptions[1]>['offsetTernaryExpressions'],
       offsetTernaryExpressionsOffsetCallExpressions: true,
       tabLength: 4,
     }
@@ -1211,16 +1227,27 @@ export default createRule<RuleOptions, MessageIds>({
         offsets.setDesiredOffset(questionMarkToken, firstToken, 1)
         offsets.setDesiredOffset(colonToken, firstToken, 1)
 
+        const ternaryOptions = options.offsetTernaryExpressions === true
+          ? {
+              CallExpression: options.offsetTernaryExpressionsOffsetCallExpressions ?? true,
+              NewExpression: true,
+            }
+          : options.offsetTernaryExpressions
+
         let offset = 1
-        if (options.offsetTernaryExpressions) {
+        if (ternaryOptions) {
           if (firstConsequentToken.type === 'Punctuator')
             offset = 2
 
           const consequentType = skipChainExpression(consequent).type
           if (
-            options.offsetTernaryExpressionsOffsetCallExpressions
+            ternaryOptions.CallExpression
             && (consequentType === 'CallExpression' || consequentType === 'AwaitExpression')
           ) {
+            offset = 2
+          }
+
+          if (ternaryOptions.NewExpression && consequentType === 'NewExpression') {
             offset = 2
           }
         }
@@ -1246,15 +1273,18 @@ export default createRule<RuleOptions, MessageIds>({
         }
         else {
           let offset = 1
-          if (options.offsetTernaryExpressions) {
+          if (ternaryOptions) {
             if (firstAlternateToken.type === 'Punctuator')
               offset = 2
 
             const alternateType = skipChainExpression(alternate).type
             if (
-              options.offsetTernaryExpressionsOffsetCallExpressions
+              ternaryOptions.CallExpression
               && (alternateType === 'CallExpression' || alternateType === 'AwaitExpression')
             ) {
+              offset = 2
+            }
+            if (ternaryOptions.NewExpression && alternateType === 'NewExpression') {
               offset = 2
             }
           }

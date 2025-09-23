@@ -2262,6 +2262,32 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         condition
+          ? new Foo({
+            })
+          : condition2
+            ? new Bar({
+              })
+            : new Baz({
+              })
+      `,
+      options: [2, { offsetTernaryExpressions: true }],
+    },
+    {
+      code: $`
+        condition
+          ? new Foo({
+          })
+          : condition2
+            ? new Bar({
+            })
+            : new Baz({
+            })
+      `,
+      options: [2, { offsetTernaryExpressions: { NewExpression: false } }],
+    },
+    {
+      code: $`
+        condition
           ? () => {
               return true
             }
