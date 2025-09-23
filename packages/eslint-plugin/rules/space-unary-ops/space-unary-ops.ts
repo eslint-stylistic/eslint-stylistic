@@ -23,10 +23,6 @@ export default createRule<RuleOptions, MessageIds>({
       {
         type: 'object',
         properties: {
-          words: {
-            type: 'boolean',
-            default: true,
-          },
           nonwords: {
             type: 'boolean',
             default: false,
@@ -44,15 +40,13 @@ export default createRule<RuleOptions, MessageIds>({
     messages: {
       unexpectedBefore: 'Unexpected space before unary operator \'{{operator}}\'.',
       unexpectedAfter: 'Unexpected space after unary operator \'{{operator}}\'.',
-      unexpectedAfterWord: 'Unexpected space after unary word operator \'{{word}}\'.',
-      requireAfterWord: 'Unary word operator \'{{word}}\' must be followed by whitespace.',
       requireAfter: 'Unary operator \'{{operator}}\' must be followed by whitespace.',
       requireBefore: 'Space is required before unary operator \'{{operator}}\'.',
     },
   },
 
   create(context) {
-    const options = context.options[0] || { words: true, nonwords: false }
+    const options = context.options[0] || { nonwords: false }
 
     const sourceCode = context.sourceCode
 
@@ -84,70 +78,6 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Verify Unary Word Operator has spaces after the word operator
-     * @param node AST node
-     * @param firstToken first token from the AST node
-     * @param secondToken second token from the AST node
-     * @param word The word to be used for reporting
-     */
-    function verifyWordHasSpaces(node: ASTNode, firstToken: Token, secondToken: Token, word: string) {
-      if (secondToken.range[0] === firstToken.range[1]) {
-        context.report({
-          node,
-          messageId: 'requireAfterWord',
-          data: {
-            word,
-          },
-          fix(fixer) {
-            return fixer.insertTextAfter(firstToken, ' ')
-          },
-        })
-      }
-    }
-
-    /**
-     * Verify Unary Word Operator doesn't have spaces after the word operator
-     * @param node AST node
-     * @param firstToken first token from the AST node
-     * @param secondToken second token from the AST node
-     * @param word The word to be used for reporting
-     */
-    function verifyWordDoesntHaveSpaces(node: ASTNode, firstToken: Token, secondToken: Token, word: string) {
-      if (canTokensBeAdjacent(firstToken, secondToken)) {
-        if (secondToken.range[0] > firstToken.range[1]) {
-          context.report({
-            node,
-            messageId: 'unexpectedAfterWord',
-            data: {
-              word,
-            },
-            fix(fixer) {
-              return fixer.removeRange([firstToken.range[1], secondToken.range[0]])
-            },
-          })
-        }
-      }
-    }
-
-    /**
-     * Check Unary Word Operators for spaces after the word operator
-     * @param node AST node
-     * @param firstToken first token from the AST node
-     * @param secondToken second token from the AST node
-     * @param word The word to be used for reporting
-     */
-    function checkUnaryWordOperatorForSpaces(node: ASTNode, firstToken: Token, secondToken: Token, word: string) {
-      const shouldHaveSpace = overrideExistsForOperator(word) ? overrideEnforcesSpaces(word) : options.words
-
-      if (shouldHaveSpace) {
-        verifyWordHasSpaces(node, firstToken, secondToken, word)
-      }
-      else {
-        verifyWordDoesntHaveSpaces(node, firstToken, secondToken, word)
-      }
-    }
-
-    /**
      * Verifies TSNonNullExpression satisfy spacing requirements
      * @param node TSNonNullExpression AST node
      */
@@ -167,31 +97,7 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Verifies YieldExpressions satisfy spacing requirements
-     * @param node AST node
-     */
-    function checkForSpacesAfterYield(node: Tree.YieldExpression) {
-      const tokens = sourceCode.getFirstTokens(node, 3)
-      const word = 'yield'
-
-      if (!node.argument || node.delegate)
-        return
-
-      checkUnaryWordOperatorForSpaces(node, tokens[0], tokens[1], word)
-    }
-
-    /**
-     * Verifies AwaitExpressions satisfy spacing requirements
-     * @param node AwaitExpression AST node
-     */
-    function checkForSpacesAfterAwait(node: Tree.AwaitExpression) {
-      const tokens = sourceCode.getFirstTokens(node, 3)
-
-      checkUnaryWordOperatorForSpaces(node, tokens[0], tokens[1], 'await')
-    }
-
-    /**
-     * Verifies UnaryExpression, UpdateExpression and NewExpression have spaces before or after the operator
+     * Verifies UnaryExpression, UpdateExpression have spaces before or after the operator
      * @param node AST node
      * @param firstToken First token in the expression
      * @param secondToken Second token in the expression
@@ -200,7 +106,6 @@ export default createRule<RuleOptions, MessageIds>({
       node:
         | Tree.UnaryExpression
         | Tree.UpdateExpression
-        | Tree.NewExpression
         | Tree.TSNonNullExpression,
       firstToken: Token,
       secondToken: Token,
@@ -239,7 +144,7 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Verifies UnaryExpression, UpdateExpression and NewExpression don't have spaces before or after the operator
+     * Verifies UnaryExpression, UpdateExpression don't have spaces before or after the operator
      * @param node AST node
      * @param firstToken First token in the expression
      * @param secondToken Second token in the expression
@@ -248,7 +153,6 @@ export default createRule<RuleOptions, MessageIds>({
       node:
         | Tree.UnaryExpression
         | Tree.UpdateExpression
-        | Tree.NewExpression
         | Tree.TSNonNullExpression,
       firstToken: Token,
       secondToken: Token,
@@ -287,14 +191,13 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     /**
-     * Verifies UnaryExpression, UpdateExpression and NewExpression satisfy spacing requirements
+     * Verifies UnaryExpression, UpdateExpression satisfy spacing requirements
      * @param node AST node
      */
     function checkForSpaces(
       node:
         | Tree.UnaryExpression
-        | Tree.UpdateExpression
-        | Tree.NewExpression,
+        | Tree.UpdateExpression,
     ) {
       const tokens = node.type === 'UpdateExpression' && !node.prefix
         ? sourceCode.getLastTokens(node, 2)
@@ -302,8 +205,7 @@ export default createRule<RuleOptions, MessageIds>({
       const firstToken = tokens[0]
       const secondToken = tokens[1]
 
-      if ((node.type === 'NewExpression' || node.prefix) && isKeywordToken(firstToken)) {
-        checkUnaryWordOperatorForSpaces(node, firstToken, secondToken, firstToken.value)
+      if (node.prefix && isKeywordToken(firstToken)) {
         return
       }
 
@@ -322,9 +224,6 @@ export default createRule<RuleOptions, MessageIds>({
     return {
       UnaryExpression: checkForSpaces,
       UpdateExpression: checkForSpaces,
-      NewExpression: checkForSpaces,
-      YieldExpression: checkForSpacesAfterYield,
-      AwaitExpression: checkForSpacesAfterAwait,
       TSNonNullExpression: checkForSpacesAroundNonNull,
     }
   },
