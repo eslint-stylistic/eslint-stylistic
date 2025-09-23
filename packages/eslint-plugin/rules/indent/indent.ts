@@ -8,6 +8,7 @@ import type { ASTNode, JSONSchema, NodeTypes, RuleFunction, RuleListener, Source
 import type { MessageIds, RuleOptions } from './types'
 import { AST_NODE_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { warnDeprecatedOptions } from '#utils/index'
 
 const KNOWN_NODES = new Set([
   'AssignmentExpression',
@@ -704,7 +705,6 @@ export default createRule<RuleOptions, MessageIds>({
           },
           offsetTernaryExpressionsOffsetCallExpressions: {
             type: 'boolean',
-            default: true,
           },
           ignoredNodes: {
             type: 'array',
@@ -748,6 +748,8 @@ export default createRule<RuleOptions, MessageIds>({
     const DEFAULT_PARAMETER_INDENT = 1
     const DEFAULT_FUNCTION_BODY_INDENT = 1
     const DEFAULT_FUNCTION_RETURN_TYPE_INDENT = 1
+
+    warnDeprecatedOptions(context.options[1], 'offsetTernaryExpressionsOffsetCallExpressions', 'offsetTernaryExpressions.CallExpression' as any, 'indent')
 
     let indentType = 'space'
     let indentSize = 4
