@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: vdCeefw4L-k-YW1Qmnm2rbwjXcF6flB0GumFmaFYGow */
+/* @checksum: BUutSFJUssyXLrW_IDa_KWMt0ojkRHJ_Biw5jfNU2Nw */
 
 export type IndentSchema0 = 'tab' | number
 
@@ -41,6 +41,7 @@ export interface IndentSchema1 {
     | boolean
     | {
       CallExpression?: boolean
+      AwaitExpression?: boolean
       NewExpression?: boolean
     }
   offsetTernaryExpressionsOffsetCallExpressions?: boolean

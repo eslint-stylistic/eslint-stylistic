@@ -2476,10 +2476,7 @@ run<RuleOptions, MessageIds>({
           )
           : []
       `,
-      options: [2, {
-        offsetTernaryExpressions: true,
-        offsetTernaryExpressionsOffsetCallExpressions: false,
-      }],
+      options: [2, { offsetTernaryExpressions: { AwaitExpression: false } }],
     },
     {
       code: $`
@@ -2492,10 +2489,7 @@ run<RuleOptions, MessageIds>({
             )
           : []
       `,
-      options: [2, {
-        offsetTernaryExpressions: true,
-        offsetTernaryExpressionsOffsetCallExpressions: true,
-      }],
+      options: [2, { offsetTernaryExpressions: { AwaitExpression: true } }],
     },
 
     $`

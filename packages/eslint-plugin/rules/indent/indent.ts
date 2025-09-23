@@ -4,7 +4,7 @@
  * This is done intentionally based on the internal implementation of the base indent rule.
  */
 
-import type { ASTNode, JSONSchema, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
+import type { ASTNode, JSONSchema, NodeTypes, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { AST_NODE_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -690,6 +690,9 @@ export default createRule<RuleOptions, MessageIds>({
                   CallExpression: {
                     type: 'boolean',
                   },
+                  AwaitExpression: {
+                    type: 'boolean',
+                  },
                   NewExpression: {
                     type: 'boolean',
                   },
@@ -782,6 +785,7 @@ export default createRule<RuleOptions, MessageIds>({
       ignoredNodes: [],
       ignoreComments: false,
       offsetTernaryExpressions: false as NonNullable<RuleOptions[1]>['offsetTernaryExpressions'],
+      // deprecated
       offsetTernaryExpressionsOffsetCallExpressions: true,
       tabLength: 4,
     }
@@ -1216,28 +1220,21 @@ export default createRule<RuleOptions, MessageIds>({
       if (options.flatTernaryExpressions && isTokenOnSameLine(test, consequent) && !isOnFirstLineOfStatement(firstToken, node))
         return
 
-      const ternaryOptions = options.offsetTernaryExpressions === true
+      const ternaryOptions: false | Partial<Record<NodeTypes, boolean>> = options.offsetTernaryExpressions === true
         ? {
             CallExpression: options.offsetTernaryExpressionsOffsetCallExpressions ?? true,
+            // for backward compatibility
+            AwaitExpression: options.offsetTernaryExpressionsOffsetCallExpressions ?? true,
             NewExpression: true,
           }
-        : options.offsetTernaryExpressions
+        : options.offsetTernaryExpressions!
 
       function checkBranch(branch: ASTNode, branchFirstToken: Token) {
         let offset = 1
         if (ternaryOptions) {
-          if (branchFirstToken.type === 'Punctuator')
-            offset = 2
-
           const branchType = skipChainExpression(branch).type
-          if (
-            ternaryOptions.CallExpression
-            && (branchType === 'CallExpression' || branchType === 'AwaitExpression')
-          ) {
-            offset = 2
-          }
 
-          if (ternaryOptions.NewExpression && branchType === 'NewExpression') {
+          if (branchFirstToken.type === 'Punctuator' || ternaryOptions[branchType]) {
             offset = 2
           }
         }
