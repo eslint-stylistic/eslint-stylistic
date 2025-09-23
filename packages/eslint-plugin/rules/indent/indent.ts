@@ -1219,7 +1219,7 @@ export default createRule<RuleOptions, MessageIds>({
           const consequentType = skipChainExpression(consequent).type
           if (
             options.offsetTernaryExpressionsOffsetCallExpressions
-            && (consequentType === 'CallExpression' || consequentType === 'AwaitExpression')
+            && (consequentType === 'CallExpression' || consequentType === 'AwaitExpression' || consequentType === 'NewExpression')
           ) {
             offset = 2
           }
@@ -1253,7 +1253,7 @@ export default createRule<RuleOptions, MessageIds>({
             const alternateType = skipChainExpression(alternate).type
             if (
               options.offsetTernaryExpressionsOffsetCallExpressions
-              && (alternateType === 'CallExpression' || alternateType === 'AwaitExpression')
+              && (alternateType === 'CallExpression' || alternateType === 'AwaitExpression' || alternateType === 'NewExpression')
             ) {
               offset = 2
             }
