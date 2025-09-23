@@ -102,6 +102,7 @@ This rule has an object option:
 - `"flatTernaryExpressions": true` (`false` by default) requires no indentation for ternary expressions which are nested in other ternary expressions.
 - `"offsetTernaryExpressions": true` (`false` by default) requires indentation for values of ternary expressions. An optional configuration object can be provided to handle specific edge cases:
   - `CallExpression`: Aligns with `offsetTernaryExpressions` by default.
+  - `AwaitExpression`: Aligns with `offsetTernaryExpressions` by default.
   - `NewExpression`: Aligns with `offsetTernaryExpressions` by default.
 - `"offsetTernaryExpressionsOffsetCallExpressions": true` (`true` by default), handles an edge case for call expressions nested in ternary. It's only effective when `offsetTernaryExpressions` is set to `true`.
 - `"assignmentOperator"` (default: 1) enforces indentation level for the assignment operator and value in variable/type declarations and assignment expressions when they are on different lines than the left side of the assignment (e.g. variable name). This can also be set to `"off"` to disable the checking.
