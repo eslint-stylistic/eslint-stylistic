@@ -2283,7 +2283,7 @@ run<RuleOptions, MessageIds>({
             : new Baz({
             })
       `,
-      options: [2, { offsetTernaryExpressions: { NewExpression: false } }],
+      options: [2, { offsetTernaryExpressions: false }],
     },
     {
       code: $`
