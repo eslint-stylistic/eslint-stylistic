@@ -1213,96 +1213,78 @@ export default createRule<RuleOptions, MessageIds>({
       //     foo > 0 ? bar :
       //     foo < 0 ? baz :
       //     /*else*/ qiz ;
-      if (!options.flatTernaryExpressions
-        || !isTokenOnSameLine(test, consequent)
-        || isOnFirstLineOfStatement(firstToken, node)
-      ) {
-        const questionMarkToken = sourceCode.getFirstTokenBetween(test, consequent, isQuestionToken)!
-        const colonToken = sourceCode.getFirstTokenBetween(consequent, alternate, isColonToken)!
+      if (options.flatTernaryExpressions && isTokenOnSameLine(test, consequent) && !isOnFirstLineOfStatement(firstToken, node))
+        return
 
-        const firstConsequentToken = sourceCode.getTokenAfter(questionMarkToken)!
-        const lastConsequentToken = sourceCode.getTokenBefore(colonToken)!
-        const firstAlternateToken = sourceCode.getTokenAfter(colonToken)!
+      const ternaryOptions = options.offsetTernaryExpressions === true
+        ? {
+            CallExpression: options.offsetTernaryExpressionsOffsetCallExpressions ?? true,
+            NewExpression: true,
+          }
+        : options.offsetTernaryExpressions
 
-        offsets.setDesiredOffset(questionMarkToken, firstToken, 1)
-        offsets.setDesiredOffset(colonToken, firstToken, 1)
-
-        const ternaryOptions = options.offsetTernaryExpressions === true
-          ? {
-              CallExpression: options.offsetTernaryExpressionsOffsetCallExpressions ?? true,
-              NewExpression: true,
-            }
-          : options.offsetTernaryExpressions
-
+      function checkBranch(branch: ASTNode, branchFirstToken: Token) {
         let offset = 1
         if (ternaryOptions) {
-          if (firstConsequentToken.type === 'Punctuator')
+          if (branchFirstToken.type === 'Punctuator')
             offset = 2
 
-          const consequentType = skipChainExpression(consequent).type
+          const branchType = skipChainExpression(branch).type
           if (
             ternaryOptions.CallExpression
-            && (consequentType === 'CallExpression' || consequentType === 'AwaitExpression')
+            && (branchType === 'CallExpression' || branchType === 'AwaitExpression')
           ) {
             offset = 2
           }
 
-          if (ternaryOptions.NewExpression && consequentType === 'NewExpression') {
+          if (ternaryOptions.NewExpression && branchType === 'NewExpression') {
             offset = 2
           }
         }
 
         offsets.setDesiredOffset(
-          firstConsequentToken,
+          branchFirstToken,
           firstToken,
           offset,
         )
+      }
 
+      const questionMarkToken = sourceCode.getFirstTokenBetween(test, consequent, isQuestionToken)!
+      const colonToken = sourceCode.getFirstTokenBetween(consequent, alternate, isColonToken)!
+
+      const firstConsequentToken = sourceCode.getTokenAfter(questionMarkToken)!
+      const lastConsequentToken = sourceCode.getTokenBefore(colonToken)!
+      const firstAlternateToken = sourceCode.getTokenAfter(colonToken)!
+
+      offsets.setDesiredOffset(questionMarkToken, firstToken, 1)
+      offsets.setDesiredOffset(colonToken, firstToken, 1)
+
+      checkBranch(consequent, firstConsequentToken)
+
+      /**
+       * The alternate and the consequent should usually have the same indentation.
+       * If they share part of a line, align the alternate against the first token of the consequent.
+       * This allows the alternate to be indented correctly in cases like this:
+       * foo ? (
+       *   bar
+       * ) : ( // this '(' is aligned with the '(' above, so it's considered to be aligned with `foo`
+       *   baz // as a result, `baz` is offset by 1 rather than 2
+       * )
+       */
+      if (isTokenOnSameLine(lastConsequentToken, firstAlternateToken)) {
+        offsets.setDesiredOffset(firstAlternateToken, firstConsequentToken, 0)
+      }
+      else {
         /**
-         * The alternate and the consequent should usually have the same indentation.
-         * If they share part of a line, align the alternate against the first token of the consequent.
-         * This allows the alternate to be indented correctly in cases like this:
-         * foo ? (
-         *   bar
-         * ) : ( // this '(' is aligned with the '(' above, so it's considered to be aligned with `foo`
-         *   baz // as a result, `baz` is offset by 1 rather than 2
-         * )
+         * If the alternate and consequent do not share part of a line, offset the alternate from the first
+         * token of the conditional expression. For example:
+         * foo ? bar
+         *   : baz
+         *
+         * If `baz` were aligned with `bar` rather than being offset by 1 from `foo`, `baz` would end up
+         * having no expected indentation.
          */
-        if (isTokenOnSameLine(lastConsequentToken, firstAlternateToken)) {
-          offsets.setDesiredOffset(firstAlternateToken, firstConsequentToken, 0)
-        }
-        else {
-          let offset = 1
-          if (ternaryOptions) {
-            if (firstAlternateToken.type === 'Punctuator')
-              offset = 2
-
-            const alternateType = skipChainExpression(alternate).type
-            if (
-              ternaryOptions.CallExpression
-              && (alternateType === 'CallExpression' || alternateType === 'AwaitExpression')
-            ) {
-              offset = 2
-            }
-            if (ternaryOptions.NewExpression && alternateType === 'NewExpression') {
-              offset = 2
-            }
-          }
-          /**
-           * If the alternate and consequent do not share part of a line, offset the alternate from the first
-           * token of the conditional expression. For example:
-           * foo ? bar
-           *   : baz
-           *
-           * If `baz` were aligned with `bar` rather than being offset by 1 from `foo`, `baz` would end up
-           * having no expected indentation.
-           */
-          offsets.setDesiredOffset(
-            firstAlternateToken,
-            firstToken,
-            offset,
-          )
-        }
+        checkBranch(alternate, firstAlternateToken)
       }
     }
 
