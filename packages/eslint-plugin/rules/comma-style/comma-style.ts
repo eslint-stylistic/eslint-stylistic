@@ -58,7 +58,7 @@ export default createRule<RuleOptions, MessageIds>({
     const sourceCode = context.sourceCode
     const exceptions = {} as Record<NodeTypes, boolean>
 
-    if (context.options.length === 2 && Object.prototype.hasOwnProperty.call(context.options[1], 'exceptions')) {
+    if (context.options.length === 2 && Object.hasOwn(context.options[1]!, 'exceptions')) {
       context.options[1] ??= { exceptions: {} }
       const rawExceptions = context.options[1].exceptions!
       const keys = Object.keys(rawExceptions)

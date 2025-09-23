@@ -71,7 +71,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns Whether or not an override has been provided for the operator
      */
     function overrideExistsForOperator(operator: string) {
-      return options.overrides && Object.prototype.hasOwnProperty.call(options.overrides, operator)
+      return options.overrides && Object.hasOwn(options.overrides, operator)
     }
 
     /**
