@@ -54,6 +54,17 @@ Object option:
 - `"arraysInObjects": false` disallows spacing inside of braces of objects beginning and/or ending with an array element (applies when the first option is set to `always`)
 - `"objectsInObjects": true` requires spacing inside of braces of objects beginning and/or ending with an object element (applies when the first option is set to `never`)
 - `"objectsInObjects": false` disallows spacing inside of braces of objects beginning and/or ending with an object element (applies when the first option is set to `always`)
+- `"overrides"` allows overriding spacing style for specified nodes:
+  - `ObjectPattern` - object patterns of destructuring assignments
+  - `ObjectExpression` - object literals
+  - `ImportDeclaration` - named imports
+  - `ImportAttributes` - import/export attributes
+  - `ExportNamedDeclaration` - named exports
+  - `ExportAllDeclaration` - re-export declarations
+  - `TSMappedType` - mapped types
+  - `TSTypeLiteral` - type literals
+  - `TSInterfaceBody` - interface declaration bodies
+  - `TSEnumBody` - enum declaration bodies
 
 ### never
 
@@ -205,6 +216,20 @@ Examples of additional **correct** code for this rule with the `"always", { "obj
 /* eslint @stylistic/object-curly-spacing: ["error", "always", { "objectsInObjects": false }] */
 
 var obj = { "foo": { "baz": 1, "bar": 2 }};
+```
+
+:::
+
+#### overrides
+
+Examples of additional **correct** code for this rule with the `"always", { "overrides": { ImportAttributes: "never" } }` options:
+
+::: correct
+
+```js
+/* eslint @stylistic/object-curly-spacing: ["error", "always", { "overrides": { ImportAttributes: "never" } }] */
+
+import { name, version } from 'package.json' with {type: 'json'}
 ```
 
 :::
