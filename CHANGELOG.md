@@ -1,5 +1,23 @@
 # Changelog
 
+## [5.4.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.4.0...v5.4.1) (2025-09-27)
+
+
+### Bug Fixes
+
+* **indent:** correctly indent `NewExpression` in `ConditionalExpression` ([#994](https://github.com/eslint-stylistic/eslint-stylistic/issues/994)) ([01cec33](https://github.com/eslint-stylistic/eslint-stylistic/commit/01cec33474304bcb0365ab7d9ca8f4b504529e82))
+
+
+### Documentation
+
+* **contribute:** add guide to run the document site ([#1001](https://github.com/eslint-stylistic/eslint-stylistic/issues/1001)) ([37a64c5](https://github.com/eslint-stylistic/eslint-stylistic/commit/37a64c5b9c1edd3c184d9d112e1539d06ddc08dc))
+* **object-curly-spacing:** introduce `overrides` ([#998](https://github.com/eslint-stylistic/eslint-stylistic/issues/998)) ([6452b52](https://github.com/eslint-stylistic/eslint-stylistic/commit/6452b523a48f4f21a3c1d37ca70c6246ce9fa897))
+
+
+### Chores
+
+* replace `Object.prototype.hasOwnProperty.call` with `Object.hasOwn` ([#992](https://github.com/eslint-stylistic/eslint-stylistic/issues/992)) ([97193e1](https://github.com/eslint-stylistic/eslint-stylistic/commit/97193e14d60d9e46b9c9a5cde3be5f2f35e9c251))
+
 ## [5.4.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.3.1...v5.4.0) (2025-09-19)
 
 
