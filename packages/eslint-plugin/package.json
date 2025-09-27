@@ -73,6 +73,7 @@
     "./rules/linebreak-style": "./dist/rules/linebreak-style.js",
     "./rules/lines-around-comment": "./dist/rules/lines-around-comment.js",
     "./rules/lines-between-class-members": "./dist/rules/lines-between-class-members.js",
+    "./rules/list-style": "./dist/rules/list-style.js",
     "./rules/max-len": "./dist/rules/max-len.js",
     "./rules/max-statements-per-line": "./dist/rules/max-statements-per-line.js",
     "./rules/member-delimiter-style": "./dist/rules/member-delimiter-style.js",

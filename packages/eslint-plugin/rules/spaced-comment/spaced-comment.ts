@@ -374,8 +374,7 @@ export default createRule<RuleOptions, MessageIds>({
         comments.forEach((comment) => {
           if (!isHashbangComment(comment))
             checkCommentForSpace(comment)
-        },
-        )
+        })
       },
     }
   },
