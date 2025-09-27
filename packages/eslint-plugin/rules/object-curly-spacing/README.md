@@ -65,6 +65,10 @@ Object option:
   - `TSTypeLiteral` - type literals
   - `TSInterfaceBody` - interface declaration bodies
   - `TSEnumBody` - enum declaration bodies
+- `"spaceInEmptyObject"` allows you to control the space in empty object.
+  - `"spaceInEmptyArray": "ignore"`(default) ignores the spaces in empty object.
+  - `"spaceInEmptyObject": "always"` require one space in empty object.
+  - `"spaceInEmptyObject": "never"` disallow space in empty object.
 
 ### never
 
@@ -230,6 +234,34 @@ Examples of additional **correct** code for this rule with the `"always", { "ove
 /* eslint @stylistic/object-curly-spacing: ["error", "always", { "overrides": { ImportAttributes: "never" } }] */
 
 import { name, version } from 'package.json' with {type: 'json'}
+```
+
+:::
+
+#### spaceInEmptyObject
+
+Examples of additional **correct** code for this rule with the `"always", { spaceInEmptyObject: "never" }` options:
+
+::: incorrect
+
+```js
+/* eslint @stylistic/object-curly-spacing: ["error", "always", { spaceInEmptyObject: "never" }] */
+
+var obj = { }
+interface Bar { }
+enum Foo { }
+```
+
+:::
+
+::: correct
+
+```js
+/* eslint @stylistic/object-curly-spacing: ["error", "always", { spaceInEmptyObject: "never" }] */
+
+var obj = {}
+interface Bar {}
+enum Foo {}
 ```
 
 :::
