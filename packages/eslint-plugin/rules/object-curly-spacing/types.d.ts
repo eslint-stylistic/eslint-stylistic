@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: ZBnE934u0gyC84b7EpFDIwh5i7rOv5wYYwiTlm7x9dw */
+/* @checksum: 0DqZs8PqatPuArcCSJXk2lWl5xQsBCPlFLATa6DzUJg */
 
 export type ObjectCurlySpacingSchema0 = 'always' | 'never'
 
@@ -19,6 +19,7 @@ export interface ObjectCurlySpacingSchema1 {
     TSInterfaceBody?: 'always' | 'never'
     TSEnumBody?: 'always' | 'never'
   }
+  spaceInEmptyObject?: 'ignore' | 'always' | 'never'
 }
 
 export type ObjectCurlySpacingRuleOptions = [
@@ -32,3 +33,5 @@ export type MessageIds
     | 'requireSpaceAfter'
     | 'unexpectedSpaceBefore'
     | 'unexpectedSpaceAfter'
+    | 'requiredSpaceInEmpty'
+    | 'unexpectedSpaceInEmpty'
