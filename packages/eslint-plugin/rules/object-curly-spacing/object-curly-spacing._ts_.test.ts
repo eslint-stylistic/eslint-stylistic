@@ -601,5 +601,20 @@ run<RuleOptions, MessageIds>({
       output: 'export {} from "package.json" with {}',
       options: ['never', { spaceInEmptyObject: 'never' }],
     },
+    {
+      code: 'import {   } from "package.json" with {   }',
+      output: 'import { } from "package.json" with { }',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'enum Foo {   }',
+      output: 'enum Foo { }',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'const x:{f: {   }}',
+      output: 'const x:{f: { }}',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
   ],
 })

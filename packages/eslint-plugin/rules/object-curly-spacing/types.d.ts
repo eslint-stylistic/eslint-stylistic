@@ -1,6 +1,6 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: 2aF2IyYlLeaM-gia8_TepQOa7HIRDgf4HqfMNjtkK00 */
+/* @checksum: 0DqZs8PqatPuArcCSJXk2lWl5xQsBCPlFLATa6DzUJg */
 
 export type ObjectCurlySpacingSchema0 = 'always' | 'never'
 
@@ -33,4 +33,5 @@ export type MessageIds
     | 'requireSpaceAfter'
     | 'unexpectedSpaceBefore'
     | 'unexpectedSpaceAfter'
+    | 'requiredSpaceInEmpty'
     | 'unexpectedSpaceInEmpty'

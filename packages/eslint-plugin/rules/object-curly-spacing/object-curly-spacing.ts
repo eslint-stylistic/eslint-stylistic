@@ -63,6 +63,7 @@ export default createRule<RuleOptions, MessageIds>({
       requireSpaceAfter: 'A space is required after \'{{token}}\'.',
       unexpectedSpaceBefore: 'There should be no space before \'{{token}}\'.',
       unexpectedSpaceAfter: 'There should be no space after \'{{token}}\'.',
+      requiredSpaceInEmpty: 'A space is required in empty \'{{node}}\'.',
       unexpectedSpaceInEmpty: 'There should be no space in empty \'{{node}}\'.',
     },
   },
@@ -280,19 +281,31 @@ export default createRule<RuleOptions, MessageIds>({
       const hasComment = sourceCode.getCommentsBefore(closingToken).length > 0
       // only report if there are no comments and the brace on the same line
       if (!hasComment && openingToken.loc.start.line === closingToken.loc.end.line) {
-        const hasSpace = sourceCode.isSpaceBetween(openingToken, closingToken)
-        if (options.spaceInEmptyObject === 'always' && !hasSpace) {
-          context.report({
-            node,
-            loc: { start: openingToken.loc.end, end: closingToken.loc.start },
-            messageId: 'unexpectedSpaceInEmpty',
-            data: {
-              node: node.type,
-            },
-            fix(fixer) {
-              return fixer.insertTextAfter(openingToken, ' ')
-            },
-          })
+        const sourceBetween = sourceCode.getText().slice(openingToken.range[0] + 1, closingToken.range[1] - 1)
+        if (sourceBetween.trim() !== '')
+          return
+        const hasSpace = sourceBetween.length > 0
+        const hasSingleSpace = sourceBetween === ' '
+
+        if (options.spaceInEmptyObject === 'always') {
+          if (!hasSpace || !hasSingleSpace) {
+            context.report({
+              node,
+              loc: { start: openingToken.loc.end, end: closingToken.loc.start },
+              messageId: 'requiredSpaceInEmpty',
+              data: {
+                node: node.type,
+              },
+              fix(fixer) {
+                if (!hasSpace) {
+                  return fixer.insertTextAfter(openingToken, ' ')
+                }
+                else {
+                  return fixer.replaceTextRange([openingToken.range[1], closingToken.range[0]], ' ')
+                }
+              },
+            })
+          }
         }
         else if (options.spaceInEmptyObject === 'never' && hasSpace) {
           context.report({

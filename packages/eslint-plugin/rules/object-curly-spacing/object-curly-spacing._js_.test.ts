@@ -1456,11 +1456,6 @@ run<RuleOptions, MessageIds>({
       options: ['never', { spaceInEmptyObject: 'always' }],
     },
     {
-      code: 'import {} from "package.json" with {}',
-      output: 'import { } from "package.json" with { }',
-      options: ['never', { spaceInEmptyObject: 'always' }],
-    },
-    {
       code: 'export {}',
       output: 'export { }',
       options: ['never', { spaceInEmptyObject: 'always' }],
@@ -1484,6 +1479,21 @@ run<RuleOptions, MessageIds>({
       code: 'export {      }',
       output: 'export {}',
       options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'var {      } = y;',
+      output: 'var { } = y;',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'import {    } from "room";',
+      output: 'import { } from "room";',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'export {      }',
+      output: 'export { }',
+      options: ['never', { spaceInEmptyObject: 'always' }],
     },
   ],
 })
