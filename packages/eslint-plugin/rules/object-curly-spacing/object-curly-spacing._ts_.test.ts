@@ -334,6 +334,55 @@ run<RuleOptions, MessageIds>({
         },
       }],
     },
+
+    {
+      code: 'const x:{/* comment */}',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'const x:{  /* comment */  }',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'const x:{}',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'const x:{ }',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'const x:{f: {}}',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'const x:{f: { }}',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'interface x {}',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'interface x { }',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'import {} from "package.json" with {}',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'import { } from "package.json" with { }',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'enum Foo {}',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'enum Foo { }',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
   ],
 
   invalid: [
@@ -526,6 +575,31 @@ run<RuleOptions, MessageIds>({
         { messageId: 'unexpectedSpaceAfter' },
         { messageId: 'unexpectedSpaceBefore' },
       ],
+    },
+    {
+      code: 'import { } from "package.json" with { }',
+      output: 'import {} from "package.json" with {}',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'enum Foo {}',
+      output: 'enum Foo { }',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'const x:{f: {}}',
+      output: 'const x:{f: { }}',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'interface x {    }',
+      output: 'interface x {}',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'export {   } from "package.json" with {   }',
+      output: 'export {} from "package.json" with {}',
+      options: ['never', { spaceInEmptyObject: 'never' }],
     },
   ],
 })

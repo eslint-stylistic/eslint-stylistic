@@ -170,6 +170,46 @@ run<RuleOptions, MessageIds>({
     },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/906
     `import foo, * as bar from 'mod'`,
+    {
+      code: 'var obj = {   /*comment*/   };',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'var obj = {/*comment*/};',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'var obj = {};',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'var obj = { };',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'var {} = y;',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'var { } = y;',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'import {} from "room";',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'import { } from "room";',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'export {}',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'export { }',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
   ],
 
   invalid: [
@@ -1399,6 +1439,51 @@ run<RuleOptions, MessageIds>({
           endColumn: 21,
         },
       ],
+    },
+    {
+      code: 'var obj = {};',
+      output: 'var obj = { };',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'var {} = y;',
+      output: 'var { } = y;',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'import {} from "room";',
+      output: 'import { } from "room";',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'import {} from "package.json" with {}',
+      output: 'import { } from "package.json" with { }',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'export {}',
+      output: 'export { }',
+      options: ['never', { spaceInEmptyObject: 'always' }],
+    },
+    {
+      code: 'var obj = { };',
+      output: 'var obj = {};',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'var { } = y;',
+      output: 'var {} = y;',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'import { } from "room";',
+      output: 'import {} from "room";',
+      options: ['never', { spaceInEmptyObject: 'never' }],
+    },
+    {
+      code: 'export {      }',
+      output: 'export {}',
+      options: ['never', { spaceInEmptyObject: 'never' }],
     },
   ],
 })

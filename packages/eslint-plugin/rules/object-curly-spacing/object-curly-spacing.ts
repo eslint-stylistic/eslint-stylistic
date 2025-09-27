@@ -50,6 +50,10 @@ export default createRule<RuleOptions, MessageIds>({
             ),
             additionalProperties: false,
           },
+          spaceInEmptyObject: {
+            type: 'string',
+            enum: ['ignore', 'always', 'never'],
+          },
         },
         additionalProperties: false,
       },
@@ -59,6 +63,7 @@ export default createRule<RuleOptions, MessageIds>({
       requireSpaceAfter: 'A space is required after \'{{token}}\'.',
       unexpectedSpaceBefore: 'There should be no space before \'{{token}}\'.',
       unexpectedSpaceAfter: 'There should be no space after \'{{token}}\'.',
+      unexpectedSpaceInEmpty: 'There should be no space in empty \'{{node}}\'.',
     },
   },
   defaultOptions: ['never'],
@@ -85,6 +90,7 @@ export default createRule<RuleOptions, MessageIds>({
       arraysInObjectsException: isOptionSet('arraysInObjects'),
       objectsInObjectsException: isOptionSet('objectsInObjects'),
       overrides: secondOption?.overrides ?? {},
+      spaceInEmptyObject: secondOption?.spaceInEmptyObject ?? 'ignore',
     }
 
     /**
@@ -267,19 +273,89 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
+    function checkSpaceInEmptyObjectLike(node: SupportedNodes, openingToken: Token, closingToken: Token) {
+      if (options.spaceInEmptyObject === 'ignore')
+        return
+
+      const hasComment = sourceCode.getCommentsBefore(closingToken).length > 0
+      // only report if there are no comments and the brace on the same line
+      if (!hasComment && openingToken.loc.start.line === closingToken.loc.end.line) {
+        const hasSpace = sourceCode.isSpaceBetween(openingToken, closingToken)
+        if (options.spaceInEmptyObject === 'always' && !hasSpace) {
+          context.report({
+            node,
+            loc: { start: openingToken.loc.end, end: closingToken.loc.start },
+            messageId: 'unexpectedSpaceInEmpty',
+            data: {
+              node: node.type,
+            },
+            fix(fixer) {
+              return fixer.insertTextAfter(openingToken, ' ')
+            },
+          })
+        }
+        else if (options.spaceInEmptyObject === 'never' && hasSpace) {
+          context.report({
+            node,
+            loc: { start: openingToken.loc.end, end: closingToken.loc.start },
+            messageId: 'unexpectedSpaceInEmpty',
+            data: {
+              node: node.type,
+            },
+            fix(fixer) {
+              return fixer.removeRange([openingToken.range[1], closingToken.range[0]])
+            },
+          })
+        }
+      }
+    }
+
+    function getBraceToken(node: SupportedNodes, nodeType: SupportedNodeTypes = node.type): [Token, Token] {
+      switch (nodeType) {
+        case 'ImportDeclaration':
+        case 'ExportNamedDeclaration':
+        case 'ExportAllDeclaration':{
+          const attrTokens = sourceCode.getTokens(node)
+          const openingAttrToken = attrTokens.find(token => isOpeningBraceToken(token))!
+          const closingAttrToken = attrTokens.find(token => isClosingBraceToken(token))!
+          return [openingAttrToken, closingAttrToken]
+        }
+        case 'ImportAttributes':{
+          const attrTokens = sourceCode.getTokens(node)
+          const openingAttrToken = attrTokens.findLast(token => isOpeningBraceToken(token))!
+          const closingAttrToken = attrTokens.findLast(token => isClosingBraceToken(token))!
+          return [openingAttrToken, closingAttrToken]
+        }
+        case 'ObjectPattern':
+        case 'ObjectExpression':
+        case 'TSMappedType':
+        case 'TSTypeLiteral':
+        case 'TSInterfaceBody':
+        case 'TSEnumBody': {
+          const allTokens = sourceCode.getTokens(node)
+          const openingToken = allTokens.find(token => isOpeningBraceToken(token))!
+          const closingToken = allTokens.findLast(token => isClosingBraceToken(token))!
+          return [openingToken, closingToken]
+        }
+
+        default:
+          throw new Error(`Unsupported node type: ${nodeType}`)
+      }
+    }
+
     /**
      * Reports a given object-like node if spacing in curly braces is invalid.
      * @param node An object-like node to check.
      * @param properties The properties of the object-like node
      */
     function checkForObjectLike(node: SupportedNodes, properties: ASTNode[], nodeType: SupportedNodeTypes = node.type) {
-      if (properties.length === 0)
+      const [openingToken, closingToken] = getBraceToken(node, nodeType)
+      if (properties.length === 0) {
+        checkSpaceInEmptyObjectLike(node, openingToken, closingToken)
         return
+      }
 
-      const openingToken = sourceCode.getTokenBefore(properties[0], isOpeningBraceToken)!
-      const closeToken = sourceCode.getTokenAfter(properties.at(-1)!, isClosingBraceToken)!
-
-      validateBraceSpacing(node, openingToken, closeToken, nodeType)
+      validateBraceSpacing(node, openingToken, closingToken, nodeType)
     }
 
     return {
@@ -298,8 +374,10 @@ export default createRule<RuleOptions, MessageIds>({
 
         const firstSpecifierIndex = node.specifiers.findIndex(specifier => specifier.type === 'ImportSpecifier')
 
-        if (firstSpecifierIndex === -1)
+        if (firstSpecifierIndex === -1) {
+          checkForObjectLike(node, [])
           return
+        }
 
         checkForObjectLike(node, node.specifiers.slice(firstSpecifierIndex))
       },
