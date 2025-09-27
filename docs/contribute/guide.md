@@ -34,6 +34,12 @@ To develop and test this project:
 
 > We use pnpm v10. If you are working on multiple projects with different versions of pnpm, it's recommended to enable [Corepack](https://github.com/nodejs/corepack) by running `corepack enable`.
 
+### Running Docs
+
+This documentation site is built with [VitePress](https://vitepress.dev/).
+
+To run it locally, execute `pnpm docs` at the root folder.
+
 ### Running Tests
 
 #### Unit Tests
