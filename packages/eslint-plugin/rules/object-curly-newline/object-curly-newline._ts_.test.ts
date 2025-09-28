@@ -13,15 +13,16 @@ function createValidRule(input: string[], options?: RuleOptions[0]) {
   // add comment for better experience in `vitest` extension
   const code = `${input.join('\n')}// ${JSON.stringify(options) || 'default'}`
 
-  return Object.entries(prefixOfNodes).flatMap(([key, prefix]) =>
-    options
-      ? [
-          { code: `${prefix}${code}`, options: [options] },
-          { code: `${prefix}${code}`, options: [{ [key]: options }] },
-        ]
-      : [
-          { code: `${prefix}${code}` },
-        ],
+  return Object.entries(prefixOfNodes).flatMap(
+    ([key, prefix]) =>
+      options
+        ? [
+            { code: `${prefix}${code}`, options: [options] },
+            { code: `${prefix}${code}`, options: [{ [key]: options }] },
+          ]
+        : [
+            { code: `${prefix}${code}` },
+          ],
   )
 }
 

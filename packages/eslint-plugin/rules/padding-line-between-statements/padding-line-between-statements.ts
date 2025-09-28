@@ -558,8 +558,7 @@ const StatementTypes: Record<string, NodeTestObject> = {
             test: (node, sourceCode) => value.test(node, sourceCode) && !isSingleLine(node),
           },
         ],
-      ],
-      ),
+      ]),
   ),
 }
 

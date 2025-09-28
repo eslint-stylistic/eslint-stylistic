@@ -4,7 +4,9 @@
 import antfu from '@antfu/eslint-config'
 import stylistic from './stub.mjs'
 
-const stylisticConfig = stylistic.configs.customize()
+const stylisticConfig = stylistic.configs.customize({
+  experimental: true,
+})
 
 export default antfu(
   {
@@ -154,7 +156,7 @@ export default antfu(
     ...stylisticConfig,
     rules: {
       ...stylisticConfig.rules,
-      'antfu/consistent-list-newline': 'error',
+      'antfu/consistent-list-newline': 'off',
       'antfu/curly': 'error',
       'antfu/if-newline': 'error',
       'antfu/top-level-function': 'error',
