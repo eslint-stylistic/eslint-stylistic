@@ -172,43 +172,43 @@ run<RuleOptions, MessageIds>({
     `import foo, * as bar from 'mod'`,
     {
       code: 'var obj = {   /*comment*/   };',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'var obj = {/*comment*/};',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'var obj = {};',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'var obj = { };',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'var {} = y;',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'var { } = y;',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'import {} from "room";',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'import { } from "room";',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'export {}',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'export { }',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
   ],
 
@@ -1443,57 +1443,57 @@ run<RuleOptions, MessageIds>({
     {
       code: 'var obj = {};',
       output: 'var obj = { };',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'var {} = y;',
       output: 'var { } = y;',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'import {} from "room";',
       output: 'import { } from "room";',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'export {}',
       output: 'export { }',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'var obj = { };',
       output: 'var obj = {};',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'var { } = y;',
       output: 'var {} = y;',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'import { } from "room";',
       output: 'import {} from "room";',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'export {      }',
       output: 'export {}',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'var {      } = y;',
       output: 'var { } = y;',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'import {    } from "room";',
       output: 'import { } from "room";',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'export {      }',
       output: 'export { }',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
   ],
 })

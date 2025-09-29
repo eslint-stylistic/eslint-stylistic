@@ -337,51 +337,51 @@ run<RuleOptions, MessageIds>({
 
     {
       code: 'const x:{/* comment */}',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'const x:{  /* comment */  }',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'const x:{}',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'const x:{ }',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'const x:{f: {}}',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'const x:{f: { }}',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'interface x {}',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'interface x { }',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'import {} from "package.json" with {}',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'import { } from "package.json" with { }',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'enum Foo {}',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'enum Foo { }',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
   ],
 
@@ -579,42 +579,42 @@ run<RuleOptions, MessageIds>({
     {
       code: 'import { } from "package.json" with { }',
       output: 'import {} from "package.json" with {}',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'enum Foo {}',
       output: 'enum Foo { }',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'const x:{f: {}}',
       output: 'const x:{f: { }}',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'interface x {    }',
       output: 'interface x {}',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'export {   } from "package.json" with {   }',
       output: 'export {} from "package.json" with {}',
-      options: ['never', { spaceInEmptyObject: 'never' }],
+      options: ['never', { emptyObject: 'never' }],
     },
     {
       code: 'import {   } from "package.json" with {   }',
       output: 'import { } from "package.json" with { }',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'enum Foo {   }',
       output: 'enum Foo { }',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
     {
       code: 'const x:{f: {   }}',
       output: 'const x:{f: { }}',
-      options: ['never', { spaceInEmptyObject: 'always' }],
+      options: ['never', { emptyObject: 'always' }],
     },
   ],
 })

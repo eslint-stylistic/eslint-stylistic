@@ -50,7 +50,7 @@ export default createRule<RuleOptions, MessageIds>({
             ),
             additionalProperties: false,
           },
-          spaceInEmptyObject: {
+          emptyObject: {
             type: 'string',
             enum: ['ignore', 'always', 'never'],
           },
@@ -91,7 +91,7 @@ export default createRule<RuleOptions, MessageIds>({
       arraysInObjectsException: isOptionSet('arraysInObjects'),
       objectsInObjectsException: isOptionSet('objectsInObjects'),
       overrides: secondOption?.overrides ?? {},
-      spaceInEmptyObject: secondOption?.spaceInEmptyObject ?? 'ignore',
+      emptyObject: secondOption?.emptyObject ?? 'ignore',
     }
 
     /**
@@ -275,7 +275,7 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function checkSpaceInEmptyObjectLike(node: SupportedNodes, openingToken: Token, closingToken: Token) {
-      if (options.spaceInEmptyObject === 'ignore')
+      if (options.emptyObject === 'ignore')
         return
 
       const hasComment = sourceCode.getCommentsBefore(closingToken).length > 0
@@ -287,7 +287,7 @@ export default createRule<RuleOptions, MessageIds>({
         const hasSpace = sourceBetween.length > 0
         const hasSingleSpace = sourceBetween === ' '
 
-        if (options.spaceInEmptyObject === 'always') {
+        if (options.emptyObject === 'always') {
           if (!hasSpace || !hasSingleSpace) {
             context.report({
               node,
@@ -307,7 +307,7 @@ export default createRule<RuleOptions, MessageIds>({
             })
           }
         }
-        else if (options.spaceInEmptyObject === 'never' && hasSpace) {
+        else if (options.emptyObject === 'never' && hasSpace) {
           context.report({
             node,
             loc: { start: openingToken.loc.end, end: closingToken.loc.start },
