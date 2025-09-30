@@ -63,8 +63,8 @@ export default createRule<RuleOptions, MessageIds>({
       requireSpaceAfter: 'A space is required after \'{{token}}\'.',
       unexpectedSpaceBefore: 'There should be no space before \'{{token}}\'.',
       unexpectedSpaceAfter: 'There should be no space after \'{{token}}\'.',
-      requiredSpaceInEmpty: 'A space is required in empty \'{{node}}\'.',
-      unexpectedSpaceInEmpty: 'There should be no space in empty \'{{node}}\'.',
+      requiredSpaceInEmptyObject: 'A space is required in empty \'{{node}}\'.',
+      unexpectedSpaceInEmptyObject: 'There should be no space in empty \'{{node}}\'.',
     },
   },
   defaultOptions: ['never'],
@@ -292,7 +292,7 @@ export default createRule<RuleOptions, MessageIds>({
             context.report({
               node,
               loc: { start: openingToken.loc.end, end: closingToken.loc.start },
-              messageId: 'requiredSpaceInEmpty',
+              messageId: 'requiredSpaceInEmptyObject',
               data: {
                 node: node.type,
               },
@@ -306,7 +306,7 @@ export default createRule<RuleOptions, MessageIds>({
           context.report({
             node,
             loc: { start: openingToken.loc.end, end: closingToken.loc.start },
-            messageId: 'unexpectedSpaceInEmpty',
+            messageId: 'unexpectedSpaceInEmptyObject',
             data: {
               node: node.type,
             },
