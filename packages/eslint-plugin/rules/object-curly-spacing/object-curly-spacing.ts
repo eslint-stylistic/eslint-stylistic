@@ -1,4 +1,4 @@
-import type { ASTNode, Token } from '#types'
+import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
   AST_NODE_TYPES,
@@ -274,7 +274,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function checkSpaceInEmptyObjectLike(node: SupportedNodes, openingToken: Token, closingToken: Token) {
+    function checkSpaceInEmptyObjectLike(node: SupportedNodes, openingToken: Token, closingToken: Token, nodeType: SupportedNodeTypes = node.type) {
       if (options.emptyObject === 'ignore')
         return
 
@@ -294,7 +294,7 @@ export default createRule<RuleOptions, MessageIds>({
               loc: { start: openingToken.loc.end, end: closingToken.loc.start },
               messageId: 'requiredSpaceInEmptyObject',
               data: {
-                node: node.type,
+                node: nodeType,
               },
               fix(fixer) {
                 return fixer.replaceTextRange([openingToken.range[1], closingToken.range[0]], ' ')
@@ -308,7 +308,7 @@ export default createRule<RuleOptions, MessageIds>({
             loc: { start: openingToken.loc.end, end: closingToken.loc.start },
             messageId: 'unexpectedSpaceInEmptyObject',
             data: {
-              node: node.type,
+              node: nodeType,
             },
             fix(fixer) {
               return fixer.removeRange([openingToken.range[1], closingToken.range[0]])
@@ -318,7 +318,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    function getBraceToken(node: SupportedNodes, nodeType: SupportedNodeTypes = node.type): [Token, Token] {
+    function getBraceToken(node: SupportedNodes, nodeType: SupportedNodeTypes = node.type): [Token, Token] | [null, null] {
       switch (nodeType) {
         case 'ImportDeclaration':
         case 'ExportNamedDeclaration':
@@ -330,8 +330,15 @@ export default createRule<RuleOptions, MessageIds>({
         }
         case 'ImportAttributes':{
           const attrTokens = sourceCode.getTokens(node)
-          const openingAttrToken = attrTokens.findLast(token => isOpeningBraceToken(token))!
-          const closingAttrToken = attrTokens.findLast(token => isClosingBraceToken(token))!
+          const openingAttrToken = attrTokens.findLast(token => isOpeningBraceToken(token))
+          const closingAttrToken = attrTokens.findLast(token => isClosingBraceToken(token))
+          if (
+            !openingAttrToken || !closingAttrToken
+            || !(node as Tree.ImportDeclaration).source
+            || openingAttrToken.range[0] < (node as Tree.ImportDeclaration).source.range[0]
+          ) {
+            return [null, null]
+          }
           return [openingAttrToken, closingAttrToken]
         }
         case 'ObjectPattern':
@@ -359,8 +366,10 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkForObjectLike(node: SupportedNodes, properties: ASTNode[], nodeType: SupportedNodeTypes = node.type) {
       const [openingToken, closingToken] = getBraceToken(node, nodeType)
+      if (!openingToken || !closingToken)
+        return
       if (properties.length === 0) {
-        checkSpaceInEmptyObjectLike(node, openingToken, closingToken)
+        checkSpaceInEmptyObjectLike(node, openingToken, closingToken, nodeType)
         return
       }
 
