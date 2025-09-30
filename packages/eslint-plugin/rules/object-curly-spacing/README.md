@@ -66,9 +66,9 @@ Object option:
   - `TSInterfaceBody` - interface declaration bodies
   - `TSEnumBody` - enum declaration bodies
 - `"emptyObject"` allows you to control the space in empty object.
-  - `"spaceInEmptyArray": "ignore"`(default) ignores the spaces in empty object.
-  - `"emptyObject": "always"` require one space in empty object.
-  - `"emptyObject": "never"` disallow space in empty object.
+  - `"ignore"`(default) ignores the spaces in empty object.
+  - `"always"` require one space in empty object.
+  - `"never"` disallow space in empty object.
 
 ### never
 
