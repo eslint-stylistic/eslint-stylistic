@@ -334,6 +334,55 @@ run<RuleOptions, MessageIds>({
         },
       }],
     },
+
+    {
+      code: 'const x:{/* comment */}',
+      options: ['never', { emptyObject: 'always' }],
+    },
+    {
+      code: 'const x:{  /* comment */  }',
+      options: ['never', { emptyObject: 'never' }],
+    },
+    {
+      code: 'const x:{}',
+      options: ['never', { emptyObject: 'never' }],
+    },
+    {
+      code: 'const x:{ }',
+      options: ['never', { emptyObject: 'always' }],
+    },
+    {
+      code: 'const x:{f: {}}',
+      options: ['never', { emptyObject: 'never' }],
+    },
+    {
+      code: 'const x:{f: { }}',
+      options: ['never', { emptyObject: 'always' }],
+    },
+    {
+      code: 'interface x {}',
+      options: ['never', { emptyObject: 'never' }],
+    },
+    {
+      code: 'interface x { }',
+      options: ['never', { emptyObject: 'always' }],
+    },
+    {
+      code: 'import {} from "package.json" with {}',
+      options: ['never', { emptyObject: 'never' }],
+    },
+    {
+      code: 'import { } from "package.json" with { }',
+      options: ['never', { emptyObject: 'always' }],
+    },
+    {
+      code: 'enum Foo {}',
+      options: ['never', { emptyObject: 'never' }],
+    },
+    {
+      code: 'enum Foo { }',
+      options: ['never', { emptyObject: 'always' }],
+    },
   ],
 
   invalid: [
@@ -525,6 +574,161 @@ run<RuleOptions, MessageIds>({
         { messageId: 'requireSpaceBefore' },
         { messageId: 'unexpectedSpaceAfter' },
         { messageId: 'unexpectedSpaceBefore' },
+      ],
+    },
+    {
+      code: 'import { } from "package.json" with { }',
+      output: 'import {} from "package.json" with {}',
+      options: ['never', { emptyObject: 'never' }],
+      errors: [
+        {
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: { node: 'ImportDeclaration' },
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 9,
+          endLine: 1,
+          endColumn: 10,
+        },
+        {
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: { node: 'ImportAttributes' },
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 38,
+          endLine: 1,
+          endColumn: 39,
+        },
+      ],
+    },
+    {
+      code: 'enum Foo {}',
+      output: 'enum Foo { }',
+      options: ['never', { emptyObject: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'TSEnumBody' },
+          type: 'TSEnumBody',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 11,
+        },
+      ],
+    },
+    {
+      code: 'const x:{f: {}}',
+      output: 'const x:{f: { }}',
+      options: ['never', { emptyObject: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'TSTypeLiteral' },
+          type: 'TSTypeLiteral',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 14,
+        },
+      ],
+    },
+    {
+      code: 'interface x {    }',
+      output: 'interface x {}',
+      options: ['never', { emptyObject: 'never' }],
+      errors: [
+        {
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: { node: 'TSInterfaceBody' },
+          type: 'TSInterfaceBody',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 18,
+        },
+      ],
+    },
+    {
+      code: 'export {   } from "package.json" with {   }',
+      output: 'export {} from "package.json" with {}',
+      options: ['never', { emptyObject: 'never' }],
+      errors: [
+        {
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: { node: 'ExportNamedDeclaration' },
+          type: 'ExportNamedDeclaration',
+          line: 1,
+          column: 9,
+          endLine: 1,
+          endColumn: 12,
+        },
+        {
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: { node: 'ImportAttributes' },
+          type: 'ExportNamedDeclaration',
+          line: 1,
+          column: 40,
+          endLine: 1,
+          endColumn: 43,
+        },
+      ],
+    },
+    {
+      code: 'import {   } from "package.json" with {   }',
+      output: 'import { } from "package.json" with { }',
+      options: ['never', { emptyObject: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'ImportDeclaration' },
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 9,
+          endLine: 1,
+          endColumn: 12,
+        },
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'ImportAttributes' },
+          type: 'ImportDeclaration',
+          line: 1,
+          column: 40,
+          endLine: 1,
+          endColumn: 43,
+        },
+      ],
+    },
+    {
+      code: 'enum Foo {   }',
+      output: 'enum Foo { }',
+      options: ['never', { emptyObject: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'TSEnumBody' },
+          type: 'TSEnumBody',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 14,
+        },
+      ],
+    },
+    {
+      code: 'const x:{f: {   }}',
+      output: 'const x:{f: { }}',
+      options: ['never', { emptyObject: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'TSTypeLiteral' },
+          type: 'TSTypeLiteral',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 17,
+        },
       ],
     },
   ],
