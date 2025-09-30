@@ -278,7 +278,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (options.emptyObject === 'ignore')
         return
 
-      const hasComment = sourceCode.getCommentsBefore(closingToken).length > 0
+      const hasComment = sourceCode.commentsExistBetween(openingToken, closingToken)
       // only report if there are no comments and the brace on the same line
       if (!hasComment && openingToken.loc.start.line === closingToken.loc.end.line) {
         const sourceBetween = sourceCode.getText().slice(openingToken.range[0] + 1, closingToken.range[1] - 1)
@@ -297,12 +297,7 @@ export default createRule<RuleOptions, MessageIds>({
                 node: node.type,
               },
               fix(fixer) {
-                if (!hasSpace) {
-                  return fixer.insertTextAfter(openingToken, ' ')
-                }
-                else {
-                  return fixer.replaceTextRange([openingToken.range[1], closingToken.range[0]], ' ')
-                }
+                return fixer.replaceTextRange([openingToken.range[1], closingToken.range[0]], ' ')
               },
             })
           }
