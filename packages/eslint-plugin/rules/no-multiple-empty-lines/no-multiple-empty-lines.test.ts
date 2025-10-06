@@ -21,7 +21,6 @@ function getExpectedError(lines: number): TestCaseError<MessageIds> {
       max: lines,
       pluralizedLines: lines === 1 ? 'line' : 'lines',
     },
-    type: 'Program',
     column: 1,
   }
 }
@@ -38,7 +37,6 @@ function getExpectedErrorEOF(lines: number): TestCaseError<MessageIds> {
     data: {
       max: lines,
     },
-    type: 'Program',
     column: 1,
   }
 }
@@ -55,7 +53,6 @@ function getExpectedErrorBOF(lines: number): TestCaseError<MessageIds> {
     data: {
       max: lines,
     },
-    type: 'Program',
     column: 1,
   }
 }
@@ -326,7 +323,6 @@ run<RuleOptions, MessageIds>({
           max: 1,
           pluralizedLines: 'line',
         },
-        type: 'Program',
         line: 3,
         column: 1,
       }],
@@ -343,7 +339,6 @@ run<RuleOptions, MessageIds>({
           max: 2,
           pluralizedLines: 'lines',
         },
-        type: 'Program',
         line: 4,
         column: 1,
       }],

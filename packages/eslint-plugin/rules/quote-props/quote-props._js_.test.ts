@@ -112,7 +112,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'unquotedPropertyFound',
       data: { property: 'a' },
-      type: 'Property',
     }],
   }, {
     code: '({ 0: \'0\' })',
@@ -120,7 +119,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'unquotedPropertyFound',
       data: { property: '0' },
-      type: 'Property',
     }],
   }, {
     code: '({ \'a\': 0 })',
@@ -129,7 +127,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'unnecessarilyQuotedProperty',
       data: { property: 'a' },
-      type: 'Property',
     }],
   }, {
     code: '({ \'null\': 0 })',
@@ -138,7 +135,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'unnecessarilyQuotedProperty',
       data: { property: 'null' },
-      type: 'Property',
     }],
   }, {
     code: '({ \'true\': 0 })',
@@ -147,7 +143,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'unnecessarilyQuotedProperty',
       data: { property: 'true' },
-      type: 'Property',
     }],
   }, {
     code: '({ \'0\': 0 })',
@@ -156,7 +151,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'unnecessarilyQuotedProperty',
       data: { property: '0' },
-      type: 'Property',
     }],
   }, {
     code: '({ \'-a\': 0, b: 0 })',
@@ -165,7 +159,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'inconsistentlyQuotedProperty',
       data: { key: 'b' },
-      type: 'Property',
     }],
   }, {
     code: '({ a: 0, \'b\': 0 })',
@@ -174,7 +167,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'inconsistentlyQuotedProperty',
       data: { key: 'a' },
-      type: 'Property',
     }],
   }, {
     code: '({ \'-a\': 0, b: 0 })',
@@ -183,15 +175,14 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'inconsistentlyQuotedProperty',
       data: { key: 'b' },
-      type: 'Property',
     }],
   }, {
     code: '({ \'a\': 0, \'b\': 0 })',
     output: '({ a: 0, b: 0 })',
     options: ['consistent-as-needed'],
     errors: [
-      { messageId: 'redundantQuoting', type: 'Property' },
-      { messageId: 'redundantQuoting', type: 'Property' },
+      { messageId: 'redundantQuoting' },
+      { messageId: 'redundantQuoting' },
     ],
   }, {
     code: '({ \'a\': 0, [x]: 0 })',
@@ -199,7 +190,7 @@ run<RuleOptions, MessageIds>({
     options: ['consistent-as-needed'],
     parserOptions: { ecmaVersion: 6 },
     errors: [
-      { messageId: 'redundantQuoting', type: 'Property' },
+      { messageId: 'redundantQuoting' },
     ],
   }, {
     code: '({ \'a\': 0, x })',
@@ -208,15 +199,14 @@ run<RuleOptions, MessageIds>({
     parserOptions: { ecmaVersion: 6 },
     errors: [{
       messageId: 'redundantQuoting',
-      type: 'Property',
     }],
   }, {
     code: '({ \'true\': 0, \'null\': 0 })',
     output: '({ true: 0, null: 0 })',
     options: ['consistent-as-needed'],
     errors: [
-      { messageId: 'redundantQuoting', type: 'Property' },
-      { messageId: 'redundantQuoting', type: 'Property' },
+      { messageId: 'redundantQuoting' },
+      { messageId: 'redundantQuoting' },
     ],
   }, {
     code: '({ true: 0, \'null\': 0 })',
@@ -225,15 +215,14 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'inconsistentlyQuotedProperty',
       data: { key: 'true' },
-      type: 'Property',
     }],
   }, {
     code: '({ \'a\': 0, \'b\': 0 })',
     output: '({ a: 0, b: 0 })',
     options: ['consistent-as-needed', { keywords: true }],
     errors: [
-      { messageId: 'redundantQuoting', type: 'Property' },
-      { messageId: 'redundantQuoting', type: 'Property' },
+      { messageId: 'redundantQuoting' },
+      { messageId: 'redundantQuoting' },
     ],
   }, {
     code: '({ while: 0, b: 0 })',
@@ -243,12 +232,10 @@ run<RuleOptions, MessageIds>({
       {
         messageId: 'requireQuotesDueToReservedWord',
         data: { property: 'while' },
-        type: 'Property',
       },
       {
         messageId: 'requireQuotesDueToReservedWord',
         data: { property: 'while' },
-        type: 'Property',
       },
     ],
   }, {
@@ -258,7 +245,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'requireQuotesDueToReservedWord',
       data: { property: 'while' },
-      type: 'Property',
 
     }],
   }, {
@@ -266,7 +252,7 @@ run<RuleOptions, MessageIds>({
     output: '({ foo: 0, bar: 0 })',
     options: ['consistent-as-needed', { keywords: true }],
     errors: [
-      { messageId: 'redundantQuoting', type: 'Property' },
+      { messageId: 'redundantQuoting' },
     ],
   }, {
     code:
@@ -285,7 +271,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'inconsistentlyQuotedProperty',
       data: { key: 'prop2' },
-      type: 'Property',
     }],
   }, {
     code:
@@ -302,9 +287,9 @@ run<RuleOptions, MessageIds>({
         + '})',
     options: ['consistent-as-needed'],
     errors: [
-      { messageId: 'redundantQuoting', type: 'Property' },
-      { messageId: 'redundantQuoting', type: 'Property' },
-      { messageId: 'redundantQuoting', type: 'Property' },
+      { messageId: 'redundantQuoting' },
+      { messageId: 'redundantQuoting' },
+      { messageId: 'redundantQuoting' },
     ],
   }, {
     code: '({\'if\': 0})',
@@ -313,7 +298,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'unnecessarilyQuotedProperty',
       data: { property: 'if' },
-      type: 'Property',
     }],
   }, {
     code: '({\'synchronized\': 0})',
@@ -322,7 +306,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'unnecessarilyQuotedProperty',
       data: { property: 'synchronized' },
-      type: 'Property',
     }],
   }, {
     code: '({while: 0})',
@@ -331,7 +314,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'unquotedReservedProperty',
       data: { property: 'while' },
-      type: 'Property',
     }],
   }, {
     code: '({\'unnecessary\': 1, if: 0})',
@@ -340,7 +322,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'unquotedReservedProperty',
       data: { property: 'if' },
-      type: 'Property',
     }],
   }, {
     code: '({1: 1})',
@@ -349,7 +330,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'unquotedNumericProperty',
       data: { property: '1' },
-      type: 'Property',
     }],
   }, {
     code: '({1: 1})',
@@ -358,7 +338,6 @@ run<RuleOptions, MessageIds>({
     errors: [{
       messageId: 'unquotedPropertyFound',
       data: { property: '1' },
-      type: 'Property',
     }],
   }, {
     code: '({0x123: 1})',

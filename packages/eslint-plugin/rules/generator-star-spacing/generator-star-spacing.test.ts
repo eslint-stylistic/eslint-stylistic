@@ -8,10 +8,10 @@ import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './generator-star-spacing'
 
-const missingBeforeError: TestCaseError<MessageIds> = { messageId: 'missingBefore', type: 'Punctuator' }
-const missingAfterError: TestCaseError<MessageIds> = { messageId: 'missingAfter', type: 'Punctuator' }
-const unexpectedBeforeError: TestCaseError<MessageIds> = { messageId: 'unexpectedBefore', type: 'Punctuator' }
-const unexpectedAfterError: TestCaseError<MessageIds> = { messageId: 'unexpectedAfter', type: 'Punctuator' }
+const missingBeforeError: TestCaseError<MessageIds> = { messageId: 'missingBefore' }
+const missingAfterError: TestCaseError<MessageIds> = { messageId: 'missingAfter' }
+const unexpectedBeforeError: TestCaseError<MessageIds> = { messageId: 'unexpectedBefore' }
+const unexpectedAfterError: TestCaseError<MessageIds> = { messageId: 'unexpectedAfter' }
 
 run<RuleOptions, MessageIds>({
   name: 'generator-star-spacing',

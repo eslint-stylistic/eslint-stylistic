@@ -103,7 +103,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'b' },
-        type: 'Identifier',
         column: 16,
         endColumn: 18,
       }],
@@ -115,7 +114,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'b' },
-        type: 'Identifier',
         column: 14,
         endColumn: 16,
       }],
@@ -126,7 +124,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '1' },
-        type: 'Numeric',
         column: 8,
         endColumn: 10,
       }],
@@ -137,7 +134,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'b' },
-        type: 'Identifier',
       }],
     },
     {
@@ -146,7 +142,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'b' },
-        type: 'Identifier',
       }],
     },
     {
@@ -155,7 +150,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '\'b\'' },
-        type: 'String',
         column: 19,
         endColumn: 21,
       }],
@@ -166,7 +160,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'b' },
-        type: 'Identifier',
       }],
     },
     {
@@ -175,11 +168,9 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '&&' },
-        type: 'Punctuator',
       }, {
         messageId: 'multipleSpaces',
         data: { displayValue: 'b' },
-        type: 'Identifier',
       }],
     },
     {
@@ -188,11 +179,9 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '2' },
-        type: 'Numeric',
       }, {
         messageId: 'multipleSpaces',
         data: { displayValue: '3' },
-        type: 'Numeric',
       }],
     },
     {
@@ -201,15 +190,12 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '2' },
-        type: 'Numeric',
       }, {
         messageId: 'multipleSpaces',
         data: { displayValue: '3' },
-        type: 'Numeric',
       }, {
         messageId: 'multipleSpaces',
         data: { displayValue: '4' },
-        type: 'Numeric',
       }],
     },
     {
@@ -218,7 +204,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '2' },
-        type: 'Numeric',
       }],
     },
     {
@@ -227,25 +212,21 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: ',' },
-        type: 'Punctuator',
         column: 2,
         endColumn: 4,
       }, {
         messageId: 'multipleSpaces',
         data: { displayValue: ',' },
-        type: 'Punctuator',
         column: 8,
         endColumn: 10,
       }, {
         messageId: 'multipleSpaces',
         data: { displayValue: ',' },
-        type: 'Punctuator',
         column: 14,
         endColumn: 16,
       }, {
         messageId: 'multipleSpaces',
         data: { displayValue: ']' },
-        type: 'Punctuator',
         column: 17,
         endColumn: 19,
       }],
@@ -256,7 +237,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'b' },
-        type: 'Identifier',
       }],
     },
     {
@@ -265,11 +245,9 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'b' },
-        type: 'Identifier',
       }, {
         messageId: 'multipleSpaces',
         data: { displayValue: '2' },
-        type: 'Numeric',
       }],
     },
     {
@@ -278,7 +256,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'b' },
-        type: 'Identifier',
       }],
     },
     {
@@ -287,7 +264,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'b' },
-        type: 'Identifier',
       }],
     },
     {
@@ -296,7 +272,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '(' },
-        type: 'Punctuator',
       }],
     },
     {
@@ -305,7 +280,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '(' },
-        type: 'Punctuator',
         column: 13,
         endColumn: 19,
       }],
@@ -316,7 +290,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '{' },
-        type: 'Punctuator',
       }],
     },
     {
@@ -325,7 +298,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'foo' },
-        type: 'Identifier',
       }],
     },
     {
@@ -334,7 +306,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '(' },
-        type: 'Punctuator',
       }],
     },
     {
@@ -343,7 +314,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '{' },
-        type: 'Punctuator',
       }],
     },
     {
@@ -352,7 +322,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '(' },
-        type: 'Punctuator',
       }],
     },
     {
@@ -361,7 +330,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'error' },
-        type: 'Identifier',
       }],
     },
     {
@@ -370,7 +338,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'bar' },
-        type: 'Identifier',
       }],
     },
     {
@@ -379,7 +346,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '(' },
-        type: 'Punctuator',
       }],
     },
     {
@@ -388,11 +354,9 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'answer' },
-        type: 'Identifier',
       }, {
         messageId: 'multipleSpaces',
         data: { displayValue: '7' },
-        type: 'Numeric',
       }],
     },
     {
@@ -401,7 +365,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '*' },
-        type: 'Punctuator',
       }],
     },
     {
@@ -411,7 +374,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'b' },
-        type: 'Identifier',
       }],
     },
     {
@@ -420,7 +382,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '+' },
-        type: 'Punctuator',
       }],
     },
     {
@@ -429,7 +390,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '2' },
-        type: 'Numeric',
       }],
     },
     {
@@ -438,7 +398,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '5' },
-        type: 'Numeric',
         column: 8,
         endColumn: 11,
       }],
@@ -451,7 +410,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '/* comment */' },
-        type: 'Block',
       }],
     },
     {
@@ -460,7 +418,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '5' },
-        type: 'Numeric',
       }],
     },
     {
@@ -469,7 +426,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '// comment' },
-        type: 'Line',
         column: 11,
         endColumn: 13,
       }],
@@ -480,7 +436,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '// comment' },
-        type: 'Line',
       }],
     },
     {
@@ -489,7 +444,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '/* multiline...*/' },
-        type: 'Block',
       }],
     },
     {
@@ -498,7 +452,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '/* multiline...*/' },
-        type: 'Block',
       }],
     },
     {
@@ -507,7 +460,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '// this is a l...' },
-        type: 'Line',
       }],
     },
     {
@@ -517,7 +469,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '/* comment */' },
-        type: 'Block',
       }],
     },
     {
@@ -527,7 +478,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '5' },
-        type: 'Numeric',
       }],
     },
     {
@@ -537,7 +487,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '// comment' },
-        type: 'Line',
       }],
     },
     {
@@ -547,7 +496,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '// comment' },
-        type: 'Line',
       }],
     },
     {
@@ -557,7 +505,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '/* multiline...*/' },
-        type: 'Block',
       }],
     },
     {
@@ -567,7 +514,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '/* multiline...*/' },
-        type: 'Block',
       }],
     },
     {
@@ -577,7 +523,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '// this is a l...' },
-        type: 'Line',
       }],
     },
     {
@@ -587,7 +532,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '/* comment */' },
-        type: 'Block',
       }],
     },
     {
@@ -597,7 +541,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '/* comment */' },
-        type: 'Block',
       }],
     },
     {
@@ -607,7 +550,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '5' },
-        type: 'Numeric',
       }],
     },
     {
@@ -617,7 +559,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '5' },
-        type: 'Numeric',
       }],
     },
     {
@@ -627,7 +568,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '/*comment with...*/' },
-        type: 'Block',
       }],
     },
     {
@@ -637,7 +577,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '//comment with...' },
-        type: 'Line',
       }],
     },
     {
@@ -647,7 +586,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '/*comment with...*/' },
-        type: 'Block',
       }],
     },
     {
@@ -657,7 +595,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '/*comment...*/' },
-        type: 'Block',
         column: 11,
         endColumn: 13,
       }],
@@ -668,7 +605,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '+' },
-        type: 'Punctuator',
       }],
     },
     {
@@ -677,7 +613,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: '+' },
-        type: 'Punctuator',
       }],
     },
     {
@@ -686,7 +621,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'multipleSpaces',
         data: { displayValue: 'b' },
-        type: 'Identifier',
       }],
     },
     {

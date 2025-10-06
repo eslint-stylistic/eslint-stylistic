@@ -8,9 +8,9 @@ import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './wrap-iife'
 
-const wrapInvocationError: TestCaseError<MessageIds> = { messageId: 'wrapInvocation', type: 'CallExpression' }
-const wrapExpressionError: TestCaseError<MessageIds> = { messageId: 'wrapExpression', type: 'CallExpression' }
-const moveInvocationError: TestCaseError<MessageIds> = { messageId: 'moveInvocation', type: 'CallExpression' }
+const wrapInvocationError: TestCaseError<MessageIds> = { messageId: 'wrapInvocation' }
+const wrapExpressionError: TestCaseError<MessageIds> = { messageId: 'wrapExpression' }
+const moveInvocationError: TestCaseError<MessageIds> = { messageId: 'moveInvocation' }
 
 run<RuleOptions, MessageIds>({
   name: 'wrap-iife',
