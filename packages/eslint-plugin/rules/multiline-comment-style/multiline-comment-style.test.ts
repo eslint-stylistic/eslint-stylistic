@@ -946,28 +946,28 @@ run<RuleOptions, MessageIds>({
       errors: [{ messageId: 'expectedBareBlock', line: 2 }],
     },
     {
-      code: `
-                /*
-                {
-                    "foo": 1,
-                    "bar": 2
-                }
-                */
-            `,
-      output: `
-                /*
-                 *{
-                 *    "foo": 1,
-                 *    "bar": 2
-                 *}
-                 */
-            `,
+      code: $`
+        /*
+        {
+            "foo": 1,
+            "bar": 2
+        }
+        */
+      `,
+      output: $`
+        /*
+         * {
+         *     "foo": 1,
+         *     "bar": 2
+         * }
+         */
+      `,
       errors: [
+        { messageId: 'missingStar', line: 2 },
         { messageId: 'missingStar', line: 3 },
         { messageId: 'missingStar', line: 4 },
         { messageId: 'missingStar', line: 5 },
-        { messageId: 'missingStar', line: 6 },
-        { messageId: 'alignment', line: 7 },
+        { messageId: 'alignment', line: 6 },
       ],
     },
     {
@@ -981,10 +981,10 @@ run<RuleOptions, MessageIds>({
             `,
       output: `
                 /*
-                 *{
-                 *\t"foo": 1,
-                 *\t"bar": 2
-                 *}
+                 * {
+                 * \t"foo": 1,
+                 * \t"bar": 2
+                 * }
                  */
             `,
       errors: [
@@ -996,28 +996,28 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
-      code: `
-                /*
-                {
-                \t  "foo": 1,
-                \t  "bar": 2
-                }
-                */
-            `,
-      output: `
-                /*
-                 *{
-                 *\t  "foo": 1,
-                 *\t  "bar": 2
-                 *}
-                 */
-            `,
+      code: $`
+        /*
+        {
+        \t  "foo": 1,
+        \t  "bar": 2
+        }
+        */
+      `,
+      output: $`
+        /*
+         * {
+         * \t  "foo": 1,
+         * \t  "bar": 2
+         * }
+         */
+      `,
       errors: [
+        { messageId: 'missingStar', line: 2 },
         { messageId: 'missingStar', line: 3 },
         { messageId: 'missingStar', line: 4 },
         { messageId: 'missingStar', line: 5 },
-        { messageId: 'missingStar', line: 6 },
-        { messageId: 'alignment', line: 7 },
+        { messageId: 'alignment', line: 6 },
       ],
     },
     {
@@ -1031,10 +1031,10 @@ run<RuleOptions, MessageIds>({
             `,
       output: `
                 /*
-                 *{
-                 *"foo": 1,
-                 *"bar": 2
-                 *}
+                 * {
+                 * "foo": 1,
+                 * "bar": 2
+                 * }
                  */
             `,
       errors: [
@@ -1056,10 +1056,10 @@ run<RuleOptions, MessageIds>({
             `,
       output: `
                 \t /*
-                \t  *{
-                \t  *"foo": 1,
-                \t  *"bar": 2
-                \t  *}
+                \t  * {
+                \t  * "foo": 1,
+                \t  * "bar": 2
+                \t  * }
                 \t  */
             `,
       errors: [
@@ -1440,24 +1440,24 @@ ${'                   '}
       errors: [{ messageId: 'expectedLines', line: 2 }],
     },
     {
-      code: `
-                /* foo
-
-                   bar */
-            `,
-      output: `
-                /*
-                 * foo
-                 *${' '}
-                 * bar${' '}
-                 */
-            `,
+      code: $`
+        /* foo
+        
+           bar */
+      `,
+      output: $`
+        /*
+         * foo
+         * 
+         * bar 
+         */
+      `,
       options: ['starred-block'],
       errors: [
-        { messageId: 'startNewline', line: 2 },
+        { messageId: 'startNewline', line: 1 },
+        { messageId: 'missingStar', line: 2 },
         { messageId: 'missingStar', line: 3 },
-        { messageId: 'missingStar', line: 4 },
-        { messageId: 'endNewline', line: 4 },
+        { messageId: 'endNewline', line: 3 },
       ],
     },
     {
@@ -1482,64 +1482,64 @@ ${'                   '}
       ],
     },
     {
-      code: `
-                /*foo
-
-                  bar */
-            `,
-      output: `
-                /*
-                 *foo
-                 *
-                 *bar${' '}
-                 */
-            `,
+      code: $`
+        /*foo
+        
+          bar */
+      `,
+      output: $`
+        /*
+         * foo
+         *
+         * bar 
+         */
+      `,
       options: ['starred-block'],
       errors: [
-        { messageId: 'startNewline', line: 2 },
+        { messageId: 'startNewline', line: 1 },
+        { messageId: 'missingStar', line: 2 },
         { messageId: 'missingStar', line: 3 },
-        { messageId: 'missingStar', line: 4 },
-        { messageId: 'endNewline', line: 4 },
+        { messageId: 'endNewline', line: 3 },
       ],
     },
     {
-      code: `
-                /*foo
-${'                   '}
-                  bar */
-            `,
-      output: `
-                /*
-                 *foo
-                 *${' '}
-                 *bar${' '}
-                 */
-            `,
+      code: $`
+        /*foo
+           
+          bar */
+      `,
+      output: $`
+        /*
+         * foo
+         * 
+         * bar 
+         */
+      `,
       options: ['starred-block'],
       errors: [
-        { messageId: 'startNewline', line: 2 },
+        { messageId: 'startNewline', line: 1 },
+        { messageId: 'missingStar', line: 2 },
         { messageId: 'missingStar', line: 3 },
-        { messageId: 'missingStar', line: 4 },
-        { messageId: 'endNewline', line: 4 },
+        { messageId: 'endNewline', line: 3 },
       ],
     },
     {
-      code: `
-                /*
-                 // a line comment
-                 some.code();
-                 */
-            `,
-      output: `
-                /*
-                 * // a line comment
-                 *some.code();
-                 */
-            `,
+      code: $`
+        /*
+         // a line comment
+         some.code();
+         */
+      `,
+      output: $`
+        /*
+         * // a line comment
+         * some.code();
+         */
+      `,
       options: ['starred-block'],
       errors: [
+        { messageId: 'missingStar', line: 2 },
         { messageId: 'missingStar', line: 3 },
-        { messageId: 'missingStar', line: 4 },
       ],
     },
     {
@@ -1583,29 +1583,29 @@ ${'                   '}
       ],
     },
     {
-      code: `
-                /*
-                {
-                \t"foo": 1,
-                \t//"bar": 2
-                }
-                */
-            `,
-      output: `
-                /*
-                 *{
-                 *\t"foo": 1,
-                 *\t//"bar": 2
-                 *}
-                 */
-            `,
+      code: $`
+        /*
+        {
+        \t"foo": 1,
+        \t//"bar": 2
+        }
+        */
+      `,
+      output: $`
+        /*
+         * {
+         * \t"foo": 1,
+         * \t//"bar": 2
+         * }
+         */
+      `,
       options: ['starred-block'],
       errors: [
+        { messageId: 'missingStar', line: 2 },
         { messageId: 'missingStar', line: 3 },
         { messageId: 'missingStar', line: 4 },
         { messageId: 'missingStar', line: 5 },
-        { messageId: 'missingStar', line: 6 },
-        { messageId: 'alignment', line: 7 },
+        { messageId: 'alignment', line: 6 },
       ],
     },
   ],
