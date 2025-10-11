@@ -275,46 +275,49 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function checkSpaceInEmptyObjectLike(node: SupportedNodes, openingToken: Token, closingToken: Token, nodeType: SupportedNodeTypes = node.type) {
-      if (options.emptyObject === 'ignore')
+      if (
+        options.emptyObject === 'ignore'
+        || !isTokenOnSameLine(openingToken, closingToken)
+        || sourceCode.commentsExistBetween(openingToken, closingToken)
+      ) {
+        return
+      }
+
+      const sourceBetween = sourceCode.getText().slice(openingToken.range[0] + 1, closingToken.range[1] - 1)
+      if (sourceBetween.trim() !== '')
         return
 
-      const hasComment = sourceCode.commentsExistBetween(openingToken, closingToken)
-      // only report if there are no comments and the brace on the same line
-      if (!hasComment && openingToken.loc.start.line === closingToken.loc.end.line) {
-        const sourceBetween = sourceCode.getText().slice(openingToken.range[0] + 1, closingToken.range[1] - 1)
-        if (sourceBetween.trim() !== '')
+      if (options.emptyObject === 'always') {
+        if (sourceBetween === ' ')
           return
-        const hasSpace = sourceBetween.length > 0
-        const hasSingleSpace = sourceBetween === ' '
 
-        if (options.emptyObject === 'always') {
-          if (!hasSpace || !hasSingleSpace) {
-            context.report({
-              node,
-              loc: { start: openingToken.loc.end, end: closingToken.loc.start },
-              messageId: 'requiredSpaceInEmptyObject',
-              data: {
-                node: nodeType,
-              },
-              fix(fixer) {
-                return fixer.replaceTextRange([openingToken.range[1], closingToken.range[0]], ' ')
-              },
-            })
-          }
-        }
-        else if (options.emptyObject === 'never' && hasSpace) {
-          context.report({
-            node,
-            loc: { start: openingToken.loc.end, end: closingToken.loc.start },
-            messageId: 'unexpectedSpaceInEmptyObject',
-            data: {
-              node: nodeType,
-            },
-            fix(fixer) {
-              return fixer.removeRange([openingToken.range[1], closingToken.range[0]])
-            },
-          })
-        }
+        context.report({
+          node,
+          loc: { start: openingToken.loc.end, end: closingToken.loc.start },
+          messageId: 'requiredSpaceInEmptyObject',
+          data: {
+            node: nodeType,
+          },
+          fix(fixer) {
+            return fixer.replaceTextRange([openingToken.range[1], closingToken.range[0]], ' ')
+          },
+        })
+      }
+      else if (options.emptyObject === 'never') {
+        if (sourceBetween === '')
+          return
+
+        context.report({
+          node,
+          loc: { start: openingToken.loc.end, end: closingToken.loc.start },
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: {
+            node: nodeType,
+          },
+          fix(fixer) {
+            return fixer.removeRange([openingToken.range[1], closingToken.range[0]])
+          },
+        })
       }
     }
 
