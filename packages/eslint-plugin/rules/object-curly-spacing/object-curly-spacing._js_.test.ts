@@ -222,7 +222,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 8,
           endLine: 1,
@@ -231,7 +230,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 12,
           endLine: 1,
@@ -248,7 +246,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 18,
           endLine: 1,
@@ -265,7 +262,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 8,
           endLine: 1,
@@ -274,7 +270,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 17,
           endLine: 1,
@@ -291,7 +286,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 13,
           endLine: 1,
@@ -308,7 +302,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 16,
           endLine: 1,
@@ -326,7 +319,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 21,
           endLine: 1,
@@ -343,7 +335,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 11,
           endLine: 1,
@@ -360,7 +351,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 11,
           endLine: 1,
@@ -377,7 +367,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 21,
           endLine: 1,
@@ -395,7 +384,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 11,
           endLine: 1,
@@ -404,7 +392,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 15,
           endLine: 1,
@@ -422,7 +409,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 11,
           endLine: 1,
@@ -431,7 +417,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 20,
           endLine: 1,
@@ -448,7 +433,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 8,
           endLine: 1,
@@ -457,7 +441,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 13,
           endLine: 1,
@@ -475,7 +458,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 9,
           endLine: 1,
@@ -484,7 +466,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 14,
           endLine: 1,
@@ -501,7 +482,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 9,
           endLine: 1,
@@ -510,7 +490,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 26,
           endLine: 1,
@@ -527,7 +506,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ExportNamedDeclaration',
           line: 2,
           column: 8,
           endLine: 2,
@@ -536,7 +514,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ExportNamedDeclaration',
           line: 2,
           column: 12,
         },
@@ -551,7 +528,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ExportNamedDeclaration',
           line: 2,
           column: 8,
           endLine: 2,
@@ -560,7 +536,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ExportNamedDeclaration',
           line: 2,
           column: 24,
           endLine: 2,
@@ -577,7 +552,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ExportNamedDeclaration',
           line: 2,
           column: 8,
           endLine: 2,
@@ -594,7 +568,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ExportNamedDeclaration',
           line: 2,
           column: 9,
           endLine: 2,
@@ -603,7 +576,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ExportNamedDeclaration',
           line: 2,
           column: 25,
           endLine: 2,
@@ -621,7 +593,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 28,
           endLine: 1,
@@ -637,7 +608,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 54,
           endLine: 1,
@@ -655,7 +625,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 42,
           endLine: 1,
@@ -671,7 +640,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 60,
           endLine: 1,
@@ -690,7 +658,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectPattern',
           line: 1,
           column: 9,
           endLine: 1,
@@ -707,7 +674,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectPattern',
           line: 1,
           column: 8,
           endLine: 1,
@@ -724,7 +690,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectPattern',
           line: 1,
           column: 9,
           endLine: 1,
@@ -741,7 +706,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectPattern',
           line: 1,
           column: 6,
           endLine: 1,
@@ -750,7 +714,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectPattern',
           line: 1,
           column: 10,
           endLine: 1,
@@ -767,7 +730,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectPattern',
           line: 1,
           column: 6,
           endLine: 1,
@@ -776,7 +738,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectPattern',
           line: 1,
           column: 11,
           endLine: 1,
@@ -793,7 +754,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectPattern',
           line: 1,
           column: 6,
           endLine: 1,
@@ -802,7 +762,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectPattern',
           line: 1,
           column: 12,
           endLine: 1,
@@ -820,7 +779,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 39,
           endLine: 1,
@@ -836,7 +794,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 55,
           endLine: 1,
@@ -854,7 +811,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectExpression',
           line: 1,
           column: 11,
           endLine: 1,
@@ -863,7 +819,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 30,
           endLine: 1,
@@ -879,7 +834,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectExpression',
           line: 1,
           column: 11,
           endLine: 1,
@@ -895,7 +849,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectExpression',
           line: 1,
           column: 11,
           endLine: 1,
@@ -911,7 +864,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectExpression',
           line: 1,
           column: 11,
           endLine: 1,
@@ -927,7 +879,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 31,
           endLine: 1,
@@ -943,7 +894,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 36,
           endLine: 1,
@@ -959,7 +909,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -968,7 +917,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 31,
           endLine: 1,
@@ -984,7 +932,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -993,7 +940,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 32,
           endLine: 1,
@@ -1009,7 +955,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 30,
           endLine: 1,
@@ -1025,7 +970,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 30,
           endLine: 1,
@@ -1041,7 +985,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 36,
           endLine: 1,
@@ -1057,7 +1000,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -1073,7 +1015,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -1089,7 +1030,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -1105,7 +1045,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 2,
           column: 10,
           endLine: 2,
@@ -1121,7 +1060,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -1130,7 +1068,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectExpression',
           line: 1,
           column: 19,
           endLine: 1,
@@ -1146,7 +1083,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 27,
           endLine: 1,
@@ -1155,7 +1091,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 39,
           endLine: 1,
@@ -1172,7 +1107,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectExpression',
           line: 1,
           column: 22,
           endLine: 1,
@@ -1191,7 +1125,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectPattern',
           line: 1,
           column: 5,
           endLine: 1,
@@ -1200,7 +1133,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectPattern',
           line: 1,
           column: 10,
           endLine: 1,
@@ -1217,7 +1149,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectPattern',
           line: 1,
           column: 11,
           endLine: 1,
@@ -1234,7 +1165,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectPattern',
           line: 1,
           column: 16,
           endLine: 1,
@@ -1251,7 +1181,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectPattern',
           line: 1,
           column: 5,
           endLine: 1,
@@ -1268,7 +1197,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectPattern',
           line: 1,
           column: 5,
           endLine: 1,
@@ -1285,7 +1213,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectPattern',
           line: 1,
           column: 6,
           endLine: 1,
@@ -1294,7 +1221,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectPattern',
           line: 1,
           column: 11,
           endLine: 1,
@@ -1311,7 +1237,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectPattern',
           line: 1,
           column: 10,
           endLine: 1,
@@ -1328,7 +1253,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectPattern',
           line: 1,
           column: 15,
           endLine: 1,
@@ -1345,7 +1269,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectPattern',
           line: 1,
           column: 6,
           endLine: 1,
@@ -1362,7 +1285,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectPattern',
           line: 1,
           column: 11,
           endLine: 1,
@@ -1379,7 +1301,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceAfter',
           data: { token: '{' },
-          type: 'ObjectPattern',
           line: 1,
           column: 5,
           endLine: 1,
@@ -1397,7 +1318,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 25,
           endLine: 1,
@@ -1413,7 +1333,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requireSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectExpression',
           line: 1,
           column: 49,
           endLine: 1,
@@ -1432,7 +1351,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: 'ObjectPattern',
           line: 1,
           column: 20,
           endLine: 1,

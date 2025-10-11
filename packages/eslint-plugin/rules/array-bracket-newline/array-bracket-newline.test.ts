@@ -447,7 +447,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
           endLine: 1,
@@ -455,7 +454,6 @@ run<RuleOptions, MessageIds>({
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 13,
           endLine: 3,
@@ -544,7 +542,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
           endLine: 1,
@@ -552,7 +549,6 @@ run<RuleOptions, MessageIds>({
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -567,13 +563,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 13,
         },
@@ -586,7 +580,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 2,
           endLine: 2,
@@ -601,7 +594,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 2,
         },
@@ -614,7 +606,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
           endLine: 1,
@@ -622,7 +613,6 @@ run<RuleOptions, MessageIds>({
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 16,
           endLine: 1,
@@ -637,7 +627,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
@@ -650,13 +639,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 34,
         },
@@ -669,13 +656,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 2,
         },
@@ -688,13 +673,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 2,
         },
@@ -726,13 +709,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 1,
         },
@@ -745,7 +726,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
           endLine: 1,
@@ -753,7 +733,6 @@ run<RuleOptions, MessageIds>({
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
           endLine: 3,
@@ -768,13 +747,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
         },
@@ -787,13 +764,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
         },
@@ -806,13 +781,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 18,
         },
@@ -825,13 +798,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
         },
@@ -844,13 +815,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 4,
           column: 1,
         },
@@ -863,13 +832,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 5,
           column: 1,
         },
@@ -915,7 +882,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 2,
           endLine: 2,
@@ -930,7 +896,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 1,
           endLine: 2,
@@ -945,7 +910,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 2,
           endLine: 2,
@@ -962,13 +926,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 1,
         },
@@ -981,13 +943,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
         },
@@ -1000,13 +960,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
         },
@@ -1019,13 +977,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
         },
@@ -1038,13 +994,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 2,
         },
@@ -1057,13 +1011,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 2,
         },
@@ -1106,13 +1058,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 1,
         },
@@ -1125,13 +1075,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
         },
@@ -1144,13 +1092,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 16,
         },
@@ -1163,13 +1109,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 2,
         },
@@ -1182,13 +1126,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 5,
           column: 1,
         },
@@ -1203,13 +1145,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 12,
         },
@@ -1222,13 +1162,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 13,
         },
@@ -1241,13 +1179,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 16,
         },
@@ -1260,13 +1196,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 2,
         },
@@ -1279,13 +1213,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 2,
         },
@@ -1300,13 +1232,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 1,
         },
@@ -1319,13 +1249,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
         },
@@ -1338,13 +1266,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
         },
@@ -1357,13 +1283,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 4,
           column: 1,
         },
@@ -1376,13 +1300,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 5,
           column: 1,
         },
@@ -1397,13 +1319,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 1,
         },
@@ -1416,13 +1336,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
         },
@@ -1435,13 +1353,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
         },
@@ -1454,13 +1370,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 2,
         },
@@ -1473,13 +1387,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 2,
         },
@@ -1494,13 +1406,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 1,
         },
@@ -1513,13 +1423,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
         },
@@ -1532,13 +1440,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 16,
         },
@@ -1551,13 +1457,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 2,
         },
@@ -1570,13 +1474,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 2,
         },
@@ -1594,7 +1496,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 5,
         },
@@ -1607,13 +1508,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 17,
         },
@@ -1626,7 +1525,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
@@ -1641,13 +1539,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 2,
           column: 1,
         },
@@ -1660,13 +1556,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
         },
@@ -1679,13 +1573,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 3,
           column: 1,
         },
@@ -1698,13 +1590,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 4,
           column: 1,
         },
@@ -1717,13 +1607,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayExpression',
           line: 1,
           column: 11,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayExpression',
           line: 5,
           column: 1,
         },
@@ -1742,13 +1630,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 5,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 6,
         },
@@ -1762,13 +1648,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 5,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 7,
         },
@@ -1782,7 +1666,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayPattern',
           line: 2,
           column: 2,
         },
@@ -1796,7 +1679,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayPattern',
           line: 2,
           column: 2,
         },
@@ -1810,13 +1692,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 5,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 10,
         },
@@ -1830,7 +1710,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 5,
         },
@@ -1844,13 +1723,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 5,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 28,
         },
@@ -1864,13 +1741,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 5,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayPattern',
           line: 2,
           column: 2,
         },
@@ -1886,7 +1761,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayPattern',
           line: 2,
           column: 2,
           endLine: 2,
@@ -1902,7 +1776,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayPattern',
           line: 2,
           column: 1,
           endLine: 2,
@@ -1918,7 +1791,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayPattern',
           line: 2,
           column: 2,
           endLine: 2,
@@ -1936,13 +1808,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 5,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayPattern',
           line: 2,
           column: 1,
         },
@@ -1956,13 +1826,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpectedOpeningLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 5,
         },
         {
           messageId: 'unexpectedClosingLinebreak',
-          type: 'ArrayPattern',
           line: 3,
           column: 1,
         },
@@ -1976,13 +1844,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 5,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 10,
         },
@@ -1996,13 +1862,11 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'missingOpeningLinebreak',
-          type: 'ArrayPattern',
           line: 1,
           column: 5,
         },
         {
           messageId: 'missingClosingLinebreak',
-          type: 'ArrayPattern',
           line: 2,
           column: 2,
         },

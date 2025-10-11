@@ -3,7 +3,6 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import { AST_NODE_TYPES } from '#utils/ast'
 import rule from './object-curly-spacing'
 
 run<RuleOptions, MessageIds>({
@@ -395,7 +394,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { token: '}' },
-          type: AST_NODE_TYPES.ObjectPattern,
           line: 1,
           column: 20,
           endLine: 1,

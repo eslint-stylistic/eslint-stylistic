@@ -132,7 +132,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 2,
           column: 1,
           endLine: 2,
@@ -145,7 +144,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 1,
           column: 1,
           endLine: 1,
@@ -158,7 +156,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 1,
           column: 1,
           endLine: 1,
@@ -171,7 +168,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 1,
           column: 1,
           endLine: 1,
@@ -184,7 +180,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 1,
           column: 1,
           endLine: 1,
@@ -197,7 +192,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 1,
           column: 1,
           endLine: 1,
@@ -210,7 +204,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 2,
           column: 1,
           endLine: 2,
@@ -223,7 +216,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 1,
           column: 1,
           endLine: 1,
@@ -231,7 +223,6 @@ run<RuleOptions, MessageIds>({
         },
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 3,
           column: 1,
           endLine: 3,
@@ -245,7 +236,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 2,
           column: 2,
           endLine: 2,
@@ -259,7 +249,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 2,
           column: 2,
           endLine: 2,
@@ -274,7 +263,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 2,
           column: 1,
           endLine: 2,
@@ -288,7 +276,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 2,
           column: 1,
           endLine: 2,
@@ -301,7 +288,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 1,
           column: 2,
           endLine: 1,
@@ -314,7 +300,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 2,
           column: 1,
           endLine: 2,
@@ -327,7 +312,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 1,
           column: 3,
           endLine: 1,
@@ -340,7 +324,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 1,
           column: 3,
           endLine: 1,
@@ -354,7 +337,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 1,
           column: 2,
           endLine: 1,
@@ -368,7 +350,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'mixedSpacesAndTabs',
-          type: 'Program',
           line: 1,
           column: 6,
           endLine: 1,
