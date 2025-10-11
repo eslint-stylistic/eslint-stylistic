@@ -170,6 +170,46 @@ run<RuleOptions, MessageIds>({
     },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/906
     `import foo, * as bar from 'mod'`,
+    {
+      code: 'var obj = {   /*comment*/   };',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
+      code: 'var obj = {/*comment*/};',
+      options: ['never', { emptyObjects: 'always' }],
+    },
+    {
+      code: 'var obj = {};',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
+      code: 'var obj = { };',
+      options: ['never', { emptyObjects: 'always' }],
+    },
+    {
+      code: 'var {} = y;',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
+      code: 'var { } = y;',
+      options: ['never', { emptyObjects: 'always' }],
+    },
+    {
+      code: 'import {} from "room";',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
+      code: 'import { } from "room";',
+      options: ['never', { emptyObjects: 'always' }],
+    },
+    {
+      code: 'export {}',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
+      code: 'export { }',
+      options: ['never', { emptyObjects: 'always' }],
+    },
   ],
 
   invalid: [
@@ -1315,6 +1355,171 @@ run<RuleOptions, MessageIds>({
           column: 20,
           endLine: 1,
           endColumn: 21,
+        },
+      ],
+    },
+    {
+      code: 'var obj = {};',
+      output: 'var obj = { };',
+      options: ['never', { emptyObjects: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'ObjectExpression' },
+          line: 1,
+          column: 12,
+          endLine: 1,
+          endColumn: 12,
+        },
+      ],
+    },
+    {
+      code: 'var {} = y;',
+      output: 'var { } = y;',
+      options: ['never', { emptyObjects: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'ObjectPattern' },
+          line: 1,
+          column: 6,
+          endLine: 1,
+          endColumn: 6,
+        },
+      ],
+    },
+    {
+      code: 'import {} from "room";',
+      output: 'import { } from "room";',
+      options: ['never', { emptyObjects: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'ImportDeclaration' },
+          line: 1,
+          column: 9,
+          endLine: 1,
+          endColumn: 9,
+        },
+      ],
+    },
+    {
+      code: 'export {}',
+      output: 'export { }',
+      options: ['never', { emptyObjects: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'ExportNamedDeclaration' },
+          line: 1,
+          column: 9,
+          endLine: 1,
+          endColumn: 9,
+        },
+      ],
+    },
+    {
+      code: 'var obj = { };',
+      output: 'var obj = {};',
+      options: ['never', { emptyObjects: 'never' }],
+      errors: [
+        {
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: { node: 'ObjectExpression' },
+          line: 1,
+          column: 12,
+          endLine: 1,
+          endColumn: 13,
+        },
+      ],
+    },
+    {
+      code: 'var { } = y;',
+      output: 'var {} = y;',
+      options: ['never', { emptyObjects: 'never' }],
+      errors: [
+        {
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: { node: 'ObjectPattern' },
+          line: 1,
+          column: 6,
+          endLine: 1,
+          endColumn: 7,
+        },
+      ],
+    },
+    {
+      code: 'import { } from "room";',
+      output: 'import {} from "room";',
+      options: ['never', { emptyObjects: 'never' }],
+      errors: [
+        {
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: { node: 'ImportDeclaration' },
+          line: 1,
+          column: 9,
+          endLine: 1,
+          endColumn: 10,
+        },
+      ],
+    },
+    {
+      code: 'export {      }',
+      output: 'export {}',
+      options: ['never', { emptyObjects: 'never' }],
+      errors: [
+        {
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: { node: 'ExportNamedDeclaration' },
+          line: 1,
+          column: 9,
+          endLine: 1,
+          endColumn: 15,
+        },
+      ],
+    },
+    {
+      code: 'var {      } = y;',
+      output: 'var { } = y;',
+      options: ['never', { emptyObjects: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'ObjectPattern' },
+          line: 1,
+          column: 6,
+          endLine: 1,
+          endColumn: 12,
+        },
+      ],
+    },
+    {
+      code: 'import {    } from "room";',
+      output: 'import { } from "room";',
+      options: ['never', { emptyObjects: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'ImportDeclaration' },
+          line: 1,
+          column: 9,
+          endLine: 1,
+          endColumn: 13,
+        },
+      ],
+    },
+    {
+      code: 'export {      }',
+      output: 'export { }',
+      options: ['never', { emptyObjects: 'always' }],
+      errors: [
+        {
+          messageId: 'requiredSpaceInEmptyObject',
+          data: { node: 'ExportNamedDeclaration' },
+          line: 1,
+          column: 9,
+          endLine: 1,
+          endColumn: 15,
         },
       ],
     },
