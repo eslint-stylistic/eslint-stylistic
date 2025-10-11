@@ -1,5 +1,33 @@
 # Changelog
 
+## [5.5.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.4.0...v5.5.0) (2025-10-11)
+
+
+### Features
+
+* **indent:** deprecate `offsetTernaryExpressionsOffsetCallExpressions` via `offsetTernaryExpressions.CallExpression` ([#997](https://github.com/eslint-stylistic/eslint-stylistic/issues/997)) ([f2837b1](https://github.com/eslint-stylistic/eslint-stylistic/commit/f2837b1d9a5d74bef64f660846f5ac78684aaed0))
+* **indent:** introduce `NewExpression` and `AwaitExpression` in `offsetTernaryExpressions` ([#996](https://github.com/eslint-stylistic/eslint-stylistic/issues/996)) ([2b5a39f](https://github.com/eslint-stylistic/eslint-stylistic/commit/2b5a39fc985a2c9263736f43ae362a86c4426281))
+* new rule list-style ([#895](https://github.com/eslint-stylistic/eslint-stylistic/issues/895)) ([a9ec0de](https://github.com/eslint-stylistic/eslint-stylistic/commit/a9ec0de85d61c9e7452dac1942fff46684c379ed))
+* **object-curly-spacing:** add `emptyObjects` option to control spacing in empty objects ([#1002](https://github.com/eslint-stylistic/eslint-stylistic/issues/1002)) ([85ef5bc](https://github.com/eslint-stylistic/eslint-stylistic/commit/85ef5bcf052bdd4646abed86130b4fc8d7d948fb))
+
+
+### Bug Fixes
+
+* **indent:** correctly indent `NewExpression` in `ConditionalExpression` ([#994](https://github.com/eslint-stylistic/eslint-stylistic/issues/994)) ([01cec33](https://github.com/eslint-stylistic/eslint-stylistic/commit/01cec33474304bcb0365ab7d9ca8f4b504529e82))
+* replace `context.getSourceCode()` with `context.sourceCode` ([#1004](https://github.com/eslint-stylistic/eslint-stylistic/issues/1004)) ([f3faa54](https://github.com/eslint-stylistic/eslint-stylistic/commit/f3faa54295621c5eddbbefbf4630974770f60a69))
+
+
+### Documentation
+
+* **contribute:** add guide to run the document site ([#1001](https://github.com/eslint-stylistic/eslint-stylistic/issues/1001)) ([37a64c5](https://github.com/eslint-stylistic/eslint-stylistic/commit/37a64c5b9c1edd3c184d9d112e1539d06ddc08dc))
+* **object-curly-spacing:** introduce `overrides` ([#998](https://github.com/eslint-stylistic/eslint-stylistic/issues/998)) ([6452b52](https://github.com/eslint-stylistic/eslint-stylistic/commit/6452b523a48f4f21a3c1d37ca70c6246ce9fa897))
+
+
+### Chores
+
+* remove `TestCaseError#type` ([#1005](https://github.com/eslint-stylistic/eslint-stylistic/issues/1005)) ([83d00c5](https://github.com/eslint-stylistic/eslint-stylistic/commit/83d00c5735a3ac5a69fc053c3714cd8ca14ab5f4))
+* replace `Object.prototype.hasOwnProperty.call` with `Object.hasOwn` ([#992](https://github.com/eslint-stylistic/eslint-stylistic/issues/992)) ([97193e1](https://github.com/eslint-stylistic/eslint-stylistic/commit/97193e14d60d9e46b9c9a5cde3be5f2f35e9c251))
+
 ## [5.4.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.3.1...v5.4.0) (2025-09-19)
 
 
