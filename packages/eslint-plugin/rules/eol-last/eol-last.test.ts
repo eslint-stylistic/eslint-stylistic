@@ -49,7 +49,6 @@ run<RuleOptions, MessageIds>({
       output: 'var a = 123;\n',
       errors: [{
         messageId: 'missing',
-        type: 'Program',
         line: 1,
         column: 13,
       }],
@@ -59,7 +58,6 @@ run<RuleOptions, MessageIds>({
       output: 'var a = 123;\n   \n',
       errors: [{
         messageId: 'missing',
-        type: 'Program',
         line: 2,
         column: 4,
       }],
@@ -70,7 +68,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'unexpected',
-        type: 'Program',
         line: 1,
         column: 13,
         endLine: 2,
@@ -83,7 +80,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'unexpected',
-        type: 'Program',
         line: 1,
         column: 13,
         endLine: 2,
@@ -96,7 +92,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'unexpected',
-        type: 'Program',
         line: 2,
         column: 1,
         endLine: 3,
@@ -109,7 +104,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'unexpected',
-        type: 'Program',
         line: 2,
         column: 13,
         endLine: 3,
@@ -122,7 +116,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'unexpected',
-        type: 'Program',
         line: 2,
         column: 13,
         endLine: 3,
@@ -135,7 +128,6 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{
         messageId: 'unexpected',
-        type: 'Program',
         line: 2,
         column: 1,
         endLine: 3,
@@ -150,7 +142,6 @@ run<RuleOptions, MessageIds>({
       options: ['unix'],
       errors: [{
         messageId: 'missing',
-        type: 'Program',
         line: 1,
         column: 13,
       }],
@@ -161,7 +152,6 @@ run<RuleOptions, MessageIds>({
       options: ['unix'],
       errors: [{
         messageId: 'missing',
-        type: 'Program',
         line: 2,
         column: 4,
 
@@ -175,7 +165,6 @@ run<RuleOptions, MessageIds>({
       options: ['windows'],
       errors: [{
         messageId: 'missing',
-        type: 'Program',
         line: 1,
         column: 13,
       }],
@@ -186,7 +175,6 @@ run<RuleOptions, MessageIds>({
       options: ['windows'],
       errors: [{
         messageId: 'missing',
-        type: 'Program',
         line: 2,
         column: 4,
       }],

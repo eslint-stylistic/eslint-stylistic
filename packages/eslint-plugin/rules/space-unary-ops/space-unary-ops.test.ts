@@ -272,7 +272,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'delete' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -282,7 +281,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'delete' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -292,7 +290,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfterWord',
         data: { word: 'delete' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -302,7 +299,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'new' },
-        type: 'NewExpression',
       }],
     },
     {
@@ -312,7 +308,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfterWord',
         data: { word: 'new' },
-        type: 'NewExpression',
       }],
     },
     {
@@ -322,7 +317,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'new' },
-        type: 'NewExpression',
       }],
     },
     {
@@ -332,7 +326,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfterWord',
         data: { word: 'new' },
-        type: 'NewExpression',
       }],
     },
 
@@ -343,7 +336,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'typeof' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -353,7 +345,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfterWord',
         data: { word: 'typeof' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -363,7 +354,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'typeof' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -373,7 +363,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfterWord',
         data: { word: 'typeof' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -383,7 +372,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'typeof' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -393,7 +381,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfterWord',
         data: { word: 'typeof' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -403,7 +390,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'typeof' },
-        type: 'UnaryExpression',
       }],
     },
 
@@ -414,7 +400,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'void' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -424,7 +409,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'void' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -434,7 +418,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'void' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -444,7 +427,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'void' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -454,7 +436,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfterWord',
         data: { word: 'void' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -464,7 +445,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfterWord',
         data: { word: 'void' },
-        type: 'UnaryExpression',
       }],
     },
 
@@ -494,7 +474,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfter',
         data: { operator: '!' },
-        type: 'UnaryExpression',
         line: 1,
         column: 2,
       }],
@@ -506,7 +485,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfter',
         data: { operator: '!' },
-        type: 'UnaryExpression',
         line: 1,
         column: 2,
       }],
@@ -519,7 +497,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfter',
         data: { operator: '-' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -529,7 +506,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfter',
         data: { operator: '-' },
-        type: 'UnaryExpression',
       }],
     },
 
@@ -638,7 +614,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'yield' },
-        type: 'YieldExpression',
         line: 1,
         column: 19,
       }],
@@ -651,7 +626,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfterWord',
         data: { word: 'yield' },
-        type: 'YieldExpression',
         line: 1,
         column: 19,
       }],
@@ -663,7 +637,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'yield' },
-        type: 'YieldExpression',
         line: 1,
         column: 19,
       }],
@@ -748,7 +721,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'yield' },
-        type: 'YieldExpression',
         line: 1,
         column: 19,
       }],
@@ -761,7 +733,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'yield' },
-        type: 'YieldExpression',
         line: 1,
         column: 19,
       }],
@@ -773,7 +744,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'await' },
-        type: 'AwaitExpression',
         line: 1,
         column: 24,
       }],
@@ -786,7 +756,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfterWord',
         data: { word: 'await' },
-        type: 'AwaitExpression',
         line: 1,
         column: 24,
       }],
@@ -799,7 +768,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfterWord',
         data: { word: 'await' },
-        type: 'AwaitExpression',
         line: 1,
         column: 24,
       }],
@@ -812,7 +780,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfterWord',
         data: { word: 'await' },
-        type: 'AwaitExpression',
         line: 1,
         column: 24,
       }],
@@ -825,7 +792,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfterWord',
         data: { word: 'yield' },
-        type: 'YieldExpression',
         line: 1,
         column: 27,
       }],

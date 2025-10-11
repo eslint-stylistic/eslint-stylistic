@@ -4,7 +4,6 @@
  */
 
 import type { InvalidTestCase } from '#test'
-import type { AST_NODE_TYPES } from '#utils/ast'
 import type { MessageIds, RuleOptions } from './types'
 import { $, run } from '#test'
 import rule from './no-extra-parens'
@@ -13,13 +12,12 @@ import rule from './no-extra-parens'
  * Create error message object for failure cases
  * @param code source code
  * @param output fixed source code
- * @param type node type
  * @param line line number
  * @param config rule configuration
  * @returns result object
  * @private
  */
-function invalid(code: string, output: string | null, type?: `${AST_NODE_TYPES}`, line?: number | null, config?: any): InvalidTestCase<RuleOptions, MessageIds> {
+function invalid(code: string, output: string | null, line?: number | null, config?: any): InvalidTestCase<RuleOptions, MessageIds> {
   return {
     code,
     output,
@@ -27,7 +25,6 @@ function invalid(code: string, output: string | null, type?: `${AST_NODE_TYPES}`
     errors: [
       {
         messageId: 'unexpected',
-        ...(type && { type }),
         ...(line && { line }),
       },
     ],
@@ -1003,222 +1000,221 @@ run<RuleOptions, MessageIds>({
   ],
 
   invalid: [
-    invalid('(0)', '0', 'Literal'),
-    invalid('(  0  )', '  0  ', 'Literal'),
-    invalid('if((0));', 'if(0);', 'Literal'),
-    invalid('if(( 0 ));', 'if( 0 );', 'Literal'),
-    invalid('with((0)){}', 'with(0){}', 'Literal'),
-    invalid('switch((0)){}', 'switch(0){}', 'Literal'),
-    invalid('switch(0){ case (1): break; }', 'switch(0){ case 1: break; }', 'Literal'),
-    invalid('for((0);;);', 'for(0;;);', 'Literal'),
-    invalid('for(;(0););', 'for(;0;);', 'Literal'),
-    invalid('for(;;(0));', 'for(;;0);', 'Literal'),
-    invalid('throw(0)', 'throw 0', 'Literal'),
-    invalid('while((0));', 'while(0);', 'Literal'),
-    invalid('do; while((0))', 'do; while(0)', 'Literal'),
-    invalid('for(a in (0));', 'for(a in 0);', 'Literal'),
-    invalid('for(a of (0));', 'for(a of 0);', 'Literal', 1),
-    invalid('const foo = {[(a)]:1}', 'const foo = {[a]:1}', 'Identifier', 1),
-    invalid('const foo = {[(a=b)]:1}', 'const foo = {[a=b]:1}', 'AssignmentExpression', 1),
-    invalid('const foo = {*[(Symbol.iterator)]() {}}', 'const foo = {*[Symbol.iterator]() {}}', 'MemberExpression', 1),
-    invalid('const foo = { get [(a)]() {}}', 'const foo = { get [a]() {}}', 'Identifier', 1),
-    invalid('const foo = {[(a+b)]:c, d}', 'const foo = {[a+b]:c, d}', 'BinaryExpression', 1),
-    invalid('const foo = {a, [(b+c)]:d, e}', 'const foo = {a, [b+c]:d, e}', 'BinaryExpression', 1),
-    invalid('const foo = {[(a+b)]:c, d:e}', 'const foo = {[a+b]:c, d:e}', 'BinaryExpression', 1),
-    invalid('const foo = {a:b, [(c+d)]:e, f:g}', 'const foo = {a:b, [c+d]:e, f:g}', 'BinaryExpression', 1),
-    invalid('const foo = {[(a+b)]:c, [d]:e}', 'const foo = {[a+b]:c, [d]:e}', 'BinaryExpression', 1),
-    invalid('const foo = {[a]:b, [(c+d)]:e, [f]:g}', 'const foo = {[a]:b, [c+d]:e, [f]:g}', 'BinaryExpression', 1),
-    invalid('const foo = {[(a+b)]:c, [(d,e)]:f}', 'const foo = {[a+b]:c, [(d,e)]:f}', 'BinaryExpression', 1),
-    invalid('const foo = {[(a,b)]:c, [(d+e)]:f, [(g,h)]:e}', 'const foo = {[(a,b)]:c, [d+e]:f, [(g,h)]:e}', 'BinaryExpression', 1),
-    invalid('const foo = {a, b:c, [(d+e)]:f, [(g,h)]:i, [j]:k}', 'const foo = {a, b:c, [d+e]:f, [(g,h)]:i, [j]:k}', 'BinaryExpression', 1),
-    invalid('const foo = {[a+(b*c)]:d}', 'const foo = {[a+b*c]:d}', 'BinaryExpression', 1),
-    invalid('const foo = {[(a, (b+c))]:d}', 'const foo = {[(a, b+c)]:d}', 'BinaryExpression', 1),
-    invalid('const {[(a)]:b} = {}', 'const {[a]:b} = {}', 'Identifier', 1),
-    invalid('const {[(a=b)]:c=1} = {}', 'const {[a=b]:c=1} = {}', 'AssignmentExpression', 1),
-    invalid('const {[(a+b)]:c, d} = {}', 'const {[a+b]:c, d} = {}', 'BinaryExpression', 1),
-    invalid('const {a, [(b+c)]:d, e} = {}', 'const {a, [b+c]:d, e} = {}', 'BinaryExpression', 1),
-    invalid('const {[(a+b)]:c, d:e} = {}', 'const {[a+b]:c, d:e} = {}', 'BinaryExpression', 1),
-    invalid('const {a:b, [(c+d)]:e, f:g} = {}', 'const {a:b, [c+d]:e, f:g} = {}', 'BinaryExpression', 1),
-    invalid('const {[(a+b)]:c, [d]:e} = {}', 'const {[a+b]:c, [d]:e} = {}', 'BinaryExpression', 1),
-    invalid('const {[a]:b, [(c+d)]:e, [f]:g} = {}', 'const {[a]:b, [c+d]:e, [f]:g} = {}', 'BinaryExpression', 1),
-    invalid('const {[(a+b)]:c, [(d,e)]:f} = {}', 'const {[a+b]:c, [(d,e)]:f} = {}', 'BinaryExpression', 1),
-    invalid('const {[(a,b)]:c, [(d+e)]:f, [(g,h)]:e} = {}', 'const {[(a,b)]:c, [d+e]:f, [(g,h)]:e} = {}', 'BinaryExpression', 1),
-    invalid('const {a, b:c, [(d+e)]:f, [(g,h)]:i, [j]:k} = {}', 'const {a, b:c, [d+e]:f, [(g,h)]:i, [j]:k} = {}', 'BinaryExpression', 1),
-    invalid('const {[a+(b*c)]:d} = {}', 'const {[a+b*c]:d} = {}', 'BinaryExpression', 1),
-    invalid('const {[(a, (b+c))]:d} = {}', 'const {[(a, b+c)]:d} = {}', 'BinaryExpression', 1),
-    invalid('class foo { [(a)](){} }', 'class foo { [a](){} }', 'Identifier'),
-    invalid('class foo {*[(Symbol.iterator)]() {}}', 'class foo {*[Symbol.iterator]() {}}', 'MemberExpression'),
-    invalid('class foo { get [(a)](){} }', 'class foo { get [a](){} }', 'Identifier'),
-    invalid('class foo { set [(a)](bar){} }', 'class foo { set [a](bar){} }', 'Identifier'),
-    invalid('class foo { static [(a)](bar){} }', 'class foo { static [a](bar){} }', 'Identifier'),
-    invalid('class foo { [(a=b)](){} }', 'class foo { [a=b](){} }', 'AssignmentExpression'),
-    invalid('class foo { constructor (){} [(a+b)](){} }', 'class foo { constructor (){} [a+b](){} }', 'BinaryExpression'),
-    invalid('class foo { [(a+b)](){} constructor (){} }', 'class foo { [a+b](){} constructor (){} }', 'BinaryExpression'),
-    invalid('class foo { [(a+b)](){} c(){} }', 'class foo { [a+b](){} c(){} }', 'BinaryExpression'),
-    invalid('class foo { a(){} [(b+c)](){} d(){} }', 'class foo { a(){} [b+c](){} d(){} }', 'BinaryExpression'),
-    invalid('class foo { [(a+b)](){} [c](){} }', 'class foo { [a+b](){} [c](){} }', 'BinaryExpression'),
-    invalid('class foo { [a](){} [(b+c)](){} [d](){} }', 'class foo { [a](){} [b+c](){} [d](){} }', 'BinaryExpression'),
-    invalid('class foo { [(a+b)](){} [(c,d)](){} }', 'class foo { [a+b](){} [(c,d)](){} }', 'BinaryExpression'),
-    invalid('class foo { [(a,b)](){} [(c+d)](){} }', 'class foo { [(a,b)](){} [c+d](){} }', 'BinaryExpression'),
-    invalid('class foo { [a+(b*c)](){} }', 'class foo { [a+b*c](){} }', 'BinaryExpression'),
-    invalid('const foo = class { [(a)](){} }', 'const foo = class { [a](){} }', 'Identifier'),
-    invalid('class foo { [(x)]; }', 'class foo { [x]; }', 'Identifier'),
-    invalid('class foo { static [(x)]; }', 'class foo { static [x]; }', 'Identifier'),
-    invalid('class foo { [(x)] = 1; }', 'class foo { [x] = 1; }', 'Identifier'),
-    invalid('class foo { static [(x)] = 1; }', 'class foo { static [x] = 1; }', 'Identifier'),
-    invalid('const foo = class { [(x)]; }', 'const foo = class { [x]; }', 'Identifier'),
-    invalid('class foo { [(x = y)]; }', 'class foo { [x = y]; }', 'AssignmentExpression'),
-    invalid('class foo { [(x + y)]; }', 'class foo { [x + y]; }', 'BinaryExpression'),
-    invalid('class foo { [(x ? y : z)]; }', 'class foo { [x ? y : z]; }', 'ConditionalExpression'),
-    invalid('class foo { [((x, y))]; }', 'class foo { [(x, y)]; }', 'SequenceExpression'),
-    invalid('class foo { x = (y); }', 'class foo { x = y; }', 'Identifier'),
-    invalid('class foo { static x = (y); }', 'class foo { static x = y; }', 'Identifier'),
-    invalid('class foo { #x = (y); }', 'class foo { #x = y; }', 'Identifier'),
-    invalid('class foo { static #x = (y); }', 'class foo { static #x = y; }', 'Identifier'),
-    invalid('const foo = class { x = (y); }', 'const foo = class { x = y; }', 'Identifier'),
-    invalid('class foo { x = (() => {}); }', 'class foo { x = () => {}; }', 'ArrowFunctionExpression'),
-    invalid('class foo { x = (y + z); }', 'class foo { x = y + z; }', 'BinaryExpression'),
-    invalid('class foo { x = (y ? z : q); }', 'class foo { x = y ? z : q; }', 'ConditionalExpression'),
-    invalid('class foo { x = ((y, z)); }', 'class foo { x = (y, z); }', 'SequenceExpression'),
+    invalid('(0)', '0'),
+    invalid('(  0  )', '  0  '),
+    invalid('if((0));', 'if(0);'),
+    invalid('if(( 0 ));', 'if( 0 );'),
+    invalid('with((0)){}', 'with(0){}'),
+    invalid('switch((0)){}', 'switch(0){}'),
+    invalid('switch(0){ case (1): break; }', 'switch(0){ case 1: break; }'),
+    invalid('for((0);;);', 'for(0;;);'),
+    invalid('for(;(0););', 'for(;0;);'),
+    invalid('for(;;(0));', 'for(;;0);'),
+    invalid('throw(0)', 'throw 0'),
+    invalid('while((0));', 'while(0);'),
+    invalid('do; while((0))', 'do; while(0)'),
+    invalid('for(a in (0));', 'for(a in 0);'),
+    invalid('for(a of (0));', 'for(a of 0);', 1),
+    invalid('const foo = {[(a)]:1}', 'const foo = {[a]:1}', 1),
+    invalid('const foo = {[(a=b)]:1}', 'const foo = {[a=b]:1}', 1),
+    invalid('const foo = {*[(Symbol.iterator)]() {}}', 'const foo = {*[Symbol.iterator]() {}}', 1),
+    invalid('const foo = { get [(a)]() {}}', 'const foo = { get [a]() {}}', 1),
+    invalid('const foo = {[(a+b)]:c, d}', 'const foo = {[a+b]:c, d}', 1),
+    invalid('const foo = {a, [(b+c)]:d, e}', 'const foo = {a, [b+c]:d, e}', 1),
+    invalid('const foo = {[(a+b)]:c, d:e}', 'const foo = {[a+b]:c, d:e}', 1),
+    invalid('const foo = {a:b, [(c+d)]:e, f:g}', 'const foo = {a:b, [c+d]:e, f:g}', 1),
+    invalid('const foo = {[(a+b)]:c, [d]:e}', 'const foo = {[a+b]:c, [d]:e}', 1),
+    invalid('const foo = {[a]:b, [(c+d)]:e, [f]:g}', 'const foo = {[a]:b, [c+d]:e, [f]:g}', 1),
+    invalid('const foo = {[(a+b)]:c, [(d,e)]:f}', 'const foo = {[a+b]:c, [(d,e)]:f}', 1),
+    invalid('const foo = {[(a,b)]:c, [(d+e)]:f, [(g,h)]:e}', 'const foo = {[(a,b)]:c, [d+e]:f, [(g,h)]:e}', 1),
+    invalid('const foo = {a, b:c, [(d+e)]:f, [(g,h)]:i, [j]:k}', 'const foo = {a, b:c, [d+e]:f, [(g,h)]:i, [j]:k}', 1),
+    invalid('const foo = {[a+(b*c)]:d}', 'const foo = {[a+b*c]:d}', 1),
+    invalid('const foo = {[(a, (b+c))]:d}', 'const foo = {[(a, b+c)]:d}', 1),
+    invalid('const {[(a)]:b} = {}', 'const {[a]:b} = {}', 1),
+    invalid('const {[(a=b)]:c=1} = {}', 'const {[a=b]:c=1} = {}', 1),
+    invalid('const {[(a+b)]:c, d} = {}', 'const {[a+b]:c, d} = {}', 1),
+    invalid('const {a, [(b+c)]:d, e} = {}', 'const {a, [b+c]:d, e} = {}', 1),
+    invalid('const {[(a+b)]:c, d:e} = {}', 'const {[a+b]:c, d:e} = {}', 1),
+    invalid('const {a:b, [(c+d)]:e, f:g} = {}', 'const {a:b, [c+d]:e, f:g} = {}', 1),
+    invalid('const {[(a+b)]:c, [d]:e} = {}', 'const {[a+b]:c, [d]:e} = {}', 1),
+    invalid('const {[a]:b, [(c+d)]:e, [f]:g} = {}', 'const {[a]:b, [c+d]:e, [f]:g} = {}', 1),
+    invalid('const {[(a+b)]:c, [(d,e)]:f} = {}', 'const {[a+b]:c, [(d,e)]:f} = {}', 1),
+    invalid('const {[(a,b)]:c, [(d+e)]:f, [(g,h)]:e} = {}', 'const {[(a,b)]:c, [d+e]:f, [(g,h)]:e} = {}', 1),
+    invalid('const {a, b:c, [(d+e)]:f, [(g,h)]:i, [j]:k} = {}', 'const {a, b:c, [d+e]:f, [(g,h)]:i, [j]:k} = {}', 1),
+    invalid('const {[a+(b*c)]:d} = {}', 'const {[a+b*c]:d} = {}', 1),
+    invalid('const {[(a, (b+c))]:d} = {}', 'const {[(a, b+c)]:d} = {}', 1),
+    invalid('class foo { [(a)](){} }', 'class foo { [a](){} }'),
+    invalid('class foo {*[(Symbol.iterator)]() {}}', 'class foo {*[Symbol.iterator]() {}}'),
+    invalid('class foo { get [(a)](){} }', 'class foo { get [a](){} }'),
+    invalid('class foo { set [(a)](bar){} }', 'class foo { set [a](bar){} }'),
+    invalid('class foo { static [(a)](bar){} }', 'class foo { static [a](bar){} }'),
+    invalid('class foo { [(a=b)](){} }', 'class foo { [a=b](){} }'),
+    invalid('class foo { constructor (){} [(a+b)](){} }', 'class foo { constructor (){} [a+b](){} }'),
+    invalid('class foo { [(a+b)](){} constructor (){} }', 'class foo { [a+b](){} constructor (){} }'),
+    invalid('class foo { [(a+b)](){} c(){} }', 'class foo { [a+b](){} c(){} }'),
+    invalid('class foo { a(){} [(b+c)](){} d(){} }', 'class foo { a(){} [b+c](){} d(){} }'),
+    invalid('class foo { [(a+b)](){} [c](){} }', 'class foo { [a+b](){} [c](){} }'),
+    invalid('class foo { [a](){} [(b+c)](){} [d](){} }', 'class foo { [a](){} [b+c](){} [d](){} }'),
+    invalid('class foo { [(a+b)](){} [(c,d)](){} }', 'class foo { [a+b](){} [(c,d)](){} }'),
+    invalid('class foo { [(a,b)](){} [(c+d)](){} }', 'class foo { [(a,b)](){} [c+d](){} }'),
+    invalid('class foo { [a+(b*c)](){} }', 'class foo { [a+b*c](){} }'),
+    invalid('const foo = class { [(a)](){} }', 'const foo = class { [a](){} }'),
+    invalid('class foo { [(x)]; }', 'class foo { [x]; }'),
+    invalid('class foo { static [(x)]; }', 'class foo { static [x]; }'),
+    invalid('class foo { [(x)] = 1; }', 'class foo { [x] = 1; }'),
+    invalid('class foo { static [(x)] = 1; }', 'class foo { static [x] = 1; }'),
+    invalid('const foo = class { [(x)]; }', 'const foo = class { [x]; }'),
+    invalid('class foo { [(x = y)]; }', 'class foo { [x = y]; }'),
+    invalid('class foo { [(x + y)]; }', 'class foo { [x + y]; }'),
+    invalid('class foo { [(x ? y : z)]; }', 'class foo { [x ? y : z]; }'),
+    invalid('class foo { [((x, y))]; }', 'class foo { [(x, y)]; }'),
+    invalid('class foo { x = (y); }', 'class foo { x = y; }'),
+    invalid('class foo { static x = (y); }', 'class foo { static x = y; }'),
+    invalid('class foo { #x = (y); }', 'class foo { #x = y; }'),
+    invalid('class foo { static #x = (y); }', 'class foo { static #x = y; }'),
+    invalid('const foo = class { x = (y); }', 'const foo = class { x = y; }'),
+    invalid('class foo { x = (() => {}); }', 'class foo { x = () => {}; }'),
+    invalid('class foo { x = (y + z); }', 'class foo { x = y + z; }'),
+    invalid('class foo { x = (y ? z : q); }', 'class foo { x = y ? z : q; }'),
+    invalid('class foo { x = ((y, z)); }', 'class foo { x = (y, z); }'),
 
     //
     invalid(
       'var foo = (function*() { if ((yield foo())) { return; } }())',
       'var foo = (function*() { if (yield foo()) { return; } }())',
-      'YieldExpression',
       1,
     ),
-    invalid('f((0))', 'f(0)', 'Literal'),
-    invalid('f(0, (1))', 'f(0, 1)', 'Literal'),
-    invalid('!(0)', '!0', 'Literal'),
-    invalid('a[(1)]', 'a[1]', 'Literal'),
-    invalid('(a)(b)', 'a(b)', 'Identifier'),
-    invalid('(async)', 'async', 'Identifier'),
-    invalid('(a, b)', 'a, b', 'SequenceExpression'),
-    invalid('var a = (b = c);', 'var a = b = c;', 'AssignmentExpression'),
-    invalid('function f(){ return (a); }', 'function f(){ return a; }', 'Identifier'),
-    invalid('[a, (b = c)]', '[a, b = c]', 'AssignmentExpression'),
-    invalid('!{a: (b = c)}', '!{a: b = c}', 'AssignmentExpression'),
-    invalid('typeof(0)', 'typeof 0', 'Literal'),
-    invalid('typeof (0)', 'typeof 0', 'Literal'),
-    invalid('typeof([])', 'typeof[]', 'ArrayExpression'),
-    invalid('typeof ([])', 'typeof []', 'ArrayExpression'),
-    invalid('typeof( 0)', 'typeof 0', 'Literal'),
-    invalid('typeof(typeof 5)', 'typeof typeof 5', 'UnaryExpression'),
-    invalid('typeof (typeof 5)', 'typeof typeof 5', 'UnaryExpression'),
-    invalid('+(+foo)', '+ +foo', 'UnaryExpression'),
-    invalid('-(-foo)', '- -foo', 'UnaryExpression'),
-    invalid('+(-foo)', '+-foo', 'UnaryExpression'),
-    invalid('-(+foo)', '-+foo', 'UnaryExpression'),
-    invalid('-((bar+foo))', '-(bar+foo)', 'BinaryExpression'),
-    invalid('+((bar-foo))', '+(bar-foo)', 'BinaryExpression'),
-    invalid('++(foo)', '++foo', 'Identifier'),
-    invalid('--(foo)', '--foo', 'Identifier'),
-    invalid('++\n(foo)', '++\nfoo', 'Identifier'),
-    invalid('--\n(foo)', '--\nfoo', 'Identifier'),
-    invalid('++(\nfoo)', '++\nfoo', 'Identifier'),
-    invalid('--(\nfoo)', '--\nfoo', 'Identifier'),
-    invalid('(foo)++', 'foo++', 'Identifier'),
-    invalid('(foo)--', 'foo--', 'Identifier'),
-    invalid('((foo)\n)++', '(foo\n)++', 'Identifier'),
-    invalid('((foo\n))--', '(foo\n)--', 'Identifier'),
-    invalid('((foo\n)\n)++', '(foo\n\n)++', 'Identifier'),
-    invalid('(a\n.b)--', 'a\n.b--', 'MemberExpression'),
-    invalid('(a.\nb)++', 'a.\nb++', 'MemberExpression'),
-    invalid('(a\n[\nb\n])--', 'a\n[\nb\n]--', 'MemberExpression'),
-    invalid('(a || b) ? c : d', 'a || b ? c : d', 'LogicalExpression'),
-    invalid('a ? (b = c) : d', 'a ? b = c : d', 'AssignmentExpression'),
-    invalid('a ? b : (c = d)', 'a ? b : c = d', 'AssignmentExpression'),
-    invalid('(c = d) ? (b) : c', '(c = d) ? b : c', 'Identifier', null, { options: ['all', { conditionalAssign: false }] }),
-    invalid('(c = d) ? b : (c)', '(c = d) ? b : c', 'Identifier', null, { options: ['all', { conditionalAssign: false }] }),
-    invalid('(a) ? foo : bar', 'a ? foo : bar', 'Identifier', null, { options: ['all', { ternaryOperandBinaryExpressions: false }] }),
-    invalid('(a()) ? foo : bar', 'a() ? foo : bar', 'CallExpression', null, { options: ['all', { ternaryOperandBinaryExpressions: false }] }),
-    invalid('(a.b) ? foo : bar', 'a.b ? foo : bar', 'MemberExpression', null, { options: ['all', { ternaryOperandBinaryExpressions: false }] }),
-    invalid('(a || b) ? foo : (bar)', '(a || b) ? foo : bar', 'Identifier', null, { options: ['all', { ternaryOperandBinaryExpressions: false }] }),
-    invalid('f((a = b))', 'f(a = b)', 'AssignmentExpression'),
-    invalid('a, (b = c)', 'a, b = c', 'AssignmentExpression'),
-    invalid('a = (b * c)', 'a = b * c', 'BinaryExpression'),
-    invalid('a + (b * c)', 'a + b * c', 'BinaryExpression'),
-    invalid('(a * b) + c', 'a * b + c', 'BinaryExpression'),
-    invalid('(a * b) / c', 'a * b / c', 'BinaryExpression'),
-    invalid('(2) ** 3 ** 4', '2 ** 3 ** 4', 'Literal', null),
-    invalid('2 ** (3 ** 4)', '2 ** 3 ** 4', 'BinaryExpression', null),
-    invalid('(2 ** 3)', '2 ** 3', 'BinaryExpression', null),
-    invalid('(2 ** 3) + 1', '2 ** 3 + 1', 'BinaryExpression', null),
-    invalid('1 - (2 ** 3)', '1 - 2 ** 3', 'BinaryExpression', null),
-    invalid('-((2 ** 3))', '-(2 ** 3)', 'BinaryExpression', null),
-    invalid('typeof ((a ** b));', 'typeof (a ** b);', 'BinaryExpression', null),
-    invalid('((-2)) ** 3', '(-2) ** 3', 'UnaryExpression', null),
+    invalid('f((0))', 'f(0)'),
+    invalid('f(0, (1))', 'f(0, 1)'),
+    invalid('!(0)', '!0'),
+    invalid('a[(1)]', 'a[1]'),
+    invalid('(a)(b)', 'a(b)'),
+    invalid('(async)', 'async'),
+    invalid('(a, b)', 'a, b'),
+    invalid('var a = (b = c);', 'var a = b = c;'),
+    invalid('function f(){ return (a); }', 'function f(){ return a; }'),
+    invalid('[a, (b = c)]', '[a, b = c]'),
+    invalid('!{a: (b = c)}', '!{a: b = c}'),
+    invalid('typeof(0)', 'typeof 0'),
+    invalid('typeof (0)', 'typeof 0'),
+    invalid('typeof([])', 'typeof[]'),
+    invalid('typeof ([])', 'typeof []'),
+    invalid('typeof( 0)', 'typeof 0'),
+    invalid('typeof(typeof 5)', 'typeof typeof 5'),
+    invalid('typeof (typeof 5)', 'typeof typeof 5'),
+    invalid('+(+foo)', '+ +foo'),
+    invalid('-(-foo)', '- -foo'),
+    invalid('+(-foo)', '+-foo'),
+    invalid('-(+foo)', '-+foo'),
+    invalid('-((bar+foo))', '-(bar+foo)'),
+    invalid('+((bar-foo))', '+(bar-foo)'),
+    invalid('++(foo)', '++foo'),
+    invalid('--(foo)', '--foo'),
+    invalid('++\n(foo)', '++\nfoo'),
+    invalid('--\n(foo)', '--\nfoo'),
+    invalid('++(\nfoo)', '++\nfoo'),
+    invalid('--(\nfoo)', '--\nfoo'),
+    invalid('(foo)++', 'foo++'),
+    invalid('(foo)--', 'foo--'),
+    invalid('((foo)\n)++', '(foo\n)++'),
+    invalid('((foo\n))--', '(foo\n)--'),
+    invalid('((foo\n)\n)++', '(foo\n\n)++'),
+    invalid('(a\n.b)--', 'a\n.b--'),
+    invalid('(a.\nb)++', 'a.\nb++'),
+    invalid('(a\n[\nb\n])--', 'a\n[\nb\n]--'),
+    invalid('(a || b) ? c : d', 'a || b ? c : d'),
+    invalid('a ? (b = c) : d', 'a ? b = c : d'),
+    invalid('a ? b : (c = d)', 'a ? b : c = d'),
+    invalid('(c = d) ? (b) : c', '(c = d) ? b : c', null, { options: ['all', { conditionalAssign: false }] }),
+    invalid('(c = d) ? b : (c)', '(c = d) ? b : c', null, { options: ['all', { conditionalAssign: false }] }),
+    invalid('(a) ? foo : bar', 'a ? foo : bar', null, { options: ['all', { ternaryOperandBinaryExpressions: false }] }),
+    invalid('(a()) ? foo : bar', 'a() ? foo : bar', null, { options: ['all', { ternaryOperandBinaryExpressions: false }] }),
+    invalid('(a.b) ? foo : bar', 'a.b ? foo : bar', null, { options: ['all', { ternaryOperandBinaryExpressions: false }] }),
+    invalid('(a || b) ? foo : (bar)', '(a || b) ? foo : bar', null, { options: ['all', { ternaryOperandBinaryExpressions: false }] }),
+    invalid('f((a = b))', 'f(a = b)'),
+    invalid('a, (b = c)', 'a, b = c'),
+    invalid('a = (b * c)', 'a = b * c'),
+    invalid('a + (b * c)', 'a + b * c'),
+    invalid('(a * b) + c', 'a * b + c'),
+    invalid('(a * b) / c', 'a * b / c'),
+    invalid('(2) ** 3 ** 4', '2 ** 3 ** 4', null),
+    invalid('2 ** (3 ** 4)', '2 ** 3 ** 4', null),
+    invalid('(2 ** 3)', '2 ** 3', null),
+    invalid('(2 ** 3) + 1', '2 ** 3 + 1', null),
+    invalid('1 - (2 ** 3)', '1 - 2 ** 3', null),
+    invalid('-((2 ** 3))', '-(2 ** 3)', null),
+    invalid('typeof ((a ** b));', 'typeof (a ** b);', null),
+    invalid('((-2)) ** 3', '(-2) ** 3', null),
 
-    invalid('a = (b * c)', 'a = b * c', 'BinaryExpression', null, { options: ['all', { nestedBinaryExpressions: false }] }),
-    invalid('(b * c)', 'b * c', 'BinaryExpression', null, { options: ['all', { nestedBinaryExpressions: false }] }),
+    invalid('a = (b * c)', 'a = b * c', null, { options: ['all', { nestedBinaryExpressions: false }] }),
+    invalid('(b * c)', 'b * c', null, { options: ['all', { nestedBinaryExpressions: false }] }),
 
-    invalid('a = (b = c)', 'a = b = c', 'AssignmentExpression'),
-    invalid('(a).b', 'a.b', 'Identifier'),
-    invalid('(0)[a]', '0[a]', 'Literal'),
-    invalid('(0.0).a', '0.0.a', 'Literal'),
-    invalid('(123.4).a', '123.4.a', 'Literal'),
-    invalid('(0.0_0).a', '0.0_0.a', 'Literal'),
-    invalid('(0xBEEF).a', '0xBEEF.a', 'Literal'),
-    invalid('(0xBE_EF).a', '0xBE_EF.a', 'Literal'),
-    invalid('(1e6).a', '1e6.a', 'Literal'),
-    invalid('(0123).a', '0123.a', 'Literal'),
-    invalid('(08.1).a', '08.1.a', 'Literal'),
-    invalid('(09.).a', '09..a', 'Literal'),
-    invalid('a[(function() {})]', 'a[function() {}]', 'FunctionExpression'),
-    invalid('new (function(){})', 'new function(){}', 'FunctionExpression'),
-    invalid('new (\nfunction(){}\n)', 'new \nfunction(){}\n', 'FunctionExpression', 1),
-    invalid('((function foo() {return 1;}))()', '(function foo() {return 1;})()', 'FunctionExpression'),
-    invalid('((function(){ return bar(); })())', '(function(){ return bar(); })()', 'CallExpression'),
-    invalid('(foo()).bar', 'foo().bar', 'CallExpression'),
-    invalid('(foo.bar()).baz', 'foo.bar().baz', 'CallExpression'),
-    invalid('(foo\n.bar())\n.baz', 'foo\n.bar()\n.baz', 'CallExpression'),
-    invalid('(new foo()).bar', 'new foo().bar', 'NewExpression'),
-    invalid('(new foo())[bar]', 'new foo()[bar]', 'NewExpression'),
-    invalid('(new foo()).bar()', 'new foo().bar()', 'NewExpression'),
-    invalid('(new foo(bar)).baz', 'new foo(bar).baz', 'NewExpression'),
-    invalid('(new foo.bar()).baz', 'new foo.bar().baz', 'NewExpression'),
-    invalid('(new foo.bar()).baz()', 'new foo.bar().baz()', 'NewExpression'),
-    invalid('new a[(b()).c]', 'new a[b().c]', 'CallExpression'),
+    invalid('a = (b = c)', 'a = b = c'),
+    invalid('(a).b', 'a.b'),
+    invalid('(0)[a]', '0[a]'),
+    invalid('(0.0).a', '0.0.a'),
+    invalid('(123.4).a', '123.4.a'),
+    invalid('(0.0_0).a', '0.0_0.a'),
+    invalid('(0xBEEF).a', '0xBEEF.a'),
+    invalid('(0xBE_EF).a', '0xBE_EF.a'),
+    invalid('(1e6).a', '1e6.a'),
+    invalid('(0123).a', '0123.a'),
+    invalid('(08.1).a', '08.1.a'),
+    invalid('(09.).a', '09..a'),
+    invalid('a[(function() {})]', 'a[function() {}]'),
+    invalid('new (function(){})', 'new function(){}'),
+    invalid('new (\nfunction(){}\n)', 'new \nfunction(){}\n', 1),
+    invalid('((function foo() {return 1;}))()', '(function foo() {return 1;})()'),
+    invalid('((function(){ return bar(); })())', '(function(){ return bar(); })()'),
+    invalid('(foo()).bar', 'foo().bar'),
+    invalid('(foo.bar()).baz', 'foo.bar().baz'),
+    invalid('(foo\n.bar())\n.baz', 'foo\n.bar()\n.baz'),
+    invalid('(new foo()).bar', 'new foo().bar'),
+    invalid('(new foo())[bar]', 'new foo()[bar]'),
+    invalid('(new foo()).bar()', 'new foo().bar()'),
+    invalid('(new foo(bar)).baz', 'new foo(bar).baz'),
+    invalid('(new foo.bar()).baz', 'new foo.bar().baz'),
+    invalid('(new foo.bar()).baz()', 'new foo.bar().baz()'),
+    invalid('new a[(b()).c]', 'new a[b().c]'),
 
-    invalid('(a)()', 'a()', 'Identifier'),
-    invalid('(a.b)()', 'a.b()', 'MemberExpression'),
-    invalid('(a())()', 'a()()', 'CallExpression'),
-    invalid('(a.b())()', 'a.b()()', 'CallExpression'),
-    invalid('(a().b)()', 'a().b()', 'MemberExpression'),
-    invalid('(a().b.c)()', 'a().b.c()', 'MemberExpression'),
-    invalid('new (A)', 'new A', 'Identifier'),
-    invalid('(new A())()', 'new A()()', 'NewExpression'),
-    invalid('(new A(1))()', 'new A(1)()', 'NewExpression'),
-    invalid('((new A))()', '(new A)()', 'NewExpression'),
-    invalid('new (foo\n.baz\n.bar\n.foo.baz)', 'new foo\n.baz\n.bar\n.foo.baz', 'MemberExpression'),
-    invalid('new (foo.baz.bar.baz)', 'new foo.baz.bar.baz', 'MemberExpression'),
-    invalid('new ((a.b())).c', 'new (a.b()).c', 'CallExpression'),
-    invalid('new ((a().b)).c', 'new (a().b).c', 'MemberExpression'),
-    invalid('new ((a().b().d))', 'new (a().b().d)', 'MemberExpression'),
-    invalid('new ((a())).b.d', 'new (a()).b.d', 'CallExpression'),
-    invalid('new (a.b).d;', 'new a.b.d;', 'MemberExpression'),
-    invalid('new (new A())();', 'new new A()();', 'NewExpression'),
-    invalid('new (new A());', 'new new A();', 'NewExpression'),
-    invalid('new (new A);', 'new new A;', 'NewExpression'),
-    invalid('new (new a.b);', 'new new a.b;', 'NewExpression'),
-    invalid('(a().b).d;', 'a().b.d;', 'MemberExpression'),
-    invalid('(a.b()).d;', 'a.b().d;', 'CallExpression'),
-    invalid('(a.b).d;', 'a.b.d;', 'MemberExpression'),
+    invalid('(a)()', 'a()'),
+    invalid('(a.b)()', 'a.b()'),
+    invalid('(a())()', 'a()()'),
+    invalid('(a.b())()', 'a.b()()'),
+    invalid('(a().b)()', 'a().b()'),
+    invalid('(a().b.c)()', 'a().b.c()'),
+    invalid('new (A)', 'new A'),
+    invalid('(new A())()', 'new A()()'),
+    invalid('(new A(1))()', 'new A(1)()'),
+    invalid('((new A))()', '(new A)()'),
+    invalid('new (foo\n.baz\n.bar\n.foo.baz)', 'new foo\n.baz\n.bar\n.foo.baz'),
+    invalid('new (foo.baz.bar.baz)', 'new foo.baz.bar.baz'),
+    invalid('new ((a.b())).c', 'new (a.b()).c'),
+    invalid('new ((a().b)).c', 'new (a().b).c'),
+    invalid('new ((a().b().d))', 'new (a().b().d)'),
+    invalid('new ((a())).b.d', 'new (a()).b.d'),
+    invalid('new (a.b).d;', 'new a.b.d;'),
+    invalid('new (new A())();', 'new new A()();'),
+    invalid('new (new A());', 'new new A();'),
+    invalid('new (new A);', 'new new A;'),
+    invalid('new (new a.b);', 'new new a.b;'),
+    invalid('(a().b).d;', 'a().b.d;'),
+    invalid('(a.b()).d;', 'a.b().d;'),
+    invalid('(a.b).d;', 'a.b.d;'),
 
-    invalid('0, (_ => 0)', '0, _ => 0', 'ArrowFunctionExpression', 1),
-    invalid('(_ => 0), 0', '_ => 0, 0', 'ArrowFunctionExpression', 1),
-    invalid('a = (_ => 0)', 'a = _ => 0', 'ArrowFunctionExpression', 1),
-    invalid('_ => (a = 0)', '_ => a = 0', 'AssignmentExpression', 1),
-    invalid('x => (({}))', 'x => ({})', 'ObjectExpression', 1),
+    invalid('0, (_ => 0)', '0, _ => 0', 1),
+    invalid('(_ => 0), 0', '_ => 0, 0', 1),
+    invalid('a = (_ => 0)', 'a = _ => 0', 1),
+    invalid('_ => (a = 0)', '_ => a = 0', 1),
+    invalid('x => (({}))', 'x => ({})', 1),
 
-    invalid('new (function(){})', 'new function(){}', 'FunctionExpression', null, { options: ['functions'] }),
-    invalid('new (\nfunction(){}\n)', 'new \nfunction(){}\n', 'FunctionExpression', 1, { options: ['functions'] }),
-    invalid('((function foo() {return 1;}))()', '(function foo() {return 1;})()', 'FunctionExpression', null, { options: ['functions'] }),
-    invalid('a[(function() {})]', 'a[function() {}]', 'FunctionExpression', null, { options: ['functions'] }),
-    invalid('0, (_ => 0)', '0, _ => 0', 'ArrowFunctionExpression', 1, { options: ['functions'] }),
-    invalid('(_ => 0), 0', '_ => 0, 0', 'ArrowFunctionExpression', 1, { options: ['functions'] }),
-    invalid('a = (_ => 0)', 'a = _ => 0', 'ArrowFunctionExpression', 1, { options: ['functions'] }),
+    invalid('new (function(){})', 'new function(){}', null, { options: ['functions'] }),
+    invalid('new (\nfunction(){}\n)', 'new \nfunction(){}\n', 1, { options: ['functions'] }),
+    invalid('((function foo() {return 1;}))()', '(function foo() {return 1;})()', null, { options: ['functions'] }),
+    invalid('a[(function() {})]', 'a[function() {}]', null, { options: ['functions'] }),
+    invalid('0, (_ => 0)', '0, _ => 0', 1, { options: ['functions'] }),
+    invalid('(_ => 0), 0', '_ => 0, 0', 1, { options: ['functions'] }),
+    invalid('a = (_ => 0)', 'a = _ => 0', 1, { options: ['functions'] }),
 
     {
       code: $`
@@ -1244,47 +1240,47 @@ run<RuleOptions, MessageIds>({
       errors: [{ messageId: 'unexpected' }],
     },
 
-    invalid('while ((foo = bar())) {}', 'while (foo = bar()) {}', 'AssignmentExpression'),
-    invalid('while ((foo = bar())) {}', 'while (foo = bar()) {}', 'AssignmentExpression', 1, { options: ['all', { conditionalAssign: true }] }),
-    invalid('if ((foo = bar())) {}', 'if (foo = bar()) {}', 'AssignmentExpression'),
-    invalid('do; while ((foo = bar()))', 'do; while (foo = bar())', 'AssignmentExpression'),
-    invalid('for (;(a = b););', 'for (;a = b;);', 'AssignmentExpression'),
+    invalid('while ((foo = bar())) {}', 'while (foo = bar()) {}'),
+    invalid('while ((foo = bar())) {}', 'while (foo = bar()) {}', 1, { options: ['all', { conditionalAssign: true }] }),
+    invalid('if ((foo = bar())) {}', 'if (foo = bar()) {}'),
+    invalid('do; while ((foo = bar()))', 'do; while (foo = bar())'),
+    invalid('for (;(a = b););', 'for (;a = b;);'),
 
     // https://github.com/eslint/eslint/issues/3653
-    invalid('((function(){})).foo();', '(function(){}).foo();', 'FunctionExpression'),
-    invalid('((function(){}).foo());', '(function(){}).foo();', 'CallExpression'),
-    invalid('((function(){}).foo);', '(function(){}).foo;', 'MemberExpression'),
-    invalid('0, (function(){}).foo();', '0, function(){}.foo();', 'FunctionExpression'),
-    invalid('void (function(){}).foo();', 'void function(){}.foo();', 'FunctionExpression'),
-    invalid('++(function(){}).foo;', '++function(){}.foo;', 'FunctionExpression'),
-    invalid('bar || (function(){}).foo();', 'bar || function(){}.foo();', 'FunctionExpression'),
-    invalid('1 + (function(){}).foo();', '1 + function(){}.foo();', 'FunctionExpression'),
-    invalid('bar ? (function(){}).foo() : baz;', 'bar ? function(){}.foo() : baz;', 'FunctionExpression'),
-    invalid('bar ? baz : (function(){}).foo();', 'bar ? baz : function(){}.foo();', 'FunctionExpression'),
-    invalid('bar((function(){}).foo(), 0);', 'bar(function(){}.foo(), 0);', 'FunctionExpression'),
-    invalid('bar[(function(){}).foo()];', 'bar[function(){}.foo()];', 'FunctionExpression'),
-    invalid('var bar = (function(){}).foo();', 'var bar = function(){}.foo();', 'FunctionExpression'),
+    invalid('((function(){})).foo();', '(function(){}).foo();'),
+    invalid('((function(){}).foo());', '(function(){}).foo();'),
+    invalid('((function(){}).foo);', '(function(){}).foo;'),
+    invalid('0, (function(){}).foo();', '0, function(){}.foo();'),
+    invalid('void (function(){}).foo();', 'void function(){}.foo();'),
+    invalid('++(function(){}).foo;', '++function(){}.foo;'),
+    invalid('bar || (function(){}).foo();', 'bar || function(){}.foo();'),
+    invalid('1 + (function(){}).foo();', '1 + function(){}.foo();'),
+    invalid('bar ? (function(){}).foo() : baz;', 'bar ? function(){}.foo() : baz;'),
+    invalid('bar ? baz : (function(){}).foo();', 'bar ? baz : function(){}.foo();'),
+    invalid('bar((function(){}).foo(), 0);', 'bar(function(){}.foo(), 0);'),
+    invalid('bar[(function(){}).foo()];', 'bar[function(){}.foo()];'),
+    invalid('var bar = (function(){}).foo();', 'var bar = function(){}.foo();'),
 
-    invalid('((class{})).foo();', '(class{}).foo();', 'ClassExpression', null),
-    invalid('((class{}).foo());', '(class{}).foo();', 'CallExpression', null),
-    invalid('((class{}).foo);', '(class{}).foo;', 'MemberExpression', null),
-    invalid('0, (class{}).foo();', '0, class{}.foo();', 'ClassExpression', null),
-    invalid('void (class{}).foo();', 'void class{}.foo();', 'ClassExpression', null),
-    invalid('++(class{}).foo;', '++class{}.foo;', 'ClassExpression', null),
-    invalid('bar || (class{}).foo();', 'bar || class{}.foo();', 'ClassExpression', null),
-    invalid('1 + (class{}).foo();', '1 + class{}.foo();', 'ClassExpression', null),
-    invalid('bar ? (class{}).foo() : baz;', 'bar ? class{}.foo() : baz;', 'ClassExpression', null),
-    invalid('bar ? baz : (class{}).foo();', 'bar ? baz : class{}.foo();', 'ClassExpression', null),
-    invalid('bar((class{}).foo(), 0);', 'bar(class{}.foo(), 0);', 'ClassExpression', null),
-    invalid('bar[(class{}).foo()];', 'bar[class{}.foo()];', 'ClassExpression', null),
-    invalid('var bar = (class{}).foo();', 'var bar = class{}.foo();', 'ClassExpression', null),
-    invalid('var foo = ((bar, baz));', 'var foo = (bar, baz);', 'SequenceExpression', null),
+    invalid('((class{})).foo();', '(class{}).foo();', null),
+    invalid('((class{}).foo());', '(class{}).foo();', null),
+    invalid('((class{}).foo);', '(class{}).foo;', null),
+    invalid('0, (class{}).foo();', '0, class{}.foo();', null),
+    invalid('void (class{}).foo();', 'void class{}.foo();', null),
+    invalid('++(class{}).foo;', '++class{}.foo;', null),
+    invalid('bar || (class{}).foo();', 'bar || class{}.foo();', null),
+    invalid('1 + (class{}).foo();', '1 + class{}.foo();', null),
+    invalid('bar ? (class{}).foo() : baz;', 'bar ? class{}.foo() : baz;', null),
+    invalid('bar ? baz : (class{}).foo();', 'bar ? baz : class{}.foo();', null),
+    invalid('bar((class{}).foo(), 0);', 'bar(class{}.foo(), 0);', null),
+    invalid('bar[(class{}).foo()];', 'bar[class{}.foo()];', null),
+    invalid('var bar = (class{}).foo();', 'var bar = class{}.foo();', null),
+    invalid('var foo = ((bar, baz));', 'var foo = (bar, baz);', null),
 
     // https://github.com/eslint/eslint/issues/4608
-    invalid('function *a() { yield (b); }', 'function *a() { yield b; }', 'Identifier', null),
-    invalid('function *a() { (yield b), c; }', 'function *a() { yield b, c; }', 'YieldExpression', null),
-    invalid('function *a() { yield ((b, c)); }', 'function *a() { yield (b, c); }', 'SequenceExpression', null),
-    invalid('function *a() { yield (b + c); }', 'function *a() { yield b + c; }', 'BinaryExpression', null),
+    invalid('function *a() { yield (b); }', 'function *a() { yield b; }', null),
+    invalid('function *a() { (yield b), c; }', 'function *a() { yield b, c; }', null),
+    invalid('function *a() { yield ((b, c)); }', 'function *a() { yield (b, c); }', null),
+    invalid('function *a() { yield (b + c); }', 'function *a() { yield b + c; }', null),
 
     // https://github.com/eslint/eslint/issues/4229
     invalid([
@@ -1295,7 +1291,7 @@ run<RuleOptions, MessageIds>({
       'function a() {',
       '    return b;',
       '}',
-    ].join('\n'), 'Identifier'),
+    ].join('\n')),
     invalid([
       'function a() {',
       '    return',
@@ -1306,7 +1302,7 @@ run<RuleOptions, MessageIds>({
       '    return',
       '    b;',
       '}',
-    ].join('\n'), 'Identifier'),
+    ].join('\n')),
     invalid([
       'function a() {',
       '    return ((',
@@ -1319,7 +1315,7 @@ run<RuleOptions, MessageIds>({
       '       b',
       '    );',
       '}',
-    ].join('\n'), 'Identifier'),
+    ].join('\n')),
     invalid([
       'function a() {',
       '    return (<JSX />);',
@@ -1328,7 +1324,7 @@ run<RuleOptions, MessageIds>({
       'function a() {',
       '    return <JSX />;',
       '}',
-    ].join('\n'), 'JSXElement', null),
+    ].join('\n'), null),
     invalid([
       'function a() {',
       '    return',
@@ -1339,7 +1335,7 @@ run<RuleOptions, MessageIds>({
       '    return',
       '    <JSX />;',
       '}',
-    ].join('\n'), 'JSXElement', null),
+    ].join('\n'), null),
     invalid([
       'function a() {',
       '    return ((',
@@ -1352,7 +1348,7 @@ run<RuleOptions, MessageIds>({
       '       <JSX />',
       '    );',
       '}',
-    ].join('\n'), 'JSXElement', null),
+    ].join('\n'), null),
     invalid([
       'function a() {',
       '    return ((',
@@ -1365,8 +1361,8 @@ run<RuleOptions, MessageIds>({
       '       <></>',
       '    );',
       '}',
-    ].join('\n'), 'JSXFragment', null),
-    invalid('throw (a);', 'throw a;', 'Identifier'),
+    ].join('\n'), null),
+    invalid('throw (a);', 'throw a;'),
     invalid([
       'throw ((',
       '   a',
@@ -1375,7 +1371,7 @@ run<RuleOptions, MessageIds>({
       'throw (',
       '   a',
       ');',
-    ].join('\n'), 'Identifier'),
+    ].join('\n')),
     invalid([
       'function *a() {',
       '    yield (b);',
@@ -1384,7 +1380,7 @@ run<RuleOptions, MessageIds>({
       'function *a() {',
       '    yield b;',
       '}',
-    ].join('\n'), 'Identifier', null),
+    ].join('\n'), null),
     invalid([
       'function *a() {',
       '    yield',
@@ -1395,7 +1391,7 @@ run<RuleOptions, MessageIds>({
       '    yield',
       '    b;',
       '}',
-    ].join('\n'), 'Identifier', null),
+    ].join('\n'), null),
     invalid([
       'function *a() {',
       '    yield ((',
@@ -1408,7 +1404,7 @@ run<RuleOptions, MessageIds>({
       '       b',
       '    );',
       '}',
-    ].join('\n'), 'Identifier', null),
+    ].join('\n'), null),
 
     // returnAssign option
     {
@@ -1418,7 +1414,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'LogicalExpression',
         },
       ],
     },
@@ -1428,7 +1423,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'LogicalExpression',
         },
       ],
     },
@@ -1438,7 +1432,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'AssignmentExpression',
         },
       ],
     },
@@ -1448,11 +1441,9 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'AssignmentExpression',
         },
         {
           messageId: 'unexpected',
-          type: 'AssignmentExpression',
         },
       ],
     },
@@ -1464,7 +1455,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'LogicalExpression',
         },
       ],
     },
@@ -1474,7 +1464,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'LogicalExpression',
         },
       ],
     },
@@ -1484,7 +1473,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'AssignmentExpression',
         },
       ],
     },
@@ -1494,11 +1482,9 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'AssignmentExpression',
         },
         {
           messageId: 'unexpected',
-          type: 'AssignmentExpression',
         },
       ],
     },
@@ -1509,7 +1495,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'LogicalExpression',
         },
       ],
     },
@@ -1519,7 +1504,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'LogicalExpression',
         },
       ],
     },
@@ -1529,7 +1513,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'AssignmentExpression',
         },
       ],
     },
@@ -1539,11 +1522,9 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'AssignmentExpression',
         },
         {
           messageId: 'unexpected',
-          type: 'AssignmentExpression',
         },
       ],
     },
@@ -1627,46 +1608,44 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'AwaitExpression',
         },
         {
           messageId: 'unexpected',
-          type: 'AwaitExpression',
         },
       ],
     },
-    invalid('async function a() { await (a); }', 'async function a() { await a; }', 'Identifier', null),
-    invalid('async function a() { await (a()); }', 'async function a() { await a(); }', 'CallExpression', null),
-    invalid('async function a() { await (+a); }', 'async function a() { await +a; }', 'UnaryExpression', null),
-    invalid('async function a() { +(await a); }', 'async function a() { +await a; }', 'AwaitExpression', null),
-    invalid('async function a() { await ((a,b)); }', 'async function a() { await (a,b); }', 'SequenceExpression', null),
-    invalid('async function a() { a ** (await b); }', 'async function a() { a ** await b; }', 'AwaitExpression', null),
+    invalid('async function a() { await (a); }', 'async function a() { await a; }', null),
+    invalid('async function a() { await (a()); }', 'async function a() { await a(); }', null),
+    invalid('async function a() { await (+a); }', 'async function a() { await +a; }', null),
+    invalid('async function a() { +(await a); }', 'async function a() { +await a; }', null),
+    invalid('async function a() { await ((a,b)); }', 'async function a() { await (a,b); }', null),
+    invalid('async function a() { a ** (await b); }', 'async function a() { a ** await b; }', null),
 
-    invalid('(foo) instanceof bar', 'foo instanceof bar', 'Identifier', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
-    invalid('(foo) in bar', 'foo in bar', 'Identifier', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
-    invalid('(foo) + bar', 'foo + bar', 'Identifier', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
-    invalid('(foo) && bar', 'foo && bar', 'Identifier', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
-    invalid('foo instanceof (bar)', 'foo instanceof bar', 'Identifier', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
-    invalid('foo in (bar)', 'foo in bar', 'Identifier', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
-    invalid('foo + (bar)', 'foo + bar', 'Identifier', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
-    invalid('foo && (bar)', 'foo && bar', 'Identifier', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
+    invalid('(foo) instanceof bar', 'foo instanceof bar', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
+    invalid('(foo) in bar', 'foo in bar', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
+    invalid('(foo) + bar', 'foo + bar', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
+    invalid('(foo) && bar', 'foo && bar', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
+    invalid('foo instanceof (bar)', 'foo instanceof bar', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
+    invalid('foo in (bar)', 'foo in bar', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
+    invalid('foo + (bar)', 'foo + bar', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
+    invalid('foo && (bar)', 'foo && bar', 1, { options: ['all', { nestedBinaryExpressions: false }] }),
 
     // ["all", { ignoreJSX: "multi-line" }]
-    invalid('const Component = (<div />);', 'const Component = <div />;', 'JSXElement', 1, {
+    invalid('const Component = (<div />);', 'const Component = <div />;', 1, {
       options: ['all', { ignoreJSX: 'multi-line' }],
     }),
     invalid([
       'const Component = (',
       '  <div />',
       ');',
-    ].join('\n'), 'const Component = \n  <div />\n;', 'JSXElement', 1, {
+    ].join('\n'), 'const Component = \n  <div />\n;', 1, {
       options: ['all', { ignoreJSX: 'multi-line' }],
     }),
     invalid([
       'const Component = (',
       '  <></>',
       ');',
-    ].join('\n'), 'const Component = \n  <></>\n;', 'JSXFragment', 1, {
+    ].join('\n'), 'const Component = \n  <></>\n;', 1, {
       options: ['all', { ignoreJSX: 'multi-line' }],
     }),
 
@@ -1677,33 +1656,33 @@ run<RuleOptions, MessageIds>({
       '  <p />',
       '</div>',
       ');',
-    ].join('\n'), 'const Component = \n<div>\n  <p />\n</div>\n;', 'JSXElement', 1, {
+    ].join('\n'), 'const Component = \n<div>\n  <p />\n</div>\n;', 1, {
       options: ['all', { ignoreJSX: 'single-line' }],
     }),
     invalid([
       'const Component = (<div>',
       '  <p />',
       '</div>);',
-    ].join('\n'), 'const Component = <div>\n  <p />\n</div>;', 'JSXElement', 1, {
+    ].join('\n'), 'const Component = <div>\n  <p />\n</div>;', 1, {
       options: ['all', { ignoreJSX: 'single-line' }],
     }),
     invalid([
       'const Component = (<div',
       '  prop={true}',
       '/>)',
-    ].join('\n'), 'const Component = <div\n  prop={true}\n/>', 'JSXElement', 1, {
+    ].join('\n'), 'const Component = <div\n  prop={true}\n/>', 1, {
       options: ['all', { ignoreJSX: 'single-line' }],
     }),
 
     // ["all", { ignoreJSX: "none" }] default, same as unspecified
-    invalid('const Component = (<div />);', 'const Component = <div />;', 'JSXElement', 1, {
+    invalid('const Component = (<div />);', 'const Component = <div />;', 1, {
       options: ['all', { ignoreJSX: 'none' }],
     }),
     invalid([
       'const Component = (<div>',
       '<p />',
       '</div>)',
-    ].join('\n'), 'const Component = <div>\n<p />\n</div>', 'JSXElement', 1, {
+    ].join('\n'), 'const Component = <div>\n<p />\n</div>', 1, {
       options: ['all', { ignoreJSX: 'none' }],
     }),
 
@@ -1737,7 +1716,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'SequenceExpression',
         },
       ],
     },
@@ -1748,7 +1726,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'SequenceExpression',
         },
       ],
     },
@@ -1759,7 +1736,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'SequenceExpression',
         },
       ],
     },
@@ -1770,7 +1746,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'SequenceExpression',
         },
       ],
     },
@@ -1781,7 +1756,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'SequenceExpression',
         },
       ],
     },
@@ -1792,7 +1766,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'SequenceExpression',
         },
       ],
     },
@@ -1805,7 +1778,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'NewExpression',
         },
       ],
     },
@@ -1816,7 +1788,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'NewExpression',
         },
       ],
     },
@@ -1827,7 +1798,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'NewExpression',
         },
       ],
     },
@@ -1838,7 +1808,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'NewExpression',
         },
       ],
     },
@@ -1849,7 +1818,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'NewExpression',
         },
       ],
     },
@@ -1862,7 +1830,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'FunctionExpression',
         },
       ],
     },
@@ -1873,7 +1840,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'CallExpression',
         },
       ],
     },
@@ -1884,7 +1850,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'FunctionExpression',
         },
       ],
     },
@@ -1895,7 +1860,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'CallExpression',
         },
       ],
     },
@@ -1906,7 +1870,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'FunctionExpression',
         },
       ],
     },
@@ -1917,7 +1880,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'FunctionExpression',
         },
       ],
     },
@@ -1928,7 +1890,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'CallExpression',
         },
       ],
     },
@@ -1939,7 +1900,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'CallExpression',
         },
       ],
     },
@@ -1950,7 +1910,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'MemberExpression',
         },
       ],
     },
@@ -1961,7 +1920,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'MemberExpression',
         },
       ],
     },
@@ -1972,7 +1930,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'FunctionExpression',
         },
       ],
     },
@@ -1983,7 +1940,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'MemberExpression',
         },
       ],
     },
@@ -1994,7 +1950,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'FunctionExpression',
         },
       ],
     },
@@ -2005,7 +1960,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'NewExpression',
         },
       ],
     },
@@ -2016,7 +1970,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'FunctionExpression',
         },
       ],
     },
@@ -2027,7 +1980,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'CallExpression',
         },
       ],
     },
@@ -2038,7 +1990,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'FunctionExpression',
         },
       ],
     },
@@ -2049,7 +2000,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'CallExpression',
         },
       ],
     },
@@ -2060,7 +2010,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'FunctionExpression',
         },
       ],
     },
@@ -2071,7 +2020,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'CallExpression',
         },
       ],
     },
@@ -2082,7 +2030,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'CallExpression',
         },
       ],
     },
@@ -2093,7 +2040,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'CallExpression',
         },
       ],
     },
@@ -2104,7 +2050,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'Identifier',
         },
       ],
     },
@@ -2115,7 +2060,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'CallExpression',
         },
       ],
     },
@@ -2126,7 +2070,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'CallExpression',
         },
       ],
     },
@@ -2137,7 +2080,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'MemberExpression',
         },
       ],
     },
@@ -2148,7 +2090,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'Identifier',
         },
       ],
     },
@@ -2159,7 +2100,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           messageId: 'unexpected',
-          type: 'Literal',
         },
       ],
     },
@@ -2168,172 +2108,145 @@ run<RuleOptions, MessageIds>({
     invalid(
       'let a = [...(b)]',
       'let a = [...b]',
-      'Identifier',
       1,
     ),
     invalid(
       'let a = {...(b)}',
       'let a = {...b}',
-      'Identifier',
       1,
     ),
     invalid(
       'let a = {...(b)}',
       'let a = {...b}',
-      'Identifier',
       1,
       { parserOptions: { ecmaVersion: 2018 } },
     ),
     invalid(
       'let a = [...((b, c))]',
       'let a = [...(b, c)]',
-      'SequenceExpression',
       1,
     ),
     invalid(
       'let a = {...((b, c))}',
       'let a = {...(b, c)}',
-      'SequenceExpression',
       1,
     ),
     invalid(
       'let a = {...((b, c))}',
       'let a = {...(b, c)}',
-      'SequenceExpression',
       1,
       { parserOptions: { ecmaVersion: 2018 } },
     ),
     invalid(
       'class A extends (B) {}',
       'class A extends B {}',
-      'Identifier',
       1,
     ),
     invalid(
       'const A = class extends (B) {}',
       'const A = class extends B {}',
-      'Identifier',
       1,
     ),
     invalid(
       'class A extends ((B=C)) {}',
       'class A extends (B=C) {}',
-      'AssignmentExpression',
       1,
     ),
     invalid(
       'const A = class extends ((B=C)) {}',
       'const A = class extends (B=C) {}',
-      'AssignmentExpression',
       1,
     ),
     invalid(
       'class A extends ((++foo)) {}',
       'class A extends (++foo) {}',
-      'UpdateExpression',
       1,
     ),
     invalid(
       'export default ((a, b))',
       'export default (a, b)',
-      'SequenceExpression',
       1,
       { parserOptions: { sourceType: 'module' } },
     ),
     invalid(
       'export default (() => {})',
       'export default () => {}',
-      'ArrowFunctionExpression',
       1,
       { parserOptions: { sourceType: 'module' } },
     ),
     invalid(
       'export default ((a, b) => a + b)',
       'export default (a, b) => a + b',
-      'ArrowFunctionExpression',
       1,
       { parserOptions: { sourceType: 'module' } },
     ),
     invalid(
       'export default (a => a)',
       'export default a => a',
-      'ArrowFunctionExpression',
       1,
       { parserOptions: { sourceType: 'module' } },
     ),
     invalid(
       'export default (a = b)',
       'export default a = b',
-      'AssignmentExpression',
       1,
       { parserOptions: { sourceType: 'module' } },
     ),
     invalid(
       'export default (a ? b : c)',
       'export default a ? b : c',
-      'ConditionalExpression',
       1,
       { parserOptions: { sourceType: 'module' } },
     ),
     invalid(
       'export default (a)',
       'export default a',
-      'Identifier',
       1,
       { parserOptions: { sourceType: 'module' } },
     ),
     invalid(
       'for (foo of(bar));',
       'for (foo of bar);',
-      'Identifier',
       1,
     ),
     invalid(
       'for ((foo) of bar);',
       'for (foo of bar);',
-      'Identifier',
       1,
     ),
     invalid(
       'for (foo of (baz = bar));',
       'for (foo of baz = bar);',
-      'AssignmentExpression',
       1,
     ),
     invalid(
       'function* f() { for (foo of (yield bar)); }',
       'function* f() { for (foo of yield bar); }',
-      'YieldExpression',
       1,
     ),
     invalid(
       'for (foo of ((bar, baz)));',
       'for (foo of (bar, baz));',
-      'SequenceExpression',
       1,
     ),
     invalid(
       'for ((foo)in bar);',
       'for (foo in bar);',
-      'Identifier',
       1,
     ),
     invalid(
       'for ((foo[\'bar\'])of baz);',
       'for (foo[\'bar\']of baz);',
-      'MemberExpression',
       1,
     ),
     invalid(
       '() => (({ foo: 1 }).foo)',
       '() => ({ foo: 1 }).foo',
-      'MemberExpression',
       1,
     ),
     invalid(
       '(let).foo',
       'let.foo',
-      'Identifier',
       1,
     ),
 
@@ -2341,157 +2254,131 @@ run<RuleOptions, MessageIds>({
     invalid(
       'for ((let);;);',
       'for (let;;);',
-      'Identifier',
       1,
     ),
     invalid(
       'for ((let = 1);;);',
       'for (let = 1;;);',
-      'AssignmentExpression',
       1,
     ),
     invalid(
       'for ((let) = 1;;);',
       'for (let = 1;;);',
-      'Identifier',
       1,
     ),
     invalid(
       'for ((let = []);;);',
       'for (let = [];;);',
-      'AssignmentExpression',
       1,
     ),
     invalid(
       'for ((let) = [];;);',
       'for (let = [];;);',
-      'Identifier',
       1,
     ),
     invalid(
       'for ((let());;);',
       'for (let();;);',
-      'CallExpression',
       1,
     ),
     invalid(
       'for ((let([]));;);',
       'for (let([]);;);',
-      'CallExpression',
       1,
     ),
     invalid(
       'for ((let())[a];;);',
       'for (let()[a];;);',
-      'CallExpression',
       1,
     ),
     invalid(
       'for ((let`[]`);;);',
       'for (let`[]`;;);',
-      'TaggedTemplateExpression',
       1,
     ),
     invalid(
       'for ((let.a);;);',
       'for (let.a;;);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for ((let).a;;);',
       'for (let.a;;);',
-      'Identifier',
       1,
     ),
     invalid(
       'for ((let).a = 1;;);',
       'for (let.a = 1;;);',
-      'Identifier',
       1,
     ),
     invalid(
       'for ((let).a[b];;);',
       'for (let.a[b];;);',
-      'Identifier',
       1,
     ),
     invalid(
       'for ((let.a)[b];;);',
       'for (let.a[b];;);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for ((let.a[b]);;);',
       'for (let.a[b];;);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for ((let);[];);',
       'for (let;[];);',
-      'Identifier',
       1,
     ),
     invalid(
       'for (((let[a]));;);',
       'for ((let[a]);;);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for (((let))[a];;);',
       'for ((let)[a];;);',
-      'Identifier',
       1,
     ),
     invalid(
       'for (((let[a])).b;;);',
       'for ((let[a]).b;;);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for (((let))[a].b;;);',
       'for ((let)[a].b;;);',
-      'Identifier',
       1,
     ),
     invalid(
       'for (((let)[a]).b;;);',
       'for ((let)[a].b;;);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for (((let[a]) = b);;);',
       'for ((let[a]) = b;;);',
-      'AssignmentExpression',
       1,
     ),
     invalid(
       'for (((let)[a]) = b;;);',
       'for ((let)[a] = b;;);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for (((let)[a] = b);;);',
       'for ((let)[a] = b;;);',
-      'AssignmentExpression',
       1,
     ),
     invalid(
       'for ((Let[a]);;);',
       'for (Let[a];;);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for ((lett)[a];;);',
       'for (lett[a];;);',
-      'Identifier',
       1,
     ),
 
@@ -2499,97 +2386,81 @@ run<RuleOptions, MessageIds>({
     invalid(
       'for ((let) in foo);',
       'for (let in foo);',
-      'Identifier',
       1,
     ),
     invalid(
       'for ((let())[a] in foo);',
       'for (let()[a] in foo);',
-      'CallExpression',
       1,
     ),
     invalid(
       'for ((let.a) in foo);',
       'for (let.a in foo);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for ((let).a in foo);',
       'for (let.a in foo);',
-      'Identifier',
       1,
     ),
     invalid(
       'for ((let).a.b in foo);',
       'for (let.a.b in foo);',
-      'Identifier',
       1,
     ),
     invalid(
       'for ((let).a[b] in foo);',
       'for (let.a[b] in foo);',
-      'Identifier',
       1,
     ),
     invalid(
       'for ((let.a)[b] in foo);',
       'for (let.a[b] in foo);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for ((let.a[b]) in foo);',
       'for (let.a[b] in foo);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for (((let[a])) in foo);',
       'for ((let[a]) in foo);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for (((let))[a] in foo);',
       'for ((let)[a] in foo);',
-      'Identifier',
       1,
     ),
     invalid(
       'for (((let[a])).b in foo);',
       'for ((let[a]).b in foo);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for (((let))[a].b in foo);',
       'for ((let)[a].b in foo);',
-      'Identifier',
       1,
     ),
     invalid(
       'for (((let)[a]).b in foo);',
       'for ((let)[a].b in foo);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for (((let[a]).b) in foo);',
       'for ((let[a]).b in foo);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for ((Let[a]) in foo);',
       'for (Let[a] in foo);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for ((lett)[a] in foo);',
       'for (lett[a] in foo);',
-      'Identifier',
       1,
     ),
 
@@ -2597,109 +2468,96 @@ run<RuleOptions, MessageIds>({
     invalid(
       'for (((let)) of foo);',
       'for ((let) of foo);',
-      'Identifier',
       1,
     ),
     invalid(
       'for (((let)).a of foo);',
       'for ((let).a of foo);',
-      'Identifier',
       1,
     ),
     invalid(
       'for (((let))[a] of foo);',
       'for ((let)[a] of foo);',
-      'Identifier',
       1,
     ),
     invalid(
       'for (((let).a) of foo);',
       'for ((let).a of foo);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for (((let[a]).b) of foo);',
       'for ((let[a]).b of foo);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for (((let).a).b of foo);',
       'for ((let).a.b of foo);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for (((let).a.b) of foo);',
       'for ((let).a.b of foo);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for (((let.a).b) of foo);',
       'for ((let.a).b of foo);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for (((let()).a) of foo);',
       'for ((let()).a of foo);',
-      'MemberExpression',
       1,
     ),
     invalid(
       'for ((Let) of foo);',
       'for (Let of foo);',
-      'Identifier',
       1,
     ),
     invalid(
       'for ((lett) of foo);',
       'for (lett of foo);',
-      'Identifier',
       1,
     ),
 
-    invalid('for (a in (b, c));', 'for (a in b, c);', 'SequenceExpression', null),
-    invalid('for (a of (b));', 'for (a of b);', 'Identifier'),
+    invalid('for (a in (b, c));', 'for (a in b, c);', null),
+    invalid('for (a of (b));', 'for (a of b);'),
     invalid(
       '(let)',
       'let',
-      'Identifier',
       1,
     ),
     invalid(
       '((let))',
       '(let)',
-      'Identifier',
       1,
     ),
-    invalid('let s = `${(v)}`', 'let s = `${v}`', 'Identifier'),
-    invalid('let s = `${(a, b)}`', 'let s = `${a, b}`', 'SequenceExpression'),
-    invalid('function foo(a = (b)) {}', 'function foo(a = b) {}', 'Identifier'),
-    invalid('const bar = (a = (b)) => a', 'const bar = (a = b) => a', 'Identifier'),
-    invalid('const [a = (b)] = []', 'const [a = b] = []', 'Identifier'),
-    invalid('const {a = (b)} = {}', 'const {a = b} = {}', 'Identifier'),
+    invalid('let s = `${(v)}`', 'let s = `${v}`'),
+    invalid('let s = `${(a, b)}`', 'let s = `${a, b}`'),
+    invalid('function foo(a = (b)) {}', 'function foo(a = b) {}'),
+    invalid('const bar = (a = (b)) => a', 'const bar = (a = b) => a'),
+    invalid('const [a = (b)] = []', 'const [a = b] = []'),
+    invalid('const {a = (b)} = {}', 'const {a = b} = {}'),
 
     // LHS of assignments/Assignment targets
-    invalid('(a) = b', 'a = b', 'Identifier'),
-    invalid('(a.b) = c', 'a.b = c', 'MemberExpression'),
-    invalid('(a) += b', 'a += b', 'Identifier'),
-    invalid('(a.b) >>= c', 'a.b >>= c', 'MemberExpression'),
-    invalid('[(a) = b] = []', '[a = b] = []', 'Identifier'),
-    invalid('[(a.b) = c] = []', '[a.b = c] = []', 'MemberExpression'),
-    invalid('({ a: (b) = c } = {})', '({ a: b = c } = {})', 'Identifier'),
-    invalid('({ a: (b.c) = d } = {})', '({ a: b.c = d } = {})', 'MemberExpression'),
-    invalid('[(a)] = []', '[a] = []', 'Identifier'),
-    invalid('[(a.b)] = []', '[a.b] = []', 'MemberExpression'),
-    invalid('[,(a),,] = []', '[,a,,] = []', 'Identifier'),
-    invalid('[...(a)] = []', '[...a] = []', 'Identifier'),
-    invalid('[...(a.b)] = []', '[...a.b] = []', 'MemberExpression'),
-    invalid('({ a: (b) } = {})', '({ a: b } = {})', 'Identifier'),
-    invalid('({ a: (b.c) } = {})', '({ a: b.c } = {})', 'MemberExpression'),
-    invalid('({ ...(a) } = {})', '({ ...a } = {})', 'Identifier'),
-    invalid('({ ...(a.b) } = {})', '({ ...a.b } = {})', 'MemberExpression'),
+    invalid('(a) = b', 'a = b'),
+    invalid('(a.b) = c', 'a.b = c'),
+    invalid('(a) += b', 'a += b'),
+    invalid('(a.b) >>= c', 'a.b >>= c'),
+    invalid('[(a) = b] = []', '[a = b] = []'),
+    invalid('[(a.b) = c] = []', '[a.b = c] = []'),
+    invalid('({ a: (b) = c } = {})', '({ a: b = c } = {})'),
+    invalid('({ a: (b.c) = d } = {})', '({ a: b.c = d } = {})'),
+    invalid('[(a)] = []', '[a] = []'),
+    invalid('[(a.b)] = []', '[a.b] = []'),
+    invalid('[,(a),,] = []', '[,a,,] = []'),
+    invalid('[...(a)] = []', '[...a] = []'),
+    invalid('[...(a.b)] = []', '[...a.b] = []'),
+    invalid('({ a: (b) } = {})', '({ a: b } = {})'),
+    invalid('({ a: (b.c) } = {})', '({ a: b.c } = {})'),
+    invalid('({ ...(a) } = {})', '({ ...a } = {})'),
+    invalid('({ ...(a.b) } = {})', '({ ...a.b } = {})'),
 
     // https://github.com/eslint/eslint/issues/11706 (also in valid[])
     {
@@ -3323,21 +3181,18 @@ run<RuleOptions, MessageIds>({
     invalid(
       'import((source))',
       'import(source)',
-      'Identifier',
       1,
       { parserOptions: { ecmaVersion: 2020 } },
     ),
     invalid(
       'import((source = \'foo.js\'))',
       'import(source = \'foo.js\')',
-      'AssignmentExpression',
       1,
       { parserOptions: { ecmaVersion: 2020 } },
     ),
     invalid(
       'import(((s,t)))',
       'import((s,t))',
-      'SequenceExpression',
       1,
       { parserOptions: { ecmaVersion: 2020 } },
     ),
@@ -3435,18 +3290,18 @@ run<RuleOptions, MessageIds>({
     },
 
     // adjacent tokens tests for division operator, comments and regular expressions
-    invalid('a+/**/(/**/b)', 'a+/**//**/b', 'Identifier'),
-    invalid('a+/**/(//\nb)', 'a+/**///\nb', 'Identifier'),
-    invalid('a in(/**/b)', 'a in/**/b', 'Identifier'),
-    invalid('a in(//\nb)', 'a in//\nb', 'Identifier'),
-    invalid('a+(/**/b)', 'a+/**/b', 'Identifier'),
-    invalid('a+/**/(b)', 'a+/**/b', 'Identifier'),
-    invalid('a+(//\nb)', 'a+//\nb', 'Identifier'),
-    invalid('a+//\n(b)', 'a+//\nb', 'Identifier'),
-    invalid('a+(/^b$/)', 'a+/^b$/', 'Literal'),
-    invalid('a/(/**/b)', 'a/ /**/b', 'Identifier'),
-    invalid('a/(//\nb)', 'a/ //\nb', 'Identifier'),
-    invalid('a/(/^b$/)', 'a/ /^b$/', 'Literal'),
+    invalid('a+/**/(/**/b)', 'a+/**//**/b'),
+    invalid('a+/**/(//\nb)', 'a+/**///\nb'),
+    invalid('a in(/**/b)', 'a in/**/b'),
+    invalid('a in(//\nb)', 'a in//\nb'),
+    invalid('a+(/**/b)', 'a+/**/b'),
+    invalid('a+/**/(b)', 'a+/**/b'),
+    invalid('a+(//\nb)', 'a+//\nb'),
+    invalid('a+//\n(b)', 'a+//\nb'),
+    invalid('a+(/^b$/)', 'a+/^b$/'),
+    invalid('a/(/**/b)', 'a/ /**/b'),
+    invalid('a/(//\nb)', 'a/ //\nb'),
+    invalid('a/(/^b$/)', 'a/ /^b$/'),
 
     // Nullish coalescing
     {
@@ -3706,24 +3561,23 @@ run<RuleOptions, MessageIds>({
     },
 
     // https://github.com/eslint/eslint/issues/16850
-    invalid('(a) = function foo() {};', 'a = function foo() {};', 'Identifier'),
-    invalid('(a) = class Bar {};', 'a = class Bar {};', 'Identifier'),
-    invalid('(a.b) = function () {};', 'a.b = function () {};', 'MemberExpression'),
+    invalid('(a) = function foo() {};', 'a = function foo() {};'),
+    invalid('(a) = class Bar {};', 'a = class Bar {};'),
+    invalid('(a.b) = function () {};', 'a.b = function () {};'),
     {
       code: '(newClass) = [(one)] = class { static * [Symbol.iterator]() { yield 1; } };',
       output: 'newClass = [one] = class { static * [Symbol.iterator]() { yield 1; } };',
       errors: [
-        { messageId: 'unexpected', type: 'Identifier' },
-        { messageId: 'unexpected', type: 'Identifier' },
+        { messageId: 'unexpected' },
+        { messageId: 'unexpected' },
       ],
     },
-    invalid('((a)) = () => {};', '(a) = () => {};', 'Identifier'),
-    invalid('(a) = (function () {})();', 'a = (function () {})();', 'Identifier'),
+    invalid('((a)) = () => {};', '(a) = () => {};'),
+    invalid('(a) = (function () {})();', 'a = (function () {})();'),
     ...['**=', '*=', '/=', '%=', '+=', '-=', '<<=', '>>=', '>>>=', '&=', '^=', '|='].map(
       operator => invalid(
         `(a) ${operator} function () {};`,
         `a ${operator} function () {};`,
-        'Identifier',
       ),
     ),
 

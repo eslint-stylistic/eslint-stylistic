@@ -290,7 +290,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MemberExpression',
           line: 1,
           column: 17,
           endLine: 1,
@@ -307,7 +306,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MemberExpression',
           line: 1,
           column: 14,
           endLine: 1,
@@ -323,7 +321,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MemberExpression',
           line: 1,
           column: 15,
           endLine: 1,
@@ -339,7 +336,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MemberExpression',
           line: 1,
           column: 16,
           endLine: 1,
@@ -355,7 +351,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MemberExpression',
           line: 1,
           column: 5,
           endLine: 1,
@@ -364,7 +359,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MemberExpression',
           line: 1,
           column: 9,
           endLine: 1,
@@ -380,7 +374,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MemberExpression',
           line: 1,
           column: 8,
           endLine: 1,
@@ -396,7 +389,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MemberExpression',
           line: 1,
           column: 5,
           endLine: 1,
@@ -412,7 +404,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MemberExpression',
           line: 1,
           column: 14,
           endLine: 1,
@@ -421,7 +412,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MemberExpression',
           line: 1,
           column: 16,
           endLine: 1,
@@ -439,7 +429,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MemberExpression',
           line: 1,
           column: 5,
           endLine: 1,
@@ -455,7 +444,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MemberExpression',
           line: 1,
           column: 5,
           endLine: 1,
@@ -464,7 +452,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MemberExpression',
           line: 1,
           column: 10,
           endLine: 1,
@@ -480,7 +467,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MemberExpression',
           line: 1,
           column: 5,
           endLine: 1,
@@ -489,7 +475,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MemberExpression',
           line: 1,
           column: 11,
           endLine: 1,
@@ -505,7 +490,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MemberExpression',
           line: 1,
           column: 5,
           endLine: 1,
@@ -514,7 +498,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MemberExpression',
           line: 2,
           column: 6,
           endLine: 2,
@@ -530,7 +513,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MemberExpression',
           line: 2,
           column: 5,
           endLine: 2,
@@ -549,7 +531,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'Property',
           line: 1,
           column: 10,
           endLine: 1,
@@ -558,7 +539,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'Property',
           line: 1,
           column: 12,
           endLine: 1,
@@ -575,7 +555,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'Property',
           line: 1,
           column: 10,
           endLine: 1,
@@ -592,7 +571,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'Property',
           line: 1,
           column: 13,
           endLine: 1,
@@ -611,7 +589,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'Property',
           line: 1,
           column: 11,
           endLine: 1,
@@ -620,7 +597,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'Property',
           line: 1,
           column: 13,
           endLine: 1,
@@ -637,7 +613,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'Property',
           line: 1,
           column: 12,
           endLine: 1,
@@ -654,7 +629,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'Property',
           line: 1,
           column: 11,
           endLine: 1,
@@ -671,7 +645,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'Property',
           line: 1,
           column: 11,
           endLine: 1,
@@ -689,7 +662,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 12,
           endLine: 1,
@@ -698,7 +670,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 14,
           endLine: 1,
@@ -715,7 +686,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 12,
           endLine: 1,
@@ -724,7 +694,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 14,
           endLine: 1,
@@ -733,7 +702,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 26,
           endLine: 1,
@@ -742,7 +710,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 28,
           endLine: 1,
@@ -751,7 +718,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 40,
           endLine: 1,
@@ -760,7 +726,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 42,
           endLine: 1,
@@ -769,7 +734,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 60,
           endLine: 1,
@@ -778,7 +742,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 62,
           endLine: 1,
@@ -787,7 +750,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 81,
           endLine: 1,
@@ -796,7 +758,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 83,
           endLine: 1,
@@ -805,7 +766,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 102,
           endLine: 1,
@@ -814,7 +774,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 104,
           endLine: 1,
@@ -831,7 +790,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 14,
           endLine: 1,
@@ -840,7 +798,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 16,
           endLine: 1,
@@ -849,7 +806,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 28,
           endLine: 1,
@@ -858,7 +814,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 30,
           endLine: 1,
@@ -867,7 +822,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 42,
           endLine: 1,
@@ -876,7 +830,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 44,
           endLine: 1,
@@ -885,7 +838,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 62,
           endLine: 1,
@@ -894,7 +846,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 64,
           endLine: 1,
@@ -903,7 +854,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 83,
           endLine: 1,
@@ -912,7 +862,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 85,
           endLine: 1,
@@ -921,7 +870,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 104,
           endLine: 1,
@@ -930,7 +878,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 106,
           endLine: 1,
@@ -947,7 +894,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 13,
           endLine: 1,
@@ -956,7 +902,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 15,
           endLine: 1,
@@ -973,7 +918,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 13,
           endLine: 1,
@@ -982,7 +926,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 15,
           endLine: 1,
@@ -991,7 +934,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 25,
           endLine: 1,
@@ -1000,7 +942,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 27,
           endLine: 1,
@@ -1009,7 +950,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 37,
           endLine: 1,
@@ -1018,7 +958,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 39,
           endLine: 1,
@@ -1027,7 +966,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 55,
           endLine: 1,
@@ -1036,7 +974,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 57,
           endLine: 1,
@@ -1045,7 +982,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 74,
           endLine: 1,
@@ -1054,7 +990,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 76,
           endLine: 1,
@@ -1063,7 +998,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 93,
           endLine: 1,
@@ -1072,7 +1006,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 95,
           endLine: 1,
@@ -1089,7 +1022,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 11,
           endLine: 1,
@@ -1098,7 +1030,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 13,
           endLine: 1,
@@ -1107,7 +1038,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 23,
           endLine: 1,
@@ -1116,7 +1046,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 25,
           endLine: 1,
@@ -1125,7 +1054,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 35,
           endLine: 1,
@@ -1134,7 +1062,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 37,
           endLine: 1,
@@ -1143,7 +1070,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 53,
           endLine: 1,
@@ -1152,7 +1078,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 55,
           endLine: 1,
@@ -1161,7 +1086,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 72,
           endLine: 1,
@@ -1170,7 +1094,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 74,
           endLine: 1,
@@ -1179,7 +1102,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 91,
           endLine: 1,
@@ -1188,7 +1110,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 93,
           endLine: 1,
@@ -1207,7 +1128,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 12,
           endLine: 1,
@@ -1224,7 +1144,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 36,
           endLine: 1,
@@ -1241,7 +1160,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 17,
           endLine: 1,
@@ -1250,7 +1168,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 29,
           endLine: 1,
@@ -1259,7 +1176,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 82,
           endLine: 1,
@@ -1268,7 +1184,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 103,
           endLine: 1,
@@ -1285,7 +1200,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 14,
           endLine: 1,
@@ -1294,7 +1208,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 16,
           endLine: 1,
@@ -1303,7 +1216,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 28,
           endLine: 1,
@@ -1312,7 +1224,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 30,
           endLine: 1,
@@ -1321,7 +1232,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 42,
           endLine: 1,
@@ -1330,7 +1240,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 44,
           endLine: 1,
@@ -1339,7 +1248,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 62,
           endLine: 1,
@@ -1348,7 +1256,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 64,
           endLine: 1,
@@ -1357,7 +1264,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 83,
           endLine: 1,
@@ -1366,7 +1272,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 85,
           endLine: 1,
@@ -1375,7 +1280,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 104,
           endLine: 1,
@@ -1384,7 +1288,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 106,
           endLine: 1,
@@ -1468,7 +1371,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 14,
           endLine: 1,
@@ -1485,7 +1387,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 36,
           endLine: 1,
@@ -1502,7 +1403,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 15,
           endLine: 1,
@@ -1511,7 +1411,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 31,
           endLine: 1,
@@ -1520,7 +1419,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 84,
           endLine: 1,
@@ -1529,7 +1427,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 101,
           endLine: 1,
@@ -1546,7 +1443,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 13,
           endLine: 1,
@@ -1555,7 +1451,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 15,
           endLine: 1,
@@ -1564,7 +1459,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 25,
           endLine: 1,
@@ -1573,7 +1467,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 27,
           endLine: 1,
@@ -1582,7 +1475,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 37,
           endLine: 1,
@@ -1591,7 +1483,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 39,
           endLine: 1,
@@ -1600,7 +1491,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 55,
           endLine: 1,
@@ -1609,7 +1499,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 57,
           endLine: 1,
@@ -1618,7 +1507,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 74,
           endLine: 1,
@@ -1627,7 +1515,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 76,
           endLine: 1,
@@ -1636,7 +1523,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MethodDefinition',
           line: 1,
           column: 93,
           endLine: 1,
@@ -1645,7 +1531,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MethodDefinition',
           line: 1,
           column: 95,
           endLine: 1,
@@ -1729,7 +1614,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'Property',
           line: 2,
           column: 3,
           endLine: 2,
@@ -1738,7 +1622,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'Property',
           line: 2,
           column: 7,
           endLine: 2,
@@ -1763,7 +1646,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'Property',
           line: 2,
           column: 3,
           endLine: 2,
@@ -1772,7 +1654,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'Property',
           line: 2,
           column: 9,
           endLine: 2,
@@ -1797,7 +1678,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'Property',
           line: 2,
           column: 4,
           endLine: 2,
@@ -1806,7 +1686,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'Property',
           line: 2,
           column: 10,
           endLine: 2,
@@ -1831,7 +1710,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'Property',
           line: 2,
           column: 3,
           endLine: 2,
@@ -1840,7 +1718,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'Property',
           line: 2,
           column: 15,
           endLine: 2,
@@ -1865,7 +1742,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'Property',
           line: 2,
           column: 4,
           endLine: 2,
@@ -1874,7 +1750,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'Property',
           line: 2,
           column: 16,
           endLine: 2,
@@ -1899,7 +1774,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'Property',
           line: 2,
           column: 3,
           endLine: 2,
@@ -1908,7 +1782,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MemberExpression',
           line: 2,
           column: 5,
           endLine: 2,
@@ -1917,7 +1790,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MemberExpression',
           line: 2,
           column: 7,
           endLine: 2,
@@ -1926,7 +1798,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'Property',
           line: 2,
           column: 8,
           endLine: 2,
@@ -1951,7 +1822,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'Property',
           line: 2,
           column: 4,
           endLine: 2,
@@ -1960,7 +1830,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MemberExpression',
           line: 2,
           column: 7,
           endLine: 2,
@@ -1969,7 +1838,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MemberExpression',
           line: 2,
           column: 9,
           endLine: 2,
@@ -1978,7 +1846,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'Property',
           line: 2,
           column: 11,
           endLine: 2,
@@ -2003,7 +1870,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'Property',
           line: 2,
           column: 3,
           endLine: 2,
@@ -2012,7 +1878,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MemberExpression',
           line: 2,
           column: 5,
           endLine: 2,
@@ -2021,7 +1886,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missingSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'Property',
           line: 2,
           column: 18,
           endLine: 2,
@@ -2046,7 +1910,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'Property',
           line: 2,
           column: 4,
           endLine: 2,
@@ -2055,7 +1918,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceAfter',
           data: { tokenValue: '[' },
-          type: 'MemberExpression',
           line: 2,
           column: 11,
           endLine: 2,
@@ -2064,7 +1926,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceBefore',
           data: { tokenValue: ']' },
-          type: 'MemberExpression',
           line: 2,
           column: 18,
           endLine: 2,
