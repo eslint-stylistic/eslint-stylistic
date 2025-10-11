@@ -1366,7 +1366,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requiredSpaceInEmptyObject',
           data: { node: 'ObjectExpression' },
-          type: 'ObjectExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -1382,7 +1381,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requiredSpaceInEmptyObject',
           data: { node: 'ObjectPattern' },
-          type: 'ObjectPattern',
           line: 1,
           column: 6,
           endLine: 1,
@@ -1398,7 +1396,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requiredSpaceInEmptyObject',
           data: { node: 'ImportDeclaration' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 9,
           endLine: 1,
@@ -1414,7 +1411,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requiredSpaceInEmptyObject',
           data: { node: 'ExportNamedDeclaration' },
-          type: 'ExportNamedDeclaration',
           line: 1,
           column: 9,
           endLine: 1,
@@ -1430,7 +1426,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceInEmptyObject',
           data: { node: 'ObjectExpression' },
-          type: 'ObjectExpression',
           line: 1,
           column: 12,
           endLine: 1,
@@ -1446,7 +1441,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceInEmptyObject',
           data: { node: 'ObjectPattern' },
-          type: 'ObjectPattern',
           line: 1,
           column: 6,
           endLine: 1,
@@ -1462,7 +1456,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceInEmptyObject',
           data: { node: 'ImportDeclaration' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 9,
           endLine: 1,
@@ -1478,7 +1471,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'unexpectedSpaceInEmptyObject',
           data: { node: 'ExportNamedDeclaration' },
-          type: 'ExportNamedDeclaration',
           line: 1,
           column: 9,
           endLine: 1,
@@ -1494,7 +1486,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requiredSpaceInEmptyObject',
           data: { node: 'ObjectPattern' },
-          type: 'ObjectPattern',
           line: 1,
           column: 6,
           endLine: 1,
@@ -1510,7 +1501,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requiredSpaceInEmptyObject',
           data: { node: 'ImportDeclaration' },
-          type: 'ImportDeclaration',
           line: 1,
           column: 9,
           endLine: 1,
@@ -1526,7 +1516,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'requiredSpaceInEmptyObject',
           data: { node: 'ExportNamedDeclaration' },
-          type: 'ExportNamedDeclaration',
           line: 1,
           column: 9,
           endLine: 1,
