@@ -965,10 +965,11 @@ export default createRule<RuleOptions, MessageIds>({
     const baseListeners: RuleListener = {
       ArrayExpression(node) {
         node.elements
-          .map(element =>
-            isTypeAssertion(element)
-              ? { ...element, type: AST_NODE_TYPES.FunctionExpression as any }
-              : element,
+          .map(
+            element =>
+              isTypeAssertion(element)
+                ? { ...element, type: AST_NODE_TYPES.FunctionExpression as any }
+                : element,
           )
           .forEach((ele) => {
             if (!!ele && hasExcessParensWithPrecedence(ele, PRECEDENCE_OF_ASSIGNMENT_EXPR))
