@@ -54,6 +54,7 @@
     "gray-matter": "catalog:dev",
     "jiti": "catalog:dev",
     "json-schema-to-typescript-lite": "catalog:dev",
+    "jsonc-eslint-parser": "catalog:dev",
     "lint-staged": "catalog:dev",
     "ohash": "catalog:dev",
     "picomatch": "catalog:prod",
