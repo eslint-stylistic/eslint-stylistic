@@ -1366,7 +1366,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
 
-          type: 'Literal',
           messageId: 'extraKey',
           data: { computed: '', key: 'key' },
           line: 1,
@@ -1375,7 +1374,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 15,
         },
         {
-          type: 'Identifier',
           messageId: 'extraValue',
           data: { computed: '', key: 'key' },
           line: 1,
@@ -1395,7 +1393,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
 
-          type: 'Literal',
           messageId: 'extraKey',
           data: { computed: '', key: 'key' },
           line: 1,
@@ -1404,7 +1401,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 15,
         },
         {
-          type: 'Identifier',
           messageId: 'missingValue',
           data: { computed: '', key: 'key' },
           line: 1,
@@ -1424,7 +1420,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
 
-          type: 'Literal',
           messageId: 'extraKey',
           data: { computed: '', key: 'key' },
           line: 1,
@@ -1433,7 +1428,6 @@ run<RuleOptions, MessageIds>({
           endColumn: 2,
         },
         {
-          type: 'Identifier',
           messageId: 'extraValue',
           data: { computed: '', key: 'key' },
           line: 2,
@@ -1454,7 +1448,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'extraValue',
           data: { computed: '', key: 'key' },
-          type: 'Identifier',
           line: 1,
           column: 47,
           endLine: 1,
@@ -1467,7 +1460,7 @@ run<RuleOptions, MessageIds>({
       output: 'var obj = { [ (a + b) ]: value };',
       options: [{}],
       parserOptions: { ecmaVersion: 6 },
-      errors: [{ messageId: 'missingValue', data: { computed: 'computed ', key: 'a + b' }, type: 'Identifier', line: 1, column: 25 }],
+      errors: [{ messageId: 'missingValue', data: { computed: 'computed ', key: 'a + b' }, line: 1, column: 25 }],
     },
     {
       code: 'fn({ foo:bar, \'key\' :value });',
@@ -1476,7 +1469,7 @@ run<RuleOptions, MessageIds>({
         beforeColon: false,
         afterColon: false,
       }],
-      errors: [{ messageId: 'extraKey', data: { computed: '', key: 'key' }, type: 'Literal', line: 1, column: 20, endLine: 1, endColumn: 21 }],
+      errors: [{ messageId: 'extraKey', data: { computed: '', key: 'key' }, line: 1, column: 20, endLine: 1, endColumn: 21 }],
     },
     {
       code: 'var obj = {prop :(42)};',
@@ -1485,7 +1478,7 @@ run<RuleOptions, MessageIds>({
         beforeColon: true,
         afterColon: true,
       }],
-      errors: [{ messageId: 'missingValue', data: { computed: '', key: 'prop' }, type: 'Literal', line: 1, column: 18 }],
+      errors: [{ messageId: 'missingValue', data: { computed: '', key: 'prop' }, line: 1, column: 18 }],
     },
     {
       code: '({\'a\' : foo, b: bar() }).b();',
@@ -1494,7 +1487,7 @@ run<RuleOptions, MessageIds>({
         beforeColon: true,
         afterColon: true,
       }],
-      errors: [{ messageId: 'missingKey', data: { computed: '', key: 'b' }, type: 'Identifier', line: 1, column: 14 }],
+      errors: [{ messageId: 'missingKey', data: { computed: '', key: 'b' }, line: 1, column: 14 }],
     },
     {
       code: '({\'a\'  :foo(), b:  bar() }).b();',
@@ -1504,10 +1497,10 @@ run<RuleOptions, MessageIds>({
         afterColon: true,
       }],
       errors: [
-        { messageId: 'extraKey', data: { computed: '', key: 'a' }, type: 'Literal', line: 1, column: 6, endLine: 1, endColumn: 8 },
-        { messageId: 'missingValue', data: { computed: '', key: 'a' }, type: 'CallExpression', line: 1, column: 9, endLine: 1, endColumn: 12 },
-        { messageId: 'missingKey', data: { computed: '', key: 'b' }, type: 'Identifier', line: 1, column: 16, endLine: 1, endColumn: 17 },
-        { messageId: 'extraValue', data: { computed: '', key: 'b' }, type: 'CallExpression', line: 1, column: 17, endLine: 1, endColumn: 20 },
+        { messageId: 'extraKey', data: { computed: '', key: 'a' }, line: 1, column: 6, endLine: 1, endColumn: 8 },
+        { messageId: 'missingValue', data: { computed: '', key: 'a' }, line: 1, column: 9, endLine: 1, endColumn: 12 },
+        { messageId: 'missingKey', data: { computed: '', key: 'b' }, line: 1, column: 16, endLine: 1, endColumn: 17 },
+        { messageId: 'extraValue', data: { computed: '', key: 'b' }, line: 1, column: 17, endLine: 1, endColumn: 20 },
       ],
     },
     {
@@ -1517,7 +1510,7 @@ run<RuleOptions, MessageIds>({
         beforeColon: false,
         afterColon: true,
       }],
-      errors: [{ messageId: 'missingValue', data: { computed: '', key: 'key' }, type: 'Identifier', line: 1, column: 13 }],
+      errors: [{ messageId: 'missingValue', data: { computed: '', key: 'key' }, line: 1, column: 13 }],
     },
     {
       code: [
@@ -1538,9 +1531,9 @@ run<RuleOptions, MessageIds>({
         align: 'colon',
       }],
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'key' }, type: 'Identifier', line: 2, column: 5 },
-        { messageId: 'extraValue', data: { computed: '', key: 'key' }, type: 'Identifier', line: 2, column: 8 },
-        { messageId: 'missingValue', data: { computed: '', key: 'foobar' }, type: 'CallExpression', line: 3, column: 12 },
+        { messageId: 'missingKey', data: { computed: '', key: 'key' }, line: 2, column: 5 },
+        { messageId: 'extraValue', data: { computed: '', key: 'key' }, line: 2, column: 8 },
+        { messageId: 'missingValue', data: { computed: '', key: 'foobar' }, line: 3, column: 12 },
       ],
     },
     {
@@ -1566,9 +1559,9 @@ run<RuleOptions, MessageIds>({
         afterColon: false,
       }],
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'a' }, type: 'Identifier', line: 2, column: 9 },
-        { messageId: 'missingKey', data: { computed: '', key: 'foo' }, type: 'Identifier', line: 3, column: 5 },
-        { messageId: 'extraKey', data: { computed: '', key: 'b' }, type: 'Identifier', line: 4, column: 6 },
+        { messageId: 'extraValue', data: { computed: '', key: 'a' }, line: 2, column: 9 },
+        { messageId: 'missingKey', data: { computed: '', key: 'foo' }, line: 3, column: 5 },
+        { messageId: 'extraKey', data: { computed: '', key: 'b' }, line: 4, column: 6 },
       ],
     },
     {
@@ -1595,10 +1588,10 @@ run<RuleOptions, MessageIds>({
       }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'a' }, type: 'CallExpression', line: 2, column: 6 },
-        { messageId: 'extraKey', data: { computed: '', key: 'b' }, type: 'Literal', line: 3, column: 8 },
-        { messageId: 'missingValue', data: { computed: '', key: 'foo' }, type: 'Identifier', line: 4, column: 9 },
-        { messageId: 'extraKey', data: { computed: 'computed ', key: 'a' }, type: 'Identifier', line: 6, column: 8 },
+        { messageId: 'extraValue', data: { computed: '', key: 'a' }, line: 2, column: 6 },
+        { messageId: 'extraKey', data: { computed: '', key: 'b' }, line: 3, column: 8 },
+        { messageId: 'missingValue', data: { computed: '', key: 'foo' }, line: 4, column: 9 },
+        { messageId: 'extraKey', data: { computed: 'computed ', key: 'a' }, line: 6, column: 8 },
       ],
     },
     {
@@ -1624,8 +1617,8 @@ run<RuleOptions, MessageIds>({
         afterColon: false,
       }],
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'a' }, type: 'Identifier', line: 2, column: 5 },
-        { messageId: 'extraValue', data: { computed: '', key: 'bar' }, type: 'CallExpression', line: 5, column: 9 },
+        { messageId: 'missingKey', data: { computed: '', key: 'a' }, line: 2, column: 5 },
+        { messageId: 'extraValue', data: { computed: '', key: 'bar' }, line: 5, column: 9 },
       ],
     },
     {
@@ -1651,9 +1644,9 @@ run<RuleOptions, MessageIds>({
         align: 'colon',
       }],
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'a' }, type: 'Identifier', line: 2, column: 5 },
-        { messageId: 'missingKey', data: { computed: '', key: 'e' }, type: 'Identifier', line: 5, column: 5 },
-        { messageId: 'missingValue', data: { computed: '', key: 'fg' }, type: 'Literal', line: 6, column: 8 },
+        { messageId: 'missingKey', data: { computed: '', key: 'a' }, line: 2, column: 5 },
+        { messageId: 'missingKey', data: { computed: '', key: 'e' }, line: 5, column: 5 },
+        { messageId: 'missingValue', data: { computed: '', key: 'fg' }, line: 6, column: 8 },
       ],
     },
     {
@@ -1676,8 +1669,8 @@ run<RuleOptions, MessageIds>({
         afterColon: false,
       }],
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'key' }, type: 'Identifier', line: 2, column: 8 },
-        { messageId: 'extraKey', data: { computed: '', key: 'key2' }, type: 'Identifier', line: 4, column: 9 },
+        { messageId: 'extraValue', data: { computed: '', key: 'key' }, line: 2, column: 8 },
+        { messageId: 'extraKey', data: { computed: '', key: 'key2' }, line: 4, column: 9 },
       ],
     },
     {
@@ -1705,22 +1698,22 @@ run<RuleOptions, MessageIds>({
         align: 'value',
       }],
       errors: [
-        { messageId: 'missingValue', data: { computed: '', key: 'key1' }, type: 'Literal' },
-        { messageId: 'missingValue', data: { computed: '', key: 'key12' }, type: 'Literal' },
+        { messageId: 'missingValue', data: { computed: '', key: 'key1' } },
+        { messageId: 'missingValue', data: { computed: '', key: 'key12' } },
       ],
     },
     {
       code: 'foo = { key:(1+2) };',
       output: 'foo = { key: (1+2) };',
       errors: [
-        { messageId: 'missingValue', data: { computed: '', key: 'key' }, line: 1, column: 13, type: 'BinaryExpression' },
+        { messageId: 'missingValue', data: { computed: '', key: 'key' }, line: 1, column: 13 },
       ],
     },
     {
       code: 'foo = { key:( ( (1+2) ) ) };',
       output: 'foo = { key: ( ( (1+2) ) ) };',
       errors: [
-        { messageId: 'missingValue', data: { computed: '', key: 'key' }, line: 1, column: 13, type: 'BinaryExpression' },
+        { messageId: 'missingValue', data: { computed: '', key: 'key' }, line: 1, column: 13 },
       ],
     },
     {
@@ -1728,7 +1721,7 @@ run<RuleOptions, MessageIds>({
       output: 'var obj = {a: \'foo\', bar: \'bam\'};',
       options: [{ align: 'colon' }],
       errors: [
-        { messageId: 'extraKey', data: { computed: '', key: 'a' }, line: 1, column: 13, type: 'Identifier' },
+        { messageId: 'extraKey', data: { computed: '', key: 'a' }, line: 1, column: 13 },
       ],
     },
     {
@@ -1746,7 +1739,7 @@ run<RuleOptions, MessageIds>({
       ].join('\n'),
       options: [{ align: 'colon' }],
       errors: [
-        { messageId: 'extraKey', data: { computed: '', key: 'b' }, line: 3, column: 6, type: 'Identifier' },
+        { messageId: 'extraKey', data: { computed: '', key: 'b' }, line: 3, column: 6 },
       ],
     },
     {
@@ -1764,7 +1757,7 @@ run<RuleOptions, MessageIds>({
       ].join('\n'),
       options: [{ align: 'colon', beforeColon: true }],
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'b' }, line: 3, column: 11, type: 'Identifier' },
+        { messageId: 'missingKey', data: { computed: '', key: 'b' }, line: 3, column: 11 },
       ],
     },
     {
@@ -1781,7 +1774,7 @@ run<RuleOptions, MessageIds>({
         afterColon: true,
       }],
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'key' }, line: 2, column: 2, type: 'Identifier' },
+        { messageId: 'extraValue', data: { computed: '', key: 'key' }, line: 2, column: 2 },
       ],
     },
     {
@@ -1802,7 +1795,7 @@ run<RuleOptions, MessageIds>({
       options: [{ align: 'value' }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'missingValue', data: { computed: '', key: 'baz' }, line: 4, column: 10, type: 'Literal' },
+        { messageId: 'missingValue', data: { computed: '', key: 'baz' }, line: 4, column: 10 },
       ],
     },
     {
@@ -1823,7 +1816,7 @@ run<RuleOptions, MessageIds>({
       options: [{ align: 'value' }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'foobar' }, line: 2, column: 11, type: 'Literal' },
+        { messageId: 'extraValue', data: { computed: '', key: 'foobar' }, line: 2, column: 11 },
       ],
     },
     {
@@ -1844,7 +1837,7 @@ run<RuleOptions, MessageIds>({
       options: [{ align: 'value' }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'missingValue', data: { computed: '', key: 'baz' }, line: 4, column: 10, type: 'Literal' },
+        { messageId: 'missingValue', data: { computed: '', key: 'baz' }, line: 4, column: 10 },
       ],
     },
     {
@@ -1865,7 +1858,7 @@ run<RuleOptions, MessageIds>({
       options: [{ align: 'value' }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'foobar' }, line: 2, column: 11, type: 'Literal' },
+        { messageId: 'extraValue', data: { computed: '', key: 'foobar' }, line: 2, column: 11 },
       ],
     },
     {
@@ -1894,7 +1887,7 @@ run<RuleOptions, MessageIds>({
       options: [{ align: 'value' }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'baz' }, line: 6, column: 8, type: 'Literal' },
+        { messageId: 'extraValue', data: { computed: '', key: 'baz' }, line: 6, column: 8 },
       ],
     },
     {
@@ -1912,7 +1905,7 @@ run<RuleOptions, MessageIds>({
       ].join('\n'),
       options: [{ align: 'colon' }],
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'foo' }, line: 2, column: 5, type: 'Identifier' },
+        { messageId: 'missingKey', data: { computed: '', key: 'foo' }, line: 2, column: 5 },
       ],
     },
     {
@@ -1930,7 +1923,7 @@ run<RuleOptions, MessageIds>({
       ].join('\n'),
       options: [{ align: 'colon' }],
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'cats' }, line: 3, column: 9, type: 'Identifier' },
+        { messageId: 'extraValue', data: { computed: '', key: 'cats' }, line: 3, column: 9 },
       ],
     },
     {
@@ -1946,7 +1939,7 @@ run<RuleOptions, MessageIds>({
       ].join('\n'),
       options: [{ align: 'colon' }],
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'foo' }, line: 1, column: 13, type: 'Identifier' },
+        { messageId: 'missingKey', data: { computed: '', key: 'foo' }, line: 1, column: 13 },
       ],
     },
     {
@@ -1962,7 +1955,7 @@ run<RuleOptions, MessageIds>({
       ].join('\n'),
       options: [{ align: 'colon' }],
       errors: [
-        { messageId: 'extraKey', data: { computed: '', key: 'foo' }, line: 1, column: 16, type: 'Identifier' },
+        { messageId: 'extraKey', data: { computed: '', key: 'foo' }, line: 1, column: 16 },
       ],
     },
     {
@@ -1978,7 +1971,7 @@ run<RuleOptions, MessageIds>({
       ].join('\n'),
       options: [{ align: 'colon' }],
       errors: [
-        { messageId: 'missingValue', data: { computed: '', key: 'foo' }, line: 1, column: 18, type: 'Identifier' },
+        { messageId: 'missingValue', data: { computed: '', key: 'foo' }, line: 1, column: 18 },
       ],
     },
     {
@@ -1994,7 +1987,7 @@ run<RuleOptions, MessageIds>({
       ].join('\n'),
       options: [{ align: 'colon' }],
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'foo' }, line: 1, column: 17, type: 'Identifier' },
+        { messageId: 'extraValue', data: { computed: '', key: 'foo' }, line: 1, column: 17 },
       ],
     },
     {
@@ -2010,7 +2003,7 @@ run<RuleOptions, MessageIds>({
       ].join('\n'),
       options: [{ align: 'colon' }],
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'cats' }, line: 2, column: 17, type: 'Identifier' },
+        { messageId: 'extraValue', data: { computed: '', key: 'cats' }, line: 2, column: 17 },
       ],
     },
     // https://github.com/eslint/eslint/issues/4763
@@ -2048,8 +2041,8 @@ run<RuleOptions, MessageIds>({
       options: [{ align: 'colon' }],
       parserOptions: { ecmaVersion: 2018 },
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'a' }, line: 3, column: 5, type: 'Identifier' },
-        { messageId: 'extraKey', data: { computed: '', key: 'f' }, line: 12, column: 6, type: 'Identifier' },
+        { messageId: 'missingKey', data: { computed: '', key: 'a' }, line: 3, column: 5 },
+        { messageId: 'extraKey', data: { computed: '', key: 'f' }, line: 12, column: 6 },
       ],
     },
     // https://github.com/eslint/eslint/issues/4792
@@ -2070,7 +2063,7 @@ run<RuleOptions, MessageIds>({
         align: 'colon',
       }],
       errors: [
-        { messageId: 'extraKey', data: { computed: '', key: 'a' }, line: 2, column: 6, type: 'Identifier' },
+        { messageId: 'extraKey', data: { computed: '', key: 'a' }, line: 2, column: 6 },
       ],
     },
     {
@@ -2090,7 +2083,7 @@ run<RuleOptions, MessageIds>({
         align: 'value',
       }],
       errors: [
-        { messageId: 'extraKey', data: { computed: '', key: 'c' }, line: 3, column: 6, type: 'Identifier' },
+        { messageId: 'extraKey', data: { computed: '', key: 'c' }, line: 3, column: 6 },
       ],
     },
     {
@@ -2114,7 +2107,7 @@ run<RuleOptions, MessageIds>({
         align: 'colon',
       }],
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'a' }, line: 2, column: 5, type: 'Identifier' },
+        { messageId: 'missingKey', data: { computed: '', key: 'a' }, line: 2, column: 5 },
       ],
     },
     {
@@ -2149,7 +2142,7 @@ run<RuleOptions, MessageIds>({
         },
       }],
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'a1' }, line: 6, column: 15, type: 'Literal' },
+        { messageId: 'extraValue', data: { computed: '', key: 'a1' }, line: 6, column: 15 },
       ],
     },
     {
@@ -2183,7 +2176,7 @@ run<RuleOptions, MessageIds>({
         },
       }],
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'a2' }, line: 6, column: 11, type: 'Identifier' },
+        { messageId: 'missingKey', data: { computed: '', key: 'a2' }, line: 6, column: 11 },
       ],
     },
     {
@@ -2208,7 +2201,7 @@ run<RuleOptions, MessageIds>({
         mode: 'minimum',
       }],
       errors: [
-        { messageId: 'missingValue', data: { computed: '', key: 'ex' }, line: 4, column: 7, type: 'Identifier' },
+        { messageId: 'missingValue', data: { computed: '', key: 'ex' }, line: 4, column: 7 },
       ],
     },
     {
@@ -2233,7 +2226,7 @@ run<RuleOptions, MessageIds>({
         mode: 'minimum',
       }],
       errors: [
-        { messageId: 'extraKey', data: { computed: '', key: 'ex' }, line: 4, column: 6, type: 'Identifier' },
+        { messageId: 'extraKey', data: { computed: '', key: 'ex' }, line: 4, column: 6 },
       ],
     },
     {
@@ -2260,8 +2253,8 @@ run<RuleOptions, MessageIds>({
         },
       }],
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'aInv' }, line: 2, column: 5, type: 'Identifier' },
-        { messageId: 'missingValue', data: { computed: '', key: 'aInv' }, line: 2, column: 11, type: 'Literal' },
+        { messageId: 'missingKey', data: { computed: '', key: 'aInv' }, line: 2, column: 5 },
+        { messageId: 'missingValue', data: { computed: '', key: 'aInv' }, line: 2, column: 11 },
       ],
     },
     // https://github.com/eslint/eslint/issues/5724
@@ -2271,8 +2264,8 @@ run<RuleOptions, MessageIds>({
       options: [{ align: 'colon' }],
       parserOptions: { ecmaVersion: 2018 },
       errors: [
-        { messageId: 'missingValue', data: { computed: '', key: 'a' }, line: 1, column: 6, type: 'Identifier' },
-        { messageId: 'extraKey', data: { computed: '', key: 'c' }, line: 1, column: 21, type: 'Identifier' },
+        { messageId: 'missingValue', data: { computed: '', key: 'a' }, line: 1, column: 6 },
+        { messageId: 'extraKey', data: { computed: '', key: 'c' }, line: 1, column: 21 },
       ],
     },
     // https://github.com/eslint/eslint/issues/5613
@@ -2301,10 +2294,10 @@ run<RuleOptions, MessageIds>({
       }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'longName' }, line: 2, column: 5, type: 'Identifier' },
-        { messageId: 'missingValue', data: { computed: '', key: 'longName' }, line: 2, column: 14, type: 'Literal' },
-        { messageId: 'missingValue', data: { computed: '', key: 'small' }, line: 3, column: 15, type: 'Literal' },
-        { messageId: 'missingKey', data: { computed: '', key: 'xs' }, line: 4, column: 5, type: 'Identifier' },
+        { messageId: 'missingKey', data: { computed: '', key: 'longName' }, line: 2, column: 5 },
+        { messageId: 'missingValue', data: { computed: '', key: 'longName' }, line: 2, column: 14 },
+        { messageId: 'missingValue', data: { computed: '', key: 'small' }, line: 3, column: 15 },
+        { messageId: 'missingKey', data: { computed: '', key: 'xs' }, line: 4, column: 5 },
       ],
     },
     {
@@ -2350,11 +2343,11 @@ run<RuleOptions, MessageIds>({
       }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'missingValue', data: { computed: '', key: 'func' }, line: 2, column: 10, type: 'FunctionExpression' },
-        { messageId: 'missingKey', data: { computed: '', key: 'longName' }, line: 5, column: 5, type: 'Identifier' },
-        { messageId: 'missingKey', data: { computed: '', key: 'small' }, line: 6, column: 5, type: 'Identifier' },
-        { messageId: 'extraKey', data: { computed: '', key: 'xs' }, line: 7, column: 7, type: 'Identifier' },
-        { messageId: 'extraKey', data: { computed: '', key: 'singleLine' }, line: 11, column: 15, type: 'Identifier' },
+        { messageId: 'missingValue', data: { computed: '', key: 'func' }, line: 2, column: 10 },
+        { messageId: 'missingKey', data: { computed: '', key: 'longName' }, line: 5, column: 5 },
+        { messageId: 'missingKey', data: { computed: '', key: 'small' }, line: 6, column: 5 },
+        { messageId: 'extraKey', data: { computed: '', key: 'xs' }, line: 7, column: 7 },
+        { messageId: 'extraKey', data: { computed: '', key: 'singleLine' }, line: 11, column: 15 },
       ],
     },
     {
@@ -2400,12 +2393,12 @@ run<RuleOptions, MessageIds>({
       }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'missingValue', data: { computed: '', key: 'func' }, line: 2, column: 10, type: 'FunctionExpression' },
-        { messageId: 'missingKey', data: { computed: '', key: 'small' }, line: 6, column: 5, type: 'Identifier' },
-        { messageId: 'extraKey', data: { computed: '', key: 'xs' }, line: 7, column: 7, type: 'Identifier' },
-        { messageId: 'extraValue', data: { computed: '', key: 'xs' }, line: 7, column: 19, type: 'Literal' },
-        { messageId: 'extraValue', data: { computed: '', key: 'func2' }, line: 8, column: 14, type: 'FunctionExpression' },
-        { messageId: 'extraKey', data: { computed: '', key: 'singleLine' }, line: 11, column: 15, type: 'Identifier' },
+        { messageId: 'missingValue', data: { computed: '', key: 'func' }, line: 2, column: 10 },
+        { messageId: 'missingKey', data: { computed: '', key: 'small' }, line: 6, column: 5 },
+        { messageId: 'extraKey', data: { computed: '', key: 'xs' }, line: 7, column: 7 },
+        { messageId: 'extraValue', data: { computed: '', key: 'xs' }, line: 7, column: 19 },
+        { messageId: 'extraValue', data: { computed: '', key: 'func2' }, line: 8, column: 14 },
+        { messageId: 'extraKey', data: { computed: '', key: 'singleLine' }, line: 11, column: 15 },
       ],
     },
     {
@@ -2443,8 +2436,8 @@ run<RuleOptions, MessageIds>({
       }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'key2' }, line: 4, column: 9, type: 'Literal' },
-        { messageId: 'extraValue', data: { computed: '', key: 'key3' }, line: 5, column: 9, type: 'Literal' },
+        { messageId: 'extraValue', data: { computed: '', key: 'key2' }, line: 4, column: 9 },
+        { messageId: 'extraValue', data: { computed: '', key: 'key3' }, line: 5, column: 9 },
       ],
     },
     {
@@ -2482,8 +2475,8 @@ run<RuleOptions, MessageIds>({
       }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'key2' }, line: 4, column: 9, type: 'Literal' },
-        { messageId: 'extraValue', data: { computed: '', key: 'key3' }, line: 5, column: 9, type: 'Literal' },
+        { messageId: 'extraValue', data: { computed: '', key: 'key2' }, line: 4, column: 9 },
+        { messageId: 'extraValue', data: { computed: '', key: 'key3' }, line: 5, column: 9 },
       ],
     },
     {
@@ -2491,21 +2484,21 @@ run<RuleOptions, MessageIds>({
       // https://github.com/eslint/eslint/issues/7603
       code: '({ foo/* comment */ : bar })',
       output: '({ foo/* comment */: bar })',
-      errors: [{ messageId: 'extraKey', data: { computed: '', key: 'foo' }, line: 1, column: 20, type: 'Identifier' }],
+      errors: [{ messageId: 'extraKey', data: { computed: '', key: 'foo' }, line: 1, column: 20 }],
     },
     {
       code: '({ foo: /* comment */bar })',
       output: '({ foo:/* comment */bar })',
       options: [{ afterColon: false }],
-      errors: [{ messageId: 'extraValue', data: { computed: '', key: 'foo' }, line: 1, column: 7, type: 'Identifier' }],
+      errors: [{ messageId: 'extraValue', data: { computed: '', key: 'foo' }, line: 1, column: 7 }],
     },
     {
       code: '({ foo/*comment*/:/*comment*/bar })',
       output: '({ foo/*comment*/ : /*comment*/bar })',
       options: [{ beforeColon: true, afterColon: true }],
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'foo' }, line: 1, column: 7, type: 'Identifier' },
-        { messageId: 'missingValue', data: { computed: '', key: 'foo' }, line: 1, column: 19, type: 'Identifier' },
+        { messageId: 'missingKey', data: { computed: '', key: 'foo' }, line: 1, column: 7 },
+        { messageId: 'missingValue', data: { computed: '', key: 'foo' }, line: 1, column: 19 },
       ],
     },
     {
@@ -2531,12 +2524,12 @@ run<RuleOptions, MessageIds>({
         },
       }],
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'foo' }, line: 2, column: 5, type: 'Identifier' },
-        { messageId: 'missingValue', data: { computed: '', key: 'foo' }, line: 2, column: 9, type: 'Literal' },
-        { messageId: 'missingKey', data: { computed: '', key: 'bar' }, line: 2, column: 12, type: 'Literal' },
-        { messageId: 'missingValue', data: { computed: '', key: 'bar' }, line: 2, column: 18, type: 'Literal' },
-        { messageId: 'missingKey', data: { computed: '', key: 'baz' }, line: 2, column: 21, type: 'Identifier' },
-        { messageId: 'missingValue', data: { computed: '', key: 'baz' }, line: 2, column: 25, type: 'Literal' },
+        { messageId: 'missingKey', data: { computed: '', key: 'foo' }, line: 2, column: 5 },
+        { messageId: 'missingValue', data: { computed: '', key: 'foo' }, line: 2, column: 9 },
+        { messageId: 'missingKey', data: { computed: '', key: 'bar' }, line: 2, column: 12 },
+        { messageId: 'missingValue', data: { computed: '', key: 'bar' }, line: 2, column: 18 },
+        { messageId: 'missingKey', data: { computed: '', key: 'baz' }, line: 2, column: 21 },
+        { messageId: 'missingValue', data: { computed: '', key: 'baz' }, line: 2, column: 25 },
       ],
     },
     {
@@ -2556,10 +2549,10 @@ run<RuleOptions, MessageIds>({
         },
       }],
       errors: [
-        { messageId: 'extraKey', data: { computed: '', key: 'foo' }, line: 2, column: 8, type: 'Identifier' },
-        { messageId: 'extraKey', data: { computed: '', key: 'bar' }, line: 2, column: 19, type: 'Literal' },
-        { messageId: 'extraKey', data: { computed: '', key: 'baz' }, line: 2, column: 28, type: 'Identifier' },
-        { messageId: 'extraKey', data: { computed: '', key: 'longlonglong' }, line: 2, column: 46, type: 'Identifier' },
+        { messageId: 'extraKey', data: { computed: '', key: 'foo' }, line: 2, column: 8 },
+        { messageId: 'extraKey', data: { computed: '', key: 'bar' }, line: 2, column: 19 },
+        { messageId: 'extraKey', data: { computed: '', key: 'baz' }, line: 2, column: 28 },
+        { messageId: 'extraKey', data: { computed: '', key: 'longlonglong' }, line: 2, column: 46 },
       ],
     },
     {
@@ -2583,7 +2576,7 @@ run<RuleOptions, MessageIds>({
         },
       }],
       errors: [
-        { messageId: 'missingValue', data: { computed: '', key: 'foo' }, line: 2, column: 9, type: 'Literal' },
+        { messageId: 'missingValue', data: { computed: '', key: 'foo' }, line: 2, column: 9 },
       ],
     },
     {
@@ -2607,7 +2600,7 @@ run<RuleOptions, MessageIds>({
         },
       }],
       errors: [
-        { messageId: 'missingValue', data: { computed: '', key: 'bar' }, line: 2, column: 9, type: 'Literal' },
+        { messageId: 'missingValue', data: { computed: '', key: 'bar' }, line: 2, column: 9 },
       ],
     },
     {
@@ -2623,10 +2616,10 @@ run<RuleOptions, MessageIds>({
         },
       }],
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'foo' }, line: 1, column: 16, type: 'Literal' },
-        { messageId: 'extraValue', data: { computed: '', key: 'bar' }, line: 1, column: 26, type: 'Literal' },
-        { messageId: 'extraKey', data: { computed: '', key: 'baz' }, line: 1, column: 34, type: 'Identifier' },
-        { messageId: 'extraKey', data: { computed: '', key: 'longlonglong' }, line: 1, column: 51, type: 'Identifier' },
+        { messageId: 'extraValue', data: { computed: '', key: 'foo' }, line: 1, column: 16 },
+        { messageId: 'extraValue', data: { computed: '', key: 'bar' }, line: 1, column: 26 },
+        { messageId: 'extraKey', data: { computed: '', key: 'baz' }, line: 1, column: 34 },
+        { messageId: 'extraKey', data: { computed: '', key: 'longlonglong' }, line: 1, column: 51 },
       ],
     },
     {
@@ -2652,9 +2645,9 @@ run<RuleOptions, MessageIds>({
         },
       }],
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'foo' }, line: 2, column: 5, type: 'Identifier' },
-        { messageId: 'missingKey', data: { computed: '', key: 'bar' }, line: 3, column: 5, type: 'Literal' },
-        { messageId: 'missingKey', data: { computed: '', key: 'baz' }, line: 3, column: 15, type: 'Identifier' },
+        { messageId: 'missingKey', data: { computed: '', key: 'foo' }, line: 2, column: 5 },
+        { messageId: 'missingKey', data: { computed: '', key: 'bar' }, line: 3, column: 5 },
+        { messageId: 'missingKey', data: { computed: '', key: 'baz' }, line: 3, column: 15 },
       ],
     },
     {
@@ -2682,9 +2675,9 @@ run<RuleOptions, MessageIds>({
         },
       }],
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'foo' }, line: 2, column: 5, type: 'Identifier' },
-        { messageId: 'missingKey', data: { computed: '', key: 'bar' }, line: 3, column: 5, type: 'Literal' },
-        { messageId: 'missingKey', data: { computed: '', key: 'baz' }, line: 3, column: 16, type: 'Identifier' },
+        { messageId: 'missingKey', data: { computed: '', key: 'foo' }, line: 2, column: 5 },
+        { messageId: 'missingKey', data: { computed: '', key: 'bar' }, line: 3, column: 5 },
+        { messageId: 'missingKey', data: { computed: '', key: 'baz' }, line: 3, column: 16 },
       ],
     },
     {
@@ -2712,9 +2705,9 @@ run<RuleOptions, MessageIds>({
         },
       }],
       errors: [
-        { messageId: 'missingValue', data: { computed: '', key: 'foo' }, line: 2, column: 10, type: 'Literal' },
-        { messageId: 'missingValue', data: { computed: '', key: 'bar' }, line: 3, column: 12, type: 'Literal' },
-        { messageId: 'missingValue', data: { computed: '', key: 'baz' }, line: 3, column: 20, type: 'Literal' },
+        { messageId: 'missingValue', data: { computed: '', key: 'foo' }, line: 2, column: 10 },
+        { messageId: 'missingValue', data: { computed: '', key: 'bar' }, line: 3, column: 12 },
+        { messageId: 'missingValue', data: { computed: '', key: 'baz' }, line: 3, column: 20 },
       ],
     },
     {
@@ -2737,7 +2730,7 @@ run<RuleOptions, MessageIds>({
       }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'missingValue', data: { computed: '', key: 'a' }, type: 'Literal' },
+        { messageId: 'missingValue', data: { computed: '', key: 'a' } },
       ],
     },
     {
@@ -2760,7 +2753,7 @@ run<RuleOptions, MessageIds>({
       }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'a' }, type: 'Literal' },
+        { messageId: 'missingKey', data: { computed: '', key: 'a' } },
       ],
     },
     {
@@ -2783,7 +2776,7 @@ run<RuleOptions, MessageIds>({
       }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'a' }, type: 'Literal' },
+        { messageId: 'extraValue', data: { computed: '', key: 'a' } },
       ],
     },
     {
@@ -2809,9 +2802,9 @@ run<RuleOptions, MessageIds>({
         },
       }],
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: '🌷' }, type: 'Literal' },
-        { messageId: 'extraValue', data: { computed: '', key: '🎁' }, type: 'Literal' },
-        { messageId: 'extraValue', data: { computed: '', key: '🇮🇳' }, type: 'Literal' },
+        { messageId: 'extraValue', data: { computed: '', key: '🌷' } },
+        { messageId: 'extraValue', data: { computed: '', key: '🎁' } },
+        { messageId: 'extraValue', data: { computed: '', key: '🇮🇳' } },
       ],
     },
     // https://github.com/eslint/eslint/issues/16490
@@ -2841,9 +2834,9 @@ run<RuleOptions, MessageIds>({
       }],
       parserOptions: { ecmaVersion: 6 },
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'id' }, type: 'Literal' },
-        { messageId: 'extraValue', data: { computed: '', key: 'code' }, type: 'Literal' },
-        { messageId: 'extraValue', data: { computed: 'computed ', key: 'n' }, type: 'Literal' },
+        { messageId: 'extraValue', data: { computed: '', key: 'id' } },
+        { messageId: 'extraValue', data: { computed: '', key: 'code' } },
+        { messageId: 'extraValue', data: { computed: 'computed ', key: 'n' } },
       ],
     },
     {
@@ -2870,8 +2863,8 @@ run<RuleOptions, MessageIds>({
         beforeColon: true,
       }],
       errors: [
-        { messageId: 'extraKey', data: { computed: '', key: 'id' }, type: 'Identifier' },
-        { messageId: 'extraKey', data: { computed: '', key: 'code' }, type: 'Identifier' },
+        { messageId: 'extraKey', data: { computed: '', key: 'id' } },
+        { messageId: 'extraKey', data: { computed: '', key: 'code' } },
       ],
     },
     {
@@ -2895,7 +2888,7 @@ run<RuleOptions, MessageIds>({
         align: 'value',
       }],
       errors: [
-        { messageId: 'extraValue', data: { computed: '', key: 'a' }, type: 'Literal' },
+        { messageId: 'extraValue', data: { computed: '', key: 'a' } },
       ],
     },
     {
@@ -2927,8 +2920,8 @@ run<RuleOptions, MessageIds>({
         },
       }],
       errors: [
-        { messageId: 'extraKey', data: { computed: '', key: 'singleLine' }, type: 'Identifier' },
-        { messageId: 'extraKey', data: { computed: '', key: 'newGroup' }, type: 'Identifier' },
+        { messageId: 'extraKey', data: { computed: '', key: 'singleLine' } },
+        { messageId: 'extraKey', data: { computed: '', key: 'newGroup' } },
       ],
     },
     // https://github.com/eslint/eslint/issues/16674
@@ -2951,7 +2944,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [{ align: 'colon' }],
       errors: [
-        { messageId: 'missingKey', data: { computed: '', key: 'item' }, type: 'Identifier' },
+        { messageId: 'missingKey', data: { computed: '', key: 'item' } },
       ],
     },
     {

@@ -847,13 +847,13 @@ export function isSingleLine(node: ASTNode | Token) {
  * @param right The right token to check.
  * @returns `true` if comments exist between the given 2 tokens.
  */
-export function hasCommentsBetween(sourceCode: SourceCode, left: ASTNode | Token, right: ASTNode | Token) {
+export function hasCommentsBetween(sourceCode: SourceCode, left: ASTNode | Token, right: ASTNode | Token, filter: (token: Tree.Comment) => boolean = () => true) {
   return sourceCode.getFirstTokenBetween(
     left,
     right,
     {
       includeComments: true,
-      filter: isCommentToken,
+      filter: token => isCommentToken(token) && filter(token),
     },
   ) !== null
 }

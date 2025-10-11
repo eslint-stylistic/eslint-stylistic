@@ -158,8 +158,7 @@ function specializationTest(specialization: SpecializationOption, code: string, 
   })
 }
 
-test({ BlockStatement: 'always' }, 'for(;;){{}}', 'for(;;){{\n}}', { line: 1, column: 9, messageId: 'expectedLinebreakAfterOpeningBrace' }, { line: 1, column: 10, messageId: 'expectedLinebreakBeforeClosingBrace' },
-)
+test({ BlockStatement: 'always' }, 'for(;;){{}}', 'for(;;){{\n}}', { line: 1, column: 9, messageId: 'expectedLinebreakAfterOpeningBrace' }, { line: 1, column: 10, messageId: 'expectedLinebreakBeforeClosingBrace' })
 specializationTest('IfStatementConsequent', `if(true){}`, `if(true){\n}`, 9, 10)
 specializationTest('IfStatementAlternative', `if(true){}else{}`, `if(true){}else{\n}`, 15, 16)
 specializationTest('DoWhileStatement', `do{}while(true)`, `do{\n}while(true)`, 3, 4)

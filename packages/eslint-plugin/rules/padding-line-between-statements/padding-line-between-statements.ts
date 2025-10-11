@@ -360,7 +360,7 @@ function verifyForNever(
       const start = prevToken.range[1]
       const end = nextToken.range[0]
       const text = context
-        .getSourceCode()
+        .sourceCode
         .text
         .slice(start, end)
         .replace(PADDING_LINE_SEQUENCE, replacerToRemovePaddingLines)
@@ -558,8 +558,7 @@ const StatementTypes: Record<string, NodeTestObject> = {
             test: (node, sourceCode) => value.test(node, sourceCode) && !isSingleLine(node),
           },
         ],
-      ],
-      ),
+      ]),
   ),
 }
 
