@@ -172,43 +172,43 @@ run<RuleOptions, MessageIds>({
     `import foo, * as bar from 'mod'`,
     {
       code: 'var obj = {   /*comment*/   };',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
     },
     {
       code: 'var obj = {/*comment*/};',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
     },
     {
       code: 'var obj = {};',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
     },
     {
       code: 'var obj = { };',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
     },
     {
       code: 'var {} = y;',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
     },
     {
       code: 'var { } = y;',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
     },
     {
       code: 'import {} from "room";',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
     },
     {
       code: 'import { } from "room";',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
     },
     {
       code: 'export {}',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
     },
     {
       code: 'export { }',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
     },
   ],
 
@@ -1361,7 +1361,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'var obj = {};',
       output: 'var obj = { };',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
       errors: [
         {
           messageId: 'requiredSpaceInEmptyObject',
@@ -1376,7 +1376,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'var {} = y;',
       output: 'var { } = y;',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
       errors: [
         {
           messageId: 'requiredSpaceInEmptyObject',
@@ -1391,7 +1391,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'import {} from "room";',
       output: 'import { } from "room";',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
       errors: [
         {
           messageId: 'requiredSpaceInEmptyObject',
@@ -1406,7 +1406,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'export {}',
       output: 'export { }',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
       errors: [
         {
           messageId: 'requiredSpaceInEmptyObject',
@@ -1421,7 +1421,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'var obj = { };',
       output: 'var obj = {};',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
       errors: [
         {
           messageId: 'unexpectedSpaceInEmptyObject',
@@ -1436,7 +1436,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'var { } = y;',
       output: 'var {} = y;',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
       errors: [
         {
           messageId: 'unexpectedSpaceInEmptyObject',
@@ -1451,7 +1451,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'import { } from "room";',
       output: 'import {} from "room";',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
       errors: [
         {
           messageId: 'unexpectedSpaceInEmptyObject',
@@ -1466,7 +1466,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'export {      }',
       output: 'export {}',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
       errors: [
         {
           messageId: 'unexpectedSpaceInEmptyObject',
@@ -1481,7 +1481,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'var {      } = y;',
       output: 'var { } = y;',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
       errors: [
         {
           messageId: 'requiredSpaceInEmptyObject',
@@ -1496,7 +1496,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'import {    } from "room";',
       output: 'import { } from "room";',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
       errors: [
         {
           messageId: 'requiredSpaceInEmptyObject',
@@ -1511,7 +1511,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'export {      }',
       output: 'export { }',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
       errors: [
         {
           messageId: 'requiredSpaceInEmptyObject',

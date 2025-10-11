@@ -50,7 +50,7 @@ export default createRule<RuleOptions, MessageIds>({
             ),
             additionalProperties: false,
           },
-          emptyObject: {
+          emptyObjects: {
             type: 'string',
             enum: ['ignore', 'always', 'never'],
           },
@@ -91,7 +91,7 @@ export default createRule<RuleOptions, MessageIds>({
       arraysInObjectsException: isOptionSet('arraysInObjects'),
       objectsInObjectsException: isOptionSet('objectsInObjects'),
       overrides: secondOption?.overrides ?? {},
-      emptyObject: secondOption?.emptyObject ?? 'ignore',
+      emptyObjects: secondOption?.emptyObjects ?? 'ignore',
     }
 
     /**
@@ -276,7 +276,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     function checkSpaceInEmptyObjectLike(node: SupportedNodes, openingToken: Token, closingToken: Token, nodeType: SupportedNodeTypes = node.type) {
       if (
-        options.emptyObject === 'ignore'
+        options.emptyObjects === 'ignore'
         || !isTokenOnSameLine(openingToken, closingToken)
         || sourceCode.commentsExistBetween(openingToken, closingToken)
       ) {
@@ -287,7 +287,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (sourceBetween.trim() !== '')
         return
 
-      if (options.emptyObject === 'always') {
+      if (options.emptyObjects === 'always') {
         if (sourceBetween === ' ')
           return
 
@@ -303,7 +303,7 @@ export default createRule<RuleOptions, MessageIds>({
           },
         })
       }
-      else if (options.emptyObject === 'never') {
+      else if (options.emptyObjects === 'never') {
         if (sourceBetween === '')
           return
 

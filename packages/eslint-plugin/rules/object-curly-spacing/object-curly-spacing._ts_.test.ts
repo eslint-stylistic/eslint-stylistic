@@ -336,51 +336,51 @@ run<RuleOptions, MessageIds>({
 
     {
       code: 'const x:{/* comment */}',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
     },
     {
       code: 'const x:{  /* comment */  }',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
     },
     {
       code: 'const x:{}',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
     },
     {
       code: 'const x:{ }',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
     },
     {
       code: 'const x:{f: {}}',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
     },
     {
       code: 'const x:{f: { }}',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
     },
     {
       code: 'interface x {}',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
     },
     {
       code: 'interface x { }',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
     },
     {
       code: 'import {} from "package.json" with {}',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
     },
     {
       code: 'import { } from "package.json" with { }',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
     },
     {
       code: 'enum Foo {}',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
     },
     {
       code: 'enum Foo { }',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
     },
   ],
 
@@ -577,7 +577,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'import { } from "package.json" with { }',
       output: 'import {} from "package.json" with {}',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
       errors: [
         {
           messageId: 'unexpectedSpaceInEmptyObject',
@@ -602,7 +602,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'enum Foo {}',
       output: 'enum Foo { }',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
       errors: [
         {
           messageId: 'requiredSpaceInEmptyObject',
@@ -618,7 +618,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'const x:{f: {}}',
       output: 'const x:{f: { }}',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
       errors: [
         {
           messageId: 'requiredSpaceInEmptyObject',
@@ -634,7 +634,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'interface x {    }',
       output: 'interface x {}',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
       errors: [
         {
           messageId: 'unexpectedSpaceInEmptyObject',
@@ -650,7 +650,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'export {   } from "package.json" with {   }',
       output: 'export {} from "package.json" with {}',
-      options: ['never', { emptyObject: 'never' }],
+      options: ['never', { emptyObjects: 'never' }],
       errors: [
         {
           messageId: 'unexpectedSpaceInEmptyObject',
@@ -675,7 +675,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'import {   } from "package.json" with {   }',
       output: 'import { } from "package.json" with { }',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
       errors: [
         {
           messageId: 'requiredSpaceInEmptyObject',
@@ -700,7 +700,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'enum Foo {   }',
       output: 'enum Foo { }',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
       errors: [
         {
           messageId: 'requiredSpaceInEmptyObject',
@@ -716,7 +716,7 @@ run<RuleOptions, MessageIds>({
     {
       code: 'const x:{f: {   }}',
       output: 'const x:{f: { }}',
-      options: ['never', { emptyObject: 'always' }],
+      options: ['never', { emptyObjects: 'always' }],
       errors: [
         {
           messageId: 'requiredSpaceInEmptyObject',
