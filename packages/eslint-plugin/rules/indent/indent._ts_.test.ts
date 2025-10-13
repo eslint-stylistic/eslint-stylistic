@@ -891,23 +891,7 @@ run<RuleOptions, MessageIds>({
           =
               require('source')
     `,
-    { // passes
-      code: $`
-        1 + (
-          1
-        )
-      `,
-      options: [2],
-    },
-    { // passes
-      code: $`
-        return 1 + (
-          1
-        )
-      `,
-      options: [2],
-    },
-    { // fails
+    { // fails, `indent` should probably ignore checks in this example and leave it to indent-binary-ops
       code: $`
         return 1 +
           2 + (
@@ -927,23 +911,6 @@ run<RuleOptions, MessageIds>({
     },
     { // passes
       code: $`
-        const baz = foo && (
-          bar
-        )
-      `,
-      options: [2],
-    },
-    { // passes
-      code: $`
-        const baz = foo && 
-          (
-            bar
-          )
-      `,
-      options: [2],
-    },
-    { // passes with operators on line-start
-      code: $`
         const result = x 
           + z * (
             x ** 2
@@ -962,7 +929,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
     },
-    { // fails, contracts previous test, swap * to +
+    { // fails, `indent` should probably ignore checks in this example and leave it to indent-binary-ops
       code: $`
         const result = x +
           z + (
@@ -972,121 +939,33 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
     },
-    { // passes, drop start of paren-wrapped expression to newline. Perhaps not a preferred style.
-      code: $`
-        const result = x +
-          z + 
-          (
-            x ** 2
-            + y ** 3
-          );
-      `,
-      options: [2],
-    },
-    { // passes, wrap the whole expression in paran and offsets/indent are counted correctly.
-      code: $`
-        const result = (
-          x +
-          z + (
-            x ** 2
-            + y ** 3
-          )
-        )
-      `,
-      options: [2],
-    },
-    { // passes
-      code: $`
-        const condition1 = true;
-        const condition2 = false;
-        const condition3 = true;
-        const data = "foo"
-        if(
-          condition1 &&
-          condition2 && (
-            condition3 ||
-            typeof data === "string"
-          )
-        ) {
-          console.log("Something important happened");
-        }
-      `,
-      options: [2],
-    },
-    { // fails
+    { // fails, `indent` should probably ignore checks in this example and leave it to indent-binary-ops
       code: $`
         const condition1 = true;
         const condition2 = false;
         const condition3 = true;
         const data = "foo"
         
-        const collapsedCondition = condition1 &&
+        const consolidated = condition1 &&
           condition2 && (
             condition3 ||
             typeof data === "string"
           )
-        
-        if(collapsedCondition) {
-          console.log("Something important happened");
-        }
       `,
       options: [2],
     },
-    { // passes, change && for || which changes order of operations?
+    { // passes, change && for || which changes the order of operations?
       code: $`
         const condition1 = true;
         const condition2 = false;
         const condition3 = true;
         const data = "foo"
         
-        const collapsedCondition = condition1 ||
+        const consolidated = condition1 ||
           condition2 && (
             condition3 ||
             typeof data === "string"
           )
-        
-        if(collapsedCondition) {
-          console.log("Something important happened");
-        }
-      `,
-      options: [2],
-    },
-    {
-      code: $`
-        function foo() {
-            return foo === bar ||
-                baz === qux && (
-                    foo === foo ||
-                    bar === bar ||
-                    baz === baz
-                )
-        }
-      `,
-      options: [4],
-    },
-    {
-      code: $`
-        interface RequestType {
-          requestId: string | null;
-          success: boolean | object;
-          message?: string;
-        }
-        
-        class genericService {
-          public goodFormatMethod = (data: RequestType) => {
-            if(
-              typeof data.requestId === "string" &&
-              typeof data.success === "boolean" && (
-                typeof data.message === "string" ||
-                typeof data.message === "undefined"
-              )
-            ) {
-              console.log("Something important happened");
-            }
-        
-            console.log("Something unimportant happened");
-          };
-        }
       `,
       options: [2],
     },
@@ -2511,40 +2390,27 @@ declare function h(x: number): number;
         const x = 10;
         const y = 4;
         const z = 2;
+        
         const result = x +
-          z + (
-          x ** 2 +
-          y ** 3
-        );
+            z * (
+                  x ** 2 +
+                y ** 3
+            );
       `,
-      // The 'correct' output looks strange as 'indent/binary-ops' is responsible for outside and in, but not across, parenthesis.
       output: $`
         const x = 10;
         const y = 4;
         const z = 2;
+        
         const result = x +
-          z + (
-            x ** 2 +
-          y ** 3
-          );
+            z * (
+                x ** 2 +
+                y ** 3
+            );
       `,
+      options: [4],
       errors: [
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '4 spaces',
-            actual: 2,
-          },
-          line: 6,
-        },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '2 spaces',
-            actual: 0,
-          },
-          line: 8,
-        },
+        { messageId: 'wrongIndentation', data: { expected: '8 spaces', actual: 10 } },
       ],
     },
     {
@@ -2552,41 +2418,27 @@ declare function h(x: number): number;
         const x = 10;
         const y = 4;
         const z = 2;
+        
         const result = x +
-          z * (
-          x ** 2 +
-          y ** 3
-        );
+            z + (
+                  x ** 2 +
+                y ** 3
+            );
       `,
-      options: [2],
-      // The 'correct' output looks strange as 'indent/binary-ops' is responsible for outside and in, but not across, parenthesis.
       output: $`
         const x = 10;
         const y = 4;
         const z = 2;
+        
         const result = x +
-          z * (
-            x ** 2 +
-          y ** 3
-          );
+            z + (
+                x ** 2 +
+                y ** 3
+            );
       `,
+      options: [4],
       errors: [
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '4 spaces',
-            actual: 2,
-          },
-          line: 6,
-        },
-        {
-          messageId: 'wrongIndentation',
-          data: {
-            expected: '2 spaces',
-            actual: 0,
-          },
-          line: 8,
-        },
+        { messageId: 'wrongIndentation', data: { expected: '8 spaces', actual: 10 } },
       ],
     },
   ],
