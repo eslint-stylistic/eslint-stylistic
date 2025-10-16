@@ -846,24 +846,6 @@ export default createRule<RuleOptions, MessageIds>({
         })
       }
 
-      if (
-        node.typeArguments
-        && node.arguments.length === 1
-        // is there any opening parenthesis in type arguments
-        && sourceCode.getTokenAfter(node.callee, isOpeningParenToken)
-        !== sourceCode.getTokenBefore(node.arguments[0], isOpeningParenToken)
-      ) {
-        return rule({
-          ...node,
-          arguments: [
-            {
-              ...node.arguments[0],
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          ],
-        })
-      }
-
       return rule(node)
     }
 
