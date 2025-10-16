@@ -710,8 +710,8 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'array',
             items: {
               type: 'string',
-              // @ts-expect-error Not sure the original intention
               not: {
+                type: 'string',
                 pattern: ':exit$',
               },
             },

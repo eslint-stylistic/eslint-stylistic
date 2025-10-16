@@ -5,59 +5,58 @@ packages:
 catalogs:
   build:
     '@codecov/rollup-plugin': ^1.9.1
-    tsdown: ^0.15.2
+    tsdown: ^0.15.7
   dev:
-    '@antfu/eslint-config': ^5.3.0
+    '@antfu/eslint-config': ^6.0.0
     '@antfu/eslint-define-config': 1.23.0-2
-    '@antfu/utils': ^9.2.0
+    '@antfu/utils': ^9.3.0
     '@types/estraverse': ^5.1.7
     '@types/estree': ^1.0.8
-    '@types/node': ^24.5.2
+    '@types/node': ^24.7.2
     '@types/picomatch': ^4.0.2
     '@types/semver': ^7.7.1
-    '@typescript-eslint/parser': ^8.44.0
-    '@typescript-eslint/utils': ^8.44.0
+    '@typescript-eslint/parser': ^8.46.1
+    '@typescript-eslint/utils': ^8.46.1
     change-case: ^5.4.4
     escape-string-regexp: ^5.0.0
-    eslint: ^9.35.0
-    eslint-plugin-format: ^1.0.1
+    eslint: ^9.37.0
+    eslint-plugin-format: ^1.0.2
     execa: ^9.6.0
     fast-glob: ^3.3.3
     gray-matter: ^4.0.3
-    jiti: ^2.5.1
+    jiti: ^2.6.1
     json-schema-to-typescript-lite: ^15.0.0
-    jsonc-eslint-parser: ^2.4.0
-    lint-staged: ^16.1.6
+    jsonc-eslint-parser: ^2.4.1
+    lint-staged: ^16.2.4
     ohash: ^2.0.11
     prettier: ^3.6.2
-    rolldown: 1.0.0-beta.35
-    semver: ^7.7.2
+    semver: ^7.7.3
     simple-git-hooks: ^2.13.1
-    taze: ^19.6.0
-    tsx: ^4.20.5
-    typescript: ^5.8.3
-    vite: ^7.1.6
-    vue-tsc: ^3.0.7
+    taze: ^19.7.0
+    tsx: ^4.20.6
+    typescript: ^5.9.3
+    vite: ^7.1.10
+    vue-tsc: ^3.0.9
   docs:
-    '@iconify-json/carbon': ^1.2.13
-    '@iconify-json/ri': ^1.2.5
-    '@shikijs/transformers': ^3.12.2
-    '@shikijs/twoslash': ^3.12.2
-    '@shikijs/vitepress-twoslash': ^3.12.2
+    '@iconify-json/carbon': ^1.2.14
+    '@iconify-json/ri': ^1.2.6
+    '@shikijs/transformers': ^3.13.0
+    '@shikijs/twoslash': ^3.13.0
+    '@shikijs/vitepress-twoslash': ^3.13.0
     '@types/markdown-it-container': ^2.0.10
     '@vueuse/core': ^13.9.0
     fuse.js: ^7.1.0
     markdown-it-container: ^4.0.0
-    shiki: ^3.12.2
+    shiki: ^3.13.0
     twoslash: ^0.3.4
     twoslash-eslint: ^0.3.4
-    unocss: ^66.5.1
-    unplugin-vue-components: ^29.0.0
+    unocss: ^66.5.4
+    unplugin-vue-components: ^29.1.0
     vitepress: ^1.6.4
-    vue: ^3.5.21
+    vue: ^3.5.22
   prod:
     '@eslint-community/eslint-utils': ^4.9.0
-    '@typescript-eslint/types': ^8.44.0
+    '@typescript-eslint/types': ^8.46.1
     eslint-visitor-keys: ^4.2.1
     espree: ^10.4.0
     estraverse: ^5.3.0
@@ -70,7 +69,7 @@ catalogs:
     '@babel/preset-react': ^7.27.1
     '@vitest/coverage-v8': ^3.2.4
     '@vitest/ui': ^3.2.4
-    eslint-vitest-rule-tester: ^2.2.1
+    eslint-vitest-rule-tester: ^2.2.2
     vitest: ^3.2.4
     vue-eslint-parser: ^10.2.0
 onlyBuiltDependencies:
