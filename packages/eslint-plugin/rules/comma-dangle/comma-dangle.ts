@@ -32,6 +32,7 @@ type TargetASTNode
     | Tree.ExportAllDeclaration
     | Tree.TSEnumDeclaration
     | Tree.TSTypeParameterDeclaration
+    | Tree.TSTypeParameterInstantiation
     | Tree.TSTupleType
 
 type ItemASTNode = NonNullable<
@@ -442,6 +443,12 @@ export default createRule<RuleOptions, MessageIds>({
       },
       TSTypeParameterDeclaration(node) {
         predicate[normalizedOptions.generics]({
+          node,
+          lastItem: last(node.params),
+        })
+      },
+      TSTypeParameterInstantiation(node) {
+        predicate.never({
           node,
           lastItem: last(node.params),
         })

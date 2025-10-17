@@ -278,5 +278,13 @@ run<RuleOptions, MessageIds>({
         },
       },
     },
+
+    {
+      code: 'type Foo<T> = Bar<T,>',
+      output: 'type Foo<T> = Bar<T>',
+      errors: [
+        { messageId: 'unexpected', line: 1, column: 20 },
+      ],
+    },
   ],
 })
