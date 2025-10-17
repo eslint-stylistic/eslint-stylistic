@@ -283,7 +283,7 @@ run<RuleOptions, MessageIds>({
       code: 'type Foo = (A: number, B: number,) => void',
       output: 'type Foo = (A: number, B: number) => void',
       errors: [
-        { messageId: 'unexpected', line: 1, column: 17 },
+        { messageId: 'unexpected', line: 1, column: 33 },
       ],
     },
   ],

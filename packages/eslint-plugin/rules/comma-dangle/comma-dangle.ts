@@ -33,6 +33,7 @@ type TargetASTNode
     | Tree.TSEnumDeclaration
     | Tree.TSTypeParameterDeclaration
     | Tree.TSTupleType
+    | Tree.TSFunctionType
 
 type ItemASTNode = NonNullable<
   | Tree.ObjectLiteralElement
@@ -450,6 +451,12 @@ export default createRule<RuleOptions, MessageIds>({
         predicate[normalizedOptions.tuples]({
           node,
           lastItem: last(node.elementTypes),
+        })
+      },
+      TSFunctionType(node) {
+        predicate[normalizedOptions.functions]({
+          node,
+          lastItem: last(node.params),
         })
       },
     }
