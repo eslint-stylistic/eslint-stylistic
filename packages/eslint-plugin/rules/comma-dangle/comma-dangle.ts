@@ -6,7 +6,7 @@ import { createRule } from '#utils/create-rule'
 type Extract<T> = T extends Record<any, any> ? T : never
 type Option = RuleOptions[0]
 type NormalizedOptions = Required<
-  Extract<Exclude<Option, string>>
+  Extract<Exclude<Option, string>>,
 >
 
 const OPTION_VALUE_SCHEME = [
@@ -32,6 +32,7 @@ type TargetASTNode
     | Tree.ExportAllDeclaration
     | Tree.TSEnumDeclaration
     | Tree.TSTypeParameterDeclaration
+    | Tree.TSTypeParameterInstantiation
     | Tree.TSTupleType
     | Tree.TSDeclareFunction
     | Tree.TSFunctionType
@@ -47,7 +48,7 @@ type ItemASTNode = NonNullable<
   | Tree.ImportAttribute
   | Tree.TSEnumMember
   | Tree.TSTypeParameter
-  | Tree.TypeNode
+  | Tree.TypeNode,
 >
 
 export default createRule<RuleOptions, MessageIds>({
@@ -443,6 +444,12 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
       TSTypeParameterDeclaration(node) {
+        predicate[normalizedOptions.generics]({
+          node,
+          lastItem: last(node.params),
+        })
+      },
+      TSTypeParameterInstantiation(node) {
         predicate[normalizedOptions.generics]({
           node,
           lastItem: last(node.params),
