@@ -1,5 +1,5 @@
 import type { EcmaVersion, Tree } from '#types'
-import type { MessageIds, RuleOptions, Value } from './types'
+import type { MessageIds, RuleOptions, ValueWithIgnore } from './types'
 import { AST_NODE_TYPES, getNextLocation, isCommaToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
@@ -151,7 +151,7 @@ export default createRule<RuleOptions, MessageIds>({
       lastItem: ItemASTNode | null
     }
 
-    const predicate: Record<Value | 'ignore' | string, (info: VerifyInfo) => void> = {
+    const predicate: Record<ValueWithIgnore, (info: VerifyInfo) => void> = {
       'always': forceTrailingComma,
       'always-multiline': forceTrailingCommaIfMultiline,
       'only-multiline': allowTrailingCommaIfMultiline,
