@@ -26,7 +26,7 @@ export function createRule<
     meta,
   }: Omit<
     Readonly<RuleWithMetaAndName<TOptions, TMessageIds, RuleDocs>>,
-    'defaultOptions'
+    'defaultOptions',
   > & {
     defaultOptions?: TOptions
   },
