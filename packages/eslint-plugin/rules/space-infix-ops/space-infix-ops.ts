@@ -115,9 +115,7 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function isSpaceChar(token: Token): boolean {
-      return (
-        token.type === AST_TOKEN_TYPES.Punctuator && /^[=?:]$/.test(token.value)
-      )
+      return token.type === AST_TOKEN_TYPES.Punctuator && /^[=?:]$/.test(token.value)
     }
 
     function checkAndReportAssignmentSpace(
