@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.5.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.5.0...v5.5.1) (2025-10-18)
+
+
+### Documentation
+
+* **quotes:** update deprecated options to latest and add tips ([#1026](https://github.com/eslint-stylistic/eslint-stylistic/issues/1026)) ([dc949f8](https://github.com/eslint-stylistic/eslint-stylistic/commit/dc949f893dc0ffdad7566597ca768f9978793110))
+
+
+### Chores
+
+* **space-infix-ops:** simplify logic ([#1022](https://github.com/eslint-stylistic/eslint-stylistic/issues/1022)) ([6d57a7d](https://github.com/eslint-stylistic/eslint-stylistic/commit/6d57a7deb6bd72765a23de38627f361a5d5f2d2b))
+* **type-generic-spacing:** remove logic duplicated with `comma-spacing` ([#1024](https://github.com/eslint-stylistic/eslint-stylistic/issues/1024)) ([361cfc8](https://github.com/eslint-stylistic/eslint-stylistic/commit/361cfc862895e808da03c18b7ab53cf4aac49a6c))
+
 ## [5.5.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.4.0...v5.5.0) (2025-10-18)
 
 
