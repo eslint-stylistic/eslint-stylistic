@@ -17,7 +17,6 @@ Examples of **incorrect** code for this rule:
 ```ts
 /* eslint @stylistic/type-generic-spacing: ["error"] */
 
-type Foo<T=true> = T
 type Foo<T,K> = T
 
 interface Log {
@@ -34,7 +33,6 @@ Examples of **correct** code for this rule:
 ```ts
 /* eslint @stylistic/type-generic-spacing: ["error"] */
 
-type Foo<T = true> = T
 type Foo<T, K> = T
 
 interface Log {
