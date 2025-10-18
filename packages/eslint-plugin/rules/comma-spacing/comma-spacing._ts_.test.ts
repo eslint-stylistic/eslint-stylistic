@@ -1,6 +1,3 @@
-// this rule tests the spacing, which prettier will want to fix and break the tests
-/* /plugin-test-formatting": ["error", { formatWithPrettier: false }] */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './comma-spacing'
@@ -12,9 +9,9 @@ run<RuleOptions, MessageIds>({
     'const Foo = <T,>(foo: T) => {}',
     'function foo<T,>() {}',
     'class Foo<T, T1> {}',
+    'type Foo<T, P,> = Bar<T, P>',
     'interface Foo<T, T1,>{}',
     'let foo,',
-    'const foo = new Foo<T, T1>',
   ],
 
   invalid: [
@@ -99,10 +96,11 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
-      code: 'const foo = new Foo<T , T1>',
-      output: 'const foo = new Foo<T, T1>',
+      code: 'type Foo<T,P,> = Bar<T,P>',
+      output: 'type Foo<T, P,> = Bar<T, P>',
       errors: [
-        { messageId: 'unexpected', column: 23, line: 1, data: { loc: 'before' } },
+        { messageId: 'missing', column: 11, line: 1, data: { loc: 'after' } },
+        { messageId: 'missing', column: 23, line: 1, data: { loc: 'after' } },
       ],
     },
   ],
