@@ -1430,18 +1430,6 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    // JSXText
-    function getNodeIndent(node: ASTNode | Token) {
-      let src = context.sourceCode.getText(node, node.loc.start.column)
-      const lines = src.split('\n')
-      src = lines[0]
-
-      const regExp = new RegExp(`^[${offsets._indentType}]+`)
-
-      const indent = regExp.exec(src)
-      return indent ? indent[0].length : 0
-    }
-
     const baseOffsetListeners: RuleListener = {
       'ArrayExpression': checkArrayLikeNode,
 
@@ -1890,17 +1878,20 @@ export default createRule<RuleOptions, MessageIds>({
         if (node.parent.type !== 'JSXElement' && node.parent.type !== 'JSXFragment')
           return
 
-        const regExp = new RegExp(`\n(${offsets._indentType}*)[\t ]*\\S`, 'g')
+        const nodeIndentRegExp = new RegExp(`\n(${offsets._indentType}*)[\t ]*\\S`, 'g')
         const nodeIndentsPerLine = Array.from(
-          String(node.value).matchAll(regExp),
+          String(node.value).matchAll(nodeIndentRegExp),
           match => (match[1] ? match[1].length : 0),
         )
 
         if (nodeIndentsPerLine.length === 0)
           return
 
-        const parentNodeIndent = getNodeIndent(node.parent)
-        const targetIndent = parentNodeIndent + indentSize
+        const parentIndentText = sourceCode.lines[node.parent.loc.start.line - 1].slice(0, node.parent.loc.start.column)
+        const parentIndent = new RegExp(`^[${offsets._indentType}]+`).exec(parentIndentText)
+        const parentIndentSize = parentIndent ? parentIndent[0].length : 0
+
+        const targetIndent = parentIndentSize + indentSize
 
         if (nodeIndentsPerLine.every(actualIndent => actualIndent === targetIndent))
           return
