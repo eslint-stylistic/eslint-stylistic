@@ -1893,10 +1893,10 @@ export default createRule<RuleOptions, MessageIds>({
 
         const targetIndent = parentIndentSize + indentSize
 
-        if (nodeIndentsPerLine.every(actualIndent => actualIndent === targetIndent))
-          return
-
         nodeIndentsPerLine.forEach((nodeIndent) => {
+          if (nodeIndent === targetIndent)
+            return
+
           context.report({
             node,
             messageId: 'wrongIndentation',
