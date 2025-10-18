@@ -1,5 +1,5 @@
 import type { EcmaVersion, Tree } from '#types'
-import type { MessageIds, RuleOptions, Value } from './types'
+import type { MessageIds, RuleOptions, ValueWithIgnore } from './types'
 import { AST_NODE_TYPES, getNextLocation, isCommaToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
@@ -33,6 +33,8 @@ type TargetASTNode
     | Tree.TSEnumDeclaration
     | Tree.TSTypeParameterDeclaration
     | Tree.TSTupleType
+    | Tree.TSDeclareFunction
+    | Tree.TSFunctionType
 
 type ItemASTNode = NonNullable<
   | Tree.ObjectLiteralElement
@@ -149,7 +151,7 @@ export default createRule<RuleOptions, MessageIds>({
       lastItem: ItemASTNode | null
     }
 
-    const predicate: Record<Value | 'ignore' | string, (info: VerifyInfo) => void> = {
+    const predicate: Record<ValueWithIgnore, (info: VerifyInfo) => void> = {
       'always': forceTrailingComma,
       'always-multiline': forceTrailingCommaIfMultiline,
       'only-multiline': allowTrailingCommaIfMultiline,
@@ -450,6 +452,18 @@ export default createRule<RuleOptions, MessageIds>({
         predicate[normalizedOptions.tuples]({
           node,
           lastItem: last(node.elementTypes),
+        })
+      },
+      TSDeclareFunction(node) {
+        predicate[normalizedOptions.functions]({
+          node,
+          lastItem: last(node.params),
+        })
+      },
+      TSFunctionType(node) {
+        predicate[normalizedOptions.functions]({
+          node,
+          lastItem: last(node.params),
         })
       },
     }

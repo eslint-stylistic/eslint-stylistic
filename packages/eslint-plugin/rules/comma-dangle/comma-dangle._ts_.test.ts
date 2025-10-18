@@ -278,5 +278,20 @@ run<RuleOptions, MessageIds>({
         },
       },
     },
+
+    {
+      code: 'declare function foo(a: number, b: number,): void',
+      output: 'declare function foo(a: number, b: number): void',
+      errors: [
+        { messageId: 'unexpected', line: 1, column: 42 },
+      ],
+    },
+    {
+      code: 'type Foo = (a: number, b: number,) => void',
+      output: 'type Foo = (a: number, b: number) => void',
+      errors: [
+        { messageId: 'unexpected', line: 1, column: 33 },
+      ],
+    },
   ],
 })
