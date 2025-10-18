@@ -23,5 +23,8 @@ defineProps<{
     <td :title="rule.meta?.fixable ? 'This rule has an auto-fix' : ''">
       {{ rule.meta?.fixable ? '🔧' : '' }}
     </td>
+    <td :title="rule.meta?.docs?.experimental ? 'This rule is experimental' : ''">
+      {{ rule.meta?.docs?.experimental ? '🧪' : '' }}
+    </td>
   </tr>
 </template>

@@ -125,7 +125,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfter',
         data: { operator: '!' },
-        type: 'UnaryExpression',
         line: 1,
         column: 2,
       }],
@@ -137,7 +136,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfter',
         data: { operator: '!' },
-        type: 'UnaryExpression',
         line: 1,
         column: 2,
       }],
@@ -150,7 +148,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'unexpectedAfter',
         data: { operator: '-' },
-        type: 'UnaryExpression',
       }],
     },
     {
@@ -160,7 +157,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         messageId: 'requireAfter',
         data: { operator: '-' },
-        type: 'UnaryExpression',
       }],
     },
 

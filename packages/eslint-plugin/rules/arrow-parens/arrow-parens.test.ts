@@ -8,8 +8,6 @@ import { $, run } from '#test'
 import { languageOptionsForBabelFlow } from '#test/parsers-flow'
 import rule from './arrow-parens'
 
-const type = 'ArrowFunctionExpression'
-
 run<RuleOptions, MessageIds>({
   name: 'arrow-parens',
   rule,
@@ -212,7 +210,6 @@ run<RuleOptions, MessageIds>({
         column: 1,
         endColumn: 2,
         messageId: 'expectedParens',
-        type,
       }],
     },
     {
@@ -223,7 +220,6 @@ run<RuleOptions, MessageIds>({
         column: 1,
         endColumn: 2,
         messageId: 'expectedParens',
-        type,
       }],
     },
     {
@@ -234,7 +230,6 @@ run<RuleOptions, MessageIds>({
         column: 1,
         endColumn: 2,
         messageId: 'expectedParens',
-        type,
       }],
     },
     {
@@ -245,7 +240,6 @@ run<RuleOptions, MessageIds>({
         column: 8,
         endColumn: 11,
         messageId: 'expectedParens',
-        type,
       }],
     },
     {
@@ -256,7 +250,6 @@ run<RuleOptions, MessageIds>({
         column: 8,
         endColumn: 11,
         messageId: 'expectedParens',
-        type,
       }],
     },
     {
@@ -267,7 +260,6 @@ run<RuleOptions, MessageIds>({
         column: 3,
         endColumn: 6,
         messageId: 'expectedParens',
-        type,
       }],
     },
     {
@@ -279,7 +271,6 @@ run<RuleOptions, MessageIds>({
         column: 9,
         endColumn: 12,
         messageId: 'expectedParens',
-        type,
       }],
     },
 
@@ -293,7 +284,6 @@ run<RuleOptions, MessageIds>({
         column: 2,
         endColumn: 3,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
     {
@@ -305,7 +295,6 @@ run<RuleOptions, MessageIds>({
         column: 4,
         endColumn: 5,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
     {
@@ -317,7 +306,6 @@ run<RuleOptions, MessageIds>({
         column: 1,
         endColumn: 2,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
     {
@@ -330,7 +318,6 @@ run<RuleOptions, MessageIds>({
         column: 2,
         endColumn: 3,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
     {
@@ -343,7 +330,6 @@ run<RuleOptions, MessageIds>({
         column: 8,
         endColumn: 9,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
     {
@@ -356,7 +342,6 @@ run<RuleOptions, MessageIds>({
         column: 7,
         endColumn: 8,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
     {
@@ -368,7 +353,6 @@ run<RuleOptions, MessageIds>({
         column: 9,
         endColumn: 10,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
     {
@@ -380,7 +364,6 @@ run<RuleOptions, MessageIds>({
         column: 23,
         endColumn: 24,
         messageId: 'unexpectedParens',
-        type,
       }],
     },
 
@@ -394,7 +377,6 @@ run<RuleOptions, MessageIds>({
         column: 1,
         endColumn: 2,
         messageId: 'expectedParensBlock',
-        type,
       }],
     },
     {
@@ -406,7 +388,6 @@ run<RuleOptions, MessageIds>({
         column: 2,
         endColumn: 3,
         messageId: 'unexpectedParensInline',
-        type,
       }],
     },
     {
@@ -419,7 +400,6 @@ run<RuleOptions, MessageIds>({
         column: 7,
         endColumn: 8,
         messageId: 'expectedParensBlock',
-        type,
       }],
     },
     {
@@ -432,7 +412,6 @@ run<RuleOptions, MessageIds>({
         column: 8,
         endColumn: 9,
         messageId: 'unexpectedParensInline',
-        type,
       }],
     },
     {
@@ -445,7 +424,6 @@ run<RuleOptions, MessageIds>({
         column: 7,
         endColumn: 8,
         messageId: 'unexpectedParensInline',
-        type,
       }],
     },
     {
@@ -455,7 +433,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         line: 1,
         column: 33,
-        type,
         messageId: 'unexpectedParens',
         endLine: 1,
         endColumn: 34,
@@ -468,7 +445,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         line: 2,
         column: 2,
-        type,
         messageId: 'unexpectedParens',
         endLine: 2,
         endColumn: 3,
@@ -480,7 +456,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         line: 1,
         column: 16,
-        type: 'ArrowFunctionExpression',
         messageId: 'expectedParens',
         endLine: 1,
         endColumn: 17,
@@ -492,7 +467,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         line: 1,
         column: 11,
-        type: 'ArrowFunctionExpression',
         messageId: 'expectedParens',
         endLine: 1,
         endColumn: 12,
@@ -516,7 +490,6 @@ run<RuleOptions, MessageIds>({
       errors: [{
         line: 1,
         column: 13,
-        type: 'ArrowFunctionExpression',
         messageId: 'expectedParens',
         endLine: 1,
         endColumn: 14,

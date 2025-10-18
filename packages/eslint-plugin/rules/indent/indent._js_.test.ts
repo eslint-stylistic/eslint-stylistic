@@ -2262,6 +2262,32 @@ run<RuleOptions, MessageIds>({
     {
       code: $`
         condition
+          ? new Foo({
+            })
+          : condition2
+            ? new Bar({
+              })
+            : new Baz({
+              })
+      `,
+      options: [2, { offsetTernaryExpressions: true }],
+    },
+    {
+      code: $`
+        condition
+          ? new Foo({
+          })
+          : condition2
+            ? new Bar({
+            })
+            : new Baz({
+            })
+      `,
+      options: [2, { offsetTernaryExpressions: { NewExpression: false } }],
+    },
+    {
+      code: $`
+        condition
           ? () => {
               return true
             }
@@ -2380,10 +2406,7 @@ run<RuleOptions, MessageIds>({
               : '',
         };
       `,
-      options: [2, {
-        offsetTernaryExpressions: true,
-        offsetTernaryExpressionsOffsetCallExpressions: false,
-      }],
+      options: [2, { offsetTernaryExpressions: { CallExpression: false } }],
     },
     {
       code: $`
@@ -2397,10 +2420,7 @@ run<RuleOptions, MessageIds>({
               t()
             }
       `,
-      options: [2, {
-        offsetTernaryExpressions: true,
-        offsetTernaryExpressionsOffsetCallExpressions: false,
-      }],
+      options: [2, { offsetTernaryExpressions: { CallExpression: false } }],
     },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/750
     {
@@ -2415,10 +2435,7 @@ run<RuleOptions, MessageIds>({
             virtualRow.size,
           )
       `,
-      options: [2, {
-        offsetTernaryExpressions: true,
-        offsetTernaryExpressionsOffsetCallExpressions: false,
-      }],
+      options: [2, { offsetTernaryExpressions: { CallExpression: false } }],
     },
     {
       code: $`
@@ -2432,10 +2449,7 @@ run<RuleOptions, MessageIds>({
               virtualRow.size,
             )
       `,
-      options: [2, {
-        offsetTernaryExpressions: true,
-        offsetTernaryExpressionsOffsetCallExpressions: true,
-      }],
+      options: [2, { offsetTernaryExpressions: { CallExpression: true } }],
     },
 
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/756
@@ -2450,10 +2464,7 @@ run<RuleOptions, MessageIds>({
           )
           : []
       `,
-      options: [2, {
-        offsetTernaryExpressions: true,
-        offsetTernaryExpressionsOffsetCallExpressions: false,
-      }],
+      options: [2, { offsetTernaryExpressions: { AwaitExpression: false } }],
     },
     {
       code: $`
@@ -2466,10 +2477,7 @@ run<RuleOptions, MessageIds>({
             )
           : []
       `,
-      options: [2, {
-        offsetTernaryExpressions: true,
-        offsetTernaryExpressionsOffsetCallExpressions: true,
-      }],
+      options: [2, { offsetTernaryExpressions: { AwaitExpression: true } }],
     },
 
     $`
@@ -14248,10 +14256,7 @@ run<RuleOptions, MessageIds>({
               virtualRow.size,
             )
       `,
-      options: [2, {
-        offsetTernaryExpressions: true,
-        offsetTernaryExpressionsOffsetCallExpressions: true,
-      }],
+      options: [2, { offsetTernaryExpressions: true }],
     },
     // https://github.com/eslint-stylistic/eslint-stylistic/issues/756
     {
@@ -14275,10 +14280,27 @@ run<RuleOptions, MessageIds>({
             )
           : []
       `,
-      options: [2, {
-        offsetTernaryExpressions: true,
-        offsetTernaryExpressionsOffsetCallExpressions: true,
-      }],
+      options: [2, { offsetTernaryExpressions: true }],
+    },
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/993
+    {
+      code: $`
+        menus
+          ? new abc({
+            a: 1,
+            b: 2
+          })
+          : undefined
+      `,
+      output: $`
+        menus
+          ? new abc({
+              a: 1,
+              b: 2
+            })
+          : undefined
+      `,
+      options: [2, { offsetTernaryExpressions: true }],
     },
   ],
 })

@@ -1,9 +1,9 @@
 {
   "name": "@eslint-stylistic/monorepo",
   "type": "module",
-  "version": "5.2.3",
+  "version": "5.5.0",
   "private": true,
-  "packageManager": "pnpm@10.13.1",
+  "packageManager": "pnpm@10.18.3",
   "license": "MIT",
   "scripts": {
     "build": "pnpm -r run build",
@@ -54,6 +54,7 @@
     "gray-matter": "catalog:dev",
     "jiti": "catalog:dev",
     "json-schema-to-typescript-lite": "catalog:dev",
+    "jsonc-eslint-parser": "catalog:dev",
     "lint-staged": "catalog:dev",
     "ohash": "catalog:dev",
     "picomatch": "catalog:prod",

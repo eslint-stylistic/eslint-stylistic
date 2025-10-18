@@ -172,12 +172,10 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'before' },
-          type: 'Punctuator',
         },
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -189,12 +187,10 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'before' },
-          type: 'Punctuator',
         },
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -204,12 +200,10 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           message: 'There should be no space before \',\'.',
-          type: 'Punctuator',
         },
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -219,7 +213,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           message: 'There should be no space before \',\'.',
-          type: 'Punctuator',
         },
       ],
     },
@@ -229,7 +222,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           message: 'There should be no space before \',\'.',
-          type: 'Punctuator',
         },
       ],
     },
@@ -239,12 +231,10 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           message: 'There should be no space before \',\'.',
-          type: 'Punctuator',
         },
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -254,7 +244,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           message: 'There should be no space before \',\'.',
-          type: 'Punctuator',
         },
       ],
     },
@@ -266,11 +255,9 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'before' },
-          type: 'Punctuator',
         },
         {
           message: 'There should be no space after \',\'.',
-          type: 'Punctuator',
         },
       ],
     },
@@ -281,7 +268,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           message: 'There should be no space after \',\'.',
-          type: 'Punctuator',
         },
       ],
     },
@@ -293,7 +279,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'before' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -305,11 +290,9 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'before' },
-          type: 'Punctuator',
         },
         {
           message: 'There should be no space after \',\'.',
-          type: 'Punctuator',
         },
       ],
     },
@@ -321,7 +304,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -332,7 +314,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           message: 'There should be no space before \',\'.',
-          type: 'Punctuator',
         },
       ],
     },
@@ -344,7 +325,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -356,12 +336,10 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'before' },
-          type: 'Punctuator',
         },
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -373,12 +351,10 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'before' },
-          type: 'Punctuator',
         },
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -389,11 +365,9 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           message: 'There should be no space before \',\'.',
-          type: 'Punctuator',
         },
         {
           message: 'There should be no space after \',\'.',
-          type: 'Punctuator',
         },
       ],
     },
@@ -404,12 +378,10 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           message: 'There should be no space before \',\'.',
-          type: 'Punctuator',
         },
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -421,12 +393,10 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'before' },
-          type: 'Punctuator',
         },
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -439,12 +409,10 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'before' },
-          type: 'Punctuator',
         },
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -457,12 +425,10 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'before' },
-          type: 'Punctuator',
         },
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -474,12 +440,10 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           message: 'There should be no space before \',\'.',
-          type: 'Punctuator',
         },
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -490,12 +454,10 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           message: 'There should be no space before \',\'.',
-          type: 'Punctuator',
         },
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -505,7 +467,6 @@ run<RuleOptions, MessageIds>({
       errors: [
         {
           message: 'There should be no space before \',\'.',
-          type: 'Punctuator',
         },
       ],
     },
@@ -516,7 +477,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },
@@ -527,7 +487,6 @@ run<RuleOptions, MessageIds>({
         {
           messageId: 'missing',
           data: { loc: 'after' },
-          type: 'Punctuator',
         },
       ],
     },

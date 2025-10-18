@@ -6,11 +6,6 @@ run<RuleOptions, MessageIds>({
   name: 'type-generic-spacing',
   rule,
   valid: [
-    'const foo: Foo<> = {}',
-    'type Foo<> = {}',
-    'interface Foo<> {}',
-    'class Foo<> {}',
-    'function foo<>(): void {}',
     'const foo: Array<number> = []',
     'type Foo<T = true> = T',
     'type Foo<T extends true = true> = T',
@@ -64,9 +59,8 @@ run<RuleOptions, MessageIds>({
     ['type Foo<T=true> = T', 'type Foo<T = true> = T'],
     ['type Foo<T=(true)> = T', 'type Foo<T = (true)> = T'],
     ['type Foo<T extends (true)=(true)> = T', 'type Foo<T extends (true) = (true)> = T'],
-    ['type Foo<T,K> = T', 'type Foo<T, K> = T'],
-    ['type Foo< T,K   > = T', 'type Foo<T, K> = T', 3],
-    ['type Foo<T=false,K=1|2> = T', 'type Foo<T = false, K = 1|2> = T', 3],
+    ['type Foo< T, K   > = T', 'type Foo<T, K> = T', 2],
+    ['type Foo<T=false, K=1|2> = T', 'type Foo<T = false, K = 1|2> = T', 2],
     ['function foo <T>() {}', 'function foo<T>() {}'],
     ['function foo< T >() {}', 'function foo<T>() {}', 2],
     [

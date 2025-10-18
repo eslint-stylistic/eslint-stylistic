@@ -18,6 +18,7 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
     blockSpacing = true,
     braceStyle = 'stroustrup',
     commaDangle = 'always-multiline',
+    experimental: enableExperimentalRules = false,
     indent = 2,
     jsx = true,
     pluginName = '@stylistic',
@@ -171,6 +172,22 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
           ],
         }
       : {},
+  }
+
+  if (enableExperimentalRules) {
+    rules = {
+      ...rules,
+      '@stylistic/array-bracket-newline': 'off',
+      '@stylistic/array-bracket-spacing': 'off',
+      '@stylistic/array-element-newline': 'off',
+      '@stylistic/exp-list-style': 'error',
+      '@stylistic/function-call-argument-newline': 'off',
+      '@stylistic/function-paren-newline': 'off',
+      '@stylistic/jsx-function-call-newline': 'off',
+      '@stylistic/object-curly-newline': 'off',
+      '@stylistic/object-curly-spacing': 'off',
+      '@stylistic/object-property-newline': 'off',
+    }
   }
 
   if (pluginName !== '@stylistic') {

@@ -28,7 +28,6 @@ function foo(a: string | number): void {}`,
       errors: [
         {
           messageId: 'unexpectedWhitespaceBefore',
-          type: 'TSTypeAliasDeclaration',
           line: 1,
           column: 29,
           endLine: 1,
@@ -42,7 +41,6 @@ function foo(a: string | number): void {}`,
       errors: [
         {
           messageId: 'missingWhitespaceAfter',
-          type: 'TSPropertySignature',
           line: 1,
           column: 29,
           endLine: 1,
@@ -50,7 +48,6 @@ function foo(a: string | number): void {}`,
         },
         {
           messageId: 'unexpectedWhitespaceBefore',
-          type: 'TSPropertySignature',
           line: 1,
           column: 49,
           endLine: 1,
@@ -64,7 +61,6 @@ function foo(a: string | number): void {}`,
       errors: [
         {
           messageId: 'unexpectedWhitespaceBefore',
-          type: 'TSDeclareFunction',
           line: 1,
           column: 27,
           endLine: 1,
@@ -78,7 +74,6 @@ function foo(a: string | number): void {}`,
       errors: [
         {
           messageId: 'unexpectedWhitespaceBefore',
-          type: 'TSDeclareFunction',
           line: 1,
           column: 33,
           endLine: 1,
@@ -94,7 +89,6 @@ function foo(a: string | number): void {}`,
       errors: [
         {
           messageId: 'missingWhitespaceAfter',
-          type: 'TSDeclareFunction',
           line: 1,
           column: 30,
           endLine: 1,
@@ -102,7 +96,6 @@ function foo(a: string | number): void {}`,
         },
         {
           messageId: 'unexpectedWhitespaceBefore',
-          type: 'TSDeclareFunction',
           line: 1,
           column: 60,
           endLine: 1,
@@ -116,7 +109,6 @@ function foo(a: string | number): void {}`,
       errors: [
         {
           messageId: 'unexpectedWhitespaceBefore',
-          type: 'TSConstructSignatureDeclaration',
           line: 1,
           column: 35,
           endLine: 1,
@@ -130,7 +122,6 @@ function foo(a: string | number): void {}`,
       errors: [
         {
           messageId: 'unexpectedWhitespaceBefore',
-          type: 'TSAbstractPropertyDefinition',
           line: 1,
           column: 47,
           endLine: 1,
@@ -144,7 +135,6 @@ function foo(a: string | number): void {}`,
       errors: [
         {
           messageId: 'unexpectedWhitespaceBefore',
-          type: 'TSEmptyBodyFunctionExpression',
           line: 1,
           column: 49,
           endLine: 1,

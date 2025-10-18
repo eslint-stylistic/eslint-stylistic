@@ -4,7 +4,7 @@ import { AST_NODE_TYPES, isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 type NodeTest = (
-  node: ASTNode
+  node: ASTNode,
 ) => boolean
 
 interface NodeTestObject {

@@ -207,7 +207,9 @@ type Foo = () => {};
 
 :::
 
-### overrides - colon
+### overrides
+
+#### colon
 
 Examples of **incorrect** code for this rule with the `{ "before": false, "after": false, "overrides": { "colon": { "before": true, "after": true } } }` option:
 
@@ -269,7 +271,7 @@ type Foo = ()=>{};
 
 :::
 
-### overrides - arrow
+#### arrow
 
 Examples of **incorrect** code for this rule with the `{ "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }` option:
 

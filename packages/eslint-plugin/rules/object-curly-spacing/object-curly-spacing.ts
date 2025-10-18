@@ -1,4 +1,4 @@
-import type { ASTNode, Token } from '#types'
+import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
   AST_NODE_TYPES,
@@ -9,6 +9,11 @@ import {
   isTokenOnSameLine,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+
+const SUPPORTED_NODES = ['ObjectPattern', 'ObjectExpression', 'ImportDeclaration', 'ImportAttributes', 'ExportNamedDeclaration', 'ExportAllDeclaration', 'TSMappedType', 'TSTypeLiteral', 'TSInterfaceBody', 'TSEnumBody'] as const
+
+type SupportedNodeTypes = typeof SUPPORTED_NODES[number]
+type SupportedNodes = Extract<ASTNode, { type: SupportedNodeTypes }>
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'object-curly-spacing',
@@ -32,6 +37,23 @@ export default createRule<RuleOptions, MessageIds>({
           objectsInObjects: {
             type: 'boolean',
           },
+          overrides: {
+            type: 'object',
+            properties: Object.fromEntries(
+              SUPPORTED_NODES.map(node => [
+                node,
+                {
+                  type: 'string',
+                  enum: ['always', 'never'],
+                },
+              ]),
+            ),
+            additionalProperties: false,
+          },
+          emptyObjects: {
+            type: 'string',
+            enum: ['ignore', 'always', 'never'],
+          },
         },
         additionalProperties: false,
       },
@@ -41,6 +63,8 @@ export default createRule<RuleOptions, MessageIds>({
       requireSpaceAfter: 'A space is required after \'{{token}}\'.',
       unexpectedSpaceBefore: 'There should be no space before \'{{token}}\'.',
       unexpectedSpaceAfter: 'There should be no space after \'{{token}}\'.',
+      requiredSpaceInEmptyObject: 'A space is required in empty \'{{node}}\'.',
+      unexpectedSpaceInEmptyObject: 'There should be no space in empty \'{{node}}\'.',
     },
   },
   defaultOptions: ['never'],
@@ -66,6 +90,8 @@ export default createRule<RuleOptions, MessageIds>({
       spaced,
       arraysInObjectsException: isOptionSet('arraysInObjects'),
       objectsInObjectsException: isOptionSet('objectsInObjects'),
+      overrides: secondOption?.overrides ?? {},
+      emptyObjects: secondOption?.emptyObjects ?? 'ignore',
     }
 
     /**
@@ -167,11 +193,16 @@ export default createRule<RuleOptions, MessageIds>({
      * @param closingToken The last token to check (should be closing brace)
      */
     function validateBraceSpacing(
-      node: ASTNode,
+      node: SupportedNodes,
       openingToken: Token,
       closingToken: Token,
+      nodeType: SupportedNodeTypes = node.type,
     ): void {
       const tokenAfterOpening = sourceCode.getTokenAfter(openingToken, { includeComments: true })!
+
+      const spaced = options.overrides[nodeType]
+        ? options.overrides[nodeType] === 'always'
+        : options.spaced
 
       if (isTokenOnSameLine(openingToken, tokenAfterOpening)) {
         const firstSpaced = sourceCode.isSpaceBetween!(openingToken, tokenAfterOpening)
@@ -185,8 +216,8 @@ export default createRule<RuleOptions, MessageIds>({
               AST_NODE_TYPES.TSMappedType,
               AST_NODE_TYPES.TSIndexSignature,
             ].includes(secondType)
-            ? !options.spaced
-            : options.spaced
+            ? !spaced
+            : spaced
 
         if (openingCurlyBraceMustBeSpaced && !firstSpaced)
           reportRequiredBeginningSpace(node, openingToken)
@@ -230,8 +261,8 @@ export default createRule<RuleOptions, MessageIds>({
               AST_NODE_TYPES.TSTypeLiteral,
             ].includes(penultimateType)
           )
-            ? !options.spaced
-            : options.spaced
+            ? !spaced
+            : spaced
 
         const lastSpaced = sourceCode.isSpaceBetween!(tokenBeforeClosing, closingToken)
 
@@ -243,19 +274,109 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
+    function checkSpaceInEmptyObjectLike(node: SupportedNodes, openingToken: Token, closingToken: Token, nodeType: SupportedNodeTypes = node.type) {
+      if (
+        options.emptyObjects === 'ignore'
+        || !isTokenOnSameLine(openingToken, closingToken)
+        || sourceCode.commentsExistBetween(openingToken, closingToken)
+      ) {
+        return
+      }
+
+      const sourceBetween = sourceCode.getText().slice(openingToken.range[0] + 1, closingToken.range[1] - 1)
+      if (sourceBetween.trim() !== '')
+        return
+
+      if (options.emptyObjects === 'always') {
+        if (sourceBetween === ' ')
+          return
+
+        context.report({
+          node,
+          loc: { start: openingToken.loc.end, end: closingToken.loc.start },
+          messageId: 'requiredSpaceInEmptyObject',
+          data: {
+            node: nodeType,
+          },
+          fix(fixer) {
+            return fixer.replaceTextRange([openingToken.range[1], closingToken.range[0]], ' ')
+          },
+        })
+      }
+      else if (options.emptyObjects === 'never') {
+        if (sourceBetween === '')
+          return
+
+        context.report({
+          node,
+          loc: { start: openingToken.loc.end, end: closingToken.loc.start },
+          messageId: 'unexpectedSpaceInEmptyObject',
+          data: {
+            node: nodeType,
+          },
+          fix(fixer) {
+            return fixer.removeRange([openingToken.range[1], closingToken.range[0]])
+          },
+        })
+      }
+    }
+
+    function getBraceToken(node: SupportedNodes, nodeType: SupportedNodeTypes = node.type): [Token, Token] | [null, null] {
+      switch (nodeType) {
+        case 'ImportDeclaration':
+        case 'ExportNamedDeclaration':
+        case 'ExportAllDeclaration':{
+          const attrTokens = sourceCode.getTokens(node)
+          const openingAttrToken = attrTokens.find(token => isOpeningBraceToken(token))!
+          const closingAttrToken = attrTokens.find(token => isClosingBraceToken(token))!
+          return [openingAttrToken, closingAttrToken]
+        }
+        case 'ImportAttributes':{
+          const attrTokens = sourceCode.getTokens(node)
+          const openingAttrToken = attrTokens.findLast(token => isOpeningBraceToken(token))
+          const closingAttrToken = attrTokens.findLast(token => isClosingBraceToken(token))
+          if (
+            !openingAttrToken || !closingAttrToken
+            || !(node as Tree.ImportDeclaration).source
+            || openingAttrToken.range[0] < (node as Tree.ImportDeclaration).source.range[0]
+          ) {
+            return [null, null]
+          }
+          return [openingAttrToken, closingAttrToken]
+        }
+        case 'ObjectPattern':
+        case 'ObjectExpression':
+        case 'TSMappedType':
+        case 'TSTypeLiteral':
+        case 'TSInterfaceBody':
+        case 'TSEnumBody': {
+          const allTokens = sourceCode.getTokens(node)
+          const openingToken = allTokens.find(token => isOpeningBraceToken(token))!
+          const closingToken = allTokens.findLast(token => isClosingBraceToken(token))!
+          return [openingToken, closingToken]
+        }
+        /* v8 ignore start */
+        default:
+          throw new Error(`Unsupported node type: ${nodeType}`)
+        /* v8 ignore stop */
+      }
+    }
+
     /**
      * Reports a given object-like node if spacing in curly braces is invalid.
      * @param node An object-like node to check.
      * @param properties The properties of the object-like node
      */
-    function checkForObjectLike(node: ASTNode, properties: ASTNode[]) {
-      if (properties.length === 0)
+    function checkForObjectLike(node: SupportedNodes, properties: ASTNode[], nodeType: SupportedNodeTypes = node.type) {
+      const [openingToken, closingToken] = getBraceToken(node, nodeType)
+      if (!openingToken || !closingToken)
         return
+      if (properties.length === 0) {
+        checkSpaceInEmptyObjectLike(node, openingToken, closingToken, nodeType)
+        return
+      }
 
-      const openingToken = sourceCode.getTokenBefore(properties[0], isOpeningBraceToken)!
-      const closeToken = sourceCode.getTokenAfter(properties.at(-1)!, isClosingBraceToken)!
-
-      validateBraceSpacing(node, openingToken, closeToken)
+      validateBraceSpacing(node, openingToken, closingToken, nodeType)
     }
 
     return {
@@ -270,12 +391,14 @@ export default createRule<RuleOptions, MessageIds>({
       // import {y} from 'x';
       ImportDeclaration(node) {
         if (node.attributes)
-          checkForObjectLike(node, node.attributes)
+          checkForObjectLike(node, node.attributes, 'ImportAttributes')
 
         const firstSpecifierIndex = node.specifiers.findIndex(specifier => specifier.type === 'ImportSpecifier')
 
-        if (firstSpecifierIndex === -1)
+        if (firstSpecifierIndex === -1) {
+          checkForObjectLike(node, [])
           return
+        }
 
         checkForObjectLike(node, node.specifiers.slice(firstSpecifierIndex))
       },
@@ -284,11 +407,11 @@ export default createRule<RuleOptions, MessageIds>({
         checkForObjectLike(node, node.specifiers)
 
         if (node.attributes)
-          checkForObjectLike(node, node.attributes)
+          checkForObjectLike(node, node.attributes, 'ImportAttributes')
       },
       ExportAllDeclaration(node) {
         if (node.attributes)
-          checkForObjectLike(node, node.attributes)
+          checkForObjectLike(node, node.attributes, 'ImportAttributes')
       },
       TSMappedType(node) {
         const openingToken = sourceCode.getFirstToken(node)!

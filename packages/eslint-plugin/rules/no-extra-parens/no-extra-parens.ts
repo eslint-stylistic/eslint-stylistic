@@ -22,10 +22,29 @@ import {
   isSingleLine,
   isTokenOnSameLine,
   isTopLevelExpressionStatement,
-  isTypeAssertion,
   skipChainExpression,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { warnDeprecatedOptions } from '#utils/index'
+
+/**
+ * extends from https://github.com/typescript-eslint/typescript-eslint/blob/bd9e490eb76705ed4dec2f3f705eb18e4fe313e0/packages/utils/src/ast-utils/predicates.ts#L57
+ *
+ * Checks if a node is a type assertion:
+ *
+ * ``` ts
+ * x as foo
+ * <foo>x
+ * x satisfies foo
+ * x!
+ * ```
+ */
+const isTypeAssertion = isNodeOfTypes([
+  AST_NODE_TYPES.TSAsExpression,
+  AST_NODE_TYPES.TSNonNullExpression,
+  AST_NODE_TYPES.TSSatisfiesExpression,
+  AST_NODE_TYPES.TSTypeAssertion,
+])
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-extra-parens',
@@ -63,13 +82,15 @@ export default createRule<RuleOptions, MessageIds>({
                 nestedBinaryExpressions: { type: 'boolean' },
                 returnAssign: { type: 'boolean' },
                 ignoreJSX: { type: 'string', enum: ['none', 'all', 'single-line', 'multi-line'] },
+                /** @deprected */
                 enforceForArrowConditionals: { type: 'boolean' },
                 enforceForSequenceExpressions: { type: 'boolean' },
+                /** @deprected */
                 enforceForNewInMemberExpressions: { type: 'boolean' },
                 enforceForFunctionPrototypeMethods: { type: 'boolean' },
                 allowParensAfterCommentPattern: { type: 'string' },
                 nestedConditionalExpressions: { type: 'boolean' },
-                // TODO: Deprecate options that can be simply defined using ignoredNodes.
+                /** @deprected */
                 allowNodesInSpreadElement: {
                   type: 'object',
                   properties: {
@@ -114,14 +135,24 @@ export default createRule<RuleOptions, MessageIds>({
     const IGNORE_NESTED_BINARY = ALL_NODES && options?.nestedBinaryExpressions === false
     const EXCEPT_RETURN_ASSIGN = ALL_NODES && options?.returnAssign === false
     const IGNORE_JSX = ALL_NODES && options?.ignoreJSX
+    /** @deprected */
     const IGNORE_ARROW_CONDITIONALS = ALL_NODES && options?.enforceForArrowConditionals === false
     const IGNORE_SEQUENCE_EXPRESSIONS = ALL_NODES && options?.enforceForSequenceExpressions === false
+    /** @deprected */
     const IGNORE_NEW_IN_MEMBER_EXPR = ALL_NODES && options?.enforceForNewInMemberExpressions === false
     const IGNORE_FUNCTION_PROTOTYPE_METHODS = ALL_NODES && options?.enforceForFunctionPrototypeMethods === false
     const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && options?.allowParensAfterCommentPattern
     const ALLOW_NESTED_TERNARY = ALL_NODES && options?.nestedConditionalExpressions === false
-    const ALLOW_NODES_IN_SPREAD = ALL_NODES && context.options[1]
-      && new Set(Object.entries(context.options[1].allowNodesInSpreadElement || {}).filter(([_, value]) => value).map(([key]) => key))
+    /** @deprected */
+    const ALLOW_NODES_IN_SPREAD = ALL_NODES && options
+      && new Set(Object.entries(options.allowNodesInSpreadElement || {}).filter(([_, value]) => value).map(([key]) => key))
+
+    warnDeprecatedOptions(
+      options,
+      ['enforceForArrowConditionals', 'enforceForNewInMemberExpressions', 'allowNodesInSpreadElement'],
+      'ignoredNodes',
+      'no-extra-parens',
+    )
 
     // @ts-expect-error other properties are not used
     const PRECEDENCE_OF_ASSIGNMENT_EXPR = precedence({ type: 'AssignmentExpression' })
@@ -815,24 +846,6 @@ export default createRule<RuleOptions, MessageIds>({
         })
       }
 
-      if (
-        node.typeArguments
-        && node.arguments.length === 1
-        // is there any opening parenthesis in type arguments
-        && sourceCode.getTokenAfter(node.callee, isOpeningParenToken)
-        !== sourceCode.getTokenBefore(node.arguments[0], isOpeningParenToken)
-      ) {
-        return rule({
-          ...node,
-          arguments: [
-            {
-              ...node.arguments[0],
-              type: AST_NODE_TYPES.SequenceExpression as any,
-            },
-          ],
-        })
-      }
-
       return rule(node)
     }
 
@@ -934,10 +947,11 @@ export default createRule<RuleOptions, MessageIds>({
     const baseListeners: RuleListener = {
       ArrayExpression(node) {
         node.elements
-          .map(element =>
-            isTypeAssertion(element)
-              ? { ...element, type: AST_NODE_TYPES.FunctionExpression as any }
-              : element,
+          .map(
+            element =>
+              isTypeAssertion(element)
+                ? { ...element, type: AST_NODE_TYPES.FunctionExpression as any }
+                : element,
           )
           .forEach((ele) => {
             if (!!ele && hasExcessParensWithPrecedence(ele, PRECEDENCE_OF_ASSIGNMENT_EXPR))

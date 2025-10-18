@@ -1,8 +1,6 @@
 export interface RuleInfo {
   name: string
   ruleId: string
-  originalId?: string
-
   entry: string
   docsEntry: string
   meta?: RuleMeta
@@ -20,6 +18,7 @@ export interface RuleMeta {
   fixable?: 'code' | 'whitespace' | null
   docs?: {
     description?: string
-    recommended?: boolean | 'stylistic'
+    experimental?: boolean
+    recommended?: boolean
   }
 }

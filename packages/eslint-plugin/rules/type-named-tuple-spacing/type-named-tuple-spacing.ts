@@ -21,9 +21,10 @@ export default createRule<RuleOptions, MessageIds>({
   },
   defaultOptions: [],
   create: (context) => {
-    const sourceCode = context.getSourceCode()
+    const sourceCode = context.sourceCode
+
     return {
-      TSNamedTupleMember: (node: any) => {
+      TSNamedTupleMember(node) {
         const code = sourceCode.text.slice(node.range[0], node.range[1])
 
         const match = code.match(tupleRe)

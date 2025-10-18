@@ -149,9 +149,9 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     return {
-      'TSTypeParameterDeclaration': addTypeParametersTrailingCommaToIgnoreList,
       'ArrayExpression': addNullElementsToIgnoreList,
       'ArrayPattern': addNullElementsToIgnoreList,
+      'TSTypeParameterDeclaration': addTypeParametersTrailingCommaToIgnoreList,
 
       'Program:exit': function (): void {
         tokensAndComments.forEach((token, i) => {

@@ -1,6 +1,6 @@
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { KEYWORDS as _KEYWORDS, isNumericLiteral, isStringLiteral } from '#utils/ast'
+import { ES3_KEYWORDS, isNumericLiteral, isStringLiteral } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 // @ts-expect-error missing types
 import { tokenize } from 'espree'
@@ -79,7 +79,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns `true` if it is an ES3 token.
      */
     function isKeyword(tokenStr: string): boolean {
-      return _KEYWORDS.includes(tokenStr)
+      return ES3_KEYWORDS.includes(tokenStr)
     }
 
     /**
@@ -205,12 +205,13 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkConsistencyForObject(properties: Tree.ObjectLiteralElement[], checkQuotesRedundancy: boolean): void {
       checkConsistency(
-        properties.filter((property): property is Tree.PropertyNonComputedName =>
-          property.type !== 'SpreadElement'
-          // When called from `quote-props._ts_.ts`, it may be a `TypeElement`.
-          // Therefore, we need to check whether the `key` exists.
-          && property.key
-          && !property.method && !property.computed && !property.shorthand,
+        properties.filter(
+          (property): property is Tree.PropertyNonComputedName =>
+            property.type !== 'SpreadElement'
+            // When called from `quote-props._ts_.ts`, it may be a `TypeElement`.
+            // Therefore, we need to check whether the `key` exists.
+            && property.key
+            && !property.method && !property.computed && !property.shorthand,
         ),
         checkQuotesRedundancy,
       )
