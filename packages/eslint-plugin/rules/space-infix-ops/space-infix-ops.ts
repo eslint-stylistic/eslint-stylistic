@@ -199,14 +199,8 @@ export default createRule<RuleOptions, MessageIds>({
       BinaryExpression: checkBinary,
       LogicalExpression: checkBinary,
       ConditionalExpression(node) {
-        const nonSpacedConsequentNode = getFirstNonSpacedToken(node.test, node.consequent, '?')
-        const nonSpacedAlternateNode = getFirstNonSpacedToken(node.consequent, node.alternate, ':')
-
-        if (nonSpacedConsequentNode)
-          report(node, nonSpacedConsequentNode)
-
-        if (nonSpacedAlternateNode)
-          report(node, nonSpacedAlternateNode)
+        checkAndReportAssignmentSpace(node, node.test, node.consequent)
+        checkAndReportAssignmentSpace(node, node.consequent, node.alternate)
       },
       VariableDeclarator(node) {
         const leftNode = node.id.typeAnnotation ?? node.id
