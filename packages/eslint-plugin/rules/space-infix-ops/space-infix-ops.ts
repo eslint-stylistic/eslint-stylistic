@@ -201,10 +201,11 @@ export default createRule<RuleOptions, MessageIds>({
         checkAndReportAssignmentSpace(node, node.consequent, node.alternate)
       },
       VariableDeclarator(node) {
-        const leftNode = node.id.typeAnnotation ?? node.id
-        const rightNode = node.init
-
-        checkAndReportAssignmentSpace(node, leftNode, rightNode)
+        checkAndReportAssignmentSpace(
+          node,
+          node.id.typeAnnotation ?? node.id,
+          node.init,
+        )
       },
       PropertyDefinition: checkPropertyAssignment,
       AccessorProperty: checkPropertyAssignment,
