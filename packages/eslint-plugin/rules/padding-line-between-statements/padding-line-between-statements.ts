@@ -1,4 +1,4 @@
-import type { ASTNode, RuleContext, SourceCode, Token } from '#types'
+import type { ASTNode, ESTree, RuleContext, SourceCode, Token } from '#types'
 import {
   AST_NODE_TYPES,
   isClosingBraceToken,
@@ -316,6 +316,21 @@ function replacerToRemovePaddingLines(
   return trailingSpaces + indentSpaces
 }
 
+function getReportLoc(node: ASTNode, sourceCode: SourceCode): ESTree.SourceLocation {
+  if (isSingleLine(node))
+    return node.loc
+
+  const line = node.loc.start.line
+
+  return {
+    start: node.loc.start,
+    end: {
+      line,
+      column: sourceCode.lines[line - 1].length,
+    },
+  }
+}
+
 /**
  * Check and report statements for `any` configuration.
  * It does nothing.
@@ -351,6 +366,7 @@ function verifyForNever(
   context.report({
     node: nextNode,
     messageId: 'unexpectedBlankLine',
+    loc: getReportLoc(nextNode, context.sourceCode),
     fix(fixer) {
       if (paddingLines.length >= 2)
         return null
@@ -395,6 +411,7 @@ function verifyForAlways(
   context.report({
     node: nextNode,
     messageId: 'expectedBlankLine',
+    loc: getReportLoc(nextNode, context.sourceCode),
     fix(fixer) {
       const sourceCode = context.sourceCode
       let prevToken = getActualLastToken(prevNode, sourceCode)!
@@ -694,8 +711,8 @@ export default createRule<Options, MessageIds>({
     /**
      * Gets padding line sequences between the given 2 statements.
      * Comments are separators of the padding line sequences.
-     * @paramprevNode The previous statement to count.
-     * @paramnextNode The current statement to count.
+     * @param prevNode The previous statement to count.
+     * @param nextNode The current statement to count.
      * @returns The array of token pairs.
      * @private
      */
