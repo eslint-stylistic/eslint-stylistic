@@ -1430,27 +1430,6 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    // JSXText
-    function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
-      let src = context.sourceCode.getText(node, node.loc.start.column)
-      const lines = src.split('\n')
-      if (byLastLine)
-        src = lines[lines.length - 1]
-      else
-        src = lines[0]
-
-      const skip = excludeCommas ? ',' : ''
-
-      let regExp
-      if (indentType === 'space')
-        regExp = new RegExp(`^[ ${skip}]+`)
-      else
-        regExp = new RegExp(`^[\t${skip}]+`)
-
-      const indent = regExp.exec(src)
-      return indent ? indent[0].length : 0
-    }
-
     const baseOffsetListeners: RuleListener = {
       'ArrayExpression': checkArrayLikeNode,
 
@@ -1896,39 +1875,40 @@ export default createRule<RuleOptions, MessageIds>({
       JSXText(node) {
         if (!node.parent)
           return
-
         if (node.parent.type !== 'JSXElement' && node.parent.type !== 'JSXFragment')
           return
 
-        const value = node.value
-        // eslint-disable-next-line regexp/no-super-linear-backtracking, regexp/optimal-quantifier-concatenation
-        const regExp = indentType === 'space' ? /\n( *)[\t ]*\S/g : /\n(\t*)[\t ]*\S/g
+        const nodeIndentRegExp = new RegExp(`\n(${offsets._indentType}*)[\t ]*\\S`, 'g')
         const nodeIndentsPerLine = Array.from(
-          String(value).matchAll(regExp),
+          String(node.value).matchAll(nodeIndentRegExp),
           match => (match[1] ? match[1].length : 0),
         )
-        const hasFirstInLineNode = nodeIndentsPerLine.length > 0
-        const parentNodeIndent = getNodeIndent(node.parent)
-        const indent = parentNodeIndent + indentSize
-        if (
-          hasFirstInLineNode
-          && !nodeIndentsPerLine.every(actualIndent => actualIndent === indent)
-        ) {
-          nodeIndentsPerLine.forEach((nodeIndent) => {
-            context.report({
-              node,
-              messageId: 'wrongIndentation',
-              data: createErrorMessageData(indent, nodeIndent, nodeIndent),
-              fix(fixer) {
-                const indentChar = indentType === 'space' ? ' ' : '\t'
-                const indentStr = new Array(indent + 1).join(indentChar)
-                const regExp = /\n[\t ]*(\S)/g
-                const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indentStr}${p1}`)
-                return fixer.replaceText(node, fixedText)
-              },
-            })
+
+        if (nodeIndentsPerLine.length === 0)
+          return
+
+        const parentIndentText = sourceCode.lines[node.parent.loc.start.line - 1].slice(0, node.parent.loc.start.column)
+        const parentIndent = new RegExp(`^[${offsets._indentType}]+`).exec(parentIndentText)
+        const parentIndentSize = parentIndent ? parentIndent[0].length : 0
+
+        const targetIndent = parentIndentSize + indentSize
+
+        nodeIndentsPerLine.forEach((nodeIndent) => {
+          if (nodeIndent === targetIndent)
+            return
+
+          context.report({
+            node,
+            messageId: 'wrongIndentation',
+            data: createErrorMessageData(targetIndent, nodeIndent, nodeIndent),
+            fix(fixer) {
+              const indentStr = new Array(targetIndent + 1).join(offsets._indentType)
+              const regExp = /\n[\t ]*(\S)/g
+              const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indentStr}${p1}`)
+              return fixer.replaceText(node, fixedText)
+            },
           })
-        }
+        })
       },
 
       JSXAttribute(node) {
