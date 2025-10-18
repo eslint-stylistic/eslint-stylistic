@@ -39,9 +39,8 @@ export default createRule<RuleOptions, MessageIds>({
       ignoreTypes: false,
     },
   ],
-  create(context) {
-    const int32Hint = context.options[0] ? context.options[0].int32Hint === true : false
-    const ignoreTypes = context.options[0] ? context.options[0].ignoreTypes === true : false
+  create(context, [options]) {
+    const { int32Hint, ignoreTypes } = options!
     const sourceCode = context.sourceCode
 
     function report(node: ASTNode, operator: Token): void {
@@ -115,39 +114,6 @@ export default createRule<RuleOptions, MessageIds>({
       }
     }
 
-    /**
-     * Check if the node is conditional
-     * @param node node to evaluate
-     * @private
-     */
-    function checkConditional(node: Tree.ConditionalExpression) {
-      const nonSpacedConsequentNode = getFirstNonSpacedToken(node.test, node.consequent, '?')
-      const nonSpacedAlternateNode = getFirstNonSpacedToken(node.consequent, node.alternate, ':')
-
-      if (nonSpacedConsequentNode)
-        report(node, nonSpacedConsequentNode)
-
-      if (nonSpacedAlternateNode)
-        report(node, nonSpacedAlternateNode)
-    }
-
-    /**
-     * Check if the node is a variable
-     * @param node node to evaluate
-     * @private
-     */
-    function checkVar(node: Tree.VariableDeclarator) {
-      const leftNode = (node.id.typeAnnotation) ? node.id.typeAnnotation : node.id
-      const rightNode = node.init
-
-      if (rightNode) {
-        const nonSpacedNode = getFirstNonSpacedToken(leftNode, rightNode, '=')
-
-        if (nonSpacedNode)
-          report(node, nonSpacedNode)
-      }
-    }
-
     function isSpaceChar(token: Token): boolean {
       return (
         token.type === AST_TOKEN_TYPES.Punctuator && /^[=?:]$/.test(token.value)
@@ -172,8 +138,8 @@ export default createRule<RuleOptions, MessageIds>({
       const next = sourceCode.getTokenAfter(operator)!
 
       if (
-        !sourceCode.isSpaceBetween!(prev, operator)
-        || !sourceCode.isSpaceBetween!(operator, next)
+        !sourceCode.isSpaceBetween(prev, operator)
+        || !sourceCode.isSpaceBetween(operator, next)
       ) {
         report(node, operator)
       }
@@ -183,15 +149,7 @@ export default createRule<RuleOptions, MessageIds>({
      * Check if it has an assignment char and report if it's faulty
      * @param node The node to report
      */
-    function checkForEnumAssignmentSpace(node: Tree.TSEnumMember): void {
-      checkAndReportAssignmentSpace(node, node.id, node.initializer)
-    }
-
-    /**
-     * Check if it has an assignment char and report if it's faulty
-     * @param node The node to report
-     */
-    function checkForPropertyDefinitionAssignmentSpace(
+    function checkPropertyAssignment(
       node: Tree.PropertyDefinition | Tree.AccessorProperty,
     ): void {
       const leftNode
@@ -206,7 +164,7 @@ export default createRule<RuleOptions, MessageIds>({
      * Check if it is missing spaces between type annotations chaining
      * @param typeAnnotation TypeAnnotations list
      */
-    function checkForTypeAnnotationSpace(
+    function checkTSBinary(
       typeAnnotation: Tree.TSIntersectionType | Tree.TSUnionType,
     ): void {
       const types = typeAnnotation.types
@@ -235,39 +193,45 @@ export default createRule<RuleOptions, MessageIds>({
       })
     }
 
-    /**
-     * Check if it has an assignment char and report if it's faulty
-     * @param node The node to report
-     */
-    function checkForTypeAliasAssignment(
-      node: Tree.TSTypeAliasDeclaration,
-    ): void {
-      checkAndReportAssignmentSpace(
-        node,
-        node.typeParameters ?? node.id,
-        node.typeAnnotation,
-      )
-    }
-
-    function checkForTypeConditional(node: Tree.TSConditionalType): void {
-      checkAndReportAssignmentSpace(node, node.extendsType, node.trueType)
-      checkAndReportAssignmentSpace(node, node.trueType, node.falseType)
-    }
-
     return {
       AssignmentExpression: checkBinary,
       AssignmentPattern: checkBinary,
       BinaryExpression: checkBinary,
       LogicalExpression: checkBinary,
-      ConditionalExpression: checkConditional,
-      VariableDeclarator: checkVar,
-      TSEnumMember: checkForEnumAssignmentSpace,
-      PropertyDefinition: checkForPropertyDefinitionAssignmentSpace,
-      AccessorProperty: checkForPropertyDefinitionAssignmentSpace,
-      TSTypeAliasDeclaration: checkForTypeAliasAssignment,
-      TSUnionType: checkForTypeAnnotationSpace,
-      TSIntersectionType: checkForTypeAnnotationSpace,
-      TSConditionalType: checkForTypeConditional,
+      ConditionalExpression(node) {
+        const nonSpacedConsequentNode = getFirstNonSpacedToken(node.test, node.consequent, '?')
+        const nonSpacedAlternateNode = getFirstNonSpacedToken(node.consequent, node.alternate, ':')
+
+        if (nonSpacedConsequentNode)
+          report(node, nonSpacedConsequentNode)
+
+        if (nonSpacedAlternateNode)
+          report(node, nonSpacedAlternateNode)
+      },
+      VariableDeclarator(node) {
+        const leftNode = node.id.typeAnnotation ?? node.id
+        const rightNode = node.init
+
+        checkAndReportAssignmentSpace(node, leftNode, rightNode)
+      },
+      PropertyDefinition: checkPropertyAssignment,
+      AccessorProperty: checkPropertyAssignment,
+      TSEnumMember(node) {
+        checkAndReportAssignmentSpace(node, node.id, node.initializer)
+      },
+      TSTypeAliasDeclaration(node) {
+        checkAndReportAssignmentSpace(
+          node,
+          node.typeParameters ?? node.id,
+          node.typeAnnotation,
+        )
+      },
+      TSUnionType: checkTSBinary,
+      TSIntersectionType: checkTSBinary,
+      TSConditionalType(node) {
+        checkAndReportAssignmentSpace(node, node.extendsType, node.trueType)
+        checkAndReportAssignmentSpace(node, node.trueType, node.falseType)
+      },
     }
   },
 })
