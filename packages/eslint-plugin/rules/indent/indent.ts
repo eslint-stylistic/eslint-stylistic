@@ -1436,7 +1436,7 @@ export default createRule<RuleOptions, MessageIds>({
       const lines = src.split('\n')
       src = lines[0]
 
-      const regExp = new RegExp(`^[${indentType === 'space' ? ' ' : '\t'}]+`)
+      const regExp = new RegExp(`^[${offsets._indentType}]+`)
 
       const indent = regExp.exec(src)
       return indent ? indent[0].length : 0
@@ -1887,26 +1887,23 @@ export default createRule<RuleOptions, MessageIds>({
       JSXText(node) {
         if (!node.parent)
           return
-
         if (node.parent.type !== 'JSXElement' && node.parent.type !== 'JSXFragment')
           return
 
-        const value = node.value
-        // eslint-disable-next-line regexp/no-super-linear-backtracking, regexp/optimal-quantifier-concatenation
-        const regExp = indentType === 'space' ? /\n( *)[\t ]*\S/g : /\n(\t*)[\t ]*\S/g
+        const regExp = new RegExp(`\n(${offsets._indentType}*)[\t ]*\\S`, 'g')
         const nodeIndentsPerLine = Array.from(
-          String(value).matchAll(regExp),
+          String(node.value).matchAll(regExp),
           match => (match[1] ? match[1].length : 0),
         )
-        const hasFirstInLineNode = nodeIndentsPerLine.length > 0
+
+        if (nodeIndentsPerLine.length === 0)
+          return
+
         const parentNodeIndent = getNodeIndent(node.parent)
         const targetIndent = parentNodeIndent + indentSize
-        if (
-          !hasFirstInLineNode
-          || nodeIndentsPerLine.every(actualIndent => actualIndent === targetIndent)
-        ) {
+
+        if (nodeIndentsPerLine.every(actualIndent => actualIndent === targetIndent))
           return
-        }
 
         nodeIndentsPerLine.forEach((nodeIndent) => {
           context.report({
@@ -1914,8 +1911,7 @@ export default createRule<RuleOptions, MessageIds>({
             messageId: 'wrongIndentation',
             data: createErrorMessageData(targetIndent, nodeIndent, nodeIndent),
             fix(fixer) {
-              const indentChar = indentType === 'space' ? ' ' : '\t'
-              const indentStr = new Array(targetIndent + 1).join(indentChar)
+              const indentStr = new Array(targetIndent + 1).join(offsets._indentType)
               const regExp = /\n[\t ]*(\S)/g
               const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indentStr}${p1}`)
               return fixer.replaceText(node, fixedText)
