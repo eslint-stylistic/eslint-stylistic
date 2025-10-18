@@ -44,10 +44,11 @@ export default createRule<RuleOptions, MessageIds>({
       requireBefore: 'Space is required before unary operator \'{{operator}}\'.',
     },
   },
-
-  create(context) {
-    const options = context.options[0] || { nonwords: false }
-
+  defaultOptions: [
+    { nonwords: false },
+  ],
+  create(context, [options]) {
+    const { nonwords, overrides } = options!
     const sourceCode = context.sourceCode
 
     /**
@@ -65,7 +66,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns Whether or not an override has been provided for the operator
      */
     function overrideExistsForOperator(operator: string) {
-      return options.overrides && Object.hasOwn(options.overrides, operator)
+      return overrides && Object.hasOwn(overrides, operator)
     }
 
     /**
@@ -74,7 +75,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns Whether or not an override enforces a space with this operator
      */
     function overrideEnforcesSpaces(operator: string) {
-      return options.overrides?.[operator]
+      return overrides?.[operator]
     }
 
     /**
@@ -86,7 +87,7 @@ export default createRule<RuleOptions, MessageIds>({
       const operatorToken = sourceCode.getLastToken(node, token => token.value === operator)!
       const prefixToken = sourceCode.getTokenBefore(operatorToken)!
 
-      const shouldHaveSpace = overrideExistsForOperator(operator) ? overrideEnforcesSpaces(operator) : options.nonwords
+      const shouldHaveSpace = overrideExistsForOperator(operator) ? overrideEnforcesSpaces(operator) : nonwords
 
       if (shouldHaveSpace) {
         verifyNonWordsHaveSpaces(node, prefixToken, operatorToken)
@@ -211,7 +212,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       const operator = ('prefix' in node && node.prefix) ? tokens[0].value : tokens[1].value
 
-      const shouldHaveSpace = overrideExistsForOperator(operator) ? overrideEnforcesSpaces(operator) : options.nonwords
+      const shouldHaveSpace = overrideExistsForOperator(operator) ? overrideEnforcesSpaces(operator) : nonwords
 
       if (shouldHaveSpace) {
         verifyNonWordsHaveSpaces(node, firstToken, secondToken)
