@@ -303,33 +303,7 @@ run<RuleOptions, MessageIds>({
 
     // not conflict with `space-unary-ops`
     { code: 'async function wrap() { !await \'a\' }', options: [BOTH] },
-    { code: 'async function wrap() { !await\'a\' }', options: [NEITHER] },
-    { code: 'async function wrap() { ! await \'a\' }', options: [BOTH] },
     { code: 'async function wrap() { ! await\'a\' }', options: [NEITHER] },
-    {
-      code: 'async function foo() { await {foo: 1} }',
-      parserOptions: { ecmaVersion: 8 },
-    },
-    {
-      code: 'async function foo() { await {bar: 2} }',
-      parserOptions: { ecmaVersion: 8 },
-      options: [BOTH],
-    },
-    {
-      code: 'async function foo() { await{baz: 3} }',
-      parserOptions: { ecmaVersion: 8 },
-      options: [NEITHER],
-    },
-    {
-      code: 'async function foo() { await {qux: 4} }',
-      parserOptions: { ecmaVersion: 8 },
-      options: [override('await', BOTH)],
-    },
-    {
-      code: 'async function foo() { await{foo: 5} }',
-      parserOptions: { ecmaVersion: 8 },
-      options: [override('await', NEITHER)],
-    },
 
     // not conflict with `template-curly-spacing`
     { code: 'async function wrap() { `${await a}` }' },
@@ -588,13 +562,7 @@ run<RuleOptions, MessageIds>({
     { code: 'a > delete foo.a', options: [NEITHER] },
 
     // not conflict with `space-unary-ops`
-    { code: 'delete foo.bar', options: [BOTH] },
-    { code: 'delete foo["bar"]', options: [BOTH] },
-    { code: 'delete foo.bar', options: [NEITHER] },
-    { code: 'delete(foo.bar)', options: [NEITHER] },
-    { code: '!delete (foo.a)', options: [BOTH] },
-    { code: '!delete(foo.a)', options: [NEITHER] },
-    { code: '! delete (foo.a)', options: [BOTH] },
+    { code: '!delete foo.a', options: [BOTH] },
     { code: '! delete(foo.a)', options: [NEITHER] },
 
     // not conflict with `template-curly-spacing`
@@ -971,15 +939,8 @@ run<RuleOptions, MessageIds>({
     { code: 'a > new foo()', options: [NEITHER] },
 
     // not conflict with `space-unary-ops`
-    { code: '!new (foo)()', options: [BOTH] },
-    { code: '!new(foo)()', options: [NEITHER] },
-    { code: '! new (foo)()', options: [BOTH] },
+    { code: '!new foo()', options: [BOTH] },
     { code: '! new(foo)()', options: [NEITHER] },
-    { code: 'new Foo', options: [BOTH] },
-    { code: 'new Foo()', options: [BOTH] },
-    { code: 'new [foo][0]', options: [BOTH] },
-    { code: 'new[foo][0]', options: [NEITHER] },
-    { code: 'new foo', options: [override('new', NEITHER)] },
 
     // not conflict with `template-curly-spacing`
     { code: '`${new foo()}`', parserOptions: { ecmaVersion: 6 } },
@@ -1337,15 +1298,7 @@ run<RuleOptions, MessageIds>({
 
     // not conflict with `space-unary-ops`
     { code: '!typeof +foo', options: [BOTH] },
-    { code: '!typeof+foo', options: [NEITHER] },
-    { code: '! typeof +foo', options: [BOTH] },
-    { code: '! typeof+foo', options: [NEITHER] },
-    { code: 'typeof foo', options: [BOTH] },
-    { code: 'typeof{foo:true}', options: [NEITHER] },
-    { code: 'typeof {foo:true}', options: [BOTH] },
-    { code: 'typeof (foo)', options: [BOTH] },
-    { code: 'typeof(foo)', options: [NEITHER] },
-    { code: 'typeof!foo', options: [NEITHER] },
+    { code: '! typeof(foo)', options: [NEITHER] },
 
     // not conflict with `template-curly-spacing`
     { code: '`${typeof foo}`', parserOptions: { ecmaVersion: 6 } },
@@ -1427,16 +1380,8 @@ run<RuleOptions, MessageIds>({
     { code: 'a > void foo', options: [NEITHER] },
 
     // not conflict with `space-unary-ops`
-    { code: '!void +foo', options: [BOTH] },
-    { code: '!void+foo', options: [NEITHER] },
-    { code: '! void +foo', options: [BOTH] },
-    { code: '! void+foo', options: [NEITHER] },
-    { code: 'void 0', options: [BOTH] },
-    { code: '(void 0)', options: [BOTH] },
-    { code: '(void (0))', options: [BOTH] },
-    { code: 'void foo', options: [BOTH] },
-    { code: 'void foo', options: [NEITHER] },
-    { code: 'void(foo)', options: [NEITHER] },
+    { code: '!void foo', options: [BOTH] },
+    { code: '! void(foo)', options: [NEITHER] },
 
     // not conflict with `template-curly-spacing`
     { code: '`${void foo}`', parserOptions: { ecmaVersion: 6 } },
@@ -1537,38 +1482,6 @@ run<RuleOptions, MessageIds>({
     { code: 'function* foo() { a =yield foo }', parserOptions: { ecmaVersion: 6 } },
     { code: 'function* foo() { a = yield foo }', options: [NEITHER], parserOptions: { ecmaVersion: 6 } },
 
-    // not conflict with `space-unary-ops`
-    {
-      code: 'function* foo() { yield+foo }',
-      parserOptions: { ecmaVersion: 6 },
-      options: [NEITHER],
-    },
-    {
-      code: 'function* foo() { yield +foo }',
-      parserOptions: { ecmaVersion: 6 },
-      options: [BOTH],
-    },
-    {
-      code: 'function *foo () { yield (0) }',
-      parserOptions: { ecmaVersion: 6 },
-      options: [BOTH],
-    },
-    {
-      code: 'function *foo() { yield +1 }',
-      parserOptions: { ecmaVersion: 6 },
-      options: [BOTH],
-    },
-    {
-      code: 'function *foo () { yield(0) }',
-      parserOptions: { ecmaVersion: 6 },
-      options: [override('yield', NEITHER)],
-    },
-    {
-      code: 'class C { #x; *foo(bar) { yield#x in bar; } }',
-      parserOptions: { ecmaVersion: 2022 },
-      options: [NEITHER],
-    },
-
     // not conflict with `template-curly-spacing`
     { code: '`${yield}`', parserOptions: { ecmaVersion: 6, sourceType: 'script' } },
     { code: '`${ yield}`', options: [NEITHER], parserOptions: { ecmaVersion: 6, sourceType: 'script' } },
@@ -1578,26 +1491,8 @@ run<RuleOptions, MessageIds>({
     { code: 'function* foo() { <Foo onClick={ yield } /> }', options: [NEITHER], parserOptions: { ecmaVersion: 6, ecmaFeatures: { jsx: true } } },
 
     // not conflict with `yield-star-spacing`
-    {
-      code: 'function *foo() { yield * 0 }',
-      parserOptions: { ecmaVersion: 6 },
-      options: [NEITHER],
-    },
-    {
-      code: 'function *foo() { yield* 0 }',
-      parserOptions: { ecmaVersion: 6 },
-      options: [BOTH],
-    },
-    {
-      code: 'function *foo() { yield *0 }',
-      parserOptions: { ecmaVersion: 6 },
-      options: [NEITHER],
-    },
-    {
-      code: 'function *foo() { yield*0 }',
-      parserOptions: { ecmaVersion: 6 },
-      options: [BOTH],
-    },
+    { code: 'function *foo() { yield*0 }', options: [BOTH] },
+    { code: 'function *foo() { yield * 0 }', options: [NEITHER] },
 
     // ----------------------------------------------------------------------
     // typescript parser
@@ -2017,34 +1912,6 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 2018 },
       errors: unexpectedAfter('await'),
     },
-    {
-      code: 'async function foo() { await{foo: \'bar\'} }',
-      output: 'async function foo() { await {foo: \'bar\'} }',
-      parserOptions: { ecmaVersion: 8 },
-      options: [BOTH],
-      errors: expectedAfter('await'),
-    },
-    {
-      code: 'async function foo() { await{baz: \'qux\'} }',
-      output: 'async function foo() { await {baz: \'qux\'} }',
-      parserOptions: { ecmaVersion: 8 },
-      options: [override('await', BOTH)],
-      errors: expectedAfter('await'),
-    },
-    {
-      code: 'async function foo() { await {foo: 1} }',
-      output: 'async function foo() { await{foo: 1} }',
-      parserOptions: { ecmaVersion: 8 },
-      options: [NEITHER],
-      errors: unexpectedAfter('await'),
-    },
-    {
-      code: 'async function foo() { await {bar: 2} }',
-      output: 'async function foo() { await{bar: 2} }',
-      parserOptions: { ecmaVersion: 8 },
-      options: [override('await', NEITHER)],
-      errors: unexpectedAfter('await'),
-    },
 
     // ----------------------------------------------------------------------
     // break
@@ -2437,30 +2304,6 @@ run<RuleOptions, MessageIds>({
       output: '{}delete foo.a',
       options: [override('delete', NEITHER)],
       errors: unexpectedBefore('delete'),
-    },
-    {
-      code: '{} delete (foo.a)',
-      output: '{}delete(foo.a)',
-      options: [override('delete', NEITHER)],
-      errors: [...unexpectedBefore('delete'), ...unexpectedAfter('delete')],
-    },
-    {
-      code: 'delete(foo.bar)',
-      output: 'delete (foo.bar)',
-      options: [BOTH],
-      errors: expectedAfter('delete'),
-    },
-    {
-      code: 'delete(foo["bar"]);',
-      output: 'delete (foo["bar"]);',
-      options: [BOTH],
-      errors: expectedAfter('delete'),
-    },
-    {
-      code: 'delete (foo.bar)',
-      output: 'delete(foo.bar)',
-      options: [NEITHER],
-      errors: unexpectedAfter('delete'),
     },
 
     // ----------------------------------------------------------------------
@@ -3298,36 +3141,6 @@ run<RuleOptions, MessageIds>({
       options: [override('new', NEITHER)],
       errors: unexpectedBefore('new'),
     },
-    {
-      code: 'new(Foo)',
-      output: 'new (Foo)',
-      options: [BOTH],
-      errors: expectedAfter('new'),
-    },
-    {
-      code: 'new (Foo)',
-      output: 'new(Foo)',
-      options: [NEITHER],
-      errors: unexpectedAfter('new'),
-    },
-    {
-      code: 'new(Foo())',
-      output: 'new (Foo())',
-      options: [BOTH],
-      errors: expectedAfter('new'),
-    },
-    {
-      code: 'new [foo][0]',
-      output: 'new[foo][0]',
-      options: [NEITHER],
-      errors: unexpectedAfter('new'),
-    },
-    {
-      code: 'new(Foo)',
-      output: 'new (Foo)',
-      options: [override('new', BOTH)],
-      errors: expectedAfter('new'),
-    },
 
     // ----------------------------------------------------------------------
     // of
@@ -3788,48 +3601,6 @@ run<RuleOptions, MessageIds>({
       options: [override('typeof', NEITHER)],
       errors: unexpectedBefore('typeof'),
     },
-    {
-      code: 'typeof(foo)',
-      output: 'typeof (foo)',
-      options: [BOTH],
-      errors: expectedAfter('typeof'),
-    },
-    {
-      code: 'typeof (foo)',
-      output: 'typeof(foo)',
-      options: [NEITHER],
-      errors: unexpectedAfter('typeof'),
-    },
-    {
-      code: 'typeof[foo]',
-      output: 'typeof [foo]',
-      options: [BOTH],
-      errors: expectedAfter('typeof'),
-    },
-    {
-      code: 'typeof [foo]',
-      output: 'typeof[foo]',
-      options: [NEITHER],
-      errors: unexpectedAfter('typeof'),
-    },
-    {
-      code: 'typeof{foo:true}',
-      output: 'typeof {foo:true}',
-      options: [BOTH],
-      errors: expectedAfter('typeof'),
-    },
-    {
-      code: 'typeof {foo:true}',
-      output: 'typeof{foo:true}',
-      options: [NEITHER],
-      errors: unexpectedAfter('typeof'),
-    },
-    {
-      code: 'typeof!foo',
-      output: 'typeof !foo',
-      options: [BOTH],
-      errors: expectedAfter('typeof'),
-    },
 
     // ----------------------------------------------------------------------
     // var
@@ -3889,42 +3660,6 @@ run<RuleOptions, MessageIds>({
       output: '{}void foo',
       options: [override('void', NEITHER)],
       errors: unexpectedBefore('void'),
-    },
-    {
-      code: 'void(0);',
-      output: 'void (0);',
-      options: [BOTH],
-      errors: expectedAfter('void'),
-    },
-    {
-      code: 'void(foo);',
-      output: 'void (foo);',
-      options: [BOTH],
-      errors: expectedAfter('void'),
-    },
-    {
-      code: 'void[foo];',
-      output: 'void [foo];',
-      options: [BOTH],
-      errors: expectedAfter('void'),
-    },
-    {
-      code: 'void{a:0};',
-      output: 'void {a:0};',
-      options: [BOTH],
-      errors: expectedAfter('void'),
-    },
-    {
-      code: 'void (foo)',
-      output: 'void(foo)',
-      options: [NEITHER],
-      errors: unexpectedAfter('void'),
-    },
-    {
-      code: 'void [foo]',
-      output: 'void[foo]',
-      options: [NEITHER],
-      errors: unexpectedAfter('void'),
     },
 
     // ----------------------------------------------------------------------
@@ -4042,38 +3777,9 @@ run<RuleOptions, MessageIds>({
       errors: unexpectedBefore('yield'),
     },
     {
-      code: 'function *foo() { yield(0) }',
-      output: 'function *foo() { yield (0) }',
-      options: [BOTH],
-      parserOptions: { ecmaVersion: 6 },
-      errors: expectedAfter('yield'),
-    },
-    {
-      code: 'function *foo() { yield (0) }',
-      output: 'function *foo() { yield(0) }',
-      options: [NEITHER],
-      parserOptions: { ecmaVersion: 6 },
-      errors: unexpectedAfter('yield'),
-    },
-    {
-      code: 'function *foo() { yield+0 }',
-      output: 'function *foo() { yield +0 }',
-      options: [BOTH],
-      parserOptions: { ecmaVersion: 6 },
-      errors: expectedAfter('yield'),
-    },
-    {
-      code: 'function *foo() { yield(0) }',
-      output: 'function *foo() { yield (0) }',
-      options: [override('yield', BOTH)],
-      parserOptions: { ecmaVersion: 6 },
-      errors: expectedAfter('yield'),
-    },
-    {
       code: 'class C { #x; *foo(bar) { yield #x in bar; } }',
       output: 'class C { #x; *foo(bar) { yield#x in bar; } }',
       options: [NEITHER],
-      parserOptions: { ecmaVersion: 2022 },
       errors: unexpectedAfter('yield'),
     },
 

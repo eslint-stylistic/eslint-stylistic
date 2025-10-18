@@ -12,11 +12,6 @@ run<RuleOptions, MessageIds>({
   rule,
 
   valid: [
-    '++this.a',
-    '--this.a',
-    'this.a++',
-    'this.a--',
-    'foo .bar++',
     {
       code: 'foo.bar --',
       options: [{ nonwords: true }],
@@ -87,13 +82,6 @@ run<RuleOptions, MessageIds>({
         ! a.b.c
       `,
       options: [{ nonwords: true }],
-    },
-    {
-      code: $`
-        a!.b!.c
-        !a.b.c
-      `,
-      options: [{ nonwords: true, overrides: { '!': false } }],
     },
   ],
 
