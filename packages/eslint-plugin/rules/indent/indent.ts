@@ -1431,21 +1431,12 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     // JSXText
-    function getNodeIndent(node: ASTNode | Token, byLastLine = false, excludeCommas = false) {
+    function getNodeIndent(node: ASTNode | Token) {
       let src = context.sourceCode.getText(node, node.loc.start.column)
       const lines = src.split('\n')
-      if (byLastLine)
-        src = lines[lines.length - 1]
-      else
-        src = lines[0]
+      src = lines[0]
 
-      const skip = excludeCommas ? ',' : ''
-
-      let regExp
-      if (indentType === 'space')
-        regExp = new RegExp(`^[ ${skip}]+`)
-      else
-        regExp = new RegExp(`^[\t${skip}]+`)
+      const regExp = new RegExp(`^[${indentType === 'space' ? ' ' : '\t'}]+`)
 
       const indent = regExp.exec(src)
       return indent ? indent[0].length : 0
@@ -1909,26 +1900,28 @@ export default createRule<RuleOptions, MessageIds>({
         )
         const hasFirstInLineNode = nodeIndentsPerLine.length > 0
         const parentNodeIndent = getNodeIndent(node.parent)
-        const indent = parentNodeIndent + indentSize
+        const targetIndent = parentNodeIndent + indentSize
         if (
-          hasFirstInLineNode
-          && !nodeIndentsPerLine.every(actualIndent => actualIndent === indent)
+          !hasFirstInLineNode
+          || nodeIndentsPerLine.every(actualIndent => actualIndent === targetIndent)
         ) {
-          nodeIndentsPerLine.forEach((nodeIndent) => {
-            context.report({
-              node,
-              messageId: 'wrongIndentation',
-              data: createErrorMessageData(indent, nodeIndent, nodeIndent),
-              fix(fixer) {
-                const indentChar = indentType === 'space' ? ' ' : '\t'
-                const indentStr = new Array(indent + 1).join(indentChar)
-                const regExp = /\n[\t ]*(\S)/g
-                const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indentStr}${p1}`)
-                return fixer.replaceText(node, fixedText)
-              },
-            })
-          })
+          return
         }
+
+        nodeIndentsPerLine.forEach((nodeIndent) => {
+          context.report({
+            node,
+            messageId: 'wrongIndentation',
+            data: createErrorMessageData(targetIndent, nodeIndent, nodeIndent),
+            fix(fixer) {
+              const indentChar = indentType === 'space' ? ' ' : '\t'
+              const indentStr = new Array(targetIndent + 1).join(indentChar)
+              const regExp = /\n[\t ]*(\S)/g
+              const fixedText = node.raw.replace(regExp, (match, p1) => `\n${indentStr}${p1}`)
+              return fixer.replaceText(node, fixedText)
+            },
+          })
+        })
       },
 
       JSXAttribute(node) {
