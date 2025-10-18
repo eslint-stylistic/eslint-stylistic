@@ -125,31 +125,6 @@ export default createRule<RuleOptions, MessageIds>({
           }
         }
       },
-
-      // add space around = in type Foo<T = true>
-      TSTypeParameter: (node) => {
-        if (!node.default)
-          return
-
-        const endNode = node.constraint || node.name
-        const from = endNode.range[1]
-        const to = node.default.range[0]
-        const span = sourceCode.text.slice(from, to)
-
-        if (!span.match(/(?:^|[^ ]) = (?:$|[^ ])/)) {
-          context.report({
-            * fix(fixer) {
-              yield fixer.replaceTextRange([from, to], span.replace(/\s*=\s*/, ' = '))
-            },
-            loc: {
-              start: endNode.loc.end,
-              end: node.default.loc.start,
-            },
-            messageId: 'genericSpacingMismatch',
-            node,
-          })
-        }
-      },
     }
   },
 })
