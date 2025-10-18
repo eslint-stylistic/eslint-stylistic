@@ -39,9 +39,8 @@ export default createRule<RuleOptions, MessageIds>({
       ignoreTypes: false,
     },
   ],
-  create(context) {
-    const int32Hint = context.options[0] ? context.options[0].int32Hint === true : false
-    const ignoreTypes = context.options[0] ? context.options[0].ignoreTypes === true : false
+  create(context, [options]) {
+    const { int32Hint, ignoreTypes } = options!
     const sourceCode = context.sourceCode
 
     function report(node: ASTNode, operator: Token): void {
@@ -268,6 +267,12 @@ export default createRule<RuleOptions, MessageIds>({
       TSUnionType: checkForTypeAnnotationSpace,
       TSIntersectionType: checkForTypeAnnotationSpace,
       TSConditionalType: checkForTypeConditional,
+      TSTypeParameter(node) {
+        if (!node.default)
+          return
+
+        checkAndReportAssignmentSpace(node, node.name, node.default)
+      },
     }
   },
 })
