@@ -268,9 +268,6 @@ export default createRule<RuleOptions, MessageIds>({
       TSIntersectionType: checkForTypeAnnotationSpace,
       TSConditionalType: checkForTypeConditional,
       TSTypeParameter(node) {
-        if (!node.default)
-          return
-
         checkAndReportAssignmentSpace(node, node.name, node.default)
       },
     }
