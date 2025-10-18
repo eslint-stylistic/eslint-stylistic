@@ -102,28 +102,6 @@ export default createRule<RuleOptions, MessageIds>({
         const closeToken = sourceCode.getTokenAfter(params[params.length - 1])
 
         checkBracketSpacing(openToken, closeToken)
-
-        // add space between <T,K>
-        for (let i = 1; i < params.length; i++) {
-          const prev = params[i - 1]
-          const current = params[i]
-          const from = prev.range[1]
-          const to = current.range[0]
-          const span = sourceCode.text.slice(from, to)
-          if (span !== ', ' && !span.match(/,\s*\n/)) {
-            context.report({
-              * fix(fixer) {
-                yield fixer.replaceTextRange([from, to], ', ')
-              },
-              loc: {
-                start: prev.loc.end,
-                end: current.loc.start,
-              },
-              messageId: 'genericSpacingMismatch',
-              node,
-            })
-          }
-        }
       },
     }
   },

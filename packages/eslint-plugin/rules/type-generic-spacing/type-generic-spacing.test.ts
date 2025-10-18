@@ -56,8 +56,7 @@ run<RuleOptions, MessageIds>({
     ['type Foo< T > = T', 'type Foo<T> = T', 2],
     ['function foo< T >() {}', 'function foo<T>() {}', 2],
     ['type Foo< T = true    > = T', 'type Foo<T = true> = T', 2],
-    ['type Foo<T,K> = T', 'type Foo<T, K> = T'],
-    ['type Foo< T,K   > = T', 'type Foo<T, K> = T', 3],
+    ['type Foo< T, K   > = T', 'type Foo<T, K> = T', 2],
     ['function foo <T>() {}', 'function foo<T>() {}'],
     ['function foo< T >() {}', 'function foo<T>() {}', 2],
     [
