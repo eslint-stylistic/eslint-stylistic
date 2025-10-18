@@ -39,10 +39,6 @@ Object option:
 - `"allowTemplateLiterals": "never"` (default) disallows strings to use backtick in all cases
 - `"ignoreStringLiterals": true` don’t report string literals, only template strings (default: `false`)
 
-**Deprecated**: The object property `avoid-escape` is deprecated; please use the object property `avoidEscape` instead.
-
-**Deprecated**: Boolean values for `allowTemplateLiterals` are deprecated. `true` equates to `"always"` and `false` equates to `"never"`.
-
 ### double
 
 Examples of **incorrect** code for this rule with the default `"double"` option:
