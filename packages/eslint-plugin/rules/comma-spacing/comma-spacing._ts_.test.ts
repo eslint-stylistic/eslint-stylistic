@@ -14,6 +14,7 @@ run<RuleOptions, MessageIds>({
     'class Foo<T, T1> {}',
     'interface Foo<T, T1,>{}',
     'let foo,',
+    'const foo = new Foo<T, T1>',
   ],
 
   invalid: [
@@ -95,6 +96,13 @@ run<RuleOptions, MessageIds>({
           line: 1,
           data: { loc: 'before' },
         },
+      ],
+    },
+    {
+      code: 'const foo = new Foo<T , T1>',
+      output: 'const foo = new Foo<T, T1>',
+      errors: [
+        { messageId: 'unexpected', column: 23, line: 1, data: { loc: 'before' } },
       ],
     },
   ],
