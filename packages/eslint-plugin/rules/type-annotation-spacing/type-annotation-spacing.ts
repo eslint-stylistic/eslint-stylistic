@@ -12,9 +12,9 @@ import {
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
-type Options = Required<TypeAnnotationSpacingSchema0>['overrides']
+type OverrideOptions = Required<TypeAnnotationSpacingSchema0>['overrides']
 
-function createRules(options: TypeAnnotationSpacingSchema0 | undefined): Options {
+function createRules(options: TypeAnnotationSpacingSchema0 | undefined): OverrideOptions {
   const globals = {
     ...(options?.before !== undefined ? { before: options.before } : {}),
     ...(options?.after !== undefined ? { after: options.after } : {}),
@@ -42,7 +42,7 @@ function createRules(options: TypeAnnotationSpacingSchema0 | undefined): Options
 }
 
 function getIdentifierRules(
-  rules: Options,
+  rules: OverrideOptions,
   node: ASTNode | undefined,
 ) {
   const scope = node?.parent
@@ -56,7 +56,7 @@ function getIdentifierRules(
 }
 
 function getRules(
-  rules: Options,
+  rules: OverrideOptions,
   node: Tree.TypeNode,
 ) {
   const scope = node?.parent?.parent
