@@ -47,6 +47,7 @@ run<RuleOptions, MessageIds>({
     `,
     `const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}`,
     `const foo = class <T> { value: T; }`,
+    '<T>() => 1',
   ],
   invalid: ([
     ['const val: Set< string> = new Set()', 'const val: Set<string> = new Set()'],

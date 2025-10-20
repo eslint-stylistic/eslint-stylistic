@@ -31,14 +31,38 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforces consistent spacing inside TypeScript type generics',
     },
     fixable: 'whitespace',
-    schema: [],
+    schema: [
+      {
+        type: 'object',
+        properties: {
+          before: {
+            type: 'boolean',
+            default: false,
+          },
+          after: {
+            type: 'boolean',
+            default: false,
+          },
+        },
+        additionalProperties: false,
+      },
+    ],
     messages: {
       genericSpacingMismatch: 'Generic spaces mismatch',
     },
   },
-  defaultOptions: [],
+  defaultOptions: [
+    {
+      before: false,
+      after: false,
+    },
+  ],
   create: (context) => {
     const sourceCode = context.sourceCode
+
+    // function check(node: Tree.TSTypeParameterDeclaration | Tree.TSTypeParameterInstantiation) {
+
+    // }
 
     function removeSpaceBetween(left: Token, right: Token) {
       const textBetween = sourceCode.text.slice(left.range[1], right.range[0])
