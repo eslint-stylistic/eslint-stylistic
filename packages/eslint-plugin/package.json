@@ -55,7 +55,6 @@
     "./rules/jsx-equals-spacing": "./dist/rules/jsx-equals-spacing.js",
     "./rules/jsx-first-prop-new-line": "./dist/rules/jsx-first-prop-new-line.js",
     "./rules/jsx-function-call-newline": "./dist/rules/jsx-function-call-newline.js",
-    "./rules/jsx-indent": "./dist/rules/jsx-indent.js",
     "./rules/jsx-indent-props": "./dist/rules/jsx-indent-props.js",
     "./rules/jsx-max-props-per-line": "./dist/rules/jsx-max-props-per-line.js",
     "./rules/jsx-newline": "./dist/rules/jsx-newline.js",
@@ -143,7 +142,6 @@
     "@typescript-eslint/types": "catalog:prod",
     "eslint-visitor-keys": "catalog:prod",
     "espree": "catalog:prod",
-    "estraverse": "catalog:prod",
     "picomatch": "catalog:prod"
   }
 }

@@ -33,7 +33,6 @@ import jsxEqualsSpacing from './jsx-equals-spacing/jsx-equals-spacing'
 import jsxFirstPropNewLine from './jsx-first-prop-new-line/jsx-first-prop-new-line'
 import jsxFunctionCallNewline from './jsx-function-call-newline/jsx-function-call-newline'
 import jsxIndentProps from './jsx-indent-props/jsx-indent-props'
-import jsxIndent from './jsx-indent/jsx-indent'
 import jsxMaxPropsPerLine from './jsx-max-props-per-line/jsx-max-props-per-line'
 import jsxNewline from './jsx-newline/jsx-newline'
 import jsxOneExpressionPerLine from './jsx-one-expression-per-line/jsx-one-expression-per-line'
@@ -130,7 +129,6 @@ export default {
   'jsx-equals-spacing': jsxEqualsSpacing,
   'jsx-first-prop-new-line': jsxFirstPropNewLine,
   'jsx-function-call-newline': jsxFunctionCallNewline,
-  'jsx-indent': jsxIndent,
   'jsx-indent-props': jsxIndentProps,
   'jsx-max-props-per-line': jsxMaxPropsPerLine,
   'jsx-newline': jsxNewline,
