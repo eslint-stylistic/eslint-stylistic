@@ -70,6 +70,12 @@ run<RuleOptions, MessageIds>({
     '(a) =>\r\n{}',
     '(a) =>\n    0',
     'type Foo = () => void',
+    {
+      code: 'type Foo = ()=>void',
+      options: [
+        { after: false, before: false },
+      ],
+    },
   ],
   invalid: [
     {
@@ -266,6 +272,24 @@ run<RuleOptions, MessageIds>({
       output: '(a)  =>{}',
       options: [{ after: false }],
       errors: [
+        { column: 1, line: 2, messageId: 'unexpectedAfter' },
+      ],
+    },
+
+    {
+      code: 'type Foo = ()=>void',
+      output: 'type Foo = () => void',
+      errors: [
+        { column: 13, line: 1, messageId: 'expectedBefore' },
+        { column: 16, line: 1, messageId: 'expectedAfter' },
+      ],
+    },
+    {
+      code: 'type Foo = () =>\nvoid',
+      output: 'type Foo = ()=>void',
+      options: [{ after: false, before: false }],
+      errors: [
+        { column: 13, line: 1, messageId: 'unexpectedBefore' },
         { column: 1, line: 2, messageId: 'unexpectedAfter' },
       ],
     },
