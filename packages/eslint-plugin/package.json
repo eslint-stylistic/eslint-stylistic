@@ -141,7 +141,7 @@
   "dependencies": {
     "@eslint-community/eslint-utils": "catalog:prod",
     "@typescript-eslint/types": "catalog:prod",
-    "eslint-visitor-keys": "catalog:prod",
+    "@typescript-eslint/visitor-keys": "catalog:prod",
     "espree": "catalog:prod",
     "estraverse": "catalog:prod",
     "picomatch": "catalog:prod"
