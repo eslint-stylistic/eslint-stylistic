@@ -1,4 +1,5 @@
 import type { ASTNode, Tree } from '#types'
+import type { MessageIds, RuleOptions, TypeAnnotationSpacingSchema0 } from './types'
 import {
   isClassOrTypeElement,
   isFunction,
@@ -11,35 +12,9 @@ import {
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
-interface WhitespaceRule {
-  readonly before?: boolean
-  readonly after?: boolean
-}
+type OverrideOptions = Required<TypeAnnotationSpacingSchema0>['overrides']
 
-interface WhitespaceOverride {
-  readonly colon?: WhitespaceRule
-  readonly arrow?: WhitespaceRule
-  readonly variable?: WhitespaceRule
-  readonly property?: WhitespaceRule
-  readonly parameter?: WhitespaceRule
-  readonly returnType?: WhitespaceRule
-}
-
-interface Config extends WhitespaceRule {
-  readonly overrides?: WhitespaceOverride
-}
-
-type WhitespaceRules = Required<WhitespaceOverride>
-
-type Options = [Config?]
-type MessageIds
-  = | 'expectedSpaceAfter'
-    | 'expectedSpaceBefore'
-    | 'unexpectedSpaceAfter'
-    | 'unexpectedSpaceBefore'
-    | 'unexpectedSpaceBetween'
-
-function createRules(options?: Config): WhitespaceRules {
+function createRules(options: TypeAnnotationSpacingSchema0 | undefined): OverrideOptions {
   const globals = {
     ...(options?.before !== undefined ? { before: options.before } : {}),
     ...(options?.after !== undefined ? { after: options.after } : {}),
@@ -67,9 +42,9 @@ function createRules(options?: Config): WhitespaceRules {
 }
 
 function getIdentifierRules(
-  rules: WhitespaceRules,
+  rules: OverrideOptions,
   node: ASTNode | undefined,
-): WhitespaceRule {
+) {
   const scope = node?.parent
 
   if (isVariableDeclarator(scope))
@@ -81,9 +56,9 @@ function getIdentifierRules(
 }
 
 function getRules(
-  rules: WhitespaceRules,
+  rules: OverrideOptions,
   node: Tree.TypeNode,
-): WhitespaceRule {
+) {
   const scope = node?.parent?.parent
 
   if (isTSFunctionType(scope) || isTSConstructorType(scope))
@@ -98,7 +73,7 @@ function getRules(
   return rules.colon
 }
 
-export default createRule<Options, MessageIds>({
+export default createRule<RuleOptions, MessageIds>({
   name: 'type-annotation-spacing',
   meta: {
     type: 'layout',
@@ -175,7 +150,7 @@ export default createRule<Options, MessageIds>({
       if (!punctuators.includes(type))
         return
 
-      const { before, after } = getRules(ruleSet, typeAnnotation)
+      const { before, after } = getRules(ruleSet, typeAnnotation)!
 
       if (type === ':' && previousToken.value === '?') {
         // space between ? and :
