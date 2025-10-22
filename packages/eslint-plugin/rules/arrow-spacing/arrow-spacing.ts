@@ -1,9 +1,4 @@
-/**
- * @fileoverview Rule to define spacing before/after arrow function's arrow.
- * @author Jxck
- */
-
-import type { Token, Tree } from '#types'
+import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isArrowToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
@@ -54,31 +49,13 @@ export default createRule<RuleOptions, MessageIds>({
 
     const sourceCode = context.sourceCode
 
-    /**
-     * Get tokens of arrow(`=>`) and before/after arrow.
-     * @param node The arrow function node.
-     * @returns Tokens of arrow and before/after arrow.
-     */
-    function getTokens(node: Tree.ArrowFunctionExpression) {
-      const arrow = sourceCode.getTokenBefore(node.body, isArrowToken)!
-
-      return {
-        before: sourceCode.getTokenBefore(arrow)!,
-        arrow,
-        after: sourceCode.getTokenAfter(arrow)!,
+    function getArrow(node: Tree.ArrowFunctionExpression | Tree.TSFunctionType) {
+      if (node.type === 'ArrowFunctionExpression') {
+        return sourceCode.getTokenBefore(node.body, isArrowToken)!
       }
-    }
-
-    /**
-     * Count spaces before/after arrow(`=>`) token.
-     * @param tokens Tokens before/after arrow.
-     * @returns count of space before/after arrow.
-     */
-    function countSpaces(tokens: { before: Token, arrow: Token, after: Token }) {
-      const before = tokens.arrow.range[0] - tokens.before.range[1]
-      const after = tokens.after.range[0] - tokens.arrow.range[1]
-
-      return { before, after }
+      else if (node.type === 'TSFunctionType') {
+        return sourceCode.getFirstToken(node.returnType!, isArrowToken)!
+      }
     }
 
     /**
@@ -87,55 +64,60 @@ export default createRule<RuleOptions, MessageIds>({
      * if before/after value is `false`, there should be no space.
      * @param node The arrow function node.
      */
-    function spaces(node: Tree.ArrowFunctionExpression) {
-      const tokens = getTokens(node)
-      const countSpace = countSpaces(tokens)
+    function spaces(node: Tree.ArrowFunctionExpression | Tree.TSFunctionType) {
+      const arrowToken = getArrow(node)!
+
+      const beforeToken = sourceCode.getTokenBefore(arrowToken, { includeComments: true })!
+      const isSpacedBefore = sourceCode.isSpaceBetween(beforeToken, arrowToken)
 
       if (rule.before) {
         // should be space(s) before arrow
-        if (countSpace.before === 0) {
+        if (!isSpacedBefore) {
           context.report({
-            node: tokens.before,
+            node: beforeToken,
             messageId: 'expectedBefore',
             fix(fixer) {
-              return fixer.insertTextBefore(tokens.arrow, ' ')
+              return fixer.insertTextBefore(arrowToken, ' ')
             },
           })
         }
       }
       else {
         // should be no space before arrow
-        if (countSpace.before > 0) {
+        if (isSpacedBefore) {
           context.report({
-            node: tokens.before,
+            node: beforeToken,
             messageId: 'unexpectedBefore',
             fix(fixer) {
-              return fixer.removeRange([tokens.before.range[1], tokens.arrow.range[0]])
+              return fixer.removeRange([beforeToken.range[1], arrowToken.range[0]])
             },
           })
         }
       }
 
+      const afterToken = sourceCode.getTokenAfter(arrowToken, { includeComments: true })!
+      const isSpacedAfter = sourceCode.isSpaceBetween(arrowToken, afterToken)
+
       if (rule.after) {
         // should be space(s) after arrow
-        if (countSpace.after === 0) {
+        if (!isSpacedAfter) {
           context.report({
-            node: tokens.after,
+            node: afterToken,
             messageId: 'expectedAfter',
             fix(fixer) {
-              return fixer.insertTextAfter(tokens.arrow, ' ')
+              return fixer.insertTextAfter(arrowToken, ' ')
             },
           })
         }
       }
       else {
         // should be no space after arrow
-        if (countSpace.after > 0) {
+        if (isSpacedAfter) {
           context.report({
-            node: tokens.after,
+            node: afterToken,
             messageId: 'unexpectedAfter',
             fix(fixer) {
-              return fixer.removeRange([tokens.arrow.range[1], tokens.after.range[0]])
+              return fixer.removeRange([arrowToken.range[1], afterToken.range[0]])
             },
           })
         }
@@ -144,6 +126,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     return {
       ArrowFunctionExpression: spaces,
+      TSFunctionType: spaces,
     }
   },
 })

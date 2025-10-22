@@ -1,9 +1,3 @@
-/**
- * @fileoverview Tests for arrow-spacing
- * @author Jxck
- */
-//
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './arrow-spacing'
@@ -75,6 +69,7 @@ run<RuleOptions, MessageIds>({
     '(a) =>\n{}',
     '(a) =>\r\n{}',
     '(a) =>\n    0',
+    'type Foo = () => void',
   ],
   invalid: [
     {
