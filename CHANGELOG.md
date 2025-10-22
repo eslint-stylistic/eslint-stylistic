@@ -1,5 +1,21 @@
 # Changelog
 
+## [5.5.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.5.0...v5.5.1) (2025-10-22)
+
+
+### Documentation
+
+* **quotes:** update deprecated options to latest and add tips ([#1026](https://github.com/eslint-stylistic/eslint-stylistic/issues/1026)) ([dc949f8](https://github.com/eslint-stylistic/eslint-stylistic/commit/dc949f893dc0ffdad7566597ca768f9978793110))
+
+
+### Chores
+
+* **indent:** simplify logic in `JSXText` ([#1027](https://github.com/eslint-stylistic/eslint-stylistic/issues/1027)) ([d83c5b0](https://github.com/eslint-stylistic/eslint-stylistic/commit/d83c5b0ef2a4fe52f818c7d771f1e27d99e4a2c4))
+* **space-infix-ops:** simplify logic ([#1022](https://github.com/eslint-stylistic/eslint-stylistic/issues/1022)) ([6d57a7d](https://github.com/eslint-stylistic/eslint-stylistic/commit/6d57a7deb6bd72765a23de38627f361a5d5f2d2b))
+* **type-annotation-spacing:** simplify type definitions ([#1031](https://github.com/eslint-stylistic/eslint-stylistic/issues/1031)) ([aa6a0a3](https://github.com/eslint-stylistic/eslint-stylistic/commit/aa6a0a3aa3633abae95fbc5115a1de979c55de27))
+* **type-annotation-spacing:** use `unindent` for better collapse ([#1032](https://github.com/eslint-stylistic/eslint-stylistic/issues/1032)) ([839502a](https://github.com/eslint-stylistic/eslint-stylistic/commit/839502a5597d494e24c54f705354e475373206a6))
+* **type-generic-spacing:** remove logic duplicated with `comma-spacing` ([#1024](https://github.com/eslint-stylistic/eslint-stylistic/issues/1024)) ([361cfc8](https://github.com/eslint-stylistic/eslint-stylistic/commit/361cfc862895e808da03c18b7ab53cf4aac49a6c))
+
 ## [5.5.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.4.0...v5.5.0) (2025-10-18)
 
 
