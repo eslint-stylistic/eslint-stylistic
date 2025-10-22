@@ -225,6 +225,9 @@ export default createRule<RuleOptions, MessageIds>({
         checkAndReportAssignmentSpace(node, node.extendsType, node.trueType)
         checkAndReportAssignmentSpace(node, node.trueType, node.falseType)
       },
+      TSTypeParameter(node) {
+        checkAndReportAssignmentSpace(node, node.name, node.default)
+      },
     }
   },
 })
