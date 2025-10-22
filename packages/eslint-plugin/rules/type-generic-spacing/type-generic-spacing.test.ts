@@ -20,14 +20,14 @@ run<RuleOptions, MessageIds>({
     `,
     $`
       function foo<
-            T
-          >() {}
+        T
+      >() {}
     `,
     'const foo = <T>(name: T) => name',
     $`
       interface Log {
-            foo<T>(name: T): void
-          }
+        foo<T>(name: T): void
+      }
     `,
     $`
       interface Log {

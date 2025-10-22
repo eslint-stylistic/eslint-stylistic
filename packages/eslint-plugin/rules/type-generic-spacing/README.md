@@ -1,3 +1,10 @@
+---
+related_rules:
+  - type-annotation-spacing
+  - space-infix-ops
+  - space-before-blocks
+---
+
 # type-generic-spacing
 
 Enforces consistent spacing inside TypeScript type generics.
