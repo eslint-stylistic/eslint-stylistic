@@ -11,6 +11,7 @@ import {
   isVariableDeclarator,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { warnDeprecation } from '#utils/index'
 
 type OverrideOptions = Required<TypeAnnotationSpacingSchema0>['overrides']
 
@@ -30,6 +31,9 @@ function createRules(options: TypeAnnotationSpacingSchema0 | undefined): Overrid
     ...globals,
     ...override?.arrow,
   }
+
+  if (Object.hasOwn(override, 'arrow'))
+    warnDeprecation('options("overrides.arrow")', 'arrow-spacing', 'type-annotation-spacing')
 
   return {
     colon,
