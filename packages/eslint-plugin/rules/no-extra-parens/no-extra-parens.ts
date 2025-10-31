@@ -82,15 +82,15 @@ export default createRule<RuleOptions, MessageIds>({
                 nestedBinaryExpressions: { type: 'boolean' },
                 returnAssign: { type: 'boolean' },
                 ignoreJSX: { type: 'string', enum: ['none', 'all', 'single-line', 'multi-line'] },
-                /** @deprected */
+                /** @deprecated */
                 enforceForArrowConditionals: { type: 'boolean' },
                 enforceForSequenceExpressions: { type: 'boolean' },
-                /** @deprected */
+                /** @deprecated */
                 enforceForNewInMemberExpressions: { type: 'boolean' },
                 enforceForFunctionPrototypeMethods: { type: 'boolean' },
                 allowParensAfterCommentPattern: { type: 'string' },
                 nestedConditionalExpressions: { type: 'boolean' },
-                /** @deprected */
+                /** @deprecated */
                 allowNodesInSpreadElement: {
                   type: 'object',
                   properties: {
@@ -135,15 +135,15 @@ export default createRule<RuleOptions, MessageIds>({
     const IGNORE_NESTED_BINARY = ALL_NODES && options?.nestedBinaryExpressions === false
     const EXCEPT_RETURN_ASSIGN = ALL_NODES && options?.returnAssign === false
     const IGNORE_JSX = ALL_NODES && options?.ignoreJSX
-    /** @deprected */
+    /** @deprecated */
     const IGNORE_ARROW_CONDITIONALS = ALL_NODES && options?.enforceForArrowConditionals === false
     const IGNORE_SEQUENCE_EXPRESSIONS = ALL_NODES && options?.enforceForSequenceExpressions === false
-    /** @deprected */
+    /** @deprecated */
     const IGNORE_NEW_IN_MEMBER_EXPR = ALL_NODES && options?.enforceForNewInMemberExpressions === false
     const IGNORE_FUNCTION_PROTOTYPE_METHODS = ALL_NODES && options?.enforceForFunctionPrototypeMethods === false
     const ALLOW_PARENS_AFTER_COMMENT_PATTERN = ALL_NODES && options?.allowParensAfterCommentPattern
     const ALLOW_NESTED_TERNARY = ALL_NODES && options?.nestedConditionalExpressions === false
-    /** @deprected */
+    /** @deprecated */
     const ALLOW_NODES_IN_SPREAD = ALL_NODES && options
       && new Set(Object.entries(options.allowNodesInSpreadElement || {}).filter(([_, value]) => value).map(([key]) => key))
 
