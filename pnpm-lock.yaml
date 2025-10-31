@@ -141,15 +141,12 @@ catalogs:
       specifier: ^1.6.4
       version: 1.6.4
   prod:
-    '@eslint-community/eslint-utils':
-      specifier: ^4.9.0
-      version: 4.9.0
     '@typescript-eslint/types':
       specifier: ^8.46.1
       version: 8.46.1
-    eslint-visitor-keys:
-      specifier: ^4.2.1
-      version: 4.2.1
+    '@typescript-eslint/visitor-keys':
+      specifier: ^8.46.1
+      version: 8.46.1
     espree:
       specifier: ^10.4.0
       version: 10.4.0
@@ -253,6 +250,9 @@ importers:
       '@typescript-eslint/utils':
         specifier: catalog:dev
         version: 8.46.1(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/visitor-keys':
+        specifier: catalog:prod
+        version: 8.46.1
       '@vitest/coverage-v8':
         specifier: catalog:test
         version: 3.2.4(vitest@3.2.4)
@@ -271,9 +271,6 @@ importers:
       eslint-plugin-format:
         specifier: catalog:dev
         version: 1.0.2(eslint@9.37.0(jiti@2.6.1))
-      eslint-visitor-keys:
-        specifier: catalog:prod
-        version: 4.2.1
       eslint-vitest-rule-tester:
         specifier: catalog:test
         version: 2.2.2(eslint@9.37.0(jiti@2.6.1))(typescript@5.9.3)(vitest@3.2.4)
@@ -407,12 +404,12 @@ importers:
       '@typescript-eslint/types':
         specifier: catalog:prod
         version: 8.46.1
+      '@typescript-eslint/visitor-keys':
+        specifier: catalog:prod
+        version: 8.46.1
       eslint:
         specifier: '>=9.0.0'
         version: 9.37.0(jiti@2.6.1)
-      eslint-visitor-keys:
-        specifier: catalog:prod
-        version: 4.2.1
       espree:
         specifier: catalog:prod
         version: 10.4.0

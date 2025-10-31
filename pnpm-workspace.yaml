@@ -57,7 +57,7 @@ catalogs:
   prod:
     '@eslint-community/eslint-utils': ^4.9.0
     '@typescript-eslint/types': ^8.46.1
-    eslint-visitor-keys: ^4.2.1
+    '@typescript-eslint/visitor-keys': ^8.46.1
     espree: ^10.4.0
     estraverse: ^5.3.0
     picomatch: ^4.0.3

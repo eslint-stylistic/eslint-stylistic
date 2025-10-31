@@ -346,16 +346,6 @@ run<RuleOptions, MessageIds>({
         },
       },
     },
-    {
-      code: $`
-        f<(number) | string>(1)
-      `,
-      parserOptions: {
-        ecmaFeatures: {
-          jsx: true,
-        },
-      },
-    },
     // https://github.com/eslint/eslint/issues/17173
     {
       code: 'const x = (1 satisfies number).toFixed();',
@@ -413,12 +403,10 @@ run<RuleOptions, MessageIds>({
     },
     {
       code: 'a<(A) | number>((1));',
-      output: 'a<(A) | number>(1);',
+      output: 'a<A | number>(1);',
       errors: [
-        {
-          messageId: 'unexpected',
-          column: 17,
-        },
+        { messageId: 'unexpected', column: 3 },
+        { messageId: 'unexpected', column: 17 },
       ],
     },
     {
@@ -609,6 +597,13 @@ run<RuleOptions, MessageIds>({
         type Foo = boolean | Bar & Baz
       `,
       recursive: Number.POSITIVE_INFINITY,
+      errors: [
+        { messageId: 'unexpected' },
+      ],
+    },
+    {
+      code: 'f<(number) | string>(1)',
+      output: 'f<number | string>(1)',
       errors: [
         { messageId: 'unexpected' },
       ],
