@@ -3,6 +3,8 @@ import type { MessageIds, RuleOptions } from './types'
 import { isArrowToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
+type SupportedNode = Tree.ArrowFunctionExpression | Tree.TSFunctionType | Tree.TSConstructorType
+
 export default createRule<RuleOptions, MessageIds>({
   name: 'arrow-spacing',
   meta: {
@@ -49,11 +51,11 @@ export default createRule<RuleOptions, MessageIds>({
 
     const sourceCode = context.sourceCode
 
-    function getArrow(node: Tree.ArrowFunctionExpression | Tree.TSFunctionType) {
+    function getArrow(node: SupportedNode) {
       if (node.type === 'ArrowFunctionExpression') {
         return sourceCode.getTokenBefore(node.body, isArrowToken)!
       }
-      else if (node.type === 'TSFunctionType') {
+      else {
         return sourceCode.getFirstToken(node.returnType!, isArrowToken)!
       }
     }
@@ -64,7 +66,7 @@ export default createRule<RuleOptions, MessageIds>({
      * if before/after value is `false`, there should be no space.
      * @param node The arrow function node.
      */
-    function spaces(node: Tree.ArrowFunctionExpression | Tree.TSFunctionType) {
+    function spaces(node: SupportedNode) {
       const arrowToken = getArrow(node)!
 
       const beforeToken = sourceCode.getTokenBefore(arrowToken, { includeComments: true })!
@@ -127,6 +129,7 @@ export default createRule<RuleOptions, MessageIds>({
     return {
       ArrowFunctionExpression: spaces,
       TSFunctionType: spaces,
+      TSConstructorType: spaces,
     }
   },
 })

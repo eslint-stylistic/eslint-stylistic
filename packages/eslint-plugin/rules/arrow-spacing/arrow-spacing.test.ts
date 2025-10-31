@@ -69,6 +69,7 @@ run<RuleOptions, MessageIds>({
     '(a) =>\n{}',
     '(a) =>\r\n{}',
     '(a) =>\n    0',
+    // TSFunctionType
     'type Foo = () => void',
     {
       code: 'type Foo = ()=>void',
@@ -76,6 +77,8 @@ run<RuleOptions, MessageIds>({
         { after: false, before: false },
       ],
     },
+    // TSConstructorType
+    'type T = new () => P',
   ],
   invalid: [
     {
@@ -276,6 +279,7 @@ run<RuleOptions, MessageIds>({
       ],
     },
 
+    // TSFunctionType
     {
       code: 'type Foo = ()=>void',
       output: 'type Foo = () => void',
@@ -291,6 +295,16 @@ run<RuleOptions, MessageIds>({
       errors: [
         { column: 13, line: 1, messageId: 'unexpectedBefore' },
         { column: 1, line: 2, messageId: 'unexpectedAfter' },
+      ],
+    },
+
+    // TSConstructorType
+    {
+      code: 'type T = new ()=>P',
+      output: 'type T = new () => P',
+      errors: [
+        { column: 15, line: 1, messageId: 'expectedBefore' },
+        { column: 18, line: 1, messageId: 'expectedAfter' },
       ],
     },
 
