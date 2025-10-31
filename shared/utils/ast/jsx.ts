@@ -1,9 +1,7 @@
 /**
  * @fileoverview Utility functions for JSX
  */
-import type { ASTNode, ESNode, RuleContext, Tree } from '#types'
-import { traverseReturns } from './traverse'
-import { findVariableByName } from './variable'
+import type { ASTNode, Tree } from '#types'
 
 // See https://github.com/babel/babel/blob/ce420ba51c68591e057696ef43e028f41c6e04cd/packages/babel-types/src/validators/react/isCompatTag.js
 // for why we only test for the first character
@@ -26,63 +24,6 @@ export function isDOMComponent(node: Tree.JSXOpeningElement | Tree.JSXOpeningFra
  */
 export function isJSX(node: ASTNode): node is (Tree.JSXElement | Tree.JSXFragment) {
   return node && ['JSXElement', 'JSXFragment'].includes(node.type)
-}
-
-/**
- * Check if the node is returning JSX or null
- *
- * @param ASTnode The AST node being checked
- * @param context The context of `ASTNode`.
- * @param [strict] If true, in a ternary condition the node must return JSX in both cases
- * @param [ignoreNull] If true, null return values will be ignored
- * @returns True if the node is returning JSX or null, false if not
- */
-export function isReturningJSX(ASTnode: ASTNode, context: RuleContext<any, any>, strict = false, ignoreNull = false) {
-  const isJSXValue = (node: ASTNode | ESNode | null | undefined): boolean => {
-    if (!node)
-      return false
-
-    switch (node.type) {
-      case 'ConditionalExpression':
-        if (strict)
-          return isJSXValue(node.consequent) && isJSXValue(node.alternate)
-
-        return isJSXValue(node.consequent) || isJSXValue(node.alternate)
-      case 'LogicalExpression':
-        if (strict)
-          return isJSXValue(node.left) && isJSXValue(node.right)
-
-        return isJSXValue(node.left) || isJSXValue(node.right)
-      case 'SequenceExpression':
-        return isJSXValue(node.expressions[node.expressions.length - 1])
-      case 'JSXElement':
-      case 'JSXFragment':
-        return true
-      case 'Literal':
-        if (!ignoreNull && node.value === null)
-          return true
-        return false
-      case 'Identifier': {
-        const variable = findVariableByName(context, node.name)
-        return isJSX(variable)
-      }
-      default:
-        return false
-    }
-  }
-
-  let found = false
-  traverseReturns(
-    ASTnode as ESNode,
-    (node, breakTraverse) => {
-      if (isJSXValue(node)) {
-        found = true
-        breakTraverse()
-      }
-    },
-  )
-
-  return found
 }
 
 /**
