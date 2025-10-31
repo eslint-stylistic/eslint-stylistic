@@ -271,7 +271,7 @@ type Foo = ()=>{};
 
 :::
 
-#### arrow
+#### arrow (**deprecated**)
 
 Examples of **incorrect** code for this rule with the `{ "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }` option:
 
