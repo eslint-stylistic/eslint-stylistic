@@ -67,10 +67,10 @@ catalogs:
     '@babel/plugin-syntax-do-expressions': ^7.27.1
     '@babel/plugin-syntax-function-bind': ^7.27.1
     '@babel/preset-react': ^7.27.1
-    '@vitest/coverage-v8': ^3.2.4
-    '@vitest/ui': ^3.2.4
-    eslint-vitest-rule-tester: ^2.2.2
-    vitest: ^3.2.4
+    '@vitest/coverage-v8': ^4.0.8
+    '@vitest/ui': ^4.0.8
+    eslint-vitest-rule-tester: ^3.0.0
+    vitest: ^4.0.8
     vue-eslint-parser: ^10.2.0
 onlyBuiltDependencies:
   - esbuild
