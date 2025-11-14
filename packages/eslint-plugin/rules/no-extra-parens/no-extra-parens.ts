@@ -180,10 +180,8 @@ export default createRule<RuleOptions, MessageIds>({
       while (currentNode !== ancestor) {
         currentNode = currentNode.parent
 
-        /* c8 ignore start */
         if (currentNode === null || currentNode === undefined)
           throw new Error('Nodes are not in the ancestor-descendant relationship.')
-        /* c8 ignore stop */
 
         path.push(currentNode)
       }

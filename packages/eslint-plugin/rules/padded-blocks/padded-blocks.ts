@@ -164,8 +164,6 @@ export default createRule<RuleOptions, MessageIds>({
           return options.switches
         case 'ClassBody':
           return options.classes
-
-          /* c8 ignore next */
         default:
           throw new Error('unreachable')
       }
