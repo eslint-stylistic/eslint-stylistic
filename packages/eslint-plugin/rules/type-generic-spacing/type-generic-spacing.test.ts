@@ -48,6 +48,7 @@ run<RuleOptions, MessageIds>({
     `const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}`,
     `const foo = class <T> { value: T; }`,
     '<T>() => 1',
+    `type Foo = import('foo')<T> ['Foo']`,
   ],
   invalid: ([
     ['const val: Set< string> = new Set()', 'const val: Set<string> = new Set()'],
@@ -67,15 +68,20 @@ run<RuleOptions, MessageIds>({
     ['function foo< T >() {}', 'function foo<T>() {}', 2],
     [
       $`
-        interface Log {
+        interface Log<T> {
           foo <T>(name: T): void
+          bar: <T> () => void
+          baz: new <T> () => void
         }
       `,
       $`
-        interface Log {
+        interface Log<T> {
           foo<T>(name: T): void
+          bar: <T>() => void
+          baz: new <T>() => void
         }
       `,
+      3,
     ],
     [
       $`
@@ -95,10 +101,9 @@ run<RuleOptions, MessageIds>({
       'const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}',
       2,
     ],
-  ] as const)
-    .map(i => ({
-      code: i[0],
-      output: i[1],
-      errors: Array.from({ length: i[2] || 1 }, () => ({ messageId: 'genericSpacingMismatch' })),
-    })),
+  ] satisfies [string, string, number?][]).map(([code, output, errorLen = 1]) => ({
+    code,
+    output,
+    errors: Array.from({ length: errorLen }, () => ({ messageId: 'genericSpacingMismatch' })),
+  })),
 })

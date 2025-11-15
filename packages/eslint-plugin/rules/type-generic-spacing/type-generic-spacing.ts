@@ -24,8 +24,29 @@ const IGNORE_BEFORE = new Set<NodeTypes>([
 ])
 
 const IGNORE_AFTER = new Set<NodeTypes>([
+  // const foo = class Foo<T> extends Bar<T> {}
+  //                                        ^
+  // const foo = class Foo<T> {}
+  //                         ^
   // handled by `space-before-blocks`
   'ClassExpression',
+  // class foo<T> extends bar<T> {}
+  //             ^              ^
+  // handled by `keyword-spacing` and `space-before-blocks`
+  'ClassDeclaration',
+  // type Foo<T> = T
+  //            ^
+  // handled by `space-infix-ops`
+  'TSTypeAliasDeclaration',
+  // interface Foo<T> {}
+  //                 ^
+  // handled by `space-before-blocks`
+  'TSInterfaceDeclaration',
+  'TSTypeReference',
+  // type Foo = import('foo')<T> ['Foo']
+  //                            ^
+  // handled by `no-whitespace-before-property`
+  'TSImportType',
 ])
 
 type SupportNodes = Tree.TSTypeParameterDeclaration | Tree.TSTypeParameterInstantiation
@@ -149,6 +170,8 @@ export default createRule<RuleOptions, MessageIds>({
 
     return {
       TSTypeParameterInstantiation: (node) => {
+        checkSpacing(node)
+
         const params = node.params
 
         if (params.length === 0)
