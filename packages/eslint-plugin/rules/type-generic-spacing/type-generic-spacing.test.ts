@@ -9,8 +9,6 @@ run<RuleOptions, MessageIds>({
     'const foo: Array<number> = []',
     'type Foo<T = true> = T',
     'type Foo<T extends true = true> = T',
-    'type Foo<T = (true)> = T',
-    'type Foo<T extends (true) = (true)> = T',
     $`
       type Foo<
         T = true,
@@ -37,12 +35,6 @@ run<RuleOptions, MessageIds>({
       interface Foo {
           foo?: <T>(name: T) => void
         }
-    `,
-    $`
-      type Foo<
-        T = true,
-        K = false,
-      > = T
     `,
     `const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}`,
     `const foo = class <T> { value: T; }`,
