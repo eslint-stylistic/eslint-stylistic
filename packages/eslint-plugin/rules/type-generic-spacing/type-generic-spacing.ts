@@ -1,12 +1,25 @@
-import type { Token } from '#types'
+import type { NodeTypes, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 
-const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set([
+const PRESERVE_PREFIX_SPACE_BEFORE_GENERIC = new Set<NodeTypes>([
   'TSCallSignatureDeclaration',
+  // const foo = <T>(name: T) => name
+  //            ^
+  // handled by `space-infix-ops`
   'ArrowFunctionExpression',
+  // type Foo = <T>(name: T) => name
+  //           ^
+  // handled by `space-infix-ops`
   'TSFunctionType',
+  // type Foo = new <T>(name: T) => name
+  //               ^
+  // handled by `space-unary-ops`
+  'TSConstructorType',
   'FunctionExpression',
+  // const foo = class <T> {}
+  //                  ^
+  // handled by `keyword-spacing`
   'ClassExpression',
 ])
 
