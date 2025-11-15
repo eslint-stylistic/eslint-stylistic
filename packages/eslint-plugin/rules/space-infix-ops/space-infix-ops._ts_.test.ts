@@ -1822,6 +1822,13 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
+      code: 'type Foo<T=number> = T',
+      output: 'type Foo<T = number> = T',
+      errors: [
+        { messageId: 'missingSpace', line: 1, column: 11 },
+      ],
+    },
+    {
       code: `
         class Test {
           value: string |number;

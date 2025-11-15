@@ -57,6 +57,8 @@ const a={b:1};
 var {b=0}=bar;
 
 function foo(a=0) { }
+
+type Foo<T=true> = T
 ```
 
 :::
@@ -79,6 +81,8 @@ const a = {b:1};
 var {b = 0} = bar;
 
 function foo(a = 0) { }
+
+type Foo<T = true> = T
 ```
 
 :::
