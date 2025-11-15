@@ -1,9 +1,5 @@
+import type { TestCaseError } from '#test'
 import type { MessageIds, RuleOptions } from './types'
-/**
- * @fileoverview This option sets a specific tab width for your code
- * @author Dmitriy Shekhovtsov
- * @author Gyandeep Singh
- */
 import { readFileSync } from 'node:fs'
 import { join } from 'node:path'
 import { $, run } from '#test'
@@ -14,25 +10,16 @@ import rule from './indent'
 const fixture = readFileSync(join(__dirname, './fixtures/indent-invalid-fixture-1.js'), 'utf8')
 const fixedFixture = readFileSync(join(__dirname, './fixtures/indent-valid-fixture-1.js'), 'utf8')
 
-type ErrorInput = [number, number | string, number | string, string]
-interface ErrorOutput {
-  messageId: MessageIds
-  data: {
-    expected: string
-    actual: string | number
-  }
-  type: string
-  line: number
-}
+type ErrorInput = [number, number | string, number | string]
 
 /**
  * Create error message object for failure cases with a single 'found' indentation type
  */
-export function expectedErrors(providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
-export function expectedErrors(providedIndentType: 'space' | 'tab', providedErrors: ErrorInput | ErrorInput[]): ErrorOutput[]
-export function expectedErrors(providedIndentType: any, providedErrors?: any): ErrorOutput[] {
+export function expectedErrors(providedErrors: ErrorInput | ErrorInput[]): TestCaseError<MessageIds>[]
+export function expectedErrors(providedIndentType: 'space' | 'tab', providedErrors: ErrorInput | ErrorInput[]): TestCaseError<MessageIds>[]
+export function expectedErrors(providedIndentType: any, providedErrors?: any): TestCaseError<MessageIds>[] {
   let indentType: 'space' | 'tab'
-  let errors: Array<[number, number, number, string]>
+  let errors: Array<[number, number, number]>
 
   if (Array.isArray(providedIndentType)) {
     errors = Array.isArray(providedIndentType[0]) ? providedIndentType : [providedIndentType]
@@ -43,16 +30,15 @@ export function expectedErrors(providedIndentType: any, providedErrors?: any): E
     indentType = providedIndentType
   }
 
-  return errors.map<ErrorOutput>(err => ({
+  return errors.map<TestCaseError<MessageIds>>(([line, expected, actual]) => ({
     messageId: 'wrongIndentation',
     data: {
-      expected: typeof err[1] === 'string' && typeof err[2] === 'string'
-        ? err[1]
-        : `${err[1]} ${indentType}${err[1] === 1 ? '' : 's'}`,
-      actual: err[2],
+      expected: typeof expected === 'string' && typeof actual === 'string'
+        ? expected
+        : `${expected} ${indentType}${expected === 1 ? '' : 's'}`,
+      actual,
     },
-    type: err[3],
-    line: err[0],
+    line,
   }))
 }
 
@@ -6562,7 +6548,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2],
-      errors: expectedErrors([[3, 2, 0, 'Identifier']]),
+      errors: expectedErrors([[3, 2, 0]]),
     },
     {
       code: $`
@@ -6578,7 +6564,7 @@ run<RuleOptions, MessageIds>({
         });
       `,
       options: [2],
-      errors: expectedErrors([[2, 2, 18, 'Identifier'], [3, 2, 4, 'Identifier'], [4, 0, 2, 'Punctuator']]),
+      errors: expectedErrors([[2, 2, 18], [3, 2, 4], [4, 0, 2]]),
     },
     {
       code: $`
@@ -6600,7 +6586,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2],
-      errors: expectedErrors([[4, 2, 0, 'Identifier'], [6, 2, 4, 'Identifier']]),
+      errors: expectedErrors([[4, 2, 0], [6, 2, 4]]),
     },
     {
       code: $`
@@ -6618,7 +6604,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: ['tab'],
-      errors: expectedErrors('tab', [[3, 1, 2, 'Identifier'], [4, 1, 0, 'Identifier']]),
+      errors: expectedErrors('tab', [[3, 1, 2], [4, 1, 0]]),
     },
     {
       code: $`
@@ -6636,120 +6622,119 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4],
-      errors: expectedErrors([[3, 4, 6, 'Identifier'], [4, 4, 1, 'Identifier']]),
+      errors: expectedErrors([[3, 4, 6], [4, 4, 1]]),
     },
     {
       code: fixture,
       output: fixedFixture,
       options: [2, { SwitchCase: 1, MemberExpression: 1, CallExpression: { arguments: 'off' } }],
       errors: expectedErrors([
-        [5, 2, 4, 'Keyword'],
-        [6, 2, 0, 'Line'],
-        [10, 4, 6, 'Punctuator'],
-        [11, 2, 4, 'Punctuator'],
-
-        [15, 4, 2, 'Identifier'],
-        [16, 2, 4, 'Punctuator'],
-        [23, 2, 4, 'Punctuator'],
-        [29, 2, 4, 'Keyword'],
-        [30, 4, 6, 'Identifier'],
-        [36, 4, 6, 'Identifier'],
-        [38, 2, 4, 'Punctuator'],
-        [39, 4, 2, 'Identifier'],
-        [40, 2, 0, 'Punctuator'],
-        [54, 2, 4, 'Punctuator'],
-        [114, 4, 2, 'Keyword'],
-        [120, 4, 6, 'Keyword'],
-        [124, 4, 2, 'Keyword'],
-        [134, 4, 6, 'Keyword'],
-        [138, 2, 3, 'Punctuator'],
-        [139, 2, 3, 'Punctuator'],
-        [143, 4, 0, 'Identifier'],
-        [144, 6, 2, 'Punctuator'],
-        [145, 6, 2, 'Punctuator'],
-        [151, 4, 6, 'Identifier'],
-        [152, 6, 8, 'Punctuator'],
-        [153, 6, 8, 'Punctuator'],
-        [159, 4, 2, 'Identifier'],
-        [161, 4, 6, 'Identifier'],
-        [175, 2, 0, 'Identifier'],
-        [177, 2, 4, 'Identifier'],
-        [189, 2, 0, 'Keyword'],
-        [192, 6, 18, 'Identifier'],
-        [193, 6, 4, 'Identifier'],
-        [195, 6, 8, 'Identifier'],
-        [228, 5, 4, 'Identifier'],
-        [231, 3, 2, 'Punctuator'],
-        [245, 0, 2, 'Punctuator'],
-        [248, 0, 2, 'Punctuator'],
-        [304, 4, 6, 'Identifier'],
-        [306, 4, 8, 'Identifier'],
-        [307, 2, 4, 'Punctuator'],
-        [308, 2, 4, 'Identifier'],
-        [311, 4, 6, 'Identifier'],
-        [312, 4, 6, 'Identifier'],
-        [313, 4, 6, 'Identifier'],
-        [314, 2, 4, 'Punctuator'],
-        [315, 2, 4, 'Identifier'],
-        [318, 4, 6, 'Identifier'],
-        [319, 4, 6, 'Identifier'],
-        [320, 4, 6, 'Identifier'],
-        [321, 2, 4, 'Punctuator'],
-        [322, 2, 4, 'Identifier'],
-        [326, 2, 1, 'Numeric'],
-        [327, 2, 1, 'Numeric'],
-        [328, 2, 1, 'Numeric'],
-        [329, 2, 1, 'Numeric'],
-        [330, 2, 1, 'Numeric'],
-        [331, 2, 1, 'Numeric'],
-        [332, 2, 1, 'Numeric'],
-        [333, 2, 1, 'Numeric'],
-        [334, 2, 1, 'Numeric'],
-        [335, 2, 1, 'Numeric'],
-        [340, 2, 4, 'Identifier'],
-        [341, 2, 0, 'Identifier'],
-        [344, 2, 4, 'Identifier'],
-        [345, 2, 0, 'Identifier'],
-        [348, 2, 4, 'Identifier'],
-        [349, 2, 0, 'Identifier'],
-        [355, 2, 0, 'Identifier'],
-        [357, 2, 4, 'Identifier'],
-        [361, 4, 6, 'Identifier'],
-        [362, 2, 4, 'Punctuator'],
-        [363, 2, 4, 'Identifier'],
-        [368, 2, 0, 'Keyword'],
-        [370, 2, 4, 'Keyword'],
-        [374, 4, 6, 'Keyword'],
-        [376, 4, 2, 'Keyword'],
-        [383, 2, 0, 'Identifier'],
-        [385, 2, 4, 'Identifier'],
-        [390, 2, 0, 'Identifier'],
-        [392, 2, 4, 'Identifier'],
-        [409, 2, 0, 'Identifier'],
-        [410, 2, 4, 'Identifier'],
-        [416, 2, 0, 'Identifier'],
-        [417, 2, 4, 'Identifier'],
-        [418, 0, 4, 'Punctuator'],
-        [422, 2, 4, 'Identifier'],
-        [423, 2, 0, 'Identifier'],
-        [427, 2, 6, 'Identifier'],
-        [428, 2, 8, 'Identifier'],
-        [429, 2, 4, 'Identifier'],
-        [430, 0, 4, 'Punctuator'],
-        [433, 2, 4, 'Identifier'],
-        [434, 0, 4, 'Punctuator'],
-        [437, 2, 0, 'Identifier'],
-        [438, 0, 4, 'Punctuator'],
-        [442, 2, 4, 'Identifier'],
-        [443, 2, 4, 'Identifier'],
-        [444, 0, 2, 'Punctuator'],
-        [451, 2, 0, 'Identifier'],
-        [453, 2, 4, 'Identifier'],
-        [499, 6, 8, 'Punctuator'],
-        [500, 8, 6, 'Identifier'],
-        [504, 4, 6, 'Punctuator'],
-        [505, 6, 8, 'Identifier'],
-        [506, 4, 8, 'Punctuator'],
+        [5, 2, 4],
+        [6, 2, 0],
+        [10, 4, 6],
+        [11, 2, 4],
+        [15, 4, 2],
+        [16, 2, 4],
+        [23, 2, 4],
+        [29, 2, 4],
+        [30, 4, 6],
+        [36, 4, 6],
+        [38, 2, 4],
+        [39, 4, 2],
+        [40, 2, 0],
+        [54, 2, 4],
+        [114, 4, 2],
+        [120, 4, 6],
+        [124, 4, 2],
+        [134, 4, 6],
+        [138, 2, 3],
+        [139, 2, 3],
+        [143, 4, 0],
+        [144, 6, 2],
+        [145, 6, 2],
+        [151, 4, 6],
+        [152, 6, 8],
+        [153, 6, 8],
+        [159, 4, 2],
+        [161, 4, 6],
+        [175, 2, 0],
+        [177, 2, 4],
+        [189, 2, 0],
+        [192, 6, 18],
+        [193, 6, 4],
+        [195, 6, 8],
+        [228, 5, 4],
+        [231, 3, 2],
+        [245, 0, 2],
+        [248, 0, 2],
+        [304, 4, 6],
+        [306, 4, 8],
+        [307, 2, 4],
+        [308, 2, 4],
+        [311, 4, 6],
+        [312, 4, 6],
+        [313, 4, 6],
+        [314, 2, 4],
+        [315, 2, 4],
+        [318, 4, 6],
+        [319, 4, 6],
+        [320, 4, 6],
+        [321, 2, 4],
+        [322, 2, 4],
+        [326, 2, 1],
+        [327, 2, 1],
+        [328, 2, 1],
+        [329, 2, 1],
+        [330, 2, 1],
+        [331, 2, 1],
+        [332, 2, 1],
+        [333, 2, 1],
+        [334, 2, 1],
+        [335, 2, 1],
+        [340, 2, 4],
+        [341, 2, 0],
+        [344, 2, 4],
+        [345, 2, 0],
+        [348, 2, 4],
+        [349, 2, 0],
+        [355, 2, 0],
+        [357, 2, 4],
+        [361, 4, 6],
+        [362, 2, 4],
+        [363, 2, 4],
+        [368, 2, 0],
+        [370, 2, 4],
+        [374, 4, 6],
+        [376, 4, 2],
+        [383, 2, 0],
+        [385, 2, 4],
+        [390, 2, 0],
+        [392, 2, 4],
+        [409, 2, 0],
+        [410, 2, 4],
+        [416, 2, 0],
+        [417, 2, 4],
+        [418, 0, 4],
+        [422, 2, 4],
+        [423, 2, 0],
+        [427, 2, 6],
+        [428, 2, 8],
+        [429, 2, 4],
+        [430, 0, 4],
+        [433, 2, 4],
+        [434, 0, 4],
+        [437, 2, 0],
+        [438, 0, 4],
+        [442, 2, 4],
+        [443, 2, 4],
+        [444, 0, 2],
+        [451, 2, 0],
+        [453, 2, 4],
+        [499, 6, 8],
+        [500, 8, 6],
+        [504, 4, 6],
+        [505, 6, 8],
+        [506, 4, 8],
       ]),
       parserOptions: { ecmaVersion: 6, sourceType: 'script' },
     },
@@ -6781,7 +6766,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4, { SwitchCase: 1 }],
-      errors: expectedErrors([[4, 8, 4, 'Keyword'], [7, 8, 4, 'Keyword']]),
+      errors: expectedErrors([[4, 8, 4], [7, 8, 4]]),
     },
     {
       code: $`
@@ -6799,7 +6784,7 @@ run<RuleOptions, MessageIds>({
             };
       `,
       options: [4],
-      errors: expectedErrors([[3, 8, 7, 'Identifier'], [4, 8, 10, 'Identifier']]),
+      errors: expectedErrors([[3, 8, 7], [4, 8, 10]]),
     },
     {
       code: $`
@@ -6827,7 +6812,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4, { SwitchCase: 1 }],
-      errors: expectedErrors([9, 8, 4, 'Keyword']),
+      errors: expectedErrors([9, 8, 4]),
     },
     {
       code: $`
@@ -6871,7 +6856,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4, { SwitchCase: 1 }],
-      errors: expectedErrors([[11, 8, 4, 'Keyword'], [14, 8, 4, 'Keyword'], [17, 8, 4, 'Keyword']]),
+      errors: expectedErrors([[11, 8, 4], [14, 8, 4], [17, 8, 4]]),
     },
     {
       code: $`
@@ -6897,7 +6882,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4],
-      errors: expectedErrors([2, 4, 0, 'Keyword']),
+      errors: expectedErrors([2, 4, 0]),
     },
     {
       code: $`
@@ -6912,7 +6897,7 @@ run<RuleOptions, MessageIds>({
             console.log(foo + bar);
         }
       `,
-      errors: expectedErrors([3, 4, 0, 'Identifier']),
+      errors: expectedErrors([3, 4, 0]),
       parserOptions: { sourceType: 'script' },
     },
     {
@@ -6938,12 +6923,12 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { SwitchCase: 1 }],
       errors: expectedErrors([
-        [2, 4, 0, 'Keyword'],
-        [3, 8, 0, 'Identifier'],
-        [4, 8, 0, 'Keyword'],
-        [5, 4, 0, 'Keyword'],
-        [6, 8, 0, 'Identifier'],
-        [7, 8, 0, 'Keyword'],
+        [2, 4, 0],
+        [3, 8, 0],
+        [4, 8, 0],
+        [5, 4, 0],
+        [6, 8, 0],
+        [7, 8, 0],
       ]),
     },
     {
@@ -6961,7 +6946,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { MemberExpression: 1 }],
       errors: expectedErrors(
-        [3, 8, 10, 'Punctuator'],
+        [3, 8, 10],
       ),
     },
     {
@@ -6977,7 +6962,7 @@ run<RuleOptions, MessageIds>({
                 .bar
         )
       `,
-      errors: expectedErrors([3, 8, 4, 'Punctuator']),
+      errors: expectedErrors([3, 8, 4]),
     },
     {
       code: $`
@@ -6994,7 +6979,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { MemberExpression: 2 }],
       errors: expectedErrors(
-        [3, 12, 13, 'Punctuator'],
+        [3, 12, 13],
       ),
     },
     {
@@ -7012,7 +6997,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { MemberExpression: 2 }],
       errors: expectedErrors(
-        [3, 12, 13, 'Punctuator'],
+        [3, 12, 13],
       ),
     },
     {
@@ -7033,7 +7018,7 @@ run<RuleOptions, MessageIds>({
         };
       `,
       options: [2, { MemberExpression: 1 }],
-      errors: expectedErrors([3, 4, 6, 'Punctuator']),
+      errors: expectedErrors([3, 4, 6]),
     },
     {
       code: $`
@@ -7046,7 +7031,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
+        [2, 4, 0],
       ]),
     },
     {
@@ -7073,13 +7058,13 @@ run<RuleOptions, MessageIds>({
         }];
       `,
       errors: expectedErrors([
-        [2, 4, 8, 'Identifier'],
-        [3, 0, 4, 'Punctuator'],
-        [4, 0, 4, 'Punctuator'],
-        [5, 4, 8, 'Identifier'],
-        [6, 0, 4, 'Punctuator'],
-        [7, 0, 4, 'Punctuator'],
-        [8, 4, 8, 'Identifier'],
+        [2, 4, 8],
+        [3, 0, 4],
+        [4, 0, 4],
+        [5, 4, 8],
+        [6, 0, 4],
+        [7, 0, 4],
+        [8, 4, 8],
       ]),
     },
     {
@@ -7093,7 +7078,7 @@ run<RuleOptions, MessageIds>({
             foo < 10;
             foo++) {}
       `,
-      errors: expectedErrors([[2, 4, 0, 'Identifier'], [3, 4, 0, 'Identifier']]),
+      errors: expectedErrors([[2, 4, 0], [3, 4, 0]]),
     },
     {
       code: $`
@@ -7110,7 +7095,7 @@ run<RuleOptions, MessageIds>({
             foo++
         ) {}
       `,
-      errors: expectedErrors([[2, 4, 0, 'Keyword'], [3, 4, 0, 'Identifier'], [4, 4, 0, 'Identifier'], [5, 0, 4, 'Punctuator']]),
+      errors: expectedErrors([[2, 4, 0], [3, 4, 0], [4, 4, 0], [5, 0, 4]]),
     },
     {
       code: $`
@@ -7123,7 +7108,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
+        [2, 4, 0],
       ]),
     },
     {
@@ -7137,7 +7122,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
+        [2, 4, 0],
       ]),
     },
     {
@@ -7153,7 +7138,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
+        [2, 4, 0],
       ]),
     },
     {
@@ -7167,7 +7152,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
+        [2, 4, 0],
       ]),
       parserOptions: { sourceType: 'script' },
     },
@@ -7182,7 +7167,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
+        [2, 4, 0],
       ]),
     },
     {
@@ -7200,9 +7185,9 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
       errors: expectedErrors([
-        [2, 2, 6, 'Identifier'],
-        [3, 2, 4, 'Identifier'],
-        [4, 0, 4, 'Punctuator'],
+        [2, 2, 6],
+        [3, 2, 4],
+        [4, 0, 4],
       ]),
     },
     {
@@ -7224,9 +7209,9 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 8, 6, 'Identifier'],
-        [3, 8, 4, 'Identifier'],
-        [4, 8, 10, 'Identifier'],
+        [2, 8, 6],
+        [3, 8, 4],
+        [4, 8, 10],
       ]),
     },
     {
@@ -7242,8 +7227,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
-        [3, 4, 0, 'Identifier'],
+        [2, 4, 0],
+        [3, 4, 0],
       ]),
     },
     {
@@ -7261,8 +7246,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [3, 4, 8, 'Identifier'],
-        [4, 0, 4, 'Punctuator'],
+        [3, 4, 8],
+        [4, 0, 4],
       ]),
     },
     {
@@ -7280,8 +7265,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
-        [3, 4, 2, 'Keyword'],
+        [2, 4, 0],
+        [3, 4, 2],
       ]),
     },
     {
@@ -7297,7 +7282,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 4, 2, 'Keyword'],
+        [2, 4, 2],
       ]),
     },
     {
@@ -7314,7 +7299,7 @@ run<RuleOptions, MessageIds>({
             ]);
       `,
       options: [4, { MemberExpression: 1 }],
-      errors: expectedErrors([[3, 8, 4, 'Identifier'], [4, 4, 0, 'Punctuator']]),
+      errors: expectedErrors([[3, 8, 4], [4, 4, 0]]),
     },
     {
       code: $`
@@ -7331,8 +7316,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 4, 9, 'String'],
-        [3, 4, 9, 'String'],
+        [2, 4, 9],
+        [3, 4, 9],
       ]),
     },
     {
@@ -7352,9 +7337,9 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 4, 9, 'String'],
-        [3, 4, 9, 'String'],
-        [4, 4, 9, 'String'],
+        [2, 4, 9],
+        [3, 4, 9],
+        [4, 4, 9],
       ]),
     },
     {
@@ -7374,10 +7359,10 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 4, 9, 'String'],
-        [3, 4, 9, 'String'],
-        [4, 4, 9, 'String'],
-        [5, 4, 0, 'String'],
+        [2, 4, 9],
+        [3, 4, 9],
+        [4, 4, 9],
+        [5, 4, 0],
       ]),
     },
     {
@@ -7397,10 +7382,10 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 4, 9, 'String'],
-        [3, 4, 9, 'String'],
-        [4, 4, 9, 'String'],
-        [5, 0, 2, 'Punctuator'],
+        [2, 4, 9],
+        [3, 4, 9],
+        [4, 4, 9],
+        [5, 0, 2],
       ]),
     },
     {
@@ -7418,7 +7403,7 @@ run<RuleOptions, MessageIds>({
         ) {}
         ]
       `,
-      errors: expectedErrors([[3, 4, 8, 'Identifier'], [4, 0, 4, 'Punctuator']]),
+      errors: expectedErrors([[3, 4, 8], [4, 0, 4]]),
     },
     {
       code: $`
@@ -7441,7 +7426,7 @@ run<RuleOptions, MessageIds>({
         }
         )
       `,
-      errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
+      errors: expectedErrors([[4, 4, 8], [5, 0, 4]]),
     },
     {
       code: $`
@@ -7456,8 +7441,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
       errors: expectedErrors([
-        [2, 2, 0, 'Identifier'],
-        [3, 0, 2, 'Identifier'],
+        [2, 2, 0],
+        [3, 0, 2],
       ]),
     },
     {
@@ -7479,7 +7464,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { SwitchCase: 1 }],
       errors: expectedErrors([
-        [3, 4, 2, 'Keyword'],
+        [3, 4, 2],
       ]),
     },
     {
@@ -7493,7 +7478,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { SwitchCase: 1 }],
       errors: expectedErrors([
-        [2, 2, 0, 'Identifier'],
+        [2, 2, 0],
       ]),
     },
     {
@@ -7519,12 +7504,12 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { SwitchCase: 2 }],
       errors: expectedErrors([
-        [2, 8, 0, 'Keyword'],
-        [3, 12, 0, 'Identifier'],
-        [4, 12, 0, 'Keyword'],
-        [5, 8, 0, 'Keyword'],
-        [6, 12, 0, 'Identifier'],
-        [7, 12, 0, 'Keyword'],
+        [2, 8, 0],
+        [3, 12, 0],
+        [4, 12, 0],
+        [5, 8, 0],
+        [6, 12, 0],
+        [7, 12, 0],
       ]),
     },
     {
@@ -7538,7 +7523,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { VariableDeclarator: 1 }],
       errors: expectedErrors([
-        [2, 2, 0, 'Identifier'],
+        [2, 2, 0],
       ]),
     },
     {
@@ -7552,7 +7537,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { VariableDeclarator: 2 }],
       errors: expectedErrors([
-        [2, 4, 2, 'Identifier'],
+        [2, 4, 2],
       ]),
     },
     {
@@ -7566,7 +7551,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['tab', { VariableDeclarator: 2 }],
       errors: expectedErrors('tab', [
-        [2, 2, 1, 'Identifier'],
+        [2, 2, 1],
       ]),
     },
     {
@@ -7580,7 +7565,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { VariableDeclarator: 2 }],
       errors: expectedErrors([
-        [2, 4, 2, 'Identifier'],
+        [2, 4, 2],
       ]),
     },
     {
@@ -7598,8 +7583,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { VariableDeclarator: 'first' }],
       errors: expectedErrors([
-        [2, 4, 2, 'Identifier'],
-        [4, 6, 2, 'Identifier'],
+        [2, 4, 2],
+        [4, 6, 2],
       ]),
     },
     {
@@ -7618,7 +7603,7 @@ run<RuleOptions, MessageIds>({
           };
       `,
       options: [2, { VariableDeclarator: 'first', SwitchCase: 1 }],
-      errors: expectedErrors([4, 4, 5, 'Identifier']),
+      errors: expectedErrors([4, 4, 5]),
     },
     {
       code: $`
@@ -7640,7 +7625,7 @@ run<RuleOptions, MessageIds>({
             bar = 1;
       `,
       options: [2, { VariableDeclarator: 'first' }],
-      errors: expectedErrors([7, 4, 2, 'Identifier']),
+      errors: expectedErrors([7, 4, 2]),
     },
     {
       code: $`
@@ -7660,7 +7645,7 @@ run<RuleOptions, MessageIds>({
             };
       `,
       options: [2, { VariableDeclarator: 'first', SwitchCase: 1 }],
-      errors: expectedErrors([[3, 6, 4, 'Identifier']]),
+      errors: expectedErrors([[3, 6, 4]]),
     },
     {
       code: $`
@@ -7673,7 +7658,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { VariableDeclarator: { var: 'first' } }],
       errors: expectedErrors([
-        [2, 4, 2, 'Identifier'],
+        [2, 4, 2],
       ]),
     },
     {
@@ -7691,7 +7676,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
       errors: expectedErrors([
-        [4, 6, 4, 'Identifier'],
+        [4, 6, 4],
       ]),
     },
     {
@@ -7709,8 +7694,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
       errors: expectedErrors([
-        [2, 2, 4, 'Identifier'],
-        [3, 2, 4, 'Identifier'],
+        [2, 2, 4],
+        [3, 2, 4],
       ]),
     },
     {
@@ -7728,8 +7713,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
       errors: expectedErrors([
-        [2, 2, 4, 'Identifier'],
-        [3, 2, 4, 'Identifier'],
+        [2, 2, 4],
+        [3, 2, 4],
       ]),
     },
     {
@@ -7747,8 +7732,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { VariableDeclarator: { let: 2 }, SwitchCase: 1 }],
       errors: expectedErrors([
-        [2, 2, 4, 'Identifier'],
-        [3, 2, 4, 'Identifier'],
+        [2, 2, 4],
+        [3, 2, 4],
       ]),
     },
     {
@@ -7766,8 +7751,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [2, 8, 6, 'Identifier'],
-        [3, 4, 2, 'Punctuator'],
+        [2, 8, 6],
+        [3, 4, 2],
       ]),
     },
     {
@@ -7793,9 +7778,9 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { VariableDeclarator: { var: 2 } }],
       errors: expectedErrors([
-        [6, 4, 6, 'Identifier'],
-        [7, 2, 4, 'Punctuator'],
-        [8, 2, 4, 'Identifier'],
+        [6, 4, 6],
+        [7, 2, 4],
+        [8, 2, 4],
       ]),
     },
     {
@@ -7818,7 +7803,7 @@ run<RuleOptions, MessageIds>({
             };
       `,
       options: [2, { VariableDeclarator: 2, SwitchCase: 1, assignmentOperator: 0 }],
-      errors: expectedErrors([6, 6, 7, 'Identifier']),
+      errors: expectedErrors([6, 6, 7]),
     },
     {
       code: $`
@@ -7836,7 +7821,7 @@ run<RuleOptions, MessageIds>({
              };
       `,
       options: [2, { VariableDeclarator: 2, SwitchCase: 1, assignmentOperator: 'off' }],
-      errors: expectedErrors([4, 7, 8, 'Identifier']),
+      errors: expectedErrors([4, 7, 8]),
     },
     {
       code: $`
@@ -7858,7 +7843,7 @@ run<RuleOptions, MessageIds>({
           bar = 1;
       `,
       options: [2],
-      errors: expectedErrors([[4, 6, 8, 'Identifier'], [5, 4, 6, 'Punctuator']]),
+      errors: expectedErrors([[4, 6, 8], [5, 4, 6]]),
     },
     {
       code: $`
@@ -7873,7 +7858,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
       errors: expectedErrors([
-        [2, 2, 1, 'Punctuator'],
+        [2, 2, 1],
       ]),
     },
     {
@@ -7888,7 +7873,7 @@ run<RuleOptions, MessageIds>({
         ;
       `,
       errors: expectedErrors([
-        [2, 4, 3, 'Punctuator'],
+        [2, 4, 3],
       ]),
     },
     {
@@ -7907,7 +7892,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
-      errors: expectedErrors([[2, 4, 2, 'Identifier']]),
+      errors: expectedErrors([[2, 4, 2]]),
     },
     {
       code: $`
@@ -7925,7 +7910,7 @@ run<RuleOptions, MessageIds>({
         };
       `,
       options: [4, { VariableDeclarator: 1, SwitchCase: 1 }],
-      errors: expectedErrors([[2, 4, 2, 'Identifier'], [4, 4, 2, 'Identifier']]),
+      errors: expectedErrors([[2, 4, 2], [4, 4, 2]]),
     },
     {
       code: $`
@@ -7939,7 +7924,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4],
-      errors: expectedErrors([[2, 4, 0, 'Keyword']]),
+      errors: expectedErrors([[2, 4, 0]]),
     },
     {
       code: $`
@@ -7953,7 +7938,7 @@ run<RuleOptions, MessageIds>({
         };
       `,
       options: [4],
-      errors: expectedErrors([[2, 4, 0, 'Keyword']]),
+      errors: expectedErrors([[2, 4, 0]]),
     },
     {
       code: $`
@@ -7973,7 +7958,7 @@ run<RuleOptions, MessageIds>({
             };
       `,
       options: [2, { VariableDeclarator: 2, SwitchCase: 1, assignmentOperator: 'off' }],
-      errors: expectedErrors([[3, 6, 4, 'Identifier']]),
+      errors: expectedErrors([[3, 6, 4]]),
     },
     {
       code: $`
@@ -7997,7 +7982,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4],
-      errors: expectedErrors([[5, 4, 2, 'Keyword']]),
+      errors: expectedErrors([[5, 4, 2]]),
     },
     {
       code: $`
@@ -8021,7 +8006,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4],
-      errors: expectedErrors([[5, 4, 2, 'Keyword']]),
+      errors: expectedErrors([[5, 4, 2]]),
     },
     {
       code: $`
@@ -8041,7 +8026,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4],
-      errors: expectedErrors([[4, 4, 2, 'Keyword']]),
+      errors: expectedErrors([[4, 4, 2]]),
     },
     {
       code: $`
@@ -8059,7 +8044,7 @@ run<RuleOptions, MessageIds>({
         })();
       `,
       options: [2, { outerIIFEBody: 0 }],
-      errors: expectedErrors([[2, 0, 2, 'Keyword'], [3, 2, 4, 'Keyword'], [4, 0, 2, 'Punctuator']]),
+      errors: expectedErrors([[2, 0, 2], [3, 2, 4], [4, 0, 2]]),
     },
     {
       code: $`
@@ -8077,7 +8062,7 @@ run<RuleOptions, MessageIds>({
         })();
       `,
       options: [4, { outerIIFEBody: 2 }],
-      errors: expectedErrors([[2, 8, 4, 'Keyword'], [3, 12, 8, 'Keyword'], [4, 8, 4, 'Punctuator']]),
+      errors: expectedErrors([[2, 8, 4], [3, 12, 8], [4, 8, 4]]),
     },
     {
       code: $`
@@ -8091,7 +8076,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2, { outerIIFEBody: 0 }],
-      errors: expectedErrors([[2, 2, 0, 'Identifier']]),
+      errors: expectedErrors([[2, 2, 0]]),
     },
     {
       code: $`
@@ -8109,7 +8094,7 @@ run<RuleOptions, MessageIds>({
         }(x);
       `,
       options: [4, { outerIIFEBody: 2 }],
-      errors: expectedErrors([[2, 8, 4, 'Keyword'], [3, 12, 8, 'Keyword'], [4, 8, 4, 'Punctuator']]),
+      errors: expectedErrors([[2, 8, 4], [3, 12, 8], [4, 8, 4]]),
     },
     {
       code: $`
@@ -8127,7 +8112,7 @@ run<RuleOptions, MessageIds>({
         };
       `,
       options: [2, { outerIIFEBody: 0 }],
-      errors: expectedErrors([[3, 4, 2, 'Keyword']]),
+      errors: expectedErrors([[3, 4, 2]]),
     },
     {
       code: $`
@@ -8145,7 +8130,7 @@ run<RuleOptions, MessageIds>({
         }();
       `,
       options: [2, { outerIIFEBody: 2 }],
-      errors: expectedErrors([[2, 2, 4, 'Keyword'], [3, 4, 6, 'Keyword'], [4, 2, 4, 'Punctuator']]),
+      errors: expectedErrors([[2, 2, 4], [3, 4, 6], [4, 2, 4]]),
     },
     {
       code: $`
@@ -8163,7 +8148,7 @@ run<RuleOptions, MessageIds>({
         };
       `,
       options: ['tab', { outerIIFEBody: 3 }],
-      errors: expectedErrors('tab', [[3, 2, 4, 'Keyword']]),
+      errors: expectedErrors('tab', [[3, 2, 4]]),
     },
     {
       code: $`
@@ -8181,7 +8166,7 @@ run<RuleOptions, MessageIds>({
         })();
       `,
       options: [4, { outerIIFEBody: 'off' }],
-      errors: expectedErrors([[3, 8, 4, 'Keyword']]),
+      errors: expectedErrors([[3, 8, 4]]),
     },
     {
       code: $`
@@ -8199,7 +8184,7 @@ run<RuleOptions, MessageIds>({
         })();
       `,
       options: [4, { outerIIFEBody: 'off' }],
-      errors: expectedErrors([[3, 4, 0, 'Keyword']]),
+      errors: expectedErrors([[3, 4, 0]]),
     },
     {
       code: $`
@@ -8217,7 +8202,7 @@ run<RuleOptions, MessageIds>({
         })();
       `,
       options: [4, { outerIIFEBody: 'off' }],
-      errors: expectedErrors([[3, 8, 4, 'Keyword']]),
+      errors: expectedErrors([[3, 8, 4]]),
     },
     {
       code: $`
@@ -8235,7 +8220,7 @@ run<RuleOptions, MessageIds>({
         })();
       `,
       options: [4, { outerIIFEBody: 'off' }],
-      errors: expectedErrors([[3, 4, 0, 'Keyword']]),
+      errors: expectedErrors([[3, 4, 0]]),
     },
     {
       code: $`
@@ -8247,7 +8232,7 @@ run<RuleOptions, MessageIds>({
             .toString()
       `,
       options: [4, { MemberExpression: 1 }],
-      errors: expectedErrors([[2, 4, 0, 'Punctuator']]),
+      errors: expectedErrors([[2, 4, 0]]),
     },
     {
       code: $`
@@ -8261,7 +8246,7 @@ run<RuleOptions, MessageIds>({
             .toString()
       `,
       options: [4, { MemberExpression: 1 }],
-      errors: expectedErrors([[3, 4, 0, 'Punctuator']]),
+      errors: expectedErrors([[3, 4, 0]]),
     },
     {
       code: $`
@@ -8273,7 +8258,7 @@ run<RuleOptions, MessageIds>({
             length
       `,
       options: [4, { MemberExpression: 1 }],
-      errors: expectedErrors([[2, 4, 0, 'Identifier']]),
+      errors: expectedErrors([[2, 4, 0]]),
     },
     {
       code: $`
@@ -8285,7 +8270,7 @@ run<RuleOptions, MessageIds>({
         \tlength
       `,
       options: ['tab', { MemberExpression: 1 }],
-      errors: expectedErrors('tab', [[2, 1, 2, 'Identifier']]),
+      errors: expectedErrors('tab', [[2, 1, 2]]),
     },
     {
       code: $`
@@ -8299,7 +8284,7 @@ run<RuleOptions, MessageIds>({
             .bar
       `,
       options: [2, { MemberExpression: 2 }],
-      errors: expectedErrors([[2, 4, 2, 'Punctuator'], [3, 4, 2, 'Punctuator']]),
+      errors: expectedErrors([[2, 4, 2], [3, 4, 2]]),
     },
     {
       code: $`
@@ -8314,7 +8299,7 @@ run<RuleOptions, MessageIds>({
                 .target
         }
       `,
-      errors: expectedErrors([3, 8, 4, 'Punctuator']),
+      errors: expectedErrors([3, 8, 4]),
     },
     {
       code: $`
@@ -8329,7 +8314,7 @@ run<RuleOptions, MessageIds>({
                 target
         }
       `,
-      errors: expectedErrors([3, 8, 4, 'Identifier']),
+      errors: expectedErrors([3, 8, 4]),
     },
     {
 
@@ -8346,7 +8331,7 @@ run<RuleOptions, MessageIds>({
         else if (qux) qux();
       `,
       options: [2],
-      errors: expectedErrors([3, 0, 2, 'Keyword']),
+      errors: expectedErrors([3, 0, 2]),
     },
     {
       code: $`
@@ -8360,7 +8345,7 @@ run<RuleOptions, MessageIds>({
         else qux();
       `,
       options: [2],
-      errors: expectedErrors([3, 0, 2, 'Keyword']),
+      errors: expectedErrors([3, 0, 2]),
     },
     {
       code: $`
@@ -8374,7 +8359,7 @@ run<RuleOptions, MessageIds>({
         else qux();
       `,
       options: [2],
-      errors: expectedErrors([[2, 0, 2, 'Keyword'], [3, 0, 2, 'Keyword']]),
+      errors: expectedErrors([[2, 0, 2], [3, 0, 2]]),
     },
     {
       code: $`
@@ -8392,7 +8377,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2],
-      errors: expectedErrors([[3, 0, 5, 'Keyword'], [4, 2, 7, 'Identifier'], [5, 0, 5, 'Punctuator']]),
+      errors: expectedErrors([[3, 0, 5], [4, 2, 7], [5, 0, 5]]),
     },
     {
       code: $`
@@ -8412,7 +8397,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2],
-      errors: expectedErrors([[3, 2, 4, 'Identifier'], [4, 0, 5, 'Punctuator'], [5, 2, 7, 'Identifier'], [6, 0, 5, 'Punctuator']]),
+      errors: expectedErrors([[3, 2, 4], [4, 0, 5], [5, 2, 7], [6, 0, 5]]),
     },
     {
       code: $`
@@ -8428,7 +8413,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2, { FunctionDeclaration: { parameters: 1, body: 2 } }],
-      errors: expectedErrors([[2, 2, 4, 'Identifier'], [3, 4, 6, 'Identifier']]),
+      errors: expectedErrors([[2, 2, 4], [3, 4, 6]]),
     },
     {
       code: $`
@@ -8444,7 +8429,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2, { FunctionDeclaration: { parameters: 3, body: 1 } }],
-      errors: expectedErrors([[2, 6, 2, 'Identifier'], [3, 2, 0, 'Identifier']]),
+      errors: expectedErrors([[2, 6, 2], [3, 2, 0]]),
     },
     {
       code: $`
@@ -8462,7 +8447,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4, { FunctionDeclaration: { parameters: 1, body: 3 } }],
-      errors: expectedErrors([[2, 4, 8, 'Identifier'], [3, 4, 2, 'Identifier'], [4, 12, 6, 'Identifier']]),
+      errors: expectedErrors([[2, 4, 8], [3, 4, 2], [4, 12, 6]]),
     },
     {
       code: $`
@@ -8480,7 +8465,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2, { FunctionDeclaration: { parameters: 'first', body: 1 } }],
-      errors: expectedErrors([[2, 13, 2, 'Identifier'], [3, 13, 19, 'Identifier'], [4, 2, 3, 'Identifier']]),
+      errors: expectedErrors([[2, 13, 2], [3, 13, 19], [4, 2, 3]]),
     },
     {
       code: $`
@@ -8496,7 +8481,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2, { FunctionDeclaration: { body: 3 } }],
-      errors: expectedErrors([3, 6, 0, 'Identifier']),
+      errors: expectedErrors([3, 6, 0]),
     },
     {
       code: $`
@@ -8514,7 +8499,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2, { FunctionDeclaration: { parameters: 'first', body: 2 } }],
-      errors: expectedErrors([[2, 2, 0, 'Identifier'], [3, 2, 4, 'Identifier'], [4, 4, 0, 'Identifier']]),
+      errors: expectedErrors([[2, 2, 0], [3, 2, 4], [4, 4, 0]]),
     },
     {
       code: $`
@@ -8534,7 +8519,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2, { FunctionExpression: { parameters: 2, body: 0 } }],
-      errors: expectedErrors([[2, 4, 2, 'Identifier'], [4, 4, 6, 'Identifier'], [5, 0, 2, 'Identifier']]),
+      errors: expectedErrors([[2, 4, 2], [4, 4, 6], [5, 0, 2]]),
     },
     {
       code: $`
@@ -8552,7 +8537,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2, { FunctionExpression: { parameters: 1, body: 10 } }],
-      errors: expectedErrors([[2, 2, 3, 'Identifier'], [3, 2, 1, 'Identifier'], [4, 20, 2, 'Identifier']]),
+      errors: expectedErrors([[2, 2, 3], [3, 2, 1], [4, 20, 2]]),
     },
     {
       code: $`
@@ -8570,7 +8555,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4, { FunctionExpression: { parameters: 'first', body: 1 } }],
-      errors: expectedErrors([[2, 19, 2, 'Identifier'], [3, 19, 24, 'Identifier'], [4, 4, 8, 'Identifier']]),
+      errors: expectedErrors([[2, 19, 2], [3, 19, 24], [4, 4, 8]]),
     },
     {
       code: $`
@@ -8588,7 +8573,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2, { FunctionExpression: { parameters: 'first', body: 3 } }],
-      errors: expectedErrors([[2, 2, 0, 'Identifier'], [3, 2, 4, 'Identifier'], [4, 6, 2, 'Identifier']]),
+      errors: expectedErrors([[2, 2, 0], [3, 2, 4], [4, 6, 2]]),
     },
     {
       code: $`
@@ -8600,7 +8585,7 @@ run<RuleOptions, MessageIds>({
         var baz = qux;
       `,
       options: [2],
-      errors: expectedErrors([2, '0 spaces', '3 tabs', 'Keyword']),
+      errors: expectedErrors([2, '0 spaces', '3 tabs']),
     },
     {
       code: $`
@@ -8618,7 +8603,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: ['tab'],
-      errors: expectedErrors('tab', [[3, '1 tab', '2 spaces', 'Identifier'], [4, '1 tab', '14 spaces', 'Identifier']]),
+      errors: expectedErrors('tab', [[3, '1 tab', '2 spaces'], [4, '1 tab', '14 spaces']]),
     },
     {
       code: $`
@@ -8632,7 +8617,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2],
-      errors: expectedErrors([[3, '0 spaces', '2 tabs', 'Punctuator']]),
+      errors: expectedErrors([[3, '0 spaces', '2 tabs']]),
     },
     {
       code: $`
@@ -8650,7 +8635,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2, { FunctionDeclaration: { body: 1 } }],
-      errors: expectedErrors([3, 4, 8, 'Identifier']),
+      errors: expectedErrors([3, 4, 8]),
     },
     {
       code: $`
@@ -8670,7 +8655,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2, { FunctionDeclaration: { body: 1, parameters: 2 } }],
-      errors: expectedErrors([3, 6, 4, 'Identifier']),
+      errors: expectedErrors([3, 6, 4]),
     },
     {
       code: $`
@@ -8690,7 +8675,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2, { FunctionExpression: { parameters: 3 } }],
-      errors: expectedErrors([3, 8, 10, 'Identifier']),
+      errors: expectedErrors([3, 8, 10]),
     },
     {
       code: $`
@@ -8708,7 +8693,7 @@ run<RuleOptions, MessageIds>({
         );
       `,
       options: [2, { FunctionExpression: { body: 3 }, CallExpression: { arguments: 3 } }],
-      errors: expectedErrors([3, 12, 8, 'Identifier']),
+      errors: expectedErrors([3, 12, 8]),
     },
     {
       code: $`
@@ -8732,8 +8717,8 @@ run<RuleOptions, MessageIds>({
         }
       `,
       errors: expectedErrors([
-        [4, 4, 0, 'Keyword'],
-        [6, 4, 0, 'Keyword'],
+        [4, 4, 0],
+        [6, 4, 0],
       ]),
     },
     {
@@ -8751,7 +8736,7 @@ run<RuleOptions, MessageIds>({
             while (true)
         }
       `,
-      errors: expectedErrors([4, 4, 0, 'Keyword']),
+      errors: expectedErrors([4, 4, 0]),
     },
     {
       code: $`
@@ -8769,7 +8754,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2],
-      errors: expectedErrors([[4, 2, 4, 'Punctuator']]),
+      errors: expectedErrors([[4, 2, 4]]),
     },
     {
       code: $`
@@ -8787,7 +8772,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2],
-      errors: expectedErrors([[4, 2, 4, 'Punctuator']]),
+      errors: expectedErrors([[4, 2, 4]]),
     },
     {
       code: $`
@@ -8809,7 +8794,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2, { VariableDeclarator: 2, SwitchCase: 1 }],
-      errors: expectedErrors([[4, 6, 4, 'Keyword']]),
+      errors: expectedErrors([[4, 6, 4]]),
     },
     {
       code: $`
@@ -8823,7 +8808,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2],
-      errors: expectedErrors([[2, 2, 3, 'Keyword']]),
+      errors: expectedErrors([[2, 2, 3]]),
     },
     {
       code: $`
@@ -8839,7 +8824,7 @@ run<RuleOptions, MessageIds>({
           qux);
       `,
       options: [2, { CallExpression: { arguments: 1 } }],
-      errors: expectedErrors([[2, 2, 0, 'Identifier'], [4, 2, 4, 'Identifier']]),
+      errors: expectedErrors([[2, 2, 0], [4, 2, 4]]),
     },
     {
       code: $`
@@ -8853,7 +8838,7 @@ run<RuleOptions, MessageIds>({
             baz);
       `,
       options: [2, { CallExpression: { arguments: 2 } }],
-      errors: expectedErrors([[2, '4 spaces', '1 tab', 'Identifier'], [3, '4 spaces', '1 tab', 'Identifier']]),
+      errors: expectedErrors([[2, '4 spaces', '1 tab'], [3, '4 spaces', '1 tab']]),
     },
     {
       code: $`
@@ -8867,7 +8852,7 @@ run<RuleOptions, MessageIds>({
         \tqux);
       `,
       options: ['tab', { CallExpression: { arguments: 1 } }],
-      errors: expectedErrors('tab', [[2, 1, 2, 'Identifier'], [3, 1, 2, 'Identifier']]),
+      errors: expectedErrors('tab', [[2, 1, 2], [3, 1, 2]]),
     },
     {
       code: $`
@@ -8879,7 +8864,7 @@ run<RuleOptions, MessageIds>({
             qux);
       `,
       options: [2, { CallExpression: { arguments: 'first' } }],
-      errors: expectedErrors([2, 4, 9, 'Identifier']),
+      errors: expectedErrors([2, 4, 9]),
     },
     {
       code: $`
@@ -8893,7 +8878,7 @@ run<RuleOptions, MessageIds>({
           baz);
       `,
       options: [2, { CallExpression: { arguments: 'first' } }],
-      errors: expectedErrors([[2, 2, 10, 'Identifier'], [3, 2, 4, 'Identifier']]),
+      errors: expectedErrors([[2, 2, 10], [3, 2, 4]]),
     },
     {
       code: $`
@@ -8911,7 +8896,7 @@ run<RuleOptions, MessageIds>({
         );
       `,
       options: [2, { CallExpression: { arguments: 3 } }],
-      errors: expectedErrors([[2, 6, 2, 'Numeric'], [3, 6, 14, 'Punctuator'], [4, 6, 8, 'Keyword']]),
+      errors: expectedErrors([[2, 6, 2], [3, 6, 14], [4, 6, 8]]),
     },
 
     // https://github.com/eslint/eslint/issues/7573
@@ -8927,7 +8912,7 @@ run<RuleOptions, MessageIds>({
         );
       `,
       parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -8941,7 +8926,7 @@ run<RuleOptions, MessageIds>({
         )
       `,
       parserOptions: { ecmaFeatures: { globalReturn: true }, sourceType: 'script' },
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
 
     // https://github.com/eslint/eslint/issues/7604
@@ -8956,7 +8941,7 @@ run<RuleOptions, MessageIds>({
             /* comment */bar();
         }
       `,
-      errors: expectedErrors([2, 4, 8, 'Block']),
+      errors: expectedErrors([2, 4, 8]),
     },
     {
       code: $`
@@ -8971,7 +8956,7 @@ run<RuleOptions, MessageIds>({
                 ok: true
             });
       `,
-      errors: expectedErrors([2, 4, 8, 'Block']),
+      errors: expectedErrors([2, 4, 8]),
     },
     {
       code: $`
@@ -8985,7 +8970,7 @@ run<RuleOptions, MessageIds>({
         );
       `,
       options: [4, { CallExpression: { arguments: 1 } }],
-      errors: expectedErrors([2, 4, 0, 'Punctuator']),
+      errors: expectedErrors([2, 4, 0]),
     },
     {
       code: $`
@@ -8999,7 +8984,7 @@ run<RuleOptions, MessageIds>({
         ))
       `,
       options: [4],
-      errors: expectedErrors([2, 4, 0, 'Identifier']),
+      errors: expectedErrors([2, 4, 0]),
     },
 
     // ternary expressions (https://github.com/eslint/eslint/issues/7420)
@@ -9015,7 +9000,7 @@ run<RuleOptions, MessageIds>({
           : baz
       `,
       options: [2],
-      errors: expectedErrors([[2, 2, 0, 'Punctuator'], [3, 2, 4, 'Punctuator']]),
+      errors: expectedErrors([[2, 2, 0], [3, 2, 4]]),
     },
     {
       code: $`
@@ -9034,7 +9019,7 @@ run<RuleOptions, MessageIds>({
             qux
         ]
       `,
-      errors: expectedErrors([5, 4, 8, 'Identifier']),
+      errors: expectedErrors([5, 4, 8]),
     },
     {
       code: $`
@@ -9065,16 +9050,16 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { offsetTernaryExpressions: true }],
       errors: expectedErrors([
-        [2, 2, 0, 'Punctuator'],
-        [3, 6, 0, 'Keyword'],
-        [4, 4, 0, 'Punctuator'],
-        [5, 2, 0, 'Punctuator'],
-        [6, 4, 0, 'Punctuator'],
-        [7, 8, 0, 'Keyword'],
-        [8, 6, 0, 'Punctuator'],
-        [9, 4, 0, 'Punctuator'],
-        [10, 8, 0, 'Keyword'],
-        [11, 6, 0, 'Punctuator'],
+        [2, 2, 0],
+        [3, 6, 0],
+        [4, 4, 0],
+        [5, 2, 0],
+        [6, 4, 0],
+        [7, 8, 0],
+        [8, 6, 0],
+        [9, 4, 0],
+        [10, 8, 0],
+        [11, 6, 0],
       ]),
     },
     {
@@ -9106,16 +9091,16 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { offsetTernaryExpressions: false }],
       errors: expectedErrors([
-        [2, 2, 0, 'Punctuator'],
-        [3, 4, 0, 'Keyword'],
-        [4, 2, 0, 'Punctuator'],
-        [5, 2, 0, 'Punctuator'],
-        [6, 4, 0, 'Punctuator'],
-        [7, 6, 0, 'Keyword'],
-        [8, 4, 0, 'Punctuator'],
-        [9, 4, 0, 'Punctuator'],
-        [10, 6, 0, 'Keyword'],
-        [11, 4, 0, 'Punctuator'],
+        [2, 2, 0],
+        [3, 4, 0],
+        [4, 2, 0],
+        [5, 2, 0],
+        [6, 4, 0],
+        [7, 6, 0],
+        [8, 4, 0],
+        [9, 4, 0],
+        [10, 6, 0],
+        [11, 4, 0],
       ]),
     },
     {
@@ -9141,12 +9126,12 @@ run<RuleOptions, MessageIds>({
         // trailing comment
       `,
       options: [2],
-      errors: expectedErrors([[2, 0, 2, 'Line'], [3, 0, 4, 'Block'], [6, 0, 1, 'Line']]),
+      errors: expectedErrors([[2, 0, 2], [3, 0, 4], [6, 0, 1]]),
     },
     {
       code: '  // comment',
       output: '// comment',
-      errors: expectedErrors([1, 0, 2, 'Line']),
+      errors: expectedErrors([1, 0, 2]),
     },
     {
       code: $`
@@ -9157,7 +9142,7 @@ run<RuleOptions, MessageIds>({
         foo
         // comment
       `,
-      errors: expectedErrors([2, 0, 2, 'Line']),
+      errors: expectedErrors([2, 0, 2]),
     },
     {
       code: $`
@@ -9168,7 +9153,7 @@ run<RuleOptions, MessageIds>({
         // comment
         foo
       `,
-      errors: expectedErrors([1, 0, 2, 'Line']),
+      errors: expectedErrors([1, 0, 2]),
     },
     {
       code: $`
@@ -9181,7 +9166,7 @@ run<RuleOptions, MessageIds>({
             // no elements
         ]
       `,
-      errors: expectedErrors([2, 4, 8, 'Line']),
+      errors: expectedErrors([2, 4, 8]),
     },
     {
 
@@ -9206,7 +9191,7 @@ run<RuleOptions, MessageIds>({
         } = qux;
       `,
       options: [2],
-      errors: expectedErrors([[2, 2, 0, 'Identifier'], [4, 2, 4, 'Identifier'], [5, 2, 6, 'Identifier'], [6, 0, 2, 'Punctuator']]),
+      errors: expectedErrors([[2, 2, 0], [4, 2, 4], [5, 2, 6], [6, 0, 2]]),
     },
     {
       code: $`
@@ -9224,7 +9209,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2],
-      errors: expectedErrors([[4, 2, 4, 'Identifier'], [5, 0, 2, 'Punctuator']]),
+      errors: expectedErrors([[4, 2, 4], [5, 0, 2]]),
     },
     {
       code: $`
@@ -9239,7 +9224,7 @@ run<RuleOptions, MessageIds>({
             baz
         ]
       `,
-      errors: expectedErrors([[2, 4, 11, 'Identifier'], [3, 4, 2, 'Identifier'], [4, 0, 10, 'Punctuator']]),
+      errors: expectedErrors([[2, 4, 11], [3, 4, 2], [4, 0, 10]]),
     },
     {
       code: $`
@@ -9254,7 +9239,7 @@ run<RuleOptions, MessageIds>({
             qux
         ]
       `,
-      errors: expectedErrors([2, 4, 0, 'Identifier']),
+      errors: expectedErrors([2, 4, 0]),
     },
     {
       code: $`
@@ -9270,7 +9255,7 @@ run<RuleOptions, MessageIds>({
         ]
       `,
       options: [2, { ArrayExpression: 0 }],
-      errors: expectedErrors([[2, 0, 2, 'Identifier'], [3, 0, 2, 'Identifier']]),
+      errors: expectedErrors([[2, 0, 2], [3, 0, 2]]),
     },
     {
       code: $`
@@ -9286,7 +9271,7 @@ run<RuleOptions, MessageIds>({
         ]
       `,
       options: [2, { ArrayExpression: 8 }],
-      errors: expectedErrors([[2, 16, 2, 'Identifier'], [3, 16, 2, 'Identifier']]),
+      errors: expectedErrors([[2, 16, 2], [3, 16, 2]]),
     },
     {
       code: $`
@@ -9302,7 +9287,7 @@ run<RuleOptions, MessageIds>({
         ]
       `,
       options: [2, { ArrayExpression: 'first' }],
-      errors: expectedErrors([[2, 11, 4, 'Identifier'], [3, 11, 4, 'Identifier']]),
+      errors: expectedErrors([[2, 11, 4], [3, 11, 4]]),
     },
     {
       code: $`
@@ -9316,7 +9301,7 @@ run<RuleOptions, MessageIds>({
         ]
       `,
       options: [2, { ArrayExpression: 'first' }],
-      errors: expectedErrors([2, 11, 4, 'Identifier']),
+      errors: expectedErrors([2, 11, 4]),
     },
     {
       code: $`
@@ -9336,7 +9321,7 @@ run<RuleOptions, MessageIds>({
         ]
       `,
       options: [4, { ArrayExpression: 2, ObjectExpression: 'first' }],
-      errors: expectedErrors([[3, 10, 12, 'Identifier'], [5, 10, 12, 'Identifier']]),
+      errors: expectedErrors([[3, 10, 12], [5, 10, 12]]),
     },
     {
       code: $`
@@ -9352,7 +9337,7 @@ run<RuleOptions, MessageIds>({
         };
       `,
       options: [2, { ObjectExpression: 0 }],
-      errors: expectedErrors([[2, 0, 2, 'Identifier'], [3, 0, 2, 'Identifier']]),
+      errors: expectedErrors([[2, 0, 2], [3, 0, 2]]),
     },
     {
       code: $`
@@ -9364,7 +9349,7 @@ run<RuleOptions, MessageIds>({
                      baz: 3 }
       `,
       options: [2, { ObjectExpression: 'first' }],
-      errors: expectedErrors([2, 13, 0, 'Identifier']),
+      errors: expectedErrors([2, 13, 0]),
     },
     {
       code: $`
@@ -9382,7 +9367,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2, { ArrayExpression: 4 }],
-      errors: expectedErrors([[2, 2, 4, 'Punctuator'], [3, 10, 12, 'Identifier'], [4, 2, 4, 'Punctuator']]),
+      errors: expectedErrors([[2, 2, 4], [3, 10, 12], [4, 2, 4]]),
     },
     {
       code: $`
@@ -9402,7 +9387,7 @@ run<RuleOptions, MessageIds>({
         ] = qux;
       `,
       options: [2],
-      errors: expectedErrors([[2, 2, 0, 'Identifier'], [4, 2, 4, 'Identifier'], [5, 2, 6, 'Identifier'], [6, 0, 2, 'Punctuator']]),
+      errors: expectedErrors([[2, 2, 0], [4, 2, 4], [5, 2, 6], [6, 0, 2]]),
     },
     {
       code: $`
@@ -9420,7 +9405,7 @@ run<RuleOptions, MessageIds>({
         } from 'qux';
       `,
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
-      errors: expectedErrors([[2, 4, 0, 'Identifier'], [3, 4, 2, 'Identifier']]),
+      errors: expectedErrors([[2, 4, 0], [3, 4, 2]]),
     },
     {
       code: $`
@@ -9437,7 +9422,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { ImportDeclaration: 'first' }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
-      errors: expectedErrors([[3, 9, 10, 'Identifier']]),
+      errors: expectedErrors([[3, 9, 10]]),
     },
     {
       code: $`
@@ -9454,7 +9439,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2, { ImportDeclaration: 2 }],
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
-      errors: expectedErrors([[3, 4, 5, 'Identifier']]),
+      errors: expectedErrors([[3, 4, 5]]),
     },
     {
       code: $`
@@ -9474,7 +9459,7 @@ run<RuleOptions, MessageIds>({
         };
       `,
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
-      errors: expectedErrors([[3, 4, 0, 'Identifier'], [4, 4, 2, 'Identifier']]),
+      errors: expectedErrors([[3, 4, 0], [4, 4, 2]]),
     },
     {
       code: $`
@@ -9494,7 +9479,7 @@ run<RuleOptions, MessageIds>({
         } from 'qux';
       `,
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
-      errors: expectedErrors([[3, 4, 0, 'Identifier'], [4, 4, 2, 'Identifier']]),
+      errors: expectedErrors([[3, 4, 0], [4, 4, 2]]),
     },
     {
 
@@ -9510,7 +9495,7 @@ run<RuleOptions, MessageIds>({
             .bar;
       `,
       options: [2, { MemberExpression: 2 }],
-      errors: expectedErrors([[2, 4, 2, 'Punctuator'], [3, 4, 6, 'Punctuator']]),
+      errors: expectedErrors([[2, 4, 2], [3, 4, 6]]),
     },
     {
       code: $`
@@ -9522,7 +9507,7 @@ run<RuleOptions, MessageIds>({
           baz();
       `,
       options: [2],
-      errors: expectedErrors([2, 2, 4, 'Identifier']),
+      errors: expectedErrors([2, 2, 4]),
     },
     {
       code: $`
@@ -9534,7 +9519,7 @@ run<RuleOptions, MessageIds>({
           5;
       `,
       options: [2],
-      errors: expectedErrors([2, 2, 4, 'Numeric']),
+      errors: expectedErrors([2, 2, 4]),
     },
     {
 
@@ -9550,7 +9535,7 @@ run<RuleOptions, MessageIds>({
         )
       `,
       options: [4],
-      errors: expectedErrors([2, 4, 8, 'Identifier']),
+      errors: expectedErrors([2, 4, 8]),
     },
     {
       code: $`
@@ -9563,7 +9548,7 @@ run<RuleOptions, MessageIds>({
             !bar(
             )
       `,
-      errors: expectedErrors([3, 4, 0, 'Punctuator']),
+      errors: expectedErrors([3, 4, 0]),
     },
     {
       code: $`
@@ -9578,7 +9563,7 @@ run<RuleOptions, MessageIds>({
                 bar();
             })
       `,
-      errors: expectedErrors([[3, 8, 4, 'Identifier'], [4, 4, 0, 'Punctuator']]),
+      errors: expectedErrors([[3, 8, 4], [4, 4, 0]]),
     },
     {
       code: $`
@@ -9591,7 +9576,7 @@ run<RuleOptions, MessageIds>({
         ] || [
         ]
       `,
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -9606,7 +9591,7 @@ run<RuleOptions, MessageIds>({
                     bar
                 )
       `,
-      errors: expectedErrors([[3, 12, 16, 'Identifier'], [4, 8, 12, 'Punctuator']]),
+      errors: expectedErrors([[3, 12, 16], [4, 8, 12]]),
     },
     {
       code: $`
@@ -9621,7 +9606,7 @@ run<RuleOptions, MessageIds>({
             1
         )
       `,
-      errors: expectedErrors([[3, 4, 8, 'Numeric'], [4, 0, 4, 'Punctuator']]),
+      errors: expectedErrors([[3, 4, 8], [4, 0, 4]]),
     },
 
     // Template curlies
@@ -9635,7 +9620,7 @@ run<RuleOptions, MessageIds>({
           bar}\`
       `,
       options: [2],
-      errors: expectedErrors([2, 2, 0, 'Identifier']),
+      errors: expectedErrors([2, 2, 0]),
     },
     {
       code: $`
@@ -9649,7 +9634,7 @@ run<RuleOptions, MessageIds>({
             baz}\`}\`
       `,
       options: [2],
-      errors: expectedErrors([[2, 2, 4, 'Template'], [3, 4, 0, 'Identifier']]),
+      errors: expectedErrors([[2, 2, 4], [3, 4, 0]]),
     },
     {
       code: $`
@@ -9667,7 +9652,7 @@ run<RuleOptions, MessageIds>({
         }\`
       `,
       options: [2],
-      errors: expectedErrors([[2, 2, 4, 'Template'], [3, 4, 2, 'Identifier'], [4, 2, 4, 'Template'], [5, 0, 2, 'Template']]),
+      errors: expectedErrors([[2, 2, 4], [3, 4, 2], [4, 2, 4], [5, 0, 2]]),
     },
     {
       code: $`
@@ -9685,7 +9670,7 @@ run<RuleOptions, MessageIds>({
         }\`
       `,
       options: [2],
-      errors: expectedErrors([[2, 2, 0, 'Punctuator'], [3, 4, 2, 'Identifier'], [4, 2, 0, 'Punctuator']]),
+      errors: expectedErrors([[2, 2, 0], [3, 4, 2], [4, 2, 0]]),
     },
     {
       code: $`
@@ -9702,7 +9687,7 @@ run<RuleOptions, MessageIds>({
                 bar}baz\`
         }
       `,
-      errors: expectedErrors([[3, 8, 0, 'Identifier'], [4, 8, 2, 'Identifier']]),
+      errors: expectedErrors([[3, 8, 0], [4, 8, 2]]),
     },
     {
       code: $`
@@ -9721,7 +9706,7 @@ run<RuleOptions, MessageIds>({
         } node is checked.\`;
         }
       `,
-      errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Template']]),
+      errors: expectedErrors([[4, 4, 8], [5, 0, 4]]),
     },
     {
       code: $`
@@ -9745,8 +9730,8 @@ run<RuleOptions, MessageIds>({
         }
       `,
       errors: expectedErrors([
-        [5, 8, 12, 'Identifier'],
-        [6, 4, 8, 'Template'],
+        [5, 8, 12],
+        [6, 4, 8],
       ]),
     },
     {
@@ -9766,7 +9751,7 @@ run<RuleOptions, MessageIds>({
                 so the spaces before this line aren't removed.\`;
         }
       `,
-      errors: expectedErrors([4, 4, 12, 'Identifier']),
+      errors: expectedErrors([4, 4, 12]),
     },
     {
       code: $`
@@ -9784,7 +9769,7 @@ run<RuleOptions, MessageIds>({
         \`
       `,
       options: [2],
-      errors: expectedErrors([[3, 6, 18, 'Identifier'], [4, 4, 8, 'Template']]),
+      errors: expectedErrors([[3, 6, 18], [4, 4, 8]]),
     },
     {
       code: $`
@@ -9819,10 +9804,10 @@ run<RuleOptions, MessageIds>({
         \`
       `,
       errors: expectedErrors('tab', [
-        [6, 5, 0, 'Keyword'],
-        [7, 6, 4, 'Keyword'],
-        [8, 5, 1, 'Punctuator'],
-        [9, 4, 3, 'Template'],
+        [6, 5, 0],
+        [7, 6, 4],
+        [8, 5, 1],
+        [9, 4, 3],
       ]),
     },
     {
@@ -9858,10 +9843,10 @@ run<RuleOptions, MessageIds>({
         \`
       `,
       errors: expectedErrors([
-        [6, 10, 0, 'Keyword'],
-        [7, 12, 8, 'Keyword'],
-        [8, 10, 2, 'Punctuator'],
-        [9, 8, 6, 'Template'],
+        [6, 10, 0],
+        [7, 12, 8],
+        [8, 10, 2],
+        [9, 8, 6],
       ]),
     },
     {
@@ -9895,10 +9880,10 @@ run<RuleOptions, MessageIds>({
         \`
       `,
       errors: expectedErrors([
-        [5, 8, 2, 'Keyword'],
-        [6, 10, 4, 'Keyword'],
-        [7, 8, 2, 'Punctuator'],
-        [8, 6, 0, 'Template'],
+        [5, 8, 2],
+        [6, 10, 4],
+        [7, 8, 2],
+        [8, 6, 0],
       ]),
     },
     {
@@ -9934,10 +9919,10 @@ run<RuleOptions, MessageIds>({
         \`
       `,
       errors: expectedErrors([
-        [6, 10, 4, 'Keyword'],
-        [7, 12, 6, 'Keyword'],
-        [8, 10, 4, 'Punctuator'],
-        [9, 8, 18, 'Template'],
+        [6, 10, 4],
+        [7, 12, 6],
+        [8, 10, 4],
+        [9, 8, 18],
       ]),
     },
     {
@@ -9975,11 +9960,11 @@ run<RuleOptions, MessageIds>({
         \`
       `,
       errors: expectedErrors([
-        [6, 12, 22, 'Numeric'],
-        [7, 12, 20, 'Numeric'],
-        [8, 12, 18, 'Numeric'],
-        [9, 10, 16, 'Punctuator'],
-        [10, 8, 14, 'Template'],
+        [6, 12, 22],
+        [7, 12, 20],
+        [8, 12, 18],
+        [9, 10, 16],
+        [10, 8, 14],
       ]),
     },
     {
@@ -10025,9 +10010,9 @@ run<RuleOptions, MessageIds>({
         \`
       `,
       errors: expectedErrors([
-        [9, 12, 4, 'Identifier'],
-        [10, 12, 0, 'Identifier'],
-        [11, 10, 28, 'Punctuator'],
+        [9, 12, 4],
+        [10, 12, 0],
+        [11, 10, 28],
       ]),
     },
     {
@@ -10077,11 +10062,11 @@ run<RuleOptions, MessageIds>({
         \`
       `,
       errors: expectedErrors([
-        [9, 12, 10, 'Identifier'],
-        [10, 14, 4, 'Identifier'],
-        [11, 14, 0, 'Identifier'],
-        [12, 12, 18, 'Punctuator'],
-        [13, 10, 26, 'Template'],
+        [9, 12, 10],
+        [10, 14, 4],
+        [11, 14, 0],
+        [12, 12, 18],
+        [13, 10, 26],
       ]),
     },
     {
@@ -10106,7 +10091,7 @@ run<RuleOptions, MessageIds>({
                 2);
         }
       `,
-      errors: expectedErrors([3, 8, 0, 'Numeric']),
+      errors: expectedErrors([3, 8, 0]),
     },
     {
 
@@ -10126,7 +10111,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2],
-      errors: expectedErrors([[2, 2, 4, 'Keyword'], [3, 4, 6, 'Identifier']]),
+      errors: expectedErrors([[2, 2, 4], [3, 4, 6]]),
     },
     {
 
@@ -10159,15 +10144,15 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { MemberExpression: 1, CallExpression: { arguments: 1 } }],
       errors: expectedErrors([
-        [3, 8, 4, 'Punctuator'],
-        [4, 12, 15, 'String'],
-        [5, 12, 14, 'Punctuator'],
-        [6, 16, 14, 'Numeric'],
-        [7, 16, 9, 'Numeric'],
-        [8, 16, 35, 'Numeric'],
-        [9, 12, 22, 'Punctuator'],
-        [10, 8, 0, 'Punctuator'],
-        [11, 0, 1, 'Punctuator'],
+        [3, 8, 4],
+        [4, 12, 15],
+        [5, 12, 14],
+        [6, 16, 14],
+        [7, 16, 9],
+        [8, 16, 35],
+        [9, 12, 22],
+        [10, 8, 0],
+        [11, 0, 1],
       ]),
     },
 
@@ -10185,7 +10170,7 @@ run<RuleOptions, MessageIds>({
             [2]
         ]
       `,
-      errors: expectedErrors([[2, 4, 6, 'Punctuator'], [3, 4, 2, 'Punctuator']]),
+      errors: expectedErrors([[2, 4, 6], [3, 4, 2]]),
     },
     {
       code: $`
@@ -10200,7 +10185,7 @@ run<RuleOptions, MessageIds>({
             {b: 2}
         ]
       `,
-      errors: expectedErrors([[2, 4, 6, 'Punctuator'], [3, 4, 2, 'Punctuator']]),
+      errors: expectedErrors([[2, 4, 6], [3, 4, 2]]),
     },
     {
       code: $`
@@ -10214,7 +10199,7 @@ run<RuleOptions, MessageIds>({
                       'baz']);
       `,
       options: [2, { ArrayExpression: 'first', CallExpression: { arguments: 'first' } }],
-      errors: expectedErrors([[2, 13, 12, 'Punctuator'], [3, 14, 13, 'String']]),
+      errors: expectedErrors([[2, 13, 12], [3, 14, 13]]),
     },
     {
 
@@ -10227,7 +10212,7 @@ run<RuleOptions, MessageIds>({
         foo(
         )
       `,
-      errors: expectedErrors([2, 0, 2, 'Punctuator']),
+      errors: expectedErrors([2, 0, 2]),
     },
     {
 
@@ -10249,12 +10234,12 @@ run<RuleOptions, MessageIds>({
         )
       `,
       options: [4, { CallExpression: { arguments: 'first' } }],
-      errors: expectedErrors([[2, 4, 8, 'Identifier']]),
+      errors: expectedErrors([[2, 4, 8]]),
     },
     {
       code: '  new Foo',
       output: 'new Foo',
-      errors: expectedErrors([1, 0, 2, 'Keyword']),
+      errors: expectedErrors([1, 0, 2]),
     },
     {
       code: $`
@@ -10274,7 +10259,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
-      errors: expectedErrors([[3, 4, 0, 'Identifier'], [4, 4, 8, 'Identifier'], [5, 4, 2, 'Identifier']]),
+      errors: expectedErrors([[3, 4, 0], [4, 4, 8], [5, 4, 2]]),
     },
     {
       code: $`
@@ -10288,7 +10273,7 @@ run<RuleOptions, MessageIds>({
             : baz
       `,
       options: [4, { flatTernaryExpressions: true }],
-      errors: expectedErrors([3, 4, 0, 'Punctuator']),
+      errors: expectedErrors([3, 4, 0]),
     },
     {
       code: $`
@@ -10302,7 +10287,7 @@ run<RuleOptions, MessageIds>({
             baz
       `,
       options: [4, { flatTernaryExpressions: true }],
-      errors: expectedErrors([3, 4, 0, 'Identifier']),
+      errors: expectedErrors([3, 4, 0]),
     },
     {
       code: $`
@@ -10316,7 +10301,7 @@ run<RuleOptions, MessageIds>({
             : baz
       `,
       options: [4, { flatTernaryExpressions: true }],
-      errors: expectedErrors([3, 4, 2, 'Punctuator']),
+      errors: expectedErrors([3, 4, 2]),
     },
     {
       code: $`
@@ -10330,7 +10315,7 @@ run<RuleOptions, MessageIds>({
             baz
       `,
       options: [4, { flatTernaryExpressions: true }],
-      errors: expectedErrors([3, 4, 0, 'Identifier']),
+      errors: expectedErrors([3, 4, 0]),
     },
     {
       code: $`
@@ -10347,8 +10332,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { flatTernaryExpressions: true }],
       errors: expectedErrors([
-        [3, 4, 8, 'Punctuator'],
-        [4, 4, 12, 'Punctuator'],
+        [3, 4, 8],
+        [4, 4, 12],
       ]),
     },
     {
@@ -10366,8 +10351,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { flatTernaryExpressions: true }],
       errors: expectedErrors([
-        [3, 4, 8, 'Identifier'],
-        [4, 4, 12, 'Identifier'],
+        [3, 4, 8],
+        [4, 4, 12],
       ]),
     },
     {
@@ -10387,8 +10372,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { flatTernaryExpressions: true }],
       errors: expectedErrors([
-        [3, 4, 6, 'Identifier'],
-        [4, 4, 2, 'Identifier'],
+        [3, 4, 6],
+        [4, 4, 2],
       ]),
     },
     {
@@ -10406,8 +10391,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { flatTernaryExpressions: true }],
       errors: expectedErrors([
-        [3, 8, 4, 'Punctuator'],
-        [4, 8, 4, 'Punctuator'],
+        [3, 8, 4],
+        [4, 8, 4],
       ]),
     },
     {
@@ -10425,8 +10410,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { flatTernaryExpressions: false }],
       errors: expectedErrors([
-        [3, 8, 4, 'Punctuator'],
-        [4, 12, 4, 'Punctuator'],
+        [3, 8, 4],
+        [4, 12, 4],
       ]),
     },
     {
@@ -10444,8 +10429,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { flatTernaryExpressions: false }],
       errors: expectedErrors([
-        [3, 8, 4, 'Identifier'],
-        [4, 12, 4, 'Identifier'],
+        [3, 8, 4],
+        [4, 12, 4],
       ]),
     },
     {
@@ -10469,10 +10454,10 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { flatTernaryExpressions: false }],
       errors: expectedErrors([
-        [4, 8, 4, 'Punctuator'],
-        [5, 8, 4, 'Punctuator'],
-        [6, 12, 4, 'Punctuator'],
-        [7, 12, 4, 'Punctuator'],
+        [4, 8, 4],
+        [5, 8, 4],
+        [6, 12, 4],
+        [7, 12, 4],
       ]),
     },
     {
@@ -10496,10 +10481,10 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4, { flatTernaryExpressions: false }],
       errors: expectedErrors([
-        [4, 8, 4, 'Identifier'],
-        [5, 8, 4, 'Identifier'],
-        [6, 12, 4, 'Identifier'],
-        [7, 12, 4, 'Identifier'],
+        [4, 8, 4],
+        [5, 8, 4],
+        [6, 12, 4],
+        [7, 12, 4],
       ]),
     },
     {
@@ -10514,7 +10499,7 @@ run<RuleOptions, MessageIds>({
         });
       `,
       options: [2, { CallExpression: { arguments: 'first' } }],
-      errors: expectedErrors([2, 2, 10, 'Identifier']),
+      errors: expectedErrors([2, 2, 10]),
     },
     {
       code: $`
@@ -10532,7 +10517,7 @@ run<RuleOptions, MessageIds>({
         });
       `,
       options: [2, { MemberExpression: 1 }],
-      errors: expectedErrors([[4, 2, 4, 'Identifier'], [5, 0, 2, 'Punctuator']]),
+      errors: expectedErrors([[4, 2, 4], [5, 0, 2]]),
     },
     {
       code: $`
@@ -10550,7 +10535,7 @@ run<RuleOptions, MessageIds>({
         });
       `,
       options: [2, { MemberExpression: 1 }],
-      errors: expectedErrors([[4, 2, 4, 'Identifier'], [5, 0, 2, 'Punctuator']]),
+      errors: expectedErrors([[4, 2, 4], [5, 0, 2]]),
     },
     {
       code: $`
@@ -10566,7 +10551,7 @@ run<RuleOptions, MessageIds>({
         })
       `,
       options: [2, { ArrayExpression: 'first', MemberExpression: 1 }],
-      errors: expectedErrors([[3, 2, 4, 'Identifier'], [4, 0, 2, 'Punctuator']]),
+      errors: expectedErrors([[3, 2, 4], [4, 0, 2]]),
     },
     {
       code: $`
@@ -10580,7 +10565,7 @@ run<RuleOptions, MessageIds>({
         ];
       `,
       options: [4, { MemberExpression: 1 }],
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -10596,7 +10581,7 @@ run<RuleOptions, MessageIds>({
         })
       `,
       options: [4, { ObjectExpression: 'first' }],
-      errors: expectedErrors([[2, 4, 0, 'Identifier'], [3, 4, 0, 'Identifier']]),
+      errors: expectedErrors([[2, 4, 0], [3, 4, 0]]),
     },
     {
       code: $`
@@ -10610,7 +10595,7 @@ run<RuleOptions, MessageIds>({
           qux);
       `,
       options: [2, { CallExpression: { arguments: 'first' } }],
-      errors: expectedErrors([[2, 2, 24, 'Identifier'], [3, 2, 24, 'Identifier']]),
+      errors: expectedErrors([[2, 2, 24], [3, 2, 24]]),
     },
     {
       code: $`
@@ -10623,7 +10608,7 @@ run<RuleOptions, MessageIds>({
         
         ; [1, 2, 3].map(baz)
       `,
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -10634,7 +10619,7 @@ run<RuleOptions, MessageIds>({
         if (foo)
             ;
       `,
-      errors: expectedErrors([2, 4, 0, 'Punctuator']),
+      errors: expectedErrors([2, 4, 0]),
     },
     {
       code: $`
@@ -10646,7 +10631,7 @@ run<RuleOptions, MessageIds>({
             from 'bar';
       `,
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
-      errors: expectedErrors([2, 4, 0, 'Identifier']),
+      errors: expectedErrors([2, 4, 0]),
     },
     {
       code: $`
@@ -10658,7 +10643,7 @@ run<RuleOptions, MessageIds>({
             from 'bar';
       `,
       parserOptions: { ecmaVersion: 6, sourceType: 'module' },
-      errors: expectedErrors([2, 4, 0, 'Identifier']),
+      errors: expectedErrors([2, 4, 0]),
     },
     {
       code: $`
@@ -10675,7 +10660,7 @@ run<RuleOptions, MessageIds>({
             c
         }
       `,
-      errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
+      errors: expectedErrors([[4, 4, 8], [5, 0, 4]]),
     },
     {
       code: $`
@@ -10692,7 +10677,7 @@ run<RuleOptions, MessageIds>({
             e
         }
       `,
-      errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
+      errors: expectedErrors([[4, 4, 8], [5, 0, 4]]),
     },
     {
       code: $`
@@ -10709,7 +10694,7 @@ run<RuleOptions, MessageIds>({
             baz
         );
       `,
-      errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
+      errors: expectedErrors([[4, 4, 8], [5, 0, 4]]),
     },
     {
       code: $`
@@ -10726,7 +10711,7 @@ run<RuleOptions, MessageIds>({
             bar
         )
       `,
-      errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
+      errors: expectedErrors([[4, 4, 8], [5, 0, 4]]),
     },
     {
       code: $`
@@ -10743,7 +10728,7 @@ run<RuleOptions, MessageIds>({
             bar
         )
       `,
-      errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
+      errors: expectedErrors([[4, 4, 8], [5, 0, 4]]),
     },
     {
       code: $`
@@ -10760,7 +10745,7 @@ run<RuleOptions, MessageIds>({
             bar
         )
       `,
-      errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
+      errors: expectedErrors([[4, 4, 8], [5, 0, 4]]),
     },
     {
       code: $`
@@ -10773,7 +10758,7 @@ run<RuleOptions, MessageIds>({
             bar.
             baz
       `,
-      errors: expectedErrors([[2, 4, 2, 'Identifier'], [3, 4, 6, 'Identifier']]),
+      errors: expectedErrors([[2, 4, 2], [3, 4, 6]]),
     },
     {
       code: $`
@@ -10792,7 +10777,7 @@ run<RuleOptions, MessageIds>({
                     'bar'
                 ));
       `,
-      errors: expectedErrors([[4, 12, 16, 'String'], [5, 12, 16, 'String'], [6, 8, 12, 'Punctuator']]),
+      errors: expectedErrors([[4, 12, 16], [5, 12, 16], [6, 8, 12]]),
     },
     {
       code: $`
@@ -10811,7 +10796,7 @@ run<RuleOptions, MessageIds>({
                     'bar'
                 ));
       `,
-      errors: expectedErrors([[4, 12, 16, 'String'], [5, 12, 16, 'String'], [6, 8, 12, 'Punctuator']]),
+      errors: expectedErrors([[4, 12, 16], [5, 12, 16], [6, 8, 12]]),
     },
     {
       code: $`
@@ -10830,7 +10815,7 @@ run<RuleOptions, MessageIds>({
                     'bar'
                 );
       `,
-      errors: expectedErrors([[6, 8, 4, 'Punctuator']]),
+      errors: expectedErrors([[6, 8, 4]]),
     },
     {
       code: $`
@@ -10847,7 +10832,7 @@ run<RuleOptions, MessageIds>({
                     'fff'
                 );
       `,
-      errors: expectedErrors([[4, 12, 8, 'String']]),
+      errors: expectedErrors([[4, 12, 8]]),
     },
 
     // ----------------------------------------------------------------------
@@ -10867,7 +10852,7 @@ run<RuleOptions, MessageIds>({
             foo
         />
       `,
-      errors: expectedErrors([2, 4, 2, 'JSXIdentifier']),
+      errors: expectedErrors([2, 4, 2]),
     },
     {
       code: $`
@@ -10881,7 +10866,7 @@ run<RuleOptions, MessageIds>({
         />
       `,
       options: [2],
-      errors: expectedErrors([3, 0, 2, 'Punctuator']),
+      errors: expectedErrors([3, 0, 2]),
     },
     {
       code: $`
@@ -10895,7 +10880,7 @@ run<RuleOptions, MessageIds>({
         ></App>
       `,
       options: [2],
-      errors: expectedErrors([3, 0, 2, 'Punctuator']),
+      errors: expectedErrors([3, 0, 2]),
     },
     {
       code: $`
@@ -10924,8 +10909,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
       errors: expectedErrors([
-        [6, 4, 36, 'Punctuator'],
-        [6, 6, 38, 'JSXText'],
+        [6, 4, 36],
+        [6, 6, 38],
       ]),
     },
     {
@@ -10944,7 +10929,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [2],
-      errors: expectedErrors([4, 2, 9, 'Punctuator']),
+      errors: expectedErrors([4, 2, 9]),
     },
     {
       code: $`
@@ -10958,7 +10943,7 @@ run<RuleOptions, MessageIds>({
         />
       `,
       options: [2],
-      errors: expectedErrors([3, 0, 8, 'Punctuator']),
+      errors: expectedErrors([3, 0, 8]),
     },
     {
       code: $`
@@ -10974,7 +10959,7 @@ run<RuleOptions, MessageIds>({
         )
       `,
       options: [2],
-      errors: expectedErrors([3, 2, 4, 'Punctuator']),
+      errors: expectedErrors([3, 2, 4]),
     },
     {
       code: $`
@@ -10988,7 +10973,7 @@ run<RuleOptions, MessageIds>({
         />
       `,
       options: ['tab'],
-      errors: expectedErrors('tab', [3, 0, 1, 'Punctuator']),
+      errors: expectedErrors('tab', [3, 0, 1]),
     },
     {
       code: $`
@@ -11002,7 +10987,7 @@ run<RuleOptions, MessageIds>({
         ></App>
       `,
       options: ['tab'],
-      errors: expectedErrors('tab', [3, 0, 1, 'Punctuator']),
+      errors: expectedErrors('tab', [3, 0, 1]),
     },
     {
       code: $`
@@ -11032,10 +11017,10 @@ run<RuleOptions, MessageIds>({
         >
       `,
       errors: expectedErrors([
-        [3, 8, 4, 'Punctuator'],
-        [4, 8, 4, 'Punctuator'],
-        [9, 8, 4, 'JSXIdentifier'],
-        [10, 8, 4, 'JSXIdentifier'],
+        [3, 8, 4],
+        [4, 8, 4],
+        [9, 8, 4],
+        [10, 8, 4],
       ]),
     },
     {
@@ -11053,7 +11038,7 @@ run<RuleOptions, MessageIds>({
                 "number"
         />
       `,
-      errors: expectedErrors([4, 8, 4, 'JSXText']),
+      errors: expectedErrors([4, 8, 4]),
     },
     {
       code: $`
@@ -11070,7 +11055,7 @@ run<RuleOptions, MessageIds>({
                 {'number'}
         />
       `,
-      errors: expectedErrors([4, 8, 4, 'Punctuator']),
+      errors: expectedErrors([4, 8, 4]),
     },
     {
       code: $`
@@ -11087,7 +11072,7 @@ run<RuleOptions, MessageIds>({
                 ="number"
         />
       `,
-      errors: expectedErrors([4, 8, 4, 'Punctuator']),
+      errors: expectedErrors([4, 8, 4]),
     },
     {
       code: $`
@@ -11104,7 +11089,7 @@ run<RuleOptions, MessageIds>({
             baz
         )
       `,
-      errors: expectedErrors([[4, 4, 8, 'Identifier'], [5, 0, 4, 'Punctuator']]),
+      errors: expectedErrors([[4, 4, 8], [5, 0, 4]]),
     },
     {
       code: $`
@@ -11125,7 +11110,7 @@ run<RuleOptions, MessageIds>({
             </span>
         )
       `,
-      errors: expectedErrors([[5, 4, 8, 'Punctuator'], [6, 4, 8, 'Punctuator'], [7, 0, 4, 'Punctuator']]),
+      errors: expectedErrors([[5, 4, 8], [6, 4, 8], [7, 0, 4]]),
     },
     {
       code: $`
@@ -11146,7 +11131,7 @@ run<RuleOptions, MessageIds>({
             }
         </div>
       `,
-      errors: expectedErrors([[3, 8, 4, 'Punctuator'], [4, 12, 8, 'Numeric'], [5, 8, 4, 'Punctuator']]),
+      errors: expectedErrors([[3, 8, 4], [4, 12, 8], [5, 8, 4]]),
     },
     {
       code: $`
@@ -11163,7 +11148,7 @@ run<RuleOptions, MessageIds>({
             }
         </div>
       `,
-      errors: expectedErrors([3, 8, 6, 'Block']),
+      errors: expectedErrors([3, 8, 6]),
     },
     {
       code: $`
@@ -11176,7 +11161,7 @@ run<RuleOptions, MessageIds>({
             {...props}
         />
       `,
-      errors: expectedErrors([2, 4, 0, 'Punctuator']),
+      errors: expectedErrors([2, 4, 0]),
     },
     {
       code: $`
@@ -11193,7 +11178,7 @@ run<RuleOptions, MessageIds>({
             }
         />
       `,
-      errors: expectedErrors([3, 8, 6, 'Punctuator']),
+      errors: expectedErrors([3, 8, 6]),
     },
     {
       code: $`
@@ -11206,7 +11191,7 @@ run<RuleOptions, MessageIds>({
             <div>bar</div>
         </div>
       `,
-      errors: expectedErrors([2, 4, 0, 'Punctuator']),
+      errors: expectedErrors([2, 4, 0]),
     },
     {
       code: $`
@@ -11219,7 +11204,7 @@ run<RuleOptions, MessageIds>({
             <a>baz qux</a>.
         </small>
       `,
-      errors: expectedErrors([2, 4, 0, 'Punctuator']),
+      errors: expectedErrors([2, 4, 0]),
     },
 
     /**
@@ -11237,7 +11222,7 @@ run<RuleOptions, MessageIds>({
             <A />
         </>
       `,
-      errors: expectedErrors([2, 4, 0, 'Punctuator']),
+      errors: expectedErrors([2, 4, 0]),
     },
     {
       code: $`
@@ -11252,7 +11237,7 @@ run<RuleOptions, MessageIds>({
             <A />
         </>
       `,
-      errors: expectedErrors([2, 0, 4, 'Punctuator']),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -11267,7 +11252,7 @@ run<RuleOptions, MessageIds>({
         <
         />
       `,
-      errors: expectedErrors([4, 0, 4, 'Punctuator']),
+      errors: expectedErrors([4, 0, 4]),
     },
     {
       code: $`
@@ -11282,7 +11267,7 @@ run<RuleOptions, MessageIds>({
         </
         >
       `,
-      errors: expectedErrors([4, 0, 4, 'Punctuator']),
+      errors: expectedErrors([4, 0, 4]),
     },
     {
       code: $`
@@ -11300,8 +11285,8 @@ run<RuleOptions, MessageIds>({
         >
       `,
       errors: expectedErrors([
-        [2, 0, 4, 'Punctuator'],
-        [5, 0, 4, 'Punctuator'],
+        [2, 0, 4],
+        [5, 0, 4],
       ]),
     },
     {
@@ -11320,8 +11305,8 @@ run<RuleOptions, MessageIds>({
         />
       `,
       errors: expectedErrors([
-        [2, 0, 4, 'Punctuator'],
-        [5, 0, 4, 'Punctuator'],
+        [2, 0, 4],
+        [5, 0, 4],
       ]),
     },
     {
@@ -11337,7 +11322,7 @@ run<RuleOptions, MessageIds>({
             <A />
         </>
       `,
-      errors: expectedErrors([2, 0, 4, 'Punctuator']),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -11352,7 +11337,7 @@ run<RuleOptions, MessageIds>({
         < // Comment
         />
       `,
-      errors: expectedErrors([4, 0, 4, 'Punctuator']),
+      errors: expectedErrors([4, 0, 4]),
     },
     {
       code: $`
@@ -11367,7 +11352,7 @@ run<RuleOptions, MessageIds>({
         </ // Comment
         >
       `,
-      errors: expectedErrors([4, 0, 4, 'Punctuator']),
+      errors: expectedErrors([4, 0, 4]),
     },
     {
       code: $`
@@ -11382,7 +11367,7 @@ run<RuleOptions, MessageIds>({
             <A />
         </>
       `,
-      errors: expectedErrors([2, 0, 4, 'Punctuator']),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -11397,7 +11382,7 @@ run<RuleOptions, MessageIds>({
         < /* Comment */
         />
       `,
-      errors: expectedErrors([4, 0, 4, 'Punctuator']),
+      errors: expectedErrors([4, 0, 4]),
     },
     {
       code: $`
@@ -11412,7 +11397,7 @@ run<RuleOptions, MessageIds>({
         </ /* Comment */
         >
       `,
-      errors: expectedErrors([4, 0, 4, 'Punctuator']),
+      errors: expectedErrors([4, 0, 4]),
     },
 
     {
@@ -11427,7 +11412,7 @@ run<RuleOptions, MessageIds>({
         }: bar) => baz
       `,
       languageOptions: languageOptionsForBabelFlow,
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -11441,7 +11426,7 @@ run<RuleOptions, MessageIds>({
         ]: bar) => baz
       `,
       languageOptions: languageOptionsForBabelFlow,
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -11455,7 +11440,7 @@ run<RuleOptions, MessageIds>({
         }: {}) => baz
       `,
       languageOptions: languageOptionsForBabelFlow,
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -11473,7 +11458,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4, { ignoredNodes: ['ClassBody'] }],
-      errors: expectedErrors([3, 4, 0, 'Identifier']),
+      errors: expectedErrors([3, 4, 0]),
     },
     {
       code: $`
@@ -11503,7 +11488,7 @@ run<RuleOptions, MessageIds>({
       options: [4, {
         ignoredNodes: ['ExpressionStatement > CallExpression[callee.name=\'$\'] > FunctionExpression > BlockStatement'],
       }],
-      errors: expectedErrors([7, 4, 0, 'Identifier']),
+      errors: expectedErrors([7, 4, 0]),
     },
     {
       code: $`
@@ -11523,7 +11508,7 @@ run<RuleOptions, MessageIds>({
       options: [4, {
         ignoredNodes: ['ExpressionStatement > CallExpression > FunctionExpression.callee > BlockStatement'],
       }],
-      errors: expectedErrors([3, 4, 0, 'Identifier']),
+      errors: expectedErrors([3, 4, 0]),
     },
     {
       code: $`
@@ -11543,7 +11528,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4, { ignoreComments: false }],
-      errors: expectedErrors([4, 4, 0, 'Line']),
+      errors: expectedErrors([4, 4, 0]),
     },
     {
       code: $`
@@ -11563,7 +11548,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [4, { ignoreComments: false }],
-      errors: expectedErrors([4, 4, 0, 'Block']),
+      errors: expectedErrors([4, 4, 0]),
     },
     {
       code: $`
@@ -11584,7 +11569,7 @@ run<RuleOptions, MessageIds>({
             }
         }
       `,
-      errors: expectedErrors([4, 12, 8, 'Numeric']),
+      errors: expectedErrors([4, 12, 8]),
     },
 
     // ----------------------------------------------------------------------
@@ -11605,7 +11590,7 @@ run<RuleOptions, MessageIds>({
             doSomething();
         }
       `,
-      errors: expectedErrors([3, 4, 0, 'Line']),
+      errors: expectedErrors([3, 4, 0]),
     },
     {
       code: $`
@@ -11624,7 +11609,7 @@ run<RuleOptions, MessageIds>({
         
         }
       `,
-      errors: expectedErrors([4, 4, 0, 'Line']),
+      errors: expectedErrors([4, 4, 0]),
     },
     {
       code: $`
@@ -11649,7 +11634,7 @@ run<RuleOptions, MessageIds>({
             bar
         }];
       `,
-      errors: expectedErrors([5, 0, 4, 'Line']),
+      errors: expectedErrors([5, 0, 4]),
     },
     {
       code: $`
@@ -11666,7 +11651,7 @@ run<RuleOptions, MessageIds>({
         
         ;(async () => {})()
       `,
-      errors: expectedErrors([3, 0, 4, 'Line']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -11679,7 +11664,7 @@ run<RuleOptions, MessageIds>({
         // comment
         ;(async () => {})()
       `,
-      errors: expectedErrors([2, 0, 4, 'Line']),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -11696,7 +11681,7 @@ run<RuleOptions, MessageIds>({
         
         (async () => {})()
       `,
-      errors: expectedErrors([3, 4, 0, 'Block']),
+      errors: expectedErrors([3, 4, 0]),
     },
     {
       code: $`
@@ -11709,7 +11694,7 @@ run<RuleOptions, MessageIds>({
         
         ;(async () => {})()
       `,
-      errors: expectedErrors([1, 0, 4, 'Line']),
+      errors: expectedErrors([1, 0, 4]),
     },
     {
       code: $`
@@ -11720,7 +11705,7 @@ run<RuleOptions, MessageIds>({
         // comment
         ;(async () => {})()
       `,
-      errors: expectedErrors([1, 0, 4, 'Line']),
+      errors: expectedErrors([1, 0, 4]),
     },
     {
       code: $`
@@ -11743,7 +11728,7 @@ run<RuleOptions, MessageIds>({
         
         }
       `,
-      errors: expectedErrors([4, 4, 8, 'Line']),
+      errors: expectedErrors([4, 4, 8]),
     },
     {
       code: $`
@@ -11762,7 +11747,7 @@ run<RuleOptions, MessageIds>({
         
         }
       `,
-      errors: expectedErrors([3, 4, 8, 'Line']),
+      errors: expectedErrors([3, 4, 8]),
     },
     {
       code: $`
@@ -11785,7 +11770,7 @@ run<RuleOptions, MessageIds>({
         
         }
       `,
-      errors: expectedErrors([4, 8, 4, 'Block']),
+      errors: expectedErrors([4, 8, 4]),
     },
     {
       code: $`
@@ -11804,7 +11789,7 @@ run<RuleOptions, MessageIds>({
         
         ;[1, 2, 3].forEach(() => {})
       `,
-      errors: expectedErrors([4, 0, 4, 'Block']),
+      errors: expectedErrors([4, 0, 4]),
     },
     {
       code: $`
@@ -11819,7 +11804,7 @@ run<RuleOptions, MessageIds>({
         /* comment */
         ;[1, 2, 3].forEach(() => {})
       `,
-      errors: expectedErrors([3, 0, 4, 'Block']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -11838,7 +11823,7 @@ run<RuleOptions, MessageIds>({
         
         [1, 2, 3].forEach(() => {})
       `,
-      errors: expectedErrors([4, 4, 0, 'Block']),
+      errors: expectedErrors([4, 4, 0]),
     },
     {
       code: $`
@@ -11851,7 +11836,7 @@ run<RuleOptions, MessageIds>({
         
         ;[1, 2, 3].forEach(() => {})
       `,
-      errors: expectedErrors([1, 0, 4, 'Block']),
+      errors: expectedErrors([1, 0, 4]),
     },
     {
       code: $`
@@ -11862,7 +11847,7 @@ run<RuleOptions, MessageIds>({
         /* comment */
         ;[1, 2, 3].forEach(() => {})
       `,
-      errors: expectedErrors([1, 0, 4, 'Block']),
+      errors: expectedErrors([1, 0, 4]),
     },
     {
       code: $`
@@ -11887,7 +11872,7 @@ run<RuleOptions, MessageIds>({
         
         }
       `,
-      errors: expectedErrors([5, 4, 8, 'Block']),
+      errors: expectedErrors([5, 4, 8]),
     },
     {
       code: $`
@@ -11908,7 +11893,7 @@ run<RuleOptions, MessageIds>({
         
         }
       `,
-      errors: expectedErrors([4, 4, 8, 'Block']),
+      errors: expectedErrors([4, 4, 8]),
     },
     {
       code: $`
@@ -11933,7 +11918,7 @@ run<RuleOptions, MessageIds>({
         
         }
       `,
-      errors: expectedErrors([5, 8, 4, 'Block']),
+      errors: expectedErrors([5, 8, 4]),
     },
 
     // import expressions
@@ -11950,8 +11935,8 @@ run<RuleOptions, MessageIds>({
       `,
       parserOptions: { ecmaVersion: 2020 },
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
-        [3, 0, 4, 'Punctuator'],
+        [2, 4, 0],
+        [3, 0, 4],
       ]),
     },
 
@@ -11981,7 +11966,7 @@ run<RuleOptions, MessageIds>({
       `,
       parserOptions: { ecmaVersion: 2015 },
       errors: expectedErrors([
-        [7, 8, 4, 'Identifier'],
+        [7, 8, 4],
       ]),
     },
     {
@@ -12009,9 +11994,9 @@ run<RuleOptions, MessageIds>({
       `,
       parserOptions: { ecmaVersion: 2015 },
       errors: expectedErrors([
-        [2, 4, 8, 'Identifier'],
-        [7, 8, 12, 'Identifier'],
-        [8, 4, 8, 'Punctuator'],
+        [2, 4, 8],
+        [7, 8, 12],
+        [8, 4, 8],
       ]),
     },
     {
@@ -12055,9 +12040,9 @@ run<RuleOptions, MessageIds>({
       `,
       parserOptions: { ecmaVersion: 2015 },
       errors: expectedErrors([
-        [7, 8, 12, 'Identifier'],
-        [15, 8, 12, 'Identifier'],
-        [16, 4, 0, 'Punctuator'],
+        [7, 8, 12],
+        [15, 8, 12],
+        [16, 4, 0],
       ]),
     },
     {
@@ -12101,9 +12086,9 @@ run<RuleOptions, MessageIds>({
       `,
       parserOptions: { ecmaVersion: 2015 },
       errors: expectedErrors([
-        [7, 8, 12, 'Identifier'],
-        [15, 8, 12, 'Identifier'],
-        [16, 4, 0, 'Punctuator'],
+        [7, 8, 12],
+        [15, 8, 12],
+        [16, 4, 0],
       ]),
     },
     {
@@ -12141,8 +12126,8 @@ run<RuleOptions, MessageIds>({
       `,
       parserOptions: { ecmaVersion: 2015 },
       errors: expectedErrors([
-        [5, 4, 0, 'Identifier'],
-        [11, 8, 4, 'Identifier'],
+        [5, 4, 0],
+        [11, 8, 4],
       ]),
     },
     {
@@ -12174,9 +12159,9 @@ run<RuleOptions, MessageIds>({
       `,
       parserOptions: { ecmaVersion: 2015 },
       errors: expectedErrors([
-        [4, 4, 8, 'Identifier'],
-        [5, 4, 0, 'Identifier'],
-        [9, 8, 0, 'Identifier'],
+        [4, 4, 8],
+        [5, 4, 0],
+        [9, 8, 0],
       ]),
     },
     {
@@ -12192,7 +12177,7 @@ run<RuleOptions, MessageIds>({
       `,
       parserOptions: { ecmaVersion: 2015 },
       errors: expectedErrors([
-        [2, 4, 8, 'Identifier'],
+        [2, 4, 8],
       ]),
     },
     {
@@ -12208,8 +12193,8 @@ run<RuleOptions, MessageIds>({
       `,
       parserOptions: { ecmaVersion: 2015 },
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
-        [3, 0, 4, 'Punctuator'],
+        [2, 4, 0],
+        [3, 0, 4],
       ]),
     },
     {
@@ -12229,7 +12214,7 @@ run<RuleOptions, MessageIds>({
       `,
       parserOptions: { ecmaVersion: 2015 },
       errors: expectedErrors([
-        [5, 4, 0, 'Punctuator'],
+        [5, 4, 0],
       ]),
     },
     {
@@ -12251,7 +12236,7 @@ run<RuleOptions, MessageIds>({
       `,
       parserOptions: { ecmaVersion: 2015 },
       errors: expectedErrors([
-        [5, 8, 0, 'Identifier'],
+        [5, 8, 0],
       ]),
     },
     {
@@ -12274,9 +12259,9 @@ run<RuleOptions, MessageIds>({
       options: [4, { MemberExpression: 0 }],
       parserOptions: { ecmaVersion: 2015 },
       errors: expectedErrors([
-        [2, 0, 4, 'Punctuator'],
-        [5, 4, 0, 'Identifier'],
-        [6, 0, 4, 'Punctuator'],
+        [2, 0, 4],
+        [5, 4, 0],
+        [6, 0, 4],
       ]),
     },
 
@@ -12299,10 +12284,10 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2020 },
       errors: expectedErrors([
-        [2, 4, 0, 'Punctuator'],
-        [3, 4, 0, 'Punctuator'],
-        [4, 4, 0, 'Punctuator'],
-        [5, 8, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 4, 0],
+        [4, 4, 0],
+        [5, 8, 0],
       ]),
     },
     {
@@ -12327,8 +12312,8 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2020 },
       errors: expectedErrors([
-        [6, 4, 0, 'Punctuator'],
-        [7, 4, 0, 'Punctuator'],
+        [6, 4, 0],
+        [7, 4, 0],
       ]),
     },
     {
@@ -12347,9 +12332,9 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2020 },
       errors: expectedErrors([
-        [2, 4, 0, 'Punctuator'],
-        [3, 4, 0, 'Punctuator'],
-        [4, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 4, 0],
+        [4, 4, 0],
       ]),
     },
     {
@@ -12374,8 +12359,8 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2020 },
       errors: expectedErrors([
-        [6, 4, 0, 'Punctuator'],
-        [7, 4, 0, 'Punctuator'],
+        [6, 4, 0],
+        [7, 4, 0],
       ]),
     },
     {
@@ -12396,7 +12381,7 @@ run<RuleOptions, MessageIds>({
       options: [2, { FunctionDeclaration: { parameters: 'first' }, FunctionExpression: { parameters: 'first' } }],
       parserOptions: { ecmaVersion: 2020 },
       errors: expectedErrors([
-        [2, 19, 20, 'Identifier'],
+        [2, 19, 20],
       ]),
     },
     {
@@ -12410,7 +12395,7 @@ run<RuleOptions, MessageIds>({
       `,
       options: [2],
       errors: expectedErrors([
-        [2, 0, 1, 'Identifier'],
+        [2, 0, 1],
       ]),
     },
     {
@@ -12429,8 +12414,8 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
-        [3, 4, 0, 'Keyword'],
+        [2, 4, 0],
+        [3, 4, 0],
       ]),
     },
     {
@@ -12463,15 +12448,15 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
-        [3, 8, 0, 'Punctuator'],
-        [4, 12, 0, 'Numeric'],
-        [5, 12, 0, 'Punctuator'],
-        [6, 4, 0, 'Keyword'],
-        [7, 8, 0, 'Identifier'],
-        [8, 12, 0, 'Punctuator'],
-        [9, 16, 0, 'Numeric'],
-        [10, 16, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 8, 0],
+        [4, 12, 0],
+        [5, 12, 0],
+        [6, 4, 0],
+        [7, 8, 0],
+        [8, 12, 0],
+        [9, 16, 0],
+        [10, 16, 0],
       ]),
     },
     {
@@ -12524,25 +12509,25 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Punctuator'],
-        [3, 8, 0, 'Identifier'],
-        [4, 4, 0, 'Punctuator'],
-        [5, 8, 0, 'Punctuator'],
-        [6, 12, 0, 'Numeric'],
-        [7, 12, 0, 'Punctuator'],
-        [8, 4, 0, 'Keyword'],
-        [9, 4, 0, 'Punctuator'],
-        [10, 8, 0, 'Identifier'],
-        [11, 4, 0, 'Punctuator'],
-        [12, 8, 0, 'Punctuator'],
-        [13, 12, 0, 'Numeric'],
-        [14, 12, 0, 'Punctuator'],
-        [15, 4, 0, 'Punctuator'],
-        [16, 8, 0, 'Identifier'],
-        [17, 4, 0, 'Punctuator'],
-        [18, 8, 0, 'Numeric'],
-        [19, 4, 0, 'Punctuator'],
-        [20, 8, 0, 'Numeric'],
+        [2, 4, 0],
+        [3, 8, 0],
+        [4, 4, 0],
+        [5, 8, 0],
+        [6, 12, 0],
+        [7, 12, 0],
+        [8, 4, 0],
+        [9, 4, 0],
+        [10, 8, 0],
+        [11, 4, 0],
+        [12, 8, 0],
+        [13, 12, 0],
+        [14, 12, 0],
+        [15, 4, 0],
+        [16, 8, 0],
+        [17, 4, 0],
+        [18, 8, 0],
+        [19, 4, 0],
+        [20, 8, 0],
       ]),
     },
     {
@@ -12565,9 +12550,9 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
-        [3, 8, 0, 'Identifier'],
-        [5, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 8, 0],
+        [5, 4, 0],
       ]),
     },
     {
@@ -12590,10 +12575,10 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'PrivateIdentifier'],
-        [3, 4, 0, 'Identifier'],
-        [4, 8, 0, 'Keyword'],
-        [5, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 4, 0],
+        [4, 8, 0],
+        [5, 4, 0],
       ]),
     },
     {
@@ -12616,10 +12601,10 @@ run<RuleOptions, MessageIds>({
       options: [2],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 2, 0, 'Keyword'],
-        [3, 4, 0, 'Identifier'],
-        [4, 4, 0, 'Identifier'],
-        [5, 2, 0, 'Punctuator'],
+        [2, 2, 0],
+        [3, 4, 0],
+        [4, 4, 0],
+        [5, 2, 0],
       ]),
     },
     {
@@ -12642,10 +12627,10 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Keyword'],
-        [3, 8, 0, 'Identifier'],
-        [4, 8, 0, 'Identifier'],
-        [5, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 8, 0],
+        [4, 8, 0],
+        [5, 4, 0],
       ]),
     },
     {
@@ -12668,10 +12653,10 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 8, 'Keyword'],
-        [3, 8, 4, 'Identifier'],
-        [4, 8, 0, 'Identifier'],
-        [5, 4, 8, 'Punctuator'],
+        [2, 4, 8],
+        [3, 8, 4],
+        [4, 8, 0],
+        [5, 4, 8],
       ]),
     },
     {
@@ -12694,10 +12679,10 @@ run<RuleOptions, MessageIds>({
       options: [4, { StaticBlock: { body: 2 } }],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Keyword'],
-        [3, 12, 0, 'Identifier'],
-        [4, 12, 0, 'Identifier'],
-        [5, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 12, 0],
+        [4, 12, 0],
+        [5, 4, 0],
       ]),
     },
     {
@@ -12720,10 +12705,10 @@ run<RuleOptions, MessageIds>({
       options: [4, { StaticBlock: { body: 0 } }],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Keyword'],
-        [3, 4, 0, 'Identifier'],
-        [4, 4, 0, 'Identifier'],
-        [5, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 4, 0],
+        [4, 4, 0],
+        [5, 4, 0],
       ]),
     },
     {
@@ -12746,10 +12731,10 @@ run<RuleOptions, MessageIds>({
       options: ['tab'],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors('tab', [
-        [2, 1, 0, 'Keyword'],
-        [3, 2, 0, 'Identifier'],
-        [4, 2, 0, 'Identifier'],
-        [5, 1, 0, 'Punctuator'],
+        [2, 1, 0],
+        [3, 2, 0],
+        [4, 2, 0],
+        [5, 1, 0],
       ]),
     },
     {
@@ -12772,10 +12757,10 @@ run<RuleOptions, MessageIds>({
       options: ['tab', { StaticBlock: { body: 2 } }],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors('tab', [
-        [2, 1, 0, 'Keyword'],
-        [3, 3, 0, 'Identifier'],
-        [4, 3, 0, 'Identifier'],
-        [5, 1, 0, 'Punctuator'],
+        [2, 1, 0],
+        [3, 3, 0],
+        [4, 3, 0],
+        [5, 1, 0],
       ]),
     },
     {
@@ -12800,11 +12785,11 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Keyword'],
-        [3, 4, 0, 'Punctuator'],
-        [4, 8, 0, 'Identifier'],
-        [5, 8, 0, 'Identifier'],
-        [6, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 4, 0],
+        [4, 8, 0],
+        [5, 8, 0],
+        [6, 4, 0],
       ]),
     },
     {
@@ -12829,8 +12814,8 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [3, 4, 8, 'Punctuator'],
-        [6, 4, 8, 'Punctuator'],
+        [3, 4, 8],
+        [6, 4, 8],
       ]),
     },
     {
@@ -12853,10 +12838,10 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Keyword'],
-        [3, 8, 0, 'Keyword'],
-        [4, 12, 0, 'Identifier'],
-        [5, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 8, 0],
+        [4, 12, 0],
+        [5, 4, 0],
       ]),
     },
     {
@@ -12881,11 +12866,11 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Keyword'],
-        [3, 4, 0, 'Punctuator'],
-        [4, 8, 0, 'Keyword'],
-        [5, 12, 0, 'Identifier'],
-        [6, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 4, 0],
+        [4, 8, 0],
+        [5, 12, 0],
+        [6, 4, 0],
       ]),
     },
     {
@@ -12910,11 +12895,11 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Keyword'],
-        [3, 8, 0, 'Keyword'],
-        [4, 12, 0, 'Identifier'],
-        [5, 8, 0, 'Punctuator'],
-        [6, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 8, 0],
+        [4, 12, 0],
+        [5, 8, 0],
+        [6, 4, 0],
       ]),
     },
     {
@@ -12939,11 +12924,11 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Keyword'],
-        [3, 8, 0, 'Punctuator'],
-        [4, 12, 0, 'Identifier'],
-        [5, 8, 0, 'Punctuator'],
-        [6, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 8, 0],
+        [4, 12, 0],
+        [5, 8, 0],
+        [6, 4, 0],
       ]),
     },
     {
@@ -12974,12 +12959,12 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Keyword'],
-        [4, 4, 0, 'Keyword'],
-        [5, 4, 0, 'Punctuator'],
-        [7, 4, 0, 'Keyword'],
-        [8, 4, 0, 'Punctuator'],
-        [9, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [4, 4, 0],
+        [5, 4, 0],
+        [7, 4, 0],
+        [8, 4, 0],
+        [9, 4, 0],
       ]),
     },
     {
@@ -13012,12 +12997,12 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [3, 4, 0, 'Keyword'],
-        [4, 8, 4, 'Identifier'],
-        [5, 4, 0, 'Punctuator'],
-        [7, 4, 0, 'Keyword'],
-        [8, 8, 4, 'Identifier'],
-        [9, 4, 0, 'Punctuator'],
+        [3, 4, 0],
+        [4, 8, 4],
+        [5, 4, 0],
+        [7, 4, 0],
+        [8, 8, 4],
+        [9, 4, 0],
       ]),
     },
     {
@@ -13050,11 +13035,11 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [3, 4, 0, 'Identifier'],
-        [5, 4, 0, 'Keyword'],
-        [6, 8, 4, 'Identifier'],
-        [7, 4, 0, 'Punctuator'],
-        [9, 4, 0, 'Identifier'],
+        [3, 4, 0],
+        [5, 4, 0],
+        [6, 8, 4],
+        [7, 4, 0],
+        [9, 4, 0],
       ]),
     },
     {
@@ -13095,15 +13080,15 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [3, 4, 0, 'Identifier'],
-        [4, 8, 4, 'Identifier'],
-        [5, 4, 0, 'Punctuator'],
-        [7, 4, 0, 'Keyword'],
-        [8, 8, 4, 'Identifier'],
-        [9, 4, 0, 'Punctuator'],
-        [11, 4, 0, 'Identifier'],
-        [12, 8, 4, 'Identifier'],
-        [13, 4, 0, 'Punctuator'],
+        [3, 4, 0],
+        [4, 8, 4],
+        [5, 4, 0],
+        [7, 4, 0],
+        [8, 8, 4],
+        [9, 4, 0],
+        [11, 4, 0],
+        [12, 8, 4],
+        [13, 4, 0],
       ]),
     },
     {
@@ -13130,12 +13115,12 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Keyword'],
-        [3, 8, 0, 'Keyword'],
-        [4, 12, 0, 'Identifier'],
-        [5, 12, 0, 'Identifier'],
-        [6, 8, 0, 'Punctuator'],
-        [7, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 8, 0],
+        [4, 12, 0],
+        [5, 12, 0],
+        [6, 8, 0],
+        [7, 4, 0],
       ]),
     },
     {
@@ -13162,12 +13147,12 @@ run<RuleOptions, MessageIds>({
       options: [4, { FunctionExpression: { body: 2 }, StaticBlock: { body: 2 } }],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
-        [3, 12, 0, 'Identifier'],
-        [4, 4, 0, 'Punctuator'],
-        [5, 4, 0, 'Keyword'],
-        [6, 12, 0, 'Identifier'],
-        [7, 4, 0, 'Punctuator'],
+        [2, 4, 0],
+        [3, 12, 0],
+        [4, 4, 0],
+        [5, 4, 0],
+        [6, 12, 0],
+        [7, 4, 0],
       ]),
     },
 
@@ -13187,8 +13172,8 @@ run<RuleOptions, MessageIds>({
       options: [4],
       parserOptions: { ecmaVersion: 2022 },
       errors: expectedErrors([
-        [2, 4, 0, 'Identifier'],
-        [3, 8, 0, 'String'],
+        [2, 4, 0],
+        [3, 8, 0],
       ]),
     },
 
@@ -13205,7 +13190,7 @@ run<RuleOptions, MessageIds>({
         ;[1, 2, 3].forEach(x=>console.log(x))
       `,
       options: ['tab'],
-      errors: expectedErrors('tab', [3, 0, 1, 'Punctuator']),
+      errors: expectedErrors('tab', [3, 0, 1]),
     },
     {
       code: $`
@@ -13219,7 +13204,7 @@ run<RuleOptions, MessageIds>({
         ;[1, 2, 3].forEach(x=>console.log(x))
       `,
       options: [4],
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -13231,7 +13216,7 @@ run<RuleOptions, MessageIds>({
         baz()
       `,
       options: [4],
-      errors: expectedErrors([2, 0, 4, 'Identifier']),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -13243,7 +13228,7 @@ run<RuleOptions, MessageIds>({
         ;baz()
       `,
       options: [4],
-      errors: expectedErrors([2, 0, 4, 'Punctuator']),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -13257,7 +13242,7 @@ run<RuleOptions, MessageIds>({
         baz();
       `,
       options: [4],
-      errors: expectedErrors([3, 0, 4, 'Identifier']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -13271,7 +13256,7 @@ run<RuleOptions, MessageIds>({
         ; baz()
       `,
       options: [4],
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -13288,8 +13273,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: [4],
       errors: expectedErrors([
-        [3, 0, 4, 'Punctuator'],
-        [4, 0, 4, 'Identifier'],
+        [3, 0, 4],
+        [4, 0, 4],
       ]),
     },
     {
@@ -13306,7 +13291,7 @@ run<RuleOptions, MessageIds>({
             baz()
       `,
       options: [4],
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -13324,7 +13309,7 @@ run<RuleOptions, MessageIds>({
         ;qux()
       `,
       options: [4],
-      errors: expectedErrors([5, 0, 4, 'Punctuator']),
+      errors: expectedErrors([5, 0, 4]),
     },
     {
       code: $`
@@ -13340,7 +13325,7 @@ run<RuleOptions, MessageIds>({
         ;qux()
       `,
       options: [4],
-      errors: expectedErrors([4, 0, 4, 'Punctuator']),
+      errors: expectedErrors([4, 0, 4]),
     },
     {
       code: $`
@@ -13358,7 +13343,7 @@ run<RuleOptions, MessageIds>({
         ;quux()
       `,
       options: [4],
-      errors: expectedErrors([5, 0, 4, 'Punctuator']),
+      errors: expectedErrors([5, 0, 4]),
     },
     {
       code: $`
@@ -13378,7 +13363,7 @@ run<RuleOptions, MessageIds>({
         ;quux()
       `,
       options: [4],
-      errors: expectedErrors([6, 0, 4, 'Punctuator']),
+      errors: expectedErrors([6, 0, 4]),
     },
     {
       code: $`
@@ -13394,7 +13379,7 @@ run<RuleOptions, MessageIds>({
         baz()
       `,
       options: [4],
-      errors: expectedErrors([3, 4, 0, 'Punctuator']),
+      errors: expectedErrors([3, 4, 0]),
     },
     {
       code: $`
@@ -13408,7 +13393,7 @@ run<RuleOptions, MessageIds>({
         baz()
       `,
       options: [4],
-      errors: expectedErrors([2, 4, 0, 'Punctuator']),
+      errors: expectedErrors([2, 4, 0]),
     },
     {
       code: $`
@@ -13420,7 +13405,7 @@ run<RuleOptions, MessageIds>({
         ;baz()
       `,
       options: [4],
-      errors: expectedErrors([2, 0, 4, 'Punctuator']),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -13434,7 +13419,7 @@ run<RuleOptions, MessageIds>({
             baz()
       `,
       options: [4],
-      errors: expectedErrors([2, 0, 4, 'Keyword']),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -13450,7 +13435,7 @@ run<RuleOptions, MessageIds>({
             baz()
       `,
       options: [4],
-      errors: expectedErrors([2, 4, 0, 'Punctuator']),
+      errors: expectedErrors([2, 4, 0]),
     },
     {
       code: $`
@@ -13464,7 +13449,7 @@ run<RuleOptions, MessageIds>({
             baz()
       `,
       options: [4],
-      errors: expectedErrors([2, 0, 4, 'Punctuator']),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -13476,7 +13461,7 @@ run<RuleOptions, MessageIds>({
         while (bar)
       `,
       options: [4],
-      errors: expectedErrors([2, 0, 4, 'Keyword']),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -13488,7 +13473,7 @@ run<RuleOptions, MessageIds>({
         ;while (bar)
       `,
       options: [4],
-      errors: expectedErrors([2, 0, 4, 'Punctuator']),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -13502,7 +13487,7 @@ run<RuleOptions, MessageIds>({
         while (bar)
       `,
       options: [4],
-      errors: expectedErrors([3, 0, 4, 'Keyword']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -13516,7 +13501,7 @@ run<RuleOptions, MessageIds>({
         ;while (bar)
       `,
       options: [4],
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -13528,7 +13513,7 @@ run<RuleOptions, MessageIds>({
         while (foo)
       `,
       options: [4],
-      errors: expectedErrors([2, 0, 4, 'Keyword']),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -13542,7 +13527,7 @@ run<RuleOptions, MessageIds>({
         while (foo)
       `,
       options: [4],
-      errors: expectedErrors([2, 4, 0, 'Punctuator']),
+      errors: expectedErrors([2, 4, 0]),
     },
     {
       code: $`
@@ -13554,7 +13539,7 @@ run<RuleOptions, MessageIds>({
         ;while (foo)
       `,
       options: [4],
-      errors: expectedErrors([2, 0, 4, 'Punctuator']),
+      errors: expectedErrors([2, 0, 4]),
     },
     {
       code: $`
@@ -13568,7 +13553,7 @@ run<RuleOptions, MessageIds>({
         ;[1, 2, 3].forEach(x=>console.log(x))
       `,
       options: [4],
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -13582,7 +13567,7 @@ run<RuleOptions, MessageIds>({
         ;[1, 2, 3].forEach(x=>console.log(x))
       `,
       options: [4],
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -13596,7 +13581,7 @@ run<RuleOptions, MessageIds>({
         ;[1, 2, 3].forEach(x=>console.log(x))
       `,
       options: [4],
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -13610,7 +13595,7 @@ run<RuleOptions, MessageIds>({
         ;[1, 2, 3].forEach(x=>console.log(x))
       `,
       options: [4],
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -13624,7 +13609,7 @@ run<RuleOptions, MessageIds>({
         ;[1, 2, 3].forEach(x=>console.log(x))
       `,
       options: [4],
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
       parserOptions: { sourceType: 'script' },
     },
     {
@@ -13639,7 +13624,7 @@ run<RuleOptions, MessageIds>({
         ;[1, 2, 3].forEach(x=>console.log(x))
       `,
       options: [4],
-      errors: expectedErrors([3, 0, 4, 'Punctuator']),
+      errors: expectedErrors([3, 0, 4]),
     },
     {
       code: $`
@@ -13655,7 +13640,7 @@ run<RuleOptions, MessageIds>({
         ;[1, 2, 3].forEach(x=>console.log(x))
       `,
       options: [4],
-      errors: expectedErrors([4, 0, 4, 'Punctuator']),
+      errors: expectedErrors([4, 0, 4]),
     },
 
     // https://github.com/eslint/eslint/issues/17316
@@ -13678,8 +13663,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['tab'],
       errors: expectedErrors('tab', [
-        [5, 1, 0, 'Keyword'],
-        [6, 1, 0, 'Keyword'],
+        [5, 1, 0],
+        [6, 1, 0],
       ]),
     },
     {
@@ -13701,8 +13686,8 @@ run<RuleOptions, MessageIds>({
       `,
       options: ['tab'],
       errors: expectedErrors('tab', [
-        [5, 1, 2, 'Keyword'],
-        [6, 1, 2, 'Keyword'],
+        [5, 1, 2],
+        [6, 1, 2],
       ]),
     },
     {
@@ -13723,8 +13708,8 @@ run<RuleOptions, MessageIds>({
             else doSomething();
       `,
       errors: expectedErrors([
-        [5, 4, 0, 'Keyword'],
-        [6, 4, 0, 'Keyword'],
+        [5, 4, 0],
+        [6, 4, 0],
       ]),
     },
     {
@@ -13747,9 +13732,9 @@ run<RuleOptions, MessageIds>({
             else doSomething();
       `,
       errors: expectedErrors([
-        [5, 4, 0, 'Keyword'],
-        [6, 8, 0, 'Identifier'],
-        [7, 4, 0, 'Keyword'],
+        [5, 4, 0],
+        [6, 8, 0],
+        [7, 4, 0],
       ]),
     },
     {
@@ -13772,9 +13757,9 @@ run<RuleOptions, MessageIds>({
                 doSomething();
       `,
       errors: expectedErrors([
-        [5, 4, 0, 'Keyword'],
-        [6, 4, 0, 'Keyword'],
-        [7, 8, 0, 'Identifier'],
+        [5, 4, 0],
+        [6, 4, 0],
+        [7, 8, 0],
       ]),
     },
     {
@@ -13799,10 +13784,10 @@ run<RuleOptions, MessageIds>({
                 doSomething();
       `,
       errors: expectedErrors([
-        [5, 4, 0, 'Keyword'],
-        [6, 8, 4, 'Identifier'],
-        [7, 4, 0, 'Keyword'],
-        [8, 8, 0, 'Identifier'],
+        [5, 4, 0],
+        [6, 8, 4],
+        [7, 4, 0],
+        [8, 8, 0],
       ]),
     },
     {
@@ -13821,7 +13806,7 @@ run<RuleOptions, MessageIds>({
         else doSomething();
       `,
       errors: expectedErrors([
-        [5, 0, 4, 'Keyword'],
+        [5, 0, 4],
       ]),
     },
     {
@@ -13842,9 +13827,9 @@ run<RuleOptions, MessageIds>({
         else doSomething();
       `,
       errors: expectedErrors([
-        [4, 0, 4, 'Keyword'],
-        [5, 4, 8, 'Identifier'],
-        [6, 0, 4, 'Keyword'],
+        [4, 0, 4],
+        [5, 4, 8],
+        [6, 0, 4],
       ]),
     },
     {
@@ -13865,8 +13850,8 @@ run<RuleOptions, MessageIds>({
             doSomething();
       `,
       errors: expectedErrors([
-        [5, 0, 5, 'Keyword'],
-        [6, 4, 9, 'Identifier'],
+        [5, 0, 5],
+        [6, 4, 9],
       ]),
     },
     {
@@ -13889,8 +13874,8 @@ run<RuleOptions, MessageIds>({
             doSomething();
       `,
       errors: expectedErrors([
-        [5, 4, 0, 'Identifier'],
-        [7, 4, 0, 'Identifier'],
+        [5, 4, 0],
+        [7, 4, 0],
       ]),
     },
     {
@@ -13919,12 +13904,12 @@ run<RuleOptions, MessageIds>({
                 else doSomething();
       `,
       errors: expectedErrors([
-        [5, 4, 0, 'Keyword'],
-        [6, 8, 4, 'Keyword'],
-        [7, 8, 4, 'Keyword'],
-        [8, 4, 0, 'Keyword'],
-        [9, 8, 4, 'Keyword'],
-        [10, 8, 4, 'Keyword'],
+        [5, 4, 0],
+        [6, 8, 4],
+        [7, 8, 4],
+        [8, 4, 0],
+        [9, 8, 4],
+        [10, 8, 4],
       ]),
     },
     {
@@ -13953,12 +13938,12 @@ run<RuleOptions, MessageIds>({
             else doSomething();
       `,
       errors: expectedErrors([
-        [5, 4, 0, 'Keyword'],
-        [6, 8, 0, 'Keyword'],
-        [7, 8, 0, 'Keyword'],
-        [8, 12, 0, 'Keyword'],
-        [9, 12, 0, 'Keyword'],
-        [10, 4, 0, 'Keyword'],
+        [5, 4, 0],
+        [6, 8, 0],
+        [7, 8, 0],
+        [8, 12, 0],
+        [9, 12, 0],
+        [10, 4, 0],
       ]),
     },
     {
@@ -13977,9 +13962,9 @@ run<RuleOptions, MessageIds>({
         else doSomething();
       `,
       errors: expectedErrors([
-        [2, 4, 0, 'Keyword'],
-        [3, 4, 0, 'Keyword'],
-        [5, 0, 4, 'Keyword'],
+        [2, 4, 0],
+        [3, 4, 0],
+        [5, 0, 4],
       ]),
     },
     {
@@ -14000,7 +13985,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       errors: expectedErrors([
-        [5, 4, 0, 'Identifier'],
+        [5, 4, 0],
       ]),
     },
     {
@@ -14023,9 +14008,9 @@ run<RuleOptions, MessageIds>({
         }
       `,
       errors: expectedErrors([
-        [5, 0, 4, 'Punctuator'],
-        [6, 4, 8, 'Identifier'],
-        [7, 0, 4, 'Punctuator'],
+        [5, 0, 4],
+        [6, 4, 8],
+        [7, 0, 4],
       ]),
     },
     {
@@ -14048,9 +14033,9 @@ run<RuleOptions, MessageIds>({
             }
       `,
       errors: expectedErrors([
-        [5, 4, 0, 'Keyword'],
-        [6, 8, 4, 'Identifier'],
-        [7, 4, 0, 'Punctuator'],
+        [5, 4, 0],
+        [6, 8, 4],
+        [7, 4, 0],
       ]),
     },
     {
@@ -14075,10 +14060,10 @@ run<RuleOptions, MessageIds>({
             }
       `,
       errors: expectedErrors([
-        [5, 4, 0, 'Keyword'],
-        [6, 4, 0, 'Punctuator'],
-        [7, 8, 4, 'Identifier'],
-        [8, 4, 0, 'Punctuator'],
+        [5, 4, 0],
+        [6, 4, 0],
+        [7, 8, 4],
+        [8, 4, 0],
       ]),
     },
     {
