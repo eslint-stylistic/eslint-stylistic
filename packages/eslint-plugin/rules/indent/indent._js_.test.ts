@@ -30,15 +30,15 @@ export function expectedErrors(providedIndentType: any, providedErrors?: any): T
     indentType = providedIndentType
   }
 
-  return errors.map<TestCaseError<MessageIds>>(err => ({
+  return errors.map<TestCaseError<MessageIds>>(([line, expected, actual]) => ({
     messageId: 'wrongIndentation',
     data: {
-      expected: typeof err[1] === 'string' && typeof err[2] === 'string'
-        ? err[1]
-        : `${err[1]} ${indentType}${err[1] === 1 ? '' : 's'}`,
-      actual: err[2],
+      expected: typeof expected === 'string' && typeof actual === 'string'
+        ? expected
+        : `${expected} ${indentType}${expected === 1 ? '' : 's'}`,
+      actual,
     },
-    line: err[0],
+    line,
   }))
 }
 
