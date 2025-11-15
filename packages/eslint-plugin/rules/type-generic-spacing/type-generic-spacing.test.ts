@@ -11,6 +11,7 @@ run<RuleOptions, MessageIds>({
     'type Foo<T extends true = true> = T',
     'type Foo<T = (true)> = T',
     'type Foo<T extends (true) = (true)> = T',
+    'type Foo = new <T>(name: T) => void',
     $`
       type Foo<
         T = true,
@@ -36,7 +37,6 @@ run<RuleOptions, MessageIds>({
     $`
       interface Foo {
         foo?: <T>(name: T) => void
-        bar?: new <T>(name: T) => void
       }
     `,
     $`
