@@ -52,11 +52,18 @@ run<RuleOptions, MessageIds>({
     ['const val: Set< string> = new Set()', 'const val: Set<string> = new Set()'],
     ['const val: Array<  number > = []', 'const val: Array<number> = []', 2],
     ['const val = callback< string  >(() => \'foo\')', 'const val = callback<string>(() => \'foo\')', 2],
+    ['type Foo< T> = T', 'type Foo<T> = T'],
+    ['type Foo<T > = T', 'type Foo<T> = T'],
+    ['type Foo< T > = T', 'type Foo<T> = T', 2],
+    ['function foo< T >() {}', 'function foo<T>() {}', 2],
+    ['type Foo< T = true    > = T', 'type Foo<T = true> = T', 2],
     ['type Foo<T=true> = T', 'type Foo<T = true> = T'],
     ['type Foo<T=(true)> = T', 'type Foo<T = (true)> = T'],
     ['type Foo<T extends (true)=(true)> = T', 'type Foo<T extends (true) = (true)> = T'],
+    ['type Foo< T, K   > = T', 'type Foo<T, K> = T', 2],
     ['type Foo<T=false, K=1|2> = T', 'type Foo<T = false, K = 1|2> = T', 2],
     ['function foo <T>() {}', 'function foo<T>() {}'],
+    ['function foo< T >() {}', 'function foo<T>() {}', 2],
     [
       $`
         interface Log {
@@ -69,14 +76,6 @@ run<RuleOptions, MessageIds>({
         }
       `,
     ],
-    // #region TODO: deprecated, remove once `list-style` is stable
-    ['type Foo< T> = T', 'type Foo<T> = T'],
-    ['type Foo<T > = T', 'type Foo<T> = T'],
-    ['type Foo< T > = T', 'type Foo<T> = T', 2],
-    ['function foo< T >() {}', 'function foo<T>() {}', 2],
-    ['type Foo< T = true    > = T', 'type Foo<T = true> = T', 2],
-    ['type Foo< T, K   > = T', 'type Foo<T, K> = T', 2],
-    ['function foo< T >() {}', 'function foo<T>() {}', 2],
     [
       $`
         interface Log {
@@ -95,7 +94,6 @@ run<RuleOptions, MessageIds>({
       'const toSortedImplementation = Array.prototype.toSorted || function <T>(name: T): void {}',
       2,
     ],
-    // #endregion
   ] as const)
     .map(i => ({
       code: i[0],
