@@ -33,7 +33,7 @@ function createRules(options: TypeAnnotationSpacingSchema0 | undefined): Overrid
   }
 
   if (Object.hasOwn(override, 'arrow'))
-    warnDeprecation('options("overrides.arrow")', 'arrow-spacing', 'type-annotation-spacing')
+    warnDeprecation('options("overrides.arrow")', '"arrow-spacing"', 'type-annotation-spacing')
 
   return {
     colon,
