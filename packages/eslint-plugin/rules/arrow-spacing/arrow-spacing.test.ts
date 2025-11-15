@@ -1,9 +1,3 @@
-/**
- * @fileoverview Tests for arrow-spacing
- * @author Jxck
- */
-//
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './arrow-spacing'
@@ -75,6 +69,16 @@ run<RuleOptions, MessageIds>({
     '(a) =>\n{}',
     '(a) =>\r\n{}',
     '(a) =>\n    0',
+    // TSFunctionType
+    'type Foo = () => void',
+    {
+      code: 'type Foo = ()=>void',
+      options: [
+        { after: false, before: false },
+      ],
+    },
+    // TSConstructorType
+    'type T = new () => P',
   ],
   invalid: [
     {
@@ -272,6 +276,35 @@ run<RuleOptions, MessageIds>({
       options: [{ after: false }],
       errors: [
         { column: 1, line: 2, messageId: 'unexpectedAfter' },
+      ],
+    },
+
+    // TSFunctionType
+    {
+      code: 'type Foo = ()=>void',
+      output: 'type Foo = () => void',
+      errors: [
+        { column: 13, line: 1, messageId: 'expectedBefore' },
+        { column: 16, line: 1, messageId: 'expectedAfter' },
+      ],
+    },
+    {
+      code: 'type Foo = () =>\nvoid',
+      output: 'type Foo = ()=>void',
+      options: [{ after: false, before: false }],
+      errors: [
+        { column: 13, line: 1, messageId: 'unexpectedBefore' },
+        { column: 1, line: 2, messageId: 'unexpectedAfter' },
+      ],
+    },
+
+    // TSConstructorType
+    {
+      code: 'type T = new ()=>P',
+      output: 'type T = new () => P',
+      errors: [
+        { column: 15, line: 1, messageId: 'expectedBefore' },
+        { column: 18, line: 1, messageId: 'expectedAfter' },
       ],
     },
 
