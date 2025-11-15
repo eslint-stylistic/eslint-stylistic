@@ -355,10 +355,8 @@ export default createRule<RuleOptions, MessageIds>({
           const closingToken = allTokens.findLast(token => isClosingBraceToken(token))!
           return [openingToken, closingToken]
         }
-        /* v8 ignore start */
         default:
           throw new Error(`Unsupported node type: ${nodeType}`)
-        /* v8 ignore stop */
       }
     }
 
