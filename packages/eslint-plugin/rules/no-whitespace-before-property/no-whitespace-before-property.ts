@@ -3,7 +3,7 @@ import type { MessageIds, RuleOptions } from './types'
 import { isDecimalInteger, isOpeningBracketToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
-type SupportedNode = Tree.MemberExpression | Tree.TSQualifiedName | Tree.TSImportType
+type SupportedNode = Tree.MemberExpression | Tree.TSIndexedAccessType | Tree.TSQualifiedName | Tree.TSImportType
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'no-whitespace-before-property',
@@ -38,7 +38,7 @@ export default createRule<RuleOptions, MessageIds>({
         leftToken,
         rightToken,
         propName,
-        replacementText = '.',
+        replacementText = '',
         preventAutoFix,
       } = descriptor
 
@@ -98,6 +98,20 @@ export default createRule<RuleOptions, MessageIds>({
           preventAutoFix: () => !node.computed && !node.optional && isDecimalInteger(node.object),
         })
       },
+      TSIndexedAccessType(node) {
+        const leftToken = node.objectType
+        const rightToken = sourceCode.getTokenBefore(node.indexType)!
+
+        if (!sourceCode.isSpaceBetween(leftToken, rightToken))
+          return
+
+        reportError({
+          node,
+          leftToken,
+          rightToken,
+          propName: sourceCode.getText(node.indexType),
+        })
+      },
       TSQualifiedName(node) {
         const leftToken = node.left
         const rightToken = node.right
@@ -109,6 +123,7 @@ export default createRule<RuleOptions, MessageIds>({
           node,
           leftToken,
           rightToken,
+          replacementText: '.',
           propName: sourceCode.getText(node.right),
         })
       },
@@ -126,6 +141,7 @@ export default createRule<RuleOptions, MessageIds>({
           node,
           leftToken,
           rightToken,
+          replacementText: '.',
           propName: sourceCode.getText(node.qualifier),
         })
       },
