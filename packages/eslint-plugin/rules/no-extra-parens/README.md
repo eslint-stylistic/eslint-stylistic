@@ -444,7 +444,7 @@ const fruits = {
 
 The following configuration ignores `ConditionalExpression` in `ArrowFunctionExpression` nodes like [`enforceForArrowConditionals`](#enforceforarrowconditionals-deprecated):
 
-Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["ArrowFunctionExpression[body.type=ConditionalExpression"] }` option:
+Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["ArrowFunctionExpression[body.type=ConditionalExpression]"] }` option:
 
 ::: correct
 
@@ -459,7 +459,7 @@ const d = c => (1 ? 2 : 3);
 
 The following configuration ignores `NewExpression` in `MemberExpression` nodes like [`enforceForNewInMemberExpressions`](#enforcefornewinmemberexpressions-deprecated):
 
-Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["MemberExpression[object.type=NewExpression"] }` option:
+Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["MemberExpression[object.type=NewExpression]"] }` option:
 
 ::: correct
 
@@ -538,7 +538,7 @@ const foo = (
 
 The following configuration ignores parens around a `TSIntersectionType` as the typeAnnotation of a `TSTypeAliasDeclaration`.
 
-Examples of **correct** code for this rule with the `4, { "ignoredNodes": ['TSTypeAliasDeclaration[typeAnnotation.type='TSIntersectionType'] }` option:
+Examples of **correct** code for this rule with the `4, { "ignoredNodes": ['TSTypeAliasDeclaration[typeAnnotation.type='TSIntersectionType]'] }` option:
 
 ::: correct
 
