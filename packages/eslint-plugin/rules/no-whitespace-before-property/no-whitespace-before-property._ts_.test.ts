@@ -6,6 +6,9 @@ run<RuleOptions, MessageIds>({
   name: 'no-whitespace-before-property',
   rule,
   valid: [
+    // #region don't throw error
+    `type Foo = import(A)`,
+    // #endregion
     `type Foo = A['B']`,
     `type Foo = A.B`,
     `type Foo = import(A).B`,
