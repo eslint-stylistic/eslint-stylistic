@@ -538,13 +538,13 @@ const foo = (
 
 The following configuration ignores parens around a `TSIntersectionType` as the typeAnnotation of a `TSTypeAliasDeclaration`.
 
-Examples of **correct** code for this rule with the `4, { "ignoredNodes": ['TSTypeAliasDeclaration[typeAnnotation.type='TSIntersectionType]'] }` option:
+Examples of **correct** code for this rule with the `"all", { "ignoredNodes": ["TSTypeAliasDeclaration[typeAnnotation.type=TSIntersectionType]"] }` option:
 
 ::: correct
 
 ```js
 /* eslint @stylistic/no-extra-parens: ["error", "all", {
-    "ignoredNodes": ["TSTypeAliasDeclaration[typeAnnotation.type='TSIntersectionType']"]
+    "ignoredNodes": ["TSTypeAliasDeclaration[typeAnnotation.type=TSIntersectionType]"]
 }] */
 
 type TBar = (
