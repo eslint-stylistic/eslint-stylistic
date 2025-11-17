@@ -46,6 +46,8 @@ function doSomething() {⏎
 
 :::
 
+This rule is also applicable to CSS, Markdown, JSON files, and other non-JavaScript/TypeScript files parsed by ESLint language plugins such as [@eslint/css](https://github.com/eslint/css) and [@eslint/markdown](https://github.com/eslint/markdown).
+
 ## Options
 
 This rule has a string option:
