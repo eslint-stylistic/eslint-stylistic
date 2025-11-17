@@ -1,8 +1,3 @@
-/**
- * @fileoverview Rule to disallow whitespace before properties
- * @author Kai Cataldo
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './no-whitespace-before-property'
@@ -11,7 +6,6 @@ run<RuleOptions, MessageIds>({
   name: 'no-whitespace-before-property',
   rule,
   lang: 'js',
-
   valid: [
     'foo.bar',
     'foo.bar()',
@@ -937,6 +931,7 @@ run<RuleOptions, MessageIds>({
         data: { propName: '\'toExponential\'' },
       }],
     },
+    // invalid in TS
     {
       code: '05 .toExponential()',
       output: '05.toExponential()',
