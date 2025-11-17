@@ -1,8 +1,3 @@
-/**
- * @fileoverview Disallows or enforces spaces inside computed properties.
- * @author Jamund Ferguson
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './computed-property-spacing'
@@ -279,6 +274,7 @@ run<RuleOptions, MessageIds>({
       parserOptions: { ecmaVersion: 6 },
     },
 
+    `type Foo = A[B]`,
   ],
 
   invalid: [
@@ -2010,6 +2006,23 @@ run<RuleOptions, MessageIds>({
       output: '({ [ a ]: someProp } = obj);',
       options: ['always'],
       parserOptions: { ecmaVersion: 2022 },
+      errors: [
+        { messageId: 'missingSpaceAfter', data: { tokenValue: '[' } },
+        { messageId: 'missingSpaceBefore', data: { tokenValue: ']' } },
+      ],
+    },
+    {
+      code: `type Foo = A[ B ]`,
+      output: `type Foo = A[B]`,
+      errors: [
+        { messageId: 'unexpectedSpaceAfter', data: { tokenValue: '[' } },
+        { messageId: 'unexpectedSpaceBefore', data: { tokenValue: ']' } },
+      ],
+    },
+    {
+      code: `type Foo = A[B]`,
+      output: `type Foo = A[ B ]`,
+      options: ['always'],
       errors: [
         { messageId: 'missingSpaceAfter', data: { tokenValue: '[' } },
         { messageId: 'missingSpaceBefore', data: { tokenValue: ']' } },

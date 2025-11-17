@@ -61,6 +61,8 @@ obj[foo[ bar ]]
 
 const { [ a ]: someProp } = obj;
 ({ [ b ]: anotherProp } = anotherObj);
+
+type Foo = A[ B ]
 ```
 
 :::
@@ -79,6 +81,8 @@ obj[foo[bar]]
 
 const { [a]: someProp } = obj;
 ({ [b]: anotherProp } = anotherObj);
+
+type Foo = A[B]
 ```
 
 :::
@@ -100,6 +104,7 @@ obj[foo[ bar ]]
 var x = {[ b]: a}
 const { [a]: someProp } = obj;
 ({ [b ]: anotherProp } = anotherObj);
+type Foo = A[B]
 ```
 
 :::
@@ -117,11 +122,12 @@ var x = {[ b ]: a}
 obj[ foo[ bar ] ]
 const { [ a ]: someProp } = obj;
 ({ [ b ]: anotherProp } = anotherObj);
+type Foo = A[ B ]
 ```
 
 :::
 
-#### enforceForClassMembers
+### enforceForClassMembers
 
 With `enforceForClassMembers` set to `true` (default), the rule also disallows/enforces spaces inside of computed keys of class methods, getters and setters.
 
