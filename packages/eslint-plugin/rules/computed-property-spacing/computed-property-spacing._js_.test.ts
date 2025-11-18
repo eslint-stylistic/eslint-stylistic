@@ -274,6 +274,12 @@ run<RuleOptions, MessageIds>({
       options: ['always'],
       parserOptions: { ecmaVersion: 6 },
     },
+
+    // https://github.com/eslint-stylistic/eslint-stylistic/issues/1053
+    {
+      code: `obj = { foo: bar }`,
+      parserOptions: { sourceType: 'script', ecmaVersion: 5 },
+    },
   ],
 
   invalid: [
