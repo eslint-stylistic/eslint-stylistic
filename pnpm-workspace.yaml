@@ -5,21 +5,21 @@ packages:
 catalogs:
   build:
     '@codecov/rollup-plugin': ^1.9.1
-    tsdown: ^0.15.7
+    tsdown: ^0.16.5
   dev:
-    '@antfu/eslint-config': ^6.0.0
+    '@antfu/eslint-config': ^6.2.0
     '@antfu/eslint-define-config': 1.23.0-2
     '@antfu/utils': ^9.3.0
     '@types/estraverse': ^5.1.7
     '@types/estree': ^1.0.8
-    '@types/node': ^24.7.2
+    '@types/node': ^24.10.1
     '@types/picomatch': ^4.0.2
     '@types/semver': ^7.7.1
-    '@typescript-eslint/parser': ^8.46.1
-    '@typescript-eslint/utils': ^8.46.1
+    '@typescript-eslint/parser': ^8.47.0
+    '@typescript-eslint/utils': ^8.47.0
     change-case: ^5.4.4
     escape-string-regexp: ^5.0.0
-    eslint: ^9.37.0
+    eslint: ^9.39.1
     eslint-plugin-format: ^1.0.2
     execa: ^9.6.0
     fast-glob: ^3.3.3
@@ -27,50 +27,50 @@ catalogs:
     jiti: ^2.6.1
     json-schema-to-typescript-lite: ^15.0.0
     jsonc-eslint-parser: ^2.4.1
-    lint-staged: ^16.2.4
+    lint-staged: ^16.2.6
     ohash: ^2.0.11
     prettier: ^3.6.2
     semver: ^7.7.3
     simple-git-hooks: ^2.13.1
-    taze: ^19.7.0
+    taze: ^19.9.0
     tsx: ^4.20.6
     typescript: ^5.9.3
-    vite: ^7.1.10
-    vue-tsc: ^3.0.9
+    vite: ^7.2.2
+    vue-tsc: ^3.1.4
   docs:
     '@iconify-json/carbon': ^1.2.14
     '@iconify-json/ri': ^1.2.6
-    '@shikijs/transformers': ^3.13.0
-    '@shikijs/twoslash': ^3.13.0
-    '@shikijs/vitepress-twoslash': ^3.13.0
+    '@shikijs/transformers': ^3.15.0
+    '@shikijs/twoslash': ^3.15.0
+    '@shikijs/vitepress-twoslash': ^3.15.0
     '@types/markdown-it-container': ^2.0.10
-    '@vueuse/core': ^13.9.0
+    '@vueuse/core': ^14.0.0
     fuse.js: ^7.1.0
     markdown-it-container: ^4.0.0
-    shiki: ^3.13.0
+    shiki: ^3.15.0
     twoslash: ^0.3.4
     twoslash-eslint: ^0.3.4
-    unocss: ^66.5.4
-    unplugin-vue-components: ^29.1.0
+    unocss: ^66.5.6
+    unplugin-vue-components: ^30.0.0
     vitepress: ^1.6.4
-    vue: ^3.5.22
+    vue: ^3.5.24
   prod:
     '@eslint-community/eslint-utils': ^4.9.0
-    '@typescript-eslint/types': ^8.46.1
-    eslint-visitor-keys: ^4.2.1
-    espree: ^10.4.0
+    '@typescript-eslint/types': ^8.47.0
+    eslint-visitor-keys: ^5.0.0
+    espree: ^11.0.0
     estraverse: ^5.3.0
     picomatch: ^4.0.3
   test:
-    '@babel/eslint-parser': ^7.28.4
+    '@babel/eslint-parser': ^7.28.5
     '@babel/plugin-syntax-decorators': ^7.27.1
     '@babel/plugin-syntax-do-expressions': ^7.27.1
     '@babel/plugin-syntax-function-bind': ^7.27.1
-    '@babel/preset-react': ^7.27.1
-    '@vitest/coverage-v8': ^4.0.9
-    '@vitest/ui': ^4.0.9
+    '@babel/preset-react': ^7.28.5
+    '@vitest/coverage-v8': ^4.0.10
+    '@vitest/ui': ^4.0.10
     eslint-vitest-rule-tester: ^3.0.0
-    vitest: ^4.0.9
+    vitest: ^4.0.10
     vue-eslint-parser: ^10.2.0
 onlyBuiltDependencies:
   - esbuild

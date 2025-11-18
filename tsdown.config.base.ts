@@ -29,6 +29,7 @@ export function createConfig(cwd: string) {
       dts: false,
       hash: false,
       minify: 'dce-only',
+      fixedExtension: false,
       outputOptions: {
         advancedChunks: {
           groups: [
