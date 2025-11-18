@@ -66,8 +66,7 @@ export default createRule<RuleOptions, MessageIds>({
     const expectedLFChars = expectedLF ? '\n' : '\r\n'
 
     let currentIndex = 0
-    for (let lineIndex = 0; lineIndex < lines.length - 1; lineIndex++) {
-      const line = lines[lineIndex]
+    for (const line of lines.slice(0, -1)) {
       const startIndex = currentIndex + line.length
       const startLoc = sourceCode.getLocFromIndex(startIndex)
 
