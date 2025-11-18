@@ -143,7 +143,7 @@ export default createRule<RuleOptions, MessageIds>({
      */
     function checkSpacing<T extends SupportedNode, K = ExtractNodeKeys<T>>(propertyName: K) {
       return function (node: SupportedNode) {
-        if ('computed' in node && !node.computed)
+        if (node.type !== 'TSIndexedAccessType' && !node.computed)
           return
 
         const property = node[propertyName as ExtractNodeKeys<typeof node>]
