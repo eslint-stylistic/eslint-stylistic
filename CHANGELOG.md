@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.6.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.6.0...v5.6.1) (2025-11-19)
+
+
+### Bug Fixes
+
+* **computed-property-spacing:** guard with `node.type` instead of `computed` check ([#1054](https://github.com/eslint-stylistic/eslint-stylistic/issues/1054)) ([c486861](https://github.com/eslint-stylistic/eslint-stylistic/commit/c48686160fc13ee5c195df8dd0cf8b85363acfce))
+
 ## [5.6.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.5.0...v5.6.0) (2025-11-18)
 
 
