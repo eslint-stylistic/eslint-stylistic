@@ -7,11 +7,6 @@ run<RuleOptions, MessageIds>({
   rule,
   valid: [
     {
-      code: 'class A { [ a ](){} accessor [ b ] }',
-      options: ['never', { enforceForClassMembers: false }],
-      parserOptions: { ecmaVersion: 6 },
-    },
-    {
       code: 'class A { accessor [ b ]; }',
       options: ['never', { enforceForClassMembers: false }],
       parserOptions: { ecmaVersion: 2022 },
@@ -46,6 +41,15 @@ run<RuleOptions, MessageIds>({
   ],
 
   invalid: [
+    {
+      code: 'class A { accessor [ a ] = 0 }',
+      output: 'class A { accessor [a] = 0 }',
+      options: ['never', { enforceForClassMembers: true }],
+      errors: [
+        { messageId: 'unexpectedSpaceAfter', column: 21, endColumn: 22 },
+        { messageId: 'unexpectedSpaceBefore', column: 23, endColumn: 24 },
+      ],
+    },
     {
       code: `class A { accessor [a] = 0 }`,
       output: `class A { accessor [ a ] = 0 }`,
