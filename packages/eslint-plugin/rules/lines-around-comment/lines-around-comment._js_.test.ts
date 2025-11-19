@@ -1072,6 +1072,82 @@ run<RuleOptions, MessageIds>({
       code: '#!comment\nvar a = 1;',
       options: [{ afterLineComment: true, afterBlockComment: true }],
     },
+    {
+      code: $`
+        if (
+          // Support named imports in JSON modules
+          format === 'json'
+          || pattern.test(url)
+        ) {}
+      `,
+      options: [{ beforeLineComment: true, allowGroupStart: ['('] }],
+    },
+    {
+      code: $`
+        const arr = [
+          // Comment describing the first item
+          firstItem,
+        
+          // Comment describing the second item
+          secondItem,
+        ]
+      `,
+      options: [{ beforeLineComment: true, allowGroupStart: ['['] }],
+    },
+    {
+      code: $`
+        const arr = [
+          firstItem,
+          // Comment describing the first item
+        ]
+      `,
+      options: [{ afterLineComment: true, allowGroupEnd: [']'] }],
+    },
+    {
+      code: `
+        const {
+          some
+
+          /* block comment at object-like end */
+        } = {};
+      `,
+      options: [{ afterBlockComment: true, allowGroupEnd: ['}'] }],
+    },
+    {
+      code: $`
+        const myFunc = (
+          // Comment describing the first parameter
+          firstParam,
+        
+          // Comment describing the second parameter
+          secondParam,
+        ) => {}
+      `,
+      options: [{ beforeLineComment: true, allowGroupStart: ['('] }],
+    },
+    {
+      code: $`
+        const myFunc = (
+          secondParam,
+          // Comment describing the second parameter
+        ) => {}
+      `,
+      options: [{ afterLineComment: true, allowGroupEnd: [')'] }],
+    },
+    {
+      code: `
+        function myFunc() {
+          return [].concat(
+            // comment 1
+            [1],
+          
+            // comment 2
+            [2],
+          )
+        }
+      `,
+      options: [{ beforeLineComment: true, allowGroupStart: ['('] }],
+    },
   ],
 
   invalid: [
