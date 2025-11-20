@@ -107,7 +107,6 @@ run<RuleOptions, MessageIds>({
     'var a = (new Date());',
     'var a = new foo.Bar();',
     'var a = (new Foo()).bar;',
-
     {
       code: 'new Storage<RootState>(\'state\');',
       parser: tsParser,
