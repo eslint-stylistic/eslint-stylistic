@@ -38,7 +38,7 @@ To develop and test this project:
 
 This documentation site is built with [VitePress](https://vitepress.dev/).
 
-To run it locally, execute `pnpm docs` at the root folder.
+To run it locally, execute `pnpm run docs` at the root folder.
 
 ### Running Tests
 
