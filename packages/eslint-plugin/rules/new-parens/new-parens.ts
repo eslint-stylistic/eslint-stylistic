@@ -4,7 +4,7 @@
  */
 
 import type { MessageIds, RuleOptions } from './types'
-import { isClosingParenToken, isOpeningParenToken } from '#utils/ast'
+import { AST_NODE_TYPES, isClosingParenToken, isOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -22,6 +22,15 @@ export default createRule<RuleOptions, MessageIds>({
         type: 'string',
         enum: ['always', 'never'],
       },
+      {
+        type: 'object',
+        properties: {
+          anonymousClasses: {
+            type: 'string',
+            enum: ['always', 'never', 'ignore'],
+          },
+        },
+      },
     ],
     messages: {
       missing: 'Missing \'()\' invoking a constructor.',
@@ -32,6 +41,8 @@ export default createRule<RuleOptions, MessageIds>({
   create(context) {
     const options = context.options
     const always = options[0] !== 'never' // Default is always
+    const alwaysIfAnon = options[1]?.anonymousClasses == null ? always : options[1]?.anonymousClasses !== 'never'
+    const ignoreAnonClasses = options[1]?.anonymousClasses === 'ignore'
 
     const sourceCode = context.sourceCode
 
@@ -39,6 +50,16 @@ export default createRule<RuleOptions, MessageIds>({
       NewExpression(node) {
         if (node.arguments.length !== 0)
           return // if there are arguments, there have to be parens
+        const isNewAnonClass = node.callee.type === AST_NODE_TYPES.ClassExpression
+        let needsParens = always
+        if (isNewAnonClass) {
+          if (ignoreAnonClasses) {
+            return
+          }
+          else {
+            needsParens = alwaysIfAnon
+          }
+        }
 
         const lastToken = sourceCode.getLastToken(node)!
         const hasLastParen = lastToken && isClosingParenToken(lastToken)
@@ -49,7 +70,7 @@ export default createRule<RuleOptions, MessageIds>({
           && isOpeningParenToken(tokenBeforeLastToken)
           && node.callee.range[1] < node.range[1]
 
-        if (always) {
+        if (needsParens) {
           if (!hasParens) {
             context.report({
               node,
