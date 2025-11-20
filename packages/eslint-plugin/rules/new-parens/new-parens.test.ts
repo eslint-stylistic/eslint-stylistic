@@ -39,12 +39,12 @@ function makeAnonClassesTests<T extends 'pass' | 'fail'>(mode: T): (T extends 'p
     ret.push(
       {
         code,
-        options: ['always', { anonymousClasses: 'always' }],
+        options: ['always', { overrides: { anonymousClasses: 'always' } }],
         ...extraOpts,
       },
       {
         code,
-        options: ['never', { anonymousClasses: 'always' }],
+        options: ['never', { overrides: { anonymousClasses: 'always' } }],
         ...extraOpts,
       },
       {
@@ -60,12 +60,12 @@ function makeAnonClassesTests<T extends 'pass' | 'fail'>(mode: T): (T extends 'p
     ret.push(
       {
         code,
-        options: ['always', { anonymousClasses: 'never' }],
+        options: ['always', { overrides: { anonymousClasses: 'never' } }],
         ...extraOpts,
       },
       {
         code,
-        options: ['never', { anonymousClasses: 'never' }],
+        options: ['never', { overrides: { anonymousClasses: 'never' } }],
         ...extraOpts,
       },
       {

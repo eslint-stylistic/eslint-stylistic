@@ -25,9 +25,14 @@ export default createRule<RuleOptions, MessageIds>({
       {
         type: 'object',
         properties: {
-          anonymousClasses: {
-            type: 'string',
-            enum: ['always', 'never', 'ignore'],
+          overrides: {
+            type: 'object',
+            properties: {
+              anonymousClasses: {
+                type: 'string',
+                enum: ['always', 'never', 'ignore'],
+              },
+            },
           },
         },
       },
@@ -41,8 +46,8 @@ export default createRule<RuleOptions, MessageIds>({
   create(context) {
     const options = context.options
     const always = options[0] !== 'never' // Default is always
-    const alwaysIfAnon = options[1]?.anonymousClasses == null ? always : options[1]?.anonymousClasses !== 'never'
-    const ignoreAnonClasses = options[1]?.anonymousClasses === 'ignore'
+    const alwaysIfAnon = options[1]?.overrides?.anonymousClasses == null ? always : options[1]?.overrides.anonymousClasses !== 'never'
+    const ignoreAnonClasses = options[1]?.overrides?.anonymousClasses === 'ignore'
 
     const sourceCode = context.sourceCode
 
