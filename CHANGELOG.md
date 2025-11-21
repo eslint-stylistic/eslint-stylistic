@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.6.2](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.6.1...v5.6.2) (2025-11-21)
+
+
+### Documentation
+
+* fix command to run docs ([#1058](https://github.com/eslint-stylistic/eslint-stylistic/issues/1058)) ([f597441](https://github.com/eslint-stylistic/eslint-stylistic/commit/f5974417fa5e2f00c661e443f510dbe72cdd4777))
+
 ## [5.6.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.6.0...v5.6.1) (2025-11-19)
 
 
