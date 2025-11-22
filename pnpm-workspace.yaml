@@ -10,6 +10,9 @@ catalogs:
     '@antfu/eslint-config': ^6.2.0
     '@antfu/eslint-define-config': 1.23.0-2
     '@antfu/utils': ^9.3.0
+    '@eslint/core': ^0.17.0
+    '@eslint/css': ^0.14.1
+    '@eslint/plugin-kit': ^0.4.1
     '@types/estraverse': ^5.1.7
     '@types/estree': ^1.0.8
     '@types/node': ^24.10.1
