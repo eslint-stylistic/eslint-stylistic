@@ -4,28 +4,9 @@
  */
 
 import type * as core from '@eslint/core'
-import type * as pluginKit from '@eslint/plugin-kit'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
-
-type TextSourceCode
-  = Pick<pluginKit.TextSourceCodeBase, 'getLocFromIndex' | 'lines'>
-    & core.TextSourceCode
-
-function isTextSourceCode(sourceCode: core.SourceCode & Partial<TextSourceCode>): sourceCode is TextSourceCode {
-  if (typeof sourceCode.text !== 'string') {
-    // BinarySourceCode is ignored
-    // ESLint can specify binary source code using type annotations,
-    // but it seems that there is no plugin yet that can actually use binary source code.
-    return false
-  }
-  return (
-    // If it is not a plugin kit's TextSourceCodeBase, the rule will be ignored.
-    // For the rule to work, SourceCode must implement at least `lines` and `getLocFromIndex()`.
-    typeof sourceCode.getLocFromIndex === 'function'
-    && Array.isArray(sourceCode.lines)
-  )
-}
+import { hasLinesAndGetLocFromIndex, isTextSourceCode } from '#utils/eslint-core'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'linebreak-style',
@@ -54,7 +35,7 @@ export default createRule<RuleOptions, MessageIds>({
     // Language-agnostic SourceCode access
     const sourceCode = context.sourceCode as unknown as core.SourceCode
 
-    if (!isTextSourceCode(sourceCode)) {
+    if (!isTextSourceCode(sourceCode) || !hasLinesAndGetLocFromIndex(sourceCode)) {
       return {}
     }
 
