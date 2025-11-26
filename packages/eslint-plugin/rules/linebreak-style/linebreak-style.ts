@@ -3,9 +3,10 @@
  * @author Erik Mueller
  */
 
+import type * as core from '@eslint/core'
 import type { MessageIds, RuleOptions } from './types'
-import { createGlobalLinebreakMatcher } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { hasLinesAndGetLocFromIndex, isTextSourceCode } from '#utils/eslint-core'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'linebreak-style',
@@ -31,44 +32,53 @@ export default createRule<RuleOptions, MessageIds>({
   },
 
   create(context) {
-    const sourceCode = context.sourceCode
+    // Language-agnostic SourceCode access
+    const sourceCode = context.sourceCode as unknown as core.SourceCode
 
-    return {
-      Program: function checkForLinebreakStyle(node) {
-        const linebreakStyle = context.options[0] || 'unix'
-        const expectedLF = linebreakStyle === 'unix'
-        const expectedLFChars = expectedLF ? '\n' : '\r\n'
-        const source = sourceCode.getText()
-        const pattern = createGlobalLinebreakMatcher()
-        let match
-
-        let i = 0
-
-        while ((match = pattern.exec(source)) !== null) {
-          i++
-          if (match[0] === expectedLFChars)
-            continue
-
-          const index = match.index
-          const range = [index, index + match[0].length] as const
-
-          context.report({
-            node,
-            loc: {
-              start: {
-                line: i,
-                column: sourceCode.lines[i - 1].length,
-              },
-              end: {
-                line: i + 1,
-                column: 0,
-              },
-            },
-            messageId: expectedLF ? 'expectedLF' : 'expectedCRLF',
-            fix: fixer => fixer.replaceTextRange(range, expectedLFChars),
-          })
-        }
-      },
+    if (!isTextSourceCode(sourceCode) || !hasLinesAndGetLocFromIndex(sourceCode)) {
+      return {}
     }
+
+    const source = sourceCode.text
+    const lines = sourceCode.lines
+
+    const linebreakStyle = context.options[0] || 'unix'
+    const expectedLF = linebreakStyle === 'unix'
+    const expectedLFChars = expectedLF ? '\n' : '\r\n'
+
+    let currentIndex = 0
+    for (const line of lines.slice(0, -1)) {
+      const startIndex = currentIndex + line.length
+      const startLoc = sourceCode.getLocFromIndex(startIndex)
+
+      // Find linebreak end index
+      // startIndex is at the beginning of linebreak chars
+      let endIndex = startIndex + 1
+      let endLoc = sourceCode.getLocFromIndex(endIndex)
+      while (
+        // Still in linebreak chars
+        endLoc.line === startLoc.line
+        && endIndex < source.length
+      ) {
+        endIndex++
+        endLoc = sourceCode.getLocFromIndex(endIndex)
+      }
+
+      const linebreakChars = source.slice(startIndex, endIndex)
+      if (linebreakChars !== expectedLFChars) {
+        context.report({
+          loc: {
+            start: startLoc,
+            end: endLoc,
+          },
+          messageId: expectedLF ? 'expectedLF' : 'expectedCRLF',
+          fix: fixer => fixer.replaceTextRange([startIndex, endIndex], expectedLFChars),
+        })
+      }
+
+      currentIndex = endIndex
+    }
+
+    return {}
   },
 })

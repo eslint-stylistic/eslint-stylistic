@@ -1,102 +1,74 @@
-/**
- * @fileoverview No mixed linebreaks
- * @author Erik Mueller
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './linebreak-style'
 
 run<RuleOptions, MessageIds>({
+  lang: 'css',
   name: 'linebreak-style',
   rule,
 
   valid: [
-    'var a = \'a\',\n b = \'b\';\n\n function foo(params) {\n /* do stuff */ \n }\n',
+    'a {}\n div {}\n\n span {\n /* do stuff */ \n }\n',
     {
-      code: 'var a = \'a\',\n b = \'b\';\n\n function foo(params) {\n /* do stuff */ \n }\n',
+      code: 'a {}\n div {}\n\n span {\n /* do stuff */ \n }\n',
       options: ['unix'],
     },
     {
-      code: 'var a = \'a\',\r\n b = \'b\';\r\n\r\n function foo(params) {\r\n /* do stuff */ \r\n }\r\n',
+      code: 'a {}\r\n div {}\r\n\r\n span {\r\n /* do stuff */ \r\n }\r\n',
       options: ['windows'],
     },
     {
-      code: 'var b = \'b\';',
+      code: 'a {}',
       options: ['unix'],
     },
     {
-      code: 'var b = \'b\';',
+      code: 'a {}',
       options: ['windows'],
     },
   ],
 
   invalid: [
     {
-      code: 'var a = \'a\';\r\n',
-      output: 'var a = \'a\';\n',
+      code: 'a {}\r\n',
+      output: 'a {}\n',
       errors: [{
         line: 1,
-        column: 13,
+        column: 5,
         endLine: 2,
         endColumn: 1,
         messageId: 'expectedLF',
       }],
     },
     {
-      code: 'var a = \'a\';\r\n',
-      output: 'var a = \'a\';\n',
+      code: 'a {}\r\n',
+      output: 'a {}\n',
       options: ['unix'],
       errors: [{
         line: 1,
-        column: 13,
+        column: 5,
         endLine: 2,
         endColumn: 1,
         messageId: 'expectedLF',
       }],
     },
     {
-      code: 'var a = \'a\';\n',
-      output: 'var a = \'a\';\r\n',
+      code: 'a {}\n',
+      output: 'a {}\r\n',
       options: ['windows'],
       errors: [{
         line: 1,
-        column: 13,
+        column: 5,
         endLine: 2,
         endColumn: 1,
         messageId: 'expectedCRLF',
       }],
     },
     {
-      code: 'var a = \'a\';\u2028',
-      output: 'var a = \'a\';\n',
-      options: ['unix'],
-      errors: [{
-        line: 1,
-        column: 13,
-        endLine: 2,
-        endColumn: 1,
-        messageId: 'expectedLF',
-      }],
-    },
-    {
-      code: 'var a = \'a\';\u2029',
-      output: 'var a = \'a\';\n',
-      options: ['unix'],
-      errors: [{
-        line: 1,
-        column: 13,
-        endLine: 2,
-        endColumn: 1,
-        messageId: 'expectedLF',
-      }],
-    },
-    {
-      code: 'var a = \'a\',\n b = \'b\';\n\n function foo(params) {\r\n /* do stuff */ \n }\r\n',
-      output: 'var a = \'a\',\n b = \'b\';\n\n function foo(params) {\n /* do stuff */ \n }\n',
+      code: 'a {}\n div {}\n\n span {\r\n /* do stuff */ \n }\r\n',
+      output: 'a {}\n div {}\n\n span {\n /* do stuff */ \n }\n',
       errors: [{
         line: 4,
-        column: 24,
+        column: 8,
         endLine: 5,
         endColumn: 1,
         messageId: 'expectedLF',
@@ -109,8 +81,8 @@ run<RuleOptions, MessageIds>({
       }],
     },
     {
-      code: 'var a = \'a\',\r\n b = \'b\';\r\n\n function foo(params) {\r\n\n /* do stuff */ \n }\r\n',
-      output: 'var a = \'a\',\r\n b = \'b\';\r\n\r\n function foo(params) {\r\n\r\n /* do stuff */ \r\n }\r\n',
+      code: 'a {}\r\n div {}\r\n\n span {\r\n\n /* do stuff */ \n }\r\n',
+      output: 'a {}\r\n div {}\r\n\r\n span {\r\n\r\n /* do stuff */ \r\n }\r\n',
       options: ['windows'],
       errors: [{
         line: 3,
