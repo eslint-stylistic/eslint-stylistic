@@ -7,7 +7,7 @@ import type * as core from '@eslint/core'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 import { warnDeprecation } from '#utils/index'
-import { hasLinesAndGetLocFromIndex, isTextSourceCode } from '../../../../shared/utils/eslint-core'
+import { hasLinesAndGetLocFromIndex, isTextSourceCode } from '#utils/eslint-core'
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'eol-last',
