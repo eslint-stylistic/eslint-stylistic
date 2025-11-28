@@ -1,7 +1,7 @@
 ---
 related_rules:
   - newline-after-var
-  - dot-notation
+  - no-whitespace-before-property
 ---
 
 # dot-location
@@ -10,12 +10,18 @@ JavaScript allows you to place newlines before or after a dot in a member expres
 
 Consistency in placing a newline before or after the dot can greatly increase readability.
 
-```js
+```ts
 var a = universe.
         galaxy;
 
 var b = universe
        .galaxy;
+
+type Foo = A.
+  B;
+
+type Bar = A
+  .B;
 ```
 
 ## Rule Details
@@ -37,11 +43,14 @@ Examples of **incorrect** code for the default `"object"` option:
 
 ::: incorrect
 
-```js
+```ts
 /* eslint @stylistic/dot-location: ["error", "object"] */
 
 var foo = object
 .property;
+
+type Foo = Obj
+  .Prop;
 ```
 
 :::
@@ -50,7 +59,7 @@ Examples of **correct** code for the default `"object"` option:
 
 ::: correct
 
-```js
+```ts
 /* eslint @stylistic/dot-location: ["error", "object"] */
 
 var foo = object.
@@ -62,6 +71,11 @@ var bar = (
 property;
 
 var baz = object.property;
+
+type Foo = Obj.
+  Prop;
+
+type Baz = Obj.Prop;
 ```
 
 :::
@@ -74,11 +88,14 @@ Examples of **incorrect** code for the `"property"` option:
 
 ::: incorrect
 
-```js
+```ts
 /* eslint @stylistic/dot-location: ["error", "property"] */
 
 var foo = object.
 property;
+
+type Foo = Obj.
+  Prop;
 ```
 
 :::
@@ -87,12 +104,16 @@ Examples of **correct** code for the `"property"` option:
 
 ::: correct
 
-```js
+```ts
 /* eslint @stylistic/dot-location: ["error", "property"] */
 
 var foo = object
 .property;
 var bar = object.property;
+
+type Foo = Obj
+  .Prop;
+type Bar = Obj.Prop;
 ```
 
 :::

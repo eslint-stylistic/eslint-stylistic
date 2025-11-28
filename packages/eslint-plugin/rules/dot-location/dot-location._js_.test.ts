@@ -1,8 +1,3 @@
-/**
- * @fileoverview Tests for dot-location.
- * @author Greg Cochard
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import rule from './dot-location'
@@ -11,7 +6,6 @@ run<RuleOptions, MessageIds>({
   name: 'dot-location',
   rule,
   lang: 'js',
-
   valid: [
     'obj.\nprop',
     'obj. \nprop',
