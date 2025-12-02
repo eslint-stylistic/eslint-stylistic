@@ -1,6 +1,7 @@
 ---
 related_rules:
   - newline-after-var
+  - dot-notation
   - no-whitespace-before-property
 ---
 
@@ -21,6 +22,12 @@ type Foo = A.
   B;
 
 type Bar = A
+  .B;
+
+type Baz = import('A').
+  B;
+
+type Qux = import('A')
   .B;
 ```
 
@@ -51,6 +58,9 @@ var foo = object
 
 type Foo = Obj
   .Prop;
+
+type Bar = import('Obj')
+  .Prop;
 ```
 
 :::
@@ -72,10 +82,9 @@ property;
 
 var baz = object.property;
 
-type Foo = Obj.
-  Prop;
+type Foo = Obj.Prop;
 
-type Baz = Obj.Prop;
+type Bar = import('Obj').Prop;
 ```
 
 :::
@@ -96,6 +105,9 @@ property;
 
 type Foo = Obj.
   Prop;
+
+type Bar = import('Obj').
+  Prop;
 ```
 
 :::
@@ -111,9 +123,9 @@ var foo = object
 .property;
 var bar = object.property;
 
-type Foo = Obj
-  .Prop;
-type Bar = Obj.Prop;
+type Foo = Obj.Prop;
+
+type Bar = import('Obj').Prop;
 ```
 
 :::
