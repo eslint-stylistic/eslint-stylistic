@@ -31,13 +31,22 @@ export default createRule<RuleOptions, MessageIds>({
 
     const sourceCode = context.sourceCode
 
+    function getProperty(node: SupportedNode) {
+      if (node.type === 'MemberExpression')
+        return node.property
+
+      if (node.type === 'TSImportType')
+        return node.qualifier
+
+      return node.right
+    }
+
     /** Reports if the dot between object and property is on the correct location. */
     function checkDotLocation(node: SupportedNode) {
-      const property = node.type === 'MemberExpression'
-        ? node.property
-        : node.type === 'TSImportType'
-          ? node.qualifier!
-          : node.right
+      const property = getProperty(node)
+      if (!property)
+        return
+
       const dotToken = sourceCode.getTokenBefore(property)
 
       if (!dotToken)
@@ -78,6 +87,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     return {
       MemberExpression(node) {
+        // obj['foo']
         if (node.computed)
           return
 
@@ -87,9 +97,6 @@ export default createRule<RuleOptions, MessageIds>({
         checkDotLocation(node)
       },
       TSImportType(node) {
-        if (!node.qualifier)
-          return
-
         checkDotLocation(node)
       },
     }
