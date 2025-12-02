@@ -7,6 +7,7 @@ run<RuleOptions, MessageIds>({
   rule,
   lang: 'ts',
   valid: [
+    `type Foo = import('foo)`,
     {
       code: `type Foo = import('foo').\nProp`,
       options: ['object'],
