@@ -3,7 +3,7 @@ import type { MessageIds, RuleOptions } from './types'
 import { isDecimalIntegerNumericToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
-type SupportedNode = Tree.MemberExpression | Tree.TSQualifiedName | Tree.TSImportType
+type SupportedNode = Tree.MemberExpression | Tree.MetaProperty | Tree.TSQualifiedName | Tree.TSImportType
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'dot-location',
@@ -32,13 +32,13 @@ export default createRule<RuleOptions, MessageIds>({
     const sourceCode = context.sourceCode
 
     function getProperty(node: SupportedNode) {
-      if (node.type === 'MemberExpression')
-        return node.property
-
       if (node.type === 'TSImportType')
         return node.qualifier
 
-      return node.right
+      if (node.type === 'TSQualifiedName')
+        return node.right
+
+      return node.property
     }
 
     /** Reports if the dot between object and property is on the correct location. */
@@ -93,12 +93,9 @@ export default createRule<RuleOptions, MessageIds>({
 
         checkDotLocation(node)
       },
-      TSQualifiedName(node) {
-        checkDotLocation(node)
-      },
-      TSImportType(node) {
-        checkDotLocation(node)
-      },
+      MetaProperty: checkDotLocation,
+      TSQualifiedName: checkDotLocation,
+      TSImportType: checkDotLocation,
     }
   },
 })

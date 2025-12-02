@@ -7,6 +7,7 @@ run<RuleOptions, MessageIds>({
   rule,
   lang: 'ts',
   valid: [
+    // TSImportType
     `type Foo = import('foo')`,
     {
       code: `type Foo = import('foo').\nProp`,
@@ -16,6 +17,8 @@ run<RuleOptions, MessageIds>({
       code: `type Foo = import('foo')\n.Prop`,
       options: ['property'],
     },
+
+    // TSQualifiedName
     {
       code: 'type Foo = Obj.\nProp',
       options: ['object'],
@@ -26,6 +29,7 @@ run<RuleOptions, MessageIds>({
     },
   ],
   invalid: [
+    // TSImportType
     {
       code: `type Foo = import('foo')\n.Prop`,
       output: `type Foo = import('foo').\nProp`,
@@ -38,6 +42,8 @@ run<RuleOptions, MessageIds>({
       options: ['property'],
       errors: [{ messageId: 'expectedDotBeforeProperty' }],
     },
+
+    // TSQualifiedName
     {
       code: 'type Foo = Obj\n.Prop',
       output: 'type Foo = Obj.\nProp',

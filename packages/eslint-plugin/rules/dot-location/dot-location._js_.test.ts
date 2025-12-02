@@ -7,6 +7,7 @@ run<RuleOptions, MessageIds>({
   rule,
   lang: 'js',
   valid: [
+    'obj.prop',
     'obj.\nprop',
     'obj. \nprop',
     'obj.\n prop',
@@ -183,6 +184,9 @@ run<RuleOptions, MessageIds>({
       code: 'class C { #a; foo() { this\n.#a; } }',
       options: ['property'],
     },
+
+    // MetaProperty
+    `import.meta`,
   ],
   invalid: [
     {
