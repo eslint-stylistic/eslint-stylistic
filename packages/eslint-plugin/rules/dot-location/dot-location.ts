@@ -38,7 +38,7 @@ export default createRule<RuleOptions, MessageIds>({
         : node.type === 'TSImportType'
           ? node.qualifier!
           : node.right
-      const dotToken = sourceCode.getTokenBefore(property)
+      const dotToken = sourceCode.getTokenBefore(property, token => token.value === '.')
 
       if (!dotToken)
         return
