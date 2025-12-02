@@ -10,29 +10,34 @@ export * from 'eslint-vitest-rule-tester'
 export { unindent as $ } from 'eslint-vitest-rule-tester'
 
 export interface ExtendedRuleTesterOptions<RuleOptions = any, MessageIds extends string = string> extends RuleTesterInitOptions, TestCasesOptions<RuleOptions, MessageIds> {
-  lang?: 'js' | 'ts' | 'json' | 'css'
+  lang?: TestLanguage
+}
+
+type TestLanguage = 'js' | 'ts' | 'json' | 'css'
+
+const defaultOptions: Record<TestLanguage, RuleTesterInitOptions> = {
+  js: {},
+  ts: {
+    parser: tsParser,
+  },
+  json: {
+    parser: jsonParser,
+  },
+  css: {
+    configs: {
+      plugins: {
+        css: eslintCss as ESLint.Plugin,
+      },
+      language: 'css/css',
+    },
+  },
 }
 
 export function run<RuleOptions = any, MessageIds extends string = string>(options: ExtendedRuleTesterOptions<RuleOptions, MessageIds>) {
   return _run<RuleOptions, MessageIds>({
     recursive: false,
     verifyAfterFix: false,
-    ...(
-      options.lang === 'json'
-        ? { parser: jsonParser }
-        : options.lang === 'css'
-          ? {
-              configs: {
-                plugins: {
-                  css: eslintCss as ESLint.Plugin,
-                },
-                language: 'css/css',
-              },
-            }
-          : options.lang === 'js'
-            ? {}
-            : { parser: tsParser }
-    ),
+    ...defaultOptions[options.lang ?? 'ts'],
     ...options,
   })
 }
