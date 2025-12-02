@@ -1,5 +1,33 @@
 # Changelog
 
+## [5.7.0](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.6.1...v5.7.0) (2025-12-02)
+
+
+### Features
+
+* **eol-last:** improve to make language-agnostic ([#1051](https://github.com/eslint-stylistic/eslint-stylistic/issues/1051)) ([9152494](https://github.com/eslint-stylistic/eslint-stylistic/commit/9152494b67f71e0278231fdf1eeb08445b0d64d2))
+* **linebreak-style:** improve to make language-agnostic ([#1050](https://github.com/eslint-stylistic/eslint-stylistic/issues/1050)) ([132926d](https://github.com/eslint-stylistic/eslint-stylistic/commit/132926d6bb7e5e195d7ae9f7e9d8c2c3a3a543a1))
+
+
+### Bug Fixes
+
+* **list-style:** replace text range with delimiter directly ([#1062](https://github.com/eslint-stylistic/eslint-stylistic/issues/1062)) ([c2ac348](https://github.com/eslint-stylistic/eslint-stylistic/commit/c2ac3483e9baf10187e71756931f19b2f2b50a51))
+
+
+### Documentation
+
+* fix command to run docs ([#1058](https://github.com/eslint-stylistic/eslint-stylistic/issues/1058)) ([f597441](https://github.com/eslint-stylistic/eslint-stylistic/commit/f5974417fa5e2f00c661e443f510dbe72cdd4777))
+
+
+### Build Related
+
+* **deps:** bump actions/checkout from 5 to 6 ([#1061](https://github.com/eslint-stylistic/eslint-stylistic/issues/1061)) ([767efe4](https://github.com/eslint-stylistic/eslint-stylistic/commit/767efe49154ac91bce0c8556d735eed266988d57))
+
+
+### Chores
+
+* **test-utils:** replace language conditionals with a config object ([#1064](https://github.com/eslint-stylistic/eslint-stylistic/issues/1064)) ([e78a122](https://github.com/eslint-stylistic/eslint-stylistic/commit/e78a122232e6b1a52d8fff550dfbe8793dd8c6c8))
+
 ## [5.6.1](https://github.com/eslint-stylistic/eslint-stylistic/compare/v5.6.0...v5.6.1) (2025-11-19)
 
 
