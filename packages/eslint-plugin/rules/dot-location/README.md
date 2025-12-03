@@ -50,7 +50,7 @@ Examples of **incorrect** code for the default `"object"` option:
 
 ::: incorrect
 
-```ts
+```tsx
 /* eslint @stylistic/dot-location: ["error", "object"] */
 
 var foo = object
@@ -61,6 +61,9 @@ type Foo = Obj
 
 type Bar = import('Obj')
   .Prop;
+
+<Form
+  .Input />
 ```
 
 :::
@@ -69,7 +72,7 @@ Examples of **correct** code for the default `"object"` option:
 
 ::: correct
 
-```ts
+```tsx
 /* eslint @stylistic/dot-location: ["error", "object"] */
 
 var foo = object.
@@ -82,9 +85,14 @@ property;
 
 var baz = object.property;
 
-type Foo = Obj.Prop;
+type Foo = Obj.
+  Prop;
 
-type Bar = import('Obj').Prop;
+type Bar = import('Obj').
+  Prop;
+
+<Form.
+  Input />
 ```
 
 :::
@@ -97,7 +105,7 @@ Examples of **incorrect** code for the `"property"` option:
 
 ::: incorrect
 
-```ts
+```tsx
 /* eslint @stylistic/dot-location: ["error", "property"] */
 
 var foo = object.
@@ -108,6 +116,9 @@ type Foo = Obj.
 
 type Bar = import('Obj').
   Prop;
+
+<Form.
+  Input />
 ```
 
 :::
@@ -116,16 +127,21 @@ Examples of **correct** code for the `"property"` option:
 
 ::: correct
 
-```ts
+```tsx
 /* eslint @stylistic/dot-location: ["error", "property"] */
 
 var foo = object
 .property;
 var bar = object.property;
 
-type Foo = Obj.Prop;
+type Foo = Obj
+  .Prop;
 
-type Bar = import('Obj').Prop;
+type Bar = import('Obj')
+  .Prop;
+
+<Form
+  .Input />
 ```
 
 :::
