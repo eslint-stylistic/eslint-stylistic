@@ -3,7 +3,7 @@ import type { MessageIds, RuleOptions } from './types'
 import { isDecimalIntegerNumericToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
-type SupportedNode = Tree.MemberExpression | Tree.MetaProperty | Tree.TSQualifiedName | Tree.TSImportType
+type SupportedNode = Tree.MemberExpression | Tree.MetaProperty | Tree.TSQualifiedName | Tree.TSImportType | Tree.JSXMemberExpression
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'dot-location',
@@ -94,6 +94,7 @@ export default createRule<RuleOptions, MessageIds>({
         checkDotLocation(node)
       },
       MetaProperty: checkDotLocation,
+      JSXMemberExpression: checkDotLocation,
       TSQualifiedName: checkDotLocation,
       TSImportType: checkDotLocation,
     }
