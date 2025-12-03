@@ -13,7 +13,6 @@ import {
   isOpeningParenToken,
   isSingleLine,
   isTokenOnSameLine,
-  LINEBREAK_MATCHER,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
@@ -269,10 +268,9 @@ export default createRule<RuleOptions, MessageIds>({
                 return null
 
               const range = [prev.range[1], next.range[0]] as const
-              const code = sourceCode.text.slice(...range)
               const delimiter = items.length === 1 ? '' : getDelimiter(node, prev)
 
-              return fixer.replaceTextRange(range, code.replaceAll(new RegExp(LINEBREAK_MATCHER, 'g'), delimiter ?? ''))
+              return fixer.replaceTextRange(range, delimiter ?? '')
             },
           })
         }

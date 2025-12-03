@@ -196,7 +196,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       output: $`
-        const a = {foo: "bar", bar: 2}
+        const a = {foo: "bar",bar: 2}
       `,
       errors: [
         { messageId: 'shouldNotWrap', line: 1, column: 23 },
@@ -228,7 +228,7 @@ run<RuleOptions, MessageIds>({
         ]
       `,
       output: $`
-        const a = [1, 2, 3]
+        const a = [1,2, 3]
       `,
       errors: [
         { messageId: 'shouldNotWrap', line: 1, column: 14 },
@@ -257,7 +257,7 @@ run<RuleOptions, MessageIds>({
         bar } from "foo"
       `,
       output: $`
-        import { foo, bar } from "foo"
+        import { foo,bar } from "foo"
       `,
       errors: [
         { messageId: 'shouldNotWrap', line: 1, column: 14 },
@@ -415,7 +415,7 @@ run<RuleOptions, MessageIds>({
         }
       `,
       output: $`
-        export interface Foo {        a: 1,  b: Pick<Bar, 'baz'>,  c: 3,}
+        export interface Foo {        a: 1,b: Pick<Bar, 'baz'>,c: 3,}
       `,
       errors: [
         { messageId: 'shouldNotWrap', line: 1, column: 35 },
@@ -661,7 +661,7 @@ run<RuleOptions, MessageIds>({
     {
       description: 'CRLF',
       code: 'const a = {foo: "bar", \r\nbar: 2\r\n}',
-      output: 'const a = {foo: "bar", bar: 2}',
+      output: 'const a = {foo: "bar",bar: 2}',
       errors: [
         { messageId: 'shouldNotWrap', line: 1, column: 23 },
         { messageId: 'shouldNotWrap', line: 2, column: 7 },
@@ -897,8 +897,8 @@ run<RuleOptions, MessageIds>({
         };
       `,
       output: $`
-        const foo = [1, 2];
-        const bar = { a: 1, b: 2 };
+        const foo = [1,2];
+        const bar = {a: 1,b: 2};
       `,
       options: [{ multiLine: { minItems: 3 } }],
       errors: [
@@ -921,6 +921,15 @@ run<RuleOptions, MessageIds>({
       `,
       errors: [
         { messageId: 'shouldNotWrap', line: 1, column: 7 },
+      ],
+    },
+    {
+      description: 'indent by tab',
+      code: `const foo = [1,\n\t2,\n\t3];`,
+      output: `const foo = [1,2,3];`,
+      errors: [
+        { messageId: 'shouldNotWrap', line: 1, column: 16 },
+        { messageId: 'shouldNotWrap', line: 2, column: 4 },
       ],
     },
   ],
