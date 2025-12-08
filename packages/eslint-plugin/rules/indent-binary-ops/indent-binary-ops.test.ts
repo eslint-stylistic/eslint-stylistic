@@ -134,6 +134,123 @@ run<RuleOptions, MessageIds>({
         c()
       }
     `,
+    {
+      code: $`
+        1 + (
+          1
+        )
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        return 1 + (
+          1
+        )
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        const baz = foo && (
+          bar
+        )
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        const baz = foo && 
+          (
+            bar
+          )
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        const result = x 
+          + z * (
+            x ** 2
+            + y ** 3
+          );
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        const result = x +
+          z * (
+            x ** 2 +
+            y ** 3
+          );
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        const result = x +
+          z + (
+            x ** 2 +
+            y ** 3
+          );
+      `,
+      options: [2],
+    },
+    { // passes, drop start of paren-wrapped expression to newline. Perhaps not a preferred style.
+      code: $`
+        const result = x +
+          z + 
+          (
+            x ** 2
+            + y ** 3
+          );
+      `,
+      options: [2],
+    },
+    { // passes, wrap the whole expression in paran and offsets/indent are counted correctly.
+      code: $`
+        const result = (
+          x +
+          z + (
+            x ** 2
+            + y ** 3
+          )
+        )
+      `,
+      options: [2],
+    },
+    { // passes
+      code: $`
+        const condition1 = true;
+        const condition2 = false;
+        const condition3 = true;
+        const data = "foo"
+        if(
+          condition1 &&
+          condition2 && (
+            condition3 ||
+            typeof data === "string"
+          )
+        ) {
+          console.log("Something important happened");
+        }
+      `,
+      options: [2],
+    },
+    {
+      code: $`
+        function foo() {
+            return foo === bar ||
+                baz === qux && (
+                    foo === foo ||
+                    bar === bar ||
+                    baz === baz
+                )
+        }
+      `,
+      options: [4],
+    },
   ],
   invalid: [
     {
@@ -617,6 +734,111 @@ run<RuleOptions, MessageIds>({
           bbbbb &&
           ccccc }
       `,
+    },
+    {
+      code: $`
+        const x = 10;
+        const y = 4;
+        const z = 2;
+        const result = x +
+          z + (
+          x ** 2 +
+          y ** 3
+        );
+      `,
+      output: $`
+        const x = 10;
+        const y = 4;
+        const z = 2;
+        const result = x +
+          z + (
+            x ** 2 +
+            y ** 3
+          );
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 2,
+          },
+          line: 6,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '2 spaces',
+            actual: 0,
+          },
+          line: 8,
+        },
+      ],
+    },
+    {
+      code: $`
+        const x = 10;
+        const y = 4;
+        const z = 2;
+        const result = x +
+          z * (
+          x ** 2 +
+          y ** 3
+        );
+      `,
+      options: [2],
+      output: $`
+        const x = 10;
+        const y = 4;
+        const z = 2;
+        const result = x +
+          z * (
+            x ** 2 +
+            y ** 3
+          );
+      `,
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 2,
+          },
+          line: 6,
+        },
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '2 spaces',
+            actual: 0,
+          },
+          line: 8,
+        },
+      ],
+    },
+    {
+      code: $`
+        return 1 +
+          2 * (
+              3
+          )
+      `,
+      output: $`
+        return 1 +
+          2 * (
+            3
+          )
+      `,
+      options: [2],
+      errors: [
+        {
+          messageId: 'wrongIndentation',
+          data: {
+            expected: '4 spaces',
+            actual: 6,
+          },
+        },
+      ],
     },
   ],
 })
