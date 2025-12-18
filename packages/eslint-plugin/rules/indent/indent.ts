@@ -946,18 +946,6 @@ export default createRule<RuleOptions, MessageIds>({
      * @param offset The amount that the elements should be offset
      */
     function addElementListIndent(elements: (ASTNode | null)[], startToken: Token, endToken: Token, offset: number | string) {
-      // Run through all the tokens in the list, and offset them by one indent level (mainly for comments, other things will end up overridden)
-      offsets.setDesiredOffsets(
-        [startToken.range[1], endToken.range[0]],
-        startToken,
-        typeof offset === 'number' ? offset : 1,
-      )
-      offsets.setDesiredOffset(endToken, startToken, 0)
-
-      // If the preference is "first" but there is no first element (e.g. sparse arrays w/ empty first slot), fall back to 1 level.
-      if (offset === 'first' && elements.length && !elements[0])
-        return
-
       /**
        * Gets the first token of a given element, including surrounding parentheses.
        * @param element A node in the `elements` list
@@ -971,6 +959,18 @@ export default createRule<RuleOptions, MessageIds>({
 
         return sourceCode.getTokenAfter(token)!
       }
+
+      // Run through all the tokens in the list, and offset them by one indent level (mainly for comments, other things will end up overridden)
+      offsets.setDesiredOffsets(
+        [startToken.range[1], endToken.range[0]],
+        startToken,
+        typeof offset === 'number' ? offset : 1,
+      )
+      offsets.setDesiredOffset(endToken, startToken, 0)
+
+      // If the preference is "first" but there is no first element (e.g. sparse arrays w/ empty first slot), fall back to 1 level.
+      if (offset === 'first' && elements.length && !elements[0])
+        return
 
       elements
         .forEach((element, index) => {
