@@ -1,5 +1,5 @@
 import type { JSONSchema, ReportFixFunction, Token, Tree } from '#types'
-import { AST_NODE_TYPES, isSingleLine } from '#utils/ast'
+import { isSingleLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { deepMerge } from '#utils/merge'
 
@@ -308,7 +308,7 @@ export default createRule<Options, MessageIds>({
     function checkMemberSeparatorStyle(
       node: Tree.TSInterfaceBody | Tree.TSTypeLiteral,
     ): void {
-      const members = node.type === AST_NODE_TYPES.TSInterfaceBody ? node.body : node.members
+      const members = node.type === 'TSInterfaceBody' ? node.body : node.members
 
       let _isSingleLine = isSingleLine(node)
       if (
@@ -322,7 +322,7 @@ export default createRule<Options, MessageIds>({
       }
 
       const typeOpts
-        = node.type === AST_NODE_TYPES.TSInterfaceBody
+        = node.type === 'TSInterfaceBody'
           ? interfaceOptions
           : typeLiteralOptions
       const opts = _isSingleLine

@@ -1,6 +1,6 @@
 import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
+import { isSemicolonToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 type NodeTest = (
@@ -224,9 +224,9 @@ export default createRule<RuleOptions, MessageIds>({
 
     function isOverload(node: ASTNode): boolean {
       return (
-        (node.type === AST_NODE_TYPES.TSAbstractMethodDefinition
-          || node.type === AST_NODE_TYPES.MethodDefinition)
-        && node.value.type === AST_NODE_TYPES.TSEmptyBodyFunctionExpression
+        (node.type === 'TSAbstractMethodDefinition'
+          || node.type === 'MethodDefinition')
+        && node.value.type === 'TSEmptyBodyFunctionExpression'
       )
     }
 

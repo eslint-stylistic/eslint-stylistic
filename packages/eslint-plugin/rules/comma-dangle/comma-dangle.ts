@@ -1,6 +1,6 @@
 import type { EcmaVersion, Tree } from '#types'
 import type { MessageIds, RuleOptions, ValueWithIgnore } from './types'
-import { AST_NODE_TYPES, getNextLocation, isCommaToken } from '#utils/ast'
+import { getNextLocation, isCommaToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 type Extract<T> = T extends Record<any, any> ? T : never
@@ -240,7 +240,7 @@ export default createRule<RuleOptions, MessageIds>({
        * https://github.com/microsoft/TypeScript/issues/15713#issuecomment-499474386
        * https://github.com/eslint-stylistic/eslint-stylistic/issues/35
        */
-      if (isTSX && info.node.type === AST_NODE_TYPES.TSTypeParameterDeclaration && info.node.params.length === 1)
+      if (isTSX && info.node.type === 'TSTypeParameterDeclaration' && info.node.params.length === 1)
         return
 
       const lastItem = info.lastItem

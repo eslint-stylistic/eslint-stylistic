@@ -1,7 +1,7 @@
 /* eslint perfectionist/sort-objects: "error" */
 // @ts-check
 
-import antfu from '@antfu/eslint-config'
+import antfu, { GLOB_TESTS, GLOB_TS } from '@antfu/eslint-config'
 import stylistic from './stub.mjs'
 
 const stylisticConfig = stylistic.configs.customize({
@@ -80,11 +80,27 @@ export default antfu(
     },
   },
   {
+    files: [GLOB_TS],
+    ignores: GLOB_TESTS,
+    name: 'local/restrict-imports',
+    rules: {
+      'ts/no-restricted-imports': ['error', {
+        patterns: [
+          {
+            allowTypeImports: true,
+            group: ['@typescript-eslint/utils', '@typescript-eslint/types'],
+            importNames: ['AST_NODE_TYPES'],
+          },
+        ],
+      }],
+    },
+  },
+  {
     files: [
       'packages/eslint-plugin/{rules,utils}/**/*.ts',
       'shared/utils/**/*.ts',
     ],
-    ignores: ['**/*.test.ts'],
+    ignores: GLOB_TESTS,
     name: 'local/restrict-types',
     rules: {
       'ts/no-restricted-imports': ['error', {
@@ -140,7 +156,7 @@ export default antfu(
         patterns: [
           {
             group: ['@typescript-eslint/utils', '@typescript-eslint/types'],
-            importNames: ['AST_NODE_TYPES', 'AST_TOKEN_TYPES', 'ASTUtils'],
+            importNames: ['ASTUtils'],
             message: 'Import from "#utils/ast" instead',
           },
           {

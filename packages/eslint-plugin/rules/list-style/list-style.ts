@@ -1,7 +1,6 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { BaseConfig, MessageIds, RuleOptions } from './types'
 import {
-  AST_NODE_TYPES,
   hasCommentsBetween,
   isClosingBraceToken,
   isClosingBracketToken,
@@ -329,14 +328,14 @@ export default createRule<RuleOptions, MessageIds>({
       switch (node.type) {
         // fun<T>()
         // new Foo<T>()
-        case AST_NODE_TYPES.CallExpression:
-        case AST_NODE_TYPES.NewExpression:
+        case 'CallExpression':
+        case 'NewExpression':
           return sourceCode.getTokenAfter(node.typeArguments ?? node.callee)
 
         // const foo = [, a]
         // const [, a] = foo
-        case AST_NODE_TYPES.ArrayExpression:
-        case AST_NODE_TYPES.ArrayPattern:
+        case 'ArrayExpression':
+        case 'ArrayPattern':
           return sourceCode.getFirstToken(node)
 
         default: {
@@ -352,8 +351,8 @@ export default createRule<RuleOptions, MessageIds>({
       switch (node.type) {
         // const foo = [a, ]
         // const [a, ] = foo
-        case AST_NODE_TYPES.ArrayExpression:
-        case AST_NODE_TYPES.ArrayPattern:
+        case 'ArrayExpression':
+        case 'ArrayPattern':
           return sourceCode.getLastToken(node)
 
         default:{

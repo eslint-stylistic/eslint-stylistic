@@ -1,6 +1,5 @@
-import type { ASTNode, ESTree, RuleContext, SourceCode, Token } from '#types'
+import type { Arrayable, ASTNode, ESTree, NodeTypes, RuleContext, SourceCode, Token } from '#types'
 import {
-  AST_NODE_TYPES,
   isClosingBraceToken,
   isFunction,
   isNotSemicolonToken,
@@ -63,7 +62,7 @@ const PADDING_LINE_SEQUENCE = new RegExp(
  * @private
  */
 function newKeywordTester(
-  type: AST_NODE_TYPES | AST_NODE_TYPES[],
+  type: Arrayable<NodeTypes>,
   keyword: string,
 ): NodeTestObject {
   return {
@@ -84,7 +83,7 @@ function newKeywordTester(
  * @returns the created tester.
  * @private
  */
-function newNodeTypeTester(type: AST_NODE_TYPES): NodeTestObject {
+function newNodeTypeTester(type: NodeTypes): NodeTestObject {
   return {
     test: (node): boolean => node.type === type,
   }
@@ -97,14 +96,14 @@ function newNodeTypeTester(type: AST_NODE_TYPES): NodeTestObject {
  * @private
  */
 function isIIFEStatement(node: ASTNode): boolean {
-  if (node.type === AST_NODE_TYPES.ExpressionStatement) {
+  if (node.type === 'ExpressionStatement') {
     let expression = skipChainExpression(node.expression)
-    if (expression.type === AST_NODE_TYPES.UnaryExpression)
+    if (expression.type === 'UnaryExpression')
       expression = skipChainExpression(expression.argument)
 
-    if (expression.type === AST_NODE_TYPES.CallExpression) {
+    if (expression.type === 'CallExpression') {
       let node: ASTNode = expression.callee
-      while (node.type === AST_NODE_TYPES.SequenceExpression)
+      while (node.type === 'SequenceExpression')
         node = node.expressions[node.expressions.length - 1]
 
       return isFunction(node)
@@ -120,16 +119,16 @@ function isIIFEStatement(node: ASTNode): boolean {
  * @private
  */
 function isCJSRequire(node: ASTNode): boolean {
-  if (node.type === AST_NODE_TYPES.VariableDeclaration) {
+  if (node.type === 'VariableDeclaration') {
     const declaration = node.declarations[0]
     if (declaration?.init) {
       let call = declaration?.init
-      while (call.type === AST_NODE_TYPES.MemberExpression)
+      while (call.type === 'MemberExpression')
         call = call.object
 
       if (
-        call.type === AST_NODE_TYPES.CallExpression
-        && call.callee.type === AST_NODE_TYPES.Identifier
+        call.type === 'CallExpression'
+        && call.callee.type === 'Identifier'
       ) {
         return call.callee.name === 'require'
       }
@@ -152,8 +151,8 @@ function isBlockLikeStatement(
 ): boolean {
   // do-while with a block is a block-like statement.
   if (
-    node.type === AST_NODE_TYPES.DoWhileStatement
-    && node.body.type === AST_NODE_TYPES.BlockStatement
+    node.type === 'DoWhileStatement'
+    && node.body.type === 'BlockStatement'
   ) {
     return true
   }
@@ -174,8 +173,8 @@ function isBlockLikeStatement(
 
   return (
     !!belongingNode
-    && (belongingNode.type === AST_NODE_TYPES.BlockStatement
-      || belongingNode.type === AST_NODE_TYPES.SwitchStatement)
+    && (belongingNode.type === 'BlockStatement'
+      || belongingNode.type === 'SwitchStatement')
   )
 }
 
@@ -191,7 +190,7 @@ function isDirective(
 ): boolean {
   return (
     isTopLevelExpressionStatement(node)
-    && node.expression.type === AST_NODE_TYPES.Literal
+    && node.expression.type === 'Literal'
     && typeof node.expression.value === 'string'
     && !isParenthesized(node.expression, sourceCode)
   )
@@ -232,19 +231,19 @@ function isDirectivePrologue(
  * @private
  */
 function isCJSExport(node: ASTNode): boolean {
-  if (node.type === AST_NODE_TYPES.ExpressionStatement) {
+  if (node.type === 'ExpressionStatement') {
     const expression = node.expression
-    if (expression.type === AST_NODE_TYPES.AssignmentExpression) {
+    if (expression.type === 'AssignmentExpression') {
       let left = expression.left
-      if (left.type === AST_NODE_TYPES.MemberExpression) {
-        while (left.object.type === AST_NODE_TYPES.MemberExpression)
+      if (left.type === 'MemberExpression') {
+        while (left.object.type === 'MemberExpression')
           left = left.object
 
         return (
-          left.object.type === AST_NODE_TYPES.Identifier
+          left.object.type === 'Identifier'
           && (left.object.name === 'exports'
             || (left.object.name === 'module'
-              && left.property.type === AST_NODE_TYPES.Identifier
+              && left.property.type === 'Identifier'
               && left.property.name === 'exports'))
         )
       }
@@ -264,7 +263,7 @@ function isExpression(
   sourceCode: SourceCode,
 ): boolean {
   return (
-    node.type === AST_NODE_TYPES.ExpressionStatement
+    node.type === 'ExpressionStatement'
     && !isDirectivePrologue(node, sourceCode)
   )
 }
@@ -471,23 +470,23 @@ const PaddingTypes = {
 const MaybeMultilineStatementType: Record<string, NodeTestObject> = {
   'block-like': { test: isBlockLikeStatement },
   'expression': { test: isExpression },
-  'return': newKeywordTester(AST_NODE_TYPES.ReturnStatement, 'return'),
+  'return': newKeywordTester('ReturnStatement', 'return'),
   'export': newKeywordTester(
     [
-      AST_NODE_TYPES.ExportAllDeclaration,
-      AST_NODE_TYPES.ExportDefaultDeclaration,
-      AST_NODE_TYPES.ExportNamedDeclaration,
+      'ExportAllDeclaration',
+      'ExportDefaultDeclaration',
+      'ExportNamedDeclaration',
     ],
     'export',
   ),
-  'var': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'var'),
-  'let': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'let'),
-  'const': newKeywordTester(AST_NODE_TYPES.VariableDeclaration, 'const'),
+  'var': newKeywordTester('VariableDeclaration', 'var'),
+  'let': newKeywordTester('VariableDeclaration', 'let'),
+  'const': newKeywordTester('VariableDeclaration', 'const'),
   'using': {
     test: node => node.type === 'VariableDeclaration'
       && (node.kind === 'using' || node.kind === 'await using'),
   },
-  'type': newKeywordTester(AST_NODE_TYPES.TSTypeAliasDeclaration, 'type'),
+  'type': newKeywordTester('TSTypeAliasDeclaration', 'type'),
 }
 
 /**
@@ -502,39 +501,39 @@ const StatementTypes: Record<string, NodeTestObject> = {
   'directive': { test: isDirectivePrologue },
   'iife': { test: isIIFEStatement },
 
-  'block': newNodeTypeTester(AST_NODE_TYPES.BlockStatement),
-  'empty': newNodeTypeTester(AST_NODE_TYPES.EmptyStatement),
-  'function': newNodeTypeTester(AST_NODE_TYPES.FunctionDeclaration),
-  'ts-method': newNodeTypeTester(AST_NODE_TYPES.TSMethodSignature),
+  'block': newNodeTypeTester('BlockStatement'),
+  'empty': newNodeTypeTester('EmptyStatement'),
+  'function': newNodeTypeTester('FunctionDeclaration'),
+  'ts-method': newNodeTypeTester('TSMethodSignature'),
 
-  'break': newKeywordTester(AST_NODE_TYPES.BreakStatement, 'break'),
-  'case': newKeywordTester(AST_NODE_TYPES.SwitchCase, 'case'),
-  'class': newKeywordTester(AST_NODE_TYPES.ClassDeclaration, 'class'),
-  'continue': newKeywordTester(AST_NODE_TYPES.ContinueStatement, 'continue'),
-  'debugger': newKeywordTester(AST_NODE_TYPES.DebuggerStatement, 'debugger'),
+  'break': newKeywordTester('BreakStatement', 'break'),
+  'case': newKeywordTester('SwitchCase', 'case'),
+  'class': newKeywordTester('ClassDeclaration', 'class'),
+  'continue': newKeywordTester('ContinueStatement', 'continue'),
+  'debugger': newKeywordTester('DebuggerStatement', 'debugger'),
   'default': newKeywordTester(
-    [AST_NODE_TYPES.SwitchCase, AST_NODE_TYPES.ExportDefaultDeclaration],
+    ['SwitchCase', 'ExportDefaultDeclaration'],
     'default',
   ),
-  'do': newKeywordTester(AST_NODE_TYPES.DoWhileStatement, 'do'),
+  'do': newKeywordTester('DoWhileStatement', 'do'),
   'for': newKeywordTester(
     [
-      AST_NODE_TYPES.ForStatement,
-      AST_NODE_TYPES.ForInStatement,
-      AST_NODE_TYPES.ForOfStatement,
+      'ForStatement',
+      'ForInStatement',
+      'ForOfStatement',
     ],
     'for',
   ),
-  'if': newKeywordTester(AST_NODE_TYPES.IfStatement, 'if'),
-  'import': newKeywordTester(AST_NODE_TYPES.ImportDeclaration, 'import'),
-  'switch': newKeywordTester(AST_NODE_TYPES.SwitchStatement, 'switch'),
-  'throw': newKeywordTester(AST_NODE_TYPES.ThrowStatement, 'throw'),
-  'try': newKeywordTester(AST_NODE_TYPES.TryStatement, 'try'),
+  'if': newKeywordTester('IfStatement', 'if'),
+  'import': newKeywordTester('ImportDeclaration', 'import'),
+  'switch': newKeywordTester('SwitchStatement', 'switch'),
+  'throw': newKeywordTester('ThrowStatement', 'throw'),
+  'try': newKeywordTester('TryStatement', 'try'),
   'while': newKeywordTester(
-    [AST_NODE_TYPES.WhileStatement, AST_NODE_TYPES.DoWhileStatement],
+    ['WhileStatement', 'DoWhileStatement'],
     'while',
   ),
-  'with': newKeywordTester(AST_NODE_TYPES.WithStatement, 'with'),
+  'with': newKeywordTester('WithStatement', 'with'),
 
   'cjs-export': {
     test: (node, sourceCode) => node.type === 'ExpressionStatement'
@@ -549,14 +548,14 @@ const StatementTypes: Record<string, NodeTestObject> = {
   },
 
   'enum': newKeywordTester(
-    AST_NODE_TYPES.TSEnumDeclaration,
+    'TSEnumDeclaration',
     'enum',
   ),
   'interface': newKeywordTester(
-    AST_NODE_TYPES.TSInterfaceDeclaration,
+    'TSInterfaceDeclaration',
     'interface',
   ),
-  'function-overload': newNodeTypeTester(AST_NODE_TYPES.TSDeclareFunction),
+  'function-overload': newNodeTypeTester('TSDeclareFunction'),
   ...Object.fromEntries(
     Object.entries(MaybeMultilineStatementType)
       .flatMap(([key, value]) => [
@@ -676,7 +675,7 @@ export default createRule<Options, MessageIds>({
     function match(node: ASTNode, type: string[] | string): boolean {
       let innerStatementNode = node
 
-      while (innerStatementNode.type === AST_NODE_TYPES.LabeledStatement)
+      while (innerStatementNode.type === 'LabeledStatement')
         innerStatementNode = innerStatementNode.body
 
       if (Array.isArray(type))
@@ -749,14 +748,14 @@ export default createRule<Options, MessageIds>({
       if (
         !node.parent
         || ![
-          AST_NODE_TYPES.BlockStatement,
-          AST_NODE_TYPES.Program,
-          AST_NODE_TYPES.StaticBlock,
-          AST_NODE_TYPES.SwitchCase,
-          AST_NODE_TYPES.SwitchStatement,
-          AST_NODE_TYPES.TSInterfaceBody,
-          AST_NODE_TYPES.TSModuleBlock,
-          AST_NODE_TYPES.TSTypeLiteral,
+          'BlockStatement',
+          'Program',
+          'StaticBlock',
+          'SwitchCase',
+          'SwitchStatement',
+          'TSInterfaceBody',
+          'TSModuleBlock',
+          'TSTypeLiteral',
         ].includes(node.parent.type)
       ) {
         return

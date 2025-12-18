@@ -1,7 +1,6 @@
-import type { ASTNode, ReportFixFunction, RuleListener, SourceCode, Tree } from '#types'
+import type { ASTNode, NodeTypes, ReportFixFunction, RuleListener, SourceCode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
-  AST_NODE_TYPES,
   getStaticPropertyName,
   isClosingBraceToken,
   isClosingBracketToken,
@@ -24,7 +23,7 @@ const listeningNodes = [
   'TSTypeLiteral',
   'TSInterfaceBody',
   'ClassBody',
-] satisfies (keyof typeof Tree.AST_NODE_TYPES)[]
+] satisfies NodeTypes[]
 
 type UnionToIntersection<U>
   = (U extends any ? (k: U) => void : never) extends ((k: infer I) => void) ? I : never
@@ -308,7 +307,7 @@ export default createRule<RuleOptions, MessageIds>({
     const multiLineOptions = ruleOptions.multiLine
     const singleLineOptions = ruleOptions.singleLine
     const alignmentOptions = ruleOptions.align || null
-    const ignoredNodes: Tree.AST_NODE_TYPES[] = ruleOptions.ignoredNodes
+    const ignoredNodes: NodeTypes[] = ruleOptions.ignoredNodes
 
     const sourceCode = context.sourceCode
 
@@ -754,9 +753,9 @@ export default createRule<RuleOptions, MessageIds>({
       node: ASTNode,
     ): node is KeyTypeNodeWithTypeAnnotation {
       return (
-        (node.type === AST_NODE_TYPES.TSPropertySignature
-          || node.type === AST_NODE_TYPES.TSIndexSignature
-          || node.type === AST_NODE_TYPES.PropertyDefinition)
+        (node.type === 'TSPropertySignature'
+          || node.type === 'TSIndexSignature'
+          || node.type === 'PropertyDefinition')
         && !!node.typeAnnotation
       )
     }
@@ -774,7 +773,7 @@ export default createRule<RuleOptions, MessageIds>({
      * To handle index signatures, to get the whole text for the parameters
      */
     function getKeyText(node: KeyTypeNodeWithTypeAnnotation): string {
-      if (node.type !== AST_NODE_TYPES.TSIndexSignature)
+      if (node.type !== 'TSIndexSignature')
         return sourceCode.getText(node.key)
 
       const code = sourceCode.getText(node)
@@ -794,7 +793,7 @@ export default createRule<RuleOptions, MessageIds>({
       node: KeyTypeNodeWithTypeAnnotation,
     ): Tree.Position {
       return getLastTokenBeforeColon(
-        node.type !== AST_NODE_TYPES.TSIndexSignature
+        node.type !== 'TSIndexSignature'
           ? node.key
           : node.parameters.at(-1)!,
       )!.loc.end
@@ -1053,7 +1052,7 @@ export default createRule<RuleOptions, MessageIds>({
       if (ignoredNodes.includes(body.type))
         return
 
-      const members = body.type === AST_NODE_TYPES.TSTypeLiteral
+      const members = body.type === 'TSTypeLiteral'
         ? body.members
         : body.body
 

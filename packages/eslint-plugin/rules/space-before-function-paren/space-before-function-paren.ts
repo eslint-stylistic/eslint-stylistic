@@ -1,6 +1,6 @@
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, isOpeningParenToken } from '#utils/ast'
+import { isOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 type FuncOption = 'always' | 'never' | 'ignore'
@@ -76,10 +76,10 @@ export default createRule<RuleOptions, MessageIds>({
       const parent = node.parent
 
       return (
-        parent.type === AST_NODE_TYPES.MethodDefinition
-        || parent.type === AST_NODE_TYPES.TSAbstractMethodDefinition
+        parent.type === 'MethodDefinition'
+        || parent.type === 'TSAbstractMethodDefinition'
         || (
-          parent.type === AST_NODE_TYPES.Property
+          parent.type === 'Property'
           && (parent.kind === 'get' || parent.kind === 'set' || parent.method)
         )
       )
@@ -98,7 +98,7 @@ export default createRule<RuleOptions, MessageIds>({
         | Tree.TSDeclareFunction
         | Tree.TSEmptyBodyFunctionExpression,
     ): FuncOption {
-      if (node.type === AST_NODE_TYPES.ArrowFunctionExpression) {
+      if (node.type === 'ArrowFunctionExpression') {
         // Always ignore non-async functions and arrow functions without parens, e.g. async foo => bar
         if (
           node.async

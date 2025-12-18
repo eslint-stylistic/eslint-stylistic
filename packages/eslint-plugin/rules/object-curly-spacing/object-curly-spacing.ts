@@ -1,7 +1,6 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
-  AST_NODE_TYPES,
   AST_TOKEN_TYPES,
   isClosingBraceToken,
   isClosingBracketToken,
@@ -213,8 +212,8 @@ export default createRule<RuleOptions, MessageIds>({
         const openingCurlyBraceMustBeSpaced
           = options.arraysInObjectsException
             && [
-              AST_NODE_TYPES.TSMappedType,
-              AST_NODE_TYPES.TSIndexSignature,
+              'TSMappedType',
+              'TSIndexSignature',
             ].includes(secondType)
             ? !spaced
             : spaced
@@ -247,18 +246,18 @@ export default createRule<RuleOptions, MessageIds>({
           = (
             options.arraysInObjectsException
             && [
-              AST_NODE_TYPES.ArrayExpression,
-              AST_NODE_TYPES.TSTupleType,
+              'ArrayExpression',
+              'TSTupleType',
             ].includes(penultimateType!)
           )
           || (
             options.objectsInObjectsException
             && penultimateType !== undefined
             && [
-              AST_NODE_TYPES.ObjectExpression,
-              AST_NODE_TYPES.ObjectPattern,
-              AST_NODE_TYPES.TSMappedType,
-              AST_NODE_TYPES.TSTypeLiteral,
+              'ObjectExpression',
+              'ObjectPattern',
+              'TSMappedType',
+              'TSTypeLiteral',
             ].includes(penultimateType)
           )
             ? !spaced

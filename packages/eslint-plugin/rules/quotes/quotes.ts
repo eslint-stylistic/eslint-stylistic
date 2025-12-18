@@ -1,7 +1,6 @@
 import type { ASTNode, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
-  AST_NODE_TYPES,
   hasOctalOrNonOctalDecimalEscapeSequence,
   isParenthesised,
   isSurroundedBy,
@@ -243,51 +242,51 @@ export default createRule<RuleOptions, MessageIds>({
 
       switch (parent.type) {
         // Directive Prologues.
-        case AST_NODE_TYPES.ExpressionStatement:
+        case 'ExpressionStatement':
           return !isParenthesised(sourceCode, node) && isExpressionInOrJustAfterDirectivePrologue(node)
 
           // LiteralPropertyName.
-        case AST_NODE_TYPES.Property:
-        case AST_NODE_TYPES.MethodDefinition:
+        case 'Property':
+        case 'MethodDefinition':
           return parent.key === node && !parent.computed
 
           // ModuleSpecifier.
-        case AST_NODE_TYPES.ImportDeclaration:
-        case AST_NODE_TYPES.ExportNamedDeclaration:
+        case 'ImportDeclaration':
+        case 'ExportNamedDeclaration':
           return parent.source === node
 
           // ModuleExportName or ModuleSpecifier.
-        case AST_NODE_TYPES.ExportAllDeclaration:
+        case 'ExportAllDeclaration':
           return parent.exported === node || parent.source === node
 
           // ModuleExportName.
-        case AST_NODE_TYPES.ImportSpecifier:
+        case 'ImportSpecifier':
           return parent.imported === node
 
           // ModuleExportName.
-        case AST_NODE_TYPES.ExportSpecifier:
+        case 'ExportSpecifier':
           return parent.local === node || parent.exported === node
 
-        case AST_NODE_TYPES.ImportAttribute:
+        case 'ImportAttribute':
           return parent.value === node
 
-        case AST_NODE_TYPES.TSAbstractMethodDefinition:
-        case AST_NODE_TYPES.TSMethodSignature:
-        case AST_NODE_TYPES.TSPropertySignature:
-        case AST_NODE_TYPES.TSModuleDeclaration:
-        case AST_NODE_TYPES.TSExternalModuleReference:
+        case 'TSAbstractMethodDefinition':
+        case 'TSMethodSignature':
+        case 'TSPropertySignature':
+        case 'TSModuleDeclaration':
+        case 'TSExternalModuleReference':
           return true
 
-        case AST_NODE_TYPES.TSEnumMember:
+        case 'TSEnumMember':
           return node === parent.id
 
-        case AST_NODE_TYPES.TSAbstractPropertyDefinition:
-        case AST_NODE_TYPES.PropertyDefinition:
-        case AST_NODE_TYPES.AccessorProperty:
+        case 'TSAbstractPropertyDefinition':
+        case 'PropertyDefinition':
+        case 'AccessorProperty':
           return parent.key === node && !parent.computed
 
-        case AST_NODE_TYPES.TSLiteralType:
-          return parent.parent?.type === AST_NODE_TYPES.TSImportType
+        case 'TSLiteralType':
+          return parent.parent?.type === 'TSImportType'
 
         // Others don't allow.
         default:
