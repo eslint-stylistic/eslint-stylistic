@@ -88,7 +88,7 @@ export default antfu(
         patterns: [
           {
             allowTypeImports: true,
-            group: ['@typescript-eslint/utils', '@typescript-eslint/types'],
+            group: ['@typescript-eslint/utils'],
             importNames: ['AST_NODE_TYPES'],
           },
         ],
@@ -106,7 +106,7 @@ export default antfu(
       'ts/no-restricted-imports': ['error', {
         patterns: [
           {
-            group: ['@typescript-eslint/utils', '@typescript-eslint/utils/*', '@typescript-eslint/types'],
+            group: ['@typescript-eslint/utils', '@typescript-eslint/utils/*'],
             importNames: [
               'TSESTree',
               'TSESLint',
@@ -155,7 +155,7 @@ export default antfu(
       'ts/no-restricted-imports': ['error', {
         patterns: [
           {
-            group: ['@typescript-eslint/utils', '@typescript-eslint/types'],
+            group: ['@typescript-eslint/utils'],
             importNames: ['ASTUtils'],
             message: 'Import from "#utils/ast" instead',
           },
