@@ -350,7 +350,22 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforce props alphabetical sorting',
     },
     fixable: 'code',
-
+    deprecated: {
+      message: 'We recommend using the `eslint-plugin-perfectionist` plugin instead.',
+      deprecatedSince: '5.7.0',
+      replacedBy: [
+        {
+          plugin: {
+            name: 'eslint-plugin-perfectionist',
+            url: 'https://github.com/azat-io/eslint-plugin-perfectionist',
+          },
+          rule: {
+            name: 'sort-jsx-props',
+            url: 'https://perfectionist.dev/rules/sort-jsx-props',
+          },
+        },
+      ],
+    },
     messages,
 
     schema: [{
