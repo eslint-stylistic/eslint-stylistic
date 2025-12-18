@@ -367,7 +367,7 @@ run<RuleOptions, MessageIds>({
       options: ['never', { emptyObjects: 'always' }],
     },
     {
-      code: 'type x = {\nfoo: { /* */\nbar: string ,\n}\n};',
+      code: 'interface x { /* comment */ \n foo: string \n}',
       options: ['never', { emptyObjects: 'never' }],
     },
     {
