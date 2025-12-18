@@ -203,7 +203,7 @@ overrides:
 
 patchedDependencies:
   '@typescript-eslint/utils':
-    hash: 63f1d5549d0455e595da2e06c7ba13f513ceddd82f6a08feba499e51a52b8c60
+    hash: bc30c563c84e382036d994c8168362208ad927edb312ced122c5f19d741db258
     path: patches/@typescript-eslint__utils.patch
 
 importers:
@@ -269,7 +269,7 @@ importers:
         version: 8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       '@typescript-eslint/utils':
         specifier: catalog:dev
-        version: 8.47.0(patch_hash=63f1d5549d0455e595da2e06c7ba13f513ceddd82f6a08feba499e51a52b8c60)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
+        version: 8.47.0(patch_hash=bc30c563c84e382036d994c8168362208ad927edb312ced122c5f19d741db258)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       '@vitest/coverage-v8':
         specifier: catalog:test
         version: 4.0.10(vitest@4.0.10)
@@ -4909,7 +4909,7 @@ snapshots:
       '@typescript-eslint/parser': 8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       '@typescript-eslint/scope-manager': 8.47.0
       '@typescript-eslint/type-utils': 8.47.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
-      '@typescript-eslint/utils': 8.47.0(patch_hash=63f1d5549d0455e595da2e06c7ba13f513ceddd82f6a08feba499e51a52b8c60)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.47.0(patch_hash=bc30c563c84e382036d994c8168362208ad927edb312ced122c5f19d741db258)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       '@typescript-eslint/visitor-keys': 8.47.0
       eslint: 9.39.1(jiti@2.6.1)
       graphemer: 1.4.0
@@ -4954,7 +4954,7 @@ snapshots:
     dependencies:
       '@typescript-eslint/types': 8.47.0
       '@typescript-eslint/typescript-estree': 8.47.0(typescript@5.9.3)
-      '@typescript-eslint/utils': 8.47.0(patch_hash=63f1d5549d0455e595da2e06c7ba13f513ceddd82f6a08feba499e51a52b8c60)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.47.0(patch_hash=bc30c563c84e382036d994c8168362208ad927edb312ced122c5f19d741db258)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       debug: 4.4.3
       eslint: 9.39.1(jiti@2.6.1)
       ts-api-utils: 2.1.0(typescript@5.9.3)
@@ -4980,7 +4980,7 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.47.0(patch_hash=63f1d5549d0455e595da2e06c7ba13f513ceddd82f6a08feba499e51a52b8c60)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)':
+  '@typescript-eslint/utils@8.47.0(patch_hash=bc30c563c84e382036d994c8168362208ad927edb312ced122c5f19d741db258)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.0(eslint@9.39.1(jiti@2.6.1))
       '@typescript-eslint/scope-manager': 8.47.0
@@ -5179,7 +5179,7 @@ snapshots:
   '@vitest/eslint-plugin@1.4.3(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.10)':
     dependencies:
       '@typescript-eslint/scope-manager': 8.47.0
-      '@typescript-eslint/utils': 8.47.0(patch_hash=63f1d5549d0455e595da2e06c7ba13f513ceddd82f6a08feba499e51a52b8c60)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.47.0(patch_hash=bc30c563c84e382036d994c8168362208ad927edb312ced122c5f19d741db258)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.1(jiti@2.6.1)
     optionalDependencies:
       typescript: 5.9.3
@@ -5792,7 +5792,7 @@ snapshots:
   eslint-plugin-perfectionist@4.15.1(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3):
     dependencies:
       '@typescript-eslint/types': 8.47.0
-      '@typescript-eslint/utils': 8.47.0(patch_hash=63f1d5549d0455e595da2e06c7ba13f513ceddd82f6a08feba499e51a52b8c60)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.47.0(patch_hash=bc30c563c84e382036d994c8168362208ad927edb312ced122c5f19d741db258)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.1(jiti@2.6.1)
       natural-orderby: 5.0.0
     transitivePeerDependencies:
@@ -5907,7 +5907,7 @@ snapshots:
 
   eslint-vitest-rule-tester@3.0.0(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)(vitest@4.0.10):
     dependencies:
-      '@typescript-eslint/utils': 8.47.0(patch_hash=63f1d5549d0455e595da2e06c7ba13f513ceddd82f6a08feba499e51a52b8c60)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
+      '@typescript-eslint/utils': 8.47.0(patch_hash=bc30c563c84e382036d994c8168362208ad927edb312ced122c5f19d741db258)(eslint@9.39.1(jiti@2.6.1))(typescript@5.9.3)
       eslint: 9.39.1(jiti@2.6.1)
       vitest: 4.0.10(@types/debug@4.1.12)(@types/node@24.10.1)(@vitest/ui@4.0.10)(jiti@2.6.1)(tsx@4.20.6)(yaml@2.8.1)
     transitivePeerDependencies:
