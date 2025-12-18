@@ -10,7 +10,7 @@ import { createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, 
 import { createRule } from '#utils/create-rule'
 import { warnDeprecatedOptions } from '#utils/index'
 
-const KNOWN_NODES = new Set([
+const KNOWN_NODES = new Set<NodeTypes>([
   'AssignmentExpression',
   'AssignmentPattern',
   'ArrayExpression',
