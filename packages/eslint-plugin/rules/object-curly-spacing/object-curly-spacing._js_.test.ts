@@ -179,6 +179,10 @@ run<RuleOptions, MessageIds>({
       options: ['never', { emptyObjects: 'always' }],
     },
     {
+      code: 'var obj = {\nfoo: {\nbar: \'\'/*comment*/\n}\n};',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
       code: 'var obj = {};',
       options: ['never', { emptyObjects: 'never' }],
     },

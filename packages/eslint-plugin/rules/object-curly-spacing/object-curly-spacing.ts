@@ -226,6 +226,7 @@ export default createRule<RuleOptions, MessageIds>({
           !openingCurlyBraceMustBeSpaced
           && firstSpaced
           && tokenAfterOpening.type !== AST_TOKEN_TYPES.Line
+          && !(tokenAfterOpening.type === AST_TOKEN_TYPES.Block && !isTokenOnSameLine(openingToken, closingToken))
         ) {
           reportNoBeginningSpace(node, openingToken)
         }

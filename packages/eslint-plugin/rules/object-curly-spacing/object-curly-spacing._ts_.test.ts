@@ -367,6 +367,10 @@ run<RuleOptions, MessageIds>({
       options: ['never', { emptyObjects: 'always' }],
     },
     {
+      code: 'type x = {\nfoo: { /* */\nbar: string ,\n}\n};',
+      options: ['never', { emptyObjects: 'never' }],
+    },
+    {
       code: 'import {} from "package.json" with {}',
       options: ['never', { emptyObjects: 'never' }],
     },
