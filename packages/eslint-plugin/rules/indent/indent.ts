@@ -1198,7 +1198,7 @@ export default createRule<RuleOptions, MessageIds>({
       addElementListIndent(elementList, openingBracket, closingBracket, options.ArrayExpression)
     }
 
-    function checkObjectLikeNode(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSEnumDeclaration | Tree.TSTypeLiteral | Tree.TSMappedType, properties: ASTNode[]) {
+    function checkObjectLikeNode(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSEnumDeclaration | Tree.TSTypeLiteral, properties: ASTNode[]) {
       const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
       const closingCurly = sourceCode.getTokenAfter(
         properties.length ? properties[properties.length - 1] : openingCurly,
@@ -2029,40 +2029,11 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       TSMappedType(node) {
-        const squareBracketStart = sourceCode.getTokenBefore(
-          node.constraint || node.typeParameter,
-        )!
+        const startToken = sourceCode.getFirstToken(node, isOpeningBraceToken)!
+        const endToken = sourceCode.getLastToken(node, isClosingBraceToken)!
 
-        const properties: Tree.Property[] = [
-          {
-            parent: node as any,
-            type: AST_NODE_TYPES.Property,
-            key: node.key || node.typeParameter,
-            value: node.typeAnnotation as any,
-
-            // location data
-            range: [
-              squareBracketStart.range[0],
-              node.typeAnnotation
-                ? node.typeAnnotation.range[1]
-                : squareBracketStart.range[0],
-            ],
-            loc: {
-              start: squareBracketStart.loc.start,
-              end: node.typeAnnotation
-                ? node.typeAnnotation.loc.end
-                : squareBracketStart.loc.end,
-            },
-            kind: 'init',
-            computed: false,
-            method: false,
-            optional: false,
-            shorthand: false,
-          },
-        ]
-
-        // transform it to an ObjectExpression
-        checkObjectLikeNode(node, properties)
+        offsets.setDesiredOffsets([startToken.range[1], endToken.range[0]], startToken, 1)
+        offsets.setDesiredOffset(endToken, startToken, 0)
       },
 
       TSAsExpression(node) {
