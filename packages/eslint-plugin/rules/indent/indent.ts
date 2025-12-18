@@ -946,6 +946,18 @@ export default createRule<RuleOptions, MessageIds>({
      * @param offset The amount that the elements should be offset
      */
     function addElementListIndent(elements: (ASTNode | null)[], startToken: Token, endToken: Token, offset: number | string) {
+      // Run through all the tokens in the list, and offset them by one indent level (mainly for comments, other things will end up overridden)
+      offsets.setDesiredOffsets(
+        [startToken.range[1], endToken.range[0]],
+        startToken,
+        typeof offset === 'number' ? offset : 1,
+      )
+      offsets.setDesiredOffset(endToken, startToken, 0)
+
+      // If the preference is "first" but there is no first element (e.g. sparse arrays w/ empty first slot), fall back to 1 level.
+      if (offset === 'first' && elements.length && !elements[0])
+        return
+
       /**
        * Gets the first token of a given element, including surrounding parentheses.
        * @param element A node in the `elements` list
@@ -959,18 +971,6 @@ export default createRule<RuleOptions, MessageIds>({
 
         return sourceCode.getTokenAfter(token)!
       }
-
-      // Run through all the tokens in the list, and offset them by one indent level (mainly for comments, other things will end up overridden)
-      offsets.setDesiredOffsets(
-        [startToken.range[1], endToken.range[0]],
-        startToken,
-        typeof offset === 'number' ? offset : 1,
-      )
-      offsets.setDesiredOffset(endToken, startToken, 0)
-
-      // If the preference is "first" but there is no first element (e.g. sparse arrays w/ empty first slot), fall back to 1 level.
-      if (offset === 'first' && elements.length && !elements[0])
-        return
 
       elements
         .forEach((element, index) => {
@@ -1201,7 +1201,7 @@ export default createRule<RuleOptions, MessageIds>({
       addElementListIndent(elementList, openingBracket, closingBracket, options.ArrayExpression)
     }
 
-    function checkObjectLikeNode(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSEnumDeclaration | Tree.TSTypeLiteral | Tree.TSMappedType, properties: ASTNode[]) {
+    function checkObjectLikeNode(node: Tree.ObjectExpression | Tree.ObjectPattern | Tree.TSEnumDeclaration | Tree.TSTypeLiteral, properties: ASTNode[]) {
       const openingCurly = sourceCode.getFirstToken(node, isOpeningBraceToken)!
       const closingCurly = sourceCode.getTokenAfter(
         properties.length ? properties[properties.length - 1] : openingCurly,
@@ -2032,40 +2032,11 @@ export default createRule<RuleOptions, MessageIds>({
       },
 
       TSMappedType(node) {
-        const squareBracketStart = sourceCode.getTokenBefore(
-          node.constraint || node.typeParameter,
-        )!
+        const startToken = sourceCode.getFirstToken(node, isOpeningBraceToken)!
+        const endToken = sourceCode.getLastToken(node, isClosingBraceToken)!
 
-        const properties: Tree.Property[] = [
-          {
-            parent: node as any,
-            type: AST_NODE_TYPES.Property,
-            key: node.key || node.typeParameter,
-            value: node.typeAnnotation as any,
-
-            // location data
-            range: [
-              squareBracketStart.range[0],
-              node.typeAnnotation
-                ? node.typeAnnotation.range[1]
-                : squareBracketStart.range[0],
-            ],
-            loc: {
-              start: squareBracketStart.loc.start,
-              end: node.typeAnnotation
-                ? node.typeAnnotation.loc.end
-                : squareBracketStart.loc.end,
-            },
-            kind: 'init',
-            computed: false,
-            method: false,
-            optional: false,
-            shorthand: false,
-          },
-        ]
-
-        // transform it to an ObjectExpression
-        checkObjectLikeNode(node, properties)
+        offsets.setDesiredOffsets([startToken.range[1], endToken.range[0]], startToken, 1)
+        offsets.setDesiredOffset(endToken, startToken, 0)
       },
 
       TSAsExpression(node) {
