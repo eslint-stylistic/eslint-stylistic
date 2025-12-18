@@ -2,6 +2,8 @@ packages:
   - docs
   - packages/*
   - shared
+patchedDependencies:
+  '@typescript-eslint/utils': patches/@typescript-eslint__utils.patch
 catalogs:
   build:
     '@codecov/rollup-plugin': ^1.9.1
