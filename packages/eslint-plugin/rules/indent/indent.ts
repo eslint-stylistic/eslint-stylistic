@@ -2043,26 +2043,7 @@ export default createRule<RuleOptions, MessageIds>({
       // TODO: TSSatisfiesExpression
 
       TSConditionalType(node) {
-        // transform it to a ConditionalExpression
-        checkConditionalNode(
-          node,
-          {
-            parent: node,
-            type: AST_NODE_TYPES.BinaryExpression,
-            operator: 'extends' as any,
-            left: node.checkType as any,
-            right: node.extendsType as any,
-
-            // location data
-            range: [node.checkType.range[0], node.extendsType.range[1]],
-            loc: {
-              start: node.checkType.loc.start,
-              end: node.extendsType.loc.end,
-            },
-          },
-          node.trueType,
-          node.falseType,
-        )
+        checkConditionalNode(node, node.extendsType, node.trueType, node.falseType)
       },
 
       TSImportEqualsDeclaration(node) {
