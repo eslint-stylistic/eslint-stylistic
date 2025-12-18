@@ -1,6 +1,6 @@
 import type { ASTNode, JSONSchema, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine, isTypeKeyword, KEYWORDS } from '#utils/ast'
+import { isKeywordToken, isNotOpeningParenToken, isTokenOnSameLine, isTypeKeyword, KEYWORDS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const PREV_TOKEN = /^[)\]}>]$/u
@@ -416,13 +416,13 @@ export default createRule<RuleOptions, MessageIds>({
       let kind: undefined | string
 
       switch (node.type) {
-        case AST_NODE_TYPES.ImportDeclaration: {
+        case 'ImportDeclaration': {
           kind = node.importKind
           break
         }
 
-        case AST_NODE_TYPES.ExportAllDeclaration:
-        case AST_NODE_TYPES.ExportNamedDeclaration: {
+        case 'ExportAllDeclaration':
+        case 'ExportNamedDeclaration': {
           kind = node.exportKind
           break
         }
@@ -456,7 +456,7 @@ export default createRule<RuleOptions, MessageIds>({
           (('method' in node && node.method) || node.type === 'MethodDefinition')
           && 'async' in node.value && node.value.async
         )
-        || node.type === AST_NODE_TYPES.AccessorProperty
+        || node.type === 'AccessorProperty'
       ) {
         const token = sourceCode.getTokenBefore(
           node.key,

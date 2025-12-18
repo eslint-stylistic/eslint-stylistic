@@ -1,7 +1,6 @@
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
-  AST_TOKEN_TYPES,
   isClosingBraceToken,
   isClosingBracketToken,
   isClosingParenToken,
@@ -128,7 +127,7 @@ export default createRule<RuleOptions, MessageIds>({
         && !isClosingParenToken(nextToken) // controlled by space-in-parens
         && !isClosingBracketToken(nextToken) // controlled by array-bracket-spacing
         && !isClosingBraceToken(nextToken) // controlled by object-curly-spacing
-        && !(!spaceAfter && nextToken.type === AST_TOKEN_TYPES.Line)
+        && !(!spaceAfter && nextToken.type === 'Line')
         && spaceAfter !== sourceCode.isSpaceBetween(commaToken, nextToken)
       ) {
         context.report({

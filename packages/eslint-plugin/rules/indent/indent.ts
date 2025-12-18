@@ -6,11 +6,11 @@
 
 import type { ASTNode, JSONSchema, NodeTypes, RuleFunction, RuleListener, SourceCode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
+import { createGlobalLinebreakMatcher, getCommentsBetween, isClosingBraceToken, isClosingBracketToken, isClosingParenToken, isColonToken, isCommentToken, isEqToken, isNotClosingParenToken, isNotOpeningParenToken, isNotSemicolonToken, isOpeningBraceToken, isOpeningBracketToken, isOpeningParenToken, isOptionalChainPunctuator, isQuestionToken, isSemicolonToken, isSingleLine, isTokenOnSameLine, skipChainExpression, STATEMENT_LIST_PARENTS } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 import { warnDeprecatedOptions } from '#utils/index'
 
-const KNOWN_NODES = new Set([
+const KNOWN_NODES = new Set<NodeTypes>([
   'AssignmentExpression',
   'AssignmentPattern',
   'ArrayExpression',
@@ -52,7 +52,7 @@ const KNOWN_NODES = new Set([
   'Program',
   'Property',
   'PropertyDefinition',
-  AST_NODE_TYPES.AccessorProperty,
+  'AccessorProperty',
   'RestElement',
   'ReturnStatement',
   'SequenceExpression',
@@ -100,69 +100,69 @@ const KNOWN_NODES = new Set([
   'ImportAttribute',
 
   // ts keywords
-  AST_NODE_TYPES.TSAbstractKeyword,
-  AST_NODE_TYPES.TSAnyKeyword,
-  AST_NODE_TYPES.TSBooleanKeyword,
-  AST_NODE_TYPES.TSNeverKeyword,
-  AST_NODE_TYPES.TSNumberKeyword,
-  AST_NODE_TYPES.TSStringKeyword,
-  AST_NODE_TYPES.TSSymbolKeyword,
-  AST_NODE_TYPES.TSUndefinedKeyword,
-  AST_NODE_TYPES.TSUnknownKeyword,
-  AST_NODE_TYPES.TSVoidKeyword,
-  AST_NODE_TYPES.TSNullKeyword,
+  'TSAbstractKeyword',
+  'TSAnyKeyword',
+  'TSBooleanKeyword',
+  'TSNeverKeyword',
+  'TSNumberKeyword',
+  'TSStringKeyword',
+  'TSSymbolKeyword',
+  'TSUndefinedKeyword',
+  'TSUnknownKeyword',
+  'TSVoidKeyword',
+  'TSNullKeyword',
 
   // ts specific nodes we want to support
-  AST_NODE_TYPES.TSAbstractPropertyDefinition,
-  AST_NODE_TYPES.TSAbstractAccessorProperty,
-  AST_NODE_TYPES.TSAbstractMethodDefinition,
-  AST_NODE_TYPES.TSArrayType,
-  AST_NODE_TYPES.TSAsExpression,
-  AST_NODE_TYPES.TSCallSignatureDeclaration,
-  AST_NODE_TYPES.TSConditionalType,
-  AST_NODE_TYPES.TSConstructorType,
-  AST_NODE_TYPES.TSConstructSignatureDeclaration,
-  AST_NODE_TYPES.TSDeclareFunction,
-  AST_NODE_TYPES.TSEmptyBodyFunctionExpression,
-  AST_NODE_TYPES.TSEnumDeclaration,
-  AST_NODE_TYPES.TSEnumBody,
-  AST_NODE_TYPES.TSEnumMember,
-  AST_NODE_TYPES.TSExportAssignment,
-  AST_NODE_TYPES.TSExternalModuleReference,
-  AST_NODE_TYPES.TSFunctionType,
-  AST_NODE_TYPES.TSImportType,
-  AST_NODE_TYPES.TSIndexedAccessType,
-  AST_NODE_TYPES.TSIndexSignature,
-  AST_NODE_TYPES.TSInferType,
-  AST_NODE_TYPES.TSInterfaceBody,
-  AST_NODE_TYPES.TSInterfaceDeclaration,
-  AST_NODE_TYPES.TSInterfaceHeritage,
-  AST_NODE_TYPES.TSImportEqualsDeclaration,
-  AST_NODE_TYPES.TSLiteralType,
-  AST_NODE_TYPES.TSMappedType,
-  AST_NODE_TYPES.TSMethodSignature,
-  AST_NODE_TYPES.TSModuleBlock,
-  AST_NODE_TYPES.TSModuleDeclaration,
-  AST_NODE_TYPES.TSNonNullExpression,
-  AST_NODE_TYPES.TSParameterProperty,
-  AST_NODE_TYPES.TSPropertySignature,
-  AST_NODE_TYPES.TSQualifiedName,
-  AST_NODE_TYPES.TSRestType,
-  AST_NODE_TYPES.TSThisType,
-  AST_NODE_TYPES.TSTupleType,
-  AST_NODE_TYPES.TSTypeAliasDeclaration,
-  AST_NODE_TYPES.TSTypeAnnotation,
-  AST_NODE_TYPES.TSTypeLiteral,
-  AST_NODE_TYPES.TSTypeOperator,
-  AST_NODE_TYPES.TSTypeParameter,
-  AST_NODE_TYPES.TSTypeParameterDeclaration,
-  AST_NODE_TYPES.TSTypeParameterInstantiation,
-  AST_NODE_TYPES.TSTypeReference,
-  AST_NODE_TYPES.Decorator,
+  'TSAbstractPropertyDefinition',
+  'TSAbstractAccessorProperty',
+  'TSAbstractMethodDefinition',
+  'TSArrayType',
+  'TSAsExpression',
+  'TSCallSignatureDeclaration',
+  'TSConditionalType',
+  'TSConstructorType',
+  'TSConstructSignatureDeclaration',
+  'TSDeclareFunction',
+  'TSEmptyBodyFunctionExpression',
+  'TSEnumDeclaration',
+  'TSEnumBody',
+  'TSEnumMember',
+  'TSExportAssignment',
+  'TSExternalModuleReference',
+  'TSFunctionType',
+  'TSImportType',
+  'TSIndexedAccessType',
+  'TSIndexSignature',
+  'TSInferType',
+  'TSInterfaceBody',
+  'TSInterfaceDeclaration',
+  'TSInterfaceHeritage',
+  'TSImportEqualsDeclaration',
+  'TSLiteralType',
+  'TSMappedType',
+  'TSMethodSignature',
+  'TSModuleBlock',
+  'TSModuleDeclaration',
+  'TSNonNullExpression',
+  'TSParameterProperty',
+  'TSPropertySignature',
+  'TSQualifiedName',
+  'TSRestType',
+  'TSThisType',
+  'TSTupleType',
+  'TSTypeAliasDeclaration',
+  'TSTypeAnnotation',
+  'TSTypeLiteral',
+  'TSTypeOperator',
+  'TSTypeParameter',
+  'TSTypeParameterDeclaration',
+  'TSTypeParameterInstantiation',
+  'TSTypeReference',
+  'Decorator',
 
   // These are took care by `indent-binary-ops` rule
-  // AST_NODE_TYPES.TSIntersectionType,
-  // AST_NODE_TYPES.TSUnionType,
+  // 'TSIntersectionType',
+  // 'TSUnionType',
 ])
 
 type Offset = 'first' | 'off' | number
@@ -1191,7 +1191,7 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function checkArrayLikeNode(node: Tree.ArrayExpression | Tree.ArrayPattern | Tree.TSTupleType) {
-      const elementList = node.type === AST_NODE_TYPES.TSTupleType ? node.elementTypes : node.elements
+      const elementList = node.type === 'TSTupleType' ? node.elementTypes : node.elements
       const openingBracket = sourceCode.getFirstToken(node)!
       const closingBracket = sourceCode.getTokenAfter([...elementList].reverse().find(_ => _) || openingBracket, isClosingBracketToken)!
 
@@ -1375,7 +1375,7 @@ export default createRule<RuleOptions, MessageIds>({
         offsets.setDesiredOffset(sourceCode.getFirstToken(node)!, sourceCode.getFirstToken(node.parent)!, 0)
 
       addElementListIndent(
-        node.type === AST_NODE_TYPES.TSEnumBody ? node.members : node.body,
+        node.type === 'TSEnumBody' ? node.members : node.body,
         sourceCode.getFirstToken(node)!,
         sourceCode.getLastToken(node)!,
         blockIndentLevel,

@@ -1,7 +1,6 @@
 import type { ASTNode, RuleFixer, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
-  AST_NODE_TYPES,
   getNextLocation,
   isClosingBraceToken,
   isSemicolonToken,
@@ -384,11 +383,11 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     // The following nodes are handled by the member-delimiter-style rule
-    // AST_NODE_TYPES.TSCallSignatureDeclaration,
-    // AST_NODE_TYPES.TSConstructSignatureDeclaration,
-    // AST_NODE_TYPES.TSIndexSignature,
-    // AST_NODE_TYPES.TSMethodSignature,
-    // AST_NODE_TYPES.TSPropertySignature,
+    // TSCallSignatureDeclaration,
+    // TSConstructSignatureDeclaration,
+    // TSIndexSignature,
+    // TSMethodSignature,
+    // TSPropertySignature,
     return {
       VariableDeclaration(node) {
         const parent = node.parent
@@ -413,7 +412,7 @@ export default createRule<RuleOptions, MessageIds>({
           checkForSemicolon(node)
       },
       ExportDefaultDeclaration(node) {
-        if (node.declaration.type === AST_NODE_TYPES.TSInterfaceDeclaration)
+        if (node.declaration.type === 'TSInterfaceDeclaration')
           return
 
         if (!/(?:Class|Function)Declaration/u.test(node.declaration.type))

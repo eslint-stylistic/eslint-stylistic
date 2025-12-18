@@ -1,0 +1,186 @@
+diff --git a/dist/ast-utils/helpers.d.ts b/dist/ast-utils/helpers.d.ts
+index 9df9cdd86641e4a2c12d07fb2fe2f70416c57337..79de93796ddedad237b9e4e448f490f239c3f8ae 100644
+--- a/dist/ast-utils/helpers.d.ts
++++ b/dist/ast-utils/helpers.d.ts
+@@ -1,18 +1,20 @@
+ import type { AST_NODE_TYPES, AST_TOKEN_TYPES, TSESTree } from '../ts-estree';
+-export declare const isNodeOfType: <NodeType extends AST_NODE_TYPES>(nodeType: NodeType) => (node: TSESTree.Node | null | undefined) => node is Extract<TSESTree.Node, {
++type ASTNodeTypes = AST_NODE_TYPES | `${AST_NODE_TYPES}`
++type ASTTokenTypes = AST_TOKEN_TYPES | `${AST_TOKEN_TYPES}`
++export declare const isNodeOfType: <NodeType extends ASTNodeTypes>(nodeType: NodeType) => (node: TSESTree.Node | null | undefined) => node is Extract<TSESTree.Node, {
+     type: NodeType;
+ }>;
+-export declare const isNodeOfTypes: <NodeTypes extends readonly AST_NODE_TYPES[]>(nodeTypes: NodeTypes) => (node: TSESTree.Node | null | undefined) => node is Extract<TSESTree.Node, {
++export declare const isNodeOfTypes: <NodeTypes extends readonly ASTNodeTypes[]>(nodeTypes: NodeTypes) => (node: TSESTree.Node | null | undefined) => node is Extract<TSESTree.Node, {
+     type: NodeTypes[number];
+ }>;
+-export declare const isNodeOfTypeWithConditions: <NodeType extends AST_NODE_TYPES, ExtractedNode extends Extract<TSESTree.Node, {
++export declare const isNodeOfTypeWithConditions: <NodeType extends ASTNodeTypes, ExtractedNode extends Extract<TSESTree.Node, {
+     type: NodeType;
+ }>, Conditions extends Partial<ExtractedNode>>(nodeType: NodeType, conditions: Conditions) => ((node: TSESTree.Node | null | undefined) => node is Conditions & ExtractedNode);
+-export declare const isTokenOfTypeWithConditions: <TokenType extends AST_TOKEN_TYPES, ExtractedToken extends Extract<TSESTree.Token, {
++export declare const isTokenOfTypeWithConditions: <TokenType extends ASTTokenTypes, ExtractedToken extends Extract<TSESTree.Token, {
+     type: TokenType;
+ }>, Conditions extends Partial<{
+     type: TokenType;
+ } & TSESTree.Token>>(tokenType: TokenType, conditions: Conditions) => ((token: TSESTree.Token | null | undefined) => token is Conditions & ExtractedToken);
+-export declare const isNotTokenOfTypeWithConditions: <TokenType extends AST_TOKEN_TYPES, ExtractedToken extends Extract<TSESTree.Token, {
++export declare const isNotTokenOfTypeWithConditions: <TokenType extends ASTTokenTypes, ExtractedToken extends Extract<TSESTree.Token, {
+     type: TokenType;
+ }>, Conditions extends Partial<ExtractedToken>>(tokenType: TokenType, conditions: Conditions) => ((token: TSESTree.Token | null | undefined) => token is Exclude<TSESTree.Token, Conditions & ExtractedToken>);
+diff --git a/dist/ast-utils/predicates.js b/dist/ast-utils/predicates.js
+index 7b867603cc1574049dfbcee0cee150bb86767c43..256c338fe6c1fc16ff1d6c399191e6c2e77f92b4 100644
+--- a/dist/ast-utils/predicates.js
++++ b/dist/ast-utils/predicates.js
+@@ -2,23 +2,22 @@
+ Object.defineProperty(exports, "__esModule", { value: true });
+ exports.isLoop = exports.isImportKeyword = exports.isTypeKeyword = exports.isAwaitKeyword = exports.isAwaitExpression = exports.isIdentifier = exports.isConstructor = exports.isClassOrTypeElement = exports.isTSConstructorType = exports.isTSFunctionType = exports.isFunctionOrFunctionType = exports.isFunctionType = exports.isFunction = exports.isVariableDeclarator = exports.isTypeAssertion = exports.isLogicalOrOperator = exports.isOptionalCallExpression = exports.isNotNonNullAssertionPunctuator = exports.isNonNullAssertionPunctuator = exports.isNotOptionalChainPunctuator = exports.isOptionalChainPunctuator = void 0;
+ exports.isSetter = isSetter;
+-const ts_estree_1 = require("../ts-estree");
+ const helpers_1 = require("./helpers");
+-exports.isOptionalChainPunctuator = (0, helpers_1.isTokenOfTypeWithConditions)(ts_estree_1.AST_TOKEN_TYPES.Punctuator, { value: '?.' });
+-exports.isNotOptionalChainPunctuator = (0, helpers_1.isNotTokenOfTypeWithConditions)(ts_estree_1.AST_TOKEN_TYPES.Punctuator, { value: '?.' });
+-exports.isNonNullAssertionPunctuator = (0, helpers_1.isTokenOfTypeWithConditions)(ts_estree_1.AST_TOKEN_TYPES.Punctuator, { value: '!' });
+-exports.isNotNonNullAssertionPunctuator = (0, helpers_1.isNotTokenOfTypeWithConditions)(ts_estree_1.AST_TOKEN_TYPES.Punctuator, { value: '!' });
++exports.isOptionalChainPunctuator = (0, helpers_1.isTokenOfTypeWithConditions)('Punctuator', { value: '?.' });
++exports.isNotOptionalChainPunctuator = (0, helpers_1.isNotTokenOfTypeWithConditions)('Punctuator', { value: '?.' });
++exports.isNonNullAssertionPunctuator = (0, helpers_1.isTokenOfTypeWithConditions)('Punctuator', { value: '!' });
++exports.isNotNonNullAssertionPunctuator = (0, helpers_1.isNotTokenOfTypeWithConditions)('Punctuator', { value: '!' });
+ /**
+  * Returns true if and only if the node represents: foo?.() or foo.bar?.()
+  */
+-exports.isOptionalCallExpression = (0, helpers_1.isNodeOfTypeWithConditions)(ts_estree_1.AST_NODE_TYPES.CallExpression, 
++exports.isOptionalCallExpression = (0, helpers_1.isNodeOfTypeWithConditions)('CallExpression', 
+ // this flag means the call expression itself is option
+ // i.e. it is foo.bar?.() and not foo?.bar()
+ { optional: true });
+ /**
+  * Returns true if and only if the node represents logical OR
+  */
+-exports.isLogicalOrOperator = (0, helpers_1.isNodeOfTypeWithConditions)(ts_estree_1.AST_NODE_TYPES.LogicalExpression, { operator: '||' });
++exports.isLogicalOrOperator = (0, helpers_1.isNodeOfTypeWithConditions)('LogicalExpression', { operator: '||' });
+ /**
+  * Checks if a node is a type assertion:
+  * ```
+@@ -27,82 +26,82 @@ exports.isLogicalOrOperator = (0, helpers_1.isNodeOfTypeWithConditions)(ts_estre
+  * ```
+  */
+ exports.isTypeAssertion = (0, helpers_1.isNodeOfTypes)([
+-    ts_estree_1.AST_NODE_TYPES.TSAsExpression,
+-    ts_estree_1.AST_NODE_TYPES.TSTypeAssertion,
++    'TSAsExpression',
++    'TSTypeAssertion',
+ ]);
+-exports.isVariableDeclarator = (0, helpers_1.isNodeOfType)(ts_estree_1.AST_NODE_TYPES.VariableDeclarator);
++exports.isVariableDeclarator = (0, helpers_1.isNodeOfType)('VariableDeclarator');
+ const functionTypes = [
+-    ts_estree_1.AST_NODE_TYPES.ArrowFunctionExpression,
+-    ts_estree_1.AST_NODE_TYPES.FunctionDeclaration,
+-    ts_estree_1.AST_NODE_TYPES.FunctionExpression,
++    'ArrowFunctionExpression',
++    'FunctionDeclaration',
++    'FunctionExpression',
+ ];
+ exports.isFunction = (0, helpers_1.isNodeOfTypes)(functionTypes);
+ const functionTypeTypes = [
+-    ts_estree_1.AST_NODE_TYPES.TSCallSignatureDeclaration,
+-    ts_estree_1.AST_NODE_TYPES.TSConstructorType,
+-    ts_estree_1.AST_NODE_TYPES.TSConstructSignatureDeclaration,
+-    ts_estree_1.AST_NODE_TYPES.TSDeclareFunction,
+-    ts_estree_1.AST_NODE_TYPES.TSEmptyBodyFunctionExpression,
+-    ts_estree_1.AST_NODE_TYPES.TSFunctionType,
+-    ts_estree_1.AST_NODE_TYPES.TSMethodSignature,
++    'TSCallSignatureDeclaration',
++    'TSConstructorType',
++    'TSConstructSignatureDeclaration',
++    'TSDeclareFunction',
++    'TSEmptyBodyFunctionExpression',
++    'TSFunctionType',
++    'TSMethodSignature',
+ ];
+ exports.isFunctionType = (0, helpers_1.isNodeOfTypes)(functionTypeTypes);
+ exports.isFunctionOrFunctionType = (0, helpers_1.isNodeOfTypes)([
+     ...functionTypes,
+     ...functionTypeTypes,
+ ]);
+-exports.isTSFunctionType = (0, helpers_1.isNodeOfType)(ts_estree_1.AST_NODE_TYPES.TSFunctionType);
+-exports.isTSConstructorType = (0, helpers_1.isNodeOfType)(ts_estree_1.AST_NODE_TYPES.TSConstructorType);
++exports.isTSFunctionType = (0, helpers_1.isNodeOfType)('TSFunctionType');
++exports.isTSConstructorType = (0, helpers_1.isNodeOfType)('TSConstructorType');
+ exports.isClassOrTypeElement = (0, helpers_1.isNodeOfTypes)([
+     // ClassElement
+-    ts_estree_1.AST_NODE_TYPES.PropertyDefinition,
+-    ts_estree_1.AST_NODE_TYPES.FunctionExpression,
+-    ts_estree_1.AST_NODE_TYPES.MethodDefinition,
+-    ts_estree_1.AST_NODE_TYPES.TSAbstractPropertyDefinition,
+-    ts_estree_1.AST_NODE_TYPES.TSAbstractMethodDefinition,
+-    ts_estree_1.AST_NODE_TYPES.TSEmptyBodyFunctionExpression,
+-    ts_estree_1.AST_NODE_TYPES.TSIndexSignature,
++    'PropertyDefinition',
++    'FunctionExpression',
++    'MethodDefinition',
++    'TSAbstractPropertyDefinition',
++    'TSAbstractMethodDefinition',
++    'TSEmptyBodyFunctionExpression',
++    'TSIndexSignature',
+     // TypeElement
+-    ts_estree_1.AST_NODE_TYPES.TSCallSignatureDeclaration,
+-    ts_estree_1.AST_NODE_TYPES.TSConstructSignatureDeclaration,
++    'TSCallSignatureDeclaration',
++    'TSConstructSignatureDeclaration',
+     // AST_NODE_TYPES.TSIndexSignature,
+-    ts_estree_1.AST_NODE_TYPES.TSMethodSignature,
+-    ts_estree_1.AST_NODE_TYPES.TSPropertySignature,
++    'TSMethodSignature',
++    'TSPropertySignature',
+ ]);
+ /**
+  * Checks if a node is a constructor method.
+  */
+-exports.isConstructor = (0, helpers_1.isNodeOfTypeWithConditions)(ts_estree_1.AST_NODE_TYPES.MethodDefinition, { kind: 'constructor' });
++exports.isConstructor = (0, helpers_1.isNodeOfTypeWithConditions)('MethodDefinition', { kind: 'constructor' });
+ /**
+  * Checks if a node is a setter method.
+  */
+ function isSetter(node) {
+     return (!!node &&
+-        (node.type === ts_estree_1.AST_NODE_TYPES.MethodDefinition ||
+-            node.type === ts_estree_1.AST_NODE_TYPES.Property) &&
++        (node.type === 'MethodDefinition' ||
++            node.type === 'Property') &&
+         node.kind === 'set');
+ }
+-exports.isIdentifier = (0, helpers_1.isNodeOfType)(ts_estree_1.AST_NODE_TYPES.Identifier);
++exports.isIdentifier = (0, helpers_1.isNodeOfType)('Identifier');
+ /**
+  * Checks if a node represents an `await …` expression.
+  */
+-exports.isAwaitExpression = (0, helpers_1.isNodeOfType)(ts_estree_1.AST_NODE_TYPES.AwaitExpression);
++exports.isAwaitExpression = (0, helpers_1.isNodeOfType)('AwaitExpression');
+ /**
+  * Checks if a possible token is the `await` keyword.
+  */
+-exports.isAwaitKeyword = (0, helpers_1.isTokenOfTypeWithConditions)(ts_estree_1.AST_TOKEN_TYPES.Identifier, { value: 'await' });
++exports.isAwaitKeyword = (0, helpers_1.isTokenOfTypeWithConditions)('Identifier', { value: 'await' });
+ /**
+  * Checks if a possible token is the `type` keyword.
+  */
+-exports.isTypeKeyword = (0, helpers_1.isTokenOfTypeWithConditions)(ts_estree_1.AST_TOKEN_TYPES.Identifier, { value: 'type' });
++exports.isTypeKeyword = (0, helpers_1.isTokenOfTypeWithConditions)('Identifier', { value: 'type' });
+ /**
+  * Checks if a possible token is the `import` keyword.
+  */
+-exports.isImportKeyword = (0, helpers_1.isTokenOfTypeWithConditions)(ts_estree_1.AST_TOKEN_TYPES.Keyword, { value: 'import' });
++exports.isImportKeyword = (0, helpers_1.isTokenOfTypeWithConditions)('Keyword', { value: 'import' });
+ exports.isLoop = (0, helpers_1.isNodeOfTypes)([
+-    ts_estree_1.AST_NODE_TYPES.DoWhileStatement,
+-    ts_estree_1.AST_NODE_TYPES.ForStatement,
+-    ts_estree_1.AST_NODE_TYPES.ForInStatement,
+-    ts_estree_1.AST_NODE_TYPES.ForOfStatement,
+-    ts_estree_1.AST_NODE_TYPES.WhileStatement,
++    'DoWhileStatement',
++    'ForStatement',
++    'ForInStatement',
++    'ForOfStatement',
++    'WhileStatement',
+ ]);

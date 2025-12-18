@@ -1,7 +1,6 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
-  AST_NODE_TYPES,
   isClosingBraceToken,
   isClosingParenToken,
   isSemicolonToken,
@@ -232,7 +231,7 @@ export default createRule<RuleOptions, MessageIds>({
       TSTypeAliasDeclaration: checkNode,
       TSTypeAnnotation(node) {
         const excludeNodeTypes = new Set([
-          AST_NODE_TYPES.TSDeclareFunction,
+          'TSDeclareFunction',
         ])
         if (node.parent && !excludeNodeTypes.has(node.parent.type))
           checkNode!(node.parent as Tree.ExpressionStatement)

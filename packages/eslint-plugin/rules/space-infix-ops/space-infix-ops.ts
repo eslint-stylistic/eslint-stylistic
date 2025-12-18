@@ -1,6 +1,6 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_NODE_TYPES, AST_TOKEN_TYPES, isNotOpeningParenToken } from '#utils/ast'
+import { isNotOpeningParenToken } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 const UNIONS = ['|', '&']
@@ -115,7 +115,7 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function isSpaceChar(token: Token): boolean {
-      return token.type === AST_TOKEN_TYPES.Punctuator && /^[=?:]$/.test(token.value)
+      return token.type === 'Punctuator' && /^[=?:]$/.test(token.value)
     }
 
     function checkAndReportAssignmentSpace(
@@ -169,7 +169,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       types.forEach((type) => {
         const skipFunctionParenthesis
-          = type.type === AST_NODE_TYPES.TSFunctionType
+          = type.type === 'TSFunctionType'
             ? isNotOpeningParenToken
             : 0
         const operator = sourceCode.getTokenBefore(

@@ -3,7 +3,6 @@
 import type { ASTNode, RuleFunction, RuleListener, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
-  AST_NODE_TYPES,
   canTokensBeAdjacent,
   getPrecedence,
   getStaticPropertyName,
@@ -40,10 +39,10 @@ import { warnDeprecatedOptions } from '#utils/index'
  * ```
  */
 const isTypeAssertion = isNodeOfTypes([
-  AST_NODE_TYPES.TSAsExpression,
-  AST_NODE_TYPES.TSNonNullExpression,
-  AST_NODE_TYPES.TSSatisfiesExpression,
-  AST_NODE_TYPES.TSTypeAssertion,
+  'TSAsExpression',
+  'TSNonNullExpression',
+  'TSSatisfiesExpression',
+  'TSTypeAssertion',
 ])
 
 export default createRule<RuleOptions, MessageIds>({
@@ -772,7 +771,7 @@ export default createRule<RuleOptions, MessageIds>({
           ...node,
           left: {
             ...node.left,
-            type: AST_NODE_TYPES.SequenceExpression as any,
+            type: 'SequenceExpression' as any,
           },
         })
       }
@@ -781,7 +780,7 @@ export default createRule<RuleOptions, MessageIds>({
           ...node,
           right: {
             ...node.right,
-            type: AST_NODE_TYPES.SequenceExpression as any,
+            type: 'SequenceExpression' as any,
           },
         })
       }
@@ -839,7 +838,7 @@ export default createRule<RuleOptions, MessageIds>({
           ...node,
           callee: {
             ...node.callee,
-            type: AST_NODE_TYPES.SequenceExpression as any,
+            type: 'SequenceExpression' as any,
           },
         })
       }
@@ -914,7 +913,7 @@ export default createRule<RuleOptions, MessageIds>({
           ...node,
           argument: {
             ...node.argument,
-            type: AST_NODE_TYPES.SequenceExpression as any,
+            type: 'SequenceExpression' as any,
           },
         })
       }
@@ -932,7 +931,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     function checkTSBinaryType(node: Tree.TSUnionType | Tree.TSIntersectionType) {
       node.types.forEach((type) => {
-        const shouldReport = IGNORE_NESTED_BINARY && isNodeOfTypes([AST_NODE_TYPES.TSUnionType, AST_NODE_TYPES.TSIntersectionType])(type)
+        const shouldReport = IGNORE_NESTED_BINARY && isNodeOfTypes(['TSUnionType', 'TSIntersectionType'])(type)
           ? isParenthesisedTwice(type)
           : hasExcessParensWithPrecedence(type, precedence(node))
 
@@ -948,7 +947,7 @@ export default createRule<RuleOptions, MessageIds>({
           .map(
             element =>
               isTypeAssertion(element)
-                ? { ...element, type: AST_NODE_TYPES.FunctionExpression as any }
+                ? { ...element, type: 'FunctionExpression' as any }
                 : element,
           )
           .forEach((ele) => {
@@ -1013,7 +1012,7 @@ export default createRule<RuleOptions, MessageIds>({
             ...node,
             argument: {
               ...node.argument,
-              type: AST_NODE_TYPES.SequenceExpression as any,
+              type: 'SequenceExpression' as any,
             },
           })
         }
@@ -1027,24 +1026,24 @@ export default createRule<RuleOptions, MessageIds>({
       },
       'CallExpression': checkCallNew,
       ClassDeclaration(node) {
-        if (node.superClass?.type === AST_NODE_TYPES.TSAsExpression) {
+        if (node.superClass?.type === 'TSAsExpression') {
           return checkClass({
             ...node,
             superClass: {
               ...node.superClass,
-              type: AST_NODE_TYPES.SequenceExpression as any,
+              type: 'SequenceExpression' as any,
             },
           })
         }
         return checkClass(node)
       },
       ClassExpression(node) {
-        if (node.superClass?.type === AST_NODE_TYPES.TSAsExpression) {
+        if (node.superClass?.type === 'TSAsExpression') {
           return checkClass({
             ...node,
             superClass: {
               ...node.superClass,
-              type: AST_NODE_TYPES.SequenceExpression as any,
+              type: 'SequenceExpression' as any,
             },
           })
         }
@@ -1088,7 +1087,7 @@ export default createRule<RuleOptions, MessageIds>({
             ...node,
             test: {
               ...node.test,
-              type: AST_NODE_TYPES.SequenceExpression as any,
+              type: 'SequenceExpression' as any,
             },
           })
         }
@@ -1097,7 +1096,7 @@ export default createRule<RuleOptions, MessageIds>({
             ...node,
             consequent: {
               ...node.consequent,
-              type: AST_NODE_TYPES.SequenceExpression as any,
+              type: 'SequenceExpression' as any,
             },
           })
         }
@@ -1107,7 +1106,7 @@ export default createRule<RuleOptions, MessageIds>({
             ...node,
             alternate: {
               ...node.alternate,
-              type: AST_NODE_TYPES.SequenceExpression as any,
+              type: 'SequenceExpression' as any,
             },
           })
         }
@@ -1331,7 +1330,7 @@ export default createRule<RuleOptions, MessageIds>({
             ...node,
             object: {
               ...node.object,
-              type: AST_NODE_TYPES.SequenceExpression as any,
+              type: 'SequenceExpression' as any,
             },
           })
         }
@@ -1341,7 +1340,7 @@ export default createRule<RuleOptions, MessageIds>({
             ...node,
             property: ({
               ...node.property,
-              type: AST_NODE_TYPES.FunctionExpression as any,
+              type: 'FunctionExpression' as any,
             } as any),
           })
         }
@@ -1489,10 +1488,10 @@ export default createRule<RuleOptions, MessageIds>({
         if (isTypeAssertion(node.init)) {
           return rule({
             ...node,
-            type: AST_NODE_TYPES.VariableDeclarator,
+            type: 'VariableDeclarator',
             init: {
               ...(node.init as Tree.TSAsExpression),
-              type: AST_NODE_TYPES.FunctionExpression as any,
+              type: 'FunctionExpression' as any,
             },
           } as any)
         }
