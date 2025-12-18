@@ -89,7 +89,7 @@ export default antfu(
           {
             allowTypeImports: true,
             group: ['@typescript-eslint/utils'],
-            importNames: ['AST_NODE_TYPES'],
+            importNames: ['AST_NODE_TYPES', 'AST_TOKEN_TYPES'],
           },
         ],
       }],
