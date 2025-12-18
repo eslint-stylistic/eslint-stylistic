@@ -45,6 +45,9 @@ This rule has an object option:
 - `"skipBlankLines": true` allows trailing whitespace on empty lines
 - `"ignoreComments": false` (default) disallows trailing whitespace in comment blocks
 - `"ignoreComments": true` allows trailing whitespace in comment blocks
+- `"ignoreMarkdownLineBreaks": "never"` (default) disallows all trailing whitespace
+- `"ignoreMarkdownLineBreaks": "always"` allows exactly two trailing spaces when followed by a non-empty line (markdown line break syntax). Use this for `.md` files.
+- `"ignoreMarkdownLineBreaks": "comments"` allows exactly two trailing spaces only in comments when followed by a non-empty line. Use this for JSDoc and other documentation comments in `.js`/`.ts` files.
 
 ### skipBlankLines
 
@@ -80,6 +83,66 @@ Examples of **correct** code for this rule with the `{ "ignoreComments": true }`
  *   
  * bar   
  */
+```
+
+:::
+
+### ignoreMarkdownLineBreaks
+
+This option allows exactly two trailing spaces when followed by a non-empty line, which is the markdown syntax for a hard line break (`<br>`).
+
+- `"never"` (default): No markdown line breaks allowed
+- `"always"`: Allow everywhere (for `.md` files)
+- `"comments"`: Only allow in comments (for JSDoc in `.js`/`.ts` files)
+
+Examples of **correct** code for this rule with the `{ "ignoreMarkdownLineBreaks": "comments" }` option:
+
+::: correct
+
+```js
+/* eslint @stylistic/no-trailing-spaces: ["error", { "ignoreMarkdownLineBreaks": "comments" }] */
+
+/**
+ * First line of description  
+ * continues on second line  
+ * and third line
+ */
+function foo() {}
+```
+
+:::
+
+Examples of **incorrect** code for this rule with the `{ "ignoreMarkdownLineBreaks": "comments" }` option:
+
+::: incorrect
+
+```js
+/* eslint @stylistic/no-trailing-spaces: ["error", { "ignoreMarkdownLineBreaks": "comments" }] */
+
+// Two trailing spaces in code are still invalid:
+var x = 1;  
+
+/**
+ * Trailing spaces before empty line  
+ *
+ * Three spaces are invalid   
+ * Single space is invalid 
+ * Two spaces before end of comment  
+ */
+```
+
+:::
+
+Examples of **correct** code for this rule with the `{ "ignoreMarkdownLineBreaks": "always" }` option (for `.md` files):
+
+::: correct
+
+```md
+/* eslint @stylistic/no-trailing-spaces: ["error", { "ignoreMarkdownLineBreaks": "always" }] */
+
+First line of paragraph  
+continues on second line  
+and third line
 ```
 
 :::

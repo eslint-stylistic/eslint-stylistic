@@ -31,6 +31,11 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'boolean',
             default: false,
           },
+          ignoreMarkdownLineBreaks: {
+            type: 'string',
+            enum: ['never', 'always', 'comments'],
+            default: 'never',
+          },
         },
         additionalProperties: false,
       },
@@ -53,6 +58,7 @@ export default createRule<RuleOptions, MessageIds>({
     const options = context.options[0] || {}
     const skipBlankLines = options.skipBlankLines || false
     const ignoreComments = options.ignoreComments || false
+    const ignoreMarkdownLineBreaks = options.ignoreMarkdownLineBreaks || 'never'
 
     /**
      * Report the error message
@@ -83,12 +89,35 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns An array of line numbers containing comments.
      */
     function getCommentLineNumbers(comments: Tree.Comment[]) {
-      const lines = new Set()
+      const lines = new Set<number>()
 
       comments.forEach((comment) => {
         const endLine = comment.type === 'Block'
           ? comment.loc.end.line - 1
           : comment.loc.end.line
+
+        for (let i = comment.loc.start.line; i <= endLine; i++)
+          lines.add(i)
+      })
+
+      return lines
+    }
+
+    /**
+     * Given a list of comment nodes, return the line numbers for block comments only.
+     * Block comments are multiline comments (starting with /* or /**).
+     * @param comments An array of comment nodes.
+     * @returns A set of line numbers that are inside block comments.
+     */
+    function getBlockCommentLineNumbers(comments: Tree.Comment[]) {
+      const lines = new Set<number>()
+
+      comments.forEach((comment) => {
+        if (comment.type !== 'Block')
+          return
+
+        // Exclude the last line (closing */) as markdown line break before it doesn't make sense
+        const endLine = comment.loc.end.line - 1
 
         for (let i = comment.loc.start.line; i <= endLine; i++)
           lines.add(i)
@@ -111,6 +140,7 @@ export default createRule<RuleOptions, MessageIds>({
         const linebreaks = sourceCode.getText().match(createGlobalLinebreakMatcher())
         const comments = sourceCode.getAllComments()
         const commentLineNumbers = getCommentLineNumbers(comments)
+        const blockCommentLineNumbers = getBlockCommentLineNumbers(comments)
 
         let totalLength = 0
 
@@ -157,6 +187,39 @@ export default createRule<RuleOptions, MessageIds>({
             if (skipBlankLines && skipMatch.test(lines[i])) {
               totalLength += lineLength
               continue
+            }
+
+            /**
+             * If ignoreMarkdownLineBreaks is set, allow exactly two trailing spaces
+             * when the next line is not empty (markdown line break syntax).
+             * - "never": no markdown line breaks allowed (default)
+             * - "always": allow everywhere (for .md files)
+             * - "comments": only allow in block/multiline comments (for JSDoc in .js/.ts files)
+             */
+            if (ignoreMarkdownLineBreaks !== 'never') {
+              const isInBlockComment = blockCommentLineNumbers.has(lineNumber)
+              const shouldCheck = ignoreMarkdownLineBreaks === 'always'
+                || (ignoreMarkdownLineBreaks === 'comments' && isInBlockComment)
+
+              if (shouldCheck) {
+                const trailingWhitespace = matches[0]
+                const nextLine = lines[i + 1]
+                const isExactlyTwoSpaces = trailingWhitespace === '  '
+
+                // Check if next line has actual content
+                // For block comments, strip the comment prefix (* or */) to check for real content
+                let nextLineHasContent = nextLine !== undefined && nextLine.trim() !== ''
+                if (nextLineHasContent && isInBlockComment) {
+                  // In block comments, lines like " *" or " *   " or " */" are effectively empty
+                  const commentContent = nextLine.replace(/^\s*\*\/?/, '')
+                  nextLineHasContent = commentContent.trim() !== ''
+                }
+
+                if (isExactlyTwoSpaces && nextLineHasContent) {
+                  totalLength += lineLength
+                  continue
+                }
+              }
             }
 
             const fixRange = [rangeStart, rangeEnd] as const
