@@ -1,6 +1,6 @@
 import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_TOKEN_TYPES, isClosingBraceToken, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
+import { isClosingBraceToken, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 type SupportedNodes = Tree.BlockStatement | Tree.StaticBlock | Tree.SwitchStatement
@@ -82,7 +82,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
 
       // Skip line comments for option never
-      if (!always && firstToken.type === AST_TOKEN_TYPES.Line)
+      if (!always && firstToken.type === 'Line')
         return
 
       if (!isValid(openBrace, firstToken)) {

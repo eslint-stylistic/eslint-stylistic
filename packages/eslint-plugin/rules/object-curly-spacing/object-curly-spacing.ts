@@ -1,7 +1,6 @@
 import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import {
-  AST_TOKEN_TYPES,
   isClosingBraceToken,
   isClosingBracketToken,
   isOpeningBraceToken,
@@ -224,7 +223,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (
           !openingCurlyBraceMustBeSpaced
           && firstSpaced
-          && tokenAfterOpening.type !== AST_TOKEN_TYPES.Line
+          && tokenAfterOpening.type !== 'Line'
         ) {
           reportNoBeginningSpace(node, openingToken)
         }

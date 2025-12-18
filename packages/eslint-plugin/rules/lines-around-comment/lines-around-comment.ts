@@ -1,6 +1,6 @@
 import type { ASTNode, NodeTypes, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { AST_TOKEN_TYPES, COMMENTS_IGNORE_PATTERN, isCommentToken, isHashbangComment, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
+import { COMMENTS_IGNORE_PATTERN, isCommentToken, isHashbangComment, isOpeningBraceToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 /**
@@ -530,7 +530,7 @@ export default createRule<RuleOptions, MessageIds>({
     return {
       Program() {
         comments.forEach((token) => {
-          if (token.type === AST_TOKEN_TYPES.Line) {
+          if (token.type === 'Line') {
             if (options.beforeLineComment || options.afterLineComment) {
               checkForEmptyLine(token, {
                 after: options.afterLineComment,
@@ -538,7 +538,7 @@ export default createRule<RuleOptions, MessageIds>({
               })
             }
           }
-          else if (token.type === AST_TOKEN_TYPES.Block) {
+          else if (token.type === 'Block') {
             if (options.beforeBlockComment || options.afterBlockComment) {
               checkForEmptyLine(token, {
                 after: options.afterBlockComment,
