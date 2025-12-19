@@ -191,5 +191,3 @@ export function valids<RuleOptions>(...tests: (ValidTestCase<RuleOptions> | Vali
 export function invalids<RuleOptions = any, MessageIds extends string = string>(...tests: (InvalidTestCase<RuleOptions, MessageIds> | InvalidTestCase<RuleOptions, MessageIds>[] | undefined | false)[]): InvalidTestCase<RuleOptions, MessageIds>[] {
   return applyAllParsers(tests.flat().filter(Boolean) as InvalidTestCase<RuleOptions, MessageIds>[])
 }
-
-export const skipDueToMultiErrorSorting = true
