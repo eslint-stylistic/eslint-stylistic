@@ -235,6 +235,9 @@ importers:
       '@codecov/rollup-plugin':
         specifier: catalog:build
         version: 1.9.1(rollup@4.45.1)
+      '@eslint-stylistic/metadata':
+        specifier: workspace:*
+        version: link:packages/metadata
       '@eslint/core':
         specifier: catalog:dev
         version: 0.17.0

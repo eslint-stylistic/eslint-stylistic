@@ -2,13 +2,12 @@ import { fileURLToPath } from 'node:url'
 import UnoCSS from 'unocss/vite'
 import Components from 'unplugin-vue-components/vite'
 import { defineConfig } from 'vite'
+import { alias } from '../../alias.mjs'
 import { MarkdownTransform } from './plugins/markdown-transform'
 
 export default defineConfig({
   resolve: {
-    alias: {
-      '@eslint-stylistic/metadata': fileURLToPath(new URL('../../packages/metadata/src/index.ts', import.meta.url)),
-    },
+    alias,
   },
   plugins: [
     Components({
