@@ -1,6 +1,7 @@
 # jsx-indent
 
-> **Deprecated**: Use [`indent`](https://eslint.style/rules/default/indent) instead, as it fully covers all test cases from this rule.
+> [!NOTE] Deprecation
+> This rule is deprecated. Please use [`indent`](https://eslint.style/rules/indent) instead, as it fully covers all test cases from this rule.
 
 Enforce JSX indentation.
 

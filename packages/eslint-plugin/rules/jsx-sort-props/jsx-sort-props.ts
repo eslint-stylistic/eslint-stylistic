@@ -357,7 +357,7 @@ export default createRule<RuleOptions, MessageIds>({
         {
           plugin: {
             name: 'eslint-plugin-perfectionist',
-            url: 'https://github.com/azat-io/eslint-plugin-perfectionist',
+            url: 'https://perfectionist.dev',
           },
           rule: {
             name: 'sort-jsx-props',
