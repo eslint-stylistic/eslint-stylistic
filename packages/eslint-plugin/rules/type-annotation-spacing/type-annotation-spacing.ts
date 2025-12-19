@@ -13,7 +13,7 @@ import {
 import { createRule } from '#utils/create-rule'
 import { warnDeprecation } from '#utils/index'
 
-type OverrideOptions = Required<TypeAnnotationSpacingSchema0>['overrides']
+type OverrideOptions = Required<Required<TypeAnnotationSpacingSchema0>['overrides']>
 
 function createRules(options: TypeAnnotationSpacingSchema0 | undefined): OverrideOptions {
   const globals = {
@@ -26,13 +26,13 @@ function createRules(options: TypeAnnotationSpacingSchema0 | undefined): Overrid
     ...globals,
     ...override?.colon,
   }
-  const arrow = {
+  const arrow = typeof override.arrow === 'string' ? override.arrow : {
     ...{ before: true, after: true },
     ...globals,
     ...override?.arrow,
   }
 
-  if (Object.hasOwn(override, 'arrow'))
+  if (Object.hasOwn(override, 'arrow') && override.arrow !== 'ignore')
     warnDeprecation('options("overrides.arrow")', '"arrow-spacing"', 'type-annotation-spacing')
 
   return {
@@ -113,7 +113,15 @@ export default createRule<RuleOptions, MessageIds>({
             type: 'object',
             properties: {
               colon: { $ref: '#/items/0/$defs/spacingConfig' },
-              arrow: { $ref: '#/items/0/$defs/spacingConfig' },
+              arrow: {
+                oneOf: [
+                  {
+                    type: 'string',
+                    enum: ['ignore'],
+                  },
+                  { $ref: '#/items/0/$defs/spacingConfig' },
+                ],
+              },
               variable: { $ref: '#/items/0/$defs/spacingConfig' },
               parameter: { $ref: '#/items/0/$defs/spacingConfig' },
               property: { $ref: '#/items/0/$defs/spacingConfig' },
@@ -154,7 +162,12 @@ export default createRule<RuleOptions, MessageIds>({
       if (!punctuators.includes(type))
         return
 
-      const { before, after } = getRules(ruleSet, typeAnnotation)!
+      const config = getRules(ruleSet, typeAnnotation)
+
+      if (config === 'ignore')
+        return
+
+      const { before, after } = config
 
       if (type === ':' && previousToken.value === '?') {
         // space between ? and :

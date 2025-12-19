@@ -4576,6 +4576,15 @@ run<RuleOptions, MessageIds>({
         },
       ],
     },
+    {
+      code: $`
+        type Foo = {
+          foo: () => void;
+          bar: ()=>void;
+        }
+      `,
+      options: [{ overrides: { arrow: 'ignore' } }],
+    },
   ],
   invalid: [
     {
