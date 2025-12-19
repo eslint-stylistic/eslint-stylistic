@@ -1,4 +1,4 @@
-import type { ASTNode, Tree } from '#types'
+import type { Tree } from '#types'
 import type { MessageIds, RuleOptions, TypeAnnotationSpacingSchema0 } from './types'
 import {
   isClassOrTypeElement,
@@ -35,7 +35,7 @@ function createRules(options: TypeAnnotationSpacingSchema0 | undefined): Overrid
 
 function getIdentifierRules(
   rules: OverrideOptions,
-  node: ASTNode | undefined,
+  node: Tree.Identifier,
 ) {
   const scope = node?.parent
 
@@ -130,13 +130,14 @@ export default createRule<RuleOptions, MessageIds>({
     ): void {
       /** : */
       const punctuatorTokenEnd = sourceCode.getTokenBefore(typeAnnotation, isNotOpeningParenToken)!
-      /** :, ?() */
-      let punctuatorTokenStart = punctuatorTokenEnd
-      let previousToken = sourceCode.getTokenBefore(punctuatorTokenEnd)!
       let type = punctuatorTokenEnd.value
 
       if (type !== ':')
         return
+
+      /** :, ?() */
+      let punctuatorTokenStart = punctuatorTokenEnd
+      let previousToken = sourceCode.getTokenBefore(punctuatorTokenEnd)!
 
       const { before, after } = getRules(ruleSet, typeAnnotation)
 
