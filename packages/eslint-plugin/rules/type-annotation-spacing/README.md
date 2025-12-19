@@ -273,9 +273,10 @@ type Foo = ()=>{};
 
 #### arrow (**deprecated**)
 
-The spacing between arrow should be handled by the `arrow-spacing` rule now. And this option will be removed in the next major version.
-
-If you're trying to configure this rule and are running into a conflict with the `arrow-spacing` rule along with a persistent warning, you can set `"arrow": "ignore"` in the `overrides` option to disable this part of the rule.
+> [!NOTE]
+> The spacing between arrow should be handled by the [`arrow-spacing`](https://eslint.style/rules/arrow-spacing) rule now. And this option will be removed in the next major version.
+>
+> If you're trying to configure this rule and are running into a conflict with the [`arrow-spacing`](https://eslint.style/rules/arrow-spacing) rule along with a persistent warning, you can set `"arrow": "ignore"` in the `overrides` option to disable this part of the rule.
 
 Examples of **incorrect** code for this rule with the `{ "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }` option:
 
