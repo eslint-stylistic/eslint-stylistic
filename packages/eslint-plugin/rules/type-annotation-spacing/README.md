@@ -19,18 +19,6 @@ let foo : string = "bar";
 
 // with space before, but not after
 let foo :string = "bar";
-
-// with spaces before and after the fat arrow (default if no option is specified)
-type Foo = (string: name) => string;
-
-// with no spaces between the fat arrow
-type Foo = (string: name)=>string;
-
-// with space after, but not before the fat arrow
-type Foo = (string: name)=> string;
-
-// with space before, but not after the fat arrow
-type Foo = (string: name) =>string;
 ```
 
 ## Examples
@@ -63,10 +51,6 @@ class Foo {
 class Foo {
     name : string;
 }
-
-type Foo = ()=>{};
-type Foo = () =>{};
-type Foo = ()=> {};
 ```
 
 :::
@@ -83,8 +67,6 @@ function foo(): string {}
 class Foo {
     name: string;
 }
-
-type Foo = () => {};
 ```
 
 :::
@@ -121,10 +103,6 @@ class Foo {
 class Foo {
     name : string;
 }
-
-type Foo = ()=>{};
-type Foo = () =>{};
-type Foo = () => {};
 ```
 
 :::
@@ -143,8 +121,6 @@ function foo(): string {}
 class Foo {
     name: string;
 }
-
-type Foo = ()=> {};
 ```
 
 :::
@@ -179,10 +155,6 @@ class Foo {
 class Foo {
     name :string;
 }
-
-type Foo = ()=>{};
-type Foo = () =>{};
-type Foo = ()=> {};
 ```
 
 :::
@@ -201,8 +173,6 @@ function foo() : string {}
 class Foo {
     name : string;
 }
-
-type Foo = () => {};
 ```
 
 :::
@@ -239,10 +209,6 @@ class Foo {
 class Foo {
     name :string;
 }
-
-type Foo = () =>{};
-type Foo = ()=> {};
-type Foo = () => {};
 ```
 
 :::
@@ -265,8 +231,6 @@ class Foo {
 type Foo = {
     name: (name : string)=>string;
 }
-
-type Foo = ()=>{};
 ```
 
 :::
