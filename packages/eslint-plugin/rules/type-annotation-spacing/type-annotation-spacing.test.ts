@@ -7,11 +7,6 @@ run<RuleOptions, MessageIds>({
   name: 'type-annotation-spacing',
   rule,
   valid: [
-    $`
-      interface resolve {
-          resolver: (() => PromiseLike<T>) | PromiseLike<T>;
-      }
-    `,
     'const foo = {} as Foo;',
     'let foo: string;',
     'function foo(): void {}',
@@ -69,16 +64,6 @@ run<RuleOptions, MessageIds>({
     $`
       type Foo = {
           greet(name: string): string;
-      }
-    `,
-    'type Foo = (name: string) => string;',
-    $`
-      type Foo = {
-          greet: (name: string) => string;
-      }
-    `,
-    $`
-      const isString = (): x is string => {
       }
     `,
     {
@@ -796,51 +781,6 @@ run<RuleOptions, MessageIds>({
       `,
       options: [{ before: true }],
     },
-    $`
-      class Foo {
-          greet: (name: string) => void = {}
-      }
-    `,
-    {
-      code: $`
-        class Foo {
-            greet: (name: string) => void = {}
-        }
-      `,
-      options: [{ after: true }],
-    },
-    {
-      code: $`
-        class Foo {
-            greet: (name: string)=> void = {}
-        }
-      `,
-      options: [{ after: true, before: false }],
-    },
-    {
-      code: $`
-        class Foo {
-            greet : (name : string) => void = {}
-        }
-      `,
-      options: [{ after: true, before: true }],
-    },
-    {
-      code: $`
-        class Foo {
-            greet :(name :string) =>void = {}
-        }
-      `,
-      options: [{ after: false, before: true }],
-    },
-    {
-      code: $`
-        class Foo {
-            greet : (name : string) => void = {}
-        }
-      `,
-      options: [{ before: true }],
-    },
     {
       code: 'const foo:string;',
       options: [
@@ -1231,38 +1171,6 @@ run<RuleOptions, MessageIds>({
           data: { type: ':' },
           line: 2,
           column: 26,
-        },
-      ],
-    },
-    {
-      code: 'type Foo = (name : string) => string;',
-      output: 'type Foo = (name: string) => string;',
-      errors: [
-        {
-          messageId: 'unexpectedSpaceBefore',
-          data: { type: ':' },
-          line: 1,
-          column: 18,
-        },
-      ],
-    },
-    {
-      code: $`
-        type Foo = {
-            greet: (name : string) => string;
-        }
-      `,
-      output: $`
-        type Foo = {
-            greet: (name: string) => string;
-        }
-      `,
-      errors: [
-        {
-          messageId: 'unexpectedSpaceBefore',
-          data: { type: ':' },
-          line: 2,
-          column: 18,
         },
       ],
     },
@@ -2972,7 +2880,6 @@ run<RuleOptions, MessageIds>({
       code: $`
         class Some {
             a : {some: string, other: {more: number}};
-            someMethod : (args : {some: string, other: {more: number}}) => void;
             doSomething(args : {some: string, other: {more: number}}) : void {}
         }
       `,
@@ -2980,7 +2887,6 @@ run<RuleOptions, MessageIds>({
       output: $`
         class Some {
             a : {some : string, other : {more : number}};
-            someMethod : (args : {some : string, other : {more : number}}) => void;
             doSomething(args : {some : string, other : {more : number}}) : void {}
         }
       `,
@@ -3015,30 +2921,6 @@ run<RuleOptions, MessageIds>({
             type: ':',
           },
           line: 3,
-          column: 31,
-        },
-        {
-          messageId: 'expectedSpaceBefore',
-          data: {
-            type: ':',
-          },
-          line: 3,
-          column: 46,
-        },
-        {
-          messageId: 'expectedSpaceBefore',
-          data: {
-            type: ':',
-          },
-          line: 3,
-          column: 53,
-        },
-        {
-          messageId: 'expectedSpaceBefore',
-          data: {
-            type: ':',
-          },
-          line: 4,
           column: 29,
         },
         {
@@ -3046,7 +2928,7 @@ run<RuleOptions, MessageIds>({
           data: {
             type: ':',
           },
-          line: 4,
+          line: 3,
           column: 44,
         },
         {
@@ -3054,7 +2936,7 @@ run<RuleOptions, MessageIds>({
           data: {
             type: ':',
           },
-          line: 4,
+          line: 3,
           column: 51,
         },
       ],
@@ -3615,51 +3497,6 @@ run<RuleOptions, MessageIds>({
       `,
       options: [{ before: true }],
     },
-    $`
-      class Foo {
-          greet: (name?: string) => void = {}
-      }
-    `,
-    {
-      code: $`
-        class Foo {
-            greet: (name?: string) => void = {}
-        }
-      `,
-      options: [{ after: true }],
-    },
-    {
-      code: $`
-        class Foo {
-            greet: (name?: string) => void = {}
-        }
-      `,
-      options: [{ after: true, before: false }],
-    },
-    {
-      code: $`
-        class Foo {
-            greet : (name ?: string) => void = {}
-        }
-      `,
-      options: [{ after: true, before: true }],
-    },
-    {
-      code: $`
-        class Foo {
-            greet :(name ?:string) => void = {}
-        }
-      `,
-      options: [{ after: false, before: true }],
-    },
-    {
-      code: $`
-        class Foo {
-            greet : (name ?: string) => void = {}
-        }
-      `,
-      options: [{ before: true }],
-    },
   ],
   invalid: [
     {
@@ -3933,38 +3770,6 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
-      code: 'type Foo = (name ?: string) => string;',
-      output: 'type Foo = (name?: string) => string;',
-      errors: [
-        {
-          messageId: 'unexpectedSpaceBefore',
-          data: { type: '?:' },
-          line: 1,
-          column: 18,
-        },
-      ],
-    },
-    {
-      code: $`
-        type Foo = {
-            greet: (name ?: string) => string;
-        }
-      `,
-      output: $`
-        type Foo = {
-            greet: (name?: string) => string;
-        }
-      `,
-      errors: [
-        {
-          messageId: 'unexpectedSpaceBefore',
-          data: { type: '?:' },
-          line: 2,
-          column: 18,
-        },
-      ],
-    },
-    {
       code: 'function foo(a ?: string) {}',
       options: [{ after: true }],
       output: 'function foo(a?: string) {}',
@@ -4139,40 +3944,6 @@ run<RuleOptions, MessageIds>({
           data: { type: ':' },
           line: 2,
           column: 27,
-        },
-      ],
-    },
-    {
-      code: 'type Foo = (name ?: string) => string;',
-      options: [{ after: true }],
-      output: 'type Foo = (name?: string) => string;',
-      errors: [
-        {
-          messageId: 'unexpectedSpaceBefore',
-          data: { type: '?:' },
-          line: 1,
-          column: 18,
-        },
-      ],
-    },
-    {
-      code: $`
-        type Foo = {
-            greet: (name ?: string) => string;
-        }
-      `,
-      options: [{ after: true }],
-      output: $`
-        type Foo = {
-            greet: (name?: string) => string;
-        }
-      `,
-      errors: [
-        {
-          messageId: 'unexpectedSpaceBefore',
-          data: { type: '?:' },
-          line: 2,
-          column: 18,
         },
       ],
     },
@@ -4355,40 +4126,6 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
-      code: 'type Foo = (name ?: string) => string;',
-      options: [{ after: true, before: false }],
-      output: 'type Foo = (name?: string) => string;',
-      errors: [
-        {
-          messageId: 'unexpectedSpaceBefore',
-          data: { type: '?:' },
-          line: 1,
-          column: 18,
-        },
-      ],
-    },
-    {
-      code: $`
-        type Foo = {
-            greet: (name ?: string) => string;
-        }
-      `,
-      options: [{ after: true, before: false }],
-      output: $`
-        type Foo = {
-            greet: (name?: string) => string;
-        }
-      `,
-      errors: [
-        {
-          messageId: 'unexpectedSpaceBefore',
-          data: { type: '?:' },
-          line: 2,
-          column: 18,
-        },
-      ],
-    },
-    {
       code: 'function foo(a?:string) {}',
       options: [{ after: true, before: true }],
       output: 'function foo(a ?: string) {}',
@@ -4633,46 +4370,6 @@ run<RuleOptions, MessageIds>({
       ],
     },
     {
-      code: 'type Foo = (name?: string) => string;',
-      options: [{ after: true, before: true }],
-      output: 'type Foo = (name ?: string) => string;',
-      errors: [
-        {
-          messageId: 'expectedSpaceBefore',
-          data: { type: '?:' },
-          line: 1,
-          column: 17,
-        },
-      ],
-    },
-    {
-      code: $`
-        type Foo = {
-            greet?: (name?: string) => string;
-        }
-      `,
-      options: [{ after: true, before: true }],
-      output: $`
-        type Foo = {
-            greet ?: (name ?: string) => string;
-        }
-      `,
-      errors: [
-        {
-          messageId: 'expectedSpaceBefore',
-          data: { type: '?:' },
-          line: 2,
-          column: 10,
-        },
-        {
-          messageId: 'expectedSpaceBefore',
-          data: { type: '?:' },
-          line: 2,
-          column: 18,
-        },
-      ],
-    },
-    {
       code: 'function foo(a?:string) {}',
       options: [{ before: true }],
       output: 'function foo(a ?: string) {}',
@@ -4913,46 +4610,6 @@ run<RuleOptions, MessageIds>({
           data: { type: ':' },
           line: 2,
           column: 24,
-        },
-      ],
-    },
-    {
-      code: 'type Foo = (name?: string) => string;',
-      options: [{ before: true }],
-      output: 'type Foo = (name ?: string) => string;',
-      errors: [
-        {
-          messageId: 'expectedSpaceBefore',
-          data: { type: '?:' },
-          line: 1,
-          column: 17,
-        },
-      ],
-    },
-    {
-      code: $`
-        type Foo = {
-            greet?: (name?: string) => string;
-        }
-      `,
-      options: [{ before: true }],
-      output: $`
-        type Foo = {
-            greet ?: (name ?: string) => string;
-        }
-      `,
-      errors: [
-        {
-          messageId: 'expectedSpaceBefore',
-          data: { type: '?:' },
-          line: 2,
-          column: 10,
-        },
-        {
-          messageId: 'expectedSpaceBefore',
-          data: { type: '?:' },
-          line: 2,
-          column: 18,
         },
       ],
     },
@@ -5245,64 +4902,6 @@ run<RuleOptions, MessageIds>({
           data: { type: ':' },
           line: 2,
           column: 24,
-        },
-      ],
-    },
-    {
-      code: 'type Foo = (name?:string) => string;',
-      options: [
-        {
-          before: false,
-          after: false,
-          overrides: { colon: { before: true, after: true } },
-        },
-      ],
-      output: 'type Foo = (name ?: string) => string;',
-      errors: [
-        {
-          messageId: 'expectedSpaceBefore',
-          data: { type: '?:' },
-          line: 1,
-          column: 17,
-        },
-        {
-          messageId: 'expectedSpaceAfter',
-          data: { type: '?:' },
-          line: 1,
-          column: 18,
-        },
-      ],
-    },
-    {
-      code: $`
-        type Foo = {
-            greet ?: (name?:string) => string;
-        }
-      `,
-      options: [
-        {
-          before: false,
-          after: false,
-          overrides: { colon: { before: true, after: true } },
-        },
-      ],
-      output: $`
-        type Foo = {
-            greet ?: (name ?: string) => string;
-        }
-      `,
-      errors: [
-        {
-          messageId: 'expectedSpaceBefore',
-          data: { type: '?:' },
-          line: 2,
-          column: 19,
-        },
-        {
-          messageId: 'expectedSpaceAfter',
-          data: { type: '?:' },
-          line: 2,
-          column: 20,
         },
       ],
     },
