@@ -7,6 +7,11 @@ run<RuleOptions, MessageIds>({
   name: 'type-annotation-spacing',
   rule,
   valid: [
+    $`
+      interface resolve {
+          resolver: (() => PromiseLike<T>) | PromiseLike<T>;
+      }
+    `,
     'const foo = {} as Foo;',
     'let foo: string;',
     'function foo(): void {}',
