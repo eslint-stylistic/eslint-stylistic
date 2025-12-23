@@ -86,6 +86,47 @@ run<RuleOptions, MessageIds>({
       code: '/* \n */ /* \n */',
       options: [{ ignoreComments: true }],
     },
+
+    // Tests for ignoreMarkdownLineBreaks option - valid cases
+
+    // ignoreMarkdownLineBreaks: "comments" - only works in block/multiline comments
+    {
+      // Markdown line break in JSDoc block comment
+      code: '/**\n * first line  \n * second line\n */',
+      options: [{ ignoreMarkdownLineBreaks: 'comments' }],
+    },
+    {
+      // Multiple markdown line breaks in block comment
+      code: '/**\n * line one  \n * line two  \n * line three\n */',
+      options: [{ ignoreMarkdownLineBreaks: 'comments' }],
+    },
+    {
+      // Markdown line break in regular block comment
+      code: '/*\nfirst line  \nsecond line\n*/',
+      options: [{ ignoreMarkdownLineBreaks: 'comments' }],
+    },
+    {
+      // No trailing spaces is still valid
+      code: 'var a = 5;\nvar b = 3;',
+      options: [{ ignoreMarkdownLineBreaks: 'comments' }],
+    },
+
+    // ignoreMarkdownLineBreaks: "always" - works everywhere (for .md files)
+    {
+      // Markdown line break in block comment with "always" mode
+      code: '/*\nfirst line  \nsecond line\n*/',
+      options: [{ ignoreMarkdownLineBreaks: 'always' }],
+    },
+    {
+      // Multiple markdown line breaks in block comment
+      code: '/*\nline one  \nline two  \nline three\n*/',
+      options: [{ ignoreMarkdownLineBreaks: 'always' }],
+    },
+    {
+      // Markdown line break in comment with "always" mode
+      code: '/**\n * first line  \n * second line\n */',
+      options: [{ ignoreMarkdownLineBreaks: 'always' }],
+    },
   ],
 
   invalid: [
@@ -555,6 +596,246 @@ run<RuleOptions, MessageIds>({
           column: 34,
           endLine: 1,
           endColumn: 35,
+        },
+      ],
+    },
+
+    // Tests for ignoreMarkdownLineBreaks option - invalid cases
+
+    // ignoreMarkdownLineBreaks: "comments" - NOT allowed in regular code or single-line comments
+    {
+      // Two trailing spaces in regular code is still invalid with "comments" mode
+      code: 'var a = 5;  \nvar b = 3;',
+      output: 'var a = 5;\nvar b = 3;',
+      options: [{ ignoreMarkdownLineBreaks: 'comments' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 1,
+          column: 11,
+          endLine: 1,
+          endColumn: 13,
+        },
+      ],
+    },
+    {
+      // Two trailing spaces in single-line comment is NOT allowed (only block comments)
+      code: '// first line  \n// second line',
+      output: '// first line\n// second line',
+      options: [{ ignoreMarkdownLineBreaks: 'comments' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 1,
+          column: 14,
+          endLine: 1,
+          endColumn: 16,
+        },
+      ],
+    },
+    {
+      // One trailing space in comment is not valid markdown
+      code: '/**\n * first line \n * second line\n */',
+      output: '/**\n * first line\n * second line\n */',
+      options: [{ ignoreMarkdownLineBreaks: 'comments' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 2,
+          column: 14,
+          endLine: 2,
+          endColumn: 15,
+        },
+      ],
+    },
+    {
+      // Three trailing spaces in comment is not valid markdown line break
+      code: '/**\n * first line   \n * second line\n */',
+      output: '/**\n * first line\n * second line\n */',
+      options: [{ ignoreMarkdownLineBreaks: 'comments' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 2,
+          column: 14,
+          endLine: 2,
+          endColumn: 17,
+        },
+      ],
+    },
+    {
+      // Trailing tab in comment is not valid markdown
+      code: '/**\n * first line\t\n * second line\n */',
+      output: '/**\n * first line\n * second line\n */',
+      options: [{ ignoreMarkdownLineBreaks: 'comments' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 2,
+          column: 14,
+          endLine: 2,
+          endColumn: 15,
+        },
+      ],
+    },
+    {
+      // Two spaces before empty line in comment is not valid markdown line break
+      code: '/**\n * first line  \n *\n * third line\n */',
+      output: '/**\n * first line\n *\n * third line\n */',
+      options: [{ ignoreMarkdownLineBreaks: 'comments' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 2,
+          column: 14,
+          endLine: 2,
+          endColumn: 16,
+        },
+      ],
+    },
+    {
+      // Two spaces at end of comment (before closing) is not valid
+      code: '/**\n * last line  \n */',
+      output: '/**\n * last line\n */',
+      options: [{ ignoreMarkdownLineBreaks: 'comments' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 2,
+          column: 13,
+          endLine: 2,
+          endColumn: 15,
+        },
+      ],
+    },
+    {
+      // Two spaces before line with only whitespace in comment is not valid
+      code: '/**\n * first  \n *   \n * third\n */',
+      output: '/**\n * first\n *\n * third\n */',
+      options: [{ ignoreMarkdownLineBreaks: 'comments' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 2,
+          column: 9,
+          endLine: 2,
+          endColumn: 11,
+        },
+        {
+          messageId: 'trailingSpace',
+          line: 3,
+          column: 3,
+          endLine: 3,
+          endColumn: 6,
+        },
+      ],
+    },
+    {
+      // Mixed: valid markdown in comment + invalid trailing space in code
+      code: '/**\n * line one  \n * line two\n */\nvar x = 1;  ',
+      output: '/**\n * line one  \n * line two\n */\nvar x = 1;',
+      options: [{ ignoreMarkdownLineBreaks: 'comments' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 5,
+          column: 11,
+          endLine: 5,
+          endColumn: 13,
+        },
+      ],
+    },
+    {
+      // String literal with trailing spaces - should still be flagged
+      code: 'var s = "hello";  \nvar t = "world";',
+      output: 'var s = "hello";\nvar t = "world";',
+      options: [{ ignoreMarkdownLineBreaks: 'comments' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 1,
+          column: 17,
+          endLine: 1,
+          endColumn: 19,
+        },
+      ],
+    },
+
+    // ignoreMarkdownLineBreaks: "always" - still validates markdown format
+    {
+      // One trailing space is not valid markdown even with "always"
+      code: '/*\nfirst line \nsecond line\n*/',
+      output: '/*\nfirst line\nsecond line\n*/',
+      options: [{ ignoreMarkdownLineBreaks: 'always' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 2,
+          column: 11,
+          endLine: 2,
+          endColumn: 12,
+        },
+      ],
+    },
+    {
+      // Three trailing spaces is not valid markdown
+      code: '/*\nfirst line   \nsecond line\n*/',
+      output: '/*\nfirst line\nsecond line\n*/',
+      options: [{ ignoreMarkdownLineBreaks: 'always' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 2,
+          column: 11,
+          endLine: 2,
+          endColumn: 14,
+        },
+      ],
+    },
+    {
+      // Two spaces before closing comment line is not valid markdown
+      code: '/*\nlast line  \n*/',
+      output: '/*\nlast line\n*/',
+      options: [{ ignoreMarkdownLineBreaks: 'always' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 2,
+          column: 10,
+          endLine: 2,
+          endColumn: 12,
+        },
+      ],
+    },
+
+    // ignoreMarkdownLineBreaks: "never" - no markdown line breaks allowed (default behavior)
+    {
+      // Two trailing spaces flagged with "never"
+      code: '/*\nfirst line  \nsecond line\n*/',
+      output: '/*\nfirst line\nsecond line\n*/',
+      options: [{ ignoreMarkdownLineBreaks: 'never' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 2,
+          column: 11,
+          endLine: 2,
+          endColumn: 13,
+        },
+      ],
+    },
+    {
+      // Two trailing spaces in comment flagged with "never"
+      code: '/**\n * first line  \n * second line\n */',
+      output: '/**\n * first line\n * second line\n */',
+      options: [{ ignoreMarkdownLineBreaks: 'never' }],
+      errors: [
+        {
+          messageId: 'trailingSpace',
+          line: 2,
+          column: 14,
+          endLine: 2,
+          endColumn: 16,
         },
       ],
     },
