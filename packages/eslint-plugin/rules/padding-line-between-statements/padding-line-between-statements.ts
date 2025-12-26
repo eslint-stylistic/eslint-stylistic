@@ -13,6 +13,9 @@ import {
   skipChainExpression,
 } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import * as esquery from 'esquery'
+
+const selectorCache = new Map<string, any>()
 
 const CJS_EXPORT = /^(?:module\s*\.\s*)?exports(?:\s*\.|\s*\[|$)/u
 const CJS_IMPORT = /^require\(/u
@@ -42,8 +45,8 @@ interface NodeTestObject {
 
 interface PaddingOption {
   blankLine: keyof typeof PaddingTypes
-  prev: string[] | string
-  next: string[] | string
+  prev: string | string[] | { selector: string }
+  next: string | string[] | { selector: string }
 }
 
 type MessageIds = 'expectedBlankLine' | 'unexpectedBlankLine'
@@ -58,6 +61,7 @@ const PADDING_LINE_SEQUENCE = new RegExp(
 /**
  * Creates tester which check if a node starts with specific keyword with the
  * appropriate AST_NODE_TYPES.
+ * @param type
  * @param keyword The keyword to test.
  * @returns the created tester.
  * @private
@@ -597,7 +601,6 @@ export default createRule<Options, MessageIds>({
         },
         statementType: {
           type: 'string',
-          enum: Object.keys(StatementTypes),
         },
         statementOption: {
           anyOf: [
@@ -667,13 +670,34 @@ export default createRule<Options, MessageIds>({
     }
 
     /**
+     * Checks whether the given node matches the given selector.
+     * @param node The statement node to check.
+     * @param selectorString The selector string to match.
+     * @returns `true` if the statement node matched the selector.
+     * @private
+     */
+    function matchSelector(node: ASTNode, selectorString: string): boolean {
+      try {
+        let selector = selectorCache.get(selectorString)
+        if (!selector) {
+          selector = esquery.parse(selectorString)
+          selectorCache.set(selectorString, selector)
+        }
+        return esquery.matches(node as ESTree.Node, selector)
+      }
+      catch {
+        return false
+      }
+    }
+
+    /**
      * Checks whether the given node matches the given type.
      * @param node The statement node to check.
      * @param type The statement type to check.
      * @returns `true` if the statement node matched the type.
      * @private
      */
-    function match(node: ASTNode, type: string[] | string): boolean {
+    function match(node: ASTNode, type: string[] | string | { selector: string }): boolean {
       let innerStatementNode = node
 
       while (innerStatementNode.type === AST_NODE_TYPES.LabeledStatement)
@@ -682,7 +706,14 @@ export default createRule<Options, MessageIds>({
       if (Array.isArray(type))
         return type.some(match.bind(null, innerStatementNode))
 
-      return StatementTypes[type].test(innerStatementNode, sourceCode)
+      if (typeof type === 'object' && type !== null && 'selector' in type)
+        return matchSelector(innerStatementNode, type.selector)
+
+      const predefined = StatementTypes[type]
+      if (predefined)
+        return predefined.test(innerStatementNode, sourceCode)
+
+      return matchSelector(innerStatementNode, type)
     }
 
     /**
