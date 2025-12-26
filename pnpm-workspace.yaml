@@ -22,7 +22,7 @@ catalogs:
     '@typescript-eslint/utils': ^8.47.0
     change-case: ^5.4.4
     escape-string-regexp: ^5.0.0
-    eslint: ^9.39.1
+    eslint: ^10.0.0-beta.0
     eslint-plugin-format: ^1.0.2
     execa: ^9.6.0
     fast-glob: ^3.3.3
