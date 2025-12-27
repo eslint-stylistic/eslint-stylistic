@@ -5,7 +5,6 @@
 export type PaddingType = 'any' | 'never' | 'always'
 export type StatementOption
   = | StatementType
-    | { selector: string }
     | [StatementType, ...StatementType[]]
 export type StatementType
   = | '*'
@@ -64,7 +63,6 @@ export type StatementType
     | 'type'
     | 'singleline-type'
     | 'multiline-type'
-    | (string & {})
 export type PaddingLineBetweenStatementsSchema0 = {
   blankLine: PaddingType
   prev: StatementOption
