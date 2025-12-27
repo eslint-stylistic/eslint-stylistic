@@ -45,8 +45,8 @@ interface NodeTestObject {
 
 interface PaddingOption {
   blankLine: keyof typeof PaddingTypes
-  prev: string | string[] | { selector: string }
-  next: string | string[] | { selector: string }
+  prev: string | string[]
+  next: string | string[]
 }
 
 type MessageIds = 'expectedBlankLine' | 'unexpectedBlankLine'
@@ -697,7 +697,7 @@ export default createRule<Options, MessageIds>({
      * @returns `true` if the statement node matched the type.
      * @private
      */
-    function match(node: ASTNode, type: string[] | string | { selector: string }): boolean {
+    function match(node: ASTNode, type: string[] | string): boolean {
       let innerStatementNode = node
 
       while (innerStatementNode.type === AST_NODE_TYPES.LabeledStatement)
@@ -705,9 +705,6 @@ export default createRule<Options, MessageIds>({
 
       if (Array.isArray(type))
         return type.some(match.bind(null, innerStatementNode))
-
-      if (typeof type === 'object' && type !== null && 'selector' in type)
-        return matchSelector(innerStatementNode, type.selector)
 
       const predefined = StatementTypes[type]
       if (predefined)
