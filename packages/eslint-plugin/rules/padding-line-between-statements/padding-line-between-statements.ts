@@ -600,7 +600,15 @@ export default createRule<Options, MessageIds>({
           enum: Object.keys(PaddingTypes),
         },
         statementType: {
-          type: 'string',
+          anyOf: [
+            {
+              type: 'string',
+              enum: Object.keys(StatementTypes),
+            },
+            {
+              type: 'string',
+            },
+          ],
         },
         statementOption: {
           anyOf: [
