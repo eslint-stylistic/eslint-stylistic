@@ -31,6 +31,9 @@ catalogs:
     '@eslint/plugin-kit':
       specifier: ^0.4.1
       version: 0.4.1
+    '@types/esquery':
+      specifier: ^1.5.4
+      version: 1.5.4
     '@types/estraverse':
       specifier: ^5.1.7
       version: 5.1.7
@@ -162,6 +165,9 @@ catalogs:
     espree:
       specifier: ^10.4.0
       version: 10.4.0
+    esquery:
+      specifier: ^1.6.0
+      version: 1.6.0
     estraverse:
       specifier: ^5.3.0
       version: 5.3.0
@@ -437,12 +443,19 @@ importers:
       espree:
         specifier: catalog:prod
         version: 10.4.0
+      esquery:
+        specifier: catalog:prod
+        version: 1.6.0
       estraverse:
         specifier: catalog:prod
         version: 5.3.0
       picomatch:
         specifier: catalog:prod
         version: 4.0.3
+    devDependencies:
+      '@types/esquery':
+        specifier: catalog:dev
+        version: 1.5.4
 
   packages/metadata: {}
 
@@ -1475,6 +1488,9 @@ packages:
 
   '@types/deep-eql@4.0.2':
     resolution: {integrity: sha512-c9h9dVVMigMPc4bwTvC5dxqtqJZwQPePsWjPlpSOnojbor6pGqdk541lfA7AqFQr5pB1BRdq0juY9db81BwyFw==}
+
+  '@types/esquery@1.5.4':
+    resolution: {integrity: sha512-yYO4Q8H+KJHKW1rEeSzHxcZi90durqYgWVfnh5K6ZADVBjBv2e1NEveYX5yT2bffgN7RqzH3k9930m+i2yBoMA==}
 
   '@types/estraverse@5.1.7':
     resolution: {integrity: sha512-JRVtdKYZz7VkNp7hMC/WKoiZ8DS3byw20ZGoMZ1R8eBrBPIY7iBaDAS1zcrnXQCwK44G4vbXkimeU7R0VLG8UQ==}
@@ -4866,6 +4882,10 @@ snapshots:
       '@types/ms': 2.1.0
 
   '@types/deep-eql@4.0.2': {}
+
+  '@types/esquery@1.5.4':
+    dependencies:
+      '@types/estree': 1.0.8
 
   '@types/estraverse@5.1.7':
     dependencies:
