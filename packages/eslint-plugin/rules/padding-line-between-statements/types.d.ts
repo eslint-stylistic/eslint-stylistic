@@ -63,7 +63,6 @@ export type StatementType
     | 'type'
     | 'singleline-type'
     | 'multiline-type'
-    | (string & {})
 export type PaddingLineBetweenStatementsSchema0 = {
   blankLine: PaddingType
   prev: StatementOption
