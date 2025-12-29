@@ -2944,6 +2944,12 @@ run<RuleOptions, MessageIds>({
         },
       ],
     },
+    {
+      code: 'const a = 1;\nlet b = 2;',
+      options: [
+        { blankLine: 'always', prev: '[', next: '*' },
+      ],
+    },
   ],
   invalid: [
     // ----------------------------------------------------------------------
