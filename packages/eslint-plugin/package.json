@@ -143,7 +143,11 @@
     "@typescript-eslint/types": "catalog:prod",
     "eslint-visitor-keys": "catalog:prod",
     "espree": "catalog:prod",
+    "esquery": "catalog:prod",
     "estraverse": "catalog:prod",
     "picomatch": "catalog:prod"
+  },
+  "devDependencies": {
+    "@types/esquery": "catalog:dev"
   }
 }
