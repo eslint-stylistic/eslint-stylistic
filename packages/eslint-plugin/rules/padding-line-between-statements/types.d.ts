@@ -1,13 +1,14 @@
 /* GENERATED, DO NOT EDIT DIRECTLY */
 
-/* @checksum: kErv8daz4JbmG-vYHrJ-SzRKG2mIlo-tnqA0BTwEsBA */
+/* @checksum: nqlUB9UluXrx1U_PwQf2IskNtxW5tqNA1-sIHvww59I */
 
 export type PaddingType = 'any' | 'never' | 'always'
 export type StatementOption
   = | StatementType
     | [StatementType, ...StatementType[]]
 export type StatementType
-  = | '*'
+  = | (
+    | '*'
     | 'exports'
     | 'require'
     | 'directive'
@@ -63,6 +64,8 @@ export type StatementType
     | 'type'
     | 'singleline-type'
     | 'multiline-type'
+    )
+    | string
 export type PaddingLineBetweenStatementsSchema0 = {
   blankLine: PaddingType
   prev: StatementOption
