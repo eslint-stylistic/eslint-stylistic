@@ -2897,6 +2897,53 @@ run<RuleOptions, MessageIds>({
         { blankLine: 'always', prev: '*', next: 'singleline-export' },
       ],
     },
+
+    // ----------------------------------------------------------------------
+    // esquery
+    // ----------------------------------------------------------------------
+
+    {
+      code: 'const a = 1;\n\nlet b = 2;',
+      options: [
+        { blankLine: 'always', prev: 'VariableDeclaration[kind="const"]', next: '*' },
+      ],
+    },
+    {
+      code: 'foo();\n\nbar();',
+      options: [
+        { blankLine: 'always', prev: 'ExpressionStatement[expression.callee.name="foo"]', next: '*' },
+      ],
+    },
+    {
+      code: 'const a = 1;\n\nfunction foo() {}',
+      options: [
+        {
+          blankLine: 'always',
+          prev: 'VariableDeclaration[kind="const"]',
+          next: 'FunctionDeclaration',
+        },
+      ],
+    },
+    {
+      code: 'import a from "a";\nconst b = 1;',
+      options: [
+        {
+          blankLine: 'never',
+          prev: 'ImportDeclaration',
+          next: 'VariableDeclaration',
+        },
+      ],
+    },
+    {
+      code: 'let a = 1;\n\nlet b = 2;',
+      options: [
+        {
+          blankLine: 'always',
+          prev: 'VariableDeclaration[kind="const"]',
+          next: '*',
+        },
+      ],
+    },
   ],
   invalid: [
     // ----------------------------------------------------------------------
@@ -5565,6 +5612,78 @@ run<RuleOptions, MessageIds>({
         }
       `,
       options: [{ blankLine: 'always', prev: '*', next: 'multiline-return' }],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+
+    // ----------------------------------------------------------------------
+    // esquery
+    // ----------------------------------------------------------------------
+
+    {
+      code: 'const a = 1;\nlet b = 2;',
+      output: 'const a = 1;\n\nlet b = 2;',
+      options: [
+        { blankLine: 'always', prev: 'VariableDeclaration[kind="const"]', next: '*' },
+      ],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'foo();\nbar();',
+      output: 'foo();\n\nbar();',
+      options: [
+        {
+          blankLine: 'always',
+          prev: 'ExpressionStatement[expression.callee.name="foo"]',
+          next: '*',
+        },
+      ],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'const a = 1;\nfunction foo() {}',
+      output: 'const a = 1;\n\nfunction foo() {}',
+      options: [
+        {
+          blankLine: 'always',
+          prev: 'VariableDeclaration[kind="const"]',
+          next: 'FunctionDeclaration',
+        },
+      ],
+      errors: [{ messageId: 'expectedBlankLine' }],
+    },
+    {
+      code: 'import a from "a";\n\nconst b = 1;',
+      output: 'import a from "a";\nconst b = 1;',
+      options: [
+        {
+          blankLine: 'never',
+          prev: 'ImportDeclaration',
+          next: 'VariableDeclaration',
+        },
+      ],
+      errors: [{ messageId: 'unexpectedBlankLine' }],
+    },
+    {
+      code: $`
+        function foo() {
+          const a = 1;
+          let b = 2;
+        }
+      `,
+      output: $`
+        function foo() {
+          const a = 1;
+        
+          let b = 2;
+        }
+      `,
+      options: [
+        {
+          blankLine: 'always',
+          prev: 'VariableDeclaration[kind="const"]',
+          next: '*',
+        },
+      ],
       errors: [{ messageId: 'expectedBlankLine' }],
     },
   ],
