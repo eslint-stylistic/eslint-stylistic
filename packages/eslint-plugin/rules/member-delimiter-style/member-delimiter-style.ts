@@ -168,18 +168,16 @@ export default createRule<RuleOptions, MessageIds>({
   create(context, [options]) {
     const sourceCode = context.sourceCode
 
-    const {
-      overrides,
-      multilineDetection,
-    } = options!
-
+    // use the base options as the defaults for the cases
+    const baseOptions = options
+    const overrides = baseOptions!.overrides ?? {}
     const interfaceOptions: DelimiterConfig = deepMerge(
-      options as Record<string, unknown>,
-      overrides?.interface as Record<string, unknown>,
+      baseOptions as Record<string, unknown>,
+      overrides!.interface as Record<string, unknown>,
     )
     const typeLiteralOptions: DelimiterConfig = deepMerge(
-      options as Record<string, unknown>,
-      overrides?.typeLiteral as Record<string, unknown>,
+      baseOptions as Record<string, unknown>,
+      overrides!.typeLiteral as Record<string, unknown>,
     )
 
     /**
@@ -292,7 +290,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       let _isSingleLine = isSingleLine(node)
       if (
-        multilineDetection === 'last-member'
+        options!.multilineDetection === 'last-member'
         && !_isSingleLine
         && members.length > 0
       ) {
