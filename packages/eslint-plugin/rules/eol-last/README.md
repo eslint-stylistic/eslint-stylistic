@@ -12,11 +12,6 @@ as output files to the terminal without interfering with shell prompts.
 This rule enforces at least one newline (or absence thereof) at the end
 of non-empty files.
 
-Prior to v0.16.0 this rule also enforced that there was only a single line at
-the end of the file. If you still want this behavior, consider enabling
-[no-multiple-empty-lines](no-multiple-empty-lines) with `maxEOF` and/or
-[no-trailing-spaces](no-trailing-spaces).
-
 Examples of **incorrect** code for this rule:
 
 ::: incorrect
@@ -48,13 +43,14 @@ function doSomething() {⏎
 
 This rule is also applicable to CSS, Markdown, JSON files, and other non-JavaScript/TypeScript files parsed by ESLint language plugins such as [@eslint/css](https://github.com/eslint/css) and [@eslint/markdown](https://github.com/eslint/markdown).
 
+> [!TIP]
+> If you want to enforce that there was only a single line at the end of the file, consider enabling [no-multiple-empty-lines](no-multiple-empty-lines) with `maxEOF` and/or [no-trailing-spaces](no-trailing-spaces).
+>
+> If you need to enforce a specific linebreak style, use this rule in conjunction with [`linebreak-style`](linebreak-style).
+
 ## Options
 
 This rule has a string option:
 
 - `"always"` (default) enforces that files end with a newline (LF)
 - `"never"` enforces that files do not end with a newline
-- `"unix"` (deprecated) is identical to "always"
-- `"windows"` (deprecated) is identical to "always", but will use a CRLF character when autofixing
-
-**Deprecated:** The options `"unix"` and `"windows"` are deprecated. If you need to enforce a specific linebreak style, use this rule in conjunction with [`linebreak-style`](linebreak-style).
