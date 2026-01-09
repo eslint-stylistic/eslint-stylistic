@@ -271,6 +271,7 @@ export default createRule<RuleOptions, MessageIds>({
         case AST_NODE_TYPES.ImportAttribute:
           return parent.value === node
 
+        case AST_NODE_TYPES.TSImportType:
         case AST_NODE_TYPES.TSAbstractMethodDefinition:
         case AST_NODE_TYPES.TSMethodSignature:
         case AST_NODE_TYPES.TSPropertySignature:
@@ -286,6 +287,8 @@ export default createRule<RuleOptions, MessageIds>({
         case AST_NODE_TYPES.AccessorProperty:
           return parent.key === node && !parent.computed
 
+        // TODO: remove when `typescript-eslint@8.51.0` is not supported
+        // Related: https://github.com/typescript-eslint/typescript-eslint/pull/11591
         case AST_NODE_TYPES.TSLiteralType:
           return parent.parent?.type === AST_NODE_TYPES.TSImportType
 
