@@ -15,7 +15,7 @@ export function isObjectNotArray(obj: unknown): obj is ObjectLike {
  * @param second The second object
  * @returns a new object
  */
-export function deepMerge<T extends ObjectLike = ObjectLike, S extends ObjectLike = ObjectLike>(
+export function deepMerge<T extends ObjectLike, S extends ObjectLike>(
   first: T = {} as T,
   second: S = {} as S,
 ): T & S {
