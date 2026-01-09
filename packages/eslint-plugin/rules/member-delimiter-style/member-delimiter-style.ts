@@ -169,15 +169,15 @@ export default createRule<RuleOptions, MessageIds>({
     const sourceCode = context.sourceCode
 
     // use the base options as the defaults for the cases
-    const baseOptions = options
-    const overrides = baseOptions!.overrides ?? {}
+    const baseOptions = options!
+    const overrides = baseOptions.overrides ?? {}
     const interfaceOptions: DelimiterConfig = deepMerge(
-      baseOptions as Record<string, unknown>,
-      overrides!.interface as Record<string, unknown>,
+      baseOptions,
+      overrides.interface,
     )
     const typeLiteralOptions: DelimiterConfig = deepMerge(
-      baseOptions as Record<string, unknown>,
-      overrides!.typeLiteral as Record<string, unknown>,
+      baseOptions,
+      overrides.typeLiteral,
     )
 
     /**

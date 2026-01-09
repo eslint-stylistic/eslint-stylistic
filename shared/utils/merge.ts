@@ -1,4 +1,4 @@
-type ObjectLike<T = unknown> = Record<string, T>
+type ObjectLike<K extends PropertyKey = PropertyKey> = Record<K, any>
 
 /**
  * Check if the variable contains an object strictly rejecting arrays
@@ -15,10 +15,10 @@ export function isObjectNotArray(obj: unknown): obj is ObjectLike {
  * @param second The second object
  * @returns a new object
  */
-export function deepMerge(
-  first: ObjectLike = {},
-  second: ObjectLike = {},
-): Record<string, unknown> {
+export function deepMerge<T extends ObjectLike = ObjectLike, S extends ObjectLike = ObjectLike>(
+  first: T = {} as T,
+  second: S = {} as S,
+): T & S {
   // get the unique set of keys across both objects
   const keys = new Set(Object.keys(first).concat(Object.keys(second)))
 
