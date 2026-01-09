@@ -2,7 +2,6 @@ import type { ASTNode, Token, Tree } from '#types'
 import type { BaseConfig, MessageIds, RuleOptions } from './types'
 import {
   AST_NODE_TYPES,
-  hasCommentsBetween,
   isClosingBraceToken,
   isClosingBracketToken,
   isClosingParenToken,
@@ -238,7 +237,7 @@ export default createRule<RuleOptions, MessageIds>({
               next: next.value,
             },
             fix(fixer) {
-              if (hasCommentsBetween(sourceCode, prev, next))
+              if (sourceCode.commentsExistBetween(prev, next))
                 return null
 
               return fixer.insertTextBefore(
@@ -264,7 +263,7 @@ export default createRule<RuleOptions, MessageIds>({
               next: next.value,
             },
             fix(fixer) {
-              if (hasCommentsBetween(sourceCode, prev, next))
+              if (sourceCode.commentsExistBetween(prev, next))
                 return null
 
               const range = [prev.range[1], next.range[0]] as const
