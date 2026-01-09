@@ -19,18 +19,6 @@ let foo : string = "bar";
 
 // with space before, but not after
 let foo :string = "bar";
-
-// with spaces before and after the fat arrow (default if no option is specified)
-type Foo = (string: name) => string;
-
-// with no spaces between the fat arrow
-type Foo = (string: name)=>string;
-
-// with space after, but not before the fat arrow
-type Foo = (string: name)=> string;
-
-// with space before, but not after the fat arrow
-type Foo = (string: name) =>string;
 ```
 
 ## Examples
@@ -63,10 +51,6 @@ class Foo {
 class Foo {
     name : string;
 }
-
-type Foo = ()=>{};
-type Foo = () =>{};
-type Foo = ()=> {};
 ```
 
 :::
@@ -83,8 +67,6 @@ function foo(): string {}
 class Foo {
     name: string;
 }
-
-type Foo = () => {};
 ```
 
 :::
@@ -121,10 +103,6 @@ class Foo {
 class Foo {
     name : string;
 }
-
-type Foo = ()=>{};
-type Foo = () =>{};
-type Foo = () => {};
 ```
 
 :::
@@ -143,8 +121,6 @@ function foo(): string {}
 class Foo {
     name: string;
 }
-
-type Foo = ()=> {};
 ```
 
 :::
@@ -179,10 +155,6 @@ class Foo {
 class Foo {
     name :string;
 }
-
-type Foo = ()=>{};
-type Foo = () =>{};
-type Foo = ()=> {};
 ```
 
 :::
@@ -201,8 +173,6 @@ function foo() : string {}
 class Foo {
     name : string;
 }
-
-type Foo = () => {};
 ```
 
 :::
@@ -239,10 +209,6 @@ class Foo {
 class Foo {
     name :string;
 }
-
-type Foo = () =>{};
-type Foo = ()=> {};
-type Foo = () => {};
 ```
 
 :::
@@ -265,71 +231,6 @@ class Foo {
 type Foo = {
     name: (name : string)=>string;
 }
-
-type Foo = ()=>{};
-```
-
-:::
-
-#### arrow (**deprecated**)
-
-> [!NOTE]
-> The spacing between arrow should be handled by the [`arrow-spacing`](https://eslint.style/rules/arrow-spacing) rule now. And this option will be removed in the next major version.
->
-> If you're trying to configure this rule and are running into a conflict with the [`arrow-spacing`](https://eslint.style/rules/arrow-spacing) rule along with a persistent warning, you can set `"arrow": "ignore"` in the `overrides` option to disable this part of the rule.
-
-Examples of **incorrect** code for this rule with the `{ "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }` option:
-
-<!--tabs-->
-
-::: incorrect
-
-```ts
-/* eslint @stylistic/type-annotation-spacing: ["error", { "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }] */
-
-let foo: string = "bar";
-let foo : string = "bar";
-let foo :string = "bar";
-
-function foo(): string {}
-function foo():string {}
-function foo() :string {}
-
-class Foo {
-    name: string;
-}
-
-class Foo {
-    name : string;
-}
-
-class Foo {
-    name :string;
-}
-
-type Foo = ()=>{};
-type Foo = () =>{};
-type Foo = ()=> {};
-```
-
-:::
-
-Examples of **correct** code for this rule with the `{ "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }` option:
-
-::: correct
-
-```ts
-/* eslint @stylistic/type-annotation-spacing: ["error", { "before": false, "after": false, "overrides": { "arrow": { "before": true, "after": true } } }] */
-
-let foo:string = "bar";
-
-function foo():string {}
-
-class Foo {
-    name:string;
-}
-
-type Foo = () => {};
 ```
 
 :::
