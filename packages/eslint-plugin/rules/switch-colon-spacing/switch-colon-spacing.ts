@@ -5,7 +5,7 @@
 
 import type { RuleFixer, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
-import { getSwitchCaseColonToken, hasCommentsBetween, isClosingBraceToken, isTokenOnSameLine } from '#utils/ast'
+import { getSwitchCaseColonToken, isClosingBraceToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
 export default createRule<RuleOptions, MessageIds>({
@@ -66,7 +66,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @returns The fix object.
      */
     function fix(fixer: RuleFixer, left: Token, right: Token, spacing: boolean) {
-      if (hasCommentsBetween(sourceCode, left, right))
+      if (sourceCode.commentsExistBetween(left, right))
         return null
 
       if (spacing)
