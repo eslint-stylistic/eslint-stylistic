@@ -5,7 +5,7 @@
 
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
-import { invalids, skipDueToMultiErrorSorting, valids } from '#test/parsers-jsx'
+import { invalids, valids } from '#test/parsers-jsx'
 import rule from './jsx-equals-spacing'
 
 run<RuleOptions, MessageIds>({
@@ -76,7 +76,7 @@ run<RuleOptions, MessageIds>({
   ),
 
   invalid: invalids<RuleOptions, MessageIds>(
-    skipDueToMultiErrorSorting ? [] : {
+    {
       code: '<App foo = {bar} />',
       output: '<App foo={bar} />',
       errors: [
@@ -84,7 +84,7 @@ run<RuleOptions, MessageIds>({
         { messageId: 'noSpaceAfter' },
       ],
     },
-    skipDueToMultiErrorSorting ? [] : {
+    {
       code: '<App foo = {bar} />',
       output: '<App foo={bar} />',
       options: ['never'],
@@ -105,7 +105,7 @@ run<RuleOptions, MessageIds>({
       options: ['never'],
       errors: [{ messageId: 'noSpaceAfter' }],
     },
-    skipDueToMultiErrorSorting ? [] : {
+    {
       code: '<App foo= {bar} bar = {baz} />',
       output: '<App foo={bar} bar={baz} />',
       options: ['never'],
@@ -115,7 +115,7 @@ run<RuleOptions, MessageIds>({
         { messageId: 'noSpaceAfter' },
       ],
     },
-    skipDueToMultiErrorSorting ? [] : {
+    {
       code: '<App foo={bar} />',
       output: '<App foo = {bar} />',
       options: ['always'],
@@ -136,7 +136,7 @@ run<RuleOptions, MessageIds>({
       options: ['always'],
       errors: [{ messageId: 'needSpaceBefore' }],
     },
-    skipDueToMultiErrorSorting ? [] : {
+    {
       code: '<App foo={bar} bar ={baz} />',
       output: '<App foo = {bar} bar = {baz} />',
       options: ['always'],
