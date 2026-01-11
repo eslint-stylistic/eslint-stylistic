@@ -54,8 +54,8 @@ This rule enforces consistent brace style for blocks.
 
 This rule has a string option:
 
-- `"1tbs"` (default) enforces one true brace style
-- `"stroustrup"` enforces Stroustrup style
+- `"1tbs"` enforces one true brace style
+- `"stroustrup"` (default) enforces Stroustrup style
 - `"allman"` enforces Allman style
 
 This rule has an object option for an exception:
