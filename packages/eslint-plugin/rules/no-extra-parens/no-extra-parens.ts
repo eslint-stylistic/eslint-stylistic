@@ -9,6 +9,7 @@ import {
   getStaticPropertyName,
   isClosingParenToken,
   isDecimalInteger,
+  isJSDocComment,
   isKeywordToken,
   isMixedLogicalAndCoalesceExpressions,
   isNodeOfTypes,
@@ -669,16 +670,18 @@ export default createRule<RuleOptions, MessageIds>({
         if (isIIFE(node) && !('callee' in node && isParenthesised(node.callee)))
           return
 
-        if (ALLOW_PARENS_AFTER_COMMENT_PATTERN) {
-          const commentsBeforeLeftParenToken = sourceCode.getCommentsBefore(leftParenToken)
-          const totalCommentsBeforeLeftParenTokenCount = commentsBeforeLeftParenToken.length
-          const ignorePattern = new RegExp(ALLOW_PARENS_AFTER_COMMENT_PATTERN, 'u')
+        const commentsBeforeLeftParenToken = sourceCode.getCommentsBefore(leftParenToken)
+        if (commentsBeforeLeftParenToken.length > 0) {
+          const lastComment = commentsBeforeLeftParenToken.at(-1)!
 
-          if (
-            totalCommentsBeforeLeftParenTokenCount > 0
-            && ignorePattern.test(commentsBeforeLeftParenToken[totalCommentsBeforeLeftParenTokenCount - 1].value)
-          ) {
+          if (isJSDocComment(lastComment) && /@type\s*\{[^}]+\}/.test(lastComment.value))
             return
+
+          if (ALLOW_PARENS_AFTER_COMMENT_PATTERN) {
+            const ignorePattern = new RegExp(ALLOW_PARENS_AFTER_COMMENT_PATTERN, 'u')
+
+            if (ignorePattern.test(lastComment.value))
+              return
           }
         }
       }

@@ -858,3 +858,10 @@ export function getCommentsBetween(sourceCode: SourceCode, left: ASTNode | Token
     },
   )
 }
+
+export function isJSDocComment(token: ASTNode | Token): token is Tree.BlockComment {
+  if (token.type !== 'Block')
+    return false
+
+  return token.value.startsWith('*')
+}
