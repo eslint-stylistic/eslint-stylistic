@@ -99,8 +99,8 @@ export default createRule<RuleOptions, MessageIds>({
         })
       },
       TSIndexedAccessType(node) {
-        const leftToken = node.objectType
-        const rightToken = sourceCode.getTokenBefore(node.indexType)!
+        const rightToken = sourceCode.getTokenBefore(node.indexType, isOpeningBracketToken)!
+        const leftToken = sourceCode.getTokenBefore(rightToken)!
 
         if (!sourceCode.isSpaceBetween(leftToken, rightToken))
           return
