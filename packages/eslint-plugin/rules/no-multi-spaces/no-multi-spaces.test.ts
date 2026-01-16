@@ -94,6 +94,9 @@ run<RuleOptions, MessageIds>({
 
     // https://github.com/eslint/eslint/issues/9001
     'a'.repeat(2e5),
+
+    { code: 'void\tbar', options: [{ includeTabs: true }] },
+    { code: 'void\t\tbar', options: [{ includeTabs: false }] },
   ],
 
   invalid: [
@@ -645,6 +648,15 @@ run<RuleOptions, MessageIds>({
           data: { displayValue: '"json"' },
         },
       ],
+    },
+    {
+      code: 'void\tfoo',
+      output: 'void foo',
+      options: [{ includeTabs: 'as-multiple-spaces' }],
+      errors: [{
+        messageId: 'multipleSpaces',
+        data: { displayValue: 'foo' },
+      }],
     },
   ],
 })

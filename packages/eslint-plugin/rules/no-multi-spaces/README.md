@@ -85,7 +85,7 @@ This rule's configuration consists of an object with the following properties:
 
 - `"ignoreEOLComments": true` (defaults to `false`) ignores multiple spaces before comments that occur at the end of lines
 - `"exceptions": { "Property": true, "ImportAttribute": true }` (`"Property"` and `"ImportAttribute"` are the nodes specified by default) specifies nodes to ignore
-- `"includeTabs": false` (defaults to `true`) consider multiple tabs or spaces mixed with tabs as multiple spaces
+- `"includeTabs": boolean | 'as-multiple-spaces'` (defaults to `true`) consider tabs or spaces mixed with tabs as multiple spaces
 
 ### ignoreEOLComments
 
@@ -218,7 +218,7 @@ import someOtherMod from 'some-other-mod';
 
 ### includeTabs
 
-Consider multiple tabs (`\t`) or spaces mixed with tabs as multiple spaces for this rule. This option defaults to `true`.
+Consider multiple tab characters (if `true`), a single tab character (if `as-multiple-spaces`), or spaces mixed with tabs as multiple spaces for this rule. This option defaults to `true`.
 
 Example of **incorrect** code for this rule with the `{ "includeTabs": true }` option:
 
