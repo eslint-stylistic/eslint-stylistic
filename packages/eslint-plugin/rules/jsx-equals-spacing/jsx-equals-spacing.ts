@@ -23,9 +23,8 @@ export default createRule<RuleOptions, MessageIds>({
       needSpaceAfter: 'A space is required after \'=\'',
     },
   },
-  create(context) {
-    const config = context.options[0] || 'never'
-
+  defaultOptions: ['never'],
+  create(context, [config]) {
     return {
       JSXOpeningElement(node) {
         node.attributes.forEach((attrNode) => {

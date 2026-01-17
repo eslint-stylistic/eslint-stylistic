@@ -3,10 +3,6 @@ import type { MessageIds, RuleOptions } from './types'
 import { isWhiteSpaces } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
-const optionDefaults = {
-  allow: 'none',
-}
-
 type Child = Tree.JSXChild | Tree.JSXText | Tree.Literal
 
 export default createRule<RuleOptions, MessageIds>({
@@ -26,7 +22,7 @@ export default createRule<RuleOptions, MessageIds>({
             enum: ['none', 'literal', 'single-child', 'single-line', 'non-jsx'],
           },
         },
-        default: optionDefaults,
+        default: { allow: 'none' },
         additionalProperties: false,
       },
     ],
@@ -34,8 +30,11 @@ export default createRule<RuleOptions, MessageIds>({
       moveToNewLine: '`{{descriptor}}` must be placed on a new line',
     },
   },
-  create(context) {
-    const options: NonNullable<RuleOptions[0]> = Object.assign({}, optionDefaults, context.options[0])
+  defaultOptions: [{ allow: 'none' }],
+  create(context, [options]) {
+    const {
+      allow,
+    } = options!
 
     function nodeKey(node: ASTNode) {
       return `${node.loc.start.line},${node.loc.start.column}`
@@ -65,7 +64,7 @@ export default createRule<RuleOptions, MessageIds>({
         return
 
       if (
-        options.allow === 'non-jsx'
+        allow === 'non-jsx'
         && !children.some(child => (child.type === 'JSXFragment' || child.type === 'JSXElement'))
       ) {
         return
@@ -89,16 +88,16 @@ export default createRule<RuleOptions, MessageIds>({
           && child.loc.start.line === child.loc.end.line
         ) {
           if (
-            options.allow === 'single-child'
-            || (options.allow === 'literal' && (child.type === 'Literal' || child.type === 'JSXText'))
-            || (options.allow === 'single-line')
+            allow === 'single-child'
+            || (allow === 'literal' && (child.type === 'Literal' || child.type === 'JSXText'))
+            || (allow === 'single-line')
           ) {
             return
           }
         }
       }
 
-      if (options.allow === 'single-line') {
+      if (allow === 'single-line') {
         const firstChild = children[0]
         const lastChild = children[children.length - 1]
         const lineDifference = lastChild.loc.end.line - firstChild.loc.start.line
@@ -160,7 +159,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       const lines = Object.keys(childrenGroupedByLine)
 
-      if (lines.length === 1 && options.allow === 'single-line') {
+      if (lines.length === 1 && allow === 'single-line') {
         const line = parseInt(lines[0])
         const children = childrenGroupedByLine[line]
 

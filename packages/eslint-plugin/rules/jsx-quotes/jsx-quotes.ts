@@ -40,13 +40,13 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['prefer-single', 'prefer-double'],
       },
     ],
+    defaultOptions: ['prefer-double'],
     messages: {
       unexpected: 'Unexpected usage of {{description}}.',
     },
   },
-  create(context) {
-    const quoteOption = context.options[0] || 'prefer-double'
-    const setting = QUOTE_SETTINGS[quoteOption]
+  create(context, [quoteOption]) {
+    const setting = QUOTE_SETTINGS[quoteOption!]
 
     /**
      * Checks if the given string literal node uses the expected quotes

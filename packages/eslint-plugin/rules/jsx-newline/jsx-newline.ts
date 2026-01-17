@@ -52,7 +52,13 @@ export default createRule<RuleOptions, MessageIds>({
       allowMultilines: 'Multiline JSX elements should start in a new line',
     },
   },
-  create(context) {
+  defaultOptions: [{ prevent: false, allowMultilines: false }],
+  create(context, [configuration]) {
+    const {
+      prevent,
+      allowMultilines,
+    } = configuration!
+
     const jsxElementParents = new Set<Tree.JSXElement>()
     const sourceCode = context.sourceCode
 
@@ -70,10 +76,6 @@ export default createRule<RuleOptions, MessageIds>({
         jsxElementParents.forEach((parent) => {
           parent.children.forEach((element, index, elements) => {
             if (element.type === 'JSXElement' || element.type === 'JSXExpressionContainer') {
-              const configuration = context.options[0] || {}
-              const prevent = configuration.prevent || false
-              const allowMultilines = configuration.allowMultilines || false
-
               const firstAdjacentSibling = elements[index + 1] as Tree.StringLiteral | Tree.JSXText
               const secondAdjacentSibling = elements[index + 2]
 

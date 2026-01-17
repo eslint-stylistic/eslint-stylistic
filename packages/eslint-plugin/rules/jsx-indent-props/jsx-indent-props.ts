@@ -46,8 +46,8 @@ export default createRule<RuleOptions, MessageIds>({
       wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
     },
   },
-  create(context) {
-    const options = context.options[0]
+  defaultOptions: [],
+  create(context, [options]) {
     const extraColumnStart = 0
     let indentType: 'space' | 'tab' = 'space'
     let indentSize: number | 'first' = 4
@@ -83,7 +83,7 @@ export default createRule<RuleOptions, MessageIds>({
     /**
      * Get node indent
      * @param node Node to examine
-     * @return {number} Indent
+     * @return Indent
      */
     function getNodeIndent(node: ASTNode) {
       let src = context.sourceCode.getText(node, node.loc.start.column + extraColumnStart)

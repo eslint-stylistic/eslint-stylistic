@@ -86,15 +86,14 @@ export default createRule<RuleOptions, MessageIds>({
       usePascalOrSnakeCase: 'Imported JSX component {{name}} must be in PascalCase or SCREAMING_SNAKE_CASE',
     },
   },
-  create(context) {
-    const configuration = context.options[0] || {}
-
+  defaultOptions: [{ allowAllCaps: false, allowLeadingUnderscore: false, allowNamespace: false }],
+  create(context, [configuration]) {
     const {
-      allowAllCaps = false,
-      allowLeadingUnderscore = false,
-      allowNamespace = false,
+      allowAllCaps,
+      allowLeadingUnderscore,
+      allowNamespace,
       ignore = [],
-    } = configuration
+    } = configuration!
 
     // pre-compile ignore glob patterns, avoid re-compiling on each JSXOpeningElement
     const isMatchIgnore = picomatch(ignore, { noglobstar: true })

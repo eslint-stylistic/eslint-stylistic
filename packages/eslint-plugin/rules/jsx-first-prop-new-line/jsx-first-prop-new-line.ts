@@ -21,9 +21,8 @@ export default createRule<RuleOptions, MessageIds>({
       propOnSameLine: 'Property should be placed on the same line as the component declaration',
     },
   },
-  create(context) {
-    const configuration = context.options[0] || 'multiline-multiprop'
-
+  defaultOptions: ['multiline-multiprop'],
+  create(context, [configuration]) {
     return {
       JSXOpeningElement(node) {
         if (

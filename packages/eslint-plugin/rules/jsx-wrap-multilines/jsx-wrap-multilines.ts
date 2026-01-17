@@ -4,16 +4,7 @@ import { isParenthesized, isSingleLine, isTokenOnSameLine } from '#utils/ast'
 import { isJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
 
-const DEFAULTS: Required<Exclude<RuleOptions[0], undefined>> = {
-  declaration: 'parens',
-  assignment: 'parens',
-  return: 'parens',
-  arrow: 'parens',
-  condition: 'ignore',
-  logical: 'ignore',
-  prop: 'ignore',
-  propertyValue: 'ignore',
-}
+type Type = keyof Exclude<RuleOptions[0], undefined>
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-wrap-multilines',
@@ -67,23 +58,30 @@ export default createRule<RuleOptions, MessageIds>({
       parensOnNewLines: 'Parentheses around JSX should be on separate lines',
     },
   },
-  create(context) {
-    function getOption(type: keyof typeof DEFAULTS) {
-      const userOptions = context.options[0] || {}
-      if (type in userOptions)
-        return userOptions[type]
-      return DEFAULTS[type]
-    }
-
-    function isEnabled(type: keyof typeof DEFAULTS) {
-      const option = getOption(type)
+  defaultOptions: [
+    {
+      declaration: 'parens',
+      assignment: 'parens',
+      return: 'parens',
+      arrow: 'parens',
+      condition: 'ignore',
+      logical: 'ignore',
+      prop: 'ignore',
+      propertyValue: 'ignore',
+    },
+  ],
+  create(context, [options]) {
+    function isEnabled(type: Type) {
+      const option = options![type]
       return option && option !== 'ignore'
     }
 
-    function needsOpeningNewLine(node: ASTNode) {
-      const previousToken = context.sourceCode.getTokenBefore(node)!
+    const { sourceCode } = context
 
-      if (!isParenthesized(node, context.sourceCode))
+    function needsOpeningNewLine(node: ASTNode) {
+      const previousToken = sourceCode.getTokenBefore(node)!
+
+      if (!isParenthesized(node, sourceCode))
         return false
 
       if (isTokenOnSameLine(previousToken, node))
@@ -93,9 +91,9 @@ export default createRule<RuleOptions, MessageIds>({
     }
 
     function needsClosingNewLine(node: ASTNode) {
-      const nextToken = context.sourceCode.getTokenAfter(node)!
+      const nextToken = sourceCode.getTokenAfter(node)!
 
-      if (!isParenthesized(node, context.sourceCode))
+      if (!isParenthesized(node, sourceCode))
         return false
 
       if (isTokenOnSameLine(node, nextToken))
@@ -111,14 +109,13 @@ export default createRule<RuleOptions, MessageIds>({
       return `${tokenBefore.value.trim()}${isBracket ? '' : ' '}`
     }
 
-    function check(node: ASTNode | null, type: keyof typeof DEFAULTS) {
+    function check(node: ASTNode | null, type: Type) {
       if (!node || !isJSX(node))
         return
 
-      const sourceCode = context.sourceCode
-      const option = getOption(type)
+      const option = options![type]
 
-      if ((option === true || option === 'parens') && !isParenthesized(node, context.sourceCode) && !isSingleLine(node)) {
+      if ((option === true || option === 'parens') && !isParenthesized(node, sourceCode) && !isSingleLine(node)) {
         context.report({
           node,
           messageId: 'missingParens',
@@ -127,7 +124,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
 
       if (option === 'parens-new-line' && !isSingleLine(node)) {
-        if (!isParenthesized(node, context.sourceCode)) {
+        if (!isParenthesized(node, sourceCode)) {
           const tokenBefore = sourceCode.getTokenBefore(node)!
           const tokenAfter = sourceCode.getTokenAfter(node)!
           const start = node.loc.start
@@ -188,7 +185,7 @@ export default createRule<RuleOptions, MessageIds>({
         if (!isEnabled(type))
           return
 
-        if (!isEnabled('condition') && node.init && node.init.type === 'ConditionalExpression') {
+        if (!isEnabled('condition') && node.init?.type === 'ConditionalExpression') {
           check(node.init.consequent, type)
           check(node.init.alternate, type)
           return
@@ -239,7 +236,7 @@ export default createRule<RuleOptions, MessageIds>({
 
       JSXAttribute(node) {
         const type = 'prop'
-        if (isEnabled(type) && node.value && node.value.type === 'JSXExpressionContainer')
+        if (isEnabled(type) && node.value?.type === 'JSXExpressionContainer')
           check(node.value.expression, type)
       },
 

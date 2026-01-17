@@ -94,6 +94,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       }],
     },
+    defaultOptions: [{}],
     messages: {
       noNewlineAfter: 'There should be no newline after \'{{token}}\'',
       noNewlineBefore: 'There should be no newline before \'{{token}}\'',
@@ -103,7 +104,7 @@ export default createRule<RuleOptions, MessageIds>({
       spaceNeededBefore: 'A space is required before \'{{token}}\'',
     },
   },
-  create(context) {
+  create(context, [originalConfig]) {
     function normalizeConfig(configOrTrue: RuleOptions[0] | true, defaults: NormalizedConfig, lastPass: boolean = false): NormalizedConfig {
       const config = configOrTrue === true ? {} : configOrTrue as NonStringConfig
       const when = config.when || defaults.when
@@ -129,7 +130,6 @@ export default createRule<RuleOptions, MessageIds>({
     const DEFAULT_ATTRIBUTES = true
     const DEFAULT_CHILDREN = false
 
-    let originalConfig = context.options[0] || {}
     if (SPACING_VALUES.includes(originalConfig as keyof typeof SPACING))
       originalConfig = Object.assign({ when: context.options[0] }, context.options[1]) as BasicConfig
 

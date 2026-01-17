@@ -3,8 +3,6 @@ import type { MessageIds, RuleOptions } from './types'
 import { isNodeFirstInLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
-const DEFAULT_LOCATION = 'tag-aligned'
-
 const MESSAGE_LOCATION = {
   'tag-aligned': 'matchIndent',
   'line-aligned': 'alignWithOpening',
@@ -23,7 +21,7 @@ export default createRule<RuleOptions, MessageIds>({
         {
           type: 'string',
           enum: ['tag-aligned', 'line-aligned'],
-          default: DEFAULT_LOCATION,
+          default: 'tag-aligned',
         },
       ],
     }],
@@ -33,12 +31,8 @@ export default createRule<RuleOptions, MessageIds>({
       alignWithOpening: 'Expected closing tag to be aligned with the line containing the opening tag',
     },
   },
-  defaultOptions: [
-    DEFAULT_LOCATION,
-  ],
-  create(context) {
-    const option: 'tag-aligned' | 'line-aligned' = context.options[0] || DEFAULT_LOCATION
-
+  defaultOptions: ['tag-aligned'],
+  create(context, [option]) {
     function getIndentation(
       openingStartOfLine: {
         column: number | undefined

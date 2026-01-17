@@ -255,13 +255,6 @@ function validateBeforeClosing(
   }
 }
 
-const optionDefaults: Required<Option> = {
-  closingSlash: 'never',
-  beforeSelfClosing: 'always',
-  afterOpening: 'never',
-  beforeClosing: 'allow',
-}
-
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-tag-spacing',
   meta: {
@@ -291,7 +284,12 @@ export default createRule<RuleOptions, MessageIds>({
             enum: ['always', 'proportional-always', 'never', 'allow'],
           },
         },
-        default: optionDefaults,
+        default: {
+          closingSlash: 'never',
+          beforeSelfClosing: 'always',
+          afterOpening: 'never',
+          beforeClosing: 'allow',
+        },
         additionalProperties: false,
       },
     ],
@@ -310,32 +308,44 @@ export default createRule<RuleOptions, MessageIds>({
       beforeCloseNeedNewline: 'A newline is required before closing bracket',
     },
   },
-  create(context) {
-    const options = Object.assign({}, optionDefaults, context.options[0])
-
+  defaultOptions: [
+    {
+      closingSlash: 'never',
+      beforeSelfClosing: 'always',
+      afterOpening: 'never',
+      beforeClosing: 'allow',
+    },
+  ],
+  create(context, [options]) {
+    const {
+      closingSlash,
+      beforeSelfClosing,
+      afterOpening,
+      beforeClosing,
+    } = options!
     return {
       JSXOpeningElement(node) {
-        if (options.closingSlash !== 'allow' && node.selfClosing)
-          validateClosingSlash(context, node, options.closingSlash)
+        if (closingSlash !== 'allow' && node.selfClosing)
+          validateClosingSlash(context, node, closingSlash)
 
-        if (options.afterOpening !== 'allow')
-          validateAfterOpening(context, node, options.afterOpening)
+        if (afterOpening !== 'allow')
+          validateAfterOpening(context, node, afterOpening)
 
-        if (options.beforeSelfClosing !== 'allow' && node.selfClosing)
-          validateBeforeSelfClosing(context, node, options.beforeSelfClosing)
+        if (beforeSelfClosing !== 'allow' && node.selfClosing)
+          validateBeforeSelfClosing(context, node, beforeSelfClosing)
 
-        if (options.beforeClosing !== 'allow')
-          validateBeforeClosing(context, node, options.beforeClosing)
+        if (beforeClosing !== 'allow')
+          validateBeforeClosing(context, node, beforeClosing)
       },
       JSXClosingElement(node) {
-        if (options.afterOpening !== 'allow')
-          validateAfterOpening(context, node, options.afterOpening)
+        if (afterOpening !== 'allow')
+          validateAfterOpening(context, node, afterOpening)
 
-        if (options.closingSlash !== 'allow')
-          validateClosingSlash(context, node, options.closingSlash)
+        if (closingSlash !== 'allow')
+          validateClosingSlash(context, node, closingSlash)
 
-        if (options.beforeClosing !== 'allow')
-          validateBeforeClosing(context, node, options.beforeClosing)
+        if (beforeClosing !== 'allow')
+          validateBeforeClosing(context, node, beforeClosing)
       },
     }
   },
