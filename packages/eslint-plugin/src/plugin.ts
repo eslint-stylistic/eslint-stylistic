@@ -5,6 +5,7 @@ const plugin = {
   meta: {
     name,
     version,
+    namespace: '@stylistic',
   },
   rules,
 }
