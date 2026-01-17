@@ -13,6 +13,8 @@ type Rules = Partial<{
  * A factory function to customize the recommended config
  */
 export function customize(options: StylisticCustomizeOptions = {}): Linter.Config {
+  const defaultPluginName = plugin.meta.namespace
+
   const {
     arrowParens = false,
     blockSpacing = true,
@@ -21,7 +23,7 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
     experimental: enableExperimentalRules = false,
     indent = 2,
     jsx = true,
-    pluginName = '@stylistic',
+    pluginName = defaultPluginName,
     quoteProps = 'consistent-as-needed',
     quotes = 'single',
     semi = false,
@@ -195,8 +197,8 @@ export function customize(options: StylisticCustomizeOptions = {}): Linter.Confi
     }
   }
 
-  if (pluginName !== '@stylistic') {
-    const regex = /^@stylistic\//
+  if (pluginName !== defaultPluginName) {
+    const regex = new RegExp(`^${defaultPluginName}/`)
     rules = Object.fromEntries(
       Object.entries(rules!)
         .map(([ruleName, ruleConfig]) => [
