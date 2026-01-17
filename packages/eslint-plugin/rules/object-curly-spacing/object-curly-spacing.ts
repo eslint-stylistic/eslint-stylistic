@@ -66,10 +66,9 @@ export default createRule<RuleOptions, MessageIds>({
       requiredSpaceInEmptyObject: 'A space is required in empty \'{{node}}\'.',
       unexpectedSpaceInEmptyObject: 'There should be no space in empty \'{{node}}\'.',
     },
+    defaultOptions: ['never'],
   },
-  defaultOptions: ['never'],
-  create(context) {
-    const [firstOption, secondOption] = context.options
+  create(context, [firstOption, secondOption]) {
     const spaced = firstOption === 'always'
     const sourceCode = context.sourceCode
 

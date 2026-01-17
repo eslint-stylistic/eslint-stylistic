@@ -49,9 +49,8 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedSpace: 'Unexpected space before function parentheses.',
       missingSpace: 'Missing space before function parentheses.',
     },
+    defaultOptions: ['always'],
   },
-  defaultOptions: ['always'],
-
   create(context, [firstOption]) {
     const sourceCode = context.sourceCode
     const baseConfig = typeof firstOption === 'string' ? firstOption : 'always'
