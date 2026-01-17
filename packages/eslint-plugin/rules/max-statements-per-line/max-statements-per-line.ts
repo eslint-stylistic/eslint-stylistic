@@ -66,13 +66,15 @@ export default createRule<RuleOptions, MessageIds>({
     messages: {
       exceed: 'This line has {{numberOfStatementsOnThisLine}} {{statements}}. Maximum allowed is {{maxStatementsPerLine}}.',
     },
+    defaultOptions: [{ max: 1 }],
   },
+  create(context, [options]) {
+    const {
+      max: maxStatementsPerLine = 1,
+      ignoredNodes = [],
+    } = options!
 
-  create(context) {
     const sourceCode = context.sourceCode
-    const options = context.options[0] || {}
-    const maxStatementsPerLine = typeof options.max !== 'undefined' ? options.max : 1
-    const ignoredNodes = options.ignoredNodes || []
 
     let lastStatementLine = 0
     let numberOfStatementsOnThisLine = 0

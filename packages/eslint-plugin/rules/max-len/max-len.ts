@@ -62,11 +62,9 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'max-len',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce a maximum line length',
     },
-
     schema: [
       OPTIONS_OR_INTEGER_SCHEMA,
       OPTIONS_OR_INTEGER_SCHEMA,
@@ -76,8 +74,13 @@ export default createRule<RuleOptions, MessageIds>({
       max: 'This line has a length of {{lineLength}}. Maximum allowed is {{maxLength}}.',
       maxComment: 'This line has a comment length of {{lineLength}}. Maximum allowed is {{maxCommentLength}}.',
     },
+    defaultOptions: [
+      {
+        code: 80,
+        tabWidth: 4,
+      },
+    ],
   },
-
   create(context) {
     /**
      * Inspired by http://tools.ietf.org/html/rfc3986#appendix-B, however:
