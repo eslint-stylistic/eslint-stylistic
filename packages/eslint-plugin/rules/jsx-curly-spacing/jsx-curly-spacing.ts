@@ -1,14 +1,3 @@
-/**
- * @fileoverview Enforce or disallow spaces inside of curly braces in JSX attributes.
- * @author Jamund Ferguson
- * @author Brandyn Bennett
- * @author Michael Ficarra
- * @author Vignesh Anand
- * @author Jamund Ferguson
- * @author Yannick Croissant
- * @author Erik Wendel
- */
-
 import type { ASTNode, JSONSchema, RuleFixer, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isTokenOnSameLine } from '#utils/ast'
@@ -19,15 +8,6 @@ const SPACING = {
   never: 'never',
 } as const
 const SPACING_VALUES = [SPACING.always, SPACING.never]
-
-const messages = {
-  noNewlineAfter: 'There should be no newline after \'{{token}}\'',
-  noNewlineBefore: 'There should be no newline before \'{{token}}\'',
-  noSpaceAfter: 'There should be no space after \'{{token}}\'',
-  noSpaceBefore: 'There should be no space before \'{{token}}\'',
-  spaceNeededAfter: 'A space is required after \'{{token}}\'',
-  spaceNeededBefore: 'A space is required before \'{{token}}\'',
-}
 
 const BASIC_CONFIG_SCHEMA = {
   type: 'object',
@@ -114,7 +94,14 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       }],
     },
-    messages,
+    messages: {
+      noNewlineAfter: 'There should be no newline after \'{{token}}\'',
+      noNewlineBefore: 'There should be no newline before \'{{token}}\'',
+      noSpaceAfter: 'There should be no space after \'{{token}}\'',
+      noSpaceBefore: 'There should be no space before \'{{token}}\'',
+      spaceNeededAfter: 'A space is required after \'{{token}}\'',
+      spaceNeededBefore: 'A space is required before \'{{token}}\'',
+    },
   },
   create(context) {
     function normalizeConfig(configOrTrue: RuleOptions[0] | true, defaults: NormalizedConfig, lastPass: boolean = false): NormalizedConfig {

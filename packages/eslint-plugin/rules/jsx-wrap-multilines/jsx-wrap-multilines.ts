@@ -1,8 +1,3 @@
-/**
- * @fileoverview Prevent missing parentheses around multilines JSX
- * @author Yannick Croissant
- */
-
 import type { ASTNode, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isParenthesized, isSingleLine, isTokenOnSameLine } from '#utils/ast'
@@ -18,11 +13,6 @@ const DEFAULTS: Required<Exclude<RuleOptions[0], undefined>> = {
   logical: 'ignore',
   prop: 'ignore',
   propertyValue: 'ignore',
-}
-
-const messages = {
-  missingParens: 'Missing parentheses around multilines JSX',
-  parensOnNewLines: 'Parentheses around JSX should be on separate lines',
 }
 
 export default createRule<RuleOptions, MessageIds>({
@@ -72,7 +62,10 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
-    messages,
+    messages: {
+      missingParens: 'Missing parentheses around multilines JSX',
+      parensOnNewLines: 'Parentheses around JSX should be on separate lines',
+    },
   },
   create(context) {
     function getOption(type: keyof typeof DEFAULTS) {

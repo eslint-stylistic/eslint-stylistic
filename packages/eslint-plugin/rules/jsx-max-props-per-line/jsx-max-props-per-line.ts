@@ -1,8 +1,3 @@
-/**
- * @fileoverview Limit maximum of props on a single line in JSX
- * @author Yannick Croissant
- */
-
 import type { ReportDescriptor, RuleContext, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isSingleLine, isTokenOnSameLine } from '#utils/ast'
@@ -13,10 +8,6 @@ function getPropName(context: RuleContext<MessageIds, RuleOptions>, propNode: Tr
     return context.sourceCode.getText(propNode.argument)
 
   return propNode.name.name
-}
-
-const messages = {
-  newLine: 'Prop `{{prop}}` must be placed on a new line',
 }
 
 export default createRule<RuleOptions, MessageIds>({
@@ -62,7 +53,9 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       }],
     }],
-    messages,
+    messages: {
+      newLine: 'Prop `{{prop}}` must be placed on a new line',
+    },
   },
   create(context) {
     const configuration = context.options[0] || {}

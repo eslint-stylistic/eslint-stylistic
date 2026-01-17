@@ -1,8 +1,3 @@
-/**
- * @fileoverview Validates whitespace in and around the JSX opening and closing brackets
- * @author Diogo Franco (Kovensky)
- */
-
 import type { RuleContext, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { getTokenBeforeClosingBracket, isSingleLine, isTokenOnSameLine } from '#utils/ast'
@@ -10,21 +5,6 @@ import { createRule } from '#utils/create-rule'
 
 type Option = Exclude<RuleOptions[0], undefined>
 type Context = RuleContext<MessageIds, RuleOptions>
-
-const messages = {
-  selfCloseSlashNoSpace: 'Whitespace is forbidden between `/` and `>`; write `/>`',
-  selfCloseSlashNeedSpace: 'Whitespace is required between `/` and `>`; write `/ >`',
-  closeSlashNoSpace: 'Whitespace is forbidden between `<` and `/`; write `</`',
-  closeSlashNeedSpace: 'Whitespace is required between `<` and `/`; write `< /`',
-  beforeSelfCloseNoSpace: 'A space is forbidden before closing bracket',
-  beforeSelfCloseNeedSpace: 'A space is required before closing bracket',
-  beforeSelfCloseNeedNewline: 'A newline is required before closing bracket',
-  afterOpenNoSpace: 'A space is forbidden after opening bracket',
-  afterOpenNeedSpace: 'A space is required after opening bracket',
-  beforeCloseNoSpace: 'A space is forbidden before closing bracket',
-  beforeCloseNeedSpace: 'Whitespace is required before closing bracket',
-  beforeCloseNeedNewline: 'A newline is required before closing bracket',
-}
 
 function validateClosingSlash(
   context: Context,
@@ -315,7 +295,20 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    messages,
+    messages: {
+      selfCloseSlashNoSpace: 'Whitespace is forbidden between `/` and `>`; write `/>`',
+      selfCloseSlashNeedSpace: 'Whitespace is required between `/` and `>`; write `/ >`',
+      closeSlashNoSpace: 'Whitespace is forbidden between `<` and `/`; write `</`',
+      closeSlashNeedSpace: 'Whitespace is required between `<` and `/`; write `< /`',
+      beforeSelfCloseNoSpace: 'A space is forbidden before closing bracket',
+      beforeSelfCloseNeedSpace: 'A space is required before closing bracket',
+      beforeSelfCloseNeedNewline: 'A newline is required before closing bracket',
+      afterOpenNoSpace: 'A space is forbidden after opening bracket',
+      afterOpenNeedSpace: 'A space is required after opening bracket',
+      beforeCloseNoSpace: 'A space is forbidden before closing bracket',
+      beforeCloseNeedSpace: 'Whitespace is required before closing bracket',
+      beforeCloseNeedNewline: 'A newline is required before closing bracket',
+    },
   },
   create(context) {
     const options = Object.assign({}, optionDefaults, context.options[0])

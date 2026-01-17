@@ -1,8 +1,3 @@
-/**
- * @fileoverview Enforce props alphabetical sorting
- * @author Ilya Volodin, Yannick Croissant
- */
-
 import type { ASTNode, RuleContext, RuleFixer, Token, Tree } from '#types'
 import type { JsxSortPropsRuleOptions, MessageIds, RuleOptions } from './types'
 import { isSingleLine } from '#utils/ast'
@@ -15,18 +10,6 @@ type JsxCompareOptions = Required<JsxSortPropsRuleOptions[0]> & {
 
 function isCallbackPropName(name: string) {
   return /^on[A-Z]/.test(name)
-}
-
-const messages = {
-  listIsEmpty: 'A customized reserved first list must not be empty',
-  listReservedPropsFirst: 'Reserved props must be listed before all other props',
-  listReservedPropsLast: 'Reserved props must be listed after all other props',
-  listCallbacksLast: 'Callbacks must be listed after all other props',
-  listShorthandFirst: 'Shorthand props must be listed before all other props',
-  listShorthandLast: 'Shorthand props must be listed after all other props',
-  listMultilineFirst: 'Multiline props must be listed before all other props',
-  listMultilineLast: 'Multiline props must be listed after all other props',
-  sortPropsByAlpha: 'Props should be sorted alphabetically',
 }
 
 const RESERVED_PROPS_LIST = [
@@ -418,7 +401,17 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
-    messages,
+    messages: {
+      listIsEmpty: 'A customized reserved first list must not be empty',
+      listReservedPropsFirst: 'Reserved props must be listed before all other props',
+      listReservedPropsLast: 'Reserved props must be listed after all other props',
+      listCallbacksLast: 'Callbacks must be listed after all other props',
+      listShorthandFirst: 'Shorthand props must be listed before all other props',
+      listShorthandLast: 'Shorthand props must be listed after all other props',
+      listMultilineFirst: 'Multiline props must be listed before all other props',
+      listMultilineLast: 'Multiline props must be listed after all other props',
+      sortPropsByAlpha: 'Props should be sorted alphabetically',
+    },
   },
   create(context) {
     const configuration = context.options[0] || {}

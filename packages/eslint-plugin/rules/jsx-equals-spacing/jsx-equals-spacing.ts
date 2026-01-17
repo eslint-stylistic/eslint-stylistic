@@ -1,18 +1,6 @@
-/**
- * @fileoverview Disallow or enforce spaces around equal signs in JSX attributes.
- * @author ryym
- */
-
 import type { Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
-
-const messages = {
-  noSpaceBefore: 'There should be no space before \'=\'',
-  noSpaceAfter: 'There should be no space after \'=\'',
-  needSpaceBefore: 'A space is required before \'=\'',
-  needSpaceAfter: 'A space is required after \'=\'',
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-equals-spacing',
@@ -28,7 +16,12 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'never'],
       },
     ],
-    messages,
+    messages: {
+      noSpaceBefore: 'There should be no space before \'=\'',
+      noSpaceAfter: 'There should be no space after \'=\'',
+      needSpaceBefore: 'A space is required before \'=\'',
+      needSpaceAfter: 'A space is required after \'=\'',
+    },
   },
   create(context) {
     const config = context.options[0] || 'never'

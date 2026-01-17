@@ -1,18 +1,9 @@
-/**
- * @fileoverview Prevent extra closing tags for components without children
- * @author Yannick Croissant
- */
-
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isDOMComponent } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
 
 const optionDefaults = { component: true, html: true }
-
-const messages = {
-  notSelfClosing: 'Empty components are self-closing',
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-self-closing-comp',
@@ -38,7 +29,9 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    messages,
+    messages: {
+      notSelfClosing: 'Empty components are self-closing',
+    },
   },
   create(context) {
     function isComponent(node: Tree.JSXOpeningElement) {

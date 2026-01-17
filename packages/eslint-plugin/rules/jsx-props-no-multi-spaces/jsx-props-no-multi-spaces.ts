@@ -7,11 +7,6 @@ import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
 
-const messages = {
-  noLineGap: 'Expected no line gap between “{{prop1}}” and “{{prop2}}”',
-  onlyOneSpace: 'Expected only one space between “{{prop1}}” and “{{prop2}}”',
-}
-
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-props-no-multi-spaces',
   meta: {
@@ -19,6 +14,7 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Disallow multiple spaces between inline JSX props. Deprecated, use `no-multi-spaces` rule instead.',
     },
+    fixable: 'code',
     fixable: 'code',
     deprecated: {
       message: 'The rule was replaced with a more general rule.',
@@ -33,7 +29,10 @@ export default createRule<RuleOptions, MessageIds>({
       ],
     },
     schema: [],
-    messages,
+    messages: {
+      noLineGap: 'Expected no line gap between “{{prop1}}” and “{{prop2}}”',
+      onlyOneSpace: 'Expected only one space between “{{prop1}}” and “{{prop2}}”',
+    },
   },
   create(context) {
     const sourceCode = context.sourceCode

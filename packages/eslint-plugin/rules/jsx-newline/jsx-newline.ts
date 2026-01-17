@@ -1,19 +1,7 @@
-/**
- * @fileoverview Require or prevent a new line after jsx elements and expressions.
- * @author Johnny Zabala
- * @author Joseph Stiles
- */
-
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isSingleLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
-
-const messages = {
-  require: 'JSX element should start in a new line',
-  prevent: 'JSX element should not start in a new line',
-  allowMultilines: 'Multiline JSX elements should start in a new line',
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-newline',
@@ -58,7 +46,11 @@ export default createRule<RuleOptions, MessageIds>({
         },
       },
     ],
-    messages,
+    messages: {
+      require: 'JSX element should start in a new line',
+      prevent: 'JSX element should not start in a new line',
+      allowMultilines: 'Multiline JSX elements should start in a new line',
+    },
   },
   create(context) {
     const jsxElementParents = new Set<Tree.JSXElement>()

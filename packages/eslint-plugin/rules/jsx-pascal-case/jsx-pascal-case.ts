@@ -1,11 +1,3 @@
-/**
- * @fileoverview Enforce PascalCase for user-defined JSX components
- * @author Jake Marsh
- *
- * Rewritten to TypeScript by:
- * @author Sukka [https://skk.moe]
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { getElementType, isDOMComponent } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
@@ -60,22 +52,12 @@ function testAllCaps(name: string) {
   return true
 }
 
-// ------------------------------------------------------------------------------
-// Rule Definition
-// ------------------------------------------------------------------------------
-
-const messages = {
-  usePascalCase: 'Imported JSX component {{name}} must be in PascalCase',
-  usePascalOrSnakeCase: 'Imported JSX component {{name}} must be in PascalCase or SCREAMING_SNAKE_CASE',
-}
-
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-pascal-case',
   meta: {
     type: 'suggestion',
     docs: {
       description: 'Enforce PascalCase for user-defined JSX components',
-      // category: 'Stylistic Issues',
     },
     schema: [{
       type: 'object',
@@ -99,7 +81,10 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
-    messages,
+    messages: {
+      usePascalCase: 'Imported JSX component {{name}} must be in PascalCase',
+      usePascalOrSnakeCase: 'Imported JSX component {{name}} must be in PascalCase or SCREAMING_SNAKE_CASE',
+    },
   },
   create(context) {
     const configuration = context.options[0] || {}

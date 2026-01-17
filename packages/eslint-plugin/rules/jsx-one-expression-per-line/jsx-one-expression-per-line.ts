@@ -1,8 +1,3 @@
-/**
- * @fileoverview Limit to one expression per line in JSX
- * @author Mark Ivan Allen <Vydia.com>
- */
-
 import type { ASTNode, ReportFixFunction, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isWhiteSpaces } from '#utils/ast'
@@ -10,10 +5,6 @@ import { createRule } from '#utils/create-rule'
 
 const optionDefaults = {
   allow: 'none',
-}
-
-const messages = {
-  moveToNewLine: '`{{descriptor}}` must be placed on a new line',
 }
 
 type Child = Tree.JSXChild | Tree.JSXText | Tree.Literal
@@ -39,7 +30,9 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    messages,
+    messages: {
+      moveToNewLine: '`{{descriptor}}` must be placed on a new line',
+    },
   },
   create(context) {
     const options: NonNullable<RuleOptions[0]> = Object.assign({}, optionDefaults, context.options[0])

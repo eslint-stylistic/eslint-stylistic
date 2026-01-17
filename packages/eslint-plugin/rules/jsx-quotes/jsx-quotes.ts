@@ -1,8 +1,3 @@
-/**
- * @fileoverview A rule to ensure consistent quotes used in jsx syntax.
- * @author Mathias Schreck <https://github.com/lo1tuma>
- */
-
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isStringLiteral, isSurroundedBy } from '#utils/ast'

@@ -1,11 +1,3 @@
-/**
- * @fileoverview Tests for jsx-pascal-case
- * @author Jake Marsh
- *
- * Rewritten to TypeScript by:
- * @author Sukka [https://skk.moe]
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'

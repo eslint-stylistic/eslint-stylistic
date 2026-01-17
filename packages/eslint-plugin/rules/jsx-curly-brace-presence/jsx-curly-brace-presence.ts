@@ -1,9 +1,3 @@
-/**
- * @fileoverview Enforce curly braces or disallow unnecessary curly brace in JSX
- * @author Jacky Ho
- * @author Simon Lydell
- */
-
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isWhiteSpaces, LINEBREAK_MATCHER } from '#utils/ast'
@@ -20,11 +14,6 @@ const OPTION_VALUES = [
   OPTION_IGNORE,
 ]
 const DEFAULT_CONFIG = { props: OPTION_NEVER, children: OPTION_NEVER, propElementValues: OPTION_IGNORE }
-
-const messages = {
-  unnecessaryCurly: 'Curly braces are unnecessary here.',
-  missingCurly: 'Need to wrap this literal in a JSX expression.',
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-curly-brace-presence',
@@ -53,7 +42,10 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
-    messages,
+    messages: {
+      unnecessaryCurly: 'Curly braces are unnecessary here.',
+      missingCurly: 'Need to wrap this literal in a JSX expression.',
+    },
   },
   create(context) {
     const HTML_ENTITY_REGEX = () => /&[A-Z\d#]+;/gi

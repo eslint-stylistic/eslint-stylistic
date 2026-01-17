@@ -1,15 +1,6 @@
-/**
- * @fileoverview Validate closing bracket location in JSX
- * @author Yannick Croissant
- */
-
 import type { Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { createRule } from '#utils/create-rule'
-
-const messages = {
-  bracketLocation: 'The closing bracket must be {{location}}{{details}}',
-}
 
 export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-closing-bracket-location',
@@ -67,7 +58,9 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     }],
-    messages,
+    messages: {
+      bracketLocation: 'The closing bracket must be {{location}}{{details}}',
+    },
   },
   create(context) {
     const MESSAGE_LOCATION = {

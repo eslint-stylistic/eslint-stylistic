@@ -1,9 +1,3 @@
-/**
- * @fileoverview Require or prevent a new line after jsx elements and expressions
- * @author Johnny Zabala
- * @author Joseph Stiles
- */
-
 import type { MessageIds, RuleOptions } from './types'
 import { run } from '#test'
 import { invalids, valids } from '#test/parsers-jsx'

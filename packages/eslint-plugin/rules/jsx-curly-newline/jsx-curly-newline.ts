@@ -1,7 +1,3 @@
-/**
- * @fileoverview enforce consistent line breaks inside jsx curly
- */
-
 import type { ASTNode, RuleContext, Token } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isSingleLine, isTokenOnSameLine } from '#utils/ast'
@@ -29,13 +25,6 @@ function getNormalizedOption(context: Readonly<RuleContext<MessageIds, RuleOptio
     multiline: rawOption.multiline || 'consistent',
     singleline: rawOption.singleline || 'consistent',
   }
-}
-
-const messages = {
-  expectedBefore: 'Expected newline before \'}\'.',
-  expectedAfter: 'Expected newline after \'{\'.',
-  unexpectedBefore: 'Unexpected newline before \'}\'.',
-  unexpectedAfter: 'Unexpected newline after \'{\'.',
 }
 
 export default createRule<RuleOptions, MessageIds>({
@@ -70,7 +59,12 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
-    messages,
+    messages: {
+      expectedBefore: 'Expected newline before \'}\'.',
+      expectedAfter: 'Expected newline after \'{\'.',
+      unexpectedBefore: 'Unexpected newline before \'}\'.',
+      unexpectedAfter: 'Unexpected newline after \'{\'.',
+    },
   },
   create(context) {
     const sourceCode = context.sourceCode
