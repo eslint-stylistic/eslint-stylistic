@@ -2,6 +2,7 @@ import type { ASTNode, Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isDecimalInteger, isOpeningBracketToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { safeReplaceTextBetween } from '#utils/fix'
 
 type SupportedNode = Tree.MemberExpression | Tree.TSIndexedAccessType | Tree.TSQualifiedName | Tree.TSImportType
 
@@ -48,16 +49,7 @@ export default createRule<RuleOptions, MessageIds>({
         data: {
           propName,
         },
-        fix(fixer) {
-          // Don't fix if comments exist.
-          if (sourceCode.commentsExistBetween(leftToken, rightToken))
-            return null
-
-          if (preventAutoFix?.())
-            return null
-
-          return fixer.replaceTextRange([leftToken.range[1], rightToken.range[0]], replacementText)
-        },
+        fix: preventAutoFix?.() ? null : safeReplaceTextBetween(sourceCode, leftToken, rightToken, replacementText),
       })
     }
 

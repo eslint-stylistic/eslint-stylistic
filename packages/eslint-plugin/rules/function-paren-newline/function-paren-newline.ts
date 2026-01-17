@@ -7,6 +7,7 @@ import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { safeReplaceTextBetween } from '#utils/fix'
 
 interface ParensPair {
   leftParen: Token
@@ -106,13 +107,7 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           node: leftParen,
           messageId: 'unexpectedAfter',
-          fix(fixer) {
-            return sourceCode.getText().slice(leftParen.range[1], tokenAfterLeftParen.range[0]).trim()
-
-            // If there is a comment between the ( and the first element, don't do a fix.
-              ? null
-              : fixer.removeRange([leftParen.range[1], tokenAfterLeftParen.range[0]])
-          },
+          fix: safeReplaceTextBetween(sourceCode, leftParen, tokenAfterLeftParen, ''),
         })
       }
       else if (!hasLeftNewline && needsNewlines) {
@@ -127,13 +122,7 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           node: rightParen,
           messageId: 'unexpectedBefore',
-          fix(fixer) {
-            return sourceCode.getText().slice(tokenBeforeRightParen.range[1], rightParen.range[0]).trim()
-
-            // If there is a comment between the last element and the ), don't do a fix.
-              ? null
-              : fixer.removeRange([tokenBeforeRightParen.range[1], rightParen.range[0]])
-          },
+          fix: safeReplaceTextBetween(sourceCode, tokenBeforeRightParen, rightParen, ''),
         })
       }
       else if (!hasRightNewline && needsNewlines) {
