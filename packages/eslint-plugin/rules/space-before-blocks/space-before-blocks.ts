@@ -47,8 +47,8 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedSpace: 'Unexpected space before opening brace.',
       missingSpace: 'Missing space before opening brace.',
     },
+    defaultOptions: ['always'],
   },
-  defaultOptions: ['always'],
   create(context, [config]) {
     const sourceCode = context.sourceCode
 

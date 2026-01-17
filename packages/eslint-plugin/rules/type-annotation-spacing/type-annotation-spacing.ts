@@ -133,12 +133,12 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [
+      // technically there is a default, but the overrides mean
+      // that if we apply them here, it will break the no override case.
+      {},
+    ],
   },
-  defaultOptions: [
-    // technically there is a default, but the overrides mean
-    // that if we apply them here, it will break the no override case.
-    {},
-  ],
   create(context, [options]) {
     const punctuators = [':', '=>']
     const sourceCode = context.sourceCode

@@ -51,10 +51,19 @@ export default createRule<RuleOptions, MessageIds>({
     },
     defaultOptions: ['always'],
   },
-  create(context, [firstOption]) {
+  create(context, [options]) {
     const sourceCode = context.sourceCode
-    const baseConfig = typeof firstOption === 'string' ? firstOption : 'always'
-    const overrideConfig = typeof firstOption === 'object' ? firstOption : {}
+    const {
+      asyncArrow = 'always',
+      anonymous = 'always',
+      named = 'always',
+      catch: catchOption = 'always',
+    } = typeof options === 'string' ? {
+      asyncArrow: options,
+      anonymous: options,
+      named: options,
+      catch: options,
+    } : options!
 
     /**
      * Determines whether a function has a name.
@@ -103,15 +112,15 @@ export default createRule<RuleOptions, MessageIds>({
           node.async
           && isOpeningParenToken(sourceCode.getFirstToken(node, { skip: 1 })!)
         ) {
-          return overrideConfig.asyncArrow ?? baseConfig
+          return asyncArrow
         }
       }
       else if (isNamedFunction(node)) {
-        return overrideConfig.named ?? baseConfig
+        return named
       }
       // `generator-star-spacing` should warn anonymous generators. E.g. `function* () {}`
       else if (!node.generator) {
-        return overrideConfig.anonymous ?? baseConfig
+        return anonymous
       }
 
       return 'ignore'
@@ -207,9 +216,9 @@ export default createRule<RuleOptions, MessageIds>({
         if (!node.param)
           return
 
-        const option = overrideConfig.catch ?? baseConfig
+        const option = catchOption
 
-        if (option === 'ignore')
+        if (catchOption === 'ignore')
           return
 
         const rightToken = sourceCode.getFirstToken(node, isOpeningParenToken)!
