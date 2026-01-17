@@ -38,17 +38,13 @@ export default createRule<RuleOptions, MessageIds>({
       unexpected: `There should be no space {{loc}} ','.`,
       missing: `A space is required {{loc}} ','.`,
     },
+    defaultOptions: [{ before: false, after: true }],
   },
-  defaultOptions: [
-    {
-      before: false,
-      after: true,
-    },
-  ],
-  create(context, [options = {}]) {
-    const { before: spaceBefore, after: spaceAfter } = options
+  create(context, [option]) {
     const sourceCode = context.sourceCode
     const tokensAndComments = sourceCode.tokensAndComments
+
+    const { before: spaceBefore, after: spaceAfter } = option!
     const ignoredTokens = new Set<Tree.PunctuatorToken>()
 
     /**

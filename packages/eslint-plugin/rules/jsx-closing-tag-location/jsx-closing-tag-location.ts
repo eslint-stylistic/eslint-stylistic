@@ -8,14 +8,6 @@ import type { MessageIds, RuleOptions } from './types'
 import { isNodeFirstInLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
 
-const messages = {
-  onOwnLine: 'Closing tag of a multiline JSX expression must be on its own line.',
-  matchIndent: 'Expected closing tag to match indentation of opening.',
-  alignWithOpening: 'Expected closing tag to be aligned with the line containing the opening tag',
-} as const
-
-const DEFAULT_LOCATION = 'tag-aligned'
-
 const MESSAGE_LOCATION = {
   'tag-aligned': 'matchIndent',
   'line-aligned': 'alignWithOpening',
@@ -29,25 +21,21 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforce closing tag location for multiline JSX',
     },
     fixable: 'whitespace',
-    messages,
+    messages: {
+      onOwnLine: 'Closing tag of a multiline JSX expression must be on its own line.',
+      matchIndent: 'Expected closing tag to match indentation of opening.',
+      alignWithOpening: 'Expected closing tag to be aligned with the line containing the opening tag',
+    },
     schema: [{
-      anyOf: [
-        {
-          type: 'string',
-          enum: ['tag-aligned', 'line-aligned'],
-          default: DEFAULT_LOCATION,
-        },
-      ],
+      type: 'string',
+      enum: ['tag-aligned', 'line-aligned'],
+      default: 'tag-aligned',
     }],
+    defaultOptions: [
+      'tag-aligned',
+    ],
   },
-
-  defaultOptions: [
-    DEFAULT_LOCATION,
-  ],
-
-  create(context) {
-    const option: 'tag-aligned' | 'line-aligned' = context.options[0] || DEFAULT_LOCATION
-
+  create(context, [option]) {
     function getIndentation(
       openingStartOfLine: {
         column: number | undefined
@@ -96,7 +84,7 @@ export default createRule<RuleOptions, MessageIds>({
       }
 
       const messageId: MessageIds = isNodeFirstInLine(context, node)
-        ? MESSAGE_LOCATION[option as keyof typeof MESSAGE_LOCATION]
+        ? MESSAGE_LOCATION[option!]
         : 'onOwnLine'
 
       context.report({

@@ -15,13 +15,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'computed-property-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent spacing inside computed property brackets',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
@@ -38,20 +35,19 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
     messages: {
       unexpectedSpaceBefore: 'There should be no space before \'{{tokenValue}}\'.',
       unexpectedSpaceAfter: 'There should be no space after \'{{tokenValue}}\'.',
-
       missingSpaceBefore: 'A space is required before \'{{tokenValue}}\'.',
       missingSpaceAfter: 'A space is required after \'{{tokenValue}}\'.',
     },
+    defaultOptions: ['never', { enforceForClassMembers: true }],
   },
-
-  create(context) {
+  create(context, [mode, options]) {
     const sourceCode = context.sourceCode
-    const propertyNameMustBeSpaced = context.options[0] === 'always' // default is "never"
-    const enforceForClassMembers = !context.options[1] || context.options[1].enforceForClassMembers
+
+    const propertyNameMustBeSpaced = mode === 'always'
+    const enforceForClassMembers = options!.enforceForClassMembers!
 
     /**
      * Reports that there shouldn't be a space after the first token

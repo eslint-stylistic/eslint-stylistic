@@ -548,7 +548,6 @@ export default createRule<RuleOptions, MessageIds>({
     type: 'layout',
     docs: {
       description: 'Enforce consistent indentation',
-      // too opinionated to be recommended
     },
     fixable: 'whitespace',
     schema: [
@@ -728,18 +727,18 @@ export default createRule<RuleOptions, MessageIds>({
     messages: {
       wrongIndentation: 'Expected indentation of {{expected}} but found {{actual}}.',
     },
+    defaultOptions: [
+      // typescript docs and playground use 4 space indent
+      4,
+      {
+        // typescript docs indent the case from the switch
+        // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-8.html#example-4
+        SwitchCase: 1,
+        flatTernaryExpressions: false,
+        ignoredNodes: [],
+      },
+    ],
   },
-  defaultOptions: [
-    // typescript docs and playground use 4 space indent
-    4,
-    {
-      // typescript docs indent the case from the switch
-      // https://www.typescriptlang.org/docs/handbook/release-notes/typescript-1-8.html#example-4
-      SwitchCase: 1,
-      flatTernaryExpressions: false,
-      ignoredNodes: [],
-    },
-  ],
   create(context, optionsWithDefaults) {
     const DEFAULT_VARIABLE_INDENT = 1
     const DEFAULT_PARAMETER_INDENT = 1

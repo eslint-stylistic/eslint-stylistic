@@ -151,20 +151,20 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    defaultOptions: [
+      {
+        multiline: {
+          delimiter: 'semi',
+          requireLast: true,
+        },
+        singleline: {
+          delimiter: 'semi',
+          requireLast: false,
+        },
+        multilineDetection: 'brackets',
+      },
+    ],
   },
-  defaultOptions: [
-    {
-      multiline: {
-        delimiter: 'semi',
-        requireLast: true,
-      },
-      singleline: {
-        delimiter: 'semi',
-        requireLast: false,
-      },
-      multilineDetection: 'brackets',
-    },
-  ],
   create(context, [options]) {
     const sourceCode = context.sourceCode
 

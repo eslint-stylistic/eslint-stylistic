@@ -25,7 +25,6 @@ export default createRule<RuleOptions, MessageIds>({
     },
     defaultOptions: ['object'],
   },
-
   create(context, [config]) {
     const onObject = config === 'object'
 

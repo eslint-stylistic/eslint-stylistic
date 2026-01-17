@@ -127,16 +127,40 @@ export default createRule<RuleOptions, MessageIds>({
       after: 'Expected line after comment.',
       before: 'Expected line before comment.',
     },
+    defaultOptions: [
+      {
+        beforeBlockComment: true,
+      },
+    ],
   },
-  defaultOptions: [
-    {
-      beforeBlockComment: true,
-    },
-  ],
-  create(context, [_options]) {
-    const options = _options!
+  create(context, [options]) {
     const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN
-    const customIgnoreRegExp = new RegExp(options.ignorePattern ?? '', 'u')
+    const {
+      beforeBlockComment,
+      afterBlockComment,
+      beforeLineComment,
+      afterLineComment,
+      afterHashbangComment,
+      allowBlockStart,
+      allowBlockEnd,
+      allowClassStart,
+      allowClassEnd,
+      allowObjectStart,
+      allowObjectEnd,
+      allowArrayStart,
+      allowArrayEnd,
+      allowInterfaceStart,
+      allowInterfaceEnd,
+      allowTypeStart,
+      allowTypeEnd,
+      allowEnumStart,
+      allowEnumEnd,
+      allowModuleStart,
+      allowModuleEnd,
+      applyDefaultIgnorePatterns,
+      ignorePattern = '',
+    } = options!
+    const customIgnoreRegExp = ignorePattern ? new RegExp(ignorePattern, 'u') : undefined
 
     const sourceCode = context.sourceCode
     const comments = sourceCode.getAllComments()
@@ -389,13 +413,13 @@ export default createRule<RuleOptions, MessageIds>({
       { before, after }: { before?: boolean, after?: boolean },
     ): void {
       if (
-        options.applyDefaultIgnorePatterns !== false
+        applyDefaultIgnorePatterns !== false
         && defaultIgnoreRegExp.test(token.value)
       ) {
         return
       }
 
-      if (options.ignorePattern && customIgnoreRegExp.test(token.value))
+      if (customIgnoreRegExp?.test(token.value))
         return
 
       const prevLineNum = token.loc.start.line - 1
@@ -413,51 +437,51 @@ export default createRule<RuleOptions, MessageIds>({
         return
 
       const blockStartAllowed
-        = Boolean(options.allowBlockStart)
+        = Boolean(allowBlockStart)
           && isCommentAtBlockStart(token)
-          && !(options.allowClassStart === false && isCommentAtClassStart(token))
+          && !(allowClassStart === false && isCommentAtClassStart(token))
       const blockEndAllowed
-        = Boolean(options.allowBlockEnd)
+        = Boolean(allowBlockEnd)
           && isCommentAtBlockEnd(token)
           && !(
-            options.allowClassEnd === false
+            allowClassEnd === false
             && isCommentAtClassEnd(token)
           )
       const classStartAllowed
-        = Boolean(options.allowClassStart)
+        = Boolean(allowClassStart)
           && isCommentAtClassStart(token)
       const classEndAllowed
-        = Boolean(options.allowClassEnd)
+        = Boolean(allowClassEnd)
           && isCommentAtClassEnd(token)
       const objectStartAllowed
-        = Boolean(options.allowObjectStart)
+        = Boolean(allowObjectStart)
           && isCommentAtObjectStart(token)
       const objectEndAllowed
-        = Boolean(options.allowObjectEnd)
+        = Boolean(allowObjectEnd)
           && isCommentAtObjectEnd(token)
       const arrayStartAllowed
-        = Boolean(options.allowArrayStart)
+        = Boolean(allowArrayStart)
           && isCommentAtArrayStart(token)
       const arrayEndAllowed
-        = Boolean(options.allowArrayEnd)
+        = Boolean(allowArrayEnd)
           && isCommentAtArrayEnd(token)
       const interfaceStartAllowed
-        = Boolean(options.allowInterfaceStart)
+        = Boolean(allowInterfaceStart)
           && isCommentAtInterfaceStart(token)
       const interfaceEndAllowed
-        = Boolean(options.allowInterfaceEnd) && isCommentAtInterfaceEnd(token)
+        = Boolean(allowInterfaceEnd) && isCommentAtInterfaceEnd(token)
       const typeStartAllowed
-        = Boolean(options.allowTypeStart) && isCommentAtTypeStart(token)
+        = Boolean(allowTypeStart) && isCommentAtTypeStart(token)
       const typeEndAllowed
-        = Boolean(options.allowTypeEnd) && isCommentAtTypeEnd(token)
+        = Boolean(allowTypeEnd) && isCommentAtTypeEnd(token)
       const enumStartAllowed
-        = Boolean(options.allowEnumStart) && isCommentAtEnumStart(token)
+        = Boolean(allowEnumStart) && isCommentAtEnumStart(token)
       const enumEndAllowed
-        = Boolean(options.allowEnumEnd) && isCommentAtEnumEnd(token)
+        = Boolean(allowEnumEnd) && isCommentAtEnumEnd(token)
       const moduleStartAllowed
-        = Boolean(options.allowModuleStart) && isCommentAtModuleStart(token)
+        = Boolean(allowModuleStart) && isCommentAtModuleStart(token)
       const moduleEndAllowed
-        = Boolean(options.allowModuleEnd) && isCommentAtModuleEnd(token)
+        = Boolean(allowModuleEnd) && isCommentAtModuleEnd(token)
 
       const exceptionStartAllowed
         = blockStartAllowed
@@ -531,25 +555,25 @@ export default createRule<RuleOptions, MessageIds>({
       Program() {
         comments.forEach((token) => {
           if (token.type === AST_TOKEN_TYPES.Line) {
-            if (options.beforeLineComment || options.afterLineComment) {
+            if (beforeLineComment || afterLineComment) {
               checkForEmptyLine(token, {
-                after: options.afterLineComment,
-                before: options.beforeLineComment,
+                after: afterLineComment,
+                before: beforeLineComment,
               })
             }
           }
           else if (token.type === AST_TOKEN_TYPES.Block) {
-            if (options.beforeBlockComment || options.afterBlockComment) {
+            if (beforeBlockComment || afterBlockComment) {
               checkForEmptyLine(token, {
-                after: options.afterBlockComment,
-                before: options.beforeBlockComment,
+                after: afterBlockComment,
+                before: beforeBlockComment,
               })
             }
           }
           else if (isHashbangComment(token)) {
-            if (options.afterHashbangComment) {
+            if (afterHashbangComment) {
               checkForEmptyLine(token, {
-                after: options.afterHashbangComment,
+                after: afterHashbangComment,
                 before: false,
               })
             }

@@ -32,16 +32,17 @@ export default createRule<RuleOptions, MessageIds>({
     messages: {
       missingSpace: 'Operator \'{{operator}}\' must be spaced.',
     },
+    defaultOptions: [
+      {
+        int32Hint: false,
+        ignoreTypes: false,
+      },
+    ],
   },
-  defaultOptions: [
-    {
-      int32Hint: false,
-      ignoreTypes: false,
-    },
-  ],
   create(context, [options]) {
-    const { int32Hint, ignoreTypes } = options!
     const sourceCode = context.sourceCode
+
+    const { int32Hint, ignoreTypes } = options!
 
     function report(node: ASTNode, operator: Token): void {
       context.report({

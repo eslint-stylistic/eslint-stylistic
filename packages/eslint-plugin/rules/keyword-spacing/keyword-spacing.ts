@@ -50,9 +50,9 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedBefore: 'Unexpected space(s) before "{{value}}".',
       unexpectedAfter: 'Unexpected space(s) after "{{value}}".',
     },
+    defaultOptions: [{ before: true, after: true, overrides: {} }],
   },
-  defaultOptions: [{}],
-  create(context) {
+  create(context, [options]) {
     const sourceCode = context.sourceCode
 
     const tokensToIgnore = new WeakSet()
@@ -192,21 +192,21 @@ export default createRule<RuleOptions, MessageIds>({
      *      Keys are keywords (there are for every keyword).
      *      Values are instances of `{"before": function, "after": function}`.
      */
-    function parseOptions(options: Options = {}): Record<string, {
+    function parseOptions(options: Options): Record<string, {
       before: (token: Token, pattern?: RegExp) => void
       after: (token: Token, pattern?: RegExp) => void
     }> {
-      const before = options.before !== false
-      const after = options.after !== false
+      const { before, after, overrides } = options
       const defaultValue = {
         before: before ? expectSpaceBefore : unexpectSpaceBefore,
         after: after ? expectSpaceAfter : unexpectSpaceAfter,
       }
-      const overrides = (options && options.overrides) || {} as any
       const retv = Object.create(null)
 
       for (let i = 0; i < KEYWORDS.length; ++i) {
         const key = KEYWORDS[i]
+        // TODO: fix it
+        // @ts-expect-error index signature for string is missing
         const override = overrides[key]
 
         if (override) {
@@ -226,7 +226,7 @@ export default createRule<RuleOptions, MessageIds>({
       return retv
     }
 
-    const checkMethodMap = parseOptions(context.options[0]!)
+    const checkMethodMap = parseOptions(options!)
 
     /**
      * Reports a given token if usage of spacing followed by the token is

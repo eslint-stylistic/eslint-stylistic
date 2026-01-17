@@ -21,9 +21,8 @@ export default createRule<RuleOptions, MessageIds>({
       missing: 'Requires a space {{location}} \'{{token}}\'.',
       extra: 'Unexpected space(s) {{location}} \'{{token}}\'.',
     },
+    defaultOptions: ['always'],
   },
-  defaultOptions: ['always'],
-
   create(context, [whenToApplyOption]) {
     const sourceCode = context.sourceCode
     const always = whenToApplyOption !== 'never'
