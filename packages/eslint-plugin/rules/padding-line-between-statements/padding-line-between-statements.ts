@@ -621,12 +621,12 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedBlankLine: 'Unexpected blank line before this statement.',
       expectedBlankLine: 'Expected blank line before this statement.',
     },
+    defaultOptions: [],
   },
-  defaultOptions: [],
-  create(context) {
+  create(context, options) {
     const sourceCode = context.sourceCode
 
-    const configureList = context.options || []
+    const configureList = options
 
     type Scope = {
       upper: Scope

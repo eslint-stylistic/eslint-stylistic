@@ -31,9 +31,7 @@ export default createRule<RuleOptions, MessageIds>({
       enum: ['tag-aligned', 'line-aligned'],
       default: 'tag-aligned',
     }],
-    defaultOptions: [
-      'tag-aligned',
-    ],
+    defaultOptions: ['tag-aligned'],
   },
   create(context, [option]) {
     function getIndentation(

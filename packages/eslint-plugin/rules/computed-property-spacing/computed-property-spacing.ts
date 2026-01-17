@@ -44,10 +44,10 @@ export default createRule<RuleOptions, MessageIds>({
     defaultOptions: ['never', { enforceForClassMembers: true }],
   },
   create(context, [mode, options]) {
-    const sourceCode = context.sourceCode
-
     const propertyNameMustBeSpaced = mode === 'always'
     const enforceForClassMembers = options!.enforceForClassMembers!
+
+    const sourceCode = context.sourceCode
 
     /**
      * Reports that there shouldn't be a space after the first token

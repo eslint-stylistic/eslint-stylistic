@@ -40,9 +40,9 @@ export default createRule<RuleOptions, MessageIds>({
     ],
   },
   create(context, [options]) {
-    const sourceCode = context.sourceCode
-
     const { int32Hint, ignoreTypes } = options!
+
+    const sourceCode = context.sourceCode
 
     function report(node: ASTNode, operator: Token): void {
       context.report({

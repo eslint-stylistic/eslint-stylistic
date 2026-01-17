@@ -122,8 +122,8 @@ export default createRule<RuleOptions, MessageIds>({
     messages: {
       unexpected: 'Unnecessary parentheses around expression.',
     },
+    defaultOptions: ['all'],
   },
-  defaultOptions: ['all'],
   create(context, [nodes, options]) {
     const sourceCode = context.sourceCode
 

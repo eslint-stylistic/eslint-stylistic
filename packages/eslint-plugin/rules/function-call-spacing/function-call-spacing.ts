@@ -70,10 +70,14 @@ export default createRule<RuleOptions, MessageIds>({
     },
     defaultOptions: ['never'],
   },
-  create(context, [option, config = {}]) {
+  create(context, [option, config]) {
     const sourceCode = context.sourceCode
     const text = sourceCode.getText()
-    const { allowNewlines = false, optionalChain = { before: true, after: true } } = config!
+
+    const {
+      allowNewlines = false,
+      optionalChain = { before: true, after: true },
+    } = config ?? {}
 
     /**
      * Check if open space is present in a function name

@@ -50,10 +50,10 @@ export default createRule<RuleOptions, MessageIds>({
     defaultOptions: ['always'],
   },
   create(context, [option, config]) {
-    const sourceCode = context.sourceCode
-
     const asNeeded = option === 'as-needed'
     const requireForBlockBody = asNeeded && config?.requireForBlockBody === true
+
+    const sourceCode = context.sourceCode
 
     /**
      * Finds opening paren of parameters for the given arrow function, if it exists.

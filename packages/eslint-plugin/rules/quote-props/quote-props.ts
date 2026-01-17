@@ -63,13 +63,14 @@ export default createRule<RuleOptions, MessageIds>({
       unquotedPropertyFound: 'Unquoted property \'{{property}}\' found.',
       redundantQuoting: 'Properties shouldn\'t be quoted as all quotes are redundant.',
     },
+    defaultOptions: ['always'],
   },
-  defaultOptions: ['always'],
-  create(context) {
-    const MODE = context.options[0]
-    const KEYWORDS = (context.options[1] && context.options[1].keywords)!
-    const CHECK_UNNECESSARY = !context.options[1] || context.options[1].unnecessary !== false
-    const NUMBERS = (context.options[1] && context.options[1].numbers)!
+  create(context, [MODE, options = {}]) {
+    const {
+      keywords: KEYWORDS = false,
+      unnecessary: CHECK_UNNECESSARY = true,
+      numbers: NUMBERS = false,
+    } = options
 
     const sourceCode = context.sourceCode
 

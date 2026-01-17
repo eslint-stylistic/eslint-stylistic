@@ -122,7 +122,7 @@ export default createRule<RuleOptions, MessageIds>({
     }],
     // #endregion defaultOptions
   },
-  create: (context, [options] = [{}]) => {
+  create: (context, [options]) => {
     const { sourceCode } = context
     const {
       singleLine,

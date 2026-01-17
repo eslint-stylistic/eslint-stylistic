@@ -37,14 +37,14 @@ export default createRule<RuleOptions, MessageIds>({
     },
     defaultOptions: ['1tbs', { allowSingleLine: false }],
   },
-  create(context, optionsWithDefaults) {
-    const [
-      style,
-      { allowSingleLine } = { allowSingleLine: false },
-    ] = optionsWithDefaults
+  create(context, [style, options]) {
+    const sourceCode = context.sourceCode
+
+    const {
+      allowSingleLine,
+    } = options!
 
     const isAllmanStyle = style === 'allman'
-    const sourceCode = context.sourceCode
 
     /**
      * Fixes a place where a newline unexpectedly appears

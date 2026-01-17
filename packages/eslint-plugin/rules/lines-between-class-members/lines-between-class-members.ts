@@ -87,8 +87,6 @@ export default createRule<RuleOptions, MessageIds>({
     ],
   },
   create(context, [firstOption, secondOption]) {
-    const sourceCode = context.sourceCode
-
     const configureList = typeof firstOption === 'object' ? firstOption.enforce : [{ blankLine: firstOption, prev: '*', next: '*' }]
     const { exceptAfterSingleLine } = secondOption!
     const exceptAfterOverload
@@ -99,6 +97,8 @@ export default createRule<RuleOptions, MessageIds>({
           && firstOption?.enforce.some(({ blankLine, prev, next }) => blankLine === 'always' && prev !== 'field' && next !== 'field')
         )
       )
+
+    const sourceCode = context.sourceCode
 
     /**
      * Gets a pair of tokens that should be used to check lines between two class member nodes.

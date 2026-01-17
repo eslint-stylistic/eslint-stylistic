@@ -41,10 +41,10 @@ export default createRule<RuleOptions, MessageIds>({
     defaultOptions: [{ before: false, after: true }],
   },
   create(context, [option]) {
+    const { before: spaceBefore, after: spaceAfter } = option!
+
     const sourceCode = context.sourceCode
     const tokensAndComments = sourceCode.tokensAndComments
-
-    const { before: spaceBefore, after: spaceAfter } = option!
     const ignoredTokens = new Set<Tree.PunctuatorToken>()
 
     /**

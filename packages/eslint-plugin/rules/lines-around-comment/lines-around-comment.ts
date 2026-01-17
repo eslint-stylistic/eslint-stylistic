@@ -160,7 +160,7 @@ export default createRule<RuleOptions, MessageIds>({
       applyDefaultIgnorePatterns,
       ignorePattern = '',
     } = options!
-    const customIgnoreRegExp = ignorePattern ? new RegExp(ignorePattern, 'u') : undefined
+    const customIgnoreRegExp = ignorePattern ? new RegExp(ignorePattern, 'u') : null
 
     const sourceCode = context.sourceCode
     const comments = sourceCode.getAllComments()
