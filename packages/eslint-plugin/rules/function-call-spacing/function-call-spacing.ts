@@ -64,7 +64,6 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
-
     messages: {
       unexpectedWhitespace:
         'Unexpected whitespace between function name and paren.',

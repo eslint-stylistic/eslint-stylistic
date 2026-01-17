@@ -29,7 +29,6 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforce closing tag location for multiline JSX',
     },
     fixable: 'whitespace',
-    messages,
     schema: [{
       anyOf: [
         {
@@ -39,12 +38,11 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     }],
+    messages,
   },
-
   defaultOptions: [
     DEFAULT_LOCATION,
   ],
-
   create(context) {
     const option: 'tag-aligned' | 'line-aligned' = context.options[0] || DEFAULT_LOCATION
 

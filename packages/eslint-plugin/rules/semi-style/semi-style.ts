@@ -76,19 +76,15 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'semi-style',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce location of semicolons',
     },
-
-    schema: [{ type: 'string', enum: ['last', 'first'] }],
     fixable: 'whitespace',
-
+    schema: [{ type: 'string', enum: ['last', 'first'] }],
     messages: {
       expectedSemiColon: 'Expected this semicolon to be at {{pos}}.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
     const option = context.options[0] || 'last'

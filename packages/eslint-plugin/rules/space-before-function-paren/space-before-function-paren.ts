@@ -51,7 +51,6 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   defaultOptions: ['always'],
-
   create(context, [firstOption]) {
     const sourceCode = context.sourceCode
     const baseConfig = typeof firstOption === 'string' ? firstOption : 'always'

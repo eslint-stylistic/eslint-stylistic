@@ -24,8 +24,6 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Require or prevent a new line after jsx elements and expressions.',
     },
     fixable: 'code',
-
-    messages,
     schema: [
       {
         type: 'object',
@@ -60,6 +58,7 @@ export default createRule<RuleOptions, MessageIds>({
         },
       },
     ],
+    messages,
   },
   create(context) {
     const jsxElementParents = new Set<Tree.JSXElement>()

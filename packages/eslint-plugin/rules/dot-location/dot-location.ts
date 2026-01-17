@@ -12,20 +12,19 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Enforce consistent newlines before and after dots',
     },
+    fixable: 'code',
     schema: [
       {
         type: 'string',
         enum: ['object', 'property'],
       },
     ],
-    fixable: 'code',
+    defaultOptions: ['object'],
     messages: {
       expectedDotAfterObject: 'Expected dot to be on same line as object.',
       expectedDotBeforeProperty: 'Expected dot to be on same line as property.',
     },
-    defaultOptions: ['object'],
   },
-
   create(context, [config]) {
     const onObject = config === 'object'
 

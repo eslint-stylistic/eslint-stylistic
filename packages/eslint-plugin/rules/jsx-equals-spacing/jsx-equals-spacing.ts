@@ -22,17 +22,14 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforce or disallow spaces around equal signs in JSX attributes',
     },
     fixable: 'code',
-
-    messages,
-
     schema: [
       {
         type: 'string',
         enum: ['always', 'never'],
       },
     ],
+    messages,
   },
-
   create(context) {
     const config = context.options[0] || 'never'
 

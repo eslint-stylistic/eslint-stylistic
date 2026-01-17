@@ -21,13 +21,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'arrow-parens',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require parentheses around arrow function arguments',
     },
-
     fixable: 'code',
-
     schema: [
       {
         type: 'string',
@@ -44,7 +41,6 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
     messages: {
       unexpectedParens: 'Unexpected parentheses around single function argument.',
       expectedParens: 'Expected parentheses around arrow function argument.',
@@ -53,7 +49,6 @@ export default createRule<RuleOptions, MessageIds>({
       expectedParensBlock: 'Expected parentheses around arrow function argument having a body with curly braces.',
     },
   },
-
   create(context) {
     const asNeeded = context.options[0] === 'as-needed'
     const requireForBlockBody = asNeeded && context.options[1] && context.options[1].requireForBlockBody === true

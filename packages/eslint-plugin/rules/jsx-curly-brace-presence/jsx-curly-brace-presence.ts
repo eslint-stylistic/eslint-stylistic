@@ -34,9 +34,6 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Disallow unnecessary JSX expressions when literals alone are sufficient or enforce JSX expressions on literals in JSX children or attributes',
     },
     fixable: 'code',
-
-    messages,
-
     schema: [
       {
         anyOf: [
@@ -56,8 +53,8 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    messages,
   },
-
   create(context) {
     const HTML_ENTITY_REGEX = () => /&[A-Z\d#]+;/gi
     const ruleOptions = context.options[0]

@@ -12,13 +12,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'implicit-arrow-linebreak',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce the location of arrow function bodies',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
@@ -30,7 +27,6 @@ export default createRule<RuleOptions, MessageIds>({
       unexpected: 'Expected no linebreak before this expression.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
     const option = context.options[0] || 'beside'

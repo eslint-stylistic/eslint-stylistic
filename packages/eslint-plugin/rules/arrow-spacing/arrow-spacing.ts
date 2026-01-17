@@ -9,13 +9,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'arrow-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent spacing before and after the arrow in arrow functions',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'object',
@@ -32,7 +29,6 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
     messages: {
       expectedBefore: 'Missing space before =>.',
       unexpectedBefore: 'Unexpected space before =>.',
@@ -41,7 +37,6 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected space after =>.',
     },
   },
-
   create(context) {
     // merge rules with default
     const rule = Object.assign({}, context.options[0])

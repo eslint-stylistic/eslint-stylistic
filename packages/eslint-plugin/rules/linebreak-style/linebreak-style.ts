@@ -12,13 +12,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'linebreak-style',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent linebreak style',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
@@ -30,7 +27,6 @@ export default createRule<RuleOptions, MessageIds>({
       expectedCRLF: 'Expected linebreaks to be \'CRLF\' but found \'LF\'.',
     },
   },
-
   create(context) {
     // Language-agnostic SourceCode access
     const sourceCode = context.sourceCode as unknown as core.SourceCode

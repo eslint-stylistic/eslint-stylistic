@@ -12,13 +12,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'template-curly-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require or disallow spacing around embedded expressions of template strings',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
@@ -32,7 +29,6 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected space(s) after \'${\'.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
     const always = context.options[0] === 'always'

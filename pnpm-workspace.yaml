@@ -10,7 +10,7 @@ catalogs:
     '@codecov/rollup-plugin': ^1.9.1
     tsdown: ^0.18.4
   dev:
-    '@antfu/eslint-config': ^6.7.3
+    '@antfu/eslint-config': ^7.0.1
     '@antfu/eslint-define-config': 1.23.0-2
     '@antfu/utils': ^9.3.0
     '@eslint/core': ^1.0.0
@@ -26,6 +26,7 @@ catalogs:
     change-case: ^5.4.4
     escape-string-regexp: ^5.0.0
     eslint: ^9.39.2
+    eslint-plugin-eslint-plugin: ^7.3.0
     eslint-plugin-format: ^1.2.0
     execa: ^9.6.1
     fast-glob: ^3.3.3

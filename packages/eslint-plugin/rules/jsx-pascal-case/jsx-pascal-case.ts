@@ -73,14 +73,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-pascal-case',
   meta: {
     type: 'suggestion',
-
     docs: {
       description: 'Enforce PascalCase for user-defined JSX components',
       // category: 'Stylistic Issues',
     },
-
-    messages,
-
     schema: [{
       type: 'object',
       properties: {
@@ -103,8 +99,8 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
+    messages,
   },
-
   create(context) {
     const configuration = context.options[0] || {}
 

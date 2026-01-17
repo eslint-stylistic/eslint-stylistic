@@ -19,13 +19,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'nonblock-statement-body-position',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce the location of single-line statements',
     },
-
     fixable: 'whitespace',
-
     schema: [
       POSITION_SCHEMA,
       {
@@ -46,13 +43,11 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
     messages: {
       expectNoLinebreak: 'Expected no linebreak before this statement.',
       expectLinebreak: 'Expected a linebreak before this statement.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
 

@@ -38,11 +38,9 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'max-statements-per-line',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce a maximum number of statements allowed per line',
     },
-
     schema: [
       {
         type: 'object',
@@ -67,7 +65,6 @@ export default createRule<RuleOptions, MessageIds>({
       exceed: 'This line has {{numberOfStatementsOnThisLine}} {{statements}}. Maximum allowed is {{maxStatementsPerLine}}.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
     const options = context.options[0] || {}

@@ -286,14 +286,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-tag-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce whitespace in and around the JSX opening and closing brackets',
     },
     fixable: 'whitespace',
-
-    messages,
-
     schema: [
       {
         type: 'object',
@@ -319,6 +315,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    messages,
   },
   create(context) {
     const options = Object.assign({}, optionDefaults, context.options[0])

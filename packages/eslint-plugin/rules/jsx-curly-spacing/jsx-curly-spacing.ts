@@ -76,9 +76,6 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforce or disallow spaces inside of curly braces in JSX attributes and expressions',
     },
     fixable: 'code',
-
-    messages,
-
     schema: {
       type: 'array',
       items: [{
@@ -117,8 +114,8 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       }],
     },
+    messages,
   },
-
   create(context) {
     function normalizeConfig(configOrTrue: RuleOptions[0] | true, defaults: NormalizedConfig, lastPass: boolean = false): NormalizedConfig {
       const config = configOrTrue === true ? {} : configOrTrue as NonStringConfig
