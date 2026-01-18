@@ -46,39 +46,23 @@ export default createRule<RuleOptions, MessageIds>({
       wrongIndent: 'Expected indentation of {{needed}} {{type}} {{characters}} but found {{gotten}}.',
     },
   },
-  defaultOptions: [],
+  defaultOptions: [4],
   create(context, [options]) {
     const extraColumnStart = 0
-    let indentType: 'space' | 'tab' = 'space'
-    let indentSize: number | 'first' = 4
     const line = {
       isUsingOperator: false,
       currentOperator: false,
     }
-    let ignoreTernaryOperator = false
 
-    if (context.options.length) {
-      const isConfigObject = typeof context.options[0] === 'object'
-      const indentMode = isConfigObject
-        ? typeof options === 'object' && options.indentMode
-        : options
+    const {
+      indentMode = 4,
+      ignoreTernaryOperator = false,
+    } = typeof options === 'object'
+      ? options
+      : { indentMode: options }
 
-      if (indentMode === 'first') {
-        indentSize = 'first'
-        indentType = 'space'
-      }
-      else if (indentMode === 'tab') {
-        indentSize = 1
-        indentType = 'tab'
-      }
-      else if (typeof indentMode === 'number') {
-        indentSize = indentMode
-        indentType = 'space'
-      }
-
-      if (typeof options === 'object' && options.ignoreTernaryOperator)
-        ignoreTernaryOperator = true
-    }
+    const indentType: 'space' | 'tab' = indentMode === 'tab' ? 'tab' : 'space'
+    const indentSize: number | 'first' = indentMode === 'first' ? 'first' : indentMode === 'tab' ? 1 : indentMode
 
     /**
      * Get node indent
