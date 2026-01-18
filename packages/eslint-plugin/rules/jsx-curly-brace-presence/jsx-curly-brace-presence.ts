@@ -4,14 +4,10 @@ import { isWhiteSpaces, LINEBREAK_MATCHER } from '#utils/ast'
 import { isJSX } from '#utils/ast/jsx'
 import { createRule } from '#utils/create-rule'
 
-const OPTION_ALWAYS = 'always'
-const OPTION_NEVER = 'never'
-const OPTION_IGNORE = 'ignore'
-
 const OPTION_VALUES = [
-  OPTION_ALWAYS,
-  OPTION_NEVER,
-  OPTION_IGNORE,
+  'always',
+  'never',
+  'ignore',
 ]
 
 export default createRule<RuleOptions, MessageIds>({
@@ -47,16 +43,21 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   defaultOptions: [{ props: 'never', children: 'never', propElementValues: 'ignore' }],
-  create(context, [ruleOptions]) {
+  create(context, [options]) {
     const HTML_ENTITY_REGEX = () => /&[A-Z\d#]+;/gi
 
     const {
       props,
       children,
       propElementValues,
-    } = typeof ruleOptions === 'string'
-      ? { props: ruleOptions, children: ruleOptions, propElementValues: OPTION_IGNORE }
-      : ruleOptions!
+    } = typeof options === 'string'
+      ? {
+        props: options,
+        children: options,
+        // TODO: set `always` by default in v6
+        propElementValues: 'ignore',
+      } satisfies RuleOptions[0]
+      : options!
 
     function containsLineTerminators(rawStringValue: string) {
       return LINEBREAK_MATCHER.test(rawStringValue)
@@ -341,12 +342,12 @@ export default createRule<RuleOptions, MessageIds>({
         return false
       }
 
-      return areRuleConditionsSatisfied(parent, OPTION_NEVER)
+      return areRuleConditionsSatisfied(parent, 'never')
     }
 
     function shouldCheckForMissingCurly(node: Tree.Literal | Tree.JSXText | Tree.JSXElement): node is Tree.Literal | Tree.JSXText {
       if (isJSX(node))
-        return propElementValues !== OPTION_IGNORE
+        return propElementValues !== 'ignore'
 
       if (
         isLineBreak(node.raw)
@@ -364,12 +365,12 @@ export default createRule<RuleOptions, MessageIds>({
         return false
       }
 
-      return areRuleConditionsSatisfied(parent, OPTION_ALWAYS)
+      return areRuleConditionsSatisfied(parent, 'always')
     }
 
     return {
       'JSXAttribute > JSXExpressionContainer > JSXElement': function (node: Tree.JSXElement) {
-        if (propElementValues === OPTION_NEVER)
+        if (propElementValues === 'never')
           reportUnnecessaryCurly(node.parent as Tree.JSXExpressionContainer)
       },
 
