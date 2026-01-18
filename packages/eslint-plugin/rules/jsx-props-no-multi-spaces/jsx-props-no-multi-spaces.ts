@@ -19,6 +19,7 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Disallow multiple spaces between inline JSX props. Deprecated, use `no-multi-spaces` rule instead.',
     },
+    fixable: 'code',
     deprecated: {
       message: 'The rule was replaced with a more general rule.',
       deprecatedSince: '5.0.0',
@@ -31,13 +32,9 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
-    fixable: 'code',
-
-    messages,
-
     schema: [],
+    messages,
   },
-
   create(context) {
     const sourceCode = context.sourceCode
 

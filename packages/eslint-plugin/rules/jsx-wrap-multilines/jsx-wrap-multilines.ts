@@ -29,15 +29,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-wrap-multilines',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow missing parentheses around multiline JSX',
     },
-
     fixable: 'code',
-
-    messages,
-
     schema: [{
       type: 'object',
       // true/false are for backwards compatibility
@@ -77,8 +72,8 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
+    messages,
   },
-
   create(context) {
     function getOption(type: keyof typeof DEFAULTS) {
       const userOptions = context.options[0] || {}

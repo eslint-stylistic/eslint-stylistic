@@ -11,26 +11,21 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'rest-spread-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce spacing between rest and spread operators and their expressions',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
         enum: ['always', 'never'],
       },
     ],
-
     messages: {
       unexpectedWhitespace: 'Unexpected whitespace after {{type}} operator.',
       expectedWhitespace: 'Expected whitespace after {{type}} operator.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
     const alwaysSpace = context.options[0] === 'always'

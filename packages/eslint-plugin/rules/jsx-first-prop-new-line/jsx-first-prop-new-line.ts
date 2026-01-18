@@ -16,22 +16,18 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-first-prop-new-line',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce proper position of the first property in JSX',
     },
     fixable: 'code',
-
-    messages,
-
     schema: [
       {
         type: 'string',
         enum: ['always', 'never', 'multiline', 'multiline-multiprop', 'multiprop'],
       },
     ],
+    messages,
   },
-
   create(context) {
     const configuration = context.options[0] || 'multiline-multiprop'
 

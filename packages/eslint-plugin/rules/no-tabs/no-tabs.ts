@@ -13,7 +13,6 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'no-tabs',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow all tabs',
     },
@@ -27,12 +26,10 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
-
     messages: {
       unexpectedTab: 'Unexpected tab character.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
     const allowIndentationTabs = context.options && context.options[0] && context.options[0].allowIndentationTabs

@@ -12,13 +12,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'no-multi-spaces',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow multiple spaces',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'object',
@@ -44,12 +41,10 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
     messages: {
       multipleSpaces: 'Multiple spaces found before \'{{displayValue}}\'.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
     const options = context.options[0] || {}

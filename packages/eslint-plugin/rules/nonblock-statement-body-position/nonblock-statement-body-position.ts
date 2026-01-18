@@ -7,6 +7,7 @@ import type { JSONSchema, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { safeReplaceTextBetween } from '#utils/fix'
 
 type KeywordName = keyof NonNullable<NonNullable<RuleOptions['1']>['overrides']>
 
@@ -19,13 +20,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'nonblock-statement-body-position',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce the location of single-line statements',
     },
-
     fixable: 'whitespace',
-
     schema: [
       POSITION_SCHEMA,
       {
@@ -46,13 +44,11 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
     messages: {
       expectNoLinebreak: 'Expected no linebreak before this statement.',
       expectLinebreak: 'Expected a linebreak before this statement.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
 
@@ -93,12 +89,7 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           node,
           messageId: 'expectNoLinebreak',
-          fix(fixer) {
-            if (sourceCode.getText().slice(tokenBefore.range[1], node.range[0]).trim())
-              return null
-
-            return fixer.replaceTextRange([tokenBefore.range[1], node.range[0]], ' ')
-          },
+          fix: safeReplaceTextBetween(sourceCode, tokenBefore, node, ' '),
         })
       }
     }

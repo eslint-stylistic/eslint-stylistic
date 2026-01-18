@@ -12,11 +12,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'operator-linebreak',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent linebreak style for operators',
     },
-
+    fixable: 'code',
     schema: [
       {
         oneOf: [
@@ -43,9 +42,6 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
-    fixable: 'code',
-
     messages: {
       operatorAtBeginning: '\'{{operator}}\' should be placed at the beginning of the line.',
       operatorAtEnd: '\'{{operator}}\' should be placed at the end of the line.',
@@ -53,7 +49,6 @@ export default createRule<RuleOptions, MessageIds>({
       noLinebreak: 'There should be no line break before or after \'{{operator}}\'.',
     },
   },
-
   create(context) {
     const usedDefaultGlobal = !context.options[0]
     const globalStyle = context.options[0] || 'after'

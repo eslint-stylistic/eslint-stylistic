@@ -28,13 +28,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'generator-star-spacing',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent spacing around `*` operators in generator functions',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         oneOf: [
@@ -67,7 +64,6 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected space after *.',
     },
   },
-
   create(context, [options]) {
     const optionDefinitions = {
       before: { before: true, after: false },

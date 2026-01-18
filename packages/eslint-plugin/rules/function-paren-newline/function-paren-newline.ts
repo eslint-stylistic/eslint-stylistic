@@ -7,6 +7,7 @@ import type { Token, Tree } from '#types'
 import type { MessageIds, RuleOptions } from './types'
 import { isClosingParenToken, isFunction, isOpeningParenToken, isTokenOnSameLine } from '#utils/ast'
 import { createRule } from '#utils/create-rule'
+import { safeReplaceTextBetween } from '#utils/fix'
 
 interface ParensPair {
   leftParen: Token
@@ -17,13 +18,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'function-paren-newline',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent line breaks inside function parentheses',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         oneOf: [
@@ -44,7 +42,6 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
-
     messages: {
       expectedBefore: 'Expected newline before \')\'.',
       expectedAfter: 'Expected newline after \'(\'.',
@@ -53,7 +50,6 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected newline after \'(\'.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
     const rawOption = context.options[0] || 'multiline'
@@ -106,13 +102,7 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           node: leftParen,
           messageId: 'unexpectedAfter',
-          fix(fixer) {
-            return sourceCode.getText().slice(leftParen.range[1], tokenAfterLeftParen.range[0]).trim()
-
-            // If there is a comment between the ( and the first element, don't do a fix.
-              ? null
-              : fixer.removeRange([leftParen.range[1], tokenAfterLeftParen.range[0]])
-          },
+          fix: safeReplaceTextBetween(sourceCode, leftParen, tokenAfterLeftParen, ''),
         })
       }
       else if (!hasLeftNewline && needsNewlines) {
@@ -127,13 +117,7 @@ export default createRule<RuleOptions, MessageIds>({
         context.report({
           node: rightParen,
           messageId: 'unexpectedBefore',
-          fix(fixer) {
-            return sourceCode.getText().slice(tokenBeforeRightParen.range[1], rightParen.range[0]).trim()
-
-            // If there is a comment between the last element and the ), don't do a fix.
-              ? null
-              : fixer.removeRange([tokenBeforeRightParen.range[1], rightParen.range[0]])
-          },
+          fix: safeReplaceTextBetween(sourceCode, tokenBeforeRightParen, rightParen, ''),
         })
       }
       else if (!hasRightNewline && needsNewlines) {

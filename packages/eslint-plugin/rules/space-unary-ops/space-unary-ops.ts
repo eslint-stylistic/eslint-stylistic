@@ -12,13 +12,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'space-unary-ops',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent spacing before or after unary operators',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'object',
@@ -50,7 +47,6 @@ export default createRule<RuleOptions, MessageIds>({
       requireBefore: 'Space is required before unary operator \'{{operator}}\'.',
     },
   },
-
   create(context) {
     const options = context.options[0] || { words: true, nonwords: false }
 

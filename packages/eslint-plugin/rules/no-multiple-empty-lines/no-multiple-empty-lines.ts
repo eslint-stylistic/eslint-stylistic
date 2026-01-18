@@ -11,13 +11,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'no-multiple-empty-lines',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow multiple empty lines',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'object',
@@ -39,14 +36,12 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
     messages: {
       blankBeginningOfFile: 'Too many blank lines at the beginning of file. Max of {{max}} allowed.',
       blankEndOfFile: 'Too many blank lines at the end of file. Max of {{max}} allowed.',
       consecutiveBlank: 'More than {{max}} blank {{pluralizedLines}} not allowed.',
     },
   },
-
   create(context) {
     // Use options.max or 2 as default
     let max = 2

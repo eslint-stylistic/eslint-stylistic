@@ -12,11 +12,9 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'multiline-comment-style',
   meta: {
     type: 'suggestion',
-
     docs: {
       description: 'Enforce a particular style for multiline comments',
     },
-
     fixable: 'whitespace',
     schema: {
       anyOf: [
@@ -64,7 +62,6 @@ export default createRule<RuleOptions, MessageIds>({
       expectedLines: 'Expected multiple line comments instead of a block comment.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
     const option = context.options[0] || 'starred-block'

@@ -18,14 +18,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-self-closing-comp',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow extra closing tags for components without children',
     },
     fixable: 'code',
-
-    messages,
-
     schema: [
       {
         type: 'object',
@@ -42,8 +38,8 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    messages,
   },
-
   create(context) {
     function isComponent(node: Tree.JSXOpeningElement) {
       return (

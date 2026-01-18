@@ -12,13 +12,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'array-element-newline',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce line breaks after each array element',
     },
-
     fixable: 'whitespace',
-
     schema: {
       definitions: {
         basicConfig: {
@@ -70,13 +67,11 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
-
     messages: {
       unexpectedLineBreak: 'There should be no linebreak here.',
       missingLineBreak: 'There should be a linebreak after this element.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
 

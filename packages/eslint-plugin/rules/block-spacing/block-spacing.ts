@@ -23,7 +23,6 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   defaultOptions: ['always'],
-
   create(context, [whenToApplyOption]) {
     const sourceCode = context.sourceCode
     const always = whenToApplyOption !== 'never'

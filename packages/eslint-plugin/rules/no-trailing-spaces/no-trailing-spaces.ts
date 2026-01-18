@@ -12,13 +12,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'no-trailing-spaces',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow trailing whitespace at the end of lines',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'object',
@@ -35,12 +32,10 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
     messages: {
       trailingSpace: 'Trailing spaces not allowed.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
 

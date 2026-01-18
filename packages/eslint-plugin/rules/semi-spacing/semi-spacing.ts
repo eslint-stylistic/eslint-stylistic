@@ -33,7 +33,6 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
     messages: {
       unexpectedWhitespaceBefore: 'Unexpected whitespace before semicolon.',
       unexpectedWhitespaceAfter: 'Unexpected whitespace after semicolon.',

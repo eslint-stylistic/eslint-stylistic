@@ -13,20 +13,16 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'eol-last',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require or disallow newline at the end of files',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
         enum: ['always', 'never', 'unix', 'windows'],
       },
     ],
-
     messages: {
       missing: 'Newline required at end of file but not found.',
       unexpected: 'Newline not allowed at end of file.',

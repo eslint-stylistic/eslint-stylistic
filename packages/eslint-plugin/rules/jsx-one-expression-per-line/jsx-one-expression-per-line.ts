@@ -22,15 +22,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-one-expression-per-line',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Require one JSX element per line',
     },
-
     fixable: 'whitespace',
-
-    messages,
-
     schema: [
       {
         type: 'object',
@@ -44,8 +39,8 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    messages,
   },
-
   create(context) {
     const options: NonNullable<RuleOptions[0]> = Object.assign({}, optionDefaults, context.options[0])
 
