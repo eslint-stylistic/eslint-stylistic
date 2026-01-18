@@ -88,7 +88,6 @@ export default createRule<RuleOptions, MessageIds>({
       TSInterfaceBody: defaultOptionValue,
     },
   ],
-
   create(context) {
     const sourceCode = context.sourceCode
 

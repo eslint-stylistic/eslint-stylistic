@@ -107,12 +107,6 @@ export default createRule<RuleOptions, MessageIds>({
         'Require a specific member delimiter style for interfaces and type literals',
     },
     fixable: 'whitespace',
-    messages: {
-      unexpectedComma: 'Unexpected separator (,).',
-      unexpectedSemi: 'Unexpected separator (;).',
-      expectedComma: 'Expected a comma.',
-      expectedSemi: 'Expected a semicolon.',
-    },
     schema: [
       {
         $defs: {
@@ -151,6 +145,12 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    messages: {
+      unexpectedComma: 'Unexpected separator (,).',
+      unexpectedSemi: 'Unexpected separator (;).',
+      expectedComma: 'Expected a comma.',
+      expectedSemi: 'Expected a semicolon.',
+    },
   },
   defaultOptions: [
     {

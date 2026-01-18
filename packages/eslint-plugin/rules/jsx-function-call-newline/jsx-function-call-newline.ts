@@ -25,21 +25,16 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-function-call-newline',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce line breaks before and after JSX elements when they are used as arguments to a function.',
     },
-
     fixable: 'whitespace',
-
-    messages,
-
     schema: [{
       type: 'string',
       enum: ['always', 'multiline'],
     }],
+    messages,
   },
-
   create(context) {
     const option = context.options[0] || 'multiline'
 

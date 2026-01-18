@@ -11,11 +11,9 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'line-comment-position',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce position of line comments',
     },
-
     schema: [
       {
         oneOf: [
@@ -50,7 +48,6 @@ export default createRule<RuleOptions, MessageIds>({
       beside: 'Expected comment to be beside code.',
     },
   },
-
   create(context) {
     const options = context.options[0]
 

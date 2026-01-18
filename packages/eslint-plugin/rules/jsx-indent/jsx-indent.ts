@@ -47,7 +47,7 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Enforce JSX indentation. Deprecated, use `indent` rule instead.',
     },
-
+    fixable: 'whitespace',
     deprecated: {
       message: 'The rule was replaced with a more general rule.',
       deprecatedSince: '5.0.0',
@@ -60,11 +60,6 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
-
-    fixable: 'whitespace',
-
-    messages,
-
     schema: [
       {
         anyOf: [
@@ -90,8 +85,8 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
+    messages,
   },
-
   create(context) {
     const extraColumnStart = 0
     let indentType = 'space'

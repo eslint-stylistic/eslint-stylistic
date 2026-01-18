@@ -50,8 +50,8 @@ export default createRule<RuleOptions, MessageIds>({
     docs: {
       description: 'Enforce or disallow spaces inside of curly braces in JSX attributes and expressions',
     },
-    messages,
     schema: [],
+    messages,
   },
   create(context) {
     const TEXT_FOLLOWING_ELEMENT_PATTERN = /^[\t\v\f\r \xA0\u1680\u2000-\u200A\u2028\u2029\u202F\u205F\u3000\uFEFF]*\n\s*\S/

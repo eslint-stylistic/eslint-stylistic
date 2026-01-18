@@ -20,13 +20,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'comma-style',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent comma style',
     },
-
     fixable: 'code',
-
     schema: [
       {
         type: 'string',
@@ -45,14 +42,12 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
     messages: {
       unexpectedLineBeforeAndAfterComma: 'Bad line breaking before and after \',\'.',
       expectedCommaFirst: '\',\' should be placed first.',
       expectedCommaLast: '\',\' should be placed last.',
     },
   },
-
   create(context) {
     const style = context.options[0] || 'last'
     const sourceCode = context.sourceCode

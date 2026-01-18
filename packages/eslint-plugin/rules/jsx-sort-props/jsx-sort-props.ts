@@ -345,7 +345,6 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-sort-props',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce props alphabetical sorting',
     },
@@ -366,8 +365,6 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
-    messages,
-
     schema: [{
       type: 'object',
       properties: {
@@ -388,7 +385,6 @@ export default createRule<RuleOptions, MessageIds>({
         multiline: {
           type: 'string',
           enum: ['ignore', 'first', 'last'],
-          default: 'ignore',
         },
         ignoreCase: {
           type: 'boolean',
@@ -418,13 +414,12 @@ export default createRule<RuleOptions, MessageIds>({
         },
         locale: {
           type: 'string',
-          default: 'auto',
         },
       },
       additionalProperties: false,
     }],
+    messages,
   },
-
   create(context) {
     const configuration = context.options[0] || {}
     const ignoreCase = configuration.ignoreCase || false

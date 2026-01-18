@@ -43,14 +43,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-indent-props',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce props indentation in JSX',
     },
     fixable: 'code',
-
-    messages,
-
     schema: [{
       anyOf: [
         {
@@ -82,8 +78,8 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     }],
+    messages,
   },
-
   create(context) {
     const options = context.options[0]
     const extraColumnStart = 0

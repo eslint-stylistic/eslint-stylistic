@@ -35,13 +35,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-quotes',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce the consistent use of either double or single quotes in JSX attributes',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
@@ -52,7 +49,6 @@ export default createRule<RuleOptions, MessageIds>({
       unexpected: 'Unexpected usage of {{description}}.',
     },
   },
-
   create(context) {
     const quoteOption = context.options[0] || 'prefer-double'
     const setting = QUOTE_SETTINGS[quoteOption]

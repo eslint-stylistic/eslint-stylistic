@@ -10,11 +10,9 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'no-mixed-spaces-and-tabs',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow mixed spaces and tabs for indentation',
     },
-
     schema: [
       {
         oneOf: [
@@ -28,12 +26,10 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
-
     messages: {
       mixedSpacesAndTabs: 'Mixed spaces and tabs.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
 

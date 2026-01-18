@@ -27,9 +27,6 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforce maximum of props on a single line in JSX',
     },
     fixable: 'code',
-
-    messages,
-
     schema: [{
       anyOf: [{
         type: 'object',
@@ -65,8 +62,8 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       }],
     }],
+    messages,
   },
-
   create(context) {
     const configuration = context.options[0] || {}
     const maximum = configuration.maximum || 1

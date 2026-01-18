@@ -9,19 +9,15 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'no-whitespace-before-property',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow whitespace before properties',
     },
-
     fixable: 'whitespace',
     schema: [],
-
     messages: {
       unexpectedWhitespace: 'Unexpected whitespace before property {{propName}}.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
 

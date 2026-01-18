@@ -17,13 +17,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'function-paren-newline',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent line breaks inside function parentheses',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         oneOf: [
@@ -44,7 +41,6 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
-
     messages: {
       expectedBefore: 'Expected newline before \')\'.',
       expectedAfter: 'Expected newline after \'(\'.',
@@ -53,7 +49,6 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected newline after \'(\'.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
     const rawOption = context.options[0] || 'multiline'

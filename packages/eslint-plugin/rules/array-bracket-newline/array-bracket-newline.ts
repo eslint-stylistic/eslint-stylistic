@@ -12,13 +12,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'array-bracket-newline',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce linebreaks after opening and before closing array brackets',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         oneOf: [
@@ -42,7 +39,6 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
-
     messages: {
       unexpectedOpeningLinebreak: 'There should be no linebreak after \'[\'.',
       unexpectedClosingLinebreak: 'There should be no linebreak before \']\'.',
@@ -50,7 +46,6 @@ export default createRule<RuleOptions, MessageIds>({
       missingClosingLinebreak: 'A linebreak is required before \']\'.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
 

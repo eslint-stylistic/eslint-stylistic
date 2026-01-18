@@ -148,13 +148,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'spaced-comment',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent spacing after the `//` or `/*` in a comment',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         type: 'string',
@@ -219,7 +216,6 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-
     messages: {
       unexpectedSpaceAfterMarker: 'Unexpected space or tab after marker ({{refChar}}) in comment.',
       expectedExceptionAfter: 'Expected exception block, space or tab after \'{{refChar}}\' in comment.',
@@ -229,7 +225,6 @@ export default createRule<RuleOptions, MessageIds>({
       expectedSpaceAfter: 'Expected space or tab after \'{{refChar}}\' in comment.',
     },
   },
-
   create(context) {
     const sourceCode = context.sourceCode
 

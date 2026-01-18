@@ -41,13 +41,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'jsx-curly-newline',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Enforce consistent linebreaks in curly braces in JSX attributes and expressions',
     },
-
     fixable: 'whitespace',
-
     schema: [
       {
         anyOf: [
@@ -72,10 +69,8 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
-
     messages,
   },
-
   create(context) {
     const sourceCode = context.sourceCode
     const option = getNormalizedOption(context)

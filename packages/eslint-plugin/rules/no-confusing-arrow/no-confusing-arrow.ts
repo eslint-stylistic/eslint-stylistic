@@ -22,13 +22,10 @@ export default createRule<RuleOptions, MessageIds>({
   name: 'no-confusing-arrow',
   meta: {
     type: 'layout',
-
     docs: {
       description: 'Disallow arrow functions where they could be confused with comparisons',
     },
-
     fixable: 'code',
-
     schema: [{
       type: 'object',
       properties: {
@@ -37,12 +34,10 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
-
     messages: {
       confusing: 'Arrow function used ambiguously with a conditional expression.',
     },
   },
-
   create(context) {
     const config = context.options[0] || {}
     const allowParens = config.allowParens || (config.allowParens === void 0)

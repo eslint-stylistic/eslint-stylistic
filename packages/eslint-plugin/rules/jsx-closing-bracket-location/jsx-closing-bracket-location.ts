@@ -19,9 +19,6 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Enforce closing bracket location in JSX',
     },
     fixable: 'code',
-
-    messages,
-
     schema: [{
       anyOf: [
         {
@@ -70,8 +67,8 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     }],
+    messages,
   },
-
   create(context) {
     const MESSAGE_LOCATION = {
       'after-props': 'placed after the last prop',
