@@ -15,7 +15,6 @@ export default createRule<RuleOptions, MessageIds>({
       description: 'Disallow multiple spaces between inline JSX props. Deprecated, use `no-multi-spaces` rule instead.',
     },
     fixable: 'code',
-    fixable: 'code',
     deprecated: {
       message: 'The rule was replaced with a more general rule.',
       deprecatedSince: '5.0.0',
