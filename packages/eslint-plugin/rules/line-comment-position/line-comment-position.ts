@@ -46,8 +46,6 @@ export default createRule<RuleOptions, MessageIds>({
     },
   },
   create(context, [options]) {
-    const sourceCode = context.sourceCode
-
     if (typeof options !== 'string') {
       warnDeprecatedOptions(options, 'applyDefaultPatterns', 'applyDefaultIgnorePatterns', 'line-comment-position')
     }
@@ -64,10 +62,7 @@ export default createRule<RuleOptions, MessageIds>({
 
     const defaultIgnoreRegExp = COMMENTS_IGNORE_PATTERN
     const fallThroughRegExp = /^\s*falls?\s?through/u
-
-    // --------------------------------------------------------------------------
-    // Public
-    // --------------------------------------------------------------------------
+    const sourceCode = context.sourceCode
 
     return {
       Program() {
