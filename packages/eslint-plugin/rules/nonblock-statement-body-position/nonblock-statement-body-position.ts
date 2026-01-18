@@ -44,25 +44,14 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    defaultOptions: [],
+    defaultOptions: ['beside'],
     messages: {
       expectNoLinebreak: 'Expected no linebreak before this statement.',
       expectLinebreak: 'Expected a linebreak before this statement.',
     },
   },
-  create(context) {
+  create(context, [style, { overrides = {} } = {}]) {
     const sourceCode = context.sourceCode
-
-    /**
-     * Gets the applicable preference for a particular keyword
-     * @param keywordName The name of a keyword, e.g. 'if'
-     * @returns The applicable option for the keyword, e.g. 'beside'
-     */
-    function getOption(keywordName: KeywordName) {
-      return context.options[1] && context.options[1].overrides && context.options[1].overrides[keywordName]
-        || context.options[0]
-        || 'beside'
-    }
 
     /**
      * Validates the location of a single-line statement
@@ -70,7 +59,7 @@ export default createRule<RuleOptions, MessageIds>({
      * @param keywordName The applicable keyword name for the single-line statement
      */
     function validateStatement(node: Tree.Statement, keywordName: KeywordName) {
-      const option = getOption(keywordName)
+      const option = overrides[keywordName] ?? style
 
       if (node.type === 'BlockStatement' || option === 'any')
         return

@@ -69,6 +69,7 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    // eslint-disable-next-line eslint-plugin/require-meta-default-options
     defaultOptions: [],
     messages: {
       unexpectedLinebreakBeforeClosingBrace: 'Unexpected line break before this closing brace.',

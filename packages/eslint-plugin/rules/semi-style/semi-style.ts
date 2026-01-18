@@ -81,14 +81,13 @@ export default createRule<RuleOptions, MessageIds>({
     },
     fixable: 'whitespace',
     schema: [{ type: 'string', enum: ['last', 'first'] }],
-    defaultOptions: [],
+    defaultOptions: ['last'],
     messages: {
       expectedSemiColon: 'Expected this semicolon to be at {{pos}}.',
     },
   },
-  create(context) {
+  create(context, [option]) {
     const sourceCode = context.sourceCode
-    const option = context.options[0] || 'last'
 
     /**
      * Check the given semicolon token.
@@ -132,7 +131,7 @@ export default createRule<RuleOptions, MessageIds>({
         const lastToken = sourceCode.getLastToken(node)!
 
         if (isSemicolonToken(lastToken))
-          check(lastToken, option)
+          check(lastToken, option!)
       },
 
       ForStatement(node) {

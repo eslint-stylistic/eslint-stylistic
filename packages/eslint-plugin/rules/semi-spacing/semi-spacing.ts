@@ -33,7 +33,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    defaultOptions: [],
+    defaultOptions: [{ before: false, after: true }],
     messages: {
       unexpectedWhitespaceBefore: 'Unexpected whitespace before semicolon.',
       unexpectedWhitespaceAfter: 'Unexpected whitespace after semicolon.',
@@ -41,16 +41,13 @@ export default createRule<RuleOptions, MessageIds>({
       missingWhitespaceAfter: 'Missing whitespace after semicolon.',
     },
   },
-  create(context) {
-    const config = context.options[0]
-    const sourceCode = context.sourceCode
-    let requireSpaceBefore = false
-    let requireSpaceAfter = true
+  create(context, [config]) {
+    const {
+      before: requireSpaceBefore,
+      after: requireSpaceAfter,
+    } = config!
 
-    if (typeof config === 'object') {
-      requireSpaceBefore = config.before!
-      requireSpaceAfter = config.after!
-    }
+    const sourceCode = context.sourceCode
 
     /**
      * Checks if a given token has leading whitespace.

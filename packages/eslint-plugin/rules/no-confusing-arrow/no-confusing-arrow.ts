@@ -34,15 +34,20 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
-    defaultOptions: [],
+    defaultOptions: [{
+      allowParens: true,
+      onlyOneSimpleParam: false,
+    }],
     messages: {
       confusing: 'Arrow function used ambiguously with a conditional expression.',
     },
   },
-  create(context) {
-    const config = context.options[0] || {}
-    const allowParens = config.allowParens || (config.allowParens === void 0)
-    const onlyOneSimpleParam = config.onlyOneSimpleParam
+  create(context, [options]) {
+    const {
+      allowParens,
+      onlyOneSimpleParam,
+    } = options!
+
     const sourceCode = context.sourceCode
 
     /**

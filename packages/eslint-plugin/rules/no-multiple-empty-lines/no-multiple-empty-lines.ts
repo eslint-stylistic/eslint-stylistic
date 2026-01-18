@@ -36,24 +36,19 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    defaultOptions: [],
+    defaultOptions: [{ max: 2 }],
     messages: {
       blankBeginningOfFile: 'Too many blank lines at the beginning of file. Max of {{max}} allowed.',
       blankEndOfFile: 'Too many blank lines at the end of file. Max of {{max}} allowed.',
       consecutiveBlank: 'More than {{max}} blank {{pluralizedLines}} not allowed.',
     },
   },
-  create(context) {
-    // Use options.max or 2 as default
-    let max = 2
-    let maxEOF = max
-    let maxBOF = max
-
-    if (context.options.length && context.options[0]) {
-      max = context.options[0].max
-      maxEOF = typeof context.options[0].maxEOF !== 'undefined' ? context.options[0].maxEOF : max
-      maxBOF = typeof context.options[0].maxBOF !== 'undefined' ? context.options[0].maxBOF : max
-    }
+  create(context, [options]) {
+    const {
+      max,
+      maxEOF = max,
+      maxBOF = max,
+    } = options!
 
     const sourceCode = context.sourceCode
 

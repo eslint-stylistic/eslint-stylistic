@@ -401,7 +401,17 @@ export default createRule<RuleOptions, MessageIds>({
       },
       additionalProperties: false,
     }],
-    defaultOptions: [],
+    defaultOptions: [{
+      ignoreCase: false,
+      callbacksLast: false,
+      shorthandFirst: false,
+      shorthandLast: false,
+      multiline: 'ignore',
+      noSortAlphabetically: false,
+      reservedFirst: false,
+      reservedLast: [],
+      locale: 'auto',
+    }],
     messages: {
       listIsEmpty: 'A customized reserved first list must not be empty',
       listReservedPropsFirst: 'Reserved props must be listed before all other props',
@@ -414,19 +424,20 @@ export default createRule<RuleOptions, MessageIds>({
       sortPropsByAlpha: 'Props should be sorted alphabetically',
     },
   },
-  create(context) {
-    const configuration = context.options[0] || {}
-    const ignoreCase = configuration.ignoreCase || false
-    const callbacksLast = configuration.callbacksLast || false
-    const shorthandFirst = configuration.shorthandFirst || false
-    const shorthandLast = configuration.shorthandLast || false
-    const multiline = configuration.multiline || 'ignore'
-    const noSortAlphabetically = configuration.noSortAlphabetically || false
-    const reservedFirst = configuration.reservedFirst || false
-    const reservedFirstError = validateReservedFirstConfig(context, reservedFirst)
+  create(context, [options]) {
+    const {
+      ignoreCase,
+      callbacksLast,
+      shorthandFirst,
+      shorthandLast,
+      multiline,
+      noSortAlphabetically,
+      reservedFirst,
+      reservedLast,
+      locale,
+    } = options!
+    const reservedFirstError = validateReservedFirstConfig(context, reservedFirst!)
     const reservedList = Array.isArray(reservedFirst) ? reservedFirst : RESERVED_PROPS_LIST
-    const reservedLastList = configuration.reservedLast || []
-    const locale = configuration.locale || 'auto'
 
     return {
       Program() {
@@ -486,9 +497,9 @@ export default createRule<RuleOptions, MessageIds>({
             }
           }
 
-          if (reservedLastList.length > 0) {
-            const previousReservedIndex = getReservedPropIndex(previousPropName, reservedLastList)
-            const currentReservedIndex = getReservedPropIndex(currentPropName, reservedLastList)
+          if (reservedLast!.length > 0) {
+            const previousReservedIndex = getReservedPropIndex(previousPropName, reservedLast!)
+            const currentReservedIndex = getReservedPropIndex(currentPropName, reservedLast!)
 
             if (previousReservedIndex === -1 && currentReservedIndex > -1)
               return decl

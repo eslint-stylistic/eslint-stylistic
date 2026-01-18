@@ -52,7 +52,7 @@ export default createRule<RuleOptions, MessageIds>({
         },
       ],
     },
-    defaultOptions: [],
+    defaultOptions: ['starred-block'],
     messages: {
       expectedBlock: 'Expected a block comment instead of consecutive line comments.',
       expectedBareBlock: 'Expected a block comment without padding stars.',
@@ -63,12 +63,13 @@ export default createRule<RuleOptions, MessageIds>({
       expectedLines: 'Expected multiple line comments instead of a block comment.',
     },
   },
-  create(context) {
+  create(context, [style, options = {}]) {
+    const {
+      checkJSDoc,
+      checkExclamation,
+    } = options!
+
     const sourceCode = context.sourceCode
-    const option = context.options[0] || 'starred-block'
-    const params = context.options[1] || {}
-    const checkJSDoc = !!params.checkJSDoc
-    const checkExclamation = !!params.checkExclamation
 
     // ----------------------------------------------------------------------
     // Helpers
@@ -478,7 +479,7 @@ export default createRule<RuleOptions, MessageIds>({
             if (commentGroup.length === 1 && isSingleLine(commentGroup[0]))
               return
 
-            const check = commentGroupCheckers[option]
+            const check = commentGroupCheckers[style!]
 
             check(commentGroup)
           })

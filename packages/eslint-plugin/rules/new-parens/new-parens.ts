@@ -21,15 +21,14 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'never'],
       },
     ],
-    defaultOptions: [],
+    defaultOptions: ['always'],
     messages: {
       missing: 'Missing \'()\' invoking a constructor.',
       unnecessary: 'Unnecessary \'()\' invoking a constructor with no arguments.',
     },
   },
-  create(context) {
-    const options = context.options
-    const always = options[0] !== 'never' // Default is always
+  create(context, [style]) {
+    const always = style !== 'never' // Default is always
 
     const sourceCode = context.sourceCode
 

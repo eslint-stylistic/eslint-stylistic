@@ -22,7 +22,7 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'never'],
       },
     ],
-    defaultOptions: [],
+    defaultOptions: ['never'],
     messages: {
       expectedBefore: 'Expected space(s) before \'}\'.',
       expectedAfter: 'Expected space(s) after \'${\'.',
@@ -30,9 +30,9 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected space(s) after \'${\'.',
     },
   },
-  create(context) {
+  create(context, [style]) {
     const sourceCode = context.sourceCode
-    const always = context.options[0] === 'always'
+    const always = style === 'always'
 
     /**
      * Checks spacing before `}` of a given token.

@@ -36,7 +36,7 @@ export default createRule<RuleOptions, MessageIds>({
         additionalProperties: false,
       },
     ],
-    defaultOptions: [],
+    defaultOptions: ['never'],
     messages: {
       missingOpeningSpace: 'There must be a space after this paren.',
       missingClosingSpace: 'There must be a space before this paren.',
@@ -44,9 +44,8 @@ export default createRule<RuleOptions, MessageIds>({
       rejectedClosingSpace: 'There should be no space before this paren.',
     },
   },
-  create(context) {
-    const ALWAYS = context.options[0] === 'always'
-    const exceptionsArrayOptions = (context.options[1] && context.options[1].exceptions) || []
+  create(context, [style, { exceptions: exceptionsArrayOptions = [] } = {}]) {
+    const ALWAYS = style === 'always'
     const options = {
       braceException: false,
       bracketException: false,

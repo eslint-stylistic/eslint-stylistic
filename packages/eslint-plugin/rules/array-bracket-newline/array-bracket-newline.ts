@@ -39,6 +39,7 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
+    // eslint-disable-next-line eslint-plugin/require-meta-default-options
     defaultOptions: [],
     messages: {
       unexpectedOpeningLinebreak: 'There should be no linebreak after \'[\'.',

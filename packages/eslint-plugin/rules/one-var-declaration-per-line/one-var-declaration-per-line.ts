@@ -22,14 +22,14 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'initializations'],
       },
     ],
-    defaultOptions: [],
+    defaultOptions: ['initializations'],
     messages: {
       expectVarOnNewline: 'Expected variable declaration to be on a new line.',
     },
   },
-  create(context) {
+  create(context, [style]) {
     const { sourceCode } = context
-    const always = context.options[0] === 'always'
+    const always = style === 'always'
 
     /**
      * Determine if provided keyword is a variant of for specifiers

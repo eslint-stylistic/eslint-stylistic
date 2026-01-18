@@ -42,7 +42,7 @@ export default createRule<RuleOptions, MessageIds>({
         ],
       },
     ],
-    defaultOptions: [],
+    defaultOptions: ['multiline'],
     messages: {
       expectedBefore: 'Expected newline before \')\'.',
       expectedAfter: 'Expected newline after \'(\'.',
@@ -51,9 +51,8 @@ export default createRule<RuleOptions, MessageIds>({
       unexpectedAfter: 'Unexpected newline after \'(\'.',
     },
   },
-  create(context) {
+  create(context, [rawOption]) {
     const sourceCode = context.sourceCode
-    const rawOption = context.options[0] || 'multiline'
     const multilineOption = rawOption === 'multiline'
     const multilineArgumentsOption = rawOption === 'multiline-arguments'
     const consistentOption = rawOption === 'consistent'

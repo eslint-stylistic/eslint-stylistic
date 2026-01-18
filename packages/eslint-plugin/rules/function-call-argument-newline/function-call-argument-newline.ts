@@ -28,13 +28,13 @@ export default createRule<RuleOptions, MessageIds>({
         enum: ['always', 'never', 'consistent'],
       },
     ],
-    defaultOptions: [],
+    defaultOptions: ['always'],
     messages: {
       unexpectedLineBreak: 'There should be no line break here.',
       missingLineBreak: 'There should be a line break after this argument.',
     },
   },
-  create(context) {
+  create(context, [option]) {
     const sourceCode = context.sourceCode
 
     const checkers = {
@@ -93,8 +93,6 @@ export default createRule<RuleOptions, MessageIds>({
     function check(argumentNodes: Tree.CallExpressionArgument[]) {
       if (argumentNodes.length < 2)
         return
-
-      const option = context.options[0] || 'always'
 
       if (option === 'never') {
         checkArguments(argumentNodes, checkers.unexpected)
